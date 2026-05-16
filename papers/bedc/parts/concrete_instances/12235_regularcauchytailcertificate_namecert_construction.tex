@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailCertificateUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-certificate-namecert}
+\origin{ai-composite}
+
+The $\RegularCauchyTailCertificateUp$ packet realizes the shared tail-window witness used by the Real-and-Completion route of \autoref{ch:visions-real-completeness}. It sits between the regular Cauchy data of \autoref{sec:real-completeness-regular-cauchy} and the Real-facing seal consumers, and it reuses the finite dyadic rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the schedule rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal naming seal of \autoref{ch:concrete-instances-real-namecert}. The chapter is composite: it assembles already named Real and Completion rows into one reusable tail certificate rather than claiming a new atomic carrier.
+
+\begin{definition}[Regular Cauchy tail-certificate carrier]
+\label{def:regular-cauchy-tail-certificate-carrier}
+A $\RegularCauchyTailCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+T=(X,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\RegSeqRatUp$ regular Cauchy source row whose tail is being witnessed;
+\item $W$ is the $\StreamNameUp$ shared tail-window row naming the finite observation window selected for the displayed precision request;
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the window $W$;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and arithmetic ledger for the windowed readback;
+\item $E$ is the $\RealUp$ seal row reachable from $X,W,R,D$;
+\item $H$ records componentwise $\hsame$ transports for $X,W,R,D,E$ and the local naming row;
+\item $C$ records displayed $\Cont$ routes from the regular Cauchy source through the shared tail window, readback, dyadic ledger, and Real seal;
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RegularCauchyTailCertificateUp}$ row.
+\end{enumerate}
+The classifier compares carriers only by the rows $X,W,R,D,E,H,C,P,N$. It has no coordinate for quotient streams, host sequence equality, selected limits, choice rows, standard-bridge rows, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail-certificate NameCert obligations]
+\label{thm:regular-cauchy-tail-certificate-namecert-obligations}
+For the carrier of \autoref{def:regular-cauchy-tail-certificate-carrier}, the local $\NameCert_{\RegularCauchyTailCertificateUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the packet $T=(X,W,R,D,E,H,C,P,N)$;
+\item shared tail-window selector coverage through the $\StreamNameUp$ row $W$;
+\item dyadic readback exactness through the $\RegSeqRatUp$ row $R$ and $\DyadicRatCoreUp$ ledger $D$;
+\item Real-seal factorization through the row $E$ and the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows;
+\item non-escape for quotient streams, host sequence equality, selected limits, choice rows, standard-bridge rows, and ambient Real-completion principles.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:regular-cauchy-tail-certificate-carrier}. The displayed tuple lists the regular Cauchy source, shared window, readback, dyadic ledger, Real seal, transport, continuation, provenance, and local naming rows.
+
+Selector coverage is read from $W$ before any numerical tolerance is consumed. Since $W$ is the only shared tail-window row in the packet, the local certificate cannot redirect the request to an unnamed tail schedule.
+
+The dyadic readback and Real-seal obligations then inspect $R,D,E,H,C,P,N$. These rows keep the regular-rational readback and tolerance ledger visible before the seal is reached, while the support rows only transport and replay the same finite route.
+
+The excluded objects are absent from the carrier. Thus the local $\NameCert$ exports no quotient stream, host sequence equality, selected limit, choice row, standard bridge, or ambient completion theorem.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-certificate selector coverage]
+\label{thm:regular-cauchy-tail-certificate-selector-coverage}
+Every accepted $\RegularCauchyTailCertificateUp$ packet exposes a single shared tail-window selector before any $\RealUp$ seal consumer can read the certificate. If
+$$
+T=(X,W,R,D,E,H,C,P,N),
+$$
+then every consumer route first reads the regular Cauchy source $X$ and the $\StreamNameUp$ window $W$, then the $\RegSeqRatUp$ readback $R$ and $\DyadicRatCoreUp$ ledger $D$, and only then reaches $E$ through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $T$. The shared tail-window coordinate is $W$, and the source row $X$ is the only regular Cauchy row from which that window is read.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-tail-certificate-namecert-obligations}. They force selector coverage before dyadic readback exactness and before Real-seal factorization.
+
+The route to $E$ is therefore ordered by the displayed packet: source, shared window, readback, dyadic ledger, Real seal, and then the transport, continuation, provenance, and naming support rows. No second selector or hidden tail oracle is available.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-certificate non-escape]
+\label{thm:regular-cauchy-tail-certificate-nonescape}
+An accepted $\RegularCauchyTailCertificateUp$ carrier exports only the finite rows $X,W,R,D,E,H,C,P,N$ and their local classifier transports. A Real-and-Completion consumer may use the shared tail window, regular-rational readback, dyadic tolerance ledger, and $\RealUp$ seal exactly as displayed; it receives no quotient stream, no host sequence equality, no selected limit, no choice row, no standard-bridge row, and no ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. They contain finite rows for source, window, readback, dyadic tolerance, Real seal, transport, continuation, provenance, and local naming.
+
+Use \autoref{thm:regular-cauchy-tail-certificate-selector-coverage}. Any consumer reaches the Real-facing seal only through the displayed selector, readback, and dyadic ledger.
+
+Since quotient streams, host sequence equality, selected limits, choice rows, standard bridges, and ambient completeness principles are not coordinates of $T$, neither componentwise $\hsame$ transport nor displayed $\Cont$ replay can export them.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-certificate vision handoff]
+\label{thm:regular-cauchy-tail-certificate-vision-handoff}
+The regular Cauchy construction of \autoref{sec:real-completeness-regular-cauchy} may hand its shared tail-window witness to the Real-and-Completion layer through the $\RegularCauchyTailCertificateUp$ carrier of \autoref{def:regular-cauchy-tail-certificate-carrier}. The handoff is compatible with \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} because the packet preserves their dyadic tolerance, stream-window, regular readback, and Real-seal rows inside one local $\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Read the upstream vision as a demand for a finite shared tail witness, not as a demand for a completed host limit. The carrier supplies that witness by exposing $X$ and $W$ as the source and shared tail-window rows.
+
+Read the sibling concrete instances next. The $\RegSeqRatUp$ row $R$ and $\DyadicRatCoreUp$ ledger $D$ keep the regular readback and arithmetic tolerance explicit, while the $\RealUp$ row $E$ is downstream of those observations.
+
+Finally apply the non-escape boundary of \autoref{thm:regular-cauchy-tail-certificate-nonescape}. The handoff therefore gives later Real and Completion consumers a finite tail certificate over the named sibling rows and no quotient stream, host sequence equality, selected limit, choice row, standard bridge, or ambient completeness principle.
+\end{proof}
+
+\closureat{RegularCauchyTailCertificateUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailCertificateUp}
+  \constructivestory{A $\RegularCauchyTailCertificateUp$ packet is generated from a regular Cauchy source row, a shared StreamName tail-window row, a RegSeqRat readback row, a DyadicRatCore tolerance ledger, a RealUp seal row, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-certificate-carrier}, \autoref{thm:regular-cauchy-tail-certificate-namecert-obligations}, \autoref{thm:regular-cauchy-tail-certificate-selector-coverage}, \autoref{thm:regular-cauchy-tail-certificate-nonescape}, and \autoref{thm:regular-cauchy-tail-certificate-vision-handoff} bind the finite shared tail-window certificate surface for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close quotient streams, host sequence equality, selected limits, choice rows, standard-bridge rows, ambient Real completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector coverage, dyadic readback exactness, Real-seal factorization, non-escape, and vision handoff for the same finite packet.}
+\end{closurestatus}

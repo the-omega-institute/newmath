@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\MachineReadableAuditInterfaceUp$}
+\label{ch:concrete-instances-machine-readable-audit-interface-namecert}
+\origin{ai}
+
+The $\MachineReadableAuditInterfaceUp$ packet realizes the machine-readable audit surface implicit in \autoref{ch:visions-philosophy-auditable-generativity} and the interface-status boundary of \autoref{subsec:philosophy-interface-status}. It sits beside the socket router of \autoref{ch:concrete-instances-machine-interface-socket-namecert}, the formal target packet of \autoref{ch:concrete-instances-machine-interface-formalization-target-namecert}, the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, and the consistency gate of \autoref{ch:concrete-instances-registry-export-consistency-gate-namecert}. Those siblings route targets, store target skeletons, expose registry exports, and check registry consistency; this packet names the finite interface by which a machine consumer reads audit data without treating a report row as theorem evidence.
+
+\begin{definition}[Machine-readable audit interface carrier]
+\label{def:machine-readable-audit-interface-carrier}
+A $\MachineReadableAuditInterfaceUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,C,E,R,F,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the schema row, recording the finite field names, row types, and row-order constraints available to the machine consumer;
+\item $C$ is the checker row, recording the local validation route that accepts or rejects a displayed schema instance;
+\item $E$ is the export row, recording the registry entry, machine target, closure-status reading, and public export grade exposed by the packet;
+\item $R$ is the refusal row, recording cannot-claim conflicts, blocked exports, and non-evidence flags for report rows;
+\item $F$ is the report row, recording the machine-readable audit report returned to a consumer after $S,C,E,R$ have been read;
+\item $H$ records componentwise $\hsame$ transport for schema, checker, export, refusal, and report rows;
+\item $K$ records displayed $\Cont$ replay from schema validation through checker verdict, export readback, refusal inspection, and report publication;
+\item $P$ is the $\Pkg$ provenance over $\MachineReadableAuditInterfaceUp$, $\MachineInterfaceSocketUp$, $\MachineInterfaceFormalizationTargetUp$, $\RegistryExportSurfaceUp$, $\RegistryExportConsistencyGateUp$, $\GroundCompilerAuditMapUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\MachineReadableAuditInterfaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for hidden theorem evidence, unregistered export, conflict override, proof-producing report conversion, or off-packet schema repair.
+\end{definition}
+
+\begin{theorem}[Machine-readable audit interface field coverage]
+\label{thm:machine-readable-audit-interface-field-coverage}
+For the carrier of \autoref{def:machine-readable-audit-interface-carrier}, the local $\NameCert_{\MachineReadableAuditInterfaceUp}$ surface consists exactly of carrier admission for
+$$
+A=(S,C,E,R,F,H,K,P,N),
+$$
+schema readback through $S$, checker readback through $C$, registry and machine-target export readback through $E$, refusal and non-evidence readback through $R$, report readback through $F$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $K$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The tuple displays schema, checker, export, refusal, report, transport, replay, provenance, and local naming rows before any machine consumer can read the packet.
+
+Read $S,C,E,R,F$ first. These rows provide the complete machine-facing inventory: schema shape, validation route, export surface, refusal surface, and report payload. None of them contains a hidden proof object or an off-packet registry entry.
+
+Finally use $H,K,P,N$. These rows transport, replay, package, and name the same inventory. Since the carrier has no further coordinate, the stated rows exhaust the local $\NameCert_{\MachineReadableAuditInterfaceUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Machine-readable audit interface non-evidence refusal]
+\label{thm:machine-readable-audit-interface-non-evidence-refusal}
+If the refusal row $R$ marks the report row $F$ as non-evidence, then no accepted $\MachineReadableAuditInterfaceUp$ packet exports $F$ as theorem evidence.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet
+$$
+A=(S,C,E,R,F,H,K,P,N).
+$$
+The checker row $C$ validates the displayed schema instance, and the export row $E$ exposes registry and machine-target data through that same instance.
+
+Inspect the refusal row $R$. When $R$ marks $F$ as non-evidence, the report row remains a report payload rather than a theorem-evidence row. The carrier contains no second report coordinate that can bypass this flag.
+
+The transport, replay, provenance, and local naming rows preserve the same flag. Thus a consumer may read the audit report, but any read that treats $F$ as theorem evidence leaves the displayed packet.
+\end{proof}
+
+\begin{theorem}[Machine-readable audit interface sibling independence]
+\label{thm:machine-readable-audit-interface-sibling-independence}
+The $\MachineReadableAuditInterfaceUp$ carrier is not bijective, under NameCert-row preservation, to $\MachineInterfaceSocketUp$, $\MachineInterfaceFormalizationTargetUp$, $\RegistryExportSurfaceUp$, $\RegistryExportConsistencyGateUp$, or $\GroundCompilerAuditMapUp$.
+\end{theorem}
+\begin{proof}
+Compare the displayed rows. $\MachineInterfaceSocketUp$ routes formalization targets, and $\MachineInterfaceFormalizationTargetUp$ stores target skeletons, dependency rows, expected status, and audit-gate locality.
+
+$\RegistryExportSurfaceUp$ exposes registration, blocking, status, machine target, audit, and non-smuggling rows. $\RegistryExportConsistencyGateUp$ binds status consistency, audit route, no-smuggling, and formal-target readback. $\GroundCompilerAuditMapUp$ exposes compiler-facing audit rows and report boundaries.
+
+None of these siblings preserves at once the schema row $S$, checker row $C$, export row $E$, refusal row $R$, report row $F$, and the local $\NameCert_{\MachineReadableAuditInterfaceUp}$ row $N$. Any proposed row-preserving bijection loses at least one of those rows, so the packets are not bijective under the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Machine-readable audit interface falsifiable prediction]
+\label{thm:machine-readable-audit-interface-falsifiable-prediction}
+A $\MachineReadableAuditInterfaceUp$ packet fails exactly when a machine consumer claims an export, theorem-evidence report, or consistency verdict that is not backed by the displayed schema, checker, export, refusal, report, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:machine-readable-audit-interface-field-coverage} to read the complete field inventory. Every accepted consumer read must factor through $S,C,E,R,F,H,K,P,N$.
+
+For export claims, inspect $E$ and the replay row $K$. For theorem-evidence report claims, inspect $R$ and $F$ together with \autoref{thm:machine-readable-audit-interface-non-evidence-refusal}. For consistency verdicts, inspect the checker row $C$ and the provenance row $P$ naming the registry consistency gate.
+
+If one of those rows is absent, disagrees with the claimed read, or marks the read as non-evidence, the claim exits the carrier. Conversely a read backed by the displayed rows is precisely the accepted machine-readable audit interface read.
+\end{proof}
+
+\falsifiablePrediction{A $\MachineReadableAuditInterfaceUp$ packet cannot export a report row as theorem evidence when its refusal row marks the report as non-evidence.}
+
+\independenceWitness{machineinterfacesocket, machineinterfaceformalizationtarget, registryexportsurface, registryexportconsistencygate, groundcompilerauditmap: row loss blocks any NameCert-preserving bijection, because the socket lacks the schema and report rows, the formal-target packet lacks report publication, the export surface lacks checker-local report refusal, the consistency gate lacks the schema-to-report replay, and the GroundCompiler audit map lacks the registry-machine interface packet as one carrier.}
+
+The Lean follow-up must provide explicit $\Nontrivial\ \MachineReadableAuditInterfaceUp$ and $\FieldFaithful\ \MachineReadableAuditInterfaceUp$ instances in \texttt{lean4/BEDC/Derived/MachineReadableAuditInterfaceUp/TasteGate.lean}. The field-faithfulness witness must preserve $S,C,E,R,F,H,K,P,N$ as distinct rows before $\mathsf{BEDC.Derived.MachineReadableAuditInterfaceUp.taste\_gate}$ can be cited by a checked paper marker.
+
+\closureat{MachineReadableAuditInterfaceUp}{seedStr}
+\closureat{MachineReadableAuditInterfaceUp}{obligationStr}
