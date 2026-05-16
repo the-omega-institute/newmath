@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\RealDiagonalRegularitySealUp$}
+\label{ch:concrete-instances-real-diagonal-regularity-seal-namecert}
+\origin{ai}
+
+The $\RealDiagonalRegularitySealUp$ packet realizes the diagonal-regularity theorem row of \autoref{thm:real-completeness-diagonal-regular} as a finite NameCert seal for the Real-and-Completion route of \autoref{ch:visions-real-completeness}. It sits after the diagonal-limit packet of \autoref{ch:concrete-instances-diagonallimit-namecert}, the representative route of \autoref{ch:concrete-instances-diagonallimitrepresentative-namecert}, the three-leg estimate of \autoref{ch:concrete-instances-regular-cauchy-triangle-bound-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadic-tolerance-triangle-ledger-namecert}, the regularity witness of \autoref{ch:concrete-instances-regular-cauchy-regularity-witness-namecert}, and the terminal Real surface of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite consumer seal: it does not introduce quotient streams, selected host limits, host real equality, choice rows, or ambient completeness.
+
+\begin{definition}[Real diagonal-regularity seal carrier]
+\label{def:real-diagonal-regularity-seal-carrier}
+A $\RealDiagonalRegularitySealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,W,T,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the accepted $\DiagonalLimitUp$ or diagonal representative source row whose regularity is being sealed.
+\item $W$ is the finite $\StreamNameUp$ window bundle exposing both endpoint observations and the intermediate observations used by the diagonal triangle.
+\item $T$ is the accepted $\RegularCauchyTriangleBoundUp$ row for the same endpoint and intermediate observations.
+\item $Q$ is the accepted $\DyadicToleranceTriangleLedgerUp$ row carrying the endpoint tolerances, middle Cauchy-modulus tolerance, dyadic sum, and output bound.
+\item $R$ is the accepted $\RegularCauchyRegularityWitnessUp$ row that records the regularity witness consumed by the diagonal-regularity theorem.
+\item $E$ is the downstream $\RealUp$ handoff row, compatible with the exact Real-completion boundary of \autoref{ch:concrete-instances-real-completion-exact-boundary-namecert}.
+\item $H$ records componentwise $\hsame$ transport for $D,W,T,Q,R,E$ and the local certificate row.
+\item $C$ records displayed $\Cont$ replay from the diagonal source through the window bundle, triangle-bound row, dyadic ledger, regularity witness, and Real handoff.
+\item $P$ is the $\Pkg$ provenance over $\RealDiagonalRegularitySealUp$, $\DiagonalLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyTriangleBoundUp$, $\DyadicToleranceTriangleLedgerUp$, $\RegularCauchyRegularityWitnessUp$, $\RealUp$, $\RealCompletionExactBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RealDiagonalRegularitySealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected host limits, host real equality, countable choice, detached completion evidence, or an ambient completeness theorem.
+\end{definition}
+
+\begin{definition}[Real diagonal-regularity seal classifier]
+\label{def:real-diagonal-regularity-seal-classifier}
+Two accepted $\RealDiagonalRegularitySealUp$ carriers classify together only when their diagonal source rows, window bundles, triangle-bound rows, dyadic ledgers, regularity-witness rows, Real handoff rows, transport rows, continuation rows, package rows, and local naming rows are related componentwise by the displayed $\hsame$ data and replayed along the same $\Cont$ route. The classifier does not identify packets by host equality of real numbers, by quotienting streams, by forgetting the middle Cauchy-modulus row, or by replacing the dyadic tolerance row with an ambient completeness appeal.
+\end{definition}
+
+\begin{theorem}[Real diagonal-regularity seal obligations]
+\label{thm:real-diagonal-regularity-seal-obligations}
+For every accepted $\RealDiagonalRegularitySealUp$ carrier $S=(D,W,T,Q,R,E,H,C,P,N)$, the local $\NameCert_{\RealDiagonalRegularitySealUp}$ surface consists exactly of carrier exposure, classifier transport, diagonal-source exposure through $D$, endpoint and intermediate window coverage through $W$, three-leg estimate coverage through $T$, dyadic tolerance-sum coverage through $Q$, regularity-witness coverage through $R$, Real handoff coverage through $E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:real-diagonal-regularity-seal-carrier}. The displayed tuple lists the diagonal source, window bundle, triangle-bound row, dyadic ledger, regularity witness, Real handoff, transport, replay, provenance, and local naming rows.
+
+Classifier transport is exactly the relation of \autoref{def:real-diagonal-regularity-seal-classifier}. It keeps the source row, every window row, the triangle route, the dyadic ledger, the regularity witness, the Real handoff, and the support rows on one componentwise transported surface.
+
+The data-bearing obligations are then read from the cited sibling chapters. The diagonal source comes from \autoref{ch:concrete-instances-diagonallimit-namecert}; the estimate comes from \autoref{ch:concrete-instances-regular-cauchy-triangle-bound-namecert}; the tolerance ledger comes from \autoref{ch:concrete-instances-dyadic-tolerance-triangle-ledger-namecert}; the regularity witness comes from \autoref{ch:concrete-instances-regular-cauchy-regularity-witness-namecert}; and the terminal handoff uses \autoref{ch:concrete-instances-real-namecert}.
+
+Since $H,C,P,N$ only transport, replay, source, and name those displayed rows, the listed clauses exhaust the local seal surface.
+\end{proof}
+
+\begin{theorem}[Real diagonal-regularity seal triangle route]
+\label{thm:real-diagonal-regularity-seal-triangle-route}
+Every $\RealUp$ or completion-facing consumer of an accepted $\RealDiagonalRegularitySealUp$ packet reads the ordered finite route
+$$
+D,W,T,Q,R,E,H,C,P,N
+$$
+before using the diagonal-regularity result as a Real-facing seal. In particular, the consumer receives the endpoint regularity rows, the middle Cauchy-modulus row, the dyadic tolerance-sum row, and the triangle-route handoff as displayed packet coordinates.
+\end{theorem}
+\begin{proof}
+Begin with the obligation theorem. It requires the diagonal source and finite window bundle to be visible before the estimate, ledger, regularity witness, or Real handoff can be consumed.
+
+Next read the triangle route. The $\RegularCauchyTriangleBoundUp$ row $T$ supplies the three-leg estimate, while the $\DyadicToleranceTriangleLedgerUp$ row $Q$ records the endpoint tolerances, the middle Cauchy-modulus tolerance, and the displayed dyadic sum used by the theorem row.
+
+Finally route the result through $R$ and $E$. The $\RegularCauchyRegularityWitnessUp$ row packages the regularity evidence, and the $\RealUp$ handoff row is reachable only through the same $H,C,P,N$ support. Hence the consumer receives exactly the ordered finite route shown above.
+\end{proof}
+
+\begin{theorem}[Real diagonal-regularity seal nonescape]
+\label{thm:real-diagonal-regularity-seal-nonescape}
+An accepted $\RealDiagonalRegularitySealUp$ carrier exports only the displayed rows $D,W,T,Q,R,E,H,C,P,N$ and their classifier transports. No consumer can replace the endpoint regularity rows, middle Cauchy-modulus row, dyadic tolerance-sum row, or triangle-route handoff by quotient stream equality, selected host limits, host real equality, countable choice, detached completion evidence, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates of \autoref{def:real-diagonal-regularity-seal-carrier}. Each coordinate is a displayed BEDC row or structural support for transport, continuation replay, provenance, and local naming.
+
+\autoref{thm:real-diagonal-regularity-seal-obligations} accounts for the admissible carrier and classifier rows. \autoref{thm:real-diagonal-regularity-seal-triangle-route} accounts for every Real-facing or completion-facing consumer route.
+
+The excluded objects require coordinates absent from the carrier. Therefore neither the local $\NameCert$ row nor any displayed continuation can export them in place of the finite diagonal-regularity seal.
+\end{proof}
+
+\falsifiablePrediction{A diagonal-regularity consumer that reads a RealUp completion seal without the displayed endpoint regularity rows, middle Cauchy-modulus row, dyadic tolerance-sum row, and triangle-route handoff refutes the packet.}
+
+\independenceWitness{diagonallimit, regularcauchytrianglebound, dyadic-tolerance-triangle-ledger, regular-cauchy-regularity-witness, realcompletionexactboundary: none is bijective to $\RealDiagonalRegularitySealUp$, because the diagonal-limit packet lacks the full theorem seal, the triangle-bound packet lacks the terminal Real handoff, the dyadic ledger lacks the selected diagonal source seal, the regularity witness lacks the exact boundary handoff, and the exact boundary packet lacks the diagonal-regularity theorem row as its own classifier surface.}
+
+Lean follow-up will add $\mathsf{Nontrivial}\ \RealDiagonalRegularitySealUp$ and $\mathsf{FieldFaithful}\ \RealDiagonalRegularitySealUp$ instances in \texttt{lean4/BEDC/Derived/RealDiagonalRegularitySealUp/TasteGate.lean}.
+
+\closureat{RealDiagonalRegularitySealUp}{seedStr}
+
+\begin{closurestatus}{\RealDiagonalRegularitySealUp}
+  \constructivestory{A $\RealDiagonalRegularitySealUp$ packet is generated from a diagonal source row, finite window bundle, RegularCauchyTriangleBound row, DyadicToleranceTriangleLedger row, RegularCauchyRegularityWitness row, RealUp handoff row, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-diagonal-regularity-seal-carrier}, \autoref{def:real-diagonal-regularity-seal-classifier}, \autoref{thm:real-diagonal-regularity-seal-obligations}, \autoref{thm:real-diagonal-regularity-seal-triangle-route}, and \autoref{thm:real-diagonal-regularity-seal-nonescape} bind the finite diagonal-regularity seal surface for Real-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient stream equality, selected host limits, host real equality, countable choice, detached completion evidence, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, triangle-route coverage, dyadic tolerance-sum coverage, Real handoff coverage, nonescape, and TasteGate nontriviality with field faithfulness for $D,W,T,Q,R,E,H,C,P,N$.}
+\end{closurestatus}
