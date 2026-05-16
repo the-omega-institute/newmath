@@ -462,4 +462,41 @@ theorem ContinuationAutomatonTraceExhaustion [AskSetup] [PackageSetup]
     ⟨transitionsUnary, routesUnary, traceUnary, endpointUnary, transitionsRoutesProvenance,
       transitionsRoutesTrace, traceBehaviourEndpoint, nameCertPkg, endpointPkg⟩
 
+theorem ContinuationAutomatonCarrier_namecert_obligation_pack [AskSetup] [PackageSetup]
+    {states initial accepting transitions behaviour transport routes provenance nameCert traceRead
+      endpoint acceptingRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationAutomatonCarrier states initial accepting transitions behaviour transport routes
+        provenance nameCert bundle pkg ->
+      Cont accepting behaviour acceptingRead ->
+        Cont transitions routes traceRead ->
+          Cont traceRead behaviour endpoint ->
+            Cont provenance nameCert consumer ->
+              PkgSig bundle endpoint pkg ->
+                PkgSig bundle consumer pkg ->
+                  UnaryHistory acceptingRead ∧ UnaryHistory traceRead ∧
+                    UnaryHistory endpoint ∧ UnaryHistory consumer ∧
+                      Cont initial transitions behaviour ∧ Cont transitions routes provenance ∧
+                        Cont provenance nameCert consumer ∧ PkgSig bundle nameCert pkg ∧
+                          PkgSig bundle endpoint pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier acceptingBehaviourRead transitionsRoutesTrace traceBehaviourEndpoint
+    provenanceNameConsumer endpointPkg consumerPkg
+  obtain ⟨_statesUnary, initialUnary, acceptingUnary, transitionsUnary, behaviourUnary,
+    _transportUnary, routesUnary, provenanceUnary, nameCertUnary, initialTransitionsBehaviour,
+    transitionsRoutesProvenance, _acceptingBehaviourTransport, _provenanceNameStates,
+    nameCertPkg⟩ := carrier
+  have acceptingReadUnary : UnaryHistory acceptingRead :=
+    unary_cont_closed acceptingUnary behaviourUnary acceptingBehaviourRead
+  have traceReadUnary : UnaryHistory traceRead :=
+    unary_cont_closed transitionsUnary routesUnary transitionsRoutesTrace
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed traceReadUnary behaviourUnary traceBehaviourEndpoint
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed provenanceUnary nameCertUnary provenanceNameConsumer
+  exact
+    ⟨acceptingReadUnary, traceReadUnary, endpointUnary, consumerUnary,
+      initialTransitionsBehaviour, transitionsRoutesProvenance, provenanceNameConsumer,
+      nameCertPkg, endpointPkg, consumerPkg⟩
+
 end BEDC.Derived.ContinuationAutomatonUp
