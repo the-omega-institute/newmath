@@ -624,6 +624,20 @@ not jointly carry. Since the carrier has no collapse coordinate for replacing
 $X,A,O,T,I$ with one sibling, the audit remains a joint row-wise obligation.
 \end{proof}
 
+\begin{theorem}[Reality-constrained methodology-ledger public obligation surface]
+\label{thm:reality-constrained-methodology-ledger-public-obligation-surface}
+For every accepted $\RealityConstrainedMethodologyLedgerUp$ packet $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$, the public obligation surface consists exactly of the refusal, upgrade, failure-surface, consumer-route, prediction, sibling-audit, TruthCert handoff, open-fit refusal, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows displayed in this chapter. It exports no domain-truth oracle, no physical-model adequacy theorem, no hidden fit selector, and no external methodology primitive.
+\end{theorem}
+\begin{proof}
+First assemble the refusal and upgrade rows. Apply \autoref{thm:reality-constrained-methodology-ledger-domain-leakage-refusal} and \autoref{thm:reality-constrained-methodology-ledger-root-refusal-upgrade-coverage}. They force every beyond-scope methodology export to pass through the displayed domain-leakage refusal row $D$ and accepted route row $U$.
+
+Next add the public consumer and failure rows. Use \autoref{thm:reality-constrained-methodology-ledger-failure-consumer-public-scope}. It requires the failure surface and consumer route to be read together before the packet can be consumed as a methodology-ledger export.
+
+The TruthCert and open-fit interfaces are then local handoffs, not external sources. Apply \autoref{thm:reality-constrained-methodology-ledger-root-truthcert-handoff} and \autoref{thm:reality-constrained-methodology-ledger-root-open-fit-refusal-package}; these keep TruthCert and open-fit readings inside the same refusal, route, package, and naming rows.
+
+Finally use \autoref{thm:reality-constrained-methodology-ledger-sibling-audit-triad}. It keeps $X,A,O,T,I$ as accountable sibling rows and prevents their replacement by a domain-truth oracle, physical-model adequacy theorem, hidden fit selector, or external methodology primitive. The remaining $\hsame$, $\Cont$, $\Pkg$, prediction, and local $\NameCert$ rows are already the displayed support rows of the same packet, so the public surface is exactly the listed finite interface.
+\end{proof}
+
 \falsifiablePrediction{A carrier with no domain-leakage refusal row cannot support the methodology-ledger NameCert obligations.}
 
 \independenceWitness{realityconstrainedexplanation, realityconstrainedmodelaudit, realityconstrainedobjectivity, realityconstrainedtowercompression, openfitpacket: each sibling lacks at least one of the joined effective-region, idealization-residue, domain-leakage, upgrade-route, and methodology-ledger rows, so no bijection preserves all carrier fields.}
