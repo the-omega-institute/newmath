@@ -478,6 +478,42 @@ theorem RegularCauchyModulusWitnessLedgerCarrier_real_seal_consumer_exactness
     rfl
   · exact ⟨endpointRouteConsumer.symm, consumerPkg⟩
 
+theorem RegularCauchyModulusWitnessLedgerCarrier_source_triad_lock [AskSetup]
+    [PackageSetup]
+    {source witness window normalizer tail dyadic readback sealRow transport route provenance
+      name endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyModulusWitnessLedgerCarrier source witness window normalizer tail dyadic
+        readback sealRow transport route provenance name bundle pkg ->
+      Cont sealRow transport endpoint ->
+        Cont endpoint route consumer ->
+          PkgSig bundle consumer pkg ->
+            UnaryHistory window ∧ UnaryHistory dyadic ∧ UnaryHistory readback ∧
+              Cont witness window normalizer ∧ Cont normalizer tail dyadic ∧
+                Cont dyadic readback sealRow ∧
+                  hsame (append dyadic (append readback transport)) endpoint ∧
+                    hsame (append endpoint route) consumer ∧
+                      PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame UnaryHistory
+  intro carrier sealTransportEndpoint endpointRouteConsumer consumerPkg
+  have consumerExactness :=
+    RegularCauchyModulusWitnessLedgerCarrier_real_seal_consumer_exactness
+      (source := source) (witness := witness) (window := window)
+      (normalizer := normalizer) (tail := tail) (dyadic := dyadic)
+      (readback := readback) (sealRow := sealRow) (transport := transport)
+      (route := route) (provenance := provenance) (name := name)
+      (bundle := bundle) (pkg := pkg) (endpoint := endpoint) (consumer := consumer)
+      carrier sealTransportEndpoint endpointRouteConsumer consumerPkg
+  obtain ⟨_sourceUnary, _witnessUnary, windowUnary, _normalizerUnary, _tailUnary,
+    dyadicUnary, readbackUnary, _sealUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _transportEmpty, witnessWindowNormalizer,
+    normalizerTailDyadic, dyadicReadbackSeal, _transportRouteProvenance, _routeSeal,
+    _provenancePkg, _namePkg⟩ := carrier
+  exact
+    ⟨windowUnary, dyadicUnary, readbackUnary, witnessWindowNormalizer,
+      normalizerTailDyadic, dyadicReadbackSeal, consumerExactness.left,
+      consumerExactness.right.left, consumerExactness.right.right⟩
+
 theorem RegularCauchyModulusWitnessLedgerCarrier_seal_source_pullback [AskSetup]
     [PackageSetup]
     {source witness window normalizer tail dyadic readback sealRow transport route provenance
