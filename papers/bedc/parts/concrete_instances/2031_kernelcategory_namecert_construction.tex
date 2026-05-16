@@ -253,6 +253,42 @@ Use \autoref{thm:kernel-category-associativity-scope} and \autoref{thm:kernel-ca
 Finally apply \autoref{thm:kernel-category-certificate-surface} and \autoref{thm:kernel-category-law-transport-exhaustion}. The certificate and transport exhaustion clauses leave no coordinate for quotient morphisms, external arrow equality, host composition, functorial semantics, natural transformations, or limits.
 \end{proof}
 
+\begin{theorem}[KernelCategory Functor continuation handoff]
+\label{thm:kernel-category-functor-continuation-handoff}
+Every $\FunctorUp$-facing consumer of a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$ receives hom transport only through the displayed rows of $K$: unary object histories in $O$, continuation-ledger hom rows in $H$, empty-continuation identities in $I$, displayed $\Cont$ composites in $C$, componentwise $\hsame$ law transports in $A,U$, $\Pkg$ provenance in $P$, and local naming in $N$. The handoff to \autoref{ch:concrete-instances-functor-namecert} carries no host category object, quotient morphism, or external arrow equality.
+\end{theorem}
+\begin{proof}
+Read the finite packet through \autoref{def:kernel-category-carrier}. The only hom data available to a functor-facing consumer are the hom ledger $H$ and the displayed operation rows attached to it.
+
+Use \autoref{thm:kernel-category-composition-cont-route-exactness}. It fixes each composite as a displayed $\Cont$ route whose endpoints are inherited from the accepted hom rows, so functorial transport has no host composition source.
+
+Now apply \autoref{thm:kernel-category-downstream-namecert-readiness}. Together with the sibling surfaces of \autoref{ch:concrete-instances-category-namecert}, \autoref{ch:concrete-instances-functor-namecert}, and \autoref{ch:concrete-instances-continuationmonad-namecert}, it presents the same finite NameCert route as the consumer handoff.
+\end{proof}
+
+\begin{theorem}[KernelCategory ContinuationMonad route coverage]
+\label{thm:kernel-category-continuationmonad-route-coverage}
+The $\ContinuationMonadUp$ unit and bind coverage read by $\KernelCategoryUp$ is exhausted by the identity row $I$ and composition row $C$ of the packet $K=(O,H,I,C,A,U,P,N)$. Unit coverage is the empty-continuation route over unary object histories, bind coverage is displayed $\Cont$ composition over hom ledgers, and neither coverage route imports a host monad, host category composition, quotient morphism, or external equality.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:kernel-category-carrier}. The carrier separates identity and composition as the packet rows $I$ and $C$, with endpoints and hom inputs already present in $O$ and $H$.
+
+The exactness theorem \autoref{thm:kernel-category-composition-cont-route-exactness} fixes the bind-shaped route as displayed $\Cont$ composition. The same packet's identity-continuation rows supply the empty-continuation unit side used by the continuation sibling.
+
+Finally use \autoref{thm:kernel-category-downstream-namecert-readiness}. It routes downstream reads through the local NameCert packet and through \autoref{ch:concrete-instances-continuationmonad-namecert}, leaving no off-packet monad or category law to supply coverage.
+\end{proof}
+
+\begin{theorem}[KernelCategory Category surface readiness]
+\label{thm:kernel-category-category-surface-readiness}
+The public $\CategoryUp$ surface read from a $\KernelCategoryUp$ packet is ready exactly when carrier admission, displayed identity, displayed composition, law transport, $\Pkg$ provenance, and local $\NameCert$ naming have all been read from $O,H,I,C,A,U,P,N$. The readiness route cites \autoref{ch:concrete-instances-category-namecert} only through those finite BEDC rows and admits no host category carrier, quotient arrow class, global equality of morphisms, or detached categorical semantics.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:kernel-category-carrier}. It supplies the object, hom, identity, composition, law, provenance, and naming coordinates of the category-shaped packet.
+
+Use \autoref{thm:kernel-category-composition-cont-route-exactness} for the composition side. The exact route is already a displayed continuation composite, not a host operation.
+
+Close the readiness claim with \autoref{thm:kernel-category-downstream-namecert-readiness}. Its downstream handoff, read together with \autoref{ch:concrete-instances-category-namecert}, \autoref{ch:concrete-instances-functor-namecert}, and \autoref{ch:concrete-instances-continuationmonad-namecert}, keeps every consumer route inside the finite packet and excludes the host category surface.
+\end{proof}
+
 \begin{theorem}[KernelCategory NameCert root route readiness]
 \label{thm:kernel-category-namecert-root-route-readiness}
 The local $\NameCert$ root surface of a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$ is route-ready exactly through the displayed rows: unary $\BHist$ object histories in $O$, continuation-ledger hom histories in $H$, empty $\Cont$ identities in $I$, displayed $\Cont$ composites in $C$, componentwise $\hsame$ associativity and unit transports in $A,U$, $\Pkg$ provenance in $P$, and the local naming row $N$. This root surface is the one consumed by downstream category-shaped BEDC packets, and it contains no host category object, quotient morphism, external arrow equality, functorial semantic row, natural transformation, limit object, or detached global certificate.
