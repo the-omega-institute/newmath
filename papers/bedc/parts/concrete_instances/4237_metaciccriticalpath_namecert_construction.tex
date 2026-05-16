@@ -218,6 +218,42 @@ Apply \autoref{thm:metacic-critical-path-consistency-handoff}. It routes a consi
 The boundary is stable under the rest of the packet. \autoref{thm:metacic-critical-path-obstruction-boundary}, \autoref{thm:metacic-critical-path-transport-row-stability}, \autoref{thm:metacic-critical-path-provenance-nonescape}, \autoref{thm:metacic-critical-path-local-naming-exhaustion}, \autoref{thm:metacic-critical-path-discharge-socket-nonescape}, and \autoref{thm:metacic-critical-path-handoff-row-totality} keep the obstruction, socket, row inventory, provenance, and local naming visible. Thus the readback reaches $N$ and no stronger theorem export.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-path normalization source visibility]
+\label{thm:metacic-critical-path-normalization-source-visibility}
+Every consistency-facing read of an accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$ must expose the closed-strong-normalization source row $S$ before it reads the normal-form row $N$. A read that starts at $N$ without $S$ is not a read of the accepted root-unblock packet.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:metacic-critical-path-packet}. The packet displays $S$ as the closed-strong-normalization route and $N$ as the normal-form consistency row, with no abbreviated carrier containing only $N$.
+
+Apply \autoref{thm:metacic-critical-path-consistency-handoff} and \autoref{thm:metacic-critical-path-normal-form-readback-boundary}. The handoff routes consistency-facing consumers from $S$ to $N$, while the readback boundary stops the exported claim at $N$.
+
+The obstruction and socket rows stay attached by \autoref{thm:metacic-critical-path-obstruction-boundary} and \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. Hence the read of $N$ is visible only after $S$ has been displayed inside the same packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path decidability handoff visibility]
+\label{thm:metacic-critical-path-decidability-handoff-visibility}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the row $U$ is only the visible substitution, confluence, and decidability handoff row. It is not a beta-conversion oracle, a quotient over MetaCIC terms, or a hidden closed-consistency decision procedure.
+\end{theorem}
+\begin{proof}
+Read $U$ from \autoref{def:metacic-critical-path-packet}. Its role is a handoff row inside the finite carrier, while the same carrier separately displays the source row $S$, normal-form row $N$, obstruction row $O$, and discharge socket $D$.
+
+Use \autoref{thm:metacic-critical-path-consistency-handoff}, \autoref{thm:metacic-critical-path-obstruction-boundary}, and \autoref{thm:metacic-critical-path-normal-form-readback-boundary}. These results route consistency reads through $S,N$, keep the obstruction visible, and prevent the normal-form endpoint from becoming a stronger theorem export.
+
+Finally apply \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. Since $D$ remains a separate socket, $U$ cannot be read as an oracle that fills the blocked subject-reduction or beta-conversion obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path subject-reduction socket audit boundary]
+\label{thm:metacic-critical-path-subject-reduction-socket-audit-boundary}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the subject-reduction socket $D$ remains an audit boundary until a separate discharge row is displayed. The packet may route to $D$, but it does not identify $D$ with closed subject reduction.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The row $D$ is displayed as a discharge-bundle socket, while $O$ records the subject-reduction obstruction and $U$ records only the visible handoff row.
+
+Apply \autoref{thm:metacic-critical-path-obstruction-boundary} and \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. The first keeps the obstruction row visible; the second prevents any packet consumer from treating the socket as already discharged.
+
+The consistency handoff and normal-form boundary, \autoref{thm:metacic-critical-path-consistency-handoff} and \autoref{thm:metacic-critical-path-normal-form-readback-boundary}, keep the root read at $S \to N$ unless an additional discharge row is supplied. Thus $D$ is an audit boundary rather than a closed subject-reduction theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC critical-path carrier admission]
 \label{thm:metacic-critical-path-carrier-admission}
 For every accepted $\MetaCICCriticalPathUp$ carrier
