@@ -146,6 +146,7 @@ import BEDC.Derived.AuditGateBoundaryUp.StrictAxiomPurityReplay
 import BEDC.Derived.AuditGateCompositionUp.TasteGate
 import BEDC.Derived.AuditGateFailureWitnessUp.TasteGate
 import BEDC.Derived.AuditMapRouteCompilerUp.TasteGate
+import BEDC.Derived.AuditWritingDisciplineUp.TasteGate
 import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
 import BEDC.Derived.AuditMapFamilyUp.TasteGate
 import BEDC.Derived.AuditMapFamilyLedgerUp.TasteGate
@@ -1187,6 +1188,7 @@ import BEDC.Derived.HashDigestFiberBoundaryUp.TasteGate
 import BEDC.Derived.HaltingDiagonalUp.TasteGate
 import BEDC.Derived.HaltingDistinctionUp
 import BEDC.Derived.HaltingDistinctionUp.ClassifierStability
+import BEDC.Derived.HaltingDistinctionUp.HaltingDistinctionCarrierObligation
 import BEDC.Derived.HaltingDistinctionUp.ObstructionConsumerBoundary
 import BEDC.Derived.HaltingDistinctionUp.ObstructionSiblingRoute
 import BEDC.Derived.HaltingDistinctionUp.RouteObstructionTriad
@@ -1292,6 +1294,7 @@ import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.HistTimeStreamUp
 import BEDC.Derived.HistTimeStreamUp.ClockRefusal
+import BEDC.Derived.HistTimeStreamUp.HistTimeStreamRegSeqRatLocalClockSeparation
 import BEDC.Derived.HistTimeStreamUp.TransportLock
 import BEDC.Derived.RegularCauchyModulusNormalizerUp
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp
