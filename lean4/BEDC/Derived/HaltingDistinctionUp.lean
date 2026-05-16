@@ -324,6 +324,38 @@ theorem HaltingDistinctionCarrier_inscription_event_boundary [AskSetup] [Package
     ⟨questionUnary, diagonalUnary, inscriptionUnary, endpointUnary, inscriptionRoute,
       endpointRoute, provenancePkg, endpointPkg⟩
 
+theorem HaltingDistinctionCarrier_inscription_event_route [AskSetup] [PackageSetup]
+    {question trace diagonal halt classifier route provenance cert inscriptionRead routeRead
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+        bundle pkg ->
+      Cont question diagonal inscriptionRead ->
+        Cont inscriptionRead route routeRead ->
+          Cont routeRead classifier endpoint ->
+            PkgSig bundle endpoint pkg ->
+              UnaryHistory question ∧ UnaryHistory diagonal ∧ UnaryHistory route ∧
+                UnaryHistory inscriptionRead ∧ UnaryHistory routeRead ∧ UnaryHistory endpoint ∧
+                  Cont question diagonal inscriptionRead ∧
+                    Cont inscriptionRead route routeRead ∧ Cont routeRead classifier endpoint ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle UnaryHistory
+  intro carrier questionDiagonalInscription inscriptionRouteRead routeClassifierEndpoint
+    endpointPkg
+  obtain ⟨questionUnary, _traceUnary, diagonalUnary, _haltUnary, classifierUnary,
+    routeUnary, _provenanceUnary, _certUnary, _questionTraceDiagonal,
+    _diagonalHaltClassifier, _classifierRouteCert, provenancePkg⟩ := carrier
+  have inscriptionUnary : UnaryHistory inscriptionRead :=
+    unary_cont_closed questionUnary diagonalUnary questionDiagonalInscription
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed inscriptionUnary routeUnary inscriptionRouteRead
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed routeReadUnary classifierUnary routeClassifierEndpoint
+  exact
+    ⟨questionUnary, diagonalUnary, routeUnary, inscriptionUnary, routeReadUnary,
+      endpointUnary, questionDiagonalInscription, inscriptionRouteRead, routeClassifierEndpoint,
+      provenancePkg, endpointPkg⟩
+
 theorem HaltingDistinctionDownstreamObstructionHandoff [AskSetup] [PackageSetup]
     {question trace diagonal halt classifier route provenance cert obstructionRead endpoint :
       BHist}
