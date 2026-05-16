@@ -463,6 +463,7 @@ import BEDC.Derived.ObserverInterfaceUp
 import BEDC.Derived.ObserverInterfaceUp.TasteGate
 import BEDC.Derived.ObserverResponseAuditUp.TasteGate
 import BEDC.Derived.ObserverFrameRefusalUp.TasteGate
+import BEDC.Derived.ObjectivityRefutationBoundaryUp.TasteGate
 import BEDC.Derived.ObserverRegularUp.Carrier
 import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.ObserverDirectionUp.TasteGate
@@ -816,6 +817,7 @@ import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.MonotoneCauchyUp
 import BEDC.Derived.MonotoneCauchyUp.CauchyCriterionSealHandoff
+import BEDC.Derived.MonotoneCauchyUp.LocatedRealCompletionHandoff
 import BEDC.Derived.MonotoneCauchyUp.ObligationPackage
 import BEDC.Derived.MonotoneCauchyUp.ScopedTailWindowPackage
 import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
