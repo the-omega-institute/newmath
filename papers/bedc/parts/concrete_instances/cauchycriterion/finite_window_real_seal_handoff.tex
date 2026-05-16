@@ -22,6 +22,7 @@ No accepted handoff exports a quotient stream, a selected limit, host real
 equality, a hidden tail oracle, ambient completeness, or a completion endpoint
 outside the displayed finite route.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_finite\_window\_real\_seal\_handoff}
 \begin{proof}
 Project the accepted CauchyCriterion carrier. The finite selector and budget
 rows of the chapter expose the route $M,Q,T,W,E$ together with the structural
@@ -150,4 +151,52 @@ theorems. None of those packets carries quotient streams, host real equality,
 selected limits, countable choice, ambient completeness, metric-completeness
 rows, arithmetic packages, order packages, or bridge rows, so no such row can be
 introduced at the terminal public boundary.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion Real seal finite-route uniqueness]
+\label{thm:cauchy-criterion-real-seal-unique-finite-route}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ and
+$K'=(W',M',T',Q',E',H',C',P',N')$ be accepted $\CauchyCriterionUp$ packets.
+Suppose their public-boundary reads expose the same rows
+$M,Q,T,W,E,H,C,P,N$ through the same visible $\BHist$ packet, componentwise
+$\hsame$ transports, $\Cont$ replay, and matching $\Pkg$ and $\NameCert$
+coordinates. Then the two Real L10 public-boundary reads determine the same
+terminal finite route
+$$
+\StreamNameUp
+\longmapsto \RegSeqRatUp
+\longmapsto \DyadicRatCoreUp
+\longmapsto \RealUp
+\longmapsto \CauchyLimitSealUp .
+$$
+No quotient stream, host equality, selected limit, countable-choice row,
+ambient completeness principle, or bridge row can distinguish the two reads at
+the terminal public boundary.
+\end{theorem}
+\begin{proof}
+First expose the common route. By
+\autoref{thm:cauchy-criterion-finite-window-real-seal-handoff}, each accepted
+read reaches the Real and limit-seal boundary only through the displayed rows
+$M,Q,T,W,E,H,C,P,N$ and the finite route from $\StreamNameUp$ to
+$\CauchyLimitSealUp$.
+
+Next compare the two displayed reads under replay. The hypothesis identifies
+the visible $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+coordinates, so \autoref{thm:cauchy-criterion-limit-seal-route-stability} keeps
+both reads on the same replayed route rather than on two independently selected
+completion surfaces.
+
+Now attach the public Real face. The lattice budget cover
+\autoref{thm:streamname-regseqrat-realup-lattice-budget-cover} makes the
+StreamName, RegSeqRat, DyadicRatCore, and Real faces a single finite support
+surface. The Real L10 witness determinacy theorem
+\autoref{thm:real-l10-finite-window-witness-determinacy} then identifies the
+public-boundary witnesses carried by the two reads on that shared surface.
+
+Finally use source-route exactness. By
+\autoref{thm:real-l10-source-route-exactness}, a Real L10 public-boundary read
+has no source outside the ordered finite-window route already exposed by the
+CauchyCriterion handoff. Hence the two reads determine the same terminal finite
+route, and the absent rows listed in the statement have no coordinate from
+which a distinction could be read.
 \end{proof}
