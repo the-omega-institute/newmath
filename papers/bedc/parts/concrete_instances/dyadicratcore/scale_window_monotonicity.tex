@@ -1,0 +1,22 @@
+\begin{definition}[DyadicRatCore scale-window packet]
+\label{def:dyadicratcore-scale-window-packet}
+The DyadicRatCore scale-window packet is the finite dyadic observation packet consisting of a signed $\RatUp$ mantissa row, a positive $\UnaryHistory$ exponent row, the comparison window at that exponent, the scale transport row to any displayed wider exponent window, the componentwise $\hsame$ rows comparing the transported dyadic observations, the displayed $\Cont$ replay row, the $\Pkg$ provenance row, and the local $\NameCert_{\DyadicRatCoreUp}$ naming row.
+
+The packet is consumed by $\StreamNameUp$ and $\RegSeqRatUp$ as a finite dyadic source. It carries no host rational order and no quotient equality coordinate.
+\end{definition}
+
+\begin{theorem}[DyadicRatCore scale-window monotonicity]
+\label{thm:dyadicratcore-scale-window-monotonicity}
+Widening the positive unary exponent window of a DyadicRatCore scale-window packet preserves the dyadic comparison row consumed by $\StreamNameUp$ and $\RegSeqRatUp$. The preserved row is transported only by the displayed scale transport, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ rows of \autoref{def:dyadicratcore-scale-window-packet}.
+
+No host rational order, quotient equality, completed Real endpoint, or ambient completeness row is imported by the widened window.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:dyadicratcore-standard-bridge-denominator-refinement-stability}. It transports the signed mantissa, common-exponent classifier, distance window, radius row, carrier data, $\hsame$ transport, $\Cont$ readback, and provenance across a displayed positive-unary denominator refinement.
+
+Next apply \autoref{thm:dyadicratcore-standard-bridge-denominator-refinement-composition}. Repeated widening of the exponent window is therefore the composite of the same displayed finite transports, not a comparison in an ambient host order.
+
+Use \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}. It identifies the dyadic comparison rows consumed by $\RegSeqRatUp$ with exactly the public DyadicRatCore envelope rows, and the same finite source surface is available to $\StreamNameUp$ through the public bridge consumer boundary.
+
+The rows left by these references are precisely the rows of \autoref{def:dyadicratcore-scale-window-packet}. Their exclusion clauses remove host rational order, quotient equality, completed Real endpoints, and ambient completeness from the widened window.
+\end{proof}
