@@ -138,6 +138,54 @@ Use \autoref{thm:zeta-continuation-application-eta-factorization} to read the so
 The remaining analytic content is held in $F,P,T,G,A$, not in the $\ZetaBasicUp$ source row. By \autoref{thm:zeta-continuation-application-non-escape}, pole removal, Gamma transport, and outside-branch requests therefore remain outside the source lock unless the corresponding displayed row supplies them.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationApplication route totality]
+\label{thm:zeta-continuation-application-route-totality}
+For an accepted $\ZetaContinuationApplicationUp$ packet, every eta, functional-equation, Gamma-horizon, pole-ledger, zero-ledger, or application read factors through the displayed rows
+
+$$
+E,F,P,T,G,A,H,C,Q,N.
+$$
+
+The row $E$ carries eta input, $F$ carries the functional-equation route, $P$ and $T$ carry the pole and trivial-zero ledgers, $G$ carries the Gamma horizon, $A$ carries the application route, $H$ carries componentwise transport, $C$ carries finite replay, $Q$ carries package provenance, and $N$ carries the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:zeta-continuation-application-carrier}. It lists exactly the rows $E,F,P,T,G,A,H,C,Q,N$, so every application read starts from the finite NameCert packet rather than from an ambient analytic-continuation object.
+
+Use the componentwise and ledger rows next. Theorem~\ref{thm:zeta-continuation-application-componentwise-stability} keeps eta, functional-equation, pole, zero, Gamma, and application rows separate under $H$ and $C$, while \autoref{thm:zeta-continuation-application-ledger-exactness} routes pole, zero, Gamma, provenance, and naming reads through their displayed ledgers.
+
+Finally attach the sibling source locks. The Gamma eta handoff, analytic-operation boundary, and ZetaBasic source lock force source-facing reads through $G$, $A$, and $E$ respectively. Hence every listed read factors through the ten-row carrier surface.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication boundary exhaustion]
+\label{thm:zeta-continuation-application-boundary-exhaustion}
+An accepted $\ZetaContinuationApplicationUp$ packet exports no pole value, completed $\GammaUp$ construction, nontrivial-zero classifier, RH statement, or off-route continuation branch. All boundary requests are exhausted by the pole ledger $P$, trivial-zero ledger $T$, Gamma horizon $G$, application row $A$, transport $H$, replay $C$, provenance $Q$, and local certificate $N$ of the displayed packet.
+\end{theorem}
+\begin{proof}
+Start from route totality. Every boundary-facing request must already be a read of $E,F,P,T,G,A,H,C,Q,N$.
+
+The ledger exactness theorem then handles the exceptional analytic surfaces. Pole requests terminate at $P$, trivial-zero requests at $T$, and Gamma-horizon requests at $G$; none of these rows contains a regular pole value, completed Gamma construction, or nontrivial-zero classifier.
+
+It remains to rule out route escape. The analytic-operation boundary and ZetaBasic source lock keep $A$ and $E$ from becoming a second continuation theorem, and the carrier definition has no coordinate for RH or an off-route branch. Therefore the displayed boundary rows exhaust the public application packet.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication public export]
+\label{thm:zeta-continuation-application-public-export}
+The public application packet consumed by $\GammaUp$, $\AnalyticContinuationOperationUp$, and $\ZetaBasicUp$ is exactly the finite NameCert surface
+
+$$
+E,F,P,T,G,A,H,C,Q,N.
+$$
+
+Downstream consumers may read the packet only through the displayed carrier admission, componentwise stability, ledger exactness, Gamma eta handoff, analytic-operation boundary, and ZetaBasic source lock; no additional analytic, RH-facing, or completed-Gamma row is exported.
+\end{theorem}
+\begin{proof}
+First combine carrier admission with route totality. The accepted packet is the ten-row carrier of \autoref{def:zeta-continuation-application-carrier}, and every public route factors through those rows.
+
+Next identify the three sibling-facing entry points. The Gamma eta handoff supplies $G$, the analytic-operation boundary supplies $A$, and the ZetaBasic source lock supplies $E$; the remaining rows $F,P,T,H,C,Q,N$ stay inside the same finite application packet.
+
+Finally apply boundary exhaustion. Since pole values, completed Gamma data, nontrivial-zero classifiers, RH statements, and off-route branches have no exported coordinate, the public packet consumed by the sibling chapters is exactly the displayed NameCert surface.
+\end{proof}
+
 \begin{theorem}[Application certificate non-escape]
 \label{thm:zeta-continuation-application-non-escape}
 Every downstream consumer of an accepted $\ZetaContinuationApplicationUp$ packet factors through the displayed rows $E,F,P,T,G,A,H,C,Q,N$. Requests for a pole value, a Gamma value beyond the horizon row, an undisplayed continuation branch, or a nontrivial-zero-location claim have no carrier coordinate and are recorded only as ledger or horizon boundary reads.
@@ -252,7 +300,7 @@ Finally use \autoref{thm:zeta-continuation-application-non-escape}. The excluded
 \begin{closurestatus}{\ZetaContinuationApplicationUp}
   \constructivestory{A $\ZetaContinuationApplicationUp$ packet is generated from eta continuation, functional-equation continuation, pole and zero ledgers, Gamma horizon rows, application routes, componentwise $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:zeta-continuation-application-carrier}, \autoref{thm:zeta-continuation-application-namecert-obligations}, \autoref{thm:zeta-continuation-application-carrier-admission}, \autoref{thm:zeta-continuation-application-componentwise-stability}, \autoref{thm:zeta-continuation-application-ledger-exactness}, \autoref{thm:zeta-continuation-application-eta-factorization}, \autoref{thm:zeta-continuation-application-gamma-horizon-boundary}, \autoref{thm:zeta-continuation-application-gamma-eta-handoff}, \autoref{thm:zeta-continuation-application-analytic-operation-boundary}, \autoref{thm:zeta-continuation-application-zeta-basic-source-lock}, \autoref{thm:zeta-continuation-application-non-escape}, \autoref{thm:zeta-continuation-application-primitive-scope-package}, \autoref{thm:zeta-continuation-application-public-export-surface}, \autoref{thm:zeta-continuation-application-bridge-consumer-boundary}, and \autoref{thm:zeta-continuation-application-public-nonescape-package} with \leanchecked{BEDC.Derived.ZetaContinuationApplicationUp.taste\_gate} define the local application carrier, obligation rows, carrier admission, componentwise stability, ledger exactness, eta factorization route, Gamma horizon boundary, sibling source locks, analytic-operation boundary, non-escape ledger, primitive scope package, public export surface, bridge consumer boundary, and public non-escape package.}
+  \scopeclosed{\autoref{def:zeta-continuation-application-carrier}, \autoref{thm:zeta-continuation-application-namecert-obligations}, \autoref{thm:zeta-continuation-application-carrier-admission}, \autoref{thm:zeta-continuation-application-componentwise-stability}, \autoref{thm:zeta-continuation-application-ledger-exactness}, \autoref{thm:zeta-continuation-application-eta-factorization}, \autoref{thm:zeta-continuation-application-gamma-horizon-boundary}, \autoref{thm:zeta-continuation-application-gamma-eta-handoff}, \autoref{thm:zeta-continuation-application-analytic-operation-boundary}, \autoref{thm:zeta-continuation-application-zeta-basic-source-lock}, \autoref{thm:zeta-continuation-application-route-totality}, \autoref{thm:zeta-continuation-application-boundary-exhaustion}, \autoref{thm:zeta-continuation-application-public-export}, \autoref{thm:zeta-continuation-application-non-escape}, \autoref{thm:zeta-continuation-application-primitive-scope-package}, \autoref{thm:zeta-continuation-application-public-export-surface}, \autoref{thm:zeta-continuation-application-bridge-consumer-boundary}, and \autoref{thm:zeta-continuation-application-public-nonescape-package} with \leanchecked{BEDC.Derived.ZetaContinuationApplicationUp.taste\_gate} define the local application carrier, obligation rows, carrier admission, componentwise stability, ledger exactness, eta factorization route, Gamma horizon boundary, sibling source locks, analytic-operation boundary, route totality, boundary exhaustion, public export exactness, non-escape ledger, primitive scope package, public export surface, bridge consumer boundary, and public non-escape package.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
