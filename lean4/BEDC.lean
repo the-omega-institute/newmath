@@ -149,6 +149,7 @@ import BEDC.Derived.OnticAdequacyAuditUp.TasteGate
 import BEDC.Derived.OnticResidueLatticeUp.TasteGate
 import BEDC.Derived.OnticTowerUp.TasteGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
@@ -237,6 +238,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealModulusDeterminacy
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealSelectorExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootRealSealNonescape
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootRealSealThresholdExhaustion
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootWindowConvergenceSealLock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SelectorFreeRealRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SealFactorizationTriad
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SealTrapBudgetDeterminacy
@@ -637,6 +639,7 @@ import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KernelCategoryUp.CertificateSurface
+import BEDC.Derived.KernelCategoryUp.FunctorContinuationHandoff
 import BEDC.Derived.CertificateCompilerUp.FiniteRouteNonescape
 import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.KernelMorphismUp.CertificateCompilerSourceLock
@@ -779,6 +782,7 @@ import BEDC.Derived.ContinuationMonadUp.RootSourceCoverage
 import BEDC.Derived.ContinuationMonadUp.RootDownstreamGeneratorPackage
 import BEDC.Derived.ContinuationMonadUp.KleisliCompositeScope
 import BEDC.Derived.ContinuationMonadUp.RootTerminalReadbackCoverage
+import BEDC.Derived.ContinuationMonadUp.RootCategoryGeneratorObligationSurface
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -837,6 +841,7 @@ import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyErrorCertificateUp
 import BEDC.Derived.CertificateCompilerUp
 import BEDC.Derived.CertificateCompilerUp.EdgeClassifierExactness
+import BEDC.Derived.CertificateCompilerUp.EndpointCompositeDeterminacy
 import BEDC.Derived.CertificateCompilerUp.EndpointCertificateAvailability
 import BEDC.Derived.CertificateCompilerUp.EndpointDecompilerHandoff
 import BEDC.Derived.CertificateCompilerUp.DownstreamBoundarySiblingLink
