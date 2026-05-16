@@ -197,6 +197,46 @@ For the reverse direction, suppose all displayed fields agree. The nonescape the
 Use \autoref{thm:real-limit-uniqueness-seal-independent-witness} to close the determination claim. The packet is independent from its siblings precisely because the whole displayed inventory is bound in one local NameCert row. Thus the field tuple determines the packet, and the projection to fields is faithful.
 \end{proof}
 
+\begin{theorem}[Real limit uniqueness seal selector-route coverage]
+\label{thm:real-limit-uniqueness-seal-selector-route-coverage}
+Any selector-facing uniqueness read of an accepted $\RealLimitUniquenessSealUp$ packet must expose the full displayed route
+$$
+L_0,L_1,Q,S,D,R,V,H,C,P,N.
+$$
+It cannot substitute a one-sided selector row, a single completion-seal endpoint, or a detached selector choice for the two-seal comparison route.
+\end{theorem}
+\begin{proof}
+Apply the selector-seal nonescape result of \autoref{thm:real-limit-uniqueness-selector-seal-nonescape}. It says that even a selector-facing route has to expose the two $\CauchyLimitSealUp$ rows, the shared comparison row, the finite window row, the dyadic tolerance row, the $\RealUp$ classifier row, the regular-limit uniqueness row, and the structural rows.
+
+The two-seal exposure theorem, \autoref{thm:real-limit-uniqueness-seal-two-seal-exposure}, removes the one-sided selector case. The shared comparison window of \autoref{thm:real-limit-uniqueness-seal-shared-comparison-window} then forces the selector-facing read through $Q,S,D,R,V$ rather than through an external comparison stream.
+
+Finally use the consumer handoff of \autoref{thm:real-limit-uniqueness-seal-consumer-handoff}. A downstream consumer receives only the displayed packet and the local NameCert row, so no detached selector choice or single endpoint can replace $L_0,L_1,Q,S,D,R,V,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Real limit uniqueness seal completion consumer totality]
+\label{thm:real-limit-uniqueness-seal-completion-consumer-totality}
+Every Real-completion-facing consumer of an accepted $\RealLimitUniquenessSealUp$ packet receives only the finite two-seal comparison packet $L_0,L_1,Q,S,D,R,V,H,C,P,N$ and the local naming surface. Such a consumer cannot export a selected limit, quotient stream equality, host Real equality, detached selector choice, or ambient completeness principle from the packet.
+\end{theorem}
+\begin{proof}
+Begin with the nonescape theorem, \autoref{thm:real-limit-uniqueness-seal-nonescape}. It forces every accepted uniqueness read through the finite displayed route and excludes single-seal, selector-only, host-equality, quotient-stream, and ambient-completeness escapes.
+
+Use \autoref{thm:real-limit-uniqueness-seal-consumer-handoff} to identify the exported interface. The consumer receives the packet rows and local NameCert row, not an additional completion object or a selected host limit.
+
+Classifier stability, \autoref{thm:real-limit-uniqueness-seal-classifier-stability}, keeps this interface unchanged under componentwise $\hsame$ transport. The field-faithful projection of \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection} then says that the displayed fields exhaust the packet, leaving no hidden coordinate from which a consumer could export quotient streams, host Real equality, detached selector data, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Real limit uniqueness seal Real-classifier boundary]
+\label{thm:real-limit-uniqueness-seal-real-classifier-boundary}
+In every accepted $\RealLimitUniquenessSealUp$ packet, the $\RealUp$ classifier row $R$ is read after the dyadic tolerance row $D$ and before the uniqueness handoff row $V$. No host Real equality, quotient stream equality, detached selector choice, or global completeness route can replace this $D,R,V$ boundary.
+\end{theorem}
+\begin{proof}
+Apply the shared comparison window theorem, \autoref{thm:real-limit-uniqueness-seal-shared-comparison-window}. It identifies the comparison route through $Q,S,D,R,V$, with the dyadic tolerance ledger before the Real classifier and the uniqueness handoff after it.
+
+Classifier stability, \autoref{thm:real-limit-uniqueness-seal-classifier-stability}, preserves the $\RealUp$ classifier row together with the dyadic ledger, uniqueness handoff, route, provenance, and local NameCert row under componentwise transport. Thus transport cannot move the classifier outside the displayed comparison route or turn it into a selector certificate.
+
+Finally use completion consumer totality from \autoref{thm:real-limit-uniqueness-seal-completion-consumer-totality}. Since completion-facing consumers receive only the finite two-seal packet, the Real-classifier read cannot be replaced by host equality, quotient stream equality, detached selector choice, or a global completeness route.
+\end{proof}
+
 \begin{theorem}[Real limit uniqueness seal TasteGate handoff]
 \label{thm:real-limit-uniqueness-seal-tastegate-handoff}
 The same displayed field inventory $L_0,L_1,Q,S,D,R,V,H,C,P,N$ is the paper-side obligation consumed by the Lean \texttt{Nontrivial}, \texttt{FieldFaithful}, and single-carrier TasteGate instances for $\RealLimitUniquenessSealUp$.
