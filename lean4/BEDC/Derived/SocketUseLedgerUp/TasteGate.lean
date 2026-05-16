@@ -141,6 +141,9 @@ instance socketUseLedgerChapterTasteGate : ChapterTasteGate SocketUseLedgerUp wh
     intro x y hxy heq
     exact hxy (socketUseLedgerToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate SocketUseLedgerUp :=
+  socketUseLedgerChapterTasteGate
+
 instance socketUseLedgerFieldFaithful : FieldFaithful SocketUseLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := socketUseLedgerFields

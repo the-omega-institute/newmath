@@ -175,3 +175,25 @@ Now apply terminal section pullback uniqueness, \autoref{thm:finite-observation-
 
 Finally use \autoref{thm:streamname-finite-section-pullback-exactness}. Its finite-section pullback gives the displayed $\StreamNameUp$ window face, $\DyadicRatCoreUp$ ledger face, $\RegSeqRatUp$ readback face, and $\RealUp$ seal face, while the non-escape clauses in the cited theorems exclude quotient streams, host real equality, choice rows, hidden selectors, detached limits, metric-completeness rows, and ambient completeness.
 \end{proof}
+
+\begin{theorem}[Finite observation-budget selector four-face terminal correspondence]
+\label{thm:finite-observation-budget-selector-four-face-terminal-correspondence}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. A terminal consumer is compatible with $F$ exactly when it is given by the four displayed terminal section faces $W,D,R,E$ together with the shared budget, schedule, transport, continuation, provenance, and local naming rows $B,S,H,C,P,N$. Thus the public terminal route is precisely the finite observation-budget passage
+$$
+B,S \to W \to D \to R \to E
+$$
+and the correspondence exports no quotient stream, host real equality, choice row, detached completion limit, metric-completeness row, or ambient completeness oracle.
+\end{theorem}
+\begin{proof}
+Start with terminal cofinal-window section decomposition, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-section-decomposition}. It sends every compatible terminal consumer to the four displayed faces $W,D,R,E$ inside the shared envelope $B,S,H,C,P,N$.
+
+For the reverse direction, apply terminal section exactness, \autoref{thm:finite-observation-budget-selector-terminal-section-exactness}. A section assembled from $W,D,R,E$ and the shared rows is already a terminal section over the accepted packet, so it gives a compatible terminal consumer.
+
+The two constructions are inverse on the displayed rows by terminal section pullback uniqueness, \autoref{thm:finite-observation-budget-selector-terminal-section-pullback-uniqueness}. No second terminal section can have the same budget, schedule, window, dyadic, regular, seal, transport, continuation, provenance, and naming rows.
+
+Finally use \autoref{thm:streamname-finite-section-pullback-exactness}. The underlying finite $\StreamNameUp$ section has no additional quotient, host-equality, choice, detached-limit, metric-completeness, or ambient-completeness coordinate, so the four faces are exactly the terminal route.
+\end{proof}
