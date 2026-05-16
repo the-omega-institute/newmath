@@ -76,6 +76,48 @@ sections have the same carrier and classifier verdicts at the terminal route,
 with no countable-choice or bridge row left outside that support.
 \end{proof}
 
+\begin{theorem}[StreamName finite-section pasting exactness]
+\label{thm:streamname-finite-section-pasting-exactness}
+Let $Q_0$ and $Q_1$ be accepted finite request sections of a current L10
+Phase Real and Completion $\StreamNameUp$ packet, and suppose their finite
+windows have an accepted overlap $Q_{01}$. If $Q_0$ and $Q_1$ agree on
+$Q_{01}$ in the $\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ ledger
+row, the $\RegSeqRatUp$ readback row, the $\RealUp$ seal boundary, and the
+displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support rows, then the pasted finite section determines the same terminal
+four-face route
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ and the same public
+classifier verdict as its two restrictions.
+
+The pasted route exports no quotient stream, host sequence equality, selected
+limit, ambient Real completeness, metric-completeness datum, countable-choice
+row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-finite-section-pullback-exactness} first to
+$Q_0$ and then to $Q_1$. Each restriction is pulled back to its displayed
+StreamName finite window, DyadicRatCore ledger row, RegSeqRat readback row,
+RealUp seal boundary, and support rows.
+
+On the accepted overlap $Q_{01}$, apply
+\autoref{thm:streamname-finite-section-classifier-determinacy}. The overlap
+hypotheses identify the four visible faces and the displayed support rows, so
+the two restrictions have one carrier verdict and one public classifier
+verdict at the common terminal route.
+
+Now paste the finite windows along that overlap. Since both restrictions are
+already pullbacks of the same four-face data on $Q_{01}$, the pasted section
+has no additional face from which a second terminal route could be read.
+
+Finally apply \autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}.
+Every Real-facing or completion-facing consumer of the pasted section is
+locked to the same StreamName, DyadicRatCore, RegSeqRat, and RealUp faces.
+Thus the public classifier verdict and the terminal four-face route are the
+same on the pasted section and on its two restrictions, while the excluded
+quotient, host-equality, limit-selection, completeness, choice, and bridge
+coordinates remain unavailable.
+\end{proof}
+
 \begin{theorem}[StreamName Real-RegSeq-Dyadic finite lock]
 \label{thm:streamname-finite-section-real-regseq-dyadic-lock}
 Let $Q$ be an accepted finite request section of a current L10 Phase Real and
