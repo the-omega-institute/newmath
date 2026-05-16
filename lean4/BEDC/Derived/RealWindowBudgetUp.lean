@@ -382,6 +382,45 @@ theorem RealWindowBudgetCarrier_selector_stability [AskSetup] [PackageSetup]
       selectorRead_unary, stableRead_unary, request_selector_selectorRead,
       selectorRead_disclosure_stableRead, carrier.provenance_pkg, stableRead_pkg⟩
 
+theorem RealWindowBudgetCarrier_finite_route_visibility [AskSetup] [PackageSetup]
+    {request windows dyadic handoff realSeal selector disclosure transport route provenance
+      nameRow selectorRead visibleRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealWindowBudgetCarrier request windows dyadic handoff realSeal selector disclosure
+        transport route provenance nameRow bundle pkg →
+      Cont request selector selectorRead →
+        Cont selectorRead disclosure visibleRead →
+          Cont handoff realSeal endpoint →
+            PkgSig bundle visibleRead pkg →
+              PkgSig bundle endpoint pkg →
+                UnaryHistory request ∧ UnaryHistory windows ∧ UnaryHistory dyadic ∧
+                  UnaryHistory handoff ∧ UnaryHistory realSeal ∧
+                    UnaryHistory selectorRead ∧ UnaryHistory visibleRead ∧
+                      UnaryHistory endpoint ∧ Cont request windows dyadic ∧
+                        Cont dyadic handoff realSeal ∧
+                          Cont request selector selectorRead ∧
+                            Cont selectorRead disclosure visibleRead ∧
+                              Cont handoff realSeal endpoint ∧
+                                PkgSig bundle provenance pkg ∧
+                                  PkgSig bundle visibleRead pkg ∧
+                                    PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig
+  intro carrier request_selector_selectorRead selectorRead_disclosure_visibleRead
+    handoff_realSeal_endpoint visibleRead_pkg endpoint_pkg
+  have selectorRead_unary : UnaryHistory selectorRead :=
+    unary_cont_closed carrier.request_unary carrier.selector_unary request_selector_selectorRead
+  have visibleRead_unary : UnaryHistory visibleRead :=
+    unary_cont_closed selectorRead_unary carrier.disclosure_unary
+      selectorRead_disclosure_visibleRead
+  have endpoint_unary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.handoff_unary carrier.realSeal_unary handoff_realSeal_endpoint
+  exact
+    ⟨carrier.request_unary, carrier.windows_unary, carrier.dyadic_unary,
+      carrier.handoff_unary, carrier.realSeal_unary, selectorRead_unary, visibleRead_unary,
+      endpoint_unary, carrier.request_windows_dyadic, carrier.dyadic_handoff_realSeal,
+      request_selector_selectorRead, selectorRead_disclosure_visibleRead,
+      handoff_realSeal_endpoint, carrier.provenance_pkg, visibleRead_pkg, endpoint_pkg⟩
+
 theorem RealWindowBudgetCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {request windows dyadic handoff realSeal selector disclosure transport route provenance
       nameRow : BHist}
