@@ -338,6 +338,22 @@ The finite selection step is controlled by selector totality, selector stability
 Finally use compact-cover consumer completeness, \autoref{thm:finitenetminimumfold-compact-cover-consumer-completeness}. It identifies the exact consumer-facing surface for $\CompactModulusCoverUp$, $\CompactMetricUp$, $\UniformModulusUp$, $\RatUp$, and $\TotalOrderUp$ consumers, so the attained public modulus precision is precisely the finite-net fold result rather than an external compactness or choice artifact.
 \end{proof}
 
+\begin{theorem}[FiniteNetMinimumFold compact-uniform pointwise-radius chain]
+\label{thm:finite-net-minimum-fold-compact-uniform-pointwise-radius-chain}
+A $\CompactUniformContinuityUp$ consumer obtains its public $\UniformModulusUp$ precision from an accepted $\FiniteNetMinimumFoldUp$ packet exactly through the chain of $\CompactMetricUp$ finite-net probes, $\CompactUniformContinuityUp$ pointwise modulus rows, positive $\RatUp$ radius rows, the $\TotalOrderUp$ finite lower-bound fold, and the $\FiniteNetMinimumFoldUp$ transport, replay, provenance, and local naming rows. For a packet
+$$
+F=(P,R,M,L,H,C,Q,N),
+$$
+the delivered precision is the accumulator row $M$ with lower-bound certificate $L$, transported by $H$, replayed by $C$, packaged by $Q$, and named by $N$; no compactness selector, selected point oracle, external modulus row, host minimum, or quotient real equality is read outside this chain.
+\end{theorem}
+\begin{proof}
+Start from compact-modulus attainment, \autoref{thm:finite-net-minimum-fold-compact-modulus-attainment}. It already identifies the public modulus precision with the finite-net probes, pointwise modulus rows, positive radius rows, finite lower-bound selection, and the displayed packet rows $P,R,M,L,H,C,Q,N$.
+
+Use selector totality and selector stability, \autoref{thm:finite-net-minimum-fold-selector-totality} and \autoref{thm:finite-net-minimum-fold-selector-stability}. These two rows make $M,L$ the selected lower-bound surface of the finite $\TotalOrderUp$ fold and preserve that surface under the displayed $\hsame$ transports and $\Cont$ replays.
+
+Finally apply compact-cover consumer completeness, \autoref{thm:finitenetminimumfold-compact-cover-consumer-completeness}. It says that $\CompactModulusCoverUp$, $\CompactMetricUp$, $\UniformModulusUp$, $\RatUp$, and $\TotalOrderUp$ consumers see exactly the finite fold packet. Therefore the $\CompactUniformContinuityUp$ pointwise-radius chain ends at the public $\UniformModulusUp$ precision and has no route to any excluded external selector or equality datum.
+\end{proof}
+
 \closureat{FiniteNetMinimumFoldUp}{seedStr}
 \closureat{FiniteNetMinimumFoldUp}{obligationStr}
 \closureat{FiniteNetMinimumFoldUp}{scopedStr}
