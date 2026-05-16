@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\FailureCertificateUp$}
+\label{ch:concrete-instances-failurecertificate-namecert}
+\origin{ai}
+
+The $\FailureCertificateUp$ packet realizes the typed failure-certificate discipline of \autoref{subsec:philosophy-failure-certificates} as a finite $\NameCert$ carrier for rejected gate attempts. It also sits beside \autoref{ch:concrete-instances-auditgatefailurewitness-namecert}, \autoref{ch:concrete-instances-realityconstrainedfailuresurface-namecert}, \autoref{ch:concrete-instances-registry-export-consistency-gate-namecert}, \autoref{ch:concrete-instances-axiszeckendorfcannotclaim-namecert}, and \autoref{ch:concrete-instances-machine-interface-socket-namecert}: those siblings expose audit witnesses, reality-constrained defeat surfaces, registry export gates, cannot-claim rows, and machine-facing sockets, while this packet binds a typed failure to the exact theory axis, verification axis, and combined gate it blocks.
+
+\begin{definition}[Failure certificate carrier]
+\label{def:failure-certificate-carrier}
+A $\FailureCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+F=(N_0,C,V,A,B,D,H,K,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N_0$ is the named claim, chapter, or packet whose gate attempt is being rejected;
+\item $C$ is the theory-closure row, recording the claimed theory grade and the denied source, classifier, exactness, descent, ledger, stability, scope, bridge, or no-host-leak clause;
+\item $V$ is the verification-status row, recording the claimed formal grade and the denied checked theorem, encoded definition, audit-clean, axiom-clean, or bridge-checked clause;
+\item $A$ is the failed-axis row, choosing theory-side failure, verification-side failure, or axis-confusion failure as typed audit data;
+\item $B$ is the blocked-gate row, naming the theory gate, formal-status gate, or verified gate that the failed-axis row blocks;
+\item $D$ is the diagnostic row, importing a concrete witness from $\AuditGateFailureWitnessUp$, $\RealityConstrainedFailureSurfaceUp$, $\RegistryExportConsistencyGateUp$, or $\AxisZeckendorfCannotClaimUp$ when the rejected packet crosses those surfaces;
+\item $H$ stores componentwise $\hsame$ transport for claim name, closure grade, formal grade, failed axis, blocked gate, diagnostic witness, replay, provenance, and local naming rows;
+\item $K$ stores displayed $\Cont$ replay for reading $N_0,C,V,A,B,D$ without adding a host repair route;
+\item $P$ is the $\Pkg$ provenance over $\FailureCertificateUp$, $\AuditGateFailureWitnessUp$, $\RealityConstrainedFailureSurfaceUp$, $\RegistryExportConsistencyGateUp$, $\AxisZeckendorfCannotClaimUp$, $\MachineInterfaceSocketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $L$ is the local $\NameCert_{\FailureCertificateUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a private gate override, prose repair, host equality, hidden verifier result, or untyped failure reason outside $A,B,D$.
+\end{definition}
+
+\begin{theorem}[Failure certificate gate blocking]
+\label{thm:failure-certificate-gate-blocking}
+For every accepted $\FailureCertificateUp$ packet $F=(N_0,C,V,A,B,D,H,K,P,L)$, the failed-axis row $A$ and blocked-gate row $B$ jointly determine which gate is blocked for the named claim $N_0$. A theory-side failure blocks the theory gate named by $B$, a verification-side failure blocks the formal-status gate named by $B$, and an axis-confusion failure blocks the combined verified gate named by $B$. No accepted packet can recover the blocked gate from $D,H,K,P,L$ alone.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of \autoref{def:failure-certificate-carrier}. The row $A$ records the typed failure branch, while $B$ records the gate whose acceptance is denied. These rows are read before diagnostic replay, provenance, or local naming can be consumed.
+
+For a theory-side failure, the denied clause lies in $C$ and the gate named by $B$ is the theory gate. For a verification-side failure, the denied clause lies in $V$ and the gate named by $B$ is the formal-status gate. For axis confusion, $A$ records that the two axes have been collapsed, so the verified gate is blocked even when one row is read without the other.
+
+Finally inspect $D,H,K,P,L$. The diagnostic row only records the concrete witness, and the remaining rows only transport, replay, package, and name the same packet. Since none of them supplies a fresh axis row or a fresh blocked-gate row, the gate-blocking conclusion depends on $A$ and $B$ together.
+\end{proof}
+
+\begin{theorem}[Failure certificate axis separation]
+\label{thm:failure-certificate-axis-separation}
+The $\FailureCertificateUp$ carrier is not bijective, under NameCert-row preservation, to $\AuditGateFailureWitnessUp$, $\RealityConstrainedFailureSurfaceUp$, $\RegistryExportConsistencyGateUp$, $\AxisZeckendorfCannotClaimUp$, or $\MachineInterfaceSocketUp$.
+\end{theorem}
+\begin{proof}
+Compare the displayed rows. $\AuditGateFailureWitnessUp$ supplies concrete audit failure evidence, $\RealityConstrainedFailureSurfaceUp$ supplies finite defeat surfaces, $\RegistryExportConsistencyGateUp$ supplies export consistency checks, $\AxisZeckendorfCannotClaimUp$ supplies refusal rows, and $\MachineInterfaceSocketUp$ supplies machine-facing target sockets.
+
+None of those siblings carries the joint two-axis gate-blocking row of $A$ together with $B$ for the same named claim, while also preserving $C,V,D,H,K,P,L$. A row-preserving bijection would have to preserve that joint failure-axis and blocked-gate pair, so no such bijection exists.
+\end{proof}
+
+The Lean TasteGate file must provide explicit $\Nontrivial\ \FailureCertificateUp$ and $\FieldFaithful\ \FailureCertificateUp$ instances in \texttt{lean4/BEDC/Derived/FailureCertificateUp/TasteGate.lean}. The field-faithfulness witness must keep $N_0,C,V,A,B,D,H,K,P,L$ distinct so the failed-axis row and blocked-gate row cannot be merged.
+
+\falsifiablePrediction{Removing either the failed-axis row or blocked-gate row breaks the gate-blocking theorem for an accepted packet.}
+
+\independenceWitness{auditgatefailurewitness, realityconstrainedfailuresurface, registryexportconsistencygate, axiszeckendorfcannotclaim, machineinterfacesocket: none is bijective to $\FailureCertificateUp$ because the joint two-axis gate-blocking row $A,B$ is preserved only by the finite failure-certificate packet.}
+
+\closureat{FailureCertificateUp}{seedStr}
+\closureat{FailureCertificateUp}{obligationStr}
