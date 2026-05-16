@@ -179,6 +179,18 @@ The two routes meet at the same finite window and threshold surface. Since neith
 \end{proof}
 \leanchecked{BEDC.Derived.TailCofinalityScheduleUp.TailCofinalityScheduleCarrier\_shared\_tail\_budget\_factorization}
 
+\begin{theorem}[Tail cofinality schedule diagonal selector nonempty]
+\label{thm:tail-cofinality-schedule-diagonal-selector-nonempty}
+Let $T=(E,W,D,R,L,H,C,P,N)$ be an accepted $\TailCofinalityScheduleUp$ packet consumed by the diagonal completion route. Then the precision row $E$, finite-window row $W$, dyadic ledger $D$, $\RegSeqRatUp$ readback row $R$, terminal $\RealUp$ seal row $L$, and structural rows $H,C,P,N$ supply a nonempty selector route for every completion-facing consumer. The route contains no hidden tail oracle, selected host limit, quotient stream, ambient completeness row, or second completion-facing budget source.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:tail-cofinality-schedule-diagonal-handoff}. It orders the accepted schedule route from the precision request through the finite window, dyadic threshold ledger, regular-rational readback, and Real seal.
+
+Next apply \autoref{thm:tail-cofinality-schedule-regular-cauchy-completion-route}. A diagonal completion consumer reaches its seal only after the same $E,W,D,R,L$ route has been consumed, with the structural rows carrying transport, replay, provenance, and local naming.
+
+Finally use \autoref{thm:tail-cofinality-schedule-shared-tail-budget-factorization}. The shared-tail budget is the only factorization available to the simultaneous tail-meet, stream-window, agreement-seal, and completion consumers, so the selector route is present and cannot be replaced by an omitted analytic or host-side coordinate.
+\end{proof}
+
 \begin{theorem}[Tail cofinality schedule selector-budget lock]
 \label{thm:tail-cofinality-schedule-selector-budget-lock}
 Every accepted $\TailCofinalityScheduleUp$ selector-budget route consumed by a $\RealUp$ or $\RealCauchyCompletionUp$ carrier factors through the finite route
@@ -296,6 +308,7 @@ $\ProbeBundle$ and $\Pkg$ support, $\hsame$ transport, and $\Cont$ replay.
 The factorization exposes no quotient stream, selected host limit, countable
 choice, ambient completeness, hidden tail oracle, or second budget source.
 \end{theorem}
+\leanchecked{BEDC.Derived.TailCofinalityScheduleUp.TailCofinalityScheduleCarrier\_diagonal\_tail\_selector\_factorization}
 \begin{proof}
 Start with the schedule route from
 \autoref{thm:tail-cofinality-schedule-real-completion-diagonal-route}. It
