@@ -490,4 +490,47 @@ theorem TailCofinalityScheduleCarrier_scoped_binding [AskSetup] [PackageSetup]
       routeProvenanceEndpoint, routeProvenanceReplay, replaySame, endpointPkg,
       replayPkg⟩
 
+theorem TailCofinalityScheduleCarrier_shared_tail_budget_factorization [AskSetup]
+    [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      sharedThreshold agreementRows completionRead sharedRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      Cont dyadic regseq sharedThreshold →
+        Cont sharedThreshold sealRow agreementRows →
+          Cont agreementRows endpoint completionRead →
+            Cont precision completionRead sharedRoute →
+              PkgSig bundle sharedRoute pkg →
+                UnaryHistory precision ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+                  UnaryHistory regseq ∧ UnaryHistory sealRow ∧ UnaryHistory sharedThreshold ∧
+                    UnaryHistory agreementRows ∧ UnaryHistory completionRead ∧
+                      UnaryHistory sharedRoute ∧ Cont precision window dyadic ∧
+                        Cont dyadic regseq sharedThreshold ∧
+                          Cont sharedThreshold sealRow agreementRows ∧
+                            Cont agreementRows endpoint completionRead ∧
+                              Cont precision completionRead sharedRoute ∧
+                                PkgSig bundle endpoint pkg ∧
+                                  PkgSig bundle sharedRoute pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier dyadicRegseqShared sharedSealAgreement agreementEndpointCompletion
+    precisionCompletionShared sharedPkg
+  obtain ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, endpointUnary,
+    precisionWindowDyadic, _dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have sharedThresholdUnary : UnaryHistory sharedThreshold :=
+    unary_cont_closed dyadicUnary regseqUnary dyadicRegseqShared
+  have agreementRowsUnary : UnaryHistory agreementRows :=
+    unary_cont_closed sharedThresholdUnary sealUnary sharedSealAgreement
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed agreementRowsUnary endpointUnary agreementEndpointCompletion
+  have sharedRouteUnary : UnaryHistory sharedRoute :=
+    unary_cont_closed precisionUnary completionReadUnary precisionCompletionShared
+  exact
+    ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary,
+      sharedThresholdUnary, agreementRowsUnary, completionReadUnary, sharedRouteUnary,
+      precisionWindowDyadic, dyadicRegseqShared, sharedSealAgreement,
+      agreementEndpointCompletion, precisionCompletionShared, endpointPkg, sharedPkg⟩
+
 end BEDC.Derived.TailCofinalityScheduleUp
