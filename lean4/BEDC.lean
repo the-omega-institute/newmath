@@ -727,6 +727,7 @@ import BEDC.Derived.DiagonalLimitObserverUp
 import BEDC.Derived.DiagonalLimitObserverUp.TasteGate
 import BEDC.Derived.DiagonalTailSelectorUp
 import BEDC.Derived.TailCofinalityScheduleUp
+import BEDC.Derived.CompressionDescentAuditUp.TasteGate
 import BEDC.Derived.TowerEquivalenceUp.TasteGate
 import BEDC.Derived.LimitSelectorUp
 import BEDC.Derived.FableBranchWitnessUp.TasteGate
@@ -1118,6 +1119,8 @@ import BEDC.Derived.MetaCICIdentityUp.TasteGate
 import BEDC.Derived.MetaCICIdentityBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.NameCertObligations
+import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateEvidenceBoundary
+import BEDC.Derived.MetaCICNormalizationFrontierUp.RouteReadbackPublicExport
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
@@ -2135,6 +2138,7 @@ import BEDC.Derived.QuadratureUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.HausdorffCompletionUp
+import BEDC.Derived.HausdorffCompletionUp.StandardBridge
 import BEDC.Derived.ReflectiveInquiryUp.TasteGate
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.DensityMatrixUp
