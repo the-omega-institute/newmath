@@ -71,28 +71,85 @@ def proofTraceAuditWitnessToEventFlow : ProofTraceAuditWitnessUp → EventFlow
           BMark.b1, BMark.b0],
         proofTraceAuditWitnessEncodeBHist name]
 
-private def proofTraceAuditWitnessEventAtDefault : Nat → EventFlow → RawEvent
+def proofTraceAuditWitnessFromEventFlow :
+    EventFlow → Option ProofTraceAuditWitnessUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      proofTraceAuditWitnessEventAtDefault index rest
-
-def proofTraceAuditWitnessFromEventFlow
-    (ef : EventFlow) : Option ProofTraceAuditWitnessUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (ProofTraceAuditWitnessUp.mk
-      (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEventAtDefault 1 ef))
-      (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEventAtDefault 3 ef))
-      (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEventAtDefault 5 ef))
-      (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEventAtDefault 7 ef))
-      (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEventAtDefault 9 ef))
-      (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEventAtDefault 11 ef))
-      (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEventAtDefault 13 ef))
-      (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEventAtDefault 15 ef))
-      (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEventAtDefault 17 ef)))
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | trace :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | source :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | classifier :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | transport :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | ledger :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | forbidden :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | verdict :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | provenance :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | name :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (ProofTraceAuditWitnessUp.mk
+                                                                                  (proofTraceAuditWitnessDecodeBHist
+                                                                                    trace)
+                                                                                  (proofTraceAuditWitnessDecodeBHist
+                                                                                    source)
+                                                                                  (proofTraceAuditWitnessDecodeBHist
+                                                                                    classifier)
+                                                                                  (proofTraceAuditWitnessDecodeBHist
+                                                                                    transport)
+                                                                                  (proofTraceAuditWitnessDecodeBHist
+                                                                                    ledger)
+                                                                                  (proofTraceAuditWitnessDecodeBHist
+                                                                                    forbidden)
+                                                                                  (proofTraceAuditWitnessDecodeBHist
+                                                                                    verdict)
+                                                                                  (proofTraceAuditWitnessDecodeBHist
+                                                                                    provenance)
+                                                                                  (proofTraceAuditWitnessDecodeBHist
+                                                                                    name))
+                                                                          | _ :: _ => none
 
 private theorem proofTraceAuditWitness_round_trip :
     ∀ x : ProofTraceAuditWitnessUp,
@@ -195,19 +252,29 @@ def taste_gate : ChapterTasteGate ProofTraceAuditWitnessUp :=
 theorem ProofTraceAuditWitnessTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEncodeBHist h) = h) ∧
-      Nonempty (Nontrivial ProofTraceAuditWitnessUp) ∧
-        Nonempty (ChapterTasteGate ProofTraceAuditWitnessUp) ∧
-          Nonempty (FieldFaithful ProofTraceAuditWitnessUp) ∧
-            proofTraceAuditWitnessEncodeBHist BHist.Empty = ([] : List BMark) := by
+      (∀ x : ProofTraceAuditWitnessUp,
+        proofTraceAuditWitnessFromEventFlow (proofTraceAuditWitnessToEventFlow x) = some x) ∧
+        (∀ x y : ProofTraceAuditWitnessUp,
+          proofTraceAuditWitnessToEventFlow x = proofTraceAuditWitnessToEventFlow y →
+            x = y) ∧
+          Nonempty (Nontrivial ProofTraceAuditWitnessUp) ∧
+            Nonempty (ChapterTasteGate ProofTraceAuditWitnessUp) ∧
+              Nonempty (FieldFaithful ProofTraceAuditWitnessUp) ∧
+                proofTraceAuditWitnessEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
   · exact proofTraceAuditWitness_decode_encode_bhist
   · constructor
-    · exact ⟨proofTraceAuditWitnessNontrivial⟩
+    · exact proofTraceAuditWitness_round_trip
     · constructor
-      · exact ⟨proofTraceAuditWitnessChapterTasteGate⟩
+      · intro x y heq
+        exact proofTraceAuditWitnessToEventFlow_injective heq
       · constructor
-        · exact ⟨proofTraceAuditWitnessFieldFaithful⟩
-        · rfl
+        · exact ⟨proofTraceAuditWitnessNontrivial⟩
+        · constructor
+          · exact ⟨proofTraceAuditWitnessChapterTasteGate⟩
+          · constructor
+            · exact ⟨proofTraceAuditWitnessFieldFaithful⟩
+            · rfl
 
 end BEDC.Derived.ProofTraceAuditWitnessUp
