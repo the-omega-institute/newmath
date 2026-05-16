@@ -205,6 +205,28 @@ Finally compose with \autoref{thm:diagonal-limit-selector-budget-regular-tail-me
 \end{proof}
 \leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_selector\_budget\_tail\_meet\_pullback\_exhaustion}
 
+\begin{theorem}[Diagonal-limit selector-budget TailCofinalitySchedule pullback]
+\label{thm:diagonal-limit-selector-budget-pullback}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet, and let $A=(E_A,W_A,D_A,R_A,L_A,H_A,C_A,P_A,N_A)$ be an accepted $\TailCofinalityScheduleUp$ packet. Suppose the schedule packet consumes the same $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal rows through the selector-budget surface of $K$: $W_A$ is supplied by $W$, $D_A$ by $D$, $R_A$ by $Q$, and $L_A$ by $L$.
+
+Then every completion-facing or Real-facing consumer of the combined packet factors through the shared finite route
+$$
+W,D,Q,L,H,C,P,N
+\quad\hbox{read as}\quad
+W_A,D_A,R_A,L_A,H_A,C_A,P_A,N_A.
+$$
+No hidden selector, quotient stream, host equality, selected limit, independent completion datum, ambient completeness witness, or second schedule budget can intervene.
+\end{theorem}
+\begin{proof}
+First lock the diagonal selector source. Apply \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock} and \autoref{thm:diagonal-limit-selector-budget-route-determinacy}. They identify the only selector-budget route as the displayed diagonal source together with $W,D,Q,L,H,C,P,N$.
+
+Next use \autoref{thm:diagonal-limit-selector-budget-tail-meet-pullback-exhaustion}. It removes any alternate tail-facing route between the selector budget, shared threshold, finite-tail packet, and downstream Real or Completion consumer.
+
+Now attach the schedule packet. By \autoref{thm:tail-cofinality-schedule-diagonal-handoff} and \autoref{thm:tail-cofinality-schedule-regular-cauchy-completion-route}, the accepted $\TailCofinalityScheduleUp$ consumer reads the window, ledger, regular-rational readback, and Real seal through the finite schedule route before the completion seal can be inspected.
+
+The hypotheses identify those schedule rows with $W,D,Q,L$ from $K$. Hence every combined consumer has the single shared route listed in the statement, and the non-escape clauses from the diagonal selector and schedule boundaries leave no coordinate for a hidden selector, quotient stream, host equality, selected limit, independent completion datum, ambient completeness witness, or second schedule budget.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit selector-budget UniformCauchyCriterion terminal pullback]
 \label{thm:diagonal-limit-selector-budget-uniform-criterion-pullback}
 Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Let
