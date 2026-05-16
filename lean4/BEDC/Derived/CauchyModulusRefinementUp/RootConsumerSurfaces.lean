@@ -78,4 +78,57 @@ theorem CauchyModulusRefinementCarrier_window_route_factorization [AskSetup] [Pa
       exact And.intro (unary_transport endpointUnary (hsame_symm source.right)) endpointPkg
   }
 
+theorem CauchyModulusRefinementCarrier_terminal_pullback_consumer_uniqueness
+    [AskSetup] [PackageSetup]
+    {m0 m1 u v t w q e h c p n terminalA terminalB : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg ->
+      Cont h c terminalA ->
+        Cont h c terminalB ->
+          PkgSig bundle terminalA pkg ->
+            PkgSig bundle terminalB pkg ->
+              hsame terminalA terminalB ->
+                SemanticNameCert
+                  (fun row : BHist => hsame row terminalA ∧ UnaryHistory row)
+                  (fun row : BHist => Cont h c row ∧ PkgSig bundle terminalA pkg)
+                  (fun row : BHist => hsame row terminalB ∧ PkgSig bundle terminalB pkg)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory SemanticNameCert hsame
+  intro carrier terminalARoute terminalBRoute terminalAPkg terminalBPkg sameTerminal
+  rcases carrier with
+    ⟨_m0Unary, _m1Unary, _uUnary, _vUnary, _tUnary, _wUnary, _qUnary, _eUnary,
+      hUnary, cUnary, _pUnary, _nUnary, _m0m1u, _uvt, _twq, _qeh, _pPkg, _hn⟩
+  have terminalAUnary : UnaryHistory terminalA :=
+    unary_cont_closed hUnary cUnary terminalARoute
+  have sourceTerminal :
+      (fun row : BHist => hsame row terminalA ∧ UnaryHistory row) terminalA := by
+    exact ⟨hsame_refl terminalA, terminalAUnary⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro terminalA sourceTerminal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact And.intro (hsame_trans (hsame_symm sameRows) source.left)
+          (unary_transport source.right sameRows)
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        And.intro
+          (cont_result_hsame_transport terminalARoute (hsame_symm source.left))
+          terminalAPkg
+    ledger_sound := by
+      intro _row source
+      exact And.intro (hsame_trans source.left sameTerminal) terminalBPkg
+  }
+
 end BEDC.Derived.CauchyModulusRefinementUp
