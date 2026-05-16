@@ -371,6 +371,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.SelectorMeetNoninterference
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetDependency
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetMeetExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetNormalForm
+import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetTotality
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetTailMeetNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorNonemptyRoute
@@ -538,6 +539,8 @@ import BEDC.Derived.RealTailAgreementTransitivityUp.TasteGate
 import BEDC.Derived.RealWindowBudgetUp
 import BEDC.Derived.RealWindowBudgetUp.DyadicHandoffSealObligation
 import BEDC.Derived.RealWindowBudgetUp.RealSealNonescape
+import BEDC.Derived.RealWindowBudgetUp.RealSealReadbackTotality
+import BEDC.Derived.RealWindowBudgetUp.RegSeqSelectorExactness
 import BEDC.Derived.RealWindowBudgetUp.TasteGate
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.RealSelectorComparisonUp.TasteGate
