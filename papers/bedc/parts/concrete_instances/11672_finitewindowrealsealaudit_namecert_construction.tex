@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWindowRealSealAuditUp$}
+\label{ch:concrete-instances-finite-window-real-seal-audit-namecert}
+\origin{ai}
+
+The $\FiniteWindowRealSealAuditUp$ packet is the finite audit surface for the StreamName--RegSeqRat--Real seal route of \autoref{ch:visions-real-completeness}. It reads the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. Its role is to bind the displayed finite window, dyadic tolerance, RegSeqRat readback, RealUp seal, audit-refusal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one NameCert carrier, not to supply quotient streams, selected host limits, host real equality, countable choice, or ambient completeness.
+
+\falsifiablePrediction{A RealUp seal consumer that bypasses the displayed finite-window, dyadic-tolerance, and RegSeqRat readback rows refutes the FiniteWindowRealSealAuditUp packet.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, real-completion-seal-classifier: no sibling is bijective because only this packet binds finite windows, dyadic tolerance, RegSeqRat readback, Real seal, and audit-refusal rows into one NameCert carrier.}
+
+\begin{definition}[Finite-window Real-seal audit carrier]
+\label{def:finite-window-real-seal-audit-carrier}
+A $\FiniteWindowRealSealAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(W,D,R,E,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ finite-window row naming the visible request window;
+\item $D$ is the $\DyadicRatCoreUp$ dyadic tolerance and readback row attached to that same window;
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row reached from $W$ and $D$;
+\item $E$ is the terminal $\RealUp$ seal row read only after $W,D,R$ have been displayed;
+\item $F$ is the audit-refusal row stating that no accepted consumer may replace $W,D,R,E$ by a hidden completion route, quotient stream, selected limit, host real equality, countable-choice row, or ambient-completeness row;
+\item $H$ records componentwise $\hsame$ transports for the displayed rows;
+\item $C$ records the displayed $\Cont$ replay from finite-window admission through dyadic tolerance, RegSeqRat readback, audit refusal, and the terminal Real seal;
+\item $P$ is the $\Pkg$ provenance over the cited sibling packets, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FiniteWindowRealSealAuditUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for quotient streams, selected host limits, host real equality, detached Real seals, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Finite-window Real-seal audit NameCert obligations]
+\label{thm:finite-window-real-seal-audit-namecert-obligations}
+For every accepted $\FiniteWindowRealSealAuditUp$ carrier
+$$
+A=(W,D,R,E,F,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteWindowRealSealAuditUp}$ surface consists exactly of finite-window exposure through $W$, dyadic-tolerance exposure through $D$, RegSeqRat readback through $R$, terminal Real-seal exposure through $E$, audit-refusal exposure through $F$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-real-seal-audit-carrier}. Its displayed inventory is the StreamName window, DyadicRatCore tolerance ledger, RegSeqRat readback, terminal Real seal, audit-refusal row, and the structural support rows.
+
+Read the seal route in dependency order. The row $W$ fixes the finite request window, the row $D$ fixes the dyadic tolerance ledger attached to that window, the row $R$ fixes the regular-rational readback, and the row $E$ is the RealUp seal reached by that displayed route.
+
+The audit row $F$ blocks the absent completion, quotient, selected-limit, host-equality, choice, and ambient-completeness coordinates. The rows $H,C,P,N$ only transport, replay, package, and name the same finite packet, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite-window Real-seal audit non-escape]
+\label{thm:finite-window-real-seal-audit-nonescape}
+Every accepted $\FiniteWindowRealSealAuditUp$ consumer factors through the finite route
+$$
+W,D,R,E,F,H,C,P,N.
+$$
+The consumer may inspect the StreamName finite window, DyadicRatCore tolerance ledger, RegSeqRat readback, RealUp seal, audit-refusal row, componentwise transports, continuations, provenance, and local NameCert row. It receives no quotient stream equality, selected host limit, host real equality, detached Real seal, countable-choice row, hidden completion route, or ambient-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:finite-window-real-seal-audit-namecert-obligations}. The local certificate exposes the complete route inventory for the accepted packet and gives no second source for window, tolerance, readback, seal, refusal, transport, continuation, provenance, or naming data.
+
+Attach the sibling faces. The cited StreamName, DyadicRatCore, RegSeqRat, and Real chapters supply the four route faces $W,D,R,E$ in the order needed by a RealUp seal consumer.
+
+Inspect the refusal row. Since $F$ records the excluded coordinates and the carrier has no other coordinate through which to read them, any consumer that bypasses $W,D,R$ before reaching $E$ has left the accepted audit packet.
+\end{proof}
+
+Lean development for this route must provide \texttt{Nontrivial FiniteWindowRealSealAuditUp} and \texttt{FieldFaithful FiniteWindowRealSealAuditUp} in \texttt{lean4/BEDC/Derived/FiniteWindowRealSealAuditUp/TasteGate.lean}.
