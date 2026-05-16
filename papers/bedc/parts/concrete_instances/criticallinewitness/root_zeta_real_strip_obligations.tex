@@ -33,3 +33,39 @@ Transport and replay the classifier through $H$ and $C$. The provenance and nami
 
 Finally combine the fixed-strip refusal and root RH-boundary rows. These surfaces make the classifier a BEDC witness boundary and exclude a full $\mathsf{RH}$ proof, host complex-analysis classifier, quotient equality, hidden zero selection, or analytic-continuation oracle row.
 \end{proof}
+
+\begin{theorem}[CriticalLineWitness zeta real strip root handoff]
+\label{thm:critical-line-witness-zeta-real-strip-root-handoff}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Before any zeta-continuation, critical-line, or $\mathsf{RH}$-facing consumer route is accepted, the packet must expose the zeta source row $Z$, the fixed critical-strip row $S$, the modulus row $M$, the $\RealUp$ finite-window row $R$, the $\RegSeqRatUp$ rational-comparison row $Q$, the componentwise $\BHist$ and $\hsame$ transport row $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$. No accepted route may read the handoff as an analytic continuation theorem, a zero-search oracle, a quotient equality, a host real equality, or an ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Use the zeta source obligation of \autoref{thm:critical-line-witness-root-zeta-source-obligation}. It forces each zeta-continuation source read through $Z,H,C,P,N$ and prevents the source from becoming hidden complex-analysis input.
+
+Next use the real-window obligation of \autoref{thm:critical-line-witness-root-real-window-obligation}. It adds the finite $M,R,Q$ rows and keeps the $\RealUp$ and $\RegSeqRatUp$ side on the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+
+Finally use the strip classifier obligation of \autoref{thm:critical-line-witness-root-strip-classifier-obligation} together with the downstream source package of \autoref{thm:critical-line-witness-downstream-source-package}. These results attach the fixed strip classifier to $Z,S,M,R,Q,H,C,P,N$ before a consumer can inspect the route. The refusal ledger rows then remove analytic continuation, zero search, quotient equality, host real equality, and ambient completeness from the handoff.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness fixed-strip budget source totality]
+\label{thm:critical-line-witness-fixed-strip-budget-source-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The admitted root source reads of $W$ are exhausted by the fixed-strip source read through $Z,S,H,C,P,N$, the refusal-budget read through $Z,S,M,R,Q,H,C,P,N$, and the real-window source read through $M,R,Q,H,C,P,N$. A root consumer has no fourth source channel outside those finite rows.
+\end{theorem}
+\begin{proof}
+The fixed-strip source side is supplied by \autoref{thm:critical-line-witness-root-strip-classifier-obligation} and \autoref{thm:critical-line-witness-fixed-strip-source-refusal-cover}. These bind the strip classifier and source refusal cover to the displayed packet rows.
+
+The refusal-budget side is supplied by \autoref{thm:critical-line-witness-root-refusal-budget-exhaustion}. Its budget route is the same finite packet $Z,S,M,R,Q,H,C,P,N$, with $H,C,P,N$ carrying the transport, replay, provenance, and local name.
+
+The real-window side is supplied by \autoref{thm:critical-line-witness-root-real-window-obligation}. Since the root source-window route lock and refusal ledger already reject detached analytic and host-level channels, these three reads exhaust the admitted root source surface.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness RH refusal source exactness]
+\label{thm:critical-line-witness-rh-refusal-source-exactness}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every $\mathsf{RH}$-facing demand on $W$ is classified exactly as a finite refusal/source row over $Z,S,M,R,Q,H,C,P,N$. Such a demand cannot be converted into analytic continuation, zero search, quotient equality, host real equality, or ambient completeness, and it cannot strengthen the packet beyond its zeta-continuation source rows and fixed-strip classifier rows.
+\end{theorem}
+\begin{proof}
+Start with the combined handoff of \autoref{thm:critical-line-witness-zeta-real-strip-root-handoff}. It exposes the zeta source, real-window rows, rational comparison rows, strip classifier, transport, replay, provenance, and local naming row before any $\mathsf{RH}$-facing consumer route is accepted.
+
+Apply the fixed-strip budget source totality of \autoref{thm:critical-line-witness-fixed-strip-budget-source-totality}. It leaves only the fixed-strip source read, refusal-budget read, and real-window source read as admitted root source channels.
+
+Finally use the RH consumer boundary of \autoref{thm:critical-line-witness-root-rh-consumer-boundary} and the RH refusal readback totality of \autoref{thm:critical-line-witness-rh-refusal-readback-totality}. These sibling rows classify the remaining demand as finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ refusal/source data and exclude analytic continuation, zero search, quotient equality, host real equality, and ambient completeness.
+\end{proof}
