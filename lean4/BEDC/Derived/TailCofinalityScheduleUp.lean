@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -301,5 +302,99 @@ theorem TailCofinalityScheduleCarrier_regular_cauchy_tail_meet_handoff [AskSetup
       meetReadUnary, sealReadUnary, precisionWindowDyadic, dyadicRegseqSeal,
       pairedWindowModulus, modulusDyadicThreshold, thresholdRegseqMeet, meetSealRead,
       endpointPkg, sealReadPkg⟩
+
+private def TailCofinalityScheduleCarrier_completion_budget_nonescape_length : BHist → Nat
+  -- BEDC touchpoint anchor: BHist Cont
+  | BHist.Empty => 0
+  | BHist.e0 h => Nat.succ (TailCofinalityScheduleCarrier_completion_budget_nonescape_length h)
+  | BHist.e1 h => Nat.succ (TailCofinalityScheduleCarrier_completion_budget_nonescape_length h)
+
+private theorem TailCofinalityScheduleCarrier_completion_budget_nonescape_length_append :
+    ∀ h k : BHist,
+      TailCofinalityScheduleCarrier_completion_budget_nonescape_length (append h k) =
+        TailCofinalityScheduleCarrier_completion_budget_nonescape_length h +
+          TailCofinalityScheduleCarrier_completion_budget_nonescape_length k := by
+  -- BEDC touchpoint anchor: BHist Cont
+  intro h k
+  induction k with
+  | Empty =>
+      rfl
+  | e0 k ih =>
+      exact Eq.trans (congrArg Nat.succ ih)
+        (Nat.add_succ
+          (TailCofinalityScheduleCarrier_completion_budget_nonescape_length h)
+          (TailCofinalityScheduleCarrier_completion_budget_nonescape_length k)).symm
+  | e1 k ih =>
+      exact Eq.trans (congrArg Nat.succ ih)
+        (Nat.add_succ
+          (TailCofinalityScheduleCarrier_completion_budget_nonescape_length h)
+          (TailCofinalityScheduleCarrier_completion_budget_nonescape_length k)).symm
+
+private theorem TailCofinalityScheduleCarrier_completion_budget_nonescape_growth_absurd
+    (n a b : Nat) :
+    n = a + n + (b + 1) → False := by
+  -- BEDC touchpoint anchor: BHist Cont
+  intro h
+  have hle : n ≤ a + n := Nat.le_add_left n a
+  have hlt2 : a + n < a + n + (b + 1) := Nat.lt_add_of_pos_right (Nat.succ_pos b)
+  have hlt : n < a + n + (b + 1) := Nat.lt_of_le_of_lt hle hlt2
+  exact (Nat.lt_irrefl n) (Nat.lt_of_lt_of_eq hlt h.symm)
+
+private theorem TailCofinalityScheduleCarrier_completion_budget_nonescape_visible_cycle
+    {completionRead agreementRows sealRead endpoint : BHist} :
+    Cont completionRead agreementRows sealRead →
+      Cont sealRead (BHist.e1 endpoint) agreementRows → False := by
+  -- BEDC touchpoint anchor: BHist Cont
+  intro completionAgreementSeal hostReturn
+  have eqAgreement :
+      agreementRows = append (append completionRead agreementRows) (BHist.e1 endpoint) := by
+    exact hostReturn.trans (congrArg (fun x => append x (BHist.e1 endpoint))
+      completionAgreementSeal)
+  have hlen := congrArg TailCofinalityScheduleCarrier_completion_budget_nonescape_length
+    eqAgreement
+  rw [TailCofinalityScheduleCarrier_completion_budget_nonescape_length_append] at hlen
+  rw [TailCofinalityScheduleCarrier_completion_budget_nonescape_length_append] at hlen
+  exact TailCofinalityScheduleCarrier_completion_budget_nonescape_growth_absurd
+    (TailCofinalityScheduleCarrier_completion_budget_nonescape_length agreementRows)
+    (TailCofinalityScheduleCarrier_completion_budget_nonescape_length completionRead)
+    (TailCofinalityScheduleCarrier_completion_budget_nonescape_length endpoint) hlen
+
+theorem TailCofinalityScheduleCarrier_completion_budget_nonescape [AskSetup] [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      regularTail agreementRows completionRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      UnaryHistory regularTail →
+        UnaryHistory agreementRows →
+          Cont dyadic regularTail completionRead →
+            Cont completionRead agreementRows sealRead →
+              PkgSig bundle sealRead pkg →
+                UnaryHistory dyadic ∧ UnaryHistory regularTail ∧
+                  UnaryHistory completionRead ∧ UnaryHistory agreementRows ∧
+                    UnaryHistory sealRead ∧ Cont dyadic regularTail completionRead ∧
+                      Cont completionRead agreementRows sealRead ∧ PkgSig bundle endpoint pkg ∧
+                        PkgSig bundle sealRead pkg ∧
+                          (Cont sealRead (BHist.e0 endpoint) completionRead → False) ∧
+                            (Cont sealRead (BHist.e1 endpoint) agreementRows → False) := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier regularTailUnary agreementRowsUnary dyadicRegularCompletion
+    completionAgreementSeal sealReadPkg
+  obtain ⟨_precisionUnary, _windowUnary, dyadicUnary, _regseqUnary, _sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    _precisionWindowDyadic, _dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed dyadicUnary regularTailUnary dyadicRegularCompletion
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed completionReadUnary agreementRowsUnary completionAgreementSeal
+  exact
+    ⟨dyadicUnary, regularTailUnary, completionReadUnary, agreementRowsUnary, sealReadUnary,
+      dyadicRegularCompletion, completionAgreementSeal, endpointPkg, sealReadPkg,
+      (fun hostReturn =>
+        cont_mutual_extension_right_tail_absurd.left completionAgreementSeal hostReturn),
+      (fun hostReturn =>
+        TailCofinalityScheduleCarrier_completion_budget_nonescape_visible_cycle
+          completionAgreementSeal hostReturn)⟩
 
 end BEDC.Derived.TailCofinalityScheduleUp
