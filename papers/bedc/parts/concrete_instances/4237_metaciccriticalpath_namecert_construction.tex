@@ -304,3 +304,51 @@ Open-node exhaustion shows that every accepted open-node read factors through th
 
 Therefore the Lean-facing obligation is coordinatewise exact. A formal target with precisely these rows verifies the same paper surface, while any extra scheduling coordinate would certify a different object.
 \end{proof}
+
+\begin{theorem}[MetaCIC critical-path frontier-rank NameCert obligations]
+\label{thm:metacic-critical-path-frontier-rank-namecert-obligations}
+For every accepted frontier-rank packet
+$$
+Q=(O,R,D,B,C,P,N),
+$$
+the local $\NameCert_{\MetaCICCriticalPathUp}$ surface consists exactly of seven row obligations: open-node visibility through $O$, dependency-ready visibility through $R$, downstream-rank visibility through $D$, obstruction-ledger visibility through $B$, replay-route visibility through $C$, package provenance through $P$, and local naming through $N$. It has no eighth obligation for scheduler state, host reachability, or an unledgered dependency edge.
+\end{theorem}
+\begin{proof}
+Project the accepted frontier-rank carrier of \autoref{def:metacic-critical-path-frontier-rank-carrier}. The displayed packet has the seven coordinates $O,R,D,B,C,P,N$, and the definition assigns one scheduler-facing role to each coordinate.
+
+Open-node exhaustion in \autoref{thm:metacic-critical-path-open-node-exhaustion} supplies the coverage step. Every accepted open-node read factors through the node row, the dependency-ready rows, the downstream rank, the obstruction ledger, the replay route, provenance, and the local name.
+
+Dependency-route nonescape in \autoref{thm:metacic-critical-path-dependency-route-nonescape} supplies the exclusion step. Dependency routing cannot appeal to hidden scheduler state, host graph reachability, or an unledgered dependency edge.
+
+The Lean handoff surface of \autoref{thm:metacic-critical-path-lean-handoff-surface} identifies the same seven coordinates as the formal target surface. Hence the local NameCert obligations are exactly the seven displayed rows and no extra scheduler-facing row.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path frontier-rank transport stability]
+\label{thm:metacic-critical-path-frontier-rank-transport-stability}
+For every accepted frontier-rank packet $Q=(O,R,D,B,C,P,N)$, componentwise $\hsame$ transport and replay along the displayed route $C$ preserve the seven NameCert obligation rows $O,R,D,B,C,P,N$. Transport cannot add scheduler state, host reachability, or an unledgered dependency edge.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier in \autoref{def:metacic-critical-path-frontier-rank-carrier}. Its route coordinate $C$ stores the $\Cont$ paths used by scheduler-facing consumers, while the remaining coordinates record the open node, readiness, rank, ledger, provenance, and local name.
+
+Open-node exhaustion keeps the transported read on the same finite packet. By \autoref{thm:metacic-critical-path-open-node-exhaustion}, there is no hidden frontier node and no unranked scheduling obligation available after the read is replayed.
+
+Dependency-route nonescape keeps the replayed dependency route inside the same ledgered surface. By \autoref{thm:metacic-critical-path-dependency-route-nonescape}, the route may use $R,B,C,P,N$ but cannot leave the packet for scheduler state, host reachability, or an unledgered edge.
+
+The obligation theorem above identifies the seven rows as the complete local NameCert surface. Therefore componentwise $\hsame$ transport and route replay preserve exactly those rows and introduce no additional dependency source.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path frontier-rank consumer exactness]
+\label{thm:metacic-critical-path-frontier-rank-consumer-exactness}
+Every scheduler-facing consumer of the $\MetaCICCriticalPathUp$ root-unblock packet factors through the seven-row frontier-rank surface
+$$
+O,R,D,B,C,P,N.
+$$
+Such a consumer may read the open node, readiness row, downstream rank, obstruction ledger, replay route, provenance, and local name, but it cannot read a hidden dependency edge outside those rows.
+\end{theorem}
+\begin{proof}
+Project the consumer to an accepted open-node read. By \autoref{thm:metacic-critical-path-open-node-exhaustion}, that read factors through a frontier-rank packet $Q=(O,R,D,B,C,P,N)$ and has no coordinate for a hidden frontier node or unranked scheduling obligation.
+
+Now project any dependency route used by the consumer. By \autoref{thm:metacic-critical-path-dependency-route-nonescape}, routing is exhausted by the displayed readiness, ledger, replay, provenance, and naming rows, and it cannot appeal to hidden scheduler state, host graph reachability, or an unledgered edge.
+
+Finally use the Lean handoff and NameCert obligation surfaces. \autoref{thm:metacic-critical-path-lean-handoff-surface} makes the seven rows the exact root-unblock handoff, and \autoref{thm:metacic-critical-path-frontier-rank-namecert-obligations} makes them the complete local NameCert obligation list. Thus every scheduler-facing consumer factors through the seven rows and cannot read a hidden dependency edge.
+\end{proof}
