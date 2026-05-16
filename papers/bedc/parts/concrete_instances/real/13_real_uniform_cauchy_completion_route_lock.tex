@@ -133,6 +133,73 @@ that data can distinguish two reads after the finite budget and the four faces
 agree.
 \end{proof}
 
+\begin{theorem}[Real uniform Cauchy StreamName RegSeqRat terminal route correspondence]
+\label{thm:real-uniform-cauchy-streamname-regseqrat-terminal-route-correspondence}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet read by a Phase Real and
+Completion consumer. Suppose the finite budget route through
+$$
+I,W,M,Q,T,E,H,C,P,N
+$$
+and the associated boundary rows expose the same $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows as a StreamName finite-request section and as a
+RegSeqRat shared-window selector surface. Then the finite budget route
+determines the StreamName section and the RegSeqRat selector surface.
+
+Conversely, the StreamName finite-request section together with the RegSeqRat
+shared-window selector surface determines the same accepted uniform-Cauchy
+completion-facing route through $I,W,M,Q,T,E,H,C,P,N$ whenever the displayed
+rows named above agree. Thus the Phase Real and Completion handoff is one
+finite terminal BEDC surface, not three independent routes.
+
+The correspondence exports no quotient stream, no host real equality, no
+selected limit, no ambient completeness row, no countable-choice row, no
+metric-completeness row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+First lock the uniform-Cauchy budget chain. By
+\autoref{thm:real-uniform-cauchy-completion-route-lock}, an accepted Phase Real
+and Completion read reaches the Real seal and the completion-facing endpoint
+only through the finite rows $I,W,M,Q,T,E,H,C,P,N$ and the displayed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Now recover the StreamName section from the same rows. Apply
+\autoref{thm:streamname-finite-request-section-pullback}. Since the
+uniform-Cauchy route displays the StreamName schedule, the DyadicRatCore
+endpoint-radius ledger, the RegSeqRat regularity and readback surface, and the
+support rows, the RealUp-facing finite request section has no coordinate beyond
+the rows already carried by the budget route.
+
+Next recover the RegSeqRat selector surface. Use
+\autoref{thm:regseqrat-shared-window-selector-determinacy} to identify matching
+shared-window selector surfaces, and use
+\autoref{thm:regseqrat-shared-window-terminal-pullback-equivalence} to pass
+between selector-surface equality and the terminal RealUp seal read on the
+four-face packet. These two results place the selector on the same StreamName,
+DyadicRatCore, RegSeqRat, RealUp, and support rows.
+
+For the converse direction, start from the StreamName section and the RegSeqRat
+selector surface with the displayed rows fixed. The pullback theorem supplies
+the finite section read, the selector determinacy supplies the shared-window
+surface, and the terminal pullback equivalence returns the same terminal seal
+coordinate. Applying
+\autoref{thm:real-uniform-cauchy-four-object-terminal-determinacy} then repacks
+those rows as the unique finite uniform-Cauchy completion-facing route through
+$I,W,M,Q,T,E,H,C,P,N$.
+
+The non-escape clause is inherited from the same four inputs. The route lock,
+the StreamName pullback, the RegSeqRat selector determinacy, and the four-object
+terminal determinacy expose no quotient stream, host real equality, selected
+limit, ambient completeness row, countable-choice row, metric-completeness row,
+or standard bridge row, so none of those objects can separate the corresponding
+terminal surface.
+\end{proof}
+
 \begin{theorem}[Real uniform Cauchy four-face status exactness]
 \label{thm:real-uniform-cauchy-four-face-status-exactness}
 Let $U=(I,W,M,Q,T,E,H,C,P,N)$ be an accepted

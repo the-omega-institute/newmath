@@ -215,6 +215,10 @@ instance realityConstrainedTowerCompressionChapterTasteGate :
     exact hxy
       (RealityConstrainedTowerCompressionTasteGate_single_carrier_alignment_injective heq)
 
+def taste_gate : ChapterTasteGate RealityConstrainedTowerCompressionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  realityConstrainedTowerCompressionChapterTasteGate
+
 instance realityConstrainedTowerCompressionFieldFaithful :
     FieldFaithful RealityConstrainedTowerCompressionUp where
   -- BEDC touchpoint anchor: BHist BMark
