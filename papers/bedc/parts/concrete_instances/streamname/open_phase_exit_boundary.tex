@@ -359,3 +359,23 @@ Next apply \autoref{thm:streamname-open-phase-terminal-classifier-exactness} and
 
 Finally read the budget carrier. By \autoref{def:real-window-budget-carrier} and \autoref{thm:real-window-budget-real-completion-handoff}, a $\RealWindowBudgetUp$ consumer exposes its Real-facing route as the same finite chain from the StreamName window through dyadic readback and regular handoff to the Real seal. Thus agreement on the displayed budget rows leaves only that terminal four-face route, while quotient streams, selected limits, host equality, ambient completeness, choice, metric completeness, and standard bridge data remain outside the accepted packet.
 \end{proof}
+
+\begin{theorem}[StreamName open-phase exit route completeness]
+\label{thm:streamname-open-phase-exit-route-completeness}
+A current Phase Real and Completion exit packet is accepted exactly when it is a terminal finite route through the $\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback, the $\RealUp$ seal, and the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Equivalently, every accepted packet exposes precisely those four L10 faces and those rows, and conversely any packet exposing exactly those coordinates is accepted by the terminal open-phase classifier surface.
+
+The route has no quotient stream equality, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, no metric-completeness datum, no countable-choice row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+For necessity, apply \autoref{thm:streamname-open-phase-four-face-normal-form}. It identifies every accepted Phase Real and Completion exit read with the normal-form packet consisting of the StreamName finite window, DyadicRatCore tolerance ledger, RegSeqRat readback, RealUp seal, and displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next use \autoref{thm:streamname-open-phase-four-face-ledger-exactness}. The tolerance-ledger coordinate is not an external budget summary; it is the finite ledger already exposed by the four faces and their support rows.
+
+Then pull the downstream consumer back by \autoref{thm:streamname-real-window-budget-pullback}. Any $\RealWindowBudgetUp$ consumer of the StreamName finite-window exit read factors through the same finite request, window rows, dyadic readbacks, RegSeqRat handoff, Real seal, componentwise transports, continuation route, provenance, and local naming row.
+
+Finally apply \autoref{thm:streamname-open-phase-budget-consumer-terminality}. Once the four faces and displayed budget rows agree, every accepted budget consumer determines the same terminal four-face route. The converse clause of the normal form and ledger exactness therefore accepts any packet exposing exactly those rows at the terminal classifier surface, and the cited exclusions leave no coordinate for quotient stream equality, host sequence equality, selected limits, ambient RealUp completeness, metric-completeness data, countable choice, or standard bridge rows.
+\end{proof}
