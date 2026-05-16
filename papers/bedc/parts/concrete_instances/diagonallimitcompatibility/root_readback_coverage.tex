@@ -75,6 +75,48 @@ Finally apply consumer coverage and spine exhaustion. \autoref{thm:diagonal-limi
 \end{proof}
 \leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootSelectorPullback}
 
+\begin{theorem}[Diagonal-limit compatibility root selector terminality]
+\label{thm:diagonal-limit-compatibility-root-selector-terminality}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet. Any root selector route
+for $K$ that reaches a $\RealUp$-facing or completion-facing consumer is
+terminal among the displayed routes: if two admissible selector reads agree on
+the $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$
+readback $Q$, $\RealUp$ seal $L$, $\CauchyLimitSealUp$ boundary carried by
+$S$, and structural rows $H,C,P,N$, then they determine the same public
+consumer endpoint. No quotient stream, selected host limit, host real equality,
+ambient completeness coordinate, alternate Cauchy witness, or second selector
+source creates another endpoint.
+\end{theorem}
+\begin{proof}
+First identify the selector readback. By
+\autoref{thm:diagonal-limit-compatibility-root-readback-exactness}, every
+root-facing read travels through the displayed StreamName window, RegSeqRat
+readback, DyadicRatCore ledger, RealUp seal row, CauchyLimitSeal boundary, and
+structural rows of the packet.
+
+Next replay the same rows under transport. The transport replay theorem,
+\autoref{thm:diagonal-limit-compatibility-root-transport-replay}, preserves
+the displayed route under componentwise $\hsame$ movement and $\Cont$ replay,
+so an admissible selector read cannot gain a new coordinate while moving along
+$H,C,P,N$.
+
+Now exhaust the consumer boundary. Consumer coverage,
+\autoref{thm:diagonal-limit-compatibility-root-consumer-coverage}, lists the
+only rows visible to $\RealUp$-facing and completion-facing consumers, and
+\autoref{thm:diagonal-limit-compatibility-root-l10-spine-exhaustion} identifies
+that list with the finite L10 spine.
+
+Finally apply the selector pullback theorem,
+\autoref{thm:diagonal-limit-compatibility-root-selector-pullback}. Since both
+reads pull back from the same five sibling handoffs along the same structural
+rows, they land at the same public consumer endpoint, with all host-side,
+quotient, choice, completeness, and alternate-witness routes absent.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility root selector uniqueness]
 \label{thm:diagonal-limit-compatibility-root-selector-uniqueness}
 Let
