@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\RealityConstrainedModelErrorBudgetUp$}
+\label{ch:concrete-instances-reality-constrained-model-error-budget-namecert}
+\origin{ai}
+
+The $\RealityConstrainedModelErrorBudgetUp$ packet realizes the error-budget branch of the model-audit program in \autoref{ch:visions-reality-constrained-model-audit} as a finite NameCert surface. It sits beside the model-audit certificate of \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert}, the finite-observation residue boundary of \autoref{ch:concrete-instances-finite-observation-residue-boundary-namecert}, the open-fit packet of \autoref{ch:concrete-instances-open-fit-packet-namecert}, the model-selection boundary of \autoref{ch:concrete-instances-model-selection-boundary-namecert}, and the failure surface of \autoref{ch:concrete-instances-realityconstrainedfailuresurface-namecert}. Those siblings supply audit, residue, fit, selection, and defeat rows; this packet stores the bounded mismatch ledger by which a model-facing claim exposes its finite error evidence before any audit or selection consumer reads it.
+
+\begin{definition}[Reality-constrained model error-budget carrier]
+\label{def:reality-constrained-model-error-budget-carrier}
+A $\RealityConstrainedModelErrorBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,E,O,M,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite source-trace row naming the audited source histories and instrumentation route.
+\item $E$ is the error-budget row recording the declared tolerance, residual allowance, measurement uncertainty, and admissible mismatch envelope.
+\item $O$ is the observation-window row that bounds which finite observations can consume the budget.
+\item $M$ is the mismatch-ledger row comparing the observed and model-generated signatures inside the budget.
+\item $F$ is the failure-surface row naming budget overruns, hidden residuals, classifier exits, and model-selection defeats.
+\item $H$ records componentwise $\hsame$ transport for the source, budget, observation-window, mismatch-ledger, and failure-surface rows.
+\item $C$ records the displayed $\Cont$ route through source tracing, observation-window reading, mismatch comparison, failure exposure, and downstream audit consumption.
+\item $P$ is the $\Pkg$ provenance over $\RealityConstrainedModelErrorBudgetUp$, $\RealityConstrainedModelAuditUp$, $\FiniteObservationResidueBoundaryUp$, $\OpenFitPacketUp$, $\ModelSelectionBoundaryUp$, $\RealityConstrainedFailureSurfaceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RealityConstrainedModelErrorBudgetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unbounded validation, hidden residual cancellation, model syntax truth, detached fit scoring, off-window observation repair, or a selection oracle outside the displayed budget packet.
+\end{definition}
+
+\begin{theorem}[Reality-constrained model error-budget NameCert obligations]
+\label{thm:reality-constrained-model-error-budget-namecert-obligations}
+For the carrier of \autoref{def:reality-constrained-model-error-budget-carrier}, the local $\NameCert_{\RealityConstrainedModelErrorBudgetUp}$ surface consists exactly of source-trace exposure through $S$, error-budget exposure through $E$, observation-window exposure through $O$, mismatch-ledger exactness through $M$, failure-surface exposure through $F$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $B=(S,E,O,M,F,H,C,P,N)$. The first three rows expose the finite source trace, declared budget, and observation window before any consumer can read model fit or audit strength.
+
+The mismatch and failure rows supply the budget-facing certificate. The row $M$ records the observed-versus-model comparison inside the declared envelope, while $F$ names the finite ways the envelope can fail by overrun, hidden residual, classifier exit, or selection defeat.
+
+The structural rows preserve that same packet. Transport through $H$ is componentwise, replay through $C$ follows the displayed source-window-mismatch-failure route, provenance through $P$ records the sibling certificates consumed by the packet, and $N$ supplies the local name.
+
+Since the carrier has no further coordinate, these rows exhaust the local NameCert surface. A model-audit or selection read that depends on an off-window observation, hidden residual cancellation, or detached fit score is not a projection of the accepted packet.
+\end{proof}
+
+\begin{theorem}[Reality-constrained model error-budget nonescape]
+\label{thm:reality-constrained-model-error-budget-nonescape}
+Every accepted $\RealityConstrainedModelErrorBudgetUp$ consumer must read bounded model-error evidence through
+$$
+S,E,O,M,F,H,C,P,N.
+$$
+No consumer may preserve the model syntax while replacing the error-budget row, changing the observation window, hiding the mismatch ledger, erasing the failure surface, or importing a model-selection verdict from outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:reality-constrained-model-error-budget-namecert-obligations}. They make $S,E,O,M,F,H,C,P,N$ the complete row surface for a bounded error-budget read.
+
+The budget row $E$ and observation window $O$ bind the scope of the mismatch ledger. A comparison in $M$ is licensed only for the source traces and finite observations exposed by $S$ and $O$ under the declared tolerance and residual allowance in $E$.
+
+The failure row $F$ keeps rejection conditions visible. Budget overruns, hidden residuals, classifier exits, and model-selection defeats cannot be suppressed and then recovered from transport, replay, provenance, or local naming rows.
+
+Thus the accepted packet has no route that preserves only model syntax and changes the error evidence. Any such route leaves the finite carrier and cannot be consumed as a $\RealityConstrainedModelErrorBudgetUp$ certificate.
+\end{proof}
+
+\falsifiablePrediction{A packet that preserves the model syntax while changing the error-budget row is rejected by the carrier classifier whenever the mismatch ledger or observation-window route is not preserved.}
+
+\independenceWitness{realityconstrainedmodelaudit, finiteobservationresidueboundary, openfitpacket, modelselectionboundary, realityconstrainedfailuresurface: none is bijective because $\RealityConstrainedModelErrorBudgetUp$ carries source traces, error budget, observation window, mismatch ledger, failure surface, transport, route, provenance, and local naming in one packet. The model audit lacks the bounded error row, the residue boundary lacks the mismatch-budget envelope, the open-fit packet lacks the audit error ledger, the model-selection boundary lacks the source-window budget, and the failure surface lacks the accepted mismatch route.}
+
+The Lean follow-up must provide \texttt{Nontrivial RealityConstrainedModelErrorBudgetUp} and \texttt{FieldFaithful RealityConstrainedModelErrorBudgetUp} instances in \texttt{lean4/BEDC/Derived/RealityConstrainedModelErrorBudgetUp/TasteGate.lean}.
+
+\closureat{RealityConstrainedModelErrorBudgetUp}{seedStr}
+
+\begin{closurestatus}{\RealityConstrainedModelErrorBudgetUp}
+  \constructivestory{A $\RealityConstrainedModelErrorBudgetUp$ packet is generated from finite source traces, an error-budget row, an observation-window row, a mismatch ledger, a failure surface, componentwise $\hsame$ transports, a displayed $\Cont$ route, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:reality-constrained-model-error-budget-carrier}, \autoref{thm:reality-constrained-model-error-budget-namecert-obligations}, and \autoref{thm:reality-constrained-model-error-budget-nonescape} bind bounded model-error evidence to finite source traces, observation windows, mismatch ledgers, failure surfaces, transport, route, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert model truth, unbounded validation, complete statistical calibration, final model selection, Lean verification, axiom-clean audit, or bridge checking for $\RealityConstrainedModelErrorBudgetUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, budget-row exposure, observation-window exactness, mismatch-ledger nonescape, failure-surface visibility, TasteGate nontriviality, and field faithfulness for $S,E,O,M,F,H,C,P,N$.}
+\end{closurestatus}
