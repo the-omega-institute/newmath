@@ -1,0 +1,76 @@
+\subsection{Export interface}
+\label{subsec:philosophy-export-interface-layer}
+
+\begin{definition}[Philosophy export interface]
+\label{def:philosophy-export-interface-layer}
+A philosophy export interface is the rule that a claim \(X\) may be
+exported only when it has an appropriate registry entry, no active
+cannot-claim conflict, a recorded closure status, and a strength not
+exceeding its dependencies.
+\end{definition}
+
+\begin{definition}[Export grade]
+\label{def:philosophy-export-grade-layer}
+Export grades are reading export, paper synthesis export, component
+checked export, formal package target, and formal package checked.
+These grades report package status and do not create object-theory
+truth.
+\end{definition}
+
+\begin{theorem}[Export interface bounds prose]
+\label{thm:philosophy-export-interface-bounds-prose}
+The export interface bounds the strength of philosophical prose.
+\end{theorem}
+\begin{proof}
+A prose claim can be exported only at the grade recorded in its
+registry and closure-status surface. If the registry records a roadmap,
+the prose cannot call it a theorem; if it records a cannot-claim
+conflict, the prose cannot export it at all.
+\end{proof}
+
+\begin{corollary}[Roadmaps stay roadmaps]
+\label{cor:philosophy-roadmaps-stay-roadmaps}
+A roadmap entry becomes stronger only after its required certificate,
+bridge, or formal target is supplied.
+\end{corollary}
+
+\subsection{Registry consistency}
+\label{subsec:philosophy-registry-consistency}
+
+\begin{definition}[Registry consistency]
+\label{def:philosophy-registry-consistency}
+Registry consistency holds when each exported claim has exactly one
+primary registry location and all related registry entries agree on
+status, dependency strength, gap status, cannot-claim boundaries,
+closure status, and formalization target.
+\end{definition}
+
+\begin{definition}[Consistency clauses]
+\label{def:philosophy-registry-consistency-clauses}
+The consistency clauses are: concept status agrees with theorem
+dependencies; gap status agrees with cannot-claim entries; science
+roadmap status agrees with upgrade entries; tradition rejected surplus
+agrees with cannot-claim boundaries; closure status agrees with all
+registered entries; and formalization targets agree with formal
+status.
+\end{definition}
+
+\begin{theorem}[Registry consistency is necessary for export]
+\label{thm:philosophy-registry-consistency-necessary}
+If registry consistency fails, the philosophy package is not exportable
+at the claimed grade.
+\end{theorem}
+\begin{proof}
+A concept cannot be paper synthesis in the concept registry and
+machine checked in the theorem registry without a status conflict. A
+physics claim cannot be roadmap in the science registry and completed
+theory in prose without a claim conflict. A forbidden gap cannot have a
+routine proof upgrade without a boundary conflict. These conflicts
+block export at the asserted grade.
+\end{proof}
+
+\begin{corollary}[Consistency before polish]
+\label{cor:philosophy-consistency-before-polish}
+Registry consistency should be checked before stylistic refinement of
+the manuscript.
+\end{corollary}
