@@ -55,6 +55,84 @@ ambient completeness, or extra completion carrier, the Real-and-Completion
 consumer has no route to export any of them.
 \end{proof}
 
+\begin{theorem}[Real uniform Cauchy four-object terminal determinacy]
+\label{thm:real-uniform-cauchy-four-object-terminal-determinacy}
+Let
+$$
+U_0=(I_0,W_0,M_0,Q_0,T_0,E_0,H_0,C_0,P_0,N_0)
+$$
+and
+$$
+U_1=(I_1,W_1,M_1,Q_1,T_1,E_1,H_1,C_1,P_1,N_1)
+$$
+be accepted $\UniformCauchyCriterionUp$ packets read by Phase Real and
+Completion consumers. Suppose the two reads expose the same finite family
+ledger, shared $\StreamNameUp$ window family, modulus schedule,
+$\DyadicRatCoreUp$ tolerance row, tail ledger, $\RealUp$ seal row, and the same
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+Suppose also that their completion-facing boundaries expose the same four
+faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Then the two completion-facing reads factor through the same terminal finite
+BEDC pullback.
+
+Conversely, every accepted uniform-Cauchy completion-facing read whose public
+surface is the finite budget
+$$
+I,W,M,Q,T,E,H,C,P,N
+$$
+together with those four faces is determined by that finite budget and by the
+four boundary faces. The resulting terminal read exports no quotient stream
+family, no host real equality, no selected family limit, no ambient $\RealUp$
+completeness theorem, no metric-completeness datum, no countable-choice row,
+and no standard bridge row.
+\end{theorem}
+\begin{proof}
+First lock the finite uniform-Cauchy route. By
+\autoref{thm:real-uniform-cauchy-completion-route-lock}, any Phase Real and
+Completion consumer of an accepted $\UniformCauchyCriterionUp$ packet must pass
+through the ordered rows $I,W,M,Q,T,E,H,C,P,N$ before it reaches either a
+$\RealUp$ seal or a completion-facing endpoint.
+
+Next apply the finite-family Real seal route determinacy theorem,
+\autoref{thm:uniform-cauchy-criterion-finite-family-real-seal-route-determinacy}.
+Since the two reads expose the same family ledger, window family, modulus
+schedule, dyadic tolerance row, and tail ledger, they reach the same finite
+route through the seal rows $E,H,C,P,N$.
+
+Now attach the completion boundary. The seal-completion boundary
+\autoref{thm:uniform-cauchy-criterion-real-seal-completion-boundary} keeps every
+completion-facing consumer on the same finite public surface, and
+\autoref{thm:streamname-real-completion-four-object-exit-route} identifies the
+Real-and-Completion exit packet with the four displayed faces
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+With those faces fixed, use
+\autoref{thm:streamname-real-completion-four-object-terminal-pullback}. The
+terminal pullback theorem identifies any two accepted reads that expose the
+same four faces and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support rows. Hence the two completion-facing reads determine the
+same terminal finite BEDC pullback.
+
+For the converse direction, start with an accepted uniform-Cauchy
+completion-facing read whose public surface is exactly the finite budget and
+the four boundary faces. The route-lock theorem supplies the ordered
+UniformCauchyCriterion budget; the seal-completion boundary places the read at
+the Real seal boundary; the four-object exit route reads that boundary as the
+StreamName, DyadicRatCore, RegSeqRat, and RealUp packet. Terminal pullback then
+repackages the accepted read as the unique finite BEDC pullback determined by
+those rows.
+
+The exclusion clause is inherited from the same citations. None of the locked
+budget rows or four boundary faces carries a coordinate for quotient stream
+families, host real equality, selected family limits, ambient Real completeness,
+metric-completeness data, countable choice, or standard bridge rows, so none of
+that data can distinguish two reads after the finite budget and the four faces
+agree.
+\end{proof}
+
 \begin{theorem}[Real RegSeqRat--StreamName audit-clean handoff]
 \label{thm:real-regseqrat-streamname-auditclean-handoff}
 Every Phase Real and Completion consumer that reaches the $\RealUp$ seal
