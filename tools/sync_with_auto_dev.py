@@ -192,23 +192,27 @@ def push_branch(branch: str, *, set_upstream: bool = False,
     Each retry refetches origin and remerges so we push the latest
     incorporated tip, not a stale local tip that would just race again.
 
-    Concurrency: wraps each push attempt in `acquire_push_lock(branch)`
-    so the R-side / P-side orchestrators (which also push to
-    `codex-auto-dev`) cannot push during this attempt. Cross-process
-    file lock at `.git/<branch>.push.lock`. See `tools/repo_push_lock.py`
-    for the rationale (cuts the chronic ff-rejection race seen on
-    2026-05-14).
+    Concurrency: wraps each push attempt in `acquire_push_lock`
+    against a sync-private lock file (`.git/sync-<branch>.push.lock`),
+    NOT the orchestrator-shared `.git/<branch>.push.lock`. Rationale:
+    sharing the orchestrator lock starves the sync daemon — with 22
+    workers (paper 10 + lean 12) each holding it for 5-30s per merge
+    commit push, sync's 900s timeout consistently lost the race
+    (observed 2026-05-17: codex-auto-dev ran 79 commits ahead of
+    auto-dev for >30 min). Sync's own lock only serializes future
+    concurrent sync invocations against each other (currently only
+    one daemon, but defensive). The git-level push race against
+    orchestrator pushes is handled by the existing 5x retry-with-
+    backoff loop below — git push is atomic at the server, so the
+    advisory lock is purely an optimization to avoid wasted
+    fetch+merge work, which we trade for sync liveness.
     """
     from contextlib import nullcontext
     try:
         from repo_push_lock import acquire_push_lock as _pl  # tools/ is on sys.path
-        # 900s timeout: R/P merge+ff+push sequences hold the lock for
-        # 60-180s typical, up to 400s under heavy contention. 300s was
-        # too tight and starved the sync daemon (observed 2026-05-15:
-        # consecutive 300s timeouts blocked auto-dev sync, leaving
-        # codex-auto-dev ahead by 100+ commits). 900s = 15min gives
-        # the daemon a full contention burst to clear.
-        push_lock_cm = lambda: _pl(branch, timeout=900)
+        # 300s is plenty for sync-private lock (no contention with
+        # orchestrators); only serializes future concurrent sync runs.
+        push_lock_cm = lambda: _pl(f"sync-{branch}", timeout=300)
     except Exception:
         push_lock_cm = lambda: nullcontext()
     env = os.environ.copy()
