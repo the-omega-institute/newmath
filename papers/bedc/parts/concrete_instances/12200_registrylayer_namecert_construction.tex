@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\RegistryLayerUp$}
+\label{ch:concrete-instances-registrylayer-namecert}
+\origin{ai}
+
+The $\RegistryLayerUp$ packet realizes the registry layer of \autoref{ch:visions-philosophy-auditable-generativity} as a finite NameCert surface for package-level export control. It sits beside the selector ledger of \autoref{ch:concrete-instances-selectorledger-namecert}, the focused finite ledger of \autoref{ch:concrete-instances-focused-multi-hist-ledger-namecert}, the choice-recipe ledger of \autoref{ch:concrete-instances-choice-recipe-ledger-namecert}, the axiom-requirement ledger of \autoref{ch:concrete-instances-axiom-requirement-ledger-namecert}, the witnessed-descent ledger of \autoref{ch:concrete-instances-witnessed-descent-ledger-namecert}, the cannot-claim registry of \autoref{ch:concrete-instances-axiszeckendorfcannotclaim-namecert}, the claim registry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, and the export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}. Those siblings record selected rows, focused histories, choice recipes, axiom requirements, descent witnesses, refusal entries, single-claim registration, or export gates; this carrier binds the whole registry layer through simultaneous admit, block, transport, and package-ledger rows.
+
+\begin{definition}[Registry layer carrier]
+\label{def:registry-layer-carrier}
+A $\RegistryLayerUp$ carrier is a finite $\BHist$ packet
+$$
+R=(C,T,G,D,S,K,U,F,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the concept-registry row, naming concepts allowed to be exported as package vocabulary;
+\item $T$ is the theorem-registry row, naming theorem, lemma, definition, closure-status, or formal-target sites available for export;
+\item $G$ is the gap-registry row, naming statements whose package reading is horizon-facing or not yet licensed for export;
+\item $D$ is the tradition-and-science registry row, separating inherited mathematical tradition, empirical-science claims, and BEDC-specific discovery claims;
+\item $S$ is the cannot-claim registry row, recording readings that the packet blocks from export;
+\item $K$ is the upgrade-registry row, recording the next certificate, bridge, audit, or formalization obligation needed before a blocked or horizon-facing row may move;
+\item $U$ is the formalization-target registry row, recording the Lean namespace, statement-only site, encoded definition, or explicit absence of a machine target;
+\item $F$ is the export-control row, recording whether the public claim is admitted by $C,T,D,U$ or blocked by $G,S,K$;
+\item $H$ stores componentwise $\hsame$ transport for the registry rows and the export-control row;
+\item $P$ is the $\Pkg$ provenance over $\RegistryLayerUp$, $\SelectorLedgerUp$, $\FocusedMultiHistLedgerUp$, $\ChoiceRecipeLedgerUp$, $\AxiomRequirementLedgerUp$, $\WitnessedDescentLedgerUp$, $\AxisZeckendorfCannotClaimUp$, $\ClaimRegistryLayerUp$, $\RegistryExportSurfaceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RegistryLayerUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a prose-only claim, host truth oracle, hidden theorem registry, private package override, or unledgered export path.
+\end{definition}
+
+\begin{theorem}[Registry layer NameCert obligations]
+\label{thm:registry-layer-namecert-obligations}
+For the carrier of \autoref{def:registry-layer-carrier}, the local $\NameCert_{\RegistryLayerUp}$ surface consists exactly of carrier admission for $R=(C,T,G,D,S,K,U,F,H,P,N)$, registry coverage by $C,T,G,D,S,K,U$, export-control classification by $F$, componentwise transport by $H$, package provenance by $P$, and local naming by $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet of \autoref{def:registry-layer-carrier}. The seven registry rows $C,T,G,D,S,K,U$ list the public places where a package-level claim can be admitted, held as a gap, blocked, assigned an obligation, or connected to a formalization target.
+
+The export-control row $F$ does not add a second registry. It reads the displayed rows and records whether the claim is admitted by one of the concept, theorem, tradition, science, or formal-target rows, or blocked by the gap, cannot-claim, or upgrade-obligation rows.
+
+Finally, $H,P,N$ transport, package, and name the same rows. Since the carrier has no further coordinate, every NameCert obligation is exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[Registry layer export-control exactness]
+\label{thm:registry-layer-export-control-exactness}
+Every exported package-level claim read through an accepted $\RegistryLayerUp$ packet is either admitted by one displayed registry row among $C,T,D,U$ or blocked by one displayed registry row among $G,S,K$. No claim can be exported by prose placement, host truth, hidden theorem state, or a private package route outside $R=(C,T,G,D,S,K,U,F,H,P,N)$.
+\end{theorem}
+\begin{proof}
+Use the obligations of \autoref{thm:registry-layer-namecert-obligations}. A public export is read through $F$, and $F$ is part of the same finite carrier as the registry rows.
+
+If $F$ records admission, the admission must point to a displayed concept, theorem, tradition-and-science, or formalization-target row. If $F$ records blocking, the block must point to a displayed gap, cannot-claim, or upgrade-obligation row.
+
+The excluded routes are absent from the carrier. A prose sentence, host truth oracle, hidden theorem table, or private package route supplies no coordinate that $H,P,N$ can transport, package, or name. Thus export control is exact for the displayed registry layer.
+\end{proof}
+
+\begin{theorem}[Registry layer claim nonescape]
+\label{thm:registry-layer-claim-nonescape}
+An accepted $\RegistryLayerUp$ packet permits no prose-only package claim. If a consumer cannot exhibit an admission row in $C,T,D,U$ and cannot exhibit a blocking row in $G,S,K$, then the consumer has no $\RegistryLayerUp$ route for the claim; the claim remains outside the package export surface.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:registry-layer-export-control-exactness}. Every exported claim has a displayed admission row or a displayed blocking row.
+
+Suppose a consumer exhibits neither. Then the classifier row $F$ has no registry row from which to read admission and no registry row from which to read blockage. The transport row $H$ cannot create the missing row, and the package row $P$ can only record provenance for rows already displayed in the carrier.
+
+It follows that the local naming row $N$ names no exported claim in this case. The attempted prose-only reading therefore fails to escape the registry layer.
+\end{proof}
+
+The Lean follow-up must provide $\Nontrivial\ \RegistryLayerUp$ and $\FieldFaithful\ \RegistryLayerUp$ in \texttt{lean4/BEDC/Derived/RegistryLayerUp/TasteGate.lean}, preserving $C,T,G,D,S,K,U,F,H,P,N$ as separate displayed rows before $\mathsf{BEDC.Derived.RegistryLayerUp.taste\_gate}$ can be cited by a checked paper marker.
+
+\falsifiablePrediction{If the cannot-claim row is removed, the packet cannot distinguish blocked export from unregistered absence; if the theorem-registry row is removed, theorem export cannot be audited.}
+
+\independenceWitness{selectorledger, focused-multi-hist-ledger, choicerecipeledger, axiomrequirementledger, witnesseddescentledger: none is bijective because RegistryLayer carries simultaneous admit/block/export rows, while those siblings carry selector, focused-record, recipe, axiom-requirement, or descent rows only.}
+
+\closureat{RegistryLayerUp}{seedStr}
+
+\begin{closurestatus}{\RegistryLayerUp}
+  \constructivestory{A $\RegistryLayerUp$ packet is generated from concept, theorem, gap, tradition-and-science, cannot-claim, upgrade, formalization-target, export-control, componentwise hsame transport, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:registry-layer-carrier}, \autoref{thm:registry-layer-namecert-obligations}, \autoref{thm:registry-layer-export-control-exactness}, and \autoref{thm:registry-layer-claim-nonescape} bind registry-layer export control to one finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, complete registry governance, or correctness of every downstream registry entry.}
+  \upgradepath{Obligation closure requires checked carrier admission, export-control exactness, claim nonescape, TasteGate nontriviality, and field faithfulness for $C,T,G,D,S,K,U,F,H,P,N$.}
+\end{closurestatus}
