@@ -178,3 +178,23 @@ Now apply root window exhaustion, \autoref{thm:cauchy-modulus-refinement-root-wi
 
 Finally apply window consumer coverage, \autoref{thm:cauchy-modulus-refinement-window-consumer-coverage}. The selected-window portion of the consumer is exhausted by the carrier rows and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface. Hence the Real or Completion consumer cannot escape the displayed finite packet.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus source-window Real-consumer lock]
+\label{thm:cauchy-modulus-source-window-real-consumer-lock}
+Every $\RealUp$ or Completion consumer comparison of accepted $\CauchyModulusRefinementUp$ root reads first exposes the source-window rows
+$$
+M_0,M_1,U,V
+$$
+and only then routes through
+$$
+T,W,Q,E,H,C,P,N.
+$$
+Consequently the comparison cannot distinguish two accepted reads by quotient streams, selected host limits, second meet rows, hidden selectors, or detached completion witnesses outside the displayed source-window, selector, Real-seal, transport, continuation, package, and local naming rows.
+\end{theorem}
+\begin{proof}
+First expose the source front. By source-window front totality, \autoref{thm:cauchy-modulus-refinement-source-window-front-totality}, every accepted selected-window, $\RealUp$, or Completion consumer begins with the displayed $M_0,M_1,U,V$ rows.
+
+Now compare two accepted reads. Source-window comparison lock, \autoref{thm:cauchy-modulus-refinement-source-window-comparison-lock}, forces any consumer comparison to agree on that front before reading $T,W,Q,E,H,C,P,N$.
+
+Finally apply Real consumer nonescape, \autoref{thm:cauchy-modulus-refinement-real-consumer-nonescape}. Every $\RealUp$ or Completion route remains inside $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$, so quotient streams, selected host limits, second meet rows, hidden selectors, and detached completion witnesses cannot supply a separate distinction.
+\end{proof}
