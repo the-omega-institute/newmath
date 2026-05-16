@@ -191,6 +191,20 @@ Use request exhaustion and componentwise transport. The request row $Q$ is attac
 Finally invoke the StdBridge request-scope theorem. It already excludes hidden prompt state, host approval, oracle taste, second image/readback surfaces, and unlisted compiler theorems for $\StdBridge$-facing requests, so every bridge-facing row is total over the displayed packet $X,S,A,W,I,R,H,C,P,Q,N$.
 \end{proof}
 
+\begin{theorem}[FiniteReflectionTuple bridge-request boundary]
+\label{thm:finite-hist-locality-packet-bridge-request-boundary}
+Every $\StdBridge$ request over an accepted $\FiniteReflectionTupleUp$ packet must first read $X,S,A,W,I,R,H,C,P,Q,N$ through the displayed tuple image and readback. The request cannot substitute host approval, oracle taste, an unlisted compiler theorem, or detached request state for the image/readback packet.
+\end{theorem}
+\begin{proof}
+Start with image-readback exactness. It forces every public read of the reflected candidate, consumed TasteGate rows, replay, provenance, request, and local name through the displayed image $I$ and readback row $R$.
+
+Next apply request exhaustion. The $\StdBridge$-facing request is the displayed row $Q$ attached to the same $I,R,H,C,P,N$ packet, rather than a detached request state.
+
+Use dependency ledger totality and bridge-facing row totality together. They expose the allowed dependency rows $X,S,A,W$ and the support rows $H,C,P,N$, while excluding host approval, oracle taste, hidden prompt state, second image/readback surfaces, and unlisted compiler theorems.
+
+Therefore a bridge request over the accepted packet is a consumer handoff for exactly $X,S,A,W,I,R,H,C,P,Q,N$ through the displayed image/readback route.
+\end{proof}
+
 \falsifiablePrediction{A FiniteReflectionTupleUp packet without displayed image and readback rows cannot support a StdBridge request.}
 
 \independenceWitness{tastegatestability, tastegateadmission, tastegatecompilerwitness, kernelacceptancetrace: none contains the fixed tuple image/readback/componentwise transport surface together with a reflection-request row.}
