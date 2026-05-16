@@ -203,4 +203,33 @@ theorem TranscendentalSupplyTaxonomySiteLocality [AskSetup] [PackageSetup]
     ⟨siteUnary, requestedSupplyUnary, siteTransportReadUnary, siteTransport,
       siteSameGapAudit⟩
 
+theorem TranscendentalSupplyTaxonomyCarrier_nondischarge_ledger [AskSetup] [PackageSetup]
+    {socketKind requestedSupply gap auditGate site transport route provenance nameRow auditRead
+      nondischarge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TranscendentalSupplyTaxonomyCarrier socketKind requestedSupply gap auditGate site transport
+        route provenance nameRow bundle pkg ->
+      Cont gap auditGate auditRead ->
+        Cont auditRead site nondischarge ->
+          PkgSig bundle nondischarge pkg ->
+            UnaryHistory gap ∧ UnaryHistory auditGate ∧ UnaryHistory site ∧
+              UnaryHistory auditRead ∧ UnaryHistory nondischarge ∧
+                Cont gap auditGate auditRead ∧ Cont auditRead site nondischarge ∧
+                  hsame site (append gap auditGate) ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle nondischarge pkg := by
+  -- BEDC touchpoint anchor: BHist AskSetup PackageSetup ProbeBundle Pkg UnaryHistory Cont hsame
+  intro carrier gapAuditRead auditReadSiteNondischarge nondischargePkg
+  obtain ⟨_socketKindUnary, _requestedSupplyUnary, gapUnary, auditGateUnary, siteUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameRowUnary, _socketRequestedGap,
+    _gapAuditSite, _siteTransportRoute, _routeProvenanceName, siteSameGapAudit,
+    provenancePkg⟩ := carrier
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed gapUnary auditGateUnary gapAuditRead
+  have nondischargeUnary : UnaryHistory nondischarge :=
+    unary_cont_closed auditReadUnary siteUnary auditReadSiteNondischarge
+  exact
+    ⟨gapUnary, auditGateUnary, siteUnary, auditReadUnary, nondischargeUnary,
+      gapAuditRead, auditReadSiteNondischarge, siteSameGapAudit, provenancePkg,
+      nondischargePkg⟩
+
 end BEDC.Derived.TranscendentalSupplyTaxonomyUp
