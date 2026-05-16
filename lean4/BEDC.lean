@@ -401,6 +401,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.UniformCriterionRealRouteDetermina
 import BEDC.Derived.CauchyModulusRefinementUp.UniformMonotoneTerminalRoute
 import BEDC.Derived.CauchyModulusRefinementUp.UniformDiagonalConsumerPullback
 import BEDC.Derived.CauchyModulusRefinementUp.WindowConsumerCoverage
+import BEDC.Derived.CauchyModulusRefinementUp.WindowMeetSealUnicity
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.UniversalClosedSubstrateUp.TasteGate
 import BEDC.Derived.ChurchEliminatorRegressionMatrixUp.TasteGate
@@ -1531,6 +1532,7 @@ import BEDC.Derived.AttentionLedgerUp
 import BEDC.Derived.AttentionLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyTriangleBoundUp
 import BEDC.Derived.RegularLimitUniquenessUp
+import BEDC.Derived.RegularLimitUniquenessUp.DyadicWindowSeparationPullback
 import BEDC.Derived.RegularCauchyNameUp
 import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal
 import BEDC.Derived.RegularCauchySequenceUp
