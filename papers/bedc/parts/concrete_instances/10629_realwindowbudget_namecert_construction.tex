@@ -630,6 +630,66 @@ selected limit, hidden schedule, ambient completeness theorem, or further
 completion object, those cannot be public current-phase status faces.
 \end{proof}
 
+\begin{theorem}[Real-window budget open-phase window-selector lock]
+\label{thm:real-window-budget-open-phase-window-selector-lock}
+Let $W=(Q,V,D,R,S,B,O,H,C,P,N)$ be an accepted $\RealWindowBudgetUp$ packet.
+It exposes a Real-facing finite observation route only when the
+$\StreamNameUp$ window row $V$, $\DyadicRatCoreUp$ readback row $D$,
+$\RegSeqRatUp$ handoff row $R$, $\RealUp$ seal row $S$,
+$\CauchyDiagonalBudgetUp$ selector row $B$, and $\RealObservationBudgetUp$
+disclosure row $O$ are all present, transported by the displayed $\hsame$ row
+$H$, replayed through $C$, and named by $N$.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. It makes $Q,V,D,R,S,B,O,H,C,P,N$ the complete
+finite packet and gives no coordinate for a detached selector, private
+disclosure row, quotient stream, selected limit, or host-completeness witness.
+
+Apply selector stability, Real-completion handoff, finite-route visibility,
+selector-disclosure scope, and Real-completion scope,
+\autoref{thm:real-window-budget-selector-stability},
+\autoref{thm:real-window-budget-real-completion-handoff},
+\autoref{thm:real-window-budget-finite-route-visibility},
+\autoref{thm:realwindowbudget-selector-disclosure-scope}, and
+\autoref{thm:realwindowbudget-real-completion-scope}. These results force the
+Real-facing route through $V,D,R,S$ with $B,O,H,C,P,N$ as support rows for the
+same request.
+
+The four-object readback lock,
+\autoref{thm:real-window-budget-four-object-readback-lock}, and the sibling
+chapters cited at the start of this chapter identify the open-phase route with
+exactly the displayed window, dyadic, handoff, seal, selector, and disclosure
+rows.
+\end{proof}
+
+\begin{theorem}[Real-window budget diagonal observation route exhaustion]
+\label{thm:real-window-budget-diagonal-observation-route-exhaustion}
+Every public Real-window route claimed by this chapter factors through the
+displayed finite rows $Q,V,D,R,S,B,O,H,C,P,N$. It cannot be replaced by a
+hidden selector, host equality, unbounded observation schedule, or
+quotient-stream witness.
+\end{theorem}
+\begin{proof}
+Start from the accepted packet $W$. The request row $Q$ selects the finite
+window family $V$, dyadic readbacks $D$, regular handoff $R$, Real seal $S$,
+selector budget $B$, and observation disclosure $O$; $H,C,P,N$ then transport,
+replay, source, and name that same route.
+
+The local obligations and scope theorems,
+\autoref{thm:real-window-budget-namecert-obligations},
+\autoref{thm:realwindowbudget-selector-disclosure-scope}, and
+\autoref{thm:realwindowbudget-real-completion-scope}, make those rows the
+public dependency surface. The four-object readback lock then limits the
+current-phase faces to $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$,
+and $\RealUp$ through the same rows.
+
+The sibling CauchyDiagonalBudget and RealObservationBudget surfaces provide
+only the displayed selector and disclosure rows consumed here. Since neither
+the carrier nor these scopes provide hidden selectors, host equality, unbounded
+schedules, or quotient-stream witnesses, no public route can factor through
+such data.
+\end{proof}
+
 \begin{theorem}[Real-window budget open-phase four-face status pullback]
 \label{thm:real-window-budget-open-phase-four-face-status-pullback}
 Let $W=(Q,V,D,R,S,B,O,H,C,P,N)$ be an accepted $\RealWindowBudgetUp$ packet.
