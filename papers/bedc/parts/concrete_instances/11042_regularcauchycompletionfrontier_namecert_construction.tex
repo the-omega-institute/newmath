@@ -27,7 +27,7 @@ with the following displayed rows:
 \end{enumerate}
 No coordinate of $F$ is a quotient stream, a selected limit, host real equality, a countable-choice selector, or an ambient completeness witness.
 \end{definition}
-\leanchecked{BEDC.Derived.RegularCauchyCompletionFrontierUp.RegularCauchyCompletionFrontierTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.RegularCauchyCompletionFrontierUp.taste\_gate}
 
 \begin{theorem}[Regular Cauchy completion frontier NameCert obligations]
 \label{thm:regular-cauchy-completion-frontier-namecert-obligations}
@@ -86,6 +86,23 @@ Apply \autoref{thm:regular-cauchy-completion-frontier-namecert-obligations}. Sou
 Finally use \autoref{thm:regular-cauchy-completion-frontier-nonescape}. Any accepted Real or Completion read outside the displayed coordinates would be an alternate route through an absent source. Since the forbidden objects have no carrier row and no local certificate coordinate, the listed rows exhaust the reusable handoff surface.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy completion frontier obligation closure]
+\label{thm:regular-cauchy-completion-frontier-obligation-closure}
+For $\RegularCauchyCompletionFrontierUp$, the carrier row, source-window exposure, selector and cofinal-tail stability, completion-seal handoff, and ledger non-escape obligations are all closed by the displayed finite packet
+$$
+D,S,R,L,M,A,T,E,H,C,P,N.
+$$
+The packet therefore gives an obligation-closed Real and Completion frontier surface for accepted consumers, with the carrier alignment tracked by the existing TasteGate marker
+\texttt{BEDC.Derived.RegularCauchyCompletionFrontierUp.RegularCauchyCompletionFrontierTasteGate\_single\_carrier\_alignment}.
+\end{theorem}
+\begin{proof}
+The carrier row is exactly \autoref{def:regular-cauchy-completion-frontier-carrier}: it displays the dyadic ledger, finite observation schedule, regular rational source, Real seal, modulus refinement, diagonal selector, cofinal-tail agreement, completion-seal handoff, transport, continuation, package, and local certificate coordinates.
+
+The five obligation rows are supplied by \autoref{thm:regular-cauchy-completion-frontier-namecert-obligations}. Carrier admission, source-window exposure, selector and cofinal-tail stability, completion-seal handoff, and ledger non-escape are all stated for the same packet $D,S,R,L,M,A,T,E,H,C,P,N$.
+
+The boundary is closed for accepted consumers by \autoref{thm:regular-cauchy-completion-frontier-nonescape} and \autoref{thm:regular-cauchy-completion-frontier-source-exhaustion}. The first excludes alternate routes through absent quotient, host-limit, equality, choice, and ambient-completeness coordinates; the second says every accepted Real or Completion read factors through exactly the displayed rows. The existing TasteGate marker records the Lean-side carrier alignment for that same singleton carrier surface.
+\end{proof}
+
 \falsifiablePrediction{An accepted frontier consumer that exports a $\RealUp$ limit without a displayed cofinal-tail row and completion-seal handoff row refutes the packet.}
 
 \independenceWitness{real, streamname, regseqrat, dyadicratcore, cauchymodulusrefinement: no sibling is bijective because RegularCauchyCompletionFrontierUp binds Real sealing, finite observation, regular rational readback, dyadic tolerance, modulus refinement, diagonal selection, cofinal-tail agreement, and completion handoff in one certificate. RealUp has endpoint seals without source-window selectors; StreamNameUp has windows without regular rational readback; RegSeqRatUp has regular sources without Real seals; DyadicRatCoreUp has tolerances without completion handoff; CauchyModulusRefinementUp has source-window refinement without the frontier's cofinal-tail and Real-seal package.}
@@ -93,14 +110,15 @@ Finally use \autoref{thm:regular-cauchy-completion-frontier-nonescape}. Any acce
 The Lean follow-up site \texttt{lean4/BEDC/Derived/RegularCauchyCompletionFrontierUp/TasteGate.lean} must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for $\RegularCauchyCompletionFrontierUp$, together with a carrier-alignment theorem named \texttt{BEDC.Derived.RegularCauchyCompletionFrontierUp.RegularCauchyCompletionFrontierTasteGate\_single\_carrier\_alignment}.
 
 \closureat{RegularCauchyCompletionFrontierUp}{seedStr}
+\closureat{RegularCauchyCompletionFrontierUp}{obligationStr}[BEDC.Derived.RegularCauchyCompletionFrontierUp.RegularCauchyCompletionFrontierTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RegularCauchyCompletionFrontierUp}
   \constructivestory{A $\RegularCauchyCompletionFrontierUp$ packet is generated from displayed DyadicRatCore, StreamName, RegSeqRat, RealUp, CauchyModulusRefinement, diagonal-selector, cofinal-tail, completion-seal, transport, continuation, package, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-completion-frontier-carrier}, \autoref{thm:regular-cauchy-completion-frontier-namecert-obligations}, and \autoref{thm:regular-cauchy-completion-frontier-nonescape} bind the finite carrier, five obligation rows, and non-escape boundary for Real and Completion frontier consumers.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:regular-cauchy-completion-frontier-obligation-closure} binds the finite carrier, five obligation rows, non-escape boundary, and source exhaustion for Real and Completion frontier consumers, with \texttt{BEDC.Derived.RegularCauchyCompletionFrontierUp.taste\_gate} witnessing the TasteGate instance.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove Lean verification, bridge checking, uniqueness of Real limits, quotient completion, countable choice, host real equality, or ambient completeness.}
-  \upgradepath{Obligation closure requires checked carrier admission, source-window exposure, selector and cofinal-tail stability, completion-seal handoff, and ledger non-escape for the same finite packet.}
+  \upgradepath{Scoped dependency grounding requires each consumed Real, StreamName, RegSeqRat, DyadicRatCore, and CauchyModulusRefinement dependency to be routed through explicit certificate anchors.}
 \end{closurestatus}
