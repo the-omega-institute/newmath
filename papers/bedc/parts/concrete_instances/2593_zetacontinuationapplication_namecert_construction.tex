@@ -168,6 +168,46 @@ The ledger exactness theorem then handles the exceptional analytic surfaces. Pol
 It remains to rule out route escape. The analytic-operation boundary and ZetaBasic source lock keep $A$ and $E$ from becoming a second continuation theorem, and the carrier definition has no coordinate for RH or an off-route branch. Therefore the displayed boundary rows exhaust the public application packet.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationApplication root boundary triad]
+\label{thm:zeta-continuation-application-root-boundary-triad}
+For every accepted $\ZetaContinuationApplicationUp$ carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, the root source locks are the Gamma horizon row $G$, the analytic-operation routing row $A$, and the $\ZetaBasicUp$ source row $E$. Every root read of $E,F,P,T,G,A,H,C,Q,N$ must expose that triad before the application row is consumed, and the support rows $H,C,Q,N$ may only transport, replay, package, and name the same displayed triad.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and route totality. The accepted packet is the finite carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, and every eta, functional-equation, pole, zero, Gamma, or application read factors through those rows.
+
+Now attach the three source locks. The Gamma horizon boundary and Gamma eta handoff place Gamma-facing reads in $G$, the analytic-operation boundary places application routing in $A$, and the ZetaBasic source lock places eta-source reads in $E$.
+
+Finally use ledger exactness and boundary exhaustion. The rows $P,T$ remain pole and trivial-zero ledgers, while $H,C,Q,N$ only preserve the displayed packet. Thus the root source locks are exactly the triad $G,A,E$ inside the carrier.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication root source readiness]
+\label{thm:zeta-continuation-application-root-source-readiness}
+Any eta, Gamma, or analytic-operation consumer of an accepted $\ZetaContinuationApplicationUp$ carrier must expose its source lock before using the application row. Eta consumers expose $E$, Gamma consumers expose $G$, and analytic-operation consumers expose $A$; only after that exposure may the consumer read $F,P,T,H,C,Q,N$ as the displayed application support surface.
+\end{theorem}
+\begin{proof}
+Read the source route from \autoref{thm:zeta-continuation-application-root-boundary-triad}. The triad $G,A,E$ is the complete root source-lock surface for the accepted packet.
+
+Handle the three consumer classes separately. An eta consumer reaches the packet through the ZetaBasic source lock at $E$, a Gamma consumer reaches it through the Gamma horizon and eta handoff at $G$, and an analytic-operation consumer reaches it through the operation boundary at $A$.
+
+The support rows then become available only as support. Route totality and ledger exactness allow $F,P,T,H,C,Q,N$ to be read after the source lock is displayed, and boundary exhaustion prevents those support rows from supplying a hidden source.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication root non-escape]
+\label{thm:zeta-continuation-application-root-nonescape}
+Every root-facing consumer of an accepted $\ZetaContinuationApplicationUp$ packet factors through the displayed rows
+$$
+E,F,P,T,G,A,H,C,Q,N.
+$$
+The root boundary excludes RH, a completed $\GammaUp$ construction, a pole value, a nontrivial-zero classifier, and any off-route continuation branch.
+\end{theorem}
+\begin{proof}
+Begin with root source readiness. Eta, Gamma, and analytic-operation consumers must first expose $E,G,A$ respectively before they may use the application support rows.
+
+Apply route totality and ledger exactness. They place all pole, trivial-zero, Gamma, application, transport, replay, provenance, and naming reads on $P,T,G,A,H,C,Q,N$ inside the same finite carrier.
+
+Finally invoke analytic-operation boundary, Gamma horizon boundary, ZetaBasic source locking, and boundary exhaustion. These results exclude RH, completed Gamma data, pole values, nontrivial-zero classification, and off-route continuation branches because none has a coordinate in $Z$.
+\end{proof}
+
 \begin{theorem}[ZetaContinuationApplication public export]
 \label{thm:zeta-continuation-application-public-export}
 The public application packet consumed by $\GammaUp$, $\AnalyticContinuationOperationUp$, and $\ZetaBasicUp$ is exactly the finite NameCert surface
