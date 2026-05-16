@@ -125,3 +125,38 @@ assembles the formal ledger support, and the second makes the public read pass
 through the same ordered finite route. Thus the public/formal consumer has
 exactly the displayed target surface.
 \end{proof}
+
+\begin{theorem}[ContinuationMonad root formal-public readback terminality]
+\label{thm:continuation-monad-root-formal-public-readback-terminality}
+Every root public/formal consumer of an accepted $\ContinuationMonadUp$ packet
+$Z=(A,B,C,f,g,u,H,K,L,N)$ factors through the existing root source coverage,
+generator consumer lock, category-generator obligation surface, root
+$\NameCert$ ledger exactness, public contract factorization, and formal target
+exactness before it can read unit, bind, generator, category, or formal rows.
+After those factorizations, no host Kleisli composition, quotient morphism
+equality, ambient category completion, external monad evaluator, or unlisted
+continuation generator remains available.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:continuation-monad-root-source-coverage}. It fixes the
+root public/formal source to the displayed histories $A,B,C$, continuation
+tails $f,g,u$, and the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support of $Z$.
+
+Next apply \autoref{thm:continuation-monad-root-generator-consumer-lock} and
+\autoref{thm:continuation-monad-root-category-generator-obligation-surface}.
+These force generator and category readings to pass through the displayed
+generator-boundary refusal and $\CategoryUp$ hom-carrier rows, so the route has
+no host Kleisli composition, quotient morphism equality, ambient category
+completion, external evaluator, or unlisted generator at those boundaries.
+
+Then use \autoref{thm:continuation-monad-root-namecert-ledger-exactness} and
+\autoref{thm:continuation-monad-root-public-contract-factorization}. The ledger
+assembles the root rows into one ordered public route, and the public contract
+exposes unit, bind, generator, and category readings only through that route.
+
+Finally apply \autoref{thm:continuation-monad-root-formal-target-exactness}.
+The formal target is already the same finite public/formal surface, so the
+consumer is terminal at the displayed readback boundary and no unlisted
+continuation or external monad semantics remains to be read.
+\end{proof}
