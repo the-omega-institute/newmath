@@ -394,4 +394,37 @@ theorem HaltingDistinctionCarrier_diagonal_trace_consumer_totality [AskSetup] [P
       classifierRouteObstruction, endpointObstructionConsumer, provenancePkg, endpointPkg,
       consumerPkg⟩
 
+theorem HaltingDistinctionCarrier_finite_obstruction_ledger_exhaustion
+    [AskSetup] [PackageSetup]
+    {question trace diagonal halt classifier route provenance cert traceRead obstructionRead
+      ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+        bundle pkg ->
+      Cont trace route traceRead ->
+        Cont classifier route obstructionRead ->
+          Cont traceRead obstructionRead ledgerRead ->
+            PkgSig bundle ledgerRead pkg ->
+              UnaryHistory question ∧ UnaryHistory trace ∧ UnaryHistory diagonal ∧
+                UnaryHistory classifier ∧ UnaryHistory route ∧ UnaryHistory traceRead ∧
+                  UnaryHistory obstructionRead ∧ UnaryHistory ledgerRead ∧
+                    Cont trace route traceRead ∧ Cont classifier route obstructionRead ∧
+                      Cont traceRead obstructionRead ledgerRead ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle ledgerRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier traceRouteRead classifierRouteObstruction traceObstructionLedger ledgerPkg
+  obtain ⟨questionUnary, traceUnary, diagonalUnary, _haltUnary, classifierUnary, routeUnary,
+    _provenanceUnary, _certUnary, _questionTraceDiagonal, _diagonalHaltClassifier,
+    _classifierRouteCert, provenancePkg⟩ := carrier
+  have traceReadUnary : UnaryHistory traceRead :=
+    unary_cont_closed traceUnary routeUnary traceRouteRead
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed classifierUnary routeUnary classifierRouteObstruction
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed traceReadUnary obstructionReadUnary traceObstructionLedger
+  exact
+    ⟨questionUnary, traceUnary, diagonalUnary, classifierUnary, routeUnary, traceReadUnary,
+      obstructionReadUnary, ledgerReadUnary, traceRouteRead, classifierRouteObstruction,
+      traceObstructionLedger, provenancePkg, ledgerPkg⟩
+
 end BEDC.Derived.HaltingDistinctionUp
