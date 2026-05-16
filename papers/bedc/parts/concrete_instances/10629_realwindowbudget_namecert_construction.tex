@@ -38,6 +38,7 @@ Read the sibling rows next. The selector row $B$ is the finite diagonal-budget s
 
 Finally read the structural rows. Transport through $H$ preserves the displayed coordinates componentwise, replay through $C$ keeps every consumer on the finite route, provenance through $P$ records the sibling and kernel sources, and $N$ names the packet. Since the carrier has no further coordinate, the listed obligations exhaust the local NameCert surface.
 \end{proof}
+\leanchecked{BEDC.Derived.RealWindowBudgetUp.RealWindowBudgetCarrier\_namecert\_obligations}
 
 \begin{theorem}[Real-window budget selector stability]
 \label{thm:real-window-budget-selector-stability}
@@ -163,6 +164,7 @@ Finally apply the Real-completion handoff and finite-route visibility,
 consumer on $Q \to V \to D \to R \to S$ with the displayed support rows, so
 root selector acceptance is exactly the listed obligation surface.
 \end{proof}
+\leanchecked{BEDC.Derived.RealWindowBudgetUp.RealWindowBudgetCarrier\_root\_selector\_obligation}
 
 \begin{theorem}[Real-window budget finite-window source exhaustion]
 \label{thm:realwindowbudget-finite-window-source-exhaustion}
@@ -330,6 +332,7 @@ ambient completeness, and private Real seal.
 Thus the Real and Completion scope of the packet is exactly the displayed
 finite route plus $B,O,H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealWindowBudgetUp.RealWindowBudgetCarrier\_finite\_window\_source\_exhaustion}
 
 \falsifiablePrediction{A Real-facing consumer that omits the displayed $\RealWindowBudgetUp$ packet $W=(Q,V,D,R,S,B,O,H,C,P,N)$ cannot cite the finite observation route of \autoref{sec:reality-constrained-synthesis} as a completed Real handoff.}
 
@@ -338,15 +341,16 @@ finite route plus $B,O,H,C,P,N$.
 \closureat{RealWindowBudgetUp}{obligationStr}
 \closureat{RealWindowBudgetUp}{scopedStr}
 \closureat{RealWindowBudgetUp}{publicStr}
+\closureat{RealWindowBudgetUp}{bridgedStr}
 
 \begin{closurestatus}{\RealWindowBudgetUp}
   \constructivestory{A $\RealWindowBudgetUp$ packet is generated from a finite request, StreamName windows, DyadicRatCore readbacks, RegSeqRat handoff, Real seal, selector budget, disclosure budget, componentwise transport, continuation replay, provenance, and local NameCert row.}
   \leanchecked{BEDC.Derived.RealWindowBudgetUp.taste\_gate}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{thm:realwindowbudget-scoped-dependency-binding} binds every accepted scoped read to the displayed $Q,V,D,R,S,B,O,H,C,P,N$ dependency rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close quotient streams, host equality, selected limits, host completeness, unbounded observation schedules, hidden selector choice, or bridge checking.}
-  \upgradepath{Bridged closure requires a checked bridge for the same finite Real-window budget route.}
+  \upgradepath{Mature treatment requires bridge checking and audit-clean alignment for the same finite Real-window budget route.}
 \end{closurestatus}
