@@ -78,6 +78,38 @@ compiler packets.
 \end{proof}
 \leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_identity\_composite\_public\_boundary}
 
+\begin{theorem}[CertificateCompiler endpoint determinacy]
+\label{thm:certificate-compiler-endpoint-determinacy}
+Let $K=(S,T,G,E,C,H,P,N)$ be an accepted $\CertificateCompilerUp$ packet. If
+two accepted target endpoint routes for $K$ agree on the source row $S$, the
+compiler graph $G$, the landing row $E$, the classifier transport $H$, the
+continuation row $C$, the provenance row $P$, and the local name $N$, then
+they determine the same target certificate row $T$. No host compiler
+semantics, optimiser equality, ambient program equality, or unrecorded target
+behavior can create a second endpoint.
+\end{theorem}
+\begin{proof}
+First apply the target endpoint route theorem,
+\autoref{thm:certificate-compiler-target-endpoint-route}. It exhausts every
+route to $T$ by the displayed source, graph, landing, classifier transport,
+continuation, package, and local naming rows.
+
+Endpoint certificate availability,
+\autoref{thm:certificate-compiler-endpoint-certificate-availability}, supplies
+the target certificate as part of that displayed packet, and edge-classifier
+exactness, \autoref{thm:certificate-compiler-edge-classifier-exactness}, keeps
+graph edges tied to the same landing and classifier rows. Thus two accepted
+reads agreeing on $S,G,E,H,C,P,N$ have no further endpoint coordinate to vary.
+
+Now use the public consumer boundary,
+\autoref{thm:certificate-compiler-public-consumer-boundary}, together with
+\autoref{thm:certificate-compiler-identity-composite-public-boundary}. Public
+consumers, identities, binary composites, and triple composites remain on the
+same finite row surface. Since the packet contains no host compiler semantics,
+optimiser equality, ambient program equality, or unrecorded target behavior,
+the agreed displayed rows determine the same target certificate row $T$.
+\end{proof}
+
 \begin{theorem}[CertificateCompiler downstream stage unblock package]
 \label{thm:certificate-compiler-downstream-stage-unblock-package}
 The target endpoint route of
