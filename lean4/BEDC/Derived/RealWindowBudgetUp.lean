@@ -160,16 +160,59 @@ private theorem realWindowBudgetToEventFlow_injective {x y : RealWindowBudgetUp}
       (Eq.trans hread (realWindowBudget_round_trip y)))
 
 instance realWindowBudgetBHistCarrier : BHistCarrier RealWindowBudgetUp where
+  -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := realWindowBudgetToEventFlow
   fromEventFlow := realWindowBudgetFromEventFlow
 
 instance realWindowBudgetChapterTasteGate : ChapterTasteGate RealWindowBudgetUp where
+  -- BEDC touchpoint anchor: BHist BMark
   round_trip := realWindowBudget_round_trip
   layer_separation := by
     intro x y hxy heq
     exact hxy (realWindowBudgetToEventFlow_injective heq)
 
+instance realWindowBudgetFieldFaithful : FieldFaithful RealWindowBudgetUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | RealWindowBudgetUp.mk request windows dyadic handoff realSeal selector disclosure
+        transport route provenance nameRow =>
+        [request, windows, dyadic, handoff, realSeal, selector, disclosure, transport, route,
+          provenance, nameRow]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk request₁ windows₁ dyadic₁ handoff₁ realSeal₁ selector₁ disclosure₁ transport₁
+        route₁ provenance₁ nameRow₁ =>
+      cases y with
+      | mk request₂ windows₂ dyadic₂ handoff₂ realSeal₂ selector₂ disclosure₂ transport₂
+          route₂ provenance₂ nameRow₂ =>
+        injection h with hrequest t1
+        injection t1 with hwindows t2
+        injection t2 with hdyadic t3
+        injection t3 with hhandoff t4
+        injection t4 with hrealSeal t5
+        injection t5 with hselector t6
+        injection t6 with hdisclosure t7
+        injection t7 with htransport t8
+        injection t8 with hroute t9
+        injection t9 with hprovenance t10
+        injection t10 with hnameRow _
+        cases hrequest
+        cases hwindows
+        cases hdyadic
+        cases hhandoff
+        cases hrealSeal
+        cases hselector
+        cases hdisclosure
+        cases htransport
+        cases hroute
+        cases hprovenance
+        cases hnameRow
+        rfl
+
 def taste_gate : ChapterTasteGate RealWindowBudgetUp :=
+  -- BEDC touchpoint anchor: BHist BMark
   inferInstance
 
 structure RealWindowBudgetCarrier [AskSetup] [PackageSetup]
@@ -232,5 +275,81 @@ theorem RealWindowBudgetCarrier_real_completion_handoff [AskSetup] [PackageSetup
                   · constructor
                     · exact carrier.provenance_pkg
                     · exact endpoint_pkg
+
+theorem RealWindowBudgetCarrier_root_selector_obligation [AskSetup] [PackageSetup]
+    {request windows dyadic handoff realSeal selector disclosure transport route provenance
+      nameRow selectorRoot : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealWindowBudgetCarrier request windows dyadic handoff realSeal selector disclosure transport
+        route provenance nameRow bundle pkg →
+      Cont request selector selectorRoot →
+        PkgSig bundle selectorRoot pkg →
+          UnaryHistory request ∧ UnaryHistory windows ∧ UnaryHistory dyadic ∧
+            UnaryHistory handoff ∧ UnaryHistory realSeal ∧ UnaryHistory selector ∧
+              UnaryHistory selectorRoot ∧ Cont request selector selectorRoot ∧
+                Cont request windows dyadic ∧ Cont dyadic handoff realSeal ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle selectorRoot pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig
+  intro carrier request_selector_selectorRoot selectorRoot_pkg
+  constructor
+  · exact carrier.request_unary
+  · constructor
+    · exact carrier.windows_unary
+    · constructor
+      · exact carrier.dyadic_unary
+      · constructor
+        · exact carrier.handoff_unary
+        · constructor
+          · exact carrier.realSeal_unary
+          · constructor
+            · exact carrier.selector_unary
+            · constructor
+              · exact unary_cont_closed carrier.request_unary carrier.selector_unary
+                  request_selector_selectorRoot
+              · constructor
+                · exact request_selector_selectorRoot
+                · constructor
+                  · exact carrier.request_windows_dyadic
+                  · constructor
+                    · exact carrier.dyadic_handoff_realSeal
+                    · constructor
+                      · exact carrier.provenance_pkg
+                      · exact selectorRoot_pkg
+
+theorem RealWindowBudgetCarrier_finite_window_source_exhaustion [AskSetup] [PackageSetup]
+    {request windows dyadic handoff realSeal selector disclosure transport route provenance
+      nameRow windowSource windowRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealWindowBudgetCarrier request windows dyadic handoff realSeal selector disclosure transport
+        route provenance nameRow bundle pkg →
+      Cont request windows windowSource →
+        Cont windowSource dyadic windowRead →
+          PkgSig bundle windowRead pkg →
+            UnaryHistory request ∧ UnaryHistory windows ∧ UnaryHistory dyadic ∧
+              UnaryHistory windowSource ∧ UnaryHistory windowRead ∧
+                Cont request windows windowSource ∧ Cont windowSource dyadic windowRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle windowRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig
+  intro carrier request_windows_windowSource windowSource_dyadic_windowRead windowRead_pkg
+  have windowSource_unary : UnaryHistory windowSource :=
+    unary_cont_closed carrier.request_unary carrier.windows_unary request_windows_windowSource
+  constructor
+  · exact carrier.request_unary
+  · constructor
+    · exact carrier.windows_unary
+    · constructor
+      · exact carrier.dyadic_unary
+      · constructor
+        · exact windowSource_unary
+        · constructor
+          · exact unary_cont_closed windowSource_unary carrier.dyadic_unary
+              windowSource_dyadic_windowRead
+          · constructor
+            · exact request_windows_windowSource
+            · constructor
+              · exact windowSource_dyadic_windowRead
+              · constructor
+                · exact carrier.provenance_pkg
+                · exact windowRead_pkg
 
 end BEDC.Derived.RealWindowBudgetUp
