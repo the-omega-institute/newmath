@@ -652,12 +652,14 @@ import BEDC.Derived.CauchyCompletionFunctorUp
 import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyErrorCertificateUp
 import BEDC.Derived.CertificateCompilerUp
+import BEDC.Derived.CertificateCompilerUp.EdgeClassifierExactness
 import BEDC.Derived.CertificateCompilerUp.EndpointCertificateAvailability
 import BEDC.Derived.CertificateCompilerUp.EndpointDecompilerHandoff
 import BEDC.Derived.CertificateCompilerUp.FormalTargetSurface
 import BEDC.Derived.CertificateCompilerUp.IdentityLedger
 import BEDC.Derived.CertificateCompilerUp.KernelMorphismRouteScope
 import BEDC.Derived.CertificateCompilerUp.PublicConsumerBoundary
+import BEDC.Derived.CertificateCompilerUp.SourceTargetLandingExhaustion
 import BEDC.Derived.CauchyCriterionUp
 import BEDC.Derived.CauchyCriterionUp.CompletionReadback
 import BEDC.Derived.CauchyCriterionUp.DiagonalBudgetReadback

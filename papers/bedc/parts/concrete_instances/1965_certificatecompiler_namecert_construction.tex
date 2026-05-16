@@ -199,6 +199,7 @@ and does not create a separate compiler semantics.
 \label{thm:certificate-compiler-edge-classifier-exactness}
 For an accepted $\CertificateCompilerUp$ packet $K=(S,T,G,E,C,H,P,N)$, a displayed edge comparison is accepted exactly when it reads the source classifier row in $S$, lands through $E$ in the target carrier of $T$, transports the target classifier by the componentwise $\hsame$ entries of $H$, and follows the paired $\Cont$ routes recorded in $C$. No host compiler semantics, program equality, or unrecorded target behavior can witness edge-classifier compatibility.
 \end{theorem}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerClassifier\_edge\_classifier\_exactness}
 \begin{proof}
 Project the accepted packet to the paired-edge classifier of \autoref{def:certificate-compiler-classifier}. The source classifier row is the first required comparison coordinate, so two edges cannot be compared after forgetting their source certificate.
 
@@ -213,6 +214,7 @@ Since the carrier has no coordinate for host compiler semantics, program equalit
 \label{thm:certificate-compiler-identity-composite-ledger-exhaustion}
 The identity packets of \autoref{thm:certificate-compiler-identity-ledger} and the composite packets of \autoref{thm:certificate-compiler-composition-stability} exhaust their ledgers by displayed graph rows, edge-landing rows, classifier-transport rows, continuation rows, $\Pkg$ provenance, and local $\NameCert$ rows. Triple composites in \autoref{thm:certificate-compiler-triple-composite-associativity} add no further ledger coordinate beyond the three displayed graph edges and their two middle landing matches.
 \end{theorem}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_source\_target\_landing\_exhaustion}
 \begin{proof}
 For the identity packet, use the diagonal graph on the source certificate. The graph, landing, classifier, continuation, provenance, and local naming rows are inherited from the same certificate, as stated in \autoref{thm:certificate-compiler-identity-ledger}.
 
