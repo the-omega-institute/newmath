@@ -446,4 +446,64 @@ theorem RegularCauchyModulusNormalizerCarrier_source_meet_window_seal_triad [Ask
     ⟨cert, meetUnary, windowUnary, dyadicUnary, comparisonUnary, sealUnary, transportUnary,
       routeUnary, provenanceUnary, sealReplayUnary⟩
 
+theorem RegularCauchyModulusNormalizerCarrier_tail_budget_extraction [AskSetup]
+    [PackageSetup]
+    {x y muX muY meet window dyadic readback sealRow transport route provenance name
+      tailRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyModulusNormalizerCarrier x y muX muY meet window dyadic readback sealRow
+        transport route provenance name bundle pkg →
+      Cont route provenance tailRead →
+        PkgSig bundle tailRead pkg →
+          SemanticNameCert
+            (fun row : BHist =>
+              RegularCauchyModulusNormalizerCarrier x y muX muY meet window dyadic readback
+                  sealRow transport route provenance name bundle pkg ∧
+                hsame row tailRead)
+            (fun row : BHist =>
+              Cont muX muY meet ∧ Cont meet window dyadic ∧
+                Cont dyadic readback sealRow ∧ Cont route provenance row)
+            (fun row : BHist =>
+              UnaryHistory row ∧ PkgSig bundle tailRead pkg ∧ PkgSig bundle name pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier routeProvenanceTail tailPkg
+  have carrierWitness := carrier
+  obtain ⟨_xUnary, _yUnary, _muXUnary, _muYUnary, _meetUnary, _windowUnary,
+    _dyadicUnary, _readbackUnary, _sealUnary, _transportUnary, routeUnary, provenanceUnary,
+    _nameUnary, sourceMeet, meetWindowDyadic, dyadicReadbackSeal, _sealTransportRoute,
+    _routeProvenanceName, _carrierMeetPkg, namePkg⟩ := carrier
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenanceTail
+  have sourceAtTail :
+      RegularCauchyModulusNormalizerCarrier x y muX muY meet window dyadic readback
+          sealRow transport route provenance name bundle pkg ∧
+        hsame tailRead tailRead :=
+    And.intro carrierWitness (hsame_refl tailRead)
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro tailRead sourceAtTail
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      have routeTailRow : Cont route provenance row :=
+        cont_result_hsame_transport routeProvenanceTail (hsame_symm source.right)
+      exact ⟨sourceMeet, meetWindowDyadic, dyadicReadbackSeal, routeTailRow⟩
+    ledger_sound := by
+      intro row source
+      exact ⟨unary_transport tailUnary (hsame_symm source.right), tailPkg, namePkg⟩
+  }
+
 end BEDC.Derived.RegularCauchyModulusNormalizerUp
