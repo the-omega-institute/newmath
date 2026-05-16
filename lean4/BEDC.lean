@@ -209,10 +209,12 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailWindowLock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowMeetRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowModulus
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowCompletionPullback
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowCompletionTerminality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowRealSealPullback
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowReadbackStability
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealCompleteness
 import BEDC.Derived.BoundedVariationUp
+import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
 import BEDC.Derived.CauchyInverseBudgetUp.TasteGate
@@ -263,6 +265,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.SelectorNonemptyRoute
 import BEDC.Derived.CauchyModulusRefinementUp.SharedThresholdTransport
 import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowComparisonLock
 import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowRealSealPullback
+import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowRealConsumerLock
 import BEDC.Derived.CauchyModulusRefinementUp.TerminalRealSealPullback
 import BEDC.Derived.CauchyModulusRefinementUp.WindowConsumerCoverage
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
@@ -352,6 +355,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
 import BEDC.Derived.DyadicApproximationUp.L10RealCompletionSiblingRoute
 import BEDC.Derived.FiniteObservationInterfaceUp.TasteGate
+import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
 import BEDC.Derived.OnticStateUp.TasteGate
 import BEDC.Derived.ObservationReflectionPacketUp.TasteGate
 import BEDC.Derived.OpenPhysicalFitUp.TasteGate
@@ -681,6 +685,7 @@ import BEDC.Derived.CertificateCompilerUp.PublicConsumerBoundary
 import BEDC.Derived.CertificateCompilerUp.SourceTargetLandingExhaustion
 import BEDC.Derived.CauchyCriterionUp
 import BEDC.Derived.CauchyCriterionUp.CommonSelectorRefinement
+import BEDC.Derived.CauchyCriterionUp.CompletionUniformFamilyFactorization
 import BEDC.Derived.CauchyCriterionUp.CompletionBoundary
 import BEDC.Derived.CauchyCriterionUp.CompletionReadback
 import BEDC.Derived.CauchyCriterionUp.DiagonalBudgetReadback
@@ -738,6 +743,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.RootTransportAudit
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.VerdictTransportSeparation
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerLedgerFrontier
+import BEDC.Derived.RealityConstrainedPhysicalInductionUp.TasteGate
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
@@ -1031,6 +1037,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.SealRouteUniqueness
 import BEDC.Derived.UniformCauchyCriterionUp.LateOverlap
 import BEDC.Derived.UniformCauchyCriterionUp.NonEscapeObligation
 import BEDC.Derived.UniformCauchyCriterionUp.ObligationAssembly
+import BEDC.Derived.UniformCauchyCriterionUp.PublicExportPackage
 import BEDC.Derived.UniformCauchyCriterionUp.PublicExportSurface
 import BEDC.Derived.UniformCauchyCriterionUp.PublicNonEscapeExport
 import BEDC.Derived.UniformCauchyCriterionUp.SealObligationSurface
