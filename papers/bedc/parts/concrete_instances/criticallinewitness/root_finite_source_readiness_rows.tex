@@ -1,0 +1,99 @@
+\begin{theorem}[Critical-line witness root finite-source NameCert obligations]
+\label{thm:critical-line-witness-root-finite-source-namecert-obligations}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Before any downstream zero-strip consumer reads $W$, the root surface exposes
+the finite zero-strip source rows $Z,S$, the rational modulus and comparison
+rows $M,R,Q$, the zeta and $\mathsf{RH}$ boundary rows, the classifier
+ledger, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert_{\CriticalLineWitnessUp}$ rows carried by $H,C,P,N$. No consumer
+can read the packet through an unshown analytic, quotient, host-equality, or
+global-zero coordinate.
+\end{theorem}
+\begin{proof}
+Project first to the root finite-source carrier of
+\autoref{thm:critical-line-witness-root-finite-source-carrier}. It identifies
+the zero row, fixed strip row, rational comparison row, transport, replay,
+provenance, and local naming row as finite displayed data of $W$.
+
+Next use the fixed-strip source readback totality
+\autoref{thm:critical-line-witness-fixed-strip-source-readback-totality} and
+the zeta dependency lattice \autoref{thm:critical-line-witness-zeta-link}.
+These rows place every zeta-facing or $\mathsf{RH}$-facing read behind the
+same supplied source, modulus, comparison, continuation, package, and naming
+surface.
+
+Finally apply the classifier exactness and ledger stability rows
+\autoref{thm:critical-line-witness-classifier-exactness} and
+\autoref{thm:critical-line-witness-ledger-route-stability}. They keep the
+classifier and modulus ledger on $Z,S,M,R,Q,H,C,P,N$, so the downstream
+zero-strip consumer cannot bypass the displayed $\BHist/\hsame/\Cont/\Pkg/
+\NameCert$ route.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root classifier refusal boundary]
+\label{thm:critical-line-witness-root-classifier-refusal-boundary}
+For every accepted $\CriticalLineWitnessUp$ packet, the root classifier
+refuses host zero selection, analytic-continuation shortcuts, quotient
+equality, hidden modulus selectors, and unledgered critical-line witnesses.
+Accepted classifier reads are exactly the packet-local reads through the
+visible zero-strip source, fixed-strip source, modulus, rational comparison,
+transport, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start with the root classifier stability theorem
+\autoref{thm:critical-line-witness-root-classifier-stability}. It attaches
+classifier reads to the displayed source, modulus, transport, continuation,
+provenance, and local naming route of the accepted packet.
+
+Use the root ledger nonescape row
+\autoref{thm:critical-line-witness-root-ledger-nonescape} together with the
+root RH refusal ledger
+\autoref{thm:critical-line-witness-root-rh-refusal-ledger}. These rows remove
+analytic continuation, host zero extraction, quotient representatives, global
+$\mathsf{RH}$ proof data, and ambient completeness from the root-facing
+export.
+
+It remains to rule out hidden modulus selectors and unledgered critical-line
+witnesses. The root zero-strip modulus totality
+\autoref{thm:critical-line-witness-root-zero-strip-modulus-totality} and the
+zero-strip modulus separation
+\autoref{thm:critical-line-witness-zero-strip-modulus-separation} force every
+modulus or refusal read through $M,R,Q,H,C,P,N$, leaving no classifier branch
+outside the visible ledger.
+\end{proof}
+
+\begin{theorem}[Critical-line witness visible modulus consumer totality]
+\label{thm:critical-line-witness-root-visible-modulus-consumer-totality}
+Every downstream consumer of an accepted $\CriticalLineWitnessUp$ packet that
+requests a zero-strip, critical-line, zeta-boundary, or $\mathsf{RH}$-boundary
+modulus factors through the finite displayed rows
+$$
+Z,S,M,R,Q,H,C,P,N .
+$$
+The factorization uses the $\BHist$ source, $\hsame$ transport, $\Cont$ replay,
+$\Pkg$ provenance, and local $\NameCert_{\CriticalLineWitnessUp}$ route; a
+failed or mismatched request returns the same visible refusal ledger rather
+than a hidden analytic source.
+\end{theorem}
+\begin{proof}
+Read the source side through
+\autoref{thm:critical-line-witness-root-finite-source-namecert-obligations}.
+It places zero-strip, critical-line, zeta-boundary, and $\mathsf{RH}$-boundary
+access behind the displayed source and naming rows before any consumer sees
+the packet.
+
+Next apply the zero-strip modulus totality
+\autoref{thm:critical-line-witness-root-zero-strip-modulus-totality} and the
+classifier refusal boundary
+\autoref{thm:critical-line-witness-root-classifier-refusal-boundary}. Together
+they require modulus and classifier reads to pass through
+$M,R,Q,H,C,P,N$ and return off-route demands to the visible refusal ledger.
+
+Finally combine the downstream consumer unblock row
+\autoref{thm:critical-line-witness-downstream-consumer-unblock} with the
+RH-refusal consumer nonescape theorem
+\autoref{thm:critical-line-witness-rh-refusal-consumer-nonescape}. These
+consumer rows exhaust the available downstream surface by
+$Z,S,M,R,Q,H,C,P,N$, so every accepted modulus consumer factors through the
+finite displayed route.
+\end{proof}
