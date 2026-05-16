@@ -160,6 +160,29 @@ The two packets therefore compose without adding an escape coordinate. The grid 
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_grid\_ledger\_nonescape}
 
+\begin{theorem}[Bounded monotone Cauchy witness diagonal-limit compatibility pullback]
+\label{thm:bounded-monotone-cauchy-witness-diagonal-limit-compatibility-pullback}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Suppose its root route consumes an accepted $\RealCauchyWitnessGridUp$ packet $G=(B,L_G,K_G,T_G,S_G,R_G,E_G,H_G,C_G,P_G,N_G)$ and an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+D=(R_D,T_D,S_D,D_D,W_D,Q_D,L_D,H_D,C_D,P_D,N_D)
+$$
+through the budget-seal factorization route of \autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization}. Then every terminal $\RealUp$ or completion-seal read from the root route factors through one finite pullback surface consisting of the bounded source $S$, scheduled $\StreamNameUp$ window $\sigma$, dyadic ledger $\lambda$, $\RegSeqRatUp$ handoff $F$, located trap $I$, grid selector and witness ledger rows $B,L_G,K_G,T_G,S_G,R_G,E_G$, diagonal budget rows $R_D,T_D,S_D,D_D,W_D,Q_D,L_D$, the $\CauchyLimitSealUp$ boundary, the terminal $\RealUp$ seal rows $Q,E_G,L_D$, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows
+$$
+H,H_G,H_D,\quad C,C_G,C_D,\quad P,P_G,P_D,\quad N,N_G,N_D.
+$$
+
+The pullback exports no selected limit, quotient real equality, host equality, trichotomy, countable choice, ambient completeness, open-cover compactness, hidden selector enlargement, or unlisted tail selector.
+\end{theorem}
+\begin{proof}
+First project the bounded monotone root packet. By \autoref{thm:bounded-monotone-cauchy-witness-root-extraction}, every root-facing read of $W$ is confined to $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, with no external completion coordinate.
+
+Next attach the grid route. The compatibility theorem \autoref{thm:bounded-monotone-cauchy-witness-grid-route-compatibility} places the selector budget, witness ledger, classifier, and tail rows of $G$ before the $\RealUp$ seal row of $W$, and \autoref{thm:bounded-monotone-cauchy-witness-grid-ledger-nonescape} says that the grid contributes only the displayed rows $B,L_G,K_G,T_G,S_G,R_G,E_G,H_G,C_G,P_G,N_G$.
+
+Now read the diagonal-limit compatibility packet. The budget-seal factorization of \autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization} sends terminal Real and completion-seal consumers through $R_D,T_D,S_D,D_D,W_D,Q_D,L_D,H_D,C_D,P_D,N_D$, while \autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion} keeps the same route inside its displayed provenance and local naming rows.
+
+Finally apply terminal pullback non-escape for the diagonal route, \autoref{thm:diagonal-limit-compatibility-terminal-pullback-consumer-nonescape}. The bounded source, grid ledger, diagonal budget route, CauchyLimitSeal boundary, RealUp seal, and all transport, continuation, package, and naming rows have already been listed. Since the exhausted finite packet has no coordinate for selected limits, quotient equality, host equality, trichotomy, choice, completeness, compactness, hidden selector growth, or tail-selector enlargement, every terminal read factors through exactly the displayed pullback surface.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness grid root package]
 \label{thm:bounded-monotone-cauchy-witness-grid-root-package}
 An accepted $\BoundedMonotoneCauchyWitnessUp$ carrier whose root route consumes an accepted $\RealCauchyWitnessGridUp$ packet forms a finite L10 root package through \autoref{ch:concrete-instances-real-cauchy-witness-grid-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-cauchylimitseal-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
