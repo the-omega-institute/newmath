@@ -1,0 +1,35 @@
+\begin{theorem}[CriticalLineWitness Phase Real source-budget readiness]
+\label{thm:critical-line-witness-phase-real-source-budget-readiness}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ fixed-strip source packet. Every Phase Real source-budget read of $W$ is a read of the same finite $\BHist$ packet, the same $\Cont$ replay row, the same componentwise $\hsame$ transport, the same package provenance, and the same local $\NameCert_{\CriticalLineWitnessUp}$ row. The read may use the displayed $\RatUp$, $\RegSeqRatUp$, $\RealUp$, zero-strip, finite modulus, and refusal-ledger coordinates, but it cannot replace them by host reals, analytic continuation, selected zero data, or an ambient-completeness witness.
+\end{theorem}
+\begin{proof}
+First expose the fixed source tuple. Apply \autoref{thm:critical-line-witness-phase-real-source-window-exhaustion} and \autoref{thm:critical-line-witness-phase-real-source-totality}. These rows keep the rational, regular-rational, real, zero-strip, and finite-modulus data inside the displayed packet $Z,S,M,R,Q,H,C,P,N$.
+
+Next retain the source-budget face. The source-window exhaustion theorem binds any Phase Real read to the displayed $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and local $\NameCert$ rows before the read reaches a consumer.
+
+Finally read the refusal side through \autoref{thm:critical-line-witness-zeta-refusal-consumer-scope}. Since the refusal ledger has no coordinate for host reals, analytic continuation, selected zero data, or ambient completeness, the source-budget read is exactly the finite BEDC route stated above.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness Phase Real RegSeqRat route readiness]
+\label{thm:critical-line-witness-phase-real-regseqrat-route-readiness}
+For an accepted $\CriticalLineWitnessUp$ fixed-strip source packet $W=(Z,S,M,R,Q,H,C,P,N)$, every $\RegSeqRatUp$ route used by a Phase Real consumer must pass through the same finite BEDC route as the packet itself: $\BHist$ carrier admission, $\Cont$ replay, componentwise $\hsame$ comparison, package provenance, and local $\NameCert_{\CriticalLineWitnessUp}$. The route is not a quotient stream, a selected limit, a host real equality, or an analytic continuation certificate.
+\end{theorem}
+\begin{proof}
+Start from the RegSeqRat-to-Real handoff of \autoref{thm:critical-line-witness-regseqrat-real-modulus-handoff}. It places every regular-rational request behind the supplied carrier rows and the displayed continuation route before the Phase Real endpoint is read.
+
+Use \autoref{thm:critical-line-witness-phase-real-source-budget-readiness}. The budget row shares the same $H,C,P,N$ support surface as the regular-rational route, so no second route can be inserted between the sequence data and the real-facing endpoint.
+
+The excluded objects would require a quotient row, selected-limit row, host equality row, or analytic-continuation row. None is present in $W$, and the local NameCert row accepts only the finite route over $Z,S,M,R,Q,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness Phase Real zeta-refusal ledger]
+\label{thm:critical-line-witness-phase-real-zeta-refusal-ledger}
+Every zeta-facing or $\mathsf{RH}$-facing read of an accepted $\CriticalLineWitnessUp$ fixed-strip source packet reads the Phase Real refusal ledger through the displayed finite BEDC route $Z,S,M,R,Q,H,C,P,N$. In particular, the ledger combines source budget, $\RegSeqRatUp$ route, $\RealUp$ endpoint, zero-strip readback, $\BHist$ transport, $\Cont$ replay, componentwise $\hsame$, package provenance, and local NameCert data, and it exports no host analytic truth primitive.
+\end{theorem}
+\begin{proof}
+First collect the source and budget rows from \autoref{thm:critical-line-witness-phase-real-source-budget-readiness}. The Phase Real budget is already a read of the fixed carrier, continuation, transport, provenance, and local naming rows.
+
+Next attach the regular-rational handoff by \autoref{thm:critical-line-witness-phase-real-regseqrat-route-readiness}. This forces the $\RegSeqRatUp$ route and $\RealUp$ endpoint to remain part of the same finite BEDC packet.
+
+Finally apply \autoref{thm:critical-line-witness-zeta-refusal-consumer-scope}. The zeta-facing consumer sees only the refusal ledger and the finite source rows, so a host analytic truth primitive has no admission point in the packet.
+\end{proof}
