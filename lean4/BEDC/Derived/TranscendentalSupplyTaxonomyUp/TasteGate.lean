@@ -344,4 +344,33 @@ instance transcendentalSupplyTaxonomyFieldFaithful :
             cases h
             rfl
 
+theorem TranscendentalSupplyTaxonomyGap_nondischarge
+    {socketKind requestedSupply gap auditGate site transport route provenance name : BHist} :
+    gap ≠ BHist.Empty →
+      BHistCarrier.toEventFlow
+          (TranscendentalSupplyTaxonomyUp.mk socketKind requestedSupply gap auditGate site
+            transport route provenance name) ≠
+        BHistCarrier.toEventFlow
+          (TranscendentalSupplyTaxonomyUp.mk socketKind requestedSupply BHist.Empty auditGate site
+            transport route provenance name) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hgap heq
+  apply hgap
+  have hcarrier :
+      TranscendentalSupplyTaxonomyUp.mk socketKind requestedSupply gap auditGate site
+          transport route provenance name =
+        TranscendentalSupplyTaxonomyUp.mk socketKind requestedSupply BHist.Empty auditGate site
+          transport route provenance name := by
+    apply TranscendentalSupplyTaxonomyTasteGate_single_carrier_alignment_injective
+    change
+      transcendentalSupplyTaxonomyToEventFlow
+          (TranscendentalSupplyTaxonomyUp.mk socketKind requestedSupply gap auditGate site
+            transport route provenance name) =
+        transcendentalSupplyTaxonomyToEventFlow
+          (TranscendentalSupplyTaxonomyUp.mk socketKind requestedSupply BHist.Empty auditGate site
+            transport route provenance name)
+    exact heq
+  cases hcarrier
+  rfl
+
 end BEDC.Derived.TranscendentalSupplyTaxonomyUp
