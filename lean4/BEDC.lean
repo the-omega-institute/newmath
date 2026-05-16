@@ -159,6 +159,7 @@ import BEDC.Derived.ApproximationUp
 import BEDC.Derived.OnticAdequacyAuditUp.TasteGate
 import BEDC.Derived.OnticResidueLatticeUp.TasteGate
 import BEDC.Derived.OnticTowerUp.TasteGate
+import BEDC.Derived.CertifiedOnticTowerUp.TasteGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
@@ -1305,6 +1306,7 @@ import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.RootConsumerHandoff
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.RootExitPartitionStability
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.BridgeRequestSurface
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.StreamNameRegSeqRatRealExactness
+import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.TailWindowRefusal
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.TaylorModelUp
