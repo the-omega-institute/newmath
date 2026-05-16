@@ -247,4 +247,22 @@ def taste_gate : ChapterTasteGate FiniteObservationResidueBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   finiteObservationResidueBoundaryChapterTasteGate
 
+theorem FiniteObservationResidueBoundaryTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      finiteObservationResidueBoundaryDecodeBHist
+        (finiteObservationResidueBoundaryEncodeBHist h) = h) ∧
+      (∀ x : FiniteObservationResidueBoundaryUp,
+        finiteObservationResidueBoundaryFromEventFlow
+          (finiteObservationResidueBoundaryToEventFlow x) = some x) ∧
+      (∀ x y : FiniteObservationResidueBoundaryUp,
+        finiteObservationResidueBoundaryToEventFlow x =
+          finiteObservationResidueBoundaryToEventFlow y → x = y) ∧
+      finiteObservationResidueBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨finiteObservationResidueBoundary_decode_encode_bhist,
+      finiteObservationResidueBoundary_round_trip,
+      (fun _ _ heq => finiteObservationResidueBoundaryToEventFlow_injective heq),
+      rfl⟩
+
 end BEDC.Derived.FiniteObservationResidueBoundaryUp

@@ -212,6 +212,54 @@ Apply Real-seal consumer exactness, \autoref{thm:regular-cauchy-modulus-witness-
 The preservation claim is therefore componentwise. Since no quotient stream, host real equality, selected limit, hidden modulus replacement, hidden window selector, separate dyadic ledger, countable choice, or ambient completeness coordinate is exported, field faithfulness is witnessed by inspecting the displayed tuple in order.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy modulus witness-ledger nontrivial witness surface]
+\label{thm:regular-cauchy-modulus-witness-ledger-nontrivial-witness-surface}
+The $\RegularCauchyModulusWitnessLedgerUp$ carrier admits two distinguishable accepted packet surfaces. One may vary the displayed witnessed modulus ledger row $\mu$ while preserving the source row $X$ and the downstream route shape, or vary the finite-window service row $W$ while preserving the witnessed ledger shape. In either case the componentwise $\hsame$ transport row $H$ refuses to identify the two packets unless the changed displayed coordinate is restored.
+\end{theorem}
+\begin{proof}
+Project an accepted packet to the carrier tuple
+$$
+L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M).
+$$
+The witnessed modulus ledger and finite-window service are separate coordinates of this tuple, not properties recovered from a quotient stream or from host-side equality of reals.
+
+Apply \autoref{thm:regular-cauchy-modulus-witness-ledger-namecert-obligations}. Its source and witness exposure row requires the displayed $\mu$ to be read before any window is served, and its finite-window service row requires the displayed $W$ to be the StreamName row consumed before readback.
+
+The two packet surfaces are therefore separated by componentwise transport. A change in $\mu$ changes the witness-ledger coordinate read by the source route, while a change in $W$ changes the finite-window coordinate read before $D$ and $Q$. Since $H$ stores componentwise $\hsame$ data for the displayed rows, it cannot identify either changed packet with the original accepted packet without reusing the original field.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus witness-ledger field-faithful surface]
+\label{thm:regular-cauchy-modulus-witness-ledger-field-faithful-surface}
+For an accepted $\RegularCauchyModulusWitnessLedgerUp$ packet, equality of all displayed fields
+$$
+X,\mu,W,N_0,T,D,Q,S,H,C,P,M
+$$
+determines the accepted packet surface. Conversely, any change to one of these displayed fields is visible to the local classifier through carrier projection, componentwise $\hsame$ refusal, or one of the local $\NameCert_{\RegularCauchyModulusWitnessLedgerUp}$ obligation rows.
+\end{theorem}
+\begin{proof}
+The carrier is the finite tuple of \autoref{def:regular-cauchy-modulus-witness-ledger-carrier}. If all displayed fields agree, tuple projection leaves no further coordinate on which two accepted packets can differ.
+
+Now change one displayed field. If the changed row is $X$ or $\mu$, the source and witness exposure obligation detects the change. If it is $W,D$, or $Q$, the finite-window service and readback obligations detect the changed route before the Real-facing seal.
+
+If the changed row is $N_0$ or $T$, the normalized route exactness and tail-budget compatibility obligations detect that the Real-facing route no longer uses the same witnessed modulus ledger. If the changed row is $S,H,C,P$, or $M$, then seal ordering, componentwise transport, displayed continuation replay, provenance, or local naming detects the changed accepted surface.
+
+Thus the local classifier is field-faithful on the displayed tuple. The proof uses only carrier projection and the NameCert obligations, with no quotient stream, host real equality, hidden modulus replacement, selected limit, countable choice, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus witness-ledger carrier disjointness]
+\label{thm:regular-cauchy-modulus-witness-ledger-carrier-disjointness}
+No carrier automorphism preserving the local $\NameCert_{\RegularCauchyModulusWitnessLedgerUp}$ rows can collapse the witnessed-modulus coordinate $\mu$, the normalized-route coordinate $N_0$, the tail-budget coordinate $T$, and the Real-seal coordinate $S$ into one another. These four rows remain disjoint because they are read at different stages of the local route and are protected by the window-budget, normalizer-tail, and non-escape obligations.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:regular-cauchy-modulus-witness-ledger-namecert-obligations}. They assign distinct local roles to the witnessed modulus ledger, normalized route, tail-budget row, and Real seal row: $\mu$ is exposed before any window service, $N_0$ records the normalized shared-modulus route, $T$ records tail-budget compatibility for the same route, and $S$ is consumed only after the readback and route rows are displayed.
+
+Use window-budget exhaustion from \autoref{thm:regular-cauchy-modulus-witness-ledger-window-budget-exhaustion}. It forces the finite-window and dyadic rows $W,D$ before $Q$, so neither $\mu$ nor $N_0$ nor $T$ can be replaced by a hidden window or dyadic ledger on the way to the seal.
+
+Use normalizer-tail commutation from \autoref{thm:regular-cauchy-modulus-witness-ledger-normalizer-tail-commutation}. It keeps $N_0$ and $T$ over the same witnessed modulus $\mu$ and the same finite-window rows before $S$, which prevents an automorphism preserving the local rows from exchanging the route coordinate with the tail-budget coordinate or with the seal.
+
+Finally apply non-escape from \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}. The accepted packet exports only $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$, so a collapse among $\mu,N_0,T,S$ would require a replacement coordinate or an external equality principle. No such coordinate is present in the carrier.
+\end{proof}
+
 \falsifiablePrediction{If a RealUp seal consumer reads a regular Cauchy modulus without the displayed witness-ledger row, normalized route row, finite-window row, dyadic tolerance row, and RegSeqRat readback row, the packet is refuted.}
 
 \independenceWitness{regular-cauchy-modulus-normalizer, cauchymodulusmeet, regular-cauchy-tail-budget, real-completion-seal-classifier, streamname: no sibling is bijective because this packet uniquely binds the witnessed modulus ledger to the downstream finite-window and RealUp seal route; each sibling omits either the single witness ledger, the normalized route, or the RealUp consumer seal.}
