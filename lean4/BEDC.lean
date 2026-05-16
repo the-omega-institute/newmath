@@ -68,6 +68,7 @@ import BEDC.Derived.ApophaticGateQuestionUp.PublicNamecertPackage
 import BEDC.Derived.ApophaticGateQuestionUp.QuestionExactnessRoute
 import BEDC.Derived.ApophaticGateQuestionUp.ReadbackLocality
 import BEDC.Derived.ApophaticGateQuestionUp.RefusalRowTransport
+import BEDC.Derived.ApophaticGateQuestionUp.RootRefusalRouteExactness
 import BEDC.Derived.ApophaticGateQuestionUp.RootReadbackRoute
 import BEDC.Derived.ApophaticGateQuestionUp.SocketNameDependency
 import BEDC.Derived.ApophaticGateQuestionUp.SocketRefusalCoverage
@@ -87,6 +88,7 @@ import BEDC.Derived.ApophaticNameUp.RootBridgeTupleTransportNamingExhaustion
 import BEDC.Derived.ApophaticNameUp.RefusalTupleBridgeScope
 import BEDC.Derived.ApophaticNameUp.RootRefusalLedgerExhaustion
 import BEDC.Derived.ApophaticNameUp.RootRefusalRouteExhaustion
+import BEDC.Derived.ApophaticNameUp.RootRequestClassifierTotality
 import BEDC.Derived.ApophaticNameUp.RootDownstreamSocketNonescape
 import BEDC.Derived.ApophaticNameUp.RootRefusalBoundaryExhaustion
 import BEDC.Derived.ApophaticNameUp.SupplyShapeNoninternalization
@@ -990,6 +992,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp
 import BEDC.Derived.QuotientSoundnessBoundaryUp.BoundaryReadiness
 import BEDC.Derived.QuotientSoundnessBoundaryUp.CoreNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamHandoff
+import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportDeterminacy
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportSiblingHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RepresentativeDemandExposure
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalVerdictMonotonicity
@@ -1006,6 +1009,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerLedgerFrontier
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DependentEliminatorRefusal
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ClassifierSubstitutionBarrier
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameOnlyDescent
+import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameTransportExhaustion
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportSurface
 import BEDC.Derived.QuotientSoundnessBoundaryUp.QuotSoundRefusalExactness
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootRequestTriad
@@ -1150,6 +1154,7 @@ import BEDC.Derived.ForbiddenAxiomAncestryUp
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteErrorBudgetUp
 import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
+import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
 import BEDC.Derived.FocusedMultiHistLedgerUp.TasteGate
 import BEDC.Derived.FiniteKernelCategoryUp.TasteGate
 import BEDC.Derived.FuelIndexedSubstrateBridgeUp.TasteGate
