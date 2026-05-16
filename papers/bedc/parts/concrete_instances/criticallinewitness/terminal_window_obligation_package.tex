@@ -1,0 +1,89 @@
+\begin{theorem}[Critical-line witness terminal window factorization]
+\label{thm:critical-line-witness-terminal-window-factorization}
+Every terminal $\CriticalLineWitnessUp$ route factors through the displayed zero
+strip, source window, modulus comparison, $\RatUp$ readback, $\RealUp$ readback,
+$\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$
+rows. The factorization surface is the finite packet
+$$
+Z,S,M,R,Q,H,C,P,N
+$$
+over the terminal source and comparison ledgers; it has no entry point from a
+global zero classifier, host equality, quotient representative, hidden numeric
+oracle, analytic-continuation theorem, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with terminal source exhaustion,
+\autoref{thm:critical-line-witness-terminal-source-exhaustion}. It makes the
+zero strip and source window rows $Z,S$ the first visible terminal surface and
+keeps the route inside $H,C,P,N$.
+
+Next apply the terminal comparison ledger lock,
+\autoref{thm:critical-line-witness-terminal-comparison-ledger-lock}. The
+modulus comparison and $\RatUp/\RealUp$ readback rows are exactly $M,R,Q$ over
+the same transport, continuation, provenance, and naming surface.
+
+Finally use terminal RH-refusal exactness,
+\autoref{thm:critical-line-witness-terminal-rh-refusal-exactness}. It rules out
+the analytic, quotient, oracle, and completeness rows, so the terminal route
+factors only through the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Critical-line witness terminal ledger nonescape]
+\label{thm:critical-line-witness-terminal-ledger-nonescape}
+For every accepted terminal $\CriticalLineWitnessUp$ packet, analytic
+continuation content, $\mathsf{RH}$ proof content, quotient representatives,
+hidden numeric oracles, host equality, and ambient completeness are refused
+unless they already occur as displayed rows of the finite terminal ledger
+$Z,S,M,R,Q,H,C,P,N$. Since the ledger contains only the zero-strip source,
+source-window, modulus-comparison, readback, transport, continuation,
+provenance, and naming rows, none of those external objects can be recovered by
+a downstream terminal consumer.
+\end{theorem}
+\begin{proof}
+First read the source side from
+\autoref{thm:critical-line-witness-terminal-source-exhaustion}. Before any
+terminal consumer reaches a comparison row, the displayed zero strip and source
+window have already exhausted the available source data.
+
+Then read the comparison side from
+\autoref{thm:critical-line-witness-terminal-comparison-ledger-lock}. It locks
+the modulus and readback ledger to $M,R,Q,H,C,P,N$ and names no external
+analytic or host-level object.
+
+Finally apply terminal RH-refusal exactness,
+\autoref{thm:critical-line-witness-terminal-rh-refusal-exactness}. The terminal
+boundary is a finite witness boundary rather than an $\mathsf{RH}$ proof,
+analytic-continuation certificate, quotient representative, oracle, or
+completeness surface, so the ledger cannot escape its displayed rows.
+\end{proof}
+
+\begin{theorem}[Critical-line witness terminal consumer exhaustion]
+\label{thm:critical-line-witness-terminal-consumer-exhaustion}
+Every downstream RH-boundary consumer of an accepted terminal
+$\CriticalLineWitnessUp$ packet receives exactly the terminal window
+factorization of \autoref{thm:critical-line-witness-terminal-window-factorization}
+together with the nonescape ledger of
+\autoref{thm:critical-line-witness-terminal-ledger-nonescape}. The exported
+consumer package is therefore the finite row surface $Z,S,M,R,Q,H,C,P,N$ over
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\RatUp$, $\RealUp$, and
+$\ZetaZerosUp$, with no additional RH, analytic, quotient, oracle, host, or
+completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply terminal source exhaustion and terminal comparison ledger lock,
+\autoref{thm:critical-line-witness-terminal-source-exhaustion} and
+\autoref{thm:critical-line-witness-terminal-comparison-ledger-lock}. Together
+they give the downstream consumer exactly the source window, modulus
+comparison, readback, transport, continuation, provenance, and naming rows.
+
+Next package those rows through terminal window factorization,
+\autoref{thm:critical-line-witness-terminal-window-factorization}. This gives
+the consumer the finite packet surface $Z,S,M,R,Q,H,C,P,N$ as its only terminal
+route.
+
+Finally attach terminal ledger nonescape and terminal RH-refusal exactness,
+\autoref{thm:critical-line-witness-terminal-ledger-nonescape} and
+\autoref{thm:critical-line-witness-terminal-rh-refusal-exactness}. They remove
+every RH-proof, analytic-continuation, quotient, oracle, host-equality, and
+ambient-completeness coordinate not already displayed in the finite ledger.
+\end{proof}
