@@ -239,6 +239,47 @@ finite $\DyadicTailBoundUp$ ledger without adding any excluded completion,
 limit-selection, quotient, or host-equality object.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion Real-completion window exhaustion]
+\label{thm:uniform-cauchy-criterion-real-completion-window-exhaustion}
+For every accepted $\UniformCauchyCriterionUp$ packet
+$$
+U=(I,W,M,Q,T,E,H,C,P,N),
+$$
+any $\RealUp$ or completion-facing consumer route from finite family
+observations into a $\RegSeqRatUp$ readback and then into the $\RealUp$ seal
+factors through exactly the finite observation rows $I,W,M,Q,T,E$, with
+structural replay through $H,C,P,N$. Conversely, this displayed route supplies
+the full admissible finite evidence consumed by the
+$\RegSeqRatUp$-to-$\RealUp$ handoff. No such route may pass through quotient
+streams, selected limits, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the finite family observations. By
+\autoref{thm:uniform-cauchy-criterion-window-stability}, any accepted
+transported read remains inside the shared $\StreamNameUp$ window family $W$.
+By \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport}, the
+same read uses the single modulus schedule $M$, not an indexwise choice of
+thresholds.
+
+The tail side is then forced. Tail-ledger exactness sends each accepted
+comparison through the dyadic tolerance row $Q$ and the finite comparison
+ledger $T$. The RegSeqRat tail equivalence theorem repackages exactly this
+finite route as the $\RegSeqRatUp$ regularity readback whose seal row is $E$.
+
+Now attach the seal. The $\RealUp$ seal handoff consumes the displayed finite
+rows before any real-facing boundary is reached, while $H,C,P,N$ replay the
+classifier transport, continuation, package provenance, and local naming
+structure already present in the accepted packet.
+
+For the converse direction, begin with the displayed route
+$I,W,M,Q,T,E,H,C,P,N$. The same cited window, threshold, tail-ledger,
+RegSeqRat, and seal results reconstruct the admissible finite evidence in the
+order required by the $\RegSeqRatUp$-to-$\RealUp$ handoff. The non-escape
+boundary excludes quotient streams, selected limits, host real equality, and
+ambient completeness, so no additional completion object can be part of the
+handoff route.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion obligation assembly]
 \label{thm:uniform-cauchy-criterion-obligation-assembly}
 The carrier of \autoref{def:uniform-cauchy-criterion-carrier},
@@ -253,6 +294,7 @@ habitation, classifier transport, shared-window stability, exact finite tail
 ledger readback, $\RealUp$ seal handoff, and non-escape from quotient streams,
 host real equality, selected family limits, and ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_obligation\_assembly}
 \begin{proof}
 First bind carrier habitation. The finite packet
 $U=(I,W,M,Q,T,E,H,C,P,N)$ supplies the family ledger, shared windows, uniform
@@ -508,6 +550,7 @@ Use the NameCert obligations and the non-escape boundary to rule out extra coord
 
 The downstream Real consumer export does not add a new object. It merely replays the RegSeqRat consumer package, finite-family window exhaustion, shared-threshold transport, and Real seal completion boundary. Therefore the public surface remains finite and cannot export quotient streams, host real equality, selected family limits, or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_public\_non\_escape\_export}
 
 \closureat{UniformCauchyCriterionUp}{seedStr}
 \closureat{UniformCauchyCriterionUp}{obligationStr}
