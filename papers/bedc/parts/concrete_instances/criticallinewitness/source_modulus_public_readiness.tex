@@ -1,0 +1,39 @@
+\begin{theorem}[CriticalLineWitness source-modulus public readiness]
+\label{thm:critical-line-witness-source-modulus-public-readiness}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The source-modulus public surface of $W$ is ready exactly when the supplied zero row $Z$, fixed-strip source row $S$, modulus row $M$, real-part row $R$, rational comparison ledger $Q$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\CriticalLineWitnessUp}$ row $N$ are all readable as one finite $\BHist$ packet. The readiness route is the one already exposed by the CriticalLineWitness NameCert obligations, the fixed-strip source totality rows, the zeta dependency lattice, and the signature-gap readback surface.
+
+This public route exports source-modulus data only through $Z,S,M,R,Q,H,C,P,N$. It exports no analytic continuation theorem, host equality, quotient representative, ambient completeness coordinate, zero-search oracle, selected host limit, or $\mathsf{RH}$ proof content.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and naming surface. The carrier of \autoref{def:critical-line-witness-carrier} and the CriticalLineWitness NameCert obligations of \autoref{thm:critical-line-witness-namecert-obligations} expose exactly the rows $Z,S,M,R,Q,H,C,P,N$ and attach the local name to that finite route.
+
+Next use the fixed-strip source rows. Fixed-strip source totality and fixed-strip source readback totality place the strip-facing source inside the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet, so the public source-modulus read cannot split the source from the modulus row.
+
+Finally combine the zeta dependency lattice \autoref{thm:critical-line-witness-zeta-link} with the signature-gap readback theorem \autoref{thm:critical-line-witness-source-signature-readback}. These rows keep zeta-facing and signature-facing reads behind $Z,S,M,R,Q,H,C,P,N$, leaving no displayed coordinate for analytic continuation, host equality, quotient representatives, ambient completeness, zero search, selected host limits, or $\mathsf{RH}$ proof content.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness source-modulus consumer non-escape]
+\label{thm:critical-line-witness-source-modulus-consumer-nonescape}
+Every public consumer of an accepted $\CriticalLineWitnessUp$ source-modulus packet $W=(Z,S,M,R,Q,H,C,P,N)$ factors through the source-modulus public readiness route of \autoref{thm:critical-line-witness-source-modulus-public-readiness}. The consumer may read the supplied zero row, fixed-strip source row, modulus row, real-part row, rational comparison ledger, transport, replay, provenance, and local naming row, but no consumer route escapes to analytic continuation, host equality, quotient representatives, ambient completeness, zero search, selected host limits, or $\mathsf{RH}$ proof content.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:critical-line-witness-source-modulus-public-readiness}. It identifies the public source-modulus surface with the single finite packet $Z,S,M,R,Q,H,C,P,N$ and records the fixed-strip, zeta dependency, and signature-gap readback anchors that support that packet.
+
+Now use the existing route exhaustion rows. The source-modulus refusal totality theorem \autoref{thm:critical-line-witness-source-modulus-refusal-totality} and the NameCert route exhaustion theorem \autoref{thm:critical-line-witness-namecert-route-exhaustion} say that downstream consumers remain on the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+
+Thus a consumer can only replay the displayed source-modulus rows. Requests for analytic continuation, host equality, quotient representatives, ambient completeness, zero search, selected host limits, or $\mathsf{RH}$ proof content have no carrier row and therefore cannot form an accepted consumer route.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness source-modulus NameCert readiness]
+\label{thm:critical-line-witness-source-modulus-namecert-readiness}
+The local $\NameCert_{\CriticalLineWitnessUp}$ row $N$ certifies the source-modulus public surface of an accepted packet $W=(Z,S,M,R,Q,H,C,P,N)$ precisely over the finite route displayed in \autoref{thm:critical-line-witness-source-modulus-public-readiness} and protected by \autoref{thm:critical-line-witness-source-modulus-consumer-nonescape}. The certificate binds the supplied zero row, fixed-strip source row, modulus row, real-part row, rational comparison ledger, transport, replay, and provenance rows as one public source-modulus package.
+
+Consequently the NameCert readiness claim is a finite BEDC obligation over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, not a claim of analytic continuation, host equality, quotient representative selection, ambient completeness, zero search, selected host limits, or $\mathsf{RH}$ proof content.
+\end{theorem}
+\begin{proof}
+Start with the local naming obligations in \autoref{thm:critical-line-witness-namecert-obligations}. They attach $N$ to the displayed carrier rows and make the local name depend on the same transport, replay, and provenance coordinates as the source-modulus route.
+
+Next use public readiness and consumer non-escape. The readiness theorem supplies the public packet $Z,S,M,R,Q,H,C,P,N$, while the non-escape theorem blocks every consumer route outside that packet. Hence the local NameCert row certifies the public source-modulus surface only through the displayed finite route.
+
+The remaining exclusions follow from the same row inventory. Since no row of $W$ carries analytic continuation, host equality, quotient representatives, ambient completeness, zero search, selected host limits, or $\mathsf{RH}$ proof content, the local NameCert readiness surface cannot certify any of those objects.
+\end{proof}
