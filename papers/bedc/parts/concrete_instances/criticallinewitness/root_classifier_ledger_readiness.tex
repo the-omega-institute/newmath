@@ -1,0 +1,86 @@
+\begin{theorem}[Critical-line witness root classifier readiness]
+\label{thm:critical-line-witness-root-classifier-readiness}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ root
+packet. The root classifier is ready exactly on the displayed finite
+$\BHist$ route through the source row $Z$, strip row $S$, transport row $H$,
+continuation row $C$, provenance row $P$, and local
+$\NameCert_{\CriticalLineWitnessUp}$ row $N$. Componentwise $\hsame$ transport
+and $\Cont$ replay preserve that classifier surface, while $\Pkg$ provenance
+records it as part of the same accepted packet. No host zero search,
+analytic-continuation certificate, quotient representative, ambient
+completeness witness, or proof of $\mathsf{RH}$ supplies an alternate
+classifier.
+\end{theorem}
+\begin{proof}
+Project the root source and zero-strip rows already exposed by the carrier and
+root source files. The source row $Z$ and strip row $S$ are the classifier
+inputs before any downstream read is available.
+
+Use the root source, modulus, and zero-strip obligation rows from the sibling
+files. They bind the classifier to the displayed $\BHist$ packet and preserve
+it under $\hsame$ transport and $\Cont$ replay along $H$ and $C$.
+
+Finally attach the package and local name. The refusal and downstream-readback
+rows keep host zero search, analytic continuation, quotient representatives,
+ambient completeness, and $\mathsf{RH}$ proof objects outside the accepted
+route, so the classifier is ready precisely on $Z,S,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root ledger readiness]
+\label{thm:critical-line-witness-root-ledger-readiness}
+For an accepted $\CriticalLineWitnessUp$ root packet
+$W=(Z,S,M,R,Q,H,C,P,N)$, the modulus and comparison ledger is ready exactly
+through $M,R,Q,H,C,P,N$. The row $M$ supplies the root modulus budget, $R$
+supplies the consumed real-part row, $Q$ supplies the rational comparison
+ledger, $H$ records componentwise $\hsame$ transport, $C$ records the
+displayed $\Cont$ route, $P$ records $\Pkg$ provenance, and $N$ records the
+local $\NameCert$ row. The ledger has no accepted coordinate for host
+comparison, quotient equality, analytic continuation, ambient completeness, or
+an $\mathsf{RH}$ certificate.
+\end{theorem}
+\begin{proof}
+Read the modulus rows first. The sibling root modulus and zero-strip package
+files display $M$ as the finite budget through which the strip source can be
+consumed.
+
+Next read the comparison rows. The existing downstream-readback and classifier
+ledger files attach $R$ and $Q$ to the same route and keep them stable under
+the displayed $\hsame$ transport and $\Cont$ replay.
+
+The package row and local name then close the ledger surface. Because the
+refusal rows exclude host comparisons, quotient equality, analytic
+continuation, ambient completeness, and $\mathsf{RH}$ proof data, every
+accepted ledger read is the finite route $M,R,Q,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root consumer readiness]
+\label{thm:critical-line-witness-root-consumer-readiness}
+Every root consumer of an accepted $\CriticalLineWitnessUp$ packet
+$W=(Z,S,M,R,Q,H,C,P,N)$ is ready on the combined source, classifier, ledger,
+and naming surface
+$$
+Z,S,M,R,Q,H,C,P,N .
+$$
+The consumer reads this surface through the displayed $\BHist$ carrier,
+componentwise $\hsame$ row, $\Cont$ route, $\Pkg$ provenance, and local
+$\NameCert$ row. It cannot request a hidden zero source, off-packet modulus,
+global zero classifier, analytic-continuation certificate, quotient
+representative, ambient completeness theorem, or proof of $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+First combine the source and classifier surfaces. The displayed source,
+zero-strip, and refusal rows make $Z,S,H,C,P,N$ the only classifier-ready root
+route.
+
+Next combine the modulus and ledger surfaces. The modulus, real-part, and
+rational-comparison rows make $M,R,Q,H,C,P,N$ the only ledger-ready route for
+downstream reads.
+
+Finally intersect the two routes at the shared structural rows. Both are
+carried by the same $\BHist$ packet, transported by the same $\hsame$ row,
+replayed by the same $\Cont$ route, recorded by the same $\Pkg$ provenance,
+and named by the same local $\NameCert$ row. The refusal and
+downstream-readback siblings exclude every off-packet analytic, quotient,
+completeness, zero-search, and $\mathsf{RH}$ demand, so the root consumer is
+ready exactly on $Z,S,M,R,Q,H,C,P,N$.
+\end{proof}
