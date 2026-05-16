@@ -222,6 +222,9 @@ instance realityConstrainedMethodologyLedgerChapterTasteGate :
     exact hxy
       (RealityConstrainedMethodologyLedgerTasteGate_single_carrier_alignment_injective heq)
 
+def taste_gate : ChapterTasteGate RealityConstrainedMethodologyLedgerUp :=
+  realityConstrainedMethodologyLedgerChapterTasteGate
+
 instance realityConstrainedMethodologyLedgerFieldFaithful :
     FieldFaithful RealityConstrainedMethodologyLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
