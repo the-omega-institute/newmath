@@ -219,6 +219,52 @@ naming row, while their non-escape clauses exclude all host category and
 quotient coordinates outside $K$.
 \end{proof}
 
+\begin{theorem}[KernelCategory root transport non-escape]
+\label{thm:kernel-category-root-transport-nonescape}
+For a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, every endpoint and hom transport remains inside the displayed rows $O,H,I,C,A,U,P,N$. Endpoint transport reads unary object histories in $O$, hom transport reads continuation-ledger hom rows in $H$, and law transport reads only the componentwise $\hsame$ rows in $A$ and $U$ together with the displayed $\Cont$, $\Pkg$, and local $\NameCert$ support. No host category object, quotient morphism, external arrow equality, functorial semantic row, natural transformation, or limit object is available.
+\end{theorem}
+\begin{proof}
+Start with the carrier admission obligation, \autoref{thm:kernel-category-carrier-admission-obligation}. It fixes the finite packet rows $O,H,I,C,A,U,P,N$ as the full admission surface.
+
+Apply \autoref{thm:kernel-category-identity-continuation} to endpoint identities and \autoref{thm:kernel-category-composition-continuation} to hom composites. These theorems keep identity and composition reads in unary object histories, continuation-ledger hom rows, and displayed $\Cont$ composites.
+
+Finally use \autoref{thm:kernel-category-certificate-surface} and \autoref{thm:kernel-category-pkg-provenance-nonescape}. The certificate rows supply the componentwise law transports, and the provenance theorem removes host category objects, quotient morphisms, external equality, and all category-shaped structure outside the packet.
+\end{proof}
+
+\begin{theorem}[KernelCategory public consumer triad]
+\label{thm:kernel-category-public-consumer-triad}
+Every public consumer of a $\KernelCategoryUp$ packet must pass through three admission gates before reading associativity or unit law rows:
+\begin{enumerate}
+\item carrier admission for the object, hom, identity, composition, law-transport, provenance, and local naming rows;
+\item identity-continuation admission for empty-continuation identity rows over unary object histories;
+\item composition-continuation admission for displayed $\Cont$ composites between continuation-ledger hom rows.
+\end{enumerate}
+Only after these three gates may the consumer read the $A$ and $U$ law-transport rows. The route imports no host category object, quotient morphism, external arrow equality, functorial semantics, natural transformation, limit object, or second naming source.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:kernel-category-carrier-admission-obligation}. It exposes the finite carrier surface and blocks public reads outside $O,H,I,C,A,U,P,N$.
+
+Next apply \autoref{thm:kernel-category-identity-continuation}. The identity side of a public consumer is admitted only through empty $\Cont$ rows attached to unary object histories.
+
+Then apply \autoref{thm:kernel-category-composition-continuation}. The composition side is admitted only through displayed $\Cont$ composites built from continuation-ledger hom rows.
+
+With the three gates in place, \autoref{thm:kernel-category-certificate-surface} supplies the associativity and unit transports, and \autoref{thm:kernel-category-pkg-provenance-nonescape} supplies the provenance non-escape clause. Thus the law rows are consumed only after carrier, identity, and composition admission, with no host or quotient route added.
+\end{proof}
+
+\begin{theorem}[KernelCategory hom ledger exhaustion]
+\label{thm:kernel-category-hom-ledger-exhaustion}
+For a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, every hom read is exhausted by unary endpoints in $O$, continuation-ledger hom rows in $H$, displayed $\Cont$ composites in $C$, componentwise $\hsame$ transports in $A$ and $U$, $\Pkg$ provenance in $P$, and the local $\NameCert$ row $N$. A hom consumer has no extra coordinate for host morphisms, quotient morphisms, external equality of arrows, functorial semantics, natural transformations, limits, or a detached global category.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:kernel-category-carrier-admission-obligation}. It identifies the hom ledger as part of the same finite packet as the unary object endpoints, law transports, provenance, and local naming row.
+
+Use \autoref{thm:kernel-category-composition-continuation}. Every composite hom read is a displayed $\Cont$ composite of continuation-ledger hom rows whose endpoints are already in $O$ and $H$.
+
+Use \autoref{thm:kernel-category-identity-continuation} for identity hom rows. These are empty-continuation reads over unary object histories, so they add no host identity morphism.
+
+Finally apply \autoref{thm:kernel-category-certificate-surface} and \autoref{thm:kernel-category-pkg-provenance-nonescape}. The $\hsame$, $\Pkg$, and local $\NameCert$ rows exhaust the public certificate surface and exclude every host, quotient, functorial, limit, or detached category coordinate.
+\end{proof}
+
 \begin{theorem}[KernelCategory continuation composition stability]
 \label{thm:kernel-category-cont-composition-stability}
 Let $K=(O,H,I,C,A,U,P,N)$ and $K'=(O',H',I',C',A',U',P',N')$ be
