@@ -568,6 +568,7 @@ import BEDC.Derived.RealWindowBudgetUp.SelectorDisclosureScope
 import BEDC.Derived.RealWindowBudgetUp.SelectorPullback
 import BEDC.Derived.RealWindowBudgetUp.TasteGate
 import BEDC.Derived.RegistryLayerUp.TasteGate
+import BEDC.Derived.RegistryExportSurfaceUp.TasteGate
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.RealSelectorComparisonUp.TasteGate
 import BEDC.Derived.RelationalFrameAuditUp.TasteGate
