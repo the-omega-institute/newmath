@@ -78,6 +78,18 @@ If a claim exports beyond $S$ without a row in $D$, the packet lacks the display
 The carrier has no remaining coordinate through which the export could be licensed. The claim may remain a local explanation, audit read, objectivity read, tower-compression read, or open-fit read, but it is not a $\RealityConstrainedMethodologyLedgerUp$ methodology export.
 \end{proof}
 
+\begin{theorem}[Reality-constrained methodology-ledger scope-export exactness]
+\label{thm:reality-constrained-methodology-ledger-scope-export-exactness}
+Let $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$ be an accepted $\RealityConstrainedMethodologyLedgerUp$ packet. Every methodology export must display the scope row $S$ and either remain inside that displayed scope or route the attempted export through the refusal and upgrade rows $D,U$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reality-constrained-methodology-ledger-carrier}. The packet contains a distinguished scope row $S$, a domain-leakage refusal row $D$, and an upgrade-route row $U$; it contains no other export-authorizing coordinate.
+
+Apply the NameCert obligations of \autoref{thm:reality-constrained-methodology-ledger-namecert-obligations}. Scope exactness requires $S$ before export, while domain-leakage refusal sends every attempted export beyond $S$ through $D$ or through the declared extension path $U$.
+
+Finally use \autoref{thm:reality-constrained-methodology-ledger-domain-leakage-refusal}. A methodology claim that crosses the displayed scope without those rows is rejected as an export outside the accepted finite ledger. Hence the only accepted export routes are the in-scope route through $S$ and the displayed beyond-scope route through $D,U$.
+\end{proof}
+
 \begin{theorem}[Reality-constrained methodology-ledger sibling independence]
 \label{thm:reality-constrained-methodology-ledger-sibling-independence}
 The $\RealityConstrainedMethodologyLedgerUp$ carrier is not bijective to any one of $\RealityConstrainedExplanationUp$, $\RealityConstrainedModelAuditUp$, $\RealityConstrainedObjectivityUp$, $\RealityConstrainedTowerCompressionUp$, or $\OpenFitPacketUp$. Each sibling lacks at least one of the joined effective-region, idealization-residue, domain-leakage, upgrade-route, and methodology-ledger rows required by \autoref{def:reality-constrained-methodology-ledger-carrier}.
