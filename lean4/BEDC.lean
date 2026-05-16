@@ -122,6 +122,7 @@ import BEDC.Derived.AuditMapFamilyObligationLedgerUp.TasteGate
 import BEDC.Derived.AuditReexportNamespaceUp.TasteGate
 import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
 import BEDC.Derived.ApproximationUp
+import BEDC.Derived.OnticAdequacyAuditUp.TasteGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
@@ -231,6 +232,7 @@ import BEDC.Derived.CauchyModulusRefinementUp
 import BEDC.Derived.CauchyModulusRefinementUp.BudgetNaturality
 import BEDC.Derived.CauchyModulusRefinementUp.BridgedRouteDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.BridgeConsumerRouteExhaustion
+import BEDC.Derived.CauchyModulusRefinementUp.CofinalWindowFactorization
 import BEDC.Derived.CauchyModulusRefinementUp.CommonWindowSelectorExtraction
 import BEDC.Derived.CauchyModulusRefinementUp.CompletionConsumerRouteDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.FiniteObservationBudgetSelectorHandoff
@@ -254,6 +256,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.RootWindowSelectorTotality
 import BEDC.Derived.CauchyModulusRefinementUp.TailBudgetSelectorLock
 import BEDC.Derived.CauchyModulusRefinementUp.TailBudgetSealUniqueness
 import BEDC.Derived.CauchyModulusRefinementUp.TailMeetBudgetRouteUniqueness
+import BEDC.Derived.CauchyModulusRefinementUp.WindowToleranceExactness
 import BEDC.Derived.CauchyModulusRefinementUp.CauchyCriterionSelectorCofinality
 import BEDC.Derived.CauchyModulusRefinementUp.DiagonalBudgetCofinalityRoute
 import BEDC.Derived.CauchyModulusRefinementUp.MeetThresholdNonescape
@@ -364,6 +367,7 @@ import BEDC.Derived.OnticStateUp.TasteGate
 import BEDC.Derived.ObservationReflectionPacketUp.TasteGate
 import BEDC.Derived.OpenPhysicalFitUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.TasteGate
+import BEDC.Derived.PhysicalInductionStabilitySealUp.TasteGate
 import BEDC.Derived.RealityConstrainedModelAuditUp.TasteGate
 import BEDC.Derived.RealityConstrainedOpenFitUp.TasteGate
 import BEDC.Derived.CertifiedPhysicalTruthUp.TasteGate
@@ -739,6 +743,8 @@ import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp
 import BEDC.Derived.QuotientSoundnessBoundaryUp
+import BEDC.Derived.QuotientSoundnessBoundaryUp.BoundaryReadiness
+import BEDC.Derived.QuotientSoundnessBoundaryUp.CoreNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportSiblingHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerNormalization
