@@ -1,0 +1,63 @@
+\begin{theorem}[Transported stationary window-seal root L10 source cover]
+\label{thm:transported-stationary-window-seal-root-l10-source-cover}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. Every accepted root L10 read exposes its source cover through the displayed $\RatUp$ row $R$, constant $\StreamNameUp$ row $S$, $\RegSeqRatUp$ seal $G$, $\FiniteWindowEnvelopeUp$ row $W$, $\RealUp$ row $E$, and the structural $\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows $H,C,P,N$. Thus the completion-facing source surface of $T$ is exactly
+$$
+\begin{aligned}
+  R,S,G,W,E,H,C,P,N,
+\end{aligned}
+$$
+with no detached quotient stream, host equality row, selected limit, or ambient real-completeness datum.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:transported-stationary-window-seal-root-regseqrat-window-ownership}. It assigns the displayed $\RegSeqRatUp$ seal $G$ to the same constant $\StreamNameUp$ window $S$ and finite envelope $W$ carried by the accepted packet.
+
+Next apply \autoref{thm:transported-stationary-window-seal-real-factorization}. The $\RealUp$ row $E$ is read only through that finite RegSeqRat/envelope route, with the transported support rows $H,C,P,N$ already present.
+
+Finally use \autoref{thm:transported-stationary-window-seal-namecert-route-exhaustion}. Since the exposed $\NameCert$ route is exhausted by the transported source triad, tail schedule, finite envelope, and Real seal, every accepted L10 source cover is the displayed row family and no extra completion or host-real coordinate remains.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal root L10 envelope stability]
+\label{thm:transported-stationary-window-seal-root-l10-envelope-stability}
+Let $T=(R,S,G,W,E,H,C,P,N)$ and $T'=(R',S',G',W',E',H',C',P',N')$ be accepted $\TransportedStationaryWindowSealUp$ packets whose displayed rows are related componentwise by $\hsame$ and whose seal, envelope, and Real rows are connected by the displayed $\Cont$ routes. Then $T$ and $T'$ preserve the same finite envelope-to-$\RealUp$ seal route:
+$$
+\begin{aligned}
+  \StreamNameUp(S)
+  \longrightarrow
+  \RegSeqRatUp(G)
+  \longrightarrow
+  \FiniteWindowEnvelopeUp(W)
+  \longrightarrow
+  \RealUp(E)
+\end{aligned}
+$$
+and likewise for the primed packet under the same componentwise transport. In particular, envelope stability is determined at the finite L10 source cover, not by a selected host limit or an external real-completeness witness.
+\end{theorem}
+\begin{proof}
+First read the classifier obligation through \autoref{thm:transported-stationary-window-seal-classifier-obligation}. Componentwise $\hsame$ keeps the accepted rows of $T$ and $T'$ on the same BEDC classifier surface.
+
+Next use \autoref{thm:transported-stationary-window-seal-tail-schedule-envelope-order}. The schedule row places the finite envelope after the StreamName and RegSeqRat source rows and before the Real-facing seal row.
+
+The shared budget is then fixed by \autoref{thm:transported-stationary-window-seal-shared-window-budget-exhaustion}. No second window or tail coordinate can be inserted between the transported source and the finite envelope.
+
+Finally apply \autoref{thm:transported-stationary-window-seal-completion-schedule-envelope-determinacy}. The displayed $\Cont$ routes therefore preserve the same envelope-to-Real seal route for both packets, and stability is witnessed inside the finite source cover itself.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal root L10 downstream readiness]
+\label{thm:transported-stationary-window-seal-root-l10-downstream-readiness}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. Every downstream completion-facing consumer of $T$ receives exactly the finite root L10 source cover of \autoref{thm:transported-stationary-window-seal-root-l10-source-cover} together with the envelope-stability rows of \autoref{thm:transported-stationary-window-seal-root-l10-envelope-stability}. The handoff supplies the rows
+$$
+\begin{aligned}
+  R,S,G,W,E,H,C,P,N
+\end{aligned}
+$$
+and no quotient stream, host equality, selected limit, choice principle, or real-completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:transported-stationary-window-seal-root-downstream-handoff-package}. It states the downstream package using the finite transported source, envelope, Real seal, and structural support rows of the accepted packet.
+
+Then apply the source-cover theorem above. It identifies the exact L10 rows that a downstream consumer can read from $T$.
+
+Use the envelope-stability theorem above to keep those rows stable under componentwise $\hsame$ and displayed $\Cont$ transport. The finite envelope-to-Real route is therefore part of the handed-off package rather than an external completion datum.
+
+Finally invoke \autoref{thm:transported-stationary-window-seal-ledger-nonescape}. The ledger excludes off-packet quotient streams, host equalities, selected limits, choice principles, and ambient real-completeness witnesses, so the downstream readiness surface is exactly the finite source cover plus the stable envelope route.
+\end{proof}
