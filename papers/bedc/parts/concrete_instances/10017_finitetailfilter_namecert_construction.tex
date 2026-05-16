@@ -34,6 +34,7 @@ F=(S,D,R,B,Q,E,H,C,P,N),
 $$
 window-filter exposure through $S$, dyadic tolerance exposure through $D$, regular-sequence readback through $R$, tail-budget exposure through $B$, common-tail comparison through $Q$, RealUp seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteTailFilterUp.FiniteTailFilterCarrier\_namecert\_obligations}
 \begin{proof}
 Project the displayed carrier. The rows $S,D,R,B,Q,E,H,C,P,N$ are the only coordinates of the finite packet, so carrier admission is the assertion that these rows are assembled as one $\BHist$ surface.
 
@@ -329,6 +330,28 @@ Then route the uniform and completion-facing reads through the sibling and cofin
 Finally apply \autoref{thm:finite-tail-filter-common-tail-seal-cofinality}. It states that every RealWindowBudget, UniformCauchyCriterion, Real, or completion-facing consumer identifies its window, tolerance, readback, budget, comparison, and Real seal rows with the accepted packet $S,D,R,B,Q,E,H,C,P,N$.
 
 The exclusion clause follows from terminal cofinal-consumer exclusion and structural provenance, \autoref{thm:finite-tail-filter-terminal-cofinal-consumer-exclusion} and \autoref{thm:finite-tail-filter-structural-provenance-obligation}. Since the accepted carrier has no coordinate for the listed external structures, the normal form is exactly the displayed route.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter terminal classifier exactness]
+\label{thm:finite-tail-filter-terminal-classifier-exactness}
+For every accepted $\FiniteTailFilterUp$ carrier
+$$
+F=(S,D,R,B,Q,E,H,C,P,N),
+$$
+the terminal classifier available to any $\RealWindowBudgetUp$, $\UniformCauchyCriterionUp$, $\RealUp$, or completion-facing consumer is exactly the componentwise classifier on the displayed finite route $S,D,R,B,Q,E,H,C,P,N$.
+
+Thus no terminal read may replace $S,D$ by a private window or tolerance ledger, replace $R,B,Q,E$ by detached $\RegSeqRatUp$, tail-budget, common-tail, or $\RealUp$ rows, or introduce quotient streams, selected limits, host equality, countable choice, ambient completeness, or bridge schema data.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations, \autoref{thm:finite-tail-filter-namecert-obligations}. They expose the accepted packet as the rows $S,D,R,B,Q,E,H,C,P,N$, with $H$ carrying the componentwise $\hsame$ transports, $C$ carrying the displayed continuation routes, and $P,N$ carrying package provenance and local naming.
+
+Next apply tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness}. The window and dyadic tolerance inputs of the tail-budget row, the common-tail comparison row, and the Real seal are exactly $S$ and $D$, so the classifier cannot be evaluated through a private window family or a detached tolerance ledger.
+
+For the Real and completion-facing side, use the Real seal handoff and the RealWindowBudget consumer link, \autoref{thm:finite-tail-filter-real-seal-handoff} and \autoref{thm:finitetailfilter-realwindowbudget-consumer-link}. These route every Real-window, Real, and completion-facing read through the same finite packet before reaching the seal row $E$.
+
+For the common-tail side, use common-tail seal cofinality, \autoref{thm:finite-tail-filter-common-tail-seal-cofinality}. It identifies the $\RegSeqRatUp$ readback, tail-budget, common-tail comparison, and $\RealUp$ seal rows with the displayed route $R,B,Q,E$ rather than with detached sibling rows.
+
+Finally apply the cofinal-window budget normal form, \autoref{thm:finitetailfilter-cofinal-window-budget-normal-form}. That theorem states that every terminal RealWindowBudget, UniformCauchyCriterion, Real, or completion-facing read has the same normal-form route $S,D,R,B,Q,E,H,C,P,N$ and no coordinate for the excluded external structures. Therefore the only terminal classifier left available is the componentwise classifier on that displayed route.
 \end{proof}
 
 \closureat{FiniteTailFilterUp}{scopedStr}
