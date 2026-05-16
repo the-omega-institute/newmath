@@ -278,6 +278,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.CommonSourceLock
 import BEDC.Derived.CauchyModulusRefinementUp.CommonWindowSelectorExtraction
 import BEDC.Derived.CauchyModulusRefinementUp.CompletionConsumerRouteDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.CompletionRoutePullbackExactness
+import BEDC.Derived.CauchyModulusRefinementUp.PullbackSpineAdmission
 import BEDC.Derived.CauchyModulusRefinementUp.FiniteObservationBudgetSelectorHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.FiniteObservationBudgetPullback
 import BEDC.Derived.CauchyModulusRefinementUp.FourFaceNocollapse
@@ -1117,6 +1118,7 @@ import BEDC.Derived.ObserverHsameClassifierUp.TasteGate
 import BEDC.Derived.ObserverCoordinateFrameUp.TasteGate
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
 import BEDC.Derived.RecursorBranchAuditUp.TasteGate
+import BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate
 import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
 import BEDC.Derived.OtherMindsCommitmentUp.TasteGate
 import BEDC.Derived.OtherMindsCommitmentUp.Packet
