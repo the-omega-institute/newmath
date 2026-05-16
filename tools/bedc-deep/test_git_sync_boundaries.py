@@ -139,6 +139,12 @@ def test_candidate_inbox_holds_refinable_candidates() -> None:
     assert "REFINABLE_REASON_RE" in text
     assert "pre_gate_hold" in text
     assert "held_for_refinement" in text
+    assert "r\"too_weak|below_fit_threshold|below_novelty_threshold|" in text
+    rejection_start = text.index("def _rejection_reason")
+    rejection_end = text.index("\ndef screen_candidates", rejection_start)
+    rejection_body = text[rejection_start:rejection_end]
+    assert "below_fit_threshold" not in rejection_body
+    assert "below_novelty_threshold" not in rejection_body
 
 
 def test_research_lane_recovers_held_candidates() -> None:
@@ -184,6 +190,7 @@ def test_research_lane_retries_soft_candidate_failures() -> None:
     assert "plain BEDC-native obligations" in text
     assert "SOURCE_MARKER_RE" in text
     assert "source_marker_in_claim" in text
+    assert '"warnings": score_warnings' in text
 
 
 def test_structural_relation_miner_does_not_embed_source_excerpts() -> None:

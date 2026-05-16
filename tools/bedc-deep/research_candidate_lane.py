@@ -330,10 +330,11 @@ def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str
         reasons.append("source_marker_in_concrete_claim")
     if any(BLOCKED_LANDING_PATH_RE.search(rel) for rel in inputs):
         reasons.append("review_lane_input_not_board_landing")
+    score_warnings: list[str] = []
     if _score(enriched, "fit_score") < DEFAULT_FIT_THRESHOLD:
-        reasons.append(f"below_fit_threshold:{_score(enriched, 'fit_score')}")
+        score_warnings.append(f"below_fit_threshold:{_score(enriched, 'fit_score')}")
     if _score(enriched, "novelty") < DEFAULT_NOVELTY_THRESHOLD:
-        reasons.append(f"below_novelty_threshold:{_score(enriched, 'novelty')}")
+        score_warnings.append(f"below_novelty_threshold:{_score(enriched, 'novelty')}")
     if not gate.ok:
         reasons.extend("logic_packet_gate:" + reason for reason in gate.reasons)
     text = _text(enriched)
@@ -348,6 +349,7 @@ def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str
         "source": source,
         "status": "ready" if not reasons else "blocked",
         "reasons": reasons,
+        "warnings": score_warnings,
         "oracle_recommended": oracle_recommended,
         "candidate": enriched,
     }
@@ -423,10 +425,6 @@ def _candidate_inbox_candidates(limit: int) -> list[dict[str, Any]]:
             continue
         key = title.lower()
         if key in seen or key in blocked_titles:
-            continue
-        if _score(rec, "fit_score") < DEFAULT_FIT_THRESHOLD and not _soft_recoverable_reject(rec):
-            continue
-        if _score(rec, "novelty") < DEFAULT_NOVELTY_THRESHOLD and not _soft_recoverable_reject(rec):
             continue
         seen.add(key)
         candidate = {

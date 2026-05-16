@@ -621,12 +621,10 @@ def _deterministic_fallback_rejection(
     if logic_rejection:
         return logic_rejection
     try:
-        fit = int(candidate.get("fit_score", 0))
-        nov = int(candidate.get("novelty", 0))
+        int(candidate.get("fit_score", 0))
+        int(candidate.get("novelty", 0))
     except (TypeError, ValueError):
         return "deterministic_fallback_non_int_score"
-    if fit < fit_threshold or nov < novelty_threshold:
-        return f"deterministic_fallback_below_threshold fit={fit} nov={nov}"
     return ""
 
 
@@ -853,7 +851,12 @@ def spawn_from_candidates(
         )
         return result
 
-    # Step 3: enforce thresholds (judge may have already, double-check defensively).
+    # Step 3: enforce hard paper-boundary metadata only.
+    #
+    # Fit/novelty are ranking signals, not admission axioms.  Wide-in /
+    # strict-out means a BEDC-local, logic-packet-complete candidate may enter
+    # BOARD for codex execution even if its score is low; the later writeback
+    # and build gates decide whether anything becomes paper.
     final_accepted: list[dict] = []
     threshold_drops: list[dict] = []
     for c in accepted:
@@ -866,13 +869,10 @@ def spawn_from_candidates(
             threshold_drops.append({**c, "reason": logic_rejection})
             continue
         try:
-            fit = int(c.get("fit_score", 0))
-            nov = int(c.get("novelty", 0))
+            int(c.get("fit_score", 0))
+            int(c.get("novelty", 0))
         except (TypeError, ValueError):
             threshold_drops.append({**c, "reason": "non_int_score"})
-            continue
-        if fit < fit_threshold or nov < novelty_threshold:
-            threshold_drops.append({**c, "reason": f"below_threshold fit={fit} nov={nov}"})
             continue
         final_accepted.append(c)
 

@@ -99,10 +99,21 @@ def test_deterministic_fallback_rejects_anti_parameter_echo() -> None:
     assert rejected[0]["reason"] == "deterministic_fallback_anti_parameter_echo"
 
 
+def test_deterministic_fallback_allows_low_score_local_packet() -> None:
+    accepted, rejected = board_spawn._deterministic_fallback_judge(
+        [_candidate(fit_score=0, novelty=0)],
+        fit_threshold=7,
+        novelty_threshold=6,
+    )
+    assert len(accepted) == 1, (accepted, rejected)
+    assert rejected == [], rejected
+
+
 if __name__ == "__main__":
     test_deterministic_fallback_accepts_local_logic_packet()
     test_deterministic_fallback_rejects_external_signal()
     test_deterministic_fallback_rejects_new_chapter()
     test_deterministic_fallback_rejects_unknown_source()
     test_deterministic_fallback_rejects_anti_parameter_echo()
+    test_deterministic_fallback_allows_low_score_local_packet()
     print("test_board_spawn_deterministic_fallback: ok")

@@ -62,14 +62,14 @@ REFINABLE_REASON_RE = re.compile(
     r"existence_missing_|bridge_missing_|equality_missing_|"
     r"completion_missing_|external_signal_missing_landing_kind|"
     r"external_signal_landing_reject|external_signal_missing_chapter_worthiness|"
-    r"too_weak",
+    r"too_weak|below_fit_threshold|below_novelty_threshold|"
+    r"predicted_label_collision|non_paper_local_input",
     re.IGNORECASE,
 )
 HARD_REJECT_REASON_RE = re.compile(
     r"duplicate_title|structural_title|missing_title|missing_claim|"
     r"claim_too_short|forbidden_axis_or_marker_candidate|"
-    r"conjecture_fallback_not_board_lane|non_paper_local_input|"
-    r"below_fit_threshold|below_novelty_threshold|predicted_label_collision",
+    r"conjecture_fallback_not_board_lane",
     re.IGNORECASE,
 )
 
@@ -383,10 +383,6 @@ def _rejection_reason(
                 return "external_signal_new_chapter_not_allowed_on_board"
         elif any(p in {"papers/bedc/main.tex", "papers/bedc/preamble.tex"} for p in inputs):
             return "external_signal_existing_landing_main_or_preamble"
-    if _score(candidate, "fit_score") < fit_threshold:
-        return f"below_fit_threshold:{_score(candidate, 'fit_score')}"
-    if _score(candidate, "novelty") < novelty_threshold:
-        return f"below_novelty_threshold:{_score(candidate, 'novelty')}"
     if not inputs:
         return "missing_local_inputs"
 
