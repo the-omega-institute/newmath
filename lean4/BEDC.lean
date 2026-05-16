@@ -1045,6 +1045,7 @@ import BEDC.Derived.HaltingDiagonalUp.TasteGate
 import BEDC.Derived.HaltingDistinctionUp
 import BEDC.Derived.HaltingDistinctionUp.ClassifierStability
 import BEDC.Derived.HaltingDistinctionUp.ObstructionSiblingRoute
+import BEDC.Derived.HaltingDistinctionUp.RootCarrierRouteExhaustion
 import BEDC.Derived.HaltingDistinctionLimitUp.TasteGate
 import BEDC.Derived.HaltingDistinctionTraceUp
 import BEDC.Derived.HaltingFiniteBoundaryUp.TasteGate
