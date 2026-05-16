@@ -136,14 +136,33 @@ Now apply \autoref{thm:finite-kernel-category-functor-nattrans-handoff}. A $\Fun
 The excluded structures are not carrier coordinates. Since $K$ contains no quotient morphism type, host arrow equality, functor category, or library category object, no continuation route or provenance row can export one.
 \end{proof}
 
+\begin{theorem}[Finite-kernel category TasteGate obligation handoff]
+\label{thm:finite-kernel-category-tastegate-obligation-handoff}
+For an accepted $\FiniteKernelCategoryUp$ carrier
+$$
+K=(O,M,I,Q,A,U,H,C,P,N),
+$$
+the finite object, hom, identity, composition, associativity, unit, transport, continuation, provenance, and local $\NameCert$ rows form the paper-side obligation handoff consumed by the existing TasteGate single-carrier alignment marker. Any consumer of the TasteGate row must keep the displayed category rows $O,M,I,Q,A,U,H,C,P,N$ and cannot replace them by quotient morphisms, host arrow equality, or an external category library.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(O,M,I,Q,A,U,H,C,P,N)$. The displayed rows are exactly the object, hom, identity, composition, associativity, unit, transport, continuation, provenance, and local naming rows named in \autoref{def:finite-kernel-category-carrier}.
+
+Apply \autoref{thm:finite-kernel-category-namecert-obligations}. The five NameCert obligations bind habitation, classifier stability, identity exactness, composition exactness, and ledger non-escape to the same displayed rows.
+
+Use \autoref{thm:finite-kernel-category-composition-laws} and \autoref{thm:finite-kernel-category-category-interface-handoff}. They identify the category laws and the public $\CategoryUp$ interface with $I,Q,A,U,H,C,P,N$ over the same object and hom rows $O,M$.
+
+The TasteGate marker is attached immediately after the carrier definition, so its single-carrier alignment reads the same displayed packet. A consumer that replaces these rows by quotient morphisms, host arrow equality, or an external category library no longer consumes the $\FiniteKernelCategoryUp$ carrier.
+\end{proof}
+
 \closureat{FiniteKernelCategoryUp}{seedStr}
+\closureat{FiniteKernelCategoryUp}{obligationStr}
 
 \begin{closurestatus}{\FiniteKernelCategoryUp}
   \constructivestory{A $\FiniteKernelCategoryUp$ packet is generated from finite object histories, displayed hom histories, empty-continuation identity rows, displayed $\Cont$ composition rows, associativity and unit ledgers, componentwise $\hsame$ transport, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite BEDC-native category carrier and its NameCert packet over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope records the finite BEDC-native category carrier, NameCert obligations, category-law rows, interface handoff, and TasteGate obligation handoff over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a checked Lean target, a TasteGate proof, arbitrary categorical constructions, quotient morphisms, host category libraries, functor categories, or bridge checking.}
-  \upgradepath{The next paper grade is a checked TasteGate plus obligation closure for carrier habitation, classifier stability, identity exactness, composition exactness, and ledger non-escape over the same displayed rows.}
+  \upgradepath{The next paper grade is scoped closure by naming the exact BEDC primitives used by carrier habitation, classifier stability, identity exactness, composition exactness, ledger non-escape, and TasteGate handoff over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
 \end{closurestatus}
