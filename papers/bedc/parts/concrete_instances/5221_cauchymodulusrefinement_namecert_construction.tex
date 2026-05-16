@@ -223,6 +223,22 @@ Apply window readback exhaustion, \autoref{thm:cauchy-modulus-refinement-window-
 Finally apply Real seal refusal, \autoref{thm:cauchy-modulus-refinement-real-seal-refusal}. Since the seal row $E$ refuses reads that bypass $U$ or $T$, the only accepted $\RealUp$-facing route is the displayed chain ending in $E$, with host real equality and ambient completeness still outside the carrier.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement cofinal-window factorization]
+\label{thm:cauchy-modulus-refinement-cofinal-window-factorization}
+Every accepted $\CauchyModulusRefinementUp$ Real-facing or Completion-facing consumer factors through the same cofinal finite-window chain
+$$
+M_0,M_1 \longrightarrow U \longrightarrow V \longrightarrow T \longrightarrow W \longrightarrow Q \longrightarrow E.
+$$
+The cofinal-window read is exhausted by the displayed $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows of the accepted packet. No quotient stream, selected host limit, host real equality, hidden selector, or ambient completeness datum supplies a second cofinal route.
+\end{theorem}
+\begin{proof}
+First bind the source side by the shared-meet dependency and selector-budget dependency, \autoref{thm:cauchy-modulus-refinement-shared-meet-dependency} and \autoref{thm:cauchy-modulus-refinement-selector-budget-dependency}. They force both source moduli $M_0,M_1$ to meet at $U$, pass through the extraction row $V$, and enter the selector-budget row $T$ before any finite-window read is available.
+
+Next apply window readback exhaustion, \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}. It accounts for the $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows by routing selected windows and tolerance reads through $T,W,Q$.
+
+Finally use the Real seal route and the non-escape boundary, \autoref{thm:cauchy-modulus-refinement-real-seal-refusal} and \autoref{thm:cauchy-modulus-refinement-nonescape}. The seal row $E$ accepts only the displayed route, while non-escape removes quotient streams, selected host limits, host real equality, hidden selectors, and ambient completeness data from the packet. Hence Real-facing and Completion-facing consumers share the same cofinal finite-window factorization.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement classifier transport]
 \label{thm:cauchy-modulus-refinement-classifier-transport}
 For every accepted $\CauchyModulusRefinementUp$ packet
