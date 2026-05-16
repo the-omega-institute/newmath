@@ -1,0 +1,60 @@
+\begin{definition}[$\ZNormalUp$ total-host obligation packet]
+\label{def:znormal-total-host-obligation-packet}
+For an accepted $\ZNormalUp$ carrier
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the total-host obligation packet is the ordered finite surface whose rows are the typed endpoint $T$, bounded fuel replay $F$, terminal normality $V$, sibling normal-word evidence $K$, terminal readback $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\ZNormalUp}$ naming $N$. A consumer of this packet may inspect these rows only through the carrier, NameCert, terminal readback, transport, replay, provenance, and local naming routes already exposed for $\ZNormalUp$.
+\end{definition}
+
+\begin{theorem}[$\ZNormalUp$ normal-form consumer coverage]
+\label{thm:znormal-normal-form-consumer-coverage}
+Every normal-form consumer of an accepted $\ZNormalUp$ packet factors through the total-host obligation packet of \autoref{def:znormal-total-host-obligation-packet}. The factorization covers terminal normality through $V$, bounded fuel replay through $F$, sibling normal-word evidence through $K$, terminal readback through $R$, transport through $H$, continuation replay through $C$, provenance through $P$, and local naming through $N$, all over the typed endpoint row $T$.
+
+No normal-form consumer receives a route outside those rows before it has passed through terminal fuel readback admission, total-host normal-form ledger exhaustion, and the downstream normal-route boundary.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier by \autoref{def:znormal-carrier}. It displays exactly the rows $T,F,V,K,R,H,C,P,N$ and supplies no additional normal-form coordinate.
+
+Apply \autoref{thm:znormal-terminal-fuel-readback-admission}. This places every terminal normality read behind the route from $T$ through $F$ to $V$ and $R$, with $H,C,P,N$ as the only structural support and $K$ as attached sibling normal-word evidence.
+
+Next use \autoref{thm:znormal-total-host-normal-form-ledger-exhaustion}. The ledger accounts for terminal normality, bounded fuel replay, terminal readback, sibling evidence, transport, replay, provenance, and local naming inside the same packet.
+
+Finally apply \autoref{thm:znormal-downstream-normal-route-boundary}. A downstream normal-route consumer therefore reaches normal-form evidence only through the displayed obligation packet, so the coverage claim is exactly the finite row surface of \autoref{def:znormal-total-host-obligation-packet}.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total-host readback separation]
+\label{thm:znormal-total-host-readback-separation}
+The total-host readback surface of an accepted $\ZNormalUp$ packet separates the finite obligation rows
+$$
+T,F,V,K,R,H,C,P,N
+$$
+from host conversion, quotient computation, unrestricted evaluation, divergence oracles, substrate halting, and global normalization. A readback that cites terminal normality, bounded fuel replay, sibling normal-word evidence, terminal readback, transport, replay, provenance, or local naming must remain inside the total-host obligation packet and cannot promote any excluded host object to a $\ZNormalUp$ row.
+\end{theorem}
+\begin{proof}
+Begin with the finite packet of \autoref{def:znormal-total-host-obligation-packet}. Its rows are the only objects named by the accepted total-host surface.
+
+Use terminal fuel readback admission from \autoref{thm:znormal-terminal-fuel-readback-admission}. The terminal read is admitted only after $T,F,V,R,H,C,P,N$ are displayed, and the sibling normal-word row $K$ remains finite evidence rather than host conversion.
+
+Apply total-host normal-form ledger exhaustion, \autoref{thm:znormal-total-host-normal-form-ledger-exhaustion}. The excluded host objects have no ledger coordinate and cannot be recovered from hidden fuel, detached total-host normal forms, or a second readback route.
+
+The downstream boundary of \autoref{thm:znormal-downstream-normal-route-boundary} closes the separation. Since every downstream route is already the finite obligation packet, host conversion, quotient computation, unrestricted evaluation, divergence detection, substrate halting, and global normalization remain outside the readback surface.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ terminal-host obligation totality]
+\label{thm:znormal-terminal-host-obligation-totality}
+For every accepted $\ZNormalUp$ packet, the total-host obligation packet of \autoref{def:znormal-total-host-obligation-packet}, normal-form consumer coverage from \autoref{thm:znormal-normal-form-consumer-coverage}, and total-host readback separation from \autoref{thm:znormal-total-host-readback-separation} assemble the terminal-host obligation surface required by $\ZNormalUp$. The assembled surface is exactly the finite row family
+$$
+T,F,V,K,R,H,C,P,N,
+$$
+with terminal normality, bounded fuel replay, sibling normal-word evidence, terminal readback, transport, replay, provenance, and local naming available to downstream consumers, and with host conversion, quotient computation, unrestricted evaluation, divergence oracles, substrate halting, and global normalization absent from the packet.
+\end{theorem}
+\begin{proof}
+First read the obligation packet. By \autoref{def:znormal-total-host-obligation-packet}, the terminal-host surface is the finite carrier and NameCert row family $T,F,V,K,R,H,C,P,N$.
+
+Next apply normal-form consumer coverage. \autoref{thm:znormal-normal-form-consumer-coverage} forces every normal-form consumer through terminal normality, bounded fuel replay, sibling evidence, terminal readback, transport, replay, provenance, and local naming over the same typed endpoint.
+
+Then apply total-host readback separation. \autoref{thm:znormal-total-host-readback-separation} keeps host conversion, quotient computation, unrestricted evaluation, divergence detection, substrate halting, and global normalization outside the packet.
+
+Combining these two directions gives the required terminal-host obligation totality: all finite rows needed by downstream consumers are present, and every excluded host-side object is separated from the $\ZNormalUp$ surface.
+\end{proof}

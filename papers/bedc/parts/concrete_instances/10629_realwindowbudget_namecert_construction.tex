@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\RealWindowBudgetUp$}
+\label{ch:concrete-instances-realwindowbudget-namecert}
+\origin{ai-composite}
+
+The $\RealWindowBudgetUp$ packet concretizes the finite observation route used by \autoref{sec:reality-constrained-synthesis}. It sits between the selector surface of \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert} and the disclosure surface of \autoref{ch:concrete-instances-real-observation-budget-namecert}: the first sibling fixes the finite diagonal-selector budget, and the second sibling exposes the observation budget consumed by Real-facing handoffs.
+
+\begin{definition}[Real-window budget carrier]
+\label{def:real-window-budget-carrier}
+A $\RealWindowBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+W=(Q,V,D,R,S,B,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite request row naming the precision, observation scope, and StreamName extent visible to the consumer;
+\item $V$ is the finite family of $\StreamNameUp$ window rows selected by $Q$;
+\item $D$ records the $\DyadicRatCoreUp$ readbacks and dyadic-radius rows attached to the windows in $V$;
+\item $R$ is the $\RegSeqRatUp$ handoff row reached after those finite readbacks;
+\item $S$ is the $\RealUp$ seal row exposed to the Real-facing consumer;
+\item $B$ is the synchronized $\CauchyDiagonalBudgetUp$ selector row for the same finite request;
+\item $O$ is the $\RealObservationBudgetUp$ disclosure row that makes the visible request, window, dyadic, handoff, and seal route inspectable;
+\item $H$ records componentwise $\hsame$ transports for $Q,V,D,R,S,B,O,P,N$;
+\item $C$ records displayed $\Cont$ routes from $Q$ to $V$, from $V$ to $D$, from $D$ to $R$, from $R$ to $S$, and through the selector and disclosure rows $B,O$;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyDiagonalBudgetUp$, $\RealObservationBudgetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealWindowBudgetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, host completeness, host real equality, selected limits, unbounded observation schedules, hidden selector choice, or a private Real seal.
+\end{definition}
+
+\begin{theorem}[Real-window budget NameCert obligations]
+\label{thm:real-window-budget-namecert-obligations}
+For the carrier of \autoref{def:real-window-budget-carrier}, the local $\NameCert_{\RealWindowBudgetUp}$ surface consists exactly of carrier admission, finite request exposure, $\StreamNameUp$ window coverage, $\DyadicRatCoreUp$ readback exposure, $\RegSeqRatUp$ handoff routing, $\RealUp$ seal exposure, synchronized $\CauchyDiagonalBudgetUp$ selector routing, $\RealObservationBudgetUp$ disclosure routing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $W=(Q,V,D,R,S,B,O,H,C,P,N)$. The rows $Q,V,D,R,S$ expose the finite request, StreamName windows, dyadic readbacks, regular-rational handoff, and Real seal.
+
+Read the sibling rows next. The selector row $B$ is the finite diagonal-budget surface supplied by \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert}, while $O$ is the observation disclosure surface supplied by \autoref{ch:concrete-instances-real-observation-budget-namecert}. These rows attach the same request, windows, readbacks, handoff, and seal to the budget route.
+
+Finally read the structural rows. Transport through $H$ preserves the displayed coordinates componentwise, replay through $C$ keeps every consumer on the finite route, provenance through $P$ records the sibling and kernel sources, and $N$ names the packet. Since the carrier has no further coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real-window budget selector stability]
+\label{thm:real-window-budget-selector-stability}
+Let $W=(Q,V,D,R,S,B,O,H,C,P,N)$ be an accepted $\RealWindowBudgetUp$ packet. Any consumer that reads the selector row $B$ through the same request $Q$ must use the displayed StreamName windows $V$, dyadic readbacks $D$, regular handoff $R$, Real seal $S$, disclosure row $O$, and support rows $H,C,P,N$. The selector cannot be replaced by a host-selected limit, a second window family, quotient stream equality, or an undisclosed observation route.
+\end{theorem}
+\begin{proof}
+Start from the finite request row $Q$. The displayed route in $C$ sends that request first to the StreamName windows $V$ and then to the dyadic readbacks $D$ before any regular or Real-facing handoff can be consumed.
+
+Attach the selector surface. The $\CauchyDiagonalBudgetUp$ sibling records finite selector stability through its precision, mesh, window, dyadic, comparison, and seal rows, and the present packet exposes that sibling only as the row $B$ synchronized with $Q,V,D,R,S$.
+
+Use the disclosure row $O$ to keep the same route observable. The $\RealObservationBudgetUp$ sibling makes the request, windows, dyadic readbacks, handoff rows, and seal rows visible as one finite observation budget.
+
+The structural rows $H,C,P,N$ then preserve, replay, source, and name the same packet. Because no other selector, window family, quotient equality, host limit, or hidden disclosure coordinate is a field of $W$, selector stability is exactly the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Real-window budget Real-completion handoff]
+\label{thm:real-window-budget-real-completion-handoff}
+Every Real and Completion consumer of an accepted $\RealWindowBudgetUp$ packet factors through
+$$
+Q \longmapsto V \longmapsto D \longmapsto R \longmapsto S
+$$
+together with the selector row $B$, disclosure row $O$, componentwise transports $H$, displayed continuations $C$, provenance $P$, and local naming row $N$. Conversely, every accepted packet exposes this finite route as its StreamName, DyadicRatCore, RegSeqRat, and Real face.
+
+The handoff exports no quotient stream, no host sequence equality, no host completeness theorem, no selected limit, no unbounded observation schedule, and no private Real seal.
+\end{theorem}
+\begin{proof}
+First read the local carrier. By \autoref{def:real-window-budget-carrier}, the only Real-facing route begins at $Q$, passes through the finite windows $V$, dyadic readbacks $D$, and regular handoff $R$, and reaches the seal row $S$.
+
+Next compose the sibling budget surfaces. The $\CauchyDiagonalBudgetUp$ row $B$ supplies the finite selector budget for the same request, and the $\RealObservationBudgetUp$ row $O$ supplies the observable disclosure ledger for the same windows, readbacks, handoff, and seal.
+
+For the converse direction, project any accepted carrier onto $Q,V,D,R,S$. Those rows are precisely its StreamName, DyadicRatCore, RegSeqRat, and Real faces, with $H,C,P,N$ preserving and naming the packet.
+
+Thus the Real and Completion handoff is the displayed finite route. Since neither the carrier nor the cited siblings contain quotient stream equality, host equality, host completeness, selected limits, unbounded schedules, or private seal rows, none can be exported by the handoff.
+\end{proof}
+
+\begin{theorem}[Real-window budget finite-route visibility]
+\label{thm:real-window-budget-finite-route-visibility}
+Every accepted $\RealWindowBudgetUp$ packet exposes the single finite route
+$$
+Q \to V \to D \to R \to S
+$$
+together with the selector row $B$, disclosure row $O$, and structural rows $H,C,P,N$. This visible route consumes $\StreamNameUp$ windows, $\DyadicRatCoreUp$ readbacks, the $\RegSeqRatUp$ handoff, the $\RealUp$ seal, the $\CauchyDiagonalBudgetUp$ selector budget, and the $\RealObservationBudgetUp$ disclosure budget as one packet-level handoff. It exports no quotient stream, host equality, selected limit, host completeness claim, or hidden observation route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-window-budget-carrier}. Its rows list exactly $Q,V,D,R,S,B,O,H,C,P,N$, with $Q \to V \to D \to R \to S$ as the displayed Real-facing route.
+
+Use the NameCert obligations of \autoref{thm:real-window-budget-namecert-obligations}. They attach the selector row $B$ and disclosure row $O$ to the same request, window, dyadic, handoff, and seal rows, while $H,C,P,N$ provide only transport, replay, provenance, and local naming for that packet.
+
+Now apply selector stability and the Real-completion handoff, \autoref{thm:real-window-budget-selector-stability} and \autoref{thm:real-window-budget-real-completion-handoff}. The first prevents replacing $B$ by a detached selector or hidden limit, and the second forces every Real and Completion consumer through the same finite route. Hence the accepted packet makes the finite observation route visible without exporting quotient streams, host equality, selected limits, or completeness claims.
+\end{proof}
+
+\falsifiablePrediction{A Real-facing consumer that omits the displayed $\RealWindowBudgetUp$ packet $W=(Q,V,D,R,S,B,O,H,C,P,N)$ cannot cite the finite observation route of \autoref{sec:reality-constrained-synthesis} as a completed Real handoff.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, real, cauchydiagonalbudget, realobservationbudget: none is bijective to $\RealWindowBudgetUp$ because the carrier packages the request, finite windows, dyadic readbacks, regular handoff, Real seal, selector budget, disclosure budget, componentwise transport, continuation replay, provenance, and local naming as one finite route.}

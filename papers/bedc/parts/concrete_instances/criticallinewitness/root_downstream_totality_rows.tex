@@ -1,0 +1,39 @@
+\begin{theorem}[Critical-line witness root source totality]
+\label{thm:critical-line-witness-root-source-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every finite source row available at the root is displayed by $Z,S,M,R,Q$ and is carried by the same $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ support rows $H,C,P,N$. No root source row is supplied by analytic continuation, host equality, quotient representatives, an ambient completeness coordinate, global zero search, or an $\mathsf{RH}$ truth claim.
+\end{theorem}
+\begin{proof}
+Begin with the supplied root source rows. The root source triad of \autoref{thm:critical-line-witness-root-source-triad} exposes the zero row, critical-strip row, and source-facing comparison entry as finite packet data before downstream consumers inspect $W$.
+
+Next use the finite readback totality row \autoref{thm:critical-line-witness-root-finite-readback-totality}. It says that root readbacks are already exhausted by $Z,S,M,R,Q,H,C,P,N$.
+
+Finally attach the refusal boundary. The root refusal boundary totality theorem \autoref{thm:critical-line-witness-root-refusal-boundary-totality} sends every off-packet request to the displayed finite refusal surface, so no analytic-continuation, host-equality, quotient, completeness, zero-search, or $\mathsf{RH}$ truth coordinate can serve as a source row.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root modulus separation]
+\label{thm:critical-line-witness-root-modulus-separation}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the zero-strip source rows $Z,S$ and the modulus/classifier rows $M,R,Q$ are separated by the displayed finite route. A consumer may read $M,R,Q$ only after the source rows have been supplied, transported through $H$, and replayed through $C$; it may not fold the modulus row into a zero-search oracle, analytic-continuation row, quotient representative, host equality test, ambient completeness witness, or $\mathsf{RH}$ proof.
+\end{theorem}
+\begin{proof}
+First read the root source totality just established in \autoref{thm:critical-line-witness-root-source-totality}. The source side of the accepted packet is finite and exhausted before any classifier demand is considered.
+
+Now apply the modulus classifier exactness theorem \autoref{thm:critical-line-witness-root-modulus-classifier-exactness}. Once $Z$ and $S$ are present, every modulus and rational-comparison read is routed through $M,R,Q$ and the support rows $H,C,P,N$.
+
+The zeta dependency lattice \autoref{thm:critical-line-witness-zeta-link} keeps the zeta-facing dependency surface distinct from the local modulus classifier. Combining that lattice with the root refusal route \autoref{thm:critical-line-witness-root-refusal-route} rejects every demand that treats the modulus as zero search, analytic continuation, quotient data, host equality, ambient completeness, or an $\mathsf{RH}$ proof.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root downstream totality]
+\label{thm:critical-line-witness-root-downstream-totality}
+Every downstream critical-line, zeta-boundary, or $\mathsf{RH}$-facing consumer of an accepted $\CriticalLineWitnessUp$ packet factors through the displayed finite packet
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The consumer may read the finite source rows, zero-strip row, modulus/classifier rows, rational comparison ledger, transport rows, continuation routes, provenance, and local naming row. It receives no analytic-continuation object, host equality, quotient representative, ambient completeness coordinate, global zero-search row, or $\mathsf{RH}$ truth claim.
+\end{theorem}
+\begin{proof}
+Start with root source totality from \autoref{thm:critical-line-witness-root-source-totality}. It exhausts the positive source rows of the accepted packet by $Z,S,M,R,Q,H,C,P,N$.
+
+Next apply root modulus separation from \autoref{thm:critical-line-witness-root-modulus-separation}. The classifier and rational-comparison rows are downstream of the displayed zero-strip source route, not substitutes for an analytic or global zero-search surface.
+
+Finally combine root RH consumer refusal \autoref{thm:critical-line-witness-root-rh-consumer-refusal} with the zeta dependency lattice \autoref{thm:critical-line-witness-zeta-link}. These rows route downstream consumers through the finite packet and refuse every remaining demand for analytic continuation, host equality, quotient representatives, ambient completeness, global zero search, or $\mathsf{RH}$ truth.
+\end{proof}
