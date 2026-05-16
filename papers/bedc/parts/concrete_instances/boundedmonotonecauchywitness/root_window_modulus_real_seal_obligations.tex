@@ -141,6 +141,28 @@ The accepted carrier has no further coordinate for selected limits, quotient rea
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_root\_window\_seal\_synchronizer}
 
+\begin{theorem}[Bounded monotone Cauchy witness Real-seal selector exhaustion]
+\label{thm:bounded-monotone-cauchy-witness-real-seal-selector-exhaustion}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Any $\RealUp$, $\CauchyLimitSealUp$, or completion-facing consumer that asks for a selector must factor through the displayed prefix
+$$
+S,F,\sigma,\mu,\lambda
+$$
+and the displayed suffix
+$$
+I,Q,H,C,P,N.
+$$
+After those rows are fixed, the accepted packet has no coordinate for a second selector, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selection.
+\end{theorem}
+\begin{proof}
+First expose the selector prefix. Root window extraction and the root tail modulus ledger, \autoref{thm:bounded-monotone-cauchy-witness-root-window-extraction} and \autoref{thm:bounded-monotone-cauchy-witness-root-tail-modulus-ledger}, place every root-facing selector request on $S,F,\sigma,\mu,\lambda$ and on the displayed $\mu,\sigma,\lambda$ tail ledger before any Real seal is read.
+
+Next pull the selector request back to the public tail boundary. The criterion-tail pullback \autoref{thm:bounded-monotone-cauchy-witness-root-criterion-tail-pullback} identifies the consumer with the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ route already displayed by the accepted packet.
+
+Then read the seal suffix. Root Real-seal nonescape and the window-meet route, \autoref{thm:bounded-monotone-cauchy-witness-root-real-seal-nonescape} and \autoref{thm:bounded-monotone-cauchy-witness-window-meet-route}, identify the remaining rows as exactly $I,Q,H,C,P,N$ and exclude any unshown completion or choice service.
+
+Finally apply the root window seal synchronizer \autoref{thm:bounded-monotone-cauchy-witness-root-window-seal-synchronizer}. It binds the prefix and suffix into the single packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so a consumer that asks for selector data has exhausted every selector-facing coordinate before the Real seal is read.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness window Real-seal pullback]
 \label{thm:bounded-monotone-cauchy-witness-window-real-seal-pullback}
 Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every root-facing $\RealUp$ or $\CauchyLimitSealUp$ consumer using the synchronized window factors through the displayed packet
