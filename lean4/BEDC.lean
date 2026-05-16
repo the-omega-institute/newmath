@@ -757,6 +757,7 @@ import BEDC.Derived.DiagonalLimitObserverUp
 import BEDC.Derived.DiagonalLimitObserverUp.TasteGate
 import BEDC.Derived.DiagonalTailSelectorUp
 import BEDC.Derived.TailCofinalityScheduleUp
+import BEDC.Derived.TailCofinalityScheduleUp.SelectorResidueExhaustion
 import BEDC.Derived.CompressionDescentAuditUp.TasteGate
 import BEDC.Derived.TowerEquivalenceUp.TasteGate
 import BEDC.Derived.TowerEndpointReflectionUp.TasteGate
@@ -1578,6 +1579,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetLockExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetClassifierPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetRoute
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetTerminalClassifier
+import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetTerminalPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetCauchyLimitFunctorPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetFiniteTailFilterHandoff
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetRealLimitUniquenessPullback
