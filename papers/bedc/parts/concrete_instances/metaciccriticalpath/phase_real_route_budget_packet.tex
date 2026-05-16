@@ -1,0 +1,39 @@
+\begin{theorem}[MetaCIC critical-path Phase Real route budget]
+\label{thm:metacic-critical-path-phase-real-route-budget}
+Every Phase Real and Completion consumer of an accepted $\MetaCICCriticalPathUp$ critical-path packet must first read the displayed rows
+$$
+S,N,O,U,D,H,C,P,L
+$$
+before using any Real-facing dependency row, $\RegSeqRatUp$ handoff row, or $\StreamNameUp$ schedule row. The packet exports the source row, normal-form row, obstruction row, unblock row, discharge socket, transport row, continuation route, package provenance, and local ledger row as the complete L10 consumer surface; it exports no closed subject reduction, full consistency, hidden completion selector, or ambient real-completeness row.
+\end{theorem}
+\begin{proof}
+Start with the root-unblock packet. Theorem~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness} exposes the carrier surface as the finite tuple $S,N,O,U,D,H,C,P,L$, and Theorem~\ref{thm:metacic-critical-path-root-unblock-route-readiness} keeps route replay inside the same displayed rows.
+
+Now place the Phase Real and Completion consumers on the visible L10 route. The StreamName, regular-sequence, and Real handoff chapters \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} supply consumer-facing rows only after their schedules, regular rational data, and real seals are read as displayed dependency rows.
+
+Finally apply Theorem~\ref{thm:metacic-critical-path-root-unblock-consumer-readiness}. It bars host scheduler state, undisplayed dependency edges, hidden route closures, closed subject reduction, and full consistency from the root-unblock surface. Hence any Real-facing or Completion-facing read must consume $S,N,O,U,D,H,C,P,L$ before it can use StreamName, RegSeqRat, or Real dependency rows.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path Phase Real normal-form handoff]
+\label{thm:metacic-critical-path-phase-real-normal-form-handoff}
+For an accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the normal-form row $N$ can feed the Phase Real route only through the same obstruction and discharge-socket packet. It cannot feed that route as closed subject reduction, full consistency, global beta-conversion decidability, or an unledgered proof object independent of $O,D,H,C,P,L$.
+\end{theorem}
+\begin{proof}
+Read the normal-form endpoint from the packet surface. Theorem~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness} places $N$ beside the obstruction row $O$, the discharge socket $D$, componentwise transport $H$, route replay $C$, package provenance $P$, and local ledger $L$.
+
+Route the endpoint through the same public consumer boundary. Theorem~\ref{thm:metacic-critical-path-root-unblock-route-readiness} keeps replay inside the displayed packet, while Theorem~\ref{thm:metacic-critical-path-root-unblock-consumer-readiness} prevents a downstream consumer from replacing the packet by closed subject reduction or full consistency.
+
+The Phase Real route therefore receives $N$ only as a normal-form row still attached to $O,D,H,C,P,L$. The sibling StreamName, RegSeqRat, and Real chapters named in \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} consume such rows as finite dependency data, not as hidden MetaCIC consistency theorems.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path Phase Real obstruction ledger lock]
+\label{thm:metacic-critical-path-phase-real-obstruction-ledger-lock}
+For every Real-facing or Completion-facing consumer of an accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the obstruction row $O$ and discharge socket $D$ remain visible ledger rows throughout the route to $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ dependency surfaces. No consumer may erase $O$ or discharge $D$ by appealing to a Real seal, a regular rational sequence handoff, a stream schedule, a completion carrier, closed subject reduction, or full consistency.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and route readiness results. Theorems~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness} and \ref{thm:metacic-critical-path-root-unblock-route-readiness} keep $O$ and $D$ among the displayed packet rows and route every replay through the finite tuple $S,N,O,U,D,H,C,P,L$.
+
+Next read the downstream consumer surface. Theorem~\ref{thm:metacic-critical-path-root-unblock-consumer-readiness} states that downstream consumers have no hidden scheduler edge, hidden route closure, closed subject-reduction row, or full-consistency row beyond the displayed packet.
+
+The Real and Completion route can then use only the sibling dependency rows supplied by \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Those rows may schedule, regularize, or seal a Real-facing dependency read, but they do not supply a coordinate that removes the MetaCIC obstruction row or fills the discharge socket.
+\end{proof}
