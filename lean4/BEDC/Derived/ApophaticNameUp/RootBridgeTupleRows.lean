@@ -104,4 +104,57 @@ theorem ApophaticNameCarrier_root_bridge_tuple_ledger [AskSetup] [PackageSetup]
     ⟨ledgerUnary, downstreamUnary, handoffUnary, ledgerSameRequestGate,
       ledgerNameRowDownstream, downstreamRouteHandoff, provenancePkg, handoffPkg⟩
 
+theorem ApophaticNameCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {socket request gate ledger transport route provenance nameRow transported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg →
+      hsame provenance transported →
+        PkgSig bundle transported pkg →
+          SemanticNameCert
+            (fun row : BHist =>
+              ApophaticNameCarrier socket request gate ledger transport route provenance
+                nameRow bundle pkg ∧ hsame row transported)
+            (fun row : BHist => hsame row transported ∧ UnaryHistory row)
+            (fun row : BHist =>
+              PkgSig bundle provenance pkg ∧ PkgSig bundle transported pkg ∧
+                hsame row transported)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier provenanceTransported transportedPkg
+  have carrierPacket :
+      ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg :=
+    carrier
+  obtain ⟨_socketUnary, _requestUnary, _gateUnary, _ledgerUnary, _transportUnary,
+    _routeUnary, provenanceUnary, _nameRowUnary, _socketRequestGate, _requestGateRoute,
+    _gateLedgerRoute, _gateLedgerNameRow, _ledgerSameRequestGate, provenancePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro transported (And.intro carrierPacket (hsame_refl transported))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left
+          (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      have provenanceRow : hsame provenance row :=
+        hsame_trans provenanceTransported (hsame_symm source.right)
+      exact And.intro source.right (unary_transport provenanceUnary provenanceRow)
+    ledger_sound := by
+      intro row source
+      exact And.intro provenancePkg (And.intro transportedPkg source.right)
+  }
+
 end BEDC.Derived.ApophaticNameUp
