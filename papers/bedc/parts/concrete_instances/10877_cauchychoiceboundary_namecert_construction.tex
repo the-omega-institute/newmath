@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CauchyChoiceBoundaryUp$}
+\label{ch:concrete-instances-cauchy-choice-boundary-namecert}
+\origin{ai}
+
+The $\CauchyChoiceBoundaryUp$ packet realizes the no-choice side of the Real completeness diagonal route of \autoref{ch:visions-real-completeness}. It sits after the limit selector of \autoref{ch:concrete-instances-limitselector-namecert}, the shared-threshold meet of \autoref{ch:concrete-instances-regular-cauchy-diagonal-meet-namecert}, the seal-budget synchronizer of \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}, and the completion-seal classifier of \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}. Its role is to bind the explicit finite budget, selected index, tail witness, seal route, refusal row, transport, replay, provenance, and local NameCert surface into one packet without importing a host selected limit, quotient stream equality, countable choice, ambient completeness, or $\mathsf{Classical.choice}$.
+
+\falsifiablePrediction{A Real-completion diagonal consumer that omits the selected finite budget row cannot claim the no-choice diagonal seal route.}
+
+\independenceWitness{limitselector, regular-cauchy-diagonal-meet, cauchy-seal-budget-synchronizer, real-completion-seal-classifier, cauchy-witness-ledger: none is bijective to $\CauchyChoiceBoundaryUp$ because this carrier binds the selected finite index, tail-witness route, no-choice refusal row, seal route, transport, replay, provenance, and local naming in one boundary packet, while the siblings isolate selector admission, meet formation, budget synchronization, seal classification, or witness-ledger exposure.}
+
+\begin{definition}[Cauchy choice-boundary carrier]
+\label{def:cauchy-choice-boundary-carrier}
+A $\CauchyChoiceBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,E,I,T,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the modulus row for the accepted regular Cauchy input, read through the explicit Real-completion diagonal route;
+\item $E$ is the finite tolerance-budget row whose bound determines the diagonal scale being served;
+\item $I$ is the selected finite index row produced from $M$ and $E$, not from a global selector or countable-choice principle;
+\item $T$ is the tail-witness route row certifying that all downstream observations are read on the displayed finite tail determined by $I$;
+\item $S$ is the Real seal route row reached through the same finite budget and tail-witness data;
+\item $R$ is the no-choice refusal row, recording that the packet exports no selected limit object, no quotient stream equality, no ambient completeness row, no countable choice row, and no $\mathsf{Classical.choice}$ row;
+\item $H$ stores componentwise $\hsame$ transport for $M,E,I,T,S,R$ and for the local packet shape;
+\item $C$ stores the displayed $\Cont$ replay from modulus and tolerance admission to selected index, tail witness, Real seal, refusal, and local naming;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:concrete-instances-limitselector-namecert}, \autoref{ch:concrete-instances-regular-cauchy-diagonal-meet-namecert}, \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}, \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}, \autoref{ch:concrete-instances-cauchy-witness-ledger-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyChoiceBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten rows. It has no coordinate for host-side real equality, quotient regular streams, an unbounded selector, ambient metric completeness, countable choice, or $\mathsf{Classical.choice}$.
+\end{definition}
+
+\begin{theorem}[Cauchy choice-boundary diagonal-budget factorization]
+\label{thm:cauchy-choice-boundary-diagonal-budget-factorization}
+Every accepted Real-completion diagonal consumer of a $\CauchyChoiceBoundaryUp$ packet
+$$
+B=(M,E,I,T,S,R,H,C,P,N)
+$$
+factors through the displayed route
+$$
+M,E,I,T,S,R,H,C,P,N.
+$$
+In particular, the consumer reads the explicit modulus before the tolerance budget, the selected finite index before the tail witness, the tail witness before the Real seal route, and the refusal row before any no-choice claim is exported.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-choice-boundary-carrier}. Its only modulus, budget, selected-index, tail-witness, seal, and refusal coordinates are $M,E,I,T,S,R$.
+
+The selected-index row $I$ is displayed as a finite consequence of $M$ and $E$. Hence any diagonal consumer that reaches $T$ or $S$ has already passed through the modulus and tolerance rows rather than through a hidden selector.
+
+The structural rows $H,C,P,N$ preserve and replay this same order. Componentwise $\hsame$ transport carries only the displayed rows, $\Cont$ replay follows the listed route, provenance names the sibling certificates, and local naming exposes the packet as the same finite boundary surface.
+
+Thus every accepted diagonal consumer factors through $M,E,I,T,S,R,H,C,P,N$ before it can claim the Real seal route.
+\end{proof}
+
+\begin{theorem}[Cauchy choice-boundary no-choice non-escape]
+\label{thm:cauchy-choice-boundary-no-choice-nonescape}
+No selected limit, quotient stream equality, ambient completeness row, countable choice row, or $\mathsf{Classical.choice}$ row can be read from an accepted $\CauchyChoiceBoundaryUp$ packet. The packet exports only the modulus row, tolerance budget, selected finite index, tail-witness route, Real seal route, no-choice refusal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row listed in \autoref{def:cauchy-choice-boundary-carrier}.
+\end{theorem}
+\begin{proof}
+Inspect the accepted carrier. The row $R$ explicitly records refusal of selected limits, quotient stream equality, ambient completeness, countable choice, and $\mathsf{Classical.choice}$, while the carrier itself contains no additional coordinate from which such data could be reconstructed.
+
+Apply \autoref{thm:cauchy-choice-boundary-diagonal-budget-factorization}. Any accepted consumer must pass through the finite route $M,E,I,T,S,R,H,C,P,N$.
+
+The finite selected-index row $I$ is not a selected limit object; it is only the index admitted by the displayed modulus and tolerance budget. The tail row $T$ and seal row $S$ are likewise route witnesses, not quotient equalities or ambient completeness principles.
+
+Therefore the only exported data are the ten displayed packet rows, and every attempted read of a selected limit, quotient stream equality, ambient completeness, countable choice, or $\mathsf{Classical.choice}$ leaves the accepted boundary packet.
+\end{proof}
+
+The Lean follow-up for this chapter is the namespace \texttt{BEDC.Derived.CauchyChoiceBoundaryUp}. Its \texttt{TasteGate.lean} surface must provide both a \texttt{Nontrivial CauchyChoiceBoundaryUp} instance and a \texttt{FieldFaithful CauchyChoiceBoundaryUp} instance for the carrier of \autoref{def:cauchy-choice-boundary-carrier}.
+
+\closureat{CauchyChoiceBoundaryUp}{seedStr}
