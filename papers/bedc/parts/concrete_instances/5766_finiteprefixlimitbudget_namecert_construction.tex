@@ -81,15 +81,61 @@ Read the window and regular-rational siblings next. The $\StreamNameUp$ windows 
 Finally compare with the $\RealObservationBudgetUp$ surface. That chapter supplies the completion-facing observation discipline; the present packet narrows it to the finite prefix-budget classifier needed before the Real completeness seal read. The non-escape row keeps quotient streams, host real equality, selected limits, countable choice, hidden tail schedules, and ambient completeness outside the handoff.
 \end{proof}
 
+\begin{theorem}[Finite-prefix limit-budget prefix-exhaustion coverage]
+\label{thm:finite-prefix-limit-budget-prefix-exhaustion-coverage}
+For every accepted $\FinitePrefixLimitBudgetUp$ carrier
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N),
+$$
+each admitted offset served by the finite $\StreamNameUp$ window row $W$ is accounted for by the depth-exhaustion row $D$. Every outside-prefix read is refused before the regular readback row $R$ or the seal row $S$ is available to a consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $Q,B,W,D,R,S$ from \autoref{def:finite-prefix-limit-budget-carrier}. The finite request row $Q$ must pass through the budget selector row $B$ before the prefix-window ledger $W$ serves an offset.
+
+Apply \autoref{thm:finite-prefix-limit-budget-namecert-obligations}. Its prefix-window exhaustion clause identifies $D$ as the row that accounts for every offset admitted by $W$ and records refusal for outside-prefix reads.
+
+Apply \autoref{thm:finite-prefix-limit-budget-seal-ordering}. Since every seal-facing route has order $Q \to B \to W \to D \to R \to S$, neither $R$ nor $S$ is available until the exhaustion row has already accepted the displayed prefix offsets and refused the reads outside the finite window.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget hsame transport]
+\label{thm:finite-prefix-limit-budget-hsame-transport}
+Componentwise $\hsame$ transports of an accepted $\FinitePrefixLimitBudgetUp$ carrier preserve the ordered route
+$$
+Q \to B \to W \to D \to R \to S.
+$$
+They cannot create a new prefix window, a new prefix-depth exhaustion row, a new regular readback row, or a new seal row outside the displayed carrier.
+\end{theorem}
+\begin{proof}
+Use the transport coordinate $H$ of the carrier together with the continuation, provenance, and naming rows $C,P,N$. These rows are part of the finite packet, so transport acts componentwise on the displayed coordinates rather than adding a fresh carrier coordinate.
+
+The ordered route is already fixed by \autoref{thm:finite-prefix-limit-budget-seal-ordering}. Transport through $H$ can replay the same $Q,B,W,D,R,S$ route, and $C$ records only the displayed continuations from request to budget, from budget to windows, from exhaustion to readback, and from readback to seal.
+
+Finally, $P$ and $N$ keep the transported packet inside the same $\Pkg$ provenance and local $\NameCert_{\FinitePrefixLimitBudgetUp}$ surface. No coordinate in $H,C,P,N$ names an additional prefix window or an additional seal row, so componentwise $\hsame$ cannot create one.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget nonescape criterion]
+\label{thm:finite-prefix-limit-budget-nonescape-criterion}
+Any consumer of an accepted $\FinitePrefixLimitBudgetUp$ packet that claims host real equality, quotient streams, selected limits, countable choice, hidden tail schedules, or ambient completeness is outside the carrier unless the claim factors through the displayed exclusion row $E$.
+\end{theorem}
+\begin{proof}
+Read the carrier definition first. The final sentence of \autoref{def:finite-prefix-limit-budget-carrier} states that the packet exports none of the listed analytic objects; it exports only the finite budget classifier rows.
+
+Apply the non-escape clause of \autoref{thm:finite-prefix-limit-budget-namecert-obligations}. That clause assigns the exclusion work to $E,H,C,P,N$ and requires those rows to preserve the same finite route while blocking host real equality, quotient streams, selected limits, countable choice, hidden tail schedules, and ambient completeness.
+
+Thus a consumer that asserts one of those objects must leave the displayed carrier surface unless it presents the assertion through $E$. The remaining rows only replay selection, prefix-window exhaustion, readback, seal handoff, transport, continuation, provenance, and local naming for the finite route.
+\end{proof}
+
 \closureat{FinitePrefixLimitBudgetUp}{seedStr}
+\closureat{FinitePrefixLimitBudgetUp}{obligationStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\FinitePrefixLimitBudgetUp}
   \constructivestory{A $\FinitePrefixLimitBudgetUp$ packet is generated from a finite diagonal request, finite observation-budget selector row, finite StreamName prefix-window ledger, prefix-depth exhaustion row, RegSeqRat readback row, Real-facing seal row, exclusion ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-prefix-limit-budget-carrier}, \autoref{thm:finite-prefix-limit-budget-namecert-obligations}, \autoref{thm:finite-prefix-limit-budget-seal-ordering}, and \autoref{thm:finite-prefix-limit-budget-real-route-handoff} specify the finite prefix-budget carrier, five NameCert rows, seal ordering, and Real-route handoff.}
+  \leanchecked{BEDC.Derived.FinitePrefixLimitBudgetUp.taste_gate}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:finite-prefix-limit-budget-carrier}, \autoref{thm:finite-prefix-limit-budget-namecert-obligations}, \autoref{thm:finite-prefix-limit-budget-seal-ordering}, \autoref{thm:finite-prefix-limit-budget-real-route-handoff}, \autoref{thm:finite-prefix-limit-budget-prefix-exhaustion-coverage}, \autoref{thm:finite-prefix-limit-budget-hsame-transport}, and \autoref{thm:finite-prefix-limit-budget-nonescape-criterion} specify the finite prefix-budget carrier, five NameCert rows, seal ordering, Real-route handoff, prefix-exhaustion coverage, transport stability, and non-escape criterion.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove real completeness, select a completed limit, identify quotient streams, assert host real equality, use countable choice, or close a Lean implementation.}
-  \upgradepath{Scoped closure requires checked carrier, prefix-exhaustion, seal-ordering, and Real-route handoff theorems for the same finite prefix-budget packet.}
+  \upgradepath{Scoped closure requires the same carrier to close the regular-readback consumer boundary and the completion-facing seal interface.}
 \end{closurestatus}
