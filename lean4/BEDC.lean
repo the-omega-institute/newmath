@@ -348,6 +348,7 @@ import BEDC.Derived.ObservationReflectionPacketUp.TasteGate
 import BEDC.Derived.OpenPhysicalFitUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.TasteGate
 import BEDC.Derived.RealityConstrainedModelAuditUp.TasteGate
+import BEDC.Derived.RealityConstrainedOpenFitUp.TasteGate
 import BEDC.Derived.ApophaticSocketUp
 import BEDC.Derived.ApophaticFixedPointFiberUp.TasteGate
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
@@ -1801,6 +1802,7 @@ import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.CompactUniformContinuityUp
 import BEDC.Derived.CompactUniformContinuityUp.MetricDistanceRouting
+import BEDC.Derived.CompactUniformContinuityUp.ModulusCertificate
 import BEDC.Derived.CompactUniformContinuityUp.RealMetricSealNonescape
 import BEDC.Derived.CompactUniformContinuityUp.RootNonescapePackage
 import BEDC.Derived.UniformContinuityUp
