@@ -1,0 +1,39 @@
+\begin{theorem}[MetaCIC normalization frontier candidate obstruction separation]
+\label{thm:metacic-normalization-frontier-candidate-obstruction-separation}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet
+$$
+F=(C,K,E,N,S,H,R,P,L),
+$$
+candidate evidence through $C,K$ remains separate from the obstruction row $S$. A consumer may transport candidate evidence through $H,R,P,L$, but no candidate read discharges, hides, or rewrites $S$ as finished normalization or erased subject reduction.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:metacic-normalization-frontier-carrier}. The candidate rows $C,K$ and the obstruction row $S$ are separate coordinates before the structural rows $H,R,P,L$ are attached.
+
+Apply the NameCert obligations and classifier stability. The candidate boundary clause reads $C,K$, while the obstruction-separation clause keeps $S$ as its own row under the same classifier surface.
+
+Use ledger exhaustion and non-escape. The ledger has no coordinate for erased subject reduction or blanket normalization, so transporting candidate evidence cannot remove the displayed obstruction row.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier closed-normal consumer route]
+\label{thm:metacic-normalization-frontier-closed-normal-consumer-route}
+Every closed-normal consumer of an accepted $\MetaCICNormalizationFrontierUp$ packet that uses a finished-normal endpoint must route through the displayed rows $E,N,H,R,P,L$. The endpoint row $N$ is available only after the finished-normal evidence row $E$ and only under componentwise transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Read the carrier $F=(C,K,E,N,S,H,R,P,L)$ from \autoref{def:metacic-normalization-frontier-carrier}. The only finished-normal evidence rows are $E$ and $N$, while $H,R,P,L$ provide the structural route by which a consumer may read them.
+
+Apply the finished route, fuel route, and closed-normal handoff surfaces. They place the normal endpoint downstream of $E$ and keep the consumer route inside the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally use the redex boundary and non-escape theorem. A consumer that bypasses $E,N,H,R,P,L$ would require a blanket normalization coordinate or a host closed-normal endpoint, neither of which belongs to the packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier fuel ledger nonescape]
+\label{thm:metacic-normalization-frontier-fuel-ledger-nonescape}
+The finite fuel ledger of an accepted $\MetaCICNormalizationFrontierUp$ packet forbids three exports: unbounded normalization, erased subject reduction, and closed consistency. The packet may expose candidate evidence through $C,K$, finished-normal evidence through $E,N$, obstruction retention through $S$, and structural route data through $H,R,P,L$, but it exports no consumer route outside those finite rows.
+\end{theorem}
+\begin{proof}
+Begin with the fuel route and ledger exhaustion results. They bind every accepted normalization read to the finite packet rows $C,K,E,N,S,H,R,P,L$ and do not introduce an unbounded normalization source.
+
+Next use obstruction retention and the redex boundary. The row $S$ records the subject-reduction obstruction as a retained boundary, while the redex boundary keeps candidate and finished-normal evidence within the inspected finite route.
+
+Finally apply non-escape. Since the carrier has no row for unbounded normalization, erased subject reduction, or closed consistency, the finite fuel ledger cannot export any of those claims to downstream consumers.
+\end{proof}
