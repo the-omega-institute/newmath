@@ -202,4 +202,20 @@ theorem RealityConstrainedSignatureFitTasteGate_single_carrier_alignment :
       (fun _ _ heq => realityConstrainedSignatureFitToEventFlow_injective heq),
       rfl⟩
 
+theorem RealityConstrainedSignatureFitCarrier_namecert_obligation_rows
+    (R : RealityConstrainedSignatureFitUp) :
+    ∃ S A M G P C H Q N : BHist,
+      R = RealityConstrainedSignatureFitUp.mk S A M G P C H Q N ∧
+        realityConstrainedSignatureFitFromEventFlow
+          (realityConstrainedSignatureFitToEventFlow R) = some R ∧
+          realityConstrainedSignatureFitEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases R with
+  | mk S A M G P C H Q N =>
+      exact
+        ⟨S, A, M, G, P, C, H, Q, N, rfl,
+          realityConstrainedSignatureFit_round_trip
+            (RealityConstrainedSignatureFitUp.mk S A M G P C H Q N),
+          rfl⟩
+
 end BEDC.Derived.RealityConstrainedSignatureFitUp
