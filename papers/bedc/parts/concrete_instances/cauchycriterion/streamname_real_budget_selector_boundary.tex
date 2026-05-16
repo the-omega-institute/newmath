@@ -264,3 +264,53 @@ Next use the budget-selector boundary \autoref{thm:cauchycriterion-streamname-re
 
 Finally apply terminal non-escape, \autoref{thm:cauchycriterion-selector-refinement-terminal-nonescape}. Since every terminal consumer already factors through the common packet, the packet is terminal among consumers preserving the shared rows. The excluded quotient stream, selected host limit, host real equality, countable-choice selector, ambient completeness, and second seal source coordinates are absent from the assembled packet and cannot be supplied by a terminal consumer.
 \end{proof}
+
+\begin{theorem}[CauchyCriterion finite selector exhaustion]
+\label{thm:cauchycriterion-finite-selector-exhaustion}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, let
+$U=(I,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)$ be an accepted
+$\UniformCauchyCriterionUp$ packet, and let $D$ be an accepted
+$\DiagonalLimitCompatibilityUp$ packet. Suppose the three packets share the
+displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and
+finite selector rows at the completion-facing boundary. Then every $\RealUp$
+or $\CompletionUp$ consumer preserving those displayed rows factors through
+exactly the finite selector-refinement packet of
+\autoref{thm:cauchycriterion-common-selector-refinement}.
+
+Conversely, any route through that selector-refinement packet supplies all
+selector data available to such consumers: the common finite selector rows,
+the $\BHist$ support, the componentwise $\hsame$ transports, the displayed
+$\Cont$ routes, the $\Pkg$ provenance, and the $\NameCert$ rows. No quotient
+stream, selected host limit, host real equality, countable-choice selector,
+ambient completeness witness, detached threshold family, or second seal source
+is available to a consumer preserving only the displayed rows.
+\end{theorem}
+\begin{proof}
+First apply the boundary and return rows. The budget-selector boundary
+\autoref{thm:cauchycriterion-streamname-real-budget-selector-boundary} places
+every selector-facing read on the displayed StreamName--RegSeqRat--DyadicRatCore--Real
+surface, and the finite-request section return
+\autoref{thm:cauchycriterion-finite-request-section-return} identifies the
+finite selector section before any $\RealUp$ seal is exposed.
+
+Next align the seal-facing routes. The uniform compatibility theorem
+\autoref{thm:cauchycriterion-uniform-selector-seal-compatibility} and the
+pullback theorem \autoref{thm:cauchycriterion-selector-seal-route-pullback}
+put the CauchyCriterion, UniformCauchyCriterion, and DiagonalLimitCompatibility
+routes on the same finite structural rows carried by $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$.
+
+Now use synchronizer totality and common refinement. The synchronizer theorem
+\autoref{thm:cauchycriterion-selector-seal-synchronizer-totality} makes the
+finite selector surface total for the shared packets, while
+\autoref{thm:cauchycriterion-common-selector-refinement} repacks that surface
+as one selector-refinement packet over exactly the displayed support rows.
+
+Finally apply diagonal selector terminality,
+\autoref{thm:cauchycriterion-diagonal-selector-terminality}. Any $\RealUp$ or
+$\CompletionUp$ consumer preserving the displayed rows must factor through the
+same refinement packet. Inspecting the packet coordinates gives the converse:
+a route through the packet provides precisely the selector rows and support
+rows listed in the statement, and every omitted object has no coordinate from
+which such a consumer could read it.
+\end{proof}
