@@ -61,13 +61,25 @@ Apply \autoref{thm:finite-support-namecert-obligations}. Its ledger exactness ro
 The categorical consumers named in \autoref{ch:visions-kernel-as-category} receive the same finite support packet. Since the carrier has no field for infinite support, unlisted hom rows, quotient morphism equality, or host category objects, those data cannot escape from the displayed ledger.
 \end{proof}
 
+\begin{theorem}[Finite-support scoped primitive dependency coverage]
+\label{thm:finitesupport-scoped-primitive-dependency-coverage}
+The primitive obligations of $\FiniteSupportUp$ depend only on the displayed finite object row $O$, displayed $\mathsf{CategoryHomCarrier}$ hom row $F$, finite ledger $L$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\FiniteSupportUp}$ row $N$. They do not depend on an infinite support set, host collection, quotient morphism equality, or external category object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-support-carrier}. Its primitive support data are exactly $O,F,L,H,C,P,N$, with $F$ restricted to displayed $\mathsf{CategoryHomCarrier}$ rows and with membership reads routed through the finite ledger.
+
+Apply the NameCert obligation surface of \autoref{thm:finite-support-namecert-obligations}. Carrier admission, object and hom membership, ledger exactness, componentwise transport, and non-escape are all stated over those displayed rows.
+
+Finally use ledger non-escape from \autoref{thm:finite-support-ledger-nonescape}. A categorical consumer cannot replace the finite rows by an infinite host support set, an unlisted collection, quotient morphism equality, or an external category object. Hence the scoped primitive dependency boundary is precisely the displayed finite packet.
+\end{proof}
+
 \closureat{FiniteSupportUp}{seedStr}
 \closureat{FiniteSupportUp}{obligationStr}[BEDC.Derived.FiniteSupportUp.FiniteSupportTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\FiniteSupportUp}
   \constructivestory{A $\FiniteSupportUp$ packet is generated from finite unary object rows, displayed $\mathsf{CategoryHomCarrier}$ support rows, a finite ledger, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{The primitive finite-support scope is the displayed carrier and ledger non-escape boundary over $\BHist$, $\mathsf{CategoryHomCarrier}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \scopeclosed{The primitive finite-support scope is the displayed carrier, ledger non-escape boundary, and scoped primitive dependency coverage of \autoref{thm:finitesupport-scoped-primitive-dependency-coverage}.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.FiniteSupportUp.FiniteSupportTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
