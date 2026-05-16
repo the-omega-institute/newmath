@@ -1,0 +1,87 @@
+\begin{theorem}[AuthorizedGeneratorRecursor terminal-output readback]
+\label{thm:authorized-generator-recursor-terminal-output-readback}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ finite packet. Every terminal
+readback of the output row $O$ by a $\StreamNameUp$, $\RegSeqRatUp$, or
+$\RealUp$ consumer must first expose the same $\BHist$ packet, preserve the
+componentwise $\hsame$ row $H$, replay through the displayed $\Cont$ row $C$,
+retain the $\Pkg$ provenance row $P$, and name the read by the local
+$\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$. The readback is
+therefore a packet-local output route, not a selected real value, quotient
+stream datum, host equality, detached generator state, or off-packet proof
+channel.
+\end{theorem}
+\begin{proof}
+Begin with terminal-output readiness,
+\autoref{thm:authorized-generator-recursor-terminal-output-readiness}. It
+places $O$ inside the displayed carrier $R$ and keeps the output row behind the
+audit, transport, continuation, package, boundary, and local naming rows.
+
+Next use the Phase Real handoff rows,
+\autoref{thm:authorized-generator-recursor-phase-real-carrier-readiness} and
+\autoref{thm:authorized-generator-recursor-phase-real-regseqrat-handoff}. They
+force $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ reads to consume the same
+finite output route.
+
+Finally apply the L10 output authorization closure,
+\autoref{thm:authorized-generator-recursor-l10-output-authorization-closure}.
+That closure leaves no exported coordinate for a selected limit, quotient
+stream equality, host equality, hidden generator state, or external proof
+producer.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor finite-tail authorization]
+\label{thm:authorized-generator-recursor-finite-tail-authorization}
+For an accepted $\AuthorizedGeneratorRecursorUp$ packet
+$R=(I,E,M,B,D,O,A,H,C,P,G,N)$, every finite tail of a public output route read
+by $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ is authorized by the same
+rows $O,A,H,C,P,G,N$ with $I,E,M,B,D$ retained as the upstream generator
+surface. A tail consumer cannot shorten the route to a bare output token,
+external recursion rule, quotient completion object, or unledgered Real
+endpoint.
+\end{theorem}
+\begin{proof}
+Start from the StreamName finite-request publicity row,
+\autoref{thm:authorized-generator-recursor-streamname-finite-request-publicity}.
+It treats finite request sections as packet-local reads of the output row
+rather than as an unbounded stream.
+
+Use the RegSeqRat and Real seal output exhaustion row,
+\autoref{thm:authorized-generator-recursor-regseqrat-real-seal-output-exhaustion}.
+The regular-rational and Real-facing consumers see only the same finite packet
+rows and do not receive a detached completion witness.
+
+The local-name output exhaustion theorem,
+\autoref{thm:authorized-generator-recursor-local-name-output-exhaustion},
+then keeps every finite tail named by $N$ on the same $O,A,H,C,P,G$ surface.
+Thus the finite tail is authorized precisely by the displayed output packet.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor consumer ledger exhaustion]
+\label{thm:authorized-generator-recursor-consumer-ledger-exhaustion}
+Every consumer ledger for terminal output from an accepted
+$\AuthorizedGeneratorRecursorUp$ packet is exhausted by the finite rows
+$I,E,M,B,D,O,A,H,C,P,G,N$ together with the existing $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$ handoff rows. No downstream L10 consumer obtains
+a ledger extension for hidden generator state, selected limits, quotient
+stream equality, host completeness, host induction, or an off-packet proof
+channel.
+\end{theorem}
+\begin{proof}
+First project the Phase Real ledger non-escape row,
+\autoref{thm:authorized-generator-recursor-phase-real-ledger-nonescape}. It
+identifies the exported ledger with $A,H,C,P,G,N$ on the same finite carrier.
+
+Next combine terminal-output readback with finite-tail authorization above.
+The first theorem fixes the readback route for the output row, and the second
+keeps every finite tail on that same route for the stream-name,
+regular-rational, and Real-facing consumers.
+
+Finally use \autoref{thm:authorized-generator-recursor-real-stream-route} and
+the L10 output authorization closure. These surfaces route all downstream L10
+reads through the displayed packet, so the consumer ledger has no additional
+coordinate beyond $R$ and the named handoff rows.
+\end{proof}
