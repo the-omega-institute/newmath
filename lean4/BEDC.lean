@@ -741,6 +741,8 @@ import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp
 import BEDC.Derived.QuotientSoundnessBoundaryUp
+import BEDC.Derived.QuotientSoundnessBoundaryUp.BoundaryReadiness
+import BEDC.Derived.QuotientSoundnessBoundaryUp.CoreNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportSiblingHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerNormalization
@@ -1383,6 +1385,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootSelectorWindowPullbackUniqu
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootTransportReplay
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudget
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteConsumerExactness
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRealSealReadbackLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteSealFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteClassifierExhaustion

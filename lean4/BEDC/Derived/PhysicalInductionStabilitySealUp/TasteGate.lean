@@ -10,7 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive PhysicalInductionStabilitySealUp : Type where
-  | mk : (H F C S L R T P N : BHist) → PhysicalInductionStabilitySealUp
+  | mk :
+      (observation finiteFit continuation stability failure reuse transport provenance
+        localName : BHist) →
+      PhysicalInductionStabilitySealUp
   deriving DecidableEq
 
 def physicalInductionStabilitySealEncodeBHist : BHist → RawEvent
@@ -25,7 +28,7 @@ def physicalInductionStabilitySealDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (physicalInductionStabilitySealDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (physicalInductionStabilitySealDecodeBHist tail)
 
-private theorem physicalInductionStabilitySeal_decode_encode_bhist :
+private theorem physicalInductionStabilitySealDecode_encode_bhist :
     ∀ h : BHist,
       physicalInductionStabilitySealDecodeBHist
         (physicalInductionStabilitySealEncodeBHist h) = h := by
@@ -42,60 +45,108 @@ private theorem physicalInductionStabilitySeal_decode_encode_bhist :
 def physicalInductionStabilitySealToEventFlow :
     PhysicalInductionStabilitySealUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | PhysicalInductionStabilitySealUp.mk H F C S L R T P N =>
+  | PhysicalInductionStabilitySealUp.mk observation finiteFit continuation stability failure
+      reuse transport provenance localName =>
       [[BMark.b0],
-        physicalInductionStabilitySealEncodeBHist H,
+        physicalInductionStabilitySealEncodeBHist observation,
         [BMark.b1, BMark.b0],
-        physicalInductionStabilitySealEncodeBHist F,
+        physicalInductionStabilitySealEncodeBHist finiteFit,
         [BMark.b1, BMark.b1, BMark.b0],
-        physicalInductionStabilitySealEncodeBHist C,
+        physicalInductionStabilitySealEncodeBHist continuation,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        physicalInductionStabilitySealEncodeBHist S,
+        physicalInductionStabilitySealEncodeBHist stability,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        physicalInductionStabilitySealEncodeBHist L,
+        physicalInductionStabilitySealEncodeBHist failure,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        physicalInductionStabilitySealEncodeBHist R,
+        physicalInductionStabilitySealEncodeBHist reuse,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        physicalInductionStabilitySealEncodeBHist T,
+        physicalInductionStabilitySealEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        physicalInductionStabilitySealEncodeBHist P,
+        physicalInductionStabilitySealEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        physicalInductionStabilitySealEncodeBHist N]
+        physicalInductionStabilitySealEncodeBHist localName]
 
-private def physicalInductionStabilitySealEventAtDefault :
-    Nat → EventFlow → RawEvent
+def physicalInductionStabilitySealFromEventFlow :
+    EventFlow → Option PhysicalInductionStabilitySealUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      physicalInductionStabilitySealEventAtDefault index rest
-
-def physicalInductionStabilitySealFromEventFlow
-    (ef : EventFlow) : Option PhysicalInductionStabilitySealUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (PhysicalInductionStabilitySealUp.mk
-      (physicalInductionStabilitySealDecodeBHist
-        (physicalInductionStabilitySealEventAtDefault 1 ef))
-      (physicalInductionStabilitySealDecodeBHist
-        (physicalInductionStabilitySealEventAtDefault 3 ef))
-      (physicalInductionStabilitySealDecodeBHist
-        (physicalInductionStabilitySealEventAtDefault 5 ef))
-      (physicalInductionStabilitySealDecodeBHist
-        (physicalInductionStabilitySealEventAtDefault 7 ef))
-      (physicalInductionStabilitySealDecodeBHist
-        (physicalInductionStabilitySealEventAtDefault 9 ef))
-      (physicalInductionStabilitySealDecodeBHist
-        (physicalInductionStabilitySealEventAtDefault 11 ef))
-      (physicalInductionStabilitySealDecodeBHist
-        (physicalInductionStabilitySealEventAtDefault 13 ef))
-      (physicalInductionStabilitySealDecodeBHist
-        (physicalInductionStabilitySealEventAtDefault 15 ef))
-      (physicalInductionStabilitySealDecodeBHist
-        (physicalInductionStabilitySealEventAtDefault 17 ef)))
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | observation :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | finiteFit :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | continuation :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | stability :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | failure :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | reuse :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | transport :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | provenance :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | localName :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (PhysicalInductionStabilitySealUp.mk
+                                                                                  (physicalInductionStabilitySealDecodeBHist
+                                                                                    observation)
+                                                                                  (physicalInductionStabilitySealDecodeBHist
+                                                                                    finiteFit)
+                                                                                  (physicalInductionStabilitySealDecodeBHist
+                                                                                    continuation)
+                                                                                  (physicalInductionStabilitySealDecodeBHist
+                                                                                    stability)
+                                                                                  (physicalInductionStabilitySealDecodeBHist
+                                                                                    failure)
+                                                                                  (physicalInductionStabilitySealDecodeBHist
+                                                                                    reuse)
+                                                                                  (physicalInductionStabilitySealDecodeBHist
+                                                                                    transport)
+                                                                                  (physicalInductionStabilitySealDecodeBHist
+                                                                                    provenance)
+                                                                                  (physicalInductionStabilitySealDecodeBHist
+                                                                                    localName))
+                                                                          | _ :: _ => none
 
 private theorem physicalInductionStabilitySeal_round_trip :
     ∀ x : PhysicalInductionStabilitySealUp,
@@ -104,43 +155,47 @@ private theorem physicalInductionStabilitySeal_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk H F C S L R T P N =>
+  | mk observation finiteFit continuation stability failure reuse transport provenance
+      localName =>
       change
         some
           (PhysicalInductionStabilitySealUp.mk
             (physicalInductionStabilitySealDecodeBHist
-              (physicalInductionStabilitySealEncodeBHist H))
+              (physicalInductionStabilitySealEncodeBHist observation))
             (physicalInductionStabilitySealDecodeBHist
-              (physicalInductionStabilitySealEncodeBHist F))
+              (physicalInductionStabilitySealEncodeBHist finiteFit))
             (physicalInductionStabilitySealDecodeBHist
-              (physicalInductionStabilitySealEncodeBHist C))
+              (physicalInductionStabilitySealEncodeBHist continuation))
             (physicalInductionStabilitySealDecodeBHist
-              (physicalInductionStabilitySealEncodeBHist S))
+              (physicalInductionStabilitySealEncodeBHist stability))
             (physicalInductionStabilitySealDecodeBHist
-              (physicalInductionStabilitySealEncodeBHist L))
+              (physicalInductionStabilitySealEncodeBHist failure))
             (physicalInductionStabilitySealDecodeBHist
-              (physicalInductionStabilitySealEncodeBHist R))
+              (physicalInductionStabilitySealEncodeBHist reuse))
             (physicalInductionStabilitySealDecodeBHist
-              (physicalInductionStabilitySealEncodeBHist T))
+              (physicalInductionStabilitySealEncodeBHist transport))
             (physicalInductionStabilitySealDecodeBHist
-              (physicalInductionStabilitySealEncodeBHist P))
+              (physicalInductionStabilitySealEncodeBHist provenance))
             (physicalInductionStabilitySealDecodeBHist
-              (physicalInductionStabilitySealEncodeBHist N))) =
-          some (PhysicalInductionStabilitySealUp.mk H F C S L R T P N)
-      rw [physicalInductionStabilitySeal_decode_encode_bhist H,
-        physicalInductionStabilitySeal_decode_encode_bhist F,
-        physicalInductionStabilitySeal_decode_encode_bhist C,
-        physicalInductionStabilitySeal_decode_encode_bhist S,
-        physicalInductionStabilitySeal_decode_encode_bhist L,
-        physicalInductionStabilitySeal_decode_encode_bhist R,
-        physicalInductionStabilitySeal_decode_encode_bhist T,
-        physicalInductionStabilitySeal_decode_encode_bhist P,
-        physicalInductionStabilitySeal_decode_encode_bhist N]
+              (physicalInductionStabilitySealEncodeBHist localName))) =
+          some
+            (PhysicalInductionStabilitySealUp.mk observation finiteFit continuation
+              stability failure reuse transport provenance localName)
+      rw [physicalInductionStabilitySealDecode_encode_bhist observation,
+        physicalInductionStabilitySealDecode_encode_bhist finiteFit,
+        physicalInductionStabilitySealDecode_encode_bhist continuation,
+        physicalInductionStabilitySealDecode_encode_bhist stability,
+        physicalInductionStabilitySealDecode_encode_bhist failure,
+        physicalInductionStabilitySealDecode_encode_bhist reuse,
+        physicalInductionStabilitySealDecode_encode_bhist transport,
+        physicalInductionStabilitySealDecode_encode_bhist provenance,
+        physicalInductionStabilitySealDecode_encode_bhist localName]
 
 private theorem physicalInductionStabilitySealToEventFlow_injective
     {x y : PhysicalInductionStabilitySealUp} :
     physicalInductionStabilitySealToEventFlow x =
-      physicalInductionStabilitySealToEventFlow y → x = y := by
+        physicalInductionStabilitySealToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -153,21 +208,26 @@ private theorem physicalInductionStabilitySealToEventFlow_injective
     (Eq.trans (physicalInductionStabilitySeal_round_trip x).symm
       (Eq.trans hread (physicalInductionStabilitySeal_round_trip y)))
 
-private def physicalInductionStabilitySealFields :
+def physicalInductionStabilitySealFields :
     PhysicalInductionStabilitySealUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | PhysicalInductionStabilitySealUp.mk H F C S L R T P N => [H, F, C, S, L, R, T, P, N]
+  | PhysicalInductionStabilitySealUp.mk observation finiteFit continuation stability failure
+      reuse transport provenance localName =>
+      [observation, finiteFit, continuation, stability, failure, reuse, transport,
+        provenance, localName]
 
 private theorem physicalInductionStabilitySeal_field_faithful :
     ∀ x y : PhysicalInductionStabilitySealUp,
-      physicalInductionStabilitySealFields x =
-        physicalInductionStabilitySealFields y → x = y := by
+      physicalInductionStabilitySealFields x = physicalInductionStabilitySealFields y →
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk H1 F1 C1 S1 L1 R1 T1 P1 N1 =>
+  | mk observation finiteFit continuation stability failure reuse transport provenance
+      localName =>
       cases y with
-      | mk H2 F2 C2 S2 L2 R2 T2 P2 N2 =>
+      | mk observation' finiteFit' continuation' stability' failure' reuse' transport'
+          provenance' localName' =>
           cases hfields
           rfl
 
@@ -200,8 +260,8 @@ instance physicalInductionStabilitySealNontrivial :
     Nontrivial PhysicalInductionStabilitySealUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨PhysicalInductionStabilitySealUp.mk BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+    ⟨PhysicalInductionStabilitySealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       PhysicalInductionStabilitySealUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
@@ -213,24 +273,22 @@ def taste_gate : ChapterTasteGate PhysicalInductionStabilitySealUp :=
   physicalInductionStabilitySealChapterTasteGate
 
 theorem PhysicalInductionStabilitySealTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      physicalInductionStabilitySealDecodeBHist
-        (physicalInductionStabilitySealEncodeBHist h) = h) ∧
-      (∀ x : PhysicalInductionStabilitySealUp,
-        physicalInductionStabilitySealFromEventFlow
-          (physicalInductionStabilitySealToEventFlow x) = some x) ∧
-        (∀ x y : PhysicalInductionStabilitySealUp,
-          physicalInductionStabilitySealToEventFlow x =
-            physicalInductionStabilitySealToEventFlow y → x = y) ∧
-          physicalInductionStabilitySealEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+    ChapterTasteGate PhysicalInductionStabilitySealUp ∧
+      Nonempty (Nontrivial PhysicalInductionStabilitySealUp) ∧
+        Nonempty (FieldFaithful PhysicalInductionStabilitySealUp) ∧
+          (∀ h : BHist,
+            physicalInductionStabilitySealDecodeBHist
+              (physicalInductionStabilitySealEncodeBHist h) = h) ∧
+            physicalInductionStabilitySealEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   constructor
-  · exact physicalInductionStabilitySeal_decode_encode_bhist
+  · exact physicalInductionStabilitySealChapterTasteGate
   · constructor
-    · exact physicalInductionStabilitySeal_round_trip
+    · exact ⟨physicalInductionStabilitySealNontrivial⟩
     · constructor
-      · intro x y heq
-        exact physicalInductionStabilitySealToEventFlow_injective heq
-      · rfl
+      · exact ⟨physicalInductionStabilitySealFieldFaithful⟩
+      · constructor
+        · exact physicalInductionStabilitySealDecode_encode_bhist
+        · rfl
 
 end BEDC.Derived.PhysicalInductionStabilitySealUp
