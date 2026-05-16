@@ -7,12 +7,8 @@ Upstream sources have proposed new BOARD target candidates:
   research directions noticed while proving)
 - paper_review (editorial/referee discovery over the current paper surface)
 
-Your job: combine both lists, dedup against existing BOARD, classify each
-candidate for executable BOARD intake, and keep promising local candidates
-available for codex execution.  This is a wide-in / strict-out intake gate:
-the BOARD entry only creates a local execution target.  It is not paper
-acceptance.  Final paper text is still rejected later unless codex/oracle
-writeback, hygiene, logic-packet checks, and `make check` all pass.
+Your job: combine both lists, dedup against existing BOARD, judge each on
+fit_score and novelty, and decide which deserve their own BOARD entry.
 
 Existing BOARD.md (existing target ids and Object names):
 {board_content}
@@ -66,28 +62,17 @@ For each candidate, run the following audit:
 
 8. **fit_score (0-10)**. How well does it land in the existing BEDC theory
    surface? 10 = directly fills a known gap; 7 = clearly belongs in scope;
-   4 = marginal; 0 = out of scope.  Treat this as a ranking/risk signal,
-   not by itself a hard reject, when the packet is BEDC-local, concrete,
-   non-duplicate, and has a safe landing.
+   4 = marginal; 0 = out of scope.
 
 9. **novelty (0-10)**. How distinct is it from all existing BOARD entries
    AND paper content combined? 10 = entirely new direction; 7 = new but
    in a known sub-area; 4 = adjacent to existing work; 0 = duplicate.
-   Hard-reject duplicates and already-covered results.  Otherwise use
-   novelty as a sorting/risk signal; weak-but-local candidates may still
-   enter as existing_chapter_obligation or existing_chapter_ledger_row.
 
 10. **maker/checker dual judgment**. For each candidate:
    - codex's evaluation (already present in candidate's source — codex
      wouldn't have surfaced it without finding value)
    - your independent claude evaluation (this gate)
-   The second-pass evaluation must classify the candidate, not merely score
-   it.  Prefer `rejected_candidates` only for hard failures: duplicate,
-   already_in_paper, out_of_scope, marker-only/verification-axis,
-   unsafe landing, external-source-as-evidence, conjecture fallback, or
-   non-BEDC input.  Low maturity, low fit, missing support, or weak novelty
-   should be returned with a conservative existing-chapter landing when
-   there is still a concrete local obligation for codex to attempt.
+   Both fit_score and novelty must satisfy thresholds.
 
 11. **Bridge continuation candidates**. If a candidate title, claim, or
     rationale contains `Automath continuation`, `Bridge continuation target`,
@@ -102,17 +87,10 @@ For each candidate, run the following audit:
     `rationale`; do not collapse it to a generic open problem. Drop
     `bridge_consumption_mode=evidence_only` candidates from BOARD intake.
 
-Acceptance guidance:
-- Hard requirements: did not duplicate BOARD or paper; has a BEDC-native
-  local landing; is not marker-only, verification-axis, or external proof
-  evidence; and is expressible as a concrete implication/obligation.
-- fit_score and novelty are advisory risk signals.  Preserve them honestly,
-  but do not reject a local, concrete, safe candidate only because one score
-  is below the old threshold.
-- If a candidate needs deep proof search, set or preserve
-  `oracle_mode=proof_search` in the accepted object/rationale.  If it looks
-  deterministic/local, keep `oracle_mode=candidate_generation` or omit it;
-  codex should try it first.
+Acceptance thresholds:
+- fit_score ≥ 7
+- novelty ≥ 6
+- Did not duplicate BOARD or paper
 
 Return one JSON object on stdout:
 
@@ -139,13 +117,11 @@ Return one JSON object on stdout:
   ]
 }}
 
-Be boundary-strict, not idea-strict. An accepted BOARD entry creates
-downstream work (codex round + possible oracle escalate + Stage write), but
-it still cannot write paper unless the later gates pass. When in doubt
-between "weak but local" and "reject", keep the candidate with a smaller
-existing_chapter_obligation / existing_chapter_ledger_row landing. Reject
-only when the candidate is unsafe, duplicate, non-BEDC, or tries to treat
-external metadata as proof evidence.
+Be selective. An accepted BOARD entry creates downstream work (codex round +
+possible oracle escalate + Stage write). False positives cost more than
+false negatives. When in doubt, reject with rationale; if it's truly
+important the same candidate will surface again from a future target's
+research.
 
 Empty `accepted_candidates` is acceptable. Do NOT invent candidates that
 neither codex nor oracle proposed. Do NOT propose anything outside BEDC
