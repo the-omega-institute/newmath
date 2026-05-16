@@ -1,0 +1,92 @@
+\begin{theorem}[Reality-constrained TruthCert root TasteGate obligation]
+\label{thm:reality-constrained-truth-cert-root-tastegate-obligation}
+For an accepted $\RealityConstrainedTruthCertUp$ packet
+$$
+(S,\Sigma,K,T,U,D,I,L,F,N),
+$$
+the root TasteGate obligation is determined by exactly the displayed source,
+signature, classifier, tower, stability, descent, invariant, ledger, failure,
+and local-name rows. The Lean TasteGate instance reads this finite packet and
+does not read a hidden truth coordinate, a hidden classifier choice, or an
+off-packet source of reality.
+\end{theorem}
+\begin{proof}
+Use the carrier and field-coverage rows,
+\autoref{def:reality-constrained-truth-cert-carrier} and
+\autoref{thm:reality-constrained-truth-cert-field-coverage}. They make
+$(S,\Sigma,K,T,U,D,I,L,F,N)$ the whole admitted TruthCert packet before the
+local name is exposed.
+
+Next apply sibling dependency, root readiness, and root consumer totality,
+\autoref{thm:reality-constrained-truth-cert-sibling-dependency},
+\autoref{thm:reality-constrained-truth-cert-root-readiness-packet}, and
+\autoref{thm:reality-constrained-truth-cert-root-consumer-totality}. These
+results force every root consumer to pass through the displayed sibling routes
+and through the same finite carrier.
+
+Finally use root classifier stability and root ledger nonescape,
+\autoref{thm:reality-constrained-truth-cert-root-classifier-stability} and
+\autoref{thm:reality-constrained-truth-cert-root-ledger-nonescape}. The
+classifier row $K$, ledger row $L$, and failure row $F$ remain internal to the
+packet, so the TasteGate read has no coordinate beyond
+$S,\Sigma,K,T,U,D,I,L,F,N$.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert root nontrivial readiness]
+\label{thm:reality-constrained-truth-cert-root-nontrivial-readiness}
+The root nontriviality obligation for $\RealityConstrainedTruthCertUp$ is
+witnessed at the packet surface
+$$
+(S,\Sigma,K,T,U,D,I,L,F,N).
+$$
+A nontrivial TasteGate reading must distinguish accepted packet presence from
+off-packet absence by the displayed carrier, field coverage, sibling
+dependency, root readiness, root consumer totality, root classifier stability,
+and root ledger nonescape rows, not by a separate truth object.
+\end{theorem}
+\begin{proof}
+Carrier admission and field coverage first supply the finite packet and its
+mandatory rows. Thus packet presence is read through
+$S,\Sigma,K,T,U,D,I,L,F,N$, while off-packet absence has no local
+$\NameCert_{\RealityConstrainedTruthCertUp}$ row to expose.
+
+Sibling dependency, root readiness, and root consumer totality then determine
+which downstream reads count as root-facing reads. A consumer that omits one
+of the displayed sibling routes or displayed rows receives only a projection,
+so it cannot be the nontrivial root packet.
+
+Root classifier stability and root ledger nonescape close the distinction at
+the classifier and ledger boundary. The rows $K,L,F,N$ remain part of the same
+finite packet, so the Lean TasteGate instance may witness nontriviality from
+packet presence versus off-packet absence without consulting any hidden truth
+coordinate.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert root field-faithful readiness]
+\label{thm:reality-constrained-truth-cert-root-field-faithful-readiness}
+The root field-faithfulness obligation for $\RealityConstrainedTruthCertUp$ is
+ready exactly when every TasteGate read of
+$$
+(S,\Sigma,K,T,U,D,I,L,F,N)
+$$
+preserves the displayed rows as the TruthCert fields. In particular, the
+source, signature, classifier, tower, stability, descent, invariant, ledger,
+failure, and local-name rows are not compressed into a hidden truth
+coordinate, and no root consumer may replace their field order by an ambient
+object.
+\end{theorem}
+\begin{proof}
+Start from the carrier and field-coverage theorems. They identify the accepted
+packet rows and make them the TruthCert fields that must be preserved before
+$N$ becomes readable.
+
+Apply sibling dependency, root readiness, and root consumer totality. These
+theorems route the open-fit, objectivity, explanation, physical-induction, and
+tower-compression dependencies through the same displayed packet, so a
+root-facing read cannot rearrange the fields through a second consumer path.
+
+Finally use root classifier stability and root ledger nonescape. They keep
+$K$ attached to signature comparison and keep $L,F$ attached to ledger and
+failure discipline. Hence a field-faithful Lean TasteGate instance reads
+exactly $S,\Sigma,K,T,U,D,I,L,F,N$ and nothing outside that finite packet.
+\end{proof}
