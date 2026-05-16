@@ -194,4 +194,33 @@ theorem ClassifierMorphismPacket_public_composition_export [AskSetup] [PackageSe
     unary_cont_closed compositeContUnary nameCertUnary publicRoute
   exact ⟨compositePacket, publicUnary, publicRoute, publicPkg⟩
 
+theorem ClassifierMorphismPacket_kernel_compiler_route_exhaustion [AskSetup] [PackageSetup]
+    {source target graph extPreservation sigPreservation contPreservation transport provenance
+      nameCert compilerRead : BHist}
+    {mark : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierMorphismPacket source target graph extPreservation sigPreservation
+        contPreservation transport provenance nameCert mark bundle pkg →
+      Cont contPreservation nameCert compilerRead →
+        PkgSig bundle compilerRead pkg →
+          UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+            UnaryHistory extPreservation ∧ UnaryHistory sigPreservation ∧
+              UnaryHistory contPreservation ∧ UnaryHistory compilerRead ∧
+                Ext source mark extPreservation ∧ SigRel bundle target sigPreservation ∧
+                  Cont extPreservation sigPreservation contPreservation ∧
+                    Cont contPreservation nameCert compilerRead ∧
+                      hsame transport contPreservation ∧ hsame provenance contPreservation ∧
+                        hsame nameCert contPreservation ∧ PkgSig bundle contPreservation pkg ∧
+                          PkgSig bundle compilerRead pkg := by
+  -- BEDC touchpoint anchor: BHist BMark ProbeBundle Pkg Ext SigRel Cont hsame UnaryHistory
+  intro packet compilerRoute compilerPkg
+  obtain ⟨sourceUnary, targetUnary, graphUnary, extUnary, sigUnary, contUnary,
+    _transportUnary, _provenanceUnary, nameCertUnary, extRow, sigRow, contRow,
+    transportSame, provenanceSame, nameSame, contPkg⟩ := packet
+  have compilerUnary : UnaryHistory compilerRead :=
+    unary_cont_closed contUnary nameCertUnary compilerRoute
+  exact
+    ⟨sourceUnary, targetUnary, graphUnary, extUnary, sigUnary, contUnary, compilerUnary,
+      extRow, sigRow, contRow, compilerRoute, transportSame, provenanceSame, nameSame, contPkg,
+      compilerPkg⟩
+
 end BEDC.Derived.ClassifierMorphismUp
