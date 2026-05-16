@@ -1,0 +1,53 @@
+\begin{theorem}[GapClosureBoundary terminal route totality]
+\label{thm:gap-closure-boundary-terminal-route-totality}
+For every accepted $\GapClosureBoundaryUp$ carrier
+$$
+B=(G,S,R,H,C,P,N),
+$$
+every terminal read of the root request row is routed through exactly one displayed branch. A supported terminal read uses the source branch
+$$
+G \longrightarrow S
+$$
+with the componentwise $\hsame$ row $H$, the displayed $\Cont$ row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\GapClosureBoundaryUp}$ row $N$. An unsupported terminal read uses the refusal branch
+$$
+G \longrightarrow R
+$$
+with the same structural rows. No terminal read exports a row outside the finite $\BHist$ packet $G,S,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and local certificate obligations of \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. They expose the finite $\BHist$ packet and assign $H,C,P,N$ to componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+
+For the supported branch, apply terminal source admission from \autoref{thm:gap-closure-boundary-terminal-source-admission} together with route completion, \autoref{thm:gap-closure-boundary-namecert-route-completion}. These rows force the accepted terminal source read to pass through $G \longrightarrow S$ before any consumer reads the structural surface.
+
+For the unsupported branch, apply refusal route exactness from \autoref{thm:gap-closure-boundary-refusal-route-exactness} and refusal totality readback, \autoref{thm:gap-closure-boundary-refusal-totality-readback}. The same request row is sent to $R$ and remains under $H,C,P,N$.
+
+Finally use ledger exhaustion, \autoref{thm:gap-closure-boundary-ledger-exhaustion}. The ledger has no third terminal endpoint beyond the source and refusal branches, so every terminal read is accounted for by one of the two displayed routes.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal NameCert factorization]
+\label{thm:gap-closure-boundary-refusal-namecert-factorization}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, every unsupported request factors through the local $\NameCert_{\GapClosureBoundaryUp}$ row. The factorization first records the refusal endpoint $R$, then transports it by the componentwise $\hsame$ row $H$, replays it through the displayed $\Cont$ row $C$, packages it by the $\Pkg$ row $P$, and names the resulting refusal read by $N$. Thus unsupported requests remain inside the finite $\BHist$ carrier and cannot be read as an unnamed closure resource.
+\end{theorem}
+\begin{proof}
+Read the refusal route from \autoref{thm:gap-closure-boundary-refusal-route-exactness}. An unsupported request cannot use the source branch, so its endpoint is the displayed refusal row $R$.
+
+Next apply the NameCert route completion theorem, \autoref{thm:gap-closure-boundary-namecert-route-completion}. It identifies the refusal route as one of the local certificate duties and records the structural rows $H,C,P,N$ as the only transport, replay, provenance, and naming data attached to that duty.
+
+Now use the refusal classifier stability and refusal totality readback rows of \autoref{thm:gap-closure-boundary-refusal-classifier-stability} and \autoref{thm:gap-closure-boundary-refusal-totality-readback}. They preserve the refusal endpoint through the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface rather than replacing it by a source witness.
+
+The requested factorization is therefore the displayed path through $R,H,C,P,N$ ending at $N$. Since the carrier exposes no additional row beyond $G,S,R,H,C,P,N$, the unsupported request stays within the local $\NameCert_{\GapClosureBoundaryUp}$ packet.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary consumer surface exhaustion]
+\label{thm:gap-closure-boundary-consumer-surface-exhaustion}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, the hard-problem consumers $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$ receive only the rows $G,S,R,H,C,P,N$. Supported consumers read the terminal source branch $G \longrightarrow S$; unsupported consumers read the refusal branch $G \longrightarrow R$; and all such reads are carried by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with consumer ledger exhaustion, \autoref{thm:gap-closure-boundary-consumer-ledger-exhaustion}. It places each listed hard-problem consumer on the shared source/refusal ledger rather than on a consumer-specific surface.
+
+For supported consumers, use terminal route totality from \autoref{thm:gap-closure-boundary-terminal-route-totality}. The only available supported endpoint is $G \longrightarrow S$ with the structural rows $H,C,P,N$.
+
+For unsupported consumers, use refusal NameCert factorization from \autoref{thm:gap-closure-boundary-refusal-namecert-factorization}. The unsupported request is routed through $R,H,C,P,N$ and named by the same local certificate row $N$.
+
+Finally apply route ledger exhaustion from \autoref{thm:gap-closure-boundary-ledger-exhaustion}. The ledger is exhausted by $G,S,R,H,C,P,N$, so the listed consumers receive no additional hard-problem coordinate outside the displayed packet.
+\end{proof}
