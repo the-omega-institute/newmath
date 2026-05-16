@@ -1,0 +1,45 @@
+\begin{theorem}[GapClosureBoundary NameCert route totality]
+\label{thm:gap-closure-boundary-namecert-route-totality}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, the root NameCert route is total exactly on the displayed carrier, source, and refusal rows. A supported read factors through the source branch
+$$
+G \longrightarrow S,
+$$
+an unsupported read factors through the refusal ledger
+$$
+G \longrightarrow R,
+$$
+and both branches are transported by $H$, replayed by $C$, packaged by $P$, and named by $N$. The route exports no hidden closure coordinate, hidden $\mathsf{T}$ supply, private source witness, host equality row, quotient datum, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and local certificate obligations, \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. They expose the finite $\BHist$ packet $G,S,R,H,C,P,N$ and assign $H,C,P,N$ to componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+
+For supported reads, apply source-route totality and route completion totality, \autoref{thm:gap-closure-boundary-source-route-totality} and \autoref{thm:gap-closure-boundary-route-completion-totality}. These keep the carrier/source branch on $G \longrightarrow S$ before downstream consumers inspect the structural rows.
+
+For unsupported reads, apply refusal route totality and refusal NameCert factorization, \autoref{thm:gap-closure-boundary-refusal-route-totality} and \autoref{thm:gap-closure-boundary-refusal-namecert-factorization}. They send the same request row to $R$ and keep the refusal endpoint inside $H,C,P,N$.
+
+Structural row conservation then removes the remaining escape routes. Since $H,C,P,N$ only transport, replay, package, and name the displayed source/refusal packet, the NameCert route is total exactly on the two branches.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary source readback]
+\label{thm:gap-closure-boundary-source-readback}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, source readback is exhausted by the displayed refusal ledger together with the supported source branch. If a root request displays the source row, the readback is the branch $G \longrightarrow S$ under $H,C,P,N$; if it does not display the source row, the readback is the refusal ledger $G \longrightarrow R$ under the same structural rows. No additional readback row can convert the refusal ledger into source evidence or erase the displayed source branch.
+\end{theorem}
+\begin{proof}
+Read the supported side through terminal route totality, \autoref{thm:gap-closure-boundary-terminal-route-totality}. It says a supported terminal read uses $G \longrightarrow S$ with the same componentwise transport, continuation, provenance, and local naming rows.
+
+Read the unsupported side through refusal ledger totality and route completion totality, \autoref{thm:gap-closure-boundary-refusal-ledger-totality} and \autoref{thm:gap-closure-boundary-route-completion-totality}. These results exhaust off-source reads at $R$ and keep them under $H,C,P,N$.
+
+The source readback is therefore determined by whether $S$ is displayed. The refusal ledger remains visible as the negative branch, and the accepted packet contains no further coordinate that can supply a second source witness or erase the branch distinction.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary downstream unblock package]
+\label{thm:gap-closure-boundary-downstream-unblock-package}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, the downstream unblock surface for $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$ is exactly the package of the carrier row $G$, the source/refusal rows $S,R$, the componentwise $\hsame$ row $H$, the displayed $\Cont$ row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$. A downstream consumer may consume the supported source route or the refusal ledger, but it receives no consumer-specific hidden closure row, private access row, host equality row, quotient datum, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start with the root unblock package, \autoref{thm:gap-closure-boundary-root-unblock-package}. It already lists the hard-problem consumers as readers of the shared source/refusal boundary rather than as owners of separate carrier data.
+
+Next apply NameCert route totality and source readback from the two preceding theorems. These bind the carrier/source/refusal route to $G,S,R$ and keep both supported and unsupported reads under $H,C,P,N$.
+
+Finally use consumer surface exhaustion, \autoref{thm:gap-closure-boundary-consumer-surface-exhaustion}. Since every listed downstream consumer is exhausted by the same finite packet, the downstream unblock package is precisely the displayed $\BHist$, $\Gap$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+\end{proof}
