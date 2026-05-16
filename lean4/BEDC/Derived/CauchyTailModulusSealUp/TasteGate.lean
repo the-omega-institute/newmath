@@ -105,34 +105,20 @@ def cauchyTailModulusSealFromEventFlow : EventFlow → Option CauchyTailModulusS
                                                           | [] =>
                                                               some
                                                                 (CauchyTailModulusSealUp.mk
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    M)
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    F)
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    X)
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    tau)
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    D)
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    W0)
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    W1)
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    Q0)
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    Q1)
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    E)
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    H)
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    C)
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    P)
-                                                                  (cauchyTailModulusSealDecodeBHist
-                                                                    N))
+                                                                  (cauchyTailModulusSealDecodeBHist M)
+                                                                  (cauchyTailModulusSealDecodeBHist F)
+                                                                  (cauchyTailModulusSealDecodeBHist X)
+                                                                  (cauchyTailModulusSealDecodeBHist tau)
+                                                                  (cauchyTailModulusSealDecodeBHist D)
+                                                                  (cauchyTailModulusSealDecodeBHist W0)
+                                                                  (cauchyTailModulusSealDecodeBHist W1)
+                                                                  (cauchyTailModulusSealDecodeBHist Q0)
+                                                                  (cauchyTailModulusSealDecodeBHist Q1)
+                                                                  (cauchyTailModulusSealDecodeBHist E)
+                                                                  (cauchyTailModulusSealDecodeBHist H)
+                                                                  (cauchyTailModulusSealDecodeBHist C)
+                                                                  (cauchyTailModulusSealDecodeBHist P)
+                                                                  (cauchyTailModulusSealDecodeBHist N))
                                                           | _ :: _ => none
 
 private theorem cauchyTailModulusSeal_round_trip :
@@ -245,9 +231,20 @@ theorem CauchyTailModulusSealTasteGate_single_carrier_alignment :
           cauchyTailModulusSealToEventFlow x = cauchyTailModulusSealToEventFlow y →
             x = y) ∧
           Nonempty (Nontrivial CauchyTailModulusSealUp) ∧
-            cauchyTailModulusSealEncodeBHist BHist.Empty = ([] : RawEvent) := by
+            Nonempty
+              (@ChapterTasteGate CauchyTailModulusSealUp cauchyTailModulusSealBHistCarrier) ∧
+              Nonempty
+                (@FieldFaithful CauchyTailModulusSealUp cauchyTailModulusSealBHistCarrier) ∧
+                cauchyTailModulusSealEncodeBHist BHist.Empty = ([] : RawEvent) := by
   constructor
-  · exact cauchyTailModulusSealDecode_encode_bhist
+  · intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
   · constructor
     · exact cauchyTailModulusSeal_round_trip
     · constructor
@@ -255,6 +252,22 @@ theorem CauchyTailModulusSealTasteGate_single_carrier_alignment :
         exact cauchyTailModulusSealToEventFlow_injective heq
       · constructor
         · exact ⟨cauchyTailModulusSealNontrivial⟩
-        · rfl
+        · constructor
+          · exact ⟨{
+              round_trip := by
+                intro x
+                change cauchyTailModulusSealFromEventFlow
+                  (cauchyTailModulusSealToEventFlow x) = some x
+                exact cauchyTailModulusSeal_round_trip x
+              layer_separation := by
+                intro x y hxy heq
+                exact hxy (cauchyTailModulusSealToEventFlow_injective heq)
+            }⟩
+          · constructor
+            · exact ⟨{
+                fields := cauchyTailModulusSealFields
+                field_faithful := cauchyTailModulusSeal_fields_faithful
+              }⟩
+            · rfl
 
 end BEDC.Derived.CauchyTailModulusSealUp
