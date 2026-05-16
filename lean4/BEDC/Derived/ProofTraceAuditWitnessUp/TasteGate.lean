@@ -12,7 +12,7 @@ open BEDC.Meta.TasteGate
 inductive ProofTraceAuditWitnessUp : Type where
   | mk :
       (trace source classifier transport ledger forbidden verdict provenance name : BHist) →
-        ProofTraceAuditWitnessUp
+      ProofTraceAuditWitnessUp
   deriving DecidableEq
 
 def proofTraceAuditWitnessEncodeBHist : BHist → RawEvent
@@ -27,7 +27,7 @@ def proofTraceAuditWitnessDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (proofTraceAuditWitnessDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (proofTraceAuditWitnessDecodeBHist tail)
 
-private theorem proofTraceAuditWitnessDecodeEncodeBHist :
+private theorem proofTraceAuditWitness_decode_encode_bhist :
     ∀ h : BHist,
       proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -39,6 +39,12 @@ private theorem proofTraceAuditWitnessDecodeEncodeBHist :
       exact congrArg BHist.e0 ih
   | e1 h ih =>
       exact congrArg BHist.e1 ih
+
+def proofTraceAuditWitnessFields : ProofTraceAuditWitnessUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | ProofTraceAuditWitnessUp.mk trace source classifier transport ledger forbidden verdict
+      provenance name =>
+      [trace, source, classifier, transport, ledger, forbidden, verdict, provenance, name]
 
 def proofTraceAuditWitnessToEventFlow : ProofTraceAuditWitnessUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
@@ -143,13 +149,11 @@ def proofTraceAuditWitnessFromEventFlow :
                                                                                     provenance)
                                                                                   (proofTraceAuditWitnessDecodeBHist
                                                                                     name))
-                                                                          | _ :: _ =>
-                                                                              none
+                                                                          | _ :: _ => none
 
 private theorem proofTraceAuditWitness_round_trip :
     ∀ x : ProofTraceAuditWitnessUp,
-      proofTraceAuditWitnessFromEventFlow (proofTraceAuditWitnessToEventFlow x) =
-        some x := by
+      proofTraceAuditWitnessFromEventFlow (proofTraceAuditWitnessToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -159,25 +163,29 @@ private theorem proofTraceAuditWitness_round_trip :
           (ProofTraceAuditWitnessUp.mk
             (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEncodeBHist trace))
             (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEncodeBHist source))
-            (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEncodeBHist classifier))
-            (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEncodeBHist transport))
+            (proofTraceAuditWitnessDecodeBHist
+              (proofTraceAuditWitnessEncodeBHist classifier))
+            (proofTraceAuditWitnessDecodeBHist
+              (proofTraceAuditWitnessEncodeBHist transport))
             (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEncodeBHist ledger))
-            (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEncodeBHist forbidden))
+            (proofTraceAuditWitnessDecodeBHist
+              (proofTraceAuditWitnessEncodeBHist forbidden))
             (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEncodeBHist verdict))
-            (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEncodeBHist provenance))
+            (proofTraceAuditWitnessDecodeBHist
+              (proofTraceAuditWitnessEncodeBHist provenance))
             (proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEncodeBHist name))) =
           some
             (ProofTraceAuditWitnessUp.mk trace source classifier transport ledger forbidden
               verdict provenance name)
-      rw [proofTraceAuditWitnessDecodeEncodeBHist trace,
-        proofTraceAuditWitnessDecodeEncodeBHist source,
-        proofTraceAuditWitnessDecodeEncodeBHist classifier,
-        proofTraceAuditWitnessDecodeEncodeBHist transport,
-        proofTraceAuditWitnessDecodeEncodeBHist ledger,
-        proofTraceAuditWitnessDecodeEncodeBHist forbidden,
-        proofTraceAuditWitnessDecodeEncodeBHist verdict,
-        proofTraceAuditWitnessDecodeEncodeBHist provenance,
-        proofTraceAuditWitnessDecodeEncodeBHist name]
+      rw [proofTraceAuditWitness_decode_encode_bhist trace,
+        proofTraceAuditWitness_decode_encode_bhist source,
+        proofTraceAuditWitness_decode_encode_bhist classifier,
+        proofTraceAuditWitness_decode_encode_bhist transport,
+        proofTraceAuditWitness_decode_encode_bhist ledger,
+        proofTraceAuditWitness_decode_encode_bhist forbidden,
+        proofTraceAuditWitness_decode_encode_bhist verdict,
+        proofTraceAuditWitness_decode_encode_bhist provenance,
+        proofTraceAuditWitness_decode_encode_bhist name]
 
 private theorem proofTraceAuditWitnessToEventFlow_injective
     {x y : ProofTraceAuditWitnessUp} :
@@ -191,6 +199,19 @@ private theorem proofTraceAuditWitnessToEventFlow_injective
   exact Option.some.inj
     (Eq.trans (proofTraceAuditWitness_round_trip x).symm
       (Eq.trans hread (proofTraceAuditWitness_round_trip y)))
+
+private theorem proofTraceAuditWitness_field_faithful :
+    ∀ x y : ProofTraceAuditWitnessUp,
+      proofTraceAuditWitnessFields x = proofTraceAuditWitnessFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk trace source classifier transport ledger forbidden verdict provenance name =>
+      cases y with
+      | mk trace' source' classifier' transport' ledger' forbidden' verdict' provenance'
+          name' =>
+          cases hfields
+          rfl
 
 instance proofTraceAuditWitnessBHistCarrier : BHistCarrier ProofTraceAuditWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -210,54 +231,50 @@ instance proofTraceAuditWitnessChapterTasteGate :
 
 instance proofTraceAuditWitnessFieldFaithful : FieldFaithful ProofTraceAuditWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields
-    | ProofTraceAuditWitnessUp.mk trace source classifier transport ledger forbidden verdict
-        provenance name =>
-        [trace, source, classifier, transport, ledger, forbidden, verdict, provenance, name]
-  field_faithful := by
-    intro x y hfields
-    cases x with
-    | mk trace source classifier transport ledger forbidden verdict provenance name =>
-        cases y with
-        | mk trace' source' classifier' transport' ledger' forbidden' verdict' provenance'
-            name' =>
-            cases hfields
-            rfl
+  fields := proofTraceAuditWitnessFields
+  field_faithful := proofTraceAuditWitness_field_faithful
 
 instance proofTraceAuditWitnessNontrivial : Nontrivial ProofTraceAuditWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨ProofTraceAuditWitnessUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      ProofTraceAuditWitnessUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      ProofTraceAuditWitnessUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate ProofTraceAuditWitnessUp := by
+def taste_gate : ChapterTasteGate ProofTraceAuditWitnessUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  exact proofTraceAuditWitnessChapterTasteGate
+  proofTraceAuditWitnessChapterTasteGate
 
 theorem ProofTraceAuditWitnessTasteGate_single_carrier_alignment :
-    (∀ h : BHist, proofTraceAuditWitnessDecodeBHist
-        (proofTraceAuditWitnessEncodeBHist h) = h) ∧
+    (∀ h : BHist,
+      proofTraceAuditWitnessDecodeBHist (proofTraceAuditWitnessEncodeBHist h) = h) ∧
       (∀ x : ProofTraceAuditWitnessUp,
-        proofTraceAuditWitnessFromEventFlow (proofTraceAuditWitnessToEventFlow x) =
-          some x) ∧
+        proofTraceAuditWitnessFromEventFlow (proofTraceAuditWitnessToEventFlow x) = some x) ∧
         (∀ x y : ProofTraceAuditWitnessUp,
           proofTraceAuditWitnessToEventFlow x = proofTraceAuditWitnessToEventFlow y →
             x = y) ∧
-          proofTraceAuditWitnessEncodeBHist BHist.Empty = ([] : List BMark) := by
+          Nonempty (Nontrivial ProofTraceAuditWitnessUp) ∧
+            Nonempty (ChapterTasteGate ProofTraceAuditWitnessUp) ∧
+              Nonempty (FieldFaithful ProofTraceAuditWitnessUp) ∧
+                proofTraceAuditWitnessEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact proofTraceAuditWitnessDecodeEncodeBHist
+  · exact proofTraceAuditWitness_decode_encode_bhist
   · constructor
-    · intro x
-      exact proofTraceAuditWitness_round_trip x
+    · exact proofTraceAuditWitness_round_trip
     · constructor
       · intro x y heq
         exact proofTraceAuditWitnessToEventFlow_injective heq
-      · rfl
+      · constructor
+        · exact ⟨proofTraceAuditWitnessNontrivial⟩
+        · constructor
+          · exact ⟨proofTraceAuditWitnessChapterTasteGate⟩
+          · constructor
+            · exact ⟨proofTraceAuditWitnessFieldFaithful⟩
+            · rfl
 
 end BEDC.Derived.ProofTraceAuditWitnessUp
