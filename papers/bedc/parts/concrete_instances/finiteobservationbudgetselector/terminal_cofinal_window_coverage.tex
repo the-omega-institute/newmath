@@ -394,3 +394,31 @@ Next use the cofinal schedule lock and tail-meet synchronization, \autoref{thm:f
 
 Finally invoke window seal inversion, \autoref{thm:finite-observation-budget-selector-terminal-window-seal-inversion}. The Real-seal route and the terminal cofinal window determine one another over the displayed packet. Therefore the terminal section is choice-free in the stated sense: it is fixed by $S$, the tail-meet route, and the Real-seal route, and it has no hidden subsequence, host limit, quotient, host equality, detached completion, metric-completeness, or ambient-completeness coordinate.
 \end{proof}
+
+\begin{theorem}[Finite observation-budget selector budget-prefix pullback inversion]
+\label{thm:finite-observation-budget-selector-budget-prefix-pullback-inversion}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Suppose a terminal four-face section is compatible with $F$, its finite budget prefix and selected-schedule prefix agree with the displayed rows $B,S$, and its terminal seal agrees with $E$ through the displayed transport, continuation, provenance, and local naming rows $H,C,P,N$. Then that terminal section is forced to be the finite route
+$$
+B \to S \to W \to D \to R \to E.
+$$
+Conversely, a section that passes through the displayed rows $B,S,W,D,R,E,H,C,P,N$ is exactly a compatible terminal four-face section for $F$.
+
+This inversion exports only the accepted budget prefix, selected schedule, window family, dyadic ledger, regular readback, Real seal, componentwise $\hsame$ transports, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row. It excludes quotient streams, host real equality, choice rows, hidden selectors, detached completion limits, metric-completeness rows, and ambient completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, begin with the agreed budget and schedule prefix. Terminal budget exhaustion, \autoref{thm:finite-observation-budget-selector-terminal-budget-exhaustion}, confines any compatible terminal route reaching $E$ to the displayed packet rows, so the prefix inventory cannot be enlarged beyond $B,S$ and the rows they expose.
+
+Next bind the four terminal faces. The terminal four-face pullback lock, \autoref{thm:finite-observation-budget-selector-terminal-four-face-pullback-lock}, identifies the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces as $W,D,R,E$ inside the same $H,C,P,N$ envelope.
+
+Now recover the window from the seal-facing read. Terminal window seal inversion, \autoref{thm:finite-observation-budget-selector-terminal-window-seal-inversion}, says that the Real-seal route and the terminal cofinal window determine one another over the displayed packet. Since the seal agrees with $E$ through $H,C,P,N$, the window-facing section is the displayed $W$ rather than a detached completion-side choice.
+
+Finally remove hidden selection. Terminal window choice-free section, \autoref{thm:finite-observation-budget-selector-terminal-window-choice-free-section}, fixes the terminal cofinal-window section from $S$, the shared tail-meet route, and the Real-seal route. The forward section is therefore the finite route $B \to S \to W \to D \to R \to E$, with no quotient stream, host real equality, choice row, hidden selector, detached completion limit, metric-completeness row, or ambient completeness coordinate.
+
+For the converse direction, read the displayed route as a terminal consumer surface. The four-face terminal correspondence, \autoref{thm:finite-observation-budget-selector-four-face-terminal-correspondence}, assembles the four displayed faces $W,D,R,E$ together with the agreed rows $B,S,H,C,P,N$ into a compatible terminal consumer for $F$.
+
+The same correspondence identifies that consumer with the terminal four-face section it exposes. Hence any route through the displayed rows is exactly the compatible terminal four-face section, and the excluded quotient, host-equality, choice, hidden-selector, detached-limit, metric-completeness, and ambient-completeness data have no coordinate in either direction.
+\end{proof}
