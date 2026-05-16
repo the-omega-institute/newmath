@@ -218,4 +218,30 @@ theorem RealityConstrainedSignatureFitCarrier_namecert_obligation_rows
             (RealityConstrainedSignatureFitUp.mk S A M G P C H Q N),
           rfl⟩
 
+theorem RealityConstrainedSignatureFitCarrier_no_free_descent
+    (R : RealityConstrainedSignatureFitUp) :
+    ∃ S A M G P C H Q N : BHist,
+      R = RealityConstrainedSignatureFitUp.mk S A M G P C H Q N ∧
+        realityConstrainedSignatureFitFromEventFlow
+          (realityConstrainedSignatureFitToEventFlow R) = some R ∧
+          realityConstrainedSignatureFitEncodeBHist BHist.Empty = ([] : List BMark) ∧
+          List.Mem S (realityConstrainedSignatureFitFields R) ∧
+          List.Mem G (realityConstrainedSignatureFitFields R) ∧
+          List.Mem P (realityConstrainedSignatureFitFields R) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases R with
+  | mk S A M G P C H Q N =>
+      exact
+        ⟨S, A, M, G, P, C, H, Q, N, rfl,
+          realityConstrainedSignatureFit_round_trip
+            (RealityConstrainedSignatureFitUp.mk S A M G P C H Q N),
+          rfl, by
+            exact List.Mem.head _,
+          by
+            exact List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))),
+          by
+            exact
+              List.Mem.tail _
+                (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))))⟩
+
 end BEDC.Derived.RealityConstrainedSignatureFitUp

@@ -136,6 +136,20 @@ Use \autoref{thm:classifiermorphism-composition-closure} for consumer routes tha
 The checked TasteGate boundary records the same finite packet as an encoded gate surface. Since neither the carrier nor the TasteGate boundary contains a host compiler function, semantic type interpretation, quotient equality, or unrecorded relation, every classifier-preserving route remains inside the displayed scope.
 \end{proof}
 
+\begin{theorem}[ClassifierMorphism kernel compiler route exhaustion]
+\label{thm:classifier-morphism-kernel-compiler-route-exhaustion}
+Every kernel-compiler or naming-certificate-morphism consumer of an accepted $\ClassifierMorphismUp$ packet factors through exactly the displayed source packet $A$, target packet $B$, graph row $G$, $\Ext$ preservation row $E$, $\mathsf{SigRel}$ preservation row $S$, $\Cont$ preservation row $C$, componentwise $\hsame$ transport $H$, package provenance $P$, and local $\NameCert$ row $N$. The consumer receives no host compiler function, semantic type interpretation, quotient equality between source and target histories, or unrecorded source-target relation.
+\end{theorem}
+\begin{proof}
+Start with the local inventory. Apply \autoref{thm:classifiermorphism-namecert-obligation-surface}; it lists $A,B,G,E,S,C,H,P,N$ as the complete carrier and naming-certificate surface available to a $\ClassifierMorphismUp$ packet.
+
+Next route classifier reads through the preservation rows. Use \autoref{thm:classifiermorphism-ext-sigrel-preservation} to force $\Ext$ and $\mathsf{SigRel}$ consumers through $G,E,S$, and use the displayed $\Cont$ and $\hsame$ rows for continuation replay and componentwise history transport.
+
+For compiler-style consumers that compose routes, apply \autoref{thm:classifiermorphism-composition-closure}. Composition concatenates graph rows, preservation ledgers, continuation routes, package rows, and local naming rows; it does not create an additional host compiler coordinate or semantic type interpretation.
+
+Finally use \autoref{thm:classifiermorphism-preservation-nonescape-scope}. The non-escape row removes quotient equality and unrecorded source-target relations from the consumer interface, so the kernel-compiler route is exhausted by the displayed packet rows.
+\end{proof}
+
 \closureat{ClassifierMorphismUp}{seedStr}
 \closureat{ClassifierMorphismUp}{obligationStr}[BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismUp\_taste\_gate\_boundary]
 \closureat{ClassifierMorphismUp}{scopedStr}[BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismUp\_taste\_gate\_boundary]
