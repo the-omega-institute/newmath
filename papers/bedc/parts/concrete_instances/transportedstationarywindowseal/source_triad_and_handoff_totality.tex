@@ -1,0 +1,50 @@
+\begin{theorem}[Transported stationary window-seal source triad totality]
+\label{thm:transported-stationary-window-seal-source-triad-totality}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. The source triad $R,S,G$ is total over the $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows through the displayed support rows $H,C,P,N$: every completion-facing or $\RealUp$-facing route that reads $T$ first reads the transported rational classifier $R$, the constant stream-name window $S$, and the regular rational seal row $G$ through the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. No route may read a completion object, quotient stream, selected host limit, host equality row, choice datum, or real-completeness witness before this triad is fixed.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{thm:transported-stationary-window-seal-namecert-obligations}. Its carrier and classifier obligations expose $R,S,G$ together with $H,C,P,N$ as the named source surface of the transported stationary window seal.
+
+Use \autoref{thm:transported-stationary-window-seal-constant-window-triad} and \autoref{thm:transported-stationary-window-seal-root-completion-source-order}. They identify the $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows as one ordered source triad before any tail schedule, finite envelope, or $\RealUp$ seal is consumed.
+
+The L10 handoff basis \autoref{thm:transported-stationary-window-seal-l10-handoff-obligation-basis} then places every completion-facing or $\RealUp$-facing read behind this same triad. The non-escape clauses of \autoref{thm:transported-stationary-window-seal-ledger-nonescape} exclude quotient streams, selected host limits, host equality, choice, and real-completeness data from the source surface.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal envelope seal exactness obligation]
+\label{thm:transported-stationary-window-seal-envelope-seal-exactness-obligation}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. The finite envelope row $W$ and the $\RealUp$ seal row $E$ are exact only after the source triad $R,S,G,H,C,P,N$ and the $\FiniteWindowEnvelopeUp$ row have been fixed. Thus every accepted envelope-seal consumer reads the route
+$$
+\begin{aligned}
+  R,S,G,H,C,P,N \to W \to E
+\end{aligned}
+$$
+and no consumer may obtain $W$ or $E$ from an earlier real row, quotient-stream equality, host equality, selected host limit, choice datum, hidden tail oracle, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with source-triad totality above. It fixes $R,S,G,H,C,P,N$ as the only source available before the finite envelope and seal rows are read.
+
+Apply \autoref{thm:transported-stationary-window-seal-envelope-window-exactness} and \autoref{thm:transported-stationary-window-seal-root-envelope-exhaustion}. These theorems put the $\FiniteWindowEnvelopeUp$ row $W$ downstream of the triad and upstream of the $\RealUp$ seal row $E$.
+
+Finally use \autoref{thm:transported-stationary-window-seal-root-envelope-readback-totality} and \autoref{thm:transported-stationary-window-seal-envelope-real-row-totality}. They force every downstream envelope-seal read to preserve the same window and seal rows, while the listed excluded objects remain outside the accepted packet.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal completion handoff exhaustion]
+\label{thm:transported-stationary-window-seal-completion-handoff-exhaustion}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet, and let $Q=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)$ be an accepted $\TailCofinalityScheduleUp$ packet consumed on the same finite $\StreamNameUp$ window and $\RegSeqRatUp$ seal row. Every $\CompletionUp$ or $\RealUp$ handoff is exhausted by the transported source triad, finite envelope, seal row, structural support, and displayed tail-cofinality schedule rows:
+$$
+\begin{aligned}
+  R,S,G,W,E,H,C,P,N,
+  E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T .
+\end{aligned}
+$$
+There is no remaining handoff coordinate for quotient streams, host equality, choice, selected limits, hidden tail oracles, real-completeness data, or a second completion source.
+\end{theorem}
+\begin{proof}
+First assemble the root handoff surface. The source-triad totality and envelope-seal exactness obligations above give $R,S,G,H,C,P,N$, then $W$, then $E$ as the ordered local route.
+
+Attach the schedule rows with \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff}, \autoref{thm:transported-stationary-window-seal-tail-schedule-envelope-order}, and \autoref{thm:transported-stationary-window-seal-completion-source-triad-closure}. These bind the tail-cofinality packet to the same finite stream window and regular rational seal before the envelope-seal handoff is opened.
+
+Now apply \autoref{thm:transported-stationary-window-seal-downstream-obligation-basis} and \autoref{thm:transported-stationary-window-seal-real-completion-route-totality}. They make downstream $\CompletionUp$ and $\RealUp$ consumers read exactly the displayed root rows together with the displayed schedule rows.
+
+The completion route is unique by \autoref{thm:transported-stationary-window-seal-completion-route-uniqueness}. Since the accepted packets expose no quotient streams, host equality, choice, selected limits, hidden tail oracles, real-completeness data, or second completion source, the displayed rows exhaust every handoff.
+\end{proof}
