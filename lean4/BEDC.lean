@@ -343,6 +343,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.RootThresholdSurfaces
 import BEDC.Derived.CauchyModulusRefinementUp.RootThresholdSealEndpointSeparation
 import BEDC.Derived.CauchyModulusRefinementUp.RootWindowRealSealDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.RootWindowSelectorTotality
+import BEDC.Derived.CauchyModulusRefinementUp.SharedMeetDependency
 import BEDC.Derived.CauchyModulusRefinementUp.TailBudgetSelectorLock
 import BEDC.Derived.CauchyModulusRefinementUp.TailBudgetSealUniqueness
 import BEDC.Derived.CauchyModulusRefinementUp.TailMeetBudgetRouteUniqueness
@@ -966,6 +967,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.RootTransportAudit
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootRelationRowExposure
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.VerdictTransportSeparation
+import BEDC.Derived.QuotientSoundnessBoundaryUp.TransportRefusalNormalForm
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerLedgerFrontier
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DependentEliminatorRefusal
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ClassifierSubstitutionBarrier
@@ -1246,6 +1248,7 @@ import BEDC.Derived.HistTimeStreamUp
 import BEDC.Derived.HistTimeStreamUp.ClockRefusal
 import BEDC.Derived.RegularCauchyModulusNormalizerUp
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp
+import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.BridgeRequestSurface
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.TaylorModelUp
