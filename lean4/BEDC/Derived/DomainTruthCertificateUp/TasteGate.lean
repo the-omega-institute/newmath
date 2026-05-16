@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.DomainTruthCertificateUp.TasteGate
+namespace BEDC.Derived.DomainTruthCertificateUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -278,13 +278,22 @@ def taste_gate : ChapterTasteGate DomainTruthCertificateUp :=
   domainTruthCertificateChapterTasteGate
 
 theorem DomainTruthCertificateTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate DomainTruthCertificateUp) ∧
-      Nonempty (Nontrivial DomainTruthCertificateUp) ∧
-        Nonempty (FieldFaithful DomainTruthCertificateUp) := by
+    (domainTruthCertificateEncodeBHist BHist.Empty = []) ∧
+      (∀ h : BHist,
+        domainTruthCertificateDecodeBHist (domainTruthCertificateEncodeBHist h) = h) ∧
+        (∀ x : DomainTruthCertificateUp,
+          domainTruthCertificateFromEventFlow (domainTruthCertificateToEventFlow x) =
+            some x) ∧
+          (∀ x y : DomainTruthCertificateUp,
+            domainTruthCertificateToEventFlow x = domainTruthCertificateToEventFlow y →
+              x = y) ∧
+            ChapterTasteGate DomainTruthCertificateUp := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨⟨domainTruthCertificateChapterTasteGate⟩,
-      ⟨domainTruthCertificateNontrivial⟩,
-      ⟨domainTruthCertificateFieldFaithful⟩⟩
+    ⟨rfl,
+      domainTruthCertificateDecode_encode_bhist,
+      domainTruthCertificate_round_trip,
+      (fun _ _ heq => domainTruthCertificateToEventFlow_injective heq),
+      domainTruthCertificateChapterTasteGate⟩
 
-end BEDC.Derived.DomainTruthCertificateUp.TasteGate
+end BEDC.Derived.DomainTruthCertificateUp
