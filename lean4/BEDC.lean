@@ -276,6 +276,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailServiceSealHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailWindowService
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailWindowLock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.FiniteTailFilterHandoff
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailFilterLock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TrapBudgetMonotonicity
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowMeetRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowModulus
@@ -889,6 +890,7 @@ import BEDC.Derived.CauchyCriterionUp.CompletionBoundary
 import BEDC.Derived.CauchyCriterionUp.CompletionReadback
 import BEDC.Derived.CauchyCriterionUp.DiagonalBudgetReadback
 import BEDC.Derived.CauchyCriterionUp.FiniteObservationBudgetSelectorPullback
+import BEDC.Derived.CauchyCriterionUp.FiniteSelectorExhaustion
 import BEDC.Derived.CauchyCriterionUp.FiniteRequestSectionReturn
 import BEDC.Derived.CauchyCriterionUp.FiniteWindowRealSealHandoff
 import BEDC.Derived.CauchyCriterionUp.RealL10TerminalWindowSufficiency
@@ -1335,6 +1337,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.TerminalRegseqRealClassifierCorresp
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalRealRouteCertificate
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalSealEnvelope
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalSealClassifierRoute
+import BEDC.Derived.UniformCauchyCriterionUp.TerminalQuotientRefusalBoundary
 import BEDC.Derived.UniformCauchyCriterionUp.ThresholdSealBudgetFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.WindowStability
 import BEDC.Derived.ChoiceFreeLimitScheduleUp
