@@ -144,6 +144,24 @@ The window-budget exhaustion theorem above fixes $W,D,Q$ as the finite-window an
 Because the carrier has no coordinates for quotient streams, selected limits, host real equality, countable choice, ambient completeness, hidden modulus replacement, hidden window selection, or a separate dyadic ledger, no such row can mediate a RealUp or RealCompletionSealClassifierUp consumer route.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy modulus witness-ledger source-triad exactness]
+\label{thm:regular-cauchy-modulus-witness-ledger-source-triad-exactness}
+Every $\RealUp$ or $\RealCompletionSealClassifierUp$ consumer of an accepted packet
+$$
+L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M)
+$$
+reads the L10 source triad exactly as the displayed $\StreamNameUp$ row $W$ for finite StreamName windows, the $\DyadicRatCoreUp$ row $D$ for dyadic tolerances, and the $\RegSeqRatUp$ row $Q$ for readback before the Real seal row $S$. No hidden stream selector, separate dyadic ledger, quotient stream, selected limit, host real equality, countable choice, or ambient completeness row can replace any component of this triad.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to its displayed rows. The only source-triad coordinates available before the seal are $W,D,Q$, with $W$ serving finite windows, $D$ serving dyadic tolerances, and $Q$ serving the RegSeqRat readback.
+
+Apply \autoref{thm:regular-cauchy-modulus-witness-ledger-namecert-obligations}. Its source and witness exposure rows bind $X,\mu$ before the triad is read, and its row-ordering obligations place $W,D,Q$ before the seal row $S$.
+
+Use window-budget exhaustion and normalizer-tail commutation, \autoref{thm:regular-cauchy-modulus-witness-ledger-window-budget-exhaustion} and \autoref{thm:regular-cauchy-modulus-witness-ledger-normalizer-tail-commutation}. The first forces $W,D$ before $Q$, while the second keeps $N_0,T$ over the same witnessed modulus and finite-window rows.
+
+Finally combine Real-seal consumer exactness with non-escape, \autoref{thm:regular-cauchy-modulus-witness-ledger-real-seal-consumer-exactness} and \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}. They make every Real-facing consumer read through the same finite packet and exclude hidden stream selectors, separate dyadic ledgers, quotient streams, selected limits, host real equality, countable choice, and ambient completeness.
+\end{proof}
+
 \falsifiablePrediction{If a RealUp seal consumer reads a regular Cauchy modulus without the displayed witness-ledger row, normalized route row, finite-window row, dyadic tolerance row, and RegSeqRat readback row, the packet is refuted.}
 
 \independenceWitness{regular-cauchy-modulus-normalizer, cauchymodulusmeet, regular-cauchy-tail-budget, real-completion-seal-classifier, streamname: no sibling is bijective because this packet uniquely binds the witnessed modulus ledger to the downstream finite-window and RealUp seal route; each sibling omits either the single witness ledger, the normalized route, or the RealUp consumer seal.}
