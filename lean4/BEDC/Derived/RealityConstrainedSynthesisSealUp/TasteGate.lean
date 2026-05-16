@@ -10,10 +10,8 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RealityConstrainedSynthesisSealUp : Type where
-  | mk :
-      (audit openFit objectivity observation explanation tower ledger failure transport replay
-        provenance name : BHist) →
-        RealityConstrainedSynthesisSealUp
+  | mk : (audit fit objectivity observation explanation tower ledger failure transport replay
+      provenance name : BHist) → RealityConstrainedSynthesisSealUp
   deriving DecidableEq
 
 def realityConstrainedSynthesisSealEncodeBHist : BHist → RawEvent
@@ -28,98 +26,88 @@ def realityConstrainedSynthesisSealDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (realityConstrainedSynthesisSealDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (realityConstrainedSynthesisSealDecodeBHist tail)
 
-private theorem realityConstrainedSynthesisSeal_decode :
+private theorem realityConstrainedSynthesisSeal_decode_encode_bhist :
     ∀ h : BHist,
       realityConstrainedSynthesisSealDecodeBHist
         (realityConstrainedSynthesisSealEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def realityConstrainedSynthesisSealFields :
     RealityConstrainedSynthesisSealUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RealityConstrainedSynthesisSealUp.mk audit openFit objectivity observation explanation
-      tower ledger failure transport replay provenance name =>
-      [audit, openFit, objectivity, observation, explanation, tower, ledger, failure,
-        transport, replay, provenance, name]
+  | RealityConstrainedSynthesisSealUp.mk audit fit objectivity observation explanation tower
+      ledger failure transport replay provenance name =>
+      [audit, fit, objectivity, observation, explanation, tower, ledger, failure, transport,
+        replay, provenance, name]
 
 def realityConstrainedSynthesisSealToEventFlow :
     RealityConstrainedSynthesisSealUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | RealityConstrainedSynthesisSealUp.mk audit openFit objectivity observation explanation
-      tower ledger failure transport replay provenance name =>
-      [[BMark.b0],
-        realityConstrainedSynthesisSealEncodeBHist audit,
-        [BMark.b1, BMark.b0],
-        realityConstrainedSynthesisSealEncodeBHist openFit,
-        [BMark.b1, BMark.b1, BMark.b0],
-        realityConstrainedSynthesisSealEncodeBHist objectivity,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        realityConstrainedSynthesisSealEncodeBHist observation,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        realityConstrainedSynthesisSealEncodeBHist explanation,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        realityConstrainedSynthesisSealEncodeBHist tower,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        realityConstrainedSynthesisSealEncodeBHist ledger,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        realityConstrainedSynthesisSealEncodeBHist failure,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        realityConstrainedSynthesisSealEncodeBHist transport,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        realityConstrainedSynthesisSealEncodeBHist replay,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        realityConstrainedSynthesisSealEncodeBHist provenance,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        realityConstrainedSynthesisSealEncodeBHist name]
+  | x =>
+      (realityConstrainedSynthesisSealFields x).map
+        realityConstrainedSynthesisSealEncodeBHist
 
-private def realityConstrainedSynthesisSealEventAtDefault :
-    Nat → EventFlow → RawEvent
+private def realityConstrainedSynthesisSealDecodePacket
+    (audit fit objectivity observation explanation tower ledger failure transport replay
+      provenance name : RawEvent) : RealityConstrainedSynthesisSealUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      realityConstrainedSynthesisSealEventAtDefault index rest
+  RealityConstrainedSynthesisSealUp.mk
+    (realityConstrainedSynthesisSealDecodeBHist audit)
+    (realityConstrainedSynthesisSealDecodeBHist fit)
+    (realityConstrainedSynthesisSealDecodeBHist objectivity)
+    (realityConstrainedSynthesisSealDecodeBHist observation)
+    (realityConstrainedSynthesisSealDecodeBHist explanation)
+    (realityConstrainedSynthesisSealDecodeBHist tower)
+    (realityConstrainedSynthesisSealDecodeBHist ledger)
+    (realityConstrainedSynthesisSealDecodeBHist failure)
+    (realityConstrainedSynthesisSealDecodeBHist transport)
+    (realityConstrainedSynthesisSealDecodeBHist replay)
+    (realityConstrainedSynthesisSealDecodeBHist provenance)
+    (realityConstrainedSynthesisSealDecodeBHist name)
 
-def realityConstrainedSynthesisSealFromEventFlow
-    (ef : EventFlow) : Option RealityConstrainedSynthesisSealUp :=
+private def realityConstrainedSynthesisSealRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RealityConstrainedSynthesisSealUp.mk
-      (realityConstrainedSynthesisSealDecodeBHist
-        (realityConstrainedSynthesisSealEventAtDefault 1 ef))
-      (realityConstrainedSynthesisSealDecodeBHist
-        (realityConstrainedSynthesisSealEventAtDefault 3 ef))
-      (realityConstrainedSynthesisSealDecodeBHist
-        (realityConstrainedSynthesisSealEventAtDefault 5 ef))
-      (realityConstrainedSynthesisSealDecodeBHist
-        (realityConstrainedSynthesisSealEventAtDefault 7 ef))
-      (realityConstrainedSynthesisSealDecodeBHist
-        (realityConstrainedSynthesisSealEventAtDefault 9 ef))
-      (realityConstrainedSynthesisSealDecodeBHist
-        (realityConstrainedSynthesisSealEventAtDefault 11 ef))
-      (realityConstrainedSynthesisSealDecodeBHist
-        (realityConstrainedSynthesisSealEventAtDefault 13 ef))
-      (realityConstrainedSynthesisSealDecodeBHist
-        (realityConstrainedSynthesisSealEventAtDefault 15 ef))
-      (realityConstrainedSynthesisSealDecodeBHist
-        (realityConstrainedSynthesisSealEventAtDefault 17 ef))
-      (realityConstrainedSynthesisSealDecodeBHist
-        (realityConstrainedSynthesisSealEventAtDefault 19 ef))
-      (realityConstrainedSynthesisSealDecodeBHist
-        (realityConstrainedSynthesisSealEventAtDefault 21 ef))
-      (realityConstrainedSynthesisSealDecodeBHist
-        (realityConstrainedSynthesisSealEventAtDefault 23 ef)))
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => realityConstrainedSynthesisSealRawAt n rest
+
+private def realityConstrainedSynthesisSealLengthEq : Nat → EventFlow → Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => realityConstrainedSynthesisSealLengthEq n rest
+
+def realityConstrainedSynthesisSealFromEventFlow :
+    EventFlow → Option RealityConstrainedSynthesisSealUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match realityConstrainedSynthesisSealLengthEq 12 flow with
+      | true =>
+          some
+            (realityConstrainedSynthesisSealDecodePacket
+              (realityConstrainedSynthesisSealRawAt 0 flow)
+              (realityConstrainedSynthesisSealRawAt 1 flow)
+              (realityConstrainedSynthesisSealRawAt 2 flow)
+              (realityConstrainedSynthesisSealRawAt 3 flow)
+              (realityConstrainedSynthesisSealRawAt 4 flow)
+              (realityConstrainedSynthesisSealRawAt 5 flow)
+              (realityConstrainedSynthesisSealRawAt 6 flow)
+              (realityConstrainedSynthesisSealRawAt 7 flow)
+              (realityConstrainedSynthesisSealRawAt 8 flow)
+              (realityConstrainedSynthesisSealRawAt 9 flow)
+              (realityConstrainedSynthesisSealRawAt 10 flow)
+              (realityConstrainedSynthesisSealRawAt 11 flow))
+      | false => none
 
 private theorem realityConstrainedSynthesisSeal_round_trip :
     ∀ x : RealityConstrainedSynthesisSealUp,
@@ -128,50 +116,39 @@ private theorem realityConstrainedSynthesisSeal_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk audit openFit objectivity observation explanation tower ledger failure transport
-      replay provenance name =>
+  | mk audit fit objectivity observation explanation tower ledger failure transport replay
+      provenance name =>
       change
         some
-          (RealityConstrainedSynthesisSealUp.mk
-            (realityConstrainedSynthesisSealDecodeBHist
-              (realityConstrainedSynthesisSealEncodeBHist audit))
-            (realityConstrainedSynthesisSealDecodeBHist
-              (realityConstrainedSynthesisSealEncodeBHist openFit))
-            (realityConstrainedSynthesisSealDecodeBHist
-              (realityConstrainedSynthesisSealEncodeBHist objectivity))
-            (realityConstrainedSynthesisSealDecodeBHist
-              (realityConstrainedSynthesisSealEncodeBHist observation))
-            (realityConstrainedSynthesisSealDecodeBHist
-              (realityConstrainedSynthesisSealEncodeBHist explanation))
-            (realityConstrainedSynthesisSealDecodeBHist
-              (realityConstrainedSynthesisSealEncodeBHist tower))
-            (realityConstrainedSynthesisSealDecodeBHist
-              (realityConstrainedSynthesisSealEncodeBHist ledger))
-            (realityConstrainedSynthesisSealDecodeBHist
-              (realityConstrainedSynthesisSealEncodeBHist failure))
-            (realityConstrainedSynthesisSealDecodeBHist
-              (realityConstrainedSynthesisSealEncodeBHist transport))
-            (realityConstrainedSynthesisSealDecodeBHist
-              (realityConstrainedSynthesisSealEncodeBHist replay))
-            (realityConstrainedSynthesisSealDecodeBHist
-              (realityConstrainedSynthesisSealEncodeBHist provenance))
-            (realityConstrainedSynthesisSealDecodeBHist
-              (realityConstrainedSynthesisSealEncodeBHist name))) =
+          (realityConstrainedSynthesisSealDecodePacket
+            (realityConstrainedSynthesisSealEncodeBHist audit)
+            (realityConstrainedSynthesisSealEncodeBHist fit)
+            (realityConstrainedSynthesisSealEncodeBHist objectivity)
+            (realityConstrainedSynthesisSealEncodeBHist observation)
+            (realityConstrainedSynthesisSealEncodeBHist explanation)
+            (realityConstrainedSynthesisSealEncodeBHist tower)
+            (realityConstrainedSynthesisSealEncodeBHist ledger)
+            (realityConstrainedSynthesisSealEncodeBHist failure)
+            (realityConstrainedSynthesisSealEncodeBHist transport)
+            (realityConstrainedSynthesisSealEncodeBHist replay)
+            (realityConstrainedSynthesisSealEncodeBHist provenance)
+            (realityConstrainedSynthesisSealEncodeBHist name)) =
           some
-            (RealityConstrainedSynthesisSealUp.mk audit openFit objectivity observation
+            (RealityConstrainedSynthesisSealUp.mk audit fit objectivity observation
               explanation tower ledger failure transport replay provenance name)
-      rw [realityConstrainedSynthesisSeal_decode audit,
-        realityConstrainedSynthesisSeal_decode openFit,
-        realityConstrainedSynthesisSeal_decode objectivity,
-        realityConstrainedSynthesisSeal_decode observation,
-        realityConstrainedSynthesisSeal_decode explanation,
-        realityConstrainedSynthesisSeal_decode tower,
-        realityConstrainedSynthesisSeal_decode ledger,
-        realityConstrainedSynthesisSeal_decode failure,
-        realityConstrainedSynthesisSeal_decode transport,
-        realityConstrainedSynthesisSeal_decode replay,
-        realityConstrainedSynthesisSeal_decode provenance,
-        realityConstrainedSynthesisSeal_decode name]
+      unfold realityConstrainedSynthesisSealDecodePacket
+      rw [realityConstrainedSynthesisSeal_decode_encode_bhist audit,
+        realityConstrainedSynthesisSeal_decode_encode_bhist fit,
+        realityConstrainedSynthesisSeal_decode_encode_bhist objectivity,
+        realityConstrainedSynthesisSeal_decode_encode_bhist observation,
+        realityConstrainedSynthesisSeal_decode_encode_bhist explanation,
+        realityConstrainedSynthesisSeal_decode_encode_bhist tower,
+        realityConstrainedSynthesisSeal_decode_encode_bhist ledger,
+        realityConstrainedSynthesisSeal_decode_encode_bhist failure,
+        realityConstrainedSynthesisSeal_decode_encode_bhist transport,
+        realityConstrainedSynthesisSeal_decode_encode_bhist replay,
+        realityConstrainedSynthesisSeal_decode_encode_bhist provenance,
+        realityConstrainedSynthesisSeal_decode_encode_bhist name]
 
 private theorem realityConstrainedSynthesisSealToEventFlow_injective
     {x y : RealityConstrainedSynthesisSealUp} :
@@ -186,21 +163,20 @@ private theorem realityConstrainedSynthesisSealToEventFlow_injective
           (realityConstrainedSynthesisSealToEventFlow y) :=
     congrArg realityConstrainedSynthesisSealFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (realityConstrainedSynthesisSeal_round_trip x).symm
+    (Eq.trans (realityConstrainedSynthesisSeal_round_trip x).symm
       (Eq.trans hread (realityConstrainedSynthesisSeal_round_trip y)))
 
-private theorem realityConstrainedSynthesisSeal_fields :
+private theorem realityConstrainedSynthesisSeal_fields_faithful :
     ∀ x y : RealityConstrainedSynthesisSealUp,
-      realityConstrainedSynthesisSealFields x = realityConstrainedSynthesisSealFields y →
-        x = y := by
+      realityConstrainedSynthesisSealFields x =
+        realityConstrainedSynthesisSealFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk audit₁ openFit₁ objectivity₁ observation₁ explanation₁ tower₁ ledger₁ failure₁
+  | mk audit₁ fit₁ objectivity₁ observation₁ explanation₁ tower₁ ledger₁ failure₁
       transport₁ replay₁ provenance₁ name₁ =>
       cases y with
-      | mk audit₂ openFit₂ objectivity₂ observation₂ explanation₂ tower₂ ledger₂ failure₂
+      | mk audit₂ fit₂ objectivity₂ observation₂ explanation₂ tower₂ ledger₂ failure₂
           transport₂ replay₂ provenance₂ name₂ =>
           cases hfields
           rfl
@@ -228,18 +204,18 @@ instance realityConstrainedSynthesisSealFieldFaithful :
     FieldFaithful RealityConstrainedSynthesisSealUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := realityConstrainedSynthesisSealFields
-  field_faithful := realityConstrainedSynthesisSeal_fields
+  field_faithful := realityConstrainedSynthesisSeal_fields_faithful
 
 instance realityConstrainedSynthesisSealNontrivial :
     Nontrivial RealityConstrainedSynthesisSealUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨RealityConstrainedSynthesisSealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      RealityConstrainedSynthesisSealUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
+    ⟨RealityConstrainedSynthesisSealUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RealityConstrainedSynthesisSealUp.mk (BHist.e1 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -247,5 +223,23 @@ instance realityConstrainedSynthesisSealNontrivial :
 def taste_gate : ChapterTasteGate RealityConstrainedSynthesisSealUp :=
   -- BEDC touchpoint anchor: BHist BMark
   realityConstrainedSynthesisSealChapterTasteGate
+
+theorem RealityConstrainedSynthesisSealTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      realityConstrainedSynthesisSealDecodeBHist
+        (realityConstrainedSynthesisSealEncodeBHist h) = h) ∧
+      (∀ x : RealityConstrainedSynthesisSealUp,
+        realityConstrainedSynthesisSealFromEventFlow
+          (realityConstrainedSynthesisSealToEventFlow x) = some x) ∧
+        (∀ x y : RealityConstrainedSynthesisSealUp,
+          realityConstrainedSynthesisSealToEventFlow x =
+            realityConstrainedSynthesisSealToEventFlow y → x = y) ∧
+          realityConstrainedSynthesisSealEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨realityConstrainedSynthesisSeal_decode_encode_bhist,
+      realityConstrainedSynthesisSeal_round_trip,
+      (fun _ _ heq => realityConstrainedSynthesisSealToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.RealityConstrainedSynthesisSealUp

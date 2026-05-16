@@ -1,0 +1,25 @@
+\section{StreamName constant-window transport totality}
+\label{sec:streamname-constant-window-transport-totality}
+
+\begin{definition}[StreamName constant-window carrier]
+\label{def:streamname-constant-window-carrier}
+The StreamName constant-window carrier is the finite-window packet over a point carrier $p:\Hist$ and a finite request history $W:\mathsf{ProbeBundle}$. Its rows are the window index rows of $W$, the selected observation row identifying each requested probe with the constant point $p$, the componentwise $\hsame$ comparisons between any two displayed constant-window presentations, the displayed $\Cont$ replay row for the window read, the $\Pkg$ provenance row recording the request history, and the local $\NameCert_{\StreamNameUp}$ row naming the finite-window surface.
+
+The carrier is local to the finite request. It contains no quotient stream coordinate and no row comparing host streams outside the displayed window.
+\end{definition}
+
+\begin{theorem}[StreamName window transport totality]
+\label{thm:streamname-window-transport-totality}
+Every constant-window read consumed by $\RegSeqRatUp$ or by $\RealUp$ passes through the StreamName constant-window carrier of \autoref{def:streamname-constant-window-carrier}. The exported consumer surface is exactly the point carrier row, the request-history ledger, the window-index rows, the selected observation rows, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and the local $\NameCert_{\StreamNameUp}$ row.
+
+The transport exports no quotient stream equality, selected limit, host sequence equality, or countable-choice selector.
+\end{theorem}
+\begin{proof}
+First read the constant window through \autoref{thm:streamname-constant-window-real-boundary}. A Real-facing consumer obtains only the rational point row and the finite probe ledger carried by the public StreamName window.
+
+Next read the same window through \autoref{thm:streamname-constant-window-regseq-boundary}. A RegSeqRat-facing consumer obtains the same constant point row and finite ledger, while regularity and seal data remain outside the constant-window packet.
+
+Apply \autoref{thm:streamname-real-regseq-constant-boundary}. It identifies the common handoff to RegSeqRat and RealUp as the displayed finite-window surface rather than a host stream or completion object.
+
+The remaining coordinates are exactly the rows listed in \autoref{def:streamname-constant-window-carrier}. Since the cited boundaries contain no quotient stream equality, selected limit, host sequence equality, or choice selector, the transport cannot export one.
+\end{proof}
