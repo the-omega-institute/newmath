@@ -497,6 +497,20 @@ instance realityConstrainedOpenFitChapterTasteGate :
     rw [realityConstrainedOpenFit_round_trip y] at optionEq
     exact Option.some.inj optionEq
 
+private theorem realityConstrainedOpenFitToEventFlow_injective
+    {x y : RealityConstrainedOpenFitUp} :
+    realityConstrainedOpenFitToEventFlow x =
+      realityConstrainedOpenFitToEventFlow y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro flowEq
+  have hread :
+      realityConstrainedOpenFitFromEventFlow (realityConstrainedOpenFitToEventFlow x) =
+        realityConstrainedOpenFitFromEventFlow (realityConstrainedOpenFitToEventFlow y) :=
+    congrArg realityConstrainedOpenFitFromEventFlow flowEq
+  exact Option.some.inj
+    (Eq.trans (realityConstrainedOpenFit_round_trip x).symm
+      (Eq.trans hread (realityConstrainedOpenFit_round_trip y)))
+
 instance realityConstrainedOpenFitFieldFaithful :
     FieldFaithful RealityConstrainedOpenFitUp where
   fields := fun x =>
@@ -543,23 +557,44 @@ instance realityConstrainedOpenFitNontrivial :
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate RealityConstrainedOpenFitUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  realityConstrainedOpenFitChapterTasteGate
+
 theorem RealityConstrainedOpenFitTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate RealityConstrainedOpenFitUp) ∧
-      Nonempty (FieldFaithful RealityConstrainedOpenFitUp) ∧
-        (∀ x : RealityConstrainedOpenFitUp,
-          ∃ w : RawEvent, List.Mem w (BHistCarrier.toEventFlow x) ∧
-            (List.Mem BMark.b0 w ∨ List.Mem BMark.b1 w)) := by
+    (∀ h : BHist,
+      realityConstrainedOpenFitDecodeBHist
+          (realityConstrainedOpenFitEncodeBHist h) =
+        h) ∧
+      (∀ x : RealityConstrainedOpenFitUp,
+        realityConstrainedOpenFitFromEventFlow (realityConstrainedOpenFitToEventFlow x) =
+          some x) ∧
+        (∀ x y : RealityConstrainedOpenFitUp,
+          realityConstrainedOpenFitToEventFlow x = realityConstrainedOpenFitToEventFlow y →
+            x = y) ∧
+          Nonempty (ChapterTasteGate RealityConstrainedOpenFitUp) ∧
+            Nonempty (FieldFaithful RealityConstrainedOpenFitUp) ∧
+              (∀ x : RealityConstrainedOpenFitUp,
+                ∃ w : RawEvent, List.Mem w (BHistCarrier.toEventFlow x) ∧
+                  (List.Mem BMark.b0 w ∨ List.Mem BMark.b1 w)) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact Nonempty.intro inferInstance
+  · exact realityConstrainedOpenFitDecode_encode_bhist
   · constructor
-    · exact Nonempty.intro inferInstance
-    · intro x
-      cases x with
-      | mk trace bundle observed model fit continuation ledger refutation nameRow =>
-          exact
-            ⟨[BMark.b0],
-              (List.Mem.head _),
-              Or.inl (List.Mem.head _)⟩
+    · exact realityConstrainedOpenFit_round_trip
+    · constructor
+      · intro x y flowEq
+        exact realityConstrainedOpenFitToEventFlow_injective flowEq
+      · constructor
+        · exact Nonempty.intro inferInstance
+        · constructor
+          · exact Nonempty.intro inferInstance
+          · intro x
+            cases x with
+            | mk trace bundle observed model fit continuation ledger refutation nameRow =>
+                exact
+                  ⟨[BMark.b0],
+                    (List.Mem.head _),
+                    Or.inl (List.Mem.head _)⟩
 
 end BEDC.Derived.RealityConstrainedOpenFitUp.TasteGate
