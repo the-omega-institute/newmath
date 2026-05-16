@@ -10,22 +10,26 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive ClosedConsistencyAssemblyUp : Type where
-  | mk (L T E F S O D R P N : BHist) : ClosedConsistencyAssemblyUp
+  | mk :
+      (closedness typing endpoint exclusion boundary obstruction ledger route provenance
+        name : BHist) →
+      ClosedConsistencyAssemblyUp
+  deriving DecidableEq
 
-def closedConsistencyAssemblyEncodeBHist : BHist -> RawEvent
+def closedConsistencyAssemblyEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: closedConsistencyAssemblyEncodeBHist h
   | BHist.e1 h => BMark.b1 :: closedConsistencyAssemblyEncodeBHist h
 
-def closedConsistencyAssemblyDecodeBHist : RawEvent -> BHist
+def closedConsistencyAssemblyDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (closedConsistencyAssemblyDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (closedConsistencyAssemblyDecodeBHist tail)
 
-private theorem closedConsistencyAssemblyDecode_encode_bhist :
-    forall h : BHist,
+private theorem closedConsistencyAssembly_decode_encode_bhist :
+    ∀ h : BHist,
       closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -37,106 +41,119 @@ private theorem closedConsistencyAssemblyDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def closedConsistencyAssemblyFields : ClosedConsistencyAssemblyUp -> List BHist
+def closedConsistencyAssemblyFields : ClosedConsistencyAssemblyUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | ClosedConsistencyAssemblyUp.mk L T E F S O D R P N => [L, T, E, F, S, O, D, R, P, N]
+  | ClosedConsistencyAssemblyUp.mk closedness typing endpoint exclusion boundary obstruction
+      ledger route provenance name =>
+      [closedness, typing, endpoint, exclusion, boundary, obstruction, ledger, route,
+        provenance, name]
 
-def closedConsistencyAssemblyToEventFlow : ClosedConsistencyAssemblyUp -> EventFlow
+def closedConsistencyAssemblyToEventFlow : ClosedConsistencyAssemblyUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | ClosedConsistencyAssemblyUp.mk L T E F S O D R P N =>
-      [[BMark.b0],
-        closedConsistencyAssemblyEncodeBHist L,
-        [BMark.b1, BMark.b0],
-        closedConsistencyAssemblyEncodeBHist T,
-        [BMark.b1, BMark.b1, BMark.b0],
-        closedConsistencyAssemblyEncodeBHist E,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        closedConsistencyAssemblyEncodeBHist F,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        closedConsistencyAssemblyEncodeBHist S,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        closedConsistencyAssemblyEncodeBHist O,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        closedConsistencyAssemblyEncodeBHist D,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        closedConsistencyAssemblyEncodeBHist R,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        closedConsistencyAssemblyEncodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        closedConsistencyAssemblyEncodeBHist N]
+  | x => (closedConsistencyAssemblyFields x).map closedConsistencyAssemblyEncodeBHist
 
-private def closedConsistencyAssemblyRawAt : Nat -> EventFlow -> RawEvent
+def closedConsistencyAssemblyFromEventFlow : EventFlow → Option ClosedConsistencyAssemblyUp
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => closedConsistencyAssemblyRawAt n rest
-
-private def closedConsistencyAssemblyLengthEq : Nat -> EventFlow -> Bool
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => closedConsistencyAssemblyLengthEq n rest
-
-def closedConsistencyAssemblyFromEventFlow : EventFlow -> Option ClosedConsistencyAssemblyUp
-  -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      match closedConsistencyAssemblyLengthEq 20 flow with
-      | true =>
-          some
-            (ClosedConsistencyAssemblyUp.mk
-              (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyRawAt 1 flow))
-              (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyRawAt 3 flow))
-              (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyRawAt 5 flow))
-              (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyRawAt 7 flow))
-              (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyRawAt 9 flow))
-              (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyRawAt 11 flow))
-              (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyRawAt 13 flow))
-              (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyRawAt 15 flow))
-              (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyRawAt 17 flow))
-              (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyRawAt 19 flow)))
-      | false => none
+  | [] => none
+  | closedness :: rest0 =>
+      match rest0 with
+      | [] => none
+      | typing :: rest1 =>
+          match rest1 with
+          | [] => none
+          | endpoint :: rest2 =>
+              match rest2 with
+              | [] => none
+              | exclusion :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | boundary :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | obstruction :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | ledger :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | route :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | provenance :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | name :: rest9 =>
+                                          match rest9 with
+                                          | [] =>
+                                              some
+                                                (ClosedConsistencyAssemblyUp.mk
+                                                  (closedConsistencyAssemblyDecodeBHist
+                                                    closedness)
+                                                  (closedConsistencyAssemblyDecodeBHist typing)
+                                                  (closedConsistencyAssemblyDecodeBHist
+                                                    endpoint)
+                                                  (closedConsistencyAssemblyDecodeBHist
+                                                    exclusion)
+                                                  (closedConsistencyAssemblyDecodeBHist
+                                                    boundary)
+                                                  (closedConsistencyAssemblyDecodeBHist
+                                                    obstruction)
+                                                  (closedConsistencyAssemblyDecodeBHist ledger)
+                                                  (closedConsistencyAssemblyDecodeBHist route)
+                                                  (closedConsistencyAssemblyDecodeBHist
+                                                    provenance)
+                                                  (closedConsistencyAssemblyDecodeBHist name))
+                                          | _ :: _ => none
 
 private theorem closedConsistencyAssembly_round_trip :
-    forall x : ClosedConsistencyAssemblyUp,
-      closedConsistencyAssemblyFromEventFlow
-        (closedConsistencyAssemblyToEventFlow x) = some x := by
+    ∀ x : ClosedConsistencyAssemblyUp,
+      closedConsistencyAssemblyFromEventFlow (closedConsistencyAssemblyToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk L T E F S O D R P N =>
+  | mk closedness typing endpoint exclusion boundary obstruction ledger route provenance
+      name =>
       change
         some
           (ClosedConsistencyAssemblyUp.mk
-            (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyEncodeBHist L))
-            (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyEncodeBHist T))
-            (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyEncodeBHist E))
-            (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyEncodeBHist F))
-            (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyEncodeBHist S))
-            (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyEncodeBHist O))
-            (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyEncodeBHist D))
-            (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyEncodeBHist R))
-            (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyEncodeBHist P))
-            (closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyEncodeBHist N))) =
-          some (ClosedConsistencyAssemblyUp.mk L T E F S O D R P N)
-      rw [closedConsistencyAssemblyDecode_encode_bhist L,
-        closedConsistencyAssemblyDecode_encode_bhist T,
-        closedConsistencyAssemblyDecode_encode_bhist E,
-        closedConsistencyAssemblyDecode_encode_bhist F,
-        closedConsistencyAssemblyDecode_encode_bhist S,
-        closedConsistencyAssemblyDecode_encode_bhist O,
-        closedConsistencyAssemblyDecode_encode_bhist D,
-        closedConsistencyAssemblyDecode_encode_bhist R,
-        closedConsistencyAssemblyDecode_encode_bhist P,
-        closedConsistencyAssemblyDecode_encode_bhist N]
+            (closedConsistencyAssemblyDecodeBHist
+              (closedConsistencyAssemblyEncodeBHist closedness))
+            (closedConsistencyAssemblyDecodeBHist
+              (closedConsistencyAssemblyEncodeBHist typing))
+            (closedConsistencyAssemblyDecodeBHist
+              (closedConsistencyAssemblyEncodeBHist endpoint))
+            (closedConsistencyAssemblyDecodeBHist
+              (closedConsistencyAssemblyEncodeBHist exclusion))
+            (closedConsistencyAssemblyDecodeBHist
+              (closedConsistencyAssemblyEncodeBHist boundary))
+            (closedConsistencyAssemblyDecodeBHist
+              (closedConsistencyAssemblyEncodeBHist obstruction))
+            (closedConsistencyAssemblyDecodeBHist
+              (closedConsistencyAssemblyEncodeBHist ledger))
+            (closedConsistencyAssemblyDecodeBHist
+              (closedConsistencyAssemblyEncodeBHist route))
+            (closedConsistencyAssemblyDecodeBHist
+              (closedConsistencyAssemblyEncodeBHist provenance))
+            (closedConsistencyAssemblyDecodeBHist
+              (closedConsistencyAssemblyEncodeBHist name))) =
+          some
+            (ClosedConsistencyAssemblyUp.mk closedness typing endpoint exclusion boundary
+              obstruction ledger route provenance name)
+      rw [closedConsistencyAssembly_decode_encode_bhist closedness,
+        closedConsistencyAssembly_decode_encode_bhist typing,
+        closedConsistencyAssembly_decode_encode_bhist endpoint,
+        closedConsistencyAssembly_decode_encode_bhist exclusion,
+        closedConsistencyAssembly_decode_encode_bhist boundary,
+        closedConsistencyAssembly_decode_encode_bhist obstruction,
+        closedConsistencyAssembly_decode_encode_bhist ledger,
+        closedConsistencyAssembly_decode_encode_bhist route,
+        closedConsistencyAssembly_decode_encode_bhist provenance,
+        closedConsistencyAssembly_decode_encode_bhist name]
 
 private theorem closedConsistencyAssemblyToEventFlow_injective
     {x y : ClosedConsistencyAssemblyUp} :
-    closedConsistencyAssemblyToEventFlow x = closedConsistencyAssemblyToEventFlow y ->
+    closedConsistencyAssemblyToEventFlow x = closedConsistencyAssemblyToEventFlow y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -148,19 +165,41 @@ private theorem closedConsistencyAssemblyToEventFlow_injective
     (Eq.trans (closedConsistencyAssembly_round_trip x).symm
       (Eq.trans hread (closedConsistencyAssembly_round_trip y)))
 
-private theorem closedConsistencyAssembly_field_faithful :
-    forall x y : ClosedConsistencyAssemblyUp,
-      closedConsistencyAssemblyFields x = closedConsistencyAssemblyFields y -> x = y := by
+private theorem closedConsistencyAssembly_fields_faithful :
+    ∀ x y : ClosedConsistencyAssemblyUp,
+      closedConsistencyAssemblyFields x = closedConsistencyAssemblyFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk L1 T1 E1 F1 S1 O1 D1 R1 P1 N1 =>
+  | mk closedness₁ typing₁ endpoint₁ exclusion₁ boundary₁ obstruction₁ ledger₁ route₁
+      provenance₁ name₁ =>
       cases y with
-      | mk L2 T2 E2 F2 S2 O2 D2 R2 P2 N2 =>
-          cases hfields
+      | mk closedness₂ typing₂ endpoint₂ exclusion₂ boundary₂ obstruction₂ ledger₂ route₂
+          provenance₂ name₂ =>
+          injection hfields with hClosedness tail0
+          injection tail0 with hTyping tail1
+          injection tail1 with hEndpoint tail2
+          injection tail2 with hExclusion tail3
+          injection tail3 with hBoundary tail4
+          injection tail4 with hObstruction tail5
+          injection tail5 with hLedger tail6
+          injection tail6 with hRoute tail7
+          injection tail7 with hProvenance tail8
+          injection tail8 with hName _
+          subst hClosedness
+          subst hTyping
+          subst hEndpoint
+          subst hExclusion
+          subst hBoundary
+          subst hObstruction
+          subst hLedger
+          subst hRoute
+          subst hProvenance
+          subst hName
           rfl
 
-instance closedConsistencyAssemblyBHistCarrier : BHistCarrier ClosedConsistencyAssemblyUp where
+instance closedConsistencyAssemblyBHistCarrier :
+    BHistCarrier ClosedConsistencyAssemblyUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := closedConsistencyAssemblyToEventFlow
   fromEventFlow := closedConsistencyAssemblyFromEventFlow
@@ -170,8 +209,9 @@ instance closedConsistencyAssemblyChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change closedConsistencyAssemblyFromEventFlow
-        (closedConsistencyAssemblyToEventFlow x) = some x
+    change
+      closedConsistencyAssemblyFromEventFlow (closedConsistencyAssemblyToEventFlow x) =
+        some x
     exact closedConsistencyAssembly_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -181,9 +221,10 @@ instance closedConsistencyAssemblyFieldFaithful :
     FieldFaithful ClosedConsistencyAssemblyUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := closedConsistencyAssemblyFields
-  field_faithful := closedConsistencyAssembly_field_faithful
+  field_faithful := closedConsistencyAssembly_fields_faithful
 
-instance closedConsistencyAssemblyNontrivial : Nontrivial ClosedConsistencyAssemblyUp where
+instance closedConsistencyAssemblyNontrivial :
+    Nontrivial ClosedConsistencyAssemblyUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨ClosedConsistencyAssemblyUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -193,27 +234,19 @@ instance closedConsistencyAssemblyNontrivial : Nontrivial ClosedConsistencyAssem
         BHist.Empty,
       by
         intro h
-        cases h⟩
+        injection h with hClosedness
+        cases hClosedness⟩
 
-def taste_gate : ChapterTasteGate ClosedConsistencyAssemblyUp :=
+def taste_gate : ChapterTasteGate ClosedConsistencyAssemblyUp where
   -- BEDC touchpoint anchor: BHist BMark
-  closedConsistencyAssemblyChapterTasteGate
-
-theorem ClosedConsistencyAssemblyTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      closedConsistencyAssemblyDecodeBHist (closedConsistencyAssemblyEncodeBHist h) = h) ∧
-      (∀ x : ClosedConsistencyAssemblyUp,
-        closedConsistencyAssemblyFromEventFlow (closedConsistencyAssemblyToEventFlow x) =
-          some x) ∧
-        (∀ x y : ClosedConsistencyAssemblyUp,
-          closedConsistencyAssemblyToEventFlow x = closedConsistencyAssemblyToEventFlow y ->
-            x = y) ∧
-          closedConsistencyAssemblyEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact
-    ⟨closedConsistencyAssemblyDecode_encode_bhist,
-      closedConsistencyAssembly_round_trip,
-      (fun _ _ heq => closedConsistencyAssemblyToEventFlow_injective heq),
-      rfl⟩
+  round_trip := by
+    intro x
+    change
+      closedConsistencyAssemblyFromEventFlow (closedConsistencyAssemblyToEventFlow x) =
+        some x
+    exact closedConsistencyAssembly_round_trip x
+  layer_separation := by
+    intro x y hxy heq
+    exact hxy (closedConsistencyAssemblyToEventFlow_injective heq)
 
 end BEDC.Derived.ClosedConsistencyAssemblyUp
