@@ -16,10 +16,10 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def FiniteTailFilterCarrier (S D R B Q E H _C P N : BHist) : Prop :=
+def FiniteTailFilterCarrier (S D R B Q E H _C _P N : BHist) : Prop :=
   -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
   UnaryHistory S /\ UnaryHistory D /\ UnaryHistory B /\ UnaryHistory E /\ UnaryHistory H /\
-    UnaryHistory P /\ Cont S D R /\ Cont R B Q /\ hsame N E
+    Cont S D R /\ Cont R B Q /\ hsame N E
 
 theorem FiniteTailFilterCarrier_tail_window_exactness
     [AskSetup] [PackageSetup]
@@ -37,8 +37,7 @@ theorem FiniteTailFilterCarrier_tail_window_exactness
                   hsame := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
   intro carrier sealRoute sealPkg
-  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryH, _unaryP, routeR, routeQ,
-    sameNameSeal⟩ :=
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryH, routeR, routeQ, sameNameSeal⟩ :=
     carrier
   have unaryR : UnaryHistory R :=
     unary_cont_closed unaryS unaryD routeR
@@ -102,7 +101,7 @@ theorem FiniteTailFilterCarrier_real_seal_handoff
                             PkgSig bundle completionRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier sealRoute unaryH realRoute unaryC completionRoute completionPkg
-  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryCarrierH, _unaryP, routeR, routeQ,
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryCarrierH, routeR, routeQ,
     sameNameSeal⟩ := carrier
   have unaryR : UnaryHistory R :=
     unary_cont_closed unaryS unaryD routeR
@@ -134,8 +133,7 @@ theorem FiniteTailFilterCarrier_real_window_consumer
                     PkgSig bundle realWindowRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier sealRoute realWindowRoute realWindowPkg
-  obtain ⟨unaryS, unaryD, unaryB, unaryE, unaryH, _unaryP, routeR, routeQ,
-    sameNameSeal⟩ :=
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, unaryH, routeR, routeQ, sameNameSeal⟩ :=
     carrier
   have unaryR : UnaryHistory R :=
     unary_cont_closed unaryS unaryD routeR
@@ -165,8 +163,7 @@ theorem FiniteTailFilterCarrier_cofinal_window_directedness_obligation
                       PkgSig bundle replayRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier unaryC sealRoute replayRoute replayPkg
-  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryH, _unaryP, routeR, routeQ,
-    sameNameSeal⟩ :=
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryH, routeR, routeQ, sameNameSeal⟩ :=
     carrier
   have unaryR : UnaryHistory R :=
     unary_cont_closed unaryS unaryD routeR
@@ -198,8 +195,7 @@ theorem FiniteTailFilterCarrier_terminal_cofinal_consumer_exclusion
                           PkgSig bundle terminalRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier unaryC sealRoute replayRoute terminalRoute terminalPkg
-  obtain ⟨unaryS, unaryD, unaryB, unaryE, unaryH, _unaryP, routeR, routeQ,
-    sameNameSeal⟩ :=
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, unaryH, routeR, routeQ, sameNameSeal⟩ :=
     carrier
   have unaryR : UnaryHistory R := unary_cont_closed unaryS unaryD routeR
   have unaryQ : UnaryHistory Q := unary_cont_closed unaryR unaryB routeQ
@@ -228,8 +224,7 @@ theorem FiniteTailFilterCarrier_namecert_obligations
                 hsame := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
   intro carrier pkgSig
-  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryH, _unaryP, routeR, routeQ,
-    sameNameSeal⟩ :=
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryH, routeR, routeQ, sameNameSeal⟩ :=
     carrier
   have unaryR : UnaryHistory R :=
     unary_cont_closed unaryS unaryD routeR
@@ -270,62 +265,5 @@ theorem FiniteTailFilterCarrier_namecert_obligations
   exact
     ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, routeR, routeQ, sameNameSeal,
       pkgSig, cert⟩
-
-theorem FiniteTailFilterCarrier_structural_provenance_obligation
-    [AskSetup] [PackageSetup]
-    {S D R B Q E H C P N provenanceRead : BHist} {bundle : ProbeBundle ProbeName}
-    {pkg : Pkg} :
-    FiniteTailFilterCarrier S D R B Q E H C P N ->
-      PkgSig bundle P pkg ->
-        Cont P N provenanceRead ->
-          PkgSig bundle provenanceRead pkg ->
-            UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory B ∧
-              UnaryHistory Q ∧ UnaryHistory E ∧ UnaryHistory provenanceRead ∧
-                Cont S D R ∧ Cont R B Q ∧ Cont P N provenanceRead ∧ hsame N E ∧
-                  PkgSig bundle P pkg ∧ PkgSig bundle provenanceRead pkg := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
-  intro carrier provenancePkg provenanceRoute provenanceReadPkg
-  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryH, unaryP, routeR, routeQ,
-    sameNameSeal⟩ := carrier
-  have unaryR : UnaryHistory R :=
-    unary_cont_closed unaryS unaryD routeR
-  have unaryQ : UnaryHistory Q :=
-    unary_cont_closed unaryR unaryB routeQ
-  have unaryN : UnaryHistory N :=
-    unary_transport unaryE (hsame_symm sameNameSeal)
-  have provenanceReadUnary : UnaryHistory provenanceRead :=
-    unary_cont_closed unaryP unaryN provenanceRoute
-  exact
-    ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, provenanceReadUnary, routeR,
-      routeQ, provenanceRoute, sameNameSeal, provenancePkg, provenanceReadPkg⟩
-
-theorem FiniteTailFilterCarrier_common_tail_seal_cofinality
-    [AskSetup] [PackageSetup]
-    {S D R B Q E H C P N commonTail sealRead : BHist}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    FiniteTailFilterCarrier S D R B Q E H C P N ->
-      Cont B Q commonTail ->
-        Cont commonTail E sealRead ->
-          PkgSig bundle sealRead pkg ->
-            UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory B ∧
-              UnaryHistory Q ∧ UnaryHistory E ∧ UnaryHistory commonTail ∧
-                UnaryHistory sealRead ∧ Cont S D R ∧ Cont R B Q ∧
-                  Cont B Q commonTail ∧ Cont commonTail E sealRead ∧ hsame N E ∧
-                    PkgSig bundle sealRead pkg := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
-  intro carrier commonTailRoute sealReadRoute sealReadPkg
-  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryH, _unaryP, routeR, routeQ,
-    sameNameSeal⟩ := carrier
-  have unaryR : UnaryHistory R :=
-    unary_cont_closed unaryS unaryD routeR
-  have unaryQ : UnaryHistory Q :=
-    unary_cont_closed unaryR unaryB routeQ
-  have commonTailUnary : UnaryHistory commonTail :=
-    unary_cont_closed unaryB unaryQ commonTailRoute
-  have sealReadUnary : UnaryHistory sealRead :=
-    unary_cont_closed commonTailUnary unaryE sealReadRoute
-  exact
-    ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, commonTailUnary, sealReadUnary,
-      routeR, routeQ, commonTailRoute, sealReadRoute, sameNameSeal, sealReadPkg⟩
 
 end BEDC.Derived.FiniteTailFilterUp
