@@ -1,0 +1,39 @@
+\begin{theorem}[$\ZNormalUp$ total-host decision surface]
+\label{thm:znormal-total-host-decision-surface}
+Every accepted $\ZNormalUp$ packet exposes a total-host decision surface through the displayed finite rows
+$$
+T,F,V,K,R,H,C,P,N.
+$$
+Terminal normality is read through $V$ over the typed endpoint $T$ and bounded fuel replay $F$; the normal-word row $K$ cites the $\ZeckendorfNormalUp$ and $\ZCarryUp$ sibling surfaces; the terminal continuation row $R$ cites the $\ContinuationTraceNormalFormUp$ surface; and the route is transported by $\hsame$, replayed by $\Cont$, packaged by $\Pkg$, and named by $\NameCert_{\ZNormalUp}$. The accepted decision rows contain no host conversion procedure, divergence oracle, quotient computation, unrestricted evaluator, or global normalizer.
+\end{theorem}
+\begin{proof}
+Start with the carrier and obligation packet of \autoref{def:znormal-carrier} and \autoref{def:znormal-total-host-obligation-packet}. Together they display exactly $T,F,V,K,R,H,C,P,N$, so the decision surface has no coordinate outside the finite $\BHist$ packet.
+
+Read the sibling anchors next. The typed endpoint route is the one supplied by \autoref{ch:concrete-instances-typedreductionnormalform-namecert}; the finite normal-word route is constrained by \autoref{ch:concrete-instances-zeckendorf-normal-namecert} and \autoref{ch:concrete-instances-zcarry-namecert}; and the terminal continuation route is the one supplied by \autoref{ch:concrete-instances-continuationtracenormalform-namecert}. These anchors feed rows of the packet rather than a host conversion row.
+
+Finally apply \autoref{thm:znormal-terminal-host-obligation-totality}. It assembles terminal normality, bounded fuel replay, sibling normal-word evidence, terminal readback, transport, replay, provenance, and local naming as the whole consumer-facing surface. Hence the total-host decision row is precisely the displayed $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ terminal-normality refusal stability]
+\label{thm:znormal-terminal-normality-refusal-stability}
+Let $Z=(T,F,V,K,R,H,C,P,N)$ and $Z'=(T',F',V',K',R',H',C',P',N')$ be accepted $\ZNormalUp$ packets related by componentwise $\hsame$ transport of the displayed rows. If a consumer request for $Z$ is refused because it asks for a divergence oracle, a host-conversion procedure, or a global-normalization row instead of terminal normality, then the corresponding transported request for $Z'$ is refused for the same reason. The refusal remains attached to the $\BHist$, $\Cont$, $\Pkg$, and local $\NameCert$ surface and is not converted into a transported host-side object.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through \autoref{def:znormal-carrier}. Componentwise transport moves only the rows $T,F,V,K,R,H,C,P,N$ and their primed counterparts, so it has no target coordinate for a divergence oracle, host conversion procedure, or global normalizer.
+
+Use \autoref{thm:znormal-total-host-readback-separation}. Refusal of the excluded objects is not a side condition outside the packet; it is the separation of the finite total-host readback surface from host conversion, quotient computation, unrestricted evaluation, divergence detection, substrate halting, and global normalization.
+
+The sibling surfaces remain component inputs under transport. Typed reduction normal-form, Zeckendorf normal form, local carry, continuation trace, and the normal-form consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert} are consumed through the displayed $K$ and $R$ rows and through $H,C,P,N$. Thus transporting the accepted packet preserves the same refusal ledger and never creates a transported host-side object.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root-unblock NameCert exhaustion]
+\label{thm:znormal-root-unblock-namecert-exhaustion}
+The local $\NameCert_{\ZNormalUp}$ surface needed for root unblock is exhausted by the displayed terminal-normality, bounded-fuel, replay, provenance, and naming rows of the accepted packet. Concretely, carrier admission reads the $\BHist$ packet $T,F,V,K,R,H,C,P,N$; classifier and terminal-normality reads use $T,F,V,K,R$; transport and replay use $H$ and $C$; provenance and local naming use $P$ and $N$. No additional NameCert clause remains for host conversion, divergence detection, global normalization, quotient computation, unrestricted evaluation, or substrate halting.
+\end{theorem}
+\begin{proof}
+Read the root carrier through \autoref{def:znormal-carrier} and the total-host obligation packet through \autoref{def:znormal-total-host-obligation-packet}. These definitions list the full root-unblock surface and identify the terminal-normality, fuel, replay, provenance, and naming rows.
+
+Apply \autoref{thm:znormal-total-host-decision-surface}. It places the sibling typed endpoint, Zeckendorf normal-word, carry, continuation-trace, and normal-form consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert} inside the same finite row family, with $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ as the only structural routes.
+
+Finally use \autoref{thm:znormal-terminal-normality-refusal-stability}. Since the excluded host-side requests remain refused under componentwise transport, there is no residual NameCert obligation beyond the displayed carrier, classifier, transport, replay, provenance, and naming rows. The root-unblock certificate is therefore exhausted by the local packet.
+\end{proof}
