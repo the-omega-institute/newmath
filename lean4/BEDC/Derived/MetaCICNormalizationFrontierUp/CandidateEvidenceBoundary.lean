@@ -78,4 +78,68 @@ theorem MetaCICNormalizationFrontierCarrier_candidate_evidence_totality
     }
   exact ⟨candidateReadUnary, sealedReadUnary, routeReadUnary, cert⟩
 
+theorem MetaCICNormalizationFrontierCarrier_root_candidate_readback
+    [AskSetup] [PackageSetup]
+    {candidate closedCandidate finished endpoint obstruction transport replay provenance
+      localRow candidateRead rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICNormalizationFrontierCarrier candidate closedCandidate finished endpoint
+        obstruction transport replay provenance localRow bundle pkg ->
+      Cont candidate closedCandidate candidateRead ->
+        Cont candidateRead replay rootRead ->
+          PkgSig bundle rootRead pkg ->
+            UnaryHistory candidateRead ∧ UnaryHistory rootRead ∧
+              SemanticNameCert
+                (fun row : BHist => hsame row rootRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row candidate ∨ hsame row closedCandidate ∨
+                    hsame row candidateRead ∨ hsame row rootRead)
+                (fun row : BHist => PkgSig bundle rootRead pkg ∧ hsame row rootRead)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier candidateClosedRead candidateReplayRoot rootPkg
+  obtain ⟨candidateUnary, closedCandidateUnary, _finishedUnary, _endpointUnary,
+    _obstructionUnary, _transportUnary, replayUnary, _provenanceUnary, _localRowUnary,
+    _candidateClosedLocal, _finishedEndpointReplay, _endpointReplayProvenance,
+    _transportSameCandidateFinished, _provenancePkg⟩ := carrier
+  have candidateReadUnary : UnaryHistory candidateRead :=
+    unary_cont_closed candidateUnary closedCandidateUnary candidateClosedRead
+  have rootReadUnary : UnaryHistory rootRead :=
+    unary_cont_closed candidateReadUnary replayUnary candidateReplayRoot
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row rootRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row candidate ∨ hsame row closedCandidate ∨
+            hsame row candidateRead ∨ hsame row rootRead)
+        (fun row : BHist => PkgSig bundle rootRead pkg ∧ hsame row rootRead)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro rootRead ⟨hsame_refl rootRead, rootReadUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact
+            ⟨hsame_trans (hsame_symm same) source.left,
+              unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr source.left))
+      ledger_sound := by
+        intro _row source
+        exact ⟨rootPkg, source.left⟩
+    }
+  exact ⟨candidateReadUnary, rootReadUnary, cert⟩
+
 end BEDC.Derived.MetaCICNormalizationFrontierUp
