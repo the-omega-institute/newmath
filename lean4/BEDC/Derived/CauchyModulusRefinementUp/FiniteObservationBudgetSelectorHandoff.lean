@@ -39,7 +39,7 @@ theorem CauchyModulusRefinementCarrier_finite_observation_budget_selector_handof
     ⟨_m0Unary, _m1Unary, _uUnary, _vUnary, tUnary, wUnary, qUnary, eUnary, _hUnary,
       _cUnary, _pUnary, _nUnary, _m0m1u, _uvt, _twq, _qeh, _pPkg, _hn⟩
   rcases selector with
-    ⟨bUnary, sUnary, dUnary, feUnary, bSfw, fwDr, _rFefc, _fnfe⟩
+    ⟨bUnary, sUnary, dUnary, feUnary, _fhUnary, bSfw, fwDr, _rFefc, _fnfe⟩
   have fwUnary : UnaryHistory fw :=
     unary_cont_closed bUnary sUnary bSfw
   have rUnary : UnaryHistory r :=
