@@ -686,6 +686,7 @@ import BEDC.Derived.CertificateCompilerUp.EndpointDecompilerHandoff
 import BEDC.Derived.CertificateCompilerUp.FormalTargetSurface
 import BEDC.Derived.CertificateCompilerUp.IdentityLedger
 import BEDC.Derived.CertificateCompilerUp.KernelMorphismRouteScope
+import BEDC.Derived.CertificateCompilerUp.MatureConsumerInventory
 import BEDC.Derived.CertificateCompilerUp.NameCertObligations
 import BEDC.Derived.CertificateCompilerUp.PublicConsumerBoundary
 import BEDC.Derived.CertificateCompilerUp.SourceTargetLandingExhaustion
