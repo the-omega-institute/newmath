@@ -1,0 +1,39 @@
+\begin{theorem}[AuthorizedGeneratorRecursor L10 output authorization closure]
+\label{thm:authorized-generator-recursor-l10-output-authorization-closure}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet. Any L10 public output read of $O$ that is visible to $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumers must retain the full finite route $I,E,M,B,D,O,A,H,C,P,G,N$ before those consumer rows are public. The output row is therefore authorized only together with the displayed signature, emitted recursor, motive, branch, descent, audit, transport, continuation, package provenance, boundary, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ rows; it is not a host-recursive output, a quotient stream datum, a selected real witness, or an off-packet proof channel.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:authorized-generator-recursor-phase-real-carrier-readiness}. It admits the Phase Real carrier only as the finite $\BHist$ route $I,E,M,B,D,O,A,H,C,P,G,N$, with $H,C,P,G,N$ carrying displayed equality, continuation, package, boundary, and local naming data.
+
+Use \autoref{thm:authorized-generator-recursor-phase-real-regseqrat-handoff} and \autoref{thm:authorized-generator-recursor-phase-real-ledger-nonescape}. They keep the regular-rational handoff and the exported ledger attached to the same packet, excluding quotient stream data, selected limits, host equality, hidden generator state, and off-packet proofs.
+
+Finally apply \autoref{thm:authorized-generator-recursor-real-stream-route}. The sibling consumer chapters \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} may therefore see the recursor output only after the route has retained every row of $R$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor StreamName finite-request publicity]
+\label{thm:authorized-generator-recursor-streamname-finite-request-publicity}
+Every $\StreamNameUp$ finite-request section that reads an $\AuthorizedGeneratorRecursorUp$ output must read it through the displayed output row $O$, audit row $A$, transport row $H$, continuation row $C$, package row $P$, boundary row $G$, and local NameCert row $N$, with $I,E,M,B,D$ retained as the upstream generator route. The section publicizes finite requests only as packet-local stream-name access; it does not expose an unbounded stream, detached recursion rule, selected real value, quotient stream equality, host equality, or private audit channel.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:authorized-generator-recursor-phase-real-carrier-readiness}. It makes the $\StreamNameUp$ dependency a read of the displayed carrier rather than a separate source of stream data.
+
+Next use \autoref{thm:authorized-generator-recursor-real-stream-route}. The Real stream route already places $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers behind the same finite output route, so a finite-request section cannot bypass $O,A,H,C,P,G,N$.
+
+The public sibling surface is then exactly \autoref{ch:concrete-instances-streamname-namecert}. Since that chapter consumes finite stream-name rows and not host streams, the recursor output reaches it only through the displayed output, audit, transport, continuation, package, boundary, and NameCert rows.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor RegSeqRat and Real seal output exhaustion]
+\label{thm:authorized-generator-recursor-regseqrat-real-seal-output-exhaustion}
+For any accepted $\AuthorizedGeneratorRecursorUp$ packet $R=(I,E,M,B,D,O,A,H,C,P,G,N)$, every $\RegSeqRatUp$ readback consumer and every $\RealUp$ seal consumer of the recursor output exhausts the output route through the same finite packet. The only available public data are the displayed output, audit, transport, continuation, package, boundary, and local NameCert rows together with the upstream generator rows $I,E,M,B,D$. No consumer obtains a selected limit, quotient stream equality, host equality, detached completion object, hidden generator state, or proof channel outside $R$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:authorized-generator-recursor-phase-real-regseqrat-handoff}. It mediates the $\RegSeqRatUp$ handoff through the same authorized generator route as the stream-name source and the Real endpoint.
+
+Then apply \autoref{thm:authorized-generator-recursor-phase-real-ledger-nonescape}. The ledger exported to $\RegSeqRatUp$, $\RealUp$, and completion-facing consumers is exhausted by $A,H,C,P,G,N$ on the finite packet, with no coordinate for quotient completion equality, selected limits, host completeness proofs, or off-packet generator certificates.
+
+Finally appeal to \autoref{thm:authorized-generator-recursor-real-stream-route} and the sibling chapters \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}. Their readback and seal surfaces consume packet rows; they do not turn the AuthorizedGeneratorRecursor output into selected Real evidence, quotient stream equality, host equality, or an external proof producer.
+\end{proof}
