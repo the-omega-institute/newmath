@@ -108,13 +108,15 @@ Thus the TasteGate work is tied to the finite route packet itself, with no hidde
 \independenceWitness{finiteobservationbudgetselector, regularcauchytailmeet, real-observation-budget, cauchylimitseal, real: $\BudgetedRealSealRouteUp$ combines a selector row, a TailMeet threshold, a Real observation-budget entrance, a CauchyLimitSeal handoff, and a Real seal/readback row; none of the named siblings is bijective to this combined route packet because each omits at least one required route coordinate.}
 
 \closureat{BudgetedRealSealRouteUp}{seedStr}
+\closureat{BudgetedRealSealRouteUp}{obligationStr}[BEDC.Derived.BudgetedRealSealRouteUp.BudgetedRealSealRouteTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\BudgetedRealSealRouteUp}
   \constructivestory{A $\BudgetedRealSealRouteUp$ packet is generated from a finite observation-budget selector, a TailMeet threshold row, a Real observation-budget entrance, a CauchyLimitSeal route, a Real seal and readback row, componentwise transports, displayed replay routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:budgeted-real-seal-route-carrier}, \autoref{thm:budgeted-real-seal-route-namecert-obligations}, \autoref{thm:budgeted-real-seal-route-nonescape}, and \autoref{thm:budgeted-real-seal-route-tastegate-obligation} bind the finite Real-completion budget route packet, its local NameCert surface, non-escape boundary, and TasteGate obligation surface.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:budgeted-real-seal-route-carrier}, \autoref{thm:budgeted-real-seal-route-namecert-obligations}, \autoref{thm:budgeted-real-seal-route-nonescape}, \autoref{thm:budgeted-real-seal-route-tastegate-obligation}, and \leanchecked{BEDC.Derived.BudgetedRealSealRouteUp.taste\_gate} bind the finite Real-completion budget route packet, its local NameCert surface, non-escape boundary, and TasteGate obligation surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.BudgetedRealSealRouteUp.BudgetedRealSealRouteTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close quotient streams, host real equality, countable choice, external limit selection, ambient Real completeness, Lean verification, or bridge checking for $\BudgetedRealSealRouteUp$.}
-  \upgradepath{Scoped closure requires checked carrier admission, budget selector admission, TailMeet threshold admission, observation-budget entrance, CauchyLimitSeal handoff, Real readback exactness, provenance, and local naming for the same finite carrier.}
+  \notclaimed{This chapter does not close quotient streams, host real equality, countable choice, external limit selection, ambient Real completeness, or bridge checking for $\BudgetedRealSealRouteUp$.}
+  \upgradepath{Scoped closure requires checked coverage over the same selector, TailMeet threshold, observation budget, CauchyLimitSeal handoff, Real readback, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
 \end{closurestatus}
