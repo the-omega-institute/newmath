@@ -89,4 +89,75 @@ theorem RegularCauchyModulusNormalizerCarrier_source_exposure_obligation [AskSet
     }
   exact ⟨cert, meetUnary⟩
 
+theorem RegularCauchyModulusNormalizerCarrier_shared_window_obligation [AskSetup]
+    [PackageSetup]
+    {x y muX muY meet window dyadic readback sealRow transport route provenance name
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyModulusNormalizerCarrier x y muX muY meet window dyadic readback sealRow
+        transport route provenance name bundle pkg →
+      Cont dyadic readback endpoint →
+        PkgSig bundle endpoint pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                RegularCauchyModulusNormalizerCarrier x y muX muY meet window dyadic
+                    readback sealRow transport route provenance name bundle pkg ∧
+                  hsame row dyadic)
+              (fun row : BHist => hsame row dyadic ∧ UnaryHistory row)
+              (fun _row : BHist =>
+                Cont muX muY meet ∧ Cont meet window dyadic ∧
+                  Cont dyadic readback endpoint ∧ PkgSig bundle endpoint pkg)
+              hsame ∧
+            UnaryHistory window ∧ UnaryHistory dyadic ∧ UnaryHistory readback ∧
+              UnaryHistory endpoint := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier dyadicReadbackEndpoint endpointPkg
+  have carrierWitness := carrier
+  obtain ⟨_xUnary, _yUnary, _muXUnary, _muYUnary, _meetUnary, windowUnary,
+    dyadicUnary, readbackUnary, _sealUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, sourceMeet, meetWindowDyadic, _dyadicReadbackSeal,
+    _sealTransportRoute, _routeProvenanceName, _carrierMeetPkg, _namePkg⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed dyadicUnary readbackUnary dyadicReadbackEndpoint
+  have sourceAtDyadic :
+      RegularCauchyModulusNormalizerCarrier x y muX muY meet window dyadic readback
+          sealRow transport route provenance name bundle pkg ∧
+        hsame dyadic dyadic :=
+    And.intro carrierWitness (hsame_refl dyadic)
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            RegularCauchyModulusNormalizerCarrier x y muX muY meet window dyadic
+                readback sealRow transport route provenance name bundle pkg ∧
+              hsame row dyadic)
+          (fun row : BHist => hsame row dyadic ∧ UnaryHistory row)
+          (fun _row : BHist =>
+            Cont muX muY meet ∧ Cont meet window dyadic ∧
+              Cont dyadic readback endpoint ∧ PkgSig bundle endpoint pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro dyadic sourceAtDyadic
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      exact
+        ⟨source.right, unary_transport dyadicUnary (hsame_symm source.right)⟩
+    ledger_sound := by
+      intro _row _source
+      exact ⟨sourceMeet, meetWindowDyadic, dyadicReadbackEndpoint, endpointPkg⟩
+  }
+  exact ⟨cert, windowUnary, dyadicUnary, readbackUnary, endpointUnary⟩
+
 end BEDC.Derived.RegularCauchyModulusNormalizerUp
