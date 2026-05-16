@@ -194,7 +194,7 @@ instance certificateAuditGateBHistCarrier : BHistCarrier CertificateAuditGateUp 
   fromEventFlow := certificateAuditGateFromEventFlow
 
 private def certificateAuditGateChapterTasteGateConcrete :
-    ChapterTasteGate CertificateAuditGateUp where
+    @ChapterTasteGate CertificateAuditGateUp certificateAuditGateBHistCarrier where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -229,7 +229,7 @@ private theorem certificateAuditGate_field_faithful :
             rfl
 
 private def certificateAuditGateFieldFaithfulConcrete :
-    FieldFaithful CertificateAuditGateUp where
+    @FieldFaithful CertificateAuditGateUp certificateAuditGateBHistCarrier where
   -- BEDC touchpoint anchor: BHist BMark
   fields := certificateAuditGateFields
   field_faithful := certificateAuditGate_field_faithful
@@ -266,8 +266,8 @@ theorem CertificateAuditGateTasteGate_single_carrier_alignment :
         certificateAuditGateFromEventFlow (certificateAuditGateToEventFlow x) = some x) /\
         (forall x y : CertificateAuditGateUp,
           certificateAuditGateToEventFlow x = certificateAuditGateToEventFlow y -> x = y) /\
-          Nonempty (ChapterTasteGate CertificateAuditGateUp) /\
-            Nonempty (FieldFaithful CertificateAuditGateUp) /\
+          Nonempty (@ChapterTasteGate CertificateAuditGateUp certificateAuditGateBHistCarrier) /\
+            Nonempty (@FieldFaithful CertificateAuditGateUp certificateAuditGateBHistCarrier) /\
               Nonempty (Nontrivial CertificateAuditGateUp) /\
                 certificateAuditGateEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark
