@@ -112,6 +112,7 @@ S,D,R,W,Q,L,H,C,P,N .
 $$
 No accepted handoff may insert a hidden tail selector, detached dyadic ledger, quotient stream equality, selected limit, host real equality, countable-choice selector, independent completion object, or ambient completeness witness between the diagonal selector budget and the finite-tail-filter consumer.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_selector\_budget\_finite\_tail\_filter\_handoff}
 \begin{proof}
 First lock the diagonal route. Apply \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock} and \autoref{thm:diagonal-limit-selector-budget-formal-target-lock}. These force the accepted $\DiagonalLimitCompatibilityUp$ packet to expose the diagonal source together with $W,D,Q,L,H,C,P,N$, and they prevent a formal target from replacing that surface by hidden selector data or an independent completion-facing source.
 
@@ -134,4 +135,24 @@ First lock the diagonal source. Apply \autoref{thm:diagonal-limit-compatibility-
 Next read the shared-threshold surface of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}. The regular tail-meet packet supplies the common tail threshold as a displayed finite row, so the selector budget reaches downstream seal consumers only after that threshold has been named in the same finite route.
 
 Finally compose with \autoref{thm:diagonal-limit-selector-budget-finite-tail-filter-handoff}. The finite-tail-filter handoff already routes Real-facing and Completion-facing consumers through the displayed selector-budget rows and the finite cofinal-tail packet. With the regular tail-meet threshold placed upstream of that handoff, the composite route has exactly the stated diagonal source, $W,D,Q,L$, shared threshold, and structural rows, and no hidden selector or ambient completion row remains available.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit selector-budget tail-meet pullback exhaustion]
+\label{thm:diagonal-limit-selector-budget-tail-meet-pullback-exhaustion}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Suppose the displayed selector-budget surface of $K$ is consumed by an accepted $\RegularCauchyTailMeetUp$ packet with shared tail-meet threshold $\tau$, and that the same threshold-facing route is then consumed by an accepted $\FiniteTailFilterUp$ packet
+$$
+F=(S_F,D_F,R_F,B_F,Q_F,E_F,H_F,C_F,P_F,N_F).
+$$
+Every $\CompletionUp$-facing or $\RealUp$-facing consumer of this composite packet has exactly one route: the displayed diagonal source of $K$, the rows $W,D,Q,L$, the shared threshold $\tau$, the finite-tail-filter rows $S_F,D_F,R_F,B_F,Q_F,E_F,H_F,C_F,P_F,N_F$, and the structural rows $H,C,P,N$.
+
+No accepted pullback along this route may add a hidden selector, quotient stream, host equality row, selected limit, countable-choice selector, independent completion datum, second completion source, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First lock the diagonal selector source. Apply \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock} and \autoref{thm:diagonal-limit-selector-budget-route-determinacy}. These identify the only downstream selector-budget route as the displayed diagonal source together with $W,D,Q,L,H,C,P,N$.
+
+Next place the shared threshold on that route. The shared-threshold surface of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, together with \autoref{thm:regular-cauchy-tail-meet-selector-budget-public-route} and \autoref{thm:regular-cauchy-tail-meet-shared-threshold-route-determinacy}, makes the threshold $\tau$ a displayed finite row reached through the same selector windows and readback rows. A second threshold route would require a hidden selector or an independent tail oracle, neither of which is carried by the accepted packet.
+
+Now attach the finite-tail-filter consumer. By \autoref{thm:diagonal-limit-selector-budget-finite-tail-filter-handoff}, Real-facing and Completion-facing consumers of $F$ read the finite packet rows $S_F,D_F,R_F,B_F,Q_F,E_F,H_F,C_F,P_F,N_F$ only through the displayed selector-budget surface $W,D,Q,L$ of $K$.
+
+Finally compose with \autoref{thm:diagonal-limit-selector-budget-regular-tail-meet-handoff}. The regular tail-meet handoff already places $\tau$ between the diagonal selector budget and the finite-tail-filter or Real seal consumer. Combining the two handoffs gives one composite route with the diagonal source, $W,D,Q,L$, the shared threshold, the finite-tail-filter packet rows, and $H,C,P,N$ as its complete coordinate list. Since the source lock and determinacy theorems have no remaining carrier coordinate for quotient streams, host equality, selected limits, countable-choice selectors, independent completion data, second completion sources, or ambient completeness, the pullback route is exhausted.
 \end{proof}
