@@ -1,0 +1,35 @@
+\begin{theorem}[CriticalLineWitness fixed-strip carrier source totality]
+\label{thm:critical-line-witness-fixed-strip-carrier-source-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet whose fixed-strip route is read through the displayed $\BHist$ carrier, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CriticalLineWitnessUp}$ row. Every accepted carrier-source read of $W$ is exhausted by the visible finite source rows $Z,S,M,R,Q,H,C,P,N$ over the $\CritStripUp$, $\GammaUp$, $\ZetaZerosUp$, and zeta-dependency surface. It has no additional coordinate for zero search, analytic continuation, host equality, quotient representatives, ambient completeness, or an $\mathsf{RH}$ proof.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of \autoref{def:critical-line-witness-carrier}. The only source-side rows exposed by the carrier are the supplied zero row $Z$, critical-strip row $S$, modulus row $M$, real-part row $R$, rational-comparison row $Q$, and the structural rows $H,C,P,N$.
+
+Use fixed-strip source totality and source-signature readback, \autoref{thm:critical-line-witness-fixed-strip-source-totality} and \autoref{thm:critical-line-witness-source-signature-readback}. These identify the carrier source with the visible finite rows over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, and they keep the signature-gap readback on the same displayed route.
+
+Finally attach the zeta dependency surface through \autoref{thm:critical-line-witness-dependency-ledger-exhaustion}. The $\CritStripUp$, $\GammaUp$, $\ZetaZerosUp$, and zeta-continuation dependencies are already ledger rows of $W$, so the carrier-source read is exhausted by $Z,S,M,R,Q,H,C,P,N$ and cannot open any analytic, host, quotient, completeness, zero-search, or $\mathsf{RH}$ coordinate.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness fixed-strip classifier separation]
+\label{thm:critical-line-witness-fixed-strip-classifier-separation}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. A classifier read that is anchored in the fixed-strip source rows $Z,S,M,R,Q,H,C,P,N$ is separated from a zero-strip witness read unless the displayed finite route supplies the same signature-gap ledger through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CriticalLineWitnessUp}$. In the absence of that matching ledger, transport and replay keep the two reads on their own refusal rows and do not identify them by zero search, analytic continuation, host equality, quotient representatives, ambient completeness, or an $\mathsf{RH}$ proof.
+\end{theorem}
+\begin{proof}
+First read the fixed-strip side. By \autoref{thm:critical-line-witness-fixed-strip-carrier-source-totality}, a classifier anchored in the fixed strip has only the visible packet rows $Z,S,M,R,Q,H,C,P,N$ available.
+
+Now read the zero-strip side through the signature-gap carrier. The source-signature readback and GAP-policy stability theorems, \autoref{thm:critical-line-witness-source-signature-readback} and \autoref{thm:critical-line-witness-gap-policy-stability}, place any zero-strip witness read behind the displayed signature and gap rows and preserve those rows under $H$ and $C$.
+
+It remains to compare the two reads. Apply fixed-strip classifier stability, \autoref{thm:critical-line-witness-fixed-strip-classifier-stability}. If the displayed finite route carries the same signature-gap ledger, the classifier and witness reads meet on that ledger; if it does not, the refusal rows remain distinct and no analytic, host, quotient, completeness, zero-search, or $\mathsf{RH}$ route can identify them.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness zero-source ledger exhaustion]
+\label{thm:critical-line-witness-zero-source-ledger-exhaustion}
+Every downstream $\mathsf{RH}$-facing or zeta-continuation consumer of an accepted $\CriticalLineWitnessUp$ packet factors through the visible zero-source ledger $Z,S,M,R,Q,H,C,P,N$ before it can read a public conclusion. The consumer reads the zero row, fixed strip, source signature, gap ledger, modulus, rational comparison, transport, replay, provenance, and local $\NameCert$ rows already displayed by $W$; it receives no analytic oracle, host zero classifier, quotient representative, ambient completeness datum, or direct $\mathsf{RH}$ proof.
+\end{theorem}
+\begin{proof}
+Begin with carrier-source totality. The first theorem in this packet confines the zero-source carrier to the finite rows $Z,S,M,R,Q,H,C,P,N$ over the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+Next use the downstream consumer rows. Root downstream consumer totality and fixed-strip zeta source factorization, \autoref{thm:critical-line-witness-root-downstream-consumer-totality} and \autoref{thm:critical-line-witness-fixed-strip-zeta-source-factorization}, force zeta-continuation and critical-line consumers to read the displayed packet before any public $\mathsf{RH}$-facing read.
+
+Finally apply classifier separation together with the NameCert route exhaustion theorem, \autoref{thm:critical-line-witness-fixed-strip-classifier-separation} and \autoref{thm:critical-line-witness-namecert-route-exhaustion}. The classifier, signature-gap ledger, and downstream route all factor through the same visible zero-source ledger, so the consumer cannot replace that ledger by an analytic oracle, host zero classifier, quotient representative, ambient completeness datum, or direct $\mathsf{RH}$ proof.
+\end{proof}
