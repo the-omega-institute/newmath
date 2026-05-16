@@ -2,10 +2,6 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-/-!
-# UnitCalibrationLedgerUp TasteGate carrier.
--/
-
 namespace BEDC.Derived.UnitCalibrationLedgerUp
 
 open BEDC.FKernel.Hist
@@ -14,16 +10,19 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive UnitCalibrationLedgerUp : Type where
-  | mk (m u c e i r d k h p n : BHist) : UnitCalibrationLedgerUp
+  | mk :
+      (measurement unitBridge calibration uncertainty instrument reproducibility dimension
+        classifier transport provenance name : BHist) →
+      UnitCalibrationLedgerUp
   deriving DecidableEq
 
-private def unitCalibrationLedgerEncodeBHist : BHist → RawEvent
+def unitCalibrationLedgerEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: unitCalibrationLedgerEncodeBHist h
   | BHist.e1 h => BMark.b1 :: unitCalibrationLedgerEncodeBHist h
 
-private def unitCalibrationLedgerDecodeBHist : RawEvent → BHist
+def unitCalibrationLedgerDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (unitCalibrationLedgerDecodeBHist tail)
@@ -42,73 +41,87 @@ private theorem unitCalibrationLedger_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def unitCalibrationLedgerFields : UnitCalibrationLedgerUp → List BHist
+def unitCalibrationLedgerFields : UnitCalibrationLedgerUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | UnitCalibrationLedgerUp.mk m u c e i r d k h p n => [m, u, c, e, i, r, d, k, h, p, n]
+  | UnitCalibrationLedgerUp.mk measurement unitBridge calibration uncertainty instrument
+      reproducibility dimension classifier transport provenance name =>
+      [measurement, unitBridge, calibration, uncertainty, instrument, reproducibility,
+        dimension, classifier, transport, provenance, name]
 
-private def unitCalibrationLedgerToEventFlow : UnitCalibrationLedgerUp → EventFlow
+def unitCalibrationLedgerToEventFlow : UnitCalibrationLedgerUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | UnitCalibrationLedgerUp.mk m u c e i r d k h p n =>
-      [unitCalibrationLedgerEncodeBHist m, unitCalibrationLedgerEncodeBHist u,
-        unitCalibrationLedgerEncodeBHist c, unitCalibrationLedgerEncodeBHist e,
-        unitCalibrationLedgerEncodeBHist i, unitCalibrationLedgerEncodeBHist r,
-        unitCalibrationLedgerEncodeBHist d, unitCalibrationLedgerEncodeBHist k,
-        unitCalibrationLedgerEncodeBHist h, unitCalibrationLedgerEncodeBHist p,
-        unitCalibrationLedgerEncodeBHist n]
+  | x => (unitCalibrationLedgerFields x).map unitCalibrationLedgerEncodeBHist
 
-private def unitCalibrationLedgerFromEventFlow : EventFlow → Option UnitCalibrationLedgerUp
+def unitCalibrationLedgerFromEventFlow : EventFlow → Option UnitCalibrationLedgerUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [m, u, c, e, i, r, d, k, h, p, n] =>
+  | [measurement, unitBridge, calibration, uncertainty, instrument, reproducibility,
+      dimension, classifier, transport, provenance, name] =>
       some
         (UnitCalibrationLedgerUp.mk
-          (unitCalibrationLedgerDecodeBHist m)
-          (unitCalibrationLedgerDecodeBHist u)
-          (unitCalibrationLedgerDecodeBHist c)
-          (unitCalibrationLedgerDecodeBHist e)
-          (unitCalibrationLedgerDecodeBHist i)
-          (unitCalibrationLedgerDecodeBHist r)
-          (unitCalibrationLedgerDecodeBHist d)
-          (unitCalibrationLedgerDecodeBHist k)
-          (unitCalibrationLedgerDecodeBHist h)
-          (unitCalibrationLedgerDecodeBHist p)
-          (unitCalibrationLedgerDecodeBHist n))
+          (unitCalibrationLedgerDecodeBHist measurement)
+          (unitCalibrationLedgerDecodeBHist unitBridge)
+          (unitCalibrationLedgerDecodeBHist calibration)
+          (unitCalibrationLedgerDecodeBHist uncertainty)
+          (unitCalibrationLedgerDecodeBHist instrument)
+          (unitCalibrationLedgerDecodeBHist reproducibility)
+          (unitCalibrationLedgerDecodeBHist dimension)
+          (unitCalibrationLedgerDecodeBHist classifier)
+          (unitCalibrationLedgerDecodeBHist transport)
+          (unitCalibrationLedgerDecodeBHist provenance)
+          (unitCalibrationLedgerDecodeBHist name))
   | _ => none
 
 private theorem unitCalibrationLedger_round_trip :
     ∀ x : UnitCalibrationLedgerUp,
-      unitCalibrationLedgerFromEventFlow (unitCalibrationLedgerToEventFlow x) = some x := by
+      unitCalibrationLedgerFromEventFlow
+        (unitCalibrationLedgerToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk m u c e i r d k h p n =>
+  | mk measurement unitBridge calibration uncertainty instrument reproducibility dimension
+      classifier transport provenance name =>
       change
         some
           (UnitCalibrationLedgerUp.mk
-            (unitCalibrationLedgerDecodeBHist (unitCalibrationLedgerEncodeBHist m))
-            (unitCalibrationLedgerDecodeBHist (unitCalibrationLedgerEncodeBHist u))
-            (unitCalibrationLedgerDecodeBHist (unitCalibrationLedgerEncodeBHist c))
-            (unitCalibrationLedgerDecodeBHist (unitCalibrationLedgerEncodeBHist e))
-            (unitCalibrationLedgerDecodeBHist (unitCalibrationLedgerEncodeBHist i))
-            (unitCalibrationLedgerDecodeBHist (unitCalibrationLedgerEncodeBHist r))
-            (unitCalibrationLedgerDecodeBHist (unitCalibrationLedgerEncodeBHist d))
-            (unitCalibrationLedgerDecodeBHist (unitCalibrationLedgerEncodeBHist k))
-            (unitCalibrationLedgerDecodeBHist (unitCalibrationLedgerEncodeBHist h))
-            (unitCalibrationLedgerDecodeBHist (unitCalibrationLedgerEncodeBHist p))
-            (unitCalibrationLedgerDecodeBHist (unitCalibrationLedgerEncodeBHist n))) =
-          some (UnitCalibrationLedgerUp.mk m u c e i r d k h p n)
-      rw [unitCalibrationLedger_decode_encode_bhist m,
-        unitCalibrationLedger_decode_encode_bhist u,
-        unitCalibrationLedger_decode_encode_bhist c,
-        unitCalibrationLedger_decode_encode_bhist e,
-        unitCalibrationLedger_decode_encode_bhist i,
-        unitCalibrationLedger_decode_encode_bhist r,
-        unitCalibrationLedger_decode_encode_bhist d,
-        unitCalibrationLedger_decode_encode_bhist k,
-        unitCalibrationLedger_decode_encode_bhist h,
-        unitCalibrationLedger_decode_encode_bhist p,
-        unitCalibrationLedger_decode_encode_bhist n]
+            (unitCalibrationLedgerDecodeBHist
+              (unitCalibrationLedgerEncodeBHist measurement))
+            (unitCalibrationLedgerDecodeBHist
+              (unitCalibrationLedgerEncodeBHist unitBridge))
+            (unitCalibrationLedgerDecodeBHist
+              (unitCalibrationLedgerEncodeBHist calibration))
+            (unitCalibrationLedgerDecodeBHist
+              (unitCalibrationLedgerEncodeBHist uncertainty))
+            (unitCalibrationLedgerDecodeBHist
+              (unitCalibrationLedgerEncodeBHist instrument))
+            (unitCalibrationLedgerDecodeBHist
+              (unitCalibrationLedgerEncodeBHist reproducibility))
+            (unitCalibrationLedgerDecodeBHist
+              (unitCalibrationLedgerEncodeBHist dimension))
+            (unitCalibrationLedgerDecodeBHist
+              (unitCalibrationLedgerEncodeBHist classifier))
+            (unitCalibrationLedgerDecodeBHist
+              (unitCalibrationLedgerEncodeBHist transport))
+            (unitCalibrationLedgerDecodeBHist
+              (unitCalibrationLedgerEncodeBHist provenance))
+            (unitCalibrationLedgerDecodeBHist
+              (unitCalibrationLedgerEncodeBHist name))) =
+          some
+            (UnitCalibrationLedgerUp.mk measurement unitBridge calibration uncertainty
+              instrument reproducibility dimension classifier transport provenance name)
+      rw [unitCalibrationLedger_decode_encode_bhist measurement,
+        unitCalibrationLedger_decode_encode_bhist unitBridge,
+        unitCalibrationLedger_decode_encode_bhist calibration,
+        unitCalibrationLedger_decode_encode_bhist uncertainty,
+        unitCalibrationLedger_decode_encode_bhist instrument,
+        unitCalibrationLedger_decode_encode_bhist reproducibility,
+        unitCalibrationLedger_decode_encode_bhist dimension,
+        unitCalibrationLedger_decode_encode_bhist classifier,
+        unitCalibrationLedger_decode_encode_bhist transport,
+        unitCalibrationLedger_decode_encode_bhist provenance,
+        unitCalibrationLedger_decode_encode_bhist name]
 
-private theorem unitCalibrationLedgerToEventFlow_injective {x y : UnitCalibrationLedgerUp} :
+private theorem unitCalibrationLedgerToEventFlow_injective
+    {x y : UnitCalibrationLedgerUp} :
     unitCalibrationLedgerToEventFlow x = unitCalibrationLedgerToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -120,19 +133,22 @@ private theorem unitCalibrationLedgerToEventFlow_injective {x y : UnitCalibratio
     (Eq.trans (unitCalibrationLedger_round_trip x).symm
       (Eq.trans hread (unitCalibrationLedger_round_trip y)))
 
-private theorem unitCalibrationLedger_field_faithful :
-    ∀ x y : UnitCalibrationLedgerUp, unitCalibrationLedgerFields x =
-      unitCalibrationLedgerFields y → x = y := by
+private theorem unitCalibrationLedger_fields_faithful :
+    ∀ x y : UnitCalibrationLedgerUp,
+      unitCalibrationLedgerFields x = unitCalibrationLedgerFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk m u c e i r d k h p n =>
+  | mk measurement₁ unitBridge₁ calibration₁ uncertainty₁ instrument₁ reproducibility₁
+      dimension₁ classifier₁ transport₁ provenance₁ name₁ =>
       cases y with
-      | mk m' u' c' e' i' r' d' k' h' p' n' =>
+      | mk measurement₂ unitBridge₂ calibration₂ uncertainty₂ instrument₂ reproducibility₂
+          dimension₂ classifier₂ transport₂ provenance₂ name₂ =>
           cases hfields
           rfl
 
-instance unitCalibrationLedgerBHistCarrier : BHistCarrier UnitCalibrationLedgerUp where
+instance unitCalibrationLedgerBHistCarrier :
+    BHistCarrier UnitCalibrationLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := unitCalibrationLedgerToEventFlow
   fromEventFlow := unitCalibrationLedgerFromEventFlow
@@ -142,7 +158,9 @@ instance unitCalibrationLedgerChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change unitCalibrationLedgerFromEventFlow (unitCalibrationLedgerToEventFlow x) = some x
+    change
+      unitCalibrationLedgerFromEventFlow
+        (unitCalibrationLedgerToEventFlow x) = some x
     exact unitCalibrationLedger_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -152,18 +170,16 @@ instance unitCalibrationLedgerFieldFaithful :
     FieldFaithful UnitCalibrationLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := unitCalibrationLedgerFields
-  field_faithful := unitCalibrationLedger_field_faithful
+  field_faithful := unitCalibrationLedger_fields_faithful
 
 instance unitCalibrationLedgerNontrivial :
     Nontrivial UnitCalibrationLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨UnitCalibrationLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      UnitCalibrationLedgerUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
+    ⟨UnitCalibrationLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      UnitCalibrationLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -171,22 +187,5 @@ instance unitCalibrationLedgerNontrivial :
 def taste_gate : ChapterTasteGate UnitCalibrationLedgerUp :=
   -- BEDC touchpoint anchor: BHist BMark
   unitCalibrationLedgerChapterTasteGate
-
-theorem UnitCalibrationLedgerTasteGate_single_carrier_alignment :
-    ∀ m u c e i r d k h p n : BHist,
-      unitCalibrationLedgerFields (UnitCalibrationLedgerUp.mk m u c e i r d k h p n) =
-        [m, u, c, e, i, r, d, k, h, p, n] ∧
-      unitCalibrationLedgerToEventFlow (UnitCalibrationLedgerUp.mk m u c e i r d k h p n) =
-        [unitCalibrationLedgerEncodeBHist m, unitCalibrationLedgerEncodeBHist u,
-          unitCalibrationLedgerEncodeBHist c, unitCalibrationLedgerEncodeBHist e,
-          unitCalibrationLedgerEncodeBHist i, unitCalibrationLedgerEncodeBHist r,
-          unitCalibrationLedgerEncodeBHist d, unitCalibrationLedgerEncodeBHist k,
-          unitCalibrationLedgerEncodeBHist h, unitCalibrationLedgerEncodeBHist p,
-          unitCalibrationLedgerEncodeBHist n] := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro m u c e i r d k h p n
-  constructor
-  · rfl
-  · rfl
 
 end BEDC.Derived.UnitCalibrationLedgerUp

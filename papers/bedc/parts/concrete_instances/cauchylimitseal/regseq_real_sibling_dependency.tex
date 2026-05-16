@@ -1,0 +1,13 @@
+\begin{theorem}[CauchyLimitSeal RegSeq-Real sibling dependency]
+\label{thm:cauchy-limit-seal-regseq-real-sibling-dependency}
+Every accepted $\CauchyLimitSealUp$ handoff consumes $\StreamNameUp$ for finite observations, $\RegSeqRatUp$ for regular Cauchy rows, and $\RealUp$ for the public seal and readback row. The handoff therefore factors through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}; it cannot be read as a standalone completion principle.
+\end{theorem}
+\begin{proof}
+Begin with the root L10 sibling route, \autoref{thm:cauchy-limit-seal-root-l10-sibling-route}. It already places every accepted Real-facing or completion-facing route through the finite-window surface, regular readback, dyadic ledger, and Real seal boundary.
+
+The finite observations are supplied by the StreamName surface. The scheduled window row records the finite observations before any regular Cauchy source or seal row is public.
+
+The regular Cauchy content is supplied by the RegSeqRat row. The accepted handoff reads the regular source and its readback before it reaches the seal endpoint.
+
+The public endpoint is supplied by the RealUp seal row. Since the accepted route has no coordinate for quotient streams, selected host limits, hidden tail oracles, host equality, or ambient completeness, the CauchyLimitSeal packet is a sibling-dependent handoff rather than an isolated completion principle.
+\end{proof}
