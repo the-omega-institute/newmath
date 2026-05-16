@@ -116,4 +116,34 @@ theorem RealityConstrainedTowerCompressionLedger_nonescape [AskSetup] [PackageSe
     ⟨ledgerUnary, endpointUnary, readLedgerUnary, readEndpointUnary, ledgerRoute,
       endpointRoute, endpointSameClassifierLedger, endpointPkg⟩
 
+theorem RealityConstrainedTowerCompressionClassifier_accountability [AskSetup] [PackageSetup]
+    {S T O F A M C L E R P N classifierRead ledgerRead endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealityConstrainedTowerCompressionCarrier S T O F A M C L E R P N bundle pkg →
+      Cont A M classifierRead →
+        hsame classifierRead C →
+          Cont C L ledgerRead →
+            Cont ledgerRead E endpointRead →
+              PkgSig bundle endpointRead pkg →
+                UnaryHistory C ∧ UnaryHistory classifierRead ∧ UnaryHistory ledgerRead ∧
+                  UnaryHistory endpointRead ∧ Cont A M classifierRead ∧
+                    hsame classifierRead C ∧ Cont C L ledgerRead ∧
+                      Cont ledgerRead E endpointRead ∧ PkgSig bundle endpointRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame Cont ProbeBundle Pkg
+  intro carrier approxAuditClassifier classifierSame ledgerRoute endpointRoute endpointPkg
+  obtain ⟨_sourceUnary, _towerUnary, _observerUnary, _fitUnary, _approxUnary,
+    _auditUnary, classifierUnary, ledgerUnary, endpointUnary, _replayUnary,
+    _provenanceUnary, _nameUnary, _sourceTowerObserver, _observerFitApprox,
+    _carrierApproxAuditClassifier, _classifierLedgerEndpoint, _endpointReplayProvenance,
+    _provenanceNameLedger, _endpointSameClassifierLedger, _endpointPkg⟩ := carrier
+  have classifierReadUnary : UnaryHistory classifierRead :=
+    unary_transport_symm classifierUnary classifierSame
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed classifierUnary ledgerUnary ledgerRoute
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed ledgerReadUnary endpointUnary endpointRoute
+  exact
+    ⟨classifierUnary, classifierReadUnary, ledgerReadUnary, endpointReadUnary,
+      approxAuditClassifier, classifierSame, ledgerRoute, endpointRoute, endpointPkg⟩
+
 end BEDC.Derived.RealityConstrainedTowerCompressionUp
