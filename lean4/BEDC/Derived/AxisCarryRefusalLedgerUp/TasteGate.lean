@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.AxisCarryRefusalLedgerUp.TasteGate
+namespace BEDC.Derived.AxisCarryRefusalLedgerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -11,8 +11,8 @@ open BEDC.Meta.TasteGate
 
 inductive AxisCarryRefusalLedgerUp : Type where
   | mk :
-      (registry carryRefusal fullAxisRefusal axisNatRefusal bridgeBoundary ledger transport
-        replay provenance localName : BHist) →
+      (registry carryRefusal fullAxisRefusal axisNatRefusal bridgeBoundary refusalLedger
+        componentTransport continuationReplay provenance localName : BHist) →
         AxisCarryRefusalLedgerUp
   deriving DecidableEq
 
@@ -28,9 +28,10 @@ def axisCarryRefusalLedgerDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (axisCarryRefusalLedgerDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (axisCarryRefusalLedgerDecodeBHist tail)
 
-private theorem axisCarryRefusalLedger_decode_encode_bhist :
+private theorem axisCarryRefusalLedgerDecode_encode_bhist :
     ∀ h : BHist,
-      axisCarryRefusalLedgerDecodeBHist (axisCarryRefusalLedgerEncodeBHist h) = h := by
+      axisCarryRefusalLedgerDecodeBHist
+        (axisCarryRefusalLedgerEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -41,10 +42,11 @@ private theorem axisCarryRefusalLedger_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def axisCarryRefusalLedgerToEventFlow : AxisCarryRefusalLedgerUp → EventFlow
+def axisCarryRefusalLedgerToEventFlow :
+    AxisCarryRefusalLedgerUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | AxisCarryRefusalLedgerUp.mk registry carryRefusal fullAxisRefusal axisNatRefusal
-      bridgeBoundary ledger transport replay provenance localName =>
+      bridgeBoundary refusalLedger componentTransport continuationReplay provenance localName =>
       [[BMark.b0],
         axisCarryRefusalLedgerEncodeBHist registry,
         [BMark.b1, BMark.b0],
@@ -56,12 +58,12 @@ def axisCarryRefusalLedgerToEventFlow : AxisCarryRefusalLedgerUp → EventFlow
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         axisCarryRefusalLedgerEncodeBHist bridgeBoundary,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        axisCarryRefusalLedgerEncodeBHist ledger,
+        axisCarryRefusalLedgerEncodeBHist refusalLedger,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        axisCarryRefusalLedgerEncodeBHist transport,
+        axisCarryRefusalLedgerEncodeBHist componentTransport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        axisCarryRefusalLedgerEncodeBHist replay,
+        axisCarryRefusalLedgerEncodeBHist continuationReplay,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
         axisCarryRefusalLedgerEncodeBHist provenance,
@@ -69,7 +71,8 @@ def axisCarryRefusalLedgerToEventFlow : AxisCarryRefusalLedgerUp → EventFlow
           BMark.b1, BMark.b1, BMark.b0],
         axisCarryRefusalLedgerEncodeBHist localName]
 
-def axisCarryRefusalLedgerFromEventFlow : EventFlow → Option AxisCarryRefusalLedgerUp
+def axisCarryRefusalLedgerFromEventFlow :
+    EventFlow → Option AxisCarryRefusalLedgerUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
@@ -105,19 +108,19 @@ def axisCarryRefusalLedgerFromEventFlow : EventFlow → Option AxisCarryRefusalL
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | ledger :: rest11 =>
+                                              | refusalLedger :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | transport :: rest13 =>
+                                                      | componentTransport :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | replay :: rest15 =>
+                                                              | continuationReplay :: rest15 =>
                                                                   match rest15 with
                                                                   | [] => none
                                                                   | _tag8 :: rest16 =>
@@ -139,9 +142,9 @@ def axisCarryRefusalLedgerFromEventFlow : EventFlow → Option AxisCarryRefusalL
                                                                                           (axisCarryRefusalLedgerDecodeBHist fullAxisRefusal)
                                                                                           (axisCarryRefusalLedgerDecodeBHist axisNatRefusal)
                                                                                           (axisCarryRefusalLedgerDecodeBHist bridgeBoundary)
-                                                                                          (axisCarryRefusalLedgerDecodeBHist ledger)
-                                                                                          (axisCarryRefusalLedgerDecodeBHist transport)
-                                                                                          (axisCarryRefusalLedgerDecodeBHist replay)
+                                                                                          (axisCarryRefusalLedgerDecodeBHist refusalLedger)
+                                                                                          (axisCarryRefusalLedgerDecodeBHist componentTransport)
+                                                                                          (axisCarryRefusalLedgerDecodeBHist continuationReplay)
                                                                                           (axisCarryRefusalLedgerDecodeBHist provenance)
                                                                                           (axisCarryRefusalLedgerDecodeBHist localName))
                                                                                   | _ :: _ => none
@@ -153,8 +156,8 @@ private theorem axisCarryRefusalLedger_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk registry carryRefusal fullAxisRefusal axisNatRefusal bridgeBoundary ledger transport
-      replay provenance localName =>
+  | mk registry carryRefusal fullAxisRefusal axisNatRefusal bridgeBoundary refusalLedger
+      componentTransport continuationReplay provenance localName =>
       change
         some
           (AxisCarryRefusalLedgerUp.mk
@@ -169,28 +172,29 @@ private theorem axisCarryRefusalLedger_round_trip :
             (axisCarryRefusalLedgerDecodeBHist
               (axisCarryRefusalLedgerEncodeBHist bridgeBoundary))
             (axisCarryRefusalLedgerDecodeBHist
-              (axisCarryRefusalLedgerEncodeBHist ledger))
+              (axisCarryRefusalLedgerEncodeBHist refusalLedger))
             (axisCarryRefusalLedgerDecodeBHist
-              (axisCarryRefusalLedgerEncodeBHist transport))
+              (axisCarryRefusalLedgerEncodeBHist componentTransport))
             (axisCarryRefusalLedgerDecodeBHist
-              (axisCarryRefusalLedgerEncodeBHist replay))
+              (axisCarryRefusalLedgerEncodeBHist continuationReplay))
             (axisCarryRefusalLedgerDecodeBHist
               (axisCarryRefusalLedgerEncodeBHist provenance))
             (axisCarryRefusalLedgerDecodeBHist
               (axisCarryRefusalLedgerEncodeBHist localName))) =
           some
-            (AxisCarryRefusalLedgerUp.mk registry carryRefusal fullAxisRefusal
-              axisNatRefusal bridgeBoundary ledger transport replay provenance localName)
-      rw [axisCarryRefusalLedger_decode_encode_bhist registry,
-        axisCarryRefusalLedger_decode_encode_bhist carryRefusal,
-        axisCarryRefusalLedger_decode_encode_bhist fullAxisRefusal,
-        axisCarryRefusalLedger_decode_encode_bhist axisNatRefusal,
-        axisCarryRefusalLedger_decode_encode_bhist bridgeBoundary,
-        axisCarryRefusalLedger_decode_encode_bhist ledger,
-        axisCarryRefusalLedger_decode_encode_bhist transport,
-        axisCarryRefusalLedger_decode_encode_bhist replay,
-        axisCarryRefusalLedger_decode_encode_bhist provenance,
-        axisCarryRefusalLedger_decode_encode_bhist localName]
+            (AxisCarryRefusalLedgerUp.mk registry carryRefusal fullAxisRefusal axisNatRefusal
+              bridgeBoundary refusalLedger componentTransport continuationReplay provenance
+              localName)
+      rw [axisCarryRefusalLedgerDecode_encode_bhist registry,
+        axisCarryRefusalLedgerDecode_encode_bhist carryRefusal,
+        axisCarryRefusalLedgerDecode_encode_bhist fullAxisRefusal,
+        axisCarryRefusalLedgerDecode_encode_bhist axisNatRefusal,
+        axisCarryRefusalLedgerDecode_encode_bhist bridgeBoundary,
+        axisCarryRefusalLedgerDecode_encode_bhist refusalLedger,
+        axisCarryRefusalLedgerDecode_encode_bhist componentTransport,
+        axisCarryRefusalLedgerDecode_encode_bhist continuationReplay,
+        axisCarryRefusalLedgerDecode_encode_bhist provenance,
+        axisCarryRefusalLedgerDecode_encode_bhist localName]
 
 private theorem axisCarryRefusalLedgerToEventFlow_injective
     {x y : AxisCarryRefusalLedgerUp} :
@@ -207,27 +211,6 @@ private theorem axisCarryRefusalLedgerToEventFlow_injective
   exact Option.some.inj
     (Eq.trans (axisCarryRefusalLedger_round_trip x).symm
       (Eq.trans hread (axisCarryRefusalLedger_round_trip y)))
-
-private def axisCarryRefusalLedgerFields : AxisCarryRefusalLedgerUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | AxisCarryRefusalLedgerUp.mk registry carryRefusal fullAxisRefusal axisNatRefusal
-      bridgeBoundary ledger transport replay provenance localName =>
-      [registry, carryRefusal, fullAxisRefusal, axisNatRefusal, bridgeBoundary, ledger,
-        transport, replay, provenance, localName]
-
-private theorem axisCarryRefusalLedger_field_faithful :
-    ∀ x y : AxisCarryRefusalLedgerUp,
-      axisCarryRefusalLedgerFields x = axisCarryRefusalLedgerFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk registry carryRefusal fullAxisRefusal axisNatRefusal bridgeBoundary ledger transport
-      replay provenance localName =>
-      cases y with
-      | mk registry' carryRefusal' fullAxisRefusal' axisNatRefusal' bridgeBoundary' ledger'
-          transport' replay' provenance' localName' =>
-          cases hfields
-          rfl
 
 instance axisCarryRefusalLedgerBHistCarrier :
     BHistCarrier AxisCarryRefusalLedgerUp where
@@ -251,8 +234,23 @@ instance axisCarryRefusalLedgerChapterTasteGate :
 instance axisCarryRefusalLedgerFieldFaithful :
     FieldFaithful AxisCarryRefusalLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := axisCarryRefusalLedgerFields
-  field_faithful := axisCarryRefusalLedger_field_faithful
+  fields := fun x =>
+    match x with
+    | AxisCarryRefusalLedgerUp.mk registry carryRefusal fullAxisRefusal axisNatRefusal
+        bridgeBoundary refusalLedger componentTransport continuationReplay provenance
+        localName =>
+        [registry, carryRefusal, fullAxisRefusal, axisNatRefusal, bridgeBoundary,
+          refusalLedger, componentTransport, continuationReplay, provenance, localName]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk registry1 carryRefusal1 fullAxisRefusal1 axisNatRefusal1 bridgeBoundary1
+        refusalLedger1 componentTransport1 continuationReplay1 provenance1 localName1 =>
+        cases y with
+        | mk registry2 carryRefusal2 fullAxisRefusal2 axisNatRefusal2 bridgeBoundary2
+            refusalLedger2 componentTransport2 continuationReplay2 provenance2 localName2 =>
+            cases h
+            rfl
 
 instance axisCarryRefusalLedgerNontrivial :
     Nontrivial AxisCarryRefusalLedgerUp where
@@ -261,7 +259,8 @@ instance axisCarryRefusalLedgerNontrivial :
     ⟨AxisCarryRefusalLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       AxisCarryRefusalLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
       by
         intro h
         cases h⟩
@@ -272,24 +271,36 @@ def taste_gate : ChapterTasteGate AxisCarryRefusalLedgerUp :=
 
 theorem AxisCarryRefusalLedgerTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      axisCarryRefusalLedgerDecodeBHist (axisCarryRefusalLedgerEncodeBHist h) = h) ∧
+      axisCarryRefusalLedgerDecodeBHist
+        (axisCarryRefusalLedgerEncodeBHist h) = h) ∧
+      (axisCarryRefusalLedgerToEventFlow
+          (AxisCarryRefusalLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
+        axisCarryRefusalLedgerToEventFlow
+          (AxisCarryRefusalLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty)) ∧
       (∀ x : AxisCarryRefusalLedgerUp,
-        axisCarryRefusalLedgerFromEventFlow
-          (axisCarryRefusalLedgerToEventFlow x) = some x) ∧
-        (∀ x y : AxisCarryRefusalLedgerUp,
-          axisCarryRefusalLedgerToEventFlow x =
-            axisCarryRefusalLedgerToEventFlow y → x = y) ∧
-          axisCarryRefusalLedgerEncodeBHist BHist.Empty = ([] : List BMark) := by
+        axisCarryRefusalLedgerFromEventFlow (axisCarryRefusalLedgerToEventFlow x) = some x) ∧
+      Nonempty (Nontrivial AxisCarryRefusalLedgerUp) ∧
+        Nonempty (FieldFaithful AxisCarryRefusalLedgerUp) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · intro h
-    exact axisCarryRefusalLedger_decode_encode_bhist h
+  · exact axisCarryRefusalLedgerDecode_encode_bhist
   · constructor
-    · intro x
-      exact axisCarryRefusalLedger_round_trip x
+    · intro heq
+      have hsame :
+          AxisCarryRefusalLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty =
+            AxisCarryRefusalLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty :=
+        axisCarryRefusalLedgerToEventFlow_injective heq
+      cases hsame
     · constructor
-      · intro x y heq
-        exact axisCarryRefusalLedgerToEventFlow_injective heq
-      · rfl
+      · exact axisCarryRefusalLedger_round_trip
+      · constructor
+        · exact ⟨axisCarryRefusalLedgerNontrivial⟩
+        · exact ⟨axisCarryRefusalLedgerFieldFaithful⟩
 
-end BEDC.Derived.AxisCarryRefusalLedgerUp.TasteGate
+end BEDC.Derived.AxisCarryRefusalLedgerUp

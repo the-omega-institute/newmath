@@ -401,4 +401,36 @@ theorem RationalBallPacket_metric_positive_containment_transport [AskSetup] [Pac
       centerRadiusOrder, orderContainmentTransport, transportProvenanceEndpoint,
       containmentEndpointConsumer, consumerProvenanceMetric, endpointPkg, metricPkg⟩
 
+theorem RationalBallPacket_public_finite_consumer_export
+    [AskSetup] [PackageSetup]
+    {center radius order transport containment provenance name endpoint consumer ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalBallPacket center radius order transport containment provenance name endpoint bundle pkg ->
+      Cont containment endpoint consumer ->
+        Cont consumer provenance ledger ->
+          PkgSig bundle ledger pkg ->
+            UnaryHistory center /\ UnaryHistory radius /\ UnaryHistory order /\
+              UnaryHistory transport /\ UnaryHistory containment /\ UnaryHistory provenance /\
+                UnaryHistory name /\ UnaryHistory endpoint /\ UnaryHistory consumer /\
+                  UnaryHistory ledger /\ Cont center radius order /\
+                    Cont order containment transport /\ Cont transport provenance endpoint /\
+                      Cont containment endpoint consumer /\ Cont consumer provenance ledger /\
+                        PkgSig bundle endpoint pkg /\ PkgSig bundle ledger pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet containmentEndpointConsumer consumerProvenanceLedger ledgerPkg
+  obtain ⟨centerUnary, radiusUnary, orderUnary, transportUnary, containmentUnary,
+    provenanceUnary, nameUnary, centerRadiusOrder, orderContainmentTransport,
+    transportProvenanceEndpoint, endpointPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceEndpoint
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed containmentUnary endpointUnary containmentEndpointConsumer
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed consumerUnary provenanceUnary consumerProvenanceLedger
+  exact
+    ⟨centerUnary, radiusUnary, orderUnary, transportUnary, containmentUnary,
+      provenanceUnary, nameUnary, endpointUnary, consumerUnary, ledgerUnary,
+      centerRadiusOrder, orderContainmentTransport, transportProvenanceEndpoint,
+      containmentEndpointConsumer, consumerProvenanceLedger, endpointPkg, ledgerPkg⟩
+
 end BEDC.Derived.RationalBallUp
