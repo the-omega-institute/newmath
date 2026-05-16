@@ -84,6 +84,7 @@ import BEDC.Derived.ApophaticNameUp.RootReflectionAxisRefusal
 import BEDC.Derived.ApophaticNameUp.RefusalReadbackRow
 import BEDC.Derived.ApophaticNameUp.RootBridgeTupleNoninternalization
 import BEDC.Derived.ApophaticNameUp.SocketRequestCoherence
+import BEDC.Derived.ApophaticNameUp.SourceRefusalTotality
 import BEDC.Derived.ApophaticNameUp.RootRefusalGateTotality
 import BEDC.Derived.ApophaticNameUp.SocketGateLedgerPullback
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
@@ -350,6 +351,7 @@ import BEDC.Derived.ObservationReflectionPacketUp.TasteGate
 import BEDC.Derived.OpenPhysicalFitUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.TasteGate
 import BEDC.Derived.RealityConstrainedModelAuditUp.TasteGate
+import BEDC.Derived.RealityConstrainedOpenFitUp.TasteGate
 import BEDC.Derived.ApophaticSocketUp
 import BEDC.Derived.ApophaticFixedPointFiberUp.TasteGate
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
