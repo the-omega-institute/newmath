@@ -219,6 +219,48 @@ naming row, while their non-escape clauses exclude all host category and
 quotient coordinates outside $K$.
 \end{proof}
 
+\begin{theorem}[KernelCategory root public readiness]
+\label{thm:kernel-category-root-public-readiness}
+For a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, the public root surface is ready exactly when every root read is a displayed $\BHist$ read of unary object histories in $O$, continuation-ledger hom rows in $H$, empty-continuation identity rows in $I$, displayed $\Cont$ composites in $C$, componentwise $\hsame$ law transports in $A$ and $U$, $\Pkg$ provenance in $P$, and the local $\NameCert$ row in $N$. The surface contains no host category object, quotient morphism, external arrow equality, functorial semantics, natural transformation, limit object, or global naming source outside those rows.
+\end{theorem}
+\begin{proof}
+Project from \autoref{def:kernel-category-carrier}. The carrier exposes only the rows $O,H,I,C,A,U,P,N$, with object reads carried by unary $\BHist$ histories and hom reads carried by continuation ledgers.
+
+Apply \autoref{thm:kernel-category-identity-continuation} and \autoref{thm:kernel-category-composition-continuation}. Identity readiness is the empty $\Cont$ route over a unary history, and composition readiness is the displayed $\Cont$ composite over hom ledger rows.
+
+Use \autoref{thm:kernel-category-associativity-scope} and \autoref{thm:kernel-category-unit-scope} for the law rows. These theorems place associativity and unit comparisons in the componentwise $\hsame$ transports $A$ and $U$.
+
+Finally apply \autoref{thm:kernel-category-certificate-surface}, \autoref{thm:kernel-category-pkg-provenance-nonescape}, and \autoref{thm:kernel-category-carrier-admission-obligation}. The package and naming rows are therefore local to $P,N$, and every public root read is already accounted for by the displayed packet.
+\end{proof}
+
+\begin{theorem}[KernelCategory downstream consumer totality]
+\label{thm:kernel-category-downstream-consumer-totality}
+Every downstream consumer of a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$ is total on the displayed BEDC rows of $K$ precisely by reading unary $\BHist$ object histories, continuation-ledger hom histories, displayed $\Cont$ identity and composition routes, componentwise $\hsame$ law transports, $\Pkg$ provenance, and the local $\NameCert$ row. No downstream consumer may demand a host category carrier, quotient morphism, external equality of arrows, natural-transformation coordinate, limit object, or second certificate before it can read the packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:kernel-category-carrier-admission-obligation}. It gives the finite admission surface on which a consumer may be total: $O,H,I,C,A,U,P,N$ and no additional category-shaped row.
+
+Read the operation rows next. By \autoref{thm:kernel-category-identity-continuation}, identity consumption is total for empty continuation rows over unary object histories. By \autoref{thm:kernel-category-composition-continuation}, composition consumption is total for displayed $\Cont$ composites over continuation-ledger hom rows.
+
+The law rows are then supplied by \autoref{thm:kernel-category-associativity-scope}, \autoref{thm:kernel-category-unit-scope}, and \autoref{thm:kernel-category-law-transport-exhaustion}. They make the consumer read only the componentwise $\hsame$ transports $A$ and $U$.
+
+Finally use \autoref{thm:kernel-category-certificate-surface} and \autoref{thm:kernel-category-pkg-provenance-nonescape}. Since $\Pkg$ provenance and the local $\NameCert$ row are the only certificate endpoints, the downstream route is total on the displayed packet and nowhere else.
+\end{proof}
+
+\begin{theorem}[KernelCategory formal-target frontier]
+\label{thm:kernel-category-formal-target-frontier}
+The formal target frontier for $\KernelCategoryUp$ is the concrete packet $K=(O,H,I,C,A,U,P,N)$ together with its BEDC rows: $\BHist$ unary object histories, continuation-ledger hom histories, displayed $\Cont$ identity and composition routes, componentwise $\hsame$ associativity and unit transports, $\Pkg$ provenance, and local $\NameCert$ naming. Formalization of the public root claim needs exactly carrier admission, identity continuation, composition continuation, law transport, provenance non-escape, and local certificate exhaustion for those rows, and it needs no host category semantics or quotient arrow equality.
+\end{theorem}
+\begin{proof}
+The frontier begins at \autoref{def:kernel-category-carrier}: the only data offered to Lean-side reconstruction is the packet $O,H,I,C,A,U,P,N$.
+
+Use \autoref{thm:kernel-category-carrier-admission-obligation} to identify the admission clauses. This separates unary object histories, hom ledgers, identity rows, composition rows, law transports, provenance, and local naming as the proof obligations.
+
+Then compose the existing operation and law theorems. The identity and composition clauses are \autoref{thm:kernel-category-identity-continuation} and \autoref{thm:kernel-category-composition-continuation}; the law clauses are \autoref{thm:kernel-category-associativity-scope}, \autoref{thm:kernel-category-unit-scope}, and \autoref{thm:kernel-category-law-transport-exhaustion}.
+
+The frontier closes with \autoref{thm:kernel-category-certificate-surface} and \autoref{thm:kernel-category-pkg-provenance-nonescape}. These show that $\Pkg$ provenance and the local $\NameCert$ row are the final public coordinates, while every host or quotient category object remains outside the formal target.
+\end{proof}
+
 \begin{theorem}[KernelCategory root transport non-escape]
 \label{thm:kernel-category-root-transport-nonescape}
 For a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, every endpoint and hom transport remains inside the displayed rows $O,H,I,C,A,U,P,N$. Endpoint transport reads unary object histories in $O$, hom transport reads continuation-ledger hom rows in $H$, and law transport reads only the componentwise $\hsame$ rows in $A$ and $U$ together with the displayed $\Cont$, $\Pkg$, and local $\NameCert$ support. No host category object, quotient morphism, external arrow equality, functorial semantic row, natural transformation, or limit object is available.
