@@ -361,3 +361,23 @@ Now pass through the pullback handoff. By \autoref{thm:cauchy-modulus-refinement
 
 Finally apply terminal Real-seal pullback exhaustion, \autoref{thm:cauchy-modulus-refinement-terminal-real-seal-pullback-exhaustion}. Since the two consumers expose the same displayed pullback rows, their terminal seal surfaces are the same, and the excluded off-route coordinates have no accepted slot from which to separate them.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement uniform monotone terminal route]
+\label{thm:cauchy-modulus-refinement-uniform-monotone-terminal-route}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Suppose a $\UniformCauchyCriterionUp$ consumer and a $\MonotoneCauchyUp$ consumer both read the selector-budget row $T$, selected-window row $W$, dyadic-tolerance row $Q$, and $\RealUp$ seal row $E$ of $R$ through the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CauchyModulusRefinementUp}$ rows.
+
+Then the two consumers determine one terminal $\RealUp$ seal surface. The shared surface is exactly the handoff through
+$$
+U,V,T,W,Q,E,H,C,P,N,
+$$
+with the $\UniformCauchyCriterionUp$ RegSeqRat--Real classifier face and the $\MonotoneCauchyUp$ located Real-seal face read as projections of that same finite route. No quotient stream, host real equality, selected limit, trichotomy row, ambient completeness principle, metric-completeness datum, hidden selector, or second meet row supplies a second terminal handoff.
+\end{theorem}
+\begin{proof}
+First place both consumers on the CauchyModulusRefinement terminal route. The terminal pullback consumer uniqueness theorem, \autoref{thm:cauchy-modulus-refinement-terminal-pullback-consumer-uniqueness}, identifies every Real or Completion consumer that agrees on $U,V,T,W,Q,E,H,C,P,N$ with the same terminal $\RealUp$ seal consumer surface.
+
+Next read the uniform criterion face. The UniformCauchyCriterion terminal RegSeqRat--Real classifier correspondence, \autoref{thm:uniform-cauchy-criterion-terminal-regseq-real-classifier-correspondence}, says that the RegSeqRat tail classifier, StreamName finite-window classifier, and Real finite-window seal classifier are projections of one ordered route. Under the shared rows of $R$, that route is the displayed $T,W,Q,E,H,C,P,N$ suffix.
+
+Now read the monotone face. The MonotoneCauchy Real-seal factorization obligation, \autoref{thm:monotone-cauchy-real-seal-factorization-obligation}, and the tail-window Real-seal certificate, \autoref{thm:monotone-cauchy-tail-window-real-seal-certificate}, force the located interval and monotone tail-window rows to be consumed before the Real seal, with transport, continuation, provenance, and local naming retained.
+
+Finally combine the two projections through the CauchyModulusRefinement shared meet. Since both projected consumers reach the same $E,H,C,P,N$ only after the same selector-budget, selected-window, and dyadic-tolerance rows, terminal pullback uniqueness leaves one Real-seal surface and no off-route coordinate from which a separate uniform or monotone terminal handoff can be read.
+\end{proof}
