@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -265,5 +266,42 @@ theorem FiniteTailFilterCarrier_namecert_obligations
   exact
     ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, routeR, routeQ, sameNameSeal,
       pkgSig, cert⟩
+
+theorem FiniteTailFilterCarrier_transport_obligation
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N S' D' R' B' Q' E' N' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      hsame S S' -> hsame D D' -> hsame R R' -> hsame B B' ->
+        hsame Q Q' -> hsame E E' -> hsame N N' ->
+          PkgSig bundle E' pkg ->
+            FiniteTailFilterCarrier S' D' R' B' Q' E' H C P N' /\
+              UnaryHistory S' /\ UnaryHistory D' /\ UnaryHistory R' /\
+                UnaryHistory B' /\ UnaryHistory Q' /\ UnaryHistory E' /\
+                  Cont S' D' R' /\ Cont R' B' Q' /\ hsame N' E' /\
+                    PkgSig bundle E' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameS sameD sameR sameB sameQ sameE sameN pkgSig
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, unaryH, routeR, routeQ, sameNameSeal⟩ :=
+    carrier
+  have unaryS' : UnaryHistory S' := unary_transport unaryS sameS
+  have unaryD' : UnaryHistory D' := unary_transport unaryD sameD
+  have unaryB' : UnaryHistory B' := unary_transport unaryB sameB
+  have unaryE' : UnaryHistory E' := unary_transport unaryE sameE
+  have routeR' : Cont S' D' R' :=
+    cont_hsame_transport sameS sameD sameR routeR
+  have routeQ' : Cont R' B' Q' :=
+    cont_hsame_transport sameR sameB sameQ routeQ
+  have unaryR' : UnaryHistory R' :=
+    unary_cont_closed unaryS' unaryD' routeR'
+  have unaryQ' : UnaryHistory Q' :=
+    unary_cont_closed unaryR' unaryB' routeQ'
+  have sameNameSeal' : hsame N' E' :=
+    hsame_trans (hsame_symm sameN) (hsame_trans sameNameSeal sameE)
+  exact
+    ⟨⟨unaryS', unaryD', unaryB', unaryE', unaryH, routeR', routeQ',
+        sameNameSeal'⟩,
+      unaryS', unaryD', unaryR', unaryB', unaryQ', unaryE', routeR', routeQ',
+      sameNameSeal', pkgSig⟩
 
 end BEDC.Derived.FiniteTailFilterUp
