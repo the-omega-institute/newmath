@@ -370,4 +370,28 @@ theorem HistTimeStreamObserverLocalityLatticeLink [AskSetup] [PackageSetup]
       sourceReplayObservation, provenanceNamePublic, observationPublicLattice,
       provenanceReplay, provenancePkg, namePkg, latticePkg⟩
 
+theorem HistTimeStreamCarrier_public_export [AskSetup] [PackageSetup]
+    {source schedule start replay transport provenance name publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg ->
+      Cont provenance name publicRead ->
+        PkgSig bundle publicRead pkg ->
+          UnaryHistory source ∧ UnaryHistory schedule ∧ UnaryHistory start ∧
+            UnaryHistory replay ∧ UnaryHistory transport ∧ UnaryHistory provenance ∧
+              UnaryHistory name ∧ UnaryHistory publicRead ∧ Cont schedule start replay ∧
+                Cont source replay provenance ∧ Cont provenance name publicRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier provenanceNamePublic publicPkg
+  obtain ⟨sourceUnary, scheduleUnary, startUnary, replayUnary, transportUnary,
+    provenanceUnary, nameUnary, scheduleStartReplay, sourceReplayProvenance,
+    _provenanceReplay, provenancePkg, namePkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed provenanceUnary nameUnary provenanceNamePublic
+  exact
+    ⟨sourceUnary, scheduleUnary, startUnary, replayUnary, transportUnary, provenanceUnary,
+      nameUnary, publicUnary, scheduleStartReplay, sourceReplayProvenance,
+      provenanceNamePublic, provenancePkg, namePkg, publicPkg⟩
+
 end BEDC.Derived.HistTimeStreamUp
