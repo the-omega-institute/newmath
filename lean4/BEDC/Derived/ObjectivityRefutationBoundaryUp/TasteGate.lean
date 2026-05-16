@@ -1,18 +1,37 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ObjectivityRefutationBoundaryUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive ObjectivityRefutationBoundaryUp : Type where
   | mk : (H K A W R T P N : BHist) → ObjectivityRefutationBoundaryUp
   deriving DecidableEq
+
+def ObjectivityRefutationBoundaryCarrier [AskSetup] [PackageSetup]
+    (H K A W R T P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame
+  UnaryHistory H ∧ UnaryHistory K ∧ UnaryHistory A ∧ UnaryHistory W ∧
+    UnaryHistory R ∧ UnaryHistory T ∧ UnaryHistory P ∧ UnaryHistory N ∧
+      Cont K A W ∧ Cont W R T ∧ PkgSig bundle P pkg ∧ hsame P N
 
 def objectivityRefutationBoundaryEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -189,6 +208,61 @@ instance objectivityRefutationBoundaryNontrivial :
 def taste_gate : ChapterTasteGate ObjectivityRefutationBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   objectivityRefutationBoundaryChapterTasteGate
+
+theorem ObjectivityRefutationBoundaryCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {H K A W R T P N endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObjectivityRefutationBoundaryCarrier H K A W R T P N bundle pkg →
+      Cont K A W →
+        Cont W R T →
+          Cont T P endpoint →
+            PkgSig bundle endpoint pkg →
+              SemanticNameCert
+                (fun row : BHist =>
+                  ObjectivityRefutationBoundaryCarrier H K A W R T P N bundle pkg ∧
+                    hsame row endpoint)
+                (fun row : BHist =>
+                  Cont K A W ∧ Cont W R T ∧ Cont T P row ∧
+                    PkgSig bundle endpoint pkg)
+                (fun row : BHist => UnaryHistory row ∧ PkgSig bundle endpoint pkg)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier failedAnchorRoute refusalRoute provenanceRoute endpointPkg
+  obtain ⟨hUnary, kUnary, aUnary, wUnary, rUnary, tUnary, pUnary, nUnary,
+    carrierFailedAnchor, carrierRefusal, pPkg, pn⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed tUnary pUnary provenanceRoute
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro endpoint
+          (And.intro
+            ⟨hUnary, kUnary, aUnary, wUnary, rUnary, tUnary, pUnary, nUnary,
+              carrierFailedAnchor, carrierRefusal, pPkg, pn⟩
+            (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      exact
+        ⟨failedAnchorRoute, refusalRoute,
+          cont_result_hsame_transport provenanceRoute (hsame_symm source.right),
+          endpointPkg⟩
+    ledger_sound := by
+      intro row source
+      exact And.intro (unary_transport endpointUnary (hsame_symm source.right)) endpointPkg
+  }
 
 theorem ObjectivityRefutationBoundaryTasteGate_single_carrier_alignment :
     (∀ h : BHist,
