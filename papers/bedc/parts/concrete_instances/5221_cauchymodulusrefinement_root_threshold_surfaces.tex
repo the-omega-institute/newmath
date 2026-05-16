@@ -6,6 +6,7 @@ R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
 $$
 the root carrier admits the rows $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ only after the shared meet row $U$ and the selector-budget row $T$ are displayed on the same route. In particular, the Real-completion root threshold surface may read $V,W,Q,E,H,C,P,N$ only as descendants of the source schedules $M_0,M_1$, the shared meet $U$, and the selector budget $T$ already shown in \autoref{def:cauchy-modulus-refinement-carrier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementRootCarrierThresholdAdmission}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-modulus-refinement-carrier}. Its finite packet lists the two source schedules, the shared meet, the extraction witness, the selector budget, the selected-window ledger, the tolerance-readback ledger, the Real seal, and the structural rows in one $\BHist$ tuple.
 
@@ -273,6 +274,22 @@ First fix the root packet by route determinacy, \autoref{thm:cauchy-modulus-refi
 Next apply root budget consumer exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion}. This forces every Real or Completion consumer through the selector budget, finite window, dyadic and regular readback, and Real seal rows before any downstream use.
 
 Finally use the Real seal handoff, \autoref{thm:cauchy-modulus-refinement-real-seal-handoff}. The sibling chapters \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} name exactly the finite-window, dyadic-readback, regular-handoff, and Real-seal surfaces. Since the handoff theorem excludes quotient equality, selected limits, host real equality, and ambient completeness, the displayed spine is the required exit route.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement root-threshold open-phase handoff]
+\label{thm:cauchy-modulus-refinement-root-threshold-open-phase-handoff}
+Every accepted root-threshold route displaying
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N
+$$
+hands off to the Phase Real and Completion surface exactly through the rows $T,W,Q,E$. These rows are read as the root threshold budget, $\StreamNameUp$ finite window, $\DyadicRatCoreUp$ tolerance with $\RegSeqRatUp$ readback, and $\RealUp$ seal. The remaining rows $H,C,P,N$ provide transport, replay, provenance, and local naming for that same handoff, while the source rows $M_0,M_1,U,V$ remain the root route that supplies the threshold.
+\end{theorem}
+\begin{proof}
+First consume the open-phase surface. The four-object consumption theorem and open-phase exit spine, \autoref{thm:cauchy-modulus-refinement-open-phase-four-object-consumption} and \autoref{thm:cauchy-modulus-refinement-open-phase-exit-spine}, identify $W,Q,E$ as the StreamName window, dyadic and regular readback, and Real seal, with $T$ as the threshold row that feeds the window.
+
+Next exhaust the root side. Root budget consumer exhaustion and root threshold public exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion} and \autoref{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion}, force every public Real or Completion read of the accepted route through $T,W,Q,E,H,C,P,N$ and leave no second meet, hidden selector, quotient stream, host equality, selected limit, or ambient completeness coordinate.
+
+Finally apply root-window Real seal determinacy and L10 handoff sufficiency, \autoref{thm:cauchy-modulus-refinement-root-window-real-seal-determinacy} and \autoref{thm:cauchy-modulus-refinement-l10-handoff-sufficiency}. They determine the seal from the same threshold, window, and readback rows, then package $H,C,P,N$ as transport, replay, provenance, and local naming for the Phase Real and Completion handoff.
 \end{proof}
 
 \begin{theorem}[Cauchy modulus refinement window-meet seal unicity]
