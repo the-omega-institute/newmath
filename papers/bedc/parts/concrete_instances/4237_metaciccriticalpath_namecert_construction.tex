@@ -305,6 +305,54 @@ Open-node exhaustion shows that every accepted open-node read factors through th
 Therefore the Lean-facing obligation is coordinatewise exact. A formal target with precisely these rows verifies the same paper surface, while any extra scheduling coordinate would certify a different object.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-path discharge-socket locality]
+\label{thm:metacic-critical-path-discharge-socket-locality}
+For every accepted critical-path packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+the discharge socket row $D$ remains localized under the transport row $H$, replay route $C$, provenance row $P$, and local naming row $L$. A consumer may cite $D$ as the displayed open socket for the consistency and subject-reduction frontier, but it cannot move $D$ into a hidden global discharge, a closed subject-reduction theorem, or a full closed-consistency theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $K=(S,N,O,U,D,H,C,P,L)$ from \autoref{def:metacic-critical-path-packet}. The row $D$ is a visible packet coordinate, while $H,C,P,L$ are the only rows that can transport, replay, provenance, and name that coordinate.
+
+The consistency and obstruction boundaries keep the socket local. \autoref{thm:metacic-critical-path-consistency-handoff} routes the consistency read through the displayed rows and stops at $D$, while \autoref{thm:metacic-critical-path-obstruction-boundary} keeps the obstruction row visible instead of converting $D$ into a discharged bundle.
+
+The remaining packet theorems preserve the same locality. \autoref{thm:metacic-critical-path-namecert-obligation-surface}, \autoref{thm:metacic-critical-path-transport-row-stability}, and \autoref{thm:metacic-critical-path-provenance-nonescape} exhaust the certified rows and forbid a provenance escape. Hence every read of $D$ stays under $H,C,P,L$ and exports no closed theorem beyond the displayed socket.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path normalization-frontier factorization]
+\label{thm:metacic-critical-path-normalization-frontier-factorization}
+Every normal-form consistency read of an accepted packet
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+factors through three sibling rows: the normalization audit row $S \to N$, the normal-false exclusion recorded at the endpoint $N$, and the subject-reduction obstruction row $O$. The read cannot bypass these rows by treating $D$ as a completed discharge or by exporting a closed consistency theorem.
+\end{theorem}
+\begin{proof}
+Start with the normal-form route in the accepted packet $K$. The consistency handoff of \autoref{thm:metacic-critical-path-consistency-handoff} is exactly the route from the source row $S$ to the normal-form row $N$, so every such read first factors through the normalization audit and its normal-false exclusion endpoint.
+
+Next read the obstruction side. \autoref{thm:metacic-critical-path-obstruction-boundary} keeps $O$ as the visible subject-reduction obstruction, and \autoref{thm:metacic-critical-path-discharge-socket-locality} keeps $D$ local to the displayed transport, replay, provenance, and naming rows.
+
+Finally apply the obligation and provenance surfaces. \autoref{thm:metacic-critical-path-namecert-obligation-surface}, \autoref{thm:metacic-critical-path-transport-row-stability}, and \autoref{thm:metacic-critical-path-provenance-nonescape} leave no row through which a normal-form read can skip the audit endpoint or the obstruction row. Thus the read factors through the stated three-row frontier.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path bounded-checker handoff totality]
+\label{thm:metacic-critical-path-bounded-checker-handoff-totality}
+For every accepted packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+the bounded-checker handoff row $U$ exhausts the substitution, confluence, and decidability reads available to downstream consumers. It presents those reads as bounded handoff obligations and does not export closed subject reduction, full closed consistency, arbitrary closed Church--Rosser, or global beta-conversion decidability.
+\end{theorem}
+\begin{proof}
+Project the row $U$ from the accepted packet $K$. By \autoref{thm:metacic-critical-path-namecert-obligation-surface}, $U$ is one coordinate in the nine-row NameCert surface, not a replacement for the obstruction row $O$ or the discharge socket $D$.
+
+The boundary theorems determine what $U$ can hand off. \autoref{thm:metacic-critical-path-consistency-handoff} bounds the consistency read at the normal-form endpoint, and \autoref{thm:metacic-critical-path-obstruction-boundary} prevents the handoff from erasing the subject-reduction obstruction.
+
+Transport and provenance keep the checker reads inside the same finite packet. Use \autoref{thm:metacic-critical-path-transport-row-stability}, \autoref{thm:metacic-critical-path-provenance-nonescape}, \autoref{thm:metacic-critical-path-discharge-socket-locality}, and \autoref{thm:metacic-critical-path-normalization-frontier-factorization}. The only downstream checker surface left is the bounded handoff through $U$, so substitution, confluence, and decidability are exhausted there without exporting the closed theorem claims.
+\end{proof}
+
 \begin{theorem}[MetaCIC critical-path substitution handoff visibility]
 \label{thm:metacic-critical-path-substitution-handoff-visibility}
 For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, the substitution handoff exposed by $U$ is visible only as one displayed row of the finite packet of \autoref{def:metacic-critical-path-packet}. It may be replayed through $C$, transported through $H$, and named through $P,L$, but it cannot fill the discharge socket $D$, erase the obstruction row $O$, or export closed subject reduction.
