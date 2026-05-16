@@ -779,6 +779,7 @@ import BEDC.Derived.ContinuationMonadUp.RootBindUnitBoundary
 import BEDC.Derived.ContinuationMonadUp.BindContUnitCoherence
 import BEDC.Derived.ContinuationMonadUp.RootPublicExport
 import BEDC.Derived.ContinuationMonadUp.RootPublicConsumerTotality
+import BEDC.Derived.ContinuationMonadUp.RootPublicFormalTargetBoundary
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorBindCoverage
 import BEDC.Derived.ContinuationMonadUp.RootPublicGeneratorBoundary
 import BEDC.Derived.ContinuationMonadUp.RootPublicSourceLock
