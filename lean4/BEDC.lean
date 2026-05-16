@@ -403,6 +403,7 @@ import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.ObserverFilterUp
 import BEDC.Derived.ObserverFilterBudgetSelectorUp.TasteGate
+import BEDC.Derived.ObserverFilterBudgetSelectorUp.RealCompletionConsumer
 import BEDC.Derived.ObserverInterfaceUp
 import BEDC.Derived.ObserverInterfaceUp.TasteGate
 import BEDC.Derived.ObserverResponseAuditUp.TasteGate
@@ -725,6 +726,7 @@ import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.MonotoneCauchyUp
+import BEDC.Derived.MonotoneCauchyUp.CauchyCriterionSealHandoff
 import BEDC.Derived.MonotoneCauchyUp.ObligationPackage
 import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
 import BEDC.Derived.MultihistCouplingUp.TasteGate
