@@ -87,6 +87,30 @@ Next apply \autoref{thm:diagonal-limit-compatibility-seal-synchronizer-budget-ha
 Finally apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-budget-nonescape}. Every $\CompletionUp$-facing or $\RealUp$-facing consumer using the selector budget is exhausted by the displayed packet coordinates. Hence two such consumer routes with the same displayed diagonal source and the same rows $W,D,Q,L,H,C,P,N$ have no coordinate on which to differ, and the selector-budget route is determined by that finite surface.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit selector-budget Real-seal nonescape]
+\label{thm:diagonal-limit-selector-budget-real-seal-nonescape}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Every selector-budget $\RealUp$-seal consumer of $K$ reaches the seal row $L$ only through the displayed diagonal source together with the $\StreamNameUp$ window row $W$, the $\DyadicRatCoreUp$ ledger row $D$, the $\RegSeqRatUp$ readback row $Q$, and the structural rows $H,C,P,N$. The consumer has no route through quotient streams, selected limits, host equality, choice data, independent completion data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock}. It fixes every selector-budget read of $K$ to the displayed diagonal source and the rows $W,D,Q,L,H,C,P,N$.
+
+Apply \autoref{thm:diagonal-limit-selector-budget-route-determinacy}. Any downstream $\RealUp$-facing consumer using that budget is therefore the same diagonal route, not a second route through hidden selector or completion data.
+
+Finally use the Real-facing side of \autoref{thm:diagonal-limit-compatibility-completion-consumer-budget-nonescape}. Since the only route to $L$ is already the displayed finite route, quotient streams, selected limits, host equality, choice data, independent completion data, and ambient completeness have no remaining coordinate from which to enter the seal consumer.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit selector-budget root public readback exhaustion]
+\label{thm:diagonal-limit-selector-budget-root-public-readback-exhaustion}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. The root public readback route for the selector-budget surface is exhausted by the displayed diagonal source and the rows $W,D,Q,L,H,C,P,N$. In particular, every public readback of the selector budget factors through the selector-budget source lock, the selector-budget route determinacy boundary, and the selector-budget $\RealUp$-seal nonescape boundary before it can expose a root-facing Real or Completion consumer.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock}. This identifies the public readback source as the displayed diagonal source and the finite selector rows $W,D,Q,L,H,C,P,N$.
+
+Next apply \autoref{thm:diagonal-limit-selector-budget-route-determinacy}. The public readback cannot branch into a second selector-budget route after the source has been fixed.
+
+Finally apply \autoref{thm:diagonal-limit-selector-budget-real-seal-nonescape}. The Real-seal endpoint of the public route reaches $L$ only through the same diagonal source and the same structural rows. Thus the root public readback is exhausted by the stated finite surface and cannot export quotient streams, selected limits, host equality, choice data, independent completion data, ambient completeness, or hidden seal data.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit selector-budget Cauchy limit functor pullback]
 \label{thm:diagonal-limit-selector-budget-cauchy-limit-functor-pullback}
 Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Let
@@ -156,6 +180,7 @@ Next read the shared-threshold surface of \autoref{ch:concrete-instances-regular
 
 Finally compose with \autoref{thm:diagonal-limit-selector-budget-finite-tail-filter-handoff}. The finite-tail-filter handoff already routes Real-facing and Completion-facing consumers through the displayed selector-budget rows and the finite cofinal-tail packet. With the regular tail-meet threshold placed upstream of that handoff, the composite route has exactly the stated diagonal source, $W,D,Q,L$, shared threshold, and structural rows, and no hidden selector or ambient completion row remains available.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_selector\_budget\_regular\_tail\_meet\_handoff}
 
 \begin{theorem}[Diagonal-limit selector-budget tail-meet pullback exhaustion]
 \label{thm:diagonal-limit-selector-budget-tail-meet-pullback-exhaustion}
@@ -201,4 +226,30 @@ Next exclude detached terminal data. By \autoref{thm:diagonal-limit-compatibilit
 Now attach the finite-family terminal envelope. The seal envelope of \autoref{thm:uniform-cauchy-criterion-terminal-seal-envelope}, the completion--Real correspondence of \autoref{thm:uniform-cauchy-criterion-completion-real-correspondence}, and finite-window coverage in \autoref{thm:uniform-cauchy-criterion-finite-window-coverage} require the $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, Real-window budget, and exact Real-completion boundary before a terminal consumer can read the seal.
 
 Under the shared $W,D,Q,L$ surface, those UniformCauchyCriterion rows are precisely the selector-budget rows of $K$ together with the structural rows $H,C,P,N$. Hence every admitted terminal consumer factors through the displayed diagonal route, and reading the same route backward supplies exactly the terminal envelope faces without adding host metric data, an independent completion object, or an ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit selector-budget Real and Completion exit route]
+\label{thm:diagonal-limit-selector-budget-uniform-real-exit}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Let
+$$
+U=(I_U,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)
+$$
+be an accepted finite-family $\UniformCauchyCriterionUp$ packet whose window, dyadic tolerance, regular readback, and local $\RealUp$ seal rows consume the same $W,D,Q,L$ rows of $K$. Then every Phase Real and Completion exit read admitted by $U$ factors through the finite surface
+$$
+R,T,S,D,W,Q,L,H,C,P,N
+\quad\hbox{and}\quad
+I_U,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U,
+$$
+where the displayed diagonal source supplies the selector-budget route, the $\DyadicRatCoreUp$ ledger supplies the tolerance row, the $\StreamNameUp$ family supplies the window row, the $\RegSeqRatUp$ readback supplies the regular tail row, the local $\RealUp$ seal supplies the terminal seal row, and the $\UniformCauchyCriterionUp$ envelope supplies the finite-family terminal boundary.
+
+The same exit read preserves the structural $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It has no accepted coordinate for quotient streams, host real equality, selected limits, countable-choice selectors, independent completion data, host metric data, ambient completeness, or a second Real or Completion source.
+\end{theorem}
+\begin{proof}
+First lock the diagonal source. Apply \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock} and \autoref{thm:diagonal-limit-selector-budget-route-determinacy}. These force every Real-facing or Completion-facing read that touches the selector budget to use the displayed diagonal source of $K$ and the rows $W,D,Q,L,H,C,P,N$.
+
+Next remove escape data from the completion side. Apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-budget-nonescape} and \autoref{thm:diagonal-limit-selector-budget-uniform-criterion-pullback}. The first result leaves no coordinate for quotient streams, selected limits, host equality, countable-choice data, independent completion data, or ambient completeness. The second result identifies the UniformCauchyCriterion terminal pullback with the same $W,D,Q,L$ surface.
+
+Now read the terminal envelope facts for $\UniformCauchyCriterionUp$. The seal envelope of \autoref{thm:uniform-cauchy-criterion-terminal-seal-envelope}, the completion--Real correspondence of \autoref{thm:uniform-cauchy-criterion-completion-real-correspondence}, and finite-window coverage in \autoref{thm:uniform-cauchy-criterion-finite-window-coverage} require the $\StreamNameUp$ window family, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ tail readback, local $\RealUp$ seal, and finite-family terminal boundary before an exit read can reach the public Real or Completion surface.
+
+Finally compose the two boundaries. Under the shared consumption hypothesis, $W_U,Q_U,T_U,E_U$ are the reads of $W,D,Q,L$, while $H_U,C_U,P_U,N_U$ preserve the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows as $H,C,P,N$. Thus every Phase Real and Completion exit read factors through the displayed diagonal source and the finite UniformCauchyCriterion envelope, with no remaining public coordinate for host metric data, ambient completeness, independent completion data, or a second Real or Completion source.
 \end{proof}

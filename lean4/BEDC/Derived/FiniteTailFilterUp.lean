@@ -177,4 +177,36 @@ theorem FiniteTailFilterCarrier_cofinal_window_directedness_obligation
     ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, unarySeal, unaryReplay, routeR,
       routeQ, sealRoute, replayRoute, sameNameSeal, replayPkg⟩
 
+theorem FiniteTailFilterCarrier_terminal_cofinal_consumer_exclusion
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N sealRow replayRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      UnaryHistory C ->
+        Cont Q E sealRow ->
+          Cont sealRow C replayRead ->
+            Cont replayRead H terminalRead ->
+              PkgSig bundle terminalRead pkg ->
+                UnaryHistory S /\ UnaryHistory D /\ UnaryHistory R /\ UnaryHistory B /\
+                  UnaryHistory Q /\ UnaryHistory E /\ UnaryHistory sealRow /\
+                    UnaryHistory replayRead /\ UnaryHistory terminalRead /\ Cont S D R /\
+                      Cont R B Q /\ Cont Q E sealRow /\ Cont sealRow C replayRead /\
+                        Cont replayRead H terminalRead /\ hsame N E /\
+                          PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier unaryC sealRoute replayRoute terminalRoute terminalPkg
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, unaryH, routeR, routeQ, sameNameSeal⟩ :=
+    carrier
+  have unaryR : UnaryHistory R := unary_cont_closed unaryS unaryD routeR
+  have unaryQ : UnaryHistory Q := unary_cont_closed unaryR unaryB routeQ
+  have unarySeal : UnaryHistory sealRow := unary_cont_closed unaryQ unaryE sealRoute
+  have unaryReplay : UnaryHistory replayRead :=
+    unary_cont_closed unarySeal unaryC replayRoute
+  have unaryTerminal : UnaryHistory terminalRead :=
+    unary_cont_closed unaryReplay unaryH terminalRoute
+  exact
+    ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, unarySeal, unaryReplay,
+      unaryTerminal, routeR, routeQ, sealRoute, replayRoute, terminalRoute,
+      sameNameSeal, terminalPkg⟩
+
 end BEDC.Derived.FiniteTailFilterUp
