@@ -468,6 +468,7 @@ import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.KernelMorphismUp.CertificateCompilerSourceLock
+import BEDC.Derived.KernelMorphismUp.CertificateCompilerRouteNonescape
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailRealSealRouteTotality
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationUp.TasteGate
@@ -549,6 +550,7 @@ import BEDC.Derived.ContinuationMonadUp.RootPublicConsumerTotality
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorBindCoverage
 import BEDC.Derived.ContinuationMonadUp.RootPublicGeneratorBoundary
 import BEDC.Derived.ContinuationMonadUp.RootPublicSourceLock
+import BEDC.Derived.ContinuationMonadUp.RootPublicRouteExactness
 import BEDC.Derived.ContinuationMonadUp.BridgePackage
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorHomRouteExhaustion
 import BEDC.Derived.ContinuationMonadUp.RootUnblockObligationPackage
