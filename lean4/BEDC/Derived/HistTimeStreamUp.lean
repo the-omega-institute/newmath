@@ -240,6 +240,30 @@ theorem HistTimeStreamCarrier_namecert_ledger_exhaustion [AskSetup] [PackageSetu
           namePkg, publicPkg⟩
   }
 
+theorem HistTimeStreamCarrier_observer_locality_lattice_link [AskSetup] [PackageSetup]
+    {source schedule start replay transport provenance name observer publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg →
+      Cont source replay observer →
+        Cont provenance name publicRead →
+          PkgSig bundle observer pkg →
+            PkgSig bundle publicRead pkg →
+              UnaryHistory observer ∧ UnaryHistory publicRead ∧ Cont source replay observer ∧
+                Cont provenance name publicRead ∧ PkgSig bundle observer pkg ∧
+                  PkgSig bundle publicRead pkg ∧ hsame provenance replay := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame
+  intro carrier sourceReplayObserver provenanceNamePublic observerPkg publicPkg
+  obtain ⟨sourceUnary, _scheduleUnary, _startUnary, replayUnary, _transportUnary,
+    provenanceUnary, nameUnary, _scheduleStartReplay, _sourceReplayProvenance,
+    provenanceReplay, _provenancePkg, _namePkg⟩ := carrier
+  have observerUnary : UnaryHistory observer :=
+    unary_cont_closed sourceUnary replayUnary sourceReplayObserver
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed provenanceUnary nameUnary provenanceNamePublic
+  exact
+    ⟨observerUnary, publicUnary, sourceReplayObserver, provenanceNamePublic, observerPkg,
+      publicPkg, provenanceReplay⟩
+
 theorem HistTimeStreamCarrier_hsame_prefix_transport [AskSetup] [PackageSetup]
     {source schedule start replay transport provenance name endpoint transported : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

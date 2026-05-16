@@ -1,0 +1,37 @@
+\begin{theorem}[CriticalLineWitness Phase Real source triad]
+\label{thm:critical-line-witness-phase-real-source-triad}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every fixed-strip source read used by this chapter binds its source rows to the current Phase Real and Completion triad
+$$
+\RealUp,\quad \RegSeqRatUp,\quad \StreamNameUp.
+$$
+The visible route is the fixed-strip source row, the $\RealUp$ endpoint row, the $\RegSeqRatUp$ finite-request row, the $\StreamNameUp$ finite-window row, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support of $W$.
+\end{theorem}
+\begin{proof}
+Start with the fixed-strip source lock of \autoref{thm:critical-line-witness-fixed-strip-source-lock}. It already places the strip source, zeta ledger, continuation read, $\RealUp$ and $\RegSeqRatUp$ rows, modulus row, and local support rows on one finite tuple.
+
+Attach the Phase Real dependency totality of \autoref{thm:critical-line-witness-phase-real-dependency-totality}. It forces every Phase Real or Completion read through the displayed source-modulus dependency surface.
+
+Finally use the Real L10 dependency surface of \autoref{ch:concrete-instances-real-namecert}. The fixed-strip source can therefore name the same $\StreamNameUp$, $\RegSeqRatUp$, and terminal $\RealUp$ rows without importing any off-packet analytic or host coordinate.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness Phase Real source totality]
+\label{thm:critical-line-witness-phase-real-source-totality}
+Every fixed-strip source read used by this chapter factors through the three displayed L10 rows $\RealUp$, $\RegSeqRatUp$, and $\StreamNameUp$, together with the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows exposed by the accepted $\CriticalLineWitnessUp$ packet. No additional source row is available between the fixed-strip source lock and the Phase Real terminal read.
+\end{theorem}
+\begin{proof}
+First expose the source tuple by \autoref{thm:critical-line-witness-fixed-strip-source-lock}. The accepted read is locked to the strip, zeta, continuation, Real, regular-rational, modulus, transport, replay, provenance, and local naming rows.
+
+Next apply \autoref{thm:critical-line-witness-root-downstream-unblock-package}. Its downstream package makes the finite source route sufficient for critical-line, zeta, $\RealUp$, and rational consumers.
+
+Use \autoref{thm:critical-line-witness-phase-real-source-triad} to isolate the Phase Real face of that package. The only L10 rows visible to the source read are $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, supported by the displayed BEDC rows of $W$.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness Phase Real source nonescape]
+\label{thm:critical-line-witness-phase-real-source-nonescape}
+The root source surface for a fixed-strip $\CriticalLineWitnessUp$ read exports no $\mathsf{RH}$ truth value, analytic-continuation certificate, quotient stream, selected limit, or host complex equality. Such a read can only inspect the finite Phase Real source triad and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+\end{theorem}
+\begin{proof}
+Begin with the refusal side. \autoref{thm:critical-line-witness-root-gap-refusal-completeness} and \autoref{thm:critical-line-witness-rh-refusal-phase-boundary} classify $\mathsf{RH}$ truth, analytic continuation, host zero search, quotient representatives, host equality, and ambient completeness as off-packet demands.
+
+Now apply \autoref{thm:critical-line-witness-phase-real-source-totality}. Since every accepted fixed-strip source read has already been exhausted by the Phase Real source triad and its displayed support rows, the excluded demands have no carrier coordinate on the root source surface.
+\end{proof}

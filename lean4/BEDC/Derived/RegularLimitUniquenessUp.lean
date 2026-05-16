@@ -160,7 +160,7 @@ theorem RegularLimitUniquenessCarrier_classifier_determinacy [AskSetup] [Package
             hsame endpoint endpoint' ∧ PkgSig bundle endpoint pkg ∧
               PkgSig bundle endpoint' pkg := by
   intro carrier carrier' sameSeparated sameTransport
-  obtain ⟨_familyUnary, _diagonalLeftUnary, _diagonalRightUnary, _thresholdUnary,
+  obtain ⟨_familyUnary, _diagonalLeftUnary, _diagonalRightUnary, thresholdUnary,
     _readbackLeftUnary, _readbackRightUnary, _transportUnary, _routeUnary, _provenanceUnary,
     _localCertUnary, _familyThresholdDiagonalLeft, _familyThresholdDiagonalRight,
     _diagonalLeftThresholdReadback, _diagonalRightThresholdReadback,
@@ -343,7 +343,7 @@ theorem RegularLimitUniquenessCarrier_separated_transport [AskSetup] [PackageSet
               PkgSig bundle endpoint' pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
   intro carrier carrier' sameSealLeft sameSealRight
-  obtain ⟨_familyUnary, _diagonalLeftUnary, _diagonalRightUnary, _thresholdUnary,
+  obtain ⟨_familyUnary, _diagonalLeftUnary, _diagonalRightUnary, thresholdUnary,
     _readbackLeftUnary, _readbackRightUnary, _transportUnary, _routeUnary, _provenanceUnary,
     _localCertUnary, _familyThresholdDiagonalLeft, _familyThresholdDiagonalRight,
     _diagonalLeftThresholdReadback, _diagonalRightThresholdReadback,
@@ -359,5 +359,42 @@ theorem RegularLimitUniquenessCarrier_separated_transport [AskSetup] [PackageSet
   have sameSeparated : hsame separated separated' :=
     cont_respects_hsame sameSealLeft sameSealRight sealComparison sealComparison'
   exact ⟨sameSeparated, endpointPkg, endpointPkg'⟩
+
+theorem RegularLimitUniquenessCarrier_dyadic_window_separation_pullback [AskSetup]
+    [PackageSetup]
+    {family diagonalLeft diagonalRight threshold readbackLeft readbackRight sealLeft sealRight
+      separated transport route provenance localCert endpoint dyadicWindow consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLimitUniquenessCarrier family diagonalLeft diagonalRight threshold readbackLeft
+        readbackRight sealLeft sealRight separated transport route provenance localCert endpoint
+        bundle pkg ->
+      Cont readbackLeft readbackRight dyadicWindow ->
+        Cont dyadicWindow separated consumerRead ->
+          PkgSig bundle consumerRead pkg ->
+            UnaryHistory dyadicWindow ∧ UnaryHistory consumerRead ∧
+              Cont readbackLeft readbackRight dyadicWindow ∧
+                Cont dyadicWindow separated consumerRead ∧ Cont sealLeft sealRight separated ∧
+                  PkgSig bundle endpoint pkg ∧ PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier readbackWindow windowConsumer consumerPkg
+  obtain ⟨_familyUnary, _diagonalLeftUnary, _diagonalRightUnary, thresholdUnary,
+    readbackLeftUnary, readbackRightUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _localCertUnary, _familyThresholdDiagonalLeft, _familyThresholdDiagonalRight,
+    _diagonalLeftThresholdReadback, _diagonalRightThresholdReadback,
+    readbackLeftThresholdSeal, readbackRightThresholdSeal, sealComparison,
+    _separatedTransportEndpoint, _routeProvenanceEndpoint, endpointPkg⟩ := carrier
+  have dyadicWindowUnary : UnaryHistory dyadicWindow :=
+    unary_cont_closed readbackLeftUnary readbackRightUnary readbackWindow
+  have sealLeftUnary : UnaryHistory sealLeft :=
+    unary_cont_closed readbackLeftUnary thresholdUnary readbackLeftThresholdSeal
+  have sealRightUnary : UnaryHistory sealRight :=
+    unary_cont_closed readbackRightUnary thresholdUnary readbackRightThresholdSeal
+  have separatedUnary : UnaryHistory separated :=
+    unary_cont_closed sealLeftUnary sealRightUnary sealComparison
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed dyadicWindowUnary separatedUnary windowConsumer
+  exact
+    ⟨dyadicWindowUnary, consumerReadUnary, readbackWindow, windowConsumer, sealComparison,
+      endpointPkg, consumerPkg⟩
 
 end BEDC.Derived.RegularLimitUniquenessUp
