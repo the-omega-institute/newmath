@@ -437,21 +437,40 @@ TasteGate readiness supplies the chapter-level Nontrivial and FieldFaithful side
 Finally apply completion boundary. It states that a Completion-facing consumer may read only the finite boundary $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$. Hence the listed rows already cover the carrier, witness, route, seal, transport, continuation, provenance, naming, Nontrivial, and FieldFaithful obligations, so the chapter records obligation closure without asserting Lean verification or a bridge.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy modulus witness-ledger tail-service exactness]
+\label{thm:regular-cauchy-modulus-witness-ledger-tail-service-exactness}
+For every accepted $\RegularCauchyModulusWitnessLedgerUp$ packet
+$$
+L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M),
+$$
+every $\RealUp$ or $\RealCompletionSealClassifierUp$ tail-service read of $L$ factors through the same witnessed modulus row $\mu$, finite $\StreamNameUp$ window row $W$, $\DyadicRatCoreUp$ tolerance row $D$, $\RegSeqRatUp$ readback row $Q$, normalizer row $N_0$, tail-budget row $T$, seal row $S$, and structural rows $H,C,P,M$. No hidden selector, quotient stream, host real equality, selected limit, ambient completeness coordinate, or replacement tail-service packet may serve as a Real-facing route for $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier and the local NameCert obligations. The accepted packet displays exactly the rows $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$, and the naming surface assigns the StreamName window, dyadic tolerance, readback, tail budget, normalizer, seal, transport, continuation, provenance, and local-name roles to those rows.
+
+Use window-budget exhaustion, normalizer-tail commutation, and source-triad exactness. These keep $W,D,Q,N_0,T$ attached to the same witnessed modulus row $\mu$ before any Real-facing service reads the packet.
+
+Apply readback seal determinacy and completion boundary. The readback row $Q$ and seal row $S$ are fixed by the same displayed route, and completion-facing consumers may read only the boundary $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$.
+
+Finally invoke carrier non-escape. Since $L$ has no coordinate for a hidden selector, quotient stream, host real equality, selected limit, ambient completeness object, or second tail-service packet, every Real-facing tail-service read factors through the displayed route and no other one.
+\end{proof}
+
 \falsifiablePrediction{If a RealUp seal consumer reads a regular Cauchy modulus without the displayed witness-ledger row, normalized route row, finite-window row, dyadic tolerance row, and RegSeqRat readback row, the packet is refuted.}
 
 \independenceWitness{regular-cauchy-modulus-normalizer, cauchymodulusmeet, regular-cauchy-tail-budget, real-completion-seal-classifier, streamname: no sibling is bijective because this packet uniquely binds the witnessed modulus ledger to the downstream finite-window and RealUp seal route; each sibling omits either the single witness ledger, the normalized route, or the RealUp consumer seal.}
 
 \closureat{RegularCauchyModulusWitnessLedgerUp}{obligationStr}
 \closureat{RegularCauchyModulusWitnessLedgerUp}{scopedStr}[BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.taste\_gate]
+\closureat{RegularCauchyModulusWitnessLedgerUp}{publicStr}[BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.taste\_gate]
 
 \begin{closurestatus}{\RegularCauchyModulusWitnessLedgerUp}
   \constructivestory{A $\RegularCauchyModulusWitnessLedgerUp$ packet is generated from a regular source, a displayed modulus witness ledger, finite StreamName windows, normalized-tail and tail-budget rows, dyadic tolerance readback, a RealUp seal, componentwise transports, displayed replay, provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-modulus-witness-ledger-carrier}, \autoref{thm:regular-cauchy-modulus-witness-ledger-namecert-obligations}, \autoref{thm:regular-cauchy-modulus-witness-ledger-seal-route}, \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}, \autoref{thm:regular-cauchy-modulus-witness-ledger-normalizer-tail-commutation}, \autoref{thm:regular-cauchy-modulus-witness-ledger-real-seal-consumer-exactness}, \autoref{thm:regular-cauchy-modulus-witness-ledger-tastegate-readiness}, \autoref{thm:regular-cauchy-modulus-witness-ledger-route-field-faithfulness}, \autoref{thm:regular-cauchy-modulus-witness-ledger-nontrivial-witness-surface}, \autoref{thm:regular-cauchy-modulus-witness-ledger-field-faithful-surface}, and \autoref{thm:regular-cauchy-modulus-witness-ledger-obligation-closure-route} bind the finite carrier, NameCert obligations, seal route, non-escape surface, source-window order, normalized-tail compatibility, seal consumer totality, TasteGate readiness, route field-faithfulness, nontrivial witness surface, field-faithful surface, and chapter scoped surface.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-modulus-witness-ledger-carrier}, \autoref{thm:regular-cauchy-modulus-witness-ledger-namecert-obligations}, \autoref{thm:regular-cauchy-modulus-witness-ledger-seal-route}, \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}, \autoref{thm:regular-cauchy-modulus-witness-ledger-normalizer-tail-commutation}, \autoref{thm:regular-cauchy-modulus-witness-ledger-real-seal-consumer-exactness}, \autoref{thm:regular-cauchy-modulus-witness-ledger-tastegate-readiness}, \autoref{thm:regular-cauchy-modulus-witness-ledger-route-field-faithfulness}, \autoref{thm:regular-cauchy-modulus-witness-ledger-nontrivial-witness-surface}, \autoref{thm:regular-cauchy-modulus-witness-ledger-field-faithful-surface}, \autoref{thm:regular-cauchy-modulus-witness-ledger-obligation-closure-route}, \autoref{thm:regular-cauchy-modulus-witness-ledger-tail-service-exactness}, and \autoref{thm:regular-cauchy-modulus-witness-ledger-open-phase-exit-sufficiency} bind the finite carrier, NameCert obligations, seal route, non-escape surface, source-window order, normalized-tail compatibility, seal consumer totality, TasteGate readiness, route field-faithfulness, nontrivial witness surface, field-faithful surface, chapter scoped surface, tail-service exactness, and public Phase Real and Completion exit surface.}
   \formalstatus{\unformalizedV}
   \leanchecked{BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close quotient streams, host real equality, hidden modulus replacement, selected limits, countable choice, ambient completeness, Lean verification, or bridge checking for $\RegularCauchyModulusWitnessLedgerUp$.}
-  \upgradepath{Public closure requires a public $\RealUp$ or $\RealCompletionSealClassifierUp$ consumer theorem over the same witnessed modulus-ledger packet.}
+  \upgradepath{Bridge closure requires a standard bridge over the same witnessed modulus-ledger packet and public consumer surface.}
 \end{closurestatus}
