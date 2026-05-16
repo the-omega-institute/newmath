@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.AuthorizedGeneratorRecursorUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -334,5 +338,31 @@ theorem AuthorizedGeneratorRecursorTasteGate_single_carrier_alignment :
       · intro x y heq
         exact authorizedGeneratorRecursorToEventFlow_injective heq
       · rfl
+
+theorem AuthorizedGeneratorRecursorBranchExhaustion
+    {signature eliminator branches transport branchRead routes publicRead : BHist} :
+    Cont signature eliminator branches ->
+      Cont branches transport branchRead ->
+        Cont branchRead routes publicRead ->
+          hsame transport BHist.Empty ->
+            UnaryHistory signature ->
+              UnaryHistory eliminator ->
+                UnaryHistory branches ->
+                  UnaryHistory routes ->
+                    UnaryHistory publicRead ∧ Cont signature eliminator branches ∧
+                      Cont branches transport branchRead ∧
+                        Cont branchRead routes publicRead ∧ hsame transport BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory
+  intro signatureEliminatorBranches branchesTransportBranchRead branchReadRoutesPublicRead
+    transportEmpty _signatureUnary _eliminatorUnary branchesUnary routesUnary
+  have transportUnary : UnaryHistory transport :=
+    unary_transport unary_empty (hsame_symm transportEmpty)
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed branchesUnary transportUnary branchesTransportBranchRead
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed branchReadUnary routesUnary branchReadRoutesPublicRead
+  exact
+    ⟨publicReadUnary, signatureEliminatorBranches, branchesTransportBranchRead,
+      branchReadRoutesPublicRead, transportEmpty⟩
 
 end BEDC.Derived.AuthorizedGeneratorRecursorUp
