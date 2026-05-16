@@ -97,6 +97,7 @@ LOGIC_PACKET_FIELDS = (
 )
 DETERMINISTIC_FALLBACK_SOURCES = {
     "plain_math_review",
+    "research_lane:paper_gap_scanner",
     "research_lane:structural_relation_miner",
     "research_lane:candidate_inbox",
 }

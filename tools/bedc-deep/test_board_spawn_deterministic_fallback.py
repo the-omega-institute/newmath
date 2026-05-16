@@ -71,9 +71,19 @@ def test_deterministic_fallback_rejects_new_chapter() -> None:
     assert rejected[0]["reason"].startswith("deterministic_fallback_landing_requires_llm_judge")
 
 
-def test_deterministic_fallback_rejects_unknown_source() -> None:
+def test_deterministic_fallback_accepts_research_lane_gap_scanner() -> None:
     accepted, rejected = board_spawn._deterministic_fallback_judge(
         [_candidate(source="research_lane:paper_gap_scanner")],
+        fit_threshold=7,
+        novelty_threshold=6,
+    )
+    assert len(accepted) == 1, (accepted, rejected)
+    assert rejected == [], rejected
+
+
+def test_deterministic_fallback_rejects_raw_gap_scanner_source() -> None:
+    accepted, rejected = board_spawn._deterministic_fallback_judge(
+        [_candidate(source="paper_gap_scanner")],
         fit_threshold=7,
         novelty_threshold=6,
     )
@@ -113,7 +123,8 @@ if __name__ == "__main__":
     test_deterministic_fallback_accepts_local_logic_packet()
     test_deterministic_fallback_rejects_external_signal()
     test_deterministic_fallback_rejects_new_chapter()
-    test_deterministic_fallback_rejects_unknown_source()
+    test_deterministic_fallback_accepts_research_lane_gap_scanner()
+    test_deterministic_fallback_rejects_raw_gap_scanner_source()
     test_deterministic_fallback_rejects_anti_parameter_echo()
     test_deterministic_fallback_allows_low_score_local_packet()
     print("test_board_spawn_deterministic_fallback: ok")
