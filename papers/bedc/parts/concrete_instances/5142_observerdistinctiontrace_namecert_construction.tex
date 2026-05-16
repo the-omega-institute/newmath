@@ -71,7 +71,7 @@ The remaining carrier coordinates are exactly $H,T,K,C,L,P,N$. Thus any accepted
 \label{thm:observer-distinction-trace-tastegate-obligation}
 The later Lean target in \texttt{lean4/BEDC/Derived/ObserverDistinctionTraceUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \ObserverDistinctionTraceUp$ and $\mathsf{FieldFaithful}\ \ObserverDistinctionTraceUp$ instances. The witnesses must distinguish the source $\Hist$ row, ordered distinction trace, growth ledger, displayed $\Cont$ routes, $\hsame$ transport, no-subject provenance, and local naming row.
 \end{theorem}
-\leanchecked{BEDC.Derived.ObserverDistinctionTraceUp.ObserverDistinctionTraceTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.ObserverDistinctionTraceUp.taste\_gate}
 \begin{proof}
 Nontriviality is forced by the ordered trace shape. A packet that collapses the source, step ledger, and growth rows cannot witness a distinction trace.
 
@@ -83,14 +83,15 @@ Field faithfulness is forced by the carrier inventory. Each projection must pres
 \independenceWitness{observerhistidentity, observersubjectboundary, histtimestream, localclockbudget: the packet records ordered distinction-step trace rows rather than identity comparison, subject-boundary exclusion alone, local time stream alone, or clock-budget rows.}
 
 \closureat{ObserverDistinctionTraceUp}{seedStr}
+\closureat{ObserverDistinctionTraceUp}{obligationStr}
 
 \begin{closurestatus}{\ObserverDistinctionTraceUp}
   \constructivestory{An $\ObserverDistinctionTraceUp$ packet is generated from an observed Hist source row, an ordered finite distinction-step trace, a Hist growth ledger, displayed Cont routes, componentwise hsame transport, no-subject package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:observer-distinction-trace-carrier}, \autoref{thm:observer-distinction-trace-namecert-obligations}, \autoref{thm:observer-distinction-trace-temporal-factorization}, \autoref{thm:observer-distinction-trace-nonescape}, and \autoref{thm:observer-distinction-trace-tastegate-obligation} specify the finite observer distinction trace packet, its temporal route, and its no-subject boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:observer-distinction-trace-carrier}, \autoref{thm:observer-distinction-trace-namecert-obligations}, \autoref{thm:observer-distinction-trace-temporal-factorization}, \autoref{thm:observer-distinction-trace-nonescape}, \autoref{thm:observer-distinction-trace-tastegate-obligation}, and \leanchecked{BEDC.Derived.ObserverDistinctionTraceUp.taste\_gate} specify the finite observer distinction trace packet, its temporal route, no-subject boundary, and TasteGate instance.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, host observer identity, global time, or an observer-substance behind the trace.}
-  \upgradepath{Obligation closure requires checked carrier admission, ordered distinction-step exposure, Hist growth exactness, Cont route replay, hsame transport, no-subject provenance, and TasteGate nontriviality with field faithfulness.}
+  \upgradepath{Scoped closure requires explicit BEDC primitive dependencies for carrier admission, ordered distinction-step exposure, Hist growth exactness, Cont route replay, hsame transport, no-subject provenance, and the TasteGate single-carrier marker.}
 \end{closurestatus}
