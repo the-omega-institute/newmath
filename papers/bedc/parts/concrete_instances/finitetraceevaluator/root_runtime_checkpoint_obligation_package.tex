@@ -1,0 +1,39 @@
+\begin{theorem}[FiniteTraceEvaluator root runtime checkpoint obligation package]
+\label{thm:finite-trace-evaluator-root-runtime-checkpoint-obligation-package}
+For every accepted $\FiniteTraceEvaluatorUp$ root packet
+$$
+E=(I,T,A,V,H,C,P,N),
+$$
+the root runtime checkpoint obligation package is the finite package consisting of the checkpoint rows $I,T,A$, the bounded trace rows, the runtime image rows, the validation ledger $V,H,C,P,N$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\FiniteTraceEvaluatorUp}$ row $N$. It exposes no host validation, total truth predicate, total halting predicate, unbounded evaluator, infinite trace, detached runtime image, or second checkpoint source.
+\end{theorem}
+\begin{proof}
+Start with checkpoint-budget exhaustion and runtime image route determinacy, \autoref{thm:finite-trace-evaluator-checkpoint-budget-exhaustion} and \autoref{thm:finite-trace-evaluator-runtime-image-route-determinacy}. They place the checkpoint read and runtime image on the same finite route $I,T,A,V,H,C,P,N$.
+
+Next attach the validation ledger. By \autoref{thm:finite-trace-evaluator-validation-ledger-exhaustion}, every validation-facing read is exhausted by $V,H,C,P,N$ over the finite trace source $I,T,A$.
+
+Finally add the downstream local certificate surface. The root downstream NameCert package of \autoref{thm:finite-trace-evaluator-root-namecert-downstream-package} and the body-level obligations of \autoref{thm:finitetrace-evaluator-root-namecert-obligations} bind the same $\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows, so the obligation package has no outside runtime or validation coordinate.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root image runtime totality]
+\label{thm:finite-trace-evaluator-root-image-runtime-totality}
+Every accepted root image/runtime read of an accepted $\FiniteTraceEvaluatorUp$ packet is exhausted by the checkpoint-budget rows and the runtime-image rows of the displayed packet $I,T,A,V,H,C,P,N$. The read is finite over the coded input, trace, accepted-result classifier, validation boundary, componentwise transport, continuation route, provenance, and local naming rows; it does not project host validation, total truth, total halting, unbounded evaluation, infinite trace semantics, or a detached runtime source.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:finite-trace-evaluator-root-checkpoint-budget-image-exhaustion}. It lists the root checkpoint budget image as exactly the rows $I,T,A,V,H,C,P,N$.
+
+Next use \autoref{thm:finite-trace-evaluator-runtime-image-route-determinacy}. Runtime image reads preserve the same finite route, so two accepted consumers that preserve these rows read the same image.
+
+It remains to exclude hidden runtime coordinates. Apply \autoref{thm:finite-trace-evaluator-root-runtime-readback-nonescape} and \autoref{thm:finite-trace-evaluator-validation-ledger-exhaustion}. The first keeps runtime readback on the root image rows, and the second exhausts the validation ledger inside $V,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root NameCert readiness handoff]
+\label{thm:finite-trace-evaluator-root-namecert-readiness-handoff}
+The obligation package of \autoref{thm:finite-trace-evaluator-root-runtime-checkpoint-obligation-package} is the handoff consumed by downstream runtime-checkpoint and reflection-runtime chapters. Any such downstream consumer receives only the finite checkpoint source $I,T,A$, the validation and structural rows $V,H,C,P,N$, the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\FiniteTraceEvaluatorUp}$ row.
+\end{theorem}
+\begin{proof}
+Begin with the obligation package above. It already assembles the checkpoint rows, bounded trace route, runtime image, validation ledger, transport, continuation, provenance, and local naming rows.
+
+Next apply \autoref{thm:finite-trace-evaluator-root-namecert-downstream-package}. That theorem identifies the downstream $\NameCert_{\FiniteTraceEvaluatorUp}$ surface as the same root image, readback, budget, runtime, ledger, and exactness package.
+
+Finally use \autoref{thm:finite-trace-evaluator-reflection-runtime-route} and \autoref{thm:finite-trace-evaluator-root-consumer-readiness-lock}. Reflection-runtime consumers therefore receive the finite route $I \to T \to A \to V \to H \to C \to P \to N$ and no host validation, total truth, total halting, unbounded evaluator, infinite trace, detached runtime source, or second checkpoint source.
+\end{proof}
