@@ -314,6 +314,9 @@ instance physicalModelAuditChapterTasteGate : ChapterTasteGate PhysicalModelAudi
     intro x y hxy heq
     exact hxy (physicalModelAuditToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate PhysicalModelAuditUp :=
+  physicalModelAuditChapterTasteGate
+
 instance physicalModelAuditFieldFaithful : FieldFaithful PhysicalModelAuditUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
