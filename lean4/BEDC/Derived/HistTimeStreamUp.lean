@@ -343,4 +343,21 @@ theorem HistTimeStreamCarrier_hsame_prefix_transport [AskSetup] [PackageSetup]
     }
   exact And.intro semantic (And.intro transportedUnary transportedSameProvenance)
 
+theorem HistTimeStreamCarrier_cont_replay_determinacy [AskSetup] [PackageSetup]
+    {source schedule start replay transport provenance name prefixRow prefixRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg →
+      Cont schedule start prefixRow →
+        Cont schedule start prefixRow' →
+          hsame prefixRow replay ∧ hsame prefixRow prefixRow' ∧ hsame prefixRow' replay := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame
+  intro carrier prefixRoute prefixRoute'
+  obtain ⟨_sourceUnary, _scheduleUnary, _startUnary, _replayUnary, _transportUnary,
+    _provenanceUnary, _nameUnary, scheduleStartReplay, _sourceReplayProvenance,
+    _provenanceReplay, _provenancePkg, _namePkg⟩ := carrier
+  exact
+    ⟨cont_deterministic prefixRoute scheduleStartReplay,
+      cont_deterministic prefixRoute prefixRoute',
+      cont_deterministic prefixRoute' scheduleStartReplay⟩
+
 end BEDC.Derived.HistTimeStreamUp
