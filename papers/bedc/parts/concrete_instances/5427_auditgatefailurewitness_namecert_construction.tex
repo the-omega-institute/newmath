@@ -288,6 +288,93 @@ Use diagnostic totality to bind $D$ and $R$. The refusal target is reached throu
 The support rows are conservative. Componentwise transport, replay, provenance, and local naming preserve the displayed diagnostic-refusal packet; they do not synthesize a replacement diagnostic or a detached refusal route. Thus such a consumer leaves the accepted boundary.
 \end{proof}
 
+\begin{theorem}[Audit-gate failure-witness diagnostic uniqueness]
+\label{thm:audit-gate-failure-witness-diagnostic-uniqueness}
+For every accepted $\AuditGateFailureWitnessUp$ carrier
+$$
+W=(G,F,R,D,H,C,P,N),
+$$
+the row $D$ is the unique public diagnostic for the pair $(G,F)$ along the displayed continuation route. Any alternate diagnostic for the same gate row and failed boundary item is outside the carrier and cannot reach the refusal target $R$ as an accepted $\AuditGateFailureWitnessUp$ consumer route.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and the NameCert obligations. The accepted packet displays exactly one diagnostic readback row $D$ for the gate row $G$ and failed item $F$, and diagnostic exactness places that row before any refusal handoff.
+
+Use target readback totality and diagnostic-refusal order. Every public route to $R$ must pass through the route
+$$
+G \to F \to D \to R.
+$$
+
+Finally apply the refusal consumer boundary. An alternate diagnostic would either replace $D$ or detach $R$ from $(F,D)$. Both moves leave the displayed packet, so no alternate diagnostic is an accepted public diagnostic for the same pair $(G,F)$.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness boundary-item coverage]
+\label{thm:audit-gate-failure-witness-boundary-item-coverage}
+Every failed boundary item accepted by an $\AuditGateFailureWitnessUp$ carrier is covered exactly as gate row, failed item, diagnostic, refusal, transport, replay, provenance, and local name. The carrier has no theorem-content coordinate and no marker-repair coordinate for the failed item.
+\end{theorem}
+\begin{proof}
+Project the carrier $W=(G,F,R,D,H,C,P,N)$. Its rows name the gate, failed boundary item, refusal target, diagnostic readback, transport, replay, provenance, and local NameCert data.
+
+Apply boundary-item noninternalization coverage. That theorem excludes theorem-content, marker-repair, and host-supply rows from the accepted inventory.
+
+Use diagnostic totality and the refusal consumer boundary to check the public route. The failed item is consumed through $G,F,D,R$ and preserved by $H,C,P,N$; any consumer that adds theorem content or marker repair has changed the accepted packet rather than covering the displayed boundary item.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness refusal-route exactness]
+\label{thm:audit-gate-failure-witness-refusal-route-exactness}
+Every consumer route to the refusal target $R$ of an accepted $\AuditGateFailureWitnessUp$ carrier factors through $G,F,D$ and the displayed support rows $H,C,P,N$. There is no accepted detached route to $R$ that omits the gate row, failed item, diagnostic readback, transport, replay, provenance, or local naming rows.
+\end{theorem}
+\begin{proof}
+Begin with target readback totality. It forces public reads of the refusal target to pass through the diagnostic row after the gate row and failed boundary item.
+
+Diagnostic-refusal order gives the exact spine $G,F,D,R$. Replay factorization then carries that spine through the support rows $H,C,P,N$.
+
+Finally use the refusal consumer boundary. Omitting the diagnostic or detaching $R$ from $(F,D)$ exits the carrier, while transport, replay, provenance, and local naming preserve only the displayed support route. Hence every accepted route to $R$ has the stated factorization.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness diagnostic carrier totality]
+\label{thm:audit-gate-failure-witness-diagnostic-carrier-totality}
+For every accepted $\AuditGateFailureWitnessUp$ packet
+$$
+W=(G,F,R,D,H,C,P,N),
+$$
+the carrier exposes exactly one diagnostic carrier row before the refusal target. The row is $D$, it is attached to the gate row $G$ and failed item $F$, and every accepted route to $R$ first reads that displayed diagnostic row.
+\end{theorem}
+\begin{proof}
+Start from carrier admission in \autoref{thm:audit-gate-failure-witness-namecert-obligations}. The accepted packet contains one diagnostic coordinate, namely $D$, and no second diagnostic row is present in $W$.
+
+Use diagnostic exactness and target readback totality. These obligations place the diagnostic readback before the refusal target and force every public read of $R$ through the route $G \to F \to D \to R$.
+
+Finally apply diagnostic uniqueness and refusal-route exactness. An alternate diagnostic would replace $D$ or detach $R$ from the displayed pair $(F,D)$, and both moves leave the accepted carrier. Thus the diagnostic carrier row before $R$ is exactly $D$.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness composed refusal route preservation]
+\label{thm:audit-gate-failure-witness-composed-refusal-route-preservation}
+Let
+$$
+W=(G,F,R,D,H,C,P,N)
+$$
+be an accepted $\AuditGateFailureWitnessUp$ carrier consumed by an $\AuditGateCompositionUp$ packet. The composed consumer preserves the displayed route $G,F,D,R,H,C,P,N$ and cannot replace it with composed refusal content. In particular, the composed refusal trace may consume $D$, $R$, and $C$, but it does not become the diagnostic row for $G,F$ and does not supply theorem content for $F$.
+\end{theorem}
+\begin{proof}
+Read the composition handoff. It permits an $\AuditGateCompositionUp$ surface to consume the diagnostic, refusal, and replay rows of an accepted failure witness, while the failed item remains a boundary item of that witness.
+
+Use replay factorization and refusal-route exactness to pin down the consumed route. The public route remains $G \to F \to D \to R$ with support rows $H,C,P,N$, so the composed trace is downstream from the displayed carrier rather than a replacement for it.
+
+Finally apply diagnostic nonescape and the refusal consumer boundary. They block conversion of $F$ into theorem content and block replacement of $D$ by a detached refusal route. Hence the composed consumer preserves the displayed failure-witness route.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness gate-row exhaustion]
+\label{thm:audit-gate-failure-witness-gate-row-exhaustion}
+Every gate-row consumer of an accepted $\AuditGateFailureWitnessUp$ packet is exhausted by carrier admission, diagnostic exactness, refusal attachment, replay visibility, and non-internalization. After these five rows are read, the consumer has no remaining route to a marker repair, host supply, theorem object, admitted internalizer, omitted diagnostic, detached refusal target, or composed refusal replacement.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligation surface. Its five rows expose the carrier, identify the diagnostic, attach the refusal to the displayed failed item, make replay visible, and exclude internalization of the failure.
+
+Apply ledger exhaustion and boundary-item coverage. They show that every public consumer of the gate row factors through $G,F,D,R,H,C,P,N$ and that the failed item is covered only by those displayed rows.
+
+Finally use composed refusal route preservation. Even when an $\AuditGateCompositionUp$ packet consumes the witness, the route remains the displayed failure-witness route rather than composed refusal content. Therefore the five NameCert rows exhaust every gate-row consumer.
+\end{proof}
+
 The Lean follow-up for this chapter must provide \texttt{Derived/AuditGateFailureWitnessUp/TasteGate.lean} with $\mathsf{Nontrivial}\ \AuditGateFailureWitnessUp$ and $\mathsf{FieldFaithful}\ \AuditGateFailureWitnessUp$ instances for the same finite carrier.
 
 \closureat{AuditGateFailureWitnessUp}{seedStr}
