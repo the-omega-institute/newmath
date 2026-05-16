@@ -78,6 +78,22 @@ compiler packets.
 \end{proof}
 \leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_identity\_composite\_public\_boundary}
 
+\begin{theorem}[CertificateCompiler endpoint-route determinacy envelope]
+\label{thm:certificate-compiler-endpoint-route-determinacy-envelope}
+Let
+$$
+K=(S,T,G,E,C,H,P,N)
+$$
+be an accepted $\CertificateCompilerUp$ packet. Any accepted target endpoint route for $K$, and any identity, binary composite, or triple composite route built from accepted $\CertificateCompilerUp$ packets, is determined by the same displayed finite surface $S,T,G,E,C,H,P,N$. There is no second endpoint route through host compiler semantics, optimiser correctness, ambient program equality, or unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+First apply the target endpoint route of \autoref{thm:certificate-compiler-target-endpoint-route}. It places endpoint arrival inside the displayed source naming row, compiler graph, target landing row, classifier transport, continuation row, package provenance, and local naming row of the accepted carrier.
+
+Next apply the identity composite public boundary of \autoref{thm:certificate-compiler-identity-composite-public-boundary}. Identity rows, binary composites, and triple composites stay on the same public row surface $S,T,G,E,C,H,P,N$; their middle landings, graph edges, transports, continuation rows, package provenance, and local names are projected from displayed compiler packets.
+
+Finally return to the carrier definition. The accepted packet has no coordinate for host compiler semantics, optimiser correctness, ambient program equality, or unrecorded target behavior. Endpoint arrival and the composite public boundary therefore share the same displayed rows, so the finite surface $S,T,G,E,C,H,P,N$ determines the available endpoint and composite routes.
+\end{proof}
+
 \begin{theorem}[CertificateCompiler endpoint determinacy]
 \label{thm:certificate-compiler-endpoint-determinacy}
 Let $K=(S,T,G,E,C,H,P,N)$ be an accepted $\CertificateCompilerUp$ packet. If
