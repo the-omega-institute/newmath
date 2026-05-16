@@ -86,6 +86,58 @@ countable choice, ambient completeness, metric completeness, or a direct Real
 seal bypass, so a budget change cannot certify any of those routes.
 \end{proof}
 
+\begin{theorem}[Real dyadic StreamName RegSeqRat seal equivalence]
+\label{thm:real-dyadic-stream-regseq-seal-equivalence}
+For a current Phase Real and Completion $\RealUp$ seal read, agreement of the
+displayed $\DyadicRatCoreUp$ observation rows, $\StreamNameUp$ finite-window
+rows, $\RegSeqRatUp$ regular readback rows, and local $\RealUp$ seal row,
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ coordinates, is equivalent to acceptance of the ordered four-face
+route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+
+This equivalence is internal to the finite dyadic-stream-regseq seal route. It
+does not assert quotient stream equality, host real equality, a selected
+limit, countable choice, metric completeness, ambient completion coordinates,
+or any direct seal edge outside the four displayed faces.
+\end{theorem}
+\begin{proof}
+For the forward direction, start from agreement of the displayed dyadic,
+finite-window, regular-readback, and local seal rows, with the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates fixed. Apply
+\autoref{thm:real-l10-dependency-lattice-interface-totality} to restrict the
+current Phase Real and Completion read to the four visible L10 faces.
+
+Next use \autoref{thm:real-streamname-regseqrat-source-lattice}. It identifies
+the DyadicRatCore, StreamName, and RegSeqRat rows as the source lattice
+available before the local Real seal is accepted. The row agreement therefore
+has exactly the finite source data needed by the seal route.
+
+Apply \autoref{thm:real-dyadic-stream-regseq-route}. The matched source and
+seal rows are repacked as the ordered route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+
+For the reverse direction, assume acceptance of the ordered four-face route.
+The route theorem exposes precisely the dyadic observations, finite stream
+windows, regular-rational readback rows, local seal row, and structural
+transport and package coordinates named in the statement.
+
+Finally apply
+\autoref{thm:real-dyadic-stream-regseq-budget-exactness}. It says that
+replacing or refining the finite budget changes only the displayed request
+rows, so agreement on those rows is exactly the classifier agreement carried
+by the accepted finite dyadic-stream-regseq seal route.
+
+The exclusion clause follows because the four cited inputs have no coordinate
+for quotient stream equality, host real equality, selected limits, countable
+choice, metric completeness, ambient completion, or a direct $\RealUp$ seal
+bypass.
+\end{proof}
+
 \begin{theorem}[Real Cauchy window transducer seal route]
 \label{thm:real-cauchy-window-transducer-seal-route}
 Any $\RealUp$ seal read exported by an accepted $\CauchyWindowTransducerUp$ packet factors through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and then $\RealUp$. The transducer rows $S,D,W,R,E,L,H,C,P,N$ provide only finite route replay, and they provide no direct seal bypass.
