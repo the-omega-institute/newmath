@@ -260,6 +260,34 @@ Next apply boundary coverage. The accepted witness contains no public coordinate
 The NameCert obligations and composition handoff then exclude all escape routes. Non-internalization blocks marker repair, host supply, theorem content, and admitted internalizers, while the composed surface may only consume the displayed diagnostic, refusal, and replay rows. Therefore the listed ledger exhausts every public consumer.
 \end{proof}
 
+\begin{theorem}[Audit-gate failure-witness diagnostic totality]
+\label{thm:audit-gate-failure-witness-diagnostic-totality}
+Every public read of a failed gate item in an accepted $\AuditGateFailureWitnessUp$ packet factors through exactly the displayed diagnostic row $D$ before reaching the refusal target $R$. The route is
+$$
+G \to F \to D \to R
+$$
+with support rows $H,C,P,N$, so no public consumer can read $F$ as a failure witness by bypassing $D$ or by reaching $R$ through a detached refusal route.
+\end{theorem}
+\begin{proof}
+Start with the carrier and target-readback totality. The carrier displays $W=(G,F,R,D,H,C,P,N)$, and the failed item $F$ is public only as an item governed by the gate row $G$.
+
+Apply diagnostic-refusal order. It places the diagnostic row $D$ between the failed item and the refusal target, so the route to $R$ is not available until $D$ has been consumed.
+
+Finally use diagnostic nonescape and replay factorization. Diagnostic nonescape blocks replacement of $D$ by marker repair or theorem content, while replay factorization carries the same route through $H,C,P,N$. Hence every public failed-item read reaches $R$ through exactly the displayed diagnostic row.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness refusal consumer boundary]
+\label{thm:audit-gate-failure-witness-refusal-consumer-boundary}
+Any consumer of an accepted $\AuditGateFailureWitnessUp$ witness must preserve the gate row $G$, failed item $F$, diagnostic row $D$, refusal target $R$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. Omitting $D$ or detaching $R$ from the pair $(F,D)$ exits the accepted packet and cannot be repaired by transport, replay, provenance, or local naming alone.
+\end{theorem}
+\begin{proof}
+Project the ledger exhaustion theorem. Every public consumer already factors through $G,F,D,R,H,C,P,N$ and receives no marker repair, host supply, theorem object, admitted internalizer, or bypass route.
+
+Use diagnostic totality to bind $D$ and $R$. The refusal target is reached through the displayed diagnostic row for the failed item, so a consumer that omits $D$ or detaches $R$ from $(F,D)$ changes the public witness.
+
+The support rows are conservative. Componentwise transport, replay, provenance, and local naming preserve the displayed diagnostic-refusal packet; they do not synthesize a replacement diagnostic or a detached refusal route. Thus such a consumer leaves the accepted boundary.
+\end{proof}
+
 The Lean follow-up for this chapter must provide \texttt{Derived/AuditGateFailureWitnessUp/TasteGate.lean} with $\mathsf{Nontrivial}\ \AuditGateFailureWitnessUp$ and $\mathsf{FieldFaithful}\ \AuditGateFailureWitnessUp$ instances for the same finite carrier.
 
 \closureat{AuditGateFailureWitnessUp}{seedStr}
