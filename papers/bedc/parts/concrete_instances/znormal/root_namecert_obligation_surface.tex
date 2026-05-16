@@ -1,0 +1,55 @@
+\begin{theorem}[$\ZNormalUp$ NameCert obligation surface]
+\label{thm:znormal-namecert-obligation-surface}
+For every accepted root packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the $\NameCert_{\ZNormalUp}$ obligation surface is exactly the finite display consisting of carrier admission for $Z$, classifier exposure through $T,F,V,K,R$, terminal-normality evidence through $V$, bounded-fuel replay through $F,H,C$, and non-escape through $P,N$. The packet admits no additional carrier row for host conversion, quotient computation, unrestricted evaluation, divergence, substrate halting, or a global normalizer.
+\end{theorem}
+\begin{proof}
+Read the carrier boundary through \autoref{def:znormal-root-carrier-boundary}. It lists precisely the rows $T,F,V,K,R,H,C,P,N$, so carrier admission is already a finite $\BHist$ display and not an ambient total-host object.
+
+Apply \autoref{thm:znormal-namecert-root-obligations}. The root obligations bind classifier exposure, terminal-normality evidence, bounded-fuel replay, and non-escape to the same displayed packet. The classifier rows are $T,F,V,K,R$, while replay is transported by $H$ and reread through $C$.
+
+Finally use \autoref{thm:znormal-root-consumer-readiness}. A root or downstream normal-route consumer can cite terminal normality only after all rows of $Z$ are exposed. Since the listed host and global-normalization readings are absent from $Z$, the obligation surface is exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ classifier transport]
+\label{thm:znormal-classifier-transport}
+Let
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+and
+$$
+Z'=(T',F',V',K',R',H',C',P',N')
+$$
+be accepted $\ZNormalUp$ root packets. If the displayed transport rows give componentwise $\hsame$ from each classifier coordinate of $Z$ to the corresponding coordinate of $Z'$ and the displayed $\Cont$ replay rows carry the same bounded-fuel route, then classifier transport preserves the $T,F,V,K,R,H,C,P,N$ rows. The ZeckendorfNormal, $\ZCarryUp$, and $\ContinuationTraceNormalFormUp$ inputs are consumed only as sibling finite surfaces, not as new classifier coordinates.
+\end{theorem}
+\begin{proof}
+Start from the two root boundaries. By \autoref{def:znormal-root-carrier-boundary}, both packets have the same row shape, so a componentwise $\hsame$ transport can only move displayed coordinates to displayed coordinates.
+
+Use \autoref{thm:znormal-namecert-root-obligations} for the source packet and for the target packet. Classifier exposure is attached to $T,F,V,K,R$, while bounded replay is attached to $F,H,C$ and to $F',H',C'$.
+
+The sibling evidence is external only in the controlled sense already named by the chapter. The typed endpoint route is supplied by \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, the finite normal-word route by \autoref{ch:concrete-instances-zeckendorf-normal-namecert} and \autoref{ch:concrete-instances-zcarry-namecert}, and the terminal continuation route by \autoref{ch:concrete-instances-continuationtracenormalform-namecert}.
+
+Therefore transport preserves the displayed classifier rows and consumes those sibling surfaces only through $K$ and $R$. No sibling certificate becomes a fresh coordinate of the $\ZNormalUp$ packet.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ ledger nonescape]
+\label{thm:znormal-ledger-nonescape}
+Every root or normal-form consumer of an accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+factors its ledger read through the provenance and naming rows $P,N$. Consequently the consumer cannot read host conversion, quotient computation, unrestricted evaluation, divergence, substrate halting, or a global normalizer from the $\ZNormalUp$ ledger.
+\end{theorem}
+\begin{proof}
+Project the ledger rows by \autoref{def:znormal-root-carrier-boundary}. The only provenance row is $P$, and the only local naming row is $N$.
+
+Apply \autoref{thm:znormal-namecert-root-obligations}. Non-escape is one of the root obligations, and it keeps $\Pkg$ provenance and local naming inside the displayed $P,N$ rows.
+
+Now apply \autoref{thm:znormal-root-consumer-readiness}. Any root or normal-route consumer must expose the whole packet before terminal normality is read, so its ledger route has already passed through $P,N$.
+
+The excluded host and global-normalization readings have no ledger coordinate in $Z$. Hence every accepted consumer factors through $P,N$, and the ledger cannot be reopened as host conversion, quotient computation, unrestricted evaluation, divergence, substrate halting, or a global normalizer.
+\end{proof}
