@@ -618,6 +618,37 @@ coordinate for RH, nontrivial-zero classification, completed Gamma
 construction, or bridge verification.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationApplication open-phase root readiness]
+\label{thm:zeta-continuation-application-open-phase-root-readiness}
+Any open-phase consumer of an accepted $\ZetaContinuationApplicationUp$
+application packet must expose the eta source lock $E$, Gamma horizon row $G$,
+analytic-operation row $A$, pole and trivial-zero ledgers $P,T$,
+componentwise transport $H$, replay row $C$, provenance row $Q$, and local
+name row $N$ before it can read continuation application output. The readable
+output is therefore a finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ route of the displayed packet.
+
+The readiness row asserts no RH conclusion, no analytic continuation beyond
+the displayed routes, no completed Gamma construction, and no standard bridge.
+\end{theorem}
+\begin{proof}
+First use source route exactness. The application output can be reached only
+through the displayed source route, so the eta source lock, Gamma horizon row,
+and analytic-operation row must appear as the visible $E,G,A$ portion of the
+carrier.
+
+Next apply source-triad exhaustion. It prevents an open-phase consumer from
+collapsing $E,G,A$ into an undisplayed source coordinate and keeps the pole and
+trivial-zero ledgers $P,T$ attached to the same packet.
+
+Finally invoke root-obligation readiness together with root public-export
+readiness. These rows add $H,C,Q,N$ as the componentwise transport, replay,
+provenance, and local name surface needed by downstream root consumers. Since
+the same readiness package refuses RH, nontrivial-zero classification,
+completed Gamma data, and bridge verification, the open-phase root read is
+exactly the displayed finite obligation row.
+\end{proof}
+
 \closureat{ZetaContinuationApplicationUp}{seedStr}
 \closureat{ZetaContinuationApplicationUp}{obligationStr}
 \closureat{ZetaContinuationApplicationUp}{scopedStr}

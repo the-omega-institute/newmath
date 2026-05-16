@@ -182,6 +182,37 @@ theorem RegularCauchyModulusWitnessLedgerCarrier_non_escape [AskSetup] [PackageS
       nameUnary, det.right, witnessWindowNormalizer, normalizerTailDyadic, dyadicReadbackSeal,
       transportRouteProvenance, routeSeal, provenancePkg, namePkg, endpointPkg⟩
 
+theorem RegularCauchyModulusWitnessLedgerCarrier_modulus_normalizer_tail_coherence [AskSetup]
+    [PackageSetup]
+    {source witness window normalizer tail dyadic readback sealRow transport route provenance
+      name endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyModulusWitnessLedgerCarrier source witness window normalizer tail dyadic
+        readback sealRow transport route provenance name bundle pkg ->
+      Cont sealRow transport endpoint ->
+        PkgSig bundle endpoint pkg ->
+          UnaryHistory witness ∧ UnaryHistory window ∧ UnaryHistory normalizer ∧
+            UnaryHistory tail ∧ UnaryHistory dyadic ∧ UnaryHistory readback ∧
+              UnaryHistory sealRow ∧ UnaryHistory endpoint ∧
+                Cont witness window normalizer ∧ Cont normalizer tail dyadic ∧
+                  Cont dyadic readback sealRow ∧ hsame endpoint sealRow ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame UnaryHistory
+  intro carrier sealTransportEndpoint endpointPkg
+  obtain ⟨_sourceUnary, witnessUnary, windowUnary, normalizerUnary, tailUnary, dyadicUnary,
+    readbackUnary, sealUnary, transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    transportEmpty, witnessWindowNormalizer, normalizerTailDyadic, dyadicReadbackSeal,
+    _transportRouteProvenance, _routeSeal, provenancePkg, _namePkg⟩ := carrier
+  have endpointSameSeal : hsame endpoint sealRow := by
+    cases transportEmpty
+    exact cont_deterministic sealTransportEndpoint (cont_right_unit sealRow)
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed sealUnary transportUnary sealTransportEndpoint
+  exact
+    ⟨witnessUnary, windowUnary, normalizerUnary, tailUnary, dyadicUnary, readbackUnary,
+      sealUnary, endpointUnary, witnessWindowNormalizer, normalizerTailDyadic,
+      dyadicReadbackSeal, endpointSameSeal, provenancePkg, endpointPkg⟩
+
 theorem RegularCauchyModulusWitnessLedgerCarrier_completion_consumer_boundary [AskSetup]
     [PackageSetup]
     {source witness window normalizer tail dyadic readback sealRow transport route provenance
@@ -229,5 +260,34 @@ theorem RegularCauchyModulusWitnessLedgerCarrier_completion_consumer_boundary [A
     ⟨det.left, windowUnary, dyadicUnary, readbackUnary, normalizerUnary, tailUnary, det.right,
       completionUnary, witnessWindowNormalizer, normalizerTailDyadic, dyadicReadbackSeal,
       endpointRouteCompletion, provenancePkg, endpointPkg, completionPkg⟩
+
+theorem RegularCauchyModulusWitnessLedgerCarrier_window_budget_exhaustion [AskSetup]
+    [PackageSetup]
+    {source witness window normalizer tail dyadic readback sealRow transport route provenance
+      name endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyModulusWitnessLedgerCarrier source witness window normalizer tail dyadic
+        readback sealRow transport route provenance name bundle pkg ->
+      Cont sealRow transport endpoint ->
+        PkgSig bundle endpoint pkg ->
+          hsame endpoint sealRow ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+            UnaryHistory readback ∧ UnaryHistory endpoint ∧ Cont witness window normalizer ∧
+              Cont normalizer tail dyadic ∧ Cont dyadic readback sealRow ∧
+                PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro carrier sealTransportEndpoint endpointPkg
+  obtain ⟨_sourceUnary, _witnessUnary, windowUnary, _normalizerUnary, _tailUnary,
+    dyadicUnary, readbackUnary, sealUnary, transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary, transportEmpty, witnessWindowNormalizer, normalizerTailDyadic,
+    dyadicReadbackSeal, _transportRouteProvenance, _routeSeal, _provenancePkg, _namePkg⟩ :=
+    carrier
+  have endpointSameSeal : hsame endpoint sealRow := by
+    cases transportEmpty
+    exact cont_deterministic sealTransportEndpoint (cont_right_unit sealRow)
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed sealUnary transportUnary sealTransportEndpoint
+  exact
+    ⟨endpointSameSeal, windowUnary, dyadicUnary, readbackUnary, endpointUnary,
+      witnessWindowNormalizer, normalizerTailDyadic, dyadicReadbackSeal, endpointPkg⟩
 
 end BEDC.Derived.RegularCauchyModulusWitnessLedgerUp
