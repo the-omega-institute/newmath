@@ -75,45 +75,41 @@ def largeModelOutputVerifierToEventFlow : LargeModelOutputVerifierUp → EventFl
           BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         largeModelOutputVerifierEncodeBHist localName]
 
-def largeModelOutputVerifierFromEventFlow : EventFlow → Option LargeModelOutputVerifierUp
+private def largeModelOutputVerifierRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [[BMark.b0], harness, [BMark.b1, BMark.b0], auditChannel,
-      [BMark.b1, BMark.b1, BMark.b0], modelTrace,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b0], promptResponse,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], inscriptionAudit,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], verifier,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-      proofCheck,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b0],
-      refusal,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b1, BMark.b0],
-      route,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b1, BMark.b1, BMark.b0],
-      replay,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-      provenance,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-      localName] =>
-      some
-        (LargeModelOutputVerifierUp.mk
-          (largeModelOutputVerifierDecodeBHist harness)
-          (largeModelOutputVerifierDecodeBHist auditChannel)
-          (largeModelOutputVerifierDecodeBHist modelTrace)
-          (largeModelOutputVerifierDecodeBHist promptResponse)
-          (largeModelOutputVerifierDecodeBHist inscriptionAudit)
-          (largeModelOutputVerifierDecodeBHist verifier)
-          (largeModelOutputVerifierDecodeBHist proofCheck)
-          (largeModelOutputVerifierDecodeBHist refusal)
-          (largeModelOutputVerifierDecodeBHist route)
-          (largeModelOutputVerifierDecodeBHist replay)
-          (largeModelOutputVerifierDecodeBHist provenance)
-          (largeModelOutputVerifierDecodeBHist localName))
-  | _ => none
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => largeModelOutputVerifierRawAt n rest
+
+private def largeModelOutputVerifierLengthEq : Nat → EventFlow → Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => largeModelOutputVerifierLengthEq n rest
+
+def largeModelOutputVerifierFromEventFlow :
+    EventFlow → Option LargeModelOutputVerifierUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match largeModelOutputVerifierLengthEq 24 flow with
+      | true =>
+          some
+            (LargeModelOutputVerifierUp.mk
+              (largeModelOutputVerifierDecodeBHist (largeModelOutputVerifierRawAt 1 flow))
+              (largeModelOutputVerifierDecodeBHist (largeModelOutputVerifierRawAt 3 flow))
+              (largeModelOutputVerifierDecodeBHist (largeModelOutputVerifierRawAt 5 flow))
+              (largeModelOutputVerifierDecodeBHist (largeModelOutputVerifierRawAt 7 flow))
+              (largeModelOutputVerifierDecodeBHist (largeModelOutputVerifierRawAt 9 flow))
+              (largeModelOutputVerifierDecodeBHist (largeModelOutputVerifierRawAt 11 flow))
+              (largeModelOutputVerifierDecodeBHist (largeModelOutputVerifierRawAt 13 flow))
+              (largeModelOutputVerifierDecodeBHist (largeModelOutputVerifierRawAt 15 flow))
+              (largeModelOutputVerifierDecodeBHist (largeModelOutputVerifierRawAt 17 flow))
+              (largeModelOutputVerifierDecodeBHist (largeModelOutputVerifierRawAt 19 flow))
+              (largeModelOutputVerifierDecodeBHist (largeModelOutputVerifierRawAt 21 flow))
+              (largeModelOutputVerifierDecodeBHist (largeModelOutputVerifierRawAt 23 flow)))
+      | false => none
 
 private theorem largeModelOutputVerifier_round_trip :
     ∀ x : LargeModelOutputVerifierUp,
@@ -124,8 +120,48 @@ private theorem largeModelOutputVerifier_round_trip :
   cases x with
   | mk harness auditChannel modelTrace promptResponse inscriptionAudit verifier proofCheck
       refusal route replay provenance localName =>
-      simp only [largeModelOutputVerifierToEventFlow, largeModelOutputVerifierFromEventFlow,
-        largeModelOutputVerifierDecode_encode_bhist]
+      change
+        some
+          (LargeModelOutputVerifierUp.mk
+            (largeModelOutputVerifierDecodeBHist
+              (largeModelOutputVerifierEncodeBHist harness))
+            (largeModelOutputVerifierDecodeBHist
+              (largeModelOutputVerifierEncodeBHist auditChannel))
+            (largeModelOutputVerifierDecodeBHist
+              (largeModelOutputVerifierEncodeBHist modelTrace))
+            (largeModelOutputVerifierDecodeBHist
+              (largeModelOutputVerifierEncodeBHist promptResponse))
+            (largeModelOutputVerifierDecodeBHist
+              (largeModelOutputVerifierEncodeBHist inscriptionAudit))
+            (largeModelOutputVerifierDecodeBHist
+              (largeModelOutputVerifierEncodeBHist verifier))
+            (largeModelOutputVerifierDecodeBHist
+              (largeModelOutputVerifierEncodeBHist proofCheck))
+            (largeModelOutputVerifierDecodeBHist
+              (largeModelOutputVerifierEncodeBHist refusal))
+            (largeModelOutputVerifierDecodeBHist
+              (largeModelOutputVerifierEncodeBHist route))
+            (largeModelOutputVerifierDecodeBHist
+              (largeModelOutputVerifierEncodeBHist replay))
+            (largeModelOutputVerifierDecodeBHist
+              (largeModelOutputVerifierEncodeBHist provenance))
+            (largeModelOutputVerifierDecodeBHist
+              (largeModelOutputVerifierEncodeBHist localName))) =
+          some
+            (LargeModelOutputVerifierUp.mk harness auditChannel modelTrace promptResponse
+              inscriptionAudit verifier proofCheck refusal route replay provenance localName)
+      rw [largeModelOutputVerifierDecode_encode_bhist harness,
+        largeModelOutputVerifierDecode_encode_bhist auditChannel,
+        largeModelOutputVerifierDecode_encode_bhist modelTrace,
+        largeModelOutputVerifierDecode_encode_bhist promptResponse,
+        largeModelOutputVerifierDecode_encode_bhist inscriptionAudit,
+        largeModelOutputVerifierDecode_encode_bhist verifier,
+        largeModelOutputVerifierDecode_encode_bhist proofCheck,
+        largeModelOutputVerifierDecode_encode_bhist refusal,
+        largeModelOutputVerifierDecode_encode_bhist route,
+        largeModelOutputVerifierDecode_encode_bhist replay,
+        largeModelOutputVerifierDecode_encode_bhist provenance,
+        largeModelOutputVerifierDecode_encode_bhist localName]
 
 private theorem largeModelOutputVerifierToEventFlow_injective
     {x y : LargeModelOutputVerifierUp} :
@@ -192,5 +228,28 @@ instance largeModelOutputVerifierNontrivial : Nontrivial LargeModelOutputVerifie
 def taste_gate : ChapterTasteGate LargeModelOutputVerifierUp :=
   -- BEDC touchpoint anchor: BHist BMark
   largeModelOutputVerifierChapterTasteGate
+
+namespace TasteGate
+
+theorem LargeModelOutputVerifierTasteGate_single_carrier_alignment :
+    (largeModelOutputVerifierEncodeBHist BHist.Empty = ([] : List BMark)) ∧
+      (∀ h : BHist,
+        largeModelOutputVerifierDecodeBHist
+          (largeModelOutputVerifierEncodeBHist h) = h) ∧
+        (∀ x : LargeModelOutputVerifierUp,
+          largeModelOutputVerifierFromEventFlow
+            (largeModelOutputVerifierToEventFlow x) = some x) ∧
+          (∀ x y : LargeModelOutputVerifierUp,
+            largeModelOutputVerifierToEventFlow x =
+                largeModelOutputVerifierToEventFlow y →
+              x = y) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨rfl,
+      largeModelOutputVerifierDecode_encode_bhist,
+      largeModelOutputVerifier_round_trip,
+      (fun _ _ heq => largeModelOutputVerifierToEventFlow_injective heq)⟩
+
+end TasteGate
 
 end BEDC.Derived.LargeModelOutputVerifierUp
