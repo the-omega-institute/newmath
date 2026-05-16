@@ -592,6 +592,7 @@ import BEDC.Derived.KernelNormalizationAuditJoinUp.TasteGate
 import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
+import BEDC.Derived.KernelCategoryUp.CertificateSurface
 import BEDC.Derived.CertificateCompilerUp.FiniteRouteNonescape
 import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.KernelMorphismUp.CertificateCompilerSourceLock
