@@ -301,6 +301,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowComparisonLock
 import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowRealSealPullback
 import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowRealConsumerLock
 import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowTotality
+import BEDC.Derived.CauchyModulusRefinementUp.TerminalSelectorSealCorrespondence
 import BEDC.Derived.CauchyModulusRefinementUp.TerminalRealSealPullback
 import BEDC.Derived.CauchyModulusRefinementUp.UniformMonotoneTerminalRoute
 import BEDC.Derived.CauchyModulusRefinementUp.WindowConsumerCoverage
@@ -815,6 +816,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.VerdictTransportSeparation
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerLedgerFrontier
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DependentEliminatorRefusal
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ClassifierSubstitutionBarrier
+import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportSurface
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate

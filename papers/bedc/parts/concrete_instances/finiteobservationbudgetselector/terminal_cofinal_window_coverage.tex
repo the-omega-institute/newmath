@@ -323,3 +323,27 @@ Finally apply the terminal four-face pullback lock, \autoref{thm:finite-observat
 
 The non-escape clauses in the cited theorems exclude quotient streams, countable choice, hidden selectors, detached completion limits, metric-completeness rows, and ambient completeness oracles from the terminal surface.
 \end{proof}
+
+\begin{theorem}[Finite observation-budget selector terminal tail-meet synchronization]
+\label{thm:finite-observation-budget-selector-terminal-tail-meet-synchronization}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Any terminal consumer that is compatible both with the $\FiniteObservationBudgetSelectorUp$ cofinal-window route and with either a $\RegularCauchyTailMeetUp$ shared-tail route or a $\TailCofinalityScheduleUp$ cofinal schedule must read the same L10 terminal route
+$$
+B,S \to W \to D \to R \to E.
+$$
+Equivalently, the tail-meet consumer, the cofinal-schedule consumer, and the terminal selector consumer all factor through the same four displayed faces $W,D,R,E$, with transport, continuation, provenance, and local naming supplied only by $H,C,P,N$. The synchronized surface cannot introduce a second tail-meet threshold, hidden cofinal schedule, quotient stream, host real equality, choice row, detached limit, metric-completeness row, or ambient completeness oracle.
+\end{theorem}
+\begin{proof}
+First place the selector-side consumer on the terminal route. Terminal cofinal-window coverage, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-coverage}, forces every compatible terminal read through the displayed finite window, dyadic ledger, regular-rational readback, and Real seal faces. The terminal four-face pullback lock, \autoref{thm:finite-observation-budget-selector-terminal-four-face-pullback-lock}, then identifies those faces as exactly $W,D,R,E$ over the route $B,S \to W \to D \to R \to E$.
+
+Next attach the schedule side. The terminal cofinal schedule lock, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-schedule-lock}, says that two accepted schedules with the same terminal cofinal-window route and the same four-face pullback give the terminal consumer no visible schedule distinction. Thus a $\TailCofinalityScheduleUp$ consumer compatible with $F$ reads the same schedule-facing route rather than a hidden cofinal schedule behind it.
+
+Now attach the shared-tail side. The RegularCauchyTailMeet budget-selector handoff, \autoref{thm:regular-cauchy-tail-meet-budget-selector-handoff}, requires every $\FiniteObservationBudgetSelectorUp$ consumer of an accepted shared-tail packet to consume the displayed TailMeet route before selecting a downstream budget. The root budget route lock, \autoref{thm:regular-cauchy-tail-meet-root-budget-route-lock}, leaves no second downstream budget or independent tail oracle available to the same consumer.
+
+Combining these route locks gives determinacy at the terminal selector surface. Both the TailMeet-compatible read and the cofinal-schedule-compatible read reach the same selector packet $F$, and $F$ has only the four terminal faces $W,D,R,E$ after $B,S$. Therefore the common consumer factors through the displayed route $B,S \to W \to D \to R \to E$.
+
+The non-escape clauses in the cited selector and TailMeet results remove every unlisted resource. Hence no second tail-meet threshold, hidden cofinal schedule, quotient stream, host real equality, choice row, detached limit, metric-completeness row, or ambient completeness oracle can be added at the synchronized terminal surface.
+\end{proof}
