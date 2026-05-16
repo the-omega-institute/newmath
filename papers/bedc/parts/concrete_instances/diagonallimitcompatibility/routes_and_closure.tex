@@ -704,6 +704,26 @@ It remains to check that no listed row is eliminable. Removing $D$ breaks the to
 Finally apply \autoref{thm:diagonal-limit-compatibility-non-escape}, \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}, and \autoref{thm:diagonal-limit-compatibility-real-seal-nonescape}. These clauses exclude quotient streams, selected host limits, host equality, choice data, hidden tail oracles, and ambient completeness from the carrier, so none of them can supply a substitute for a deleted finite support row.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility budget-selector route meet]
+\label{thm:diagonal-limit-compatibility-budget-selector-route-meet}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet, and let $B$ be an accepted $\FiniteObservationBudgetSelectorUp$ packet using the same $\StreamNameUp$ window row $W$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ readback row $Q$, and $\RealUp$ seal row $L$. The completion-facing route of $K$ and the finite observation budget-selector route of $B$ meet at the same displayed budget surface
+$$
+\begin{aligned}
+  R,T,S,D,W,Q,L,H,C,P,N .
+\end{aligned}
+$$
+Every completion-facing, $\RealUp$-facing, or selector-facing consumer that preserves those shared rows must read the same budget surface, with no quotient stream, selected host limit, host real equality, choice datum, hidden tail oracle, independent selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First lock the diagonal-limit route. Apply \autoref{thm:diagonal-limit-compatibility-source-route-budget-lock} and \autoref{thm:diagonal-limit-compatibility-public-budget-route}. These theorems force the accepted packet $K$ to expose the completion-facing budget through $R,T,S,D,W,Q,L,H,C,P,N$.
+
+Next identify the public ledger. The route-ledger public exactness theorem \autoref{thm:diagonal-limit-compatibility-route-ledger-public-exactness} states that the displayed budget surface is the exact public ledger for $K$, and \autoref{thm:diagonal-limit-compatibility-standard-bridge-surface} repacks the same rows for bridge-facing consumers.
+
+Now attach the selector side through \autoref{ch:concrete-instances-finite-observation-budget-selector-namecert}. Its accepted carrier and budget-route determinacy use the same $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal rows, so the selector route has no separate budget surface once it shares $W,D,Q,L$ with $K$.
+
+The two routes therefore meet at the displayed tuple. The non-escape clauses for the diagonal-limit packet and for the finite observation budget selector exclude quotient streams, selected host limits, host real equality, choice data, hidden tail oracles, independent selectors, and ambient completeness from the shared surface.
+\end{proof}
+
 \closureat{DiagonalLimitCompatibilityUp}{seedStr}
 \closureat{DiagonalLimitCompatibilityUp}{obligationStr}
 \closureat{DiagonalLimitCompatibilityUp}{scopedStr}
