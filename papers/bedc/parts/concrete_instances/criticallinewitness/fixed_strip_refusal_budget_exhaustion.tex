@@ -1,0 +1,32 @@
+\begin{definition}[CriticalLineWitness fixed-strip refusal-budget packet]
+\label{def:critical-line-witness-fixed-strip-refusal-budget-packet}
+A $\CriticalLineWitnessUp$ fixed-strip refusal-budget packet is a finite $\BHist$ packet
+$$
+B=(Z,S,M,R,Q,H,C,P,N)
+$$
+over the supplied $\ZetaZerosUp$ zero row $Z$, $\CritStripUp$ critical-strip row $S$, $\NatUp$ line-modulus row $M$, $\RealUp$ real-part row $R$, finite refusal budget and rational comparison ledger $Q$, componentwise $\hsame$ row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\CriticalLineWitnessUp}$ row $N$. The packet has no coordinate for zero search, $\mathsf{RH}$ proof, analytic-continuation certificate, host equality, quotient representative, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[CriticalLineWitness fixed-strip budget route determinacy]
+\label{thm:critical-line-witness-fixed-strip-budget-route-determinacy}
+Every fixed-strip budget read of an accepted $\CriticalLineWitnessUp$ packet factors through the packet of \autoref{def:critical-line-witness-fixed-strip-refusal-budget-packet}. The read may inspect the supplied zero row, critical-strip row, line-modulus row, finite refusal budget, rational comparison ledger, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row, but it cannot choose a second budget carrier or a hidden analytic route.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of \autoref{def:critical-line-witness-carrier}. The displayed rows are exactly $Z,S,M,R,Q,H,C,P,N$, so a fixed-strip budget read has no off-packet coordinate available at the carrier level.
+
+Apply the NameCert obligations, source triad, and zero-strip modulus route, \autoref{thm:critical-line-witness-namecert-obligations}, \autoref{thm:critical-line-witness-root-source-triad}, and \autoref{thm:critical-line-witness-zero-strip-modulus-route}. These bind the supplied zero, strip, modulus, real-part, and comparison rows to one finite route.
+
+Finally use modulus refusal ledger exhaustion and root refusal-boundary totality, \autoref{thm:critical-line-witness-modulus-refusal-ledger-exhaustion} and \autoref{thm:critical-line-witness-root-refusal-boundary-totality}. They force every fixed-strip budget demand onto the same refusal ledger and rule out hidden analytic or host-level budget carriers.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness fixed-strip zeta consumer boundary]
+\label{thm:critical-line-witness-fixed-strip-zeta-consumer-boundary}
+Every downstream zeta-continuation consumer of the packet in \autoref{def:critical-line-witness-fixed-strip-refusal-budget-packet} may read the refusal budget and rational comparison ledger on $Z,S,M,R,Q,H,C,P,N$. It cannot obtain a zero search, $\mathsf{RH}$ proof, analytic-continuation certificate, host equality, quotient representative, or ambient completeness row from that fixed-strip budget surface.
+\end{theorem}
+\begin{proof}
+Begin with fixed-strip budget route determinacy. It identifies the consumer-facing read with the single finite packet $Z,S,M,R,Q,H,C,P,N$.
+
+Use the downstream readback exhaustion and RH-boundary non-escape rows, \autoref{thm:critical-line-witness-downstream-readback-exhaustion} and \autoref{thm:critical-line-witness-rh-boundary-nonescape}. These theorems place zeta-facing and $\mathsf{RH}$-facing requests on the displayed refusal ledger.
+
+Finally apply zero-route non-escape and RH consumer boundary, \autoref{thm:critical-line-witness-zero-route-nonescape} and \autoref{thm:critical-line-witness-rh-consumer-boundary}. The consumer receives only finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data, so zero search, $\mathsf{RH}$ proof data, analytic continuation, host equality, quotient representatives, and ambient completeness remain outside the packet.
+\end{proof}

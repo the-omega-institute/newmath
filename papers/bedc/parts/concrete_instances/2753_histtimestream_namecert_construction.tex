@@ -219,6 +219,24 @@ Next apply the NameCert obligation sketch and schedule classifier stability, \au
 Finally use ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhaustion}. The public NameCert read is exhausted by the displayed local rows and their transport ledger, so an accepted consumer has no path to a shared inter-Hist clock, synchronized external time, or temporal-rate coordinate.
 \end{proof}
 
+\begin{theorem}[HistTimeStream completion StreamName handoff factorization]
+\label{thm:histtimestream-completion-streamname-handoff-factorization}
+Every $\CompletionUp$ or $\RealUp$ consumer of an accepted $\HistTimeStreamUp$ packet
+$$
+Q=(H,T,S,C,L,P,N)
+$$
+factors first through the displayed local packet $H,T,S,C,L,P,N$, then through the StreamName-facing finite-window handoff. The consumer cannot replace the local schedule by a host time index, global clock, sibling Hist source, quotient stream, selected limit, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligation sketch, \autoref{def:histtimestream-namecert-carrier} and \autoref{thm:histtimestream-namecert-obligation-sketch}. They make $H,T,S,C,L,P,N$ the whole accepted local packet and route every public read through the displayed schedule, replay, transport, provenance, and naming rows.
+
+Apply the Real StreamName window lock and RegSeqRat local clock separation, \autoref{thm:histtimestream-real-streamname-window-lock} and \autoref{thm:histtimestream-regseqrat-local-clock-separation}. The first sends Real-facing finite-window reads through the StreamName handoff, while the second keeps the local schedule from becoming a host clock or shared synchronization row.
+
+Use the Real completion consumer boundary and transport lock, \autoref{thm:histtimestream-real-completion-consumer-boundary} and \autoref{thm:hist-time-stream-transport-lock}. They keep completion-facing reads and componentwise transport inside the same finite local packet.
+
+Finally apply the clock refusal obligation, \autoref{thm:hist-time-stream-clock-refusal}. Since no shared clock, host index, sibling Hist source, quotient stream, selected limit, or ambient completeness coordinate exists in the packet, the completion or Real consumer factors through the local packet before the StreamName handoff and nowhere else.
+\end{proof}
+
 \begin{theorem}[HistTimeStream observer-locality consumption bridge]
 \label{thm:histtimestream-observer-locality-consumption-bridge}
 Any observer-locality or observer-history-identity consumer of an accepted $\HistTimeStreamUp$ packet factors through the displayed local stream rows
