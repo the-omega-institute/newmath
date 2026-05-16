@@ -119,4 +119,27 @@ theorem RegularCauchyModulusWitnessLedgerCarrier_namecert_obligations [AskSetup]
     }
   exact And.intro semantic endpointUnary
 
+theorem RegularCauchyModulusWitnessLedgerCarrier_seal_route_determinacy [AskSetup]
+    [PackageSetup]
+    {source witness window normalizer tail dyadic readback sealRow transport route provenance
+      name endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyModulusWitnessLedgerCarrier source witness window normalizer tail dyadic
+        readback sealRow transport route provenance name bundle pkg ->
+      Cont sealRow transport endpoint ->
+        hsame endpoint sealRow ∧ UnaryHistory endpoint := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro carrier sealTransportEndpoint
+  obtain ⟨_sourceUnary, _witnessUnary, _windowUnary, _normalizerUnary, _tailUnary,
+    _dyadicUnary, _readbackUnary, sealUnary, transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, transportEmpty, _witnessWindowNormalizer,
+    _normalizerTailDyadic, _dyadicReadbackSeal, _transportRouteProvenance, _routeSeal,
+    _provenancePkg, _namePkg⟩ := carrier
+  have endpointSameSeal : hsame endpoint sealRow := by
+    cases transportEmpty
+    exact cont_deterministic sealTransportEndpoint (cont_right_unit sealRow)
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed sealUnary transportUnary sealTransportEndpoint
+  exact ⟨endpointSameSeal, endpointUnary⟩
+
 end BEDC.Derived.RegularCauchyModulusWitnessLedgerUp
