@@ -409,3 +409,34 @@ Apply \autoref{thm:streamname-open-phase-exit-route-completeness}. It supplies t
 
 Finally use the four-face ledger exactness of \autoref{thm:streamname-open-phase-four-face-ledger-exactness} and the four-face exit readback of \autoref{thm:streamname-open-phase-four-face-exit-readback}. They keep the tolerance ledger and readback rows inside the same displayed packet, leaving no route for a quotient stream, selected limit, ambient completeness theorem, metric-completeness datum, countable-choice row, standard bridge row, or hidden fifth object.
 \end{proof}
+
+\begin{theorem}[StreamName open-phase support-row minimality]
+\label{thm:streamname-open-phase-support-row-minimality}
+Every accepted Phase Real and Completion exit route through
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+requires each displayed support row
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Dropping $\BHist$ loses the finite observations; dropping $\hsame$ loses componentwise transport; dropping $\Cont$ loses replay of the accepted route; dropping $\Pkg$ loses provenance; and dropping $\NameCert$ loses the public naming surface. Hence none of the five support rows is replaceable by a quotient stream, selected limit, host sequence equality, ambient $\RealUp$ completeness row, countable-choice row, metric-completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-open-phase-terminal-classifier-exactness}. Public acceptance is exact for the terminal four-face classifier surface, and that surface is named with the StreamName window, DyadicRatCore ledger, RegSeqRat readback, Real seal, and the five displayed support rows.
+
+Next use \autoref{thm:streamname-open-phase-four-face-normal-form}. It identifies every accepted exit read with the unique normal-form packet carrying precisely those four faces and precisely $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. A packet missing one of these rows is therefore not the normal form of the accepted route.
+
+The five omissions fail in distinct coordinates:
+\begin{enumerate}
+\item without $\BHist$, the finite observations read by the StreamName window and dyadic ledger are absent;
+\item without $\hsame$, the componentwise transports between the displayed faces are absent;
+\item without $\Cont$, the accepted route cannot be replayed through the finite continuation surface;
+\item without $\Pkg$, the provenance of the four-face packet is absent;
+\item without $\NameCert$, the public naming surface of the exit read is absent.
+\end{enumerate}
+
+Now apply \autoref{thm:streamname-open-phase-four-face-ledger-exactness}. The ledger coordinate is exactly the finite ledger already exposed by the four faces and their support rows, so none of the missing rows can be recovered from an external compression, selected limit, quotient stream, host sequence equality, ambient completeness theorem, metric-completeness datum, countable-choice row, or standard bridge row.
+
+Finally use \autoref{thm:streamname-open-phase-no-fifth-object-exhaustion}. Since the accepted route has no hidden fifth object and no aggregate substitute behind the terminal packet, each of the five displayed support rows is individually necessary for the open-phase exit boundary.
+\end{proof}
