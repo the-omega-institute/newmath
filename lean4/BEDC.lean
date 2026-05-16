@@ -375,6 +375,7 @@ import BEDC.Derived.LayeredRelationGateUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.RouteReplayExactness
 import BEDC.Derived.CauchySealFunctorUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionAuditUp.TasteGate
+import BEDC.Derived.LargeModelOutputVerifierUp.TasteGate
 import BEDC.Derived.InterHistSymmetryBudgetUp.TasteGate
 import BEDC.Derived.MetaCICProofObjectAuditRouteUp.TasteGate
 import BEDC.Derived.MetaCICOpenProblemWitnessUp.TasteGate
@@ -1198,6 +1199,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.RegSeqRatTailEquivalence
 import BEDC.Derived.UniformCauchyCriterionUp.RegSeqRatRealSealPullbackExactness
 import BEDC.Derived.UniformCauchyCriterionUp.RegSeqRatUniformConsumerExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.RegSeqRatConsumerPackage
+import BEDC.Derived.UniformCauchyCriterionUp.RegularTailFusionFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.SealRouteUniqueness
 import BEDC.Derived.UniformCauchyCriterionUp.LateOverlap
 import BEDC.Derived.UniformCauchyCriterionUp.NonEscapeObligation
@@ -2187,6 +2189,7 @@ import BEDC.Derived.QuadratureUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.HausdorffCompletionUp
+import BEDC.Derived.HausdorffCompletionUp.CauchySourceRouteScope
 import BEDC.Derived.HausdorffCompletionUp.SeparatedReflection
 import BEDC.Derived.HausdorffCompletionUp.StandardBridge
 import BEDC.Derived.ReflectiveInquiryUp.TasteGate
