@@ -1,0 +1,41 @@
+\begin{theorem}[AuthorizedGeneratorRecursor root carrier admission]
+\label{thm:authorized-generator-recursor-root-carrier-admission}
+Every accepted $\AuthorizedGeneratorRecursorUp$ root packet exposes only the carrier rows
+
+$$
+I,E,M,B,D,O,A,H,C,P,G,N
+$$
+
+before any root-unblock, ground-compiler, or output-facing consumer may read it. Here $I$ is the accepted signature, $E$ the emitted eliminator, $M$ the motive, $B$ the branch package, $D$ the structural descent row, $O$ the output row, $A$ the audit row, $H$ the componentwise transport row, $C$ the displayed continuation route, $P$ the package provenance, $G$ the boundary row, and $N$ the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:authorized-generator-recursor-carrier}. Its displayed $\BHist$ packet is exactly $I,E,M,B,D,O,A,H,C,P,G,N$, and the definition gives no coordinate for an off-packet generator, hidden branch source, or detached output name.
+
+Branch and descent exposure are already exhausted by the local root obligations. Theorems~\ref{thm:authorized-generator-recursor-branch-exhaustion} and~\ref{thm:authorized-generator-recursor-structural-descent-locality} keep every public recursive read on the signature, emitted eliminator, motive, branch package, and structural descent rows.
+
+Finally attach audit and handoff data. The audit boundary of \autoref{thm:authorized-generator-recursor-audit-boundary} keeps output exposure behind audit provenance, and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} reads the checked carrier alignment only as the same finite packet. Hence the accepted root carrier exposes no rows beyond the displayed list.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor ground-compiler route totality]
+\label{thm:authorized-generator-recursor-ground-compiler-route-totality}
+Every ground-compiler or TasteGate-facing route out of an accepted $\AuthorizedGeneratorRecursorUp$ packet factors through the signature row $I$, eliminator row $E$, motive row $M$, branch row $B$, descent row $D$, audit row $A$, continuation row $C$, package row $P$, boundary row $G$, and local certificate row $N$, together with the output row $O$ and componentwise transport row $H$ of the same carrier.
+\end{theorem}
+\begin{proof}
+Start from root carrier admission above. The ground-compiler route begins with the same finite packet $I,E,M,B,D,O,A,H,C,P,G,N$ and has no separate compiler-facing carrier.
+
+The computational part is forced through the signature, eliminator, motive, branch, and descent rows. Apply \autoref{thm:authorized-generator-recursor-branch-exhaustion} and \autoref{thm:authorized-generator-recursor-structural-descent-locality}; together they rule out an unlisted constructor case, detached branch table, or non-structural recursion channel.
+
+The public handoff is then routed through audit, continuation, package, boundary, and naming rows. Theorems~\ref{thm:authorized-generator-recursor-audit-boundary} and~\ref{thm:authorized-generator-recursor-ground-compiler-handoff} place the TasteGate-facing read behind the finite NameCert packet rather than behind a separate proof-producing generator. Thus every ground-compiler route is total over the displayed rows.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor ledger provenance closure]
+\label{thm:authorized-generator-recursor-ledger-provenance-closure}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, the audit ledger and output provenance close inside $A,H,C,P,G,N$ before any $\ClosedTermSubstitutionBoundaryUp$, $\MetaCICNormalizationFrontierUp$, or $\OperationalMembraneUp$ consumer reads $O$. Such a consumer receives the output only as a row of the finite packet $I,E,M,B,D,O,A,H,C,P,G,N$.
+\end{theorem}
+\begin{proof}
+Begin with the root carrier admission theorem. It places the output row $O$ inside the admitted carrier and keeps the audit, transport, continuation, provenance, boundary, and local certificate rows attached to that output.
+
+Next use the branch and descent obligations. Branch exhaustion and structural-descent locality keep the recursive source of $O$ on $I,E,M,B,D$, so a downstream consumer cannot replace the output by a detached generator or hidden substitution step.
+
+Finally apply audit boundary and ground-compiler handoff. The audit ledger is closed by \autoref{thm:authorized-generator-recursor-audit-boundary}, while \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} confines the compiler-facing handoff to the same NameCert carrier. Therefore closed-substitution, normalization-frontier, and operational-membrane consumers read only the closed provenance packet, not an off-route output.
+\end{proof}
