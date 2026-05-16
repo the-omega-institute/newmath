@@ -121,3 +121,17 @@ Now read the finite-tail-filter surface. Tail-window exactness, \autoref{thm:fin
 
 Finally use \autoref{thm:finite-tail-filter-real-seal-handoff} and \autoref{thm:finite-tail-filter-sibling-tail-handoff}. The Real and Completion seal reads of $F$ pass through the finite cofinal-tail packet $S_F,D_F,R_F,B_F,Q_F,E_F,H_F,C_F,P_F,N_F$, while sibling consumers cannot substitute their own tail selector, ledger, common-tail row, or seal row. Under the shared $W,D,Q,L$ read, those rows are exactly the displayed selector-budget rows of $K$ together with the structural rows $H,C,P,N$, so the handoff factors through the diagonal route and supplies precisely the finite-tail-filter packet.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit selector-budget regular-tail-meet handoff]
+\label{thm:diagonal-limit-selector-budget-regular-tail-meet-handoff}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Suppose its displayed selector-budget surface is consumed by an accepted $\RegularCauchyTailMeetUp$ shared-threshold packet and then by either an accepted $\FiniteTailFilterUp$ packet or a $\RealUp$ seal consumer. The resulting route factors through the displayed diagonal source, the rows $W,D,Q,L$, the shared tail-meet threshold, and the structural rows $H,C,P,N$.
+
+No accepted handoff may insert a hidden tail selector, quotient stream, host equality, selected limit, countable-choice selector, independent completion object, or ambient completeness row between the diagonal selector budget, the shared threshold, and the finite-tail-filter or Real seal consumer.
+\end{theorem}
+\begin{proof}
+First lock the diagonal source. Apply \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock} and \autoref{thm:diagonal-limit-selector-budget-route-determinacy}. They force every selector-budget consumer to read the displayed diagonal route through $W,D,Q,L,H,C,P,N$ and leave no second route through quotient streams, selected limits, host equality, choice data, independent completion data, ambient completeness, or hidden seal data.
+
+Next read the shared-threshold surface of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}. The regular tail-meet packet supplies the common tail threshold as a displayed finite row, so the selector budget reaches downstream seal consumers only after that threshold has been named in the same finite route.
+
+Finally compose with \autoref{thm:diagonal-limit-selector-budget-finite-tail-filter-handoff}. The finite-tail-filter handoff already routes Real-facing and Completion-facing consumers through the displayed selector-budget rows and the finite cofinal-tail packet. With the regular tail-meet threshold placed upstream of that handoff, the composite route has exactly the stated diagonal source, $W,D,Q,L$, shared threshold, and structural rows, and no hidden selector or ambient completion row remains available.
+\end{proof}
