@@ -116,4 +116,33 @@ theorem FiniteTailFilterCarrier_real_seal_handoff
       unaryCompletionRead, routeR, routeQ, sealRoute, realRoute, completionRoute,
       sameNameSeal, completionPkg⟩
 
+theorem FiniteTailFilterCarrier_cofinal_window_directedness_obligation
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N sealRow replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      UnaryHistory C ->
+        Cont Q E sealRow ->
+          Cont sealRow C replayRead ->
+            PkgSig bundle replayRead pkg ->
+              UnaryHistory S /\ UnaryHistory D /\ UnaryHistory R /\ UnaryHistory B /\
+                UnaryHistory Q /\ UnaryHistory E /\ UnaryHistory sealRow /\
+                  UnaryHistory replayRead /\ Cont S D R /\ Cont R B Q /\
+                    Cont Q E sealRow /\ Cont sealRow C replayRead /\ hsame N E /\
+                      PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier unaryC sealRoute replayRoute replayPkg
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, routeR, routeQ, sameNameSeal⟩ := carrier
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryS unaryD routeR
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryR unaryB routeQ
+  have unarySeal : UnaryHistory sealRow :=
+    unary_cont_closed unaryQ unaryE sealRoute
+  have unaryReplay : UnaryHistory replayRead :=
+    unary_cont_closed unarySeal unaryC replayRoute
+  exact
+    ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, unarySeal, unaryReplay, routeR,
+      routeQ, sealRoute, replayRoute, sameNameSeal, replayPkg⟩
+
 end BEDC.Derived.FiniteTailFilterUp
