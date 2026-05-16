@@ -100,12 +100,30 @@ Use the NameCert obligation theorem to read the remaining route data. The $\hsam
 Finally apply non-escape. Since the carrier has no excluded coordinate, the Real and Completion consumers receive the finite route $S,D,R,B,Q,H,C,P,N$ before reaching $E$ and nothing outside that route.
 \end{proof}
 
+\begin{theorem}[FiniteTailFilter sibling tail handoff]
+\label{thm:finite-tail-filter-sibling-tail-handoff}
+Every consumer whose route passes through $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerances, $\RegSeqRatUp$ readback, $\DyadicTailBoundUp$ budget, $\CauchyTailComparisonUp$ common-tail rows, or the $\RealUp$ seal factors through the displayed finite packet
+$$
+S,D,R,B,Q,E,H,C,P,N.
+$$
+No sibling chapter may substitute its own tail selector, tolerance ledger, common-tail row, or seal row for the packet displayed by $\FiniteTailFilterUp$.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:finite-tail-filter-carrier}. The rows $S,D,R,B,Q,E,H,C,P,N$ are the whole finite packet, so any sibling read of a stream window, dyadic tolerance, regular readback, budget, comparison, or seal row has to be a read of one of those displayed coordinates.
+
+Apply the NameCert obligations of \autoref{thm:finite-tail-filter-namecert-obligations}. They expose the analytic rows and the structural rows as one local naming surface, with the $\hsame$ and $\Cont$ data recording how the same packet is replayed downstream.
+
+Use tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness}, to identify the common window and tolerance packet consumed by the budget, comparison, and seal-facing rows. Then use the Real seal handoff theorem, \autoref{thm:finite-tail-filter-real-seal-handoff}, to carry the same packet to Real and Completion consumers.
+
+Finally apply non-escape. The handoff is finite and has no coordinate for a quotient stream, selected limit, host real equality, ambient completeness datum, metric-completeness datum, countable-choice row, or standard bridge row. Hence no sibling route can replace the displayed tail selector, ledger, or seal row by an unrecorded one.
+\end{proof}
+
 \closureat{FiniteTailFilterUp}{seedStr}
 
 \begin{closurestatus}{\FiniteTailFilterUp}
   \constructivestory{A $\FiniteTailFilterUp$ packet is generated from a finite StreamName window ledger, DyadicRatCore tolerance ledger, RegSeqRat readback, DyadicTailBound tail-budget row, CauchyTailComparison common-tail row, RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-tail-filter-carrier}, \autoref{thm:finite-tail-filter-namecert-obligations}, \autoref{thm:finite-tail-filter-nonescape}, \autoref{thm:finite-tail-filter-tail-window-exactness}, and \autoref{thm:finite-tail-filter-real-seal-handoff} bind the finite cofinal-tail filter packet used by Real and Completion seal reads.}
+  \scopeclosed{\autoref{def:finite-tail-filter-carrier}, \autoref{thm:finite-tail-filter-namecert-obligations}, \autoref{thm:finite-tail-filter-nonescape}, \autoref{thm:finite-tail-filter-tail-window-exactness}, \autoref{thm:finite-tail-filter-real-seal-handoff}, and \autoref{thm:finite-tail-filter-sibling-tail-handoff} bind the finite cofinal-tail filter packet used by Real and Completion seal reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
