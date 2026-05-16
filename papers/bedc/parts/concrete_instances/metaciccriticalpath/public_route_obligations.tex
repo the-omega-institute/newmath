@@ -1,0 +1,39 @@
+\begin{theorem}[MetaCIC critical-path public route certificate]
+\label{thm:metacic-critical-path-public-route-certificate}
+Every public read of an accepted $\MetaCICCriticalPathUp$ packet factors through the displayed finite route certificate
+$$
+K=(S,N,O,U,D,H,C,P,L).
+$$
+The factorization reads closed-normalization through $S$, normal-form consistency through $N$, the subject-reduction obstruction through $O$, decidability and handoff data through $U$, the discharge socket through $D$, componentwise transport through $H$, route replay through $C$, provenance through $P$, and local $\NameCert_{\MetaCICCriticalPathUp}$ naming through $L$. It has no public row for closed subject reduction, full closed consistency, global beta-conversion decidability, a hidden dependency edge, or an exported theorem outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface. Theorem~\ref{thm:metacic-critical-path-namecert-obligation-surface} lists the public packet rows and identifies the local NameCert obligations with the finite tuple $S,N,O,U,D,H,C,P,L$.
+
+The positive consistency route is fixed by the handoff and route inventory. Apply Theorem~\ref{thm:metacic-critical-path-consistency-handoff}, Theorem~\ref{thm:metacic-critical-path-route-replay}, and Theorem~\ref{thm:metacic-critical-path-route-exhaustion}. These results keep the closed-normalization row, normal-form endpoint, handoff row, continuation row, transport row, provenance row, and local naming row inside the displayed carrier.
+
+It remains to exclude public escape routes. Theorem~\ref{thm:metacic-critical-path-obstruction-boundary} keeps the subject-reduction obstruction visible, while Theorem~\ref{thm:metacic-critical-path-root-unblock-consumer-readiness} restricts downstream consumers to the same displayed rows. Hence every public read is a read of the finite route certificate and not a read of an undisplayed theorem export.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path obstruction scope separation]
+\label{thm:metacic-critical-path-obstruction-scope-separation}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the obstruction row $O$ remains a scoped subject-reduction boundary. The consistency row $N$, the closed-normalization route $S$, the handoff row $U$, route replay through $C$, componentwise transport through $H$, provenance through $P$, and local naming through $L$ cannot convert $O$ or the socket $D$ into closed subject reduction or full closed consistency.
+\end{theorem}
+\begin{proof}
+Read the obstruction row from the packet carrier. Theorem~\ref{thm:metacic-critical-path-obstruction-boundary} states that $O$ remains visible under the handoff row and componentwise transport, and that agreement on the other rows cannot erase the obstruction.
+
+The consistency and normalization side stays on its own route. Theorem~\ref{thm:metacic-critical-path-consistency-handoff} lets a consumer travel from $S$ to $N$ through the displayed rows, but it stops at the normal-form endpoint unless the separate discharge socket is filled.
+
+Finally use route exhaustion and obligation coverage. Theorem~\ref{thm:metacic-critical-path-route-exhaustion} prevents replay from leaving the displayed route, and Theorem~\ref{thm:metacic-critical-path-namecert-obligation-surface} leaves no extra coordinate that could identify $O$ with a supplied theorem. The obstruction row therefore remains a scoped boundary rather than a theorem produced by the consistency or normalization rows.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path downstream consumer readiness]
+\label{thm:metacic-critical-path-downstream-consumer-readiness}
+Downstream MetaCIC consumers may use an accepted $\MetaCICCriticalPathUp$ packet only as a finite public route certificate over $S,N,O,U,D,H,C,P,L$. They may cite it for carrier admission, closed-normalization readback, normal-form consistency handoff, obstruction visibility, decidability handoff, discharge-socket locality, route replay, transport stability, provenance, and local NameCert naming. They may not cite it as closed subject reduction, full normalization, internal consistency for MetaCIC, or a global decision procedure.
+\end{theorem}
+\begin{proof}
+Begin with the root-unblock surface. Theorem~\ref{thm:metacic-critical-path-root-unblock-consumer-readiness} already confines downstream consumers to the displayed packet rows and excludes host scheduler state, hidden route closures, closed subject reduction, and full consistency.
+
+The public route certificate supplies the usable rows. Theorem~\ref{thm:metacic-critical-path-public-route-certificate} packages the normalization route, normal-form endpoint, obstruction row, handoff data, discharge socket, transport, continuation, provenance, and local NameCert row as the complete public read surface.
+
+The obstruction boundary fixes what is not available. By Theorem~\ref{thm:metacic-critical-path-obstruction-scope-separation}, the subject-reduction obstruction and discharge socket remain separated from the consistency and normalization rows. A downstream consumer can therefore depend on the packet as a finite route certificate, but not as subject reduction, full normalization, internal consistency, or a global decision procedure.
+\end{proof}
