@@ -14,6 +14,7 @@ Finally apply \autoref{thm:continuation-monad-root-downstream-consumer-separatio
 \label{thm:continuation-monad-root-source-triad-exactness}
 For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every root consumer route is exactly the joint surface obtained from source exposure, continuation-rule coverage, and downstream consumer separation. The route consists of the displayed source histories $A,B,C$, continuation tails $f,g,u$, route row, transport row, ledger row, package provenance, and local naming row of $Z$; it contains no host function, quotient Kleisli arrow, ambient hom set, or unlisted continuation generator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_source\_triad\_exactness}
 \begin{proof}
 Apply \autoref{thm:continuation-monad-root-route-source-exposure}. It identifies the root route source with the displayed packet $Z=(A,B,C,f,g,u,H,K,L,N)$ and supplies no external source coordinate.
 
@@ -89,4 +90,38 @@ Next apply \autoref{thm:continuation-monad-root-generator-consumer-lock}. The ge
 Then apply \autoref{thm:continuation-monad-root-category-generator-obligation-surface}. This makes the category-facing part a read of the displayed $\CategoryUp$ hom-carrier and continuation rows rather than a read of an ambient category or quotient Kleisli object.
 
 Finally apply \autoref{thm:continuation-monad-root-namecert-ledger-exactness} and then \autoref{thm:continuation-monad-root-source-public-contract}. The ledger assembles the three prior surfaces in the stated order, and the public-contract endpoint exposes only the resulting unit, bind, generator, and category readings. Since every excluded coordinate has already been refused along the chain, the public contract has exactly this factorization.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root formal target exactness]
+\label{thm:continuation-monad-root-formal-target-exactness}
+For every root public and formal consumer of an accepted $\ContinuationMonadUp$
+packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the accepted read factors through the source
+histories $A,B,C$, continuation tails $f,g,u$, unit and bind rows, category row,
+generator row, public read, formal read, $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and local $\NameCert$ support displayed by $Z$. It does not factor through host
+Kleisli composition, quotient morphism equality, ambient category completion,
+or any generator absent from the packet.
+\end{theorem}
+\leanvariant{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_kleisli\_formal\_target\_package}
+\begin{proof}
+Start with root source coverage,
+\autoref{thm:continuation-monad-root-source-coverage}. It fixes the consumer
+source to the displayed histories, continuation tails, and finite $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+Next apply the generator consumer lock and the category-generator obligation
+surface,
+\autoref{thm:continuation-monad-root-generator-consumer-lock} and
+\autoref{thm:continuation-monad-root-category-generator-obligation-surface}.
+These expose the generator and category rows without admitting host Kleisli
+composition, quotient morphism equality, ambient category completion, or an
+unlisted generator.
+
+Finally use root NameCert ledger exactness and root public contract
+factorization,
+\autoref{thm:continuation-monad-root-namecert-ledger-exactness} and
+\autoref{thm:continuation-monad-root-public-contract-factorization}. The first
+assembles the formal ledger support, and the second makes the public read pass
+through the same ordered finite route. Thus the public/formal consumer has
+exactly the displayed target surface.
 \end{proof}
