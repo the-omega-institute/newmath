@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\FiniteHistLocalityPacketUp$}
+\label{ch:concrete-instances-finite-hist-locality-packet-namecert}
+\origin{ai}
+
+The $\FiniteHistLocalityPacketUp$ carrier realizes the Inter-Hist Locality vision of \autoref{ch:visions-inter-hist-locality} as one finite two-history NameCert packet. It sits after the observer-history identity surface of \autoref{ch:concrete-instances-observerhistidentity-namecert}, the local time-stream surface of \autoref{ch:concrete-instances-histtimestream-namecert}, the inter-Hist invariant carrier of \autoref{ch:concrete-instances-interhistinvariant-namecert}, the cross-Hist causal route of \autoref{ch:concrete-instances-crosshistcausalroute-namecert}, and the no-global-synchronization boundary of \autoref{ch:concrete-instances-noglobalsyncboundary-namecert}. Its role is to bind two displayed histories, a locality witness, an invariant row, observer symmetry, transport, replay, provenance, and local naming before any downstream consumer reads cross-history locality.
+
+\falsifiablePrediction{Any accepted FiniteHistLocalityPacketUp read that inserts a global synchronization row or deletes one displayed Hist row refutes the carrier.}
+
+\independenceWitness{observerhistidentity, histtimestream, interhistinvariant, crosshistcausal, noglobalsyncboundary: none is bijective because this packet simultaneously carries two displayed Hist rows, locality witness, invariant row, symmetry row, transport, Cont route, provenance, and local NameCert.}
+
+\begin{definition}[Finite Hist locality packet carrier]
+\label{def:finite-hist-locality-packet-carrier}
+A $\FiniteHistLocalityPacketUp$ carrier is a finite $\BHist$ packet
+$$
+P=(H_0,H_1,L,I,S,T,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H_0$ is the first displayed $\BHist$ row;
+\item $H_1$ is the second displayed $\BHist$ row;
+\item $L$ is the finite locality-witness row relating the two displayed histories;
+\item $I$ is the inter-Hist invariant row read through the same locality witness;
+\item $S$ is the observer-symmetry row that prevents either history from becoming privileged;
+\item $T$ records componentwise $\hsame$ and $\psame$ transport for $H_0,H_1,L,I,S$;
+\item $C$ is the displayed $\Cont$ replay route for the same two-history surface;
+\item $Q$ is the $\Pkg$ provenance over observer-history identity, local time streams, inter-Hist invariants, cross-Hist causal dependence, no-global-synchronization boundaries, $\BHist$, $\hsame$, $\psame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FiniteHistLocalityPacketUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a global synchronization row, shared host clock, preferred observer frame, ambient metric tensor, or host-valued cross-history equality.
+\end{definition}
+
+\begin{theorem}[Finite Hist locality packet obligation surface]
+\label{thm:finite-hist-locality-packet-obligation-surface}
+For the carrier of \autoref{def:finite-hist-locality-packet-carrier}, the local $\NameCert_{\FiniteHistLocalityPacketUp}$ surface consists of five finite obligation rows: carrier admission for $P$, two displayed Hist rows $H_0,H_1$ with locality witness $L$, invariant and observer-symmetry exposure through $I,S$, componentwise $\hsame/\psame$ transport and $\Cont$ replay through $T,C$, and package provenance with local naming through $Q,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:finite-hist-locality-packet-carrier}. The two histories, locality witness, invariant row, symmetry row, transport, replay, provenance, and local name are the complete displayed inventory.
+
+Group that inventory into the five NameCert obligations stated above. The first admits the packet, the second exposes the two Hist rows and their locality witness, the third reads the invariant and symmetry rows, the fourth transports and replays the surface, and the fifth records provenance and local naming.
+
+No remaining coordinate can supply a global synchronizer, shared host clock, preferred frame, ambient metric tensor, or host-valued equality, because none appears in $P$.
+\end{proof}
+
+\begin{theorem}[Finite Hist locality packet no-global-sync refusal]
+\label{thm:finite-hist-locality-packet-no-global-sync-refusal}
+Every accepted $\FiniteHistLocalityPacketUp$ read preserves both displayed Hist rows $H_0,H_1$ and routes locality through $L,I,S,T,C,Q,N$. It cannot insert a global synchronization row, collapse the two histories into one host clock, or replace observer symmetry by a privileged frame.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:finite-hist-locality-packet-obligation-surface}. The packet has two displayed history rows and a locality witness before the invariant row or symmetry row can be read.
+
+The no-global-synchronization sibling of \autoref{ch:concrete-instances-noglobalsyncboundary-namecert} supplies the refusal shape consumed by $Q$, while the local time-stream sibling of \autoref{ch:concrete-instances-histtimestream-namecert} keeps time rows attached to their source histories.
+
+Thus an accepted read remains inside $H_0,H_1,L,I,S,T,C,Q,N$. A global synchronizer, one-host-clock collapse, or privileged observer frame would require a row outside that inventory.
+\end{proof}
+
+\begin{theorem}[Finite Hist locality packet transport stability]
+\label{thm:finite-hist-locality-packet-transport-stability}
+Componentwise $\hsame$ and $\psame$ transport through $T$ preserves the two displayed Hist rows, locality witness, invariant row, observer-symmetry row, $\Cont$ replay, provenance, and local $\NameCert_{\FiniteHistLocalityPacketUp}$ row. Transport cannot turn the packet into a single-history surface or a global-frame certificate.
+\end{theorem}
+\begin{proof}
+Read $T$ in \autoref{def:finite-hist-locality-packet-carrier}. It transports the displayed rows $H_0,H_1,L,I,S$ and is paired with the replay row $C$, provenance row $Q$, and local name $N$.
+
+Apply \autoref{thm:finite-hist-locality-packet-obligation-surface}. The transported rows remain the same five-obligation surface, so no consumer obtains a hidden synchronizer or a replacement history row.
+
+Finally use \autoref{thm:finite-hist-locality-packet-no-global-sync-refusal}. Since global-frame and one-clock coordinates are absent before transport, componentwise transport cannot create them afterward.
+\end{proof}
+
+\begin{theorem}[Finite Hist locality packet consumer handoff]
+\label{thm:finite-hist-locality-packet-consumer-handoff}
+Every cross-Hist causal, maximum-rate, or observer-locality consumer of an accepted $\FiniteHistLocalityPacketUp$ packet receives only
+$$
+H_0,H_1,L,I,S,T,C,Q,N .
+$$
+The handoff supplies a two-history locality route with invariant and symmetry data, but it supplies no global synchronization row, selected global clock, privileged observer frame, ambient metric tensor, or host-valued equality.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:finite-hist-locality-packet-obligation-surface} to identify the public packet rows. Any consumer receives the two histories, locality witness, invariant row, observer-symmetry row, transport, replay, provenance, and local name.
+
+Apply \autoref{thm:finite-hist-locality-packet-transport-stability} to preserve that inventory under $\hsame/\psame$ transport. The consumer therefore sees the same finite route after transport as before transport.
+
+The refusal theorem, \autoref{thm:finite-hist-locality-packet-no-global-sync-refusal}, excludes every route through global synchronization, selected global clocks, privileged frames, ambient metric tensors, or host-valued equality. Hence the handoff is exactly the finite two-history locality packet.
+\end{proof}
+
+\begin{theorem}[Finite Hist locality packet TasteGate handoff]
+\label{thm:finite-hist-locality-packet-tastegate-handoff}
+The same displayed inventory $H_0,H_1,L,I,S,T,C,Q,N$ is the paper-side obligation surface that later Lean development must use for $\mathsf{Nontrivial}\ \FiniteHistLocalityPacketUp$ and $\mathsf{FieldFaithful}\ \FiniteHistLocalityPacketUp$ instances in \texttt{lean4/BEDC/Derived/FiniteHistLocalityPacketUp/TasteGate.lean}.
+\end{theorem}
+\begin{proof}
+The carrier definition supplies the single concrete field inventory. The obligation-surface theorem identifies those fields as the complete local NameCert surface, while transport stability keeps the same fields under $\hsame$ and $\psame$ movement.
+
+The consumer handoff then shows that downstream readers obtain no field beyond $H_0,H_1,L,I,S,T,C,Q,N$. Therefore the later Lean TasteGate instances must be Nontrivial and FieldFaithful for this displayed carrier rather than for a hidden global-frame object.
+\end{proof}
