@@ -663,3 +663,53 @@ terminal read has no exported quotient stream, selected host limit, host real
 equality, countable-choice schedule, ambient completeness, hidden selector, or
 second seal source available outside the stated route.
 \end{proof}
+
+\begin{theorem}[CauchyCriterion budget-selector section exactness]
+\label{thm:cauchycriterion-budget-selector-section-exactness}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, let
+$F=(B,S,V,D,R,E_F,H_F,C_F,P_F,N_F)$ be an accepted
+$\FiniteObservationBudgetSelectorUp$ packet, and let
+$X=(L,K_X,J_X,S_X,W_X,R_X,D_X,E_X,H_X,C_X,P_X,N_X)$ be an accepted
+$\RealCompletionExactBoundaryUp$ packet. Suppose the three packets share the
+displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$,
+componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows
+over the same $\BHist$ support. Then every finite observation request routed
+through the displayed $\StreamNameUp$--$\RegSeqRat$--$\RealUp$ selector surface
+has a unique budget-selector section.
+
+Replaying that section through the selector-seal route returns the same finite
+StreamName window, RegSeqRat handoff, DyadicRatCore tolerance row, terminal
+$\RealUp$ boundary, and seal row carried by the original request. No quotient
+stream, host real equality, selected-limit oracle, countable-choice row,
+ambient completeness witness, hidden selector, or second seal source is
+introduced.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchycriterion-finite-request-section-return}. It
+returns the finite request section on the displayed StreamName, RegSeqRat,
+DyadicRatCore, Real, transport, continuation, package, and local naming rows
+over the given $\BHist$ support.
+
+Next use
+\autoref{thm:cauchycriterion-finite-observation-budget-selector-pullback}. The
+accepted finite observation-budget selector and the accepted CauchyCriterion
+packet meet on the same selector-to-seal pullback surface, so the returned
+section is already routed through the displayed $\StreamNameUp$--$\RegSeqRat$--$\RealUp$
+surface.
+
+Now apply
+\autoref{thm:cauchycriterion-finite-observation-budget-selector-uniqueness}.
+This proves that no second accepted budget-selector section with the same
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows can determine a
+different finite window or seal-facing row.
+
+Finally combine
+\autoref{thm:cauchycriterion-selector-seal-synchronizer-totality} with
+\autoref{thm:cauchycriterion-terminal-selector-seal-nochoice-exhaustion}. The
+synchronizer makes replay through the selector-seal route total on the finite
+surface, and no-choice exhaustion says the replay has no exported coordinate
+for a quotient stream, host real equality, selected-limit oracle,
+countable-choice row, ambient completeness witness, hidden selector, or second
+seal source. Therefore replay returns exactly the original finite window and
+seal row.
+\end{proof}
