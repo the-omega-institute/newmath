@@ -93,3 +93,31 @@ Now read the $\CauchyLimitFunctorUp$ public surface. The NameCert obligations of
 
 Finally apply \autoref{thm:cauchy-limit-functor-public-seal-export}. Its reusable public surface is the finite route through source seal, transport map, stream windows, readback, dyadic ledger, classifier, target seal, endpoint, componentwise transport, replay, provenance, and local naming. Under the shared $D,W,Q,L$ read, those requirements are supplied by the displayed selector-budget rows of $K$ together with the functor rows of $F$, so the pullback gives exactly the stated public-seal transport boundary and no additional route.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit selector-budget finite-tail-filter handoff]
+\label{thm:diagonal-limit-selector-budget-finite-tail-filter-handoff}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Let
+$$
+F=(S_F,D_F,R_F,B_F,Q_F,E_F,H_F,C_F,P_F,N_F)
+$$
+be an accepted $\FiniteTailFilterUp$ packet whose stream-window row, dyadic-ledger row, regular-readback row, tail-budget and common-tail rows, and $\RealUp$ seal row are read through the same displayed selector-budget surface $W,D,Q,L$ of $K$: $S_F$ is supplied by $W$, $D_F$ is supplied by $D$, $R_F$ is supplied by $Q$, the rows $B_F,Q_F$ are consumed through the same finite tail surface, and $E_F$ is supplied by $L$.
+
+Then every $\RealUp$-facing or $\CompletionUp$-facing finite-tail-filter consumer of $F$ factors through the displayed diagonal selector-budget route of $K$. Conversely, the selector-budget route supplies exactly the finite cofinal-tail rows required by $\FiniteTailFilterUp$:
+$$
+S_F,D_F,R_F,B_F,Q_F,E_F,H_F,C_F,P_F,N_F
+$$
+read through
+$$
+S,D,R,W,Q,L,H,C,P,N .
+$$
+No accepted handoff may insert a hidden tail selector, detached dyadic ledger, quotient stream equality, selected limit, host real equality, countable-choice selector, independent completion object, or ambient completeness witness between the diagonal selector budget and the finite-tail-filter consumer.
+\end{theorem}
+\begin{proof}
+First lock the diagonal route. Apply \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock} and \autoref{thm:diagonal-limit-selector-budget-formal-target-lock}. These force the accepted $\DiagonalLimitCompatibilityUp$ packet to expose the diagonal source together with $W,D,Q,L,H,C,P,N$, and they prevent a formal target from replacing that surface by hidden selector data or an independent completion-facing source.
+
+Next identify the consumer route. By \autoref{thm:diagonal-limit-selector-budget-route-determinacy}, any $\RealUp$-facing or $\CompletionUp$-facing consumer using the selector budget is the displayed diagonal route. Apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-budget-nonescape} and \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape} to remove quotient streams, selected limits, host equality, choice data, independent completion data, and ambient completeness from that route.
+
+Now read the finite-tail-filter surface. Tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness}, identifies the windows and dyadic tolerances used by the tail-budget row, the common-tail comparison row, and the seal-facing row. Since $S_F,D_F,R_F,E_F$ are read through $W,D,Q,L$, the finite-tail rows $B_F,Q_F$ have no separate selector or tolerance ledger from which to build another consumer path.
+
+Finally use \autoref{thm:finite-tail-filter-real-seal-handoff} and \autoref{thm:finite-tail-filter-sibling-tail-handoff}. The Real and Completion seal reads of $F$ pass through the finite cofinal-tail packet $S_F,D_F,R_F,B_F,Q_F,E_F,H_F,C_F,P_F,N_F$, while sibling consumers cannot substitute their own tail selector, ledger, common-tail row, or seal row. Under the shared $W,D,Q,L$ read, those rows are exactly the displayed selector-budget rows of $K$ together with the structural rows $H,C,P,N$, so the handoff factors through the diagonal route and supplies precisely the finite-tail-filter packet.
+\end{proof}
