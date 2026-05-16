@@ -56,6 +56,54 @@ Replay visibility is confined to $C$, while componentwise transport is confined 
 Finally, non-internalization follows from the carrier inventory. No coordinate of $W$ supplies theorem content for $F$, repairs the marker or host supply, admits the refused internalizer, or bypasses the gate diagnostic.
 \end{proof}
 
+\begin{theorem}[Audit-gate failure-witness target readback totality]
+\label{thm:audit-gate-failure-witness-target-readback-totality}
+For every accepted $\AuditGateFailureWitnessUp$ carrier
+$$
+W=(G,F,R,D,H,C,P,N),
+$$
+every public consumer read of the refusal target factors through the diagnostic row $D$ before it reaches $R$. A read that reaches theorem content, marker repair, or host supply directly from $F$ is not a read of the displayed carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:audit-gate-failure-witness-carrier}. Its continuation row $C$ displays the route from the gate row to the failed item, from the failed item to the diagnostic, and from the diagnostic to the refusal target.
+
+Apply the diagnostic exactness and replay visibility clauses of \autoref{thm:audit-gate-failure-witness-namecert-obligations}. They force the diagnostic row $D$ to be read before the target row $R$ is available to any public consumer.
+
+The non-internalization clause then excludes direct recovery of theorem content, marker repair, or host supply from $F$. Such a recovery would bypass $D$ and therefore leave the displayed $\BHist$ inventory of the witness.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness diagnostic refusal order]
+\label{thm:audit-gate-failure-witness-diagnostic-refusal-order}
+For every accepted $\AuditGateFailureWitnessUp$ carrier
+$$
+W=(G,F,R,D,H,C,P,N),
+$$
+the public refusal order is $G,F,D,R$ before the support rows $H,C,P,N$ are consumed. In particular, all consumer reads pass through $D$ before $R$, and the refusal target cannot be detached from the diagnostic readback that names the failed boundary item.
+\end{theorem}
+\begin{proof}
+Start with the displayed continuation route. The carrier gives no route from $G$ to $R$ and no route from $F$ to $R$ except through the diagnostic row $D$.
+
+Use refusal attachment from \autoref{thm:audit-gate-failure-witness-namecert-obligations}. The row $R$ is attached to the concrete pair $(F,D)$, so a consumer cannot read the refusal as an anonymous outcome of the gate row alone.
+
+Finally inspect the support rows. Transport, continuation replay, provenance, and local naming preserve the same order rather than creating a second refusal path. Thus the diagnostic readback precedes every public refusal handoff.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness boundary-item noninternalization coverage]
+\label{thm:audit-gate-failure-witness-boundary-item-noninternalization-coverage}
+For every accepted $\AuditGateFailureWitnessUp$ carrier
+$$
+W=(G,F,R,D,H,C,P,N),
+$$
+no theorem-content row, marker-repair row, or host-supply row can be recovered from the failed boundary item $F$ without leaving the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ inventory. The packet covers the failure only as a gate row, failed item, diagnostic readback, refusal target, transport, replay, provenance, and local name.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates. The failed boundary item $F$ appears with $G,D,R,H,C,P,N$ and with no additional coordinate for theorem content, marker repair, host supply, or admitted internalization.
+
+Apply the NameCert obligations. Carrier admission fixes the displayed $\BHist$ packet, replay visibility fixes the $\Cont$ routes through $D$, and non-internalization excludes every recovery of theorem content or repair content from $F$.
+
+The remaining support is exactly componentwise $\hsame$ transport, package provenance, and local $\NameCert$ naming. Recovering a theorem-content, marker-repair, or host-supply row would require a row outside that inventory, so it is not covered by the accepted witness.
+\end{proof}
+
 \begin{theorem}[Audit-gate failure-witness composition handoff]
 \label{thm:audit-gate-failure-witness-composition-handoff}
 Let
