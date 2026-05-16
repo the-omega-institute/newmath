@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\InterHistTransportSealUp$}
+\label{ch:concrete-instances-inter-hist-transport-seal-namecert}
+\origin{ai}
+
+The $\InterHistTransportSealUp$ packet realizes a finite transport boundary for the Inter-Hist Locality chain of \autoref{ch:visions-inter-hist-locality}. It sits after the locality ledger of \autoref{ch:concrete-instances-inter-hist-locality-ledger-namecert}, reads invariant rows from \autoref{ch:concrete-instances-interhistinvariant-namecert}, and requires the observer-locality cell surface of \autoref{ch:concrete-instances-observer-locality-cell-namecert} before any route can be consumed by a maximum-rate geometry.
+
+\begin{definition}[Inter-Hist transport-seal carrier]
+\label{def:inter-hist-transport-seal-carrier}
+An $\InterHistTransportSealUp$ carrier is a finite $\BHist$ packet
+$$
+T=(A,B,L,I,O,R,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ and $B$ are the paired source-history rows naming the two histories under comparison;
+\item $L$ is the inter-Hist locality-ledger row that records the admissible two-history locality surface;
+\item $I$ is the inter-Hist invariant row that mediates observer-symmetric readback;
+\item $O$ is the observer-locality cell row that identifies the local observer-facing consumption site;
+\item $R$ is the cross-Hist causal-route row through which a $\mathsf{MaxCausalRate}$ consumer may read the sealed packet;
+\item $H$ records componentwise $\hsame$ and $\psame$ transports for the paired histories, locality ledger, invariant row, observer-locality cell, route, provenance, and local name;
+\item $C$ records displayed $\Cont$ replay from the locality ledger to the observer-locality cell, from the invariant row to the route, and from the accepted seal to downstream rate consumers;
+\item $P$ is the $\Pkg$ provenance over the locality-ledger, invariant, observer-locality-cell, cross-Hist causal-route, $\BHist$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\InterHistTransportSealUp}$ row.
+\end{enumerate}
+The classifier for accepted carriers compares exactly $A,B,L,I,O,R,H,C,P,N$. It has no coordinate for a global synchronization row, a host frame, an unsealed cross-Hist route, an invariant detached from observer locality, or a maximum-rate consumer that bypasses the displayed cell and invariant rows.
+\end{definition}
+
+\begin{theorem}[Inter-Hist transport-seal NameCert obligations]
+\label{thm:inter-hist-transport-seal-namecert-obligations}
+For every accepted $\InterHistTransportSealUp$ carrier
+$$
+T=(A,B,L,I,O,R,H,C,P,N),
+$$
+the local $\NameCert_{\InterHistTransportSealUp}$ surface consists exactly of paired source-history admission, locality-ledger admission, inter-Hist invariant readback, observer-locality cell admission, cross-Hist causal-route export, componentwise $\hsame$ and $\psame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier. The positive route is the finite row sequence $A,B,L,I,O,R$, while $H,C,P,N$ transport, replay, locate, and name those same rows.
+
+The locality-ledger row $L$ supplies the admissible paired-history comparison, the invariant row $I$ supplies observer-symmetric content, and the observer-locality cell row $O$ supplies the local consumption site. The route row $R$ is therefore not a standalone causal edge; it is readable only after the ledger, invariant, and cell rows are present.
+
+The structural rows preserve that surface. Componentwise transport cannot introduce a global frame or detached invariant, continuation replay cannot synthesize a missing observer-locality cell, and package provenance records only the displayed dependencies. Thus the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Inter-Hist transport-seal nonescape]
+\label{thm:inter-hist-transport-seal-nonescape}
+An accepted $\InterHistTransportSealUp$ packet cannot export a cross-Hist causal route to a $\mathsf{MaxCausalRate}$ consumer unless the same packet displays both its observer-locality cell row and its inter-Hist invariant row. A route missing either row remains outside the accepted seal, even when paired histories, $\hsame$ transport, $\psame$ transport, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row are present.
+\end{theorem}
+\begin{proof}
+Start with the carrier classifier of \autoref{def:inter-hist-transport-seal-carrier}. The route row $R$ is accepted only as one coordinate of the displayed packet $T=(A,B,L,I,O,R,H,C,P,N)$.
+
+Apply the NameCert obligation surface of \autoref{thm:inter-hist-transport-seal-namecert-obligations}. It makes invariant readback and observer-locality cell admission mandatory before route export.
+
+The remaining rows are structural. They transport and replay accepted coordinates but do not create a replacement for $I$ or $O$. Hence a packet lacking either row cannot escape into a maximum-rate consumer as a sealed route.
+\end{proof}
+
+\begin{theorem}[Inter-Hist transport-seal sibling independence]
+\label{thm:inter-hist-transport-seal-sibling-independence}
+The $\InterHistTransportSealUp$ carrier is independent of the sibling packets for $\mathsf{InterHistLocalityLedger}$, $\mathsf{InterHistInvariant}$, $\mathsf{ObserverLocalityCell}$, $\mathsf{CrossHistCausalRoute}$, and $\mathsf{MaxCausalRate}$. It consumes their displayed rows but adds the seal-specific boundary that jointly requires locality-ledger admission, invariant readback, observer-locality-cell admission, route export, transport, replay, provenance, and local naming in one finite packet.
+\end{theorem}
+\begin{proof}
+Compare the row inventories. The locality ledger supplies the paired-history locality surface, the invariant packet supplies observer-symmetric readback, the observer-locality cell supplies a local consumption site, the causal-route packet supplies route data, and the maximum-rate packet supplies the downstream rate boundary.
+
+The seal requires all of those rows simultaneously and adds the nonescape condition of \autoref{thm:inter-hist-transport-seal-nonescape}. No sibling chapter carries that joint boundary as a single classifier surface, and no sibling can consume a missing row on behalf of the seal.
+
+Therefore the transport seal is not a restatement of any one sibling. It is the finite packet that makes their rows jointly consumable by downstream rate geometry.
+\end{proof}
+
+\begin{theorem}[Inter-Hist transport-seal falsifiable prediction]
+\label{thm:inter-hist-transport-seal-falsifiable-prediction}
+A transport-seal packet that lacks either the observer-locality cell row or the inter-Hist invariant row cannot be consumed by a $\mathsf{MaxCausalRate}$ route.
+\end{theorem}
+\begin{proof}
+This is the consumer-facing form of \autoref{thm:inter-hist-transport-seal-nonescape}. A $\mathsf{MaxCausalRate}$ route reads only the sealed route coordinate $R$ of an accepted packet, and acceptance requires both $O$ and $I$.
+
+If either row is absent, the candidate has no accepted $\InterHistTransportSealUp$ classifier surface. The downstream route therefore has no finite sealed packet to consume.
+\end{proof}
+
+\falsifiablePrediction{A transport-seal packet that lacks either the observer-locality cell row or the inter-Hist invariant row cannot be consumed by a MaxCausalRate route.}
+
+\independenceWitness{interhistlocalityledger, interhistinvariant, observerlocalitycell, crosshistcausalroute, maxcausalrate: locality ledgers lack the sealed route export, invariant packets lack observer-cell admission, observer-locality cells lack the paired invariant route, causal routes lack the joint nonescape boundary, and maximum-rate packets are downstream consumers rather than transport seals.}
+
+The Lean TasteGate follow-up for $\mathsf{BEDC.Derived.InterHistTransportSealUp}$ must provide $\mathsf{Nontrivial}\ \InterHistTransportSealUp$ and $\mathsf{FieldFaithful}\ \InterHistTransportSealUp$ instances for the displayed carrier $A,B,L,I,O,R,H,C,P,N$.

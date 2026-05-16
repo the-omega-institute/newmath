@@ -1,0 +1,39 @@
+\begin{theorem}[UniformCauchyCriterion diagonal uniqueness exit]
+\label{thm:uniform-cauchy-criterion-diagonal-uniqueness-exit}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Suppose its terminal rows are consumed through an accepted $\DiagonalLimitCompatibilityUp$ selector-budget route and through an accepted $\RealLimitUniquenessSealUp$ comparison route, with both routes reading the same displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ faces.
+
+Then every Phase Real and Completion exit read of $U$ factors through that same finite route. The terminal read uses the stream windows carried by $W$, the regular rational readback carried by $T$, the dyadic tolerance ledger carried by $Q$, and the Real seal carried by $E$, together with the structural rows $H,C,P,N$. No exit read has access to quotient streams, host real equality, selected limits, choice data, ambient completeness, or a second completion source.
+\end{theorem}
+\begin{proof}
+Start with the public export of $U$. By \autoref{thm:uniform-cauchy-criterion-public-non-escape-export}, every downstream consumer is already exhausted by the finite rows $I,W,M,Q,T,E,H,C,P,N$, so the exit read has no hidden analytic coordinate before the terminal rows are interpreted.
+
+Next apply the terminal seal envelope, the completion--Real correspondence, and the finite-window extraction route. The envelope keeps the terminal seal downstream of the displayed rows, the correspondence identifies the Real-facing and Completion-facing endpoint reads on the same seal route, and \autoref{thm:uniform-cauchy-criterion-finite-window-real-seal-extraction} extracts the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ faces from $W,T,Q,E$.
+
+Now attach the diagonal selector-budget route. The diagonal compatibility surface supplies the same finite faces to the UniformCauchyCriterion terminal rows, while the uniqueness-seal comparison consumes those faces through the same selector budget. By \autoref{thm:diagonal-limit-uniform-criterion-terminal-uniqueness-pullback}, the terminal consumer and the uniqueness-seal consumer collapse to one finite pullback route rather than two endpoint sources.
+
+Finally combine this pullback with the non-escape clauses on both sides. Since the shared route has no coordinate for quotient streams, host equality, selected limits, choice data, ambient completeness, or an independent completion object, every Phase Real and Completion exit read of $U$ factors through the same finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ faces.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion diagonal exit classifier]
+\label{thm:uniform-cauchy-criterion-diagonal-exit-classifier}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Suppose two terminal exit reads of $U$, one Phase Real-facing and one Completion-facing, consume the same displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ faces, the same accepted $\DiagonalLimitCompatibilityUp$ selector-budget route, and the same accepted $\RealLimitUniquenessSealUp$ comparison rows.
+
+Then the two terminal Real-facing classifier rows are $hsame$-equivalent. In particular, no second completion source, quotient-stream equality, host real equality, selected limit, choice datum, ambient completeness coordinate, or independent endpoint witness can distinguish the two terminal classifier reads.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:uniform-cauchy-criterion-diagonal-uniqueness-exit} to the two exit reads. Both reads factor through the common finite route carried by $I,W,M,Q,T,E,H,C,P,N$, so neither route has an extra source from which a different terminal classifier could be read.
+
+The public rows are exhausted by \autoref{thm:uniform-cauchy-criterion-public-non-escape-export}. The Real-seal part of the route is exhausted by \autoref{thm:uniform-cauchy-criterion-finite-window-real-seal-extraction}, which reads the displayed stream name, regular rational sequence, dyadic tolerance core, and Real seal from $W,T,Q,E$.
+
+Now compare the selector and uniqueness consumers. The shared $\DiagonalLimitCompatibilityUp$ route and the shared $\RealLimitUniquenessSealUp$ comparison rows are collapsed by \autoref{thm:diagonal-limit-uniform-criterion-terminal-uniqueness-pullback}, so the Phase Real-facing and Completion-facing classifier consumers lie over the same finite pullback route.
+
+The classifier conclusion is therefore forced at the level of $BHist$ rows. Since $hsame$ identifies terminal rows read from the same finite pullback route, the two terminal Real-facing classifier rows are $hsame$-equivalent, and the excluded coordinates have no remaining slot through which to separate them.
+\end{proof}

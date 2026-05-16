@@ -27,21 +27,22 @@ def AxisZeckendorfCannotClaimRegistryPacket [AskSetup] [PackageSetup]
             UnaryHistory f ∧
               UnaryHistory g ∧
                 Cont a b h ∧
-                  Cont c d h ∧ Cont e f h ∧ hsame p n ∧ PkgSig bundle p pkg
+                  Cont c d h ∧
+                    Cont e f h ∧ UnaryHistory p ∧ hsame p n ∧ PkgSig bundle p pkg
 
 theorem AxisZeckendorfCannotClaimRegistryPacket_source_row_coverage [AskSetup] [PackageSetup]
     {a b c d e f g h p n : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg ->
       UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory c ∧ UnaryHistory d ∧
         UnaryHistory e ∧ UnaryHistory f ∧ UnaryHistory g ∧ Cont a b h ∧ Cont c d h ∧
-          Cont e f h ∧ hsame p n ∧ PkgSig bundle p pkg := by
+          Cont e f h ∧ UnaryHistory p ∧ hsame p n ∧ PkgSig bundle p pkg := by
   intro packet
   obtain
     ⟨aUnary, bUnary, cUnary, dUnary, eUnary, fUnary, gUnary, routeAB, routeCD, routeEF,
-      sameProvenanceName, pkgSig⟩ := packet
+      pUnary, sameProvenanceName, pkgSig⟩ := packet
   exact
     ⟨aUnary, bUnary, cUnary, dUnary, eUnary, fUnary, gUnary, routeAB, routeCD, routeEF,
-      sameProvenanceName, pkgSig⟩
+      pUnary, sameProvenanceName, pkgSig⟩
 
 theorem AxisZeckendorfCannotClaimRegistryPacket_transport_nonpromotion [AskSetup] [PackageSetup]
     {a b c d e f g h p n a' b' c' d' e' f' g' h' p' n' : BHist}
@@ -67,7 +68,7 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_transport_nonpromotion [AskSetup
     routeEF' pkgSig'
   obtain
     ⟨aUnary, bUnary, cUnary, dUnary, eUnary, fUnary, gUnary, routeAB, _routeCD, _routeEF,
-      sameProvenanceName, _pkgSig⟩ := packet
+      pUnary, sameProvenanceName, _pkgSig⟩ := packet
   have routeSame : hsame h h' := cont_respects_hsame sameA sameB routeAB routeAB'
   have transportedProvenanceName : hsame p' n' :=
     hsame_trans (hsame_symm sameP) (hsame_trans sameProvenanceName sameN)
@@ -76,8 +77,8 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_transport_nonpromotion [AskSetup
       ⟨unary_transport aUnary sameA, unary_transport bUnary sameB,
         unary_transport cUnary sameC, unary_transport dUnary sameD,
         unary_transport eUnary sameE, unary_transport fUnary sameF,
-        unary_transport gUnary sameG, routeAB', routeCD', routeEF', transportedProvenanceName,
-        pkgSig'⟩
+        unary_transport gUnary sameG, routeAB', routeCD', routeEF',
+        unary_transport pUnary sameP, transportedProvenanceName, pkgSig'⟩
   · exact ⟨routeSame, transportedProvenanceName⟩
 
 theorem AxisZeckendorfCannotClaimRegistryPacket_semantic_name_certificate [AskSetup]
@@ -142,7 +143,7 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_ledger_exactness [AskSetup]
       AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg := packet
   obtain
     ⟨_aUnary, _bUnary, _cUnary, _dUnary, _eUnary, _fUnary, _gUnary, _routeAB,
-      _routeCD, _routeEF, sameProvenanceName, pkgSig⟩ := packet
+      _routeCD, _routeEF, _pUnary, sameProvenanceName, pkgSig⟩ := packet
   constructor
   · exact sameProvenanceName
   · constructor
@@ -181,10 +182,33 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_root_unblock_downstream_boundary
   intro packet downstreamRoute
   obtain
     ⟨_aUnary, _bUnary, _cUnary, _dUnary, _eUnary, _fUnary, _gUnary, rootRoute, _routeCD,
-      _routeEF, sameProvenanceName, pkgSig⟩ := packet
+      _routeEF, _pUnary, sameProvenanceName, pkgSig⟩ := packet
   have sameRootDownstream : hsame h downstream :=
     cont_deterministic rootRoute downstreamRoute
   exact ⟨sameRootDownstream, sameProvenanceName, pkgSig⟩
+
+theorem AxisZeckendorfCannotClaimRegistryPacket_public_boundary [AskSetup] [PackageSetup]
+    {a b c d e f g h p n publicRead : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg →
+      Cont h p publicRead →
+        PkgSig bundle publicRead pkg →
+          UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory c ∧ UnaryHistory d ∧
+            UnaryHistory e ∧ UnaryHistory f ∧ UnaryHistory g ∧ UnaryHistory h ∧
+              UnaryHistory p ∧ UnaryHistory publicRead ∧ Cont h p publicRead ∧
+                hsame p n ∧ PkgSig bundle p pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro packet hProvenancePublic publicPkg
+  obtain
+    ⟨aUnary, bUnary, cUnary, dUnary, eUnary, fUnary, gUnary, routeAB, _routeCD, _routeEF,
+      pUnary, sameProvenanceName, provenancePkg⟩ := packet
+  have hUnary : UnaryHistory h :=
+    unary_cont_closed aUnary bUnary routeAB
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed hUnary pUnary hProvenancePublic
+  exact
+    ⟨aUnary, bUnary, cUnary, dUnary, eUnary, fUnary, gUnary, hUnary, pUnary, publicUnary,
+      hProvenancePublic, sameProvenanceName, provenancePkg, publicPkg⟩
 
 theorem AxisZeckendorfCannotClaimRegistryPacket_refusal_transport [AskSetup] [PackageSetup]
     {a b c d e f g h p n r : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -200,7 +224,7 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_refusal_transport [AskSetup] [Pa
   intro packet refusalRow consumerPkg
   obtain
     ⟨aUnary, bUnary, cUnary, dUnary, eUnary, fUnary, gUnary, routeAB, routeCD, routeEF,
-      _sameProvenanceName, _pkgSig⟩ := packet
+      _pUnary, _sameProvenanceName, _pkgSig⟩ := packet
   have consumerUnary : UnaryHistory r := by
     cases refusalRow with
     | inl sameA =>
@@ -246,7 +270,7 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_real_refusal_route [AskSetup] [P
   intro packet sameE routeEF' pkgSig'
   obtain
     ⟨_aUnary, _bUnary, _cUnary, _dUnary, eUnary, fUnary, _gUnary, _routeAB,
-      _routeCD, routeEF, _sameProvenanceName, _pkgSig⟩ := packet
+      _routeCD, routeEF, _pUnary, _sameProvenanceName, _pkgSig⟩ := packet
   have eUnary' : UnaryHistory e' :=
     unary_transport eUnary sameE
   have routeSame : hsame h h' :=
@@ -297,7 +321,7 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_nat_refusal_route [AskSetup] [Pa
   intro packet sameF routeEFPrime pkgSigPrime
   obtain
     ⟨_aUnary, _bUnary, _cUnary, _dUnary, eUnary, fUnary, _gUnary, _routeAB,
-      _routeCD, routeEF, _sameProvenanceName, _pkgSig⟩ := packet
+      _routeCD, routeEF, _pUnary, _sameProvenanceName, _pkgSig⟩ := packet
   have fPrimeUnary : UnaryHistory fPrime :=
     unary_transport fUnary sameF
   have routeSame : hsame h hPrime :=
@@ -348,7 +372,7 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_dimlift_refusal_route [AskSetup]
   intro packet sameG routeGHPrime pkgSigPrime
   obtain
     ⟨_aUnary, _bUnary, _cUnary, _dUnary, eUnary, fUnary, gUnary, _routeAB,
-      _routeCD, routeEF, _sameProvenanceName, _pkgSig⟩ := packet
+      _routeCD, routeEF, _pUnary, _sameProvenanceName, _pkgSig⟩ := packet
   have gPrimeUnary : UnaryHistory gPrime :=
     unary_transport gUnary sameG
   have hUnary : UnaryHistory h :=
