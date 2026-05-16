@@ -14,20 +14,20 @@ inductive EmptyFableMachineUp : Type where
       localName : BHist) : EmptyFableMachineUp
   deriving DecidableEq
 
-def emptyFableMachineEncodeBHist : BHist → RawEvent
+def emptyFableMachineEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: emptyFableMachineEncodeBHist h
   | BHist.e1 h => BMark.b1 :: emptyFableMachineEncodeBHist h
 
-def emptyFableMachineDecodeBHist : RawEvent → BHist
+def emptyFableMachineDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (emptyFableMachineDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (emptyFableMachineDecodeBHist tail)
 
 private theorem emptyFableMachineDecode_encode_bhist :
-    ∀ h : BHist, emptyFableMachineDecodeBHist (emptyFableMachineEncodeBHist h) = h := by
+    forall h : BHist, emptyFableMachineDecodeBHist (emptyFableMachineEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -38,7 +38,7 @@ private theorem emptyFableMachineDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def emptyFableMachineToEventFlow : EmptyFableMachineUp → EventFlow
+def emptyFableMachineToEventFlow : EmptyFableMachineUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | EmptyFableMachineUp.mk emptyBoundary selectorWitness traceRow fableLedger transport
       replay provenance localName =>
@@ -60,7 +60,7 @@ def emptyFableMachineToEventFlow : EmptyFableMachineUp → EventFlow
           BMark.b0],
         emptyFableMachineEncodeBHist localName]
 
-def emptyFableMachineFromEventFlow : EventFlow → Option EmptyFableMachineUp
+def emptyFableMachineFromEventFlow : EventFlow -> Option EmptyFableMachineUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
@@ -132,7 +132,7 @@ def emptyFableMachineFromEventFlow : EventFlow → Option EmptyFableMachineUp
                                                                   | _ :: _ => none
 
 private theorem emptyFableMachine_round_trip :
-    ∀ x : EmptyFableMachineUp,
+    forall x : EmptyFableMachineUp,
       emptyFableMachineFromEventFlow (emptyFableMachineToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
@@ -163,7 +163,7 @@ private theorem emptyFableMachine_round_trip :
         emptyFableMachineDecode_encode_bhist localName]
 
 private theorem emptyFableMachineToEventFlow_injective {x y : EmptyFableMachineUp} :
-    emptyFableMachineToEventFlow x = emptyFableMachineToEventFlow y → x = y := by
+    emptyFableMachineToEventFlow x = emptyFableMachineToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -225,10 +225,10 @@ def taste_gate : ChapterTasteGate EmptyFableMachineUp :=
   emptyFableMachineChapterTasteGate
 
 theorem EmptyFableMachineTasteGate_single_carrier_alignment :
-    (∀ h : BHist, emptyFableMachineDecodeBHist (emptyFableMachineEncodeBHist h) = h) /\
-      (∀ x : EmptyFableMachineUp,
+    (forall h : BHist, emptyFableMachineDecodeBHist (emptyFableMachineEncodeBHist h) = h) /\
+      (forall x : EmptyFableMachineUp,
         emptyFableMachineFromEventFlow (emptyFableMachineToEventFlow x) = some x) /\
-        (∀ x y : EmptyFableMachineUp,
+        (forall x y : EmptyFableMachineUp,
           emptyFableMachineToEventFlow x = emptyFableMachineToEventFlow y -> x = y) /\
           Nonempty (ChapterTasteGate EmptyFableMachineUp) /\
             Nonempty (FieldFaithful EmptyFableMachineUp) /\
