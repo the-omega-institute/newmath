@@ -313,6 +313,42 @@ The nonescape theorem, \autoref{thm:real-limit-uniqueness-seal-nonescape}, remov
 Finally apply the field-faithful projection theorem, \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection}. Since the displayed fields exhaust the packet, the observation route for the shared comparison is exactly the $S,D$ window-and-tolerance surface and no hidden route remains.
 \end{proof}
 
+\begin{theorem}[Real limit uniqueness seal RegSeqRat endpoint determinacy]
+\label{thm:real-limit-uniqueness-seal-regseqrat-endpoint-determinacy}
+For every accepted $\RealLimitUniquenessSealUp$ packet $U=(L_0,L_1,Q,S,D,R,V,H,C,P,N)$, the shared $\RegSeqRatUp$ row $Q$ determines both endpoint reads exposed by the two seal rows $L_0,L_1$ before uniqueness through $V$ is public. No endpoint can be supplied by a detached selector, quotient stream, host Real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{def:real-limit-uniqueness-seal-carrier}. The two completion-seal rows and the shared regular-rational comparison row occur in the same finite carrier.
+
+Use \autoref{thm:real-limit-uniqueness-seal-shared-comparison-window}. It places $Q$ before the finite window, dyadic tolerance, Real classifier, and uniqueness handoff, so both endpoint reads pass through the same comparison row.
+
+Then apply \autoref{thm:real-limit-uniqueness-seal-window-exactness}, \autoref{thm:real-limit-uniqueness-seal-terminal-classifier-exactness}, and \autoref{thm:real-limit-uniqueness-seal-nonescape}. These results keep endpoint determinacy inside $Q,S,D,R,V$ and exclude every external endpoint source.
+\end{proof}
+
+\begin{theorem}[Real limit uniqueness seal dyadic Real classifier lock]
+\label{thm:real-limit-uniqueness-seal-dyadic-real-classifier-lock}
+In an accepted $\RealLimitUniquenessSealUp$ packet, the $\DyadicRatCoreUp$ tolerance row $D$ and the terminal $\RealUp$ classifier row $R$ lock the classifier boundary before the uniqueness handoff $V$ is read. A consumer cannot replace this $D,R$ boundary by Real completeness, host Real equality, quotient stream equality, a detached selector, or a selected host limit.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:real-limit-uniqueness-seal-carrier}. The $D$ and $R$ rows are explicit coordinates of the same packet as the two seal rows and the uniqueness handoff.
+
+Apply \autoref{thm:real-limit-uniqueness-seal-window-exactness}. The dyadic row is the exact tolerance component of the finite observation route, so classifier reads cannot skip from $Q$ directly to $V$.
+
+Finally use \autoref{thm:real-limit-uniqueness-seal-terminal-classifier-exactness} and \autoref{thm:real-limit-uniqueness-seal-nonescape}. The terminal classifier is available only through the displayed route, and every external Real or stream equality source is outside the packet.
+\end{proof}
+
+\begin{theorem}[Real limit uniqueness seal StreamName window totality]
+\label{thm:real-limit-uniqueness-seal-streamname-window-totality}
+The finite $\StreamNameUp$ row $S$ is the only observation window exposed to a two-seal consumer of $\RealLimitUniquenessSealUp$. Every comparison of $L_0$ and $L_1$ that reaches the uniqueness handoff must pass through $Q,S,D,R,V$, and no consumer receives an additional stream window, quotient stream classifier, selected-limit witness, or host completeness route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier with \autoref{def:real-limit-uniqueness-seal-carrier}. It records exactly one StreamName window coordinate $S$ between the shared RegSeqRat comparison row and the dyadic tolerance row.
+
+Use \autoref{thm:real-limit-uniqueness-seal-shared-comparison-window} and \autoref{thm:real-limit-uniqueness-seal-window-exactness}. Together they make $S$ the finite observation window for the two-seal comparison route.
+
+Close with \autoref{thm:real-limit-uniqueness-seal-terminal-classifier-exactness} and \autoref{thm:real-limit-uniqueness-seal-nonescape}. The terminal classifier and nonescape clauses leave no hidden stream, selector, quotient, or completeness observation window outside the displayed packet.
+\end{proof}
+
 \begin{theorem}[Real limit uniqueness seal consumer exhaustion]
 \label{thm:real-limit-uniqueness-seal-consumer-exhaustion}
 Every $\RealUp$-facing or completion-facing uniqueness consumer of an accepted $\RealLimitUniquenessSealUp$ packet receives only
