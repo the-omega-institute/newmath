@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\FiniteObservationResidueBoundaryUp$}
+\label{ch:concrete-instances-finite-observation-residue-boundary-namecert}
+\origin{ai-composite}
+
+The $\FiniteObservationResidueBoundaryUp$ packet realizes the hidden-residue and failure-surface branch of the model-audit program in \autoref{ch:visions-reality-constrained-model-audit}. It composes the audit rows of \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert}, the finite defeat rows of \autoref{ch:concrete-instances-reality-constrained-failure-surface-namecert}, the hidden-material ledger of \autoref{ch:concrete-instances-ontic-residue-ledger-namecert}, and the finite source interface of \autoref{ch:concrete-instances-finite-observation-interface-namecert}. Those siblings already expose model audits, failure rows, residue ledgers, and finite observation windows; this packet binds them into one boundary surface for audit exports that cannot claim physical closure unless the hidden residue and defeating observations remain visible.
+
+\begin{definition}[Finite-observation residue-boundary carrier]
+\label{def:finite-observation-residue-boundary-carrier}
+A $\FiniteObservationResidueBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,\Sigma,K,T,L,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite source row, read through the finite observation interface and the model-audit source trace.
+\item $\Sigma$ is the exposed observation-signature row for the finite audit export.
+\item $K$ is the classifier row deciding which source and model signatures are compared.
+\item $T$ is the approximation-tower row that routes source, observation, and model-facing signatures through the same finite packet.
+\item $L$ is the hidden-residue ledger, including unobserved source content, compression residue, idealization residue, and observer-access limits inherited from the residue-ledger surface.
+\item $F$ is the failure-surface row naming the finite defeating observations, domain exits, classifier mismatches, and continuation boundaries relevant to the audit export.
+\item $H$ records componentwise $\hsame$ transport for $S,\Sigma,K,T,L,F,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of source access, signature comparison, tower movement, residue reading, and failure-surface consumption.
+\item $P$ is the $\Pkg$ provenance over $\FiniteObservationResidueBoundaryUp$, $\RealityConstrainedModelAuditUp$, $\RealityConstrainedFailureSurfaceUp$, $\OnticResidueLedgerUp$, $\FiniteObservationInterfaceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteObservationResidueBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a closed physical audit packet without $L$, no defeat-free model truth export without $F$, no hidden source completion outside $S$, and no classifier route outside $K$.
+\end{definition}
+
+\begin{theorem}[Finite-observation residue boundary NameCert obligations]
+\label{thm:finite-observation-residue-boundary-namecert-obligations}
+For the carrier of \autoref{def:finite-observation-residue-boundary-carrier}, the local $\NameCert_{\FiniteObservationResidueBoundaryUp}$ surface consists exactly of source exposure, signature exposure, classifier exposure, tower exposure, hidden-residue ledger exactness, failure-surface exposure, componentwise $\hsame$ transport, displayed $\Cont$ continuation replay, $\Pkg$ provenance, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $R=(S,\Sigma,K,T,L,F,H,C,P,N)$. The first four rows provide the finite source, observation signatures, classifier, and tower needed to read a model-audit export as a bounded packet.
+
+The ledger row $L$ and failure row $F$ supply the two boundary fields. $L$ records hidden residue from source access, compression, idealization, and observer limits; $F$ records the displayed defeating observations, domain exits, mismatches, and continuation boundaries.
+
+The structural rows preserve and replay the same packet. Transport through $H$ is componentwise, replay through $C$ follows the displayed continuation routes, provenance through $P$ records the sibling certificates consumed by the packet, and $N$ supplies the local name.
+
+Since the carrier has no further coordinate, the listed rows exhaust the NameCert surface. A model-audit export with the source, signature, classifier, and tower rows but no residue ledger or failure surface is a projection of $R$, not the accepted $\FiniteObservationResidueBoundaryUp$ packet.
+\end{proof}
+
+\begin{theorem}[Finite-observation residue boundary audit non-closure]
+\label{thm:finite-observation-residue-boundary-audit-nonclosure}
+Any model-audit export that passes through the finite source row $S$, signature row $\Sigma$, classifier row $K$, and tower row $T$ but omits either the hidden-residue ledger $L$ or the failure-surface row $F$ cannot claim a closed physical audit packet through $\FiniteObservationResidueBoundaryUp$.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:finite-observation-residue-boundary-namecert-obligations}. The accepted packet exposes $L$ and $F$ as obligations, not as optional annotations on an already closed audit route.
+
+If $L$ is absent, the export has no displayed row for hidden source content, compression residue, idealization residue, or observer-access limits. If $F$ is absent, the export has no displayed row for finite defeats, domain exits, classifier mismatches, or continuation boundaries.
+
+The remaining rows cannot restore the missing boundary. Transport, replay, provenance, and naming preserve the displayed packet; they do not create a hidden-residue ledger or failure surface. Hence omission of $L$ or $F$ leaves the route outside the closed physical audit packet named here.
+\end{proof}
+
+\falsifiablePrediction{A model-audit export with no hidden-residue ledger cannot claim a closed physical audit packet.}
+
+\independenceWitness{realityconstrainedmodelaudit, realityconstrainedfailuresurface, onticresidueledger, finiteobservationinterface: $\FiniteObservationResidueBoundaryUp$ is not bijective to any listed sibling because it carries the source-signature-classifier-tower rows of the audit together with the hidden-residue ledger, failure surface, componentwise transport, continuation replay, provenance, and local naming in one packet. The model audit lacks the explicit residue-boundary split; the failure surface lacks the source-signature-classifier tower; the residue ledger lacks the finite defeat row; the finite observation interface lacks audit, residue, and failure rows.}
+
+Lean follow-up requires \texttt{Nontrivial FiniteObservationResidueBoundaryUp} and \texttt{FieldFaithful FiniteObservationResidueBoundaryUp} instances in \texttt{BEDC.Derived.FiniteObservationResidueBoundaryUp} if this composite packet is later made atomic.
