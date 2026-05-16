@@ -735,6 +735,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelConsumerAudit
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootTransportAudit
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.VerdictTransportSeparation
+import BEDC.Derived.RealityConstrainedPhysicalInductionUp.TasteGate
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
