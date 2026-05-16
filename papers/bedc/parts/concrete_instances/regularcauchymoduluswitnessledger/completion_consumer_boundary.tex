@@ -196,3 +196,19 @@ It remains to classify attempted routes outside those admitted branches. The com
 
 The four cases are disjoint at the root boundary because each reads a different BEDC role: displayed Real readback, source-triad readback, structural normalizer-tail service, or refusal for a missing mandatory row. Combining the exhaustion theorem with the refusal boundary leaves no fifth Phase Real or Completion consumer route.
 \end{proof}
+
+\begin{theorem}[Regular Cauchy modulus witness-ledger root-exit partition stability]
+\label{thm:regular-cauchy-modulus-witness-ledger-root-exit-partition-stability}
+For every accepted $\RegularCauchyModulusWitnessLedgerUp$ packet $L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M)$, the root-exit classification of \autoref{thm:regular-cauchy-modulus-witness-ledger-root-exit-partition} is stable under every $\RealUp$ or $\RealCompletionSealClassifierUp$ consumer route that preserves the displayed rows $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$. If such a consumer route is classified as displayed Real readback, $\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$ source-triad readback, normalizer-tail structural service, or refusal for omitting one of $\mu,W,D,Q,S$, then every row-preserving presentation of the same consumer route remains in that same case. No row-preserving presentation can move the route to another case or create an additional root-exit case.
+\end{theorem}
+\begin{proof}
+Start from the root-exit partition. It already exhausts every Phase Real and Completion root-exit consumer route by the displayed Real readback route, the source-triad readback route, the normalizer-tail structural route, or the refusal boundary for a missing mandatory row.
+
+For the displayed Real and source-triad cases, apply source-triad terminality together with seal source pullback. A row-preserving presentation keeps the same $\mu,W,D,Q,S$ coordinates, so it cannot detach the Real seal from the finite $\StreamNameUp$ window, the $\DyadicRatCoreUp$ tolerance row, and the $\RegSeqRatUp$ readback row. The first two cases therefore remain the same cases.
+
+For the normalizer-tail case, use seal source pullback and the completion seal root consumer exhaustion theorem. The rows $N_0,T,H,C,P,M$ are structural service rows attached to the same triad and seal, not a second completion carrier. Preserving the displayed packet keeps that attachment fixed, so the structural route cannot become either a source-triad readback route or an external completion route.
+
+For the refusal case, apply the completion refusal boundary. A presentation that still omits one of $\mu,W,D,Q,S$ remains refused, while a presentation preserving all displayed rows is no longer a presentation of that refused route but of one of the three admitted routes already classified above.
+
+Finally apply non-escape. Since the packet exports no quotient stream, host real equality, selected limit, countable-choice row, ambient-completeness row, detached normalizer, detached tail budget, or detached completion seal, a row-preserving consumer has no hidden coordinate by which to change its root-exit case. The four-way classification is therefore stable for all displayed-row-preserving $\RealUp$ and $\RealCompletionSealClassifierUp$ consumers.
+\end{proof}
