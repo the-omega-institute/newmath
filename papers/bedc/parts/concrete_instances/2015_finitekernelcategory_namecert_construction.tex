@@ -154,6 +154,50 @@ Use \autoref{thm:finite-kernel-category-composition-laws} and \autoref{thm:finit
 The TasteGate marker is attached immediately after the carrier definition, so its single-carrier alignment reads the same displayed packet. A consumer that replaces these rows by quotient morphisms, host arrow equality, or an external category library no longer consumes the $\FiniteKernelCategoryUp$ carrier.
 \end{proof}
 
+\begin{theorem}[Finite-kernel category carrier scope]
+\label{thm:finite-kernel-category-carrier-scope}
+Let
+$$
+K=(O,M,I,Q,A,U,H,C,P,N)
+$$
+be an accepted $\FiniteKernelCategoryUp$ carrier. Object, hom, identity, and composition reads are grounded only in the displayed rows $O,M,I,Q,A,U,H,C,P,N$: objects are read from $O$, hom histories from $M$, identities from $I$, composites from $Q$, and their law and transport support from $A,U,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The object coordinate is $O$, the hom-history coordinate is $M$, the identity coordinate is $I$, and the composition coordinate is $Q$.
+
+Apply \autoref{thm:finite-kernel-category-namecert-obligations}. Carrier habitation and classifier stability keep object and hom reads inside finite $\BHist$ histories and componentwise $\hsame$ transport.
+
+Next apply \autoref{thm:finite-kernel-category-composition-laws}. It identifies the category-law surface with $I,Q,A,U$ transported through $H$ and consumed through $C$.
+
+Finally use \autoref{thm:finite-kernel-category-category-interface-handoff}. The exported category interface is the same finite packet, so no object, hom, identity, or composition read is available outside the displayed rows.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category package and NameCert scope]
+\label{thm:finite-kernel-category-package-namecert-scope}
+For every accepted $\FiniteKernelCategoryUp$ carrier, package provenance and local naming expose exactly the BEDC rows $O,M,I,Q,A,U,H,C,P,N$. They expose no quotient morphism, host equality of arrows, functor-category object, or external category library.
+\end{theorem}
+\begin{proof}
+Use the carrier scope of \autoref{thm:finite-kernel-category-carrier-scope}. It binds the public object, hom, identity, composition, law, transport, and continuation reads to the displayed rows.
+
+Apply the NameCert obligations of \autoref{thm:finite-kernel-category-namecert-obligations}. The provenance row $P$ and local naming row $N$ name the same $\BHist$, $\hsame$, $\Cont$, identity, composition, associativity, and unit ledgers.
+
+Now apply \autoref{thm:finite-kernel-category-ledger-nonescape-boundary}. Since quotient morphisms, host arrow equality, functor-category objects, and external category libraries are not coordinates of $K$, package provenance and local naming cannot expose them.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category TasteGate scope]
+\label{thm:finite-kernel-category-tastegate-scope}
+The existing $\FiniteKernelCategoryUp$ TasteGate marker consumes the same finite packet $O,M,I,Q,A,U,H,C,P,N$. It cannot be read after replacing any row by an external category object, quotient morphism, host arrow equality, or functor-category object.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:finite-kernel-category-tastegate-obligation-handoff}. The TasteGate handoff is explicitly the finite object, hom, identity, composition, associativity, unit, transport, continuation, provenance, and local NameCert packet.
+
+Use \autoref{thm:finite-kernel-category-carrier-scope} to identify the carrier rows consumed by that handoff. The same $O,M,I,Q,A,U,H,C,P,N$ rows ground every category-shaped read.
+
+Then use \autoref{thm:finite-kernel-category-package-namecert-scope}. External category objects, quotient morphisms, host arrow equality, and functor-category objects are absent from the package and naming surface.
+
+Therefore replacing any displayed row by one of those external objects leaves the accepted carrier. The TasteGate marker has no route from such a replacement back to $\FiniteKernelCategoryUp$.
+\end{proof}
+
 \closureat{FiniteKernelCategoryUp}{seedStr}
 \closureat{FiniteKernelCategoryUp}{obligationStr}
 
