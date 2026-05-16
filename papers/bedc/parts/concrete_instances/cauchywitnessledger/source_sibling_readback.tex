@@ -37,3 +37,42 @@ row, or ambient completeness theorem has no carrier coordinate and is refused
 outside the source-sibling route.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyWitnessLedgerUp.CauchyWitnessLedgerCarrier\_source\_sibling\_readback}
+
+\begin{theorem}[Cauchy witness ledger Real-and-Completion sibling route]
+\label{thm:cauchy-witness-ledger-real-completion-sibling-route}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted $\CauchyWitnessLedgerUp$
+packet. Every Real-and-Completion consumer route that reads $L$ and reaches
+the completion-seal classifier must pass through the finite-window surface of
+\autoref{ch:concrete-instances-streamname-namecert}, the regular readback of
+\autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic ledger of
+\autoref{ch:concrete-instances-dyadicratcore-namecert}, the seal boundary of
+\autoref{ch:concrete-instances-real-namecert}, and the public route of
+\autoref{ch:concrete-instances-cauchylimitseal-namecert}. The route exports no
+quotient stream, host equality, selected limit, hidden tail oracle, or ambient
+completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-witness-ledger-carrier}. The
+accepted packet supplies exactly the rows $Q,B,S,K,H,C,P,N$; thus any route to
+the completion-seal classifier must be read through the displayed
+diagonal-budget, observation-budget, synchronizer, classifier, transport,
+replay, provenance, and naming rows.
+
+First use \autoref{thm:cauchy-witness-ledger-source-sibling-readback}. It
+orders the local route through $\CauchyDiagonalBudgetUp$,
+$\RealObservationBudgetUp$, $\CauchySealBudgetSynchronizerUp$, and
+$\RealCompletionSealClassifierUp$ before the classifier row $K$ is consumed.
+
+Next attach the CauchyLimitSeal root L10 sibling route
+\autoref{thm:cauchy-limit-seal-root-l10-sibling-route} and its non-escape
+boundary \autoref{thm:cauchy-limit-seal-no-unbudgeted-limit}. Those results
+force the completion-facing seal route through the displayed
+$\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ sibling
+surface before any public limit-facing read is admitted.
+
+Combining the two routes places the witness ledger inside the same
+Real-and-Completion dependency lattice as the seal route. The structural rows
+$H,C,P,N$ only transport, replay, package, and name that finite path; they add
+no quotient stream, host equality, selected limit, hidden tail oracle, or
+ambient completeness coordinate.
+\end{proof}

@@ -313,4 +313,58 @@ theorem TheoryTransitionCertificateTasteGate_single_carrier_alignment :
         exact theoryTransitionCertificateToEventFlow_injective heq
       · rfl
 
+def theoryTransitionCertificateFields :
+    TheoryTransitionCertificateUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | TheoryTransitionCertificateUp.mk oldState successor signature classifier stability ledger
+      failure transport route provenance name =>
+      [oldState, successor, signature, classifier, stability, ledger, failure, transport,
+        route, provenance, name]
+
+theorem TheoryTransitionCertificateUp_single_carrier_alignment :
+    (∀ h : BHist,
+      theoryTransitionCertificateDecodeBHist
+        (theoryTransitionCertificateEncodeBHist h) = h) ∧
+      (∀ x : TheoryTransitionCertificateUp,
+        theoryTransitionCertificateFromEventFlow
+          (theoryTransitionCertificateToEventFlow x) = some x) ∧
+      (∀ x y : TheoryTransitionCertificateUp,
+        theoryTransitionCertificateToEventFlow x =
+          theoryTransitionCertificateToEventFlow y → x = y) ∧
+      Nonempty (ChapterTasteGate TheoryTransitionCertificateUp) ∧
+      (∀ x y : TheoryTransitionCertificateUp,
+        theoryTransitionCertificateFields x =
+          theoryTransitionCertificateFields y → x = y) ∧
+      (∀ x : TheoryTransitionCertificateUp,
+        ∃ h : BHist, List.Mem h (theoryTransitionCertificateFields x)) ∧
+      theoryTransitionCertificateEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact theoryTransitionCertificateDecode_encode_bhist
+  · constructor
+    · exact theoryTransitionCertificate_round_trip
+    · constructor
+      · intro x y heq
+        exact theoryTransitionCertificateToEventFlow_injective heq
+      · constructor
+        · exact ⟨theoryTransitionCertificateChapterTasteGate⟩
+        · constructor
+          · intro x y h
+            cases x with
+            | mk oldState₁ successor₁ signature₁ classifier₁ stability₁ ledger₁ failure₁
+                transport₁ route₁ provenance₁ name₁ =>
+                cases y with
+                | mk oldState₂ successor₂ signature₂ classifier₂ stability₂ ledger₂
+                    failure₂ transport₂ route₂ provenance₂ name₂ =>
+                    simp only [theoryTransitionCertificateFields] at h
+                    cases h
+                    rfl
+          · constructor
+            · intro x
+              cases x with
+              | mk oldState successor signature classifier stability ledger failure transport
+                  route provenance name =>
+                  exact ⟨oldState, List.Mem.head _⟩
+            · rfl
+
 end BEDC.Derived.TheoryTransitionCertificateUp
