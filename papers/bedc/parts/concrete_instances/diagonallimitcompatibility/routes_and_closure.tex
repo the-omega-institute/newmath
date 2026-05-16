@@ -726,6 +726,24 @@ Now attach the selector side through \autoref{ch:concrete-instances-finite-obser
 The two routes therefore meet at the displayed tuple. The non-escape clauses for the diagonal-limit packet and for the finite observation budget selector exclude quotient streams, selected host limits, host real equality, choice data, hidden tail oracles, independent selectors, and ambient completeness from the shared surface.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility budget-selector bridge-meet exactness]
+\label{thm:diagonal-limit-compatibility-budget-selector-bridge-meet-exactness}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet, and let $B$ be an accepted $\FiniteObservationBudgetSelectorUp$ packet using the same $\StreamNameUp$ window row $W$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ readback row $Q$, and $\RealUp$ seal row $L$. Then every bridge-facing, completion-facing, or selector-facing consumer preserving those rows reads the same standard-reflection support surface
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+No quotient stream, host real equality, countable choice, hidden selector, independent selected limit, or ambient completeness coordinate refines this bridge meet.
+\end{theorem}
+\begin{proof}
+First apply the budget-selector route meet, \autoref{thm:diagonal-limit-compatibility-budget-selector-route-meet}. It places the diagonal route and selector route on the same displayed budget surface whenever $W,D,Q,L$ are shared.
+
+Next identify the public ledger. The route-ledger public exactness theorem \autoref{thm:diagonal-limit-compatibility-route-ledger-public-exactness} says that this surface is exactly $R,T,S,D,W,Q,L,H,C,P,N$ for accepted diagonal-limit consumers.
+
+Now pass to bridge-facing consumers. The standard bridge surface theorem \autoref{thm:diagonal-limit-compatibility-standard-bridge-surface} repacks the same rows as the standard-reflection support, and bridge support minimality \autoref{thm:diagonal-limit-compatibility-bridge-support-minimality} prevents deletion or replacement of any listed row.
+
+Finally use the non-escape clauses from the route meet and the bridge support theorem. Quotient streams, host real equality, countable choice, hidden selectors, selected limits, and ambient completeness are absent from both packets, so they cannot refine the common bridge meet.
+\end{proof}
+
 \closureat{DiagonalLimitCompatibilityUp}{seedStr}
 \closureat{DiagonalLimitCompatibilityUp}{obligationStr}
 \closureat{DiagonalLimitCompatibilityUp}{scopedStr}
