@@ -143,6 +143,55 @@ theorem CauchyDiagonalBudgetCarrier_namecert_obligations [AskSetup] [PackageSetu
       exact And.intro source.left pPkg
   }
 
+theorem CauchyDiagonalBudgetCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {epsilon m w d k s h c p name transported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg →
+      hsame p transported →
+        PkgSig bundle transported pkg →
+          SemanticNameCert
+            (fun row : BHist =>
+              CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg ∧
+                hsame row transported)
+            (fun row : BHist => hsame row transported ∧ UnaryHistory row)
+            (fun row : BHist =>
+              PkgSig bundle p pkg ∧ PkgSig bundle transported pkg ∧
+                hsame row transported)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier pTransported transportedPkg
+  have pUnary : UnaryHistory p :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have pPkg : PkgSig bundle p pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro transported (And.intro carrier (hsame_refl transported))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left
+          (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      have pRow : hsame p row :=
+        hsame_trans pTransported (hsame_symm source.right)
+      exact And.intro source.right (unary_transport pUnary pRow)
+    ledger_sound := by
+      intro row source
+      exact And.intro pPkg (And.intro transportedPkg source.right)
+  }
+
 theorem CauchyDiagonalBudget_route_factorization [AskSetup] [PackageSetup]
     {epsilon m w d k s h c p name endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
