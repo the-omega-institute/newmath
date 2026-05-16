@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\UnitCalibrationLedgerUp$}
+\label{ch:concrete-instances-unit-calibration-ledger-namecert}
+\origin{ai}
+
+The $\UnitCalibrationLedgerUp$ packet realizes the empirical-value discipline of \autoref{ch:visions-philosophy-auditable-generativity} as a finite NameCert surface for measured numerical constants. It sits beside the law-certificate packet of \autoref{ch:concrete-instances-lawcertificate-namecert}, the physical-model audit packet of \autoref{ch:concrete-instances-physical-model-audit-namecert}, the certified physical-truth packet of \autoref{ch:concrete-instances-certified-physical-truth-namecert}, and the terminal unit surface of \autoref{ch:concrete-instances-unit-namecert}. Those siblings supply law patterns, audit comparisons, truth-certificate reads, and terminal unit naming; this packet binds numerical measurement, unit conversion, calibration, uncertainty, instrument, reproducibility, dimension, classifier, transport, provenance, and local naming before any consumer may read a value as empirical.
+
+\begin{definition}[Unit calibration ledger carrier]
+\label{def:unit-calibration-ledger-carrier}
+A $\UnitCalibrationLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+V=(M,U,C,E,I,R,D,K,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the measurement-record row, naming the finite observation, numerical readout, sampling context, and protocol by which the value was obtained.
+\item $U$ is the unit-bridge row, recording the source unit, target standard unit, conversion route, and local unit certificate read through \autoref{ch:concrete-instances-unit-namecert}.
+\item $C$ is the calibration row, naming the calibration source, calibration state, reference route, and validity scope for the measurement instrument.
+\item $E$ is the uncertainty row, recording error bars, tolerance, resolution, rounding discipline, and any admitted confidence or interval convention.
+\item $I$ is the instrument-ledger row, naming the device, sensor, apparatus, or procedure whose output supplies $M$.
+\item $R$ is the reproducibility-ledger row, recording repeated runs, independent checks, or declared replication boundary for the same empirical value.
+\item $D$ is the dimension row, recording the physical dimension and the bridge between dimension-bearing syntax and the unit bridge $U$.
+\item $K$ is the classifier row comparing empirical-value packets componentwise across $M,U,C,E,I,R,D$ and rejecting value-only equality.
+\item $H$ records componentwise $\hsame$ transport for measurement, unit, calibration, uncertainty, instrument, reproducibility, dimension, classifier, provenance, and local-name rows.
+\item $P$ is the $\Pkg$ provenance over $\UnitCalibrationLedgerUp$, $\LawCertificateUp$, $\PhysicalModelAuditUp$, $\CertifiedPhysicalTruthUp$, $\UnitUp$, $\RealityConstrainedModelErrorBudgetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\UnitCalibrationLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a bare real number, detached constant symbol, unit-free magnitude, uncalibrated measurement, uncertainty-free export, anonymous instrument, unreproducible read, or dimensionless empirical shortcut outside the displayed packet.
+\end{definition}
+
+\begin{definition}[Unit calibration ledger classifier]
+\label{def:unit-calibration-ledger-classifier}
+The $\UnitCalibrationLedgerUp$ classifier identifies two accepted packets only when their measurement-record rows, unit-bridge rows, calibration rows, uncertainty rows, instrument-ledger rows, reproducibility-ledger rows, dimension rows, classifier rows, componentwise transports, provenance rows, and local NameCert rows agree through displayed $\hsame$ transport. Agreement of the printed numeral alone is not enough, and agreement of the unit row without calibration, uncertainty, instrument, and reproducibility rows is not enough.
+\end{definition}
+
+\begin{theorem}[Unit calibration ledger NameCert obligations]
+\label{thm:unit-calibration-ledger-namecert-obligations}
+For the carrier of \autoref{def:unit-calibration-ledger-carrier}, the local $\NameCert_{\UnitCalibrationLedgerUp}$ surface consists exactly of five empirical ledger obligations:
+\begin{enumerate}
+\item measurement admission through $M$, requiring the numerical readout to be tied to a finite observation record and protocol;
+\item unit and dimension admission through $U$ and $D$, requiring every numerical read to carry its unit bridge and dimension row;
+\item calibration admission through $C$, requiring the measuring route to expose its calibration source and validity scope;
+\item uncertainty admission through $E$, requiring the value to expose its tolerance, resolution, or interval convention;
+\item instrument and reproducibility admission through $I$ and $R$, requiring both the generating apparatus and the replication boundary to be part of the same packet.
+\end{enumerate}
+The structural rows $K,H,P,N$ compare, transport, source, and locally name those five obligations, but they do not add another empirical-value coordinate.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:unit-calibration-ledger-carrier}. The packet lists the measurement record, unit bridge, calibration row, uncertainty row, instrument ledger, reproducibility ledger, dimension row, classifier, transport, provenance, and local name as a single finite surface.
+
+The five obligation rows group these displayed coordinates by empirical function. Measurement admission comes from $M$; unit and dimension admission come from $U$ and $D$; calibration admission comes from $C$; uncertainty admission comes from $E$; instrument and reproducibility admission come from $I$ and $R$.
+
+The classifier and structural rows preserve only the same displayed packet. Since the carrier has no coordinate for a detached numeral, hidden unit convention, omitted calibration, suppressed uncertainty, anonymous instrument, or unrecorded replication boundary, the five obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Unit calibration ledger numeric-value nonescape]
+\label{thm:unit-calibration-ledger-numeric-value-nonescape}
+An accepted $\UnitCalibrationLedgerUp$ packet cannot export a numerical empirical value unless the unit bridge $U$, calibration row $C$, uncertainty row $E$, instrument ledger $I$, and reproducibility ledger $R$ are present in the same finite carrier. Dropping any one of those rows leaves the accepted empirical-value surface.
+\end{theorem}
+\begin{proof}
+Read the carrier as $V=(M,U,C,E,I,R,D,K,H,P,N)$. The measurement row $M$ records a finite numerical readout, but the packet treats that readout as empirical only after the unit bridge, calibration row, uncertainty row, instrument ledger, and reproducibility ledger are displayed beside it.
+
+Apply the obligation surface of \autoref{thm:unit-calibration-ledger-namecert-obligations}. Unit and dimension admission require $U$ and $D$, calibration admission requires $C$, uncertainty admission requires $E$, and instrument-reproducibility admission requires $I$ and $R$.
+
+Finally use the classifier of \autoref{def:unit-calibration-ledger-classifier}. It compares accepted packets componentwise and does not identify two packets by their printed numerals alone. Therefore a value export lacking $U$, $C$, $E$, $I$, or $R$ is outside the local $\NameCert_{\UnitCalibrationLedgerUp}$ carrier.
+\end{proof}
+
+\begin{theorem}[Unit calibration ledger law-certificate handoff]
+\label{thm:unit-calibration-ledger-law-certificate-handoff}
+Every $\LawCertificateUp$, $\PhysicalModelAuditUp$, or $\CertifiedPhysicalTruthUp$ consumer read of a numerical empirical constant factors through a displayed $\UnitCalibrationLedgerUp$ packet. The consumer may use the numerical row only together with its unit bridge, calibration row, uncertainty row, instrument ledger, reproducibility ledger, dimension row, classifier, transport, provenance, and local NameCert row.
+\end{theorem}
+\begin{proof}
+The sibling consumers have distinct public roles. \autoref{ch:concrete-instances-lawcertificate-namecert} reads equation-like law patterns, \autoref{ch:concrete-instances-physical-model-audit-namecert} reads physical-model audit comparisons, and \autoref{ch:concrete-instances-certified-physical-truth-namecert} reads certified physical-truth packets.
+
+None of those roles supplies a complete empirical-value carrier by itself. A numerical constant used by any of them must therefore be projected through the packet $V=(M,U,C,E,I,R,D,K,H,P,N)$ of \autoref{def:unit-calibration-ledger-carrier}.
+
+The nonescape theorem \autoref{thm:unit-calibration-ledger-numeric-value-nonescape} blocks value-only export. Hence each consumer receives the numerical row only through the same displayed measurement, unit, calibration, uncertainty, instrument, reproducibility, dimension, classifier, transport, provenance, and local NameCert surface.
+\end{proof}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/UnitCalibrationLedgerUp/TasteGate.lean} must provide explicit $\Nontrivial\ \UnitCalibrationLedgerUp$ and $\FieldFaithful\ \UnitCalibrationLedgerUp$ instances, with witness-pair and field-projection proofs preserving $M,U,C,E,I,R,D,K,H,P,N$ as separate displayed fields.
+
+\falsifiablePrediction{A numerical empirical-value export lacking any one of unit bridge, calibration, uncertainty, instrument, or reproducibility rows is rejected by the local carrier.}
+
+\independenceWitness{lawcertificate, physicalmodelaudit, certifiedphysicaltruth, unit, realityconstrainedmodelerrorbudget: none is bijective because UnitCalibrationLedgerUp binds numerical measurement, unit conversion, calibration, uncertainty, instrument, reproducibility, dimension, classifier, transport, provenance, and local NameCert rows in one carrier, while each sibling supplies only a law pattern, audit packet, truth surface, terminal unit, or error-budget component.}
+
+\closureat{UnitCalibrationLedgerUp}{seedStr}
+
+\begin{closurestatus}{\UnitCalibrationLedgerUp}
+  \constructivestory{A $\UnitCalibrationLedgerUp$ packet is generated from finite measurement, unit bridge, calibration, uncertainty, instrument, reproducibility, dimension, classifier, componentwise hsame transport, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:unit-calibration-ledger-carrier}, \autoref{def:unit-calibration-ledger-classifier}, \autoref{thm:unit-calibration-ledger-namecert-obligations}, \autoref{thm:unit-calibration-ledger-numeric-value-nonescape}, and \autoref{thm:unit-calibration-ledger-law-certificate-handoff} bind empirical numerical values to displayed measurement, unit, calibration, uncertainty, instrument, reproducibility, dimension, classifier, transport, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host-level metrology, all standards bodies, exact experimental replication, or physical truth beyond the displayed empirical-value packet.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier, classifier, five-row NameCert surface, numeric-value nonescape theorem, law-certificate handoff theorem, TasteGate nontriviality, and field faithfulness for $M,U,C,E,I,R,D,K,H,P,N$.}
+\end{closurestatus}
