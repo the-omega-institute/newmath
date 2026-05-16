@@ -152,6 +152,24 @@ Finally apply Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-rea
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinement\_selector\_budget\_regseqrat\_real\_seal\_determinacy}
 
+\begin{theorem}[Cauchy modulus refinement diagonal handoff determinacy]
+\label{thm:cauchy-modulus-refinement-diagonal-handoff-determinacy}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Any diagonal Real-completion handoff for $R$ that exposes the same selector-budget row $T$, selected $\StreamNameUp$ window row $W$, dyadic tolerance row $Q$, $\RegSeqRatUp$ readback surface, and $\RealUp$ seal row $E$ determines the same completion-facing consumer surface through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CauchyModulusRefinementUp}$ rows.
+
+The determination is only through the finite BEDC rows
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+No quotient stream, selected host limit, hidden selector, second meet row, host equality, or ambient completeness coordinate supplies another diagonal handoff.
+\end{theorem}
+\begin{proof}
+First force the selector spine. Common-window selector extraction, \autoref{thm:cauchy-modulus-refinement-common-window-selector-extraction}, and root window-selector totality, \autoref{thm:cauchy-modulus-refinement-root-window-selector-totality}, make every diagonal handoff read the selected $\StreamNameUp$ window and dyadic tolerance through $M_0,M_1,U,V,T$ before it reaches $W,Q$.
+
+Next pass through the completion-facing rows. Real-completeness handoff, \autoref{thm:cauchy-modulus-refinement-real-completeness-handoff}, places the selected window, dyadic tolerance, $\RegSeqRatUp$ readback, and $\RealUp$ seal in the displayed order, while shared-tail handoff, \autoref{thm:cauchy-modulus-refinement-shared-tail-handoff}, carries those rows across the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ sibling surfaces.
+
+Finally apply selector-budget RegSeqRat Real-seal determinacy, \autoref{thm:cauchy-modulus-refinement-selector-budget-regseqrat-real-seal-determinacy}. Agreement on $T,W,Q,E$ identifies the resulting completion-facing consumer surfaces through the displayed $\BHist$ route, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The excluded coordinates are absent from the accepted packet, so none of them can separate the diagonal handoff after those rows are exposed.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement uniform-criterion Real route determinacy]
 \label{thm:cauchy-modulus-refinement-uniform-criterion-real-route-determinacy}
 Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Any $\UniformCauchyCriterionUp$ consumer that exposes the same selector-budget row $T$, selected-window row $W$, dyadic-tolerance row $Q$, and $\RealUp$ seal row $E$ determines the same Real-completion consumer surface through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CauchyModulusRefinementUp}$ rows. No quotient stream, selected host limit, ambient completeness row, hidden selector, or second meet row supplies a competing route.
