@@ -189,6 +189,49 @@ completeness, arithmetic or order package, or metric-completeness coordinate,
 the comparison is exhausted by the four displayed faces.
 \end{proof}
 
+\begin{theorem}[Real L10 dependency-lattice exit handoff]
+\label{thm:real-l10-dependency-lattice-exit-handoff}
+Every current Phase Real and Completion exit read of an accepted $\RealUp$
+packet factors through exactly the four faces
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+The handoff surface consists only of the displayed $\BHist$ packets,
+componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$
+provenance rows, and the local $\NameCert$ rows attached to those four faces.
+
+Consequently the exit read has no coordinate for quotient streams, selected
+limits, host real equality, ambient completeness, arithmetic or order
+packages, metric-completeness rows, or any other completion-facing structure
+outside the displayed dependency lattice.
+\end{theorem}
+\begin{proof}
+Start with the dependency lattice of
+\autoref{def:real-l10-dependency-lattice}. It names the only route available
+to the current exit surface: dyadic observations, finite StreamName windows,
+RegSeqRat regular-rational readback, and the local $\RealUp$ seal.
+
+Apply source-route non-escape,
+\autoref{thm:real-l10-source-route-nonescape}. This prevents an accepted
+exit read from entering through a hidden source, quotient representative,
+selected limit, host real value, or ambient completeness row before reaching
+the displayed four faces.
+
+Next use interface totality and terminal face order,
+\autoref{thm:real-l10-dependency-lattice-interface-totality} and
+\autoref{thm:real-l10-terminal-face-order}. Together they make every current
+Phase Real and Completion interface read pass through the same ordered faces,
+with only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$
+transport between them.
+
+Finally apply terminal comparison exhaustion,
+\autoref{thm:real-l10-terminal-comparison-exhaustion}. It says that even the
+terminal comparison surface has no further coordinate beyond the same
+four-face packet. Thus quotient streams, selected limits, host real equality,
+ambient completeness, arithmetic or order packages, metric-completeness rows,
+and hidden completion data are not part of the exit handoff.
+\end{proof}
+
 \begin{theorem}[Real L10 metric boundary non-escape]
 \label{thm:real-l10-metric-boundary-nonescape}
 Every accepted current Phase Real or Completion consumer of a $\RealUp$ L10
