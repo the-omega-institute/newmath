@@ -1,0 +1,55 @@
+\begin{theorem}[Transported stationary window-seal RegSeqRat Real lock]
+\label{thm:transported-stationary-window-seal-regseqrat-real-lock}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. The displayed $\RegSeqRatUp$ row $G$ and the $\RealUp$ row $E$ are locked to the same $\FiniteWindowEnvelopeUp$ packet $W$: every accepted Real-facing read of $E$ factors through the finite $\BHist$ carrier of $T$, the componentwise $\hsame$ rows, the displayed $\Cont$ transports, the $\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$ that already name $G$ and $W$. Thus the RegSeqRat and Real rows are not two host streams; they are two reads of one transported finite-window seal route.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:transported-stationary-window-seal-real-regseqrat-source-totality}. It identifies every $\RealUp$-facing read with the transported $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ triad $R,S,G$, together with the support rows $H,C,P,N$.
+
+Next use \autoref{thm:transported-stationary-window-seal-tail-schedule-envelope-order}. The finite envelope row $W$ is the only position at which the transported regular-rational seal can be read before the Real row $E$, so the RegSeqRat and Real rows share the same finite-window packet.
+
+Finally read the sibling certificates \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-finitewindowenvelope-namecert}, and \autoref{ch:concrete-instances-real-namecert} through the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $T$. The accepted packet has no coordinate for a second regular seal or a detached host real source, giving the stated lock.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal tail budget coverage]
+\label{thm:transported-stationary-window-seal-tail-budget-coverage}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. Every tail-budget read, tail-schedule read, or completion-facing schedule read exposed by $T$ factors through the same finite $\StreamNameUp$ window, $\RegSeqRatUp$ seal row, and $\FiniteWindowEnvelopeUp$ packet:
+$$
+\begin{aligned}
+  R,S,G,H,C,P,N
+  \longrightarrow
+  W
+  \longrightarrow
+  E .
+\end{aligned}
+$$
+No accepted tail read introduces a selected host limit, quotient-stream equality, hidden tail oracle, independent completion object, or second real-completeness source.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:transported-stationary-window-seal-tail-schedule-envelope-order}. It places every tail-schedule row after the transported source triad and before the finite envelope and Real seal reads.
+
+Then apply \autoref{thm:transported-stationary-window-seal-namecert-route-exhaustion}. The exposed $\NameCert$ route is exhausted by the transported source triad, the schedule packet, the finite envelope, and the $\RealUp$ seal row; no unused schedule coordinate remains.
+
+The sibling chapters \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-finitewindowenvelope-namecert} supply the finite window, regular-rational seal, and finite envelope surfaces consumed by the route. Since the accepted packet exposes only those BEDC rows and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, selected host limits and quotient-stream equalities cannot enter as tail budget data.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal L10 exit readiness]
+\label{thm:transported-stationary-window-seal-l10-exit-readiness}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. The Phase Real and Completion handoff consumes $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ only through the displayed finite seal route of $T$:
+$$
+\begin{aligned}
+  \StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp
+  \longrightarrow
+  \FiniteWindowEnvelopeUp
+  \longrightarrow
+  \RealUp .
+\end{aligned}
+$$
+The handoff is exit-ready for the open Phase Real and Completion surface because the RegSeqRat/Real lock and tail-budget coverage determine the available rows. It makes no claim that $\RealUp$ is complete, no claim that quotient streams have been identified, and no claim of a selected host limit.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:transported-stationary-window-seal-l10-handoff-obligation-basis}. It lists the only L10 route available to Real and Completion consumers: the finite passage through the StreamName, RegSeqRat, DyadicRatCore, FiniteWindowEnvelope, and Real sibling surfaces.
+
+Use \autoref{thm:transported-stationary-window-seal-regseqrat-real-lock} to bind the $\RegSeqRatUp$ and $\RealUp$ reads to the same finite envelope packet $W$. Use \autoref{thm:transported-stationary-window-seal-tail-budget-coverage} to keep every tail-budget and schedule-facing read on that same finite route.
+
+Finally compare with \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-finitewindowenvelope-namecert}, and \autoref{ch:concrete-instances-real-namecert}. These sibling surfaces provide the named rows consumed by the transported seal, while the non-escape clauses exclude quotient-stream equality, selected host limits, hidden tail data, and ambient real-completeness witnesses. The packet is therefore ready to hand off to Phase Real and Completion exactly at the finite seal boundary stated above.
+\end{proof}

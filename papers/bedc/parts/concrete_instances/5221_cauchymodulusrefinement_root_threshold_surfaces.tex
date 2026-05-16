@@ -462,3 +462,129 @@ host real equality, and ambient completeness. With no alternate seal source
 available, the first and third seal rows classify through the same public
 Real and Completion consumer boundary.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement selector-spine terminal pullback]
+\label{thm:cauchy-modulus-refinement-selector-spine-terminal-pullback}
+For every accepted $\CauchyModulusRefinementUp$ public route
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)
+$$
+whose selected finite-window surface is consumed by
+$\FiniteObservationBudgetSelectorUp$, every $\RealUp$ or Completion-facing
+pullback surface factors through the finite selector path
+$$
+B \to S \to W \to D \to R \to E
+$$
+and then through the L10 spine
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp.
+$$
+There is no terminal pullback route that bypasses this displayed selector
+spine through quotient streams, host real equality, selected limits, countable
+choice, ambient completeness, or a separate proof of Real completeness.
+\end{theorem}
+\begin{proof}
+First apply selector-spine route completeness,
+\autoref{thm:cauchy-modulus-refinement-selector-spine-route-completeness}. It
+places the accepted public route on the finite selector path followed by the
+L10 spine, and it confines all reads to the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next use the finite-observation-budget selector handoff,
+\autoref{thm:cauchy-modulus-refinement-finite-observation-budget-selector-handoff}.
+It supplies the selector path
+$B \to S \to W \to D \to R \to E$ before any Real-facing exit is read.
+
+Finally apply L10 handoff sufficiency and window-meet seal unicity,
+\autoref{thm:cauchy-modulus-refinement-l10-handoff-sufficiency} and
+\autoref{thm:cauchy-modulus-refinement-window-meet-seal-unicity}. These
+theorems keep the Real and Completion consumer on the displayed L10 rows and
+exclude any second meet, hidden selector, quotient stream, host equality,
+selected limit, countable-choice row, ambient completeness row, or independent
+Real-completeness witness. Hence the selector spine is the only terminal
+pullback surface available to such consumers.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement shared-window completion seal coherence]
+\label{thm:cauchy-modulus-refinement-shared-window-completion-seal-coherence}
+Let
+$$
+R_i=(M_0,M_1,U,V_i,T,W,Q,E_i,H_i,C_i,P_i,N_i)
+\qquad (i=0,1,2)
+$$
+be accepted $\CauchyModulusRefinementUp$ packets sharing the source schedules,
+shared meet row, selector budget, finite $\StreamNameUp$ window,
+$\DyadicRatCoreUp$ and $\RegSeqRatUp$ readback row, and displayed
+transport/provenance route. If the adjacent shared-window seal classifications
+identify $E_0$ with $E_1$ and $E_1$ with $E_2$, then their composed
+Completion-facing classification is coherent only on the displayed consumer
+surface
+$$
+B \to S \to W \to D \to R \to E
+\qquad\text{followed by}\qquad
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp.
+$$
+The composition does not create a quotient-stream route, host real equality,
+selected limit, countable-choice row, ambient completeness row, or independent
+Real-completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with shared-window seal transitivity,
+\autoref{thm:cauchy-modulus-refinement-shared-window-seal-transitivity}. It
+composes the adjacent seal classifications for the first and third packets on
+the same public $\RealUp$ and Completion consumer surface.
+
+Next identify that surface with the selector-spine route. Apply selector-spine
+route completeness,
+\autoref{thm:cauchy-modulus-refinement-selector-spine-route-completeness}, and
+the finite-observation-budget selector handoff,
+\autoref{thm:cauchy-modulus-refinement-finite-observation-budget-selector-handoff}.
+Together they force the shared-window consumer first through the selector path
+and then through the L10 spine.
+
+Finally use window-meet seal unicity,
+\autoref{thm:cauchy-modulus-refinement-window-meet-seal-unicity}. It prevents a
+second meet, hidden selector, or alternate completion coordinate from carrying
+the composed classification. Therefore the adjacent shared-window seal
+classifications compose coherently only on the displayed selector-spine
+consumer surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement L10 row exactness]
+\label{thm:cauchy-modulus-refinement-l10-row-exactness}
+For every accepted $\CauchyModulusRefinementUp$ route whose selected
+finite-window consumer reaches $\RealUp$ or Completion, the exact public row
+inventory is the selector path
+$$
+B \to S \to W \to D \to R \to E
+$$
+together with the L10 spine
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp
+$$
+and the displayed transport, continuation, provenance, and local naming rows
+$H,C,P,N$. This inventory excludes quotient streams, host real equality,
+selected limits, countable choice, ambient completeness, and Real completeness
+as available rows of the handoff.
+\end{theorem}
+\begin{proof}
+First read the finite selector side from
+\autoref{thm:cauchy-modulus-refinement-finite-observation-budget-selector-handoff}.
+It supplies exactly the displayed selector path for the selected finite-window
+consumer and lists the excluded host and choice-like coordinates.
+
+Next read the Real-facing side from
+\autoref{thm:cauchy-modulus-refinement-l10-handoff-sufficiency}. The rows
+$U,T,W,Q,E,H,C,P,N$ are sufficient for the handoff to the L10 spine, while no
+row for quotient streams, host equality, selected limits, ambient completeness,
+or Real completeness is present.
+
+Finally combine these with selector-spine route completeness and
+shared-window seal transitivity,
+\autoref{thm:cauchy-modulus-refinement-selector-spine-route-completeness} and
+\autoref{thm:cauchy-modulus-refinement-shared-window-seal-transitivity}. The
+former identifies the whole public route as selector path followed by L10
+spine, and the latter composes adjacent seal classifications without changing
+the displayed consumer surface. Window-meet seal unicity then rules out any
+extra row hidden between the selector path and the Real seal.
+\end{proof}
