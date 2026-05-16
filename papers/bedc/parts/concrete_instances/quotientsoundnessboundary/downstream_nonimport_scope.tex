@@ -179,6 +179,24 @@ Apply NameCert refusal totality above. The certified export is the finite refusa
 Use Cont route locality and Pkg NameCert ledger totality, \autoref{thm:quotient-soundness-boundary-cont-route-locality} and \autoref{thm:quotient-soundness-boundary-pkg-namecert-ledger-totality}. They force every continuation and package read to stay inside the same finite ledger, so the surviving $\psame$ route is a consumer closure route rather than a quotient eliminator.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary refusal exact complement]
+\label{thm:quotient-soundness-boundary-refusal-exact-complement}
+In an accepted $\QuotientSoundnessBoundaryUp$ packet
+$$
+Q=(E,A,T,V,H,C,P,N),
+$$
+every downstream consumer request is either the visible representative-side refusal through $E,A,V$ or the admitted $\psame$-only route through $E,T,H,C,P,N$. These two surfaces are exact complements inside the finite packet: a request that asks for a representative, selector, erased-derivation recovery, host quotient recursion, quotient equality eliminator, or $\mathsf{Quot.sound}$ witness is refused at $E,A,V$, while a request that survives the refusal boundary factors through the classifier-respecting $\psame$ route and no third route remains.
+\end{theorem}
+\begin{proof}
+Apply the representative request frontier, \autoref{thm:quotient-soundness-boundary-representative-request-frontier}. It places every representative-side demand at the visible refusal surface $E,A,V$ before a positive transport row can be consumed.
+
+Use psame consumer closure, \autoref{thm:quotient-soundness-boundary-psame-consumer-closure}. Once the representative-side request has been refused, the surviving consumer route is the classifier-respecting $\psame$ route through $E,T,H,C,P,N$.
+
+Invoke Quot.sound refusal exactness, \autoref{thm:quotient-soundness-boundary-quot-sound-refusal-exactness}. It separates the forbidden representative primitive from the admitted $\psame$ transport, so the refusal surface cannot be reinterpreted as a hidden quotient witness.
+
+Finally apply NameCert refusal totality, \autoref{thm:quotient-soundness-boundary-namecert-refusal-totality}. The package and naming rows certify only the refusal-plus-transport ledger, hence the two surfaces exhaust the finite packet and form exact complements for downstream consumers.
+\end{proof}
+
 \begin{theorem}[QuotientSoundnessBoundary consumer scope triad]
 \label{thm:quotient-soundness-boundary-consumer-scope-triad}
 Every downstream quotient-like consumer of an accepted $\QuotientSoundnessBoundaryUp$ packet must first read the refusal surface $E,A,V$: the visible relation rows $E$, the representative-demand rows $A$, and the refusal verdict rows $V$. Only after that triad is visible may the consumer read any positive motion through the classifier-respecting $\psame$ route $E,T,H,C,P,N$. The handoff receives no quotient carrier, representative selector, erased derivation recovery map, host quotient recursion principle, or $\mathsf{Quot.sound}$ witness.
