@@ -331,6 +331,28 @@ Finally combine nonescape, \autoref{thm:real-limit-uniqueness-seal-nonescape}, w
 
 The later Lean boundary is \texttt{lean4/BEDC/Derived/RealLimitUniquenessSealUp/TasteGate.lean}. It must provide \texttt{Nontrivial RealLimitUniquenessSealUp} and \texttt{FieldFaithful RealLimitUniquenessSealUp} instances for the same displayed carrier.
 
+\begin{theorem}[Real limit uniqueness seal primitive scope route]
+\label{thm:real-limit-uniqueness-seal-primitive-scope-route}
+Every obligation row of the displayed packet
+$$
+U=(L_0,L_1,Q,S,D,R,V,H,C,P,N)
+$$
+is scoped to concrete BEDC primitives: the two $\CauchyLimitSealUp$ rows $L_0,L_1$, the shared $\RegSeqRatUp$ comparison row $Q$, the finite $\StreamNameUp$ window row $S$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RealUp$ classifier row $R$, the $\RegularLimitUniquenessUp$ handoff row $V$, componentwise $\hsame$ transport through $H$, the displayed $\Cont$ route $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\RealLimitUniquenessSealUp}$ row $N$.
+
+The route does not pass through selected host limits, quotient stream equality, detached selector choices, host Real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:real-limit-uniqueness-seal-obligation-surface}. It identifies every local NameCert row of $U$ as one of the displayed carrier, two completion-seal rows, shared comparison, finite window, dyadic ledger, Real classifier, uniqueness handoff, transport, route, provenance, and local naming obligations.
+
+The nonescape theorem, \autoref{thm:real-limit-uniqueness-seal-nonescape}, keeps that surface inside the packet. It excludes a single completion seal, a one-sided selector, quotient stream equality, host Real equality, and ambient completeness as substitutes for the displayed route.
+
+Next apply the two-seal exposure theorem and the shared comparison window theorem. By \autoref{thm:real-limit-uniqueness-seal-two-seal-exposure}, both $L_0$ and $L_1$ are exposed before any uniqueness read, and by \autoref{thm:real-limit-uniqueness-seal-shared-comparison-window}, their comparison travels through $Q,S,D,R,V$.
+
+Classifier stability, \autoref{thm:real-limit-uniqueness-seal-classifier-stability}, transports the same rows through componentwise $\hsame$ without changing the packet into another certificate kind. The nontrivial witness of \autoref{thm:real-limit-uniqueness-seal-nontrivial-witness} confirms that the two-seal and shared-window coordinates are genuine finite coordinates rather than a one-element shell.
+
+Finally use field-faithful projection, \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection}. Equality and determination of accepted packets are exhausted by the fields $L_0,L_1,Q,S,D,R,V,H,C,P,N$, so the primitive route is exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ binding.
+\end{proof}
+
 \closureat{RealLimitUniquenessSealUp}{seedStr}
 \closureat{RealLimitUniquenessSealUp}{obligationStr}
 \closureat{RealLimitUniquenessSealUp}{scopedStr}[BEDC.Derived.RealLimitUniquenessSealUp.taste\_gate]
@@ -338,7 +360,7 @@ The later Lean boundary is \texttt{lean4/BEDC/Derived/RealLimitUniquenessSealUp/
 \begin{closurestatus}{\RealLimitUniquenessSealUp}
   \constructivestory{A $\RealLimitUniquenessSealUp$ packet is generated from two CauchyLimitSeal rows, a shared RegSeqRat comparison row, a finite StreamName window row, a DyadicRatCore tolerance ledger, a RealUp classifier row, a RegularLimitUniqueness row, componentwise transports, displayed continuation, package provenance, and local NameCert row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:real-limit-uniqueness-seal-carrier}, \autoref{thm:real-limit-uniqueness-seal-obligation-surface}, \autoref{thm:real-limit-uniqueness-seal-nonescape}, \autoref{thm:real-limit-uniqueness-seal-consumer-handoff}, \autoref{thm:real-limit-uniqueness-seal-nontrivial-witness}, and \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection} bind the two-seal carrier, shared comparison row, finite StreamName window, DyadicRatCore tolerance, RealUp classifier, uniqueness handoff, nontrivial witness, and field-faithful witness to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives.}
+  \scopeclosed{\autoref{def:real-limit-uniqueness-seal-carrier}, \autoref{thm:real-limit-uniqueness-seal-obligation-surface}, \autoref{thm:real-limit-uniqueness-seal-nonescape}, \autoref{thm:real-limit-uniqueness-seal-consumer-handoff}, \autoref{thm:real-limit-uniqueness-seal-nontrivial-witness}, \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection}, and \autoref{thm:real-limit-uniqueness-seal-primitive-scope-route} bind the two-seal carrier, shared comparison row, finite StreamName window, DyadicRatCore tolerance, RealUp classifier, uniqueness handoff, nontrivial witness, field-faithful witness, and primitive route to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
