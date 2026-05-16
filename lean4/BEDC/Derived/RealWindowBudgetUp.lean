@@ -555,4 +555,32 @@ theorem RealWindowBudgetCarrier_window_coverage_obligation [AskSetup] [PackageSe
                   carrier.provenance_pkg⟩
   }
 
+theorem RealWindowBudgetCarrier_scoped_dependency_binding [AskSetup] [PackageSetup]
+    {request windows dyadic handoff realSeal selector disclosure transport route provenance
+      nameRow scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealWindowBudgetCarrier request windows dyadic handoff realSeal selector disclosure transport
+        route provenance nameRow bundle pkg →
+      Cont realSeal selector scopedRead →
+        PkgSig bundle scopedRead pkg →
+          UnaryHistory request ∧ UnaryHistory windows ∧ UnaryHistory dyadic ∧
+            UnaryHistory handoff ∧ UnaryHistory realSeal ∧ UnaryHistory selector ∧
+              UnaryHistory disclosure ∧ UnaryHistory transport ∧ UnaryHistory route ∧
+                UnaryHistory provenance ∧ UnaryHistory nameRow ∧ UnaryHistory scopedRead ∧
+                  Cont request windows dyadic ∧ Cont dyadic handoff realSeal ∧
+                    Cont realSeal selector scopedRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle nameRow pkg ∧ PkgSig bundle scopedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier realSealSelectorScopedRead scopedReadPkg
+  have scopedReadUnary : UnaryHistory scopedRead :=
+    unary_cont_closed carrier.realSeal_unary carrier.selector_unary realSealSelectorScopedRead
+  exact
+    ⟨carrier.request_unary, carrier.windows_unary, carrier.dyadic_unary,
+      carrier.handoff_unary, carrier.realSeal_unary, carrier.selector_unary,
+      carrier.disclosure_unary, carrier.transport_unary, carrier.route_unary,
+      carrier.provenance_unary, carrier.nameRow_unary, scopedReadUnary,
+      carrier.request_windows_dyadic, carrier.dyadic_handoff_realSeal,
+      realSealSelectorScopedRead, carrier.provenance_pkg, carrier.nameRow_pkg,
+      scopedReadPkg⟩
+
 end BEDC.Derived.RealWindowBudgetUp
