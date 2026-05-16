@@ -1,0 +1,90 @@
+\begin{theorem}[Critical-line witness source modulus terminality]
+\label{thm:critical-line-witness-source-modulus-terminality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every accepted source-modulus read of $W$ terminates at the displayed finite
+source rows $Z,S$, the modulus and rational-comparison rows $M,R,Q$, and the
+support rows $H,C,P,N$. Thus the read is carried by the finite $\BHist$
+source, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local
+$\NameCert_{\CriticalLineWitnessUp}$ rows already present in the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:critical-line-witness-carrier}. Its
+accepted packet coordinates are the finite source rows $Z,S$, the modulus and
+comparison rows $M,R,Q$, and the structural rows $H,C,P,N$.
+
+Apply the source-modulus refusal totality theorem
+\autoref{thm:critical-line-witness-source-modulus-refusal-totality} and the
+window-modulus exhaustion theorem
+\autoref{thm:critical-line-witness-window-modulus-exhaustion}. Together they
+force every source-window read that asks for the modulus to pass through the
+displayed zero-strip source, rational-height modulus, $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Finally use root finite readback totality
+\autoref{thm:critical-line-witness-root-finite-readback-totality}. Since every
+root readback is exhausted by $Z,S,M,R,Q,H,C,P,N$, there is no further source
+coordinate at which a source-modulus read can continue. The accepted read
+therefore terminates at the displayed finite packet surface.
+\end{proof}
+
+\begin{theorem}[Critical-line witness source-window RH boundary]
+\label{thm:critical-line-witness-source-window-rh-boundary}
+Every $\mathsf{RH}$-facing consumer of an accepted $\CriticalLineWitnessUp$
+packet must pass through the displayed source-window route and zero-strip
+boundary before using the critical-line witness. In particular, any such
+consumer reads the finite packet
+$$
+Z,S,M,R,Q,H,C,P,N
+$$
+through the visible source rows, the zero-strip source boundary, the
+componentwise $\hsame$ transport, the displayed $\Cont$ and $\Pkg$ rows, and
+the local $\NameCert_{\CriticalLineWitnessUp}$ row.
+\end{theorem}
+\begin{proof}
+First apply source-window route lock
+\autoref{thm:critical-line-witness-root-source-window-route-lock}. It places the
+consumer behind the visible source-window route before any downstream
+critical-line use is permitted.
+
+Next use zero-strip consumer boundary
+\autoref{thm:critical-line-witness-zero-strip-consumer-boundary} together with
+root RH source lock \autoref{thm:critical-line-witness-rh-source-lock}. These
+rows require the consumer to cross the zero-strip boundary and the displayed
+source support before it can make an $\mathsf{RH}$-facing request.
+
+Finally compose with root downstream totality
+\autoref{thm:critical-line-witness-root-downstream-totality}. The downstream
+consumer is therefore routed through $Z,S,M,R,Q,H,C,P,N$ and cannot use the
+critical-line witness before the source-window, zero-strip, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows have been exposed.
+\end{proof}
+
+\begin{theorem}[Critical-line witness finite source route saturation]
+\label{thm:critical-line-witness-finite-source-route-saturation}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the
+finite source route is exhausted by the displayed source, modulus,
+rational-comparison, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\CriticalLineWitnessUp}$ rows. The route exports no hidden analytic
+continuation, global zero oracle, host equality test, ambient quotient
+representative, or proof of $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+Begin with root source totality
+\autoref{thm:critical-line-witness-root-source-totality}. It identifies every
+finite source row visible at the root with the displayed packet coordinates
+$Z,S,M,R,Q,H,C,P,N$.
+
+Then attach source modulus terminality from
+\autoref{thm:critical-line-witness-source-modulus-terminality}. The
+source-modulus reads cannot pass beyond the finite $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and local $\NameCert$ support rows of the packet.
+
+It remains to rule out hidden exports. Apply root RH consumer refusal
+\autoref{thm:critical-line-witness-root-rh-consumer-refusal} and root refusal
+boundary totality
+\autoref{thm:critical-line-witness-root-refusal-boundary-totality}. These
+rows refuse the off-route demands for analytic continuation, global zero
+search, host equality, quotient data, ambient completeness, and
+$\mathsf{RH}$ proof content, so the finite source route is saturated by the
+displayed rows alone.
+\end{proof}
