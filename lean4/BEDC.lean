@@ -390,6 +390,7 @@ import BEDC.Derived.RealityConstrainedSynthesisSealUp.TasteGate
 import BEDC.Derived.CertifiedPhysicalTruthUp.TasteGate
 import BEDC.Derived.DomainTruthCertificateUp.TasteGate
 import BEDC.Derived.PhysicalTruthCertificateUp.TasteGate
+import BEDC.Derived.TheoryTransitionCertificateUp.TasteGate
 import BEDC.Derived.ApophaticSocketUp
 import BEDC.Derived.ApophaticFixedPointFiberUp.TasteGate
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
@@ -776,6 +777,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.BoundaryReadiness
 import BEDC.Derived.QuotientSoundnessBoundaryUp.CoreNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportSiblingHandoff
+import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalVerdictMonotonicity
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerNormalization
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelConsumerAudit
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootTransportAudit
@@ -783,6 +785,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.RootRelationRowExposure
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.VerdictTransportSeparation
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerLedgerFrontier
+import BEDC.Derived.QuotientSoundnessBoundaryUp.DependentEliminatorRefusal
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
