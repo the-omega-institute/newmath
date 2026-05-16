@@ -1,0 +1,194 @@
+\subsection{Models are not worlds}
+\label{subsec:philosophy-models-not-worlds}
+
+\begin{definition}[Model]
+\label{def:philosophy-model}
+A model is an interpretive structure for records and invariants:
+carrier, interpretation map, classifier, theorem list, empirical fit
+ledger, and bridge field.
+\end{definition}
+
+\begin{definition}[Model bridge]
+\label{def:philosophy-model-bridge}
+A model bridge is an auditable correspondence between a BEDC
+records-side object and a mature model. It must specify encoding,
+decoding, round trips, theorem preservation, no-host-leak discipline,
+and unsupported fields.
+\end{definition}
+
+\begin{theorem}[Models are not worlds]
+\label{thm:philosophy-models-not-worlds}
+A model cannot be identified with the world in BEDC.
+\end{theorem}
+\begin{proof}
+The universe object available to the BEDC object layer is a finite
+observation-history slice. A model interprets and compresses records,
+relations, and invariants. Equating model and world would replace the
+finite slice and its gaps by a global object.
+\end{proof}
+
+\begin{corollary}[Model fit is not world truth]
+\label{cor:philosophy-model-fit-not-world-truth}
+A model may fit a ledger without becoming a globally true world
+picture.
+\end{corollary}
+\begin{proof}
+Fit is agreement with recorded rows under an interpretation. Future
+projection remains a Type IV gap, cross-model identity needs bridge and
+classifier data, and global truth is barred by the open meta loop.
+\end{proof}
+
+\subsection{Standard bridges}
+\label{subsec:philosophy-standard-bridges}
+
+\begin{definition}[Standard bridge]
+\label{def:philosophy-standard-bridge}
+For an accepted BEDC object \(N\) and a host theory \(T\), a standard
+bridge is a six-field packet:
+encoding, decoding, decode-after-encode witness, encode-after-decode
+witness, finite theorem-preservation list, and no-host-leak witness.
+\end{definition}
+
+\begin{definition}[Bridge return witnesses]
+\label{def:philosophy-standard-bridge-round-trips}
+The bridge round trips say that decoding an encoded host object returns
+an equivalent host object, and encoding a decoded BEDC carrier returns
+a BEDC-equivalent carrier element under the licensed classifier.
+\end{definition}
+
+\begin{definition}[Theorem preservation]
+\label{def:philosophy-standard-bridge-theorem-preservation}
+The theorem-preservation field is a finite list pairing host theorems
+with BEDC counterparts and translations. Nothing outside the finite
+list is claimed preserved.
+\end{definition}
+
+\begin{definition}[No-host-leak]
+\label{def:philosophy-no-host-leak}
+The no-host-leak field says that host primitives used in bridge
+modules do not appear on the BEDC public surface as primitive inputs,
+public classifiers, or exported theorem statements.
+\end{definition}
+
+\begin{theorem}[Standard bridge is recognition, not fusion]
+\label{thm:philosophy-standard-bridge-recognition-not-fusion}
+A standard bridge conservatively identifies a BEDC object with a host
+model for recognition and finite theorem translation; it does not fuse
+host primitives into BEDC.
+\end{theorem}
+\begin{proof}
+Encoding, decoding, and round trips compare the two sides. The
+theorem-preservation list is finite. The no-host-leak field blocks
+host primitives from becoming BEDC public inputs. The bridge therefore
+supports recognition without fusion.
+\end{proof}
+
+\begin{corollary}[Bridge is not smuggling]
+\label{cor:philosophy-bridge-not-smuggling}
+A bridge is not host mathematics imported without audit when it exposes
+encoding, decoding, round trips, theorem preservation, and no-host-leak
+discipline.
+\end{corollary}
+\begin{proof}
+Smuggling occurs when host primitives enter the public surface. The
+bridge fields prevent that by keeping host use inside the bridge and
+pairing preserved theorems with BEDC counterparts.
+\end{proof}
+
+\subsection{Bridge conservativity and strength}
+\label{subsec:philosophy-bridge-conservativity-strength}
+
+\begin{definition}[Bridge conservativity]
+\label{def:philosophy-bridge-conservativity}
+A standard bridge is conservative when no theorem about the BEDC export
+of \(N\) becomes available through the bridge unless it already has the
+required BEDC certificate strength.
+\end{definition}
+
+\begin{theorem}[No-host-leak yields bridge conservativity]
+\label{thm:philosophy-no-host-leak-bridge-conservativity}
+When no-host-leak is discharged, the bridge is conservative over the
+BEDC export surface for \(N\).
+\end{theorem}
+\begin{proof}
+Host theorem use is mediated by the finite theorem-preservation list
+and paired BEDC counterparts. Host primitives do not appear on the
+public surface. Therefore the bridge does not add free BEDC theorems.
+\end{proof}
+
+\begin{corollary}[External models do not expand BEDC truth]
+\label{cor:philosophy-external-models-not-expand-truth}
+External models and host theories do not automatically add internal
+BEDC provability.
+\end{corollary}
+\begin{proof}
+Only finitely listed and paired preservation rows are recognized by the
+bridge. Other host theorems remain host-side results.
+\end{proof}
+
+\begin{corollary}[Theorem preservation is finite]
+\label{cor:philosophy-theorem-preservation-finite}
+The theorem-preservation list must remain finite and explicit.
+\end{corollary}
+\begin{proof}
+An infinite or schematic preservation field would silently import a
+host theorem schema, bypassing witness and certificate discipline.
+\end{proof}
+
+\begin{definition}[Bridge certificate]
+\label{def:philosophy-bridge-certificate}
+A bridge certificate is a checked certificate plus a standard bridge
+whose no-host-leak field is itself checked.
+\end{definition}
+
+\begin{theorem}[Checked is not bridged]
+\label{thm:philosophy-checked-not-bridged}
+Reaching checked certificate status does not automatically yield bridge
+certificate status.
+\end{theorem}
+\begin{proof}
+Checked status concerns internal formal targets and certificates.
+Bridge status additionally requires six bridge fields, finite theorem
+preservation, and checked no-host-leak discipline.
+\end{proof}
+
+\begin{corollary}[Host maturity does not replace BEDC certification]
+\label{cor:philosophy-host-maturity-not-replace-bedc-certification}
+A mature host object cannot substitute for BEDC naming, derivation, and
+bridge certificates.
+\end{corollary}
+\begin{proof}
+The bridge starts from an accepted BEDC object. Replacing that object
+by the host object would turn host primitives into BEDC inputs.
+\end{proof}
+
+\subsection{Relative bridges}
+\label{subsec:philosophy-relative-bridges}
+
+\begin{definition}[Host-relative bridge]
+\label{def:philosophy-host-relative-bridge}
+A standard bridge is relative to a particular host theory. A bridge to
+one host does not automatically produce a bridge to another.
+\end{definition}
+
+\begin{theorem}[No absolute bridge]
+\label{thm:philosophy-no-absolute-bridge}
+There is no host-independent standard bridge that replaces the
+six-field bridge obligations for each target theory.
+\end{theorem}
+\begin{proof}
+Different host theories have different equality, quotient, function,
+number, and type or set semantics. Encoding, decoding, round trips,
+preservation, and no-host-leak must therefore be discharged for each
+host separately.
+\end{proof}
+
+\begin{corollary}[Model plurality is audited]
+\label{cor:philosophy-model-plurality-audited}
+The same BEDC object may have multiple host model bridges, but each
+bridge is separately audited.
+\end{corollary}
+\begin{proof}
+Each host changes the interpretation and leakage risks. The bridge
+fields are therefore host-relative.
+\end{proof}
