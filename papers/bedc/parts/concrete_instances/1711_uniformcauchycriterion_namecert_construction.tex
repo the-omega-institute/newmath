@@ -240,6 +240,59 @@ finite $\DyadicTailBoundUp$ ledger without adding any excluded completion,
 limit-selection, quotient, or host-equality object.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion finite-tail-filter Real-window handoff]
+\label{thm:uniform-cauchy-criterion-finite-tail-filter-real-window-handoff}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any finite-family tail route
+of $U$ consumed by a $\RealWindowBudgetUp$ or Real-completion consumer must
+factor through the displayed $\FiniteTailFilterUp$ packet of
+\autoref{ch:concrete-instances-finite-tail-filter-namecert} before the
+Real-window selector reads the route.
+
+Concretely, the consumer first reads the shared $\StreamNameUp$ windows $W$,
+the uniform modulus row $M$, the $\DyadicRatCoreUp$ tolerance row $Q$, and the
+tail ledger $T$ as the UniformCauchyCriterion tail surface; the same read is
+then repacked as the $\FiniteTailFilterUp$ cofinal-tail packet carrying the
+displayed stream-window, dyadic, $\RegSeqRatUp$, tail-budget,
+$\CauchyTailComparisonUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows; only after that packet is displayed may the
+$\RealWindowBudgetUp$ selector consume the Real-facing route.
+
+This handoff does not assert quotient stream equality, selected limits, host
+real equality, countable choice, ambient completeness, or any standard bridge
+row.
+\end{theorem}
+\begin{proof}
+Start with tail-ledger exactness,
+\autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. It places every
+accepted finite-family tail comparison of $U$ after the displayed index,
+window, modulus, dyadic tolerance, and tail-ledger rows $I,W,M,Q,T$.
+
+Next attach the UniformCauchyCriterion Real seal route,
+\autoref{thm:uniform-cauchy-criterion-real-seal-handoff}. The Real-facing read
+reaches $E$ only after the same finite tail surface has been consumed, with
+$H,C,P,N$ replaying transport, continuation, provenance, and local naming.
+
+Now pass to the FiniteTailFilter packet. The finite-tail-filter Real-window
+consumer theorem,
+\autoref{thm:finite-tail-filter-real-window-consumer}, reads the displayed
+cofinal-tail packet through its stream-window, dyadic, regular-sequence,
+tail-budget, common-tail, Real seal, transport, continuation, package, and
+local naming rows.
+
+Finally apply the Real-window selector bridge,
+\autoref{thm:finite-tail-filter-real-window-budget-selector-bridge}. It lets
+the $\RealWindowBudgetUp$ selector read only after the
+$\FiniteTailFilterUp$ route is displayed, and it refuses a private selector,
+detached dyadic ledger, selected limit, quotient stream, host real equality,
+countable-choice row, ambient completeness coordinate, or bridge row. Hence
+every Real-window or completion-facing consumer of $U$ factors through the
+finite-tail-filter packet before the selector reads the route.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion Real-completion window exhaustion]
 \label{thm:uniform-cauchy-criterion-real-completion-window-exhaustion}
 For every accepted $\UniformCauchyCriterionUp$ packet

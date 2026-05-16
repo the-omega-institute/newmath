@@ -1,0 +1,106 @@
+\begin{theorem}[AuthorizedGeneratorRecursor root output consumer triad]
+\label{thm:authorized-generator-recursor-root-output-consumer-triad}
+Every root output consumer of an accepted $\AuthorizedGeneratorRecursorUp$
+packet receives the output row only through the finite $\BHist$ route
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+The route displays the accepted authorization surface $I,E,M,B,D$, the
+generator state witnessed by the output row $O$, the audit row $A$, the
+componentwise $\hsame$ row $H$, the displayed $\Cont$ route $C$, the $\Pkg$
+provenance row $P$, the ground-boundary row $G$, and the local
+$\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$.
+
+Thus a root consumer has no hidden generator authority, host recursion oracle,
+off-packet output row, detached readiness row, private continuation, external
+package source, or outside naming certificate.
+\end{theorem}
+\begin{proof}
+Begin with route-pack exactness,
+\autoref{thm:authorized-generator-recursor-route-pack-exactness}. It makes
+$I,E,M,B,D,O,A,H,C,P,G,N$ the complete packet available to a recursor route.
+
+Use the downstream consumer ledger cover,
+\autoref{thm:authorized-generator-recursor-consumer-ledger-cover}. It states
+that generator, substitution-boundary, and TasteGate consumers receive only
+the carrier, branch, descent, audit, transport, continuation, package,
+boundary, and local naming rows displayed by the packet.
+
+Finally apply output route readiness,
+\autoref{thm:authorized-generator-recursor-output-route-readiness}. The output
+row $O$ is route-ready only inside the same finite packet, so a root consumer
+cannot replace the displayed authorization, readiness, continuation, package,
+ground-boundary, or local naming rows by hidden generator authority or host
+recursion.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor readiness route totality]
+\label{thm:authorized-generator-recursor-readiness-route-totality}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, the readiness route
+from authorization to output is total exactly on the displayed rows
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+The accepted constructor signature, emitted eliminator, motive, branch
+package, and structural descent rows provide authorization; the output row and
+audit row provide generator-state exposure and refusal evidence; the
+$\hsame$, $\Cont$, $\Pkg$, ground-boundary, and local $\NameCert$ rows provide
+the only admissible route support.
+
+No consumer may complete the readiness route by importing an unlisted branch,
+non-structural recursive call, hidden generator state, host recursion rule,
+private output channel, or off-packet naming witness.
+\end{theorem}
+\begin{proof}
+Start from the readiness route obligation packet of
+\autoref{def:authorized-generator-recursor-readiness-route}. It repackages the
+accepted carrier rows as authorization, generator, ground-recognition, output,
+refusal, transport, replay, provenance, and local naming data.
+
+Apply ground compiler admission,
+\autoref{thm:authorized-generator-recursor-ground-compiler-admission}. The
+generator output reaches any ground-compiler or output-facing consumer only
+through the authorization row and ground-boundary recognition carried by the
+same finite packet.
+
+Use NameCert obligation exhaustion,
+\autoref{thm:authorized-generator-recursor-namecert-obligation-exhaustion}.
+The carrier, classifier, stability, ledger, and non-escape obligations are
+exhausted by these readiness rows. Therefore the route is total on the
+displayed packet and cannot be completed by hidden generator state, host
+recursion, private output exposure, or an external naming row.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor output route naming exhaustion]
+\label{thm:authorized-generator-recursor-output-route-naming-exhaustion}
+Every accepted output route naming surface for
+$\AuthorizedGeneratorRecursorUp$ is exhausted by the same finite route
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+The public name of $O$ must retain the authorization rows, generator-state
+row, readiness and audit rows, displayed $\Cont$ route, $\Pkg$ source, and
+local $\NameCert$ row already present in the packet.
+
+Consequently the output route cannot be named through a hidden generator, a
+host-recursive eliminator, an external continuation, an unaudited package
+source, a missing readiness row, or a naming certificate outside the displayed
+$\BHist$ carrier.
+\end{theorem}
+\begin{proof}
+Project the root output consumer triad above. Any root consumer reaches $O$
+only after the authorization, generator-state, audit, transport,
+continuation, package, boundary, and local naming rows are displayed.
+
+Apply readiness route totality. Since the readiness route is total only on
+$I,E,M,B,D,O,A,H,C,P,G,N$, an output name cannot be certified by a partial
+route missing authorization, audit, continuation, package, boundary, or local
+NameCert support.
+
+Finally use downstream readback exhaustion,
+\autoref{thm:authorized-generator-recursor-downstream-readback-exhaustion}.
+It removes detached generator routes, host recursion oracles, hidden
+substitution channels, unlicensed output rows, and external naming witnesses
+from downstream reads. Hence the displayed finite carrier exhausts the output
+route naming surface.
+\end{proof}
