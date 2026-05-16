@@ -167,6 +167,48 @@ Use \autoref{thm:real-limit-uniqueness-seal-nonescape} and \autoref{thm:real-lim
 Finally, \autoref{thm:real-limit-uniqueness-seal-independent-witness} identifies the packet by the simultaneous presence of $L_0,L_1,Q,S,D,R,V,H,C,P,N$. Componentwise $\hsame$ transport preserves that inventory rather than changing the certificate kind.
 \end{proof}
 
+\begin{theorem}[Real limit uniqueness seal nontrivial witness]
+\label{thm:real-limit-uniqueness-seal-nontrivial-witness}
+The displayed $\RealLimitUniquenessSealUp$ carrier admits two distinguishable finite packets. They may be separated by changing the second $\CauchyLimitSealUp$ row $L_1$ while keeping the first seal row and the remaining route fixed, or by changing the shared comparison-window route through $Q,S$ while keeping the two seal rows fixed. Hence the local carrier is not a one-element shell.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory of \autoref{def:real-limit-uniqueness-seal-carrier}. A packet is the finite tuple
+$$
+U=(L_0,L_1,Q,S,D,R,V,H,C,P,N),
+$$
+so the second seal row and the shared comparison-window rows are visible coordinates rather than hidden consequences.
+
+The obligation surface of \autoref{thm:real-limit-uniqueness-seal-obligation-surface} makes $L_1$ and the route through $Q,S$ separate NameCert obligations. The nonescape theorem, \autoref{thm:real-limit-uniqueness-seal-nonescape}, prevents an accepted consumer from collapsing those rows into a single seal, a selector endpoint, quotient stream equality, host Real equality, or ambient completeness.
+
+Finally apply the independence witness of \autoref{thm:real-limit-uniqueness-seal-independent-witness}. Its separation from the sibling carriers is exactly the simultaneous presence of the two seal rows and the shared route. Varying either the second seal row or the shared comparison-window row therefore gives a distinguishable finite packet, so the carrier is nontrivial.
+\end{proof}
+
+\begin{theorem}[Real limit uniqueness seal field-faithful projection]
+\label{thm:real-limit-uniqueness-seal-field-faithful-projection}
+For accepted $\RealLimitUniquenessSealUp$ packets, equality of packets is forced by equality of all displayed fields $L_0,L_1,Q,S,D,R,V,H,C,P,N$. Conversely, the displayed field tuple determines the packet and leaves no extra coordinate for selected host limits, quotient stream equality, detached selector choice, ambient completeness, or host Real equality.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{def:real-limit-uniqueness-seal-carrier}. The carrier is presented as the tuple $U=(L_0,L_1,Q,S,D,R,V,H,C,P,N)$, and every named coordinate is part of the finite $\BHist$ packet.
+
+The forward direction follows from \autoref{thm:real-limit-uniqueness-seal-obligation-surface}: any accepted packet equality must preserve the two CauchyLimitSeal rows, shared comparison row, window row, dyadic ledger, Real classifier, uniqueness row, transport, route, provenance, and local name. There is no accepted packet coordinate outside that list.
+
+For the reverse direction, suppose all displayed fields agree. The nonescape theorem, \autoref{thm:real-limit-uniqueness-seal-nonescape}, rules out any hidden equality read or external completeness route that could distinguish two packets after their displayed rows agree.
+
+Use \autoref{thm:real-limit-uniqueness-seal-independent-witness} to close the determination claim. The packet is independent from its siblings precisely because the whole displayed inventory is bound in one local NameCert row. Thus the field tuple determines the packet, and the projection to fields is faithful.
+\end{proof}
+
+\begin{theorem}[Real limit uniqueness seal TasteGate handoff]
+\label{thm:real-limit-uniqueness-seal-tastegate-handoff}
+The same displayed field inventory $L_0,L_1,Q,S,D,R,V,H,C,P,N$ is the paper-side obligation consumed by the Lean \texttt{Nontrivial}, \texttt{FieldFaithful}, and single-carrier TasteGate instances for $\RealLimitUniquenessSealUp$.
+\end{theorem}
+\begin{proof}
+The carrier definition in \autoref{def:real-limit-uniqueness-seal-carrier} supplies the single-carrier inventory handed to Lean: two completion-seal rows, the shared regular-rational comparison row, finite window row, dyadic tolerance row, Real classifier row, uniqueness row, transport, route, provenance, and local naming.
+
+The obligation surface of \autoref{thm:real-limit-uniqueness-seal-obligation-surface} identifies the same rows as the NameCert surface. This is the field inventory used by the field-faithful projection, because no accepted packet has more fields than $L_0,L_1,Q,S,D,R,V,H,C,P,N$.
+
+The nontriviality handoff is controlled by \autoref{thm:real-limit-uniqueness-seal-nonescape} and \autoref{thm:real-limit-uniqueness-seal-independent-witness}. Since the packet cannot escape to a one-seal or selector-only surface, and since its independence is witnessed by the simultaneous two-seal comparison route, the TasteGate instances consume the same concrete obligation rather than a separate carrier.
+\end{proof}
+
 The later Lean boundary is \texttt{lean4/BEDC/Derived/RealLimitUniquenessSealUp/TasteGate.lean}. It must provide \texttt{Nontrivial RealLimitUniquenessSealUp} and \texttt{FieldFaithful RealLimitUniquenessSealUp} instances for the same displayed carrier.
 
 \closureat{RealLimitUniquenessSealUp}{seedStr}

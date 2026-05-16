@@ -167,15 +167,33 @@ Use \autoref{thm:regular-cauchy-modulus-normalizer-common-window}. The route dow
 Use \autoref{thm:regular-cauchy-modulus-normalizer-nonescape}. After the displayed readback, the only remaining exported rows are the Real seal, componentwise transports, continuations, provenance, and local certificate. Hence the third surface is $(E,H,C,P,N)$, and the excluded coordinates cannot be supplied by any downstream consumer.
 \end{proof}
 
-\closureat{RegularCauchyModulusNormalizerUp}{obligationStr}
+\begin{theorem}[Regular Cauchy modulus normalizer scoped primitive binding]
+\label{thm:regular-cauchy-modulus-normalizer-scoped-primitive-binding}
+For every accepted $\RegularCauchyModulusNormalizerUp$ carrier
+$$
+K=(X,Y,\mu_X,\mu_Y,M,W,D,R,E,H,C,P,N),
+$$
+each obligation row of \autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations} is bound to the displayed BEDC primitives of the packet: source rows through $\RegSeqRatUp$, the meet row through $\CauchyModulusMeetUp$, the shared window through $\StreamNameUp$, the tolerance ledger through $\DyadicRatCoreUp$, the seal row through $\RealUp$, transport through $\hsame$, route preservation through $\Cont$, provenance through $\Pkg$, and local admission through $\NameCert$. The binding is internal to the displayed carrier and obtains no obligation row from host equality, quotient streams, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-modulus-normalizer-carrier}. The packet exposes the two $\RegSeqRatUp$ source names, the two displayed schedules, the $\CauchyModulusMeetUp$ row $M$, the $\StreamNameUp$ ledger $W$, the $\DyadicRatCoreUp$ ledger $D$, the paired $\RegSeqRatUp$ readback $R$, and the $\RealUp$ seal $E$ as named coordinates.
+
+Apply \autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations}. Carrier admission, source exposure, meet exactness, shared-window exactness, classifier stability, and non-escape are therefore read from those projected coordinates together with the componentwise $\hsame$ transports in $H$, the displayed $\Cont$ routes in $C$, the $\Pkg$ provenance in $P$, and the local $\NameCert$ row $N$.
+
+Use \autoref{thm:regular-cauchy-modulus-normalizer-common-window}. The common-window route fixes the obligation path through $\mu_X,\mu_Y,M,W,D,R,H,C,P,N$, so the meet, window, tolerance, readback, transport, route, provenance, and local admission rows remain scoped to the displayed packet.
+
+Use \autoref{thm:regular-cauchy-modulus-normalizer-nonescape}. Since the packet has no coordinate for host equality, quotient streams, selected limits, side-specific tail oracles, or ambient completeness, none of those structures can source an obligation row or replace the primitive bindings just projected.
+\end{proof}
+
+\closureat{RegularCauchyModulusNormalizerUp}{scopedStr}
 
 \begin{closurestatus}{\RegularCauchyModulusNormalizerUp}
   \constructivestory{A $\RegularCauchyModulusNormalizerUp$ packet is generated from two $\RegSeqRatUp$ source rows, two displayed Cauchy-modulus schedules, a shared $\CauchyModulusMeetUp$ row, one shared $\StreamNameUp$ window ledger, $\DyadicRatCoreUp$ tolerance, paired $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise transports, displayed continuations, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:regular-cauchy-modulus-normalizer-carrier}, \autoref{def:regular-cauchy-modulus-normalizer-classifier}, \autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations}, \autoref{thm:regular-cauchy-modulus-normalizer-source-exposure-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-shared-window-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-seal-replay-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-common-window}, \autoref{thm:regular-cauchy-modulus-normalizer-nonescape}, and \autoref{thm:regular-cauchy-modulus-normalizer-source-meet-window-seal-triad} explicitly name the carrier, classifier, source exposure, meet exactness, shared-window exactness, seal replay, classifier stability, and non-escape obligation rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient regular streams, source-equivalence shortcuts, host real equality, selected limits, side-specific tail oracles, ambient completeness, Lean verification, or bridge checking for $\RegularCauchyModulusNormalizerUp$.}
-  \upgradepath{Scoped closure requires dependency scoping for the source-exposure, shared-window, and seal-replay obligation rows against the named $\RegSeqRatUp$, $\CauchyModulusMeetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives.}
+  \upgradepath{Public closure requires an exported consumer theorem for the normalized shared-window route.}
 \end{closurestatus}
