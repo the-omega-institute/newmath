@@ -1,0 +1,37 @@
+\begin{theorem}[CriticalLineWitness Phase Real selector-route totality]
+\label{thm:critical-line-witness-phase-real-selector-route-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ fixed-strip source packet. Every Phase Real selector read of $W$ factors through the displayed finite route: the $\BHist$ source packet, the StreamName-facing source window, the $\RegSeqRatUp$ route, the $\RealUp$ endpoint, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CriticalLineWitnessUp}$ rows. The selector route may inspect the source-budget and zeta-refusal ledgers already present in $W$, but it has no coordinate for host real equality, analytic truth, selected Cauchy representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First expose the fixed source side. Apply \autoref{thm:critical-line-witness-phase-real-source-window-exhaustion} and \autoref{thm:critical-line-witness-phase-real-source-budget-readiness}. They bind the Phase Real read to the same finite source packet $Z,S,M,R,Q,H,C,P,N$ and to the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before any selector reaches a real-facing consumer.
+
+Next route the selector through the regular-rational face. Apply \autoref{thm:critical-line-witness-phase-real-regseqrat-route-readiness}. The $\RegSeqRatUp$ route and $\RealUp$ endpoint are therefore read as displayed rows of the packet, not as a quotient stream, selected limit, host real equality, or analytic continuation certificate.
+
+Finally attach the refusal ledger by \autoref{thm:critical-line-witness-phase-real-zeta-refusal-ledger}. The ledger combines the source budget, regular-rational route, real endpoint, zero-strip readback, carrier transport, continuation replay, provenance, and local naming rows. Since the carrier and NameCert obligation blocks \autoref{def:critical-line-witness-carrier} and \autoref{thm:critical-line-witness-namecert-obligations} expose no additional selector coordinate, every Phase Real selector read factors through the displayed finite route.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness RegSeqRat Real budget separation]
+\label{thm:critical-line-witness-regseqrat-real-budget-separation}
+For an accepted $\CriticalLineWitnessUp$ fixed-strip source packet $W=(Z,S,M,R,Q,H,C,P,N)$, the $\RegSeqRatUp$ budget data and the $\RealUp$ endpoint remain separate visible rows of the Phase Real route. A consumer may read their shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CriticalLineWitnessUp}$ support, but it cannot collapse the budget row into host real equality, analytic continuation, selected-limit truth, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the source-budget row of \autoref{thm:critical-line-witness-phase-real-source-budget-readiness}. It records the finite support surface for a Phase Real read and keeps the budget information inside the displayed packet.
+
+Now apply \autoref{thm:critical-line-witness-phase-real-regseqrat-route-readiness}. This theorem places the $\RegSeqRatUp$ route before the $\RealUp$ endpoint while preserving the same carrier, transport, replay, provenance, and local naming rows.
+
+The two rows are therefore adjacent but not identified. The carrier definition \autoref{def:critical-line-witness-carrier} displays $R$ and $Q$ as named coordinates and keeps $H,C,P,N$ as support rows rather than equality collapses.
+
+Use the zeta-refusal ledger \autoref{thm:critical-line-witness-phase-real-zeta-refusal-ledger} to close the boundary. Host real equality, analytic continuation, selected-limit truth, and ambient completeness have no exported row, so the budget and endpoint remain separate BEDC-visible obligations.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness StreamName source-window lock]
+\label{thm:critical-line-witness-streamname-source-window-lock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ fixed-strip source packet. Any StreamName window consumer that preserves the fixed-strip source must preserve the same finite source-window packet before it reads the Phase Real endpoint. In particular, the consumer reads $Z,S,M,R,Q,H,C,P,N$ through the displayed $\BHist$ packet, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CriticalLineWitnessUp}$ rows before the $\RegSeqRatUp$ route reaches the $\RealUp$ endpoint.
+\end{theorem}
+\begin{proof}
+Begin with the source-window side. Apply \autoref{thm:critical-line-witness-phase-real-source-window-exhaustion}. A StreamName-facing consumer preserving the fixed strip must first read the displayed finite source rows and cannot enter through an off-packet stream selector.
+
+Add the source-budget readiness theorem \autoref{thm:critical-line-witness-phase-real-source-budget-readiness}. It keeps the source window tied to the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows while the Phase Real budget is inspected.
+
+Finally route toward the endpoint through \autoref{thm:critical-line-witness-phase-real-regseqrat-route-readiness} and \autoref{thm:critical-line-witness-phase-real-zeta-refusal-ledger}. These results force the $\RegSeqRatUp$ route, $\RealUp$ endpoint, and refusal ledger to remain downstream from the preserved source-window packet. Therefore the StreamName consumer preserves the finite source window before any Real-facing read is available.
+\end{proof}
