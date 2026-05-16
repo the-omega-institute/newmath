@@ -230,4 +230,30 @@ theorem RegularCauchyModulusNormalizerCarrier_seal_replay_obligation [AskSetup]
   }
   exact ⟨cert, sealUnary, transportUnary, routeUnary, provenanceUnary, endpointUnary⟩
 
+theorem RegularCauchyModulusNormalizerCarrier_common_window [AskSetup] [PackageSetup]
+    {x y muX muY meet window dyadic readback sealRow transport route provenance name
+      comparisonRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyModulusNormalizerCarrier x y muX muY meet window dyadic readback sealRow
+        transport route provenance name bundle pkg ->
+      Cont meet window dyadic ->
+        Cont window dyadic comparisonRead ->
+          PkgSig bundle comparisonRead pkg ->
+            UnaryHistory meet ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+              UnaryHistory comparisonRead ∧ Cont muX muY meet ∧
+                Cont meet window dyadic ∧ Cont window dyadic comparisonRead ∧
+                  PkgSig bundle comparisonRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier meetWindowDyadic windowDyadicComparisonRead comparisonPkg
+  obtain ⟨_xUnary, _yUnary, _muXUnary, _muYUnary, meetUnary, windowUnary,
+    dyadicUnary, _readbackUnary, _sealUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, sourceMeet, _carrierMeetWindowDyadic,
+    _dyadicReadbackSeal, _sealTransportRoute, _routeProvenanceName, _meetPkg,
+    _namePkg⟩ := carrier
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed windowUnary dyadicUnary windowDyadicComparisonRead
+  exact
+    ⟨meetUnary, windowUnary, dyadicUnary, comparisonUnary, sourceMeet, meetWindowDyadic,
+      windowDyadicComparisonRead, comparisonPkg⟩
+
 end BEDC.Derived.RegularCauchyModulusNormalizerUp
