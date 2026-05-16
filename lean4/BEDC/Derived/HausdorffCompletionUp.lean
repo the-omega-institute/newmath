@@ -318,6 +318,59 @@ theorem HausdorffCompletionCarrier_public_route_composition [AskSetup] [PackageS
       sourceEntourageTransport, transportRouteProvenance, sourceHandoffPublicRoute,
       provenancePkg, publicRoutePkg⟩
 
+theorem HausdorffCompletionCarrier_public_separated_certificate [AskSetup] [PackageSetup]
+    {source entourage separated handoff transport route provenance publicRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg ->
+      Cont source handoff publicRoute ->
+        PkgSig bundle publicRoute pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              HausdorffCompletionCarrier source entourage separated handoff transport route
+                provenance bundle pkg ∧ hsame row publicRoute)
+            (fun row : BHist =>
+              Cont source handoff row ∧ Cont source entourage transport ∧
+                Cont transport route provenance)
+            (fun row : BHist => PkgSig bundle row pkg ∧ PkgSig bundle provenance pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier sourceHandoffPublicRoute publicRoutePkg
+  have acceptedCarrier :
+      HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg := carrier
+  obtain ⟨_sourceUnary, _entourageUnary, _separatedUnary, _handoffUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, sourceEntourageTransport, _separatedHandoffRoute,
+    transportRouteProvenance, provenancePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicRoute ⟨acceptedCarrier, hsame_refl publicRoute⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        exact ⟨sourceRow.left, hsame_trans (hsame_symm sameRows) sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨cont_result_hsame_transport sourceHandoffPublicRoute
+            (hsame_symm sourceRow.right),
+          sourceEntourageTransport, transportRouteProvenance⟩
+    ledger_sound := by
+      intro _row sourceRow
+      cases sourceRow.right
+      exact ⟨publicRoutePkg, provenancePkg⟩
+  }
+
 def HausdorffCompletionPacket [AskSetup] [PackageSetup]
     (source entourage sealRow handoff transports routes provenance nameRow exported : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
