@@ -97,4 +97,22 @@ Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The cer
 Finally apply \autoref{thm:real-completion-exact-boundary-nonescape}. Since every accepted consumer factors through $L,K,J,S,W,R,D,E,H,C,P,N$, any terminal seal read that uses one of the excluded routes is outside the packet rather than an accepted Real seal read.
 \end{proof}
 
+\begin{theorem}[Real completion exact-boundary four-face exactness]
+\label{thm:real-completion-exact-boundary-four-face-exactness}
+For every accepted $\RealCompletionExactBoundaryUp$ packet
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N),
+$$
+the accepted completion boundary exposes exactly the four Phase Real and Completion faces $\StreamNameUp(W)$, $\RegSeqRatUp(R)$, $\DyadicRatCoreUp(D)$, and $\RealUp(E)$ after the seal, classifier, witness-ledger, and budget rows $L,K,J,S$. Every completion-facing consumer and every terminal Real-seal consumer factors through the structural rows $H,C,P,N$ of the same packet. No quotient stream row, host real equality row, selected limit row, countable-choice row, ambient-completeness row, metric-completeness row, or bridge row is exported by the boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-exact-boundary-carrier}. Its displayed rows place $L,K,J,S$ first, followed by the four boundary faces $W,R,D,E$ and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The local certificate identifies the complete row inventory of the accepted packet, so the only Phase Real and Completion face rows available after $L,K,J,S$ are $W$, $R$, $D$, and $E$.
+
+Apply \autoref{thm:real-completion-exact-boundary-streamname-regseq-route}. The ordered route reads $W$ as the $\StreamNameUp$ finite-window face, $R$ as the $\RegSeqRatUp$ readback face, $D$ as the $\DyadicRatCoreUp$ tolerance face, and $E$ as the terminal $\RealUp$ seal face.
+
+Finally use \autoref{thm:real-completion-exact-boundary-real-seal-nonescape} together with \autoref{thm:real-completion-exact-boundary-nonescape}. The first theorem blocks terminal Real-seal escape, and the second blocks completion-boundary escape, so any consumer of the accepted boundary must pass through $H,C,P,N$ and receives none of the excluded quotient, host-equality, selected-limit, choice, completeness, or bridge coordinates.
+\end{proof}
+
 Lean development for this route must provide $\mathsf{Nontrivial}\ \RealCompletionExactBoundaryUp$ and $\mathsf{FieldFaithful}\ \RealCompletionExactBoundaryUp$ instances in \texttt{lean4/BEDC/Derived/RealCompletionExactBoundaryUp/TasteGate.lean}.
