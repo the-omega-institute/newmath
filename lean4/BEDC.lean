@@ -62,6 +62,7 @@ import BEDC.Derived.AnchorChangeInvariantUp.TasteGate
 import BEDC.Derived.ApophaticGateQuestionUp
 import BEDC.Derived.ApophaticGateQuestionUp.BoundaryRowTriad
 import BEDC.Derived.ApophaticGateQuestionUp.KindReadbackDeterminacy
+import BEDC.Derived.ApophaticGateQuestionUp.KindSocketTotality
 import BEDC.Derived.ApophaticGateQuestionUp.NamecertReadbackStability
 import BEDC.Derived.ApophaticGateQuestionUp.ProvenanceRouteExhaustion
 import BEDC.Derived.ApophaticGateQuestionUp.PublicNamecertPackage
