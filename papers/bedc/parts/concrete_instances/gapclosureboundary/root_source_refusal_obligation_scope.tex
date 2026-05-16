@@ -1,0 +1,43 @@
+\begin{theorem}[GapClosureBoundary source obligation scope]
+\label{thm:gap-closure-boundary-source-obligation-scope}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, a supported read must display the source branch
+$$
+G \longrightarrow S
+$$
+before it consumes the structural rows $H,C,P,N$. The structural rows transport, replay, source, and name the displayed source branch; they do not replace it with hidden closure supply.
+\end{theorem}
+\begin{proof}
+Start with the carrier and local NameCert obligations, \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. They expose the finite rows $G,S,R,H,C,P,N$ and assign $H,C,P,N$ to transport, replay, provenance, and local naming.
+
+Apply source route totality, \autoref{thm:gap-closure-boundary-source-route-totality}. It requires the displayed source route $G \longrightarrow S$ before a supported hard-problem consumer reads the structural rows.
+
+Finally use source-refusal orthogonality and consumer factorization, \autoref{thm:gap-closure-boundary-source-refusal-orthogonality} and \autoref{thm:gap-closure-boundary-hard-problem-consumer-factorization}. These keep the source branch distinct from refusal and keep the consumer inside the shared packet, so no hidden source or closure row is available.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal obligation scope]
+\label{thm:gap-closure-boundary-refusal-obligation-scope}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, an unsupported read routes to the refusal branch
+$$
+G \longrightarrow R
+$$
+with no hidden supply outside $G,S,R,H,C,P,N$. The structural rows preserve the refusal endpoint and cannot convert it into source evidence, private access, causal necessity, direct aspect reduction, or hidden $\mathsf{T}$ supply.
+\end{theorem}
+\begin{proof}
+Begin with refusal route exactness, \autoref{thm:gap-closure-boundary-refusal-route-exactness}. It sends each unsupported closure request through $G \longrightarrow R$ with the structural rows $H,C,P,N$.
+
+Use the local NameCert obligation surface, \autoref{thm:gap-closure-boundary-namecert-obligation-surface}. It records refusal-ledger exactness and non-escape as obligations of the same finite carrier.
+
+Now apply source-refusal orthogonality and refusal ledger stability. The refusal branch cannot be reread as a concealed source branch, and transport or replay preserves $R$ rather than producing hidden supply. Thus the unsupported read remains on the displayed refusal obligation scope.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary consumer obligation scope]
+\label{thm:gap-closure-boundary-consumer-obligation-scope}
+Every hard-problem consumer of an accepted $\GapClosureBoundaryUp$ carrier receives only the two displayed branches over $G,S,R,H,C,P,N$: supported reads consume $G \longrightarrow S$, and unsupported reads consume $G \longrightarrow R$. No consumer receives a third branch, hidden supply row, host equality, quotient datum, private source selector, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+First assemble the supported branch. By \autoref{thm:gap-closure-boundary-source-obligation-scope}, every supported read must display $G \longrightarrow S$ before the structural rows are consumed.
+
+Next assemble the unsupported branch. By \autoref{thm:gap-closure-boundary-refusal-obligation-scope}, every unsupported read remains on $G \longrightarrow R$ with no hidden supply.
+
+Finally apply hard-problem consumer factorization and consumer ledger exhaustion, \autoref{thm:gap-closure-boundary-hard-problem-consumer-factorization} and \autoref{thm:gap-closure-boundary-consumer-ledger-exhaustion}. They keep the listed consumers inside the same source/refusal split, so the two displayed branches exhaust the consumer obligation scope.
+\end{proof}
