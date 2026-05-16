@@ -31,6 +31,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares carriers only through these rows. It has no coordinate for quotient stream equality, host real equality, a hidden selector, a second seal route, a detached witness ledger, or ambient completeness.
 \end{definition}
+\leanchecked{BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Real completion exact-boundary NameCert obligations]
 \label{thm:real-completion-exact-boundary-namecert-obligations}
@@ -62,6 +63,38 @@ Start from the accepted packet $B=(L,K,J,S,W,R,D,E,H,C,P,N)$. The seal/classifie
 Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The local certificate exports exactly the rows $L,K,J,S,W,R,D,E,H,C,P,N$ and treats $H,C,P,N$ as structural support for that same finite packet.
 
 Finally inspect the excluded objects. Quotient stream equality, host real equality, hidden selectors, second seal routes, detached witness ledgers, and ambient completeness are absent from the carrier and classifier. A consumer that reads any of them has left the accepted exact-boundary packet.
+\end{proof}
+
+\begin{theorem}[Real completion StreamName--RegSeq route]
+\label{thm:real-completion-exact-boundary-streamname-regseq-route}
+Every accepted $\RealCompletionExactBoundaryUp$ packet
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N)
+$$
+routes the completion read through the finite chain $W,R,D,E,H,C,P,N$ after the seal, classifier, witness, and synchronizer rows $L,K,J,S$ have been displayed. In that route, $W$ supplies the $\StreamNameUp$ finite-window row, $R$ supplies the $\RegSeqRatUp$ readback row for the same window, $D$ supplies the $\DyadicRatCoreUp$ tolerance and endpoint row consumed by that readback, and $E$ supplies the terminal $\RealUp$ seal reached by the displayed completion packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-exact-boundary-carrier}. The coordinates $W,R,D,E$ occur as named rows of the same accepted packet as $L,K,J,S,H,C,P,N$.
+
+Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The local NameCert obligations expose the StreamName finite window, RegSeqRat readback, DyadicRatCore tolerance ledger, and RealUp seal as part of one certificate surface, with $H,C,P,N$ transporting, replaying, packaging, and naming that surface.
+
+Use \autoref{thm:real-completion-exact-boundary-nonescape}. Any completion consumer that attempts to read $W,R,D$, or $E$ outside the displayed route would require an absent coordinate, so the completion read is forced through the finite packet $W,R,D,E,H,C,P,N$ under the already displayed rows $L,K,J,S$.
+\end{proof}
+
+\begin{theorem}[Real completion terminal seal non-escape]
+\label{thm:real-completion-exact-boundary-real-seal-nonescape}
+No terminal $\RealUp$ seal read accepted by a $\RealCompletionExactBoundaryUp$ packet can bypass the displayed route
+$$
+L,K,J,S,W,R,D,E,H,C,P,N
+$$
+by using quotient stream equality, host real equality, a hidden selector, a second seal route, a detached witness ledger, or ambient completeness. The only accepted terminal seal read is the row $E$ reached through the carrier, NameCert obligations, and non-escape surface of the same finite packet.
+\end{theorem}
+\begin{proof}
+Begin with the carrier. The row $E$ is displayed as the terminal $\RealUp$ seal only after the seal row $L$, classifier row $K$, witness ledger $J$, synchronizer row $S$, StreamName row $W$, RegSeqRat row $R$, and DyadicRatCore row $D$ are present.
+
+Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The certificate exports no equality quotient on streams, no host real equality coordinate, no selector coordinate, no alternate seal route, no detached ledger, and no ambient completeness witness.
+
+Finally apply \autoref{thm:real-completion-exact-boundary-nonescape}. Since every accepted consumer factors through $L,K,J,S,W,R,D,E,H,C,P,N$, any terminal seal read that uses one of the excluded routes is outside the packet rather than an accepted Real seal read.
 \end{proof}
 
 Lean development for this route must provide $\mathsf{Nontrivial}\ \RealCompletionExactBoundaryUp$ and $\mathsf{FieldFaithful}\ \RealCompletionExactBoundaryUp$ instances in \texttt{lean4/BEDC/Derived/RealCompletionExactBoundaryUp/TasteGate.lean}.
