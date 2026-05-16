@@ -469,4 +469,30 @@ theorem HistTimeStreamCarrier_public_export [AskSetup] [PackageSetup]
       nameUnary, publicUnary, scheduleStartReplay, sourceReplayProvenance,
       provenanceNamePublic, provenancePkg, namePkg, publicPkg⟩
 
+theorem HistTimeStreamCarrier_real_streamname_window_lock [AskSetup] [PackageSetup]
+    {source schedule start replay transport provenance name streamRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg ->
+      Cont source replay streamRead ->
+        Cont streamRead transport realRead ->
+          PkgSig bundle realRead pkg ->
+            UnaryHistory source ∧ UnaryHistory schedule ∧ UnaryHistory start ∧
+              UnaryHistory replay ∧ UnaryHistory transport ∧ UnaryHistory streamRead ∧
+                UnaryHistory realRead ∧ Cont schedule start replay ∧
+                  Cont source replay streamRead ∧ Cont streamRead transport realRead ∧
+                    hsame provenance replay ∧ PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sourceReplayStream streamTransportReal realPkg
+  obtain ⟨sourceUnary, scheduleUnary, startUnary, replayUnary, transportUnary,
+    _provenanceUnary, _nameUnary, scheduleStartReplay, _sourceReplayProvenance,
+    provenanceReplay, _provenancePkg, _namePkg⟩ := carrier
+  have streamUnary : UnaryHistory streamRead :=
+    unary_cont_closed sourceUnary replayUnary sourceReplayStream
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed streamUnary transportUnary streamTransportReal
+  exact
+    ⟨sourceUnary, scheduleUnary, startUnary, replayUnary, transportUnary, streamUnary,
+      realUnary, scheduleStartReplay, sourceReplayStream, streamTransportReal,
+      provenanceReplay, realPkg⟩
+
 end BEDC.Derived.HistTimeStreamUp
