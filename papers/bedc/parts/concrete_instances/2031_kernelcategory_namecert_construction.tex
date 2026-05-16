@@ -658,6 +658,42 @@ Next use the public route theorems. \autoref{thm:kernel-category-root-hom-law-tr
 The remaining exclusions are exactly the provenance and readiness exclusions. \autoref{thm:kernel-category-pkg-provenance-nonescape}, \autoref{thm:kernel-category-root-nonescape-surface}, and \autoref{thm:kernel-category-formal-target-frontier} remove host category objects, quotient morphisms, external equality of arrows, functor semantics, natural transformations, limits, adjunctions, and detached certificates from the scoped surface.
 \end{proof}
 
+\begin{theorem}[KernelCategory downstream functor route boundary]
+\label{thm:kernel-category-downstream-functor-route-boundary}
+Let $K=(O,H,I,C,A,U,P,N)$ be an accepted $\KernelCategoryUp$ packet. Every $\FunctorUp$-facing read of a KernelCategory route factors through the displayed rows $O,H,I,C,A,U,P,N$: unary object histories, continuation-ledger hom rows, empty-continuation identities, displayed $\Cont$ composites, componentwise $\hsame$ law transports, package provenance, and local naming. It cannot import host arrow equality, quotient morphisms, host composition, functor semantics, natural transformations, or limit data.
+\end{theorem}
+\begin{proof}
+Start with the carrier and certificate surface. The carrier \autoref{def:kernel-category-carrier} fixes $O,H,I,C,A,U,P,N$ as the packet, while \autoref{thm:kernel-category-certificate-surface} exposes only the local certificate rows over that packet.
+
+Use the operation routes. The identity theorem \autoref{thm:kernel-category-identity-continuation} and composition theorem \autoref{thm:kernel-category-composition-continuation} place the functor-facing source and target reads inside empty-continuation identities and displayed $\Cont$ composites.
+
+Finally apply route totality and downstream readiness. By \autoref{thm:kernel-category-route-totality} and \autoref{thm:kernel-category-downstream-namecert-readiness}, the downstream functor handoff receives exactly the displayed KernelCategory NameCert route and has no host arrow equality, quotient morphism, host composition, semantic functor row, natural transformation, or limit coordinate to read.
+\end{proof}
+
+\begin{theorem}[KernelCategory ContinuationMonad consumer exhaustion]
+\label{thm:kernel-category-continuation-monad-consumer-exhaustion}
+For an accepted $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, every $\ContinuationMonadUp$ consumer exhausts its unit and bind reads through the empty $\Cont$ identity rows in $I$ and the displayed $\Cont$ composition rows in $C$. The consumer may also read the endpoint, hom-ledger, law-transport, provenance, and local naming rows $O,H,A,U,P,N$, but it cannot add a host monad, host category composition, quotient morphism, external arrow equality, or detached continuation semantics.
+\end{theorem}
+\begin{proof}
+Read the finite packet first. The carrier \autoref{def:kernel-category-carrier} supplies the only object, hom, operation, law, provenance, and naming rows available to a continuation consumer, and \autoref{thm:kernel-category-certificate-surface} keeps the certificate local to those rows.
+
+Apply the identity and composition routes. By \autoref{thm:kernel-category-identity-continuation}, unit reads are empty $\Cont$ identity rows in $I$. By \autoref{thm:kernel-category-composition-continuation}, bind-shaped reads are displayed $\Cont$ composites in $C$ over the hom ledger $H$.
+
+Close with totality and readiness. The route totality theorem \autoref{thm:kernel-category-route-totality} and downstream readiness theorem \autoref{thm:kernel-category-downstream-namecert-readiness} exhaust every continuation-monad consumer on $O,H,I,C,A,U,P,N$, excluding host monads, host composition, quotient morphisms, external equality, and detached continuation semantics.
+\end{proof}
+
+\begin{theorem}[KernelCategory CategoryUp public export lock]
+\label{thm:kernel-category-categoryup-public-export-lock}
+For an accepted $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, the public export to $\CategoryUp$ is exactly the carrier, identity, composition, law transport, package, and local $\NameCert$ rows displayed by $K$. No public export adds a host category carrier, quotient arrow class, global equality of morphisms, functor semantic row, natural transformation, limit object, or detached public certificate.
+\end{theorem}
+\begin{proof}
+Begin with carrier and certificate. The carrier \autoref{def:kernel-category-carrier} lists the finite export rows, and \autoref{thm:kernel-category-certificate-surface} makes package provenance and local naming part of the same public surface.
+
+Attach identity, composition, and law transport. The identity theorem \autoref{thm:kernel-category-identity-continuation} supplies the empty-continuation identity rows, while \autoref{thm:kernel-category-composition-continuation} supplies displayed composition rows. The law transport rows are the same componentwise $\hsame$ rows accounted for by the certificate surface.
+
+Finally apply route totality and downstream readiness. Theorems \autoref{thm:kernel-category-route-totality} and \autoref{thm:kernel-category-downstream-namecert-readiness} show that every public $\CategoryUp$ export is already exhausted by $O,H,I,C,A,U,P,N$, leaving no host category carrier, quotient arrow class, global morphism equality, semantic functor row, natural transformation, limit object, or detached public certificate.
+\end{proof}
+
 \closureat{KernelCategoryUp}{seedStr}
 \closureat{KernelCategoryUp}{obligationStr}
 \closureat{KernelCategoryUp}{scopedStr}
@@ -668,7 +704,7 @@ The remaining exclusions are exactly the provenance and readiness exclusions. \a
 \begin{closurestatus}{\KernelCategoryUp}
   \constructivestory{A $\KernelCategoryUp$ packet is generated from unary object histories, continuation-ledger hom histories, empty-continuation identity rows, displayed $\Cont$ composition rows, $\hsame$ associativity and unit transports, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:kernel-category-carrier}, \autoref{thm:kernel-category-identity-continuation}, \autoref{thm:kernel-category-composition-continuation}, \autoref{thm:kernel-category-certificate-surface}, \autoref{thm:kernel-category-root-namecert-obligation-triad}, \autoref{thm:kernel-category-root-hom-law-triad}, \autoref{thm:kernel-category-root-endpoint-exhaustion}, \autoref{thm:kernel-category-root-nonescape-surface}, \autoref{thm:kernel-category-namecert-public-surface}, \autoref{thm:kernel-category-root-public-readiness}, \autoref{thm:kernel-category-public-consumer-triad}, and \autoref{thm:kernel-category-namecert-route-exhaustion} bind the finite kernel-category carrier, identity continuation, composition continuation, certificate surface, root NameCert obligation triad, root hom-law triad, root endpoint exhaustion, root non-escape surface, and public downstream NameCert route.}
+  \scopeclosed{\autoref{def:kernel-category-carrier}, \autoref{thm:kernel-category-identity-continuation}, \autoref{thm:kernel-category-composition-continuation}, \autoref{thm:kernel-category-certificate-surface}, \autoref{thm:kernel-category-root-namecert-obligation-triad}, \autoref{thm:kernel-category-root-hom-law-triad}, \autoref{thm:kernel-category-root-endpoint-exhaustion}, \autoref{thm:kernel-category-root-nonescape-surface}, \autoref{thm:kernel-category-namecert-public-surface}, \autoref{thm:kernel-category-root-public-readiness}, \autoref{thm:kernel-category-public-consumer-triad}, \autoref{thm:kernel-category-namecert-route-exhaustion}, \autoref{thm:kernel-category-downstream-functor-route-boundary}, \autoref{thm:kernel-category-continuation-monad-consumer-exhaustion}, and \autoref{thm:kernel-category-categoryup-public-export-lock} bind the finite kernel-category carrier, identity continuation, composition continuation, certificate surface, root NameCert obligation triad, root hom-law triad, root endpoint exhaustion, root non-escape surface, public downstream NameCert route, downstream FunctorUp boundary, ContinuationMonad consumer exhaustion, and CategoryUp public export lock.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
