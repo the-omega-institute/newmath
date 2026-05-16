@@ -246,6 +246,39 @@ theorem TailCofinalityScheduleCarrier_selector_seal_pullback [AskSetup] [Package
       pullbackUnary, precisionWindowDyadic, dyadicRegseqSeal, budgetWindowSelector,
       selectorRegseqSeal, sealEndpointPullback, endpointPkg, pullbackPkg⟩
 
+theorem TailCofinalityScheduleCarrier_selector_budget_lock [AskSetup] [PackageSetup]
+    {precision budget window dyadic regseq sealRow transport route provenance localCert endpoint
+      selectorRead sealRead lockedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      UnaryHistory budget →
+        Cont budget window selectorRead →
+          Cont selectorRead dyadic sealRead →
+            Cont sealRead endpoint lockedRead →
+              PkgSig bundle lockedRead pkg →
+                UnaryHistory budget ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+                  UnaryHistory selectorRead ∧ UnaryHistory sealRead ∧
+                    UnaryHistory lockedRead ∧ Cont budget window selectorRead ∧
+                      Cont selectorRead dyadic sealRead ∧ Cont sealRead endpoint lockedRead ∧
+                        PkgSig bundle endpoint pkg ∧ PkgSig bundle lockedRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier budgetUnary budgetWindowSelector selectorDyadicSeal sealEndpointLocked
+    lockedPkg
+  obtain ⟨_precisionUnary, windowUnary, dyadicUnary, _regseqUnary, _sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, endpointUnary,
+    _precisionWindowDyadic, _dyadicRegseqSeal, _sealTransportRoute,
+    _routeProvenanceEndpoint, _endpointLocalCert, endpointPkg⟩ := carrier
+  have selectorUnary : UnaryHistory selectorRead :=
+    unary_cont_closed budgetUnary windowUnary budgetWindowSelector
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed selectorUnary dyadicUnary selectorDyadicSeal
+  have lockedReadUnary : UnaryHistory lockedRead :=
+    unary_cont_closed sealReadUnary endpointUnary sealEndpointLocked
+  exact
+    ⟨budgetUnary, windowUnary, dyadicUnary, selectorUnary, sealReadUnary, lockedReadUnary,
+      budgetWindowSelector, selectorDyadicSeal, sealEndpointLocked, endpointPkg, lockedPkg⟩
+
 theorem TailCofinalityScheduleCarrier_cauchy_inverse_budget_factorization [AskSetup]
     [PackageSetup]
     {precision window dyadic regseq sealRow transport route provenance localCert endpoint
