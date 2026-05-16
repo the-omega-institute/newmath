@@ -203,4 +203,61 @@ theorem TranscendentalSupplyTaxonomySiteLocality [AskSetup] [PackageSetup]
     ⟨siteUnary, requestedSupplyUnary, siteTransportReadUnary, siteTransport,
       siteSameGapAudit⟩
 
+namespace NameCertObligations
+
+theorem TranscendentalSupplyTaxonomyGapNondischarge [AskSetup] [PackageSetup]
+    {socketKind requestedSupply gap auditGate site transport route provenance nameRow auditRead
+      boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TranscendentalSupplyTaxonomyCarrier socketKind requestedSupply gap auditGate site transport
+        route provenance nameRow bundle pkg →
+      Cont gap auditGate auditRead →
+        Cont auditRead site boundary →
+          PkgSig bundle auditRead pkg →
+            SemanticNameCert
+              (fun row : BHist => hsame row gap ∧ UnaryHistory row ∧
+                PkgSig bundle auditRead pkg)
+              (fun row : BHist => hsame row gap ∧ Cont gap auditGate auditRead)
+              (fun _row : BHist =>
+                Cont auditRead site boundary ∧ hsame site (append gap auditGate) ∧
+                  PkgSig bundle auditRead pkg)
+              hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier gapAuditRead auditReadSiteBoundary auditReadPkg
+  obtain ⟨_socketKindUnary, _requestedSupplyUnary, gapUnary, _auditGateUnary,
+    _siteUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    _socketRequestedGap, _gapAuditSite, _siteTransportRoute, _routeProvenanceName,
+    siteSameGapAudit, _provenancePkg⟩ := carrier
+  have sourceGap :
+      (fun row : BHist => hsame row gap ∧ UnaryHistory row ∧
+        PkgSig bundle auditRead pkg) gap := by
+    exact ⟨hsame_refl gap, gapUnary, auditReadPkg⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro gap sourceGap
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right.left same, source.right.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source.left, gapAuditRead⟩
+    ledger_sound := by
+      intro _row _source
+      exact ⟨auditReadSiteBoundary, siteSameGapAudit, auditReadPkg⟩
+  }
+
+end NameCertObligations
+
 end BEDC.Derived.TranscendentalSupplyTaxonomyUp
