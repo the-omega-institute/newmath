@@ -245,6 +245,26 @@ Now apply \autoref{thm:streamname-real-completion-exit-axis-separation} and \aut
 Finally use \autoref{thm:streamname-real-completion-classifier-pullback}. The public classifier surface is determined componentwise by the same four faces and displayed support rows, so the ledger is exact and axis-separated for every current Phase Real and Completion exit read.
 \end{proof}
 
+\begin{theorem}[StreamName Real-completion bridge nonaggregation]
+\label{thm:streamname-real-completion-bridge-nonaggregation}
+For the current Phase Real and Completion exit packet, bridge status or audit-clean status on any subset of the four faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+does not supply a standard bridge row for the aggregate packet. Even if one or more face records expose paperBridge, bridgeChecked, auditClean, or stronger local status in their own closurestatus blocks, the four-face packet remains a paper-side exit boundary unless an explicit aggregate bridge theorem names a standard bridge for the whole Phase Real and Completion route.
+
+Thus the packet cannot infer a bridge row from the $\DyadicRatCoreUp$ dyadic budget, the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ regular handoff, the $\RealUp$ seal, or any proper subfamily of these faces.
+\end{theorem}
+\begin{proof}
+Start with face-status pullback, \autoref{thm:streamname-real-completion-face-status-pullback}. It says that the closure grade, formalstatus token, Lean target, and bridge status of each face are imported only as references to that face's own closurestatus block.
+
+Next apply exit-axis separation, \autoref{thm:streamname-real-completion-exit-axis-separation}. The current exit packet has no coordinate for turning a local bridge or audit-clean entry into a packet-level standard bridge row.
+
+Use the three-touchpoint handoff route of \autoref{thm:streamname-real-completion-three-touchpoint-handoff-route}. The StreamName finite-window handoff, DyadicRatCore ledger handoff, and RegSeqRat-to-Real seal handoff are route positions for displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; they are not an aggregate bridge constructor.
+
+Finally read the four local closurestatus blocks for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. Those blocks control their own bridge axes only. Therefore no subset of the face records aggregates into a standard bridge for the current Phase Real and Completion packet, and only an explicit aggregate bridge theorem may change the bridge axis of that packet.
+\end{proof}
+
 \begin{theorem}[StreamName Real-completion dependency exactness]
 \label{thm:streamname-real-completion-dependency-exactness}
 A current Phase Real and Completion exit read is accepted exactly when it exposes the four finite dependency faces

@@ -1,0 +1,49 @@
+\begin{theorem}[Authorized generator recursor root-output totality lock]
+\label{thm:authorized-generator-recursor-root-output-totality-lock}
+Let $R=(I,E,M,B,D,O,A,H,C,P,G,N)$ be an accepted $\AuthorizedGeneratorRecursorUp$ carrier. Every public exposure of the root output row $O$ factors through the same displayed packet: branch exhaustion in $B$, structural descent in $D$, audit provenance in $A$, componentwise transport in $H$, displayed $\Cont$ routes in $C$, $\Pkg$ provenance in $P$, the $\mathsf{GAP}$ boundary in $G$, and the local $\NameCert$ row $N$.
+
+The checked TasteGate marker
+$\mathsf{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorTasteGate\_single\_carrier\_alignment}$
+is used only as the single-carrier alignment witness for this packet. It does not expose host induction, an external axiom route, an unaudited dependency route, off-packet substitution, or a second output certificate.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition, \autoref{def:authorized-generator-recursor-carrier}. It displays the root packet $R$ and leaves no output coordinate outside $I,E,M,B,D,O,A,H,C,P,G,N$.
+
+Apply branch exhaustion and structural descent locality, \autoref{thm:authorized-generator-recursor-branch-exhaustion} and \autoref{thm:authorized-generator-recursor-structural-descent-locality}. These force every recursive output read to retain the constructor signature, branch package, and descent row before $O$ can be public.
+
+Next attach audit and route provenance. Theorems~\ref{thm:authorized-generator-recursor-audit-boundary} and~\ref{thm:authorized-generator-recursor-audit-provenance-factorization} keep $A,H,C,P,G,N$ attached to the output exposure.
+
+Finally use the ground-compiler handoff, \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}. The TasteGate marker is read only as the aligned-carrier witness, so no hidden generator, host induction principle, external axiom, unaudited route, or off-packet substitution can replace the displayed root-output packet.
+\end{proof}
+
+\begin{theorem}[Authorized generator recursor root audit route exactness]
+\label{thm:authorized-generator-recursor-root-audit-route-exactness}
+For the accepted carrier $R=(I,E,M,B,D,O,A,H,C,P,G,N)$, the root audit route is exact: every audit-facing consumer that reads $O$ must also read the branch-exhaustion row $B$, structural-descent row $D$, audit-provenance row $A$, displayed $\Cont$ route $C$, $\Pkg$ row $P$, $\mathsf{GAP}$ boundary $G$, and local $\NameCert$ row $N$ from the same packet.
+
+Thus the audit route cannot be reconstructed from output naming alone, and it cannot be replaced by host recursion, a detached proof-producing generator, external kernel equality, or an unaudited dependency channel.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:authorized-generator-recursor-carrier}. The row $A$ is displayed next to $O$ and the boundary rows $H,C,P,G,N$, so the audit route begins inside $R$.
+
+Use the root-output audit totality theorem, \autoref{thm:authorized-generator-recursor-root-output-audit-totality}. It places every public output read behind the branch, descent, audit, route, package, boundary, and local naming rows.
+
+The audit provenance factorization, \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}, then records that the output row becomes public only after the audit provenance and route rows remain attached.
+
+Finally apply the root boundary nonescape and ground-compiler handoff, \autoref{thm:authorized-generator-recursor-root-boundary-nonescape} and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}. They keep the $\mathsf{GAP}$ boundary and TasteGate alignment on the same carrier, excluding the detached audit routes listed in the statement.
+\end{proof}
+
+\begin{theorem}[Authorized generator recursor root consumer readiness surface]
+\label{thm:authorized-generator-recursor-root-consumer-readiness-surface}
+The accepted packet $R=(I,E,M,B,D,O,A,H,C,P,G,N)$ is ready for downstream root consumers precisely as the displayed branch-exhaustion, structural-descent, audit-provenance, $\Cont$, $\Pkg$, $\mathsf{GAP}$, and $\NameCert$ surface. Any closed-normal, substitution-boundary, generator-audit, or ground-compiler consumer must read $O$ through those rows and through the checked single-carrier TasteGate alignment marker already attached to the chapter.
+
+The readiness surface exports no unlisted branch, non-structural recursion channel, hidden generator, host induction principle, external axiom route, unaudited dependency route, or output row outside $R$.
+\end{theorem}
+\begin{proof}
+Begin with downstream consumer factorization, \autoref{thm:authorized-generator-recursor-root-consumer-factorization}. It makes every downstream consumer read through the same finite carrier before using the output row.
+
+Next use terminal consumer readiness, \autoref{thm:authorized-generator-recursor-terminal-consumer-readiness}, and downstream NameCert packaging, \autoref{thm:authorized-generator-recursor-downstream-namecert-package}. These route closed-normal, substitution-boundary, and generator-audit consumers through the branch, descent, audit, continuation, package, boundary, and local naming rows.
+
+Attach the root-output totality lock above. It ensures that the output row remains the displayed coordinate $O$ of $R$ after branch exhaustion, structural descent, audit provenance, $\Cont$, $\Pkg$, $\mathsf{GAP}$, and $\NameCert$ have all been read.
+
+Finally apply the ground-compiler handoff, \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}. The checked TasteGate marker is consumed only as the single-carrier alignment witness, so the downstream readiness surface contains exactly the rows stated above.
+\end{proof}
