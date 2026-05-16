@@ -197,3 +197,98 @@ The two constructions are inverse on the displayed rows by terminal section pull
 
 Finally use \autoref{thm:streamname-finite-section-pullback-exactness}. The underlying finite $\StreamNameUp$ section has no additional quotient, host-equality, choice, detached-limit, metric-completeness, or ambient-completeness coordinate, so the four faces are exactly the terminal route.
 \end{proof}
+
+\begin{theorem}[Finite observation-budget selector terminal budget exhaustion]
+\label{thm:finite-observation-budget-selector-terminal-budget-exhaustion}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. No terminal consumer route reaching the displayed $\RealUp$ seal $E$ can read outside the budget row $B$, selected schedule row $S$, finite $\StreamNameUp$ window family $W$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ handoff $R$, componentwise $\hsame$ transports $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. Thus the terminal budget is exhausted exactly by the route
+$$
+B,S \to W \to D \to R \to E.
+$$
+The exhausted surface has no quotient stream, host real equality, countable choice row, hidden selector, detached completion limit, metric-completeness row, or ambient completeness oracle.
+\end{theorem}
+\begin{proof}
+First apply terminal window minimality, \autoref{thm:finite-observation-budget-selector-terminal-window-minimality}. It identifies the complete terminal inventory of an accepted packet and says that dropping any displayed row removes the endpoint exactness supplied by the terminal route.
+
+Next attach diagonal-tail coverage, \autoref{thm:finite-observation-budget-selector-diagonal-tail-coverage}. This keeps every Real-completion and diagonal consumer on the same finite chain through $B,S,W,D,R,E$ and the same transport, continuation, provenance, and local naming rows.
+
+Now use terminal section exactness, \autoref{thm:finite-observation-budget-selector-terminal-section-exactness}. A consumer that reaches the terminal seal through the displayed rows is exactly the finite section pulled back along $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Finally combine terminal section pullback uniqueness with the four-face terminal correspondence, \autoref{thm:finite-observation-budget-selector-terminal-section-pullback-uniqueness} and \autoref{thm:finite-observation-budget-selector-four-face-terminal-correspondence}. These results leave no second terminal route with the same rows and no additional quotient, host-equality, choice, hidden-selector, detached-limit, metric-completeness, or ambient-completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector cofinal route choice freeness]
+\label{thm:finite-observation-budget-selector-cofinal-route-choice-freeness}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Every cofinal terminal route compatible with $F$ is determined by the displayed budget, schedule, finite window, dyadic ledger, regular handoff, Real seal, transport, continuation, provenance, and local naming rows. In particular, cofinal compatibility requires no independent choice of terminal route, no choice of a hidden tail selector, and no choice of an external completion witness beyond the four faces $W,D,R,E$ inside the envelope $B,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start from terminal cofinal-window coverage, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-coverage}. It forces any compatible cofinal consumer onto the displayed finite route from the selected budget and schedule through $W,D,R$ to $E$.
+
+Next decompose the route by \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-section-decomposition}. The consumer is exactly the four-face section with $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces and with transport supplied only by $H,C,P,N$.
+
+The forward and reverse readings of compatibility are supplied by the four-face terminal correspondence, \autoref{thm:finite-observation-budget-selector-four-face-terminal-correspondence}. A consumer compatible with $F$ gives the displayed four faces, and the displayed four faces with the shared rows give a compatible terminal consumer.
+
+Finally use terminal section pullback uniqueness, \autoref{thm:finite-observation-budget-selector-terminal-section-pullback-uniqueness}. Since no second section can carry the same displayed rows, there is no remaining route-choice parameter, hidden selector, external completion witness, quotient stream, host equality, or ambient completeness oracle.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector terminal readiness correspondence]
+\label{thm:finite-observation-budget-selector-terminal-readiness-correspondence}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. The following terminal-readiness data are equivalent as public Real-and-Completion handoff surfaces:
+\begin{enumerate}
+\item a terminal consumer route compatible with $F$;
+\item the exhausted finite budget route $B,S \to W \to D \to R \to E$ together with the displayed $H,C,P,N$ rows;
+\item the four-face terminal section $W,D,R,E$ inside the same budget, schedule, transport, continuation, provenance, and local $\NameCert$ envelope.
+\end{enumerate}
+Under this correspondence, later $\RealUp$, diagonal-completion, and selector-seal consumers receive exactly the displayed budget-readiness rows and no quotient stream, host real equality, countable choice operation, hidden selector, detached completion limit, metric-completeness row, or ambient completeness oracle.
+\end{theorem}
+\begin{proof}
+First pass from a compatible terminal consumer to the exhausted route. By \autoref{thm:finite-observation-budget-selector-terminal-budget-exhaustion}, any terminal route reaching $E$ is already confined to the displayed budget, schedule, window, dyadic, regular, seal, transport, continuation, provenance, and local naming rows.
+
+Next pass from the exhausted route to the four-face section. The terminal cofinal-window section decomposition theorem, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-section-decomposition}, rewrites the route as the four faces $W,D,R,E$ inside the envelope $B,S,H,C,P,N$.
+
+For the converse direction, use the four-face terminal correspondence, \autoref{thm:finite-observation-budget-selector-four-face-terminal-correspondence}. The four displayed faces together with the shared rows assemble exactly a compatible terminal consumer.
+
+It remains to show that the correspondence is the handoff surface seen by downstream consumers. Terminal section exactness and pullback uniqueness, \autoref{thm:finite-observation-budget-selector-terminal-section-exactness} and \autoref{thm:finite-observation-budget-selector-terminal-section-pullback-uniqueness}, identify all three descriptions with the same finite section pulled back along $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Finally, cofinal route choice freeness, \autoref{thm:finite-observation-budget-selector-cofinal-route-choice-freeness}, removes any extra route parameter. Hence $\RealUp$, diagonal-completion, and selector-seal consumers inherit only the displayed budget-readiness rows and none of the excluded quotient, host-equality, choice, hidden-selector, detached-limit, metric-completeness, or ambient-completeness data.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector terminal four-face pullback lock]
+\label{thm:finite-observation-budget-selector-terminal-four-face-pullback-lock}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. The terminal Real-and-Completion consumer surface of $F$ is locked by the four displayed faces $W,D,R,E$ in the following sense:
+\begin{enumerate}
+\item the $\StreamNameUp$ finite-section pullback reads exactly the selected finite window family $W$;
+\item the $\DyadicRatCoreUp$ ledger face reads exactly $D$;
+\item the $\RegSeqRatUp$ readback face reads exactly $R$;
+\item the $\RealUp$ terminal seal face reads exactly $E$.
+\end{enumerate}
+Every $\UniformCauchyCriterionUp$, $\RealUp$, diagonal-completion, or selector-seal consumer compatible with the selector must factor through exactly this route
+$$
+B,S \to W \to D \to R \to E
+$$
+with transport, continuation, provenance, and local naming supplied only by $H,C,P,N$. The locked surface contains no quotient stream, host real equality, countable choice operation, hidden tail selector, detached completion witness, metric-completeness row, or ambient completeness oracle.
+\end{theorem}
+\begin{proof}
+First identify the public readiness surface. The terminal readiness correspondence, \autoref{thm:finite-observation-budget-selector-terminal-readiness-correspondence}, equates a compatible terminal consumer, the exhausted route $B,S \to W \to D \to R \to E$, and the four-face section $W,D,R,E$ inside the shared $H,C,P,N$ envelope.
+
+Now pin the four faces as a pullback rather than as a loose list. Terminal section exactness, \autoref{thm:finite-observation-budget-selector-terminal-section-exactness}, identifies any compatible terminal section with the finite section pulled back along $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. Terminal section pullback uniqueness, \autoref{thm:finite-observation-budget-selector-terminal-section-pullback-uniqueness}, leaves no second section with the same displayed rows.
+
+Next read the StreamName-facing side through the ambient finite-section theorem. By \autoref{thm:streamname-finite-section-pullback-exactness}, the selected finite windows, dyadic ledger, regular readback, and Real seal determine one four-face pullback. Therefore the first face reads $W$, the second reads $D$, the third reads $R$, and the fourth reads $E$.
+
+Finally attach the open Real-and-Completion consumers. The UniformCauchyCriterion pullback, \autoref{thm:finite-observation-budget-selector-uniform-cauchycriterion-pullback}, places any compatible uniform-Cauchy read on the same finite observation route, while the readiness correspondence already covers the $\RealUp$, diagonal-completion, and selector-seal handoff surfaces. Thus every such consumer factors through the displayed route and can export only $B,S,W,D,R,E,H,C,P,N$, with the quotient, host-equality, choice, hidden-selector, detached-witness, metric-completeness, and ambient-completeness coordinates absent.
+\end{proof}
