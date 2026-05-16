@@ -68,6 +68,51 @@ The composite ledger row $L$ records the hidden residue of each compression arro
 The endpoint row $E$ names only the visible terminal package. Since the carrier has no source/endpoint identity coordinate, any route that treats $E$ as $S$ bypasses the displayed classifier and ledger and is rejected by the local NameCert boundary.
 \end{proof}
 
+\begin{definition}[Reality-constrained tower-compression scoped packet]
+\label{def:reality-constrained-tower-compression-scoped-packet}
+The scoped $\RealityConstrainedTowerCompressionUp$ packet is the same finite carrier
+$$
+K=(S,T,O,F,A,M,C,L,E,R,P,N)
+$$
+read over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, with sibling anchors in \autoref{ch:concrete-instances-reality-constrained-approximation-tower-namecert}, \autoref{ch:concrete-instances-observer-approximation-tower-namecert}, \autoref{ch:concrete-instances-reality-constrained-signature-fit-namecert}, \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert}, and \autoref{ch:concrete-instances-physical-fit-tower-namecert}. Its scoped read admits endpoint claims only through the displayed classifier, composite ledger, replay, provenance, and local naming rows.
+\end{definition}
+
+\begin{theorem}[Reality-constrained tower-compression classifier accountability]
+\label{thm:reality-constrained-tower-compression-classifier-accountability}
+For the scoped packet of \autoref{def:reality-constrained-tower-compression-scoped-packet}, every classifier read through $C$ is accountable to the displayed source, tower, observer, physical-fit, approximation, audit, composite-ledger, endpoint, replay, provenance, and local naming rows. In particular, $C$ cannot compare endpoint packages without exposing $S,T,O,F,A,M,L,E,R,P,N$ inside the same $\BHist$ packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reality-constrained-tower-compression-carrier}. The classifier coordinate $C$ occurs only inside the twelve-row packet $K=(S,T,O,F,A,M,C,L,E,R,P,N)$.
+
+Apply \autoref{thm:reality-constrained-tower-compression-namecert-obligations}. The local certificate requires carrier admission, source and tower exposure, observer and physical-fit exactness, approximation and audit compatibility, classifier accountability, composite-ledger and endpoint exposure, and replay/provenance/name closure.
+
+Thus $C$ is accountable to exactly the displayed packet rows. The sibling approximation-tower, observer-tower, signature-fit, model-audit, and physical-fit chapters supply the surfaces read by $A,O,F,M$ and the source-facing tower route, but none supplies a hidden endpoint classifier outside $K$.
+\end{proof}
+
+\begin{theorem}[Reality-constrained tower-compression endpoint-source separation]
+\label{thm:reality-constrained-tower-compression-endpoint-source-separation}
+In every scoped $\RealityConstrainedTowerCompressionUp$ packet, the endpoint row $E$ is separated from the source row $S$ by the composite ledger $L$, classifier $C$, replay $R$, provenance $P$, and local name $N$. A consumer route that identifies $E$ with $S$ without those rows is outside the chapter's accepted export surface.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:reality-constrained-tower-compression-ledger-nonescape}. It requires every endpoint export to read through the composite ledger $L$, classifier $C$, and source-facing rows $S,T,O,F,A,M$.
+
+Use the scoped packet definition to keep the route inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The replay row $R$, package row $P$, and local name $N$ bind the endpoint read to the same finite carrier.
+
+Since the carrier has no source/endpoint identity coordinate, the endpoint $E$ cannot be collapsed to $S$ by omission. The required ledger and replay rows are precisely the separator between terminal visibility and source identity.
+\end{proof}
+
+\begin{theorem}[Reality-constrained tower-compression scoped dependency surface]
+\label{thm:reality-constrained-tower-compression-scoped-dependency-surface}
+The scoped dependency surface for $\RealityConstrainedTowerCompressionUp$ is exactly the finite BEDC packet over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ together with the sibling approximation-tower, observer-tower, signature-fit, model-audit, and physical-fit chapters named in \autoref{def:reality-constrained-tower-compression-scoped-packet}. No endpoint claim is exported from this surface without the classifier accountability of \autoref{thm:reality-constrained-tower-compression-classifier-accountability} and the endpoint/source separation of \autoref{thm:reality-constrained-tower-compression-endpoint-source-separation}.
+\end{theorem}
+\begin{proof}
+First project the scoped packet. Its rows are $S,T,O,F,A,M,C,L,E,R,P,N$, and its ambient objects are $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Next apply \autoref{thm:reality-constrained-tower-compression-namecert-obligations}. Those obligations make carrier admission, row exposure, classifier accountability, ledger exposure, endpoint exposure, replay, provenance, and local naming mandatory.
+
+Finally combine \autoref{thm:reality-constrained-tower-compression-classifier-accountability} with \autoref{thm:reality-constrained-tower-compression-endpoint-source-separation}. The first prevents $C$ from floating free of the sibling rows; the second prevents $E$ from being identified with $S$ without the ledger and replay surface. Hence the displayed dependencies are exactly the scoped export surface.
+\end{proof}
+
 The Lean development in \texttt{lean4/BEDC/Derived/RealityConstrainedTowerCompressionUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \RealityConstrainedTowerCompressionUp$ and $\mathsf{FieldFaithful}\ \RealityConstrainedTowerCompressionUp$ instances preserving $S,T,O,F,A,M,C,L,E,R,P,N$.
 
 \falsifiablePrediction{An accepted RealityConstrainedTowerCompressionUp endpoint claim that omits the composite ledger or identifies the endpoint with the source refutes the carrier.}
