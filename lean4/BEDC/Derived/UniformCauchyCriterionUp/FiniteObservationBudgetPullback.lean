@@ -41,8 +41,9 @@ theorem UniformCauchyCriterionPacket_finite_observation_budget_pullback [AskSetu
     _sealUnary, _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary,
     _indexWindowsModulus, _modulusToleranceTail, _tailSealRowTransports,
     _transportsRoutesProvenance, _namePkg⟩ := packet
-  obtain ⟨budgetUnary, sourceUnary, dyadicUnary, endpointUnary, budgetSourceWindow,
-    windowDyadicReadback, _readbackEndpointRoute, _sameSelectorName⟩ := selector
+  obtain ⟨budgetUnary, sourceUnary, dyadicUnary, endpointUnary, _selectorTransportUnary,
+    budgetSourceWindow, windowDyadicReadback, _readbackEndpointRoute,
+    _sameSelectorName⟩ := selector
   have selectorWindowUnary : UnaryHistory selectorWindow :=
     unary_cont_closed budgetUnary sourceUnary budgetSourceWindow
   have readbackUnary : UnaryHistory readback :=
