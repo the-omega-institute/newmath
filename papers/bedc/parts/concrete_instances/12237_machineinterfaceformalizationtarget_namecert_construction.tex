@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\MachineInterfaceFormalizationTargetUp$}
+\label{ch:concrete-instances-machine-interface-formalization-target-namecert}
+\origin{ai}
+
+The $\MachineInterfaceFormalizationTargetUp$ packet realizes the machine-facing target interface of \autoref{subsec:philosophy-machine-facing-interface} as a finite registry-facing NameCert record. It sits beside the socket router of \autoref{ch:concrete-instances-machine-interface-socket-namecert}, the export ledger of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the claim registry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, and the audit gate boundary of \autoref{ch:concrete-instances-auditgateboundary-namecert}. Those siblings route, export, index, or refuse machine-facing rows; this packet is the target object that a formalization queue can store before any theorem content is claimed.
+
+\begin{definition}[Machine-interface formalization-target carrier]
+\label{def:machine-interface-formalization-target-carrier}
+A $\MachineInterfaceFormalizationTargetUp$ carrier is a finite $\BHist$ packet
+$$
+T=(N_s,K,R,S,D,E,A,U,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N_s$ is the target-name row, recording the machine-readable name supplied by the interface of \autoref{def:philosophy-formalization-target-interface};
+\item $K$ is the intended namespace row in which the future Lean declaration is expected to live;
+\item $R$ is the registry row tying the target to the current claim registry surface;
+\item $S$ is the statement-skeleton row, containing the binder shape and public statement outline without proof content;
+\item $D$ is the dependency-list row, naming the finite prerequisites that the target may cite;
+\item $E$ is the expected-status row, distinguishing theorem, definition, structure-field, variant, or statement-only queue status as registry data;
+\item $A$ is the audit-gate row that must accept the socket kind and dependency status before export as theorem content;
+\item $U$ is the not-claimed row recording the theorem-content, host-supply, automation, or bridge obligations that this target does not assert;
+\item $H$ records componentwise $\hsame$ transport for $N_s,K,R,S,D,E,A,U$;
+\item $C$ records displayed $\Cont$ replay from the target name through namespace, registry, statement skeleton, dependencies, expected status, audit gate, and not-claimed rows;
+\item $P$ is the $\Pkg$ provenance over $\MachineInterfaceSocketUp$, $\RegistryExportSurfaceUp$, $\ClaimRegistryLayerUp$, $\AuditGateBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $L$ is the local $\NameCert_{\MachineInterfaceFormalizationTargetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a proof object, global namespace correctness, automatic dependency discharge, audit-gate bypass, theorem export after refusal, or host-valued truth of the statement skeleton.
+\end{definition}
+
+\begin{theorem}[Machine-interface formalization-target NameCert obligations]
+\label{thm:machine-interface-formalization-target-namecert-obligations}
+For the carrier of \autoref{def:machine-interface-formalization-target-carrier}, the local $\NameCert_{\MachineInterfaceFormalizationTargetUp}$ surface consists exactly of carrier admission for
+$$
+T=(N_s,K,R,S,D,E,A,U,H,C,P,L),
+$$
+name exposure through $N_s$, namespace exposure through $K$, registry membership through $R$, statement-skeleton exposure through $S$, finite dependency readback through $D$, expected-status readback through $E$, audit-gate eligibility through $A$, not-claimed exposure through $U$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $L$.
+
+Consequently an accepted formalization target is a finite registry-, status-, dependency-, audit-gate-, and not-claimed packet, not a theorem object.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The tuple lists the name, namespace, registry, statement skeleton, dependency list, expected status, audit gate, not-claimed row, transport, continuation, provenance, and local name.
+
+Read the registry-facing rows first. The name $N_s$ and namespace $K$ identify where the machine-facing declaration is meant to appear, while $R$ records that the target is part of the claim registry layer and $S$ records only the statement skeleton.
+
+Next inspect $D,E,A,U$. The dependency and expected-status rows are data for the queue, the audit-gate row controls export eligibility, and the not-claimed row blocks theorem-content conclusions not present in the carrier.
+
+Finally use $H,C,P,L$. These rows transport, replay, package, and name the same displayed packet. Since no coordinate contains proof content or an audit bypass, the NameCert obligations are exhausted by the stated finite rows.
+\end{proof}
+
+\begin{theorem}[Machine-interface formalization-target audit-gate locality]
+\label{thm:machine-interface-formalization-target-audit-gate-locality}
+Every accepted $\MachineInterfaceFormalizationTargetUp$ packet can be exported as theorem-facing registry data only through the displayed audit-gate row $A$. If $A$ refuses the socket kind or dependency status attached to $D$ and $E$, then the target remains a queue record and cannot be read as theorem content.
+\end{theorem}
+\begin{proof}
+Begin with the queue rows. The target name, namespace, registry row, statement skeleton, dependency list, and expected status are all displayed before any export decision is made.
+
+Use the audit-gate row. The row $A$ is the only displayed gate eligible to judge the socket kind and dependency status attached to the packet. Neither the registry row nor the statement skeleton contains an independent export predicate.
+
+Apply the not-claimed row. The row $U$ records the theorem-content and host-supply surfaces that the packet refuses to assert. Componentwise transport and continuation replay preserve that refusal, so a gate refusal leaves the target as registry data rather than theorem content.
+\end{proof}
+
+\begin{theorem}[Machine-interface formalization-target registry-consistency handoff]
+\label{thm:machine-interface-formalization-target-registry-consistency-handoff}
+Every $\RegistryExportSurfaceUp$ or $\ClaimRegistryLayerUp$ consumer of an accepted $\MachineInterfaceFormalizationTargetUp$ packet receives the same rows
+$$
+N_s,K,R,S,D,E,A,U,H,C,P,L .
+$$
+The consumer may index the name, namespace, registry row, skeleton, dependencies, expected status, audit gate, and not-claimed surface, but it may not replace them by an off-packet registry claim, proof object, or successful Lean declaration.
+\end{theorem}
+\begin{proof}
+Project the carrier and expose its registry inventory. The only registry-facing data are $N_s,K,R,S,D,E,A,U$ together with their transport, replay, provenance, and local naming rows.
+
+Use the NameCert obligations of \autoref{thm:machine-interface-formalization-target-namecert-obligations}. They make registry membership, statement skeleton, dependencies, expected status, audit eligibility, and not-claimed surface explicit fields of the same packet.
+
+The export and claim-registry consumers therefore receive a finite handoff rather than a hidden declaration. If a consumer replaces these rows by theorem content or a successful Lean declaration, it has left the displayed carrier and no longer preserves the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Machine-interface formalization-target nonescape]
+\label{thm:machine-interface-formalization-target-nonescape}
+No accepted $\MachineInterfaceFormalizationTargetUp$ packet exports theorem content, marker repair, host supply, automatic dependency discharge, or bridge completion from its statement skeleton, dependency list, expected status, or audit-gate row. Such content can appear only in a later packet with its own displayed carrier and NameCert obligations.
+\end{theorem}
+\begin{proof}
+Read the statement-skeleton row and dependency row. They specify the shape and prerequisites of a target, but neither contains a proof object, a repaired marker, host supply, or a bridge.
+
+Inspect the expected-status and audit-gate rows. They classify how the target is queued and whether the gate accepts the displayed status; they do not manufacture the content whose admission they classify.
+
+Finally apply the not-claimed row together with the transport and replay rows. The not-claimed surface explicitly refuses those escape routes, while $H,C,P,L$ only preserve and name the same packet. Therefore theorem content or bridge completion must be supplied by another displayed certificate.
+\end{proof}
+
+\falsifiablePrediction{A MachineInterfaceFormalizationTargetUp packet cannot be exported as theorem content when its audit-gate row refuses its socket kind or dependency status.}
+
+\independenceWitness{machineinterfacesocket, registryexportsurface, claimregistrylayer, auditgateboundary, socketkindclassifier: the socket router lacks the full target queue record, the export surface lacks the not-claimed target packet, the claim registry layer lacks audit-gate locality for socket kind and dependency status, the audit gate lacks registry and statement-skeleton fields, and the socket kind classifier lacks target name, namespace, dependencies, expected status, and not-claimed rows; no bijection preserves the full carrier.}
+
+The Lean follow-up must provide $\mathsf{Nontrivial}\ \MachineInterfaceFormalizationTargetUp$ and $\mathsf{FieldFaithful}\ \MachineInterfaceFormalizationTargetUp$ in \texttt{lean4/BEDC/Derived/MachineInterfaceFormalizationTargetUp/TasteGate.lean} before $\mathsf{BEDC.Derived.MachineInterfaceFormalizationTargetUp.taste\_gate}$ can be cited by a checked paper marker.
+
+\closureat{MachineInterfaceFormalizationTargetUp}{seedStr}
+\closureat{MachineInterfaceFormalizationTargetUp}{obligationStr}
