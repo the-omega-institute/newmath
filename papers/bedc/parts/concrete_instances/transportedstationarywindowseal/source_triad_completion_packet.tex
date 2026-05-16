@@ -21,6 +21,42 @@ For an accepted $\TransportedStationaryWindowSealUp$ packet $T=(R,S,G,W,E,H,C,P,
 The packet has no coordinate for quotient streams, host equality, selected host limits, choice, ambient real completeness, or hidden tail oracles; every such consumer must read the same displayed source triad before it can use the envelope row or the Real-facing seal.
 \end{definition}
 
+\begin{theorem}[Transported stationary window-seal source-window admission]
+\label{thm:transported-stationary-window-seal-source-window-admission}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet equipped with its source-triad completion packet. The packet admits a source-window triad only in the displayed form $R,S,G$: $R$ is the transported $\RatUp$ classifier row, $S$ is the constant $\StreamNameUp$ finite-window row, and $G$ is the $\RegSeqRatUp$ seal row owned by that window. No accepted read of $T$ can replace this triad by a detached classifier, a moving stream window, or an independent seal source.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier through the NameCert obligation surface of \autoref{thm:transported-stationary-window-seal-namecert-obligations}. Its coordinates are exactly $R,S,G,W,E,H,C,P,N$, and the source side is exposed before the envelope and Real-facing rows.
+
+The seed-window readback fixes the finite-window coordinate. By \autoref{thm:transported-stationary-window-seal-root-regseqrat-window-ownership}, the $\RegSeqRatUp$ seal $G$ is owned by the same constant $\StreamNameUp$ row $S$, while $R$ supplies the transported $\RatUp$ classifier for that row.
+
+Ledger non-escape then excludes alternate admissions. The package and naming rows $P,N$, together with the displayed $\BHist$, $\hsame$, and $\Cont$ support in $H,C$, leave no coordinate from which a detached classifier, moving window, or independent $\RegSeqRatUp$ source could be read.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal stationary transport coherence]
+\label{thm:transported-stationary-window-seal-stationary-transport-coherence}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet equipped with its source-triad completion packet. The stationary handoff row $H$ and route table $C$ preserve the same $R \to S \to G$ route componentwise under $\hsame$ and $\Cont$. Hence transport through $H,C$ cannot create a detached $\RegSeqRatUp$ source or a second stream-name route for the seal.
+\end{theorem}
+\begin{proof}
+Readback determinacy first fixes the order of the source side. The route table can be consumed only after the accepted packet has exposed $R,S,G$, and \autoref{thm:transported-stationary-window-seal-root-envelope-readback-totality} keeps every later envelope read downstream from that source route.
+
+The root window-ownership clause controls the seal coordinate. By \autoref{thm:transported-stationary-window-seal-root-regseqrat-window-ownership}, the row $G$ is a $\RegSeqRatUp$ seal on the same constant $\StreamNameUp$ row $S$, so componentwise $\hsame$ may identify transported presentations of that row but cannot allocate a new source for $G$.
+
+Finally, the Real-seal route forces coherence through completion-facing use. Apply \autoref{thm:transported-stationary-window-seal-real-factorization} and \autoref{thm:transported-stationary-window-seal-root-real-seal-nonescape}: the $\Cont$ data in $C$ carries the displayed source route into $W$ and $E$, and no detached $\RegSeqRatUp$ row is available outside that route.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal completion handoff nonescape]
+\label{thm:transported-stationary-window-seal-completion-handoff-nonescape}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet equipped with its source-triad completion packet. Every completion-facing consumer of $T$ must pass through the displayed rows $R,S,G,W,E,H,C,P,N$. In particular, such a consumer cannot import quotient streams, host equality, choice, selected limits, or ambient real-completeness data in place of the transported $\RatUp$ classifier, constant $\StreamNameUp$ finite window, $\RegSeqRatUp$ seal, finite envelope, Real-facing seal, and support rows.
+\end{theorem}
+\begin{proof}
+The downstream handoff package is rooted in the displayed packet. Use \autoref{thm:transported-stationary-window-seal-l10-handoff-obligation-basis} and \autoref{thm:transported-stationary-window-seal-downstream-route-readiness}: they expose the completion-facing route only through the source triad, finite envelope, Real-facing seal, and the rows $H,C,P,N$.
+
+The Real seal supplies no external escape. By \autoref{thm:transported-stationary-window-seal-root-real-seal-nonescape} and \autoref{thm:transported-stationary-window-seal-real-regseqrat-source-totality}, the row $E$ is read from the finite $\RegSeqRatUp$ route through $W$, not from host equality, selected limits, choice, or real-completeness assumptions.
+
+NameCert route exhaustion handles the remaining consumers. Apply \autoref{thm:transported-stationary-window-seal-namecert-route-exhaustion}: the local name and package rows $N,P$, together with $\BHist$, $\hsame$, and $\Cont$ in $H,C$, enumerate the accepted handoff coordinates, so any completion-facing consumer that preserves $T$ has no off-route coordinate for quotient streams or independent completion data.
+\end{proof}
+
 \begin{theorem}[Transported stationary window-seal envelope RealUp totality]
 \label{thm:transported-stationary-window-seal-envelope-realup-totality}
 Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet equipped with its source-triad completion packet. Every $\RealUp$-facing read of $E$ and every completion-facing read that preserves $E$ factors through the $\StreamNameUp/\RegSeqRatUp$ source triad and the $\FiniteWindowEnvelopeUp$ row before the Real seal. More precisely, the read route is determined by

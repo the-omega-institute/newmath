@@ -237,18 +237,37 @@ Next use \autoref{thm:real-completion-exact-boundary-four-face-exactness} and \a
 Finally apply \autoref{thm:real-completion-exact-boundary-no-completeness-escape}. The excluded quotient, host-equality, selected-limit, countable-choice, completeness, and bridge objects have no carrier slot and no consumer insertion point, so they are outside the obligation scope rather than dormant obligations of the packet.
 \end{proof}
 
-\closureat{RealCompletionExactBoundaryUp}{obligationStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
+\begin{theorem}[Real completion exact-boundary scoped obligation closure]
+\label{thm:real-completion-exact-boundary-scoped-obligation-closure}
+For every accepted $\RealCompletionExactBoundaryUp$ packet
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N),
+$$
+the scoped obligation surface is exhausted by the seal row $L$, classifier row $K$, witness-ledger row $J$, synchronizer row $S$, $\StreamNameUp$ row $W$, $\RegSeqRatUp$ row $R$, $\DyadicRatCoreUp$ row $D$, terminal $\RealUp$ row $E$, componentwise $\hsame$ transports $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\RealCompletionExactBoundaryUp}$ row $N$. No quotient stream, host real equality, selected limit, countable choice, metric-completeness, ambient-completeness, or bridge row is in scope.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. It identifies the accepted carrier surface with the displayed rows $L,K,J,S,W,R,D,E,H,C,P,N$ and gives each row its local NameCert role.
+
+Next apply \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The completion-facing faces $W,R,D,E$ are exactly the StreamName, RegSeqRat, DyadicRatCore, and terminal Real rows already present in that carrier surface, so there is no extra completion coordinate to add.
+
+Use \autoref{thm:real-completion-exact-boundary-terminal-consumer-exactness}. Terminal Real consumption follows the same finite route and leaves $H,C,P,N$ as the componentwise transport, continuation replay, package provenance, and local naming rows of the packet.
+
+Finally apply \autoref{thm:real-completion-exact-boundary-no-completeness-escape}. Quotient streams, host real equality, selected limits, countable choice, metric-completeness, ambient-completeness, and bridge rows have neither carrier slots nor consumer insertion points. Hence the displayed packet rows exhaust the scoped obligation surface.
+\end{proof}
+
+\closureat{RealCompletionExactBoundaryUp}{scopedStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
+\closureat{RealCompletionExactBoundaryUp}{publicStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RealCompletionExactBoundaryUp}
   \constructivestory{A $\RealCompletionExactBoundaryUp$ packet is generated from displayed seal, classifier, witness-ledger, synchronizer, StreamName, RegSeqRat, DyadicRatCore, terminal Real, transport, continuation, package, and local naming rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope is the concrete Real-completion finite route through $L,K,J,S,W,R,D,E,H,C,P,N$ and \leanchecked{BEDC.Derived.RealCompletionExactBoundaryUp.taste\_gate} excludes quotient streams, host real equality, selected limits, choice, completeness, and bridge rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:real-completion-exact-boundary-scoped-obligation-closure} closes the concrete Real-completion finite route through $L,K,J,S,W,R,D,E,H,C,P,N$, and \leanchecked{BEDC.Derived.RealCompletionExactBoundaryUp.taste\_gate} witnesses the matching TasteGate boundary.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, metric completeness, or bridge checking.}
-  \upgradepath{Scoped closure requires every displayed obligation row to name its BEDC primitive dependencies in the proof scope.}
+  \upgradepath{Bridged closure requires a checked bridge target for the public Real-completion exact-boundary surface.}
 \end{closurestatus}
 
 Lean development for this route must provide $\mathsf{Nontrivial}\ \RealCompletionExactBoundaryUp$ and $\mathsf{FieldFaithful}\ \RealCompletionExactBoundaryUp$ instances in \texttt{lean4/BEDC/Derived/RealCompletionExactBoundaryUp/TasteGate.lean}.
