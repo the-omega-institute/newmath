@@ -56,6 +56,86 @@ The stability row $U$ consumes the physical-induction seal, because finite fit c
 Consequently the packet is composite rather than atomic: its accepted route depends on the open-fit, objectivity, explanation, physical-induction, and tower-compression siblings, and no single sibling alone carries the full TruthCert surface.
 \end{proof}
 
+\begin{theorem}[Reality-constrained TruthCert carrier admission]
+\label{thm:reality-constrained-truth-cert-carrier-admission}
+An accepted $\RealityConstrainedTruthCertUp$ packet exposes exactly the carrier
+$$
+Q=(S,\Sigma,K,T,U,D,I,L,F,N).
+$$
+The accepted export may project the source, signature, classifier, tower,
+stability, descent, invariant, ledger, failure-surface, and local-name rows,
+but it has no additional TruthCert coordinate outside this displayed packet.
+\end{theorem}
+\begin{proof}
+Use the carrier definition
+\autoref{def:reality-constrained-truth-cert-carrier}. Its displayed packet is
+exactly $Q=(S,\Sigma,K,T,U,D,I,L,F,N)$.
+
+Apply the field-coverage theorem
+\autoref{thm:reality-constrained-truth-cert-field-coverage}. It identifies the
+source, signature, classifier, tower, stability, descent, invariant, ledger,
+and failure-surface fields with the rows $S,\Sigma,K,T,U,D,I,L,F$, and it
+reserves $N$ for local naming.
+
+No remaining row is available for carrier admission. A consumer that asks for a
+second truth coordinate is therefore asking outside the admitted packet rather
+than reading an accepted $\RealityConstrainedTruthCertUp$ export.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert ledger exactness]
+\label{thm:reality-constrained-truth-cert-ledger-exactness}
+In every accepted $\RealityConstrainedTruthCertUp$ packet, the ledger row $L$
+records compression, idealization, hidden residue, provenance, and package
+descent before any truth export is readable. These records are routed through
+the open-fit, objectivity, explanation, physical-induction stability, and
+tower-compression siblings before the local name $N$ is exposed.
+\end{theorem}
+\begin{proof}
+The carrier definition
+\autoref{def:reality-constrained-truth-cert-carrier} assigns compression,
+idealization, hidden residue, provenance, and packaging to the ledger row $L$.
+The field-coverage theorem
+\autoref{thm:reality-constrained-truth-cert-field-coverage} then makes $L$ a
+mandatory TruthCert field rather than an optional annotation.
+
+Now use the sibling-dependency theorem
+\autoref{thm:reality-constrained-truth-cert-sibling-dependency}. Open-fit
+controls finite fit and finite defeat; objectivity controls public observer
+reading; explanation controls source-to-claim handoff; physical induction
+controls continuation stability; and tower compression controls descent,
+ledger, and hidden residue.
+
+Consequently the ledger is exact at the point of export: compression,
+idealization, hidden residue, provenance, and package descent must already be
+visible in $L$ and routed through the named siblings before $N$ can certify the
+truth packet.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert non-escape]
+\label{thm:reality-constrained-truth-cert-nonescape}
+No accepted $\RealityConstrainedTruthCertUp$ packet exports model--reality
+identity, unbounded confirmation, observer privilege, hidden classifier choice,
+or truth outside the displayed rows $S,\Sigma,K,T,U,D,I,L,F,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier definition
+\autoref{def:reality-constrained-truth-cert-carrier}. Its final sentence
+excludes model--reality identity, unbounded confirmation, unledgered
+compression, observer privilege, hidden classifier choice, and truth export
+outside the nine displayed TruthCert rows.
+
+The field-coverage theorem
+\autoref{thm:reality-constrained-truth-cert-field-coverage} makes the displayed
+rows exhaustive for accepted export. The sibling-dependency theorem
+\autoref{thm:reality-constrained-truth-cert-sibling-dependency} further routes
+finite fit, objectivity, explanation, induction stability, and compression
+through their own certificate surfaces.
+
+Therefore none of the excluded demands has a readable coordinate in the packet.
+Such a demand can only be recorded at the failure-surface or ledger boundary,
+not exported as part of the local TruthCert name.
+\end{proof}
+
 \falsifiablePrediction{A purported reality-constrained truth export that omits the displayed source, signature, classifier, tower, stability, descent, invariant, ledger, or failure-surface row is not an accepted TruthCert packet.}
 
 \independenceWitness{reality-constrained-open-fit, reality-constrained-objectivity, reality-constrained-explanation, physical-induction-stability-seal, reality-constrained-tower-compression: the full nine-field TruthCert packet is available only after these sibling dependencies are consumed together.}

@@ -245,6 +245,7 @@ Apply \autoref{thm:cauchy-modulus-refinement-root-route-completeness}. Every $\R
 
 Finally combine \autoref{thm:cauchy-modulus-refinement-shared-selector-determinacy}, \autoref{thm:cauchy-modulus-refinement-selector-meet-noninterference}, and \autoref{thm:cauchy-modulus-refinement-regseq-streamname-real-coherence}. Determinacy identifies any two reads with the displayed rows, noninterference rules out hidden selector and second-meet requests, and coherence places the RegSeqRat, StreamName, and Real consumer surfaces on the same route. Completion consumers are already covered by route completeness, so all four consumer classes factor through the terminal finite packet.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_regseq\_streamname\_real\_terminal\_factorization}
 
 \begin{theorem}[Cauchy modulus refinement diagonal-budget cofinality route]
 \label{thm:cauchy-modulus-refinement-diagonal-budget-cofinality-route}
@@ -339,6 +340,7 @@ Apply \autoref{thm:cauchy-modulus-refinement-diagonal-budget-cofinality-route} a
 
 Finally invoke \autoref{thm:cauchy-modulus-refinement-cauchycriterion-selector-cofinality}. The CauchyCriterion consumer sees the same StreamName--RegSeqRat--DyadicRatCore--Real packet before exposing its output. Hence none of the excluded coordinates can provide just one of the RegSeqRat, StreamName, or Real projections while omitting the other two.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_regseq\_real\_selector\_exactness}
 
 \begin{theorem}[Cauchy modulus refinement RegSeqRat--Real selector lockstep]
 \label{thm:cauchy-modulus-refinement-regseq-real-selector-lockstep}
@@ -356,4 +358,41 @@ Next use \autoref{thm:cauchy-modulus-refinement-regseq-streamname-real-coherence
 Apply \autoref{thm:cauchy-modulus-refinement-selector-nonempty-route}. The selected-window and tolerance-facing reads must expose the nonempty selector-budget route through $T,W,Q$ before a projected tail or seal can be consumed.
 
 Finally invoke \autoref{thm:cauchy-modulus-refinement-regseq-real-selector-exactness}. Since the RegSeqRat tail read, StreamName selected-window read, and Real seal read are already exact projections of the same selector route through $U,V,T,W,Q,E$, changing one projection would change the shared route and therefore the other two projections as well.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement finite observation budget pullback]
+\label{thm:cauchy-modulus-refinement-finite-observation-budget-pullback}
+Let an accepted $\CauchyModulusRefinementUp$ route display
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+Let this selector route be consumed by a $\UniformCauchyCriterionUp$ packet as in \autoref{ch:concrete-instances-uniformcauchycriterion-namecert}, and let
+$$
+F=(B,S,W_F,D_F,R_F,E_F,H_F,C_F,P_F,N_F)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet as in \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}. Suppose the shared $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ faces of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert} identify the CauchyModulusRefinement selected-window, tolerance-readback, regular handoff, and Real seal rows with the finite observation budget rows by displayed componentwise $\hsame$ transports
+$$
+W \hsame W_F,\qquad
+Q \hsame D_F,\qquad
+T \hsame R_F,\qquad
+E \hsame E_F.
+$$
+Then every Real-facing read of the common route factors through the CauchyModulusRefinement rows
+$$
+U,V,T,W,Q,E,H,C,P,N
+$$
+together with the finite observation budget rows
+$$
+B,S,W_F,D_F,R_F,E_F,H_F,C_F,P_F,N_F
+$$
+before any $\RealUp$ seal is exposed. Thus finite observation budgets are the readable selector surface for this Real-completion route: the pullback introduces no quotient stream, selected limit, host equality, countable choice, hidden observation oracle, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the CauchyModulusRefinement side. By \autoref{thm:cauchy-modulus-refinement-cauchycriterion-selector-cofinality}, a CauchyCriterion or UniformCauchyCriterion consumer of the route must read the selector through the shared meet $U$, extraction row $V$, selector-budget row $T$, selected-window row $W$, tolerance-readback row $Q$, Real seal row $E$, and support rows $H,C,P,N$ before exposing criterion output.
+
+Next apply \autoref{thm:cauchy-modulus-refinement-regseq-real-selector-exactness} and \autoref{thm:cauchy-modulus-refinement-regseq-real-selector-lockstep}. They make the $\RegSeqRatUp$ tail projection, $\StreamNameUp$ selected-window projection, and $\RealUp$ seal projection exact lockstep projections of the same selector route, so no Real-facing read can detach the seal from $U,V,T,W,Q,E$.
+
+Read the finite observation packet through its public route. The public export theorem \autoref{thm:finite-observation-budget-selector-public-export} exposes the finite budget-to-seal route $B \to S \to W_F \to D_F \to R_F \to E_F$ together with $H_F,C_F,P_F,N_F$, and the UniformCauchyCriterion pullback \autoref{thm:finite-observation-budget-selector-uniform-cauchycriterion-pullback} identifies that route with the uniform criterion consumer on the displayed shared rows.
+
+Finally use terminal route no-branching and endpoint exactness, \autoref{thm:finite-observation-budget-selector-terminal-route-no-branching} and \autoref{thm:finite-observation-budget-selector-terminal-route-endpoint-exactness}. The displayed transports identify $W,Q,T,E$ with $W_F,D_F,R_F,E_F$, so the common consumer has only the finite pullback surface listed in the statement before the Real seal is reached. The non-escape clauses in the cited theorems exclude quotient streams, selected limits, host equality, countable choice, hidden observation oracles, and ambient completeness coordinates from the pullback.
 \end{proof}
