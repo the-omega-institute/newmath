@@ -576,6 +576,7 @@ import BEDC.Derived.ContinuationMonadUp.RootUnitBindCoverage
 import BEDC.Derived.ContinuationMonadUp.UnitBindTerminalRoute
 import BEDC.Derived.ContinuationMonadUp.UnitBindKleisliConsumerHandoff
 import BEDC.Derived.ContinuationMonadUp.GeneratorCategoryTriad
+import BEDC.Derived.ContinuationMonadUp.GeneratorCategoryPublicFactorization
 import BEDC.Derived.ContinuationMonadUp.GeneratorRefusalCertifiedRow
 import BEDC.Derived.ContinuationMonadUp.KleisliQuotientRefusal
 import BEDC.Derived.ContinuationMonadUp.RootFormalNameCertHandoff
@@ -697,6 +698,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportSiblingHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerNormalization
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelConsumerAudit
+import BEDC.Derived.QuotientSoundnessBoundaryUp.RootTransportAudit
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.MonotoneCauchyUp
@@ -1774,6 +1776,7 @@ import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.CompactUniformContinuityUp
+import BEDC.Derived.CompactUniformContinuityUp.RealMetricSealNonescape
 import BEDC.Derived.CompactUniformContinuityUp.RootNonescapePackage
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.ContourIntegralUp

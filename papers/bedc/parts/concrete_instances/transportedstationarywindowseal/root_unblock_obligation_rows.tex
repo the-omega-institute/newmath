@@ -1,0 +1,63 @@
+\begin{theorem}[Transported stationary window-seal tail cofinality totality]
+\label{thm:transported-stationary-window-seal-tail-cofinality-totality}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. Every accepted read of the tail schedule attached to $T$ passes first through the $\TailCofinalityScheduleUp$ packet on the displayed $\StreamNameUp$ row $S$ and $\RegSeqRatUp$ row $G$, together with the support rows $H,C,P,N$, before it reaches any finite envelope row $W$ or $\RealUp$ seal row $E$.
+
+Consequently the tail-facing obligation surface of $T$ is the finite route
+$$
+\begin{aligned}
+  R,S,G,H,C,P,N
+  \longrightarrow
+  \TailCofinalityScheduleUp
+  \longrightarrow
+  W
+  \longrightarrow
+  E,
+\end{aligned}
+$$
+with no earlier envelope, detached tail oracle, quotient stream, host equality, selected limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:transported-stationary-window-seal-root-regseqrat-window-ownership}. It assigns the $\RegSeqRatUp$ seal $G$ to the constant $\StreamNameUp$ window $S$ already carried by the accepted packet.
+
+Next use \autoref{thm:transported-stationary-window-seal-tail-schedule-envelope-order}. The tail schedule row is read before the finite envelope and before the Real-facing seal, so a tail-facing consumer has no route that reaches $W$ or $E$ first.
+
+Finally apply \autoref{thm:transported-stationary-window-seal-real-regseqrat-source-totality} and \autoref{thm:transported-stationary-window-seal-namecert-route-exhaustion}. These identify the Real source and the public NameCert surface with the displayed rows only, hence the tail schedule read is total over the stated finite route.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal dyadic radius readback]
+\label{thm:transported-stationary-window-seal-dyadic-radius-readback}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. The dyadic-radius evidence consumed by $T$ is exactly the $\DyadicRatCoreUp$ readback attached to the constant $\StreamNameUp$ window $S$ and the $\RegSeqRatUp$ seal $G$. It is not a separate radius oracle and it does not add a coordinate beyond the displayed $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, $\BHist/\hsame/\Cont/\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:transported-stationary-window-seal-root-regseqrat-window-ownership}. The window and regular-sequence rows are owned by the same transported source triad, so the radius readback is tied to $S$ and $G$ rather than to an independent oracle.
+
+Then use \autoref{thm:transported-stationary-window-seal-tail-schedule-envelope-order}. The dyadic evidence is consumed on the same route that places the tail schedule before the finite envelope and Real seal.
+
+The non-escape side is supplied by \autoref{thm:transported-stationary-window-seal-root-real-seal-nonescape} and \autoref{thm:transported-stationary-window-seal-namecert-route-exhaustion}. Since the Real seal and NameCert route expose only the displayed packet rows, a second dyadic-radius source has no public coordinate on the accepted surface.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal Real handoff non-escape]
+\label{thm:transported-stationary-window-seal-real-handoff-nonescape}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. Every $\RealUp$ or Completion handoff through $T$ factors through the displayed route
+$$
+\begin{aligned}
+  R,S,G
+  \longrightarrow
+  \TailCofinalityScheduleUp
+  \longrightarrow
+  W
+  \longrightarrow
+  E
+  \longrightarrow
+  H,C,P,N .
+\end{aligned}
+$$
+The handoff exports no quotient stream, host equality, selected limit, choice coordinate, detached radius oracle, or real-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:transported-stationary-window-seal-real-regseqrat-source-totality}. It states that the Real-facing row $E$ is sourced only through the transported $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ triad together with the displayed support rows.
+
+Next apply \autoref{thm:transported-stationary-window-seal-tail-schedule-envelope-order}. It inserts the tail cofinality schedule and finite envelope in the only order compatible with the transported triad and the Real-facing seal.
+
+Finally use \autoref{thm:transported-stationary-window-seal-root-real-seal-nonescape} and \autoref{thm:transported-stationary-window-seal-namecert-route-exhaustion}. These exclude quotient streams, host equality, selected limits, choice, detached radius data, and real-completeness witnesses from the exported route, so the Real or Completion handoff remains inside $R,S,G,W,E,H,C,P,N$.
+\end{proof}
