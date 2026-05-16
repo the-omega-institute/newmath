@@ -115,6 +115,24 @@ Apply \autoref{thm:real-completion-exact-boundary-streamname-regseq-route}. The 
 Finally use \autoref{thm:real-completion-exact-boundary-real-seal-nonescape} together with \autoref{thm:real-completion-exact-boundary-nonescape}. The first theorem blocks terminal Real-seal escape, and the second blocks completion-boundary escape, so any consumer of the accepted boundary must pass through $H,C,P,N$ and receives none of the excluded quotient, host-equality, selected-limit, choice, completeness, or bridge coordinates.
 \end{proof}
 
+\begin{theorem}[Real completion exact-boundary finite-tail-filter handoff]
+\label{thm:real-completion-exact-boundary-finite-tail-filter-handoff}
+Every accepted $\RealCompletionExactBoundaryUp$ packet
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N)
+$$
+whose completion boundary is read through a finite cofinal-tail filter must consume the displayed $\FiniteTailFilterUp$ packet of \autoref{ch:concrete-instances-finite-tail-filter-namecert} before any completion-facing or terminal Real-seal consumer reads the boundary. Equivalently, the four faces $\StreamNameUp(W)$, $\RegSeqRatUp(R)$, $\DyadicRatCoreUp(D)$, and $\RealUp(E)$ factor through that finite-tail-filter packet, with no quotient stream row, host real equality row, selected limit row, countable-choice row, ambient-completeness row, metric-completeness row, or bridge row inserted between the cofinal-tail handoff and the accepted boundary.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-completion-exact-boundary-four-face-exactness}. It identifies the only completion and Real faces exported by the accepted boundary as $\StreamNameUp(W)$, $\RegSeqRatUp(R)$, $\DyadicRatCoreUp(D)$, and $\RealUp(E)$, all after the rows $L,K,J,S$ and before the structural rows $H,C,P,N$ are consumed.
+
+Apply \autoref{thm:real-completion-exact-boundary-streamname-regseq-route}. The displayed route orders the same four faces as a StreamName window, regular-rational readback, dyadic tolerance ledger, and terminal Real seal, so a completion-boundary read through a finite cofinal-tail filter has no separate route on which to read those faces.
+
+Now use \autoref{thm:finite-tail-filter-sibling-tail-handoff}. The finite-tail-filter packet is exactly the sibling handoff surface for StreamName windows, DyadicRatCore tolerances, RegSeqRat readback, and the Real seal. Hence the four displayed faces of the exact boundary must pass through that packet whenever the boundary is presented through a finite cofinal-tail filter.
+
+Finally apply \autoref{thm:finite-tail-filter-real-seal-handoff} and \autoref{thm:real-completion-exact-boundary-real-seal-nonescape}. The first theorem carries the same finite cofinal-tail route to Real and Completion consumers, and the second prevents the terminal $\RealUp(E)$ seal from bypassing the exact-boundary route. The excluded quotient, host-equality, selected-limit, choice, completeness, and bridge coordinates therefore cannot be inserted between the finite-tail-filter handoff and the accepted boundary read.
+\end{proof}
+
 \begin{theorem}[Real completion terminal-route pullback]
 \label{thm:real-completion-exact-boundary-terminal-route-pullback}
 For every accepted $\RealCompletionExactBoundaryUp$ packet
@@ -136,5 +154,83 @@ Apply \autoref{thm:real-completion-exact-boundary-streamname-regseq-route}. The 
 
 Finally apply \autoref{thm:real-completion-exact-boundary-nonescape} and \autoref{thm:real-completion-exact-boundary-four-face-exactness}. Two accepted reads with the same displayed nonterminal route and the same structural rows can be compared only through the four-face inventory already exported by the packet. The theorem explicitly refuses quotient streams, host real equality, selected limits, countable choice, metric completeness, and bridge rows, so those absent objects cannot distinguish the two completion-facing reads.
 \end{proof}
+
+\begin{theorem}[Real completion seal-classifier witness balance]
+\label{thm:real-completion-exact-boundary-seal-classifier-witness-balance}
+Let
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RealCompletionExactBoundaryUp$ packet. Any completion-facing consumer that reaches one of the four terminal faces
+$$
+\StreamNameUp(W),\quad \RegSeqRatUp(R),\quad \DyadicRatCoreUp(D),\quad \RealUp(E)
+$$
+must first display the seal and classifier rows $L,K$ and the witness-ledger and budget rows $J,S$ of the same packet. Thus the four terminal faces cannot be consumed from the boundary as a detached tail; they are read only after the local seal, classifier, witness, and budget rows have met inside the accepted NameCert carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:real-completion-exact-boundary-carrier}. The rows $L,K,J,S$ occur before $W,R,D,E$ in the displayed packet, and the theorem concerns only consumers of that accepted finite carrier.
+
+Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The NameCert obligations make $L$ the local seal row, $K$ the classifier row, $J$ the witness-ledger row, and $S$ the budget row of the same certificate surface. Hence a consumer that reads any later face of the carrier already has the four governing rows in scope.
+
+Now use \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The completion and terminal Real faces exported by the boundary are exactly $W,R,D,E$ after the governing rows. Since the exactness theorem exposes no detached terminal tail, the four faces can be consumed only through the balanced seal, classifier, witness, and budget prefix.
+\end{proof}
+
+\begin{theorem}[Real completion terminal consumer exactness]
+\label{thm:real-completion-exact-boundary-terminal-consumer-exactness}
+For every accepted $\RealCompletionExactBoundaryUp$ packet
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N),
+$$
+every completion-facing consumer and every terminal $\RealUp$ consumer reads exactly the finite route
+$$
+L,K,J,S,W,R,D,E,H,C,P,N.
+$$
+The route begins with the seal, classifier, witness-ledger, and budget rows, passes through the four completion and terminal faces $W,R,D,E$, and ends with the transport, continuation, package, and local naming rows $H,C,P,N$. No shorter route and no route with an added quotient, host-equality, selected-limit, choice, completeness, or bridge coordinate is a consumer route for the accepted boundary.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The accepted NameCert surface lists the rows $L,K,J,S,W,R,D,E,H,C,P,N$ as one finite carrier inventory, so a consumer route for the accepted boundary is a route through that inventory.
+
+Apply \autoref{thm:real-completion-exact-boundary-seal-classifier-witness-balance}. It forces the first four governing rows to be displayed before the completion and Real faces are read.
+
+Next apply \autoref{thm:real-completion-exact-boundary-nonescape} and \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The non-escape theorem rules out external completion coordinates, while the four-face theorem identifies $W,R,D,E$ as the only completion-facing and terminal Real faces exported after $L,K,J,S$.
+
+Use \autoref{thm:real-completion-exact-boundary-finite-tail-filter-handoff}. When the boundary is presented through a finite cofinal-tail filter, the same four faces pass through the finite-tail-filter handoff rather than through a separate completion route.
+
+Finally apply \autoref{thm:real-completion-exact-boundary-terminal-route-pullback}. The terminal $\RealUp(E)$ read is pulled back over the same displayed route and the rows $H,C,P,N$ remain the trailing structural rows of the accepted packet. Therefore every completion-facing or terminal Real consumer has exactly the finite route displayed in the statement.
+\end{proof}
+
+\begin{theorem}[Real completion no completeness escape]
+\label{thm:real-completion-exact-boundary-no-completeness-escape}
+For an accepted $\RealCompletionExactBoundaryUp$ packet
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N),
+$$
+there is no insertion point between the accepted boundary and the terminal $\RealUp(E)$ seal for a quotient stream, host real equality, selected limit, metric-completeness row, bridge row, or ambient completeness coordinate. Any such object lies outside the finite consumer route
+$$
+L,K,J,S,W,R,D,E,H,C,P,N
+$$
+and therefore cannot mediate terminal Real consumption for the accepted boundary.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and apply \autoref{thm:real-completion-exact-boundary-terminal-consumer-exactness}. Terminal Real consumption is already fixed as the displayed finite route, so an added object would have to occupy a coordinate not present in the packet.
+
+Apply \autoref{thm:real-completion-exact-boundary-nonescape} for quotient stream, host equality, selected-limit, choice, completeness, and bridge exclusions at the completion boundary. Apply \autoref{thm:real-completion-exact-boundary-real-seal-nonescape} for the terminal $\RealUp(E)$ seal.
+
+It remains only to compare the consumer point where such an object might be inserted. By \autoref{thm:real-completion-exact-boundary-seal-classifier-witness-balance}, the governing rows $L,K,J,S$ must already meet before $W,R,D,E$ are consumed. By \autoref{thm:real-completion-exact-boundary-terminal-route-pullback}, the terminal Real face is the pullback of that same finite route. Hence quotient, equality, selected-limit, metric-completeness, bridge, and ambient-completeness coordinates have no packet-projection slot between the accepted boundary and the terminal Real seal.
+\end{proof}
+
+\closureat{RealCompletionExactBoundaryUp}{seedStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\RealCompletionExactBoundaryUp}
+  \constructivestory{A $\RealCompletionExactBoundaryUp$ packet is generated from displayed seal, classifier, witness-ledger, synchronizer, StreamName, RegSeqRat, DyadicRatCore, terminal Real, transport, continuation, package, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope binds the carrier, NameCert obligations, non-escape surface, StreamName--RegSeq route, four-face exactness, finite-tail-filter handoff, terminal-route pullback, and terminal-consumer exactness for one finite $\RealCompletionExactBoundaryUp$ packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, metric completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, four-face exactness, finite-tail-filter handoff, terminal-route pullback, terminal-consumer exactness, and the TasteGate field-faithful and nontrivial rows.}
+\end{closurestatus}
 
 Lean development for this route must provide $\mathsf{Nontrivial}\ \RealCompletionExactBoundaryUp$ and $\mathsf{FieldFaithful}\ \RealCompletionExactBoundaryUp$ instances in \texttt{lean4/BEDC/Derived/RealCompletionExactBoundaryUp/TasteGate.lean}.
