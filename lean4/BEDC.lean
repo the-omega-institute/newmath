@@ -154,6 +154,7 @@ import BEDC.Derived.AuditMapFamilyUp.TasteGate
 import BEDC.Derived.AuditMapFamilyLedgerUp.TasteGate
 import BEDC.Derived.AuditMapFamilyObligationLedgerUp.TasteGate
 import BEDC.Derived.AuditReexportNamespaceUp.TasteGate
+import BEDC.Derived.AuditTranscriptEnvelopeUp.TasteGate
 import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.OnticAdequacyAuditUp.TasteGate
@@ -1365,9 +1366,11 @@ import BEDC.Derived.UniformCauchyCriterionUp.FiniteObservationBudgetPullback
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteObservationTerminalSynchronization
 import BEDC.Derived.UniformCauchyCriterionUp.LateBoundaryNoChoice
 import BEDC.Derived.UniformCauchyCriterionUp.LateBoundaryFormalTargetPacket
+import BEDC.Derived.UniformCauchyCriterionUp.LateOverlapRouteExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.L10ExitPublicNonescape
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionBudgetLock
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionExitExhaustion
+import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionFiniteBudgetEnvelope
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionWindowExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.RealSealCompletionBoundary
 import BEDC.Derived.UniformCauchyCriterionUp.RealSealConsumerFactorization
