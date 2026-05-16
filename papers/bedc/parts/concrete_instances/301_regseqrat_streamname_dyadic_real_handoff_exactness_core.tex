@@ -16,6 +16,7 @@ No quotient stream, host real equality, selected limit, metric-completion
 object, ambient completeness datum, or extra seal coordinate can enter the
 handoff.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamNameDyadicRealHandoffExactness}
 \begin{proof}
 Project the carrier of \autoref{def:regseqrat-stream-carrier} and the
 classifier of \autoref{def:regseqrat-classifier}. Their visible rows are the
@@ -591,4 +592,73 @@ quotient stream equality, host real equality, selected limits, ambient
 completeness, choice schedules, and hidden seal coordinates. Hence no
 additional analytic or ambient datum can distinguish two budgeted requests
 after the displayed rows agree.
+\end{proof}
+
+\begin{theorem}[RegSeqRat StreamName Real tail-window exhaustion]
+\label{thm:regseqrat-streamname-real-tail-window-exhaustion}
+Every accepted tail-window consumer of the
+$\RegSeqRatUp$--$\StreamNameUp$--$\DyadicRatCoreUp$--$\RealUp$ handoff factors
+only through the displayed $\StreamNameUp$ scheduled windows, the
+$\DyadicRatCoreUp$ endpoint-radius ledger, the $\RegSeqRatUp$ regularity and
+classifier rows, the $\RealUp$ seal row, componentwise $\hsame$ transport,
+finite $\Cont$ continuation, $\Pkg$ provenance, and local $\NameCert$ rows.
+The consumer surface has no coordinate for quotient streams, host real
+equality, selected limits, metric completeness, or ambient $\RealUp$
+completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-common-dyadic-tail-ledger}. It places the
+shared tail read on the common dyadic ledger, so the endpoint, radius, and
+tail-window entries seen by a consumer are already the displayed finite rows of
+the handoff.
+
+Next use \autoref{thm:regseqrat-real-seal-finite-window-saturation}. The RealUp
+seal contributes only the finite windows saturated by the StreamName schedule,
+the dyadic ledger, and the RegSeqRat handoff rows; it does not add ambient
+completeness or a host-level limit object.
+
+Then invoke
+\autoref{thm:regseqrat-streamname-real-three-surface-route-determinacy}. Once
+the StreamName, DyadicRatCore, and RegSeqRat surfaces are fixed, the displayed
+RealUp seal row is the only remaining public route coordinate.
+
+Finally attach the request-side rows by
+\autoref{thm:regseqrat-streamname-dyadic-real-budgeted-request-determinacy}.
+Transport, continuation, provenance, and local naming are exactly the displayed
+$\hsame,\Cont,\Pkg,\NameCert$ support rows, so the tail-window consumer has no
+route through quotient streams, selected limits, metric completeness, or
+ambient RealUp completeness.
+\end{proof}
+
+\begin{theorem}[RegSeqRat StreamName Real audit-clean route triad]
+\label{thm:regseqrat-streamname-real-audit-clean-route-triad}
+Any RegSeqRat-side consumer of the L10 handoff reaches machine audit support
+through exactly the StreamName singleton finite-window handoff, the
+DyadicRatCore RegSeqRat bridge handoff exactness, and the RegSeqRat Real seal
+handoff. The route has no quotient stream, selected limit, ambient Real
+completeness, metric-completeness row, countable-choice row, or bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. It places
+the RegSeqRat-side consumer on the finite handoff route through the displayed
+StreamName window, DyadicRatCore ledger, RegSeqRat readback, and Real seal.
+
+Next use \autoref{thm:regseqrat-streamname-dyadic-real-triple-exactness}.
+The triple exactness theorem binds the StreamName, DyadicRatCore, and
+RegSeqRat faces as one finite route before the Real seal is read.
+
+Now invoke
+\autoref{thm:regseqrat-streamname-real-three-surface-route-determinacy}. Once
+the first three surfaces are fixed, the displayed Real seal row is the whole
+remaining route coordinate, so a consumer cannot introduce another
+machine-facing support site.
+
+Finally apply
+\autoref{thm:regseqrat-streamname-dyadic-real-budgeted-request-determinacy}.
+The budgeted request theorem confirms that even an explicit observation
+request reuses the same StreamName, DyadicRatCore, RegSeqRat, and RealUp
+rows. Therefore the audit route is exactly the three touchpoints listed in
+the statement, with no quotient stream, selected limit, ambient completeness,
+metric-completeness row, countable choice, or bridge row.
 \end{proof}

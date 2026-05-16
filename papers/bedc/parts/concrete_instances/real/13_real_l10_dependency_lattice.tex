@@ -59,6 +59,7 @@ selected host limit, ambient completeness, arithmetic, order, or
 metric-completeness coordinate, the consumer has no route to escape the L10
 lattice.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealL10DependencyLattice\_source\_route\_nonescape}
 
 \begin{theorem}[Real L10 interface totality]
 \label{thm:real-l10-dependency-lattice-interface-totality}
@@ -187,6 +188,46 @@ triangle before the Real seal is consumed. Since the cited routes export no
 quotient stream equality, selected limit, host real equality, ambient
 completeness, arithmetic or order package, or metric-completeness coordinate,
 the comparison is exhausted by the four displayed faces.
+\end{proof}
+
+\begin{theorem}[Real L10 four-source audit-clean handoff]
+\label{thm:real-l10-four-source-audit-clean-handoff}
+Every current Phase Real and Completion exit read of an accepted $\RealUp$
+packet factors through the ordered four-source packet
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+The only structural transports available to the handoff are the displayed
+$\BHist$ packets, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance
+rows, and local $\NameCert$ rows attached to those four sources. In
+particular, the handoff admits no quotient stream equality, selected limit,
+host real equality, ambient completeness, arithmetic package, order package,
+metric-completeness row, or bridge row as an additional source surface.
+\end{theorem}
+\begin{proof}
+Start from the Real L10 dependency lattice,
+\autoref{def:real-l10-dependency-lattice}. It names the four source faces and
+places the dyadic observation rows before StreamName windows, RegSeqRat
+readback, and the local $\RealUp$ seal.
+
+Apply interface totality and terminal face order,
+\autoref{thm:real-l10-dependency-lattice-interface-totality} and
+\autoref{thm:real-l10-terminal-face-order}. These results make every current
+Phase Real and Completion interface read pass through the same ordered packet
+before any terminal exit can consume the Real seal.
+
+Read the checked source surfaces in that order. The DyadicRatCore face is the
+standard-source bridge \texttt{DyadicRatCoreCarrier\_standard\_source\_bridge},
+the StreamName face is supplied by
+\texttt{RatStreamName\_certificate\_fields}, the RegSeqRat face is the
+real-seal handoff \texttt{RegSeqRatStreamCarrier\_real\_seal\_handoff}, and
+the Real face is the standard bridge \texttt{RealUp\_StdBridge}.
+
+Each cited surface exports only its local row data into the ordered packet.
+Thus the common handoff can transport by $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and local $\NameCert$ rows, and has no coordinate through which to import any
+extra completion, arithmetic, order, metric, quotient, limit, or bridge
+surface.
 \end{proof}
 
 \begin{theorem}[Real L10 dependency-lattice exit handoff]
@@ -486,7 +527,7 @@ Finally apply non-escape and interface totality, \autoref{thm:real-l10-source-ro
 \label{thm:real-l10-terminal-source-lock}
 Every $\RealUp$ seal or completion-facing consumer in the L10 route is admitted exactly through the displayed source lock
 $$
-\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp.
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp.
 $$
 The lock consists of finite stream windows, dyadic endpoint and radius rows, the regular-sequence classifier handoff, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and the local $\RealUp$ seal. No quotient stream, host real equality, selected limit, ambient completeness principle, or hidden completion carrier is exported by this terminal route.
 \end{theorem}
@@ -495,7 +536,7 @@ Start with the L10 dependency lattice of \autoref{def:real-l10-dependency-lattic
 
 Use the RegSeqRat source lattice pointer through \autoref{thm:realup-regseqrat-streamname-seal-handoff}. The regular-sequence classifier handoff is read only after the StreamName finite windows and the DyadicRatCore observation rows have been displayed.
 
-Next apply the RealUp seal handoff and the four-face route, \autoref{thm:real-streamname-regseqrat-seal-lattice} and \autoref{thm:real-l10-four-face-canonical-route}. They place every current seal or completion-facing consumer on the same ordered route through StreamName, DyadicRatCore, RegSeqRat, and the local Real seal.
+Next apply the RealUp seal handoff and the four-face route, \autoref{thm:real-streamname-regseqrat-seal-lattice} and \autoref{thm:real-l10-four-face-canonical-route}. They place every current seal or completion-facing consumer on the same ordered route through DyadicRatCore, StreamName, RegSeqRat, and the local Real seal.
 
 Finally use \autoref{thm:real-l10-terminal-comparison-exhaustion} and \autoref{thm:real-l10-terminal-four-face-correspondence}. These exhaust terminal comparisons by the displayed finite windows, dyadic endpoint and radius data, regular readback, transport, continuation replay, package provenance, and local naming. Since none of the cited rows carries quotient streams, host real equality, selected limits, ambient completeness, or a hidden completion carrier, the terminal source lock is exact.
 \end{proof}
@@ -571,4 +612,96 @@ For the reverse direction, start from a fixed Real L10 public boundary. By \auto
 It remains to isolate the RegSeqRat finite-request section. Apply \autoref{thm:regseqrat-finite-request-terminal-budget-factorization} to the seal-facing finite request already present in the public boundary. The terminal budget consumer can factor only through the displayed source section, so the RegSeqRat section surface is determined by the same boundary data.
 
 The same exclusion lists are stable under each cited theorem. None of the constructions introduces quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, arithmetic or order packages, or bridge rows; hence the Real L10 public boundary determines exactly the fused StreamName terminal-window packet, the DyadicRatCore endpoint and radius ledger, and the RegSeqRat section surface, with nothing beyond those faces.
+\end{proof}
+
+\begin{theorem}[Real L10 finite-window witness determinacy]
+\label{thm:real-l10-finite-window-witness-determinacy}
+For any current Phase Real and Completion terminal $\RealUp$ read accepted by the Real L10 dependency lattice, every finite-window witness consumed by the Real L10 public boundary is determined exactly by the fused $\StreamNameUp$ terminal-window packet, the $\DyadicRatCoreUp$ endpoint and radius ledger, the $\RegSeqRatUp$ finite-request section, the local $\RealUp$ seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+If two presentations agree on those rows, then they have the same finite-window witness surface. Conversely, the public boundary recovers exactly those rows and no additional coordinate. The determinacy claim excludes quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, arithmetic or order packages, and bridge rows.
+\end{theorem}
+\begin{proof}
+Start with the terminal-window fusion section compatibility theorem, \autoref{thm:real-l10-terminal-window-fusion-section-compatibility}. It identifies the Real L10 public boundary with the fused $\StreamNameUp$ terminal-window packet, the $\DyadicRatCoreUp$ endpoint and radius ledger, the $\RegSeqRatUp$ finite-request section surface, and the local $\RealUp$ seal over the displayed support rows.
+
+For two presentations agreeing on those rows, apply \autoref{thm:streamname-terminal-fusion-common-refinement-stability}. The common refinement makes their $\StreamNameUp$ windows the same fused terminal packet after transport along the same endpoint and radius ledger.
+
+Next apply \autoref{thm:regseqrat-finite-request-terminal-budget-factorization}. The common seal-facing finite request factors through the same RegSeqRat finite-request source section, so the classifier, regularity, readback, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\RegSeqRatUp}$ rows are the same finite witness data.
+
+Transport the resulting four-face packet through \autoref{thm:real-l10-streamname-classifier-pullback-correspondence}. Agreement of the StreamName classifier pullback is exactly agreement of the Real L10 public boundary, so the two presentations have the same finite-window witness surface.
+
+Conversely, begin with the Real L10 public boundary. The reverse direction of \autoref{thm:real-l10-terminal-window-fusion-section-compatibility} recovers the fused StreamName terminal-window packet, the DyadicRatCore endpoint and radius ledger, and the RegSeqRat finite-request section surface. The local $\RealUp$ seal and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are part of the same boundary packet.
+
+Finally use the exclusion clauses from \autoref{thm:real-l10-terminal-window-fusion-section-compatibility} and \autoref{thm:real-l10-streamname-classifier-pullback-correspondence}. They keep quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, arithmetic or order packages, and bridge rows outside the public boundary, so the finite-window witness surface is exactly the displayed four-face data.
+\end{proof}
+
+\begin{theorem}[Real L10 source route exactness]
+\label{thm:real-l10-source-route-exactness}
+Every terminal $\RealUp$ finite-window witness admitted by the Real L10 dependency lattice is sourced exactly by the ordered rows
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+displayed in \autoref{def:real-l10-dependency-lattice}, together with their visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates. This source route is the terminal finite-window face consumed by the L10 public boundary.
+
+No alternate route through host real equality, quotient streams, selected limits, metric completeness, ambient completeness, arithmetic packages, order packages, or standard bridge rows is available.
+\end{theorem}
+\begin{proof}
+First expose the terminal finite-window face by \autoref{thm:real-l10-four-face-exactness}. Any accepted terminal read factors through the finite four-face packet over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ seal, with only the displayed support coordinates.
+
+Next apply \autoref{thm:real-l10-terminal-pullback-uniqueness}. The accepted consumer boundary is a unique terminal pullback surface over those same four faces, so a finite-window witness cannot be sourced by a second packet with different carrier rows.
+
+Use the terminal source lock, \autoref{thm:real-l10-terminal-source-lock}. It fixes every seal or completion-facing consumer to the displayed ordered route and excludes hidden completion carriers before any witness is read by the public boundary.
+
+Finally apply \autoref{thm:real-l10-finite-window-witness-determinacy}. The public boundary determines exactly the fused StreamName terminal-window packet, the DyadicRatCore endpoint and radius ledger, the RegSeqRat finite-request section, the local Real seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Combining these clauses leaves no coordinate for host real equality, quotient streams, selected limits, metric completeness, ambient completeness, arithmetic or order packages, or standard bridge rows. Hence the source route for the terminal finite-window witness is exactly the displayed L10 lattice route.
+\end{proof}
+
+\begin{theorem}[Real L10 StreamName-RegSeqRat completion route triangle]
+\label{thm:real-l10-streamname-regseqrat-completion-route-triangle}
+An accepted current Phase Real and Completion terminal $\RealUp$ read has the same public boundary whether it is read through the StreamName finite-window classifier pullback, through the RegSeqRat finite-request section, or through the Real L10 source route. The three sides agree exactly on the four faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+and on the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+This triangle exports no quotient stream equality, host real equality, selected limit, countable-choice row, completeness row, arithmetic or order package, metric-completeness row, or bridge row.
+\end{theorem}
+\begin{proof}
+Read the StreamName side first. By \autoref{thm:real-l10-streamname-classifier-pullback-correspondence}, agreement of the StreamName four-object classifier pullback is exactly agreement of the Real L10 public boundary over the displayed four faces and support rows.
+
+Read the RegSeqRat side next. The finite-request section of \autoref{thm:regseqrat-finite-request-terminal-budget-factorization} is the same section used by \autoref{thm:real-l10-terminal-window-fusion-section-compatibility}, so the regular-rational request contributes only its finite classifier, regularity, readback, transport, provenance, and local naming rows.
+
+Now read the Real side. \autoref{thm:real-l10-source-route-exactness} fixes every terminal finite-window witness to the ordered route $\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$, and \autoref{thm:real-l10-finite-window-witness-determinacy} says the public boundary recovers exactly that finite-window witness surface.
+
+The three readings therefore present one finite route packet. Since each cited side carries the same exclusion list, no quotient stream equality, host real equality, selected limit, choice row, completeness row, arithmetic or order package, metric-completeness row, or bridge row can be added by moving around the triangle.
+\end{proof}
+
+\begin{theorem}[Real L10 dependency lattice exit totality]
+\label{thm:real-l10-dependency-lattice-exit-totality}
+Every current Phase Real and Completion terminal read factors through the ordered dependency lattice
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+of \autoref{def:real-l10-dependency-lattice}. The factorization exposes the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows for the DyadicRatCore endpoint and radius ledger, the StreamName terminal-window packet, the RegSeqRat finite-request section, and the local Real seal.
+
+Thus the present terminal surface is exactly the four-face route witnessed by the Real L10 source route, finite-window determinacy, StreamName-RegSeqRat completion triangle, StreamName completion classifier pullback, and RegSeqRat terminal-budget factorization.
+\end{theorem}
+\begin{proof}
+Begin with source route exactness, \autoref{thm:real-l10-source-route-exactness}. It places every terminal finite-window witness on the ordered four-face route and records the visible support rows.
+
+Use finite-window witness determinacy and the route triangle. Theorems~\ref{thm:real-l10-finite-window-witness-determinacy} and~\ref{thm:real-l10-streamname-regseqrat-completion-route-triangle} identify the public terminal read with the fused StreamName window, DyadicRatCore ledger, RegSeqRat finite-request section, and Real seal.
+
+Finally apply the StreamName classifier pullback and the RegSeqRat budget factorization, \autoref{thm:streamname-real-completion-classifier-pullback} and \autoref{thm:regseqrat-finite-request-terminal-budget-factorization}. They provide the two sibling readings of the same finite packet, so every current terminal read factors through the displayed lattice and no further terminal face is needed.
+\end{proof}
+
+\begin{theorem}[Real L10 dependency lattice seal nonescape]
+\label{thm:real-l10-dependency-lattice-seal-nonescape}
+The $\RealUp$ seal exported by the current Phase Real and Completion terminal surface carries only the ordered four-face lattice and its visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It exports no quotient stream, selected host limit, countable choice, host real equality, ambient completeness, arithmetic or order package, metric-completeness row, or bridge row.
+\end{theorem}
+\begin{proof}
+Read the seal through the exit totality theorem. The accepted terminal surface is already the finite route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Use source route exactness and finite-window witness determinacy to fix the public boundary. These theorems leave no coordinate outside the four faces and their displayed support rows.
+
+The route triangle, StreamName classifier pullback, and RegSeqRat terminal-budget factorization carry the same exclusion list on each side of the route. Since none of the cited packets has a coordinate for quotient streams, selected limits, choice, host equality, completeness, arithmetic, order, metric completeness, or bridge data, the exported seal cannot supply one.
 \end{proof}

@@ -34,6 +34,7 @@ F=(S,D,R,B,Q,E,H,C,P,N),
 $$
 window-filter exposure through $S$, dyadic tolerance exposure through $D$, regular-sequence readback through $R$, tail-budget exposure through $B$, common-tail comparison through $Q$, RealUp seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteTailFilterUp.FiniteTailFilterCarrier\_namecert\_obligations}
 \begin{proof}
 Project the displayed carrier. The rows $S,D,R,B,Q,E,H,C,P,N$ are the only coordinates of the finite packet, so carrier admission is the assertion that these rows are assembled as one $\BHist$ surface.
 
@@ -114,6 +115,7 @@ S,D,R,B,Q,E,H,C,P,N.
 $$
 The Real-window budget row may use only the already displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\DyadicTailBoundUp$, $\CauchyTailComparisonUp$, and $\RealUp$ rows. It receives no quotient stream equality, selected limit, host real equality, countable-choice row, ambient completeness theorem, metric-completeness datum, or unrecorded completion carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteTailFilterUp.FiniteTailFilterCarrier\_real\_window\_consumer}
 \begin{proof}
 Start from the NameCert obligations of \autoref{thm:finite-tail-filter-namecert-obligations}. They expose the accepted packet exactly as $S,D,R,B,Q,E,H,C,P,N$, with $S,D,R,B,Q,E$ as the Real-facing analytic rows and $H,C,P,N$ as the structural rows.
 
@@ -122,6 +124,44 @@ Apply tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactne
 Use the Real seal handoff theorem, \autoref{thm:finite-tail-filter-real-seal-handoff}, to identify the downstream route. Any Real or Completion read reaches $E$ only through $S,D,R,B,Q,H,C,P,N$, and the present consumer includes $E$ as the displayed seal row reached by that route.
 
 Finally apply non-escape, \autoref{thm:finite-tail-filter-nonescape}. Since quotient stream equality, selected limits, host real equality, countable choice, ambient completeness, metric-completeness data, and unrecorded completion carriers are not coordinates of $F$, the $\RealWindowBudgetUp$ or Real-completion consumer receives only the finite cofinal-tail packet already displayed.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter RealWindowBudget consumer link]
+\label{thm:finitetailfilter-realwindowbudget-consumer-link}
+Every $\RealWindowBudgetUp$ consumer of an accepted $\FiniteTailFilterUp$ packet
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+must reuse the displayed route as its finite request, $\StreamNameUp$ window, dyadic readback, $\RegSeqRatUp$ handoff, and $\RealUp$ seal surface. It cannot introduce a private selector, separate dyadic ledger, selected limit, quotient stream, host equality, countable-choice row, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the FiniteTailFilter NameCert obligations from \autoref{thm:finite-tail-filter-namecert-obligations}. They expose $S,D,R,B,Q,E,H,C,P,N$ as the complete accepted packet, with $S,D,R,B,Q,E$ carrying the finite analytic route.
+
+Apply tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness}. The tail-budget and comparison rows read the same finite window and dyadic tolerance data, so a RealWindowBudget consumer cannot replace $S$ or $D$ by a private selector or separate ledger.
+
+Use the Real seal handoff and Real-window consumer theorems, \autoref{thm:finite-tail-filter-real-seal-handoff} and \autoref{thm:finite-tail-filter-real-window-consumer}. Together they force the consumer route through the displayed RegSeqRat readback $R$, tail budget $B$, common-tail comparison $Q$, and seal row $E$.
+
+Finally apply the RealWindowBudget finite-route visibility supplied by the packet surface and the non-escape theorem, \autoref{thm:finite-tail-filter-nonescape}. The structural rows $H,C,P,N$ preserve the same route, while the carrier has no coordinate for selected limits, quotient streams, host equality, countable choice, ambient completeness, or an unrecorded completion surface.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter Real-window selector bridge]
+\label{thm:finite-tail-filter-real-window-budget-selector-bridge}
+Every $\RealWindowBudgetUp$ selector-stability read that consumes an accepted $\FiniteTailFilterUp$ packet
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+must factor through the displayed finite route $S,D,R,B,Q,E,H,C,P,N$. Through this route it reads the $\StreamNameUp$ window row, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, tail-budget row, common-tail row, $\RealUp$ seal, componentwise transport, continuation, package source, and local naming coordinate supplied by the packet.
+
+Consequently, by $\RealWindowBudgetUp$ selector stability, the downstream selector surface cannot replace that route by a private window family, detached dyadic ledger, selected limit, quotient stream, host real equality, countable-choice row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the FiniteTailFilter NameCert obligations, \autoref{thm:finite-tail-filter-namecert-obligations}. They expose the accepted packet as the ten displayed rows $S,D,R,B,Q,E,H,C,P,N$, with the analytic rows and structural rows carried by one local certificate.
+
+Apply tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness}. The stream-window row $S$ and dyadic ledger $D$ are the common cofinal-tail packet used by the tail budget $B$, common-tail comparison $Q$, and the Real-facing seal row $E$.
+
+Use the Real seal handoff and the RealWindowBudget consumer link, \autoref{thm:finite-tail-filter-real-seal-handoff} and \autoref{thm:finitetailfilter-realwindowbudget-consumer-link}. These identify the downstream read as a consumer of the same $S,D,R,B,Q,E,H,C,P,N$ route, rather than a read of any hidden completion or host-level real structure.
+
+Finally apply $\RealWindowBudgetUp$ selector stability, \autoref{thm:real-window-budget-selector-stability}. Once the read reaches the RealWindowBudget selector surface, that theorem keeps the selector synchronized with the finite request, window, dyadic, regular, Real-facing, and support rows supplied by the displayed route, so no private window family, detached ledger, selected limit, quotient stream, host equality, countable-choice row, or ambient completeness coordinate can replace the packet route.
 \end{proof}
 
 \begin{theorem}[FiniteTailFilter sibling tail handoff]
@@ -142,6 +182,28 @@ Use tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness
 Finally apply non-escape. The handoff is finite and has no coordinate for a quotient stream, selected limit, host real equality, ambient completeness datum, metric-completeness datum, countable-choice row, or standard bridge row. Hence no sibling route can replace the displayed tail selector, ledger, or seal row by an unrecorded one.
 \end{proof}
 
+\begin{theorem}[FiniteTailFilter shared-window meet]
+\label{thm:finite-tail-filter-shared-window-meet}
+Let
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+be an accepted $\FiniteTailFilterUp$ packet. Suppose an accepted $\CauchyModulusRefinementUp$ packet has its selected-window row and readback row consumed as the same displayed finite window and regular readback route used by $F$. Then every $\RealUp$ or Completion consumer reads the shared L10 route through
+$$
+S,D,R,B,Q,E,H,C,P,N.
+$$
+It cannot replace this meet by a hidden selector, second meet, quotient stream, selected limit, host real equality, countable-choice row, ambient completeness datum, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+First bind the common finite packet. Tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness}, identifies $S$ and $D$ as the displayed window and tolerance packet read by the tail-budget row, common-tail row, and Real seal of $F$.
+
+Next route the sibling consumers. The sibling tail handoff and RealWindowBudget consumer link, \autoref{thm:finite-tail-filter-sibling-tail-handoff} and \autoref{thm:finitetailfilter-realwindowbudget-consumer-link}, force StreamName, DyadicRatCore, RegSeqRat, RealWindowBudget, Real, and Completion reads through the displayed route $S,D,R,B,Q,E,H,C,P,N$.
+
+Now attach the adjacent selected-window route. By \autoref{thm:cauchy-modulus-refinement-shared-tail-selector-seal-coherence}, an accepted $\CauchyModulusRefinementUp$ consumer whose selected-window and readback rows are the same displayed finite window and regular readback route cannot introduce a separate selector, second meet, or off-route Real seal.
+
+Finally apply non-escape, \autoref{thm:finite-tail-filter-nonescape}. Since neither accepted packet contributes a coordinate for quotient stream equality, selected limits, host real equality, countable choice, ambient completeness, metric-completeness data, or a hidden completion surface, the shared consumer route is exactly the finite packet displayed by $F$.
+\end{proof}
+
 \begin{theorem}[FiniteTailFilter carrier transport obligation]
 \label{thm:finite-tail-filter-carrier-transport-obligation}
 For every accepted $\FiniteTailFilterUp$ carrier
@@ -157,6 +219,7 @@ Use the NameCert obligations to read the certified transport surface. Since thos
 
 Finally apply non-escape. The excluded objects are not coordinates of $F$ and are not authenticated by the local naming row $N$. Thus classifier transport preserves exactly the displayed packet rows and nothing outside them.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteTailFilterUp.FiniteTailFilterCarrier\_transport\_obligation}
 
 \begin{theorem}[FiniteTailFilter cofinal-window directedness obligation]
 \label{thm:finite-tail-filter-cofinal-window-directedness-obligation}
@@ -172,6 +235,45 @@ Start with the continuation coordinate $C$. By the carrier definition, $C$ recor
 Apply tail-window exactness. The budget, comparison, and seal-facing reads all consume the same $S,D$ window and tolerance packet, so the continuation cannot branch into an unrecorded selector or tolerance ledger.
 
 Use the Real seal handoff theorem to identify the downstream route. Every Real or Completion consumer reaches $E$ through the finite packet $S,D,R,B,Q,H,C,P,N$, and the replay row $C$ is the route data for that same packet. Hence all accepted reads are directed through the displayed cofinal window surface.
+\end{proof}
+\leanchecked{BEDC.Derived.FiniteTailFilterUp.FiniteTailFilterCarrier\_cofinal\_window\_directedness\_obligation}
+
+\begin{theorem}[FiniteTailFilter cofinal-route exhaustion]
+\label{thm:finite-tail-filter-cofinal-route-exhaustion}
+Every $\RealWindowBudgetUp$, $\RealUp$, or Completion-facing consumer of an
+accepted $\FiniteTailFilterUp$ carrier
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+factors through the cofinal route $S,D,R,B,Q,E,H,C,P,N$. No such consumer can
+add private windows, detached dyadic ledgers, selected limits, quotient streams,
+host equality, countable-choice rows, ambient completeness, or standard bridge
+rows.
+\end{theorem}
+\begin{proof}
+First assemble the carrier route from the NameCert obligations and tail-window
+exactness, \autoref{thm:finite-tail-filter-namecert-obligations} and
+\autoref{thm:finite-tail-filter-tail-window-exactness}. These identify
+$S,D,R,B,Q,E,H,C,P,N$ as the accepted packet and make $S,D$ the exact window and
+tolerance rows read by $B,Q,E$.
+
+Next pass to the Real-facing surface. Apply the Real seal handoff and the
+RealWindowBudget consumer link,
+\autoref{thm:finite-tail-filter-real-seal-handoff} and
+\autoref{thm:finitetailfilter-realwindowbudget-consumer-link}. They route
+RealWindowBudget, Real, and Completion-facing consumers through the same finite
+packet.
+
+Use the Real-window selector bridge to rule out a selector-side replacement.
+\autoref{thm:finite-tail-filter-real-window-budget-selector-bridge} keeps
+selector stability tied to $S,D,R,B,Q,E,H,C,P,N$, not to a private window family
+or detached dyadic ledger.
+
+Finally apply non-escape,
+\autoref{thm:finite-tail-filter-nonescape}. Since the carrier contains no
+selected-limit, quotient-stream, host-equality, countable-choice, ambient
+completeness, or standard bridge coordinate, the displayed cofinal route
+exhausts the admitted consumer surface.
 \end{proof}
 
 \begin{theorem}[FiniteTailFilter structural provenance obligation]
@@ -190,6 +292,211 @@ Apply the NameCert obligations. They identify the provenance domain as the liste
 The carrier has no separate coordinate for an independent completion theorem, quotient carrier, selected limit, or bridge schema. Therefore the provenance and naming rows certify exactly the stated sources and no larger structure.
 \end{proof}
 
+\begin{theorem}[FiniteTailFilter terminal cofinal-consumer exclusion]
+\label{thm:finite-tail-filter-terminal-cofinal-consumer-exclusion}
+For every accepted $\FiniteTailFilterUp$ carrier
+$$
+F=(S,D,R,B,Q,E,H,C,P,N),
+$$
+every terminal $\RealUp$, $\RealWindowBudgetUp$, $\UniformCauchyCriterionUp$, or completion-facing consumer of the accepted cofinal packet factors through the displayed finite route $S,D,R,B,Q,E,H,C,P,N$.
+
+Consequently such a consumer cannot recover quotient stream equality, selected limits, host real equality, ambient completeness, metric-completeness data, countable choice, a private selector, a separate dyadic ledger, or a standard bridge row from the cofinal packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteTailFilterUp.FiniteTailFilterCarrier\_terminal\_cofinal\_consumer\_exclusion}
+\begin{proof}
+Start with tail-window exactness and the Real seal handoff, \autoref{thm:finite-tail-filter-tail-window-exactness} and \autoref{thm:finite-tail-filter-real-seal-handoff}. They identify the stream-window and dyadic-tolerance rows as the common cofinal packet used by the tail budget, common-tail comparison, Real seal, and completion-facing reads.
+
+Next apply the RealWindowBudget selector bridge and the sibling tail handoff, \autoref{thm:finite-tail-filter-real-window-budget-selector-bridge} and \autoref{thm:finite-tail-filter-sibling-tail-handoff}. These force selector-stability and sibling reads to reuse the same $S,D,R,B,Q,E,H,C,P,N$ route rather than a detached window family, tolerance ledger, Real row, or seal row.
+
+Use the cofinal-window directedness obligation to route every terminal read through the displayed continuation row $C$. The continuation can replay only the accepted tail-window, dyadic-tolerance, regular-rational, tail-budget, common-tail, and Real seal reads carried by the finite packet.
+
+Finally combine non-escape with the structural provenance obligation, \autoref{thm:finite-tail-filter-nonescape} and \autoref{thm:finite-tail-filter-structural-provenance-obligation}. The accepted carrier has no coordinate for quotient stream equality, selected limits, host real equality, ambient or metric completeness, countable choice, private selectors, detached ledgers, or standard bridge rows, and the provenance rows $P,N$ certify no hidden completion source. Hence every terminal consumer remains confined to the displayed cofinal route.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter common-tail seal cofinality]
+\label{thm:finite-tail-filter-common-tail-seal-cofinality}
+Let
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+be an accepted $\FiniteTailFilterUp$ carrier. Any $\RealWindowBudgetUp$, $\UniformCauchyCriterionUp$, $\RealUp$, or completion-facing consumer that uses the accepted $\FiniteTailFilterUp$ packet must identify its $\StreamNameUp$ window row, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback row, $\DyadicTailBoundUp$ budget row, $\CauchyTailComparisonUp$ row, and $\RealUp$ seal row with the displayed finite packet $S,D,R,B,Q,E,H,C,P,N$.
+
+No private selector, detached dyadic ledger, quotient stream, selected limit, countable-choice row, ambient completeness row, or standard bridge row is admitted by this common-tail seal.
+\end{theorem}
+\begin{proof}
+First apply tail-window exactness and the Real seal handoff, \autoref{thm:finite-tail-filter-tail-window-exactness} and \autoref{thm:finite-tail-filter-real-seal-handoff}. These identify the window, tolerance, readback, budget, comparison, and Real seal rows as coordinates of the same accepted finite packet.
+
+Next apply the RealWindowBudget consumer link and the Real-window selector bridge, \autoref{thm:finitetailfilter-realwindowbudget-consumer-link} and \autoref{thm:finite-tail-filter-real-window-budget-selector-bridge}. A Real-window consumer therefore reads its selector and budget data through $S,D,R,B,Q,E,H,C,P,N$, not through a private selector family or detached dyadic ledger.
+
+Use the sibling tail handoff and cofinal-window directedness obligation, \autoref{thm:finite-tail-filter-sibling-tail-handoff} and \autoref{thm:finite-tail-filter-cofinal-window-directedness-obligation}. The UniformCauchyCriterion and completion-facing reads must replay the same continuation route $C$ over the displayed packet, so the common-tail comparison row cannot be replaced by a quotient stream, selected limit, countable-choice row, ambient completeness row, or standard bridge row.
+
+Finally invoke terminal cofinal-consumer exclusion, \autoref{thm:finite-tail-filter-terminal-cofinal-consumer-exclusion}. It confines every terminal Real-window, Real, UniformCauchyCriterion, or completion-facing consumer to the accepted cofinal packet, which proves that the finite packet $S,D,R,B,Q,E,H,C,P,N$ is the common route consumed by those chapters.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter cofinal-window budget normal form]
+\label{thm:finitetailfilter-cofinal-window-budget-normal-form}
+Let
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+be an accepted $\FiniteTailFilterUp$ carrier. Every accepted $\RealWindowBudgetUp$, $\UniformCauchyCriterionUp$, $\RealUp$, or completion-facing read of $F$ has the same normal-form route $S,D,R,B,Q,E,H,C,P,N$. The rows $S,D$ are the only window and dyadic tolerance rows, $B,Q$ are the only tail-budget and common-tail comparison rows, and $E$ is the only $\RealUp$ seal row.
+
+No private selector, detached dyadic ledger, quotient stream, selected limit, host real equality, countable-choice row, ambient completeness row, metric-completeness row, independent completion row, or standard bridge row is part of this normal form.
+\end{theorem}
+\begin{proof}
+First build the finite route from tail-window exactness and the Real seal handoff, \autoref{thm:finite-tail-filter-tail-window-exactness} and \autoref{thm:finite-tail-filter-real-seal-handoff}. These identify $S,D,R,B,Q,E$ as one accepted finite packet rather than separate window, tolerance, readback, budget, comparison, and Real seal sources.
+
+Next account for Real-window and selector-facing consumers. Apply \autoref{thm:finitetailfilter-realwindowbudget-consumer-link} and \autoref{thm:finite-tail-filter-real-window-budget-selector-bridge}. They force every $\RealWindowBudgetUp$ read to use the same route $S,D,R,B,Q,E,H,C,P,N$, with no private selector family or detached dyadic ledger.
+
+Then route the uniform and completion-facing reads through the sibling and cofinal rows. Use \autoref{thm:finite-tail-filter-sibling-tail-handoff} together with \autoref{thm:finite-tail-filter-cofinal-window-directedness-obligation}. The continuation row $C$ replays only the displayed cofinal packet, so the $\UniformCauchyCriterionUp$ and completion-facing consumers cannot replace $B$ or $Q$ by another tail-budget or common-tail comparison row.
+
+Finally apply \autoref{thm:finite-tail-filter-common-tail-seal-cofinality}. It states that every RealWindowBudget, UniformCauchyCriterion, Real, or completion-facing consumer identifies its window, tolerance, readback, budget, comparison, and Real seal rows with the accepted packet $S,D,R,B,Q,E,H,C,P,N$.
+
+The exclusion clause follows from terminal cofinal-consumer exclusion and structural provenance, \autoref{thm:finite-tail-filter-terminal-cofinal-consumer-exclusion} and \autoref{thm:finite-tail-filter-structural-provenance-obligation}. Since the accepted carrier has no coordinate for the listed external structures, the normal form is exactly the displayed route.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter terminal classifier exactness]
+\label{thm:finite-tail-filter-terminal-classifier-exactness}
+For every accepted $\FiniteTailFilterUp$ carrier
+$$
+F=(S,D,R,B,Q,E,H,C,P,N),
+$$
+the terminal classifier available to any $\RealWindowBudgetUp$, $\UniformCauchyCriterionUp$, $\RealUp$, or completion-facing consumer is exactly the componentwise classifier on the displayed finite route $S,D,R,B,Q,E,H,C,P,N$.
+
+Thus no terminal read may replace $S,D$ by a private window or tolerance ledger, replace $R,B,Q,E$ by detached $\RegSeqRatUp$, tail-budget, common-tail, or $\RealUp$ rows, or introduce quotient streams, selected limits, host equality, countable choice, ambient completeness, or bridge schema data.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations, \autoref{thm:finite-tail-filter-namecert-obligations}. They expose the accepted packet as the rows $S,D,R,B,Q,E,H,C,P,N$, with $H$ carrying the componentwise $\hsame$ transports, $C$ carrying the displayed continuation routes, and $P,N$ carrying package provenance and local naming.
+
+Next apply tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness}. The window and dyadic tolerance inputs of the tail-budget row, the common-tail comparison row, and the Real seal are exactly $S$ and $D$, so the classifier cannot be evaluated through a private window family or a detached tolerance ledger.
+
+For the Real and completion-facing side, use the Real seal handoff and the RealWindowBudget consumer link, \autoref{thm:finite-tail-filter-real-seal-handoff} and \autoref{thm:finitetailfilter-realwindowbudget-consumer-link}. These route every Real-window, Real, and completion-facing read through the same finite packet before reaching the seal row $E$.
+
+For the common-tail side, use common-tail seal cofinality, \autoref{thm:finite-tail-filter-common-tail-seal-cofinality}. It identifies the $\RegSeqRatUp$ readback, tail-budget, common-tail comparison, and $\RealUp$ seal rows with the displayed route $R,B,Q,E$ rather than with detached sibling rows.
+
+Finally apply the cofinal-window budget normal form, \autoref{thm:finitetailfilter-cofinal-window-budget-normal-form}. That theorem states that every terminal RealWindowBudget, UniformCauchyCriterion, Real, or completion-facing read has the same normal-form route $S,D,R,B,Q,E,H,C,P,N$ and no coordinate for the excluded external structures. Therefore the only terminal classifier left available is the componentwise classifier on that displayed route.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter terminal Lean target surface]
+\label{thm:finite-tail-filter-terminal-lean-target-surface}
+Let
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+be an accepted $\FiniteTailFilterUp$ carrier. The paper-level Lean target for this chapter is the exact terminal packet $F$: every $\RealWindowBudgetUp$, $\UniformCauchyCriterionUp$, $\RealUp$, and completion-facing read must consume the displayed window row, dyadic tolerance row, $\RegSeqRatUp$ readback, tail-budget row, common-tail comparison row, $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local $\NameCert_{\FiniteTailFilterUp}$ row.
+
+No terminal Lean target may replace that packet by quotient stream equality, selected limits, host real equality, countable choice, ambient completeness, metric-completeness data, independent completion data, or a standard bridge row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-tail-filter-terminal-classifier-exactness}. It identifies the terminal classifier as the componentwise classifier on $S,D,R,B,Q,E,H,C,P,N$ for every RealWindowBudget, UniformCauchyCriterion, Real, and completion-facing consumer.
+
+Use the cofinal-window budget normal form, \autoref{thm:finitetailfilter-cofinal-window-budget-normal-form}. It states that the same finite route is the normal form for the listed consumers and that the excluded external structures are not coordinates of the carrier.
+
+Thus the Lean target surface has no additional input row to consume. It must take exactly the displayed packet and prove the terminal reads from that packet.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter formal-target consumer route]
+\label{thm:finite-tail-filter-formal-target-consumer-route}
+Every formal target consuming a $\FiniteTailFilterUp$ terminal read must read the same finite cofinal-tail route
+$$
+S,D,R,B,Q,E,H,C,P,N.
+$$
+The route factors RealWindowBudget, UniformCauchyCriterion, Real, and completion-facing requests through $\BHist$ carrier rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and the local $\NameCert_{\FiniteTailFilterUp}$ row before any terminal classifier is evaluated.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:finite-tail-filter-terminal-lean-target-surface}. It fixes the formal target as the exact terminal packet rather than a family of host-side consumer assumptions.
+
+Next use \autoref{thm:finite-tail-filter-common-tail-seal-cofinality}. It forces the window, tolerance, readback, budget, comparison, and Real seal rows for each terminal consumer to agree with the accepted packet.
+
+Finally attach the consumer exclusion theorem, \autoref{thm:finite-tail-filter-terminal-cofinal-consumer-exclusion}. Since every terminal consumer is confined to the accepted cofinal packet, the formal target route is precisely the finite $\BHist$, $\hsame$, $\Cont$, provenance, and NameCert route stated above.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter Lean intake non-escape]
+\label{thm:finite-tail-filter-lean-intake-nonescape}
+The Lean intake for $\FiniteTailFilterUp$ is non-escaping: it may consume only the BHist packet $S,D,R,B,Q,E,H,C,P,N$ and the terminal classifier facts already displayed in this chapter. In particular, the intake cannot add a private RealWindowBudget selector, a separate UniformCauchyCriterion witness, a host Real equality, a selected completion point, a quotient stream, countable choice, ambient completeness, metric completeness, or bridge schema data.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:finite-tail-filter-formal-target-consumer-route}. The formal target reads the terminal consumers only through the displayed cofinal-tail route.
+
+Use \autoref{thm:finite-tail-filter-terminal-classifier-exactness} to evaluate the classifier. The classifier is already exact on $S,D,R,B,Q,E,H,C,P,N$, so an additional selector, witness, equality, completion point, quotient stream, choice principle, completeness row, or bridge row would not be read by the accepted classifier.
+
+The non-escape clause follows from \autoref{thm:finite-tail-filter-nonescape} and \autoref{thm:finite-tail-filter-structural-provenance-obligation}. Both keep accepted reads inside the finite carrier, transport, route, provenance, and local naming surface.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter formal intake route exhaustion]
+\label{thm:finitetailfilter-formal-intake-route-exhaustion}
+Every formal intake read of an accepted $\FiniteTailFilterUp$ carrier
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+factors through the finite tail-window row $S$, the $\RealWindowBudgetUp$ row, the cofinal-route rows $D,R,B,Q,E$, the terminal classifier, and the Lean intake non-escape surface. No formal intake read may add a hidden tail oracle, quotient stream, selected host limit, host real equality, choice datum, ambient completeness row, metric-completeness row, independent completion datum, or bridge row.
+\end{theorem}
+\begin{proof}
+First apply the formal-target consumer route, \autoref{thm:finite-tail-filter-formal-target-consumer-route}. It confines every formal target to the finite cofinal-tail route $S,D,R,B,Q,E,H,C,P,N$ before any terminal classifier is evaluated.
+
+Use the cofinal-window budget normal form, \autoref{thm:finitetailfilter-cofinal-window-budget-normal-form}. This factors RealWindowBudget, UniformCauchyCriterion, Real, and completion-facing reads through the displayed tail-window, tolerance, regular-readback, tail-budget, comparison, and Real-seal rows.
+
+Next apply terminal classifier exactness, \autoref{thm:finite-tail-filter-terminal-classifier-exactness}. The classifier available to every terminal consumer is exactly the componentwise classifier on the displayed finite route, so the formal intake has no second classifier outside the packet.
+
+Finally invoke Lean intake non-escape, \autoref{thm:finite-tail-filter-lean-intake-nonescape}. Since the intake may consume only the BHist packet and the terminal classifier facts already displayed in the chapter, every formal intake read is exhausted by the finite route above and cannot add a hidden tail oracle, quotient stream, selected host limit, choice datum, completeness datum, or bridge row.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter formal target route closure]
+\label{thm:finite-tail-filter-formal-target-route-closure}
+The formal target for the accepted $\FiniteTailFilterUp$ packet
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+is the closed L10 cofinal-tail surface formed by the existing $\mathsf{DyadicRatCoreUp}$, $\mathsf{StreamNameUp}$, $\mathsf{RegSeqRatUp}$, $\mathsf{RealUp}$, $\mathsf{RealWindowBudgetUp}$, $\mathsf{UniformCauchyCriterionUp}$, $\mathsf{CauchyTailComparisonUp}$, and $\mathsf{DyadicTailBoundUp}$ rows. It consumes only finite cofinal tail windows, classifier-stable tail cutoffs, non-escape ledgers, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\FiniteTailFilterUp}$ row.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:finite-tail-filter-namecert-obligations} and \autoref{thm:finitetailfilter-formal-intake-route-exhaustion}. These identify the accepted packet and exhaust every formal intake route through $S,D,R,B,Q,E,H,C,P,N$.
+
+Next apply \autoref{thm:finitetailfilter-cofinal-window-budget-normal-form} and \autoref{thm:finite-tail-filter-terminal-classifier-exactness}. The window, dyadic tolerance, regular-readback, tail-budget, common-tail comparison, and Real-seal rows are therefore the only classifier-stable tail cutoffs visible to an L10 consumer.
+
+Finally use \autoref{thm:finite-tail-filter-lean-intake-nonescape}. Since the intake has no hidden tail oracle, quotient stream, selected limit, host equality, choice datum, completeness row, or bridge row, the formal target is exactly the closed finite cofinal-tail surface above.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter bridge premise surface]
+\label{thm:finite-tail-filter-bridge-premise-surface}
+Any bridge premise that reads the L10 $\FiniteTailFilterUp$ surface must first read the same finite packet $F=(S,D,R,B,Q,E,H,C,P,N)$. The premise may expose $\mathsf{DyadicRatCoreUp}$, $\mathsf{StreamNameUp}$, $\mathsf{RegSeqRatUp}$, $\mathsf{RealUp}$, $\mathsf{RealWindowBudgetUp}$, $\mathsf{UniformCauchyCriterionUp}$, $\mathsf{CauchyTailComparisonUp}$, and $\mathsf{DyadicTailBoundUp}$ only as finite tail-window, dyadic tolerance, regular-readback, Real-seal, budget, criterion, comparison, and tail-bound rows inside the packet; it may not replace them by a standard bridge row, ambient completeness, quotient stream equality, selected host limits, or host Real equality.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:finite-tail-filter-formal-target-route-closure} to put every bridge-facing premise on the closed cofinal-tail surface.
+
+Then apply \autoref{thm:finite-tail-filter-common-tail-seal-cofinality}. The Real seal, common-tail comparison, dyadic tail bound, and window-budget data are consumed together, so a bridge premise cannot separate one row into an ambient completion witness.
+
+The excluded replacements are ruled out by \autoref{thm:finite-tail-filter-terminal-cofinal-consumer-exclusion} and \autoref{thm:finite-tail-filter-lean-intake-nonescape}. Thus a later bridge proof has a premise surface, but that surface is still the finite packet rather than a host-side bridge assumption.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter Lean-ready obligation surface]
+\label{thm:finite-tail-filter-lean-ready-obligation-surface}
+The Lean-ready obligation for $\FiniteTailFilterUp$ is to prove that the formal target route closes over the displayed finite cofinal-tail packet and no other data. Concretely, every $\mathsf{RealWindowBudgetUp}$, $\mathsf{UniformCauchyCriterionUp}$, $\mathsf{CauchyTailComparisonUp}$, $\mathsf{DyadicTailBoundUp}$, $\mathsf{RegSeqRatUp}$, $\mathsf{StreamNameUp}$, $\mathsf{DyadicRatCoreUp}$, and $\mathsf{RealUp}$ read must be reconstructed from $S,D,R,B,Q,E,H,C,P,N$, the terminal classifier exactness row, and the non-escape ledger already certified in this chapter.
+\end{theorem}
+\begin{proof}
+First collect the carrier and naming data from \autoref{def:finite-tail-filter-carrier} and \autoref{thm:finite-tail-filter-namecert-obligations}. They provide the rows that a Lean theorem can bind without adding a new carrier.
+
+Next combine cofinal-route exhaustion with terminal classifier exactness. Theorems~\ref{thm:finitetailfilter-formal-intake-route-exhaustion} and \ref{thm:finite-tail-filter-terminal-classifier-exactness} leave the target with only finite cofinal windows and classifier-stable tail cutoffs.
+
+It remains to record the non-escape side. Theorems~\ref{thm:finite-tail-filter-lean-intake-nonescape} and \ref{thm:finite-tail-filter-formal-target-route-closure} show that the future Lean obligation is a closure theorem over this packet, not a request for quotient streams, selected limits, ambient completeness, or a bridge row.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter Real-completion lattice link]
+\label{thm:finite-tail-filter-real-completion-lattice-link}
+An accepted finite tail filter consumed by the current Real-completion route determines the same cofinal-tail lattice row for $\StreamNameUp$ finite windows, $\DyadicRatCoreUp$ tolerance windows, $\RegSeqRatUp$ regularity tails, and $\RealUp$ seal reads. The lattice row is the displayed finite packet
+$$
+F=(S,D,R,B,Q,E,H,C,P,N),
+$$
+with StreamName, DyadicRatCore, RegSeqRat, and RealUp appearing only as the four sibling faces referenced by \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+\end{theorem}
+\begin{proof}
+Start with tail-window exactness and the Real seal handoff, \autoref{thm:finite-tail-filter-tail-window-exactness} and \autoref{thm:finite-tail-filter-real-seal-handoff}. They identify $S,D,R,B,Q,E$ as one finite cofinal-tail packet consumed by the window, tolerance, regular-readback, budget, comparison, and Real-seal rows.
+
+Next apply the shared-window meet, \autoref{thm:finite-tail-filter-shared-window-meet}. The meet forces all accepted consumers to use the same cofinal window and dyadic tolerance packet rather than separate StreamName, DyadicRatCore, RegSeqRat, or RealUp witnesses.
+
+Finally apply the Lean-ready obligation surface, \autoref{thm:finite-tail-filter-lean-ready-obligation-surface}. It records that every Real-completion route read of the four sibling chapters must be reconstructed from $S,D,R,B,Q,E,H,C,P,N$, the terminal classifier exactness row, and the non-escape ledger, so the cofinal-tail lattice row is shared across all four objects.
+\end{proof}
+
 \closureat{FiniteTailFilterUp}{scopedStr}
 \closureat{FiniteTailFilterUp}{publicStr}
 \closureat{FiniteTailFilterUp}{bridgedStr}
@@ -198,7 +505,7 @@ The carrier has no separate coordinate for an independent completion theorem, qu
 \begin{closurestatus}{\FiniteTailFilterUp}
   \constructivestory{A $\FiniteTailFilterUp$ packet is generated from a finite StreamName window ledger, DyadicRatCore tolerance ledger, RegSeqRat readback, DyadicTailBound tail-budget row, CauchyTailComparison common-tail row, RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and local NameCert row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:finite-tail-filter-carrier}, \autoref{thm:finite-tail-filter-namecert-obligations}, \autoref{thm:finite-tail-filter-nonescape}, \autoref{thm:finite-tail-filter-tail-window-exactness}, \autoref{thm:finite-tail-filter-real-seal-handoff}, \autoref{thm:finite-tail-filter-sibling-tail-handoff}, \autoref{thm:finite-tail-filter-carrier-transport-obligation}, \autoref{thm:finite-tail-filter-cofinal-window-directedness-obligation}, and \autoref{thm:finite-tail-filter-structural-provenance-obligation} bind the finite cofinal-tail filter packet, its classifier transport, its continuation replay, and its provenance/name certification surface for Real and Completion seal reads.}
+  \scopeclosed{\autoref{def:finite-tail-filter-carrier}, \autoref{thm:finite-tail-filter-namecert-obligations}, \autoref{thm:finite-tail-filter-nonescape}, \autoref{thm:finite-tail-filter-tail-window-exactness}, \autoref{thm:finite-tail-filter-real-seal-handoff}, \autoref{thm:finite-tail-filter-sibling-tail-handoff}, \autoref{thm:finite-tail-filter-shared-window-meet}, \autoref{thm:finite-tail-filter-carrier-transport-obligation}, \autoref{thm:finite-tail-filter-cofinal-window-directedness-obligation}, \autoref{thm:finite-tail-filter-structural-provenance-obligation}, \autoref{thm:finite-tail-filter-terminal-cofinal-consumer-exclusion}, and \autoref{thm:finite-tail-filter-common-tail-seal-cofinality} bind the finite cofinal-tail filter packet, its classifier transport, its continuation replay, and its provenance/name certification surface for Real and Completion seal reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}

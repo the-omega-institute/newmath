@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\TowerEndpointReflectionUp$}
+\label{ch:concrete-instances-towerendpointreflection-namecert}
+\origin{ai}
+
+The $\TowerEndpointReflectionUp$ packet realizes the endpoint/source reflection boundary of \autoref{sec:approximation-towers-ledgered-compression} as a finite BEDC NameCert carrier. It consumes the tower-compression packet of \autoref{ch:concrete-instances-reality-constrained-tower-compression-namecert}, the endpoint-equivalence discipline of \autoref{ch:concrete-instances-towerequivalence-namecert}, the composite-ledger classifier of \autoref{ch:concrete-instances-compression-ledger-functor-namecert}, and the descent decision surface of \autoref{ch:concrete-instances-compression-descent-audit-namecert}. Those siblings expose endpoint rows, tower ledgers, functorial composition, and descent audits; this carrier binds endpoint reflection back to a displayed source row without collapsing endpoint truth into source truth.
+
+\begin{definition}[TowerEndpointReflection carrier]
+\label{def:tower-endpoint-reflection-carrier}
+A $\TowerEndpointReflectionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(E,S,K,Q,F,D,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the endpoint row, naming the terminal visible package whose reflection is being queried.
+\item $S$ is the source row, naming the base system, trace family, or observation process to which reflection is proposed.
+\item $K$ is the $\RealityConstrainedTowerCompressionUp$ row, exposing the source, tower, classifier, endpoint, and composite-ledger surface.
+\item $Q$ is the $\TowerEquivalenceUp$ row, recording endpoint agreement together with ledger and descent compatibility.
+\item $F$ is the $\CompressionLedgerFunctorUp$ row, recording the composite-ledger route assigned to the displayed tower arrows.
+\item $D$ is the $\CompressionDescentAuditUp$ row, recording the accepted or refused descent route for the endpoint operation under reflection.
+\item $O$ is the obstruction row, listing the finite reasons that block reflection, including missing composite ledger, failed descent audit, endpoint-only equivalence, source mismatch, and model-facing non-descent.
+\item $H$ records componentwise $\hsame$ transport for $E,S,K,Q,F,D,O$.
+\item $C$ is the displayed $\Cont$ replay route through the same endpoint, source, ledger, equivalence, descent, and obstruction rows.
+\item $P$ is the $\Pkg$ provenance over $\TowerEndpointReflectionUp$, the four cited tower siblings, $\RealWindowBudgetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TowerEndpointReflectionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for endpoint truth as source truth, source identity from endpoint equivalence, unledgered reflection, private descent repair, or a model-facing acceptance route outside $R$.
+\end{definition}
+\leandef{BEDC.Derived.TowerEndpointReflectionUp.TowerEndpointReflectionUp}
+
+\begin{theorem}[TowerEndpointReflection descent boundary]
+\label{thm:tower-endpoint-reflection-descent-boundary}
+Let
+$$
+R=(E,S,K,Q,F,D,O,H,C,P,N)
+$$
+be an accepted $\TowerEndpointReflectionUp$ packet. Any endpoint/source reflection exported from $E$ to $S$ requires both the composite-ledger row carried by $K,F$ and the descent-audit row $D$. A consumer that keeps endpoint equivalence through $Q$ while omitting either the composite ledger or the descent audit has an endpoint comparison, not a source-facing reflection.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tower-endpoint-reflection-carrier}. The endpoint row $E$ and source row $S$ are displayed together with tower compression $K$, tower equivalence $Q$, ledger functor $F$, descent audit $D$, and obstruction row $O$.
+
+The tower-compression row exposes the source, classifier, endpoint, and composite-ledger discipline of \autoref{ch:concrete-instances-reality-constrained-tower-compression-namecert}. The ledger-functor row then records the composite route by which the tower arrows transport hidden-source material to the endpoint-facing ledger.
+
+The descent-audit row supplies the separate decision surface required by \autoref{ch:concrete-instances-compression-descent-audit-namecert}. It is not implied by endpoint equivalence, because \autoref{ch:concrete-instances-towerequivalence-namecert} binds agreement only when ledger and descent compatibility are also displayed.
+
+Thus endpoint/source reflection is licensed only through the joint route $K,F,D$ transported by $H$ and replayed by $C$. If the composite-ledger row or the descent-audit row is absent, the packet has no carrier coordinate that can move an endpoint claim from $E$ to $S$.
+\end{proof}
+
+\begin{theorem}[TowerEndpointReflection NameCert obligations]
+\label{thm:tower-endpoint-reflection-namecert-obligations}
+For the carrier of \autoref{def:tower-endpoint-reflection-carrier}, the local $\NameCert_{\TowerEndpointReflectionUp}$ surface consists exactly of seven obligation rows:
+\begin{enumerate}
+\item carrier admission for $R=(E,S,K,Q,F,D,O,H,C,P,N)$;
+\item endpoint and source exposure through $E,S$;
+\item tower-compression exposure through $K$;
+\item endpoint-equivalence exposure through $Q$;
+\item composite-ledger exposure through $F$;
+\item descent-audit and obstruction exposure through $D,O$;
+\item componentwise transport, replay, provenance, and local naming closure through $H,C,P,N$.
+\end{enumerate}
+Every accepted endpoint/source reflection must display these rows before a consumer may treat an endpoint operation as source-facing.
+\end{theorem}
+\begin{proof}
+The carrier definition gives exactly the eleven-row packet $R=(E,S,K,Q,F,D,O,H,C,P,N)$. The local NameCert therefore sees endpoint, source, tower-compression, equivalence, ledger-functor, descent-audit, obstruction, transport, replay, provenance, and naming coordinates.
+
+Rows $E$ and $S$ name the boundary being reflected. Rows $K,Q,F,D$ import the four cited siblings, separating tower compression, endpoint equivalence, composite-ledger routing, and descent audit instead of treating any one of them as sufficient.
+
+The obstruction row $O$ records the finite refusal surface whenever a ledger, descent, equivalence, or source-facing requirement is missing. The rows $H,C,P,N$ keep the same packet stable under transport, replay, provenance, and local naming.
+
+Since the carrier admits no further coordinate, the seven displayed obligations exhaust the NameCert surface. A consumer that lacks one of them is reading a different packet rather than an accepted $\TowerEndpointReflectionUp$ carrier.
+\end{proof}
+
+The Lean development in \texttt{lean4/BEDC/Derived/TowerEndpointReflectionUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \TowerEndpointReflectionUp$ and $\mathsf{FieldFaithful}\ \TowerEndpointReflectionUp$ instances preserving $E,S,K,Q,F,D,O,H,C,P,N$.
+
+\falsifiablePrediction{An accepted TowerEndpointReflectionUp packet without a composite-ledger row or descent-audit row refutes the carrier.}
+
+\independenceWitness{realityconstrainedtowercompression, towerequivalence, compressionledgerfunctor, compressiondescentaudit, realwindowbudget: none is bijective because only $\TowerEndpointReflectionUp$ binds endpoint row, source row, composite-ledger row, descent audit, obstruction row, componentwise transport, replay, provenance, and local NameCert as one reflection carrier.}
+
+\closureat{TowerEndpointReflectionUp}{seedStr}
+
+\begin{closurestatus}{\TowerEndpointReflectionUp}
+  \constructivestory{A $\TowerEndpointReflectionUp$ packet is generated from endpoint, source, tower-compression, tower-equivalence, composite-ledger, descent-audit, obstruction, componentwise transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tower-endpoint-reflection-carrier}, \autoref{thm:tower-endpoint-reflection-descent-boundary}, and \autoref{thm:tower-endpoint-reflection-namecert-obligations} bind endpoint/source reflection to a finite carrier with displayed composite-ledger and descent-audit obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert Lean verification, bridge checking, endpoint truth as source truth, source identity from endpoint equivalence, unledgered reflection, private descent repair, or model-facing acceptance outside the displayed packet.}
+  \upgradepath{Obligation closure requires Lean encoding of carrier admission, composite-ledger exposure, descent-audit exposure, obstruction non-escape, TasteGate nontriviality, and field faithfulness for $E,S,K,Q,F,D,O,H,C,P,N$.}
+\end{closurestatus}

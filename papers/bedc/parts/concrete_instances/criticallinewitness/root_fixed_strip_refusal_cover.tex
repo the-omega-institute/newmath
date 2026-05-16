@@ -1,0 +1,35 @@
+\begin{theorem}[CriticalLineWitness fixed-strip source refusal cover]
+\label{thm:critical-line-witness-fixed-strip-source-refusal-cover}
+Every accepted root-unblock read of a $\CriticalLineWitnessUp$ fixed-strip source packet is covered by the displayed fixed-strip source row, the supplied $\BHist$ ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CriticalLineWitnessUp}$ row. The cover may read the supplied zero row, critical-strip row, modulus row, real-part row, rational comparison row, and refusal-budget row, but it has no coordinate for analytic continuation, quotient zero sets, host equality, or an $\mathsf{RH}$ proof row.
+\end{theorem}
+\begin{proof}
+Start with the fixed-strip refusal-budget packet of \autoref{def:critical-line-witness-fixed-strip-refusal-budget-packet}. Its carrier is the finite row $Z,S,M,R,Q,H,C,P,N$, so every root-unblock read begins with the supplied zero, strip, modulus, real-part, comparison, transport, replay, provenance, and naming rows.
+
+Apply the fixed-strip budget route determinacy theorem, \autoref{thm:critical-line-witness-fixed-strip-budget-route-determinacy}. It forces the read through the same finite budget surface and prevents a second budget carrier or hidden analytic route.
+
+Finally use the fixed-strip NameCert source lock, \autoref{thm:critical-line-witness-fixed-strip-namecert-source-lock}. The local $\NameCert$ row is tied to the same $\BHist$, $\hsame$, $\Cont$, and $\Pkg$ surface, so analytic continuation, quotient zero sets, host equality, and an $\mathsf{RH}$ proof row remain outside the cover.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness modulus-window transport]
+\label{thm:critical-line-witness-modulus-window-transport}
+Let two accepted root fixed-strip reads share the displayed source row, fixed modulus window, refusal-budget ledger, componentwise $\hsame$ row, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CriticalLineWitnessUp}$ row. Then the modulus-window transport carries the first read to the second along the same $\BHist$ packet and preserves the visible source, strip, modulus, real-part, and rational comparison rows. It cannot replace that transport by analytic continuation, quotient zero-set equality, host equality, or any unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+Project both reads through the source refusal cover of \autoref{thm:critical-line-witness-fixed-strip-source-refusal-cover}. The only available rows are the fixed-strip source packet and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Use fixed-strip classifier stability, \autoref{thm:critical-line-witness-fixed-strip-classifier-stability}. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the accepted classifier on the same $Z,S,M,R,Q,H,C,P,N$ packet.
+
+Now apply fixed-strip ledger exactness, \autoref{thm:critical-line-witness-fixed-strip-ledger-exactness}. Since downstream reads receive exactly the displayed ledger rows, the modulus-window transport is determined by those rows and cannot be distinguished by analytic continuation, quotient zero-set equality, host equality, or unrecorded target behavior.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness RH-boundary nonclaim]
+\label{thm:critical-line-witness-rh-boundary-nonclaim}
+The root fixed-strip refusal cover and its modulus-window transport expose a boundary for $\mathsf{RH}$-facing consumers, not an $\mathsf{RH}$ proof row. A downstream consumer may read the supplied zero row, critical-strip source row, modulus window, refusal-budget ledger, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CriticalLineWitnessUp}$ rows, but it receives no analytic-continuation certificate, no quotient zero-set equality, no host equality, no ambient completeness row, and no proof of $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+Begin with the fixed-strip zeta consumer boundary, \autoref{thm:critical-line-witness-fixed-strip-zeta-consumer-boundary}. It places downstream zeta-continuation consumers on the displayed refusal budget and rational comparison ledger.
+
+Apply the source refusal cover and modulus-window transport above. Together they show that root-unblock reads and transported reads remain on the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet.
+
+Finally use fixed-strip ledger exactness, \autoref{thm:critical-line-witness-fixed-strip-ledger-exactness}. The ledger exhausts the downstream surface by displayed fixed-strip rows, so the $\mathsf{RH}$-facing boundary records a refusal surface and not analytic continuation, quotient zero-set equality, host equality, ambient completeness, or an $\mathsf{RH}$ proof row.
+\end{proof}

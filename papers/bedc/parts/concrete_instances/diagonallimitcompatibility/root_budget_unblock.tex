@@ -29,6 +29,25 @@ exported, the accepted packet can source its budget only through the displayed
 finite rows shared with the selector-budget route.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility terminal modulus-budget comparison]
+\label{thm:diagonal-limit-compatibility-terminal-modulus-budget-comparison}
+Let an accepted $\DiagonalLimitCompatibilityUp$ terminal route be consumed both by a $\UniformCauchyCriterionUp$ route and by a $\CauchyModulusRefinementUp$ selector route. Then the terminal budget comparison factors through the same displayed rows
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+The two consumers therefore agree on the finite $\StreamName$ window, dyadic ledger, regular-Cauchy readback, $\RealUp$ seal handoff, route, provenance, and local $\NameCert$ rows. The comparison introduces no quotient stream, selected host limit, choice datum, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_terminal\_modulus\_budget\_comparison}
+\begin{proof}
+First bind the diagonal terminal route. Apply \autoref{thm:diagonal-limit-compatibility-root-budget-source}, \autoref{thm:diagonal-limit-compatibility-root-window-route}, and \autoref{thm:diagonal-limit-compatibility-root-seal-boundary}. These rows expose the finite stream window, dyadic ledger, diagonal readback, Real seal handoff, consumer route, provenance, and local NameCert data before any terminal consumer acts.
+
+Next route the uniform consumer through \autoref{thm:diagonal-limit-compatibility-uniform-cauchy-terminal-handoff}. The uniform finite-family seal can read the terminal prefix only after the displayed diagonal budget rows are visible, so its window and ledger data are not separate host-level selections.
+
+Now route the selector consumer through \autoref{thm:diagonal-limit-compatibility-cauchy-modulus-refinement-route}. The Cauchy-modulus-refinement selector reads the same diagonal prefix before it reaches its selector rows, while \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness} and \autoref{thm:cauchy-modulus-refinement-real-seal-factorization} keep the regular-Cauchy readback and $\RealUp$ handoff tied to the displayed finite window.
+
+Finally compare the two consumers using \autoref{thm:diagonal-limit-compatibility-uniform-cauchy-three-way-terminal-comparison}. Both branches have already entered through $R,T,S,D,W,Q,L,H,C,P,N$, so the terminal budget comparison has no coordinate from which to extract a quotient stream, selected host limit, choice datum, host real equality, or ambient completeness claim.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility root window route]
 \label{thm:diagonal-limit-compatibility-root-window-route}
 For an accepted $\DiagonalLimitCompatibilityUp$ packet, the
@@ -158,6 +177,25 @@ Finally use budget-seal factorization and root provenance exhaustion, \autoref{t
 \end{proof}
 \leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_root\_window\_selector\_exhaustion}
 
+\begin{theorem}[Diagonal-limit compatibility selector-budget common refinement]
+\label{thm:diagonal-limit-compatibility-selector-budget-common-refinement}
+Every accepted $\DiagonalLimitCompatibilityUp$ packet whose terminal route is consumed by a $\RegularCauchySelectorBudgetUp$ route, a $\CauchyModulusRefinementUp$ selector route, and a $\RealUp$ or $\CompletionUp$ seal route factors all three reads through the same displayed finite rows
+
+$$
+R,T,S,D,W,Q,L,H,C,P,N
+$$
+
+before any selector or seal consumer can inspect the route. The shared route first exposes the diagonal root budget, stream-name window, regular-rational readback, dyadic ledger, Real seal boundary, componentwise transport, continuation replay, package provenance, and local $\NameCert_{\DiagonalLimitCompatibilityUp}$ row. It admits no hidden selector budget, no quotient stream equality, no selected host limit, no host real equality, no choice datum, and no ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the root budget source, root window route, and root seal boundary. Theorems~\ref{thm:diagonal-limit-compatibility-root-budget-source}, \ref{thm:diagonal-limit-compatibility-root-window-route}, and \ref{thm:diagonal-limit-compatibility-root-seal-boundary} identify the diagonal source, $\StreamNameUp$ finite-window row, $\RegSeqRatUp$ readback row, dyadic ledger, and $\RealUp$ or $\CompletionUp$ seal boundary as one displayed packet.
+
+Next attach the selector-facing consumers. The root-window selector exhaustion theorem, \autoref{thm:diagonal-limit-compatibility-root-window-selector-exhaustion}, forces every selector-budget read to pass through the same $R,T,S,D,W,Q,L,H,C,P,N$ rows before any regular, Real, or completion-seal route is visible.
+
+Finally close the route against escape. Root consumer non-escape, budget-seal factorization, and root provenance exhaustion, \autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape}, \autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization}, and \autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion}, keep $\Pkg$ provenance and the local $\NameCert$ row attached to the same carrier. Thus the $\RegularCauchySelectorBudgetUp$, $\CauchyModulusRefinementUp$, and $\RealUp$ or $\CompletionUp$ consumers share the common refinement before any selector or seal consumer inspects the route.
+\end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_selector\_budget\_common\_refinement}
+
 \begin{theorem}[DiagonalLimitCompatibility CauchyTailWitnessEnvelope factorization]
 \label{thm:diagonal-limit-compatibility-cauchy-tail-envelope-factorization}
 Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal $\RealUp$ or $\CompletionUp$ route consumed by an accepted $\CauchyTailWitnessEnvelopeUp$ packet. Then the terminal consumer route factors first through the displayed diagonal budget rows
@@ -180,6 +218,23 @@ Now attach the Cauchy tail witness envelope. The selector handoff of \autoref{th
 Finally apply the Real-tail seal boundary and non-escape results of \autoref{thm:cauchy-tail-witness-envelope-real-tail-seal-boundary} and \autoref{thm:cauchy-tail-witness-envelope-nonescape}. They force the envelope read to pass through $S,F,Q,A,R,H,C,P,N$ and exclude hidden tail oracles together with the same host, quotient, choice, and ambient-completeness bypasses.
 \end{proof}
 \leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_cauchy\_tail\_envelope\_factorization}
+
+\begin{theorem}[Diagonal-limit selector-budget MonotoneCauchy handoff]
+\label{thm:diagonal-limit-selector-budget-monotone-cauchy-handoff}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet, and let an accepted $\MonotoneCauchyUp$ packet read its finite-window, modulus, located-interval, regular-readback, and $\RealUp$ seal rows through the same $W,D,Q,L$ selector-budget surface of $K$. Then every $\RealUp$- or $\CompletionUp$-facing monotone-Cauchy consumer factors through the displayed diagonal selector-budget route before it reads the monotone ledger or located upper-bound row.
+
+The handoff exports no quotient stream, selected host limit, host real equality, trichotomy row, ambient completeness coordinate, metric-completeness datum, bridge row, or choice datum.
+\end{theorem}
+\begin{proof}
+First lock the diagonal selector source. Apply \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock} and \autoref{thm:diagonal-limit-selector-budget-route-determinacy}. These identify the only selector-budget route of $K$ as the displayed diagonal source together with the rows $W,D,Q,L,H,C,P,N$.
+
+Next attach the terminal diagonal consumer. The Cauchy-tail envelope factorization, \autoref{thm:diagonal-limit-compatibility-cauchy-tail-envelope-factorization}, shows that any $\RealUp$ or $\CompletionUp$ read first passes through $R,T,S,D,W,Q,L,H,C,P,N$ before a downstream tail-facing packet can inspect its own rows.
+
+Now read the monotone-Cauchy packet through the same selector surface. By \autoref{thm:monotone-cauchy-cofinal-criterion-seal-readback}, the finite-window, modulus, located-interval, regular-readback, and $\RealUp$ seal rows of the accepted monotone packet are read as the cofinal criterion seal surface. Since those rows are assumed to be the $W,D,Q,L$ selector-budget surface of $K$, the monotone ledger and located upper-bound row occur only after the diagonal selector route has already been fixed.
+
+Finally apply the diagonal completion-consumer non-escape boundary, \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}. It removes every route through quotient streams, selected host limits, host real equality, trichotomy, ambient completeness, metric-completeness data, bridge rows, and choice, so the monotone-Cauchy consumer receives only the displayed selector-budget handoff.
+\end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilitySelectorBudgetMonotoneCauchyHandoff}
 
 \begin{theorem}[DiagonalLimitCompatibility CauchyModulusRefinement route]
 \label{thm:diagonal-limit-compatibility-cauchy-modulus-refinement-route}
@@ -237,6 +292,7 @@ Now attach the two branch factorizations. The envelope branch is \autoref{thm:di
 
 Finally use \autoref{thm:diagonal-limit-compatibility-shared-terminal-consumer-comparison}. Since both branches have the same terminal-consumer prefix and all branch-specific rows occur downstream, the displayed tuple $R,T,S,D,W,Q,L,H,C,P,N$ is the classifier-visible pullback for either accepted terminal route.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_envelope\_refinement\_pullback}
 
 \begin{theorem}[DiagonalLimitCompatibility terminal budget readback]
 \label{thm:diagonal-limit-compatibility-terminal-budget-readback}
@@ -254,6 +310,7 @@ M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
 $$
 The common readback exports no quotient stream equality, selected host limit, hidden tail oracle, hidden selector, host real equality, choice datum, or ambient completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_terminal\_budget\_readback}
 \begin{proof}
 First build the common diagonal prefix. Apply \autoref{thm:diagonal-limit-compatibility-root-budget-source}, \autoref{thm:diagonal-limit-compatibility-root-window-route}, and \autoref{thm:diagonal-limit-compatibility-root-seal-boundary} to place the terminal $\RealUp$ or $\CompletionUp$ read behind the root budget, window, seal, transport, route, provenance, and local-name rows.
 
@@ -359,3 +416,106 @@ envelope, refinement, or uniform finite-family rows. Thus the shared diagonal
 budget prefix is the common terminal-consumer boundary for the current
 $\RealUp$ and $\CompletionUp$ routes.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityUniformCauchyThreeWayTerminalComparison}
+
+\begin{theorem}[DiagonalLimitCompatibility Real-completion terminal pullback]
+\label{thm:diagonal-limit-compatibility-real-completion-terminal-pullback}
+Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal route
+read by a $\RealUp$ or $\CompletionUp$ consumer, and suppose that this read is
+then consumed by one of $\CauchyTailWitnessEnvelopeUp$,
+$\CauchyModulusRefinementUp$, or $\UniformCauchyCriterionUp$. The
+Real-completion-facing terminal read pulls back first to the same displayed
+diagonal tuple
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+The branch-specific rows are downstream-only: envelope, refinement, and
+uniform finite-family data may be read only after the tuple above has been
+fixed. No quotient stream, selected host limit, host real equality, choice
+datum, ambient completeness coordinate, hidden tail oracle, or hidden selector
+is exported by the pullback boundary.
+\end{theorem}
+\begin{proof}
+First bind the Real-completion terminal read to the root diagonal route. Apply
+\autoref{thm:diagonal-limit-compatibility-root-budget-source},
+\autoref{thm:diagonal-limit-compatibility-root-window-route}, and
+\autoref{thm:diagonal-limit-compatibility-root-seal-boundary}. These identify
+the budget source, finite stream window, regular-rational readback, Real seal,
+transport, continuation, package, provenance, and local-name rows with
+$R,T,S,D,W,Q,L,H,C,P,N$.
+
+Next close the route under the consumer boundary. Use
+\autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape} and
+\autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion}. The
+accepted packet has no coordinate from which a Real or completion consumer can
+leave the displayed diagonal tuple for a quotient stream, selected host limit,
+host real equality, choice datum, ambient completeness coordinate, hidden tail
+oracle, or hidden selector.
+
+It remains to compare the downstream consumers. The envelope branch is
+\autoref{thm:diagonal-limit-compatibility-cauchy-tail-envelope-factorization},
+the refinement branch is
+\autoref{thm:diagonal-limit-compatibility-cauchy-modulus-refinement-route}, and
+the uniform finite-family branch is
+\autoref{thm:diagonal-limit-compatibility-uniform-cauchy-terminal-handoff}.
+Each branch starts only after the same diagonal tuple has already been read.
+
+Finally apply
+\autoref{thm:diagonal-limit-compatibility-uniform-cauchy-three-way-terminal-comparison}.
+The three-way comparison makes the shared tuple the terminal-consumer boundary
+for all three downstream routes, so the Real-completion terminal read pulls
+back to that tuple before any branch-specific rows are available.
+\end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_real\_completion\_terminal\_pullback}
+
+\begin{theorem}[DiagonalLimitCompatibility terminal branch exhaustion]
+\label{thm:diagonal-limit-compatibility-terminal-branch-exhaustion}
+Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal
+$\RealUp$ or $\CompletionUp$ read consumed by the current terminal branch
+surface. Then the read first factors through the displayed diagonal terminal
+prefix
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+After this prefix the only admitted branch rows are the
+$\CauchyTailWitnessEnvelopeUp$ rows, the $\CauchyModulusRefinementUp$ rows, or
+the $\UniformCauchyCriterionUp$ finite-family seal rows. The terminal surface
+exports no quotient stream, selected host limit, host equality, choice datum,
+ambient completeness coordinate, hidden tail oracle, hidden selector, or fourth
+terminal branch.
+\end{theorem}
+\begin{proof}
+First bind the root prefix. Apply
+\autoref{thm:diagonal-limit-compatibility-root-budget-source},
+\autoref{thm:diagonal-limit-compatibility-root-window-route}, and
+\autoref{thm:diagonal-limit-compatibility-root-seal-boundary}. These place the
+terminal $\RealUp$ or $\CompletionUp$ read behind the budget, window, readback,
+seal, transport, route, provenance, and local-name rows
+$R,T,S,D,W,Q,L,H,C,P,N$.
+
+Next close the prefix against nonlocal escape. Use
+\autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape},
+\autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization}, and
+\autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion}. The
+accepted carrier has no coordinate for quotient streams, selected host limits,
+host equality, choice data, ambient completeness, hidden tail oracles, or hidden
+selectors before a displayed branch surface is read.
+
+Now enumerate the admitted terminal branches. The envelope route is
+\autoref{thm:diagonal-limit-compatibility-cauchy-tail-envelope-factorization};
+the refinement route is
+\autoref{thm:diagonal-limit-compatibility-cauchy-modulus-refinement-route}; and
+the uniform finite-family route is
+\autoref{thm:diagonal-limit-compatibility-uniform-cauchy-terminal-handoff}.
+Each begins only after the same diagonal prefix and then reads its own displayed
+branch rows.
+
+Finally apply the three-way comparison and terminal pullback,
+\autoref{thm:diagonal-limit-compatibility-uniform-cauchy-three-way-terminal-comparison}
+and
+\autoref{thm:diagonal-limit-compatibility-real-completion-terminal-pullback}.
+They make the three displayed consumers exhaustive for the current terminal
+surface: any accepted terminal branch is one of those rows after
+$R,T,S,D,W,Q,L,H,C,P,N$, and no fourth branch or hidden terminal export remains.
+\end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_terminal\_branch\_exhaustion}

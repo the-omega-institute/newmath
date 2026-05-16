@@ -133,6 +133,73 @@ that data can distinguish two reads after the finite budget and the four faces
 agree.
 \end{proof}
 
+\begin{theorem}[Real uniform Cauchy StreamName RegSeqRat terminal route correspondence]
+\label{thm:real-uniform-cauchy-streamname-regseqrat-terminal-route-correspondence}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet read by a Phase Real and
+Completion consumer. Suppose the finite budget route through
+$$
+I,W,M,Q,T,E,H,C,P,N
+$$
+and the associated boundary rows expose the same $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows as a StreamName finite-request section and as a
+RegSeqRat shared-window selector surface. Then the finite budget route
+determines the StreamName section and the RegSeqRat selector surface.
+
+Conversely, the StreamName finite-request section together with the RegSeqRat
+shared-window selector surface determines the same accepted uniform-Cauchy
+completion-facing route through $I,W,M,Q,T,E,H,C,P,N$ whenever the displayed
+rows named above agree. Thus the Phase Real and Completion handoff is one
+finite terminal BEDC surface, not three independent routes.
+
+The correspondence exports no quotient stream, no host real equality, no
+selected limit, no ambient completeness row, no countable-choice row, no
+metric-completeness row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+First lock the uniform-Cauchy budget chain. By
+\autoref{thm:real-uniform-cauchy-completion-route-lock}, an accepted Phase Real
+and Completion read reaches the Real seal and the completion-facing endpoint
+only through the finite rows $I,W,M,Q,T,E,H,C,P,N$ and the displayed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Now recover the StreamName section from the same rows. Apply
+\autoref{thm:streamname-finite-request-section-pullback}. Since the
+uniform-Cauchy route displays the StreamName schedule, the DyadicRatCore
+endpoint-radius ledger, the RegSeqRat regularity and readback surface, and the
+support rows, the RealUp-facing finite request section has no coordinate beyond
+the rows already carried by the budget route.
+
+Next recover the RegSeqRat selector surface. Use
+\autoref{thm:regseqrat-shared-window-selector-determinacy} to identify matching
+shared-window selector surfaces, and use
+\autoref{thm:regseqrat-shared-window-terminal-pullback-equivalence} to pass
+between selector-surface equality and the terminal RealUp seal read on the
+four-face packet. These two results place the selector on the same StreamName,
+DyadicRatCore, RegSeqRat, RealUp, and support rows.
+
+For the converse direction, start from the StreamName section and the RegSeqRat
+selector surface with the displayed rows fixed. The pullback theorem supplies
+the finite section read, the selector determinacy supplies the shared-window
+surface, and the terminal pullback equivalence returns the same terminal seal
+coordinate. Applying
+\autoref{thm:real-uniform-cauchy-four-object-terminal-determinacy} then repacks
+those rows as the unique finite uniform-Cauchy completion-facing route through
+$I,W,M,Q,T,E,H,C,P,N$.
+
+The non-escape clause is inherited from the same four inputs. The route lock,
+the StreamName pullback, the RegSeqRat selector determinacy, and the four-object
+terminal determinacy expose no quotient stream, host real equality, selected
+limit, ambient completeness row, countable-choice row, metric-completeness row,
+or standard bridge row, so none of those objects can separate the corresponding
+terminal surface.
+\end{proof}
+
 \begin{theorem}[Real uniform Cauchy four-face status exactness]
 \label{thm:real-uniform-cauchy-four-face-status-exactness}
 Let $U=(I,W,M,Q,T,E,H,C,P,N)$ be an accepted
@@ -275,4 +342,64 @@ $\Cont$, $\Pkg$, and $\NameCert$ support. Since quotient streams, selected host
 limits, countable choice, ambient completeness, and hidden completion carriers
 are not rows of that packet, none can provide a fifth owner or a second public
 $\RealUp$ exit.
+\end{proof}
+
+\begin{theorem}[Real uniform Cauchy completion route lock factorization]
+\label{thm:real-uniform-cauchy-completion-route-lock-factorization}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet read by a Phase Real and
+Completion consumer. The consumer reaches a public $\RealUp$ exit or a
+completion-facing exit exactly through the composite route
+$$
+\UniformCauchyCriterionUp
+\longmapsto \FiniteTailFilterUp
+\longmapsto (\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp).
+$$
+The intervening $\FiniteTailFilterUp$ packet reads the same finite windows,
+dyadic tolerance ledger, regular readback, tail budget, common-tail comparison,
+Real seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes,
+$\Pkg$ provenance, and local $\NameCert$ row already displayed by $U$.
+
+This factorization is exhaustive for the Phase Real and Completion route. It
+does not export quotient streams, host real equality, selected limits,
+countable-choice selectors, ambient completeness, metric-completeness data, or
+standard bridge rows.
+\end{theorem}
+\begin{proof}
+Start with the ordered budget chain supplied by
+\autoref{thm:real-uniform-cauchy-completion-route-lock}. Any consumer that
+reads an accepted $\UniformCauchyCriterionUp$ packet toward a $\RealUp$ or
+completion-facing endpoint must first expose the finite route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+
+Next apply
+\autoref{thm:uniform-cauchy-criterion-finite-tail-filter-alignment}. It
+identifies the UniformCauchyCriterion rows with a $\FiniteTailFilterUp$ packet:
+the window row is the same finite-window read, the dyadic tolerance row is the
+same tolerance ledger, the regular readback is the same RegSeqRat read, and the
+tail-budget and common-tail comparison rows are the same displayed budget
+surface.
+
+Use the finite-tail-filter handoff theorems to read the middle route.
+\autoref{thm:finite-tail-filter-tail-window-exactness} fixes the common
+cofinal-tail window and dyadic tolerance packet used by the budget, comparison,
+and seal-facing rows. Then
+\autoref{thm:finite-tail-filter-real-seal-handoff} carries exactly that packet
+to Real and Completion consumers without adding an independent tail selector,
+hidden tolerance ledger, or host-level completion coordinate.
+
+Finally use
+\autoref{thm:real-uniform-cauchy-budget-pullback-exhaustion}. Once the
+finite-tail-filter packet has reached the Real-facing seal, the public exit
+pulls back to precisely the four L10 owners
+$(\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp)$. Since those are the
+only owners exposed by the route lock and the finite-tail handoff, none of the
+excluded quotient, host-equality, selected-limit, choice, completeness,
+metric-completeness, or bridge rows can supply another Phase Real and
+Completion exit.
 \end{proof}

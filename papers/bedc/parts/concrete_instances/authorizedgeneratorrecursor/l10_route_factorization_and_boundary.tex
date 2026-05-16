@@ -1,0 +1,43 @@
+\begin{theorem}[AuthorizedGeneratorRecursor RegSeqRat route factorization]
+\label{thm:authorized-generator-recursor-regseqrat-route-factorization}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet. Every $\RegSeqRatUp$ consumer of the recursor output factors through the displayed signature, eliminator, motive, branch, descent, output, audit, transport, continuation, provenance, boundary, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ rows. In particular, the consumer may read $O$ only after the route retains $I,E,M,B,D,A,H,C,P,G,N$ in the same finite packet, and it obtains no regular-rational source outside that route.
+\end{theorem}
+\begin{proof}
+Start from the L10 source triad, \autoref{thm:authorized-generator-recursor-l10-open-phase-source-triad}. It already identifies the $\RegSeqRatUp$ consumer as a finite-source reader of $I,E,M,B,D,O,A,H,C,P,G,N$ rather than as a separate source producer.
+
+Use the open-phase consumer handoff, \autoref{thm:authorized-generator-recursor-open-phase-consumer-handoff}. The handoff keeps $O$ attached to $A,H,C,P,G,N$, so a regular-rational consumer cannot detach the output from audit, transport, continuation, provenance, boundary, and local naming rows.
+
+Finally apply the ground-compiler authorization row, \autoref{thm:authorized-generator-recursor-ground-compiler-authorization}. The ground-facing read of $O$ is admitted only after the same finite packet has been retained, which is exactly the required factorization route for $\RegSeqRatUp$ consumption.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor Real seal non-escape]
+\label{thm:authorized-generator-recursor-real-seal-route-nonescape}
+For an accepted $\AuthorizedGeneratorRecursorUp$ packet
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+every $\RealUp$ consumer of the recursor output preserves the same finite route through $I,E,M,B,D,O,A,H,C,P,G,N$. The route supplies only displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, boundary, audit, and local $\NameCert$ data; it supplies no selected real witness, quotient stream, host equality, detached induction rule, or external proof producer.
+\end{theorem}
+\begin{proof}
+Read the output route through \autoref{thm:authorized-generator-recursor-l10-open-phase-source-triad}. The theorem places $\RealUp$ use on the same displayed packet as $\StreamNameUp$ and $\RegSeqRatUp$, with no coordinate for a selected limit or quotient stream.
+
+The consumer side is controlled by \autoref{thm:authorized-generator-recursor-open-phase-consumer-handoff}. It allows specialization to a real-source route while keeping $O$ with $A,H,C,P,G,N$ and excluding host choice, hidden induction, selected-limit, quotient-stream, and proof-producing interpretations.
+
+The ledger side is closed by \autoref{thm:authorized-generator-recursor-open-phase-ledger-nonescape}. Since the audit and boundary rows exhaust what can be exported to the real-facing consumer, the real seal does not escape the AuthorizedGeneratorRecursor packet.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor completion boundary exhaustion]
+\label{thm:authorized-generator-recursor-completion-boundary-exhaustion}
+Let $R=(I,E,M,B,D,O,A,H,C,P,G,N)$ be an accepted $\AuthorizedGeneratorRecursorUp$ packet. A completion-facing consumer of the recursor output has exactly two admissible boundary shapes: it either displays a separate completion-seal row before using completion data, or it remains bounded by the AuthorizedGeneratorRecursor packet through $I,E,M,B,D,O,A,H,C,P,G,N$. Without the separate completion-seal row, the consumer cannot read a completion object, quotient completion equality, selected limit, host completeness proof, or off-packet proof producer.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:authorized-generator-recursor-open-phase-consumer-handoff}. Completion-facing use is treated as a downstream specialization of the same finite output route, so $O$ remains attached to $A,H,C,P,G,N$.
+
+Apply \autoref{thm:authorized-generator-recursor-open-phase-ledger-nonescape}. The ledger exported by the packet is finite and local to $I,E,M,B,D,O,A,H,C,P,G,N$, and it does not export completion objects, real-completeness data, quotient completion equality, selected limits, or host completeness proofs.
+
+If the consumer displays a separate completion-seal row, that row is outside the AuthorizedGeneratorRecursor packet and must carry its own boundary obligation. If it does not, the ground-compiler authorization theorem \autoref{thm:authorized-generator-recursor-ground-compiler-authorization} keeps the consumer on the accepted packet surface, exhausting the completion boundary at $G,N$ and the retained audit route.
+\end{proof}

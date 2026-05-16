@@ -138,6 +138,22 @@ Now identify the audit surface by \autoref{thm:cauchy-limit-seal-route-audit-pro
 Finally apply the RegSeqRat seal-route exclusion package, \autoref{thm:regseqrat-real-seal-route-exclusion-package}. It rules out quotient stream equality, selected host limit, host real equality, hidden tail witness, and ambient completeness on the regular-source side; the route audit projection rules out the same off-route coordinates on the seal side. Since no standard bridge row is among the displayed carrier rows, the five-face handoff is the whole L10 exit route.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal L10 four-face terminality]
+\label{thm:cauchy-limit-seal-l10-four-face-terminality}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Every Phase Real and Completion consumer route for $L$ terminates exactly at the four audited open-phase faces $\StreamNameUp(S)$, $\RegSeqRatUp(X)$, $\DyadicRatCoreUp(D)$, and $\RealUp(E)$. The completion diagonal $G$ supplies only the internal completion-diagonal handoff, while $T,P,N$ supply only transport, provenance, and local-name support.
+
+No quotient stream, host real equality, selected limit, countable-choice datum, ambient-completeness row, metric-completeness row, or standard bridge row is a terminal face of the accepted L10 exit route.
+\end{theorem}
+\begin{proof}
+First apply the four-face finite-window lattice exhaustion theorem, \autoref{thm:cauchy-limit-seal-finite-window-four-face-lattice-exhaustion}. It identifies the consumer-visible open-phase faces as the finite window $S$, regular source $X$, dyadic ledger $D$, and Real seal $E$, with only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next use the shared window route of \autoref{thm:cauchy-limit-seal-shared-window-route}. The same route passes through the displayed completion diagonal $G$, but that diagonal is an internal handoff between $\DyadicRatCoreUp(D)$ and $\RealUp(E)$ rather than a fifth audited open-phase terminal face.
+
+Now read the route audit projection from \autoref{thm:cauchy-limit-seal-route-audit-projection}. The audit tuple contains exactly the finite window, source, ledger, diagonal, seal, and structural provenance rows, so $T,P,N$ can only act as transport, provenance, and local-name support for the four audited faces.
+
+Finally apply the five-face L10 exit route of \autoref{thm:cauchy-limit-seal-five-face-l10-exit-route}. Its ordered handoff has no quotient stream equality, selected host limit, host real equality, hidden tail witness, ambient completeness coordinate, or standard bridge row. Since the four-face exhaustion already removes metric-completeness data from the endpoint surface, and no listed carrier row supplies countable choice, the accepted Phase Real and Completion route terminates exactly at $\StreamNameUp(S)$, $\RegSeqRatUp(X)$, $\DyadicRatCoreUp(D)$, and $\RealUp(E)$.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal window budget exhaustion]
 \label{thm:cauchy-limit-seal-window-budget-exhaustion}
 Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. No $\RealUp$ or completion-facing consumer may replace the shared finite window of \autoref{thm:cauchy-limit-seal-shared-window-route} by a second schedule, quotient stream equality, selected host limit, hidden tail witness, or ambient completeness datum. The complete consumer budget is exhausted by the displayed finite window, the rows $X,D,G,E$, and the provenance $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.

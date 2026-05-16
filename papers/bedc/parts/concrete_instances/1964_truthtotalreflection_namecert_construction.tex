@@ -184,6 +184,82 @@ Apply consumer route scope and classifier transport scope. \autoref{thm:truth-to
 Finally use consumer-surface exhaustion. \autoref{thm:truth-total-reflection-consumer-surface-exhaustion} rules out internal truth, total classification, host validation, and unrecorded classifiers. Thus the public consumer interface is exactly the displayed refusal packet.
 \end{proof}
 
+\begin{theorem}[Truth-total reflection root route totality]
+\label{thm:truth-total-reflection-root-route-totality}
+Every root consumer route for an accepted $\TruthTotalReflectionUp$ packet
+factors through the finite rows
+$$
+S,A,D,H,C,P,N.
+$$
+The route may inspect sentence codes, the attempted classifier row, the
+diagonal obstruction, componentwise transport, replay, provenance, and local
+naming, but it cannot export internal truth, total truth classification, host
+validation, or a classifier not recorded in $A$.
+\end{theorem}
+\begin{proof}
+Begin with the boundary certificate and attempt-row stability. They expose
+$S,A,D,H,C,P,N$ as the finite packet and keep the attempted classifier row
+attached to the same sentence-code and diagonal-obstruction rows.
+
+Next use diagonal obstruction exactness and the public consumer interface. The
+diagonal read factors through the same route, and every public consumer is
+already confined to the displayed refusal packet.
+
+Finally apply consumer surface exhaustion together with primitive scope and
+classifier transport scope. These results exhaust the carrier coordinates and
+leave no row for internal truth, total classification, host validation, or an
+unrecorded classifier.
+\end{proof}
+
+\begin{theorem}[Truth-total reflection ledger non-escape]
+\label{thm:truth-total-reflection-ledger-nonescape}
+For an accepted $\TruthTotalReflectionUp$ packet, the package and provenance
+ledgers $P,N$ record only the public refusal boundary for the rows
+$S,A,D,H,C$. They cannot create a BEDC-internal truth predicate, total truth
+classification, host validation, or a classifier outside the displayed attempt
+row $A$.
+\end{theorem}
+\begin{proof}
+Start with refusal ledger exactness. The exact refusal ledger is carried by
+$A,D$ over $S$, while $P,N$ record provenance and local naming for that finite
+ledger.
+
+Use classifier transport scope and diagonal route scope. Transport and replay
+return to the same displayed attempt and obstruction rows, so provenance cannot
+manufacture a classifier beyond the one recorded in $A$.
+
+The boundary certificate, consumer surface exhaustion, and public consumer
+interface rule out the remaining escapes. Since internal truth, total truth
+classification, and host validation are absent from the carrier, the ledgers
+$P,N$ cannot export them.
+\end{proof}
+
+\begin{theorem}[Truth-total reflection TruthCert handoff]
+\label{thm:truth-total-reflection-truthcert-handoff}
+Any handoff from an accepted $\TruthTotalReflectionUp$ packet to a
+TruthCert-style downstream boundary remains a finite refusal-boundary handoff
+through
+$$
+S,A,D,H,C,P,N.
+$$
+It supplies the attempted classifier row and the diagonal obstruction as a
+public obstruction certificate, not a truth predicate, total truth classifier,
+host validator, or bridge certificate.
+\end{theorem}
+\begin{proof}
+First assemble the public boundary. The boundary certificate, attempt-row
+stability, and diagonal obstruction exactness place the handoff on
+$S,A,D,H,C,P,N$ and identify $A,D$ as the obstruction-bearing rows.
+
+Next use consumer surface exhaustion and the public consumer interface. A
+TruthCert-style downstream boundary can consume the refusal packet only through
+the public consumer route, so the handoff remains finite and displayed.
+
+Finally apply primitive scope and classifier transport scope. They keep the
+handoff inside the recorded carrier and prevent it from becoming a truth
+predicate, total truth classifier, host validator, or bridge certificate.
+\end{proof}
+
 \begin{theorem}[Truth-total reflection refusal ledger exactness]
 \label{thm:truth-total-reflection-refusal-ledger-exactness}
 In an accepted $\TruthTotalReflectionUp$ packet, the extension-attempt row $A$ and diagonal row $D$ are the exact refusal ledger for truth-total reflection attempts over the displayed sentence-code row $S$. The ledger records the attempted classifier read and the diagonal obstruction to that attempt, and it does not include an additional total truth predicate, a second classifier row, or a host-level validation route.
@@ -212,6 +288,35 @@ Next add the public rows. \autoref{thm:truth-total-reflection-refusal-ledger-exa
 Finally apply consumer-surface exhaustion and the obligation package. \autoref{thm:truth-total-reflection-consumer-surface-exhaustion} and \autoref{thm:truth-total-reflection-obligation-unblock-package} rule out internal truth, total classification, host validation, unrecorded classifiers, and bridge status. The remaining object is exactly the reusable downstream boundary package.
 \end{proof}
 
+\begin{theorem}[Truth-total reflection root public readiness]
+\label{thm:truth-total-reflection-root-public-readiness}
+Every downstream public consumer of an accepted $\TruthTotalReflectionUp$
+packet reads exactly the public refusal route
+$$
+S,A,D,H,C,P,N
+$$
+through the existing boundary certificate, attempt-row stability, diagonal
+exactness, consumer exhaustion, public interface, root route totality, ledger
+non-escape, TruthCert handoff, refusal ledger exactness, and downstream
+boundary package. No internal truth predicate, total truth classifier, host
+validator, or unrecorded classifier is exported by that public route.
+\end{theorem}
+\begin{proof}
+First assemble the public boundary package. The downstream boundary package
+collects the boundary certificate, attempt-row stability, diagonal exactness,
+refusal ledger exactness, public consumer interface, and consumer-surface
+exhaustion for $S,A,D,H,C,P,N$.
+
+Next attach root route totality and ledger non-escape. They keep every root
+public read on the same finite carrier, with $P,N$ recording only the refusal
+boundary rather than a host-level validation route.
+
+Finally use the TruthCert handoff. A downstream TruthCert-style consumer
+receives the displayed obstruction certificate and nothing else; internal truth
+predicates, total truth classifiers, host validators, and unrecorded
+classifiers have no coordinate in the packet.
+\end{proof}
+
 \closureat{TruthTotalReflectionUp}{seedStr}
 \closureat{TruthTotalReflectionUp}{obligationStr}
 \closureat{TruthTotalReflectionUp}{scopedStr}
@@ -220,7 +325,7 @@ Finally apply consumer-surface exhaustion and the obligation package. \autoref{t
 \begin{closurestatus}{\TruthTotalReflectionUp}
   \constructivestory{A $\TruthTotalReflectionUp$ packet is generated from finite $\mathrm{CIC}^{*}$ sentence-code rows, extension-attempt rows, diagonal obstruction rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:truth-total-reflection-namecert-carrier}, \autoref{thm:truth-total-reflection-namecert-boundary}, \autoref{thm:truth-total-reflection-attempt-row-stability}, \autoref{thm:truth-total-reflection-diagonal-obstruction-exactness}, \autoref{thm:truth-total-reflection-consumer-surface-exhaustion}, \autoref{thm:truth-total-reflection-public-consumer-interface}, \autoref{thm:truth-total-reflection-refusal-ledger-exactness}, \autoref{thm:truth-total-reflection-downstream-boundary-package}, \leandef{BEDC.Derived.TruthTotalReflectionUp.taste\_gate}, and the displayed TasteGate single-carrier alignment marker bind the finite public refusal package for truth-total reflection attempts over $\mathrm{CIC}^{*}$ sentence codes.}
+  \scopeclosed{\autoref{def:truth-total-reflection-namecert-carrier}, \autoref{thm:truth-total-reflection-namecert-boundary}, \autoref{thm:truth-total-reflection-attempt-row-stability}, \autoref{thm:truth-total-reflection-diagonal-obstruction-exactness}, \autoref{thm:truth-total-reflection-consumer-surface-exhaustion}, \autoref{thm:truth-total-reflection-public-consumer-interface}, \autoref{thm:truth-total-reflection-root-route-totality}, \autoref{thm:truth-total-reflection-ledger-nonescape}, \autoref{thm:truth-total-reflection-truthcert-handoff}, \autoref{thm:truth-total-reflection-refusal-ledger-exactness}, \autoref{thm:truth-total-reflection-downstream-boundary-package}, \leandef{BEDC.Derived.TruthTotalReflectionUp.taste\_gate}, and the displayed TasteGate single-carrier alignment marker bind the finite public refusal package for truth-total reflection attempts over $\mathrm{CIC}^{*}$ sentence codes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

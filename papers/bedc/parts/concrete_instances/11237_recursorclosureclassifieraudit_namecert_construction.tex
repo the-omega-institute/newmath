@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\RecursorClosureClassifierAuditUp$}
+\label{ch:concrete-instances-recursor-closure-classifier-audit-namecert}
+\origin{ai}
+
+The $\RecursorClosureClassifierAuditUp$ packet realizes the recursor-as-authorized-generator view of \autoref{ch:recursor-as-authorized-generator} as a finite NameCert surface that joins recursor authorization, classifier closure, and replayable audit execution. It consumes the recursor-induced output packet of \autoref{ch:concrete-instances-recursorinducednamecert-namecert}, the authorization packet of \autoref{ch:concrete-instances-recursorauthorization-namecert}, the generator packet of \autoref{ch:concrete-instances-recursorgenerator-namecert}, the branch-audit packet of \autoref{ch:concrete-instances-recursor-branch-audit-namecert}, and the classifier-membership packet of \autoref{ch:concrete-instances-typeclassifiermembership-namecert}. Those siblings expose the recursor output, legal eliminator call, generator boundary, constructor-indexed branch coverage, and type-classifier membership rows; this packet binds them into one audit replay carrier whose classifier must close over the same displayed branches.
+
+\begin{definition}[Recursor closure classifier audit carrier]
+\label{def:recursor-closure-classifier-audit-carrier}
+A $\RecursorClosureClassifierAuditUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,G,B,K,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the recursor signature and motive row, read through the accepted inductive signature and motive boundary;
+\item $G$ is the $\RecursorGeneratorUp$ row recording the legal eliminator call and its structural generator boundary;
+\item $B$ is the $\RecursorBranchAuditUp$ branch matrix, with one displayed branch row for every constructor of the accepted signature;
+\item $K$ is the classifier-closure row, carrying the $\TypeClassifierMembershipUp$ membership surface and the output classifier reached by the recursor call;
+\item $A$ is the audit-replay row, recording the kernel replay, source axiom gate, and forbidden-dependency purity check for the generated output;
+\item $H$ records componentwise $\hsame$ transport for $S,G,B,K,A$ and for the local naming row;
+\item $C$ records the displayed $\Cont$ replay routes by which consumers read the recursor, branch, classifier, audit, transport, and local name;
+\item $P$ is the $\Pkg$ provenance over $\RecursorInducedNameCertUp$, $\RecursorAuthorizationUp$, $\RecursorGeneratorUp$, $\RecursorBranchAuditUp$, $\TypeClassifierMembershipUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RecursorClosureClassifierAuditUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an omitted constructor case, a detached classifier proof, a hidden host type checker, an unreported dependency trace, a second branch package, or an audit result outside $S,G,B,K,A,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Recursor closure classifier audit NameCert obligations]
+\label{thm:recursor-closure-classifier-audit-namecert-obligations}
+The local $\NameCert_{\RecursorClosureClassifierAuditUp}$ surface for the carrier of \autoref{def:recursor-closure-classifier-audit-carrier} consists exactly of carrier admission for $R=(S,G,B,K,A,H,C,P,N)$, recursor authorization through $S$ and $G$, constructor-complete branch coverage through $B$, classifier-closure preservation through $K$, audit replay through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and the local naming row $N$.
+
+Consequently, any accepted output must be readable both as a legal recursor-generated NameCert and as a classifier-closed output whose audit can be replayed from the same finite branch package. A packet whose branch package omits one constructor case is rejected by the classifier audit, even if its remaining recursor, classifier, and audit rows are individually well formed.
+\end{theorem}
+\leanchecked{BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate.RecursorClosureClassifierAuditTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier rows. The signature and motive row $S$, generator row $G$, branch matrix $B$, classifier-closure row $K$, audit replay row $A$, transport row $H$, continuation row $C$, provenance row $P$, and local name $N$ are the only available coordinates.
+
+Read $S$ and $G$ through \autoref{ch:concrete-instances-recursorauthorization-namecert} and \autoref{ch:concrete-instances-recursorgenerator-namecert}. They license the eliminator call but do not by themselves expose the per-constructor branch matrix or the classifier membership row.
+
+Next read $B$ through \autoref{ch:concrete-instances-recursor-branch-audit-namecert} and $K$ through \autoref{ch:concrete-instances-typeclassifiermembership-namecert}. Branch coverage and classifier membership are therefore checked on the same displayed recursor route rather than on separate host judgments.
+
+Finally use the audit row $A$ and the recursor-induced output packet of \autoref{ch:concrete-instances-recursorinducednamecert-namecert}. The replay must see the same branch package and classifier-closure row named in the carrier. If a constructor case is missing from $B$, the replay has no row from which to certify that branch, so the local classifier rejects the packet as a $\RecursorClosureClassifierAuditUp$ certificate.
+\end{proof}
+
+\falsifiablePrediction{A recursor packet whose branch package omits one constructor case is rejected by the classifier audit, even when the remaining branch rows, classifier row, and audit-replay row are present.}
+
+\independenceWitness{recursorinducednamecert, recursorauthorization, recursorgenerator, recursorbranchaudit, typeclassifiermembership: none alone carries the joined audit replay and classifier-closure rows. The recursor-induced packet names generated outputs, authorization licenses the eliminator call, the generator packet exposes the structural generator boundary, the branch-audit packet exposes constructor coverage, and the classifier-membership packet exposes type-classifier membership; only RecursorClosureClassifierAuditUp requires all of them in one $S,G,B,K,A,H,C,P,N$ carrier.}
+
+The Lean follow-up must provide \texttt{Nontrivial RecursorClosureClassifierAuditUp} and \texttt{FieldFaithful RecursorClosureClassifierAuditUp} in \texttt{lean4/BEDC/Derived/RecursorClosureClassifierAuditUp/TasteGate.lean}, with the canonical alignment target expected at \texttt{BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate.RecursorClosureClassifierAuditTasteGate\_single\_carrier\_alignment}.
+
+\closureat{RecursorClosureClassifierAuditUp}{seedStr}
+
+\begin{closurestatus}{\RecursorClosureClassifierAuditUp}
+  \constructivestory{A $\RecursorClosureClassifierAuditUp$ packet is generated from a recursor signature and motive row, legal generator row, constructor-complete branch matrix, classifier-closure row, audit-replay row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, NameCert obligation surface, branch-omission rejection, and independence surface for recursor closure classifier audits over recursor authorization, generator, branch audit, classifier membership, audit replay, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Nontrivial or FieldFaithful Lean instances, bridge checking, arbitrary host typing semantics, hidden branch completion, detached classifier proofs, or audit results outside the displayed replay row.}
+  \upgradepath{Lean follow-up must provide Nontrivial and FieldFaithful instances in lean4/BEDC/Derived/RecursorClosureClassifierAuditUp/TasteGate.lean, with the canonical target expected at BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate.RecursorClosureClassifierAuditTasteGate\_single\_carrier\_alignment.}
+\end{closurestatus}

@@ -124,6 +124,7 @@ Use \autoref{thm:histtimestream-namecert-ledger-exhaustion}. Its no-global-clock
 
 The sibling packets of \autoref{ch:concrete-instances-observerhistidentity-namecert} and \autoref{ch:concrete-instances-observer-locality-transport-namecert} therefore consume this same local stream through $L,P,N$. They may use it to identify observer-history locality and transport surfaces, but they add no inter-Hist clock equality, host-time coordinate, or cross-history synchronization row.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamObserverLocalityLatticeLink}
 
 \begin{theorem}[HistTimeStream public export]
 \label{thm:histtimestream-public-export}
@@ -142,6 +143,7 @@ Next apply ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhaus
 
 Finally use the observer-locality lattice link, \autoref{thm:histtimestream-observer-locality-lattice-link}. The downstream observer-history surfaces consume the packet as one local stream, so the public export is precisely the displayed local-time stream surface and no inter-Hist synchronization or hidden route is available.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_public\_export}
 
 \begin{theorem}[HistTimeStream window habitation]
 \label{thm:hist-time-stream-window-habitation}
@@ -211,6 +213,7 @@ Use ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhaustion}, 
 \label{thm:hist-time-stream-clock-refusal}
 No accepted consumer of a $\HistTimeStreamUp$ packet $Q=(H,T,S,C,L,P,N)$ can read a shared inter-Hist clock, synchronized external time, or temporal-rate coordinate from the packet. Every accepted time-facing read is confined to the finite local window displayed by $H,T,S,C,L,P,N$ and to componentwise $\hsame$ transport of that same window.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_clock\_refusal}
 \begin{proof}
 First expose the accepted packet through \autoref{def:histtimestream-namecert-carrier}. The carrier lists the source history, finite schedule, start ledger, replay row, transport row, provenance row, and local naming row, and it has no coordinate reserved for a shared clock or rate.
 
@@ -314,6 +317,7 @@ Now transport the finite schedule and ledger rows. By schedule classifier stabil
 
 Finally use observer-locality transport, \autoref{thm:histtimestream-observer-locality-transport}. The downstream observer-locality route consumes the transported packet as local rows only, so no inter-Hist clock or global synchronization coordinate is produced by the transport.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_hsame\_prefix\_transport}
 
 \begin{theorem}[HistTimeStream observer-locality totality]
 \label{thm:hist-time-stream-observer-locality-totality}
@@ -486,6 +490,7 @@ Next apply hsame prefix transport, \autoref{thm:histtimestream-hsame-prefix-tran
 
 Finally use the observer-locality bridge route. Since downstream observer-history and observer-locality consumers read only the transported local stream, the schedule and replay rows determine the consumer-facing prefix without adding an inter-Hist clock or hidden global time coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_cont\_replay\_determinacy}
 
 \begin{theorem}[HistTimeStream no-global-clock nonescape]
 \label{thm:histtimestream-no-global-clock-nonescape}
@@ -657,6 +662,24 @@ First expose the packet through the carrier and local prefix factorization, \aut
 Then pass through the two intermediate consumers. The StreamName tail scope and RegSeqRat window exactness, \autoref{thm:histtimestream-streamname-tail-scope} and \autoref{thm:histtimestream-regseqrat-window-exactness}, identify the only naming and rational-sequence surfaces that can be read before RealUp.
 
 Finally apply the Real readback ledger and the StreamName Real consumer route, \autoref{thm:hist-time-stream-real-readback-ledger} and \autoref{thm:histtimestream-streamname-real-consumer-route}. Their route is the displayed HistTimeStream, StreamName, RegSeqRat, Real path, and their exclusions block Real completeness, quotient classes, host limits, host-indexed time, global time, and cross-Hist clocks from the readback scope.
+\end{proof}
+
+\begin{theorem}[HistTimeStream regular witness-ledger route]
+\label{thm:histtimestream-regular-witness-ledger-route}
+Every accepted $\HistTimeStreamUp$ packet consumed by a regular Cauchy modulus witness route first passes through the local finite window and then through the ordered downstream surface
+$$
+\HistTimeStreamUp \to \StreamNameUp \to \RegSeqRatUp \to \RegularCauchyModulusWitnessLedgerUp \to \RealUp .
+$$
+The route displays the finite HistTimeStream rows, the StreamName tail window, the RegSeqRat regular readback, the regular Cauchy modulus witness ledger, and the RealUp seal rows in that order. It has no host clock, quotient stream, selected limit, ambient completeness coordinate, or cross-Hist time parameter.
+\end{theorem}
+\begin{proof}
+First expose the accepted packet through the local carrier and finite-prefix route. The carrier and local prefix factorization place every downstream consumer after the displayed HistTimeStream rows.
+
+Apply the StreamName tail scope, \autoref{thm:histtimestream-streamname-tail-scope}. It fixes the naming input as the finite window already carried by the HistTimeStream packet and excludes host-clock or quotient-stream expansion.
+
+Next apply RegSeqRat window exactness, \autoref{thm:histtimestream-regseqrat-window-exactness}. The RegSeqRat consumer receives exactly that finite window together with its regular rational-sequence obligations, not a selected limit or ambient completion datum.
+
+Finally combine the Real readback scope lock with the RegularCauchyModulusWitnessLedger consumer-totality theorem, \autoref{thm:histtimestream-real-readback-scope-lock} and \autoref{thm:regular-cauchy-modulus-witness-ledger-consumer-totality}. The Real-facing read must pass through the HistTimeStream, StreamName, RegSeqRat, witness-ledger, and Real seal rows, so the witness route remains a finite paper-side consumer route rather than an external completeness or host-clock assertion.
 \end{proof}
 
 \closureat{HistTimeStreamUp}{seedStr}

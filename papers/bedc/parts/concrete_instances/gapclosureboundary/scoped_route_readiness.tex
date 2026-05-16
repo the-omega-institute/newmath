@@ -1,0 +1,43 @@
+\begin{theorem}[GapClosureBoundary supported source-route readiness]
+\label{thm:gap-closure-boundary-supported-source-route-readiness}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ of \autoref{def:gap-closure-boundary-carrier}, every supported root read reaches a downstream consumer only through the displayed source route
+$$
+G \longrightarrow S.
+$$
+The read keeps the root row $G$, the source row $S$, the componentwise $\hsame$ row $H$, the displayed $\Cont$ row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\GapClosureBoundaryUp}$ row $N$ visible. The refusal row $R$ remains part of the same packet as the row that records how the same boundary routes off-source requests.
+\end{theorem}
+\begin{proof}
+Start with the source/refusal decision surface, \autoref{thm:gap-closure-boundary-source-refusal-decision-surface}. A supported read is selected by the displayed branch $G \longrightarrow S$, not by a private source selector or hidden closure coordinate.
+
+Next use root consumer handoff, \autoref{thm:gap-closure-boundary-root-consumer-handoff}. The consumer receives the displayed packet $G,S,R,H,C,P,N$, so the supported branch keeps $H,C,P,N$ attached as transport, continuation, provenance, and local naming rows.
+
+Finally use consumer ledger exhaustion, \autoref{thm:gap-closure-boundary-consumer-ledger-exhaustion}. Since the same packet also accounts for unsupported reads by the refusal row $R$, the supported route remains source-readable while the refusal ledger stays visible rather than being erased by the supported branch.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal-ledger routing exhaustion]
+\label{thm:gap-closure-boundary-refusal-ledger-routing-exhaustion}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ of \autoref{def:gap-closure-boundary-carrier}, every unsupported endpoint is exhausted by the refusal route
+$$
+G \longrightarrow R
+$$
+together with the structural rows $H,C,P,N$. Such an endpoint can be transported, replayed, packaged, and named as refusal data, but it cannot be reread as source evidence and cannot escape to hidden closure supply, host equality, quotient data, or an off-packet continuation.
+\end{theorem}
+\begin{proof}
+Begin with the source/refusal decision surface of \autoref{thm:gap-closure-boundary-source-refusal-decision-surface}. It gives an unsupported read the displayed endpoint $R$ rather than the source endpoint $S$.
+
+Use consumer ledger exhaustion, \autoref{thm:gap-closure-boundary-consumer-ledger-exhaustion}. The listed downstream consumers receive the refusal endpoint through the same rows $H,C,P,N$, so there is no consumer-specific endpoint outside the packet.
+
+It remains to rule out rereading the refusal endpoint as source evidence. Recognizer refusal stability, \autoref{thm:gap-closure-boundary-recognizer-refusal-stability}, keeps failed or unsupported recognizer landings on the refusal side. Root consumer handoff, \autoref{thm:gap-closure-boundary-root-consumer-handoff}, then keeps that refusal side inside $G,S,R,H,C,P,N$ for every downstream read.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary TasteGate scoped nontriviality]
+\label{thm:gap-closure-boundary-tastegate-scoped-nontriviality}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, the scoped TasteGate surface is nontrivial exactly because the packet displays both the supported route $G \longrightarrow S$ and the refusal route $G \longrightarrow R$ with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\GapClosureBoundaryUp}$ row. The TasteGate target recorded as $\texttt{BEDC.Derived.GapClosureBoundaryUp.taste\_gate}$ therefore reads a field-faithful packet surface rather than an undifferentiated parameter echo.
+\end{theorem}
+\begin{proof}
+First combine supported source-route readiness with refusal-ledger routing exhaustion, \autoref{thm:gap-closure-boundary-supported-source-route-readiness} and \autoref{thm:gap-closure-boundary-refusal-ledger-routing-exhaustion}. The two branches are both visible in the same accepted packet, so the TasteGate row has a concrete distinction to preserve.
+
+Next use the root consumer handoff and consumer ledger exhaustion theorems, \autoref{thm:gap-closure-boundary-root-consumer-handoff} and \autoref{thm:gap-closure-boundary-consumer-ledger-exhaustion}. They keep all downstream reads inside $G,S,R,H,C,P,N$ and make $H,C,P,N$ the complete transport, replay, package, and local naming surface for the two branches.
+
+Finally use recognizer refusal stability, \autoref{thm:gap-closure-boundary-recognizer-refusal-stability}. Unsupported recognizer landings remain refusal data, while supported landings remain source-route data. Thus the TasteGate row recorded in the chapter status is field-faithful to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet and does not collapse the source and refusal branches.
+\end{proof}

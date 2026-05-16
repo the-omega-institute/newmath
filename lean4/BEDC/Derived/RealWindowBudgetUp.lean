@@ -354,6 +354,73 @@ theorem RealWindowBudgetCarrier_finite_window_source_exhaustion [AskSetup] [Pack
                 · exact carrier.provenance_pkg
                 · exact windowRead_pkg
 
+theorem RealWindowBudgetCarrier_selector_stability [AskSetup] [PackageSetup]
+    {request windows dyadic handoff realSeal selector disclosure transport route provenance
+      nameRow selectorRead stableRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealWindowBudgetCarrier request windows dyadic handoff realSeal selector disclosure transport
+        route provenance nameRow bundle pkg →
+      Cont request selector selectorRead →
+        Cont selectorRead disclosure stableRead →
+          PkgSig bundle stableRead pkg →
+            UnaryHistory request ∧ UnaryHistory selector ∧ UnaryHistory disclosure ∧
+              UnaryHistory selectorRead ∧ UnaryHistory stableRead ∧
+                Cont request selector selectorRead ∧
+                  Cont selectorRead disclosure stableRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle stableRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier request_selector_selectorRead selectorRead_disclosure_stableRead
+    stableRead_pkg
+  have selectorRead_unary : UnaryHistory selectorRead :=
+    unary_cont_closed carrier.request_unary carrier.selector_unary
+      request_selector_selectorRead
+  have stableRead_unary : UnaryHistory stableRead :=
+    unary_cont_closed selectorRead_unary carrier.disclosure_unary
+      selectorRead_disclosure_stableRead
+  exact
+    ⟨carrier.request_unary, carrier.selector_unary, carrier.disclosure_unary,
+      selectorRead_unary, stableRead_unary, request_selector_selectorRead,
+      selectorRead_disclosure_stableRead, carrier.provenance_pkg, stableRead_pkg⟩
+
+theorem RealWindowBudgetCarrier_finite_route_visibility [AskSetup] [PackageSetup]
+    {request windows dyadic handoff realSeal selector disclosure transport route provenance
+      nameRow selectorRead visibleRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealWindowBudgetCarrier request windows dyadic handoff realSeal selector disclosure
+        transport route provenance nameRow bundle pkg →
+      Cont request selector selectorRead →
+        Cont selectorRead disclosure visibleRead →
+          Cont handoff realSeal endpoint →
+            PkgSig bundle visibleRead pkg →
+              PkgSig bundle endpoint pkg →
+                UnaryHistory request ∧ UnaryHistory windows ∧ UnaryHistory dyadic ∧
+                  UnaryHistory handoff ∧ UnaryHistory realSeal ∧
+                    UnaryHistory selectorRead ∧ UnaryHistory visibleRead ∧
+                      UnaryHistory endpoint ∧ Cont request windows dyadic ∧
+                        Cont dyadic handoff realSeal ∧
+                          Cont request selector selectorRead ∧
+                            Cont selectorRead disclosure visibleRead ∧
+                              Cont handoff realSeal endpoint ∧
+                                PkgSig bundle provenance pkg ∧
+                                  PkgSig bundle visibleRead pkg ∧
+                                    PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig
+  intro carrier request_selector_selectorRead selectorRead_disclosure_visibleRead
+    handoff_realSeal_endpoint visibleRead_pkg endpoint_pkg
+  have selectorRead_unary : UnaryHistory selectorRead :=
+    unary_cont_closed carrier.request_unary carrier.selector_unary request_selector_selectorRead
+  have visibleRead_unary : UnaryHistory visibleRead :=
+    unary_cont_closed selectorRead_unary carrier.disclosure_unary
+      selectorRead_disclosure_visibleRead
+  have endpoint_unary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.handoff_unary carrier.realSeal_unary handoff_realSeal_endpoint
+  exact
+    ⟨carrier.request_unary, carrier.windows_unary, carrier.dyadic_unary,
+      carrier.handoff_unary, carrier.realSeal_unary, selectorRead_unary, visibleRead_unary,
+      endpoint_unary, carrier.request_windows_dyadic, carrier.dyadic_handoff_realSeal,
+      request_selector_selectorRead, selectorRead_disclosure_visibleRead,
+      handoff_realSeal_endpoint, carrier.provenance_pkg, visibleRead_pkg, endpoint_pkg⟩
+
 theorem RealWindowBudgetCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {request windows dyadic handoff realSeal selector disclosure transport route provenance
       nameRow : BHist}
@@ -414,5 +481,78 @@ theorem RealWindowBudgetCarrier_namecert_obligations [AskSetup] [PackageSetup]
     ⟨cert, carrier.request_unary, carrier.windows_unary, carrier.dyadic_unary,
       carrier.handoff_unary, carrier.realSeal_unary, carrier.request_windows_dyadic,
       carrier.dyadic_handoff_realSeal, carrier.provenance_pkg, carrier.nameRow_pkg⟩
+
+theorem RealWindowBudgetCarrier_window_coverage_obligation [AskSetup] [PackageSetup]
+    {request windows dyadic handoff realSeal selector disclosure transport route provenance
+      nameRow windowRead disclosureRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealWindowBudgetCarrier request windows dyadic handoff realSeal selector disclosure
+        transport route provenance nameRow bundle pkg →
+      Cont request windows windowRead →
+        Cont windowRead selector disclosureRead →
+          PkgSig bundle disclosureRead pkg →
+            SemanticNameCert
+              (fun row : BHist =>
+                RealWindowBudgetCarrier request windows dyadic handoff realSeal selector
+                  disclosure transport route provenance nameRow bundle pkg ∧
+                    (hsame row windows ∨ hsame row windowRead ∨ hsame row disclosureRead))
+              (fun row : BHist =>
+                Cont request windows windowRead ∧ Cont windowRead selector disclosureRead ∧
+                  (hsame row windows ∨ hsame row windowRead ∨ hsame row disclosureRead))
+              (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg)
+              hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier requestWindowsWindowRead windowReadSelectorDisclosureRead _disclosureReadPkg
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed carrier.request_unary carrier.windows_unary requestWindowsWindowRead
+  have disclosureReadUnary : UnaryHistory disclosureRead :=
+    unary_cont_closed windowReadUnary carrier.selector_unary windowReadSelectorDisclosureRead
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro windows
+        ⟨carrier, Or.inl (hsame_refl windows)⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other same source
+        refine ⟨source.left, ?_⟩
+        cases source.right with
+        | inl rowWindows =>
+            exact Or.inl (hsame_trans (hsame_symm same) rowWindows)
+        | inr tail =>
+            cases tail with
+            | inl rowWindowRead =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm same) rowWindowRead))
+            | inr rowDisclosureRead =>
+                exact Or.inr (Or.inr (hsame_trans (hsame_symm same) rowDisclosureRead))
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨requestWindowsWindowRead, windowReadSelectorDisclosureRead, source.right⟩
+    ledger_sound := by
+      intro row source
+      cases source.right with
+      | inl rowWindows =>
+          exact
+            ⟨unary_transport carrier.windows_unary (hsame_symm rowWindows),
+              carrier.provenance_pkg⟩
+      | inr tail =>
+          cases tail with
+          | inl rowWindowRead =>
+              exact
+                ⟨unary_transport windowReadUnary (hsame_symm rowWindowRead),
+                  carrier.provenance_pkg⟩
+          | inr rowDisclosureRead =>
+              exact
+                ⟨unary_transport disclosureReadUnary (hsame_symm rowDisclosureRead),
+                  carrier.provenance_pkg⟩
+  }
 
 end BEDC.Derived.RealWindowBudgetUp

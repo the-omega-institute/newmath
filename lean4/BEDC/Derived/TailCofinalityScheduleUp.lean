@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -179,6 +180,37 @@ theorem TailCofinalityScheduleCarrier_real_seal_readback [AskSetup] [PackageSetu
       routeUnary, provenanceUnary, localCertUnary, endpointUnary, sealReadUnary,
       precisionWindowDyadic, dyadicRegseqSeal, regseqSealRead, endpointPkg, sealReadPkg⟩
 
+theorem TailCofinalityScheduleCarrier_regular_cauchy_completion_route [AskSetup]
+    [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      completionRead completionSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      Cont dyadic regseq completionRead →
+        Cont completionRead sealRow completionSeal →
+          PkgSig bundle completionSeal pkg →
+            UnaryHistory precision ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+              UnaryHistory regseq ∧ UnaryHistory sealRow ∧ UnaryHistory completionRead ∧
+                UnaryHistory completionSeal ∧ Cont precision window dyadic ∧
+                  Cont dyadic regseq sealRow ∧ Cont dyadic regseq completionRead ∧
+                    Cont completionRead sealRow completionSeal ∧ PkgSig bundle endpoint pkg ∧
+                      PkgSig bundle completionSeal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier dyadicRegseqCompletion completionSealRoute completionSealPkg
+  obtain ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    precisionWindowDyadic, dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed dyadicUnary regseqUnary dyadicRegseqCompletion
+  have completionSealUnary : UnaryHistory completionSeal :=
+    unary_cont_closed completionReadUnary sealUnary completionSealRoute
+  exact
+    ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary, completionReadUnary,
+      completionSealUnary, precisionWindowDyadic, dyadicRegseqSeal, dyadicRegseqCompletion,
+      completionSealRoute, endpointPkg, completionSealPkg⟩
+
 theorem TailCofinalityScheduleCarrier_selector_seal_pullback [AskSetup] [PackageSetup]
     {precision budget window dyadic regseq sealRow transport route provenance localCert endpoint
       selectorRead sealRead pullback : BHist}
@@ -213,6 +245,69 @@ theorem TailCofinalityScheduleCarrier_selector_seal_pullback [AskSetup] [Package
     ⟨precisionUnary, budgetUnary, windowUnary, regseqUnary, selectorUnary, sealReadUnary,
       pullbackUnary, precisionWindowDyadic, dyadicRegseqSeal, budgetWindowSelector,
       selectorRegseqSeal, sealEndpointPullback, endpointPkg, pullbackPkg⟩
+
+theorem TailCofinalityScheduleCarrier_selector_budget_lock [AskSetup] [PackageSetup]
+    {precision budget window dyadic regseq sealRow transport route provenance localCert endpoint
+      selectorRead sealRead lockedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      UnaryHistory budget →
+        Cont budget window selectorRead →
+          Cont selectorRead dyadic sealRead →
+            Cont sealRead endpoint lockedRead →
+              PkgSig bundle lockedRead pkg →
+                UnaryHistory budget ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+                  UnaryHistory selectorRead ∧ UnaryHistory sealRead ∧
+                    UnaryHistory lockedRead ∧ Cont budget window selectorRead ∧
+                      Cont selectorRead dyadic sealRead ∧ Cont sealRead endpoint lockedRead ∧
+                        PkgSig bundle endpoint pkg ∧ PkgSig bundle lockedRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier budgetUnary budgetWindowSelector selectorDyadicSeal sealEndpointLocked
+    lockedPkg
+  obtain ⟨_precisionUnary, windowUnary, dyadicUnary, _regseqUnary, _sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, endpointUnary,
+    _precisionWindowDyadic, _dyadicRegseqSeal, _sealTransportRoute,
+    _routeProvenanceEndpoint, _endpointLocalCert, endpointPkg⟩ := carrier
+  have selectorUnary : UnaryHistory selectorRead :=
+    unary_cont_closed budgetUnary windowUnary budgetWindowSelector
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed selectorUnary dyadicUnary selectorDyadicSeal
+  have lockedReadUnary : UnaryHistory lockedRead :=
+    unary_cont_closed sealReadUnary endpointUnary sealEndpointLocked
+  exact
+    ⟨budgetUnary, windowUnary, dyadicUnary, selectorUnary, sealReadUnary, lockedReadUnary,
+      budgetWindowSelector, selectorDyadicSeal, sealEndpointLocked, endpointPkg, lockedPkg⟩
+
+theorem TailCofinalityScheduleCarrier_cauchy_inverse_budget_factorization [AskSetup]
+    [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      inverseBudget reciprocalWindow factorRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      UnaryHistory inverseBudget →
+        Cont inverseBudget window reciprocalWindow →
+          Cont reciprocalWindow sealRow factorRead →
+            PkgSig bundle factorRead pkg →
+              UnaryHistory inverseBudget ∧ UnaryHistory window ∧
+                UnaryHistory reciprocalWindow ∧ UnaryHistory sealRow ∧
+                  UnaryHistory factorRead ∧ Cont inverseBudget window reciprocalWindow ∧
+                    Cont reciprocalWindow sealRow factorRead ∧ PkgSig bundle endpoint pkg ∧
+                      PkgSig bundle factorRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier inverseBudgetUnary inverseWindowReciprocal reciprocalSealFactor factorReadPkg
+  obtain ⟨_precisionUnary, windowUnary, _dyadicUnary, _regseqUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    _precisionWindowDyadic, _dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have reciprocalWindowUnary : UnaryHistory reciprocalWindow :=
+    unary_cont_closed inverseBudgetUnary windowUnary inverseWindowReciprocal
+  have factorReadUnary : UnaryHistory factorRead :=
+    unary_cont_closed reciprocalWindowUnary sealUnary reciprocalSealFactor
+  exact
+    ⟨inverseBudgetUnary, windowUnary, reciprocalWindowUnary, sealUnary, factorReadUnary,
+      inverseWindowReciprocal, reciprocalSealFactor, endpointPkg, factorReadPkg⟩
 
 theorem TailCofinalityScheduleCarrier_transport_determinacy [AskSetup] [PackageSetup]
     {precision window dyadic regseq sealRow transport route provenance localCert endpoint
@@ -253,5 +348,222 @@ theorem TailCofinalityScheduleCarrier_transport_determinacy [AskSetup] [PackageS
   have sameSealRead : hsame sealRead sealRead' :=
     cont_respects_hsame sameRegseq sameSealRow regseqSealRead regseqSealRead'
   exact ⟨sameSealRead, sealReadUnary, sealReadUnary', endpointPkg, endpointPkg'⟩
+
+theorem TailCofinalityScheduleCarrier_regular_cauchy_tail_meet_handoff [AskSetup]
+    [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      pairedSource pairedWindow modulus sharedThreshold meetRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      UnaryHistory pairedSource →
+        UnaryHistory pairedWindow →
+          Cont pairedSource pairedWindow modulus →
+            Cont modulus dyadic sharedThreshold →
+              Cont sharedThreshold regseq meetRead →
+                Cont meetRead sealRow sealRead →
+                  PkgSig bundle sealRead pkg →
+                    UnaryHistory precision ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+                      UnaryHistory regseq ∧ UnaryHistory sealRow ∧
+                        UnaryHistory pairedSource ∧ UnaryHistory pairedWindow ∧
+                          UnaryHistory modulus ∧ UnaryHistory sharedThreshold ∧
+                            UnaryHistory meetRead ∧ UnaryHistory sealRead ∧
+                              Cont precision window dyadic ∧ Cont dyadic regseq sealRow ∧
+                                Cont pairedSource pairedWindow modulus ∧
+                                  Cont modulus dyadic sharedThreshold ∧
+                                    Cont sharedThreshold regseq meetRead ∧
+                                      Cont meetRead sealRow sealRead ∧
+                                        PkgSig bundle endpoint pkg ∧
+                                          PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier pairedSourceUnary pairedWindowUnary pairedWindowModulus
+    modulusDyadicThreshold thresholdRegseqMeet meetSealRead sealReadPkg
+  obtain ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    precisionWindowDyadic, dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed pairedSourceUnary pairedWindowUnary pairedWindowModulus
+  have sharedThresholdUnary : UnaryHistory sharedThreshold :=
+    unary_cont_closed modulusUnary dyadicUnary modulusDyadicThreshold
+  have meetReadUnary : UnaryHistory meetRead :=
+    unary_cont_closed sharedThresholdUnary regseqUnary thresholdRegseqMeet
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed meetReadUnary sealUnary meetSealRead
+  exact
+    ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary,
+      pairedSourceUnary, pairedWindowUnary, modulusUnary, sharedThresholdUnary,
+      meetReadUnary, sealReadUnary, precisionWindowDyadic, dyadicRegseqSeal,
+      pairedWindowModulus, modulusDyadicThreshold, thresholdRegseqMeet, meetSealRead,
+      endpointPkg, sealReadPkg⟩
+
+private def TailCofinalityScheduleCarrier_completion_budget_nonescape_length : BHist → Nat
+  -- BEDC touchpoint anchor: BHist Cont
+  | BHist.Empty => 0
+  | BHist.e0 h => Nat.succ (TailCofinalityScheduleCarrier_completion_budget_nonescape_length h)
+  | BHist.e1 h => Nat.succ (TailCofinalityScheduleCarrier_completion_budget_nonescape_length h)
+
+private theorem TailCofinalityScheduleCarrier_completion_budget_nonescape_length_append :
+    ∀ h k : BHist,
+      TailCofinalityScheduleCarrier_completion_budget_nonescape_length (append h k) =
+        TailCofinalityScheduleCarrier_completion_budget_nonescape_length h +
+          TailCofinalityScheduleCarrier_completion_budget_nonescape_length k := by
+  -- BEDC touchpoint anchor: BHist Cont
+  intro h k
+  induction k with
+  | Empty =>
+      rfl
+  | e0 k ih =>
+      exact Eq.trans (congrArg Nat.succ ih)
+        (Nat.add_succ
+          (TailCofinalityScheduleCarrier_completion_budget_nonescape_length h)
+          (TailCofinalityScheduleCarrier_completion_budget_nonescape_length k)).symm
+  | e1 k ih =>
+      exact Eq.trans (congrArg Nat.succ ih)
+        (Nat.add_succ
+          (TailCofinalityScheduleCarrier_completion_budget_nonescape_length h)
+          (TailCofinalityScheduleCarrier_completion_budget_nonescape_length k)).symm
+
+private theorem TailCofinalityScheduleCarrier_completion_budget_nonescape_growth_absurd
+    (n a b : Nat) :
+    n = a + n + (b + 1) → False := by
+  -- BEDC touchpoint anchor: BHist Cont
+  intro h
+  have hle : n ≤ a + n := Nat.le_add_left n a
+  have hlt2 : a + n < a + n + (b + 1) := Nat.lt_add_of_pos_right (Nat.succ_pos b)
+  have hlt : n < a + n + (b + 1) := Nat.lt_of_le_of_lt hle hlt2
+  exact (Nat.lt_irrefl n) (Nat.lt_of_lt_of_eq hlt h.symm)
+
+private theorem TailCofinalityScheduleCarrier_completion_budget_nonescape_visible_cycle
+    {completionRead agreementRows sealRead endpoint : BHist} :
+    Cont completionRead agreementRows sealRead →
+      Cont sealRead (BHist.e1 endpoint) agreementRows → False := by
+  -- BEDC touchpoint anchor: BHist Cont
+  intro completionAgreementSeal hostReturn
+  have eqAgreement :
+      agreementRows = append (append completionRead agreementRows) (BHist.e1 endpoint) := by
+    exact hostReturn.trans (congrArg (fun x => append x (BHist.e1 endpoint))
+      completionAgreementSeal)
+  have hlen := congrArg TailCofinalityScheduleCarrier_completion_budget_nonescape_length
+    eqAgreement
+  rw [TailCofinalityScheduleCarrier_completion_budget_nonescape_length_append] at hlen
+  rw [TailCofinalityScheduleCarrier_completion_budget_nonescape_length_append] at hlen
+  exact TailCofinalityScheduleCarrier_completion_budget_nonescape_growth_absurd
+    (TailCofinalityScheduleCarrier_completion_budget_nonescape_length agreementRows)
+    (TailCofinalityScheduleCarrier_completion_budget_nonescape_length completionRead)
+    (TailCofinalityScheduleCarrier_completion_budget_nonescape_length endpoint) hlen
+
+theorem TailCofinalityScheduleCarrier_completion_budget_nonescape [AskSetup] [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      regularTail agreementRows completionRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      UnaryHistory regularTail →
+        UnaryHistory agreementRows →
+          Cont dyadic regularTail completionRead →
+            Cont completionRead agreementRows sealRead →
+              PkgSig bundle sealRead pkg →
+                UnaryHistory dyadic ∧ UnaryHistory regularTail ∧
+                  UnaryHistory completionRead ∧ UnaryHistory agreementRows ∧
+                    UnaryHistory sealRead ∧ Cont dyadic regularTail completionRead ∧
+                      Cont completionRead agreementRows sealRead ∧ PkgSig bundle endpoint pkg ∧
+                        PkgSig bundle sealRead pkg ∧
+                          (Cont sealRead (BHist.e0 endpoint) completionRead → False) ∧
+                            (Cont sealRead (BHist.e1 endpoint) agreementRows → False) := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier regularTailUnary agreementRowsUnary dyadicRegularCompletion
+    completionAgreementSeal sealReadPkg
+  obtain ⟨_precisionUnary, _windowUnary, dyadicUnary, _regseqUnary, _sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    _precisionWindowDyadic, _dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed dyadicUnary regularTailUnary dyadicRegularCompletion
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed completionReadUnary agreementRowsUnary completionAgreementSeal
+  exact
+    ⟨dyadicUnary, regularTailUnary, completionReadUnary, agreementRowsUnary, sealReadUnary,
+      dyadicRegularCompletion, completionAgreementSeal, endpointPkg, sealReadPkg,
+      (fun hostReturn =>
+        cont_mutual_extension_right_tail_absurd.left completionAgreementSeal hostReturn),
+      (fun hostReturn =>
+        TailCofinalityScheduleCarrier_completion_budget_nonescape_visible_cycle
+          completionAgreementSeal hostReturn)⟩
+
+theorem TailCofinalityScheduleCarrier_scoped_binding [AskSetup] [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      replay : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      Cont route provenance replay →
+        hsame replay endpoint →
+          PkgSig bundle replay pkg →
+            UnaryHistory precision ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+              UnaryHistory regseq ∧ UnaryHistory sealRow ∧ UnaryHistory transport ∧
+                UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory localCert ∧
+                  UnaryHistory endpoint ∧ UnaryHistory replay ∧
+                    Cont precision window dyadic ∧ Cont dyadic regseq sealRow ∧
+                      Cont sealRow transport route ∧ Cont route provenance endpoint ∧
+                        Cont route provenance replay ∧ hsame replay endpoint ∧
+                          PkgSig bundle endpoint pkg ∧ PkgSig bundle replay pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg UnaryHistory
+  intro carrier routeProvenanceReplay replaySame replayPkg
+  obtain ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary,
+    transportUnary, routeUnary, provenanceUnary, localCertUnary, endpointUnary,
+    precisionWindowDyadic, dyadicRegseqSeal, sealTransportRoute, routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenanceReplay
+  exact
+    ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary, transportUnary,
+      routeUnary, provenanceUnary, localCertUnary, endpointUnary, replayUnary,
+      precisionWindowDyadic, dyadicRegseqSeal, sealTransportRoute,
+      routeProvenanceEndpoint, routeProvenanceReplay, replaySame, endpointPkg,
+      replayPkg⟩
+
+theorem TailCofinalityScheduleCarrier_shared_tail_budget_factorization [AskSetup]
+    [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      sharedThreshold agreementRows completionRead sharedRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      Cont dyadic regseq sharedThreshold →
+        Cont sharedThreshold sealRow agreementRows →
+          Cont agreementRows endpoint completionRead →
+            Cont precision completionRead sharedRoute →
+              PkgSig bundle sharedRoute pkg →
+                UnaryHistory precision ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+                  UnaryHistory regseq ∧ UnaryHistory sealRow ∧ UnaryHistory sharedThreshold ∧
+                    UnaryHistory agreementRows ∧ UnaryHistory completionRead ∧
+                      UnaryHistory sharedRoute ∧ Cont precision window dyadic ∧
+                        Cont dyadic regseq sharedThreshold ∧
+                          Cont sharedThreshold sealRow agreementRows ∧
+                            Cont agreementRows endpoint completionRead ∧
+                              Cont precision completionRead sharedRoute ∧
+                                PkgSig bundle endpoint pkg ∧
+                                  PkgSig bundle sharedRoute pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier dyadicRegseqShared sharedSealAgreement agreementEndpointCompletion
+    precisionCompletionShared sharedPkg
+  obtain ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, endpointUnary,
+    precisionWindowDyadic, _dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have sharedThresholdUnary : UnaryHistory sharedThreshold :=
+    unary_cont_closed dyadicUnary regseqUnary dyadicRegseqShared
+  have agreementRowsUnary : UnaryHistory agreementRows :=
+    unary_cont_closed sharedThresholdUnary sealUnary sharedSealAgreement
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed agreementRowsUnary endpointUnary agreementEndpointCompletion
+  have sharedRouteUnary : UnaryHistory sharedRoute :=
+    unary_cont_closed precisionUnary completionReadUnary precisionCompletionShared
+  exact
+    ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary,
+      sharedThresholdUnary, agreementRowsUnary, completionReadUnary, sharedRouteUnary,
+      precisionWindowDyadic, dyadicRegseqShared, sharedSealAgreement,
+      agreementEndpointCompletion, precisionCompletionShared, endpointPkg, sharedPkg⟩
 
 end BEDC.Derived.TailCofinalityScheduleUp

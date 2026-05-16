@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\PhysicalNameCertAuditUp$}
+\label{ch:concrete-instances-physical-namecert-audit-namecert}
+\origin{ai}
+
+The $\PhysicalNameCertAuditUp$ packet realizes the physical NameCert analogue of \autoref{sec:observation-and-reflection} as one finite BEDC naming certificate. It sits beside \autoref{ch:concrete-instances-observationreflectionpacket-namecert}, \autoref{ch:concrete-instances-physical-model-audit-namecert}, \autoref{ch:concrete-instances-reflective-stability-namecert}, and \autoref{ch:concrete-instances-reflection-gap-boundary-namecert}. Those siblings expose observation routing, audit strength, reflective reuse, and reflection-gap boundaries; this packet binds the certificate-template rows needed before a model signature may be read as a certified physical name.
+
+\begin{definition}[PhysicalNameCertAudit carrier]
+\label{def:physical-namecert-audit-carrier}
+A $\PhysicalNameCertAuditUp$ carrier is a finite $\BHist$ packet
+$$
+P=(S,O,M,C,Y,L,F,H,R,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source row recording the finite observation or experiment trace that licenses the naming attempt;
+\item $O$ is the observed-signature row extracted from $S$ through the displayed observation-reflection route;
+\item $M$ is the model-signature row offered as the physical name candidate;
+\item $C$ is the classifier row comparing $O$ and $M$ without importing a hidden model-reality identity;
+\item $Y$ is the stability certificate row recording the continuation discipline under which the comparison remains reusable;
+\item $L$ is the ledger policy row recording accepted fits, open gaps, and hidden residue that may later become active;
+\item $F$ is the failure-surface row on which missing source, classifier, stability, or ledger data are recorded as certificate blockers;
+\item $H$ is the componentwise $\hsame$ transport row for source, signature, classifier, stability, ledger, and failure reads;
+\item $R$ is the displayed $\Cont$ route through $S,O,M,C,Y,L,F,H$;
+\item $Q$ is the $\Pkg$ provenance over $\PhysicalNameCertAuditUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\PhysicalNameCertAuditUp}$ row naming exactly this packet.
+\end{enumerate}
+The carrier has no coordinate for final truth, source-domain identity, unledgered approximation, host physical law, or an external model-selection oracle.
+\end{definition}
+
+\begin{theorem}[PhysicalNameCertAudit obligation surface]
+\label{thm:physical-namecert-audit-obligation-surface}
+For the carrier of \autoref{def:physical-namecert-audit-carrier}, the local $\NameCert_{\PhysicalNameCertAuditUp}$ surface consists exactly of the finite obligations for source exposure in $S$, observed-signature extraction in $O$, model-signature presentation in $M$, classifier comparison in $C$, stability certification in $Y$, ledger policy in $L$, failure-surface accounting in $F$, componentwise transport in $H$, displayed routing in $R$, provenance in $Q$, and local naming in $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of \autoref{def:physical-namecert-audit-carrier}. It exposes the source, observed signature, model signature, classifier, stability, ledger, failure, transport, route, provenance, and local naming rows as the only packet coordinates.
+
+The observation side is read through \autoref{ch:concrete-instances-observationreflectionpacket-namecert}. That sibling supplies the finite source and observed-signature route, but it does not by itself certify a physical model name.
+
+The audit and stability rows are read through \autoref{ch:concrete-instances-physical-model-audit-namecert} and \autoref{ch:concrete-instances-reflective-stability-namecert}. These give the classifier-facing model audit and continuation stability surfaces needed before the local naming row can be consumed.
+
+Finally use \autoref{ch:concrete-instances-reflection-gap-boundary-namecert}. The boundary row keeps the certificate open to later defeating observations, so the ledger and failure rows remain part of the same finite NameCert surface rather than hidden host evidence.
+\end{proof}
+\leanchecked{BEDC.Derived.PhysicalNameCertAuditUp.PhysicalNameCertAuditTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[PhysicalNameCertAudit non-escape]
+\label{thm:physical-namecert-audit-nonescape}
+Every accepted $\PhysicalNameCertAuditUp$ packet exports only the displayed rows
+$$
+S,O,M,C,Y,L,F,H,R,Q,N.
+$$
+A consumer may promote a model signature to a certified physical name only through those rows. It cannot replace them by an unrecorded source, a detached pattern, an implicit classifier, an unstated stability principle, an absent ledger policy, a hidden failure surface, final truth, source-domain identity, or host physical-law semantics.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:physical-namecert-audit-carrier}. The packet has explicit rows for each certificate-template field and no additional coordinate for a hidden source, detached pattern, final truth, or host physical law.
+
+Apply \autoref{thm:physical-namecert-audit-obligation-surface}. Source, observed signature, model signature, classifier, stability, ledger, and failure data must all be read before the route, provenance, and local name are consumed.
+
+The non-escape boundary follows because any missing source, classifier, stability, or ledger datum is recorded in $F$ as a blocker rather than supplied by an external oracle. The local $\NameCert$ row can therefore name only the displayed packet.
+\end{proof}
+
+\begin{theorem}[PhysicalNameCertAudit certification handoff]
+\label{thm:physical-namecert-audit-certification-handoff}
+If a $\PhysicalNameCertAuditUp$ packet admits source row $S$, observed-signature row $O$, model-signature row $M$, classifier row $C$, stability row $Y$, ledger row $L$, failure-surface row $F$, transport row $H$, displayed route $R$, provenance row $Q$, and local name $N$, then the only certification handoff available to a downstream physical-model consumer is the displayed route from $O,M,C,Y,L,F$ to $N$. If the source, classifier, stability, or ledger row is absent, the handoff stops at the failure surface and no certified physical name is exported.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:physical-namecert-audit-obligation-surface}. It requires the source, signature, classifier, stability, ledger, and failure rows before the local naming row is available.
+
+Use non-escape from \autoref{thm:physical-namecert-audit-nonescape}. Since no hidden source, classifier, stability principle, ledger policy, or host law can be projected from the packet, the handoff cannot be repaired outside the displayed carrier.
+
+Thus a complete carrier hands the model signature to the local $\NameCert$ through $R,Q,N$. An incomplete carrier reaches $F$ and remains a failed naming attempt rather than a certified physical name.
+\end{proof}
+
+\falsifiablePrediction{If the source, classifier, stability, or ledger row is absent, a PhysicalNameCertAuditUp packet cannot promote a model signature to a certified physical name.}
+
+\independenceWitness{observationreflectionpacket, physicalmodelaudit, reflectivestability, reflectiongapboundary, physicaltruthcertificate: no sibling is bijective because PhysicalNameCertAuditUp uniquely binds the certificate-template rows for physical model naming rather than only routing, audit strength, reflection stability, gap boundary, or truth status.}
+
+The Lean follow-up in \texttt{lean4/BEDC/Derived/PhysicalNameCertAuditUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \PhysicalNameCertAuditUp$ and $\mathsf{FieldFaithful}\ \PhysicalNameCertAuditUp$ instances preserving $S,O,M,C,Y,L,F,H,R,Q,N$.
+
+\closureat{PhysicalNameCertAuditUp}{seedStr}
+
+\begin{closurestatus}{\PhysicalNameCertAuditUp}
+  \constructivestory{A $\PhysicalNameCertAuditUp$ packet is generated from finite source rows, observed signatures, model signatures, a classifier, stability certificate, ledger policy, failure surface, componentwise transport, displayed route, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:physical-namecert-audit-carrier}, \autoref{thm:physical-namecert-audit-obligation-surface}, \autoref{thm:physical-namecert-audit-nonescape}, and \autoref{thm:physical-namecert-audit-certification-handoff} bind the physical NameCert analogue as a finite source, signature, classifier, stability, ledger, failure, route, provenance, and naming packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert final truth, source-domain identity, host physical-law semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier, non-escape boundary, certification handoff, and TasteGate field-faithful rows for $S,O,M,C,Y,L,F,H,R,Q,N$.}
+\end{closurestatus}

@@ -227,6 +227,25 @@ Apply \autoref{thm:finitenetminimumfold-order-selector-transport}. It shows that
 Finally use \autoref{thm:finite-net-minimum-fold-uniform-modulus-handoff}. The $\UniformModulusUp$ consumer therefore receives exactly $M$ with certificate $L$, and the carrier has no remaining coordinate from which a separate compactness witness, selected probe, host minimum, or external modulus could be read.
 \end{proof}
 
+\begin{theorem}[FiniteNetMinimumFold terminal readback]
+\label{thm:finite-net-minimum-fold-terminal-readback}
+For any terminal consumer read of an accepted $\FiniteNetMinimumFoldUp$ packet
+$$
+F=(P,R,M,L,H,C,Q,N),
+$$
+the delivered fold result is exactly the accumulator precision history $M$ together with the lower-bound certificate $L$, transported through $H$ and replayed through $C$ with provenance $Q$ and local name $N$. This terminal readback is equivalent to the displayed finite fold surface $P,R,H,C,Q,N$ producing $M,L$; it is not a host minimum, an external compactness witness, or a selected representative outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the lower-bound certificate of \autoref{thm:finite-net-minimum-fold-lower-bound-certificate}. It identifies $L$ as the internal certificate that the accumulator selected by the finite fold is a lower bound for the bundled pointwise-modulus rows.
+
+Use the positive precision obligation of \autoref{thm:finite-net-minimum-fold-positive-precision-obligation}. This makes the accumulator row $M$ an admissible positive precision history, so the terminal consumer does not need a separate positivity or compactness row.
+
+Next apply the uniform-modulus handoff \autoref{thm:finite-net-minimum-fold-uniform-modulus-handoff}. The handoff carries the displayed packet through $P,R,M,L,H,C,Q,N$, with transports and routes preserving the same fold result.
+
+Finally use modulus consumer exactness \autoref{thm:finitenetminimumfold-modulus-consumer-exactness}. It says that the consumer receives exactly $M$ and that $L$ is the only admissibility certificate for the bundled rows. Hence the terminal readback is precisely the finite fold surface, with no host minimum or selected representative outside the accepted packet.
+\end{proof}
+\leanchecked{BEDC.Derived.FiniteNetMinimumFoldUp.FiniteNetMinimumFoldPacket\_terminal\_readback}
+
 \begin{theorem}[FiniteNetMinimumFold selector totality]
 \label{thm:finite-net-minimum-fold-selector-totality}
 For every accepted $\FiniteNetMinimumFoldUp$ carrier
@@ -270,6 +289,7 @@ Use selector stability and modulus consumer exactness, \autoref{thm:finite-net-m
 
 The package row $Q$ and local name $N$ record the provenance of the finite packet. Since the carrier contains no host minimum, separate compactness witness, selected probe representative, or external modulus row, no $\CompactMetricUp$, $\UniformModulusUp$, or $\CompactModulusCoverUp$ consumer can read one from this packet.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteNetMinimumFoldUp.FiniteNetMinimumFoldPacket\_compact\_cover\_consumer}
 
 \begin{theorem}[FiniteNetMinimumFold compact-cover consumer completeness]
 \label{thm:finitenetminimumfold-compact-cover-consumer-completeness}
@@ -286,6 +306,7 @@ Use nonempty probe exhaustion, order-selector transport, and modulus consumer ex
 
 Finally apply the uniform-modulus handoff and compact-cover consumer theorem. They route $\CompactModulusCoverUp$, $\CompactMetricUp$, and $\UniformModulusUp$ consumers through the same finite rows $P,R,M,L,H,C,Q,N$. Since the carrier has no coordinate for open-cover compactness, a choice-selected minimizer, a host minimum, a selected probe representative, or an external modulus, none of those objects can be exported.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteNetMinimumFoldUp.FiniteNetMinimumFoldPacket\_compact\_cover\_consumer\_completeness}
 
 \begin{theorem}[FiniteNetMinimumFold UniformModulus CompactMetric handoff gate]
 \label{thm:finitenetminimumfold-uniformmodulus-compactmetric-handoff-gate}
@@ -297,6 +318,40 @@ First use compact-metric probe consumption. It places every bundled probe and po
 Next apply uniform-modulus output exhaustion. The $\UniformModulusUp$ consumer receives exactly the accumulator precision row $M$ with lower-bound certificate $L$, transported and replayed through the displayed rows.
 
 Finally use compact-cover consumer completeness. It assembles the consumer-facing surface as $P,R,M,L,H,C,Q,N$ for $\CompactModulusCoverUp$, $\CompactMetricUp$, $\UniformModulusUp$, $\RatUp$, and $\TotalOrderUp$ consumers. Since that theorem also excludes open-cover compactness, choice-selected minimizers, selected probe representatives, host minima, and external modulus rows, the handoff gate is exactly the finite fold packet.
+\end{proof}
+
+\begin{theorem}[FiniteNetMinimumFold compact-modulus attainment]
+\label{thm:finite-net-minimum-fold-compact-modulus-attainment}
+Let a compact-uniform-continuity consumer read an accepted $\CompactMetricUp$ finite-net witness through an accepted $\FiniteNetMinimumFoldUp$ packet
+$$
+F=(P,R,M,L,H,C,Q,N).
+$$
+Its public $\UniformModulusUp$ precision is obtained exactly by composing the $\CompactMetricUp$ finite-net probe rows in $P$, the $\CompactUniformContinuityUp$ local pointwise modulus rows indexed by those probes, the positive $\RatUp$ half-radius rows in $R$, the $\TotalOrderUp$ finite lower-bound selection that produces $M,L$, and the accepted $\FiniteNetMinimumFoldUp$ transport, replay, provenance, and local naming rows. The consumer receives no host compactness selector, no selected-point oracle, no open-cover compactness theorem, no quotient real equality, and no modulus coordinate outside the displayed finite packet.
+\end{theorem}
+\begin{proof}
+First use compact-metric probe consumption, \autoref{thm:finitenetminimumfold-compactmetric-probe-consumption}. It confines the compact metric input to the displayed finite-net probes $P$ and positive half-radius rows $R$.
+
+Next apply the uniform-modulus handoff and the handoff gate, \autoref{thm:finite-net-minimum-fold-uniform-modulus-handoff} and \autoref{thm:finitenetminimumfold-uniformmodulus-compactmetric-handoff-gate}. These place the compact-uniform-continuity consumer behind the same finite packet and deliver the accumulator precision $M$ with lower-bound certificate $L$ to the $\UniformModulusUp$ surface.
+
+The finite selection step is controlled by selector totality, selector stability, and the lower-bound certificate, \autoref{thm:finite-net-minimum-fold-selector-totality}, \autoref{thm:finite-net-minimum-fold-selector-stability}, and \autoref{thm:finite-net-minimum-fold-lower-bound-certificate}. Together they show that the $\TotalOrderUp$ route chooses a lower-bound row from the displayed positive $\RatUp$ ledgers and transports that row through $H,C$.
+
+Finally use compact-cover consumer completeness, \autoref{thm:finitenetminimumfold-compact-cover-consumer-completeness}. It identifies the exact consumer-facing surface for $\CompactModulusCoverUp$, $\CompactMetricUp$, $\UniformModulusUp$, $\RatUp$, and $\TotalOrderUp$ consumers, so the attained public modulus precision is precisely the finite-net fold result rather than an external compactness or choice artifact.
+\end{proof}
+
+\begin{theorem}[FiniteNetMinimumFold compact-uniform pointwise-radius chain]
+\label{thm:finite-net-minimum-fold-compact-uniform-pointwise-radius-chain}
+A $\CompactUniformContinuityUp$ consumer obtains its public $\UniformModulusUp$ precision from an accepted $\FiniteNetMinimumFoldUp$ packet exactly through the chain of $\CompactMetricUp$ finite-net probes, $\CompactUniformContinuityUp$ pointwise modulus rows, positive $\RatUp$ radius rows, the $\TotalOrderUp$ finite lower-bound fold, and the $\FiniteNetMinimumFoldUp$ transport, replay, provenance, and local naming rows. For a packet
+$$
+F=(P,R,M,L,H,C,Q,N),
+$$
+the delivered precision is the accumulator row $M$ with lower-bound certificate $L$, transported by $H$, replayed by $C$, packaged by $Q$, and named by $N$; no compactness selector, selected point oracle, external modulus row, host minimum, or quotient real equality is read outside this chain.
+\end{theorem}
+\begin{proof}
+Start from compact-modulus attainment, \autoref{thm:finite-net-minimum-fold-compact-modulus-attainment}. It already identifies the public modulus precision with the finite-net probes, pointwise modulus rows, positive radius rows, finite lower-bound selection, and the displayed packet rows $P,R,M,L,H,C,Q,N$.
+
+Use selector totality and selector stability, \autoref{thm:finite-net-minimum-fold-selector-totality} and \autoref{thm:finite-net-minimum-fold-selector-stability}. These two rows make $M,L$ the selected lower-bound surface of the finite $\TotalOrderUp$ fold and preserve that surface under the displayed $\hsame$ transports and $\Cont$ replays.
+
+Finally apply compact-cover consumer completeness, \autoref{thm:finitenetminimumfold-compact-cover-consumer-completeness}. It says that $\CompactModulusCoverUp$, $\CompactMetricUp$, $\UniformModulusUp$, $\RatUp$, and $\TotalOrderUp$ consumers see exactly the finite fold packet. Therefore the $\CompactUniformContinuityUp$ pointwise-radius chain ends at the public $\UniformModulusUp$ precision and has no route to any excluded external selector or equality datum.
 \end{proof}
 
 \closureat{FiniteNetMinimumFoldUp}{seedStr}

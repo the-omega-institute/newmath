@@ -202,4 +202,190 @@ theorem RealityConstrainedSignatureFitTasteGate_single_carrier_alignment :
       (fun _ _ heq => realityConstrainedSignatureFitToEventFlow_injective heq),
       rfl⟩
 
+theorem RealityConstrainedSignatureFitCarrier_namecert_obligation_rows
+    (R : RealityConstrainedSignatureFitUp) :
+    ∃ S A M G P C H Q N : BHist,
+      R = RealityConstrainedSignatureFitUp.mk S A M G P C H Q N ∧
+        realityConstrainedSignatureFitFromEventFlow
+          (realityConstrainedSignatureFitToEventFlow R) = some R ∧
+          realityConstrainedSignatureFitEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases R with
+  | mk S A M G P C H Q N =>
+      exact
+        ⟨S, A, M, G, P, C, H, Q, N, rfl,
+          realityConstrainedSignatureFit_round_trip
+            (RealityConstrainedSignatureFitUp.mk S A M G P C H Q N),
+          rfl⟩
+
+theorem RealityConstrainedSignatureFitCarrier_no_free_descent
+    (R : RealityConstrainedSignatureFitUp) :
+    ∃ S A M G P C H Q N : BHist,
+      R = RealityConstrainedSignatureFitUp.mk S A M G P C H Q N ∧
+        realityConstrainedSignatureFitFromEventFlow
+          (realityConstrainedSignatureFitToEventFlow R) = some R ∧
+          realityConstrainedSignatureFitEncodeBHist BHist.Empty = ([] : List BMark) ∧
+          List.Mem S (realityConstrainedSignatureFitFields R) ∧
+          List.Mem G (realityConstrainedSignatureFitFields R) ∧
+          List.Mem P (realityConstrainedSignatureFitFields R) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases R with
+  | mk S A M G P C H Q N =>
+      exact
+        ⟨S, A, M, G, P, C, H, Q, N, rfl,
+          realityConstrainedSignatureFit_round_trip
+            (RealityConstrainedSignatureFitUp.mk S A M G P C H Q N),
+          rfl, by
+            exact List.Mem.head _,
+          by
+            exact List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))),
+          by
+            exact
+              List.Mem.tail _
+                (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))))⟩
+
+theorem RealityConstrainedSignatureFitCarrier_formal_target_surface
+    (R : RealityConstrainedSignatureFitUp) :
+    ∃ S A M G P C H Q N : BHist,
+      R = RealityConstrainedSignatureFitUp.mk S A M G P C H Q N ∧
+        realityConstrainedSignatureFitFromEventFlow
+          (realityConstrainedSignatureFitToEventFlow R) = some R ∧
+          realityConstrainedSignatureFitEncodeBHist BHist.Empty = ([] : List BMark) ∧
+          List.Mem S (realityConstrainedSignatureFitFields R) ∧
+          List.Mem A (realityConstrainedSignatureFitFields R) ∧
+          List.Mem M (realityConstrainedSignatureFitFields R) ∧
+          List.Mem G (realityConstrainedSignatureFitFields R) ∧
+          List.Mem P (realityConstrainedSignatureFitFields R) ∧
+          List.Mem C (realityConstrainedSignatureFitFields R) ∧
+          List.Mem H (realityConstrainedSignatureFitFields R) ∧
+          List.Mem Q (realityConstrainedSignatureFitFields R) ∧
+          List.Mem N (realityConstrainedSignatureFitFields R) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases R with
+  | mk S A M G P C H Q N =>
+      exact
+        ⟨S, A, M, G, P, C, H, Q, N, rfl,
+          realityConstrainedSignatureFit_round_trip
+            (RealityConstrainedSignatureFitUp.mk S A M G P C H Q N),
+          rfl,
+          by
+            exact List.Mem.head _,
+          by
+            exact List.Mem.tail _ (List.Mem.head _),
+          by
+            exact List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)),
+          by
+            exact List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))),
+          by
+            exact
+              List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))),
+          by
+            exact
+              List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))))),
+          by
+            exact
+              List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _
+                      (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))))),
+          by
+            exact
+              List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _
+                      (List.Mem.tail _
+                        (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))))))),
+          by
+            exact
+              List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _
+                      (List.Mem.tail _
+                        (List.Mem.tail _
+                          (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))))))))⟩
+
+theorem RealityConstrainedSignatureFitCarrier_finite_nonescape
+    (R : RealityConstrainedSignatureFitUp) {row : BHist} :
+    List.Mem row (realityConstrainedSignatureFitFields R) →
+      ∃ S A M G P C H Q N : BHist,
+        R = RealityConstrainedSignatureFitUp.mk S A M G P C H Q N ∧
+          (row = S ∨ row = A ∨ row = M ∨ row = G ∨ row = P ∨ row = C ∨
+            row = H ∨ row = Q ∨ row = N) ∧
+            realityConstrainedSignatureFitFromEventFlow
+              (realityConstrainedSignatureFitToEventFlow R) = some R ∧
+              realityConstrainedSignatureFitEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hrow
+  cases R with
+  | mk S A M G P C H Q N =>
+      change List.Mem row [S, A, M, G, P, C, H, Q, N] at hrow
+      have hrowOr :
+          row = S ∨ row = A ∨ row = M ∨ row = G ∨ row = P ∨ row = C ∨
+            row = H ∨ row = Q ∨ row = N := by
+        cases hrow with
+        | head =>
+            exact Or.inl rfl
+        | tail _ hA =>
+            cases hA with
+            | head =>
+                exact Or.inr (Or.inl rfl)
+            | tail _ hM =>
+                cases hM with
+                | head =>
+                    exact Or.inr (Or.inr (Or.inl rfl))
+                | tail _ hG =>
+                    cases hG with
+                    | head =>
+                        exact Or.inr (Or.inr (Or.inr (Or.inl rfl)))
+                    | tail _ hP =>
+                        cases hP with
+                        | head =>
+                            exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))
+                        | tail _ hC =>
+                            cases hC with
+                            | head =>
+                                exact Or.inr
+                                  (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl)))))
+                            | tail _ hH =>
+                                cases hH with
+                                | head =>
+                                    exact Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr (Or.inr (Or.inr (Or.inl rfl))))))
+                                | tail _ hQ =>
+                                    cases hQ with
+                                    | head =>
+                                        exact Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr (Or.inr (Or.inl rfl)))))))
+                                    | tail _ hN =>
+                                        cases hN with
+                                        | head =>
+                                            exact Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inr (Or.inr rfl)))))))
+                                        | tail _ hnil =>
+                                            cases hnil
+      exact
+        ⟨S, A, M, G, P, C, H, Q, N, rfl, hrowOr,
+          realityConstrainedSignatureFit_round_trip
+            (RealityConstrainedSignatureFitUp.mk S A M G P C H Q N),
+          rfl⟩
+
 end BEDC.Derived.RealityConstrainedSignatureFitUp

@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\LargeModelOutputVerifierUp$}
+\label{ch:concrete-instances-largemodeloutputverifier-namecert}
+\origin{ai}
+
+The $\LargeModelOutputVerifierUp$ packet realizes the externally checked output-channel boundary of \autoref{ch:visions-large-model-as-inscription-point} as finite BEDC data. It consumes the checker-facing harness of \autoref{ch:concrete-instances-verifiedoutputharness-namecert}, the consumer-facing audit channel of \autoref{ch:concrete-instances-largemodelauditchannel-namecert}, the inference-output trace of \autoref{ch:concrete-instances-modeltrace-namecert}, the prompt/output record of \autoref{ch:concrete-instances-prompt-response-trace-namecert}, and the inscription-audit packet of \autoref{ch:concrete-instances-largemodelinscriptionaudit-namecert}. Its distinguishing role is the public verifier boundary: a model output is exported only after verifier, proof-check, refusal, route, provenance, and local NameCert rows are displayed together.
+
+\begin{definition}[Large-model output verifier carrier]
+\label{def:large-model-output-verifier-carrier}
+A $\LargeModelOutputVerifierUp$ carrier is a finite $\BHist$ packet
+$$
+V=(H,A,M,T,I,Q,C,F,R,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the $\VerifiedOutputHarnessUp$ row carrying the checker-facing accepted-output harness;
+\item $A$ is the $\LargeModelAuditChannelUp$ row carrying the consumer-facing audit channel;
+\item $M$ is the $\ModelTraceUp$ row recording the finite inference-output trace;
+\item $T$ is the $\PromptResponseTraceUp$ row recording the prompt and response boundary;
+\item $I$ is the $\LargeModelInscriptionAuditUp$ row binding the output to inscription-audit provenance;
+\item $Q$ is the verifier row naming the external checker, checker input, and displayed checker result;
+\item $C$ is the proof-check row recording the proof object, proof checker, or finite validation transcript consumed by $Q$;
+\item $F$ is the refusal row recording failed verification, unavailable evidence, policy refusal, or obstruction disclosure;
+\item $R$ is the route row through which an accepted output is exported to a public consumer;
+\item $K$ is the displayed $\Cont$ replay through $H,A,M,T,I,Q,C,F,R$;
+\item $P$ is the $\Pkg$ provenance over $\VerifiedOutputHarnessUp$, $\LargeModelAuditChannelUp$, $\ModelTraceUp$, $\PromptResponseTraceUp$, $\LargeModelInscriptionAuditUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\LargeModelOutputVerifierUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for hidden model truth, private verifier correctness, semantic omniscience, or output export without the verifier and proof-check rows.
+\end{definition}
+\leandef{BEDC.Derived.LargeModelOutputVerifierUp.LargeModelOutputVerifierUp}
+\leanchecked{BEDC.Derived.LargeModelOutputVerifierUp.TasteGate.LargeModelOutputVerifierTasteGate\_single\_carrier\_alignment}
+
+\begin{definition}[Large-model output verifier classifier]
+\label{def:large-model-output-verifier-classifier}
+Two $\LargeModelOutputVerifierUp$ carriers classify together exactly when their harness, audit-channel, model-trace, prompt-response trace, inscription-audit, verifier, proof-check, refusal, route, replay, provenance, and local naming rows compare componentwise by the displayed $\hsame$ entries. Thus the classifier is the finite componentwise relation
+$$
+\begin{aligned}
+V \equiv V'
+\quad\text{iff}\quad&
+H \hsame H',\ A \hsame A',\ M \hsame M',\ T \hsame T',\ I \hsame I',\\
+&Q \hsame Q',\ C \hsame C',\ F \hsame F',\ R \hsame R',\ K \hsame K',\ P \hsame P',\ N \hsame N'.
+\end{aligned}
+$$
+It does not compare model meanings outside the displayed verification packet.
+\end{definition}
+
+\begin{theorem}[Large-model output verifier NameCert obligations]
+\label{thm:large-model-output-verifier-namecert-obligations}
+For the carrier of \autoref{def:large-model-output-verifier-carrier}, the local $\NameCert_{\LargeModelOutputVerifierUp}$ surface consists exactly of six obligation rows: carrier admission for $V=(H,A,M,T,I,Q,C,F,R,K,P,N)$; sibling exposure through $H,A,M,T,I$; verifier and proof-check exposure through $Q,C$; refusal and route exactness through $F,R$; replay and provenance exactness through $K,P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:large-model-output-verifier-carrier}. The admitted packet displays the five sibling rows $H,A,M,T,I$ together with verifier, proof-check, refusal, route, replay, provenance, and local-name rows.
+
+The sibling exposure row binds the accepted output to the harness, audit channel, model trace, prompt-response trace, and inscription audit. These are exactly the finite surfaces supplied by \autoref{ch:concrete-instances-verifiedoutputharness-namecert}, \autoref{ch:concrete-instances-largemodelauditchannel-namecert}, \autoref{ch:concrete-instances-modeltrace-namecert}, \autoref{ch:concrete-instances-prompt-response-trace-namecert}, and \autoref{ch:concrete-instances-largemodelinscriptionaudit-namecert}.
+
+The verifier row $Q$ and proof-check row $C$ are then read before route export. Refusal $F$ remains visible whether verification succeeds or blocks, so the packet cannot erase failed checking as if it were accepted evidence.
+
+Finally $K$, $P$, and $N$ replay the same displayed rows as continuation, package provenance, and local naming. This gives exactly the six obligation rows and no hidden checker or model-truth coordinate.
+\end{proof}
+
+\begin{theorem}[Large-model output verifier public acceptance boundary]
+\label{thm:large-model-output-verifier-public-acceptance-boundary}
+Every public export from an accepted $\LargeModelOutputVerifierUp$ packet must pass through the verifier row $Q$ and proof-check row $C$ after the sibling rows $H,A,M,T,I$ and before the route row $R$. A route that exports the output without $Q$ and $C$ is not a $\LargeModelOutputVerifierUp$ acceptance route.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:large-model-output-verifier-namecert-obligations}. They require sibling exposure, verifier exposure, proof-check exposure, refusal exposure, route exactness, replay, provenance, and local naming before a public output is exported.
+
+The route row $R$ is therefore downstream of both $Q$ and $C$. If either row is absent, the route still may describe an emitted model output, but it does not describe an externally checked acceptance packet.
+
+Because the carrier has no coordinate for private verifier correctness or hidden semantic truth, no alternative row can replace $Q$ and $C$. Public acceptance is exactly the displayed verifier/proof-check route.
+\end{proof}
+
+\begin{theorem}[Large-model output verifier ledger non-escape]
+\label{thm:large-model-output-verifier-ledger-nonescape}
+Let
+$$
+V=(H,A,M,T,I,Q,C,F,R,K,P,N)
+$$
+be an accepted $\LargeModelOutputVerifierUp$ packet. Any consumer that reads the exported model output through $R$ must also read the sibling rows $H,A,M,T,I$, the verifier and proof-check rows $Q,C$, the refusal row $F$, the replay row $K$, the provenance row $P$, and the local name $N$. Omitting one of these rows exits the verifier packet rather than exporting an accepted output.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:large-model-output-verifier-namecert-obligations}. The local NameCert surface lists all rows required for carrier admission and public export.
+
+The proof-check row cannot be detached from the verifier row, since $C$ records the finite checking transcript consumed by $Q$. The refusal row cannot be detached from the route, since failed or unavailable evidence must remain visible at the same boundary.
+
+Replay and provenance then bind the consumer route to the displayed packet. Thus an export that omits a sibling row, verifier row, proof-check row, refusal row, replay row, provenance row, or local name is not an accepted $\LargeModelOutputVerifierUp$ export.
+\end{proof}
+
+\falsifiablePrediction{An accepted LargeModelOutputVerifierUp packet cannot export a model output without displayed verifier and proof-check rows.}
+
+\independenceWitness{verifiedoutputharness, largemodelauditchannel, modeltrace, promptresponsetrace, largemodelinscriptionaudit: none is bijective to $\LargeModelOutputVerifierUp$. Omitting the verifier row $Q$ gives a harness or audit-channel acceptance surface without external checking; omitting the proof-check row $C$ gives an audited output without a check transcript; omitting the refusal row $F$ erases blocked evidence; omitting $H,A,M,T,I$ loses the sibling packet route; omitting $P,N$ loses provenance and local naming.}
+
+The Lean $\mathsf{TasteGate.lean}$ surface must provide $\mathsf{Nontrivial}\ \LargeModelOutputVerifierUp$ and $\mathsf{FieldFaithful}\ \LargeModelOutputVerifierUp$ instances for the same finite carrier.
+
+\closureat{LargeModelOutputVerifierUp}{seedStr}
+
+\begin{closurestatus}{\LargeModelOutputVerifierUp}
+  \constructivestory{A $\LargeModelOutputVerifierUp$ packet is generated from harness, audit-channel, model-trace, prompt-response, inscription-audit, verifier, proof-check, refusal, route, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:large-model-output-verifier-carrier}, \autoref{def:large-model-output-verifier-classifier}, \autoref{thm:large-model-output-verifier-namecert-obligations}, \autoref{thm:large-model-output-verifier-public-acceptance-boundary}, and \autoref{thm:large-model-output-verifier-ledger-nonescape} bind externally checked model-output export to the displayed verifier packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.LargeModelOutputVerifierUp.TasteGate.LargeModelOutputVerifierTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close model consciousness, corpus truth, private verifier correctness, host semantic understanding, global proof checking, or bridge checking for $\LargeModelOutputVerifierUp$.}
+  \upgradepath{Obligation closure requires Lean encoding of classifier accountability and verifier/proof-check route exactness beyond the carrier alignment theorem for $H,A,M,T,I,Q,C,F,R,K,P,N$.}
+\end{closurestatus}

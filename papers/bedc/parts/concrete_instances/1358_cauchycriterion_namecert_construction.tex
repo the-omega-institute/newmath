@@ -698,67 +698,31 @@ selected limits, host real equality, ambient completeness, and any additional
 family-limit object.
 \end{proof}
 
-\begin{theorem}[CauchyCriterion completion uniform-family factorization]
-\label{thm:cauchycriterion-completion-uniform-family-factorization}
-Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, and let $U$ be an accepted singleton or fixed finite-family $\UniformCauchyCriterionUp$ packet with the same displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows. If the two packets identify the shared window, shared modulus, dyadic tolerance, tail ledger, and real-seal rows as in \autoref{thm:cauchycriterion-uniformcriterion-finite-family-reduction}, then they expose the same completion-facing route before any $\CompletionUp$ or $\RealCauchyCompletionUp$ consumer can read the seal.
-
-The factorized route is the finite path through $M,Q,T,W,E$ together with the shared stream-name source, regular-rational readback, dyadic ledger, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It exports no quotient stream, selected limit, host real equality, ambient completeness principle, unrecorded completion object, or independently chosen family limit.
-\end{theorem}
-\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_completion\_uniform\_family\_factorization}
-\begin{proof}
-Start from \autoref{thm:cauchycriterion-uniformcriterion-finite-family-reduction}. It identifies the singleton or fixed finite-family uniform route with the same CauchyCriterion path $M\to Q\to T\to W\to E$ once the stream-name, regular-rational, dyadic, and real-seal rows agree.
-
-Next apply \autoref{thm:cauchycriterion-completion-facing-readback-normal-form}. The completion-facing consumer can read only the displayed CauchyCriterion rows, so the seal is reached through the same window, modulus, tolerance, tail, and real row.
-
-Finally use \autoref{thm:uniform-cauchy-criterion-downstream-real-consumer-export}. It transports the downstream $\RealUp$ consumer on the uniform packet through the same finite family ledger. Combining these consumer clauses gives one route for $\CompletionUp$ and $\RealCauchyCompletionUp$, with the quotient, selected-limit, host-equality, completeness, unrecorded-completion, and second-family-limit exits absent.
-\end{proof}
-
-\begin{theorem}[CauchyCriterion tail-budget Real completion boundary]
-\label{thm:cauchycriterion-tail-budget-real-completion-boundary}
-Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet. Any $\CompletionUp$ or $\RealCauchyCompletionUp$ consumer sharing the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows must factor through the finite route $M,Q,T,W,E,H,C,P,N$ before it can read a completion seal. Conversely, a consumer that displays this route has exactly the CauchyCriterion completion-boundary data available, with no quotient stream, selected limit, host real equality, ambient completeness row, or unrecorded completion object.
+\begin{theorem}[CauchyCriterion CompleteMetric consumer boundary]
+\label{thm:cauchycriterion-complete-metric-consumer-boundary}
+Every $\CompleteMetricUp$ consumer of an accepted $\CauchyCriterionUp$ packet
+$K=(W,M,T,Q,E,H,C,P,N)$ must pass through the displayed tail-budget route, the
+$\RegSeqRatUp$ handoff, and the $\RealUp$ seal before any completion-facing use.
+The consumer cannot import quotient streams, selected limits, host real
+equality, ambient completeness, or uniqueness of limits.
 \end{theorem}
 \begin{proof}
-Apply \autoref{thm:cauchycriterion-tail-bound-real-seal} and \autoref{thm:cauchycriterion-completion-facing-readback-normal-form}. They place every Real-facing seal and completion-facing read behind the displayed modulus, tolerance, tail, window, and seal rows of $K$.
+Apply \autoref{thm:cauchycriterion-uniformcriterion-finite-family-reduction}
+and \autoref{thm:cauchycriterion-real-tail-agreement-seal-route-correspondence}.
+They force the finite tail route through $M,Q,T,W,E$ and place the
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows before completion-facing
+readback.
 
-Next use \autoref{thm:cauchycriterion-completion-uniform-family-factorization}. It identifies the same finite route for singleton and fixed finite-family consumers sharing the displayed source rows. The $\RealCauchyCompletionUp$ chapter is then read as the downstream consumer surface: it receives only the route already exposed by $K$, and a consumer that already has $M,Q,T,W,E,H,C,P,N$ has all completion-boundary rows that the CauchyCriterion packet exports.
+The terminal completion routes below then expose only the same sealed endpoint
+to $\CompleteMetricUp$ consumers. Since the packet has no quotient stream,
+selected limit, host equality, ambient completeness, or uniqueness-of-limit
+coordinate, the displayed tail-budget and Real-seal route is the whole
+consumer boundary.
 \end{proof}
-\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_tail\_budget\_real\_completion\_boundary}
 
+\input{parts/concrete_instances/cauchycriterion/terminal_completion_route}
 \input{parts/concrete_instances/cauchycriterion/streamname_real_budget_selector_boundary}
-
-\begin{theorem}[CauchyCriterion mature downstream examples]
-\label{thm:cauchycriterion-mature-downstream-examples}
-The public certificate, real-completion consumer bridge, modulus-tail consumer
-exactness, tail-budget seal determinacy, and completion-facing readback normal
-form for an accepted $\CauchyCriterionUp$ packet give representative downstream
-consumers for the same displayed rows
-$$
-W,M,T,Q,E,H,C,P,N.
-$$
-In particular, $\RealUp$ seal reads, completion-facing readback routes, and
-$\RegSeqRatUp$ handoff consumers receive only those rows. They receive no
-quotient stream, selected limit, host real equality, uniqueness-of-limit
-theorem, ambient completeness principle, or unrecorded completion object.
-\end{theorem}
-\begin{proof}
-First assemble the public packet by
-\autoref{thm:cauchycriterion-public-certificate}. The carrier rows
-$W,M,T,Q,E,H,C,P,N$ are the sole exposed certificate surface.
-
-Next attach the downstream routes. Apply
-\autoref{thm:cauchycriterion-real-completion-consumer-bridge} for
-completion-facing consumers and
-\autoref{thm:cauchycriterion-modulus-tail-consumer-exactness} for the
-$\RegSeqRatUp$ handoff path through the modulus, tail ledger, and dyadic
-tolerance rows.
-
-Finally use \autoref{thm:cauchycriterion-tail-budget-seal-determinacy} and
-\autoref{thm:cauchycriterion-completion-facing-readback-normal-form}. These
-results fix the $\RealUp$ seal read and the completion-facing normal form on
-the same finite row set, so none of the excluded quotient, host equality,
-limit-selection, uniqueness, completeness, or unrecorded completion data can be
-consumed downstream.
-\end{proof}
+\input{parts/concrete_instances/cauchycriterion/finite_window_real_seal_handoff}
 
 \closureat{CauchyCriterionUp}{seedStr}
 \closureat{CauchyCriterionUp}{obligationStr}

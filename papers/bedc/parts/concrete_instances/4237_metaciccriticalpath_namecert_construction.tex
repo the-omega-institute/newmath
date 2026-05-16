@@ -31,6 +31,7 @@ The carrier has no coordinate for closed subject reduction, no coordinate for fu
 \label{thm:metacic-critical-path-consistency-handoff}
 Every accepted $\MetaCICCriticalPathUp$ packet hands a consistency-facing consumer from the closed-strong-normalization row $S$ to the normal-form consistency row $N$ only through the displayed route rows $H,C,P,L$. The consumer may read the normal false exclusion sibling after the normalization route has supplied the normal-form endpoint, but it cannot read a full closed-consistency theorem unless the discharge-bundle socket $D$ is separately filled.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_consistency\_handoff}
 \begin{proof}
 Project the accepted carrier $K=(S,N,O,U,D,H,C,P,L)$. The rows $S$ and $N$ are the only positive rows on the consistency path: $S$ records the closed-strong-normalization route, and $N$ records the normal-form false-exclusion endpoint.
 
@@ -50,6 +51,10 @@ The row $U$ collects the supporting handoffs for substitution, confluence, and d
 
 Componentwise transport through $H$ and route replay through $C$ preserve the same rows. Therefore a transported packet still contains $O$ and still treats $D$ as a socket, so the excluded closed subject-reduction and full closed-consistency conclusions remain outside the packet.
 \end{proof}
+
+\input{parts/concrete_instances/4237_metaciccriticalpath_route_obligation_rows}
+\input{parts/concrete_instances/4237_metaciccriticalpath_downstream_readiness}
+\input{parts/concrete_instances/4237_metaciccriticalpath_root_socket_unblock}
 
 \closureat{MetaCICCriticalPathUp}{seedStr}
 
@@ -97,6 +102,7 @@ The subject-reduction side is bounded by \autoref{thm:metacic-critical-path-obst
 
 It remains only to check exhaustion. The carrier definition supplies no tenth coordinate for closed subject reduction, no coordinate for full closed consistency, no global beta-conversion decision procedure, and no quotient over MetaCIC terms. Hence every local $\NameCert_{\MetaCICCriticalPathUp}$ obligation is one of the displayed row obligations above, and the two excluded theorem exports remain outside the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_namecert\_obligation\_surface}
 
 \begin{theorem}[MetaCIC critical-path transport row stability]
 \label{thm:metacic-critical-path-transport-row-stability}
@@ -113,6 +119,7 @@ The obstruction boundary in \autoref{thm:metacic-critical-path-obstruction-bound
 
 The consistency handoff in \autoref{thm:metacic-critical-path-consistency-handoff} and the obligation surface in \autoref{thm:metacic-critical-path-namecert-obligation-surface} keep the route from $S$ to $N$ inside $H,C,P,L$. Therefore transport stabilizes the displayed rows without exporting either excluded theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_transport\_row\_stability}
 
 \begin{theorem}[MetaCIC critical-path provenance nonescape]
 \label{thm:metacic-critical-path-provenance-nonescape}
@@ -141,6 +148,7 @@ The obligation surface in \autoref{thm:metacic-critical-path-namecert-obligation
 
 The two boundary theorems preserve the same exhaustion. \autoref{thm:metacic-critical-path-consistency-handoff} keeps the consistency read at the normal-form endpoint, and \autoref{thm:metacic-critical-path-obstruction-boundary} keeps the obstruction row and discharge socket distinct. Thus $L$ names exactly the displayed finite coordinates and no hidden theorem coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_local\_naming\_exhaustion}
 
 \begin{theorem}[MetaCIC critical-path discharge socket nonescape]
 \label{thm:metacic-critical-path-discharge-socket-nonescape}
@@ -164,6 +172,29 @@ Project the carrier through \autoref{def:metacic-critical-path-packet}. The pack
 Use the consistency handoff and obstruction boundary, \autoref{thm:metacic-critical-path-consistency-handoff} and \autoref{thm:metacic-critical-path-obstruction-boundary}. The handoff reaches the normal-form endpoint through the displayed route, while the obstruction boundary keeps the subject-reduction gap visible and keeps $D$ separate from a filled discharge.
 
 Finally apply the obligation surface, transport row stability, local naming exhaustion, and discharge-socket nonescape from \autoref{thm:metacic-critical-path-namecert-obligation-surface}, \autoref{thm:metacic-critical-path-transport-row-stability}, \autoref{thm:metacic-critical-path-local-naming-exhaustion}, and \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. These rows cover every accepted consumer read, so a consumer that does not present a separate subject-reduction input remains bounded by the displayed root-unblock packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path socket route totality]
+\label{thm:metacic-critical-path-socket-route-totality}
+Any accepted $\MetaCICCriticalPathUp$ consumer route that mentions the
+discharge socket $D$ must also display the strong-normalization row $S$,
+normal-form row $N$, obstruction row $O$, handoff row $U$, transport row $H$,
+continuation row $C$, provenance row $P$, and local name row $L$. The socket is
+therefore a visible route obligation, not a hidden closed subject-reduction
+theorem.
+\end{theorem}
+\begin{proof}
+Use the consistency handoff and obstruction boundary,
+\autoref{thm:metacic-critical-path-consistency-handoff} and
+\autoref{thm:metacic-critical-path-obstruction-boundary}. They route the read
+from $S$ to $N$ while keeping $O$ visible and keeping $D$ separate from any
+closed discharge.
+
+Now apply discharge-socket nonescape and root route totality,
+\autoref{thm:metacic-critical-path-discharge-socket-nonescape} and
+\autoref{thm:metacic-critical-path-root-route-totality}. Together they require
+the socket-facing consumer to retain $S,N,O,U,D,H,C,P,L$ as the displayed row
+inventory, so no hidden closed subject-reduction theorem is imported.
 \end{proof}
 
 \begin{theorem}[MetaCIC critical-path obstruction-ledger exhaustion]
@@ -753,3 +784,7 @@ Next use downstream-unblock coverage and the audit-frontier factorization. Theor
 
 Finally combine carrier readiness and route readiness from \autoref{thm:metacic-critical-path-root-unblock-carrier-readiness} and \autoref{thm:metacic-critical-path-root-unblock-route-readiness}. These two surfaces account for the carrier, obstruction, discharge, transport, continuation, provenance, ledger, and local naming rows, so no downstream MetaCIC consumer has any additional root-unblock dependency to cite.
 \end{proof}
+
+\input{parts/concrete_instances/metaciccriticalpath/public_route_obligations}
+\input{parts/concrete_instances/metaciccriticalpath/kernel_frontier_obligation_triad}
+\input{parts/concrete_instances/metaciccriticalpath/phase_real_route_budget_packet}

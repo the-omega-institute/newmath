@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\SynchronizationCertificateUp$}
+\label{ch:concrete-instances-synchronization-certificate-namecert}
+\origin{ai}
+
+The $\SynchronizationCertificateUp$ packet realizes the local synchronization certificate of \autoref{sec:local-time-and-synchronization} as finite NameCert data. It sits between the one-history stream surface of \autoref{ch:concrete-instances-histtimestream-namecert} and the refusal boundary of \autoref{ch:concrete-instances-noglobalsyncboundary-namecert}: two local time rows may be compared only through displayed correspondences, locality ledgers, transport rows, and no-global-clock refusal. The sibling context is supplied by $\MultiHistConfigUp$ in \autoref{ch:concrete-instances-multihistconfig-namecert}, $\ObserverFrameRefusalUp$ in \autoref{ch:concrete-instances-observerframerefusal-namecert}, and $\AnchorChangeInvariantUp$ in \autoref{ch:concrete-instances-anchor-change-invariant-namecert}.
+
+\begin{definition}[Synchronization certificate carrier]
+\label{def:synchronization-certificate-carrier}
+A $\SynchronizationCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(H_i,H_j,T_i,T_j,R,L,S,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H_i$ is the source observer-history row drawn from the finite multi-history configuration;
+\item $H_j$ is the target observer-history row drawn from the same finite multi-history configuration;
+\item $T_i$ is the local $\HistTimeStreamUp$ row for $H_i$;
+\item $T_j$ is the local $\HistTimeStreamUp$ row for $H_j$;
+\item $R$ is the selected local-step correspondence ledger, recording only the displayed pairs of steps from $T_i$ and $T_j$ that the comparison relates;
+\item $L$ is the locality ledger recording the local read sites, admissible comparison routes, and the refusal of any unlisted step match;
+\item $S$ is the no-global-clock refusal row, read through $\NoGlobalSyncBoundaryUp$ and compatible with the observer-frame refusal surface;
+\item $C$ records componentwise $\hsame$ transport and displayed $\Cont$ replay for $H_i,H_j,T_i,T_j,R,L,S,P,N$;
+\item $P$ is the $\Pkg$ provenance over $\SynchronizationCertificateUp$, $\HistTimeStreamUp$, $\MultiHistConfigUp$, $\NoGlobalSyncBoundaryUp$, $\ObserverFrameRefusalUp$, $\AnchorChangeInvariantUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SynchronizationCertificateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a shared present, global clock, total observer-time order, host equality of histories, unlisted correspondence, or privileged frame.
+\end{definition}
+\leanchecked{BEDC.Derived.SynchronizationCertificateUp.SynchronizationCertificateTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Synchronization certificate locality]
+\label{thm:synchronization-certificate-locality}
+For the carrier of \autoref{def:synchronization-certificate-carrier}, every accepted $\SynchronizationCertificateUp$ read compares the two histories only through the displayed packet
+$$
+H_i,H_j,T_i,T_j,R,L,S,C,P,N.
+$$
+The rows $T_i$ and $T_j$ remain local $\HistTimeStreamUp$ rows, $R$ selects the admitted local-step pairs, and $L,S$ prevent the comparison from becoming a shared clock.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The rows $H_i,H_j$ expose the two observer histories through the same finite multi-history surface, while $T_i,T_j$ expose their local time streams as two separate $\HistTimeStreamUp$ rows.
+
+Read the correspondence and locality rows next. The ledger $R$ lists the selected step pairs, and $L$ records the local read sites and rejects comparisons outside that finite list.
+
+Finally use the no-global-clock refusal row $S$ together with the transport and replay row $C$. These rows let a consumer transport and replay the displayed local comparison, but they do not add a shared present, total observer-time order, or privileged frame.
+\end{proof}
+
+\begin{theorem}[Synchronization certificate nonescape]
+\label{thm:synchronization-certificate-nonescape}
+An accepted $\SynchronizationCertificateUp$ consumer has no route to a global clock, privileged shared-present row, detached observer frame, host equality of histories, or unlisted local-step match. Any read requiring one of those rows exits the packet rather than reading the local synchronization certificate.
+\end{theorem}
+\begin{proof}
+Use the carrier definition. The only positive comparison data are the two local time rows $T_i,T_j$ and the selected correspondence ledger $R$.
+
+The refusal row $S$ is part of the same packet as the positive comparison data. By \autoref{ch:concrete-instances-noglobalsyncboundary-namecert} and \autoref{ch:concrete-instances-observerframerefusal-namecert}, a consumer may cite that refusal as displayed boundary data, but cannot promote it to a hidden synchronizer.
+
+The rows $C,P,N$ then preserve the finite packet by componentwise transport, continuation replay, provenance, and local naming. Since no row names a shared present or host clock, the requested external object has no projection from the accepted carrier.
+\end{proof}
+
+\begin{theorem}[Synchronization certificate sibling independence]
+\label{thm:synchronization-certificate-sibling-independence}
+The $\SynchronizationCertificateUp$ carrier is not bijective to $\HistTimeStreamUp$, $\MultiHistConfigUp$, $\NoGlobalSyncBoundaryUp$, $\ObserverFrameRefusalUp$, or $\AnchorChangeInvariantUp$. Each sibling omits at least one of the paired local-time rows, the selected correspondence ledger, or the no-global-clock refusal in the same finite packet.
+\end{theorem}
+\begin{proof}
+Compare the rows. A $\HistTimeStreamUp$ packet supplies a one-history local stream, but not the paired histories, selected correspondence ledger, and refusal row together. A $\MultiHistConfigUp$ packet supplies a family of histories, but not the two local time rows and selected local-step pairs.
+
+The refusal siblings also differ from the present carrier. $\NoGlobalSyncBoundaryUp$ and $\ObserverFrameRefusalUp$ record refusal surfaces, but they do not carry the positive paired local-time comparison ledger $R$ as part of the same packet.
+
+Finally $\AnchorChangeInvariantUp$ carries anchor-change invariant transport rather than selected local-step correspondences between two HistTimeStream rows. Therefore none of the listed siblings is bijective to $\SynchronizationCertificateUp$.
+\end{proof}
+
+\falsifiablePrediction{A SynchronizationCertificateUp read fails whenever a consumer asks for a global clock or privileged shared-present row not displayed in the local synchronization packet.}
+
+\independenceWitness{histtimestream, multihistconfig, noglobalsyncboundary, observerframerefusal, anchorchangeinvariant: none is bijective to SynchronizationCertificateUp because each lacks either the paired local-time rows, the selected correspondence ledger, or the explicit no-global-clock refusal in the same packet.}
+
+The Lean follow-up must provide \texttt{Nontrivial SynchronizationCertificateUp} and \texttt{FieldFaithful SynchronizationCertificateUp} in \texttt{lean4/BEDC/Derived/SynchronizationCertificateUp/TasteGate.lean}.
+
+\closureat{SynchronizationCertificateUp}{seedStr}
+
+\begin{closurestatus}{\SynchronizationCertificateUp}
+  \constructivestory{A $\SynchronizationCertificateUp$ packet is generated from two observer histories, two local HistTimeStream rows, a selected local-step correspondence ledger, locality ledger, no-global-clock refusal row, componentwise transport and continuation replay, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:synchronization-certificate-carrier}, \autoref{thm:synchronization-certificate-locality}, \autoref{thm:synchronization-certificate-nonescape}, and \autoref{thm:synchronization-certificate-sibling-independence} bind local synchronization to the displayed paired-stream packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not construct a global clock, shared present, total observer-time order, privileged frame, Lean verification, or bridge checking for $\SynchronizationCertificateUp$.}
+  \upgradepath{Obligation closure requires Lean encoding of carrier admission, paired local-time correspondence, no-global-clock refusal, TasteGate nontriviality, and field faithfulness for $H_i,H_j,T_i,T_j,R,L,S,C,P,N$.}
+\end{closurestatus}

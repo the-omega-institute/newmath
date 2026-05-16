@@ -1,0 +1,32 @@
+\begin{theorem}[Authorized generator recursor branch descent audit totality]
+\label{thm:authorized-generator-recursor-branch-descent-audit-totality}
+Every accepted $\AuthorizedGeneratorRecursorUp$ packet reads the branch package $B$, descent row $D$, output row $O$, and audit row $A$ only through the displayed carrier
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+The branch, descent, output, and audit coordinates therefore form one root boundary: a consumer cannot read a branch package without the matching descent row, cannot read an output row outside the audit row, and cannot replace the displayed carrier by host induction, an external axiom route, an unaudited dependency route, or an off-packet substitution.
+\end{theorem}
+\begin{proof}
+Begin with the carrier, \autoref{def:authorized-generator-recursor-carrier}. It displays exactly the input, authorization, measure, branch, descent, output, audit, transport, continuation, provenance, ground-compiler, and local naming rows.
+
+Apply carrier admission, \autoref{thm:authorized-generator-recursor-carrier-admission}. Admission exposes $B,D,O,A$ as rows of the same accepted packet, not as detachable host data.
+
+Now use root boundary ledger totality, \autoref{thm:authorized-generator-recursor-root-boundary-ledger-totality}. It forces every public read of the root boundary through the audit ledger attached to the displayed route.
+
+Finally apply the ground-compiler handoff, \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}. The handoff keeps branch choice, descent evidence, output naming, and audit replay inside $I,E,M,B,D,O,A,H,C,P,G,N$, excluding host induction, external axioms, unaudited dependency routes, and off-packet substitutions.
+\end{proof}
+
+\begin{theorem}[Authorized generator recursor output NameCert non-escape]
+\label{thm:authorized-generator-recursor-output-namecert-nonescape}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, public output from the displayed output row $O$ remains inside the local $\NameCert$ row $N$ and the ground-compiler boundary $G$. It cannot escape into host induction, external axioms, unaudited dependency routes, detached branch packages, off-packet substitutions, or an output certificate not carried by
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:authorized-generator-recursor-carrier}. The only public output coordinate is $O$, and it is packaged together with the audit row $A$, ground-compiler row $G$, and local $\NameCert$ row $N$.
+
+Use carrier admission, \autoref{thm:authorized-generator-recursor-carrier-admission}, to identify the admitted output as a row of the same finite packet. Then apply root boundary ledger totality, \autoref{thm:authorized-generator-recursor-root-boundary-ledger-totality}, so every public output read is replayed through the audit boundary rather than through an off-packet dependency route.
+
+The ground-compiler handoff, \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}, supplies the final boundary. It sends the output read through $G$ and $N$, so public output cannot be reinterpreted as host induction, external axioms, a detached branch package, an unaudited substitution, or any output certificate outside the displayed carrier.
+\end{proof}

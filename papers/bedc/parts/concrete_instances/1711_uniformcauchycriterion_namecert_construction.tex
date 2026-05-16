@@ -240,6 +240,60 @@ finite $\DyadicTailBoundUp$ ledger without adding any excluded completion,
 limit-selection, quotient, or host-equality object.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion finite-tail-filter Real-window handoff]
+\label{thm:uniform-cauchy-criterion-finite-tail-filter-real-window-handoff}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any finite-family tail route
+of $U$ consumed by a $\RealWindowBudgetUp$ or Real-completion consumer must
+factor through the displayed $\FiniteTailFilterUp$ packet of
+\autoref{ch:concrete-instances-finite-tail-filter-namecert} before the
+Real-window selector reads the route.
+
+Concretely, the consumer first reads the shared $\StreamNameUp$ windows $W$,
+the uniform modulus row $M$, the $\DyadicRatCoreUp$ tolerance row $Q$, and the
+tail ledger $T$ as the UniformCauchyCriterion tail surface; the same read is
+then repacked as the $\FiniteTailFilterUp$ cofinal-tail packet carrying the
+displayed stream-window, dyadic, $\RegSeqRatUp$, tail-budget,
+$\CauchyTailComparisonUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows; only after that packet is displayed may the
+$\RealWindowBudgetUp$ selector consume the Real-facing route.
+
+This handoff does not assert quotient stream equality, selected limits, host
+real equality, countable choice, ambient completeness, or any standard bridge
+row.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_finite\_tail\_filter\_real\_window\_handoff}
+\begin{proof}
+Start with tail-ledger exactness,
+\autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. It places every
+accepted finite-family tail comparison of $U$ after the displayed index,
+window, modulus, dyadic tolerance, and tail-ledger rows $I,W,M,Q,T$.
+
+Next attach the UniformCauchyCriterion Real seal route,
+\autoref{thm:uniform-cauchy-criterion-real-seal-handoff}. The Real-facing read
+reaches $E$ only after the same finite tail surface has been consumed, with
+$H,C,P,N$ replaying transport, continuation, provenance, and local naming.
+
+Now pass to the FiniteTailFilter packet. The finite-tail-filter Real-window
+consumer theorem,
+\autoref{thm:finite-tail-filter-real-window-consumer}, reads the displayed
+cofinal-tail packet through its stream-window, dyadic, regular-sequence,
+tail-budget, common-tail, Real seal, transport, continuation, package, and
+local naming rows.
+
+Finally apply the Real-window selector bridge,
+\autoref{thm:finite-tail-filter-real-window-budget-selector-bridge}. It lets
+the $\RealWindowBudgetUp$ selector read only after the
+$\FiniteTailFilterUp$ route is displayed, and it refuses a private selector,
+detached dyadic ledger, selected limit, quotient stream, host real equality,
+countable-choice row, ambient completeness coordinate, or bridge row. Hence
+every Real-window or completion-facing consumer of $U$ factors through the
+finite-tail-filter packet before the selector reads the route.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion Real-completion window exhaustion]
 \label{thm:uniform-cauchy-criterion-real-completion-window-exhaustion}
 For every accepted $\UniformCauchyCriterionUp$ packet
@@ -254,6 +308,7 @@ the full admissible finite evidence consumed by the
 $\RegSeqRatUp$-to-$\RealUp$ handoff. No such route may pass through quotient
 streams, selected limits, host real equality, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_real\_completion\_window\_exhaustion}
 \begin{proof}
 Start from the finite family observations. By
 \autoref{thm:uniform-cauchy-criterion-window-stability}, any accepted
@@ -527,6 +582,7 @@ completeness, and choice schedules are not packet coordinates, they cannot
 distinguish two consumers that display the same $I,W,M,Q,T$ rows and the same
 seal handoff through $E,H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_finite\_family\_real\_seal\_route\_determinacy}
 
 \begin{theorem}[UniformCauchyCriterion endpoint budget reflector]
 \label{thm:uniform-cauchy-criterion-endpoint-budget-reflector}
@@ -554,6 +610,57 @@ The downstream Real consumer export does not add a new object. It merely replays
 \end{proof}
 \leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_public\_non\_escape\_export}
 
+\begin{theorem}[UniformCauchyCriterion L10 exit public non-escape]
+\label{thm:uniform-cauchy-criterion-l10-exit-public-nonescape}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. The L10 exit consumer read
+of $U$ is public exactly through the finite export surface
+$$
+\mathsf{Pub}(U)=(I,W,M,Q,T,E,H,C,P,N),
+$$
+the $\RegSeqRatUp$ tail-equivalence route, the $\RealUp$ seal handoff, and,
+when the finite-observation comparison is displayed, the
+$\FiniteObservationBudgetSelectorUp$ diagonal-budget pullback route.
+
+Equivalently, preserving these rows and routes is sufficient for the L10 exit
+consumer read; conversely every L10 exit consumer read factors back through
+these rows before any completion-facing endpoint is available. The read
+therefore exports no quotient stream family, selected family limit, countable
+choice schedule, host real equality, or ambient completeness object.
+\end{theorem}
+\begin{proof}
+For sufficiency, first read the public surface through
+\autoref{def:uniform-cauchy-criterion-public-export-surface} and
+\autoref{thm:uniform-cauchy-criterion-public-export-package}. These identify
+the accepted packet with the displayed finite rows $I,W,M,Q,T,E,H,C,P,N$ and
+place all carrier, NameCert, stability, tail-ledger, and seal data on that
+surface.
+
+Next attach the exit routes. The tail read is the
+$\RegSeqRatUp$ route of
+\autoref{thm:uniform-cauchy-criterion-regseqrat-tail-equivalence}, while the
+completion-facing endpoint reaches the seal only along the displayed public
+rows. If a finite-observation selector is displayed, the pullback theorem
+\autoref{thm:uniform-cauchy-criterion-finite-observation-budget-pullback}
+places the same $W,Q,T,E$ read inside that finite selector surface.
+
+For necessity, start with any L10 exit consumer read. Apply
+\autoref{thm:uniform-cauchy-criterion-public-non-escape-export}. Since the
+public export is exactly $\mathsf{Pub}(U)$ and has no excluded completion or
+host coordinate, the consumer must factor through $I,W,M,Q,T,E,H,C,P,N$ before
+any endpoint read can be interpreted.
+
+Finally use
+\autoref{thm:uniform-cauchy-criterion-late-boundary-nochoice-exhaustion}. The
+late-boundary route exhausts the no-choice completion side by the same public
+rows together with the displayed tail-equivalence and finite-budget routes.
+Thus preserving those rows is exactly the public L10 exit condition, and every
+such consumer read factors back through them.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion finite-observation budget pullback]
 \label{thm:uniform-cauchy-criterion-finite-observation-budget-pullback}
 Let
@@ -578,6 +685,44 @@ Now attach the finite-observation selector pullback from \autoref{thm:finite-obs
 Finally apply non-escape on both packets. The UniformCauchyCriterion public export and the finite selector route exclude quotient streams, selected host limits, choice schedules, host equality, and ambient completeness. Therefore every Real-facing or completion-facing consumer of $U$ must pass through the finite observation budget selector surface before $E$ is read.
 \end{proof}
 \leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_finite\_observation\_budget\_pullback}
+
+\begin{theorem}[UniformCauchyCriterion finite-tail-filter alignment]
+\label{thm:uniform-cauchy-criterion-finite-tail-filter-alignment}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. The shared-window route through $I,W,M,Q,T,E,H,C,P,N$ determines a $\FiniteTailFilterUp$ cofinal-tail packet exactly when the displayed tail ledger factors through the same $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback, $\DyadicTailBoundUp$ budget, $\CauchyTailComparisonUp$ row, and $\RealUp$ seal.
+
+Equivalently, a Real-facing or Completion-facing consumer of $U$ is a finite-tail-filter consumer precisely when its route reads the common windows and dyadic tolerance from $W$ and $Q$, reads the regular sequence tail from $T$, reads the finite tail budget and comparison row through the tail ledger certified by $T$, and reaches the seal row $E$ only through the displayed structural rows $H,C,P,N$. Under this alignment the consumer receives no quotient stream family, host real equality, selected family limit, ambient completeness object, or choice schedule.
+\end{theorem}
+\begin{proof}
+Start with tail-ledger exactness, \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. It places every accepted tail comparison of $U$ after the same shared $\StreamNameUp$ windows and $\DyadicRatCoreUp$ tolerance row, so the candidate finite-tail-filter route has no second window family or tolerance ledger.
+
+Use the RegSeqRat tail equivalence of \autoref{thm:uniform-cauchy-criterion-regseqrat-tail-equivalence}. The regular-sequence readback carried by $T$ is therefore the same readback used by the shared-window tail comparison. The finite-tail-filter tail-window exactness theorem, \autoref{thm:finite-tail-filter-tail-window-exactness}, then identifies the cofinal-tail packet rows with the displayed $W,Q,T$ route.
+
+Next apply the Real seal and completion boundary, \autoref{thm:uniform-cauchy-criterion-real-seal-completion-boundary}. The seal-facing part of the UniformCauchyCriterion route reaches $E$ through the public rows $H,C,P,N$ and does not expose a quotient stream, selected limit, host equality, ambient completeness object, or choice schedule.
+
+Finally use the finite-tail-filter Real seal handoff, \autoref{thm:finite-tail-filter-real-seal-handoff}, and sibling tail handoff, \autoref{thm:finite-tail-filter-sibling-tail-handoff}. The first carries the same cofinal-tail packet to Real and Completion consumers; the second prevents a sibling consumer from substituting another tail selector, comparison row, or seal route. Hence the shared-window route of $U$ determines exactly the finite-tail-filter cofinal-tail packet described above, and the reverse implication is obtained by reading the same packet rows back through $W,Q,T,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion finite-window Real-seal extraction]
+\label{thm:uniform-cauchy-criterion-finite-window-real-seal-extraction}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Its $\RealUp$-seal route is extracted from exactly the finite window family $W$, the dyadic tolerance row $Q$, the tail ledger $T$, and the structural rows $H,C,P,N$. The extraction exposes no quotient stream family, host real equality, selected family limit, choice schedule, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:uniform-cauchy-criterion-finite-tail-filter-alignment}. It identifies the Real-facing route with the shared finite-window route through $W,Q,T,E,H,C,P,N$ and excludes any second window family or tail selector.
+
+Apply \autoref{thm:uniform-cauchy-criterion-real-seal-completion-boundary}. The seal row $E$ is read only after the public rows $H,C,P,N$ have carried the finite tail and tolerance data to the Real-facing boundary.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-public-non-escape-export}. Since the public route is already exhausted by $I,W,M,Q,T,E,H,C,P,N$, the extracted Real-seal route has no coordinate for quotient stream families, host real equality, selected family limits, choice schedules, or ambient completeness.
+\end{proof}
+
+\input{parts/concrete_instances/uniformcauchycriterion/diagonal_uniqueness_exit}
 
 \closureat{UniformCauchyCriterionUp}{seedStr}
 \closureat{UniformCauchyCriterionUp}{obligationStr}

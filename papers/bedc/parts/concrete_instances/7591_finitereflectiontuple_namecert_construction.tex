@@ -67,6 +67,7 @@ F=(X,S,A,W,I,R,H,C,P,Q,N),
 $$
 every public field read of $X$, $S$, $A$, $W$, $C$, $P$, $Q$, or $N$ factors through the displayed tuple-image row $I$ and the readback row $R$. No public read of the reflected candidate, consumed TasteGate packet, replay route, provenance row, request row, or local naming row may bypass $I$ or recover its component from a second readback surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteReflectionTupleUp.FiniteReflectionTupleCarrier\_image\_readback\_exactness}
 \begin{proof}
 The carrier definition gives exactly one image coordinate, namely $I$, and exactly one readback coordinate, namely $R$. The public rows of $F$ are therefore exposed through the displayed finite tuple rather than through a separate host-side table.
 
@@ -172,6 +173,24 @@ Finally invoke \autoref{thm:finite-reflection-tuple-fieldfaithful-prediction}. S
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteReflectionTupleUp.FiniteReflectionTupleTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[FiniteReflectionTuple bridge-facing row totality]
+\label{thm:finite-reflection-tuple-bridge-facing-row-totality}
+For every accepted $\FiniteReflectionTupleUp$ packet
+$$
+F=(X,S,A,W,I,R,H,C,P,Q,N),
+$$
+every bridge-facing request over $F$ factors through the displayed tuple image $I$, readback row $R$, componentwise transports $H$, replay row $C$, provenance row $P$, request row $Q$, and local NameCert row $N$, together with the candidate and consumed TasteGate sibling rows $X,S,A,W$. No hidden prompt state, second image/readback surface, host approval, oracle taste, or unlisted compiler theorem can serve the request.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations. They expose the carrier row $X$, consumed stability, admission, and compiler-witness rows $S,A,W$, the tuple image $I$, readback $R$, componentwise transports $H$, replay $C$, provenance $P$, request row $Q$, and local naming row $N$.
+
+Apply image-readback exactness. It forces every public image read through $I$ and every recovery of reflected data through $R$, so a bridge-facing request cannot introduce a second image/readback surface.
+
+Use request exhaustion and componentwise transport. The request row $Q$ is attached to the same tuple image, readback, transports, replay, provenance, and local naming rows, and the transports keep the reflected components inside the accepted finite packet.
+
+Finally invoke the StdBridge request-scope theorem. It already excludes hidden prompt state, host approval, oracle taste, second image/readback surfaces, and unlisted compiler theorems for $\StdBridge$-facing requests, so every bridge-facing row is total over the displayed packet $X,S,A,W,I,R,H,C,P,Q,N$.
+\end{proof}
+
 \falsifiablePrediction{A FiniteReflectionTupleUp packet without displayed image and readback rows cannot support a StdBridge request.}
 
 \independenceWitness{tastegatestability, tastegateadmission, tastegatecompilerwitness, kernelacceptancetrace: none contains the fixed tuple image/readback/componentwise transport surface together with a reflection-request row.}
@@ -181,15 +200,17 @@ Lean development for this route must provide Nontrivial $\FiniteReflectionTupleU
 \closureat{FiniteReflectionTupleUp}{obligationStr}[BEDC.Derived.FiniteReflectionTupleUp.FiniteReflectionTupleTasteGate\_single\_carrier\_alignment]
 \closureat{FiniteReflectionTupleUp}{scopedStr}[BEDC.Derived.FiniteReflectionTupleUp.FiniteReflectionTupleTasteGate\_single\_carrier\_alignment]
 \closureat{FiniteReflectionTupleUp}{publicStr}[BEDC.Derived.FiniteReflectionTupleUp.FiniteReflectionTupleTasteGate\_single\_carrier\_alignment]
+\closureat{FiniteReflectionTupleUp}{bridgedStr}[BEDC.Derived.FiniteReflectionTupleUp.FiniteReflectionTupleTasteGate\_single\_carrier\_alignment]
+\closureat{FiniteReflectionTupleUp}{matureStr}[BEDC.Derived.FiniteReflectionTupleUp.FiniteReflectionTupleTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\FiniteReflectionTupleUp}
   \constructivestory{A $\FiniteReflectionTupleUp$ packet is generated from a candidate chapter identity row, consumed $\TasteGateStabilityUp$, $\TasteGateAdmissionUp$, and $\TasteGateCompilerWitnessUp$ packets, a displayed tuple image, a readback row, componentwise $\hsame$ and $\NameCert$ transports, continuation routes, provenance, a reflection-request row, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \leanchecked{BEDC.Derived.FiniteReflectionTupleUp.taste\_gate}
-  \scopeclosed{\autoref{def:finite-reflection-tuple-carrier}, \autoref{thm:finite-reflection-tuple-namecert-obligations}, \autoref{thm:finite-reflection-tuple-image-readback-exactness}, \autoref{thm:finite-reflection-tuple-request-exhaustion}, \autoref{thm:finite-reflection-tuple-componentwise-transport}, \autoref{thm:finite-reflection-tuple-public-projection-route}, \autoref{thm:finite-reflection-tuple-dependency-ledger-totality}, \autoref{thm:finite-reflection-tuple-audit-result-nonescape}, the falsifiable prediction, and the independence witness bind the public image/readback projection, reflection request, dependency ledger, and audit-result boundary for the same finite packet.}
+  \scopeclosed{\autoref{def:finite-reflection-tuple-carrier}, \autoref{thm:finite-reflection-tuple-namecert-obligations}, \autoref{thm:finite-reflection-tuple-image-readback-exactness}, \autoref{thm:finite-reflection-tuple-request-exhaustion}, \autoref{thm:finite-reflection-tuple-componentwise-transport}, \autoref{thm:finite-reflection-tuple-public-projection-route}, \autoref{thm:finite-reflection-tuple-dependency-ledger-totality}, \autoref{thm:finite-reflection-tuple-audit-result-nonescape}, \autoref{thm:finite-reflection-tuple-stdbridge-request-scope}, \autoref{thm:finite-reflection-tuple-bridge-facing-row-totality}, the falsifiable prediction, and the independence witness bind the public image/readback projection, reflection request, dependency ledger, audit-result boundary, and bridge-facing request rows for the same finite packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, axiom-clean audit, bridge checking, hidden prompt-state reconstruction, oracle taste, host-side approval, unlisted compiler facts, or a reflection request detached from the displayed image and readback rows.}
-  \upgradepath{Bridged closure requires a standard bridge for the same tuple image, readback, transport, and reflection-request rows.}
+  \upgradepath{No further paper-side theory grade remains; independent Lean bridge checking remains on the formal axis for the same tuple image, readback, transport, and reflection-request rows.}
 \end{closurestatus}

@@ -154,6 +154,73 @@ Use the sibling dependency theorem, \autoref{thm:unary-cont-monoid-sibling-depen
 Finally cite the public NameCert export, \autoref{thm:unary-cont-monoid-public-namecert-export}. The exported package is exactly the concrete kernel scope listed above, and no host monoid equality or external carrier can be read from it.
 \end{proof}
 
+\begin{theorem}[Unary Cont monoid left and right unit exhaustion]
+\label{thm:unary-cont-monoid-left-right-unit-exhaustion}
+For a concrete $\mathsf{UnaryHistory}$ carrier with multiplication read by $\Cont$ and unit read by \texttt{BHist.Empty}, every left-unit or right-unit consumer factors through one of the displayed \texttt{cont\_left\_unit} or \texttt{cont\_right\_unit} rows. The $\UnaryContMonoidUp$ packet has no separate abstract monoid operation row, host carrier equality, quotient product, or off-ledger unit service.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryContMonoidUp.UnaryContMonoidCarrier\_left\_right\_unit\_exhaustion}
+\begin{proof}
+Project the carrier of \autoref{def:unary-cont-monoid-carrier}. Its operation row is displayed continuation composition, and its unit row is the empty history $\emp$.
+
+Apply \autoref{thm:unary-cont-monoid-cont-associativity}. The two unit clauses are precisely the empty-history continuation rows: the left-unit read is \texttt{cont\_left\_unit}, and the right-unit read is \texttt{cont\_right\_unit}.
+
+Use operation closure and scoped grounding, \autoref{thm:unary-cont-monoid-operation-closure} and \autoref{thm:unary-cont-monoid-scoped-grounding}. They keep every algebraic read inside $\mathsf{UnaryHistory}$, $\ContR$, $\hsame$, $\emp$, $\Pkg$, $\NameCert$, $\ContinuationMonadUp$, and $\CategoryUp$.
+
+The public NameCert export \autoref{thm:unary-cont-monoid-public-namecert-export} then excludes any host monoid or quotient carrier row. Hence the two displayed continuation unit rows exhaust all unit reads.
+\end{proof}
+
+\begin{theorem}[Unary Cont monoid public formal target]
+\label{thm:unary-cont-monoid-public-formal-target}
+The public formal target for $\UnaryContMonoidUp$ is exactly the carrier of \autoref{def:unary-cont-monoid-carrier}, the associativity ledger of \autoref{thm:unary-cont-monoid-cont-associativity}, the left and right unit exhaustion of \autoref{thm:unary-cont-monoid-left-right-unit-exhaustion}, the operation closure of \autoref{thm:unary-cont-monoid-operation-closure}, the scoped grounding of \autoref{thm:unary-cont-monoid-scoped-grounding}, and the public $\NameCert_{\UnaryContMonoidUp}$ export of \autoref{thm:unary-cont-monoid-public-namecert-export}. It contains no additional formal target for an abstract monoid carrier, quotient product, host operation, or external equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryContMonoidUp.UnaryContMonoidCarrier\_public\_formal\_target}
+\begin{proof}
+Start with the carrier and associativity rows. The carrier exposes unary histories, displayed continuation composition, the empty unit, transport, provenance, and local naming; the associativity theorem supplies the parenthesized continuation ledger consumed by monoid-shaped reads.
+
+Add the unit and operation boundaries. The left and right unit exhaustion theorem restricts all unit reads to \texttt{cont\_left\_unit} and \texttt{cont\_right\_unit}, while operation closure keeps products inside the displayed $\ContR$ row.
+
+Finally use scoped grounding and public export. The scoped grounding theorem states that all accepted reads factor through the concrete kernel scope, and the public NameCert export packages exactly that finite surface for downstream consumers.
+\end{proof}
+
+\begin{theorem}[Unary Cont monoid ContinuationMonad unit handoff]
+\label{thm:unary-cont-monoid-continuationmonad-unit-handoff}
+Every unit and bind read exported by $\UnaryContMonoidUp$ is the empty-history unit row together with the displayed $\ContR$ route consumed by $\ContinuationMonadUp$. The handoff exposes $\mathsf{UnaryHistory}$, $\ContR$, $\hsame$, $\emp$, $\Pkg$, and the local $\NameCert$ row, and it exposes no host monoid operation, quotient product, or off-packet equality service.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryContMonoidUp.UnaryContMonoidCarrier\_continuationmonad\_unit\_handoff}
+\begin{proof}
+Read the carrier from \autoref{def:unary-cont-monoid-carrier}. Its unit coordinate is $\emp$, and its operation coordinate is the displayed $\ContR$ route over unary histories.
+
+Use \autoref{thm:unary-cont-monoid-left-right-unit-exhaustion}. The two unit reads are exhausted by the empty-history continuation rows, so the $\ContinuationMonadUp$ unit side has no second source.
+
+Then apply \autoref{thm:unary-cont-monoid-public-formal-target} and \autoref{thm:unary-cont-monoid-sibling-dependency}. These identify the same finite rows as the monoid-shaped surface consumed by $\ContinuationMonadUp$, while excluding host monoid equality and quotient multiplication.
+\end{proof}
+
+\begin{theorem}[Unary Cont monoid Category root readiness]
+\label{thm:unary-cont-monoid-category-root-readiness}
+The unary carrier, displayed $\ContR$ composition, componentwise $\hsame$ transport, $\Pkg$ provenance, and local $\NameCert$ rows of $\UnaryContMonoidUp$ are the category-shaped composition substrate read by $\CategoryUp$. A category-facing consumer receives only these rows and the sibling continuation surface, not a host category composition law or an external morphism equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryContMonoidUp.UnaryContMonoidCarrier\_category\_root\_readiness}
+\begin{proof}
+Start with \autoref{def:unary-cont-monoid-carrier}. The carrier gives a unary history object, a displayed continuation operation, transport, provenance, and naming, all inside one BEDC packet.
+
+The sibling dependency theorem, \autoref{thm:unary-cont-monoid-sibling-dependency}, identifies this same surface as the one shared with $\CategoryUp$. The unit exhaustion theorem keeps identity-shaped reads on $\emp$, and the public formal target keeps composition-shaped reads on $\ContR$.
+
+Thus a $\CategoryUp$ read uses the displayed continuation substrate already packaged by $\UnaryContMonoidUp$. No host category composition, quotient morphism, or external equality row can be imported through that root.
+\end{proof}
+
+\begin{theorem}[Unary Cont monoid KernelCategory consumer boundary]
+\label{thm:unary-cont-monoid-kernel-category-consumer-boundary}
+A $\KernelCategoryUp$ consumer of $\UnaryContMonoidUp$ may use only the UnaryContMonoid continuation rows, the category hom-carrier rows named by the sibling category surface, and the local $\NameCert$ rows. The consumer boundary of \autoref{ch:concrete-instances-kernelcategory-namecert} cannot import host category composition, host monoid equality, quotient products, or a detached morphism-equality relation.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryContMonoidUp.UnaryContMonoidCarrier\_kernel\_category\_consumer\_boundary}
+\begin{proof}
+First project the $\UnaryContMonoidUp$ rows through \autoref{def:unary-cont-monoid-carrier}. This supplies unary histories, displayed $\ContR$ composition, $\hsame$ transport, $\Pkg$ provenance, and local naming.
+
+Next use \autoref{thm:unary-cont-monoid-public-formal-target}. It records the complete public surface available to downstream consumers and rules out abstract monoid carriers or quotient products.
+
+Finally combine \autoref{thm:unary-cont-monoid-sibling-dependency} with \autoref{thm:unary-cont-monoid-left-right-unit-exhaustion}. The sibling surface is exactly the continuation and category handoff read by $\KernelCategoryUp$, while the two unit rows remain empty-history continuation rows rather than host identities.
+\end{proof}
+
 \closureat{UnaryContMonoidUp}{publicStr}
 \closureat{UnaryContMonoidUp}{matureStr}
 

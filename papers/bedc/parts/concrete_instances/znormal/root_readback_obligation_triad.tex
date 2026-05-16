@@ -1,0 +1,39 @@
+\begin{theorem}[$\ZNormalUp$ total-host terminal row exposure]
+\label{thm:znormal-total-host-terminal-row-exposure}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the total-host root consumer exposes terminal normality only through the terminal row $V$, bounded fuel replay through $F$, the total-host source through $T$, the continuation trace through $R$, the transport and route rows $H,C$, the provenance row $P$, and the local $\NameCert_{\ZNormalUp}$ row $N$. The sibling row $K$ supplies finite normal-word evidence only. No exposed row is a host conversion row, divergence oracle, quotient normalizer, unrestricted evaluator, or global normalizer.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:znormal-root-total-host-source-coverage}. It identifies the total-host source as the finite display $T,F,V,K,R,H,C,P,N$, so a root consumer has no coordinate outside the accepted packet.
+
+Next use \autoref{thm:znormal-root-terminal-normality-determinacy} and \autoref{thm:znormal-root-fuel-replay-exhaustion}. These bind terminal normality to $V$ and bounded replay to $F,C,H,P,N$ before any downstream consumer can inspect the local naming row.
+
+Finally apply the TasteGate anchor \autoref{thm:znormal-root-tastegate-field-surface}. Its single-carrier alignment reads the same field surface, so the terminal exposure is exactly the finite packet rather than a host conversion or evaluator surface.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ divergence oracle refusal]
+\label{thm:znormal-divergence-oracle-refusal}
+Let $Z=(T,F,V,K,R,H,C,P,N)$ be an accepted $\ZNormalUp$ packet. Any root readback request for a divergence oracle is refused at the packet boundary: the admitted rows provide terminal normality, bounded fuel replay, total-host source, continuation trace, componentwise transports, displayed routes, provenance, and local NameCert naming, but they do not export a divergence oracle or any surrogate through host conversion, substrate halting, unrestricted evaluation, quotient normalization, or global normalization.
+\end{theorem}
+\begin{proof}
+Read the admitted side through \autoref{thm:znormal-root-refusal-ledger-separation}. The refusal ledger separates $T,F,V,K,R,H,C,P,N$ from divergence detection and the other host-facing objects.
+
+Use \autoref{thm:znormal-total-host-refusal-package} and \autoref{thm:znormal-total-host-decision-surface}. Together they keep every total-host request inside the finite packet rows and refuse any request whose target is absent from those rows.
+
+The TasteGate field surface of \autoref{thm:znormal-root-tastegate-field-surface} supplies the nonempty single-carrier readback anchor. Since that anchor has no divergence-oracle coordinate, the refused request cannot re-enter through field faithfulness, transport, route replay, provenance, or local naming.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ host conversion nonescape]
+\label{thm:znormal-host-conversion-nonescape}
+For every accepted $\ZNormalUp$ packet $Z=(T,F,V,K,R,H,C,P,N)$, a host-conversion read cannot escape the finite readback route. Terminal normality, bounded fuel replay, total-host source, continuation trace, transports, routes, provenance, and the local NameCert row are all read through $T,F,V,K,R,H,C,P,N$, while host conversion, quotient computation, unrestricted evaluation, substrate halting, divergence detection, and global normalization remain outside the carrier.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:znormal-terminal-route-component-totality}. It exhausts terminal use by the component surface $T,F,V,K,R,H,C,P,N$ and leaves no extra host-facing route.
+
+Next apply \autoref{thm:znormal-root-namecert-unblock-package}. The local NameCert row is reached only after source coverage, terminal-normality determinacy, fuel-replay exhaustion, and refusal-ledger separation have been assembled inside the same finite packet.
+
+Finally use \autoref{thm:znormal-root-tastegate-field-surface}. The TasteGate single-carrier alignment reads the accepted rows as one field surface, so host conversion has no route through transport, replay, provenance, local naming, or sibling normal-word evidence.
+\end{proof}
