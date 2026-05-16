@@ -779,6 +779,7 @@ import BEDC.Derived.ContinuationMonadUp.RootBindUnitBoundary
 import BEDC.Derived.ContinuationMonadUp.BindContUnitCoherence
 import BEDC.Derived.ContinuationMonadUp.RootPublicExport
 import BEDC.Derived.ContinuationMonadUp.RootPublicConsumerTotality
+import BEDC.Derived.ContinuationMonadUp.RootPublicFormalTargetBoundary
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorBindCoverage
 import BEDC.Derived.ContinuationMonadUp.RootPublicGeneratorBoundary
 import BEDC.Derived.ContinuationMonadUp.RootPublicSourceLock
@@ -903,6 +904,7 @@ import BEDC.Derived.CertificateCompilerUp.FiniteGraphNonescape
 import BEDC.Derived.CertificateCompilerUp.FormalTargetSurface
 import BEDC.Derived.CertificateCompilerUp.IdentityLedger
 import BEDC.Derived.CertificateCompilerUp.KernelMorphismDecompilerBoundary
+import BEDC.Derived.CertificateCompilerUp.KernelMorphismRouteCoverage
 import BEDC.Derived.CertificateCompilerUp.KernelMorphismRouteScope
 import BEDC.Derived.CertificateCompilerUp.MatureConsumerInventory
 import BEDC.Derived.CertificateCompilerUp.MiddleRowHandoff
