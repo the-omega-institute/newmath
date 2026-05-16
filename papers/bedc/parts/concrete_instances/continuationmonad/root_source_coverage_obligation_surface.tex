@@ -161,3 +161,47 @@ The formal target is already the same finite public/formal surface, so the
 consumer is terminal at the displayed readback boundary and no unlisted
 continuation or external monad semantics remains to be read.
 \end{proof}
+
+\begin{theorem}[ContinuationMonad root terminal readback coverage]
+\label{thm:continuation-monad-root-terminal-readback-coverage}
+Every terminal root readback of an accepted $\ContinuationMonadUp$ packet
+$Z=(A,B,C,f,g,u,H,K,L,N)$ is covered exactly by the ordered root surface
+consisting of root source coverage, generator consumer lock, category-generator
+obligation surface, root $\NameCert$ ledger exactness, public contract
+factorization, formal target exactness, and formal-public readback
+terminality. The terminal readback exposes only the displayed source histories,
+continuation tails, unit and bind rows, generator-boundary refusal,
+$\CategoryUp$ hom-carrier readings, formal/public rows, $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and local $\NameCert$ support of $Z$.
+
+It excludes host Kleisli composition, quotient morphism equality, ambient
+category completion, external monad evaluator, and every continuation
+generator not displayed in the packet.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:continuation-monad-root-source-coverage}. It fixes
+the terminal readback source to the displayed histories $A,B,C$, continuation
+tails $f,g,u$, and finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support.
+
+Next apply \autoref{thm:continuation-monad-root-generator-consumer-lock} and
+\autoref{thm:continuation-monad-root-category-generator-obligation-surface}.
+These identify the generator-boundary refusal and the category-generator
+surface without allowing host Kleisli composition, quotient morphism equality,
+ambient category completion, or unlisted generators.
+
+Then use \autoref{thm:continuation-monad-root-namecert-ledger-exactness} and
+\autoref{thm:continuation-monad-root-public-contract-factorization}. The
+ledger collects the root rows into the local $\NameCert$ surface, and the
+public contract forces the terminal readback to pass through that ordered
+public route before any public unit, bind, generator, or category row is
+exposed.
+
+Finally apply \autoref{thm:continuation-monad-root-formal-target-exactness}
+and \autoref{thm:continuation-monad-root-formal-public-readback-terminality}.
+The formal target and formal-public terminality make the same finite route the
+terminal readback boundary. Hence every covered row is one of the displayed
+rows named in the statement, and every host, quotient, ambient-completion,
+external-evaluator, or unlisted-generator coordinate is outside the terminal
+coverage surface.
+\end{proof}
