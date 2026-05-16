@@ -258,6 +258,46 @@ Now apply \autoref{thm:metacic-critical-path-route-replay}. The continuation row
 The boundary results rule out the stronger reads. By \autoref{thm:metacic-critical-path-consistency-handoff}, the route from $S$ to $N$ stops at the normal-form endpoint unless $D$ is separately filled. By \autoref{thm:metacic-critical-path-obstruction-boundary}, $O$ remains visible and $U$ does not discharge the socket. Hence route replay is exhausted by the displayed rows and cannot export the excluded theorem claims.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-path discharge row visibility]
+\label{thm:metacic-critical-path-discharge-row-visibility}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, the discharge socket row $D$ remains visible under every critical-path route replay. The rows $S,N,O,U,H,C,P,L$ may transport, route, name, and preserve the packet, but they cannot fill $D$ or convert it into a closed subject-reduction or full closed-consistency theorem.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission. By \autoref{thm:metacic-critical-path-carrier-admission}, the row $D$ is one of the nine displayed $\BHist$ rows of the accepted packet and is recorded specifically as the discharge-bundle socket.
+
+Route replay preserves that row. Apply \autoref{thm:metacic-critical-path-route-replay} and \autoref{thm:metacic-critical-path-route-exhaustion}; the continuation row $C$ replays only the displayed routes among $S,N,O,U,D,H,C,P,L$, and replay cannot fill $D$ or erase the obstruction row $O$.
+
+The boundary and naming rows rule out a disguised discharge. Use \autoref{thm:metacic-critical-path-obstruction-boundary}, \autoref{thm:metacic-critical-path-discharge-socket-nonescape}, and \autoref{thm:metacic-critical-path-local-naming-exhaustion}. They keep $O$ and $D$ distinct, require a separate subject-reduction input before $D$ can be filled, and prevent the local name row from exporting a hidden theorem coordinate.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path consistency route totality]
+\label{thm:metacic-critical-path-consistency-route-totality}
+Every consistency-facing route accepted by a $\MetaCICCriticalPathUp$ carrier reads the whole tuple
+$$
+S,N,O,U,D,H,C,P,L.
+$$
+In particular, no consistency-facing consumer may read only the normalization endpoint or only the handoff row while dropping the obstruction row, discharge socket, transport, continuation, provenance, or local naming rows of the displayed packet.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:metacic-critical-path-carrier-admission}. It identifies the accepted carrier with exactly the tuple $K=(S,N,O,U,D,H,C,P,L)$ and supplies no abbreviated consistency carrier.
+
+The consistency handoff uses that full packet. Apply \autoref{thm:metacic-critical-path-consistency-handoff} and \autoref{thm:metacic-critical-path-handoff-row-totality}. The route from $S$ to $N$ is read through the displayed route, transport, provenance, and local naming rows while $O$ and $D$ remain visible.
+
+Finally apply \autoref{thm:metacic-critical-path-route-replay} and \autoref{thm:metacic-critical-path-route-exhaustion}. Replay has no route outside $S,N,O,U,D,H,C,P,L$, and therefore every accepted consistency-facing route is total over the displayed tuple rather than a partial read of a hidden closed-consistency object.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path local name nonescape]
+\label{thm:metacic-critical-path-local-name-nonescape}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, the local name row $L$ names only the displayed packet and its listed route obligations. It exports no closed subject-reduction theorem, no full closed-consistency theorem, no global beta-conversion decision procedure, and no quotient over MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Read the local row from \autoref{thm:metacic-critical-path-carrier-admission} and \autoref{thm:metacic-critical-path-local-naming-exhaustion}. The carrier exposes $L$ as the local $\NameCert_{\MetaCICCriticalPathUp}$ row for the finite packet $S,N,O,U,D,H,C,P,L$, and local naming is exhausted by those coordinates.
+
+The route inventory remains finite under replay. Use \autoref{thm:metacic-critical-path-route-replay} and \autoref{thm:metacic-critical-path-route-exhaustion}. They keep every replayed route inside the displayed tuple and provide no extra named coordinate for closed subject reduction or full closed consistency.
+
+The remaining boundaries preserve the same nonescape claim. Apply \autoref{thm:metacic-critical-path-namecert-obligation-surface}, \autoref{thm:metacic-critical-path-obstruction-boundary}, and \autoref{thm:metacic-critical-path-discharge-row-visibility}. The obligation surface lists the local rows, the obstruction boundary keeps $O$ and $D$ visible, and discharge-row visibility prevents $L$ from naming a filled theorem in place of the displayed socket.
+\end{proof}
+
 \begin{definition}[MetaCIC critical-path frontier slice]
 \label{def:metacic-critical-path-frontier-slice}
 For an accepted $\MetaCICCriticalPathUp$ carrier
