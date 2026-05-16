@@ -218,6 +218,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootRealSealThresholdExhausti
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SelectorFreeRealRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SealFactorizationTriad
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SealTrapBudgetDeterminacy
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TrapSealExactness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SealRouteUniversalProperty
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SocketSeparation
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SourceReadbackEqualizer
@@ -250,6 +251,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowReadbackStability
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealCompleteness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealReadbackCompleteness
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowCoverage
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
