@@ -154,6 +154,42 @@ Apply the consistency handoff and obstruction boundary. \autoref{thm:metacic-cri
 The remaining rows preserve this separation. \autoref{thm:metacic-critical-path-namecert-obligation-surface}, \autoref{thm:metacic-critical-path-transport-row-stability}, \autoref{thm:metacic-critical-path-provenance-nonescape}, and \autoref{thm:metacic-critical-path-local-naming-exhaustion} exhaust the carrier, transport, provenance, and naming surfaces without adding a separate subject-reduction certificate row. Hence no consumer can fill $D$ from the packet alone.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-path discharge-socket coverage]
+\label{thm:metacic-critical-path-discharge-socket-coverage}
+For every accepted $\MetaCICCriticalPathUp$ root-unblock packet $K=(S,N,O,U,D,H,C,P,L)$, any consistency-facing consumer must either display a separate subject-reduction input filling the socket row $D$ or remain bounded by the rows $S,N,O,U,D,H,C,P,L$. The packet itself exposes the socket as a named obligation, not as a closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:metacic-critical-path-packet}. The packet displays the source row $S$, normal-form row $N$, obstruction row $O$, handoff row $U$, discharge socket $D$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $L$.
+
+Use the consistency handoff and obstruction boundary, \autoref{thm:metacic-critical-path-consistency-handoff} and \autoref{thm:metacic-critical-path-obstruction-boundary}. The handoff reaches the normal-form endpoint through the displayed route, while the obstruction boundary keeps the subject-reduction gap visible and keeps $D$ separate from a filled discharge.
+
+Finally apply the obligation surface, transport row stability, local naming exhaustion, and discharge-socket nonescape from \autoref{thm:metacic-critical-path-namecert-obligation-surface}, \autoref{thm:metacic-critical-path-transport-row-stability}, \autoref{thm:metacic-critical-path-local-naming-exhaustion}, and \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. These rows cover every accepted consumer read, so a consumer that does not present a separate subject-reduction input remains bounded by the displayed root-unblock packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path obstruction-ledger exhaustion]
+\label{thm:metacic-critical-path-obstruction-ledger-exhaustion}
+For every accepted $\MetaCICCriticalPathUp$ root-unblock packet $K=(S,N,O,U,D,H,C,P,L)$, the visible obstruction row $O$ and socket row $D$ exhaust the blocked subject-reduction routes. No hidden closed-consistency coordinate can be read from $S,N,U,H,C,P,L$ once the obstruction and socket rows remain visible.
+\end{theorem}
+\begin{proof}
+Read $O$ and $D$ from the carrier definition. The former records the subject-reduction obstruction, and the latter records the discharge-bundle socket; neither is derived from the normal-form row or handoff row.
+
+The consistency handoff and obstruction boundary fix the blocked route. By \autoref{thm:metacic-critical-path-consistency-handoff}, the positive route reaches only $N$ unless a separate discharge is supplied. By \autoref{thm:metacic-critical-path-obstruction-boundary}, $O$ cannot be erased and $D$ cannot be converted into a supplied theorem by agreement on the other rows.
+
+Use the obligation surface, transport row stability, local naming exhaustion, and discharge-socket nonescape to close the row inventory. Theorems \autoref{thm:metacic-critical-path-namecert-obligation-surface}, \autoref{thm:metacic-critical-path-transport-row-stability}, \autoref{thm:metacic-critical-path-local-naming-exhaustion}, and \autoref{thm:metacic-critical-path-discharge-socket-nonescape} leave no carrier coordinate through which a hidden closed-consistency read can bypass $O$ and $D$.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path normal-form route coverage]
+\label{thm:metacic-critical-path-normal-form-route-coverage}
+Every normal-form readback route accepted by a $\MetaCICCriticalPathUp$ root-unblock packet factors through $S \to N$ with the obstruction row $O$, discharge socket $D$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $L$ still visible. Such a route cannot drop the blocked subject-reduction rows while preserving the accepted packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier and consistency handoff. The carrier names $S$ and $N$ as distinct rows, and \autoref{thm:metacic-critical-path-consistency-handoff} makes the displayed continuation from $S$ to $N$ the only consistency-facing handoff.
+
+Next keep the obstruction data visible. The obstruction boundary and discharge-socket nonescape, \autoref{thm:metacic-critical-path-obstruction-boundary} and \autoref{thm:metacic-critical-path-discharge-socket-nonescape}, preserve $O$ and $D$ as the blocked subject-reduction rows along that same route.
+
+Finally apply the obligation surface, transport row stability, and local naming exhaustion. Theorems \autoref{thm:metacic-critical-path-namecert-obligation-surface}, \autoref{thm:metacic-critical-path-transport-row-stability}, and \autoref{thm:metacic-critical-path-local-naming-exhaustion} keep $H,C,P,L$ attached to the same finite packet, so every normal-form readback route factors through $S \to N$ with the obstruction, socket, transport, continuation, provenance, and naming rows still displayed.
+\end{proof}
+
 \begin{theorem}[MetaCIC critical-path handoff row totality]
 \label{thm:metacic-critical-path-handoff-row-totality}
 Every consistency-facing read of an accepted $\MetaCICCriticalPathUp$ packet must pass through the complete displayed row list
