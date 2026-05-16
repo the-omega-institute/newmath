@@ -38,6 +38,42 @@ The budget route starts with $S$, enters the Real-facing observation surface thr
 The structural rows $H,C,P,N$ transport, replay, identify, and name the same finite packet. Since the carrier contains no external completion coordinate, these rows exhaust the local NameCert surface.
 \end{proof}
 
+\begin{theorem}[Budgeted real seal route selector admission]
+\label{thm:budgeted-real-seal-route-selector-admission}
+Every accepted $\BudgetedRealSealRouteUp$ packet must first expose the finite observation-budget selector row $S$. The rows $O$, $L$, and $R$ are readable only as downstream route coordinates after $S$ has been admitted through the selector surface of \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:budgeted-real-seal-route-carrier}. Its packet is displayed as $B=(S,T,O,L,R,H,C,P,N)$, with $S$ named as the $\FiniteObservationBudgetSelectorUp$ row selecting the finite observation budget used by the route.
+
+Apply the NameCert obligation theorem. The same local surface lists budget selector admission through $S$ before observation-budget entrance through $O$, CauchyLimitSeal handoff through $L$, and Real seal readback through $R$.
+
+The sibling selector chapter supplies the admission surface for $S$. Since the carrier has no alternate selector coordinate, any accepted packet that reads $O$, $L$, or $R$ must have passed through that displayed $S$ row.
+\end{proof}
+
+\begin{theorem}[Budgeted real seal route TailMeet threshold handoff]
+\label{thm:budgeted-real-seal-route-tail-threshold-handoff}
+In every accepted $\BudgetedRealSealRouteUp$ packet, the TailMeet threshold row $T$ sits between selector admission and the CauchyLimitSeal handoff. Thus a seal-facing read can reach $L$ only through the route segment $S \to T \to O \to L$, with $T$ supplied by the shared-threshold surface of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert} and $L$ consumed by the CauchyLimitSeal route of \autoref{ch:concrete-instances-cauchylimitseal-namecert}.
+\end{theorem}
+\begin{proof}
+Read the displayed packet in \autoref{def:budgeted-real-seal-route-carrier}. The selector row $S$ fixes the finite observation budget, while $T$ is the regular Cauchy tail threshold that must be displayed before the completion route may expose a seal.
+
+Use the aggregate obligation theorem to align these carrier rows with the local $\NameCert$ surface. It records selector admission through $S$, threshold admission through $T$, observation-budget entrance through $O$, and CauchyLimitSeal route handoff through $L$ as obligations of the same packet.
+
+The TailMeet sibling supplies the shared threshold interpretation of $T$, and the CauchyLimitSeal sibling supplies the handoff interpretation of $L$. Because no coordinate bypasses $T$, every seal-facing read from the accepted packet passes through the stated route segment.
+\end{proof}
+
+\begin{theorem}[Budgeted real seal route Real-seal readback exactness]
+\label{thm:budgeted-real-seal-route-real-seal-readback-exactness}
+For every accepted $\BudgetedRealSealRouteUp$ packet, the Real seal row $R$ is available only through the displayed route $S \to T \to O \to L \to R$ together with the structural rows $H,C,P,N$. No accepted packet exposes a quotient stream, host real equality, selected limit, countable-choice selector, or ambient completeness row as part of the readback.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only Real-facing coordinate is $R$, and the carrier definition places it after the selector row $S$, threshold row $T$, observation-budget entrance row $O$, and CauchyLimitSeal route row $L$.
+
+Apply the local NameCert obligation theorem. It identifies Real seal and readback exactness through $R$ as one obligation of the same finite packet, while $H,C,P,N$ supply transport, replay, provenance, and local naming for that displayed route.
+
+Finally use the non-escape boundary of \autoref{thm:budgeted-real-seal-route-nonescape}. The objects excluded in the statement require coordinates absent from $B=(S,T,O,L,R,H,C,P,N)$, so the Real readback has exactly the displayed route and no hidden completion-facing row.
+\end{proof}
+
 \begin{theorem}[Budgeted real seal route non-escape]
 \label{thm:budgeted-real-seal-route-nonescape}
 Every accepted $\BudgetedRealSealRouteUp$ packet exports only the displayed rows
