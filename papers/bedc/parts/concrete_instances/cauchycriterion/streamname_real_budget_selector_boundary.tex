@@ -425,3 +425,51 @@ host real equality, countable choice, hidden selectors, ambient completeness,
 and second completion seals are excluded from the shared packet, they cannot
 serve as witnesses of a second selector-to-seal surface.
 \end{proof}
+
+\begin{theorem}[CauchyCriterion exact-boundary selector handoff]
+\label{thm:cauchycriterion-exact-boundary-selector-handoff}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, let
+$F=(B,S,V,D,R,E_F,H_F,C_F,P_F,N_F)$ be an accepted
+$\FiniteObservationBudgetSelectorUp$ packet, and let
+$X=(L,K_X,J_X,S_X,W_X,R_X,D_X,E_X,H_X,C_X,P_X,N_X)$ be an accepted
+$\RealCompletionExactBoundaryUp$ packet. Suppose the three packets share the
+displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$,
+componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows
+at the selector-to-seal boundary. Then the CauchyCriterion selector-to-seal
+surface factors through the exact-boundary packet $X$ before any terminal
+$\RealUp$ seal is read.
+
+The handoff exposes only the selector request, finite StreamName window,
+RegSeqRat handoff, DyadicRatCore tolerance row, terminal Real boundary, and
+the shared $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. It refuses
+quotient streams, selected host limits, host real equality, countable choice,
+ambient completeness, and any second seal source.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:cauchycriterion-finite-observation-budget-selector-pullback}.
+The accepted CauchyCriterion packet and the accepted finite observation-budget
+selector packet meet on a single selector-to-seal pullback surface with the
+displayed StreamName, RegSeqRat, DyadicRatCore, Real, transport,
+continuation, package, and local naming rows.
+
+Next use \autoref{thm:cauchycriterion-finite-selector-exhaustion}. It shows
+that every completion-facing consumer preserving those rows must pass through
+the same finite selector-refinement packet before a Real or Completion seal is
+read.
+
+Now apply
+\autoref{thm:real-completion-exact-boundary-four-face-exactness}. The accepted
+exact-boundary packet exports exactly the StreamName, RegSeqRat,
+DyadicRatCore, and terminal Real faces on the route
+$L,K_X,J_X,S_X,W_X,R_X,D_X,E_X,H_X,C_X,P_X,N_X$, so the selector-refinement
+surface has only that exact-boundary consumer route available.
+
+Finally use
+\autoref{thm:real-completion-exact-boundary-real-seal-nonescape}. The terminal
+Real seal cannot be read outside the exact-boundary packet. Since the pullback
+and exhaustion steps already removed quotient streams, selected host limits,
+host real equality, countable choice, ambient completeness, hidden selectors,
+and second seal sources, the selector-to-seal surface factors through the
+exact-boundary packet before any terminal Real seal is consumed.
+\end{proof}
