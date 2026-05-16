@@ -755,6 +755,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportSiblingHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerNormalization
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelConsumerAudit
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootTransportAudit
+import BEDC.Derived.QuotientSoundnessBoundaryUp.RootRelationRowExposure
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.VerdictTransportSeparation
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerLedgerFrontier
@@ -1112,6 +1113,7 @@ import BEDC.Derived.RationalIntervalUp.TerminalSeal
 import BEDC.Derived.RationalIntervalUp.TerminalSealCompatibility
 import BEDC.Derived.RationalIntervalUp.NameCertObligationSurface
 import BEDC.Derived.RationalStreamUp
+import BEDC.Derived.RealityConstrainedSynthesisSealUp.TasteGate
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealCauchyCompletionUp
 import BEDC.Derived.RealCauchyCompletionUp.BudgetedCommonRefinement
@@ -1394,6 +1396,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootTransportReplay
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudget
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteConsumerExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteNonescape
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootRoutePublicFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRealSealReadbackLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteSealFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteClassifierExhaustion
