@@ -168,6 +168,24 @@ Now separate the seal endpoint from the window and readback rows. Root-window Re
 Finally apply root threshold public exhaustion, \autoref{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion}. Since the complete public route still displays $T,W,Q,E,H,C,P,N$, a consumer that collapses the four endpoint obligations would omit carrier coordinates required by the exhausted surface. The four rows therefore remain distinct on every public $\RealUp$ or Completion route.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement four-face noncollapse]
+\label{thm:cauchy-modulus-refinement-four-face-nocollapse}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+the selector threshold $T$, $\StreamNameUp$ window $W$, $\DyadicRatCoreUp/\RegSeqRatUp$ readback $Q$, and $\RealUp$ seal $E$ are four separate public obligations on every $\RealUp$ or Completion consumer route. None of the four rows may be replaced by a hidden selector, quotient stream, host equality, selected limit, second meet, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First fix the public route by root route determinacy, \autoref{thm:cauchy-modulus-refinement-root-route-determinacy}. Any accepted read of $R$ must pass through the displayed chain from $M_0,M_1$ to $U,V,T,W,Q,E$ and then through the structural rows $H,C,P,N$.
+
+Next exhaust the consumer side by root budget consumer exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion}. A $\RealUp$ or Completion consumer has no off-route selector, quotient stream, host equality, selected limit, second meet, or ambient completeness row from which to rebuild the endpoint.
+
+Now identify the seal endpoint using root-window Real seal determinacy, \autoref{thm:cauchy-modulus-refinement-root-window-real-seal-determinacy}. The seal reached after the shared threshold, window, and readback rows is the displayed row $E$; it is not a coordinate that absorbs $T$, $W$, or $Q$.
+
+Finally apply threshold seal endpoint separation, \autoref{thm:cauchy-modulus-refinement-root-threshold-seal-endpoint-separation}. Since that separation keeps $T,W,Q,E$ as distinct endpoint obligations on every public route, the four public faces cannot collapse into one hidden completion coordinate.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement open-phase four-object consumption]
 \label{thm:cauchy-modulus-refinement-open-phase-four-object-consumption}
 Every $\RealUp$ or Completion consumer of an accepted $\CauchyModulusRefinementUp$ root packet that reaches the root threshold route consumes the same four finite faces named by the $\StreamNameUp$ open-phase sufficiency surface: the $\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback, and the $\RealUp$ seal. The consumed packet also carries exactly the displayed support rows
