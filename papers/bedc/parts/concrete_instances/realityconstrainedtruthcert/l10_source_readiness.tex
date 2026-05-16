@@ -1,0 +1,85 @@
+\begin{theorem}[Reality-constrained TruthCert L10 source readiness]
+\label{thm:reality-constrained-truth-cert-l10-source-readiness}
+For every accepted $\RealityConstrainedTruthCertUp$ packet
+$$
+(S,\Sigma,K,T,U,D,I,L,F,N),
+$$
+the L10 consumers $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ may read the
+TruthCert surface only through the finite source row $S$, signature row
+$\Sigma$, classifier row $K$, tower row $T$, stability row $U$, descent row
+$D$, observer-invariant row $I$, ledger row $L$, failure row $F$, and local
+$\NameCert_{\RealityConstrainedTruthCertUp}$ row $N$. No L10 consumer receives
+an unlisted source, ambient truth predicate, global reality oracle, or
+off-packet continuation.
+\end{theorem}
+\begin{proof}
+Read the carrier and field-coverage rows from
+\autoref{def:reality-constrained-truth-cert-carrier} and
+\autoref{thm:reality-constrained-truth-cert-field-coverage}. They make the
+displayed tuple the full finite packet, with $S,\Sigma,K,T,U,D,I,L,F,N$ as the
+available rows.
+
+Next apply sibling dependency and sibling handoff totality,
+\autoref{thm:reality-constrained-truth-cert-sibling-dependency} and
+\autoref{thm:reality-constrained-truth-cert-sibling-handoff-totality}. These
+place $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ behind the displayed
+TruthCert handoff rather than behind an independent source supply.
+
+Finally use export readiness,
+\autoref{thm:reality-constrained-truth-cert-export-readiness}. The export row
+is root-ready only after the finite source, classifier, ledger, failure, and
+local naming rows are consumed, so every L10 read is confined to the accepted
+packet.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert L10 failure ledger lock]
+\label{thm:reality-constrained-truth-cert-l10-failure-ledger-lock}
+For every accepted $\RealityConstrainedTruthCertUp$ packet
+$(S,\Sigma,K,T,U,D,I,L,F,N)$, each L10 read by $\StreamNameUp$,
+$\RegSeqRatUp$, or $\RealUp$ that reaches the classifier row $K$ must also keep
+the ledger row $L$ and the failure row $F$ in the same packet. The read cannot
+drop finite defeat, domain exit, classifier mismatch, hidden residue, later
+observation, or compression provenance while retaining the local name $N$.
+\end{theorem}
+\begin{proof}
+Start with ledger exactness and failure-surface exactness,
+\autoref{thm:reality-constrained-truth-cert-ledger-exactness} and
+\autoref{thm:reality-constrained-truth-cert-failure-surface-exactness}. They
+identify $L$ and $F$ as displayed rows of the accepted packet, not optional
+annotations.
+
+Use field coverage to keep $K,L,F,N$ in the same finite carrier. A consumer
+that exposes $K$ through the local name must therefore remain inside
+$S,\Sigma,K,T,U,D,I,L,F,N$.
+
+Apply export readiness to the L10-facing handoff. Since the export cannot
+expose $N$ before ledger and failure rows have been consumed, any read that
+drops $L$ or $F$ is outside the $\RealityConstrainedTruthCertUp$ route.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert L10 export totality]
+\label{thm:reality-constrained-truth-cert-l10-export-totality}
+The L10 export of an accepted $\RealityConstrainedTruthCertUp$ packet
+$(S,\Sigma,K,T,U,D,I,L,F,N)$ is total for $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$: every accepted downstream read is accounted for by the finite source
+row $S$, the classifier row $K$, the ledger row $L$, the failure row $F$, and
+the local $\NameCert$ row $N$, together with the intervening signature, tower,
+stability, descent, and observer-invariant rows. There is no second L10 export
+through hidden source material, hidden failure repair, host equality, or an
+ambient truth object.
+\end{theorem}
+\begin{proof}
+Assemble the packet from carrier coverage and sibling dependency. These rows
+state that the TruthCert object and its downstream consumers are expressed by
+the displayed finite carrier and its listed sibling routes.
+
+The ledger and failure lock fixes the classifier-facing part of the export.
+By \autoref{thm:reality-constrained-truth-cert-l10-failure-ledger-lock}, any
+L10 read that keeps the local name also keeps the classifier, ledger, and
+failure rows inside the same packet.
+
+Finally apply export readiness and sibling handoff totality. Together they
+make the displayed packet the only source-readiness route for
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, so the L10 export is total over
+the listed rows and has no hidden branch.
+\end{proof}
