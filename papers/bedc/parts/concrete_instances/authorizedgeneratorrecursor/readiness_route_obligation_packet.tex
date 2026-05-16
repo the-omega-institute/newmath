@@ -1,0 +1,116 @@
+\begin{definition}[AuthorizedGeneratorRecursor readiness route obligation packet]
+\label{def:authorized-generator-recursor-readiness-route}
+An $\AuthorizedGeneratorRecursorUp$ readiness route is the finite $\BHist$
+packet
+$$
+Q=(U,J,K,O,L,H,C,P,N)
+$$
+read from the admitted carrier of
+\autoref{def:authorized-generator-recursor-carrier}. The authorization row
+$U$ records the accepted constructor signature, emitted eliminator, checked
+motive, complete branch package, and structural descent rows
+$I,E,M,B,D$; the generator row $J$ records the authorized recursor call; the
+ground-compiler recognition row $K$ records that the route reaches the
+compiler boundary only through $G$; the output row $O$ is the displayed public
+name; the refusal ledger $L$ records the audit row $A$ together with the
+refusal of unlisted branches, non-structural recursion, external axioms, hidden
+generators, and unaudited dependency channels; $H$ is componentwise $\hsame$
+transport; $C$ is the displayed $\Cont$ replay route; $P$ is the $\Pkg$
+provenance row; and $N$ is the local
+$\NameCert_{\AuthorizedGeneratorRecursorUp}$ row.
+\end{definition}
+
+\begin{theorem}[AuthorizedGeneratorRecursor ground compiler admission]
+\label{thm:authorized-generator-recursor-ground-compiler-admission}
+Every accepted $\AuthorizedGeneratorRecursorUp$ readiness route factors its
+generator output through the authorization row $U$ and the ground-compiler
+recognition row $K$. Equivalently, no route may expose $O$ to a
+ground-compiler consumer unless the same finite packet retains the accepted
+signature, emitted eliminator, motive, branch package, structural descent,
+audit provenance, boundary row, transports, continuation replay, package
+provenance, and local NameCert row.
+\end{theorem}
+\begin{proof}
+Start with root carrier admission. By
+\autoref{thm:authorized-generator-recursor-root-carrier-admission}, the
+accepted packet exposes only $I,E,M,B,D,O,A,H,C,P,G,N$ before a
+ground-compiler or output-facing consumer may read it.
+
+The authorization row $U$ is obtained by grouping the signature, eliminator,
+motive, branch, and descent rows. Theorems
+\ref{thm:authorized-generator-recursor-branch-exhaustion} and
+\ref{thm:authorized-generator-recursor-structural-descent-locality} keep the
+authorized generator call on those rows, so $J$ cannot be read as a detached
+proof-producing source.
+
+Now attach compiler recognition. The ground-compiler authorization theorem and
+the handoff theorem, \autoref{thm:authorized-generator-recursor-ground-compiler-authorization}
+and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}, force
+any compiler-facing read of $O$ to retain $G,H,C,P,N$ with the audit row. Thus
+the output reaches the compiler only through $U$ and $K$ inside the displayed
+readiness packet.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor output refusal route]
+\label{thm:authorized-generator-recursor-output-refusal}
+Any request against an $\AuthorizedGeneratorRecursorUp$ readiness route that
+omits either the authorization row $U$ or the refusal ledger $L$ remains
+$\mathsf{GAP}$-ledger content. Such a request is not exported as the public
+output row $O$ and is not consumed as a ground-compiler route.
+\end{theorem}
+\begin{proof}
+First read the refusal side of the carrier. The $\mathsf{GAP}$ boundary
+refusal theorem, \autoref{thm:authorized-generator-recursor-gap-boundary-refusal},
+places external axioms, hidden generators, non-structural recursion, and
+unlisted branches behind the boundary row $G$ and the audit row $A$.
+
+If $U$ is absent, the request has no accepted signature, eliminator, motive,
+branch package, or structural descent row from which a recursor output can be
+formed. Root authorization obligations and root ground-compiler authorization
+therefore leave the request at the boundary rather than at $O$.
+
+If $L$ is absent, the request has no source-refusal, dependency-refusal, or
+hidden-generator ledger attached to the output route. The audit dependency
+refusal theorem and the root output boundary package keep such a request in
+the $\mathsf{GAP}$ ledger until the refusal rows are restored.
+
+Finally apply root output saturation. Since
+\autoref{thm:authorized-generator-recursor-root-output-route-saturation}
+exports $O$ only through the saturated carrier route, a request missing $U$ or
+$L$ cannot be the exported output and cannot be read as a compiler-recognized
+route.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor NameCert obligation exhaustion]
+\label{thm:authorized-generator-recursor-namecert-obligation-exhaustion}
+The rows of the readiness route obligation packet exhaust the local carrier,
+classifier, stability, ledger, and non-escape obligations for
+$\AuthorizedGeneratorRecursorUp$. Carrier admission is supplied by $U,J,K,O$;
+classifier visibility is supplied by $C,N$; stability is supplied by $H$ and
+$P$; the refusal ledger is supplied by $L$; and non-escape is supplied by the
+joint retention of $U,K,L,H,C,P,N$ around $O$.
+\end{theorem}
+\begin{proof}
+Carrier exhaustion is already finite. The carrier admission packet supplies
+$I,E,M,B,D,O,A,H,C,P,G,N$, and the readiness route only repackages these rows
+as authorization, generator, ground-compiler recognition, output, refusal,
+transport, replay, provenance, and local naming rows.
+
+Classifier and stability obligations are retained by the public surface. The
+NameCert surface of \autoref{thm:authorized-generator-recursor-namecert-surface}
+classifies the route through the same packet, while output-name stability keeps
+$O$ attached to $H,C,P,G,N$ and to the authorization rows.
+
+The ledger obligations are exhausted by refusal and audit rows. Use
+\autoref{thm:authorized-generator-recursor-audit-dependency-refusal},
+\autoref{thm:authorized-generator-recursor-root-audit-membrane-source-refusal},
+and \autoref{thm:authorized-generator-recursor-gap-boundary-refusal}; together
+they place source refusal, dependency refusal, and hidden-generator refusal in
+$L$ before output exposure.
+
+It remains to rule out escape. Root carrier admission, root output route
+saturation, and ground-compiler admission above keep every consumer-facing read
+inside the same finite packet. Therefore the readiness rows exhaust the local
+carrier, classifier, stability, ledger, and non-escape obligations without
+adding an off-packet route.
+\end{proof}
