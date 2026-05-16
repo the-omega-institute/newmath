@@ -1,0 +1,57 @@
+\begin{theorem}[GapClosureBoundary L10 route consumer interface]
+\label{thm:gap-closure-boundary-l10-route-consumer-interface}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, every L10-facing consumer of the boundary first factors through one of the displayed branches
+$$
+G \longrightarrow S
+$$
+or
+$$
+G \longrightarrow R
+$$
+before it reads the componentwise $\hsame$ row $H$, the displayed $\Cont$ route row $C$, the $\Pkg$ provenance row $P$, or the local $\NameCert_{\GapClosureBoundaryUp}$ row $N$. The interface therefore exports only the source branch or the refusal branch over $H,C,P,N$, and it exports no hidden closure, hidden $\mathsf{T}$ supply, host equality, quotient data, selected Real limit, ambient completeness, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Begin with the source packet, \autoref{thm:gap-closure-boundary-source-packet}. It exposes the request row $G$, the source row $S$, the refusal ledger $R$, and the structural rows $H,C,P,N$ as the complete consumer-facing inventory.
+
+For the source side, apply the scoped source/refusal rows \autoref{thm:gap-closure-boundary-source-refusal-totality} and \autoref{thm:gap-closure-boundary-terminal-source-admission}. They require a supported consumer to display $G \longrightarrow S$ before any terminal or L10-facing read consumes the structural surface.
+
+For the refusal side, apply \autoref{thm:gap-closure-boundary-refusal-route-exactness} and \autoref{thm:gap-closure-boundary-refusal-classifier-stability}. They route a source-absent request through $G \longrightarrow R$ and keep that endpoint stable under componentwise transport and replay.
+
+Finally use classifier stability and the NameCert obligation surface, \autoref{thm:gap-closure-boundary-classifier-stability} and \autoref{thm:gap-closure-boundary-namecert-obligation-surface}. Since the certificate has no row beyond $G,S,R,H,C,P,N$, an L10-facing consumer has no hidden completion, equality, quotient, selected-limit, ambient-completeness, or continuation exit.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary Real-completion refusal]
+\label{thm:gap-closure-boundary-real-completion-refusal}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, any request for $\RealUp$, $\CauchyLimitSealUp$, $\CompletionUp$, $\StreamNameUp$, or hidden completion supply is refused unless the request first enters the displayed source route
+$$
+G \longrightarrow S
+$$
+and then remains transported, replayed, packaged, and named only through $H,C,P,N$. A request that does not enter by that source route is routed through
+$$
+G \longrightarrow R
+$$
+with the same structural rows, and it receives no hidden closure, hidden $\mathsf{T}$ supply, host equality, quotient data, selected Real limit, ambient completeness, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Project the source packet of \autoref{thm:gap-closure-boundary-source-packet}. The packet gives only the request, source, refusal, transport, continuation, package, and local naming rows.
+
+If a Real-completion request is admitted, the L10 route consumer interface above and terminal source admission force it through $G \longrightarrow S$ before any $\RealUp$, $\CauchyLimitSealUp$, $\CompletionUp$, or $\StreamNameUp$ consumer can read the packet.
+
+If that source route is absent, use the scoped refusal rows \autoref{thm:gap-closure-boundary-source-refusal-totality} and \autoref{thm:gap-closure-boundary-refusal-route-exactness}. The request is sent to $G \longrightarrow R$ under $H,C,P,N$ rather than to a concealed completion object.
+
+The exclusions are preserved by classifier stability and the NameCert obligation surface. \autoref{thm:gap-closure-boundary-classifier-stability} prevents transport and replay from turning a refusal endpoint into source evidence, while \autoref{thm:gap-closure-boundary-namecert-obligation-surface} records no coordinate for hidden closure, hidden $\mathsf{T}$ supply, host equality, quotient data, selected Real limit, ambient completeness, or off-packet continuation.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary terminal consumer package]
+\label{thm:gap-closure-boundary-terminal-consumer-package}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, the L10 terminal consumer surface is the package consisting of the source packet, the classifier-stability row, the local $\NameCert_{\GapClosureBoundaryUp}$ obligation surface, the source route $G \longrightarrow S$, and the refusal route $G \longrightarrow R$ over $H,C,P,N$. This package lets downstream $\RealUp$, $\CauchyLimitSealUp$, $\CompletionUp$, and $\StreamNameUp$ consumers cite a finite source/refusal interface: supported reads enter by $G \longrightarrow S$, unsupported completion-facing requests enter $G \longrightarrow R$, and no consumer receives hidden closure, hidden $\mathsf{T}$ supply, host equality, quotient data, selected Real limit, ambient completeness, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Assemble the source packet from \autoref{thm:gap-closure-boundary-source-packet}. It supplies the finite rows $G,S,R,H,C,P,N$ and no external consumer coordinate.
+
+Next add the classifier row. By \autoref{thm:gap-closure-boundary-classifier-stability}, componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the choice between source and refusal rather than creating a third terminal route.
+
+Now add the local NameCert obligations from \autoref{thm:gap-closure-boundary-namecert-obligation-surface}. They identify carrier exposure, source-route admission, refusal-ledger exactness, consumer-boundary exhaustion, and non-escape of host or global refusal data as the finite certificate surface.
+
+Finally use the two L10 rows above together with the scoped source/refusal rows \autoref{thm:gap-closure-boundary-source-refusal-totality} and \autoref{thm:gap-closure-boundary-refusal-route-exactness}. The source row handles supported terminal consumers, the refusal row handles unsupported completion-facing requests, and the assembled package has no coordinate from which a hidden completion or ambient Real limit can be read.
+\end{proof}
