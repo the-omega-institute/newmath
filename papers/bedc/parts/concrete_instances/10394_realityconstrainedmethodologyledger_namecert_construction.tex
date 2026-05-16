@@ -78,6 +78,18 @@ If a claim exports beyond $S$ without a row in $D$, the packet lacks the display
 The carrier has no remaining coordinate through which the export could be licensed. The claim may remain a local explanation, audit read, objectivity read, tower-compression read, or open-fit read, but it is not a $\RealityConstrainedMethodologyLedgerUp$ methodology export.
 \end{proof}
 
+\begin{theorem}[Reality-constrained methodology-ledger scope-export exactness]
+\label{thm:reality-constrained-methodology-ledger-scope-export-exactness}
+Let $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$ be an accepted $\RealityConstrainedMethodologyLedgerUp$ packet. Every methodology export must display the scope row $S$ and either remain inside that displayed scope or route the attempted export through the refusal and upgrade rows $D,U$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reality-constrained-methodology-ledger-carrier}. The packet contains a distinguished scope row $S$, a domain-leakage refusal row $D$, and an upgrade-route row $U$; it contains no other export-authorizing coordinate.
+
+Apply the NameCert obligations of \autoref{thm:reality-constrained-methodology-ledger-namecert-obligations}. Scope exactness requires $S$ before export, while domain-leakage refusal sends every attempted export beyond $S$ through $D$ or through the declared extension path $U$.
+
+Finally use \autoref{thm:reality-constrained-methodology-ledger-domain-leakage-refusal}. A methodology claim that crosses the displayed scope without those rows is rejected as an export outside the accepted finite ledger. Hence the only accepted export routes are the in-scope route through $S$ and the displayed beyond-scope route through $D,U$.
+\end{proof}
+
 \begin{theorem}[Reality-constrained methodology-ledger sibling independence]
 \label{thm:reality-constrained-methodology-ledger-sibling-independence}
 The $\RealityConstrainedMethodologyLedgerUp$ carrier is not bijective to any one of $\RealityConstrainedExplanationUp$, $\RealityConstrainedModelAuditUp$, $\RealityConstrainedObjectivityUp$, $\RealityConstrainedTowerCompressionUp$, or $\OpenFitPacketUp$. Each sibling lacks at least one of the joined effective-region, idealization-residue, domain-leakage, upgrade-route, and methodology-ledger rows required by \autoref{def:reality-constrained-methodology-ledger-carrier}.
@@ -92,8 +104,137 @@ $\RealityConstrainedTowerCompressionUp$ supplies compression residue and endpoin
 Since each sibling omits at least one required field of $L$, no bijection can preserve all carrier fields of \autoref{def:reality-constrained-methodology-ledger-carrier}.
 \end{proof}
 
+\begin{theorem}[Reality-constrained methodology-ledger failure-surface exhaustion]
+\label{thm:reality-constrained-methodology-ledger-failure-surface-exhaustion}
+Let $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$ be an accepted $\RealityConstrainedMethodologyLedgerUp$ packet. Every accepted methodology consumer routed by $C$ must expose in $F$ each finite defeating test available from the explanation, audit, objectivity, tower-compression, open-fit, scope, refusal, and upgrade rows before the route is accepted.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:reality-constrained-methodology-ledger-carrier} displays $F$ as the row collecting finite tests, signature mismatches, observer-anchor failures, tower-residue conflicts, and open-fit defeats. The certificate of \autoref{def:reality-constrained-methodology-ledger-certificate} requires preservation of that row when two accepted packets agree as methodology ledgers.
+
+Apply the failure-surface exposure clause of \autoref{thm:reality-constrained-methodology-ledger-namecert-obligations}. It states that finite defeats from the sibling rows must appear in $F$ before $C$ is accepted.
+
+The refusal theorem \autoref{thm:reality-constrained-methodology-ledger-domain-leakage-refusal} closes the remaining route. A consumer that attempts to use an unexposed defeating test as if it were harmless either exports beyond the displayed scope or reads outside the admitted ledger, and neither route is licensed by $D$ and $U$.
+\end{proof}
+
+\begin{theorem}[Reality-constrained methodology-ledger consumer-route exactness]
+\label{thm:reality-constrained-methodology-ledger-consumer-route-exactness}
+For any accepted $\RealityConstrainedMethodologyLedgerUp$ packet $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$, the accepted consumer route factors exactly through the displayed rows $X,A,O,T,I,S,D,U,F,H,C,Q,N$. In particular, it cannot read hidden observer privilege, unbounded explanation, final model truth, closed empirical fit, or any other coordinate absent from the carrier.
+\end{theorem}
+\begin{proof}
+By \autoref{def:reality-constrained-methodology-ledger-carrier}, the packet has exactly the displayed coordinates and explicitly omits unbounded explanation, final model truth, hidden observer privilege, endpoint/source identity, closed empirical fit, and export outside the packet. Thus a consumer route that uses one of those omitted coordinates is not a route through $L$.
+
+The certificate in \autoref{def:reality-constrained-methodology-ledger-certificate} makes the same restriction invariant under accepted comparison: agreement preserves the displayed route through the sibling, scope, refusal, upgrade, failure, transport, provenance, and local naming rows. The NameCert obligation theorem \autoref{thm:reality-constrained-methodology-ledger-namecert-obligations} records this as ledger non-escape.
+
+Finally apply \autoref{thm:reality-constrained-methodology-ledger-domain-leakage-refusal}. Any alleged consumer authority that depends on a hidden observer, an unbounded explanation, a final truth coordinate, or a closed fit is an export beyond the displayed scope and must be refused unless it is rerouted through the admitted upgrade surface; without such a displayed row it is not accepted by $C$.
+\end{proof}
+
+\begin{theorem}[Reality-constrained methodology-ledger upgrade-route determinacy]
+\label{thm:reality-constrained-methodology-ledger-upgrade-route-determinacy}
+Let $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$ be an accepted $\RealityConstrainedMethodologyLedgerUp$ packet. Every accepted export beyond the scope row $S$ is determined by the displayed refusal row $D$ and upgrade row $U$; it is not determined by deleting, replacing, or bypassing the present carrier.
+\end{theorem}
+\begin{proof}
+The carrier definition \autoref{def:reality-constrained-methodology-ledger-carrier} assigns attempted exports beyond $S$ to $D$ and admissible extension paths to $U$. No separate coordinate records an export by erasing the carrier or by appealing to an outside methodological authority.
+
+The classifier in \autoref{def:reality-constrained-methodology-ledger-certificate} preserves both rows. Therefore accepted comparison of methodology-ledger packets keeps the refused exports and admitted extension paths visible rather than allowing them to be reconstructed from hidden data.
+
+Use the domain-leakage clause of \autoref{thm:reality-constrained-methodology-ledger-namecert-obligations} and the refusal theorem \autoref{thm:reality-constrained-methodology-ledger-domain-leakage-refusal}. Together they force every beyond-$S$ export to be either refused in $D$ or supplied with a route in $U$, so bypassing the present carrier cannot determine an accepted upgrade route.
+\end{proof}
+
+\begin{theorem}[Reality-constrained methodology-ledger root scope carrier admission]
+\label{thm:reality-constrained-methodology-ledger-root-scope-carrier-admission}
+Every accepted $\RealityConstrainedMethodologyLedgerUp$ root read is admitted only through the displayed carrier rows
+$$
+X,A,O,T,I,S,D,U,F,H,C,Q,N.
+$$
+No root consumer may replace those rows by an unbounded explanation, final model truth coordinate, hidden observer privilege, closed empirical fit, endpoint identity, or off-ledger methodology export.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reality-constrained-methodology-ledger-carrier}. It lists exactly the explanation, audit, objectivity, tower-compression, open-fit, scope, refusal, upgrade, failure, transport, consumer, provenance, and local naming rows.
+
+Apply the carrier-admission and ledger-non-escape clauses of \autoref{thm:reality-constrained-methodology-ledger-namecert-obligations}. The accepted root read must therefore expose those rows before it is a local $\NameCert_{\RealityConstrainedMethodologyLedgerUp}$ read.
+
+The certificate of \autoref{def:reality-constrained-methodology-ledger-certificate} preserves the same displayed rows under comparison. Hence any route using an absent coordinate is not a root read of the accepted methodology-ledger carrier.
+\end{proof}
+
+\begin{theorem}[Reality-constrained methodology-ledger root refusal upgrade coverage]
+\label{thm:reality-constrained-methodology-ledger-root-refusal-upgrade-coverage}
+Let $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$ be an accepted $\RealityConstrainedMethodologyLedgerUp$ packet. Every beyond-scope methodology export from the root read is covered by the domain-leakage refusal row $D$ or by the upgrade-route row $U$.
+\end{theorem}
+\begin{proof}
+Start with scope-export exactness, \autoref{thm:reality-constrained-methodology-ledger-scope-export-exactness}. It requires the scope row $S$ before any methodology export and sends every export beyond $S$ through the displayed refusal and upgrade rows.
+
+The domain-leakage refusal theorem, \autoref{thm:reality-constrained-methodology-ledger-domain-leakage-refusal}, gives the local rejection clause. A claim that crosses the displayed scope without a refusal record in $D$ and an extension route in $U$ is not accepted as a methodology export.
+
+Finally apply upgrade-route determinacy, \autoref{thm:reality-constrained-methodology-ledger-upgrade-route-determinacy}. It rules out deleting, replacing, or bypassing the carrier as a way to determine an accepted beyond-scope export, leaving only the $D$ and $U$ coverage rows.
+\end{proof}
+
+\begin{theorem}[Reality-constrained methodology-ledger root failure consumer exhaustion]
+\label{thm:reality-constrained-methodology-ledger-root-failure-consumer-exhaustion}
+For any accepted $\RealityConstrainedMethodologyLedgerUp$ packet $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$, every accepted consumer route must expose the failure row $F$ before using the consumer route $C$.
+\end{theorem}
+\begin{proof}
+Use the failure-surface exposure clause of \autoref{thm:reality-constrained-methodology-ledger-namecert-obligations}. It places the finite defeats from the explanation, audit, objectivity, tower-compression, and open-fit rows in $F$ before the consumer route is accepted.
+
+Apply failure-surface exhaustion, \autoref{thm:reality-constrained-methodology-ledger-failure-surface-exhaustion}. The same exhaustion requirement covers defeating tests available from the scope, refusal, and upgrade rows, so the root consumer cannot postpone $F$ until after $C$.
+
+Finally use consumer-route exactness, \autoref{thm:reality-constrained-methodology-ledger-consumer-route-exactness}. Since $C$ factors through the displayed carrier rows and no hidden failure surface exists outside them, every accepted consumer route must expose $F$ before it is read through $C$.
+\end{proof}
+
+\begin{theorem}[Reality-constrained methodology-ledger source-refusal boundary]
+\label{thm:reality-constrained-methodology-ledger-source-refusal-boundary}
+Let $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$ be an accepted $\RealityConstrainedMethodologyLedgerUp$ packet. Any export that reads one of the sibling source rows $X,A,O,T,I$ beyond the displayed scope row $S$ must be witnessed in the refusal row $D$ before the consumer route $C$ may accept it.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reality-constrained-methodology-ledger-carrier}. The sibling source rows, the scope row, the refusal row, and the consumer route are all displayed in the same finite packet, and there is no off-ledger coordinate from which a consumer can authorize a beyond-scope read.
+
+Apply the scope exactness and domain-leakage clauses of \autoref{thm:reality-constrained-methodology-ledger-namecert-obligations}. They force every methodology export to display $S$ and force every attempted export beyond $S$ into the refusal or extension surface.
+
+Now use \autoref{thm:reality-constrained-methodology-ledger-domain-leakage-refusal}. A beyond-scope export that lacks its witness in $D$ is rejected before it reaches $C$. Finally, \autoref{thm:reality-constrained-methodology-ledger-upgrade-route-determinacy} rules out deleting, replacing, or bypassing the carrier as a competing source for the same accepted export.
+\end{proof}
+
+\begin{theorem}[Reality-constrained methodology-ledger upgrade scope lock]
+\label{thm:reality-constrained-methodology-ledger-upgrade-scope-lock}
+Let $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$ be an accepted $\RealityConstrainedMethodologyLedgerUp$ packet. An accepted upgrade row $U$ preserves the same displayed packet
+$$
+X,A,O,T,I,S,D,U,F,H,C,Q,N
+$$
+by constraining $U$ to the declared extension route; it does not replace the carrier, erase $S$ or $D$, or create a second consumer packet for the methodology claim.
+\end{theorem}
+\begin{proof}
+The carrier definition \autoref{def:reality-constrained-methodology-ledger-carrier} makes $U$ one row of the displayed packet rather than a substitute carrier. Thus an upgrade route is read together with the explanation, audit, objectivity, tower-compression, open-fit, scope, refusal, failure, transport, consumer, provenance, and local naming rows.
+
+Apply \autoref{thm:reality-constrained-methodology-ledger-namecert-obligations}. The obligation surface demands carrier admission, sibling accountability, scope exactness, domain-leakage refusal, failure exposure, and ledger non-escape for the same packet whenever a methodology claim is accepted.
+
+The refusal theorem \autoref{thm:reality-constrained-methodology-ledger-domain-leakage-refusal} and upgrade-route determinacy \autoref{thm:reality-constrained-methodology-ledger-upgrade-route-determinacy} then close the route. They allow $U$ to declare how the claim may be extended, but they do not allow $U$ to delete the existing scope, refusal, failure, or consumer rows.
+\end{proof}
+
+\begin{theorem}[Reality-constrained methodology-ledger failure-route locality]
+\label{thm:reality-constrained-methodology-ledger-failure-route-locality}
+Let $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$ be an accepted $\RealityConstrainedMethodologyLedgerUp$ packet. Defeating tests recorded in the failure row $F$ remain local to the displayed sibling, scope, refusal, upgrade, transport, consumer, provenance, and local naming rows. They cannot be converted by $C$ into unbounded model truth, hidden observer privilege, final explanation authority, or a closed empirical oracle.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:reality-constrained-methodology-ledger-carrier}. The failure row $F$ is one component of the finite methodology ledger, and the omitted coordinates include unbounded explanation, final model truth, hidden observer privilege, and closed empirical fit.
+
+Apply \autoref{thm:reality-constrained-methodology-ledger-namecert-obligations}. The failure-surface exposure clause requires defeating tests to appear in $F$ before $C$ is accepted, while ledger non-escape prevents $C$ from reading authority outside the displayed carrier.
+
+Use \autoref{thm:reality-constrained-methodology-ledger-domain-leakage-refusal} for any attempt to export those defeating tests beyond the displayed scope. Finally, \autoref{thm:reality-constrained-methodology-ledger-upgrade-route-determinacy} confines accepted beyond-scope movement to the displayed refusal and upgrade rows, so no defeating test in $F$ becomes an unbounded truth or hidden-observer privilege.
+\end{proof}
+
 \falsifiablePrediction{A carrier with no domain-leakage refusal row cannot support the methodology-ledger NameCert obligations.}
 
 \independenceWitness{realityconstrainedexplanation, realityconstrainedmodelaudit, realityconstrainedobjectivity, realityconstrainedtowercompression, openfitpacket: each sibling lacks at least one of the joined effective-region, idealization-residue, domain-leakage, upgrade-route, and methodology-ledger rows, so no bijection preserves all carrier fields.}
 
 The Lean follow-up must provide \texttt{Nontrivial RealityConstrainedMethodologyLedgerUp} and \texttt{FieldFaithful RealityConstrainedMethodologyLedgerUp} instances in \texttt{lean4/BEDC/Derived/RealityConstrainedMethodologyLedgerUp/TasteGate.lean}.
+
+\closureat{RealityConstrainedMethodologyLedgerUp}{seedStr}
+
+\begin{closurestatus}{\RealityConstrainedMethodologyLedgerUp}
+  \constructivestory{A $\RealityConstrainedMethodologyLedgerUp$ packet is generated from explanation rows, model-audit rows, multi-observer rows, tower-compression rows, open-fit rows, an effective-region scope row, domain-leakage refusal, upgrade routes, defeating tests, transport, provenance, a consumer ledger, falsifiable predictions, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:reality-constrained-methodology-ledger-carrier} and \autoref{thm:reality-constrained-methodology-ledger-namecert-obligations} bind the finite methodology-ledger carrier and its six local NameCert obligation rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert unbounded explanation, final model truth, hidden observer privilege, closed empirical fit, endpoint identity, or Lean verification.}
+  \upgradepath{Scoped closure requires methodology-ledger obligations for the refusal, upgrade, failure-surface, consumer-route, and prediction rows, together with Lean TasteGate verification.}
+\end{closurestatus}

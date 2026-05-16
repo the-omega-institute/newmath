@@ -24,11 +24,13 @@ with the following displayed rows:
 \end{enumerate}
 The classifier for accepted carriers compares exactly $F,I,R,K,L,H,C,P,N$. It has no coordinate for a privileged observer, an unledgered anchor jump, a hidden invariant source, a global synchronization history, or host equality of observer descriptions.
 \end{definition}
+\leandef{BEDC.Derived.AnchorStabilityCertificateUp.AnchorStabilityCertificateUp}
 
 \begin{theorem}[Anchor-stability certificate NameCert obligations]
 \label{thm:anchor-stability-certificate-namecert-obligations}
 For every accepted \AnchorStabilityCertificateUp{} carrier $A=(F,I,R,K,L,H,C,P,N)$, the local $\NameCert_{\AnchorStabilityCertificateUp}$ surface consists exactly of observer-family exposure through $F$, invariant-row exposure through $I$, anchor-change routing through $R$, classifier comparison through $K$, observation-and-transformation ledger exposure through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.AnchorStabilityCertificateUp.AnchorStabilityCertificateTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 Project the accepted packet. The rows $F,I,R,K,L$ display the family, invariant, route, classifier, and ledger coordinates that make anchor stability inspectable.
 
@@ -58,3 +60,16 @@ Finally inspect the downstream use in $\RelationalObjectivityUp$. A relational-o
 \independenceWitness{relationalobjectivity, observerhistidentity, multihistconfig, crossperspectivealignment, localitycell: none is bijective to AnchorStabilityCertificateUp because none stores the invariant row, anchor-change route, classifier, ledger, and local NameCert as one certificate.}
 
 The Lean file `TasteGate.lean` for $\mathsf{BEDC.Derived.AnchorStabilityCertificateUp}$ must provide $\mathsf{Nontrivial}\ \AnchorStabilityCertificateUp$ and $\mathsf{FieldFaithful}\ \AnchorStabilityCertificateUp$ instances for the displayed carrier $F,I,R,K,L,H,C,P,N$.
+
+\closureat{AnchorStabilityCertificateUp}{seedStr}
+
+\begin{closurestatus}{\AnchorStabilityCertificateUp}
+  \constructivestory{An $\AnchorStabilityCertificateUp$ packet is generated from an observer-family row, invariant row, anchor-change route, classifier row, ledger row, componentwise transport, displayed continuation routes, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the displayed anchor-stability carrier and the nonescape theorem for reads through $F,I,R,K,L,H,C,P,N$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean TasteGate, Nontrivial, FieldFaithful, or checked NameCert obligations for anchor-stability certificates.}
+  \upgradepath{Promotion beyond seed requires Lean TasteGate, Nontrivial, FieldFaithful, and NameCert checks for the displayed carrier and nonescape surface.}
+\end{closurestatus}

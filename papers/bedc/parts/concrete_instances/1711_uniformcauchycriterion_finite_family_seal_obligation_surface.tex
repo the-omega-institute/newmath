@@ -669,3 +669,39 @@ Now use the finite-observation pullback \autoref{thm:finite-observation-budget-s
 
 Finally apply terminal route no-branching for the selector, \autoref{thm:finite-observation-budget-selector-terminal-route-no-branching}. Once the rows $B,S,W',D,R,E',H',C',P',N'$ and the synchronized UniformCauchyCriterion rows are fixed, there is no second terminal route through hidden selector, quotient, choice, host-metric, selected-limit, or completeness data. Hence the terminal Real route of $U$ is exactly the finite selector route $B \to S \to W' \to D \to R \to E'$.
 \end{proof}
+
+\begin{theorem}[Uniform Cauchy criterion Real-window terminal route]
+\label{thm:uniform-cauchy-criterion-realwindowbudget-terminal-route}
+Every accepted $\UniformCauchyCriterionUp$ terminal $\RealUp$ route that consumes a displayed $\RealWindowBudgetUp$ packet and a displayed $\RealCompletionExactBoundaryUp$ packet factors through the same finite $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, selector-budget, seal-classifier, witness-ledger, transport, $\Cont$, $\Pkg$, and $\NameCert$ rows. The consumer receives no quotient stream, selected limit, host real equality, ambient completeness, metric-completeness, or choice row.
+\end{theorem}
+\begin{proof}
+Start with the local terminal route for $\UniformCauchyCriterionUp$. The terminal Real-route certificate of \autoref{thm:uniform-cauchy-criterion-terminal-real-route-certificate} and the terminal seal classifier route of \autoref{thm:uniform-cauchy-criterion-terminal-seal-classifier-route} confine every accepted terminal read to the displayed finite route from $I$ through $E$, with $H,C,P,N$ as the structural rows.
+
+Next consume the $\RealWindowBudgetUp$ packet. Its finite-route visibility theorem, \autoref{thm:real-window-budget-finite-route-visibility}, exposes the finite window, dyadic readback, regular handoff, Real seal, selector-budget, disclosure, transport, replay, provenance, and local naming rows. The Real-completion handoff of \autoref{thm:real-window-budget-real-completion-handoff} keeps Real and Completion consumers on that same finite route rather than allowing quotient streams, host equality, selected limits, or ambient completeness.
+
+Now attach the $\RealCompletionExactBoundaryUp$ packet. Four-face exactness, \autoref{thm:real-completion-exact-boundary-four-face-exactness}, identifies the StreamName, RegSeqRat, DyadicRatCore, and terminal Real faces as the only completion faces after the seal, classifier, witness-ledger, and budget rows. The terminal-route pullback and non-escape results, \autoref{thm:real-completion-exact-boundary-terminal-route-pullback} and \autoref{thm:real-completion-exact-boundary-nonescape}, prevent the boundary from adding quotient streams, selected limits, host real equality, choice, ambient completeness, metric completeness, or a second terminal route.
+
+Combining the three packet surfaces gives one displayed terminal route. The UniformCauchyCriterion rows supply the accepted terminal classifier route, the RealWindowBudget rows expose the finite observation budget used by that route, and the RealCompletionExactBoundary rows certify the four completion faces without extra completion data. Hence the cross-chapter consumer factors through exactly the finite rows listed in the statement.
+\end{proof}
+
+\begin{theorem}[Uniform Cauchy criterion finite-family budget seal composition]
+\label{thm:uniform-cauchy-criterion-finite-family-budget-seal-composition}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted finite-family $\UniformCauchyCriterionUp$ packet. Any $\RealWindowBudgetUp$ consumer that preserves the endpoint route of $U$, the $\StreamNameUp$ four-object exit route, the $\RegSeqRatUp$ real-seal handoff, and the $\RealWindowBudgetUp$ completion handoff factors through the single budgeted seal path
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+It cannot introduce a second $\StreamNameUp$ family, quotient stream, host real equality, selected limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply the finite-family endpoint budget reflector and route lock, \autoref{thm:uniform-cauchy-criterion-finite-family-endpoint-budget-reflector} and \autoref{thm:uniform-cauchy-criterion-finite-family-route-lock}. They identify every endpoint-facing read of $U$ with the displayed budgeted route and prevent a second public seal path through an independent stream family or detached completion coordinate.
+
+Next compose the three external handoff surfaces. The $\StreamNameUp$ side is the four-object exit route of \autoref{thm:streamname-real-completion-four-object-exit-route}; the regular-rational side is the seal handoff of \autoref{thm:regseqrat-real-seal-handoff}; and the Real-window side is the completion handoff of \autoref{thm:real-window-budget-real-completion-handoff}. These surfaces read the finite StreamName, RegSeqRat, DyadicRatCore, and Real faces as projections of one displayed BEDC route rather than as independently chosen completion data.
+
+The local nonescape boundary then removes the absent coordinates. By \autoref{thm:uniform-cauchy-criterion-finite-family-nonescape-ledger}, selected limits, quotient streams, host real equality, ambient completeness, and detached tail data are not rows of the accepted packet.
+
+Finally use the terminal Real-window route of \autoref{thm:uniform-cauchy-criterion-realwindowbudget-terminal-route}. Since the endpoint route, StreamName exit, RegSeqRat seal handoff, and RealWindowBudget completion handoff have all been identified with the same rows $I,W,M,Q,T,E,H,C,P,N$, the consumer has only the single factorization path displayed in the statement.
+\end{proof}

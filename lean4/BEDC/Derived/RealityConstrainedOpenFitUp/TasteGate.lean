@@ -598,3 +598,11 @@ theorem RealityConstrainedOpenFitTasteGate_single_carrier_alignment :
                     Or.inl (List.Mem.head _)⟩
 
 end BEDC.Derived.RealityConstrainedOpenFitUp.TasteGate
+
+namespace BEDC.Derived.RealityConstrainedOpenFitUp
+
+def taste_gate :
+    BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.RealityConstrainedOpenFitUp :=
+  TasteGate.taste_gate
+
+end BEDC.Derived.RealityConstrainedOpenFitUp
