@@ -90,4 +90,30 @@ theorem RealityConstrainedTowerCompressionNameCert_obligations [AskSetup] [Packa
     }
   exact ⟨cert, endpointUnary, readLedgerUnary, readEndpointUnary⟩
 
+theorem RealityConstrainedTowerCompressionLedger_nonescape [AskSetup] [PackageSetup]
+    {S T O F A M C L E R P N readLedger readEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealityConstrainedTowerCompressionCarrier S T O F A M C L E R P N bundle pkg →
+      Cont E L readLedger →
+        Cont readLedger C readEndpoint →
+          PkgSig bundle readEndpoint pkg →
+            UnaryHistory L ∧ UnaryHistory E ∧ UnaryHistory readLedger ∧
+              UnaryHistory readEndpoint ∧ Cont E L readLedger ∧
+                Cont readLedger C readEndpoint ∧ hsame E (append C L) ∧
+                  PkgSig bundle readEndpoint pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame Cont ProbeBundle Pkg
+  intro carrier ledgerRoute endpointRoute endpointPkg
+  obtain ⟨_sourceUnary, _towerUnary, _observerUnary, _fitUnary, _approxUnary,
+    _auditUnary, classifierUnary, ledgerUnary, endpointUnary, _replayUnary,
+    _provenanceUnary, _nameUnary, _sourceTowerObserver, _observerFitApprox,
+    _approxAuditClassifier, _classifierLedgerEndpoint, _endpointReplayProvenance,
+    _provenanceNameLedger, endpointSameClassifierLedger, _endpointPkg⟩ := carrier
+  have readLedgerUnary : UnaryHistory readLedger :=
+    unary_cont_closed endpointUnary ledgerUnary ledgerRoute
+  have readEndpointUnary : UnaryHistory readEndpoint :=
+    unary_cont_closed readLedgerUnary classifierUnary endpointRoute
+  exact
+    ⟨ledgerUnary, endpointUnary, readLedgerUnary, readEndpointUnary, ledgerRoute,
+      endpointRoute, endpointSameClassifierLedger, endpointPkg⟩
+
 end BEDC.Derived.RealityConstrainedTowerCompressionUp
