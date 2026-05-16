@@ -1,0 +1,43 @@
+\begin{theorem}[MetaCIC normalization frontier root normalization gate exhaustion]
+\label{thm:metacic-normalization-frontier-root-normalization-gate-exhaustion}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet
+$$
+F=(C,K,E,N,S,H,R,P,L),
+$$
+every root normalization-facing read is exhausted by the candidate rows $C,K$, the normal-endpoint rows $E,N$, the obstruction row $S$, the componentwise transport row $H$, the replay row $R$, the provenance row $P$, and the local name row $L$. In particular, a root reader cannot obtain normalization evidence without choosing the displayed candidate route or the displayed endpoint route while retaining the obstruction coordinate.
+\end{theorem}
+\begin{proof}
+Project the root carrier rows of \autoref{thm:metacic-normalization-frontier-root-carrier-rows}. The root-facing packet displays exactly $C,K,E,N,S,H,R,P,L$, so any normalization-facing read starts inside the same finite $\BHist$ carrier.
+
+The positive entrances are already exhausted. The candidate entrance is the projection through \autoref{thm:metacic-normalization-frontier-root-candidate-gate-projection}, and the endpoint entrance is the route described by \autoref{thm:metacic-normalization-frontier-root-normal-endpoint-route-exhaustion}.
+
+It remains to keep the structural rows visible. Apply \autoref{thm:metacic-normalization-frontier-root-obstruction-preserving-namecert-triad} and \autoref{thm:metacic-normalization-frontier-consumer-route-exhaustion}. They retain $S,H,R,P,L$ alongside both positive routes, so no root normalization-facing consumer reads a concealed route outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root obstruction stability]
+\label{thm:metacic-normalization-frontier-root-obstruction-stability}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet
+$$
+F=(C,K,E,N,S,H,R,P,L),
+$$
+the row $S$ remains a transported obstruction coordinate under both the candidate route $C,K,H,R,P,L$ and the endpoint route $E,N,H,R,P,L$. It is never consumed as positive normalization evidence, and it cannot be rewritten as a closed-normal endpoint, a consistency witness, or erased subject reduction.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and separation rows. \autoref{thm:metacic-normalization-frontier-root-carrier-rows} exposes $S$ as its own coordinate, while \autoref{thm:metacic-normalization-frontier-candidate-obstruction-separation} prevents the candidate rows $C,K$ from discharging it.
+
+Now follow the endpoint route. \autoref{thm:metacic-normalization-frontier-root-normal-endpoint-route-exhaustion} routes endpoint use through $E,N,H,R,P,L$, and \autoref{thm:metacic-normalization-frontier-root-obstruction-preserving-namecert-triad} keeps $S$ under the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+The consumer side adds no positive use of $S$. By \autoref{thm:metacic-normalization-frontier-consumer-route-exhaustion}, downstream readers keep the obstruction row visible rather than consuming it as normalization evidence. Thus $S$ is stable under both displayed routes.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root consumer choice boundary]
+\label{thm:metacic-normalization-frontier-root-consumer-choice-boundary}
+Every closed-normal, consistency-facing, or SubjectReductionBoundary-facing consumer of an accepted $\MetaCICNormalizationFrontierUp$ packet has only the displayed candidate route through $C,K,H,R,P,L$ or the displayed endpoint route through $E,N,H,R,P,L$, with $S$ retained as the obstruction coordinate of the same packet. There is no third root route for such a consumer.
+\end{theorem}
+\begin{proof}
+First exhaust root admission. The carrier theorem \autoref{thm:metacic-normalization-frontier-root-carrier-rows} supplies only the rows $C,K,E,N,S,H,R,P,L$.
+
+Next split the allowed consumer choices. Candidate use is fixed by \autoref{thm:metacic-normalization-frontier-root-candidate-gate-projection}; endpoint use is fixed by \autoref{thm:metacic-normalization-frontier-root-normal-endpoint-route-exhaustion} and \autoref{thm:metacic-normalization-frontier-root-closed-normal-route-totality}.
+
+Finally apply the obstruction and consumer exhaustion rows. \autoref{thm:metacic-normalization-frontier-root-obstruction-preserving-namecert-triad} keeps $S$ transported but unconsumed, and \autoref{thm:metacic-normalization-frontier-consumer-route-exhaustion} rules out any consumer route outside the displayed candidate and endpoint surfaces. Therefore closed-normal, consistency-facing, and SubjectReductionBoundary-facing consumers have no third root choice.
+\end{proof}
