@@ -129,6 +129,7 @@ Read $D$ and $R$ next. The dyadic tolerance rows and the paired regular readback
 
 The componentwise transports in $H$ and continuations in $C$ preserve that displayed route. Provenance $P$ and the local name $N$ close the route without adding source-equivalence replacement, a side-specific tail oracle, or host-side modulus comparison.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyModulusNormalizerUp.RegularCauchyModulusNormalizerCarrier\_common\_window}
 
 \begin{theorem}[Regular Cauchy modulus normalizer non-escape]
 \label{thm:regular-cauchy-modulus-normalizer-nonescape}
@@ -281,6 +282,48 @@ diagonal-compatibility, and $\RealUp$ consumers on the same route under
 $\hsame$ and $\Cont$, and they exclude quotient streams, host equality,
 selected limits, side-specific tail oracles, and ambient completeness as route
 substitutes.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus normalizer source-exchange stability]
+\label{thm:regular-cauchy-modulus-normalizer-source-exchange-stability}
+For every accepted $\RegularCauchyModulusNormalizerUp$ carrier
+$$
+K=(X,Y,\mu_X,\mu_Y,M,W,D,R,E,H,C,P,N),
+$$
+the exchanged packet
+$$
+K^{\mathrm{op}}=(Y,X,\mu_Y,\mu_X,M,W,D,R,E,H,C,P,N)
+$$
+preserves the displayed $\mathsf{RegularCauchyModulusNormalizerClassifier}$
+route. Both displays expose the same source-meet row $M$, shared-window row
+$W$, dyadic ledger $D$, paired readback $R$, seal $E$, transports $H$,
+continuations $C$, provenance $P$, and local $\NameCert$ row $N$. Thus source
+exchange changes only the order in which the two $\RegSeqRatUp$ sources and
+their schedules are displayed; it does not change the shared-window comparison
+surface, the seal route, or the downstream NameCert surface.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:regular-cauchy-modulus-normalizer-carrier}.
+The displayed tuple separates the two source coordinates and schedules from the
+meet, window, ledger, readback, seal, transport, continuation, provenance, and
+name rows. Passing from $K$ to $K^{\mathrm{op}}$ exchanges only
+$X,Y,\mu_X,\mu_Y$.
+
+Use \autoref{def:regular-cauchy-modulus-normalizer-classifier} and
+\autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations}. The
+classifier reads the normalized route through the displayed meet and
+shared-window rows, while the NameCert obligations expose carrier admission,
+source exposure, meet exactness, shared-window exactness, classifier stability,
+and non-escape on the same finite surface.
+
+Now apply \autoref{thm:regular-cauchy-modulus-normalizer-common-window}. Since
+$M,W,D,R,E,H,C,P,N$ are unchanged, both source orders route through the same
+common window and the same seal replay.
+
+Finally apply \autoref{thm:regular-cauchy-modulus-normalizer-nonescape}. It
+rules out source-equivalence replacement, quotient streams, host real equality,
+selected limits, side-specific tail oracles, and ambient completeness as
+substitutes for the displayed exchange route.
 \end{proof}
 
 \begin{theorem}[Regular Cauchy modulus normalizer witness-ledger handoff]
@@ -493,7 +536,7 @@ the finite formal target surface available for Lean formalization.
 \begin{closurestatus}{\RegularCauchyModulusNormalizerUp}
   \constructivestory{A $\RegularCauchyModulusNormalizerUp$ packet is generated from two $\RegSeqRatUp$ source rows, two displayed Cauchy-modulus schedules, a shared $\CauchyModulusMeetUp$ row, one shared $\StreamNameUp$ window ledger, $\DyadicRatCoreUp$ tolerance, paired $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise transports, displayed continuations, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-modulus-normalizer-carrier}, \autoref{def:regular-cauchy-modulus-normalizer-classifier}, \autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations}, \autoref{thm:regular-cauchy-modulus-normalizer-source-exposure-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-shared-window-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-seal-replay-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-common-window}, \autoref{thm:regular-cauchy-modulus-normalizer-nonescape}, \autoref{thm:regular-cauchy-modulus-normalizer-source-meet-window-seal-triad}, \autoref{thm:regular-cauchy-modulus-normalizer-public-route}, \autoref{thm:regular-cauchy-modulus-normalizer-carrier-admission}, \autoref{thm:regular-cauchy-modulus-normalizer-comparison-stability}, \autoref{thm:regular-cauchy-modulus-normalizer-witness-ledger-handoff}, \autoref{thm:regular-cauchy-modulus-normalizer-scoped-primitive-binding}, \autoref{thm:regular-cauchy-modulus-normalizer-normalized-route-bridge}, \autoref{thm:regular-cauchy-modulus-normalizer-mature-witness-ledger-handoff}, and \autoref{thm:regular-cauchy-modulus-normalizer-formal-target-surface} explicitly name the carrier, classifier, source exposure, meet exactness, shared-window exactness, seal replay, classifier stability, non-escape obligation rows, primitive binding, public consumer route, carrier admission, comparison stability, witness-ledger handoff, normalized-route bridge, mature witness-ledger handoff, and compact formal target surface.}
+  \scopeclosed{\autoref{def:regular-cauchy-modulus-normalizer-carrier}, \autoref{def:regular-cauchy-modulus-normalizer-classifier}, \autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations}, \autoref{thm:regular-cauchy-modulus-normalizer-source-exposure-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-shared-window-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-seal-replay-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-common-window}, \autoref{thm:regular-cauchy-modulus-normalizer-nonescape}, \autoref{thm:regular-cauchy-modulus-normalizer-source-meet-window-seal-triad}, \autoref{thm:regular-cauchy-modulus-normalizer-public-route}, \autoref{thm:regular-cauchy-modulus-normalizer-carrier-admission}, \autoref{thm:regular-cauchy-modulus-normalizer-comparison-stability}, \autoref{thm:regular-cauchy-modulus-normalizer-source-exchange-stability}, \autoref{thm:regular-cauchy-modulus-normalizer-witness-ledger-handoff}, \autoref{thm:regular-cauchy-modulus-normalizer-scoped-primitive-binding}, \autoref{thm:regular-cauchy-modulus-normalizer-normalized-route-bridge}, \autoref{thm:regular-cauchy-modulus-normalizer-mature-witness-ledger-handoff}, and \autoref{thm:regular-cauchy-modulus-normalizer-formal-target-surface} explicitly name the carrier, classifier, source exposure, meet exactness, shared-window exactness, seal replay, classifier stability, non-escape obligation rows, primitive binding, public consumer route, carrier admission, comparison stability, source-exchange stability, witness-ledger handoff, normalized-route bridge, mature witness-ledger handoff, and compact formal target surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
