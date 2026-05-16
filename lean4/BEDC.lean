@@ -344,6 +344,7 @@ import BEDC.Derived.RealCompletionExactBoundaryUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.CauchySharedTailModulusUp.TasteGate
 import BEDC.Derived.RealityConstrainedExplanationUp.TasteGate
+import BEDC.Derived.ContinuationCountermodelUp.TasteGate
 import BEDC.Derived.RealityConstrainedSignatureFitUp.TasteGate
 import BEDC.Derived.CauchyTailModulusFusionUp.TasteGate
 import BEDC.Derived.CauchyTailModulusSealUp.TasteGate
@@ -666,6 +667,7 @@ import BEDC.Derived.DyadicTailBoundUp.ConsumerRoutes
 import BEDC.Derived.DyadicTailBoundUp.ZeroPacket
 import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.FiniteNetMinimumFoldUp
+import BEDC.Derived.FiniteNetMinimumFoldUp.HandoffGate
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.DimLiftBoundaryUp
@@ -733,6 +735,7 @@ import BEDC.Derived.ContinuationMonadUp.CategoryGeneratorFormalHandoff
 import BEDC.Derived.ContinuationMonadUp.RootSourceCoverage
 import BEDC.Derived.ContinuationMonadUp.RootDownstreamGeneratorPackage
 import BEDC.Derived.ContinuationBigStepUp
+import BEDC.Derived.ContinuationCountermodelUp.TasteGate
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CauchyDiagonalFusionUp.TasteGate
