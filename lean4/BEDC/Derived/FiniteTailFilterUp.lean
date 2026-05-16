@@ -299,4 +299,33 @@ theorem FiniteTailFilterCarrier_structural_provenance_obligation
     ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, provenanceReadUnary, routeR,
       routeQ, provenanceRoute, sameNameSeal, provenancePkg, provenanceReadPkg⟩
 
+theorem FiniteTailFilterCarrier_common_tail_seal_cofinality
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N commonTail sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      Cont B Q commonTail ->
+        Cont commonTail E sealRead ->
+          PkgSig bundle sealRead pkg ->
+            UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory B ∧
+              UnaryHistory Q ∧ UnaryHistory E ∧ UnaryHistory commonTail ∧
+                UnaryHistory sealRead ∧ Cont S D R ∧ Cont R B Q ∧
+                  Cont B Q commonTail ∧ Cont commonTail E sealRead ∧ hsame N E ∧
+                    PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier commonTailRoute sealReadRoute sealReadPkg
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryH, _unaryP, routeR, routeQ,
+    sameNameSeal⟩ := carrier
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryS unaryD routeR
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryR unaryB routeQ
+  have commonTailUnary : UnaryHistory commonTail :=
+    unary_cont_closed unaryB unaryQ commonTailRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed commonTailUnary unaryE sealReadRoute
+  exact
+    ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, commonTailUnary, sealReadUnary,
+      routeR, routeQ, commonTailRoute, sealReadRoute, sameNameSeal, sealReadPkg⟩
+
 end BEDC.Derived.FiniteTailFilterUp
