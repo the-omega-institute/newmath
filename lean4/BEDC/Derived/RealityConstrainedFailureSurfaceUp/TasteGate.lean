@@ -10,7 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RealityConstrainedFailureSurfaceUp : Type where
-  | mk (O D K U L H C P N : BHist) : RealityConstrainedFailureSurfaceUp
+  | mk : (O D K U L H C P N : BHist) → RealityConstrainedFailureSurfaceUp
   deriving DecidableEq
 
 def realityConstrainedFailureSurfaceEncodeBHist : BHist → RawEvent
@@ -25,7 +25,7 @@ def realityConstrainedFailureSurfaceDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (realityConstrainedFailureSurfaceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (realityConstrainedFailureSurfaceDecodeBHist tail)
 
-private theorem realityConstrainedFailureSurfaceDecodeEncodeBHist :
+private theorem RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
       realityConstrainedFailureSurfaceDecodeBHist
         (realityConstrainedFailureSurfaceEncodeBHist h) = h := by
@@ -39,34 +39,68 @@ private theorem realityConstrainedFailureSurfaceDecodeEncodeBHist :
 def realityConstrainedFailureSurfaceFields :
     RealityConstrainedFailureSurfaceUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RealityConstrainedFailureSurfaceUp.mk O D K U L H C P N =>
-      [O, D, K, U, L, H, C, P, N]
+  | RealityConstrainedFailureSurfaceUp.mk O D K U L H C P N => [O, D, K, U, L, H, C, P, N]
 
 def realityConstrainedFailureSurfaceToEventFlow :
     RealityConstrainedFailureSurfaceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (realityConstrainedFailureSurfaceFields x).map
-        realityConstrainedFailureSurfaceEncodeBHist
+  | RealityConstrainedFailureSurfaceUp.mk O D K U L H C P N =>
+      [[BMark.b0],
+        realityConstrainedFailureSurfaceEncodeBHist O,
+        [BMark.b1, BMark.b0],
+        realityConstrainedFailureSurfaceEncodeBHist D,
+        [BMark.b1, BMark.b1, BMark.b0],
+        realityConstrainedFailureSurfaceEncodeBHist K,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        realityConstrainedFailureSurfaceEncodeBHist U,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        realityConstrainedFailureSurfaceEncodeBHist L,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        realityConstrainedFailureSurfaceEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        realityConstrainedFailureSurfaceEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        realityConstrainedFailureSurfaceEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        realityConstrainedFailureSurfaceEncodeBHist N]
 
-def realityConstrainedFailureSurfaceFromEventFlow :
-    EventFlow → Option RealityConstrainedFailureSurfaceUp
+private def RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_eventAtDefault :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | O :: D :: K :: U :: L :: H :: C :: P :: N :: [] =>
-      some
-        (RealityConstrainedFailureSurfaceUp.mk
-          (realityConstrainedFailureSurfaceDecodeBHist O)
-          (realityConstrainedFailureSurfaceDecodeBHist D)
-          (realityConstrainedFailureSurfaceDecodeBHist K)
-          (realityConstrainedFailureSurfaceDecodeBHist U)
-          (realityConstrainedFailureSurfaceDecodeBHist L)
-          (realityConstrainedFailureSurfaceDecodeBHist H)
-          (realityConstrainedFailureSurfaceDecodeBHist C)
-          (realityConstrainedFailureSurfaceDecodeBHist P)
-          (realityConstrainedFailureSurfaceDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_eventAtDefault index
+        rest
 
-private theorem realityConstrainedFailureSurface_round_trip :
+def realityConstrainedFailureSurfaceFromEventFlow
+    (ef : EventFlow) : Option RealityConstrainedFailureSurfaceUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (RealityConstrainedFailureSurfaceUp.mk
+      (realityConstrainedFailureSurfaceDecodeBHist
+        (RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_eventAtDefault 1 ef))
+      (realityConstrainedFailureSurfaceDecodeBHist
+        (RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_eventAtDefault 3 ef))
+      (realityConstrainedFailureSurfaceDecodeBHist
+        (RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_eventAtDefault 5 ef))
+      (realityConstrainedFailureSurfaceDecodeBHist
+        (RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_eventAtDefault 7 ef))
+      (realityConstrainedFailureSurfaceDecodeBHist
+        (RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_eventAtDefault 9 ef))
+      (realityConstrainedFailureSurfaceDecodeBHist
+        (RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_eventAtDefault 11 ef))
+      (realityConstrainedFailureSurfaceDecodeBHist
+        (RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_eventAtDefault 13 ef))
+      (realityConstrainedFailureSurfaceDecodeBHist
+        (RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_eventAtDefault 15 ef))
+      (realityConstrainedFailureSurfaceDecodeBHist
+        (RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_eventAtDefault 17 ef)))
+
+private theorem RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_round_trip :
     ∀ x : RealityConstrainedFailureSurfaceUp,
       realityConstrainedFailureSurfaceFromEventFlow
         (realityConstrainedFailureSurfaceToEventFlow x) = some x := by
@@ -96,17 +130,17 @@ private theorem realityConstrainedFailureSurface_round_trip :
             (realityConstrainedFailureSurfaceDecodeBHist
               (realityConstrainedFailureSurfaceEncodeBHist N))) =
           some (RealityConstrainedFailureSurfaceUp.mk O D K U L H C P N)
-      rw [realityConstrainedFailureSurfaceDecodeEncodeBHist O,
-        realityConstrainedFailureSurfaceDecodeEncodeBHist D,
-        realityConstrainedFailureSurfaceDecodeEncodeBHist K,
-        realityConstrainedFailureSurfaceDecodeEncodeBHist U,
-        realityConstrainedFailureSurfaceDecodeEncodeBHist L,
-        realityConstrainedFailureSurfaceDecodeEncodeBHist H,
-        realityConstrainedFailureSurfaceDecodeEncodeBHist C,
-        realityConstrainedFailureSurfaceDecodeEncodeBHist P,
-        realityConstrainedFailureSurfaceDecodeEncodeBHist N]
+      rw [RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_decode O,
+        RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_decode D,
+        RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_decode K,
+        RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_decode U,
+        RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_decode L,
+        RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_decode H,
+        RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_decode C,
+        RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_decode P,
+        RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_decode N]
 
-private theorem realityConstrainedFailureSurfaceToEventFlow_injective
+private theorem RealityConstrainedFailureSurfaceToEventFlow_injective
     {x y : RealityConstrainedFailureSurfaceUp} :
     realityConstrainedFailureSurfaceToEventFlow x =
       realityConstrainedFailureSurfaceToEventFlow y → x = y := by
@@ -119,37 +153,22 @@ private theorem realityConstrainedFailureSurfaceToEventFlow_injective
           (realityConstrainedFailureSurfaceToEventFlow y) :=
     congrArg realityConstrainedFailureSurfaceFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (realityConstrainedFailureSurface_round_trip x).symm
-      (Eq.trans hread (realityConstrainedFailureSurface_round_trip y)))
+    (Eq.trans
+      (RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem realityConstrainedFailureSurface_fields_faithful :
+private theorem RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_fields :
     ∀ x y : RealityConstrainedFailureSurfaceUp,
-      realityConstrainedFailureSurfaceFields x =
-        realityConstrainedFailureSurfaceFields y → x = y := by
+      realityConstrainedFailureSurfaceFields x = realityConstrainedFailureSurfaceFields y →
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
   | mk O₁ D₁ K₁ U₁ L₁ H₁ C₁ P₁ N₁ =>
       cases y with
       | mk O₂ D₂ K₂ U₂ L₂ H₂ C₂ P₂ N₂ =>
-          injection hfields with hO t0
-          injection t0 with hD t1
-          injection t1 with hK t2
-          injection t2 with hU t3
-          injection t3 with hL t4
-          injection t4 with hH t5
-          injection t5 with hC t6
-          injection t6 with hP t7
-          injection t7 with hN _
-          subst hO
-          subst hD
-          subst hK
-          subst hU
-          subst hL
-          subst hH
-          subst hC
-          subst hP
-          subst hN
+          cases hfields
           rfl
 
 instance realityConstrainedFailureSurfaceBHistCarrier :
@@ -166,26 +185,25 @@ instance realityConstrainedFailureSurfaceChapterTasteGate :
     change
       realityConstrainedFailureSurfaceFromEventFlow
         (realityConstrainedFailureSurfaceToEventFlow x) = some x
-    exact realityConstrainedFailureSurface_round_trip x
+    exact RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (realityConstrainedFailureSurfaceToEventFlow_injective heq)
+    exact hxy (RealityConstrainedFailureSurfaceToEventFlow_injective heq)
 
 instance realityConstrainedFailureSurfaceFieldFaithful :
     FieldFaithful RealityConstrainedFailureSurfaceUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := realityConstrainedFailureSurfaceFields
-  field_faithful := realityConstrainedFailureSurface_fields_faithful
+  field_faithful := RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment_fields
 
 instance realityConstrainedFailureSurfaceNontrivial :
     Nontrivial RealityConstrainedFailureSurfaceUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨RealityConstrainedFailureSurfaceUp.mk BHist.Empty BHist.Empty BHist.Empty
+    ⟨RealityConstrainedFailureSurfaceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RealityConstrainedFailureSurfaceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      RealityConstrainedFailureSurfaceUp.mk (BHist.e0 BHist.Empty) BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
       by
         intro h
         cases h⟩
@@ -193,5 +211,34 @@ instance realityConstrainedFailureSurfaceNontrivial :
 def taste_gate : ChapterTasteGate RealityConstrainedFailureSurfaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   realityConstrainedFailureSurfaceChapterTasteGate
+
+theorem RealityConstrainedFailureSurfaceTasteGate_single_carrier_alignment :
+    Nonempty (Nontrivial RealityConstrainedFailureSurfaceUp) ∧
+      Nonempty (FieldFaithful RealityConstrainedFailureSurfaceUp) ∧
+        Nonempty (ChapterTasteGate RealityConstrainedFailureSurfaceUp) ∧
+          BHistCarrier.toEventFlow
+              (RealityConstrainedFailureSurfaceUp.mk BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
+            BHistCarrier.toEventFlow
+              (RealityConstrainedFailureSurfaceUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  constructor
+  · exact ⟨realityConstrainedFailureSurfaceNontrivial⟩
+  · constructor
+    · exact ⟨realityConstrainedFailureSurfaceFieldFaithful⟩
+    · constructor
+      · exact ⟨realityConstrainedFailureSurfaceChapterTasteGate⟩
+      · intro heq
+        have hxy :=
+          RealityConstrainedFailureSurfaceToEventFlow_injective
+            (x := RealityConstrainedFailureSurfaceUp.mk BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
+            (y := RealityConstrainedFailureSurfaceUp.mk (BHist.e0 BHist.Empty)
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty)
+            heq
+        cases hxy
 
 end BEDC.Derived.RealityConstrainedFailureSurfaceUp

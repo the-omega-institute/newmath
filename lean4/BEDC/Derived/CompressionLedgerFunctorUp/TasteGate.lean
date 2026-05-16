@@ -10,7 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CompressionLedgerFunctorUp : Type where
-  | mk (A K E R O M L Q J H C P N : BHist) : CompressionLedgerFunctorUp
+  | mk : (A K E R O M L Q J H C P N : BHist) → CompressionLedgerFunctorUp
   deriving DecidableEq
 
 def compressionLedgerFunctorEncodeBHist : BHist → RawEvent
@@ -25,10 +25,9 @@ def compressionLedgerFunctorDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (compressionLedgerFunctorDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (compressionLedgerFunctorDecodeBHist tail)
 
-private theorem compressionLedgerFunctorDecodeEncodeBHist :
+private theorem CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
-      compressionLedgerFunctorDecodeBHist
-        (compressionLedgerFunctorEncodeBHist h) = h := by
+      compressionLedgerFunctorDecodeBHist (compressionLedgerFunctorEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -43,33 +42,85 @@ def compressionLedgerFunctorFields : CompressionLedgerFunctorUp → List BHist
 
 def compressionLedgerFunctorToEventFlow : CompressionLedgerFunctorUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (compressionLedgerFunctorFields x).map compressionLedgerFunctorEncodeBHist
+  | CompressionLedgerFunctorUp.mk A K E R O M L Q J H C P N =>
+      [[BMark.b0],
+        compressionLedgerFunctorEncodeBHist A,
+        [BMark.b1, BMark.b0],
+        compressionLedgerFunctorEncodeBHist K,
+        [BMark.b1, BMark.b1, BMark.b0],
+        compressionLedgerFunctorEncodeBHist E,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        compressionLedgerFunctorEncodeBHist R,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        compressionLedgerFunctorEncodeBHist O,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        compressionLedgerFunctorEncodeBHist M,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        compressionLedgerFunctorEncodeBHist L,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        compressionLedgerFunctorEncodeBHist Q,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        compressionLedgerFunctorEncodeBHist J,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        compressionLedgerFunctorEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        compressionLedgerFunctorEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        compressionLedgerFunctorEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        compressionLedgerFunctorEncodeBHist N]
 
-def compressionLedgerFunctorFromEventFlow :
-    EventFlow → Option CompressionLedgerFunctorUp
+private def CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | A :: K :: E :: R :: O :: M :: L :: Q :: J :: H :: C :: P :: N :: [] =>
-      some
-        (CompressionLedgerFunctorUp.mk
-          (compressionLedgerFunctorDecodeBHist A)
-          (compressionLedgerFunctorDecodeBHist K)
-          (compressionLedgerFunctorDecodeBHist E)
-          (compressionLedgerFunctorDecodeBHist R)
-          (compressionLedgerFunctorDecodeBHist O)
-          (compressionLedgerFunctorDecodeBHist M)
-          (compressionLedgerFunctorDecodeBHist L)
-          (compressionLedgerFunctorDecodeBHist Q)
-          (compressionLedgerFunctorDecodeBHist J)
-          (compressionLedgerFunctorDecodeBHist H)
-          (compressionLedgerFunctorDecodeBHist C)
-          (compressionLedgerFunctorDecodeBHist P)
-          (compressionLedgerFunctorDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault index rest
 
-private theorem compressionLedgerFunctor_round_trip :
+def compressionLedgerFunctorFromEventFlow
+    (ef : EventFlow) : Option CompressionLedgerFunctorUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (CompressionLedgerFunctorUp.mk
+      (compressionLedgerFunctorDecodeBHist
+        (CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault 1 ef))
+      (compressionLedgerFunctorDecodeBHist
+        (CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault 3 ef))
+      (compressionLedgerFunctorDecodeBHist
+        (CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault 5 ef))
+      (compressionLedgerFunctorDecodeBHist
+        (CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault 7 ef))
+      (compressionLedgerFunctorDecodeBHist
+        (CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault 9 ef))
+      (compressionLedgerFunctorDecodeBHist
+        (CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault 11 ef))
+      (compressionLedgerFunctorDecodeBHist
+        (CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault 13 ef))
+      (compressionLedgerFunctorDecodeBHist
+        (CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault 15 ef))
+      (compressionLedgerFunctorDecodeBHist
+        (CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault 17 ef))
+      (compressionLedgerFunctorDecodeBHist
+        (CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault 19 ef))
+      (compressionLedgerFunctorDecodeBHist
+        (CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault 21 ef))
+      (compressionLedgerFunctorDecodeBHist
+        (CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault 23 ef))
+      (compressionLedgerFunctorDecodeBHist
+        (CompressionLedgerFunctorTasteGate_single_carrier_alignment_eventAtDefault 25 ef)))
+
+private theorem CompressionLedgerFunctorTasteGate_single_carrier_alignment_round_trip :
     ∀ x : CompressionLedgerFunctorUp,
-      compressionLedgerFunctorFromEventFlow
-        (compressionLedgerFunctorToEventFlow x) = some x := by
+      compressionLedgerFunctorFromEventFlow (compressionLedgerFunctorToEventFlow x) = some x :=
+    by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -91,24 +142,23 @@ private theorem compressionLedgerFunctor_round_trip :
             (compressionLedgerFunctorDecodeBHist (compressionLedgerFunctorEncodeBHist P))
             (compressionLedgerFunctorDecodeBHist (compressionLedgerFunctorEncodeBHist N))) =
           some (CompressionLedgerFunctorUp.mk A K E R O M L Q J H C P N)
-      rw [compressionLedgerFunctorDecodeEncodeBHist A,
-        compressionLedgerFunctorDecodeEncodeBHist K,
-        compressionLedgerFunctorDecodeEncodeBHist E,
-        compressionLedgerFunctorDecodeEncodeBHist R,
-        compressionLedgerFunctorDecodeEncodeBHist O,
-        compressionLedgerFunctorDecodeEncodeBHist M,
-        compressionLedgerFunctorDecodeEncodeBHist L,
-        compressionLedgerFunctorDecodeEncodeBHist Q,
-        compressionLedgerFunctorDecodeEncodeBHist J,
-        compressionLedgerFunctorDecodeEncodeBHist H,
-        compressionLedgerFunctorDecodeEncodeBHist C,
-        compressionLedgerFunctorDecodeEncodeBHist P,
-        compressionLedgerFunctorDecodeEncodeBHist N]
+      rw [CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode A,
+        CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode K,
+        CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode E,
+        CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode R,
+        CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode O,
+        CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode M,
+        CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode L,
+        CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode Q,
+        CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode J,
+        CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode H,
+        CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode C,
+        CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode P,
+        CompressionLedgerFunctorTasteGate_single_carrier_alignment_decode N]
 
-private theorem compressionLedgerFunctorToEventFlow_injective
+private theorem CompressionLedgerFunctorToEventFlow_injective
     {x y : CompressionLedgerFunctorUp} :
-    compressionLedgerFunctorToEventFlow x =
-      compressionLedgerFunctorToEventFlow y → x = y := by
+    compressionLedgerFunctorToEventFlow x = compressionLedgerFunctorToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -116,10 +166,10 @@ private theorem compressionLedgerFunctorToEventFlow_injective
         compressionLedgerFunctorFromEventFlow (compressionLedgerFunctorToEventFlow y) :=
     congrArg compressionLedgerFunctorFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (compressionLedgerFunctor_round_trip x).symm
-      (Eq.trans hread (compressionLedgerFunctor_round_trip y)))
+    (Eq.trans (CompressionLedgerFunctorTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (CompressionLedgerFunctorTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem compressionLedgerFunctor_fields_faithful :
+private theorem CompressionLedgerFunctorTasteGate_single_carrier_alignment_fields :
     ∀ x y : CompressionLedgerFunctorUp,
       compressionLedgerFunctorFields x = compressionLedgerFunctorFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -128,36 +178,10 @@ private theorem compressionLedgerFunctor_fields_faithful :
   | mk A₁ K₁ E₁ R₁ O₁ M₁ L₁ Q₁ J₁ H₁ C₁ P₁ N₁ =>
       cases y with
       | mk A₂ K₂ E₂ R₂ O₂ M₂ L₂ Q₂ J₂ H₂ C₂ P₂ N₂ =>
-          injection hfields with hA t0
-          injection t0 with hK t1
-          injection t1 with hE t2
-          injection t2 with hR t3
-          injection t3 with hO t4
-          injection t4 with hM t5
-          injection t5 with hL t6
-          injection t6 with hQ t7
-          injection t7 with hJ t8
-          injection t8 with hH t9
-          injection t9 with hC t10
-          injection t10 with hP t11
-          injection t11 with hN _
-          subst hA
-          subst hK
-          subst hE
-          subst hR
-          subst hO
-          subst hM
-          subst hL
-          subst hQ
-          subst hJ
-          subst hH
-          subst hC
-          subst hP
-          subst hN
+          cases hfields
           rfl
 
-instance compressionLedgerFunctorBHistCarrier :
-    BHistCarrier CompressionLedgerFunctorUp where
+instance compressionLedgerFunctorBHistCarrier : BHistCarrier CompressionLedgerFunctorUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := compressionLedgerFunctorToEventFlow
   fromEventFlow := compressionLedgerFunctorFromEventFlow
@@ -167,30 +191,26 @@ instance compressionLedgerFunctorChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      compressionLedgerFunctorFromEventFlow
-        (compressionLedgerFunctorToEventFlow x) = some x
-    exact compressionLedgerFunctor_round_trip x
+    change compressionLedgerFunctorFromEventFlow (compressionLedgerFunctorToEventFlow x) = some x
+    exact CompressionLedgerFunctorTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (compressionLedgerFunctorToEventFlow_injective heq)
+    exact hxy (CompressionLedgerFunctorToEventFlow_injective heq)
 
-instance compressionLedgerFunctorFieldFaithful :
-    FieldFaithful CompressionLedgerFunctorUp where
+instance compressionLedgerFunctorFieldFaithful : FieldFaithful CompressionLedgerFunctorUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := compressionLedgerFunctorFields
-  field_faithful := compressionLedgerFunctor_fields_faithful
+  field_faithful := CompressionLedgerFunctorTasteGate_single_carrier_alignment_fields
 
-instance compressionLedgerFunctorNontrivial :
-    Nontrivial CompressionLedgerFunctorUp where
+instance compressionLedgerFunctorNontrivial : Nontrivial CompressionLedgerFunctorUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨CompressionLedgerFunctorUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      CompressionLedgerFunctorUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+    ⟨CompressionLedgerFunctorUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      CompressionLedgerFunctorUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -198,5 +218,36 @@ instance compressionLedgerFunctorNontrivial :
 def taste_gate : ChapterTasteGate CompressionLedgerFunctorUp :=
   -- BEDC touchpoint anchor: BHist BMark
   compressionLedgerFunctorChapterTasteGate
+
+theorem CompressionLedgerFunctorTasteGate_single_carrier_alignment :
+    Nonempty (Nontrivial CompressionLedgerFunctorUp) ∧
+      Nonempty (FieldFaithful CompressionLedgerFunctorUp) ∧
+        Nonempty (ChapterTasteGate CompressionLedgerFunctorUp) ∧
+          BHistCarrier.toEventFlow
+              (CompressionLedgerFunctorUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty) ≠
+            BHistCarrier.toEventFlow
+              (CompressionLedgerFunctorUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  constructor
+  · exact ⟨compressionLedgerFunctorNontrivial⟩
+  · constructor
+    · exact ⟨compressionLedgerFunctorFieldFaithful⟩
+    · constructor
+      · exact ⟨compressionLedgerFunctorChapterTasteGate⟩
+      · intro heq
+        have hxy :=
+          CompressionLedgerFunctorToEventFlow_injective
+            (x := CompressionLedgerFunctorUp.mk BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
+            (y := CompressionLedgerFunctorUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
+            heq
+        cases hxy
 
 end BEDC.Derived.CompressionLedgerFunctorUp
