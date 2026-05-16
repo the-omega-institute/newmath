@@ -353,18 +353,31 @@ Classifier stability, \autoref{thm:real-limit-uniqueness-seal-classifier-stabili
 Finally use field-faithful projection, \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection}. Equality and determination of accepted packets are exhausted by the fields $L_0,L_1,Q,S,D,R,V,H,C,P,N$, so the primitive route is exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ binding.
 \end{proof}
 
+\begin{theorem}[Real limit uniqueness seal public route surface]
+\label{thm:real-limit-uniqueness-seal-public-route-surface}
+The public consumer route for $\RealLimitUniquenessSealUp$ exports exactly the two completion-seal rows $L_0,L_1$, the shared comparison row $Q$, the finite $\StreamNameUp$ window row $S$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RealUp$ classifier row $R$, the uniqueness handoff row $V$, componentwise transport $H$, displayed continuation $C$, package provenance $P$, and local $\NameCert_{\RealLimitUniquenessSealUp}$ row $N$. It exports no selected host limit, quotient stream equality, detached selector, host Real equality, ambient completeness theorem, or additional completion object.
+\end{theorem}
+\begin{proof}
+Start with the primitive scope route, \autoref{thm:real-limit-uniqueness-seal-primitive-scope-route}. It binds every displayed obligation row to the concrete BEDC primitives $L_0,L_1,Q,S,D,R,V,H,C,P,N$ and excludes selected limits, quotient streams, detached selectors, host Real equality, and ambient Real completeness from the route.
+
+Next use the nontrivial witness, \autoref{thm:real-limit-uniqueness-seal-nontrivial-witness}. The two completion-seal rows and the shared comparison-window route are genuine finite coordinates, so the public consumer surface cannot collapse to a one-row shell or a selector-only certificate.
+
+Finally apply field-faithful projection, \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection}. Equality and determination of accepted packets are exhausted by the displayed fields, and the consumer exhaustion theorem keeps downstream reads inside the same packet. Therefore the public route exports exactly the listed rows and no external Real or Completion object.
+\end{proof}
+
 \closureat{RealLimitUniquenessSealUp}{seedStr}
 \closureat{RealLimitUniquenessSealUp}{obligationStr}
 \closureat{RealLimitUniquenessSealUp}{scopedStr}[BEDC.Derived.RealLimitUniquenessSealUp.taste\_gate]
+\closureat{RealLimitUniquenessSealUp}{publicStr}[BEDC.Derived.RealLimitUniquenessSealUp.taste\_gate]
 
 \begin{closurestatus}{\RealLimitUniquenessSealUp}
   \constructivestory{A $\RealLimitUniquenessSealUp$ packet is generated from two CauchyLimitSeal rows, a shared RegSeqRat comparison row, a finite StreamName window row, a DyadicRatCore tolerance ledger, a RealUp classifier row, a RegularLimitUniqueness row, componentwise transports, displayed continuation, package provenance, and local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:real-limit-uniqueness-seal-carrier}, \autoref{thm:real-limit-uniqueness-seal-obligation-surface}, \autoref{thm:real-limit-uniqueness-seal-nonescape}, \autoref{thm:real-limit-uniqueness-seal-consumer-handoff}, \autoref{thm:real-limit-uniqueness-seal-nontrivial-witness}, \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection}, and \autoref{thm:real-limit-uniqueness-seal-primitive-scope-route} bind the two-seal carrier, shared comparison row, finite StreamName window, DyadicRatCore tolerance, RealUp classifier, uniqueness handoff, nontrivial witness, field-faithful witness, and primitive route to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:real-limit-uniqueness-seal-carrier}, \autoref{thm:real-limit-uniqueness-seal-obligation-surface}, \autoref{thm:real-limit-uniqueness-seal-nonescape}, \autoref{thm:real-limit-uniqueness-seal-consumer-handoff}, \autoref{thm:real-limit-uniqueness-seal-nontrivial-witness}, \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection}, \autoref{thm:real-limit-uniqueness-seal-primitive-scope-route}, and \autoref{thm:real-limit-uniqueness-seal-public-route-surface} bind the two-seal carrier, shared comparison row, finite StreamName window, DyadicRatCore tolerance, RealUp classifier, uniqueness handoff, nontrivial witness, field-faithful witness, primitive route, and public consumer route to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \leanchecked{BEDC.Derived.RealLimitUniquenessSealUp.taste\_gate}
   \notclaimed{This chapter does not prove Real completeness, selected-limit existence, quotient stream equality, host Real equality, Lean verification, or bridge checking for $\RealLimitUniquenessSealUp$.}
-  \upgradepath{The next paper-side obligation is a public consumer route that exports the same scoped two-seal uniqueness surface without adding selected limits, quotient streams, host Real equality, or ambient completeness.}
+  \upgradepath{The next paper-side obligation is a bridge surface that reads the public two-seal uniqueness route without adding selected limits, quotient streams, host Real equality, or ambient completeness.}
 \end{closurestatus}
