@@ -477,6 +477,7 @@ import BEDC.Derived.ObserverSubjectBoundaryUp.TasteGate
 import BEDC.Derived.ObserverTraceKernelUp.TasteGate
 import BEDC.Derived.ObserverTraceSealUp.TasteGate
 import BEDC.Derived.ConsciousObserverStateUp
+import BEDC.Derived.ConsciousObserverStateUp.ClassifierStability
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelCorpusSupplyUp.TasteGate
