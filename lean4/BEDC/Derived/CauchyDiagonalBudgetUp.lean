@@ -517,4 +517,77 @@ theorem CauchyDiagonalBudgetCarrier_nonescape [AskSetup] [PackageSetup]
     ⟨epsilonU, mU, wU, dU, kU, sU, hU, cU, pU, nameU,
       unary_cont_closed hU cU externalRoute, externalRoute, pPkg, cert⟩
 
+theorem CauchyDiagonalBudgetCarrier_finite_approximation_handoff [AskSetup] [PackageSetup]
+    {epsilon m w d k s h c p name window comparison sealRead finiteApprox : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg ->
+      Cont epsilon m window ->
+        Cont window d comparison ->
+          Cont comparison s sealRead ->
+            Cont sealRead h finiteApprox ->
+              PkgSig bundle finiteApprox pkg ->
+                hsame w window ∧ hsame k comparison ∧ hsame h sealRead ∧
+                  UnaryHistory window ∧ UnaryHistory comparison ∧ UnaryHistory sealRead ∧
+                    UnaryHistory finiteApprox ∧ PkgSig bundle p pkg ∧
+                      SemanticNameCert
+                        (fun row : BHist => hsame row finiteApprox ∧ UnaryHistory row)
+                        (fun row : BHist => hsame row finiteApprox)
+                        (fun row : BHist =>
+                          hsame row finiteApprox ∧ PkgSig bundle finiteApprox pkg)
+                        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier epsilonMWindow windowDComparison comparisonSSeal sealFinite finitePkg
+  obtain ⟨epsilonUnary, mUnary, _wUnary, dUnary, _kUnary, sUnary, hUnary, _cUnary,
+    _pUnary, _nameUnary, epsilonMW, wDK, kSH, _hCP, _cPName, pPkg⟩ := carrier
+  have sameWindow : hsame w window :=
+    cont_deterministic epsilonMW epsilonMWindow
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed epsilonUnary mUnary epsilonMWindow
+  have comparisonUnary : UnaryHistory comparison :=
+    unary_cont_closed windowUnary dUnary windowDComparison
+  have sameComparison : hsame k comparison :=
+    cont_respects_hsame sameWindow (hsame_refl d) wDK windowDComparison
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed comparisonUnary sUnary comparisonSSeal
+  have sameSeal : hsame h sealRead :=
+    cont_respects_hsame sameComparison (hsame_refl s) kSH comparisonSSeal
+  have finiteUnary : UnaryHistory finiteApprox :=
+    unary_cont_closed sealUnary hUnary sealFinite
+  have sourceFinite :
+      (fun row : BHist => hsame row finiteApprox ∧ UnaryHistory row) finiteApprox := by
+    exact ⟨hsame_refl finiteApprox, finiteUnary⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row finiteApprox ∧ UnaryHistory row)
+        (fun row : BHist => hsame row finiteApprox)
+        (fun row : BHist => hsame row finiteApprox ∧ PkgSig bundle finiteApprox pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro finiteApprox sourceFinite
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact And.intro (hsame_trans (hsame_symm sameRows) source.left)
+            (unary_transport source.right sameRows)
+      }
+      pattern_sound := by
+        intro _row source
+        exact source.left
+      ledger_sound := by
+        intro _row source
+        exact And.intro source.left finitePkg
+    }
+  exact
+    ⟨sameWindow, sameComparison, sameSeal, windowUnary, comparisonUnary, sealUnary,
+      finiteUnary, pPkg, cert⟩
+
 end BEDC.Derived.CauchyDiagonalBudgetUp
