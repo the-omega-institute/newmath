@@ -97,6 +97,7 @@ import BEDC.Derived.ApophaticNameUp.SocketGateLedgerPullback
 import BEDC.Derived.ApophaticNameUp.SocketGateRouteExhaustion
 import BEDC.Derived.ApophaticNameUp.RootUnblockRefusalBoundary
 import BEDC.Derived.ApophaticNameUp.RootBridgeTupleAuditNormalForm
+import BEDC.Derived.ApophaticNameUp.SocketCarrier
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
