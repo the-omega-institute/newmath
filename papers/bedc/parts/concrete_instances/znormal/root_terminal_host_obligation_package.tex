@@ -1,0 +1,41 @@
+\begin{theorem}[$\ZNormalUp$ terminal fuel readback admission]
+\label{thm:znormal-terminal-fuel-readback-admission}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+a terminal-host consumer is admitted to read terminal normality only after it displays the finite fuel readback route from $T$ through $F$ to $V$ and $R$, together with the transport, replay, provenance, and local naming rows $H,C,P,N$. The sibling row $K$ may be consumed only as finite normal-word evidence already attached to the packet. The admission route exports no divergence oracle, host conversion row, quotient computation, unrestricted evaluator, global normalization procedure, or substrate-halting coordinate.
+\end{theorem}
+\begin{proof}
+Start with the total-host readback display of \autoref{thm:znormal-total-host-readback-display}. It exposes the root packet as the finite rows $T,F,V,K,R,H,C,P,N$ before any terminal-host read is available.
+
+Next apply \autoref{thm:znormal-terminal-fuel-route-exhaustion}. The terminal read must pass through the route $T \longmapsto F \longmapsto V \longmapsto R$ with $H,C,P,N$ as the only structural support.
+
+Finally use \autoref{thm:znormal-root-fuel-route-nonescape} and \autoref{thm:znormal-sibling-normalword-handoff}. These keep $K$ as finite sibling normal-word evidence and exclude divergence, host conversion, quotient computation, unrestricted evaluation, global normalization, and substrate halting from the admitted readback route.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total-host normal-form ledger exhaustion]
+\label{thm:znormal-total-host-normal-form-ledger-exhaustion}
+For every accepted $\ZNormalUp$ packet $Z=(T,F,V,K,R,H,C,P,N)$, the total-host normal-form ledger is exhausted by terminal normality $V$, bounded fuel replay $F$, terminal readback $R$, sibling normal-word evidence $K$, and the structural rows $H,C,P,N$. A total-host normal-form claim may cite only those finite rows and the local $\NameCert_{\ZNormalUp}$ surface. It cannot cite a host conversion row, a global normalizer, an unbounded host-normalization procedure, a divergence oracle, or a hidden fuel source outside the packet.
+\end{theorem}
+\begin{proof}
+First project the terminal-host root factorization of \autoref{thm:znormal-terminal-host-root-factorization}. It places every terminal-host consumer inside the same finite $\BHist$ packet and gives no additional host-side coordinate.
+
+Use \autoref{thm:znormal-fuel-replay-root-exhaustion} to account for bounded fuel replay and terminal readback. The route consumes $F,V,R$ through the displayed structural rows and leaves $K$ as attached sibling evidence.
+
+Then apply \autoref{thm:znormal-normal-output-root-nonescape}. Normal-output consumption remains inside carrier admission, transport, continuation replay, package provenance, and local naming; the excluded host-side objects have no export coordinate.
+
+Thus the total-host ledger is precisely the displayed finite packet. Unbounded host normalization, hidden fuel, divergence detection, host conversion, and global normalization remain outside the accepted ledger.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ downstream normal-route boundary]
+\label{thm:znormal-downstream-normal-route-boundary}
+Every downstream normal-route consumer of an accepted $\ZNormalUp$ packet must pass through the terminal fuel readback admission of \autoref{thm:znormal-terminal-fuel-readback-admission} and the total-host ledger exhaustion of \autoref{thm:znormal-total-host-normal-form-ledger-exhaustion}. The exposed downstream route is therefore the finite packet $T,F,V,K,R,H,C,P,N$ with terminal normality, bounded fuel replay, finite normal-word evidence, continuation readback, transport, replay, provenance, and local naming. No downstream consumer receives a host conversion row, global normalization procedure, divergence oracle, unbounded evaluator, detached total-host normal form, or hidden observation of normalization beyond those rows.
+\end{theorem}
+\begin{proof}
+Begin with downstream normal-form readiness, \autoref{thm:znormal-root-downstream-normal-form-readiness}. It already requires downstream consumers to factor through the terminal-host exposure and local $\NameCert_{\ZNormalUp}$ route.
+
+Apply terminal fuel readback admission. The consumer can read terminal normality only through $T,F,V,R,H,C,P,N$, with $K$ attached as finite sibling normal-word evidence.
+
+Finally apply total-host normal-form ledger exhaustion. Since the ledger has no coordinate for host conversion, global normalization, divergence detection, unbounded evaluation, detached total-host normal forms, or hidden normalization observations, the downstream normal route is exactly the displayed finite route.
+\end{proof}

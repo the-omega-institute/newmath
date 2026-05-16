@@ -1,0 +1,49 @@
+\begin{theorem}[GapClosureBoundary terminal source admission]
+\label{thm:gap-closure-boundary-terminal-source-admission}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, a terminal source read is admitted only through the displayed source branch
+$$
+G \longrightarrow S
+$$
+with the componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\GapClosureBoundaryUp}$ row $N$. Any request not supported by that branch is routed through the displayed refusal branch
+$$
+G \longrightarrow R
+$$
+with the same structural rows. The terminal read exports no hidden closure row, hidden $\mathsf{T}$ supply, private source selector, host equality row, quotient datum, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Begin with the source-refusal admission triad of \autoref{thm:gap-closure-boundary-source-refusal-admission-triad}. It already identifies the terminal recognizer-facing request with the request row $G$, the supported source route $G \longrightarrow S$, and the unsupported refusal route $G \longrightarrow R$.
+
+For supported reads, apply recognizer source admission, \autoref{thm:gap-closure-boundary-recognizer-source-admission}. The $\GroundCompilerRecognizerFlowUp$ gate and $\FiniteReflectionTupleUp$ readback place accepted source evidence on the displayed branch before the boundary packet is consumed.
+
+For unsupported reads, apply refusal ledger exhaustion, \autoref{thm:gap-closure-boundary-refusal-ledger-exhaustion}. Requests that fail the recognizer landing remain at $R$ under $H,C,P,N$ and cannot be reread as source evidence.
+
+Finally use the downstream consumer boundary of \autoref{thm:gap-closure-boundary-downstream-consumer-boundary}. It restricts every listed consumer to the same packet $G,S,R,H,C,P,N$, so the terminal read has no route outside the displayed source/refusal split.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal classifier stability]
+\label{thm:gap-closure-boundary-refusal-classifier-stability}
+Let $B=(G,S,R,H,C,P,N)$ and $B'=(G',S',R',H',C',P',N')$ be accepted $\GapClosureBoundaryUp$ carriers. Componentwise $\hsame$ transport through $H$ and $H'$, followed by replay through the displayed $\Cont$ rows $C$ and $C'$, preserves the supported/refusal classifier split: supported reads remain reads of the displayed source branch $G \longrightarrow S$, unsupported requests remain reads of the displayed refusal branch $G \longrightarrow R$, and transport cannot introduce host equality, quotient data, private source selectors, hidden closure supply, or an off-packet continuation row.
+\end{theorem}
+\begin{proof}
+First expose the classifier inventory through \autoref{thm:gap-closure-boundary-source-refusal-admission-triad}. The classifier-relevant data are the request row, the source branch, the refusal branch, and the structural rows $H,C,P,N$.
+
+Next apply recognizer refusal stability, \autoref{thm:gap-closure-boundary-recognizer-refusal-stability}. Failed $\GroundCompilerRecognizerFlowUp$ and $\FiniteReflectionTupleUp$ landings cannot become source evidence after replay, so the refusal side remains refusal data.
+
+For the supported side, use \autoref{thm:gap-closure-boundary-recognizer-source-admission} together with the certificate-gate and tuple-readback anchors \autoref{thm:groundcompiler-recognizer-flow-certificate-gate-exactness} and \autoref{thm:finite-reflection-tuple-fieldfaithful-prediction}. The accepted recognizer row is read back as displayed boundary data before it reaches $S$.
+
+Finally invoke refusal ledger exhaustion, \autoref{thm:gap-closure-boundary-refusal-ledger-exhaustion}. Since the ledger contains no host equality, quotient object, private selector, hidden closure row, or off-packet continuation coordinate, componentwise transport and replay preserve the same supported/refusal split.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary consumer ledger nonescape]
+\label{thm:gap-closure-boundary-consumer-ledger-nonescape}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, the downstream consumers $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$ receive only the displayed packet rows $G,S,R,H,C,P,N$. A supported consumer reads through $G \longrightarrow S$, an unsupported consumer reads through $G \longrightarrow R$, and no listed consumer receives a hidden recognizer, solver, host, quotient, closure, private source selector, or off-packet continuation row.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:gap-closure-boundary-downstream-consumer-boundary}. It says every listed downstream consumer either factors through the source-refusal admission triad or remains at the refusal ledger boundary.
+
+For the source branch, apply terminal source admission, \autoref{thm:gap-closure-boundary-terminal-source-admission}. Supported reads are terminal only as reads of $G \longrightarrow S$ with $H,C,P,N$.
+
+For the refusal branch, apply refusal ledger exhaustion, \autoref{thm:gap-closure-boundary-refusal-ledger-exhaustion}. Unsupported closure requests are kept at $R$ under the same structural rows and do not acquire a consumer-specific escape route.
+
+Finally combine the recognizer consumer exhaustion of \autoref{thm:gap-closure-boundary-recognizer-consumer-exhaustion} with the root consumer handoff of \autoref{thm:gap-closure-boundary-root-consumer-handoff}. The five listed consumers receive exactly the displayed packet surface, so hidden recognizer, solver, host, quotient, closure, private-selector, and off-packet continuation rows are absent from the ledger.
+\end{proof}

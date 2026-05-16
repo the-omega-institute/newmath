@@ -234,9 +234,20 @@ Finally use tail-budget seal uniqueness, \autoref{thm:cauchy-modulus-refinement-
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_selector\_budget\_tail\_meet\_nonescape}
 
+\begin{definition}[Cauchy modulus refinement terminal selector surface]
+\label{def:cauchy-modulus-refinement-terminal-selector-surface}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. The terminal selector surface of $R$ is the displayed consumer route
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N
+$$
+from the shared meet rows $M_0,M_1,U$, through the refinement rows $V,T$, and into the selected-window, tolerance-readback, Real-seal, transport, replay, provenance, and local naming rows $W,Q,E,H,C,P,N$.
+
+Two terminal consumer routes agree on this surface exactly when they agree on the selector budget $T$, the selected window $W$, the dyadic tolerance $Q$, the $\RegSeqRatUp$ readback carried by $W,Q$, the $\RealUp$ seal $E$, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$.
+\end{definition}
+
 \begin{theorem}[Cauchy modulus refinement terminal selector-seal correspondence]
 \label{thm:cauchy-modulus-refinement-terminal-selector-seal-correspondence}
-Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Two Real-completion consumer routes expose the same terminal selector surface if and only if they expose the same ordered selector-budget row $T$, selected-window row $W$, dyadic-tolerance row $Q$, $\RegSeqRatUp$ readback row, and $\RealUp$ seal row $E$ through the same structural rows $H,C,P,N$.
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Two Real-completion consumer routes expose the same terminal selector surface of \autoref{def:cauchy-modulus-refinement-terminal-selector-surface} if and only if they expose the same ordered selector-budget row $T$, selected-window row $W$, dyadic-tolerance row $Q$, $\RegSeqRatUp$ readback row, and $\RealUp$ seal row $E$ through the same structural rows $H,C,P,N$.
 
 Consequently no terminal consumer can identify the $\RealUp$ seal of $R$ without passing through the displayed selector-budget route
 $$
