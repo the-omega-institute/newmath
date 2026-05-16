@@ -561,6 +561,53 @@ seals, or ambient completeness, preserving those rows is precisely the
 pullback condition for reaching the Real seal.
 \end{proof}
 
+\begin{theorem}[Real-window budget open-phase four-face status pullback]
+\label{thm:real-window-budget-open-phase-four-face-status-pullback}
+Let $W=(Q,V,D,R,S,B,O,H,C,P,N)$ be an accepted $\RealWindowBudgetUp$ packet.
+A RealWindowBudget consumer is status-correct for the current Phase Real and
+Completion route if and only if its four public status faces are exactly the
+$\StreamNameUp$ finite-window status, the $\DyadicRatCoreUp$ tolerance-ledger
+status, the $\RegSeqRatUp$ readback status, and the $\RealUp$ seal status, all
+read through the displayed rows $Q,V,D,R,S,B,O,H,C,P,N$. No aggregate token,
+quotient stream, selected limit, ambient completeness theorem, countable-choice
+row, metric-completeness datum, or bridge row can replace one of these faces or
+add a fifth status face.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with selector pullback exactness,
+\autoref{thm:real-window-budget-selector-pullback-exactness}. It forces every
+status-correct consumer that reaches the Real seal to preserve the displayed
+request, window, dyadic readback, handoff, seal, selector, disclosure, transport,
+continuation, provenance, and naming rows.
+
+Next apply the StreamName status ledger and the four-object exit route,
+\autoref{thm:streamname-real-completion-status-ledger-exactness} and
+\autoref{thm:streamname-real-completion-four-object-exit-route}. These identify
+the current Phase Real and Completion route with exactly the four public faces:
+StreamName finite windows, DyadicRatCore tolerance ledger, RegSeqRat readback,
+and the RealUp seal.
+
+The local non-escape and readback theorems then remove the remaining possible
+coordinates. By
+\autoref{thm:real-window-budget-terminal-pullback-nonescape},
+\autoref{thm:real-window-budget-observation-scope-exhaustion}, and
+\autoref{thm:real-window-budget-real-seal-readback-totality}, the accepted
+packet exports no aggregate token, quotient stream, selected limit, ambient
+completeness theorem, countable-choice row, metric-completeness datum, bridge
+row, or private fifth face.
+
+For the reverse direction, assume the consumer reads exactly those four status
+faces through $Q,V,D,R,S,B,O,H,C,P,N$. The displayed rows already contain the
+finite window, tolerance ledger, readback handoff, Real seal, selector,
+disclosure, transport, replay, provenance, and local NameCert data needed by the
+RealWindowBudget packet.
+
+Apply selector pullback exactness again to repack this read as the finite
+selector-disclosure pullback to $S$. The StreamName status ledger then reads the
+same four faces as the current Phase Real and Completion status record, so the
+consumer is status-correct for that route.
+\end{proof}
+
 \falsifiablePrediction{A Real-facing consumer that omits the displayed $\RealWindowBudgetUp$ packet $W=(Q,V,D,R,S,B,O,H,C,P,N)$ cannot cite the finite observation route of \autoref{sec:reality-constrained-synthesis} as a completed Real handoff.}
 
 \independenceWitness{streamname, dyadicratcore, regseqrat, real, cauchydiagonalbudget, realobservationbudget: none is bijective to $\RealWindowBudgetUp$ because the carrier packages the request, finite windows, dyadic readbacks, regular handoff, Real seal, selector budget, disclosure budget, componentwise transport, continuation replay, provenance, and local naming as one finite route.}

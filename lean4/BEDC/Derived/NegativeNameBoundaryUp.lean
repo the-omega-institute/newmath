@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NegativeNameBoundaryUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -239,5 +243,53 @@ theorem NegativeNameBoundaryTasteGate_single_carrier_alignment :
       · intro x y heq
         exact negativeNameBoundaryToEventFlow_injective heq
       · rfl
+
+theorem NegativeNameBoundary_refusal_ledger
+    {apophaticHandle socket refusalLedger auditGate transport continuation provenance
+      localName auditRead : BHist}
+    (socketRefusalRoute : Cont socket refusalLedger continuation)
+    (auditRoute : Cont refusalLedger auditGate auditRead) :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row refusalLedger ∧
+          ∃ packet : NegativeNameBoundaryUp,
+            packet = NegativeNameBoundaryUp.mk apophaticHandle socket refusalLedger
+              auditGate transport continuation provenance localName)
+      (fun row : BHist => hsame row socket ∨ hsame row refusalLedger ∨ hsame row auditGate)
+      (fun row : BHist =>
+        Cont socket refusalLedger continuation ∧ Cont refusalLedger auditGate auditRead ∧
+          hsame row refusalLedger)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame Cont
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro refusalLedger
+          ⟨hsame_refl refusalLedger,
+            Exists.intro
+              (NegativeNameBoundaryUp.mk apophaticHandle socket refusalLedger auditGate
+                transport continuation provenance localName)
+              rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inl source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨socketRefusalRoute, auditRoute, source.left⟩
+  }
 
 end BEDC.Derived.NegativeNameBoundaryUp
