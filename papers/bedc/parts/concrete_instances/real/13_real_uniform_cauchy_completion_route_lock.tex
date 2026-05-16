@@ -133,6 +133,55 @@ that data can distinguish two reads after the finite budget and the four faces
 agree.
 \end{proof}
 
+\begin{theorem}[Real uniform Cauchy four-face status exactness]
+\label{thm:real-uniform-cauchy-four-face-status-exactness}
+Let $U=(I,W,M,Q,T,E,H,C,P,N)$ be an accepted
+$\UniformCauchyCriterionUp$ packet read by a Phase Real and Completion
+consumer. Suppose the public surface of the read is the finite budget
+$I,W,M,Q,T,E,H,C,P,N$ together with the four boundary faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Then the read is status-exact precisely when the $\StreamNameUp$ face is read
+from its own closurestatus and formalstatus record, the $\DyadicRatCoreUp$
+face is read from its own closurestatus and formalstatus record, the
+$\RegSeqRatUp$ face is read from its own closurestatus and formalstatus
+record, and the $\RealUp$ face is read from its own closurestatus and
+formalstatus record.
+
+No aggregate formal-status token, fifth completion object, quotient stream,
+selected limit, countable-choice row, metric-completeness datum, or standard
+bridge row can replace any one of the four face records. In particular, a
+completion-facing packet whose finite budget is accepted but whose evidence
+collapses two of the four status records into a single aggregate token is not a
+status-exact Real-and-Completion read.
+\end{theorem}
+\begin{proof}
+First lock the ordered budget route. By
+\autoref{thm:real-uniform-cauchy-completion-route-lock}, every accepted
+completion-facing read using $U$ reaches the Real seal boundary only through
+the displayed finite budget chain and the four Real L10 owners.
+
+Next apply terminal determinacy over the four faces. The theorem
+\autoref{thm:real-uniform-cauchy-four-object-terminal-determinacy} identifies
+the completion-facing read with the finite terminal pullback determined by
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, together
+with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support rows.
+
+The status part is objectwise. The roadmap two-axis discipline records closure
+and verification independently at each object, so the StreamName, DyadicRatCore,
+RegSeqRat, and RealUp faces each contribute their own closurestatus and
+formalstatus rows to the pullback. Reading one face's record gives no
+coordinate for another face's record.
+
+Therefore status exactness is equivalent to exposing all four objectwise status
+records. The route lock and terminal pullback expose no aggregate formal-status
+token, fifth completion object, quotient stream, selected limit,
+countable-choice row, metric-completeness datum, or standard bridge row, so
+none of those objects can fill a missing face.
+\end{proof}
+
 \begin{theorem}[Real RegSeqRat--StreamName audit-clean handoff]
 \label{thm:real-regseqrat-streamname-auditclean-handoff}
 Every Phase Real and Completion consumer that reaches the $\RealUp$ seal
