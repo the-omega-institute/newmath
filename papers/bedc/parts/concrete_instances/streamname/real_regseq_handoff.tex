@@ -582,6 +582,51 @@ public read exactly in the stated agreement conditions, and the reverse
 direction reads the same four families of rows back into the three packages.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat RealUp tail-selector factorization]
+\label{thm:streamname-regseqrat-realup-tail-selector-factorization}
+Every accepted finite-window $\StreamNameUp$ handoff whose $\RegSeqRat$
+carrier supplies the scheduled-window projection and whose $\RealUp$ endpoint
+read uses finite-prefix exactness factors the tail-selector read through exactly
+three public rows: the $\StreamNameUp$ finite-window classifier row, the
+$\RegSeqRat$ scheduled projection and readback row, and the $\RealUp$
+finite-prefix classifier row.
+
+The factorization exports no quotient stream, selected limit, host equality,
+countable choice row, or ambient completeness row. All exported data are already
+contained in the certified finite $\mathsf{ProbeBundle}$ ledger, the displayed
+$\Cont$ routes, the unary observation rows, the $\hsame$ transports, and the
+shared $\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+Start with the three-way cover of
+\autoref{thm:streamname-regseqrat-realup-triple-seal-cover}. It identifies the
+accepted $\StreamNameUp$ window, the pointwise $\RegSeqRat$ seal package, and
+the $\RealUp$ endpoint read on the same unary observations, finite transport
+ledger, endpoint transports, and provenance rows.
+
+The first factor is the StreamName finite-window classifier. By
+\autoref{thm:streamname-regseqrat-scheduled-seal-exhaustion}, the scheduled
+seal over the accepted window is exhausted by the visible StreamName carrier and
+classifier observations together with the finite ledger rows. Thus the
+tail-selector source read begins at the finite-window classifier rather than at
+a quotient stream or host-index equality.
+
+The second factor is the RegSeqRat scheduled projection and readback row. Apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}: every public
+row consumed by the $\RegSeqRat$ carrier is already one of the certified
+pointwise rows, $\Cont$ routes, $\hsame$ transports, and $\Pkg$ provenance rows.
+The scheduled projection therefore reads back exactly the finite window selected
+by the StreamName classifier.
+
+The third factor is the RealUp finite-prefix classifier. Use
+\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy} to compare
+all finite windows selected by the tail read. Since the overlaps are already
+compatible in the triple cover, the endpoint classifier depends only on the
+finite prefix ledger presented by the RegSeqRat readback row. This gives the
+claimed three-row factorization and excludes quotient, selected-limit,
+countable-choice, host-equality, and ambient-completeness exports.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat finite-window cover determinacy]
 \label{thm:streamname-regseqrat-finite-window-cover-determinacy}
 Let $\{W_i\}_{i\in I}$ be a finite public $\StreamNameUp$ cover of rational
