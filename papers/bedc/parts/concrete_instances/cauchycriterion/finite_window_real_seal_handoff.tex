@@ -97,3 +97,57 @@ leaves no coordinate from which a quotient stream, hidden tail oracle, host
 real equality, selected limit, ambient completeness principle, or off-route
 completion endpoint could be read.
 \end{proof}
+
+\begin{theorem}[CauchyCriterion Real L10 terminal-window sufficiency]
+\label{thm:cauchycriterion-real-l10-terminal-window-sufficiency}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet whose
+finite-window budget-selector read follows the route
+$$
+\StreamNameUp
+\longmapsto \RegSeqRatUp
+\longmapsto \DyadicRatCoreUp
+\longmapsto \RealUp
+\longmapsto \CauchyLimitSealUp .
+$$
+Then the same displayed rows $M,Q,T,W,E,H,C,P,N$, together with their visible
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates, suffice to
+supply the Real L10 finite-window witness surface consumed by the public
+boundary.
+
+Conversely, any Real L10 public-boundary read sourced through $K$ recovers
+exactly the selector rows $M,Q,T,W,E,H,C,P,N$ and no additional coordinate. The
+sufficiency and recovery clauses exclude quotient streams, host real equality,
+selected limits, countable choice, ambient completeness, metric-completeness
+rows, arithmetic packages, order packages, and bridge rows.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:cauchy-criterion-finite-window-real-seal-handoff}. It
+places every accepted finite-window budget-selector read of $K$ on the
+displayed route and exposes the rows $M,Q,T,W,E,H,C,P,N$ before any Real-facing,
+completion-facing, or limit-seal consumer can read the packet.
+
+Next apply \autoref{thm:cauchy-criterion-limit-seal-route-stability}. The
+route remains fixed under displayed replay of the same $\BHist$, $\hsame$, and
+$\Cont$ rows, so the terminal-window read cannot be replaced by a quotient
+stream, hidden tail oracle, host equality row, selected limit, or completeness
+principle.
+
+Now attach the Real L10 boundary. The lattice budget cover
+\autoref{thm:streamname-regseqrat-realup-lattice-budget-cover} identifies the
+StreamName, RegSeqRat, DyadicRatCore, and Real seal faces as one finite route,
+with only the displayed support coordinates. Feeding that route into
+\autoref{thm:real-l10-finite-window-witness-determinacy} supplies exactly the
+finite-window witness surface consumed by the Real L10 public boundary.
+
+For the converse, start from a Real L10 public-boundary read sourced through
+$K$. By \autoref{thm:real-l10-source-route-exactness}, the boundary can be
+sourced only through the ordered finite-window route displayed by the Real L10
+lattice. Comparing this route with the CauchyCriterion handoff and its replay
+stability recovers precisely $M,Q,T,W,E,H,C,P,N$.
+
+The exclusion clause is inherited from the cited route and L10 boundary
+theorems. None of those packets carries quotient streams, host real equality,
+selected limits, countable choice, ambient completeness, metric-completeness
+rows, arithmetic packages, order packages, or bridge rows, so no such row can be
+introduced at the terminal public boundary.
+\end{proof}
