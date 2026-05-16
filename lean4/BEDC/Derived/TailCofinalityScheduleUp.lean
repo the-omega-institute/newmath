@@ -397,4 +397,36 @@ theorem TailCofinalityScheduleCarrier_completion_budget_nonescape [AskSetup] [Pa
         TailCofinalityScheduleCarrier_completion_budget_nonescape_visible_cycle
           completionAgreementSeal hostReturn)⟩
 
+theorem TailCofinalityScheduleCarrier_scoped_binding [AskSetup] [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      replay : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      Cont route provenance replay →
+        hsame replay endpoint →
+          PkgSig bundle replay pkg →
+            UnaryHistory precision ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+              UnaryHistory regseq ∧ UnaryHistory sealRow ∧ UnaryHistory transport ∧
+                UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory localCert ∧
+                  UnaryHistory endpoint ∧ UnaryHistory replay ∧
+                    Cont precision window dyadic ∧ Cont dyadic regseq sealRow ∧
+                      Cont sealRow transport route ∧ Cont route provenance endpoint ∧
+                        Cont route provenance replay ∧ hsame replay endpoint ∧
+                          PkgSig bundle endpoint pkg ∧ PkgSig bundle replay pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg UnaryHistory
+  intro carrier routeProvenanceReplay replaySame replayPkg
+  obtain ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary,
+    transportUnary, routeUnary, provenanceUnary, localCertUnary, endpointUnary,
+    precisionWindowDyadic, dyadicRegseqSeal, sealTransportRoute, routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenanceReplay
+  exact
+    ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary, transportUnary,
+      routeUnary, provenanceUnary, localCertUnary, endpointUnary, replayUnary,
+      precisionWindowDyadic, dyadicRegseqSeal, sealTransportRoute,
+      routeProvenanceEndpoint, routeProvenanceReplay, replaySame, endpointPkg,
+      replayPkg⟩
+
 end BEDC.Derived.TailCofinalityScheduleUp
