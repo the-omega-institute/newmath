@@ -13,6 +13,32 @@ The convergence-seal carrier of \autoref{ch:concrete-instances-bounded-monotone-
 Since the carrier has no coordinate for a selected limit, quotient equality, host equality, trichotomy, ambient completeness, compactness principle, or choice-like selector, the handoff to the seal cannot export such data.
 \end{proof}
 
+\begin{theorem}[Bounded monotone Cauchy witness selector terminal pullback]
+\label{thm:bounded-monotone-cauchy-witness-selector-terminal-pullback}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every terminal consumer preserving the L10 route across
+
+$$
+\BoundedMonotoneConvergenceSealUp,\CauchyLimitSealUp,\RealUp,\CauchyCriterionUp,\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\DiagonalLimitCompatibilityUp
+$$
+
+pulls back to the same finite selector packet before any convergence seal, limit seal, real carrier, criterion route, stream name, dyadic core, regular sequence, or diagonal comparison is read. The pullback rows are exactly
+
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N
+$$
+
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. The pullback exports no quotient stream, selected limit, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like selector.
+\end{theorem}
+\begin{proof}
+First identify the source packet. The source-readback equalizer fixes the accepted packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ before the convergence-seal readback can expose any public completion coordinate.
+
+Next move to terminal consumers. The terminal-source equalizer transports the same packet to the $\BoundedMonotoneConvergenceSealUp$, $\CauchyLimitSealUp$, $\RealUp$, and $\DiagonalLimitCompatibilityUp$ endpoints, while terminal located-trap preservation keeps the row $I$ and its attached $Q,H,C,P,N$ support inside that packet.
+
+Now use the L10 route. Terminal route exhaustion brings in the $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ consumers and records that their only public support rows are the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally apply refusal completeness. Any terminal request outside those rows is off-route, so the consumer cannot read a seal, diagonal comparison, quotient stream, selected limit, host equality, trichotomy, compactness, ambient completeness, or choice-like selector before returning to the finite selector packet. Thus every terminal consumer preserving the L10 route pulls back to exactly the stated packet and support rows.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness criterion-tail factorization]
 \label{thm:bounded-monotone-cauchy-witness-criterion-tail-factorization}
 Every $\BoundedMonotoneCauchyWitnessUp$ route from the bounded source row to the convergence-seal handoff factors through the public $\MonotoneCauchyUp$ row and the public $\CauchyCriterionUp$ row before any $\BoundedMonotoneConvergenceSealUp$ consumer reads it.
@@ -148,6 +174,7 @@ then through $\MonotoneCauchyUp$, $\CauchyCriterionUp$, $\StreamNameUp$, $\Dyadi
 
 The route exports no selected limit, quotient stream equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like selector.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_convergence\_seal\_route\_exhaustion}
 \begin{proof}
 First apply the checked source theorem \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-source}. It identifies the source surface available to a convergence-seal consumer with exactly the finite witness rows of $W$.
 
@@ -357,4 +384,26 @@ Next attach the terminal source route. By \autoref{thm:bounded-monotone-cauchy-w
 Now preserve the located trap and support rows. The located-trap preservation theorem \autoref{thm:bounded-monotone-cauchy-witness-terminal-located-trap-preservation} keeps $I$ inside the same source packet, while the convergence-seal route exhaustion and diagonal readback theorems display the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows used by the public seal and diagonal compatibility routes.
 
 Finally compare the listed consumers. The public seal route already passes through $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$, and the diagonal readback adds $\DiagonalLimitCompatibilityUp$ without adding an external coordinate. Therefore the whole terminal consumer chain is exhausted by the displayed finite packet and support rows, with no available row for any excluded analytic, quotient, compactness, or choice-like object.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness L10 terminal route refusal completeness]
+\label{thm:bounded-monotone-cauchy-witness-l10-terminal-route-refusal-completeness}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. A terminal consumer request across
+
+$$
+\BoundedMonotoneConvergenceSealUp,\CauchyLimitSealUp,\RealUp,\CauchyCriterionUp,\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\DiagonalLimitCompatibilityUp
+$$
+
+is admissible exactly when it factors through the finite packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Any request for quotient stream equality, selected limits, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selection is off-route, because no displayed carrier row supplies it.
+\end{theorem}
+\begin{proof}
+The forward direction is the route-exhaustion direction. Source-readback equalization first identifies every convergence-seal source read with the same accepted packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Next the terminal-source equalizer transports that packet to the $\BoundedMonotoneConvergenceSealUp$, $\CauchyLimitSealUp$, $\RealUp$, and $\DiagonalLimitCompatibilityUp$ consumers before any terminal comparison can be read. Terminal located-trap preservation keeps $I$ in the same packet and keeps $Q,H,C,P,N$ attached to the displayed source.
+
+Now apply the L10 terminal route exhaustion theorem. It adds the $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ route and records that the only exported support rows are the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Hence an accepted terminal consumer is admissible only by factoring through that finite route.
+
+For the converse, any consumer already factored through the finite packet and the displayed support rows is one of the terminal reads permitted by the exhausted route. It therefore uses only rows supplied by the accepted packet, the history/support equality rows, the continuity row, the package row, and the certificate row.
+
+Finally consider the refused requests. Quotient stream equality, selected limits, host real equality, trichotomy, ambient completeness, open-cover compactness, and choice-like tail selection are not entries of $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ and are not supplied by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$. The terminal chain has no further carrier row, so each such request is off-route.
 \end{proof}
