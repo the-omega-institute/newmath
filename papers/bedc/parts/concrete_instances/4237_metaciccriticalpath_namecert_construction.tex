@@ -169,6 +169,29 @@ Use the consistency handoff and obstruction boundary, \autoref{thm:metacic-criti
 Finally apply the obligation surface, transport row stability, local naming exhaustion, and discharge-socket nonescape from \autoref{thm:metacic-critical-path-namecert-obligation-surface}, \autoref{thm:metacic-critical-path-transport-row-stability}, \autoref{thm:metacic-critical-path-local-naming-exhaustion}, and \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. These rows cover every accepted consumer read, so a consumer that does not present a separate subject-reduction input remains bounded by the displayed root-unblock packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-path socket route totality]
+\label{thm:metacic-critical-path-socket-route-totality}
+Any accepted $\MetaCICCriticalPathUp$ consumer route that mentions the
+discharge socket $D$ must also display the strong-normalization row $S$,
+normal-form row $N$, obstruction row $O$, handoff row $U$, transport row $H$,
+continuation row $C$, provenance row $P$, and local name row $L$. The socket is
+therefore a visible route obligation, not a hidden closed subject-reduction
+theorem.
+\end{theorem}
+\begin{proof}
+Use the consistency handoff and obstruction boundary,
+\autoref{thm:metacic-critical-path-consistency-handoff} and
+\autoref{thm:metacic-critical-path-obstruction-boundary}. They route the read
+from $S$ to $N$ while keeping $O$ visible and keeping $D$ separate from any
+closed discharge.
+
+Now apply discharge-socket nonescape and root route totality,
+\autoref{thm:metacic-critical-path-discharge-socket-nonescape} and
+\autoref{thm:metacic-critical-path-root-route-totality}. Together they require
+the socket-facing consumer to retain $S,N,O,U,D,H,C,P,L$ as the displayed row
+inventory, so no hidden closed subject-reduction theorem is imported.
+\end{proof}
+
 \begin{theorem}[MetaCIC critical-path obstruction-ledger exhaustion]
 \label{thm:metacic-critical-path-obstruction-ledger-exhaustion}
 For every accepted $\MetaCICCriticalPathUp$ root-unblock packet $K=(S,N,O,U,D,H,C,P,L)$, the visible obstruction row $O$ and socket row $D$ exhaust the blocked subject-reduction routes. No hidden closed-consistency coordinate can be read from $S,N,U,H,C,P,L$ once the obstruction and socket rows remain visible.
