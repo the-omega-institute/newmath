@@ -3,6 +3,7 @@ import BEDC.Derived.RealUp.EndpointAbsurd
 import BEDC.Derived.RealUp.ConstantCarrierContext
 import BEDC.Derived.RealUp.SelectedEndpointShape
 import BEDC.Derived.RealUp.FiniteWindow
+import BEDC.Derived.RealUp.FiniteWindowExhaustionObligation
 import BEDC.Derived.RealUp.FiniteWindowEndpoint
 import BEDC.Derived.RealUp.FiniteWindowFullPackage
 import BEDC.Derived.RealUp.FiniteWindowStabilityPackage
