@@ -195,6 +195,55 @@ host equalities, completion witnesses, countable-choice schedules, and ambient
 completeness coordinates, the composed route exports none of them.
 \end{proof}
 
+\begin{theorem}[StreamName-RegSeqRat-Real finite-window seal pullback]
+\label{thm:streamname-regseqrat-real-finite-window-seal-pullback}
+Let $\mathcal{W}$ be a public $\StreamNameUp$ finite-window package whose
+selected rational classifier rows are consumed both by a $\RegSeqRatUp$
+finite-window seal $S$ and by a finite-window $\RealUp$ seal boundary $R$.
+Assume the two consumers read the same displayed finite rows of
+$\mathcal{W}$: the $\mathsf{ProbeBundle}$ ledger, $\mathsf{InBundle}$
+membership rows, $\mathsf{UnaryHistory}$ observations, selected
+$\mathsf{RatHistoryClassifier}$ rows, displayed $\hsame$ comparisons, finite
+$\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ support.
+
+Then the common consumer surface of $\mathcal{W}$, $S$, and $R$ is exactly
+that finite displayed surface. Equivalently, the $\RegSeqRatUp$ seal and the
+finite-window $\RealUp$ seal pull back along the selected $\StreamNameUp$
+window to the single cover-indexed boundary carried by those
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+$\mathsf{RatHistoryClassifier}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+rows.
+
+The pullback boundary introduces no quotient stream, host index equality,
+selected limit, ambient completion, or additional $\RealUp$ seal classifier
+outside the displayed finite-window ledger.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. It identifies the
+only rows exported by the public StreamName finite window to RegSeqRat and
+RealUp consumers: the selected rational classifier rows, probe-bundle ledger,
+membership rows, unary observations, finite transport rows, provenance, and
+displayed public support. Thus both consumers start from the same finite
+StreamName surface.
+
+Next use
+\autoref{thm:streamname-real-regseq-obligation-separation}. The separation
+places carrier, classifier, bundle, membership, and unary-history data on the
+StreamName side; regularity, dyadic-tolerance, transport, and stream-spine
+data on the RegSeqRat side; and the seal-classifier obligation on the RealUp
+side. Hence no obligation is counted twice, and no quotient, host equality,
+limit, or completion row can enter through the shared source.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-real-seal-composition}. The composition
+theorem repacks the StreamName finite rows, the RegSeqRat seal rows, and the
+RealUp seal boundary into one Real-facing finite-window ledger. Since the two
+consumers were assumed to read the same displayed finite rows, this
+cover-indexed ledger is the required pullback boundary, with no additional
+RealUp seal classifier outside the displayed surface.
+\end{proof}
+
 \begin{definition}[StreamName-RegSeqRat scheduled seal package]
 \label{def:streamname-regseqrat-scheduled-seal-package}
 A $\StreamNameUp$--$\RegSeqRat$ scheduled seal package is the scheduled
