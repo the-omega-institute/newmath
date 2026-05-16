@@ -182,6 +182,28 @@ Use tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness
 Finally apply non-escape. The handoff is finite and has no coordinate for a quotient stream, selected limit, host real equality, ambient completeness datum, metric-completeness datum, countable-choice row, or standard bridge row. Hence no sibling route can replace the displayed tail selector, ledger, or seal row by an unrecorded one.
 \end{proof}
 
+\begin{theorem}[FiniteTailFilter shared-window meet]
+\label{thm:finite-tail-filter-shared-window-meet}
+Let
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+be an accepted $\FiniteTailFilterUp$ packet. Suppose an accepted $\CauchyModulusRefinementUp$ packet has its selected-window row and readback row consumed as the same displayed finite window and regular readback route used by $F$. Then every $\RealUp$ or Completion consumer reads the shared L10 route through
+$$
+S,D,R,B,Q,E,H,C,P,N.
+$$
+It cannot replace this meet by a hidden selector, second meet, quotient stream, selected limit, host real equality, countable-choice row, ambient completeness datum, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+First bind the common finite packet. Tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness}, identifies $S$ and $D$ as the displayed window and tolerance packet read by the tail-budget row, common-tail row, and Real seal of $F$.
+
+Next route the sibling consumers. The sibling tail handoff and RealWindowBudget consumer link, \autoref{thm:finite-tail-filter-sibling-tail-handoff} and \autoref{thm:finitetailfilter-realwindowbudget-consumer-link}, force StreamName, DyadicRatCore, RegSeqRat, RealWindowBudget, Real, and Completion reads through the displayed route $S,D,R,B,Q,E,H,C,P,N$.
+
+Now attach the adjacent selected-window route. By \autoref{thm:cauchy-modulus-refinement-shared-tail-selector-seal-coherence}, an accepted $\CauchyModulusRefinementUp$ consumer whose selected-window and readback rows are the same displayed finite window and regular readback route cannot introduce a separate selector, second meet, or off-route Real seal.
+
+Finally apply non-escape, \autoref{thm:finite-tail-filter-nonescape}. Since neither accepted packet contributes a coordinate for quotient stream equality, selected limits, host real equality, countable choice, ambient completeness, metric-completeness data, or a hidden completion surface, the shared consumer route is exactly the finite packet displayed by $F$.
+\end{proof}
+
 \begin{theorem}[FiniteTailFilter carrier transport obligation]
 \label{thm:finite-tail-filter-carrier-transport-obligation}
 For every accepted $\FiniteTailFilterUp$ carrier
@@ -467,7 +489,7 @@ It remains to record the non-escape side. Theorems~\ref{thm:finite-tail-filter-l
 \begin{closurestatus}{\FiniteTailFilterUp}
   \constructivestory{A $\FiniteTailFilterUp$ packet is generated from a finite StreamName window ledger, DyadicRatCore tolerance ledger, RegSeqRat readback, DyadicTailBound tail-budget row, CauchyTailComparison common-tail row, RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and local NameCert row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:finite-tail-filter-carrier}, \autoref{thm:finite-tail-filter-namecert-obligations}, \autoref{thm:finite-tail-filter-nonescape}, \autoref{thm:finite-tail-filter-tail-window-exactness}, \autoref{thm:finite-tail-filter-real-seal-handoff}, \autoref{thm:finite-tail-filter-sibling-tail-handoff}, \autoref{thm:finite-tail-filter-carrier-transport-obligation}, \autoref{thm:finite-tail-filter-cofinal-window-directedness-obligation}, \autoref{thm:finite-tail-filter-structural-provenance-obligation}, \autoref{thm:finite-tail-filter-terminal-cofinal-consumer-exclusion}, and \autoref{thm:finite-tail-filter-common-tail-seal-cofinality} bind the finite cofinal-tail filter packet, its classifier transport, its continuation replay, and its provenance/name certification surface for Real and Completion seal reads.}
+  \scopeclosed{\autoref{def:finite-tail-filter-carrier}, \autoref{thm:finite-tail-filter-namecert-obligations}, \autoref{thm:finite-tail-filter-nonescape}, \autoref{thm:finite-tail-filter-tail-window-exactness}, \autoref{thm:finite-tail-filter-real-seal-handoff}, \autoref{thm:finite-tail-filter-sibling-tail-handoff}, \autoref{thm:finite-tail-filter-shared-window-meet}, \autoref{thm:finite-tail-filter-carrier-transport-obligation}, \autoref{thm:finite-tail-filter-cofinal-window-directedness-obligation}, \autoref{thm:finite-tail-filter-structural-provenance-obligation}, \autoref{thm:finite-tail-filter-terminal-cofinal-consumer-exclusion}, and \autoref{thm:finite-tail-filter-common-tail-seal-cofinality} bind the finite cofinal-tail filter packet, its classifier transport, its continuation replay, and its provenance/name certification surface for Real and Completion seal reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}

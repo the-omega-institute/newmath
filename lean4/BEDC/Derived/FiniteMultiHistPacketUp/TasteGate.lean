@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteMultiHistPacketUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -228,5 +230,33 @@ theorem FiniteMultiHistPacketTasteGate_single_carrier_alignment :
             · intro x w m hw hm
               exact event_flow_conservativity (S := BHistCarrier.toEventFlow x) hw hm
             · rfl
+
+theorem FiniteMultiHistPacketUp_hsame_transport
+    {histories ledgers comparisons routes boundary provenance nameCert histories2 ledgers2
+      comparisons2 routes2 boundary2 provenance2 nameCert2 : BHist} :
+    Cont histories ledgers routes →
+      hsame histories histories2 →
+        hsame ledgers ledgers2 →
+          hsame comparisons comparisons2 →
+            hsame routes routes2 →
+              hsame boundary boundary2 →
+                hsame provenance provenance2 →
+                  hsame nameCert nameCert2 →
+                    finiteMultiHistPacketToEventFlow
+                        (FiniteMultiHistPacketUp.mk histories ledgers comparisons routes
+                          boundary provenance nameCert) =
+                      finiteMultiHistPacketToEventFlow
+                        (FiniteMultiHistPacketUp.mk histories2 ledgers2 comparisons2 routes2
+                          boundary2 provenance2 nameCert2) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro _hCont hHistories hLedgers hComparisons hRoutes hBoundary hProvenance hNameCert
+  cases hHistories
+  cases hLedgers
+  cases hComparisons
+  cases hRoutes
+  cases hBoundary
+  cases hProvenance
+  cases hNameCert
+  rfl
 
 end BEDC.Derived.FiniteMultiHistPacketUp

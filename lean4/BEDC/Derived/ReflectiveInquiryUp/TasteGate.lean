@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ReflectiveInquiryUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -219,5 +221,29 @@ theorem ReflectiveInquiryTasteGate_single_carrier_alignment :
   exact
     ⟨reflectiveInquiryDecode_encode_bhist, reflectiveInquiry_round_trip,
       (fun _x _y heq => reflectiveInquiryToEventFlow_injective heq), rfl⟩
+
+theorem ReflectiveInquiryUp_source_separation_transport
+    {physical formal signature classifier package transport ledger replay continuation
+      openContinuation localName physical2 formal2 signature2 classifier2 package2 transport2
+      ledger2 replay2 continuation2 openContinuation2 localName2 : BHist} :
+    reflectiveInquiryToEventFlow
+        (ReflectiveInquiryUp.mk physical formal signature classifier package transport ledger
+          replay continuation openContinuation localName) =
+      reflectiveInquiryToEventFlow
+        (ReflectiveInquiryUp.mk physical2 formal2 signature2 classifier2 package2 transport2
+          ledger2 replay2 continuation2 openContinuation2 localName2) →
+        Cont physical formal continuation →
+          Cont physical2 formal2 continuation2 ∧ hsame physical physical2 ∧
+            hsame formal formal2 ∧ hsame continuation continuation2 := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro heq hCont
+  have hPacket :
+      ReflectiveInquiryUp.mk physical formal signature classifier package transport ledger
+          replay continuation openContinuation localName =
+        ReflectiveInquiryUp.mk physical2 formal2 signature2 classifier2 package2 transport2
+          ledger2 replay2 continuation2 openContinuation2 localName2 :=
+    reflectiveInquiryToEventFlow_injective heq
+  cases hPacket
+  exact ⟨hCont, rfl, rfl, rfl⟩
 
 end BEDC.Derived.ReflectiveInquiryUp
