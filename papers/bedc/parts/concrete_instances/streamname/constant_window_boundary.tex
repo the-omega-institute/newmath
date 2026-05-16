@@ -372,3 +372,53 @@ consume exactly that finite surface, no completion, quotient, host stream
 equality, hidden selector, arithmetic or order package, or standard bridge can
 distinguish their exported classifier rows.
 \end{proof}
+
+\begin{theorem}[StreamName constant directed RealUp seal terminality]
+\label{thm:streamname-constant-directed-realup-seal-terminality}
+Let $a,b:\Hist$ be rational-history endpoints, and let
+$\{I_i\}_{i\in I}$ and $\{J_j\}_{j\in J}$ be directed finite inhabited
+constant rational $\StreamNameUp$ window families over those endpoints and over
+the same displayed $\mathsf{RatHistoryClassifier}(a,b)$ source. Suppose their
+finite rows present the same $\mathsf{ProbeBundle}$ ledger, the same
+$\mathsf{UnaryHistory}$ observations, and the same displayed $\hsame$, $\Cont$,
+and $\Pkg$ coordinates. Fix the selected $\RegSeqRat$ stream-certificate spine
+obtained from the constant-window rows.
+
+Then every finite-window $\RealUp$ consumer preserving that constant-window
+source and that selected $\RegSeqRat$ spine factors through the unique
+seal-classifier row of
+\autoref{thm:streamname-constant-directed-realup-seal-classifier-determinacy}.
+The factorization exposes no second $\RealUp$ source row, no hidden selector,
+no quotient stream equality, no completion witness, no arithmetic or order
+package, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+Start with the directed handoff boundary. Apply
+\autoref{thm:streamname-constant-window-directed-regseq-real-tail-boundary} to
+the common directed finite-window surface. It says that the $\RegSeqRat$ tail
+visible to a downstream RealUp consumer is already selected by the
+$\StreamNameUp$ finite rows, the displayed $\Cont/\hsame$ ledger, and the
+rational-history classifier.
+
+Next apply
+\autoref{thm:streamname-constant-window-directed-realup-source-uniqueness}.
+The $\RealUp$ source seen at any common finite subwindow is therefore the single
+constant rational StreamName row determined by
+$\mathsf{RatHistoryClassifier}(a,b)$ and the shared probe ledger.
+
+Use \autoref{thm:regseqrat-reindexed-constant-stream-spine} to identify the
+selected spine as the reindexed constant stream spine, and then use
+\autoref{thm:regseqrat-constant-stream-seal-classifier-package} to package the
+seal classifier carried by that spine.
+
+Finally invoke
+\autoref{thm:streamname-constant-directed-realup-seal-classifier-determinacy}.
+It identifies the only RealUp observation classifier available to the two
+constant directed seals. Since the consumer preserves the displayed source and
+the selected spine, its carrier coordinates are exactly the finite StreamName,
+RegSeqRat, unary-observation, probe-ledger, $\hsame$, $\Cont$, and $\Pkg$
+coordinates already named above. There is therefore no remaining coordinate in
+which a second RealUp source row, hidden selector, quotient stream equality,
+completion witness, arithmetic or order package, or standard bridge row could
+enter.
+\end{proof}
