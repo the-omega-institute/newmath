@@ -160,6 +160,26 @@ Apply root-source meet determinacy, \autoref{thm:cauchy-modulus-refinement-root-
 Finally use source-window totality, \autoref{thm:cauchy-modulus-refinement-source-window-totality}. Every selected-window, $\RealUp$, or Completion consumer is determined by first exposing the same source front and then reading the remaining displayed rows. Therefore any consumer comparison agrees on that front before it reaches the later packet rows.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement source-window Real-seal pullback]
+\label{thm:cauchy-modulus-refinement-source-window-real-seal-pullback}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+every $\RealUp$ or Completion seal read is the pullback of the displayed source-window front $M_0,M_1,U,V$ along the selector route $V \to T \to W \to Q \to E$ and the structural rows $H,C,P,N$. Conversely, any displayed route with those source, selector, seal, and structural rows determines the same seal consumer. The pullback has no coordinate for quotient streams, selected host limits, host real equality, hidden selectors, second meet rows, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the source-window lock, \autoref{thm:cauchy-modulus-refinement-source-window-lock}. It exposes $M_0,M_1,U,V$ before any selected-window or seal read, so the Real-seal consumer cannot choose its source side after reaching $T,W,Q,E,H,C,P,N$.
+
+Use selector-stability lock, \autoref{thm:cauchy-modulus-refinement-selector-stability-lock}. The selected-window route proceeds from $V$ through $T,W,Q$, and the displayed $\hsame$ and $\Cont$ rows preserve that route instead of supplying a hidden selector or detached window ledger.
+
+Now apply the Real-seal root handoff, \autoref{thm:cauchy-modulus-refinement-real-seal-root-handoff}. It places every $\RealUp$ or Completion seal read after the same source, selector, seal, transport, continuation, package, and local-name rows, ruling out quotient streams, selected host limits, host real equality, second meet rows, and ambient completeness as alternate seal coordinates.
+
+For the converse, use source-window totality, \autoref{thm:cauchy-modulus-refinement-source-window-totality}. A route that displays $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ already determines the selected-window, $\RealUp$, or Completion consumer surface.
+
+Finally compare any two such reads with source-window comparison lock, \autoref{thm:cauchy-modulus-refinement-source-window-comparison-lock}. The comparison agrees on the source front before either read reaches the seal rows, so the displayed source-window front pulls back the Real-seal route and the same displayed route determines the same seal consumer.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement Real consumer nonescape]
 \label{thm:cauchy-modulus-refinement-real-consumer-nonescape}
 Every $\RealUp$ or Completion consumer of an accepted $\CauchyModulusRefinementUp$ root packet factors through
