@@ -274,6 +274,38 @@ may supply the data that makes a defeat meaningful, but they do not certify a
 separate failure surface.
 \end{proof}
 
+\begin{theorem}[Reality-constrained TruthCert export defeat exhaustion]
+\label{thm:reality-constrained-truth-cert-export-defeat-exhaustion}
+Let an accepted $\RealityConstrainedTruthCertUp$ packet expose the rows
+$S,\Sigma,K,T,U,D,I,L,F,N$. If $F$ records a later observation, classifier
+mismatch, domain exit, or finite defeat, then no truth export through the local
+name $N$ is accepted unless that defeat is discharged through the same displayed
+$S,\Sigma,K,T,U,D,I,L,F,N$ route. A purported export that hides $F$ or bypasses
+it is outside the TruthCert packet.
+\end{theorem}
+\begin{proof}
+The carrier coverage theorem
+\autoref{thm:reality-constrained-truth-cert-field-coverage} first fixes the
+only rows that the local $\NameCert_{\RealityConstrainedTruthCertUp}$ surface
+can expose. Thus the name $N$ does not create a second export channel; it binds
+the nine displayed rows after they are readable.
+
+The ledger exactness theorem
+\autoref{thm:reality-constrained-truth-cert-ledger-exactness} keeps
+compression, residue, provenance, and package descent visible at $L$. Together
+with the sibling-dependency theorem
+\autoref{thm:reality-constrained-truth-cert-sibling-dependency}, this forces
+open-fit, objectivity, explanation, physical-induction, and tower-compression
+data to travel through the displayed route before a truth claim reaches $N$.
+
+Finally apply
+\autoref{thm:reality-constrained-truth-cert-failure-surface-exactness}. Later
+observations, classifier mismatches, domain exits, and finite defeats land
+only at $F$. Therefore a discharge of such a defeat must be visible through the
+same carrier route that made $F$ visible. If a purported export hides or
+bypasses $F$, it is not an accepted export through the local TruthCert packet.
+\end{proof}
+
 \falsifiablePrediction{A purported reality-constrained truth export that omits the displayed source, signature, classifier, tower, stability, descent, invariant, ledger, or failure-surface row is not an accepted TruthCert packet.}
 
 \independenceWitness{reality-constrained-open-fit, reality-constrained-objectivity, reality-constrained-explanation, physical-induction-stability-seal, reality-constrained-tower-compression: the full nine-field TruthCert packet is available only after these sibling dependencies are consumed together.}
