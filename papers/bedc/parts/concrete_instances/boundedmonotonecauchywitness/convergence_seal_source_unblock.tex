@@ -13,6 +13,32 @@ The convergence-seal carrier of \autoref{ch:concrete-instances-bounded-monotone-
 Since the carrier has no coordinate for a selected limit, quotient equality, host equality, trichotomy, ambient completeness, compactness principle, or choice-like selector, the handoff to the seal cannot export such data.
 \end{proof}
 
+\begin{theorem}[Bounded monotone Cauchy witness selector terminal pullback]
+\label{thm:bounded-monotone-cauchy-witness-selector-terminal-pullback}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every terminal consumer preserving the L10 route across
+
+$$
+\BoundedMonotoneConvergenceSealUp,\CauchyLimitSealUp,\RealUp,\CauchyCriterionUp,\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\DiagonalLimitCompatibilityUp
+$$
+
+pulls back to the same finite selector packet before any convergence seal, limit seal, real carrier, criterion route, stream name, dyadic core, regular sequence, or diagonal comparison is read. The pullback rows are exactly
+
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N
+$$
+
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. The pullback exports no quotient stream, selected limit, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like selector.
+\end{theorem}
+\begin{proof}
+First identify the source packet. The source-readback equalizer fixes the accepted packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ before the convergence-seal readback can expose any public completion coordinate.
+
+Next move to terminal consumers. The terminal-source equalizer transports the same packet to the $\BoundedMonotoneConvergenceSealUp$, $\CauchyLimitSealUp$, $\RealUp$, and $\DiagonalLimitCompatibilityUp$ endpoints, while terminal located-trap preservation keeps the row $I$ and its attached $Q,H,C,P,N$ support inside that packet.
+
+Now use the L10 route. Terminal route exhaustion brings in the $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ consumers and records that their only public support rows are the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally apply refusal completeness. Any terminal request outside those rows is off-route, so the consumer cannot read a seal, diagonal comparison, quotient stream, selected limit, host equality, trichotomy, compactness, ambient completeness, or choice-like selector before returning to the finite selector packet. Thus every terminal consumer preserving the L10 route pulls back to exactly the stated packet and support rows.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness criterion-tail factorization]
 \label{thm:bounded-monotone-cauchy-witness-criterion-tail-factorization}
 Every $\BoundedMonotoneCauchyWitnessUp$ route from the bounded source row to the convergence-seal handoff factors through the public $\MonotoneCauchyUp$ row and the public $\CauchyCriterionUp$ row before any $\BoundedMonotoneConvergenceSealUp$ consumer reads it.
