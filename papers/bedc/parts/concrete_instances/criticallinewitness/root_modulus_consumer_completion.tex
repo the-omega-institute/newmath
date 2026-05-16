@@ -1,0 +1,35 @@
+\begin{theorem}[Critical-line witness modulus consumer coverage]
+\label{thm:critical-line-witness-modulus-consumer-coverage}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every accepted critical-line consumer route that uses the source-modulus row is covered by the finite $\BHist$ source $Z,S$, the zero-strip witness, the rational modulus ledger $M,R,Q$, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$. The route exposes those BEDC rows before any downstream read and exposes no proof of $\mathsf{RH}$, no analytic-continuation theorem, and no completed zero classifier.
+\end{theorem}
+\begin{proof}
+Begin with the root finite readback totality row \autoref{thm:critical-line-witness-root-finite-readback-totality}. It places every root readback on the displayed packet rows $Z,S,M,R,Q,H,C,P,N$ together with their finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ surface.
+
+Next attach the source-modulus interface. The root source-modulus admission row \autoref{thm:critical-line-witness-root-source-modulus-admission} and the root modulus classifier exactness row \autoref{thm:critical-line-witness-root-modulus-classifier-exactness} force the source side $Z,S$ and the ledger side $M,R,Q$ to be consumed through the same transport, replay, provenance, and naming rows.
+
+Finally use the zeta dependency lattice \autoref{thm:critical-line-witness-zeta-link}. It keeps the zeta-facing source as a dependency on the displayed $\ZetaZerosUp$ and RH-boundary surfaces rather than as an analytic-continuation object. Hence a critical-line consumer using the source-modulus row sees exactly the finite BEDC coverage stated above.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zero-strip readback separation]
+\label{thm:critical-line-witness-zero-strip-readback-separation}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, zero-strip readback cannot be consumed as a proof of $\mathsf{RH}$, a host analytic-continuation theorem, or a completed zero classification unless the displayed source-modulus rows $Z,S,M,R,Q,H,C,P,N$ and the fixed-strip rows of \autoref{def:critical-line-witness-fixed-strip-source-tuple} are present. Without those rows the readback remains a refusal-side BEDC boundary and has no consumer coordinate for RH proof content, analytic continuation, host zero search, quotient equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the zero-strip side first. The zero-strip readback totality theorem \autoref{thm:critical-line-witness-zero-strip-readback-totality} routes the readback through the supplied zero and strip rows and through $H,C,P,N$.
+
+Attach the source-modulus rows. The modulus consumer coverage theorem above and the fixed-strip source readback totality row \autoref{thm:critical-line-witness-fixed-strip-source-readback-totality} require the displayed $M,R,Q$ ledger and the fixed-strip tuple before a downstream consumer can read the zero-strip package.
+
+It remains to exclude the forbidden interpretations. The root refusal boundary totality theorem \autoref{thm:critical-line-witness-root-refusal-boundary-totality} and the zeta dependency lattice \autoref{thm:critical-line-witness-zeta-link} classify RH proof requests, analytic-continuation requests, host zero-search requests, quotient-equality requests, and completed-zero-classification requests as refusal-side demands unless the displayed BEDC rows are present. Thus the zero-strip readback is separated from those stronger consumers.
+\end{proof}
+
+\begin{theorem}[Critical-line witness fixed-strip bridge consumer totality]
+\label{thm:critical-line-witness-fixed-strip-bridge-consumer-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ fixed zero-in-strip packet. The fixed-strip bridge consumer surface is exhausted by the finite witness rows named in \autoref{thm:critical-line-witness-root-obligation-image-row}, \autoref{thm:critical-line-witness-root-readback-row}, \autoref{thm:critical-line-witness-root-componentwise-namecert-transport}, and \autoref{thm:critical-line-witness-fixed-strip-stdbridge-route-totality}. Every consumer either reads one of those image, readback, componentwise transport, source-modulus, fixed-strip, provenance, naming, or refusal rows, or is refused on the same finite $\BHist$ boundary. No consumer receives an $\mathsf{RH}$ proof, host analytic continuation, global zero classification, host equality, quotient equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the root fixed-tuple bridge rows. The image, readback, and componentwise NameCert transport theorems identify the finite rows visible to a bridge-facing consumer before any standard bridge route is read.
+
+Now apply the fixed-strip StdBridge route totality theorem \autoref{thm:critical-line-witness-fixed-strip-stdbridge-route-totality}. It says that the bridge-facing route is total exactly over the finite obligation package built from $Z,S,M,R,Q,H,C,P,N$ and the refusal side of the same packet.
+
+Finally combine the modulus consumer coverage and zero-strip readback separation theorems above. They account for the source-modulus and zero-strip consumers that feed the fixed-strip bridge surface, while the root refusal boundary totality theorem refuses RH proof content, analytic continuation, global zero classification, host equality, quotient equality, and completeness outside the displayed packet. Therefore the fixed-strip bridge consumer surface is exhausted by the named finite witness rows.
+\end{proof}

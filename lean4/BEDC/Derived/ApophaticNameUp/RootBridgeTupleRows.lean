@@ -157,4 +157,78 @@ theorem ApophaticNameCarrier_classifier_stability [AskSetup] [PackageSetup]
       exact And.intro provenancePkg (And.intro transportedPkg source.right)
   }
 
+theorem ApophaticNameCarrier_boundary_request_tuple_totality [AskSetup] [PackageSetup]
+    {socket request gate ledger transport route provenance nameRow imageRead readbackRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg →
+      Cont socket request imageRead →
+        Cont ledger nameRow readbackRead →
+          PkgSig bundle imageRead pkg →
+            PkgSig bundle readbackRead pkg →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    ApophaticNameCarrier socket request gate ledger transport route provenance
+                      nameRow bundle pkg ∧ hsame row request)
+                  (fun row : BHist =>
+                    hsame row request ∧ UnaryHistory row ∧ Cont socket request imageRead)
+                  (fun row : BHist =>
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle readbackRead pkg ∧
+                      hsame row request ∧ Cont ledger nameRow readbackRead)
+                  hsame ∧
+                UnaryHistory imageRead ∧ UnaryHistory readbackRead ∧
+                  hsame ledger (append request gate) := by
+  -- BEDC touchpoint anchor: BHist AskSetup PackageSetup ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier socketRequestImage ledgerNameReadback _imagePkg readbackPkg
+  have carrierPacket :
+      ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg :=
+    carrier
+  obtain ⟨socketUnary, requestUnary, _gateUnary, ledgerUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, nameRowUnary, _socketRequestGate, _requestGateRoute,
+    _gateLedgerRoute, _gateLedgerNameRow, ledgerSameRequestGate, provenancePkg⟩ := carrier
+  have imageUnary : UnaryHistory imageRead :=
+    unary_cont_closed socketUnary requestUnary socketRequestImage
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameReadback
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+              bundle pkg ∧ hsame row request)
+          (fun row : BHist =>
+            hsame row request ∧ UnaryHistory row ∧ Cont socket request imageRead)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle readbackRead pkg ∧
+              hsame row request ∧ Cont ledger nameRow readbackRead)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro request ⟨carrierPacket, hsame_refl request⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          ⟨source.right, unary_transport requestUnary (hsame_symm source.right),
+            socketRequestImage⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨provenancePkg, readbackPkg, source.right, ledgerNameReadback⟩
+    }
+  exact ⟨cert, imageUnary, readbackUnary, ledgerSameRequestGate⟩
+
 end BEDC.Derived.ApophaticNameUp
