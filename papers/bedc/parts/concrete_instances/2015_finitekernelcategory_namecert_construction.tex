@@ -198,6 +198,54 @@ Then use \autoref{thm:finite-kernel-category-package-namecert-scope}. External c
 Therefore replacing any displayed row by one of those external objects leaves the accepted carrier. The TasteGate marker has no route from such a replacement back to $\FiniteKernelCategoryUp$.
 \end{proof}
 
+\begin{theorem}[Finite-kernel category root obligation scope]
+\label{thm:finite-kernel-category-root-obligation-scope}
+Let
+$$
+K=(O,M,I,Q,A,U,H,C,P,N)
+$$
+be an accepted $\FiniteKernelCategoryUp$ carrier. Its root obligation scope is exactly the BEDC object and hom boundary $O,M$, the identity and composition rows $I,Q$, the associativity and unit rows $A,U$, the componentwise $\hsame$ transports $H$, the displayed $\Cont$ consumer routes $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$. The scope is readable by $\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ consumers only through those rows and exports no quotient morphism, host arrow equality, functor-category object, or external category library.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:finite-kernel-category-carrier-scope}. It binds object, hom, identity, and composition reads to $O,M,I,Q,H,C,P,N$ over finite $\BHist$, $\hsame$, and $\Cont$ rows.
+
+Apply \autoref{thm:finite-kernel-category-composition-laws}. The associativity and unit obligations are the displayed rows $A$ and $U$, transported through $H$ and consumed through $C$ with the same provenance and local name.
+
+Finally use \autoref{thm:finite-kernel-category-ledger-nonescape-boundary} and \autoref{thm:finite-kernel-category-tastegate-scope}. Category-shaped downstream consumers receive only the finite packet surface, and the TasteGate handoff has no route back from quotient morphisms, host equality, functor-category objects, or an external category library.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category root handoff package]
+\label{thm:finite-kernel-category-root-handoff-package}
+For every accepted $\FiniteKernelCategoryUp$ carrier $K=(O,M,I,Q,A,U,H,C,P,N)$, the root handoff package to $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ consumers is the single package
+$$
+O,M,I,Q,A,U,H,C,P,N.
+$$
+The package first exposes the object and hom boundary, then the identity and composition ledgers, then the associativity and unit rows, and finally the transport, continuation, provenance, and local naming rows. It does not expose any consumer route that skips $P,N$ or replaces the local NameCert rows by a host category object.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:finite-kernel-category-namecert-obligations}. The obligation surface already lists carrier habitation, classifier stability, identity exactness, composition exactness, and ledger non-escape for the same displayed rows.
+
+Next apply \autoref{thm:finite-kernel-category-category-interface-handoff}. The $\CategoryUp$ interface is the displayed finite ledger, so every functor or natural-transformation consumer reads the object, hom, identity, composition, associativity, and unit rows before preservation or naturality data.
+
+The package and naming rows are fixed by \autoref{thm:finite-kernel-category-package-namecert-scope}. Since $P$ and $N$ name only the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet, the root handoff cannot be detached from the local certificate.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category root downstream unblock]
+\label{thm:finite-kernel-category-root-downstream-unblock}
+Every downstream categorical consumer that asks for a finite BEDC category, functor source, natural-transformation source, or TasteGate handoff from $\FiniteKernelCategoryUp$ is unblocked by the root package
+$$
+O,M,I,Q,A,U,H,C,P,N
+$$
+provided it consumes the object and hom boundary, identity and composition rows, ledger non-escape clause, and TasteGate handoff together. A consumer that omits one of these rows has not consumed the $\FiniteKernelCategoryUp$ root obligation surface.
+\end{theorem}
+\begin{proof}
+First build the categorical boundary. Apply \autoref{thm:finite-kernel-category-root-obligation-scope} to obtain the exact object, hom, identity, composition, associativity, unit, transport, continuation, provenance, and naming surface.
+
+Next build the handoff package. Apply \autoref{thm:finite-kernel-category-root-handoff-package}; it orders the $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ reads through the same finite rows.
+
+Finally compose with \autoref{thm:finite-kernel-category-tastegate-obligation-handoff}. The TasteGate side consumes the same single-carrier packet, so a downstream route that preserves all listed rows is unblocked, while a route omitting object/hom data, identity/composition data, ledger non-escape, or TasteGate handoff leaves the root obligation surface.
+\end{proof}
+
 \closureat{FiniteKernelCategoryUp}{seedStr}
 \closureat{FiniteKernelCategoryUp}{obligationStr}
 
