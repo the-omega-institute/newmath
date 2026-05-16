@@ -563,4 +563,31 @@ theorem ConsciousObserverStateCarrier_locality_provenance_exactness [AskSetup] [
       observerRouteEndpoint, recognitionLedgerGap, routeProvenanceHandoff, endpointPkg,
       handoffPkg⟩
 
+theorem ConsciousObserverStateCarrier_route_locality [AskSetup] [PackageSetup]
+    {observer state recognition ledger gap transport route provenance nameRow endpoint
+      publicRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ConsciousObserverStateCarrier observer state recognition ledger gap transport route provenance
+        nameRow endpoint bundle pkg ->
+      Cont route provenance publicRoute ->
+        PkgSig bundle publicRoute pkg ->
+          UnaryHistory observer ∧ UnaryHistory state ∧ UnaryHistory recognition ∧
+            UnaryHistory ledger ∧ UnaryHistory gap ∧ UnaryHistory route ∧
+              UnaryHistory provenance ∧ UnaryHistory publicRoute ∧
+                Cont observer route endpoint ∧ Cont state route endpoint ∧
+                  Cont recognition ledger gap ∧ Cont route provenance publicRoute ∧
+                    PkgSig bundle endpoint pkg ∧ PkgSig bundle publicRoute pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier routeProvenancePublic publicPkg
+  obtain ⟨observerUnary, stateUnary, recognitionUnary, ledgerUnary, gapUnary,
+    _transportUnary, routeUnary, provenanceUnary, _nameUnary, _endpointUnary,
+    observerRouteEndpoint, stateRouteEndpoint, recognitionLedgerGap,
+    _transportProvenanceEndpoint, endpointPkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRoute :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenancePublic
+  exact
+    ⟨observerUnary, stateUnary, recognitionUnary, ledgerUnary, gapUnary, routeUnary,
+      provenanceUnary, publicUnary, observerRouteEndpoint, stateRouteEndpoint,
+      recognitionLedgerGap, routeProvenancePublic, endpointPkg, publicPkg⟩
+
 end BEDC.Derived.ConsciousObserverStateUp

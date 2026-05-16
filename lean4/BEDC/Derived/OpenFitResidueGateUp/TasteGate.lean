@@ -55,19 +55,46 @@ def openFitResidueGateToEventFlow : OpenFitResidueGateUp → EventFlow
 
 def openFitResidueGateFromEventFlow : EventFlow → Option OpenFitResidueGateUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [trace, finiteFit, residue, verdict, classifier, transport, replay, provenance, nameRow] =>
-      some
-        (OpenFitResidueGateUp.mk
-          (openFitResidueGateDecodeBHist trace)
-          (openFitResidueGateDecodeBHist finiteFit)
-          (openFitResidueGateDecodeBHist residue)
-          (openFitResidueGateDecodeBHist verdict)
-          (openFitResidueGateDecodeBHist classifier)
-          (openFitResidueGateDecodeBHist transport)
-          (openFitResidueGateDecodeBHist replay)
-          (openFitResidueGateDecodeBHist provenance)
-          (openFitResidueGateDecodeBHist nameRow))
-  | _ => none
+  | [] => none
+  | trace :: rest0 =>
+      match rest0 with
+      | [] => none
+      | finiteFit :: rest1 =>
+          match rest1 with
+          | [] => none
+          | residue :: rest2 =>
+              match rest2 with
+              | [] => none
+              | verdict :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | classifier :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | transport :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | replay :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | provenance :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | nameRow :: rest8 =>
+                                      match rest8 with
+                                      | [] =>
+                                          some
+                                            (OpenFitResidueGateUp.mk
+                                              (openFitResidueGateDecodeBHist trace)
+                                              (openFitResidueGateDecodeBHist finiteFit)
+                                              (openFitResidueGateDecodeBHist residue)
+                                              (openFitResidueGateDecodeBHist verdict)
+                                              (openFitResidueGateDecodeBHist classifier)
+                                              (openFitResidueGateDecodeBHist transport)
+                                              (openFitResidueGateDecodeBHist replay)
+                                              (openFitResidueGateDecodeBHist provenance)
+                                              (openFitResidueGateDecodeBHist nameRow))
+                                      | _ :: _ => none
 
 private theorem openFitResidueGate_round_trip :
     ∀ x : OpenFitResidueGateUp,
@@ -164,3 +191,26 @@ def taste_gate : ChapterTasteGate OpenFitResidueGateUp :=
   openFitResidueGateChapterTasteGate
 
 end BEDC.Derived.OpenFitResidueGateUp
+
+namespace BEDC.Derived.OpenFitResidueGateUp.TasteGate
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.Meta.TasteGate
+
+theorem OpenFitResidueGateTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      openFitResidueGateDecodeBHist (openFitResidueGateEncodeBHist h) = h) ∧
+      Nonempty (Nontrivial OpenFitResidueGateUp) ∧
+      Nonempty (ChapterTasteGate OpenFitResidueGateUp) ∧
+      Nonempty (FieldFaithful OpenFitResidueGateUp) ∧
+      openFitResidueGateEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨openFitResidueGateDecode_encode,
+      Nonempty.intro inferInstance,
+      Nonempty.intro inferInstance,
+      Nonempty.intro inferInstance,
+      rfl⟩
+
+end BEDC.Derived.OpenFitResidueGateUp.TasteGate
