@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\MachineInterfaceBoundaryUp$}
+\label{ch:concrete-instances-machine-interface-boundary-namecert}
+\origin{ai}
+
+The $\MachineInterfaceBoundaryUp$ packet realizes the registry and machine-facing interface of \autoref{sec:visions-philosophy-machine-interface} as one finite NameCert boundary. It sits beside the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the formalization socket of \autoref{ch:concrete-instances-machine-interface-socket-namecert}, the kernel audit witness of \autoref{ch:concrete-instances-kernelauditwitness-namecert}, and the apophatic naming boundary of \autoref{ch:concrete-instances-apophaticname-namecert}. Those packets separately expose export control, target routing, audit readback, and refusal discipline; this carrier binds them before a machine-facing route can read a registry claim.
+
+\begin{definition}[Machine-interface boundary carrier]
+\label{def:machine-interface-boundary-carrier}
+A $\MachineInterfaceBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+M=(R,E,F,A,S,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $R$ is the registry-row ledger, recording the claim entry, its registry position, and its cannot-claim boundary when present;
+\item $E$ is the export-decision row, recording the allowed machine-facing export route for a registry row;
+\item $F$ is the refused-claim row, recording registry entries that may be cited only as refusals or blocked claims;
+\item $A$ is the formalization-target row, recording the Lean-side or audit-side target to which an accepted export may be routed;
+\item $S$ is the socket row, recording the machine-interface socket through which the target is exposed;
+\item $H$ stores componentwise $\hsame$ transport for registry, export, refusal, formalization-target, socket, continuation, provenance, and local naming rows;
+\item $C$ stores displayed $\Cont$ replay for registry lookup, export inspection, refusal readback, formalization-target routing, socket exposure, and audit replay;
+\item $P$ is the $\Pkg$ provenance over $\RegistryExportSurfaceUp$, $\MachineInterfaceSocketUp$, $\KernelAuditWitnessUp$, $\ApophaticNameUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\MachineInterfaceBoundaryUp}$ row binding the machine-facing boundary to the displayed packet.
+\end{enumerate}
+The carrier contains no coordinate for a host-side certificate, unchecked machine claim, hidden registry override, or export route that bypasses a refused registry row.
+\end{definition}
+
+\begin{theorem}[Machine-interface boundary obligation surface]
+\label{thm:machine-interface-boundary-obligation-surface}
+For the carrier of \autoref{def:machine-interface-boundary-carrier}, the local $\NameCert_{\MachineInterfaceBoundaryUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for $M=(R,E,F,A,S,H,C,P,N)$;
+\item registry-export coverage through $R$ and $E$;
+\item refusal exactness through $F$, requiring every blocked or refused registry row to remain visible as refused content;
+\item formalization-target and socket routing through $A$ and $S$;
+\item audit readback, transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the displayed packet of \autoref{def:machine-interface-boundary-carrier}. The rows $R,E,F,A,S$ already separate registry entry, export decision, refused claim, formalization target, and socket exposure.
+
+Use the registry-export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert} for the $R,E,F$ side of the packet. It keeps exported rows and refused rows distinct before any machine target can inspect them.
+
+Use the machine-interface socket and kernel audit witness surfaces, \autoref{ch:concrete-instances-machine-interface-socket-namecert} and \autoref{ch:concrete-instances-kernelauditwitness-namecert}, for the $A,S,H,C,P,N$ side. The target is routed through a displayed socket and the audit readback is replayed through the same continuation and provenance rows.
+
+Finally apply the apophatic naming boundary of \autoref{ch:concrete-instances-apophaticname-namecert}. It prevents a refused request from becoming supplied content, so the five obligation rows exhaust the local $\NameCert_{\MachineInterfaceBoundaryUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Machine-interface boundary export control]
+\label{thm:machine-interface-boundary-export-control}
+Let
+$$
+M=(R,E,F,A,S,H,C,P,N)
+$$
+be an accepted $\MachineInterfaceBoundaryUp$ carrier. Every machine-facing export route factors through the export decision row $E$, refused-claim row $F$, formalization-target row $A$, socket row $S$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$ after reading the registry row $R$. The route cannot export a refused registry row as a checked machine claim, and it cannot replace the local NameCert row by host-side certification.
+\end{theorem}
+\begin{proof}
+Read the registry entry first through $R$. The export decision is then the displayed row $E$, while every refused or blocked registry claim is kept in $F$.
+
+Route accepted machine exposure through $A$ and $S$. These rows determine the formalization target and the machine-interface socket before any audit readback is available to a consumer.
+
+Transport and replay use only $H$ and $C$, with provenance and local naming supplied by $P$ and $N$. Since no coordinate of $M$ stores host-side certification or an unchecked machine claim, an export route that tries to bypass $F,A,S,H,C,P,N$ exits the carrier instead of exporting a BEDC machine-facing claim.
+\end{proof}
+
+\begin{theorem}[Machine-interface boundary TasteGate handoff]
+\label{thm:machine-interface-boundary-tastegate-handoff}
+Later Lean work for $\MachineInterfaceBoundaryUp$ must provide $\Nontrivial\ \MachineInterfaceBoundaryUp$ and $\FieldFaithful\ \MachineInterfaceBoundaryUp$ instances in $\mathsf{lean4/BEDC/Derived/MachineInterfaceBoundaryUp/TasteGate.lean}$. The nontriviality witness must expose at least one accepted registry-export or refusal-routing packet, and the field-faithfulness witness must preserve the distinct rows $R,E,F,A,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+The carrier is not a terminal tag: it distinguishes registry rows, export decisions, refused claims, formalization targets, socket exposure, transport, replay, provenance, and local naming.
+
+Nontriviality therefore has to exhibit an accepted packet whose machine-facing boundary is readable through those rows. Field faithfulness has to prevent $E$ from replacing $F$, $A$ from replacing $S$, or $N$ from being replaced by host-side certification.
+
+Thus the named Lean file is the correct follow-up site for the same displayed carrier, with the TasteGate obligations aligned to the rows bound by \autoref{thm:machine-interface-boundary-obligation-surface}.
+\end{proof}
+
+\falsifiablePrediction{Any accepted MachineInterfaceBoundaryUp route that exports a refused registry row as a checked machine claim refutes the carrier.}
+
+\independenceWitness{registryexportsurface, machineinterfacesocket, kernelauditwitness, apophaticname: none is bijective because MachineInterfaceBoundaryUp simultaneously carries registry export rows, refused rows, formalization-target routing, socket exposure, audit readback, transport, continuation, provenance, and local NameCert.}
+
+\closureat{MachineInterfaceBoundaryUp}{seedStr}
+\closureat{MachineInterfaceBoundaryUp}{obligationStr}
