@@ -40,4 +40,49 @@ theorem DiagonalLimitCompatibilityRealCompletionTerminalPullback [AskSetup] [Pac
       completionUnary, branchUnary, pullbackUnary, diagonalTriangleSeal, dyadicWindowsReadback,
       readbackRealSealCompletion, completionBranchPullback, provenancePkg, pullbackPkg⟩
 
+theorem DiagonalLimitCompatibilityCarrier_real_completion_terminal_pullback
+    [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      terminal envelopeRoute refinementRoute uniformRoute pullback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont readback realSeal terminal ->
+        Cont terminal route envelopeRoute ->
+          Cont terminal transport refinementRoute ->
+            Cont terminal cert uniformRoute ->
+              Cont envelopeRoute refinementRoute pullback ->
+                PkgSig bundle pullback pkg ->
+                  UnaryHistory readback ∧ UnaryHistory realSeal ∧ UnaryHistory terminal ∧
+                    UnaryHistory envelopeRoute ∧ UnaryHistory refinementRoute ∧
+                      UnaryHistory uniformRoute ∧ UnaryHistory pullback ∧
+                        Cont readback realSeal terminal ∧ Cont terminal route envelopeRoute ∧
+                          Cont terminal transport refinementRoute ∧
+                            Cont terminal cert uniformRoute ∧
+                              Cont envelopeRoute refinementRoute pullback ∧
+                                PkgSig bundle provenance pkg ∧ PkgSig bundle pullback pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle UnaryHistory
+  intro carrier readbackRealSealTerminal terminalRouteEnvelopeRoute
+    terminalTransportRefinementRoute terminalCertUniformRoute
+    envelopeRouteRefinementRoutePullback pullbackPkg
+  obtain ⟨_diagonalUnary, _triangleUnary, _sealRowUnary, _dyadicUnary, _windowsUnary,
+    readbackUnary, realSealUnary, transportUnary, routeUnary, _provenanceUnary, certUnary,
+    _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed readbackUnary realSealUnary readbackRealSealTerminal
+  have envelopeRouteUnary : UnaryHistory envelopeRoute :=
+    unary_cont_closed terminalUnary routeUnary terminalRouteEnvelopeRoute
+  have refinementRouteUnary : UnaryHistory refinementRoute :=
+    unary_cont_closed terminalUnary transportUnary terminalTransportRefinementRoute
+  have uniformRouteUnary : UnaryHistory uniformRoute :=
+    unary_cont_closed terminalUnary certUnary terminalCertUniformRoute
+  have pullbackUnary : UnaryHistory pullback :=
+    unary_cont_closed envelopeRouteUnary refinementRouteUnary envelopeRouteRefinementRoutePullback
+  exact
+    ⟨readbackUnary, realSealUnary, terminalUnary, envelopeRouteUnary, refinementRouteUnary,
+      uniformRouteUnary, pullbackUnary, readbackRealSealTerminal, terminalRouteEnvelopeRoute,
+      terminalTransportRefinementRoute, terminalCertUniformRoute,
+      envelopeRouteRefinementRoutePullback, provenancePkg, pullbackPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
