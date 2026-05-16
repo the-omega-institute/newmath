@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CoreRegistryIndexUp$}
+\label{ch:concrete-instances-core-registry-index-namecert}
+\origin{ai}
+
+The $\CoreRegistryIndexUp$ packet realizes the finite registry tables of \autoref{sec:visions-philosophy-core-registries} as one NameCert carrier for package-level indexing. It sits beside the export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the cannot-claim registry of \autoref{ch:concrete-instances-axiszeckendorfcannotclaim-namecert}, the verifier boundary of \autoref{ch:concrete-instances-largemodeloutputverifier-namecert}, the focused ledger of \autoref{ch:concrete-instances-focused-multi-hist-ledger-namecert}, and the GroundCompiler recognition packet of \autoref{ch:concrete-instances-groundcompilerrecognition-namecert}. Those siblings supply export, refusal, machine-verifier, focused-history, and recognition rows; this carrier binds the index itself before a consumer may treat a registry table as an accepted route.
+
+\begin{definition}[Core registry index carrier]
+\label{def:core-registry-index-carrier}
+A $\CoreRegistryIndexUp$ carrier is a finite $\BHist$ packet
+$$
+R=(C,T,G,D,S,F,U,O,A,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the concept-registry row, naming BEDC concepts and their package surfaces;
+\item $T$ is the theorem-registry row, naming theorem entries, proof sites, and checked or unclosed status;
+\item $G$ is the gap-registry row, naming open gaps, refusal sites, and boundary items;
+\item $D$ is the tradition-registry row, recording inherited mathematical or philosophical entry surfaces;
+\item $S$ is the scientific-claim row, recording empirical or model-facing claims with their audit boundaries;
+\item $F$ is the refusal row, recording blocked export, cannot-claim, unavailable-evidence, or policy refusal entries;
+\item $U$ is the route and upgrade row, recording how a registry entry may move to a stronger closure surface;
+\item $O$ is the ordinary-language row, recording entry points by which a reader reaches a finite registry entry;
+\item $A$ is the audit row, recording export checks, consistency gates, and machine-readable review data;
+\item $H$ is the componentwise $\hsame$ transport row for all displayed registry rows;
+\item $K$ is the displayed $\Cont$ continuation row through the concept, theorem, gap, tradition, scientific-claim, refusal, route, ordinary-language, and audit entries;
+\item $P$ is the $\Pkg$ provenance over $\RegistryExportSurfaceUp$, $\AxisZeckendorfCannotClaimUp$, $\LargeModelOutputVerifierUp$, $\mathsf{FocusedMultiHistLedger}^{\uparrow}$, $\GroundCompilerRecognitionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CoreRegistryIndexUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an unlicensed export, hidden total index, theorem-content synthesis, erased refusal, audit-free route, or ordinary-language entry point outside the finite packet $R=(C,T,G,D,S,F,U,O,A,H,K,P,N)$.
+\end{definition}
+
+\begin{theorem}[Core registry index NameCert obligations]
+\label{thm:core-registry-index-namecert-obligations}
+For the carrier of \autoref{def:core-registry-index-carrier}, the local $\NameCert_{\CoreRegistryIndexUp}$ surface consists exactly of carrier admission for $R=(C,T,G,D,S,F,U,O,A,H,K,P,N)$; registry exposure for concept, theorem, gap, tradition, scientific-claim, refusal, route, and ordinary-language rows; audit exposure through $A$; componentwise transport through $H$; displayed continuation through $K$; package provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The finite packet displays every registry table named by the core-registry surface together with audit, transport, continuation, package, and local naming rows.
+
+The sibling chapters provide only bounded surfaces. The export surface controls public registry export, the cannot-claim packet supplies refusal discipline, the large-model verifier controls checked machine output, the focused multi-Hist ledger supplies finite history focus, and the GroundCompiler recognition packet supplies recognized machine-facing rows.
+
+Rows $A,H,K,P,N$ bind those registry rows as one NameCert surface. Since no row names a hidden total index or theorem-content generator, the obligations are exactly the displayed finite registry packet and its audit, transport, continuation, provenance, and naming data.
+\end{proof}
+
+\begin{theorem}[Core registry index nonescape]
+\label{thm:core-registry-index-nonescape}
+Every public consumer of an accepted $\CoreRegistryIndexUp$ packet must read the concept, theorem, gap, tradition, scientific-claim, refusal, route, ordinary-language, audit, transport, continuation, provenance, and local NameCert rows together. Removing the refusal row $F$ or audit row $A$ exits the accepted registry index and cannot be repaired by transport, continuation, package provenance, or local naming alone.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:core-registry-index-namecert-obligations}. They require the registry rows $C,T,G,D,S,F,U,O$ and the audit row $A$ before the packet may be exported as $\CoreRegistryIndexUp$.
+
+The export surface and cannot-claim sibling chapters keep exported rows and blocked rows distinct. The verifier, focused-ledger, and recognition siblings keep machine-output, history-focus, and recognition data bounded by their displayed rows.
+
+Thus a consumer that removes $F$ loses the refusal boundary, and a consumer that removes $A$ loses the export audit. The support rows $H,K,P,N$ preserve an admitted packet; they do not synthesize the missing refusal or audit surface.
+\end{proof}
+
+\falsifiablePrediction{Removing the refusal row or audit row permits an unlicensed registry export.}
+
+\independenceWitness{registryexportsurface, axiszeckendorfcannotclaim, largemodeloutputverifier, focused-multi-hist-ledger, groundcompilerrecognition: none is bijective to $\CoreRegistryIndexUp$. The export surface lacks the concept, theorem, gap, tradition, scientific-claim, ordinary-language, and upgrade index together; the cannot-claim packet lacks accepted registry export rows; the large-model verifier lacks package registry rows; the focused multi-Hist ledger lacks refusal and ordinary-language index rows; the GroundCompiler recognition packet lacks theorem, gap, refusal, audit, and route rows as one finite registry carrier.}
+
+The Lean follow-up must provide $\Nontrivial\ \CoreRegistryIndexUp$ and $\FieldFaithful\ \CoreRegistryIndexUp$ instances in \texttt{lean4/BEDC/Derived/CoreRegistryIndexUp/TasteGate.lean}. Those instances must preserve $C,T,G,D,S,F,U,O,A,H,K,P,N$ as separate displayed fields before any checked theorem may cite the $\CoreRegistryIndexUp$ packet as a field-faithful registry index.
+
+\closureat{CoreRegistryIndexUp}{seedStr}
+
+\begin{closurestatus}{\CoreRegistryIndexUp}
+  \constructivestory{A $\CoreRegistryIndexUp$ packet is generated from concept, theorem, gap, tradition, scientific-claim, refusal, route, ordinary-language, audit, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:core-registry-index-carrier}, \autoref{thm:core-registry-index-namecert-obligations}, and \autoref{thm:core-registry-index-nonescape} bind core registry export to the displayed finite index packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, registry completeness, hidden total indexing, or correctness of every downstream registry entry.}
+  \upgradepath{Lean closure requires Nontrivial CoreRegistryIndexUp and FieldFaithful CoreRegistryIndexUp instances in \texttt{lean4/BEDC/Derived/CoreRegistryIndexUp/TasteGate.lean}.}
+\end{closurestatus}

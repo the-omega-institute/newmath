@@ -288,6 +288,49 @@ Use diagnostic totality to bind $D$ and $R$. The refusal target is reached throu
 The support rows are conservative. Componentwise transport, replay, provenance, and local naming preserve the displayed diagnostic-refusal packet; they do not synthesize a replacement diagnostic or a detached refusal route. Thus such a consumer leaves the accepted boundary.
 \end{proof}
 
+\begin{theorem}[Audit-gate failure-witness diagnostic uniqueness]
+\label{thm:audit-gate-failure-witness-diagnostic-uniqueness}
+For every accepted $\AuditGateFailureWitnessUp$ carrier
+$$
+W=(G,F,R,D,H,C,P,N),
+$$
+the row $D$ is the unique public diagnostic for the pair $(G,F)$ along the displayed continuation route. Any alternate diagnostic for the same gate row and failed boundary item is outside the carrier and cannot reach the refusal target $R$ as an accepted $\AuditGateFailureWitnessUp$ consumer route.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and the NameCert obligations. The accepted packet displays exactly one diagnostic readback row $D$ for the gate row $G$ and failed item $F$, and diagnostic exactness places that row before any refusal handoff.
+
+Use target readback totality and diagnostic-refusal order. Every public route to $R$ must pass through the route
+$$
+G \to F \to D \to R.
+$$
+
+Finally apply the refusal consumer boundary. An alternate diagnostic would either replace $D$ or detach $R$ from $(F,D)$. Both moves leave the displayed packet, so no alternate diagnostic is an accepted public diagnostic for the same pair $(G,F)$.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness boundary-item coverage]
+\label{thm:audit-gate-failure-witness-boundary-item-coverage}
+Every failed boundary item accepted by an $\AuditGateFailureWitnessUp$ carrier is covered exactly as gate row, failed item, diagnostic, refusal, transport, replay, provenance, and local name. The carrier has no theorem-content coordinate and no marker-repair coordinate for the failed item.
+\end{theorem}
+\begin{proof}
+Project the carrier $W=(G,F,R,D,H,C,P,N)$. Its rows name the gate, failed boundary item, refusal target, diagnostic readback, transport, replay, provenance, and local NameCert data.
+
+Apply boundary-item noninternalization coverage. That theorem excludes theorem-content, marker-repair, and host-supply rows from the accepted inventory.
+
+Use diagnostic totality and the refusal consumer boundary to check the public route. The failed item is consumed through $G,F,D,R$ and preserved by $H,C,P,N$; any consumer that adds theorem content or marker repair has changed the accepted packet rather than covering the displayed boundary item.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness refusal-route exactness]
+\label{thm:audit-gate-failure-witness-refusal-route-exactness}
+Every consumer route to the refusal target $R$ of an accepted $\AuditGateFailureWitnessUp$ carrier factors through $G,F,D$ and the displayed support rows $H,C,P,N$. There is no accepted detached route to $R$ that omits the gate row, failed item, diagnostic readback, transport, replay, provenance, or local naming rows.
+\end{theorem}
+\begin{proof}
+Begin with target readback totality. It forces public reads of the refusal target to pass through the diagnostic row after the gate row and failed boundary item.
+
+Diagnostic-refusal order gives the exact spine $G,F,D,R$. Replay factorization then carries that spine through the support rows $H,C,P,N$.
+
+Finally use the refusal consumer boundary. Omitting the diagnostic or detaching $R$ from $(F,D)$ exits the carrier, while transport, replay, provenance, and local naming preserve only the displayed support route. Hence every accepted route to $R$ has the stated factorization.
+\end{proof}
+
 The Lean follow-up for this chapter must provide \texttt{Derived/AuditGateFailureWitnessUp/TasteGate.lean} with $\mathsf{Nontrivial}\ \AuditGateFailureWitnessUp$ and $\mathsf{FieldFaithful}\ \AuditGateFailureWitnessUp$ instances for the same finite carrier.
 
 \closureat{AuditGateFailureWitnessUp}{seedStr}

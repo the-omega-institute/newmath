@@ -181,4 +181,28 @@ theorem RealityConstrainedTowerCompressionScoped_source_exactness [AskSetup] [Pa
       readLedgerUnary, readEndpointUnary, scopedReadUnary, ledgerRoute, endpointRoute,
       scopedRoute, endpointSameClassifierLedger, provenancePkg, scopedPkg⟩
 
+theorem RealityConstrainedTowerCompressionEndpoint_source_separation [AskSetup] [PackageSetup]
+    {S T O F A M C L E R P N endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealityConstrainedTowerCompressionCarrier S T O F A M C L E R P N bundle pkg →
+      Cont C L E →
+        Cont E R endpointRead →
+          PkgSig bundle endpointRead pkg →
+            UnaryHistory S ∧ UnaryHistory E ∧ UnaryHistory L ∧
+              UnaryHistory endpointRead ∧ hsame E (append C L) ∧ Cont C L E ∧
+                Cont E R endpointRead ∧ PkgSig bundle endpointRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame Cont ProbeBundle Pkg
+  intro carrier classifierLedgerEndpoint endpointReplay endpointPkg
+  obtain ⟨sourceUnary, _towerUnary, _observerUnary, _fitUnary, _approxUnary,
+    _auditUnary, _classifierUnary, ledgerUnary, endpointUnary, replayUnary,
+    _provenanceUnary, _nameUnary, _sourceTowerObserver, _observerFitApprox,
+    _approxAuditClassifier, _carrierClassifierLedgerEndpoint,
+    _carrierEndpointReplayProvenance, _provenanceNameLedger,
+    endpointSameClassifierLedger, _endpointPkg⟩ := carrier
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed endpointUnary replayUnary endpointReplay
+  exact
+    ⟨sourceUnary, endpointUnary, ledgerUnary, endpointReadUnary,
+      endpointSameClassifierLedger, classifierLedgerEndpoint, endpointReplay, endpointPkg⟩
+
 end BEDC.Derived.RealityConstrainedTowerCompressionUp
