@@ -574,6 +574,7 @@ import BEDC.Derived.ContinuationMonadUp.UnitRouteLaws
 import BEDC.Derived.ContinuationMonadUp.RootKleisliAssociativityScope
 import BEDC.Derived.ContinuationMonadUp.RootBindCompletionClassifier
 import BEDC.Derived.ContinuationMonadUp.RootContAssociativityLedger
+import BEDC.Derived.ContinuationMonadUp.UnitBindCompletionNonescape
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -1338,6 +1339,8 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.BoundaryExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteWindowHandoffBoundary
 import BEDC.Derived.DiagonallimitcompatibilityUp.RouteLedgerTotality
 import BEDC.Derived.DiagonallimitcompatibilityUp.UniformWindowRealSealPullback
+import BEDC.Derived.RealityConstrainedObjectivityUp.TasteGate
+import BEDC.Derived.OpenFitPacketUp.TasteGate
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp
