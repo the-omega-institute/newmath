@@ -665,6 +665,7 @@ import BEDC.Derived.DyadicTailBoundUp.ConsumerRoutes
 import BEDC.Derived.DyadicTailBoundUp.ZeroPacket
 import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.FiniteNetMinimumFoldUp
+import BEDC.Derived.FiniteNetMinimumFoldUp.HandoffGate
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.DimLiftBoundaryUp
