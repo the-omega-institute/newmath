@@ -163,6 +163,34 @@ theorem HausdorffCompletionCarrier_separated_reflector_route [AskSetup] [Package
     ⟨sourceUnary, handoffUnary, publicRouteUnary, sourceHandoffPublicRoute, provenancePkg,
       publicRoutePkg⟩
 
+theorem HausdorffCompletionCarrier_cauchy_filter_uniqueness [AskSetup] [PackageSetup]
+    {source entourage separated handoff transport route provenance source' entourage'
+      separated' handoff' transport' route' provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg ->
+      HausdorffCompletionCarrier source' entourage' separated' handoff' transport' route'
+        provenance' bundle pkg ->
+        hsame separated separated' ->
+          hsame handoff handoff' ->
+            hsame transport transport' ->
+              hsame route route' ∧ hsame provenance provenance' := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg
+  intro carrier carrier' sameSeparated sameHandoff sameTransport
+  obtain ⟨_sourceUnary, _entourageUnary, _separatedUnary, _handoffUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _sourceEntourageTransport, separatedHandoffRoute,
+    transportRouteProvenance, _provenancePkg⟩ := carrier
+  obtain ⟨_sourceUnary', _entourageUnary', _separatedUnary', _handoffUnary',
+    _transportUnary', _routeUnary', _provenanceUnary', _sourceEntourageTransport',
+    separatedHandoffRoute', transportRouteProvenance', _provenancePkg'⟩ := carrier'
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameSeparated sameHandoff separatedHandoffRoute
+      separatedHandoffRoute'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameTransport sameRoute transportRouteProvenance
+      transportRouteProvenance'
+  exact ⟨sameRoute, sameProvenance⟩
+
 theorem HausdorffCompletionCarrier_real_seal_ledger_scope [AskSetup] [PackageSetup]
     {source entourage separated handoff transport route provenance sealRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
