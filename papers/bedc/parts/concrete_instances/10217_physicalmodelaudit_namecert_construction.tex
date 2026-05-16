@@ -31,6 +31,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier contains no host-level truth oracle, unbounded observation stream, unledgered compression, detached model equivalence, or physical acceptance route outside the displayed packet.
 \end{definition}
+\leanchecked{BEDC.Derived.PhysicalModelAuditUp.PhysicalModelAuditTasteGate\_single\_carrier\_alignment}
 
 \begin{definition}[PhysicalModelAudit classifier]
 \label{def:physical-model-audit-classifier}
@@ -80,6 +81,62 @@ $$
 The real-facing part of the route is not the model signature $M$ alone. It also requires the source traces $Q$, target phenomenon $R$, observed signatures $O$, classifier $C$, tower $T$, stability and descent rows $Y,D$, ledger $L$, failure surface $F$, and strength row $S$.
 
 If any one of those rows is absent, the route can still describe syntax or a partial finite comparison, but it cannot project the local physical acceptance name. The missing row is outside the carrier, so the corresponding physical claim is not accepted by this NameCert packet.
+\end{proof}
+
+\begin{theorem}[PhysicalModelAudit ledger failure strength separation]
+\label{thm:physical-model-audit-ledger-failure-strength-separation}
+For every accepted packet
+$$
+A=(Q,R,O,M,C,T,Y,D,L,F,S,H,U,P,N),
+$$
+the ledger row $L$, failure row $F$, and strength row $S$ are separate audit coordinates. The ledger row records provenance, compression, representation, idealization, and translation material; the failure row records finite defeating observations or signature mismatches; the strength row records the evidential grade licensed by the accepted route. None of the three rows can be reconstructed from either of the other two without leaving the displayed carrier.
+\end{theorem}
+\begin{proof}
+Start with the carrier in \autoref{def:physical-model-audit-bhist-carrier}. It lists $L$, $F$, and $S$ as distinct rows of the same finite packet, with $L$ assigned to audit material, $F$ assigned to defeating observations or mismatches, and $S$ assigned to evidential strength.
+
+Apply the classifier in \autoref{def:physical-model-audit-classifier}. The classifier transports ledger rows, failure surfaces, and strength rows componentwise; it does not collapse them into the observed signature, model signature, or comparison row.
+
+Finally use the NameCert obligation surface and the acceptance non-escape theorem. \autoref{thm:physical-model-audit-namecert-obligation-surface} places ledger, failure, and strength admission in the local certificate, while \autoref{thm:physical-model-audit-acceptance-nonescape} requires all three rows before a physical acceptance name can be projected. Hence an accepted audit cannot substitute ledger material for a defeat surface, a defeat surface for evidential strength, or strength for either of the audit rows.
+\end{proof}
+
+\begin{theorem}[PhysicalModelAudit route strength determinacy]
+\label{thm:physical-model-audit-route-strength-determinacy}
+For an accepted packet
+$$
+A=(Q,R,O,M,C,T,Y,D,L,F,S,H,U,P,N),
+$$
+the audit strength row $S$ is determined only by the displayed source, signature, classifier, tower, stability, descent, ledger, and failure route
+$$
+Q,R,O,M,C,T,Y,D,L,F,H,U,P,N.
+$$
+No host physical truth oracle, detached model equivalence, unbounded observation stream, or hidden validation route can determine the accepted audit strength outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Read the carrier first. \autoref{def:physical-model-audit-bhist-carrier} places $S$ in the same finite tuple as the source trace $Q$, target phenomenon $R$, observed and model signatures $O,M$, classifier $C$, tower $T$, stability and descent rows $Y,D$, ledger $L$, failure surface $F$, and structural rows $H,U,P,N$.
+
+The classifier fixes the comparison route. By \autoref{def:physical-model-audit-classifier}, accepted comparison is a relation between $O,M$ and transported copies of the same displayed rows; it is not a separate model oracle.
+
+Use the obligation surface to bind the strength source. \autoref{thm:physical-model-audit-namecert-obligation-surface} admits $S$ only together with the source, signature, classifier, tower, stability, descent, ledger, and failure rows. Then \autoref{thm:physical-model-audit-acceptance-nonescape} blocks a physical acceptance name whenever any of those rows is absent.
+
+Therefore the accepted strength is determined by the displayed route and by no hidden host evidence. A consumer that changes $S$ without changing the listed source, signature, classifier, tower, stability, descent, ledger, failure, transport, route, provenance, or naming rows has left the accepted $\PhysicalModelAuditUp$ packet.
+\end{proof}
+
+\begin{theorem}[PhysicalModelAudit failure surface exhaustion]
+\label{thm:physical-model-audit-failure-surface-exhaustion}
+For an accepted packet
+$$
+A=(Q,R,O,M,C,T,Y,D,L,F,S,H,U,P,N),
+$$
+every defeating observation, signature mismatch, reuse failure, descent failure, or audit-level objection available to the physical model audit must appear through the failure row $F$ and its displayed transports through $H,U,P,N$. No hidden host observation, unledgered mismatch, or detached failure witness can defeat the accepted route outside $F$.
+\end{theorem}
+\begin{proof}
+Begin with the displayed packet. The carrier of \autoref{def:physical-model-audit-bhist-carrier} assigns finite defeating observations and signature mismatches to $F$, while $Q,R,O,M,C,T,Y,D,L,S$ record the source, phenomenon, signatures, classifier, tower, stability, descent, ledger, and strength rows.
+
+The classifier does not add a second failure store. By \autoref{def:physical-model-audit-classifier}, mismatch information is compared through the transported observed and model signatures together with the failure surface already present in the packet.
+
+Apply \autoref{thm:physical-model-audit-namecert-obligation-surface}. The local NameCert has a ledger, failure, and strength admission row, and its failure coordinate is the only named surface for defeating observations or signature mismatches.
+
+Finally use \autoref{thm:physical-model-audit-acceptance-nonescape}. Acceptance requires $F$ in the same finite packet as the source, signature, classifier, tower, stability, descent, ledger, and strength rows. Thus any alleged defeat that does not enter through $F$ is not a defeating observation of the accepted $\PhysicalModelAuditUp$ route; it is outside the carrier rather than hidden host evidence.
 \end{proof}
 
 The Lean follow-up path \texttt{lean4/BEDC/Derived/PhysicalModelAuditUp/TasteGate.lean} must provide explicit $\Nontrivial\ \PhysicalModelAuditUp$ and $\FieldFaithful\ \PhysicalModelAuditUp$ instances. These instances must distinguish source traces, target phenomenon, observed and model signatures, classifier, tower, stability, descent, ledger, failure surface, strength, transports, routes, provenance, and local NameCert as separate fields.

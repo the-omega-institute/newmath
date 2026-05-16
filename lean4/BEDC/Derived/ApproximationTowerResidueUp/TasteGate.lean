@@ -274,4 +274,28 @@ theorem ApproximationTowerResidueTasteGate_single_carrier_alignment :
             heq
         cases hxy
 
+namespace TasteGate
+
+theorem ApproximationTowerResidueTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+        approximationTowerResidueDecodeBHist (approximationTowerResidueEncodeBHist h) = h) ∧
+      (∀ x : ApproximationTowerResidueUp,
+        approximationTowerResidueFromEventFlow (approximationTowerResidueToEventFlow x) =
+          some x) ∧
+        (∀ x y : ApproximationTowerResidueUp,
+          approximationTowerResidueToEventFlow x = approximationTowerResidueToEventFlow y →
+            x = y) ∧
+          approximationTowerResidueEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  constructor
+  · exact ApproximationTowerResidueTasteGate_single_carrier_alignment_decode
+  · constructor
+    · exact ApproximationTowerResidueTasteGate_single_carrier_alignment_round_trip
+    · constructor
+      · intro x y heq
+        exact ApproximationTowerResidueToEventFlow_injective heq
+      · rfl
+
+end TasteGate
+
 end BEDC.Derived.ApproximationTowerResidueUp
