@@ -219,6 +219,22 @@ Next pull the diagonal route back to the same boundary. The route-pullback theor
 Finally apply synchronizer totality, \autoref{thm:cauchycriterion-selector-seal-synchronizer-totality}. Its synchronizer packet already carries the finite selector rows, $\BHist$ support, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ rows. The StreamName finite-window and diagonal root-formal references used above put all three routes on that same finite window, so repacking them gives the common selector-refinement packet and no excluded coordinate remains.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion Real-window diagonal selector lock]
+\label{thm:cauchycriterion-real-window-diagonal-selector-lock}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, let $U=(I,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)$ be an accepted $\UniformCauchyCriterionUp$ packet, and let $D$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Suppose the three packets share the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and finite selector rows at the completion-facing boundary. Then every $\RealUp$ window selector read factors through one common finite packet over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The common packet contains no quotient stream, selected host limit, host real equality, detached threshold family, ambient completeness principle, or second seal.
+\end{theorem}
+\begin{proof}
+First read the CauchyCriterion selector boundary through \autoref{thm:cauchycriterion-streamname-real-budget-selector-boundary}. This places every Real-facing budget-selector read on the displayed StreamName--RegSeqRat--DyadicRatCore--Real rows before any external limit or completion coordinate can be inspected.
+
+Next apply uniform selector-seal compatibility and route pullback, \autoref{thm:cauchycriterion-uniform-selector-seal-compatibility} and \autoref{thm:cauchycriterion-selector-seal-route-pullback}. The uniform shared-threshold route and the diagonal root-formal route are both restricted to the same finite selector surface.
+
+Now use synchronizer totality, \autoref{thm:cauchycriterion-selector-seal-synchronizer-totality}. It supplies the total route that aligns the CauchyCriterion selector surface with the UniformCauchyCriterion shared-threshold surface over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Finally invoke the common selector refinement theorem, \autoref{thm:cauchycriterion-common-selector-refinement}. Carrier-coordinate exhaustion leaves exactly the shared finite packet and removes every coordinate listed outside it, so each Real-window selector read is locked to that packet.
+\end{proof}
+
 \begin{theorem}[CauchyCriterion four-face selector readback determinacy]
 \label{thm:cauchycriterion-four-face-selector-readback-determinacy}
 Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, let $U=(I,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)$ be an accepted $\UniformCauchyCriterionUp$ packet, and let $D$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Suppose the three packets share the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and finite selector rows at the completion-facing boundary. Then any two $\RealUp$ or $\CompletionUp$ consumer readbacks preserving the common selector-refinement packet of \autoref{thm:cauchycriterion-common-selector-refinement} and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows determine the same finite selector-readback packet before any seal is read.
