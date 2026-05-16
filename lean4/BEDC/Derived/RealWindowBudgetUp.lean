@@ -354,6 +354,34 @@ theorem RealWindowBudgetCarrier_finite_window_source_exhaustion [AskSetup] [Pack
                 · exact carrier.provenance_pkg
                 · exact windowRead_pkg
 
+theorem RealWindowBudgetCarrier_selector_stability [AskSetup] [PackageSetup]
+    {request windows dyadic handoff realSeal selector disclosure transport route provenance
+      nameRow selectorRead stableRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealWindowBudgetCarrier request windows dyadic handoff realSeal selector disclosure transport
+        route provenance nameRow bundle pkg →
+      Cont request selector selectorRead →
+        Cont selectorRead disclosure stableRead →
+          PkgSig bundle stableRead pkg →
+            UnaryHistory request ∧ UnaryHistory selector ∧ UnaryHistory disclosure ∧
+              UnaryHistory selectorRead ∧ UnaryHistory stableRead ∧
+                Cont request selector selectorRead ∧
+                  Cont selectorRead disclosure stableRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle stableRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier request_selector_selectorRead selectorRead_disclosure_stableRead
+    stableRead_pkg
+  have selectorRead_unary : UnaryHistory selectorRead :=
+    unary_cont_closed carrier.request_unary carrier.selector_unary
+      request_selector_selectorRead
+  have stableRead_unary : UnaryHistory stableRead :=
+    unary_cont_closed selectorRead_unary carrier.disclosure_unary
+      selectorRead_disclosure_stableRead
+  exact
+    ⟨carrier.request_unary, carrier.selector_unary, carrier.disclosure_unary,
+      selectorRead_unary, stableRead_unary, request_selector_selectorRead,
+      selectorRead_disclosure_stableRead, carrier.provenance_pkg, stableRead_pkg⟩
+
 theorem RealWindowBudgetCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {request windows dyadic handoff realSeal selector disclosure transport route provenance
       nameRow : BHist}
