@@ -604,6 +604,7 @@ E \longmapsto W \longmapsto D \longmapsto R \longmapsto L
 $$
 and then through the structural rows $H,C,P,N$. The factorization is stable under the displayed $\hsame$ transports and cannot introduce quotient stream equality, host-selected limits, hidden tail oracles, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.TailCofinalityScheduleUp.TailCofinalityScheduleCarrier\_window\_seal\_factorization}
 \begin{proof}
 Begin with the finite window. Apply \autoref{thm:tail-cofinality-schedule-window-coverage}; every completion-facing read of the unary precision row $E$ reaches the displayed $\StreamNameUp$ window row $W$ before any seal consumer can read a later row.
 
@@ -618,6 +619,28 @@ The displayed $\hsame$ transports keep the structural rows $H,C,P,N$ attached to
 Determinacy follows from \autoref{thm:tail-cofinality-schedule-streamname-regseqrat-real-window-determinacy}: after $E,W,D$ are fixed, the completion-facing consumer has the same $R$ and $L$ rows under the same transport, continuation, provenance, and local naming package.
 
 Finally invoke \autoref{thm:tail-cofinality-schedule-real-completion-selector-route}. The RealCompletionSelectorSeal route consumes the displayed readback and seal rows, so no quotient stream equality, host-selected limit, hidden tail oracle, or ambient completeness coordinate can be introduced downstream.
+\end{proof}
+
+\begin{theorem}[Tail cofinality schedule Phase Real and Completion exit handoff]
+\label{thm:tail-cofinality-schedule-phase-real-completion-exit-handoff}
+Let
+$$
+T=(E,W,D,R,L,H,C,P,N)
+$$
+be an accepted $\TailCofinalityScheduleUp$ packet. If $T$ is consumed as a Phase Real and Completion exit route over the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces, then the exit factors through the displayed finite path
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto L,
+$$
+where $W$ is the $\StreamNameUp$ finite-window row, $D$ is the $\DyadicRatCoreUp$ tolerance ledger, $R$ is the $\RegSeqRatUp$ readback row, and $L$ is the $\RealUp$ seal. The route exports no quotient stream, selected host limit, host equality, choice schedule, hidden tail oracle, ambient completeness, or second selector-budget source.
+\end{theorem}
+\begin{proof}
+Begin with the local schedule route. The diagonal handoff, finite-window coverage, threshold sufficiency, Real seal readback, and scoped binding theorems force every accepted read of $T$ to pass from the unary request $E$ through the finite window $W$, dyadic ledger $D$, regular-rational readback $R$, and Real seal $L$, with $H,C,P,N$ only replaying transport, continuation, provenance, and local naming.
+
+Next read the Completion-facing side. The RegularCauchyCompletion route places the completion carrier on the same finite path, while shared-tail budget factorization identifies the shared threshold supplied by $\RegularCauchyTailMeetUp$ and the agreement rows supplied by $\RealTailAgreementSealUp$ as consumers of that path rather than as independent sources.
+
+Now apply the selector-budget lock. It prevents the Real or Completion consumer from replacing the dyadic ledger by a separate selector budget, and it keeps the $\RealUp$ seal downstream from the same $E,W,D,R,L$ route.
+
+Finally use window seal factorization. Once the finite window and dyadic ledger have been read, the completion-facing seal is the displayed $R,L$ readback under the same structural rows. Since the carrier inventory contains no coordinate for quotient streams, selected host limits, host equality, choice schedules, hidden tail oracles, ambient completeness, or a second selector-budget source, the Phase Real and Completion exit has no public route outside the stated finite path.
 \end{proof}
 
 \closureat{TailCofinalityScheduleUp}{seedStr}
