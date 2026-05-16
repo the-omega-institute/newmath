@@ -227,6 +227,18 @@ The terminality theorem \autoref{thm:observer-filter-budget-selector-real-seal-t
 The sibling L10 handoff rows already cited in the chapter provide the source side of the same route: observer-history identity feeds the selected observer row, the finite observation-budget selector supplies $B$, and the StreamName chapter supplies $W$. Since the carrier has no coordinate for quotient streams, host real equality, selected host limits, hidden limit selectors, or ambient completeness, the listed chain is the only Real-completion consumer route exported by the packet.
 \end{proof}
 
+\begin{theorem}[Observer-filter budget-selector downstream budget lock]
+\label{thm:observer-filter-budget-selector-downstream-budget-lock}
+Any $\CauchyLimitSealUp$ or $\RealCompletionSelectorSealUp$ consumer of an accepted $\ObserverFilterBudgetSelectorUp$ packet must preserve the selected observer row $S$, finite budget row $B$, $\StreamNameUp$ window row $W$, dyadic row $D$, $\RegSeqRatUp$ handoff row $R$, and $\RealUp$ seal row $E$ as one downstream route. The omitted ledger $O$ remains boundary data, and $H,C,P,N$ remain the structural rows for componentwise transport, displayed replay, provenance, and local naming. The downstream consumer cannot replace this route by an omitted-row read, quotient stream, host real equality, selected host limit, hidden selector, or ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the selected-row gate and omitted-row exclusion. \autoref{thm:observer-filter-budget-selector-selected-row-gate} forces every read of $B,W,D,R,E$ through $S$, while \autoref{thm:observer-filter-budget-selector-omitted-row-exclusion} keeps $O$ outside the selected observer route.
+
+Next attach the dyadic and Real-facing rows. \autoref{thm:observer-filter-budget-selector-dyadic-readback-exactness} fixes $D$ as the dyadic readback of the same finite window route, and \autoref{thm:observer-filter-budget-selector-real-seal-terminality} makes $E$ terminal only after the selected row, budget row, window row, dyadic row, and regular handoff row have been retained.
+
+Finally compose the bridge-ready route with the Real-completion consumer factorization. \autoref{thm:observer-filter-budget-selector-bridge-ready-route} packages the route through $S,B,W,D,R,E$, and \autoref{thm:observer-filter-budget-selector-real-completion-consumer} forces $\CauchyLimitSealUp$ and $\RealCompletionSelectorSealUp$ consumers to read that same chain. The structural rows remain $H,C,P,N$, and the omitted row remains boundary-only, so no downstream completion consumer can escape the displayed lock.
+\end{proof}
+
 The Lean file \texttt{Derived/ObserverFilterBudgetSelectorUp/TasteGate.lean} will provide $\mathsf{Nontrivial}\ \ObserverFilterBudgetSelectorUp$ and $\mathsf{FieldFaithful}\ \ObserverFilterBudgetSelectorUp$ instances over the displayed rows.
 
 \closureat{ObserverFilterBudgetSelectorUp}{seedStr}
