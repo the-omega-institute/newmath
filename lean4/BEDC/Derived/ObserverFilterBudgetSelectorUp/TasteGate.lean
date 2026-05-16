@@ -491,4 +491,30 @@ theorem ObserverFilterBudgetSelectorCompletionConsumerFactorization
   subst hName
   exact ⟨rfl, sealTerminal⟩
 
+theorem ObserverFilterBudgetSelectorDownstreamBudgetLock
+    {filter identity selected omitted budget window dyadic handoff realSeal transport route
+      provenance name selected' budget' window' dyadic' handoff' realSeal' : BHist}
+    (hfields :
+      observerFilterBudgetSelectorFields
+          (ObserverFilterBudgetSelectorUp.mk filter identity selected omitted budget window
+            dyadic handoff realSeal transport route provenance name) =
+        observerFilterBudgetSelectorFields
+          (ObserverFilterBudgetSelectorUp.mk filter identity selected' omitted budget'
+            window' dyadic' handoff' realSeal' transport route provenance name))
+    (handoffSealName : Cont handoff realSeal name) :
+    selected = selected' ∧ budget = budget' ∧ window = window' ∧ dyadic = dyadic' ∧
+      handoff = handoff' ∧ realSeal = realSeal' ∧ Cont handoff realSeal name := by
+  -- BEDC touchpoint anchor: BHist Cont
+  injection hfields with _ tail0
+  injection tail0 with _ tail1
+  injection tail1 with hSelected tail2
+  injection tail2 with _ tail3
+  injection tail3 with hBudget tail4
+  injection tail4 with hWindow tail5
+  injection tail5 with hDyadic tail6
+  injection tail6 with hHandoff tail7
+  injection tail7 with hRealSeal _
+  exact
+    ⟨hSelected, hBudget, hWindow, hDyadic, hHandoff, hRealSeal, handoffSealName⟩
+
 end BEDC.Derived.ObserverFilterBudgetSelectorUp
