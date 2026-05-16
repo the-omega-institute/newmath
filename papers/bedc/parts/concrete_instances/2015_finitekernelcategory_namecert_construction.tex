@@ -50,6 +50,50 @@ Identity and composition exactness are projections of the carrier. The identity 
 The non-escape row follows by inspecting $K$. Since every public route is stored in $H$, $C$, $P$, and $N$, a consumer cannot read an external category library, quotient morphism, or host arrow equality from this certificate.
 \end{proof}
 
+\begin{theorem}[Finite-kernel category object and hom boundary]
+\label{thm:finite-kernel-category-object-hom-boundary}
+Let
+$$
+K=(O,M,I,Q,A,U,H,C,P,N)
+$$
+be an accepted $\FiniteKernelCategoryUp$ carrier. Every accepted object read is exposed only through the object-history row $O$, and every accepted hom read is exposed only through the hom-history row $M$. Endpoint compatibility for those hom reads is guarded by the displayed $\BHist$ histories, the componentwise $\hsame$ rows in $H$, and the $\Cont$ rows in $C$.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(O,M,I,Q,A,U,H,C,P,N)$. The carrier definition makes $O$ the only object-history coordinate and $M$ the only hom-history coordinate.
+
+Apply \autoref{thm:finite-kernel-category-namecert-obligations}. Carrier exposure and classifier stability transport object histories and hom histories by the displayed $\hsame$ rows, while composition exactness and ledger non-escape keep every endpoint read inside the visible $\BHist$ and $\Cont$ ledgers.
+
+Finally repack the result as a boundary statement for consumers. Since no quotient morphism type or host arrow equality occurs in $K$, object and hom reads cannot escape the displayed $O,M,H,C,P,N$ surface.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category identity and composition boundary]
+\label{thm:finite-kernel-category-identity-composition-boundary}
+Let
+$$
+K=(O,M,I,Q,A,U,H,C,P,N)
+$$
+be an accepted $\FiniteKernelCategoryUp$ carrier. Identity reads are exactly the rows $I$, and composition reads are exactly the rows $Q$. Associativity and unit support for those reads is supplied only by $A,U,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet. The identity coordinate is $I$ and the composition coordinate is $Q$, so the public identity and binary-composition reads are not separate host operations.
+
+Use the obligation surface of \autoref{thm:finite-kernel-category-namecert-obligations}. Identity exactness identifies each row of $I$ with the empty $\Cont$ continuation attached to an accepted object history, and composition exactness identifies each composite with the displayed $\Cont$ ledger stored in $Q$.
+
+Now apply \autoref{thm:finite-kernel-category-composition-laws}. The associativity and unit rows are precisely $A$ and $U$, transported by $H$ and consumed through $C$ with provenance $P$ and local name $N$.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category ledger non-escape boundary]
+\label{thm:finite-kernel-category-ledger-nonescape-boundary}
+Every $\FunctorUp$, $\NatTransUp$, or $\CategoryUp$ consumer of an accepted $\FiniteKernelCategoryUp$ carrier receives the finite object, hom, identity, composition, associativity, unit, transport, continuation, provenance, and local naming rows $O,M,I,Q,A,U,H,C,P,N$. It receives no quotient morphism type, host arrow equality, functor-category object, or external category library.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:finite-kernel-category-object-hom-boundary} and \autoref{thm:finite-kernel-category-identity-composition-boundary}. Together they expose the object, hom, identity, composition, associativity, and unit rows as the concrete carrier surface.
+
+Apply \autoref{thm:finite-kernel-category-functor-nattrans-handoff}. Functor and natural-transformation consumers read preservation and naturality data only after the finite category rows have been exported through $H,C,P,N$.
+
+Finally apply \autoref{thm:finite-kernel-category-category-interface-handoff}. The same finite surface is the $\CategoryUp$ interface, and the carrier has no coordinate for quotient morphisms, host arrow equality, functor-category objects, or external category libraries.
+\end{proof}
+
 \begin{theorem}[Finite-kernel category composition laws]
 \label{thm:finite-kernel-category-composition-laws}
 Let
