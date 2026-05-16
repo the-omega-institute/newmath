@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\TypedSupplySocketUp$}
+\label{ch:concrete-instances-typedsupplysocket-namecert}
+\origin{ai}
+
+The $\TypedSupplySocketUp$ packet realizes the seven $T$-supply socket kinds of \autoref{subsec:philosophy-seven-socket-kinds} as a finite NameCert carrier. It sits beside the kind classifier of \autoref{ch:concrete-instances-socketkindclassifier-namecert}, the supply ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert}, the machine-facing route of \autoref{ch:concrete-instances-machine-interface-socket-namecert}, and the apophatic far-end socket of \autoref{ch:concrete-instances-apophaticfarendsocket-namecert}. Those siblings classify kinds, account for requested supply, route machine targets, and name the non-internalizing far end; this packet binds the kind, request, consumption site, audit gate, refusal row, transports, continuations, provenance, and local NameCert into one typed socket certificate.
+
+\begin{definition}[Typed supply socket carrier]
+\label{def:typed-supply-socket-carrier}
+A $\TypedSupplySocketUp$ carrier is a finite $\BHist$ packet
+$$
+T=(K,Q,S,G,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the socket-kind row, naming one of the seven $T$-supply socket kinds from \autoref{subsec:philosophy-seven-socket-kinds};
+\item $Q$ is the requested-supply row, recording the precise shortcut requested by the socket;
+\item $S$ is the consumption-site row, recording where a downstream construction would consume the requested supply;
+\item $G$ is the audit-gate row, recording the gate that accepts, refuses, or blocks the requested supply at that site;
+\item $U$ is the non-internalization row, recording that accepted socket traffic remains a visible boundary request rather than an internal substrate theorem;
+\item $H$ records componentwise $\hsame$ transport for $K,Q,S,G,U$ and the local naming row;
+\item $C$ records displayed $\Cont$ routes from the kind and requested-supply rows through the consumption site, audit gate, non-internalization row, provenance, and local name;
+\item $P$ is the $\Pkg$ provenance over $\SocketKindClassifierUp$, $\SupplySocketLedgerUp$, $\MachineInterfaceSocketUp$, $\ApophaticFarEndSocketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TypedSupplySocketUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for erasing the socket kind, consuming requested supply without a site, bypassing the audit gate, turning the non-internalization row into a supplied witness, or identifying all socket kinds with one untyped boundary.
+\end{definition}
+
+\begin{theorem}[Typed supply socket NameCert obligations]
+\label{thm:typed-supply-socket-namecert-obligations}
+For the carrier of \autoref{def:typed-supply-socket-carrier}, the local $\NameCert_{\TypedSupplySocketUp}$ surface consists exactly of carrier admission for
+$$
+T=(K,Q,S,G,U,H,C,P,N),
+$$
+socket-kind exactness through $K$, requested-supply exposure through $Q$, consumption-site exposure through $S$, audit-gate readback through $G$, non-internalization through $U$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $K,Q,S,G,U,H,C,P,N$ are the only coordinates available to the local certificate, so the certificate cannot introduce a hidden socket kind, supply request, consumption site, gate, refusal row, transport, replay route, provenance source, or local name.
+
+Read the content rows in order. The kind row $K$ fixes the seven-kind classifier position, $Q$ records the requested supply, $S$ records the site that would consume it, $G$ records the audit gate for that site, and $U$ records the non-internalization boundary.
+
+Finally inspect $H,C,P,N$. These rows only transport, replay, source, and name the same finite packet. Thus every NameCert obligation is exhausted by the displayed typed-supply socket rows.
+\end{proof}
+
+\begin{theorem}[Typed supply socket kind separation]
+\label{thm:typed-supply-socket-kind-separation}
+Every accepted $\TypedSupplySocketUp$ packet separates Type I induction sockets from Type II witness sockets by the public kind row $K$ together with the requested-supply row $Q$ and consumption-site row $S$. If the row $K$ is erased, the public classifier can no longer determine whether the consumer is asking for unrestricted generator closure or for a missing positive witness.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:typed-supply-socket-carrier}. The row $K$ is the only displayed row whose role is to name the socket kind, while $Q$ and $S$ record the requested supply and its consumption site.
+
+For a Type I read, $Q$ asks for unrestricted induction or universal closure beyond the displayed authorized generator, and $S$ is the construction site where that closure would be consumed. For a Type II read, $Q$ asks for a positive existential witness, and $S$ is the construction site where the witness would be consumed.
+
+The audit row $G$ and non-internalization row $U$ preserve the distinction as a refusal-facing boundary; they do not reconstruct the kind after $K$ has been removed. Therefore kind separation is public exactly while $K$ remains part of the packet.
+\end{proof}
+
+\begin{theorem}[Typed supply socket TasteGate obligation]
+\label{thm:typed-supply-socket-tastegate-obligation}
+The $\TypedSupplySocketUp$ TasteGate obligation is the demand that any admitted instance preserve all rows
+$$
+K,Q,S,G,U,H,C,P,N
+$$
+as distinct fields. In particular, no TasteGate route may identify the socket-kind row with the requested-supply row, hide the consumption site, bypass the audit gate, internalize the non-internalization row, or replace the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support by an external classifier.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:typed-supply-socket-namecert-obligations}. They make carrier admission, kind exactness, requested-supply exposure, consumption-site exposure, audit-gate readback, non-internalization, transport, replay, provenance, and local naming separate certificate rows.
+
+Apply the kind-separation theorem. If a TasteGate route erases or identifies $K$, Type I induction sockets and Type II witness sockets can no longer be separated by the public classifier. If it erases $Q$ or $S$, the route no longer states what is requested or where it is consumed.
+
+Finally read $G,U,H,C,P,N$. The audit gate and non-internalization row keep the request boundary-visible, while transport, replay, provenance, and local naming preserve the same finite packet. A TasteGate instance that fails field preservation therefore leaves the accepted $\TypedSupplySocketUp$ carrier.
+\end{proof}
+
+\falsifiablePrediction{If the socket kind row is erased, Type I induction sockets and Type II witness sockets can no longer be separated by the public classifier.}
+
+\independenceWitness{socketkindclassifier, supplysocketledger, machineinterfacesocket, apophaticfarendsocket: SocketKindClassifierUp classifies kinds but lacks requested-supply, consumption-site, audit-gate, and non-internalization rows; SupplySocketLedgerUp accounts for requested supply but does not bind all seven kinds to a consumption site and gate; MachineInterfaceSocketUp routes formalization targets rather than the full seven-kind socket taxonomy; ApophaticFarEndSocketUp names the far-end refusal position but lacks the typed request and site rows. None is bijective to $\TypedSupplySocketUp$ under NameCert-row preservation.}
+
+The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \TypedSupplySocketUp$ and $\mathsf{FieldFaithful}\ \TypedSupplySocketUp$ instances in \texttt{lean4/BEDC/Derived/TypedSupplySocketUp/TasteGate.lean}. The field-faithfulness witness must preserve $K,Q,S,G,U,H,C,P,N$ as distinct rows before $\mathsf{BEDC.Derived.TypedSupplySocketUp.TypedSupplySocketTasteGate\_single\_carrier\_alignment}$ can be cited by a checked paper marker.
+
+\closureat{TypedSupplySocketUp}{seedStr}
+\closureat{TypedSupplySocketUp}{obligationStr}
