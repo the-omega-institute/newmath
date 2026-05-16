@@ -1009,6 +1009,7 @@ import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
 import BEDC.Derived.FiniteTraceEvaluatorUp.TasteGate
 import BEDC.Derived.FiniteObservationBudgetSelectorUp
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetApproximationPullback
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.PublicExport
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.RealSealWindowSaturation
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalCofinalWindowCoverage
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalCofinalWindowSectionDecomposition
@@ -2232,6 +2233,7 @@ import BEDC.Derived.HausdorffCompletionUp
 import BEDC.Derived.HausdorffCompletionUp.CauchySourceRouteScope
 import BEDC.Derived.HausdorffCompletionUp.SeparatedReflection
 import BEDC.Derived.HausdorffCompletionUp.StandardBridge
+import BEDC.Derived.HausdorffCompletionUp.UniformConsumerPackage
 import BEDC.Derived.ReflectiveInquiryUp.TasteGate
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.DensityMatrixUp
