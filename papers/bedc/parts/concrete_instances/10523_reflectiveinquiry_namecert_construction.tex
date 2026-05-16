@@ -4,6 +4,8 @@
 
 The $\ReflectiveInquiryUp$ packet realizes the reflective inquiry system of \autoref{def:reflective-inquiry-system} as a finite NameCert carrier. It places physical inquiry and MetaCIC self-study in one certificate surface without identifying their sources: physical observation contributes source-access and model-audit rows, while formal reflection contributes source-access and self-study rows. The bridge is a role correspondence, not a truth oracle.
 
+Its physical audit rows are read through \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert}, and its observation-reflection packet rows are read through \autoref{ch:concrete-instances-observationreflectionpacket-namecert}.
+
 \begin{definition}[Reflective inquiry carrier]
 \label{def:reflective-inquiry-carrier}
 A $\ReflectiveInquiryUp$ carrier is a finite $\BHist$ packet
@@ -58,6 +60,50 @@ Start from the carrier of \autoref{def:reflective-inquiry-carrier}. The physical
 Apply the classifier of \autoref{def:reflective-inquiry-classifier}. A comparison can use $P,F,S,K,A,R,L,H,C,Q,N$ only through componentwise certificate agreement, so it has no hidden coordinate for a final truth oracle or a source-domain identity.
 
 Use the obligation surface of \autoref{thm:reflective-inquiry-namecert-obligation-surface}. The ledger row $L$ records failed fits and rejected source-identifications, and the open-continuation row $Q$ keeps both inquiry directions non-final. Hence every bridge consumer remains inside the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Reflective inquiry source separation]
+\label{thm:reflective-inquiry-source-separation}
+For every accepted $\ReflectiveInquiryUp$ carrier
+$$
+I=(P,F,S,K,A,R,L,H,C,Q,N),
+$$
+the physical source row $P$ and the formal source row $F$ remain distinct carrier coordinates under classifier agreement. Agreement through $S,K,A,R,L,H,C,Q,N$ records a role correspondence between the sources, not an identity of the physical inquiry source with the formal self-study source.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reflective-inquiry-carrier}. The rows $P$ and $F$ are listed as separate displayed coordinates, one for physical inquiry and one for formal inquiry.
+
+Apply the classifier of \autoref{def:reflective-inquiry-classifier}. It compares accepted carriers componentwise through $P,F,S,K,A,R,L,H,C,Q,N$, so agreement preserves both source rows rather than replacing either one.
+
+Use the obligation surface and non-escape theorem. The local NameCert exposes both source rows, while \autoref{thm:reflective-inquiry-nonescape} blocks physical-formal source identity and source replacement outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[Reflective inquiry open-continuation preservation]
+\label{thm:reflective-inquiry-open-continuation-preservation}
+In every accepted $\ReflectiveInquiryUp$ packet, the open-continuation row $Q$ prevents either the physical route through $P$ or the formal route through $F$ from becoming a final truth oracle. The certificate may replay and extend inquiry through $H$ and $C$, but it keeps both source routes open to further inquiry.
+\end{theorem}
+\begin{proof}
+Start with the carrier. The row $Q$ is displayed as the open-continuation row, while $H$ and $C$ record replay history and displayed continuations for accepted inquiry reads.
+
+Use the NameCert obligation surface. It requires open-continuation non-finality through $Q$ as part of the local certificate, not as an optional annotation outside the packet.
+
+Apply non-escape. Since no final truth oracle is a carrier coordinate and every consumer remains inside $P,F,S,K,A,R,L,H,C,Q,N$, neither source route can be closed by replay or continuation alone.
+\end{proof}
+
+\begin{theorem}[Reflective inquiry ledgered role correspondence]
+\label{thm:reflective-inquiry-ledgered-role-correspondence}
+The physical/formal role correspondence in an accepted $\ReflectiveInquiryUp$ packet is read through the rows
+$$
+S,K,A,R,L,H,C,Q,N,
+$$
+together with the displayed source rows $P,F$. It is not read through source identity, host-level validation, or an unledgered self-study claim.
+\end{theorem}
+\begin{proof}
+Read the bridge rows from the carrier and classifier. The signature row $S$, classifier row $K$, package row $A$, transport row $R$, ledger row $L$, replay row $H$, continuation row $C$, open-continuation row $Q$, and local naming row $N$ are the displayed route by which the two source rows are compared.
+
+Use the NameCert obligation surface. The certificate exposes the role correspondence through signature comparison, classifier acceptance, package admission, ledger preservation, replay, continuation, non-finality, and local naming.
+
+Finally apply non-escape. The packet has no coordinate for source identity, host validation, or hidden self-study, so the role bridge is ledgered through the displayed rows rather than through identity of $P$ and $F$.
 \end{proof}
 
 \falsifiablePrediction{An accepted \ReflectiveInquiryUp packet cannot export a final truth oracle or identify physical reality with MetaCIC without losing either the physical-source row or the formal-source row.}
