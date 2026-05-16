@@ -114,6 +114,7 @@ import BEDC.Derived.ApophaticNameUp.BoundaryLedgerExactness
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
+import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.ExternalityGateUp.TasteGate
 import BEDC.Derived.ExternalSupplyBoundaryUp
 import BEDC.Derived.ExternalSupplyBoundaryUp.TasteGate
@@ -645,6 +646,7 @@ import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KernelCategoryUp.CertificateSurface
+import BEDC.Derived.KernelCategoryUp.EndpointTransportClosure
 import BEDC.Derived.KernelCategoryUp.FunctorContinuationHandoff
 import BEDC.Derived.CertificateCompilerUp.FiniteRouteNonescape
 import BEDC.Derived.KernelMorphismUp
@@ -856,6 +858,7 @@ import BEDC.Derived.CertificateCompilerUp.EdgeClassifierExactness
 import BEDC.Derived.CertificateCompilerUp.EndpointCompositeDeterminacy
 import BEDC.Derived.CertificateCompilerUp.EndpointCertificateAvailability
 import BEDC.Derived.CertificateCompilerUp.EndpointDecompilerHandoff
+import BEDC.Derived.CertificateCompilerUp.EndpointRoutePullbackDeterminacy
 import BEDC.Derived.CertificateCompilerUp.DownstreamBoundarySiblingLink
 import BEDC.Derived.CertificateCompilerUp.FiniteGraphNonescape
 import BEDC.Derived.CertificateCompilerUp.FormalTargetSurface
@@ -1686,6 +1689,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetFiniteTailFilterH
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetRealLimitUniquenessPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetRegularTailMeetHandoff
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetCommonRefinement
+import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetFiniteObservationCoverage
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetTailMeetPullbackExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetUniformRealExit
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorSealPullback
