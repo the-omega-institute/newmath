@@ -114,6 +114,7 @@ S,D,R,B,Q,E,H,C,P,N.
 $$
 The Real-window budget row may use only the already displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\DyadicTailBoundUp$, $\CauchyTailComparisonUp$, and $\RealUp$ rows. It receives no quotient stream equality, selected limit, host real equality, countable-choice row, ambient completeness theorem, metric-completeness datum, or unrecorded completion carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteTailFilterUp.FiniteTailFilterCarrier\_real\_window\_consumer}
 \begin{proof}
 Start from the NameCert obligations of \autoref{thm:finite-tail-filter-namecert-obligations}. They expose the accepted packet exactly as $S,D,R,B,Q,E,H,C,P,N$, with $S,D,R,B,Q,E$ as the Real-facing analytic rows and $H,C,P,N$ as the structural rows.
 
@@ -140,6 +141,26 @@ Apply tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactne
 Use the Real seal handoff and Real-window consumer theorems, \autoref{thm:finite-tail-filter-real-seal-handoff} and \autoref{thm:finite-tail-filter-real-window-consumer}. Together they force the consumer route through the displayed RegSeqRat readback $R$, tail budget $B$, common-tail comparison $Q$, and seal row $E$.
 
 Finally apply the RealWindowBudget finite-route visibility supplied by the packet surface and the non-escape theorem, \autoref{thm:finite-tail-filter-nonescape}. The structural rows $H,C,P,N$ preserve the same route, while the carrier has no coordinate for selected limits, quotient streams, host equality, countable choice, ambient completeness, or an unrecorded completion surface.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter Real-window selector bridge]
+\label{thm:finite-tail-filter-real-window-budget-selector-bridge}
+Every $\RealWindowBudgetUp$ selector-stability read that consumes an accepted $\FiniteTailFilterUp$ packet
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+must factor through the displayed finite route $S,D,R,B,Q,E,H,C,P,N$. Through this route it reads the $\StreamNameUp$ window row, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, tail-budget row, common-tail row, $\RealUp$ seal, componentwise transport, continuation, package source, and local naming coordinate supplied by the packet.
+
+Consequently, by $\RealWindowBudgetUp$ selector stability, the downstream selector surface cannot replace that route by a private window family, detached dyadic ledger, selected limit, quotient stream, host real equality, countable-choice row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the FiniteTailFilter NameCert obligations, \autoref{thm:finite-tail-filter-namecert-obligations}. They expose the accepted packet as the ten displayed rows $S,D,R,B,Q,E,H,C,P,N$, with the analytic rows and structural rows carried by one local certificate.
+
+Apply tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness}. The stream-window row $S$ and dyadic ledger $D$ are the common cofinal-tail packet used by the tail budget $B$, common-tail comparison $Q$, and the Real-facing seal row $E$.
+
+Use the Real seal handoff and the RealWindowBudget consumer link, \autoref{thm:finite-tail-filter-real-seal-handoff} and \autoref{thm:finitetailfilter-realwindowbudget-consumer-link}. These identify the downstream read as a consumer of the same $S,D,R,B,Q,E,H,C,P,N$ route, rather than a read of any hidden completion or host-level real structure.
+
+Finally apply $\RealWindowBudgetUp$ selector stability, \autoref{thm:real-window-budget-selector-stability}. Once the read reaches the RealWindowBudget selector surface, that theorem keeps the selector synchronized with the finite request, window, dyadic, regular, Real-facing, and support rows supplied by the displayed route, so no private window family, detached ledger, selected limit, quotient stream, host equality, countable-choice row, or ambient completeness coordinate can replace the packet route.
 \end{proof}
 
 \begin{theorem}[FiniteTailFilter sibling tail handoff]
