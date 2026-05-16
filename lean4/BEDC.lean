@@ -127,6 +127,7 @@ import BEDC.Derived.AuditReexportNamespaceUp.TasteGate
 import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.OnticAdequacyAuditUp.TasteGate
+import BEDC.Derived.OnticTowerUp.TasteGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
@@ -293,6 +294,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.RootCarrierThresholdAdmission
 import BEDC.Derived.CauchyModulusRefinementUp.RootRealSealExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorMeetNoninterference
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetDependency
+import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetMeetExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetTailMeetNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorNonemptyRoute
 import BEDC.Derived.CauchyModulusRefinementUp.SharedThresholdTransport
@@ -2091,6 +2093,7 @@ import BEDC.Derived.QuadratureUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.HausdorffCompletionUp
+import BEDC.Derived.ReflectiveInquiryUp.TasteGate
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.QuantumChannelUp
