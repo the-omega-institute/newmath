@@ -479,9 +479,11 @@ import BEDC.Derived.KernelNormalizationAuditJoinUp.TasteGate
 import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
+import BEDC.Derived.CertificateCompilerUp.FiniteRouteNonescape
 import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.KernelMorphismUp.CertificateCompilerSourceLock
 import BEDC.Derived.KernelMorphismUp.CertificateCompilerRouteNonescape
+import BEDC.Derived.KernelMorphismUp.CompositeCompilerHandoffBoundary
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailRealSealRouteTotality
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationUp.TasteGate
