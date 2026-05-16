@@ -1,0 +1,47 @@
+\begin{theorem}[Transported stationary window-seal checked obligation basis]
+\label{thm:transported-stationary-window-seal-checked-obligation-basis}
+For an accepted $\TransportedStationaryWindowSealUp$ packet $T=(R,S,G,W,E,H,C,P,N)$, the obligation basis is the triple already isolated by the checked NameCert rows:
+\begin{enumerate}
+\item the $\NameCert_{\TransportedStationaryWindowSealUp}$ obligation surface of \autoref{thm:transported-stationary-window-seal-namecert-obligations};
+\item the transported readback determinacy of \autoref{thm:transported-stationary-window-seal-readback-determinacy};
+\item the $\RealUp$ factorization of \autoref{thm:transported-stationary-window-seal-real-factorization}.
+\end{enumerate}
+Equivalently, the basis is the finite route
+$$
+\begin{aligned}
+  R,S,G,W,E,H,C,P,N
+\end{aligned}
+$$
+together with the componentwise $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows that the three checked theorems expose.
+\end{theorem}
+\begin{proof}
+The NameCert obligation theorem supplies the carrier, classifier, transported-window exactness, seal-exhaustion, and non-escape rows for $T$.
+
+Readback determinacy then fixes the public $\StreamNameUp$ window and $\RegSeqRatUp$ seal after the transported $\RatUp$ classifier row is fixed through the displayed routes.
+
+Finally, Real factorization forces every $\RealUp$ read to pass through the same finite envelope $W$ and seal row $G$. These three rows are exactly the accepted obligation basis, and no additional carrier coordinate is introduced.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal formal target boundary]
+\label{thm:transported-stationary-window-seal-formal-target-boundary}
+The formal target boundary for $\TransportedStationaryWindowSealUp$ obligation closure is exactly the checked Lean NameCert obligation theorem cited by the chapter closure row. It covers the finite carrier, componentwise classifier, transported-window exactness, seal exhaustion, and non-escape clauses for $R,S,G,W,E,H,C,P,N$. It does not include quotient streams, host equality, choice, selected limits, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The target boundary is read from the NameCert obligation theorem rather than from an ambient real or completion object. Its inputs are the visible packet rows and their displayed structural support.
+
+The readback and Real-factorization theorems remain companion checked rows, but they do not enlarge the target boundary beyond the NameCert obligation theorem. They only show that the existing boundary determines the stationary window readback and the Real-facing factorization.
+
+The excluded objects are not carrier coordinates of $T$ and are not supplied by the theorem boundary. Hence they cannot be part of the formal target recorded for obligation closure.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal obligation-closure handoff]
+\label{thm:transported-stationary-window-seal-obligation-closure-handoff}
+The obligation-closure handoff from $\TransportedStationaryWindowSealUp$ to downstream Real and Completion consumers is carried by the already displayed rows for $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Every accepted downstream read must enter through that finite row set before it can use the checked obligation basis of \autoref{thm:transported-stationary-window-seal-checked-obligation-basis}.
+\end{theorem}
+\begin{proof}
+Begin with the source route. The transported $\RatUp$ row, constant $\StreamNameUp$ window, and $\RegSeqRatUp$ seal row give the source triad for the packet.
+
+Next attach the finite envelope and Real-facing rows. The finite envelope supplies the observation boundary, and the Real row can only read it through the checked factorization.
+
+The remaining rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provide the structural support and provenance for the same route. Therefore the downstream handoff is exactly the displayed finite row set, with no extra quotient, host, choice, selected-limit, or completeness input.
+\end{proof}
