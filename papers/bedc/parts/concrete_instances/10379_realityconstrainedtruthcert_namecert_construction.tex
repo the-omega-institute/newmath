@@ -26,6 +26,128 @@ with the following displayed rows:
 The carrier has no coordinate for model--reality identity, unbounded confirmation, unledgered compression, observer privilege, hidden classifier choice, or truth export outside the nine displayed TruthCert rows.
 \end{definition}
 
+\begin{definition}[Reality-constrained TruthCert classifier]
+\label{def:reality-constrained-truth-cert-classifier}
+For two $\RealityConstrainedTruthCertUp$ carrier packets
+$$
+Q=(S,\Sigma,K,T,U,D,I,L,F,N)
+\quad\text{and}\quad
+Q'=(S',\Sigma',K',T',U',D',I',L',F',N'),
+$$
+the classifier $Q\sim_{\RealityConstrainedTruthCertUp}Q'$ is the componentwise
+agreement predicate asserting source agreement between $S$ and $S'$, signature
+agreement between $\Sigma$ and $\Sigma'$, classifier-row agreement between $K$
+and $K'$, tower agreement between $T$ and $T'$, continuation-stability agreement
+between $U$ and $U'$, descent agreement between $D$ and $D'$, invariant-reading
+agreement between $I$ and $I'$, ledger agreement between $L$ and $L'$, failure
+surface agreement between $F$ and $F'$, and local-name agreement between $N$ and
+$N'$. The $K$ component preserves exactly the accepted signature comparison
+used by $\Sigma$ and $\Sigma'$. The $L$ and $F$ components preserve the ledger
+rows and failure rows that determine whether an export remains readable through
+the same local TruthCert packet.
+\end{definition}
+
+\begin{theorem}[Reality-constrained TruthCert classifier obligation surface]
+\label{thm:reality-constrained-truth-cert-classifier-obligation-surface}
+The classifier of \autoref{def:reality-constrained-truth-cert-classifier}
+is the full comparison surface for the carrier of
+\autoref{def:reality-constrained-truth-cert-carrier}. In particular, an
+accepted comparison between two $\RealityConstrainedTruthCertUp$ packets must
+expose the componentwise rows
+$$
+S,\Sigma,K,T,U,D,I,L,F,N
+$$
+and their primed counterparts, with $K$ governing the accepted signature
+comparison and with $L,F$ governing the ledger and failure-surface comparisons.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition
+\autoref{def:reality-constrained-truth-cert-carrier}. It exposes exactly the
+source, signature, classifier, tower, stability, descent, invariant, ledger,
+failure-surface, and local-name rows.
+
+Now unfold the classifier definition
+\autoref{def:reality-constrained-truth-cert-classifier}. Each displayed carrier
+row is compared only with its counterpart in the second packet. The $K$ row is
+therefore fixed before signature comparison is accepted, and the $L,F$ rows are
+fixed before ledger or failure reads are transported.
+
+Finally use the sibling-dependency theorem
+\autoref{thm:reality-constrained-truth-cert-sibling-dependency}. The open-fit,
+objectivity, explanation, physical-induction, and tower-compression siblings
+supply the finite source comparison, invariant reading, source-to-claim handoff,
+continuation stability, tower route, descent row, and ledger discipline consumed
+by this componentwise classifier.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert carrier transport]
+\label{thm:reality-constrained-truth-cert-carrier-transport}
+If $Q=(S,\Sigma,K,T,U,D,I,L,F,N)$ is an accepted
+$\RealityConstrainedTruthCertUp$ packet and
+$Q\sim_{\RealityConstrainedTruthCertUp}Q'$ for
+$$
+Q'=(S',\Sigma',K',T',U',D',I',L',F',N'),
+$$
+then $Q'$ is accepted by the same carrier surface. Transport preserves the
+accepted signature comparison through $K'$, preserves the ledger row through
+$L'$, preserves the failure-surface row through $F'$, and leaves no truth
+coordinate outside the transported packet.
+\end{theorem}
+\begin{proof}
+The carrier definition
+\autoref{def:reality-constrained-truth-cert-carrier} lists all rows required for
+admission. The classifier definition
+\autoref{def:reality-constrained-truth-cert-classifier} supplies a comparison
+for each such row, so every required component of $Q'$ is reached by the
+matching component of $Q$.
+
+Apply the classifier obligation surface of
+\autoref{thm:reality-constrained-truth-cert-classifier-obligation-surface}. It
+keeps $K'$ attached to the accepted signature comparison and keeps $L'$ and
+$F'$ attached to the ledger and failure-surface rows rather than to an external
+truth route.
+
+The sibling-dependency theorem
+\autoref{thm:reality-constrained-truth-cert-sibling-dependency} supplies the
+ambient transport sources for finite fit, invariant reading, explanatory
+handoff, continuation stability, and tower compression. Thus the transported
+packet remains inside the same accepted carrier surface.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert NameCert obligation exhaustion]
+\label{thm:reality-constrained-truth-cert-namecert-obligation-exhaustion}
+For $\RealityConstrainedTruthCertUp$, the local $\NameCert$ obligation surface is
+exhausted by the carrier of
+\autoref{def:reality-constrained-truth-cert-carrier}, the classifier of
+\autoref{def:reality-constrained-truth-cert-classifier}, the classifier
+obligation surface of
+\autoref{thm:reality-constrained-truth-cert-classifier-obligation-surface}, and
+the carrier transport of
+\autoref{thm:reality-constrained-truth-cert-carrier-transport}. Ledger
+exactness, failure exactness, and export readiness add no second certificate
+surface; they read the same rows $S,\Sigma,K,T,U,D,I,L,F,N$.
+\end{theorem}
+\begin{proof}
+Use the carrier definition and classifier definition first. Together they give
+the admitted packet and the accepted packet comparison, including the signature
+comparison controlled by $K$ and the ledger and failure comparisons controlled
+by $L$ and $F$.
+
+Next apply
+\autoref{thm:reality-constrained-truth-cert-classifier-obligation-surface} and
+\autoref{thm:reality-constrained-truth-cert-carrier-transport}. These results
+make comparison and transport internal to the displayed packet rather than
+external to the local $\NameCert_{\RealityConstrainedTruthCertUp}$ row.
+
+Finally use the downstream readiness blocks
+\autoref{thm:reality-constrained-truth-cert-ledger-exactness},
+\autoref{thm:reality-constrained-truth-cert-failure-surface-exactness}, and
+\autoref{thm:reality-constrained-truth-cert-export-readiness}. They consume the
+same ledger, failure, classifier, sibling, and export rows already displayed in
+the packet. Hence the local NameCert obligations are exhausted by the carrier,
+classifier, and transport surface, not by any hidden certificate coordinate.
+\end{proof}
+
 \begin{theorem}[Reality-constrained TruthCert field coverage]
 \label{thm:reality-constrained-truth-cert-field-coverage}
 For the carrier of \autoref{def:reality-constrained-truth-cert-carrier}, the local $\NameCert_{\RealityConstrainedTruthCertUp}$ surface covers exactly the source, signature, classifier, tower, stability, descent, invariant, ledger, and failure-surface fields of the certified physical truth packet. Any accepted export of a reality-constrained truth claim must read these fields through $S,\Sigma,K,T,U,D,I,L,F$ before the local name $N$ is exposed.
