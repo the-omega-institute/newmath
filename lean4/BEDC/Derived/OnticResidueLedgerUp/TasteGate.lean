@@ -13,21 +13,20 @@ inductive OnticResidueLedgerUp : Type where
   | mk (O M S A C R H T P N : BHist) : OnticResidueLedgerUp
   deriving DecidableEq
 
-def onticResidueLedgerEncodeBHist : BHist → RawEvent
+def onticResidueLedgerEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: onticResidueLedgerEncodeBHist h
   | BHist.e1 h => BMark.b1 :: onticResidueLedgerEncodeBHist h
 
-def onticResidueLedgerDecodeBHist : RawEvent → BHist
+def onticResidueLedgerDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (onticResidueLedgerDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (onticResidueLedgerDecodeBHist tail)
 
 private theorem onticResidueLedgerDecode_encode_bhist :
-    ∀ h : BHist,
-      onticResidueLedgerDecodeBHist (onticResidueLedgerEncodeBHist h) = h := by
+    forall h : BHist, onticResidueLedgerDecodeBHist (onticResidueLedgerEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -35,15 +34,15 @@ private theorem onticResidueLedgerDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def onticResidueLedgerFields : OnticResidueLedgerUp → List BHist
+def onticResidueLedgerFields : OnticResidueLedgerUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | OnticResidueLedgerUp.mk O M S A C R H T P N => [O, M, S, A, C, R, H, T, P, N]
 
-def onticResidueLedgerToEventFlow : OnticResidueLedgerUp → EventFlow
+def onticResidueLedgerToEventFlow : OnticResidueLedgerUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (onticResidueLedgerFields x).map onticResidueLedgerEncodeBHist
 
-def onticResidueLedgerFromEventFlow : EventFlow → Option OnticResidueLedgerUp
+def onticResidueLedgerFromEventFlow : EventFlow -> Option OnticResidueLedgerUp
   -- BEDC touchpoint anchor: BHist BMark
   | O :: M :: S :: A :: C :: R :: H :: T :: P :: N :: [] =>
       some
@@ -61,7 +60,7 @@ def onticResidueLedgerFromEventFlow : EventFlow → Option OnticResidueLedgerUp
   | _ => none
 
 private theorem onticResidueLedger_round_trip :
-    ∀ x : OnticResidueLedgerUp,
+    forall x : OnticResidueLedgerUp,
       onticResidueLedgerFromEventFlow (onticResidueLedgerToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
@@ -89,7 +88,7 @@ private theorem onticResidueLedger_round_trip :
 
 private theorem onticResidueLedgerToEventFlow_injective
     {x y : OnticResidueLedgerUp} :
-    onticResidueLedgerToEventFlow x = onticResidueLedgerToEventFlow y → x = y := by
+    onticResidueLedgerToEventFlow x = onticResidueLedgerToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -101,14 +100,14 @@ private theorem onticResidueLedgerToEventFlow_injective
       (Eq.trans hread (onticResidueLedger_round_trip y)))
 
 private theorem onticResidueLedger_fields_faithful :
-    ∀ x y : OnticResidueLedgerUp,
-      onticResidueLedgerFields x = onticResidueLedgerFields y → x = y := by
+    forall x y : OnticResidueLedgerUp,
+      onticResidueLedgerFields x = onticResidueLedgerFields y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk O₁ M₁ S₁ A₁ C₁ R₁ H₁ T₁ P₁ N₁ =>
+  | mk O1 M1 S1 A1 C1 R1 H1 T1 P1 N1 =>
       cases y with
-      | mk O₂ M₂ S₂ A₂ C₂ R₂ H₂ T₂ P₂ N₂ =>
+      | mk O2 M2 S2 A2 C2 R2 H2 T2 P2 N2 =>
           cases hfields
           rfl
 
@@ -149,35 +148,86 @@ def taste_gate : ChapterTasteGate OnticResidueLedgerUp :=
   onticResidueLedgerChapterTasteGate
 
 theorem OnticResidueLedgerTasteGate_single_carrier_alignment :
-    (∃ x y : OnticResidueLedgerUp, x ≠ y) ∧
-      (∀ x y : OnticResidueLedgerUp,
-        onticResidueLedgerFields x = onticResidueLedgerFields y → x = y) ∧
-        onticResidueLedgerToEventFlow
-            (OnticResidueLedgerUp.mk BHist.Empty (BHist.e0 BHist.Empty) BHist.Empty
-              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-              BHist.Empty) =
-          [onticResidueLedgerEncodeBHist BHist.Empty,
-            onticResidueLedgerEncodeBHist (BHist.e0 BHist.Empty),
-            onticResidueLedgerEncodeBHist BHist.Empty,
-            onticResidueLedgerEncodeBHist BHist.Empty,
-            onticResidueLedgerEncodeBHist BHist.Empty,
-            onticResidueLedgerEncodeBHist BHist.Empty,
-            onticResidueLedgerEncodeBHist BHist.Empty,
-            onticResidueLedgerEncodeBHist BHist.Empty,
-            onticResidueLedgerEncodeBHist BHist.Empty,
-            onticResidueLedgerEncodeBHist BHist.Empty] := by
+    (forall h : BHist, onticResidueLedgerDecodeBHist (onticResidueLedgerEncodeBHist h) = h) ∧
+      (forall x : OnticResidueLedgerUp,
+        onticResidueLedgerToEventFlow x =
+          List.map onticResidueLedgerEncodeBHist (onticResidueLedgerFields x)) ∧
+        (forall x y : OnticResidueLedgerUp,
+          onticResidueLedgerFields x = onticResidueLedgerFields y -> x = y) ∧
+          (exists x y : OnticResidueLedgerUp, x ≠ y) ∧
+            onticResidueLedgerEncodeBHist BHist.Empty = ([] : List BMark) ∧
+              onticResidueLedgerToEventFlow
+                  (OnticResidueLedgerUp.mk BHist.Empty (BHist.e0 BHist.Empty) BHist.Empty
+                    BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                    BHist.Empty) =
+                [onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist (BHist.e0 BHist.Empty),
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty] := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
   constructor
-  · exact
-      ⟨OnticResidueLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-        OnticResidueLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-        by
-          intro h
-          cases h⟩
+  · exact onticResidueLedgerDecode_encode_bhist
   · constructor
-    · exact onticResidueLedger_fields_faithful
-    · rfl
+    · intro x
+      rfl
+    · constructor
+      · exact onticResidueLedger_fields_faithful
+      · constructor
+        · exact
+            ⟨OnticResidueLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+              OnticResidueLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty,
+              by
+                intro h
+                cases h⟩
+        · constructor
+          · rfl
+          · rfl
+
+namespace TasteGate
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.EventFlow
+
+theorem OnticResidueLedgerTasteGate_single_carrier_alignment :
+    (forall h : BHist,
+      onticResidueLedgerDecodeBHist (onticResidueLedgerEncodeBHist h) = h) ∧
+      (forall x : OnticResidueLedgerUp,
+        onticResidueLedgerToEventFlow x =
+          List.map onticResidueLedgerEncodeBHist (onticResidueLedgerFields x)) ∧
+        (forall x y : OnticResidueLedgerUp,
+          onticResidueLedgerFields x = onticResidueLedgerFields y -> x = y) ∧
+          (exists x y : OnticResidueLedgerUp, x ≠ y) ∧
+            onticResidueLedgerEncodeBHist BHist.Empty = ([] : List BMark) ∧
+              onticResidueLedgerToEventFlow
+                  (OnticResidueLedgerUp.mk BHist.Empty (BHist.e0 BHist.Empty) BHist.Empty
+                    BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                    BHist.Empty) =
+                [onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist (BHist.e0 BHist.Empty),
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty,
+                  onticResidueLedgerEncodeBHist BHist.Empty] := by
+  exact BEDC.Derived.OnticResidueLedgerUp.OnticResidueLedgerTasteGate_single_carrier_alignment
+
+def taste_gate : ChapterTasteGate OnticResidueLedgerUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  BEDC.Derived.OnticResidueLedgerUp.taste_gate
+
+end TasteGate
 
 end BEDC.Derived.OnticResidueLedgerUp
