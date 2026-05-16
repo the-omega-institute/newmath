@@ -211,6 +211,7 @@ Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, let $U=(
 
 The refinement packet exposes no quotient stream, selected host limit, host real equality, detached threshold family, ambient completeness principle, or second completion seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_common\_selector\_refinement}
 \begin{proof}
 First assemble the pairwise selector boundary. The uniform selector-seal compatibility theorem, \autoref{thm:cauchycriterion-uniform-selector-seal-compatibility}, identifies the CauchyCriterion selector route and the UniformCauchyCriterion shared-threshold route inside one finite packet over the shared StreamName--RegSeqRat--DyadicRatCore--Real rows.
 
@@ -376,4 +377,99 @@ meet in one finite pullback surface. The excluded quotient stream, selected
 host limit, host real equality, countable-choice, hidden-selector, ambient
 completeness, and second-seal objects have no coordinate in either packet, so
 they cannot appear in the pullback.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion finite-observation budget selector uniqueness]
+\label{thm:cauchycriterion-finite-observation-budget-selector-uniqueness}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, and
+let $F=(B,S,V,D,R,E_F,H_F,C_F,P_F,N_F)$ and
+$F'=(B',S',V',D',R',E_{F'},H_{F'},C_{F'},P_{F'},N_{F'})$ be accepted
+$\FiniteObservationBudgetSelectorUp$ packets. Suppose both $F$ and $F'$ share
+the same packet $K$, the same displayed $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$ rows at the selector-to-seal boundary, and
+componentwise compatible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support
+rows. Then the two selector-to-seal pullback surfaces are the same finite BEDC
+packet before any $\RealUp$ seal is read.
+
+Equivalently, the shared surface is determined by the selector request, finite
+StreamName window, dyadic readback, RegSeqRat handoff, pre-seal Real row,
+transport, continuation, package, and local naming rows. It carries no
+quotient streams, selected host limits, host real equality, countable choice,
+hidden selectors, ambient completeness, or second completion seals.
+\end{theorem}
+\begin{proof}
+First apply the pullback theorem
+\autoref{thm:cauchycriterion-finite-observation-budget-selector-pullback} to
+the pair $(K,F)$ and again to the pair $(K,F')$. Both applications land on a
+finite selector-to-seal surface with exactly the displayed StreamName,
+DyadicRatCore, RegSeqRat, Real, transport, continuation, package, and naming
+rows.
+
+Next use finite selector exhaustion,
+\autoref{thm:cauchycriterion-finite-selector-exhaustion}. Because both
+observation-budget packets preserve the same CauchyCriterion packet and the
+same displayed rows, every completion-facing consumer factors through the
+same selector-refinement packet before any Real seal is exposed.
+
+It remains to identify the observation-budget routes into that packet. Route
+determinacy,
+\autoref{thm:finite-observation-budget-selector-budget-route-determinacy},
+forces each accepted selector request to reach the Real row along the displayed
+finite chain, and the diagonal consumer boundary,
+\autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary},
+keeps terminal consumers on that same chain.
+
+Thus the two accepted packets have no remaining coordinate on which their
+pullback surfaces can differ. Since quotient streams, selected host limits,
+host real equality, countable choice, hidden selectors, ambient completeness,
+and second completion seals are excluded from the shared packet, they cannot
+serve as witnesses of a second selector-to-seal surface.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion exact-boundary selector handoff]
+\label{thm:cauchycriterion-exact-boundary-selector-handoff}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, let
+$F=(B,S,V,D,R,E_F,H_F,C_F,P_F,N_F)$ be an accepted
+$\FiniteObservationBudgetSelectorUp$ packet, and let
+$X=(L,K_X,J_X,S_X,W_X,R_X,D_X,E_X,H_X,C_X,P_X,N_X)$ be an accepted
+$\RealCompletionExactBoundaryUp$ packet. Suppose the three packets share the
+displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$,
+componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows
+at the selector-to-seal boundary. Then the CauchyCriterion selector-to-seal
+surface factors through the exact-boundary packet $X$ before any terminal
+$\RealUp$ seal is read.
+
+The handoff exposes only the selector request, finite StreamName window,
+RegSeqRat handoff, DyadicRatCore tolerance row, terminal Real boundary, and
+the shared $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. It refuses
+quotient streams, selected host limits, host real equality, countable choice,
+ambient completeness, and any second seal source.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:cauchycriterion-finite-observation-budget-selector-pullback}.
+The accepted CauchyCriterion packet and the accepted finite observation-budget
+selector packet meet on a single selector-to-seal pullback surface with the
+displayed StreamName, RegSeqRat, DyadicRatCore, Real, transport,
+continuation, package, and local naming rows.
+
+Next use \autoref{thm:cauchycriterion-finite-selector-exhaustion}. It shows
+that every completion-facing consumer preserving those rows must pass through
+the same finite selector-refinement packet before a Real or Completion seal is
+read.
+
+Now apply
+\autoref{thm:real-completion-exact-boundary-four-face-exactness}. The accepted
+exact-boundary packet exports exactly the StreamName, RegSeqRat,
+DyadicRatCore, and terminal Real faces on the route
+$L,K_X,J_X,S_X,W_X,R_X,D_X,E_X,H_X,C_X,P_X,N_X$, so the selector-refinement
+surface has only that exact-boundary consumer route available.
+
+Finally use
+\autoref{thm:real-completion-exact-boundary-real-seal-nonescape}. The terminal
+Real seal cannot be read outside the exact-boundary packet. Since the pullback
+and exhaustion steps already removed quotient streams, selected host limits,
+host real equality, countable choice, ambient completeness, hidden selectors,
+and second seal sources, the selector-to-seal surface factors through the
+exact-boundary packet before any terminal Real seal is consumed.
 \end{proof}

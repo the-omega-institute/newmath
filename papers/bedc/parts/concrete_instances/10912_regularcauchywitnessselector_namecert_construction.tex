@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyWitnessSelectorUp$}
+\label{ch:concrete-instances-regular-cauchy-witness-selector-namecert}
+\origin{ai}
+
+The $\RegularCauchyWitnessSelectorUp$ packet is the finite selector surface behind the diagonal-limit construction of \autoref{ch:visions-real-completeness}. It refines the witness schedule of \autoref{ch:concrete-instances-regularcauchywitnessschedule-namecert} by displaying the explicit modulus request and selected finite window, uses the modulus witness ledger of \autoref{ch:concrete-instances-regular-cauchy-modulus-witness-ledger-namecert} for tolerance and readback ordering, and lands at the exact completion boundary of \autoref{ch:concrete-instances-real-completion-exact-boundary-namecert}. Its role is to make the selector packet visible before any diagonal $\RealUp$ seal is consumed.
+
+\falsifiablePrediction{Any diagonal-limit route that reads a $\RealUp$ seal without the selector's explicit modulus request, selected window, dyadic tolerance, and regular-rational readback rows refutes the $\RegularCauchyWitnessSelectorUp$ packet.}
+
+\independenceWitness{regularcauchywitnessschedule, regular-cauchy-modulus-witness-ledger, real-completion-exact-boundary, streamname, regseqrat: none is bijective to the selector packet because each sibling supplies respectively a schedule row, a ledger row, an exact boundary, a window interface, or a regular-rational readback, while this carrier binds all five into one seal-facing selector surface.}
+
+\begin{definition}[Regular Cauchy witness selector packet]
+\label{def:regular-cauchy-witness-selector-packet}
+A $\RegularCauchyWitnessSelectorUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+Q=(M,W,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the explicit modulus-request row for the regular Cauchy input and the requested diagonal precision;
+\item $W$ is the selected $\StreamNameUp$ finite-window row served by that modulus request;
+\item $T$ is the $\DyadicRatCoreUp$ tolerance row recording the requested rational bound and the selected diagonal denominator data;
+\item $R$ is the $\RegSeqRatUp$ readback row for the selected member and selected diagonal index;
+\item $E$ is the terminal $\RealUp$ seal row reached only after $M,W,T,R$ have been displayed;
+\item $H$ records componentwise $\hsame$ transports for the modulus request, window, tolerance, readback, seal, provenance, and local name;
+\item $C$ records the displayed $\Cont$ replay from the modulus request through the window, tolerance, readback, and seal rows;
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyWitnessScheduleUp$, $\RegularCauchyModulusWitnessLedgerUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RegularCauchyWitnessSelectorUp}$ row.
+\end{enumerate}
+The classifier compares carriers only through these displayed rows and their componentwise transports. It has no coordinate for a host-selected limit, quotient equality of regular Cauchy names, an unrecorded stream read, countable choice, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy witness selector source totality]
+\label{thm:regular-cauchy-witness-selector-source-totality}
+For every accepted $\RegularCauchyWitnessSelectorUp$ packet
+$$
+Q=(M,W,T,R,E,H,C,P,N),
+$$
+the diagonal source selected for a requested precision is exactly the finite route
+$$
+M \longmapsto W \longmapsto T \longmapsto R.
+$$
+The route exposes the explicit modulus request, the selected $\StreamNameUp$ window, the $\DyadicRatCoreUp$ tolerance row, and the $\RegSeqRatUp$ readback before the terminal $\RealUp$ seal is available.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-witness-selector-packet}. The rows $M,W,T,R$ are the only source-facing rows before the terminal seal coordinate $E$.
+
+Read the route in dependency order. The selected window $W$ is served by the modulus request $M$, the tolerance row $T$ records the dyadic precision attached to that request, and the readback row $R$ is the regular-rational observation at the selected member and selected diagonal index.
+
+The structural rows do not add another source. The $\hsame$ rows in $H$ transport the four displayed coordinates, the $\Cont$ rows in $C$ replay the same route, and $P,N$ record provenance and local naming. Hence the selected source is total exactly on the displayed route $M \mapsto W \mapsto T \mapsto R$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness selector classifier stability]
+\label{thm:regular-cauchy-witness-selector-classifier-stability}
+If two accepted $\RegularCauchyWitnessSelectorUp$ packets have componentwise $\hsame$ transports on their modulus-request, selected-window, dyadic-tolerance, regular-rational-readback, and terminal-seal rows, then their local classifiers preserve the same diagonal selector route. Transporting the packet cannot replace the selected window, alter the tolerance row, change the readback row, or reach a different $\RealUp$ seal outside the displayed $\Cont$ replay.
+\end{theorem}
+\begin{proof}
+Begin with the componentwise classifier data recorded in $H$. It compares the modulus requests, windows, tolerance rows, readbacks, and terminal seals row by row.
+
+Apply source totality from \autoref{thm:regular-cauchy-witness-selector-source-totality}. Since the source route is exactly $M \mapsto W \mapsto T \mapsto R$, transporting those four rows transports the whole selected source.
+
+Now inspect the continuation rows. The $\Cont$ replay in $C$ reaches the seal row $E$ only from the transported selected source, and the package row $P$ records the same dependency surface. Thus the local classifier preserves the route and has no coordinate on which to substitute another selector, tolerance, readback, or seal.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness selector ledger non-escape]
+\label{thm:regular-cauchy-witness-selector-ledger-nonescape}
+No diagonal-limit consumer accepted by a $\RegularCauchyWitnessSelectorUp$ packet can read the terminal $\RealUp$ seal without first displaying the rows
+$$
+M,W,T,R,H,C,P,N.
+$$
+In particular, a route that reaches a $\RealUp$ seal without the explicit modulus request, selected window, dyadic tolerance, regular-rational readback, componentwise transport, continuation replay, provenance, and local $\NameCert$ rows is outside the packet.
+\end{theorem}
+\begin{proof}
+Project an accepted packet $Q=(M,W,T,R,E,H,C,P,N)$. The seal row $E$ is not a detached Real object; it is the terminal coordinate of the same finite selector carrier.
+
+Use \autoref{thm:regular-cauchy-witness-selector-source-totality}. A diagonal source read must pass through $M,W,T,R$ before any terminal seal is available.
+
+Use \autoref{thm:regular-cauchy-witness-selector-classifier-stability}. The rows $H$ and $C$ preserve and replay exactly that displayed source, while $P$ and $N$ record provenance and local naming for the same packet.
+
+The excluded route would need a coordinate for an unrequested modulus, unselected window, hidden tolerance, detached readback, quotient equality, host limit, countable choice, or ambient completeness. No such coordinate occurs in the carrier, so the seal read cannot escape the displayed ledger.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness selector NameCert surface]
+\label{thm:regular-cauchy-witness-selector-namecert-surface}
+The local $\NameCert_{\RegularCauchyWitnessSelectorUp}$ surface of an accepted packet $Q=(M,W,T,R,E,H,C,P,N)$ consists exactly of carrier exposure for $Q$, source totality through $M,W,T,R$, classifier stability through $H,C$, terminal seal non-escape through $E$, package provenance through $P$, and local naming through $N$. This surface is the finite diagonal-selector packet consumed by the Real completeness route and exports no host-selected limit, quotient of Cauchy names, countable-choice selector, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Carrier exposure is \autoref{def:regular-cauchy-witness-selector-packet}. It lists the modulus request, selected window, tolerance, readback, terminal seal, transport, continuation, package, and local naming rows.
+
+Apply \autoref{thm:regular-cauchy-witness-selector-source-totality} to identify the selected diagonal source as $M,W,T,R$. Apply \autoref{thm:regular-cauchy-witness-selector-classifier-stability} to keep that source stable under local classifier transport.
+
+Apply \autoref{thm:regular-cauchy-witness-selector-ledger-nonescape} for the terminal $\RealUp$ boundary. The seal row is reachable only through the same displayed selector ledger and its structural rows.
+
+These rows exhaust the NameCert surface. Since every listed dependency is displayed inside $Q$, and since the carrier contains no host limit, quotient, choice, or ambient-completeness coordinate, the packet is exactly the finite diagonal selector consumed by the Real completeness route.
+\end{proof}
+
+\closureat{RegularCauchyWitnessSelectorUp}{seedStr}
+
+Lean development for this route must provide $\mathsf{Nontrivial}\ \RegularCauchyWitnessSelectorUp$ and $\mathsf{FieldFaithful}\ \RegularCauchyWitnessSelectorUp$ instances in \texttt{BEDC.Derived.RegularCauchyWitnessSelectorUp.TasteGate}.

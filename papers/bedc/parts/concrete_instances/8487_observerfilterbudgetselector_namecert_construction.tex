@@ -216,6 +216,7 @@ Coordinate exhaustion gives the exclusion claim. The carrier definition contains
 \label{thm:observer-filter-budget-selector-real-completion-consumer}
 Any Real and Completion consumer reading an accepted $\ObserverFilterBudgetSelectorUp$ packet must pass through the selected observer row $S$, finite budget row $B$, $\StreamNameUp$ window row $W$, $\DyadicRatCoreUp$ ledger row $D$, $\RegSeqRatUp$ handoff row $R$, and $\RealUp$ seal row $E$ before the read can be used by a $\CauchyLimitSealUp$ or $\RealCompletionSelectorSealUp$ packet. The structural rows $O,H,C,P,N$ remain omitted-row boundary data, componentwise transport, displayed replay, provenance, and local naming for the same route.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverFilterBudgetSelectorUp.ObserverFilterBudgetSelectorCarrier\_real\_completion\_consumer}
 \begin{proof}
 Begin with the bridge-ready route of \autoref{thm:observer-filter-budget-selector-bridge-ready-route}. It exposes the selected-row chain
 $$
@@ -239,6 +240,7 @@ Next attach the dyadic and Real-facing rows. \autoref{thm:observer-filter-budget
 
 Finally compose the bridge-ready route with the Real-completion consumer factorization. \autoref{thm:observer-filter-budget-selector-bridge-ready-route} packages the route through $S,B,W,D,R,E$, and \autoref{thm:observer-filter-budget-selector-real-completion-consumer} forces $\CauchyLimitSealUp$ and $\RealCompletionSelectorSealUp$ consumers to read that same chain. The structural rows remain $H,C,P,N$, and the omitted row remains boundary-only, so no downstream completion consumer can escape the displayed lock.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverFilterBudgetSelectorUp.ObserverFilterBudgetSelectorDownstreamBudgetLock}
 
 The Lean file \texttt{Derived/ObserverFilterBudgetSelectorUp/TasteGate.lean} will provide $\mathsf{Nontrivial}\ \ObserverFilterBudgetSelectorUp$ and $\mathsf{FieldFaithful}\ \ObserverFilterBudgetSelectorUp$ instances over the displayed rows.
 

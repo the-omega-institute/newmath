@@ -1,0 +1,97 @@
+\begin{theorem}[Critical-line witness classifier exactness]
+\label{thm:critical-line-witness-classifier-exactness}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+The classifier available at the root is determined only by the supplied zero
+row $Z$, the critical-strip row $S$, and the displayed support rows
+$H,C,P,N$. It cannot be replaced by host equality, zero search, analytic
+continuation, quotient representatives, or ambient completeness; any
+accepted classifier read must remain on the finite $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert_{\CriticalLineWitnessUp}$ surface displayed by
+$W$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:critical-line-witness-carrier}. Its
+source side displays exactly the supplied zero row $Z$, the supplied strip row
+$S$, and the support rows $H,C,P,N$ before any public critical-line read is
+available.
+
+Apply the NameCert obligations of
+\autoref{thm:critical-line-witness-namecert-obligations}. The zero-strip
+compatibility row binds $Z$ and $S$ through displayed $\hsame$ transport, while
+carrier admission and non-escape keep the classifier read inside the same
+finite packet.
+
+Finally use the root source triad
+\autoref{thm:critical-line-witness-root-source-triad} and the root unblock
+refusal boundary
+\autoref{thm:critical-line-witness-root-unblock-refusal-boundary}. They expose
+the finite source rows and refuse host equality, zero search, analytic
+continuation, quotient representatives, and ambient completeness as alternate
+classifier sources. Thus the classifier is exact only through
+$Z,S,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness ledger route stability]
+\label{thm:critical-line-witness-ledger-route-stability}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+The modulus and comparison ledger route through $M,R,Q$ is stable under the
+displayed $\hsame$ transports, $\Cont$ replay rows, $\Pkg$ provenance, and
+local $\NameCert_{\CriticalLineWitnessUp}$ row. Every accepted comparison read
+therefore uses the same packet-local route $M,R,Q,H,C,P,N$ and does not branch
+to a host comparison, quotient representative, analytic continuation row, or
+ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Read the modulus and comparison coordinates from
+\autoref{def:critical-line-witness-carrier}. The packet lists $M$ as the
+depth-to-line modulus row, $R$ as the consumed real-part row, and $Q$ as the
+rational comparison ledger.
+
+Use \autoref{thm:critical-line-witness-namecert-obligations}. Its modulus
+discipline and ledger-exactness rows attach $M,R,Q$ to the same displayed
+$H,C,P,N$ support, so comparison reads are transported, replayed, recorded,
+and named inside the accepted packet.
+
+It remains to rule out alternate ledger routes. The root source triad
+\autoref{thm:critical-line-witness-root-source-triad} keeps the source side
+finite, and the root unblock refusal boundary
+\autoref{thm:critical-line-witness-root-unblock-refusal-boundary} refuses the
+host, quotient, analytic-continuation, and completeness replacements. Hence
+the $M,R,Q$ ledger route is stable exactly under the displayed
+$\hsame/\Cont/\Pkg/\NameCert$ rows.
+\end{proof}
+
+\begin{theorem}[Critical-line witness downstream consumer unblock]
+\label{thm:critical-line-witness-downstream-consumer-unblock}
+Every downstream $\mathsf{RH}$-boundary consumer of an accepted
+$\CriticalLineWitnessUp$ packet may cite only the finite surface
+$$
+Z,S,M,R,Q,H,C,P,N .
+$$
+The consumer may use this surface as the supplied zero row, supplied strip row,
+modulus row, real-part row, rational comparison ledger, transport row,
+continuation row, provenance row, and local naming row; it may not cite an
+$\mathsf{RH}$ proof, a global zero classifier, a zero-producing search, host
+equality, analytic continuation, quotient representatives, or ambient
+completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition
+\autoref{def:critical-line-witness-carrier}. It makes
+$Z,S,M,R,Q,H,C,P,N$ the visible packet and withholds every global analytic or
+host-level coordinate from the carrier.
+
+Next apply \autoref{thm:critical-line-witness-namecert-obligations}. Carrier
+admission, non-escape, and ledger exactness say that accepted public reads are
+exhausted by the displayed packet rows and their local $\NameCert$ support.
+
+Finally combine the root source triad
+\autoref{thm:critical-line-witness-root-source-triad} with the root unblock
+refusal boundary
+\autoref{thm:critical-line-witness-root-unblock-refusal-boundary}. The triad
+exposes the finite zero-strip and comparison source before downstream use, and
+the refusal boundary removes every off-packet $\mathsf{RH}$, zero-search,
+host-equality, analytic-continuation, quotient, and completeness demand.
+Therefore downstream consumers are unblocked precisely by the finite
+$Z,S,M,R,Q,H,C,P,N$ surface.
+\end{proof}
