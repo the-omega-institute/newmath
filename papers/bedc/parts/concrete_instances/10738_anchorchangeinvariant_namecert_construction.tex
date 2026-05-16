@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\AnchorChangeInvariantUp$}
+\label{ch:concrete-instances-anchor-change-invariant-namecert}
+\origin{ai}
+
+The $\AnchorChangeInvariantUp$ packet realizes the anchor-change invariant surface of \autoref{sec:objectivity-as-invariance} as a finite symmetric transport certificate over observer-history anchors. It sits after the objectivity carrier of \autoref{ch:concrete-instances-reality-constrained-objectivity-namecert}, consumes the anchor-stability packet of \autoref{ch:concrete-instances-anchor-stability-certificate-namecert}, reads the invariant row of \autoref{ch:concrete-instances-interhistinvariant-namecert}, and supplies a focused sibling to the refusal boundary of \autoref{ch:concrete-instances-objectivity-refutation-boundary-namecert}. The carrier is neither a global observer nor a view from nowhere; it is the finite table that records when an invariant survives a reversible change of observer anchor.
+
+\begin{definition}[Anchor-change invariant carrier]
+\label{def:anchor-change-invariant-carrier}
+An $\AnchorChangeInvariantUp$ carrier is a finite $\BHist$ packet
+$$
+G=(H,A,I,S,R,L,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the finite observer-history family whose anchors are being compared;
+\item $A$ is the anchor-change table, with one source anchor, one target anchor, and the displayed reverse row for each admitted comparison;
+\item $I$ is the $\InterHistInvariantUp$ row whose value is transported across the anchor change;
+\item $S$ is the $\AnchorStabilityCertificateUp$ row certifying that the invariant read is stable under the displayed table;
+\item $R$ is the no-privileged-anchor refusal ledger, rejecting routes that factor through one fixed observer anchor;
+\item $L$ is the local transport ledger recording the observations, redescription steps, and classifier reads used by the table;
+\item $T$ records componentwise $\hsame$ transport and displayed $\Cont$ replay for $H,A,I,S,R,L,P,N$;
+\item $P$ is the $\Pkg$ provenance over $\AnchorChangeInvariantUp$, $\RealityConstrainedObjectivityUp$, $\AnchorStabilityCertificateUp$, $\InterHistInvariantUp$, $\RelationalObjectivityUp$, $\ObjectivityRefutationBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AnchorChangeInvariantUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a one-way anchor change, privileged observer, hidden synchronizer, anchor-free invariant, quotient of observer histories, or host-side truth value.
+\end{definition}
+
+\begin{definition}[Anchor-change invariant classifier]
+\label{def:anchor-change-invariant-classifier}
+The local $\NameCert_{\AnchorChangeInvariantUp}$ classifier compares accepted carriers only through $H,A,I,S,R,L,T,P,N$. Two packets agree when their observer-history families are matched by the displayed transport, their anchor-change tables contain both directional rows for each admitted comparison, their $\InterHistInvariantUp$ values are transported through the same classifier, their $\AnchorStabilityCertificateUp$ rows certify the same route, and their refusal ledgers reject the same privileged-anchor factorizations.
+\end{definition}
+
+\begin{theorem}[Anchor-change invariant NameCert obligations]
+\label{thm:anchor-change-invariant-namecert-obligations}
+For the carrier of \autoref{def:anchor-change-invariant-carrier}, the local $\NameCert_{\AnchorChangeInvariantUp}$ surface consists exactly of carrier admission for $G=(H,A,I,S,R,L,T,P,N)$, classifier comparison through \autoref{def:anchor-change-invariant-classifier}, invariant transport through $I$, anchor-stability certification through $S$, no-privileged-anchor refusal through $R$, ledger exposure through $L$, componentwise transport and replay through $T$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The rows $H,A,I,S,R,L$ display the observer family, reversible anchor-change table, invariant value, stability certificate, refusal ledger, and route ledger.
+
+Apply the classifier definition. It compares only the displayed rows and requires both directions of each anchor-change entry before the invariant row may be read as transported content.
+
+The structural rows $T,P,N$ preserve that finite surface by componentwise transport, replay, provenance, and local naming. Since the carrier lists no hidden synchronizer or privileged anchor, the stated rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Anchor-change invariant no privileged anchor]
+\label{thm:anchor-change-invariant-no-privileged-anchor}
+An accepted $\AnchorChangeInvariantUp$ packet cannot export an invariant route that factors through one fixed observer anchor without the reverse anchor-change row. Such a route is rejected by the refusal ledger $R$ and cannot be read as objective transport.
+\end{theorem}
+\begin{proof}
+Read the anchor-change table $A$ and refusal ledger $R$ from the carrier. Admission requires the displayed reverse row for each comparison and records the rejection of fixed-anchor factorizations.
+
+The classifier of \autoref{def:anchor-change-invariant-classifier} then compares invariant transport only through tables carrying both directions. A one-anchor route lacks the reverse row and is therefore not an accepted comparison.
+
+Consequently the packet may still record local observational content, but it cannot export the invariant as objective anchor-change transport.
+\end{proof}
+
+\begin{theorem}[Anchor-change invariant anchor-symmetry totality]
+\label{thm:anchor-change-invariant-anchor-symmetry-totality}
+Every admitted $\AnchorChangeInvariantUp$ invariant read exposes the source-to-target and target-to-source anchor-change rows in the same finite packet before the read reaches any $\RealityConstrainedObjectivityUp$ or $\RelationalObjectivityUp$ consumer.
+\end{theorem}
+\begin{proof}
+Use the carrier admission row $A$. Its table stores both directional rows for each admitted observer-anchor comparison.
+
+The stability row $S$ and invariant row $I$ are read only after that table is visible. The transport row $T$ replays the same displayed comparison, so downstream objectivity consumers receive the invariant together with the symmetric anchor-change evidence.
+
+No additional route can be supplied by a consumer because $R,L,P,N$ keep the refusal ledger, local route ledger, provenance, and naming rows inside the same packet.
+\end{proof}
+
+\falsifiablePrediction{If an invariant route factors through one fixed anchor without a reverse anchor-change row, the AnchorChangeInvariant carrier rejects it as non-objective transport.}
+
+\independenceWitness{realityconstrainedobjectivity, anchorstabilitycertificate, interhistinvariant, relationalobjectivity, objectivityrefutationboundary: these siblings provide objectivity, anchor stability, invariant, relational-objectivity, and refutation surfaces, but none combines a symmetric anchor-change classifier with a no-privileged-anchor refusal ledger.}
+
+The Lean follow-up must provide \texttt{Nontrivial AnchorChangeInvariantUp} and \texttt{FieldFaithful AnchorChangeInvariantUp} in \texttt{lean4/BEDC/Derived/AnchorChangeInvariantUp/TasteGate.lean}.

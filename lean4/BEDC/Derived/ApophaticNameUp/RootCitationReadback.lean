@@ -94,4 +94,55 @@ theorem ApophaticNameCarrier_root_refusal_gate_readback [AskSetup] [PackageSetup
       requestGateRead, gateLedgerRead, ledgerNameRead, ledgerReadProvenanceRoot,
       ledgerSameRequestGate, rootPkg⟩
 
+theorem ApophaticNameCarrier_root_citation_readback_package [AskSetup] [PackageSetup]
+    {socket request gate ledger transport route provenance nameRow citationRead requestRead
+      gateRead ledgerRead rootRead boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg →
+      Cont route provenance citationRead →
+        PkgSig bundle citationRead pkg →
+          Cont request gate requestRead →
+            Cont gate ledger gateRead →
+              Cont ledger nameRow ledgerRead →
+                Cont ledgerRead provenance rootRead →
+                  PkgSig bundle rootRead pkg →
+                    Cont ledger nameRow boundaryRead →
+                      PkgSig bundle boundaryRead pkg →
+                        UnaryHistory citationRead ∧ UnaryHistory requestRead ∧
+                          UnaryHistory gateRead ∧ UnaryHistory ledgerRead ∧
+                            UnaryHistory rootRead ∧ UnaryHistory boundaryRead ∧
+                              Cont request gate requestRead ∧ Cont gate ledger gateRead ∧
+                                Cont ledger nameRow ledgerRead ∧
+                                  Cont ledgerRead provenance rootRead ∧
+                                    Cont ledger nameRow boundaryRead ∧
+                                      hsame ledger (append request gate) ∧
+                                        PkgSig bundle provenance pkg ∧
+                                          PkgSig bundle citationRead pkg ∧
+                                            PkgSig bundle rootRead pkg ∧
+                                              PkgSig bundle boundaryRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier routeProvenanceCitation citationPkg requestGateRead gateLedgerRead
+    ledgerNameRead ledgerReadProvenanceRoot rootPkg ledgerNameBoundary boundaryPkg
+  obtain ⟨_socketUnary, requestUnary, gateUnary, ledgerUnary, _transportUnary, routeUnary,
+    provenanceUnary, nameRowUnary, _socketRequestGate, _requestGateRoute, _gateLedgerRoute,
+    _gateLedgerNameRow, ledgerSameRequestGate, provenancePkg⟩ := carrier
+  have citationReadUnary : UnaryHistory citationRead :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenanceCitation
+  have requestReadUnary : UnaryHistory requestRead :=
+    unary_cont_closed requestUnary gateUnary requestGateRead
+  have gateReadUnary : UnaryHistory gateRead :=
+    unary_cont_closed gateUnary ledgerUnary gateLedgerRead
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameRead
+  have rootReadUnary : UnaryHistory rootRead :=
+    unary_cont_closed ledgerReadUnary provenanceUnary ledgerReadProvenanceRoot
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameBoundary
+  exact
+    ⟨citationReadUnary, requestReadUnary, gateReadUnary, ledgerReadUnary, rootReadUnary,
+      boundaryReadUnary, requestGateRead, gateLedgerRead, ledgerNameRead,
+      ledgerReadProvenanceRoot, ledgerNameBoundary, ledgerSameRequestGate, provenancePkg,
+      citationPkg, rootPkg, boundaryPkg⟩
+
 end BEDC.Derived.ApophaticNameUp

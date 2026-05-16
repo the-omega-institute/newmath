@@ -1,0 +1,30 @@
+\begin{theorem}[AuthorizedGeneratorRecursor root output route saturation]
+\label{thm:authorized-generator-recursor-root-output-route-saturation}
+Every public output route of an accepted $\AuthorizedGeneratorRecursorUp$ packet factors through the accepted signature row $I$, emitted eliminator row $E$, checked motive row $M$, branch package $B$, structural descent row $D$, output row $O$, audit row $A$, componentwise transport row $H$, displayed continuation row $C$, provenance row $P$, ground-compiler boundary row $G$, and local $\NameCert$ row $N$. Thus the output is public only as the saturated finite carrier route
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+\end{theorem}
+\begin{proof}
+Begin with the carrier and root output audit rows. \autoref{def:authorized-generator-recursor-carrier} displays the accepted signature, eliminator, motive, branch, descent, output, audit, transport, continuation, provenance, boundary, and naming rows, while \autoref{thm:authorized-generator-recursor-root-output-audit-totality} places every public read of $O$ behind the same packet.
+
+Next attach boundary and compiler visibility. \autoref{thm:authorized-generator-recursor-root-boundary-nonescape} prevents the boundary row from exporting a hidden generator or host induction principle, and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} reads the ground-compiler boundary only through the accepted carrier.
+
+Finally use consumer readiness. \autoref{thm:authorized-generator-recursor-root-namecert-consumer-readiness} packages the output route for downstream consumers without dropping branch, descent, audit, boundary, provenance, or local naming rows. Hence every public output route factors through the displayed saturated route.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root boundary nonescape saturation]
+\label{thm:authorized-generator-recursor-root-boundary-nonescape-saturation}
+The saturated public output route of \autoref{thm:authorized-generator-recursor-root-output-route-saturation} exports no hidden generator, host induction principle, external axiom, unaudited dependency route, or off-packet substitution channel. Any consumer that reaches $O$ must keep the accepted signature, eliminator, motive, branch, descent, audit, transport, continuation, provenance, ground-compiler boundary, and local NameCert rows inside the same $\BHist$ packet.
+\end{theorem}
+\begin{proof}
+Project the saturated route
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+The route already contains the only output, audit, ground-boundary, provenance, and local naming rows supplied by the accepted carrier.
+
+Apply root boundary nonescape and the ground-compiler handoff. \autoref{thm:authorized-generator-recursor-root-boundary-nonescape} excludes hidden generator, host induction, external axiom, and unaudited dependency exports at the boundary, while \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} keeps the compiler-facing read on the same finite packet.
+
+It remains to rule out substitution escape. \autoref{thm:authorized-generator-recursor-root-namecert-consumer-readiness} and \autoref{thm:authorized-generator-recursor-root-output-audit-totality} force closed-normal and generator-audit consumers to retain the output audit route before using $O$. Since no off-packet substitution coordinate appears in the carrier, the saturated route has no channel through which such a substitution can be exported.
+\end{proof}
