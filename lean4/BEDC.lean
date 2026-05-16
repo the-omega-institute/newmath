@@ -984,6 +984,7 @@ import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.InductionClosureLedgerUp.TasteGate
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.InscriptionEventUp.TasteGate
+import BEDC.Derived.InscriptionEventBufferSealUp.TasteGate
 import BEDC.Derived.InscriptionEventReplayUp.TasteGate
 import BEDC.Derived.PrefixObserverUp
 import BEDC.Derived.InscriptionAcceptanceBudgetUp.TasteGate
