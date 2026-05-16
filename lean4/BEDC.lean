@@ -1406,6 +1406,7 @@ import BEDC.Derived.AttentionLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyTriangleBoundUp
 import BEDC.Derived.RegularLimitUniquenessUp
 import BEDC.Derived.RegularCauchyNameUp
+import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal
 import BEDC.Derived.RegularCauchySequenceUp
 import BEDC.Derived.RegularCauchyNegationUp
 import BEDC.Derived.RegularCauchyProductBudgetUp.TasteGate
@@ -1720,6 +1721,7 @@ import BEDC.Derived.RealityConstrainedObjectivityUp.TasteGate
 import BEDC.Derived.OpenFitPacketUp.TasteGate
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.CyclotomicUp
+import BEDC.Derived.CyclotomicUp.SplittingPolynomial
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KalmanFilterUp
 import BEDC.Derived.KnotUp
