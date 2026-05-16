@@ -125,6 +125,48 @@ The $\LimitSelectorUp$ surface can name a selected candidate but does not carry 
 Therefore none of the listed siblings is bijective to the displayed packet. The packet's independence witness is exactly the simultaneous presence of $L_0,L_1,Q,S,D,R,V,H,C,P,N$ under one local NameCert row.
 \end{proof}
 
+\begin{theorem}[Real limit uniqueness seal two-seal exposure]
+\label{thm:real-limit-uniqueness-seal-two-seal-exposure}
+Every accepted $\RealLimitUniquenessSealUp$ packet exposes both $\CauchyLimitSealUp$ rows $L_0$ and $L_1$ before any uniqueness read through $V$ is available. Neither a one-sided completion seal nor a selector-facing endpoint can stand in for the missing seal row.
+\end{theorem}
+\begin{proof}
+Use the carrier definition of \autoref{def:real-limit-uniqueness-seal-carrier}. The packet is the displayed tuple $U=(L_0,L_1,Q,S,D,R,V,H,C,P,N)$, so both completion-seal coordinates are part of the admitted carrier before the uniqueness coordinate can be read.
+
+Apply the obligation surface of \autoref{thm:real-limit-uniqueness-seal-obligation-surface}. It lists carrier admission and the two $\CauchyLimitSealUp$ candidate rows as separate local NameCert obligations, before the shared comparison, window, dyadic ledger, Real classifier, and uniqueness handoff.
+
+The nonescape theorem, \autoref{thm:real-limit-uniqueness-seal-nonescape}, rules out replacing this exposure by a single seal, a one-sided selector, quotient stream equality, host Real equality, or ambient completeness. The consumer handoff of \autoref{thm:real-limit-uniqueness-seal-consumer-handoff} then says that downstream consumers receive only the displayed packet and local NameCert row.
+
+Finally, \autoref{thm:real-limit-uniqueness-seal-independent-witness} identifies the simultaneous presence of $L_0$ and $L_1$ as part of the independence witness. Thus any accepted uniqueness read must expose both seal rows first.
+\end{proof}
+
+\begin{theorem}[Real limit uniqueness seal shared comparison window]
+\label{thm:real-limit-uniqueness-seal-shared-comparison-window}
+For every accepted $\RealLimitUniquenessSealUp$ packet, the two seal candidates share the route through the regular-rational comparison row $Q$, the finite window row $S$, the dyadic tolerance row $D$, the Real classifier row $R$, and the uniqueness row $V$. The packet admits no detached selector, quotient stream, or external comparison stream as a substitute for this shared route.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:real-limit-uniqueness-seal-carrier}. The only comparison-facing coordinates between the two seals are $Q,S,D,R,V$, with route replay recorded by $C$ and provenance recorded by $P$.
+
+The obligation surface in \autoref{thm:real-limit-uniqueness-seal-obligation-surface} orders these rows as one finite route: the shared $\RegSeqRatUp$ comparison, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance ledger, terminal $\RealUp$ classifier, and $\RegularLimitUniquenessUp$ handoff.
+
+Apply \autoref{thm:real-limit-uniqueness-seal-nonescape} to exclude a detached selector, quotient stream equality, host Real equality, and ambient completeness. Then use \autoref{thm:real-limit-uniqueness-seal-consumer-handoff}: a downstream consumer can replay only the rows that the packet hands off.
+
+The independent witness theorem, \autoref{thm:real-limit-uniqueness-seal-independent-witness}, separates this packet from $\LimitSelectorUp$, $\CauchyLimitSealUp$, $\RealCompletenessUp$, and $\RealUp$ alone exactly because the shared route is present with both seals. Hence every accepted comparison must travel through $Q,S,D,R,V$.
+\end{proof}
+
+\begin{theorem}[Real limit uniqueness seal classifier stability]
+\label{thm:real-limit-uniqueness-seal-classifier-stability}
+Componentwise $\hsame$ transport through $H$ preserves the two-seal comparison, dyadic tolerance ledger, $\RealUp$ classifier row, uniqueness handoff, $\Cont$ route, provenance, and local $\NameCert_{\RealLimitUniquenessSealUp}$ row of an accepted $\RealLimitUniquenessSealUp$ packet. Transport cannot change the packet into a one-seal certificate, a selector certificate, or a quotient-stream certificate.
+\end{theorem}
+\begin{proof}
+Read $H$ in the carrier definition of \autoref{def:real-limit-uniqueness-seal-carrier}. It records componentwise $\hsame$ transport for the two seal rows, comparison row, window row, dyadic ledger, Real classifier, uniqueness row, route row, provenance row, and naming row.
+
+The obligation surface of \autoref{thm:real-limit-uniqueness-seal-obligation-surface} makes those transported rows part of the local NameCert surface. Thus the transported packet still carries the two-seal comparison, the dyadic tolerance ledger, the $\RealUp$ classifier row, the uniqueness handoff, the displayed $\Cont$ route, provenance, and local naming.
+
+Use \autoref{thm:real-limit-uniqueness-seal-nonescape} and \autoref{thm:real-limit-uniqueness-seal-consumer-handoff} to control consumers after transport. Since the handoff contains only the displayed rows, no consumer can read a one-seal certificate, selector certificate, quotient stream, host equality, or ambient completeness principle from the transported packet.
+
+Finally, \autoref{thm:real-limit-uniqueness-seal-independent-witness} identifies the packet by the simultaneous presence of $L_0,L_1,Q,S,D,R,V,H,C,P,N$. Componentwise $\hsame$ transport preserves that inventory rather than changing the certificate kind.
+\end{proof}
+
 The later Lean boundary is \texttt{lean4/BEDC/Derived/RealLimitUniquenessSealUp/TasteGate.lean}. It must provide \texttt{Nontrivial RealLimitUniquenessSealUp} and \texttt{FieldFaithful RealLimitUniquenessSealUp} instances for the same displayed carrier.
 
 \closureat{RealLimitUniquenessSealUp}{seedStr}
