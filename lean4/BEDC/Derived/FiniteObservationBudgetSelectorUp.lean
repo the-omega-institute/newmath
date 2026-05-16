@@ -16,8 +16,8 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def FiniteObservationBudgetSelectorCarrier (B S W D R E _H C _P N : BHist) : Prop :=
-  UnaryHistory B ∧ UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory E ∧
+def FiniteObservationBudgetSelectorCarrier (B S W D R E H C _P N : BHist) : Prop :=
+  UnaryHistory B ∧ UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory E ∧ UnaryHistory H ∧
     Cont B S W ∧ Cont W D R ∧ Cont R E C ∧ hsame N E
 
 theorem FiniteObservationBudgetSelectorCarrier_namecert_obligations
@@ -35,8 +35,8 @@ theorem FiniteObservationBudgetSelectorCarrier_namecert_obligations
                 hsame := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
   intro carrier pkgSig
-  obtain ⟨unaryB, unaryS, unaryD, unaryE, routeW, routeR, routeC, sameEndpoint⟩ :=
-    carrier
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, _unaryH, routeW, routeR, routeC,
+    sameEndpoint⟩ := carrier
   have unaryW : UnaryHistory W :=
     unary_cont_closed unaryB unaryS routeW
   have unaryR : UnaryHistory R :=
@@ -90,7 +90,7 @@ theorem FiniteObservationBudgetSelectorCarrier_schedule_admission
             hsame := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont SemanticNameCert hsame
   intro carrier pkgSig
-  obtain ⟨unaryB, unaryS, _unaryD, _unaryE, routeW, _routeR, _routeC,
+  obtain ⟨unaryB, unaryS, _unaryD, _unaryE, _unaryH, routeW, _routeR, _routeC,
     _sameEndpoint⟩ := carrier
   have unaryW : UnaryHistory W :=
     unary_cont_closed unaryB unaryS routeW
@@ -138,7 +138,7 @@ theorem FiniteObservationBudgetSelectorCarrier_budget_route_determinacy
             hsame W W' ∧ hsame R R' ∧ hsame C C' := by
   -- BEDC touchpoint anchor: BHist Cont hsame
   intro carrier budgetSchedule' windowDyadic' regularSeal'
-  obtain ⟨_unaryB, _unaryS, _unaryD, _unaryE, budgetSchedule, windowDyadic,
+  obtain ⟨_unaryB, _unaryS, _unaryD, _unaryE, _unaryH, budgetSchedule, windowDyadic,
     regularSeal, _sameName⟩ := carrier
   have sameWindow : hsame W W' :=
     cont_respects_hsame (hsame_refl B) (hsame_refl S) budgetSchedule budgetSchedule'
@@ -160,8 +160,8 @@ theorem FiniteObservationBudgetSelectorCarrier_real_seal_handoff [AskSetup] [Pac
                 PkgSig bundle realRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier realSeal realReadPkg
-  obtain ⟨unaryB, unaryS, unaryD, unaryE, routeW, routeR, _routeC, sameName⟩ :=
-    carrier
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, _unaryH, routeW, routeR, _routeC,
+    sameName⟩ := carrier
   have unaryW : UnaryHistory W :=
     unary_cont_closed unaryB unaryS routeW
   have unaryR : UnaryHistory R :=
@@ -190,7 +190,7 @@ theorem FiniteObservationBudgetSelectorCarrier_tail_meet_seal_compatibility
                           PkgSig bundle limitSealRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier tailMeetSeal limitSeal tailMeetPkg limitSealPkg
-  obtain ⟨unaryB, unaryS, unaryD, unaryE, budgetSchedule, windowDyadic,
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, _unaryH, budgetSchedule, windowDyadic,
     _regularSeal, _sameName⟩ := carrier
   have unaryW : UnaryHistory W :=
     unary_cont_closed unaryB unaryS budgetSchedule
@@ -219,7 +219,7 @@ theorem FiniteObservationBudgetSelectorCarrier_dyadic_window_exhaustion
               PkgSig bundle dyadicRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier windowDyadicRead dyadicPkg
-  obtain ⟨unaryB, unaryS, unaryD, _unaryE, budgetSchedule, windowDyadic,
+  obtain ⟨unaryB, unaryS, unaryD, _unaryE, _unaryH, budgetSchedule, windowDyadic,
     _regularSeal, _sameName⟩ := carrier
   have unaryW : UnaryHistory W :=
     unary_cont_closed unaryB unaryS budgetSchedule
@@ -248,8 +248,8 @@ theorem FiniteObservationBudgetSelectorCarrier_budget_choice_freeness
                         PkgSig bundle sealRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier budgetRoute windowRoute sealRoute sealPkg
-  obtain ⟨unaryB, unaryS, unaryD, unaryE, carrierBudget, carrierWindow, carrierSeal,
-    _sameName⟩ := carrier
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, _unaryH, carrierBudget, carrierWindow,
+    carrierSeal, _sameName⟩ := carrier
   have unaryBudgetRead : UnaryHistory budgetRead :=
     unary_cont_closed unaryB unaryS budgetRoute
   have unaryWindowRead : UnaryHistory windowRead :=
@@ -282,7 +282,7 @@ theorem FiniteObservationBudgetSelectorCarrier_window_seal_commutation
                       PkgSig bundle routeFirst pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier windowRoute routeRoute sealRoute windowPkg routePkg
-  obtain ⟨unaryB, unaryS, _unaryD, unaryE, budgetSchedule, _windowDyadic,
+  obtain ⟨unaryB, unaryS, _unaryD, unaryE, _unaryH, budgetSchedule, _windowDyadic,
     _regularSeal, _sameName⟩ := carrier
   have unaryW : UnaryHistory W :=
     unary_cont_closed unaryB unaryS budgetSchedule
@@ -314,8 +314,8 @@ theorem FiniteObservationBudgetSelectorCarrier_diagonal_consumer_boundary
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
   intro carrier diagonalRoute diagonalPkg
   have carrierWitness := carrier
-  obtain ⟨unaryB, unaryS, unaryD, unaryE, routeW, routeR, _routeC, _sameName⟩ :=
-    carrier
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, _unaryH, routeW, routeR, _routeC,
+    _sameName⟩ := carrier
   have unaryW : UnaryHistory W :=
     unary_cont_closed unaryB unaryS routeW
   have unaryR : UnaryHistory R :=
@@ -391,7 +391,7 @@ theorem FiniteObservationBudgetSelectorCarrier_nonescape
             hsame := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
   intro carrier sealRoute sealPkg
-  obtain ⟨unaryB, unaryS, unaryD, unaryE, budgetSchedule, windowDyadic,
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, unaryH, budgetSchedule, windowDyadic,
     regularSeal, sameEndpoint⟩ := carrier
   have unaryW : UnaryHistory W :=
     unary_cont_closed unaryB unaryS budgetSchedule
@@ -403,8 +403,8 @@ theorem FiniteObservationBudgetSelectorCarrier_nonescape
     core := {
       carrier_inhabited :=
         Exists.intro sealRead (And.intro
-          ⟨unaryB, unaryS, unaryD, unaryE, budgetSchedule, windowDyadic, regularSeal,
-            sameEndpoint⟩
+          ⟨unaryB, unaryS, unaryD, unaryE, unaryH, budgetSchedule, windowDyadic,
+            regularSeal, sameEndpoint⟩
           (hsame_refl sealRead))
       equiv_refl := by
         intro row _source
@@ -447,7 +447,7 @@ theorem FiniteObservationBudgetSelectorCarrier_terminal_window_minimality
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
   intro carrier terminalRoute terminalPkg
   have carrierWitness := carrier
-  obtain ⟨unaryB, unaryS, unaryD, unaryE, budgetSchedule, windowDyadic,
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, _unaryH, budgetSchedule, windowDyadic,
     _regularSeal, sameEndpoint⟩ := carrier
   have unaryW : UnaryHistory W :=
     unary_cont_closed unaryB unaryS budgetSchedule
@@ -482,6 +482,35 @@ theorem FiniteObservationBudgetSelectorCarrier_terminal_window_minimality
       exact ⟨terminalPkg, source.right, sameEndpoint⟩
   }
 
+theorem FiniteObservationBudgetSelectorCarrier_diagonal_tail_coverage
+    [AskSetup] [PackageSetup]
+    {B S W D R E H C P N terminal diagonalTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ->
+      Cont R E terminal ->
+        Cont terminal H diagonalTail ->
+          PkgSig bundle diagonalTail pkg ->
+            UnaryHistory B /\ UnaryHistory S /\ UnaryHistory W /\ UnaryHistory D /\
+              UnaryHistory R /\ UnaryHistory E /\ UnaryHistory terminal /\
+                UnaryHistory diagonalTail /\ Cont B S W /\ Cont W D R /\
+                  Cont R E terminal /\ Cont terminal H diagonalTail /\ hsame N E /\
+                    PkgSig bundle diagonalTail pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier terminalRoute diagonalRoute diagonalPkg
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, unaryH, routeW, routeR, _routeC, sameName⟩ :=
+    carrier
+  have unaryW : UnaryHistory W :=
+    unary_cont_closed unaryB unaryS routeW
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryW unaryD routeR
+  have unaryTerminal : UnaryHistory terminal :=
+    unary_cont_closed unaryR unaryE terminalRoute
+  have unaryDiagonalTail : UnaryHistory diagonalTail :=
+    unary_cont_closed unaryTerminal unaryH diagonalRoute
+  exact
+    ⟨unaryB, unaryS, unaryW, unaryD, unaryR, unaryE, unaryTerminal, unaryDiagonalTail,
+      routeW, routeR, terminalRoute, diagonalRoute, sameName, diagonalPkg⟩
+
 theorem FiniteObservationBudgetSelectorCarrier_terminal_section_exactness
     [AskSetup] [PackageSetup]
     {B S W D R E H C P N terminal terminalSection : BHist}
@@ -497,8 +526,8 @@ theorem FiniteObservationBudgetSelectorCarrier_terminal_section_exactness
                     PkgSig bundle terminalSection pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier terminalRoute sectionRoute sectionPkg
-  obtain ⟨unaryB, unaryS, unaryD, unaryE, routeW, routeR, _routeC, sameName⟩ :=
-    carrier
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, _unaryH, routeW, routeR, _routeC,
+    sameName⟩ := carrier
   have unaryW : UnaryHistory W :=
     unary_cont_closed unaryB unaryS routeW
   have unaryR : UnaryHistory R :=
@@ -539,7 +568,7 @@ theorem FiniteObservationBudgetSelectorCarrier_shared_tail_modulus_pullback
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier tauUnary dtUnary windowDyadic selectorSealRoute tailTauRoute
     tauSharedRead sameWindow sameDyadic sameRegular sameSeal selectorPkg sharedPkg
-  obtain ⟨unaryB, unaryS, unaryD, unaryE, budgetSchedule, _carrierWindowDyadic,
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, _unaryH, budgetSchedule, _carrierWindowDyadic,
     _carrierSeal, _sameName⟩ := carrier
   have unaryW : UnaryHistory W :=
     unary_cont_closed unaryB unaryS budgetSchedule
