@@ -561,3 +561,57 @@ quotient streams, selected host limits, host real equality, countable choice,
 ambient completeness, hidden selectors, and second seal sources, so the three
 presentations determine the same terminal packet.
 \end{proof}
+
+\begin{theorem}[CauchyCriterion terminal selector-seal no-choice exhaustion]
+\label{thm:cauchycriterion-terminal-selector-seal-nochoice-exhaustion}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, let
+$F=(B,S,V,D,R,E_F,H_F,C_F,P_F,N_F)$ be an accepted
+$\FiniteObservationBudgetSelectorUp$ packet, and let
+$X=(L,K_X,J_X,S_X,W_X,R_X,D_X,E_X,H_X,C_X,P_X,N_X)$ be an accepted
+$\RealCompletionExactBoundaryUp$ packet. Suppose the three packets share the
+displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$,
+componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+Then every terminal selector-to-seal read of the shared surface factors through,
+in order, the finite-request section, the finite observation-budget selector,
+the exact-boundary handoff, and the three-way terminal packet of
+\autoref{thm:cauchycriterion-selector-budget-three-way-terminality}.
+
+The resulting consumer-visible boundary exports only the selector request,
+finite StreamName window, RegSeqRat handoff, DyadicRatCore tolerance row,
+terminal Real boundary, and the shared $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support rows. It exports no quotient stream, selected host limit,
+host real equality, countable-choice schedule, ambient completeness, hidden
+selector, or second seal source.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchycriterion-finite-request-section-return}. The
+accepted CauchyCriterion packet returns the finite request section on the shared
+StreamName, RegSeqRat, DyadicRatCore, Real, transport, continuation, package,
+and local naming rows.
+
+Next use
+\autoref{thm:cauchycriterion-finite-observation-budget-selector-uniqueness}.
+This pins the finite observation-budget selector to the same displayed rows and
+removes any second selector packet before a terminal read can consume the seal
+surface.
+
+Now apply \autoref{thm:cauchycriterion-exact-boundary-selector-handoff}. The
+finite selector route is handed to the accepted exact-boundary packet, so every
+terminal selector-to-seal read must pass through the displayed
+$\RealCompletionExactBoundaryUp$ rows before a $\RealUp$ or $\CompletionUp$ seal
+is read.
+
+Finally combine
+\autoref{thm:cauchy-criterion-streamname-real-budget-selector-terminal-boundary}
+with \autoref{thm:cauchycriterion-selector-budget-three-way-terminality}. The
+first theorem gives the terminal StreamName--Real boundary, while the second
+identifies the finite-request, finite-budget, and exact-boundary presentations
+as one terminal packet.
+
+The carrier inventory of that packet is already exhausted by the displayed
+selector request, finite StreamName window, RegSeqRat handoff, DyadicRatCore
+tolerance row, terminal Real boundary, and shared support rows. Therefore a
+terminal read has no exported quotient stream, selected host limit, host real
+equality, countable-choice schedule, ambient completeness, hidden selector, or
+second seal source available outside the stated route.
+\end{proof}
