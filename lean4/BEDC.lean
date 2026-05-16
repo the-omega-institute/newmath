@@ -208,6 +208,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowModulus
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowCompletionPullback
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowRealSealPullback
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowReadbackStability
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealCompleteness
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
@@ -255,6 +256,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetTailMeetNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorNonemptyRoute
 import BEDC.Derived.CauchyModulusRefinementUp.SharedThresholdTransport
 import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowComparisonLock
+import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowRealSealPullback
 import BEDC.Derived.CauchyModulusRefinementUp.TerminalRealSealPullback
 import BEDC.Derived.CauchyModulusRefinementUp.WindowConsumerCoverage
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
