@@ -150,6 +150,44 @@ Apply \autoref{thm:kernel-category-certificate-surface}. The ledger non-escape o
 Functor semantics and limit objects would require additional carrier rows and additional laws. Since $P$ records only provenance for the displayed finite packet, it cannot export those structures.
 \end{proof}
 
+\begin{theorem}[KernelCategory endpoint transport closure]
+\label{thm:kernel-category-endpoint-transport-closure}
+For a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, componentwise endpoint $\hsame$ transport preserves the unary object table $O$ and the empty-continuation identity row $I$. Thus an endpoint read transported along $O$ remains an admitted object row, and the corresponding identity read remains the same local empty $\Cont$ row rather than a host identity arrow.
+\end{theorem}
+\begin{proof}
+Start from the carrier in \autoref{def:kernel-category-carrier}. It places object endpoints in the unary table $O$ and identity witnesses in the empty-continuation row $I$.
+
+Apply \autoref{thm:kernel-category-identity-continuation}. The identity row is not a host identity operation; it is the displayed empty $\Cont$ route attached to the unary object history.
+
+The certificate surface of \autoref{thm:kernel-category-certificate-surface} supplies the componentwise $\hsame$ transport rows. Transporting an endpoint therefore moves only the displayed unary object row and its empty-continuation identity row, while the non-escape clauses exclude host category objects, quotient morphisms, and external arrow equality.
+\end{proof}
+
+\begin{theorem}[KernelCategory composite endpoint determinacy]
+\label{thm:kernel-category-composite-endpoint-determinacy}
+For a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, any displayed $\Cont$ composite admitted by $C$ has exactly the source endpoint of the first continuation-ledger hom row and the target endpoint of the second continuation-ledger hom row. No host endpoint coordinate, quotient morphism endpoint, or external equality of arrows is available to alter those two displayed endpoints.
+\end{theorem}
+\begin{proof}
+Read the composite through \autoref{thm:kernel-category-composition-continuation}. It constructs the composite only from two hom rows in $H$ and the displayed $\Cont$ composite row in $C$.
+
+The first hom row supplies the source endpoint and the second hom row supplies the target endpoint. The carrier of \autoref{def:kernel-category-carrier} has no further endpoint coordinate outside $O,H,C$.
+
+Finally apply \autoref{thm:kernel-category-associativity-scope}, \autoref{thm:kernel-category-unit-scope}, and \autoref{thm:kernel-category-certificate-surface}. The law transports compare displayed continuation ledgers, and the certificate surface blocks host category endpoints, quotient morphism endpoints, and external arrow equality from participating in the endpoint read.
+\end{proof}
+
+\begin{theorem}[KernelCategory law transport exhaustion]
+\label{thm:kernel-category-law-transport-exhaustion}
+Once the carrier row $O,H,I,C,P,N$, the identity row $I$, and the composition row $C$ of a $\KernelCategoryUp$ packet are fixed, every associativity or unit read is exhausted by the law-transport rows $A$ and $U$. These law reads do not import host associativity, host unit equality, quotient morphisms, functor semantics, natural transformations, or limit objects.
+\end{theorem}
+\begin{proof}
+Fix the carrier with \autoref{def:kernel-category-carrier}. The rows $O,H,I,C,P,N$ determine the displayed object table, hom ledger, identity route, composition route, provenance, and local name.
+
+Use \autoref{thm:kernel-category-identity-continuation} and \autoref{thm:kernel-category-composition-continuation}. They ensure that identity and composition reads are already local to empty-continuation identity rows and displayed $\Cont$ composites.
+
+The remaining category-shaped laws are exactly the rows described by \autoref{thm:kernel-category-associativity-scope} and \autoref{thm:kernel-category-unit-scope}. Associativity reads pass through $A$, and unit reads pass through $U$.
+
+Finally apply \autoref{thm:kernel-category-certificate-surface}. Its public surface and non-escape clauses show that no host category law, quotient morphism, external equality of arrows, functorial semantics, natural transformation, or limit object remains after $A$ and $U$ have been read.
+\end{proof}
+
 \begin{theorem}[KernelCategory carrier admission obligation]
 \label{thm:kernel-category-carrier-admission-obligation}
 For a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, carrier admission is
