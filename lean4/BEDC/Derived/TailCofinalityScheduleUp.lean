@@ -246,6 +246,36 @@ theorem TailCofinalityScheduleCarrier_selector_seal_pullback [AskSetup] [Package
       pullbackUnary, precisionWindowDyadic, dyadicRegseqSeal, budgetWindowSelector,
       selectorRegseqSeal, sealEndpointPullback, endpointPkg, pullbackPkg⟩
 
+theorem TailCofinalityScheduleCarrier_cauchy_inverse_budget_factorization [AskSetup]
+    [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      inverseBudget reciprocalWindow factorRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      UnaryHistory inverseBudget →
+        Cont inverseBudget window reciprocalWindow →
+          Cont reciprocalWindow sealRow factorRead →
+            PkgSig bundle factorRead pkg →
+              UnaryHistory inverseBudget ∧ UnaryHistory window ∧
+                UnaryHistory reciprocalWindow ∧ UnaryHistory sealRow ∧
+                  UnaryHistory factorRead ∧ Cont inverseBudget window reciprocalWindow ∧
+                    Cont reciprocalWindow sealRow factorRead ∧ PkgSig bundle endpoint pkg ∧
+                      PkgSig bundle factorRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier inverseBudgetUnary inverseWindowReciprocal reciprocalSealFactor factorReadPkg
+  obtain ⟨_precisionUnary, windowUnary, _dyadicUnary, _regseqUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    _precisionWindowDyadic, _dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have reciprocalWindowUnary : UnaryHistory reciprocalWindow :=
+    unary_cont_closed inverseBudgetUnary windowUnary inverseWindowReciprocal
+  have factorReadUnary : UnaryHistory factorRead :=
+    unary_cont_closed reciprocalWindowUnary sealUnary reciprocalSealFactor
+  exact
+    ⟨inverseBudgetUnary, windowUnary, reciprocalWindowUnary, sealUnary, factorReadUnary,
+      inverseWindowReciprocal, reciprocalSealFactor, endpointPkg, factorReadPkg⟩
+
 theorem TailCofinalityScheduleCarrier_transport_determinacy [AskSetup] [PackageSetup]
     {precision window dyadic regseq sealRow transport route provenance localCert endpoint
       precision' window' dyadic' regseq' sealRow' transport' route' provenance' localCert'
