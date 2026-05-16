@@ -599,20 +599,27 @@ _INDEPENDENCE_WITNESS_RE = re.compile(r"\\independenceWitness\{")
 def detect_ai_chapter_missing_falsifiable_prediction(
     *, worktree: Path, base_sha: str
 ) -> list[str]:
-    """Newly-added `\\origin{ai}` chapters MUST include one
+    """First-proposal `\\origin{ai}` chapters MUST include one
     `\\falsifiablePrediction{...}` row stating a BEDC-verifiable
     consequence that, if disproved within N rounds, invalidates the
-    chapter. Without this row, the chapter is not committing to any
-    refutable claim and is therefore a vacuous placeholder."""
+    chapter. "First-proposal" = chapter file did NOT exist at base_sha.
+
+    Maintenance edits on existing chapters are exempt — if the chapter
+    landed on BASE_BRANCH without a falsifiable row, that's a historical
+    state issue, not a per-round penalty. (Same first-proposal-vs-
+    maintenance logic as the FieldFaithful gate; using `diff_filter="A"`
+    alone is fooled by merge-in of base commits with files added after
+    the worker's base_sha.)
+    """
     if not base_sha:
         return []
-    added = _changed_files(
+    changed = _changed_files(
         worktree=worktree, base_sha=base_sha,
-        prefix="papers/bedc/parts/concrete_instances/", diff_filter="A",
+        prefix="papers/bedc/parts/concrete_instances/",
     )
-    added = [p for p in added if p.endswith(".tex")]
+    changed = [p for p in changed if p.endswith(".tex")]
     violations: list[str] = []
-    for rel in added:
+    for rel in changed:
         m = _NAMECERT_FILE_RE.match(rel)
         if not m:
             continue
@@ -625,11 +632,18 @@ def detect_ai_chapter_missing_falsifiable_prediction(
             continue
         if not _ORIGIN_AI_RE.search(text):
             continue  # human chapter — exempt
+        # First-proposal detection: did the chapter file exist at base_sha?
+        try:
+            base_text = _git(["show", f"{base_sha}:{rel}"], cwd=worktree)
+        except Exception:
+            base_text = ""
+        if base_text.strip():
+            continue  # already on BASE — maintenance edit, exempt
         if not _FALSIFIABLE_PRED_RE.search(text):
             violations.append(
-                f"{rel}: AI MISSING FALSIFIABLE — `\\origin{{ai}}` "
-                f"chapter has no `\\falsifiablePrediction{{...}}` row. "
-                f"Every AI chapter must commit one BEDC-verifiable "
+                f"{rel}: AI MISSING FALSIFIABLE — newly-added "
+                f"`\\origin{{ai}}` chapter has no `\\falsifiablePrediction{{...}}` "
+                f"row. Every AI chapter must commit one BEDC-verifiable "
                 f"consequence that, if disproved within N rounds, "
                 f"invalidates the chapter (see preamble.tex / phase_c.txt)."
             )
@@ -639,22 +653,20 @@ def detect_ai_chapter_missing_falsifiable_prediction(
 def detect_ai_chapter_missing_independence_witness(
     *, worktree: Path, base_sha: str
 ) -> list[str]:
-    """Newly-added `\\origin{ai}` chapters claiming structural atomicity
-    (i.e. NOT marked `\\origin{ai-composite}`) MUST include one
-    `\\independenceWitness{...}` row naming 3-5 nearest siblings and
-    explaining why the carrier is not bijective to any of them. This
-    is the BEDC analogue of "this number is prime, not a product of
-    smaller numbers". A chapter that cannot name siblings or justify
-    independence is presumptively derivative."""
+    """First-proposal `\\origin{ai}` chapters claiming structural
+    atomicity (NOT `\\origin{ai-composite}`) MUST include one
+    `\\independenceWitness{...}` row naming 3-5 nearest siblings.
+    First-proposal = chapter file did NOT exist at base_sha. Maintenance
+    edits exempt (same fix as FALSIFIABLE / FIELDFAITHFUL gates)."""
     if not base_sha:
         return []
-    added = _changed_files(
+    changed = _changed_files(
         worktree=worktree, base_sha=base_sha,
-        prefix="papers/bedc/parts/concrete_instances/", diff_filter="A",
+        prefix="papers/bedc/parts/concrete_instances/",
     )
-    added = [p for p in added if p.endswith(".tex")]
+    changed = [p for p in changed if p.endswith(".tex")]
     violations: list[str] = []
-    for rel in added:
+    for rel in changed:
         m = _NAMECERT_FILE_RE.match(rel)
         if not m:
             continue
@@ -670,6 +682,13 @@ def detect_ai_chapter_missing_independence_witness(
             continue
         if re.search(r"\\origin\{ai-composite\}", text):
             continue  # composite chapters opt out
+        # First-proposal detection.
+        try:
+            base_text = _git(["show", f"{base_sha}:{rel}"], cwd=worktree)
+        except Exception:
+            base_text = ""
+        if base_text.strip():
+            continue  # maintenance edit, exempt
         if not _INDEPENDENCE_WITNESS_RE.search(text):
             violations.append(
                 f"{rel}: AI MISSING INDEPENDENCE — `\\origin{{ai}}` "
