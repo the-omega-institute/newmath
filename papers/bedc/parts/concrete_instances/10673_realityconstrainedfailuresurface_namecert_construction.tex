@@ -66,6 +66,20 @@ The replay row $C$ then determines how the defeat, domain-exit, mismatch, and le
 Finally apply non-escape from \autoref{thm:reality-constrained-failure-surface-nonescape}. A consumer that moves outside $U$ or erases a listed defeat asks for a coordinate absent from the packet, so the accepted continuation scope is exactly the displayed one.
 \end{proof}
 
+\begin{theorem}[Reality-constrained failure-surface domain-export refusal]
+\label{thm:reality-constrained-failure-surface-domain-export-refusal}
+For an accepted $\RealityConstrainedFailureSurfaceUp$ packet $F=(O,D,K,U,L,H,C,P,N)$, any truth export that crosses the displayed domain-exit row $D$ or omits the classifier-mismatch row $K$ is rejected by the failure-surface classifier unless the same packet exposes the defeating observation row $O$, continuation-scope row $U$, ledger row $L$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, provenance row $P$, and local $\NameCert_{\RealityConstrainedFailureSurfaceUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $F=(O,D,K,U,L,H,C,P,N)$. The rows $D$ and $K$ are displayed coordinates, so a truth export that crosses $D$ or omits $K$ asks the classifier to ignore part of the accepted packet.
+
+Invoke the NameCert obligations of \autoref{thm:reality-constrained-failure-surface-namecert-obligations}. The defeating observation, continuation scope, ledger, transport, replay, provenance, and local naming rows are all part of the same finite surface; none may be supplied by a hidden host witness.
+
+Use the continuation-scope theorem \autoref{thm:reality-constrained-failure-surface-continuation-scope}. Reuse is licensed only through $U$ and replayed only through $C$, so crossing the domain-exit row cannot create a wider export route.
+
+Finally apply non-escape from \autoref{thm:reality-constrained-failure-surface-nonescape}. Hidden evidence outside $O,D,K,U,L,H,C,P,N$ is not a coordinate of the packet, and the classifier rejects the attempted export unless the full displayed defeat surface is exposed.
+\end{proof}
+
 \falsifiablePrediction{Any certified truth export that omits the displayed $\RealityConstrainedFailureSurfaceUp$ row $F=(O,D,K,U,L,H,C,P,N)$ is rejected by the reality-constrained truth classifier.}
 
 \independenceWitness{realityconstrainedmodelaudit, realityconstrainedtruthcert, openfitpacket, lawcertificate, realityconstrainedsynthesisseal: none is bijective to $\RealityConstrainedFailureSurfaceUp$ because the carrier isolates defeating observations, domain exits, classifier mismatches, continuation scope, ledger, componentwise transport, replay, provenance, and local naming as one finite failure packet.}
@@ -77,7 +91,7 @@ Lean follow-up must provide \texttt{Nontrivial RealityConstrainedFailureSurfaceU
 \begin{closurestatus}{\RealityConstrainedFailureSurfaceUp}
   \constructivestory{A $\RealityConstrainedFailureSurfaceUp$ packet is generated from defeating observations, domain exits, classifier mismatches, continuation scope, ledger entries, componentwise transport, displayed replay, provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:reality-constrained-failure-surface-carrier}, \autoref{thm:reality-constrained-failure-surface-namecert-obligations}, \autoref{thm:reality-constrained-failure-surface-nonescape}, and \autoref{thm:reality-constrained-failure-surface-continuation-scope} bind the carrier, NameCert obligations, non-escape theorem, and continuation-scope theorem for the finite failure-surface packet.}
+  \scopeclosed{\autoref{def:reality-constrained-failure-surface-carrier}, \autoref{thm:reality-constrained-failure-surface-namecert-obligations}, \autoref{thm:reality-constrained-failure-surface-nonescape}, \autoref{thm:reality-constrained-failure-surface-continuation-scope}, and \autoref{thm:reality-constrained-failure-surface-domain-export-refusal} bind the carrier, NameCert obligations, non-escape theorem, continuation-scope theorem, and domain-export refusal for the finite failure-surface packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
