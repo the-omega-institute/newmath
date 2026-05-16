@@ -16,9 +16,9 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def FiniteTailFilterCarrier (S D R B Q E _H _C _P N : BHist) : Prop :=
+def FiniteTailFilterCarrier (S D R B Q E H _C _P N : BHist) : Prop :=
   -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
-  UnaryHistory S /\ UnaryHistory D /\ UnaryHistory B /\ UnaryHistory E /\
+  UnaryHistory S /\ UnaryHistory D /\ UnaryHistory B /\ UnaryHistory E /\ UnaryHistory H /\
     Cont S D R /\ Cont R B Q /\ hsame N E
 
 theorem FiniteTailFilterCarrier_tail_window_exactness
@@ -37,7 +37,8 @@ theorem FiniteTailFilterCarrier_tail_window_exactness
                   hsame := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
   intro carrier sealRoute sealPkg
-  obtain ⟨unaryS, unaryD, unaryB, unaryE, routeR, routeQ, sameNameSeal⟩ := carrier
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryH, routeR, routeQ, sameNameSeal⟩ :=
+    carrier
   have unaryR : UnaryHistory R :=
     unary_cont_closed unaryS unaryD routeR
   have unaryQ : UnaryHistory Q :=
@@ -100,7 +101,8 @@ theorem FiniteTailFilterCarrier_real_seal_handoff
                             PkgSig bundle completionRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier sealRoute unaryH realRoute unaryC completionRoute completionPkg
-  obtain ⟨unaryS, unaryD, unaryB, unaryE, routeR, routeQ, sameNameSeal⟩ := carrier
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryCarrierH, routeR, routeQ,
+    sameNameSeal⟩ := carrier
   have unaryR : UnaryHistory R :=
     unary_cont_closed unaryS unaryD routeR
   have unaryQ : UnaryHistory Q :=
@@ -115,6 +117,35 @@ theorem FiniteTailFilterCarrier_real_seal_handoff
     ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, unarySeal, unaryRealRead,
       unaryCompletionRead, routeR, routeQ, sealRoute, realRoute, completionRoute,
       sameNameSeal, completionPkg⟩
+
+theorem FiniteTailFilterCarrier_real_window_consumer
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N sealRow realWindowRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      Cont Q E sealRow ->
+        Cont sealRow H realWindowRead ->
+          PkgSig bundle realWindowRead pkg ->
+            UnaryHistory S /\ UnaryHistory D /\ UnaryHistory R /\ UnaryHistory B /\
+              UnaryHistory Q /\ UnaryHistory E /\ UnaryHistory sealRow /\
+                UnaryHistory realWindowRead /\ Cont S D R /\ Cont R B Q /\
+                  Cont Q E sealRow /\ Cont sealRow H realWindowRead /\ hsame N E /\
+                    PkgSig bundle realWindowRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sealRoute realWindowRoute realWindowPkg
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, unaryH, routeR, routeQ, sameNameSeal⟩ :=
+    carrier
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryS unaryD routeR
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryR unaryB routeQ
+  have unarySeal : UnaryHistory sealRow :=
+    unary_cont_closed unaryQ unaryE sealRoute
+  have unaryRealWindow : UnaryHistory realWindowRead :=
+    unary_cont_closed unarySeal unaryH realWindowRoute
+  exact
+    ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, unarySeal, unaryRealWindow,
+      routeR, routeQ, sealRoute, realWindowRoute, sameNameSeal, realWindowPkg⟩
 
 theorem FiniteTailFilterCarrier_cofinal_window_directedness_obligation
     [AskSetup] [PackageSetup]
@@ -132,7 +163,8 @@ theorem FiniteTailFilterCarrier_cofinal_window_directedness_obligation
                       PkgSig bundle replayRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier unaryC sealRoute replayRoute replayPkg
-  obtain ⟨unaryS, unaryD, unaryB, unaryE, routeR, routeQ, sameNameSeal⟩ := carrier
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryH, routeR, routeQ, sameNameSeal⟩ :=
+    carrier
   have unaryR : UnaryHistory R :=
     unary_cont_closed unaryS unaryD routeR
   have unaryQ : UnaryHistory Q :=
