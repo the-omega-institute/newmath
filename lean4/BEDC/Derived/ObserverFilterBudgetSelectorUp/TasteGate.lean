@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ObserverFilterBudgetSelectorUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -459,5 +461,34 @@ theorem ObserverFilterBudgetSelectorBridgeReadyRoute_support_fields_faithful
   injection tail10 with hProvenance tail11
   injection tail11 with hName _
   exact ⟨hTransport, hRoute, hProvenance, hName⟩
+
+theorem ObserverFilterBudgetSelectorCompletionConsumerFactorization
+    {filter identity selected omitted budget window dyadic handoff realSeal transport route
+      provenance name terminal : BHist}
+    (hfields :
+      observerFilterBudgetSelectorFields
+          (ObserverFilterBudgetSelectorUp.mk filter identity selected omitted budget window
+            dyadic handoff realSeal transport route provenance name) =
+        observerFilterBudgetSelectorFields
+          (ObserverFilterBudgetSelectorUp.mk filter identity selected omitted budget window
+            dyadic handoff realSeal transport route provenance terminal))
+    (sealTerminal : Cont handoff realSeal terminal) :
+    name = terminal ∧ Cont handoff realSeal name := by
+  -- BEDC touchpoint anchor: BHist Cont
+  injection hfields with _ tail0
+  injection tail0 with _ tail1
+  injection tail1 with _ tail2
+  injection tail2 with _ tail3
+  injection tail3 with _ tail4
+  injection tail4 with _ tail5
+  injection tail5 with _ tail6
+  injection tail6 with _ tail7
+  injection tail7 with _ tail8
+  injection tail8 with _ tail9
+  injection tail9 with _ tail10
+  injection tail10 with _ tail11
+  injection tail11 with hName _
+  subst hName
+  exact ⟨rfl, sealTerminal⟩
 
 end BEDC.Derived.ObserverFilterBudgetSelectorUp
