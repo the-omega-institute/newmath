@@ -334,6 +334,44 @@ finite route plus $B,O,H,C,P,N$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealWindowBudgetUp.RealWindowBudgetCarrier\_finite\_window\_source\_exhaustion}
 
+\begin{theorem}[Real-window budget terminal pullback coherence]
+\label{thm:real-window-budget-terminal-pullback-coherence}
+Every accepted $\RealWindowBudgetUp$ packet whose finite route
+$$
+Q \to V \to D \to R \to S
+$$
+is consumed by a $\RealCompletionSelectorSealUp$ terminal route and a
+$\RealCompletionExactBoundaryUp$ four-face boundary factors through the same
+displayed rows $Q,V,D,R,S,B,O,H,C,P,N$. Selector-budget totality and
+exact-boundary four-face exactness agree on the StreamName window, RegSeqRat
+readback, and Real seal faces, and the pullback introduces no quotient stream,
+selected limit, host equality, countable choice, or ambient completeness
+coordinate.
+\end{theorem}
+\begin{proof}
+Start from the local Real-completion scope,
+\autoref{thm:realwindowbudget-real-completion-scope}. It restricts every Real
+or Completion-facing consumer of the packet to the finite route
+$Q \to V \to D \to R \to S$ together with the support rows $B,O,H,C,P,N$.
+
+Apply selector-budget totality and selector-seal terminality,
+\autoref{thm:real-completion-selector-seal-selector-budget-totality} and
+\autoref{thm:real-completion-selector-seal-terminality}. These identify the
+selector-seal consumer as a terminal read of the same StreamName window,
+RegSeqRat readback, Real seal, and selector budget rows rather than as an
+external limit-selection device.
+
+Now use exact-boundary four-face exactness,
+\autoref{thm:real-completion-exact-boundary-four-face-exactness}. Its boundary
+faces read the Real seal through the displayed completion route, so the
+selector-seal face and exact-boundary face meet on the same packet rows.
+
+The carrier and NameCert obligations of the $\RealWindowBudgetUp$ packet list
+no quotient stream, selected limit, host equality, countable-choice coordinate,
+or ambient completeness coordinate. Hence the two completion consumers pull
+back through the displayed finite rows and nowhere else.
+\end{proof}
+
 \falsifiablePrediction{A Real-facing consumer that omits the displayed $\RealWindowBudgetUp$ packet $W=(Q,V,D,R,S,B,O,H,C,P,N)$ cannot cite the finite observation route of \autoref{sec:reality-constrained-synthesis} as a completed Real handoff.}
 
 \independenceWitness{streamname, dyadicratcore, regseqrat, real, cauchydiagonalbudget, realobservationbudget: none is bijective to $\RealWindowBudgetUp$ because the carrier packages the request, finite windows, dyadic readbacks, regular handoff, Real seal, selector budget, disclosure budget, componentwise transport, continuation replay, provenance, and local naming as one finite route.}
