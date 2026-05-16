@@ -102,6 +102,7 @@ Apply window-tolerance exactness, \autoref{thm:cauchy-modulus-refinement-window-
 
 Finally apply Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}. Since every Real or Completion consumer is covered by the displayed route before reading $E$, the selector budget, finite window, and readback rows exhaust the root budget consumer surface.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_root\_budget\_consumer\_exhaustion}
 
 \begin{theorem}[Cauchy modulus refinement root-window Real seal determinacy]
 \label{thm:cauchy-modulus-refinement-root-window-real-seal-determinacy}
@@ -626,4 +627,52 @@ common consumer surface with the selector path followed by the L10 spine and
 removes quotient streams, host real equality, selected limits, ambient
 completeness, and Real completeness from the available row inventory. Hence the
 Real-window budget packet consumes exactly the same finite refinement route.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement Real-window budget terminality]
+\label{thm:cauchy-modulus-refinement-real-window-budget-terminality}
+Let an accepted $\CauchyModulusRefinementUp$ route have threshold rows that
+feed an accepted $\RealWindowBudgetUp$ packet. Every $\RealUp$ or
+Completion-facing consumer of that route factors through the same finite
+request, $\StreamNameUp$ window, $\DyadicRatCoreUp$ readback,
+$\RegSeqRatUp$ handoff, $\RealUp$ seal, $\CauchyDiagonalBudgetUp$ selector,
+$\RealObservationBudgetUp$ disclosure, and support packet $H,C,P,N$ displayed
+in \autoref{thm:cauchy-modulus-refinement-real-window-budget-pullback}.
+Conversely, that packet supplies all consumer-visible rows of the accepted
+route.
+
+Thus no such consumer can read a quotient stream, host real equality,
+selected limit, countable-choice row, ambient completeness datum, independent
+Real-completeness witness, or second selector or disclosure route.
+\end{theorem}
+\begin{proof}
+First expose the root route. Root threshold public exhaustion and the Real
+seal handoff,
+\autoref{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion} and
+\autoref{thm:cauchy-modulus-refinement-real-seal-handoff}, place every
+accepted refinement route on the public threshold, finite request, window,
+dyadic readback, regular handoff, Real seal, and support rows before a
+Real-facing or Completion-facing consumer can read it.
+
+Next apply the Real-window budget pullback,
+\autoref{thm:cauchy-modulus-refinement-real-window-budget-pullback}. It
+identifies the accepted $\RealWindowBudgetUp$ packet with the same finite
+request, window, readback, handoff, seal, selector, disclosure, and support
+packet. Hence every consumer of the refinement route factors through that
+packet.
+
+For the converse, use L10 row exactness together with the selector-spine
+terminal pullback,
+\autoref{thm:cauchy-modulus-refinement-l10-row-exactness} and
+\autoref{thm:cauchy-modulus-refinement-selector-spine-terminal-pullback}.
+The first theorem says that the displayed packet is exactly the L10 consumer
+inventory with $H,C,P,N$, while the second makes that selector-spine packet
+terminal among $\RealUp$ and Completion-facing pullbacks. Therefore the packet
+supplies all consumer-visible rows.
+
+The same two terminal facts give non-escape. There is no coordinate in the
+packet for quotient streams, host real equality, selected limits, countable
+choice, ambient completeness, an independent Real-completeness witness, or a
+second selector or disclosure route, so no accepted downstream consumer can
+recover one.
 \end{proof}

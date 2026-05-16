@@ -1,0 +1,35 @@
+\begin{theorem}[CriticalLineWitness root handoff exhaustion]
+\label{thm:critical-line-witness-root-handoff-exhaustion}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet whose root route is read through the fixed strip, modulus, rational comparison, refusal budget, transport, continuation, package, and local $\NameCert$ rows. Then every accepted root handoff of $W$ is exhausted by those displayed rows. It has no coordinate for analytic continuation, an $\mathsf{RH}$ proof, host equality, quotient representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the finite-budget source route. The source-totality theorem \autoref{thm:critical-line-witness-root-finite-budget-source-totality} places the accepted root read on the fixed zero row, critical-strip row, modulus row, rational comparison row, refusal-budget ledger, transport, replay, provenance, and local naming rows.
+
+Next apply finite-budget ledger stability. The ledger-stability theorem \autoref{thm:critical-line-witness-root-finite-budget-ledger-stability} keeps comparison and refusal data on the same displayed source route under $\hsame$ transport and $\Cont$ replay.
+
+Finally use fixed-strip budget route determinacy. The theorem \autoref{thm:critical-line-witness-fixed-strip-budget-route-determinacy} says that the fixed-strip route has no alternate analytic, host, quotient, or ambient-completeness branch. Therefore the handoff is exhausted by the finite packet rows and cannot export an $\mathsf{RH}$ proof or analytic-continuation coordinate.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness root classifier budget lock]
+\label{thm:critical-line-witness-root-classifier-budget-lock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. If a classifier-facing read and a finite-budget read preserve the same displayed fixed-strip source route under $\hsame$ transport and $\Cont$ replay, then the classifier row and the refusal-budget rows remain locked to that route. Transport and replay cannot replace the displayed classifier by analytic continuation, zero search, host equality, quotient representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First read the classifier from the root packet. Classifier exactness identifies the root classifier with the supplied zero row, critical-strip row, modulus and comparison rows, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ surface.
+
+Now read the budget side. The finite-budget source-totality and ledger-stability theorems keep the refusal budget on the same $Z,S,M,R,Q,H,C,P,N$ route and preserve it under the same $\hsame$ and $\Cont$ rows.
+
+It remains to compare the two reads. Fixed-strip budget route determinacy prevents the budget read from branching to analytic continuation, zero search, host equality, quotient representatives, or ambient completeness. Since both reads preserve the same displayed route, the classifier and budget rows stay locked to the same finite packet.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness root downstream consumer totality]
+\label{thm:critical-line-witness-root-downstream-consumer-totality}
+Every downstream zeta-continuation or critical-line consumer of an accepted $\CriticalLineWitnessUp$ root packet factors through the finite packet consisting of the fixed strip, modulus, rational comparison, refusal budget, transport, continuation, package, and local $\NameCert$ rows before any public read. No downstream consumer receives an analytic-continuation certificate, an $\mathsf{RH}$ proof, host equality, quotient representatives, ambient completeness, or a direct critical-line bypass.
+\end{theorem}
+\begin{proof}
+Begin with root handoff exhaustion. The preceding theorem confines the root handoff to the fixed-strip, modulus, rational-comparison, refusal-budget, transport, replay, provenance, and naming rows.
+
+Next lock the classifier to the same budget surface. The classifier-budget theorem above ensures that $\hsame$ transport and $\Cont$ replay preserve the classifier and refusal ledger on exactly the same displayed route.
+
+Finally apply the downstream fixed-strip boundary supplied by fixed-strip budget route determinacy. A zeta-continuation or critical-line consumer can only read the finite packet already exposed by the root route. Thus every public downstream read factors through that packet before it is read, and the excluded analytic, $\mathsf{RH}$, host, quotient, completeness, and bypass coordinates remain absent.
+\end{proof}

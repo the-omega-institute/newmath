@@ -482,4 +482,76 @@ theorem FiniteObservationBudgetSelectorCarrier_terminal_window_minimality
       exact ⟨terminalPkg, source.right, sameEndpoint⟩
   }
 
+theorem FiniteObservationBudgetSelectorCarrier_terminal_section_exactness
+    [AskSetup] [PackageSetup]
+    {B S W D R E H C P N terminal terminalSection : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ->
+      Cont R E terminal ->
+        Cont terminal E terminalSection ->
+          PkgSig bundle terminalSection pkg ->
+            UnaryHistory B ∧ UnaryHistory S ∧ UnaryHistory W ∧ UnaryHistory D ∧
+              UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory terminal ∧
+                UnaryHistory terminalSection ∧ Cont B S W ∧ Cont W D R ∧
+                  Cont R E terminal ∧ Cont terminal E terminalSection ∧ hsame N E ∧
+                    PkgSig bundle terminalSection pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier terminalRoute sectionRoute sectionPkg
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, routeW, routeR, _routeC, sameName⟩ :=
+    carrier
+  have unaryW : UnaryHistory W :=
+    unary_cont_closed unaryB unaryS routeW
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryW unaryD routeR
+  have unaryTerminal : UnaryHistory terminal :=
+    unary_cont_closed unaryR unaryE terminalRoute
+  have unarySection : UnaryHistory terminalSection :=
+    unary_cont_closed unaryTerminal unaryE sectionRoute
+  exact
+    ⟨unaryB, unaryS, unaryW, unaryD, unaryR, unaryE, unaryTerminal, unarySection,
+      routeW, routeR, terminalRoute, sectionRoute, sameName, sectionPkg⟩
+
+theorem FiniteObservationBudgetSelectorCarrier_shared_tail_modulus_pullback
+    [AskSetup] [PackageSetup]
+    {B S W D R E H C P N M0 M1 tau DT W0 Q0 ET sharedRead selectorSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N →
+      UnaryHistory tau →
+        UnaryHistory DT →
+          Cont W D R →
+            Cont R E selectorSeal →
+              Cont M0 M1 tau →
+                Cont tau DT sharedRead →
+                  hsame W W0 →
+                    hsame D DT →
+                      hsame R Q0 →
+                        hsame E ET →
+                          PkgSig bundle selectorSeal pkg →
+                            PkgSig bundle sharedRead pkg →
+                              UnaryHistory W ∧ UnaryHistory D ∧ UnaryHistory R ∧
+                                UnaryHistory E ∧ UnaryHistory selectorSeal ∧
+                                  UnaryHistory sharedRead ∧ Cont W D R ∧
+                                    Cont R E selectorSeal ∧ Cont M0 M1 tau ∧
+                                      Cont tau DT sharedRead ∧ hsame W W0 ∧
+                                        hsame D DT ∧ hsame R Q0 ∧ hsame E ET ∧
+                                          PkgSig bundle selectorSeal pkg ∧
+                                            PkgSig bundle sharedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier tauUnary dtUnary windowDyadic selectorSealRoute tailTauRoute
+    tauSharedRead sameWindow sameDyadic sameRegular sameSeal selectorPkg sharedPkg
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, budgetSchedule, _carrierWindowDyadic,
+    _carrierSeal, _sameName⟩ := carrier
+  have unaryW : UnaryHistory W :=
+    unary_cont_closed unaryB unaryS budgetSchedule
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryW unaryD windowDyadic
+  have selectorUnary : UnaryHistory selectorSeal :=
+    unary_cont_closed unaryR unaryE selectorSealRoute
+  have sharedUnary : UnaryHistory sharedRead :=
+    unary_cont_closed tauUnary dtUnary tauSharedRead
+  exact
+    ⟨unaryW, unaryD, unaryR, unaryE, selectorUnary, sharedUnary, windowDyadic,
+      selectorSealRoute, tailTauRoute, tauSharedRead, sameWindow, sameDyadic, sameRegular,
+      sameSeal, selectorPkg, sharedPkg⟩
+
 end BEDC.Derived.FiniteObservationBudgetSelectorUp

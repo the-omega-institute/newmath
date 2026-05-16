@@ -110,3 +110,44 @@ Thus all public consumer reads are exhausted by the rows of
 \autoref{thm:prod-public-finite-data-exit-package}, and the consumer factors
 through that package.
 \end{proof}
+
+\begin{theorem}[Finite-data product, sum, and list envelope separation]
+\label{thm:finite-data-product-sum-list-envelope-separation}
+Any public finite-data consumer spanning $\ProdUp$, $\SumUp$, and $\ListUp$
+must preserve three distinct envelope rows. The product route reads through the
+displayed-pair ledger and the componentwise classifier of
+\autoref{thm:prod-public-finite-data-exit-package}. The sum route reads through
+the visible tag and branch classifier of
+\autoref{thm:sum-history-classifier-tag-separation}. The list route reads
+through the spine bridge and prefix classifier of
+\autoref{thm:list-represented-spine-classifier-displayed-exactness}.
+
+Consequently no public consumer may replace these rows by host tuple equality,
+a generic finite-data quotient, or a common untagged carrier. Such a
+replacement would erase the ledger/classifier boundary that distinguishes pair
+display, tag display, and spine display.
+\end{theorem}
+\begin{proof}
+Start with the product public exit package and its consumer universality. By
+\autoref{thm:prod-public-finite-data-exit-package} and
+\autoref{thm:prod-finite-data-public-exit-consumer-universality}, every public
+product read factors through source certificate rows, the displayed-pair
+ledger, the componentwise classifier, descent to the product history envelope,
+$\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+For sums, use the checked tag-separation surface. The theorem
+\autoref{thm:sum-history-classifier-tag-separation} forces mixed visible tags
+to be impossible, while the same-tag stability rows keep each accepted read
+inside the branch classifier attached to its tag.
+
+For lists, use the spine bridge exactness theorem. The displayed spine row and
+prefix classifier identify the accepted list route through the spine bridge,
+not through a detached host sequence or an untagged finite-data carrier.
+
+Inspecting the three rows gives different ledger/classifier boundaries:
+products expose pair display plus componentwise classification, sums expose tag
+display plus branch classification, and lists expose spine display plus prefix
+classification. A single host tuple equality, generic quotient, or untagged
+carrier would identify these boundaries, so it is not a public finite-data
+consumer for the three constructors at once.
+\end{proof}
