@@ -304,4 +304,26 @@ theorem FiniteTailFilterCarrier_transport_obligation
       unaryS', unaryD', unaryR', unaryB', unaryQ', unaryE', routeR', routeQ',
       sameNameSeal', pkgSig⟩
 
+theorem FiniteTailFilterCarrier_nonescape
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N S' D' R' B' Q' E' H' C' P' N' : BHist} :
+    FiniteTailFilterCarrier S D R B Q E H C P N →
+      FiniteTailFilterCarrier S' D' R' B' Q' E' H' C' P' N' →
+        hsame S S' → hsame D D' → hsame B B' → hsame E E' →
+          hsame R R' ∧ hsame Q Q' ∧ hsame N N' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier carrier' sameS sameD sameB sameE
+  obtain ⟨_unaryS, _unaryD, _unaryB, _unaryE, _unaryH, routeR, routeQ,
+    sameNameSeal⟩ := carrier
+  obtain ⟨_unaryS', _unaryD', _unaryB', _unaryE', _unaryH', routeR', routeQ',
+    sameNameSeal'⟩ := carrier'
+  have sameR : hsame R R' :=
+    cont_respects_hsame sameS sameD routeR routeR'
+  have sameQ : hsame Q Q' :=
+    cont_respects_hsame sameR sameB routeQ routeQ'
+  have sameN : hsame N N' :=
+    hsame_trans sameNameSeal
+      (hsame_trans sameE (hsame_symm sameNameSeal'))
+  exact ⟨sameR, sameQ, sameN⟩
+
 end BEDC.Derived.FiniteTailFilterUp
