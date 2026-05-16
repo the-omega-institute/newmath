@@ -683,6 +683,26 @@ The non-escape theorem rules out the remaining alternatives. Quotient streams, s
 
 \input{parts/concrete_instances/regularcauchymoduluswitnessledger/completion_consumer_boundary.tex}
 
+\begin{theorem}[Regular Cauchy modulus witness-ledger L10 exit boundary]
+\label{thm:regular-cauchy-modulus-witness-ledger-exit-boundary}
+For every accepted $\RegularCauchyModulusWitnessLedgerUp$ packet
+$$
+L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M),
+$$
+the packet is an L10 exit-boundary packet exactly when its displayed rows factor through the shared sibling surfaces: the $\StreamNameUp$ finite-window surface $W$, the $\RegSeqRatUp$ seal-readback rows $X,Q$, the $\RealUp$ finite-window ledger boundary $S$, the $\DyadicRatCoreUp$ finite ledger $D$, and the $\UniformCauchyCriterionUp$ exit factor over $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$. Conversely, these five displayed sibling surfaces reconstruct the same witness-ledger exit boundary using only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, dyadic-ledger, and finite-window rows, and add no quotient stream, host limit, selected limit, host real equality, countable-choice row, ambient completeness datum, or detached completion carrier.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with the open Phase Real and Completion exit surface of \autoref{thm:regular-cauchy-modulus-witness-ledger-open-phase-exit-sufficiency}. It exposes the accepted packet as the finite route from the witnessed modulus row through the StreamName, DyadicRatCore, RegSeqRat, and RealUp rows.
+
+Next apply source-row coverage, consumer-obligation exhaustion, and StreamName-RegSeqRat-Real exactness. These identify $W$ as the finite-window surface, $D$ as the dyadic finite ledger, $X,Q$ as the regular-source and readback surface, and $S$ as the RealUp boundary row consumed by the same packet.
+
+Finally apply the UniformCauchyCriterion exit factor, dyadic-tail cofinal readback, and seal-classifier scope. They keep the exit consumer on $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$ and rule out any completion-facing coordinate outside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, dyadic-ledger, and finite-window rows.
+
+For the reverse direction, suppose the five sibling surfaces are displayed over the same rows. StreamName-RegSeqRat-Real exactness and source-triad terminality, \autoref{thm:regular-cauchy-modulus-witness-ledger-streamname-regseqrat-real-exactness} and \autoref{thm:regular-cauchy-modulus-witness-ledger-source-triad-terminality}, assemble $W,D,Q,S$ into the L10 handoff.
+
+Modulus-normalizer-tail coherence and root consumer handoff totality, \autoref{thm:regular-cauchy-modulus-witness-ledger-modulus-normalizer-tail-coherence} and \autoref{thm:regular-cauchy-modulus-witness-ledger-root-consumer-handoff-totality}, then attach $X,\mu,N_0,T,H,C,P,M$ to that handoff. The resulting packet is the same witness-ledger exit boundary because the non-escape theorem leaves no row for quotient streams, host limits, selected limits, host real equality, countable choice, ambient completeness, or detached completion data.
+\end{proof}
+
 \falsifiablePrediction{If a RealUp seal consumer reads a regular Cauchy modulus without the displayed witness-ledger row, normalized route row, finite-window row, dyadic tolerance row, and RegSeqRat readback row, the packet is refuted.}
 
 \independenceWitness{regular-cauchy-modulus-normalizer, cauchymodulusmeet, regular-cauchy-tail-budget, real-completion-seal-classifier, streamname: no sibling is bijective because this packet uniquely binds the witnessed modulus ledger to the downstream finite-window and RealUp seal route; each sibling omits either the single witness ledger, the normalized route, or the RealUp consumer seal.}
