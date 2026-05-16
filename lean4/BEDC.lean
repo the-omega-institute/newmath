@@ -679,6 +679,7 @@ import BEDC.Derived.CauchyCriterionUp.RegSeqRatStreamNameRealUpHandoff
 import BEDC.Derived.CauchyCriterionUp.RealTailAgreementRouteCorrespondence
 import BEDC.Derived.CauchyCriterionUp.StreamNameRealBudgetSelectorBoundary
 import BEDC.Derived.CauchyCriterionUp.UniformSelectorSealCompatibility
+import BEDC.Derived.CauchyCriterionUp.UniformCriterionFiniteFamilyReduction
 import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyPairingUp
 import BEDC.Derived.CauchyFilterUp
