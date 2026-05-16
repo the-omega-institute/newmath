@@ -112,4 +112,30 @@ theorem KernelCategoryCarrier_certificate_surface
     ⟨cert, unaryObject, identityCarrier, compositionRoute, associativitySame, unitSame,
       nameSame⟩
 
+theorem KernelCategoryCarrier_continuation_monad_consumer_exhaustion
+    {object hom identity composition associativity unit provenance name unitRead bindRead : BHist} :
+    KernelCategoryCarrier object hom identity composition associativity unit provenance name ->
+      UnaryHistory composition ->
+        hsame unitRead identity ->
+          Cont hom composition bindRead ->
+            UnaryHistory unitRead ∧ UnaryHistory bindRead ∧
+              Cont identity composition hom ∧ Cont hom composition bindRead ∧
+                hsame unitRead identity ∧ hsame associativity (append hom composition) ∧
+                  hsame unit identity ∧ hsame name (append provenance unit) := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame CategoryHomCarrier
+  intro carrier compositionUnary unitReadSame bindRoute
+  obtain ⟨_objectUnary, identityCarrier, identityCompositionHom, associativitySame,
+    unitSame, nameSame⟩ := carrier
+  have identityUnary : UnaryHistory identity :=
+    identityCarrier.right.right.left
+  have homUnary : UnaryHistory hom :=
+    unary_cont_closed identityUnary compositionUnary identityCompositionHom
+  have unitReadUnary : UnaryHistory unitRead :=
+    unary_transport identityUnary (hsame_symm unitReadSame)
+  have bindUnary : UnaryHistory bindRead :=
+    unary_cont_closed homUnary compositionUnary bindRoute
+  exact
+    ⟨unitReadUnary, bindUnary, identityCompositionHom, bindRoute, unitReadSame,
+      associativitySame, unitSame, nameSame⟩
+
 end BEDC.Derived.KernelCategoryUp
