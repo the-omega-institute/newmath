@@ -180,6 +180,10 @@ instance realityConstrainedSignatureFitNontrivial :
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate RealityConstrainedSignatureFitUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  realityConstrainedSignatureFitChapterTasteGate
+
 theorem RealityConstrainedSignatureFitTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       realityConstrainedSignatureFitDecodeBHist
