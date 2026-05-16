@@ -1,0 +1,43 @@
+\begin{theorem}[MetaCIC normalization frontier root formal handoff totality]
+\label{thm:metacic-normalization-frontier-root-formal-handoff-totality}
+Every root formal handoff of an accepted $\MetaCICNormalizationFrontierUp$ packet is total only over the finite root packet
+$$
+F=(C,K,E,N,S,H,R,P,L).
+$$
+The rows $C,K,E,N,S,H,R,P,L$ bind candidate evidence, the candidate gate, finished-normal evidence, the normal endpoint, the obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\MetaCICNormalizationFrontierUp}$ row to the existing carrier. The handoff exports no scheduler state, host reachability predicate, closed-consistency theorem, erased subject-reduction transport, or hidden normalization source outside that carrier.
+\end{theorem}
+\begin{proof}
+Begin with the displayed root carrier rows. Theorem~\ref{thm:metacic-normalization-frontier-root-carrier-rows} and Theorem~\ref{thm:metacic-normalization-frontier-carrier-admission} expose exactly $C,K,E,N,S,H,R,P,L$, so a formal handoff has no additional coordinate from which to read normalization content.
+
+Next project the positive entrances. Theorem~\ref{thm:metacic-normalization-frontier-root-candidate-gate-projection} binds candidate evidence to $C,K$, while Theorem~\ref{thm:metacic-normalization-frontier-root-normal-endpoint-route-exhaustion} routes normal-endpoint use through $E,N,R,P,L$.
+
+Finally retain the obstruction and consumer rows. Theorem~\ref{thm:metacic-normalization-frontier-root-obstruction-preserving-namecert-triad}, Theorem~\ref{thm:metacic-normalization-frontier-root-normalization-gate-exhaustion}, and Theorem~\ref{thm:metacic-normalization-frontier-consumer-route-exhaustion} keep $S,H,R,P,L$ visible for downstream reads. Thus the handoff is total for the displayed carrier and for no hidden host, scheduler, consistency, or erased subject-reduction input.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root gate scope exactness]
+\label{thm:metacic-normalization-frontier-root-gate-scope-exactness}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet $F=(C,K,E,N,S,H,R,P,L)$, the root candidate gate has exact scope $C,K$ inside the same carrier and can feed a normal-endpoint read only through the displayed endpoint route $E,N,R,P,L$ with obstruction retention through $S,H,L$. It cannot be widened to closed consistency, host reachability, scheduler progress, or erased subject-reduction transport.
+\end{theorem}
+\begin{proof}
+Project the candidate side first. Theorem~\ref{thm:metacic-normalization-frontier-root-candidate-gate-projection} identifies the candidate gate with $C,K$, and Theorem~\ref{thm:metacic-normalization-frontier-candidate-obstruction-separation} keeps the obstruction row $S$ outside that positive candidate evidence.
+
+Now read the endpoint route. Theorem~\ref{thm:metacic-normalization-frontier-root-normal-endpoint-route-exhaustion} and Theorem~\ref{thm:metacic-normalization-frontier-root-closed-normal-route-totality} place endpoint use under $E,N,R,P,L$, rather than under an external host theorem or scheduler row.
+
+The scope is exact because the gate-exhaustion and obstruction-preservation rows add no third positive source. Apply Theorem~\ref{thm:metacic-normalization-frontier-root-obstruction-preserving-namecert-triad} and Theorem~\ref{thm:metacic-normalization-frontier-root-normalization-gate-exhaustion}: they preserve $S,H,R,P,L$ while excluding hidden closed consistency, host reachability, scheduler progress, and erased subject-reduction transport.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root downstream consumer coverage]
+\label{thm:metacic-normalization-frontier-root-downstream-consumer-coverage}
+Every downstream MetaCIC consumer of an accepted $\MetaCICNormalizationFrontierUp$ root packet that reads candidate evidence, normal endpoint data, obstruction status, replay, provenance, or local naming factors through
+$$
+C,K,E,N,S,H,R,P,L.
+$$
+The consumer coverage includes the existing carrier, candidate gate, normal endpoint route, obstruction-preserving NameCert triad, root normalization gate, and local NameCert rows; it excludes hidden scheduler state, host reachability, closed consistency, erased subject-reduction transport, and any route outside the displayed consumer packet.
+\end{theorem}
+\begin{proof}
+First take the carrier and candidate gate as the consumer source. Theorem~\ref{thm:metacic-normalization-frontier-root-carrier-rows} supplies the packet $C,K,E,N,S,H,R,P,L$, and Theorem~\ref{thm:metacic-normalization-frontier-root-candidate-gate-projection} fixes candidate reads through $C,K$.
+
+Next account for normal endpoints and obstruction retention. Theorem~\ref{thm:metacic-normalization-frontier-root-normal-endpoint-route-exhaustion} routes endpoint reads through $E,N,R,P,L$, while Theorem~\ref{thm:metacic-normalization-frontier-root-obstruction-preserving-namecert-triad} keeps $S,H,L$ visible under the same local naming surface.
+
+Finally apply route exhaustion. Theorem~\ref{thm:metacic-normalization-frontier-root-normalization-gate-exhaustion} exhausts root normalization-facing reads, and Theorem~\ref{thm:metacic-normalization-frontier-consumer-route-exhaustion} exhausts downstream consumer routes. Therefore every downstream consumer factors through the displayed rows and none may import scheduler state, host reachability, closed consistency, erased subject-reduction transport, or an unlisted route.
+\end{proof}
