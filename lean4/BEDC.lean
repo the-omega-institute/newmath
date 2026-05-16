@@ -701,6 +701,9 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportSiblingHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerNormalization
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelConsumerAudit
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootTransportAudit
+import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelNonescape
+import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
+import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.MonotoneCauchyUp
@@ -1306,6 +1309,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootL10SpineExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SealSourceScope
 import BEDC.Derived.DiagonallimitcompatibilityUp.ConsumerThreshold
 import BEDC.Derived.DiagonallimitcompatibilityUp.CauchyLimitFunctorHandoff
+import BEDC.Derived.DiagonallimitcompatibilityUp.CauchyFunctorSelectorAdmissionLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.CauchyModulusRefinementRoute
 import BEDC.Derived.DiagonallimitcompatibilityUp.CauchyTailEnvelopeFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.SourceLedger
