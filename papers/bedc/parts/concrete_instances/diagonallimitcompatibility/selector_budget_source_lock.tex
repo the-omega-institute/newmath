@@ -21,6 +21,7 @@ be an accepted $\RealLimitUniquenessSealUp$ packet whose two $\CauchyLimitSealUp
 
 Then every uniqueness consumer factors through the displayed diagonal selector-budget route of $K$ before reading $V_U$. No accepted pullback may insert quotient streams, selected limits, host real equality, countable choice, independent completion data, ambient completeness, or a second completion-facing source.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitSelectorBudgetRealLimitUniquenessPullback}
 \begin{proof}
 First lock the diagonal source. Apply \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock} and \autoref{thm:diagonal-limit-selector-budget-route-determinacy}. These force every selector-budget read of $K$ through the displayed diagonal source and the rows $W,D,Q,L,H,C,P,N$.
 
@@ -85,6 +86,30 @@ Start with \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock
 Next apply \autoref{thm:diagonal-limit-compatibility-seal-synchronizer-budget-handoff}. The seal-facing handoff sits downstream of the same finite selector-budget prefix, so a downstream reader cannot insert an alternate seal route between the readback row $Q$ and the $\RealUp$ seal row $L$.
 
 Finally apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-budget-nonescape}. Every $\CompletionUp$-facing or $\RealUp$-facing consumer using the selector budget is exhausted by the displayed packet coordinates. Hence two such consumer routes with the same displayed diagonal source and the same rows $W,D,Q,L,H,C,P,N$ have no coordinate on which to differ, and the selector-budget route is determined by that finite surface.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit selector-budget Real-seal nonescape]
+\label{thm:diagonal-limit-selector-budget-real-seal-nonescape}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Every selector-budget $\RealUp$-seal consumer of $K$ reaches the seal row $L$ only through the displayed diagonal source together with the $\StreamNameUp$ window row $W$, the $\DyadicRatCoreUp$ ledger row $D$, the $\RegSeqRatUp$ readback row $Q$, and the structural rows $H,C,P,N$. The consumer has no route through quotient streams, selected limits, host equality, choice data, independent completion data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock}. It fixes every selector-budget read of $K$ to the displayed diagonal source and the rows $W,D,Q,L,H,C,P,N$.
+
+Apply \autoref{thm:diagonal-limit-selector-budget-route-determinacy}. Any downstream $\RealUp$-facing consumer using that budget is therefore the same diagonal route, not a second route through hidden selector or completion data.
+
+Finally use the Real-facing side of \autoref{thm:diagonal-limit-compatibility-completion-consumer-budget-nonescape}. Since the only route to $L$ is already the displayed finite route, quotient streams, selected limits, host equality, choice data, independent completion data, and ambient completeness have no remaining coordinate from which to enter the seal consumer.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit selector-budget root public readback exhaustion]
+\label{thm:diagonal-limit-selector-budget-root-public-readback-exhaustion}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. The root public readback route for the selector-budget surface is exhausted by the displayed diagonal source and the rows $W,D,Q,L,H,C,P,N$. In particular, every public readback of the selector budget factors through the selector-budget source lock, the selector-budget route determinacy boundary, and the selector-budget $\RealUp$-seal nonescape boundary before it can expose a root-facing Real or Completion consumer.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock}. This identifies the public readback source as the displayed diagonal source and the finite selector rows $W,D,Q,L,H,C,P,N$.
+
+Next apply \autoref{thm:diagonal-limit-selector-budget-route-determinacy}. The public readback cannot branch into a second selector-budget route after the source has been fixed.
+
+Finally apply \autoref{thm:diagonal-limit-selector-budget-real-seal-nonescape}. The Real-seal endpoint of the public route reaches $L$ only through the same diagonal source and the same structural rows. Thus the root public readback is exhausted by the stated finite surface and cannot export quotient streams, selected limits, host equality, choice data, independent completion data, ambient completeness, or hidden seal data.
 \end{proof}
 
 \begin{theorem}[Diagonal-limit selector-budget Cauchy limit functor pullback]
