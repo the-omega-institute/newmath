@@ -496,6 +496,30 @@ Now project any dependency route used by the consumer. By \autoref{thm:metacic-c
 Finally use the Lean handoff and NameCert obligation surfaces. \autoref{thm:metacic-critical-path-lean-handoff-surface} makes the seven rows the exact root-unblock handoff, and \autoref{thm:metacic-critical-path-frontier-rank-namecert-obligations} makes them the complete local NameCert obligation list. Thus every scheduler-facing consumer factors through the seven rows and cannot read a hidden dependency edge.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-path frontier-rank soundness]
+\label{thm:metacic-critical-path-frontier-rank-soundness}
+The $\MetaCICCriticalPathUp$ frontier-rank carrier can rank only the displayed open-node row $O$, dependency-route row $R$, Lean-handoff row $D$, obstruction-ledger row $B$, replay-route row $C$, provenance row $P$, and local naming row $N$. It cannot rank hidden closed-consistency data, subject-reduction data, scheduler state, host reachability, or any dependency edge outside the displayed finite packet.
+\end{theorem}
+\begin{proof}
+Start with the frontier-rank carrier of \autoref{def:metacic-critical-path-frontier-rank-carrier}. Its rank coordinate is read together with the open node, dependency-ready routes, obstruction ledger, replay route, provenance, and local name, so the carrier provides no separate coordinate for closed-consistency or subject-reduction data.
+
+Open-node exhaustion and dependency-route nonescape give the two exclusions. By \autoref{thm:metacic-critical-path-open-node-exhaustion}, every ranked node is one of the displayed open nodes. By \autoref{thm:metacic-critical-path-dependency-route-nonescape}, every dependency used by the rank is routed through the ledgered finite rows and not through host reachability or an unledgered edge.
+
+Finally combine the Lean handoff, NameCert obligation, transport stability, and consumer exactness rows of \autoref{thm:metacic-critical-path-lean-handoff-surface}, \autoref{thm:metacic-critical-path-frontier-rank-namecert-obligations}, \autoref{thm:metacic-critical-path-frontier-rank-transport-stability}, and \autoref{thm:metacic-critical-path-frontier-rank-consumer-exactness}. These identify the same seven rows as the only downstream handoff surface, so the frontier rank is sound exactly for those displayed rows.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path downstream-unblock coverage]
+\label{thm:metacic-critical-path-downstream-unblock-coverage}
+A downstream MetaCIC consumer is unblocked by a $\MetaCICCriticalPathUp$ frontier-rank packet only when every dependency route named by the packet is read through the displayed finite rows $O,R,D,B,C,P,N$. A route that asks for hidden closed-consistency data, subject-reduction data, scheduler state, host reachability, or an unledgered dependency edge is not covered by the unblock packet.
+\end{theorem}
+\begin{proof}
+Project the downstream consumer through \autoref{thm:metacic-critical-path-frontier-rank-consumer-exactness}. The consumer can receive only the open node, readiness row, downstream rank, obstruction ledger, replay route, provenance, and local name.
+
+Use dependency-route nonescape and frontier-rank soundness. The theorem \autoref{thm:metacic-critical-path-dependency-route-nonescape} forces every named dependency route through the displayed route and ledger rows, while \autoref{thm:metacic-critical-path-frontier-rank-soundness} prevents the rank from certifying hidden closed-consistency or subject-reduction data.
+
+The remaining rows are stable under transport and handoff. Apply \autoref{thm:metacic-critical-path-frontier-rank-transport-stability}, \autoref{thm:metacic-critical-path-lean-handoff-surface}, and \autoref{thm:metacic-critical-path-frontier-rank-namecert-obligations}. They keep the downstream unblock claim on the same seven finite rows, so any consumer whose dependency route leaves those rows is not unblocked by this packet.
+\end{proof}
+
 \begin{theorem}[MetaCIC critical-path Lean target intake]
 \label{thm:metacic-critical-path-lean-target-intake}
 For every accepted frontier-rank packet
