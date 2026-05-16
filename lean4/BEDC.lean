@@ -695,6 +695,7 @@ import BEDC.Derived.ContinuationMonadUp.RootConsumerStandardRow
 import BEDC.Derived.ContinuationMonadUp.FormalRoute
 import BEDC.Derived.ContinuationMonadUp.PublicReadback
 import BEDC.Derived.UnaryContMonoidUp
+import BEDC.Derived.UnaryContMonoidUp.CategoryRootReadiness
 import BEDC.Derived.ContinuationMonadUp.RootPublicObligationTriad
 import BEDC.Derived.ContinuationMonadUp.RootFormalRouteSaturation
 import BEDC.Derived.ContinuationMonadUp.RootUnitBindCoverage
@@ -2159,6 +2160,7 @@ import BEDC.Derived.QuadratureUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.HausdorffCompletionUp
+import BEDC.Derived.HausdorffCompletionUp.SeparatedReflection
 import BEDC.Derived.HausdorffCompletionUp.StandardBridge
 import BEDC.Derived.ReflectiveInquiryUp.TasteGate
 import BEDC.Derived.PublicKeyUp
