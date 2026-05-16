@@ -552,6 +552,30 @@ The downstream Real consumer export does not add a new object. It merely replays
 \end{proof}
 \leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_public\_non\_escape\_export}
 
+\begin{theorem}[UniformCauchyCriterion finite-observation budget pullback]
+\label{thm:uniform-cauchy-criterion-finite-observation-budget-pullback}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet, and let
+$$
+B=(B_s,S,W_B,D,R,E_B,H_B,C_B,P_B,N_B)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet whose displayed window, dyadic ledger, regular readback, and seal rows agree componentwise with $W,Q,T,E$ through the carried $\hsame$ and $\Cont$ routes. Then every $\UniformCauchyCriterionUp$ Real-facing or completion-facing consumer pulls back through the finite observation budget selector surface before $E$ is read.
+
+The pullback route is the public non-escaping route of \autoref{thm:uniform-cauchy-criterion-public-non-escape-export}, the finite-family Real seal route of \autoref{thm:uniform-cauchy-criterion-finite-family-real-seal-route-determinacy}, and the shared selector route of \autoref{thm:finite-observation-budget-selector-uniform-cauchycriterion-pullback} inside \autoref{ch:concrete-instances-finite-observation-budget-selector-namecert}. Hence the consumer cannot read a quotient stream, selected host limit, choice schedule, host equality, or ambient completeness object from either packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $U$. The public non-escape export exposes only $I,W,M,Q,T,E,H,C,P,N$, and the finite-family Real seal route determinacy theorem locks the Real-facing route to $I,W,M,Q,T$ before the seal row $E$ is consumed.
+
+Project the accepted selector packet $B$. By hypothesis, the selector rows $W_B,D,R,E_B$ agree componentwise with the UniformCauchyCriterion rows $W,Q,T,E$ through the carried $\hsame$ and $\Cont$ routes. Thus the displayed window, dyadic budget, regular readback, and seal rows are the same consumer surface up to the recorded BEDC transports.
+
+Now attach the finite-observation selector pullback from \autoref{thm:finite-observation-budget-selector-uniform-cauchycriterion-pullback}. It places the shared $W,Q,T,E$ route inside the selector surface before any Real-facing endpoint can be read.
+
+Finally apply non-escape on both packets. The UniformCauchyCriterion public export and the finite selector route exclude quotient streams, selected host limits, choice schedules, host equality, and ambient completeness. Therefore every Real-facing or completion-facing consumer of $U$ must pass through the finite observation budget selector surface before $E$ is read.
+\end{proof}
+
 \closureat{UniformCauchyCriterionUp}{seedStr}
 \closureat{UniformCauchyCriterionUp}{obligationStr}
 \closureat{UniformCauchyCriterionUp}{scopedStr}
