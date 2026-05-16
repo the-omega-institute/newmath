@@ -64,21 +64,50 @@ def onticResidueLedgerToEventFlow : OnticResidueLedgerUp → EventFlow
 
 def onticResidueLedgerFromEventFlow : EventFlow → Option OnticResidueLedgerUp
   -- BEDC touchpoint anchor: BHist BMark
-  | ontic :: modelAudit :: modelState :: access :: classifier :: residue :: transport ::
-      route :: provenance :: nameCert :: [] =>
-      some
-        (OnticResidueLedgerUp.mk
-          (onticResidueLedgerDecodeBHist ontic)
-          (onticResidueLedgerDecodeBHist modelAudit)
-          (onticResidueLedgerDecodeBHist modelState)
-          (onticResidueLedgerDecodeBHist access)
-          (onticResidueLedgerDecodeBHist classifier)
-          (onticResidueLedgerDecodeBHist residue)
-          (onticResidueLedgerDecodeBHist transport)
-          (onticResidueLedgerDecodeBHist route)
-          (onticResidueLedgerDecodeBHist provenance)
-          (onticResidueLedgerDecodeBHist nameCert))
-  | _ => none
+  | [] => none
+  | ontic :: rest0 =>
+      match rest0 with
+      | [] => none
+      | modelAudit :: rest1 =>
+          match rest1 with
+          | [] => none
+          | modelState :: rest2 =>
+              match rest2 with
+              | [] => none
+              | access :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | classifier :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | residue :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | transport :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | route :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | provenance :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | nameCert :: rest9 =>
+                                          match rest9 with
+                                          | [] =>
+                                              some
+                                                (OnticResidueLedgerUp.mk
+                                                  (onticResidueLedgerDecodeBHist ontic)
+                                                  (onticResidueLedgerDecodeBHist modelAudit)
+                                                  (onticResidueLedgerDecodeBHist modelState)
+                                                  (onticResidueLedgerDecodeBHist access)
+                                                  (onticResidueLedgerDecodeBHist classifier)
+                                                  (onticResidueLedgerDecodeBHist residue)
+                                                  (onticResidueLedgerDecodeBHist transport)
+                                                  (onticResidueLedgerDecodeBHist route)
+                                                  (onticResidueLedgerDecodeBHist provenance)
+                                                  (onticResidueLedgerDecodeBHist nameCert))
+                                          | _ :: _ => none
 
 private theorem onticResidueLedger_round_trip :
     ∀ x : OnticResidueLedgerUp,
@@ -197,19 +226,68 @@ def taste_gate : ChapterTasteGate OnticResidueLedgerUp :=
 
 theorem OnticResidueLedgerTasteGate_single_carrier_alignment :
     (∀ h : BHist, onticResidueLedgerDecodeBHist (onticResidueLedgerEncodeBHist h) = h) ∧
-      Nonempty (Nontrivial OnticResidueLedgerUp) ∧
-        Nonempty (ChapterTasteGate OnticResidueLedgerUp) ∧
-          Nonempty (FieldFaithful OnticResidueLedgerUp) ∧
+      (∀ x : OnticResidueLedgerUp,
+        onticResidueLedgerToEventFlow x =
+          List.map onticResidueLedgerEncodeBHist (onticResidueLedgerFields x)) ∧
+        (∀ x y : OnticResidueLedgerUp,
+          onticResidueLedgerFields x = onticResidueLedgerFields y → x = y) ∧
+          (∃ x y : OnticResidueLedgerUp, x ≠ y) ∧
             onticResidueLedgerEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact onticResidueLedgerDecode_encode_bhist
+  · intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
   · constructor
-    · exact ⟨onticResidueLedgerNontrivial⟩
+    · intro x
+      cases x with
+      | mk ontic modelAudit modelState access classifier residue transport route provenance
+          nameCert =>
+          rfl
     · constructor
-      · exact ⟨onticResidueLedgerChapterTasteGate⟩
+      · intro x y hfields
+        cases x with
+        | mk ontic modelAudit modelState access classifier residue transport route provenance
+            nameCert =>
+            cases y with
+            | mk ontic2 modelAudit2 modelState2 access2 classifier2 residue2 transport2 route2
+                provenance2 nameCert2 =>
+                injection hfields with hOntic hTail0
+                injection hTail0 with hModelAudit hTail1
+                injection hTail1 with hModelState hTail2
+                injection hTail2 with hAccess hTail3
+                injection hTail3 with hClassifier hTail4
+                injection hTail4 with hResidue hTail5
+                injection hTail5 with hTransport hTail6
+                injection hTail6 with hRoute hTail7
+                injection hTail7 with hProvenance hTail8
+                injection hTail8 with hNameCert _hNil
+                cases hOntic
+                cases hModelAudit
+                cases hModelState
+                cases hAccess
+                cases hClassifier
+                cases hResidue
+                cases hTransport
+                cases hRoute
+                cases hProvenance
+                cases hNameCert
+                rfl
       · constructor
-        · exact ⟨onticResidueLedgerFieldFaithful⟩
+        · exact
+            ⟨OnticResidueLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+              OnticResidueLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty,
+              by
+                intro h
+                cases h⟩
         · rfl
 
 end BEDC.Derived.OnticResidueLedgerUp.TasteGate
