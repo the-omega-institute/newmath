@@ -15,6 +15,7 @@ Use window-budget exhaustion and readback-seal determinacy, \autoref{thm:regular
 
 Finally apply Real-seal consumer exactness and non-escape, \autoref{thm:regular-cauchy-modulus-witness-ledger-real-seal-consumer-exactness} and \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}. Since the accepted packet exports only $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$, the L10 handoff has no quotient stream, host real equality, selected limit, choice row, ambient completeness row, or undisplayed completion datum.
 \end{proof}
+
 \leanchecked{BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.RegularCauchyModulusWitnessLedgerCarrier\_streamname\_regseqrat\_real\_exactness}
 
 \begin{theorem}[Regular Cauchy modulus witness-ledger modulus-normalizer-tail coherence]
@@ -205,6 +206,7 @@ The four cases are disjoint at the root boundary because each reads a different 
 \label{thm:regular-cauchy-modulus-witness-ledger-root-exit-partition-stability}
 For every accepted $\RegularCauchyModulusWitnessLedgerUp$ packet $L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M)$, the root-exit classification of \autoref{thm:regular-cauchy-modulus-witness-ledger-root-exit-partition} is stable under every $\RealUp$ or $\RealCompletionSealClassifierUp$ consumer route that preserves the displayed rows $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$. If such a consumer route is classified as displayed Real readback, $\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$ source-triad readback, normalizer-tail structural service, or refusal for omitting one of $\mu,W,D,Q,S$, then every row-preserving presentation of the same consumer route remains in that same case. No row-preserving presentation can move the route to another case or create an additional root-exit case.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.RegularCauchyModulusWitnessLedgerCarrier\_root\_exit\_partition\_stability}
 \begin{proof}
 Start from the root-exit partition. It already exhausts every Phase Real and Completion root-exit consumer route by the displayed Real readback route, the source-triad readback route, the normalizer-tail structural route, or the refusal boundary for a missing mandatory row.
 
@@ -215,4 +217,20 @@ For the normalizer-tail case, use seal source pullback and the completion seal r
 For the refusal case, apply the completion refusal boundary. A presentation that still omits one of $\mu,W,D,Q,S$ remains refused, while a presentation preserving all displayed rows is no longer a presentation of that refused route but of one of the three admitted routes already classified above.
 
 Finally apply non-escape. Since the packet exports no quotient stream, host real equality, selected limit, countable-choice row, ambient-completeness row, detached normalizer, detached tail budget, or detached completion seal, a row-preserving consumer has no hidden coordinate by which to change its root-exit case. The four-way classification is therefore stable for all displayed-row-preserving $\RealUp$ and $\RealCompletionSealClassifierUp$ consumers.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus witness-ledger formal target boundary]
+\label{thm:regular-cauchy-modulus-witness-ledger-formal-target-boundary}
+For every accepted $\RegularCauchyModulusWitnessLedgerUp$ packet
+$$
+L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M),
+$$
+the Lean-facing root target is the finite relation saying that every $\RealUp$ or $\RealCompletionSealClassifierUp$ consumer route is one of the four root-exit cases of \autoref{thm:regular-cauchy-modulus-witness-ledger-root-exit-partition}, and that the route preserves the displayed $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ tolerance row $D$, $\RegSeqRatUp$ readback row $Q$, $\RealUp$ seal $S$, normalizer $N_0$, tail budget $T$, transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and $\NameCert$ row $M$. No Lean-facing consumer route may replace this finite relation by quotient streams, host real equality, selected limits, countable choice, ambient completeness, detached normalizers, detached tail budgets, or detached completion seals.
+\end{theorem}
+\begin{proof}
+Begin with the root-exit partition and partition stability. They classify every root consumer route as displayed Real readback, source-triad readback, normalizer-tail structural service, or refusal for a missing mandatory row, and they keep that classification stable under displayed-row-preserving presentations.
+
+Use seal source pullback and source-triad terminality next. These theorems attach the $\RealUp$ seal $S$ and the normalizer-tail rows $N_0,T,H,C,P,M$ to the same $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance row, and $\RegSeqRatUp$ readback row.
+
+Finally apply the completion refusal boundary and nonescape. A route omitting one of the source or seal rows is refused, and the packet exports no quotient stream, host real equality, selected limit, countable-choice row, ambient-completeness row, detached normalizer, detached tail budget, or detached completion seal. The finite relation described in the statement is therefore the exact Lean-facing root target for $\RealUp$ and $\RealCompletionSealClassifierUp$ consumers.
 \end{proof}
