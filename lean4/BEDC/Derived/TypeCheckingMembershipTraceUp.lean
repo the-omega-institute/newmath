@@ -443,4 +443,51 @@ theorem TypeCheckingMembershipTraceBridge_precondition [AskSetup]
       injection tail2 with hR _
       exact visibleR hR
 
+theorem TypeCheckingMembershipTrace_scoped_kernel_surface [AskSetup]
+    {M D R S H C P N subjectReplay : BHist} :
+    TypeCheckingMembershipTraceKernelRows M D R S H C P N →
+      Cont R C subjectReplay →
+        SemanticNameCert
+          (fun row : BHist =>
+            TypeCheckingMembershipTraceKernelRows M D R S H C P N ∧
+              hsame row subjectReplay)
+          (fun row : BHist =>
+            Ext M BMark.b0 D ∧
+              Cont D R C ∧
+                Cont R C row ∧
+                  SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) S BHist.Empty)
+          (fun row : BHist =>
+            hsame row subjectReplay ∧ hsame H H ∧ hsame P P ∧ hsame N N)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist BMark Ext Cont SigRel SemanticNameCert hsame
+  intro rows replay
+  have rowsFull : TypeCheckingMembershipTraceKernelRows M D R S H C P N := rows
+  obtain ⟨membership, derivation, readback, sameH, sameP, sameN⟩ := rows
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro subjectReplay (And.intro rowsFull (hsame_refl subjectReplay))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      exact
+        ⟨membership, derivation, cont_result_hsame_transport replay (hsame_symm source.right),
+          readback⟩
+    ledger_sound := by
+      intro row source
+      exact ⟨source.right, sameH, sameP, sameN⟩
+  }
+
 end BEDC.Derived.TypeCheckingMembershipTraceUp
