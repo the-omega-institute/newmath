@@ -520,19 +520,42 @@ Next apply tail-modulus fusion and stability handoff, \autoref{thm:finite-prefix
 Finally use diagonal seal determinacy and seal-read factorization, \autoref{thm:finite-prefix-limit-budget-diagonal-seal-determinacy} and \autoref{thm:finite-prefix-limit-budget-seal-read-factorization}. They leave no second seal path and repack every seal-facing public read through $Q,B,W,D,R,S,E,H,C,P,N$. The exclusions already recorded by the six cited results rule out host real equality, quotient streams, selected limits, countable choice, hidden tail schedules, ambient completeness, bridge-status certificates, and aggregate verification tokens.
 \end{proof}
 
+\begin{theorem}[Finite-prefix limit-budget acceptance-bridge interface]
+\label{thm:finite-prefix-limit-budget-acceptance-bridge-interface}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet. Every acceptance-bridge consumer that transports the accepted packet preserves the same public route
+$$
+Q \to B \to W \to D \to R \to S
+$$
+and the same support rows $E,H,C,P,N$.
+
+The bridge may transport the public interface exported by \autoref{thm:finite-prefix-limit-budget-public-interface-export} across the public axis scope of \autoref{thm:finite-prefix-limit-budget-public-axis-scope} and the completion-consumer exhaustion boundary of \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion}. It cannot add host real equality, quotient streams, selected limits, countable choice, ambient completeness, bridge-status certificates, or an aggregate verification token.
+\end{theorem}
+\begin{proof}
+Begin with the public interface export, \autoref{thm:finite-prefix-limit-budget-public-interface-export}. It identifies the whole Phase Real and Completion read surface with the displayed route $Q \to B \to W \to D \to R \to S$ followed by $E,H,C,P,N$.
+
+Next apply public-axis scope, \autoref{thm:finite-prefix-limit-budget-public-axis-scope}. The public axis may expose the finite route to $\RealUp$, $\RegSeqRatUp$, and $\CauchyLimitSealUp$ consumers, but it does not manufacture a second analytic coordinate or a verification aggregate.
+
+Finally use completion-consumer exhaustion, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion}. Since the completion-facing consumer has already exhausted the packet through $Q,B,W,D,R,S,E,H,C,P,N$, an acceptance bridge can only transport that interface. The exclusions in the three cited results rule out host real equality, quotient streams, selected limits, countable choice, ambient completeness, bridge-status certificates, and aggregate verification tokens outside the displayed packet.
+\end{proof}
+
 \closureat{FinitePrefixLimitBudgetUp}{seedStr}
 \closureat{FinitePrefixLimitBudgetUp}{obligationStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
 \closureat{FinitePrefixLimitBudgetUp}{scopedStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
 \closureat{FinitePrefixLimitBudgetUp}{publicStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{FinitePrefixLimitBudgetUp}{bridgedStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\FinitePrefixLimitBudgetUp}
   \constructivestory{A $\FinitePrefixLimitBudgetUp$ packet is generated from a finite diagonal request, finite observation-budget selector row, finite StreamName prefix-window ledger, prefix-depth exhaustion row, RegSeqRat readback row, Real-facing seal row, exclusion ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \leanchecked{BEDC.Derived.FinitePrefixLimitBudgetUp.taste\_gate}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:finite-prefix-limit-budget-carrier}, \autoref{thm:finite-prefix-limit-budget-namecert-obligations}, \autoref{thm:finite-prefix-limit-budget-seal-consumer-coverage}, \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion}, and \autoref{thm:finite-prefix-limit-budget-public-interface-export}, together with the visible TasteGate carrier marker, close the finite prefix-budget carrier, route totality before seal consumption, completion-facing consumer exhaustion, and the public Phase Real and Completion export over $Q,B,W,D,R,S,E,H,C,P,N$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:finite-prefix-limit-budget-carrier}, \autoref{thm:finite-prefix-limit-budget-namecert-obligations}, \autoref{thm:finite-prefix-limit-budget-seal-consumer-coverage}, \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion}, \autoref{thm:finite-prefix-limit-budget-public-interface-export}, and \autoref{thm:finite-prefix-limit-budget-acceptance-bridge-interface}, together with the visible TasteGate carrier marker, close the finite prefix-budget carrier, route totality before seal consumption, completion-facing consumer exhaustion, the public Phase Real and Completion export, and the acceptance-bridge interface over $Q,B,W,D,R,S,E,H,C,P,N$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove real completeness, select a completed limit, identify quotient streams, assert host real equality, use countable choice, or close a Lean implementation.}
-  \upgradepath{Bridged closure requires an explicit $\StdBridge$ theorem connecting the public finite prefix-budget interface to the acceptance-bridge schema.}
+  \upgradepath{Mature closure requires a standard-bridge theorem and downstream examples for the same finite route $Q \to B \to W \to D \to R \to S$.}
 \end{closurestatus}
