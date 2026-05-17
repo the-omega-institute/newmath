@@ -10,8 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive ObservationLogicBoundaryUp : Type where
-  | mk : (O L M K G R H C P N : BHist) → ObservationLogicBoundaryUp
-  deriving DecidableEq
+  | mk
+      (observation logic metaLoop phaseRefusal gapAudit residue transport replay provenance
+        localCert : BHist) :
+      ObservationLogicBoundaryUp
 
 def observationLogicBoundaryEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -40,143 +42,78 @@ private theorem observationLogicBoundary_decode_encode_bhist :
 
 def observationLogicBoundaryFields : ObservationLogicBoundaryUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | ObservationLogicBoundaryUp.mk O L M K G R H C P N => [O, L, M, K, G, R, H, C, P, N]
+  | ObservationLogicBoundaryUp.mk observation logic metaLoop phaseRefusal gapAudit residue
+      transport replay provenance localCert =>
+      [observation, logic, metaLoop, phaseRefusal, gapAudit, residue, transport, replay,
+        provenance, localCert]
 
 def observationLogicBoundaryToEventFlow : ObservationLogicBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | ObservationLogicBoundaryUp.mk O L M K G R H C P N =>
-      [[BMark.b0],
-        observationLogicBoundaryEncodeBHist O,
-        [BMark.b1, BMark.b0],
-        observationLogicBoundaryEncodeBHist L,
-        [BMark.b1, BMark.b1, BMark.b0],
-        observationLogicBoundaryEncodeBHist M,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        observationLogicBoundaryEncodeBHist K,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        observationLogicBoundaryEncodeBHist G,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        observationLogicBoundaryEncodeBHist R,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        observationLogicBoundaryEncodeBHist H,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        observationLogicBoundaryEncodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        observationLogicBoundaryEncodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        observationLogicBoundaryEncodeBHist N]
+  | x => (observationLogicBoundaryFields x).map observationLogicBoundaryEncodeBHist
 
 def observationLogicBoundaryFromEventFlow : EventFlow → Option ObservationLogicBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _tag0 :: rest0 =>
-      match rest0 with
-      | [] => none
-      | O :: rest1 =>
-          match rest1 with
-          | [] => none
-          | _tag1 :: rest2 =>
-              match rest2 with
-              | [] => none
-              | L :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | _tag2 :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | M :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | _tag3 :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | K :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | _tag4 :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | G :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | _tag5 :: rest10 =>
-                                              match rest10 with
-                                              | [] => none
-                                              | R :: rest11 =>
-                                                  match rest11 with
-                                                  | [] => none
-                                                  | _tag6 :: rest12 =>
-                                                      match rest12 with
-                                                      | [] => none
-                                                      | H :: rest13 =>
-                                                          match rest13 with
-                                                          | [] => none
-                                                          | _tag7 :: rest14 =>
-                                                              match rest14 with
-                                                              | [] => none
-                                                              | C :: rest15 =>
-                                                                  match rest15 with
-                                                                  | [] => none
-                                                                  | _tag8 :: rest16 =>
-                                                                      match rest16 with
-                                                                      | [] => none
-                                                                      | P :: rest17 =>
-                                                                          match rest17 with
-                                                                          | [] => none
-                                                                          | _tag9 :: rest18 =>
-                                                                              match rest18 with
-                                                                              | [] => none
-                                                                              | N :: rest19 =>
-                                                                                  match rest19 with
-                                                                                  | [] =>
-                                                                                      some
-                                                                                        (ObservationLogicBoundaryUp.mk
-                                                                                          (observationLogicBoundaryDecodeBHist O)
-                                                                                          (observationLogicBoundaryDecodeBHist L)
-                                                                                          (observationLogicBoundaryDecodeBHist M)
-                                                                                          (observationLogicBoundaryDecodeBHist K)
-                                                                                          (observationLogicBoundaryDecodeBHist G)
-                                                                                          (observationLogicBoundaryDecodeBHist R)
-                                                                                          (observationLogicBoundaryDecodeBHist H)
-                                                                                          (observationLogicBoundaryDecodeBHist C)
-                                                                                          (observationLogicBoundaryDecodeBHist P)
-                                                                                          (observationLogicBoundaryDecodeBHist N))
-                                                                                  | _ :: _ => none
+  | observation :: logic :: metaLoop :: phaseRefusal :: gapAudit :: residue :: transport ::
+      replay :: provenance :: localCert :: [] =>
+      some
+        (ObservationLogicBoundaryUp.mk
+          (observationLogicBoundaryDecodeBHist observation)
+          (observationLogicBoundaryDecodeBHist logic)
+          (observationLogicBoundaryDecodeBHist metaLoop)
+          (observationLogicBoundaryDecodeBHist phaseRefusal)
+          (observationLogicBoundaryDecodeBHist gapAudit)
+          (observationLogicBoundaryDecodeBHist residue)
+          (observationLogicBoundaryDecodeBHist transport)
+          (observationLogicBoundaryDecodeBHist replay)
+          (observationLogicBoundaryDecodeBHist provenance)
+          (observationLogicBoundaryDecodeBHist localCert))
+  | _ => none
 
 private theorem observationLogicBoundary_round_trip :
     ∀ x : ObservationLogicBoundaryUp,
-      observationLogicBoundaryFromEventFlow (observationLogicBoundaryToEventFlow x) = some x := by
+      observationLogicBoundaryFromEventFlow
+        (observationLogicBoundaryToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk O L M K G R H C P N =>
+  | mk observation logic metaLoop phaseRefusal gapAudit residue transport replay provenance
+      localCert =>
       change
         some
           (ObservationLogicBoundaryUp.mk
-            (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEncodeBHist O))
-            (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEncodeBHist L))
-            (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEncodeBHist M))
-            (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEncodeBHist K))
-            (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEncodeBHist G))
-            (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEncodeBHist R))
-            (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEncodeBHist H))
-            (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEncodeBHist C))
-            (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEncodeBHist P))
-            (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEncodeBHist N))) =
-          some (ObservationLogicBoundaryUp.mk O L M K G R H C P N)
-      rw [observationLogicBoundary_decode_encode_bhist O,
-        observationLogicBoundary_decode_encode_bhist L,
-        observationLogicBoundary_decode_encode_bhist M,
-        observationLogicBoundary_decode_encode_bhist K,
-        observationLogicBoundary_decode_encode_bhist G,
-        observationLogicBoundary_decode_encode_bhist R,
-        observationLogicBoundary_decode_encode_bhist H,
-        observationLogicBoundary_decode_encode_bhist C,
-        observationLogicBoundary_decode_encode_bhist P,
-        observationLogicBoundary_decode_encode_bhist N]
+            (observationLogicBoundaryDecodeBHist
+              (observationLogicBoundaryEncodeBHist observation))
+            (observationLogicBoundaryDecodeBHist
+              (observationLogicBoundaryEncodeBHist logic))
+            (observationLogicBoundaryDecodeBHist
+              (observationLogicBoundaryEncodeBHist metaLoop))
+            (observationLogicBoundaryDecodeBHist
+              (observationLogicBoundaryEncodeBHist phaseRefusal))
+            (observationLogicBoundaryDecodeBHist
+              (observationLogicBoundaryEncodeBHist gapAudit))
+            (observationLogicBoundaryDecodeBHist
+              (observationLogicBoundaryEncodeBHist residue))
+            (observationLogicBoundaryDecodeBHist
+              (observationLogicBoundaryEncodeBHist transport))
+            (observationLogicBoundaryDecodeBHist
+              (observationLogicBoundaryEncodeBHist replay))
+            (observationLogicBoundaryDecodeBHist
+              (observationLogicBoundaryEncodeBHist provenance))
+            (observationLogicBoundaryDecodeBHist
+              (observationLogicBoundaryEncodeBHist localCert))) =
+          some
+            (ObservationLogicBoundaryUp.mk observation logic metaLoop phaseRefusal gapAudit
+              residue transport replay provenance localCert)
+      rw [observationLogicBoundary_decode_encode_bhist observation,
+        observationLogicBoundary_decode_encode_bhist logic,
+        observationLogicBoundary_decode_encode_bhist metaLoop,
+        observationLogicBoundary_decode_encode_bhist phaseRefusal,
+        observationLogicBoundary_decode_encode_bhist gapAudit,
+        observationLogicBoundary_decode_encode_bhist residue,
+        observationLogicBoundary_decode_encode_bhist transport,
+        observationLogicBoundary_decode_encode_bhist replay,
+        observationLogicBoundary_decode_encode_bhist provenance,
+        observationLogicBoundary_decode_encode_bhist localCert]
 
 private theorem observationLogicBoundaryToEventFlow_injective
     {x y : ObservationLogicBoundaryUp} :
@@ -191,38 +128,22 @@ private theorem observationLogicBoundaryToEventFlow_injective
     (Eq.trans (observationLogicBoundary_round_trip x).symm
       (Eq.trans hread (observationLogicBoundary_round_trip y)))
 
-private theorem observationLogicBoundary_field_faithful :
+private theorem observationLogicBoundary_fields_faithful :
     ∀ x y : ObservationLogicBoundaryUp,
       observationLogicBoundaryFields x = observationLogicBoundaryFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk O₁ L₁ M₁ K₁ G₁ R₁ H₁ C₁ P₁ N₁ =>
+  | mk observation₁ logic₁ metaLoop₁ phaseRefusal₁ gapAudit₁ residue₁ transport₁ replay₁
+      provenance₁ localCert₁ =>
       cases y with
-      | mk O₂ L₂ M₂ K₂ G₂ R₂ H₂ C₂ P₂ N₂ =>
-          injection hfields with hO t1
-          injection t1 with hL t2
-          injection t2 with hM t3
-          injection t3 with hK t4
-          injection t4 with hG t5
-          injection t5 with hR t6
-          injection t6 with hH t7
-          injection t7 with hC t8
-          injection t8 with hP t9
-          injection t9 with hN _
-          cases hO
-          cases hL
-          cases hM
-          cases hK
-          cases hG
-          cases hR
-          cases hH
-          cases hC
-          cases hP
-          cases hN
+      | mk observation₂ logic₂ metaLoop₂ phaseRefusal₂ gapAudit₂ residue₂ transport₂ replay₂
+          provenance₂ localCert₂ =>
+          cases hfields
           rfl
 
-instance observationLogicBoundaryBHistCarrier : BHistCarrier ObservationLogicBoundaryUp where
+instance observationLogicBoundaryBHistCarrier :
+    BHistCarrier ObservationLogicBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := observationLogicBoundaryToEventFlow
   fromEventFlow := observationLogicBoundaryFromEventFlow
@@ -232,24 +153,28 @@ instance observationLogicBoundaryChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change observationLogicBoundaryFromEventFlow (observationLogicBoundaryToEventFlow x) = some x
+    change
+      observationLogicBoundaryFromEventFlow
+        (observationLogicBoundaryToEventFlow x) = some x
     exact observationLogicBoundary_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (observationLogicBoundaryToEventFlow_injective heq)
 
-instance observationLogicBoundaryFieldFaithful : FieldFaithful ObservationLogicBoundaryUp where
+instance observationLogicBoundaryFieldFaithful :
+    FieldFaithful ObservationLogicBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := observationLogicBoundaryFields
-  field_faithful := observationLogicBoundary_field_faithful
+  field_faithful := observationLogicBoundary_fields_faithful
 
-instance observationLogicBoundaryNontrivial : Nontrivial ObservationLogicBoundaryUp where
+instance observationLogicBoundaryNontrivial :
+    Nontrivial ObservationLogicBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨ObservationLogicBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      ObservationLogicBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+    ⟨ObservationLogicBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      ObservationLogicBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -258,9 +183,9 @@ def taste_gate : ChapterTasteGate ObservationLogicBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   observationLogicBoundaryChapterTasteGate
 
-def taste_gate_witness : ChapterTasteGate ObservationLogicBoundaryUp :=
+def taste_gate_witness : FieldFaithful ObservationLogicBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  observationLogicBoundaryChapterTasteGate
+  observationLogicBoundaryFieldFaithful
 
 theorem ObservationLogicBoundaryTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate ObservationLogicBoundaryUp) ∧
