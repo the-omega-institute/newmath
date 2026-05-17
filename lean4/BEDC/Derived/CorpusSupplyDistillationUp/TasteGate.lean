@@ -365,4 +365,27 @@ theorem CorpusSupplyDistillation_public_nonescape {x : CorpusSupplyDistillationU
             (cont_mutual_extension_right_tail_absurd
               (h := T) (k := append T P) (leftTail := P) (rightTail := C)).right rfl hbad)⟩
 
+theorem CorpusSupplyDistillationSourceChannel_exposure :
+    (∀ x : CorpusSupplyDistillationUp,
+      ∃ C F D O R H T P N : BHist,
+        x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+          FieldFaithful.fields x = [C, F, D, O, R, H, T, P, N]) ∧
+      (∀ F D O R H T P N : BHist,
+        FieldFaithful.fields
+            (CorpusSupplyDistillationUp.mk (BHist.e0 BHist.Empty) F D O R H T P N) ≠
+          FieldFaithful.fields
+            (CorpusSupplyDistillationUp.mk BHist.Empty F D O R H T P N)) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    cases x with
+    | mk C F D O R H T P N =>
+        exact ⟨C, F, D, O, R, H, T, P, N, rfl, rfl⟩
+  · intro F D O R H T P N hfields
+    change
+      [BHist.e0 BHist.Empty, F, D, O, R, H, T, P, N] =
+        [BHist.Empty, F, D, O, R, H, T, P, N] at hfields
+    injection hfields with hrow _
+    cases hrow
+
 end BEDC.Derived.CorpusSupplyDistillationUp

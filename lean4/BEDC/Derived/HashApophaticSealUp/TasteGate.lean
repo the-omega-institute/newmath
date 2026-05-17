@@ -273,10 +273,29 @@ theorem HashApophaticSealTasteGate_single_carrier_alignment :
         hashApophaticSealFromEventFlow (hashApophaticSealToEventFlow x) = some x) ∧
       (∀ x y : HashApophaticSealUp,
         hashApophaticSealToEventFlow x = hashApophaticSealToEventFlow y → x = y) := by
+  let chapterGate : ChapterTasteGate HashApophaticSealUp :=
+    { round_trip := by
+        intro x
+        change hashApophaticSealFromEventFlow (hashApophaticSealToEventFlow x) = some x
+        exact hashApophaticSeal_round_trip x
+      layer_separation := by
+        intro x y hxy heq
+        exact hxy (hashApophaticSealToEventFlow_injective heq) }
+  let fieldFaithful : FieldFaithful HashApophaticSealUp :=
+    { fields := hashApophaticSealFields
+      field_faithful := hashApophaticSeal_field_faithful }
+  let nontrivial : Nontrivial HashApophaticSealUp :=
+    { witness_pair :=
+        ⟨HashApophaticSealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+          HashApophaticSealUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+          by
+            intro h
+            cases h⟩ }
   exact
-    ⟨⟨hashApophaticSealChapterTasteGate⟩, ⟨hashApophaticSealFieldFaithful⟩,
-      ⟨hashApophaticSealNontrivial⟩, hashApophaticSeal_decode_encode_bhist,
-      hashApophaticSeal_round_trip, fun x y heq =>
+    ⟨⟨chapterGate⟩, ⟨fieldFaithful⟩, ⟨nontrivial⟩,
+      hashApophaticSeal_decode_encode_bhist, hashApophaticSeal_round_trip, fun x y heq =>
         hashApophaticSealToEventFlow_injective heq⟩
 
 end BEDC.Derived.HashApophaticSealUp
