@@ -229,26 +229,21 @@ def taste_gate : ChapterTasteGate FormalConstantEmpiricalValueBoundaryUp :=
   formalConstantEmpiricalValueBoundaryChapterTasteGate
 
 theorem FormalConstantEmpiricalValueBoundaryTasteGate_single_carrier_alignment :
-      (∀ h : BHist,
+    (∀ h : BHist,
       formalConstantEmpiricalValueBoundaryDecodeBHist
         (formalConstantEmpiricalValueBoundaryEncodeBHist h) = h) ∧
       (∀ x : FormalConstantEmpiricalValueBoundaryUp,
         formalConstantEmpiricalValueBoundaryFromEventFlow
-            (formalConstantEmpiricalValueBoundaryToEventFlow x) =
-          some x) ∧
+          (formalConstantEmpiricalValueBoundaryToEventFlow x) = some x) ∧
         (∀ x y : FormalConstantEmpiricalValueBoundaryUp,
           formalConstantEmpiricalValueBoundaryToEventFlow x =
-            formalConstantEmpiricalValueBoundaryToEventFlow y →
-            x = y) ∧
+            formalConstantEmpiricalValueBoundaryToEventFlow y → x = y) ∧
           formalConstantEmpiricalValueBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact formalConstantEmpiricalValueBoundary_decode_encode_bhist
-  · constructor
-    · exact formalConstantEmpiricalValueBoundary_round_trip
-    · constructor
-      · intro x y heq
-        exact formalConstantEmpiricalValueBoundaryToEventFlow_injective heq
-      · rfl
+  exact
+    ⟨formalConstantEmpiricalValueBoundary_decode_encode_bhist,
+      formalConstantEmpiricalValueBoundary_round_trip,
+      (fun _ _ heq => formalConstantEmpiricalValueBoundaryToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.FormalConstantEmpiricalValueBoundaryUp
