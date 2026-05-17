@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailThresholdNormalizerUp$}
+\label{ch:concrete-instances-cauchy-tail-threshold-normalizer-namecert}
+\origin{ai}
+
+The $\CauchyTailThresholdNormalizerUp$ packet is the finite Real and Completion carrier that turns a shared-tail threshold into a single normal-form row before any $\RealUp$ seal consumer may read a tail window. It sits between the shared tail data of \autoref{ch:concrete-instances-cauchy-shared-tail-modulus-namecert}, the seal-facing row of \autoref{ch:concrete-instances-cauchy-tail-modulus-seal-namecert}, the readback surfaces of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal consumers \autoref{ch:concrete-instances-realtailagreementseal-namecert} and \autoref{ch:concrete-instances-real-namecert}. Its role is to make the common finite threshold a displayed route object rather than a private parameter carried separately by each downstream seal.
+
+\begin{definition}[Cauchy tail threshold normalizer carrier]
+\label{def:cauchy-tail-threshold-normalizer-carrier}
+A $\CauchyTailThresholdNormalizerUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,M,\Theta,W_0,W_1,D,R,A,E,H,C,P,L,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\CauchySharedTailModulusUp$ row naming the shared tail source whose threshold is being normalized.
+\item $M$ is the $\CauchyTailModulusSealUp$ row that exposes the seal-facing modulus bound.
+\item $\Theta$ is the normalized shared finite threshold row.
+\item $W_0$ and $W_1$ are the two $\StreamNameUp$ window readbacks cut from the same threshold $\Theta$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger read on the same threshold.
+\item $R$ is the paired $\RegSeqRatUp$ readback row attached to $W_0,W_1,D$.
+\item $A$ is the $\RealTailAgreementSealUp$ row reached after the two threshold-indexed windows have been compared.
+\item $E$ is the terminal $\RealUp$ consumer row available only after $S,M,\Theta,W_0,W_1,D,R,A$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the shared-tail, seal, threshold, window, tolerance, readback, agreement, Real, provenance, ledger, and naming rows.
+\item $C$ stores displayed $\Cont$ replay from the shared-tail source through the seal row, normalized threshold, both window readbacks, tolerance ledger, regular readback, agreement seal, and Real consumer row.
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailThresholdNormalizerUp$, $\CauchySharedTailModulusUp$, $\CauchyTailModulusSealUp$, $\RealTailAgreementSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the route-exhaustion ledger recording that every seal-facing consumer has already read the same threshold $\Theta$.
+\item $N$ is the local $\NameCert_{\CauchyTailThresholdNormalizerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected host limits, host real equality, trichotomy, ambient completeness, private side thresholds, or a second Real seal route.
+\end{definition}
+
+\begin{definition}[Cauchy tail threshold normalizer classifier]
+\label{def:cauchy-tail-threshold-normalizer-classifier}
+Two accepted $\CauchyTailThresholdNormalizerUp$ carriers classify together exactly when their shared-tail source, modulus seal, normalized threshold, two StreamName windows, dyadic tolerance ledger, RegSeqRat readback, RealTailAgreementSeal route, RealUp consumer row, componentwise transports, displayed continuation replay, provenance, route-exhaustion ledger, and local naming row agree componentwise over the same threshold $\Theta$. The classifier does not identify carriers by comparing quotient streams, by choosing host limits, by imposing host real equality, by invoking trichotomy, by importing ambient completeness, or by allowing each seal consumer to carry a private threshold.
+\end{definition}
+
+\begin{theorem}[Cauchy tail threshold normalizer NameCert obligations]
+\label{thm:cauchy-tail-threshold-normalizer-namecert-obligations}
+For every accepted $\CauchyTailThresholdNormalizerUp$ carrier
+$$
+T=(S,M,\Theta,W_0,W_1,D,R,A,E,H,C,P,L,N),
+$$
+the local $\NameCert_{\CauchyTailThresholdNormalizerUp}$ surface consists exactly of carrier admission, shared-tail source exposure through $S$, modulus-seal exposure through $M$, normalized threshold exposure through $\Theta$, paired StreamName window readback through $W_0,W_1$, dyadic tolerance exposure through $D$, RegSeqRat readback through $R$, RealTailAgreementSeal handoff through $A$, RealUp consumer exposure through $E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, route-exhaustion ledgering through $L$, local naming through $N$, and non-escape for quotient streams, selected host limits, host real equality, trichotomy, ambient completeness, private side thresholds, and second Real seal routes.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-tail-threshold-normalizer-carrier}. The packet displays one shared-tail source, one seal-facing modulus row, one normalized threshold, two windows cut from that threshold, one dyadic tolerance ledger, one regular readback row, one agreement seal, one terminal Real consumer row, and five structural support rows.
+
+The threshold row is read before any seal consumer. The source $S$ and seal row $M$ expose the tail data, then $\Theta$ fixes the finite threshold that both windows must use.
+
+The readback rows are downstream of that threshold. The windows $W_0,W_1$, tolerance ledger $D$, and regular readback $R$ are all indexed by the same $\Theta$, so neither side can substitute a private finite window before the Real-facing handoff.
+
+Finally $A,E,H,C,P,L,N$ package the route as a NameCert surface. The carrier lacks quotient streams, selected host limits, host real equality, trichotomy, ambient completeness, private side thresholds, and second Real seal routes, so the listed rows exhaust the local obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy tail threshold normalizer route exhaustion]
+\label{thm:cauchy-tail-threshold-normalizer-route-exhaustion}
+Every accepted $\RealUp$ or $\RealTailAgreementSealUp$ consumer of a $\CauchyTailThresholdNormalizerUp$ carrier factors through the finite route
+$$
+S\longmapsto M\longmapsto\Theta\longmapsto(W_0,W_1,D,R)\longmapsto(A,E,H,C,P,L,N).
+$$
+In particular, no such consumer can read two incompatible finite tail windows through private thresholds.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:cauchy-tail-threshold-normalizer-namecert-obligations}. They expose $S$ and $M$ before any Real-facing row appears.
+
+Next read the normalized threshold $\Theta$. The two StreamName windows, dyadic ledger, and regular readback are attached to $\Theta$, so the threshold-indexed data rows are $W_0,W_1,D,R$ and not side-private alternatives.
+
+The agreement and Real rows are therefore downstream of the same finite threshold. The rows $A,E,H,C,P,L,N$ transport, replay, source, ledger, and name the displayed route, and the carrier contains no coordinate for a second route around $\Theta$.
+\end{proof}
+
+\begin{theorem}[Cauchy tail threshold normalizer noninternalization]
+\label{thm:cauchy-tail-threshold-normalizer-noninternalization}
+The $\CauchyTailThresholdNormalizerUp$ packet does not internalize quotient streams, selected host limits, host real equality, trichotomy, ambient completeness, or hidden threshold choice. Its public surface is exactly the finite shared-threshold route displayed by
+$$
+S,M,\Theta,W_0,W_1,D,R,A,E,H,C,P,L,N.
+$$
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:cauchy-tail-threshold-normalizer-carrier}. Its data coordinates are the shared-tail source, seal row, normalized threshold, two windows, dyadic ledger, regular readback, agreement seal, and Real consumer row.
+
+Inspect the structural coordinates next. Transport, continuation, provenance, route-exhaustion ledgering, and local naming preserve the displayed route; none supplies quotient equality, a host limit, host real equality, trichotomy, completeness, or hidden threshold selection.
+
+Apply route exhaustion from \autoref{thm:cauchy-tail-threshold-normalizer-route-exhaustion}. Every downstream seal consumer already factors through $S,M,\Theta,W_0,W_1,D,R,A,E,H,C,P,L,N$, so there is no remaining public coordinate in which an excluded object could be read.
+\end{proof}
+
+\falsifiablePrediction{Removing the normalized shared-tail row permits two RealUp seal consumers to read incompatible finite windows through private thresholds.}
+
+\independenceWitness{cauchysharedtailmodulus, cauchytailmodulusseal, realtailagreementseal, regseqrat, real: not bijective because the normalizer carries the common threshold, both window readbacks, both seal-facing routes, and the route-exhaustion ledger simultaneously.}
+
+Lean follow-up provides explicit $\mathsf{Nontrivial}\ \CauchyTailThresholdNormalizerUp$ and $\mathsf{FieldFaithful}\ \CauchyTailThresholdNormalizerUp$ instances in \texttt{lean4/BEDC/Derived/CauchyTailThresholdNormalizerUp/TasteGate.lean}.
+
+\closureat{CauchyTailThresholdNormalizerUp}{seedStr}
