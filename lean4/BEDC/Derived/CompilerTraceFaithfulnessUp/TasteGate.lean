@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CompilerTraceFaithfulnessUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -290,6 +294,22 @@ instance compilerTraceFaithfulnessNontrivial :
 def taste_gate : ChapterTasteGate CompilerTraceFaithfulnessUp :=
   -- BEDC touchpoint anchor: BHist BMark
   inferInstance
+
+def CompilerTraceFaithfulnessFiniteReplayBoundary_carrier
+    (S T K M G R L H C P N : BHist) : Prop :=
+  UnaryHistory R ∧ UnaryHistory L ∧ Cont S G R ∧ Cont R T L
+
+theorem CompilerTraceFaithfulnessFiniteReplayBoundary {S T K M G R L H C P N R' L' : BHist} :
+    CompilerTraceFaithfulnessFiniteReplayBoundary_carrier S T K M G R L H C P N ->
+      hsame R R' -> hsame L L' ->
+        UnaryHistory R' ∧ UnaryHistory L' ∧ Cont S G R ∧ Cont R T L := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier sameR sameL
+  exact
+    ⟨unary_transport carrier.left sameR,
+      unary_transport carrier.right.left sameL,
+      carrier.right.right.left,
+      carrier.right.right.right⟩
 
 theorem CompilerTraceFaithfulnessTasteGate_single_carrier_alignment :
     (∀ h : BHist,
