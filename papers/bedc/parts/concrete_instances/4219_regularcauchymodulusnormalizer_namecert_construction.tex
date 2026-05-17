@@ -207,6 +207,24 @@ or ambient completeness coordinate from the exported route.
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyModulusNormalizerUp.RegularCauchyModulusNormalizerCarrier\_tail\_budget\_extraction}
 
+\begin{theorem}[Regular Cauchy modulus normalizer cofinal-filter handoff]
+\label{thm:regular-cauchy-modulus-normalizer-cofinal-filter-handoff}
+For every accepted $\RegularCauchyModulusNormalizerUp$ carrier
+$$
+K=(X,Y,\mu_X,\mu_Y,M,W,D,R,E,H,C,P,N),
+$$
+the normalized route through $M,W,D,R$ supplies exactly the finite cofinal-tail filter surface consumed by $\FiniteTailFilterUp$. Every $\RealUp$-facing or completion-facing consumer must pass through the shared window row $W$ and dyadic tolerance row $D$ before reading the Real seal $E$, and the handoff admits no side-specific tail oracle, quotient stream, selected limit, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the source-exposure and shared-window rows in \autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations}. They force each source schedule $X,Y,\mu_X,\mu_Y$ to enter the common meet row $M$ before any downstream window can be read.
+
+Use \autoref{thm:regular-cauchy-modulus-normalizer-common-window}. The route downstream of $M$ is the shared finite-window row $W$, the dyadic tolerance row $D$, and the paired readback row $R$, with no side-specific replacement.
+
+Apply \autoref{thm:regular-cauchy-modulus-normalizer-tail-budget-extraction} and \autoref{thm:regular-cauchy-modulus-normalizer-nonescape}. The tail-budget route reaches the seal only through $(W,D,R)$ and then $E,H,C,P,N$, while quotient streams, selected limits, host real equality, and ambient completeness are excluded.
+
+Finally read \autoref{ch:concrete-instances-finite-tail-filter-namecert} as the consumer surface. Its finite cofinal-tail filter consumes window, dyadic tolerance, regular readback, tail-budget comparison, Real seal, transport, continuation, provenance, and local naming rows; the normalized $M,W,D,R$ route supplies exactly that finite surface before any Real or completion consumer can cite the seal.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy modulus normalizer public route]
 \label{thm:regular-cauchy-modulus-normalizer-public-route}
 For every accepted $\RegularCauchyModulusNormalizerUp$ carrier
@@ -272,6 +290,7 @@ Thus the classifier read is stable under displayed comparison replay and cannot
 be replaced by a quotient stream, host equality, selected limit, side-specific
 tail oracle, or ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyModulusNormalizerUp.RegularCauchyModulusNormalizerCarrier\_comparison\_stability}
 \begin{proof}
 Start with carrier admission and the classifier definition. The classifier can
 read only the coordinates displayed in the accepted tuple, so a componentwise
@@ -599,6 +618,7 @@ $\hsame$ rows recorded in $H$, and neither route can introduce a
 side-specific tail oracle, hidden modulus selector, quotient regular stream,
 or host real equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyModulusNormalizerUp.RegularCauchyModulusNormalizerCarrier\_shared\_tail\_meet\_determinacy}
 \begin{proof}
 Start with the shared-window obligation and common-window exactness. By
 \autoref{thm:regular-cauchy-modulus-normalizer-shared-window-obligation} and

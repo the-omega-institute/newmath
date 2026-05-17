@@ -187,6 +187,42 @@ Apply target-triangle coherence and center reuse determinacy. The target route u
 The consumer handoff and route exhaustion then list the whole downstream surface. Since real completeness, open-cover compactness, choice, and a second center are absent from that list, a $\UniformModulusUp$ consumer cannot obtain them from the accepted packet.
 \end{proof}
 
+\begin{theorem}[Metric-triangle uniform-estimate shared-modulus domain]
+\label{thm:metric-triangle-uniform-estimate-shared-modulus-domain}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the selected compact-net center $c$, source metric triangle row, two $\ContinuousMapUp$ pointwise rows, target metric triangle row, and $\UniformModulusUp$ consumer handoff share one displayed modulus domain. The carrier does not permit the source triangle, the two target estimates, or the final handoff to choose separate centers, separate tolerance rows, or separate consumer domains.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-triangle-uniform-estimate-carrier}. The rows $c,d_x,d_{x'},e_c,e_x,e_{x'},T$ occur in one packet, so the selected center and selected precision are visible before any consumer handoff.
+
+Apply the NameCert obligations of \autoref{thm:metric-triangle-uniform-estimate-namecert-obligations}. Source triangle admissibility uses $e_c$, $d_x$, and the displayed source distance to produce $d_{x'}$, while target triangle admissibility uses the two pointwise target estimates at the same center to produce $T$.
+
+Finally use \autoref{thm:metric-triangle-uniform-estimate-consumer-handoff}. The $\UniformModulusUp$ consumer receives only those rows and the structural rows $H,C,P,N$, so no second center, tolerance row, or consumer domain is available.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate consumer coverage]
+\label{thm:metric-triangle-uniform-estimate-consumer-coverage}
+Every accepted $\UniformModulusUp$ read of a $\MetricTriangleUniformEstimateUp$ carrier is covered by the compact-net center row, the source triangle row, the two continuous-map pointwise rows, the target triangle row, and the handoff rows $H,C,P,N$. A consumer that asks for a compactness theorem, a semantic continuity theorem, a real-completeness row, or a selected center outside the carrier is outside the covered surface.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metric-triangle-uniform-estimate-shared-modulus-domain}. It places the source and target estimates over the same selected center and selected precision.
+
+Use route exhaustion from \autoref{thm:metric-triangle-uniform-estimate-uniform-modulus-route-exhaustion}. The consumer route is exhausted by $e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N$.
+
+Apply no-completion escape from \autoref{thm:metric-triangle-uniform-estimate-no-completion-escape}. The excluded compactness theorem, semantic continuity theorem, real-completeness row, and outside center are not carrier coordinates and cannot be supplied by the handoff.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate source-target lock]
+\label{thm:metric-triangle-uniform-estimate-source-target-lock}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier, the source metric triangle row and the target metric triangle row are locked to the same selected compact-net center and the same $\UniformModulusUp$ handoff. The source-side production of $d_{x'}$ cannot be consumed without the target-side production of $T$, and the target-side production of $T$ cannot be consumed without the displayed source bounds $d_x,d_{x'}$.
+\end{theorem}
+\begin{proof}
+Read the source side first. Source-triangle coherence and radius composition identify $d_x$ and $d_{x'}$ as the source bounds produced from the selected center, selected precision, and source triangle row.
+
+Read the target side next. Target-triangle coherence and center reuse determinacy identify $T$ as the target triangle row using the two pointwise estimates at the same selected center.
+
+The lock is the consumer boundary. By \autoref{thm:metric-triangle-uniform-estimate-consumer-handoff} and \autoref{thm:metric-triangle-uniform-estimate-uniformmodulus-boundary-exactness}, the downstream $\UniformModulusUp$ read receives source rows and target rows together as one finite boundary, with no separate source-only or target-only export route.
+\end{proof}
+
 \closureat{MetricTriangleUniformEstimateUp}{seedStr}
 
 \begin{closurestatus}{\MetricTriangleUniformEstimateUp}

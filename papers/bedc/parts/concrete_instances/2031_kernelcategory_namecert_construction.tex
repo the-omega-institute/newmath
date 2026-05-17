@@ -737,6 +737,18 @@ Next use the total route statement. \autoref{thm:kernel-category-route-totality}
 Finally apply downstream readiness. \autoref{thm:kernel-category-downstream-namecert-readiness}, \autoref{thm:kernel-category-downstream-functor-route-boundary}, and \autoref{thm:kernel-category-continuation-monad-consumer-exhaustion} give the CategoryUp, FunctorUp, and ContinuationMonadUp handoffs from the same finite NameCert route, without a detached carrier for any one consumer.
 \end{proof}
 
+\begin{theorem}[KernelCategory object-hom-law separation]
+\label{thm:kernel-category-object-hom-law-separation}
+For an accepted $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, object rows, hom rows, and law rows are consumed through distinct finite coordinates: $O$ for unary object endpoints, $H,I,C$ for hom, identity, and composition continuation rows, and $A,U$ for associativity and unit transport. No accepted consumer may collapse these coordinates into quotient morphisms, host arrow equality, or a single ambient category law.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kernel-category-carrier}. It displays the object endpoint row $O$, the hom ledger $H$, the identity and composition continuation rows $I,C$, and the law transport rows $A,U$ as separate coordinates.
+
+Apply the root dependency theorems. The continuation dependency \autoref{thm:kernel-category-root-continuation-dependency} makes hom reads pass through $O,H,I,C$, while the law dependency \autoref{thm:kernel-category-root-law-dependency} makes associativity and unit reads pass through $A,U$ after the operation rows are visible.
+
+Finally use \autoref{thm:kernel-category-root-downstream-unblock}. The downstream route exports the same finite packet $O,H,I,C,A,U,P,N$ to category-shaped consumers, so quotient morphisms, host arrow equality, and ambient category laws have no coordinate through which to identify objects, homs, and laws.
+\end{proof}
+
 \closureat{KernelCategoryUp}{seedStr}
 \closureat{KernelCategoryUp}{obligationStr}
 \closureat{KernelCategoryUp}{scopedStr}
