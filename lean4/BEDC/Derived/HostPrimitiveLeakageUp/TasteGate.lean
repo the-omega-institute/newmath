@@ -10,7 +10,9 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive HostPrimitiveLeakageUp : Type where
-  | mk : (S Q E D F G H C P N : BHist) → HostPrimitiveLeakageUp
+  | mk :
+      (site request replacement diagnostic failedGate auditBoundary transport replay provenance
+        name : BHist) → HostPrimitiveLeakageUp
   deriving DecidableEq
 
 def hostPrimitiveLeakageEncodeBHist : BHist → RawEvent
@@ -25,7 +27,7 @@ def hostPrimitiveLeakageDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (hostPrimitiveLeakageDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (hostPrimitiveLeakageDecodeBHist tail)
 
-private theorem hostPrimitiveLeakage_decode_encode_bhist :
+private theorem hostPrimitiveLeakageDecode_encode_bhist :
     ∀ h : BHist,
       hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -38,110 +40,78 @@ private theorem hostPrimitiveLeakage_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def hostPrimitiveLeakageToEventFlow : HostPrimitiveLeakageUp → EventFlow
+private theorem hostPrimitiveLeakage_mk_congr
+    {site site' request request' replacement replacement' diagnostic diagnostic'
+      failedGate failedGate' auditBoundary auditBoundary' transport transport' replay replay'
+      provenance provenance' name name' : BHist}
+    (hSite : site' = site) (hRequest : request' = request)
+    (hReplacement : replacement' = replacement) (hDiagnostic : diagnostic' = diagnostic)
+    (hFailedGate : failedGate' = failedGate) (hAuditBoundary : auditBoundary' = auditBoundary)
+    (hTransport : transport' = transport) (hReplay : replay' = replay)
+    (hProvenance : provenance' = provenance) (hName : name' = name) :
+    HostPrimitiveLeakageUp.mk site' request' replacement' diagnostic' failedGate'
+        auditBoundary' transport' replay' provenance' name' =
+      HostPrimitiveLeakageUp.mk site request replacement diagnostic failedGate auditBoundary
+        transport replay provenance name := by
   -- BEDC touchpoint anchor: BHist BMark
-  | HostPrimitiveLeakageUp.mk S Q E D F G H C P N =>
-      [[BMark.b0],
-        hostPrimitiveLeakageEncodeBHist S,
-        [BMark.b1, BMark.b0],
-        hostPrimitiveLeakageEncodeBHist Q,
-        [BMark.b1, BMark.b1, BMark.b0],
-        hostPrimitiveLeakageEncodeBHist E,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        hostPrimitiveLeakageEncodeBHist D,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        hostPrimitiveLeakageEncodeBHist F,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        hostPrimitiveLeakageEncodeBHist G,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        hostPrimitiveLeakageEncodeBHist H,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        hostPrimitiveLeakageEncodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        hostPrimitiveLeakageEncodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        hostPrimitiveLeakageEncodeBHist N]
+  cases hSite
+  cases hRequest
+  cases hReplacement
+  cases hDiagnostic
+  cases hFailedGate
+  cases hAuditBoundary
+  cases hTransport
+  cases hReplay
+  cases hProvenance
+  cases hName
+  rfl
+
+def hostPrimitiveLeakageFields :
+    HostPrimitiveLeakageUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | HostPrimitiveLeakageUp.mk site request replacement diagnostic failedGate auditBoundary
+      transport replay provenance name =>
+      [site, request, replacement, diagnostic, failedGate, auditBoundary, transport, replay,
+        provenance, name]
+
+def hostPrimitiveLeakageToEventFlow :
+    HostPrimitiveLeakageUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | x => (hostPrimitiveLeakageFields x).map hostPrimitiveLeakageEncodeBHist
 
 def hostPrimitiveLeakageFromEventFlow :
     EventFlow → Option HostPrimitiveLeakageUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
-  | _tag0 :: rest0 =>
-      match rest0 with
-      | [] => none
-      | S :: rest1 =>
-          match rest1 with
-          | [] => none
-          | _tag1 :: rest2 =>
-              match rest2 with
-              | [] => none
-              | Q :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | _tag2 :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | E :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | _tag3 :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | D :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | _tag4 :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | F :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | _tag5 :: rest10 =>
-                                              match rest10 with
-                                              | [] => none
-                                              | G :: rest11 =>
-                                                  match rest11 with
-                                                  | [] => none
-                                                  | _tag6 :: rest12 =>
-                                                      match rest12 with
-                                                      | [] => none
-                                                      | H :: rest13 =>
-                                                          match rest13 with
-                                                          | [] => none
-                                                          | _tag7 :: rest14 =>
-                                                              match rest14 with
-                                                              | [] => none
-                                                              | C :: rest15 =>
-                                                                  match rest15 with
-                                                                  | [] => none
-                                                                  | _tag8 :: rest16 =>
-                                                                      match rest16 with
-                                                                      | [] => none
-                                                                      | P :: rest17 =>
-                                                                          match rest17 with
-                                                                          | [] => none
-                                                                          | _tag9 :: rest18 =>
-                                                                              match rest18 with
-                                                                              | [] => none
-                                                                              | N :: rest19 =>
-                                                                                  match rest19 with
-                                                                                  | [] =>
-                                                                                      some
-                                                                                        (HostPrimitiveLeakageUp.mk
-                                                                                          (hostPrimitiveLeakageDecodeBHist S)
-                                                                                          (hostPrimitiveLeakageDecodeBHist Q)
-                                                                                          (hostPrimitiveLeakageDecodeBHist E)
-                                                                                          (hostPrimitiveLeakageDecodeBHist D)
-                                                                                          (hostPrimitiveLeakageDecodeBHist F)
-                                                                                          (hostPrimitiveLeakageDecodeBHist G)
-                                                                                          (hostPrimitiveLeakageDecodeBHist H)
-                                                                                          (hostPrimitiveLeakageDecodeBHist C)
-                                                                                          (hostPrimitiveLeakageDecodeBHist P)
-                                                                                          (hostPrimitiveLeakageDecodeBHist N))
-                                                                                  | _ :: _ => none
+  | _site :: [] => none
+  | _site :: _request :: [] => none
+  | _site :: _request :: _replacement :: [] => none
+  | _site :: _request :: _replacement :: _diagnostic :: [] => none
+  | _site :: _request :: _replacement :: _diagnostic :: _failedGate :: [] => none
+  | _site :: _request :: _replacement :: _diagnostic :: _failedGate ::
+      _auditBoundary :: [] => none
+  | _site :: _request :: _replacement :: _diagnostic :: _failedGate ::
+      _auditBoundary :: _transport :: [] => none
+  | _site :: _request :: _replacement :: _diagnostic :: _failedGate ::
+      _auditBoundary :: _transport :: _replay :: [] => none
+  | _site :: _request :: _replacement :: _diagnostic :: _failedGate ::
+      _auditBoundary :: _transport :: _replay :: _provenance :: [] => none
+  | site :: request :: replacement :: diagnostic :: failedGate :: auditBoundary :: transport ::
+      replay :: provenance :: name :: [] =>
+      some
+        (HostPrimitiveLeakageUp.mk
+          (hostPrimitiveLeakageDecodeBHist site)
+          (hostPrimitiveLeakageDecodeBHist request)
+          (hostPrimitiveLeakageDecodeBHist replacement)
+          (hostPrimitiveLeakageDecodeBHist diagnostic)
+          (hostPrimitiveLeakageDecodeBHist failedGate)
+          (hostPrimitiveLeakageDecodeBHist auditBoundary)
+          (hostPrimitiveLeakageDecodeBHist transport)
+          (hostPrimitiveLeakageDecodeBHist replay)
+          (hostPrimitiveLeakageDecodeBHist provenance)
+          (hostPrimitiveLeakageDecodeBHist name))
+  | _site :: _request :: _replacement :: _diagnostic :: _failedGate :: _auditBoundary ::
+      _transport :: _replay :: _provenance :: _name :: _extra :: _rest => none
 
 private theorem hostPrimitiveLeakage_round_trip :
     ∀ x : HostPrimitiveLeakageUp,
@@ -149,33 +119,24 @@ private theorem hostPrimitiveLeakage_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk S Q E D F G H C P N =>
-      change
-        some
-          (HostPrimitiveLeakageUp.mk
-            (hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist S))
-            (hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist Q))
-            (hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist E))
-            (hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist D))
-            (hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist F))
-            (hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist G))
-            (hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist H))
-            (hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist C))
-            (hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist P))
-            (hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist N))) =
-          some (HostPrimitiveLeakageUp.mk S Q E D F G H C P N)
-      rw [hostPrimitiveLeakage_decode_encode_bhist S,
-        hostPrimitiveLeakage_decode_encode_bhist Q,
-        hostPrimitiveLeakage_decode_encode_bhist E,
-        hostPrimitiveLeakage_decode_encode_bhist D,
-        hostPrimitiveLeakage_decode_encode_bhist F,
-        hostPrimitiveLeakage_decode_encode_bhist G,
-        hostPrimitiveLeakage_decode_encode_bhist H,
-        hostPrimitiveLeakage_decode_encode_bhist C,
-        hostPrimitiveLeakage_decode_encode_bhist P,
-        hostPrimitiveLeakage_decode_encode_bhist N]
+  | mk site request replacement diagnostic failedGate auditBoundary transport replay provenance
+      name =>
+      exact
+        congrArg some
+          (hostPrimitiveLeakage_mk_congr
+            (hostPrimitiveLeakageDecode_encode_bhist site)
+            (hostPrimitiveLeakageDecode_encode_bhist request)
+            (hostPrimitiveLeakageDecode_encode_bhist replacement)
+            (hostPrimitiveLeakageDecode_encode_bhist diagnostic)
+            (hostPrimitiveLeakageDecode_encode_bhist failedGate)
+            (hostPrimitiveLeakageDecode_encode_bhist auditBoundary)
+            (hostPrimitiveLeakageDecode_encode_bhist transport)
+            (hostPrimitiveLeakageDecode_encode_bhist replay)
+            (hostPrimitiveLeakageDecode_encode_bhist provenance)
+            (hostPrimitiveLeakageDecode_encode_bhist name))
 
-private theorem hostPrimitiveLeakageToEventFlow_injective {x y : HostPrimitiveLeakageUp} :
+private theorem hostPrimitiveLeakageToEventFlow_injective
+    {x y : HostPrimitiveLeakageUp} :
     hostPrimitiveLeakageToEventFlow x = hostPrimitiveLeakageToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -187,19 +148,17 @@ private theorem hostPrimitiveLeakageToEventFlow_injective {x y : HostPrimitiveLe
     (Eq.trans (hostPrimitiveLeakage_round_trip x).symm
       (Eq.trans hread (hostPrimitiveLeakage_round_trip y)))
 
-def hostPrimitiveLeakageFields : HostPrimitiveLeakageUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | HostPrimitiveLeakageUp.mk S Q E D F G H C P N => [S, Q, E, D, F, G, H, C, P, N]
-
 private theorem hostPrimitiveLeakage_field_faithful :
     ∀ x y : HostPrimitiveLeakageUp,
       hostPrimitiveLeakageFields x = hostPrimitiveLeakageFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk S Q E D F G H C P N =>
+  | mk site request replacement diagnostic failedGate auditBoundary transport replay provenance
+      name =>
       cases y with
-      | mk S' Q' E' D' F' G' H' C' P' N' =>
+      | mk site' request' replacement' diagnostic' failedGate' auditBoundary' transport'
+          replay' provenance' name' =>
           cases hfields
           rfl
 
@@ -241,5 +200,22 @@ instance hostPrimitiveLeakageNontrivial :
 def taste_gate : ChapterTasteGate HostPrimitiveLeakageUp :=
   -- BEDC touchpoint anchor: BHist BMark
   hostPrimitiveLeakageChapterTasteGate
+
+theorem HostPrimitiveLeakageTasteGate_single_carrier_alignment :
+    ChapterTasteGate HostPrimitiveLeakageUp ∧
+      Nonempty (Nontrivial HostPrimitiveLeakageUp) ∧
+        Nonempty (FieldFaithful HostPrimitiveLeakageUp) ∧
+          (∀ h : BHist,
+            hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist h) = h) ∧
+          (∀ x : HostPrimitiveLeakageUp,
+            hostPrimitiveLeakageFromEventFlow (hostPrimitiveLeakageToEventFlow x) = some x) ∧
+          (∀ x y : HostPrimitiveLeakageUp,
+            hostPrimitiveLeakageToEventFlow x = hostPrimitiveLeakageToEventFlow y → x = y) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  exact
+    ⟨hostPrimitiveLeakageChapterTasteGate, ⟨hostPrimitiveLeakageNontrivial⟩,
+      ⟨hostPrimitiveLeakageFieldFaithful⟩, hostPrimitiveLeakageDecode_encode_bhist,
+      hostPrimitiveLeakage_round_trip,
+      fun _ _ heq => hostPrimitiveLeakageToEventFlow_injective heq⟩
 
 end BEDC.Derived.HostPrimitiveLeakageUp
