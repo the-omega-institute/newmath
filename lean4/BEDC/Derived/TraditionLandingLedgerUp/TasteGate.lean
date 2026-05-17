@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.TraditionLandingLedgerUp.TasteGate
+namespace BEDC.Derived.TraditionLandingLedgerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,101 +25,71 @@ def traditionLandingLedgerDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (traditionLandingLedgerDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (traditionLandingLedgerDecodeBHist tail)
 
-private theorem TraditionLandingLedgerTasteGate_single_carrier_alignment_decode :
+private theorem traditionLandingLedger_decode_encode_bhist :
     ∀ h : BHist,
       traditionLandingLedgerDecodeBHist (traditionLandingLedgerEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
+
+private theorem traditionLandingLedger_mk_congr
+    {S S' T T' R R' D D' H H' C C' P P' N N' : BHist}
+    (hS : S' = S)
+    (hT : T' = T)
+    (hR : R' = R)
+    (hD : D' = D)
+    (hH : H' = H)
+    (hC : C' = C)
+    (hP : P' = P)
+    (hN : N' = N) :
+    TraditionLandingLedgerUp.mk S' T' R' D' H' C' P' N' =
+      TraditionLandingLedgerUp.mk S T R D H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hS
+  cases hT
+  cases hR
+  cases hD
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
+
+private def traditionLandingLedgerRawAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => []
+  | 0, head :: _ => head
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => traditionLandingLedgerRawAt n rest
+
+def traditionLandingLedgerFields : TraditionLandingLedgerUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | TraditionLandingLedgerUp.mk S T R D H C P N => [S, T, R, D, H, C, P, N]
 
 def traditionLandingLedgerToEventFlow : TraditionLandingLedgerUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | TraditionLandingLedgerUp.mk S T R D H C P N =>
-      [[BMark.b0],
-        traditionLandingLedgerEncodeBHist S,
-        [BMark.b1, BMark.b0],
-        traditionLandingLedgerEncodeBHist T,
-        [BMark.b1, BMark.b1, BMark.b0],
-        traditionLandingLedgerEncodeBHist R,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        traditionLandingLedgerEncodeBHist D,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        traditionLandingLedgerEncodeBHist H,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        traditionLandingLedgerEncodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        traditionLandingLedgerEncodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        traditionLandingLedgerEncodeBHist N]
+  | x => List.map traditionLandingLedgerEncodeBHist (traditionLandingLedgerFields x)
 
-def traditionLandingLedgerFromEventFlow : EventFlow → Option TraditionLandingLedgerUp
+def traditionLandingLedgerFromEventFlow (ef : EventFlow) : Option TraditionLandingLedgerUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _tagS :: restS =>
-      match restS with
-      | [] => none
-      | S :: restTTag =>
-          match restTTag with
-          | [] => none
-          | _tagT :: restT =>
-              match restT with
-              | [] => none
-              | T :: restRTag =>
-                  match restRTag with
-                  | [] => none
-                  | _tagR :: restR =>
-                      match restR with
-                      | [] => none
-                      | R :: restDTag =>
-                          match restDTag with
-                          | [] => none
-                          | _tagD :: restD =>
-                              match restD with
-                              | [] => none
-                              | D :: restHTag =>
-                                  match restHTag with
-                                  | [] => none
-                                  | _tagH :: restH =>
-                                      match restH with
-                                      | [] => none
-                                      | H :: restCTag =>
-                                          match restCTag with
-                                          | [] => none
-                                          | _tagC :: restC =>
-                                              match restC with
-                                              | [] => none
-                                              | C :: restPTag =>
-                                                  match restPTag with
-                                                  | [] => none
-                                                  | _tagP :: restP =>
-                                                      match restP with
-                                                      | [] => none
-                                                      | P :: restNTag =>
-                                                          match restNTag with
-                                                          | [] => none
-                                                          | _tagN :: restN =>
-                                                              match restN with
-                                                              | [] => none
-                                                              | N :: rest =>
-                                                                  match rest with
-                                                                  | [] =>
-                                                                      some
-                                                                        (TraditionLandingLedgerUp.mk
-                                                                          (traditionLandingLedgerDecodeBHist S)
-                                                                          (traditionLandingLedgerDecodeBHist T)
-                                                                          (traditionLandingLedgerDecodeBHist R)
-                                                                          (traditionLandingLedgerDecodeBHist D)
-                                                                          (traditionLandingLedgerDecodeBHist H)
-                                                                          (traditionLandingLedgerDecodeBHist C)
-                                                                          (traditionLandingLedgerDecodeBHist P)
-                                                                          (traditionLandingLedgerDecodeBHist N))
-                                                                  | _ :: _ => none
+  some
+    (TraditionLandingLedgerUp.mk
+      (traditionLandingLedgerDecodeBHist (traditionLandingLedgerRawAt 0 ef))
+      (traditionLandingLedgerDecodeBHist (traditionLandingLedgerRawAt 1 ef))
+      (traditionLandingLedgerDecodeBHist (traditionLandingLedgerRawAt 2 ef))
+      (traditionLandingLedgerDecodeBHist (traditionLandingLedgerRawAt 3 ef))
+      (traditionLandingLedgerDecodeBHist (traditionLandingLedgerRawAt 4 ef))
+      (traditionLandingLedgerDecodeBHist (traditionLandingLedgerRawAt 5 ef))
+      (traditionLandingLedgerDecodeBHist (traditionLandingLedgerRawAt 6 ef))
+      (traditionLandingLedgerDecodeBHist (traditionLandingLedgerRawAt 7 ef)))
 
-private theorem TraditionLandingLedgerTasteGate_single_carrier_alignment_round_trip :
+private theorem traditionLandingLedger_round_trip :
     ∀ x : TraditionLandingLedgerUp,
       traditionLandingLedgerFromEventFlow (traditionLandingLedgerToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -138,17 +108,19 @@ private theorem TraditionLandingLedgerTasteGate_single_carrier_alignment_round_t
             (traditionLandingLedgerDecodeBHist (traditionLandingLedgerEncodeBHist P))
             (traditionLandingLedgerDecodeBHist (traditionLandingLedgerEncodeBHist N))) =
           some (TraditionLandingLedgerUp.mk S T R D H C P N)
-      rw [TraditionLandingLedgerTasteGate_single_carrier_alignment_decode S,
-        TraditionLandingLedgerTasteGate_single_carrier_alignment_decode T,
-        TraditionLandingLedgerTasteGate_single_carrier_alignment_decode R,
-        TraditionLandingLedgerTasteGate_single_carrier_alignment_decode D,
-        TraditionLandingLedgerTasteGate_single_carrier_alignment_decode H,
-        TraditionLandingLedgerTasteGate_single_carrier_alignment_decode C,
-        TraditionLandingLedgerTasteGate_single_carrier_alignment_decode P,
-        TraditionLandingLedgerTasteGate_single_carrier_alignment_decode N]
+      exact
+        congrArg some
+          (traditionLandingLedger_mk_congr
+            (traditionLandingLedger_decode_encode_bhist S)
+            (traditionLandingLedger_decode_encode_bhist T)
+            (traditionLandingLedger_decode_encode_bhist R)
+            (traditionLandingLedger_decode_encode_bhist D)
+            (traditionLandingLedger_decode_encode_bhist H)
+            (traditionLandingLedger_decode_encode_bhist C)
+            (traditionLandingLedger_decode_encode_bhist P)
+            (traditionLandingLedger_decode_encode_bhist N))
 
-private theorem TraditionLandingLedgerTasteGate_single_carrier_alignment_injective
-    {x y : TraditionLandingLedgerUp} :
+private theorem traditionLandingLedgerToEventFlow_injective {x y : TraditionLandingLedgerUp} :
     traditionLandingLedgerToEventFlow x = traditionLandingLedgerToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -157,29 +129,22 @@ private theorem TraditionLandingLedgerTasteGate_single_carrier_alignment_injecti
         traditionLandingLedgerFromEventFlow (traditionLandingLedgerToEventFlow y) :=
     congrArg traditionLandingLedgerFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (TraditionLandingLedgerTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (TraditionLandingLedgerTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (traditionLandingLedger_round_trip x).symm
+      (Eq.trans hread (traditionLandingLedger_round_trip y)))
 
-private def traditionLandingLedgerFields : TraditionLandingLedgerUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | TraditionLandingLedgerUp.mk S T R D H C P N => [S, T, R, D, H, C, P, N]
-
-private theorem TraditionLandingLedgerTasteGate_single_carrier_alignment_fields :
+private theorem traditionLandingLedger_field_faithful :
     ∀ x y : TraditionLandingLedgerUp,
       traditionLandingLedgerFields x = traditionLandingLedgerFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
+  intro x y h
   cases x with
   | mk S1 T1 R1 D1 H1 C1 P1 N1 =>
       cases y with
       | mk S2 T2 R2 D2 H2 C2 P2 N2 =>
-          cases hfields
+          cases h
           rfl
 
-instance traditionLandingLedgerBHistCarrier :
-    BHistCarrier TraditionLandingLedgerUp where
+instance traditionLandingLedgerBHistCarrier : BHistCarrier TraditionLandingLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := traditionLandingLedgerToEventFlow
   fromEventFlow := traditionLandingLedgerFromEventFlow
@@ -189,45 +154,59 @@ instance traditionLandingLedgerChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change traditionLandingLedgerFromEventFlow (traditionLandingLedgerToEventFlow x) = some x
-    exact TraditionLandingLedgerTasteGate_single_carrier_alignment_round_trip x
+    change
+      traditionLandingLedgerFromEventFlow (traditionLandingLedgerToEventFlow x) = some x
+    exact traditionLandingLedger_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (TraditionLandingLedgerTasteGate_single_carrier_alignment_injective heq)
+    exact hxy (traditionLandingLedgerToEventFlow_injective heq)
 
-instance traditionLandingLedgerFieldFaithful :
-    FieldFaithful TraditionLandingLedgerUp where
+instance traditionLandingLedgerFieldFaithful : FieldFaithful TraditionLandingLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := traditionLandingLedgerFields
-  field_faithful := TraditionLandingLedgerTasteGate_single_carrier_alignment_fields
+  field_faithful := traditionLandingLedger_field_faithful
 
 instance traditionLandingLedgerNontrivial : Nontrivial TraditionLandingLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨TraditionLandingLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+    ⟨TraditionLandingLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
       TraditionLandingLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate TraditionLandingLedgerUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  traditionLandingLedgerChapterTasteGate
+
 theorem TraditionLandingLedgerTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       traditionLandingLedgerDecodeBHist (traditionLandingLedgerEncodeBHist h) = h) ∧
       (∀ x : TraditionLandingLedgerUp,
-        traditionLandingLedgerFromEventFlow (traditionLandingLedgerToEventFlow x) = some x) ∧
+        traditionLandingLedgerFromEventFlow (traditionLandingLedgerToEventFlow x) =
+          some x) ∧
         (∀ x y : TraditionLandingLedgerUp,
-          traditionLandingLedgerToEventFlow x = traditionLandingLedgerToEventFlow y → x = y) ∧
-          traditionLandingLedgerEncodeBHist BHist.Empty = ([] : List BMark) := by
+          traditionLandingLedgerToEventFlow x = traditionLandingLedgerToEventFlow y →
+            x = y) ∧
+          traditionLandingLedgerEncodeBHist BHist.Empty = ([] : List BMark) ∧
+            (∀ x y : TraditionLandingLedgerUp,
+              traditionLandingLedgerFields x = traditionLandingLedgerFields y → x = y) ∧
+              (∃ x y : TraditionLandingLedgerUp, x ≠ y) := by
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact TraditionLandingLedgerTasteGate_single_carrier_alignment_decode
-  constructor
-  · exact TraditionLandingLedgerTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y heq
-    exact TraditionLandingLedgerTasteGate_single_carrier_alignment_injective heq
-  · rfl
+  exact
+    ⟨traditionLandingLedger_decode_encode_bhist,
+      ⟨traditionLandingLedger_round_trip,
+        ⟨fun _x _y heq => traditionLandingLedgerToEventFlow_injective heq,
+          ⟨rfl,
+            ⟨traditionLandingLedger_field_faithful,
+              ⟨TraditionLandingLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+                TraditionLandingLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+                by
+                  intro h
+                  cases h⟩⟩⟩⟩⟩⟩
 
-end BEDC.Derived.TraditionLandingLedgerUp.TasteGate
+end BEDC.Derived.TraditionLandingLedgerUp
