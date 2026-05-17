@@ -81,6 +81,34 @@ composite exit route on the four displayed faces and provide no row for
 RealUp completeness or for a standard bridge over the product.
 \end{proof}
 
+\begin{theorem}[Real L10 face Lean target non-collapse]
+\label{thm:real-l10-face-leantarget-noncollapse}
+Any accepted current Phase Real and Completion audit read through
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ preserves
+each face's Lean-target row and bridge-status row as local records of that
+face. No $\bridgeCheckedV$ face can supply the Lean target or bridge row for
+another face, and the composite route creates neither a route-level Lean
+target nor an aggregate bridge row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-current-phase-exit-audit-pullback}. It reads the
+accepted exit audit as the product of the four local face records over the
+displayed Real L10 dependency lattice.
+
+Apply \autoref{thm:real-l10-face-status-noncollapse}. It keeps the closure
+and verification reports objectwise, so a $\bridgeCheckedV$ entry is a record
+of its own face rather than a credential for a different face.
+
+Now project the target and bridge rows along the same exactness data used by
+the pullback. The source-route non-escape, interface-totality, four-face
+exactness, and StreamName exit-correspondence inputs provide coordinates only
+for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Since those inputs provide no fifth face, no route-level Lean-target
+coordinate, and no aggregate bridge coordinate, the local Lean-target and
+bridge-status rows remain attached to the faces from which they are read.
+\end{proof}
+
 \begin{theorem}[Real L10 current phase exit certificate]
 \label{thm:real-l10-current-phase-exit-certificate}
 An accepted Phase Real and Completion exit certificate is exactly the
