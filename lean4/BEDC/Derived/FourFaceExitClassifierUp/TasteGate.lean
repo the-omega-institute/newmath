@@ -1,16 +1,20 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FourFaceExitClassifierUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive FourFaceExitClassifierUp : Type where
-  | mk : (S D R E H C P N : BHist) → FourFaceExitClassifierUp
+  | mk :
+      (stream tolerance readback realSeal transport continuation provenance name : BHist) →
+      FourFaceExitClassifierUp
   deriving DecidableEq
 
 def fourFaceExitClassifierEncodeBHist : BHist → RawEvent
@@ -25,7 +29,7 @@ def fourFaceExitClassifierDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (fourFaceExitClassifierDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (fourFaceExitClassifierDecodeBHist tail)
 
-private theorem FourFaceExitClassifierTasteGate_single_carrier_alignment_decode :
+private theorem fourFaceExitClassifier_decode_encode_bhist :
     ∀ h : BHist,
       fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -38,73 +42,137 @@ private theorem FourFaceExitClassifierTasteGate_single_carrier_alignment_decode 
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
+def fourFaceExitClassifierFields : FourFaceExitClassifierUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | FourFaceExitClassifierUp.mk stream tolerance readback realSeal transport continuation
+      provenance name =>
+      [stream, tolerance, readback, realSeal, transport, continuation, provenance, name]
+
 def fourFaceExitClassifierToEventFlow : FourFaceExitClassifierUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | FourFaceExitClassifierUp.mk S D R E H C P N =>
-      [[BMark.b0, BMark.b1, BMark.b0],
-        fourFaceExitClassifierEncodeBHist S,
-        fourFaceExitClassifierEncodeBHist D,
-        fourFaceExitClassifierEncodeBHist R,
-        fourFaceExitClassifierEncodeBHist E,
-        fourFaceExitClassifierEncodeBHist H,
-        fourFaceExitClassifierEncodeBHist C,
-        fourFaceExitClassifierEncodeBHist P,
-        fourFaceExitClassifierEncodeBHist N]
-
-private def fourFaceExitClassifierEventAtDefault : Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => fourFaceExitClassifierEventAtDefault index rest
+  | FourFaceExitClassifierUp.mk stream tolerance readback realSeal transport continuation
+      provenance name =>
+      [[BMark.b0],
+        fourFaceExitClassifierEncodeBHist stream,
+        [BMark.b1, BMark.b0],
+        fourFaceExitClassifierEncodeBHist tolerance,
+        [BMark.b1, BMark.b1, BMark.b0],
+        fourFaceExitClassifierEncodeBHist readback,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        fourFaceExitClassifierEncodeBHist realSeal,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        fourFaceExitClassifierEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        fourFaceExitClassifierEncodeBHist continuation,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        fourFaceExitClassifierEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        fourFaceExitClassifierEncodeBHist name]
 
 def fourFaceExitClassifierFromEventFlow :
-    EventFlow → Option FourFaceExitClassifierUp :=
+    EventFlow → Option FourFaceExitClassifierUp
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (FourFaceExitClassifierUp.mk
-        (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEventAtDefault 1 ef))
-        (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEventAtDefault 2 ef))
-        (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEventAtDefault 3 ef))
-        (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEventAtDefault 4 ef))
-        (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEventAtDefault 5 ef))
-        (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEventAtDefault 6 ef))
-        (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEventAtDefault 7 ef))
-        (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEventAtDefault 8 ef)))
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | stream :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | tolerance :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | readback :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | realSeal :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | transport :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | continuation :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | provenance :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | name :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] =>
+                                                                      some
+                                                                        (FourFaceExitClassifierUp.mk
+                                                                          (fourFaceExitClassifierDecodeBHist
+                                                                            stream)
+                                                                          (fourFaceExitClassifierDecodeBHist
+                                                                            tolerance)
+                                                                          (fourFaceExitClassifierDecodeBHist
+                                                                            readback)
+                                                                          (fourFaceExitClassifierDecodeBHist
+                                                                            realSeal)
+                                                                          (fourFaceExitClassifierDecodeBHist
+                                                                            transport)
+                                                                          (fourFaceExitClassifierDecodeBHist
+                                                                            continuation)
+                                                                          (fourFaceExitClassifierDecodeBHist
+                                                                            provenance)
+                                                                          (fourFaceExitClassifierDecodeBHist
+                                                                            name))
+                                                                  | _ :: _ => none
 
-private def fourFaceExitClassifierFields : FourFaceExitClassifierUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | FourFaceExitClassifierUp.mk S D R E H C P N => [S, D, R, E, H, C, P, N]
-
-private theorem FourFaceExitClassifierTasteGate_single_carrier_alignment_round_trip :
+private theorem fourFaceExitClassifier_round_trip :
     ∀ x : FourFaceExitClassifierUp,
-      fourFaceExitClassifierFromEventFlow (fourFaceExitClassifierToEventFlow x) =
-        some x := by
+      fourFaceExitClassifierFromEventFlow (fourFaceExitClassifierToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk S D R E H C P N =>
+  | mk stream tolerance readback realSeal transport continuation provenance name =>
       change
         some
           (FourFaceExitClassifierUp.mk
-            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist S))
-            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist D))
-            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist R))
-            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist E))
-            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist H))
-            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist C))
-            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist P))
-            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist N))) =
-          some (FourFaceExitClassifierUp.mk S D R E H C P N)
-      rw [FourFaceExitClassifierTasteGate_single_carrier_alignment_decode S,
-        FourFaceExitClassifierTasteGate_single_carrier_alignment_decode D,
-        FourFaceExitClassifierTasteGate_single_carrier_alignment_decode R,
-        FourFaceExitClassifierTasteGate_single_carrier_alignment_decode E,
-        FourFaceExitClassifierTasteGate_single_carrier_alignment_decode H,
-        FourFaceExitClassifierTasteGate_single_carrier_alignment_decode C,
-        FourFaceExitClassifierTasteGate_single_carrier_alignment_decode P,
-        FourFaceExitClassifierTasteGate_single_carrier_alignment_decode N]
+            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist stream))
+            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist tolerance))
+            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist readback))
+            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist realSeal))
+            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist transport))
+            (fourFaceExitClassifierDecodeBHist
+              (fourFaceExitClassifierEncodeBHist continuation))
+            (fourFaceExitClassifierDecodeBHist
+              (fourFaceExitClassifierEncodeBHist provenance))
+            (fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist name))) =
+          some
+            (FourFaceExitClassifierUp.mk stream tolerance readback realSeal transport
+              continuation provenance name)
+      rw [fourFaceExitClassifier_decode_encode_bhist stream,
+        fourFaceExitClassifier_decode_encode_bhist tolerance,
+        fourFaceExitClassifier_decode_encode_bhist readback,
+        fourFaceExitClassifier_decode_encode_bhist realSeal,
+        fourFaceExitClassifier_decode_encode_bhist transport,
+        fourFaceExitClassifier_decode_encode_bhist continuation,
+        fourFaceExitClassifier_decode_encode_bhist provenance,
+        fourFaceExitClassifier_decode_encode_bhist name]
 
 private theorem fourFaceExitClassifierToEventFlow_injective
     {x y : FourFaceExitClassifierUp} :
@@ -116,34 +184,19 @@ private theorem fourFaceExitClassifierToEventFlow_injective
         fourFaceExitClassifierFromEventFlow (fourFaceExitClassifierToEventFlow y) :=
     congrArg fourFaceExitClassifierFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (FourFaceExitClassifierTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (FourFaceExitClassifierTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (fourFaceExitClassifier_round_trip x).symm
+      (Eq.trans hread (fourFaceExitClassifier_round_trip y)))
 
 private theorem fourFaceExitClassifier_field_faithful :
     ∀ x y : FourFaceExitClassifierUp,
       fourFaceExitClassifierFields x = fourFaceExitClassifierFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x y h
+  intro x y hfields
   cases x with
-  | mk S₁ D₁ R₁ E₁ H₁ C₁ P₁ N₁ =>
+  | mk stream tolerance readback realSeal transport continuation provenance name =>
       cases y with
-      | mk S₂ D₂ R₂ E₂ H₂ C₂ P₂ N₂ =>
-          injection h with hS t1
-          injection t1 with hD t2
-          injection t2 with hR t3
-          injection t3 with hE t4
-          injection t4 with hH t5
-          injection t5 with hC t6
-          injection t6 with hP t7
-          injection t7 with hN _
-          cases hS
-          cases hD
-          cases hR
-          cases hE
-          cases hH
-          cases hC
-          cases hP
-          cases hN
+      | mk stream' tolerance' readback' realSeal' transport' continuation' provenance' name' =>
+          cases hfields
           rfl
 
 instance fourFaceExitClassifierBHistCarrier : BHistCarrier FourFaceExitClassifierUp where
@@ -157,7 +210,7 @@ instance fourFaceExitClassifierChapterTasteGate :
   round_trip := by
     intro x
     change fourFaceExitClassifierFromEventFlow (fourFaceExitClassifierToEventFlow x) = some x
-    exact FourFaceExitClassifierTasteGate_single_carrier_alignment_round_trip x
+    exact fourFaceExitClassifier_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (fourFaceExitClassifierToEventFlow_injective heq)
@@ -175,9 +228,12 @@ instance fourFaceExitClassifierNontrivial : Nontrivial FourFaceExitClassifierUp 
       FourFaceExitClassifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
-        -- BEDC touchpoint anchor: BHist BMark
         intro h
         cases h⟩
+
+def taste_gate : ChapterTasteGate FourFaceExitClassifierUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  inferInstance
 
 theorem FourFaceExitClassifierTasteGate_single_carrier_alignment :
     (∀ h : BHist,
@@ -191,12 +247,34 @@ theorem FourFaceExitClassifierTasteGate_single_carrier_alignment :
           fourFaceExitClassifierEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful
   constructor
-  · exact FourFaceExitClassifierTasteGate_single_carrier_alignment_decode
+  · exact fourFaceExitClassifier_decode_encode_bhist
   · constructor
-    · exact FourFaceExitClassifierTasteGate_single_carrier_alignment_round_trip
+    · exact fourFaceExitClassifier_round_trip
     · constructor
       · intro x y heq
         exact fourFaceExitClassifierToEventFlow_injective heq
       · rfl
+
+namespace TasteGate
+
+theorem FourFaceExitClassifierNameCertObligations
+    (stream tolerance readback realSeal transport continuation provenance name : BHist) :
+    fourFaceExitClassifierFields
+        (FourFaceExitClassifierUp.mk stream tolerance readback realSeal transport continuation
+          provenance name) =
+      [stream, tolerance, readback, realSeal, transport, continuation, provenance, name] ∧
+      Cont stream tolerance (append stream tolerance) ∧
+        Cont readback realSeal (append readback realSeal) ∧
+          hsame (append readback realSeal) (append readback realSeal) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · exact hsame_refl (append readback realSeal)
+
+end TasteGate
 
 end BEDC.Derived.FourFaceExitClassifierUp
