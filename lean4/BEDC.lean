@@ -390,6 +390,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.WindowToleranceExactness
 import BEDC.Derived.CauchyModulusRefinementUp.CauchyCriterionSelectorCofinality
 import BEDC.Derived.CauchyModulusRefinementUp.DiagonalBudgetCofinalityRoute
 import BEDC.Derived.CauchyModulusRefinementUp.MeetThresholdNonescape
+import BEDC.Derived.CauchyModulusRefinementUp.NameCertScope
 import BEDC.Derived.CauchyModulusRefinementUp.NameScopePackage
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealScopePackage
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealObligationSurface
@@ -997,6 +998,7 @@ import BEDC.Derived.CertificateCompilerUp.ClassifierRouteDependencyScope
 import BEDC.Derived.CertificateCompilerUp.DependencyScope
 import BEDC.Derived.CertificateCompilerUp.SourceTargetLandingExhaustion
 import BEDC.Derived.CertificateCompilerUp.EndpointKernelMorphismRoundtrip
+import BEDC.Derived.MachineInterfaceBoundaryUp.TasteGate
 import BEDC.Derived.MachineInterfaceSocketUp.TasteGate
 import BEDC.Derived.UnitCalibrationLedgerUp.TasteGate
 import BEDC.Derived.CauchyCriterionUp
