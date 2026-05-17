@@ -11,7 +11,7 @@ open BEDC.Meta.TasteGate
 
 inductive PhysicalLawBridgeUp : Type where
   | mk :
-      (law empirical bridge object openFit failure transport route provenance localName : BHist) →
+      (law empirical bridge object fit failure transport replay provenance name : BHist) →
         PhysicalLawBridgeUp
   deriving DecidableEq
 
@@ -28,7 +28,8 @@ def physicalLawBridgeDecodeBHist : RawEvent → BHist
   | BMark.b1 :: tail => BHist.e1 (physicalLawBridgeDecodeBHist tail)
 
 private theorem physicalLawBridgeDecode_encode_bhist :
-    ∀ h : BHist, physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist h) = h := by
+    ∀ h : BHist,
+      physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -39,63 +40,56 @@ private theorem physicalLawBridgeDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def physicalLawBridgeFields : PhysicalLawBridgeUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | PhysicalLawBridgeUp.mk law empirical bridge object openFit failure transport route
-      provenance localName =>
-      [law, empirical, bridge, object, openFit, failure, transport, route, provenance,
-        localName]
-
 def physicalLawBridgeToEventFlow : PhysicalLawBridgeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (physicalLawBridgeFields x).map physicalLawBridgeEncodeBHist
+  | PhysicalLawBridgeUp.mk law empirical bridge object fit failure transport replay provenance
+      name =>
+      [[BMark.b0],
+        physicalLawBridgeEncodeBHist law,
+        [BMark.b1, BMark.b0],
+        physicalLawBridgeEncodeBHist empirical,
+        [BMark.b1, BMark.b1, BMark.b0],
+        physicalLawBridgeEncodeBHist bridge,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        physicalLawBridgeEncodeBHist object,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        physicalLawBridgeEncodeBHist fit,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        physicalLawBridgeEncodeBHist failure,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        physicalLawBridgeEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        physicalLawBridgeEncodeBHist replay,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        physicalLawBridgeEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        physicalLawBridgeEncodeBHist name]
 
-def physicalLawBridgeFromEventFlow : EventFlow → Option PhysicalLawBridgeUp
+private def physicalLawBridgeEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | law :: rest0 =>
-      match rest0 with
-      | [] => none
-      | empirical :: rest1 =>
-          match rest1 with
-          | [] => none
-          | bridge :: rest2 =>
-              match rest2 with
-              | [] => none
-              | object :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | openFit :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | failure :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | transport :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | route :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | provenance :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | localName :: rest9 =>
-                                          match rest9 with
-                                          | [] =>
-                                              some
-                                                (PhysicalLawBridgeUp.mk
-                                                  (physicalLawBridgeDecodeBHist law)
-                                                  (physicalLawBridgeDecodeBHist empirical)
-                                                  (physicalLawBridgeDecodeBHist bridge)
-                                                  (physicalLawBridgeDecodeBHist object)
-                                                  (physicalLawBridgeDecodeBHist openFit)
-                                                  (physicalLawBridgeDecodeBHist failure)
-                                                  (physicalLawBridgeDecodeBHist transport)
-                                                  (physicalLawBridgeDecodeBHist route)
-                                                  (physicalLawBridgeDecodeBHist provenance)
-                                                  (physicalLawBridgeDecodeBHist localName))
-                                          | _ :: _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      physicalLawBridgeEventAtDefault index rest
+
+def physicalLawBridgeFromEventFlow (ef : EventFlow) : Option PhysicalLawBridgeUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (PhysicalLawBridgeUp.mk
+      (physicalLawBridgeDecodeBHist (physicalLawBridgeEventAtDefault 1 ef))
+      (physicalLawBridgeDecodeBHist (physicalLawBridgeEventAtDefault 3 ef))
+      (physicalLawBridgeDecodeBHist (physicalLawBridgeEventAtDefault 5 ef))
+      (physicalLawBridgeDecodeBHist (physicalLawBridgeEventAtDefault 7 ef))
+      (physicalLawBridgeDecodeBHist (physicalLawBridgeEventAtDefault 9 ef))
+      (physicalLawBridgeDecodeBHist (physicalLawBridgeEventAtDefault 11 ef))
+      (physicalLawBridgeDecodeBHist (physicalLawBridgeEventAtDefault 13 ef))
+      (physicalLawBridgeDecodeBHist (physicalLawBridgeEventAtDefault 15 ef))
+      (physicalLawBridgeDecodeBHist (physicalLawBridgeEventAtDefault 17 ef))
+      (physicalLawBridgeDecodeBHist (physicalLawBridgeEventAtDefault 19 ef)))
 
 private theorem physicalLawBridge_round_trip :
     ∀ x : PhysicalLawBridgeUp,
@@ -103,7 +97,7 @@ private theorem physicalLawBridge_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk law empirical bridge object openFit failure transport route provenance localName =>
+  | mk law empirical bridge object fit failure transport replay provenance name =>
       change
         some
           (PhysicalLawBridgeUp.mk
@@ -111,25 +105,25 @@ private theorem physicalLawBridge_round_trip :
             (physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist empirical))
             (physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist bridge))
             (physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist object))
-            (physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist openFit))
+            (physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist fit))
             (physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist failure))
             (physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist transport))
-            (physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist route))
+            (physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist replay))
             (physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist provenance))
-            (physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist localName))) =
+            (physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist name))) =
           some
-            (PhysicalLawBridgeUp.mk law empirical bridge object openFit failure transport route
-              provenance localName)
+            (PhysicalLawBridgeUp.mk law empirical bridge object fit failure transport replay
+              provenance name)
       rw [physicalLawBridgeDecode_encode_bhist law,
         physicalLawBridgeDecode_encode_bhist empirical,
         physicalLawBridgeDecode_encode_bhist bridge,
         physicalLawBridgeDecode_encode_bhist object,
-        physicalLawBridgeDecode_encode_bhist openFit,
+        physicalLawBridgeDecode_encode_bhist fit,
         physicalLawBridgeDecode_encode_bhist failure,
         physicalLawBridgeDecode_encode_bhist transport,
-        physicalLawBridgeDecode_encode_bhist route,
+        physicalLawBridgeDecode_encode_bhist replay,
         physicalLawBridgeDecode_encode_bhist provenance,
-        physicalLawBridgeDecode_encode_bhist localName]
+        physicalLawBridgeDecode_encode_bhist name]
 
 private theorem physicalLawBridgeToEventFlow_injective {x y : PhysicalLawBridgeUp} :
     physicalLawBridgeToEventFlow x = physicalLawBridgeToEventFlow y → x = y := by
@@ -143,37 +137,23 @@ private theorem physicalLawBridgeToEventFlow_injective {x y : PhysicalLawBridgeU
     (Eq.trans (physicalLawBridge_round_trip x).symm
       (Eq.trans hread (physicalLawBridge_round_trip y)))
 
+private def physicalLawBridgeFields : PhysicalLawBridgeUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | PhysicalLawBridgeUp.mk law empirical bridge object fit failure transport replay provenance
+      name =>
+      [law, empirical, bridge, object, fit, failure, transport, replay, provenance, name]
+
 private theorem physicalLawBridge_field_faithful :
     ∀ x y : PhysicalLawBridgeUp,
       physicalLawBridgeFields x = physicalLawBridgeFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x y h
+  intro x y hfields
   cases x with
-  | mk law₁ empirical₁ bridge₁ object₁ openFit₁ failure₁ transport₁ route₁
-      provenance₁ localName₁ =>
+  | mk law empirical bridge object fit failure transport replay provenance name =>
       cases y with
-      | mk law₂ empirical₂ bridge₂ object₂ openFit₂ failure₂ transport₂ route₂
-          provenance₂ localName₂ =>
-          injection h with hLaw tail1
-          injection tail1 with hEmpirical tail2
-          injection tail2 with hBridge tail3
-          injection tail3 with hObject tail4
-          injection tail4 with hOpenFit tail5
-          injection tail5 with hFailure tail6
-          injection tail6 with hTransport tail7
-          injection tail7 with hRoute tail8
-          injection tail8 with hProvenance tail9
-          injection tail9 with hLocalName _
-          cases hLaw
-          cases hEmpirical
-          cases hBridge
-          cases hObject
-          cases hOpenFit
-          cases hFailure
-          cases hTransport
-          cases hRoute
-          cases hProvenance
-          cases hLocalName
+      | mk law' empirical' bridge' object' fit' failure' transport' replay' provenance'
+          name' =>
+          cases hfields
           rfl
 
 instance physicalLawBridgeBHistCarrier : BHistCarrier PhysicalLawBridgeUp where
@@ -181,13 +161,9 @@ instance physicalLawBridgeBHistCarrier : BHistCarrier PhysicalLawBridgeUp where
   toEventFlow := physicalLawBridgeToEventFlow
   fromEventFlow := physicalLawBridgeFromEventFlow
 
-instance physicalLawBridgeChapterTasteGate :
-    ChapterTasteGate PhysicalLawBridgeUp where
+instance physicalLawBridgeChapterTasteGate : ChapterTasteGate PhysicalLawBridgeUp where
   -- BEDC touchpoint anchor: BHist BMark
-  round_trip := by
-    intro x
-    change physicalLawBridgeFromEventFlow (physicalLawBridgeToEventFlow x) = some x
-    exact physicalLawBridge_round_trip x
+  round_trip := physicalLawBridge_round_trip
   layer_separation := by
     intro x y hxy heq
     exact hxy (physicalLawBridgeToEventFlow_injective heq)
@@ -213,20 +189,51 @@ def taste_gate : ChapterTasteGate PhysicalLawBridgeUp :=
   physicalLawBridgeChapterTasteGate
 
 theorem PhysicalLawBridgeTasteGate_single_carrier_alignment :
-    (∀ h : BHist, physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist h) = h) ∧
-      (∀ x : PhysicalLawBridgeUp,
-        physicalLawBridgeFromEventFlow (physicalLawBridgeToEventFlow x) = some x) ∧
-        (∀ x y : PhysicalLawBridgeUp,
-          physicalLawBridgeToEventFlow x = physicalLawBridgeToEventFlow y → x = y) ∧
-          physicalLawBridgeEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+    (∀ h : BHist,
+        physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist h) = h) ∧
+      (physicalLawBridgeEncodeBHist BHist.Empty = []) ∧
+        (physicalLawBridgeEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0]) ∧
+          (∀ x : PhysicalLawBridgeUp,
+            physicalLawBridgeFromEventFlow (physicalLawBridgeToEventFlow x) = some x) ∧
+            (∀ x y : PhysicalLawBridgeUp,
+              physicalLawBridgeToEventFlow x = physicalLawBridgeToEventFlow y → x = y) ∧
+              Nonempty (ChapterTasteGate PhysicalLawBridgeUp) ∧
+                Nonempty (Nontrivial PhysicalLawBridgeUp) ∧
+                  Nonempty (FieldFaithful PhysicalLawBridgeUp) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   constructor
   · exact physicalLawBridgeDecode_encode_bhist
   · constructor
-    · exact physicalLawBridge_round_trip
+    · rfl
     · constructor
-      · intro x y heq
-        exact physicalLawBridgeToEventFlow_injective heq
       · rfl
+      · constructor
+        · exact physicalLawBridge_round_trip
+        · constructor
+          · intro x y heq
+            exact physicalLawBridgeToEventFlow_injective heq
+          · constructor
+            · exact ⟨physicalLawBridgeChapterTasteGate⟩
+            · constructor
+              · exact ⟨physicalLawBridgeNontrivial⟩
+              · exact ⟨physicalLawBridgeFieldFaithful⟩
+
+namespace TasteGate
+
+theorem PhysicalLawBridgeTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+        physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist h) = h) ∧
+      (physicalLawBridgeEncodeBHist BHist.Empty = []) ∧
+        (physicalLawBridgeEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0]) ∧
+          (∀ x : PhysicalLawBridgeUp,
+            physicalLawBridgeFromEventFlow (physicalLawBridgeToEventFlow x) = some x) ∧
+            (∀ x y : PhysicalLawBridgeUp,
+              physicalLawBridgeToEventFlow x = physicalLawBridgeToEventFlow y → x = y) ∧
+              Nonempty (ChapterTasteGate PhysicalLawBridgeUp) ∧
+                Nonempty (Nontrivial PhysicalLawBridgeUp) ∧
+                  Nonempty (FieldFaithful PhysicalLawBridgeUp) := by
+  exact BEDC.Derived.PhysicalLawBridgeUp.PhysicalLawBridgeTasteGate_single_carrier_alignment
+
+end TasteGate
 
 end BEDC.Derived.PhysicalLawBridgeUp
