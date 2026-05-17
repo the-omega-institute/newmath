@@ -16,6 +16,11 @@ Checks (IDs match the analysis report):
   F  Content namecert chapter must \\label{ch:concrete-instances-<slug>-namecert}
   G  Content namecert chapter must declare \\origin{human|ai}
   H  \\bridgestatus value must be in {none, paperBridge, bridgeChecked}
+  I  every tex basename is lowercase snake_case with optional NN_/NNa_ prefix
+     or leading _ for aggregate index files
+  J  every concrete_instances/<region>/ subdir name is lowercase + alphanum
+  K  every region with 2+ top-level files should consolidate to one hub +
+     parts/concrete_instances/<slug>/ siblings
 
 Modes:
   default       human-readable WARN to stderr, exit 0
@@ -74,6 +79,11 @@ TEX_BASENAME_RE = re.compile(r"^_?(?:[0-9]+[a-z]?_)?[a-z][a-z0-9_]*\.tex$")
 # Check J: concrete_instances/<region>/ subdirectory names must be lowercase
 # alphanumeric, optional internal underscores.
 REGION_DIR_RE = re.compile(r"^[a-z][a-z0-9_]*$")
+
+# Check K: regions with 2+ top-level files should be consolidated into a hub
+# at top + sibling files in parts/concrete_instances/<slug>/. Top-level
+# basename is <NN>_<slug>_<rest>.tex (NN may carry an [a-z] suffix).
+REGION_PREFIX_RE = re.compile(r"^([0-9]+[a-z]?_[a-z][a-z0-9]*)_")
 
 
 def read_text(p: Path) -> str:
@@ -291,6 +301,38 @@ def check_i_tex_basename_naming() -> list[dict]:
     return out
 
 
+def check_k_region_top_level_consolidation() -> list[dict]:
+    """A region with 2+ top-level <NN>_<slug>_*.tex files should keep one hub
+    at top (\\input only) and move the rest into parts/concrete_instances/<slug>/.
+    Emits one violation per multi-file region (not per file)."""
+    out: list[dict] = []
+    if not CONCRETE_DIR.is_dir():
+        return out
+    from collections import defaultdict
+    groups: dict[str, list[str]] = defaultdict(list)
+    for f in sorted(CONCRETE_DIR.glob("*.tex")):
+        m = REGION_PREFIX_RE.match(f.name)
+        if m:
+            groups[m.group(1)].append(f.name)
+    for prefix, files in sorted(groups.items()):
+        if len(files) <= 1:
+            continue
+        slug = prefix.split("_", 1)[1]
+        subdir = CONCRETE_DIR / slug
+        subdir_status = "exists" if subdir.is_dir() else "missing"
+        out.append({
+            "check": "K",
+            "file": f"parts/concrete_instances/ (region {prefix}_*)",
+            "line": 1,
+            "msg": (
+                f"region {prefix}_ has {len(files)} top-level files; consolidate "
+                f"into one hub + parts/concrete_instances/{slug}/ siblings "
+                f"(subdir {subdir_status}). Files: {', '.join(files)}"
+            ),
+        })
+    return out
+
+
 def check_j_region_subdir_naming() -> list[dict]:
     out: list[dict] = []
     if not CONCRETE_DIR.is_dir():
@@ -321,6 +363,7 @@ CHECKS = {
     "H": check_h_bridgestatus_enum,
     "I": check_i_tex_basename_naming,
     "J": check_j_region_subdir_naming,
+    "K": check_k_region_top_level_consolidation,
 }
 
 
