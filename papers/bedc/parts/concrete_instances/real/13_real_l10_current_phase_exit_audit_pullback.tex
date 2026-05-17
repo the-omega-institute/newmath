@@ -219,3 +219,36 @@ the composite route has no route-level Lean target or bridge coordinate.
 Therefore the Phase Real and Completion exit criterion is objectwise in the
 four displayed faces.
 \end{proof}
+
+\begin{theorem}[Real L10 face audit minimum blocker]
+\label{thm:real-l10-face-audit-minimum-blocker}
+If any one of $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$ lacks its own local audit-clean verification grade in its
+closurestatus record, then the four-face product cannot be read as satisfying
+the current Phase Real and Completion exit criterion.
+
+This blocker is objectwise. It creates no aggregate route-level
+$\formalstatus$, and it does not claim $\RealUp$ completeness, quotient
+streams, selected limits, or metric completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-phase-exit-criterion-objectwise}. The current
+phase exit criterion is discharged only by the four local records for
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Apply \autoref{thm:real-l10-current-phase-exit-audit-pullback}. It identifies
+the admissible audit read with lookup in those local closurestatus records, so
+a face whose own record is below the audit-clean verification grade leaves the
+four-face product without the required local coordinate.
+
+Apply \autoref{thm:real-l10-face-status-noncollapse}. The missing local
+verification grade cannot be supplied by an aggregate formalstatus token for
+the route, and the route does not export Real completeness, quotient streams,
+selected limits, or metric-completeness data.
+
+Finally apply \autoref{thm:real-l10-face-leantarget-noncollapse}. No face
+transfers its Lean target or bridge-status row to another face, and the
+composite route has no route-level Lean target or bridge row. Thus any
+below-audit-clean face blocks satisfaction of the current Phase Real and
+Completion exit criterion.
+\end{proof}
