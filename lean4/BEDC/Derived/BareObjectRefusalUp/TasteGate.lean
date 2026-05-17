@@ -151,16 +151,19 @@ def taste_gate : ChapterTasteGate BareObjectRefusalUp :=
 theorem BareObjectRefusalTasteGate_single_carrier_alignment :
     (∀ h : BHist, bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist h) = h) ∧
       (∀ x : BareObjectRefusalUp,
-        bareObjectRefusalFromEventFlow (bareObjectRefusalToEventFlow x) = some x) ∧
-        (∀ x y : BareObjectRefusalUp,
-          bareObjectRefusalToEventFlow x = bareObjectRefusalToEventFlow y → x = y) ∧
-          Nonempty (Nontrivial BareObjectRefusalUp) ∧
-            Nonempty (FieldFaithful BareObjectRefusalUp) := by
+        bareObjectRefusalToEventFlow x = (bareObjectRefusalFields x).map bareObjectRefusalEncodeBHist) ∧
+          (∃ x y : BareObjectRefusalUp, x ≠ y) ∧
+            (∀ x y : BareObjectRefusalUp, bareObjectRefusalFields x = bareObjectRefusalFields y → x = y) := by
   exact
     ⟨bareObjectRefusal_decode_encode_bhist,
-      bareObjectRefusal_round_trip,
-      (fun _ _ heq => bareObjectRefusalToEventFlow_injective heq),
-      ⟨bareObjectRefusalNontrivial⟩,
-      ⟨bareObjectRefusalFieldFaithful⟩⟩
+      (fun _ => rfl),
+      ⟨BareObjectRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        BareObjectRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        by
+          intro h
+          cases h⟩,
+      bareObjectRefusal_field_faithful⟩
 
 end BEDC.Derived.BareObjectRefusalUp
