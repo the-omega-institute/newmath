@@ -288,4 +288,22 @@ theorem EffectiveReplacementLedgerQuotTransportRow
     · rfl
     · rfl
 
+theorem EffectiveReplacementLedgerPropextTransportRow
+    (choiceWitness quotientTransport propextTransport axiomPurity transport continuation
+      provenance name : BHist) :
+    effectiveReplacementLedgerFields
+        (EffectiveReplacementLedgerUp.mk choiceWitness quotientTransport propextTransport
+          axiomPurity transport continuation provenance name) =
+          [choiceWitness, quotientTransport, propextTransport, axiomPurity, transport,
+            continuation, provenance, name] /\
+      Cont propextTransport continuation (append propextTransport continuation) /\
+        hsame (append propextTransport continuation)
+          (append propextTransport continuation) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · rfl
+
 end BEDC.Derived.EffectiveReplacementLedgerUp

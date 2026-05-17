@@ -665,6 +665,7 @@ import BEDC.Derived.PhysicalInductionStabilitySealUp.TasteGate
 import BEDC.Derived.PhilosophySynthesisAuditUp.TasteGate
 import BEDC.Derived.PhilosophyMapTargetUp.TasteGate
 import BEDC.Derived.PhilosophyGovernanceExportUp.TasteGate
+import BEDC.Derived.PhilosophyFormalTargetLedgerUp.TasteGate
 import BEDC.Derived.EpistemicOntologyBridgeUp.TasteGate
 import BEDC.Derived.RealityConstrainedModelAuditUp.TasteGate
 import BEDC.Derived.RealityConstrainedMethodologyLedgerUp.TasteGate
@@ -2188,6 +2189,8 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootPublicReadbackExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorObserverSealCorrespondence
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteTerminalBudgetLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteCompletionReadback
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteBudgetSourceTotality
+import BEDC.Derived.DiagonallimitcompatibilityUp.SealConsumerThreshold
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootWindowSelectorExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetPublicBoundary
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetPublicRouteCover
@@ -2706,6 +2709,7 @@ import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.CompactUniformContinuityUp
+import BEDC.Derived.CompactUniformContinuityUp.ClassifierTransport
 import BEDC.Derived.CompactUniformContinuityUp.CenterRadiusCompatibility
 import BEDC.Derived.CompactUniformContinuityUp.FiniteNetFactorization
 import BEDC.Derived.CompactUniformContinuityUp.MetricDistanceRouting
