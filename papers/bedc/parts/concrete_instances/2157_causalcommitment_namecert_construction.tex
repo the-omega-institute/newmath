@@ -92,6 +92,42 @@ Inside that handoff, the available reads are the rows already displayed by $O,R,
 Therefore the consumer receives a local commitment packet and nothing beyond it. A selected future observation, global observer frame, or ambient causal primitive has no carrier coordinate and no read route through $L$.
 \end{proof}
 
+\begin{theorem}[CausalCommitment carrier visibility]
+\label{thm:causal-commitment-carrier-visibility}
+For every accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$, the finite $\BHist$ rows $O,R,G,F,L,H,C,P,N$ are visible before any consumer reads $\CausalCommitmentUp$. The observed-history row, regularity row, $\mathsf{GAP}$ socket, forward-binding route, locality consumer row, $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row cannot be replaced by a hidden causal primitive.
+\end{theorem}
+\begin{proof}
+Project the forward-GAP carrier of \autoref{def:causal-commitment-forward-gap-carrier}. It displays exactly $O,R,G,F,L,H,C,P,N$.
+
+Use the GAP socket theorem and the forward-binding route theorem. The future-facing content is named by $G$, while $F$ and $C$ replay the observed-regularity route from $O,R$ to the local commitment row.
+
+The locality row $L$ only hands the same carrier to locality-cell consumers. Since $H,P,N$ transport, record, and name the displayed rows, the accepted carrier has no coordinate for a hidden causal primitive.
+\end{proof}
+
+\begin{theorem}[CausalCommitment classifier stability]
+\label{thm:causal-commitment-classifier-stability}
+The $\CausalCommitmentUp$ classifier is stable under componentwise $\hsame$ transport of the displayed rows $O,R,G,F,L,H,C,P,N$. A consumer may replay the forward-GAP route through $\Cont$ and $\Pkg$ data, but it must preserve the finite $\BHist$ carrier, the $\mathsf{GAP}$ socket, the forward-binding route, the locality row, and the local $\NameCert$ row as separate coordinates.
+\end{theorem}
+\begin{proof}
+Begin with the componentwise transport row $H$. By construction it transports $O,R,G,F,L$ together with package provenance and local naming data.
+
+Apply \autoref{thm:causal-commitment-gap-socket} and \autoref{thm:causal-commitment-forward-binding-route}. These theorems identify the forward-looking content with $G$ and the observed-to-commitment route with $F$ and $C$.
+
+The forward-GAP obligations then force the locality consumer to pass through $L$. Thus classifier membership is preserved only by transporting the displayed rows componentwise; it is not preserved by collapsing the socket, route, locality row, or local NameCert into one ambient causal claim.
+\end{proof}
+
+\begin{theorem}[CausalCommitment ledger non-escape]
+\label{thm:causal-commitment-ledger-nonescape}
+No accepted $\CausalCommitmentUp$ read over the forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$ can export a selected future observation, a universal empirical law, a hidden induction rule, a synchronized global frame, or an ambient causal primitive. The local $\NameCert_{\CausalCommitmentUp}$ row names only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, locality, GAP, and forward-binding rows.
+\end{theorem}
+\begin{proof}
+Start from carrier visibility. Every accepted read begins with the displayed rows $O,R,G,F,L,H,C,P,N$.
+
+Use classifier stability to keep those rows separated under $\hsame$ transport and $\Cont$ replay. The GAP socket remains $G$, the forward route remains $F$, and the locality consumer remains $L$.
+
+Finally apply the forward-GAP obligations. Their non-escape clause excludes selected future observations, global observer frames, universal empirical laws, hidden induction rules, and ambient causal primitives. Since no displayed row names one of those objects, the local ledger cannot export it.
+\end{proof}
+
 \begin{theorem}[CausalCommitment non-escape boundary]
 \label{thm:causal-commitment-non-escape-boundary}
 No consumer of an accepted $\CausalCommitmentUp$ packet can extract a selected future observation, a universal empirical law, a hidden induction rule, a synchronized global frame, or an ambient causal primitive. Every consumer read factors through $O,R,G,F,H,C,P,N$.
