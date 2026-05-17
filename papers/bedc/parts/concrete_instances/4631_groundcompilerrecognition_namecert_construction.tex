@@ -85,6 +85,7 @@ Return through $H,C,P,N$ to the recognition rows. The route records only the dis
 \label{thm:groundcompiler-recognition-flow-carrier-exposure}
 For every accepted $\GroundCompilerRecognitionUp$ carrier $R=(I,G,A,T,V,L,H,C,P,N)$, the event-flow input, generated recognizer, accepted-export gate, finite-trace handoff, report non-evidence row, cannot-claim ledger, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row are all visible before recognition is consumed. No accepted consumer may read generated recognition while omitting $I$, $G$, or $A$.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerRecognitionUp.GroundCompilerRecognitionCarrier\_flow\_carrier\_exposure}
 \begin{proof}
 Project the carrier of \autoref{def:groundcompiler-recognition-carrier}. The visible packet is exactly $I,G,A,T,V,L,H,C,P,N$.
 
@@ -97,6 +98,7 @@ The remaining rows $V,L,H,C,P,N$ expose the report boundary, cannot-claim ledger
 \label{thm:groundcompiler-recognition-certificate-gate-stability}
 Every theorem-facing or NameCert-facing read of an accepted $\GroundCompilerRecognitionUp$ carrier factors through the accepted-export row $A$. The generated recognizer row $G$, finite-trace handoff row $T$, report non-evidence row $V$, and cannot-claim ledger row $L$ may constrain that read, but none of them creates a second certificate gate.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerRecognitionUp.GroundCompilerRecognitionCarrier\_certificate\_gate\_stability}
 \begin{proof}
 Start from the accepted-export coordinate $A$. It is the only row in the carrier whose role is theorem-facing or NameCert-facing export.
 
