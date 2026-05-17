@@ -131,4 +131,28 @@ theorem AxiomDependencyMapCertificate_query_ledger_factorization [AskSetup] [Pac
         transportReplayProvenance, claimModeRead, modeReadWitnessSupply,
           supplyProvenanceLedger, provenancePkg, ledgerPkg⟩
 
+theorem AxiomDependencyMapCertificate_public_boundary [AskSetup] [PackageSetup]
+    {claim mode witness supply transport replay provenance localName publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyMapCertificate claim mode witness supply transport replay provenance
+        localName bundle pkg ->
+      Cont transport replay publicRead ->
+        PkgSig bundle publicRead pkg ->
+          UnaryHistory claim ∧ UnaryHistory mode ∧ UnaryHistory witness ∧
+            UnaryHistory supply ∧ UnaryHistory transport ∧ UnaryHistory replay ∧
+              UnaryHistory publicRead ∧ Cont claim mode witness ∧
+                Cont witness supply transport ∧ Cont transport replay publicRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro certificate publicReplay publicPkg
+  obtain ⟨claimUnary, modeUnary, witnessUnary, supplyUnary, transportUnary, replayUnary,
+    _provenanceUnary, _localNameUnary, claimModeWitness, witnessSupplyTransport,
+      _transportReplayProvenance, provenancePkg⟩ := certificate
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed transportUnary replayUnary publicReplay
+  exact
+    ⟨claimUnary, modeUnary, witnessUnary, supplyUnary, transportUnary, replayUnary,
+      publicReadUnary, claimModeWitness, witnessSupplyTransport, publicReplay,
+        provenancePkg, publicPkg⟩
+
 end BEDC.Derived.AxiomDependencyMapUp
