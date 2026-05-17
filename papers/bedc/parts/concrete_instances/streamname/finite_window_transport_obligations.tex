@@ -160,3 +160,55 @@ Finally use the readiness theorem \autoref{thm:streamname-finite-window-transpor
 
 For the converse direction, inspect the exposed Phase Real and Completion read. If it shows the same finite StreamName window, dyadic ledger, RegSeqRat readback, Real seal, and displayed $\BHist,\hsame,\Cont,\Pkg,\NameCert$ rows, then the preceding exactness and readiness results reconstruct the unique transported section route read by those consumers. The exclusions follow because none of the cited rows contains quotient streams, selected limits, host sequence equality, ambient Real completeness, metric completeness, or standard bridge data.
 \end{proof}
+
+\begin{theorem}[StreamName pointwise transport scope]
+\label{thm:streamname-pointwise-transport-scope}
+Let $\mathcal{S}$ be an accepted transported finite $\StreamNameUp$ packet
+over a finite bundle $\mathcal{P}:\mathsf{ProbeBundle}$, with source and
+target schedules $s,t,s',t':\mathsf{BHist}\to\mathsf{BHist}$. Before any
+$\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer reads
+$\mathcal{S}$, the packet exposes exactly the following StreamName-side
+rows: the finite classifier
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s',t',\mathcal{P})$, the
+selected point-certificate rows
+$\mathsf{RatHistoryClassifier}(s'(n),t'(n))$ at the displayed observations,
+the support rows $\mathsf{UnaryHistory}(n)$ and
+$\mathsf{InBundle}(n,\mathcal{P})$, the componentwise $\hsame$ transports
+from $s(n),t(n)$ to $s'(n),t'(n)$, the replayed $\Cont$ routes, the $\Pkg$
+provenance, and the local $\NameCert_{\StreamNameUp}$ row.
+
+The same scope exports no quotient stream equality, host sequence equality,
+selected limit, $\RealUp$ completeness principle, metric-completeness datum,
+countable-choice row, or standard bridge row. Thus the finite-window packet
+seen by $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ consumers is a
+finite transported row packet, not a hidden stream quotient or completion
+claim.
+\end{theorem}
+\begin{proof}
+Start with pointwise transport,
+\autoref{thm:streamname-window-pointwise-transport}. It transports the
+finite classifier across the displayed $\hsame$ rows and preserves the same
+bundle, support, continuation, provenance, and local naming surface.
+
+Next use the handoff exactness theorem
+\autoref{thm:streamname-regseq-window-handoff-exactness}. This identifies
+the rows read by $\RegSeqRatUp$ as the finite classifier, selected point
+certificates, support rows, transports, routes, provenance, and local
+certificate, and it rules out any additional StreamName coordinate.
+
+Then apply readiness,
+\autoref{thm:streamname-finite-window-transport-regseqrat-real-readiness}.
+Readiness says that the same rows are sufficient for the finite-window
+$\RealUp$ route while quotient equality, host sequence data, selected real
+values, regularity, and completeness obligations remain outside the source
+packet.
+
+Finally compose with section transport closure,
+\autoref{thm:streamname-finite-window-section-transport-closure}. The
+closure theorem keeps the $\RegSeqRatUp$ readback, the
+$\DyadicRatCoreUp$ tolerance ledger, and the finite-window $\RealUp$ seal on
+the same transported section route. Its exclusion list supplies the stated
+absence of selected limits, metric completeness, and standard bridge rows,
+so the displayed row list is exactly the scope available before the
+downstream consumers read the packet.
+\end{proof}
