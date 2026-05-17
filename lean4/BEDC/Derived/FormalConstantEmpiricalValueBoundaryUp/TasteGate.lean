@@ -58,21 +58,60 @@ def formalConstantEmpiricalValueBoundaryToEventFlow :
 def formalConstantEmpiricalValueBoundaryFromEventFlow :
     EventFlow → Option FormalConstantEmpiricalValueBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
-  | formal :: empirical :: calibration :: uncertainty :: reproducibility :: failure ::
-      transport :: replay :: provenance :: localCert :: [] =>
-      some
-        (FormalConstantEmpiricalValueBoundaryUp.mk
-          (formalConstantEmpiricalValueBoundaryDecodeBHist formal)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist empirical)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist calibration)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist uncertainty)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist reproducibility)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist failure)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist transport)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist replay)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist provenance)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist localCert))
-  | _ => none
+  | [] => none
+  | formal :: rest0 =>
+      match rest0 with
+      | [] => none
+      | empirical :: rest1 =>
+          match rest1 with
+          | [] => none
+          | calibration :: rest2 =>
+              match rest2 with
+              | [] => none
+              | uncertainty :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | reproducibility :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | failure :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | transport :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | replay :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | provenance :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | localCert :: rest9 =>
+                                          match rest9 with
+                                          | [] =>
+                                              some
+                                                (FormalConstantEmpiricalValueBoundaryUp.mk
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    formal)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    empirical)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    calibration)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    uncertainty)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    reproducibility)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    failure)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    transport)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    replay)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    provenance)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    localCert))
+                                          | _ :: _ => none
 
 private theorem formalConstantEmpiricalValueBoundary_round_trip :
     ∀ x : FormalConstantEmpiricalValueBoundaryUp,
