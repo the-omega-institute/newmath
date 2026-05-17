@@ -42,6 +42,45 @@ theorem ReflectionRuntimeCheckpointCarrier_trace_provenance_lock [AskSetup] [Pac
     ⟨traceUnary, provenanceUnary, traceReadUnary, inputStateTrace, traceProvenanceRoute,
       checkpointMatchesValidation, checkpointPkg'⟩
 
+theorem ReflectionRuntimeCheckpointCarrier_trace_boundary_readback [AskSetup] [PackageSetup]
+    {input state trace validation transport route provenance localName checkpointRead traceRead
+      boundedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ReflectionRuntimeCheckpointCarrier input state trace validation transport route provenance
+        localName →
+      hsame checkpointRead localName →
+        PkgSig bundle checkpointRead pkg →
+          Cont trace provenance traceRead →
+            Cont traceRead localName boundedRead →
+              PkgSig bundle boundedRead pkg →
+                UnaryHistory trace ∧ UnaryHistory provenance ∧ UnaryHistory traceRead ∧
+                  UnaryHistory boundedRead ∧ Cont input state trace ∧
+                    Cont trace provenance traceRead ∧ Cont traceRead localName boundedRead ∧
+                      hsame checkpointRead (append provenance validation) ∧
+                        PkgSig bundle checkpointRead pkg ∧ PkgSig bundle boundedRead pkg := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory Cont ProbeBundle Pkg
+  intro carrier checkpointSame checkpointPkg traceProvenanceRoute boundedRoute boundedPkg
+  have locked :=
+    ReflectionRuntimeCheckpointCarrier_trace_provenance_lock
+      (input := input) (state := state) (trace := trace) (validation := validation)
+      (transport := transport) (route := route) (provenance := provenance)
+      (localName := localName) (checkpointRead := checkpointRead) (traceRead := traceRead)
+      (bundle := bundle) (pkg := pkg) carrier checkpointSame checkpointPkg
+      traceProvenanceRoute
+  obtain ⟨traceUnary, provenanceUnary, traceReadUnary, inputStateTrace,
+    traceProvenanceRoute', checkpointMatchesValidation, checkpointPkg'⟩ := locked
+  have localNameUnary : UnaryHistory localName := by
+    obtain ⟨_inputUnary, _stateUnary, _traceUnary, validationUnary, _transportUnary,
+      _provenanceUnary, _inputStateTrace, _traceValidationRoute,
+      provenanceValidationLocalName, _localNameMatchesValidation⟩ := carrier
+    exact unary_cont_closed provenanceUnary validationUnary provenanceValidationLocalName
+  have boundedUnary : UnaryHistory boundedRead :=
+    unary_cont_closed traceReadUnary localNameUnary boundedRoute
+  exact
+    ⟨traceUnary, provenanceUnary, traceReadUnary, boundedUnary, inputStateTrace,
+      traceProvenanceRoute', boundedRoute, checkpointMatchesValidation, checkpointPkg',
+      boundedPkg⟩
+
 theorem ReflectionRuntimeCheckpointCarrier_state_trace_coupling [AskSetup] [PackageSetup]
     {input state trace validation transport route provenance localName stateTraceRead
       validationRead : BHist}
