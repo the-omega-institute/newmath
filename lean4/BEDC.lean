@@ -1458,6 +1458,7 @@ import BEDC.Derived.HaltingDistinctionUp.RootDiagonalNonescape
 import BEDC.Derived.HaltingDistinctionUp.RootLedgerNonescape
 import BEDC.Derived.HaltingDistinctionUp.RootConsumerObstructionExhaustion
 import BEDC.Derived.HaltingDistinctionUp.RootDiagonalRouteTotality
+import BEDC.Derived.HaltingDistinctionUp.RootFiniteTraceClassifierExhaustion
 import BEDC.Derived.HaltingDistinctionUp.RootPackage
 import BEDC.Derived.HaltingDistinctionUp.RootSiblingConsumerLock
 import BEDC.Derived.HaltingDistinctionUp.RouteStability
@@ -1574,6 +1575,7 @@ import BEDC.Derived.HistTimeStreamUp.ObserverLocalityConsumptionBridge
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityTotality
 import BEDC.Derived.HistTimeStreamUp.StartLedgerTotality
 import BEDC.Derived.HistTimeStreamUp.StartLedgerUniqueness
+import BEDC.Derived.HistTimeStreamUp.StreamNameFiniteWindowHandoff
 import BEDC.Derived.HistTimeStreamUp.TransportLock
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp
