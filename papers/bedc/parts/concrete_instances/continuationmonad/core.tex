@@ -483,6 +483,7 @@ Finally use \autoref{thm:continuation-monad-downstream-unblock-surface} and \aut
 \label{thm:continuation-monad-bind-route-coverage}
 Every accepted bind read of a $\ContinuationMonadUp$ packet factors through the displayed source $\BHist$ row, the continuation route row, the Kleisli composite row, the componentwise $\hsame$ transport, the $\Pkg$ provenance row, and the local $\NameCert$ row. Thus a bind consumer can inspect only the rows $A,B,C,f,g,u,H,K,L,N$ named by the bridge package, where $A,B,C$ are the $\BHist$ sources, $K$ is the $\Cont$ route, $L$ is the composite ledger, $H$ is the $\hsame$ transport, and $N$ is the local $\NameCert$ certificate with $\Pkg$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_bind\_route\_coverage}
 \begin{proof}
 Begin with the unit laws and associativity rows. They identify the accepted bind read as a replay of the displayed unit tail and the two-step Kleisli composite rather than as a host monad operation.
 
