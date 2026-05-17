@@ -64,6 +64,7 @@ import BEDC.Derived.ApophaticGateQuestionUp
 import BEDC.Derived.ApophaticGateQuestionUp.AuditReadbackCut
 import BEDC.Derived.ApophaticGateQuestionUp.AuditRouteExactness
 import BEDC.Derived.ApophaticGateQuestionUp.BoundaryRowTriad
+import BEDC.Derived.ApophaticGateQuestionUp.DownstreamUnblockSurface
 import BEDC.Derived.ApophaticGateQuestionUp.KindReadbackDeterminacy
 import BEDC.Derived.ApophaticGateQuestionUp.KindSocketTotality
 import BEDC.Derived.ApophaticGateQuestionUp.NamecertReadbackStability
@@ -135,6 +136,7 @@ import BEDC.Derived.ApophaticNameUp.ClassifierRefusalTransport
 import BEDC.Derived.ApophaticNameUp.RootSocketExposure
 import BEDC.Derived.ApophaticNameUp.RootDownstreamBoundaryPackage
 import BEDC.Derived.ApophaticNameUp.DownstreamNoninternalizationPackage
+import BEDC.Derived.ApophaticNameUp.DownstreamSocketCitationCompleteness
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
@@ -173,6 +175,7 @@ import BEDC.Derived.AuditTranscriptEnvelopeUp.TasteGate
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
 import BEDC.Derived.ApproximationUp
+import BEDC.Derived.ConceptRegistryObligationUp.TasteGate
 import BEDC.Derived.OnticAdequacyAuditUp.TasteGate
 import BEDC.Derived.OnticResidueLatticeUp.TasteGate
 import BEDC.Derived.OnticTowerUp.TasteGate
