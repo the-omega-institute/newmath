@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -118,6 +120,61 @@ theorem AxiomDependencyMapRestrictedRowNonescape [AskSetup] [PackageSetup]
   exact
     ⟨claimUnary, modeUnary, witnessUnary, supplyUnary, restrictedUnary, transportUnary,
       modeWitnessRestricted, restrictedSupplyTransport, provenancePkg⟩
+
+theorem AxiomDependencyMapLedgerObligations [AskSetup] [PackageSetup]
+    {claim mode witness supply transport replay provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyMapCertificate claim mode witness supply transport replay provenance
+        localName bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row claim ∧
+            AxiomDependencyMapCertificate claim mode witness supply transport replay
+              provenance localName bundle pkg)
+        (fun row : BHist =>
+          hsame row claim ∧ UnaryHistory mode ∧ UnaryHistory witness ∧
+            UnaryHistory supply)
+        (fun row : BHist =>
+          Cont claim mode witness ∧ Cont witness supply transport ∧
+            Cont transport replay provenance ∧ hsame row claim ∧
+              PkgSig bundle provenance pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro certificate
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro claim ⟨hsame_refl claim, certificate⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      rcases sourceRow.right with
+        ⟨_claimUnary, modeUnary, witnessUnary, supplyUnary, _transportUnary, _replayUnary,
+          _provenanceUnary, _localNameUnary, _claimModeWitness, _witnessSupplyTransport,
+          _transportReplayProvenance, _provenancePkg⟩
+      exact ⟨sourceRow.left, modeUnary, witnessUnary, supplyUnary⟩
+    ledger_sound := by
+      intro _row sourceRow
+      rcases sourceRow.right with
+        ⟨_claimUnary, _modeUnary, _witnessUnary, _supplyUnary, _transportUnary, _replayUnary,
+          _provenanceUnary, _localNameUnary, claimModeWitness, witnessSupplyTransport,
+          transportReplayProvenance, provenancePkg⟩
+      exact
+        ⟨claimModeWitness, witnessSupplyTransport, transportReplayProvenance, sourceRow.left,
+          provenancePkg⟩
+  }
 
 theorem AxiomDependencyMapCertificate_query_ledger_factorization [AskSetup] [PackageSetup]
     {claim mode witness supply transport replay provenance localName modeRead supplyRead
