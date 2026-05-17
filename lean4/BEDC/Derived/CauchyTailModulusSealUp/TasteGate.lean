@@ -262,7 +262,7 @@ def cauchyTailModulusSealFieldFaithfulConcrete :
   }
 
 def taste_gate : ChapterTasteGate CauchyTailModulusSealUp :=
-  cauchyTailModulusSealChapterTasteGate
+  cauchyTailModulusSealChapterTasteGateConcrete
 
 theorem CauchyTailModulusSealTasteGate_single_carrier_alignment :
     (∀ h : BHist,
