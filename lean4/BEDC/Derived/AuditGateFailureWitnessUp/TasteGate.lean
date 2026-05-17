@@ -216,6 +216,9 @@ instance auditGateFailureWitnessChapterTasteGate :
     intro x y hxy heq
     exact hxy (auditGateFailureWitnessToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate AuditGateFailureWitnessUp :=
+  auditGateFailureWitnessChapterTasteGate
+
 instance auditGateFailureWitnessFieldFaithful :
     FieldFaithful AuditGateFailureWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
