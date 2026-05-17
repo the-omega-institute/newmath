@@ -224,6 +224,42 @@ Read the target side next. Target-triangle coherence and center reuse determinac
 The lock is the consumer boundary. By \autoref{thm:metric-triangle-uniform-estimate-consumer-handoff} and \autoref{thm:metric-triangle-uniform-estimate-uniformmodulus-boundary-exactness}, the downstream $\UniformModulusUp$ read receives source rows and target rows together as one finite boundary, with no separate source-only or target-only export route.
 \end{proof}
 
+\begin{theorem}[Metric-triangle uniform-estimate two-triangle route]
+\label{thm:metric-triangle-uniform-estimate-source-target-two-triangle-route}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier, the source metric triangle row and the target metric triangle row form one selected-center route: the compact-net center $c$ supplies the source bounds $d_x,d_{x'}$, the pointwise target estimates $e_x,e_{x'}$, and the final target triangle row $T$ before the $\UniformModulusUp$ handoff. A public consumer cannot choose one center for the source triangle and another center for the target triangle.
+\end{theorem}
+\begin{proof}
+Begin with source-triangle coherence and radius composition. They produce the source-side bounds from the selected compact-net center, the selected precision row, and the displayed source triangle.
+
+Next read target-triangle coherence with center reuse determinacy. The target estimate row $T$ is built from the same center $c$ and the same pointwise target estimates that the carrier already exposes.
+
+The route exhaustion and source-target lock theorems join these two readings. They show that the $\UniformModulusUp$ handoff receives the source and target triangle rows as a single finite route, so a second center would be an absent coordinate rather than a valid consumer choice.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate finite-net consumer lock]
+\label{thm:metric-triangle-uniform-estimate-finite-net-consumer-lock}
+Every $\UniformModulusUp$ consumer of an accepted $\MetricTriangleUniformEstimateUp$ carrier receives only the finite selected precision, the source bounds, the pointwise target estimates, the final target triangle row, and the structural rows $H,C,P,N$. The consumer handoff does not export a compactness theorem, an open-cover argument, a semantic continuity principle, or any center selected outside the finite net row.
+\end{theorem}
+\begin{proof}
+Project the carrier and NameCert obligations. The finite selected precision, source-distance rows, pointwise target estimates, final target triangle row, and $H,C,P,N$ support are all named inside one accepted packet.
+
+Use the shared-modulus domain and consumer coverage theorems. They identify the handoff data delivered to $\UniformModulusUp$ and keep the selected center, source bounds, target estimates, and support rows together.
+
+Finally apply source-target lock and no-completion escape. The consumer receives a finite handoff package only; host compactness, open covers, semantic continuity, and Real completeness are not support rows and therefore cannot be read from the accepted packet.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate choice refusal]
+\label{thm:metric-triangle-uniform-estimate-choice-refusal}
+No accepted $\MetricTriangleUniformEstimateUp$ route may replace its finite selected center and selected precision by host compactness, choice-selected centers, open-cover compactness, semantic continuity, or Real completeness. Such replacements fail to preserve the compact-net row, source triangle row, pointwise target estimate rows, target triangle row, and $\UniformModulusUp$ consumer boundary.
+\end{theorem}
+\begin{proof}
+The finite route is already exhausted by \autoref{thm:metric-triangle-uniform-estimate-uniform-modulus-route-exhaustion}. It names the selected compact-net center, the source and target estimate rows, and the consumer support rows.
+
+Center reuse determinacy and the two-triangle route prevent a hidden choice of centers. The source and target estimates use the same displayed $c$, so a choice-selected replacement would no longer be the carrier route.
+
+The remaining exclusions follow from no-completion escape, shared-modulus domain, consumer coverage, and source-target lock. Host compactness, open-cover compactness, semantic continuity, and Real completeness are not coordinates of the accepted packet, and the $\UniformModulusUp$ handoff cannot synthesize them from $H,C,P,N$.
+\end{proof}
+
 \closureat{MetricTriangleUniformEstimateUp}{seedStr}
 
 \begin{closurestatus}{\MetricTriangleUniformEstimateUp}
