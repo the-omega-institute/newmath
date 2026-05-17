@@ -153,6 +153,9 @@ import BEDC.Derived.ApophaticNameUp.GateLedgerExactness
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
+import BEDC.Derived.PointwiseModulusLedgerUp.TasteGate
+import BEDC.Derived.TypedSupplySocketUp.TasteGate
+import BEDC.Derived.UseRuleLedgerUp.TasteGate
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.MachineInterfaceFormalizationTargetUp.TasteGate
 import BEDC.Derived.ExternalityGateUp.TasteGate
