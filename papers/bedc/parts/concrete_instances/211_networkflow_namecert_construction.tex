@@ -603,3 +603,14 @@ $$
 $$
 The quantified flow $F$ was arbitrary among feasible finite $s$-$t$ flows over $u$, so the zero feasible flow is minimum for the concrete $\NatUp$ prefix order on flow values.
 \end{proof}
+
+\begin{closurestatus}{\NetworkFlowUp}
+  \constructivestory{A $\NetworkFlowUp$ packet is generated from finite $\BHist$ rows for a directed graph, unary capacity assignment, source and target endpoints, feasible-flow witnesses, and finite cut witnesses. The flow value and cut-capacity reads are not external graph-optimization objects; they are $\Cont$ folds over displayed edge spines whose summands are unary $\NatUp$ histories. The classifier compares accepted packets by $\hsame$ on graph, capacity, flow, cut, and value rows, while $\Pkg$ records the consumed $\GraphUp$, $\NatUp$, and additive-fold dependencies. Thus the max-flow/min-cut surface is a finite ledger of histories and routes, with no hidden residual network or host optimization oracle.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the finite flow-cut carrier, unary fold monotonicity, max-flow/min-cut comparison surface, and zero-flow minimum statement displayed in the chapter.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim a host graph algorithm, residual-network completeness, ambient linear programming duality, or equality of external flow objects.}
+  \upgradepath{Obligation closure requires Lean encodings of the finite flow-cut carrier, unary fold monotonicity, and the displayed cut-bound comparison theorems.}
+\end{closurestatus}

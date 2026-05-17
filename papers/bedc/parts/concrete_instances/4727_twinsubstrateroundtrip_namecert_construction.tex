@@ -51,3 +51,14 @@ The boundary ledger $B$ and structural rows $H,C,P,N$ route every cross-substrat
 \end{proof}
 
 \closureat{TwinSubstrateRoundtripUp}{seedStr}
+
+\begin{closurestatus}{\TwinSubstrateRoundtripUp}
+  \constructivestory{A $\TwinSubstrateRoundtripUp$ packet is generated from finite $\BHist$ rows for MetaCIC audit data, GroundCompiler audit data, a substitution-context handoff, boundary ledger, transports, continuations, provenance, and local naming. The roundtrip keeps the two substrate rows separate and uses $\Cont$ to route any shared read through the displayed substitution-context row before either side is consumed. Componentwise $\hsame$ preserves MetaCIC, GroundCompiler, context, and boundary rows without merging them, while $\Pkg$ records the synthesis and audit dependencies. The packet names a cross-substrate boundary, not a unified substrate.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the TwinSubstrateRoundtrip carrier, NameCert obligations, substrate separation theorem, and boundary-ledger route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim compiler reports as MetaCIC proof evidence, hidden closed-CIC transport, host compiler input, or collapse of the two audit namespaces.}
+  \upgradepath{Obligation closure requires Lean encodings of the roundtrip carrier, substitution-context handoff, substrate-separation theorem, and boundary non-escape.}
+\end{closurestatus}
