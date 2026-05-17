@@ -341,4 +341,39 @@ theorem ObserverDistinctionTrace_temporal_factorization -- BEDC touchpoint ancho
       (fun subjectReturn =>
         cont_mutual_extension_right_tail_absurd.right consumerRoute subjectReturn)⟩
 
+theorem ObserverDistinctionTrace_public_route
+    {source trace growth routes transport provenance localName consumer
+      subjectTail : BHist}
+    (routeReplay : Cont source routes growth)
+    (consumerRoute : Cont growth provenance consumer)
+    (clockRoute : Cont BHist.Empty trace source)
+    (localBudgetRoute : Cont trace routes transport) :
+    (SemanticNameCert
+        (fun row : BHist =>
+          hsame row source ∧
+            ∃ packet : ObserverDistinctionTraceUp,
+              packet =
+                ObserverDistinctionTraceUp.mk source trace growth routes transport provenance
+                  localName)
+        (fun row : BHist =>
+          hsame row source ∧ hsame trace trace ∧ hsame growth growth ∧ hsame routes routes)
+        (fun row : BHist =>
+          Cont source routes growth ∧ hsame row source ∧ hsame transport transport ∧
+            hsame provenance provenance ∧ hsame localName localName)
+        hsame ∧
+      Cont growth provenance consumer ∧
+        (Cont consumer (BHist.e0 subjectTail) growth → False) ∧
+          (Cont consumer (BHist.e1 subjectTail) growth → False)) ∧
+      Cont BHist.Empty trace source ∧
+        Cont trace routes transport ∧
+          observerDistinctionTraceFields
+            (ObserverDistinctionTraceUp.mk source trace growth routes transport provenance
+              localName) =
+            [source, trace, growth, routes, transport, provenance, localName] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  exact
+    ⟨@ObserverDistinctionTrace_temporal_factorization source trace growth routes transport
+        provenance localName consumer subjectTail routeReplay consumerRoute,
+      clockRoute, localBudgetRoute, rfl⟩
+
 end BEDC.Derived.ObserverDistinctionTraceUp
