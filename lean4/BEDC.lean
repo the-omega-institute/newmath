@@ -174,6 +174,7 @@ import BEDC.Derived.MachineInterfaceFormalizationTargetUp.TasteGate
 import BEDC.Derived.ExternalityGateUp.TasteGate
 import BEDC.Derived.ExternalSupplySignatureSealUp.TasteGate
 import BEDC.Derived.ExternalSupplyFailureWitnessUp.TasteGate
+import BEDC.Derived.ExternalSupplyAuditRouteUp.TasteGate
 import BEDC.Derived.ExternalSupplyBoundaryUp
 import BEDC.Derived.ExternalSupplyBoundaryUp.TasteGate
 import BEDC.Derived.EmptyFableMachineUp.TasteGate
