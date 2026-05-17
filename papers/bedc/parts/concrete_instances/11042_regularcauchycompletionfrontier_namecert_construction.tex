@@ -121,6 +121,30 @@ The five obligation rows are supplied by \autoref{thm:regular-cauchy-completion-
 The boundary is closed for accepted consumers by \autoref{thm:regular-cauchy-completion-frontier-nonescape} and \autoref{thm:regular-cauchy-completion-frontier-source-exhaustion}. The first excludes alternate routes through absent quotient, host-limit, equality, choice, and ambient-completeness coordinates; the second says every accepted Real or Completion read factors through exactly the displayed rows. The existing TasteGate marker records the Lean-side carrier alignment for that same singleton carrier surface.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy completion frontier real terminal cofinal route]
+\label{thm:regular-cauchy-completion-frontier-real-terminal-cofinal-route}
+For any accepted $\RegularCauchyCompletionFrontierUp$ packet
+$$
+F=(D,S,R,L,M,A,T,E,H,C,P,N),
+$$
+every public $\RealUp$ terminal seal read through the frontier factors through the finite source, selector, cofinal-tail, and completion handoff route
+$$
+D,S,R,M,A,T,E
+$$
+before the terminal seal row $L$ is consumed. The rows $H,C,P,N$ are the only support rows for this handoff: $H$ supplies componentwise $\hsame$ transport, $C$ supplies $\Cont$ replay, $P$ supplies $\Pkg$ provenance, and $N$ supplies the local $\NameCert_{\RegularCauchyCompletionFrontierUp}$ row.
+
+Conversely, any displayed packet with the rows $D,S,R,M,A,T,E,L$ and no support rows beyond $H,C,P,N$ repacks as the same frontier-mediated public $\RealUp$ terminal seal route. The carrier alignment for this route is the existing TasteGate marker \texttt{BEDC.Derived.RegularCauchyCompletionFrontierUp.taste\_gate}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-completion-frontier-scoped-dependency-route}. It identifies the finite route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusRefinementUp$, the selector row $A$, the cofinal-tail row $T$, the completion-seal row $E$, and the terminal $\RealUp$ seal row $L$.
+
+Apply \autoref{thm:regular-cauchy-completion-frontier-source-exhaustion}. Any public Real or Completion read through the frontier must use exactly the displayed coordinates, so the terminal seal cannot be read before the source, refinement, selector, cofinal-tail, and handoff rows have been traversed.
+
+Apply \autoref{thm:regular-cauchy-completion-frontier-nonescape}. Since quotient streams, selected host limits, host equality, choice selectors, detached completion witnesses, and ambient completeness principles have no carrier row, the only support rows left for the terminal handoff are $H,C,P,N$.
+
+For the converse, project the displayed packet back into the carrier of \autoref{def:regular-cauchy-completion-frontier-carrier}. The same rows supply the source window, cofinal tail, completion handoff, transport, continuation, provenance, and local naming coordinates, and the TasteGate marker \texttt{BEDC.Derived.RegularCauchyCompletionFrontierUp.taste\_gate} records the singleton carrier alignment for the resulting frontier-mediated terminal seal route.
+\end{proof}
+
 \falsifiablePrediction{An accepted frontier consumer that exports a $\RealUp$ limit without a displayed cofinal-tail row and completion-seal handoff row refutes the packet.}
 
 \independenceWitness{real, streamname, regseqrat, dyadicratcore, cauchymodulusrefinement: no sibling is bijective because RegularCauchyCompletionFrontierUp binds Real sealing, finite observation, regular rational readback, dyadic tolerance, modulus refinement, diagonal selection, cofinal-tail agreement, and completion handoff in one certificate. RealUp has endpoint seals without source-window selectors; StreamNameUp has windows without regular rational readback; RegSeqRatUp has regular sources without Real seals; DyadicRatCoreUp has tolerances without completion handoff; CauchyModulusRefinementUp has source-window refinement without the frontier's cofinal-tail and Real-seal package.}

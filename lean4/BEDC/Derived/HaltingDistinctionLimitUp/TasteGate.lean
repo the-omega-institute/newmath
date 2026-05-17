@@ -246,6 +246,23 @@ instance haltingDistinctionLimitFieldFaithful :
   fields := haltingDistinctionLimitFields
   field_faithful := HaltingDistinctionLimitTasteGate_field_faithful_concrete
 
+def HaltingDistinctionLimitClassifier (x y : HaltingDistinctionLimitUp) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  match x, y with
+  | HaltingDistinctionLimitUp.mk program input trace diagonal transport route
+      packageProvenance localNameCertLedger,
+    HaltingDistinctionLimitUp.mk program' input' trace' diagonal' transport' route'
+      packageProvenance' localNameCertLedger' =>
+      hsame program program' ∧
+        hsame input input' ∧
+          hsame trace trace' ∧
+            hsame diagonal diagonal' ∧
+              hsame transport transport' ∧
+                hsame route route' ∧
+                  hsame packageProvenance packageProvenance' ∧
+                    hsame localNameCertLedger localNameCertLedger' ∧
+                      Cont input trace diagonal ∧ Cont input' trace' diagonal'
+
 def taste_gate : ChapterTasteGate HaltingDistinctionLimitUp :=
   -- BEDC touchpoint anchor: BHist BMark
   haltingDistinctionLimitChapterTasteGate
