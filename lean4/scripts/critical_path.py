@@ -324,6 +324,7 @@ def _compute_dispatch_weights(
     base_weights_lean: dict[str, float],
     base_weights_paper: dict[str, float],
     capstone_candidate: dict | None = None,
+    capstone_coverage: dict | None = None,
 ) -> dict[str, dict]:
     """Compute supply- and consumption-adjusted per-side weights."""
     lean_weights = _adjust_dispatch_weights(base_weights_lean, supply_lean, consumption)
@@ -334,6 +335,7 @@ def _compute_dispatch_weights(
             "supply": supply_lean,
             "consumption_60min": {key: consumption.get(key, 0) for key in base_weights_lean},
             "capstone_candidate": capstone_candidate,
+            "capstone_coverage": capstone_coverage,
             "advice": _dispatch_advice("lean", lean_weights, supply_lean),
         },
         "paper": {
@@ -341,6 +343,7 @@ def _compute_dispatch_weights(
             "supply": supply_paper,
             "consumption_60min": {key: consumption.get(key, 0) for key in base_weights_paper},
             "capstone_candidate": capstone_candidate,
+            "capstone_coverage": capstone_coverage,
             "advice": _dispatch_advice("paper", paper_weights, supply_paper),
         },
     }
@@ -516,22 +519,7 @@ def _suggest_capstone_name(arity: int | None, shape_summary: str, names: list[st
     return suggested if suggested.endswith("Up") else f"{suggested}Up"
 
 
-def _capstone_candidate_from_buckets(buckets: list[dict]) -> dict | None:
-    valid = [
-        bucket
-        for bucket in buckets
-        if isinstance(bucket, dict) and int(bucket.get("member_count") or 0) >= 2
-    ]
-    if not valid:
-        return None
-    bucket = sorted(
-        valid,
-        key=lambda item: (
-            -int(item.get("member_count") or 0),
-            int(item.get("arity") or 10**9),
-            str(item.get("shape_summary") or ""),
-        ),
-    )[0]
+def _capstone_candidate_dict(bucket: dict) -> dict:
     arity = bucket.get("arity")
     if not isinstance(arity, int):
         arity = None
@@ -552,6 +540,52 @@ def _capstone_candidate_from_buckets(buckets: list[dict]) -> dict | None:
         "suggested_paper_slug": suggested_paper_slug,
         "suggested_paper_filename_prefix_hint": f"NNNN_{suggested_paper_slug}",
         "rationale": f"{member_count} chapters share a {shape_summary} BHist carrier event-flow pattern at arity {arity}.",
+    }
+
+
+def _capstone_candidate_sort_key(bucket: dict) -> tuple[int, int, str]:
+    return (
+        -int(bucket.get("member_count") or 0),
+        int(bucket.get("arity") or 10**9),
+        str(bucket.get("shape_summary") or ""),
+    )
+
+
+def _capstone_candidate_from_buckets(buckets: list[dict]) -> dict | None:
+    valid = [
+        bucket
+        for bucket in buckets
+        if isinstance(bucket, dict) and int(bucket.get("member_count") or 0) >= 2
+    ]
+    for bucket in sorted(valid, key=_capstone_candidate_sort_key):
+        candidate = _capstone_candidate_dict(bucket)
+        candidate_file = DERIVED_DIR / f"{candidate['suggested_lean_name']}.lean"
+        if candidate_file.exists():
+            continue
+        return candidate
+    return None
+
+
+def _capstone_coverage_from_buckets(buckets: list[dict]) -> dict:
+    covered_names = []
+    total_phase2_buckets = 0
+    for bucket in sorted(
+        (bucket for bucket in buckets if isinstance(bucket, dict)),
+        key=_capstone_candidate_sort_key,
+    ):
+        if int(bucket.get("member_count") or 0) < 2:
+            continue
+        total_phase2_buckets += 1
+        candidate = _capstone_candidate_dict(bucket)
+        suggested_lean_name = candidate["suggested_lean_name"]
+        if (DERIVED_DIR / f"{suggested_lean_name}.lean").exists():
+            covered_names.append(suggested_lean_name)
+    covered = len(covered_names)
+    return {
+        "total_phase2_buckets": total_phase2_buckets,
+        "covered": covered,
+        "uncovered": total_phase2_buckets - covered,
+        "covered_names": covered_names,
     }
 
 
@@ -2595,17 +2629,19 @@ def main(argv: list[str] | None = None) -> int:
     try:
         carrier = payload.get("carrier_isomorphism", {})
         if isinstance(carrier, dict) and carrier.get("available"):
-            buckets = carrier.get("phase2_top_buckets", [])
-            carrier_iso_phase2_bucket_count = len(buckets) if isinstance(buckets, list) else 0
             candidate_buckets = carrier.get("phase2_buckets", [])
-            capstone_candidate = (
-                _capstone_candidate_from_buckets(candidate_buckets)
-                if isinstance(candidate_buckets, list)
-                else None
-            )
+            if isinstance(candidate_buckets, list):
+                capstone_coverage = _capstone_coverage_from_buckets(candidate_buckets)
+                carrier_iso_phase2_bucket_count = capstone_coverage["uncovered"]
+                capstone_candidate = _capstone_candidate_from_buckets(candidate_buckets)
+            else:
+                carrier_iso_phase2_bucket_count = 0
+                capstone_candidate = None
+                capstone_coverage = None
         else:
             carrier_iso_phase2_bucket_count = 0
             capstone_candidate = None
+            capstone_coverage = None
         supply_lean = {
             "top": len(rolled),
             "formal_axis_top": len(formal_axis_top_full),
@@ -2622,7 +2658,7 @@ def main(argv: list[str] | None = None) -> int:
         payload["dispatch_weights"] = _compute_dispatch_weights(
             supply_lean, supply_paper, consumption,
             _LEAN_BASE_WEIGHTS, _PAPER_BASE_WEIGHTS,
-            capstone_candidate,
+            capstone_candidate, capstone_coverage,
         )
     except Exception as exc:
         payload["dispatch_weights"] = {"error": str(exc)[:200]}
