@@ -407,6 +407,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.DiagonalRoutePullback
 import BEDC.Derived.CauchyModulusRefinementUp.DiagonalHandoffDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.OpenPhaseFourObjectConsumption
 import BEDC.Derived.CauchyModulusRefinementUp.OpenPhaseSpineLock
+import BEDC.Derived.CauchyModulusRefinementUp.ObligationClosurePackage
 import BEDC.Derived.CauchyModulusRefinementUp.PullbackSpineAdmission
 import BEDC.Derived.CauchyModulusRefinementUp.FiniteObservationBudgetSelectorHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.FiniteObservationBudgetPullback
@@ -601,6 +602,7 @@ import BEDC.Derived.FiniteObservationInterfaceUp.TasteGate
 import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
 import BEDC.Derived.LocalEmpiricalClosureGateUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
+import BEDC.Derived.SocketReportUp.TasteGate
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
 import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
