@@ -79,3 +79,31 @@ Read the observation siblings next. The $\StreamNameUp$ row $W$, $\RegSeqRatUp$ 
 
 Finally read the $\RealUp$ sibling through $E$. The transport, continuation, provenance, and naming rows keep that seal tied to the same displayed prefix route, so the Real-completion consumer receives a finite stability handoff rather than a host limit, quotient stream, selected limit, choice row, ambient completeness theorem, or bridge schema.
 \end{proof}
+
+\begin{theorem}[Finite-prefix limit-stability route determinacy]
+\label{thm:finite-prefix-limit-stability-route-determinacy}
+Let $S=(B,W,R,D,E,H,C,P,N)$ be an accepted $\FinitePrefixLimitStabilityUp$ carrier. If two consumer reads of $S$ expose the same finite prefix budget $B$, the same $\StreamNameUp$ window $W$, the same $\RegSeqRatUp$ readback $R$, the same $\DyadicRatCoreUp$ tolerance row $D$, the same componentwise transport rows $H$, and the same continuation replay $C$, then both reads reach the same terminal $\RealUp$ seal row $E$. No alternate seal may be attached to the displayed route by a hidden tail oracle, host limit, quotient stream equality, selected-limit row, countable-choice row, ambient completeness theorem, or bridge schema.
+\end{theorem}
+\begin{proof}
+Start from the carrier decomposition in \autoref{def:finite-prefix-limit-stability-carrier}. The terminal seal coordinate $E$ is part of the same finite packet as $B,W,R,D,H,C,P,N$, not a separately supplied analytic witness.
+
+Apply the obligation surface of \autoref{thm:finite-prefix-limit-stability-obligation-surface}. An accepted read has access exactly to the displayed budget, window, readback, tolerance, seal, transport, replay, provenance, and local naming rows. Thus two reads with identical $B,W,R,D,H,C$ are comparing the same displayed route inside the same packet.
+
+The nonescape theorem \autoref{thm:finite-prefix-limit-stability-prefix-nonescape} excludes every non-coordinate source of a second seal. The Real handoff theorem \autoref{thm:finite-prefix-limit-stability-real-handoff} then identifies the consumer-facing output as the terminal seal already carried by $E$, so the displayed prefix route has one Real-facing seal and admits no detached alternative.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-stability source lock]
+\label{thm:finite-prefix-limit-stability-source-lock}
+Every $\RealUp$ or Completion-facing read of an accepted $\FinitePrefixLimitStabilityUp$ carrier must expose the ordered route
+$$
+B \to W \to R \to D \to E
+$$
+before the support rows $H,C,P,N$ can be consumed. The support rows may transport, replay, source, and name the displayed route, but they cannot supply a Real seal, prefix budget, stream window, regular-rational readback, or dyadic tolerance row out of order.
+\end{theorem}
+\begin{proof}
+Project the carrier with \autoref{def:finite-prefix-limit-stability-carrier}. The data rows appear as the budget $B$, window $W$, readback $R$, tolerance $D$, and terminal seal $E$, while $H,C,P,N$ are support rows for that displayed data.
+
+Use \autoref{thm:finite-prefix-limit-stability-obligation-surface} to read the local naming surface. The accepted packet presents the route by exposing the finite prefix budget, then the stream window, then the regular-rational readback, then the dyadic tolerance row, and only then the Real seal.
+
+Finally apply \autoref{thm:finite-prefix-limit-stability-prefix-nonescape} and \autoref{thm:finite-prefix-limit-stability-real-handoff}. They force every Real-facing consumer through the displayed finite route and make the handoff terminate at $E$, so the support rows can only preserve and name that route after its source order has been exposed.
+\end{proof}
