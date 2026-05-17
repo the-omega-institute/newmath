@@ -210,6 +210,38 @@ instance kernelAuditWitnessChapterTasteGate : ChapterTasteGate KernelAuditWitnes
     intro x y hxy heq
     exact hxy (kernelAuditWitnessToEventFlow_injective heq)
 
+instance kernelAuditWitnessFieldFaithful : FieldFaithful KernelAuditWitnessUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | KernelAuditWitnessUp.mk generator acceptance ledger ancestry transport replay provenance
+        name =>
+        [generator, acceptance, ledger, ancestry, transport, replay, provenance, name]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk generator₁ acceptance₁ ledger₁ ancestry₁ transport₁ replay₁ provenance₁ name₁ =>
+        cases y with
+        | mk generator₂ acceptance₂ ledger₂ ancestry₂ transport₂ replay₂ provenance₂ name₂ =>
+            injection h with hGenerator rest₁
+            injection rest₁ with hAcceptance rest₂
+            injection rest₂ with hLedger rest₃
+            injection rest₃ with hAncestry rest₄
+            injection rest₄ with hTransport rest₅
+            injection rest₅ with hReplay rest₆
+            injection rest₆ with hProvenance rest₇
+            injection rest₇ with hName _
+            cases hGenerator
+            cases hAcceptance
+            cases hLedger
+            cases hAncestry
+            cases hTransport
+            cases hReplay
+            cases hProvenance
+            cases hName
+            rfl
+
 theorem KernelAuditWitnessTasteGate_single_carrier_alignment :
     (∀ h : BHist, kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist h) = h) ∧
       (∀ x : KernelAuditWitnessUp,
@@ -226,5 +258,29 @@ theorem KernelAuditWitnessTasteGate_single_carrier_alignment :
       · intro x y heq
         exact kernelAuditWitnessToEventFlow_injective heq
       · rfl
+
+theorem KernelAuditWitnessLedger_exactness {G A L R H C P N : BHist} :
+    kernelAuditWitnessFromEventFlow
+        (kernelAuditWitnessToEventFlow (KernelAuditWitnessUp.mk G A L R H C P N)) =
+          some (KernelAuditWitnessUp.mk G A L R H C P N) ∧
+      kernelAuditWitnessToEventFlow (KernelAuditWitnessUp.mk G A L R H C P N) =
+        [[BMark.b0], kernelAuditWitnessEncodeBHist G, [BMark.b1, BMark.b0],
+          kernelAuditWitnessEncodeBHist A, [BMark.b1, BMark.b1, BMark.b0],
+          kernelAuditWitnessEncodeBHist L, [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          kernelAuditWitnessEncodeBHist R,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          kernelAuditWitnessEncodeBHist H,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          kernelAuditWitnessEncodeBHist C,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b0],
+          kernelAuditWitnessEncodeBHist P,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b0],
+          kernelAuditWitnessEncodeBHist N] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact kernelAuditWitness_round_trip (KernelAuditWitnessUp.mk G A L R H C P N)
+  · rfl
 
 end BEDC.Derived.KernelAuditWitnessUp

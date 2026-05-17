@@ -1,0 +1,89 @@
+import BEDC.Derived.ApophaticGateQuestionUp
+
+namespace BEDC.Derived.ApophaticGateQuestionUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+theorem ApophaticGateQuestionCarrier_mature_boundary [AskSetup] [PackageSetup]
+    {socket question refusal readback transport route provenance nameRow rootRead auditRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticGateQuestionCarrier socket question refusal readback transport route provenance
+        nameRow bundle pkg →
+      Cont route provenance rootRead →
+        Cont readback route auditRead →
+          PkgSig bundle rootRead pkg →
+            PkgSig bundle auditRead pkg →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    ApophaticGateQuestionCarrier socket question refusal readback transport route
+                      provenance nameRow bundle pkg ∧ hsame row nameRow)
+                  (fun row : BHist => hsame row nameRow ∧ UnaryHistory row)
+                  (fun _row : BHist =>
+                    Cont socket question readback ∧ Cont question refusal route ∧
+                      Cont readback route auditRead ∧ Cont route provenance rootRead ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle rootRead pkg ∧
+                          PkgSig bundle auditRead pkg)
+                  hsame ∧
+                UnaryHistory socket ∧ UnaryHistory question ∧ UnaryHistory refusal ∧
+                  UnaryHistory readback ∧ UnaryHistory auditRead ∧ UnaryHistory rootRead ∧
+                    Cont socket question readback ∧ Cont question refusal route ∧
+                      Cont readback route auditRead ∧ Cont route provenance rootRead ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle rootRead pkg ∧
+                          PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier routeProvenanceRoot readbackRouteAudit rootPkg auditPkg
+  have carrierPacket :
+      ApophaticGateQuestionCarrier socket question refusal readback transport route
+        provenance nameRow bundle pkg :=
+    carrier
+  obtain ⟨socketUnary, questionUnary, refusalUnary, readbackUnary, _transportUnary,
+    routeUnary, provenanceUnary, nameRowUnary, socketQuestionReadback, questionRefusalRoute,
+    _refusalReadbackTransport, _readbackRouteNameRow, _readbackSameSourceQuestion,
+    provenancePkg⟩ := carrier
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed readbackUnary routeUnary readbackRouteAudit
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenanceRoot
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            ApophaticGateQuestionCarrier socket question refusal readback transport route
+              provenance nameRow bundle pkg ∧ hsame row nameRow)
+          (fun row : BHist => hsame row nameRow ∧ UnaryHistory row)
+          (fun _row : BHist =>
+            Cont socket question readback ∧ Cont question refusal route ∧
+              Cont readback route auditRead ∧ Cont route provenance rootRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle rootRead pkg ∧
+                  PkgSig bundle auditRead pkg)
+          hsame := by
+    constructor
+    · constructor
+      · exact Exists.intro nameRow ⟨carrierPacket, hsame_refl nameRow⟩
+      · intro row _source
+        exact hsame_refl row
+      · intro row row' same
+        exact hsame_symm same
+      · intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro row row' same source
+        exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+    · intro row source
+      have rowSameName : hsame row nameRow := source.right
+      exact ⟨rowSameName, unary_transport nameRowUnary (hsame_symm rowSameName)⟩
+    · intro _row _source
+      exact
+        ⟨socketQuestionReadback, questionRefusalRoute, readbackRouteAudit,
+          routeProvenanceRoot, provenancePkg, rootPkg, auditPkg⟩
+  exact
+    ⟨cert, socketUnary, questionUnary, refusalUnary, readbackUnary, auditUnary, rootUnary,
+      socketQuestionReadback, questionRefusalRoute, readbackRouteAudit, routeProvenanceRoot,
+      provenancePkg, rootPkg, auditPkg⟩
+
+end BEDC.Derived.ApophaticGateQuestionUp
