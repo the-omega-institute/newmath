@@ -1958,6 +1958,7 @@ import BEDC.Derived.SubjectReductionDischargeUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeLedgerUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeLedgerUp
 import BEDC.Derived.SubjectReductionDischargeSocketUp
+import BEDC.Derived.SubjectFreeObservationUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteClassifierUp
 import BEDC.Derived.SubjectReductionRouteUp.TasteGate
 import BEDC.Derived.SubjectReductionUp
