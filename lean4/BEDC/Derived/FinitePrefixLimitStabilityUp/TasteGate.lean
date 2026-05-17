@@ -11,6 +11,7 @@ open BEDC.Meta.TasteGate
 
 inductive FinitePrefixLimitStabilityUp : Type where
   | packet (B W R D E H C P N : BHist) : FinitePrefixLimitStabilityUp
+  deriving DecidableEq
 
 def finitePrefixLimitStabilityEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -254,9 +255,46 @@ instance finitePrefixLimitStabilityFieldFaithful :
             cases h
             rfl
 
+instance finitePrefixLimitStabilityNontrivial :
+    Nontrivial FinitePrefixLimitStabilityUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨FinitePrefixLimitStabilityUp.packet BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      FinitePrefixLimitStabilityUp.packet (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate FinitePrefixLimitStabilityUp :=
   -- BEDC touchpoint anchor: BHist BMark
   finitePrefixLimitStabilityChapterTasteGate
+
+theorem FinitePrefixLimitStabilityTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      finitePrefixLimitStabilityDecodeBHist (finitePrefixLimitStabilityEncodeBHist h) = h) ∧
+      (∀ x : FinitePrefixLimitStabilityUp,
+        finitePrefixLimitStabilityFromEventFlow
+            (finitePrefixLimitStabilityToEventFlow x) =
+          some x) ∧
+        (∀ x y : FinitePrefixLimitStabilityUp,
+          finitePrefixLimitStabilityToEventFlow x =
+              finitePrefixLimitStabilityToEventFlow y →
+            x = y) ∧
+          Nonempty (FieldFaithful FinitePrefixLimitStabilityUp) ∧
+            Nonempty (ChapterTasteGate FinitePrefixLimitStabilityUp) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_decode
+  · constructor
+    · exact FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_round_trip
+    · constructor
+      · intro x y heq
+        exact FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_injective heq
+      · constructor
+        · exact Nonempty.intro finitePrefixLimitStabilityFieldFaithful
+        · exact Nonempty.intro finitePrefixLimitStabilityChapterTasteGate
 
 theorem FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment :
     finitePrefixLimitStabilityEncodeBHist BHist.Empty = [] ∧
