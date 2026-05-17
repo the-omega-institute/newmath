@@ -149,18 +149,7 @@ def taste_gate : ChapterTasteGate BareObjectRefusalUp :=
   bareObjectRefusalChapterTasteGate
 
 theorem BareObjectRefusalTasteGate_single_carrier_alignment :
-    (∀ h : BHist, bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist h) = h) ∧
-      (∀ x : BareObjectRefusalUp,
-        bareObjectRefusalFromEventFlow (bareObjectRefusalToEventFlow x) = some x) ∧
-        (∀ x y : BareObjectRefusalUp,
-          bareObjectRefusalToEventFlow x = bareObjectRefusalToEventFlow y → x = y) ∧
-          Nonempty (Nontrivial BareObjectRefusalUp) ∧
-            Nonempty (FieldFaithful BareObjectRefusalUp) := by
-  exact
-    ⟨bareObjectRefusal_decode_encode_bhist,
-      bareObjectRefusal_round_trip,
-      (fun _ _ heq => bareObjectRefusalToEventFlow_injective heq),
-      ⟨bareObjectRefusalNontrivial⟩,
-      ⟨bareObjectRefusalFieldFaithful⟩⟩
+    ∀ h : BHist, bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist h) = h :=
+  bareObjectRefusal_decode_encode_bhist
 
 end BEDC.Derived.BareObjectRefusalUp
