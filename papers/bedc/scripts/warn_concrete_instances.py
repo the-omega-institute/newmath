@@ -672,9 +672,11 @@ def main() -> int:
                     print(f"  {v['file']}:{v['line']}: {v['msg']}", file=sys.stderr)
                 if len(vs) > args.limit:
                     print(f"  ... {len(vs) - args.limit} more (use --json for full list)", file=sys.stderr)
+            tag = "[ERROR]" if args.strict else "[WARN]"
+            mode = "Blocking (--strict)" if args.strict else "Non-blocking"
             print(
-                f"[WARN] warn_concrete_instances: {len(violations)} total violation(s) across "
-                f"{len(by_check)} check(s). Non-blocking; run with --json for full data.",
+                f"{tag} warn_concrete_instances: {len(violations)} total violation(s) across "
+                f"{len(by_check)} check(s). {mode}; run with --json for full data.",
                 file=sys.stderr,
             )
 
