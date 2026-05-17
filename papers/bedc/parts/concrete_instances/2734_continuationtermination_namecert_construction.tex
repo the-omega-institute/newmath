@@ -78,3 +78,14 @@ Use behaviour transport for classifier-facing consumers. It keeps every comparis
 
 Since the carrier exports no host evaluator, quotient behaviour class, unbounded trace, or classical termination predicate, no downstream consumer can escape the finite continuation-termination packet.
 \end{proof}
+
+\begin{closurestatus}{\ContinuationTerminationUp}
+  \constructivestory{A $\ContinuationTerminationUp$ packet is generated from finite $\BHist$ rows for an initial state, displayed continuation trace, terminal witness, behavior classifier, and consumer-facing route ledger. Termination is not read as a global evaluator predicate; it is the existence of the shown finite trace whose endpoint is routed by $\Cont$ to the terminal row. Classifier-facing consumers use $\hsame$ to transport the visible trace, witness, and behavior rows componentwise, while $\Pkg$ records the continuation and naming dependencies. The packet therefore supplies a bounded continuation-termination certificate and refuses unbounded behavior classes or host evaluation semantics.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the continuation-termination carrier, behavior transport, terminal route obligations, and finite packet non-escape statement for $\ContinuationTerminationUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim a total evaluator, quotient behavior class, unbounded trace semantics, selected divergence evidence, or a global termination decision procedure.}
+  \upgradepath{Obligation closure requires Lean encodings of the finite trace carrier, terminal witness route, behavior transport, and non-escape theorem.}
+\end{closurestatus}
