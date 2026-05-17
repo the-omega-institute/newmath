@@ -247,4 +247,36 @@ def taste_gate : ChapterTasteGate AuditFinalityCertificateUp :=
   -- BEDC touchpoint anchor: BHist BMark
   auditFinalityCertificateChapterTasteGate
 
+theorem AuditFinalityCertificateTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      auditFinalityCertificateDecodeBHist (auditFinalityCertificateEncodeBHist h) = h) ∧
+      (∀ x : AuditFinalityCertificateUp,
+        auditFinalityCertificateFromEventFlow (auditFinalityCertificateToEventFlow x) =
+          some x) ∧
+      (∀ x y : AuditFinalityCertificateUp,
+        auditFinalityCertificateToEventFlow x = auditFinalityCertificateToEventFlow y →
+          x = y) ∧
+      (∃ x y : AuditFinalityCertificateUp, x ≠ y) ∧
+      auditFinalityCertificateEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact auditFinalityCertificate_decode_encode_bhist
+  · constructor
+    · exact auditFinalityCertificate_round_trip
+    · constructor
+      · intro x y heq
+        exact auditFinalityCertificateToEventFlow_injective heq
+      · constructor
+        · exact
+            ⟨AuditFinalityCertificateUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty,
+              AuditFinalityCertificateUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty,
+              by
+                intro h
+                cases h⟩
+        · rfl
+
 end BEDC.Derived.AuditFinalityCertificateUp
