@@ -1,0 +1,50 @@
+\chapter{A Concrete Naming Certificate for $\PhysicsFalsificationSurfaceUp$}
+\label{ch:concrete-instances-physics-falsification-surface-namecert}
+\origin{ai}
+
+The $\PhysicsFalsificationSurfaceUp$ packet realizes the physics-route falsification surface of \autoref{subsec:philosophy-programme-multihist-physics} as a finite NameCert carrier. It sits after the relational physics carrier of \autoref{ch:concrete-instances-relational-physics-namecert}, the physical-law bridge of \autoref{ch:concrete-instances-physicallawbridge-namecert}, the empirical persistence carrier of \autoref{ch:concrete-instances-empirical-regularity-persistence-namecert}, the continuation countermodel surface of \autoref{ch:concrete-instances-continuationcountermodel-namecert}, and the gap-failure bridge audit of \autoref{ch:concrete-instances-gap-failure-bridge-audit-namecert}. The packet binds the exact point where a physical route, a law bridge, an empirical persistence row, and a countermodel handoff must be read together before any science bridge can be exported as completed physics.
+
+\begin{definition}[Physics falsification surface carrier]
+\label{def:physics-falsification-surface-carrier}
+A $\PhysicsFalsificationSurfaceUp$ carrier is a finite $\BHist$ packet
+$$
+P=(R,L,E,K,B,A,G,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the multi-history physics route row, recording the relational physics route whose public physical reading is under test.
+\item $L$ is the physical-law bridge row, recording law syntax, route interpretation, finite preservation, and bridge scope.
+\item $E$ is the empirical persistence row, recording the observation packets over which the proposed law remains stable.
+\item $K$ is either a continuation countermodel row or a failure row naming the branch where the proposed law cannot be carried forward.
+\item $B$ is the bridge and no-host-leak audit row, recording bridge preservation together with absence of host primitives, quotient principles, semantic equality assumptions, choice, propositional extensionality, and compiler readings.
+\item $A$ is the axiom-purity inspection row, recording that the cited formal surface is not being read through forbidden logical supply.
+\item $G$ is the typed gap routing row, recording the requested supply, admissible route, and consequence if the gap is internalized.
+\item $H$ stores componentwise $\hsame$ transport for route, law, empirical, countermodel, bridge-audit, axiom-purity, typed-gap, provenance, and naming rows.
+\item $C$ stores displayed $\Cont$ replay for physical-route inspection, law-bridge transport, empirical persistence, countermodel handoff, bridge audit, axiom-purity inspection, and typed-gap routing.
+\item $Q$ is the $\Pkg$ provenance row over $\RelationalPhysicsUp$, $\PhysicalLawBridgeUp$, $\EmpiricalRegularityPersistenceUp$, $\ContinuationCountermodelUp$, $\GapFailureBridgeAuditUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\PhysicsFalsificationSurfaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for completed physics detached from a countermodel or failure branch, a law bridge without empirical persistence, a bridge audit without no-host-leak evidence, an axiom-purity claim without typed gap routing, or a science-bridge export without the displayed falsification surface.
+\end{definition}
+
+\begin{theorem}[Physics falsification surface NameCert rows]
+\label{thm:physics-falsification-surface-namecert-rows}
+For the carrier of \autoref{def:physics-falsification-surface-carrier}, the local $\NameCert_{\PhysicsFalsificationSurfaceUp}$ surface consists of five rows: carrier exposure for $P=(R,L,E,K,B,A,G,H,C,Q,N)$, classifier stability for the route-law-empirical triple, countermodel handoff through $K$, bridge and no-host-leak inspection through $B,A,G$, and non-escape from completed-physics export.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the displayed tuple $P$. The rows $R,L,E$ give the route, law bridge, and empirical persistence data that a physical reading may inspect.
+
+Classifier stability is read through the same displayed rows under the transport and replay coordinates $H$ and $C$. The route-law-empirical triple cannot be renamed without preserving the transport of those coordinates and the provenance row $Q$.
+
+The countermodel handoff is the row $K$. If $K$ is a continuation countermodel, it records the route that defeats the proposed law; if it is a failure row, it records the branch on which the law cannot be carried forward.
+
+Bridge and no-host-leak inspection are stored in $B,A,G$. The bridge row is checked together with axiom-purity and typed-gap routing, so no host primitive, quotient principle, semantic equality assumption, choice, propositional extensionality, or compiler reading is imported as a BEDC physics input.
+
+Finally, non-escape follows because the carrier has no completed-physics coordinate. Any export through a science bridge must still pass through $R,L,E,K,B,A,G,H,C,Q,N$, and therefore cannot discard the falsification surface.
+\end{proof}
+
+\falsifiablePrediction{If the countermodel row is removed, the packet may still record a law bridge and empirical persistence, but it cannot certify a physics falsification surface.}
+
+\independenceWitness{relationalphysics, physicallawbridge, empiricalregularitypersistence, continuationcountermodel, and gapfailurebridgeaudit: no bijection preserves route, law, empirical, countermodel, bridge-audit, axiom-purity, gap, transport, replay, provenance, and naming rows at once. RelationalPhysicsUp supplies the route without the law-empirical-countermodel audit; PhysicalLawBridgeUp supplies law transport without falsification handoff; EmpiricalRegularityPersistenceUp supplies persistence without the physical route and countermodel branch; ContinuationCountermodelUp supplies a countermodel route without the bridge and axiom-purity audit; GapFailureBridgeAuditUp supplies gap and bridge audit rows without the route-law-empirical classifier.}
+
+The Lean site \texttt{lean4/BEDC/Derived/PhysicsFalsificationSurfaceUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \PhysicsFalsificationSurfaceUp$ and $\mathsf{FieldFaithful}\ \PhysicsFalsificationSurfaceUp$ instances preserving $R,L,E,K,B,A,G,H,C,Q,N$.
