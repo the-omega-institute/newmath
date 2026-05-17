@@ -899,6 +899,7 @@ import BEDC.Derived.ContinuationMonadUp.KleisliCompositeScope
 import BEDC.Derived.ContinuationMonadUp.RootTerminalReadbackCoverage
 import BEDC.Derived.ContinuationMonadUp.RootCategoryGeneratorObligationSurface
 import BEDC.Derived.ContinuationMonadUp.RootFormalTargetExactness
+import BEDC.Derived.ContinuationMonadUp.BindRouteTotality
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -2887,6 +2888,7 @@ import BEDC.Derived.CompactUp.EndpointCycle
 import BEDC.Derived.CompactUp.TwoStepFactor
 import BEDC.Derived.CompactNetModulusSelectorUp.TasteGate
 import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
+import BEDC.Derived.CompactCoverLebesgueLedgerUp.TasteGate
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
