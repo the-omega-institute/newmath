@@ -431,6 +431,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailBudgetSealCorrespondence
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
+import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
 import BEDC.Derived.ClosedObservationSupplyBoundaryUp.TasteGate
 import BEDC.Derived.ClosureStatusReferenceUp.TasteGate
