@@ -52,6 +52,34 @@ theorem SelectorLedgerNameCertObligations [AskSetup] [PackageSetup]
     ⟨historyUnary, traceUnary, selectorsUnary, routeUnary, historyTrace, traceSelectors,
       routeCont, provenancePkg, routePkg⟩
 
+theorem SelectorLedgerNoHiddenChoice [AskSetup] [PackageSetup]
+    {history trace selectors transport cont provenance name route publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SelectorLedgerCarrier history trace selectors transport cont provenance name bundle pkg →
+      Cont cont name route →
+        PkgSig bundle route pkg →
+          Cont route provenance publicRead →
+            UnaryHistory history ∧ UnaryHistory trace ∧ UnaryHistory selectors ∧
+              UnaryHistory route ∧ UnaryHistory publicRead ∧ Cont history trace transport ∧
+                Cont trace selectors cont ∧ Cont cont name route ∧
+                  Cont route provenance publicRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle route pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier routeCont routePkg publicReadCont
+  have obligations :=
+    SelectorLedgerNameCertObligations carrier routeCont routePkg
+  rcases obligations with
+    ⟨historyUnary, traceUnary, selectorsUnary, routeUnary, historyTrace, traceSelectors,
+      contNameRoute, provenancePkg, routePkg'⟩
+  rcases carrier with
+    ⟨_historyUnary, _traceUnary, _selectorsUnary, _transportUnary, _contUnary,
+      provenanceUnary, _nameUnary, _historyTrace, _traceSelectors, _provenancePkg⟩
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed routeUnary provenanceUnary publicReadCont
+  exact
+    ⟨historyUnary, traceUnary, selectorsUnary, routeUnary, publicReadUnary, historyTrace,
+      traceSelectors, contNameRoute, publicReadCont, provenancePkg, routePkg'⟩
+
 def selectorLedgerEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
