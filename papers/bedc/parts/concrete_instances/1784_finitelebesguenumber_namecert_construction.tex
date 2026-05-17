@@ -137,6 +137,36 @@ The finite radius obligation of \autoref{thm:finite-lebesgue-number-finite-radiu
 Together with the dyadic cover handoff of \autoref{thm:finite-lebesgue-number-dyadic-cover-handoff}, these rows exhaust the public data a total-bounded or compact-metric consumer receives. The non-escape row of \autoref{thm:finite-lebesgue-number-namecert-obligations} excludes open-cover compactness and arbitrary subcover selection, so the handoff is exactly the finite BEDC packet.
 \end{proof}
 
+\begin{theorem}[Finite-window coverage obligation row]
+\label{thm:finite-lebesgue-number-obligation-coverage-row}
+For an accepted $\FiniteLebesgueNumberUp$ carrier $L=(D,W,\lambda,M,H,C,P,N)$, the finite-window coverage row factors through $\DyadicCoverUp$, $\FiniteWindowEnvelopeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\DyadicMeshUp$ in that order. A point read from $W$ is accepted only when its stream-name row, regular-rational row, real row, mesh cell, and named dyadic cover cell are all displayed in the same packet.
+\end{theorem}
+\begin{proof}
+Start with the finite-window coordinate $W$ in the carrier. The carrier definition already places $W$ beside the dyadic cover $D$ and the mesh ledger $M$, while the finite-window coverage exactness theorem routes each accepted read through stream, regular-rational, real, mesh, and cover rows.
+
+The obligation row records that route as the BEDC consumer contract. Since every coordinate is read from $D,W,\lambda,M,H,C,P,N$, no open-cover family or host compactness witness supplies the factorization.
+\end{proof}
+
+\begin{theorem}[Radius mesh stability obligation row]
+\label{thm:finite-lebesgue-number-radius-mesh-stability-row}
+For an accepted $\FiniteLebesgueNumberUp$ carrier $L=(D,W,\lambda,M,H,C,P,N)$, every stored $\hsame$ transport preserves the positive radius ledger $\lambda$ only together with the displayed $\RationalBallUp$ rows and the $\DyadicMeshUp$ mesh-refinement rows. Thus radius transport is not a scalar transport separate from the rational-ball and mesh evidence that names it.
+\end{theorem}
+\begin{proof}
+Project the radius coordinate from the carrier. It is located between the finite-window row and the mesh ledger, and its admissible readback is tied to the rational-ball rows of the dyadic cover.
+
+Apply the radius transport and finite radius nonchoice obligations. They keep $\lambda$ attached to rational-ball readback and mesh refinement under every stored $\hsame$ row and replayed $\Cont$ route, so a transported radius remains part of the same finite packet.
+\end{proof}
+
+\begin{theorem}[Compact consumer boundary obligation row]
+\label{thm:finite-lebesgue-number-compact-consumer-boundary-row}
+Every $\TotallyBoundedUp$ or $\CompactMetricUp$ consumer of an accepted $\FiniteLebesgueNumberUp$ carrier receives only the displayed dyadic finite-cover packet $D,W,\lambda,M,H,C,P,N$. The consumer may inspect the finite cover, finite-window row, positive radius ledger, mesh-refinement row, transports, continuations, provenance, and local naming, but receives no arbitrary open-cover family, host compactness theorem, or selected subcover coordinate.
+\end{theorem}
+\begin{proof}
+Use the total-bounded handoff obligation. It identifies $D,W,\lambda,M,H,C,P,N$ as the exact packet delivered to total-bounded and compact-metric consumers.
+
+The coverage and radius-mesh rows above keep finite-window reads and radius reads inside that packet. The non-escape row of the local NameCert obligations excludes open-cover compactness and arbitrary subcover selection, so the compact consumer boundary is precisely the displayed dyadic finite-cover packet.
+\end{proof}
+
 \closureat{FiniteLebesgueNumberUp}{seedStr}
 
 \begin{closurestatus}{\FiniteLebesgueNumberUp}

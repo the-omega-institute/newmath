@@ -123,4 +123,44 @@ theorem CauchyCriterionCarrier_budget_selector_section_exactness
     ⟨endpointUnary, budgetWUnary, sectionUnary, selectorSealUnary,
       endpointBudgetSection, sectionSelectorSeal, endpointPkg, sectionPkg, selectorPkg⟩
 
+theorem CauchyCriterionCarrier_streamname_real_budget_bridge_readiness
+    [AskSetup] [PackageSetup]
+    {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
+      budgetB budgetS budgetW budgetD budgetR budgetE budgetH budgetC budgetP budgetN
+      selectorRead bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCriterionCarrier window modulus tolerance ledger regseq realSeal transport route
+        provenance localCert endpoint bundle pkg ->
+      BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier
+        budgetB budgetS budgetW budgetD budgetR budgetE budgetH budgetC budgetP budgetN ->
+        Cont ledger realSeal selectorRead ->
+          Cont selectorRead endpoint bridgeRead ->
+            PkgSig bundle selectorRead pkg ->
+              PkgSig bundle bridgeRead pkg ->
+                UnaryHistory window ∧ UnaryHistory regseq ∧ UnaryHistory realSeal ∧
+                  UnaryHistory selectorRead ∧ UnaryHistory bridgeRead ∧
+                    Cont ledger realSeal selectorRead ∧ Cont selectorRead endpoint bridgeRead ∧
+                      PkgSig bundle endpoint pkg ∧ PkgSig bundle selectorRead pkg ∧
+                        PkgSig bundle bridgeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier budgetCarrier ledgerRealSealSelector selectorEndpointBridge selectorPkg bridgePkg
+  rcases carrier with
+    ⟨windowUnary, _modulusUnary, _toleranceUnary, ledgerUnary, regseqUnary,
+      realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary,
+      endpointUnary, _windowModulusTolerance, _toleranceLedgerRegseq,
+      _regseqRealSealTransport, _transportLocalCertRoute, _routeProvenanceEndpoint,
+      endpointPkg⟩
+  rcases budgetCarrier with
+    ⟨budgetBUnary, budgetSUnary, _budgetDUnary, _budgetEUnary, _budgetHUnary,
+      budgetWindowRoute, _budgetRegularRoute, _budgetSealRoute, _budgetSameName⟩
+  have _budgetWUnary : UnaryHistory budgetW :=
+    unary_cont_closed budgetBUnary budgetSUnary budgetWindowRoute
+  have selectorUnary : UnaryHistory selectorRead :=
+    unary_cont_closed ledgerUnary realSealUnary ledgerRealSealSelector
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed selectorUnary endpointUnary selectorEndpointBridge
+  exact
+    ⟨windowUnary, regseqUnary, realSealUnary, selectorUnary, bridgeUnary,
+      ledgerRealSealSelector, selectorEndpointBridge, endpointPkg, selectorPkg, bridgePkg⟩
+
 end BEDC.Derived.CauchyCriterionUp
