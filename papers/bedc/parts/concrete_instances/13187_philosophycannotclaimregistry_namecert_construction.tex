@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\PhilosophyCannotClaimRegistryUp$}
+\label{ch:concrete-instances-philosophy-cannot-claim-registry-namecert}
+\origin{ai}
+
+The $\PhilosophyCannotClaimRegistryUp$ packet realizes the cannot-claim registry of \autoref{subsec:philosophy-package-cannot-claim} as a finite NameCert carrier for philosophy-package refusals. It sits beside the claim admission surface of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, the whole-registry packet of \autoref{ch:concrete-instances-registrylayer-namecert}, the export-control surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, and the axis refusal ledger of \autoref{ch:concrete-instances-axiszeckendorfcannotclaim-namecert}. Those siblings admit, route, export, or audit claims; this carrier binds the refusal status, reason, boundary condition, blocking gate, transport, replay, provenance, and local naming row as the primary cannot-claim surface.
+
+\begin{definition}[Philosophy cannot-claim registry carrier]
+\label{def:philosophy-cannot-claim-registry-carrier}
+A $\PhilosophyCannotClaimRegistryUp$ carrier is a finite $\BHist$ packet
+$$
+R=(C,S,E,U,B,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the claim-text row, recording the exact philosophy-package reading under refusal;
+\item $S$ is the status row, separating forbidden, deferred, and partial cannot-claim readings;
+\item $E$ is the exclusion-reason row, recording why the claim is not presently exportable;
+\item $U$ is the upgrade-condition row, recording the certificate, bridge, formal target, or principled boundary needed before the status can change;
+\item $B$ is the blocking-gate row, recording the registry gate that prevents export through $\ClaimRegistryLayerUp$, $\RegistryLayerUp$, or $\RegistryExportSurfaceUp$;
+\item $H$ stores componentwise $\hsame$ transport for the claim, status, reason, upgrade, blocking, replay, provenance, and local naming rows;
+\item $K$ stores displayed $\Cont$ replay for claim lookup, refusal-status inspection, blocking-gate readback, and upgrade-boundary readback;
+\item $P$ is the $\Pkg$ provenance over $\PhilosophyCannotClaimRegistryUp$, $\ClaimRegistryLayerUp$, $\RegistryLayerUp$, $\RegistryExportSurfaceUp$, $\AxisZeckendorfCannotClaimUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\PhilosophyCannotClaimRegistryUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for an admitted claim, prose-only override, hidden status change, unrecorded export route, or private gate bypass.
+\end{definition}
+
+\begin{theorem}[Philosophy cannot-claim registry NameCert obligations]
+\label{thm:philosophy-cannot-claim-registry-namecert-obligations}
+For the carrier of \autoref{def:philosophy-cannot-claim-registry-carrier}, the local $\NameCert_{\PhilosophyCannotClaimRegistryUp}$ surface consists exactly of carrier admission for $R=(C,S,E,U,B,H,K,P,N)$, claim-text coverage by $C$, status exactness by $S$, exclusion-reason coverage by $E$, upgrade-boundary coverage by $U$, blocking-gate coverage by $B$, componentwise transport by $H$, displayed replay by $K$, provenance by $P$, and local naming by $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet of \autoref{def:philosophy-cannot-claim-registry-carrier}. The rows $C,S,E,U,B$ separately display the refused reading, its status, the reason it is excluded, the boundary under which it may be reconsidered, and the gate that blocks export.
+
+The rows $H$ and $K$ keep the refusal stable under transported presentations and replayed registry reads. A transported claim text is therefore still read with its displayed status, exclusion reason, upgrade boundary, and blocking gate.
+
+The rows $P$ and $N$ package and name the same data. Since the carrier has no coordinate for admitted export or private gate bypass, these rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Philosophy cannot-claim registry non-escape]
+\label{thm:philosophy-cannot-claim-registry-nonescape}
+Every public consumer of an accepted $\PhilosophyCannotClaimRegistryUp$ packet may inspect only the claim-text row $C$, status row $S$, exclusion-reason row $E$, upgrade-condition row $U$, blocking-gate row $B$, $\hsame$ transport row $H$, $\Cont$ replay row $K$, $\Pkg$ provenance row $P$, and local naming row $N$. It receives no admitted-claim row, prose-only override, hidden export permission, private registry route, or status change outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Use the carrier definition. The visible rows are exactly $C,S,E,U,B,H,K,P,N$, and the NameCert obligations above attach the refusal reading to those rows.
+
+If a consumer asks for admitted export, private override, or a hidden status change, it asks for a coordinate not present in $R$. The transport and replay rows can preserve and replay displayed refusal data, but they cannot create an admission row.
+
+Thus every accepted cannot-claim read remains inside the listed packet. A route that bypasses $S$ or $B$ is not a $\PhilosophyCannotClaimRegistryUp$ export of refusal content.
+\end{proof}
+
+\begin{theorem}[Philosophy cannot-claim registry status exactness]
+\label{thm:philosophy-cannot-claim-registry-status-exactness}
+For an accepted $\PhilosophyCannotClaimRegistryUp$ carrier $R=(C,S,E,U,B,H,K,P,N)$, the status row $S$ and blocking-gate row $B$ are jointly necessary for exporting a cannot-claim refusal. If either row is absent, the packet may still display claim text or an exclusion reason, but it cannot export a typed refusal through $\ClaimRegistryLayerUp$, $\RegistryLayerUp$, or $\RegistryExportSurfaceUp$.
+\end{theorem}
+\begin{proof}
+Read the status row first. It determines whether the refusal is forbidden, deferred, or partial, and therefore separates a cannot-claim entry from an untyped note.
+
+Read the blocking-gate row next. It is the displayed gate that prevents the refused claim from being exported through the sibling registry and export surfaces.
+
+The transport, replay, provenance, and naming rows preserve this pair. Without $S$ the refusal has no typed status; without $B$ it has no export-blocking gate. Hence a cannot-claim refusal is exported only through the same finite packet containing both rows.
+\end{proof}
+
+The Lean follow-up for $\PhilosophyCannotClaimRegistryUp$ must provide explicit $\Nontrivial\ \PhilosophyCannotClaimRegistryUp$ and $\FieldFaithful\ \PhilosophyCannotClaimRegistryUp$ instances before $\mathsf{BEDC.Derived.PhilosophyCannotClaimRegistryUp.taste\_gate}$ can be cited by a checked paper marker. The nontriviality witness must expose at least one blocked philosophy claim, and field faithfulness must preserve $C,S,E,U,B,H,K,P,N$ as distinct displayed rows.
+
+\falsifiablePrediction{If the status or blocking row is absent, the carrier cannot export a cannot-claim refusal.}
+
+\independenceWitness{claimregistrylayer, registrylayer, registryexportsurface, registryexportconsistencygate, axiszeckendorfcannotclaim: none is bijective to PhilosophyCannotClaimRegistryUp because those siblings admit, route, or audit claims, while this packet binds refusal status, reason, upgrade boundary, blocking gate, transport, replay, provenance, and local NameCert as the primary carrier.}
+
+\closureat{PhilosophyCannotClaimRegistryUp}{seedStr}
+
+\begin{closurestatus}{\PhilosophyCannotClaimRegistryUp}
+  \constructivestory{A $\PhilosophyCannotClaimRegistryUp$ packet is generated from claim text, refusal status, exclusion reason, upgrade boundary, blocking gate, componentwise transport, displayed replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:philosophy-cannot-claim-registry-carrier}, \autoref{thm:philosophy-cannot-claim-registry-namecert-obligations}, \autoref{thm:philosophy-cannot-claim-registry-nonescape}, and \autoref{thm:philosophy-cannot-claim-registry-status-exactness} bind philosophy cannot-claim refusal to one finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, registry completeness, admitted-claim export, or correctness of every philosophy-package cannot-claim entry.}
+  \upgradepath{Obligation closure requires checked claim-text, status, reason, upgrade-boundary, blocking, transport, replay, provenance, and local naming rows.}
+\end{closurestatus}
