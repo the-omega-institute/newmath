@@ -195,6 +195,7 @@ import BEDC.Derived.AuditAxisSeparationUp.TasteGate
 import BEDC.Derived.AxiomDependencyMapUp
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
+import BEDC.Derived.ChoiceRecipeLedgerUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.ConceptRegistryObligationUp.TasteGate
 import BEDC.Derived.OnticAdequacyAuditUp.TasteGate
@@ -650,6 +651,7 @@ import BEDC.Derived.LocalStencilObservationUp.TasteGate
 import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealCompletionRouteAuditUp.TasteGate
+import BEDC.Derived.RealCompletionWitnessExtractorUp
 import BEDC.Derived.RealCompletionSelectorSealUp
 import BEDC.Derived.RealCompletionSelectorSealUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.TasteGate
@@ -881,6 +883,7 @@ import BEDC.Derived.RuntimeTruthSeparationUp.TasteGate
 import BEDC.Derived.RealityConstrainedApproximationTowerUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.NameCertObligations
 import BEDC.Derived.FiniteWindowRealSeparationUp.TasteGate
+import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.ApproximationTowerResidueUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
 import BEDC.Derived.ReflectiveStabilityUp.TasteGate
