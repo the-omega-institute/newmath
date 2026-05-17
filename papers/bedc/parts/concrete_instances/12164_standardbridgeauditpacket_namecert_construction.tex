@@ -136,6 +136,24 @@ Next use \autoref{thm:standard-bridge-audit-packet-round-trip-exactness}. The tw
 
 Finally use \autoref{thm:standard-bridge-audit-packet-theorem-preservation-ledger}. Theorem export is finite and paired through $U,L,P$, which rules out an unpaired host theorem and any bridge claim whose support is refused by the ledger or by the no-host-leak row. Hence every certified bridge-audit consumer has exactly the primitive boundary displayed by $N,T,E,D,R,U,P,L,H,C,Q$.
 \end{proof}
+
+\begin{theorem}[Standard bridge audit packet public bridge-audit export]
+\label{thm:standard-bridge-audit-packet-public-bridge-audit-export}
+For every accepted $\StandardBridgeAuditPacketUp$ carrier
+$$
+S=(N,T,E,D,R,U,P,L,H,C,Q),
+$$
+any public standard-bridge audit export exposes exactly the accepted object row $N$, host-theory row $T$, encoding row $E$, decoding row $D$, paired round-trip row $R$, theorem-preservation ledger $U$, no-host-leak row $P$, bridge ledger $L$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, and local $\NameCert_{\StandardBridgeAuditPacketUp}$ provenance $Q$. It exports no host primitive, hidden decoder, unpaired theorem, quotient equality, or detached bridge assertion.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection in \autoref{def:standard-bridge-audit-packet-carrier}. Its public rows are exactly $N,T,E,D,R,U,P,L,H,C,Q$, with $Q$ carrying the $\Pkg$ provenance and local $\NameCert_{\StandardBridgeAuditPacketUp}$ registration.
+
+Use \autoref{thm:standard-bridge-audit-packet-nonhost-leak} together with \autoref{thm:standard-bridge-audit-packet-host-leak-consumer-coverage}. These force every public bridge read of $E,D,R$, or $U$ through the no-host-leak row $P$, so no host primitive, quotient equality, proof object, or hidden compiler reading is exported as BEDC data.
+
+Next apply \autoref{thm:standard-bridge-audit-packet-round-trip-exactness}. The decode-after-encode and encode-after-decode witnesses are public only as paired reads through $R,H,C,Q$, which excludes hidden decoders and detached bridge assertions.
+
+Finally apply \autoref{thm:standard-bridge-audit-packet-theorem-preservation-ledger} and \autoref{thm:standard-bridge-audit-packet-scoped-primitive-binding}. The theorem-preservation surface is finite and paired through $U,L,P$, while the certified primitive boundary is precisely the displayed carrier boundary. Hence the public export exposes exactly the accepted bridge-audit rows and nothing outside them.
+\end{proof}
 \falsifiablePrediction{A purported bridge packet that omits the no-host-leak row is not an accepted StandardBridgeAuditPacketUp carrier.}
 
 \independenceWitness{kernelacceptancewitness, finitereflectiontuple, groundcompilerrecognizerflow, finitebhistinjection, prooftermerasuretrace: kernel acceptance records accepted declarations without host bridge fields, finite reflection records tuple image and readback without theorem-preservation pairs, GroundCompiler recognizer flow records generated-recognizer admission without a host bridge ledger, finite BHist injection records history embedding without no-host-leak, and proof-term erasure trace records erased proof visibility without encoding or decoding. None is bijective to $\StandardBridgeAuditPacketUp$.}
@@ -147,12 +165,12 @@ Finally use \autoref{thm:standard-bridge-audit-packet-theorem-preservation-ledge
 \begin{closurestatus}{\StandardBridgeAuditPacketUp}
   \constructivestory{A $\StandardBridgeAuditPacketUp$ carrier is generated from the rows $N,T,E,D,R,U,P,L,H,C,Q$: accepted BEDC object, host-theory row, encoding, decoding, paired round trips, theorem preservation, no-host-leak ledger, bridge ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, and $\Pkg$ provenance with local $\NameCert$ registration.}
   \leanchecked{BEDC.Derived.StandardBridgeAuditPacketUp.taste\_gate}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:standard-bridge-audit-packet-scoped-primitive-binding} closes the carrier and consumer primitive boundary for the displayed $N,T,E,D,R,U,P,L,H,C,Q$ rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:standard-bridge-audit-packet-public-bridge-audit-export} closes the public bridge-audit export for the displayed $N,T,E,D,R,U,P,L,H,C,Q$ rows.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.StandardBridgeAuditPacketUp.StandardBridgeAuditPacket\_round\_trip\_rows\_visible}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridgeChecked status, host primitive import, unpaired host theorem export, or standard bridge closure.}
-  \upgradepath{Public closure requires a public-object surface that exports the scoped bridge-audit packet without adding host primitives beyond the displayed carrier rows.}
+  \upgradepath{Bridged closure requires a checked standard bridge theorem for the public bridge-audit export.}
 \end{closurestatus}
