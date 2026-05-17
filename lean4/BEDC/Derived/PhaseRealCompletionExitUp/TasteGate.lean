@@ -169,6 +169,9 @@ instance phaseRealCompletionExitNontrivial :
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate PhaseRealCompletionExitUp :=
+  phaseRealCompletionExitChapterTasteGate
+
 theorem PhaseRealCompletionExitTasteGate_single_carrier_alignment :
     (∀ h : BHist, phaseRealCompletionExitDecodeBHist
       (phaseRealCompletionExitEncodeBHist h) = h) ∧
