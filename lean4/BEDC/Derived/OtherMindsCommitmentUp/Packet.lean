@@ -95,4 +95,30 @@ theorem OtherMindsCommitmentCarrier_namecert_obligations [AskSetup] [PackageSetu
     }
   exact ⟨cert, observerCandidateLocality, localityEvidenceRoutes, provenancePkg⟩
 
+theorem OtherMindsCommitmentPublicEvidenceLedger [AskSetup] [PackageSetup]
+    {observer candidate locality evidence gap transports routes provenance nameCert
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OtherMindsCommitmentCarrier observer candidate locality evidence gap transports routes
+        provenance nameCert bundle pkg →
+      Cont locality evidence publicRead →
+        PkgSig bundle provenance pkg →
+          UnaryHistory locality ∧
+            UnaryHistory evidence ∧
+              UnaryHistory publicRead ∧
+                Cont locality evidence routes ∧
+                  Cont locality evidence publicRead ∧
+                    PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg AskSetup PackageSetup
+  intro carrier publicCont provenancePkg
+  rcases carrier with
+    ⟨_observerUnary, _candidateUnary, localityUnary, evidenceUnary, _gapUnary,
+      _transportsUnary, _routesUnary, _provenanceUnary, _nameCertUnary,
+      _observerCandidateLocality, localityEvidenceRoutes, _carrierPkg⟩
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed localityUnary evidenceUnary publicCont
+  exact
+    ⟨localityUnary, evidenceUnary, publicUnary, localityEvidenceRoutes, publicCont,
+      provenancePkg⟩
+
 end BEDC.Derived.OtherMindsCommitmentUp
