@@ -142,3 +142,57 @@ Now apply \autoref{thm:real-finite-cover-seal-pasting-criterion}. The common-tai
 
 Finally use \autoref{thm:streamname-terminal-fusion-common-tail-real-boundary-pullback}. It identifies agreement of the pairwise common-tail Real boundaries with agreement of the terminal fused StreamName packet on the four visible faces and the five support rows. Hence the local terminal fused packets paste to one terminal fused packet exactly in the stated case, while quotient stream equality, host sequence equality, chosen limits, completeness, metric-completeness data, countable choice, and bridge rows remain outside the boundary.
 \end{proof}
+
+\begin{theorem}[StreamName terminal fusion cocycle section descent]
+\label{thm:streamname-terminal-fusion-cocycle-section-descent}
+Let $\{\mathcal W_i\}_{i\in I}$ be a finite family of certified
+$\StreamNameUp$ windows satisfying the pasted-source hypotheses of
+\autoref{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness}.
+Assume each local fused terminal packet is carried through the same
+$\DyadicRatCoreUp$ endpoint, radius, and distance ledger, the same
+$\RegSeqRatUp$ common-tail classifier and regularity rows, and the same
+$\RealUp$ seal-source row. Then pairwise common-tail $\RealUp$ boundary
+agreement is equivalent to descent of the local fused terminal packets to one
+finite-request section.
+
+The descended section has exactly the visible rows consisting of the
+$\StreamNameUp$ windows, the $\DyadicRatCoreUp$ endpoint, radius, and distance
+ledger, the $\RegSeqRatUp$ common-tail classifier and regularity rows, the
+$\RealUp$ seal-source row, and the support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+It exports no quotient stream equality, no host sequence equality, no selected
+limit, no countable-choice row, no ambient $\RealUp$ completeness theorem, no
+metric-completeness datum, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+For the descent direction, apply
+\autoref{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness}. The
+pairwise common-tail $\RealUp$ boundary agreement is exactly the cocycle
+condition for the certified local terminal packets to paste to one fused
+terminal packet over the finite family.
+
+Next read the pasted terminal packet as a finite request. Use
+\autoref{thm:streamname-finite-request-section-pullback}. The pullback exposes
+precisely the StreamName windows, the DyadicRatCore endpoint-radius-distance
+ledger, the RegSeqRat classifier and regularity rows, the Real seal-source
+row, and the displayed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ support rows.
+Thus the pasted packet descends to one finite-request section with no further
+public coordinate.
+
+For the reverse direction, start with such a finite-request section. The
+section pullback gives the same displayed rows on every local window, and
+\autoref{thm:regseqrat-common-tail-real-boundary-equivalence} identifies those
+rows with the common-tail $\RealUp$ boundary read by the RegSeqRat classifier
+and regularity data.
+
+Finally apply \autoref{thm:real-finite-cover-seal-pasting-criterion} and then
+\autoref{thm:streamname-terminal-fusion-common-tail-real-boundary-pullback}.
+The first theorem reads the shared boundary as the finite-cover seal pasting
+criterion, while the second reads it back as agreement of the local fused
+StreamName terminal packets on exactly the visible rows and the five support
+rows. The excluded quotient, host-sequence, selected-limit, choice,
+completeness, metric-completeness, and bridge rows therefore cannot be part of
+the descent datum.
+\end{proof}
