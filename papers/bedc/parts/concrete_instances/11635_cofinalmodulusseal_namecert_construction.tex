@@ -502,4 +502,44 @@ Apply \autoref{thm:cofinal-modulus-seal-window-ledger-nochoice-boundary}. It rem
 Finally apply \autoref{thm:cofinal-modulus-seal-realup-noncompleteness-boundary}. The RealUp row is a finite handoff row only, so the full scope is the displayed BEDC route and not a Real-completeness theorem.
 \end{proof}
 
+\begin{theorem}[Cofinal modulus seal budget-window regularity chain]
+\label{thm:cofinal-modulus-seal-budget-window-regularity-chain}
+Every accepted $\CofinalModulusSealUp$ packet first synchronizes the cofinal budget row $B$, tail-modulus row $M$, and window-budget row $W$. Only after that source synchronization may it read the StreamName row $T$, DyadicRatCore row $D$, and RegSeqRat row $R$, and those reads remain inside the same window route.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cofinal-modulus-seal-source-row-synchronization}. It makes $B,M,W$ a single synchronized source route for the accepted packet.
+
+Next use \autoref{thm:cofinal-modulus-seal-window-budget-exactness}. The window row $W$ is the exact budget row consumed by the StreamName, DyadicRatCore, and RegSeqRat reads, so $T,D,R$ cannot be read from a detached window service.
+
+Finally apply \autoref{thm:cofinal-modulus-seal-regseqrat-route-exhaustion}. The regular-sequence readback has no coordinate beyond the displayed route, hence the readback segment $T,D,R$ stays downstream of the same synchronized $B,M,W$ source.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal terminal Real seal factorization]
+\label{thm:cofinal-modulus-seal-terminal-real-seal-factorization}
+Every terminal $\RealUp$ or $\CauchyLimitSealUp$ consumer of an accepted $\CofinalModulusSealUp$ packet factors through the finite BEDC route
+$$
+B,M,W,T,D,R,L,E,H,C,P,N.
+$$
+The consumer reaches the terminal Real-facing seal only through the displayed cofinal budget, tail modulus, window, StreamName, dyadic, regular-sequence, Cauchy-limit, Real handoff, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:cofinal-modulus-seal-budget-window-regularity-chain}. It fixes the entry segment $B,M,W$ and the readback segment $T,D,R$ inside one cofinal route.
+
+Apply \autoref{thm:cofinal-modulus-seal-route-namecert-exhaustion}. The remaining accepted carrier coordinates are precisely the Cauchy-limit row $L$, Real-facing row $E$, transport row $H$, replay row $C$, package row $P$, and local NameCert row $N$.
+
+Finally use \autoref{thm:cofinal-modulus-seal-realup-noncompleteness-boundary}. The terminal Real-facing row is a finite seal and not a Real-completeness premise, so any terminal $\RealUp$ or $\CauchyLimitSealUp$ consumer factors through $B,M,W,T,D,R,L,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal open-phase exit surface]
+\label{thm:cofinal-modulus-seal-open-phase-exit-surface}
+The $\CofinalModulusSealUp$ chapter supplies the Phase Real and Completion handoff surface for $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCore$, and $\RealUp$ consumers. This surface is the finite route $B,M,W,T,D,R,L,E,H,C,P,N$ and it does not claim Real completeness, quotient equality, selected limits, countable choice, or a $\StdBridge$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cofinal-modulus-seal-terminal-real-seal-factorization}. It makes the completion-facing and Real-facing consumer path factor through the full displayed route.
+
+Next apply \autoref{thm:cofinal-modulus-seal-finite-route-scope}. The route already records the exact public scope of the chapter and excludes Real completeness, quotient-real equality, selected host limits, countable choice, and ambient completion operators.
+
+The remaining bridge boundary follows from \autoref{thm:cofinal-modulus-seal-realup-noncompleteness-boundary}. Since $E$ is only a finite Real-facing handoff row, the chapter exposes an exit surface for Phase Real and Completion consumers without asserting a $\StdBridge$.
+\end{proof}
+
 Lean TasteGate formalization for this route must provide \texttt{Nontrivial CofinalModulusSealUp} and \texttt{FieldFaithful CofinalModulusSealUp} instances in \texttt{BEDC.Derived.CofinalModulusSealUp}.
