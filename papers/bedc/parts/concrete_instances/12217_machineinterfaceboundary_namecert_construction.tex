@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-machine-interface-boundary-namecert}
 \origin{ai}
 
-The $\MachineInterfaceBoundaryUp$ packet realizes the registry and machine-facing interface of \autoref{sec:visions-philosophy-machine-interface} as one finite NameCert boundary. It sits beside the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the formalization socket of \autoref{ch:concrete-instances-machine-interface-socket-namecert}, the kernel audit witness of \autoref{ch:concrete-instances-kernelauditwitness-namecert}, and the apophatic naming boundary of \autoref{ch:concrete-instances-apophaticname-namecert}. Those packets separately expose export control, target routing, audit readback, and refusal discipline; this carrier binds them before a machine-facing route can read a registry claim.
+The $\MachineInterfaceBoundaryUp$ packet realizes the registry and machine-facing interface of \autoref{sec:visions-philosophy-machine-interface} as one finite NameCert boundary. It sits beside the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the formalization socket of \autoref{ch:concrete-instances-machine-interface-socket-namecert}, the kernel audit witness of \autoref{ch:concrete-instances-kernel-audit-witness-namecert}, and the apophatic naming boundary of \autoref{ch:concrete-instances-apophaticname-namecert}. Those packets separately expose export control, target routing, audit readback, and refusal discipline; this carrier binds them before a machine-facing route can read a registry claim.
 
 \begin{definition}[Machine-interface boundary carrier]
 \label{def:machine-interface-boundary-carrier}
@@ -42,7 +42,7 @@ Project the displayed packet of \autoref{def:machine-interface-boundary-carrier}
 
 Use the registry-export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert} for the $R,E,F$ side of the packet. It keeps exported rows and refused rows distinct before any machine target can inspect them.
 
-Use the machine-interface socket and kernel audit witness surfaces, \autoref{ch:concrete-instances-machine-interface-socket-namecert} and \autoref{ch:concrete-instances-kernelauditwitness-namecert}, for the $A,S,H,C,P,N$ side. The target is routed through a displayed socket and the audit readback is replayed through the same continuation and provenance rows.
+Use the machine-interface socket and kernel audit witness surfaces, \autoref{ch:concrete-instances-machine-interface-socket-namecert} and \autoref{ch:concrete-instances-kernel-audit-witness-namecert}, for the $A,S,H,C,P,N$ side. The target is routed through a displayed socket and the audit readback is replayed through the same continuation and provenance rows.
 
 Finally apply the apophatic naming boundary of \autoref{ch:concrete-instances-apophaticname-namecert}. It prevents a refused request from becoming supplied content, so the five obligation rows exhaust the local $\NameCert_{\MachineInterfaceBoundaryUp}$ surface.
 \end{proof}
