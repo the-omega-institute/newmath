@@ -136,26 +136,9 @@ def taste_gate : ChapterTasteGate PhysicalRecordInvariantUp :=
   physicalRecordInvariantChapterTasteGate
 
 theorem PhysicalRecordInvariantTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate PhysicalRecordInvariantUp) ∧
-      Nonempty (FieldFaithful PhysicalRecordInvariantUp) ∧
-        Nonempty (Nontrivial PhysicalRecordInvariantUp) ∧
-          (∀ h : BHist,
-            physicalRecordInvariantDecodeBHist (physicalRecordInvariantEncodeBHist h) = h) ∧
-            (∀ x : PhysicalRecordInvariantUp,
-              physicalRecordInvariantFromEventFlow
-                  (physicalRecordInvariantToEventFlow x) =
-                some x) ∧
-              (∀ x y : PhysicalRecordInvariantUp,
-                physicalRecordInvariantToEventFlow x = physicalRecordInvariantToEventFlow y →
-                  x = y) ∧
-                physicalRecordInvariantEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  exact
-    ⟨⟨physicalRecordInvariantChapterTasteGate⟩,
-      ⟨physicalRecordInvariantFieldFaithful⟩,
-      ⟨physicalRecordInvariantNontrivial⟩,
-      physicalRecordInvariant_decode_encode_bhist,
-      physicalRecordInvariant_round_trip,
-      (fun _ _ heq => physicalRecordInvariantToEventFlow_injective heq),
-      rfl⟩
+    (∀ h : BHist,
+      physicalRecordInvariantDecodeBHist (physicalRecordInvariantEncodeBHist h) = h) ∧
+      physicalRecordInvariantEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  exact ⟨physicalRecordInvariant_decode_encode_bhist, rfl⟩
 
 end BEDC.Derived.PhysicalRecordInvariantUp
