@@ -110,3 +110,14 @@ Thus the exported surface is exactly the displayed bounded machine-prefix read, 
 \end{proof}
 
 The Lean file \texttt{Derived/FinitePrefixMachineUp/TasteGate.lean} will provide $\mathsf{Nontrivial}\ \FinitePrefixMachineUp$ and $\mathsf{FieldFaithful}\ \FinitePrefixMachineUp$ instances for the displayed rows $M,Q,T,F,E,A,H,C,N$.
+
+\begin{closurestatus}{\FinitePrefixMachineUp}
+  \constructivestory{A $\FinitePrefixMachineUp$ packet is generated from a finite machine row, prefix word row, transition ledger, finite run row, endpoint row, acceptance row, componentwise $\hsame$ transport, displayed $\Cont$ replay, and local naming. The $\BHist$ carrier exposes a bounded machine-prefix computation: each transition step is read from the displayed ledger, the endpoint is determined by the same prefix, and the acceptance classifier receives only that finite endpoint surface. Transport preserves the row inventory, and continuation replay prevents a consumer from replacing the run with a host evaluator.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the finite-prefix machine carrier, prefix determinacy, non-escape, and exact exported surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim behavior quotients, language quotients, unbounded halting, hidden trace oracles, or host evaluator semantics.}
+  \upgradepath{To reach obligationClosure, formalize the finite machine-prefix ledger and prove endpoint and acceptance determinacy for the displayed carrier.}
+\end{closurestatus}

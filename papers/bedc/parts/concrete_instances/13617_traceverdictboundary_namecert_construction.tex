@@ -89,3 +89,14 @@ Finally use nonescape. Since a bare proof trace cannot be exported as a verdict 
 \independenceWitness{prooftraceauditwitness, machineinterfaceformalizationtarget, groundcompilerauditverdict, auditgatefailurewitness, definitiontheoremproofaudit: none is bijective because this packet uniquely binds trace rows to verdict export through refusal, interface target, provenance, and local NameCert rows.}
 
 Lean $\mathsf{TasteGate.lean}$ must include explicit $\mathsf{Nontrivial}\ \TraceVerdictBoundaryUp$ and $\mathsf{FieldFaithful}\ \TraceVerdictBoundaryUp$ instances preserving $T,R,V,I,A,H,C,P,N$ as distinct rows.
+
+\begin{closurestatus}{\TraceVerdictBoundaryUp}
+  \constructivestory{A $\TraceVerdictBoundaryUp$ packet is generated from proof-trace rows, verdict rows, refusal rows, machine-target rows, proof-discipline boundary rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. The classifier separates a trace from a verdict: the proof trace can be handed to a machine-facing route only through the discipline and refusal coordinates already displayed in the finite carrier. The ledger story is verdict boundary preservation, where replay exposes which trace, target, discipline, and refusal rows were used, while hidden checker state, private verdict policy, forbidden-resource erasure, and host semantic confidence have no coordinate.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier and classifier definitions, NameCert-obligation, nonescape, proof-trace-handoff, independence witness, and Lean-follow-up boundary for $\TraceVerdictBoundaryUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim reading proof traces as verdicts, verdict export without refusal rows, machine-target bypass, or replacement by host-side semantic confidence.}
+  \upgradepath{To reach obligationClosure, the trace-verdict classifier and handoff boundary must be checked as finite proof-route obligations.}
+\end{closurestatus}

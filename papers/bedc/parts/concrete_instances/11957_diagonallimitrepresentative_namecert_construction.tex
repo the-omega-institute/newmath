@@ -46,6 +46,17 @@ The diagonal-index computation is finite. The modulus surface supplies $k$, the 
 The remaining rows expose the route through the four concrete sibling surfaces: $\StreamNameUp$ for $w$, $\RegSeqRatUp$ for $r$, $\DyadicRatCoreUp$ for $d$, and $\RealUp$ for $e$. Since $H,C,P,N$ only transport, replay, source, and name those displayed rows, the listed obligations exhaust the local certificate.
 \end{proof}
 
+\begin{closurestatus}{\DiagonalLimitRepresentativeUp}
+  \constructivestory{The diagonal-limit representative is generated from $BHist$ rows that record diagonal indices, finite prefixes, window ledgers, stream-name to regular-rational handoffs, and the shared terminal route. The construction follows the familiar diagonal-limit idea, but every representative is read through the carrier rather than selected from an ambient completion. The $hsame$ relation transports index and terminal rows across equivalent histories, while $\Cont$ carries the finite-prefix and Real-seal handoffs forward. The chapter's boundary, uniqueness, selector-exclusion, completion-frontier, shared-terminal, and handoff theorems keep the representative bottom-up: a terminal diagonal representative exists only as the visible route assembled from the named finite ledgers.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the diagonal-limit representative carrier, classifier, NameCert obligations, Real-seal and completion boundaries, uniqueness, selector-exclusion, shared-terminal route, and finite-prefix budget handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim a selected completion point, quotient-stream equality, global limit uniqueness, or choice beyond the displayed diagonal route.}
+  \upgradepath{Reaching obligationClosure requires formal diagonal route predicates and checked terminal representative stability for the shared finite-prefix carrier.}
+\end{closurestatus}
+
 \begin{theorem}[Diagonal-limit representative Real-seal factorization]
 \label{thm:diagonal-limit-representative-real-seal-factorization}
 Every $\RealUp$ consumer read of an accepted $\DiagonalLimitRepresentativeUp$ carrier factors through the ordered finite route
@@ -218,6 +229,66 @@ Apply \autoref{thm:diagonal-limit-representative-namecert-obligations}. The loca
 Next use \autoref{thm:diagonal-limit-representative-real-seal-factorization}. Every consumer read that reaches $e$ must pass through $\mu,n,k,i,w,r,d$ first, so the terminal Real row cannot be consumed before the StreamName, RegSeqRat, and DyadicRatCore rows have been read.
 
 Finally apply \autoref{thm:diagonal-limit-representative-window-ledger-exhaustion}. The public reads of $w,r,d,e$ are exhausted by the displayed packet, while the support rows only transport, replay, source, and name those rows. Hence the ordered handoff is the complete finite route exposed by $D$.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative terminal-seal choice-free totality]
+\label{thm:diagonal-limit-representative-terminal-seal-choice-free-totality}
+For every accepted $\DiagonalLimitRepresentativeUp$ carrier
+$$
+D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N),
+$$
+the terminal seal row $e$ is determined by the finite packet. More precisely, a Real-facing or Completion-facing consumer reaches $e$ only after reading the family row $X$, modulus row $\mu$, request $n$, computed indices $k,i$, window row $w$, readback row $r$, dyadic ledger $d$, and support rows $H,C,P,N$. No host limit, quotient stream, hidden tail selector, selected diagonal family, or countable-choice coordinate can supply an alternate terminal seal.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The carrier handoff theorem fixes the ordered sibling route through $w,r,d,e$, while the selector exactness theorem fixes $k$ and $i$ as the displayed computations from $\mu$ and $n$.
+
+Next read the seal boundary. The Real-seal route theorem confines every endpoint read to the finite path through $w,r,d,H,C,P,N$, and terminal uniqueness rules out a second seal row once the displayed packet rows are classified together.
+
+Finally apply the nonchoice and completion boundaries. These boundaries exclude hidden selectors, host limits, quotient streams, and countable-choice rows, so the terminal seal is total for the accepted finite packet and cannot be replaced by an ambient analytic object.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative cofinal-window route exactness]
+\label{thm:diagonal-limit-representative-cofinal-window-route-exactness}
+For every accepted $\DiagonalLimitRepresentativeUp$ carrier
+$$
+D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N),
+$$
+each cofinal refinement that preserves the accepted representative classifier has exactly the route
+$$
+\mu,n,k,i,w,r,d,e,H,C,P,N.
+$$
+The refined route is a finite $\StreamNameUp$--$\RegSeqRatUp$--$\DyadicRatCoreUp$--$\RealUp$ route over the same packet, not a detached window ledger, quotient stream comparison, host-limit comparison, hidden tail selector, or countable-choice selection.
+\end{theorem}
+\begin{proof}
+Start with cofinal-window compatibility. It states that a displayed cofinal refinement preserving $\mu,k,i$ and the finite window still follows the ordered sibling route through $w,r,d,e$.
+
+Use request-monotone seal routing to place $\mu,n,k,i$ before the window and readback rows. The modulus-window-readback package then shows that every route to the terminal seal has already consumed $\mu,n,k,i,w,r,d$.
+
+The support rows do not add another endpoint. They transport, replay, source, and name the same finite route, and dyadic-real seal nonescape confines the dyadic and Real rows to $d,e,H,C,P,N$.
+
+Thus the cofinal-window route is exact. The completion boundary and tail-selector exclusion remove detached windows, quotient comparisons, host limits, hidden selectors, and choice rows from the accepted route.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative Real-seal consumer determinacy]
+\label{thm:diagonal-limit-representative-real-seal-consumer-determinacy}
+For every accepted $\DiagonalLimitRepresentativeUp$ carrier
+$$
+D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N),
+$$
+any $\RealUp$ consumer of the representative endpoint is determined by the finite packet route
+$$
+X,\mu,n,k,i,w,r,d,e,H,C,P,N.
+$$
+Two accepted consumer reads with the same displayed rows and the same recorded $\hsame$ and $\Cont$ support receive the same terminal seal row $e$ and the same $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ predecessors. The consumer receives no host limit, quotient stream, hidden tail selector, detached window, or countable-choice row.
+\end{theorem}
+\begin{proof}
+First identify the consumer surface. The dependency-ready package binds the StreamName, RegSeqRat, DyadicRatCore, and Real rows into one local $\NameCert_{\DiagonalLimitRepresentativeUp}$ surface, and the carrier handoff orders those rows as $w,r,d,e$.
+
+Next attach the representative route. Selector exactness fixes $k$ and $i$, request-monotone seal routing fixes the read order before $w,r,d,e$, and terminal-seal choice-free totality fixes the endpoint row $e$ from the same finite packet.
+
+Now compare two accepted reads. If their displayed rows and support routes agree, terminal uniqueness identifies the seal rows, while window-ledger exhaustion identifies the $w,r,d$ predecessors on the same public packet.
+
+The remaining exclusions follow from nonchoice boundary, tail-selector exclusion, and completion boundary. Since none of the excluded objects is a coordinate of $D$, the Real-seal consumer is determined by the finite route alone.
 \end{proof}
 
 \begin{theorem}[Diagonal-limit representative selector exactness]

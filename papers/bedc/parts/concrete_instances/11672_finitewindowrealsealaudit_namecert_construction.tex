@@ -62,3 +62,14 @@ Inspect the refusal row. Since $F$ records the excluded coordinates and the carr
 \end{proof}
 
 Lean development for this route must provide \texttt{Nontrivial FiniteWindowRealSealAuditUp} and \texttt{FieldFaithful FiniteWindowRealSealAuditUp} in \texttt{lean4/BEDC/Derived/FiniteWindowRealSealAuditUp/TasteGate.lean}.
+
+\begin{closurestatus}{\FiniteWindowRealSealAuditUp}
+  \constructivestory{The finite-window Real-seal audit is generated from a $BHist$ packet whose window rows, tolerance rows, audit witness, and Real-seal handoff are all visible before any consumer route is admitted. The carrier convention first names the finite window, then records the audit row that checks the handoff, and finally allows $\Cont$ only to continue that audited route. If the representing history changes, $hsame$ transports the same audit packet rather than creating a new window. The resulting NameCert object is a local audit surface: it certifies that Real-seal use is confined to the displayed finite packet and that forbidden coordinates remain absent.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the finite-window Real-seal audit carrier, NameCert obligations, and non-escape theorem.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim all Real windows are audited, that finite windows are complete, or that unaudited host limits are admissible.}
+  \upgradepath{Reaching obligationClosure requires formal finite-window audit rows and checked exclusion of routes lacking the audit witness.}
+\end{closurestatus}
