@@ -334,8 +334,8 @@ codex session 没对话上下文, prompt 必须自洽包含:
 
 ## 计时与 /loop 配速
 
-- 单 codex worker 5-15 min 典型 (50-300 行 Lean / Python)
-- Bash `timeout: 600000` (10 min) 兜底
+- 单 codex worker 5-15 min 典型 (50-300 行 Lean / Python), 复杂 prompt + 多步验证可能撞 15min 上限
+- **Bash `timeout: 3600000` (1h) 是 codex 任务的默认兜底**. 别再用 600000 (10min) 派 codex worker — 历史上 ~15% codex round 在 10min 边缘被 SIGKILL, 把已经完成的工作 (修代码 + 跑 verify) 丢掉 commit 一步. 1h 上限留余量, 真卡死了再人工 kill
 - /loop dynamic mode fallback wakeup 1500-1800s; task-notification 通常早于 fallback
 
 ## Bash 跨 call 陷阱
