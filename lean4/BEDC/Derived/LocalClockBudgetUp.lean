@@ -1,9 +1,11 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.LocalClockBudgetUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 
 inductive LocalClockBudgetUp : Type where
   | mk : (H T W B L Q P N : BHist) → LocalClockBudgetUp
@@ -189,5 +191,50 @@ theorem LocalClockBudgetLedger_boundary
         · constructor
           · rfl
           · exact total.right
+
+theorem LocalClockBudgetNameCert_obligations {H T W B L Q P N : BHist}
+    (carrier : LocalClockBudgetCarrier H T W B L Q P N)
+    (streamRoute : Cont BHist.Empty T H)
+    (windowRoute : Cont T W Q) :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row H ∧
+          localClockBudgetFields (LocalClockBudgetUp.mk H T W B L Q P N) =
+            [H, T, W, B, L, Q, P, N])
+      (fun row : BHist => hsame row H ∧ hsame T T ∧ hsame W W ∧ hsame B B)
+      (fun row : BHist =>
+        Cont BHist.Empty T H ∧ Cont T W Q ∧ hsame row H ∧ hsame L L ∧
+          hsame P P ∧ hsame N N)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont SemanticNameCert hsame
+  have fields :
+      localClockBudgetFields (LocalClockBudgetUp.mk H T W B L Q P N) =
+        [H, T, W, B, L, Q, P, N] :=
+    carrier.right.right.right.right.right.right.right.right
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro H ⟨hsame_refl H, fields⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, hsame_refl T, hsame_refl W, hsame_refl B⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨streamRoute, windowRoute, sourceRow.left, hsame_refl L, hsame_refl P,
+          hsame_refl N⟩
+  }
 
 end BEDC.Derived.LocalClockBudgetUp

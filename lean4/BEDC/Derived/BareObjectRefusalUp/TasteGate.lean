@@ -337,100 +337,11 @@ theorem BareObjectRefusalTasteGate_single_carrier_alignment :
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ∧
           (∀ x y : BareObjectRefusalUp,
             bareObjectRefusalFields x = bareObjectRefusalFields y → x = y) := by
-  have decodeEncode :
-      ∀ h : BHist, bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist h) = h := by
-    intro h
-    induction h with
-    | Empty =>
-        rfl
-    | e0 h ih =>
-        exact congrArg BHist.e0 ih
-    | e1 h ih =>
-        exact congrArg BHist.e1 ih
   have flowInjective :
       ∀ x y : BareObjectRefusalUp,
         bareObjectRefusalToEventFlow x = bareObjectRefusalToEventFlow y → x = y := by
     intro x y heq
-    cases x with
-    | mk objectName missingFields refusal witnessAudit ledger transport routes provenance
-        localName =>
-        cases y with
-        | mk objectName' missingFields' refusal' witnessAudit' ledger' transport' routes'
-            provenance' localName' =>
-            change
-              [bareObjectRefusalEncodeBHist objectName,
-                bareObjectRefusalEncodeBHist missingFields,
-                bareObjectRefusalEncodeBHist refusal,
-                bareObjectRefusalEncodeBHist witnessAudit,
-                bareObjectRefusalEncodeBHist ledger,
-                bareObjectRefusalEncodeBHist transport,
-                bareObjectRefusalEncodeBHist routes,
-                bareObjectRefusalEncodeBHist provenance,
-                bareObjectRefusalEncodeBHist localName] =
-              [bareObjectRefusalEncodeBHist objectName',
-                bareObjectRefusalEncodeBHist missingFields',
-                bareObjectRefusalEncodeBHist refusal',
-                bareObjectRefusalEncodeBHist witnessAudit',
-                bareObjectRefusalEncodeBHist ledger',
-                bareObjectRefusalEncodeBHist transport',
-                bareObjectRefusalEncodeBHist routes',
-                bareObjectRefusalEncodeBHist provenance',
-                bareObjectRefusalEncodeBHist localName'] at heq
-            injection heq with hObject t1
-            injection t1 with hMissing t2
-            injection t2 with hRefusal t3
-            injection t3 with hWitness t4
-            injection t4 with hLedger t5
-            injection t5 with hTransport t6
-            injection t6 with hRoutes t7
-            injection t7 with hProvenance t8
-            injection t8 with hLocal _
-            have objectSame : objectName = objectName' := by
-              exact Eq.trans (decodeEncode objectName).symm
-                (Eq.trans (congrArg bareObjectRefusalDecodeBHist hObject)
-                  (decodeEncode objectName'))
-            have missingSame : missingFields = missingFields' := by
-              exact Eq.trans (decodeEncode missingFields).symm
-                (Eq.trans (congrArg bareObjectRefusalDecodeBHist hMissing)
-                  (decodeEncode missingFields'))
-            have refusalSame : refusal = refusal' := by
-              exact Eq.trans (decodeEncode refusal).symm
-                (Eq.trans (congrArg bareObjectRefusalDecodeBHist hRefusal)
-                  (decodeEncode refusal'))
-            have witnessSame : witnessAudit = witnessAudit' := by
-              exact Eq.trans (decodeEncode witnessAudit).symm
-                (Eq.trans (congrArg bareObjectRefusalDecodeBHist hWitness)
-                  (decodeEncode witnessAudit'))
-            have ledgerSame : ledger = ledger' := by
-              exact Eq.trans (decodeEncode ledger).symm
-                (Eq.trans (congrArg bareObjectRefusalDecodeBHist hLedger)
-                  (decodeEncode ledger'))
-            have transportSame : transport = transport' := by
-              exact Eq.trans (decodeEncode transport).symm
-                (Eq.trans (congrArg bareObjectRefusalDecodeBHist hTransport)
-                  (decodeEncode transport'))
-            have routesSame : routes = routes' := by
-              exact Eq.trans (decodeEncode routes).symm
-                (Eq.trans (congrArg bareObjectRefusalDecodeBHist hRoutes)
-                  (decodeEncode routes'))
-            have provenanceSame : provenance = provenance' := by
-              exact Eq.trans (decodeEncode provenance).symm
-                (Eq.trans (congrArg bareObjectRefusalDecodeBHist hProvenance)
-                  (decodeEncode provenance'))
-            have localSame : localName = localName' := by
-              exact Eq.trans (decodeEncode localName).symm
-                (Eq.trans (congrArg bareObjectRefusalDecodeBHist hLocal)
-                  (decodeEncode localName'))
-            cases objectSame
-            cases missingSame
-            cases refusalSame
-            cases witnessSame
-            cases ledgerSame
-            cases transportSame
-            cases routesSame
-            cases provenanceSame
-            cases localSame
-            rfl
+    exact bareObjectRefusalToEventFlow_injective heq
   have distinctWitness :
       BareObjectRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
           BHist.Empty BHist.Empty BHist.Empty BHist.Empty ≠
@@ -442,14 +353,7 @@ theorem BareObjectRefusalTasteGate_single_carrier_alignment :
       ∀ x y : BareObjectRefusalUp,
         bareObjectRefusalFields x = bareObjectRefusalFields y → x = y := by
     intro x y hfields
-    cases x with
-    | mk objectName missingFields refusal witnessAudit ledger transport routes provenance
-        localName =>
-        cases y with
-        | mk objectName' missingFields' refusal' witnessAudit' ledger' transport' routes'
-            provenance' localName' =>
-            cases hfields
-            rfl
-  exact ⟨decodeEncode, flowInjective, distinctWitness, fieldFaithful⟩
+    exact bareObjectRefusal_field_faithful x y hfields
+  exact ⟨bareObjectRefusal_decode_encode_bhist, flowInjective, distinctWitness, fieldFaithful⟩
 
 end BEDC.Derived.BareObjectRefusalUp

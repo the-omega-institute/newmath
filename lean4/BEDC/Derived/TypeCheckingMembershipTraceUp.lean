@@ -2,6 +2,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Sig
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.TypeCheckingMembershipTraceUp
@@ -13,6 +14,7 @@ open BEDC.FKernel.Ext
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Sig
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -270,5 +272,89 @@ theorem TypeCheckingMembershipTraceClassifier_stability [AskSetup]
                                 · exact transportP
                                 · exact transportN
                       · rfl
+
+theorem TypeCheckingMembershipTraceNameCert_obligation_surface [AskSetup]
+    {M D R S H C P N M' D' R' S' H' C' P' N' : BHist}
+    (membership : Ext M BMark.b0 D)
+    (route : Cont D R C)
+    (readback : SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) S BHist.Empty)
+    (sameM : hsame M M')
+    (sameD : hsame D D')
+    (sameR : hsame R R')
+    (sameS : hsame S S')
+    (sameH : hsame H H')
+    (sameC : hsame C C')
+    (sameP : hsame P P')
+    (sameN : hsame N N') :
+    Ext M' BMark.b0 D' ∧
+      Cont D' R' C' ∧
+        SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) S' BHist.Empty ∧
+          typeCheckingMembershipTraceFromEventFlow
+              (typeCheckingMembershipTraceToEventFlow
+                (TypeCheckingMembershipTraceUp.mk M D R S H C P N)) =
+            some (TypeCheckingMembershipTraceUp.mk M D R S H C P N) ∧
+            typeCheckingMembershipTraceFields
+                (TypeCheckingMembershipTraceUp.mk M D R S H C P N) =
+              [M, D, R, S, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist BMark Ext Cont SigRel ProbeBundle AskSetup
+  cases sameM
+  cases sameD
+  cases sameR
+  cases sameS
+  cases sameH
+  cases sameC
+  cases sameP
+  cases sameN
+  constructor
+  · exact membership
+  · constructor
+    · exact route
+    · constructor
+      · exact readback
+      · constructor
+        · exact
+            TypeCheckingMembershipTraceTasteGate_single_carrier_alignment_round_trip
+              (TypeCheckingMembershipTraceUp.mk M D R S H C P N)
+        · rfl
+
+theorem TypeCheckingMembershipTraceNameCert_obligations [AskSetup]
+    {M D R S H C P N : BHist}
+    (rows : TypeCheckingMembershipTraceKernelRows M D R S H C P N) :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row M ∧ TypeCheckingMembershipTraceKernelRows M D R S H C P N)
+      (fun row : BHist => hsame row M ∧ hsame D D ∧ hsame R R ∧ hsame S S)
+      (fun row : BHist =>
+        TypeCheckingMembershipTraceKernelRows M D R S H C P N ∧ hsame row M ∧
+          hsame H H ∧ hsame C C ∧ hsame P P ∧ hsame N N)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist Ext Cont SigRel SemanticNameCert hsame
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro M ⟨hsame_refl M, rows⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, hsame_refl D, hsame_refl R, hsame_refl S⟩
+    ledger_sound := by
+      intro _row sourceRow
+      cases sourceRow with
+      | intro sameRow kernelRows =>
+          exact
+            ⟨kernelRows, sameRow, hsame_refl H, hsame_refl C, hsame_refl P,
+              hsame_refl N⟩
+  }
 
 end BEDC.Derived.TypeCheckingMembershipTraceUp
