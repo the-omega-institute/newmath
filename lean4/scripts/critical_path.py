@@ -318,6 +318,7 @@ def _compute_dispatch_weights(
     consumption: dict[str, int],
     base_weights_lean: dict[str, float],
     base_weights_paper: dict[str, float],
+    capstone_candidate: dict | None = None,
 ) -> dict[str, dict]:
     """Compute supply- and consumption-adjusted per-side weights."""
     lean_weights = _adjust_dispatch_weights(base_weights_lean, supply_lean, consumption)
@@ -327,12 +328,14 @@ def _compute_dispatch_weights(
             "weights": lean_weights,
             "supply": supply_lean,
             "consumption_60min": {key: consumption.get(key, 0) for key in base_weights_lean},
+            "capstone_candidate": capstone_candidate,
             "advice": _dispatch_advice("lean", lean_weights, supply_lean),
         },
         "paper": {
             "weights": paper_weights,
             "supply": supply_paper,
             "consumption_60min": {key: consumption.get(key, 0) for key in base_weights_paper},
+            "capstone_candidate": capstone_candidate,
             "advice": _dispatch_advice("paper", paper_weights, supply_paper),
         },
     }
@@ -402,6 +405,34 @@ def _git_head_short() -> str:
 _objective_grades_cache: dict[str, str] | None = None
 _carrier_isomorphism_cache: dict | None = None
 
+_ARITY_NAME = {
+    1: "Mono",
+    2: "Di",
+    3: "Tri",
+    4: "Tetra",
+    5: "Penta",
+    6: "Hexa",
+    7: "Hepta",
+    8: "Octa",
+    9: "Nona",
+    10: "Deca",
+    11: "Hendeca",
+    12: "Dodeca",
+}
+
+_GENERIC_NAME_TOKENS = {
+    "Up",
+    "Name",
+    "Cert",
+    "NameCert",
+    "Taste",
+    "Gate",
+    "TasteGate",
+    "Carrier",
+    "Chapter",
+    "BHist",
+}
+
 
 def _shape_summary(shape: object) -> str:
     """Compact phase-2 toEventFlow shape for critical_path JSON."""
@@ -424,6 +455,99 @@ def _shape_summary(shape: object) -> str:
     if len(kinds) > 8:
         preview += f"+{len(kinds) - 8}"
     return preview or "unparsed"
+
+
+def _camel_tokens(name: str) -> list[str]:
+    core = name[:-2] if name.endswith("Up") else name
+    return re.findall(r"[A-Z]+(?=[A-Z][a-z]|$)|[A-Z]?[a-z0-9]+", core)
+
+
+def _clean_common_theme(names: list[str]) -> str | None:
+    token_rows = [[t for t in _camel_tokens(name) if t not in _GENERIC_NAME_TOKENS] for name in names]
+    token_rows = [row for row in token_rows if row]
+    if len(token_rows) < 2:
+        return None
+    first = token_rows[0]
+    best: list[str] = []
+    for start in range(len(first)):
+        for end in range(start + 1, len(first) + 1):
+            candidate = first[start:end]
+            if len(candidate) < len(best):
+                continue
+            found_everywhere = all(
+                any(row[i:i + len(candidate)] == candidate for i in range(len(row) - len(candidate) + 1))
+                for row in token_rows[1:]
+            )
+            if found_everywhere and len(candidate) > len(best):
+                best = candidate
+    if len(best) >= 2 or (best and len(best[0]) >= 6):
+        return "".join(best)
+    return None
+
+
+def _shape_name_part(shape_summary: str) -> str:
+    if re.fullmatch(r"tag-encode×\d+", shape_summary):
+        return "Tuple"
+    if re.fullmatch(r"encode×\d+", shape_summary):
+        return "Sequence"
+    if re.fullmatch(r"tag×\d+", shape_summary):
+        return "TaggedFlow"
+    return "EventFlow"
+
+
+def _snake_case_name(name: str) -> str:
+    core = name[:-2] if name.endswith("Up") else name
+    parts = _camel_tokens(core)
+    return "_".join(part.lower() for part in parts)
+
+
+def _suggest_capstone_name(arity: int | None, shape_summary: str, names: list[str]) -> str:
+    theme = _clean_common_theme(names)
+    if theme:
+        suggested = f"{theme}CarrierNameCertUp"
+    else:
+        arity_name = _ARITY_NAME.get(arity or 0, f"Arity{arity}" if arity else "Multi")
+        suggested = f"BHist{arity_name}{_shape_name_part(shape_summary)}NameCertUp"
+    return suggested if suggested.endswith("Up") else f"{suggested}Up"
+
+
+def _capstone_candidate_from_buckets(buckets: list[dict]) -> dict | None:
+    valid = [
+        bucket
+        for bucket in buckets
+        if isinstance(bucket, dict) and int(bucket.get("member_count") or 0) >= 2
+    ]
+    if not valid:
+        return None
+    bucket = sorted(
+        valid,
+        key=lambda item: (
+            -int(item.get("member_count") or 0),
+            int(item.get("arity") or 10**9),
+            str(item.get("shape_summary") or ""),
+        ),
+    )[0]
+    arity = bucket.get("arity")
+    if not isinstance(arity, int):
+        arity = None
+    shape_summary = str(bucket.get("shape_summary") or "unparsed")
+    members = bucket.get("members_sample", [])
+    if not isinstance(members, list):
+        members = []
+    names = [str(name) for name in members if name]
+    member_count = int(bucket.get("member_count") or len(names))
+    suggested_lean_name = _suggest_capstone_name(arity, shape_summary, names)
+    suggested_paper_slug = _snake_case_name(suggested_lean_name)
+    return {
+        "bucket_arity": arity,
+        "bucket_shape": shape_summary,
+        "bucket_member_count": member_count,
+        "bucket_members_sample": names[:8],
+        "suggested_lean_name": suggested_lean_name,
+        "suggested_paper_slug": suggested_paper_slug,
+        "suggested_paper_filename_prefix_hint": f"NNNN_{suggested_paper_slug}",
+        "rationale": f"{member_count} chapters share a {shape_summary} BHist carrier event-flow pattern at arity {arity}.",
+    }
 
 
 def _get_carrier_isomorphism_summary() -> dict:
@@ -480,8 +604,8 @@ def _get_carrier_isomorphism_summary() -> dict:
         key=lambda item: len(item[1].get("members", [])) if isinstance(item[1], dict) else 0,
         reverse=True,
     )
-    top_buckets = []
-    for bucket_id, bucket in ranked[:10]:
+    phase2_buckets = []
+    for bucket_id, bucket in ranked:
         if not isinstance(bucket, dict):
             continue
         fingerprint = bucket.get("fingerprint", {})
@@ -495,20 +619,30 @@ def _get_carrier_isomorphism_summary() -> dict:
             for member in members
             if isinstance(member, dict) and member.get("name")
         ]
-        members_preview = names[:5]
-        if len(names) > 5:
-            members_preview.append("...")
-        top_buckets.append({
+        phase2_buckets.append({
             "bucket_id": bucket_id,
             "arity": fingerprint.get("arity"),
             "shape_summary": _shape_summary(fingerprint.get("shape")),
             "member_count": len(members),
+            "members_sample": names[:8],
+        })
+    top_buckets = []
+    for bucket in phase2_buckets[:10]:
+        members_preview = list(bucket["members_sample"][:5])
+        if bucket["member_count"] > 5:
+            members_preview.append("...")
+        top_buckets.append({
+            "bucket_id": bucket["bucket_id"],
+            "arity": bucket["arity"],
+            "shape_summary": bucket["shape_summary"],
+            "member_count": bucket["member_count"],
             "members_preview": members_preview,
         })
 
     _carrier_isomorphism_cache = {
         "available": True,
         "carriers_scanned": payload.get("carriers_scanned"),
+        "phase2_buckets": phase2_buckets,
         "phase2_top_buckets": top_buckets,
     }
     return _carrier_isomorphism_cache
@@ -2333,8 +2467,15 @@ def main() -> int:
         if isinstance(carrier, dict) and carrier.get("available"):
             buckets = carrier.get("phase2_top_buckets", [])
             carrier_iso_phase2_bucket_count = len(buckets) if isinstance(buckets, list) else 0
+            candidate_buckets = carrier.get("phase2_buckets", [])
+            capstone_candidate = (
+                _capstone_candidate_from_buckets(candidate_buckets)
+                if isinstance(candidate_buckets, list)
+                else None
+            )
         else:
             carrier_iso_phase2_bucket_count = 0
+            capstone_candidate = None
         supply_lean = {
             "top": len(rolled),
             "formal_axis_top": len(formal_axis_top_full),
@@ -2351,6 +2492,7 @@ def main() -> int:
         payload["dispatch_weights"] = _compute_dispatch_weights(
             supply_lean, supply_paper, consumption,
             _LEAN_BASE_WEIGHTS, _PAPER_BASE_WEIGHTS,
+            capstone_candidate,
         )
     except Exception as exc:
         payload["dispatch_weights"] = {"error": str(exc)[:200]}
