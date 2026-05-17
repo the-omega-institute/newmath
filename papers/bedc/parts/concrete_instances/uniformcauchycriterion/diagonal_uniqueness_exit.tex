@@ -178,17 +178,26 @@ be an accepted $\UniformCauchyCriterionUp$ packet whose terminal read shares the
 $$
 W,Q,T,E,H,C,P,N.
 $$
-No quotient stream, host real equality, choice row, ambient completeness, detached completion endpoint, selected representative, or replacement tail schedule can refine that terminal classifier.
+The locked route is the one whose packet supplies $\Cont(I,T,R_t)$, $\Cont(T,E,R_E)$, $\Cont(R_t,R_E,R_B)$, and $\Cont(R_B,P,R_C)$, whose package signs $R_t$, $R_E$, $R_B$, and $R_C$, and whose terminal completion read carries the local name row $N$ while refusing both host-tail return continuations out of $R_B$. No quotient stream, host real equality, choice row, ambient completeness, detached completion endpoint, selected representative, or replacement tail schedule can refine that terminal classifier.
 \end{theorem}
 \begin{proof}
 Start with diagonal uniqueness exit and the diagonal exit classifier. They identify the accepted terminal read as a finite classifier route over the same stream name, regular rational readback, dyadic tolerance, Real seal, transport, continuation, provenance, and local naming rows.
 
-Apply diagonal nonescape and diagonal budget extraction. These results keep quotient streams, host real equality, selected limits, choice rows, ambient completeness, and detached completion sources outside the accepted packet, while extracting the visible terminal budget $W,Q,T,E,H,C,P,N$.
+Apply diagonal budget extraction along the concrete continuation chain. The accepted packet gives the index-to-tail read, the tail-to-seal read, the tail-read-to-seal-read budget read, and the budget-to-provenance completion read:
+$$
+\Cont(I,T,R_t),\quad
+\Cont(T,E,R_E),\quad
+\Cont(R_t,R_E,R_B),\quad
+\Cont(R_B,P,R_C).
+$$
 
-Next use exit-route consumer coverage and structural-face coverage. Every Real-and-Completion consumer reads the structural faces through the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\DiagonalLimitCompatibilityUp$, and $\RealLimitUniquenessSealUp$ rows rather than through a second completion endpoint.
+The same extraction supplies the package signatures of $R_t$, $R_E$, $R_B$, and $R_C$. Together with the packet signature for $N$, this makes the completion read a unary finite read over the displayed route and keeps the terminal local name tied to the accepted bundle.
 
-Finally combine tail-budget exhaustion with terminal-route exhaustion. The $\TailCofinalityScheduleUp$ row is consumed as a sibling schedule on the same finite route, and \autoref{thm:uniform-cauchy-criterion-diagonal-terminal-route-exhaustion} leaves no route slot outside $W,Q,T,E,H,C,P,N$. Therefore every terminal Real-and-Completion exit classifier is locked to that finite route.
+Now use the host-tail refusal supplied by the same budget read. Both possible host-tail return continuations from $R_B$ back to $R_t$ are absurd, so the route cannot be refined by returning through an external tail oracle, selected representative, host equality row, or detached completion endpoint.
+
+Finally combine exit-route consumer coverage, structural-face coverage, tail-budget exhaustion, and terminal-route exhaustion. The $\TailCofinalityScheduleUp$ row is consumed as a sibling schedule on the same finite route, and \autoref{thm:uniform-cauchy-criterion-diagonal-terminal-route-exhaustion} leaves no route slot outside $W,Q,T,E,H,C,P,N$. Therefore every terminal Real-and-Completion exit classifier is locked to that finite route.
 \end{proof}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_real\_completion\_budget\_lock}
 
 \begin{theorem}[UniformCauchyCriterion Real-completion selector-route stability]
 \label{thm:uniform-cauchy-criterion-real-completion-selector-route-stability}
