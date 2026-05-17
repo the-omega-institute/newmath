@@ -44,4 +44,33 @@ theorem AxiomDependencyMapModeSoundness [AskSetup] [PackageSetup]
     ⟨claimUnary, modeUnary, witnessUnary, supplyUnary, routeUnary, modeWitnessCont,
       provenancePkg⟩
 
+theorem AxiomDependencyMapQueryLedgerFactorization [AskSetup] [PackageSetup]
+    {claim mode witness supply transport replay provenance localName ledgerRoute familyRoute
+      compilerRoute weaveRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyMapCertificate claim mode witness supply transport replay provenance localName
+        bundle pkg →
+      Cont supply provenance ledgerRoute →
+        Cont supply provenance familyRoute →
+          Cont supply provenance compilerRoute →
+            Cont supply provenance weaveRoute →
+              UnaryHistory ledgerRoute ∧ UnaryHistory familyRoute ∧
+                UnaryHistory compilerRoute ∧ UnaryHistory weaveRoute ∧
+                  PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro certificate ledgerCont familyCont compilerCont weaveCont
+  rcases certificate with
+    ⟨_claimUnary, _modeUnary, _witnessUnary, supplyUnary, _transportUnary, _replayUnary,
+      provenanceUnary, _localNameUnary, _claimModeWitness, _witnessSupplyTransport,
+      _transportReplayProvenance, provenancePkg⟩
+  have ledgerUnary : UnaryHistory ledgerRoute :=
+    unary_cont_closed supplyUnary provenanceUnary ledgerCont
+  have familyUnary : UnaryHistory familyRoute :=
+    unary_cont_closed supplyUnary provenanceUnary familyCont
+  have compilerUnary : UnaryHistory compilerRoute :=
+    unary_cont_closed supplyUnary provenanceUnary compilerCont
+  have weaveUnary : UnaryHistory weaveRoute :=
+    unary_cont_closed supplyUnary provenanceUnary weaveCont
+  exact ⟨ledgerUnary, familyUnary, compilerUnary, weaveUnary, provenancePkg⟩
+
 end BEDC.Derived.AxiomDependencyMapUp
