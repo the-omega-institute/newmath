@@ -6,7 +6,7 @@ import BEDC.Derived.HolonomyUp
 import BEDC.Derived.KKTUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Reflection
-import BEDC.Capstone.EmptyFableMachine
+import BEDC.Derived.EmptyFableMachineUp.Ledger
 import BEDC.MetaCIC
 
 namespace BEDC.Manifest
@@ -182,11 +182,11 @@ def manifest : List ClaimEntry := [
     _, @BEDC.FKernel.Gap.ledger_composition_principle_proof_standing⟩,
 
   ⟨"sec:empty-fable-machine-traces",
-    "BEDC.Capstone.EmptyFableMachine.trace_hsame_transport",
-    _, @BEDC.Capstone.EmptyFableMachine.trace_hsame_transport⟩,
+    "BEDC.Derived.EmptyFableMachineUp.Ledger.trace_hsame_transport",
+    _, @BEDC.Derived.EmptyFableMachineUp.Ledger.trace_hsame_transport⟩,
   ⟨"sec:empty-fable-machine-ledger",
-    "BEDC.Capstone.EmptyFableMachine.fable_ledger_sound",
-    _, @BEDC.Capstone.EmptyFableMachine.fable_ledger_sound⟩,
+    "BEDC.Derived.EmptyFableMachineUp.Ledger.fable_ledger_sound",
+    _, @BEDC.Derived.EmptyFableMachineUp.Ledger.fable_ledger_sound⟩,
   ⟨"sec:type-checking-as-classifier-membership",
     "BEDC.Reflection.type_checking_as_ext_membership_proof",
     _, @BEDC.Reflection.type_checking_as_ext_membership_proof⟩,
