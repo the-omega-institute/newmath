@@ -205,6 +205,7 @@ import BEDC.Derived.BudgetedRealSealRouteUp.NameCertObligations
 import BEDC.Derived.RealityConstrainedPhysicalInductionUp.TasteGate
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.TasteGate
+import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
 import BEDC.Derived.GroundLoopBoundaryUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditPacketUp.TasteGate
