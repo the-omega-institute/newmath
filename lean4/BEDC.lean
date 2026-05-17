@@ -236,6 +236,7 @@ import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BedcPhilosophyPackageUp.TasteGate
 import BEDC.Derived.BedcTheoryIdentityUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationUp
+import BEDC.Derived.BetaCongruenceDomainAuditUp.TasteGate
 import BEDC.Derived.BetaCriticalPairUp.TasteGate
 import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BishopRealUp
