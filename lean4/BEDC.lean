@@ -334,6 +334,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.CommonRefinementSelectorLock
 import BEDC.Derived.CauchyModulusRefinementUp.CommonSourceLock
 import BEDC.Derived.CauchyModulusRefinementUp.CommonWindowSelectorExtraction
 import BEDC.Derived.CauchyModulusRefinementUp.CompleteMetricConsumerRoute
+import BEDC.Derived.CauchyModulusRefinementUp.CompleteMetricNoChoiceInterface
 import BEDC.Derived.CauchyModulusRefinementUp.CompletionConsumerRouteDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.CompletionRoutePullbackExactness
 import BEDC.Derived.CauchyModulusRefinementUp.DiagonalHandoffDeterminacy
@@ -997,6 +998,7 @@ import BEDC.Derived.CauchyCriterionUp.RegSeqRatStreamNameRealUpHandoff
 import BEDC.Derived.CauchyCriterionUp.RealTailAgreementRouteCorrespondence
 import BEDC.Derived.CauchyCriterionUp.RealWindowDiagonalSelectorLock
 import BEDC.Derived.CauchyCriterionUp.SelectorRefinementTerminalNonescape
+import BEDC.Derived.CauchyCriterionUp.SelectorBudgetFormalTargetBoundary
 import BEDC.Derived.CauchyCriterionUp.SelectorBudgetThreeWayTerminality
 import BEDC.Derived.CauchyCriterionUp.SelectorSealSynchronizerTotality
 import BEDC.Derived.CauchyCriterionUp.SelectorSealRoutePullback
@@ -1245,6 +1247,7 @@ import BEDC.Derived.HashDigestFiberBoundaryUp.TasteGate
 import BEDC.Derived.HaltingDiagonalUp.TasteGate
 import BEDC.Derived.HaltingDistinctionUp
 import BEDC.Derived.HaltingDistinctionUp.ClassifierStability
+import BEDC.Derived.HaltingDistinctionUp.ContinuationBoundary
 import BEDC.Derived.HaltingDistinctionUp.HaltingDistinctionCarrierObligation
 import BEDC.Derived.HaltingDistinctionUp.ObstructionConsumerBoundary
 import BEDC.Derived.HaltingDistinctionUp.ObstructionSiblingRoute
