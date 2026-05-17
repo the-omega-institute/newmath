@@ -210,6 +210,7 @@ import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.AxisZeckendorfCannotClaimUp
+import BEDC.Derived.AxisZeckendorfCannotClaimUp.ConsumerHorizonExhaustion
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.NegativeTheoremSurface
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RouteProvenanceTriadObligations
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.ProvenanceExhaustion
@@ -586,6 +587,7 @@ import BEDC.Derived.DyadicStepFunctionUp
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicApproximationUp
 import BEDC.Derived.TailCauchyRouterUp.TasteGate
+import BEDC.Derived.TailCompatibleCauchySectionUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp.DiagonalMeshSelector
 import BEDC.Derived.DyadicApproximationUp.CommonRefinementEnclosureCertificate
 import BEDC.Derived.DyadicApproximationUp.NameCertObligationSurface
@@ -943,6 +945,7 @@ import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CofinalRealRequestReuseUp.TasteGate
 import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
 import BEDC.Derived.CofinalModulusSealUp.TasteGate
+import BEDC.Derived.CofinalModulusSealUp.RegSeqRatWindowFactorization
 import BEDC.Derived.CofinalModulusNormalizationSealUp.TasteGate
 import BEDC.Derived.CofinalWindowRealSealUp.TasteGate
 import BEDC.Derived.CofinalSubsequenceUp
