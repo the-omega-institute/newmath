@@ -357,6 +357,24 @@ Now factor the seal side through the Real and Completion boundary. By \autoref{t
 Finally use \autoref{thm:finite-witness-route-four-face-exit-exactness}. The public exit surface is exactly the selected $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and $\CauchyLimitSealUp$ or $\RealUp$ seal row carried by the packet. Combining these four results repacks the same finite route as the public $\NameCert_{\FiniteWitnessRouteUp}$ export, with no coordinate left for the excluded host, quotient, real-value, completeness, choice, ledger, or bridge data.
 \end{proof}
 
+\begin{theorem}[Finite witness-route choice-refusal boundary]
+\label{thm:finite-witness-route-choice-refusal-boundary}
+Every accepted $\FiniteWitnessRouteUp$ Real-and-Completion consumer route remains on the displayed finite rows
+$$
+q,w,r,d,s,h,c,p,n.
+$$
+No countable-choice selector, selected host limit, quotient stream equality, or independent real value can be inserted between the selected $\StreamNameUp$ window $w$ and the $\CauchyLimitSealUp$ or $\RealUp$ seal row $s$.
+\end{theorem}
+\begin{proof}
+Begin with request-window admission, \autoref{thm:finite-witness-route-request-window-admission}. It forces every accepted finite witness demand to expose $q$ and the selected $\StreamNameUp$ window $w$ before any downstream read.
+
+Use regular readback admission and consumer route exactness next. By \autoref{thm:finite-witness-route-regular-readback-admission}, the route reads $r,d$ through the same selected window; by \autoref{thm:finite-witness-route-consumer-route-exactness}, the seal row $s$ is downstream of $q,w,r,d$ in the same finite packet.
+
+Now apply public NameCert export, \autoref{thm:finite-witness-route-public-namecert-export}. The exported certificate is exactly the displayed packet and the four L10 faces carried by $w,r,d,s$.
+
+Finally use non-escape, \autoref{thm:finite-witness-route-non-escape}. Since no countable-choice selector, selected host limit, quotient stream equality, or independent real value is a coordinate of the carrier, none can be inserted between the selected window and the seal.
+\end{proof}
+
 \closureat{FiniteWitnessRouteUp}{seedStr}
 \closureat{FiniteWitnessRouteUp}{obligationStr}
 \closureat{FiniteWitnessRouteUp}{scopedStr}
