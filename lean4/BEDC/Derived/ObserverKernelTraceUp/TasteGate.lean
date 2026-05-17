@@ -1,5 +1,5 @@
-import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.Derived.ObserverKernelTraceUp
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ObserverKernelTraceUp
@@ -8,10 +8,6 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
-
-inductive ObserverKernelTraceUp : Type where
-  | mk : (T H C B S L P N : BHist) → ObserverKernelTraceUp
-  deriving DecidableEq
 
 def observerKernelTraceEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
