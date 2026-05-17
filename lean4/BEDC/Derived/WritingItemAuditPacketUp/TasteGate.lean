@@ -375,6 +375,24 @@ def taste_gate : ChapterTasteGate WritingItemAuditPacketUp :=
   -- BEDC touchpoint anchor: BHist BMark
   writingItemAuditPacketChapterTasteGate
 
+theorem WritingItemAuditPacketTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      writingItemAuditPacketDecodeBHist (writingItemAuditPacketEncodeBHist h) = h) ∧
+      (∀ x : WritingItemAuditPacketUp,
+        writingItemAuditPacketFromEventFlow (writingItemAuditPacketToEventFlow x) = some x) ∧
+        (∀ x y : WritingItemAuditPacketUp,
+          writingItemAuditPacketToEventFlow x = writingItemAuditPacketToEventFlow y → x = y) ∧
+          writingItemAuditPacketEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact writingItemAuditPacketDecode_encode_bhist
+  · constructor
+    · exact writingItemAuditPacket_round_trip
+    · constructor
+      · intro x y heq
+        exact writingItemAuditPacketToEventFlow_injective heq
+      · rfl
+
 theorem WritingItemAuditPacketNameCert_obligations
     (x : WritingItemAuditPacketUp) :
     ∃ K C R L T F G Q H A P N : BHist,
