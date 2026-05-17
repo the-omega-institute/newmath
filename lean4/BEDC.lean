@@ -182,10 +182,12 @@ import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
 import BEDC.Derived.AuditMapFamilyUp.TasteGate
 import BEDC.Derived.AuditMapFamilyLedgerUp.TasteGate
 import BEDC.Derived.AuditMapFamilyObligationLedgerUp.TasteGate
+import BEDC.Derived.AuditMapDependencyWeaveUp
 import BEDC.Derived.AuditReexportNamespaceUp.TasteGate
 import BEDC.Derived.AuditTranscriptEnvelopeUp.TasteGate
 import BEDC.Derived.AuditAxisSeparationUp.TasteGate
 import BEDC.Derived.AuditFinalityCertificateUp.TasteGate
+import BEDC.Derived.AxiomDependencyMapUp
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
 import BEDC.Derived.ApproximationUp
