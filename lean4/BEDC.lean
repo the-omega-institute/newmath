@@ -112,6 +112,7 @@ import BEDC.Derived.ApophaticNameUp.RootUnblockRefusalBoundary
 import BEDC.Derived.ApophaticNameUp.RootBridgeTupleAuditNormalForm
 import BEDC.Derived.ApophaticNameUp.SocketCarrier
 import BEDC.Derived.ApophaticNameUp.GateLedgerSeparation
+import BEDC.Derived.ApophaticNameUp.GateSourceCompatibility
 import BEDC.Derived.ApophaticNameUp.PublicBoundaryPackage
 import BEDC.Derived.ApophaticNameUp.DownstreamBoundaryConsumption
 import BEDC.Derived.ApophaticNameUp.BridgeRouteScope
@@ -701,6 +702,7 @@ import BEDC.Derived.KernelCategoryUp.CertificateSurface
 import BEDC.Derived.KernelCategoryUp.CompositionContRouteExactness
 import BEDC.Derived.KernelCategoryUp.EndpointTransportClosure
 import BEDC.Derived.KernelCategoryUp.FunctorContinuationHandoff
+import BEDC.Derived.KernelCategoryUp.LawTransportExhaustion
 import BEDC.Derived.CertificateCompilerUp.FiniteRouteNonescape
 import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.KernelMorphismUp.CertificateCompilerSourceLock
@@ -740,6 +742,7 @@ import BEDC.Derived.SubjectReductionRouteChoiceUp.TasteGate
 import BEDC.Derived.SelfReferenceTruthBranchUp.TasteGate
 import BEDC.Derived.SolipsismGapRefusalUp.TasteGate
 import BEDC.Derived.RuntimeReflectionBoundaryUp.TasteGate
+import BEDC.Derived.RuntimeBoundaryAuditUp.TasteGate
 import BEDC.Derived.RuntimeTruthSeparationUp.TasteGate
 import BEDC.Derived.RealityConstrainedApproximationTowerUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.NameCertObligations
@@ -820,6 +823,7 @@ import BEDC.Derived.ContinuationMonadUp.RootUnblockObligationPackage
 import BEDC.Derived.ContinuationMonadUp.RootBindScheduleExhaustion
 import BEDC.Derived.ContinuationMonadUp.RootCategoryHomConsumerTotality
 import BEDC.Derived.ContinuationMonadUp.CategoryHomCarrierRoute
+import BEDC.Derived.ContinuationMonadUp.CategoryBoundaryReadbackTotality
 import BEDC.Derived.ContinuationMonadUp.CategoryHomRouteTotality
 import BEDC.Derived.ContinuationMonadUp.RootConsumerStandardRow
 import BEDC.Derived.ContinuationMonadUp.RootConsumerTotality
