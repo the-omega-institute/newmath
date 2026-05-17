@@ -28,7 +28,7 @@ def machineInterfaceFormalizationTargetDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (machineInterfaceFormalizationTargetDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (machineInterfaceFormalizationTargetDecodeBHist tail)
 
-private theorem machineInterfaceFormalizationTargetDecode_encode_bhist :
+theorem machineInterfaceFormalizationTargetDecode_encode_bhist :
     ∀ h : BHist,
       machineInterfaceFormalizationTargetDecodeBHist
         (machineInterfaceFormalizationTargetEncodeBHist h) = h := by
@@ -57,6 +57,15 @@ private def machineInterfaceFormalizationTargetDecodePacket
     (machineInterfaceFormalizationTargetDecodeBHist continuation)
     (machineInterfaceFormalizationTargetDecodeBHist provenance)
     (machineInterfaceFormalizationTargetDecodeBHist localName)
+
+def machineInterfaceFormalizationTargetFields :
+    MachineInterfaceFormalizationTargetUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | MachineInterfaceFormalizationTargetUp.mk targetName namespaceRow registry statementSkeleton
+      dependencyList expectedStatus auditGate notClaimed transport continuation provenance
+      localName =>
+      [targetName, namespaceRow, registry, statementSkeleton, dependencyList, expectedStatus,
+        auditGate, notClaimed, transport, continuation, provenance, localName]
 
 def machineInterfaceFormalizationTargetToEventFlow :
     MachineInterfaceFormalizationTargetUp → EventFlow
@@ -184,15 +193,6 @@ private theorem machineInterfaceFormalizationTargetToEventFlow_injective
   exact Option.some.inj
     (Eq.trans (machineInterfaceFormalizationTarget_round_trip x).symm
       (Eq.trans hread (machineInterfaceFormalizationTarget_round_trip y)))
-
-def machineInterfaceFormalizationTargetFields :
-    MachineInterfaceFormalizationTargetUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | MachineInterfaceFormalizationTargetUp.mk targetName namespaceRow registry statementSkeleton
-      dependencyList expectedStatus auditGate notClaimed transport continuation provenance
-      localName =>
-      [targetName, namespaceRow, registry, statementSkeleton, dependencyList, expectedStatus,
-        auditGate, notClaimed, transport, continuation, provenance, localName]
 
 private theorem machineInterfaceFormalizationTarget_fields_faithful :
     ∀ x y : MachineInterfaceFormalizationTargetUp,
