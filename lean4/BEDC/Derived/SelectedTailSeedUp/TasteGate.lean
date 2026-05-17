@@ -296,4 +296,20 @@ theorem SelectedTailSeedCarrier_classifier_transport
           some (SelectedTailSeedUp.mk Q E A W K S R H C P N)
     exact selectedTailSeed_round_trip (SelectedTailSeedUp.mk Q E A W K S R H C P N)
 
+theorem SelectedTailSeedCarrier_finite_tail_admission_exactness
+    {Q E A W K S R H C P N W' K' : BHist} (sameWindow : hsame W W')
+    (admission : Cont A W K) (readback : Cont A W' K') :
+    hsame K K' ∧
+      BHistCarrier.fromEventFlow
+        (BHistCarrier.toEventFlow (SelectedTailSeedUp.mk Q E A W K S R H C P N)) =
+          some (SelectedTailSeedUp.mk Q E A W K S R H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  constructor
+  · exact cont_respects_hsame (hsame_refl A) sameWindow admission readback
+  · change
+      selectedTailSeedFromEventFlow
+        (selectedTailSeedToEventFlow (SelectedTailSeedUp.mk Q E A W K S R H C P N)) =
+          some (SelectedTailSeedUp.mk Q E A W K S R H C P N)
+    exact selectedTailSeed_round_trip (SelectedTailSeedUp.mk Q E A W K S R H C P N)
+
 end BEDC.Derived.SelectedTailSeedUp
