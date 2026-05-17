@@ -185,3 +185,57 @@ there is no row from quotient streams, selected host limits, host index
 equality, completion witnesses, ambient completeness, or metric-completeness
 data available to the terminal seal.
 \end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat-RealUp composite terminal pullback]
+\label{thm:streamname-regseqrat-realup-composite-terminal-pullback}
+Let $W$ be a finite public $\StreamNameUp$ rational observation window. Suppose
+two consecutive terminal pullback readings pass first through the displayed
+$\mathsf{RatStreamNameCarrier}$ and $\mathsf{RatStreamNameClassifier}$ rows of
+$W$, then through the accepted $\RegSeqRat$ pointwise seal rows, and finally to
+the $\RealUp$ finite-window seal boundary. Then the two-stage terminal reading
+determines exactly the same finite $\BHist$ packet as the single composite
+pullback from the StreamName rows into the $\RealUp$ boundary row.
+
+The shared packet consists precisely of the
+$\mathsf{RatStreamNameCarrier}$ rows, the
+$\mathsf{RatStreamNameClassifier}$ rows, the accepted $\RegSeqRat$ pointwise
+seal rows, the $\RealUp$ boundary row, the $\mathsf{ProbeBundle}$ rows, the
+$\mathsf{InBundle}$ membership rows, the $\mathsf{UnaryHistory}$ observations,
+the finite $\Cont$ ledger, the componentwise $\hsame$ transports, the common
+$\Pkg$ provenance, and the local $\NameCert$ witnessing the public StreamName
+window. It contains no quotient stream, selected host limit, host index
+equality, completion witness, ambient completeness row, or metric-completeness
+row.
+\end{theorem}
+\begin{proof}
+First build the finite public packet over $W$. Apply
+\autoref{thm:streamname-regseqrat-uniform-finite-window-seal}. This identifies
+the displayed StreamName carrier and classifier rows with the accepted
+$\RegSeqRat$ pointwise seal rows, the bundle rows, the unary observations, the
+finite $\Cont$ ledger, the componentwise $\hsame$ transports, and the shared
+$\Pkg$ provenance.
+
+Next read the endpoint seal as a boundary row. Use
+\autoref{thm:streamname-realup-seal-boundary}. The boundary construction says
+that the same packet determines the $\RealUp$ finite-window seal boundary, and
+that every public boundary read factors back through the same StreamName rows,
+accepted $\RegSeqRat$ rows, $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$
+rows, $\mathsf{UnaryHistory}$ observations, finite ledger, transports, and
+provenance.
+
+Now compare the two consecutive pullback readings with the direct composite
+reading. Apply
+\autoref{thm:streamname-regseqrat-realup-seal-pullback-uniqueness}. Since both
+routes expose the same finite source surface and the same $\RealUp$ boundary
+row, pullback uniqueness identifies their finite $\BHist$ packets component by
+component.
+
+Finally invoke
+\autoref{thm:streamname-regseqrat-realup-terminal-pullback-factorization}. The
+terminal factorization repacks the identified packet through the local
+$\NameCert$ and shows that neither the two-stage route nor the composite route
+has access to a quotient stream, selected host limit, host index equality,
+completion witness, ambient completeness row, or metric-completeness row. Thus
+the consecutive and composite terminal pullbacks are the same finite public
+packet.
+\end{proof}
