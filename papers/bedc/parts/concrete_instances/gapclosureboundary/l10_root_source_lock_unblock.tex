@@ -1,0 +1,35 @@
+\begin{theorem}[GapClosureBoundary L10 source lock]
+\label{thm:gap-closure-boundary-l10-source-lock}
+Every L10 consumer of $\GapClosureBoundaryUp$ that reads a source or refusal row over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyLimitSealUp$, and $\CompletionUp$ must expose the same finite $\BHist$ source branch, the source-classifier row, the refusal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\GapClosureBoundaryUp}$ row before the consumer may pass the row downstream.
+\end{theorem}
+\begin{proof}
+Start from the source-refusal totality and source-lock totality rows. They make every accepted completion-facing request pass through the displayed source branch or refusal branch before it is public.
+
+Next use the root source-classifier route totality and route-completion obligations. The classifier determines which branch is visible, and the route-completion row keeps the read inside the local NameCert surface.
+
+Finally read the L10 consumers only through their displayed rows. $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyLimitSealUp$, and $\CompletionUp$ receive the source lock through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data, not through an off-packet completion witness.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary terminal source handoff]
+\label{thm:gap-closure-boundary-terminal-source-handoff}
+The terminal $\GapClosureBoundaryUp$ handoff to L10 completion consumers is exactly the source/refusal packet supplied by the source-refusal admission route, the scoped source-refusal readback, the terminal route totality, and the L10 source-lock totality. The handoff has no coordinate for parameter transport equivalence, quotient completion equality, host real equality, or hidden source completion outside the displayed rows.
+\end{theorem}
+\begin{proof}
+Use the source-refusal admission package first. It supplies the visible source branch and refusal branch together with the structural rows required by the hub packet.
+
+Then apply scoped source-refusal readback and terminal route totality. These theorems keep terminal reads on the same displayed route and prevent a downstream completion consumer from importing a hidden branch.
+
+The L10 source-lock totality gives the final public boundary. Since the accepted handoff consists only of the displayed $\BHist$, classifier, refusal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, it cannot assert parameter transport equivalence or any host-completion equality.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary root L10 unblock package]
+\label{thm:gap-closure-boundary-root-l10-unblock-package}
+The root L10 unblock surface for $\GapClosureBoundaryUp$ consists of the source lock of \autoref{thm:gap-closure-boundary-l10-source-lock}, the terminal handoff of \autoref{thm:gap-closure-boundary-terminal-source-handoff}, and the existing route-totality and source-readback rows. Any downstream L10 consumer over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyLimitSealUp$, or $\CompletionUp$ must consume this finite package before claiming a completion-facing refusal or source read.
+\end{theorem}
+\begin{proof}
+Assemble the source-facing rows. The root source-classifier route totality, root request source-refusal totality, scoped source-refusal readback, and L10 source-lock totality provide the source branch, refusal branch, classifier, readback, and terminal visibility rows.
+
+Add the structural rows. Componentwise $\hsame$ transport preserves the branch, displayed $\Cont$ replay carries the route, $\Pkg$ provenance records the source of the consumer handoff, and local $\NameCert$ data names the accepted packet.
+
+The six L10 consumers named in the statement are therefore downstream readers of this finite source-lock package. They may consume the handoff, but they do not receive a separate parameter-equivalence claim, quotient equality, host real equality, or hidden completion source.
+\end{proof}
