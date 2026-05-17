@@ -10,7 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive FocusedLedgerUp : Type where
-  | mk : (I H T F S D G R J Q rho A C P N : BHist) → FocusedLedgerUp
+  | mk :
+      (I H T F S D G R J Q rho A C P N : BHist) →
+        FocusedLedgerUp
+  deriving DecidableEq
 
 def focusedLedgerEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -24,7 +27,7 @@ def focusedLedgerDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (focusedLedgerDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (focusedLedgerDecodeBHist tail)
 
-private theorem focusedLedgerDecode_encode_bhist :
+theorem focusedLedgerDecode_encode_bhist :
     ∀ h : BHist, focusedLedgerDecodeBHist (focusedLedgerEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -36,13 +39,31 @@ private theorem focusedLedgerDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
+private def focusedLedgerRawAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => []
+  | 0, head :: _ => head
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => focusedLedgerRawAt n rest
+
 private theorem focusedLedger_mk_congr
-    {I I' H H' T T' F F' S S' D D' G G' R R' J J' Q Q' rho rho' A A' C C'
-      P P' N N' : BHist}
-    (hI : I' = I) (hH : H' = H) (hT : T' = T) (hF : F' = F)
-    (hS : S' = S) (hD : D' = D) (hG : G' = G) (hR : R' = R)
-    (hJ : J' = J) (hQ : Q' = Q) (hrho : rho' = rho) (hA : A' = A)
-    (hC : C' = C) (hP : P' = P) (hN : N' = N) :
+    {I I' H H' T T' F F' S S' D D' G G' R R' J J' Q Q' rho rho'
+        A A' C C' P P' N N' : BHist}
+    (hI : I' = I)
+    (hH : H' = H)
+    (hT : T' = T)
+    (hF : F' = F)
+    (hS : S' = S)
+    (hD : D' = D)
+    (hG : G' = G)
+    (hR : R' = R)
+    (hJ : J' = J)
+    (hQ : Q' = Q)
+    (hrho : rho' = rho)
+    (hA : A' = A)
+    (hC : C' = C)
+    (hP : P' = P)
+    (hN : N' = N) :
     FocusedLedgerUp.mk I' H' T' F' S' D' G' R' J' Q' rho' A' C' P' N' =
       FocusedLedgerUp.mk I H T F S D G R J Q rho A C P N := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -63,61 +84,54 @@ private theorem focusedLedger_mk_congr
   cases hN
   rfl
 
-def focusedLedgerFields : FocusedLedgerUp → List BHist
+def focusedLedgerToEventFlow : FocusedLedgerUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
+  fun
+  | FocusedLedgerUp.mk I H T F S D G R J Q rho A C P N =>
+      [focusedLedgerEncodeBHist I,
+        focusedLedgerEncodeBHist H,
+        focusedLedgerEncodeBHist T,
+        focusedLedgerEncodeBHist F,
+        focusedLedgerEncodeBHist S,
+        focusedLedgerEncodeBHist D,
+        focusedLedgerEncodeBHist G,
+        focusedLedgerEncodeBHist R,
+        focusedLedgerEncodeBHist J,
+        focusedLedgerEncodeBHist Q,
+        focusedLedgerEncodeBHist rho,
+        focusedLedgerEncodeBHist A,
+        focusedLedgerEncodeBHist C,
+        focusedLedgerEncodeBHist P,
+        focusedLedgerEncodeBHist N]
+
+def focusedLedgerFromEventFlow : EventFlow → Option FocusedLedgerUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fun ef =>
+    some
+      (FocusedLedgerUp.mk
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 0 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 1 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 2 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 3 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 4 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 5 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 6 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 7 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 8 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 9 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 10 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 11 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 12 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 13 ef))
+        (focusedLedgerDecodeBHist (focusedLedgerRawAt 14 ef)))
+
+def focusedLedgerFields : FocusedLedgerUp → List BHist :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fun
   | FocusedLedgerUp.mk I H T F S D G R J Q rho A C P N =>
       [I, H, T, F, S, D, G, R, J, Q, rho, A, C, P, N]
 
-def focusedLedgerToEventFlow : FocusedLedgerUp → EventFlow
-  -- BEDC touchpoint anchor: BHist BMark
-  | x => (focusedLedgerFields x).map focusedLedgerEncodeBHist
-
-def focusedLedgerFromEventFlow : EventFlow → Option FocusedLedgerUp
-  -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _I :: [] => none
-  | _I :: _H :: [] => none
-  | _I :: _H :: _T :: [] => none
-  | _I :: _H :: _T :: _F :: [] => none
-  | _I :: _H :: _T :: _F :: _S :: [] => none
-  | _I :: _H :: _T :: _F :: _S :: _D :: [] => none
-  | _I :: _H :: _T :: _F :: _S :: _D :: _G :: [] => none
-  | _I :: _H :: _T :: _F :: _S :: _D :: _G :: _R :: [] => none
-  | _I :: _H :: _T :: _F :: _S :: _D :: _G :: _R :: _J :: [] => none
-  | _I :: _H :: _T :: _F :: _S :: _D :: _G :: _R :: _J :: _Q :: [] => none
-  | _I :: _H :: _T :: _F :: _S :: _D :: _G :: _R :: _J :: _Q :: _rho :: [] =>
-      none
-  | _I :: _H :: _T :: _F :: _S :: _D :: _G :: _R :: _J :: _Q :: _rho :: _A :: [] =>
-      none
-  | _I :: _H :: _T :: _F :: _S :: _D :: _G :: _R :: _J :: _Q :: _rho :: _A ::
-      _C :: [] =>
-      none
-  | _I :: _H :: _T :: _F :: _S :: _D :: _G :: _R :: _J :: _Q :: _rho :: _A ::
-      _C :: _P :: [] =>
-      none
-  | I :: H :: T :: F :: S :: D :: G :: R :: J :: Q :: rho :: A :: C :: P :: N :: [] =>
-      some
-        (FocusedLedgerUp.mk
-          (focusedLedgerDecodeBHist I)
-          (focusedLedgerDecodeBHist H)
-          (focusedLedgerDecodeBHist T)
-          (focusedLedgerDecodeBHist F)
-          (focusedLedgerDecodeBHist S)
-          (focusedLedgerDecodeBHist D)
-          (focusedLedgerDecodeBHist G)
-          (focusedLedgerDecodeBHist R)
-          (focusedLedgerDecodeBHist J)
-          (focusedLedgerDecodeBHist Q)
-          (focusedLedgerDecodeBHist rho)
-          (focusedLedgerDecodeBHist A)
-          (focusedLedgerDecodeBHist C)
-          (focusedLedgerDecodeBHist P)
-          (focusedLedgerDecodeBHist N))
-  | _I :: _H :: _T :: _F :: _S :: _D :: _G :: _R :: _J :: _Q :: _rho :: _A ::
-      _C :: _P :: _N :: _extra :: _rest =>
-      none
-
-private theorem focusedLedger_round_trip :
+theorem focusedLedger_round_trip :
     ∀ x : FocusedLedgerUp,
       focusedLedgerFromEventFlow (focusedLedgerToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -143,28 +157,19 @@ private theorem focusedLedger_round_trip :
             (focusedLedgerDecode_encode_bhist P)
             (focusedLedgerDecode_encode_bhist N))
 
-private theorem focusedLedgerToEventFlow_injective {x y : FocusedLedgerUp} :
-    focusedLedgerToEventFlow x = focusedLedgerToEventFlow y → x = y := by
+theorem focusedLedgerToEventFlow_injective :
+    ∀ x y : FocusedLedgerUp,
+      focusedLedgerToEventFlow x = focusedLedgerToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have hread :
-      focusedLedgerFromEventFlow (focusedLedgerToEventFlow x) =
-        focusedLedgerFromEventFlow (focusedLedgerToEventFlow y) :=
-    congrArg focusedLedgerFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (focusedLedger_round_trip x).symm
-      (Eq.trans hread (focusedLedger_round_trip y)))
-
-private theorem focusedLedger_field_faithful :
-    ∀ x y : FocusedLedgerUp, focusedLedgerFields x = focusedLedgerFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk I H T F S D G R J Q rho A C P N =>
-      cases y with
-      | mk I' H' T' F' S' D' G' R' J' Q' rho' A' C' P' N' =>
-          cases hfields
-          rfl
+  intro x y hxy
+  have optionEq : some x = some y := by
+    calc
+      some x = focusedLedgerFromEventFlow (focusedLedgerToEventFlow x) :=
+        (focusedLedger_round_trip x).symm
+      _ = focusedLedgerFromEventFlow (focusedLedgerToEventFlow y) :=
+        congrArg focusedLedgerFromEventFlow hxy
+      _ = some y := focusedLedger_round_trip y
+  exact Option.some.inj optionEq
 
 instance focusedLedgerBHistCarrier : BHistCarrier FocusedLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -179,45 +184,68 @@ instance focusedLedgerChapterTasteGate : ChapterTasteGate FocusedLedgerUp where
     exact focusedLedger_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (focusedLedgerToEventFlow_injective heq)
+    exact hxy (focusedLedgerToEventFlow_injective x y heq)
 
-instance focusedLedgerFieldFaithful : FieldFaithful FocusedLedgerUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := focusedLedgerFields
-  field_faithful := focusedLedger_field_faithful
-
-instance focusedLedgerNontrivial : BEDC.Meta.TasteGate.Nontrivial FocusedLedgerUp where
+instance focusedLedgerNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial FocusedLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨FocusedLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      FocusedLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
+    ⟨FocusedLedgerUp.mk
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      FocusedLedgerUp.mk
+        (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
+        -- BEDC touchpoint anchor: BHist BMark
         intro h
         cases h⟩
+
+instance focusedLedgerFieldFaithful : FieldFaithful FocusedLedgerUp where
+  fields := focusedLedgerFields
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk I1 H1 T1 F1 S1 D1 G1 R1 J1 Q1 rho1 A1 C1 P1 N1 =>
+        cases y with
+        | mk I2 H2 T2 F2 S2 D2 G2 R2 J2 Q2 rho2 A2 C2 P2 N2 =>
+            injection h with hI t1
+            injection t1 with hH t2
+            injection t2 with hT t3
+            injection t3 with hF t4
+            injection t4 with hS t5
+            injection t5 with hD t6
+            injection t6 with hG t7
+            injection t7 with hR t8
+            injection t8 with hJ t9
+            injection t9 with hQ t10
+            injection t10 with hrho t11
+            injection t11 with hA t12
+            injection t12 with hC t13
+            injection t13 with hP t14
+            injection t14 with hN _
+            cases hI
+            cases hH
+            cases hT
+            cases hF
+            cases hS
+            cases hD
+            cases hG
+            cases hR
+            cases hJ
+            cases hQ
+            cases hrho
+            cases hA
+            cases hC
+            cases hP
+            cases hN
+            rfl
 
 def taste_gate : ChapterTasteGate FocusedLedgerUp :=
   -- BEDC touchpoint anchor: BHist BMark
   focusedLedgerChapterTasteGate
-
-theorem FocusedLedgerTasteGate_single_carrier_alignment :
-    (∀ h : BHist, focusedLedgerDecodeBHist (focusedLedgerEncodeBHist h) = h) ∧
-      (∀ x : FocusedLedgerUp,
-        focusedLedgerFromEventFlow (focusedLedgerToEventFlow x) = some x) ∧
-        (∀ x y : FocusedLedgerUp,
-          focusedLedgerToEventFlow x = focusedLedgerToEventFlow y → x = y) ∧
-          focusedLedgerEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  constructor
-  · exact focusedLedgerDecode_encode_bhist
-  · constructor
-    · exact focusedLedger_round_trip
-    · constructor
-      · intro x y heq
-        exact focusedLedgerToEventFlow_injective heq
-      · rfl
 
 end BEDC.Derived.FocusedLedgerUp
