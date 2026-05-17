@@ -329,6 +329,48 @@ Apply \autoref{thm:causal-commitment-locality-obligations} and \autoref{thm:caus
 Finally use \autoref{thm:causal-commitment-ledger-nonescape}. Anything outside the displayed ledger has no NameCert coordinate, so no hidden causal law or agency primitive can be exported from the packet.
 \end{proof}
 
+\begin{theorem}[CausalCommitment GAP locality exactness]
+\label{thm:causal-commitment-gap-locality-exactness}
+Every public causal read from an accepted $\CausalCommitmentUp$ packet must preserve the displayed $\mathsf{GAP}$ socket row $G$ and the locality row $L$ before any observer-facing commitment is exported. The public read may transport those rows through $H$, replay them through $C$, package them through $P$, and name them through $N$, but it may not replace $G$ by a hidden induction rule or $L$ by a synchronized global frame.
+\end{theorem}
+\begin{proof}
+Start with the GAP socket. \autoref{thm:causal-commitment-gap-socket} makes $G$ the only forward-facing socket row available to the carrier, so a public read cannot name a hidden causal primitive in place of the displayed socket.
+
+Attach the observer-locality handoff. By \autoref{thm:causal-commitment-locality-cell-handoff}, the locality consumer receives the commitment through $L$ and not through an ambient observer frame.
+
+Use classifier stability before export. \autoref{thm:causal-commitment-classifier-stability} preserves $O,R,G,F,L,H,C,P,N$ as separate rows under componentwise transport. Therefore the exported observer-facing commitment still carries the same GAP socket and locality row.
+
+Finally read the ledger of \autoref{thm:causal-commitment-namecert-ledger}. Its exactness excludes hidden causal laws, selected future observations, synchronized global frames, and unledgered primitives from the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CausalCommitment forward GAP observer route]
+\label{thm:causal-commitment-forward-gap-observer-route}
+The route from observed regularity to observer-locality handoff in an accepted $\CausalCommitmentUp$ packet factors through
+$$
+O,R,G,F,L,H,C,P,N.
+$$
+Thus the observed-history row, regularity row, GAP socket, forward-binding row, locality row, transport, continuation replay, provenance, and local name are all crossed before an observer-facing commitment is available.
+\end{theorem}
+\begin{proof}
+Begin with the observed and regularity rows. \autoref{thm:causal-commitment-forward-binding-route} routes the observed pattern through $O,R$ into the forward-facing content named by $G$ and the displayed forward-binding row $F$.
+
+Next attach the GAP socket and locality handoff. \autoref{thm:causal-commitment-gap-socket} identifies the public socket row as $G$, while \autoref{thm:causal-commitment-locality-cell-handoff} routes the observer-locality consumer through $L$.
+
+It remains to preserve the support rows. \autoref{thm:causal-commitment-classifier-stability} keeps $H,C,P,N$ attached to the same packet under transport, and \autoref{thm:causal-commitment-namecert-ledger} records that no additional observer-facing row is exported.
+\end{proof}
+
+\begin{theorem}[CausalCommitment kernel row exhaustion]
+\label{thm:causal-commitment-kernel-row-exhaustion}
+The accepted $\CausalCommitmentUp$ packet exports only $\BHist$, $\mathsf{GAP}$, $\hsame$, $\Cont$, $\Pkg$, locality-cell, observer-locality, and local $\NameCert$ rows. It exports no hidden causal law, selected future observation, synchronized global frame, universal empirical law, or unledgered agency primitive.
+\end{theorem}
+\begin{proof}
+Read the packet rows first. \autoref{thm:causal-commitment-gap-socket} and \autoref{thm:causal-commitment-forward-binding-route} expose the $\BHist$ observed and regularity rows, the GAP socket, and the forward route through $O,R,G,F$.
+
+Add locality and observer access. \autoref{thm:causal-commitment-locality-cell-handoff} supplies the locality-cell and observer-locality row $L$, while \autoref{thm:causal-commitment-classifier-stability} preserves the componentwise $\hsame$, displayed $\Cont$, and $\Pkg$ rows.
+
+Finally apply \autoref{thm:causal-commitment-namecert-ledger}. The local NameCert ledger is exhausted by the displayed rows, so any attempted export outside $\BHist$, GAP, transport, replay, provenance, locality, observer-locality, and local naming exits the packet.
+\end{proof}
+
 \closureat{CausalCommitmentUp}{seedStr}
 \closureat{CausalCommitmentUp}{obligationStr}
 \closureat{CausalCommitmentUp}{scopedStr}
