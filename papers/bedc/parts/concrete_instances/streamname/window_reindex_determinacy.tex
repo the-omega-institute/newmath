@@ -1,0 +1,13 @@
+\begin{theorem}[StreamName finite-window reindex determinacy]
+\label{thm:streamname-window-reindex-determinacy}
+Let $W_0$ and $W_1$ be accepted $\StreamNameUp$ finite-window packets. Suppose their reindex maps are $\hsame$-compatible, their certified endpoint rows are identical, and their displayed $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ support rows transport componentwise across the same reindex route. Then $W_0$ and $W_1$ determine the same public finite observation section.
+
+The determinacy statement is internal to the displayed StreamName packet. It does not use quotient stream equality, host sequence equality, selected limits, countable choice, or a completion row.
+\end{theorem}
+\begin{proof}
+First read both packets through the transported finite-window endpoint package of \autoref{thm:rat-stream-name-finite-window-transported-selected-full-endpoint-package}. The shared endpoint rows and the $\hsame$-compatible reindex route place both packets on the same finite endpoint surface.
+
+Next apply successor projection determinacy, \autoref{thm:streamname-successor-window-projection-determinacy}. It prevents the reindex route from creating two public successor projections once endpoint rows and support rows have been identified.
+
+Finally use terminal window fusion, \autoref{thm:streamname-real-completion-terminal-window-fusion}. The fused terminal packet has no extra coordinate beyond the finite window, endpoint data, and displayed support rows, so both accepted packets export the same public finite observation section.
+\end{proof}
