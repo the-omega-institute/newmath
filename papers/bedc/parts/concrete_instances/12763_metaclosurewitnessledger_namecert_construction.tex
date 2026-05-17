@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\MetaClosureWitnessLedgerUp$}
+\label{ch:concrete-instances-meta-closure-witness-ledger-namecert}
+\origin{ai}
+
+The $\MetaClosureWitnessLedgerUp$ packet realizes the witness-preserving side of \autoref{subsec:philosophy-three-axioms-one-meta-closure}, \autoref{subsec:philosophy-witness-preserving-replacements}, and \autoref{subsec:philosophy-axiom-purity}. It sits beside the obstruction packet of \autoref{ch:concrete-instances-metaclosureobstruction-namecert}, the witnessed refutation surface of \autoref{ch:concrete-instances-witnessedrefutation-namecert}, the proof witness chain of \autoref{ch:concrete-instances-proofwitnesschain-namecert}, the typed failure certificate of \autoref{ch:concrete-instances-typedfailurecertificate-namecert}, and the certificate truth-branch boundary of \autoref{ch:concrete-instances-certificatetruthbranchboundary-namecert}. Those siblings expose forbidden-schema refusal, permitted refutation, proof-chain witness order, typed failure rows, and truth-branch boundaries; this packet records the positive replacement ledger that makes an axiom-purity read consumable without meta closure.
+
+\begin{definition}[Meta-closure witness ledger carrier]
+\label{def:meta-closure-witness-ledger-carrier}
+A $\MetaClosureWitnessLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(W,K,D,A,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the witness row, carrying the selected finite object, recursion route, proof chain, or refutation witness before any consumer may use the positive content;
+\item $K$ is the classifier-transport row, recording how the relevant classifier is preserved instead of being collapsed into quotient equality;
+\item $D$ is the directional-transport row, recording the consumed direction for proposition-facing reads instead of identifying propositions by extensional equality;
+\item $A$ is the dependency-audit row, recording that the read avoids $\mathsf{Classical.choice}$, quotient soundness, and propositional extensionality;
+\item $R$ is the replacement row that names which axiom-purity request is being discharged by $W,K,D,A$;
+\item $H$ records componentwise $\hsame$ transport for $W,K,D,A,R$ and the local name row;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the witness, classifier-transport, directional-transport, dependency-audit, and replacement rows in order;
+\item $P$ is the $\Pkg$ provenance over $\MetaClosureObstructionUp$, $\WitnessedRefutationUp$, $\ProofWitnessChainUp$, $\TypedFailureCertificateUp$, $\CertificateTruthBranchBoundaryUp$, $\AxiomPurityGateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\MetaClosureWitnessLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an unwitnessed selector, quotient representative, proposition equality supplied by extensionality, host equality, ambient completeness principle, hidden dependency exemption, or detached proof source.
+\end{definition}
+
+\begin{theorem}[Meta-closure witness ledger NameCert obligations]
+\label{thm:meta-closure-witness-ledger-namecert-obligations}
+For the carrier of \autoref{def:meta-closure-witness-ledger-carrier}, the local $\NameCert_{\MetaClosureWitnessLedgerUp}$ surface consists exactly of carrier admission for $L=(W,K,D,A,R,H,C,P,N)$, witness exposure through $W$, classifier-transport exposure through $K$, directional-transport exposure through $D$, dependency-audit exposure through $A$, replacement-read exposure through $R$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:meta-closure-witness-ledger-carrier}. The tuple displays the positive witness row, the two transport rows, the dependency-audit row, the replacement request, and the structural rows before a consumer can read the packet as an axiom-purity replacement.
+
+The witness row $W$ handles the term-facing side: selection is read only from displayed finite data, recursion data, or a proof chain. The classifier row $K$ handles the type-facing side by preserving the classifier relation without creating quotient equality.
+
+The directional row $D$ handles the proposition-facing side. It records which implication or transport direction is consumed, so the packet never turns a pair of directions into equality of propositions.
+
+The audit and structural rows close the local certificate surface. Row $A$ records the dependency refusal, $R$ identifies the replacement read, and $H,C,P,N$ preserve, replay, source, and name the same finite rows. Since the carrier contains no further coordinate, the listed obligations exhaust the local $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[Meta-closure witness ledger non-escape]
+\label{thm:meta-closure-witness-ledger-nonescape}
+Every accepted $\MetaClosureWitnessLedgerUp$ packet exports only the finite witness, classifier-transport, directional-transport, dependency-audit, replacement, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows of \autoref{def:meta-closure-witness-ledger-carrier}. Any terminal axiom-purity replacement read of the packet factors through
+$$
+W,K,D,A,R,H,C,P,N.
+$$
+It cannot be replaced by an unwitnessed selector, quotient stream, quotient representative, host equality, proposition equality supplied by extensionality, choice datum, ambient completeness row, or detached proof source.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier $L=(W,K,D,A,R,H,C,P,N)$. Its only positive object is the displayed witness row $W$, and the only permitted transport coordinates are the classifier row $K$ and directional row $D$.
+
+Apply \autoref{thm:meta-closure-witness-ledger-namecert-obligations}. Every replacement read must pass through the audit row $A$ and the replacement row $R$ before it is named by $N$, so the read is dependency-audited before it becomes consumable certificate data.
+
+The structural rows then enforce non-escape. Componentwise $hsame$ can compare only the displayed rows, $\Cont$ replays only the displayed route, and $\Pkg$ names only the listed sibling sources.
+
+Therefore any accepted replacement read is exhausted by $W,K,D,A,R,H,C,P,N$. The excluded objects require a selector, quotient, host equality, proposition collapse, choice row, ambient completeness row, or detached source coordinate that is absent from the carrier.
+\end{proof}
+
+\falsifiablePrediction{Any accepted MetaClosureWitnessLedgerUp packet lacking one of displayed witness, classifier-transport, directional-transport, or dependency-audit rows cannot discharge an axiom-purity replacement read.}
+
+\independenceWitness{metaclosureobstruction, witnessedrefutation, proofwitnesschain, typedfailurecertificate, certificatetruthbranchboundary: MetaClosureObstructionUp records the forbidden-schema and truth-branch refusal side without the positive replacement ledger; WitnessedRefutationUp records a permitted refuter without classifier-transport, directional-transport, and dependency-audit rows; ProofWitnessChainUp records proof-chain order without the three-stratum replacement audit; TypedFailureCertificateUp records typed failure status without a positive axiom-purity replacement route; CertificateTruthBranchBoundaryUp records branch refusal without the witness ledger that discharges term, type, and proposition reads. Hence no row-preserving bijection exists with $\MetaClosureWitnessLedgerUp$.}
+
+The Lean follow-up namespace \texttt{BEDC.Derived.MetaClosureWitnessLedgerUp} must provide explicit \texttt{Nontrivial MetaClosureWitnessLedgerUp} and \texttt{FieldFaithful MetaClosureWitnessLedgerUp} instances for the displayed rows $W,K,D,A,R,H,C,P,N$.
+
+\closureat{MetaClosureWitnessLedgerUp}{seedStr}
+
+\begin{closurestatus}{\MetaClosureWitnessLedgerUp}
+  \constructivestory{A $\MetaClosureWitnessLedgerUp$ packet is generated from displayed witness, classifier-transport, directional-transport, dependency-audit, replacement, componentwise hsame, Cont replay, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:meta-closure-witness-ledger-carrier}, \autoref{thm:meta-closure-witness-ledger-namecert-obligations}, and \autoref{thm:meta-closure-witness-ledger-nonescape} bind the positive axiom-purity replacement ledger to finite rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, ambient completeness, quotient construction, proposition extensionality, or a general host-level selector.}
+  \upgradepath{Obligation closure requires checked Nontrivial and FieldFaithful TasteGate witnesses for $\MetaClosureWitnessLedgerUp$ over the displayed witness, transport, audit, replacement, hsame, Cont, Pkg, and NameCert rows.}
+\end{closurestatus}
