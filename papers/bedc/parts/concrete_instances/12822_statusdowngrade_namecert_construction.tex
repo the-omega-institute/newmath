@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\StatusDowngradeUp$}
+\label{ch:concrete-instances-statusdowngrade-namecert}
+\origin{ai}
+
+The $\StatusDowngradeUp$ packet realizes the downgrade discipline of \autoref{ch:visions-philosophy-auditable-generativity} as a finite NameCert carrier for lowering an advertised report status after a verification failure. It sits beside \autoref{ch:concrete-instances-failurecertificate-namecert}, \autoref{ch:concrete-instances-typed-failure-certificate-namecert}, \autoref{ch:concrete-instances-auditgatefailurewitness-namecert}, \autoref{ch:concrete-instances-closure-status-reference-namecert}, and \autoref{ch:concrete-instances-axiom-purity-gate-namecert}. Those siblings expose failure reasons, typed failure branches, audit-gate diagnostics, closure-status references, and axiom-purity gates; this packet binds the previous advertised status, the displayed failure certificate, the lowered report, and the route by which the public gap row remains visible.
+
+\begin{definition}[Status downgrade carrier]
+\label{def:status-downgrade-carrier}
+A $\StatusDowngradeUp$ carrier is a finite $\BHist$ packet
+$$
+S=(O,F,L,G,R,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the prior-status row, recording the theory-closure, formal-status, bridge-status, and public report row that had been advertised;
+\item $F$ is the failure-certificate row, consumed from $\FailureCertificateUp$, $\TypedFailureCertificateUp$, $\AuditGateFailureWitnessUp$, $\ClosureStatusReferenceUp$, or $\AxiomPurityGateUp$;
+\item $L$ is the lowered-report row, recording the status that remains licensed after the failure certificate is displayed;
+\item $G$ is the exposed gap row, naming the theorem, definition, bridge, audit, axiom-purity, or closure field that blocks the prior status;
+\item $R$ is the downgrade-route row, displaying the finite route from $O$ through $F$ and $G$ to $L$;
+\item $V$ is the verification-report row whose status is being lowered and whose public read must retain the prior-status and failure-certificate rows;
+\item $H$ stores componentwise $\hsame$ transport for prior status, failure certificate, lowered report, gap row, route, verification report, provenance, and local naming rows;
+\item $C$ stores displayed $\Cont$ replay for reading the prior status before the failure certificate, reading the failure certificate before the gap row, and reading the gap row before the lowered report;
+\item $P$ is the $\Pkg$ provenance over $\StatusDowngradeUp$, $\FailureCertificateUp$, $\TypedFailureCertificateUp$, $\AuditGateFailureWitnessUp$, $\ClosureStatusReferenceUp$, $\AxiomPurityGateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\StatusDowngradeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for silently erasing the prior status, hiding the failure certificate, promoting the lowered report above the displayed gap, or replacing the finite downgrade route by an unchecked host report.
+\end{definition}
+
+\begin{theorem}[StatusDowngrade NameCert obligations]
+\label{thm:status-downgrade-namecert-obligations}
+For the carrier of \autoref{def:status-downgrade-carrier}, the local $\NameCert_{\StatusDowngradeUp}$ surface consists exactly of carrier admission for
+$$
+S=(O,F,L,G,R,V,H,C,P,N),
+$$
+prior-status display through $O$, failure-certificate display through $F$, lowered-report display through $L$, exposed-gap display through $G$, downgrade-route display through $R$, verification-report display through $V$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The displayed $\BHist$ packet lists the prior status, failure certificate, lowered report, gap row, downgrade route, verification report, transport, replay, provenance, and local naming rows as separate coordinates.
+
+Read the sibling certificate rows next. $\FailureCertificateUp$ and $\TypedFailureCertificateUp$ supply the failed gate and typed branch; $\AuditGateFailureWitnessUp$ supplies the diagnostic row; $\ClosureStatusReferenceUp$ supplies the bounded report status; $\AxiomPurityGateUp$ supplies the forbidden-dependency refusal when that is the failing field.
+
+The support rows only preserve this inventory. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming cannot add a hidden stronger report, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[StatusDowngrade strength monotonicity]
+\label{thm:status-downgrade-strength-monotonicity}
+Every accepted $\StatusDowngradeUp$ packet
+$$
+S=(O,F,L,G,R,V,H,C,P,N)
+$$
+exports a report no stronger than the lowered-report row $L$ after the failure-certificate row $F$ is read. A consumer may still display the prior-status row $O$, but it cannot advertise $O$ as current status unless it also removes the displayed failure certificate and thereby leaves the accepted packet.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:status-downgrade-namecert-obligations}. They force a public read to display both the prior-status row $O$ and the failure-certificate row $F$ before the lowered report $L$ is consumed.
+
+The downgrade route $R$ records the ordering from $O$ through $F$ and $G$ to $L$. Thus the public report may remember the previous status as evidence of what was lowered, but the exported status after the route is the row $L$.
+
+Finally inspect the carrier inventory. No coordinate supplies a second current-status row stronger than $L$, and $H,C,P,N$ only transport, replay, source, and name the same finite packet. Treating $O$ as current status would erase $F$ or bypass $R$, so it is not an accepted read of $S$.
+\end{proof}
+
+\begin{theorem}[StatusDowngrade gap routing]
+\label{thm:status-downgrade-gap-routing}
+For every accepted $\StatusDowngradeUp$ packet
+$$
+S=(O,F,L,G,R,V,H,C,P,N),
+$$
+the exposed gap row $G$ is routed between the failure-certificate row $F$ and the lowered-report row $L$. The lowered report cannot be read as a bare editorial decision, a detached audit note, a hidden checker result, or an ambient closure correction; it must pass through the displayed finite route $O,F,G,R,L,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the route and replay rows. The route $R$ and continuation row $C$ display the readback from prior status to failure certificate, from failure certificate to exposed gap, and from exposed gap to lowered report.
+
+Use the sibling certificates named in the carrier provenance. Failure-certificate, typed-failure, audit-gate witness, closure-status reference, and axiom-purity gate rows each provide a concrete blocking surface rather than an editorial status change.
+
+The support rows preserve the same route. Since $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ do not create a detached report coordinate, every accepted lowered report remains routed through $G$ and the finite downgrade route.
+\end{proof}
+
+\begin{theorem}[StatusDowngrade nonescape]
+\label{thm:status-downgrade-nonescape}
+An accepted $\StatusDowngradeUp$ packet exports only prior status, failure certificate, lowered report, exposed gap, downgrade route, verification-report row, componentwise transport, replay, provenance, and local naming. It does not export silent status erasure, hidden promotion, unchecked report repair, host proof search, bridge completion, axiom-purity repair, or a verification status stronger than $L$.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:status-downgrade-carrier}. The carrier has exactly the rows $O,F,L,G,R,V,H,C,P,N$ and deliberately lacks hidden repair, promotion, host-search, bridge-completion, or axiom-repair coordinates.
+
+Apply strength monotonicity from \autoref{thm:status-downgrade-strength-monotonicity}. After the failure certificate is read, the accepted exported status is bounded by $L$.
+
+Apply gap routing from \autoref{thm:status-downgrade-gap-routing}. The lowered report reaches consumers only through the displayed gap row and downgrade route, so no detached report can escape the packet. Therefore every listed stronger or hidden report lies outside the accepted carrier.
+\end{proof}
+
+\falsifiablePrediction{A StatusDowngradeUp packet is refuted by any lowered report status that lacks a displayed prior-status row and failure-certificate row.}
+
+\independenceWitness{failurecertificate, typedfailurecertificate, auditgatefailurewitness, closurestatusreference, axiompuritygate: none is bijective because only StatusDowngradeUp stores prior status, failure certificate, lowered report, exposed gap row, downgrade route, provenance, and local NameCert together.}
+
+The Lean follow-up for this chapter must provide \texttt{Derived/StatusDowngradeUp/TasteGate.lean} with $\mathsf{Nontrivial}\ \StatusDowngradeUp$ and $\mathsf{FieldFaithful}\ \StatusDowngradeUp$ instances for the displayed carrier fields.
