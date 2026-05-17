@@ -245,4 +245,122 @@ instance standardBridgeAuditPacketNontrivial :
 def taste_gate : ChapterTasteGate StandardBridgeAuditPacketUp :=
   -- BEDC touchpoint anchor: BHist BMark
   standardBridgeAuditPacketChapterTasteGate
+
+def StandardBridgeAuditPacket_round_trip_rows_visible_fields :
+    StandardBridgeAuditPacketUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | StandardBridgeAuditPacketUp.mk N T E D R U P L H C Q => [N, T, E, D, R, U, P, L, H, C, Q]
+
+def StandardBridgeAuditPacket_round_trip_rows_visible_readback :
+    StandardBridgeAuditPacketUp → Option StandardBridgeAuditPacketUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | StandardBridgeAuditPacketUp.mk N T E D R U P L H C Q =>
+      some
+        (StandardBridgeAuditPacketUp.mk
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist N))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist T))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist E))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist D))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist R))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist U))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist P))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist L))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist H))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist C))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist Q)))
+
+theorem StandardBridgeAuditPacket_round_trip_rows_visible (N T E D R U P L H C Q : BHist) :
+    StandardBridgeAuditPacket_round_trip_rows_visible_readback
+        (StandardBridgeAuditPacketUp.mk N T E D R U P L H C Q) =
+      some (StandardBridgeAuditPacketUp.mk N T E D R U P L H C Q) ∧
+      StandardBridgeAuditPacket_round_trip_rows_visible_fields
+          (StandardBridgeAuditPacketUp.mk N T E D R U P L H C Q) =
+        [N, T, E, D, R, U, P, L, H, C, Q] ∧
+        standardBridgeAuditPacketEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  have hN :
+      standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist N) = N := by
+    induction N with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  have hT :
+      standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist T) = T := by
+    induction T with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  have hE :
+      standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist E) = E := by
+    induction E with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  have hD :
+      standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist D) = D := by
+    induction D with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  have hR :
+      standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist R) = R := by
+    induction R with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  have hU :
+      standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist U) = U := by
+    induction U with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  have hP :
+      standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist P) = P := by
+    induction P with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  have hL :
+      standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist L) = L := by
+    induction L with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  have hH :
+      standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist H) = H := by
+    induction H with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  have hC :
+      standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist C) = C := by
+    induction C with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  have hQ :
+      standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist Q) = Q := by
+    induction Q with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  constructor
+  · change
+      some
+        (StandardBridgeAuditPacketUp.mk
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist N))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist T))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist E))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist D))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist R))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist U))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist P))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist L))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist H))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist C))
+          (standardBridgeAuditPacketDecodeBHist (standardBridgeAuditPacketEncodeBHist Q))) =
+        some (StandardBridgeAuditPacketUp.mk N T E D R U P L H C Q)
+    rw [hN, hT, hE, hD, hR, hU, hP, hL, hH, hC, hQ]
+  · exact ⟨rfl, rfl⟩
+
 end BEDC.Derived.StandardBridgeAuditPacketUp
