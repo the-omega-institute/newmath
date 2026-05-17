@@ -66,3 +66,14 @@ If the residual-tail row is removed, the prefix row remains visible but the reco
 The Lean follow-up file \texttt{lean4/BEDC/Derived/HistoryPrefixUp/TasteGate.lean} must provide explicit $\Nontrivial\ \HistoryPrefixUp$ and $\FieldFaithful\ \HistoryPrefixUp$ instances, preserving $S,p,r,C,H,E,L,N$ as separate displayed fields.
 
 \closureat{HistoryPrefixUp}{seedStr}
+
+\begin{closurestatus}{\HistoryPrefixUp}
+  \constructivestory{The history-prefix certificate is generated from a $BHist$ row that names an initial segment, a residual-tail row, and a classifier that recognizes the segment inside later histories. The carrier first reads the prefix, then checks the classifier row, and finally uses $\Cont$ to describe reconstruction and extensions that append information without changing the certified initial part. The $hsame$ relation transports the prefix certificate across equivalent presentations, so the same visible segment and tail route are preserved under representative change. The NameCert obligations and continuation-stability theorem together state that a prefix is a ledger object: once certified, it remains the same prefix for every admitted continuation.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the history-prefix carrier, classifier, NameCert obligations, continuation-stability theorem, and seed closure marker.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim equality of whole histories, unique future continuation, or prefix preservation outside the displayed continuation relation.}
+  \upgradepath{Reaching obligationClosure requires formal prefix rows and checked preservation of the classifier under $hsame$ and $\Cont$.}
+\end{closurestatus}
