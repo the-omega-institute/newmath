@@ -736,6 +736,7 @@ import BEDC.Derived.SubjectReductionRouteChoiceUp.TasteGate
 import BEDC.Derived.SelfReferenceTruthBranchUp.TasteGate
 import BEDC.Derived.SolipsismGapRefusalUp.TasteGate
 import BEDC.Derived.RuntimeReflectionBoundaryUp.TasteGate
+import BEDC.Derived.RuntimeBoundaryAuditUp.TasteGate
 import BEDC.Derived.RuntimeTruthSeparationUp.TasteGate
 import BEDC.Derived.RealityConstrainedApproximationTowerUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.NameCertObligations
