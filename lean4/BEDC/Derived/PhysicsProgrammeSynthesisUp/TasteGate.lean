@@ -45,7 +45,7 @@ private def physicsProgrammeSynthesisRawAt : Nat → EventFlow → RawEvent
   | Nat.succ _, [] => []
   | Nat.succ n, _ :: rest => physicsProgrammeSynthesisRawAt n rest
 
-private def physicsProgrammeSynthesisFields : PhysicsProgrammeSynthesisUp → List BHist
+def physicsProgrammeSynthesisFields : PhysicsProgrammeSynthesisUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | PhysicsProgrammeSynthesisUp.mk R F L V E H C P N => [R, F, L, V, E, H, C, P, N]
 
@@ -145,7 +145,24 @@ private theorem physicsProgrammeSynthesis_field_faithful :
   | mk R F L V E H C P N =>
       cases y with
       | mk R' F' L' V' E' H' C' P' N' =>
-          cases hfields
+          injection hfields with hR t1
+          injection t1 with hF t2
+          injection t2 with hL t3
+          injection t3 with hV t4
+          injection t4 with hE t5
+          injection t5 with hH t6
+          injection t6 with hC t7
+          injection t7 with hP t8
+          injection t8 with hN _
+          cases hR
+          cases hF
+          cases hL
+          cases hV
+          cases hE
+          cases hH
+          cases hC
+          cases hP
+          cases hN
           rfl
 
 instance physicsProgrammeSynthesisBHistCarrier : BHistCarrier PhysicsProgrammeSynthesisUp where
@@ -186,6 +203,10 @@ def taste_gate : ChapterTasteGate PhysicsProgrammeSynthesisUp :=
   -- BEDC touchpoint anchor: BHist BMark
   physicsProgrammeSynthesisChapterTasteGate
 
+def taste_gate_witness : FieldFaithful PhysicsProgrammeSynthesisUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  physicsProgrammeSynthesisFieldFaithful
+
 theorem PhysicsProgrammeSynthesisTasteGate_single_carrier_alignment :
     (∀ h : BHist, physicsProgrammeSynthesisDecodeBHist
       (physicsProgrammeSynthesisEncodeBHist h) = h) ∧
@@ -202,5 +223,12 @@ theorem PhysicsProgrammeSynthesisTasteGate_single_carrier_alignment :
       physicsProgrammeSynthesis_round_trip,
       (fun _x _y heq => physicsProgrammeSynthesisToEventFlow_injective heq),
       rfl⟩
+
+namespace TasteGate
+
+abbrev PhysicsProgrammeSynthesisUp :=
+  BEDC.Derived.PhysicsProgrammeSynthesisUp.PhysicsProgrammeSynthesisUp
+
+end TasteGate
 
 end BEDC.Derived.PhysicsProgrammeSynthesisUp
