@@ -56,6 +56,82 @@ Next read the route through $W,K,S$. The stream window displays the selected sta
 Finally pass through $R,H,C,P,N$. The Real seal $R$ is downstream of the selected finite route, and the structural rows only preserve the displayed handoff. Since the carrier has no quotient stream, host real equality, countable-choice selector, detached limit, or ambient completeness coordinate, every Real-window consumer remains inside the finite route.
 \end{proof}
 
+\begin{theorem}[Selected-tail finite-tail admission exactness]
+\label{thm:selected-tail-seed-finite-tail-admission-exactness}
+For every accepted carrier $T=(Q,E,A,W,K,S,R,H,C,P,N)$ of \autoref{def:selected-tail-seed-carrier}, the admission row $A$ is the unique displayed gate through which the selected stationary tail can be read before any $\StreamNameUp$ window or $\RegSeqRatUp$ readback is consumed. Thus every use of $W$ or $K$ in a $\SelectedTailSeedUp$ consumer first factors through the $\FiniteTailFilterUp$ admission witnessed by $A$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to its displayed rows. The row $A$ is the only coordinate whose type names selected finite-tail admission; the later rows $W$ and $K$ name a stream window and a regular-rational readback, but neither row carries the finite-tail classifier by itself.
+
+The constructive factorization is therefore obtained by ordering the projections. A consumer asking for $W$ or $K$ first reads $A$, obtaining the $\FiniteTailFilterUp$-admitted selected tail segment, and then passes the admitted segment to the $\StreamNameUp$ window row and the $\RegSeqRatUp$ readback row.
+
+No omitted coordinate can bypass this order. The carrier exports no quotient stream, detached limit object, countable-choice selector, or host real equality, so there is no second admission path from a raw tail to $W$ or $K$ outside the displayed finite-tail row.
+\end{proof}
+
+\begin{theorem}[Selected-tail endpoint exactness readback stability]
+\label{thm:selected-tail-seed-endpoint-exactness-readback-stability}
+For an accepted carrier $T=(Q,E,A,W,K,S,R,H,C,P,N)$, the endpoint exactness row $E$ is stable under $\hsame$ transport and displayed $\Cont$ replay only as part of the full readback surface $Q,E,A,W,K,S,H,C,P,N$. In particular, $E$ cannot be replayed as an isolated host equality detached from the rational seed $Q$, the window and readback rows $W,K$, the dyadic ledger $S$, and the transport, replay, provenance, and naming rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the comparison encoded by $E$. It relates the selected seed endpoint to the rational seed, so the row already depends on $Q$ before any stability claim can be read.
+
+The readback side is then supplied by $W,K,S$. The stream row displays the selected stationary window, the regular-rational row reads that window, and the dyadic ledger records the finite tolerance and arithmetic against which endpoint exactness is checked.
+
+Stability is the final structural step. The row $H$ transports the displayed coordinates componentwise by $\hsame$, the row $C$ replays the displayed construction by $\Cont$, and the rows $P,N$ keep the replay sourced and named inside the local $\NameCert_{\SelectedTailSeedUp}$ packet. Since none of these rows exports a host equality coordinate, the stable endpoint exactness is exactly the displayed finite readback surface.
+\end{proof}
+
+\begin{theorem}[Selected-tail Real-seal nonescape obligation]
+\label{thm:selected-tail-seed-real-seal-nonescape-obligation}
+For an accepted carrier $T=(Q,E,A,W,K,S,R,H,C,P,N)$, the Real seal row $R$ can be consumed only after the $\RatUp$, $\FiniteTailFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows $Q,A,W,K,S$ have been displayed, with endpoint exactness supplied by $E$ and structural replay supplied by $H,C,P,N$. Consequently a $\SelectedTailSeedUp$ Real-window consumer has no route through quotient streams, host real equality, countable choice, detached limits, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the Real-facing row $R$. By the carrier definition, $R$ is obtained from the selected stationary readback, so it sits downstream of the rational seed, finite-tail admission, stream window, regular-rational readback, and dyadic tolerance ledger.
+
+The nonescape route is the displayed composition $Q,A,W,K,S,E,R,H,C,P,N$. The rows $Q,A,W,K,S$ expose the finite data needed for the Real seal, $E$ ties the selected endpoint to the rational seed, and $H,C,P,N$ preserve, replay, source, and name the constructed route.
+
+The exclusions are therefore structural, not analytic. Quotient streams, host real equality, countable choice, detached limits, and ambient Real completeness are not coordinates of $T$, and a consumer of $R$ can only project and compose the rows that the finite $\NameCert_{\SelectedTailSeedUp}$ carrier displays.
+\end{proof}
+
+\begin{theorem}[Selected-tail seed Real-seal handoff]
+\label{thm:selected-tail-seed-real-seal-handoff}
+For an accepted carrier $T=(Q,E,A,W,K,S,R,H,C,P,N)$ of \autoref{def:selected-tail-seed-carrier}, every access to the $\RealUp$ seal row $R$ factors through the finite route
+$$
+Q,E,A,W,K,S,H,C,P,N.
+$$
+Thus the selected stationary endpoint reaches the Real seal only through the displayed rational seed, endpoint exactness, finite-tail admission, stream window, regular-rational readback, dyadic ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\SelectedTailSeedUp}$ naming, with no quotient stream or ambient-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Use the carrier displayed in \autoref{def:selected-tail-seed-carrier}. Its rows place $R$ downstream of $Q,E,A,W,K,S$, while $H,C,P,N$ are the structural rows that transport, replay, source, and name the same finite data.
+
+The local obligation theorem \autoref{thm:selected-tail-seed-namecert-obligations} identifies these rows as the whole $\NameCert_{\SelectedTailSeedUp}$ surface. The Real-window handoff theorem \autoref{thm:selected-tail-seed-real-window-handoff} then gives the consumer route through the same finite packet.
+
+The sibling chapters named in the introduction supply the row meanings: $\RatUp$ for $Q$, $\FiniteTailFilterUp$ for $A$, $\StreamNameUp$ for $W$, $\RegSeqRatUp$ for $K$, $\DyadicRatCoreUp$ for $S$, and $\RealUp$ for $R$. Since quotient streams and ambient completeness are not coordinates of $T$, the Real seal has no other entry path.
+\end{proof}
+
+\begin{theorem}[Selected-tail seed classifier transport]
+\label{thm:selected-tail-seed-classifier-transport}
+For accepted carriers $T=(Q,E,A,W,K,S,R,H,C,P,N)$ and $T'=(Q',E',A',W',K',S',R',H',C',P',N')$ of \autoref{def:selected-tail-seed-carrier}, componentwise $\hsame$ transport of $Q,E,A,W,K,S,R,H,C,P,N$ to $Q',E',A',W',K',S',R',H',C',P',N'$ preserves the selected-tail classifier exactly as a displayed $\SelectedTailSeedUp$ classifier. It does not collapse endpoint exactness $E$ into host equality of Real endpoints or erase the finite-tail, stream-window, regular-rational, and dyadic rows needed to read the classifier.
+\end{theorem}
+\begin{proof}
+Read the transport row $H$ in the carrier of \autoref{def:selected-tail-seed-carrier}. It is componentwise transport for the displayed rows, so each selected-tail coordinate is carried with its own classifier role rather than through a single host equality.
+
+The obligations in \autoref{thm:selected-tail-seed-namecert-obligations} show which classifier pieces must remain visible: rational seed admission, endpoint exactness, finite-tail admission, stream-window exposure, regular-rational readback, dyadic ledger, Real seal, replay, provenance, and naming. Transport that preserves the $\NameCert_{\SelectedTailSeedUp}$ surface must therefore preserve all these rows.
+
+Finally apply the Real-window handoff of \autoref{thm:selected-tail-seed-real-window-handoff}. Because every Real-facing consumer still passes through $Q,E,A,W,K,S,R,H,C,P,N$, endpoint exactness cannot be reinterpreted as host Real equality, and classifier transport remains a finite selected-tail transport.
+\end{proof}
+
+\begin{theorem}[Selected-tail seed window readback coherence]
+\label{thm:selected-tail-seed-window-readback-coherence}
+For every accepted carrier $T=(Q,E,A,W,K,S,R,H,C,P,N)$ of \autoref{def:selected-tail-seed-carrier}, the stream window $W$, regular-rational readback $K$, dyadic ledger $S$, and Real seal $R$ form one coherent finite readback chain inside the $\SelectedTailSeedUp$ packet. Any consumer of $R$ must read $W$ through $K$ and $S$, while $H,C,P,N$ preserve, replay, source, and name that same chain.
+\end{theorem}
+\begin{proof}
+Begin with $W$. The introduction grounds $W$ in $\StreamNameUp$, and \autoref{def:selected-tail-seed-carrier} makes it the selected stationary tail window rather than a quotient stream.
+
+Next read $K$ and $S$. The $\RegSeqRatUp$ row $K$ reads the selected window as regular-rational data, and the $\DyadicRatCoreUp$ row $S$ records the finite tolerance and arithmetic ledger for that readback.
+
+The Real row $R$ is then the seal obtained from this selected stationary readback. By \autoref{thm:selected-tail-seed-namecert-obligations} these rows are part of the same local NameCert surface, and by \autoref{thm:selected-tail-seed-real-window-handoff} every Real-window consumer remains on the finite route. The structural rows $H,C,P,N$ do not create a second readback; they preserve the single chain.
+\end{proof}
+
 This chapter is composite rather than atomic. Its independence from the sibling chapters is not expressed by row-by-row atomic separation: $\SelectedTailSeedUp$ deliberately joins $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\FiniteTailFilterUp$ into one stationary selected-tail seed packet, and each sibling omits at least one coordinate needed for the full Real-window handoff.
 
 The Lean \texttt{TasteGate.lean} boundary for $\SelectedTailSeedUp$ must provide explicit $\mathsf{Nontrivial}\ \SelectedTailSeedUp$ and $\mathsf{FieldFaithful}\ \SelectedTailSeedUp$ instances preserving $Q,E,A,W,K,S,R,H,C,P,N$.
