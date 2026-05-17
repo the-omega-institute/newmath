@@ -341,6 +341,92 @@ Use seal ordering and the Real-route handoff. These results keep the $\CauchyLim
 Finally apply completion-consumer exhaustion and public-axis scope. They state that the consumer boundary is exhausted by the displayed rows and that completed limits, quotient streams, choice-derived tails, host real equality, hidden tail schedules, and ambient completeness data are not part of the packet.
 \end{proof}
 
+\begin{theorem}[Finite-prefix limit-budget tail-modulus fusion]
+\label{thm:finite-prefix-limit-budget-tail-modulus-fusion}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet. Any $\CauchyTailModulusFusionUp$ consumer of $F$ may enter the tail-modulus fusion surface only through the displayed finite prefix route
+$$
+Q \to B \to W \to D \to R \to S.
+$$
+The handoff exposes the finite selector, prefix window, exhaustion row, regular-rational readback, and seal row already present in $F$; it does not add a hidden tail schedule, selected limit, quotient stream, host real equality witness, countable-choice row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the seal-window route totality of \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}. It fixes the only completion-facing route of $F$ as $Q \to B \to W \to D \to R \to S$ before any seal-facing consumer can read $S$.
+
+Next use the RegSeqRat StreamName interface, \autoref{thm:finite-prefix-limit-budget-regseq-streamname-interface}. The prefix window $W$, exhaustion row $D$, and readback row $R$ are therefore already joined inside the finite packet that a tail-modulus consumer receives.
+
+Now compare with the tail-modulus fusion certificate of \autoref{ch:concrete-instances-cauchy-tail-modulus-fusion-namecert}. Its completion-facing read is a displayed fusion of tail, modulus, threshold, selector-window, rational-readback, and Real-seal rows, so the incoming finite prefix-budget route supplies only the visible selector-window side of that surface.
+
+Finally apply completion consumer exhaustion and CauchyLimitSeal consumer scope, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion} and \autoref{thm:finite-prefix-limit-budget-cauchy-limit-seal-consumer-scope}. They exclude hidden tails, selected limits, quotient streams, host real equality, countable choice, and ambient completeness data from the handoff, leaving the route through $Q,B,W,D,R,S$ as the entire prefix-budget contribution to $\CauchyTailModulusFusionUp$.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget stability handoff]
+\label{thm:finite-prefix-limit-budget-stability-handoff}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet. Any $\FinitePrefixLimitStabilityUp$ replay of $F$ preserves the displayed rows $Q,B,W,D,R,S,E,H,C,P,N$ componentwise under the same $\hsame$ transports and $\Cont$ replays. The stability surface may read the finite budget, StreamName window, RegSeqRat readback, Real-facing seal, provenance, and local NameCert rows, but it may not replace them by a detached selector, independent stream object, selected limit, quotient stream, or ambient Real-completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the finite route of \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}. The rows $Q,B,W,D,R,S$ are displayed before the seal row is available, so a stability replay inherits an ordered prefix-budget route rather than an unstructured completion object.
+
+Use the RegSeqRat StreamName interface, \autoref{thm:finite-prefix-limit-budget-regseq-streamname-interface}. It keeps $W,D,R$ in one finite read surface, which is exactly the StreamName and RegSeqRat side consumed by the stability certificate of \autoref{ch:concrete-instances-finite-prefix-limit-stability-namecert}.
+
+The same packet carries the transport and continuation rows $H$ and $C$. Reading the stability chapter through those rows makes the replay componentwise: the $\hsame$ comparison transports each displayed row, and the $\Cont$ replay returns the same finite prefix-budget surface to the consumer.
+
+Finally apply completion consumer exhaustion and CauchyLimitSeal consumer scope, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion} and \autoref{thm:finite-prefix-limit-budget-cauchy-limit-seal-consumer-scope}. These results prevent a detached selector, independent stream object, selected limit, quotient stream, host real equality, choice-derived tail, or ambient completeness coordinate from entering the stability handoff.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget diagonal seal determinacy]
+\label{thm:finite-prefix-limit-budget-diagonal-seal-determinacy}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet. Any diagonal-limit or Real-completion seal consumer receiving both the tail-modulus fusion handoff of \autoref{thm:finite-prefix-limit-budget-tail-modulus-fusion} and the stability handoff of \autoref{thm:finite-prefix-limit-budget-stability-handoff} has a unique displayed seal route through
+$$
+Q \to B \to W \to D \to R \to S.
+$$
+The consumer may combine the $\CauchyTailModulusFusionUp$ and $\FinitePrefixLimitStabilityUp$ surfaces only along that route; it cannot choose a second seal path through a hidden tail schedule, detached stability replay, selected limit, quotient stream, host real equality witness, countable-choice row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+The local route is already unique at the prefix-budget boundary. By \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}, the seal row is reached only after $Q,B,W,D,R$, and by \autoref{thm:finite-prefix-limit-budget-regseq-streamname-interface}, the StreamName and RegSeqRat readback rows are not detachable from the finite window and exhaustion rows.
+
+The tail-modulus side adds no second route. \autoref{thm:finite-prefix-limit-budget-tail-modulus-fusion} sends the prefix-budget packet into the $\CauchyTailModulusFusionUp$ surface of \autoref{ch:concrete-instances-cauchy-tail-modulus-fusion-namecert} only through $Q \to B \to W \to D \to R \to S$.
+
+The stability side preserves the same rows. \autoref{thm:finite-prefix-limit-budget-stability-handoff} reads the $\FinitePrefixLimitStabilityUp$ surface of \autoref{ch:concrete-instances-finite-prefix-limit-stability-namecert} through componentwise $\hsame$ transport and displayed $\Cont$ replay, so the replay cannot manufacture a detached seal path.
+
+Finally use completion consumer exhaustion and CauchyLimitSeal consumer scope, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion} and \autoref{thm:finite-prefix-limit-budget-cauchy-limit-seal-consumer-scope}. They remove hidden tail schedules, selected limits, quotient streams, host real equality, countable choice, and ambient completeness from the consumer boundary. Hence the diagonal-limit or Real-completion consumer has only the displayed seal route through $Q \to B \to W \to D \to R \to S$.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget common-refinement determinacy]
+\label{thm:finite-prefix-limit-budget-common-refinement-determinacy}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+and
+$$
+F'=(Q',B',W',D',R',S',E',H',C',P',N')
+$$
+be accepted $\FinitePrefixLimitBudgetUp$ carriers serving the same $\RealUp$, $\RegSeqRatUp$, or $\CauchyLimitSealUp$ consumer request. If the two packets admit a common finite $\StreamNameUp$ refinement window, then both consumer reads factor through the same displayed selector and exhaustion route before either seal row is available.
+
+The comparison is determined by the common $W/W'$ refinement, the $D/D'$ exhaustion rows, and the $R/R'$ regular readbacks. It is not determined by quotient streams, selected limits, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. It presents each accepted packet only through the displayed rows $Q,B,W,D,R,S,E,H,C,P,N$ and $Q',B',W',D',R',S',E',H',C',P',N'$, so a shared consumer request has no hidden coordinate outside the two finite packets.
+
+Apply finite prefix-window route totality, \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}. For each packet, the seal-facing route is forced through the finite selector, prefix window, exhaustion row, and regular readback before the seal row is reachable.
+
+Next use the RegSeqRat StreamName interface, \autoref{thm:finite-prefix-limit-budget-regseq-streamname-interface}. The common $\StreamNameUp$ refinement window is therefore read as a common finite comparison of $W/W'$, exhausted by $D/D'$, and exposed to the consumer through $R/R'$ rather than through a separate stream object.
+
+Finally apply the CauchyLimitSeal consumer scope, \autoref{thm:finite-prefix-limit-budget-cauchy-limit-seal-consumer-scope}. It blocks completed limits, quotient streams, choice-derived tails, host real equality, hidden tail schedules, and ambient completeness data from entering the consumer boundary, so the common-refinement comparison is already determined before either seal row is available.
+\end{proof}
+
 \closureat{FinitePrefixLimitBudgetUp}{seedStr}
 \closureat{FinitePrefixLimitBudgetUp}{obligationStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
 \closureat{FinitePrefixLimitBudgetUp}{scopedStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
