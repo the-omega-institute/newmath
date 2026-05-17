@@ -181,3 +181,41 @@ Thus the accepted exit certificate is precisely the four-face product read
 through the named route and exactness records, with only the displayed local
 closure evidence exported.
 \end{proof}
+
+\begin{theorem}[Real L10 phase exit criterion is objectwise]
+\label{thm:real-l10-phase-exit-criterion-objectwise}
+The Phase Real and Completion exit criterion is satisfied only by reading the
+four local records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$,
+and $\RealUp$. Each face must supply its own $\theoryclosure$,
+$\formalstatus$, $\leantarget$, and $\bridgestatus$ rows from its local
+closurestatus block, and those rows remain attached to that face.
+
+The criterion admits no aggregate route-level $\formalstatus$, no aggregate
+bridge row, no $\RealUp$ completeness claim, no quotient stream, no selected
+limit, and no metric-completeness datum. In particular, satisfying the current
+phase exit criterion means presenting the four objectwise face records and
+nothing further as Real L10 exit status.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-current-phase-exit-certificate}. It gives the
+certificate shape as the four-face product over $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with exactly the local
+closurestatus, formalstatus, leantarget, and bridgestatus rows exported by
+those faces.
+
+Apply \autoref{thm:real-l10-current-phase-exit-audit-pullback}. It identifies
+the admissible audit read with objectwise lookup from the four local
+closurestatus blocks, so the phase criterion is discharged by those local
+records rather than by cached Real L10 status data.
+
+Apply \autoref{thm:real-l10-face-status-noncollapse}. It rules out an
+aggregate formalstatus token, aggregate bridge row, Real completeness row,
+quotient stream, selected limit, and metric-completeness datum for the
+composite exit route.
+
+Finally apply \autoref{thm:real-l10-face-leantarget-noncollapse}. The
+Lean-target and bridge-status rows do not cross from one face to another, and
+the composite route has no route-level Lean target or bridge coordinate.
+Therefore the Phase Real and Completion exit criterion is objectwise in the
+four displayed faces.
+\end{proof}
