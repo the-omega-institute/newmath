@@ -1,0 +1,51 @@
+\begin{theorem}[Diagonal-limit representative root-readiness triad]
+\label{thm:diagonal-limit-representative-root-readiness-triad}
+Every downstream Real-and-Completion consumer of an accepted shared-terminal $\DiagonalLimitRepresentativeUp$ carrier must expose the following root-readiness surface before it consumes any support row: the modulus request $\mu,n$, the selected diagonal indices $k=\mu(1/(n+1))$ and $i=k+n+1$, the selected $\StreamNameUp$ window $w$, the $\RegSeqRatUp$ readback row $r$, the $\DyadicRatCoreUp$ ledger $d$, the $\FinitePrefixLimitBudgetUp$ rows $Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F$, and the terminal $\RealUp$ seal row $e$. The support rows $H,C,P,N$ may only transport, replay, source, and name that displayed root surface; they may not supply a separate selector, ledger, seal, host equality, quotient equality, choice row, or ambient completion principle.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:diagonal-limit-representative-carrier} fixes the representative route $X,\mu,n,k,i,w,r,d,e,H,C,P,N$, and the shared-terminal carrier of \autoref{def:diagonal-limit-representative-shared-terminal-carrier} attaches the finite-prefix budget rows to the same terminal read.
+
+The public exactness package \autoref{thm:diagonal-limit-representative-public-exactness-package} orders this route through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FinitePrefixLimitBudgetUp$, and $\RealUp$. The completion consumer factorization \autoref{thm:diagonal-limit-representative-completion-consumer-factorization} makes that ordered package mandatory for any Real-and-Completion consumer.
+
+Finally apply the readback-index scope \autoref{thm:diagonal-limit-representative-readback-index-scope} and the Real-seal nonchoice export \autoref{thm:diagonal-limit-representative-real-seal-nonchoice-export}. They force the selected window, readback, dyadic ledger, finite-prefix rows, and Real seal to be displayed before the support rows are used, and they exclude the hidden selector, host, quotient, choice, and ambient-completeness alternatives.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative modulus-window root unblock]
+\label{thm:diagonal-limit-representative-modulus-window-root-unblock}
+The selected-index and selected-window part of the root-readiness surface is rooted entirely in the displayed rows of the shared-terminal $\DiagonalLimitRepresentativeUp$ packet. In particular, the computation of $k$ and $i$, the window row $w$, the readback row $r$, and their transport through $H$ are read from the finite $\BHist$ packet, the recorded $\hsame$ comparisons, the displayed $\Cont$ replay, the $\Pkg$ provenance row, and the local $\NameCert_{\DiagonalLimitRepresentativeUp}$ row. No downstream consumer may replace this root by an ambient stream equality, a hidden modulus selector, or an unrecorded completion witness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:diagonal-limit-representative-namecert-obligations}. They list the modulus request, diagonal-index computation, finite-window exposure, regular-rational readback, transport, continuation, package provenance, and local naming rows as the certificate surface.
+
+The modulus-window-readback package \autoref{thm:diagonal-limit-representative-modulus-window-readback-package} then orders every route to the terminal seal through $\mu,n,k,i,w,r,d$, with $H,C,P,N$ preserving the same displayed route. The readback-index scope \autoref{thm:diagonal-limit-representative-readback-index-scope} makes the selected index and selected window visible before those support rows are consumed.
+
+Thus the root for the selected window is not a new analytic principle. It is the already displayed $\BHist$ row together with $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, and any unrecorded selector or completion witness lies outside the accepted packet.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative terminal seal root unblock]
+\label{thm:diagonal-limit-representative-terminal-seal-root-unblock}
+The terminal $\RealUp$ seal of an accepted shared-terminal $\DiagonalLimitRepresentativeUp$ carrier is reached only through the finite route
+$$
+\mu,n,k,i,w,r,d,Q,B,W,D_F,R,S,e,H,C,P,N,E_F,H_F,C_F,P_F,N_F.
+$$
+The route passes through the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FinitePrefixLimitBudgetUp$, and $\RealUp$ surfaces. It never reaches the terminal seal by quotient stream equality, host real equality, hidden selector, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First use the shared-terminal route \autoref{thm:diagonal-limit-representative-shared-terminal-route}. It forces every terminal read through the StreamName, RegSeqRat, DyadicRatCore, finite-prefix budget, and Real rows as one ordered surface.
+
+Next use the finite-prefix budget handoff \autoref{thm:diagonal-limit-representative-finite-prefix-budget-handoff}. It joins the representative route to the rows $Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F$, so the terminal seal cannot be consumed before the budget selector, prefix window, depth-exhaustion row, and regular readback have appeared.
+
+Finally apply Real-seal factorization \autoref{thm:diagonal-limit-representative-real-seal-factorization} and Real-seal nonchoice export \autoref{thm:diagonal-limit-representative-real-seal-nonchoice-export}. These identify $e$ as the displayed terminal row of the finite route and remove quotient, host, selector, choice, and ambient-completeness routes from the seal.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative dependency-readiness scope]
+\label{thm:diagonal-limit-representative-dependency-readiness-scope}
+The root-readiness package consumed by downstream L10 Real-and-Completion chapters consists of the root-readiness triad of \autoref{thm:diagonal-limit-representative-root-readiness-triad}, the modulus-window root of \autoref{thm:diagonal-limit-representative-modulus-window-root-unblock}, and the terminal-seal root of \autoref{thm:diagonal-limit-representative-terminal-seal-root-unblock}. This package is exactly the dependency-ready public route supplied by the carrier, the shared-terminal carrier, the public exactness package, the completion consumer factorization, the readback-index scope, the Real-seal nonchoice export, and the bridge precondition package. It is not a claim of quotient stream equality, host Real equality, hidden selector availability, choice, ambient Real completeness, or Lean bridge checking.
+\end{theorem}
+\begin{proof}
+The triad theorem names the downstream obligations: the modulus request, selected indices, window, readback, dyadic ledger, finite-prefix budget rows, and Real seal must all be displayed before support rows are consumed.
+
+The modulus-window theorem supplies the entry root through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The terminal-seal theorem supplies the exit root through the finite StreamName, RegSeqRat, DyadicRatCore, finite-prefix budget, and Real route.
+
+It remains to package the surface for downstream chapters. The dependency-ready package \autoref{thm:diagonal-limit-representative-dependency-ready-package}, public exactness package \autoref{thm:diagonal-limit-representative-public-exactness-package}, completion consumer factorization \autoref{thm:diagonal-limit-representative-completion-consumer-factorization}, and bridge precondition package \autoref{thm:diagonal-limit-representative-bridge-precondition-package} all preserve the same finite route and the same exclusions. Therefore downstream L10 chapters may consume precisely this root-readiness surface and nothing stronger.
+\end{proof}

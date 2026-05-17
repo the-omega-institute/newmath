@@ -26,6 +26,12 @@ Checks (IDs match the analysis report):
   N  content namecert chapters must not duplicate chapter labels
   O  each region \\<X>Up has at most one \\begin{closurestatus} block site
   P  each (region, level) pair has at most one \\closureat site
+  Q  every \\label{X} is defined in at most one file
+  R  every \\autoref / \\ref / \\eqref / \\cref target resolves to a \\label
+  S  closurestatus required fields (scopeclosed / constructivestory /
+     notclaimed / upgradepath) have non-empty bodies
+  T  every \\<X>Up macro defined in preamble is referenced somewhere
+  W  no two \\chapter{...} commands in distinct files share identical body
 
 Modes:
   default       human-readable WARN to stderr, exit 0
@@ -717,6 +723,157 @@ def check_p_closureat_region_level_unique() -> list[dict]:
     return out
 
 
+LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
+REF_RE = re.compile(r"\\(?:autoref|ref|eqref|cref|Cref|nameref)\{([^}]+)\}")
+NONEMPTY_FIELD_NAMES = ("scopeclosed", "constructivestory", "notclaimed", "upgradepath")
+NONEMPTY_FIELD_RE = re.compile(
+    r"\\(" + "|".join(NONEMPTY_FIELD_NAMES) + r")\{([^}]*)\}"
+)
+
+
+def check_q_label_unique_cross_file() -> list[dict]:
+    """Every \\label{X} should appear in at most one file. Cross-file duplicates
+    make LaTeX `multiply-defined` warnings and \\autoref ambiguous."""
+    out: list[dict] = []
+    sites: dict[str, list[tuple[str, int]]] = {}
+    for tex in iter_part_tex():
+        rel = str(tex.relative_to(PAPER_DIR))
+        text = read_text(tex)
+        for i, line in enumerate(text.splitlines(), 1):
+            if line.lstrip().startswith("%"):
+                continue
+            for m in LABEL_RE.finditer(line):
+                sites.setdefault(m.group(1), []).append((rel, i))
+    for label, locs in sorted(sites.items()):
+        files = {f for f, _ in locs}
+        if len(files) <= 1:
+            continue
+        for f, ln in locs:
+            out.append({
+                "check": "Q",
+                "file": f,
+                "line": ln,
+                "msg": f"\\label{{{label}}} defined in {len(files)} distinct files; must be unique",
+            })
+    return out
+
+
+def check_r_refs_resolve() -> list[dict]:
+    """Every \\autoref / \\ref / \\eqref / \\cref / \\nameref target must
+    correspond to a \\label{...} that actually exists. Unresolved refs render
+    as `??` in PDF and silently break navigation."""
+    out: list[dict] = []
+    labels: set[str] = set()
+    refs: list[tuple[str, str, int]] = []
+    for tex in iter_part_tex():
+        rel = str(tex.relative_to(PAPER_DIR))
+        text = read_text(tex)
+        for i, line in enumerate(text.splitlines(), 1):
+            if line.lstrip().startswith("%"):
+                continue
+            for m in LABEL_RE.finditer(line):
+                labels.add(m.group(1))
+            for m in REF_RE.finditer(line):
+                refs.append((m.group(1), rel, i))
+    for target, rel, ln in refs:
+        if target not in labels:
+            out.append({
+                "check": "R",
+                "file": rel,
+                "line": ln,
+                "msg": f"\\autoref/\\ref to '{target}' has no matching \\label",
+            })
+    return out
+
+
+def check_s_closurestatus_fields_nonempty() -> list[dict]:
+    """\\constructivestory / \\scopeclosed / \\notclaimed / \\upgradepath
+    inside a closurestatus block must have non-whitespace content. Empty
+    bodies look like the field exists but provides no metadata."""
+    out: list[dict] = []
+    for tex in iter_part_tex():
+        rel = str(tex.relative_to(PAPER_DIR))
+        text = read_text(tex)
+        for start_line, body in closurestatus_blocks(text):
+            for fm in NONEMPTY_FIELD_RE.finditer(body):
+                name = fm.group(1)
+                content = fm.group(2).strip()
+                if not content:
+                    out.append({
+                        "check": "S",
+                        "file": rel,
+                        "line": start_line,
+                        "msg": f"closurestatus block has empty \\{name}{{}} body",
+                    })
+    return out
+
+
+def check_t_unused_up_macros() -> list[dict]:
+    """Any \\<X>Up macro defined in preamble*.tex must be referenced in at
+    least one parts/frontmatter/appendices file. Defined-but-unused macros
+    are leftover scaffolding."""
+    out: list[dict] = []
+    macro_def_re = re.compile(
+        r"\\(?:newcommand|providecommand|renewcommand|DeclareRobustCommand)\*?\{\\([A-Z][A-Za-z]+Up)\}"
+    )
+    use_re = re.compile(r"\\([A-Z][A-Za-z]+Up)\b")
+    defined: dict[str, tuple[str, int]] = {}
+    for pf in sorted(PAPER_DIR.glob("preamble*.tex")):
+        rel = str(pf.relative_to(PAPER_DIR))
+        text = pf.read_text(encoding="utf-8", errors="ignore")
+        for i, line in enumerate(text.splitlines(), 1):
+            if line.lstrip().startswith("%"):
+                continue
+            for m in macro_def_re.finditer(line):
+                defined.setdefault(m.group(1), (rel, i))
+    used: set[str] = set()
+    for tex in iter_part_tex():
+        text = read_text(tex)
+        for m in use_re.finditer(text):
+            used.add(m.group(1))
+    for macro, (rel, ln) in sorted(defined.items()):
+        if macro in used:
+            continue
+        out.append({
+            "check": "T",
+            "file": rel,
+            "line": ln,
+            "msg": f"preamble defines \\{macro} but no parts/frontmatter/appendices file uses it",
+        })
+    return out
+
+
+def check_w_chapter_title_unique() -> list[dict]:
+    """No two \\chapter{...} commands in distinct files should share identical
+    body text. Duplicate titles produce duplicate TOC entries."""
+    out: list[dict] = []
+    pat = re.compile(r"\\chapter\{([^}]+)\}")
+    sites: dict[str, list[tuple[str, int]]] = {}
+    for tex in iter_part_tex():
+        rel = str(tex.relative_to(PAPER_DIR))
+        text = read_text(tex)
+        for i, line in enumerate(text.splitlines(), 1):
+            if line.lstrip().startswith("%"):
+                continue
+            for m in pat.finditer(line):
+                sites.setdefault(m.group(1), []).append((rel, i))
+    for title, locs in sorted(sites.items()):
+        files = {f for f, _ in locs}
+        if len(files) <= 1:
+            continue
+        for f, ln in locs:
+            out.append({
+                "check": "W",
+                "file": f,
+                "line": ln,
+                "msg": (
+                    f"\\chapter title '{title[:80]}' appears in {len(files)} distinct files; "
+                    "add distinguishing subtitle to secondary chapters"
+                ),
+            })
+    return out
+
+
 CHECKS = {
     "A": check_a_closureat_enum,
     "C": check_c_closurestatus_fields,
@@ -733,6 +890,11 @@ CHECKS = {
     "N": check_n_duplicate_chapter_label,
     "O": check_o_closurestatus_region_unique,
     "P": check_p_closureat_region_level_unique,
+    "Q": check_q_label_unique_cross_file,
+    "R": check_r_refs_resolve,
+    "S": check_s_closurestatus_fields_nonempty,
+    "T": check_t_unused_up_macros,
+    "W": check_w_chapter_title_unique,
 }
 
 
