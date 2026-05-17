@@ -52,4 +52,33 @@ theorem BoundedMonotoneCauchyWitnessCarrier_formal_handoff_route [AskSetup]
     ⟨finiteUnary, regularReadUnary, completionUnary, handoffUnary, scheduleLedgerFinite,
       finiteRegular, regularSealCompletion, completionLocalHandoff, provenancePkg, handoffPkg⟩
 
+theorem BoundedMonotoneCauchyWitnessCarrier_formal_handoff_package [AskSetup]
+    [PackageSetup]
+    {source regular schedule witness ledger trap sealRow transport route provenance localCert
+      formalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedMonotoneCauchyWitnessCarrier source regular schedule witness ledger trap sealRow
+        transport route provenance localCert bundle pkg →
+      Cont source schedule regular →
+        Cont regular witness trap →
+          Cont trap sealRow formalRead →
+            PkgSig bundle formalRead pkg →
+              UnaryHistory source ∧ UnaryHistory regular ∧ UnaryHistory schedule ∧
+                UnaryHistory witness ∧ UnaryHistory ledger ∧ UnaryHistory trap ∧
+                  UnaryHistory sealRow ∧ UnaryHistory formalRead ∧
+                    Cont source schedule regular ∧ Cont regular witness trap ∧
+                      Cont trap sealRow formalRead ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle formalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier sourceScheduleRegular regularWitnessTrap trapSealFormal formalPkg
+  obtain ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary,
+    sealUnary, _provenanceUnary, _carrierSourceScheduleRegular, _carrierRegularWitnessTrap,
+    _trapSealRoute, _transportLocalCertRoute, _routeProvenanceSeal, provenancePkg⟩ := carrier
+  have formalUnary : UnaryHistory formalRead :=
+    unary_cont_closed trapUnary sealUnary trapSealFormal
+  exact
+    ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary,
+      sealUnary, formalUnary, sourceScheduleRegular, regularWitnessTrap, trapSealFormal,
+      provenancePkg, formalPkg⟩
+
 end BEDC.Derived.BoundedMonotoneCauchyWitnessUp
