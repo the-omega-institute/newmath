@@ -349,4 +349,33 @@ theorem AuditMapFamilyCrossMapNonescape [AskSetup] [PackageSetup]
     ⟨familyTagUnary, inventoryUnary, obstructionUnary, routingUnary, frontierUnary,
       crossRouteUnary, routingFrontier, provenancePkg, crossRoutePkg⟩
 
+theorem AuditMapFamilyCarrier_routing_row_exhaustion [AskSetup] [PackageSetup]
+    {familyTag inventory obstruction routing frontier transport replay provenance localName
+      routingRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapFamilyCarrier familyTag inventory obstruction routing frontier transport replay
+        provenance localName bundle pkg ->
+      Cont routing frontier routingRead ->
+        Cont replay localName terminalRead ->
+          PkgSig bundle routingRead pkg ->
+            PkgSig bundle terminalRead pkg ->
+              UnaryHistory inventory ∧ UnaryHistory routing ∧ UnaryHistory frontier ∧
+                UnaryHistory routingRead ∧ UnaryHistory terminalRead ∧
+                  Cont routing frontier routingRead ∧ Cont replay localName terminalRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle routingRead pkg ∧
+                      PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier routingFrontier replayLocal routingPkg terminalPkg
+  rcases carrier with
+    ⟨_familyTagUnary, inventoryUnary, _obstructionUnary, routingUnary, frontierUnary,
+      _transportUnary, replayUnary, _provenanceUnary, localNameUnary,
+      _familyInventoryTransport, _obstructionRoutingReplay, provenancePkg⟩
+  have routingReadUnary : UnaryHistory routingRead :=
+    unary_cont_closed routingUnary frontierUnary routingFrontier
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed replayUnary localNameUnary replayLocal
+  exact
+    ⟨inventoryUnary, routingUnary, frontierUnary, routingReadUnary, terminalReadUnary,
+      routingFrontier, replayLocal, provenancePkg, routingPkg, terminalPkg⟩
+
 end BEDC.Derived.AuditMapFamilyUp
