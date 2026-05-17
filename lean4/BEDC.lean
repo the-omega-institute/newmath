@@ -295,6 +295,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealRouteDetermina
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealRouteNaturality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealReadback
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealDiagonalReadback
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealSelectorSynchronization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealSourceUnblock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealSelectorReadback
@@ -1564,6 +1565,7 @@ import BEDC.Derived.LocatedIntervalUp.ClassifierStability
 import BEDC.Derived.LocatedIntervalUp.PublicConsumerRoute
 import BEDC.Derived.LocatedIntervalUp.RealStreamBracketCorrespondence
 import BEDC.Derived.LocatedRealUp
+import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCutUp
 import BEDC.Derived.LocalityCellUp.TasteGate
