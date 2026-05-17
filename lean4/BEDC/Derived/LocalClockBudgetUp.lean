@@ -40,6 +40,48 @@ theorem LocalClockBudgetWindow_totality {H T W B L Q P N : BHist} :
       · rfl
   · exact carrier.right.right.right.right.right.right.right.right
 
+theorem LocalClockBudgetClassifier_stability
+    {H T W B L Q P N H' T' W' B' Q' P' N' : BHist}
+    (carrier : LocalClockBudgetCarrier H T W B L Q P N)
+    (streamRoute : Cont BHist.Empty T H)
+    (windowRoute : Cont T W Q)
+    (hH : hsame H H')
+    (hT : hsame T T')
+    (hW : hsame W W')
+    (hB : hsame B B')
+    (hQ : hsame Q Q')
+    (hP : hsame P P')
+    (hN : hsame N N') :
+    LocalClockBudgetWindowSurface H T W B Q ∧
+      hsame H H' ∧
+        hsame T T' ∧
+          hsame W W' ∧
+            hsame B B' ∧
+              hsame Q Q' ∧
+                hsame P P' ∧
+                  hsame N N' ∧
+                    localClockBudgetFields (LocalClockBudgetUp.mk H T W B L Q P N) =
+                      [H, T, W, B, L, Q, P, N] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  have total := LocalClockBudgetWindow_totality carrier streamRoute windowRoute
+  constructor
+  · exact total.left
+  · constructor
+    · exact hH
+    · constructor
+      · exact hT
+      · constructor
+        · exact hW
+        · constructor
+          · exact hB
+          · constructor
+            · exact hQ
+            · constructor
+              · exact hP
+              · constructor
+                · exact hN
+                · exact total.right
+
 theorem LocalClockBudgetRoute_determinacy
     {H T W B L Q P N H' T' W' B' L' Q' P' N' : BHist}
     (left : LocalClockBudgetCarrier H T W B L Q P N)
