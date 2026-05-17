@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.27 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.28 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Source priority weights (critical_path dispatch_weights)
 
@@ -17,14 +17,13 @@ Source meanings:
 - top: `critical_path.top[0..N]` (existing primary)
 - top_root_unblocks: `critical_path.top_root_unblocks` (root chapters needing theorem support)
 - closure_mark: closurestatus/token work from `critical_path.drift_chapters`, `bridge_sync_pending`, and `top_transitions`
-- carrier_isomorphism_capstone: opportunity to draft a paper capstone from a big phase-2 bucket in `carrier_isomorphism`
+- carrier_isomorphism_capstone: opportunity to write a new chapter abstracting a big phase-2 bucket in `carrier_isomorphism`
 
 If you choose carrier_isomorphism_capstone:
-- Pick the largest phase-2 bucket NOT yet covered by an existing capstone
-- Write a new file `papers/bedc/parts/concrete_instances/<NNNN>_<name>capstone_namecert_construction.tex`
-- Give it seed-level `closurestatus`
-- Include `\leanstmt{BEDC.Capstones.<Name>Capstone}` pointing at the lean-side draft
-- The capstone draft counts as 1 of your 5 targets
+- Pick the largest phase-2 bucket NOT yet covered by an existing abstraction
+- Write a **regular new chapter** `papers/bedc/parts/concrete_instances/<NNNN>_<name>_namecert_construction.tex` (same template as any other concrete_instance chapter — no `capstone` suffix in filename, no separate directory). Name by content theme (the shared structure being named), not by leveling role. BEDC chapters are built layer-on-layer; every chapter is simultaneously a capstone of layers beneath and an instance of layers above
+- Give it seed-level `closurestatus` and `\leanstmt{BEDC.Derived.<Name>Up}` pointing at the lean-side draft (if it exists)
+- This draft counts as 1 of your 5 targets
 
 The existing HARD GATEs (candidate_pool size, vision_concretization, conjecture_chase, orphan_repair, bridge/drift sync) STILL APPLY. Source weights are SOFT guidance for filling remaining slots after HARD GATEs are met.
 

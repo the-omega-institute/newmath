@@ -287,4 +287,19 @@ theorem CertifiedPhysicalTruthTasteGate_single_carrier_alignment :
       (fun _ _ heq => CertifiedPhysicalTruthTasteGate_single_carrier_alignment_injective heq),
       rfl⟩
 
+theorem CertifiedPhysicalTruth_failure_surface_row_injective
+    {S G K A D I L F1 F2 H C P N : BHist}
+    (hflow :
+      certifiedPhysicalTruthToEventFlow (CertifiedPhysicalTruthUp.mk S G K A D I L F1 H C P N) =
+        certifiedPhysicalTruthToEventFlow (CertifiedPhysicalTruthUp.mk S G K A D I L F2 H C P N)) :
+    F1 = F2 ∧ certifiedPhysicalTruthEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · have hpacket :
+        CertifiedPhysicalTruthUp.mk S G K A D I L F1 H C P N =
+          CertifiedPhysicalTruthUp.mk S G K A D I L F2 H C P N :=
+      CertifiedPhysicalTruthTasteGate_single_carrier_alignment_injective hflow
+    injection hpacket
+  · rfl
+
 end BEDC.Derived.CertifiedPhysicalTruthUp
