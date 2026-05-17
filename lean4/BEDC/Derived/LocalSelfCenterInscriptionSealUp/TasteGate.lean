@@ -1,11 +1,21 @@
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Ask
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LocalSelfCenterInscriptionSealUp
 
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Ask
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -255,6 +265,30 @@ theorem LocalSelfCenterInscriptionSealUp_taste_gate_boundary :
         LocalSelfCenterInscriptionSealTasteGate_single_carrier_alignment_round x⟩
   · intro x w m hw hm
     exact event_flow_conservativity (S := localSelfCenterInscriptionSealToEventFlow x) hw hm
+
+theorem LocalSelfCenterInscriptionSealCarrier_transport_exactness [AskSetup] [PackageSetup]
+    {H I S A V R C P N routeRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory R ->
+      UnaryHistory C ->
+        Cont R C routeRead ->
+          PkgSig bundle P pkg ->
+            hsame P N ->
+              localSelfCenterInscriptionSealFromEventFlow
+                  (localSelfCenterInscriptionSealToEventFlow
+                    (LocalSelfCenterInscriptionSealUp.mk H I S A V R C P N)) =
+                some (LocalSelfCenterInscriptionSealUp.mk H I S A V R C P N) ->
+                UnaryHistory routeRead ∧ Cont R C routeRead ∧ PkgSig bundle P pkg ∧
+                  hsame P N ∧
+                    BHistCarrier.toEventFlow
+                        (LocalSelfCenterInscriptionSealUp.mk H I S A V R C P N) =
+                      localSelfCenterInscriptionSealToEventFlow
+                        (LocalSelfCenterInscriptionSealUp.mk H I S A V R C P N) := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  intro routeUnary displayedRouteUnary routeCont provenancePkg sameProvenanceName _roundTrip
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed routeUnary displayedRouteUnary routeCont
+  exact
+    ⟨routeReadUnary, routeCont, provenancePkg, sameProvenanceName, rfl⟩
 
 theorem LocalSelfCenterInscriptionSealTasteGate_single_carrier_alignment :
     (∀ h : BHist,
