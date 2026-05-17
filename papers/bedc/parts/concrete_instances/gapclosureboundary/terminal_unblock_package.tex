@@ -1,0 +1,35 @@
+\begin{theorem}[GapClosureBoundary terminal source-route exposure]
+\label{thm:gapclosureboundary-terminal-source-route-exposure}
+Every root-unblock consumer of $\GapClosureBoundaryUp$ that reaches a terminal $\RealUp$, $\RegSeqRatUp$, or $\StreamNameUp$ facing gap-closure read must first expose the displayed source route of the accepted carrier $B=(G,S,R,H,C,P,N)$. The read passes through the $\BHist$ request row $G$, the supported source branch $G \longrightarrow S$ or refusal branch $G \longrightarrow R$, the componentwise $\hsame$ row $H$, the displayed $\Cont$ row $C$, the $\Pkg$ row $P$, and the local $\NameCert_{\GapClosureBoundaryUp}$ row $N$ before any terminal completion-facing row is consumed.
+\end{theorem}
+\begin{proof}
+Begin with the L10 source lock of \autoref{thm:gap-closure-boundary-l10-source-lock}. It places every completion-facing consumer behind the same finite source and refusal route over $G,S,R,H,C,P,N$.
+
+Use the terminal source handoff of \autoref{thm:gap-closure-boundary-terminal-source-handoff}. The handoff identifies the terminal boundary with the source-refusal packet rather than with parameter transport, quotient completion equality, host real equality, or hidden source completion.
+
+Finally apply the root L10 unblock package of \autoref{thm:gap-closure-boundary-root-l10-unblock-package}. Its downstream consumers over $\RegSeqRatUp$, $\RealUp$, and $\StreamNameUp$ may read terminal rows only after the displayed source route and local NameCert row have been exposed.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary terminal refusal-consumer totality]
+\label{thm:gapclosureboundary-terminal-refusal-consumer-totality}
+Every root-unblock consumer of $\GapClosureBoundaryUp$ that cannot read the supported source branch must read the refusal route $G \longrightarrow R$ under the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\GapClosureBoundaryUp}$ rows before it consumes any terminal $\RealUp$, $\RegSeqRatUp$, or $\StreamNameUp$ gap-closure row. No accepted root-unblock consumer has a third terminal route outside the displayed source/refusal split.
+\end{theorem}
+\begin{proof}
+Start with terminal route totality, \autoref{thm:gap-closure-boundary-terminal-route-totality}. It says every terminal read chooses exactly the supported branch $G \longrightarrow S$ or the refusal branch $G \longrightarrow R$ over the same structural rows.
+
+For unsupported reads, apply refusal NameCert factorization from \autoref{thm:gap-closure-boundary-refusal-namecert-factorization}. The request is recorded at $R$, transported through $H$, replayed through $C$, packaged by $P$, and named by $N$.
+
+The L10 source-lock totality theorem, \autoref{thm:gap-closure-boundary-l10-source-lock-totality}, then blocks terminal consumption until the refusal branch, route-completion row, terminal route, and local NameCert row have all been displayed. Thus the root-unblock consumer has no off-packet terminal route.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary terminal NameCert unblock package]
+\label{thm:gapclosureboundary-terminal-namecert-unblock-package}
+The terminal root-unblock package for $\GapClosureBoundaryUp$ is the finite source-route, refusal-route, terminal-handoff, and local $\NameCert_{\GapClosureBoundaryUp}$ surface assembled from $B=(G,S,R,H,C,P,N)$. Every root-unblock consumer must read that package before any $\RealUp$, $\RegSeqRatUp$, or $\StreamNameUp$ facing gap closure is consumed, and the package exports no hidden Real limit, anonymous regular sequence, anonymous stream name, host equality, quotient datum, or off-packet completion witness.
+\end{theorem}
+\begin{proof}
+Assemble the source route from \autoref{thm:gapclosureboundary-terminal-source-route-exposure}. It exposes the request row, supported branch, structural rows, provenance, local naming, and terminal handoff before a completion-facing consumer may read.
+
+Assemble the refusal route from \autoref{thm:gapclosureboundary-terminal-refusal-consumer-totality}. Unsupported root-unblock consumers are routed through $R,H,C,P,N$ and cannot bypass the local NameCert packet.
+
+Finally use the L10 terminal source lock and root L10 unblock package, \autoref{thm:gap-closure-boundary-l10-terminal-source-lock} and \autoref{thm:gap-closure-boundary-root-l10-unblock-package}. Together they bind $\RealUp$, $\RegSeqRatUp$, and $\StreamNameUp$ facing gap closure to the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface, so no terminal consumer receives an unrecorded completion resource.
+\end{proof}
