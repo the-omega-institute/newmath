@@ -48,6 +48,17 @@ The finite index computation is internal to the packet. The modulus row supplies
 The remaining rows are precisely the component certificate surfaces. The stream window, budget selector, regular-rational readback, dyadic ledger, and real seal are consumed in that order, while $H,C,P,N$ only transport, replay, source, and name those rows. No further NameCert obligation remains.
 \end{proof}
 
+\begin{closurestatus}{\TailCompatibleCauchySectionUp}
+  \constructivestory{The tail-compatible Cauchy section is generated from a $BHist$ packet that records a Cauchy section, its modulus-selected index pair, finite tail witnesses, and the classifier that checks compatibility with the RealUp seal boundary. The carrier reads the section only through those tail rows; $hsame$ transports the same finite witness data when a history representative changes. Continuation data may extend the section route, but $\Cont$ must preserve the tail-compatible classifier already recorded. The NameCert surface is therefore a composite certificate: it connects a Cauchy section to StreamName, finite observation budget, RegSeqRat, DyadicRatCore, and RealUp through visible tail evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the tail-compatible Cauchy-section carrier, classifier, NameCert obligations, and RealUp seal-boundary theorem.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim arbitrary Cauchy section choice, quotient-stream equality, host real equality, or Real equality outside the finite tail-compatible witness route.}
+  \upgradepath{Reaching obligationClosure requires formal tail witness rows and checked classifier preservation under $hsame$ and $\Cont$.}
+\end{closurestatus}
+
 \begin{theorem}[Tail-compatible Cauchy section RealUp seal boundary]
 \label{thm:tail-compatible-cauchy-section-real-seal-boundary}
 Every $\RealUp$-facing consumer read of an accepted $\TailCompatibleCauchySectionUp$ packet factors through the finite route
