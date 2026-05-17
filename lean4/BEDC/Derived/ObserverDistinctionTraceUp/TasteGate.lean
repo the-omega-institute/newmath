@@ -308,7 +308,7 @@ theorem ObserverDistinctionTraceNameCert_obligations
           hsame_refl localName⟩
   }
 
-theorem ObserverDistinctionTrace_non_escape
+theorem ObserverDistinctionTrace_temporal_factorization -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
     {source trace growth routes transport provenance localName consumer
       subjectTail : BHist}
     (routeReplay : Cont source routes growth)

@@ -1,11 +1,19 @@
-.PHONY: all clean precheck check
+.PHONY: all clean precheck check warn
 all: main.pdf
-precheck:
+precheck: warn
 	@bash scripts/check_tex_size.sh
 	@bash scripts/check_math_env.sh
 	@python3 scripts/check_marker_uniqueness.py
 	@python3 scripts/check_naming.py
 	@python3 scripts/check_external_provenance.py
+# Non-blocking convention warnings for parts/concrete_instances/. Exits 0
+# regardless; surfaces drift in stderr so it shows up in every local build
+# without affecting CI / codex worker pipelines. Promote individual checks
+# to a hard gate (move into precheck body, drop the leading `-`) only after
+# their violation count has gone to zero. Loop callers: prefer the JSON
+# interface --- `python3 scripts/warn_concrete_instances.py --json`.
+warn:
+	-@python3 scripts/warn_concrete_instances.py
 # The pdflatex calls go through scripts/with_pdf_slot.py, a flock-protected
 # semaphore over .git/.pdf-build-gate/slotN.lock files. Permit count is read
 # from .pipeline_parallel.json key "pdf_build" (default 2). This caps
