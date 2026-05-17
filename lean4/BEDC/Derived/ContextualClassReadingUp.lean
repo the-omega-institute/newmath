@@ -3,7 +3,9 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
+import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.ContextualClassReadingUp
@@ -12,7 +14,9 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 
 def ContextualClassReadingCarrier [AskSetup] [PackageSetup]
@@ -24,6 +28,79 @@ def ContextualClassReadingCarrier [AskSetup] [PackageSetup]
       UnaryHistory provenance ∧ UnaryHistory localName ∧
         Cont expression context relation ∧ Cont relation scope route ∧
           Cont route transport provenance ∧ PkgSig bundle localName pkg
+
+theorem ContextualClassReadingCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {expression context relation scope transport route provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextualClassReadingCarrier expression context relation scope transport route provenance
+        localName bundle pkg →
+      SemanticNameCert
+          (fun row : BHist =>
+            ContextualClassReadingCarrier expression context relation scope transport route
+              provenance localName bundle pkg ∧ hsame row localName)
+          (fun row : BHist =>
+            Cont expression context relation ∧ Cont relation scope route ∧
+              Cont route transport provenance ∧ hsame row localName)
+          (fun row : BHist => PkgSig bundle localName pkg ∧ hsame row localName)
+          hsame ∧
+        UnaryHistory expression ∧ UnaryHistory context ∧ UnaryHistory relation ∧
+          UnaryHistory scope ∧ UnaryHistory transport ∧ UnaryHistory route ∧
+            UnaryHistory provenance ∧ UnaryHistory localName ∧
+              Cont expression context relation ∧ Cont relation scope route ∧
+                Cont route transport provenance ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier
+  have carrierWitness := carrier
+  obtain ⟨expressionUnary, contextUnary, relationUnary, scopeUnary, transportUnary,
+    routeUnary, provenanceUnary, localNameUnary, expressionContextRelation, relationScopeRoute,
+    routeTransportProvenance, localNamePkg⟩ := carrier
+  have certCore :
+      NameCert
+        (fun row : BHist =>
+          ContextualClassReadingCarrier expression context relation scope transport route
+            provenance localName bundle pkg ∧ hsame row localName)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro localName
+        (And.intro carrierWitness (hsame_refl localName))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+  have semantic :
+      SemanticNameCert
+          (fun row : BHist =>
+            ContextualClassReadingCarrier expression context relation scope transport route
+              provenance localName bundle pkg ∧ hsame row localName)
+          (fun row : BHist =>
+            Cont expression context relation ∧ Cont relation scope route ∧
+              Cont route transport provenance ∧ hsame row localName)
+          (fun row : BHist => PkgSig bundle localName pkg ∧ hsame row localName)
+          hsame := by
+    exact {
+      core := certCore
+      pattern_sound := by
+        intro _row sourceRow
+        exact
+          ⟨expressionContextRelation, relationScopeRoute, routeTransportProvenance,
+            sourceRow.right⟩
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨localNamePkg, sourceRow.right⟩
+    }
+  exact
+    ⟨semantic, expressionUnary, contextUnary, relationUnary, scopeUnary, transportUnary,
+      routeUnary, provenanceUnary, localNameUnary, expressionContextRelation,
+      relationScopeRoute, routeTransportProvenance, localNamePkg⟩
 
 theorem ContextualClassReadingCarrier_classifier_transport [AskSetup] [PackageSetup]
     {expression context relation scope transport route provenance localName transported replay : BHist}

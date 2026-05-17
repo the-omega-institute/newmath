@@ -205,6 +205,7 @@ import BEDC.Derived.AuditAxisSeparationUp.TasteGate
 import BEDC.Derived.AxiomDependencyMapUp
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
+import BEDC.Derived.CertificateTruthBranchBoundaryUp
 import BEDC.Derived.ChoiceRecipeLedgerUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.ConceptRegistryObligationUp.TasteGate
@@ -814,6 +815,7 @@ import BEDC.Derived.ModelTraceUp.TasteGate
 import BEDC.Derived.PromptResponseTraceUp.TasteGate
 import BEDC.Derived.ContextWindowCommitmentUp.TasteGate
 import BEDC.Derived.ContextualClassReadingUp
+import BEDC.Derived.KernelPhaseRefusalUp.TasteGate
 import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
 import BEDC.Derived.ObserverLocalityCellUp
 import BEDC.Derived.ObserverLocalityCellUp.TasteGate
