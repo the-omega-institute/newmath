@@ -421,6 +421,54 @@ theorem RealWindowBudgetCarrier_finite_route_visibility [AskSetup] [PackageSetup
       request_selector_selectorRead, selectorRead_disclosure_visibleRead,
       handoff_realSeal_endpoint, carrier.provenance_pkg, visibleRead_pkg, endpoint_pkg⟩
 
+theorem RealWindowBudgetCarrier_finite_window_source_route_certificate
+    [AskSetup] [PackageSetup]
+    {request windows dyadic handoff realSeal selector disclosure transport route provenance
+      nameRow windowSource windowRead selectorRead visibleRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealWindowBudgetCarrier request windows dyadic handoff realSeal selector disclosure
+        transport route provenance nameRow bundle pkg →
+      Cont request windows windowSource →
+        Cont windowSource dyadic windowRead →
+          Cont request selector selectorRead →
+            Cont selectorRead disclosure visibleRead →
+              Cont handoff realSeal endpoint →
+                PkgSig bundle windowRead pkg →
+                  PkgSig bundle visibleRead pkg →
+                    PkgSig bundle endpoint pkg →
+                      UnaryHistory windowSource ∧ UnaryHistory windowRead ∧
+                        UnaryHistory selectorRead ∧ UnaryHistory visibleRead ∧
+                          UnaryHistory endpoint ∧ Cont request windows windowSource ∧
+                            Cont windowSource dyadic windowRead ∧
+                              Cont request selector selectorRead ∧
+                                Cont selectorRead disclosure visibleRead ∧
+                                  Cont handoff realSeal endpoint ∧
+                                    PkgSig bundle provenance pkg ∧
+                                      PkgSig bundle windowRead pkg ∧
+                                        PkgSig bundle visibleRead pkg ∧
+                                          PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier request_windows_windowSource windowSource_dyadic_windowRead
+    request_selector_selectorRead selectorRead_disclosure_visibleRead handoff_realSeal_endpoint
+    windowRead_pkg visibleRead_pkg endpoint_pkg
+  have windowSource_unary : UnaryHistory windowSource :=
+    unary_cont_closed carrier.request_unary carrier.windows_unary request_windows_windowSource
+  have windowRead_unary : UnaryHistory windowRead :=
+    unary_cont_closed windowSource_unary carrier.dyadic_unary windowSource_dyadic_windowRead
+  have selectorRead_unary : UnaryHistory selectorRead :=
+    unary_cont_closed carrier.request_unary carrier.selector_unary request_selector_selectorRead
+  have visibleRead_unary : UnaryHistory visibleRead :=
+    unary_cont_closed selectorRead_unary carrier.disclosure_unary
+      selectorRead_disclosure_visibleRead
+  have endpoint_unary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.handoff_unary carrier.realSeal_unary handoff_realSeal_endpoint
+  exact
+    ⟨windowSource_unary, windowRead_unary, selectorRead_unary, visibleRead_unary,
+      endpoint_unary, request_windows_windowSource, windowSource_dyadic_windowRead,
+      request_selector_selectorRead, selectorRead_disclosure_visibleRead,
+      handoff_realSeal_endpoint, carrier.provenance_pkg, windowRead_pkg, visibleRead_pkg,
+      endpoint_pkg⟩
+
 theorem RealWindowBudgetCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {request windows dyadic handoff realSeal selector disclosure transport route provenance
       nameRow : BHist}
