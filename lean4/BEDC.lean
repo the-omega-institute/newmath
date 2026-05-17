@@ -223,6 +223,7 @@ import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.TasteGate
+import BEDC.Derived.ProofPatternClassifierUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.ResearchProgrammeExecutionGateUp.TasteGate
 import BEDC.Derived.BranchObstructionUp.TasteGate
@@ -1192,6 +1193,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.ClassifierSubstitutionBarrier
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameOnlyDescent
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameConsumerClosure
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameTransportExhaustion
+import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameBridgeHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.TwoSurfaceExhaustion
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameReplacementClassifier
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PublicBridgeSchema
@@ -1646,6 +1648,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.SharedScheduleRealSealInheritance
 import BEDC.Derived.UniformCauchyCriterionUp.SharedTailLedgerCoverage
 import BEDC.Derived.UniformCauchyCriterionUp.SharedTailGluingDeterminacy
 import BEDC.Derived.UniformCauchyCriterionUp.SharedWindow
+import BEDC.Derived.UniformCauchyCriterionUp.SharedWindowRegSeqRatRealPullback
 import BEDC.Derived.UniformCauchyCriterionUp.SharedWindowThresholdMeet
 import BEDC.Derived.UniformCauchyCriterionUp.StreamNameRegSeqRatRealWindowLock
 import BEDC.Derived.UniformCauchyCriterionUp.TailMeetRootExport
