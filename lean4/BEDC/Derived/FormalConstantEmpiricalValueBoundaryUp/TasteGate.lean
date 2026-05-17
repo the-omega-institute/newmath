@@ -51,67 +51,62 @@ def formalConstantEmpiricalValueBoundaryFields :
 def formalConstantEmpiricalValueBoundaryToEventFlow :
     FormalConstantEmpiricalValueBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (formalConstantEmpiricalValueBoundaryFields x).map
-        formalConstantEmpiricalValueBoundaryEncodeBHist
+  | FormalConstantEmpiricalValueBoundaryUp.mk formal empirical calibration uncertainty
+      reproducibility failure transport replay provenance localCert =>
+      [formalConstantEmpiricalValueBoundaryEncodeBHist formal,
+        formalConstantEmpiricalValueBoundaryEncodeBHist empirical,
+        formalConstantEmpiricalValueBoundaryEncodeBHist calibration,
+        formalConstantEmpiricalValueBoundaryEncodeBHist uncertainty,
+        formalConstantEmpiricalValueBoundaryEncodeBHist reproducibility,
+        formalConstantEmpiricalValueBoundaryEncodeBHist failure,
+        formalConstantEmpiricalValueBoundaryEncodeBHist transport,
+        formalConstantEmpiricalValueBoundaryEncodeBHist replay,
+        formalConstantEmpiricalValueBoundaryEncodeBHist provenance,
+        formalConstantEmpiricalValueBoundaryEncodeBHist localCert]
+
+private def formalConstantEmpiricalValueBoundaryRawAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => formalConstantEmpiricalValueBoundaryRawAt n rest
+
+private def formalConstantEmpiricalValueBoundaryLengthEq : Nat → EventFlow → Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => formalConstantEmpiricalValueBoundaryLengthEq n rest
 
 def formalConstantEmpiricalValueBoundaryFromEventFlow :
     EventFlow → Option FormalConstantEmpiricalValueBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
-  | List.nil => none
-  | List.cons formal rest₁ =>
-      match rest₁ with
-      | List.nil => none
-      | List.cons empirical rest₂ =>
-          match rest₂ with
-          | List.nil => none
-          | List.cons calibration rest₃ =>
-              match rest₃ with
-              | List.nil => none
-              | List.cons uncertainty rest₄ =>
-                  match rest₄ with
-                  | List.nil => none
-                  | List.cons reproducibility rest₅ =>
-                      match rest₅ with
-                      | List.nil => none
-                      | List.cons failure rest₆ =>
-                          match rest₆ with
-                          | List.nil => none
-                          | List.cons transport rest₇ =>
-                              match rest₇ with
-                              | List.nil => none
-                              | List.cons replay rest₈ =>
-                                  match rest₈ with
-                                  | List.nil => none
-                                  | List.cons provenance rest₉ =>
-                                      match rest₉ with
-                                      | List.nil => none
-                                      | List.cons localCert rest₁₀ =>
-                                          match rest₁₀ with
-                                          | List.nil =>
-                                              some
-                                                (FormalConstantEmpiricalValueBoundaryUp.mk
-                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
-                                                    formal)
-                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
-                                                    empirical)
-                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
-                                                    calibration)
-                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
-                                                    uncertainty)
-                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
-                                                    reproducibility)
-                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
-                                                    failure)
-                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
-                                                    transport)
-                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
-                                                    replay)
-                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
-                                                    provenance)
-                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
-                                                    localCert))
-                                          | List.cons _ _ => none
+  | flow =>
+      match formalConstantEmpiricalValueBoundaryLengthEq 10 flow with
+      | true =>
+          some
+            (FormalConstantEmpiricalValueBoundaryUp.mk
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 0 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 1 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 2 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 3 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 4 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 5 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 6 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 7 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 8 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 9 flow)))
+      | false => none
 
 private theorem formalConstantEmpiricalValueBoundary_round_trip :
     ∀ x : FormalConstantEmpiricalValueBoundaryUp,
@@ -149,16 +144,18 @@ private theorem formalConstantEmpiricalValueBoundary_round_trip :
           some
             (FormalConstantEmpiricalValueBoundaryUp.mk formal empirical calibration uncertainty
               reproducibility failure transport replay provenance localCert)
-      rw [formalConstantEmpiricalValueBoundary_decode_encode_bhist formal,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist empirical,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist calibration,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist uncertainty,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist reproducibility,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist failure,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist transport,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist replay,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist provenance,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist localCert]
+      exact congrArg some
+        (by
+          rw [formalConstantEmpiricalValueBoundary_decode_encode_bhist formal,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist empirical,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist calibration,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist uncertainty,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist reproducibility,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist failure,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist transport,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist replay,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist provenance,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist localCert])
 
 private theorem formalConstantEmpiricalValueBoundaryToEventFlow_injective
     {x y : FormalConstantEmpiricalValueBoundaryUp} :
@@ -237,21 +234,16 @@ theorem FormalConstantEmpiricalValueBoundaryTasteGate_single_carrier_alignment :
         (formalConstantEmpiricalValueBoundaryEncodeBHist h) = h) ∧
       (∀ x : FormalConstantEmpiricalValueBoundaryUp,
         formalConstantEmpiricalValueBoundaryFromEventFlow
-            (formalConstantEmpiricalValueBoundaryToEventFlow x) =
-          some x) ∧
+          (formalConstantEmpiricalValueBoundaryToEventFlow x) = some x) ∧
         (∀ x y : FormalConstantEmpiricalValueBoundaryUp,
           formalConstantEmpiricalValueBoundaryToEventFlow x =
-            formalConstantEmpiricalValueBoundaryToEventFlow y →
-            x = y) ∧
+            formalConstantEmpiricalValueBoundaryToEventFlow y → x = y) ∧
           formalConstantEmpiricalValueBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact formalConstantEmpiricalValueBoundary_decode_encode_bhist
-  · constructor
-    · exact formalConstantEmpiricalValueBoundary_round_trip
-    · constructor
-      · intro x y heq
-        exact formalConstantEmpiricalValueBoundaryToEventFlow_injective heq
-      · rfl
+  exact
+    ⟨formalConstantEmpiricalValueBoundary_decode_encode_bhist,
+      formalConstantEmpiricalValueBoundary_round_trip,
+      (fun _ _ heq => formalConstantEmpiricalValueBoundaryToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.FormalConstantEmpiricalValueBoundaryUp

@@ -16,3 +16,29 @@ Now apply the RegSeqRat--RealUp source-boundary exhaustion theorem \autoref{thm:
 
 Finally combine the pointwise handoff \autoref{thm:streamname-regseqrat-pointwise-handoff} with the Real seal factorization boundary \autoref{thm:streamname-real-seal-factorization-boundary}. These rows account for the terminal readback and seal coordinates and leave no carrier slot for quotient streams, host index equality, selected limits, host real equality, ambient completeness, or off-ledger seal data.
 \end{proof}
+
+\begin{theorem}[StreamName lattice-meet terminal source uniqueness]
+\label{thm:streamname-lattice-meet-terminal-source-uniqueness}
+For a $\StreamNameUp$ finite-window lattice meet packet, every terminal consumer that reaches the finite $\RealUp$ seal through the accepted $\RegSeqRatUp$ readback and the $\DyadicRatCoreUp$ ledger displays the same terminal source rows. These rows are precisely the shared rational classifier, $\mathsf{ProbeBundle}$ row, $\mathsf{InBundle}$ rows, $\mathsf{UnaryHistory}$ rows, dyadic ledger, $\RegSeqRatUp$ readback surface, finite $\RealUp$ seal row, displayed $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-lattice-meet-terminal-factorization}. It gives the terminal finite surface consumed by the accepted $\RegSeqRatUp$ readback and by the finite $\RealUp$ seal handoff, and it already lists the source rows available to such a consumer.
+
+The uniqueness of that displayed source is the meet exhaustion content of \autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. The finite-window meet exposes one common packet, so the classifier, bundle, membership, unary-history, dyadic, continuation, provenance, and local naming rows cannot be duplicated by another terminal source inside the same meet route.
+
+Next use \autoref{thm:streamname-synchronized-window-real-seal-handoff}. The synchronized window sends the Real-facing read to the same selected finite observations, so a terminal $\RealUp$ consumer has no second observation window from which to rebuild the seal row.
+
+Finally combine \autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion} with \autoref{thm:streamname-real-seal-factorization-boundary}. The RegSeqRat readback and Real seal boundary are exhausted by the StreamName, dyadic, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows displayed above, hence every accepted terminal consumer names the same source surface.
+\end{proof}
+
+\begin{theorem}[StreamName lattice-meet terminal pullback nonescape]
+\label{thm:streamname-lattice-meet-terminal-pullback-nonescape}
+Pulling the terminal finite $\RealUp$ seal read back along the $\StreamNameUp$ lattice-meet route cannot introduce quotient stream equality, host index equality, a selected limit, host real equality, ambient completeness, or an off-ledger $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the terminal source uniqueness theorem \autoref{thm:streamname-lattice-meet-terminal-source-uniqueness}. Any pullback of the terminal seal read through the accepted $\RegSeqRatUp$ and $\DyadicRatCoreUp$ route must return to the same displayed source rows: classifier, bundle, membership, unary observations, dyadic ledger, readback, finite seal, transport, continuation, provenance, and local naming data.
+
+Now apply \autoref{thm:streamname-lattice-meet-terminal-factorization} to that unique source surface. Its nonescape clause states that the terminal meet packet leaves no carrier slot for quotient stream equality, host index equality, selected limits, host real equality, ambient completeness, or off-ledger seal data.
+
+The pullback therefore repacks the existing terminal rows; it does not add a hidden route. The exclusions remain stable under the return along the lattice-meet route because the Real-facing seal coordinate is already fixed by the accepted readback and the finite source boundary.
+\end{proof}
