@@ -1,11 +1,11 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.17 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.27 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
-## Source priority weights (dispatch_balancer)
+## Source priority weights (critical_path dispatch_weights)
 
-Read `.dispatch_weights.json::paper::weights` to get current per-source priority. If the file is missing or stale (`computed_at` > 1h old), proceed without it.
+Run `python3 lean4/scripts/critical_path.py | jq '.dispatch_weights.paper'` (or read the JSON directly) and use `critical_path.py` output's `"dispatch_weights"::"paper"::"weights"` to get current per-source priority. The same object also exposes `"supply"`, `"consumption_60min"`, and `"advice"` subfields for the paper side. If `dispatch_weights.paper` is absent or carries an `error`, proceed without it.
 
 Allocate your 5 review targets approximately matching these weights:
 - 0.40 weight = pick ≈2 targets from this source
