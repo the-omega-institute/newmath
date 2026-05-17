@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealityConstrainedSignatureDescentUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -198,5 +200,76 @@ instance realityConstrainedSignatureDescentNontrivial :
 def taste_gate : ChapterTasteGate RealityConstrainedSignatureDescentUp :=
   -- BEDC touchpoint anchor: BHist BMark
   realityConstrainedSignatureDescentChapterTasteGate
+
+theorem RealityConstrainedSignatureDescentCarrier_namecert_obligations
+    (R : RealityConstrainedSignatureDescentUp) :
+    SemanticNameCert
+      (fun row : BHist =>
+        ∃ S A M G P O W H C Q N : BHist,
+          R = RealityConstrainedSignatureDescentUp.mk S A M G P O W H C Q N ∧
+            hsame row H)
+      (fun row : BHist =>
+        ∃ S A M G P O W H C Q N : BHist,
+          R = RealityConstrainedSignatureDescentUp.mk S A M G P O W H C Q N ∧
+            hsame row H)
+      (fun row : BHist =>
+        ∃ S A M G P O W H C Q N : BHist,
+          R = RealityConstrainedSignatureDescentUp.mk S A M G P O W H C Q N ∧
+            hsame row H)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame NameCert
+  cases R with
+  | mk S A M G P O W H C Q N =>
+      exact {
+        core := {
+          carrier_inhabited :=
+            Exists.intro H ⟨S, A, M, G, P, O, W, H, C, Q, N, rfl, hsame_refl H⟩
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other same
+            exact hsame_symm same
+          equiv_trans := by
+            intro _row _middle _other sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro row other same source
+            have sameRow : hsame row H := by
+              cases source with
+              | intro S' source =>
+                  cases source with
+                  | intro A' source =>
+                      cases source with
+                      | intro M' source =>
+                          cases source with
+                          | intro G' source =>
+                              cases source with
+                              | intro P' source =>
+                                  cases source with
+                                  | intro O' source =>
+                                      cases source with
+                                      | intro W' source =>
+                                          cases source with
+                                          | intro H' source =>
+                                              cases source with
+                                              | intro C' source =>
+                                                  cases source with
+                                                  | intro Q' source =>
+                                                      cases source with
+                                                      | intro N' source =>
+                                                          cases source.left
+                                                          exact source.right
+            exact
+              ⟨S, A, M, G, P, O, W, H, C, Q, N, rfl,
+                hsame_trans (hsame_symm same) sameRow⟩
+        }
+        pattern_sound := by
+          intro _row source
+          exact source
+        ledger_sound := by
+          intro _row source
+          exact source
+      }
 
 end BEDC.Derived.RealityConstrainedSignatureDescentUp
