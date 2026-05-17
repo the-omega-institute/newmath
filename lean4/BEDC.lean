@@ -361,6 +361,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.FiniteObservationBudgetSelectorHan
 import BEDC.Derived.CauchyModulusRefinementUp.FiniteObservationBudgetPullback
 import BEDC.Derived.CauchyModulusRefinementUp.FourFaceNocollapse
 import BEDC.Derived.CauchyModulusRefinementUp.L10CompletionPullback
+import BEDC.Derived.CauchyModulusRefinementUp.L10ConsumerSpineComparison
 import BEDC.Derived.CauchyModulusRefinementUp.RealObservationBudgetHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RealLimitUniquenessHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RootSourceMeetDeterminacy
@@ -941,6 +942,7 @@ import BEDC.Derived.DiagonalTailSelectorUp
 import BEDC.Derived.TailCofinalityScheduleUp
 import BEDC.Derived.TailCofinalityScheduleUp.DiagonalSelectorNonempty
 import BEDC.Derived.TailCofinalityScheduleUp.DiagonalTailSelectorFactorization
+import BEDC.Derived.TailCofinalityScheduleUp.OpenPhaseRowExhaustion
 import BEDC.Derived.TailCofinalityScheduleUp.RealCompletionDiagonalRoute
 import BEDC.Derived.TailCofinalityScheduleUp.RealCompletionSelectorRoute
 import BEDC.Derived.TailCofinalityScheduleUp.SelectorCompletionPullback
@@ -1011,6 +1013,7 @@ import BEDC.Derived.CertificateCompilerUp.ClassifierRouteDependencyScope
 import BEDC.Derived.CertificateCompilerUp.DependencyScope
 import BEDC.Derived.CertificateCompilerUp.SourceTargetLandingExhaustion
 import BEDC.Derived.CertificateCompilerUp.EndpointKernelMorphismRoundtrip
+import BEDC.Derived.CertificateCompilerUp.TripleCompositeAssociativity
 import BEDC.Derived.MachineInterfaceBoundaryUp.TasteGate
 import BEDC.Derived.MachineInterfaceSocketUp.TasteGate
 import BEDC.Derived.UnitCalibrationLedgerUp.TasteGate
@@ -1089,6 +1092,7 @@ import BEDC.Derived.CauchySealBudgetSynchronizerUp
 import BEDC.Derived.CauchySealBudgetSynchronizerUp.TasteGate
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
+import BEDC.Derived.CrossHistoryCausalDependenceUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp
 import BEDC.Derived.QuotientSoundnessBoundaryUp
 import BEDC.Derived.QuotientSoundnessBoundaryUp.BoundaryReadiness
@@ -1248,6 +1252,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalSelectorSynchroniz
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalSectionPullbackUniqueness
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalDiagonalPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalReadback
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.UniformCauchyCriterionPullback
 import BEDC.Derived.FiniteObservationLockUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitBudgetUp.TasteGate
 import BEDC.Derived.FastCauchyUp
@@ -1476,6 +1481,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.CompletionFunctorBudget
 import BEDC.Derived.UniformCauchyCriterionUp.CommonWindowExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalBudgetExtraction
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalBudgetPullback
+import BEDC.Derived.UniformCauchyCriterionUp.DiagonalTailBudgetExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalExitClassifier
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalExitNonEscape
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalSelectorSealPullback
