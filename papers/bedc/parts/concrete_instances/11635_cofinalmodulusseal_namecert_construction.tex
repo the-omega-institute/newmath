@@ -468,6 +468,7 @@ Use \autoref{thm:cofinal-modulus-seal-window-budget-exactness} and \autoref{thm:
 
 Finally apply \autoref{thm:cofinal-modulus-seal-route-namecert-exhaustion}. Since the route has no naming coordinate beyond $B,M,W,T,D,R,L,E,H,C,P,N$, no public consumer can bypass the source row.
 \end{proof}
+\leanchecked{BEDC.Derived.CofinalModulusSealUp.CofinalModulusSeal\_tail\_budget\_row}
 
 \begin{theorem}[Cofinal modulus seal window readback row]
 \label{thm:cofinal-modulus-seal-window-readback-row}
@@ -691,19 +692,54 @@ Apply \autoref{thm:cofinal-modulus-seal-window-ledger-nochoice-boundary}. This k
 Finally use \autoref{thm:cofinal-modulus-seal-l10-exit-boundary}. The L10 exit boundary is the same finite route, so consumer exactness is an obligation of that surface and not a separate downstream premise.
 \end{proof}
 
+\begin{theorem}[Cofinal modulus seal scoped source inventory]
+\label{thm:cofinal-modulus-seal-scoped-source-inventory}
+The scoped source inventory of $\CofinalModulusSealUp$ is exactly the finite row family
+$$
+B,M,W,T,D,R,L,E,H,C,P,N
+$$
+over $\CofinalTailBudgetUp$, $\CauchyTailModulusSealUp$, $\RealWindowBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Use the carrier definition together with \autoref{thm:cofinal-modulus-seal-namecert-route-coverage}. The named rows are precisely the admitted source, transport, package, and certificate rows of the displayed route.
+
+Then apply \autoref{thm:cofinal-modulus-seal-source-row-synchronization}. It identifies the route rows with the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ inventory, so no further source primitive is available inside the scoped package.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal primitive route exhaustion]
+\label{thm:cofinal-modulus-seal-primitive-route-exhaustion}
+Every $\RealUp$ or completion-facing read from $\CofinalModulusSealUp$ factors through the displayed primitive rows $B,M,W,T,D,R,L,E,H,C,P,N$. No such read uses a quotient stream, selected host limit, countable choice, detached window, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cofinal-modulus-seal-real-completion-consumer-exactness}. It already places each Real-facing and completion-facing read on the cofinal route.
+
+Use \autoref{thm:cofinal-modulus-seal-window-ledger-nochoice-boundary} and \autoref{thm:cofinal-modulus-seal-l10-exit-boundary}. Together they rule out the excluded coordinates and leave only the primitive rows of the finite route.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal scoped closure package]
+\label{thm:cofinal-modulus-seal-scoped-closure-package}
+The obligation surface, route coverage, Real handoff, nonescape boundary, L10 exit boundary, \autoref{thm:cofinal-modulus-seal-scoped-source-inventory}, and \autoref{thm:cofinal-modulus-seal-primitive-route-exhaustion} form the scoped $\CofinalModulusSealUp$ closure package.
+\end{theorem}
+\begin{proof}
+Combine \autoref{thm:cofinal-modulus-seal-obligation-surface-packaging}, \autoref{thm:cofinal-modulus-seal-namecert-route-coverage}, \autoref{thm:cofinal-modulus-seal-real-handoff}, \autoref{thm:cofinal-modulus-seal-nonescape}, and \autoref{thm:cofinal-modulus-seal-l10-exit-boundary}.
+
+Finally add the scoped inventory and primitive exhaustion theorems. They identify the available sources and the allowed consumer reads, so the same finite route is a scoped closure package rather than an open obligation surface.
+\end{proof}
+
 Lean TasteGate formalization for this route must provide \texttt{Nontrivial CofinalModulusSealUp} and \texttt{FieldFaithful CofinalModulusSealUp} instances in \texttt{BEDC.Derived.CofinalModulusSealUp}.
 
 \closureat{CofinalModulusSealUp}{obligationStr}[BEDC.Derived.CofinalModulusSealUp.CofinalModulusSealTasteGate\_single\_carrier\_alignment]
+\closureat{CofinalModulusSealUp}{scopedStr}[BEDC.Derived.CofinalModulusSealUp.CofinalModulusSealTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\CofinalModulusSealUp}
   \constructivestory{The cofinal modulus seal is generated from a large finite $\BHist$ route containing cofinal tail budget, tail-modulus seal, Real-window budget, StreamName, DyadicRatCore, RegSeqRat, CauchyLimitSeal, RealUp, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The carrier convention reads each row through $\hsame$ and connects them by explicit $\Cont$ handoffs, so a consumer receives the same cofinal modulus route under representative change. The factorization, synchronization, non-escape, and exhaustion theorems all refine the same bottom-up object: no quotient stream, selected host limit, detached window, or ambient completeness principle can enter unless it is already one of the displayed route rows.}
   \leanchecked{BEDC.Derived.CofinalModulusSealUp.taste_gate}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cofinal-modulus-seal-carrier}, \autoref{thm:cofinal-modulus-seal-namecert-obligations}, \autoref{thm:cofinal-modulus-seal-namecert-route-coverage}, \autoref{thm:cofinal-modulus-seal-cofinal-route}, \autoref{thm:cofinal-modulus-seal-real-handoff}, \autoref{thm:cofinal-modulus-seal-nonescape}, \autoref{thm:cofinal-modulus-seal-observation-budget-factorization}, \autoref{thm:cofinal-modulus-seal-real-completion-consumer-exactness}, and \autoref{thm:cofinal-modulus-seal-l10-exit-boundary} bind the carrier, NameCert obligations, route coverage, cofinal route, Real handoff, nonescape surface, factorization, consumer exactness, readiness, and L10 exit boundary.}
-  \formalstatus{\theoremCheckedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cofinal-modulus-seal-carrier}, \autoref{thm:cofinal-modulus-seal-namecert-obligations}, \autoref{thm:cofinal-modulus-seal-namecert-route-coverage}, \autoref{thm:cofinal-modulus-seal-real-handoff}, \autoref{thm:cofinal-modulus-seal-nonescape}, \autoref{thm:cofinal-modulus-seal-l10-exit-boundary}, \autoref{thm:cofinal-modulus-seal-scoped-source-inventory}, \autoref{thm:cofinal-modulus-seal-primitive-route-exhaustion}, and \autoref{thm:cofinal-modulus-seal-scoped-closure-package} bind the carrier, NameCert obligations, route coverage, Real handoff, nonescape surface, L10 exit boundary, scoped source inventory, primitive route exhaustion, and scoped closure package.}
+  \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.CofinalModulusSealUp.CofinalModulusSealTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Real completeness, quotient stream equality, quotient-stream construction, selected host limits, countable choice, detached windows, any completion operator outside the finite cofinal route, or bridge checking.}
-  \upgradepath{Scoped closure requires a single binding argument that the displayed rows $B,M,W,T,D,R,L,E,H,C,P,N$ exhaust the BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ together with the named cofinal tail budget, Cauchy tail-modulus seal, Real-window budget, StreamName, DyadicRatCore, RegSeqRat, CauchyLimitSeal, and RealUp route rows.}
+  \upgradepath{Public closure next requires exporting the same finite cofinal-modulus route as a reusable public surface without identifying it with Real completeness or Lean bridge checking.}
 \end{closurestatus}
