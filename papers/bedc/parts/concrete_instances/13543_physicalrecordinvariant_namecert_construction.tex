@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\PhysicalRecordInvariantUp$}
+\label{ch:concrete-instances-physicalrecordinvariant-namecert}
+\origin{ai}
+
+The $\PhysicalRecordInvariantUp$ packet realizes the frame-independent physical content of \autoref{def:philosophy-frame-independent-physical-content} and \autoref{thm:philosophy-physical-content-inter-history-invariant} as finite BEDC NameCert data. It sits between the object-facing packet of \autoref{ch:concrete-instances-scientificobject-namecert}, the defeat-facing packet of \autoref{ch:concrete-instances-reality-constrained-failure-surface-namecert}, and the forward-looking socket of \autoref{ch:concrete-instances-causalcommitment-namecert}. Those siblings provide scientific-object, failure, and causal-commitment surfaces; this chapter isolates the positive invariant carrier consumed when a physical record must remain readable across histories and observer presentations.
+
+\begin{definition}[Physical record invariant carrier]
+\label{def:physical-record-invariant-carrier}
+A $\PhysicalRecordInvariantUp$ carrier is a finite $\BHist$ packet
+$$
+V=(R,I,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the physical-record ledger, listing finite history rows, continuation rows, measurement rows, instrument rows, calibration rows, error rows, relation rows, and falsification rows.
+\item $I$ is the inter-history invariant row whose classifier reads record content only through witnessed sameness between histories.
+\item $O$ is the observer-symmetry row, requiring each accepted presentation of $R$ and $I$ to be stable under observer-facing reindexing.
+\item $H$ records componentwise $\hsame$ transport for $R,I,O$ and for the local naming row.
+\item $C$ records displayed $\Cont$ replay from record admission through invariant read, observer symmetry, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\PhysicalRecordInvariantUp$, $\ScientificObjectUp$, $\RealityConstrainedFailureSurfaceUp$, $\CausalCommitmentUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\PhysicalRecordInvariantUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for bare object existence, unledgered measurement fit, one-history physical content, hidden observer frame, final truth export, or selected future observation outside the displayed rows.
+\end{definition}
+\leandef{BEDC.Derived.PhysicalRecordInvariantUp.PhysicalRecordInvariantUp}
+
+\begin{theorem}[Physical record invariant classifier stability]
+\label{thm:physical-record-invariant-classifier-stability}
+The $\PhysicalRecordInvariantUp$ classifier is stable only under componentwise $\hsame$ transport of the displayed rows $R,I,O,H,C,P,N$. A consumer may replay the invariant route through $\Cont$ and cite provenance through $\Pkg$, but it must preserve the physical-record ledger, inter-history invariant row, observer-symmetry row, and local $\NameCert$ row as separate coordinates.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:physical-record-invariant-carrier}. The rows $R,I,O$ are displayed separately: $R$ records physical data, $I$ names the inter-history invariant, and $O$ records observer symmetry.
+
+Transport is then read through $H$. Since $H$ is componentwise, it preserves the record, invariant, and observer rows rather than identifying them with one ambient physical object.
+
+Replay through $C$ and provenance through $P$ keep the consumer inside the same finite route. Therefore classifier stability holds exactly for the displayed packet $R,I,O,H,C,P,N$ and fails when a consumer erases the observer-symmetry row or collapses the invariant into a single-history record.
+\end{proof}
+
+\begin{theorem}[Physical record invariant ledger exactness]
+\label{thm:physical-record-invariant-ledger-exactness}
+Every accepted $\PhysicalRecordInvariantUp$ packet exposes the physical-record ledger $R$ and the inter-history invariant row $I$ before any frame-independent physical content is readable. The observer-symmetry row $O$ may constrain their presentations, but it cannot replace either the ledger or the invariant.
+\end{theorem}
+\begin{proof}
+Read the carrier inventory. The ledger $R$ is the only coordinate listing physical records, while $I$ is the only coordinate carrying their inter-history invariant content.
+
+The observer-symmetry row $O$ is a constraint on accepted presentations. It requires stability of the read under observer-facing reindexing, but it does not contain the record ledger and does not itself witness inter-history invariance.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same ledger and invariant rows. Hence ledger exactness requires $R$ and $I$ to remain visible before any frame-independent content is exported.
+\end{proof}
+
+\begin{theorem}[Physical record invariant NameCert surface]
+\label{thm:physical-record-invariant-namecert-surface}
+Every accepted $\PhysicalRecordInvariantUp$ read factors through
+$$
+R,I,O,H,C,P,N.
+$$
+The consumer receives finite physical records, an inter-history invariant row, observer symmetry, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row. It receives no bare scientific object, no defeat-only surface, no forward-GAP causal commitment, no one-history physical content, and no hidden frame.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:physical-record-invariant-carrier}. The displayed packet exhausts the local carrier available to consumers of frame-independent physical content.
+
+Apply \autoref{thm:physical-record-invariant-classifier-stability}. The classifier preserves the read only when $R,I,O,H,C,P,N$ remain separate under $\hsame$ transport and $\Cont$ replay.
+
+Apply \autoref{thm:physical-record-invariant-ledger-exactness}. The physical-record ledger and invariant row must be visible before the content is exported, while observer symmetry constrains presentations without replacing either row.
+
+The sibling chapters locate the boundary. $\ScientificObjectUp$ in \autoref{ch:concrete-instances-scientificobject-namecert} has object and bridge rows not fixed to inter-history invariants; $\RealityConstrainedFailureSurfaceUp$ in \autoref{ch:concrete-instances-reality-constrained-failure-surface-namecert} has defeat rows but no positive invariant carrier; and $\CausalCommitmentUp$ in \autoref{ch:concrete-instances-causalcommitment-namecert} has forward-GAP rows rather than observer-symmetric invariant rows. Thus the accepted read factors through the stated NameCert surface.
+\end{proof}
+\leanchecked{BEDC.Derived.PhysicalRecordInvariantUp.PhysicalRecordInvariantTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Physical record invariant falsifiable prediction]
+\label{thm:physical-record-invariant-falsifiable-prediction}
+Any accepted $\PhysicalRecordInvariantUp$ packet whose observer-symmetry row $O$ is erased fails the classifier-stability obligation against $\RealityConstrainedFailureSurfaceUp$ consumers. Such a packet may still expose records or defeats, but it no longer carries frame-independent physical content.
+\end{theorem}
+\begin{proof}
+Assume a consumer erases $O$ from the packet $V=(R,I,O,H,C,P,N)$. The remaining projection no longer displays the row that makes presentations observer-symmetric.
+
+Use classifier stability from \autoref{thm:physical-record-invariant-classifier-stability}. Stability requires componentwise preservation of $R,I,O,H,C,P,N$, so deleting $O$ breaks the accepted transport route.
+
+Against $\RealityConstrainedFailureSurfaceUp$ consumers, the failure is visible as a missing positive invariant carrier rather than as a new defeat row. The defeat-facing sibling can record the boundary, but it cannot reconstruct observer symmetry. Therefore the projected packet is rejected for frame-independent physical content.
+\end{proof}
+
+\falsifiablePrediction{Any accepted PhysicalRecordInvariantUp packet whose observer-symmetry row is erased fails the classifier-stability obligation against RealityConstrainedFailureSurfaceUp consumers.}
+
+\independenceWitness{ScientificObjectUp, RealityConstrainedFailureSurfaceUp, CausalCommitmentUp, ObjectKnowledgeCertificateUp, RealityConstrainedTruthCertUp: none is bijective because ScientificObjectUp has object and bridge rows not fixed to inter-history invariants, RealityConstrainedFailureSurfaceUp has defeat rows but no positive invariant carrier, CausalCommitmentUp has forward-GAP rows rather than observer-symmetric invariant rows, ObjectKnowledgeCertificateUp certifies knowledge export rather than record invariance, and RealityConstrainedTruthCertUp exports truth certification rather than frame-independent record content.}
+
+The Lean follow-up path \texttt{lean4/BEDC/Derived/PhysicalRecordInvariantUp/TasteGate.lean} provides explicit $\Nontrivial\ \PhysicalRecordInvariantUp$ and $\FieldFaithful\ \PhysicalRecordInvariantUp$ instances. These instances distinguish physical-record, invariant, observer-symmetry, transport, replay, provenance, and local NameCert rows.
+
+\closureat{PhysicalRecordInvariantUp}{seedStr}
+
+\begin{closurestatus}{\PhysicalRecordInvariantUp}
+  \constructivestory{A $\PhysicalRecordInvariantUp$ packet is generated from finite physical-record, inter-history-invariant, observer-symmetry, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:physical-record-invariant-carrier}, \autoref{thm:physical-record-invariant-classifier-stability}, \autoref{thm:physical-record-invariant-ledger-exactness}, \autoref{thm:physical-record-invariant-namecert-surface}, and \autoref{thm:physical-record-invariant-falsifiable-prediction} bind the finite carrier, classifier stability, ledger exactness, NameCert surface, and falsifiable prediction for frame-independent physical content.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.PhysicalRecordInvariantUp.PhysicalRecordInvariantTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close final physical truth, object-facing bridge completion, defeat completeness, forward causal commitment, or one-history physical content.}
+  \upgradepath{Mature closure requires downstream bridge checking and consumers that preserve $R,I,O,H,C,P,N$ through the same NameCert surface.}
+\end{closurestatus}
