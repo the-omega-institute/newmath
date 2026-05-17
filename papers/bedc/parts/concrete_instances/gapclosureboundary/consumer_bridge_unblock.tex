@@ -1,0 +1,35 @@
+\begin{theorem}[GapClosureBoundary consumer bridge admission]
+\label{thm:gap-closure-boundary-consumer-bridge-admission}
+Every accepted $\GapClosureBoundaryUp$ packet exposes the finite split $B=(G,S,R,H,C,P,N)$ as the common bridge surface for downstream consumers. The request row $G$, supported source route $G \longrightarrow S$, unsupported refusal route $G \longrightarrow R$, componentwise transport $H$, displayed continuation replay $C$, provenance package $P$, and local name row $N$ are the only admitted rows through which $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, and the neighboring hard-problem consumers may read the boundary.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:gap-closure-boundary-namecert-obligations}. They expose the accepted carrier as the finite packet $G,S,R,H,C,P,N$ and assign the local naming row to that packet.
+
+Apply source-route totality and refusal-route exactness, \autoref{thm:gap-closure-boundary-source-route-totality} and \autoref{thm:gap-closure-boundary-refusal-route-exactness}. These two results make the supported branch the displayed route $G \longrightarrow S$ and the unsupported branch the displayed route $G \longrightarrow R$.
+
+Finally use the consumer exactness package and hub root readiness, \autoref{thm:gap-closure-boundary-consumer-exactness-package} and \autoref{thm:gap-closure-boundary-hub-root-readiness}. The downstream consumers therefore receive the same bridge surface and no consumer-specific row outside the packet.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary CausalCommitment forward-GAP route]
+\label{thm:gap-closure-boundary-causal-commitment-forward-gap-unblock}
+The $\CausalCommitmentUp$ consumer may read a supported $\GapClosureBoundaryUp$ branch only through the displayed forward-GAP route $G \longrightarrow S$ over the shared rows $H,C,P,N$. It cannot obtain a hidden causal-necessity row, a private source selector, or an off-packet continuation from the accepted boundary packet.
+\end{theorem}
+\begin{proof}
+Use the consumer bridge admission of \autoref{thm:gap-closure-boundary-consumer-bridge-admission}. It fixes the common downstream surface before the causal consumer reads any part of the packet.
+
+On the supported side, apply \autoref{thm:gap-closure-boundary-source-route-totality}. The only admitted supported route is $G \longrightarrow S$, and the structural rows available to the consumer are exactly $H,C,P,N$.
+
+The exclusions follow from \autoref{thm:gap-closure-boundary-consumer-exactness-package} and \autoref{thm:gap-closure-boundary-hub-root-readiness}. Since the hub-ready packet exports no causal-necessity coordinate, no private source selector, and no off-packet continuation, $\CausalCommitmentUp$ can consume the supported branch only through the displayed route.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary finite-refutation refusal route]
+\label{thm:gap-closure-boundary-finite-refutation-route-unblock}
+The $\FiniteWitnessedRefutationUp$ consumer may read an unsupported $\GapClosureBoundaryUp$ branch only through the displayed refusal route $G \longrightarrow R$ over the shared rows $H,C,P,N$. The refusal row cannot be converted into a hidden contradiction oracle, host-level refutation, quotient witness, or off-packet inconsistency source.
+\end{theorem}
+\begin{proof}
+Begin again with the consumer bridge admission of \autoref{thm:gap-closure-boundary-consumer-bridge-admission}. It identifies the finite packet and prevents the finite-refutation consumer from reading a separate carrier.
+
+For the unsupported branch, apply \autoref{thm:gap-closure-boundary-refusal-route-exactness}. The branch is routed to $R$ from $G$ and remains transported, replayed, packaged, and named only through $H,C,P,N$.
+
+Finally use \autoref{thm:gap-closure-boundary-namecert-obligations}, \autoref{thm:gap-closure-boundary-consumer-exactness-package}, and \autoref{thm:gap-closure-boundary-hub-root-readiness}. These anchors leave no row from which $\FiniteWitnessedRefutationUp$ could extract a hidden contradiction oracle, host-level refutation, quotient witness, or off-packet inconsistency source.
+\end{proof}
