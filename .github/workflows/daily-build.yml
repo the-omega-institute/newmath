@@ -68,6 +68,40 @@ jobs:
           echo "${{ steps.resolve_target.outputs.skip_reason }}" >> "$GITHUB_STEP_SUMMARY"
           exit 0
 
+      - name: Validate source Build Paper run (manual dispatch)
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+        run: |
+          set -euo pipefail
+          run_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}")"
+          name="$(echo "$run_json" | jq -r '.name')"
+          conclusion="$(echo "$run_json" | jq -r '.conclusion')"
+          head_sha="$(echo "$run_json" | jq -r '.head_sha')"
+          echo "Source run name=$name conclusion=$conclusion head_sha=$head_sha"
+          if [ "$name" != "Build Paper" ]; then
+            echo "::error::source_run_id ${SOURCE_RUN_ID} workflow name is '$name', must be 'Build Paper'" >&2
+            exit 1
+          fi
+          if [ "$conclusion" != "success" ]; then
+            echo "::error::source_run_id ${SOURCE_RUN_ID} conclusion is '$conclusion', must be 'success'" >&2
+            exit 1
+          fi
+          checkout_sha="$(git rev-parse HEAD)"
+          if [ "$head_sha" != "$checkout_sha" ]; then
+            echo "::warning::source_run_id ${SOURCE_RUN_ID} head_sha=${head_sha} differs from checkout SHA=${checkout_sha}; PDF/release may be inconsistent" >&2
+          fi
+          {
+            echo "Manual daily Build Paper source validation"
+            echo
+            echo "- source run id: \`${SOURCE_RUN_ID}\`"
+            echo "- workflow name: \`$name\` (expected Build Paper)"
+            echo "- conclusion: \`$conclusion\` (expected success)"
+            echo "- head SHA: \`$head_sha\`"
+            echo "- checkout SHA: \`$checkout_sha\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Download PDF artifact from Build Paper run
         if: ${{ steps.resolve_target.outputs.should_publish == 'true' }}
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
