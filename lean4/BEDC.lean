@@ -329,6 +329,7 @@ import BEDC.Derived.CauchyDiagonalBudgetUp
 import BEDC.Derived.CauchyLimitFunctorUp
 import BEDC.Derived.CauchyWitnessGluingUp.TasteGate
 import BEDC.Derived.CauchyModulusRefinementUp
+import BEDC.Derived.CauchyModulusRefinementUp.BHistSourceScope
 import BEDC.Derived.CauchyModulusRefinementUp.BudgetSelectorSourceLock
 import BEDC.Derived.CauchyModulusRefinementUp.BudgetNaturality
 import BEDC.Derived.CauchyModulusRefinementUp.BridgedRouteDeterminacy
@@ -542,6 +543,7 @@ import BEDC.Derived.RealityConstrainedOpenFitUp.TasteGate
 import BEDC.Derived.RealityConstrainedScientificMethodologyUp.TasteGate
 import BEDC.Derived.RealityConstrainedSynthesisSealUp.TasteGate
 import BEDC.Derived.ScientificIdealizationResidueSealUp.TasteGate
+import BEDC.Derived.ScientificObjectUp.TasteGate
 import BEDC.Derived.CertifiedPhysicalTruthUp.TasteGate
 import BEDC.Derived.DomainTruthCertificateUp.TasteGate
 import BEDC.Derived.PhysicalTruthCertificateUp.TasteGate
@@ -1194,6 +1196,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetApproximationPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetLedgerMinimality
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CauchyLimitSealPullback
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalRouteChoiceFreeness
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalBudgetExhaustion
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.PrimitiveScope
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.PublicExport
