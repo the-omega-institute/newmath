@@ -446,4 +446,68 @@ theorem KernelCategoryCarrier_route_totality [BEDC.FKernel.Ask.AskSetup]
     ⟨unaryObject, identityCarrier, compositionRoute, routeUnary, routeCont,
       associativitySame, unitSame, nameSame, routePkg, cert⟩
 
+theorem KernelCategoryCarrier_law_row_exactness [BEDC.FKernel.Ask.AskSetup]
+    [BEDC.FKernel.Package.PackageSetup]
+    {object hom identity composition associativity unit provenance name lawRead : BHist}
+    {bundle : BEDC.FKernel.Bundle.ProbeBundle BEDC.FKernel.Ask.ProbeName}
+    {pkg : BEDC.FKernel.Package.Pkg} :
+    KernelCategoryCarrier object hom identity composition associativity unit provenance name ->
+      Cont associativity unit lawRead ->
+        BEDC.FKernel.Package.PkgSig bundle lawRead pkg ->
+          UnaryHistory object ∧ CategoryHomCarrier object object identity ∧
+            Cont identity composition hom ∧ Cont associativity unit lawRead ∧
+              hsame associativity (append hom composition) ∧ hsame unit identity ∧
+                hsame name (append provenance unit) ∧
+                  BEDC.FKernel.Package.PkgSig bundle lawRead pkg ∧
+                    SemanticNameCert
+                      (fun row : BHist => hsame row lawRead ∧ Cont associativity unit lawRead)
+                      (fun row : BHist =>
+                        hsame row lawRead ∧ hsame associativity (append hom composition))
+                      (fun row : BHist =>
+                        hsame row lawRead ∧ hsame unit identity ∧
+                          BEDC.FKernel.Package.PkgSig bundle lawRead pkg)
+                      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert PkgSig
+  intro carrier lawRoute lawPkg
+  obtain ⟨unaryObject, identityCarrier, compositionRoute, associativitySame, unitSame,
+    nameSame⟩ := carrier
+  have sourceLaw :
+      (fun row : BHist => hsame row lawRead ∧ Cont associativity unit lawRead)
+        lawRead := by
+    exact ⟨hsame_refl lawRead, lawRoute⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row lawRead ∧ Cont associativity unit lawRead)
+        (fun row : BHist => hsame row lawRead ∧ hsame associativity (append hom composition))
+        (fun row : BHist =>
+          hsame row lawRead ∧ hsame unit identity ∧
+            BEDC.FKernel.Package.PkgSig bundle lawRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro lawRead sourceLaw
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact ⟨hsame_trans (hsame_symm same) source.left, source.right⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact ⟨source.left, associativitySame⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, unitSame, lawPkg⟩
+    }
+  exact
+    ⟨unaryObject, identityCarrier, compositionRoute, lawRoute, associativitySame, unitSame,
+      nameSame, lawPkg, cert⟩
+
 end BEDC.Derived.KernelCategoryUp
