@@ -181,8 +181,8 @@ instance largeModelOutputVerifierBHistCarrier : BHistCarrier LargeModelOutputVer
   toEventFlow := largeModelOutputVerifierToEventFlow
   fromEventFlow := largeModelOutputVerifierFromEventFlow
 
-instance largeModelOutputVerifierChapterTasteGate :
-    ChapterTasteGate LargeModelOutputVerifierUp where
+private def largeModelOutputVerifierChapterTasteGateConcrete :
+    @ChapterTasteGate LargeModelOutputVerifierUp largeModelOutputVerifierBHistCarrier where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -193,41 +193,63 @@ instance largeModelOutputVerifierChapterTasteGate :
     intro x y hxy heq
     exact hxy (largeModelOutputVerifierToEventFlow_injective heq)
 
-instance largeModelOutputVerifierFieldFaithful : FieldFaithful LargeModelOutputVerifierUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | LargeModelOutputVerifierUp.mk harness auditChannel modelTrace promptResponse
-        inscriptionAudit verifier proofCheck refusal route replay provenance localName =>
-        [harness, auditChannel, modelTrace, promptResponse, inscriptionAudit, verifier,
-          proofCheck, refusal, route, replay, provenance, localName]
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk harness1 auditChannel1 modelTrace1 promptResponse1 inscriptionAudit1 verifier1
-        proofCheck1 refusal1 route1 replay1 provenance1 localName1 =>
-        cases y with
-        | mk harness2 auditChannel2 modelTrace2 promptResponse2 inscriptionAudit2 verifier2
-            proofCheck2 refusal2 route2 replay2 provenance2 localName2 =>
-            cases h
-            rfl
+instance largeModelOutputVerifierChapterTasteGate :
+    ChapterTasteGate LargeModelOutputVerifierUp :=
+  largeModelOutputVerifierChapterTasteGateConcrete
 
-instance largeModelOutputVerifierNontrivial : Nontrivial LargeModelOutputVerifierUp where
+def largeModelOutputVerifierFields : LargeModelOutputVerifierUp → List BHist
+  | LargeModelOutputVerifierUp.mk harness auditChannel modelTrace promptResponse
+      inscriptionAudit verifier proofCheck refusal route replay provenance localName =>
+      [harness, auditChannel, modelTrace, promptResponse, inscriptionAudit, verifier,
+        proofCheck, refusal, route, replay, provenance, localName]
+
+private theorem largeModelOutputVerifier_field_faithful :
+    ∀ x y : LargeModelOutputVerifierUp,
+      largeModelOutputVerifierFields x = largeModelOutputVerifierFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  intro x y h
+  cases x with
+  | mk harness1 auditChannel1 modelTrace1 promptResponse1 inscriptionAudit1 verifier1
+      proofCheck1 refusal1 route1 replay1 provenance1 localName1 =>
+      cases y with
+      | mk harness2 auditChannel2 modelTrace2 promptResponse2 inscriptionAudit2 verifier2
+          proofCheck2 refusal2 route2 replay2 provenance2 localName2 =>
+          cases h
+          rfl
+
+private def largeModelOutputVerifierFieldFaithfulConcrete :
+    @FieldFaithful LargeModelOutputVerifierUp largeModelOutputVerifierBHistCarrier where
   -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨LargeModelOutputVerifierUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      LargeModelOutputVerifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+  fields := largeModelOutputVerifierFields
+  field_faithful := largeModelOutputVerifier_field_faithful
+
+instance largeModelOutputVerifierFieldFaithful :
+    FieldFaithful LargeModelOutputVerifierUp :=
+  largeModelOutputVerifierFieldFaithfulConcrete
+
+private def largeModelOutputVerifierWitnessPair :
+    Σ' (x : LargeModelOutputVerifierUp) (y : LargeModelOutputVerifierUp), x ≠ y :=
+  ⟨LargeModelOutputVerifierUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty,
+    LargeModelOutputVerifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty,
+    by
+      intro h
+      cases h⟩
+
+private def largeModelOutputVerifierNontrivialConcrete :
+    Nontrivial LargeModelOutputVerifierUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair := largeModelOutputVerifierWitnessPair
+
+instance largeModelOutputVerifierNontrivial : Nontrivial LargeModelOutputVerifierUp :=
+  largeModelOutputVerifierNontrivialConcrete
 
 def taste_gate : ChapterTasteGate LargeModelOutputVerifierUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  largeModelOutputVerifierChapterTasteGate
+  largeModelOutputVerifierChapterTasteGateConcrete
 
 namespace TasteGate
 

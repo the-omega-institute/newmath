@@ -11,6 +11,8 @@ Run with no arguments. Output is JSON to stdout.
 
 from __future__ import annotations
 
+import argparse
+import bisect
 import fcntl
 import json
 import os
@@ -24,6 +26,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 NAMECERT_GLOB = ROOT / "papers/bedc/parts/concrete_instances"
 DERIVED_DIR = ROOT / "lean4/BEDC/Derived"
+_THEOREM_ENVS_CACHE_PATH = Path("/tmp/.bedc_cp_theorem_envs_cache.json")
+_LEAN_DECLS_CACHE_PATH = Path("/tmp/.bedc_cp_lean_decls_cache.json")
+_CACHE_ENABLED = True
 
 # Per-call rolling cooldown: when 8+ paper reviewers run critical_path in the
 # same minute they all see identical scores and converge on the same top-1,
@@ -318,6 +323,8 @@ def _compute_dispatch_weights(
     consumption: dict[str, int],
     base_weights_lean: dict[str, float],
     base_weights_paper: dict[str, float],
+    capstone_candidate: dict | None = None,
+    capstone_coverage: dict | None = None,
 ) -> dict[str, dict]:
     """Compute supply- and consumption-adjusted per-side weights."""
     lean_weights = _adjust_dispatch_weights(base_weights_lean, supply_lean, consumption)
@@ -327,12 +334,16 @@ def _compute_dispatch_weights(
             "weights": lean_weights,
             "supply": supply_lean,
             "consumption_60min": {key: consumption.get(key, 0) for key in base_weights_lean},
+            "capstone_candidate": capstone_candidate,
+            "capstone_coverage": capstone_coverage,
             "advice": _dispatch_advice("lean", lean_weights, supply_lean),
         },
         "paper": {
             "weights": paper_weights,
             "supply": supply_paper,
             "consumption_60min": {key: consumption.get(key, 0) for key in base_weights_paper},
+            "capstone_candidate": capstone_candidate,
+            "capstone_coverage": capstone_coverage,
             "advice": _dispatch_advice("paper", paper_weights, supply_paper),
         },
     }
@@ -402,6 +413,34 @@ def _git_head_short() -> str:
 _objective_grades_cache: dict[str, str] | None = None
 _carrier_isomorphism_cache: dict | None = None
 
+_ARITY_NAME = {
+    1: "Mono",
+    2: "Di",
+    3: "Tri",
+    4: "Tetra",
+    5: "Penta",
+    6: "Hexa",
+    7: "Hepta",
+    8: "Octa",
+    9: "Nona",
+    10: "Deca",
+    11: "Hendeca",
+    12: "Dodeca",
+}
+
+_GENERIC_NAME_TOKENS = {
+    "Up",
+    "Name",
+    "Cert",
+    "NameCert",
+    "Taste",
+    "Gate",
+    "TasteGate",
+    "Carrier",
+    "Chapter",
+    "BHist",
+}
+
 
 def _shape_summary(shape: object) -> str:
     """Compact phase-2 toEventFlow shape for critical_path JSON."""
@@ -424,6 +463,130 @@ def _shape_summary(shape: object) -> str:
     if len(kinds) > 8:
         preview += f"+{len(kinds) - 8}"
     return preview or "unparsed"
+
+
+def _camel_tokens(name: str) -> list[str]:
+    core = name[:-2] if name.endswith("Up") else name
+    return re.findall(r"[A-Z]+(?=[A-Z][a-z]|$)|[A-Z]?[a-z0-9]+", core)
+
+
+def _clean_common_theme(names: list[str]) -> str | None:
+    token_rows = [[t for t in _camel_tokens(name) if t not in _GENERIC_NAME_TOKENS] for name in names]
+    token_rows = [row for row in token_rows if row]
+    if len(token_rows) < 2:
+        return None
+    first = token_rows[0]
+    best: list[str] = []
+    for start in range(len(first)):
+        for end in range(start + 1, len(first) + 1):
+            candidate = first[start:end]
+            if len(candidate) < len(best):
+                continue
+            found_everywhere = all(
+                any(row[i:i + len(candidate)] == candidate for i in range(len(row) - len(candidate) + 1))
+                for row in token_rows[1:]
+            )
+            if found_everywhere and len(candidate) > len(best):
+                best = candidate
+    if len(best) >= 2 or (best and len(best[0]) >= 6):
+        return "".join(best)
+    return None
+
+
+def _shape_name_part(shape_summary: str) -> str:
+    if re.fullmatch(r"tag-encode×\d+", shape_summary):
+        return "Tuple"
+    if re.fullmatch(r"encode×\d+", shape_summary):
+        return "Sequence"
+    if re.fullmatch(r"tag×\d+", shape_summary):
+        return "TaggedFlow"
+    return "EventFlow"
+
+
+def _snake_case_name(name: str) -> str:
+    core = name[:-2] if name.endswith("Up") else name
+    parts = _camel_tokens(core)
+    return "_".join(part.lower() for part in parts)
+
+
+def _suggest_capstone_name(arity: int | None, shape_summary: str, names: list[str]) -> str:
+    theme = _clean_common_theme(names)
+    if theme:
+        suggested = f"{theme}CarrierNameCertUp"
+    else:
+        arity_name = _ARITY_NAME.get(arity or 0, f"Arity{arity}" if arity else "Multi")
+        suggested = f"BHist{arity_name}{_shape_name_part(shape_summary)}NameCertUp"
+    return suggested if suggested.endswith("Up") else f"{suggested}Up"
+
+
+def _capstone_candidate_dict(bucket: dict) -> dict:
+    arity = bucket.get("arity")
+    if not isinstance(arity, int):
+        arity = None
+    shape_summary = str(bucket.get("shape_summary") or "unparsed")
+    members = bucket.get("members_sample", [])
+    if not isinstance(members, list):
+        members = []
+    names = [str(name) for name in members if name]
+    member_count = int(bucket.get("member_count") or len(names))
+    suggested_lean_name = _suggest_capstone_name(arity, shape_summary, names)
+    suggested_paper_slug = _snake_case_name(suggested_lean_name)
+    return {
+        "bucket_arity": arity,
+        "bucket_shape": shape_summary,
+        "bucket_member_count": member_count,
+        "bucket_members_sample": names[:8],
+        "suggested_lean_name": suggested_lean_name,
+        "suggested_paper_slug": suggested_paper_slug,
+        "suggested_paper_filename_prefix_hint": f"NNNN_{suggested_paper_slug}",
+        "rationale": f"{member_count} chapters share a {shape_summary} BHist carrier event-flow pattern at arity {arity}.",
+    }
+
+
+def _capstone_candidate_sort_key(bucket: dict) -> tuple[int, int, str]:
+    return (
+        -int(bucket.get("member_count") or 0),
+        int(bucket.get("arity") or 10**9),
+        str(bucket.get("shape_summary") or ""),
+    )
+
+
+def _capstone_candidate_from_buckets(buckets: list[dict]) -> dict | None:
+    valid = [
+        bucket
+        for bucket in buckets
+        if isinstance(bucket, dict) and int(bucket.get("member_count") or 0) >= 2
+    ]
+    for bucket in sorted(valid, key=_capstone_candidate_sort_key):
+        candidate = _capstone_candidate_dict(bucket)
+        candidate_file = DERIVED_DIR / f"{candidate['suggested_lean_name']}.lean"
+        if candidate_file.exists():
+            continue
+        return candidate
+    return None
+
+
+def _capstone_coverage_from_buckets(buckets: list[dict]) -> dict:
+    covered_names = []
+    total_phase2_buckets = 0
+    for bucket in sorted(
+        (bucket for bucket in buckets if isinstance(bucket, dict)),
+        key=_capstone_candidate_sort_key,
+    ):
+        if int(bucket.get("member_count") or 0) < 2:
+            continue
+        total_phase2_buckets += 1
+        candidate = _capstone_candidate_dict(bucket)
+        suggested_lean_name = candidate["suggested_lean_name"]
+        if (DERIVED_DIR / f"{suggested_lean_name}.lean").exists():
+            covered_names.append(suggested_lean_name)
+    covered = len(covered_names)
+    return {
+        "total_phase2_buckets": total_phase2_buckets,
+        "covered": covered,
+        "uncovered": total_phase2_buckets - covered,
+        "covered_names": covered_names,
+    }
 
 
 def _get_carrier_isomorphism_summary() -> dict:
@@ -480,8 +643,8 @@ def _get_carrier_isomorphism_summary() -> dict:
         key=lambda item: len(item[1].get("members", [])) if isinstance(item[1], dict) else 0,
         reverse=True,
     )
-    top_buckets = []
-    for bucket_id, bucket in ranked[:10]:
+    phase2_buckets = []
+    for bucket_id, bucket in ranked:
         if not isinstance(bucket, dict):
             continue
         fingerprint = bucket.get("fingerprint", {})
@@ -495,20 +658,30 @@ def _get_carrier_isomorphism_summary() -> dict:
             for member in members
             if isinstance(member, dict) and member.get("name")
         ]
-        members_preview = names[:5]
-        if len(names) > 5:
-            members_preview.append("...")
-        top_buckets.append({
+        phase2_buckets.append({
             "bucket_id": bucket_id,
             "arity": fingerprint.get("arity"),
             "shape_summary": _shape_summary(fingerprint.get("shape")),
             "member_count": len(members),
+            "members_sample": names[:8],
+        })
+    top_buckets = []
+    for bucket in phase2_buckets[:10]:
+        members_preview = list(bucket["members_sample"][:5])
+        if bucket["member_count"] > 5:
+            members_preview.append("...")
+        top_buckets.append({
+            "bucket_id": bucket["bucket_id"],
+            "arity": bucket["arity"],
+            "shape_summary": bucket["shape_summary"],
+            "member_count": bucket["member_count"],
             "members_preview": members_preview,
         })
 
     _carrier_isomorphism_cache = {
         "available": True,
         "carriers_scanned": payload.get("carriers_scanned"),
+        "phase2_buckets": phase2_buckets,
         "phase2_top_buckets": top_buckets,
     }
     return _carrier_isomorphism_cache
@@ -1789,19 +1962,90 @@ def _infer_lean_anchor(file_path: Path, label: str | None,
     return None
 
 
+def _load_theorem_envs_cache() -> dict:
+    try:
+        if not _THEOREM_ENVS_CACHE_PATH.exists():
+            return {}
+        data = json.loads(_THEOREM_ENVS_CACHE_PATH.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def _save_theorem_envs_cache(cache: dict) -> None:
+    try:
+        tmp = _THEOREM_ENVS_CACHE_PATH.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+        tmp.replace(_THEOREM_ENVS_CACHE_PATH)
+    except Exception:
+        pass
+
+
+def _load_lean_decls_cache() -> dict:
+    try:
+        if not _LEAN_DECLS_CACHE_PATH.exists():
+            return {}
+        data = json.loads(_LEAN_DECLS_CACHE_PATH.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def _save_lean_decls_cache(cache: dict) -> None:
+    try:
+        tmp = _LEAN_DECLS_CACHE_PATH.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+        tmp.replace(_LEAN_DECLS_CACHE_PATH)
+    except Exception:
+        pass
+
+
 def _build_declared_set() -> set[str]:
-    """Set of qualified Lean names actually declared in lean4/BEDC/.
-    Reuses bedc_ci's inventory via dynamic import."""
+    """Per-file cached set of qualified Lean names declared in lean4/BEDC/."""
     try:
         sys_path_addition = str((ROOT / "lean4" / "scripts").resolve())
         import sys as _sys
         if sys_path_addition not in _sys.path:
             _sys.path.insert(0, sys_path_addition)
-        from bedc_ci import build_declaration_inventory  # type: ignore
-        declarations, _ = build_declaration_inventory()
-        return {d.qualified_name for d in declarations}
+        from bedc_ci import collect_declarations, lean_files  # type: ignore
     except Exception:
         return set()
+
+    cache = _load_lean_decls_cache() if _CACHE_ENABLED else {}
+    new_cache: dict = {}
+    declared: set[str] = set()
+
+    for path in lean_files():
+        try:
+            file_rel = str(path.relative_to(ROOT))
+        except ValueError:
+            file_rel = str(path)
+        try:
+            mtime = path.stat().st_mtime
+        except Exception:
+            continue
+
+        cached_entry = cache.get(file_rel) if isinstance(cache, dict) else None
+        if (
+            isinstance(cached_entry, dict)
+            and cached_entry.get("mtime") == mtime
+            and isinstance(cached_entry.get("decls"), list)
+        ):
+            decls_list = cached_entry["decls"]
+        else:
+            try:
+                file_decls, _file_fields = collect_declarations(path)
+                decls_list = [d.qualified_name for d in file_decls]
+            except Exception:
+                decls_list = []
+
+        new_cache[file_rel] = {"mtime": mtime, "decls": decls_list}
+        for q in decls_list:
+            declared.add(str(q))
+
+    if _CACHE_ENABLED:
+        _save_lean_decls_cache(new_cache)
+    return declared
 
 
 def _count_paper_wide_autorefs(files: list[Path]) -> dict[str, int]:
@@ -1819,6 +2063,39 @@ def _count_paper_wide_autorefs(files: list[Path]) -> dict[str, int]:
             label = m.group(1)
             counts[label] = counts.get(label, 0) + 1
     return counts
+
+
+def _scan_theorem_envs_for_file(text: str) -> list[dict]:
+    envs: list[dict] = []
+    line_starts = [0] + [i + 1 for i, c in enumerate(text) if c == "\n"]
+    for m in THEOREM_ENV_RE.finditer(text):
+        kind = m.group(1)
+        start = m.start()
+        line_start = bisect.bisect_right(line_starts, start)
+        window = text[start:start + 4000]
+        label_m = LABEL_INSIDE_RE.search(window)
+        label = label_m.group(1) if label_m else None
+        marker_m = ALL_MARKERS_RE.search(window)
+        actual_anchor = (
+            marker_m.group(2).replace("\\_", "_").strip()
+            if marker_m else None
+        )
+        marker_kind = marker_m.group(1) if marker_m else None
+
+        body_window = window[:1200]
+        statement_preview = re.sub(r"\s+", " ", body_window).strip()[:200]
+        has_kernel = bool(KERNEL_OBJECT_RE.search(body_window))
+
+        envs.append({
+            "kind": kind,
+            "line": line_start,
+            "label": label,
+            "anchor_actual": actual_anchor,
+            "marker_kind": marker_kind,
+            "statement_preview": statement_preview,
+            "has_kernel_object": has_kernel,
+        })
+    return envs
 
 
 def discover_all_theorems() -> list[dict]:
@@ -1844,6 +2121,8 @@ def discover_all_theorems() -> list[dict]:
     objective_grades = load_objective_formal_grades()
     declared_set = _build_declared_set()
     autoref_counts = _count_paper_wide_autorefs(files)
+    cache = _load_theorem_envs_cache() if _CACHE_ENABLED else {}
+    new_cache: dict = {}
 
     rows: list[dict] = []
     for f in files:
@@ -1851,13 +2130,28 @@ def discover_all_theorems() -> list[dict]:
         if zone in ("unknown", "meta"):
             continue
         try:
-            text = f.read_text(encoding="utf-8", errors="replace")
+            mtime = f.stat().st_mtime
         except Exception:
             continue
         try:
             file_rel = str(f.relative_to(ROOT))
         except ValueError:
             file_rel = str(f)
+        cached_entry = cache.get(file_rel)
+        if (
+            isinstance(cached_entry, dict)
+            and cached_entry.get("mtime") == mtime
+            and isinstance(cached_entry.get("envs"), list)
+        ):
+            envs = cached_entry["envs"]
+        else:
+            try:
+                text = f.read_text(encoding="utf-8", errors="replace")
+            except Exception:
+                continue
+            envs = _scan_theorem_envs_for_file(text)
+        if _CACHE_ENABLED:
+            new_cache[file_rel] = {"mtime": mtime, "envs": envs}
         # Chapter inference for grouping: the namecert hub name when in horizon,
         # otherwise the file stem stripped of leading numeric prefix.
         try:
@@ -1879,20 +2173,14 @@ def discover_all_theorems() -> list[dict]:
         else:
             chapter = None
 
-        for m in THEOREM_ENV_RE.finditer(text):
-            kind = m.group(1)
-            start = m.start()
-            line_start = text.count("\n", 0, start) + 1
-            window = text[start:start + 4000]
-            label_m = LABEL_INSIDE_RE.search(window)
-            label = label_m.group(1) if label_m else None
-            marker_m = ALL_MARKERS_RE.search(window)
-            actual_anchor = (
-                marker_m.group(2).replace("\\_", "_").strip()
-                if marker_m else None
-            )
-            marker_kind = marker_m.group(1) if marker_m else None
-
+        for env in envs:
+            if not isinstance(env, dict):
+                continue
+            kind = env.get("kind")
+            line_start = env.get("line")
+            label = env.get("label")
+            actual_anchor = env.get("anchor_actual")
+            marker_kind = env.get("marker_kind")
             if actual_anchor:
                 # Skip placeholder targets like `BEDC.<...>.<theorem>` —
                 # paper uses `<...>` as template syntax in didactic
@@ -1910,12 +2198,8 @@ def discover_all_theorems() -> list[dict]:
                 anchor_status = "unwritten"
                 suggested = _infer_lean_anchor(f, label, zone)
 
-            # statement_preview: first 200 chars of the env body, newlines
-            # collapsed. Used by workers to decide if the statement is
-            # actually formalisable without opening the file.
-            body_window = window[:1200]
-            statement_preview = re.sub(r"\s+", " ", body_window).strip()[:200]
-            has_kernel = bool(KERNEL_OBJECT_RE.search(body_window))
+            statement_preview = env.get("statement_preview")
+            has_kernel = bool(env.get("has_kernel_object"))
 
             # Score formula: paper-wide cross-reference count, weighted by
             # zone. ground_compiler kernel-grounded entries get a ×2 boost so
@@ -1947,6 +2231,8 @@ def discover_all_theorems() -> list[dict]:
                 "zone_weight": round(weight, 2),
                 "score": round(score, 2),
             })
+    if _CACHE_ENABLED:
+        _save_theorem_envs_cache(new_cache)
     return rows
 
 
@@ -2027,7 +2313,19 @@ def summarize_theorem_inventory(rows: list[dict]) -> dict:
     }
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    global _CACHE_ENABLED
+    parser = argparse.ArgumentParser(
+        description="发现 BEDC critical-path 派发候选。"
+    )
+    parser.add_argument(
+        "--no-cache",
+        action="store_true",
+        help="绕过 theorem-env 与 declared-set 缓存。",
+    )
+    args = parser.parse_args(argv)
+    _CACHE_ENABLED = not args.no_cache
+
     horizons = extract_horizons()
     downstream = transitive_downstream(horizons)
 
@@ -2331,10 +2629,19 @@ def main() -> int:
     try:
         carrier = payload.get("carrier_isomorphism", {})
         if isinstance(carrier, dict) and carrier.get("available"):
-            buckets = carrier.get("phase2_top_buckets", [])
-            carrier_iso_phase2_bucket_count = len(buckets) if isinstance(buckets, list) else 0
+            candidate_buckets = carrier.get("phase2_buckets", [])
+            if isinstance(candidate_buckets, list):
+                capstone_coverage = _capstone_coverage_from_buckets(candidate_buckets)
+                carrier_iso_phase2_bucket_count = capstone_coverage["uncovered"]
+                capstone_candidate = _capstone_candidate_from_buckets(candidate_buckets)
+            else:
+                carrier_iso_phase2_bucket_count = 0
+                capstone_candidate = None
+                capstone_coverage = None
         else:
             carrier_iso_phase2_bucket_count = 0
+            capstone_candidate = None
+            capstone_coverage = None
         supply_lean = {
             "top": len(rolled),
             "formal_axis_top": len(formal_axis_top_full),
@@ -2351,6 +2658,7 @@ def main() -> int:
         payload["dispatch_weights"] = _compute_dispatch_weights(
             supply_lean, supply_paper, consumption,
             _LEAN_BASE_WEIGHTS, _PAPER_BASE_WEIGHTS,
+            capstone_candidate, capstone_coverage,
         )
     except Exception as exc:
         payload["dispatch_weights"] = {"error": str(exc)[:200]}

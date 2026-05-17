@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SelectedTailSeedUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -276,5 +278,38 @@ theorem SelectedTailSeedTasteGate_single_carrier_alignment :
       selectedTailSeed_round_trip,
       (fun _ _ heq => selectedTailSeedToEventFlow_injective heq),
       rfl⟩
+
+theorem SelectedTailSeedCarrier_classifier_transport
+    {Q E A W K S R H C P N K' : BHist} (route : Cont A W K)
+    (sameReadback : hsame K K') :
+    Cont A W K' ∧
+      BHistCarrier.fromEventFlow
+        (BHistCarrier.toEventFlow (SelectedTailSeedUp.mk Q E A W K S R H C P N)) =
+          some (SelectedTailSeedUp.mk Q E A W K S R H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  cases sameReadback
+  constructor
+  · exact route
+  · change
+      selectedTailSeedFromEventFlow
+        (selectedTailSeedToEventFlow (SelectedTailSeedUp.mk Q E A W K S R H C P N)) =
+          some (SelectedTailSeedUp.mk Q E A W K S R H C P N)
+    exact selectedTailSeed_round_trip (SelectedTailSeedUp.mk Q E A W K S R H C P N)
+
+theorem SelectedTailSeedCarrier_finite_tail_admission_exactness
+    {Q E A W K S R H C P N W' K' : BHist} (sameWindow : hsame W W')
+    (admission : Cont A W K) (readback : Cont A W' K') :
+    hsame K K' ∧
+      BHistCarrier.fromEventFlow
+        (BHistCarrier.toEventFlow (SelectedTailSeedUp.mk Q E A W K S R H C P N)) =
+          some (SelectedTailSeedUp.mk Q E A W K S R H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  constructor
+  · exact cont_respects_hsame (hsame_refl A) sameWindow admission readback
+  · change
+      selectedTailSeedFromEventFlow
+        (selectedTailSeedToEventFlow (SelectedTailSeedUp.mk Q E A W K S R H C P N)) =
+          some (SelectedTailSeedUp.mk Q E A W K S R H C P N)
+    exact selectedTailSeed_round_trip (SelectedTailSeedUp.mk Q E A W K S R H C P N)
 
 end BEDC.Derived.SelectedTailSeedUp

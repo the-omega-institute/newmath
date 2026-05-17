@@ -33,6 +33,7 @@ The carrier is only this finite packet. It has no host truth predicate, no quoti
 \label{thm:refutation-boundary-permitted-negation-sound}
 Every accepted $\RefutationBoundaryUp$ packet supports the permitted BEDC rule that a displayed route from an assumed witness of $A$ to bottom yields the local negation of $A$. The rule is stable under the packet's $\hsame$ transports and displayed $\Cont$ routes.
 \end{theorem}
+\leanchecked{BEDC.Derived.RefutationBoundaryUp.RefutationBoundaryCarrier\_permitted\_negation\_sound}
 \begin{proof}
 Project the accepted carrier as $B=(A,F,D,S,T,H,C,P,N)$. The row $F$ is not an ambient proof search result; it is a displayed route from an assumed witness of $A$ through the stored continuation rows to the bottom row.
 
@@ -45,6 +46,7 @@ Thus the only negation exported by the packet is the one accounted for by its di
 \label{thm:refutation-boundary-forbidden-truth-branch-exclusion}
 No consumer read of an accepted $\RefutationBoundaryUp$ packet can produce a certificate-indexed truth branch for predicates over the carrier of all naming certificates. In particular, the packet does not implement any forbidden schema of \autoref{def:reasoning-forbidden-pattern}.
 \end{theorem}
+\leanchecked{BEDC.Derived.RefutationBoundaryUp.RefutationBoundaryForbiddenTruthBranchExclusion}
 \begin{proof}
 The only classifier-visible coordinates of the carrier are $A,F,D,S,T,H,C,P,N$. None of them ranges over all naming certificates, and none is a family choosing $Q(N)\vee\neg Q(N)$ for arbitrary $Q$ and arbitrary certificate $N$.
 
@@ -88,6 +90,8 @@ The refutation data available to the consumer is the route $F$ together with its
 
 The completion-side exclusions are exactly the absent coordinates of \autoref{def:refutation-boundary-carrier}. The packet does not contain a RealUp completeness witness, a quotient truth predicate, or a branch over all naming certificates, so a RealUp consumer cannot obtain any of those principles from this certificate.
 \end{proof}
+\leanchecked{BEDC.Derived.RefutationBoundaryUp.RefutationBoundaryRealUpConsumerScope}
+\leanchecked{BEDC.Derived.RefutationBoundaryUp.RefutationBoundaryCarrier\_realup\_consumer\_scope}
 
 \closureat{RefutationBoundaryUp}{seedStr}
 

@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-objectknowledgecertificate-namecert}
 \origin{ai}
 
-The $\ObjectKnowledgeCertificateUp$ packet realizes the object-knowledge synthesis of \autoref{ch:visions-philosophy-object-knowledge-namecert} as finite BEDC NameCert data. It uses the five-field certificate discipline from \autoref{thm:philosophy-object-knowledge-certificate-synthesis}, reads certificate transport through \autoref{ch:concrete-instances-namecertmorphism-namecert}, and reads classifier transport through \autoref{ch:concrete-instances-classifiermorphism-namecert}. The carrier therefore exposes an object as a licensed name and knowledge as an auditable witness before any consumer receives a mature object-knowledge export.
+The $\ObjectKnowledgeCertificateUp$ packet realizes the object-knowledge synthesis of \autoref{sec:visions-philosophy-object-knowledge-namecert} as finite BEDC NameCert data. It uses the five-field certificate discipline from \autoref{thm:philosophy-object-knowledge-certificate-synthesis}, reads certificate transport through \autoref{ch:concrete-instances-namecertmorphism-namecert}, and reads classifier transport through \autoref{ch:concrete-instances-classifiermorphism-namecert}. The carrier therefore exposes an object as a licensed name and knowledge as an auditable witness before any consumer receives a mature object-knowledge export.
 
 \begin{definition}[Object-knowledge certificate carrier]
 \label{def:object-knowledge-certificate-carrier}
@@ -44,6 +44,7 @@ Read the local NameCert row. The certificate fields are $S,P,K,T,L$, and the obj
 
 Finally use the componentwise transport row $C$. It preserves the displayed name, witness, five-field certificate, sibling morphism routes, and local certificate row together. Therefore an accepted export is exactly the stated finite NameCert packet, not a projection with the witness or ledger suppressed.
 \end{proof}
+\leanchecked{BEDC.Derived.ObjectKnowledgeCertificateUp.ObjectKnowledgeCertificateNameCert\_obligations}
 
 \begin{theorem}[Object-knowledge witness exactness]
 \label{thm:object-knowledge-certificate-witness-exactness}
@@ -56,6 +57,7 @@ The audit route $A$ is defined as a displayed check of the witness against the l
 
 The local NameCert row $Q$ names the whole packet. Since $C$ transports $W$ componentwise with the other rows, a consumer that substitutes a certificate field for $W$ changes the accepted packet and loses the knowledge read.
 \end{proof}
+\leanchecked{BEDC.Derived.ObjectKnowledgeCertificateUp.ObjectKnowledgeCertificate\_witness\_audit\_rows\_reflect\_display}
 
 \begin{theorem}[Object-knowledge nonescape]
 \label{thm:object-knowledge-certificate-nonescape}
@@ -72,6 +74,7 @@ Use \autoref{thm:object-knowledge-certificate-witness-exactness} to keep the wit
 
 The sibling morphism routes preserve the displayed certificate and classifier data, but they do not add an inverse, a bare object, or a truth predicate. Hence every accepted read remains inside the finite row list, and the listed escapes are not exports of this carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.ObjectKnowledgeCertificateUp.ObjectKnowledgeCertificate\_nonescape}
 
 \falsifiablePrediction{If an object-knowledge export bypasses either the displayed five-field NameCert row or the displayed witness row, the packet is refuted.}
 

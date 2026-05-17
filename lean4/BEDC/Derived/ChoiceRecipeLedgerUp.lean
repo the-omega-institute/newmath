@@ -138,4 +138,72 @@ theorem ChoiceRecipeLedgerCarrier_namecert_obligations [AskSetup] [PackageSetup]
       obligationReadUnary, requestRecipesOutput, outputRefusalRoute, routeTransportProvenance,
       provenanceLocalName, localNamePkg, obligationReadPkg, nameCert⟩
 
+theorem ChoiceRecipeLedgerCarrier_term_stratum_handoff [AskSetup] [PackageSetup]
+    {request recipes output refusal transport route provenance localName handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ChoiceRecipeLedgerCarrier request recipes output refusal transport route provenance localName
+        bundle pkg →
+      Cont localName request handoff →
+        PkgSig bundle handoff pkg →
+          UnaryHistory request ∧ UnaryHistory recipes ∧ UnaryHistory output ∧
+            UnaryHistory refusal ∧ UnaryHistory handoff ∧ Cont request recipes output ∧
+              Cont output refusal route ∧ Cont localName request handoff ∧
+                PkgSig bundle localName pkg ∧ PkgSig bundle handoff pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier localNameRequest handoffPkg
+  obtain ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, localNameUnary, requestRecipesOutput, outputRefusalRoute,
+    _routeTransportProvenance, localNamePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed localNameUnary requestUnary localNameRequest
+  exact
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, handoffUnary, requestRecipesOutput,
+      outputRefusalRoute, localNameRequest, localNamePkg, handoffPkg⟩
+
+theorem ChoiceRecipeLedgerTermStratumHandoff [AskSetup] [PackageSetup]
+    {request recipes output refusal transport route provenance localName handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ChoiceRecipeLedgerCarrier request recipes output refusal transport route provenance localName
+        bundle pkg →
+      Cont request output handoffRead →
+        UnaryHistory request ∧ UnaryHistory recipes ∧ UnaryHistory output ∧
+          UnaryHistory refusal ∧ UnaryHistory handoffRead ∧ Cont request recipes output ∧
+            Cont request output handoffRead ∧ Cont output refusal route ∧
+              PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier requestOutputHandoff
+  rcases carrier with
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, _transportUnary, _routeUnary,
+      _provenanceUnary, _localNameUnary, requestRecipesOutput, outputRefusalRoute,
+      _routeTransportProvenance, localNamePkg⟩
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed requestUnary outputUnary requestOutputHandoff
+  exact
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, handoffUnary,
+      requestRecipesOutput, requestOutputHandoff, outputRefusalRoute, localNamePkg⟩
+
+theorem ChoiceRecipeLedgerEffectiveReplacementBoundary [AskSetup] [PackageSetup]
+    {request recipes output refusal transport route provenance localName replacement : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ChoiceRecipeLedgerCarrier request recipes output refusal transport route provenance
+        localName bundle pkg →
+      Cont output refusal replacement →
+        PkgSig bundle replacement pkg →
+          UnaryHistory request ∧ UnaryHistory recipes ∧ UnaryHistory output ∧
+            UnaryHistory refusal ∧ UnaryHistory replacement ∧ Cont request recipes output ∧
+              Cont output refusal route ∧ Cont output refusal replacement ∧
+                PkgSig bundle localName pkg ∧ PkgSig bundle replacement pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier outputRefusalReplacement replacementPkg
+  rcases carrier with
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, _transportUnary, _routeUnary,
+      _provenanceUnary, _localNameUnary, requestRecipesOutput, outputRefusalRoute,
+      _routeTransportProvenance, localNamePkg⟩
+  have replacementUnary : UnaryHistory replacement :=
+    unary_cont_closed outputUnary refusalUnary outputRefusalReplacement
+  exact
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, replacementUnary,
+      requestRecipesOutput, outputRefusalRoute, outputRefusalReplacement, localNamePkg,
+      replacementPkg⟩
+
 end BEDC.Derived.ChoiceRecipeLedgerUp

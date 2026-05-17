@@ -346,6 +346,34 @@ theorem CorpusSupplyDistillationNameCert_obligations
   | mk C F D O R H T P N =>
       exact ⟨C, F, D, O, R, H, T, P, N, rfl, hsame_refl H, rfl⟩
 
+theorem CorpusSupplyDistillation_carried_output_boundary
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        Cont C F (append C F) ∧
+          Cont F D (append F D) ∧
+            Cont D O (append D O) ∧ hsame H H := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk C F D O R H T P N =>
+      exact ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl, rfl, hsame_refl H⟩
+
+theorem CorpusSupplyDistillationCarrier_admission
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        FieldFaithful.fields x = [C, F, D, O, R, H, T, P, N] ∧
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
+            hsame H H ∧ Cont T P (append T P) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk C F D O R H T P N =>
+      exact
+        ⟨C, F, D, O, R, H, T, P, N, rfl, rfl,
+          corpusSupplyDistillationChapterTasteGate.round_trip
+            (CorpusSupplyDistillationUp.mk C F D O R H T P N),
+          hsame_refl H, rfl⟩
+
 theorem CorpusSupplyDistillation_public_nonescape {x : CorpusSupplyDistillationUp} :
     ∃ C F D O R H T P N : BHist,
       x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
@@ -364,6 +392,26 @@ theorem CorpusSupplyDistillation_public_nonescape {x : CorpusSupplyDistillationU
           (fun hbad =>
             (cont_mutual_extension_right_tail_absurd
               (h := T) (k := append T P) (leftTail := P) (rightTail := C)).right rfl hbad)⟩
+
+theorem CorpusSupplyDistillation_output_prior_refusal_exactness
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        Cont O R (append O R) ∧
+          Cont R N (append R N) ∧
+            (Cont (append R N) (BHist.e0 O) R → False) ∧
+              (Cont (append R N) (BHist.e1 O) R → False) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk C F D O R H T P N =>
+      exact
+        ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl,
+          (fun hbad =>
+            (cont_mutual_extension_right_tail_absurd
+              (h := R) (k := append R N) (leftTail := N) (rightTail := O)).left rfl hbad),
+          (fun hbad =>
+            (cont_mutual_extension_right_tail_absurd
+              (h := R) (k := append R N) (leftTail := N) (rightTail := O)).right rfl hbad)⟩
 
 theorem CorpusSupplyDistillationSourceChannel_exposure :
     (∀ x : CorpusSupplyDistillationUp,
@@ -387,5 +435,40 @@ theorem CorpusSupplyDistillationSourceChannel_exposure :
         [BHist.Empty, F, D, O, R, H, T, P, N] at hfields
     injection hfields with hrow _
     cases hrow
+
+theorem CorpusSupplyDistillation_filter_route_order
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        Cont C F (append C F) ∧
+          Cont F D (append F D) ∧
+            Cont D O (append D O) ∧
+              FieldFaithful.fields x = [C, F, D, O, R, H, T, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont FieldFaithful
+  cases x with
+  | mk C F D O R H T P N =>
+      exact ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl, rfl, rfl⟩
+
+theorem CorpusSupplyDistillation_refusal_exactness
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        Cont R H (append R H) ∧
+          Cont H T (append H T) ∧
+            Cont T P (append T P) ∧
+              Cont P N (append P N) ∧
+                (Cont (append P N) (BHist.e0 R) P → False) ∧
+                  (Cont (append P N) (BHist.e1 R) P → False) := by
+  -- BEDC touchpoint anchor: BHist Cont
+  cases x with
+  | mk C F D O R H T P N =>
+      exact
+        ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl, rfl, rfl,
+          (fun hbad =>
+            (cont_mutual_extension_right_tail_absurd
+              (h := P) (k := append P N) (leftTail := N) (rightTail := R)).left rfl hbad),
+          (fun hbad =>
+            (cont_mutual_extension_right_tail_absurd
+              (h := P) (k := append P N) (leftTail := N) (rightTail := R)).right rfl hbad)⟩
 
 end BEDC.Derived.CorpusSupplyDistillationUp

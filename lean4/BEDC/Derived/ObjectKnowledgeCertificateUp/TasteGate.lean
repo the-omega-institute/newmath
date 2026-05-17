@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ObjectKnowledgeCertificateUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -270,5 +274,127 @@ theorem ObjectKnowledgeCertificateTasteGate_single_carrier_alignment :
         by
           intro h
           cases h⟩⟩
+
+theorem ObjectKnowledgeCertificate_witness_audit_rows_reflect_display
+    {N W S P K T L A C Q N' W' S' P' K' T' L' A' C' Q' : BHist}
+    (hdisplay :
+      objectKnowledgeCertificateToEventFlow
+          (ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q) =
+        objectKnowledgeCertificateToEventFlow
+          (ObjectKnowledgeCertificateUp.mk N' W' S' P' K' T' L' A' C' Q')) :
+    W = W' ∧ A = A' ∧
+      objectKnowledgeCertificateEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  have hpacket :
+      ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q =
+        ObjectKnowledgeCertificateUp.mk N' W' S' P' K' T' L' A' C' Q' :=
+    objectKnowledgeCertificateToEventFlow_injective hdisplay
+  cases hpacket
+  exact ⟨rfl, rfl, rfl⟩
+
+theorem ObjectKnowledgeCertificate_nonescape
+    {N W S P K T L A C Q consumer subjectTail : BHist}
+    (auditRoute : Cont N W A)
+    (consumerRoute : Cont A C consumer) :
+    SemanticNameCert
+        (fun row : BHist =>
+          hsame row N ∧
+            ∃ packet : ObjectKnowledgeCertificateUp,
+              packet = ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q)
+        (fun row : BHist =>
+          hsame row N ∧ hsame W W ∧ hsame S S ∧ hsame P P ∧ hsame K K)
+        (fun row : BHist =>
+          Cont N W A ∧ hsame row N ∧ hsame L L ∧ hsame C C ∧ hsame Q Q)
+        hsame ∧
+      Cont N W A ∧
+        Cont A C consumer ∧
+          (Cont consumer (BHist.e0 subjectTail) A → False) ∧
+            (Cont consumer (BHist.e1 subjectTail) A → False) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row N ∧
+              ∃ packet : ObjectKnowledgeCertificateUp,
+                packet = ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q)
+          (fun row : BHist =>
+            hsame row N ∧ hsame W W ∧ hsame S S ∧ hsame P P ∧ hsame K K)
+          (fun row : BHist =>
+            Cont N W A ∧ hsame row N ∧ hsame L L ∧ hsame C C ∧ hsame Q Q)
+          hsame := by
+    constructor
+    · constructor
+      · exact
+          Exists.intro N
+            ⟨hsame_refl N,
+              ⟨ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q, rfl⟩⟩
+      · intro row _source
+        exact hsame_refl row
+      · intro _row _other same
+        exact hsame_symm same
+      · intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro row other same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left,
+            source.right⟩
+    · intro _row source
+      exact
+        ⟨source.left, hsame_refl W, hsame_refl S, hsame_refl P, hsame_refl K⟩
+    · intro _row source
+      exact
+        ⟨auditRoute, source.left, hsame_refl L, hsame_refl C, hsame_refl Q⟩
+  exact
+    ⟨cert, auditRoute, consumerRoute,
+      (fun subjectReturn =>
+        cont_mutual_extension_right_tail_absurd.left consumerRoute subjectReturn),
+      (fun subjectReturn =>
+        cont_mutual_extension_right_tail_absurd.right consumerRoute subjectReturn)⟩
+
+theorem ObjectKnowledgeCertificateNameCert_obligations
+    {N W S P K T L A C Q : BHist} :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row N ∧
+          ∃ packet : ObjectKnowledgeCertificateUp,
+            packet = ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q)
+      (fun row : BHist =>
+        hsame row N ∧ hsame W W ∧ hsame S S ∧ hsame P P ∧ hsame K K)
+      (fun row : BHist =>
+        hsame row N ∧ hsame T T ∧ hsame L L ∧ hsame A A ∧ hsame C C ∧
+          hsame Q Q)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro N
+          ⟨hsame_refl N,
+            Exists.intro (ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q) rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.left, hsame_refl W, hsame_refl S, hsame_refl P,
+          hsame_refl K⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.left, hsame_refl T, hsame_refl L, hsame_refl A,
+          hsame_refl C, hsame_refl Q⟩
+  }
 
 end BEDC.Derived.ObjectKnowledgeCertificateUp

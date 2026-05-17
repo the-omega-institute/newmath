@@ -42,6 +42,7 @@ Transport and continuation are then fixed by $H$ and $C$. The package row $P$ an
 \label{thm:audit-map-dependency-weave-cross-map-consumer-boundary}
 Every cross-map consumer of an accepted $\AuditMapDependencyWeaveUp$ carrier reads the local map $M$, neighbouring-map link $L$, obstruction row $O$, frontier row $F$, and synthesis-consumer row $S$ through the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ routes $H,C,P,N$. The consumer may route a frontier dependency between named maps, but it cannot replace the route by an unlisted map, erase the obstruction row, or turn the frontier row into a closed theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditMapDependencyWeaveUp.AuditMapDependencyWeaveCrossMapConsumerBoundary}
 \begin{proof}
 Project the accepted carrier $W=(M,L,O,F,S,H,C,P,N)$. The local and neighbouring map data are visible only in $M$ and $L$, while the obstruction, frontier, and synthesis-consumer data are visible only in $O,F,S$.
 
@@ -54,6 +55,7 @@ Thus a cross-map consumer can follow the named route, but the packet gives no co
 \label{thm:audit-map-dependency-weave-frontier-nonescape}
 For every accepted $\AuditMapDependencyWeaveUp$ carrier, the frontier row $F$ remains a named boundary row. It may be transported along $H$, reached by $C$, packaged by $P$, and consumed by the synthesis rows $S$, but it cannot escape as a hidden theorem, a discharged obstruction, a global audit-map closure claim, or a consumer route not recorded in $M,L,O,F,S,H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditMapDependencyWeaveUp.AuditMapDependencyWeaveFrontierNonEscape}
 \begin{proof}
 Read the frontier coordinate from \autoref{def:audit-map-dependency-weave-carrier}. The row $F$ is stored beside the obstruction row $O$ and the synthesis-consumer row $S$, so it is not a proof object by itself.
 
@@ -61,6 +63,7 @@ Use \autoref{thm:audit-map-dependency-weave-cross-map-consumer-boundary} for dow
 
 The non-escape claim is now the carrier inventory. Since no coordinate names a hidden theorem, discharged obstruction, global closure claim, or unrecorded consumer, the frontier row can only remain the visible boundary row of the weave.
 \end{proof}
+\leanchecked{BEDC.Derived.AuditMapDependencyWeaveUp.AuditMapDependencyWeaveFrontierNonescape}
 
 \begin{theorem}[Audit-map dependency weave route admission]
 \label{thm:audit-map-dependency-weave-route-admission}
@@ -90,6 +93,7 @@ Use the obligation surface of \autoref{thm:audit-map-dependency-weave-namecert-o
 
 Finally apply the frontier non-escape theorem \autoref{thm:audit-map-dependency-weave-frontier-nonescape}. Since the frontier cannot escape as a hidden theorem or discharged obstruction, the obstruction ledger remains visible and undischarged.
 \end{proof}
+\leanchecked{BEDC.Derived.AuditMapDependencyWeaveUp.AuditMapDependencyWeaveObstructionLedger}
 
 \begin{theorem}[Audit-map dependency weave synthesis NameCert package]
 \label{thm:audit-map-dependency-weave-synthesis-namecert-package}
@@ -102,6 +106,7 @@ Next use the obstruction ledger of \autoref{thm:audit-map-dependency-weave-obstr
 
 Finally combine the cross-map consumer boundary of \autoref{thm:audit-map-dependency-weave-cross-map-consumer-boundary} with frontier non-escape from \autoref{thm:audit-map-dependency-weave-frontier-nonescape}. These rows force every synthesis read through $M,L,O,F,H,C,P,N$ and leave no coordinate for an external synthesis row, hidden obstruction discharge, or frontier proof.
 \end{proof}
+\leanchecked{BEDC.Derived.AuditMapDependencyWeaveUp.AuditMapDependencyWeaveSynthesisNameCertPackage}
 
 \closureat{AuditMapDependencyWeaveUp}{seedStr}
 

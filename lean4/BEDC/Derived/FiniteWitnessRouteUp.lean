@@ -446,4 +446,92 @@ theorem FiniteWitnessRouteSeal_budget_exactness
         · intro hostRoute
           exact (cont_mutual_extension_right_tail_absurd).right routeThroughPkg hostRoute
 
+theorem FiniteWitnessRouteConsumer_route_exactness
+    {q w r d s h c p n consumer hostTail : BHist}
+    (requestRoute : Cont q w r)
+    (sealRoute : Cont r d s)
+    (routeThroughName : Cont s c consumer)
+    (routeThroughPkg : Cont s p consumer) :
+    (∃ packet : FiniteWitnessRouteUp,
+        packet = FiniteWitnessRouteUp.mk q w r d s h c p n ∧
+          Cont q w r ∧ Cont r d s ∧ Cont s c consumer) ∧
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row q ∧
+            ∃ packet : FiniteWitnessRouteUp,
+              packet = FiniteWitnessRouteUp.mk q w r d s h c p n)
+        (fun row : BHist => hsame row q ∧ hsame w w ∧ hsame r r ∧ hsame d d)
+        (fun row : BHist =>
+          Cont q w r ∧ Cont r d s ∧ hsame row q ∧ hsame h h ∧ hsame c c ∧
+            hsame p p ∧ hsame n n)
+        hsame ∧
+        Cont s p consumer ∧
+          (Cont consumer (BHist.e0 hostTail) s -> False) ∧
+            (Cont consumer (BHist.e1 hostTail) s -> False) ∧
+              Cont q w r ∧ Cont r d s := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  have exactness :=
+    FiniteWitnessRouteSeal_budget_exactness (q := q) (w := w) (r := r) (d := d)
+      (s := s) (h := h) (c := c) (p := p) (n := n) (consumer := consumer)
+      (hostTail := hostTail) requestRoute sealRoute routeThroughName routeThroughPkg
+  constructor
+  · exact exactness.left
+  · constructor
+    · exact exactness.right.left
+    · constructor
+      · exact exactness.right.right.left
+      · constructor
+        · exact exactness.right.right.right.left
+        · constructor
+          · exact exactness.right.right.right.right
+          · exact ⟨requestRoute, sealRoute⟩
+
+theorem FiniteWitnessRouteSelectedWindowSeal_uniqueness
+    {q w r r' d d' s s' h c p n : BHist}
+    (requestRoute : Cont q w r)
+    (requestRoute' : Cont q w r')
+    (sealRoute : Cont r d s)
+    (sealRoute' : Cont r' d' s')
+    (sameD : hsame d d') :
+    hsame r r' ∧ hsame s s' ∧
+      (∃ packet : FiniteWitnessRouteUp,
+        packet = FiniteWitnessRouteUp.mk q w r d s h c p n ∧ Cont q w r ∧ Cont r d s) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  have sameR : hsame r r' := cont_deterministic requestRoute requestRoute'
+  have transportedSealRoute : Cont r' d' s := by
+    exact cont_hsame_transport sameR sameD (hsame_refl s) sealRoute
+  have sameS : hsame s s' := cont_deterministic transportedSealRoute sealRoute'
+  exact
+    ⟨sameR, sameS,
+      ⟨FiniteWitnessRouteUp.mk q w r d s h c p n, rfl, requestRoute, sealRoute⟩⟩
+
+theorem FiniteWitnessRouteRegSeq_budget_exhaustion
+    {q w r d s h c p n consumer tail : BHist}
+    (requestRoute : Cont q w r)
+    (sealRoute : Cont r d s)
+    (routeThroughName : Cont s c consumer) :
+    (∃ packet : FiniteWitnessRouteUp,
+        packet = FiniteWitnessRouteUp.mk q w r d s h c p n ∧
+          Cont q w r ∧ Cont r d s ∧ Cont s c consumer) ∧
+      (Cont r (BHist.e0 tail) q → False) ∧
+        (Cont r (BHist.e1 tail) q → False) ∧
+          (Cont s (BHist.e0 tail) r → False) ∧
+            (Cont s (BHist.e1 tail) r → False) := by
+  -- BEDC touchpoint anchor: BHist Cont
+  constructor
+  · exact
+      ⟨FiniteWitnessRouteUp.mk q w r d s h c p n,
+        rfl, requestRoute, sealRoute, routeThroughName⟩
+  · constructor
+    · intro routeBackToRequest
+      exact (cont_mutual_extension_right_tail_absurd).left requestRoute routeBackToRequest
+    · constructor
+      · intro routeBackToRequest
+        exact (cont_mutual_extension_right_tail_absurd).right requestRoute routeBackToRequest
+      · constructor
+        · intro routeBackToReadback
+          exact (cont_mutual_extension_right_tail_absurd).left sealRoute routeBackToReadback
+        · intro routeBackToReadback
+          exact (cont_mutual_extension_right_tail_absurd).right sealRoute routeBackToReadback
+
 end BEDC.Derived.FiniteWitnessRouteUp

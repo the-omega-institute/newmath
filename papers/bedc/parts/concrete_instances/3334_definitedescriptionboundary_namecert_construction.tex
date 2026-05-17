@@ -40,11 +40,13 @@ The naming obligations are exactly the rows a consumer can inspect before readin
 
 No additional coordinate remains from which to select a host object or import an ambient denotation. The local $\NameCert$ surface is therefore exhausted by the listed rows.
 \end{proof}
+\leanchecked{BEDC.Derived.DefiniteDescriptionBoundaryUp.DefiniteDescriptionBoundary\_namecert\_obligations}
 
 \begin{theorem}[Definite-description existence route]
 \label{thm:definite-description-boundary-existence-route}
 Let $B=(D,E,U,S,H,C,P,N)$ be an accepted $\DefiniteDescriptionBoundaryUp$ packet. Any public use of the description row $D$ as having a witness must factor through the displayed existence row $E$, replayed by $C$ and recorded by $P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DefiniteDescriptionBoundaryUp.DefiniteDescriptionBoundaryExistenceRoute}
 \begin{proof}
 Project the accepted packet to its description row $D$ and existence row $E$. The carrier contains no second existence coordinate and no host-level selection function.
 
@@ -55,6 +57,7 @@ The replay route $C$ is the only displayed path from the description row to the 
 \label{thm:definite-description-boundary-uniqueness-route}
 Let $B=(D,E,U,S,H,C,P,N)$ be an accepted $\DefiniteDescriptionBoundaryUp$ packet. Any public use of $D$ as selecting at most one witness must factor through the uniqueness-boundary row $U$. If $U$ records refusal rather than singleton boundary, the packet exports only the refusal and does not export a denoting term.
 \end{theorem}
+\leanchecked{BEDC.Derived.DefiniteDescriptionBoundaryUp.DefiniteDescriptionBoundaryUniquenessRoute}
 \begin{proof}
 Inspect the carrier coordinates. The only row that can certify uniqueness, or refuse it, is $U$.
 
@@ -67,6 +70,7 @@ Therefore uniqueness is not supplied by the grammar of the description. It is su
 \label{thm:definite-description-boundary-stability-route}
 Let $B=(D,E,U,S,H,C,P,N)$ be an accepted $\DefiniteDescriptionBoundaryUp$ packet. Any downstream read that transports the description across equivalent histories must use the stability row $S$ together with the componentwise $\hsame$ row $H$ and the replay row $C$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DefiniteDescriptionBoundaryUp.DefiniteDescriptionBoundaryStabilityRoute}
 \begin{proof}
 The stability coordinate $S$ records the permitted movement of the description read under the packet's own transport discipline. The transport coordinate $H$ records the componentwise $\hsame$ data for the description, witness, boundary, stability, replay, provenance, and naming rows.
 
@@ -83,6 +87,7 @@ D,E,U,S,H,C,P,N.
 $$
 It exports no host-selected witness, no choice principle, no quotient representative, no proof-irrelevance shortcut, and no denoting term outside the displayed NameCert ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.DefiniteDescriptionBoundaryUp.DefiniteDescriptionBoundaryLedger\_exhaustion}
 \begin{proof}
 Read the carrier as the tuple $B=(D,E,U,S,H,C,P,N)$. The definition lists every row available to a downstream consumer.
 

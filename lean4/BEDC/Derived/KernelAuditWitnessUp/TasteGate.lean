@@ -334,4 +334,22 @@ theorem KernelAuditWitnessLedger_exactness {G A L R H C P N : BHist} :
   · exact kernelAuditWitness_round_trip (KernelAuditWitnessUp.mk G A L R H C P N)
   · rfl
 
+theorem KernelAuditWitnessAncestry_non_contamination
+    {G A L R H C P N G' A' L' R' H' C' P' N' : BHist}
+    (hflow :
+      BHistCarrier.toEventFlow (KernelAuditWitnessUp.mk G A L R H C P N) =
+        BHistCarrier.toEventFlow (KernelAuditWitnessUp.mk G' A' L' R' H' C' P' N')) :
+    R = R' ∧ L = L' ∧ C = C' ∧ N = N' ∧
+      kernelAuditWitnessEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  change
+    kernelAuditWitnessToEventFlow (KernelAuditWitnessUp.mk G A L R H C P N) =
+      kernelAuditWitnessToEventFlow (KernelAuditWitnessUp.mk G' A' L' R' H' C' P' N') at hflow
+  have hpacket :
+      KernelAuditWitnessUp.mk G A L R H C P N =
+        KernelAuditWitnessUp.mk G' A' L' R' H' C' P' N' :=
+    kernelAuditWitnessToEventFlow_injective hflow
+  injection hpacket with _ _ hL hR _ hC _ hN
+  exact ⟨hR, hL, hC, hN, rfl⟩
+
 end BEDC.Derived.KernelAuditWitnessUp

@@ -1,11 +1,11 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v5.33 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.35 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Source priority weights (critical_path dispatch_weights)
 
-Run `python3 lean4/scripts/critical_path.py | jq '.dispatch_weights.lean'` (or read the JSON directly) and use `critical_path.py` output's `"dispatch_weights"::"lean"::"weights"` to get current per-source priority. The same object also exposes `"supply"`, `"consumption_60min"`, and `"advice"` subfields for the lean side. If `dispatch_weights.lean` is absent or carries an `error`, proceed without it.
+Run `python3 "$(dirname "$(git rev-parse --git-common-dir)")/lean4/scripts/critical_path.py" | jq '.dispatch_weights.lean'` (or read the JSON directly). Note the shell substitution — this runs critical_path against the **main checkout** content (not your worktree's in-flight edits), which lets the per-file mtime cache work across concurrent workers (your worktree has different mtimes from main checkout). The script is READ-ONLY against `lean4/BEDC/` and `papers/bedc/parts/`; never modify those files outside your worktree. Use `critical_path.py` output's `"dispatch_weights"::"lean"::"weights"` to get current per-source priority. The same object also exposes `"supply"`, `"consumption_60min"`, and `"advice"` subfields for the lean side. If `dispatch_weights.lean` is absent or carries an `error`, proceed without it.
 
 Allocate your 3 targets approximately matching these weights:
 - 0.50 weight = pick ≈1-2 targets from this source
@@ -18,11 +18,23 @@ Source meanings:
 - unformalized_top: `critical_path.unformalized_top` (theorem-level unformalized)
 - carrier_isomorphism_capstone: opportunity to write a new chapter abstracting a big phase-2 bucket from `carrier_isomorphism` field
 
-If you choose carrier_isomorphism_capstone:
-- Pick the largest phase-2 bucket NOT yet covered by an existing abstraction
-- Write a **regular new chapter** `lean4/BEDC/Derived/<Name>Up.lean` (just like any other Derived chapter — no `Capstone` suffix, no separate directory). Name by content theme (the shared structure being named), not by its leveling role. BEDC chapters are built layer-on-layer; every chapter is potentially the capstone of layers beneath it and the instance of layers above it
-- The chapter should expose the shared carrier shape as a structure / class / NameCert that the bucket members can later be shown to instance, but DO NOT modify the existing chapter files in the bucket now (instance migration is a separate human-reviewed step)
-- This draft counts as 1 of your 3 targets; you may also pick 2 normal targets
+If `dispatch_weights.lean.capstone_candidate` is non-null, you have a pre-picked carrier-isomorphism abstraction candidate. Use the suggested name and slug from that object — do NOT pick your own bucket or invent a different name (the rotation picks the next bucket each cycle so you don't need to choose).
+
+The capstone chapter to draft:
+- Lean file: `lean4/BEDC/Derived/<suggested_lean_name>.lean` (no separate Capstones/ directory, no `Capstone` suffix in name)
+- Treat as a regular Derived chapter — same template as any other (inductive carrier, `BHistCarrier` instance, `ChapterTasteGate` instance, NameCert struct/def, alignment theorem). BEDC chapters are built layer-on-layer; every chapter is simultaneously a capstone of layers beneath and an instance of layers above
+- DO NOT modify the bucket member chapters this round (instance migration is a separate human-reviewed step)
+
+### HARD FLOOR for carrier_isomorphism_capstone
+
+If ALL of:
+- `dispatch_weights.lean.capstone_candidate` is non-null
+- `dispatch_weights.lean.consumption_60min.carrier_isomorphism_capstone == 0`
+- `<ROUND_NUM> % 25 == 0`  (one in 25 rounds — exact match on the modulo)
+
+then you MUST include exactly 1 capstone target (the pre-picked one) as 1 of your 3 targets, even if other sources have higher weights. This is an override floor that ensures periodic capstone attention. The other 2 of 3 targets fill normally per HARD GATEs + soft weights.
+
+If the HARD FLOOR doesn't fire, soft weight allocation continues (capstone gets ~0.10 share, picked only if codex naturally would).
 
 The existing HARD GATEs (1 of 3 from `top[0..2]`, root_unblocks gate) STILL APPLY. Source weights are SOFT guidance for filling remaining slots after HARD GATEs are met.
 
@@ -321,7 +333,7 @@ Each target's JSON MUST include a `grade_transition` field that quotes the chapt
 Run before target selection:
 
 ```bash
-python3 lean4/scripts/critical_path.py
+python3 "$(dirname "$(git rev-parse --git-common-dir)")/lean4/scripts/critical_path.py"
 ```
 
 The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (with `1/(1+thms)` as tiebreaker), excluding chapters that carry a `closurestatus` block whose theoryclosure is scopedClosure-or-above and whose formalstatus is theoremCheckedV-or-above, or whose declared dependencies are not yet ready (`deps_thms < deps_ready_threshold`, default 5, tunable via `.pipeline_parallel.json` key `deps_ready_threshold`; auto-relaxes 5→1 if strict yields empty top). The output's `top` array is the next set of fronts the library should attack. Each entry's `closed: false` (always, since retired chapters are filtered out before ranking) and `closed_at: null` for open chapters; the JSON also reports `closed_horizons` and `open_horizons` aggregates so phase_review on the paper side can see closurestatus progress.

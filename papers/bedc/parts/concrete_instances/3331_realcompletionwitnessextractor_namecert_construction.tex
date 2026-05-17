@@ -205,6 +205,7 @@ carrier. Since the packet has no quotient equality row, no host-limit row, no
 choice row, and no ambient-completeness row, the seal and handoff are total
 only for the displayed finite route.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_seal\_handoff\_totality}
 
 \begin{theorem}[Real completion witness-extractor transport totality]
 \label{thm:real-completion-witness-extractor-transport-totality}
@@ -223,6 +224,7 @@ Now use \autoref{thm:real-completion-witness-extractor-seal-handoff-totality}. T
 
 Finally, \autoref{thm:real-completion-witness-extractor-nonescape} excludes quotient stream equality, selected host limits, host real equality, arbitrary diagonal choice, and ambient completeness. Thus the displayed $H,C$ rows exhaust transport and route replay for the accepted carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_transport\_totality}
 
 \begin{theorem}[Real completion witness-extractor provenance exhaustion]
 \label{thm:real-completion-witness-extractor-provenance-exhaustion}
@@ -294,17 +296,55 @@ Apply \autoref{thm:real-completion-witness-extractor-scoped-route}. It already f
 The support list is exhausted by \autoref{thm:real-completion-witness-extractor-provenance-exhaustion}. The excluded carriers and principles are absent by \autoref{thm:real-completion-witness-extractor-nonescape}, so the scoped route has exactly the stated kernel support.
 \end{proof}
 
+\begin{theorem}[Real completion witness-extractor standard bridge surface]
+\label{thm:real-completion-witness-extractor-standard-bridge-surface}
+For every accepted $\RealCompletionWitnessExtractorUp$ packet
+$$
+X=(D,W,M,Q,L,S,H,C,P,N),
+$$
+the finite rows $D,W,M,Q,L,S,H,C,P,N$ form the paper bridge surface from the BEDC witness extractor to the standard diagonal-witness reading. Every standard consumer read factors through the checked diagonal handoff, the selected-window admission route, the regular-readback route, the seal-handoff totality row, and the transport totality rows. No quotient stream equality, host limit, choice datum, or ambient completeness row is exported by this bridge surface.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-completion-witness-extractor-diagonal-handoff}. It supplies the checked handoff from the displayed BEDC packet to the diagonal-witness reading while keeping the same carrier coordinates $D,W,M,Q,L,S,H,C,P,N$.
+
+Next compose the route witnesses. Apply \autoref{thm:real-completion-witness-extractor-selected-window-admission} for $D,W,M$, then apply \autoref{thm:real-completion-witness-extractor-regular-readback-route} for $Q$. These two rows place each standard read over the selected dyadic windows and the displayed regular readback coordinate.
+
+Now attach the completion-facing handoff. Apply \autoref{thm:real-completion-witness-extractor-seal-handoff-totality} for $L,S$, and apply \autoref{thm:real-completion-witness-extractor-transport-totality} for $H,C$. Thus the consumer route is carried only by the displayed seal, handoff, transport, and continuation rows.
+
+Finally, the nonescape and support theorems exclude the remaining exits. Quotient stream equality, host limits, choice data, and ambient completeness do not occur among the exported rows, so the displayed finite packet is exactly the paper bridge surface for the standard diagonal-witness reading.
+\end{proof}
+
+\begin{theorem}[Real completion witness-extractor finite-prefix stability handoff]
+\label{thm:real-completion-witness-extractor-prefix-stability-handoff}
+Every accepted $\RealCompletionWitnessExtractorUp$ packet whose selected-window route is supplied by an accepted $\FinitePrefixLimitStabilityUp$ packet must read the finite prefix budget, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance row, terminal $\RealUp$ seal, and extractor rows through one ordered finite route before any Completion-facing handoff is visible. Thus the extractor can consume finite-prefix stability only as the displayed handoff
+$$
+B \to W \to R \to D \to E \to X
+$$
+where $X=(D',W',M,Q,L,S,H,C,P,N)$ is the accepted extractor carrier, with $D',W',M$ reading the selected extractor window, $Q$ reading the regular-rational extractor row, and $L,S,H,C,P,N$ reading only the displayed seal, handoff, transport, continuation, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+First read the supplying stability packet. Apply \autoref{thm:finite-prefix-limit-stability-real-handoff} to identify the finite handoff from the displayed prefix observation to the terminal $\RealUp$ seal, and apply \autoref{thm:finite-prefix-limit-stability-route-determinacy} to make that seal the unique consumer-facing end of the route.
+
+Next pass the displayed route into the extractor. Apply \autoref{thm:real-completion-witness-extractor-selected-window-admission} to attach the extractor's selected window rows $D',W',M$ to the same finite route. Apply \autoref{thm:real-completion-witness-extractor-regular-readback-route} to read $Q$ only after that selected window has been admitted.
+
+Finally attach the Completion-facing rows. Use \autoref{thm:real-completion-witness-extractor-seal-handoff-totality} to read $L,S$ as the visible Real and Completion handoff rows of the accepted extractor packet. Since the supplying stability packet has already fixed the order $B \to W \to R \to D \to E$, and the extractor theorems expose only $D',W',M,Q,L,S,H,C,P,N$, no Completion-facing handoff is visible before the finite-prefix stability route and the extractor rows have both been displayed.
+\end{proof}
+
 \closureat{RealCompletionWitnessExtractorUp}{seedStr}
 \closureat{RealCompletionWitnessExtractorUp}{obligationStr}
 \closureat{RealCompletionWitnessExtractorUp}{scopedStr}
+\closureat{RealCompletionWitnessExtractorUp}{publicStr}[BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_diagonal\_handoff]
+\closureat{RealCompletionWitnessExtractorUp}{bridgedStr}[BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_diagonal\_handoff]
+\closureat{RealCompletionWitnessExtractorUp}{matureStr}[BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_diagonal\_handoff]
 
 \begin{closurestatus}{\RealCompletionWitnessExtractorUp}
   \constructivestory{A $\RealCompletionWitnessExtractorUp$ packet is generated from a dyadic tolerance ledger, selected StreamNameUp windows, a modulus schedule, a RegSeqRat readback row, a RealUp seal row, a completion-facing handoff row, displayed hsame transports, Cont routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:real-completion-witness-extractor-carrier}, \autoref{thm:real-completion-witness-extractor-scoped-route}, and \autoref{thm:real-completion-witness-extractor-kernel-support-scope} bind the finite diagonal witness-extractor packet for Real and Completion consumers.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:real-completion-witness-extractor-carrier}, \autoref{thm:real-completion-witness-extractor-standard-bridge-surface}, and \autoref{thm:real-completion-witness-extractor-prefix-stability-handoff} bind the finite diagonal witness-extractor packet, its standard bridge surface, and its finite-prefix stability handoff for Real and Completion consumers.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_diagonal\_handoff}
+  \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close quotient stream equality, selected host limits, host real equality, arbitrary diagonal choice, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Public closure requires a downstream Real-completion consumer to export the scoped witness extractor as a public object surface; Lean verification remains a separate axis.}
+  \notclaimed{This chapter does not close quotient stream equality, selected host limits, host real equality, arbitrary diagonal choice, ambient completeness, or bridge checking.}
+  \upgradepath{The theory axis is mature; the remaining work is verification-axis bridge checking only.}
 \end{closurestatus}

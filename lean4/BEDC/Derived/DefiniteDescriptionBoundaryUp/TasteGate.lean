@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DefiniteDescriptionBoundaryUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -185,6 +189,46 @@ private theorem definiteDescriptionBoundaryToEventFlow_injective
     (Eq.trans (definiteDescriptionBoundary_round_trip x).symm
       (Eq.trans hread (definiteDescriptionBoundary_round_trip y)))
 
+def definiteDescriptionBoundaryFields : DefiniteDescriptionBoundaryUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | DefiniteDescriptionBoundaryUp.mk description existence uniqueness stability transport replay
+      provenance localName =>
+      [description, existence, uniqueness, stability, transport, replay, provenance, localName]
+
+private theorem definiteDescriptionBoundary_field_faithful :
+    ∀ x y : DefiniteDescriptionBoundaryUp,
+      definiteDescriptionBoundaryFields x = definiteDescriptionBoundaryFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk description₁ existence₁ uniqueness₁ stability₁ transport₁ replay₁ provenance₁
+      localName₁ =>
+      cases y with
+      | mk description₂ existence₂ uniqueness₂ stability₂ transport₂ replay₂ provenance₂
+          localName₂ =>
+          change
+              [description₁, existence₁, uniqueness₁, stability₁, transport₁, replay₁,
+                provenance₁, localName₁] =
+                [description₂, existence₂, uniqueness₂, stability₂, transport₂, replay₂,
+                  provenance₂, localName₂] at h
+          injection h with hDescription t1
+          injection t1 with hExistence t2
+          injection t2 with hUniqueness t3
+          injection t3 with hStability t4
+          injection t4 with hTransport t5
+          injection t5 with hReplay t6
+          injection t6 with hProvenance t7
+          injection t7 with hLocalName _
+          cases hDescription
+          cases hExistence
+          cases hUniqueness
+          cases hStability
+          cases hTransport
+          cases hReplay
+          cases hProvenance
+          cases hLocalName
+          rfl
+
 instance definiteDescriptionBoundaryBHistCarrier : BHistCarrier DefiniteDescriptionBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := definiteDescriptionBoundaryToEventFlow
@@ -202,6 +246,24 @@ instance definiteDescriptionBoundaryChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (definiteDescriptionBoundaryToEventFlow_injective heq)
+
+instance definiteDescriptionBoundaryFieldFaithful :
+    FieldFaithful DefiniteDescriptionBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := definiteDescriptionBoundaryFields
+  field_faithful := definiteDescriptionBoundary_field_faithful
+
+instance definiteDescriptionBoundaryNontrivial :
+    Nontrivial DefiniteDescriptionBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨DefiniteDescriptionBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      DefiniteDescriptionBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 theorem DefiniteDescriptionBoundaryTasteGate_single_carrier_alignment :
     (∀ h : BHist, definiteDescriptionBoundaryDecodeBHist
@@ -270,5 +332,230 @@ theorem DefiniteDescriptionBoundaryTasteGate_single_carrier_alignment :
     exact Option.some.inj
       (Eq.trans (hround x).symm (Eq.trans hread (hround y)))
   exact ⟨hdecode, hround, hinj, rfl⟩
+
+theorem DefiniteDescriptionBoundaryLedger_exhaustion :
+    (∀ x : DefiniteDescriptionBoundaryUp,
+      ∃ D E U S H C P N : BHist,
+        x = DefiniteDescriptionBoundaryUp.mk D E U S H C P N ∧
+          FieldFaithful.fields x = [D, E, U, S, H, C, P, N] ∧
+            hsame H H ∧ Cont C P (append C P)) ∧
+      (∀ E U S H C P N : BHist,
+        FieldFaithful.fields
+            (DefiniteDescriptionBoundaryUp.mk (BHist.e0 BHist.Empty) E U S H C P N) ≠
+          FieldFaithful.fields
+            (DefiniteDescriptionBoundaryUp.mk BHist.Empty E U S H C P N)) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    cases x with
+    | mk D E U S H C P N =>
+        exact ⟨D, E, U, S, H, C, P, N, rfl, rfl, hsame_refl H, rfl⟩
+  · intro E U S H C P N hfields
+    change
+      [BHist.e0 BHist.Empty, E, U, S, H, C, P, N] =
+        [BHist.Empty, E, U, S, H, C, P, N] at hfields
+    injection hfields with hrow _
+    cases hrow
+
+theorem DefiniteDescriptionBoundary_namecert_obligations
+    {D E U S H C P N witness boundary stable read : BHist} :
+    Cont D E witness →
+      Cont E U boundary →
+        Cont U S stable →
+          Cont stable N read →
+            SemanticNameCert
+              (fun row : BHist =>
+                hsame row read ∧
+                  ∃ packet : DefiniteDescriptionBoundaryUp,
+                    packet = DefiniteDescriptionBoundaryUp.mk D E U S H C P N)
+              (fun row : BHist =>
+                Cont D E witness ∧ Cont E U boundary ∧ Cont U S stable ∧
+                  Cont stable N row)
+              (fun row : BHist => hsame row read ∧ hsame H H ∧ hsame C C ∧ hsame P P)
+              hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro descriptionWitness existenceBoundary uniquenessStable stableRead
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro read
+          (And.intro (hsame_refl read)
+            (Exists.intro (DefiniteDescriptionBoundaryUp.mk D E U S H C P N) rfl))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact
+          And.intro (hsame_trans (hsame_symm sameRows) source.left)
+            source.right
+    }
+    pattern_sound := by
+      intro row source
+      have stableRow : Cont stable N row := by
+        cases source.left
+        exact stableRead
+      exact
+        ⟨descriptionWitness, existenceBoundary, uniquenessStable, stableRow⟩
+    ledger_sound := by
+      intro row source
+      exact ⟨source.left, hsame_refl H, hsame_refl C, hsame_refl P⟩
+  }
+
+theorem DefiniteDescriptionBoundaryExistenceRoute
+    {D E U S H C P N witness replay named : BHist} :
+    Cont D E witness →
+      Cont witness C replay →
+        Cont replay P named →
+          SemanticNameCert
+            (fun row : BHist =>
+              hsame row named ∧
+                ∃ packet : DefiniteDescriptionBoundaryUp,
+                  packet = DefiniteDescriptionBoundaryUp.mk D E U S H C P N)
+            (fun row : BHist =>
+              Cont D E witness ∧ Cont witness C replay ∧ Cont replay P row)
+            (fun row : BHist =>
+              hsame row named ∧ hsame E E ∧ hsame C C ∧ hsame P P ∧ hsame N N)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro descriptionExistence witnessReplay replayNamed
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro named
+          (And.intro (hsame_refl named)
+            (Exists.intro (DefiniteDescriptionBoundaryUp.mk D E U S H C P N) rfl))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact
+          And.intro (hsame_trans (hsame_symm sameRows) source.left)
+            source.right
+    }
+    pattern_sound := by
+      intro row source
+      have replayRow : Cont replay P row :=
+        cont_result_hsame_transport replayNamed (hsame_symm source.left)
+      exact ⟨descriptionExistence, witnessReplay, replayRow⟩
+    ledger_sound := by
+      intro row source
+      exact
+        ⟨source.left, hsame_refl E, hsame_refl C, hsame_refl P, hsame_refl N⟩
+  }
+
+theorem DefiniteDescriptionBoundaryUniquenessRoute
+    {D E U S H C P N witness boundary replay named : BHist} :
+    Cont D E witness →
+      Cont E U boundary →
+        Cont boundary C replay →
+          Cont replay P named →
+            SemanticNameCert
+              (fun row : BHist =>
+                hsame row named ∧
+                  ∃ packet : DefiniteDescriptionBoundaryUp,
+                    packet = DefiniteDescriptionBoundaryUp.mk D E U S H C P N)
+              (fun row : BHist =>
+                Cont E U boundary ∧ Cont boundary C replay ∧ Cont replay P row)
+              (fun row : BHist =>
+                hsame row named ∧ hsame U U ∧ hsame C C ∧ hsame P P ∧ hsame N N)
+              hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro descriptionExistence existenceUniqueness boundaryReplay replayNamed
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro named
+          (And.intro (hsame_refl named)
+            (Exists.intro (DefiniteDescriptionBoundaryUp.mk D E U S H C P N) rfl))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact
+          And.intro (hsame_trans (hsame_symm sameRows) source.left)
+            source.right
+    }
+    pattern_sound := by
+      intro row source
+      have replayRow : Cont replay P row :=
+        cont_result_hsame_transport replayNamed (hsame_symm source.left)
+      exact ⟨existenceUniqueness, boundaryReplay, replayRow⟩
+    ledger_sound := by
+      intro row source
+      exact
+        ⟨source.left, hsame_refl U, hsame_refl C, hsame_refl P, hsame_refl N⟩
+  }
+
+theorem DefiniteDescriptionBoundaryStabilityRoute
+    {D E U S H C P N stable replay named : BHist} :
+    Cont D S stable →
+      Cont stable H replay →
+        Cont replay C named →
+          SemanticNameCert
+            (fun row : BHist =>
+              hsame row named ∧
+                ∃ packet : DefiniteDescriptionBoundaryUp,
+                  packet = DefiniteDescriptionBoundaryUp.mk D E U S H C P N)
+            (fun row : BHist =>
+              Cont D S stable ∧ Cont stable H replay ∧ Cont replay C row)
+            (fun row : BHist =>
+              hsame row named ∧ hsame S S ∧ hsame H H ∧ hsame C C ∧ hsame P P ∧
+                hsame N N)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro descriptionStable stableReplay replayNamed
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro named
+          (And.intro (hsame_refl named)
+            (Exists.intro (DefiniteDescriptionBoundaryUp.mk D E U S H C P N) rfl))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact
+          And.intro (hsame_trans (hsame_symm sameRows) source.left)
+            source.right
+    }
+    pattern_sound := by
+      intro row source
+      have replayRow : Cont replay C row :=
+        cont_result_hsame_transport replayNamed (hsame_symm source.left)
+      exact ⟨descriptionStable, stableReplay, replayRow⟩
+    ledger_sound := by
+      intro row source
+      exact
+        ⟨source.left, hsame_refl S, hsame_refl H, hsame_refl C, hsame_refl P,
+          hsame_refl N⟩
+  }
 
 end BEDC.Derived.DefiniteDescriptionBoundaryUp

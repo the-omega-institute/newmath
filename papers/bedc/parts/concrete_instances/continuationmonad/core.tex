@@ -203,6 +203,7 @@ Use classifier stability and ledger exactness. \autoref{thm:continuation-monad-c
 
 Finally apply the CategoryUp surface of \autoref{ch:concrete-instances-category-namecert} together with \autoref{thm:continuation-monad-root-unblock-downstream-package}. The category-facing names are therefore readings of the same tails and ledger rows already exported by the packet, not additional categorical data.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_category\_hom\_row\_exposure}
 
 \begin{theorem}[ContinuationMonad generator boundary refusal]
 \label{thm:continuation-monad-generator-boundary-refusal}
@@ -276,6 +277,7 @@ Use classifier stability and ledger exactness to keep every read of the composit
 
 Apply the Kleisli boundary and Kleisli composite scope. Together they identify the composite as the finite route through the listed BEDC rows and exhaust the scoped dependencies of the accepted packet.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_scoped\_route\_dependencies}
 
 \begin{theorem}[ContinuationMonad scope non-escape]
 \label{thm:continuation-monad-scope-nonescape}
@@ -364,6 +366,7 @@ Use classifier stability and ledger exactness to align the $\mathsf{CategoryHomC
 
 Apply the Kleisli composition boundary and scope non-escape. Together they rule out quotient Kleisli arrows, host functions, host monad equalities, and independent category objects as sources for the handoff.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_category\_handoff\_exactness}
 
 \begin{theorem}[ContinuationMonad obligation closure]
 \label{thm:continuation-monad-obligation-closure}
@@ -378,6 +381,7 @@ Use classifier stability and ledger exactness to transport the same route data a
 
 Finally apply the local NameCert package and the Kleisli composition boundary. They repack carrier admission, stability, exactness, provenance, and consumer boundary as the public obligation surface for $\ContinuationMonadUp$.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_obligation\_closure}
 
 \begin{definition}[ContinuationMonad kernel scope row]
 \label{def:continuation-monad-kernel-scope-row}
@@ -396,6 +400,7 @@ A,B,C,f,g,u,H,K,L,N.
 $$
 The histories $A,B,C$, tails $f,g,u$, componentwise transport row $H$, continuation route row $K$, ledger row $L$, and local naming row $N$ are therefore the complete grounding surface for the kernel scope of \autoref{def:continuation-monad-kernel-scope-row}.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_route\_row\_grounding}
 \begin{proof}
 Project the accepted source packet. The carrier source lists exactly $A,B,C,f,g,u,H,K,L,N$, and the kernel scope row lists the only BEDC objects through which those coordinates can be read.
 
@@ -408,6 +413,7 @@ Apply ledger exactness and the Kleisli composition boundary. The ledger $L$ and 
 \label{thm:continuation-monad-downstream-unblock-surface}
 The scoped downstream unblock surface for $\ContinuationMonadUp$ consists of carrier admission for $A,B,C,f,g,u,H,K,L,N$, classifier stability under $H$, ledger exactness through $K$ and $L$, package provenance through $\Pkg$, and the Kleisli boundary recorded by $N$. Any downstream Real, completion, category, or unary-continuation consumer must use those rows and cannot replace them by quotient morphisms, host functions, or external monad laws.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_downstream\_unblock\_surface}
 \begin{proof}
 Carrier admission supplies the finite continuation packet. Classifier stability then keeps transported histories and tails inside the componentwise $\hsame$ row $H$.
 
@@ -483,6 +489,7 @@ Finally use \autoref{thm:continuation-monad-downstream-unblock-surface} and \aut
 \label{thm:continuation-monad-bind-route-coverage}
 Every accepted bind read of a $\ContinuationMonadUp$ packet factors through the displayed source $\BHist$ row, the continuation route row, the Kleisli composite row, the componentwise $\hsame$ transport, the $\Pkg$ provenance row, and the local $\NameCert$ row. Thus a bind consumer can inspect only the rows $A,B,C,f,g,u,H,K,L,N$ named by the bridge package, where $A,B,C$ are the $\BHist$ sources, $K$ is the $\Cont$ route, $L$ is the composite ledger, $H$ is the $\hsame$ transport, and $N$ is the local $\NameCert$ certificate with $\Pkg$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_bind\_route\_coverage}
 \begin{proof}
 Begin with the unit laws and associativity rows. They identify the accepted bind read as a replay of the displayed unit tail and the two-step Kleisli composite rather than as a host monad operation.
 

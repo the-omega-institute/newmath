@@ -245,6 +245,7 @@ L=(Q,B,S,K,H,C,P,N)
 $$
 be an accepted $\CauchyWitnessLedgerUp$ carrier. Componentwise $\hsame$ transport along the ledger preserves the eight displayed rows $Q,B,S,K,H,C,P,N$: the diagonal-budget row remains $Q$, the observation-budget row remains $B$, the seal-synchronizer row remains $S$, the completion-seal classifier row remains $K$, and the structural rows remain $H,C,P,N$. No transported consumer obtains a row outside this finite tuple.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyWitnessLedgerUp.CauchyWitnessLedgerCarrier\_componentwise\_transport}
 \begin{proof}
 Use the carrier definition to project the tuple $L=(Q,B,S,K,H,C,P,N)$. The row $H$ is itself the displayed componentwise $\hsame$ ledger for the analytic rows $Q,B,S,K$ and the structural rows $C,P,N$.
 
@@ -289,6 +290,7 @@ Apply \autoref{thm:cauchy-witness-ledger-namecert-obligations}. The accepted Nam
 
 Apply \autoref{thm:cauchy-witness-ledger-budget-factorization} and \autoref{thm:cauchy-witness-ledger-real-completion-handoff}. The Real-facing route factors through the finite BEDC rows before reaching the completion-seal classifier, and the handoff explicitly exports none of the listed external coordinates. Thus the exclusion is anchored in the carrier and its local certificate surface.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyWitnessLedgerUp.CauchyWitnessLedgerForbidden\_coordinate\_exclusion}
 
 \begin{theorem}[Cauchy witness ledger public export]
 \label{thm:cauchy-witness-ledger-public-export}
@@ -747,15 +749,3 @@ an alternate $\RealUp$ completion route.
 \closureat{CauchyWitnessLedgerUp}{publicStr}[BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate]
 \closureat{CauchyWitnessLedgerUp}{bridgedStr}[BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate]
 \closureat{CauchyWitnessLedgerUp}{matureStr}[BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate]
-
-\begin{closurestatus}{\CauchyWitnessLedgerUp}
-  \constructivestory{A $\CauchyWitnessLedgerUp$ packet is built by placing the diagonal budget row $Q$, observation-budget row $B$, seal-synchronizer row $S$, completion-seal classifier row $K$, componentwise transport row $H$, route-replay row $C$, package-provenance row $P$, and local NameCert row $N$ in one finite witness ledger.}
-  \theoryclosure{\matureClosure}
-  \scopeclosed{The carrier \autoref{def:cauchy-witness-ledger-carrier}, NameCert obligations \autoref{thm:cauchy-witness-ledger-namecert-obligations}, route coverage \autoref{thm:cauchy-witness-ledger-route-coverage}, budget-seal lock \autoref{thm:cauchy-witness-ledger-budget-seal-lock}, Real consumer nonescape \autoref{thm:cauchy-witness-ledger-real-consumer-nonescape}, and Real seal consumer totality \autoref{thm:cauchy-witness-ledger-real-seal-consumer-totality} bind the mature paper-side treatment.}
-  \formalstatus{\encodedDefV}
-  \leantarget{BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate}
-  \bridgestatus{none}
-  \origin{ai}
-  \notclaimed{This chapter does not close Real completeness, quotient streams, host real equality, selected limits, countable choice, ambient completeness, or bridge checking.}
-  \upgradepath{No further paper-side theory closure remains; formal verification and bridge checking remain separate formal-axis obligations.}
-\end{closurestatus}

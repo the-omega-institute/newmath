@@ -1,0 +1,151 @@
+\begin{theorem}[Finite-kernel category public export interface]
+\label{thm:finite-kernel-category-public-export-interface}
+Let
+$$
+K=(O,M,I,Q,A,U,H,C,P,N)
+$$
+be an accepted $\FiniteKernelCategoryUp$ carrier. The public export of $K$ is
+exactly the displayed row family $O,M,I,Q,A,U,H,C,P,N$. It is read first as the
+$\CategoryUp$ interface carried by the finite kernel package, and then as the
+required source boundary for every downstream $\FunctorUp$ and $\NatTransUp$
+consumer. No quotient morphism, host arrow equality, functor-category object,
+or external category library is part of that public export.
+\end{theorem}
+\begin{proof}
+Start with the category interface handoff,
+\autoref{thm:finite-kernel-category-category-interface-handoff}. It identifies
+the displayed rows $O,M,I,Q,A,U,H,C,P,N$ as the $\CategoryUp$ interface of the
+accepted finite-kernel carrier.
+
+Next apply the category, functor, and natural-transformation row readback,
+\autoref{thm:finite-kernel-category-category-functor-nattrans-row-readback}.
+It makes the same row family the source boundary read by $\FunctorUp$ and
+$\NatTransUp$ consumers after the category interface has been exposed.
+
+The downstream scope is fixed by
+\autoref{thm:finite-kernel-category-nattrans-consumer-scope}. It permits those
+consumers to read only the complete displayed package together with the
+existing TasteGate marker.
+
+Finally apply the bridge consumer nonescape boundary,
+\autoref{thm:finite-kernel-category-bridge-consumer-nonescape}. Since bridge
+consumers cannot extract quotient morphisms, host arrow equality,
+functor-category objects, or an external category library, the displayed row
+family is the whole public export.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category standard bridge surface]
+\label{thm:finite-kernel-category-standard-bridge-surface}
+Let
+$$
+K=(O,M,I,Q,A,U,H,C,P,N)
+$$
+be an accepted $\FiniteKernelCategoryUp$ carrier. The standard bridge surface
+for $K$ is the single displayed BEDC packet consisting of the
+kernel-category object and hom rows $O,M$, the unary-continuation identity and
+composition rows $I,Q$, the associativity and unit ledgers $A,U$, and the
+structural rows $H,C,P,N$. This surface is read as a $\CategoryUp$ interface
+and then as the common source boundary for $\FunctorUp$ and $\NatTransUp$
+consumers; it has no quotient morphism coordinate, host arrow equality,
+functor-category object, or external category library.
+\end{theorem}
+\begin{proof}
+Project the public export interface of
+\autoref{thm:finite-kernel-category-public-export-interface}. It identifies
+the visible export with exactly the row family $O,M,I,Q,A,U,H,C,P,N$.
+
+The source of the bridge is fixed by the kernel-category and
+unary-continuation dependencies recorded in
+\autoref{def:finite-kernel-category-carrier}. The object and hom readings are
+$O,M$, while identity and composition are routed through the empty and
+displayed $\Cont$ rows $I,Q$.
+
+Now apply the category interface handoff and row readback,
+\autoref{thm:finite-kernel-category-category-interface-handoff} and
+\autoref{thm:finite-kernel-category-category-functor-nattrans-row-readback}.
+They make the same displayed packet first the $\CategoryUp$ interface and then
+the source boundary for $\FunctorUp$ and $\NatTransUp$ reads.
+
+Finally use the bridge consumer nonescape boundary,
+\autoref{thm:finite-kernel-category-bridge-consumer-nonescape}. Since every
+excluded ambient categorical object is absent from $K$, the standard bridge
+surface is precisely the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category functor and natural-transformation bridge boundary]
+\label{thm:finite-kernel-category-functor-nattrans-bridge-boundary}
+For an accepted $\FiniteKernelCategoryUp$ carrier
+$K=(O,M,I,Q,A,U,H,C,P,N)$, every $\FunctorUp$ or $\NatTransUp$ consumer that
+uses $K$ through the standard bridge surface must first consume the
+$\CategoryUp$ boundary supplied by $O,M,I,Q,A,U,H,C,P,N$. Preservation of
+identities, preservation of composition, and naturality squares are therefore
+read only through the finite kernel-category rows and the shared structural
+rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the standard bridge surface,
+\autoref{thm:finite-kernel-category-standard-bridge-surface}. It fixes the
+only available source for categorical reads as the displayed finite packet.
+
+Apply \autoref{thm:finite-kernel-category-category-interface-handoff}. This
+places all functor and natural-transformation reads after the $\CategoryUp$
+interface has exposed objects, hom histories, identities, composites,
+associativity, and units.
+
+The functor rows are then constrained by
+\autoref{thm:finite-kernel-category-functor-identity-preservation} and
+\autoref{thm:finite-kernel-category-functor-composition-preservation}. The
+natural-transformation boundary is constrained by
+\autoref{thm:finite-kernel-category-natural-transformation-square-boundary}.
+
+The consumer scope theorem
+\autoref{thm:finite-kernel-category-nattrans-consumer-scope} keeps each of
+these reads on the same $H,C,P,N$ structural route, so no downstream consumer
+can detach preservation or naturality data from the finite bridge packet.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category bridge nonescape exactness]
+\label{thm:finite-kernel-category-bridge-nonescape-exactness}
+Let $K=(O,M,I,Q,A,U,H,C,P,N)$ be an accepted
+$\FiniteKernelCategoryUp$ carrier. A bridge consumer has access exactly to the
+finite kernel-category rows $O,M,I,Q,A,U$ and the shared structural rows
+$H,C,P,N$. Thus every $\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ read that
+factors through $K$ is exhausted by the public export interface and the
+standard bridge surface, and no read escapes to quotient morphisms, host arrow
+equality, functor-category objects, or an external category library.
+\end{theorem}
+\begin{proof}
+Use the public export interface,
+\autoref{thm:finite-kernel-category-public-export-interface}, to identify the
+complete exported row family.
+
+Next compose it with the standard bridge surface,
+\autoref{thm:finite-kernel-category-standard-bridge-surface}, and the functor
+and natural-transformation bridge boundary,
+\autoref{thm:finite-kernel-category-functor-nattrans-bridge-boundary}. These
+results route the category, functor, and natural-transformation consumers
+through the same packet $K$.
+
+Finally apply \autoref{thm:finite-kernel-category-bridge-consumer-nonescape}.
+The carrier has no coordinate for any excluded ambient categorical datum, so
+the displayed row family is not merely sufficient for the bridge consumer; it
+is exact.
+\end{proof}
+
+\closureat{FiniteKernelCategoryUp}{seedStr}
+\closureat{FiniteKernelCategoryUp}{obligationStr}
+\closureat{FiniteKernelCategoryUp}{scopedStr}
+\closureat{FiniteKernelCategoryUp}{publicStr}
+\closureat{FiniteKernelCategoryUp}{bridgedStr}[BEDC.Derived.FiniteKernelCategoryUp.FiniteKernelCategoryTasteGate\_single\_carrier\_alignment]
+\closureat{FiniteKernelCategoryUp}{matureStr}[BEDC.Derived.FiniteKernelCategoryUp.FiniteKernelCategoryTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\FiniteKernelCategoryUp}
+  \constructivestory{A $\FiniteKernelCategoryUp$ packet is generated from finite object histories, displayed hom histories, empty-continuation identity rows, displayed $\Cont$ composition rows, associativity and unit ledgers, componentwise $\hsame$ transport, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public package records the BEDC-native rows $O,M,I,Q,A,U,H,C,P,N$, the finite category carrier, NameCert obligations, category-law rows, interface handoff, TasteGate obligation handoff, displayed source totality in \autoref{thm:finite-kernel-category-displayed-source-totality}, composite ledger determinacy in \autoref{thm:finite-kernel-category-composite-ledger-determinacy}, functor identity preservation in \autoref{thm:finite-kernel-category-functor-identity-preservation}, functor composition preservation in \autoref{thm:finite-kernel-category-functor-composition-preservation}, natural-transformation square boundary in \autoref{thm:finite-kernel-category-natural-transformation-square-boundary}, downstream consumer scope in \autoref{thm:finite-kernel-category-nattrans-consumer-scope}, public export interface in \autoref{thm:finite-kernel-category-public-export-interface}, standard bridge surface in \autoref{thm:finite-kernel-category-standard-bridge-surface}, functor and natural-transformation bridge boundary in \autoref{thm:finite-kernel-category-functor-nattrans-bridge-boundary}, bridge nonescape exactness in \autoref{thm:finite-kernel-category-bridge-nonescape-exactness}, and checked TasteGate single-carrier alignment over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.FiniteKernelCategoryUp.FiniteKernelCategoryTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close arbitrary categorical constructions, quotient morphisms, host category libraries, functor categories, external category libraries, or checked bridge verification.}
+  \upgradepath{The next verification step is a checked $\StdBridge$ theorem; the present block records a paper bridge surface grounded by the existing TasteGate alignment target.}
+\end{closurestatus}

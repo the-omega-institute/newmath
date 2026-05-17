@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Sig
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RussellAnalysisLadderUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Sig
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -243,6 +255,43 @@ instance russellAnalysisLadderChapterTasteGate :
     intro x y hxy heq
     exact hxy (russellAnalysisLadderToEventFlow_injective heq)
 
+instance russellAnalysisLadderFieldFaithful :
+    FieldFaithful RussellAnalysisLadderUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | RussellAnalysisLadderUp.mk description context relation stratum witness sameRows routes
+        provenance name =>
+        [description, context, relation, stratum, witness, sameRows, routes, provenance, name]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk description1 context1 relation1 stratum1 witness1 sameRows1 routes1
+        provenance1 name1 =>
+        cases y with
+        | mk description2 context2 relation2 stratum2 witness2 sameRows2 routes2
+            provenance2 name2 =>
+            injection h with hDescription rest1
+            injection rest1 with hContext rest2
+            injection rest2 with hRelation rest3
+            injection rest3 with hStratum rest4
+            injection rest4 with hWitness rest5
+            injection rest5 with hSameRows rest6
+            injection rest6 with hRoutes rest7
+            injection rest7 with hProvenance rest8
+            injection rest8 with hName _
+            cases hDescription
+            cases hContext
+            cases hRelation
+            cases hStratum
+            cases hWitness
+            cases hSameRows
+            cases hRoutes
+            cases hProvenance
+            cases hName
+            rfl
+
 theorem RussellAnalysisLadderTasteGate_single_carrier_alignment :
     (russellAnalysisLadderDecodeBHist
       (russellAnalysisLadderEncodeBHist BHist.Empty) = BHist.Empty) ∧
@@ -267,5 +316,136 @@ theorem RussellAnalysisLadderTasteGate_single_carrier_alignment :
             russellAnalysisLadderToEventFlow y at heq
         exact russellAnalysisLadderToEventFlow_injective heq
       · exact russellAnalysisLadderChapterTasteGate
+
+def RussellAnalysisLadderCarrier [AskSetup] [PackageSetup]
+    (description context relation stratum witness sameRows routes provenance localCert :
+      BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  Cont description context relation ∧ Cont stratum witness routes ∧
+    Cont sameRows routes provenance ∧ PkgSig bundle localCert pkg
+
+theorem RussellAnalysisLadderCarrier_namecert_obligations
+    [AskSetup] [PackageSetup]
+    {description context relation stratum witness sameRows routes provenance localCert :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RussellAnalysisLadderCarrier description context relation stratum witness sameRows routes
+        provenance localCert bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          RussellAnalysisLadderCarrier description context relation stratum witness sameRows
+            routes provenance localCert bundle pkg ∧ hsame row localCert)
+        (fun row : BHist =>
+          Cont description context relation ∧ Cont stratum witness routes ∧
+            Cont sameRows routes provenance ∧ hsame row localCert)
+        (fun row : BHist => PkgSig bundle localCert pkg ∧ hsame row localCert)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier
+  have carrierWitness := carrier
+  obtain ⟨descriptionContextRelation, stratumWitnessRoutes, sameRowsRoutesProvenance,
+    localCertPkg⟩ := carrier
+  have certCore :
+      NameCert
+        (fun row : BHist =>
+          RussellAnalysisLadderCarrier description context relation stratum witness sameRows
+            routes provenance localCert bundle pkg ∧ hsame row localCert)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro localCert
+        (And.intro carrierWitness (hsame_refl localCert))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+  exact {
+    core := certCore
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨descriptionContextRelation, stratumWitnessRoutes, sameRowsRoutesProvenance,
+          sourceRow.right⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨localCertPkg, sourceRow.right⟩
+  }
+
+theorem RussellAnalysisLadderCarrier_description_factorization
+    [AskSetup] [PackageSetup]
+    {description description' context context' relation relation' stratum stratum'
+      witness witness' sameRows routes routes' provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RussellAnalysisLadderCarrier description context relation stratum witness sameRows routes
+        provenance localCert bundle pkg ->
+      hsame description description' ->
+        hsame context context' ->
+          hsame relation relation' ->
+            hsame stratum stratum' ->
+              hsame witness witness' ->
+                hsame routes routes' ->
+                  Cont description' context' relation' ∧ Cont stratum' witness' routes' ∧
+                    Cont sameRows routes provenance ∧ PkgSig bundle localCert pkg ∧
+                      SemanticNameCert
+                        (fun row : BHist =>
+                          RussellAnalysisLadderCarrier description context relation stratum
+                            witness sameRows routes provenance localCert bundle pkg ∧
+                            hsame row localCert)
+                        (fun row : BHist =>
+                          Cont description context relation ∧ Cont stratum witness routes ∧
+                            Cont sameRows routes provenance ∧ hsame row localCert)
+                        (fun row : BHist => PkgSig bundle localCert pkg ∧ hsame row localCert)
+                        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier sameDescription sameContext sameRelation sameStratum sameWitness sameRoutes
+  have carrierWitness := carrier
+  obtain ⟨descriptionContextRelation, stratumWitnessRoutes, sameRowsRoutesProvenance,
+    localCertPkg⟩ := carrier
+  have descriptionContextRelation' : Cont description' context' relation' := by
+    cases sameDescription
+    cases sameContext
+    cases sameRelation
+    exact descriptionContextRelation
+  have stratumWitnessRoutes' : Cont stratum' witness' routes' := by
+    cases sameStratum
+    cases sameWitness
+    cases sameRoutes
+    exact stratumWitnessRoutes
+  exact
+    ⟨descriptionContextRelation', stratumWitnessRoutes', sameRowsRoutesProvenance,
+      localCertPkg, RussellAnalysisLadderCarrier_namecert_obligations carrierWitness⟩
+
+theorem RussellAnalysisLadderCarrier_non_escape_boundary
+    [AskSetup] [PackageSetup]
+    {description context relation stratum witness sameRows routes provenance localCert
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RussellAnalysisLadderCarrier description context relation stratum witness sameRows routes
+        provenance localCert bundle pkg ->
+      Cont routes localCert consumerRead ->
+        PkgSig bundle consumerRead pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              RussellAnalysisLadderCarrier description context relation stratum witness sameRows
+                routes provenance localCert bundle pkg ∧ hsame row localCert)
+            (fun row : BHist =>
+              Cont description context relation ∧ Cont stratum witness routes ∧
+                Cont sameRows routes provenance ∧ hsame row localCert)
+            (fun row : BHist => PkgSig bundle localCert pkg ∧ hsame row localCert)
+            hsame ∧
+            Cont routes localCert consumerRead ∧ PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier routesLocalConsumer consumerPkg
+  exact
+    ⟨RussellAnalysisLadderCarrier_namecert_obligations carrier, routesLocalConsumer,
+      consumerPkg⟩
 
 end BEDC.Derived.RussellAnalysisLadderUp
