@@ -184,6 +184,7 @@ import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
+import BEDC.Derived.BedcPhilosophyPackageUp.TasteGate
 import BEDC.Derived.BedcTheoryIdentityUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationUp
 import BEDC.Derived.BetaCriticalPairUp.TasteGate
@@ -801,6 +802,7 @@ import BEDC.Derived.FiniteObservationReflectionSealUp.TasteGate
 import BEDC.Derived.TypeClassifierMembershipUp
 import BEDC.Derived.TypeClassifierRouteJoinUp.TasteGate
 import BEDC.Derived.TypingJudgmentClassifierUp.TasteGate
+import BEDC.Derived.TypeCheckingMembershipTraceUp
 import BEDC.Derived.TypeCheckingDerivationTraceUp
 import BEDC.Derived.TypePreservingCompilerUp
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
@@ -1213,6 +1215,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetApproximationPullbac
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetLedgerMinimality
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CauchyLimitSealPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalRouteChoiceFreeness
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalWindowExhaustion
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalBudgetExhaustion
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.PrimitiveScope
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.PublicExport
@@ -1447,6 +1450,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.BudgetedRealSealFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteFamilyBudgetSealComposition
 import BEDC.Derived.CauchyCriterionUp.TailBudgetCoherence
 import BEDC.Derived.CauchyCriterionUp.ObserverRoute
+import BEDC.Derived.MachineInterfaceBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp.CauchyLimitFunctorTerminalHandoff
 import BEDC.Derived.UniformCauchyCriterionUp.CompletionConsumerPackage
 import BEDC.Derived.UniformCauchyCriterionUp.CompletionFunctorBudget
@@ -1455,6 +1459,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.DiagonalBudgetExtraction
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalBudgetPullback
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalExitClassifier
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalExitNonEscape
+import BEDC.Derived.UniformCauchyCriterionUp.DiagonalSelectorSealPullback
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalUniquenessExit
 import BEDC.Derived.UniformCauchyCriterionUp.DownstreamRealConsumerExport
 import BEDC.Derived.UniformCauchyCriterionUp.EndpointBudgetReflector
@@ -1510,6 +1515,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.PublicExportPackage
 import BEDC.Derived.UniformCauchyCriterionUp.PublicExportSurface
 import BEDC.Derived.UniformCauchyCriterionUp.PublicNonEscapeExport
 import BEDC.Derived.UniformCauchyCriterionUp.SealObligationSurface
+import BEDC.Derived.UniformCauchyCriterionUp.SelectorSealExactPullback
 import BEDC.Derived.UniformCauchyCriterionUp.SelectorSealHandoffLock
 import BEDC.Derived.UniformCauchyCriterionUp.SharedSealRouteDeterminacy
 import BEDC.Derived.UniformCauchyCriterionUp.SharedTailSubfamilyPullback

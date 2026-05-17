@@ -1,0 +1,21 @@
+\begin{theorem}[Cauchy modulus refinement root-window selector uniqueness]
+\label{thm:cauchy-modulus-refinement-root-window-selector-uniqueness}
+Let
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)
+$$
+and
+$$
+R'=(M_0',M_1',U',V',T',W',Q',E',H',C',P',N')
+$$
+be accepted $\CauchyModulusRefinementUp$ packets. Suppose the two packets expose the same source schedules, shared meet, selector budget, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ readback, $\RegSeqRatUp$ handoff, and structural rows along the displayed root route. Then every $\RealUp$ or Completion-facing consumer classifies $E$ and $E'$ as the same consumer-visible Real seal under that route.
+
+No Real completeness principle, quotient stream, selected host limit, countable-choice row, host real equality, hidden selector, or second meet row is used in the classification.
+\end{theorem}
+\begin{proof}
+First apply root route determinacy, \autoref{thm:cauchy-modulus-refinement-root-route-determinacy}. Agreement on the source schedules and shared meet places both accepted packets on the same displayed route through $U,V,T$ before a finite window or Real seal can be read.
+
+Next use the Real-window budget pullback and terminal consumer theorems, \autoref{thm:cauchy-modulus-refinement-real-window-budget-pullback} and \autoref{thm:cauchy-modulus-refinement-real-window-terminal-consumer}. These force every $\RealUp$ or Completion-facing consumer to read the same finite request, window, dyadic readback, regular handoff, selector, disclosure, and support rows before it reaches the seal.
+
+Finally invoke L10 row exactness, \autoref{thm:cauchy-modulus-refinement-l10-row-exactness}. The L10 consumer inventory is exactly the displayed route with $H,C,P,N$, so two accepted packets agreeing on those route rows expose one consumer-visible Real seal surface. Since none of the excluded rows is present in the carrier, the uniqueness claim does not use Real completeness.
+\end{proof}

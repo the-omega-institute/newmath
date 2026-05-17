@@ -10,7 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive MachineInterfaceBoundaryUp : Type where
-  | mk (R E F A S H C P N : BHist) : MachineInterfaceBoundaryUp
+  | packet :
+      (registry exportDecision refused formalTarget socket transport continuation provenance
+        name : BHist) →
+      MachineInterfaceBoundaryUp
   deriving DecidableEq
 
 def machineInterfaceBoundaryEncodeBHist : BHist → RawEvent
@@ -25,9 +28,9 @@ def machineInterfaceBoundaryDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (machineInterfaceBoundaryDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (machineInterfaceBoundaryDecodeBHist tail)
 
-private theorem machineInterfaceBoundaryDecode_encode_bhist :
-    ∀ h : BHist,
-      machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryEncodeBHist h) = h := by
+private theorem machineInterfaceBoundary_decode_encode_bhist :
+    ∀ h : BHist, machineInterfaceBoundaryDecodeBHist
+      (machineInterfaceBoundaryEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -38,90 +41,101 @@ private theorem machineInterfaceBoundaryDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
+private theorem machineInterfaceBoundary_mk_congr
+    {registry registry' exportDecision exportDecision' refused refused'
+      formalTarget formalTarget' socket socket' transport transport'
+      continuation continuation' provenance provenance' name name' : BHist}
+    (hRegistry : registry' = registry)
+    (hExportDecision : exportDecision' = exportDecision)
+    (hRefused : refused' = refused)
+    (hFormalTarget : formalTarget' = formalTarget)
+    (hSocket : socket' = socket)
+    (hTransport : transport' = transport)
+    (hContinuation : continuation' = continuation)
+    (hProvenance : provenance' = provenance)
+    (hName : name' = name) :
+    MachineInterfaceBoundaryUp.packet registry' exportDecision' refused' formalTarget' socket'
+        transport' continuation' provenance' name' =
+      MachineInterfaceBoundaryUp.packet registry exportDecision refused formalTarget socket
+        transport continuation provenance name := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hRegistry
+  cases hExportDecision
+  cases hRefused
+  cases hFormalTarget
+  cases hSocket
+  cases hTransport
+  cases hContinuation
+  cases hProvenance
+  cases hName
+  rfl
+
 def machineInterfaceBoundaryFields : MachineInterfaceBoundaryUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | MachineInterfaceBoundaryUp.mk R E F A S H C P N => [R, E, F, A, S, H, C, P, N]
+  | MachineInterfaceBoundaryUp.packet registry exportDecision refused formalTarget socket
+      transport continuation provenance name =>
+      [registry, exportDecision, refused, formalTarget, socket, transport, continuation,
+        provenance, name]
 
 def machineInterfaceBoundaryToEventFlow : MachineInterfaceBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | MachineInterfaceBoundaryUp.mk R E F A S H C P N =>
-      [machineInterfaceBoundaryEncodeBHist R,
-        machineInterfaceBoundaryEncodeBHist E,
-        machineInterfaceBoundaryEncodeBHist F,
-        machineInterfaceBoundaryEncodeBHist A,
-        machineInterfaceBoundaryEncodeBHist S,
-        machineInterfaceBoundaryEncodeBHist H,
-        machineInterfaceBoundaryEncodeBHist C,
-        machineInterfaceBoundaryEncodeBHist P,
-        machineInterfaceBoundaryEncodeBHist N]
+  | MachineInterfaceBoundaryUp.packet registry exportDecision refused formalTarget socket
+      transport continuation provenance name =>
+      [machineInterfaceBoundaryEncodeBHist registry,
+        machineInterfaceBoundaryEncodeBHist exportDecision,
+        machineInterfaceBoundaryEncodeBHist refused,
+        machineInterfaceBoundaryEncodeBHist formalTarget,
+        machineInterfaceBoundaryEncodeBHist socket,
+        machineInterfaceBoundaryEncodeBHist transport,
+        machineInterfaceBoundaryEncodeBHist continuation,
+        machineInterfaceBoundaryEncodeBHist provenance,
+        machineInterfaceBoundaryEncodeBHist name]
 
-private def machineInterfaceBoundaryRawAt : Nat → EventFlow → RawEvent
+private def machineInterfaceBoundaryNthRawEvent : EventFlow → Nat → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => machineInterfaceBoundaryRawAt n rest
-
-private def machineInterfaceBoundaryLengthEq : Nat → EventFlow → Bool
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => machineInterfaceBoundaryLengthEq n rest
+  | [], _ => []
+  | head :: _tail, Nat.zero => head
+  | _head :: tail, Nat.succ n => machineInterfaceBoundaryNthRawEvent tail n
 
 def machineInterfaceBoundaryFromEventFlow (ef : EventFlow) :
     Option MachineInterfaceBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  match machineInterfaceBoundaryLengthEq 9 ef with
-  | true =>
-      some
-        (MachineInterfaceBoundaryUp.mk
-          (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryRawAt 0 ef))
-          (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryRawAt 1 ef))
-          (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryRawAt 2 ef))
-          (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryRawAt 3 ef))
-          (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryRawAt 4 ef))
-          (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryRawAt 5 ef))
-          (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryRawAt 6 ef))
-          (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryRawAt 7 ef))
-          (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryRawAt 8 ef)))
-  | false => none
+  some
+    (MachineInterfaceBoundaryUp.packet
+      (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryNthRawEvent ef 0))
+      (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryNthRawEvent ef 1))
+      (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryNthRawEvent ef 2))
+      (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryNthRawEvent ef 3))
+      (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryNthRawEvent ef 4))
+      (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryNthRawEvent ef 5))
+      (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryNthRawEvent ef 6))
+      (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryNthRawEvent ef 7))
+      (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryNthRawEvent ef 8)))
 
 private theorem machineInterfaceBoundary_round_trip :
     ∀ x : MachineInterfaceBoundaryUp,
-      machineInterfaceBoundaryFromEventFlow
-        (machineInterfaceBoundaryToEventFlow x) = some x := by
+      machineInterfaceBoundaryFromEventFlow (machineInterfaceBoundaryToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk R E F A S H C P N =>
-      change
-        some
-          (MachineInterfaceBoundaryUp.mk
-            (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryEncodeBHist R))
-            (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryEncodeBHist E))
-            (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryEncodeBHist F))
-            (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryEncodeBHist A))
-            (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryEncodeBHist S))
-            (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryEncodeBHist H))
-            (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryEncodeBHist C))
-            (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryEncodeBHist P))
-            (machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryEncodeBHist N))) =
-          some (MachineInterfaceBoundaryUp.mk R E F A S H C P N)
-      rw [machineInterfaceBoundaryDecode_encode_bhist R,
-        machineInterfaceBoundaryDecode_encode_bhist E,
-        machineInterfaceBoundaryDecode_encode_bhist F,
-        machineInterfaceBoundaryDecode_encode_bhist A,
-        machineInterfaceBoundaryDecode_encode_bhist S,
-        machineInterfaceBoundaryDecode_encode_bhist H,
-        machineInterfaceBoundaryDecode_encode_bhist C,
-        machineInterfaceBoundaryDecode_encode_bhist P,
-        machineInterfaceBoundaryDecode_encode_bhist N]
+  | packet registry exportDecision refused formalTarget socket transport continuation provenance
+      name =>
+      exact
+        congrArg some
+          (machineInterfaceBoundary_mk_congr
+            (machineInterfaceBoundary_decode_encode_bhist registry)
+            (machineInterfaceBoundary_decode_encode_bhist exportDecision)
+            (machineInterfaceBoundary_decode_encode_bhist refused)
+            (machineInterfaceBoundary_decode_encode_bhist formalTarget)
+            (machineInterfaceBoundary_decode_encode_bhist socket)
+            (machineInterfaceBoundary_decode_encode_bhist transport)
+            (machineInterfaceBoundary_decode_encode_bhist continuation)
+            (machineInterfaceBoundary_decode_encode_bhist provenance)
+            (machineInterfaceBoundary_decode_encode_bhist name))
 
 private theorem machineInterfaceBoundaryToEventFlow_injective
     {x y : MachineInterfaceBoundaryUp} :
-    machineInterfaceBoundaryToEventFlow x = machineInterfaceBoundaryToEventFlow y →
-      x = y := by
+    machineInterfaceBoundaryToEventFlow x = machineInterfaceBoundaryToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -138,9 +152,11 @@ private theorem machineInterfaceBoundary_field_faithful :
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk R1 E1 F1 A1 S1 H1 C1 P1 N1 =>
+  | packet registry exportDecision refused formalTarget socket transport continuation provenance
+      name =>
       cases y with
-      | mk R2 E2 F2 A2 S2 H2 C2 P2 N2 =>
+      | packet registry' exportDecision' refused' formalTarget' socket' transport'
+          continuation' provenance' name' =>
           cases hfields
           rfl
 
@@ -154,8 +170,8 @@ instance machineInterfaceBoundaryChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      machineInterfaceBoundaryFromEventFlow (machineInterfaceBoundaryToEventFlow x) = some x
+    change machineInterfaceBoundaryFromEventFlow (machineInterfaceBoundaryToEventFlow x) =
+      some x
     exact machineInterfaceBoundary_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -170,9 +186,9 @@ instance machineInterfaceBoundaryFieldFaithful :
 instance machineInterfaceBoundaryNontrivial : Nontrivial MachineInterfaceBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨MachineInterfaceBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+    ⟨MachineInterfaceBoundaryUp.packet BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      MachineInterfaceBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+      MachineInterfaceBoundaryUp.packet (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
@@ -181,31 +197,5 @@ instance machineInterfaceBoundaryNontrivial : Nontrivial MachineInterfaceBoundar
 def taste_gate : ChapterTasteGate MachineInterfaceBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   machineInterfaceBoundaryChapterTasteGate
-
-theorem MachineInterfaceBoundaryTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      machineInterfaceBoundaryDecodeBHist (machineInterfaceBoundaryEncodeBHist h) = h) ∧
-      (∀ x : MachineInterfaceBoundaryUp,
-        machineInterfaceBoundaryFromEventFlow (machineInterfaceBoundaryToEventFlow x) = some x) ∧
-        (∀ x y : MachineInterfaceBoundaryUp,
-          machineInterfaceBoundaryToEventFlow x = machineInterfaceBoundaryToEventFlow y →
-            x = y) ∧
-          machineInterfaceBoundaryEncodeBHist BHist.Empty = ([] : List BMark) ∧
-            (∀ x y : MachineInterfaceBoundaryUp,
-              machineInterfaceBoundaryFields x = machineInterfaceBoundaryFields y → x = y) ∧
-              (∃ x y : MachineInterfaceBoundaryUp, x ≠ y) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact
-    ⟨machineInterfaceBoundaryDecode_encode_bhist,
-      machineInterfaceBoundary_round_trip,
-      (fun _ _ heq => machineInterfaceBoundaryToEventFlow_injective heq),
-      rfl,
-      machineInterfaceBoundary_field_faithful,
-      by
-        cases machineInterfaceBoundaryNontrivial.witness_pair with
-        | mk x rest =>
-            cases rest with
-            | mk y hxy =>
-                exact ⟨x, y, hxy⟩⟩
 
 end BEDC.Derived.MachineInterfaceBoundaryUp
