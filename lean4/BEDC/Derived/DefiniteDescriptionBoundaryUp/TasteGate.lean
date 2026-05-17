@@ -507,4 +507,55 @@ theorem DefiniteDescriptionBoundaryUniquenessRoute
         ⟨source.left, hsame_refl U, hsame_refl C, hsame_refl P, hsame_refl N⟩
   }
 
+theorem DefiniteDescriptionBoundaryStabilityRoute
+    {D E U S H C P N stable replay named : BHist} :
+    Cont D S stable →
+      Cont stable H replay →
+        Cont replay C named →
+          SemanticNameCert
+            (fun row : BHist =>
+              hsame row named ∧
+                ∃ packet : DefiniteDescriptionBoundaryUp,
+                  packet = DefiniteDescriptionBoundaryUp.mk D E U S H C P N)
+            (fun row : BHist =>
+              Cont D S stable ∧ Cont stable H replay ∧ Cont replay C row)
+            (fun row : BHist =>
+              hsame row named ∧ hsame S S ∧ hsame H H ∧ hsame C C ∧ hsame P P ∧
+                hsame N N)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro descriptionStable stableReplay replayNamed
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro named
+          (And.intro (hsame_refl named)
+            (Exists.intro (DefiniteDescriptionBoundaryUp.mk D E U S H C P N) rfl))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact
+          And.intro (hsame_trans (hsame_symm sameRows) source.left)
+            source.right
+    }
+    pattern_sound := by
+      intro row source
+      have replayRow : Cont replay C row :=
+        cont_result_hsame_transport replayNamed (hsame_symm source.left)
+      exact ⟨descriptionStable, stableReplay, replayRow⟩
+    ledger_sound := by
+      intro row source
+      exact
+        ⟨source.left, hsame_refl S, hsame_refl H, hsame_refl C, hsame_refl P,
+          hsame_refl N⟩
+  }
+
 end BEDC.Derived.DefiniteDescriptionBoundaryUp
