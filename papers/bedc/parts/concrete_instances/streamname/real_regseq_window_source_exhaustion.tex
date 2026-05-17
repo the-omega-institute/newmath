@@ -48,3 +48,54 @@ preceding steps already exhaust the StreamName and RegSeqRat source rows, the
 RealUp endpoint cannot reopen quotient representatives, completion objects,
 Classical data, or standard-bridge data.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal source pullback uniqueness]
+\label{thm:real-l10-terminal-source-pullback-uniqueness}
+Let $R_0$ and $R_1$ be terminal $\RealUp$ seal reads whose visible route is the
+four-face L10 chain
+$\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$. Suppose the
+two reads preserve the same displayed $\StreamNameUp$ finite window, the same
+$\DyadicRatCoreUp$ tolerance row, the same $\RegSeqRatUp$ readback and
+regularity rows, the same componentwise $\hsame$ transports, the same finite
+$\Cont$ ledger, the same $\Pkg$ provenance rows, and the same local
+$\NameCert_{\StreamNameUp}$, $\NameCert_{\DyadicRatCoreUp}$,
+$\NameCert_{\RegSeqRatUp}$, and $\NameCert_{\RealUp}$ support rows.
+
+Then $R_0$ and $R_1$ determine the same terminal finite source pullback over the
+displayed L10 route. The pullback is the finite $\mathsf{BHist}$ packet whose
+four faces are the dyadic tolerance ledger, the StreamName finite-window
+surface, the RegSeqRat readback and regularity surface, and the terminal RealUp
+seal row. No quotient stream equality, host real equality, selected limit,
+ambient completeness datum, countable-choice datum, metric-completeness datum,
+or standard-bridge row is exported by this uniqueness claim.
+\end{theorem}
+\begin{proof}
+First exhaust the source rows available to each terminal read. Apply
+\autoref{thm:streamname-real-regseq-window-source-exhaustion}. Each read can
+consume only the displayed finite StreamName window, the accepted
+DyadicRatCore ledger entries, the RegSeqRat pointwise seal and regularity rows,
+the visible $\hsame$ transports, $\Cont$ rows, $\Pkg$ provenance, and local
+NameCert support.
+
+Next identify the StreamName-to-RegSeqRat face. Use
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. Since the two
+reads expose the same finite window and the same componentwise transports, the
+RegSeqRat face is read from the same public StreamName packet rather than from
+a host stream equality or a hidden representative.
+
+Now identify the seal-facing RealUp face. Apply
+\autoref{thm:regseqrat-tail-selector-real-seal-exhaustion} and
+\autoref{thm:real-finite-window-seal-exhaustion}. These theorems place the
+terminal readback on the same finite RegSeqRat tail-selector route and the same
+RealUp finite-window seal, so no selected limit, ambient completeness datum,
+countable-choice datum, or metric-completeness datum remains as a separate
+source coordinate.
+
+Finally repack the four displayed faces into one finite pullback. The
+StreamName seal boundary fixes the finite window, the RegSeqRat boundary fixes
+the readback and regularity rows, and the RealUp seal boundary fixes the
+endpoint seal row. Because $R_0$ and $R_1$ preserve the same rows on every face,
+the resulting finite $\mathsf{BHist}$ pullback is componentwise identical, and
+there is no standard-bridge row available to distinguish a second terminal
+source.
+\end{proof}
