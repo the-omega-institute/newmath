@@ -1073,6 +1073,7 @@ import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyErrorCertificateUp
 import BEDC.Derived.CertificateCompilerUp
 import BEDC.Derived.CertificateCompilerUp.EdgeClassifierExactness
+import BEDC.Derived.CertificateCompilerUp.EndpointDeterminacy
 import BEDC.Derived.CertificateCompilerUp.EndpointCompositeDeterminacy
 import BEDC.Derived.CertificateCompilerUp.EndpointCertificateAvailability
 import BEDC.Derived.CertificateCompilerUp.EndpointDecompilerHandoff
@@ -1097,6 +1098,8 @@ import BEDC.Derived.CertificateCompilerUp.DependencyScope
 import BEDC.Derived.CertificateCompilerUp.SourceTargetLandingExhaustion
 import BEDC.Derived.CertificateCompilerUp.EndpointKernelMorphismRoundtrip
 import BEDC.Derived.CertificateCompilerUp.TripleCompositeAssociativity
+import BEDC.Derived.CertificateCompilerUp.LeftIdentityUnit
+import BEDC.Derived.TypedFailureCertificateUp.TasteGate
 import BEDC.Derived.MachineInterfaceBoundaryUp.TasteGate
 import BEDC.Derived.MachineInterfaceSocketUp.TasteGate
 import BEDC.Derived.CauchyCriterionUp
