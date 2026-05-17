@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DefiniteDescriptionBoundaryUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -185,6 +187,46 @@ private theorem definiteDescriptionBoundaryToEventFlow_injective
     (Eq.trans (definiteDescriptionBoundary_round_trip x).symm
       (Eq.trans hread (definiteDescriptionBoundary_round_trip y)))
 
+def definiteDescriptionBoundaryFields : DefiniteDescriptionBoundaryUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | DefiniteDescriptionBoundaryUp.mk description existence uniqueness stability transport replay
+      provenance localName =>
+      [description, existence, uniqueness, stability, transport, replay, provenance, localName]
+
+private theorem definiteDescriptionBoundary_field_faithful :
+    ∀ x y : DefiniteDescriptionBoundaryUp,
+      definiteDescriptionBoundaryFields x = definiteDescriptionBoundaryFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk description₁ existence₁ uniqueness₁ stability₁ transport₁ replay₁ provenance₁
+      localName₁ =>
+      cases y with
+      | mk description₂ existence₂ uniqueness₂ stability₂ transport₂ replay₂ provenance₂
+          localName₂ =>
+          change
+              [description₁, existence₁, uniqueness₁, stability₁, transport₁, replay₁,
+                provenance₁, localName₁] =
+                [description₂, existence₂, uniqueness₂, stability₂, transport₂, replay₂,
+                  provenance₂, localName₂] at h
+          injection h with hDescription t1
+          injection t1 with hExistence t2
+          injection t2 with hUniqueness t3
+          injection t3 with hStability t4
+          injection t4 with hTransport t5
+          injection t5 with hReplay t6
+          injection t6 with hProvenance t7
+          injection t7 with hLocalName _
+          cases hDescription
+          cases hExistence
+          cases hUniqueness
+          cases hStability
+          cases hTransport
+          cases hReplay
+          cases hProvenance
+          cases hLocalName
+          rfl
+
 instance definiteDescriptionBoundaryBHistCarrier : BHistCarrier DefiniteDescriptionBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := definiteDescriptionBoundaryToEventFlow
@@ -202,6 +244,24 @@ instance definiteDescriptionBoundaryChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (definiteDescriptionBoundaryToEventFlow_injective heq)
+
+instance definiteDescriptionBoundaryFieldFaithful :
+    FieldFaithful DefiniteDescriptionBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := definiteDescriptionBoundaryFields
+  field_faithful := definiteDescriptionBoundary_field_faithful
+
+instance definiteDescriptionBoundaryNontrivial :
+    Nontrivial DefiniteDescriptionBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨DefiniteDescriptionBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      DefiniteDescriptionBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 theorem DefiniteDescriptionBoundaryTasteGate_single_carrier_alignment :
     (∀ h : BHist, definiteDescriptionBoundaryDecodeBHist
@@ -270,5 +330,29 @@ theorem DefiniteDescriptionBoundaryTasteGate_single_carrier_alignment :
     exact Option.some.inj
       (Eq.trans (hround x).symm (Eq.trans hread (hround y)))
   exact ⟨hdecode, hround, hinj, rfl⟩
+
+theorem DefiniteDescriptionBoundaryLedger_exhaustion :
+    (∀ x : DefiniteDescriptionBoundaryUp,
+      ∃ D E U S H C P N : BHist,
+        x = DefiniteDescriptionBoundaryUp.mk D E U S H C P N ∧
+          FieldFaithful.fields x = [D, E, U, S, H, C, P, N] ∧
+            hsame H H ∧ Cont C P (append C P)) ∧
+      (∀ E U S H C P N : BHist,
+        FieldFaithful.fields
+            (DefiniteDescriptionBoundaryUp.mk (BHist.e0 BHist.Empty) E U S H C P N) ≠
+          FieldFaithful.fields
+            (DefiniteDescriptionBoundaryUp.mk BHist.Empty E U S H C P N)) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    cases x with
+    | mk D E U S H C P N =>
+        exact ⟨D, E, U, S, H, C, P, N, rfl, rfl, hsame_refl H, rfl⟩
+  · intro E U S H C P N hfields
+    change
+      [BHist.e0 BHist.Empty, E, U, S, H, C, P, N] =
+        [BHist.Empty, E, U, S, H, C, P, N] at hfields
+    injection hfields with hrow _
+    cases hrow
 
 end BEDC.Derived.DefiniteDescriptionBoundaryUp
