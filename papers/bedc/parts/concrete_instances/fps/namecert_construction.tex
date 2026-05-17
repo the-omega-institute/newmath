@@ -1,0 +1,703 @@
+\chapter{A Concrete Naming Certificate for \(\FormalPowerSeriesUp\)}
+\label{ch:concrete-instances-fps-namecert}
+\origin{human}
+
+The formal power series interface \(\FormalPowerSeriesUp\) has certificate obligations over a scalar ring from \autoref{ch:concrete-instances-ring-namecert} as functions \(\mathbb{N} \to R\), interpreted as coefficient sequences without termination. The classifier is pointwise sameness on every index. Formal series addition and Cauchy product are derived operations governed by the ring's certificate fields. Convergence is not asserted: this is the formal carrier, not analytic series.
+
+\section{Carrier definition}
+
+\begin{definition}[FormalPowerSeries carrier]
+\label{def:fps-carrier}
+Use coefficient functions \(\NatUp\to R\) over a certified scalar ring \(R\).
+\end{definition}
+
+\section{Concrete singleton zero formal power series instance}
+\label{sec:fps-concrete-singleton-zero-series-instance}
+\label{sec:fps-concrete-singleton-instance}
+
+\begin{definition}[Singleton zero formal power series instance]
+\label{def:singleton-zero-fps-instance}
+\label{def:singleton-empty-history-fps-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Use the
+singleton empty-history scalar ring of
+Definition~\ref{def:singleton-empty-history-ring-instance}. Define the series
+classifier
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Set the formal-power-series code carrier to $A_{\emp}$ on
+$\mathsf{BHist}$ endpoints. Represent the zero formal power series by
+$Z_{\emp}:=\emp$, and set the unit formal power series to
+$U_{\emp}:=\emp$. Define the coefficient readout and displayed operations by
+$$
+\mathsf{coeff}_{\emp}(F,n):=\emp,\qquad
+F\oplus_{\mathrm{fps}}G:=\emp,\qquad
+F\odot_{\mathrm{fps}}G:=\emp.
+$$
+Thus every coefficient, zero endpoint, unit endpoint, addition endpoint, and
+Cauchy-product endpoint is the singleton scalar endpoint $\emp$.
+\end{definition}
+\leandef{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryCarrier}
+\leandef{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier}
+
+\begin{theorem}[Singleton zero formal power series laws]
+\label{thm:singleton-zero-fps-laws}
+\label{thm:singleton-empty-history-fps-laws}
+The tuple of Definition~\ref{def:singleton-zero-fps-instance} satisfies the
+$\FormalPowerSeriesUp$ law package over the concrete $\mathsf{BHist}$ carrier:
+\begin{enumerate}
+  \item $Z_{\emp}$ and $U_{\emp}$ are carried by $A_{\emp}$.
+  \item Every coefficient query $\mathsf{coeff}_{\emp}(F,n)$ is carried by the
+  singleton empty-history scalar ring.
+  \item If $A_{\emp}(F)$ and $A_{\emp}(G)$, then
+  $A_{\emp}(F\oplus_{\mathrm{fps}}G)$ and
+  $A_{\emp}(F\odot_{\mathrm{fps}}G)$.
+  \item $\rho_{\emp}$ is reflexive, symmetric, and transitive on carried series
+  codes.
+  \item Addition is congruent under $\rho_{\emp}$ and has $Z_{\emp}$ as left
+  and right zero under $\rho_{\emp}$.
+  \item Cauchy product is congruent under $\rho_{\emp}$ and has $U_{\emp}$ as
+  left and right unit under $\rho_{\emp}$.
+  \item The coefficient ledger of every displayed endpoint is the constant
+  singleton scalar endpoint $\emp$, and the scalar clauses are those of
+  Theorem~\ref{thm:singleton-empty-history-ring-laws}.
+\end{enumerate}
+No convergence field is required.
+\end{theorem}
+\begin{proof}
+The carrier endpoint is supplied by Definition~\ref{def:list-singleton-history-source}
+at $a_0=\emp$. In particular, $Z_{\emp}$, $U_{\emp}$, and every displayed
+operation endpoint reduce to the same carried endpoint $\emp$.
+
+For coefficient queries, every value of $\mathsf{coeff}_{\emp}(F,n)$ is
+definitionally $\emp$. The scalar side is the singleton empty-history ring of
+Definition~\ref{def:singleton-empty-history-ring-instance}, and
+Theorem~\ref{thm:singleton-empty-history-ring-laws} supplies its scalar zero,
+scalar one, addition, and multiplication clauses.
+
+For addition and Cauchy-product closure, the displayed operations return
+$\emp$ for every pair of inputs. The singleton carrier witness therefore
+discharges both closure obligations without inspecting the input series or the
+index used in a coefficient view.
+
+Classifier reflexivity, symmetry, and transitivity are inherited from the
+$\hsame$ reflexivity, symmetry, and transitivity laws in the FKernel, together
+with the two singleton endpoint witnesses required by $\rho_{\emp}$. Operation
+congruence reduces both addition results and both Cauchy-product results to
+$\emp$, so the relation component is again $\hsame(\emp,\emp)$.
+
+The zero laws and unit laws reduce to comparisons of $\emp$ with $\emp$.
+The same $\rho_{\emp}$ package gives the left and right zero laws for addition
+and the left and right unit laws for Cauchy product.
+
+Finally, every coefficient query returns $\emp$. Hence the coefficient ledger
+for the zero series, unit series, sum, and Cauchy product is constant, with no
+convergence claim involved.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.fps\_singleton\_empty\_schema\_laws}
+
+\begin{theorem}[Singleton coefficient endpoint has empty ledger]
+\label{thm:fps-singleton-coeff-empty-ledger}
+For every displayed singleton formal power series endpoint $F$ and coefficient
+index $n$, if $F$ is carried by the singleton source, then
+$$
+\HSame(\mathsf{coeff}_{\emp}(F,n),\emp)
+$$
+and the coefficient endpoint is classified with the empty scalar endpoint by
+$\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+The coefficient operation of the singleton formal-power-series instance is
+definitionally constant at $\emp$. The history-sameness part is therefore
+$\HSame(\emp,\emp)$, and the classifier clause is the triple consisting of the
+two singleton carrier witnesses for $\emp$ and the same reflexive
+history-sameness witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonCoeff\_empty\_ledger}
+
+The $\FormalPowerSeriesUp$ schema is instantiated by this concrete
+$\mathsf{BHist}$ carrier and constant coefficient operations, so future Lean
+targets can be anchored directly in $\mathsf{BHist}$.
+
+\begin{theorem}[Singleton empty-history FPS semantic name certificate]
+\label{thm:fps-singleton-empty-history-semantic-namecert}
+The singleton empty-history formal-power-series carrier
+$A_{\emp}(h):=h\hsame\emp$ with classifier
+$$
+\rho_{\emp}(h,k):=A_{\emp}(h)\land A_{\emp}(k)\land h\hsame k
+$$
+forms a
+$\mathsf{SemanticNameCert}(A_{\emp},A_{\emp},A_{\emp},\rho_{\emp})$.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by $\emp$ with $\hsame$ reflexivity. Reflexivity,
+symmetry, and transitivity of the classifier use the corresponding $\hsame$
+laws, while the two carrier components are part of the classifier witness.
+Carrier transport across the classifier reads out the right carrier component.
+Pattern and ledger soundness are identity maps because the source, pattern, and
+ledger predicates are the same singleton carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistory\_semanticNameCert}
+
+\begin{theorem}[Singleton FPS classifier append split empty]
+\label{thm:fps-singleton-classifier-append-split-empty}
+For $p,q,h:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(p,q),h)
+\quad\Longleftrightarrow\quad
+p\hsame\emp\land q\hsame\emp\land A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the left carrier component of
+$\rho_{\emp}(\mathsf{append}(p,q),h)$ says
+$\mathsf{append}(p,q)\hsame\emp$. The append-empty inversion theorem splits
+this into $p\hsame\emp$ and $q\hsame\emp$, while the right carrier component
+already gives $A_{\emp}(h)$.
+
+Conversely, append-empty introduction turns $p\hsame\emp$ and $q\hsame\emp$
+into $A_{\emp}(\mathsf{append}(p,q))$. Together with $A_{\emp}(h)$, transitivity
+through $\emp$ supplies the classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_append\_split\_empty\_iff}
+
+\begin{theorem}[Singleton FPS classifier pair append split empty]
+\label{thm:fps-singleton-classifier-append-pair-split-empty}
+For $p,q,r,s:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(p,q),\mathsf{append}(r,s))
+\quad\Longleftrightarrow\quad
+p\hsame\emp\land q\hsame\emp\land r\hsame\emp\land s\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies the one-sided append split theorem to the left
+endpoint. This gives $p\hsame\emp$, $q\hsame\emp$, and the right carrier fact
+$A_{\emp}(\mathsf{append}(r,s))$. The append-empty inversion theorem then
+splits the right carrier fact into $r\hsame\emp$ and $s\hsame\emp$.
+
+Conversely, append-empty introduction turns the two left endpoint witnesses
+into $A_{\emp}(\mathsf{append}(p,q))$ and the two right endpoint witnesses into
+$A_{\emp}(\mathsf{append}(r,s))$. Transitivity of $\hsame$ through $\emp$
+supplies the classifier comparison between the two appended histories.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_append\_pair\_split\_empty\_iff}
+
+\begin{theorem}[Singleton FPS classifier continuation split empty]
+\label{thm:fps-singleton-empty-history-classifier-cont-split-empty}
+For $p,q,h:\mathsf{BHist}$, if $\ContR(p,q,h)$ and
+$\rho_{\emp}(h,\emp)$, then
+$$
+A_{\emp}(p)\land A_{\emp}(q).
+$$
+\end{theorem}
+\begin{proof}
+Invert the continuation ledger to identify $h$ with
+$\mathsf{append}(p,q)$. The classifier premise then has the shape handled by
+Theorem~\ref{thm:fps-singleton-classifier-append-split-empty}; projecting its
+forward direction gives the two empty-history carrier facts for $p$ and $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_cont\_split\_empty}
+
+\begin{theorem}[Singleton FPS classifier continuation component classifiers]
+\label{thm:fps-singleton-empty-history-classifier-cont-component-classifiers}
+For $p,q,h:\mathsf{BHist}$, if $\ContR(p,q,h)$ and
+$\rho_{\emp}(h,\emp)$, then both continuation components are classified with
+the empty endpoint:
+$$
+\rho_{\emp}(p,\emp)\land \rho_{\emp}(q,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Invert the continuation ledger to put the classifier on
+$\mathsf{append}(p,q)$. The append split exposes $p\hsame\emp$ and
+$q\hsame\emp$, and each exposed carrier combines with reflexivity of $\emp$ to
+rebuild the two component classifiers.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_cont\_component\_classifiers}
+
+\begin{theorem}[Singleton FPS classifier append component classifiers]
+\label{thm:fps-singleton-classifier-append-component-classifiers}
+For $p,q,h:\mathsf{BHist}$, if the appended endpoint is classified with $h$,
+$$
+\rho_{\emp}(\mathsf{append}(p,q),h),
+$$
+then both append components are classified with the empty endpoint and the
+right endpoint is carried:
+$$
+\rho_{\emp}(p,\emp)\land \rho_{\emp}(q,\emp)\land A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+Apply the append split classifier equivalence of
+\autoref{thm:fps-singleton-classifier-append-split-empty}. This exposes
+$p\hsame\emp$, $q\hsame\emp$, and $A_{\emp}(h)$. Each component classifier is
+then rebuilt from its exposed empty-history carrier, the reflexive carrier of
+$\emp$, and the same exposed history-sameness witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_append\_component\_classifiers}
+
+\begin{theorem}[Singleton FPS classifier rejects headed endpoints]
+\label{thm:fps-singleton-classifier-headed-endpoint-absurd}
+For $h,k:\mathsf{BHist}$, if
+$\rho_{\emp}(h,k)$ holds for the singleton empty-history FPS classifier, then
+none of $h$ or $k$ is a displayed zero-headed or one-headed endpoint.
+\end{theorem}
+\begin{proof}
+The classifier exposes singleton carrier witnesses
+$h\hsame\emp$ and $k\hsame\emp$. A displayed headed endpoint for either
+argument rewrites one of these witnesses into
+$\mathsf{e}_0(z)\hsame\emp$ or $\mathsf{e}_1(z)\hsame\emp$, contradicting
+the constructor separation lemmas for headed histories and the empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_headed\_endpoint\_absurd}
+
+\begin{theorem}[Singleton FPS classifier continuation commutativity closure]
+\label{thm:fps-singleton-empty-history-classifier-continuation-comm-closed}
+Let $F,G:\mathsf{BHist}$ be carried by the singleton empty-history FPS carrier
+$A_{\emp}$. If $\ContR(F,G,L)$ and $\ContR(G,F,R)$, then both continuation
+results are carried by $A_{\emp}$, and the singleton FPS classifier relates
+the two results:
+$$
+A_{\emp}(L)\land A_{\emp}(R)\land \rho_{\emp}(L,R).
+$$
+\end{theorem}
+\begin{proof}
+The carried endpoints $F$ and $G$ are both identified with $\emp$. Inverting
+the two continuation witnesses after those identifications reduces the two
+results to $\mathsf{append}(\emp,\emp)$, hence to $\emp$. The result carriers
+are the singleton empty-history witnesses, and the classifier follows by
+pairing those witnesses with reflexivity of $\hsame$ at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_continuation\_comm\_closed}
+
+\section{The certificate}
+
+\begin{definition}[FormalPowerSeries source specification]
+\label{def:fps-source-specification}
+The source is the natural index source and scalar ring source.
+\end{definition}
+\leandef{BEDC.Derived.FpsUp.FpsSingletonSourceSpec}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonSourceSpec\_empty}
+
+\begin{definition}[FormalPowerSeries pattern specification]
+\label{def:fps-pattern-specification}
+The pattern is infinite coefficient assignment indexed by unary natural histories.
+\end{definition}
+
+\begin{definition}[FormalPowerSeries classifier specification]
+\label{def:fps-classifier-specification}
+The classifier relates two series when all corresponding coefficients are scalar-classified the same.
+\end{definition}
+
+\begin{definition}[FormalPowerSeries stability certificate]
+\label{def:fps-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item pointwise reflexivity
+  \item pointwise transitivity
+  \item addition closure pointwise
+  \item Cauchy product closure by finite sums at each coefficient index
+  \item no convergence field is required
+\end{enumerate}
+\end{definition}
+\leanchecked{BEDC.Derived.FpsUp.fps\_stability\_certificate\_fields}
+
+\begin{definition}[FormalPowerSeries ledger policy]
+\label{def:fps-ledger-policy}
+Record the coefficient rule and scalar ledgers at queried indices.
+\end{definition}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonPointwiseAdditionCoeff\_empty\_ledger}
+
+\begin{definition}[\(\FormalPowerSeriesUp\) certificate obligations]
+\label{def:fps-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\FormalPowerSeriesUp\).
+\end{definition}
+\leanchecked{BEDC.Derived.FpsUp.FpsUp\_StdBridge}
+
+\paragraph{Primitive boundary.}
+\(\FormalPowerSeriesUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:fps-zero-axiom-note}
+Avoids funext by using pointwise classifier sameness.
+\end{remark}
+
+\begin{definition}[FPS Cauchy coefficient spine]
+\label{def:fps-cauchy-coefficient-spine}
+Let $R$ be a scalar $\CommRingUp$ certificate, read through \autoref{prop:commring-forgets-ring-certificate} as a $\RingUp$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and multiplication $\cdot_R$. For coefficient sequences $F,G:\NatUp\to R$ as in \autoref{def:fps-carrier} and unary index $n$, let $\mathsf{Split}(n)$ be the finite spine of unary decompositions $i+j=n$ generated by the $\NatUp$ recursion. Define
+$$
+\mathsf{CauchySp}_n(F,G)
+:=
+\mathsf{map}_{(i,j)\in\mathsf{Split}(n)}(F_i\cdot_R G_j).
+$$
+The formal product coefficient is the finite additive fold from \autoref{thm:finite-additive-fold-congruence-coefficient-lists}:
+$$
+(F\odot_{\mathrm{fps}}G)_n
+:=
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(F,G)).
+$$
+\end{definition}
+\leandef{BEDC.Derived.FpsUp.FpsCauchyCoefficientSpine}
+\leandef{BEDC.Derived.FpsUp.FpsSingletonCauchyCoeffSpine}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonCauchyCoeffSpine\_carrier}
+
+\begin{theorem}[FPS Cauchy product classifier congruence]
+\label{thm:fps-cauchy-product-classifier-congruence}
+Let $R$ be a scalar $\CommRingUp$ certificate. In the $\FormalPowerSeriesUp(R)$ interface, let $\sim_{\mathrm{fps}}$ be the pointwise classifier of \autoref{def:fps-classifier-specification}. For carried coefficient sequences $F,F',G,G':\NatUp\to R$, if
+$$
+\forall n:\NatUp,\ F_n\sim_R F'_n
+\qquad\text{and}\qquad
+\forall n:\NatUp,\ G_n\sim_R G'_n,
+$$
+then
+$$
+F\odot_{\mathrm{fps}}G\sim_{\mathrm{fps}}F'\odot_{\mathrm{fps}}G'.
+$$
+Equivalently, for every unary coefficient index $n$,
+$$
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(F,G))
+\sim_R
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(F',G')).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonCauchyProduct\_classifier\_congruence}
+\begin{proof}
+Read the scalar $\CommRingUp$ certificate through \autoref{prop:commring-forgets-ring-certificate}. The retained $\RingUp$ certificate has the same scalar carrier, classifier, zero endpoint, addition, and multiplication. Its stability rows include zero self-classification, additive congruence, and multiplication congruence by \autoref{def:ring-stability-certificate}.
+
+Fix a unary index $n$. By \autoref{def:fps-cauchy-coefficient-spine}, both product coefficients use the same finite split spine $\mathsf{Split}(n)$. For each displayed split $(i,j)$ with $i+j=n$, the two pointwise FPS hypotheses give $F_i\sim_R F'_i$ and $G_j\sim_R G'_j$. Multiplication congruence transports these two scalar classifier witnesses to
+$$
+F_i\cdot_R G_j\sim_R F'_i\cdot_R G'_j.
+$$
+Structural induction on the finite split spine packages these comparisons as
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,\mathsf{CauchySp}_n(F,G),\mathsf{CauchySp}_n(F',G')\bigr).
+$$
+Applying \autoref{thm:finite-additive-fold-congruence-coefficient-lists} to this finite-spine classifier witness gives
+$$
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(F,G))
+\sim_R
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(F',G')).
+$$
+This is exactly the scalar classification of the $n$-th coefficient of the two Cauchy products by \autoref{def:fps-cauchy-coefficient-spine}.
+
+Since $n$ was arbitrary, \autoref{def:fps-classifier-specification} converts the coefficientwise scalar comparison into the FPS classifier judgment
+$$
+F\odot_{\mathrm{fps}}G\sim_{\mathrm{fps}}F'\odot_{\mathrm{fps}}G'.
+$$
+The argument is finite at each coefficient index and uses no convergence field, matching the stability obligations listed in \autoref{def:fps-stability-certificate}.
+\end{proof}
+
+\begin{definition}[FPS pointwise addition coefficient]
+\label{def:fps-pointwise-addition-coefficient}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$ and addition $+_R$. For coefficient sequences $F,G:\NatUp\to R$ as in \autoref{def:fps-carrier}, the formal sum $F\oplus_{\mathrm{fps}}G$ is the coefficient sequence determined by
+$$
+(F\oplus_{\mathrm{fps}}G)_n:=F_n+_R G_n
+$$
+for every unary index $n:\NatUp$.
+\end{definition}
+\leandef{BEDC.Derived.FpsUp.FpsSingletonPointwiseAdditionCoeff}
+
+\begin{theorem}[FPS addition commutativity from scalar additive commutativity]
+\label{thm:fps-addition-commutativity-from-scalar-additive-commutativity}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$ and addition $+_R$. Assume the scalar additive commutativity row retained in \autoref{def:ring-stability-certificate}: for all scalar endpoints $a,b$,
+$$
+a+_R b\sim_R b+_R a.
+$$
+For a commutative-ring scalar source, \autoref{prop:commring-forgets-ring-certificate} keeps these additive data unchanged. In the $\FormalPowerSeriesUp(R)$ interface, let $\sim_{\mathrm{fps}}$ be the pointwise classifier of \autoref{def:fps-classifier-specification}. For carried coefficient sequences $F,G:\NatUp\to R$,
+$$
+F\oplus_{\mathrm{fps}}G\sim_{\mathrm{fps}}G\oplus_{\mathrm{fps}}F.
+$$
+Equivalently, for every unary coefficient index $n:\NatUp$,
+$$
+(F\oplus_{\mathrm{fps}}G)_n\sim_R(G\oplus_{\mathrm{fps}}F)_n.
+$$
+\end{theorem}
+\begin{proof}
+Fix a unary index $n$. By \autoref{def:fps-pointwise-addition-coefficient}, the two coefficient endpoints unfold as
+$$
+(F\oplus_{\mathrm{fps}}G)_n=F_n+_R G_n
+$$
+and
+$$
+(G\oplus_{\mathrm{fps}}F)_n=G_n+_R F_n.
+$$
+The scalar additive commutativity row gives
+$$
+F_n+_R G_n\sim_R G_n+_R F_n.
+$$
+Substituting the two coefficient rules gives the displayed scalar comparison at index $n$:
+$$
+(F\oplus_{\mathrm{fps}}G)_n\sim_R(G\oplus_{\mathrm{fps}}F)_n.
+$$
+Since $n$ was arbitrary, the pointwise classifier specification in \autoref{def:fps-classifier-specification} converts these coefficientwise scalar comparisons into
+$$
+F\oplus_{\mathrm{fps}}G\sim_{\mathrm{fps}}G\oplus_{\mathrm{fps}}F.
+$$
+No convergence or finite-support premise is used; the argument is exactly the pointwise addition closure situation recorded in \autoref{def:fps-stability-certificate}.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonPointwiseAdditionCoeff\_comm\_classifier}
+
+\begin{lemma}[Finite additive fold reversal under additive commutativity]
+\label{lem:finite-additive-fold-reversal-under-additive-commutativity}
+Let $R$ be a scalar $\RingUp(R)$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite coefficient fold $\mathsf{fold}_{+,R}$ as in \autoref{thm:finite-additive-fold-congruence-coefficient-lists}. Assume the scalar classifier equivalence fields and the additive abelian-group, additive congruence, and zero rows retained in \autoref{def:ring-stability-certificate}. For every finite carried scalar spine $xs:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{fold}_{+,R}(xs)\sim_R\mathsf{fold}_{+,R}(\mathsf{reverse}(xs)).
+$$
+\end{lemma}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonAddFold\_reverse\_empty\_append\_hsame}
+\begin{proof}
+First prove by induction on $xs$ that for every carried scalar $a$,
+$$
+\mathsf{fold}_{+,R}(xs{++}[a])\sim_R\mathsf{fold}_{+,R}(xs)+_R a.
+$$
+For $xs=\mathsf{nil}$, the two endpoints are $a+_R0_R$ and $0_R+_Ra$. The additive zero laws classify both endpoints with $a$, and classifier symmetry and transitivity compose the required comparison.
+
+For the cons step write $xs=\mathsf{cons}(x,xs')$. The induction hypothesis gives
+$$
+\mathsf{fold}_{+,R}(xs'{++}[a])\sim_R\mathsf{fold}_{+,R}(xs')+_R a.
+$$
+Additive congruence transports this under the common left summand $x$, giving
+$$
+x+_R\mathsf{fold}_{+,R}(xs'{++}[a])
+\sim_R
+x+_R(\mathsf{fold}_{+,R}(xs')+_R a).
+$$
+Additive associativity classifies the right endpoint with $(x+_R\mathsf{fold}_{+,R}(xs'))+_R a$, which is $\mathsf{fold}_{+,R}(\mathsf{cons}(x,xs'))+_R a$ by the cons fold clause. This proves the append-last calculation.
+
+Now induct on $xs$ for the reversal claim. The nil case reduces both folds to $0_R$, classified with itself by the zero row. In the cons case write $xs=\mathsf{cons}(a,t)$. The cons fold clause gives $a+_R\mathsf{fold}_{+,R}(t)$. The induction hypothesis and additive congruence classify this endpoint with $a+_R\mathsf{fold}_{+,R}(\mathsf{reverse}(t))$. Additive commutativity then classifies it with $\mathsf{fold}_{+,R}(\mathsf{reverse}(t))+_R a$. The append-last calculation applied to $\mathsf{reverse}(t)$ gives
+$$
+\mathsf{fold}_{+,R}(\mathsf{reverse}(t){++}[a])
+\sim_R
+\mathsf{fold}_{+,R}(\mathsf{reverse}(t))+_R a.
+$$
+Classifier symmetry and transitivity identify the preceding endpoint with $\mathsf{fold}_{+,R}(\mathsf{reverse}(t){++}[a])$, which is $\mathsf{fold}_{+,R}(\mathsf{reverse}(\mathsf{cons}(a,t)))$ by the finite-list reverse recursion.
+\end{proof}
+
+\begin{lemma}[FPS Cauchy coefficient spine swapped reverse]
+\label{lem:fps-cauchy-coefficient-spine-swapped-reverse}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read through \autoref{prop:commring-forgets-ring-certificate} as a $\RingUp(R)$ certificate with scalar classifier $\sim_R$ and multiplication $\cdot_R$. For carried coefficient sequences $F,G:\NatUp\to R$ and unary index $n$, the Cauchy coefficient spines satisfy
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,
+\mathsf{CauchySp}_n(F,G),
+\mathsf{reverse}(\mathsf{CauchySp}_n(G,F))\bigr).
+$$
+\end{lemma}
+\begin{proof}
+Use the finite split spine $\mathsf{Split}(n)$ of \autoref{def:fps-cauchy-coefficient-spine}. Its unary recursion lists each decomposition $i+j=n$ exactly once, and the same recursion gives the swapped-reverse spine: after applying $(i,j)\mapsto(j,i)$, the resulting finite spine is $\mathsf{reverse}(\mathsf{Split}(n))$.
+
+Induct on this split recursion. At the base index the only decomposition is $(0,0)$, and multiplicative commutativity from \autoref{def:commring-stability-certificate} gives
+$$
+F_0\cdot_R G_0\sim_R G_0\cdot_R F_0.
+$$
+For the successor step, the exposed left split $(0,\mathsf{succ}(n))$ is paired with the exposed right split $(\mathsf{succ}(n),0)$ after swapping and reversing; the middle splits are the successor transports of the predecessor split and are handled by the induction hypothesis. For every matched split $(i,j)$, the coefficient carrier supplies carried endpoints $F_i$ and $G_j$, and scalar multiplicative commutativity gives
+$$
+F_i\cdot_R G_j\sim_R G_j\cdot_R F_i.
+$$
+The nil and cons clauses of \autoref{def:list-classifier-specification} assemble these scalar comparisons into the displayed finite-spine classifier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonCauchyProduct\_swapped\_reverse\_fold\_hsame}
+
+\begin{theorem}[FPS Cauchy product commutativity from CommRing scalars]
+\label{thm:fps-cauchy-product-commutativity-from-commring-scalars}
+Let $R$ carry a $\CommRingUp(R)$ certificate. In the $\FormalPowerSeriesUp(R)$ interface, let $\sim_{\mathrm{fps}}$ be the pointwise classifier of \autoref{def:fps-classifier-specification}. For carried coefficient sequences $F,G:\NatUp\to R$,
+$$
+\forall n:\NatUp,\quad
+(F\odot_{\mathrm{fps}}G)_n\sim_R(G\odot_{\mathrm{fps}}F)_n.
+$$
+Consequently,
+$$
+F\odot_{\mathrm{fps}}G\sim_{\mathrm{fps}}G\odot_{\mathrm{fps}}F.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonCauchyProduct\_comm\_classifier}
+\begin{proof}
+Read the scalar certificate as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. This keeps the scalar classifier, zero endpoint, addition, multiplication, additive abelian-group rows, addition congruence, multiplication congruence, and the finite additive fold used in \autoref{def:fps-cauchy-coefficient-spine}. The $\CommRingUp$ layer supplies multiplicative commutativity by \autoref{def:commring-stability-certificate}.
+
+Fix $n:\NatUp$. By \autoref{lem:fps-cauchy-coefficient-spine-swapped-reverse},
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,
+\mathsf{CauchySp}_n(F,G),
+\mathsf{reverse}(\mathsf{CauchySp}_n(G,F))\bigr)
+$$
+holds. Applying \autoref{thm:finite-additive-fold-congruence-coefficient-lists} gives
+$$
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(F,G))
+\sim_R
+\mathsf{fold}_{+,R}(\mathsf{reverse}(\mathsf{CauchySp}_n(G,F))).
+$$
+By \autoref{lem:finite-additive-fold-reversal-under-additive-commutativity}, applied to $\mathsf{CauchySp}_n(G,F)$, and classifier symmetry,
+$$
+\mathsf{fold}_{+,R}(\mathsf{reverse}(\mathsf{CauchySp}_n(G,F)))
+\sim_R
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(G,F)).
+$$
+Classifier transitivity composes the two comparisons. Unfolding \autoref{def:fps-cauchy-coefficient-spine} identifies the composed comparison with
+$$
+(F\odot_{\mathrm{fps}}G)_n\sim_R(G\odot_{\mathrm{fps}}F)_n.
+$$
+Since $n$ was arbitrary, the pointwise classifier specification in \autoref{def:fps-classifier-specification} gives
+$$
+F\odot_{\mathrm{fps}}G\sim_{\mathrm{fps}}G\odot_{\mathrm{fps}}F.
+$$
+\end{proof}
+
+\begin{theorem}[FPS Cauchy product distributes over FPS addition]
+\label{thm:fps-cauchy-product-distributes-over-fps-addition}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, multiplication $\cdot_R$, and finite additive fold $\mathsf{fold}_{+,R}$. Let the $\FormalPowerSeriesUp(R)$ interface use the pointwise classifier $\sim_{\mathrm{fps}}$ of \autoref{def:fps-classifier-specification}, pointwise addition from \autoref{def:fps-pointwise-addition-coefficient}, and the Cauchy coefficient spine of \autoref{def:fps-cauchy-coefficient-spine} read over these $\RingUp$ operations. For carried coefficient sequences $F,G,H:\NatUp\to R$, the displayed products and sums are carried and
+$$
+F\odot_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H)
+\sim_{\mathrm{fps}}
+(F\odot_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}(F\odot_{\mathrm{fps}}H)
+$$
+and
+$$
+(F\oplus_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H
+\sim_{\mathrm{fps}}
+(F\odot_{\mathrm{fps}}H)\oplus_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H).
+$$
+Equivalently, for every unary coefficient index $n:\NatUp$,
+$$
+(F\odot_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H))_n
+\sim_R
+((F\odot_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}(F\odot_{\mathrm{fps}}H))_n
+$$
+and
+$$
+((F\oplus_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H)_n
+\sim_R
+((F\odot_{\mathrm{fps}}H)\oplus_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H))_n.
+$$
+\end{theorem}
+\begin{proof}
+The carrying clauses follow from the addition and Cauchy-product closure rows in \autoref{def:fps-stability-certificate}. By the pointwise classifier of \autoref{def:fps-classifier-specification}, it remains to compare the scalar coefficient endpoints at an arbitrary index.
+
+Fix $n:\NatUp$. For the first comparison, set
+$$
+x_n:=\mathsf{CauchySp}_n(F,G),
+\qquad
+y_n:=\mathsf{CauchySp}_n(F,H).
+$$
+Both finite spines are indexed by the same split spine $\mathsf{Split}(n)$ from \autoref{def:fps-cauchy-coefficient-spine}. For each split $(i,j)$ in that spine, pointwise addition gives $(G\oplus_{\mathrm{fps}}H)_j=G_j+_RH_j$. Multiplication congruence and scalar left distributivity from \autoref{def:ring-stability-certificate} give
+$$
+F_i\cdot_R(G\oplus_{\mathrm{fps}}H)_j
+\sim_R
+(F_i\cdot_RG_j)+_R(F_i\cdot_RH_j).
+$$
+The matching split order assembles these scalar witnesses, using \autoref{def:list-classifier-specification}, into
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,
+\mathsf{CauchySp}_n(F,G\oplus_{\mathrm{fps}}H),x_n+_Ry_n\bigr).
+$$
+Applying \autoref{thm:finite-additive-fold-congruence-coefficient-lists} yields
+$$
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(F,G\oplus_{\mathrm{fps}}H))
+\sim_R
+\mathsf{fold}_{+,R}(x_n+_Ry_n).
+$$
+By \autoref{lem:finite-additive-fold-separates-pointwise-scalar-sums},
+$$
+\mathsf{fold}_{+,R}(x_n+_Ry_n)
+\sim_R
+\mathsf{fold}_{+,R}(x_n)+_R\mathsf{fold}_{+,R}(y_n).
+$$
+Classifier transitivity composes these two comparisons. Unfolding the Cauchy coefficient rule in \autoref{def:fps-cauchy-coefficient-spine} and the pointwise addition rule in \autoref{def:fps-pointwise-addition-coefficient} identifies the composed endpoint comparison with
+$$
+(F\odot_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H))_n
+\sim_R
+((F\odot_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}(F\odot_{\mathrm{fps}}H))_n.
+$$
+
+For the second comparison, set
+$$
+u_n:=\mathsf{CauchySp}_n(F,H),
+\qquad
+v_n:=\mathsf{CauchySp}_n(G,H).
+$$
+Again both spines use the same split spine $\mathsf{Split}(n)$. For each split $(i,j)$, pointwise addition gives $(F\oplus_{\mathrm{fps}}G)_i=F_i+_RG_i$. Multiplication congruence and scalar right distributivity from \autoref{def:ring-stability-certificate} give
+$$
+(F\oplus_{\mathrm{fps}}G)_i\cdot_RH_j
+\sim_R
+(F_i\cdot_RH_j)+_R(G_i\cdot_RH_j).
+$$
+Thus
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,
+\mathsf{CauchySp}_n(F\oplus_{\mathrm{fps}}G,H),u_n+_Rv_n\bigr)
+$$
+holds. The fold congruence theorem \autoref{thm:finite-additive-fold-congruence-coefficient-lists} and the fold-splitting lemma \autoref{lem:finite-additive-fold-separates-pointwise-scalar-sums} classify
+$$
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(F\oplus_{\mathrm{fps}}G,H))
+\sim_R
+\mathsf{fold}_{+,R}(u_n)+_R\mathsf{fold}_{+,R}(v_n).
+$$
+Unfolding \autoref{def:fps-cauchy-coefficient-spine} and \autoref{def:fps-pointwise-addition-coefficient} identifies this scalar comparison with
+$$
+((F\oplus_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H)_n
+\sim_R
+((F\odot_{\mathrm{fps}}H)\oplus_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H))_n.
+$$
+
+Since $n$ was arbitrary in both calculations, \autoref{def:fps-classifier-specification} packages the coefficientwise scalar comparisons as the two displayed $\FormalPowerSeriesUp$ classifier judgments.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonCauchyProduct\_distributes\_over\_addition\_classifier}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonCauchyProduct\_left\_distrib\_classifier}
+
+\input{parts/concrete_instances/fps/threefold_cauchy_split}
+
+\input{parts/concrete_instances/fps/ringup_tail}
+
+\begin{theorem}[FPS pointwise addition associativity]
+\label{thm:fps-pointwise-addition-associativity}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$ and addition $+_R$. Assume the scalar additive associativity row retained in \autoref{def:ring-stability-certificate}: for all carried scalar endpoints $a,b,c$,
+$$
+(a+_R b)+_R c\sim_R a+_R(b+_R c).
+$$
+In the $\FormalPowerSeriesUp(R)$ interface, let $\sim_{\mathrm{fps}}$ be the pointwise classifier of \autoref{def:fps-classifier-specification}, and let pointwise addition be the operation of \autoref{def:fps-pointwise-addition-coefficient}. For carried coefficient sequences $F,G,H:\NatUp\to R$, the two iterated pointwise sums are carried by the $\FormalPowerSeriesUp(R)$ carrier and
+$$
+(F\oplus_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}H
+\sim_{\mathrm{fps}}
+F\oplus_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H).
+$$
+Equivalently, for every unary coefficient index $n:\NatUp$,
+$$
+\bigl((F\oplus_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}H\bigr)_n
+\sim_R
+\bigl(F\oplus_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H)\bigr)_n.
+$$
+\end{theorem}
+\begin{proof}
+The pointwise addition closure row in \autoref{def:fps-stability-certificate} applies twice. Applied first to $F,G$ and then to $F\oplus_{\mathrm{fps}}G,H$, it carries the left-associated sum. Applied first to $G,H$ and then to $F,G\oplus_{\mathrm{fps}}H$, it carries the right-associated sum.
+
+Fix $n:\NatUp$. By \autoref{def:fps-pointwise-addition-coefficient}, the left-associated coefficient unfolds in two steps as
+$$
+\bigl((F\oplus_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}H\bigr)_n
+=
+(F_n+_R G_n)+_R H_n.
+$$
+The same rule unfolds the right-associated coefficient as
+$$
+\bigl(F\oplus_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H)\bigr)_n
+=
+F_n+_R(G_n+_R H_n).
+$$
+The carried-coefficient hypotheses ensure that $F_n$, $G_n$, and $H_n$ are carried scalar endpoints. The scalar additive associativity row from \autoref{def:ring-stability-certificate} therefore gives
+$$
+(F_n+_R G_n)+_R H_n
+\sim_R
+F_n+_R(G_n+_R H_n).
+$$
+Substituting the two coefficient unfoldings gives the displayed scalar classifier comparison at index $n$.
+
+Since $n$ was arbitrary, the pointwise classifier specification in \autoref{def:fps-classifier-specification} packages these coefficientwise scalar comparisons as
+$$
+(F\oplus_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}H
+\sim_{\mathrm{fps}}
+F\oplus_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H).
+$$
+No convergence or finite-support premise is used.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonPointwiseAdditionCoeff\_associativity}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonPointwiseAdditionCoeff\_assoc\_classifier}
