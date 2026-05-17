@@ -159,6 +159,24 @@ Now read the grid packet. By \autoref{thm:real-cauchy-witness-grid-selector-exac
 Finally use \autoref{thm:bounded-monotone-cauchy-witness-root-real-seal-threshold-exhaustion}. Since the threshold row $Q$ is reached only at the seal end of the bounded-monotone route, a route that consumes $G$ must first pass through the grid selector budget, witness ledger, completion classifier, and tail envelope.
 \end{proof}
 
+\begin{theorem}[Bounded monotone Cauchy witness grid-seal cofinal route]
+\label{thm:bounded-monotone-cauchy-witness-grid-seal-cofinal-route}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier, and suppose its root route consumes an accepted $\RealCauchyWitnessGridUp$ packet $G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)$ and reaches the $\RealUp$ seal threshold $Q$. Then the selector budget $B$, witness ledger $L$, completion-seal classifier $K$, tail envelope $T$, located trap $I$, and Real seal $Q$ are read through one cofinal finite $\BHist$ route
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N,\quad B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G.
+$$
+No selected limit, quotient real equality, host equality, trichotomy, ambient completeness, compactness, or choice-like selector is exported by this cofinal route.
+\end{theorem}
+\begin{proof}
+First extract the root route. Apply \autoref{thm:bounded-monotone-cauchy-witness-root-extraction}; every root-facing read is confined to $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Next attach the grid route. By \autoref{thm:bounded-monotone-cauchy-witness-grid-route-compatibility}, the grid selector budget, witness ledger, completion-seal classifier, and tail envelope are consumed before the bounded-monotone route reaches $Q$.
+
+Now force the tail and trap order. The root tail-window totality theorem places $\sigma,\mu,\lambda$ before the pre-seal rows, and \autoref{thm:bounded-monotone-cauchy-witness-root-located-trap-stability} keeps $I$ as the displayed located trap rather than an ambient interval choice.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-root-real-seal-threshold-exhaustion}. The Real seal threshold is exhausted at $Q$ after the tail and trap rows have been traversed, so the composed grid-seal readback is one finite cofinal route and exports none of the excluded completion, equality, compactness, or choice-like data.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness grid ledger non-escape]
 \label{thm:bounded-monotone-cauchy-witness-grid-ledger-nonescape}
 Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier whose root route consumes an accepted $\RealCauchyWitnessGridUp$ packet $G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)$. The grid handoff exports only the displayed selector-budget, witness-ledger, completion-seal classifier, tail-witness, StreamName, RegSeqRat, RealUp, transport, continuation, provenance, and local naming rows of $G$ together with the displayed rows of $W$.
