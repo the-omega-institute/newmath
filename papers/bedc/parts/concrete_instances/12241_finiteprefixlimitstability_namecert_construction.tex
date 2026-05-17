@@ -185,13 +185,31 @@ Use \autoref{thm:finite-prefix-limit-stability-obligation-surface} to read the l
 Finally apply \autoref{thm:finite-prefix-limit-stability-prefix-nonescape} and \autoref{thm:finite-prefix-limit-stability-real-handoff}. They force every Real-facing consumer through the displayed finite route and make the handoff terminate at $E$, so the support rows can only preserve and name that route after its source order has been exposed.
 \end{proof}
 
+\begin{theorem}[Finite-prefix limit-stability primitive-scope binding]
+\label{thm:finite-prefix-limit-stability-primitive-scope-binding}
+For every accepted $\FinitePrefixLimitStabilityUp$ carrier, the route
+$$
+B \to W \to R \to D \to E
+$$
+is scoped exactly by the BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, together with the sibling rows $\FinitePrefixLimitBudgetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. No quotient stream, host limit, selected tail, countable-choice row, ambient completeness theorem, or bridge schema contributes to the scoped route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-prefix-limit-stability-carrier}. Its displayed coordinates are the finite-prefix budget row $B$, the stream window $W$, the regular-rational readback $R$, the dyadic tolerance ledger $D$, the terminal Real seal $E$, componentwise transport $H$, continuation replay $C$, provenance $P$, and local naming $N$.
+
+The obligation surface of \autoref{thm:finite-prefix-limit-stability-obligation-surface}, carrier admission of \autoref{thm:finite-prefix-limit-stability-carrier-admission}, transport stability of \autoref{thm:finite-prefix-limit-stability-transport-stability}, ledger exactness of \autoref{thm:finite-prefix-limit-stability-ledger-exactness}, and Real handoff of \autoref{thm:finite-prefix-limit-stability-real-handoff} identify these coordinates as the whole route surface. The sibling rows are therefore already displayed: $B$ names the finite-prefix budget, $W$ names the stream observation, $R$ names the regular-rational readback, $D$ names the dyadic tolerance ledger, and $E$ names the Real seal.
+
+Route determinacy, the budget-window lock, the tolerance-seal lock, the NameCert obligation triad, and the source lock then bind the support rows to the same route. The support rows $H,C,P,N$ supply only $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and $\NameCert$ naming over the carrier's finite $\BHist$ packet; they do not introduce a second route or an analytic substitute.
+
+Finally apply prefix nonescape from \autoref{thm:finite-prefix-limit-stability-prefix-nonescape}. It excludes every non-coordinate source named in the statement, so the primitive and sibling rows listed above are the exact scope of the accepted finite-prefix limit-stability route.
+\end{proof}
+
 \begin{closurestatus}{\FinitePrefixLimitStabilityUp}
   \constructivestory{The finite-prefix limit-stability certificate is generated from $BHist$ rows that name a finite prefix budget, stream-name observation, regular-rational readback, dyadic tolerance ledger, and the terminal Real seal that keeps the route stable at that prefix. The carrier first reads the finite prefix, then records the stability witness, and finally allows $\Cont$ to continue toward a Real handoff only through that same prefix. The $hsame$ relation prevents representative changes from altering which finite prefix carries the stability evidence. The obligation surface, carrier admission, transport stability, ledger exactness, prefix nonescape, and Real handoff theorem together state that finite ledger data are sufficient for the admitted route, while external completion witnesses are outside scope.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter binds the finite-prefix limit-stability carrier, obligation-surface theorem, carrier-admission theorem, transport-stability theorem, ledger-exactness theorem, prefix-nonescape theorem, Real-handoff theorem, route-determinacy theorem, budget-window lock of \autoref{thm:finite-prefix-limit-stability-budget-window-lock}, tolerance-seal lock of \autoref{thm:finite-prefix-limit-stability-tolerance-seal-lock}, NameCert obligation triad of \autoref{thm:finite-prefix-limit-stability-namecert-obligation-triad}, and TasteGate instance \leanchecked{BEDC.Derived.FinitePrefixLimitStabilityUp.taste\_gate}.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{This chapter binds the finite-prefix limit-stability carrier, obligation-surface theorem, carrier-admission theorem, transport-stability theorem, ledger-exactness theorem, prefix-nonescape theorem, Real-handoff theorem, route-determinacy theorem, budget-window lock of \autoref{thm:finite-prefix-limit-stability-budget-window-lock}, tolerance-seal lock of \autoref{thm:finite-prefix-limit-stability-tolerance-seal-lock}, NameCert obligation triad of \autoref{thm:finite-prefix-limit-stability-namecert-obligation-triad}, primitive-scope binding of \autoref{thm:finite-prefix-limit-stability-primitive-scope-binding}, and TasteGate instance \leanchecked{BEDC.Derived.FinitePrefixLimitStabilityUp.taste\_gate}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim global limit existence, completed Real equality, selected limits, choice rows, or stability without the named finite prefix row.}
-  \upgradepath{Reaching scopedClosure requires binding the obligation triad explicitly to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the sibling rows for finite-prefix budget, StreamName, RegSeqRat, DyadicRatCore, and Real.}
+  \upgradepath{The next closure grade requires Lean-side theorem coverage for the primitive-scope binding and any downstream bridge schema that consumes the finite-prefix route.}
 \end{closurestatus}
