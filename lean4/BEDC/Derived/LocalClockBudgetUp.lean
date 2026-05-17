@@ -40,4 +40,45 @@ theorem LocalClockBudgetWindow_totality {H T W B L Q P N : BHist} :
       · rfl
   · exact carrier.right.right.right.right.right.right.right.right
 
+theorem LocalClockBudget_route_determinacy
+    {H T W B L Q P N H' T' W' B' L' Q' P' N' : BHist} :
+    LocalClockBudgetCarrier H T W B L Q P N →
+      LocalClockBudgetCarrier H' T' W' B' L' Q' P' N' →
+        [H, T, W, B, L, Q, P, N] = [H', T', W', B', L', Q', P', N'] →
+          hsame H H' ∧ hsame T T' ∧ hsame W W' ∧ hsame B B' ∧ hsame L L' ∧
+            hsame Q Q' ∧ hsame P P' ∧ hsame N N' := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro _ _ rows
+  injection rows with hH restT
+  injection restT with hT restW
+  injection restW with hW restB
+  injection restB with hB restL
+  injection restL with hL restQ
+  injection restQ with hQ restP
+  injection restP with hP restN
+  injection restN with hN _
+  cases hH
+  cases hT
+  cases hW
+  cases hB
+  cases hL
+  cases hQ
+  cases hP
+  cases hN
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · constructor
+        · rfl
+        · constructor
+          · rfl
+          · constructor
+            · rfl
+            · constructor
+              · rfl
+              · rfl
+
 end BEDC.Derived.LocalClockBudgetUp
