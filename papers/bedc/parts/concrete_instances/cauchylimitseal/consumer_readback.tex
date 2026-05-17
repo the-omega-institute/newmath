@@ -39,3 +39,21 @@ Next attach the selector-seal packet. The L10 handoff scope of \autoref{thm:real
 
 Finally attach the observer-budget packet. The bridge-ready route of \autoref{thm:observer-filter-budget-selector-bridge-ready-route} supplies the selected observer row, finite budget, selected $\StreamNameUp$ window, dyadic ledger, regular handoff, and Real seal in that order. Combining the three displayed routes gives the stated factorization, and the coordinate exclusions in the cited theorems leave no quotient stream, host real equality, hidden selector, detached limit, or ambient completeness row for the consumer.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal finite-request section compatibility]
+\label{thm:cauchy-limit-seal-finite-request-section-compatibility}
+Let $P$ be an accepted $\CauchyLimitSealUp$ packet whose public route is consumed by a finite request section $S$ for the current Real and Completion handoff. Then the accepted consumer boundary is the same finite $\BHist$ packet whether it is read through the $\StreamNameUp$ finite-window section, the $\RegSeqRatUp$ readback section, the $\DyadicRatCoreUp$ endpoint and radius ledger, the local $\RealUp$ seal row, or the $\CauchyLimitSealUp$ public route packet:
+$$
+S_{\StreamNameUp}=S_{\RegSeqRatUp}=S_{\DyadicRatCoreUp}=S_{\RealUp}=S_{\CauchyLimitSealUp}
+$$
+as displayed finite $\BHist$ sections over the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The compatibility exports no quotient stream equality, host real equality, selected limit, countable-choice schedule, ambient completeness principle, metric-completion row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Start with the route lock of \autoref{thm:cauchy-limit-seal-regseqrat-streamname-route-lock}. It confines the accepted $\CauchyLimitSealUp$ consumer to the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ rows, so every face of $S$ is read from the same public route packet.
+
+Next read the Real-facing side through \autoref{thm:real-regseqrat-finite-request-fusion} and \autoref{thm:real-regseqrat-finite-request-section-terminality}. These theorems identify the $\RealUp$ seal request with one finite $\BHist$ packet carrying the StreamName window, dyadic endpoint-radius ledger, RegSeqRat classifier and readback rows, componentwise $\hsame$ transport, displayed $\Cont$ route, $\mathsf{Pkg}$ provenance, and local $\NameCert_{\RealUp}$ row.
+
+Now read the StreamName-facing side through \autoref{thm:streamname-finite-request-section-pullback} and \autoref{thm:streamname-finite-section-pullback-exactness}. The pullback section has the same finite window face and the same dyadic, RegSeqRat, and Real seal faces, so it cannot introduce a second selector or a second completion-facing section.
+
+Finally apply the non-escape boundary of \autoref{thm:cauchy-limit-seal-non-escape}. Since the accepted packet has no coordinate for quotient stream equality, host real equality, selected limits, countable-choice schedules, ambient completeness, metric-completion rows, or standard bridge rows, the only consumer boundary left is the displayed finite $\BHist$ packet shared by all five readings.
+\end{proof}
