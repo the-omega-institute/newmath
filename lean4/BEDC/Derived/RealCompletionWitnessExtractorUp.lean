@@ -30,4 +30,37 @@ theorem RealCompletionWitnessExtractorCarrier_selected_window_admission
     ⟨unaryD, unaryW, unaryM, unaryQ, unaryL, unaryS, unaryC, routeQ, routeL,
       routeC, nameSame⟩
 
+theorem RealCompletionWitnessExtractorCarrier_diagonal_handoff
+    {D W M Q L S H C P N readback sealRow handoffRow : BHist} :
+    RealCompletionWitnessExtractorCarrier D W M Q L S H C P N →
+      Cont Q L sealRow →
+        Cont sealRow S handoffRow →
+          hsame readback Q →
+            UnaryHistory D ∧ UnaryHistory W ∧ UnaryHistory M ∧ UnaryHistory Q ∧
+              UnaryHistory L ∧ UnaryHistory S ∧ UnaryHistory C ∧
+                UnaryHistory readback ∧ UnaryHistory sealRow ∧
+                  UnaryHistory handoffRow ∧ Cont D W Q ∧ Cont Q M L ∧
+                    Cont L S C ∧ Cont Q L sealRow ∧ Cont sealRow S handoffRow ∧
+                      hsame readback Q ∧ hsame N (append P C) := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame Cont
+  intro carrier sealRoute handoffRoute readbackSame
+  obtain ⟨unaryD, unaryW, unaryM, unaryS, routeQ, routeL, routeC, nameSame⟩ :=
+    carrier
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryD unaryW routeQ
+  have unaryL : UnaryHistory L :=
+    unary_cont_closed unaryQ unaryM routeL
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryL unaryS routeC
+  have readbackUnary : UnaryHistory readback :=
+    unary_transport unaryQ (hsame_symm readbackSame)
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed unaryQ unaryL sealRoute
+  have handoffUnary : UnaryHistory handoffRow :=
+    unary_cont_closed sealUnary unaryS handoffRoute
+  exact
+    ⟨unaryD, unaryW, unaryM, unaryQ, unaryL, unaryS, unaryC, readbackUnary,
+      sealUnary, handoffUnary, routeQ, routeL, routeC, sealRoute, handoffRoute,
+      readbackSame, nameSame⟩
+
 end BEDC.Derived.RealCompletionWitnessExtractorUp
