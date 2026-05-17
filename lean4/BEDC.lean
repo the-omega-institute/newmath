@@ -568,6 +568,7 @@ import BEDC.Derived.RealWindowBudgetUp.RegSeqSelectorExactness
 import BEDC.Derived.RealWindowBudgetUp.SelectorDisclosureScope
 import BEDC.Derived.RealWindowBudgetUp.SelectorPullback
 import BEDC.Derived.RealWindowBudgetUp.TasteGate
+import BEDC.Derived.RefusalRegistryUp.TasteGate
 import BEDC.Derived.RegistryLayerUp.TasteGate
 import BEDC.Derived.RegistryExportSurfaceUp.TasteGate
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
@@ -614,6 +615,7 @@ import BEDC.Derived.ConsciousObserverStateUp.ClassifierStability
 import BEDC.Derived.ConsciousObserverStateUp.GapLedgerRoute
 import BEDC.Derived.ConsciousObserverStateUp.RouteScopePackage
 import BEDC.Derived.ConsciousObserverStateUp.LocalityCellHandoff
+import BEDC.Derived.ConsciousObserverStateUp.LocalityCellReadback
 import BEDC.Derived.ConsciousObserverStateUp.DependencyHandoff
 import BEDC.Derived.ConsciousObserverStateUp.PublicExport
 import BEDC.Derived.ConsciousObserverStateUp.BridgeRoute
@@ -697,8 +699,10 @@ import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KernelCategoryUp.CertificateSurface
+import BEDC.Derived.KernelCategoryUp.CompositionContRouteExactness
 import BEDC.Derived.KernelCategoryUp.EndpointTransportClosure
 import BEDC.Derived.KernelCategoryUp.FunctorContinuationHandoff
+import BEDC.Derived.KernelCategoryUp.LawTransportExhaustion
 import BEDC.Derived.CertificateCompilerUp.FiniteRouteNonescape
 import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.KernelMorphismUp.CertificateCompilerSourceLock
@@ -738,6 +742,7 @@ import BEDC.Derived.SubjectReductionRouteChoiceUp.TasteGate
 import BEDC.Derived.SelfReferenceTruthBranchUp.TasteGate
 import BEDC.Derived.SolipsismGapRefusalUp.TasteGate
 import BEDC.Derived.RuntimeReflectionBoundaryUp.TasteGate
+import BEDC.Derived.RuntimeBoundaryAuditUp.TasteGate
 import BEDC.Derived.RuntimeTruthSeparationUp.TasteGate
 import BEDC.Derived.RealityConstrainedApproximationTowerUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.NameCertObligations
@@ -818,6 +823,7 @@ import BEDC.Derived.ContinuationMonadUp.RootUnblockObligationPackage
 import BEDC.Derived.ContinuationMonadUp.RootBindScheduleExhaustion
 import BEDC.Derived.ContinuationMonadUp.RootCategoryHomConsumerTotality
 import BEDC.Derived.ContinuationMonadUp.CategoryHomCarrierRoute
+import BEDC.Derived.ContinuationMonadUp.CategoryBoundaryReadbackTotality
 import BEDC.Derived.ContinuationMonadUp.CategoryHomRouteTotality
 import BEDC.Derived.ContinuationMonadUp.RootConsumerStandardRow
 import BEDC.Derived.ContinuationMonadUp.RootConsumerTotality
