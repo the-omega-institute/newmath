@@ -147,6 +147,34 @@ theorem ForbiddenAxiomAncestryCarrier_transport_replay [AskSetup] [PackageSetup]
     ⟨transportsUnary, routesUnary, replayReadUnary, verdictComparison, provenancePkg,
       replayPkg⟩
 
+theorem ForbiddenAxiomAncestryCarrier_accepted_clean_criterion [AskSetup] [PackageSetup]
+    {theoremRow ancestry forbidden verdict transports routes provenance nameRow
+      cleanRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ForbiddenAxiomAncestryCarrier theoremRow ancestry forbidden verdict transports routes
+        provenance nameRow bundle pkg ->
+      hsame verdict BHist.Empty ->
+        Cont routes nameRow cleanRead ->
+          PkgSig bundle cleanRead pkg ->
+            UnaryHistory ancestry ∧ UnaryHistory forbidden ∧
+              hsame ancestry BHist.Empty ∧ hsame forbidden BHist.Empty ∧
+                UnaryHistory cleanRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle cleanRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory hsame
+  intro carrier verdictEmpty cleanRoute cleanPkg
+  obtain ⟨_theoremUnary, ancestryUnary, forbiddenUnary, _verdictUnary,
+    _transportsUnary, routesUnary, _provenanceUnary, nameRowUnary, verdictComparison,
+      _theoremAncestry, _transportProvenance, provenancePkg⟩ := carrier
+  have cleanReadUnary : UnaryHistory cleanRead :=
+    unary_cont_closed routesUnary nameRowUnary cleanRoute
+  have comparisonEmpty : append ancestry forbidden = BHist.Empty :=
+    verdictComparison.symm.trans verdictEmpty
+  have emptyRows : ancestry = BHist.Empty ∧ forbidden = BHist.Empty :=
+    append_eq_empty_iff.mp comparisonEmpty
+  exact
+    ⟨ancestryUnary, forbiddenUnary, emptyRows.left, emptyRows.right, cleanReadUnary,
+      provenancePkg, cleanPkg⟩
+
 theorem ForbiddenAxiomAncestryCarrier_forbidden_row_coverage [AskSetup] [PackageSetup]
     {theoremRow ancestry forbidden verdict transports routes provenance nameRow
       auditRead : BHist}
