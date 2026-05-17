@@ -69,7 +69,7 @@ HUB_FORBIDDEN_RE = re.compile(r"\\begin\{(" + "|".join(HUB_FORBIDDEN_ENVS) + r")
 
 LABEL_CH_RE = re.compile(r"\\label\{ch:concrete-instances-[a-z0-9][a-z0-9-]*\}")
 ORIGIN_RE = re.compile(r"\\origin\{([^}]+)\}")
-VALID_ORIGINS = {"human", "ai"}
+VALID_ORIGINS = {"human", "ai", "ai-composite"}
 
 BRIDGESTATUS_RE = re.compile(r"\\bridgestatus\{([^}]+)\}")
 VALID_BRIDGESTATUS = {"none", "paperBridge", "bridgeChecked"}
