@@ -76,6 +76,7 @@ import BEDC.Derived.ApophaticGateQuestionUp.RefusalRowTransport
 import BEDC.Derived.ApophaticGateQuestionUp.RootConsumerLedgerReadiness
 import BEDC.Derived.ApophaticGateQuestionUp.RootRefusalRouteExactness
 import BEDC.Derived.ApophaticGateQuestionUp.RootReadbackRoute
+import BEDC.Derived.ApophaticGateQuestionUp.RootVisibleSocketTriad
 import BEDC.Derived.ApophaticGateQuestionUp.SourceGateExactness
 import BEDC.Derived.ApophaticGateQuestionUp.SocketNameDependency
 import BEDC.Derived.ApophaticGateQuestionUp.SocketRefusalCoverage
@@ -654,6 +655,7 @@ import BEDC.Derived.ObserverTraceKernelUp.TasteGate
 import BEDC.Derived.ObserverTraceSealUp.TasteGate
 import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.ConsciousObserverStateUp.ClassifierStability
+import BEDC.Derived.ConsciousObserverStateUp.GapConsumerExactness
 import BEDC.Derived.ConsciousObserverStateUp.GapLedgerRoute
 import BEDC.Derived.ConsciousObserverStateUp.RouteScopePackage
 import BEDC.Derived.ConsciousObserverStateUp.LocalityCellHandoff
