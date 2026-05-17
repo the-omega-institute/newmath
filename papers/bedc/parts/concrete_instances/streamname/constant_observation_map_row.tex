@@ -1,0 +1,13 @@
+\begin{theorem}[StreamName constant observation map row]
+\label{thm:streamname-constant-observation-map-row}
+For any certified point row over the L10 source, the constant observation schedule determines a $\StreamNameUp$ carrier row whose pointwise classifier, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row are stable under every unary finite observation. The row is available to $\RegSeqRatUp$ and $\RealUp$ as a finite StreamName handoff, without claiming real completeness or quotient stream equality.
+\end{theorem}
+\begin{proof}
+Begin with the constant-stream and constant-window boundary rows. They identify a certified point with the constant StreamName carrier read over each finite observation window, so a unary finite observation changes only the displayed schedule.
+
+Apply constant-window transport totality. The pointwise classifier and $\hsame$ transport are stable under the unary observation because the seed point row is unchanged and only the finite window is reindexed.
+
+Now use the scheduled constant observation package. Its $\Cont$ replay and $\Pkg$ provenance record the same constant schedule as a finite StreamNameUp packet, and the local $\NameCert$ row names that packet before downstream consumption.
+
+Finally read the consumers. $\RegSeqRatUp$ and $\RealUp$ may consume the finite StreamName carrier, classifier, transport, replay, provenance, and naming rows supplied here; they do not receive a real-completeness claim, quotient stream equality, or hidden completion coordinate from this map row.
+\end{proof}
