@@ -1421,6 +1421,7 @@ import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
 import BEDC.Derived.UniformCauchyCriterionUp.BudgetedRealSealFactorization
+import BEDC.Derived.UniformCauchyCriterionUp.FiniteFamilyBudgetSealComposition
 import BEDC.Derived.CauchyCriterionUp.TailBudgetCoherence
 import BEDC.Derived.CauchyCriterionUp.ObserverRoute
 import BEDC.Derived.UniformCauchyCriterionUp.CauchyLimitFunctorTerminalHandoff
@@ -1507,6 +1508,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.TerminalQuotientRefusalBoundary
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalLateRouteExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.ThresholdSealBudgetFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.WindowStability
+import BEDC.Derived.TraditionComparisonBoundaryUp.TasteGate
 import BEDC.Derived.ChoiceFreeLimitScheduleUp
 import BEDC.Derived.MetaCICDischargeObligationLedgerUp.TasteGate
 import BEDC.Derived.MetaCICDischargeObstructionLatticeUp.TasteGate
