@@ -198,4 +198,16 @@ theorem ScientificObjectUp_single_carrier_alignment :
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact ⟨⟨scientificObjectChapterTasteGate⟩, ⟨scientificObjectBHistCarrier⟩⟩
 
+theorem ScientificObjectTasteGate_single_carrier_alignment :
+    (∀ h : BHist, scientificObjectDecodeBHist (scientificObjectEncodeBHist h) = h) ∧
+      (∀ x : ScientificObjectUp,
+        scientificObjectFromEventFlow (scientificObjectToEventFlow x) = some x) ∧
+        (∀ x y : ScientificObjectUp,
+          scientificObjectToEventFlow x = scientificObjectToEventFlow y → x = y) ∧
+          scientificObjectEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨scientificObject_decode_encode_bhist, scientificObject_round_trip,
+      (fun _ _ heq => scientificObjectToEventFlow_injective heq), rfl⟩
+
 end BEDC.Derived.ScientificObjectUp
