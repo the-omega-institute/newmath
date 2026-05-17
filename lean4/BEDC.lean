@@ -1152,6 +1152,8 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.ClassifierSubstitutionBarrier
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameOnlyDescent
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameConsumerClosure
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameTransportExhaustion
+import BEDC.Derived.QuotientSoundnessBoundaryUp.TwoSurfaceExhaustion
+import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameReplacementClassifier
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PublicBridgeSchema
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PublicConsumerExactness
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportSurface
@@ -2988,7 +2990,9 @@ import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.EventualTailAgreementUp.TasteGate
 import BEDC.Derived.LocalClockBudgetUp
+import BEDC.Derived.PackageGovernanceExportUp.TasteGate
 import BEDC.Derived.SubstitutionBoundaryAuditUp.TasteGate
+import BEDC.Derived.UseProcessLimitLedgerUp.TasteGate
 import BEDC.Derived.CauchyModulusRefinementUp.TailMeetRealSeal
 import BEDC.Derived.FunctorUp.CompositionIdentityRespect
 import BEDC.Derived.FunctorUp.IdentityFunctor
