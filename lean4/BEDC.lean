@@ -240,6 +240,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealSelectorReadba
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealSourceLock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealSourceTotality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealTerminalSynchronization
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealRealExitExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionRouteExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CauchyModulusExtractionFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CauchyCriterionSelectorHandoff
@@ -550,6 +551,7 @@ import BEDC.Derived.PhysicalOperationDescentUp.TasteGate
 import BEDC.Derived.PhysicalNameCertAuditUp.TasteGate
 import BEDC.Derived.PhysicalInductionStabilitySealUp.TasteGate
 import BEDC.Derived.PhilosophySynthesisAuditUp.TasteGate
+import BEDC.Derived.PhilosophyMapTargetUp.TasteGate
 import BEDC.Derived.RealityConstrainedModelAuditUp.TasteGate
 import BEDC.Derived.RealityConstrainedMethodologyLedgerUp.TasteGate
 import BEDC.Derived.RealityConstrainedMethodologyLedgerUp.KernelCarrier
@@ -799,6 +801,7 @@ import BEDC.Derived.ReflectionRuntimeCheckpointUp.TasteGate
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.Certificate
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationBoundaryTotality
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
+import BEDC.Derived.ReflectionRuntimeCheckpointUp.InputStateExposure
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.TraceProvenanceLock
 import BEDC.Derived.RuntimeCandidateBoundaryUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyInscriptionUp.TasteGate
