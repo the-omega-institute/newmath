@@ -1,0 +1,39 @@
+\begin{theorem}[MetaCIC critical-path L10 entry budget synchronization]
+\label{thm:metacic-critical-path-l10-entry-budget-synchronization}
+For every current Phase Real or Completion consumer of an accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+entry into the Phase Real route is permitted only after the packet displays the $\DyadicRatCoreUp$ finite observation budget, the $\StreamNameUp$ schedule, the $\RegSeqRatUp$ readback, and the $\RealUp$ seal rows through finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance attached to $K$. The entry surface refuses quotient reals, host equality, trichotomy, open-cover compactness, and completed-real claims.
+\end{theorem}
+\begin{proof}
+First expose the packet itself. Theorems~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness}, \ref{thm:metacic-critical-path-root-unblock-route-readiness}, and \ref{thm:metacic-critical-path-root-unblock-consumer-readiness} make $S,N,O,U,D,H,C,P,L$ the displayed carrier, replay, and consumer surface.
+
+Next read the Phase Real dependency budget. Theorems~\ref{thm:metacic-critical-path-phase-real-route-budget}, \ref{thm:metacic-critical-path-phase-real-normal-form-handoff}, and \ref{thm:metacic-critical-path-phase-real-obstruction-ledger-lock} keep the normal-form, obstruction, discharge, continuation, package, and provenance rows visible before a Real-facing handoff.
+
+Finally synchronize the four L10 source rows. Theorems~\ref{thm:metacic-critical-path-real-streamname-source-readiness}, \ref{thm:metacic-critical-path-regseqrat-readback-readiness}, \ref{thm:metacic-critical-path-real-completion-readiness}, \ref{thm:metacic-critical-path-dyadicratcore-budget-readiness}, \ref{thm:metacic-critical-path-streamname-regseqrat-route-order}, and \ref{thm:metacic-critical-path-real-seal-frontier-exactness} identify the dyadic budget, schedule, readback, and seal rows as displayed dependency rows of the same packet. None of these rows carries quotient reals, host equality, trichotomy, open-cover compactness, or a completed-real theorem, so the entry budget is exactly the finite provenance surface described above.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path Real completion frontier filter]
+\label{thm:metacic-critical-path-real-completion-frontier-filter}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, any Completion-facing claim passed through its Real frontier is admitted only when it is backed by the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ L10 source rows of Theorem~\ref{thm:metacic-critical-path-l10-entry-budget-synchronization}. Claims that require quotient reals, host equality, trichotomy, open-cover compactness, or completed-real data are filtered out of the packet frontier.
+\end{theorem}
+\begin{proof}
+Begin with the synchronized entry budget. Theorem~\ref{thm:metacic-critical-path-l10-entry-budget-synchronization} requires the four displayed L10 source rows before the packet can enter the Phase Real route.
+
+The frontier then reads only those rows. Theorem~\ref{thm:metacic-critical-path-real-seal-frontier-exactness} identifies the exact seal frontier with the displayed L10 dependency budget, while Theorems~\ref{thm:metacic-critical-path-l10-source-cut} and~\ref{thm:metacic-critical-path-real-seal-no-completeness-escape} exclude source reads and seal exports outside that budget.
+
+The filter is therefore constructive and finite: a claim survives only by naming the dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal rows attached to $K$. Quotient reals, host equality, trichotomy, open-cover compactness, and completed-real data have no displayed row in that list, so they cannot pass through the frontier.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path current open-phase readiness]
+\label{thm:metacic-critical-path-current-open-phase-readiness}
+The current paper-side readiness surface consumed by the Phase Real and Completion route for $\MetaCICCriticalPathUp$ is the conjunction of the Phase Real dependency budget, the L10 entry budget synchronization of Theorem~\ref{thm:metacic-critical-path-l10-entry-budget-synchronization}, and the Real completion frontier filter of Theorem~\ref{thm:metacic-critical-path-real-completion-frontier-filter}. This surface is a finite $\BHist$/$\hsame$/$\Cont$/$\Pkg$/$\NameCert$ dependency surface and not a claim of quotient reals, host equality, trichotomy, open-cover compactness, or completed-real closure.
+\end{theorem}
+\begin{proof}
+The dependency budget supplies the route rows. Theorems~\ref{thm:metacic-critical-path-phase-real-route-budget}, \ref{thm:metacic-critical-path-phase-real-normal-form-handoff}, and \ref{thm:metacic-critical-path-phase-real-obstruction-ledger-lock} expose the finite packet rows consumed by the Phase Real route.
+
+The entry theorem then synchronizes the sources. Theorem~\ref{thm:metacic-critical-path-l10-entry-budget-synchronization} requires the dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal rows to be displayed through finite provenance before route entry.
+
+The frontier theorem gives the open-phase filter. Theorem~\ref{thm:metacic-critical-path-real-completion-frontier-filter} admits only claims backed by those four displayed source rows and refuses quotient reals, host equality, trichotomy, open-cover compactness, and completed-real data. Together these rows are exactly the current paper-side readiness surface used by the Phase Real and Completion route.
+\end{proof}

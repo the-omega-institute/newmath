@@ -319,6 +319,19 @@ theorem NegativeCertificateBoundaryTasteGate_single_carrier_alignment :
         exact negativeCertificateBoundary_event_flow_injective heq
       · rfl
 
+theorem taste_gate :
+    (∀ h : BHist,
+      negativeCertificateBoundaryDecodeBHist
+        (negativeCertificateBoundaryEncodeBHist h) = h) ∧
+      (∀ x : NegativeCertificateBoundaryUp,
+        negativeCertificateBoundaryFromEventFlow
+          (negativeCertificateBoundaryToEventFlow x) = some x) ∧
+        (∀ x y : NegativeCertificateBoundaryUp,
+          negativeCertificateBoundaryToEventFlow x =
+            negativeCertificateBoundaryToEventFlow y → x = y) ∧
+          negativeCertificateBoundaryEncodeBHist BHist.Empty = ([] : List BMark) :=
+  NegativeCertificateBoundaryTasteGate_single_carrier_alignment
+
 def NegativeCertificateBoundaryCarrier [AskSetup] [PackageSetup]
     (socket internalizer gapLedger auditReadback transport continuation provenance name : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
