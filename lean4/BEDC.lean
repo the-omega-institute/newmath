@@ -78,6 +78,7 @@ import BEDC.Derived.ApophaticGateQuestionUp.QuestionExactnessRoute
 import BEDC.Derived.ApophaticGateQuestionUp.ReadbackLocality
 import BEDC.Derived.ApophaticGateQuestionUp.RefusalReadbackExhaustion
 import BEDC.Derived.ApophaticGateQuestionUp.RefusalNonescapeCoverage
+import BEDC.Derived.ApophaticGateQuestionUp.RefusalLedgerTransport
 import BEDC.Derived.ApophaticGateQuestionUp.RefusalRowTransport
 import BEDC.Derived.ApophaticGateQuestionUp.RootClassifierSocketTriad
 import BEDC.Derived.ApophaticGateQuestionUp.RootConsumerLedgerReadiness
@@ -1819,6 +1820,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionBudgetLock
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionSelectorRouteStability
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionExitExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionFiniteBudgetEnvelope
+import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionFiniteEnvelopeNameCertObligations
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionWindowExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.RealSealCompletionBoundary
 import BEDC.Derived.UniformCauchyCriterionUp.RealSealConsumerFactorization
@@ -1987,6 +1989,7 @@ import BEDC.Derived.TailCofinalityBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
 import BEDC.Derived.CompilerTraceFaithfulnessUp
 import BEDC.Derived.CompilerTraceFaithfulnessUp.TasteGate
+import BEDC.Derived.TraceVerdictBoundaryUp.TasteGate
 import BEDC.Derived.CompilerClassifierRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFiberUp
 import BEDC.Derived.RegularCauchyTailFiberUp.TasteGate
@@ -2814,6 +2817,7 @@ import BEDC.Derived.CompactUniformContinuityUp.RealMetricSealNonescape
 import BEDC.Derived.CompactUniformContinuityUp.RealSealBoundary
 import BEDC.Derived.CompactUniformContinuityUp.RootNonescapePackage
 import BEDC.Derived.CompactUniformContinuityUp.UniformPrecisionConsumerRoute
+import BEDC.Derived.FourFaceExitClassifierUp.TasteGate
 import BEDC.Derived.MetricTriangleUniformEstimateUp
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.ContourIntegralUp

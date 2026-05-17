@@ -203,6 +203,25 @@ It remains to bind the finite handoff rows. Use \autoref{thm:streamname-real-com
 The exclusions are the same exclusions carried by the cited route and separation theorems. Quotient stream equality, selected limits, ambient completeness, metric-completeness data, countable choice, host sequence equality, and bridge rows are absent from the four-face packet.
 \end{proof}
 
+\begin{theorem}[StreamName four-face audit-clean threshold readback]
+\label{thm:streamname-four-face-audit-clean-threshold-readback}
+Assume the local face records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are read from their own closurestatus blocks, and assume each face reports formal verification at least $\auditCleanV$. Then the StreamName-side Phase Real and Completion exit boundary satisfies the roadmap verification threshold objectwise: the accepted boundary is exactly the four local audit-clean face records together with the finite StreamName window, DyadicRatCore ledger, RegSeqRat readback, RealUp seal, and support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+
+This threshold readback contributes no aggregate $\formalstatus$, no aggregate bridge token, no completeness row, no quotient stream, no selected limit, and no metric-completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the four-face audit-clean boundary of \autoref{thm:streamname-four-face-auditclean-exit-boundary}. It identifies the StreamName-side exit boundary with the four local records and the displayed finite handoff rows, rather than with a route-level status token.
+
+Apply the face-status pullback, \autoref{thm:streamname-real-completion-face-status-pullback}. Each closure grade, formalstatus token, Lean target, and bridge row is read only from the corresponding local face closurestatus block, so the hypothesis that every face is at least $\auditCleanV$ is checked object by object.
+
+Next use the exit-axis separation theorem, \autoref{thm:streamname-real-completion-exit-axis-separation}. It prevents the paper-side boundary from manufacturing an aggregate verification coordinate, bridge token, completeness row, quotient stream, selected limit, or metric-completeness datum.
+
+Finally compare with the Real-side exit witness, \autoref{thm:real-l10-current-phase-exit-witness}. That witness states the current Phase Real and Completion exit criterion in exactly the same four local faces, with each verification record read at least $\auditCleanV$ from its own closurestatus block. Therefore the StreamName-side boundary satisfies the roadmap threshold precisely as an objectwise four-face readback and not as any additional completion or bridge datum.
+\end{proof}
+
 \begin{theorem}[StreamName Real-completion classifier pullback]
 \label{thm:streamname-real-completion-classifier-pullback}
 Let two current Phase Real and Completion exit reads be accepted by the four-object route through
