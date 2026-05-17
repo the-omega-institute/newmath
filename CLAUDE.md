@@ -33,10 +33,21 @@
 - `papers/bedc/Makefile` 的 precheck 调 `scripts/check_math_env.sh`, 在 build 前**自动**把违规重写为 `$$\begin{aligned}...\end{aligned}$$` 形式; 写入禁用模式不会编译失败, 但会被静默替换
 - 编写时直接用 `$$` 形式; 不要依赖 auto-rewrite 兜底
 
+## LaTeX 常见 fail 模式
+
+- **Math 宏在 text-mode 位置**: `\<Capital>Up` 类宏 (`\NatUp`, `\BoolUp`, ...) 是 `\mathsf{...}^{\uparrow}` 的封装, **必须在 math mode 内**. 典型错误包括 `\falsifiablePrediction{... \ClosedGenerationRefusalUp.}` 这类文本命令参数内裸用, 以及 `dyadicratcore/l10_sibling_dependency_route.tex:1: \DyadicRatCoreUp reads...` 这类文件首行直接 text mode. 修法: 包成 `$...$`. precheck check L 会拦.
+- **死 `\input` 路径**: worker 把 region 内容迁到 subdir 后, sibling 文件若残留指向已搬走文件的 `\input{...}`, CI 会报 "File not found". 修法: 修路径或删行. precheck check M 会拦.
+- **`\falsifiablePrediction{}` / `\independenceWitness{}` 参数语义**: 这两个宏是 text-mode 段落输出 (`\par\textbf{...}: #1\par`). 参数里任何 math 内容必须 `$...$` 包裹. 数学公式建议改用 `$$...$$` 展示式, 不要塞进参数.
+
 ## 项目结构
 
 - `lean4/` — Lean 4 形式化, mathlib-free, 0 axiom 0 sorry
 - `papers/bedc/` — BEDC LaTeX 论文 (现行态)
+- 多文件 concrete-instances region 采用 hub + subdir 布局:
+  - 顶层 hub 文件: `papers/bedc/parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. 只放 `\input{parts/concrete_instances/<slug>/<name>.tex}` 行; 可放 1-2 句 orienting 段和 `\closureat{<X>Up}{<level>Str}` 状态行; **禁** `\chapter` / `\begin{theorem}` / `\begin{definition}` / `\begin{lemma}` / `\begin{proof}` / `\begin{closurestatus}` / 任何正文环境.
+  - Subdir spine: `papers/bedc/parts/concrete_instances/<slug>/namecert_construction.tex`. 持有 `\chapter{...}` / `\label{ch:concrete-instances-<slug>-namecert}` / `\origin{...}` / 章节 intro + 第一批定义.
+  - 其它 sibling: `papers/bedc/parts/concrete_instances/<slug>/<descriptive_name>.tex`. 文件名 lowercase snake_case, 不带 `<NN>_<slug>_` 前缀.
+  - Hub 内 `\input` 顺序: spine 第一, 其余按主题逻辑 (constructor → theorem → bridge → closurestatus).
 - `papers/bedc/parts/project_governance/theory_amendment_policy.tex` — 持续发展规则
 - `papers/bedc/parts/project_governance/HOW_INCREMENT_WORKS.md` — 增量配方
 - `lean4/scripts/bedc_ci.py` — paper-Lean drift 审计 (`\leanchecked{X}` X 必须真存在); 子命令以 `python3 lean4/scripts/bedc_ci.py --help` 为准, 本文档不复述
@@ -434,6 +445,24 @@ worker 内部可能改了 branch 名 (codex 偶尔自己重命名), merge 前 `c
 ```
 
 显式 step 4 后不 push, 否则 worker 偶尔会 push 半成品.
+
+## 8. worker 漏 strip 顶层 hub
+
+worker 把 region 内容迁到 `<slug>/` subdir 时, 容易创建 subdir 副本但忘记把顶层 hub 文件缩到 `\input` 列表. 结果是 hub 与 sibling 两边都有同一 `\leanchecked` 标记, marker uniqueness gate fail.
+
+缓解: worker prompt 必含 `BEFORE commit: cd papers/bedc && make precheck must exit 0`, 并按上方"项目结构"里的 hub + subdir 布局检查 hub 是否只剩结构性内容.
+
+## 9. Sibling 文件残留死 `\input`
+
+worker 迁移文件后, 某 sibling 文件顶部可能还留着指向原顶层路径的 `\input` 行, 例如 `subgroup/quotient_classifier_kernel_rows.tex` 含 `\input{parts/concrete_instances/58_subgroup_namecert_construction_core}`. 静态扫描可能暂时看不出问题, 但 pdflatex 会 fail.
+
+处理: 见 "LaTeX 常见 fail 模式" 的死 `\input` 路径条目. precheck check M 会拦.
+
+## 10. Math 宏裸放 text 上下文
+
+paper 侧自动写作 agent 容易把 `\<Cap>Up` 类宏裸放进 text-mode, 尤其是文本宏参数或文件首行. 这会触发 LaTeX math-mode 错误或输出异常.
+
+处理: 见 "LaTeX 常见 fail 模式" 的 Math 宏在 text-mode 位置条目. precheck check L 会拦.
 
 ## 失败单位的清理
 
