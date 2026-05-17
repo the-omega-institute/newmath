@@ -562,6 +562,7 @@ import BEDC.Derived.OnticStateUp.TasteGate
 import BEDC.Derived.ObservationReflectionPacketUp.TasteGate
 import BEDC.Derived.ObservationCouplingUp
 import BEDC.Derived.OpenPhysicalFitUp.TasteGate
+import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.NameCert
 import BEDC.Derived.PhysicalModelAuditUp.TasteGate
 import BEDC.Derived.PhysicalOperationDescentUp.TasteGate
@@ -671,6 +672,7 @@ import BEDC.Derived.ObserverRegularUp.Carrier
 import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.ObserverDirectionUp.TasteGate
 import BEDC.Derived.ObserverSubjectBoundaryUp.TasteGate
+import BEDC.Derived.ObserverKernelTraceUp
 import BEDC.Derived.ObserverTraceKernelUp.TasteGate
 import BEDC.Derived.ObserverTraceSealUp.TasteGate
 import BEDC.Derived.ConsciousObserverStateUp
@@ -1504,11 +1506,13 @@ import BEDC.Derived.CauchyCriterionUp.TailBudgetCoherence
 import BEDC.Derived.CauchyCriterionUp.ObserverRoute
 import BEDC.Derived.MachineInterfaceBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp.CauchyLimitFunctorTerminalHandoff
+import BEDC.Derived.UniformCauchyCriterionUp.CompletionRealCorrespondence
 import BEDC.Derived.UniformCauchyCriterionUp.CompletionConsumerPackage
 import BEDC.Derived.UniformCauchyCriterionUp.CompletionFunctorBudget
 import BEDC.Derived.UniformCauchyCriterionUp.CommonWindowExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalBudgetExtraction
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalBudgetPullback
+import BEDC.Derived.UniformCauchyCriterionUp.DiagonalTerminalRouteExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalTailBudgetExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalExitClassifier
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalExitNonEscape
