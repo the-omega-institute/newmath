@@ -62,17 +62,34 @@ Therefore the only exported public object is the displayed finite trace. No quot
 
 The Lean $\mathsf{TasteGate.lean}$ surface must provide $\mathsf{Nontrivial}\ \ModelTraceUp$ with an explicit witness pair and $\mathsf{FieldFaithful}\ \ModelTraceUp$ by constructor-field injection.
 
+\begin{theorem}[ModelTrace kernel-scope package]
+\label{thm:model-trace-kernel-scope-package}
+For the carrier of \autoref{def:model-trace-carrier}, the carrier row, output row, corpus-supply row, audit-refusal row, $\LargeModelInscriptionPointUp$ handoff, $\ObserverInterfaceUp$ handoff, readback row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\ModelTraceUp}$ row all live in the displayed $\BHist$ kernel route
+$$
+I,O,C,A,L,F,R,H,K,P,N .
+$$
+Every public read of the packet is therefore scoped to the named $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\LargeModelInscriptionPointUp$, $\ObserverInterfaceUp$, $\PromptResponseTraceUp$, $\SupplySocketLedgerUp$, and $\TranscendentalInductionSocketUp$ rows. It exposes no hidden substrate oracle, unledgered corpus truth predicate, host semantic proof, quotient output stream, or model-side proof of the output.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:model-trace-carrier}. The inference orbit, output trace, corpus-supply row, audit-refusal row, inscription handoff, observer-interface handoff, readback row, transport, replay, provenance, and local name are exactly the displayed rows of the finite $\BHist$ packet.
+
+The handoff rows $L$ and $F$ route the packet through $\LargeModelInscriptionPointUp$ and $\ObserverInterfaceUp$, while the provenance row $P$ names $\PromptResponseTraceUp$, $\SupplySocketLedgerUp$, and $\TranscendentalInductionSocketUp$ as sibling surfaces. The route is therefore kernel-scoped rather than host-scoped.
+
+Finally use \autoref{thm:model-trace-output-nonescape}. Since the packet has no coordinate for hidden substrate state, unledgered corpus truth, host semantic interpretation, quotient output identity, internally certified universal closure, or model-side proof, no public read can project such data from the local NameCert surface.
+\end{proof}
+
 \closureat{ModelTraceUp}{seedStr}
 \closureat{ModelTraceUp}{obligationStr}[BEDC.Derived.ModelTraceUp.ModelTraceTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ModelTraceUp}
   \constructivestory{A $\ModelTraceUp$ packet is generated from inference-state orbit, output trace, corpus-supply, audit-refusal, large-model inscription, observer-interface, readback, componentwise transport, displayed continuation, package provenance, and local NameCert rows.}
   \leanchecked{BEDC.Derived.ModelTraceUp.taste\_gate}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:model-trace-carrier}, \autoref{thm:model-trace-namecert-obligations}, and \autoref{thm:model-trace-output-nonescape} specify the finite model trace and its output non-escape surface.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:model-trace-carrier}, \autoref{thm:model-trace-namecert-obligations}, \autoref{thm:model-trace-output-nonescape}, and \autoref{thm:model-trace-kernel-scope-package} scope the finite trace to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\LargeModelInscriptionPointUp$, $\ObserverInterfaceUp$, $\PromptResponseTraceUp$, $\SupplySocketLedgerUp$, and $\TranscendentalInductionSocketUp$ rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ModelTraceUp.ModelTraceTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close corpus truth, consciousness, host semantic understanding, internally certified universal closure, Lean verification, or bridge checking for $\ModelTraceUp$.}
-  \upgradepath{Scoped closure requires kernel-scoped references for the carrier, output, corpus, audit-refusal, handoff, readback, hsame, Cont, Pkg, and NameCert rows of the same packet.}
+  \upgradepath{Public closure requires an external consumer surface that reads the scoped kernel package as a public object without adding corpus truth, consciousness, host semantic understanding, or bridge checking.}
 \end{closurestatus}
