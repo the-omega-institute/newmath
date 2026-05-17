@@ -151,4 +151,38 @@ theorem RussellBoundaryCarrier_witnessed_descent_ledger
   exact
     ⟨descentUnary, routeUnary, downwardUnary, descentRoute, localCertPkg, downwardPkg⟩
 
+theorem RussellBoundaryCarrier_public_certificate
+    [AskSetup] [PackageSetup]
+    {source relation description classifier bridge descent transport route provenance
+      localCert publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RussellBoundaryCarrier source relation description classifier bridge descent transport route
+        provenance localCert bundle pkg ->
+      Cont relation route publicRead ->
+        PkgSig bundle publicRead pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              RussellBoundaryCarrier source relation description classifier bridge descent
+                transport route provenance localCert bundle pkg ∧ hsame row localCert)
+            (fun row : BHist =>
+              Cont source relation description ∧ Cont classifier bridge descent ∧
+                Cont transport route provenance ∧ hsame row localCert)
+            (fun row : BHist => PkgSig bundle localCert pkg ∧ hsame row localCert)
+            hsame ∧
+            UnaryHistory relation ∧ UnaryHistory route ∧ UnaryHistory publicRead ∧
+              Cont relation route publicRead ∧ PkgSig bundle localCert pkg ∧
+                PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier relationRoutePublic publicPkg
+  have carrierWitness := carrier
+  obtain ⟨_sourceUnary, relationUnary, _descriptionUnary, _classifierUnary, _bridgeUnary,
+    _descentUnary, _transportUnary, routeUnary, _provenanceUnary, _localCertUnary,
+    _sourceRelationDescription, _classifierBridgeDescent, _transportRouteProvenance,
+    localCertPkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed relationUnary routeUnary relationRoutePublic
+  exact
+    ⟨RussellBoundaryCarrier_fivefold_obligations carrierWitness, relationUnary, routeUnary,
+      publicUnary, relationRoutePublic, localCertPkg, publicPkg⟩
+
 end BEDC.Derived.RussellBoundaryUp

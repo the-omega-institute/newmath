@@ -474,6 +474,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.RootRouteCompleteness
 import BEDC.Derived.CauchyModulusRefinementUp.RootThresholdSurfaces
 import BEDC.Derived.CauchyModulusRefinementUp.RootThresholdSealEndpointSeparation
 import BEDC.Derived.CauchyModulusRefinementUp.RootWindowRealSealDeterminacy
+import BEDC.Derived.CauchyModulusRefinementUp.RootWindowSelectorUniqueness
 import BEDC.Derived.CauchyModulusRefinementUp.RootWindowSelectorTotality
 import BEDC.Derived.CauchyModulusRefinementUp.SharedMeetDependency
 import BEDC.Derived.CauchyModulusRefinementUp.TailBudgetSelectorLock
@@ -880,6 +881,7 @@ import BEDC.Derived.KernelCategoryUp.DownstreamNameCertReadiness
 import BEDC.Derived.KernelCategoryUp.EndpointTransportClosure
 import BEDC.Derived.KernelCategoryUp.FunctorContinuationHandoff
 import BEDC.Derived.KernelCategoryUp.LawTransportExhaustion
+import BEDC.Derived.KernelCategoryUp.NameCertRootRouteReadiness
 import BEDC.Derived.CertificateCompilerUp.FiniteRouteNonescape
 import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.KernelMorphismUp.CertificateCompilerSourceLock
@@ -1131,6 +1133,7 @@ import BEDC.Derived.NegativeCertificateBoundaryUp.TasteGate
 import BEDC.Derived.NegativeNameBoundaryUp
 import BEDC.Derived.NegativeNameBoundaryUp.NameCertObligations
 import BEDC.Derived.NegativeNameBoundaryUp.NonInternalization
+import BEDC.Derived.NegativeNameBoundaryUp.ObligationClosure
 import BEDC.Derived.NegativeNameBoundaryUp.PublicExport
 import BEDC.Derived.NegativeNameBoundaryUp.QuotientSoundnessLatticeLink
 import BEDC.Derived.ObjectConstitutionLedgerUp.TasteGate
@@ -1710,6 +1713,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.FiniteTailFilterAlignment
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteTailFilterRealWindowHandoff
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteTailWindowFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteWindowRealSealExtraction
+import BEDC.Derived.UniformCauchyCriterionUp.FiniteWindowSelectorUniqueness
 import BEDC.Derived.UniformCauchyCriterionUp.FamilyUnion
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteIndexLedgerTransport
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteObservationBudgetPullback
