@@ -218,4 +218,49 @@ theorem CofinalModulusSealTasteGate_single_carrier_alignment :
       (cofinalModulusSealNontrivial.witness_pair.2.2
         (cofinalModulusSealToEventFlow_injective heq))
 
+theorem CofinalModulusSeal_tail_budget_row
+    (budget modulus window limit regSeq stream dyadic real transport replay provenance
+      name : BHist) :
+    cofinalModulusSealToEventFlow
+        (CofinalModulusSealUp.mk budget modulus window limit regSeq stream dyadic real
+          transport replay provenance name) =
+      [[BMark.b0],
+        cofinalModulusSealEncodeBHist budget,
+        [BMark.b1, BMark.b0],
+        cofinalModulusSealEncodeBHist modulus,
+        [BMark.b1, BMark.b1, BMark.b0],
+        cofinalModulusSealEncodeBHist window,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        cofinalModulusSealEncodeBHist limit,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        cofinalModulusSealEncodeBHist regSeq,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        cofinalModulusSealEncodeBHist stream,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        cofinalModulusSealEncodeBHist dyadic,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        cofinalModulusSealEncodeBHist real,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        cofinalModulusSealEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        cofinalModulusSealEncodeBHist replay,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        cofinalModulusSealEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        cofinalModulusSealEncodeBHist name] ∧
+      hsame budget budget ∧ hsame modulus modulus ∧ hsame window window := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  constructor
+  · rfl
+  · constructor
+    · exact hsame_refl budget
+    · constructor
+      · exact hsame_refl modulus
+      · exact hsame_refl window
+
 end BEDC.Derived.CofinalModulusSealUp
