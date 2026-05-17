@@ -10,10 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive MachineInterfaceFormalizationTargetUp : Type where
-  | mk :
-      (targetName namespaceRow registry skeleton dependencies expectedStatus auditGate notClaimed
-        transport route provenance localName : BHist) →
-        MachineInterfaceFormalizationTargetUp
+  | mk
+      (targetName namespaceRow registry statementSkeleton dependencyList expectedStatus
+        auditGate notClaimed transport continuation provenance localName : BHist) :
+      MachineInterfaceFormalizationTargetUp
   deriving DecidableEq
 
 def machineInterfaceFormalizationTargetEncodeBHist : BHist → RawEvent
@@ -35,115 +35,105 @@ theorem machineInterfaceFormalizationTargetDecode_encode_bhist :
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
-private def machineInterfaceFormalizationTargetRawAt : Nat → EventFlow → RawEvent
+private def machineInterfaceFormalizationTargetDecodePacket
+    (targetName namespaceRow registry statementSkeleton dependencyList expectedStatus auditGate
+      notClaimed transport continuation provenance localName : RawEvent) :
+    MachineInterfaceFormalizationTargetUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, head :: _ => head
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => machineInterfaceFormalizationTargetRawAt n rest
-
-private theorem machineInterfaceFormalizationTarget_mk_congr
-    {targetName targetName' namespaceRow namespaceRow' registry registry' skeleton skeleton'
-      dependencies dependencies' expectedStatus expectedStatus' auditGate auditGate'
-      notClaimed notClaimed' transport transport' route route' provenance provenance'
-      localName localName' : BHist}
-    (hTargetName : targetName' = targetName)
-    (hNamespace : namespaceRow' = namespaceRow)
-    (hRegistry : registry' = registry)
-    (hSkeleton : skeleton' = skeleton)
-    (hDependencies : dependencies' = dependencies)
-    (hExpectedStatus : expectedStatus' = expectedStatus)
-    (hAuditGate : auditGate' = auditGate)
-    (hNotClaimed : notClaimed' = notClaimed)
-    (hTransport : transport' = transport)
-    (hRoute : route' = route)
-    (hProvenance : provenance' = provenance)
-    (hLocalName : localName' = localName) :
-    MachineInterfaceFormalizationTargetUp.mk targetName' namespaceRow' registry' skeleton'
-        dependencies' expectedStatus' auditGate' notClaimed' transport' route' provenance'
-        localName' =
-      MachineInterfaceFormalizationTargetUp.mk targetName namespaceRow registry skeleton
-        dependencies expectedStatus auditGate notClaimed transport route provenance localName := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hTargetName
-  cases hNamespace
-  cases hRegistry
-  cases hSkeleton
-  cases hDependencies
-  cases hExpectedStatus
-  cases hAuditGate
-  cases hNotClaimed
-  cases hTransport
-  cases hRoute
-  cases hProvenance
-  cases hLocalName
-  rfl
+  MachineInterfaceFormalizationTargetUp.mk
+    (machineInterfaceFormalizationTargetDecodeBHist targetName)
+    (machineInterfaceFormalizationTargetDecodeBHist namespaceRow)
+    (machineInterfaceFormalizationTargetDecodeBHist registry)
+    (machineInterfaceFormalizationTargetDecodeBHist statementSkeleton)
+    (machineInterfaceFormalizationTargetDecodeBHist dependencyList)
+    (machineInterfaceFormalizationTargetDecodeBHist expectedStatus)
+    (machineInterfaceFormalizationTargetDecodeBHist auditGate)
+    (machineInterfaceFormalizationTargetDecodeBHist notClaimed)
+    (machineInterfaceFormalizationTargetDecodeBHist transport)
+    (machineInterfaceFormalizationTargetDecodeBHist continuation)
+    (machineInterfaceFormalizationTargetDecodeBHist provenance)
+    (machineInterfaceFormalizationTargetDecodeBHist localName)
 
 def machineInterfaceFormalizationTargetFields :
-    MachineInterfaceFormalizationTargetUp → List BHist :=
+    MachineInterfaceFormalizationTargetUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  fun
-  | MachineInterfaceFormalizationTargetUp.mk targetName namespaceRow registry skeleton dependencies
-      expectedStatus auditGate notClaimed transport route provenance localName =>
-      [targetName, namespaceRow, registry, skeleton, dependencies, expectedStatus, auditGate,
-        notClaimed, transport, route, provenance, localName]
+  | MachineInterfaceFormalizationTargetUp.mk targetName namespaceRow registry statementSkeleton
+      dependencyList expectedStatus auditGate notClaimed transport continuation provenance
+      localName =>
+      [targetName, namespaceRow, registry, statementSkeleton, dependencyList, expectedStatus,
+        auditGate, notClaimed, transport, continuation, provenance, localName]
 
 def machineInterfaceFormalizationTargetToEventFlow :
-    MachineInterfaceFormalizationTargetUp → EventFlow :=
+    MachineInterfaceFormalizationTargetUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun
-  | MachineInterfaceFormalizationTargetUp.mk targetName namespaceRow registry skeleton dependencies
-      expectedStatus auditGate notClaimed transport route provenance localName =>
+  | MachineInterfaceFormalizationTargetUp.mk targetName namespaceRow registry statementSkeleton
+      dependencyList expectedStatus auditGate notClaimed transport continuation provenance
+      localName =>
       [machineInterfaceFormalizationTargetEncodeBHist targetName,
         machineInterfaceFormalizationTargetEncodeBHist namespaceRow,
         machineInterfaceFormalizationTargetEncodeBHist registry,
-        machineInterfaceFormalizationTargetEncodeBHist skeleton,
-        machineInterfaceFormalizationTargetEncodeBHist dependencies,
+        machineInterfaceFormalizationTargetEncodeBHist statementSkeleton,
+        machineInterfaceFormalizationTargetEncodeBHist dependencyList,
         machineInterfaceFormalizationTargetEncodeBHist expectedStatus,
         machineInterfaceFormalizationTargetEncodeBHist auditGate,
         machineInterfaceFormalizationTargetEncodeBHist notClaimed,
         machineInterfaceFormalizationTargetEncodeBHist transport,
-        machineInterfaceFormalizationTargetEncodeBHist route,
+        machineInterfaceFormalizationTargetEncodeBHist continuation,
         machineInterfaceFormalizationTargetEncodeBHist provenance,
         machineInterfaceFormalizationTargetEncodeBHist localName]
 
 def machineInterfaceFormalizationTargetFromEventFlow :
-    EventFlow → Option MachineInterfaceFormalizationTargetUp :=
+    EventFlow → Option MachineInterfaceFormalizationTargetUp
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (MachineInterfaceFormalizationTargetUp.mk
-        (machineInterfaceFormalizationTargetDecodeBHist
-          (machineInterfaceFormalizationTargetRawAt 0 ef))
-        (machineInterfaceFormalizationTargetDecodeBHist
-          (machineInterfaceFormalizationTargetRawAt 1 ef))
-        (machineInterfaceFormalizationTargetDecodeBHist
-          (machineInterfaceFormalizationTargetRawAt 2 ef))
-        (machineInterfaceFormalizationTargetDecodeBHist
-          (machineInterfaceFormalizationTargetRawAt 3 ef))
-        (machineInterfaceFormalizationTargetDecodeBHist
-          (machineInterfaceFormalizationTargetRawAt 4 ef))
-        (machineInterfaceFormalizationTargetDecodeBHist
-          (machineInterfaceFormalizationTargetRawAt 5 ef))
-        (machineInterfaceFormalizationTargetDecodeBHist
-          (machineInterfaceFormalizationTargetRawAt 6 ef))
-        (machineInterfaceFormalizationTargetDecodeBHist
-          (machineInterfaceFormalizationTargetRawAt 7 ef))
-        (machineInterfaceFormalizationTargetDecodeBHist
-          (machineInterfaceFormalizationTargetRawAt 8 ef))
-        (machineInterfaceFormalizationTargetDecodeBHist
-          (machineInterfaceFormalizationTargetRawAt 9 ef))
-        (machineInterfaceFormalizationTargetDecodeBHist
-          (machineInterfaceFormalizationTargetRawAt 10 ef))
-        (machineInterfaceFormalizationTargetDecodeBHist
-          (machineInterfaceFormalizationTargetRawAt 11 ef)))
+  | [] => none
+  | targetName :: rest0 =>
+      match rest0 with
+      | [] => none
+      | namespaceRow :: rest1 =>
+          match rest1 with
+          | [] => none
+          | registry :: rest2 =>
+              match rest2 with
+              | [] => none
+              | statementSkeleton :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | dependencyList :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | expectedStatus :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | auditGate :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | notClaimed :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | transport :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | continuation :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | provenance :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | localName :: rest11 =>
+                                                  match rest11 with
+                                                  | [] =>
+                                                      some
+                                                        (machineInterfaceFormalizationTargetDecodePacket
+                                                          targetName namespaceRow registry
+                                                          statementSkeleton dependencyList
+                                                          expectedStatus auditGate notClaimed
+                                                          transport continuation provenance
+                                                          localName)
+                                                  | _ :: _ => none
 
 private theorem machineInterfaceFormalizationTarget_round_trip :
     ∀ x : MachineInterfaceFormalizationTargetUp,
@@ -152,79 +142,95 @@ private theorem machineInterfaceFormalizationTarget_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk targetName namespaceRow registry skeleton dependencies expectedStatus auditGate notClaimed
-      transport route provenance localName =>
-      exact
-        congrArg some
-          (machineInterfaceFormalizationTarget_mk_congr
-            (machineInterfaceFormalizationTargetDecode_encode_bhist targetName)
-            (machineInterfaceFormalizationTargetDecode_encode_bhist namespaceRow)
-            (machineInterfaceFormalizationTargetDecode_encode_bhist registry)
-            (machineInterfaceFormalizationTargetDecode_encode_bhist skeleton)
-            (machineInterfaceFormalizationTargetDecode_encode_bhist dependencies)
-            (machineInterfaceFormalizationTargetDecode_encode_bhist expectedStatus)
-            (machineInterfaceFormalizationTargetDecode_encode_bhist auditGate)
-            (machineInterfaceFormalizationTargetDecode_encode_bhist notClaimed)
-            (machineInterfaceFormalizationTargetDecode_encode_bhist transport)
-            (machineInterfaceFormalizationTargetDecode_encode_bhist route)
-            (machineInterfaceFormalizationTargetDecode_encode_bhist provenance)
-            (machineInterfaceFormalizationTargetDecode_encode_bhist localName))
+  | mk targetName namespaceRow registry statementSkeleton dependencyList expectedStatus auditGate
+      notClaimed transport continuation provenance localName =>
+      change
+        some
+            (machineInterfaceFormalizationTargetDecodePacket
+              (machineInterfaceFormalizationTargetEncodeBHist targetName)
+              (machineInterfaceFormalizationTargetEncodeBHist namespaceRow)
+              (machineInterfaceFormalizationTargetEncodeBHist registry)
+              (machineInterfaceFormalizationTargetEncodeBHist statementSkeleton)
+              (machineInterfaceFormalizationTargetEncodeBHist dependencyList)
+              (machineInterfaceFormalizationTargetEncodeBHist expectedStatus)
+              (machineInterfaceFormalizationTargetEncodeBHist auditGate)
+              (machineInterfaceFormalizationTargetEncodeBHist notClaimed)
+              (machineInterfaceFormalizationTargetEncodeBHist transport)
+              (machineInterfaceFormalizationTargetEncodeBHist continuation)
+              (machineInterfaceFormalizationTargetEncodeBHist provenance)
+              (machineInterfaceFormalizationTargetEncodeBHist localName)) =
+          some
+            (MachineInterfaceFormalizationTargetUp.mk targetName namespaceRow registry
+              statementSkeleton dependencyList expectedStatus auditGate notClaimed transport
+              continuation provenance localName)
+      unfold machineInterfaceFormalizationTargetDecodePacket
+      rw [machineInterfaceFormalizationTargetDecode_encode_bhist targetName,
+        machineInterfaceFormalizationTargetDecode_encode_bhist namespaceRow,
+        machineInterfaceFormalizationTargetDecode_encode_bhist registry,
+        machineInterfaceFormalizationTargetDecode_encode_bhist statementSkeleton,
+        machineInterfaceFormalizationTargetDecode_encode_bhist dependencyList,
+        machineInterfaceFormalizationTargetDecode_encode_bhist expectedStatus,
+        machineInterfaceFormalizationTargetDecode_encode_bhist auditGate,
+        machineInterfaceFormalizationTargetDecode_encode_bhist notClaimed,
+        machineInterfaceFormalizationTargetDecode_encode_bhist transport,
+        machineInterfaceFormalizationTargetDecode_encode_bhist continuation,
+        machineInterfaceFormalizationTargetDecode_encode_bhist provenance,
+        machineInterfaceFormalizationTargetDecode_encode_bhist localName]
 
 private theorem machineInterfaceFormalizationTargetToEventFlow_injective
     {x y : MachineInterfaceFormalizationTargetUp} :
     machineInterfaceFormalizationTargetToEventFlow x =
-      machineInterfaceFormalizationTargetToEventFlow y → x = y := by
+        machineInterfaceFormalizationTargetToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro hxy
-  have optionEq : some x = some y := by
-    calc
-      some x =
-          machineInterfaceFormalizationTargetFromEventFlow
-            (machineInterfaceFormalizationTargetToEventFlow x) :=
-        (machineInterfaceFormalizationTarget_round_trip x).symm
-      _ =
-          machineInterfaceFormalizationTargetFromEventFlow
-            (machineInterfaceFormalizationTargetToEventFlow y) :=
-        congrArg machineInterfaceFormalizationTargetFromEventFlow hxy
-      _ = some y := machineInterfaceFormalizationTarget_round_trip y
-  exact Option.some.inj optionEq
+  intro heq
+  have hread :
+      machineInterfaceFormalizationTargetFromEventFlow
+          (machineInterfaceFormalizationTargetToEventFlow x) =
+        machineInterfaceFormalizationTargetFromEventFlow
+          (machineInterfaceFormalizationTargetToEventFlow y) :=
+    congrArg machineInterfaceFormalizationTargetFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (machineInterfaceFormalizationTarget_round_trip x).symm
+      (Eq.trans hread (machineInterfaceFormalizationTarget_round_trip y)))
 
-private theorem machineInterfaceFormalizationTarget_field_faithful :
+private theorem machineInterfaceFormalizationTarget_fields_faithful :
     ∀ x y : MachineInterfaceFormalizationTargetUp,
       machineInterfaceFormalizationTargetFields x =
         machineInterfaceFormalizationTargetFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x y h
+  intro x y hfields
   cases x with
-  | mk targetName1 namespaceRow1 registry1 skeleton1 dependencies1 expectedStatus1 auditGate1
-      notClaimed1 transport1 route1 provenance1 localName1 =>
+  | mk targetName₁ namespaceRow₁ registry₁ statementSkeleton₁ dependencyList₁ expectedStatus₁
+      auditGate₁ notClaimed₁ transport₁ continuation₁ provenance₁ localName₁ =>
       cases y with
-      | mk targetName2 namespaceRow2 registry2 skeleton2 dependencies2 expectedStatus2 auditGate2
-          notClaimed2 transport2 route2 provenance2 localName2 =>
-          injection h with hTargetName t1
-          injection t1 with hNamespace t2
-          injection t2 with hRegistry t3
-          injection t3 with hSkeleton t4
-          injection t4 with hDependencies t5
-          injection t5 with hExpectedStatus t6
-          injection t6 with hAuditGate t7
-          injection t7 with hNotClaimed t8
-          injection t8 with hTransport t9
-          injection t9 with hRoute t10
-          injection t10 with hProvenance t11
-          injection t11 with hLocalName _
-          cases hTargetName
-          cases hNamespace
-          cases hRegistry
-          cases hSkeleton
-          cases hDependencies
-          cases hExpectedStatus
-          cases hAuditGate
-          cases hNotClaimed
-          cases hTransport
-          cases hRoute
-          cases hProvenance
-          cases hLocalName
+      | mk targetName₂ namespaceRow₂ registry₂ statementSkeleton₂ dependencyList₂
+          expectedStatus₂ auditGate₂ notClaimed₂ transport₂ continuation₂ provenance₂
+          localName₂ =>
+          injection hfields with hTargetName tail0
+          injection tail0 with hNamespace tail1
+          injection tail1 with hRegistry tail2
+          injection tail2 with hStatementSkeleton tail3
+          injection tail3 with hDependencyList tail4
+          injection tail4 with hExpectedStatus tail5
+          injection tail5 with hAuditGate tail6
+          injection tail6 with hNotClaimed tail7
+          injection tail7 with hTransport tail8
+          injection tail8 with hContinuation tail9
+          injection tail9 with hProvenance tail10
+          injection tail10 with hLocalName _
+          subst hTargetName
+          subst hNamespace
+          subst hRegistry
+          subst hStatementSkeleton
+          subst hDependencyList
+          subst hExpectedStatus
+          subst hAuditGate
+          subst hNotClaimed
+          subst hTransport
+          subst hContinuation
+          subst hProvenance
+          subst hLocalName
           rfl
 
 instance machineInterfaceFormalizationTargetBHistCarrier :
@@ -238,33 +244,33 @@ instance machineInterfaceFormalizationTargetChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change machineInterfaceFormalizationTargetFromEventFlow
-      (machineInterfaceFormalizationTargetToEventFlow x) = some x
+    change
+      machineInterfaceFormalizationTargetFromEventFlow
+        (machineInterfaceFormalizationTargetToEventFlow x) = some x
     exact machineInterfaceFormalizationTarget_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (machineInterfaceFormalizationTargetToEventFlow_injective heq)
 
-instance machineInterfaceFormalizationTargetNontrivial :
-    Nontrivial MachineInterfaceFormalizationTargetUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨MachineInterfaceFormalizationTargetUp.mk
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      MachineInterfaceFormalizationTargetUp.mk
-        (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        -- BEDC touchpoint anchor: BHist BMark
-        intro h
-        cases h⟩
-
 instance machineInterfaceFormalizationTargetFieldFaithful :
     FieldFaithful MachineInterfaceFormalizationTargetUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := machineInterfaceFormalizationTargetFields
-  field_faithful := machineInterfaceFormalizationTarget_field_faithful
+  field_faithful := machineInterfaceFormalizationTarget_fields_faithful
+
+instance machineInterfaceFormalizationTargetNontrivial :
+    Nontrivial MachineInterfaceFormalizationTargetUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨MachineInterfaceFormalizationTargetUp.mk BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      MachineInterfaceFormalizationTargetUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 def taste_gate : ChapterTasteGate MachineInterfaceFormalizationTargetUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -279,13 +285,20 @@ theorem MachineInterfaceFormalizationTargetTasteGate_single_carrier_alignment :
           (machineInterfaceFormalizationTargetToEventFlow x) = some x) ∧
         (∀ x y : MachineInterfaceFormalizationTargetUp,
           machineInterfaceFormalizationTargetToEventFlow x =
-            machineInterfaceFormalizationTargetToEventFlow y → x = y) ∧
-          machineInterfaceFormalizationTargetEncodeBHist BHist.Empty = ([] : List BMark) := by
+              machineInterfaceFormalizationTargetToEventFlow y →
+            x = y) ∧
+          Nonempty (FieldFaithful MachineInterfaceFormalizationTargetUp) ∧
+            Nonempty (BEDC.Meta.TasteGate.Nontrivial
+              MachineInterfaceFormalizationTargetUp) ∧
+              machineInterfaceFormalizationTargetEncodeBHist BHist.Empty =
+                ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
     ⟨machineInterfaceFormalizationTargetDecode_encode_bhist,
       machineInterfaceFormalizationTarget_round_trip,
       (fun _ _ heq => machineInterfaceFormalizationTargetToEventFlow_injective heq),
+      ⟨machineInterfaceFormalizationTargetFieldFaithful⟩,
+      ⟨machineInterfaceFormalizationTargetNontrivial⟩,
       rfl⟩
 
 end BEDC.Derived.MachineInterfaceFormalizationTargetUp
