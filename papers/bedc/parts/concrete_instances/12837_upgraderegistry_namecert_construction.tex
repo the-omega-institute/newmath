@@ -74,3 +74,15 @@ Use status preservation from \autoref{thm:upgrade-registry-status-preservation}.
 \independenceWitness{claimregistrylayer, registryexportsurface, auditwritingdiscipline, axiszeckendorfcannotclaim, registryconsistencyaudit: $\UpgradeRegistryUp$ is not bijective to any sibling because it simultaneously carries target, current-status, next-status, required-field, blocker, audit, formal-target, transport, continuation, provenance, and local NameCert rows. The claim layer admits claim rows without the full promotion packet; the export surface controls release without blocker accounting; the writing-discipline packet controls prose legality without next-status fields; the cannot-claim packet records refusals without promotion transport; and the consistency audit checks agreement without owning the registry entry.}
 
 The Lean follow-up for this chapter must provide $\mathsf{Nontrivial}\ \UpgradeRegistryUp$ and $\mathsf{FieldFaithful}\ \UpgradeRegistryUp$ instances for the displayed carrier fields.
+
+\closureat{UpgradeRegistryUp}{seedStr}
+
+\begin{closurestatus}{\UpgradeRegistryUp}
+  \constructivestory{An $\UpgradeRegistryUp$ packet is generated from target, current-status, next-status, required-field, blocker, audit, formal-target, transport, continuation, package, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:upgrade-registry-carrier}, \autoref{thm:upgrade-registry-namecert-obligations}, \autoref{thm:upgrade-registry-status-preservation}, and \autoref{thm:upgrade-registry-noncompletion-surface} display the carrier, status, blocker, audit, formal-target, transport, continuation, package, and local naming rows currently owned by the upgrade-registry certificate.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close bridge checking, Lean verification, public export, or obligationClosure for the registry rows.}
+  \upgradepath{The next paper-side step is obligationClosure for the current-status, next-status, required-field, blocker, audit, formal-target, transport, continuation, package, and local naming rows.}
+\end{closurestatus}
