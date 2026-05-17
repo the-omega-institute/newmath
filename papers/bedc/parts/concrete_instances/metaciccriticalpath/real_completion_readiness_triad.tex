@@ -1,0 +1,39 @@
+\begin{theorem}[MetaCIC critical-path StreamName source readiness]
+\label{thm:metacic-critical-path-real-streamname-source-readiness}
+For every Real-facing or Completion-facing consumer of an accepted $\MetaCICCriticalPathUp$ critical-path packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+the $\StreamNameUp$ source schedule may be exposed only after the consumer has displayed the MetaCIC packet rows $S,N,O,U,D,H,C,P,L$ and the Phase Real route budget rows attached to that packet. In particular, the source schedule is not a host scheduler coordinate, an undisplayed stream source, a hidden completion selector, closed subject reduction, or full consistency.
+\end{theorem}
+\begin{proof}
+Start with the root-unblock carrier and route surfaces. Theorems~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness} and~\ref{thm:metacic-critical-path-root-unblock-route-readiness} expose $K$ as the finite displayed packet and keep route replay inside the same rows.
+
+Next apply the Phase Real route budget. Theorem~\ref{thm:metacic-critical-path-phase-real-route-budget} requires every Real-facing and Completion-facing consumer to read $S,N,O,U,D,H,C,P,L$ before it can use a StreamName schedule row.
+
+Finally use consumer readiness and the two Phase Real locks. Theorem~\ref{thm:metacic-critical-path-root-unblock-consumer-readiness} excludes host scheduler state and hidden route closures, while Theorems~\ref{thm:metacic-critical-path-phase-real-normal-form-handoff} and~\ref{thm:metacic-critical-path-phase-real-obstruction-ledger-lock} keep the normal-form and obstruction rows attached to the route. Thus the $\StreamNameUp$ source schedule is exposed only as a displayed dependency row after the MetaCIC packet rows.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path RegSeqRat readback readiness]
+\label{thm:metacic-critical-path-regseqrat-readback-readiness}
+For every Real-facing or Completion-facing consumer of an accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, a $\RegSeqRatUp$ readback can be consumed only as a displayed regular-rational dependency row attached to the same packet. The readback cannot be detached into quotient stream equality, selected limit data, hidden Real completeness, closed subject reduction, or full consistency.
+\end{theorem}
+\begin{proof}
+First read the root-unblock packet. Theorems~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness} and~\ref{thm:metacic-critical-path-root-unblock-route-readiness} make the carrier and replay rows visible as $S,N,O,U,D,H,C,P,L$.
+
+The Phase Real route budget then fixes the readback order. By Theorem~\ref{thm:metacic-critical-path-phase-real-route-budget}, the regular-rational dependency row appears only after the displayed MetaCIC packet rows have been admitted.
+
+The normal-form handoff and obstruction ledger lock preserve the same attachment downstream. Theorems~\ref{thm:metacic-critical-path-phase-real-normal-form-handoff} and~\ref{thm:metacic-critical-path-phase-real-obstruction-ledger-lock} keep $N,O,D,H,C,P,L$ present at the Real and Completion boundary, and Theorem~\ref{thm:metacic-critical-path-root-unblock-consumer-readiness} refuses undisplayed dependency edges. Hence the $\RegSeqRatUp$ readback is consumed only as a displayed row of the same critical-path route.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path Real completion readiness package]
+\label{thm:metacic-critical-path-real-completion-readiness}
+For an accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the Real-facing and Completion-facing root-unblock package is exactly the combination of the displayed $\StreamNameUp$ source schedule readiness, the displayed $\RegSeqRatUp$ readback readiness, and the $\RealUp$ seal route read after the Phase Real budget rows. The package exports no ambient Real completeness, quotient stream equality, selected limit, closed subject reduction, full consistency, or hidden completion selector.
+\end{theorem}
+\begin{proof}
+Build the StreamName side first. Theorem~\ref{thm:metacic-critical-path-real-streamname-source-readiness} confines the source schedule to a displayed row admitted after $S,N,O,U,D,H,C,P,L$.
+
+Build the regular-rational side next. Theorem~\ref{thm:metacic-critical-path-regseqrat-readback-readiness} confines the $\RegSeqRatUp$ readback to the same critical-path packet and refuses quotient-stream, selected-limit, and hidden-completeness exits.
+
+Finally attach the Real-facing seal route. The Phase Real route budget, normal-form handoff, and obstruction ledger lock from Theorems~\ref{thm:metacic-critical-path-phase-real-route-budget},~\ref{thm:metacic-critical-path-phase-real-normal-form-handoff}, and~\ref{thm:metacic-critical-path-phase-real-obstruction-ledger-lock} keep the $\RealUp$ route downstream of the displayed packet while preserving $N,O,D,H,C,P,L$. With root consumer readiness from Theorem~\ref{thm:metacic-critical-path-root-unblock-consumer-readiness}, the resulting package is a finite root-unblock surface for Phase Real and Completion consumers, not a closure of any excluded metatheoretic or completion principle.
+\end{proof}
