@@ -158,4 +158,64 @@ theorem ObserverKernelTrace_no_subject_non_escape
       And.intro source.right
         (And.intro (hsame_refl provenance) (hsame_refl localName))
 
+theorem ObserverKernelTrace_public_export_boundary
+    {trace transport route probe signature ledger provenance localName consumer : BHist}
+    (traceReplay : Cont trace ledger route)
+    (consumerRoute : Cont route provenance consumer) :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row consumer ∧
+          ∃ packet : ObserverKernelTraceUp,
+            packet =
+              ObserverKernelTraceUp.mk trace transport route probe signature ledger provenance
+                localName)
+      (fun row : BHist =>
+        Cont trace ledger route ∧ Cont route provenance consumer ∧ hsame row consumer ∧
+          hsame probe probe ∧ hsame signature signature)
+      (fun row : BHist =>
+        hsame row consumer ∧ hsame ledger ledger ∧ hsame provenance provenance ∧
+          hsame localName localName)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  refine
+    { core :=
+        { carrier_inhabited := ?carrier
+          equiv_refl := ?refl
+          equiv_symm := ?symm
+          equiv_trans := ?trans
+          carrier_respects_equiv := ?respects }
+      pattern_sound := ?pattern
+      ledger_sound := ?ledger }
+  · exact
+      Exists.intro consumer
+        (And.intro (hsame_refl consumer)
+          (Exists.intro
+            (ObserverKernelTraceUp.mk trace transport route probe signature ledger provenance
+              localName)
+            rfl))
+  · intro row _source
+    exact hsame_refl row
+  · intro row row' sameRows
+    exact hsame_symm sameRows
+  · intro row row' row'' sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro row row' sameRows source
+    exact
+      And.intro (hsame_trans (hsame_symm sameRows) source.left)
+        (Exists.intro
+          (ObserverKernelTraceUp.mk trace transport route probe signature ledger provenance
+            localName)
+          rfl)
+  · intro row source
+    exact
+      And.intro traceReplay
+        (And.intro consumerRoute
+          (And.intro source.left
+            (And.intro (hsame_refl probe) (hsame_refl signature))))
+  · intro row source
+    exact
+      And.intro source.left
+        (And.intro (hsame_refl ledger)
+          (And.intro (hsame_refl provenance) (hsame_refl localName)))
+
 end BEDC.Derived.ObserverKernelTraceUp

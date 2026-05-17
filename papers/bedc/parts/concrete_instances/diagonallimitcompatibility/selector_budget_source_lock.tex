@@ -326,3 +326,29 @@ Now compare the downstream readers. The UniformCauchyCriterion pullback \autoref
 
 Finally apply the Real-and-Completion exit theorem \autoref{thm:diagonal-limit-selector-budget-uniform-real-exit}. Its exclusion list removes quotient streams, host real equality, selected limits, countable-choice selectors, host metric data, ambient completeness, independent completion data, and second Real or Completion sources. Since the public selector export also carries no metric-completeness row, arithmetic package, order package, or bridge row, the terminal route has exactly the finite observation surface listed in the statement.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit selector-budget finite-prefix-budget pullback]
+\label{thm:diagonal-limit-selector-budget-finite-prefix-budget-pullback}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Let
+$$
+B=(Q_B,B_B,W_B,D_B,R_B,S_B,E_B,H_B,C_B,P_B,N_B)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet whose window, dyadic ledger, regular readback, and terminal seal rows are read through the same selector-budget surface $W,D,Q,L$ of $K$. Then every Real-and-Completion terminal consumer that passes through $B$ factors through exactly the finite route
+$$
+W,D,Q,L,H,C,P,N
+$$
+read as
+$$
+W_B,D_B,R_B,S_B,E_B,H_B,C_B,P_B,N_B.
+$$
+No accepted route may insert a quotient stream, host real equality, selected limit, countable-choice selector, ambient $\RealUp$ completeness, metric-completeness row, arithmetic package, order package, or bridge row between the selector-budget surface and the terminal Real or Completion read.
+\end{theorem}
+\begin{proof}
+First lock the diagonal source. Apply \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock} and \autoref{thm:diagonal-limit-selector-budget-route-determinacy}. These force every terminal read that touches the selector budget of $K$ to use the displayed rows $W,D,Q,L,H,C,P,N$ rather than a parallel route through hidden selector data.
+
+Next read the finite-prefix budget side. The seal ordering theorem \autoref{thm:finite-prefix-limit-budget-seal-ordering} places every seal-facing read behind the ordered route $Q_B \to B_B \to W_B \to D_B \to R_B \to S_B$. The consumer boundary \autoref{thm:finite-prefix-limit-budget-consumer-boundary} and seal-consumer coverage \autoref{thm:finite-prefix-limit-budget-seal-consumer-coverage} say that a Real-facing or completion-facing consumer receives only the finite-prefix rows $Q_B,B_B,W_B,D_B,R_B,S_B,E_B,H_B,C_B,P_B,N_B$.
+
+Under the shared-surface hypothesis, the rows $W_B,D_B,R_B,S_B$ are precisely the finite-prefix read of $W,D,Q,L$, while $E_B,H_B,C_B,P_B,N_B$ preserve the same exclusion, transport, continuation, provenance, and local naming boundary as the displayed support rows of $K$. Compose this identification with \autoref{thm:diagonal-limit-selector-budget-uniform-real-exit} and \autoref{thm:diagonal-limit-selector-budget-finite-observation-coverage} to obtain the terminal Real-and-Completion surface through the finite selector-budget route.
+
+Finally apply the finite-prefix non-escape theorem \autoref{thm:finite-prefix-limit-budget-real-seal-nonescape-extension}. Its exclusion list matches the diagonal exit exclusions: quotient streams, host real equality, selected limits, countable-choice selectors, hidden terminal data, and ambient completeness are absent. Since neither the selector-budget route nor the finite-prefix budget carrier contains a metric-completeness row, arithmetic package, order package, or bridge row, the pullback is exactly the displayed finite route.
+\end{proof}
