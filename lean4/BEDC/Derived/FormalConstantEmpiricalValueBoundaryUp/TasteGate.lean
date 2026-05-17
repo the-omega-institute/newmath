@@ -51,28 +51,51 @@ def formalConstantEmpiricalValueBoundaryFields :
 def formalConstantEmpiricalValueBoundaryToEventFlow :
     FormalConstantEmpiricalValueBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (formalConstantEmpiricalValueBoundaryFields x).map
-        formalConstantEmpiricalValueBoundaryEncodeBHist
+  | FormalConstantEmpiricalValueBoundaryUp.mk formal empirical calibration uncertainty
+      reproducibility failure transport replay provenance localCert =>
+      [formalConstantEmpiricalValueBoundaryEncodeBHist formal,
+        formalConstantEmpiricalValueBoundaryEncodeBHist empirical,
+        formalConstantEmpiricalValueBoundaryEncodeBHist calibration,
+        formalConstantEmpiricalValueBoundaryEncodeBHist uncertainty,
+        formalConstantEmpiricalValueBoundaryEncodeBHist reproducibility,
+        formalConstantEmpiricalValueBoundaryEncodeBHist failure,
+        formalConstantEmpiricalValueBoundaryEncodeBHist transport,
+        formalConstantEmpiricalValueBoundaryEncodeBHist replay,
+        formalConstantEmpiricalValueBoundaryEncodeBHist provenance,
+        formalConstantEmpiricalValueBoundaryEncodeBHist localCert]
+
+private def formalConstantEmpiricalValueBoundaryRawAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => []
+  | 0, head :: _ => head
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => formalConstantEmpiricalValueBoundaryRawAt n rest
 
 def formalConstantEmpiricalValueBoundaryFromEventFlow :
-    EventFlow → Option FormalConstantEmpiricalValueBoundaryUp
+    EventFlow → Option FormalConstantEmpiricalValueBoundaryUp := fun ef =>
   -- BEDC touchpoint anchor: BHist BMark
-  | formal :: empirical :: calibration :: uncertainty :: reproducibility :: failure ::
-      transport :: replay :: provenance :: localCert :: [] =>
-      some
-        (FormalConstantEmpiricalValueBoundaryUp.mk
-          (formalConstantEmpiricalValueBoundaryDecodeBHist formal)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist empirical)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist calibration)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist uncertainty)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist reproducibility)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist failure)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist transport)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist replay)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist provenance)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist localCert))
-  | _ => none
+  some
+    (FormalConstantEmpiricalValueBoundaryUp.mk
+      (formalConstantEmpiricalValueBoundaryDecodeBHist
+        (formalConstantEmpiricalValueBoundaryRawAt 0 ef))
+      (formalConstantEmpiricalValueBoundaryDecodeBHist
+        (formalConstantEmpiricalValueBoundaryRawAt 1 ef))
+      (formalConstantEmpiricalValueBoundaryDecodeBHist
+        (formalConstantEmpiricalValueBoundaryRawAt 2 ef))
+      (formalConstantEmpiricalValueBoundaryDecodeBHist
+        (formalConstantEmpiricalValueBoundaryRawAt 3 ef))
+      (formalConstantEmpiricalValueBoundaryDecodeBHist
+        (formalConstantEmpiricalValueBoundaryRawAt 4 ef))
+      (formalConstantEmpiricalValueBoundaryDecodeBHist
+        (formalConstantEmpiricalValueBoundaryRawAt 5 ef))
+      (formalConstantEmpiricalValueBoundaryDecodeBHist
+        (formalConstantEmpiricalValueBoundaryRawAt 6 ef))
+      (formalConstantEmpiricalValueBoundaryDecodeBHist
+        (formalConstantEmpiricalValueBoundaryRawAt 7 ef))
+      (formalConstantEmpiricalValueBoundaryDecodeBHist
+        (formalConstantEmpiricalValueBoundaryRawAt 8 ef))
+      (formalConstantEmpiricalValueBoundaryDecodeBHist
+        (formalConstantEmpiricalValueBoundaryRawAt 9 ef)))
 
 private theorem formalConstantEmpiricalValueBoundary_round_trip :
     ∀ x : FormalConstantEmpiricalValueBoundaryUp,
