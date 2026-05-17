@@ -386,6 +386,24 @@ theorem AuditMapFamilyCarrier_frontier_stability [AskSetup] [PackageSetup]
     ⟨frontierUnary, frontierUnary', frontierReadUnary, frontierReadUnary', readSame,
       frontierRoute, frontierRoute', provenancePkg, frontierPkg, frontierPkg'⟩
 
+theorem AuditMapFamilyFrontierStability [AskSetup] [PackageSetup]
+    {familyTag inventory obstruction routing frontier transport replay provenance localName
+      frontierCopy : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapFamilyCarrier familyTag inventory obstruction routing frontier transport replay
+        provenance localName bundle pkg →
+      hsame frontier frontierCopy →
+        UnaryHistory frontier ∧ UnaryHistory frontierCopy ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory hsame PkgSig
+  intro carrier sameFrontier
+  rcases carrier with
+    ⟨_familyTagUnary, _inventoryUnary, _obstructionUnary, _routingUnary, frontierUnary,
+      _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+      _familyInventoryTransport, _obstructionRoutingReplay, provenancePkg⟩
+  have frontierCopyUnary : UnaryHistory frontierCopy :=
+    unary_transport frontierUnary sameFrontier
+  exact ⟨frontierUnary, frontierCopyUnary, provenancePkg⟩
+
 theorem AuditMapFamilyCarrier_routing_row_exhaustion [AskSetup] [PackageSetup]
     {familyTag inventory obstruction routing frontier transport replay provenance localName
       routingRead terminalRead : BHist}
@@ -414,5 +432,33 @@ theorem AuditMapFamilyCarrier_routing_row_exhaustion [AskSetup] [PackageSetup]
   exact
     ⟨inventoryUnary, routingUnary, frontierUnary, routingReadUnary, terminalReadUnary,
       routingFrontier, replayLocal, provenancePkg, routingPkg, terminalPkg⟩
+
+theorem AuditMapFamilyCarrier_obstruction_row_exactness [AskSetup] [PackageSetup]
+    {familyTag inventory obstruction routing frontier transport replay provenance localName
+      obstructionRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapFamilyCarrier familyTag inventory obstruction routing frontier transport replay
+        provenance localName bundle pkg ->
+      Cont obstruction routing obstructionRead ->
+        Cont replay localName terminalRead ->
+          PkgSig bundle obstructionRead pkg ->
+            PkgSig bundle terminalRead pkg ->
+              UnaryHistory obstruction ∧ UnaryHistory routing ∧ UnaryHistory obstructionRead ∧
+                UnaryHistory terminalRead ∧ Cont obstruction routing obstructionRead ∧
+                  Cont replay localName terminalRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle obstructionRead pkg ∧ PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier obstructionRoute terminalRoute obstructionPkg terminalPkg
+  rcases carrier with
+    ⟨_familyTagUnary, _inventoryUnary, obstructionUnary, routingUnary, _frontierUnary,
+      _transportUnary, replayUnary, _provenanceUnary, localNameUnary,
+      _familyInventoryTransport, _obstructionRoutingReplay, provenancePkg⟩
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed obstructionUnary routingUnary obstructionRoute
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed replayUnary localNameUnary terminalRoute
+  exact
+    ⟨obstructionUnary, routingUnary, obstructionReadUnary, terminalReadUnary,
+      obstructionRoute, terminalRoute, provenancePkg, obstructionPkg, terminalPkg⟩
 
 end BEDC.Derived.AuditMapFamilyUp
