@@ -10,23 +10,23 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RealityConstrainedSignatureResidueUp : Type where
-  | mk : (M S G R W H C P N : BHist) → RealityConstrainedSignatureResidueUp
+  | mk : (M S G R W H C P N : BHist) -> RealityConstrainedSignatureResidueUp
   deriving DecidableEq
 
-def realityConstrainedSignatureResidueEncodeBHist : BHist → RawEvent
+def realityConstrainedSignatureResidueEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: realityConstrainedSignatureResidueEncodeBHist h
   | BHist.e1 h => BMark.b1 :: realityConstrainedSignatureResidueEncodeBHist h
 
-def realityConstrainedSignatureResidueDecodeBHist : RawEvent → BHist
+def realityConstrainedSignatureResidueDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (realityConstrainedSignatureResidueDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (realityConstrainedSignatureResidueDecodeBHist tail)
 
 private theorem realityConstrainedSignatureResidueDecode_encode_bhist :
-    ∀ h : BHist,
+    forall h : BHist,
       realityConstrainedSignatureResidueDecodeBHist
         (realityConstrainedSignatureResidueEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -56,7 +56,7 @@ private theorem realityConstrainedSignatureResidue_mk_congr
   rfl
 
 def realityConstrainedSignatureResidueToEventFlow :
-    RealityConstrainedSignatureResidueUp → EventFlow
+    RealityConstrainedSignatureResidueUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | RealityConstrainedSignatureResidueUp.mk M S G R W H C P N =>
       [[BMark.b0],
@@ -81,7 +81,7 @@ def realityConstrainedSignatureResidueToEventFlow :
         realityConstrainedSignatureResidueEncodeBHist N]
 
 def realityConstrainedSignatureResidueFromEventFlow :
-    EventFlow → Option RealityConstrainedSignatureResidueUp
+    EventFlow -> Option RealityConstrainedSignatureResidueUp
   -- BEDC touchpoint anchor: BHist BMark
   | _tag0 :: M :: _tag1 :: S :: _tag2 :: G :: _tag3 :: R :: _tag4 :: W ::
       _tag5 :: H :: _tag6 :: C :: _tag7 :: P :: _tag8 :: N :: [] =>
@@ -99,7 +99,7 @@ def realityConstrainedSignatureResidueFromEventFlow :
   | _ => none
 
 private theorem realityConstrainedSignatureResidue_round_trip :
-    ∀ x : RealityConstrainedSignatureResidueUp,
+    forall x : RealityConstrainedSignatureResidueUp,
       realityConstrainedSignatureResidueFromEventFlow
         (realityConstrainedSignatureResidueToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -144,76 +144,53 @@ private theorem realityConstrainedSignatureResidue_round_trip :
 private theorem realityConstrainedSignatureResidueToEventFlow_injective
     {x y : RealityConstrainedSignatureResidueUp} :
     realityConstrainedSignatureResidueToEventFlow x =
-      realityConstrainedSignatureResidueToEventFlow y → x = y := by
+      realityConstrainedSignatureResidueToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
+  have hread :
+      realityConstrainedSignatureResidueFromEventFlow
+          (realityConstrainedSignatureResidueToEventFlow x) =
+        realityConstrainedSignatureResidueFromEventFlow
+          (realityConstrainedSignatureResidueToEventFlow y) :=
+    congrArg realityConstrainedSignatureResidueFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (realityConstrainedSignatureResidue_round_trip x).symm
+      (Eq.trans hread (realityConstrainedSignatureResidue_round_trip y)))
+
+def realityConstrainedSignatureResidueFields :
+    RealityConstrainedSignatureResidueUp -> List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RealityConstrainedSignatureResidueUp.mk M S G R W H C P N =>
+      [M, S, G, R, W, H, C, P, N]
+
+private theorem realityConstrainedSignatureResidue_field_faithful :
+    forall x y : RealityConstrainedSignatureResidueUp,
+      realityConstrainedSignatureResidueFields x =
+        realityConstrainedSignatureResidueFields y -> x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
   cases x with
-  | mk M₁ S₁ G₁ R₁ W₁ H₁ C₁ P₁ N₁ =>
+  | mk M1 S1 G1 R1 W1 H1 C1 P1 N1 =>
       cases y with
-      | mk M₂ S₂ G₂ R₂ W₂ H₂ C₂ P₂ N₂ =>
-          injection heq with _ tail0
-          injection tail0 with hM tail1
-          injection tail1 with _ tail2
-          injection tail2 with hS tail3
-          injection tail3 with _ tail4
-          injection tail4 with hG tail5
-          injection tail5 with _ tail6
-          injection tail6 with hR tail7
-          injection tail7 with _ tail8
-          injection tail8 with hW tail9
-          injection tail9 with _ tail10
-          injection tail10 with hH tail11
-          injection tail11 with _ tail12
-          injection tail12 with hC tail13
-          injection tail13 with _ tail14
-          injection tail14 with hP tail15
-          injection tail15 with _ tail16
-          injection tail16 with hN _
-          have hMd : M₁ = M₂ := by
-            have h := congrArg realityConstrainedSignatureResidueDecodeBHist hM
-            rw [realityConstrainedSignatureResidueDecode_encode_bhist] at h
-            exact Eq.trans h (realityConstrainedSignatureResidueDecode_encode_bhist M₂)
-          have hSd : S₁ = S₂ := by
-            have h := congrArg realityConstrainedSignatureResidueDecodeBHist hS
-            rw [realityConstrainedSignatureResidueDecode_encode_bhist] at h
-            exact Eq.trans h (realityConstrainedSignatureResidueDecode_encode_bhist S₂)
-          have hGd : G₁ = G₂ := by
-            have h := congrArg realityConstrainedSignatureResidueDecodeBHist hG
-            rw [realityConstrainedSignatureResidueDecode_encode_bhist] at h
-            exact Eq.trans h (realityConstrainedSignatureResidueDecode_encode_bhist G₂)
-          have hRd : R₁ = R₂ := by
-            have h := congrArg realityConstrainedSignatureResidueDecodeBHist hR
-            rw [realityConstrainedSignatureResidueDecode_encode_bhist] at h
-            exact Eq.trans h (realityConstrainedSignatureResidueDecode_encode_bhist R₂)
-          have hWd : W₁ = W₂ := by
-            have h := congrArg realityConstrainedSignatureResidueDecodeBHist hW
-            rw [realityConstrainedSignatureResidueDecode_encode_bhist] at h
-            exact Eq.trans h (realityConstrainedSignatureResidueDecode_encode_bhist W₂)
-          have hHd : H₁ = H₂ := by
-            have h := congrArg realityConstrainedSignatureResidueDecodeBHist hH
-            rw [realityConstrainedSignatureResidueDecode_encode_bhist] at h
-            exact Eq.trans h (realityConstrainedSignatureResidueDecode_encode_bhist H₂)
-          have hCd : C₁ = C₂ := by
-            have h := congrArg realityConstrainedSignatureResidueDecodeBHist hC
-            rw [realityConstrainedSignatureResidueDecode_encode_bhist] at h
-            exact Eq.trans h (realityConstrainedSignatureResidueDecode_encode_bhist C₂)
-          have hPd : P₁ = P₂ := by
-            have h := congrArg realityConstrainedSignatureResidueDecodeBHist hP
-            rw [realityConstrainedSignatureResidueDecode_encode_bhist] at h
-            exact Eq.trans h (realityConstrainedSignatureResidueDecode_encode_bhist P₂)
-          have hNd : N₁ = N₂ := by
-            have h := congrArg realityConstrainedSignatureResidueDecodeBHist hN
-            rw [realityConstrainedSignatureResidueDecode_encode_bhist] at h
-            exact Eq.trans h (realityConstrainedSignatureResidueDecode_encode_bhist N₂)
-          cases hMd
-          cases hSd
-          cases hGd
-          cases hRd
-          cases hWd
-          cases hHd
-          cases hCd
-          cases hPd
-          cases hNd
+      | mk M2 S2 G2 R2 W2 H2 C2 P2 N2 =>
+          injection hfields with hM hRest1
+          injection hRest1 with hS hRest2
+          injection hRest2 with hG hRest3
+          injection hRest3 with hR hRest4
+          injection hRest4 with hW hRest5
+          injection hRest5 with hH hRest6
+          injection hRest6 with hC hRest7
+          injection hRest7 with hP hRest8
+          injection hRest8 with hN _
+          cases hM
+          cases hS
+          cases hG
+          cases hR
+          cases hW
+          cases hH
+          cases hC
+          cases hP
+          cases hN
           rfl
 
 instance realityConstrainedSignatureResidueBHistCarrier :
@@ -235,40 +212,11 @@ instance realityConstrainedSignatureResidueChapterTasteGate :
     intro x y hxy heq
     exact hxy (realityConstrainedSignatureResidueToEventFlow_injective heq)
 
-def realityConstrainedSignatureResidueFields :
-    RealityConstrainedSignatureResidueUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | RealityConstrainedSignatureResidueUp.mk M S G R W H C P N => [M, S, G, R, W, H, C, P, N]
-
 instance realityConstrainedSignatureResidueFieldFaithful :
     FieldFaithful RealityConstrainedSignatureResidueUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := realityConstrainedSignatureResidueFields
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk M₁ S₁ G₁ R₁ W₁ H₁ C₁ P₁ N₁ =>
-        cases y with
-        | mk M₂ S₂ G₂ R₂ W₂ H₂ C₂ P₂ N₂ =>
-            injection h with hM hRest₁
-            injection hRest₁ with hS hRest₂
-            injection hRest₂ with hG hRest₃
-            injection hRest₃ with hR hRest₄
-            injection hRest₄ with hW hRest₅
-            injection hRest₅ with hH hRest₆
-            injection hRest₆ with hC hRest₇
-            injection hRest₇ with hP hRest₈
-            injection hRest₈ with hN _
-            cases hM
-            cases hS
-            cases hG
-            cases hR
-            cases hW
-            cases hH
-            cases hC
-            cases hP
-            cases hN
-            rfl
+  field_faithful := realityConstrainedSignatureResidue_field_faithful
 
 instance realityConstrainedSignatureResidueNontrivial :
     Nontrivial RealityConstrainedSignatureResidueUp where
@@ -288,10 +236,10 @@ def taste_gate : ChapterTasteGate RealityConstrainedSignatureResidueUp :=
   realityConstrainedSignatureResidueChapterTasteGate
 
 theorem RealityConstrainedSignatureResidueTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
+    (forall h : BHist,
       realityConstrainedSignatureResidueDecodeBHist
         (realityConstrainedSignatureResidueEncodeBHist h) = h) ∧
-      (∀ M S G R W H C P N : BHist,
+      (forall M S G R W H C P N : BHist,
         realityConstrainedSignatureResidueToEventFlow
             (RealityConstrainedSignatureResidueUp.mk M S G R W H C P N) =
           [[BMark.b0],
@@ -314,7 +262,7 @@ theorem RealityConstrainedSignatureResidueTasteGate_single_carrier_alignment :
             [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
               BMark.b1, BMark.b0],
             realityConstrainedSignatureResidueEncodeBHist N]) ∧
-        (∀ M S G R W H C P N : BHist,
+        (forall M S G R W H C P N : BHist,
           realityConstrainedSignatureResidueFields
               (RealityConstrainedSignatureResidueUp.mk M S G R W H C P N) =
             [M, S, G, R, W, H, C, P, N]) ∧
@@ -329,5 +277,43 @@ theorem RealityConstrainedSignatureResidueTasteGate_single_carrier_alignment :
       · intro M S G R W H C P N
         rfl
       · rfl
+
+namespace TasteGate
+
+theorem RealityConstrainedSignatureResidueTasteGate_single_carrier_alignment :
+    (forall h : BHist,
+      realityConstrainedSignatureResidueDecodeBHist
+        (realityConstrainedSignatureResidueEncodeBHist h) = h) ∧
+      (forall M S G R W H C P N : BHist,
+        realityConstrainedSignatureResidueToEventFlow
+            (RealityConstrainedSignatureResidueUp.mk M S G R W H C P N) =
+          [[BMark.b0],
+            realityConstrainedSignatureResidueEncodeBHist M,
+            [BMark.b1, BMark.b0],
+            realityConstrainedSignatureResidueEncodeBHist S,
+            [BMark.b1, BMark.b1, BMark.b0],
+            realityConstrainedSignatureResidueEncodeBHist G,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            realityConstrainedSignatureResidueEncodeBHist R,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            realityConstrainedSignatureResidueEncodeBHist W,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            realityConstrainedSignatureResidueEncodeBHist H,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            realityConstrainedSignatureResidueEncodeBHist C,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b0],
+            realityConstrainedSignatureResidueEncodeBHist P,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b1, BMark.b0],
+            realityConstrainedSignatureResidueEncodeBHist N]) ∧
+        (forall M S G R W H C P N : BHist,
+          realityConstrainedSignatureResidueFields
+              (RealityConstrainedSignatureResidueUp.mk M S G R W H C P N) =
+            [M, S, G, R, W, H, C, P, N]) ∧
+          realityConstrainedSignatureResidueEncodeBHist BHist.Empty = ([] : List BMark) :=
+  RealityConstrainedSignatureResidueUp.RealityConstrainedSignatureResidueTasteGate_single_carrier_alignment
+
+end TasteGate
 
 end BEDC.Derived.RealityConstrainedSignatureResidueUp
