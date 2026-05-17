@@ -335,6 +335,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowReadbackStability
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSelectorFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealCompleteness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealReadbackCompleteness
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowCoverage
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailBudgetSealCorrespondence
 import BEDC.Derived.BoundedVariationUp
@@ -440,6 +441,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowRealSealPullback
 import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowRealConsumerLock
 import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowTotality
 import BEDC.Derived.CauchyModulusRefinementUp.TerminalSelectorSealCorrespondence
+import BEDC.Derived.CauchyModulusRefinementUp.TerminalSelectorSurface
 import BEDC.Derived.CauchyModulusRefinementUp.TerminalSpineChoiceRefusal
 import BEDC.Derived.CauchyModulusRefinementUp.TerminalRealSealPullback
 import BEDC.Derived.CauchyModulusRefinementUp.TerminalBudgetRouteExhaustion
@@ -2987,6 +2989,7 @@ import BEDC.Derived.FieldUp.RatupFieldupAssembledSupportNeutralityCertificate
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Derived.FocusedLedgerUp.TasteGate
 import BEDC.Derived.GapFailureBridgeAuditUp.TasteGate
+import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.FieldUp.AffineAutomorphismGroupCertificate
 import BEDC.Reflection
 import BEDC.MetaCIC
