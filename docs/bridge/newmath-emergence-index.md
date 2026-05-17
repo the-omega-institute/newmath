@@ -5,7 +5,7 @@ It is a planning surface for low-frequency Automath bridge intake; it is not a B
 
 | Metric | Value |
 | --- | --- |
-| Event id | `9a22a69622b0b36a` |
+| Event id | `9577de68193600f2` |
 | Active BOARD targets | `3` |
 | Completed BOARD targets | `669` |
 | Bridge intake next action | `keep_sources_evidence_only_until_a_named_bedc_carrier_or_obligation_exists` |
