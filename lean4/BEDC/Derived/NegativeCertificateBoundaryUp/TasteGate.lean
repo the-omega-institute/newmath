@@ -497,4 +497,49 @@ theorem NegativeCertificateBoundaryCarrier_refusal_classifier_stability
   exact
     ⟨cert, classifierUnary, ledgerAuditClassifier, nameProvenance, classifierPkg⟩
 
+theorem NegativeCertificateBoundaryCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {socket internalizer gapLedger auditReadback transport continuation provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NegativeCertificateBoundaryCarrier socket internalizer gapLedger auditReadback transport
+        continuation provenance name bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          NegativeCertificateBoundaryCarrier socket internalizer gapLedger auditReadback transport
+              continuation provenance name bundle pkg ∧
+            hsame row name)
+        (fun row : BHist =>
+          Cont socket internalizer gapLedger ∧ Cont gapLedger auditReadback continuation ∧
+            hsame row name)
+        (fun row : BHist => PkgSig bundle auditReadback pkg ∧ hsame row provenance)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig SemanticNameCert hsame
+  intro carrier
+  have carrierWitness := carrier
+  obtain ⟨_socketUnary, _internalizerUnary, _gapLedgerUnary, _auditReadbackUnary,
+    _transportUnary, _continuationUnary, _provenanceUnary, _nameUnary,
+    socketInternalizerGap, gapAuditContinuation, auditPkg, nameProvenance⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro name ⟨carrierWitness, hsame_refl name⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨socketInternalizerGap, gapAuditContinuation, source.right⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨auditPkg, hsame_trans source.right nameProvenance⟩
+  }
+
 end BEDC.Derived.NegativeCertificateBoundaryUp
