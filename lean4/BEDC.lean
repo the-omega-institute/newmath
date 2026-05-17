@@ -1457,6 +1457,7 @@ import BEDC.Derived.HaltingDistinctionUp.RootDiagonalNonescape
 import BEDC.Derived.HaltingDistinctionUp.RootLedgerNonescape
 import BEDC.Derived.HaltingDistinctionUp.RootConsumerObstructionExhaustion
 import BEDC.Derived.HaltingDistinctionUp.RootDiagonalRouteTotality
+import BEDC.Derived.HaltingDistinctionUp.RootFiniteTraceClassifierExhaustion
 import BEDC.Derived.HaltingDistinctionUp.RootPackage
 import BEDC.Derived.HaltingDistinctionUp.RootSiblingConsumerLock
 import BEDC.Derived.HaltingDistinctionUp.RouteStability
