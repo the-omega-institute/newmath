@@ -12,7 +12,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RealityConstrainedSignatureDescentUp : Type where
-  | mk (S Q T W H C P N : BHist) : RealityConstrainedSignatureDescentUp
+  | mk :
+      (schedule endpoint metric gap representation descent witness transport replay provenance
+        name : BHist) →
+      RealityConstrainedSignatureDescentUp
   deriving DecidableEq
 
 def realityConstrainedSignatureDescentEncodeBHist : BHist → RawEvent
@@ -41,48 +44,39 @@ private theorem realityConstrainedSignatureDescent_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private theorem realityConstrainedSignatureDescent_mk_congr
-    {S S' Q Q' T T' W W' H H' C C' P P' N N' : BHist}
-    (hS : S' = S) (hQ : Q' = Q) (hT : T' = T) (hW : W' = W)
-    (hH : H' = H) (hC : C' = C) (hP : P' = P) (hN : N' = N) :
-    RealityConstrainedSignatureDescentUp.mk S' Q' T' W' H' C' P' N' =
-      RealityConstrainedSignatureDescentUp.mk S Q T W H C P N := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hS
-  cases hQ
-  cases hT
-  cases hW
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
-
 def realityConstrainedSignatureDescentFields :
     RealityConstrainedSignatureDescentUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RealityConstrainedSignatureDescentUp.mk S Q T W H C P N => [S, Q, T, W, H, C, P, N]
+  | RealityConstrainedSignatureDescentUp.mk schedule endpoint metric gap representation descent
+      witness transport replay provenance name =>
+      [schedule, endpoint, metric, gap, representation, descent, witness, transport, replay,
+        provenance, name]
 
 def realityConstrainedSignatureDescentToEventFlow :
     RealityConstrainedSignatureDescentUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (realityConstrainedSignatureDescentFields x).map
-      realityConstrainedSignatureDescentEncodeBHist
+  | x =>
+      List.map realityConstrainedSignatureDescentEncodeBHist
+        (realityConstrainedSignatureDescentFields x)
 
 def realityConstrainedSignatureDescentFromEventFlow :
     EventFlow → Option RealityConstrainedSignatureDescentUp
   -- BEDC touchpoint anchor: BHist BMark
-  | S :: Q :: T :: W :: H :: C :: P :: N :: [] =>
+  | [schedule, endpoint, metric, gap, representation, descent, witness, transport, replay,
+      provenance, name] =>
       some
         (RealityConstrainedSignatureDescentUp.mk
-          (realityConstrainedSignatureDescentDecodeBHist S)
-          (realityConstrainedSignatureDescentDecodeBHist Q)
-          (realityConstrainedSignatureDescentDecodeBHist T)
-          (realityConstrainedSignatureDescentDecodeBHist W)
-          (realityConstrainedSignatureDescentDecodeBHist H)
-          (realityConstrainedSignatureDescentDecodeBHist C)
-          (realityConstrainedSignatureDescentDecodeBHist P)
-          (realityConstrainedSignatureDescentDecodeBHist N))
+          (realityConstrainedSignatureDescentDecodeBHist schedule)
+          (realityConstrainedSignatureDescentDecodeBHist endpoint)
+          (realityConstrainedSignatureDescentDecodeBHist metric)
+          (realityConstrainedSignatureDescentDecodeBHist gap)
+          (realityConstrainedSignatureDescentDecodeBHist representation)
+          (realityConstrainedSignatureDescentDecodeBHist descent)
+          (realityConstrainedSignatureDescentDecodeBHist witness)
+          (realityConstrainedSignatureDescentDecodeBHist transport)
+          (realityConstrainedSignatureDescentDecodeBHist replay)
+          (realityConstrainedSignatureDescentDecodeBHist provenance)
+          (realityConstrainedSignatureDescentDecodeBHist name))
   | _ => none
 
 private theorem realityConstrainedSignatureDescent_round_trip :
@@ -92,23 +86,52 @@ private theorem realityConstrainedSignatureDescent_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk S Q T W H C P N =>
-      exact
-        congrArg some
-          (realityConstrainedSignatureDescent_mk_congr
-            (realityConstrainedSignatureDescent_decode_encode_bhist S)
-            (realityConstrainedSignatureDescent_decode_encode_bhist Q)
-            (realityConstrainedSignatureDescent_decode_encode_bhist T)
-            (realityConstrainedSignatureDescent_decode_encode_bhist W)
-            (realityConstrainedSignatureDescent_decode_encode_bhist H)
-            (realityConstrainedSignatureDescent_decode_encode_bhist C)
-            (realityConstrainedSignatureDescent_decode_encode_bhist P)
-            (realityConstrainedSignatureDescent_decode_encode_bhist N))
+  | mk schedule endpoint metric gap representation descent witness transport replay provenance name =>
+      change
+        some
+          (RealityConstrainedSignatureDescentUp.mk
+            (realityConstrainedSignatureDescentDecodeBHist
+              (realityConstrainedSignatureDescentEncodeBHist schedule))
+            (realityConstrainedSignatureDescentDecodeBHist
+              (realityConstrainedSignatureDescentEncodeBHist endpoint))
+            (realityConstrainedSignatureDescentDecodeBHist
+              (realityConstrainedSignatureDescentEncodeBHist metric))
+            (realityConstrainedSignatureDescentDecodeBHist
+              (realityConstrainedSignatureDescentEncodeBHist gap))
+            (realityConstrainedSignatureDescentDecodeBHist
+              (realityConstrainedSignatureDescentEncodeBHist representation))
+            (realityConstrainedSignatureDescentDecodeBHist
+              (realityConstrainedSignatureDescentEncodeBHist descent))
+            (realityConstrainedSignatureDescentDecodeBHist
+              (realityConstrainedSignatureDescentEncodeBHist witness))
+            (realityConstrainedSignatureDescentDecodeBHist
+              (realityConstrainedSignatureDescentEncodeBHist transport))
+            (realityConstrainedSignatureDescentDecodeBHist
+              (realityConstrainedSignatureDescentEncodeBHist replay))
+            (realityConstrainedSignatureDescentDecodeBHist
+              (realityConstrainedSignatureDescentEncodeBHist provenance))
+            (realityConstrainedSignatureDescentDecodeBHist
+              (realityConstrainedSignatureDescentEncodeBHist name))) =
+          some
+            (RealityConstrainedSignatureDescentUp.mk schedule endpoint metric gap representation
+              descent witness transport replay provenance name)
+      rw [realityConstrainedSignatureDescent_decode_encode_bhist schedule,
+        realityConstrainedSignatureDescent_decode_encode_bhist endpoint,
+        realityConstrainedSignatureDescent_decode_encode_bhist metric,
+        realityConstrainedSignatureDescent_decode_encode_bhist gap,
+        realityConstrainedSignatureDescent_decode_encode_bhist representation,
+        realityConstrainedSignatureDescent_decode_encode_bhist descent,
+        realityConstrainedSignatureDescent_decode_encode_bhist witness,
+        realityConstrainedSignatureDescent_decode_encode_bhist transport,
+        realityConstrainedSignatureDescent_decode_encode_bhist replay,
+        realityConstrainedSignatureDescent_decode_encode_bhist provenance,
+        realityConstrainedSignatureDescent_decode_encode_bhist name]
 
 private theorem realityConstrainedSignatureDescentToEventFlow_injective
     {x y : RealityConstrainedSignatureDescentUp} :
     realityConstrainedSignatureDescentToEventFlow x =
-      realityConstrainedSignatureDescentToEventFlow y → x = y := by
+        realityConstrainedSignatureDescentToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -123,15 +146,17 @@ private theorem realityConstrainedSignatureDescentToEventFlow_injective
 
 private theorem realityConstrainedSignatureDescent_field_faithful :
     ∀ x y : RealityConstrainedSignatureDescentUp,
-      realityConstrainedSignatureDescentFields x =
-        realityConstrainedSignatureDescentFields y → x = y := by
+      realityConstrainedSignatureDescentFields x = realityConstrainedSignatureDescentFields y →
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
+  intro x y h
   cases x with
-  | mk S Q T W H C P N =>
+  | mk schedule₁ endpoint₁ metric₁ gap₁ representation₁ descent₁ witness₁ transport₁ replay₁
+      provenance₁ name₁ =>
       cases y with
-      | mk S' Q' T' W' H' C' P' N' =>
-          cases hfields
+      | mk schedule₂ endpoint₂ metric₂ gap₂ representation₂ descent₂ witness₂ transport₂ replay₂
+          provenance₂ name₂ =>
+          cases h
           rfl
 
 instance realityConstrainedSignatureDescentBHistCarrier :
@@ -160,13 +185,14 @@ instance realityConstrainedSignatureDescentFieldFaithful :
   field_faithful := realityConstrainedSignatureDescent_field_faithful
 
 instance realityConstrainedSignatureDescentNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial RealityConstrainedSignatureDescentUp where
+    Nontrivial RealityConstrainedSignatureDescentUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨RealityConstrainedSignatureDescentUp.mk BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      RealityConstrainedSignatureDescentUp.mk (BHist.e0 BHist.Empty) BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+    ⟨RealityConstrainedSignatureDescentUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RealityConstrainedSignatureDescentUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
       by
         intro h
         cases h⟩
@@ -179,25 +205,25 @@ theorem RealityConstrainedSignatureDescentCarrier_namecert_obligations
     (R : RealityConstrainedSignatureDescentUp) :
     SemanticNameCert
       (fun row : BHist =>
-        ∃ S Q T W H C P N : BHist,
-          R = RealityConstrainedSignatureDescentUp.mk S Q T W H C P N ∧
+        ∃ S A M G P O W H C Q N : BHist,
+          R = RealityConstrainedSignatureDescentUp.mk S A M G P O W H C Q N ∧
             hsame row H)
       (fun row : BHist =>
-        ∃ S Q T W H C P N : BHist,
-          R = RealityConstrainedSignatureDescentUp.mk S Q T W H C P N ∧
+        ∃ S A M G P O W H C Q N : BHist,
+          R = RealityConstrainedSignatureDescentUp.mk S A M G P O W H C Q N ∧
             hsame row H)
       (fun row : BHist =>
-        ∃ S Q T W H C P N : BHist,
-          R = RealityConstrainedSignatureDescentUp.mk S Q T W H C P N ∧
+        ∃ S A M G P O W H C Q N : BHist,
+          R = RealityConstrainedSignatureDescentUp.mk S A M G P O W H C Q N ∧
             hsame row H)
       hsame := by
   -- BEDC touchpoint anchor: BHist SemanticNameCert hsame NameCert
   cases R with
-  | mk S Q T W H C P N =>
+  | mk S A M G P O W H C Q N =>
       exact {
         core := {
           carrier_inhabited :=
-            Exists.intro H ⟨S, Q, T, W, H, C, P, N, rfl, hsame_refl H⟩
+            Exists.intro H ⟨S, A, M, G, P, O, W, H, C, Q, N, rfl, hsame_refl H⟩
           equiv_refl := by
             intro row _source
             exact hsame_refl row
@@ -213,23 +239,29 @@ theorem RealityConstrainedSignatureDescentCarrier_namecert_obligations
               cases source with
               | intro S' source =>
                   cases source with
-                  | intro Q' source =>
+                  | intro A' source =>
                       cases source with
-                      | intro T' source =>
+                      | intro M' source =>
                           cases source with
-                          | intro W' source =>
+                          | intro G' source =>
                               cases source with
-                              | intro H' source =>
+                              | intro P' source =>
                                   cases source with
-                                  | intro C' source =>
+                                  | intro O' source =>
                                       cases source with
-                                      | intro P' source =>
+                                      | intro W' source =>
                                           cases source with
-                                          | intro N' source =>
-                                              cases source.left
-                                              exact source.right
+                                          | intro H' source =>
+                                              cases source with
+                                              | intro C' source =>
+                                                  cases source with
+                                                  | intro Q' source =>
+                                                      cases source with
+                                                      | intro N' source =>
+                                                          cases source.left
+                                                          exact source.right
             exact
-              ⟨S, Q, T, W, H, C, P, N, rfl,
+              ⟨S, A, M, G, P, O, W, H, C, Q, N, rfl,
                 hsame_trans (hsame_symm same) sameRow⟩
         }
         pattern_sound := by
