@@ -44,6 +44,29 @@ theorem AxiomDependencyMapModeSoundness [AskSetup] [PackageSetup]
     ⟨claimUnary, modeUnary, witnessUnary, supplyUnary, routeUnary, modeWitnessCont,
       provenancePkg⟩
 
+theorem AxiomDependencyMapRequiredSupplySeparation [AskSetup] [PackageSetup]
+    {claim mode witness supply transport replay provenance localName supplyRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyMapCertificate claim mode witness supply transport replay provenance localName
+        bundle pkg →
+      Cont supply transport supplyRead →
+        PkgSig bundle supplyRead pkg →
+          UnaryHistory claim ∧ UnaryHistory mode ∧ UnaryHistory witness ∧
+            UnaryHistory supply ∧ UnaryHistory transport ∧ UnaryHistory supplyRead ∧
+              Cont supply transport supplyRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle supplyRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro certificate supplyTransportRead supplyReadPkg
+  rcases certificate with
+    ⟨claimUnary, modeUnary, witnessUnary, supplyUnary, transportUnary, _replayUnary,
+      _provenanceUnary, _localNameUnary, _claimModeWitness, _witnessSupplyTransport,
+      _transportReplayProvenance, provenancePkg⟩
+  have supplyReadUnary : UnaryHistory supplyRead :=
+    unary_cont_closed supplyUnary transportUnary supplyTransportRead
+  exact
+    ⟨claimUnary, modeUnary, witnessUnary, supplyUnary, transportUnary, supplyReadUnary,
+      supplyTransportRead, provenancePkg, supplyReadPkg⟩
+
 theorem AxiomDependencyMapCertificate_query_ledger_factorization [AskSetup] [PackageSetup]
     {claim mode witness supply transport replay provenance localName modeRead supplyRead
       ledgerRead : BHist}
