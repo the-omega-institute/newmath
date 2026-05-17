@@ -331,4 +331,19 @@ theorem CompilerTraceFaithfulnessTasteGate_single_carrier_alignment :
         exact compilerTraceFaithfulnessToEventFlow_injective heq
       · rfl
 
+theorem CompilerTraceFaithfulnessNameCertObligations (S T K M G R L H C P N : BHist) :
+    FieldFaithful.fields (X := CompilerTraceFaithfulnessUp)
+        (CompilerTraceFaithfulnessUp.mk S T K M G R L H C P N) =
+          [S, T, K, M, G, R, L, H, C, P, N] /\
+      (CompilerTraceFaithfulnessFiniteReplayBoundary_carrier S T K M G R L H C P N ->
+        UnaryHistory R /\ UnaryHistory L /\ Cont S G R /\ Cont R T L) /\
+        hsame (append R L) (append R L) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · constructor
+    · intro carrier
+      exact carrier
+    · rfl
+
 end BEDC.Derived.CompilerTraceFaithfulnessUp
