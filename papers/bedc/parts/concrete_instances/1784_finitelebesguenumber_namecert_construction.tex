@@ -386,16 +386,57 @@ Apply compact-net selector factorization. Any compact-net route to a modulus sel
 Finally use the open-cover refusal boundary, \autoref{thm:finite-lebesgue-number-open-cover-refusal-boundary}. It blocks arbitrary open families, host compactness, and selected-subcover coordinates, leaving $\UniformModulusUp$ with only the finite Lebesgue-number radius packet.
 \end{proof}
 
+\begin{theorem}[Finite Lebesgue number radius-modulus transport scope]
+\label{thm:finite-lebesgue-number-radius-modulus-transport-scope}
+In every accepted $\FiniteLebesgueNumberUp$ root coverage ledger, the positive radius ledger is transported toward a modulus only together with the displayed $\DyadicCoverUp$, $\RationalBallUp$, $\DyadicMeshUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Thus the radius-to-modulus route has no separate carrier for a compact minimum, an open-cover selector, or a choice coordinate outside the finite dyadic-cover packet.
+\end{theorem}
+\begin{proof}
+Project the accepted ledger $\Lambda=(D,M,R,S,G,E,K,H,C,P,N)$. The selector-radius domain theorem identifies $R$ as the positive rational-ball radius row over the displayed dyadic cover and mesh rows $D,M$.
+
+Apply the compact-net selector factorization theorem and the uniform-modulus radius exhaustion theorem. They force every modulus-facing consumer to pass through $D,M,R,S,G,E,H,C,P,N$ before any selector row can be read.
+
+The remaining rows are exactly the StreamName, RegSeqRat, Real, transport, replay, provenance, and NameCert rows already named in the ledger. Since no other row is present, radius-modulus transport is scoped by the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Finite Lebesgue number compact uniform handoff scope]
+\label{thm:finite-lebesgue-number-compact-uniform-handoff-scope}
+Every $\CompactMetricUp$, $\CompactNetModulusSelectorUp$, and $\UniformModulusUp$ consumer of an accepted $\FiniteLebesgueNumberUp$ packet factors through the same displayed finite dyadic-cover packet before receiving compact or uniform-continuity data. The handoff route is the finite row family
+$$
+D,M,R,S,G,E,H,C,P,N \to K,
+$$
+with $D$ from $\DyadicCoverUp$, $M$ from $\DyadicMeshUp$, $R$ from $\RationalBallUp$, $S$ from $\StreamNameUp$, $G$ from $\RegSeqRatUp$, $E$ from $\RealUp$, and $H,C,P,N$ from $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Start with the root compact consumer nonchoice theorem. It sends compact-metric and compact-net consumers through the finite dyadic cover, mesh, radius, stream, regular-rational, real, transport, replay, provenance, and naming rows before any compact read is exposed.
+
+Next use compact-net selector factorization. The displayed route $D,M,R,S,G,E,H,C,P,N \to K$ makes the selector row downstream of the same finite packet rather than a source of independent compactness.
+
+Finally apply uniform-modulus radius exhaustion. The uniform-modulus consumer receives only the radius packet carried by those same rows, so compactness and uniform continuity meet at the displayed handoff and nowhere outside it.
+\end{proof}
+
+\begin{theorem}[Finite Lebesgue number scoped closure package]
+\label{thm:finite-lebesgue-number-scoped-closure-package}
+The finite dyadic-cover obligations displayed in the $\FiniteLebesgueNumberUp$ root coverage ledger form a scoped closure package: the root unblock package, selector-radius domain, compact-net selector factorization, uniform-modulus radius exhaustion, radius-modulus transport scope, and compact uniform handoff scope all use the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet. Hence the chapter closes the finite Lebesgue-number scope for explicit dyadic-cover radius transport and compact-to-uniform handoff.
+\end{theorem}
+\begin{proof}
+First assemble the existing root route. The root unblock package exposes the dyadic cover, dyadic mesh, rational radius, stream, regular-rational, real endpoint, compact-metric, compact-net selector, transport, replay, provenance, and local naming rows in one finite packet.
+
+The selector-radius domain, compact-net selector factorization, and uniform-modulus radius exhaustion theorems then route the positive radius from that packet toward selector and uniform-modulus consumers. No step introduces an external open cover, selected subcover, host minimum, or choice coordinate.
+
+Add the radius-modulus transport scope and compact uniform handoff scope. These two rows state that both the modulus transport and the compact-to-uniform handoff consume the same displayed dyadic-cover packet, so the finite Lebesgue-number scope is closed at the displayed rows.
+\end{proof}
+
 \closureat{FiniteLebesgueNumberUp}{seedStr}
 \closureat{FiniteLebesgueNumberUp}{obligationStr}
+\closureat{FiniteLebesgueNumberUp}{scopedStr}
 
 \begin{closurestatus}{\FiniteLebesgueNumberUp}
   \constructivestory{A $\FiniteLebesgueNumberUp$ packet is generated from an accepted $\DyadicCoverUp$ finite cover, a $\FiniteWindowEnvelopeUp$ row, a positive rational radius ledger, a $\DyadicMeshUp$ refinement ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope records the carrier, local NameCert obligations, root unblock package, selector-radius domain, compact-net selector factorization, and uniform-modulus radius exhaustion for explicit finite-cover moduli.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped finite-cover radius route is closed by the carrier, local NameCert obligations, root unblock package, selector-radius domain, compact-net selector factorization, uniform-modulus radius exhaustion, radius-modulus transport scope \autoref{thm:finite-lebesgue-number-radius-modulus-transport-scope}, compact uniform handoff scope \autoref{thm:finite-lebesgue-number-compact-uniform-handoff-scope}, and scoped closure package \autoref{thm:finite-lebesgue-number-scoped-closure-package}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close open-cover compactness, arbitrary subcover choice, compact-metric equivalence, host real compactness, total-bounded construction, or bridge checking.}
-  \upgradepath{Scoped closure requires total radius-modulus transport and compact-uniform-continuity handoff over the same displayed dyadic cover rows.}
+  \upgradepath{Public closure requires a public-object surface for compact-metric equivalence and bridge checking over the same finite dyadic-cover packet.}
 \end{closurestatus}
