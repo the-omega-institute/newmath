@@ -97,6 +97,46 @@ Finally use \autoref{thm:finite-lebesgue-number-window-coverage-exactness}. Ever
 The non-escape clauses in these three rows leave no coordinate for open-cover compactness, host compactness, or selected subcover data. Thus the compact consumer route is exactly the ordered carrier route.
 \end{proof}
 
+\begin{theorem}[Finite radius nonchoice obligation]
+\label{thm:finite-lebesgue-number-finite-radius-nonchoice}
+For an accepted $\FiniteLebesgueNumberUp$ carrier $L=(D,W,\lambda,M,H,C,P,N)$, the positive radius ledger $\lambda$ is readable only through the displayed $\RationalBallUp$ radius rows of $D$ and the $\DyadicMeshUp$ refinement rows of $M$. No consumer route in the packet reads $\lambda$ by invoking an open-cover choice principle, an arbitrary subcover selector, or a host compactness witness outside $D,W,\lambda,M,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:finite-lebesgue-number-carrier}. Its radius coordinate is listed between the finite-window row $W$ and the mesh ledger $M$, and its admissible readback is explicitly through the rational-ball and dyadic-mesh rows.
+
+Apply the radius-modulus stability row of \autoref{thm:finite-lebesgue-number-namecert-obligations} and the transport statement of \autoref{thm:finite-lebesgue-number-radius-transport}. They keep $\lambda$ attached to the $\RationalBallUp$ rows and to the $\DyadicMeshUp$ refinement evidence under every stored $\hsame$ transport and every replayed $\Cont$ route.
+
+The compact consumer route of \autoref{thm:finite-lebesgue-number-compact-consumer-route} exposes the ordered packet $D,W,\lambda,M,H,C,P,N$ and no other cover coordinate. Since the packet contains no open-cover family and no subcover selector, the radius obligation is finite and nonchoice.
+\end{proof}
+
+\begin{theorem}[Mesh refinement nonchoice obligation]
+\label{thm:finite-lebesgue-number-mesh-refinement-nonchoice}
+Let $L=(D,W,\lambda,M,H,C,P,N)$ be an accepted $\FiniteLebesgueNumberUp$ carrier. Refinement from a mesh cell recorded in $M$ to a cover cell recorded in $D$ is stable under the stored $\hsame$ transports in $H$ and under the replayed $\Cont$ routes in $C$. Thus the mesh-to-cover handoff is determined by the displayed $\DyadicMeshUp$, $\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows, not by a separately chosen open subcover.
+\end{theorem}
+\begin{proof}
+Use the finite-window coverage exactness theorem \autoref{thm:finite-lebesgue-number-window-coverage-exactness}. An accepted read is first routed through $W$, then through a $\StreamNameUp$ row, a $\RegSeqRatUp$ approximation row, a $\RealUp$ row, a mesh cell of $M$, and finally a named cover cell of $D$.
+
+The NameCert obligations of \autoref{thm:finite-lebesgue-number-namecert-obligations} make this route componentwise. The same rows transport the mesh ledger and the cover-cell witness along $H$, while the continuations in $C$ replay the finite-window membership, rational-ball containment, and mesh-refinement reads.
+
+It follows that changing representatives by $\hsame$ does not detach the mesh cell from its named cover cell. The handoff remains inside $D,W,\lambda,M,H,C,P,N$, so no open-cover compactness theorem or arbitrary subcover coordinate can supply a different refinement route.
+\end{proof}
+
+\begin{theorem}[Total-bounded handoff obligation]
+\label{thm:finite-lebesgue-number-total-bounded-handoff}
+Every $\TotallyBoundedUp$ or $\CompactMetricUp$ consumer of an accepted $\FiniteLebesgueNumberUp$ carrier receives exactly the ordered packet
+$$
+D,W,\lambda,M,H,C,P,N .
+$$
+The consumer may inspect the displayed $\DyadicCoverUp$, $\FiniteWindowEnvelopeUp$, $\RationalBallUp$, $\DyadicMeshUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows in that packet, but cannot recover open-cover compactness, host compactness, arbitrary subcover selection, or a hidden cover family from it.
+\end{theorem}
+\begin{proof}
+The carrier definition fixes the visible order $D,W,\lambda,M,H,C,P,N$. The compact consumer route of \autoref{thm:finite-lebesgue-number-compact-consumer-route} states that this is the consumer-facing order for both $\TotallyBoundedUp$ and $\CompactMetricUp$ reads.
+
+The finite radius obligation of \autoref{thm:finite-lebesgue-number-finite-radius-nonchoice} keeps the radius ledger tied to the displayed rational-ball and mesh rows. The mesh refinement obligation of \autoref{thm:finite-lebesgue-number-mesh-refinement-nonchoice} keeps the mesh-to-cover read stable under stored transports and replayed continuations.
+
+Together with the dyadic cover handoff of \autoref{thm:finite-lebesgue-number-dyadic-cover-handoff}, these rows exhaust the public data a total-bounded or compact-metric consumer receives. The non-escape row of \autoref{thm:finite-lebesgue-number-namecert-obligations} excludes open-cover compactness and arbitrary subcover selection, so the handoff is exactly the finite BEDC packet.
+\end{proof}
+
 \closureat{FiniteLebesgueNumberUp}{seedStr}
 
 \begin{closurestatus}{\FiniteLebesgueNumberUp}
