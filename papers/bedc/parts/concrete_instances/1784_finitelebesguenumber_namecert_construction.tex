@@ -203,6 +203,42 @@ Use the total-bounded handoff obligation. It identifies $D,W,\lambda,M,H,C,P,N$ 
 The coverage and radius-mesh rows above keep finite-window reads and radius reads inside that packet. The non-escape row of the local NameCert obligations excludes open-cover compactness and arbitrary subcover selection, so the compact consumer boundary is precisely the displayed dyadic finite-cover packet.
 \end{proof}
 
+\begin{theorem}[Window-radius source lock]
+\label{thm:finite-lebesgue-number-window-radius-source-lock}
+For every accepted $\FiniteLebesgueNumberUp$ carrier $L=(D,W,\lambda,M,H,C,P,N)$, the positive radius ledger $\lambda$ is locked to the same source packet as the finite-window row $W$. The lock is witnessed only through the displayed $\DyadicCoverUp$, $\FiniteWindowEnvelopeUp$, $\RationalBallUp$, $\DyadicMeshUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows carried by $D,W,\lambda,M,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $L=(D,W,\lambda,M,H,C,P,N)$. The window row $W$ and radius ledger $\lambda$ occur in the same finite $\BHist$ packet, with $D$ and $M$ recording the dyadic cover and mesh rows that read them.
+
+Apply \autoref{thm:finite-lebesgue-number-radius-mesh-stability-row}. It keeps $\lambda$ attached to the rational-ball rows and dyadic-mesh refinement rows under the stored $\hsame$ transports and replayed $\Cont$ routes.
+
+Apply \autoref{thm:finite-lebesgue-number-obligation-coverage-row}. It routes every accepted finite-window read through $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, the mesh row $M$, and the cover row $D$. Therefore the radius source cannot be read apart from the same displayed source packet.
+\end{proof}
+
+\begin{theorem}[Total-bounded consumer factorization]
+\label{thm:finite-lebesgue-number-total-bounded-consumer-factorization}
+Every $\TotallyBoundedUp$ or $\CompactMetricUp$ consumer of an accepted $\FiniteLebesgueNumberUp$ carrier $L=(D,W,\lambda,M,H,C,P,N)$ factors through the displayed dyadic finite-cover packet before reading any compact route. The factorization first reads $\DyadicCoverUp$ and $\FiniteWindowEnvelopeUp$, then reads $\RationalBallUp$ and $\DyadicMeshUp$, then reads $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and finally replays only the carried $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:finite-lebesgue-number-compact-consumer-boundary-row}. It identifies $D,W,\lambda,M,H,C,P,N$ as the exact packet delivered to total-bounded and compact-metric consumers.
+
+Use \autoref{thm:finite-lebesgue-number-window-radius-source-lock}. The radius ledger and finite-window reads share the same dyadic source packet, so the consumer cannot detach $\lambda$ from $W$, $D$, or $M$.
+
+Use \autoref{thm:finite-lebesgue-number-total-bounded-handoff}. The consumer-facing order is exhausted by the displayed carrier rows and their $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, so the compact read factors through the finite dyadic packet.
+\end{proof}
+
+\begin{theorem}[Open-cover refusal boundary]
+\label{thm:finite-lebesgue-number-open-cover-refusal-boundary}
+For an accepted $\FiniteLebesgueNumberUp$ carrier $L=(D,W,\lambda,M,H,C,P,N)$, any request for an arbitrary open-cover family, a selected subcover, host compactness, or open-cover compactness is refused by the carrier boundary. The accepted request surface is only the finite route through $\DyadicCoverUp$, $\FiniteWindowEnvelopeUp$, $\RationalBallUp$, $\DyadicMeshUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Read the non-escape row of \autoref{thm:finite-lebesgue-number-namecert-obligations}. It excludes arbitrary open families, open-cover compactness, host compactness, and selected subcover coordinates from the carrier.
+
+The compact consumer boundary theorem then identifies the only admitted consumer packet as $D,W,\lambda,M,H,C,P,N$. The total-bounded factorization theorem above keeps every compact route inside the finite dyadic cover, window, radius, mesh, stream, regular-rational, real, transport, replay, provenance, and naming rows.
+
+Thus an open-cover request asks for data absent from the carrier. It is refused as a boundary crossing rather than answered by a hidden compactness principle.
+\end{proof}
+
 \closureat{FiniteLebesgueNumberUp}{seedStr}
 
 \begin{closurestatus}{\FiniteLebesgueNumberUp}

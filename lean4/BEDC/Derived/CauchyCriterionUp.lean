@@ -34,6 +34,15 @@ def CauchyCriterionCarrier [AskSetup] [PackageSetup]
             Cont regseq realSeal transport ∧ Cont transport localCert route ∧
               Cont route provenance endpoint ∧ PkgSig bundle endpoint pkg
 
+def CauchyCriterionClassifier [AskSetup] [PackageSetup]
+    (window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
+      window' modulus' tolerance' ledger' regseq' realSeal' transport' route' provenance'
+      localCert' endpoint' : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  CauchyCriterionCarrier window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint bundle pkg ∧
+  CauchyCriterionCarrier window' modulus' tolerance' ledger' regseq' realSeal' transport' route' provenance' localCert' endpoint' bundle pkg ∧
+  hsame window window' ∧ hsame modulus modulus' ∧ hsame tolerance tolerance' ∧ hsame ledger ledger' ∧
+  hsame regseq regseq' ∧ hsame realSeal realSeal' ∧ hsame transport transport' ∧ hsame route route' ∧
+  hsame provenance provenance' ∧ hsame localCert localCert' ∧ hsame endpoint endpoint'
 theorem CauchyCriterionCarrier_modulus_threshold_stability [AskSetup] [PackageSetup]
     {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
       window' modulus' tolerance' ledger' regseq' realSeal' transport' route' provenance'
