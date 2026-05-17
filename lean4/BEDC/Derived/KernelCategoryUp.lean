@@ -49,6 +49,34 @@ theorem KernelCategoryCarrier_composition_continuation
     ⟨CategoryHomCarrier_comp_closed left right comp, carrier.right.right.right.left,
       carrier.right.right.right.right.left, carrier.right.right.right.right.right⟩
 
+theorem KernelCategoryCarrier_associativity_scope
+    {object hom identity composition associativity unit provenance name a b c d f g h fg gh left
+      right lawRead : BHist} :
+    KernelCategoryCarrier object hom identity composition associativity unit provenance name →
+      CategoryHomCarrier a b f →
+        CategoryHomCarrier b c g →
+          CategoryHomCarrier c d h →
+            Cont f g fg →
+              Cont g h gh →
+                Cont fg h left →
+                  Cont f gh right →
+                    Cont left right lawRead →
+                      CategoryHomCarrier a d left ∧ CategoryHomCarrier a d right ∧
+                        UnaryHistory lawRead ∧ Cont left right lawRead ∧
+                          hsame associativity (append hom composition) ∧
+                            hsame name (append provenance unit) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory CategoryHomCarrier
+  intro carrier first second third fgRel ghRel leftRel rightRel lawRel
+  have composites :
+      CategoryHomCarrier a d left ∧ CategoryHomCarrier a d right ∧ hsame left right :=
+    CategoryHomCarrier_comp_assoc_closed first second third fgRel ghRel leftRel rightRel
+  have lawUnary : UnaryHistory lawRead :=
+    unary_cont_closed composites.left.right.right.left composites.right.left.right.right.left
+      lawRel
+  exact
+    ⟨composites.left, composites.right.left, lawUnary, lawRel,
+      carrier.right.right.right.left, carrier.right.right.right.right.right⟩
+
 theorem KernelCategoryCarrier_certificate_surface
     {object hom identity composition associativity unit provenance name : BHist} :
     KernelCategoryCarrier object hom identity composition associativity unit provenance name ->
