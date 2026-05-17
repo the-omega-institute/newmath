@@ -1,11 +1,19 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealityConstrainedSignatureFitUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -472,5 +480,55 @@ theorem RealityConstrainedSignatureFitCarrier_gap_policy_exactness
           realityConstrainedSignatureFit_round_trip
             (RealityConstrainedSignatureFitUp.mk S A M G P C H Q N),
           rfl⟩
+
+def RealityConstrainedSignatureFitCarrier [AskSetup] [PackageSetup]
+    (S A M G P C H Q N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory S ∧ UnaryHistory A ∧ UnaryHistory M ∧ UnaryHistory G ∧ UnaryHistory P ∧
+    UnaryHistory C ∧ UnaryHistory H ∧ UnaryHistory Q ∧ UnaryHistory N ∧
+      Cont A M C ∧ hsame C (append A M) ∧ PkgSig bundle Q pkg
+
+theorem RealityConstrainedSignatureFitCarrier_metric_streamname_real_dependency
+    [AskSetup] [PackageSetup]
+    {S A M G P C H Q N fitRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealityConstrainedSignatureFitCarrier S A M G P C H Q N bundle pkg →
+      Cont S A fitRead →
+        hsame fitRead C →
+          PkgSig bundle fitRead pkg →
+            UnaryHistory S ∧ UnaryHistory A ∧ UnaryHistory M ∧ UnaryHistory G ∧
+              UnaryHistory P ∧ UnaryHistory C ∧ UnaryHistory fitRead ∧
+                Cont S A fitRead ∧ hsame fitRead C ∧ hsame C (append A M) ∧
+                  PkgSig bundle Q pkg ∧ PkgSig bundle fitRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro carrier fitReadRoute fitReadSame classifierPkg
+  cases carrier with
+  | intro sUnary carrier =>
+      cases carrier with
+      | intro aUnary carrier =>
+          cases carrier with
+          | intro mUnary carrier =>
+              cases carrier with
+              | intro gUnary carrier =>
+                  cases carrier with
+                  | intro pUnary carrier =>
+                      cases carrier with
+                      | intro cUnary carrier =>
+                          cases carrier with
+                          | intro _hUnary carrier =>
+                              cases carrier with
+                              | intro _qUnary carrier =>
+                                  cases carrier with
+                                  | intro _nUnary carrier =>
+                                      cases carrier with
+                                      | intro _metricCont carrier =>
+                                          cases carrier with
+                                          | intro metricSame qPkg =>
+                                              have fitReadUnary : UnaryHistory fitRead :=
+                                                unary_cont_closed sUnary aUnary fitReadRoute
+                                              exact
+                                                ⟨sUnary, aUnary, mUnary, gUnary, pUnary,
+                                                  cUnary, fitReadUnary, fitReadRoute,
+                                                  fitReadSame, metricSame, qPkg,
+                                                  classifierPkg⟩
 
 end BEDC.Derived.RealityConstrainedSignatureFitUp
