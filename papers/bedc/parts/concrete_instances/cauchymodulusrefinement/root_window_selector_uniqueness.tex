@@ -19,3 +19,21 @@ Next use the Real-window budget pullback and terminal consumer theorems, \autore
 
 Finally invoke L10 row exactness, \autoref{thm:cauchy-modulus-refinement-l10-row-exactness}. The L10 consumer inventory is exactly the displayed route with $H,C,P,N$, so two accepted packets agreeing on those route rows expose one consumer-visible Real seal surface. Since none of the excluded rows is present in the carrier, the uniqueness claim does not use Real completeness.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement selector threshold exhaustion]
+\label{thm:cauchy-modulus-refinement-window-selector-threshold-exhaustion}
+Every accepted $\CauchyModulusRefinementUp$ route whose public consumer reaches a $\RealUp$ or Completion seal through the displayed root-window selector is exhausted by the finite rows
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+Deleting $U$, $T$, $W$, or $Q$ breaks the route before the seal can be consumed: $U$ supplies the selector budget, $T$ fixes the public threshold handoff, $W$ exposes the finite window, and $Q$ exposes the dyadic readback required by the public consumer.
+\end{theorem}
+\begin{proof}
+First apply root route determinacy, \autoref{thm:cauchy-modulus-refinement-root-route-determinacy}. It places every accepted route to a Real or Completion seal on the displayed root route through $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$.
+
+Next use root budget consumer exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion}. The budget-facing consumer cannot reach the seal before reading the selector budget and its finite-window support, so deleting $U$ or $W$ interrupts the route before any public endpoint is available.
+
+Then apply root threshold public exhaustion, \autoref{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion}. The public threshold leg must pass through $T$ and the dyadic readback row $Q$ before it can expose the seal; removing either row leaves only a partial route.
+
+Finally invoke the local selector uniqueness theorem, \autoref{thm:cauchy-modulus-refinement-root-window-selector-uniqueness}. Once the route rows are fixed, all Real or Completion-facing consumers read the same displayed seal surface. Thus the listed rows exhaust the accepted public route, and the four named deletions break it before seal consumption.
+\end{proof}
