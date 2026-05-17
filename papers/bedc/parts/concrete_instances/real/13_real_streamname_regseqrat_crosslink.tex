@@ -262,3 +262,53 @@ $\hsame$, and the terminal packet contains no coordinate for quotient-real
 equality, host sequence equality, selected limits, ambient completeness, or
 metric-completion data.
 \end{proof}
+
+\begin{theorem}[Real terminal common-tail cocycle boundary]
+\label{thm:real-terminal-common-tail-cocycle-boundary}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $T_0$, $T_1$, and
+$T_2$ be three certified cofinal tail shifts of the $\StreamNameUp$ schedule
+carried by $P$. Suppose each shifted pair $(T_i,T_j)$ lands in a common-tail
+window packet and that the three pairwise packets restrict to one triple
+$\StreamNameUp$ refinement $W_\ast$ carrying the displayed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Then the terminal $\RealUp$ seal boundaries induced by the three pairwise
+common-tail packets agree exactly when those displayed rows satisfy
+\autoref{thm:regseqrat-common-tail-triple-overlap-cocycle} on $W_\ast$.
+The boundary statement is only this finite terminal seal comparison. It
+excludes quotient streams, host sequence equality, selected limits, countable
+choice, ambient completeness, metric-completeness rows, and extra seal
+coordinates.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-regseqrat-realup-finite-window-factorization}
+to each pairwise common-tail packet. Every terminal boundary read is thereby
+sent through the same four displayed faces: the StreamName finite-window
+ledger, the RegSeqRat pointwise handoff, the DyadicRatCore observation and
+tolerance row, and the local Real classifier row with its
+$\NameCert_{\RealUp}$ provenance.
+
+Next use \autoref{thm:real-finite-window-classifier-endpoint-determinacy}.
+Once those four faces agree on the triple refinement $W_\ast$, the Real
+classifier endpoint at each pairwise boundary is determined up to the
+displayed $\hsame$ row and cannot be separated by host sequence equality,
+selected limits, ambient completeness, or metric-completion data.
+
+Now apply
+\autoref{thm:real-streamname-regseqrat-terminal-pullback-separation}. Any
+agreement of terminal finite $\RealUp$ seal routes pulls back to the same
+common-refinement StreamName window, RegSeqRat readback row, DyadicRatCore
+observation row, and local Real classifier row, with the displayed $\Cont$,
+$\Pkg$, and $\NameCert$ support.
+
+Finally invoke
+\autoref{thm:regseqrat-common-tail-triple-overlap-cocycle}. Its
+triple-overlap criterion is exactly the equality of the displayed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows on $W_\ast$. Therefore the three
+terminal $\RealUp$ seal boundaries agree exactly in the cocycle case, and
+the absence of quotient streams, host sequence equality, selected limits,
+countable choice, ambient completeness, metric-completeness rows, and extra
+seal coordinates follows from the same displayed-row inventory.
+\end{proof}
