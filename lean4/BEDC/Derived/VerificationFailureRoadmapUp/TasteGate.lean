@@ -1,11 +1,16 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.VerificationFailureRoadmapUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -233,6 +238,10 @@ instance verificationFailureRoadmapNontrivial :
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate VerificationFailureRoadmapUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  verificationFailureRoadmapChapterTasteGate
+
 theorem verificationFailureRoadmap_taste_gate_surface :
     Nonempty (ChapterTasteGate VerificationFailureRoadmapUp) ∧
       Nonempty (FieldFaithful VerificationFailureRoadmapUp) ∧
@@ -249,5 +258,47 @@ theorem verificationFailureRoadmap_taste_gate_surface :
       by
         intro h
         cases h⟩
+
+namespace TasteGate
+
+theorem VerificationFailureRoadmapNameCertObligations
+    (R A F D M U B T C P N : BHist) :
+    verificationFailureRoadmapFields
+          (VerificationFailureRoadmapUp.mk R A F D M U B T C P N) =
+        [R, A, F, D, M, U, B, T, C, P, N] ∧
+      Cont R A (append R A) ∧ hsame (append F D) (append F D) ∧
+        SemanticNameCert
+          (fun h : BHist => hsame h N)
+          (fun h : BHist => hsame h N)
+          (fun h : BHist => hsame h N)
+          (fun h k : BHist => hsame h k) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append SemanticNameCert
+  exact
+    ⟨rfl, rfl, hsame_refl (append F D),
+      {
+        core := {
+          carrier_inhabited := Exists.intro N (hsame_refl N)
+          equiv_refl := by
+            intro h _source
+            exact hsame_refl h
+          equiv_symm := by
+            intro _h _k same
+            exact hsame_symm same
+          equiv_trans := by
+            intro _h _k _r sameHK sameKR
+            exact hsame_trans sameHK sameKR
+          carrier_respects_equiv := by
+            intro h k same source
+            exact hsame_trans (hsame_symm same) source
+        }
+        pattern_sound := by
+          intro _h source
+          exact source
+        ledger_sound := by
+          intro _h source
+          exact source
+      }⟩
+
+end TasteGate
 
 end BEDC.Derived.VerificationFailureRoadmapUp
