@@ -204,10 +204,19 @@ theorem closedGenerationRefusalTasteGate_single_carrier_alignment :
             some x) ∧
           (∀ x y : ClosedGenerationRefusalUp,
             closedGenerationRefusalToEventFlow x = closedGenerationRefusalToEventFlow y →
-              x = y) := by
+              x = y) ∧
+            closedGenerationRefusalToEventFlow
+                (ClosedGenerationRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
+              closedGenerationRefusalToEventFlow
+                (ClosedGenerationRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
     ⟨rfl, closedGenerationRefusalDecode_encode_bhist, closedGenerationRefusal_round_trip,
-      fun _ _ heq => closedGenerationRefusalToEventFlow_injective heq⟩
+      (fun _ _ heq => closedGenerationRefusalToEventFlow_injective heq),
+      by
+        intro h
+        cases h⟩
 
 end BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
