@@ -193,7 +193,7 @@ def taste_gate : ChapterTasteGate FormalConstantEmpiricalValueBoundaryUp :=
   formalConstantEmpiricalValueBoundaryChapterTasteGate
 
 theorem FormalConstantEmpiricalValueBoundaryTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
+      (∀ h : BHist,
       formalConstantEmpiricalValueBoundaryDecodeBHist
         (formalConstantEmpiricalValueBoundaryEncodeBHist h) = h) ∧
       (∀ x : FormalConstantEmpiricalValueBoundaryUp,
