@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\CausalInterventionUp$}
+\label{ch:concrete-instances-causal-intervention-namecert}
+\origin{human}
+
+The $\CausalInterventionUp$ packet realizes the cross-history causal-dependence step of \autoref{def:philosophy-programme-multihist-physics-chain} as a finite NameCert carrier. The recognized object is Pearl-style causal intervention: one named intervention row changes the admitted dependence surface while the observer histories, causal row, rate boundary, commitment row, transport, replay, provenance, and local name remain visible. Its programme context is \autoref{ch:visions-philosophy-auditable-generativity}; its sibling inputs are the multi-history configuration surface of \autoref{ch:concrete-instances-multihistconfig-namecert}, the cross-history dependence surface of \autoref{ch:concrete-instances-crosshistcausal-namecert}, the causal commitment boundary of \autoref{ch:concrete-instances-causalcommitment-namecert}, and the maximum-rate boundary of \autoref{ch:concrete-instances-maxcausalrate-namecert}.
+
+\begin{definition}[Causal intervention carrier]
+\label{def:causal-intervention-carrier}
+A $\CausalInterventionUp$ carrier is a finite $\BHist$ packet
+$$
+I=(M,S,T,D,J,R,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the accepted $\MultiHistConfigUp$ row exposing the finite observer-history family.
+\item $S$ and $T$ are the source and target history rows selected from $M$.
+\item $D$ is the displayed $\CrossHistCausalUp$ dependence row from $S$ into $T$ before the intervention is read.
+\item $J$ is the finite intervention row naming the changed local input, held as packet data rather than as a host-level command.
+\item $R$ is the $\MaxCausalRateUp$ row bounding the affected dependence route after $J$ is admitted.
+\item $K$ is the $\CausalCommitmentUp$ row recording the forward-looking commitment licensed by the intervention and dependence rows.
+\item $H$ records componentwise $\hsame$ transport for $M,S,T,D,J,R,K,C,P,N$.
+\item $C$ records the displayed $\Cont$ routes by which the configuration, dependence, intervention, rate, commitment, and consumer handoff are replayed.
+\item $P$ is the $\Pkg$ provenance over $\MultiHistConfigUp$, $\CrossHistCausalUp$, $\CausalCommitmentUp$, $\MaxCausalRateUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CausalInterventionUp}$ row.
+\end{enumerate}
+The classifier compares carriers only through these rows. It has no coordinate for a hidden do-operator, counterfactual universe, global observer frame, quotient of histories, host probability space, semantic causal graph, or unbounded physical dynamics.
+\end{definition}
+
+\begin{theorem}[Causal intervention NameCert obligations]
+\label{thm:causal-intervention-namecert-obligations}
+For the carrier of \autoref{def:causal-intervention-carrier}, the local $\NameCert_{\CausalInterventionUp}$ obligation surface consists exactly of carrier admission for $I=(M,S,T,D,J,R,K,H,C,P,N)$, multi-history configuration exposure through $M$, cross-history dependence exposure through $D$, intervention-row accountability through $J$, maximum-rate accountability through $R$, causal-commitment accountability through $K$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to its displayed rows. The multi-history configuration row supplies the finite history family, while $S$ and $T$ select the two visible histories consumed by the dependence row.
+
+Read the causal layer next. The row $D$ is the cross-history dependence surface, $J$ is the intervention row that changes the admitted local input, $R$ bounds the affected route, and $K$ records the forward commitment licensed by those rows.
+
+Finally apply the structural rows. Componentwise transport is supplied only by $H$, replay only by $C$, provenance only by $P$, and local naming only by $N$. Since the carrier lists no hidden do-operator, counterfactual universe, global frame, quotient, probability space, semantic graph, or unbounded dynamics, those objects are not NameCert obligations for $\CausalInterventionUp$.
+\end{proof}
+
+\begin{theorem}[Causal intervention falsifiable non-escape]
+\label{thm:causal-intervention-falsifiable-nonescape}
+Any accepted $\CausalInterventionUp$ consumer that claims a cross-history intervention effect must factor through the finite route
+$$
+M,S,T,D,J,R,K,H,C,P,N.
+$$
+If the claimed effect cannot identify its multi-history configuration row, source and target histories, dependence row, intervention row, maximum-rate row, causal-commitment row, componentwise transport, replay, provenance, and local name, then the claim fails the $\CausalInterventionUp$ classifier rather than escaping to a host-level causal semantics.
+\end{theorem}
+\begin{proof}
+Start with carrier exposure from \autoref{def:causal-intervention-carrier}. Every public read of the intervention packet has only the displayed rows $M,S,T,D,J,R,K,H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:causal-intervention-namecert-obligations}. They force the consumer to read configuration, dependence, intervention, rate, and commitment before it can export an intervention effect.
+
+The failure condition is therefore finite and falsifiable. A consumer missing one of the listed rows has no projection target in the packet, while a consumer seeking a hidden causal operator, counterfactual universe, global observer frame, quotient history, host probability space, semantic graph, or unbounded dynamics asks for a coordinate the carrier does not contain.
+\end{proof}
+
+\falsifiablePrediction{Any claimed CausalInterventionUp effect that does not expose the rows $M,S,T,D,J,R,K,H,C,P,N$ is rejected by the local carrier classifier.}
+
+\closureat{CausalInterventionUp}{seedStr}
+
+\begin{closurestatus}{\CausalInterventionUp}
+  \constructivestory{A $\CausalInterventionUp$ packet is generated from multi-history configuration, selected source and target histories, a cross-history causal row, a finite intervention row, a maximum-rate row, a causal-commitment row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite intervention carrier, its NameCert obligation surface, and its falsifiable non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not derive numerical dynamics, Pearl calculus laws, a host probability model, a semantic causal graph, global spacetime, Lean verification, or bridge checking for $\CausalInterventionUp$.}
+  \upgradepath{The next paper grade is obligation closure for carrier exposure, intervention-row accountability, causal-dependence accountability, rate accountability, commitment accountability, transport, replay, provenance, and local naming.}
+\end{closurestatus}
