@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.EffectiveReplacementLedgerUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -203,6 +205,36 @@ instance effectiveReplacementLedgerChapterTasteGate :
     intro x y hxy heq
     exact hxy (effectiveReplacementLedgerToEventFlow_injective heq)
 
+def effectiveReplacementLedgerFields : EffectiveReplacementLedgerUp -> List BHist
+  | EffectiveReplacementLedgerUp.mk choiceWitness quotientTransport propextTransport axiomPurity
+      transport continuation provenance name =>
+      [choiceWitness, quotientTransport, propextTransport, axiomPurity, transport,
+        continuation, provenance, name]
+
+private theorem effectiveReplacementLedger_field_faithful :
+    forall x y : EffectiveReplacementLedgerUp,
+      effectiveReplacementLedgerFields x = effectiveReplacementLedgerFields y -> x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk choiceWitness1 quotientTransport1 propextTransport1 axiomPurity1 transport1
+      continuation1 provenance1 name1 =>
+      cases y with
+      | mk choiceWitness2 quotientTransport2 propextTransport2 axiomPurity2 transport2
+          continuation2 provenance2 name2 =>
+          cases h
+          rfl
+
+private def effectiveReplacementLedgerFieldFaithfulConcrete :
+    @FieldFaithful EffectiveReplacementLedgerUp effectiveReplacementLedgerBHistCarrier where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := effectiveReplacementLedgerFields
+  field_faithful := effectiveReplacementLedger_field_faithful
+
+instance effectiveReplacementLedgerFieldFaithful :
+    FieldFaithful EffectiveReplacementLedgerUp :=
+  effectiveReplacementLedgerFieldFaithfulConcrete
+
 theorem EffectiveReplacementLedgerTasteGate_single_carrier_alignment :
     (forall h : BHist,
         effectiveReplacementLedgerDecodeBHist (effectiveReplacementLedgerEncodeBHist h) = h) /\
@@ -221,5 +253,22 @@ theorem EffectiveReplacementLedgerTasteGate_single_carrier_alignment :
       · intro x y heq
         exact effectiveReplacementLedgerToEventFlow_injective heq
       · rfl
+
+theorem EffectiveReplacementLedgerChoiceRow
+    (choiceWitness quotientTransport propextTransport axiomPurity transport continuation
+      provenance name : BHist) :
+    effectiveReplacementLedgerFields
+        (EffectiveReplacementLedgerUp.mk choiceWitness quotientTransport propextTransport
+          axiomPurity transport continuation provenance name) =
+          [choiceWitness, quotientTransport, propextTransport, axiomPurity, transport,
+            continuation, provenance, name] /\
+      Cont choiceWitness continuation (append choiceWitness continuation) /\
+        hsame (append choiceWitness continuation) (append choiceWitness continuation) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · rfl
 
 end BEDC.Derived.EffectiveReplacementLedgerUp
