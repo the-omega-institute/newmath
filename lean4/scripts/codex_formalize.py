@@ -513,13 +513,27 @@ def parse_round_from_plan(text: str) -> int:
 
 
 def count_lean_theorems(bedc_root: Optional[Path] = None) -> int:
+    """Concurrent-walk safe theorem counter.
+
+    pathlib.rglob hard-fails when a directory disappears mid-iteration
+    (worker just removed a chapter dir during cleanup). os.walk skips
+    vanished dirs silently — a partial count is fine here; the result is
+    only displayed in the startup banner, not used for any gate.
+    """
     root = bedc_root or BEDC_ROOT
     if not root.exists():
         return 0
+    import os
     count = 0
-    for path in root.rglob("*.lean"):
-        text = path.read_text(encoding="utf-8", errors="replace")
-        count += len(re.findall(r"^\s*(?:theorem|lemma)\s+", text, re.MULTILINE))
+    for dirpath, _dirnames, filenames in os.walk(root, onerror=lambda e: None):
+        for fn in filenames:
+            if not fn.endswith(".lean"):
+                continue
+            try:
+                text = (Path(dirpath) / fn).read_text(encoding="utf-8", errors="replace")
+            except (FileNotFoundError, OSError):
+                continue
+            count += len(re.findall(r"^\s*(?:theorem|lemma)\s+", text, re.MULTILINE))
     return count
 
 
