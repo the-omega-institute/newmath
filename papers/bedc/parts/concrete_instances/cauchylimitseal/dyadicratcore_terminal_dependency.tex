@@ -1,0 +1,16 @@
+\section{CauchyLimitSeal DyadicRatCore terminal dependency}
+\label{sec:cauchy-limit-seal-dyadicratcore-terminal-dependency}
+
+\begin{theorem}[CauchyLimitSeal DyadicRatCore terminal dependency]
+\label{thm:cauchy-limit-seal-dyadicratcore-terminal-dependency}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Every accepted terminal route from $L$ to a $\RealUp$ or completion-facing seal consumes the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert} before the displayed $\RealUp$ seal row is public.
+
+Equivalently, the accepted terminal route reaches $\RealUp$ only through the same StreamName finite-window surface, RegSeqRat regular readback, DyadicRatCore ledger, and RealUp seal packet fixed by the root L10 sibling route. No route that bypasses the DyadicRatCore ledger can be an accepted terminal CauchyLimitSeal route.
+\end{theorem}
+\begin{proof}
+Start with the root L10 sibling route of \autoref{thm:cauchy-limit-seal-root-l10-sibling-route}. It places every accepted Real-facing or completion-facing route through the StreamName surface, the RegSeqRat readback, the DyadicRatCore ledger, and the RealUp seal row in that order.
+
+Use L10 sibling route totality from \autoref{thm:cauchy-limit-seal-l10-sibling-route-totality}. A terminal consumer that omits the dyadic ledger also omits one of the four required sibling surfaces, so it is outside the accepted L10 route before it can reach the local $\NameCert_{\CauchyLimitSealUp}$ row.
+
+Finally apply the stream-RegSeq seal factorization of \autoref{thm:cauchy-limit-seal-stream-regseq-seal-factorization}. The factorized route reads the displayed $X,D,G,E$ rows, with $D$ serving as the DyadicRatCore tolerance ledger, before the RealUp seal row $E$ is public. Thus DyadicRatCore is a terminal dependency of every accepted CauchyLimitSeal seal route.
+\end{proof}

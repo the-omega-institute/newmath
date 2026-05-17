@@ -79,6 +79,29 @@ theorem AuditMapDependencyWeaveObstructionLedger [AskSetup] [PackageSetup]
     unary_cont_closed continuationUnary localNameUnary routeCont
   exact ⟨obstructionUnary, frontierUnary, obstructionContinuation, provenancePkg, routeUnary⟩
 
+theorem AuditMapDependencyWeaveSynthesisNameCertPackage [AskSetup] [PackageSetup]
+    {localMap neighbour obstruction frontier synthesis transport continuation provenance localName
+      route : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapDependencyWeaveCarrier localMap neighbour obstruction frontier synthesis transport
+        continuation provenance localName bundle pkg →
+      Cont continuation localName route →
+        PkgSig bundle route pkg →
+          UnaryHistory synthesis ∧ UnaryHistory localMap ∧ UnaryHistory neighbour ∧
+            UnaryHistory route ∧ Cont synthesis transport provenance ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle route pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier routeCont routePkg
+  rcases carrier with
+    ⟨localMapUnary, neighbourUnary, _obstructionUnary, _frontierUnary, synthesisUnary,
+      _transportUnary, continuationUnary, _provenanceUnary, localNameUnary,
+      _mapTransport, _obstructionContinuation, synthesisProvenance, provenancePkg⟩
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed continuationUnary localNameUnary routeCont
+  exact
+    ⟨synthesisUnary, localMapUnary, neighbourUnary, routeUnary, synthesisProvenance,
+      provenancePkg, routePkg⟩
+
 def auditMapDependencyWeaveEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
