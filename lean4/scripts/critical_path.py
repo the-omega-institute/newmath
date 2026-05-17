@@ -180,6 +180,198 @@ FORMAL_GRADE_ORDER = [
 RETIREMENT_CLOSURE_THRESHOLD = "scopedClosure"
 RETIREMENT_FORMAL_THRESHOLD = "theoremCheckedV"
 
+_LEAN_BASE_WEIGHTS = {
+    "top": 0.50,
+    "formal_axis_top": 0.25,
+    "unformalized_top": 0.15,
+    "carrier_isomorphism_capstone": 0.10,
+}
+_PAPER_BASE_WEIGHTS = {
+    "top": 0.40,
+    "top_root_unblocks": 0.30,
+    "closure_mark": 0.20,
+    "carrier_isomorphism_capstone": 0.10,
+}
+CLOSUREAT_RE = re.compile(r"\\closureat\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}\{(\w+)\}")
+CLOSUREAT_TO_GRADE = {
+    "seedStr": "seedClosure",
+    "obligationStr": "obligationClosure",
+    "scopedStr": "scopedClosure",
+    "publicStr": "publicClosure",
+    "bridgedStr": "bridgedClosure",
+    "matureStr": "matureClosure",
+}
+
+
+def _normalize_weights(weights: dict[str, float]) -> dict[str, float]:
+    total = sum(v for v in weights.values() if v > 0)
+    if total <= 0:
+        count = len(weights) or 1
+        return {k: round(1.0 / count, 4) for k in weights}
+    return {k: round(max(0.0, v) / total, 4) for k, v in weights.items()}
+
+
+def _cap_against_base(value: float, base_value: float) -> float:
+    return min(base_value * 1.5, max(base_value * 0.5, value))
+
+
+def _compute_consumption_60min() -> dict[str, int]:
+    """Parse recent codex-auto-dev commits and infer target source counts."""
+    sources = {
+        "top": 0,
+        "formal_axis_top": 0,
+        "unformalized_top": 0,
+        "top_root_unblocks": 0,
+        "closure_mark": 0,
+        "carrier_isomorphism_capstone": 0,
+    }
+    subjects: list[str] = []
+    for branch in ("codex-auto-dev", "origin/codex-auto-dev", "HEAD"):
+        try:
+            result = subprocess.run(
+                ["git", "log", branch, "--since=60 minutes ago",
+                 "--no-merges", "--pretty=format:%s"],
+                cwd=str(ROOT),
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=10,
+            )
+        except Exception:
+            continue
+        if result.returncode == 0:
+            subjects = [
+                line.strip()
+                for line in result.stdout.splitlines()
+                if line.strip()
+            ]
+            break
+    for subject in subjects:
+        s = subject.lower()
+        if re.search(r"carrier[-_ ]?isomorphism|capstone", s):
+            sources["carrier_isomorphism_capstone"] += 1
+        elif re.search(r"closure[_ -]?mark|closureat|drift|bridge sync|formalstatus|closurestatus", s):
+            sources["closure_mark"] += 1
+        elif re.search(r"root[-_ ]?unblock|root_unblocks", s):
+            sources["top_root_unblocks"] += 1
+        elif re.search(r"formal[-_ ]?axis|tastegate|bridge .*schema|axiomclean->bridgecheck", s):
+            sources["formal_axis_top"] += 1
+        elif re.search(r"unformalized|paper theorem|missing theorem|prove .*label", s):
+            sources["unformalized_top"] += 1
+        elif re.search(r"\b[RP]\d+:", subject) or re.search(r"\b(lean|paper|formaliz|prove|review|revise|chapter|theory)\b", s):
+            sources["top"] += 1
+    return sources
+
+
+def _adjust_dispatch_weights(
+    base: dict[str, float],
+    supply: dict[str, int],
+    consumption: dict[str, int],
+) -> dict[str, float]:
+    active = {
+        key: weight
+        for key, weight in base.items()
+        if supply.get(key, 0) > 0 and weight > 0
+    }
+    if not active:
+        return {key: 0.0 for key in base}
+
+    total_rounds = sum(consumption.get(key, 0) for key in base)
+    adjusted = dict(active)
+    if total_rounds > 0:
+        for key, weight in active.items():
+            expected = weight * total_rounds
+            factor = 1.0
+            if consumption.get(key, 0) > expected * 1.5:
+                factor = 0.7
+            elif consumption.get(key, 0) < expected * 0.5:
+                factor = 1.2
+            adjusted[key] = _cap_against_base(weight * factor, base[key])
+
+    normalized_active = _normalize_weights(adjusted)
+    return {key: normalized_active.get(key, 0.0) for key in base}
+
+
+def _dispatch_advice(side: str, weights: dict[str, float], supply: dict[str, int]) -> str:
+    available = [
+        (key, weight)
+        for key, weight in weights.items()
+        if supply.get(key, 0) > 0 and weight > 0
+    ]
+    if not available:
+        return "No currently supplied source; use critical_path fallback gates."
+    top = sorted(available, key=lambda item: item[1], reverse=True)[:2]
+    if side == "lean":
+        parts = [f"Pick {1 if weight < 0.34 else 2} of 3 from {key}" for key, weight in top]
+        if weights.get("carrier_isomorphism_capstone", 0) >= 0.10 and supply.get("carrier_isomorphism_capstone", 0):
+            parts.append("Consider 1 capstone draft if other sources are blocked")
+    else:
+        parts = [f"Pick {'2' if weight >= 0.34 else '1'} of 5 from {key}" for key, weight in top]
+        if weights.get("carrier_isomorphism_capstone", 0) >= 0.10 and supply.get("carrier_isomorphism_capstone", 0):
+            parts.append("Reserve at most 1 capstone NameCert seed when compatible with hard gates")
+    return ". ".join(parts) + "."
+
+
+def _compute_dispatch_weights(
+    supply_lean: dict[str, int],
+    supply_paper: dict[str, int],
+    consumption: dict[str, int],
+    base_weights_lean: dict[str, float],
+    base_weights_paper: dict[str, float],
+) -> dict[str, dict]:
+    """Compute supply- and consumption-adjusted per-side weights."""
+    lean_weights = _adjust_dispatch_weights(base_weights_lean, supply_lean, consumption)
+    paper_weights = _adjust_dispatch_weights(base_weights_paper, supply_paper, consumption)
+    return {
+        "lean": {
+            "weights": lean_weights,
+            "supply": supply_lean,
+            "consumption_60min": {key: consumption.get(key, 0) for key in base_weights_lean},
+            "advice": _dispatch_advice("lean", lean_weights, supply_lean),
+        },
+        "paper": {
+            "weights": paper_weights,
+            "supply": supply_paper,
+            "consumption_60min": {key: consumption.get(key, 0) for key in base_weights_paper},
+            "advice": _dispatch_advice("paper", paper_weights, supply_paper),
+        },
+    }
+
+
+def _count_closure_mark_candidates() -> int:
+    """Count chapters where legacy closure marks outrun closurestatus."""
+    count = 0
+    for tex in sorted(NAMECERT_GLOB.glob("*_namecert_construction.tex")):
+        name = normalize_name(tex.name)
+        text = _read_chapter_recursive(tex)
+        theory_grade = None
+        for m in CLOSURESTATUS_BEGIN_RE.finditer(text):
+            if m.group(1).lower() != name.lower():
+                continue
+            tail = text[m.end():]
+            end = CLOSURESTATUS_END_RE.search(tail)
+            body = tail[:end.start()] if end else tail
+            tc_match = THEORYCLOSURE_RE.search(body)
+            if tc_match:
+                theory_grade = tc_match.group(1)
+            break
+        closure_grades = [
+            CLOSUREAT_TO_GRADE[m.group(2)]
+            for m in CLOSUREAT_RE.finditer(text)
+            if m.group(1).lower() == name.lower() and m.group(2) in CLOSUREAT_TO_GRADE
+        ]
+        if not closure_grades:
+            continue
+        max_closureat = max(closure_grades, key=CLOSURE_GRADE_ORDER.index)
+        theory_idx = (
+            CLOSURE_GRADE_ORDER.index(theory_grade)
+            if theory_grade in CLOSURE_GRADE_ORDER else -1
+        )
+        closureat_idx = CLOSURE_GRADE_ORDER.index(max_closureat)
+        if closureat_idx > theory_idx:
+            count += 1
+    return count
+
 
 def _grade_at_or_above(grade: str | None, threshold: str, order: list[str]) -> bool:
     if grade is None or grade not in order or threshold not in order:
@@ -208,6 +400,118 @@ def _git_head_short() -> str:
 
 
 _objective_grades_cache: dict[str, str] | None = None
+_carrier_isomorphism_cache: dict | None = None
+
+
+def _shape_summary(shape: object) -> str:
+    """Compact phase-2 toEventFlow shape for critical_path JSON."""
+    if not isinstance(shape, list) or not shape:
+        return "unparsed"
+    kinds = [
+        str(item.get("kind"))
+        for item in shape
+        if isinstance(item, dict) and item.get("kind") is not None
+    ]
+    if len(kinds) == len(shape) and len(set(kinds)) == 1:
+        return f"{kinds[0]}×{len(kinds)}"
+    if (
+        len(kinds) == len(shape)
+        and len(kinds) % 2 == 0
+        and all(kinds[i] == "tag" and kinds[i + 1] == "encode" for i in range(0, len(kinds), 2))
+    ):
+        return f"tag-encode×{len(kinds) // 2}"
+    preview = "-".join(kinds[:8])
+    if len(kinds) > 8:
+        preview += f"+{len(kinds) - 8}"
+    return preview or "unparsed"
+
+
+def _get_carrier_isomorphism_summary() -> dict:
+    """Return a small carrier-isomorphism summary, not the full audit JSON."""
+    global _carrier_isomorphism_cache
+    if _carrier_isomorphism_cache is not None:
+        return _carrier_isomorphism_cache
+
+    try:
+        result = subprocess.run(
+            ["python3", str(ROOT / "lean4" / "scripts" / "bedc_ci.py"),
+             "carrier-isomorphism", "--json"],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            check=False,
+            timeout=30,
+        )
+    except subprocess.TimeoutExpired:
+        _carrier_isomorphism_cache = {
+            "available": False,
+            "reason": "carrier-isomorphism timed out after 30s",
+        }
+        return _carrier_isomorphism_cache
+    except Exception as exc:
+        _carrier_isomorphism_cache = {
+            "available": False,
+            "reason": f"carrier-isomorphism failed to start: {exc}",
+        }
+        return _carrier_isomorphism_cache
+
+    if result.returncode != 0:
+        stderr = (result.stderr or result.stdout or "").strip()
+        _carrier_isomorphism_cache = {
+            "available": False,
+            "reason": stderr[:500] or f"carrier-isomorphism exited {result.returncode}",
+        }
+        return _carrier_isomorphism_cache
+
+    try:
+        payload = json.loads(result.stdout)
+    except Exception as exc:
+        _carrier_isomorphism_cache = {
+            "available": False,
+            "reason": f"carrier-isomorphism JSON parse failed: {exc}",
+        }
+        return _carrier_isomorphism_cache
+
+    buckets = payload.get("phase2_buckets", [])
+    if not isinstance(buckets, list):
+        buckets = []
+    ranked = sorted(
+        enumerate(buckets, start=1),
+        key=lambda item: len(item[1].get("members", [])) if isinstance(item[1], dict) else 0,
+        reverse=True,
+    )
+    top_buckets = []
+    for bucket_id, bucket in ranked[:10]:
+        if not isinstance(bucket, dict):
+            continue
+        fingerprint = bucket.get("fingerprint", {})
+        if not isinstance(fingerprint, dict):
+            fingerprint = {}
+        members = bucket.get("members", [])
+        if not isinstance(members, list):
+            members = []
+        names = [
+            str(member.get("name"))
+            for member in members
+            if isinstance(member, dict) and member.get("name")
+        ]
+        members_preview = names[:5]
+        if len(names) > 5:
+            members_preview.append("...")
+        top_buckets.append({
+            "bucket_id": bucket_id,
+            "arity": fingerprint.get("arity"),
+            "shape_summary": _shape_summary(fingerprint.get("shape")),
+            "member_count": len(members),
+            "members_preview": members_preview,
+        })
+
+    _carrier_isomorphism_cache = {
+        "available": True,
+        "carriers_scanned": payload.get("carriers_scanned"),
+        "phase2_top_buckets": top_buckets,
+    }
+    return _carrier_isomorphism_cache
 
 
 def load_objective_formal_grades() -> dict[str, str]:
@@ -2014,6 +2318,7 @@ def main() -> int:
         "bridge_candidates": bridge_candidates,
         "formal_axis_top": formal_axis_top,
         "capstone_overlap_map": compute_capstone_overlap_map(),
+        "carrier_isomorphism": _get_carrier_isomorphism_summary(),
     }
     # Theorem-level surfaces (D-1 inventory + D-2 unformalized_top / drift_top).
     # Compute discover_all_theorems() once and reuse — the scan is the heaviest
@@ -2022,6 +2327,33 @@ def main() -> int:
     payload["theorem_inventory"] = summarize_theorem_inventory(theorem_rows)
     payload["unformalized_top"] = compute_unformalized_top(theorem_rows, max_n=50)
     payload["drift_top"] = compute_drift_top(theorem_rows, max_n=50)
+    # Compute dispatch weights inline for prompt consumption.
+    try:
+        carrier = payload.get("carrier_isomorphism", {})
+        if isinstance(carrier, dict) and carrier.get("available"):
+            buckets = carrier.get("phase2_top_buckets", [])
+            carrier_iso_phase2_bucket_count = len(buckets) if isinstance(buckets, list) else 0
+        else:
+            carrier_iso_phase2_bucket_count = 0
+        supply_lean = {
+            "top": len(rolled),
+            "formal_axis_top": len(formal_axis_top_full),
+            "unformalized_top": len(payload.get("unformalized_top", [])),
+            "carrier_isomorphism_capstone": carrier_iso_phase2_bucket_count,
+        }
+        supply_paper = {
+            "top": len(rolled),
+            "top_root_unblocks": len(root_unblocks),
+            "closure_mark": _count_closure_mark_candidates(),
+            "carrier_isomorphism_capstone": carrier_iso_phase2_bucket_count,
+        }
+        consumption = _compute_consumption_60min()
+        payload["dispatch_weights"] = _compute_dispatch_weights(
+            supply_lean, supply_paper, consumption,
+            _LEAN_BASE_WEIGHTS, _PAPER_BASE_WEIGHTS,
+        )
+    except Exception as exc:
+        payload["dispatch_weights"] = {"error": str(exc)[:200]}
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
 
