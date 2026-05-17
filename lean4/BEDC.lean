@@ -2035,6 +2035,9 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RealRegseqSourceFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.TailSealSourceUniqueness
 import BEDC.Derived.DiagonallimitcompatibilityUp.TailSealSynchronizerPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.UniformCauchyThreeWayTerminalComparison
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteTransportStability
+import BEDC.Derived.ObjectConstitutionLedgerUp.TasteGate
+import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.RealityConstrainedObjectivityUp.TasteGate
 import BEDC.Derived.OpenFitPacketUp.TasteGate
 import BEDC.Derived.StoneDualityUp
