@@ -1247,6 +1247,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalSelectorSynchroniz
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalSectionPullbackUniqueness
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalDiagonalPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalReadback
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.UniformCauchyCriterionPullback
 import BEDC.Derived.FiniteObservationLockUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitBudgetUp.TasteGate
 import BEDC.Derived.FastCauchyUp
