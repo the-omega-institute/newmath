@@ -30,6 +30,7 @@ The carrier is exactly this finite source-channel packet. It has no coordinate f
 \label{thm:corpus-supply-distillation-namecert-obligations}
 For the carrier of \autoref{def:corpus-supply-distillation-carrier}, the local $\NameCert_{\CorpusSupplyDistillationUp}$ surface consists exactly of carrier admission for $K=(C,F,D,O,R,H,T,P,N)$, corpus-supply exposure through $C$, filtering exposure through $F$, distillation exposure through $D$, output-prior exposure through $O$, refusal accounting through $R$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $T$, package provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CorpusSupplyDistillationUp.CorpusSupplyDistillationNameCert\_obligations}
 \begin{proof}
 Project the displayed carrier. The accepted packet lists $C,F,D,O,R,H,T,P,N$, so the local certificate cannot introduce another source channel, filter, distillation route, output prior, refusal row, transport, route, provenance, or local name.
 
@@ -149,21 +150,82 @@ Apply \autoref{thm:corpus-supply-distillation-namecert-obligations}. It makes re
 Conclude with \autoref{thm:corpus-supply-distillation-public-nonescape}. Each refused object is outside the carrier, so the exact public refusal route is $R,H,T,P,N$ and nothing stronger is exported.
 \end{proof}
 
+\begin{theorem}[CorpusSupplyDistillation carrier admission]
+\label{thm:corpus-supply-distillation-carrier-admission}
+Every accepted $\CorpusSupplyDistillationUp$ read exposes exactly the finite carrier rows
+$$
+C,F,D,O,R,H,T,P,N.
+$$
+The accepted read therefore displays source-channel, filtering, distillation, output-prior, refusal, componentwise transport, continuation route, provenance, and local naming rows, and it exposes no corpus-wide truth, hidden source selection, model consciousness, host semantic understanding, internally certified output truth, or model-side proof object.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:corpus-supply-distillation-carrier}. Its displayed coordinates are exactly $C,F,D,O,R,H,T,P,N$, so an accepted read has no additional coordinate to expose.
+
+Apply the obligation surface of \autoref{thm:corpus-supply-distillation-namecert-obligations}. It assigns the local NameCert duties to the same source-channel, filtering, distillation, output-prior, refusal, transport, replay, provenance, and naming rows.
+
+Finally use the obligation ledger of \autoref{def:corpus-supply-distillation-obligation-ledger}. The ledger names the refused stronger readings outside the carrier, so admission exposes only the displayed rows.
+\end{proof}
+
+\begin{theorem}[CorpusSupplyDistillation classifier stability]
+\label{thm:corpus-supply-distillation-classifier-stability}
+Componentwise $\hsame$ transport of accepted $\CorpusSupplyDistillationUp$ packets preserves the source-channel, filtering, distillation, output-prior, refusal, route, provenance, and naming rows. In particular, a transported packet remains a read of $C,F,D,O,R,H,T,P,N$ rather than a read of a hidden corpus selector or internally certified output truth.
+\end{theorem}
+\begin{proof}
+Read the carrier rows from \autoref{def:corpus-supply-distillation-carrier}. The classifier has one displayed component for each of $C,F,D,O,R,H,T,P,N$, so componentwise $\hsame$ transport can only preserve those rows.
+
+Use the ordered route of \autoref{thm:corpus-supply-distillation-filter-route-order}. It keeps filtering before distillation and output-prior exposure, preventing transport from reordering the source-channel route.
+
+Then apply \autoref{thm:corpus-supply-distillation-refusal-exactness}. Refusal remains attached through $R,H,T,P,N$, so stronger readings are still refused after transport.
+
+The NameCert obligations of \autoref{thm:corpus-supply-distillation-namecert-obligations} repack the transported rows into the same local naming surface.
+\end{proof}
+
+\begin{theorem}[CorpusSupplyDistillation ledger exactness]
+\label{thm:corpus-supply-distillation-ledger-exactness}
+The $\CorpusSupplyDistillationUp$ obligation ledger exports no corpus-wide truth, hidden source selection, model consciousness, host semantic understanding, internally certified output truth, or model-side proof object. Its public ledger is exactly the source-channel, filtering, distillation, output-prior, refusal, transport, route, provenance, and local naming surface of the accepted packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:corpus-supply-distillation-obligation-ledger}. The ledger names the admissible public rows and lists the stronger readings as refused objects rather than exported fields.
+
+Use \autoref{thm:corpus-supply-distillation-carrier-admission} to identify the accepted carrier surface with $C,F,D,O,R,H,T,P,N$. There is no coordinate for corpus-wide truth, hidden source selection, model consciousness, host semantic understanding, internally certified output truth, or a model-side proof object.
+
+Finally combine \autoref{thm:corpus-supply-distillation-filter-route-order} with \autoref{thm:corpus-supply-distillation-refusal-exactness}. The first theorem fixes the source-to-output-prior order, and the second fixes the refusal route, so the obligation ledger exports exactly the finite packet and no stronger semantic claim.
+\end{proof}
+
 \falsifiablePrediction{If the source-channel row is removed, the packet cannot distinguish corpus-carried output priors from internally certified output truth.}
 
 \independenceWitness{Nearest siblings: largemodelinscriptionpoint, inscriptionpoint, inscriptionevent, apophaticname, and observerinterface. None is bijective to $\CorpusSupplyDistillationUp$ because LargeModelInscriptionPoint carries inference and output rows in addition to corpus supply, InscriptionPoint and InscriptionEvent carry inscription handoff rows without the filtering and distillation source channel, ApophaticName carries a boundary request rather than corpus provenance, and ObserverInterface carries public observer rows without the corpus-supply, filtering, distillation, and output-prior route.}
 
-The Lean TasteGate module $\mathsf{BEDC.Derived.CorpusSupplyDistillationUp.TasteGate}$ must later provide $\mathsf{Nontrivial}\ \CorpusSupplyDistillationUp$ and $\mathsf{FieldFaithful}\ \CorpusSupplyDistillationUp$ instances with an explicit $\mathsf{witness\_pair}$ and field injection proofs for $C,F,D,O,R,H,T,P,N$.
+\begin{theorem}[CorpusSupplyDistillation Lean TasteGate handoff]
+\label{thm:corpus-supply-distillation-lean-tastegate-handoff}
+The displayed carrier rows
+$$
+C,F,D,O,R,H,T,P,N
+$$
+are the same rows consumed by the Lean $\ChapterTasteGate$, $\mathsf{Nontrivial}$, and $\mathsf{FieldFaithful}$ instances for $\CorpusSupplyDistillationUp$. The Lean handoff uses the same single finite carrier rather than a second hidden packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.CorpusSupplyDistillationUp.taste\_gate}
+\begin{proof}
+Begin with the carrier of \autoref{def:corpus-supply-distillation-carrier}. It displays exactly $C,F,D,O,R,H,T,P,N$, and \autoref{thm:corpus-supply-distillation-namecert-obligations} assigns the local certificate duties to those rows.
 
-\closureat{CorpusSupplyDistillationUp}{seedStr}
+Use \autoref{thm:corpus-supply-distillation-output-prior-refusal-exactness} to keep the output-prior and refusal rows inside the same accepted packet. The refusal route is not an extra carrier; it is the $R,H,T,P,N$ part of the displayed carrier.
+
+Finally apply the existing Lean single-carrier marker
+$$
+\mathsf{BEDC.Derived.CorpusSupplyDistillationUp.CorpusSupplyDistillationTasteGate\_single\_carrier\_alignment}.
+$$
+It identifies the Lean encoding and decoding surface with the displayed carrier, so the Lean $\ChapterTasteGate$, $\mathsf{Nontrivial}$, and $\mathsf{FieldFaithful}$ instances consume the same rows described by the paper certificate.
+\end{proof}
+
+\closureat{CorpusSupplyDistillationUp}{obligationStr}[BEDC.Derived.CorpusSupplyDistillationUp.taste\_gate]
 
 \begin{closurestatus}{\CorpusSupplyDistillationUp}
   \constructivestory{A $\CorpusSupplyDistillationUp$ packet is generated from corpus-supply, filtering, distillation, output-prior, refusal, componentwise transport, displayed continuation, package provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:corpus-supply-distillation-carrier}, \autoref{thm:corpus-supply-distillation-namecert-obligations}, \autoref{thm:corpus-supply-distillation-carried-output-boundary}, and \autoref{thm:corpus-supply-distillation-public-nonescape} specify the finite source-channel distillation packet and its carried-output boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:corpus-supply-distillation-carrier}, \autoref{thm:corpus-supply-distillation-namecert-obligations}, \autoref{thm:corpus-supply-distillation-output-prior-refusal-exactness}, and \autoref{thm:corpus-supply-distillation-lean-tastegate-handoff} specify the finite source-channel distillation packet, its refusal boundary, and its Lean TasteGate handoff through \texttt{BEDC.Derived.CorpusSupplyDistillationUp.taste\_gate}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close corpus-wide truth, hidden source selection, model consciousness, host semantic understanding, internally certified output truth, Lean verification, or bridge checking for $\CorpusSupplyDistillationUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, source-channel exposure, filtering and distillation route order, output-prior boundary, refusal exactness, nontriviality, and field faithfulness for the same carrier.}
+  \notclaimed{This chapter does not close corpus-wide truth, hidden source selection, model consciousness, host semantic understanding, internally certified output truth, full Lean verification status, or bridge checking for $\CorpusSupplyDistillationUp$.}
+  \upgradepath{Scoped closure requires a checked public non-escape surface tying carrier admission, source-channel exposure, route order, refusal exactness, classifier stability, and ledger exactness to the same carrier.}
 \end{closurestatus}

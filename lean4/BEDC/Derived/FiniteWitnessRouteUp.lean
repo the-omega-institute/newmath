@@ -297,4 +297,28 @@ theorem FiniteWitnessRouteNameCert_obligations
           hsame_refl p, hsame_refl n⟩
   }
 
+theorem FiniteWitnessRouteConsumer_factorization
+    {q w r d s h c p n consumer : BHist}
+    (requestRoute : Cont q w r)
+    (sealRoute : Cont r d s)
+    (consumerRoute : Cont s c consumer) :
+    (∃ packet : FiniteWitnessRouteUp,
+        packet = FiniteWitnessRouteUp.mk q w r d s h c p n ∧
+          Cont q w r ∧ Cont r d s ∧ Cont s c consumer) ∧
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row q ∧
+            ∃ packet : FiniteWitnessRouteUp,
+              packet = FiniteWitnessRouteUp.mk q w r d s h c p n)
+        (fun row : BHist => hsame row q ∧ hsame w w ∧ hsame r r ∧ hsame d d)
+        (fun row : BHist =>
+          Cont q w r ∧ Cont r d s ∧ hsame row q ∧ hsame h h ∧ hsame c c ∧
+            hsame p p ∧ hsame n n)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont SemanticNameCert hsame
+  exact
+    ⟨Exists.intro (FiniteWitnessRouteUp.mk q w r d s h c p n)
+        ⟨rfl, requestRoute, sealRoute, consumerRoute⟩,
+      FiniteWitnessRouteNameCert_obligations requestRoute sealRoute⟩
+
 end BEDC.Derived.FiniteWitnessRouteUp

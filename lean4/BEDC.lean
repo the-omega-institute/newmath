@@ -221,6 +221,7 @@ import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.TasteGate
+import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.ResearchProgrammeExecutionGateUp.TasteGate
 import BEDC.Derived.BranchObstructionUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
@@ -383,6 +384,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.CompleteMetricConsumerRoute
 import BEDC.Derived.CauchyModulusRefinementUp.CompleteMetricNoChoiceInterface
 import BEDC.Derived.CauchyModulusRefinementUp.CompletionConsumerRouteDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.CompletionRoutePullbackExactness
+import BEDC.Derived.CauchyModulusRefinementUp.ContRouteScope
 import BEDC.Derived.CauchyModulusRefinementUp.CurrentPhaseSpine
 import BEDC.Derived.CauchyModulusRefinementUp.DiagonalRoutePullback
 import BEDC.Derived.CauchyModulusRefinementUp.DiagonalHandoffDeterminacy
@@ -714,6 +716,7 @@ import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelCorpusSupplyUp.TasteGate
 import BEDC.Derived.CorpusSupplyDistillationUp.TasteGate
+import BEDC.Derived.PhilosophyCannotClaimRegistryUp.TasteGate
 import BEDC.Derived.LargeModelAttentionGateUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionPointUp
 import BEDC.Derived.LargeModelInscriptionPointUp.TasteGate
@@ -758,6 +761,7 @@ import BEDC.Derived.GapClosureBoundaryUp.TasteGate
 import BEDC.Derived.GapClosureBoundaryUp.RefusalLedgerTransport
 import BEDC.Derived.GapClosureBoundaryUp.NamecertObligations
 import BEDC.Derived.GapClosureBoundaryUp.SourceRouteTotality
+import BEDC.Derived.GapSocketBoundaryUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.SynchronizationCertificateUp.TasteGate
 import BEDC.Derived.LayeredRelationCertUp.TasteGate
@@ -1303,6 +1307,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.SharedWindowUnion
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalCofinalWindowCoverage
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalCofinalWindowSectionDecomposition
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalCofinalWindowTransportInvariance
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalReadinessCorrespondence
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalRouteNoBranching
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalRouteEndpointExactness
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalRouteStatusReadback
@@ -1494,6 +1499,7 @@ import BEDC.Derived.HistTimeStreamUp.TransportLock
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.ComparisonStability
+import BEDC.Derived.RegularCauchyModulusNormalizerUp.CofinalFilterHandoff
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.NormalizedRouteBridge
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.PublicRoute
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.SharedTailMeetDeterminacy
@@ -2094,8 +2100,10 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RealCompletionTerminalPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealCompletionRouteNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealRouteExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealRegseqSourceFactorization
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteCauchyRefinementConsumerCorrespondence
 import BEDC.Derived.DiagonallimitcompatibilityUp.TailSealSourceUniqueness
 import BEDC.Derived.DiagonallimitcompatibilityUp.TailSealSynchronizerPullback
+import BEDC.Derived.DiagonallimitcompatibilityUp.SharedTailBudgetFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.UniformCauchyThreeWayTerminalComparison
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteTransportStability
 import BEDC.Derived.RealityConstrainedObjectivityUp.TasteGate
