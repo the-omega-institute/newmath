@@ -326,4 +326,20 @@ theorem MetaClosureWitnessLedgerTasteGate_single_carrier_alignment :
                 rfl
       · rfl
 
+namespace TasteGate
+
+theorem MetaClosureWitnessLedgerTasteGate_single_carrier_alignment :
+    (∀ h : BHist, metaClosureWitnessLedgerDecodeBHist
+      (metaClosureWitnessLedgerEncodeBHist h) = h) ∧
+      (∀ x : MetaClosureWitnessLedgerUp,
+        metaClosureWitnessLedgerFromEventFlow (metaClosureWitnessLedgerToEventFlow x) =
+          some x) ∧
+        (∀ x y : MetaClosureWitnessLedgerUp,
+          metaClosureWitnessLedgerToEventFlow x = metaClosureWitnessLedgerToEventFlow y →
+            x = y) ∧
+          metaClosureWitnessLedgerEncodeBHist BHist.Empty = ([] : List BMark) :=
+  _root_.BEDC.Derived.MetaClosureWitnessLedgerUp.MetaClosureWitnessLedgerTasteGate_single_carrier_alignment
+
+end TasteGate
+
 end BEDC.Derived.MetaClosureWitnessLedgerUp
