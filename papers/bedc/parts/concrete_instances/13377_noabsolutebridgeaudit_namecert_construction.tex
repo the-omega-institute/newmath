@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\NoAbsoluteBridgeAuditUp$}
+\label{ch:concrete-instances-no-absolute-bridge-audit-namecert}
+\origin{ai}
+
+The $\NoAbsoluteBridgeAuditUp$ packet realizes the no-absolute-bridge direction of the standard-bridge discipline inside the auditable-generativity programme of \autoref{ch:visions-philosophy-auditable-generativity}. It sits beside the standard bridge audit packet of \autoref{ch:concrete-instances-standardbridgeauditpacket-namecert}, the host primitive leakage boundary of \autoref{ch:concrete-instances-hostprimitiveleakage-namecert}, the registry consistency audit of \autoref{ch:concrete-instances-registryconsistencyaudit-namecert}, the finite reflection tuple of \autoref{ch:concrete-instances-finitereflectiontuple-namecert}, and the GroundCompiler recognizer flow of \autoref{ch:concrete-instances-groundcompilerrecognizerflow-namecert}. Those siblings expose bridge fields, host-leak refusal, registry agreement, finite reflection images, and generated-recognizer admission; this packet binds them into a host-relative audit row before any consumer may read a bridge as host-free.
+
+\begin{definition}[No absolute bridge audit carrier]
+\label{def:no-absolute-bridge-audit-carrier}
+A $\NoAbsoluteBridgeAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(B,T,E,D,U,L,R,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\StandardBridgeAuditPacketUp$ row containing encoding, decoding, round-trip, theorem-preservation, no-host-leak, and bridge-ledger data.
+\item $T$ is the target host row, naming the specific host theory whose equality, quotient, function, number, and type or set semantics are being audited.
+\item $E$ is the host-relative encoding row, read only relative to $T$.
+\item $D$ is the host-relative decoding row, read only relative to $T$.
+\item $U$ is the finite unsupported-field ledger listing host fields, primitives, theorem shapes, and classifier reads that the bridge refuses.
+\item $L$ is the $\HostPrimitiveLeakageUp$ no-host-leak row attached to the target host audit.
+\item $R$ is the $\RegistryConsistencyAuditUp$ row recording agreement between bridge claims, unsupported fields, and public registry status.
+\item $G$ is the generated-recognizer landing row through $\FiniteReflectionTupleUp$ and $\GroundCompilerRecognizerFlowUp$.
+\item $H$ records componentwise $\hsame$ transport for bridge, host, encoding, decoding, unsupported-field, leakage, registry, recognizer, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for host selection, theorem-preservation lookup, unsupported-field inspection, and no-host-leak readback.
+\item $P$ is the $\Pkg$ provenance over $\NoAbsoluteBridgeAuditUp$, $\StandardBridgeAuditPacketUp$, $\HostPrimitiveLeakageUp$, $\RegistryConsistencyAuditUp$, $\FiniteReflectionTupleUp$, $\GroundCompilerRecognizerFlowUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\NoAbsoluteBridgeAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host-free bridge, a bridge route with no target host row, an unsupported host field outside $U$, a leaked host primitive outside $L$, a private recognizer landing, or a theorem-preservation claim detached from the displayed host audit.
+\end{definition}
+
+\begin{theorem}[No absolute bridge audit NameCert obligations]
+\label{thm:no-absolute-bridge-audit-namecert-obligations}
+For the carrier of \autoref{def:no-absolute-bridge-audit-carrier}, the local $\NameCert_{\NoAbsoluteBridgeAuditUp}$ surface consists exactly of carrier admission for $A=(B,T,E,D,U,L,R,G,H,C,P,N)$, target-host visibility, host-relative encoding and decoding, finite theorem-preservation inspection through $B$, unsupported-field ledger exactness through $U$, no-host-leak inspection through $L$, registry agreement through $R$, recognizer landing through $G$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:no-absolute-bridge-audit-carrier}. The bridge packet $B$ supplies the standard bridge fields, while $T,E,D,U$ make encoding, decoding, and unsupported-field refusal relative to one displayed host.
+
+Use the leakage and registry rows next. The row $L$ blocks host primitives from entering the BEDC public surface, and $R$ forces public bridge claims to agree with the registry status and unsupported-field ledger.
+
+Finally inspect $G,H,C,P,N$. Recognizer landing is routed through the finite reflection tuple and GroundCompiler flow, transport and replay preserve the same displayed rows, provenance records the packet source, and the local name exports only this host-relative audit. Since no additional coordinate is present, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{A host-independent bridge route that omits the target host row or unsupported-field ledger refutes NoAbsoluteBridgeAuditUp.}
+
+\independenceWitness{standardbridgeauditpacket, hostprimitiveleakage, registryconsistencyaudit, finitereflectiontuple, groundcompilerrecognizerflow: $\StandardBridgeAuditPacketUp$ records bridge fields without the target-host and unsupported-field audit as a separate no-absolute row; $\HostPrimitiveLeakageUp$ refuses host primitives without bridge theorem-preservation rows; $\RegistryConsistencyAuditUp$ records registry agreement without host-relative encoding and decoding; $\FiniteReflectionTupleUp$ records finite reflection images without bridge refusal rows; $\GroundCompilerRecognizerFlowUp$ records recognizer admission without a target-host bridge audit. None is bijective to $\NoAbsoluteBridgeAuditUp$.}
+
+The Lean follow-up for this chapter must provide \texttt{lean4/BEDC/Derived/NoAbsoluteBridgeAuditUp/TasteGate.lean} with $\mathsf{Nontrivial}\ \NoAbsoluteBridgeAuditUp$ and $\mathsf{FieldFaithful}\ \NoAbsoluteBridgeAuditUp$ instances for the displayed target-host, unsupported-field, no-host-leak, registry, recognizer, transport, replay, provenance, and naming rows.
+
+\closureat{NoAbsoluteBridgeAuditUp}{seedStr}
+
+\begin{closurestatus}{\NoAbsoluteBridgeAuditUp}
+  \constructivestory{A $\NoAbsoluteBridgeAuditUp$ packet is generated from a standard bridge packet, one target host row, host-relative encoding and decoding rows, unsupported-field ledger, no-host-leak row, registry-consistency row, generated-recognizer landing row, componentwise transport, displayed replay, provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:no-absolute-bridge-audit-carrier} and \autoref{thm:no-absolute-bridge-audit-namecert-obligations} bind the finite host-relative bridge audit and its target-host, unsupported-field, no-host-leak, registry, recognizer, transport, replay, provenance, and naming obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, all host theories at once, host-free bridge recognition, or theorem preservation outside the displayed target-host audit.}
+  \upgradepath{Obligation closure requires checked carrier admission, target-host visibility, unsupported-field exactness, no-host-leak preservation, registry agreement, recognizer landing, TasteGate nontriviality, and field faithfulness for $B,T,E,D,U,L,R,G,H,C,P,N$.}
+\end{closurestatus}

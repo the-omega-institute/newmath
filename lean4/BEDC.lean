@@ -210,6 +210,7 @@ import BEDC.Derived.RealityConstrainedPhysicalInductionUp.TasteGate
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.TasteGate
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
+import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
 import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
 import BEDC.Derived.GroundLoopBoundaryUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditPacketUp.TasteGate
@@ -1533,9 +1534,11 @@ import BEDC.Derived.UniformCauchyCriterionUp.LateOverlap
 import BEDC.Derived.UniformCauchyCriterionUp.NonEscapeObligation
 import BEDC.Derived.UniformCauchyCriterionUp.ObligationAssembly
 import BEDC.Derived.UniformCauchyCriterionUp.PairedOverlapRealSealDeterminacy
+import BEDC.Derived.UniformCauchyCriterionUp.PhaseRealEndpointDeterminacy
 import BEDC.Derived.UniformCauchyCriterionUp.PublicExportPackage
 import BEDC.Derived.UniformCauchyCriterionUp.PublicExportSurface
 import BEDC.Derived.UniformCauchyCriterionUp.PublicNonEscapeExport
+import BEDC.Derived.UniformCauchyCriterionUp.RootThresholdSealRoundtrip
 import BEDC.Derived.UniformCauchyCriterionUp.SealObligationSurface
 import BEDC.Derived.UniformCauchyCriterionUp.SelectorSealExactPullback
 import BEDC.Derived.UniformCauchyCriterionUp.SelectorSealHandoffLock
