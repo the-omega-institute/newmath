@@ -2798,6 +2798,7 @@ import BEDC.Derived.CompactUniformContinuityUp.BridgeSourcePacket
 import BEDC.Derived.CompactUniformContinuityUp.ClassifierTransport
 import BEDC.Derived.CompactUniformContinuityUp.CenterRadiusCompatibility
 import BEDC.Derived.CompactUniformContinuityUp.FiniteNetFactorization
+import BEDC.Derived.CompactUniformContinuityUp.KernelNetObservationSurface
 import BEDC.Derived.CompactUniformContinuityUp.LedgerExhaustion
 import BEDC.Derived.CompactUniformContinuityUp.MetricDistanceRouting
 import BEDC.Derived.CompactUniformContinuityUp.ModulusCertificate
@@ -3145,6 +3146,7 @@ import BEDC.Derived.RealUp.Index
 import BEDC.Derived.RealUp.FiniteWindowExhaustionObligation
 import BEDC.Derived.RealUp.L10DependencyLattice
 import BEDC.Derived.RealUp.MalformedEndpoint
+import BEDC.Derived.RealUp.NameSealSourceFactorization
 import BEDC.Derived.RealUp.StdBridge
 import BEDC.Derived.RealUp.SelectedDenominatorRow
 import BEDC.Derived.RealUp.IteratedUnaryContext
