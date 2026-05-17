@@ -252,6 +252,7 @@ import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.ResearchProgrammeExecutionGateUp.TasteGate
 import BEDC.Derived.BranchObstructionUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
+import BEDC.Derived.BoundedBetaComparisonUp.TasteGate
 import BEDC.Derived.BoundedUniversalTraceUp.TasteGate
 import BEDC.Derived.BoundedMonotoneConvergenceSealUp.TasteGate
 import BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
@@ -270,6 +271,7 @@ import BEDC.Derived.GroundLoopBoundaryUp.TasteGate
 import BEDC.Derived.GroundRefutationUp
 import BEDC.Derived.GroundCompilerAuditPacketUp.TasteGate
 import BEDC.Derived.StandardBridgeAuditPacketUp.TasteGate
+import BEDC.Derived.GroundCompilerAuditMapUp
 import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
 import BEDC.Derived.GroundCompilerRecognizerFlowUp.TasteGate
 import BEDC.Derived.GroundCompilerRecognizerBoundaryUp.TasteGate
@@ -816,6 +818,7 @@ import BEDC.Derived.OperationalMembraneUp
 import BEDC.Derived.ProofTermErasureAuditRouteUp
 import BEDC.Derived.ProofTermErasureTraceUp.TasteGate
 import BEDC.Derived.ProofTraceAuditWitnessUp.TasteGate
+import BEDC.Derived.ProofWitnessChainUp.TasteGate
 import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.UnaryDirectionBridgeUp
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
@@ -901,6 +904,7 @@ import BEDC.Derived.ClosurePreservationAuditSealUp.TasteGate
 import BEDC.Derived.ClosurePreservationClassifierUp.TasteGate
 import BEDC.Derived.ClosedConsistencyGapUp.TasteGate
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
+import BEDC.Derived.ClosedNormalCanonicityUp.TasteGate
 import BEDC.Derived.ClosedNormalEndpointLedgerUp.TasteGate
 import BEDC.Derived.InterHistLocalityLedgerUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceAuditPacketUp.TasteGate
@@ -1498,6 +1502,7 @@ import BEDC.Derived.HaltingDistinctionUp.RootLedgerNonescape
 import BEDC.Derived.HaltingDistinctionUp.RootConsumerObstructionExhaustion
 import BEDC.Derived.HaltingDistinctionUp.RootDiagonalRouteTotality
 import BEDC.Derived.HaltingDistinctionUp.RootFiniteTraceClassifierExhaustion
+import BEDC.Derived.HaltingDistinctionUp.RootTraceNormalFormLock
 import BEDC.Derived.HaltingDistinctionUp.RootPackage
 import BEDC.Derived.HaltingDistinctionUp.RootSiblingConsumerLock
 import BEDC.Derived.HaltingDistinctionUp.RouteStability
@@ -1609,6 +1614,7 @@ import BEDC.Derived.HistTimeStreamUp.HistTimeStreamRegSeqRatLocalClockSeparation
 import BEDC.Derived.HistTimeStreamUp.LocalTransportExhaustion
 import BEDC.Derived.HistTimeStreamUp.LocalStreamPrefixFactorization
 import BEDC.Derived.HistTimeStreamUp.NameCertRouteExhaustion
+import BEDC.Derived.HistTimeStreamUp.NoGlobalClockNonescape
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityBridgeRoute
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityTransport
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityConsumptionBridge
