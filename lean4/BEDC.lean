@@ -236,6 +236,7 @@ import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BedcPhilosophyPackageUp.TasteGate
 import BEDC.Derived.BedcTheoryIdentityUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationUp
+import BEDC.Derived.BetaCongruenceDomainAuditUp.TasteGate
 import BEDC.Derived.BetaCriticalPairUp.TasteGate
 import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BishopRealUp
@@ -815,6 +816,7 @@ import BEDC.Derived.OperationalMembraneUp
 import BEDC.Derived.ProofTermErasureAuditRouteUp
 import BEDC.Derived.ProofTermErasureTraceUp.TasteGate
 import BEDC.Derived.ProofTraceAuditWitnessUp.TasteGate
+import BEDC.Derived.ProofWitnessChainUp.TasteGate
 import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.UnaryDirectionBridgeUp
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
