@@ -76,6 +76,7 @@ import BEDC.Derived.ApophaticGateQuestionUp.PublicNamecertPackage
 import BEDC.Derived.ApophaticGateQuestionUp.PaperLeanRouteSeparation
 import BEDC.Derived.ApophaticGateQuestionUp.QuestionExactnessRoute
 import BEDC.Derived.ApophaticGateQuestionUp.ReadbackLocality
+import BEDC.Derived.ApophaticGateQuestionUp.RefusalReadbackExhaustion
 import BEDC.Derived.ApophaticGateQuestionUp.RefusalNonescapeCoverage
 import BEDC.Derived.ApophaticGateQuestionUp.RefusalRowTransport
 import BEDC.Derived.ApophaticGateQuestionUp.RootClassifierSocketTriad
@@ -649,6 +650,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
 import BEDC.Derived.DyadicApproximationUp.L10RealCompletionSiblingRoute
 import BEDC.Derived.FiniteObservationInterfaceUp.TasteGate
+import BEDC.Derived.FormalConstantEmpiricalValueBoundaryUp.TasteGate
 import BEDC.Derived.HistoryPrefixUp.TasteGate
 import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
 import BEDC.Derived.LocalEmpiricalClosureGateUp.TasteGate
@@ -2212,6 +2214,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteSealWindowLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRoutePublicReadbackExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteSealReadbackClassifier
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteSourceExhaustion
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteSelectorMinimality
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootPublicReadbackExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorObserverSealCorrespondence
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteTerminalBudgetLock
