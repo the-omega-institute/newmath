@@ -241,6 +241,36 @@ Use \autoref{thm:real-completion-exact-boundary-finite-tail-filter-handoff} for 
 Finally apply \autoref{thm:real-completion-exact-boundary-terminal-consumer-exactness} and \autoref{thm:real-completion-exact-boundary-no-completeness-escape}. The terminal consumer route is already the displayed finite row list, and quotient streams, host equality, selected limits, choice, completeness, and bridge rows have no carrier slot or insertion point. Hence the displayed route is the chapter's final finite consumer route.
 \end{proof}
 
+\begin{theorem}[Real completion exact-boundary tail cofinality schedule factorization]
+\label{thm:real-completion-exact-boundary-tail-cofinality-schedule-factorization}
+Let
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RealCompletionExactBoundaryUp$ packet, and let
+$$
+T=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)
+$$
+be an accepted $\TailCofinalityScheduleUp$ packet through which the four faces $W,R,D,E$ are consumed. Then the combined Real-completion and schedule consumer factors through the single exact-boundary route
+$$
+L,K,J,S,W,R,D,E,H,C,P,N
+$$
+together with the schedule route
+$$
+E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T.
+$$
+The schedule is a consumer-side factor of the same four faces, not an added completion coordinate. The combined route exports no quotient stream, host real equality, selected limit, countable choice, ambient completeness, metric-completeness, hidden tail oracle, unbounded schedule, or machine bridge row.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-completion-exact-boundary-four-face-exactness}. It identifies $W,R,D,E$ as the only StreamName, RegSeqRat, DyadicRatCore, and terminal Real faces exported by the accepted boundary after the governing rows $L,K,J,S$.
+
+Next apply \autoref{thm:real-completion-exact-boundary-terminal-consumer-exactness} and \autoref{thm:real-completion-exact-boundary-mature-route}. These place every Real-facing or completion-facing consumer on the exact-boundary route $L,K,J,S,W,R,D,E,H,C,P,N$ and rule out quotient streams, host equality, selected limits, choice, completeness, and bridge rows as route coordinates.
+
+Now attach the accepted $\TailCofinalityScheduleUp$ packet. By \autoref{thm:tail-cofinality-schedule-regular-cauchy-completion-route}, every completion-facing seal read through the schedule consumes the ordered schedule rows $E_T,W_T,D_T,R_T,L_T$ before the completion seal is available.
+
+Finally use \autoref{thm:tail-cofinality-schedule-shared-tail-budget-factorization}. The shared-tail budget is already a finite consumer-side factor through the schedule route and its structural rows $H_T,C_T,P_T,N_T$. Since the exact-boundary route has only the four faces $W,R,D,E$ available for the Real-completion handoff, the schedule can factor those faces only as a consumer of that route, not as a new completion coordinate or hidden tail source.
+\end{proof}
+
 \begin{theorem}[Real completion exact-boundary obligation scope]
 \label{thm:real-completion-exact-boundary-obligation-scope}
 For every accepted $\RealCompletionExactBoundaryUp$ packet
