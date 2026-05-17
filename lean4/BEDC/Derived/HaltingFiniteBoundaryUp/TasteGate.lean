@@ -145,7 +145,7 @@ private theorem haltingFiniteBoundaryToEventFlow_injective {x y : HaltingFiniteB
     (Eq.trans (haltingFiniteBoundary_round_trip x).symm
       (Eq.trans hread (haltingFiniteBoundary_round_trip y)))
 
-private theorem haltingFiniteBoundary_field_faithful :
+theorem HaltingFiniteBoundaryTasteGate_field_faithful_concrete :
     ∀ x y : HaltingFiniteBoundaryUp, haltingFiniteBoundaryFields x = haltingFiniteBoundaryFields y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -179,7 +179,7 @@ instance haltingFiniteBoundaryFieldFaithful :
     FieldFaithful HaltingFiniteBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := haltingFiniteBoundaryFields
-  field_faithful := haltingFiniteBoundary_field_faithful
+  field_faithful := HaltingFiniteBoundaryTasteGate_field_faithful_concrete
 
 instance haltingFiniteBoundaryNontrivial : Nontrivial HaltingFiniteBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -206,6 +206,6 @@ theorem HaltingFiniteBoundaryTasteGate_single_carrier_alignment :
   · exact haltingFiniteBoundaryDecode_encode_bhist
   · constructor
     · rfl
-    · exact haltingFiniteBoundary_field_faithful
+    · exact HaltingFiniteBoundaryTasteGate_field_faithful_concrete
 
 end BEDC.Derived.HaltingFiniteBoundaryUp
