@@ -246,3 +246,10 @@ theorem LargeModelActivationOrbitTasteGate_single_carrier_alignment :
       · rfl
 
 end BEDC.Derived.LargeModelActivationOrbitUp.TasteGate
+
+namespace BEDC.Derived.LargeModelActivationOrbitUp
+
+def taste_gate : BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.LargeModelActivationOrbitUp :=
+  TasteGate.taste_gate
+
+end BEDC.Derived.LargeModelActivationOrbitUp
