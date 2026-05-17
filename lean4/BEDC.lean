@@ -582,6 +582,7 @@ import BEDC.Derived.PhysicalNameCertAuditUp.TasteGate
 import BEDC.Derived.PhysicalInductionStabilitySealUp.TasteGate
 import BEDC.Derived.PhilosophySynthesisAuditUp.TasteGate
 import BEDC.Derived.PhilosophyMapTargetUp.TasteGate
+import BEDC.Derived.PhilosophyGovernanceExportUp.TasteGate
 import BEDC.Derived.RealityConstrainedModelAuditUp.TasteGate
 import BEDC.Derived.RealityConstrainedMethodologyLedgerUp.TasteGate
 import BEDC.Derived.RealityConstrainedMethodologyLedgerUp.KernelCarrier
