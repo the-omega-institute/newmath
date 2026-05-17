@@ -960,6 +960,7 @@ import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationRowPrecedence
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.InputStateExposure
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.TraceProvenanceLock
+import BEDC.Derived.ReflectionRuntimeCheckpointUp.HostValidationNonescape
 import BEDC.Derived.RuntimeCandidateBoundaryUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyInscriptionUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyLedgerUp.TasteGate
@@ -2132,6 +2133,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.CompletionConsumerPackage
 import BEDC.Derived.DiagonallimitcompatibilityUp.CompletionSealBudget
 import BEDC.Derived.DiagonallimitcompatibilityUp.ConsumerTransport
 import BEDC.Derived.DiagonallimitcompatibilityUp.CriterionUniformSealPullback
+import BEDC.Derived.DiagonallimitcompatibilityUp.DownstreamConsumerGate
 import BEDC.Derived.DiagonallimitcompatibilityUp.DownstreamPublicBoundary
 import BEDC.Derived.DiagonallimitcompatibilityUp.EnvelopeRefinementPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteSourceLock
