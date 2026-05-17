@@ -1,0 +1,35 @@
+\begin{definition}[RegSeqRat common-tail window packet]
+\label{def:regseqrat-common-tail-window-packet}
+A $\RegSeqRatUp$ common-tail window packet is a finite $\mathsf{BHist}$ packet over one accepted $\RegSeqRatUp$ source $P$ with the following displayed rows:
+\begin{enumerate}
+\item two certified cofinal tail shifts $T_0$ and $T_1$ of the $\StreamNameUp$ schedule carried by $P$;
+\item one common $\StreamNameUp$ refinement window $W_\ast$ through which the selected tail windows of $T_0$ and $T_1$ both restrict;
+\item the $\DyadicRatCoreUp$ endpoint rows read on $W_\ast$, together with the displayed radius rows and regularity bounds
+$$
+2^{-n}+2^{-m}
+$$
+for the selected unary indices;
+\item the $\mathsf{RegSeqRatClassifier}$ rows for the two tail-window reads and for their transported read on $W_\ast$;
+\item the $\RealUp$ seal-source rows consumed from the same common finite surface by \autoref{thm:regseqrat-real-seal-handoff};
+\item the componentwise $\hsame$ rows, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance attached to the StreamName, DyadicRatCore, RegSeqRat, and RealUp-facing rows.
+\end{enumerate}
+The packet is only a finite common-tail source surface. It stores no quotient stream, host real value, selected limit, metric-completion point, $\RealUp$ completeness datum, or standard-bridge coordinate beyond the displayed rows.
+\end{definition}
+
+\begin{theorem}[RegSeqRat common-tail window classifier bridge]
+\label{thm:regseqrat-common-tail-window-classifier-bridge}
+Let $P$ be an accepted $\RegSeqRatUp$ source, and let $T_0$ and $T_1$ be two certified cofinal tail shifts of the $\StreamNameUp$ schedule of $P$. Suppose two tail-window classifier reads land in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet} with common refinement $W_\ast$. Then the two reads determine the same $\RealUp$ seal-source surface and the same $\mathsf{RegSeqRatClassifier}$ read after restriction to $W_\ast$.
+
+The bridge conclusion is a statement about the displayed finite packet only. It exports no quotient stream, host real equality, selected limit, metric-completion point, $\RealUp$ completeness datum, or additional seal coordinate.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:regseqrat-tail-stable-cover-common-window-lock}. The two seal consumers carried by the cofinal tail shifts factor through one accepted common finite window, and the visible rows of that window are exactly the StreamName schedule rows, DyadicRatCore endpoint and radius ledgers, RegSeqRat classifier and regularity ledgers, and the displayed provenance.
+
+Next read the common-tail packet rows componentwise. The definition lists the cofinal tail shifts, the common $\StreamNameUp$ refinement $W_\ast$, the DyadicRatCore endpoint and radius ledgers, the classifier rows, the $\RealUp$ seal-source rows, and the $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance. Thus each tail-window read restricts to the same finite source surface on $W_\ast$.
+
+Apply \autoref{thm:regseqrat-refined-window-gluing-real-seal-factorization}. The refined-window gluing surface factors the RealUp-facing handoff through the displayed finite packet $W_\ast$, so the two tail-window origins cannot supply separate seal-source surfaces once their rows have been restricted to the common refinement.
+
+Use \autoref{thm:regseqrat-streamname-dyadic-window-lock} to lock the $\StreamNameUp$ schedule rows to the same $\DyadicRatCoreUp$ endpoint and radius ledgers inside the common window. The classifier reads inspect only those locked rows together with the regularity ledgers and provenance, so their transported RegSeqRat classifier read on $W_\ast$ is the same displayed read.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-handoff}. The $\RealUp$ seal consumes exactly the accepted regular-rational finite source surface already identified, and the carrier has no coordinate for quotient streams, host real equality, selected limits, metric completions, completeness data, or further seal coordinates.
+\end{proof}

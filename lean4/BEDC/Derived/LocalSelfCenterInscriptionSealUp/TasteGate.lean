@@ -238,6 +238,24 @@ instance localSelfCenterInscriptionSealNontrivial :
         intro h
         cases h⟩
 
+theorem LocalSelfCenterInscriptionSealProvenance_row_nonescape
+    {H I S A V R C P N : BHist} (visibleP : P ≠ BHist.Empty) :
+    localSelfCenterInscriptionSealFields
+        (LocalSelfCenterInscriptionSealUp.mk H I S A V R C P N) ≠
+      localSelfCenterInscriptionSealFields
+        (LocalSelfCenterInscriptionSealUp.mk H I S A V R C BHist.Empty N) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hfields
+  injection hfields with _hH tail0
+  injection tail0 with _hI tail1
+  injection tail1 with _hS tail2
+  injection tail2 with _hA tail3
+  injection tail3 with _hV tail4
+  injection tail4 with _hR tail5
+  injection tail5 with _hC tail6
+  injection tail6 with hP _tail7
+  exact visibleP hP
+
 def taste_gate : ChapterTasteGate LocalSelfCenterInscriptionSealUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
