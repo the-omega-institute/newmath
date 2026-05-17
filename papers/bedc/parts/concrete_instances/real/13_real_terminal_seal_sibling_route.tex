@@ -1,0 +1,42 @@
+\begin{theorem}[Real terminal seal sibling route]
+\label{thm:real-terminal-seal-sibling-route}
+Every public $\RealUp$ terminal seal read factors through the finite
+$\StreamNameUp$ window, the $\RegSeqRatUp$ readback, and the
+$\DyadicRatCoreUp$ tolerance ledger before it reaches the local Real seal.
+The route is the cross-chapter certificate route through
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert}, and
+\autoref{ch:concrete-instances-dyadicratcore-namecert}; its transport data
+are only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+rows already exposed by those sibling chapters.
+
+Consequently an accepted terminal seal read has no route that bypasses the
+finite StreamName window, RegSeqRat readback, or DyadicRatCore tolerance
+ledger. In particular it exports no host real equality, quotient-stream
+equality, ambient completeness principle, countable-choice selector, selected
+limit, or independent host-completion row.
+\end{theorem}
+\begin{proof}
+Start with the handoff theorem
+\autoref{thm:realup-regseqrat-streamname-seal-handoff}. It reads the public
+$\RealUp$ seal as a package whose visible rows are the StreamName classifier
+window, the RegSeqRat readback surface, the dyadic observation ledger, and
+the local Real seal provenance. The sibling chapter references in the
+statement are exactly the public sources of those rows.
+
+Next apply the dyadic StreamName RegSeqRat route theorem
+\autoref{thm:real-dyadic-stream-regseq-route}. It orders the exposed rows as
+one finite BEDC path from $\DyadicRatCoreUp$ observations through the
+$\StreamNameUp$ finite window and $\RegSeqRatUp$ readback before the
+$\RealUp$ seal is read. Since the route carries only $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ coordinates, it has no coordinate for a host
+completion or quotient-stream equality.
+
+Finally use the finite-window seal tightness theorem
+\autoref{thm:real-regseqrat-streamname-tightness}. Tightness says that an
+accepted terminal seal is admissible exactly when the three sibling rows
+agree on one common finite request. Any proposed route omitting one of those
+rows therefore fails to be an accepted public $\RealUp$ terminal seal, and
+any route adding host real equality, ambient completeness, countable choice,
+or a selected limit lies outside the displayed certificate surface.
+\end{proof}
