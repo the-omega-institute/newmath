@@ -695,11 +695,11 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
             f"{where}: missing \\constructivestory (bottom-up construction story; empty arg ok)"
         )
     origin = block.get("origin", "human")
-    if origin not in {"human", "ai"}:
+    if origin not in {"human", "ai", "ai-composite"}:
         issues.append(
-            f"{where}: \\origin='{origin}' is not in {{human, ai}}"
+            f"{where}: \\origin='{origin}' is not in {{human, ai, ai-composite}}"
         )
-    if origin == "ai":
+    if origin in {"ai", "ai-composite"}:
         body = block.get("raw_body") or ""
         # AI-proposed chapters past seedClosure must witness a TasteGate instance.
         non_seed = tc and tc != "seedClosure"
@@ -1652,7 +1652,7 @@ def cmd_conservativity_audit(args: argparse.Namespace) -> int:
     blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     ai_chapters: list[str] = []
     for b in blocks:
-        if b.get("origin") == "ai":
+        if b.get("origin") in {"ai", "ai-composite"}:
             region = b.get("region")
             if region:
                 ai_chapters.append(region)

@@ -264,23 +264,7 @@ theorem CauchyTailModulusSealTasteGate_single_carrier_alignment :
             · constructor
               · exact ⟨cauchyTailModulusSealNontrivial⟩
               · constructor
-                · exact
-                    ⟨{
-                      round_trip := by
-                        intro x
-                        change
-                          cauchyTailModulusSealFromEventFlow
-                              (cauchyTailModulusSealToEventFlow x) =
-                            some x
-                        exact cauchyTailModulusSeal_round_trip x
-                      layer_separation := by
-                        intro x y hxy heq
-                        exact hxy (cauchyTailModulusSealToEventFlow_injective heq)
-                    }⟩
-                · exact
-                    ⟨{
-                      fields := cauchyTailModulusSealFields
-                      field_faithful := cauchyTailModulusSeal_fields_faithful
-                    }⟩
+                · exact ⟨cauchyTailModulusSealChapterTasteGate⟩
+                · exact ⟨cauchyTailModulusSealFieldFaithful⟩
 
 end BEDC.Derived.CauchyTailModulusSealUp
