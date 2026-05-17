@@ -259,21 +259,26 @@ def taste_gate : ChapterTasteGate TailCompatibleCauchySectionUp :=
   tailCompatibleCauchySectionChapterTasteGate
 
 theorem TailCompatibleCauchySectionTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate TailCompatibleCauchySectionUp) ∧
-      (BHistCarrier.toEventFlow
-          (TailCompatibleCauchySectionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
-        BHistCarrier.toEventFlow
-          (TailCompatibleCauchySectionUp.mk (BHist.e0 BHist.Empty) BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty)) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · exact ⟨tailCompatibleCauchySectionChapterTasteGate⟩
-  · intro heq
-    exact
-      (tailCompatibleCauchySectionNontrivial.witness_pair.2.2
-        (tailCompatibleCauchySectionToEventFlow_injective heq))
+    (∀ h : BHist,
+      tailCompatibleCauchySectionDecodeBHist (tailCompatibleCauchySectionEncodeBHist h) = h) ∧
+      Nonempty (Nontrivial TailCompatibleCauchySectionUp) ∧
+        Nonempty (ChapterTasteGate TailCompatibleCauchySectionUp) ∧
+          Nonempty (FieldFaithful TailCompatibleCauchySectionUp) ∧
+            (∀ x : TailCompatibleCauchySectionUp,
+              tailCompatibleCauchySectionFromEventFlow
+                (tailCompatibleCauchySectionToEventFlow x) = some x) ∧
+              (∀ x y : TailCompatibleCauchySectionUp,
+                tailCompatibleCauchySectionToEventFlow x =
+                  tailCompatibleCauchySectionToEventFlow y → x = y) ∧
+                tailCompatibleCauchySectionEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨tailCompatibleCauchySection_decode_encode_bhist,
+      ⟨tailCompatibleCauchySectionNontrivial⟩,
+      ⟨tailCompatibleCauchySectionChapterTasteGate⟩,
+      ⟨tailCompatibleCauchySectionFieldFaithful⟩,
+      tailCompatibleCauchySection_round_trip,
+      (fun _ _ heq => tailCompatibleCauchySectionToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.TailCompatibleCauchySectionUp
