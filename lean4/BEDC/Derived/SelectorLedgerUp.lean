@@ -80,6 +80,37 @@ theorem SelectorLedgerNoHiddenChoice [AskSetup] [PackageSetup]
     ⟨historyUnary, traceUnary, selectorsUnary, routeUnary, publicReadUnary, historyTrace,
       traceSelectors, contNameRoute, publicReadCont, provenancePkg, routePkg'⟩
 
+theorem SelectorLedgerInscriptionEventConsumerRoute [AskSetup] [PackageSetup]
+    {history trace selectors transport cont provenance name route publicRead gap
+      inscriptionRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SelectorLedgerCarrier history trace selectors transport cont provenance name bundle pkg →
+      Cont cont name route →
+        PkgSig bundle route pkg →
+          Cont route provenance publicRead →
+            UnaryHistory gap →
+              Cont publicRead gap inscriptionRoute →
+                UnaryHistory history ∧ UnaryHistory trace ∧ UnaryHistory selectors ∧
+                  UnaryHistory route ∧ UnaryHistory publicRead ∧ UnaryHistory inscriptionRoute ∧
+                    Cont history trace transport ∧ Cont trace selectors cont ∧
+                      Cont cont name route ∧ Cont route provenance publicRead ∧
+                        Cont publicRead gap inscriptionRoute ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle route pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier routeCont routePkg publicReadCont gapUnary inscriptionCont
+  have publicRoute :=
+    SelectorLedgerNoHiddenChoice carrier routeCont routePkg publicReadCont
+  rcases publicRoute with
+    ⟨historyUnary, traceUnary, selectorsUnary, routeUnary, publicReadUnary,
+      historyTrace, traceSelectors, contNameRoute, routeProvenanceRead, provenancePkg,
+      routePkg'⟩
+  have inscriptionUnary : UnaryHistory inscriptionRoute :=
+    unary_cont_closed publicReadUnary gapUnary inscriptionCont
+  exact
+    ⟨historyUnary, traceUnary, selectorsUnary, routeUnary, publicReadUnary, inscriptionUnary,
+      historyTrace, traceSelectors, contNameRoute, routeProvenanceRead, inscriptionCont,
+      provenancePkg, routePkg'⟩
+
 def selectorLedgerEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
