@@ -453,4 +453,36 @@ theorem GroundCompilerRecognitionTasteGate_single_carrier_alignment :
                   intro h
                   cases h⟩
 
+theorem GroundCompilerRecognitionCarrier_finite_trace_handoff_boundary :
+    (∀ x : GroundCompilerRecognitionUp,
+      ∃ I G A T V L H C P N : BHist,
+        x = GroundCompilerRecognitionUp.mk I G A T V L H C P N ∧
+          FieldFaithful.fields x = [I, G, A, T, V, L, H, C, P, N]) ∧
+      (∀ I G A V L H C P N : BHist,
+        BHistCarrier.toEventFlow
+          (GroundCompilerRecognitionUp.mk I G A (BHist.e0 BHist.Empty) V L H C P N) ≠
+        BHistCarrier.toEventFlow
+          (GroundCompilerRecognitionUp.mk I G A BHist.Empty V L H C P N)) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    cases x with
+    | mk I G A T V L H C P N =>
+        exact ⟨I, G, A, T, V, L, H, C, P, N, rfl, rfl⟩
+  · intro I G A V L H C P N heq
+    change
+      groundCompilerRecognitionToEventFlow
+          (GroundCompilerRecognitionUp.mk I G A (BHist.e0 BHist.Empty) V L H C P N) =
+        groundCompilerRecognitionToEventFlow
+          (GroundCompilerRecognitionUp.mk I G A BHist.Empty V L H C P N) at heq
+    injection heq with _ htail₁
+    injection htail₁ with _ htail₂
+    injection htail₂ with _ htail₃
+    injection htail₃ with _ htail₄
+    injection htail₄ with _ htail₅
+    injection htail₅ with _ htail₆
+    injection htail₆ with _ htail₇
+    injection htail₇ with hrow _
+    cases hrow
+
 end BEDC.Derived.GroundCompilerRecognitionUp
