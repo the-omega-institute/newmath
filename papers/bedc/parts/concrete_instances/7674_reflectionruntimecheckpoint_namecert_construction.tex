@@ -67,6 +67,7 @@ K=(I,S,T,V,H,C,P,N),
 $$
 every checkpoint consumer reads the runtime-candidate input row $I$ and checkpoint-state row $S$ before it reads any trace-evidence row or validation-facing row. Thus neither $T$ nor $V$ can be treated as a detached source of runtime state.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointCarrier\_input\_state\_exposure}
 \begin{proof}
 Project the carrier of \autoref{def:reflection-runtime-checkpoint-carrier}. The packet is ordered as $K=(I,S,T,V,H,C,P,N)$, with $I$ carrying the admitted runtime candidate and $S$ carrying the displayed checkpoint state reached by that candidate.
 
