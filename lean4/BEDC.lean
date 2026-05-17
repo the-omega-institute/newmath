@@ -475,6 +475,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.RootRouteCompleteness
 import BEDC.Derived.CauchyModulusRefinementUp.RootThresholdSurfaces
 import BEDC.Derived.CauchyModulusRefinementUp.RootThresholdSealEndpointSeparation
 import BEDC.Derived.CauchyModulusRefinementUp.RootWindowRealSealDeterminacy
+import BEDC.Derived.CauchyModulusRefinementUp.RootWindowSelectorUniqueness
 import BEDC.Derived.CauchyModulusRefinementUp.RootWindowSelectorTotality
 import BEDC.Derived.CauchyModulusRefinementUp.SharedMeetDependency
 import BEDC.Derived.CauchyModulusRefinementUp.TailBudgetSelectorLock
@@ -635,6 +636,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
 import BEDC.Derived.DyadicApproximationUp.L10RealCompletionSiblingRoute
 import BEDC.Derived.FiniteObservationInterfaceUp.TasteGate
+import BEDC.Derived.HistoryPrefixUp.TasteGate
 import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
 import BEDC.Derived.LocalEmpiricalClosureGateUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
@@ -874,6 +876,7 @@ import BEDC.Derived.KernelNormalizationAuditJoinUp.TasteGate
 import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
+import BEDC.Derived.KernelCategoryUp.CarrierAdmissionObligation
 import BEDC.Derived.KernelCategoryUp.CertificateSurface
 import BEDC.Derived.KernelCategoryUp.CompositeEndpointDeterminacy
 import BEDC.Derived.KernelCategoryUp.CompositionContRouteExactness
@@ -881,6 +884,7 @@ import BEDC.Derived.KernelCategoryUp.DownstreamNameCertReadiness
 import BEDC.Derived.KernelCategoryUp.EndpointTransportClosure
 import BEDC.Derived.KernelCategoryUp.FunctorContinuationHandoff
 import BEDC.Derived.KernelCategoryUp.LawTransportExhaustion
+import BEDC.Derived.KernelCategoryUp.NameCertRootRouteReadiness
 import BEDC.Derived.CertificateCompilerUp.FiniteRouteNonescape
 import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.KernelMorphismUp.CertificateCompilerSourceLock
@@ -1132,6 +1136,7 @@ import BEDC.Derived.NegativeCertificateBoundaryUp.TasteGate
 import BEDC.Derived.NegativeNameBoundaryUp
 import BEDC.Derived.NegativeNameBoundaryUp.NameCertObligations
 import BEDC.Derived.NegativeNameBoundaryUp.NonInternalization
+import BEDC.Derived.NegativeNameBoundaryUp.ObligationClosure
 import BEDC.Derived.NegativeNameBoundaryUp.PublicExport
 import BEDC.Derived.NegativeNameBoundaryUp.QuotientSoundnessLatticeLink
 import BEDC.Derived.ObjectConstitutionLedgerUp.TasteGate
@@ -1711,6 +1716,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.FiniteTailFilterAlignment
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteTailFilterRealWindowHandoff
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteTailWindowFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteWindowRealSealExtraction
+import BEDC.Derived.UniformCauchyCriterionUp.FiniteWindowSelectorUniqueness
 import BEDC.Derived.UniformCauchyCriterionUp.FamilyUnion
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteIndexLedgerTransport
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteObservationBudgetPullback
