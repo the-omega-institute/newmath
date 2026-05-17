@@ -920,6 +920,7 @@ import BEDC.Derived.ReflectiveStabilityUp.TasteGate
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.TasteGate
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.Certificate
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationBoundaryTotality
+import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationRowPrecedence
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.InputStateExposure
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.TraceProvenanceLock
@@ -1597,6 +1598,7 @@ import BEDC.Derived.HistTimeStreamUp.ObserverLocalityBridgeRoute
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityTransport
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityConsumptionBridge
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityTotality
+import BEDC.Derived.HistTimeStreamUp.RealCompletionWindowNonescape
 import BEDC.Derived.HistTimeStreamUp.StartLedgerTotality
 import BEDC.Derived.HistTimeStreamUp.StartLedgerUniqueness
 import BEDC.Derived.HistTimeStreamUp.ScheduleEndpointTransport
@@ -1605,6 +1607,7 @@ import BEDC.Derived.HistTimeStreamUp.StreamNameScheduleClassifierBoundary
 import BEDC.Derived.HistTimeStreamUp.TransportLock
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp
+import BEDC.Derived.RegularCauchyModulusNormalizerUp.CarrierAdmission
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.BridgeObstructionBoundary
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.BudgetPullbackExhaustion
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.ComparisonStability
