@@ -163,6 +163,7 @@ import BEDC.Derived.ArchimedeanRealUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.AuditMapMethodologyUp.TasteGate
 import BEDC.Derived.AuditMapConcreteInventoryUp.TasteGate
+import BEDC.Derived.AuditFinalityCertificateUp.TasteGate
 import BEDC.Derived.AuditMapTemplatePacketUp.TasteGate
 import BEDC.Derived.AuditSystemUp.TasteGate
 import BEDC.Derived.AuditMapFrontierIndexUp.TasteGate
@@ -571,6 +572,8 @@ import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
 import BEDC.Derived.LocalEmpiricalClosureGateUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
+import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
+import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
 import BEDC.Derived.OpenFitResidueGateUp.TasteGate
 import BEDC.Derived.OnticResidueLedgerUp.TasteGate
 import BEDC.Derived.OnticStateUp.TasteGate
@@ -1055,6 +1058,7 @@ import BEDC.Derived.CertificateCompilerUp.PublicConsumerBoundary
 import BEDC.Derived.CertificateCompilerUp.RouteCategoryBoundary
 import BEDC.Derived.CertificateCompilerUp.RouteReplayScope
 import BEDC.Derived.CertificateCompilerUp.ClassifierRouteDependencyScope
+import BEDC.Derived.CertificateCompilerUp.CompositeDependencyScope
 import BEDC.Derived.CertificateCompilerUp.DependencyScope
 import BEDC.Derived.CertificateCompilerUp.SourceTargetLandingExhaustion
 import BEDC.Derived.CertificateCompilerUp.EndpointKernelMorphismRoundtrip
@@ -1174,6 +1178,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.RootRequestAccountability
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamPackage
 import BEDC.Derived.QuotientSoundnessBoundaryUp.TransportGate
 import BEDC.Derived.QuotientSoundnessBoundaryUp.Certificates
+import BEDC.Derived.QuotientSoundnessBoundaryUp.RootDownstreamUnblockSurface
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
@@ -2066,6 +2071,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.WindowBudgetTriadLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowFusion
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowLedgerExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowLedgerPullback
+import BEDC.Derived.DiagonallimitcompatibilityUp.WindowSynchronizerPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.BoundaryExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteWindowHandoffBoundary
 import BEDC.Derived.DiagonallimitcompatibilityUp.FormalTargetPacket
