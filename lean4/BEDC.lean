@@ -70,6 +70,7 @@ import BEDC.Derived.ApophaticGateQuestionUp.PublicNamecertPackage
 import BEDC.Derived.ApophaticGateQuestionUp.QuestionExactnessRoute
 import BEDC.Derived.ApophaticGateQuestionUp.ReadbackLocality
 import BEDC.Derived.ApophaticGateQuestionUp.RefusalRowTransport
+import BEDC.Derived.ApophaticGateQuestionUp.RootConsumerLedgerReadiness
 import BEDC.Derived.ApophaticGateQuestionUp.RootRefusalRouteExactness
 import BEDC.Derived.ApophaticGateQuestionUp.RootReadbackRoute
 import BEDC.Derived.ApophaticGateQuestionUp.SourceGateExactness
