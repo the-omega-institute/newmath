@@ -306,6 +306,7 @@ The checked Lean target then packages this route as a $\mathsf{SemanticNameCert}
 \label{thm:quotient-soundness-boundary-root-request-accountability}
 For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, relation rows $E$, representative-request rows $A$, and refusal verdict rows $V$ are accountable before any replacement by the transport row $T$. A downstream quotient-style consumer therefore sees the requested relation evidence, the demanded representative surface, and the refusal verdict before it can use $T,H,C,P,N$ as the surviving audit route.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_root\_request\_accountability}
 \begin{proof}
 Begin with \autoref{thm:quotient-soundness-boundary-root-relation-row-exposure}. It places the visible relation rows $E$ before any representative-demand rows in $A$.
 
@@ -318,6 +319,7 @@ After those rows are visible, the transport replacement theorem supplies $T$ onl
 \label{thm:quotient-soundness-boundary-transport-gate}
 For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, any quotient-like operation that survives the refused representative request must pass through $T,H,C,P,N$. The operation may still read the relation rows $E$, requested-representative rows $A$, and refusal verdict rows $V$ as its accountable source surface, but its positive movement is gated by the displayed transport, stability, locality, provenance, and naming rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_transport\_gate}
 \begin{proof}
 First read the accountability surface from \autoref{thm:quotient-soundness-boundary-root-request-accountability}. It keeps $E,A,V$ visible before any surviving positive route is consumed.
 
