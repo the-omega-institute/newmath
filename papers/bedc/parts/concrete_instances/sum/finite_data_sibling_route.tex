@@ -1,0 +1,24 @@
+\begin{theorem}[Sum finite-data sibling route]
+\label{thm:sum-finite-data-sibling-route}
+The scoped finite-data exit surface of $\SumUp$ reads its visible branch tag through the same $b0/b1$ discipline licensed by \autoref{ch:concrete-instances-bool-namecert}. Once that visible tag has selected the left or right branch, the selected payload is carried only through the $\SumUp$ semantic certificate of \autoref{thm:concrete-sum-namecert} and through the existing branch exactness rows, including the single-valued visible readback of \autoref{thm:sum-history-carrier-single-valued-visible-readback}. Thus the sibling route identifies the finite tag surface consumed by $\SumUp$ without adding a host coproduct eliminator, a hidden branch coordinate, or any classifier beyond the displayed tagged finite-data rows.
+\end{theorem}
+\begin{proof}
+The semantic certificate of \autoref{thm:concrete-sum-namecert} supplies the carrier and classifier for the tagged sum packet. Its two public entry forms are the displayed injections $\Ezero(l)$ and $\Eone(r)$, so the branch decision is already a visible finite tag rather than an ambient coproduct object.
+
+The tag discipline is the same two-row $b0/b1$ surface recorded by \autoref{ch:concrete-instances-bool-namecert}. In the $\SumUp$ chapter this discipline is consumed only as the selected visible branch. The payload itself remains governed by the left or right source classifier inside the local sum certificate.
+
+Apply the visible readback theorem \autoref{thm:sum-history-carrier-single-valued-visible-readback}. It says that the public history carrier has a single visible branch presentation, so the tag that selects the branch also selects the payload row used downstream. The branch exactness rows then compare only same-tag endpoints through the displayed branch classifier.
+
+Therefore the route from finite tag to payload is a sibling finite-data route: it reads the branch through the BoolUp tag surface and then stays inside the SumUp semantic certificate and ledger rows. No hidden branch coordinate, host eliminator, or additional classifier is supplied.
+\end{proof}
+
+\begin{closurestatus}{\SumUp}
+  \constructivestory{A sum value is made by choosing one side and marking that choice directly on the payload: a left payload $l$ from $L$ becomes $\Ezero(l)$, while a right payload $r$ from $R$ becomes $\Eone(r)$. Those two tags are part of the history itself, so the classifier first checks that the tags land on the same branch and only then compares the payloads by the left or right source classifier; a b0-tagged left value and a b1-tagged right value never meet. The same tagged-history predicate is the source, the pattern records the left-versus-right split, the two tag forms, and the no-confusion rows, and the ledger keeps each visible sum history aligned with the raw tagged payload that produced it. Because history-equality and the two source-side classifiers are equivalences, the injected witnesses supply the carrier, the branchwise classifier is reflexive, symmetric, and transitive, and classifier-recognized representatives stay inside the same tagged carrier. A history $h$ lies in the signature gap of a $\SumUp$ token $p$ when the source-domain accepts the tagged history, the signature relation pairs it with an answer history and evidence ledger, and the token-introduction relation names that answer as $p$; after the tags are inspected, $h$ is either a left injection whose payload matches the left side encoded by $p$, or a right injection whose payload matches the right side encoded by $p$. The chapter registers this tagged-payload construction under the name $\SumUp$; disjoint union is the same b0/b1 choice used at the kernel level, now carrying a payload, with no separate coproduct type, eliminator, or host disjoint-union construct introduced.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public paper scope binds the tagged sum semantic certificate, selected injection tag, left and right branch classifier exactness, source ledger, visible-history descent, licensed public surface, mature finite consumer boundary, scoped finite-data exit package, and finite-data sibling route in \autoref{thm:sum-finite-data-sibling-route}.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.SumUp.sum\_history\_semantic\_name\_certificate}
+  \bridgestatus{paperBridge}
+  \notclaimed{Full sum or coproduct theory: eliminators into arbitrary certified targets, dependent sums, categorical coproduct universal property, distributivity laws, or generic case recursion.}
+  \upgradepath{No further paper-axis theory upgrade is required for this finite tagged-payload surface.}
+\end{closurestatus}
