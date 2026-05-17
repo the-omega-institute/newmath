@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\AuditExportFirewallUp$}
+\label{ch:concrete-instances-auditexportfirewall-namecert}
+\origin{ai}
+
+The $\AuditExportFirewallUp$ packet realizes the total-audit synthesis of \autoref{sec:visions-philosophy-total-synthesis} as a finite export firewall. It sits beside the sibling audit packet $\AuditSystemUp$ of \autoref{ch:concrete-instances-auditsystem-namecert}, the negative certificate surface of \autoref{ch:concrete-instances-failurecertificate-namecert}, the positive claim-entry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, the registry export consistency gate of \autoref{ch:concrete-instances-registry-export-consistency-gate-namecert}, and the kernel acceptance audit witness of \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}. Those siblings supply audit packet, failure row, claim row, consistency gate, and kernel acceptance data separately; this carrier binds the same claim site before export can be read.
+
+\begin{definition}[Audit export firewall carrier]
+\label{def:audit-export-firewall-carrier}
+An $\AuditExportFirewallUp$ carrier is a finite $\BHist$ packet
+$$
+F=(C,P,A,E,R,G,L,H,K,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the claim-site row, recording the registry claim name, subject surface, carrier, classifier, and intended export site;
+\item $P$ is the positive-certificate row, recording the certificate that would license the claim if no active negative row addresses the same site;
+\item $A$ is the $\AuditSystemUp$ sibling row, carrying the admissible claim, positive certificate, failure certificate, refusal, export grade, and audit ledger surface of the same site;
+\item $E$ is the $\FailureCertificateUp$ row, recording missing, invalid, overstated, unchecked, or axis-confused data for the same claim site when export is blocked;
+\item $R$ is the $\ClaimRegistryLayerUp$ row, exposing the registry admission and refusal boundary for the claim;
+\item $G$ is the $\RegistryExportConsistencyGateUp$ row, checking status consistency across the registry entry, export grade, closure-status reading, and formal-target row;
+\item $L$ is the firewall-ledger row, recording whether the packet admits export, refuses export, or records a positive/negative certificate conflict;
+\item $H$ records componentwise $\hsame$ transport for claim, certificate, audit-system, failure, registry, consistency-gate, ledger, replay, provenance, and local naming rows;
+\item $K$ records displayed $\Cont$ replay for reading $C,P,A,E,R,G,L$ without adding a host-side export override;
+\item $Q$ is the $\Pkg$ provenance over $\AuditExportFirewallUp$, $\AuditSystemUp$, $\FailureCertificateUp$, $\ClaimRegistryLayerUp$, $\RegistryExportConsistencyGateUp$, $\KernelAcceptanceAuditWitnessUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AuditExportFirewallUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for exporting a claim outside the displayed claim, positive certificate, audit-system, failure-certificate, registry, consistency-gate, firewall-ledger, transport, replay, provenance, and naming rows.
+\end{definition}
+
+\begin{theorem}[Audit export firewall NameCert obligations]
+\label{thm:audit-export-firewall-namecert-obligations}
+For the carrier of \autoref{def:audit-export-firewall-carrier}, the local $\NameCert_{\AuditExportFirewallUp}$ surface consists exactly of carrier admission for $F=(C,P,A,E,R,G,L,H,K,Q,N)$, claim-site exposure through $C$, positive-certificate exposure through $P$, audit-system handoff through $A$, failure-certificate exposure through $E$, claim-registry exposure through $R$, registry-export consistency through $G$, firewall-ledger decision through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, package provenance through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $F=(C,P,A,E,R,G,L,H,K,Q,N)$. The claim-site row $C$ and positive-certificate row $P$ are visible before any export decision is read.
+
+Next read the sibling audit rows. The $\AuditSystemUp$ row $A$ supplies the joint positive and negative audit packet, the $\FailureCertificateUp$ row $E$ exposes the active negative certificate when present, the $\ClaimRegistryLayerUp$ row $R$ exposes registry admission, and the $\RegistryExportConsistencyGateUp$ row $G$ checks the export status of the same claim site.
+
+Finally read $L,H,K,Q,N$. The firewall-ledger row records the export, refusal, or conflict state; transport, replay, provenance, and local naming preserve the same displayed rows. Since the carrier has no additional export coordinate, these rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Audit export firewall non-escape]
+\label{thm:audit-export-firewall-nonescape}
+If an accepted $\AuditExportFirewallUp$ packet has the positive-certificate row $P$ and an active failure-certificate row $E$ addressing the same claim site $C$, then the firewall-ledger row $L$ records refusal or certificate conflict. It does not produce an admitted exportable claim.
+\end{theorem}
+\begin{proof}
+Assume an accepted packet $F=(C,P,A,E,R,G,L,H,K,Q,N)$ and suppose $P$ and $E$ address the same claim site $C$. The claim row is therefore read with both a positive certificate and an active negative certificate.
+
+The audit-system handoff $A$ keeps positive certificate, failure certificate, cannot-claim refusal, export grade, and ledger closure in one finite audit packet. The registry row $R$ and consistency gate $G$ read the same claim site before export is exposed, so the negative row cannot be hidden behind a separate registry entry.
+
+The firewall-ledger row $L$ is the only row from which an export decision may be projected. Because $L$ is read after $P,E,R,G$, it records the visible conflict or refusal rather than an admitted export. The remaining rows $H,K,Q,N$ transport, replay, package, and name that same decision, and no hidden export coordinate remains.
+\end{proof}
+
+\begin{theorem}[Audit export firewall sibling independence]
+\label{thm:audit-export-firewall-sibling-independence}
+The $\AuditExportFirewallUp$ carrier is not bijective, under NameCert-row preservation, to $\AuditSystemUp$, $\FailureCertificateUp$, $\ClaimRegistryLayerUp$, $\RegistryExportConsistencyGateUp$, or $\KernelAcceptanceAuditWitnessUp$.
+\end{theorem}
+\begin{proof}
+Compare the displayed rows. $\AuditSystemUp$ binds positive and negative audit data, $\FailureCertificateUp$ supplies a typed negative certificate, $\ClaimRegistryLayerUp$ registers or refuses a claim, $\RegistryExportConsistencyGateUp$ blocks inconsistent registry export, and $\KernelAcceptanceAuditWitnessUp$ records kernel-side acceptance audit data.
+
+The firewall carrier contains all those handoff roles together with the firewall-ledger row $L$ that decides export, refusal, or certificate conflict for the same claim site. A NameCert-row-preserving bijection would have to preserve that joint conflict-blocking coordinate, but no listed sibling has it as a local row. Therefore no such bijection exists.
+\end{proof}
+
+The Lean $\mathsf{TasteGate.lean}$ surface must provide $\mathsf{Nontrivial}\ \AuditExportFirewallUp$ and $\mathsf{FieldFaithful}\ \AuditExportFirewallUp$ instances. The field-faithfulness witness must preserve $C,P,A,E,R,G,L,H,K,Q,N$ as distinct rows so positive certification, active failure, registry admission, consistency checking, firewall decision, and local naming cannot be merged.
+
+\falsifiablePrediction{If the positive certificate row and active failure row address the same claim site, the firewall packet refuses export rather than producing an admitted claim.}
+
+\independenceWitness{Compare auditsystem, failurecertificate, claimregistrylayer, registryexportconsistencygate, kernelacceptanceauditwitness: AuditExportFirewallUp is not bijective with any one sibling because it carries the same-site firewall-ledger decision over positive certificate, active failure, registry admission, consistency gate, and audit witness rows.}
+
+\closureat{AuditExportFirewallUp}{seedStr}
+\closureat{AuditExportFirewallUp}{obligationStr}
