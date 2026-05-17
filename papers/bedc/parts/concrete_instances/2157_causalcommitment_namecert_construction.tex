@@ -128,6 +128,56 @@ Use classifier stability to keep those rows separated under $\hsame$ transport a
 Finally apply the forward-GAP obligations. Their non-escape clause excludes selected future observations, global observer frames, universal empirical laws, hidden induction rules, and ambient causal primitives. Since no displayed row names one of those objects, the local ledger cannot export it.
 \end{proof}
 
+\begin{theorem}[CausalCommitment carrier obligation]
+\label{thm:causal-commitment-carrier-obligation}
+Every accepted forward-GAP $\CausalCommitmentUp$ carrier exposes exactly the displayed rows
+$$
+O,R,G,F,L,H,C,P,N.
+$$
+Here $O,R$ are the finite observed and regularity ledgers, $G$ is the $\mathsf{GAP}$ socket, $F$ is the forward-binding route, $L$ is the locality-cell consumer row, $H,C$ are the componentwise transport and displayed replay rows, $P$ is package provenance, and $N$ is the local $\NameCert_{\CausalCommitmentUp}$ row. No other causal, observer, locality, or induction coordinate belongs to the accepted carrier.
+\end{theorem}
+\begin{proof}
+Project the forward-GAP carrier of \autoref{def:causal-commitment-forward-gap-carrier}. It lists $O,R,G,F,L,H,C,P,N$ and describes $L$ as the only locality-cell consumer handoff.
+
+Apply the GAP socket theorem and the forward-binding route theorem. They account for the only forward-looking row $G$ and the only route from observed regularity to commitment, namely $F$ replayed by $C$.
+
+Next use the forward-GAP obligations. Carrier exposure, GAP accountability, route stability, locality restriction, and non-escape are all stated over the same nine displayed rows.
+
+Finally invoke ledger non-escape. Since selected future observations, global observer frames, universal empirical laws, hidden induction rules, and ambient causal primitives have no coordinate in the packet, the carrier obligation is exactly $O,R,G,F,L,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[CausalCommitment locality transport]
+\label{thm:causal-commitment-locality-transport}
+Every observer-locality transport of an accepted $\CausalCommitmentUp$ forward-GAP packet factors through the locality-cell row $L$ and the displayed $\Cont$ replay row $C$. A consumer may move the commitment into $\LocalityCellUp$ or $\ObserverLocalityCellUp$ only by reading $L$ after the route
+$$
+O,R \longrightarrow G \longrightarrow F \longrightarrow C
+$$
+has been exposed on the same finite carrier.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:causal-commitment-forward-gap-obligations}. Its locality-cell consumer restriction names $L$ as the required handoff for every observer-locality consumer.
+
+Use the forward-binding route theorem. The observed ledger and regularity ledger reach the commitment only through $G$ and $F$, with $C$ replaying the route inside the finite packet.
+
+Apply classifier stability. Componentwise $\hsame$ transport keeps $G,F,L$ and the replay row $C$ separate, so an observer-indexed consumer cannot collapse the locality handoff into a global frame.
+
+The locality-cell handoff theorem then supplies the endpoint. Since $L$ is the only row that points to $\LocalityCellUp$ and $\ObserverLocalityCellUp$, every observer-locality transport factors through $L$ and the displayed $\Cont$ replay.
+\end{proof}
+
+\begin{theorem}[CausalCommitment ledger exactness]
+\label{thm:causal-commitment-ledger-exactness}
+The $\CausalCommitmentUp$ ledger excludes selected future observations, global observer frames, universal empirical laws, hidden induction rules, and ambient causal primitives. Its accepted readback is exactly the finite route through $O,R,G,F,L,H,C,P,N$, with no off-packet empirical law and no unrecorded causal constructor.
+\end{theorem}
+\begin{proof}
+Start from the carrier obligation. The accepted forward-GAP packet has only the nine displayed rows, so every consumer read must project one of those rows or use transport, replay, provenance, and local naming attached to them.
+
+Apply \autoref{thm:causal-commitment-gap-socket} and \autoref{thm:causal-commitment-forward-binding-route}. These keep the forward-looking content in $G$ and the observed-to-commitment route in $F$ and $C$.
+
+Next use locality transport. Observer-locality consumption must pass through $L$, so it cannot introduce a synchronized global frame or selected future observation outside the finite carrier.
+
+Finally apply \autoref{thm:causal-commitment-ledger-nonescape}. The non-escape clause removes the remaining forbidden objects: universal empirical laws, hidden induction rules, and ambient causal primitives. Therefore the ledger readback is exactly the displayed finite route.
+\end{proof}
+
 \begin{theorem}[CausalCommitment non-escape boundary]
 \label{thm:causal-commitment-non-escape-boundary}
 No consumer of an accepted $\CausalCommitmentUp$ packet can extract a selected future observation, a universal empirical law, a hidden induction rule, a synchronized global frame, or an ambient causal primitive. Every consumer read factors through $O,R,G,F,H,C,P,N$.
