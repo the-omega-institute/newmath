@@ -102,6 +102,30 @@ theorem AuditMapDependencyWeaveSynthesisNameCertPackage [AskSetup] [PackageSetup
     ⟨synthesisUnary, localMapUnary, neighbourUnary, routeUnary, synthesisProvenance,
       provenancePkg, routePkg⟩
 
+theorem AuditMapDependencyWeaveCrossMapConsumerBoundary [AskSetup] [PackageSetup]
+    {localMap neighbour obstruction frontier synthesis transport continuation provenance
+      localName frontierRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapDependencyWeaveCarrier localMap neighbour obstruction frontier synthesis transport
+        continuation provenance localName bundle pkg →
+      Cont frontier synthesis frontierRoute →
+        PkgSig bundle frontierRoute pkg →
+          UnaryHistory localMap ∧ UnaryHistory neighbour ∧ UnaryHistory obstruction ∧
+            UnaryHistory frontier ∧ UnaryHistory synthesis ∧ UnaryHistory frontierRoute ∧
+              Cont frontier synthesis frontierRoute ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle frontierRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier frontierSynthesisRoute frontierRoutePkg
+  rcases carrier with
+    ⟨localMapUnary, neighbourUnary, obstructionUnary, frontierUnary, synthesisUnary,
+      _transportUnary, _continuationUnary, _provenanceUnary, _localNameUnary,
+      _mapTransport, _obstructionContinuation, _synthesisProvenance, provenancePkg⟩
+  have frontierRouteUnary : UnaryHistory frontierRoute :=
+    unary_cont_closed frontierUnary synthesisUnary frontierSynthesisRoute
+  exact
+    ⟨localMapUnary, neighbourUnary, obstructionUnary, frontierUnary, synthesisUnary,
+      frontierRouteUnary, frontierSynthesisRoute, provenancePkg, frontierRoutePkg⟩
+
 def auditMapDependencyWeaveEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
