@@ -1,5 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\LFunctionUp$}
 \label{ch:concrete-instances-lfunction-namecert}
+\origin{human}
 
 The L-function interface $\LFunctionUp$ packages a Dirichlet series whose coefficients arise from a fixed character or Galois representation, together with the analytic continuation and functional-equation witnesses. It depends on $\NameCert_{\DirichletSeriesUp}$ (\autoref{ch:concrete-instances-dirichlet-series-namecert}) and is the abstract pattern instantiated by the Riemann zeta certificate $\NameCert_{\ZetaBasicUp}$ (\autoref{ch:concrete-instances-zeta-basic-namecert}).
 
@@ -329,3 +330,14 @@ By the recursive definition of history append, $\mathsf{append}(n,\Eone(k_0))$ i
 \end{proof}
 \leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_finite\_zero\_tail\_stability}
 \leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletFiniteZeroTail\_stability}
+
+\begin{closurestatus}{\LFunctionUp}
+  \constructivestory{An $\LFunctionUp$ certificate is generated from closed Dirichlet partial-sum witnesses, unary index rows, term histories, zero-tail ledgers, continuation endpoints, and $\hsame$ transport. The $\BHist$ carrier does not store analytic continuation as an ambient theorem; it builds finite Dirichlet evidence by induction over displayed partial sums and finite zero tails. Each successor read exposes the predecessor sum and the $\Cont$ row adding the next term, while $\hsame$ transports result histories without changing the closed witness. The chapter therefore certifies the finite Dirichlet-series substrate used by the L-function interface.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds L-function Dirichlet partial-sum predecessor, determinacy, zero-tail, transport, and finite stability theorems.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim analytic continuation, a functional equation, Euler product convergence, meromorphic extension, or host complex analysis.}
+  \upgradepath{To reach obligationClosure, package the checked finite Dirichlet partial-sum and zero-tail theorems as an explicit NameCert carrier surface.}
+\end{closurestatus}
