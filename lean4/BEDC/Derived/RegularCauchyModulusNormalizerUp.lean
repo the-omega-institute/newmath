@@ -572,4 +572,19 @@ theorem RegularCauchyModulusNormalizerCarrier_formal_target_surface [AskSetup]
       targetUnary, witnessUnary, meetWindowDyadic, dyadicReadbackSeal, sealTransportRoute,
       routeProvenanceTarget, readbackSealWitness, targetPkg, witnessPkg⟩
 
+def RegularCauchyModulusNormalizerClassifier [AskSetup] [PackageSetup]
+    (x y muX muY meet window dyadic readback sealRow transport route provenance name x2 y2 muX2
+      muY2 meet2 window2 dyadic2 readback2 sealRow2 transport2 route2 provenance2 name2 :
+        BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame PkgSig
+  RegularCauchyModulusNormalizerCarrier x y muX muY meet window dyadic readback sealRow
+      transport route provenance name bundle pkg ∧
+    RegularCauchyModulusNormalizerCarrier x2 y2 muX2 muY2 meet2 window2 dyadic2
+      readback2 sealRow2 transport2 route2 provenance2 name2 bundle pkg ∧
+      hsame meet meet2 ∧ hsame window window2 ∧ hsame dyadic dyadic2 ∧
+        hsame readback readback2 ∧ hsame sealRow sealRow2 ∧ hsame transport transport2 ∧
+          hsame route route2 ∧ hsame provenance provenance2 ∧ hsame name name2 ∧
+            PkgSig bundle name pkg ∧ PkgSig bundle name2 pkg
+
 end BEDC.Derived.RegularCauchyModulusNormalizerUp
