@@ -10,9 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive FinitePrefixLimitStabilityUp : Type where
-  | mk
-      (budget window readback tolerance realSeal transport replay provenance localName : BHist) :
-      FinitePrefixLimitStabilityUp
+  | packet (B W R D E H C P N : BHist) : FinitePrefixLimitStabilityUp
   deriving DecidableEq
 
 def finitePrefixLimitStabilityEncodeBHist : BHist → RawEvent
@@ -27,9 +25,10 @@ def finitePrefixLimitStabilityDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (finitePrefixLimitStabilityDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (finitePrefixLimitStabilityDecodeBHist tail)
 
-private theorem finitePrefixLimitStability_decode_encode_bhist :
+private theorem FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
-      finitePrefixLimitStabilityDecodeBHist (finitePrefixLimitStabilityEncodeBHist h) = h := by
+      finitePrefixLimitStabilityDecodeBHist
+        (finitePrefixLimitStabilityEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -40,168 +39,186 @@ private theorem finitePrefixLimitStability_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
+private theorem FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_packet
+    {B B' W W' R R' D D' E E' H H' C C' P P' N N' : BHist}
+    (hB : B' = B) (hW : W' = W) (hR : R' = R) (hD : D' = D) (hE : E' = E)
+    (hH : H' = H) (hC : C' = C) (hP : P' = P) (hN : N' = N) :
+    FinitePrefixLimitStabilityUp.packet B' W' R' D' E' H' C' P' N' =
+      FinitePrefixLimitStabilityUp.packet B W R D E H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hB
+  cases hW
+  cases hR
+  cases hD
+  cases hE
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
+
+private def FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_packetOfRaw
+    (B W R D E H C P N : RawEvent) : FinitePrefixLimitStabilityUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  FinitePrefixLimitStabilityUp.packet
+    (finitePrefixLimitStabilityDecodeBHist B)
+    (finitePrefixLimitStabilityDecodeBHist W)
+    (finitePrefixLimitStabilityDecodeBHist R)
+    (finitePrefixLimitStabilityDecodeBHist D)
+    (finitePrefixLimitStabilityDecodeBHist E)
+    (finitePrefixLimitStabilityDecodeBHist H)
+    (finitePrefixLimitStabilityDecodeBHist C)
+    (finitePrefixLimitStabilityDecodeBHist P)
+    (finitePrefixLimitStabilityDecodeBHist N)
+
 def finitePrefixLimitStabilityToEventFlow : FinitePrefixLimitStabilityUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | FinitePrefixLimitStabilityUp.mk budget window readback tolerance realSeal transport replay
-      provenance localName =>
+  | FinitePrefixLimitStabilityUp.packet B W R D E H C P N =>
       [[BMark.b0],
-        finitePrefixLimitStabilityEncodeBHist budget,
+        finitePrefixLimitStabilityEncodeBHist B,
         [BMark.b1, BMark.b0],
-        finitePrefixLimitStabilityEncodeBHist window,
+        finitePrefixLimitStabilityEncodeBHist W,
         [BMark.b1, BMark.b1, BMark.b0],
-        finitePrefixLimitStabilityEncodeBHist readback,
+        finitePrefixLimitStabilityEncodeBHist R,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        finitePrefixLimitStabilityEncodeBHist tolerance,
+        finitePrefixLimitStabilityEncodeBHist D,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        finitePrefixLimitStabilityEncodeBHist realSeal,
+        finitePrefixLimitStabilityEncodeBHist E,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        finitePrefixLimitStabilityEncodeBHist transport,
+        finitePrefixLimitStabilityEncodeBHist H,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        finitePrefixLimitStabilityEncodeBHist replay,
+        finitePrefixLimitStabilityEncodeBHist C,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        finitePrefixLimitStabilityEncodeBHist provenance,
+        finitePrefixLimitStabilityEncodeBHist P,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        finitePrefixLimitStabilityEncodeBHist localName]
+        finitePrefixLimitStabilityEncodeBHist N]
 
 def finitePrefixLimitStabilityFromEventFlow :
     EventFlow → Option FinitePrefixLimitStabilityUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
+      let packet := FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_packetOfRaw
       match rest0 with
       | [] => none
-      | budget :: rest1 =>
+      | B :: rest1 =>
           match rest1 with
           | [] => none
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | window :: rest3 =>
+              | W :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | readback :: rest5 =>
+                      | R :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | tolerance :: rest7 =>
+                              | D :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | realSeal :: rest9 =>
+                                      | E :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | transport :: rest11 =>
+                                              | H :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | replay :: rest13 =>
+                                                      | C :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | provenance :: rest15 =>
+                                                              | P :: rest15 =>
                                                                   match rest15 with
                                                                   | [] => none
                                                                   | _tag8 :: rest16 =>
                                                                       match rest16 with
                                                                       | [] => none
-                                                                      | localName :: rest17 =>
+                                                                      | N :: rest17 =>
                                                                           match rest17 with
                                                                           | [] =>
                                                                               some
-                                                                                (FinitePrefixLimitStabilityUp.mk
-                                                                                  (finitePrefixLimitStabilityDecodeBHist
-                                                                                    budget)
-                                                                                  (finitePrefixLimitStabilityDecodeBHist
-                                                                                    window)
-                                                                                  (finitePrefixLimitStabilityDecodeBHist
-                                                                                    readback)
-                                                                                  (finitePrefixLimitStabilityDecodeBHist
-                                                                                    tolerance)
-                                                                                  (finitePrefixLimitStabilityDecodeBHist
-                                                                                    realSeal)
-                                                                                  (finitePrefixLimitStabilityDecodeBHist
-                                                                                    transport)
-                                                                                  (finitePrefixLimitStabilityDecodeBHist
-                                                                                    replay)
-                                                                                  (finitePrefixLimitStabilityDecodeBHist
-                                                                                    provenance)
-                                                                                  (finitePrefixLimitStabilityDecodeBHist
-                                                                                    localName))
-                                                                          | _ :: _ => none
+                                                                                (packet B W R D E H C P N)
+                                                                          | _ :: _ =>
+                                                                              none
 
-private theorem finitePrefixLimitStability_round_trip :
+private theorem FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_round_trip :
     ∀ x : FinitePrefixLimitStabilityUp,
       finitePrefixLimitStabilityFromEventFlow
-          (finitePrefixLimitStabilityToEventFlow x) =
-        some x := by
+        (finitePrefixLimitStabilityToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk budget window readback tolerance realSeal transport replay provenance localName =>
+  | packet B W R D E H C P N =>
       change
         some
-          (FinitePrefixLimitStabilityUp.mk
+          (FinitePrefixLimitStabilityUp.packet
             (finitePrefixLimitStabilityDecodeBHist
-              (finitePrefixLimitStabilityEncodeBHist budget))
+              (finitePrefixLimitStabilityEncodeBHist B))
             (finitePrefixLimitStabilityDecodeBHist
-              (finitePrefixLimitStabilityEncodeBHist window))
+              (finitePrefixLimitStabilityEncodeBHist W))
             (finitePrefixLimitStabilityDecodeBHist
-              (finitePrefixLimitStabilityEncodeBHist readback))
+              (finitePrefixLimitStabilityEncodeBHist R))
             (finitePrefixLimitStabilityDecodeBHist
-              (finitePrefixLimitStabilityEncodeBHist tolerance))
+              (finitePrefixLimitStabilityEncodeBHist D))
             (finitePrefixLimitStabilityDecodeBHist
-              (finitePrefixLimitStabilityEncodeBHist realSeal))
+              (finitePrefixLimitStabilityEncodeBHist E))
             (finitePrefixLimitStabilityDecodeBHist
-              (finitePrefixLimitStabilityEncodeBHist transport))
+              (finitePrefixLimitStabilityEncodeBHist H))
             (finitePrefixLimitStabilityDecodeBHist
-              (finitePrefixLimitStabilityEncodeBHist replay))
+              (finitePrefixLimitStabilityEncodeBHist C))
             (finitePrefixLimitStabilityDecodeBHist
-              (finitePrefixLimitStabilityEncodeBHist provenance))
+              (finitePrefixLimitStabilityEncodeBHist P))
             (finitePrefixLimitStabilityDecodeBHist
-              (finitePrefixLimitStabilityEncodeBHist localName))) =
-          some
-            (FinitePrefixLimitStabilityUp.mk budget window readback tolerance realSeal transport
-              replay provenance localName)
-      rw [finitePrefixLimitStability_decode_encode_bhist budget,
-        finitePrefixLimitStability_decode_encode_bhist window,
-        finitePrefixLimitStability_decode_encode_bhist readback,
-        finitePrefixLimitStability_decode_encode_bhist tolerance,
-        finitePrefixLimitStability_decode_encode_bhist realSeal,
-        finitePrefixLimitStability_decode_encode_bhist transport,
-        finitePrefixLimitStability_decode_encode_bhist replay,
-        finitePrefixLimitStability_decode_encode_bhist provenance,
-        finitePrefixLimitStability_decode_encode_bhist localName]
+              (finitePrefixLimitStabilityEncodeBHist N))) =
+          some (FinitePrefixLimitStabilityUp.packet B W R D E H C P N)
+      exact
+        congrArg some
+          (FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_packet
+            (FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_decode B)
+            (FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_decode W)
+            (FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_decode R)
+            (FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_decode D)
+            (FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_decode E)
+            (FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_decode H)
+            (FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_decode C)
+            (FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_decode P)
+            (FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_decode N))
 
-private theorem finitePrefixLimitStabilityToEventFlow_injective
+private theorem FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_injective
     {x y : FinitePrefixLimitStabilityUp} :
-    finitePrefixLimitStabilityToEventFlow x =
-      finitePrefixLimitStabilityToEventFlow y →
-    x = y := by
+    finitePrefixLimitStabilityToEventFlow x = finitePrefixLimitStabilityToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      finitePrefixLimitStabilityFromEventFlow (finitePrefixLimitStabilityToEventFlow x) =
-        finitePrefixLimitStabilityFromEventFlow (finitePrefixLimitStabilityToEventFlow y) :=
+      finitePrefixLimitStabilityFromEventFlow
+          (finitePrefixLimitStabilityToEventFlow x) =
+        finitePrefixLimitStabilityFromEventFlow
+          (finitePrefixLimitStabilityToEventFlow y) :=
     congrArg finitePrefixLimitStabilityFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (finitePrefixLimitStability_round_trip x).symm
-      (Eq.trans hread (finitePrefixLimitStability_round_trip y)))
+    (Eq.trans
+      (FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_round_trip y)))
 
 instance finitePrefixLimitStabilityBHistCarrier :
     BHistCarrier FinitePrefixLimitStabilityUp where
@@ -215,30 +232,26 @@ instance finitePrefixLimitStabilityChapterTasteGate :
   round_trip := by
     intro x
     change
-      finitePrefixLimitStabilityFromEventFlow (finitePrefixLimitStabilityToEventFlow x) =
-        some x
-    exact finitePrefixLimitStability_round_trip x
+      finitePrefixLimitStabilityFromEventFlow
+        (finitePrefixLimitStabilityToEventFlow x) = some x
+    exact FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (finitePrefixLimitStabilityToEventFlow_injective heq)
+    exact hxy
+      (FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_injective heq)
 
 instance finitePrefixLimitStabilityFieldFaithful :
     FieldFaithful FinitePrefixLimitStabilityUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
     match x with
-    | FinitePrefixLimitStabilityUp.mk budget window readback tolerance realSeal transport replay
-        provenance localName =>
-        [budget, window, readback, tolerance, realSeal, transport, replay, provenance, localName]
+    | FinitePrefixLimitStabilityUp.packet B W R D E H C P N => [B, W, R, D, E, H, C, P, N]
   field_faithful := by
     intro x y h
     cases x with
-    | mk budget₁ window₁ readback₁ tolerance₁ realSeal₁ transport₁ replay₁ provenance₁
-        localName₁ =>
+    | packet B1 W1 R1 D1 E1 H1 C1 P1 N1 =>
         cases y with
-        | mk budget₂ window₂ readback₂ tolerance₂ realSeal₂ transport₂ replay₂ provenance₂
-            localName₂ =>
-            simp only [] at h
+        | packet B2 W2 R2 D2 E2 H2 C2 P2 N2 =>
             cases h
             rfl
 
@@ -246,9 +259,9 @@ instance finitePrefixLimitStabilityNontrivial :
     Nontrivial FinitePrefixLimitStabilityUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨FinitePrefixLimitStabilityUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+    ⟨FinitePrefixLimitStabilityUp.packet BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      FinitePrefixLimitStabilityUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+      FinitePrefixLimitStabilityUp.packet (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
@@ -273,14 +286,38 @@ theorem FinitePrefixLimitStabilityTasteGate_single_carrier_alignment :
             Nonempty (ChapterTasteGate FinitePrefixLimitStabilityUp) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact finitePrefixLimitStability_decode_encode_bhist
+  · exact FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_decode
   · constructor
-    · exact finitePrefixLimitStability_round_trip
+    · exact FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_round_trip
     · constructor
       · intro x y heq
-        exact finitePrefixLimitStabilityToEventFlow_injective heq
+        exact FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_injective heq
       · constructor
         · exact Nonempty.intro finitePrefixLimitStabilityFieldFaithful
         · exact Nonempty.intro finitePrefixLimitStabilityChapterTasteGate
+
+theorem FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment :
+    finitePrefixLimitStabilityEncodeBHist BHist.Empty = [] ∧
+      (∀ h : BHist,
+        finitePrefixLimitStabilityDecodeBHist
+          (finitePrefixLimitStabilityEncodeBHist h) = h) ∧
+      (∀ x : FinitePrefixLimitStabilityUp,
+        finitePrefixLimitStabilityFromEventFlow
+          (finitePrefixLimitStabilityToEventFlow x) = some x) ∧
+      (∀ x y : FinitePrefixLimitStabilityUp,
+        finitePrefixLimitStabilityToEventFlow x = finitePrefixLimitStabilityToEventFlow y →
+          x = y) ∧
+      Nonempty (ChapterTasteGate FinitePrefixLimitStabilityUp) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · constructor
+    · exact FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_decode
+    · constructor
+      · exact FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_round_trip
+      · constructor
+        · intro x y hxy
+          exact FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_injective hxy
+        · exact ⟨finitePrefixLimitStabilityChapterTasteGate⟩
 
 end BEDC.Derived.FinitePrefixLimitStabilityUp
