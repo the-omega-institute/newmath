@@ -1,0 +1,44 @@
+\begin{theorem}[GapClosureBoundary L10 terminal source lock]
+\label{thm:gap-closure-boundary-l10-terminal-source-lock}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, the root route exported to the L10 terminal source surface is locked to the displayed rows
+$$
+\begin{gathered}
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert_{\GapClosureBoundaryUp},\\
+\StreamNameUp,\quad \RealUp,\quad \CompletionUp.
+\end{gathered}
+$$
+The source-refusal route may reach a terminal $\StreamNameUp$, $\RealUp$, or $\CompletionUp$ consumer only after passing through the source-refusal admission triad of \autoref{thm:gap-closure-boundary-source-refusal-admission-triad}, the recognizer landing obligations of \autoref{thm:gap-closure-boundary-recognizer-source-admission} and \autoref{thm:gap-closure-boundary-recognizer-refusal-stability}, and the route-completion surface of \autoref{thm:gap-closure-boundary-namecert-route-completion}. The export carries no hidden completion witness, selected Real limit, anonymous stream name, host equality row, quotient datum, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to its finite source-refusal inventory. The carrier contributes $G,S,R$, while $H,C,P,N$ provide the componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming rows.
+
+Next apply the source-refusal admission triad and the recognizer landing obligations. Successful recognizer landings are read as $G \longrightarrow S$, while failed or unsupported landings are read as $G \longrightarrow R$ under the same structural rows.
+
+Finally apply route completion and the L10 terminal obligation pack. The $\StreamNameUp$, $\RealUp$, and $\CompletionUp$ consumers receive the packet only after the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows have been exposed, so the excluded hidden coordinates have no terminal source slot.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary root consumer exactness]
+\label{thm:gap-closure-boundary-root-consumer-exactness}
+Every root consumer route of an accepted $\GapClosureBoundaryUp$ packet is exact with respect to the same L10 terminal source surface. A supported root consumer must read the branch $G \longrightarrow S$ before any $\StreamNameUp$, $\RealUp$, or $\CompletionUp$ row is inspected; an unsupported root consumer must read the branch $G \longrightarrow R$ before the same terminal rows are inspected. Both branches remain transported by $H$, replayed by $C$, packaged by $P$, and named by $N$.
+\end{theorem}
+\begin{proof}
+Begin with the terminal source lock above. It fixes the only terminal source surface available to the root route as the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RealUp$, and $\CompletionUp$ rows.
+
+For the supported branch, use recognizer source admission together with route completion. These force successful evidence through $G \longrightarrow S$ before any terminal consumer can read the downstream rows.
+
+For the unsupported branch, use recognizer refusal stability together with refusal ledger exhaustion. The request remains at $G \longrightarrow R$ under $H,C,P,N$ and cannot be reread as source evidence or completion supply.
+
+The Real and StreamName dependency theorem then supplies the terminal exactness check: a real-completion export needs the named $\RealUp$ and $\StreamNameUp$ rows together, and the $\CompletionUp$ consumer receives them only through the same source-refusal packet.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary terminal unblock package]
+\label{thm:gap-closure-boundary-terminal-unblock-package}
+The terminal unblock package consumed by the $\RealUp$ and $\CompletionUp$ boundary chapters is the finite packet consisting of the root request row, displayed source row, displayed refusal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local $\NameCert_{\GapClosureBoundaryUp}$ naming, and the terminal $\StreamNameUp$, $\RealUp$, and $\CompletionUp$ rows. A downstream Real or Completion boundary may cite this package as a source-locked unblock surface, but it may not extract an ambient completeness principle, quotient stream equality, selected limit, hidden source selector, or off-packet continuation from it.
+\end{theorem}
+\begin{proof}
+First assemble the root surface from the terminal source lock and root consumer exactness. These two projections identify the source branch, refusal branch, structural rows, and terminal rows as one finite packet.
+
+Next add the L10 terminal obligation pack. It places $\StreamNameUp$ and $\RealUp$ behind the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, while the root route keeps $\CompletionUp$ on the same consumer boundary.
+
+Finally use finite refusal consumer exhaustion. Unsupported terminal requests are absorbed by the displayed refusal ledger, and supported terminal requests remain on the displayed source branch. Thus Real and Completion consumers receive exactly the source-locked unblock package and no ambient or off-packet resource.
+\end{proof}
