@@ -280,18 +280,31 @@ theorem PhilosophyFormalTargetLedgerTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       philosophyFormalTargetLedgerDecodeBHist
         (philosophyFormalTargetLedgerEncodeBHist h) = h) ∧
-      (∀ x : PhilosophyFormalTargetLedgerUp,
-        philosophyFormalTargetLedgerFromEventFlow
-          (philosophyFormalTargetLedgerToEventFlow x) = some x) ∧
-        (∀ x y : PhilosophyFormalTargetLedgerUp,
-          philosophyFormalTargetLedgerToEventFlow x =
-            philosophyFormalTargetLedgerToEventFlow y → x = y) ∧
-          philosophyFormalTargetLedgerEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+      philosophyFormalTargetLedgerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
+        (∀ x : PhilosophyFormalTargetLedgerUp,
+          philosophyFormalTargetLedgerFromEventFlow
+            (philosophyFormalTargetLedgerToEventFlow x) = some x) ∧
+          (∀ x y : PhilosophyFormalTargetLedgerUp,
+            philosophyFormalTargetLedgerToEventFlow x =
+              philosophyFormalTargetLedgerToEventFlow y → x = y) ∧
+            (∀ x y : PhilosophyFormalTargetLedgerUp,
+              philosophyFormalTargetLedgerFields x =
+                philosophyFormalTargetLedgerFields y → x = y) ∧
+              (∃ x y : PhilosophyFormalTargetLedgerUp, x ≠ y) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨philosophyFormalTargetLedgerDecodeEncodeBHist,
+    ⟨philosophyFormalTargetLedgerDecodeEncodeBHist, rfl,
       philosophyFormalTargetLedger_round_trip,
       (fun _ _ heq => philosophyFormalTargetLedgerToEventFlow_injective heq),
-      rfl⟩
+      philosophyFormalTargetLedger_field_faithful,
+      ⟨PhilosophyFormalTargetLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        PhilosophyFormalTargetLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        by
+          intro h
+          cases h⟩⟩
 
 end BEDC.Derived.PhilosophyFormalTargetLedgerUp
