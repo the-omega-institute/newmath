@@ -376,4 +376,74 @@ theorem KernelCategoryCarrier_root_transport_nonescape [BEDC.FKernel.Ask.AskSetu
     ⟨unaryObject, unaryEndpoint, identityCarrier, compositionRoute, sameHom,
       associativitySame, unitSame, nameSame, lawPkg, cert⟩
 
+theorem KernelCategoryCarrier_route_totality [BEDC.FKernel.Ask.AskSetup]
+    [BEDC.FKernel.Package.PackageSetup]
+    {object hom identity composition associativity unit provenance name routeRead : BHist}
+    {bundle : BEDC.FKernel.Bundle.ProbeBundle BEDC.FKernel.Ask.ProbeName}
+    {pkg : BEDC.FKernel.Package.Pkg} :
+    KernelCategoryCarrier object hom identity composition associativity unit provenance name ->
+      UnaryHistory composition ->
+        Cont hom composition routeRead ->
+          BEDC.FKernel.Package.PkgSig bundle routeRead pkg ->
+            UnaryHistory object ∧ CategoryHomCarrier object object identity ∧
+              Cont identity composition hom ∧ UnaryHistory routeRead ∧
+                Cont hom composition routeRead ∧ hsame associativity (append hom composition) ∧
+                  hsame unit identity ∧ hsame name (append provenance unit) ∧
+                    BEDC.FKernel.Package.PkgSig bundle routeRead pkg ∧
+                      SemanticNameCert
+                        (fun row : BHist => hsame row routeRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row routeRead ∧ Cont hom composition routeRead)
+                        (fun row : BHist =>
+                          hsame row routeRead ∧
+                            BEDC.FKernel.Package.PkgSig bundle routeRead pkg)
+                        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory SemanticNameCert PkgSig
+  intro carrier compositionUnary routeCont routePkg
+  obtain ⟨unaryObject, identityCarrier, compositionRoute, associativitySame, unitSame,
+    nameSame⟩ := carrier
+  have identityUnary : UnaryHistory identity :=
+    identityCarrier.right.right.left
+  have homUnary : UnaryHistory hom :=
+    unary_cont_closed identityUnary compositionUnary compositionRoute
+  have routeUnary : UnaryHistory routeRead :=
+    unary_cont_closed homUnary compositionUnary routeCont
+  have sourceRoute :
+      (fun row : BHist => hsame row routeRead ∧ UnaryHistory row) routeRead := by
+    exact ⟨hsame_refl routeRead, routeUnary⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row routeRead ∧ UnaryHistory row)
+        (fun row : BHist => hsame row routeRead ∧ Cont hom composition routeRead)
+        (fun row : BHist =>
+          hsame row routeRead ∧ BEDC.FKernel.Package.PkgSig bundle routeRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro routeRead sourceRoute
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact ⟨source.left, routeCont⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, routePkg⟩
+    }
+  exact
+    ⟨unaryObject, identityCarrier, compositionRoute, routeUnary, routeCont,
+      associativitySame, unitSame, nameSame, routePkg, cert⟩
+
 end BEDC.Derived.KernelCategoryUp
