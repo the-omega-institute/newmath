@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parents[2]
 NAMECERT_GLOB = ROOT / "papers/bedc/parts/concrete_instances"
 DERIVED_DIR = ROOT / "lean4/BEDC/Derived"
 _THEOREM_ENVS_CACHE_PATH = Path("/tmp/.bedc_cp_theorem_envs_cache.json")
-_DECLARED_SET_CACHE_PATH = Path("/tmp/.bedc_cp_declared_set_cache.json")
+_LEAN_DECLS_CACHE_PATH = Path("/tmp/.bedc_cp_lean_decls_cache.json")
 _CACHE_ENABLED = True
 
 # Per-call rolling cooldown: when 8+ paper reviewers run critical_path in the
@@ -1947,68 +1947,71 @@ def _save_theorem_envs_cache(cache: dict) -> None:
         pass
 
 
-def _load_declared_set_cache() -> tuple[str | None, set[str] | None]:
+def _load_lean_decls_cache() -> dict:
     try:
-        if not _DECLARED_SET_CACHE_PATH.exists():
-            return None, None
-        data = json.loads(_DECLARED_SET_CACHE_PATH.read_text(encoding="utf-8"))
-        if not isinstance(data, dict):
-            return None, None
-        declared = data.get("declared_set", [])
-        if not isinstance(declared, list):
-            return None, None
-        return data.get("olean_state_hash"), set(str(x) for x in declared)
+        if not _LEAN_DECLS_CACHE_PATH.exists():
+            return {}
+        data = json.loads(_LEAN_DECLS_CACHE_PATH.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
     except Exception:
-        return None, None
+        return {}
 
 
-def _save_declared_set_cache(state_hash: str, declared_set: set[str]) -> None:
+def _save_lean_decls_cache(cache: dict) -> None:
     try:
-        tmp = _DECLARED_SET_CACHE_PATH.with_suffix(".json.tmp")
-        tmp.write_text(json.dumps({
-            "olean_state_hash": state_hash,
-            "declared_set": sorted(declared_set),
-        }, ensure_ascii=False), encoding="utf-8")
-        tmp.replace(_DECLARED_SET_CACHE_PATH)
+        tmp = _LEAN_DECLS_CACHE_PATH.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+        tmp.replace(_LEAN_DECLS_CACHE_PATH)
     except Exception:
         pass
 
 
-def _olean_state_hash() -> str:
-    import hashlib
-    olean_dir = ROOT / "lean4" / ".lake" / "build" / "lib" / "lean" / "BEDC"
-    parts: list[str] = []
-    if olean_dir.is_dir():
-        for f in sorted(olean_dir.rglob("*.olean")):
-            try:
-                parts.append(f"{f.relative_to(olean_dir)}:{f.stat().st_mtime}")
-            except Exception:
-                pass
-    h = hashlib.sha1("\n".join(parts).encode()).hexdigest()
-    return h[:16]
-
-
 def _build_declared_set() -> set[str]:
-    """Set of qualified Lean names actually declared in lean4/BEDC/.
-    Reuses bedc_ci's inventory via dynamic import."""
-    state_hash = _olean_state_hash()
-    if _CACHE_ENABLED:
-        cached_hash, cached_set = _load_declared_set_cache()
-        if cached_hash == state_hash and cached_set is not None:
-            return cached_set
+    """Per-file cached set of qualified Lean names declared in lean4/BEDC/."""
     try:
         sys_path_addition = str((ROOT / "lean4" / "scripts").resolve())
         import sys as _sys
         if sys_path_addition not in _sys.path:
             _sys.path.insert(0, sys_path_addition)
-        from bedc_ci import build_declaration_inventory  # type: ignore
-        declarations, _ = build_declaration_inventory()
-        declared_set = {d.qualified_name for d in declarations}
-        if _CACHE_ENABLED:
-            _save_declared_set_cache(state_hash, declared_set)
-        return declared_set
+        from bedc_ci import collect_declarations, lean_files  # type: ignore
     except Exception:
         return set()
+
+    cache = _load_lean_decls_cache() if _CACHE_ENABLED else {}
+    new_cache: dict = {}
+    declared: set[str] = set()
+
+    for path in lean_files():
+        try:
+            file_rel = str(path.relative_to(ROOT))
+        except ValueError:
+            file_rel = str(path)
+        try:
+            mtime = path.stat().st_mtime
+        except Exception:
+            continue
+
+        cached_entry = cache.get(file_rel) if isinstance(cache, dict) else None
+        if (
+            isinstance(cached_entry, dict)
+            and cached_entry.get("mtime") == mtime
+            and isinstance(cached_entry.get("decls"), list)
+        ):
+            decls_list = cached_entry["decls"]
+        else:
+            try:
+                file_decls, _file_fields = collect_declarations(path)
+                decls_list = [d.qualified_name for d in file_decls]
+            except Exception:
+                decls_list = []
+
+        new_cache[file_rel] = {"mtime": mtime, "decls": decls_list}
+        for q in decls_list:
+            declared.add(str(q))
+
+    if _CACHE_ENABLED:
+        _save_lean_decls_cache(new_cache)
+    return declared
 
 
 def _count_paper_wide_autorefs(files: list[Path]) -> dict[str, int]:
