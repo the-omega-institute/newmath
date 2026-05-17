@@ -86,6 +86,24 @@ Apply \autoref{thm:regular-cauchy-completion-frontier-namecert-obligations}. Sou
 Finally use \autoref{thm:regular-cauchy-completion-frontier-nonescape}. Any accepted Real or Completion read outside the displayed coordinates would be an alternate route through an absent source. Since the forbidden objects have no carrier row and no local certificate coordinate, the listed rows exhaust the reusable handoff surface.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy completion frontier scoped dependency route]
+\label{thm:regular-cauchy-completion-frontier-scoped-dependency-route}
+For an accepted $\RegularCauchyCompletionFrontierUp$ packet
+$$
+F=(D,S,R,L,M,A,T,E,H,C,P,N),
+$$
+the scoped dependency route is exactly the following finite surface: $\DyadicRatCoreUp$ through $D$, $\StreamNameUp$ through $S$, $\RegSeqRatUp$ through $R$, $\CauchyModulusRefinementUp$ through $M$, $\RealUp$ through $L$, the diagonal-selector row $A$, the cofinal-tail row $T$, the completion-seal handoff row $E$, componentwise $\hsame$ through $H$, $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\RegularCauchyCompletionFrontierUp}$ row $N$.
+
+No quotient stream, selected limit, host equality, countable-choice selector, ambient completeness principle, metric-completeness principle, or bridge row belongs to the scoped dependency route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-completion-frontier-carrier}. The displayed coordinates name the same sibling anchors cited at the chapter entry: \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-cauchy-modulus-refinement-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+Use the NameCert obligations of \autoref{thm:regular-cauchy-completion-frontier-namecert-obligations}. They force source-window exposure through $D,S,R,M$, keep the selector and cofinal-tail rows $A,T$ on the same $\hsame$ and $\Cont$ route, and place the completion-seal handoff row $E$ before the Real seal row $L$.
+
+The exhaustion and non-escape clauses of \autoref{thm:regular-cauchy-completion-frontier-source-exhaustion} and \autoref{thm:regular-cauchy-completion-frontier-nonescape} remove every alternate source. What remains is precisely the listed finite dependency route, with no coordinate for quotient streams, selected limits, host equality, choice, ambient or metric completeness, or bridge data.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy completion frontier obligation closure]
 \label{thm:regular-cauchy-completion-frontier-obligation-closure}
 For $\RegularCauchyCompletionFrontierUp$, the carrier row, source-window exposure, selector and cofinal-tail stability, completion-seal handoff, and ledger non-escape obligations are all closed by the displayed finite packet
@@ -111,14 +129,15 @@ The Lean follow-up site \texttt{lean4/BEDC/Derived/RegularCauchyCompletionFronti
 
 \closureat{RegularCauchyCompletionFrontierUp}{seedStr}
 \closureat{RegularCauchyCompletionFrontierUp}{obligationStr}[BEDC.Derived.RegularCauchyCompletionFrontierUp.RegularCauchyCompletionFrontierTasteGate\_single\_carrier\_alignment]
+\closureat{RegularCauchyCompletionFrontierUp}{scopedStr}[BEDC.Derived.RegularCauchyCompletionFrontierUp.RegularCauchyCompletionFrontierTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RegularCauchyCompletionFrontierUp}
   \constructivestory{A $\RegularCauchyCompletionFrontierUp$ packet is generated from displayed DyadicRatCore, StreamName, RegSeqRat, RealUp, CauchyModulusRefinement, diagonal-selector, cofinal-tail, completion-seal, transport, continuation, package, and local NameCert rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:regular-cauchy-completion-frontier-obligation-closure} binds the finite carrier, five obligation rows, non-escape boundary, and source exhaustion for Real and Completion frontier consumers, with \texttt{BEDC.Derived.RegularCauchyCompletionFrontierUp.taste\_gate} witnessing the TasteGate instance.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:regular-cauchy-completion-frontier-scoped-dependency-route} binds the route through DyadicRatCore, StreamName, RegSeqRat, CauchyModulusRefinement, RealUp, selector, cofinal-tail, seal handoff, $\hsame$, $\Cont$, $\Pkg$, and local NameCert rows, while \autoref{thm:regular-cauchy-completion-frontier-obligation-closure} keeps the finite obligation surface closed and \texttt{BEDC.Derived.RegularCauchyCompletionFrontierUp.taste\_gate} witnesses the TasteGate instance.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove Lean verification, bridge checking, uniqueness of Real limits, quotient completion, countable choice, host real equality, or ambient completeness.}
-  \upgradepath{Scoped dependency grounding requires each consumed Real, StreamName, RegSeqRat, DyadicRatCore, and CauchyModulusRefinement dependency to be routed through explicit certificate anchors.}
+  \upgradepath{Lean verification must formalize the scoped dependency route and the bridge surface remains outside this chapter.}
 \end{closurestatus}

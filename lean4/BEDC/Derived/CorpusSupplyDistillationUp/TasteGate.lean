@@ -449,4 +449,26 @@ theorem CorpusSupplyDistillation_filter_route_order
   | mk C F D O R H T P N =>
       exact ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl, rfl, rfl⟩
 
+theorem CorpusSupplyDistillation_refusal_exactness
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        Cont R H (append R H) ∧
+          Cont H T (append H T) ∧
+            Cont T P (append T P) ∧
+              Cont P N (append P N) ∧
+                (Cont (append P N) (BHist.e0 R) P → False) ∧
+                  (Cont (append P N) (BHist.e1 R) P → False) := by
+  -- BEDC touchpoint anchor: BHist Cont
+  cases x with
+  | mk C F D O R H T P N =>
+      exact
+        ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl, rfl, rfl,
+          (fun hbad =>
+            (cont_mutual_extension_right_tail_absurd
+              (h := P) (k := append P N) (leftTail := N) (rightTail := R)).left rfl hbad),
+          (fun hbad =>
+            (cont_mutual_extension_right_tail_absurd
+              (h := P) (k := append P N) (leftTail := N) (rightTail := R)).right rfl hbad)⟩
+
 end BEDC.Derived.CorpusSupplyDistillationUp
