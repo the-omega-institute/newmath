@@ -92,4 +92,15 @@ theorem RefutationBoundaryCarrier_namecert_obligation_surface
         exact source
     }
 
+theorem RefutationBoundaryPermittedNegationSound
+    {A F D S T H C P N result : BHist}
+    (carrier : RefutationBoundaryCarrier A F D S T H C P N)
+    (follow : Cont D H result) :
+    Cont A F D ∧ Cont D H result ∧ hsame A A ∧ hsame F F ∧ hsame D D ∧
+      hsame result result ∧ msame BMark.b0 BMark.b0 := by
+  -- BEDC touchpoint anchor: BHist Cont hsame msame BMark
+  obtain ⟨route, sameA, sameF, sameD, _sameS, _sameT, _sameH, _sameC, _sameP,
+    _sameN, markSame⟩ := carrier
+  exact ⟨route, follow, sameA, sameF, sameD, rfl, markSame⟩
+
 end BEDC.Derived.RefutationBoundaryUp
