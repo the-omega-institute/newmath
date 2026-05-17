@@ -520,6 +520,7 @@ import BEDC.Derived.RealityConstrainedExplanationUp.TasteGate
 import BEDC.Derived.RealityConstrainedSignatureFitUp.TasteGate
 import BEDC.Derived.CauchyTailModulusFusionUp
 import BEDC.Derived.CauchyTailModulusFusionUp.TasteGate
+import BEDC.Derived.TailModulusAlignmentUp.TasteGate
 import BEDC.Derived.CauchyTailModulusSealUp.TasteGate
 import BEDC.Derived.LocatedCauchyModulusUp.TasteGate
 import BEDC.Derived.SharedTailNormalizerUp.TasteGate
