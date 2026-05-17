@@ -76,4 +76,31 @@ theorem ContextualClassReadingCarrier_no_object_promotion [AskSetup] [PackageSet
       (fun back =>
         (cont_mutual_extension_right_tail_absurd.right contextRelation back))⟩
 
+theorem ContextualClassReadingLedgerExactness [AskSetup] [PackageSetup]
+    {expression context relation scope transport route provenance localName transported replay : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextualClassReadingCarrier expression context relation scope transport route provenance
+        localName bundle pkg →
+      Cont context relation transported →
+        Cont transported scope replay →
+          PkgSig bundle replay pkg →
+            UnaryHistory expression ∧ UnaryHistory context ∧ UnaryHistory relation ∧
+              UnaryHistory scope ∧ UnaryHistory transported ∧ UnaryHistory replay ∧
+                Cont expression context relation ∧ Cont relation scope route ∧
+                  Cont context relation transported ∧ Cont transported scope replay ∧
+                    PkgSig bundle localName pkg ∧ PkgSig bundle replay pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier contextRelation transportedScope replayPkg
+  obtain ⟨expressionUnary, contextUnary, relationUnary, scopeUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _localNameUnary, expressionContextRelation,
+    relationScopeRoute, _routeTransportProvenance, localNamePkg⟩ := carrier
+  have transportedUnary : UnaryHistory transported :=
+    unary_cont_closed contextUnary relationUnary contextRelation
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed transportedUnary scopeUnary transportedScope
+  exact
+    ⟨expressionUnary, contextUnary, relationUnary, scopeUnary, transportedUnary,
+      replayUnary, expressionContextRelation, relationScopeRoute, contextRelation,
+      transportedScope, localNamePkg, replayPkg⟩
+
 end BEDC.Derived.ContextualClassReadingUp

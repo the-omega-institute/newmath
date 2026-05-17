@@ -250,6 +250,7 @@ import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.TasteGate
 import BEDC.Derived.ProofPatternClassifierUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
+import BEDC.Derived.ResearchProgrammeRouteUp.TasteGate
 import BEDC.Derived.ResearchProgrammeExecutionGateUp.TasteGate
 import BEDC.Derived.BranchObstructionUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
@@ -343,6 +344,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealRowScope
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealPublicRouteExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealScheduleExhaustion
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ScheduleFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealModulusDeterminacy
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealSelectorExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealCompletionExport
@@ -1515,6 +1517,7 @@ import BEDC.Derived.HaltingDistinctionUp.RootTraceNormalFormLock
 import BEDC.Derived.HaltingDistinctionUp.RootPackage
 import BEDC.Derived.HaltingDistinctionUp.RootSiblingConsumerLock
 import BEDC.Derived.HaltingDistinctionUp.RouteStability
+import BEDC.Derived.HaltingDistinctionUp.TraceNormalFormHandoff
 import BEDC.Derived.HaltingDistinctionLimitUp.TasteGate
 import BEDC.Derived.HaltingDistinctionTraceUp
 import BEDC.Derived.HaltingFiniteBoundaryUp.TasteGate
@@ -1622,6 +1625,7 @@ import BEDC.Derived.HistTimeStreamUp.CompletionStreamNameHandoffFactorization
 import BEDC.Derived.HistTimeStreamUp.FiniteWindowReadbackExhaustion
 import BEDC.Derived.HistTimeStreamUp.HistTimeStreamRegSeqRatLocalClockSeparation
 import BEDC.Derived.HistTimeStreamUp.LocalTransportExhaustion
+import BEDC.Derived.HistTimeStreamUp.LocalClockRefusal
 import BEDC.Derived.HistTimeStreamUp.LocalStreamPrefixFactorization
 import BEDC.Derived.HistTimeStreamUp.NameCertRouteExhaustion
 import BEDC.Derived.HistTimeStreamUp.NoGlobalClockNonescape
@@ -1633,6 +1637,7 @@ import BEDC.Derived.HistTimeStreamUp.RealCompletionWindowNonescape
 import BEDC.Derived.HistTimeStreamUp.StartLedgerTotality
 import BEDC.Derived.HistTimeStreamUp.StartLedgerUniqueness
 import BEDC.Derived.HistTimeStreamUp.ScheduleEndpointTransport
+import BEDC.Derived.HistTimeStreamUp.SourceObservationTotality
 import BEDC.Derived.HistTimeStreamUp.StreamNameFiniteWindowHandoff
 import BEDC.Derived.HistTimeStreamUp.StreamNameScheduleClassifierBoundary
 import BEDC.Derived.HistTimeStreamUp.TransportLock
@@ -2873,6 +2878,7 @@ import BEDC.Derived.ContinuousMapUp.PublicExport
 import BEDC.Derived.ContinuousMapUp.VisibleContextCompositionCategoryMetricExactness
 import BEDC.Derived.StationaryWindowLatticeUp.TasteGate
 import BEDC.Derived.StationaryDiagonalWindowUp.TasteGate
+import BEDC.Derived.StatusDowngradeUp.TasteGate
 import BEDC.Derived.BedcSelfSubstrateUp.TasteGate
 import BEDC.Derived.SumUp
 import BEDC.Derived.SubtypeUp

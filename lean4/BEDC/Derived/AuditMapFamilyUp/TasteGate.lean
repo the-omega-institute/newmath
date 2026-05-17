@@ -325,4 +325,28 @@ theorem AuditMapFamilyInventoryFactorization [AskSetup] [PackageSetup]
       routeUnary, familyInventoryTransport, obstructionRoutingReplay, provenancePkg,
       routePkg⟩
 
+theorem AuditMapFamilyCrossMapNonescape [AskSetup] [PackageSetup]
+    {familyTag inventory obstruction routing frontier transport replay provenance localName
+      crossRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapFamilyCarrier familyTag inventory obstruction routing frontier transport replay
+        provenance localName bundle pkg →
+      Cont routing frontier crossRoute →
+        PkgSig bundle crossRoute pkg →
+          UnaryHistory familyTag ∧ UnaryHistory inventory ∧ UnaryHistory obstruction ∧
+            UnaryHistory routing ∧ UnaryHistory frontier ∧ UnaryHistory crossRoute ∧
+              Cont routing frontier crossRoute ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle crossRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier routingFrontier crossRoutePkg
+  rcases carrier with
+    ⟨familyTagUnary, inventoryUnary, obstructionUnary, routingUnary, frontierUnary,
+      _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+      _familyInventoryTransport, _obstructionRoutingReplay, provenancePkg⟩
+  have crossRouteUnary : UnaryHistory crossRoute :=
+    unary_cont_closed routingUnary frontierUnary routingFrontier
+  exact
+    ⟨familyTagUnary, inventoryUnary, obstructionUnary, routingUnary, frontierUnary,
+      crossRouteUnary, routingFrontier, provenancePkg, crossRoutePkg⟩
+
 end BEDC.Derived.AuditMapFamilyUp
