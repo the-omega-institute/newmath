@@ -59,11 +59,21 @@ HUB_FORBIDDEN_ENVS = (
 )
 HUB_FORBIDDEN_RE = re.compile(r"\\begin\{(" + "|".join(HUB_FORBIDDEN_ENVS) + r")\*?\}")
 
-LABEL_CH_RE = re.compile(r"\\label\{ch:concrete-instances-[a-z0-9-]+-namecert\}")
+LABEL_CH_RE = re.compile(r"\\label\{ch:concrete-instances-[a-z0-9][a-z0-9-]*\}")
 ORIGIN_RE = re.compile(r"\\origin\{(human|ai)\}")
 
 BRIDGESTATUS_RE = re.compile(r"\\bridgestatus\{([^}]+)\}")
 VALID_BRIDGESTATUS = {"none", "paperBridge", "bridgeChecked"}
+
+# Check I: any .tex basename under parts/frontmatter/appendices must be
+# lowercase snake_case. Two prefix forms recognized:
+#   NN_ or NNa_  -- numbered chapter or chunk file
+#   _            -- aggregated index / sub-hub file (e.g. _index_files.tex)
+TEX_BASENAME_RE = re.compile(r"^_?(?:[0-9]+[a-z]?_)?[a-z][a-z0-9_]*\.tex$")
+
+# Check J: concrete_instances/<region>/ subdirectory names must be lowercase
+# alphanumeric, optional internal underscores.
+REGION_DIR_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 
 
 def read_text(p: Path) -> str:
@@ -222,7 +232,7 @@ def check_f_label_convention() -> list[dict]:
                 "check": "F",
                 "file": str(rel),
                 "line": 1,
-                "msg": "content namecert chapter missing \\label{ch:concrete-instances-<slug>-namecert}",
+                "msg": "content namecert chapter missing any \\label{ch:concrete-instances-<slug>...} (must be lowercase)",
             })
     return out
 
@@ -264,6 +274,43 @@ def check_h_bridgestatus_enum() -> list[dict]:
     return out
 
 
+def check_i_tex_basename_naming() -> list[dict]:
+    out: list[dict] = []
+    for tex in iter_part_tex():
+        rel = tex.relative_to(PAPER_DIR)
+        if not TEX_BASENAME_RE.match(tex.name):
+            out.append({
+                "check": "I",
+                "file": str(rel),
+                "line": 1,
+                "msg": (
+                    "tex basename must match ^([0-9]+[a-z]?_)?[a-z][a-z0-9_]*\\.tex$ "
+                    "(lowercase snake_case, optional NN_ or NNa_ prefix)"
+                ),
+            })
+    return out
+
+
+def check_j_region_subdir_naming() -> list[dict]:
+    out: list[dict] = []
+    if not CONCRETE_DIR.is_dir():
+        return out
+    for entry in sorted(CONCRETE_DIR.iterdir()):
+        if not entry.is_dir():
+            continue
+        if not REGION_DIR_RE.match(entry.name):
+            out.append({
+                "check": "J",
+                "file": str(entry.relative_to(PAPER_DIR)),
+                "line": 1,
+                "msg": (
+                    "concrete_instances/ region subdir must match ^[a-z][a-z0-9_]*$ "
+                    "(lowercase + alphanumeric + optional underscores)"
+                ),
+            })
+    return out
+
+
 CHECKS = {
     "A": check_a_closureat_enum,
     "C": check_c_closurestatus_fields,
@@ -272,6 +319,8 @@ CHECKS = {
     "F": check_f_label_convention,
     "G": check_g_origin_tag,
     "H": check_h_bridgestatus_enum,
+    "I": check_i_tex_basename_naming,
+    "J": check_j_region_subdir_naming,
 }
 
 
