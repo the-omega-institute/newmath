@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\RealityConstrainedSignatureDescentUp$}
+\label{ch:concrete-instances-reality-constrained-signature-descent-namecert}
+\origin{ai}
+
+The $\RealityConstrainedSignatureDescentUp$ packet realizes operational descent from \autoref{sec:reality-constrained-signatures} as a finite NameCert carrier. It consumes the signature-fit packet of \autoref{ch:concrete-instances-reality-constrained-signature-fit-namecert}, the signature-residue packet of \autoref{ch:concrete-instances-reality-constrained-signature-residue-namecert}, the finite schedule surface of \autoref{ch:concrete-instances-streamname-namecert}, the endpoint surface of \autoref{ch:concrete-instances-real-namecert}, and the comparison surface of \autoref{ch:concrete-instances-metric-namecert}. These siblings expose physical fit, remaining signature residue, stream schedules, real approximation rows, and metric comparison rows; this packet adds the descent witness that lets a transported mathematical operation be read as a physical-signature operation.
+
+\begin{definition}[Reality-constrained signature-descent carrier]
+\label{def:reality-constrained-signature-descent-carrier}
+A $\RealityConstrainedSignatureDescentUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,A,M,G,P,O,W,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule row exposing the observation stream on which the operation is tested.
+\item $A$ is the $\RealUp$ approximation row naming the mathematical endpoint before and after operation transport.
+\item $M$ is the $\MetricUp$ comparison row used to evaluate transported outputs.
+\item $G$ is the GAP row recording unrepresented, withheld, or physically separated signatures.
+\item $P$ is the physical-representation certificate row for the source and target representations.
+\item $O$ is the operation-descent witness row recording that the transported operation preserves the source classifier and lands in the target physical-signature classifier.
+\item $W$ is the witness route joining $S,A,M,G,P,O$ as one physical-signature descent route.
+\item $H$ is the componentwise $\hsame$ transport row for $S,A,M,G,P,O,W$.
+\item $C$ is the displayed $\Cont$ replay row for the same finite route.
+\item $Q$ is the $\Pkg$ provenance row over $\RealityConstrainedSignatureDescentUp$, $\RealityConstrainedSignatureFitUp$, $\RealityConstrainedSignatureResidueUp$, $\StreamNameUp$, $\RealUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RealityConstrainedSignatureDescentUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for bare mathematical operation transport, physical adequacy without $S,G,P,O$, quotient-stream equality, host physical identity, or an unledgered representation shortcut.
+\end{definition}
+
+\begin{theorem}[Reality-constrained signature-descent NameCert obligations]
+\label{thm:reality-constrained-signature-descent-namecert-obligations}
+For the carrier of \autoref{def:reality-constrained-signature-descent-carrier}, the local $\NameCert_{\RealityConstrainedSignatureDescentUp}$ surface consists exactly of carrier admission, stream schedule visibility, Real endpoint visibility, Metric comparison visibility, GAP-row visibility, representation-certificate visibility, operation-descent witness visibility, witness-route coherence, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $D=(S,A,M,G,P,O,W,H,C,Q,N)$. The rows $S,A,M,G,P$ expose the mathematical and physical-signature data already separated by the signature-fit and signature-residue packets.
+
+The row $O$ is the additional descent witness. It records that the transported operation respects the mathematical source classifier and lands in the target physical-signature classifier rather than only in a mathematical target classifier.
+
+The witness route $W$ joins those rows before any public physical-operation read. Transport through $H$, replay through $C$, and provenance through $Q$ preserve the same finite route, while $N$ names it locally.
+
+No further coordinate remains in the carrier. Thus the displayed rows exhaust the NameCert obligations for physical-signature operation descent.
+\end{proof}
+
+\begin{theorem}[Reality-constrained signature-descent no-free operation]
+\label{thm:reality-constrained-signature-descent-no-free-operation}
+Let $D=(S,A,M,G,P,O,W,H,C,Q,N)$ be an accepted $\RealityConstrainedSignatureDescentUp$ packet. A transported mathematical operation is accepted as a physical-fit operation only when the same route displays the stream schedule $S$, GAP row $G$, representation certificate $P$, physical-signature descent witness $O$, witness route $W$, transport row $H$, replay row $C$, provenance row $Q$, and local naming row $N$. If any of $S,G,P,O,W$ is absent, the route remains mathematical operation transport and is rejected as a physical-fit operation.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:reality-constrained-signature-descent-namecert-obligations}. A public physical-operation read must expose the schedule, GAP row, representation certificate, and descent witness as displayed coordinates of one packet.
+
+The mathematical rows $A$ and $M$ can still support operation transport inside the mathematical classifier. They do not by themselves expose a physical-signature route, because the descent witness $O$ and witness route $W$ are the rows that join classifier transport to the physical signature.
+
+The structural rows cannot add missing physical evidence. Componentwise $\hsame$ transport preserves the displayed components, $\Cont$ replay follows the same route, and $\Pkg$ provenance records that route rather than introducing a hidden host witness.
+
+Therefore a route lacking $S,G,P,O$, or $W$ has no accepted physical-fit operation coordinate. It is rejected as a physical-fit operation even if the mathematical operation is transported.
+\end{proof}
+
+\falsifiablePrediction{A transported mathematical operation that lacks the displayed stream schedule, GAP row, representation certificate, and physical-signature descent witness is rejected as a physical-fit operation.}
+
+\independenceWitness{reality-constrained-signature-fit, reality-constrained-signature-residue, streamname, real, metric: none carries the operation-descent witness row together with the physical-signature route. Signature-fit binds compatibility rows without the descent witness, signature-residue records remaining separation without licensing operation transport, StreamName supplies schedules without Real or Metric operation data, Real supplies endpoints without physical signatures, and Metric supplies comparison without GAP or representation certificates.}
+
+The Lean follow-up site \texttt{lean4/BEDC/Derived/RealityConstrainedSignatureDescentUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \RealityConstrainedSignatureDescentUp$ and $\mathsf{FieldFaithful}\ \RealityConstrainedSignatureDescentUp$ instances for the same finite descent packet.
