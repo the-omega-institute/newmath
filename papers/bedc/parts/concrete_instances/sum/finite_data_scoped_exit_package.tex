@@ -1,0 +1,22 @@
+\begin{theorem}[Sum finite-data scoped-exit package]
+\label{thm:sum-finite-data-scoped-exit-package}
+The scoped finite-data exit surface of $\SumUp$ is exactly the package consisting of the tagged semantic certificate of \autoref{thm:concrete-sum-namecert}, the selected visible injection tag, left and right branch exactness, the source ledger rows, visible-history descent through endpoint readback, and the mature finite consumer boundary of \autoref{thm:sum-mature-finite-consumer-boundary}. A consumer exiting the $\SumUp$ chapter through this surface may inspect the selected tag, recover the corresponding source payload and source ledger evidence, compare same-tag endpoints through the displayed branch classifier, and replay the visible history descent. It receives no hidden coproduct eliminator, no dependent target recursion, and no classifier beyond the tagged finite-data rows already exported by the semantic certificate.
+\end{theorem}
+\begin{proof}
+Start with the semantic certificate in \autoref{thm:concrete-sum-namecert}. Its carrier is the tagged finite packet, so each public endpoint enters through an $\Ezero$ or $\Eone$ injection rather than through a host coproduct object.
+
+The selected tag is governed by \autoref{thm:sum-ledger-visible-tag-separation}. The same-tag clauses are governed by \autoref{thm:sum-ledger-branch-exactness-iff}, while visible payload recovery is governed by \autoref{thm:sum-ledger-visible-payload-readback} and endpoint descent by \autoref{thm:sum-ledger-chain-endpoint-exactness}.
+
+Finally apply the consumer boundary in \autoref{thm:sum-mature-finite-consumer-boundary}. It states that every finite consumer factors through exactly these tagged payload, branch exactness, source ledger, and visible-history rows. Therefore the package is a scoped exit surface for finite data rather than a generic coproduct interface.
+\end{proof}
+
+\begin{closurestatus}{\SumUp}
+  \constructivestory{A sum value is made by choosing one side and marking that choice directly on the payload: a left payload $l$ from $L$ becomes $\Ezero(l)$, while a right payload $r$ from $R$ becomes $\Eone(r)$. Those two tags are part of the history itself, so the classifier first checks that the tags land on the same branch and only then compares the payloads by the left or right source classifier; a b0-tagged left value and a b1-tagged right value never meet. The same tagged-history predicate is the source, the pattern records the left-versus-right split, the two tag forms, and the no-confusion rows, and the ledger keeps each visible sum history aligned with the raw tagged payload that produced it. Because history-equality and the two source-side classifiers are equivalences, the injected witnesses supply the carrier, the branchwise classifier is reflexive, symmetric, and transitive, and classifier-recognized representatives stay inside the same tagged carrier. A history $h$ lies in the signature gap of a $\SumUp$ token $p$ when the source-domain accepts the tagged history, the signature relation pairs it with an answer history and evidence ledger, and the token-introduction relation names that answer as $p$; after the tags are inspected, $h$ is either a left injection whose payload matches the left side encoded by $p$, or a right injection whose payload matches the right side encoded by $p$. The chapter registers this tagged-payload construction under the name $\SumUp$; disjoint union is the same b0/b1 choice used at the kernel level, now carrying a payload, with no separate coproduct type, eliminator, or host disjoint-union construct introduced.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public paper scope binds the tagged sum semantic certificate, selected injection tag, left and right branch classifier exactness, source ledger, visible-history descent, licensed public surface, mature finite consumer boundary, and scoped finite-data exit package in \autoref{thm:sum-finite-data-scoped-exit-package}.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.SumUp.sum\_history\_semantic\_name\_certificate}
+  \bridgestatus{paperBridge}
+  \notclaimed{Full sum or coproduct theory: eliminators into arbitrary certified targets, dependent sums, categorical coproduct universal property, distributivity laws, or generic case recursion.}
+  \upgradepath{No further paper-axis theory upgrade is required for this finite tagged-payload surface.}
+\end{closurestatus}
