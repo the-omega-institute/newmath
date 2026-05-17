@@ -1,0 +1,40 @@
+\begin{definition}[Diagonal-limit representative cofinal-terminal budget bridge]
+\label{def:diagonal-limit-representative-cofinal-terminal-budget-bridge}
+For an accepted shared-terminal $\DiagonalLimitRepresentativeUp$ carrier, the cofinal-terminal budget bridge is the finite $\BHist$ packet
+$$
+G=(X,\mu,n,k,i,w,r,d,e,H,C,P,N,Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F,B_M,M_M,W_M,T_M,D_M,R_M,L_M,E_M,H_M,C_M,P_M,N_M).
+$$
+The first block $X,\mu,n,k,i,w,r,d,e,H,C,P,N$ is the representative route of \autoref{def:diagonal-limit-representative-carrier}; the second block $Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F$ is the finite-prefix budget route of \autoref{def:diagonal-limit-representative-shared-terminal-carrier}; and the third block $B_M,M_M,W_M,T_M,D_M,R_M,L_M,E_M,H_M,C_M,P_M,N_M$ is the cofinal modulus route supplied by $\CofinalModulusSealUp$ in \autoref{ch:concrete-instances-cofinal-modulus-seal-namecert}. The bridge identifies the selected $\StreamNameUp$ window $w$ with the cofinal window row $T_M$, the selected $\RegSeqRatUp$ readback $r$ with $R_M$, the $\DyadicRatCoreUp$ ledger $d$ with $D_M$, and the terminal $\RealUp$ seal row $e$ with $E_M$, while keeping the finite-prefix selector and exhaustion rows visible before the terminal seal is consumed.
+\end{definition}
+
+\begin{theorem}[Diagonal-limit representative cofinal-budget seal totality]
+\label{thm:diagonal-limit-representative-cofinal-budget-seal-totality}
+Every terminal $\RealUp$ seal read from the bridge of \autoref{def:diagonal-limit-representative-cofinal-terminal-budget-bridge} factors through
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \FinitePrefixLimitBudgetUp \to \CofinalModulusSealUp \to \RealUp
+$$
+before any completion-facing consumer reads it. Thus the representative rows, finite-prefix rows, and cofinal modulus rows form one terminal budget route, and the terminal consumer receives no independent Real-completion principle beyond that finite route.
+\end{theorem}
+\begin{proof}
+Start with the root-index readiness package, \autoref{thm:diagonal-limit-representative-root-index-readiness-package}. It exposes $\mu,n,k,i,w,r,d,e$ together with the finite-prefix rows and makes the equations $k=\mu(1/(n+1))$ and $i=k+n+1$ visible before downstream support rows are consumed.
+
+Next use the public exactness package, \autoref{thm:diagonal-limit-representative-public-exactness-package}. It orders the representative and finite-prefix portions through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FinitePrefixLimitBudgetUp$, and $\RealUp$, so there is no detached terminal read on the representative side.
+
+Attach the cofinal modulus seal route from \autoref{ch:concrete-instances-cofinal-modulus-seal-namecert}. Its scoped source inventory and primitive route exhaustion identify $B_M,M_M,W_M,T_M,D_M,R_M,L_M,E_M,H_M,C_M,P_M,N_M$ as the available cofinal budget rows for a completion-facing seal read.
+
+Finally apply the formal handoff boundary, \autoref{thm:diagonal-limit-representative-formal-handoff-boundary}. The handoff may encode the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and sibling rows, but it cannot import a stronger analytic object. Therefore every terminal seal read factors through the displayed StreamName, RegSeqRat, DyadicRatCore, finite-prefix budget, cofinal modulus, and Real surfaces before any completion-facing consumer can use it.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative terminal consumer cofinal nonescape]
+\label{thm:diagonal-limit-representative-terminal-consumer-cofinal-nonescape}
+No terminal consumer of the cofinal-terminal budget bridge may replace the displayed route by quotient stream equality, host $\RealUp$ equality, a selected limit, a hidden tail schedule, countable choice, or ambient $\RealUp$ completeness. Any accepted consumer must read only the representative rows, finite-prefix budget rows, cofinal modulus rows, and structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed in \autoref{def:diagonal-limit-representative-cofinal-terminal-budget-bridge}.
+\end{theorem}
+\begin{proof}
+The root-index readiness package supplies the representative boundary. It admits the selected window, readback, dyadic ledger, finite-prefix budget rows, and terminal seal, while excluding quotient-stream equality, host equality, hidden selectors, choice rows, ambient completeness, and bridge claims.
+
+The public exactness package supplies the terminal route boundary. A completion-facing consumer can only use the ordered surface through the named sibling certificates, so it has no second entrance into the terminal $\RealUp$ seal.
+
+The cofinal modulus seal chapter supplies the cofinal budget boundary. Its consumer exactness and primitive route exhaustion confine cofinal budget reads to the displayed finite rows and exclude detached selectors, quotient streams, selected host limits, countable choice, and ambient completeness.
+
+It remains to close the formal interface. The formal handoff boundary allows later formal consumers to encode exactly the displayed BEDC rows. Since every possible terminal read is already accounted for by those rows, any quotient, host equality, selected limit, hidden schedule, choice, or ambient-completeness coordinate would be outside the bridge rather than a consumer of it.
+\end{proof}
