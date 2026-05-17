@@ -22,4 +22,18 @@ theorem CompilerTraceFaithfulnessCarrier_source_replay_composite
     exact append_assoc S G L
   · exact carrier.right.right.right.right.right.right.right
 
+def CompilerTraceFaithfulnessClassifier
+    (S T K M G R L H C P N S' T' K' M' G' R' L' H' C' P' N' : BHist) : Prop :=
+  CompilerTraceFaithfulnessCarrier S T K M G R L H C P N ∧
+    CompilerTraceFaithfulnessCarrier S' T' K' M' G' R' L' H' C' P' N' ∧
+      Cont S G R ∧ Cont S' G' R' ∧ hsame R R' ∧ hsame L L' ∧ hsame T T'
+
+theorem CompilerTraceFaithfulnessClassifier_replay_transport
+    {S T K M G R L H C P N S' T' K' M' G' R' L' H' C' P' N' : BHist} :
+    CompilerTraceFaithfulnessClassifier S T K M G R L H C P N S' T' K' M' G' R' L' H' C' P' N' ->
+      Cont S G R ∧ Cont S' G' R' ∧ hsame R R' ∧ hsame L L' ∧ hsame T T' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro classifier
+  exact classifier.right.right
+
 end BEDC.Derived.CompilerTraceFaithfulnessUp
