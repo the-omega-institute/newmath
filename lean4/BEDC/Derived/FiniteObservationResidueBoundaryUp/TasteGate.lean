@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteObservationResidueBoundaryUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -264,5 +268,55 @@ theorem FiniteObservationResidueBoundaryTasteGate_single_carrier_alignment :
       finiteObservationResidueBoundary_round_trip,
       (fun _ _ heq => finiteObservationResidueBoundaryToEventFlow_injective heq),
       rfl⟩
+
+theorem FiniteObservationResidueBoundaryNameCert_obligations
+    {S Sigma K T L F H C P N : BHist}
+    (sourceReplay : Cont S C Sigma)
+    (failureReplay : Cont F C L) :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row S ∧
+          ∃ packet : FiniteObservationResidueBoundaryUp,
+            packet = FiniteObservationResidueBoundaryUp.mk S Sigma K T L F H C P N)
+      (fun row : BHist =>
+        hsame row S ∧ hsame Sigma Sigma ∧ hsame K K ∧ hsame T T ∧ hsame L L ∧
+          hsame F F)
+      (fun row : BHist =>
+        Cont S C Sigma ∧ Cont F C L ∧ hsame row S ∧ hsame H H ∧ hsame P P ∧
+          hsame N N)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro S
+          ⟨hsame_refl S,
+            Exists.intro (FiniteObservationResidueBoundaryUp.mk S Sigma K T L F H C P N)
+              rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.left, hsame_refl Sigma, hsame_refl K, hsame_refl T,
+          hsame_refl L, hsame_refl F⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceReplay, failureReplay, sourceRow.left, hsame_refl H, hsame_refl P,
+          hsame_refl N⟩
+  }
 
 end BEDC.Derived.FiniteObservationResidueBoundaryUp
