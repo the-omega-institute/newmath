@@ -289,6 +289,63 @@ The compact consumer boundary theorem then identifies the only admitted consumer
 Thus an open-cover request asks for data absent from the carrier. It is refused as a boundary crossing rather than answered by a hidden compactness principle.
 \end{proof}
 
+\begin{definition}[Finite Lebesgue number root coverage ledger]
+\label{def:finite-lebesgue-number-root-coverage-ledger}
+For an accepted $\FiniteLebesgueNumberUp$ carrier $L=(D,W,\lambda,M,H,C,P,N)$, the root coverage ledger is the finite $\BHist$ row
+$$
+\Lambda=(D,M,R,S,G,E,K,H,C,P,N)
+$$
+whose entries expose the $\DyadicCoverUp$ row $D$, $\DyadicMeshUp$ row $M$, $\RationalBallUp$ radius row $R$, $\StreamNameUp$ window row $S$, $\RegSeqRatUp$ source row $G$, $\RealUp$ endpoint row $E$, $\CompactMetricUp$ and $\CompactNetModulusSelectorUp$ consumer row $K$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The ledger has no coordinate for arbitrary open-cover choice, selected subcover choice, or host compactness.
+\end{definition}
+
+\begin{theorem}[Finite Lebesgue number root dyadic radius obligation]
+\label{thm:finite-lebesgue-number-root-dyadic-radius-obligation}
+Every accepted root coverage ledger of \autoref{def:finite-lebesgue-number-root-coverage-ledger} must display the rational radius row $R$ as a $\RationalBallUp$ row read through the same finite $\DyadicCoverUp$ and $\DyadicMeshUp$ packet that supplies $D$ and $M$. The $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows $S,G,E$ may consume the radius only through the transported $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, not by a hidden open-cover compactness witness.
+\end{theorem}
+\begin{proof}
+Project the ledger $\Lambda=(D,M,R,S,G,E,K,H,C,P,N)$. The radius row $R$ is listed between the dyadic cover and dyadic mesh rows, so its only source packet is the finite dyadic one.
+
+Apply the radius-mesh stability row, \autoref{thm:finite-lebesgue-number-radius-mesh-stability-row}, and the window-radius source lock, \autoref{thm:finite-lebesgue-number-window-radius-source-lock}. Together they keep the rational-ball radius attached to $D,M$ under componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+The stream, regular-rational, and real rows then read the transported finite packet. Since $\Lambda$ has no open-cover or selected-subcover coordinate, the radius obligation remains finite and nonchoice.
+\end{proof}
+
+\begin{theorem}[Finite Lebesgue number root compact consumer nonchoice]
+\label{thm:finite-lebesgue-number-root-compact-consumer-nonchoice}
+Every $\CompactMetricUp$ or $\CompactNetModulusSelectorUp$ consumer of an accepted root coverage ledger factors through the displayed $\DyadicCoverUp$, $\DyadicMeshUp$, $\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows before it may read $K$. The consumer uses only the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the ledger and cannot request an arbitrary open cover or selected subcover.
+\end{theorem}
+\begin{proof}
+Start from total-bounded consumer factorization, \autoref{thm:finite-lebesgue-number-total-bounded-consumer-factorization}. It routes every compact-metric consumer through the finite dyadic packet before any compact read is exposed.
+
+Use the open-cover refusal boundary, \autoref{thm:finite-lebesgue-number-open-cover-refusal-boundary}. It blocks arbitrary open covers, host compactness, and selected subcover coordinates, leaving only the finite cover, mesh, radius, stream, regular-rational, real, transport, replay, provenance, and naming rows.
+
+Thus $K$ is a consumer of the displayed finite ledger rather than a compactness selector outside it. The route is nonchoice because every consumed row is already present in $\Lambda$.
+\end{proof}
+
+\begin{theorem}[Finite Lebesgue number root window cover totality]
+\label{thm:finite-lebesgue-number-root-window-cover-totality}
+For every accepted root coverage ledger $\Lambda=(D,M,R,S,G,E,K,H,C,P,N)$, each window named by the $\StreamNameUp$ row $S$ and each regular-rational source named by the $\RegSeqRatUp$ row $G$ is covered by one of the finitely displayed $\RationalBallUp$ rows of $R$ over the $\DyadicCoverUp$ and $\DyadicMeshUp$ rows $D,M$. The $\RealUp$ endpoint row $E$ and compact-consumer row $K$ may read totality only through that finite window-cover route.
+\end{theorem}
+\begin{proof}
+Read finite-window coverage exactness through \autoref{thm:finite-lebesgue-number-obligation-coverage-row}. It sends every accepted finite-window read through the displayed dyadic cover, mesh, stream, regular-rational, and real rows.
+
+The root dyadic radius obligation above attaches each rational ball to the same $D,M$ source packet. Therefore the windows named by $S$ and sources named by $G$ are covered by listed rational-ball rows rather than by an external subcover.
+
+Finally the compact consumer nonchoice theorem keeps $E$ and $K$ downstream of that same finite route. The totality claim is exactly the finite ledger totality, not an open-cover compactness assertion.
+\end{proof}
+
+\begin{theorem}[Finite Lebesgue number root unblock package]
+\label{thm:finite-lebesgue-number-root-unblock-package}
+The accepted root coverage ledger of \autoref{def:finite-lebesgue-number-root-coverage-ledger} forms a finite root-unblock package for $\FiniteLebesgueNumberUp$: the $\DyadicCoverUp$, $\DyadicMeshUp$, $\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompactMetricUp$, and $\CompactNetModulusSelectorUp$ rows are all exposed inside one $\BHist$ packet, preserved by $\hsame$, replayed by $\Cont$, sourced by $\Pkg$, and sealed by $\NameCert$. Consequently the later root consumer may target finite cover, radius, window totality, and compact-consumer obligations without relying on arbitrary open-cover compactness or choice.
+\end{theorem}
+\begin{proof}
+Assemble the package from the root coverage ledger. The definition lists the dyadic cover, dyadic mesh, rational ball, stream, regular-rational, real endpoint, compact-metric, compact-net selector, transport, replay, provenance, and local naming rows in one finite $\BHist$ packet.
+
+The dyadic radius obligation supplies the radius row over the same finite dyadic packet. The compact consumer nonchoice theorem keeps compact consumers inside the displayed finite rows. The window cover totality theorem then supplies totality for the StreamName and RegSeqRat windows through the listed rational-ball rows.
+
+Repacking these three obligations with $H,C,P,N$ gives the finite root-unblock package. No step introduces open-cover compactness, selected subcover choice, host compactness, or a consumer row outside the displayed ledger.
+\end{proof}
+
 \closureat{FiniteLebesgueNumberUp}{seedStr}
 
 \begin{closurestatus}{\FiniteLebesgueNumberUp}
