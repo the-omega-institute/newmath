@@ -1405,6 +1405,7 @@ import BEDC.Derived.GeneratorClosureUp
 import BEDC.Derived.GeneratorInductionSealUp.TasteGate
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GroundCompilerRecognitionUp.TasteGate
+import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.TasteGate
 import BEDC.Derived.GroundCompilerEventFlowAuditUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditVerdictUp.TasteGate
 import BEDC.Derived.GoedelIncompletenessUp

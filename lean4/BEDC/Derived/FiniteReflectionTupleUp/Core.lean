@@ -146,4 +146,72 @@ theorem FiniteReflectionTupleCarrier_request_exhaustion
     }
   exact ⟨semantic, bridgeUnary, bridgePkg⟩
 
+theorem FiniteReflectionTupleCarrier_public_projection_route
+    [AskSetup] [PackageSetup]
+    {candidate stability admission compiler image readback transport replay provenance request
+      localCert publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteReflectionTupleCarrier candidate stability admission compiler image readback transport
+        replay provenance request localCert bundle pkg →
+      Cont image readback publicRead →
+        PkgSig bundle publicRead pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                FiniteReflectionTupleCarrier candidate stability admission compiler image readback
+                  transport replay provenance request localCert bundle pkg ∧ hsame row publicRead)
+              (fun row : BHist => Cont image readback publicRead ∧ hsame row publicRead)
+              (fun row : BHist => PkgSig bundle publicRead pkg ∧ hsame row publicRead)
+              hsame ∧
+            UnaryHistory publicRead ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier imageReadbackPublic publicPkg
+  have carrierWitness := carrier
+  obtain ⟨_candidateUnary, _stabilityUnary, _admissionUnary, _compilerUnary, imageUnary,
+    readbackUnary, _transportUnary, _replayUnary, _provenanceUnary, _requestUnary,
+    _localCertUnary, _candidateStabilityAdmission, _admissionCompilerImage,
+    _imageReadbackTransport, _transportReplayProvenance, _provenanceRequestLocalCert,
+    _localCertPkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed imageUnary readbackUnary imageReadbackPublic
+  have certCore :
+      NameCert
+        (fun row : BHist =>
+          FiniteReflectionTupleCarrier candidate stability admission compiler image readback
+            transport replay provenance request localCert bundle pkg ∧ hsame row publicRead)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro publicRead
+        (And.intro carrierWitness (hsame_refl publicRead))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+  have semantic :
+      SemanticNameCert
+          (fun row : BHist =>
+            FiniteReflectionTupleCarrier candidate stability admission compiler image readback
+              transport replay provenance request localCert bundle pkg ∧ hsame row publicRead)
+          (fun row : BHist => Cont image readback publicRead ∧ hsame row publicRead)
+          (fun row : BHist => PkgSig bundle publicRead pkg ∧ hsame row publicRead)
+          hsame := by
+    exact {
+      core := certCore
+      pattern_sound := by
+        intro _row sourceRow
+        exact ⟨imageReadbackPublic, sourceRow.right⟩
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨publicPkg, sourceRow.right⟩
+    }
+  exact ⟨semantic, publicUnary, publicPkg⟩
+
 end BEDC.Derived.FiniteReflectionTupleUp

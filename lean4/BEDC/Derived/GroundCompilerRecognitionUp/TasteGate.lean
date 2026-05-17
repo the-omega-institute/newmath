@@ -533,4 +533,31 @@ theorem GroundCompilerRecognitionCarrier_ledger_nonescape :
     injection htail₁₁ with hrow _
     cases hrow
 
+theorem GroundCompilerRecognitionCarrier_flow_carrier_exposure :
+    (∀ x : GroundCompilerRecognitionUp,
+      ∃ I G A T V L H C P N : BHist,
+        x = GroundCompilerRecognitionUp.mk I G A T V L H C P N ∧
+          FieldFaithful.fields x = [I, G, A, T, V, L, H, C, P, N] ∧
+            hsame H H ∧ Cont C P (append C P)) ∧
+      (∀ G A T V L H C P N : BHist,
+        BHistCarrier.toEventFlow
+            (GroundCompilerRecognitionUp.mk (BHist.e0 BHist.Empty) G A T V L H C P N) ≠
+          BHistCarrier.toEventFlow
+            (GroundCompilerRecognitionUp.mk BHist.Empty G A T V L H C P N)) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    cases x with
+    | mk I G A T V L H C P N =>
+        exact ⟨I, G, A, T, V, L, H, C, P, N, rfl, rfl, hsame_refl H, rfl⟩
+  · intro G A T V L H C P N heq
+    change
+      groundCompilerRecognitionToEventFlow
+          (GroundCompilerRecognitionUp.mk (BHist.e0 BHist.Empty) G A T V L H C P N) =
+        groundCompilerRecognitionToEventFlow
+          (GroundCompilerRecognitionUp.mk BHist.Empty G A T V L H C P N) at heq
+    injection heq with _ htail
+    injection htail with hrow _
+    cases hrow
+
 end BEDC.Derived.GroundCompilerRecognitionUp
