@@ -44,4 +44,39 @@ theorem AxiomDependencyMapModeSoundness [AskSetup] [PackageSetup]
     ⟨claimUnary, modeUnary, witnessUnary, supplyUnary, routeUnary, modeWitnessCont,
       provenancePkg⟩
 
+theorem AxiomDependencyMapCertificate_query_ledger_factorization [AskSetup] [PackageSetup]
+    {claim mode witness supply transport replay provenance localName modeRead supplyRead
+      ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyMapCertificate claim mode witness supply transport replay provenance
+        localName bundle pkg →
+      Cont claim mode modeRead →
+        Cont modeRead witness supplyRead →
+          Cont supplyRead provenance ledgerRead →
+            PkgSig bundle ledgerRead pkg →
+              UnaryHistory claim ∧ UnaryHistory mode ∧ UnaryHistory witness ∧
+                UnaryHistory supply ∧ UnaryHistory provenance ∧ UnaryHistory modeRead ∧
+                  UnaryHistory supplyRead ∧ UnaryHistory ledgerRead ∧
+                    Cont claim mode witness ∧ Cont witness supply transport ∧
+                      Cont transport replay provenance ∧ Cont claim mode modeRead ∧
+                        Cont modeRead witness supplyRead ∧
+                          Cont supplyRead provenance ledgerRead ∧
+                            PkgSig bundle provenance pkg ∧ PkgSig bundle ledgerRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro certificate claimModeRead modeReadWitnessSupply supplyProvenanceLedger ledgerPkg
+  obtain ⟨claimUnary, modeUnary, witnessUnary, supplyUnary, _transportUnary, _replayUnary,
+    provenanceUnary, _localNameUnary, claimModeWitness, witnessSupplyTransport,
+      transportReplayProvenance, provenancePkg⟩ := certificate
+  have modeReadUnary : UnaryHistory modeRead :=
+    unary_cont_closed claimUnary modeUnary claimModeRead
+  have supplyReadUnary : UnaryHistory supplyRead :=
+    unary_cont_closed modeReadUnary witnessUnary modeReadWitnessSupply
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed supplyReadUnary provenanceUnary supplyProvenanceLedger
+  exact
+    ⟨claimUnary, modeUnary, witnessUnary, supplyUnary, provenanceUnary, modeReadUnary,
+      supplyReadUnary, ledgerReadUnary, claimModeWitness, witnessSupplyTransport,
+        transportReplayProvenance, claimModeRead, modeReadWitnessSupply,
+          supplyProvenanceLedger, provenancePkg, ledgerPkg⟩
+
 end BEDC.Derived.AxiomDependencyMapUp
