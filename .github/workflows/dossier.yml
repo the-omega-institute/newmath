@@ -1,57 +1,48 @@
 name: Deploy BEDC Dossier
 
+# Consumer of BEDC Build's bedc-pdf artifact. Triggered by workflow_run
+# after BEDC Build succeeds. Renders the Quarto dossier site and (on push
+# only) deploys to GitHub Pages. Previously this workflow rebuilt the PDF
+# itself; that step is now subsumed by build-paper.yml so PR-time and
+# push-time PDFs are produced exactly once per commit.
+
 on:
-  push:
-    branches: [feature/dossier, dev, main, auto-dev]
-    paths:
-      - 'docs/dossier/**'
-      - 'papers/bedc/**'
-      - 'lean4/**'
-      - 'tools/build_dossier_status.py'
-      - '.github/workflows/dossier.yml'
-      - '.github/workflows/reusable-pdf.yml'
-  pull_request:
-    branches: [feature/dossier, dev, main]
-    paths:
-      - 'docs/dossier/**'
-      - 'papers/bedc/**'
-      - 'lean4/**'
-      - 'tools/build_dossier_status.py'
-      - '.github/workflows/dossier.yml'
-      - '.github/workflows/reusable-pdf.yml'
+  workflow_run:
+    workflows: ["BEDC Build"]
+    types: [completed]
   workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: "BEDC Build run ID whose bedc-pdf artifact to deploy"
+        required: true
+        type: string
 
 permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read  # cross-workflow artifact download
 
 concurrency:
-  # PR runs only build (deploy is gated on push events) but would otherwise
-  # occupy the `pages` slot and block real push deploys behind them. Scope PR
-  # runs to a per-PR group so push/workflow_dispatch keep the canonical
-  # `pages` queue to themselves.
-  group: ${{ github.event_name == 'pull_request' && format('pages-pr-{0}', github.event.number) || 'pages' }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  build_pdf:
-    name: Build main.pdf
-    uses: ./.github/workflows/reusable-pdf.yml
-    with:
-      upload_artifact: true
-      artifact_name: dossier-pdf
-      artifact_retention_days: 7
-    secrets: inherit
-
   build_dossier:
     name: Render dossier
-    needs: build_pdf
+    if: |
+      github.event_name == 'workflow_dispatch' || (
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'push' &&
+        contains(fromJSON('["feature/dossier","dev","main","auto-dev"]'), github.event.workflow_run.head_branch)
+      )
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Check out repository
+      - name: Check out repository at triggering SHA
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.workflow_run.head_sha }}
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
@@ -69,11 +60,13 @@ jobs:
         run: npm ci
         working-directory: tools/dagre_layout
 
-      - name: Download PDF artifact
+      - name: Download PDF artifact from BEDC Build run
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
-          name: dossier-pdf
+          name: bedc-pdf
           path: pdf-artifact
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ inputs.source_run_id || github.event.workflow_run.id }}
 
       - name: Stage PDF with UTC timestamp
         id: stage_pdf
@@ -122,12 +115,7 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: build_dossier
-    # GitHub Pages environments can only be deployed from branch refs.
-    # PR events run with `refs/pull/N/merge`, which the environment's
-    # branch protection rules cannot whitelist (wildcards don't cross
-    # `/`). Skip the deploy step on PR events; the build check still
-    # runs so reviewers see render/audit failures pre-merge.
-    if: github.event_name == 'push'
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.event == 'push' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
