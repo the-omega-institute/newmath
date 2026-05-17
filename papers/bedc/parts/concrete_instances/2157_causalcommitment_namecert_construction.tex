@@ -421,6 +421,93 @@ Add locality and observer access. \autoref{thm:causal-commitment-locality-cell-h
 Finally apply \autoref{thm:causal-commitment-namecert-ledger}. The local NameCert ledger is exhausted by the displayed rows, so any attempted export outside $\BHist$, GAP, transport, replay, provenance, locality, observer-locality, and local naming exits the packet.
 \end{proof}
 
+\begin{theorem}[CausalCommitment GAP locality adjunction]
+\label{thm:causal-commitment-gap-locality-adjunction}
+For an accepted $\CausalCommitmentUp$ packet, the GAP socket row $G$ and the
+locality row $L$ form the only admissible route from observed regularity to
+observer-locality handoff. Any observer-facing commitment read must pass from
+the observed and regularity rows through $G$, then through the forward-binding
+row $F$, and finally through $L$ before the transport, replay, provenance, and
+local naming rows may expose it.
+\end{theorem}
+\begin{proof}
+Start with the carrier and GAP socket. The carrier of
+\autoref{def:causal-commitment-namecert-carrier} displays the rows
+$O,R,G,F,L,H,C,P,N$, and \autoref{thm:causal-commitment-gap-socket} makes $G$
+the public GAP row available to the packet.
+
+Next use the forward binding route. By
+\autoref{thm:causal-commitment-forward-binding-route}, the observed
+regularity content enters the commitment-facing route through $O,R,G,F$ and
+does not pass through an unledgered future selector.
+
+Finally attach observer locality. \autoref{thm:causal-commitment-locality-cell-handoff}
+routes the consumer through $L$, while
+\autoref{thm:causal-commitment-non-escape-boundary} excludes hidden causal
+laws, synchronized global frames, and selected future observations. Thus the
+only admissible observed-regularity to observer-locality route is the
+displayed $G,F,L$ handoff inside $O,R,G,F,L,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[CausalCommitment observer row factorization]
+\label{thm:causal-commitment-observer-row-factorization}
+Every observer-facing read of an accepted $\CausalCommitmentUp$ packet factors
+through
+$$
+O,R,G,F,L,H,C,P,N.
+$$
+The observer row, regularity row, GAP socket, forward-binding row, locality
+handoff, transport, continuation replay, provenance, and local NameCert row
+are all required before the read can be exported to an observer-locality
+consumer.
+\end{theorem}
+\begin{proof}
+Begin with the route already exposed by
+\autoref{thm:causal-commitment-forward-gap-observer-route}. It identifies the
+observer-facing route with the displayed rows $O,R,G,F,L,H,C,P,N$.
+
+Use classifier stability to keep the rows separate during transport.
+\autoref{thm:causal-commitment-classifier-stability} preserves the same
+carrier coordinates under the componentwise $\hsame$ and displayed $\Cont$
+replay rows, so the observer read cannot collapse $G$, $F$, or $L$ into a
+single hidden primitive.
+
+The ledger then closes the factorization.
+\autoref{thm:causal-commitment-namecert-ledger} and
+\autoref{thm:causal-commitment-ledger-nonescape} say that no row outside
+$O,R,G,F,L,H,C,P,N$ has a local NameCert coordinate. Hence every accepted
+observer-facing read factors through exactly those rows.
+\end{proof}
+
+\begin{theorem}[CausalCommitment forward GAP NameCert export]
+\label{thm:causal-commitment-forward-gap-namecert-export}
+The forward-GAP obligation surface of $\CausalCommitmentUp$ exports a local
+NameCert row only after the GAP-locality adjunction and observer-row
+factorization are both satisfied. The exported certificate packages the
+carrier, GAP socket, forward-binding route, locality handoff, classifier
+stability, and ledger non-escape rows, and it exports no hidden causal
+primitive or selected future observation.
+\end{theorem}
+\begin{proof}
+First package the carrier and locality route. Apply
+\autoref{thm:causal-commitment-gap-locality-adjunction}; it gives the only
+admissible route from observed regularity through the GAP socket and forward
+binding row to the observer-locality handoff.
+
+Next package the observer-facing read. Apply
+\autoref{thm:causal-commitment-observer-row-factorization}; it requires the
+complete row sequence $O,R,G,F,L,H,C,P,N$ before any observer-locality
+consumer receives the commitment.
+
+It remains to read the local NameCert ledger.
+\autoref{thm:causal-commitment-namecert-ledger} supplies the local naming row,
+while \autoref{thm:causal-commitment-ledger-nonescape} and
+\autoref{thm:causal-commitment-non-escape-boundary} exclude hidden causal
+laws, unledgered agency primitives, synchronized global frames, universal
+empirical laws, and selected future observations. Therefore the exported
+NameCert is exactly the displayed forward-GAP obligation surface.
+\end{proof}
+
 \closureat{CausalCommitmentUp}{seedStr}
 \closureat{CausalCommitmentUp}{obligationStr}
 \closureat{CausalCommitmentUp}{scopedStr}
