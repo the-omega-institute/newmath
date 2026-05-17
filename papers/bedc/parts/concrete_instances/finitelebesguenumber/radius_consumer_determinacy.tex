@@ -1,0 +1,51 @@
+\begin{definition}[Finite Lebesgue-number radius-consumer determinacy ledger]
+\label{def:finite-lebesgue-number-radius-consumer-determinacy-ledger}
+The radius-consumer determinacy ledger for $\FiniteLebesgueNumberUp$ is the finite row family
+$$
+\Delta_{\lambda}=(D,R,M,S,G,E,H,C,P,N,K,Q)
+$$
+whose displayed entries are the $\DyadicCoverUp$ cover row $D$, the $\RationalBallUp$ positive radius row $R$, the $\DyadicMeshUp$ mesh row $M$, the $\StreamNameUp$ source-window row $S$, the $\RegSeqRatUp$ regular-rational readback row $G$, the $\RealUp$ endpoint row $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, local $\NameCert$ naming $N$, the compact and compact-net consumer row $K$, and the $\UniformModulusUp$ consumer row $Q$.
+The ledger determines the radius read available to $\CompactMetricUp$, $\CompactNetModulusSelectorUp$, and $\UniformModulusUp$ consumers only through these finite rows. It has no coordinate for an arbitrary open cover, selected subcover, host minimum, quotient equality, choice principle, detached $\RealUp$ representative, or external modulus selector.
+\end{definition}
+
+\begin{theorem}[Finite Lebesgue-number radius-row determinacy]
+\label{thm:finite-lebesgue-number-radius-row-determinacy}
+Let $L$ and $L'$ be accepted $\FiniteLebesgueNumberUp$ routes whose radius-consumer ledgers display the same $\DyadicCoverUp$ cover row, $\RationalBallUp$ positive radius row, $\DyadicMeshUp$ mesh row, $\StreamNameUp$ source-window row, $\RegSeqRatUp$ regular-rational row, $\RealUp$ endpoint row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming row. Then every compact, compact-net, or uniform consumer admitted by those routes exposes the same positive finite-radius row.
+\end{theorem}
+\begin{proof}
+Start with radius transport. \autoref{thm:finite-lebesgue-number-radius-transport} keeps the positive radius tied to the rational-ball and mesh evidence under the displayed transport rows.
+
+Next apply the window-radius source lock. \autoref{thm:finite-lebesgue-number-window-radius-source-lock} identifies the finite-window source of the radius through $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicMeshUp$, and $\DyadicCoverUp$ before a consumer can inspect the radius.
+
+Use radius-cover monotone readback and ledger transport for the comparison. \autoref{thm:finite-lebesgue-number-radius-cover-monotone-readback} fixes the read order from the cover row to the rational-ball row, while \autoref{thm:finite-lebesgue-number-ledger-transport} prevents the radius from separating from the cover, mesh, source, transport, replay, provenance, and naming rows.
+
+Since $L$ and $L'$ agree on exactly those displayed rows, no compact, compact-net, or uniform consumer has another radius coordinate to read. The exposed positive radius row is therefore the same row in both routes.
+\end{proof}
+
+\begin{theorem}[Finite Lebesgue-number uniform-consumer determinacy]
+\label{thm:finite-lebesgue-number-uniform-consumer-determinacy}
+For an accepted $\FiniteLebesgueNumberUp$ radius-consumer determinacy ledger $\Delta_{\lambda}$, a $\UniformModulusUp$ consumer cannot obtain a modulus radius different from the positive finite-radius row displayed in $\Delta_{\lambda}$. Any uniform-modulus handoff preserving the displayed cover, rational-ball, mesh, source, transport, replay, provenance, and naming rows reads the same radius as the compact and compact-net consumers.
+\end{theorem}
+\begin{proof}
+Begin with the uniform-modulus radius scope theorem. \autoref{thm:finite-lebesgue-number-uniform-modulus-radius-scope} places every $\UniformModulusUp$ handoff inside the displayed positive finite-radius row.
+
+Now use the consumer nonescape triad. \autoref{thm:finite-lebesgue-number-consumer-nonescape-triad} excludes open-cover compactness, selected subcovers, host minima, quotient equality, choice, and external modulus data from compact, compact-net, and uniform consumers alike.
+
+Finally apply the public compact-uniform export. \autoref{thm:finite-lebesgue-number-public-compact-uniform-export} identifies the public export as the same finite cover, rational-ball, mesh, source, transport, replay, provenance, and naming route. Thus the uniform consumer has no second modulus-radius source and must read the radius already determined by $\Delta_{\lambda}$.
+\end{proof}
+
+\begin{theorem}[Finite Lebesgue-number compact-consumer determinacy package]
+\label{thm:finite-lebesgue-number-compact-consumer-determinacy-package}
+Every $\CompactMetricUp$, $\CompactNetModulusSelectorUp$, and $\UniformModulusUp$ consumer admitted by an accepted $\FiniteLebesgueNumberUp$ radius-consumer determinacy ledger factors through one deterministic finite route
+$$
+D,R,M,S,G,E,H,C,P,N,K,Q .
+$$
+The compact metric read, compact-net selector read, and uniform-modulus handoff therefore expose the same positive radius row through the displayed $\DyadicCoverUp$, $\RationalBallUp$, $\DyadicMeshUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+\end{theorem}
+\begin{proof}
+First package the compact side. \autoref{thm:finite-lebesgue-number-compact-radius-bridge} sends compact and compact-net consumers through the displayed positive finite-radius route, and \autoref{thm:finite-lebesgue-number-radius-row-determinacy} makes the radius row fixed by the shared ledger rows.
+
+Next package the uniform side. \autoref{thm:finite-lebesgue-number-uniform-consumer-determinacy} states that a $\UniformModulusUp$ consumer preserving the same ledger cannot read a different modulus radius.
+
+It remains to identify the shared finite route. \autoref{def:finite-lebesgue-number-radius-consumer-determinacy-ledger} lists exactly the cover, radius, mesh, source, transport, replay, provenance, naming, compact-consumer, and uniform-consumer rows, while \autoref{thm:finite-lebesgue-number-consumer-nonescape-triad} removes all outside compactness, equality, choice, and modulus coordinates. Hence the three consumer surfaces are packaged by the single deterministic route displayed above.
+\end{proof}
