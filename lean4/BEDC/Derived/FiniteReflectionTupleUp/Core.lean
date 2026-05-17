@@ -286,4 +286,81 @@ theorem FiniteReflectionTupleCarrier_componentwise_transport
     ⟨semantic, transportUnary, replayUnary, provenanceUnary, requestUnary, localCertUnary,
       transportReplayProvenance, provenanceRequestLocalCert, localCertPkg⟩
 
+theorem FiniteReflectionTupleCarrier_dependency_ledger_totality
+    [AskSetup] [PackageSetup]
+    {candidate stability admission compiler image readback transport replay provenance request
+      localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteReflectionTupleCarrier candidate stability admission compiler image readback transport
+        replay provenance request localCert bundle pkg →
+      SemanticNameCert
+          (fun row : BHist =>
+            FiniteReflectionTupleCarrier candidate stability admission compiler image readback
+              transport replay provenance request localCert bundle pkg ∧ hsame row localCert)
+          (fun row : BHist =>
+            Cont candidate stability admission ∧ Cont admission compiler image ∧
+              Cont image readback transport ∧ Cont transport replay provenance ∧
+                Cont provenance request localCert ∧ hsame row localCert)
+          (fun row : BHist => PkgSig bundle localCert pkg ∧ hsame row localCert)
+          hsame ∧
+        UnaryHistory candidate ∧ UnaryHistory stability ∧ UnaryHistory admission ∧
+          UnaryHistory compiler ∧ UnaryHistory image ∧ UnaryHistory readback ∧
+            UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+              UnaryHistory request ∧ UnaryHistory localCert ∧ PkgSig bundle localCert pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier
+  have carrierWitness := carrier
+  obtain ⟨candidateUnary, stabilityUnary, admissionUnary, compilerUnary, imageUnary,
+    readbackUnary, transportUnary, replayUnary, provenanceUnary, requestUnary, localCertUnary,
+    candidateStabilityAdmission, admissionCompilerImage, imageReadbackTransport,
+    transportReplayProvenance, provenanceRequestLocalCert, localCertPkg⟩ := carrier
+  have certCore :
+      NameCert
+        (fun row : BHist =>
+          FiniteReflectionTupleCarrier candidate stability admission compiler image readback
+            transport replay provenance request localCert bundle pkg ∧ hsame row localCert)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro localCert
+        (And.intro carrierWitness (hsame_refl localCert))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+  have semantic :
+      SemanticNameCert
+          (fun row : BHist =>
+            FiniteReflectionTupleCarrier candidate stability admission compiler image readback
+              transport replay provenance request localCert bundle pkg ∧ hsame row localCert)
+          (fun row : BHist =>
+            Cont candidate stability admission ∧ Cont admission compiler image ∧
+              Cont image readback transport ∧ Cont transport replay provenance ∧
+                Cont provenance request localCert ∧ hsame row localCert)
+          (fun row : BHist => PkgSig bundle localCert pkg ∧ hsame row localCert)
+          hsame := by
+    exact {
+      core := certCore
+      pattern_sound := by
+        intro _row sourceRow
+        exact
+          ⟨candidateStabilityAdmission, admissionCompilerImage, imageReadbackTransport,
+            transportReplayProvenance, provenanceRequestLocalCert, sourceRow.right⟩
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨localCertPkg, sourceRow.right⟩
+    }
+  exact
+    ⟨semantic, candidateUnary, stabilityUnary, admissionUnary, compilerUnary, imageUnary,
+      readbackUnary, transportUnary, replayUnary, provenanceUnary, requestUnary, localCertUnary,
+      localCertPkg⟩
+
 end BEDC.Derived.FiniteReflectionTupleUp
