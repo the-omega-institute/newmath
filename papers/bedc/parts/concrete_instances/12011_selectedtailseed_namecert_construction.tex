@@ -144,6 +144,46 @@ Next apply \autoref{thm:selected-tail-seed-window-readback-coherence}. Once $A$ 
 Finally apply \autoref{thm:selected-tail-seed-real-seal-handoff}. The structural rows $H,C,P,N$ preserve, replay, source, and name the displayed chain, while quotient streams, host real equality, detached limits, and ambient Real completeness are not coordinates of the carrier. Hence a route using a different window, readback, ledger, or seal is not a $\SelectedTailSeedUp$ consumer route unless that data has already been supplied as one of the rows of $T$.
 \end{proof}
 
+\begin{theorem}[Selected-tail seed stationary-endpoint coverage]
+\label{thm:selected-tail-seed-stationary-endpoint-coverage}
+For every accepted carrier $T=(Q,E,A,W,K,S,R,H,C,P,N)$ of \autoref{def:selected-tail-seed-carrier}, the stationary selected endpoint is exposed only through the finite route
+$$
+Q,E,A,W,K,S
+$$
+before the Real seal row $R$ is consumed. These rows are sufficient for the local selected-tail endpoint read used by Real-window consumers: $Q$ supplies the rational seed, $E$ supplies endpoint exactness, $A$ admits the selected finite tail, $W$ exposes the stationary window, $K$ reads that window as regular-rational data, and $S$ records the dyadic tolerance ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier and apply \autoref{thm:selected-tail-seed-namecert-obligations}. The displayed NameCert surface contains exactly the seed, exactness, finite-tail admission, stream-window, regular-rational, dyadic-ledger, and Real-seal rows together with the structural rows.
+
+The local endpoint read begins before the Real seal. By \autoref{thm:selected-tail-seed-finite-tail-admission-exactness}, the selected stationary tail must first pass through $A$ before any use of $W$ or $K$.
+
+Finally apply \autoref{thm:selected-tail-seed-window-readback-coherence}. The window-readback chain is $W,K,S,R$, so the endpoint visible to Real-window consumers has already been routed through $Q,E,A,W,K,S$ before the seal row $R$ is read.
+\end{proof}
+
+\begin{theorem}[Selected-tail seed dyadic-ledger readback coverage]
+\label{thm:selected-tail-seed-dyadic-ledger-readback-coverage}
+For every accepted carrier $T=(Q,E,A,W,K,S,R,H,C,P,N)$ of \autoref{def:selected-tail-seed-carrier}, the row $S$ is the unique displayed dyadic tolerance and arithmetic ledger mediating the regular-rational readback $K$ and the Real seal $R$. No $\SelectedTailSeedUp$ consumer may pass from $W,K$ to $R$ while omitting $S$.
+\end{theorem}
+\begin{proof}
+Project $T$ to its displayed rows. The carrier definition names $S$ as the only $\DyadicRatCoreUp$ tolerance and arithmetic ledger attached to the selected endpoint, while $K$ is the regular-rational readback row and $R$ is the Real seal row.
+
+Apply \autoref{thm:selected-tail-seed-namecert-obligations}. The local NameCert surface lists $K$, $S$, and $R$ as separate required obligations, so the dyadic ledger cannot be absorbed into either the readback row or the Real seal.
+
+The Real-facing route is fixed by \autoref{thm:selected-tail-seed-real-seal-nonescape-obligation} and \autoref{thm:selected-tail-seed-real-seal-handoff}. Both routes pass through $S$ before consuming $R$, and the carrier exports no alternate coordinate that could mediate the same transition.
+\end{proof}
+
+\begin{theorem}[Selected-tail seed Real-completion boundary]
+\label{thm:selected-tail-seed-real-completion-boundary}
+Every accepted $\SelectedTailSeedUp$ carrier supplies a finite handoff into Real-window consumers, but it does not assert Real completeness, quotient-stream equality, countable-choice selection, detached limits, or host real equality. Any consumer that needs one of those completion-facing boundaries must obtain it from a separate L10 chapter rather than from the local rows $Q,E,A,W,K,S,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:selected-tail-seed-stationary-endpoint-coverage}. The stationary endpoint exposed by the packet is the finite route $Q,E,A,W,K,S$ before the Real seal row is read.
+
+Next use \autoref{thm:selected-tail-seed-dyadic-ledger-readback-coverage}. The passage from regular-rational readback to Real seal must include the displayed dyadic ledger $S$, so the packet supplies a concrete finite handoff rather than an ambient completion principle.
+
+Finally combine \autoref{thm:selected-tail-seed-real-window-handoff} with \autoref{thm:selected-tail-seed-real-seal-handoff}. Both the consumer route and the seal route remain inside the listed carrier rows, whose definition explicitly exports no quotient stream, host real equality, countable-choice selector, detached limit object, or ambient Real-completeness coordinate.
+\end{proof}
+
 This chapter is composite rather than atomic. Its independence from the sibling chapters is not expressed by row-by-row atomic separation: $\SelectedTailSeedUp$ deliberately joins $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\FiniteTailFilterUp$ into one stationary selected-tail seed packet, and each sibling omits at least one coordinate needed for the full Real-window handoff.
 
 The Lean \texttt{TasteGate.lean} boundary for $\SelectedTailSeedUp$ must provide explicit $\mathsf{Nontrivial}\ \SelectedTailSeedUp$ and $\mathsf{FieldFaithful}\ \SelectedTailSeedUp$ instances preserving $Q,E,A,W,K,S,R,H,C,P,N$.
