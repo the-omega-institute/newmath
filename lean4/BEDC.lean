@@ -1654,6 +1654,7 @@ import BEDC.Derived.ObserverCoordinateFrameUp.TasteGate
 import BEDC.Derived.ObserverSupportLatticeUp.TasteGate
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
 import BEDC.Derived.RecursorBranchAuditUp.TasteGate
+import BEDC.Derived.RecursorBranchCompletenessUp.TasteGate
 import BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate
 import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
 import BEDC.Derived.OtherMindsCommitmentUp.TasteGate
