@@ -260,6 +260,10 @@ instance scienceBridgeNontrivial : Nontrivial ScienceBridgeUp where
         injection h with hR
         cases hR⟩
 
+def taste_gate : ChapterTasteGate ScienceBridgeUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  scienceBridgeChapterTasteGate
+
 theorem ScienceBridgeTasteGate_single_carrier_alignment :
     (∀ h : BHist, scienceBridgeDecodeBHist (scienceBridgeEncodeBHist h) = h) ∧
       (∀ x : ScienceBridgeUp,
@@ -276,5 +280,40 @@ theorem ScienceBridgeTasteGate_single_carrier_alignment :
       · intro x y heq
         exact ScienceBridgeTasteGate_single_carrier_alignment_injective heq
       · rfl
+
+namespace TasteGate
+
+theorem ScienceBridgeTasteGate_single_carrier_alignment :
+    scienceBridgeToEventFlow
+      (ScienceBridgeUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+        [[BMark.b0], [], [BMark.b1, BMark.b0], [],
+          [BMark.b1, BMark.b1, BMark.b0], [],
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b0], [],
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], [],
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], [],
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          [],
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b0],
+          [],
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b0],
+          [],
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b1, BMark.b0],
+          [],
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          []] ∧
+      Nonempty (ChapterTasteGate ScienceBridgeUp) ∧ Nonempty (FieldFaithful ScienceBridgeUp) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · constructor
+    · exact Nonempty.intro scienceBridgeChapterTasteGate
+    · exact Nonempty.intro scienceBridgeFieldFaithful
+
+end TasteGate
 
 end BEDC.Derived.ScienceBridgeUp

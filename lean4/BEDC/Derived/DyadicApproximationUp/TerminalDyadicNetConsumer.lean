@@ -10,6 +10,20 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def DyadicApproximationTerminalDyadicNetConsumerSurface [AskSetup] [PackageSetup]
+    (terminalPrecision terminalEndpoint intervalCell meshSelector validatedEnclosure
+      streamWindow regSeqReadback realSeal diagonalSelector transport continuation provenance
+      localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory terminalPrecision ∧ UnaryHistory terminalEndpoint ∧
+    UnaryHistory intervalCell ∧ UnaryHistory meshSelector ∧
+      UnaryHistory validatedEnclosure ∧ UnaryHistory streamWindow ∧
+        UnaryHistory regSeqReadback ∧ UnaryHistory realSeal ∧
+          UnaryHistory diagonalSelector ∧ Cont terminalPrecision terminalEndpoint streamWindow ∧
+            Cont streamWindow regSeqReadback realSeal ∧
+              Cont meshSelector validatedEnclosure diagonalSelector ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
+
 theorem DyadicApproximationCarrier_terminal_dyadic_net_consumption
     [AskSetup] [PackageSetup]
     {precision endpoint window ledger provenance terminalPrecision terminalEndpoint terminalWindow

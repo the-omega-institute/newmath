@@ -41,6 +41,7 @@ The readback and ledger obligations are read through $r$ and $d$. The regular ra
 
 The remaining rows $s,h,c,p,n$ expose the seal handoff, componentwise transports, route replay, package provenance, and local naming. Since every coordinate of the packet is accounted for, these obligations exhaust the local certificate surface.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteWitnessRouteUp.FiniteWitnessRouteNameCert\_obligations}
 
 \begin{theorem}[Finite witness-route non-escape]
 \label{thm:finite-witness-route-non-escape}
@@ -59,6 +60,7 @@ The consumer side is exhausted by $s,h,c,p,n$. These rows record the seal handof
 
 No coordinate remains from which to read an infinite trace, quotient stream equality, selected real value, unrecorded limit, or bypass route. The accepted packet therefore has the stated non-escape boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteWitnessRouteUp.FiniteWitnessRouteNonEscape\_boundary}
 
 \begin{theorem}[Finite witness-route transport stability]
 \label{thm:finite-witness-route-transport-stability}
@@ -80,6 +82,7 @@ Transporting $s,c,p,n$ preserves the consumer side of the route: the seal handof
 \label{thm:finite-witness-route-consumer-factorization}
 Every $\CauchyLimitSealUp$ or $\RealUp$ consumer that accepts a $\FiniteWitnessRouteUp$ packet factors through the selected $\StreamNameUp$ window $w$, the $\RegSeqRatUp$ readback $r$, the $\DyadicRatCoreUp$ ledger $d$, the seal row $s$, the displayed transports $h$, the continuation routes $c$, the package provenance $p$, and the local $\NameCert_{\FiniteWitnessRouteUp}$ row $n$. The consumer receives the finite witness route, not an independent route ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteWitnessRouteUp.FiniteWitnessRouteConsumer\_factorization}
 \begin{proof}
 Begin with an accepted packet $R=(q,w,r,d,s,h,c,p,n)$. The request row $q$ names the finite demand and the downstream consumer boundary.
 

@@ -67,6 +67,54 @@ A nontriviality instance must therefore exhibit a packet in which those rows are
 
 Thus the later TasteGate file is the appropriate Lean surface for the same carrier, and its instances must distinguish the displayed bridge rows before any bridge-checked consumer cites the packet.
 \end{proof}
+
+\begin{theorem}[Standard bridge audit packet round-trip exactness]
+\label{thm:standard-bridge-audit-packet-round-trip-exactness}
+For every accepted $\StandardBridgeAuditPacketUp$ carrier
+$$
+S=(N,T,E,D,R,U,P,L,H,C,Q),
+$$
+the two public round-trip reads are exactly the displayed reads through $R,H,C,Q$. Decode-after-encode may consume $E$ and $D$ only after the paired round-trip row $R$ names the witness, the componentwise transport row $H$ preserves the accepted object and host-theory coordinates, the $\Cont$ row $C$ replays the bridge-check request, and the provenance-and-naming row $Q$ records the local packet. Encode-after-decode is governed by the same four rows in the opposite read direction. No hidden encoder, hidden decoder, host equality, or bridge assertion outside $R,H,C,Q$ can supply either exactness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:standard-bridge-audit-packet-carrier}. The rows $E$ and $D$ store the two bridge maps, but the carrier gives them no public exactness role by themselves; the paired round-trip row $R$ is the only coordinate assigned to decode-after-encode and encode-after-decode witnesses.
+
+Transport and replay are then forced through the structural rows. The row $H$ moves the accepted object, host theory, encoding, decoding, and round-trip data componentwise, while $C$ replays the concrete bridge-check request that asks for one of the two round-trip reads.
+
+Finally $Q$ records the $\Pkg$ provenance and local $\NameCert_{\StandardBridgeAuditPacketUp}$ row. Since the carrier has no coordinate for a hidden map, host equality import, or detached bridge assertion, both exactness directions are precisely the reads through $R,H,C,Q$.
+\end{proof}
+
+\begin{theorem}[Standard bridge audit packet theorem-preservation ledger]
+\label{thm:standard-bridge-audit-packet-theorem-preservation-ledger}
+For every accepted $\StandardBridgeAuditPacketUp$ carrier
+$$
+S=(N,T,E,D,R,U,P,L,H,C,Q),
+$$
+each theorem-preservation claim is a finite ledger entry whose host theorem, BEDC counterpart, translation evidence, unsupported-field status, and public admissibility are read through $U,L,P$. A host theorem that has no paired BEDC counterpart in $U$, or whose required host primitive is refused by $P$ or recorded as unsupported in $L$, is not exported as a preserved BEDC theorem.
+\end{theorem}
+\begin{proof}
+The theorem-preservation coordinate of the carrier is $U$. By definition it contains finite rows pairing preserved host theorems with BEDC counterparts and displayed translations, so an unpaired host theorem has no preservation row to project.
+
+The ledger row $L$ records unsupported fields, refused translations, theorem-preservation gaps, and bridge scope boundaries. Thus a preservation claim must also be compatible with the finite ledger entry that says the translation is supported inside the packet's bridge scope.
+
+The no-host-leak row $P$ supplies the public admissibility check. If the proposed preservation uses a host primitive, quotient principle, semantic equality assumption, proof object, or compiler reading barred by $P$, then the claim remains a host-side statement rather than a BEDC-preserved theorem. Hence theorem preservation is exactly the finite $U,L,P$ ledger surface.
+\end{proof}
+
+\begin{theorem}[Standard bridge audit packet host-leak consumer coverage]
+\label{thm:standard-bridge-audit-packet-host-leak-consumer-coverage}
+For every accepted $\StandardBridgeAuditPacketUp$ carrier
+$$
+S=(N,T,E,D,R,U,P,L,H,C,Q),
+$$
+any bridge consumer that reads $E,D,R$, or $U$ must first read the no-host-leak row $P$. A consumer that bypasses $P$ cannot be certified by the local $\NameCert_{\StandardBridgeAuditPacketUp}$ row, even if it follows the displayed encoding, decoding, round-trip, and theorem-preservation coordinates.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:standard-bridge-audit-packet-nonhost-leak}. The public bridge read factors through $P$ because the rows $E,D,R,U$ may mention host-side structure and do not by themselves separate bridge recognition from host import.
+
+Now inspect the consumer side of the carrier. The row $C$ replays bridge checking, theorem-pair lookup, no-host-leak inspection, and downstream audit reads; the local packet row $Q$ names the same replay surface through $\Pkg$ provenance and $\NameCert$ registration. Neither row replaces $P$ with an implicit host-leak check.
+
+Therefore every certified consumer of encoding, decoding, round trips, or theorem preservation must read $P$ before consuming $E,D,R,U$. A route that omits $P$ leaves the accepted packet surface and cannot be certified as a local standard-bridge audit consumer.
+\end{proof}
 \falsifiablePrediction{A purported bridge packet that omits the no-host-leak row is not an accepted StandardBridgeAuditPacketUp carrier.}
 
 \independenceWitness{kernelacceptancewitness, finitereflectiontuple, groundcompilerrecognizerflow, finitebhistinjection, prooftermerasuretrace: kernel acceptance records accepted declarations without host bridge fields, finite reflection records tuple image and readback without theorem-preservation pairs, GroundCompiler recognizer flow records generated-recognizer admission without a host bridge ledger, finite BHist injection records history embedding without no-host-leak, and proof-term erasure trace records erased proof visibility without encoding or decoding. None is bijective to $\StandardBridgeAuditPacketUp$.}

@@ -214,6 +214,50 @@ Apply \autoref{thm:finite-kernel-category-composition-laws}. The associativity a
 Finally use \autoref{thm:finite-kernel-category-ledger-nonescape-boundary} and \autoref{thm:finite-kernel-category-tastegate-scope}. Category-shaped downstream consumers receive only the finite packet surface, and the TasteGate handoff has no route back from quotient morphisms, host equality, functor-category objects, or an external category library.
 \end{proof}
 
+\begin{theorem}[Finite-kernel category scoped closure package]
+\label{thm:finite-kernel-category-scoped-closure-package}
+For every accepted $\FiniteKernelCategoryUp$ carrier
+$$
+K=(O,M,I,Q,A,U,H,C,P,N),
+$$
+the scoped package consists exactly of the object row $O$, hom row $M$, identity row $I$, composition row $Q$, associativity row $A$, unit row $U$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$. These rows are bound to the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and existing $\FiniteKernelCategoryUp$ TasteGate marker. A $\CategoryUp$, $\FunctorUp$, or $\NatTransUp$ consumer may cite the root package only by preserving this whole row family.
+
+The scoped package introduces no external category object, quotient morphism, host arrow equality, functor-category object, or ambient category library.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:finite-kernel-category-namecert-obligations}. Carrier exposure, classifier stability, identity exactness, composition exactness, and ledger non-escape already bind $O,M,I,Q,A,U,H,C,P,N$ to the displayed finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+Next apply \autoref{thm:finite-kernel-category-composition-laws}. It makes associativity and unit part of the same law ledger as identity and composition, transported through $H$ and consumed through $C$ with provenance $P$ and local name $N$.
+
+Finally use \autoref{thm:finite-kernel-category-root-obligation-scope} and \autoref{thm:finite-kernel-category-tastegate-obligation-handoff}. The root scope is the exact row family read by downstream categorical consumers, and the TasteGate handoff consumes the same single-carrier packet. By \autoref{thm:finite-kernel-category-ledger-nonescape-boundary}, no external category object or quotient morphism can replace any row.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category row scope exhaustion]
+\label{thm:finite-kernel-category-row-scope-exhaustion}
+Let $K=(O,M,I,Q,A,U,H,C,P,N)$ be an accepted $\FiniteKernelCategoryUp$ carrier. Every root-obligation read of $K$ is exhausted by the rows $O,M,I,Q,A,U,H,C,P,N$ over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and existing TasteGate support. In particular, object, hom, identity, composition, associativity, unit, transport, continuation, provenance, and local naming data cannot be distributed across a larger ambient categorical carrier before a consumer reads the $\FiniteKernelCategoryUp$ root package.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:finite-kernel-category-root-obligation-scope}. It states that the root obligation surface is exactly the object and hom boundary, identity and composition rows, associativity and unit rows, componentwise transport, continuation, provenance, and local naming rows.
+
+Use \autoref{thm:finite-kernel-category-root-handoff-package}. The handoff to $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ consumers is the single package $O,M,I,Q,A,U,H,C,P,N$, not a family of detachable ambient objects.
+
+Now apply \autoref{thm:finite-kernel-category-category-interface-handoff} and \autoref{thm:finite-kernel-category-functor-nattrans-handoff}. Category, functor, and natural-transformation consumers read only after this finite package has exposed the row family that supports their preservation and naturality data.
+
+The exhaustion is closed by \autoref{thm:finite-kernel-category-ledger-nonescape-boundary}. Since the carrier exports no quotient morphism, host arrow equality, functor-category object, or external category library, no additional root row remains outside the displayed package.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category public consumer boundary]
+\label{thm:finite-kernel-category-public-consumer-boundary}
+A public consumer may treat the $\FiniteKernelCategoryUp$ root package as scoped only when it reads object, hom, identity, composition, associativity, unit, transport, continuation, provenance, local naming, and the existing TasteGate marker through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. This is the consumer boundary for $\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ handoffs: the consumer receives a finite BEDC package, not a verified bridge claim and not an imported external category object.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-kernel-category-scoped-closure-package}. It identifies the scoped row package and binds it to the existing TasteGate support over the displayed BEDC support rows.
+
+Next use \autoref{thm:finite-kernel-category-row-scope-exhaustion}. A consumer that has not read all ten rows has not exhausted the root obligation surface, while a consumer that has read them has the finite package required for the downstream categorical interface.
+
+Finally apply \autoref{thm:finite-kernel-category-category-interface-handoff} together with \autoref{thm:finite-kernel-category-functor-nattrans-handoff}. These handoffs make $\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ consumers depend on the finite package before preservation or naturality data is read. The ledger non-escape theorem and TasteGate scope then exclude quotient morphisms, external category objects, aggregate bridge claims, and any imported category library from the public consumer boundary.
+\end{proof}
+
 \begin{theorem}[Finite-kernel category root handoff package]
 \label{thm:finite-kernel-category-root-handoff-package}
 For every accepted $\FiniteKernelCategoryUp$ carrier $K=(O,M,I,Q,A,U,H,C,P,N)$, the root handoff package to $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ consumers is the single package
@@ -228,6 +272,98 @@ Use \autoref{thm:finite-kernel-category-namecert-obligations}. The obligation su
 Next apply \autoref{thm:finite-kernel-category-category-interface-handoff}. The $\CategoryUp$ interface is the displayed finite ledger, so every functor or natural-transformation consumer reads the object, hom, identity, composition, associativity, and unit rows before preservation or naturality data.
 
 The package and naming rows are fixed by \autoref{thm:finite-kernel-category-package-namecert-scope}. Since $P$ and $N$ name only the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet, the root handoff cannot be detached from the local certificate.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category object row totality]
+\label{thm:finite-kernel-category-object-row-totality}
+Let
+$$
+K=(O,M,I,Q,A,U,H,C,P,N)
+$$
+be an accepted $\FiniteKernelCategoryUp$ carrier. Every accepted object read of
+$K$ factors through the displayed object-history row $O$. The factorization
+keeps the object witness in the same $\BHist$ history, componentwise $\hsame$
+transport row $H$, displayed $\Cont$ consumer row $C$, $\Pkg$ provenance row
+$P$, and local $\NameCert$ row $N$; no category, functor, or
+natural-transformation consumer can read an object of $K$ outside that
+object-history row.
+\end{theorem}
+\begin{proof}
+Read the carrier through \autoref{def:finite-kernel-category-carrier}. The
+only object coordinate of the accepted packet is $O$, and its route is
+presented together with the transport, continuation, provenance, and local
+naming rows.
+
+Apply \autoref{thm:finite-kernel-category-namecert-obligations}. Carrier
+habitation and classifier stability bind the accepted object read to the
+displayed $\BHist$ row and to the componentwise $\hsame$ transport that keeps
+the same packet visible to downstream consumers.
+
+The law rows do not create another object source. By
+\autoref{thm:finite-kernel-category-composition-laws}, identity, composition,
+associativity, and unit use the displayed categorical rows over the same
+object boundary, and \autoref{thm:finite-kernel-category-ledger-nonescape-boundary}
+prevents replacing that boundary by host object equality, quotient objects, or
+an external category library.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category morphism route stability]
+\label{thm:finite-kernel-category-morphism-route-stability}
+For every accepted $\FiniteKernelCategoryUp$ carrier
+$K=(O,M,I,Q,A,U,H,C,P,N)$, each accepted hom read and each endpoint transport
+used by a $\CategoryUp$, $\FunctorUp$, or $\NatTransUp$ consumer remains inside
+the displayed morphism route $M,H,C,P,N$. In particular, source and target
+movement is recorded by the same componentwise $\hsame$ transport, displayed
+$\Cont$ continuation, package provenance, and local name that expose the hom
+history, rather than by host arrow equality or a quotient morphism.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:finite-kernel-category-carrier}. The hom row is $M$,
+and the only endpoint-transport data attached to it are the displayed rows
+$H,C,P,N$.
+
+Use \autoref{thm:finite-kernel-category-namecert-obligations}. Classifier
+stability and composition exactness force hom histories and their endpoints to
+travel through the same componentwise $\hsame$ and $\Cont$ rows before the
+packet is consumed.
+
+The category-law surface preserves that route. Apply
+\autoref{thm:finite-kernel-category-composition-laws} to keep identity,
+composition, associativity, and unit reads over the same hom and endpoint
+rows, then use \autoref{thm:finite-kernel-category-ledger-nonescape-boundary}
+to exclude any replacement by host arrows, quotient morphisms, or external
+categorical equality.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category composition ledger nonescape]
+\label{thm:finite-kernel-category-composition-ledger-nonescape}
+Let
+$$
+K=(O,M,I,Q,A,U,H,C,P,N)
+$$
+be an accepted $\FiniteKernelCategoryUp$ carrier. Every identity, composition,
+associativity, or unit consumer reads only the displayed ledger rows
+$I,Q,A,U,H,C,P,N$. These consumers cannot replace the ledger by quotient
+morphisms, host arrow equality, functor-category equality, or an external
+category-library proof of the same laws.
+\end{theorem}
+\begin{proof}
+Project the ledger coordinates of \autoref{def:finite-kernel-category-carrier}.
+Identities are carried by $I$, composites by $Q$, associativity by $A$, and
+unit laws by $U$, all with the same transport, continuation, provenance, and
+local naming rows.
+
+Apply \autoref{thm:finite-kernel-category-namecert-obligations}. Identity
+exactness, composition exactness, and ledger non-escape are obligations of the
+same local NameCert surface, so a law consumer cannot detach $I,Q,A,U$ from
+$H,C,P,N$.
+
+Finally use \autoref{thm:finite-kernel-category-composition-laws}. It makes
+the displayed identity, composition, associativity, and unit rows the law
+surface consumed by categorical readers. The boundary theorem,
+\autoref{thm:finite-kernel-category-ledger-nonescape-boundary}, rules out a
+second route through quotient morphisms, host arrow equality, or an ambient
+category library.
 \end{proof}
 
 \begin{theorem}[Finite-kernel category root downstream unblock]
