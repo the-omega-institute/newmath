@@ -10,24 +10,23 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive ProofWitnessChainUp : Type where
-  | mk
-      (trace source classifier transport ledger refusal audit provenance name : BHist) :
-      ProofWitnessChainUp
+  | mk (T S K H L F A P N : BHist) : ProofWitnessChainUp
   deriving DecidableEq
 
-private def encodeBHist : BHist → RawEvent
+def proofWitnessChainEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: encodeBHist h
-  | BHist.e1 h => BMark.b1 :: encodeBHist h
+  | BHist.e0 h => BMark.b0 :: proofWitnessChainEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: proofWitnessChainEncodeBHist h
 
-private def decodeBHist : RawEvent → BHist
+def proofWitnessChainDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (decodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (proofWitnessChainDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (proofWitnessChainDecodeBHist tail)
 
-private theorem decode_encode_bhist : ∀ h : BHist, decodeBHist (encodeBHist h) = h := by
+private theorem proofWitnessChain_decode_encode_bhist :
+    ∀ h : BHist, proofWitnessChainDecodeBHist (proofWitnessChainEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -38,108 +37,102 @@ private theorem decode_encode_bhist : ∀ h : BHist, decodeBHist (encodeBHist h)
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def proofWitnessChainToEventFlow : ProofWitnessChainUp → EventFlow
+def proofWitnessChainFields : ProofWitnessChainUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | ProofWitnessChainUp.mk trace source classifier transport ledger refusal audit provenance
-      name =>
+  | ProofWitnessChainUp.mk T S K H L F A P N => [T, S, K, H, L, F, A, P, N]
+
+def proofWitnessChainToEventFlow : ProofWitnessChainUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | ProofWitnessChainUp.mk T S K H L F A P N =>
       [[BMark.b0],
-        encodeBHist trace,
+        proofWitnessChainEncodeBHist T,
         [BMark.b1, BMark.b0],
-        encodeBHist source,
+        proofWitnessChainEncodeBHist S,
         [BMark.b1, BMark.b1, BMark.b0],
-        encodeBHist classifier,
+        proofWitnessChainEncodeBHist K,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        encodeBHist transport,
+        proofWitnessChainEncodeBHist H,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        encodeBHist ledger,
+        proofWitnessChainEncodeBHist L,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        encodeBHist refusal,
+        proofWitnessChainEncodeBHist F,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        encodeBHist audit,
+        proofWitnessChainEncodeBHist A,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        encodeBHist provenance,
+        proofWitnessChainEncodeBHist P,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        encodeBHist name]
+        proofWitnessChainEncodeBHist N]
 
-private def proofWitnessChainFromEventFlow : EventFlow → Option ProofWitnessChainUp
+def proofWitnessChainFromEventFlow : EventFlow → Option ProofWitnessChainUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | trace :: rest1 =>
+      | T :: rest1 =>
           match rest1 with
           | [] => none
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | source :: rest3 =>
+              | S :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | classifier :: rest5 =>
+                      | K :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | transport :: rest7 =>
+                              | H :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | ledger :: rest9 =>
+                                      | L :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | refusal :: rest11 =>
+                                              | F :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | audit :: rest13 =>
+                                                      | A :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | provenance :: rest15 =>
+                                                              | P :: rest15 =>
                                                                   match rest15 with
                                                                   | [] => none
                                                                   | _tag8 :: rest16 =>
                                                                       match rest16 with
                                                                       | [] => none
-                                                                      | name :: rest17 =>
+                                                                      | N :: rest17 =>
                                                                           match rest17 with
                                                                           | [] =>
                                                                               some
                                                                                 (ProofWitnessChainUp.mk
-                                                                                  (decodeBHist
-                                                                                    trace)
-                                                                                  (decodeBHist
-                                                                                    source)
-                                                                                  (decodeBHist
-                                                                                    classifier)
-                                                                                  (decodeBHist
-                                                                                    transport)
-                                                                                  (decodeBHist
-                                                                                    ledger)
-                                                                                  (decodeBHist
-                                                                                    refusal)
-                                                                                  (decodeBHist
-                                                                                    audit)
-                                                                                  (decodeBHist
-                                                                                    provenance)
-                                                                                  (decodeBHist
-                                                                                    name))
+                                                                                  (proofWitnessChainDecodeBHist T)
+                                                                                  (proofWitnessChainDecodeBHist S)
+                                                                                  (proofWitnessChainDecodeBHist K)
+                                                                                  (proofWitnessChainDecodeBHist H)
+                                                                                  (proofWitnessChainDecodeBHist L)
+                                                                                  (proofWitnessChainDecodeBHist F)
+                                                                                  (proofWitnessChainDecodeBHist A)
+                                                                                  (proofWitnessChainDecodeBHist P)
+                                                                                  (proofWitnessChainDecodeBHist N))
                                                                           | _ :: _ => none
 
 private theorem proofWitnessChain_round_trip :
@@ -148,22 +141,29 @@ private theorem proofWitnessChain_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk trace source classifier transport ledger refusal audit provenance name =>
+  | mk T S K H L F A P N =>
       change
         some
           (ProofWitnessChainUp.mk
-            (decodeBHist (encodeBHist trace)) (decodeBHist (encodeBHist source))
-            (decodeBHist (encodeBHist classifier)) (decodeBHist (encodeBHist transport))
-            (decodeBHist (encodeBHist ledger)) (decodeBHist (encodeBHist refusal))
-            (decodeBHist (encodeBHist audit)) (decodeBHist (encodeBHist provenance))
-            (decodeBHist (encodeBHist name))) =
-          some
-            (ProofWitnessChainUp.mk trace source classifier transport ledger refusal audit
-              provenance name)
-      rw [decode_encode_bhist trace, decode_encode_bhist source,
-        decode_encode_bhist classifier, decode_encode_bhist transport,
-        decode_encode_bhist ledger, decode_encode_bhist refusal, decode_encode_bhist audit,
-        decode_encode_bhist provenance, decode_encode_bhist name]
+            (proofWitnessChainDecodeBHist (proofWitnessChainEncodeBHist T))
+            (proofWitnessChainDecodeBHist (proofWitnessChainEncodeBHist S))
+            (proofWitnessChainDecodeBHist (proofWitnessChainEncodeBHist K))
+            (proofWitnessChainDecodeBHist (proofWitnessChainEncodeBHist H))
+            (proofWitnessChainDecodeBHist (proofWitnessChainEncodeBHist L))
+            (proofWitnessChainDecodeBHist (proofWitnessChainEncodeBHist F))
+            (proofWitnessChainDecodeBHist (proofWitnessChainEncodeBHist A))
+            (proofWitnessChainDecodeBHist (proofWitnessChainEncodeBHist P))
+            (proofWitnessChainDecodeBHist (proofWitnessChainEncodeBHist N))) =
+          some (ProofWitnessChainUp.mk T S K H L F A P N)
+      rw [proofWitnessChain_decode_encode_bhist T,
+        proofWitnessChain_decode_encode_bhist S,
+        proofWitnessChain_decode_encode_bhist K,
+        proofWitnessChain_decode_encode_bhist H,
+        proofWitnessChain_decode_encode_bhist L,
+        proofWitnessChain_decode_encode_bhist F,
+        proofWitnessChain_decode_encode_bhist A,
+        proofWitnessChain_decode_encode_bhist P,
+        proofWitnessChain_decode_encode_bhist N]
 
 private theorem proofWitnessChainToEventFlow_injective {x y : ProofWitnessChainUp} :
     proofWitnessChainToEventFlow x = proofWitnessChainToEventFlow y → x = y := by
@@ -177,12 +177,25 @@ private theorem proofWitnessChainToEventFlow_injective {x y : ProofWitnessChainU
     (Eq.trans (proofWitnessChain_round_trip x).symm
       (Eq.trans hread (proofWitnessChain_round_trip y)))
 
+private theorem proofWitnessChain_field_faithful :
+    ∀ x y : ProofWitnessChainUp, proofWitnessChainFields x = proofWitnessChainFields y →
+      x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk T S K H L F A P N =>
+      cases y with
+      | mk T' S' K' H' L' F' A' P' N' =>
+          cases hfields
+          rfl
+
 instance proofWitnessChainBHistCarrier : BHistCarrier ProofWitnessChainUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := proofWitnessChainToEventFlow
   fromEventFlow := proofWitnessChainFromEventFlow
 
-instance proofWitnessChainChapterTasteGate : ChapterTasteGate ProofWitnessChainUp where
+instance proofWitnessChainChapterTasteGate :
+    ChapterTasteGate ProofWitnessChainUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -194,20 +207,8 @@ instance proofWitnessChainChapterTasteGate : ChapterTasteGate ProofWitnessChainU
 
 instance proofWitnessChainFieldFaithful : FieldFaithful ProofWitnessChainUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | ProofWitnessChainUp.mk trace source classifier transport ledger refusal audit provenance
-        name =>
-        [trace, source, classifier, transport, ledger, refusal, audit, provenance, name]
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk trace₁ source₁ classifier₁ transport₁ ledger₁ refusal₁ audit₁ provenance₁ name₁ =>
-        cases y with
-        | mk trace₂ source₂ classifier₂ transport₂ ledger₂ refusal₂ audit₂ provenance₂ name₂ =>
-            simp only [] at h
-            cases h
-            rfl
+  fields := proofWitnessChainFields
+  field_faithful := proofWitnessChain_field_faithful
 
 instance proofWitnessChainNontrivial : Nontrivial ProofWitnessChainUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -223,5 +224,32 @@ instance proofWitnessChainNontrivial : Nontrivial ProofWitnessChainUp where
 def taste_gate : ChapterTasteGate ProofWitnessChainUp :=
   -- BEDC touchpoint anchor: BHist BMark
   proofWitnessChainChapterTasteGate
+
+theorem ProofWitnessChainTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      proofWitnessChainDecodeBHist (proofWitnessChainEncodeBHist h) = h) ∧
+      (∀ x : ProofWitnessChainUp,
+        proofWitnessChainFromEventFlow (proofWitnessChainToEventFlow x) = some x) ∧
+        (∀ x y : ProofWitnessChainUp,
+          proofWitnessChainToEventFlow x = proofWitnessChainToEventFlow y → x = y) ∧
+          Nonempty (Nontrivial ProofWitnessChainUp) ∧
+            Nonempty (ChapterTasteGate ProofWitnessChainUp) ∧
+              Nonempty (FieldFaithful ProofWitnessChainUp) ∧
+                proofWitnessChainEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact proofWitnessChain_decode_encode_bhist
+  · constructor
+    · exact proofWitnessChain_round_trip
+    · constructor
+      · intro x y heq
+        exact proofWitnessChainToEventFlow_injective heq
+      · constructor
+        · exact ⟨proofWitnessChainNontrivial⟩
+        · constructor
+          · exact ⟨proofWitnessChainChapterTasteGate⟩
+          · constructor
+            · exact ⟨proofWitnessChainFieldFaithful⟩
+            · rfl
 
 end BEDC.Derived.ProofWitnessChainUp
