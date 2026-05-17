@@ -203,24 +203,9 @@ theorem HaltingFiniteBoundaryTasteGate_single_carrier_alignment :
           haltingFiniteBoundaryFields x = haltingFiniteBoundaryFields y → x = y) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · intro h
-    induction h with
-    | Empty =>
-        rfl
-    | e0 h ih =>
-        exact congrArg BHist.e0 ih
-    | e1 h ih =>
-        exact congrArg BHist.e1 ih
+  · exact haltingFiniteBoundaryDecode_encode_bhist
   · constructor
     · rfl
-    · intro x y hfields
-      cases x with
-      | mk admitted finiteTrace consumer refusal terminalTrace inscription transport route
-          provenance name =>
-          cases y with
-          | mk admitted' finiteTrace' consumer' refusal' terminalTrace' inscription' transport'
-              route' provenance' name' =>
-              cases hfields
-              rfl
+    · exact haltingFiniteBoundary_field_faithful
 
 end BEDC.Derived.HaltingFiniteBoundaryUp
