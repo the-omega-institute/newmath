@@ -133,6 +133,20 @@ Next use \autoref{thm:reality-constrained-tower-compression-ledger-nonescape} an
 Finally combine \autoref{thm:reality-constrained-tower-compression-endpoint-source-separation} with \autoref{thm:reality-constrained-tower-compression-scoped-dependency-surface}. The sibling chapters named by the scoped packet provide only the displayed constituent surfaces; none supplies a hidden model-selection oracle, truth primitive, or external adequacy source. Thus the accepted packet is exact at the scoped source surface.
 \end{proof}
 
+\begin{theorem}[Reality-constrained tower-compression downstream route exhaustion]
+\label{thm:reality-constrained-tower-compression-downstream-route-exhaustion}
+Every downstream consumer of the compressed endpoint of an accepted $\RealityConstrainedTowerCompressionUp$ packet must read through the source row, indexed tower row, observer readback row, physical-fit row, approximation row, model-audit row, classifier row, composite-ledger row, endpoint row, replay row, provenance row, and local $\NameCert_{\RealityConstrainedTowerCompressionUp}$ row. The route cannot be replaced by endpoint-only model validation, hidden physical truth, source/endpoint identity, or an unledgered quotient collapse.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations. They enumerate exactly the rows $S,T,O,F,A,M,C,L,E,R,P,N$ and require each accepted endpoint-facing read to expose source, indexed tower, observer readback, physical fit, approximation, audit, classifier, ledger, endpoint, replay, provenance, and local naming data.
+
+Next apply ledger non-escape and classifier accountability. The composite ledger $L$ keeps the endpoint from becoming source identity, while the classifier row $C$ remains accountable to the displayed observer, physical-fit, approximation, audit, ledger, endpoint, replay, provenance, and naming surface.
+
+Endpoint-source separation and scoped source exactness complete the route. The former prevents $E$ from replacing $S$, and the latter keeps every tower read inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Thus any downstream consumer that omits one of the displayed rows is outside the accepted route. Endpoint-only model validation and hidden physical truth require coordinates absent from the carrier, so they cannot exhaust the downstream route.
+\end{proof}
+
 The Lean development in \texttt{lean4/BEDC/Derived/RealityConstrainedTowerCompressionUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \RealityConstrainedTowerCompressionUp$ and $\mathsf{FieldFaithful}\ \RealityConstrainedTowerCompressionUp$ instances preserving $S,T,O,F,A,M,C,L,E,R,P,N$.
 
 \falsifiablePrediction{An accepted RealityConstrainedTowerCompressionUp endpoint claim that omits the composite ledger or identifies the endpoint with the source refutes the carrier.}
