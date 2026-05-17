@@ -153,6 +153,9 @@ import BEDC.Derived.ApophaticNameUp.GateLedgerExactness
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
+import BEDC.Derived.PointwiseModulusLedgerUp.TasteGate
+import BEDC.Derived.TypedSupplySocketUp.TasteGate
+import BEDC.Derived.UseRuleLedgerUp.TasteGate
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.MachineInterfaceFormalizationTargetUp.TasteGate
 import BEDC.Derived.ExternalityGateUp.TasteGate
@@ -1901,6 +1904,7 @@ import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RiccatiUp
 import BEDC.Derived.ReachabilityGramianUp
 import BEDC.Derived.RefutationBoundaryUp
+import BEDC.Derived.GroundRefutationUp
 import BEDC.Derived.RefuterTraceUp.TasteGate
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.RussellAnalysisLadderUp.TasteGate
@@ -2215,6 +2219,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RouteBudgetExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.RouteLedgerPublicExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.SharedTerminalConsumerComparison
 import BEDC.Derived.DiagonallimitcompatibilityUp.SharedModulusHandoff
+import BEDC.Derived.DiagonallimitcompatibilityUp.SharedWindowLedger
 import BEDC.Derived.DiagonallimitcompatibilityUp.UniformWindowRealSealPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.FourFaceTerminalPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealCompletionTerminalPullback
