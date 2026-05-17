@@ -33,6 +33,42 @@ def ClassifierMorphismPacket [AskSetup] [PackageSetup]
               hsame transport contPreservation ∧ hsame provenance contPreservation ∧
                 hsame nameCert contPreservation ∧ PkgSig bundle contPreservation pkg
 
+def ClassifierMorphismPacketClassifier [AskSetup] [PackageSetup]
+    (source target graph extPreservation sigPreservation contPreservation transport
+      provenance nameCert source' target' graph' extPreservation' sigPreservation'
+      contPreservation' transport' provenance' nameCert' : BHist)
+    (mark : BMark) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  ClassifierMorphismPacket source target graph extPreservation sigPreservation
+      contPreservation transport provenance nameCert mark bundle pkg ∧
+    ClassifierMorphismPacket source' target' graph' extPreservation' sigPreservation'
+      contPreservation' transport' provenance' nameCert' mark bundle pkg ∧
+      hsame graph graph' ∧ hsame extPreservation extPreservation' ∧
+        hsame sigPreservation sigPreservation' ∧ hsame contPreservation contPreservation' ∧
+          hsame transport transport' ∧ hsame provenance provenance' ∧
+            hsame nameCert nameCert'
+
+theorem ClassifierMorphismPacketClassifier_scope [AskSetup] [PackageSetup]
+    {source target graph extPreservation sigPreservation contPreservation transport
+      provenance nameCert source' target' graph' extPreservation' sigPreservation'
+      contPreservation' transport' provenance' nameCert' : BHist}
+    {mark : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierMorphismPacketClassifier source target graph extPreservation sigPreservation
+        contPreservation transport provenance nameCert source' target' graph'
+        extPreservation' sigPreservation' contPreservation' transport' provenance' nameCert'
+        mark bundle pkg →
+      ClassifierMorphismPacket source target graph extPreservation sigPreservation
+          contPreservation transport provenance nameCert mark bundle pkg ∧
+        ClassifierMorphismPacket source' target' graph' extPreservation' sigPreservation'
+          contPreservation' transport' provenance' nameCert' mark bundle pkg ∧
+          hsame graph graph' ∧ hsame extPreservation extPreservation' ∧
+            hsame sigPreservation sigPreservation' ∧
+              hsame contPreservation contPreservation' ∧
+                hsame transport transport' ∧ hsame provenance provenance' ∧
+                  hsame nameCert nameCert' := by
+  -- BEDC touchpoint anchor: BHist BMark ProbeBundle Pkg hsame ClassifierMorphismPacket
+  intro classifier
+  exact classifier
+
 theorem ClassifierMorphismPacket_ext_sigrel_preservation [AskSetup] [PackageSetup]
     {source target graph extPreservation sigPreservation contPreservation transport
       provenance nameCert extPreservation' sigPreservation' contPreservation' : BHist}
