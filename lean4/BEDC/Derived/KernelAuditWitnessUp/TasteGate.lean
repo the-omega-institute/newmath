@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.KernelAuditWitnessUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -258,6 +262,53 @@ theorem KernelAuditWitnessTasteGate_single_carrier_alignment :
       · intro x y heq
         exact kernelAuditWitnessToEventFlow_injective heq
       · rfl
+
+theorem KernelAuditWitnessNameCert_obligations {G A L R H C P N : BHist}
+    (candidateRoute : Cont G A C)
+    (ledgerRoute : Cont A L C)
+    (ancestryRoute : Cont L R C) :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row G ∧
+          ∃ packet : KernelAuditWitnessUp,
+            packet = KernelAuditWitnessUp.mk G A L R H C P N)
+      (fun row : BHist =>
+        hsame row G ∧ hsame A A ∧ hsame L L ∧ hsame R R)
+      (fun row : BHist =>
+        Cont G A C ∧ Cont A L C ∧ Cont L R C ∧ hsame row G ∧
+          hsame P P ∧ hsame N N)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro G
+          ⟨hsame_refl G,
+            Exists.intro (KernelAuditWitnessUp.mk G A L R H C P N) rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.left, hsame_refl A, hsame_refl L, hsame_refl R⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨candidateRoute, ledgerRoute, ancestryRoute, sourceRow.left, hsame_refl P,
+          hsame_refl N⟩
+  }
 
 theorem KernelAuditWitnessLedger_exactness {G A L R H C P N : BHist} :
     kernelAuditWitnessFromEventFlow

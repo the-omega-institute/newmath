@@ -33,6 +33,7 @@ The carrier contains no quotient stream, host real equality, selected external l
 \label{thm:cauchy-tail-modulus-fusion-namecert-obligations}
 For the carrier of \autoref{def:cauchy-tail-modulus-fusion-carrier}, the local $\NameCert_{\CauchyTailModulusFusionUp}$ surface consists exactly of carrier admission for $F$, paired tail-schedule exposure through $T_0,T_1$, modulus exposure through $\mu_0,\mu_1$, shared-threshold exposure through $\tau$, modulus comparison through $V$, selector-window service through $W_0,W_1$, dyadic tolerance readback through $D_0,D_1$, regular rational readback through $Q_0,Q_1$, Real seal ordering through $E$, componentwise stability through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyTailModulusFusionUp.CauchyTailModulusFusionCarrier\_namecert\_obligations}
 \begin{proof}
 Project the displayed carrier. The packet lists the two tail schedules, two modulus rows, shared threshold, modulus comparison, selector windows, dyadic tolerances, regular readbacks, Real seal, transport, route, provenance, and local name as public coordinates.
 
@@ -55,6 +56,54 @@ Start from carrier admission in \autoref{def:cauchy-tail-modulus-fusion-carrier}
 Apply the NameCert obligations of \autoref{thm:cauchy-tail-modulus-fusion-namecert-obligations}. They assign every completion-facing read of $E$ to the same displayed route and require the route to pass through the shared threshold and comparison rows before any selector-window read.
 
 Finally use the absence clauses in the carrier. A route that bypasses $\tau,V,W_0,W_1,D_0,D_1,Q_0,Q_1$ would require a private threshold, hidden comparison, independent Real seal, or ambient completeness coordinate, none of which is present in the packet.
+\end{proof}
+
+\begin{theorem}[Cauchy tail modulus fusion threshold comparison stability]
+\label{thm:cauchy-tail-modulus-fusion-threshold-comparison-stability}
+For the displayed carrier
+$$
+F=(T_0,T_1,\mu_0,\mu_1,\tau,V,W_0,W_1,D_0,D_1,Q_0,Q_1,E,H,C,P,N)
+$$
+of \autoref{def:cauchy-tail-modulus-fusion-carrier}, every modulus-comparison read that reaches the $\RealUp$ seal row $E$ factors through the shared threshold $\tau$ and the comparison row $V$ exposed by the sibling surfaces \autoref{ch:concrete-instances-regularcauchytailfusion-namecert}, \autoref{ch:concrete-instances-cauchy-modulus-refinement-namecert}, and \autoref{ch:concrete-instances-cauchy-shared-tail-modulus-namecert}. The transport row $H$, replay row $C$, provenance row $P$, and local name row $N$ preserve this factoring for both branches $T_0,\mu_0,W_0,D_0,Q_0$ and $T_1,\mu_1,W_1,D_1,Q_1$.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The only comparison coordinate is $V$, and it is listed between the shared threshold $\tau$ and the two selector-window rows $W_0,W_1$.
+
+The sibling surfaces provide the source routes: regular tail data enter through $T_0,T_1$, modulus data enter through $\mu_0,\mu_1$, and the shared-threshold service exposes $\tau$ before either branch can select a window. The replay row $C$ records exactly this order.
+
+Finally use the exclusion clauses of the carrier. A comparison that bypasses $\tau$ or replaces $V$ would require a hidden comparison row, an independent Real seal, a quotient stream, or an ambient completeness coordinate. None is a coordinate of $F$, so stability is forced by carrier projection.
+\end{proof}
+
+\begin{theorem}[Cauchy tail modulus fusion window readback route]
+\label{thm:cauchy-tail-modulus-fusion-window-readback-route}
+For the displayed carrier
+$$
+F=(T_0,T_1,\mu_0,\mu_1,\tau,V,W_0,W_1,D_0,D_1,Q_0,Q_1,E,H,C,P,N),
+$$
+every finite-window readback used by the $\RealUp$ seal $E$ is routed through the paired windows $W_0,W_1$, dyadic tolerance rows $D_0,D_1$, and regular rational rows $Q_0,Q_1$ displayed in the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ certificate surfaces. The rows $T_0,T_1,\mu_0,\mu_1,\tau,V,H,C,P,N$ remain public coordinates of the same packet and do not open any second readback channel.
+\end{theorem}
+\begin{proof}
+Begin with the window coordinates. The carrier lists exactly two selector windows, $W_0$ and $W_1$, and each window has its displayed dyadic tolerance and regular rational readback, namely $D_0,Q_0$ and $D_1,Q_1$.
+
+The observation surfaces then determine the route. $\StreamNameUp$ supplies the finite window names, $\DyadicRatCoreUp$ supplies $D_0,D_1$, $\RegSeqRatUp$ supplies $Q_0,Q_1$, and $\RealUp$ consumes the resulting readbacks only at $E$.
+
+The remaining rows keep the route single-carrier. The schedules $T_0,T_1$, moduli $\mu_0,\mu_1$, threshold $\tau$, comparison $V$, transport $H$, replay $C$, provenance $P$, and local name $N$ are all projected from the same finite packet, so a second window-readback channel would have to be an unlisted coordinate.
+\end{proof}
+
+\begin{theorem}[Cauchy tail modulus fusion Real seal nonescape]
+\label{thm:cauchy-tail-modulus-fusion-real-seal-nonescape}
+For the displayed carrier
+$$
+F=(T_0,T_1,\mu_0,\mu_1,\tau,V,W_0,W_1,D_0,D_1,Q_0,Q_1,E,H,C,P,N),
+$$
+the $\RealUp$ seal row $E$ has no escape route outside the shared-tail and modulus-fusion packet. Any consumer that reads $E$ must also read the sibling-surface chain through $T_0,T_1,\mu_0,\mu_1,\tau,V,W_0,W_1,D_0,D_1,Q_0,Q_1$ and must keep the transport, replay, provenance, and naming rows $H,C,P,N$ attached to that same carrier.
+\end{theorem}
+\begin{proof}
+The carrier has a single Real-facing coordinate, $E$. It is introduced only after the schedules, modulus rows, shared threshold, comparison row, selector windows, dyadic tolerances, and regular readbacks have been displayed.
+
+The certificate surfaces prevent detachment. The route to $E$ is replayed by $C$, transported by $H$, recorded by $P$, and named by $N$ as part of the same $\NameCert_{\CauchyTailModulusFusionUp}$ packet.
+
+If $E$ escaped this packet, the consumer would need a quotient stream, a host real equality, a selected external limit, an independent per-source Real seal, or an ambient completeness coordinate. The carrier explicitly excludes each of these coordinates, so the Real seal remains internal to the displayed chain.
 \end{proof}
 
 \closureat{CauchyTailModulusFusionUp}{seedStr}
