@@ -173,6 +173,7 @@ import BEDC.Derived.AxisCarryDiamondRouteUp.TasteGate
 import BEDC.Derived.AxisCarryRefusalLedgerUp
 import BEDC.Derived.AxisCarryRefusalLedgerUp.TasteGate
 import BEDC.Derived.ApartnessRealUp
+import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
 import BEDC.Derived.ArchimedeanRealUp
@@ -995,6 +996,7 @@ import BEDC.Derived.CofinalStreamTailSelectorUp.TasteGate
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContinuationMonadUp
 import BEDC.Derived.ContinuationMonadUp.RouteReadbackDeterminacy
+import BEDC.Derived.ContinuationMonadUp.RouteRowGrounding
 import BEDC.Derived.ContinuationMonadUp.RootKleisliRoute
 import BEDC.Derived.ContinuationMonadUp.RootCategoryGeneratorFactorization
 import BEDC.Derived.ContinuationMonadUp.RootKleisliSourceTotality
@@ -1153,6 +1155,7 @@ import BEDC.Derived.CertificateCompilerUp.EndpointDeterminacy
 import BEDC.Derived.CertificateCompilerUp.EndpointCompositeDeterminacy
 import BEDC.Derived.CertificateCompilerUp.EndpointCertificateAvailability
 import BEDC.Derived.CertificateCompilerUp.EndpointDecompilerHandoff
+import BEDC.Derived.CertificateCompilerUp.EndpointRouteDeterminacy
 import BEDC.Derived.CertificateCompilerUp.EndpointRouteDeterminacyEnvelope
 import BEDC.Derived.CertificateCompilerUp.EndpointRoutePullbackDeterminacy
 import BEDC.Derived.CertificateCompilerUp.DownstreamBoundarySiblingLink
@@ -1960,6 +1963,7 @@ import BEDC.Derived.SubjectReductionDischargeUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeLedgerUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeLedgerUp
 import BEDC.Derived.SubjectReductionDischargeSocketUp
+import BEDC.Derived.SubjectFreeObservationUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteClassifierUp
 import BEDC.Derived.SubjectReductionRouteUp.TasteGate
 import BEDC.Derived.SubjectReductionUp
