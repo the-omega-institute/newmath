@@ -271,4 +271,21 @@ theorem ObjectKnowledgeCertificateTasteGate_single_carrier_alignment :
           intro h
           cases h⟩⟩
 
+theorem ObjectKnowledgeCertificate_witness_audit_rows_reflect_display
+    {N W S P K T L A C Q N' W' S' P' K' T' L' A' C' Q' : BHist}
+    (hdisplay :
+      objectKnowledgeCertificateToEventFlow
+          (ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q) =
+        objectKnowledgeCertificateToEventFlow
+          (ObjectKnowledgeCertificateUp.mk N' W' S' P' K' T' L' A' C' Q')) :
+    W = W' ∧ A = A' ∧
+      objectKnowledgeCertificateEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  have hpacket :
+      ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q =
+        ObjectKnowledgeCertificateUp.mk N' W' S' P' K' T' L' A' C' Q' :=
+    objectKnowledgeCertificateToEventFlow_injective hdisplay
+  cases hpacket
+  exact ⟨rfl, rfl, rfl⟩
+
 end BEDC.Derived.ObjectKnowledgeCertificateUp

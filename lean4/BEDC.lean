@@ -139,6 +139,7 @@ import BEDC.Derived.ApophaticNameUp.RefusalGateRouteLocality
 import BEDC.Derived.ApophaticNameUp.SocketCitationScope
 import BEDC.Derived.ApophaticNameUp.SocketRefusal
 import BEDC.Derived.ApophaticNameUp.SocketRefusalCorrespondence
+import BEDC.Derived.ApophaticNameUp.BoundaryRequestNonescape
 import BEDC.Derived.ApophaticNameUp.BoundaryLedgerExactness
 import BEDC.Derived.ApophaticNameUp.ExternalityHandoff
 import BEDC.Derived.ApophaticNameUp.ClassifierRefusalTransport
@@ -148,6 +149,7 @@ import BEDC.Derived.ApophaticNameUp.DownstreamNoninternalizationPackage
 import BEDC.Derived.ApophaticNameUp.DownstreamLedgerNonescape
 import BEDC.Derived.ApophaticNameUp.DownstreamSocketCitationCompleteness
 import BEDC.Derived.ApophaticNameUp.DownstreamSocketRouteExactness
+import BEDC.Derived.ApophaticNameUp.DownstreamBoundaryExactness
 import BEDC.Derived.ApophaticNameUp.SocketRequestTotality
 import BEDC.Derived.ApophaticNameUp.GateLedgerExactness
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
@@ -1416,6 +1418,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalDiagonalPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalReadback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.UniformCauchyCriterionPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.WindowIndexScope
+import BEDC.Derived.FiniteObservationCofinalitySelectorUp.TasteGate
 import BEDC.Derived.FiniteObservationLockUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitBudgetUp.TasteGate
 import BEDC.Derived.FastCauchyUp
@@ -1454,6 +1457,7 @@ import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FoldDefectStokesUp
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.GaloisExtUp
+import BEDC.Derived.HardProblemClosureUp.TasteGate
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
 import BEDC.Derived.GaloisExtUp.PublicLedgerCoverage
