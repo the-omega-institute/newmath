@@ -310,6 +310,23 @@ theorem CertificateAuditGateSoundnessBoundary
     · rfl
     · rfl
 
+theorem CertificateAuditGateObligationSurface
+    (gateInput checkedSurface refusal drift axiomPurity transport continuation provenance
+      name : BHist) :
+    certificateAuditGateFields
+        (CertificateAuditGateUp.mk gateInput checkedSurface refusal drift axiomPurity
+          transport continuation provenance name) =
+          [gateInput, checkedSurface, refusal, drift, axiomPurity, transport, continuation,
+            provenance, name] /\
+      Cont gateInput continuation (append gateInput continuation) /\
+        hsame (append gateInput continuation) (append gateInput continuation) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · rfl
+
 end BEDC.Derived.CertificateAuditGateUp.TasteGate
 
 namespace BEDC.Derived.CertificateAuditGateUp
