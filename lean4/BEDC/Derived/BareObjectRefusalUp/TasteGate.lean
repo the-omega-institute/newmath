@@ -329,14 +329,17 @@ def taste_gate : ChapterTasteGate BareObjectRefusalUp :=
 
 theorem BareObjectRefusalTasteGate_single_carrier_alignment :
     (∀ h : BHist, bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist h) = h) ∧
-      (∀ x y : BareObjectRefusalUp,
+      (∀ x : BareObjectRefusalUp,
+        bareObjectRefusalToEventFlow x = (bareObjectRefusalFields x).map bareObjectRefusalEncodeBHist) ∧
+        (∀ x y : BareObjectRefusalUp,
           bareObjectRefusalToEventFlow x = bareObjectRefusalToEventFlow y → x = y) ∧
-        (BareObjectRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          (∃ x y : BareObjectRefusalUp, x ≠ y) ∧
+            (BareObjectRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty ≠
-          BareObjectRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ∧
-          (∀ x y : BareObjectRefusalUp,
-            bareObjectRefusalFields x = bareObjectRefusalFields y → x = y) := by
+              BareObjectRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ∧
+              (∀ x y : BareObjectRefusalUp,
+                bareObjectRefusalFields x = bareObjectRefusalFields y → x = y) := by
   have flowInjective :
       ∀ x y : BareObjectRefusalUp,
         bareObjectRefusalToEventFlow x = bareObjectRefusalToEventFlow y → x = y := by
@@ -354,6 +357,13 @@ theorem BareObjectRefusalTasteGate_single_carrier_alignment :
         bareObjectRefusalFields x = bareObjectRefusalFields y → x = y := by
     intro x y hfields
     exact bareObjectRefusal_field_faithful x y hfields
-  exact ⟨bareObjectRefusal_decode_encode_bhist, flowInjective, distinctWitness, fieldFaithful⟩
+  exact
+    ⟨bareObjectRefusal_decode_encode_bhist, (fun _ => rfl), flowInjective,
+      ⟨BareObjectRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        BareObjectRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        distinctWitness⟩,
+      distinctWitness, fieldFaithful⟩
 
 end BEDC.Derived.BareObjectRefusalUp
