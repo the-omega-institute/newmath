@@ -1,9 +1,11 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ProofTraceAuditWitnessUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -276,5 +278,23 @@ theorem ProofTraceAuditWitnessTasteGate_single_carrier_alignment :
           · constructor
             · exact ⟨proofTraceAuditWitnessFieldFaithful⟩
             · rfl
+
+theorem ProofTraceAuditWitnessNameCertObligations
+    (trace source classifier transport ledger forbidden verdict provenance name : BHist) :
+    proofTraceAuditWitnessFields
+        (ProofTraceAuditWitnessUp.mk trace source classifier transport ledger forbidden verdict
+          provenance name) =
+      [trace, source, classifier, transport, ledger, forbidden, verdict, provenance, name] ∧
+      hsame (append transport ledger) (append transport ledger) ∧
+        Cont trace source (append trace source) ∧
+          Cont transport ledger (append transport ledger) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  constructor
+  · rfl
+  · constructor
+    · exact hsame_refl (append transport ledger)
+    · constructor
+      · rfl
+      · rfl
 
 end BEDC.Derived.ProofTraceAuditWitnessUp
