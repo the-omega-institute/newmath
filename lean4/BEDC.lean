@@ -1564,6 +1564,7 @@ import BEDC.Derived.HaltingDistinctionUp.RootClassifierTransport
 import BEDC.Derived.HaltingDistinctionUp.RouteStability
 import BEDC.Derived.HaltingDistinctionUp.TraceNormalFormHandoff
 import BEDC.Derived.HaltingDistinctionLimitUp.TasteGate
+import BEDC.Derived.PackageMapBoundaryUp.TasteGate
 import BEDC.Derived.HaltingDistinctionTraceUp
 import BEDC.Derived.HaltingFiniteBoundaryUp.TasteGate
 import BEDC.Derived.HaltingObstructionUp
@@ -2163,6 +2164,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteObservationBudgetFactoriz
 import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteWindowOnlyConsumer
 import BEDC.Derived.DiagonallimitcompatibilityUp.FourFaceBudgetOwnership
 import BEDC.Derived.DiagonallimitcompatibilityUp.FourFaceBudgetDeterminacy
+import BEDC.Derived.DiagonallimitcompatibilityUp.FourFaceConsumerEquivalence
 import BEDC.Derived.DiagonallimitcompatibilityUp.FourFacePullbackExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteObservationBudgetRefusalExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealNonescape
@@ -2258,6 +2260,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetTailCofinalitySch
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetCommonRefinement
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetCommonRefinementTerminality
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetFiniteObservationCoverage
+import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetFinitePrefixBudgetPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetTailMeetPullbackExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetUniformCriterionPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetUniformRealExit
@@ -3266,6 +3269,7 @@ import BEDC.Derived.EventualTailAgreementUp.TasteGate
 import BEDC.Derived.PhysicalRecordInvariantUp.TasteGate
 import BEDC.Derived.PropextTransportBoundaryUp
 import BEDC.Derived.LocalClockBudgetUp
+import BEDC.Derived.PackageMapBoundaryUp.TasteGate
 import BEDC.Derived.PackageGovernanceExportUp.TasteGate
 import BEDC.Derived.SubstitutionBoundaryAuditUp.TasteGate
 import BEDC.Derived.UseProcessLimitUp.TasteGate
