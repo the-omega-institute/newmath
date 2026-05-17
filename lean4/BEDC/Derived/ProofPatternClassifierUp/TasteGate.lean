@@ -185,6 +185,22 @@ private theorem proofPatternClassifierToEventFlow_injective {x y : ProofPatternC
     (Eq.trans (proofPatternClassifier_round_trip x).symm
       (Eq.trans hread (proofPatternClassifier_round_trip y)))
 
+private def proofPatternClassifierFields : ProofPatternClassifierUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | ProofPatternClassifierUp.mk W L D R E G H C Q N => [W, L, D, R, E, G, H, C, Q, N]
+
+private theorem proofPatternClassifier_field_faithful :
+    ∀ x y : ProofPatternClassifierUp,
+      proofPatternClassifierFields x = proofPatternClassifierFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk W₁ L₁ D₁ R₁ E₁ G₁ H₁ C₁ Q₁ N₁ =>
+      cases y with
+      | mk W₂ L₂ D₂ R₂ E₂ G₂ H₂ C₂ Q₂ N₂ =>
+          cases hfields
+          rfl
+
 instance proofPatternClassifierBHistCarrier : BHistCarrier ProofPatternClassifierUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := proofPatternClassifierToEventFlow
@@ -202,18 +218,8 @@ instance proofPatternClassifierChapterTasteGate : ChapterTasteGate ProofPatternC
 
 instance proofPatternClassifierFieldFaithful : FieldFaithful ProofPatternClassifierUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | ProofPatternClassifierUp.mk W L D R E G H C Q N => [W, L, D, R, E, G, H, C, Q, N]
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk W₁ L₁ D₁ R₁ E₁ G₁ H₁ C₁ Q₁ N₁ =>
-        cases y with
-        | mk W₂ L₂ D₂ R₂ E₂ G₂ H₂ C₂ Q₂ N₂ =>
-            simp only [] at h
-            cases h
-            rfl
+  fields := proofPatternClassifierFields
+  field_faithful := proofPatternClassifier_field_faithful
 
 instance proofPatternClassifierNontrivial : Nontrivial ProofPatternClassifierUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -229,5 +235,23 @@ instance proofPatternClassifierNontrivial : Nontrivial ProofPatternClassifierUp 
 def taste_gate : ChapterTasteGate ProofPatternClassifierUp :=
   -- BEDC touchpoint anchor: BHist BMark
   proofPatternClassifierChapterTasteGate
+
+def taste_gate_witness : FieldFaithful ProofPatternClassifierUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  proofPatternClassifierFieldFaithful
+
+theorem ProofPatternClassifierTasteGate_single_carrier_alignment :
+    (∀ h : BHist, proofPatternClassifierDecodeBHist (proofPatternClassifierEncodeBHist h) = h) ∧
+      (∀ x : ProofPatternClassifierUp,
+        proofPatternClassifierFromEventFlow (proofPatternClassifierToEventFlow x) = some x) ∧
+        (∀ x y : ProofPatternClassifierUp,
+          proofPatternClassifierToEventFlow x = proofPatternClassifierToEventFlow y → x = y) ∧
+          proofPatternClassifierEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  exact
+    ⟨proofPatternClassifierDecode_encode_bhist,
+      proofPatternClassifier_round_trip,
+      (fun _ _ heq => proofPatternClassifierToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.ProofPatternClassifierUp
