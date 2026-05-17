@@ -3190,6 +3190,7 @@ import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CommRingUp.ZeroDivisor
 import BEDC.Derived.CertificateAuditGateUp.TasteGate
+import BEDC.Derived.CertifiedUseProcessUp.TasteGate
 import BEDC.Derived.ConceptRegistrySurfaceUp.TasteGate
 import BEDC.Derived.CoreRegistryIndexUp.TasteGate
 import BEDC.Derived.RegistryExportConsistencyGateUp.TasteGate
