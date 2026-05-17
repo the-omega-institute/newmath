@@ -49,6 +49,34 @@ theorem KernelCategoryCarrier_composition_continuation
     ⟨CategoryHomCarrier_comp_closed left right comp, carrier.right.right.right.left,
       carrier.right.right.right.right.left, carrier.right.right.right.right.right⟩
 
+theorem KernelCategoryCarrier_associativity_scope
+    {object hom identity composition associativity unit provenance name a b c d f g h fg gh left
+      right lawRead : BHist} :
+    KernelCategoryCarrier object hom identity composition associativity unit provenance name →
+      CategoryHomCarrier a b f →
+        CategoryHomCarrier b c g →
+          CategoryHomCarrier c d h →
+            Cont f g fg →
+              Cont g h gh →
+                Cont fg h left →
+                  Cont f gh right →
+                    Cont left right lawRead →
+                      CategoryHomCarrier a d left ∧ CategoryHomCarrier a d right ∧
+                        UnaryHistory lawRead ∧ Cont left right lawRead ∧
+                          hsame associativity (append hom composition) ∧
+                            hsame name (append provenance unit) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory CategoryHomCarrier
+  intro carrier first second third fgRel ghRel leftRel rightRel lawRel
+  have composites :
+      CategoryHomCarrier a d left ∧ CategoryHomCarrier a d right ∧ hsame left right :=
+    CategoryHomCarrier_comp_assoc_closed first second third fgRel ghRel leftRel rightRel
+  have lawUnary : UnaryHistory lawRead :=
+    unary_cont_closed composites.left.right.right.left composites.right.left.right.right.left
+      lawRel
+  exact
+    ⟨composites.left, composites.right.left, lawUnary, lawRel,
+      carrier.right.right.right.left, carrier.right.right.right.right.right⟩
+
 theorem KernelCategoryCarrier_certificate_surface
     {object hom identity composition associativity unit provenance name : BHist} :
     KernelCategoryCarrier object hom identity composition associativity unit provenance name ->
@@ -219,5 +247,63 @@ theorem KernelCategoryCarrier_identity_cont_route_exhaustion
         exact ⟨source.left, nameSame⟩
     }
   exact ⟨cert, identityObjectRoute, identitySame, nameSame⟩
+
+theorem KernelCategoryCarrier_object_hom_law_separation
+    {object hom identity composition associativity unit provenance name lawRead : BHist} :
+    KernelCategoryCarrier object hom identity composition associativity unit provenance name →
+      Cont associativity unit lawRead →
+        UnaryHistory object ∧ CategoryHomCarrier object object identity ∧
+          Cont identity composition hom ∧ hsame associativity (append hom composition) ∧
+            hsame unit identity ∧ hsame name (append provenance unit) ∧
+              SemanticNameCert
+                (fun row : BHist => hsame row lawRead ∧ Cont associativity unit lawRead)
+                (fun row : BHist =>
+                  hsame row lawRead ∧ hsame associativity (append hom composition))
+                (fun row : BHist =>
+                  hsame row lawRead ∧ hsame unit identity ∧
+                    hsame name (append provenance unit))
+                hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert CategoryHomCarrier
+  intro carrier lawRoute
+  obtain ⟨unaryObject, identityCarrier, compositionRoute, associativitySame, unitSame,
+    nameSame⟩ := carrier
+  have sourceLaw :
+      (fun row : BHist => hsame row lawRead ∧ Cont associativity unit lawRead)
+        lawRead := by
+    exact ⟨hsame_refl lawRead, lawRoute⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row lawRead ∧ Cont associativity unit lawRead)
+        (fun row : BHist =>
+          hsame row lawRead ∧ hsame associativity (append hom composition))
+        (fun row : BHist =>
+          hsame row lawRead ∧ hsame unit identity ∧ hsame name (append provenance unit))
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro lawRead sourceLaw
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact ⟨hsame_trans (hsame_symm same) source.left, source.right⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact ⟨source.left, associativitySame⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, unitSame, nameSame⟩
+    }
+  exact
+    ⟨unaryObject, identityCarrier, compositionRoute, associativitySame, unitSame, nameSame,
+      cert⟩
 
 end BEDC.Derived.KernelCategoryUp
