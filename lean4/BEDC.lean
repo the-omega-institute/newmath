@@ -899,6 +899,7 @@ import BEDC.Derived.ContinuationMonadUp.KleisliCompositeScope
 import BEDC.Derived.ContinuationMonadUp.RootTerminalReadbackCoverage
 import BEDC.Derived.ContinuationMonadUp.RootCategoryGeneratorObligationSurface
 import BEDC.Derived.ContinuationMonadUp.RootFormalTargetExactness
+import BEDC.Derived.ContinuationMonadUp.BindRouteTotality
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -1384,6 +1385,7 @@ import BEDC.Derived.HistTimeStreamUp.ClockRefusal
 import BEDC.Derived.HistTimeStreamUp.CompletionStreamNameHandoffFactorization
 import BEDC.Derived.HistTimeStreamUp.HistTimeStreamRegSeqRatLocalClockSeparation
 import BEDC.Derived.HistTimeStreamUp.LocalTransportExhaustion
+import BEDC.Derived.HistTimeStreamUp.ObserverLocalityConsumptionBridge
 import BEDC.Derived.HistTimeStreamUp.StartLedgerTotality
 import BEDC.Derived.HistTimeStreamUp.TransportLock
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
