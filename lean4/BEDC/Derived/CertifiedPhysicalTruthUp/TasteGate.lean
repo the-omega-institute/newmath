@@ -302,4 +302,19 @@ theorem CertifiedPhysicalTruth_failure_surface_row_injective
     injection hpacket
   · rfl
 
+theorem CertifiedPhysicalTruthObserverInvariance
+    {S G K A D I L F H C P N S' G' K' A' D' I' L' F' H' C' P' N' : BHist} :
+    CertifiedPhysicalTruthUp.mk S G K A D I L F H C P N =
+        CertifiedPhysicalTruthUp.mk S' G' K' A' D' I' L' F' H' C' P' N' ->
+      I = I' ∧ H = H' ∧
+        certifiedPhysicalTruthEncodeBHist I = certifiedPhysicalTruthEncodeBHist I' ∧
+          certifiedPhysicalTruthEncodeBHist H = certifiedPhysicalTruthEncodeBHist H' ∧
+            certifiedPhysicalTruthEncodeBHist BHist.Empty = [] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hpacket
+  injection hpacket with _hS _hG _hK _hA _hD hI _hL _hF hH _hC _hP _hN
+  subst hI
+  subst hH
+  exact ⟨rfl, rfl, rfl, rfl, rfl⟩
+
 end BEDC.Derived.CertifiedPhysicalTruthUp

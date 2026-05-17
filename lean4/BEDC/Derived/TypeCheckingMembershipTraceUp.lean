@@ -418,4 +418,29 @@ theorem TypeCheckingMembershipTraceNameCert_obligations [AskSetup]
               hsame_refl N⟩
   }
 
+theorem TypeCheckingMembershipTraceBridge_precondition [AskSetup]
+    {M D R S H C P N : BHist}
+    (membership : Ext M BMark.b0 D)
+    (route : Cont D R C)
+    (readback : SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) S BHist.Empty)
+    (visibleR : R ≠ BHist.Empty) :
+    TypeCheckingMembershipTraceKernelRows M D R S H C P N ∧
+      typeCheckingMembershipTraceFields (TypeCheckingMembershipTraceUp.mk M D R S H C P N) =
+        [M, D, R, S, H, C, P, N] ∧
+        typeCheckingMembershipTraceFields (TypeCheckingMembershipTraceUp.mk M D R S H C P N) ≠
+          typeCheckingMembershipTraceFields
+            (TypeCheckingMembershipTraceUp.mk M D BHist.Empty S H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Ext Cont SigRel ProbeBundle AskSetup
+  constructor
+  · exact
+      (TypeCheckingMembershipTraceSubjectReduction_consumer_lock membership route readback).left
+  · constructor
+    · exact
+        (TypeCheckingMembershipTraceSubjectReduction_consumer_lock membership route readback).right
+    · intro hfields
+      injection hfields with _ tail1
+      injection tail1 with _ tail2
+      injection tail2 with hR _
+      exact visibleR hR
+
 end BEDC.Derived.TypeCheckingMembershipTraceUp
