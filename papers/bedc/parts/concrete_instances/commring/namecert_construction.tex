@@ -1,0 +1,726 @@
+\input{parts/concrete_instances/commring/19_commring_core}
+\input{parts/concrete_instances/commring/19_commring_algebraic_consequences}
+\input{parts/concrete_instances/commring/19_commring_quadratic_polarization_package}
+
+This consequence block is read over the $\CommRingUp$ carrier of the core child and consumes the $\RingUp$ additive and distributive rows from \autoref{ch:concrete-instances-ring-namecert}. Its zero-factor and equal-squares consequences are not standalone algebraic assumptions.
+
+\begin{theorem}[CommRing zero linear factor annihilator branch]
+\label{thm:commring-zero-linear-factor-annihilator-branch}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\bigl((a+b)\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+b)\cdot c\hsame0 \land c\cdot(a+b)\hsame0)\bigr)
+\lor
+\bigl((a+(-b))\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+(-b))\cdot c\hsame0 \land c\cdot(a+(-b))\hsame0)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+First derive the right distributive law from the supplied left distributive law
+by \autoref{thm:commring-right-distrib-from-left}. The zero-classifier factor
+absorption theorem is then available with both distributive inputs.
+
+If the displayed disjunction chooses $(a+b)\hsame0$, retain that branch witness.
+For an arbitrary $c:\mathsf{BHist}$, apply
+\autoref{thm:ring-zero-classifier-factor-absorption} with $x=a+b$ and $y=c$.
+Its two components give $(a+b)\cdot c\hsame0$ and $c\cdot(a+b)\hsame0$, so the
+left disjunct packages the original witness with the universal annihilator row.
+
+If the displayed disjunction chooses $(a+(-b))\hsame0$, retain that branch
+witness instead. For an arbitrary $c:\mathsf{BHist}$, apply
+\autoref{thm:ring-zero-classifier-factor-absorption} with $x=a+(-b)$ and $y=c$.
+The two components give $(a+(-b))\cdot c\hsame0$ and
+$c\cdot(a+(-b))\hsame0$, yielding the right disjunct with the same
+branch-preserving form.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_annihilator\_branch}
+
+\begin{theorem}[CommRing zero linear factor signed product zero]
+\label{thm:commring-zero-linear-factor-signed-product-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+(a+b)\cdot(a+(-b))\hsame0 .
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-zero-linear-factor-annihilator-branch} to the chosen
+zero linear factor. The result keeps the selected branch and supplies its
+two-sided annihilator row for every multiplier.
+
+In the $(a+b)\hsame0$ branch, specialize the universal row at
+$c=a+(-b)$ and take its left component. This is exactly
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+In the $(a+(-b))\hsame0$ branch, specialize the universal row at $c=a+b$ and
+take its right component. The oriented product is
+$(a+b)\cdot(a+(-b))$, giving the required zero classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_signed\_product\_zero}
+
+\begin{theorem}[CommRing zero linear factor commuted signed product zero]
+\label{thm:commring-zero-linear-factor-commuted-signed-product-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+(a+(-b))\cdot(a+b)\hsame0 .
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-zero-linear-factor-annihilator-branch} to the
+selected zero linear factor. In the $(a+b)\hsame0$ branch, specialize the
+two-sided annihilator row at $c=a+(-b)$ and take the right multiplication
+component. In the $(a+(-b))\hsame0$ branch, specialize at $c=a+b$ and take the
+left multiplication component. Both cases produce the displayed commuted
+signed product as an empty classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_commuted\_signed\_product\_zero}
+
+\begin{theorem}[CommRing scoped multiplication commutativity source]
+\label{thm:commring-scoped-multiplication-commutativity-source}
+In the concrete $\CommRingUp$ zero-linear-factor surface over
+$\mathsf{BHist}$, the multiplicative commutativity input is read only as the
+$\hsame$-stable $\mathsf{BHist}$ row that reverses the $\RingUp$
+multiplication classifier. The zero-linear signed-product consumers may use
+that row to exchange $(a+b)\cdot(a+(-b))$ with $(a+(-b))\cdot(a+b)$, but they
+do not receive an additional host commutative-ring carrier, a quotient
+classifier, or an inverse operation.
+\end{theorem}
+\begin{proof}
+Project the $\CommRingUp$ input named in
+\autoref{thm:commring-difference-of-squares-zero-exact}. Its commutativity
+field is a classifier row over the same $\mathsf{BHist}$ multiplication used by
+$\RingUp$, and the surrounding hypotheses already supply the $\hsame$
+transport needed to keep that row stable.
+
+Apply
+\autoref{thm:commring-zero-linear-factor-commuted-signed-product-zero}. The
+only new read beyond the $\RingUp$ zero-linear proof is the displayed reversal
+of the multiplication classifier. Since the theorem still concludes inside
+$\hsame$ over $\mathsf{BHist}$, the source package contributes no external
+carrier or field structure.
+\end{proof}
+
+\begin{theorem}[CommRing scoped RingUp dependency source]
+\label{thm:commring-scoped-ring-dependency-source}
+Every zero-linear and quadratic consumer in this $\CommRingUp$ chapter factors
+through the already cited $\RingUp$ additive laws, addition and multiplication
+congruence rows, distributivity rows, and negative-product laws, together with
+the single scoped commutativity row of
+\autoref{thm:commring-scoped-multiplication-commutativity-source}. No consumer
+in the zero-linear or quadratic packet reads a primitive host commutative ring
+operation outside those rows.
+\end{theorem}
+\begin{proof}
+For zero-linear consumers, use
+\autoref{thm:commring-zero-linear-factor-annihilator-branch},
+\autoref{thm:commring-zero-linear-factor-signed-product-zero}, and
+\autoref{thm:commring-zero-linear-factor-commuted-signed-product-zero}. Their
+hypotheses list exactly the $\RingUp$ additive, congruence, distributive, and
+negative-product rows, with the commutativity field used only for the reversed
+orientation.
+
+For quadratic consumers, use
+\autoref{thm:commring-quadratic-polarization-package},
+\autoref{thm:commring-equal-squares-signed-product-annihilator}, and
+\autoref{thm:commring-equal-squares-commuted-signed-factor-zero}. These
+package the same zero-linear source rows with the quadratic readback rows, so
+the quadratic exit has the same scoped dependency surface.
+\end{proof}
+
+\begin{theorem}[CommRing scoped ledger source for FieldUp exits]
+\label{thm:commring-scoped-ledger-source}
+The downstream $\FieldUp$ exit rows referenced by the $\CommRingUp$
+zero-linear and quadratic packets read only the $\Cont$ and $\Pkg$ ledger rows
+named by those packets: the $\RingUp$ source ledgers, the
+$\CommRingUp$ multiplication-commutativity ledger, the zero-linear
+annihilator ledgers, and the quadratic readback ledgers. The exit package does
+not acquire field inverse data, cancellation outside the displayed classifier
+rows, or a bridge to a standard algebraic carrier.
+\end{theorem}
+\begin{proof}
+Project the zero-linear ledger from
+\autoref{thm:commring-zero-linear-factor-two-sided-signed-product-zero} and
+the annihilator packages that follow it. These rows give the $\Cont$ witnesses
+for both signed-product orientations and the $\Pkg$ provenance for the
+$\RingUp$ and $\CommRingUp$ sources.
+
+Project the quadratic ledger from
+\autoref{thm:commring-quadratic-zero-linear-bridge-package} and
+\autoref{thm:commring-zero-linear-field-exit-consumer-surface}. The
+downstream consumer receives those named rows as its readback surface, so its
+exit data is confined to the packet ledgers and cannot read inverse,
+cancellation, or standard-carrier structure absent from them.
+\end{proof}
+
+\begin{theorem}[CommRing zero linear factor two-sided signed product zero]
+\label{thm:commring-zero-linear-factor-two-sided-signed-product-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\bigl((a+b)\cdot(a+(-b))\hsame0\bigr)
+\land
+\bigl((a+(-b))\cdot(a+b)\hsame0\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-zero-linear-factor-signed-product-zero} to the
+chosen zero linear factor. This gives the forward signed product
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+Apply \autoref{thm:commring-zero-linear-factor-commuted-signed-product-zero} to
+the same branch witness. This gives the commuted signed product
+$(a+(-b))\cdot(a+b)\hsame0$.
+
+Introduce the conjunction with these two oriented zero-product witnesses as its
+left and right components.
+\end{proof}
+
+\begin{theorem}[CommRing zero linear factor signed product annihilator package]
+\label{thm:commring-zero-linear-factor-signed-product-annihilator-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the same
+hypotheses as \autoref{thm:commring-zero-linear-factor-exact-package}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\left(
+(a+b)\cdot(a+(-b))\hsame0
+\land
+\forall c : \mathsf{BHist},\
+\left(
+((a+b)\cdot(a+(-b)))\cdot c\hsame0
+\land
+c\cdot((a+b)\cdot(a+(-b)))\hsame0
+\right)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Let $H$ be the displayed zero-linear-factor hypothesis. Apply
+\autoref{thm:commring-zero-linear-factor-signed-product-zero} to $H$ to obtain
+the signed product-zero witness
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+Use \autoref{thm:commring-right-distrib-from-left} to recover the right
+distributive row from the supplied left distributive row. Together with the
+$\RingUp$ zero-factor absorption theorem, this gives the same two-sided
+absorption mechanism used in
+\autoref{thm:commring-zero-linear-factor-annihilator-branch}.
+
+Now instantiate that absorption mechanism with
+$x=(a+b)\cdot(a+(-b))$. For an arbitrary $c:\mathsf{BHist}$, the product-zero
+witness gives both $((a+b)\cdot(a+(-b)))\cdot c\hsame0$ and
+$c\cdot((a+b)\cdot(a+(-b)))\hsame0$. Pair this universal row with the original
+signed product-zero witness to obtain the displayed package.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_signed\_product\_annihilator\_package}
+
+\begin{theorem}[CommRing equal-squares signed-product annihilator]
+\label{thm:commring-equal-squares-signed-product-annihilator}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+hypotheses of \autoref{thm:commring-difference-of-squares-zero-exact} and the
+zero-factor absorption hypotheses of
+\autoref{thm:ring-zero-classifier-factor-absorption}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+a\cdot a\hsame b\cdot b
+\Longrightarrow
+\left(
+(a+b)\cdot(a+(-b))\hsame0
+\land
+\forall c : \mathsf{BHist},\
+\left(
+((a+b)\cdot(a+(-b)))\cdot c\hsame0
+\land
+c\cdot((a+b)\cdot(a+(-b)))\hsame0
+\right)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Let $Q$ be the square-equality hypothesis $a\cdot a\hsame b\cdot b$. Apply the
+reverse direction of
+\autoref{thm:commring-difference-of-squares-zero-exact} to $Q$. This produces
+the signed product-zero witness $(a+b)\cdot(a+(-b))\hsame0$.
+
+The zero-factor absorption hypotheses give
+\autoref{thm:ring-zero-classifier-factor-absorption} for the signed product
+$x=(a+b)\cdot(a+(-b))$. For an arbitrary $c:\mathsf{BHist}$, instantiate that
+theorem at $y=c$.
+
+The two components are $((a+b)\cdot(a+(-b)))\cdot c\hsame0$ and
+$c\cdot((a+b)\cdot(a+(-b)))\hsame0$. Pair this universal two-sided absorption
+row with the signed product-zero witness from the equal-squares route.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_equal\_squares\_signed\_product\_annihilator}
+
+\begin{theorem}[CommRing equal-squares bilateral signed-product zero]
+\label{thm:commring-equal-squares-bilateral-signed-product-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+hypotheses of \autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+a\cdot a\hsame b\cdot b
+\Longrightarrow
+\bigl((a+b)\cdot(a+(-b))\hsame0\bigr)
+\land
+\bigl((a+(-b))\cdot(a+b)\hsame0\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Let $Q$ be the square-equality hypothesis $a\cdot a\hsame b\cdot b$. Apply
+\autoref{thm:commring-equal-squares-signed-factor-zero} to $Q$ to obtain the
+forward signed-product zero witness
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+The $\CommRingUp$ multiplicative commutativity field identifies the reversed
+product $(a+(-b))\cdot(a+b)$ with the forward product
+$(a+b)\cdot(a+(-b))$. Compose this identification with the forward
+signed-product zero witness by transitivity of $\hsame$.
+
+The two oriented zero-product witnesses form the required conjunction.
+\end{proof}
+
+\begin{theorem}[CommRing equal-squares commuted signed factor zero]
+\label{thm:commring-equal-squares-commuted-signed-factor-zero}
+Under the hypotheses of
+\autoref{thm:commring-equal-squares-signed-factor-zero}, every square equality
+also annihilates the commuted signed product:
+$$
+a\cdot a\hsame b\cdot b
+\Longrightarrow
+(a+(-b))\cdot(a+b)\hsame0 .
+$$
+\end{theorem}
+\begin{proof}
+Apply multiplicative commutativity to identify
+$(a+(-b))\cdot(a+b)$ with $(a+b)\cdot(a+(-b))$, then compose with
+\autoref{thm:commring-equal-squares-signed-factor-zero}.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_equal\_squares\_commuted\_signed\_factor\_zero}
+
+\input{parts/concrete_instances/commring/equal_squares_commuted_signed_product_annihilator}
+
+The ten-field fit is: traditional target equal squares yields a bilateral
+signed-product zero certificate in a commutative ring; BEDC source $\RingUp$
+plus $\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from difference-of-squares exactness and multiplicative
+commutativity; ledger the square-equality witness, the forward signed-product
+zero witness, and the commuted signed-product zero witness; core theorem this
+block; exactness the two oriented signed products at zero; downstream consumer
+the $\FieldUp$ equal-square signed-factor exclusion package; status
+$\mathsf{ProofTarget}$.
+
+The ten-field fit is: traditional target equal squares yields the signed-product
+annihilator package in a commutative ring; BEDC source $\RingUp$ plus
+$\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from difference-of-squares exactness and zero-factor
+absorption; ledger the square-equality witness, signed product-zero witness, and
+universal two-sided multiplier row; core theorem this block; exactness the same
+annihilator certificate reached from square equality; downstream consumer
+$\FieldUp$ quadratic and zero-factor exit packages; status
+$\mathsf{ProofTarget}$.
+
+The ten-field fit is: traditional target signed-product annihilator package in
+a commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability from
+right distributivity and zero-factor absorption; ledger the selected zero
+linear factor, signed product-zero witness, and universal two-sided multiplier
+row; core theorem this block; exactness the paired product-zero and
+signed-product annihilator certificate; downstream consumer $\FieldUp$
+quadratic and zero-factor exit packages; status $\mathsf{ProofTarget}$.
+
+The ten-field fit is: traditional target branch-preserving zero-product
+certificate for both signed orientations; BEDC source $\RingUp$ plus
+$\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from the two signed-product zero theorems; ledger the
+chosen zero linear factor and the two oriented zero-product witnesses; core
+theorem this block; exactness two product orientations at once; standard bridge
+ordinary commutative-ring factor cancellation packaging; status
+$\mathsf{ProofTarget}$ for downstream consumer $\FieldUp$ quadratic and
+zero-factor exit packages.
+
+\begin{theorem}[CommRing zero linear factor forces equal squares]
+\label{thm:commring-zero-linear-factor-equal-squares}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+a\cdot a\hsame b\cdot b .
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-zero-linear-factor-signed-product-zero} to the
+chosen zero linear factor. This produces
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+The forward direction of
+\autoref{thm:commring-difference-of-squares-zero-exact} sends this signed
+product-zero witness to $a\cdot a\hsame b\cdot b$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_equal\_squares}
+\leanvariant{BEDC.Derived.CommRingUp.commring\_empty\_linear\_factor\_equal\_squares}
+
+The ten-field fit is: traditional target zero linear factor implies equal
+squares in a commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability
+from zero-factor absorption and difference-of-squares exactness; ledger the
+chosen zero factor and product-zero witness; core theorem this block; exactness
+equality of squares; standard bridge ordinary commutative-ring factor argument;
+status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing zero linear factor exact package with right distributivity]
+\label{thm:commring-zero-linear-factor-exact-package-with-right-distrib}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left and right distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\bigl((a+b)\cdot(a+(-b))\hsame0 \land a\cdot a\hsame b\cdot b\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-zero-linear-factor-signed-product-zero} to the
+chosen zero linear factor. This gives the signed product-zero witness
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+Feed that witness through the forward direction of
+\autoref{thm:commring-difference-of-squares-zero-exact}. The resulting
+square equality is $a\cdot a\hsame b\cdot b$, and pairing it with the
+signed product-zero witness gives the displayed conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_exact\_package}
+
+\begin{theorem}[CommRing zero linear factor exact package]
+\label{thm:commring-zero-linear-factor-exact-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\bigl((a+b)\cdot(a+(-b))\hsame0 \land a\cdot a\hsame b\cdot b\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:commring-right-distrib-from-left} to recover right
+distributivity from left distributivity, multiplicative commutativity, and
+additive congruence.
+
+Apply
+\autoref{thm:commring-zero-linear-factor-exact-package-with-right-distrib} with
+this right distributivity field and the remaining stated hypotheses. The
+result is the displayed conjunction for the chosen zero linear factor.
+\end{proof}
+
+The ten-field fit is: traditional target zero linear factor exact package in a
+commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability
+from zero-factor absorption and difference-of-squares exactness; ledger the
+chosen linear factor and signed-product witness; core theorem this block;
+exactness the paired conjunction of product zero and equal squares; standard
+bridge ordinary commutative-ring square exit; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing zero linear factor total exact package]
+\label{thm:commring-zero-linear-factor-total-exact-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\Bigl(
+\bigl((a+b)\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+b)\cdot c\hsame0 \land c\cdot(a+b)\hsame0)\bigr)
+\lor
+\bigl((a+(-b))\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+(-b))\cdot c\hsame0 \land c\cdot(a+(-b))\hsame0)\bigr)
+\Bigr)
+\land
+\bigl((a+b)\cdot(a+(-b))\hsame0 \land a\cdot a\hsame b\cdot b\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_total\_exact\_package}
+\begin{proof}
+Let $H$ be the displayed zero-linear-factor assumption. Apply
+\autoref{thm:commring-zero-linear-factor-annihilator-branch} to $H$ to obtain
+the branch-preserving annihilator disjunction.
+
+Apply \autoref{thm:commring-zero-linear-factor-exact-package} to the same
+assumption $H$. This yields the paired signed product-zero witness and square
+equality.
+
+Introduce the final conjunction by placing the branch-preserving disjunction in
+the first component and the paired product-zero and square-equality certificate
+in the second component.
+\end{proof}
+
+The ten-field fit is: traditional target zero linear factor exact package in a
+commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability
+from zero-factor absorption and difference-of-squares exactness; ledger the
+chosen linear factor, branch annihilator row, and signed-product witness; core
+theorem \autoref{thm:commring-zero-linear-factor-total-exact-package};
+exactness branch annihilator coverage together with signed product zero and
+equal squares; standard bridge ordinary commutative-ring square exit; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing zero linear factor branch exact package]
+\label{thm:commring-zero-linear-factor-branch-exact-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the same
+hypotheses as \autoref{thm:commring-zero-linear-factor-exact-package}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\left(
+\left(
+\left((a+b)\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+b)\cdot c\hsame0 \land c\cdot(a+b)\hsame0)\right)
+\lor
+\left((a+(-b))\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+(-b))\cdot c\hsame0 \land c\cdot(a+(-b))\hsame0)\right)
+\right)
+\land
+a\cdot a\hsame b\cdot b
+\right).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_branch\_exact\_package\_from\_empty\_unit}
+\begin{proof}
+Start with the displayed zero-linear-factor disjunction. Apply
+\autoref{thm:commring-zero-linear-factor-annihilator-branch} to retain the
+selected branch and its two-sided annihilator row for every
+$c:\mathsf{BHist}$.
+
+Apply \autoref{thm:commring-zero-linear-factor-equal-squares} to the same
+disjunction. This gives the square equality $a\cdot a\hsame b\cdot b$ under
+the identical hypotheses.
+
+Pair the branch-preserving annihilator package with the square equality. The
+result is exactly the displayed conjunction, so later selector arguments can
+consume the chosen linear factor without reconstructing the branch.
+\end{proof}
+
+The ten-field fit is: traditional target branch-preserving zero-factor
+exactness in a commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability from
+zero-factor absorption and difference-of-squares exactness; ledger the selected
+linear factor and annihilator row; core theorem this block; exactness the
+displayed conjunction; downstream consumer $\FieldUp$ quadratic and zero-factor
+exit packages; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing zero linear factor bilateral exact package]
+\label{thm:commring-zero-linear-factor-bilateral-exact-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the same
+hypotheses as \autoref{thm:commring-zero-linear-factor-exact-package}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\left(
+\left(
+\left((a+b)\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+b)\cdot c\hsame0 \land c\cdot(a+b)\hsame0)\right)
+\lor
+\left((a+(-b))\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+(-b))\cdot c\hsame0 \land c\cdot(a+(-b))\hsame0)\right)
+\right)
+\land
+(a+b)\cdot(a+(-b))\hsame0
+\land
+(a+(-b))\cdot(a+b)\hsame0
+\land
+a\cdot a\hsame b\cdot b
+\right).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_bilateral\_exact\_package}
+\begin{proof}
+Let $H$ be the displayed zero-linear-factor hypothesis. Apply
+\autoref{thm:commring-zero-linear-factor-branch-exact-package} to $H$ to obtain
+the branch-preserving annihilator disjunction together with the square equality
+$a\cdot a\hsame b\cdot b$.
+
+Apply \autoref{thm:commring-zero-linear-factor-signed-product-zero} to $H$.
+This yields the forward signed product
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+Apply \autoref{thm:commring-zero-linear-factor-commuted-signed-product-zero} to
+$H$. This yields the reversed signed product
+$(a+(-b))\cdot(a+b)\hsame0$.
+
+Introduce the final conjunction by placing the branch annihilator package first,
+the forward signed product second, the reversed signed product third, and the
+square equality fourth. The result is the displayed bilateral certificate.
+\end{proof}
+
+The ten-field fit is: traditional target zero linear factor bilateral exact
+package in a commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability from
+zero-factor absorption and difference-of-squares exactness; ledger the selected
+linear factor, branch annihilator row, both signed product orientations, and
+square equality; core theorem this block; exactness the displayed four-component
+certificate; downstream consumer $\FieldUp$ quadratic and zero-factor exit
+packages; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing quadratic zero-linear bridge package]
+\label{thm:commring-quadratic-zero-linear-bridge-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+shared hypotheses of \autoref{thm:commring-quadratic-polarization-package} and
+\autoref{thm:commring-zero-linear-factor-bilateral-exact-package}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\left(
+\left(
+\Bigl(
+((a+b)\cdot(a+b))+((a+(-b))\cdot(a+(-b)))\hsame
+(a\cdot a+a\cdot a)+(b\cdot b+b\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+b)\cdot(a+b))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(a\cdot b)+(a\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+(-b))\cdot(a+(-b)))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(-(a\cdot b))+(-(a\cdot b))
+\Bigr)
+\land
+\Bigl(
+(a+(-b))\cdot(a+(-b))\hsame0
+\Longleftrightarrow
+a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b
+\Bigr)
+\right)
+\land
+\left(
+\left(
+\left((a+b)\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+b)\cdot c\hsame0 \land c\cdot(a+b)\hsame0)\right)
+\lor
+\left((a+(-b))\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+(-b))\cdot c\hsame0 \land c\cdot(a+(-b))\hsame0)\right)
+\right)
+\land
+(a+b)\cdot(a+(-b))\hsame0
+\land
+(a+(-b))\cdot(a+b)\hsame0
+\land
+a\cdot a\hsame b\cdot b
+\right)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-quadratic-polarization-package} to the shared
+hypotheses and the selected histories $a,b$. This produces the full
+quadratic-polarization package in the displayed order.
+
+Let $H$ be the zero-linear-factor branch witness. Apply
+\autoref{thm:commring-zero-linear-factor-bilateral-exact-package} to $H$ under
+the same operation hypotheses. This produces the full bilateral certificate:
+the selected branch with its two-sided annihilator row, both signed product
+orientations, and the square equality.
+
+Introduce the final conjunction with the quadratic-polarization package as the
+first component and the bilateral zero-linear-factor certificate as the second
+component. The branch witness is consumed only by the bilateral component, so
+the resulting certificate remains over the same concrete $\mathsf{BHist}$ source.
+\end{proof}
+
+The ten-field fit is: traditional target a commutative-ring package combining
+quadratic polarization with zero-linear-factor exactness; BEDC source
+$\RingUp$ plus $\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability from the shared quadratic and zero-factor
+operation laws; ledger the polarization identities, exact signed-square test,
+selected linear factor, two-sided annihilator row, bilateral signed products,
+and square equality; core theorem this block; exactness the displayed combined
+certificate; downstream use by $\FieldUp$ quadratic normalization and
+zero-factor exit packages; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing zero-linear FieldUp exit consumer surface]
+\label{thm:commring-zero-linear-field-exit-consumer-surface}
+For the concrete $\CommRingUp$ history package over $\mathsf{BHist}$, the
+zero-linear annihilator branch, signed-product zero rows, equal-squares
+signed-factor rows, total exact package, bilateral exact package, and
+quadratic zero-linear bridge package expose exactly the $\FieldUp$ consumer
+surface needed by the phase-exit certificate. The exposed surface consists of
+the carrier rows inherited from $\RingUp$ and $\CommRingUp$, the classifier
+rows supplied by the signed-product package, the zero-factor exactness rows,
+the quadratic readback rows, and the finite ledger rows consumed by the
+$\FieldUp$ phase-exit certificate. It contains no field inverse row, no
+division row, and no host polynomial-root datum.
+\end{theorem}
+\begin{proof}
+First project the zero-linear branch through
+\autoref{thm:commring-zero-linear-factor-annihilator-branch} and
+\autoref{thm:commring-zero-linear-factor-total-exact-package}. These results
+place the selected branch, its two-sided annihilator behavior, and its
+zero-factor exactness inside the finite $\mathsf{BHist}$ ledger.
+
+Next project the classifier rows. The signed-product rows of
+\autoref{thm:commring-zero-linear-factor-signed-product-zero} and
+\autoref{thm:commring-zero-linear-factor-commuted-signed-product-zero} give
+the two orientations, while
+\autoref{thm:commring-zero-linear-factor-equal-squares} and
+\autoref{thm:commring-zero-linear-factor-bilateral-exact-package} identify
+the equal-squares row and keep the classifier stable under both signed
+factors.
+
+Finally apply
+\autoref{thm:commring-quadratic-zero-linear-bridge-package}. It repacks the
+quadratic readback rows together with the bilateral zero-linear certificate,
+so the downstream $\FieldUp$ exit sees one concrete carrier, classifier,
+exactness, readback, and ledger surface over $\mathsf{BHist}$. Since every
+step is a projection from the listed commutative-ring packages, no inverse,
+division, or host polynomial-root row is introduced.
+\end{proof}
+
+\input{parts/concrete_instances/commring/19_commring_singleton_empty_square_packages_and_closure}
+\input{parts/concrete_instances/commring/19_commring_singleton_cont_history_instance}
+\input{parts/concrete_instances/commring/19_commring_zero_divisor_and_inclusion}
