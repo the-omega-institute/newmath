@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\FormalTargetDependencyAuditUp$}
+\label{ch:concrete-instances-formal-target-dependency-audit-namecert}
+\origin{ai}
+
+The $\FormalTargetDependencyAuditUp$ packet realizes the dependency and no-smuggling side of the machine-facing interface of \autoref{subsec:philosophy-machine-facing-interface} as one finite NameCert audit. It sits beside the target carrier of \autoref{ch:concrete-instances-machine-interface-formalization-target-namecert}, the classifier of \autoref{ch:concrete-instances-smugglingpatternclassifier-namecert}, the dependency lattice of \autoref{ch:concrete-instances-axiom-dependency-audit-map-namecert}, and the export gate of \autoref{ch:concrete-instances-registry-export-consistency-gate-namecert}. Those siblings store target skeletons, classify smuggling attempts, expose dependency modes, and block inconsistent registry export; this packet binds the target row, dependency row, no-smuggling decision, axiom-dependency audit, and export-gate result before a formalization queue may treat the rows as one admissible target.
+
+\begin{definition}[Formal-target dependency audit carrier]
+\label{def:formal-target-dependency-audit-carrier}
+A $\FormalTargetDependencyAuditUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,D,S,K,U,A,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\MachineInterfaceFormalizationTargetUp$ row, recording the target name, namespace, registry row, statement skeleton, expected status, audit-gate row, and not-claimed surface.
+\item $D$ is the dependency-list row read from the same formalization target and normalized as finite machine-facing prerequisites.
+\item $S$ is the $\SmugglingPatternClassifierUp$ no-smuggling decision row, exposing whether the target attempts to read prose, host supply, model output, or private registry state as internal BEDC content.
+\item $K$ is the $\AxiomDependencyAuditMapUp$ row, recording the internal, restricted, or externally supplied dependency mode for each displayed prerequisite.
+\item $U$ is the unresolved-supply row, listing the finite dependencies or socket reports that remain outside theorem content after $D,S,K$ have been read.
+\item $A$ is the audit-decision row, recording whether the target-dependency pair is admissible, refused, or held as a queue record.
+\item $G$ is the $\RegistryExportConsistencyGateUp$ row, checking that registry status, formal-target readback, audit route, and no-smuggling decision agree before export.
+\item $H$ records componentwise $\hsame$ transport for target, dependency, no-smuggling, axiom-audit, unresolved-supply, audit-decision, export-gate, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the target row through dependency readback, no-smuggling classification, axiom-dependency audit, unresolved-supply exposure, audit decision, and export-gate result.
+\item $P$ is the $\Pkg$ provenance over $\FormalTargetDependencyAuditUp$, $\MachineInterfaceFormalizationTargetUp$, $\SmugglingPatternClassifierUp$, $\AxiomDependencyAuditMapUp$, $\RegistryExportConsistencyGateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FormalTargetDependencyAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a dependency imported outside $D$, a no-smuggling decision erased from $S$, an axiom-dependency reading outside $K$, an export-gate result outside $G$, or a proof object extracted from an admissible queue record.
+\end{definition}
+\leandef{BEDC.Derived.FormalTargetDependencyAuditUp.FormalTargetDependencyAuditUp}
+
+\begin{theorem}[Formal-target dependency audit NameCert obligations]
+\label{thm:formal-target-dependency-audit-namecert-obligations}
+For the carrier of \autoref{def:formal-target-dependency-audit-carrier}, the local $\NameCert_{\FormalTargetDependencyAuditUp}$ surface consists exactly of carrier admission for $F=(T,D,S,K,U,A,G,H,C,P,N)$, target exposure through $T$, finite dependency readback through $D$, no-smuggling classification through $S$, axiom-dependency audit through $K$, unresolved-supply exposure through $U$, audit-decision routing through $A$, registry-export consistency through $G$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $F=(T,D,S,K,U,A,G,H,C,P,N)$. The target row $T$ supplies the machine-facing skeleton, and $D$ exposes the finite prerequisite list read from the same target.
+
+Read $S,K,U,A$ next. The classifier row $S$ keeps no-smuggling visible, the dependency-audit row $K$ records how each prerequisite is read, the unresolved-supply row $U$ records what remains outside theorem content, and the audit-decision row $A$ decides admission only for that displayed combination.
+
+Finally inspect $G,H,C,P,N$. The export gate $G$ checks the same target, dependency, audit, and no-smuggling rows against the registry surface, while transport, replay, provenance, and local naming preserve the packet. Since no additional coordinate remains, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Formal-target dependency audit nonescape]
+\label{thm:formal-target-dependency-audit-nonescape}
+A $\FormalTargetDependencyAuditUp$ packet whose no-smuggling row $S$ is absent, erased, or not transported with $T,D,K,A,G$ cannot be exported as an admissible machine-facing formalization target. Such a packet remains a queue record or refusal report, not theorem content and not a certified target-dependency audit.
+\end{theorem}
+\begin{proof}
+Begin with the target and dependency rows. The target skeleton $T$ and dependency list $D$ identify what the queue wants to certify, but neither row decides whether external supply has been smuggled into the target.
+
+Use the no-smuggling row $S$. By \autoref{thm:formal-target-dependency-audit-namecert-obligations}, the local NameCert surface must expose $S$ together with the axiom-dependency audit $K$, unresolved-supply row $U$, audit decision $A$, and export gate $G$.
+
+If $S$ is absent or not transported with the other rows, the export gate has no displayed classifier result to compare with registry status and target readback. Componentwise $\hsame$ and $\Cont$ replay cannot manufacture a missing row, so the packet cannot be accepted as an admissible machine-facing target.
+\end{proof}
+
+\begin{theorem}[Formal-target dependency audit sibling independence]
+\label{thm:formal-target-dependency-audit-sibling-independence}
+The $\FormalTargetDependencyAuditUp$ carrier is not bijective, under NameCert-row preservation, to $\MachineInterfaceFormalizationTargetUp$, $\SmugglingPatternClassifierUp$, $\AxiomDependencyAuditMapUp$, or $\RegistryExportConsistencyGateUp$.
+\end{theorem}
+\begin{proof}
+Compare the displayed rows. $\MachineInterfaceFormalizationTargetUp$ supplies the target skeleton and dependency list but does not itself bind the no-smuggling decision, axiom-dependency audit, and export-gate result as one audit.
+
+$\SmugglingPatternClassifierUp$ supplies the no-smuggling classification but lacks the target skeleton and dependency list. $\AxiomDependencyAuditMapUp$ supplies dependency modes and required-supply rows but does not store the formal target or registry export result.
+
+$\RegistryExportConsistencyGateUp$ checks export consistency, audit route, no-smuggling, and formal-target readback, but it does not expose the dependency-list normalization and axiom-dependency audit rows as the same target packet. A row-preserving bijection would have to preserve all of $T,D,S,K,U,A,G,H,C,P,N$, so none of these siblings is bijective to $\FormalTargetDependencyAuditUp$.
+\end{proof}
+
+\falsifiablePrediction{A FormalTargetDependencyAuditUp packet whose no-smuggling row is erased cannot be exported as an admissible machine-facing formalization target.}
+
+\independenceWitness{machineinterfaceformalizationtarget, smugglingpatternclassifier, axiomdependencyauditmap, registryexportconsistencygate: none is bijective because each lacks at least one of target skeleton, dependency list, no-smuggling decision, axiom-dependency audit, or export-gate result rows.}
+
+The later Lean file \texttt{lean4/BEDC/Derived/FormalTargetDependencyAuditUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \FormalTargetDependencyAuditUp$ and $\mathsf{FieldFaithful}\ \FormalTargetDependencyAuditUp$ instances over the same carrier. The field-faithful route must preserve $T,D,S,K,U,A,G,H,C,P,N$ before \texttt{BEDC.Derived.FormalTargetDependencyAuditUp.FormalTargetDependencyAuditUp} can be cited by a checked paper marker.
+
+\closureat{FormalTargetDependencyAuditUp}{seedStr}
+\closureat{FormalTargetDependencyAuditUp}{obligationStr}
+
+\begin{closurestatus}{\FormalTargetDependencyAuditUp}
+  \constructivestory{A $\FormalTargetDependencyAuditUp$ packet is generated from a machine-facing target row, dependency-list row, no-smuggling decision, axiom-dependency audit row, unresolved-supply row, audit-decision row, registry-export gate, componentwise transport, displayed replay, provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:formal-target-dependency-audit-carrier}, \autoref{thm:formal-target-dependency-audit-namecert-obligations}, \autoref{thm:formal-target-dependency-audit-nonescape}, and \autoref{thm:formal-target-dependency-audit-sibling-independence} bind the finite target-dependency audit, no-smuggling nonescape, and sibling-independence surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, public export closure, bridge checking, automatic dependency discharge, or proof-object production for $\FormalTargetDependencyAuditUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, target exposure, dependency readback, no-smuggling classification, axiom-dependency audit, unresolved-supply exposure, audit-decision routing, export-gate consistency, TasteGate nontriviality, and field faithfulness for $T,D,S,K,U,A,G,H,C,P,N$.}
+\end{closurestatus}

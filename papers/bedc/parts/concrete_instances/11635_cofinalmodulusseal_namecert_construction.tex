@@ -53,6 +53,46 @@ Now attach the completion-seal side. The $\CauchyLimitSealUp$ row $L$ can be con
 The rows $H,C,P,N$ only transport, replay, source, and name the displayed packet. Since no excluded object is a coordinate of the carrier, the five obligation rows exhaust the local NameCert surface.
 \end{proof}
 
+\begin{theorem}[Cofinal modulus seal RegSeqRat window factorization]
+\label{thm:cofinal-modulus-seal-regseqrat-window-factorization}
+Every $\RegSeqRatUp$ handoff accepted by $\CofinalModulusSealUp$ factors through the same $\StreamNameUp$ window row $T$ and $\DyadicRatCoreUp$ tolerance row $D$ selected by the cofinal tail budget $B$ and the $\RealWindowBudgetUp$ row $W$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-modulus-seal-carrier}. The RegSeqRat row $R$ is reached from the displayed tail windows, while $T$ is selected by the cofinal threshold and window budget and $D$ is attached to that selected window.
+
+Apply \autoref{thm:cofinal-modulus-seal-shared-route-obligation} and \autoref{thm:cofinal-modulus-seal-window-handoff-obligation}. The shared-route theorem binds $B,M,W$ before the completion side is public, and the window-handoff theorem places $T,D,R$ behind the same $B$ and $W$ rows.
+
+Finally use \autoref{thm:cofinal-modulus-seal-source-row-synchronization} and \autoref{thm:cofinal-modulus-seal-window-budget-exactness}. These identify the selected window and tolerance ledger as the only public window route for $R$, so a RegSeqRat handoff cannot factor through a detached StreamName, a second dyadic tolerance row, or an independent RealWindowBudget.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal tail-budget transport]
+\label{thm:cofinal-modulus-seal-tail-budget-transport}
+Componentwise $\hsame$ transport in an accepted $\CofinalModulusSealUp$ packet preserves the cofinal tail budget $B$, the $\CauchyTailModulusSealUp$ row $M$, and the $\RealWindowBudgetUp$ row $W$ together as one source route.
+\end{theorem}
+\begin{proof}
+Start with the source-row synchronization theorem. \autoref{thm:cofinal-modulus-seal-source-row-synchronization} states that $B,M,W$ are synchronized as one cofinal tail budget, Cauchy tail-modulus seal, and Real window budget before any downstream row is consumed.
+
+Read the transport coordinate $H$ from the carrier. By the obligation surface in \autoref{thm:cofinal-modulus-seal-namecert-obligations}, $H$ records componentwise $\hsame$ transport for the displayed route rows and the local naming row, rather than a separate source selector.
+
+The window-budget exactness theorem then fixes the downstream use of the transported source. \autoref{thm:cofinal-modulus-seal-window-budget-exactness} makes $T,D,R$ consume the same $B,W$ pair, while the shared-route obligation keeps $M$ on that source route. Thus transport preserves $B,M,W$ together and cannot move only one of the three rows.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal NameCert route coverage]
+\label{thm:cofinal-modulus-seal-namecert-route-coverage}
+The local $\NameCert_{\CofinalModulusSealUp}$ route covers exactly the displayed rows
+$$
+B,M,W,T,D,R,L,E,H,C,P,N.
+$$
+It cannot import quotient stream equality, host real equality, selected limits, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:cofinal-modulus-seal-namecert-obligations}. Its carrier admission, route synchronization, completion handoff, structural replay, and non-escape clauses are all written over the rows of \autoref{def:cofinal-modulus-seal-carrier}.
+
+Next combine the route theorems. \autoref{thm:cofinal-modulus-seal-shared-route-obligation} fixes the source rows $B,M,W$, \autoref{thm:cofinal-modulus-seal-regseqrat-window-factorization} factors the RegSeqRat handoff through $T,D$, and \autoref{thm:cofinal-modulus-seal-tail-budget-transport} keeps source transport componentwise.
+
+It remains to exclude external completion data. The completion non-escape theorem, \autoref{thm:cofinal-modulus-seal-completion-nonescape-obligation}, removes quotient stream equality, countable choice, selected host limits, host real equality, and ambient Real completeness from the consumer boundary. Therefore the local NameCert route covers exactly the displayed finite rows and nothing beyond them.
+\end{proof}
+
 \begin{theorem}[Cofinal modulus seal shared route obligation]
 \label{thm:cofinal-modulus-seal-shared-route-obligation}
 For the carrier of \autoref{def:cofinal-modulus-seal-carrier}, rows $B,M,W$ must name one shared cofinal route before $T,D,R,L,E$ are public. A completion-facing consumer may not read the StreamName, DyadicRatCore, RegSeqRat, CauchyLimitSeal, or RealUp rows from separate cofinal sources.
@@ -416,6 +456,42 @@ Use \autoref{thm:cofinal-modulus-seal-route-namecert-exhaustion} to exhaust the 
 Finish with \autoref{thm:cofinal-modulus-seal-window-ledger-nochoice-boundary}. Countable choice, quotient equality, selected host limits, and ambient Real completeness are all excluded from the same finite ledger, so $E$ remains a handoff row rather than a Real-completeness claim.
 \end{proof}
 
+\begin{theorem}[Cofinal modulus seal tail-budget row]
+\label{thm:cofinal-modulus-seal-tail-budget-row}
+Every accepted $\CofinalModulusSealUp$ read exposes the shared tail-budget source $B,M,W$ before any $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, or $\RealUp$ row is public. The public source row is the displayed cofinal route, not a detached modulus service or host-selected tail choice.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cofinal-modulus-seal-source-row-synchronization}. It identifies $B,M,W$ as the synchronized cofinal tail budget, tail-modulus seal, and window budget for the same route.
+
+Use \autoref{thm:cofinal-modulus-seal-window-budget-exactness} and \autoref{thm:cofinal-modulus-seal-root-unblock-package}. The first places $T,D,R$ behind the same $B,W$ rows, and the second packages the downstream tail-budget, StreamName, RegSeqRat, DyadicRatCore, and RealUp consumers from the same finite carrier.
+
+Finally apply \autoref{thm:cofinal-modulus-seal-route-namecert-exhaustion}. Since the route has no naming coordinate beyond $B,M,W,T,D,R,L,E,H,C,P,N$, no public consumer can bypass the source row.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal window readback row]
+\label{thm:cofinal-modulus-seal-window-readback-row}
+The window/readback segment $T,D,R$ of an accepted $\CofinalModulusSealUp$ packet is exact only inside the same cofinal route. It cannot be replaced by a hidden $\StreamNameUp$ selector, quotient stream, selected host limit, countable-choice row, or detached readback service.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cofinal-modulus-seal-window-budget-exactness}. It binds every StreamName, DyadicRatCore, and RegSeqRat window read to the same $\RealWindowBudgetUp$ row $W$ and $\CofinalTailBudgetUp$ row $B$.
+
+Apply \autoref{thm:cofinal-modulus-seal-window-ledger-nochoice-boundary}. The window ledger excludes countable-choice selectors, hidden StreamName selectors, quotient stream equality, selected host limits, and ambient Real completeness.
+
+The route exhaustion theorem, \autoref{thm:cofinal-modulus-seal-route-namecert-exhaustion}, leaves $T,D,R$ as the only displayed window/readback segment. Thus exactness is internal to the same cofinal route.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal dependency-unblock triad]
+\label{thm:cofinal-modulus-seal-dependency-unblock-triad}
+The tail-budget row of \autoref{thm:cofinal-modulus-seal-tail-budget-row}, the window readback row of \autoref{thm:cofinal-modulus-seal-window-readback-row}, the route exhaustion of \autoref{thm:cofinal-modulus-seal-route-namecert-exhaustion}, and the RealUp boundary of \autoref{thm:cofinal-modulus-seal-realup-noncompleteness-boundary} make $\CofinalModulusSealUp$ dependency-ready for $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, and $\RealUp$ consumers without asserting Real completeness.
+\end{theorem}
+\begin{proof}
+First combine the tail-budget and window-readback rows. They force every downstream consumer to enter through $B,M,W$ and then read $T,D,R$ inside the same cofinal route.
+
+Next use route NameCert exhaustion. It says that accepted carriers, readbacks, root-unblock consumers, and non-escape checks all live on $B,M,W,T,D,R,L,E,H,C,P,N$.
+
+Finally apply the RealUp non-completeness boundary. The row $E$ remains a finite handoff rather than a Real-completeness premise, so downstream consumers can cite the package as a dependency surface without importing ambient completion data.
+\end{proof}
+
 \begin{theorem}[Cofinal modulus seal diagonal representative handoff]
 \label{thm:cofinal-modulus-seal-diagonal-representative-handoff}
 Every diagonal representative consumer of $\CofinalModulusSealUp$ factors through the same finite route
@@ -464,6 +540,46 @@ Use \autoref{thm:cofinal-modulus-seal-route-namecert-exhaustion}. The local Name
 Apply \autoref{thm:cofinal-modulus-seal-window-ledger-nochoice-boundary}. It removes choice, quotient equality, selected limits, hidden selectors, and ambient Real completeness from the window ledger.
 
 Finally apply \autoref{thm:cofinal-modulus-seal-realup-noncompleteness-boundary}. The RealUp row is a finite handoff row only, so the full scope is the displayed BEDC route and not a Real-completeness theorem.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal budget-window regularity chain]
+\label{thm:cofinal-modulus-seal-budget-window-regularity-chain}
+Every accepted $\CofinalModulusSealUp$ packet first synchronizes the cofinal budget row $B$, tail-modulus row $M$, and window-budget row $W$. Only after that source synchronization may it read the StreamName row $T$, DyadicRatCore row $D$, and RegSeqRat row $R$, and those reads remain inside the same window route.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cofinal-modulus-seal-source-row-synchronization}. It makes $B,M,W$ a single synchronized source route for the accepted packet.
+
+Next use \autoref{thm:cofinal-modulus-seal-window-budget-exactness}. The window row $W$ is the exact budget row consumed by the StreamName, DyadicRatCore, and RegSeqRat reads, so $T,D,R$ cannot be read from a detached window service.
+
+Finally apply \autoref{thm:cofinal-modulus-seal-regseqrat-route-exhaustion}. The regular-sequence readback has no coordinate beyond the displayed route, hence the readback segment $T,D,R$ stays downstream of the same synchronized $B,M,W$ source.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal terminal Real seal factorization]
+\label{thm:cofinal-modulus-seal-terminal-real-seal-factorization}
+Every terminal $\RealUp$ or $\CauchyLimitSealUp$ consumer of an accepted $\CofinalModulusSealUp$ packet factors through the finite BEDC route
+$$
+B,M,W,T,D,R,L,E,H,C,P,N.
+$$
+The consumer reaches the terminal Real-facing seal only through the displayed cofinal budget, tail modulus, window, StreamName, dyadic, regular-sequence, Cauchy-limit, Real handoff, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:cofinal-modulus-seal-budget-window-regularity-chain}. It fixes the entry segment $B,M,W$ and the readback segment $T,D,R$ inside one cofinal route.
+
+Apply \autoref{thm:cofinal-modulus-seal-route-namecert-exhaustion}. The remaining accepted carrier coordinates are precisely the Cauchy-limit row $L$, Real-facing row $E$, transport row $H$, replay row $C$, package row $P$, and local NameCert row $N$.
+
+Finally use \autoref{thm:cofinal-modulus-seal-realup-noncompleteness-boundary}. The terminal Real-facing row is a finite seal and not a Real-completeness premise, so any terminal $\RealUp$ or $\CauchyLimitSealUp$ consumer factors through $B,M,W,T,D,R,L,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal open-phase exit surface]
+\label{thm:cofinal-modulus-seal-open-phase-exit-surface}
+The $\CofinalModulusSealUp$ chapter supplies the Phase Real and Completion handoff surface for $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCore$, and $\RealUp$ consumers. This surface is the finite route $B,M,W,T,D,R,L,E,H,C,P,N$ and it does not claim Real completeness, quotient equality, selected limits, countable choice, or a $\StdBridge$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cofinal-modulus-seal-terminal-real-seal-factorization}. It makes the completion-facing and Real-facing consumer path factor through the full displayed route.
+
+Next apply \autoref{thm:cofinal-modulus-seal-finite-route-scope}. The route already records the exact public scope of the chapter and excludes Real completeness, quotient-real equality, selected host limits, countable choice, and ambient completion operators.
+
+The remaining bridge boundary follows from \autoref{thm:cofinal-modulus-seal-realup-noncompleteness-boundary}. Since $E$ is only a finite Real-facing handoff row, the chapter exposes an exit surface for Phase Real and Completion consumers without asserting a $\StdBridge$.
 \end{proof}
 
 Lean TasteGate formalization for this route must provide \texttt{Nontrivial CofinalModulusSealUp} and \texttt{FieldFaithful CofinalModulusSealUp} instances in \texttt{BEDC.Derived.CofinalModulusSealUp}.
