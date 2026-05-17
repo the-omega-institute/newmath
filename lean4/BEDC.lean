@@ -556,6 +556,7 @@ import BEDC.Derived.CauchyTailModulusSealUp.TasteGate
 import BEDC.Derived.LocatedCauchyModulusUp.TasteGate
 import BEDC.Derived.SharedTailNormalizerUp.TasteGate
 import BEDC.Derived.SelectedTailSeedUp.TasteGate
+import BEDC.Derived.ObservationLogicBoundaryUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.RootConsumerExhaustion
