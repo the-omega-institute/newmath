@@ -1,0 +1,50 @@
+\begin{theorem}[Finite-kernel category public export interface]
+\label{thm:finite-kernel-category-public-export-interface}
+Let
+$$
+K=(O,M,I,Q,A,U,H,C,P,N)
+$$
+be an accepted $\FiniteKernelCategoryUp$ carrier. The public export of $K$ is
+exactly the displayed row family $O,M,I,Q,A,U,H,C,P,N$. It is read first as the
+$\CategoryUp$ interface carried by the finite kernel package, and then as the
+required source boundary for every downstream $\FunctorUp$ and $\NatTransUp$
+consumer. No quotient morphism, host arrow equality, functor-category object,
+or external category library is part of that public export.
+\end{theorem}
+\begin{proof}
+Start with the category interface handoff,
+\autoref{thm:finite-kernel-category-category-interface-handoff}. It identifies
+the displayed rows $O,M,I,Q,A,U,H,C,P,N$ as the $\CategoryUp$ interface of the
+accepted finite-kernel carrier.
+
+Next apply the category, functor, and natural-transformation row readback,
+\autoref{thm:finite-kernel-category-category-functor-nattrans-row-readback}.
+It makes the same row family the source boundary read by $\FunctorUp$ and
+$\NatTransUp$ consumers after the category interface has been exposed.
+
+The downstream scope is fixed by
+\autoref{thm:finite-kernel-category-nattrans-consumer-scope}. It permits those
+consumers to read only the complete displayed package together with the
+existing TasteGate marker.
+
+Finally apply the bridge consumer nonescape boundary,
+\autoref{thm:finite-kernel-category-bridge-consumer-nonescape}. Since bridge
+consumers cannot extract quotient morphisms, host arrow equality,
+functor-category objects, or an external category library, the displayed row
+family is the whole public export.
+\end{proof}
+
+\closureat{FiniteKernelCategoryUp}{seedStr}
+\closureat{FiniteKernelCategoryUp}{obligationStr}
+\closureat{FiniteKernelCategoryUp}{scopedStr}
+\closureat{FiniteKernelCategoryUp}{publicStr}
+
+\begin{closurestatus}{\FiniteKernelCategoryUp}
+  \constructivestory{A $\FiniteKernelCategoryUp$ packet is generated from finite object histories, displayed hom histories, empty-continuation identity rows, displayed $\Cont$ composition rows, associativity and unit ledgers, componentwise $\hsame$ transport, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public package records the BEDC-native rows $O,M,I,Q,A,U,H,C,P,N$, the finite category carrier, NameCert obligations, category-law rows, interface handoff, TasteGate obligation handoff, displayed source totality in \autoref{thm:finite-kernel-category-displayed-source-totality}, composite ledger determinacy in \autoref{thm:finite-kernel-category-composite-ledger-determinacy}, functor identity preservation in \autoref{thm:finite-kernel-category-functor-identity-preservation}, functor composition preservation in \autoref{thm:finite-kernel-category-functor-composition-preservation}, natural-transformation square boundary in \autoref{thm:finite-kernel-category-natural-transformation-square-boundary}, downstream consumer scope in \autoref{thm:finite-kernel-category-nattrans-consumer-scope}, and public export interface in \autoref{thm:finite-kernel-category-public-export-interface} over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a checked Lean target, a TasteGate proof, arbitrary categorical constructions, quotient morphisms, host category libraries, functor categories, or bridge checking.}
+  \upgradepath{The next verification step is to connect the public $\FiniteKernelCategoryUp$ package to checked Lean targets without collapsing the theory and verification axes.}
+\end{closurestatus}
