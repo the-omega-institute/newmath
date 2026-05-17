@@ -2989,6 +2989,7 @@ import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.EventualTailAgreementUp.TasteGate
+import BEDC.Derived.PhysicalRecordInvariantUp.TasteGate
 import BEDC.Derived.LocalClockBudgetUp
 import BEDC.Derived.PackageGovernanceExportUp.TasteGate
 import BEDC.Derived.SubstitutionBoundaryAuditUp.TasteGate
