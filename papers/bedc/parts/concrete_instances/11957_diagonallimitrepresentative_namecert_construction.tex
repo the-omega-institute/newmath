@@ -594,3 +594,59 @@ Next read the finite-prefix side. By \autoref{thm:finite-prefix-limit-budget-sea
 
 Finally use the shared-terminal route theorem above. It composes the representative route with the finite-prefix budget route without adding a new coordinate: the terminal read is still a finite BEDC packet read through StreamName, RegSeqRat, DyadicRatCore, FinitePrefixLimitBudget, and Real rows. Hence the handoff gives the Real-completion route a concrete L10 terminal surface while preserving the nonchoice and no-completeness boundaries on both sides.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit representative public exactness package]
+\label{thm:diagonal-limit-representative-public-exactness-package}
+For an accepted shared-terminal $\DiagonalLimitRepresentativeUp$ carrier, the public exactness package is precisely the ordered surface
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \FinitePrefixLimitBudgetUp \to \RealUp
+$$
+over the representative rows
+$$
+X,\mu,n,k,i,w,r,d,e,H,C,P,N
+$$
+and the shared-terminal finite-prefix rows
+$$
+Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F.
+$$
+The package has no additional public row beyond these displayed carrier, route, support, budget, exclusion, continuation, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+First take the terminal route from \autoref{thm:diagonal-limit-representative-shared-terminal-route}. It orders every terminal consumer through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FinitePrefixLimitBudgetUp$, and $\RealUp$, so the type-level surface is already fixed.
+
+Next read the finite-prefix handoff in \autoref{thm:diagonal-limit-representative-finite-prefix-budget-handoff}. It says that the representative rows $X,\mu,n,k,i,w,r,d,e,H,C,P,N$ and the budget rows $Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F$ are consumed as one terminal interface, with the nonchoice and no-completeness boundaries preserved on both sides.
+
+The dependency-ready package \autoref{thm:diagonal-limit-representative-dependency-ready-package} supplies the $\Pkg$-sourced $\NameCert_{\DiagonalLimitRepresentativeUp}$ boundary for the representative half of the route. The Real--Completion frontier boundary \autoref{thm:diagonal-limit-representative-real-completion-frontier-boundary} then identifies the terminal endpoint as the named diagonal representative frontier and excludes stronger analytic structure.
+
+Therefore the public exactness package is exactly the displayed ordered surface over the displayed rows. Any extra public row would either precede one of the ordered dependencies, duplicate the finite-prefix budget route, or add a Real-completion principle explicitly excluded by the frontier boundary.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative completion consumer factorization]
+\label{thm:diagonal-limit-representative-completion-consumer-factorization}
+Every Real-and-Completion consumer of an accepted shared-terminal $\DiagonalLimitRepresentativeUp$ carrier factors through the public exactness package of \autoref{thm:diagonal-limit-representative-public-exactness-package}. Such a consumer cannot bypass that package by quotient stream equality, host real equality, selected completed limits, hidden tail schedules, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the exactness package just established. It presents the only public route from the selected stream window and regular readback to the dyadic ledger, finite-prefix budget, and terminal Real seal.
+
+The shared-terminal route theorem \autoref{thm:diagonal-limit-representative-shared-terminal-route} supplies the factorization order. The finite-prefix budget handoff \autoref{thm:diagonal-limit-representative-finite-prefix-budget-handoff} supplies the consumer boundary for completion-facing reads, including the refusal of quotient streams, selected limits, host equality, hidden schedules, choice data, and ambient completeness.
+
+It remains to connect this route to the representative frontier. The dependency-ready package \autoref{thm:diagonal-limit-representative-dependency-ready-package} binds the displayed rows into the accepted representative certificate, while \autoref{thm:diagonal-limit-representative-real-completion-frontier-boundary} states that the frontier is a named diagonal representative endpoint and not a completed Real object supplied by the host.
+
+Hence every Real-and-Completion consumer reaches the endpoint through the public package. A bypass would have to supply one of the excluded equality, limit, schedule, choice, or completeness rows, and those rows are absent from both the representative frontier and the finite-prefix handoff.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative bridge precondition package]
+\label{thm:diagonal-limit-representative-bridge-precondition-package}
+Any later standard bridge for the $\DiagonalLimitRepresentativeUp$ chapter must preserve the same finite packet route
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \FinitePrefixLimitBudgetUp \to \RealUp
+$$
+over the rows named in \autoref{thm:diagonal-limit-representative-public-exactness-package}. The bridge precondition may transport the package into a standard schema, but it may not replace the route by quotient equality, host Real equality, selected completed limits, hidden tail schedules, countable choice, or ambient completeness, and it may not identify the paper closure axis with Lean bridge checking.
+\end{theorem}
+\begin{proof}
+The route to be preserved is fixed by \autoref{thm:diagonal-limit-representative-shared-terminal-route}. It is a finite terminal packet route through the StreamName, RegSeqRat, DyadicRatCore, finite-prefix budget, and Real rows, with the representative and budget coordinates read as one public surface.
+
+The exact rows to be preserved are fixed by the finite-prefix budget handoff \autoref{thm:diagonal-limit-representative-finite-prefix-budget-handoff} and the dependency-ready package \autoref{thm:diagonal-limit-representative-dependency-ready-package}. Together they identify the carrier rows, support rows, budget rows, exclusion row, continuation row, provenance row, and naming row that the bridge must transport.
+
+Finally, the Real--Completion frontier boundary \autoref{thm:diagonal-limit-representative-real-completion-frontier-boundary} gives the negative side of the precondition: no quotient stream equality, host equality, selected completed limit, hidden tail schedule, choice principle, or ambient completeness is part of the chapter certificate. The bridge may check a schema for the same finite route, but that verification status is separate from the paper closure axis recorded by the chapter.
+\end{proof}
