@@ -85,4 +85,27 @@ theorem RussellBoundaryCarrier_fivefold_obligations
       exact ⟨localCertPkg, sourceRow.right⟩
   }
 
+theorem RussellBoundaryCarrier_witnessed_descent_ledger
+    [AskSetup] [PackageSetup]
+    {source relation description classifier bridge descent transport route provenance
+      localCert downward : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RussellBoundaryCarrier source relation description classifier bridge descent transport route
+        provenance localCert bundle pkg ->
+      Cont descent route downward ->
+        PkgSig bundle downward pkg ->
+          UnaryHistory descent ∧ UnaryHistory route ∧ UnaryHistory downward ∧
+            Cont descent route downward ∧ PkgSig bundle localCert pkg ∧
+              PkgSig bundle downward pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier descentRoute downwardPkg
+  obtain ⟨_sourceUnary, _relationUnary, _descriptionUnary, _classifierUnary, _bridgeUnary,
+    descentUnary, _transportUnary, routeUnary, _provenanceUnary, _localCertUnary,
+    _sourceRelationDescription, _classifierBridgeDescent, _transportRouteProvenance,
+    localCertPkg⟩ := carrier
+  have downwardUnary : UnaryHistory downward :=
+    unary_cont_closed descentUnary routeUnary descentRoute
+  exact
+    ⟨descentUnary, routeUnary, downwardUnary, descentRoute, localCertPkg, downwardPkg⟩
+
 end BEDC.Derived.RussellBoundaryUp
