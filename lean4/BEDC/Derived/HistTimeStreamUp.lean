@@ -569,4 +569,28 @@ theorem HistTimeStreamCarrier_real_completion_consumer_boundary [AskSetup] [Pack
     }
   exact And.intro semantic (And.intro completionUnary realUnary)
 
+theorem HistTimeStreamCarrier_cont_prefix_exactness [AskSetup] [PackageSetup]
+    {source schedule start replay transport provenance name prefixRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg ->
+      Cont schedule start prefixRead ->
+        Cont source prefixRead endpoint ->
+          PkgSig bundle endpoint pkg ->
+            UnaryHistory source ∧ UnaryHistory schedule ∧ UnaryHistory start ∧
+              UnaryHistory prefixRead ∧ UnaryHistory endpoint ∧
+                Cont schedule start prefixRead ∧ Cont source prefixRead endpoint ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier scheduleStartPrefix sourcePrefixEndpoint endpointPkg
+  obtain ⟨sourceUnary, scheduleUnary, startUnary, _replayUnary, _transportUnary,
+    _provenanceUnary, _nameUnary, _scheduleStartReplay, _sourceReplayProvenance,
+    _provenanceReplay, provenancePkg, _namePkg⟩ := carrier
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed scheduleUnary startUnary scheduleStartPrefix
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed sourceUnary prefixUnary sourcePrefixEndpoint
+  exact
+    ⟨sourceUnary, scheduleUnary, startUnary, prefixUnary, endpointUnary,
+      scheduleStartPrefix, sourcePrefixEndpoint, provenancePkg, endpointPkg⟩
+
 end BEDC.Derived.HistTimeStreamUp
