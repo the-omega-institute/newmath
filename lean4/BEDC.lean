@@ -999,6 +999,9 @@ import BEDC.Derived.NegativeCertificateBoundaryUp.TasteGate
 import BEDC.Derived.NegativeNameBoundaryUp
 import BEDC.Derived.NegativeNameBoundaryUp.NameCertObligations
 import BEDC.Derived.NegativeNameBoundaryUp.NonInternalization
+import BEDC.Derived.NegativeNameBoundaryUp.PublicExport
+import BEDC.Derived.ObjectConstitutionLedgerUp.TasteGate
+import BEDC.Derived.ObserverKernelTraceUp.TasteGate
 import BEDC.Derived.WitnessedRefutationUp.TasteGate
 import BEDC.Derived.WitnessedDescentLedgerUp.TasteGate
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
@@ -2039,6 +2042,9 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RealRegseqSourceFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.TailSealSourceUniqueness
 import BEDC.Derived.DiagonallimitcompatibilityUp.TailSealSynchronizerPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.UniformCauchyThreeWayTerminalComparison
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteTransportStability
+import BEDC.Derived.ObjectConstitutionLedgerUp.TasteGate
+import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.RealityConstrainedObjectivityUp.TasteGate
 import BEDC.Derived.OpenFitPacketUp.TasteGate
 import BEDC.Derived.StoneDualityUp
