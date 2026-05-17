@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\SubjectIndexRouteUp$}
+\label{ch:concrete-instances-subject-index-route-namecert}
+\origin{ai}
+
+The $\SubjectIndexRouteUp$ packet realizes the subject-index route of \autoref{thm:philosophy-registry-synthesis} as a finite NameCert carrier. It sits beside the core registry index of \autoref{ch:concrete-instances-core-registry-index-namecert}, the concept registry surface of \autoref{ch:concrete-instances-concept-registry-surface-namecert}, the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the registry export consistency gate of \autoref{ch:concrete-instances-registry-export-consistency-gate-namecert}, and the tradition/science bridge of \autoref{ch:concrete-instances-tradition-science-registry-bridge-namecert}. Those siblings expose registry tables, concept entries, export rows, consistency gates, and tradition/science rows; this packet stores the route by which ordinary subject vocabulary reaches that lattice.
+
+\begin{definition}[SubjectIndexRoute carrier]
+\label{def:subject-index-route-carrier}
+A $\SubjectIndexRouteUp$ carrier is a finite $\BHist$ packet
+$$
+S=(O,C,R,E,G,T,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the ordinary subject-entry row, recording the public subject vocabulary, local reader entry point, and displayed registry destination.
+\item $C$ is the core-registry route row, recording the $\CoreRegistryIndexUp$ table position reached by the ordinary entry.
+\item $R$ is the concept-registry route row, recording the $\ConceptRegistrySurfaceUp$ concept entry when the subject term names a concept-facing route.
+\item $E$ is the registry-export route row, recording the $\RegistryExportSurfaceUp$ export surface through which a public subject entry may leave the registry lattice.
+\item $G$ is the consistency-gate route row, recording the $\RegistryExportConsistencyGateUp$ check that keeps registry entry, export grade, closure status, and formal target aligned.
+\item $T$ is the tradition/science bridge row, recording the $\TraditionScienceRegistryBridgeUp$ route when the subject term points into inherited comparison or science-roadmap vocabulary.
+\item $H$ stores componentwise $\hsame$ transport for ordinary subject entries, core registry rows, concept rows, export rows, consistency-gate rows, tradition/science rows, replay, provenance, and local naming.
+\item $K$ stores displayed $\Cont$ replay through ordinary subject lookup, core registry indexing, concept registry lookup, registry export, consistency-gate inspection, and tradition/science bridge handoff.
+\item $P$ is the $\Pkg$ provenance over $\SubjectIndexRouteUp$, $\CoreRegistryIndexUp$, $\ConceptRegistrySurfaceUp$, $\RegistryExportSurfaceUp$, $\RegistryExportConsistencyGateUp$, $\TraditionScienceRegistryBridgeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SubjectIndexRouteUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a public subject entry without a displayed registry row, for a hidden ordinary-language index, for a route outside the registry lattice, or for prose synthesis that bypasses $S=(O,C,R,E,G,T,H,K,P,N)$.
+\end{definition}
+
+\begin{theorem}[SubjectIndexRoute NameCert obligations]
+\label{thm:subject-index-route-namecert-obligations}
+For the carrier of \autoref{def:subject-index-route-carrier}, the local $\NameCert_{\SubjectIndexRouteUp}$ surface consists exactly of carrier admission for $S=(O,C,R,E,G,T,H,K,P,N)$; ordinary subject-entry exposure through $O$; core registry routing through $C$; concept registry routing through $R$; registry export routing through $E$; consistency-gate routing through $G$; tradition/science bridge routing through $T$; componentwise transport through $H$; displayed continuation replay through $K$; package provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet of \autoref{def:subject-index-route-carrier}. The ordinary subject row $O$ gives the reader-facing entry point, while $C,R,E,G,T$ display the registry lattice positions reached by that entry.
+
+The sibling chapters supply the table, concept, export, consistency, and tradition/science surfaces. $\SubjectIndexRouteUp$ does not copy any one sibling alone; it binds the route from ordinary vocabulary into the same finite registry lattice.
+
+Finally $H,K,P,N$ transport, replay, package, and name the same packet. Since the carrier contains no hidden subject index or prose-only route, the listed rows exhaust the local $\NameCert_{\SubjectIndexRouteUp}$ surface.
+\end{proof}
+
+\begin{theorem}[SubjectIndexRoute registry sibling handoff]
+\label{thm:subject-index-route-registry-sibling-handoff}
+Every accepted $\SubjectIndexRouteUp$ packet hands an ordinary subject entry to at least one displayed sibling row among \autoref{ch:concrete-instances-core-registry-index-namecert}, \autoref{ch:concrete-instances-concept-registry-surface-namecert}, \autoref{ch:concrete-instances-registry-export-surface-namecert}, \autoref{ch:concrete-instances-registry-export-consistency-gate-namecert}, and \autoref{ch:concrete-instances-tradition-science-registry-bridge-namecert}. A consumer cannot replace that handoff by ordinary prose, host semantics, hidden registry state, or local naming alone.
+\end{theorem}
+\begin{proof}
+Use the obligations of \autoref{thm:subject-index-route-namecert-obligations}. An accepted packet must display the ordinary subject-entry row $O$ together with the sibling route rows $C,R,E,G,T$ and the support rows $H,K,P,N$.
+
+If none of $C,R,E,G,T$ is displayed, then $O$ has no registry destination and the packet is not an accepted subject-index route. If a consumer keeps only local naming, the same destination data is still absent.
+
+Thus each accepted subject entry reaches the registry lattice through a displayed sibling row. The route may pass through the core index, concept surface, export surface, consistency gate, or tradition/science bridge, but it cannot bypass the displayed handoff.
+\end{proof}
+
+\falsifiablePrediction{Any accepted SubjectIndexRouteUp export that reaches a public subject entry without a displayed registry row refutes the packet.}
+
+\independenceWitness{coreregistryindex, conceptregistrysurface, registryexportsurface, registryexportconsistencygate, traditionscienceregistrybridge: SubjectIndexRouteUp is not bijective to any of these because it stores the route from subject vocabulary into the registry lattice rather than a registry table, export surface, consistency gate, or bridge alone.}
+
+The Lean follow-up must provide $\Nontrivial\ \SubjectIndexRouteUp$ and $\FieldFaithful\ \SubjectIndexRouteUp$ instances in \texttt{lean4/BEDC/Derived/SubjectIndexRouteUp/TasteGate.lean}. The instances must preserve $O,C,R,E,G,T,H,K,P,N$ as separate displayed fields before any checked theorem may cite the packet as a TasteGate surface.
+
+\closureat{SubjectIndexRouteUp}{seedStr}
+
+\begin{closurestatus}{\SubjectIndexRouteUp}
+  \constructivestory{A $\SubjectIndexRouteUp$ packet is generated from ordinary subject-entry, core registry, concept registry, registry export, consistency-gate, tradition/science bridge, componentwise hsame, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-index-route-carrier}, \autoref{thm:subject-index-route-namecert-obligations}, and \autoref{thm:subject-index-route-registry-sibling-handoff} bind ordinary subject entries to displayed registry-lattice routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, completeness of the subject index, or correctness of every downstream registry entry.}
+  \upgradepath{Lean closure requires Nontrivial SubjectIndexRouteUp and FieldFaithful SubjectIndexRouteUp instances in \texttt{lean4/BEDC/Derived/SubjectIndexRouteUp/TasteGate.lean}.}
+\end{closurestatus}
