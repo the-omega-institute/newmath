@@ -118,4 +118,75 @@ theorem RealCompletionWitnessExtractorCarrier_regular_readback_route
   }
   exact ⟨cert, unaryQ, unaryL⟩
 
+theorem RealCompletionWitnessExtractorCarrier_seal_handoff_totality
+    {D W M Q L S H C P N sealRow handoffRow : BHist} :
+    RealCompletionWitnessExtractorCarrier D W M Q L S H C P N ->
+      Cont Q L sealRow ->
+        Cont sealRow S handoffRow ->
+          UnaryHistory D ∧ UnaryHistory W ∧ UnaryHistory M ∧ UnaryHistory Q ∧
+            UnaryHistory L ∧ UnaryHistory S ∧ UnaryHistory C ∧ UnaryHistory sealRow ∧
+              UnaryHistory handoffRow ∧ Cont D W Q ∧ Cont Q M L ∧ Cont L S C ∧
+                Cont Q L sealRow ∧ Cont sealRow S handoffRow ∧ hsame N (append P C) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory hsame
+  intro carrier sealRoute handoffRoute
+  obtain ⟨unaryD, unaryW, unaryM, unaryS, routeQ, routeL, routeC, nameSame⟩ :=
+    carrier
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryD unaryW routeQ
+  have unaryL : UnaryHistory L :=
+    unary_cont_closed unaryQ unaryM routeL
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryL unaryS routeC
+  have unarySeal : UnaryHistory sealRow :=
+    unary_cont_closed unaryQ unaryL sealRoute
+  have unaryHandoff : UnaryHistory handoffRow :=
+    unary_cont_closed unarySeal unaryS handoffRoute
+  exact
+    ⟨unaryD, unaryW, unaryM, unaryQ, unaryL, unaryS, unaryC, unarySeal,
+      unaryHandoff, routeQ, routeL, routeC, sealRoute, handoffRoute, nameSame⟩
+
+theorem RealCompletionWitnessExtractorCarrier_transport_totality
+    {D W M Q L S H C P N D' W' M' Q' L' S' C' : BHist} :
+    RealCompletionWitnessExtractorCarrier D W M Q L S H C P N ->
+      hsame D D' ->
+        hsame W W' ->
+          hsame M M' ->
+            hsame Q Q' ->
+              hsame L L' ->
+                hsame S S' ->
+                  hsame C C' ->
+                    UnaryHistory D ∧ UnaryHistory W ∧ UnaryHistory M ∧ UnaryHistory Q ∧
+                      UnaryHistory L ∧ UnaryHistory S ∧ UnaryHistory C ∧
+                        UnaryHistory D' ∧ UnaryHistory W' ∧ UnaryHistory M' ∧
+                          UnaryHistory Q' ∧ UnaryHistory L' ∧ UnaryHistory S' ∧
+                            UnaryHistory C' ∧ Cont D W Q ∧ Cont Q M L ∧ Cont L S C ∧
+                              hsame N (append P C) := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro carrier sameD sameW sameM sameQ sameL sameS sameC
+  obtain ⟨unaryD, unaryW, unaryM, unaryS, routeQ, routeL, routeC, nameSame⟩ :=
+    carrier
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryD unaryW routeQ
+  have unaryL : UnaryHistory L :=
+    unary_cont_closed unaryQ unaryM routeL
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryL unaryS routeC
+  have unaryD' : UnaryHistory D' :=
+    unary_transport unaryD sameD
+  have unaryW' : UnaryHistory W' :=
+    unary_transport unaryW sameW
+  have unaryM' : UnaryHistory M' :=
+    unary_transport unaryM sameM
+  have unaryQ' : UnaryHistory Q' :=
+    unary_transport unaryQ sameQ
+  have unaryL' : UnaryHistory L' :=
+    unary_transport unaryL sameL
+  have unaryS' : UnaryHistory S' :=
+    unary_transport unaryS sameS
+  have unaryC' : UnaryHistory C' :=
+    unary_transport unaryC sameC
+  exact
+    ⟨unaryD, unaryW, unaryM, unaryQ, unaryL, unaryS, unaryC, unaryD', unaryW',
+      unaryM', unaryQ', unaryL', unaryS', unaryC', routeQ, routeL, routeC, nameSame⟩
+
 end BEDC.Derived.RealCompletionWitnessExtractorUp

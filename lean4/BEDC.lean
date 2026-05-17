@@ -665,6 +665,7 @@ import BEDC.Derived.CofinalDiagonalSealUp.TasteGate
 import BEDC.Derived.HashLikeFiberBoundaryUp.TasteGate
 import BEDC.Derived.LocalStencilObservationUp.TasteGate
 import BEDC.Derived.DyadicCoverUp
+import BEDC.Derived.FiniteRealSectionUp.TasteGate
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealCompletionRouteAuditUp.TasteGate
 import BEDC.Derived.RealCompletionWitnessExtractorUp
