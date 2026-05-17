@@ -53,6 +53,45 @@ Now attach the completion-seal side. The $\CauchyLimitSealUp$ row $L$ can be con
 The rows $H,C,P,N$ only transport, replay, source, and name the displayed packet. Since no excluded object is a coordinate of the carrier, the five obligation rows exhaust the local NameCert surface.
 \end{proof}
 
+\begin{theorem}[Cofinal modulus seal shared route obligation]
+\label{thm:cofinal-modulus-seal-shared-route-obligation}
+For the carrier of \autoref{def:cofinal-modulus-seal-carrier}, rows $B,M,W$ must name one shared cofinal route before $T,D,R,L,E$ are public. A completion-facing consumer may not read the StreamName, DyadicRatCore, RegSeqRat, CauchyLimitSeal, or RealUp rows from separate cofinal sources.
+\end{theorem}
+\begin{proof}
+Project the carrier $S=(B,M,W,L,R,T,D,E,H,C,P,N)$. The source side of the packet is exactly the cofinal tail budget row $B$, the Cauchy tail-modulus seal row $M$, and the Real window budget row $W$.
+
+Apply \autoref{thm:cofinal-modulus-seal-namecert-obligations}. Its cofinal route synchronization clause binds those three rows as one shared threshold, tail-modulus seal, and observation-window budget before the completion-seal handoff is readable.
+
+The sibling chapters named in the introduction supply only their local route segments: $\CofinalTailBudgetUp$ supplies the budget, $\CauchyTailModulusSealUp$ supplies the modulus seal, and $\RealWindowBudgetUp$ supplies the window budget. The support rows $H,C,P,N$ preserve that same route, so $T,D,R,L,E$ cannot be public from separate sources.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal window handoff obligation]
+\label{thm:cofinal-modulus-seal-window-handoff-obligation}
+Every $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ handoff exported by an accepted $\CofinalModulusSealUp$ packet reads through the same $\CofinalTailBudgetUp$ row $B$ and $\RealWindowBudgetUp$ row $W$.
+\end{theorem}
+\begin{proof}
+Read the displayed rows in \autoref{def:cofinal-modulus-seal-carrier}. The StreamName row $T$ is selected by the cofinal threshold and window budget, the DyadicRatCore row $D$ is attached to that selected window, and the RegSeqRat row $R$ is reached from the displayed tail windows.
+
+Apply \autoref{thm:cofinal-modulus-seal-namecert-obligations} and then \autoref{thm:cofinal-modulus-seal-shared-route-obligation}. The first theorem supplies the local certificate clauses, and the second locks $B,M,W$ as the shared source route before $T,D,R$ are public.
+
+The introduction's StreamName, DyadicRatCore, and RegSeqRat sibling routes therefore enter the packet only through the same cofinal tail budget and Real window budget rows. Since the carrier has no second $B$ or $W$ coordinate, every handoff reads through that single pair.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal completion non-escape obligation]
+\label{thm:cofinal-modulus-seal-completion-nonescape-obligation}
+No completion-facing consumer accepted by $\CofinalModulusSealUp$ can import quotient stream equality, countable choice, selected host limits, host real equality, or ambient Real completeness. The consumer boundary is the displayed route
+$$
+B,M,W,T,D,R,L,E,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+First project the carrier and use \autoref{thm:cofinal-modulus-seal-namecert-obligations}. The carrier admission and non-escape clauses enumerate the public surface and exclude quotient equality, host equality, selected limits, countable choice, and ambient completeness as local NameCert coordinates.
+
+Next apply \autoref{thm:cofinal-modulus-seal-shared-route-obligation} and \autoref{thm:cofinal-modulus-seal-window-handoff-obligation}. They force the StreamName, DyadicRatCore, and RegSeqRat handoffs through the same $B$ and $W$ rows before the CauchyLimitSeal and RealUp rows can be consumed.
+
+Finally use the CauchyLimitSeal and RealUp sibling routes named in the introduction. Those siblings receive only the displayed finite handoff $B,M,W,T,D,R,L,E,H,C,P,N$ from this packet. Since no excluded completion principle appears in the carrier, the accepted consumer cannot escape the finite route.
+\end{proof}
+
 \begin{theorem}[Cofinal modulus seal source-row synchronization]
 \label{thm:cofinal-modulus-seal-source-row-synchronization}
 Every accepted $\CofinalModulusSealUp$ packet must name one shared cofinal source route before any of the rows $T,D,R,L,E$ can be consumed. In particular, the rows $B,M,W$ are synchronized as the cofinal tail budget, Cauchy tail-modulus seal, and Real window budget for the same displayed route.
