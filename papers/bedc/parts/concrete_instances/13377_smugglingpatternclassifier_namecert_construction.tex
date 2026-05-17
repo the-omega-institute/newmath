@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\SmugglingPatternClassifierUp$}
+\label{ch:concrete-instances-smugglingpatternclassifier-namecert}
+\origin{ai}
+
+The $\SmugglingPatternClassifierUp$ packet realizes the smuggling discipline of \autoref{subsec:philosophy-smuggling-discipline} as one finite refusal-and-gate NameCert surface. It sits beside the host primitive leakage boundary of \autoref{ch:concrete-instances-hostprimitiveleakage-namecert}, the quotient-soundness boundary of \autoref{ch:concrete-instances-quotient-soundness-boundary-namecert}, the refutation boundary of \autoref{ch:concrete-instances-refutationboundary-namecert}, and the cannot-claim export gate of \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert}. Those siblings refuse host imports, quotient shortcuts, invalid refutation readings, and checked-target export escapes separately; this carrier classifies philosophical, mathematical, and host smuggling requests before any external supply can be read as BEDC-internal.
+
+\begin{definition}[Smuggling-pattern classifier carrier]
+\label{def:smuggling-pattern-classifier-carrier}
+A $\SmugglingPatternClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+S=(E,I,G,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the external-supply row, recording whether the requested supply is philosophical, mathematical, or host-provided;
+\item $I$ is the internal-object request row, recording the BEDC-internal reading the consumer attempts to make from that supply;
+\item $G$ is the refusal-or-gate row, recording the accepted certificate gate, the typed gap route, or the refusal boundary for the request;
+\item $Q$ is the sibling-provenance row, recording the relevant host-leakage, quotient-soundness, refutation-boundary, cannot-claim, and logic/meta-loop surfaces;
+\item $H$ records componentwise $\hsame$ transport for supply, request, gate, sibling provenance, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay through which a consumer reads $E,I,G,Q,H$ without adding a hidden external object;
+\item $P$ records $\Pkg$ provenance over \autoref{ch:concrete-instances-hostprimitiveleakage-namecert}, \autoref{ch:concrete-instances-quotient-soundness-boundary-namecert}, \autoref{ch:concrete-instances-refutationboundary-namecert}, \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert}, \autoref{ch:concrete-instances-logiccontradictionmetaloop-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SmugglingPatternClassifierUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for treating an external entity, mature mathematical object, host primitive, quotient witness, global truth, or checked export target as BEDC-internal apart from the displayed gate or refusal row.
+\end{definition}
+\leandef{BEDC.Derived.SmugglingPatternClassifierUp.SmugglingPatternClassifierUp}
+
+\begin{theorem}[Smuggling-pattern classifier NameCert obligations]
+\label{thm:smuggling-pattern-classifier-namecert-obligations}
+For the carrier of \autoref{def:smuggling-pattern-classifier-carrier}, the local $\NameCert_{\SmugglingPatternClassifierUp}$ surface consists exactly of carrier admission for $S=(E,I,G,Q,H,C,P,N)$, requested external-supply exposure through $E$, internal-object request exposure through $I$, refusal-or-gate routing through $G$, sibling provenance through $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $S=(E,I,G,Q,H,C,P,N)$. The external-supply row $E$ classifies the source of the attempted import, while $I$ records the internal reading requested by the consumer.
+
+The routing row $G$ is then read against the sibling-provenance row $Q$. A certified object must pass through an accepted gate; otherwise the request is sent to a typed gap or refusal boundary supplied by the host-leakage, quotient-soundness, refutation-boundary, cannot-claim, or logic/meta-loop surface.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same displayed decision. Since no additional coordinate remains, these rows exhaust the local NameCert obligations for the classifier packet.
+\end{proof}
+\leanchecked{BEDC.Derived.SmugglingPatternClassifierUp.SmugglingPatternClassifierTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Smuggling-pattern classifier nonescape]
+\label{thm:smuggling-pattern-classifier-nonescape}
+Every accepted $\SmugglingPatternClassifierUp$ consumer must expose the requested external-supply row, the internal-object request row, a refusal-or-gate row, sibling provenance, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before any smuggled object can be read as BEDC-internal. If the refusal-or-gate row does not display an accepted certificate gate, the requested object remains outside BEDC as a gap, socket report, or refusal.
+\end{theorem}
+\begin{proof}
+Read the consumer through the rows of \autoref{def:smuggling-pattern-classifier-carrier}. The only row that can decide between admission and refusal is $G$, and it is visible only together with the supply row $E$ and the requested internal reading $I$.
+
+The sibling-provenance row $Q$ identifies the boundary surface that handles the request. Host primitive leakage, quotient soundness, refutation boundaries, cannot-claim export, and logic/meta-loop refusals each block one escape channel, but none supplies a hidden internal object outside $G$.
+
+The structural rows $H,C,P,N$ preserve the same decision during transport, replay, provenance, and naming. Therefore a request without an accepted gate cannot pass through the classifier as internal BEDC content.
+\end{proof}
+
+\begin{theorem}[Smuggling-pattern classifier TasteGate handoff]
+\label{thm:smuggling-pattern-classifier-tastegate-handoff}
+The Lean-facing handoff for $\SmugglingPatternClassifierUp$ must preserve external-supply, internal-request, refusal-or-gate, sibling-provenance, transport, replay, provenance, and local NameCert rows as distinct fields. Collapsing $E,I,G,Q$ removes the field that distinguishes philosophical, mathematical, and host smuggling from an accepted certificate route.
+\end{theorem}
+\begin{proof}
+The classifier detects smuggling by comparing an external supply with the internal reading requested from it. This comparison requires $E$ and $I$ to remain separately projected.
+
+The decision is then routed through $G$ and sourced through $Q$. If either row is merged into the request, a consumer can no longer tell whether the request was admitted by certificate, routed to a gap, or refused by a sibling boundary.
+
+Rows $H,C,P,N$ preserve the same classified packet after the decision. The TasteGate handoff therefore keeps all eight rows field-faithful before the alignment theorem can be cited.
+\end{proof}
+
+\falsifiablePrediction{Every accepted SmugglingPatternClassifierUp consumer must expose the requested external-supply row, the internal-object request row, a refusal-or-gate row, sibling provenance, hsame transport, Cont replay, Pkg provenance, and local NameCert before any smuggled object can be read as BEDC-internal.}
+
+\independenceWitness{hostprimitiveleakage, quotientsoundnessboundary, refutationboundary, cannotclaimexportgate, logiccontradictionmetaloop: none jointly stores the three-form classifier for philosophical, mathematical, and host smuggling together with refusal-or-gate routing, sibling provenance, transport, replay, provenance, and local NameCert rows.}
+
+The Lean follow-up must provide $\Nontrivial\ \SmugglingPatternClassifierUp$ and $\FieldFaithful\ \SmugglingPatternClassifierUp$ instances in \texttt{lean4/BEDC/Derived/SmugglingPatternClassifierUp/TasteGate.lean}. The field-faithful route must preserve $E,I,G,Q,H,C,P,N$ before a consumer may cite \texttt{BEDC.Derived.SmugglingPatternClassifierUp.SmugglingPatternClassifierTasteGate\_single\_carrier\_alignment}.
+
+\closureat{SmugglingPatternClassifierUp}{seedStr}
+\closureat{SmugglingPatternClassifierUp}{obligationStr}[BEDC.Derived.SmugglingPatternClassifierUp.SmugglingPatternClassifierTasteGate\_single\_carrier\_alignment]
+\closureat{SmugglingPatternClassifierUp}{scopedStr}[BEDC.Derived.SmugglingPatternClassifierUp.SmugglingPatternClassifierTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\SmugglingPatternClassifierUp}
+  \constructivestory{A $\SmugglingPatternClassifierUp$ packet is generated from a displayed external-supply row, internal-object request row, refusal-or-gate row, sibling-provenance row, componentwise transports, replay route, package provenance, and local NameCert row.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{This chapter closes the finite classifier surface for philosophical, mathematical, and host smuggling requests through the displayed refusal-or-gate rows only.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.SmugglingPatternClassifierUp.SmugglingPatternClassifierTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close public export, bridge checking, quotient construction, host primitive admission, global truth, or automatic certificate generation for $\SmugglingPatternClassifierUp$.}
+  \upgradepath{The next step is an axiom-purity audit and any standard bridge needed by downstream public consumers.}
+\end{closurestatus}
