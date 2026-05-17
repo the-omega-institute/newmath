@@ -156,4 +156,82 @@ theorem CauchyCompletionFunctorPacket_unit_laws [AskSetup] [PackageSetup]
       endpointPkg,
       unitPkg⟩
 
+theorem CauchyCompletionFunctorPacket_multiplication_laws [AskSetup] [PackageSetup]
+    {metric regular sealRow monadRow universal classifier transport nameCert endpoint
+      firstBind secondBind composite : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionFunctorPacket metric regular sealRow monadRow universal classifier transport
+        nameCert endpoint bundle pkg ->
+      Cont regular sealRow firstBind ->
+        Cont firstBind monadRow secondBind ->
+          Cont secondBind universal composite ->
+            PkgSig bundle composite pkg ->
+              UnaryHistory regular ∧ UnaryHistory sealRow ∧ UnaryHistory monadRow ∧
+                UnaryHistory universal ∧ UnaryHistory firstBind ∧ UnaryHistory secondBind ∧
+                  UnaryHistory composite ∧ Cont regular sealRow firstBind ∧
+                    Cont firstBind monadRow secondBind ∧ Cont secondBind universal composite ∧
+                      Cont monadRow universal endpoint ∧ PkgSig bundle endpoint pkg ∧
+                        PkgSig bundle composite pkg := by
+  intro packet regularSealFirst firstMonadSecond secondUniversalComposite compositePkg
+  obtain ⟨_metricUnary, regularUnary, sealUnary, monadUnary, universalUnary, _classifierUnary,
+    _transportUnary, _nameCertUnary, _endpointUnary, _metricRegularSeal, monadUniversalEndpoint,
+    _classifierTransportNameCert, endpointPkg⟩ := packet
+  have firstUnary : UnaryHistory firstBind :=
+    unary_cont_closed regularUnary sealUnary regularSealFirst
+  have secondUnary : UnaryHistory secondBind :=
+    unary_cont_closed firstUnary monadUnary firstMonadSecond
+  have compositeUnary : UnaryHistory composite :=
+    unary_cont_closed secondUnary universalUnary secondUniversalComposite
+  exact
+    ⟨regularUnary,
+      sealUnary,
+      monadUnary,
+      universalUnary,
+      firstUnary,
+      secondUnary,
+      compositeUnary,
+      regularSealFirst,
+      firstMonadSecond,
+      secondUniversalComposite,
+      monadUniversalEndpoint,
+      endpointPkg,
+      compositePkg⟩
+
+theorem CauchyCompletionFunctorPacket_ledger_exactness [AskSetup] [PackageSetup]
+    {metric regular sealRow monadRow universal classifier transport nameCert endpoint
+      exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionFunctorPacket metric regular sealRow monadRow universal classifier transport
+        nameCert endpoint bundle pkg ->
+      Cont endpoint classifier exported ->
+        PkgSig bundle exported pkg ->
+          UnaryHistory metric ∧ UnaryHistory regular ∧ UnaryHistory sealRow ∧
+            UnaryHistory monadRow ∧ UnaryHistory universal ∧ UnaryHistory classifier ∧
+              UnaryHistory transport ∧ UnaryHistory nameCert ∧ UnaryHistory endpoint ∧
+                UnaryHistory exported ∧ Cont metric regular sealRow ∧
+                  Cont monadRow universal endpoint ∧ Cont endpoint classifier exported ∧
+                    PkgSig bundle endpoint pkg ∧ PkgSig bundle exported pkg := by
+  intro packet endpointClassifierExported exportedPkg
+  obtain ⟨metricUnary, regularUnary, sealUnary, monadUnary, universalUnary, classifierUnary,
+    transportUnary, nameCertUnary, endpointUnary, metricRegularSeal, monadUniversalEndpoint,
+    _classifierTransportNameCert, endpointPkg⟩ := packet
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed endpointUnary classifierUnary endpointClassifierExported
+  exact
+    ⟨metricUnary,
+      regularUnary,
+      sealUnary,
+      monadUnary,
+      universalUnary,
+      classifierUnary,
+      transportUnary,
+      nameCertUnary,
+      endpointUnary,
+      exportedUnary,
+      metricRegularSeal,
+      monadUniversalEndpoint,
+      endpointClassifierExported,
+      endpointPkg,
+      exportedPkg⟩
+
 end BEDC.Derived.CauchyCompletionFunctorUp
