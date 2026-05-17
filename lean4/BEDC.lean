@@ -256,6 +256,7 @@ import BEDC.Derived.ProofPatternClassifierUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.ResearchProgrammeRouteUp.TasteGate
 import BEDC.Derived.ResearchProgrammeExecutionGateUp.TasteGate
+import BEDC.Derived.VerificationFailureRoadmapUp.TasteGate
 import BEDC.Derived.BranchObstructionUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
 import BEDC.Derived.BoundedBetaComparisonUp.TasteGate
@@ -2288,6 +2289,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.WindowLedgerExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowLedgerPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowSynchronizerPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.BoundaryExactness
+import BEDC.Derived.DiagonallimitcompatibilityUp.AuditHandoff
 import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteWindowHandoffBoundary
 import BEDC.Derived.DiagonallimitcompatibilityUp.FormalTargetPacket
 import BEDC.Derived.DiagonallimitcompatibilityUp.RouteLedgerTotality

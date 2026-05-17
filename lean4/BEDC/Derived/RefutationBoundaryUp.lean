@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
 
@@ -114,5 +115,17 @@ theorem RefutationBoundaryCarrier_permitted_negation_sound {A F D S T H C P N : 
         cases replay
         exact append_assoc A F C
   · rfl
+
+theorem RefutationBoundaryForbiddenTruthBranchExclusion
+    {A F D S T H C P N tail : BHist}
+    (carrier : RefutationBoundaryCarrier A F D S T H C P N) :
+    (Cont D (BHist.e0 tail) A → False) ∧
+      (Cont D (BHist.e1 tail) A → False) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  obtain ⟨route, _sameA, _sameF, _sameD, _sameS, _sameT, _sameH, _sameC,
+    _sameP, _sameN, _markSame⟩ := carrier
+  exact
+    ⟨fun back => cont_mutual_extension_right_tail_absurd.left route back,
+      fun back => cont_mutual_extension_right_tail_absurd.right route back⟩
 
 end BEDC.Derived.RefutationBoundaryUp
