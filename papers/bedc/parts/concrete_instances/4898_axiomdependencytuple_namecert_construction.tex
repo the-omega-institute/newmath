@@ -447,6 +447,99 @@ as a NameCert surface and do not turn any named host or classical dependency
 into internal BEDC supply.
 \end{proof}
 
+\begin{theorem}[AxiomDependencyTuple root-unblock spine]
+\label{thm:axiom-dependency-tuple-root-unblock-spine}
+For every accepted $\AxiomDependencyTupleUp$ carrier
+$A=(M,W,S,H,C,P,N)$, the public dependency-tuple surface is exactly the joint
+reading of the following rows over the displayed coordinates: mode exhaustion
+for $M$, supply-ledger readback for $S$, route nonexport for $C$, consumer
+exhaustion for the whole tuple, and primitive scope for the $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows. No additional root-unblock datum is
+available outside these rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:axiom-dependency-tuple-carrier}. The only carrier
+coordinates are
+$$
+M,\ W,\ S,\ H,\ C,\ P,\ N.
+$$
+
+The root-unblock spine is read coordinate by coordinate. Use
+\autoref{thm:axiom-dependency-tuple-mode-exhaustion} for $M$,
+\autoref{thm:axiom-dependency-tuple-supply-ledger-readback} for $S$,
+\autoref{thm:axiom-dependency-tuple-route-nonexport} for $C$, and
+\autoref{thm:axiom-dependency-tuple-consumer-exhaustion} for the consumer
+boundary of the full tuple.
+
+It remains to account for primitive scope. This is exactly the content of
+\autoref{thm:axiom-dependency-tuple-bhist-row-scope},
+\autoref{thm:axiom-dependency-tuple-hsame-cont-scope}, and
+\autoref{thm:axiom-dependency-tuple-pkg-namecert-scope}. These rows exhaust the
+available $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ interfaces, so the
+public dependency tuple is the conjunction of the displayed rows and nothing
+external to the carrier.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyTuple mode-ledger priority]
+\label{thm:axiom-dependency-tuple-mode-ledger-priority}
+Every accepted $\AxiomDependencyTupleUp$ carrier
+$A=(M,W,S,H,C,P,N)$ is consumed in mode-ledger order. In Mode A the consumer
+reads the empty required-supply row before using the zero-supply witness. In
+Mode B the consumer reads the displayed supply ledger before witness
+consumption. In Mode C the consumer reads the counterexample or socket row as a
+refusal of discharge before any attempted internal proof use.
+\end{theorem}
+\begin{proof}
+Project the carrier and split by the mode row $M$. By
+\autoref{thm:axiom-dependency-tuple-mode-exhaustion}, the split has exactly the
+three displayed cases.
+
+In Mode A, apply
+\autoref{thm:axiom-dependency-tuple-zero-supply-row-separation}. The ledger row
+is empty as external supply and remains separate from the zero-supply witness,
+so readback sees the empty ledger first.
+
+In Mode B, apply
+\autoref{thm:axiom-dependency-tuple-restricted-supply-ledger-totality}. The
+restricted witness is not consumed until the required-supply ledger has been
+displayed as the exact supply row for that witness.
+
+In Mode C, apply
+\autoref{thm:axiom-dependency-tuple-counterexample-socket-nonexport}. The
+counterexample or socket row is read as a boundary witness, so the route records
+refusal before any attempted discharge.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyTuple consumer readiness]
+\label{thm:axiom-dependency-tuple-consumer-readiness}
+Downstream audit-map consumers may cite
+\autoref{thm:axiom-dependency-tuple-root-unblock-spine},
+\autoref{thm:axiom-dependency-tuple-mode-ledger-priority}, and the existing
+scope rows of this chapter as the complete $\AxiomDependencyTupleUp$
+root-unblock package. The package exports no host conversion,
+$\mathsf{Quot.sound}$, $\mathsf{Classical.choice}$, $\mathsf{propext}$, or
+ambient classical theorem as BEDC supply.
+\end{theorem}
+\begin{proof}
+The spine theorem identifies the whole public surface with the displayed
+carrier rows. The mode-ledger theorem fixes the order in which those rows are
+read by any consumer.
+
+The remaining cited scope rows are
+\autoref{thm:axiom-dependency-tuple-bhist-row-scope},
+\autoref{thm:axiom-dependency-tuple-hsame-cont-scope}, and
+\autoref{thm:axiom-dependency-tuple-pkg-namecert-scope}. Together they show that
+the primitive interfaces remain finite, componentwise, routed, packaged, and
+locally named.
+
+Finally use \autoref{thm:axiom-dependency-tuple-route-nonexport} and
+\autoref{thm:axiom-dependency-tuple-consumer-exhaustion}. A downstream
+audit-map consumer can replay the tuple and its order of use, but cannot turn a
+ledger entry naming host conversion, quotient equality, choice, propositional
+extensionality, or an ambient classical theorem into exported BEDC proof
+supply.
+\end{proof}
+
 \closureat{AxiomDependencyTupleUp}{seedStr}
 \closureat{AxiomDependencyTupleUp}{obligationStr}
 
