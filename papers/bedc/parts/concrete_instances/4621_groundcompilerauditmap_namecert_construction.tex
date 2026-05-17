@@ -87,12 +87,52 @@ Now compare $F$ with the remaining coordinates. Inventory, conditional theorem c
 Consequently the packet can expose the compiler-layer theorem family as finite audit data while keeping stronger compiler and proof claims outside the local NameCert surface.
 \end{proof}
 
+\begin{theorem}[GroundCompiler audit-map conditional-cell preservation]
+\label{thm:ground-compiler-audit-map-conditional-cell-preservation}
+For an accepted $\GroundCompilerAuditMapUp$ carrier
+$$
+G=(I,K,E,C,R,Q,F,X,H,T,P,N),
+$$
+every public read of the conditional theorem-cell row $K$ preserves the named channel, generated recognizer, source-separation, and certificate-gate hypotheses recorded by the displayed rows $H,T,P,N$. No consumer of the packet may turn $K$ into an unconditional theorem-inventory row, and every permitted handoff must keep $K$ separate from the established inventory row $I$.
+\end{theorem}
+\begin{proof}
+Project the carrier and isolate $K$. By the carrier definition, $K$ is the unique coordinate for compiler facts that still require named channel, recognizer, source-separation, or certificate-gate data before they may be read.
+
+The transport row $H$ and route row $T$ can replay $K$ only as the same displayed conditional row. The provenance row $P$ records the chapters and kernel objects from which this condition is named, while the local row $N$ records that the NameCert surface is the $\GroundCompilerAuditMapUp$ surface rather than the global theorem inventory.
+
+Since the established theorem inventory has its own coordinate $I$, a consumer that receives $K$ through $H,T,P,N$ receives a conditional theorem-cell row, not an unconditional theorem row. The finite carrier has no coordinate that erases those hypotheses, so conditional-cell preservation follows.
+\end{proof}
+
+\begin{theorem}[GroundCompiler audit-map report-boundary exactness]
+\label{thm:ground-compiler-audit-map-report-boundary-exactness}
+For an accepted $\GroundCompilerAuditMapUp$ carrier, the report-boundary row $Q$ exposes metric reports, motif reports, theorem code, chapter code, source reports, and audit summaries only as report data. The same row never supplies proof evidence, certificate evidence, kernel acceptance evidence, MetaCIC proof evidence, or a conversion from report data to any such evidence.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to identify $Q$ as the only report-boundary coordinate. Its named contents are report-shaped outputs: metrics, motifs, theorem code, chapter code, source reports, and audit summaries.
+
+Apply the NameCert obligation theorem to see that public readback of $Q$ is a local NameCert obligation, and apply the non-escape theorem to the same read. The non-escape boundary excludes report evidence, kernel acceptance evidence, MetaCIC proof evidence, and report-to-proof conversion from every accepted carrier read.
+
+Thus $Q$ is exact as a boundary row. It exposes the listed reports as reports, while proof evidence and certificate evidence must come from their own certified rows or from another packet, never from the report-boundary coordinate.
+\end{proof}
+
+\begin{theorem}[GroundCompiler audit-map frontier handoff non-escape]
+\label{thm:ground-compiler-audit-map-frontier-handoff-nonescape}
+For an accepted $\GroundCompilerAuditMapUp$ carrier, the handoff row $X$ may route theorem inventory to the generic audit-map interface, the substitution audit sibling, and GroundCompiler consumers only while preserving $K$ as a conditional theorem-cell row and $F$ as a compiler-layer frontier row. Such handoff cannot import host compiler trust, kernel acceptance evidence, MetaCIC proof evidence, unrestricted equality, or report-as-proof conversion.
+\end{theorem}
+\begin{proof}
+Begin with the theorem-family handoff theorem. It makes $X$ and the route row $T$ the only displayed path from this packet to the audit-map interface, substitution audit sibling, and GroundCompiler consumers.
+
+The conditional-cell preservation theorem keeps $K$ conditional along that path. The compiler-layer frontier theorem keeps $F$ as the row naming stronger compiler and proof claims that are outside the packet.
+
+Now apply non-escape to the routed read through $X$. Because the carrier has no hidden coordinate for host compiler trust, kernel acceptance evidence, MetaCIC proof evidence, unrestricted equality, or report-as-proof conversion, handoff through $X$ cannot import those coordinates from the consumer side. It only routes the finite inventory while preserving the conditional and frontier classes already present in the source packet.
+\end{proof}
+
 \closureat{GroundCompilerAuditMapUp}{seedStr}
 
 \begin{closurestatus}{\GroundCompilerAuditMapUp}
   \constructivestory{A $\GroundCompilerAuditMapUp$ packet is generated from established GroundCompiler theorem inventory, conditional theorem cells, event-flow and channel legality rows, compiler theorem rows, generated recognizer rows, report-boundary rows, frontier rows, theorem-family handoff rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:ground-compiler-audit-map-carrier}, \autoref{thm:ground-compiler-audit-map-namecert-obligations}, \autoref{thm:ground-compiler-audit-map-nonescape}, \autoref{thm:ground-compiler-audit-map-family-handoff}, and \autoref{thm:ground-compiler-audit-map-compiler-layer-frontier} bind the finite GroundCompiler audit-map packet, obligation surface, non-escape boundary, theorem-family handoff, and compiler-layer frontier.}
+  \scopeclosed{\autoref{def:ground-compiler-audit-map-carrier}, \autoref{thm:ground-compiler-audit-map-namecert-obligations}, \autoref{thm:ground-compiler-audit-map-nonescape}, \autoref{thm:ground-compiler-audit-map-family-handoff}, \autoref{thm:ground-compiler-audit-map-compiler-layer-frontier}, \autoref{thm:ground-compiler-audit-map-conditional-cell-preservation}, \autoref{thm:ground-compiler-audit-map-report-boundary-exactness}, and \autoref{thm:ground-compiler-audit-map-frontier-handoff-nonescape} bind the finite GroundCompiler audit-map packet, obligation surface, non-escape boundary, theorem-family handoff, compiler-layer frontier, conditional-cell preservation, report-boundary exactness, and frontier handoff non-escape.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

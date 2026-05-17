@@ -14,13 +14,16 @@ Checks (IDs match the analysis report):
   E  Hub namecert file (no \\chapter, only \\input lines) must not contain
      theorem-like environments or closurestatus blocks
   F  Content namecert chapter must \\label{ch:concrete-instances-<slug>-namecert}
-  G  Content namecert chapter must declare \\origin{human|ai}
+  G  If \\origin{...} appears in a content namecert chapter, it must be human|ai
   H  \\bridgestatus value must be in {none, paperBridge, bridgeChecked}
   I  every tex basename is lowercase snake_case with optional NN_/NNa_ prefix
      or leading _ for aggregate index files
   J  every concrete_instances/<region>/ subdir name is lowercase + alphanum
   K  every region with 2+ top-level files should consolidate to one hub +
      parts/concrete_instances/<slug>/ siblings
+  L  BEDC \\FooUp chapter macros must not appear outside math mode
+  M  every \\input{path} under parts/frontmatter/appendices must resolve
+  N  content namecert chapters must not duplicate chapter labels
 
 Modes:
   default       human-readable WARN to stderr, exit 0
@@ -65,7 +68,8 @@ HUB_FORBIDDEN_ENVS = (
 HUB_FORBIDDEN_RE = re.compile(r"\\begin\{(" + "|".join(HUB_FORBIDDEN_ENVS) + r")\*?\}")
 
 LABEL_CH_RE = re.compile(r"\\label\{ch:concrete-instances-[a-z0-9][a-z0-9-]*\}")
-ORIGIN_RE = re.compile(r"\\origin\{(human|ai)\}")
+ORIGIN_RE = re.compile(r"\\origin\{([^}]+)\}")
+VALID_ORIGINS = {"human", "ai", "ai-composite"}
 
 BRIDGESTATUS_RE = re.compile(r"\\bridgestatus\{([^}]+)\}")
 VALID_BRIDGESTATUS = {"none", "paperBridge", "bridgeChecked"}
@@ -84,6 +88,29 @@ REGION_DIR_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 # at top + sibling files in parts/concrete_instances/<slug>/. Top-level
 # basename is <NN>_<slug>_<rest>.tex (NN may carry an [a-z] suffix).
 REGION_PREFIX_RE = re.compile(r"^([0-9]+[a-z]?_[a-z][a-z0-9]*)_")
+
+UP_MACRO_RE = re.compile(r"\\[A-Z][a-zA-Z]+Up\b")
+UP_MACRO_DEFINITION_RE = re.compile(
+    r"^\s*\\(?:re)?newcommand\*?\{\\[A-Z][a-zA-Z]+Up\}"
+    r"|^\s*\\providecommand\*?\{\\[A-Z][a-zA-Z]+Up\}"
+    r"|^\s*\\DeclareRobustCommand\*?\{\\[A-Z][a-zA-Z]+Up\}"
+    r"|^\s*\\def\\[A-Z][a-zA-Z]+Up\b"
+)
+BEGIN_END_ENV_RE = re.compile(r"\\(begin|end)\{([^}]+)\*?\}")
+MATH_ENV_NAMES = {
+    "math", "displaymath", "equation", "equation*", "align", "align*",
+    "aligned", "alignedat", "gather", "gather*", "gathered",
+    "multline", "multline*", "split", "array", "matrix", "pmatrix",
+    "bmatrix", "Bmatrix", "vmatrix", "Vmatrix", "cases",
+}
+TEXT_ARG_COMMANDS = {
+    "chapter", "section", "subsection", "subsubsection", "paragraph",
+    "textbf", "textit", "emph", "falsifiablePrediction",
+    "independenceWitness", "closureat",
+}
+TEXT_ARG_COMMAND_RE = re.compile(
+    r"\\(" + "|".join(sorted(TEXT_ARG_COMMANDS, key=len, reverse=True)) + r")\b"
+)
 
 
 def read_text(p: Path) -> str:
@@ -149,6 +176,141 @@ def closurestatus_blocks(text: str) -> list[tuple[int, str]]:
         body = tail[:em.start()] if em else ""
         out.append((start_line, body))
     return out
+
+
+def _line_text_without_comment(line: str) -> str:
+    escaped = False
+    for i, ch in enumerate(line):
+        if ch == "%" and not escaped:
+            return line[:i]
+        escaped = ch == "\\" and not escaped
+        if ch != "\\":
+            escaped = False
+    return line
+
+
+def _scan_math_segments(line: str, in_display: bool, math_env_depth: int) -> tuple[list[tuple[int, int, bool]], bool, int]:
+    """Return contiguous line segments with their starting math-mode state."""
+    segments: list[tuple[int, int, bool]] = []
+    i = 0
+    seg_start = 0
+    in_inline = False
+
+    def in_math() -> bool:
+        return in_inline or in_display or math_env_depth > 0
+
+    while i < len(line):
+        if line.startswith(r"\(", i) or line.startswith(r"\[", i):
+            segments.append((seg_start, i, in_math()))
+            if line.startswith(r"\[", i):
+                in_display = True
+            else:
+                in_inline = True
+            i += 2
+            seg_start = i
+            continue
+        if line.startswith(r"\)", i) or line.startswith(r"\]", i):
+            segments.append((seg_start, i, in_math()))
+            if line.startswith(r"\]", i):
+                in_display = False
+            else:
+                in_inline = False
+            i += 2
+            seg_start = i
+            continue
+
+        env = BEGIN_END_ENV_RE.match(line, i)
+        if env:
+            segments.append((seg_start, i, in_math()))
+            kind, name = env.group(1), env.group(2)
+            if name in MATH_ENV_NAMES:
+                if kind == "begin":
+                    math_env_depth += 1
+                else:
+                    math_env_depth = max(0, math_env_depth - 1)
+            i = env.end()
+            seg_start = i
+            continue
+
+        if line.startswith("$$", i):
+            segments.append((seg_start, i, in_math()))
+            in_display = not in_display
+            i += 2
+            seg_start = i
+            continue
+
+        if line[i] == "$" and (i == 0 or line[i - 1] != "\\"):
+            segments.append((seg_start, i, in_math()))
+            in_inline = not in_inline
+            i += 1
+            seg_start = i
+            continue
+
+        i += 1
+
+    segments.append((seg_start, len(line), in_math()))
+    return segments, in_display, math_env_depth
+
+
+def _text_mode_up_macro_hits(line: str, in_display: bool, math_env_depth: int) -> tuple[list[tuple[str, int]], bool, int]:
+    code = _line_text_without_comment(line)
+    hits: list[tuple[str, int]] = []
+    segments, in_display, math_env_depth = _scan_math_segments(code, in_display, math_env_depth)
+    for start, end, is_math in segments:
+        if is_math:
+            continue
+        for m in UP_MACRO_RE.finditer(code, start, end):
+            hits.append((m.group(0), m.start() + 1))
+    return hits, in_display, math_env_depth
+
+
+def _brace_argument_spans(line: str, open_brace: int) -> tuple[int, int] | None:
+    if open_brace >= len(line) or line[open_brace] != "{":
+        return None
+    depth = 0
+    i = open_brace
+    while i < len(line):
+        ch = line[i]
+        if ch == "\\":
+            i += 2
+            continue
+        if ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0:
+                return open_brace + 1, i
+        i += 1
+    return None
+
+
+def _text_command_argument_up_hits(line: str) -> list[tuple[str, int, str]]:
+    code = _line_text_without_comment(line)
+    hits: list[tuple[str, int, str]] = []
+    for cmd in TEXT_ARG_COMMAND_RE.finditer(code):
+        pos = cmd.end()
+        while pos < len(code) and code[pos].isspace():
+            pos += 1
+        while pos < len(code) and code[pos] == "[":
+            close = code.find("]", pos + 1)
+            if close == -1:
+                break
+            pos = close + 1
+            while pos < len(code) and code[pos].isspace():
+                pos += 1
+        while pos < len(code) and code[pos] == "{":
+            span = _brace_argument_spans(code, pos)
+            if span is None:
+                break
+            start, end = span
+            arg = code[start:end]
+            arg_hits, _, _ = _text_mode_up_macro_hits(arg, False, 0)
+            for macro, col in arg_hits:
+                hits.append((macro, start + col, cmd.group(1)))
+            pos = end + 1
+            while pos < len(code) and code[pos].isspace():
+                pos += 1
+    return hits
 
 
 def check_a_closureat_enum() -> list[dict]:
@@ -247,20 +409,27 @@ def check_f_label_convention() -> list[dict]:
     return out
 
 
-def check_g_origin_tag() -> list[dict]:
+def check_g_origin_value() -> list[dict]:
     out: list[dict] = []
     for tex in sorted(CONCRETE_DIR.glob(NAMECERT_CONTENT_GLOB)):
         rel = tex.relative_to(PAPER_DIR)
         text = read_text(tex)
         if not CHAPTER_RE.search(text):
             continue
-        if not ORIGIN_RE.search(text):
-            out.append({
-                "check": "G",
-                "file": str(rel),
-                "line": 1,
-                "msg": "content namecert chapter missing \\origin{human|ai}",
-            })
+        stripped = strip_verbatim_preserve_lines(text)
+        for i, line in enumerate(stripped.splitlines(), 1):
+            if line.lstrip().startswith("%"):
+                continue
+            code = _line_text_without_comment(line)
+            for m in ORIGIN_RE.finditer(code):
+                val = m.group(1).strip()
+                if val not in VALID_ORIGINS:
+                    out.append({
+                        "check": "G",
+                        "file": str(rel),
+                        "line": i,
+                        "msg": f"\\origin value '{val}' not in {sorted(VALID_ORIGINS)}",
+                    })
     return out
 
 
@@ -333,6 +502,104 @@ def check_k_region_top_level_consolidation() -> list[dict]:
     return out
 
 
+def check_l_math_mode_in_text() -> list[dict]:
+    out: list[dict] = []
+    for tex in iter_part_tex():
+        rel = tex.relative_to(PAPER_DIR)
+        text = strip_verbatim_preserve_lines(read_text(tex))
+        in_display = False
+        math_env_depth = 0
+        first_content_seen = False
+        at_paragraph_start = True
+        for i, line in enumerate(text.splitlines(), 1):
+            stripped = line.strip()
+            if not stripped:
+                at_paragraph_start = True
+                continue
+            if stripped.startswith("%"):
+                continue
+            if UP_MACRO_DEFINITION_RE.match(line):
+                continue
+            command_hits = _text_command_argument_up_hits(line)
+            for macro, col, command in command_hits:
+                out.append({
+                    "check": "L",
+                    "file": str(rel),
+                    "line": i,
+                    "msg": f"{macro} appears outside math mode in \\{command} argument (column {col}); wrap as ${macro}$",
+                })
+            line_hits, next_display, next_depth = _text_mode_up_macro_hits(
+                line, in_display, math_env_depth,
+            )
+            for macro, col in line_hits:
+                prefix = line[: col - 1].strip()
+                if prefix:
+                    continue
+                if not first_content_seen:
+                    context = "first content line"
+                elif at_paragraph_start:
+                    context = "paragraph start"
+                else:
+                    continue
+                out.append({
+                    "check": "L",
+                    "file": str(rel),
+                    "line": i,
+                    "msg": f"{macro} appears outside math mode at {context} (column {col}); wrap as ${macro}$",
+                })
+            first_content_seen = True
+            at_paragraph_start = line.rstrip().endswith(r"\end{proof}") or line.rstrip().startswith(r"\end{")
+            in_display = next_display
+            math_env_depth = next_depth
+    return out
+
+
+def check_m_stale_input() -> list[dict]:
+    out: list[dict] = []
+    for tex in iter_part_tex():
+        rel = tex.relative_to(PAPER_DIR)
+        text = strip_verbatim_preserve_lines(read_text(tex))
+        for i, line in enumerate(text.splitlines(), 1):
+            if line.lstrip().startswith("%"):
+                continue
+            code = _line_text_without_comment(line)
+            for m in INPUT_RE.finditer(code):
+                target = m.group(1).strip()
+                if resolve_input(target) is None:
+                    resolved = target if target.endswith(".tex") else f"{target}.tex"
+                    out.append({
+                        "check": "M",
+                        "file": str(rel),
+                        "line": i,
+                        "msg": f"\\input target '{resolved}' does not exist relative to papers/bedc",
+                    })
+    return out
+
+
+def check_n_duplicate_chapter_label() -> list[dict]:
+    out: list[dict] = []
+    label_re = re.compile(r"\\label\{ch:concrete-instances-[^}]+\}")
+    for tex in sorted(CONCRETE_DIR.glob(NAMECERT_CONTENT_GLOB)):
+        rel = tex.relative_to(PAPER_DIR)
+        text = read_text(tex)
+        if not CHAPTER_RE.search(text):
+            continue
+        matches: list[tuple[int, str]] = []
+        for i, line in enumerate(text.splitlines(), 1):
+            for m in label_re.finditer(line):
+                matches.append((i, m.group(0)))
+        if len(matches) > 1:
+            lines = ", ".join(str(line) for line, _ in matches)
+            labels = ", ".join(label for _, label in matches)
+            out.append({
+                "check": "N",
+                "file": str(rel),
+                "line": matches[0][0],
+                "msg": f"duplicate concrete-instances chapter labels at lines {lines}: {labels}",
+            })
+    return out
+
+
 def check_j_region_subdir_naming() -> list[dict]:
     out: list[dict] = []
     if not CONCRETE_DIR.is_dir():
@@ -359,11 +626,14 @@ CHECKS = {
     "D": check_d_content_reaches_closurestatus,
     "E": check_e_hub_purity,
     "F": check_f_label_convention,
-    "G": check_g_origin_tag,
+    "G": check_g_origin_value,
     "H": check_h_bridgestatus_enum,
     "I": check_i_tex_basename_naming,
     "J": check_j_region_subdir_naming,
     "K": check_k_region_top_level_consolidation,
+    "L": check_l_math_mode_in_text,
+    "M": check_m_stale_input,
+    "N": check_n_duplicate_chapter_label,
 }
 
 
@@ -402,9 +672,11 @@ def main() -> int:
                     print(f"  {v['file']}:{v['line']}: {v['msg']}", file=sys.stderr)
                 if len(vs) > args.limit:
                     print(f"  ... {len(vs) - args.limit} more (use --json for full list)", file=sys.stderr)
+            tag = "[ERROR]" if args.strict else "[WARN]"
+            mode = "Blocking (--strict)" if args.strict else "Non-blocking"
             print(
-                f"[WARN] warn_concrete_instances: {len(violations)} total violation(s) across "
-                f"{len(by_check)} check(s). Non-blocking; run with --json for full data.",
+                f"{tag} warn_concrete_instances: {len(violations)} total violation(s) across "
+                f"{len(by_check)} check(s). {mode}; run with --json for full data.",
                 file=sys.stderr,
             )
 
