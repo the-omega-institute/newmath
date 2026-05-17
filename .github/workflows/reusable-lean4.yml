@@ -44,9 +44,10 @@ jobs:
       - name: Audit axioms (BEDC zero-axiom invariant)
         run: python3 tools/check-axioms.py
 
-      - name: Audit paper-Lean drift
-        run: python3 lean4/scripts/bedc_ci.py audit
-
+      # `bedc_ci.py audit` (paper-Lean drift / closurestatus diagnostics /
+      # marker existence / orphan subdir / etc.) now runs in
+      # papers/bedc/Makefile's precheck, which is exercised by the dossier
+      # workflow (and every local `make`). Skip duplication here.
       - name: "Audit transitive axiom dependencies (strict: forbid all Lean stdlib axioms)"
         run: python3 lean4/scripts/bedc_ci.py axiom-purity --strict
 

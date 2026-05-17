@@ -305,6 +305,23 @@ theorem CellularTrustSubstrate_local_rule_window_classifier_reflect_display
   cases hpacket
   exact ⟨rfl, rfl, rfl, rfl⟩
 
+theorem CellularTrustSubstrate_orbit_observation_boundary
+    {R W K M A H C P N R' W' K' M' A' H' C' P' N' : BHist}
+    (hdisplay :
+      cellularTrustSubstrateToEventFlow
+          (CellularTrustSubstrateUp.mk R W K M A H C P N) =
+        cellularTrustSubstrateToEventFlow
+          (CellularTrustSubstrateUp.mk R' W' K' M' A' H' C' P' N')) :
+    M = M' ∧ A = A' ∧
+      cellularTrustSubstrateEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  have hpacket :
+      CellularTrustSubstrateUp.mk R W K M A H C P N =
+        CellularTrustSubstrateUp.mk R' W' K' M' A' H' C' P' N' :=
+    CellularTrustSubstrateTasteGate_single_carrier_alignment_injective hdisplay
+  cases hpacket
+  exact ⟨rfl, rfl, rfl⟩
+
 end BEDC.Derived.CellularTrustSubstrateUp.TasteGate
 
 namespace BEDC.Derived.CellularTrustSubstrateUp
