@@ -637,6 +637,60 @@ Next use \autoref{thm:cofinal-modulus-seal-real-completion-consumer-exactness}. 
 Finally apply \autoref{thm:cofinal-modulus-seal-open-phase-exit-surface}. The packet is already the Phase Real and Completion handoff surface for the finite cofinal modulus route, so the displayed rows form the L10 exit boundary.
 \end{proof}
 
+\begin{theorem}[Cofinal modulus seal row-predicate admission]
+\label{thm:cofinal-modulus-seal-row-predicate-admission}
+For an accepted $\CofinalModulusSealUp$ packet, each displayed row
+$$
+B,M,W,T,D,R,L,E,H,C,P,N
+$$
+is admitted only through the named BEDC primitives and sibling certificates carried by the cofinal modulus route. The rows are respectively read as cofinal tail budget, tail-modulus seal, Real-window budget, StreamName, DyadicRatCore tolerance, regular rational sequence, Cauchy-limit seal, Real handoff, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence. No row may be replaced by an unnamed predicate, quotient-stream witness, selected host limit, detached window service, countable-choice selector, or ambient completeness premise.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:cofinal-modulus-seal-carrier}. The carrier display names exactly the rows $B,M,W,T,D,R,L,E,H,C,P,N$ and gives their BEDC reading through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+
+Use \autoref{thm:cofinal-modulus-seal-source-row-synchronization}. It synchronizes the source-side rows with the same finite route, so the admission test cannot introduce a second classifier beside the displayed carrier rows.
+
+Apply \autoref{thm:cofinal-modulus-seal-window-budget-exactness} and \autoref{thm:cofinal-modulus-seal-window-ledger-nochoice-boundary}. These identify the window ledger rows and exclude detached windows, quotient streams, selected limits, countable choice, and ambient completeness.
+
+Finally use \autoref{thm:cofinal-modulus-seal-l10-exit-boundary}. The exit boundary exposes the same finite row route to downstream consumers, so every admitted row is one of the named primitives or sibling certificates.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal obligation surface packaging]
+\label{thm:cofinal-modulus-seal-obligation-surface-packaging}
+The $\CofinalModulusSealUp$ route packages carrier admission, source synchronization, window ledger exactness, the Real and Completion handoff, nonescape boundaries, and consumer exactness as one finite $\NameCert$ obligation surface over
+$$
+B,M,W,T,D,R,L,E,H,C,P,N.
+$$
+Every obligation row in that surface is discharged by the displayed carrier route or by a cited sibling certificate, and no additional global completion, quotient, selector, or choice obligation is part of the package.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:cofinal-modulus-seal-row-predicate-admission} with \autoref{thm:cofinal-modulus-seal-namecert-obligations}. The former fixes the row predicates, while the latter places the local $\NameCert$ obligations on the same carrier route.
+
+Next use \autoref{thm:cofinal-modulus-seal-source-row-synchronization} and \autoref{thm:cofinal-modulus-seal-window-budget-exactness}. These two results bind the source rows and the window ledger rows to the displayed packet rather than to any external witness.
+
+Apply \autoref{thm:cofinal-modulus-seal-real-completion-consumer-exactness}. The Real-facing and completion-facing handoff consumes exactly the same route.
+
+It remains to exclude escape obligations. Use \autoref{thm:cofinal-modulus-seal-window-ledger-nochoice-boundary} and \autoref{thm:cofinal-modulus-seal-l10-exit-boundary}. They remove quotient streams, selected limits, countable choice, detached windows, and ambient completeness from the public surface, leaving one finite $\NameCert$ obligation package.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal consumer exactness obligation]
+\label{thm:cofinal-modulus-seal-consumer-exactness-obligation}
+Any $\RealUp$ or completion-facing consumer of the $\CofinalModulusSealUp$ obligation surface receives exactly the displayed route
+$$
+B,M,W,T,D,R,L,E,H,C,P,N
+$$
+through the packaged carrier, source, window, handoff, nonescape, and exactness rows. The consumer receives no detached selector, quotient stream, countable-choice row, ambient completeness row, hidden completion operator, or separate window service beyond that finite route.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cofinal-modulus-seal-obligation-surface-packaging}. It identifies the public obligation surface with the finite $\NameCert$ package over $B,M,W,T,D,R,L,E,H,C,P,N$.
+
+Use \autoref{thm:cofinal-modulus-seal-real-completion-consumer-exactness}. Real-facing and completion-facing consumers already receive exactly the cofinal modulus route and no external quotient, selector, choice, or completeness witness.
+
+Apply \autoref{thm:cofinal-modulus-seal-window-ledger-nochoice-boundary}. This keeps the window ledger from smuggling in a detached selector or separate completion row.
+
+Finally use \autoref{thm:cofinal-modulus-seal-l10-exit-boundary}. The L10 exit boundary is the same finite route, so consumer exactness is an obligation of that surface and not a separate downstream premise.
+\end{proof}
+
 Lean TasteGate formalization for this route must provide \texttt{Nontrivial CofinalModulusSealUp} and \texttt{FieldFaithful CofinalModulusSealUp} instances in \texttt{BEDC.Derived.CofinalModulusSealUp}.
 
 \closureat{CofinalModulusSealUp}{seedStr}
