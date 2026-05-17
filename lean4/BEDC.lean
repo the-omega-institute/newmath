@@ -600,6 +600,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
 import BEDC.Derived.DyadicApproximationUp.L10RealCompletionSiblingRoute
 import BEDC.Derived.FiniteObservationInterfaceUp.TasteGate
 import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
+import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.LocalEmpiricalClosureGateUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
 import BEDC.Derived.SocketReportUp.TasteGate
@@ -1201,6 +1202,7 @@ import BEDC.Derived.CauchySealBudgetSynchronizerUp
 import BEDC.Derived.CauchySealBudgetSynchronizerUp.TasteGate
 import BEDC.Derived.CauchySealInterfaceUp.TasteGate
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
+import BEDC.Derived.ChoiceRecipeLedgerUp
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
 import BEDC.Derived.CrossHistoryCausalDependenceUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp
