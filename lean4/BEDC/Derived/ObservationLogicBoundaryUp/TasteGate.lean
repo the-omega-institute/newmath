@@ -51,23 +51,27 @@ def observationLogicBoundaryToEventFlow : ObservationLogicBoundaryUp → EventFl
   -- BEDC touchpoint anchor: BHist BMark
   | x => (observationLogicBoundaryFields x).map observationLogicBoundaryEncodeBHist
 
-def observationLogicBoundaryFromEventFlow : EventFlow → Option ObservationLogicBoundaryUp
+private def observationLogicBoundaryEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | observation :: logic :: metaLoop :: phaseRefusal :: gapAudit :: residue :: transport ::
-      replay :: provenance :: localCert :: [] =>
-      some
-        (ObservationLogicBoundaryUp.mk
-          (observationLogicBoundaryDecodeBHist observation)
-          (observationLogicBoundaryDecodeBHist logic)
-          (observationLogicBoundaryDecodeBHist metaLoop)
-          (observationLogicBoundaryDecodeBHist phaseRefusal)
-          (observationLogicBoundaryDecodeBHist gapAudit)
-          (observationLogicBoundaryDecodeBHist residue)
-          (observationLogicBoundaryDecodeBHist transport)
-          (observationLogicBoundaryDecodeBHist replay)
-          (observationLogicBoundaryDecodeBHist provenance)
-          (observationLogicBoundaryDecodeBHist localCert))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => observationLogicBoundaryEventAtDefault index rest
+
+def observationLogicBoundaryFromEventFlow (ef : EventFlow) : Option ObservationLogicBoundaryUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (ObservationLogicBoundaryUp.mk
+      (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEventAtDefault 0 ef))
+      (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEventAtDefault 1 ef))
+      (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEventAtDefault 2 ef))
+      (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEventAtDefault 3 ef))
+      (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEventAtDefault 4 ef))
+      (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEventAtDefault 5 ef))
+      (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEventAtDefault 6 ef))
+      (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEventAtDefault 7 ef))
+      (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEventAtDefault 8 ef))
+      (observationLogicBoundaryDecodeBHist (observationLogicBoundaryEventAtDefault 9 ef)))
 
 private theorem observationLogicBoundary_round_trip :
     ∀ x : ObservationLogicBoundaryUp,
@@ -186,5 +190,28 @@ def taste_gate : ChapterTasteGate ObservationLogicBoundaryUp :=
 def taste_gate_witness : FieldFaithful ObservationLogicBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   observationLogicBoundaryFieldFaithful
+
+theorem ObservationLogicBoundaryTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate ObservationLogicBoundaryUp) ∧
+      Nonempty (FieldFaithful ObservationLogicBoundaryUp) ∧
+        Nonempty (Nontrivial ObservationLogicBoundaryUp) ∧
+          (∀ h : BHist,
+            observationLogicBoundaryDecodeBHist (observationLogicBoundaryEncodeBHist h) = h) ∧
+            (∀ x : ObservationLogicBoundaryUp,
+              observationLogicBoundaryFromEventFlow (observationLogicBoundaryToEventFlow x) =
+                some x) ∧
+              (∀ x y : ObservationLogicBoundaryUp,
+                observationLogicBoundaryToEventFlow x = observationLogicBoundaryToEventFlow y →
+                  x = y) ∧
+                observationLogicBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨Nonempty.intro observationLogicBoundaryChapterTasteGate,
+      Nonempty.intro observationLogicBoundaryFieldFaithful,
+      Nonempty.intro observationLogicBoundaryNontrivial,
+      observationLogicBoundary_decode_encode_bhist,
+      observationLogicBoundary_round_trip,
+      (fun _ _ heq => observationLogicBoundaryToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.ObservationLogicBoundaryUp
