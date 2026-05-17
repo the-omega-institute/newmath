@@ -253,6 +253,33 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_refusal_transport [AskSetup] [Pa
                             exact unary_transport_symm gUnary sameG
   exact ⟨consumerUnary, routeAB, routeCD, routeEF, refusalRow, consumerPkg⟩
 
+theorem AxisZeckendorfCannotClaimRegistryPacket_audit_gate_boundary [AskSetup] [PackageSetup]
+    {a b c d e f g h p n r audit : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg ->
+      (hsame r a ∨ hsame r b ∨ hsame r c ∨ hsame r d ∨ hsame r e ∨ hsame r f ∨
+          hsame r g) ->
+        PkgSig bundle r pkg ->
+          Cont h p audit ->
+            PkgSig bundle audit pkg ->
+              UnaryHistory r ∧ UnaryHistory audit ∧ Cont h p audit ∧ hsame p n ∧
+                PkgSig bundle p pkg ∧ PkgSig bundle audit pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont PkgSig hsame
+  intro packet refusalRow refusalPkg auditRoute auditPkg
+  have refusalBoundary :=
+    AxisZeckendorfCannotClaimRegistryPacket_refusal_transport packet refusalRow refusalPkg
+  have publicBoundary :=
+    AxisZeckendorfCannotClaimRegistryPacket_public_boundary packet auditRoute auditPkg
+  obtain ⟨refusalUnary, _routeAB, _routeCD, _routeEF, _rowWitness, _rowPkg⟩ :=
+    refusalBoundary
+  obtain
+    ⟨_aUnary, _bUnary, _cUnary, _dUnary, _eUnary, _fUnary, _gUnary, _hUnary,
+      _pUnary, auditUnary, auditRoute', sameProvenanceName, provenancePkg,
+      auditPkg'⟩ := publicBoundary
+  exact
+    ⟨refusalUnary, auditUnary, auditRoute', sameProvenanceName, provenancePkg,
+      auditPkg'⟩
+
 theorem AxisZeckendorfCannotClaimRegistryPacket_real_refusal_route [AskSetup] [PackageSetup]
     {a b c d e f g h p n e' h' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
