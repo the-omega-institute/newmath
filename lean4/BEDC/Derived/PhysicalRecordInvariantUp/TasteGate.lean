@@ -52,23 +52,39 @@ def physicalRecordInvariantFields : PhysicalRecordInvariantUp → List BHist
 def physicalRecordInvariantToEventFlow : PhysicalRecordInvariantUp → EventFlow
   | x => (physicalRecordInvariantFields x).map physicalRecordInvariantEncodeBHist
 
-private def physicalRecordInvariantEventAtDefault : Nat → EventFlow → RawEvent
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      physicalRecordInvariantEventAtDefault index rest
-
-def physicalRecordInvariantFromEventFlow (ef : EventFlow) : Option PhysicalRecordInvariantUp :=
-  some
-    (PhysicalRecordInvariantUp.mk
-      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 0 ef))
-      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 1 ef))
-      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 2 ef))
-      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 3 ef))
-      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 4 ef))
-      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 5 ef))
-      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 6 ef)))
+def physicalRecordInvariantFromEventFlow : EventFlow → Option PhysicalRecordInvariantUp
+  | [] => none
+  | R :: rest0 =>
+      match rest0 with
+      | [] => none
+      | I :: rest1 =>
+          match rest1 with
+          | [] => none
+          | O :: rest2 =>
+              match rest2 with
+              | [] => none
+              | H :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | C :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | P :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | N :: rest6 =>
+                              match rest6 with
+                              | [] =>
+                                  some
+                                    (PhysicalRecordInvariantUp.mk
+                                      (physicalRecordInvariantDecodeBHist R)
+                                      (physicalRecordInvariantDecodeBHist I)
+                                      (physicalRecordInvariantDecodeBHist O)
+                                      (physicalRecordInvariantDecodeBHist H)
+                                      (physicalRecordInvariantDecodeBHist C)
+                                      (physicalRecordInvariantDecodeBHist P)
+                                      (physicalRecordInvariantDecodeBHist N))
+                              | _ :: _ => none
 
 private theorem physicalRecordInvariant_round_trip :
     ∀ x : PhysicalRecordInvariantUp,
@@ -141,26 +157,31 @@ def taste_gate : ChapterTasteGate PhysicalRecordInvariantUp :=
   physicalRecordInvariantChapterTasteGate
 
 theorem PhysicalRecordInvariantTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate PhysicalRecordInvariantUp) ∧
-      Nonempty (FieldFaithful PhysicalRecordInvariantUp) ∧
-        Nonempty (Nontrivial PhysicalRecordInvariantUp) ∧
-          (∀ h : BHist,
-            physicalRecordInvariantDecodeBHist (physicalRecordInvariantEncodeBHist h) = h) ∧
-            (∀ x : PhysicalRecordInvariantUp,
-              physicalRecordInvariantFromEventFlow
-                  (physicalRecordInvariantToEventFlow x) =
-                some x) ∧
-              (∀ x y : PhysicalRecordInvariantUp,
-                physicalRecordInvariantToEventFlow x = physicalRecordInvariantToEventFlow y →
-                  x = y) ∧
-                physicalRecordInvariantEncodeBHist BHist.Empty = ([] : RawEvent) := by
+    (∀ h : BHist,
+      physicalRecordInvariantDecodeBHist (physicalRecordInvariantEncodeBHist h) = h) ∧
+      (∀ x : PhysicalRecordInvariantUp,
+        physicalRecordInvariantFromEventFlow
+            (physicalRecordInvariantToEventFlow x) =
+          some x) ∧
+        (∀ x y : PhysicalRecordInvariantUp,
+          physicalRecordInvariantToEventFlow x = physicalRecordInvariantToEventFlow y →
+            x = y) ∧
+          (∀ x y : PhysicalRecordInvariantUp,
+            physicalRecordInvariantFields x = physicalRecordInvariantFields y → x = y) ∧
+            (∃ x y : PhysicalRecordInvariantUp, x ≠ y) ∧
+              physicalRecordInvariantEncodeBHist BHist.Empty = ([] : RawEvent) := by
   exact
-    ⟨⟨physicalRecordInvariantChapterTasteGate⟩,
-      ⟨physicalRecordInvariantFieldFaithful⟩,
-      ⟨physicalRecordInvariantNontrivial⟩,
-      physicalRecordInvariant_decode_encode_bhist,
+    ⟨physicalRecordInvariant_decode_encode_bhist,
       physicalRecordInvariant_round_trip,
       (fun _ _ heq => physicalRecordInvariantToEventFlow_injective heq),
+      physicalRecordInvariant_field_faithful,
+      ⟨PhysicalRecordInvariantUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        PhysicalRecordInvariantUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        by
+          intro h
+          cases h⟩,
       rfl⟩
 
 end BEDC.Derived.PhysicalRecordInvariantUp

@@ -124,4 +124,70 @@ theorem LocalClockBudgetRoute_determinacy
         cases sameN
         rfl
 
+theorem LocalClockBudgetCarrier_observer_handoff
+    {H T W B L Q P N observerRead : BHist}
+    (carrier : LocalClockBudgetCarrier H T W B L Q P N)
+    (streamRoute : Cont BHist.Empty T H)
+    (windowRoute : Cont T W Q)
+    (observerRoute : Cont Q P observerRead) :
+    LocalClockBudgetWindowSurface H T W B Q ∧
+      Cont Q P observerRead ∧
+        hsame H H ∧
+          hsame N N ∧
+            localClockBudgetFields (LocalClockBudgetUp.mk H T W B L Q P N) =
+              [H, T, W, B, L, Q, P, N] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  have total := LocalClockBudgetWindow_totality carrier streamRoute windowRoute
+  exact
+    ⟨total.left, observerRoute, hsame_refl H, hsame_refl N, total.right⟩
+
+theorem LocalClockBudgetCarrier_scope {H T W B L Q P N : BHist}
+    (carrier : LocalClockBudgetCarrier H T W B L Q P N)
+    (streamRoute : Cont BHist.Empty T H)
+    (windowRoute : Cont T W Q) :
+    LocalClockBudgetWindowSurface H T W B Q ∧
+      hsame H H ∧
+        hsame T T ∧
+          hsame W W ∧
+            hsame B B ∧
+              hsame L L ∧
+                hsame Q Q ∧
+                  hsame P P ∧
+                    hsame N N ∧
+                      localClockBudgetFields (LocalClockBudgetUp.mk H T W B L Q P N) =
+                        [H, T, W, B, L, Q, P, N] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  have total := LocalClockBudgetWindow_totality carrier streamRoute windowRoute
+  exact
+    ⟨total.left, hsame_refl H, hsame_refl T, hsame_refl W, hsame_refl B,
+      hsame_refl L, hsame_refl Q, hsame_refl P, hsame_refl N, total.right⟩
+
+theorem LocalClockBudgetLedger_boundary
+    {H T W B L Q P N ledgerRead handoffRead : BHist}
+    (carrier : LocalClockBudgetCarrier H T W B L Q P N)
+    (streamRoute : Cont BHist.Empty T H)
+    (windowRoute : Cont T W Q)
+    (ledgerRoute : Cont L Q ledgerRead)
+    (handoffRoute : Cont ledgerRead N handoffRead) :
+    LocalClockBudgetWindowSurface H T W B Q ∧
+      Cont L Q ledgerRead ∧
+        Cont ledgerRead N handoffRead ∧
+          hsame L L ∧
+            hsame N N ∧
+              localClockBudgetFields (LocalClockBudgetUp.mk H T W B L Q P N) =
+                [H, T, W, B, L, Q, P, N] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  have total := LocalClockBudgetWindow_totality carrier streamRoute windowRoute
+  constructor
+  · exact total.left
+  · constructor
+    · exact ledgerRoute
+    · constructor
+      · exact handoffRoute
+      · constructor
+        · rfl
+        · constructor
+          · rfl
+          · exact total.right
+
 end BEDC.Derived.LocalClockBudgetUp
