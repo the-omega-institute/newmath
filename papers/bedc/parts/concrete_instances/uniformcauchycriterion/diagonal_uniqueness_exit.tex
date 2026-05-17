@@ -118,3 +118,25 @@ Now use \autoref{thm:uniform-cauchy-criterion-diagonal-budget-extraction} and \a
 
 Finally pull the route through \autoref{thm:diagonal-limit-selector-budget-uniform-criterion-pullback} and \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The selector-budget pullback supplies the shared stream, regular sequence, dyadic core, and Real faces, while four-face exactness keeps the Real-completion boundary on $W,Q,T,E$. Hence the listed structural faces and support rows cover every diagonal-exit classifier and consumer route.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion diagonal terminal route exhaustion]
+\label{thm:uniform-cauchy-criterion-diagonal-terminal-route-exhaustion}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet whose terminal Phase Real and Completion read is shared with the displayed $\DiagonalLimitCompatibilityUp$, $\RealLimitUniquenessSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows. Then every terminal read of $U$ is exhausted by the finite route
+$$
+W,Q,T,E,H,C,P,N.
+$$
+No accepted terminal consumer can replace that route by quotient streams, host equality, selected limits, choice data, ambient completeness, metric-completeness data, or a detached completion source.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:uniform-cauchy-criterion-diagonal-structural-face-coverage}. It says that the four structural faces $W,Q,T,E$ together with $H,C,P,N$ cover every diagonal-exit classifier and every Phase Real or Completion consumer route.
+
+Next use \autoref{thm:uniform-cauchy-criterion-diagonal-budget-extraction}. It identifies the budget delivered to the terminal consumer as exactly $W,Q,T,E,H,C,P,N$, so the terminal read has no unaccounted row outside the displayed packet.
+
+Now combine the classifier and non-escape surfaces. By \autoref{thm:uniform-cauchy-criterion-diagonal-exit-classifier} and \autoref{thm:uniform-cauchy-criterion-diagonal-exit-nonescape}, any visible distinction at the terminal diagonal exit is already carried by the displayed $BHist$, $hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally apply \autoref{thm:uniform-cauchy-criterion-exit-route-consumer-coverage}. Since every terminal consumer is already covered by the same finite route, the listed quotient, host-equality, choice, completeness, metric-completeness, and detached-completion coordinates have no accepted route slot from which they could replace $W,Q,T,E,H,C,P,N$.
+\end{proof}
