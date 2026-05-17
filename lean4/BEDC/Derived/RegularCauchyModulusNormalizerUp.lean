@@ -533,4 +533,43 @@ theorem RegularCauchyModulusNormalizerCarrier_source_exchange_stability [AskSetu
       comparisonUnary, sourceMeet, meetWindowDyadic, windowDyadicComparisonRead,
       comparisonPkg⟩
 
+theorem RegularCauchyModulusNormalizerCarrier_formal_target_surface [AskSetup]
+    [PackageSetup]
+    {x y muX muY meet window dyadic readback sealRow transport route provenance name
+      targetRead witnessRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyModulusNormalizerCarrier x y muX muY meet window dyadic readback sealRow
+        transport route provenance name bundle pkg ->
+      Cont meet window dyadic ->
+        Cont dyadic readback sealRow ->
+          Cont sealRow transport route ->
+            Cont route provenance targetRead ->
+              Cont readback sealRow witnessRead ->
+                PkgSig bundle targetRead pkg ->
+                  PkgSig bundle witnessRead pkg ->
+                    UnaryHistory meet ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+                      UnaryHistory readback ∧ UnaryHistory sealRow ∧ UnaryHistory route ∧
+                        UnaryHistory targetRead ∧ UnaryHistory witnessRead ∧
+                          Cont meet window dyadic ∧ Cont dyadic readback sealRow ∧
+                            Cont sealRow transport route ∧
+                              Cont route provenance targetRead ∧
+                                Cont readback sealRow witnessRead ∧
+                                  PkgSig bundle targetRead pkg ∧
+                                    PkgSig bundle witnessRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier meetWindowDyadic dyadicReadbackSeal sealTransportRoute
+    routeProvenanceTarget readbackSealWitness targetPkg witnessPkg
+  obtain ⟨_xUnary, _yUnary, _muXUnary, _muYUnary, meetUnary, windowUnary,
+    dyadicUnary, readbackUnary, sealUnary, _transportUnary, routeUnary, provenanceUnary,
+    _nameUnary, _sourceMeet, _carrierMeetWindowDyadic, _carrierDyadicReadbackSeal,
+    _carrierSealTransportRoute, _routeProvenanceName, _meetPkg, _namePkg⟩ := carrier
+  have targetUnary : UnaryHistory targetRead :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenanceTarget
+  have witnessUnary : UnaryHistory witnessRead :=
+    unary_cont_closed readbackUnary sealUnary readbackSealWitness
+  exact
+    ⟨meetUnary, windowUnary, dyadicUnary, readbackUnary, sealUnary, routeUnary,
+      targetUnary, witnessUnary, meetWindowDyadic, dyadicReadbackSeal, sealTransportRoute,
+      routeProvenanceTarget, readbackSealWitness, targetPkg, witnessPkg⟩
+
 end BEDC.Derived.RegularCauchyModulusNormalizerUp

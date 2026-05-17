@@ -83,7 +83,6 @@ M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
 $$
 The source rows, shared meet, extraction row, selector-budget row, selected-window ledger, tolerance-readback ledger, Real seal row, and structural rows jointly exhaust the public consumer surface. No quotient stream equality, selected limit, host real equality, hidden selector, second meet, or ambient completeness coordinate is exported as another root route.
 \end{theorem}
-\leanvariant{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_root\_route\_completeness}
 \begin{proof}
 Apply \autoref{thm:cauchy-modulus-refinement-root-source-binding}. It fixes the source rows $M_0,M_1$, the shared meet $U$, and the extraction row $V$ as the first public root source.
 
@@ -93,6 +92,7 @@ Then apply \autoref{thm:cauchy-modulus-refinement-root-real-seal-nonescape}. The
 
 Finally apply \autoref{thm:cauchy-modulus-refinement-root-consumer-package}. It packages the Real and Completion consumers over the same carrier coordinates. Since the packet has no public coordinate beyond $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ for these reads, carrier coordinate exhaustion gives the claimed complete root route.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_root\_route\_completeness}
 
 \begin{theorem}[Cauchy modulus refinement shared selector determinacy]
 \label{thm:cauchy-modulus-refinement-shared-selector-determinacy}
@@ -455,3 +455,45 @@ Now use \autoref{thm:cauchy-modulus-refinement-regseq-real-selector-exactness} t
 Finally invoke \autoref{thm:cauchy-modulus-refinement-finite-observation-budget-pullback}, \autoref{thm:finite-observation-budget-selector-terminal-route-no-branching}, and \autoref{thm:finite-observation-budget-selector-terminal-route-endpoint-exactness}. The finite observation rows $B,S,W_F,D_F,R_F,E_F,H_F,C_F,P_F,N_F$ are the pullback surface for the shared selector route, and terminal no-branching plus endpoint exactness excludes quotient streams, selected host limits, host equality, countable choice, hidden observation oracles, detached seals, and ambient completeness coordinates as alternate terminal routes.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_terminal\_budget\_route\_exhaustion}
+
+\begin{theorem}[Cauchy modulus refinement current phase spine]
+\label{thm:cauchy-modulus-refinement-current-phase-spine}
+Every accepted $\CauchyModulusRefinementUp$ consumer for the current $\RealUp$ and Completion route factors through four displayed faces: the $\DyadicRatCoreUp$ tolerance ledger, the $\StreamNameUp$ finite-window row, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal. These faces are read from the same finite $\BHist$ route through displayed $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows, and the route admits no quotient stream, selected limit, host real equality, choice data, hidden selector, second meet row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with root source binding and root selector readback. The accepted route displays $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$, so the current consumer must read source, common meet, extraction, selector budget, selected window, tolerance readback, and seal before any endpoint is exposed.
+
+Use route completeness and the RegSeqRat, StreamName, and Real coherence theorems in the surrounding surface. They identify the tolerance ledger, finite-window row, regular-sequence readback, and Real seal as projections of the same route rather than independent consumers.
+
+Apply the diagonal budget cofinality route, the finite observation budget pullback, and terminal budget route exhaustion. Together they force every Real-facing or Completion-facing read through the four displayed faces and the support rows $H,C,P,N$.
+
+The refused coordinates are exactly those excluded by the terminal route. Quotient streams, selected limits, host real equality, choice data, hidden selectors, second meet rows, and ambient completeness would each supply an endpoint outside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route, so none is accepted.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement open phase spine lock]
+\label{thm:cauchy-modulus-refinement-open-phase-spine-lock}
+For the current $\CauchyModulusRefinementUp$ route, any open $\RealUp$ or Completion consumer that names a refinement endpoint while leaving one of the four faces absent is held at the spine boundary. The required faces are the $\DyadicRatCoreUp$ tolerance ledger, $\StreamNameUp$ finite-window row, $\RegSeqRatUp$ readback row, and $\RealUp$ seal, supported by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Read the route through the current-phase spine of \autoref{thm:cauchy-modulus-refinement-current-phase-spine}. It supplies the four public faces and the support rows as one finite route.
+
+If the tolerance ledger is absent, the consumer has no dyadic budget surface. If the finite-window row is absent, it has no StreamName observation boundary. If the RegSeqRat readback is absent, the regular tail cannot be read back from the selector. If the Real seal is absent, no Real or Completion endpoint is exposed.
+
+The root source binding, root selector readback, and route completeness steps do not add a substitute face. They only route the accepted rows to the endpoint.
+
+Thus an open consumer missing any displayed face remains at the spine boundary. The same refusal excludes quotient streams, selected limits, host real equality, choice data, hidden selectors, second meet rows, and ambient completeness from serving as replacements.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement four-face consumer boundary]
+\label{thm:cauchy-modulus-refinement-four-face-consumer-boundary}
+The consumer boundary for the current $\CauchyModulusRefinementUp$ handoff to $\RealUp$ and Completion is exactly the four-face route consisting of the $\DyadicRatCoreUp$ tolerance ledger, $\StreamNameUp$ finite-window row, $\RegSeqRatUp$ readback row, and $\RealUp$ seal. Any accepted downstream consumer must preserve those faces by displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before reading a Real or Completion endpoint.
+\end{theorem}
+\begin{proof}
+First compose root source binding with root selector readback. This places the refinement source, selector, budget, window, tolerance readback, and seal in one route.
+
+Next use route completeness together with RegSeqRat, StreamName, and Real coherence. The three coherence faces and the dyadic tolerance ledger are therefore read as the same current route, not as four unrelated records.
+
+Now apply diagonal budget cofinality, finite observation budget pullback, and terminal budget route exhaustion. These theorems move every downstream consumer through the finite budget surface before it reaches the endpoint, so the boundary is the four displayed faces plus $H,C,P,N$.
+
+It remains to rule out extra terminal data. Quotient streams, selected limits, host real equality, choice data, hidden selectors, second meet rows, and ambient completeness would bypass at least one displayed face. Since the accepted carrier has no such coordinate, the consumer boundary is exactly the four-face route.
+\end{proof}

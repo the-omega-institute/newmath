@@ -68,6 +68,87 @@ Apply the carried-output boundary. Any consumer that reaches the output-prior ro
 Since hidden source selection, corpus-wide truth, semantic understanding, consciousness, and proof of output truth are not coordinates of $K$, no public projection can recover them. The packet exports only the finite source-channel surface and its displayed certificate route.
 \end{proof}
 
+\begin{definition}[CorpusSupplyDistillation obligation ledger]
+\label{def:corpus-supply-distillation-obligation-ledger}
+For the carrier $K=(C,F,D,O,R,H,T,P,N)$ of \autoref{def:corpus-supply-distillation-carrier}, the obligation ledger is the ordered row family
+$$
+C,F,D,O,R,H,T,P,N.
+$$
+The rows record corpus supply, filtering, distillation, output prior, refusal, componentwise $\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, and local $\NameCert_{\CorpusSupplyDistillationUp}$ naming. A consumer of the ledger must read the source-channel route $C \longrightarrow F \longrightarrow D \longrightarrow O$ through $T$ before treating the output-prior row as public, and must read $R$ before $N$ whenever the requested output-prior interpretation would claim hidden source selection, corpus-wide truth, host semantic understanding, consciousness, or internally certified output truth.
+\end{definition}
+
+\begin{theorem}[CorpusSupplyDistillation filter-route order]
+\label{thm:corpus-supply-distillation-filter-route-order}
+Every accepted $\CorpusSupplyDistillationUp$ packet reads the displayed $\Cont$ route $T$ in the order
+$$
+C \longrightarrow F \longrightarrow D \longrightarrow O
+$$
+before any carried output-prior row is consumed. The packet has no accepted route that reaches $O$ before the corpus-supply row $C$, filtering row $F$, or distillation row $D$ has been displayed.
+\end{theorem}
+\begin{proof}
+Start from the carrier $K=(C,F,D,O,R,H,T,P,N)$ of \autoref{def:corpus-supply-distillation-carrier}. Its source-channel rows are listed as corpus supply, filtering, distillation, and output prior, and the route row $T$ is the displayed $\Cont$ route through those rows.
+
+Apply the NameCert obligations of \autoref{thm:corpus-supply-distillation-namecert-obligations}. They require corpus-supply exposure, filtering exposure, distillation exposure, and output-prior exposure as separate duties of the same local certificate.
+
+Finally use public non-escape from \autoref{thm:corpus-supply-distillation-public-nonescape}. A route that reaches $O$ without $C,F,D$ would need hidden source selection or internally certified output truth, and those coordinates are absent from the accepted packet.
+\end{proof}
+
+\begin{theorem}[CorpusSupplyDistillation output-prior refusal exactness]
+\label{thm:corpus-supply-distillation-output-prior-refusal-exactness}
+For every accepted $\CorpusSupplyDistillationUp$ packet, an output-prior read that would be interpreted as hidden source selection, corpus-wide truth, host semantic understanding, consciousness, or internally certified output truth must expose the refusal row $R$ before the local $\NameCert_{\CorpusSupplyDistillationUp}$ row $N$. The local name records a carried source-channel packet, not a certificate of output truth.
+\end{theorem}
+\begin{proof}
+Use the obligation ledger of \autoref{def:corpus-supply-distillation-obligation-ledger}. It places $R$ between the output-prior row and the structural certificate rows so that disallowed interpretations are refused before local naming is consumed.
+
+The NameCert obligations of \autoref{thm:corpus-supply-distillation-namecert-obligations} make refusal accounting part of the same finite carrier. The local name $N$ therefore names a packet whose refusal row has already excluded the stronger readings.
+
+Apply public non-escape from \autoref{thm:corpus-supply-distillation-public-nonescape}. Since the excluded readings are not coordinates of $K$, any output-prior read that asks for them must stop at $R$ before it can cite the local NameCert row.
+\end{proof}
+
+\begin{theorem}[CorpusSupplyDistillation source-channel exposure]
+\label{thm:corpus-supply-distillation-source-channel-exposure}
+Every accepted $\CorpusSupplyDistillationUp$ packet exposes its source channel through the displayed row $C$. No public consumer can replace $C$ by hidden dataset selection, corpus-total truth, or an unrecorded supply channel.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:corpus-supply-distillation-carrier}. The source-channel coordinate is the row $C$ in the finite packet $K=(C,F,D,O,R,H,T,P,N)$.
+
+Apply \autoref{thm:corpus-supply-distillation-namecert-obligations}. The local NameCert surface names corpus-supply exposure through $C$ before filtering, distillation, output-prior, refusal, transport, replay, provenance, and local naming are read.
+
+Use \autoref{thm:corpus-supply-distillation-public-nonescape}. Hidden source selection and corpus-wide truth are not coordinates of the carrier, so all source exposure available to a public consumer is exactly the displayed $C$ row.
+\end{proof}
+
+\begin{theorem}[CorpusSupplyDistillation filter distillation output-prior order]
+\label{thm:corpus-supply-distillation-filter-distillation-output-prior-order}
+Every output-prior read from an accepted $\CorpusSupplyDistillationUp$ packet follows the finite route order
+$$
+C,F,D,O.
+$$
+The output prior is therefore read after source-channel exposure, filtering, and distillation, not as an internally certified model-output truth.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:corpus-supply-distillation-carrier}. The rows $C,F,D,O$ are displayed in the carrier before the refusal and structural rows.
+
+Apply \autoref{thm:corpus-supply-distillation-namecert-obligations}. It records corpus-supply exposure through $C$, filtering through $F$, distillation through $D$, and output-prior exposure through $O$ as the ordered public route.
+
+Finally use \autoref{thm:corpus-supply-distillation-public-nonescape}. Since internally certified output truth is absent from $K$, the only available output-prior read is the carried route through $C,F,D,O$.
+\end{proof}
+
+\begin{theorem}[CorpusSupplyDistillation refusal exactness]
+\label{thm:corpus-supply-distillation-refusal-exactness}
+The refusal surface of an accepted $\CorpusSupplyDistillationUp$ packet is exactly the finite route
+$$
+R,H,T,P,N.
+$$
+It refuses corpus-wide truth, hidden source selection, model consciousness, host semantic understanding, internally certified output truth, and model-side proof objects only through the displayed refusal, transport, continuation, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+Read the carrier in \autoref{def:corpus-supply-distillation-carrier}. The refusal row $R$ is followed by componentwise transport $H$, displayed continuation replay $T$, package provenance $P$, and local naming $N$.
+
+Apply \autoref{thm:corpus-supply-distillation-namecert-obligations}. It makes refusal accounting a named obligation of the same packet and gives $H,T,P,N$ as the structural rows that preserve and expose that refusal.
+
+Conclude with \autoref{thm:corpus-supply-distillation-public-nonescape}. Each refused object is outside the carrier, so the exact public refusal route is $R,H,T,P,N$ and nothing stronger is exported.
+\end{proof}
+
 \falsifiablePrediction{If the source-channel row is removed, the packet cannot distinguish corpus-carried output priors from internally certified output truth.}
 
 \independenceWitness{Nearest siblings: largemodelinscriptionpoint, inscriptionpoint, inscriptionevent, apophaticname, and observerinterface. None is bijective to $\CorpusSupplyDistillationUp$ because LargeModelInscriptionPoint carries inference and output rows in addition to corpus supply, InscriptionPoint and InscriptionEvent carry inscription handoff rows without the filtering and distillation source channel, ApophaticName carries a boundary request rather than corpus provenance, and ObserverInterface carries public observer rows without the corpus-supply, filtering, distillation, and output-prior route.}

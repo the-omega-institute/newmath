@@ -81,6 +81,18 @@ Use the continuation-scope theorem \autoref{thm:reality-constrained-failure-surf
 Finally apply non-escape from \autoref{thm:reality-constrained-failure-surface-nonescape}. Hidden evidence outside $O,D,K,U,L,H,C,P,N$ is not a coordinate of the packet, and the classifier rejects the attempted export unless the full displayed defeat surface is exposed.
 \end{proof}
 
+\begin{theorem}[Reality-constrained failure-surface bridge boundary]
+\label{thm:reality-constrained-failure-surface-bridge-boundary}
+For an accepted $\RealityConstrainedFailureSurfaceUp$ packet $F=(O,D,K,U,L,H,C,P,N)$, the displayed failure-surface packet is the only bridge-facing boundary consumed by truth-export and model-audit siblings. A consumer may pass defeating observations, domain exits, classifier mismatches, continuation scope, ledger entries, transport, replay, provenance, and local naming through that boundary, but it cannot add a second failure surface, hidden model-reality identity, unbounded confirmation row, unledgered defeat, or private truth-export route.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:reality-constrained-failure-surface-carrier}. It exposes the finite failure-surface tuple $F=(O,D,K,U,L,H,C,P,N)$ as the whole packet available to bridge-facing consumers.
+
+Apply \autoref{thm:reality-constrained-failure-surface-namecert-obligations} and \autoref{thm:reality-constrained-failure-surface-domain-export-refusal}. These theorems force every truth-export and model-audit read to display the same defeat, exit, mismatch, continuation, ledger, transport, replay, provenance, and naming rows.
+
+Use non-escape from \autoref{thm:reality-constrained-failure-surface-nonescape}. Since the carrier lacks hidden model-reality identity, unbounded confirmation, unledgered defeat, and private export coordinates, the displayed packet is the sole bridge-facing boundary.
+\end{proof}
+
 \falsifiablePrediction{Any certified truth export that omits the displayed $\RealityConstrainedFailureSurfaceUp$ row $F=(O,D,K,U,L,H,C,P,N)$ is rejected by the reality-constrained truth classifier.}
 
 \independenceWitness{realityconstrainedmodelaudit, realityconstrainedtruthcert, openfitpacket, lawcertificate, realityconstrainedsynthesisseal: none is bijective to $\RealityConstrainedFailureSurfaceUp$ because the carrier isolates defeating observations, domain exits, classifier mismatches, continuation scope, ledger, componentwise transport, replay, provenance, and local naming as one finite failure packet.}
@@ -90,15 +102,16 @@ The checked single-carrier alignment theorem records the $\ChapterTasteGate$ rea
 
 \closureat{RealityConstrainedFailureSurfaceUp}{seedStr}
 \closureat{RealityConstrainedFailureSurfaceUp}{publicStr}[BEDC.Derived.RealityConstrainedFailureSurfaceUp.RealityConstrainedFailureSurfaceTasteGate\_single\_carrier\_alignment]
+\closureat{RealityConstrainedFailureSurfaceUp}{bridgedStr}[BEDC.Derived.RealityConstrainedFailureSurfaceUp.RealityConstrainedFailureSurfaceTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RealityConstrainedFailureSurfaceUp}
   \constructivestory{A $\RealityConstrainedFailureSurfaceUp$ packet is generated from defeating observations, domain exits, classifier mismatches, continuation scope, ledger entries, componentwise transport, displayed replay, provenance, and a local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:reality-constrained-failure-surface-carrier}, \autoref{thm:reality-constrained-failure-surface-namecert-obligations}, \autoref{thm:reality-constrained-failure-surface-nonescape}, \autoref{thm:reality-constrained-failure-surface-continuation-scope}, \autoref{thm:reality-constrained-failure-surface-domain-export-refusal}, and \leanchecked{BEDC.Derived.RealityConstrainedFailureSurfaceUp.taste\_gate} bind the carrier, NameCert obligations, non-escape theorem, continuation-scope theorem, domain-export refusal, and TasteGate instance for the finite failure-surface packet.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:reality-constrained-failure-surface-carrier}, \autoref{thm:reality-constrained-failure-surface-namecert-obligations}, \autoref{thm:reality-constrained-failure-surface-nonescape}, \autoref{thm:reality-constrained-failure-surface-continuation-scope}, \autoref{thm:reality-constrained-failure-surface-domain-export-refusal}, \autoref{thm:reality-constrained-failure-surface-bridge-boundary}, and \leanchecked{BEDC.Derived.RealityConstrainedFailureSurfaceUp.taste\_gate} bind the carrier, NameCert obligations, non-escape theorem, continuation-scope theorem, domain-export refusal, bridge boundary, and TasteGate instance for the finite failure-surface packet.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.RealityConstrainedFailureSurfaceUp.RealityConstrainedFailureSurfaceTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not claim bridge checking, final model--reality identity, unbounded confirmation, hidden classifier choice, or truth export outside the displayed failure row.}
-  \upgradepath{Bridged closure requires a standard-bridge witness for the same finite failure-surface packet.}
+  \upgradepath{Mature closure requires downstream examples and completeness consumers for the same finite failure-surface packet.}
 \end{closurestatus}

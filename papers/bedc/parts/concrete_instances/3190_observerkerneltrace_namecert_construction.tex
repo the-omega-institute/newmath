@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for an observer-substance type, subject identity row, hidden owner of the observations, or host equality principle outside $\BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $\Pkg$, and $\NameCert$.
 \end{definition}
+\leanchecked{BEDC.Derived.ObserverKernelTraceUp.ObserverKernelTraceTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[ObserverKernelTrace NameCert obligations]
 \label{thm:observer-kernel-trace-namecert-obligations}
@@ -48,6 +49,22 @@ Project the accepted packet and inspect the coordinates of \autoref{def:observer
 Apply the NameCert obligations from \autoref{thm:observer-kernel-trace-namecert-obligations}. They identify transport, route replay, probe readback, signature readback, no-subject ledgering, package provenance, and local naming as the whole certificate surface.
 
 A requested subject carrier would require a coordinate outside the displayed tuple. Because no such coordinate is part of the packet, the accepted boundary cannot export observer-substance, subject identity, hidden ownership, or host equality data.
+\end{proof}
+
+\begin{theorem}[ObserverKernelTrace public export boundary]
+\label{thm:observer-kernel-trace-public-export-boundary}
+The public export of an accepted $\ObserverKernelTraceUp$ packet is exactly the finite route
+$$
+T,H,C,B,S,L,P,N.
+$$
+It exports trace rows, componentwise transport, displayed continuation routes, probe bundles, signature observations, the no-subject ledger, package provenance, and local naming, and it exports no subject carrier, host equality of subjects, hidden owner, or global observation equivalence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:observer-kernel-trace-carrier}. Its displayed rows are precisely $T,H,C,B,S,L,P,N$, so the public surface starts from this finite tuple.
+
+Apply the NameCert obligations of \autoref{thm:observer-kernel-trace-namecert-obligations}. They identify trace-ledger stability, componentwise $\hsame$ transport, displayed $\Cont$ replay, probe and signature exactness, no-subject ledgering, package provenance, and local naming as the whole certificate route.
+
+Finally use \autoref{thm:observer-kernel-trace-non-escape}. A subject carrier, host equality of subjects, hidden owner, or global observation equivalence would require a coordinate absent from the carrier, so the public export is exactly the displayed route.
 \end{proof}
 
 \closureat{ObserverKernelTraceUp}{seedStr}
