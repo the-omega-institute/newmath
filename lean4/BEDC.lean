@@ -85,6 +85,7 @@ import BEDC.Derived.ApophaticGateQuestionUp.RootLedgerFactorization
 import BEDC.Derived.ApophaticGateQuestionUp.RootUnblockPackage
 import BEDC.Derived.ApophaticGateQuestionUp.RootRefusalAuditLedger
 import BEDC.Derived.ApophaticGateQuestionUp.RootRefusalRouteExactness
+import BEDC.Derived.ApophaticGateQuestionUp.RootRefusalCoverage
 import BEDC.Derived.ApophaticGateQuestionUp.RootSourceExactness
 import BEDC.Derived.ApophaticGateQuestionUp.RootReadbackRoute
 import BEDC.Derived.ApophaticGateQuestionUp.RootVisibleSocketTriad
@@ -114,6 +115,7 @@ import BEDC.Derived.ApophaticNameUp.RootRequestClassifierTotality
 import BEDC.Derived.ApophaticNameUp.RootDownstreamSocketNonescape
 import BEDC.Derived.ApophaticNameUp.RootRefusalBoundaryExhaustion
 import BEDC.Derived.ApophaticNameUp.SupplyShapeNoninternalization
+import BEDC.Derived.ApophaticNameUp.SupplyRequestConsumerFactorization
 import BEDC.Derived.ApophaticNameUp.RootFactorization
 import BEDC.Derived.ApophaticNameUp.RootPublicCitationSelectorExclusion
 import BEDC.Derived.ApophaticNameUp.RootCitationExport
@@ -652,6 +654,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
 import BEDC.Derived.DyadicApproximationUp.L10RealCompletionSiblingRoute
 import BEDC.Derived.FiniteObservationInterfaceUp.TasteGate
+import BEDC.Derived.FinitePrefixMachineUp.TasteGate
 import BEDC.Derived.FormalConstantEmpiricalValueBoundaryUp.TasteGate
 import BEDC.Derived.HistoryPrefixUp.TasteGate
 import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
