@@ -56,7 +56,7 @@ For constant rational histories $d,e,d',e'$, a rational carrier row for $d$, a r
 \begin{proof}
 Unpack the classifier-transport row of \autoref{thm:real-alg-order-namecert-obligations}. The stored $\hsame$ transports move the rational classifier $d\to e$ to the displayed row $d'\to e'$, and the rational carrier for $d'$ is transported along the same route.
 
-Now read the constant-real interface through $BHist.e1$. The $\RatHistoryCarrier$ and $\RatHistoryClassifier$ rows are exactly the inputs to $\mathsf{RealConstantHistoryCarrier}$ and $\mathsf{RealConstantHistoryClassifier}$ on the endpoint histories, so the transported rational classifier supplies the two carrier rows and the real classifier row without adding trichotomy, quotient equality, or completeness.
+Now read the constant-real interface through $BHist.e1$. The $\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$ rows are exactly the inputs to $\mathsf{RealConstantHistoryCarrier}$ and $\mathsf{RealConstantHistoryClassifier}$ on the endpoint histories, so the transported rational classifier supplies the two carrier rows and the real classifier row without adding trichotomy, quotient equality, or completeness.
 \end{proof}
 
 \begin{theorem}[RealAlgOrder algebra-row companion]
@@ -118,6 +118,22 @@ Apply the local obligations of \autoref{thm:real-alg-order-namecert-obligations}
 The sibling $\RealUp$ and $\RatUp$ constant classifier interface identifies a rational classifier row with the corresponding constant real classifier on the $BHist.e1$ endpoint. Applying that interface to the three displayed rational comparisons gives the six $\mathsf{RealConstantHistoryCarrier}$ rows and the three $\mathsf{RealConstantHistoryClassifier}$ rows.
 
 Finally, the order boundary is the transitive rational classifier row. The two $\RatHistoryClassifier$ comparisons $d\to e$ and $e\to o$ compose to the displayed $d\to o$ row, so the scoped $\RealAlgOrderUp$ certificate contains exactly the constant-rational endpoint, operation, and boundary data described above, with no appeal to real trichotomy, quotient equality, or completeness.
+\end{proof}
+
+\begin{theorem}[RealAlgOrder MetricSpace SOne public boundary]
+\label{thm:realalgorder-metric-sone-public-boundary}
+Every $\SOneUp$ unit-equation consumer whose distance and apartness read passes through $\MetricSpaceUp$ and $\RealAlgOrderUp$ factors through exactly three displayed public rows: the constant-rational scoped certificate of \autoref{thm:real-alg-order-constant-rational-scoped-certificate}, the real-distance public correspondence of \autoref{thm:metricspace-realalgorder-positive-distance-public-correspondence}, and the $\SOneUp$ component-and-equation consumer boundaries of \autoref{thm:metricspace-s1-realalgorder-consumer-factorization} and \autoref{thm:sone-realalgorder-equation-consumer-boundary}.
+
+Consequently the route exports only finite $\RealAlgOrderUp$ comparison and apartness rows, the $\MetricSpaceUp$ real-distance handoff, and the $\SOneUp$ component/equation readback. It exports no trichotomy row, quotient-circle carrier, host real equality, angle parameter, selected limit, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+Start with the constant-rational scoped certificate of \autoref{thm:real-alg-order-constant-rational-scoped-certificate}. It is the only $\RealAlgOrderUp$ source named by the route, so the rational endpoint, operation, and boundary histories available to the consumer are exactly the displayed constant-rational histories and their classified transports.
+
+Next apply the real-distance public correspondence of \autoref{thm:metricspace-realalgorder-positive-distance-public-correspondence}. That theorem is the $\MetricSpaceUp$ boundary that repacks positive-distance and apartness information as public finite rows, and it does not add a host real equality, completeness witness, or trichotomy branch.
+
+Then apply the $\MetricSpaceUp$--$\SOneUp$ factorization of \autoref{thm:metricspace-s1-realalgorder-consumer-factorization}. It says that an $\SOneUp$ consumer reading the metric surface through $\RealAlgOrderUp$ must pass through the real-distance correspondence before seeing the unit-equation surface.
+
+Finally use the component-and-equation boundary of \autoref{thm:sone-realalgorder-equation-consumer-boundary}. The $\SOneUp$ side consumes only the component rows and the equation readback, so the composed route contains precisely the three public boundaries named in the statement and none of the excluded quotient, angle, limit, or completeness data.
 \end{proof}
 
 \closureat{RealAlgOrderUp}{seedStr}
