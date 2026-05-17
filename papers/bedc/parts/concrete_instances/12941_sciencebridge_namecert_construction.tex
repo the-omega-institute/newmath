@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\ScienceBridgeUp$}
+\label{ch:concrete-instances-sciencebridge-namecert}
+\origin{ai}
+
+The $\ScienceBridgeUp$ packet realizes the science-bridge site of \autoref{sec:visions-philosophy-science-bridge} as one finite NameCert surface. It sits after the scientific-object carrier of \autoref{ch:concrete-instances-scientificobject-namecert}, the physical-model audit of \autoref{ch:concrete-instances-physical-model-audit-namecert}, the reality-constrained truth certificate of \autoref{ch:concrete-instances-reality-constrained-truth-cert-namecert}, the standard-bridge audit packet of \autoref{ch:concrete-instances-standardbridgeauditpacket-namecert}, and the gap/failure bridge audit of \autoref{ch:concrete-instances-gap-failure-bridge-audit-namecert}. Those siblings expose object records, physical audit, truth rows, bridge preservation, and typed gap/failure rows; this packet binds them before any consumer reads a scientific bridge as an accepted BEDC object.
+
+\begin{definition}[Science bridge carrier]
+\label{def:science-bridge-carrier}
+A $\ScienceBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+S=(R,O,A,T,B,G,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the records row, storing the source histories, observation traces, instrument records, and finite ledgers from which the bridge is read.
+\item $O$ is the $\ScientificObjectUp$ row exposing the object record, classifier, invariant, empirical ledger, bridge row, gap report, audit, truth, open-fit, domain, transport, replay, provenance, and local naming surfaces.
+\item $A$ is the $\PhysicalModelAuditUp$ row exposing source traces, target phenomenon, observed signatures, model signatures, audit classifier, tower data, failure surface, and audit strength.
+\item $T$ is the $\RealityConstrainedTruthCertUp$ row exposing the truth-certificate source, signature, classifier, tower, stability, descent, invariant, ledger, and failure fields.
+\item $B$ is the $\StandardBridgeAuditPacketUp$ row exposing encoding, decoding, round-trip, theorem preservation, no-host-leak, transport, provenance, and local naming data for a proposed bridge.
+\item $G$ is the $\GapFailureBridgeAuditUp$ row exposing the typed gap, failure branch, bridge row, no-host-leak row, axis-separation row, audit route, transport, replay, provenance, and local naming data.
+\item $F$ is the failure-surface row, recording falsifying observations, open prediction gaps, bridge defeats, and domain exits that remain visible to downstream consumers.
+\item $H$ records componentwise $\hsame$ transport for $R,O,A,T,B,G,F,C,P,N$.
+\item $C$ records the displayed $\Cont$ routes by which records, objects, audits, truth certificates, bridge audits, gaps, failure surfaces, transports, provenance, and local naming are replayed.
+\item $P$ is the $\Pkg$ provenance over $\ScienceBridgeUp$, $\ScientificObjectUp$, $\PhysicalModelAuditUp$, $\RealityConstrainedTruthCertUp$, $\StandardBridgeAuditPacketUp$, $\GapFailureBridgeAuditUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ScienceBridgeUp}$ row.
+\end{enumerate}
+The classifier compares carriers only through these rows. It has no coordinate for host scientific-object identity, unledgered physical truth, standard-model authority outside the bridge audit, a bridge-checked export without a gap/falsification row, or a repair of a failed bridge by local naming alone.
+\end{definition}
+
+\begin{theorem}[Science bridge NameCert obligations]
+\label{thm:science-bridge-namecert-obligations}
+For the carrier of \autoref{def:science-bridge-carrier}, the local $\NameCert_{\ScienceBridgeUp}$ surface consists exactly of carrier admission for $S=(R,O,A,T,B,G,F,H,C,P,N)$, records exposure through $R$, scientific-object exposure through $O$, physical-model audit exposure through $A$, reality-constrained truth exposure through $T$, standard-bridge audit exposure through $B$, gap/falsification exposure through $G$, failure-surface exposure through $F$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to its displayed rows. The records row $R$ supplies the finite source data, while $O,A,T,B,G,F$ supply the scientific-object, physical-audit, truth-certificate, standard-bridge-audit, gap/falsification, and failure-surface coordinates.
+
+Read the transport and replay rows next. The componentwise $\hsame$ row $H$ preserves only the displayed coordinates, and the continuation row $C$ replays only the routes listed by the packet.
+
+Finally apply provenance and local naming. The package row $P$ records the sibling surfaces used by the carrier, and $N$ names the resulting finite packet. Since the carrier has no further coordinate, the listed rows exhaust the local $\NameCert$ obligations.
+\end{proof}
+
+\begin{theorem}[Science bridge axis separation]
+\label{thm:science-bridge-axis-separation}
+An accepted $\ScienceBridgeUp$ carrier cannot read scientific-object maturity, physical-model audit strength, reality-constrained truth, standard-bridge preservation, and gap/falsification visibility as one axis. The rows $O,A,T,B,G,F$ remain distinct under the same $R,H,C,P,N$ support, so a consumer may not promote a bridge row to physical truth, erase the failure surface, or treat the gap/falsification row as discharged by local naming.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:science-bridge-carrier}. The rows $O,A,T,B,G,F$ are separate coordinates, and each is transported and replayed through $H$ and $C$ without being identified with another coordinate.
+
+Use \autoref{thm:science-bridge-namecert-obligations}. The local certificate admits scientific-object, physical-audit, truth-certificate, standard-bridge-audit, gap/falsification, and failure-surface rows separately before provenance or naming can be consumed.
+
+Thus a bridge-preservation read cannot become physical truth, and a local name cannot erase an open gap or failure surface. Any such reading would collapse coordinates that the accepted packet stores separately.
+\end{proof}
+
+\falsifiablePrediction{Any accepted ScienceBridgeUp packet that exports a bridge-checked scientific object while omitting the gap/falsification row or the standard-bridge audit row refutes the carrier.}
+
+\independenceWitness{scientificobject, physicalmodelaudit, realityconstrainedtruthcert, standardbridgeauditpacket, gapfailurebridgeaudit: none is bijective because ScienceBridgeUp binds records, object surface, audit row, truth row, bridge row, gap/falsification row, failure surface, transport, replay, provenance, and local NameCert in one carrier.}
+
+The Lean follow-up path \texttt{lean4/BEDC/Derived/ScienceBridgeUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \ScienceBridgeUp$ and $\mathsf{FieldFaithful}\ \ScienceBridgeUp$ instances for the same finite $R,O,A,T,B,G,F,H,C,P,N$ carrier.
+
+\closureat{ScienceBridgeUp}{seedStr}
+
+\begin{closurestatus}{\ScienceBridgeUp}
+  \constructivestory{A $\ScienceBridgeUp$ packet is generated from records, scientific-object, physical-model-audit, reality-constrained-truth, standard-bridge-audit, gap/falsification, failure-surface, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:science-bridge-carrier}, \autoref{thm:science-bridge-namecert-obligations}, \autoref{thm:science-bridge-axis-separation}, the falsifiable prediction, and the independence witness record the seed carrier for the science-bridge surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, external physical truth, host scientific-object identity, complete empirical adequacy, or final model--reality correspondence.}
+  \upgradepath{The next paper grade is obligation closure for records, object, audit, truth, bridge, gap/falsification, failure, replay, provenance, and local NameCert rows.}
+\end{closurestatus}
