@@ -126,6 +126,36 @@ theorem AuditMapDependencyWeaveCrossMapConsumerBoundary [AskSetup] [PackageSetup
     ⟨localMapUnary, neighbourUnary, obstructionUnary, frontierUnary, synthesisUnary,
       frontierRouteUnary, frontierSynthesisRoute, provenancePkg, frontierRoutePkg⟩
 
+theorem AuditMapDependencyWeaveFrontierNonescape [AskSetup] [PackageSetup]
+    {localMap neighbour obstruction frontier synthesis transport continuation provenance
+      localName frontierRoute terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapDependencyWeaveCarrier localMap neighbour obstruction frontier synthesis transport
+        continuation provenance localName bundle pkg →
+      Cont frontier synthesis frontierRoute →
+        Cont continuation localName terminalRead →
+          PkgSig bundle frontierRoute pkg →
+            PkgSig bundle terminalRead pkg →
+              UnaryHistory obstruction ∧ UnaryHistory frontier ∧ UnaryHistory synthesis ∧
+                UnaryHistory frontierRoute ∧ UnaryHistory terminalRead ∧
+                  Cont obstruction frontier continuation ∧ Cont frontier synthesis frontierRoute ∧
+                    Cont continuation localName terminalRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle frontierRoute pkg ∧ PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier frontierSynthesis terminalRoute frontierRoutePkg terminalReadPkg
+  rcases carrier with
+    ⟨_localMapUnary, _neighbourUnary, obstructionUnary, frontierUnary, synthesisUnary,
+      _transportUnary, continuationUnary, _provenanceUnary, localNameUnary,
+      _mapTransport, obstructionContinuation, _synthesisProvenance, provenancePkg⟩
+  have frontierRouteUnary : UnaryHistory frontierRoute :=
+    unary_cont_closed frontierUnary synthesisUnary frontierSynthesis
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed continuationUnary localNameUnary terminalRoute
+  exact
+    ⟨obstructionUnary, frontierUnary, synthesisUnary, frontierRouteUnary, terminalReadUnary,
+      obstructionContinuation, frontierSynthesis, terminalRoute, provenancePkg,
+      frontierRoutePkg, terminalReadPkg⟩
+
 def auditMapDependencyWeaveEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []

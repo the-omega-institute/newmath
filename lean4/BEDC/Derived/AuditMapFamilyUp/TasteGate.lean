@@ -349,6 +349,24 @@ theorem AuditMapFamilyCrossMapNonescape [AskSetup] [PackageSetup]
     ⟨familyTagUnary, inventoryUnary, obstructionUnary, routingUnary, frontierUnary,
       crossRouteUnary, routingFrontier, provenancePkg, crossRoutePkg⟩
 
+theorem AuditMapFamilyFrontierStability [AskSetup] [PackageSetup]
+    {familyTag inventory obstruction routing frontier transport replay provenance localName
+      frontierCopy : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapFamilyCarrier familyTag inventory obstruction routing frontier transport replay
+        provenance localName bundle pkg →
+      hsame frontier frontierCopy →
+        UnaryHistory frontier ∧ UnaryHistory frontierCopy ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory hsame PkgSig
+  intro carrier sameFrontier
+  rcases carrier with
+    ⟨_familyTagUnary, _inventoryUnary, _obstructionUnary, _routingUnary, frontierUnary,
+      _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+      _familyInventoryTransport, _obstructionRoutingReplay, provenancePkg⟩
+  have frontierCopyUnary : UnaryHistory frontierCopy :=
+    unary_transport frontierUnary sameFrontier
+  exact ⟨frontierUnary, frontierCopyUnary, provenancePkg⟩
+
 theorem AuditMapFamilyCarrier_routing_row_exhaustion [AskSetup] [PackageSetup]
     {familyTag inventory obstruction routing frontier transport replay provenance localName
       routingRead terminalRead : BHist}
