@@ -336,6 +336,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.LimitSealHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.LocatedTrapRefinement
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.MonotoneSourceSealBridge
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.MonotoneBoundRoute
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.MonotoneCauchyCriterionBridge
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ModulusLedgerExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.MonotoneTailCoherence
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ObligationClosure
@@ -1071,6 +1072,7 @@ import BEDC.Derived.ContinuationMonadUp.RootFormalRouteBudgetExhaustion
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorBoundaryReadback
 import BEDC.Derived.ContinuationMonadUp.RootPublicReadinessPackage
 import BEDC.Derived.ContinuationMonadUp.DownstreamUnblockRoutePackage
+import BEDC.Derived.ContinuationMonadUp.DownstreamUnblockSurface
 import BEDC.Derived.ContinuationMonadUp.CategoryHomReadback
 import BEDC.Derived.ContinuationMonadUp.UnitRouteLaws
 import BEDC.Derived.ContinuationMonadUp.RootKleisliAssociativityScope
@@ -1613,6 +1615,7 @@ import BEDC.Derived.OtherMindsCommitmentUp.TasteGate
 import BEDC.Derived.OtherMindsCommitmentUp.Packet
 import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.MapperUp
+import BEDC.Derived.FormalConstantEmpiricalValueBoundaryUp.TasteGate
 import BEDC.Derived.MaxCausalRateUp
 import BEDC.Derived.MaxCausalRateUp.TasteGate
 import BEDC.Derived.MaxRateReadGateUp.TasteGate
@@ -2276,6 +2279,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalFormalTarget
 import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalModulusBudgetComparison
 import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalPullbackConsumerNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootSupportProjectionNonescape
+import BEDC.Derived.DiagonallimitcompatibilityUp.ObligationClosurePackage
 import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalRealRoute
 import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalSelectorNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.ToleranceLedgerHandoff
@@ -2315,6 +2319,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.SharedTailBudgetFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.UniformCauchyThreeWayTerminalComparison
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteTransportStability
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteTripleLock
+import BEDC.Derived.DiagonallimitcompatibilityUp.TasteGate
 import BEDC.Derived.RealityConstrainedObjectivityUp.TasteGate
 import BEDC.Derived.OpenFitPacketUp.TasteGate
 import BEDC.Derived.StoneDualityUp
