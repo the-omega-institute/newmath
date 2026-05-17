@@ -10,9 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive KernelPhaseRefusalUp : Type where
-  | mk
-      (phase target blocker verdict admissibility transport continuation provenance localName :
-        BHist) : KernelPhaseRefusalUp
+  | mk :
+      (phase target blocker refusal admissibility transport continuation provenance
+        localName : BHist) →
+        KernelPhaseRefusalUp
   deriving DecidableEq
 
 def kernelPhaseRefusalEncodeBHist : BHist → RawEvent
@@ -27,7 +28,7 @@ def kernelPhaseRefusalDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (kernelPhaseRefusalDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (kernelPhaseRefusalDecodeBHist tail)
 
-private theorem kernelPhaseRefusalDecode_encode_bhist :
+private theorem KernelPhaseRefusalTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist, kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -39,93 +40,94 @@ private theorem kernelPhaseRefusalDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def kernelPhaseRefusalFields : KernelPhaseRefusalUp → List BHist
+def kernelPhaseRefusalFields : KernelPhaseRefusalUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | KernelPhaseRefusalUp.mk P T D R A H C Q N => [P, T, D, R, A, H, C, Q, N]
+  | KernelPhaseRefusalUp.mk phase target blocker refusal admissibility transport continuation
+      provenance localName =>
+      [phase, target, blocker, refusal, admissibility, transport, continuation, provenance,
+        localName]
 
 def kernelPhaseRefusalToEventFlow : KernelPhaseRefusalUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | KernelPhaseRefusalUp.mk P T D R A H C Q N =>
-      [[BMark.b0],
-        kernelPhaseRefusalEncodeBHist P,
-        [BMark.b1, BMark.b0],
-        kernelPhaseRefusalEncodeBHist T,
-        [BMark.b1, BMark.b1, BMark.b0],
-        kernelPhaseRefusalEncodeBHist D,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        kernelPhaseRefusalEncodeBHist R,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        kernelPhaseRefusalEncodeBHist A,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        kernelPhaseRefusalEncodeBHist H,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        kernelPhaseRefusalEncodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        kernelPhaseRefusalEncodeBHist Q,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        kernelPhaseRefusalEncodeBHist N]
-
-private def kernelPhaseRefusalRawAt : Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => kernelPhaseRefusalRawAt n rest
-
-private def kernelPhaseRefusalLengthEq : Nat → EventFlow → Bool
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => kernelPhaseRefusalLengthEq n rest
+  | x => (kernelPhaseRefusalFields x).map kernelPhaseRefusalEncodeBHist
 
 def kernelPhaseRefusalFromEventFlow : EventFlow → Option KernelPhaseRefusalUp
   -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      match kernelPhaseRefusalLengthEq 18 flow with
-      | true =>
-          some
-            (KernelPhaseRefusalUp.mk
-              (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalRawAt 1 flow))
-              (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalRawAt 3 flow))
-              (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalRawAt 5 flow))
-              (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalRawAt 7 flow))
-              (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalRawAt 9 flow))
-              (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalRawAt 11 flow))
-              (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalRawAt 13 flow))
-              (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalRawAt 15 flow))
-              (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalRawAt 17 flow)))
-      | false => none
+  | [] => none
+  | phase :: rest0 =>
+      match rest0 with
+      | [] => none
+      | target :: rest1 =>
+          match rest1 with
+          | [] => none
+          | blocker :: rest2 =>
+              match rest2 with
+              | [] => none
+              | refusal :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | admissibility :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | transport :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | continuation :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | provenance :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | localName :: rest8 =>
+                                      match rest8 with
+                                      | [] =>
+                                          some
+                                            (KernelPhaseRefusalUp.mk
+                                              (kernelPhaseRefusalDecodeBHist phase)
+                                              (kernelPhaseRefusalDecodeBHist target)
+                                              (kernelPhaseRefusalDecodeBHist blocker)
+                                              (kernelPhaseRefusalDecodeBHist refusal)
+                                              (kernelPhaseRefusalDecodeBHist admissibility)
+                                              (kernelPhaseRefusalDecodeBHist transport)
+                                              (kernelPhaseRefusalDecodeBHist continuation)
+                                              (kernelPhaseRefusalDecodeBHist provenance)
+                                              (kernelPhaseRefusalDecodeBHist localName))
+                                      | _ :: _ => none
 
-private theorem kernelPhaseRefusal_round_trip :
+private theorem KernelPhaseRefusalTasteGate_single_carrier_alignment_round_trip :
     ∀ x : KernelPhaseRefusalUp,
       kernelPhaseRefusalFromEventFlow (kernelPhaseRefusalToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk P T D R A H C Q N =>
+  | mk phase target blocker refusal admissibility transport continuation provenance localName =>
       change
         some
           (KernelPhaseRefusalUp.mk
-            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist P))
-            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist T))
-            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist D))
-            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist R))
-            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist A))
-            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist H))
-            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist C))
-            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist Q))
-            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist N))) =
-          some (KernelPhaseRefusalUp.mk P T D R A H C Q N)
-      rw [kernelPhaseRefusalDecode_encode_bhist P, kernelPhaseRefusalDecode_encode_bhist T,
-        kernelPhaseRefusalDecode_encode_bhist D, kernelPhaseRefusalDecode_encode_bhist R,
-        kernelPhaseRefusalDecode_encode_bhist A, kernelPhaseRefusalDecode_encode_bhist H,
-        kernelPhaseRefusalDecode_encode_bhist C, kernelPhaseRefusalDecode_encode_bhist Q,
-        kernelPhaseRefusalDecode_encode_bhist N]
+            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist phase))
+            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist target))
+            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist blocker))
+            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist refusal))
+            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist admissibility))
+            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist transport))
+            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist continuation))
+            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist provenance))
+            (kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist localName))) =
+          some
+            (KernelPhaseRefusalUp.mk phase target blocker refusal admissibility transport
+              continuation provenance localName)
+      rw [KernelPhaseRefusalTasteGate_single_carrier_alignment_decode_encode phase,
+        KernelPhaseRefusalTasteGate_single_carrier_alignment_decode_encode target,
+        KernelPhaseRefusalTasteGate_single_carrier_alignment_decode_encode blocker,
+        KernelPhaseRefusalTasteGate_single_carrier_alignment_decode_encode refusal,
+        KernelPhaseRefusalTasteGate_single_carrier_alignment_decode_encode admissibility,
+        KernelPhaseRefusalTasteGate_single_carrier_alignment_decode_encode transport,
+        KernelPhaseRefusalTasteGate_single_carrier_alignment_decode_encode continuation,
+        KernelPhaseRefusalTasteGate_single_carrier_alignment_decode_encode provenance,
+        KernelPhaseRefusalTasteGate_single_carrier_alignment_decode_encode localName]
 
-private theorem kernelPhaseRefusalToEventFlow_injective {x y : KernelPhaseRefusalUp} :
+private theorem KernelPhaseRefusalTasteGate_single_carrier_alignment_toEventFlow_injective
+    {x y : KernelPhaseRefusalUp} :
     kernelPhaseRefusalToEventFlow x = kernelPhaseRefusalToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -134,19 +136,38 @@ private theorem kernelPhaseRefusalToEventFlow_injective {x y : KernelPhaseRefusa
         kernelPhaseRefusalFromEventFlow (kernelPhaseRefusalToEventFlow y) :=
     congrArg kernelPhaseRefusalFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (kernelPhaseRefusal_round_trip x).symm
-      (Eq.trans hread (kernelPhaseRefusal_round_trip y)))
+    (Eq.trans (KernelPhaseRefusalTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (KernelPhaseRefusalTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem kernelPhaseRefusal_field_faithful :
+private theorem KernelPhaseRefusalTasteGate_single_carrier_alignment_fields_faithful :
     ∀ x y : KernelPhaseRefusalUp,
       kernelPhaseRefusalFields x = kernelPhaseRefusalFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk P1 T1 D1 R1 A1 H1 C1 Q1 N1 =>
+  | mk phase₁ target₁ blocker₁ refusal₁ admissibility₁ transport₁ continuation₁ provenance₁
+      localName₁ =>
       cases y with
-      | mk P2 T2 D2 R2 A2 H2 C2 Q2 N2 =>
-          cases hfields
+      | mk phase₂ target₂ blocker₂ refusal₂ admissibility₂ transport₂ continuation₂ provenance₂
+          localName₂ =>
+          injection hfields with hPhase tail0
+          injection tail0 with hTarget tail1
+          injection tail1 with hBlocker tail2
+          injection tail2 with hRefusal tail3
+          injection tail3 with hAdmissibility tail4
+          injection tail4 with hTransport tail5
+          injection tail5 with hContinuation tail6
+          injection tail6 with hProvenance tail7
+          injection tail7 with hLocalName _
+          subst hPhase
+          subst hTarget
+          subst hBlocker
+          subst hRefusal
+          subst hAdmissibility
+          subst hTransport
+          subst hContinuation
+          subst hProvenance
+          subst hLocalName
           rfl
 
 instance kernelPhaseRefusalBHistCarrier : BHistCarrier KernelPhaseRefusalUp where
@@ -154,28 +175,26 @@ instance kernelPhaseRefusalBHistCarrier : BHistCarrier KernelPhaseRefusalUp wher
   toEventFlow := kernelPhaseRefusalToEventFlow
   fromEventFlow := kernelPhaseRefusalFromEventFlow
 
-instance kernelPhaseRefusalChapterTasteGate :
-    ChapterTasteGate KernelPhaseRefusalUp where
+instance kernelPhaseRefusalChapterTasteGate : ChapterTasteGate KernelPhaseRefusalUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change kernelPhaseRefusalFromEventFlow (kernelPhaseRefusalToEventFlow x) = some x
-    exact kernelPhaseRefusal_round_trip x
+    exact KernelPhaseRefusalTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (kernelPhaseRefusalToEventFlow_injective heq)
+    exact hxy (KernelPhaseRefusalTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-instance kernelPhaseRefusalFieldFaithful :
-    FieldFaithful KernelPhaseRefusalUp where
+instance kernelPhaseRefusalFieldFaithful : FieldFaithful KernelPhaseRefusalUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := kernelPhaseRefusalFields
-  field_faithful := kernelPhaseRefusal_field_faithful
+  field_faithful := KernelPhaseRefusalTasteGate_single_carrier_alignment_fields_faithful
 
 instance kernelPhaseRefusalNontrivial : Nontrivial KernelPhaseRefusalUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨KernelPhaseRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+    ⟨KernelPhaseRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       KernelPhaseRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
@@ -185,5 +204,20 @@ instance kernelPhaseRefusalNontrivial : Nontrivial KernelPhaseRefusalUp where
 def taste_gate : ChapterTasteGate KernelPhaseRefusalUp :=
   -- BEDC touchpoint anchor: BHist BMark
   kernelPhaseRefusalChapterTasteGate
+
+theorem KernelPhaseRefusalTasteGate_single_carrier_alignment :
+    (∀ h : BHist, kernelPhaseRefusalDecodeBHist (kernelPhaseRefusalEncodeBHist h) = h) ∧
+      (∀ x : KernelPhaseRefusalUp,
+        kernelPhaseRefusalFromEventFlow (kernelPhaseRefusalToEventFlow x) = some x) ∧
+        (∀ x y : KernelPhaseRefusalUp,
+          kernelPhaseRefusalToEventFlow x = kernelPhaseRefusalToEventFlow y → x = y) ∧
+          kernelPhaseRefusalEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨KernelPhaseRefusalTasteGate_single_carrier_alignment_decode_encode,
+      KernelPhaseRefusalTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        KernelPhaseRefusalTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.KernelPhaseRefusalUp

@@ -217,6 +217,9 @@ instance bHistNonaTupleNameCertChapterTasteGate :
     intro x y hxy heq
     exact hxy (bHistNonaTupleNameCertToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate BHistNonaTupleNameCertUp :=
+  bHistNonaTupleNameCertChapterTasteGate
+
 instance bHistNonaTupleNameCertFieldFaithful :
     FieldFaithful BHistNonaTupleNameCertUp where
   -- BEDC touchpoint anchor: BHist BMark
