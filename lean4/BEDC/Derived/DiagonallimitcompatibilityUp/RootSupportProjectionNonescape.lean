@@ -1,3 +1,4 @@
+import BEDC.Derived.DiagonallimitcompatibilityUp
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootConsumerNonescape
 import BEDC.FKernel.NameCert
 
@@ -82,5 +83,34 @@ theorem DiagonalLimitCompatibilityCarrier_root_support_projection_nonescape
         ⟨unary_transport projectionUnary (hsame_symm source.right), projectionPkg,
           routeCertTransport⟩
   }
+
+theorem DiagonalLimitCompatibilityRootSupportProjectionNonescape [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      supportProjection supportEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont route provenance supportProjection ->
+        Cont supportProjection cert supportEndpoint ->
+          PkgSig bundle supportEndpoint pkg ->
+            UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory supportProjection ∧
+              UnaryHistory cert ∧ UnaryHistory supportEndpoint ∧
+                Cont route provenance supportProjection ∧
+                  Cont supportProjection cert supportEndpoint ∧ Cont route cert transport ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle supportEndpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier routeProvenanceSupport supportCertEndpoint supportEndpointPkg
+  obtain ⟨_diagonalUnary, _triangleUnary, _sealUnary, _dyadicUnary, _windowsUnary,
+    _readbackUnary, _realSealUnary, _transportUnary, routeUnary, provenanceUnary,
+    certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    routeCertTransport, provenancePkg⟩ := carrier
+  have supportProjectionUnary : UnaryHistory supportProjection :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenanceSupport
+  have supportEndpointUnary : UnaryHistory supportEndpoint :=
+    unary_cont_closed supportProjectionUnary certUnary supportCertEndpoint
+  exact
+    ⟨routeUnary, provenanceUnary, supportProjectionUnary, certUnary, supportEndpointUnary,
+      routeProvenanceSupport, supportCertEndpoint, routeCertTransport, provenancePkg,
+      supportEndpointPkg⟩
 
 end BEDC.Derived.DiagonallimitcompatibilityUp
