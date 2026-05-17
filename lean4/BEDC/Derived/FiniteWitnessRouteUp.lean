@@ -446,4 +446,44 @@ theorem FiniteWitnessRouteSeal_budget_exactness
         · intro hostRoute
           exact (cont_mutual_extension_right_tail_absurd).right routeThroughPkg hostRoute
 
+theorem FiniteWitnessRouteConsumer_route_exactness
+    {q w r d s h c p n consumer hostTail : BHist}
+    (requestRoute : Cont q w r)
+    (sealRoute : Cont r d s)
+    (routeThroughName : Cont s c consumer)
+    (routeThroughPkg : Cont s p consumer) :
+    (∃ packet : FiniteWitnessRouteUp,
+        packet = FiniteWitnessRouteUp.mk q w r d s h c p n ∧
+          Cont q w r ∧ Cont r d s ∧ Cont s c consumer) ∧
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row q ∧
+            ∃ packet : FiniteWitnessRouteUp,
+              packet = FiniteWitnessRouteUp.mk q w r d s h c p n)
+        (fun row : BHist => hsame row q ∧ hsame w w ∧ hsame r r ∧ hsame d d)
+        (fun row : BHist =>
+          Cont q w r ∧ Cont r d s ∧ hsame row q ∧ hsame h h ∧ hsame c c ∧
+            hsame p p ∧ hsame n n)
+        hsame ∧
+        Cont s p consumer ∧
+          (Cont consumer (BHist.e0 hostTail) s -> False) ∧
+            (Cont consumer (BHist.e1 hostTail) s -> False) ∧
+              Cont q w r ∧ Cont r d s := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  have exactness :=
+    FiniteWitnessRouteSeal_budget_exactness (q := q) (w := w) (r := r) (d := d)
+      (s := s) (h := h) (c := c) (p := p) (n := n) (consumer := consumer)
+      (hostTail := hostTail) requestRoute sealRoute routeThroughName routeThroughPkg
+  constructor
+  · exact exactness.left
+  · constructor
+    · exact exactness.right.left
+    · constructor
+      · exact exactness.right.right.left
+      · constructor
+        · exact exactness.right.right.right.left
+        · constructor
+          · exact exactness.right.right.right.right
+          · exact ⟨requestRoute, sealRoute⟩
+
 end BEDC.Derived.FiniteWitnessRouteUp
