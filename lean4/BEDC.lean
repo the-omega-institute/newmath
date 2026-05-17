@@ -731,6 +731,7 @@ import BEDC.Derived.ConsciousObserverStateUp.LocalityCellHandoff
 import BEDC.Derived.ConsciousObserverStateUp.LocalityCellReadback
 import BEDC.Derived.ConsciousObserverStateUp.DependencyHandoff
 import BEDC.Derived.ConsciousObserverStateUp.PublicExport
+import BEDC.Derived.ConsciousObserverStateUp.PresentRouteExhaustion
 import BEDC.Derived.ConsciousObserverStateUp.BridgeRoute
 import BEDC.Derived.ConsciousObserverStateUp.PresentLedgerBoundary
 import BEDC.Derived.ConsciousObserverStateUp.GapScopeBinding
@@ -918,6 +919,7 @@ import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CofinalRealRequestReuseUp.TasteGate
 import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
+import BEDC.Derived.CofinalModulusSealUp.TasteGate
 import BEDC.Derived.CofinalModulusNormalizationSealUp.TasteGate
 import BEDC.Derived.CofinalWindowRealSealUp.TasteGate
 import BEDC.Derived.CofinalSubsequenceUp
@@ -1528,6 +1530,7 @@ import BEDC.Derived.HistTimeStreamUp.FiniteWindowReadbackExhaustion
 import BEDC.Derived.HistTimeStreamUp.HistTimeStreamRegSeqRatLocalClockSeparation
 import BEDC.Derived.HistTimeStreamUp.LocalTransportExhaustion
 import BEDC.Derived.HistTimeStreamUp.NameCertRouteExhaustion
+import BEDC.Derived.HistTimeStreamUp.ObserverLocalityTransport
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityConsumptionBridge
 import BEDC.Derived.HistTimeStreamUp.StartLedgerTotality
 import BEDC.Derived.HistTimeStreamUp.StartLedgerUniqueness
