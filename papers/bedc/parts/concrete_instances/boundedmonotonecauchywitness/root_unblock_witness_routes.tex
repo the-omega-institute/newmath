@@ -194,6 +194,30 @@ The two packets therefore compose without adding an escape coordinate. The grid 
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_grid\_ledger\_nonescape}
 
+\begin{theorem}[Bounded monotone Cauchy witness budget-cofinal readback]
+\label{thm:bounded-monotone-cauchy-witness-budget-cofinal-readback}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier, and let its root route consume an accepted $\RealCauchyWitnessGridUp$ packet
+$$
+G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G).
+$$
+Every terminal $\RealUp$ readback from the composed route must pass through both the scheduled tail budget rows $\sigma,\mu,\lambda$ of $W$ and the selector-budget rows $B,L,K,T$ of $G$ before the Real seal row $Q$ is public. The readback is exhausted by
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N,\quad B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G,
+$$
+and exports no selected limit, source-equivalence parameter, quotient real equality, host equality, trichotomy, countable choice, ambient completeness, compactness, hidden selector state, or choice-like tail selection.
+\end{theorem}
+\begin{proof}
+First extract the bounded-monotone root. Apply \autoref{thm:bounded-monotone-cauchy-witness-root-extraction}; every terminal readback from $W$ starts inside $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Next force the scheduled tail budget. By \autoref{thm:bounded-monotone-cauchy-witness-root-tail-window-totality}, the rows $\sigma,\mu,\lambda$ are consumed before any located-trap, pre-seal, or terminal $\RealUp$ read can inspect $Q$.
+
+Attach the grid packet through the public route. \autoref{thm:bounded-monotone-cauchy-witness-grid-route-compatibility} places the selector budget $B$, witness ledger $L$, completion-seal classifier $K$, and tail envelope $T$ before the route reaches the Real seal row of $W$.
+
+Now use grid ledger non-escape. \autoref{thm:bounded-monotone-cauchy-witness-grid-ledger-nonescape} says that the grid contributes only $B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G$ together with the displayed rows of $W$.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-root-real-seal-threshold-exhaustion}. The Real seal row $Q$ is public only after the scheduled tail budget, located trap, and grid selector-budget rows have been traversed, so the terminal readback has no coordinate for source-equivalence data, selected limits, quotient equality, host equality, completeness, compactness, or choice-like tail selection.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness grid synchronizer terminal envelope]
 \label{thm:bounded-monotone-cauchy-witness-grid-synchronizer-terminal-envelope}
 Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier whose root route consumes an accepted $\RealCauchyWitnessGridUp$ packet $G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)$. Every root-facing $\CauchySealBudgetSynchronizerUp$, $\RealObservationBudgetUp$, or $\RealUp$ terminal read from the composed route factors through the finite envelope
