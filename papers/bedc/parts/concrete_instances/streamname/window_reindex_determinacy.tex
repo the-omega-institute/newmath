@@ -11,3 +11,74 @@ Next apply successor projection determinacy, \autoref{thm:streamname-successor-w
 
 Finally use terminal window fusion, \autoref{thm:streamname-real-completion-terminal-window-fusion}. The fused terminal packet has no extra coordinate beyond the finite window, endpoint data, and displayed support rows, so both accepted packets export the same public finite observation section.
 \end{proof}
+
+\begin{theorem}[StreamName public reindexing identity law]
+\label{thm:streamname-public-reindexing-identity-law}
+For every public $\StreamNameUp$ finite-window packet over a
+$\mathsf{ProbeBundle}$, the certified identity reindexer preserves the
+displayed $\mathsf{RatStreamNameFiniteWindowClassifier}$, $\UnaryHistory$
+observation rows, $\mathsf{InBundle}$ membership rows, pointwise rational
+classifier rows, $\hsame$ comparisons, $\Cont$ routes, $\Pkg$ provenance, and
+local $\NameCert$ rows. The resulting public finite observation section is the
+same section read through the identity route.
+
+This identity law is a statement about the public finite-window packet only.
+It does not introduce quotient stream equality, host sequence equality,
+selected limits, countable choice, a completion row, or a standard bridge row.
+\end{theorem}
+\begin{proof}
+Read the packet through the public finite-window interface and the public
+reindexing obligation of
+\autoref{def:streamname-public-reindexing-obligation}. On an identity
+reindexer, every certified $\UnaryHistory$ observation remains the displayed
+observation, and every $\mathsf{InBundle}$ row is read from the same
+$\mathsf{ProbeBundle}$.
+
+The pointwise rational classifier, $\hsame$ comparison, $\Cont$ route,
+$\Pkg$ provenance, and local $\NameCert$ row therefore reappear as the same
+displayed rows. No extra endpoint, quotient representative, or host-index
+coordinate is available in the public obligation surface.
+
+Apply \autoref{thm:streamname-window-reindex-determinacy} to the original
+packet and to the identity-reindexed packet. The hypotheses are exactly the
+shared endpoint rows, the identity $\hsame$ route, and the componentwise
+agreement of the displayed support rows, so the exported public finite
+observation section is unchanged.
+\end{proof}
+
+\begin{theorem}[StreamName public reindexing associative law]
+\label{thm:streamname-public-reindexing-associative-law}
+Let $r$ and $s$ be composable certified unary reindexers displayed over public
+$\StreamNameUp$ finite-window packets. The two-step packet obtained by
+reindexing along $r$ and then along $s$ exposes the same public finite-window
+section as the single packet obtained by the composite reindexer. The common
+section has the same $\mathsf{RatStreamNameFiniteWindowClassifier}$,
+$\UnaryHistory$ ledger, $\mathsf{InBundle}$ transport, pointwise rational
+classifier rows, $\hsame$ comparisons, composed $\Cont$ route, displayed
+$\Pkg$ provenance, and local $\NameCert$ rows.
+
+The law is confined to the finite public surface. It does not claim quotient
+stream equality, host sequence equality, selected limits, countable choice,
+completion data, or a standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply the public reindexing obligation of
+\autoref{def:streamname-public-reindexing-obligation} to the $r$ leg and then
+to the $s$ leg. The two applications list only the certified
+$\UnaryHistory$ observations, $\mathsf{InBundle}$ membership rows, pointwise
+rational classifier rows, $\hsame$ comparisons, $\Cont$ routes, $\Pkg$
+provenance, and local naming rows displayed by the finite packets.
+
+Next use the finite-window reindexing composition theorem,
+\autoref{thm:streamname-finite-window-reindexing-composition}. It identifies
+the two restricted finite $\mathsf{BHist}$ packets with the packet obtained by
+restricting once along the composite reindexer, with the classifier, endpoint,
+$\hsame$, and finite ledger rows merely repacked over the target
+$\mathsf{ProbeBundle}$.
+
+Finally apply \autoref{thm:streamname-window-reindex-determinacy} to the
+two-step packet and the composite packet. Their reindex maps are
+$\hsame$-compatible, their endpoint rows agree, and their displayed
+$\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows transport componentwise, so the
+exported public finite observation section is the same.
+\end{proof}
