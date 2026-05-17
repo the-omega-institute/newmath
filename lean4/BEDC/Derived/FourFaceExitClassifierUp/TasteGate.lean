@@ -235,6 +235,26 @@ def taste_gate : ChapterTasteGate FourFaceExitClassifierUp :=
   -- BEDC touchpoint anchor: BHist BMark
   inferInstance
 
+theorem FourFaceExitClassifierTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      fourFaceExitClassifierDecodeBHist (fourFaceExitClassifierEncodeBHist h) = h) ∧
+      (∀ x : FourFaceExitClassifierUp,
+        fourFaceExitClassifierFromEventFlow (fourFaceExitClassifierToEventFlow x) =
+          some x) ∧
+        (∀ x y : FourFaceExitClassifierUp,
+          fourFaceExitClassifierToEventFlow x = fourFaceExitClassifierToEventFlow y →
+            x = y) ∧
+          fourFaceExitClassifierEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  constructor
+  · exact fourFaceExitClassifier_decode_encode_bhist
+  · constructor
+    · exact fourFaceExitClassifier_round_trip
+    · constructor
+      · intro x y heq
+        exact fourFaceExitClassifierToEventFlow_injective heq
+      · rfl
+
 namespace TasteGate
 
 theorem FourFaceExitClassifierNameCertObligations
