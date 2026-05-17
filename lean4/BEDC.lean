@@ -3315,6 +3315,8 @@ import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.EventualTailAgreementUp.TasteGate
 import BEDC.Derived.PhysicalRecordInvariantUp.TasteGate
 import BEDC.Derived.PropextTransportBoundaryUp
+import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
+import BEDC.Derived.RecursorBranchCompletenessUp.TasteGate
 import BEDC.Derived.LocalClockBudgetUp
 import BEDC.Derived.PackageMapBoundaryUp.TasteGate
 import BEDC.Derived.PackageGovernanceExportUp.TasteGate
