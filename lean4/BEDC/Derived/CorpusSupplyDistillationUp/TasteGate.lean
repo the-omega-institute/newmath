@@ -345,4 +345,27 @@ theorem CorpusSupplyDistillationNameCert_obligations
   | mk C F D O R H T P N =>
       exact ⟨C, F, D, O, R, H, T, P, N, rfl, hsame_refl H, rfl⟩
 
+theorem CorpusSupplyDistillationSourceChannel_exposure :
+    (∀ x : CorpusSupplyDistillationUp,
+      ∃ C F D O R H T P N : BHist,
+        x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+          FieldFaithful.fields x = [C, F, D, O, R, H, T, P, N]) ∧
+      (∀ F D O R H T P N : BHist,
+        FieldFaithful.fields
+            (CorpusSupplyDistillationUp.mk (BHist.e0 BHist.Empty) F D O R H T P N) ≠
+          FieldFaithful.fields
+            (CorpusSupplyDistillationUp.mk BHist.Empty F D O R H T P N)) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    cases x with
+    | mk C F D O R H T P N =>
+        exact ⟨C, F, D, O, R, H, T, P, N, rfl, rfl⟩
+  · intro F D O R H T P N hfields
+    change
+      [BHist.e0 BHist.Empty, F, D, O, R, H, T, P, N] =
+        [BHist.Empty, F, D, O, R, H, T, P, N] at hfields
+    injection hfields with hrow _
+    cases hrow
+
 end BEDC.Derived.CorpusSupplyDistillationUp
