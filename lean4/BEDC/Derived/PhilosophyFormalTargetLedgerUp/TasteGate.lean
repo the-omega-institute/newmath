@@ -11,20 +11,21 @@ open BEDC.Meta.TasteGate
 
 inductive PhilosophyFormalTargetLedgerUp : Type where
   | mk :
-      (registry theoremMap gapMap traditionMap scienceMap cannotClaim closureStatus
-        targetSkeleton refusalBoundary transport replay provenance localName : BHist) →
+      (registryRow theoremRow gapRow traditionRow scienceRow cannotClaimRow closureRow
+        skeletonRow boundaryRow transportRow continuationRow provenanceRow nameCertRow :
+        BHist) →
       PhilosophyFormalTargetLedgerUp
   deriving DecidableEq
 
 def philosophyFormalTargetLedgerFields :
     PhilosophyFormalTargetLedgerUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | PhilosophyFormalTargetLedgerUp.mk registry theoremMap gapMap traditionMap scienceMap
-      cannotClaim closureStatus targetSkeleton refusalBoundary transport replay provenance
-      localName =>
-      [registry, theoremMap, gapMap, traditionMap, scienceMap, cannotClaim,
-        closureStatus, targetSkeleton, refusalBoundary, transport, replay, provenance,
-        localName]
+  | PhilosophyFormalTargetLedgerUp.mk registryRow theoremRow gapRow traditionRow scienceRow
+      cannotClaimRow closureRow skeletonRow boundaryRow transportRow continuationRow
+      provenanceRow nameCertRow =>
+      [registryRow, theoremRow, gapRow, traditionRow, scienceRow, cannotClaimRow,
+        closureRow, skeletonRow, boundaryRow, transportRow, continuationRow,
+        provenanceRow, nameCertRow]
 
 def philosophyFormalTargetLedgerEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -37,12 +38,6 @@ def philosophyFormalTargetLedgerDecodeBHist : RawEvent → BHist
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (philosophyFormalTargetLedgerDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (philosophyFormalTargetLedgerDecodeBHist tail)
-
-private def philosophyFormalTargetLedgerNthRawEvent : EventFlow → Nat → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | [], _ => []
-  | head :: _tail, Nat.zero => head
-  | _head :: tail, Nat.succ n => philosophyFormalTargetLedgerNthRawEvent tail n
 
 private theorem philosophyFormalTargetLedgerDecodeEncodeBHist :
     ∀ h : BHist,
@@ -59,44 +54,45 @@ private theorem philosophyFormalTargetLedgerDecodeEncodeBHist :
       exact congrArg BHist.e1 ih
 
 private theorem philosophyFormalTargetLedger_mk_congr
-    {registry registry' theoremMap theoremMap' gapMap gapMap'
-      traditionMap traditionMap' scienceMap scienceMap' cannotClaim cannotClaim'
-      closureStatus closureStatus' targetSkeleton targetSkeleton'
-      refusalBoundary refusalBoundary' transport transport' replay replay'
-      provenance provenance' localName localName' : BHist}
-    (hRegistry : registry' = registry)
-    (hTheoremMap : theoremMap' = theoremMap)
-    (hGapMap : gapMap' = gapMap)
-    (hTraditionMap : traditionMap' = traditionMap)
-    (hScienceMap : scienceMap' = scienceMap)
-    (hCannotClaim : cannotClaim' = cannotClaim)
-    (hClosureStatus : closureStatus' = closureStatus)
-    (hTargetSkeleton : targetSkeleton' = targetSkeleton)
-    (hRefusalBoundary : refusalBoundary' = refusalBoundary)
-    (hTransport : transport' = transport)
-    (hReplay : replay' = replay)
-    (hProvenance : provenance' = provenance)
-    (hLocalName : localName' = localName) :
-    PhilosophyFormalTargetLedgerUp.mk registry' theoremMap' gapMap' traditionMap'
-        scienceMap' cannotClaim' closureStatus' targetSkeleton' refusalBoundary'
-        transport' replay' provenance' localName' =
-      PhilosophyFormalTargetLedgerUp.mk registry theoremMap gapMap traditionMap
-        scienceMap cannotClaim closureStatus targetSkeleton refusalBoundary transport replay
-        provenance localName := by
+    {registryRow registryRow' theoremRow theoremRow' gapRow gapRow'
+      traditionRow traditionRow' scienceRow scienceRow'
+      cannotClaimRow cannotClaimRow' closureRow closureRow'
+      skeletonRow skeletonRow' boundaryRow boundaryRow'
+      transportRow transportRow' continuationRow continuationRow'
+      provenanceRow provenanceRow' nameCertRow nameCertRow' : BHist}
+    (hRegistry : registryRow' = registryRow)
+    (hTheorem : theoremRow' = theoremRow)
+    (hGap : gapRow' = gapRow)
+    (hTradition : traditionRow' = traditionRow)
+    (hScience : scienceRow' = scienceRow)
+    (hCannotClaim : cannotClaimRow' = cannotClaimRow)
+    (hClosure : closureRow' = closureRow)
+    (hSkeleton : skeletonRow' = skeletonRow)
+    (hBoundary : boundaryRow' = boundaryRow)
+    (hTransport : transportRow' = transportRow)
+    (hContinuation : continuationRow' = continuationRow)
+    (hProvenance : provenanceRow' = provenanceRow)
+    (hNameCert : nameCertRow' = nameCertRow) :
+    PhilosophyFormalTargetLedgerUp.mk registryRow' theoremRow' gapRow' traditionRow'
+        scienceRow' cannotClaimRow' closureRow' skeletonRow' boundaryRow' transportRow'
+        continuationRow' provenanceRow' nameCertRow' =
+      PhilosophyFormalTargetLedgerUp.mk registryRow theoremRow gapRow traditionRow
+        scienceRow cannotClaimRow closureRow skeletonRow boundaryRow transportRow
+        continuationRow provenanceRow nameCertRow := by
   -- BEDC touchpoint anchor: BHist BMark
   cases hRegistry
-  cases hTheoremMap
-  cases hGapMap
-  cases hTraditionMap
-  cases hScienceMap
+  cases hTheorem
+  cases hGap
+  cases hTradition
+  cases hScience
   cases hCannotClaim
-  cases hClosureStatus
-  cases hTargetSkeleton
-  cases hRefusalBoundary
+  cases hClosure
+  cases hSkeleton
+  cases hBoundary
   cases hTransport
-  cases hReplay
+  cases hContinuation
   cases hProvenance
-  cases hLocalName
+  cases hNameCert
   rfl
 
 def philosophyFormalTargetLedgerToEventFlow :
@@ -109,35 +105,75 @@ def philosophyFormalTargetLedgerToEventFlow :
 def philosophyFormalTargetLedgerFromEventFlow :
     EventFlow → Option PhilosophyFormalTargetLedgerUp
   -- BEDC touchpoint anchor: BHist BMark
-  | ef =>
-      some
-        (PhilosophyFormalTargetLedgerUp.mk
-          (philosophyFormalTargetLedgerDecodeBHist
-            (philosophyFormalTargetLedgerNthRawEvent ef 0))
-          (philosophyFormalTargetLedgerDecodeBHist
-            (philosophyFormalTargetLedgerNthRawEvent ef 1))
-          (philosophyFormalTargetLedgerDecodeBHist
-            (philosophyFormalTargetLedgerNthRawEvent ef 2))
-          (philosophyFormalTargetLedgerDecodeBHist
-            (philosophyFormalTargetLedgerNthRawEvent ef 3))
-          (philosophyFormalTargetLedgerDecodeBHist
-            (philosophyFormalTargetLedgerNthRawEvent ef 4))
-          (philosophyFormalTargetLedgerDecodeBHist
-            (philosophyFormalTargetLedgerNthRawEvent ef 5))
-          (philosophyFormalTargetLedgerDecodeBHist
-            (philosophyFormalTargetLedgerNthRawEvent ef 6))
-          (philosophyFormalTargetLedgerDecodeBHist
-            (philosophyFormalTargetLedgerNthRawEvent ef 7))
-          (philosophyFormalTargetLedgerDecodeBHist
-            (philosophyFormalTargetLedgerNthRawEvent ef 8))
-          (philosophyFormalTargetLedgerDecodeBHist
-            (philosophyFormalTargetLedgerNthRawEvent ef 9))
-          (philosophyFormalTargetLedgerDecodeBHist
-            (philosophyFormalTargetLedgerNthRawEvent ef 10))
-          (philosophyFormalTargetLedgerDecodeBHist
-            (philosophyFormalTargetLedgerNthRawEvent ef 11))
-          (philosophyFormalTargetLedgerDecodeBHist
-            (philosophyFormalTargetLedgerNthRawEvent ef 12)))
+  | [] => none
+  | registryRow :: rest0 =>
+      match rest0 with
+      | [] => none
+      | theoremRow :: rest1 =>
+          match rest1 with
+          | [] => none
+          | gapRow :: rest2 =>
+              match rest2 with
+              | [] => none
+              | traditionRow :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | scienceRow :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | cannotClaimRow :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | closureRow :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | skeletonRow :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | boundaryRow :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | transportRow :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | continuationRow :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | provenanceRow :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | nameCertRow :: rest12 =>
+                                                      match rest12 with
+                                                      | [] =>
+                                                          some
+                                                            (PhilosophyFormalTargetLedgerUp.mk
+                                                              (philosophyFormalTargetLedgerDecodeBHist
+                                                                registryRow)
+                                                              (philosophyFormalTargetLedgerDecodeBHist
+                                                                theoremRow)
+                                                              (philosophyFormalTargetLedgerDecodeBHist
+                                                                gapRow)
+                                                              (philosophyFormalTargetLedgerDecodeBHist
+                                                                traditionRow)
+                                                              (philosophyFormalTargetLedgerDecodeBHist
+                                                                scienceRow)
+                                                              (philosophyFormalTargetLedgerDecodeBHist
+                                                                cannotClaimRow)
+                                                              (philosophyFormalTargetLedgerDecodeBHist
+                                                                closureRow)
+                                                              (philosophyFormalTargetLedgerDecodeBHist
+                                                                skeletonRow)
+                                                              (philosophyFormalTargetLedgerDecodeBHist
+                                                                boundaryRow)
+                                                              (philosophyFormalTargetLedgerDecodeBHist
+                                                                transportRow)
+                                                              (philosophyFormalTargetLedgerDecodeBHist
+                                                                continuationRow)
+                                                              (philosophyFormalTargetLedgerDecodeBHist
+                                                                provenanceRow)
+                                                              (philosophyFormalTargetLedgerDecodeBHist
+                                                                nameCertRow))
+                                                      | _ :: _ => none
 
 private theorem philosophyFormalTargetLedger_round_trip :
     ∀ x : PhilosophyFormalTargetLedgerUp,
@@ -146,24 +182,24 @@ private theorem philosophyFormalTargetLedger_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk registry theoremMap gapMap traditionMap scienceMap cannotClaim closureStatus
-      targetSkeleton refusalBoundary transport replay provenance localName =>
+  | mk registryRow theoremRow gapRow traditionRow scienceRow cannotClaimRow closureRow
+      skeletonRow boundaryRow transportRow continuationRow provenanceRow nameCertRow =>
       exact
         congrArg some
           (philosophyFormalTargetLedger_mk_congr
-            (philosophyFormalTargetLedgerDecodeEncodeBHist registry)
-            (philosophyFormalTargetLedgerDecodeEncodeBHist theoremMap)
-            (philosophyFormalTargetLedgerDecodeEncodeBHist gapMap)
-            (philosophyFormalTargetLedgerDecodeEncodeBHist traditionMap)
-            (philosophyFormalTargetLedgerDecodeEncodeBHist scienceMap)
-            (philosophyFormalTargetLedgerDecodeEncodeBHist cannotClaim)
-            (philosophyFormalTargetLedgerDecodeEncodeBHist closureStatus)
-            (philosophyFormalTargetLedgerDecodeEncodeBHist targetSkeleton)
-            (philosophyFormalTargetLedgerDecodeEncodeBHist refusalBoundary)
-            (philosophyFormalTargetLedgerDecodeEncodeBHist transport)
-            (philosophyFormalTargetLedgerDecodeEncodeBHist replay)
-            (philosophyFormalTargetLedgerDecodeEncodeBHist provenance)
-            (philosophyFormalTargetLedgerDecodeEncodeBHist localName))
+            (philosophyFormalTargetLedgerDecodeEncodeBHist registryRow)
+            (philosophyFormalTargetLedgerDecodeEncodeBHist theoremRow)
+            (philosophyFormalTargetLedgerDecodeEncodeBHist gapRow)
+            (philosophyFormalTargetLedgerDecodeEncodeBHist traditionRow)
+            (philosophyFormalTargetLedgerDecodeEncodeBHist scienceRow)
+            (philosophyFormalTargetLedgerDecodeEncodeBHist cannotClaimRow)
+            (philosophyFormalTargetLedgerDecodeEncodeBHist closureRow)
+            (philosophyFormalTargetLedgerDecodeEncodeBHist skeletonRow)
+            (philosophyFormalTargetLedgerDecodeEncodeBHist boundaryRow)
+            (philosophyFormalTargetLedgerDecodeEncodeBHist transportRow)
+            (philosophyFormalTargetLedgerDecodeEncodeBHist continuationRow)
+            (philosophyFormalTargetLedgerDecodeEncodeBHist provenanceRow)
+            (philosophyFormalTargetLedgerDecodeEncodeBHist nameCertRow))
 
 private theorem philosophyFormalTargetLedgerToEventFlow_injective
     {x y : PhilosophyFormalTargetLedgerUp} :
@@ -188,12 +224,12 @@ private theorem philosophyFormalTargetLedger_field_faithful :
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk registry theoremMap gapMap traditionMap scienceMap cannotClaim closureStatus
-      targetSkeleton refusalBoundary transport replay provenance localName =>
+  | mk registryRow theoremRow gapRow traditionRow scienceRow cannotClaimRow closureRow
+      skeletonRow boundaryRow transportRow continuationRow provenanceRow nameCertRow =>
       cases y with
-      | mk registry' theoremMap' gapMap' traditionMap' scienceMap' cannotClaim'
-          closureStatus' targetSkeleton' refusalBoundary' transport' replay' provenance'
-          localName' =>
+      | mk registryRow' theoremRow' gapRow' traditionRow' scienceRow' cannotClaimRow'
+          closureRow' skeletonRow' boundaryRow' transportRow' continuationRow'
+          provenanceRow' nameCertRow' =>
           cases hfields
           rfl
 
@@ -226,9 +262,9 @@ instance philosophyFormalTargetLedgerNontrivial :
     Nontrivial PhilosophyFormalTargetLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨PhilosophyFormalTargetLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty
+    ⟨PhilosophyFormalTargetLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty,
       PhilosophyFormalTargetLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
