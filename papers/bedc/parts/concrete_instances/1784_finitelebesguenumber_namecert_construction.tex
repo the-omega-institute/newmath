@@ -175,6 +175,42 @@ The mesh refinement and radius transport obligations keep that endpoint tied to 
 Finally, $P$ and $N$ package and name the readback as part of the same $\FiniteLebesgueNumberUp$ carrier. This gives total cover-cell readback for the finite dyadic route.
 \end{proof}
 
+\begin{theorem}[L10 source-lock for compact radius reads]
+\label{thm:finite-lebesgue-number-l10-source-lock}
+Every accepted $\FiniteLebesgueNumberUp$ public finite-window read locks its radius route through $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicMeshUp$, and $\DyadicCoverUp$ before any $\CompactMetricUp$, $\CompactNetModulusSelectorUp$, or $\UniformModulusUp$ consumer may read the positive radius ledger. The consumer-facing read is therefore a read of the displayed packet $D,W,\lambda,M,H,C,P,N$, not a radius read supplied by an external compactness or modulus interface.
+\end{theorem}
+\begin{proof}
+Begin with finite-window coverage exactness. It forces each accepted finite-window read to pass through the displayed stream, regular-rational, real, mesh, and cover rows before it can be used as a cover read.
+
+The radius transport and mesh-refinement nonchoice theorems keep the positive ledger $\lambda$ tied to that same window and mesh route. Hence a compact consumer cannot detach the radius from $W$ and $M$ and then attach a different compactness witness.
+
+Finally apply the compact-uniform selector handoff and cover-cell readback totality. They identify the downstream compact and uniform readers as consumers of the named finite packet $D,W,\lambda,M,H,C,P,N$, so the L10 source route is locked before any positive radius ledger is exposed.
+\end{proof}
+
+\begin{theorem}[Stream-regular window order]
+\label{thm:finite-lebesgue-number-stream-regular-window-order}
+For every accepted $\FiniteLebesgueNumberUp$ carrier $L=(D,W,\lambda,M,H,C,P,N)$, each public finite-window read is ordered as follows: first the window row $W$, then the $\StreamNameUp$ row, then the $\RegSeqRatUp$ approximation row, then the $\RealUp$ row, then a mesh cell in $M$, then a cover cell in $D$, and finally the support rows $H,C,P,N$. Componentwise $\hsame$ transport and the displayed $\Cont$ replay preserve that order.
+\end{theorem}
+\begin{proof}
+Use finite-window coverage exactness to read the window row through the displayed stream, regular-rational, real, mesh, and cover rows. This fixes the forward route from $W$ to the named cell of $D$ through $M$.
+
+Use radius transport and mesh-refinement nonchoice to preserve the same order under componentwise $\hsame$ transport. The positive ledger $\lambda$ remains between the finite window and mesh rows, so the mesh cell in $M$ cannot be read before the regular and real source rows have been displayed.
+
+The compact-uniform selector handoff and cover-cell readback totality then package the route with $H,C,P,N$. The $\Cont$ replay is therefore an order-preserving replay of the already displayed finite packet, not a new path that bypasses the stream or regular-Cauchy source.
+\end{proof}
+
+\begin{theorem}[Real source nonchoice boundary]
+\label{thm:finite-lebesgue-number-real-source-nonchoice}
+For every accepted $\FiniteLebesgueNumberUp$ carrier, the $\RealUp$ row used by a compact or uniform consumer is read only through the displayed $\StreamNameUp$ and $\RegSeqRatUp$ source rows. It is not read by host real equality, an arbitrary point selector, open-cover compactness, a subcover choice principle, or any external real representative outside $D,W,\lambda,M,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start from finite-window coverage exactness. The $\RealUp$ row appears as part of the displayed source chain following the stream-name and regular-rational rows, so the real read is already anchored before the mesh and cover cells are consumed.
+
+Radius transport and mesh-refinement nonchoice keep that real source attached to the positive radius and mesh rows under the same $\hsame$ and $\Cont$ data. Thus host real equality and arbitrary point selection cannot replace the displayed source rows.
+
+The compact-uniform selector handoff and cover-cell readback totality give the downstream boundary. Compact and uniform consumers receive the named finite route, while open-cover compactness, subcover choice, and external representatives are absent from the carrier.
+\end{proof}
+
 \begin{theorem}[Compact consumer nonchoice boundary]
 \label{thm:finite-lebesgue-number-compact-consumer-nonchoice-boundary}
 Every $\CompactMetricUp$ or $\CompactNetModulusSelectorUp$ consumer of an accepted $\FiniteLebesgueNumberUp$ carrier receives only the finite dyadic route through $D,W,\lambda,M,H,C,P,N$. The consumer may use the named cover cells, finite-window reads, positive radius ledger, mesh refinements, transports, continuations, provenance, and local naming, but it receives no open-cover compactness theorem, host compactness witness, arbitrary subcover choice, or external selector.

@@ -600,6 +600,7 @@ import BEDC.Derived.FiniteObservationInterfaceUp.TasteGate
 import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
 import BEDC.Derived.LocalEmpiricalClosureGateUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
+import BEDC.Derived.SocketReportUp.TasteGate
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
 import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
