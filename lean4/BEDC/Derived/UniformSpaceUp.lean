@@ -533,4 +533,54 @@ theorem UniformSpacePacket_finite_cauchy_completion_consumer_examples [AskSetup]
     ⟨commonUnary, cauchyUnary, completionUnary, publicUnary, routeLeftRouteRightCommon,
       commonTransportCauchy, cauchyProvenanceCompletion, completionNamePublic, publicPkg⟩
 
+theorem UniformSpacePacket_semantic_name_certificate [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition transport provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpacePacket point entourage diagonal refinement symmetry composition transport provenance
+        name bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          UniformSpacePacket point entourage diagonal refinement symmetry composition transport
+            provenance name bundle pkg ∧ hsame row name)
+        (fun row : BHist =>
+          hsame row name ∧ Cont point entourage diagonal ∧ Cont diagonal refinement symmetry ∧
+            Cont symmetry composition transport ∧ Cont transport provenance name)
+        (fun row : BHist => hsame row name ∧ PkgSig bundle name pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro name (And.intro packet (hsame_refl name))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      obtain ⟨_pointUnary, _entourageUnary, _diagonalUnary, _refinementUnary,
+        _symmetryUnary, _compositionUnary, _transportUnary, _provenanceUnary, _nameUnary,
+        pointEntourageDiagonal, diagonalRefinementSymmetry, symmetryCompositionTransport,
+        transportProvenanceName, _namePkg⟩ := source.left
+      exact
+        ⟨source.right, pointEntourageDiagonal, diagonalRefinementSymmetry,
+          symmetryCompositionTransport, transportProvenanceName⟩
+    ledger_sound := by
+      intro row source
+      obtain ⟨_pointUnary, _entourageUnary, _diagonalUnary, _refinementUnary,
+        _symmetryUnary, _compositionUnary, _transportUnary, _provenanceUnary, _nameUnary,
+        _pointEntourageDiagonal, _diagonalRefinementSymmetry, _symmetryCompositionTransport,
+        _transportProvenanceName, namePkg⟩ := source.left
+      exact ⟨source.right, namePkg⟩
+  }
+
 end BEDC.Derived.UniformSpaceUp
