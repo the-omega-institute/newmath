@@ -191,19 +191,49 @@ def taste_gate : ChapterTasteGate PhysicalLawBridgeUp :=
 theorem PhysicalLawBridgeTasteGate_single_carrier_alignment :
     (∀ h : BHist,
         physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist h) = h) ∧
-      (∀ x : PhysicalLawBridgeUp,
-        physicalLawBridgeFromEventFlow (physicalLawBridgeToEventFlow x) = some x) ∧
-        (∀ x y : PhysicalLawBridgeUp,
-          physicalLawBridgeToEventFlow x = physicalLawBridgeToEventFlow y → x = y) ∧
-          physicalLawBridgeEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+      (physicalLawBridgeEncodeBHist BHist.Empty = []) ∧
+        (physicalLawBridgeEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0]) ∧
+          (∀ x : PhysicalLawBridgeUp,
+            physicalLawBridgeFromEventFlow (physicalLawBridgeToEventFlow x) = some x) ∧
+            (∀ x y : PhysicalLawBridgeUp,
+              physicalLawBridgeToEventFlow x = physicalLawBridgeToEventFlow y → x = y) ∧
+              Nonempty (ChapterTasteGate PhysicalLawBridgeUp) ∧
+                Nonempty (Nontrivial PhysicalLawBridgeUp) ∧
+                  Nonempty (FieldFaithful PhysicalLawBridgeUp) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   constructor
   · exact physicalLawBridgeDecode_encode_bhist
   · constructor
-    · exact physicalLawBridge_round_trip
+    · rfl
     · constructor
-      · intro x y heq
-        exact physicalLawBridgeToEventFlow_injective heq
       · rfl
+      · constructor
+        · exact physicalLawBridge_round_trip
+        · constructor
+          · intro x y heq
+            exact physicalLawBridgeToEventFlow_injective heq
+          · constructor
+            · exact ⟨physicalLawBridgeChapterTasteGate⟩
+            · constructor
+              · exact ⟨physicalLawBridgeNontrivial⟩
+              · exact ⟨physicalLawBridgeFieldFaithful⟩
+
+namespace TasteGate
+
+theorem PhysicalLawBridgeTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+        physicalLawBridgeDecodeBHist (physicalLawBridgeEncodeBHist h) = h) ∧
+      (physicalLawBridgeEncodeBHist BHist.Empty = []) ∧
+        (physicalLawBridgeEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0]) ∧
+          (∀ x : PhysicalLawBridgeUp,
+            physicalLawBridgeFromEventFlow (physicalLawBridgeToEventFlow x) = some x) ∧
+            (∀ x y : PhysicalLawBridgeUp,
+              physicalLawBridgeToEventFlow x = physicalLawBridgeToEventFlow y → x = y) ∧
+              Nonempty (ChapterTasteGate PhysicalLawBridgeUp) ∧
+                Nonempty (Nontrivial PhysicalLawBridgeUp) ∧
+                  Nonempty (FieldFaithful PhysicalLawBridgeUp) := by
+  exact BEDC.Derived.PhysicalLawBridgeUp.PhysicalLawBridgeTasteGate_single_carrier_alignment
+
+end TasteGate
 
 end BEDC.Derived.PhysicalLawBridgeUp
