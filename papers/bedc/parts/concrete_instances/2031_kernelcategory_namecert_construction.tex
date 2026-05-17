@@ -221,6 +221,7 @@ It remains to rule out further law sources. Use \autoref{thm:kernel-category-law
 \label{thm:kernel-category-downstream-namecert-readiness}
 Every downstream $\CategoryUp$, $\FunctorUp$, or $\ContinuationMonadUp$-facing consumer of a $\KernelCategoryUp$ route receives only the displayed $\KernelCategoryUp$ $\NameCert$ surface $O,H,I,C,A,U,P,N$. Such a consumer may read unary $\BHist$ endpoints, displayed $\Cont$ identity and composition rows, componentwise $\hsame$ law transports, $\Pkg$ provenance, and the local name, but it cannot import external arrow equality, host object equality, quotient morphisms, host composition, functor semantics, natural transformations, or limit data.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelCategoryUp.KernelCategoryCarrier\_downstream\_namecert\_readiness}
 \begin{proof}
 Start from \autoref{def:kernel-category-carrier}. The downstream consumer is handed the same finite tuple $O,H,I,C,A,U,P,N$, not a separate host category carrier.
 
@@ -734,6 +735,18 @@ Start with the root certificate obligations. \autoref{thm:kernel-category-root-n
 Next use the total route statement. \autoref{thm:kernel-category-route-totality} exhausts every accepted route on the finite rows $O,H,I,C,A,U,P,N$.
 
 Finally apply downstream readiness. \autoref{thm:kernel-category-downstream-namecert-readiness}, \autoref{thm:kernel-category-downstream-functor-route-boundary}, and \autoref{thm:kernel-category-continuation-monad-consumer-exhaustion} give the CategoryUp, FunctorUp, and ContinuationMonadUp handoffs from the same finite NameCert route, without a detached carrier for any one consumer.
+\end{proof}
+
+\begin{theorem}[KernelCategory object-hom-law separation]
+\label{thm:kernel-category-object-hom-law-separation}
+For an accepted $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, object rows, hom rows, and law rows are consumed through distinct finite coordinates: $O$ for unary object endpoints, $H,I,C$ for hom, identity, and composition continuation rows, and $A,U$ for associativity and unit transport. No accepted consumer may collapse these coordinates into quotient morphisms, host arrow equality, or a single ambient category law.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kernel-category-carrier}. It displays the object endpoint row $O$, the hom ledger $H$, the identity and composition continuation rows $I,C$, and the law transport rows $A,U$ as separate coordinates.
+
+Apply the root dependency theorems. The continuation dependency \autoref{thm:kernel-category-root-continuation-dependency} makes hom reads pass through $O,H,I,C$, while the law dependency \autoref{thm:kernel-category-root-law-dependency} makes associativity and unit reads pass through $A,U$ after the operation rows are visible.
+
+Finally use \autoref{thm:kernel-category-root-downstream-unblock}. The downstream route exports the same finite packet $O,H,I,C,A,U,P,N$ to category-shaped consumers, so quotient morphisms, host arrow equality, and ambient category laws have no coordinate through which to identify objects, homs, and laws.
 \end{proof}
 
 \closureat{KernelCategoryUp}{seedStr}
