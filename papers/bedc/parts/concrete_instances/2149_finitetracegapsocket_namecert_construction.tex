@@ -120,17 +120,47 @@ Now read the sibling $\InscriptionPointUp$ carrier of \autoref{ch:concrete-insta
 Therefore the inscription-point route factors through this chapter's finite socket packet first. Since neither carrier contains a row for a hidden supply rule, induction rule, or infinite observation stream, the sibling route cannot introduce one while consuming the finite GAP row.
 \end{proof}
 
+\begin{theorem}[FiniteTraceGapSocket scoped support package]
+\label{thm:finite-trace-gap-socket-scoped-support-package}
+The carrier of \autoref{def:finite-trace-gap-socket-carrier}, the NameCert obligations of \autoref{thm:finite-trace-gap-socket-namecert-obligations}, classifier transport from \autoref{thm:finite-trace-gap-socket-classifier-transport}, replay exactness from \autoref{thm:finite-trace-gap-socket-replay-exactness}, ledger non-escape from \autoref{thm:finite-trace-gap-socket-ledger-nonescape}, the real-window boundary from \autoref{thm:finite-trace-gap-socket-real-window-boundary}, and the InscriptionPoint sibling route from \autoref{thm:finite-trace-gap-socket-inscription-point-sibling-route} exhaust the scoped BEDC support for $\FiniteTraceGapSocketUp$ over $\BHist$, $\Gap$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Within that scope, induction, host completeness, selected limits, quotient real equality, real-order trichotomy, and infinite observation streams have no carrier coordinate and no continuation route.
+\end{theorem}
+\begin{proof}
+Read the support package by projecting the carrier $G=(T,W,S,R,Q,H,C,P,N)$. The carrier theorem supplies exactly the finite trace, GAP socket, stream schedule, regular readback, real seal boundary, transport rows, continuation rows, provenance row, and local naming row.
+
+The NameCert obligations bind those rows as the available certificate surface. Classifier transport preserves the same coordinates, replay exactness forces every observed-window read through $T \to S \to R$, ledger non-escape rules out hidden supply from $P$, and the real-window boundary keeps each completion-facing consumer on the displayed finite route.
+
+It remains to account for the external consumer named in the scope. The sibling-route theorem states that an $\InscriptionPointUp$ consumer reaches the finite GAP row only through the same $\FiniteTraceGapSocketUp$ packet, so the route adds no coordinate beyond the rows already listed.
+
+Thus every named support route is one of the displayed carrier, certificate, classifier, replay, ledger, real-window, or sibling rows. The principles listed outside the scope would require a carrier coordinate or continuation absent from $G$, so they are not supplied by the package.
+\end{proof}
+
+\begin{theorem}[FiniteTraceGapSocket TasteGate alignment record]
+\label{thm:finite-trace-gap-socket-tastegate-alignment-record}
+The checked Lean carrier-alignment target
+$BEDC.Derived.FiniteTraceGapSocketUp.FiniteTraceGapSocketTasteGate\_single\_carrier\_alignment$
+names the same finite packet surface as \autoref{thm:finite-trace-gap-socket-scoped-support-package}. It is used here only as verification of the single-carrier surface for $\FiniteTraceGapSocketUp$, not as a paper-side substitute for the carrier, NameCert obligations, classifier transport, finite replay exactness, ledger non-escape, real-window boundary, or sibling-route obligations.
+\end{theorem}
+\begin{proof}
+The named Lean target is attached to the $\FiniteTraceGapSocketUp$ TasteGate carrier. Its role is to confirm that the checked carrier-alignment surface is the single finite packet described by the chapter, rather than a separate theory object.
+
+The paper obligations remain the scoped rows assembled in \autoref{thm:finite-trace-gap-socket-scoped-support-package}. Therefore the Lean target records verification of the carrier surface while the displayed theorem and its cited support rows state the paper-side closure content.
+\end{proof}
+
 \closureat{FiniteTraceGapSocketUp}{seedStr}
 \closureat{FiniteTraceGapSocketUp}{obligationStr}
+\closureat{FiniteTraceGapSocketUp}{scopedStr}[BEDC.Derived.FiniteTraceGapSocketUp.FiniteTraceGapSocketTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\FiniteTraceGapSocketUp}
   \constructivestory{A $\FiniteTraceGapSocketUp$ packet is generated from a bounded finite observation trace, an explicit GAP socket row, a $\StreamNameUp$ replay schedule, a $\RegSeqRatUp$ readback row, a $\RealUp$ seal boundary, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:finite-trace-gap-socket-carrier}, \autoref{thm:finite-trace-gap-socket-namecert-obligations}, \autoref{thm:finite-trace-gap-socket-classifier-transport}, \autoref{thm:finite-trace-gap-socket-replay-exactness}, \autoref{thm:finite-trace-gap-socket-ledger-nonescape}, \autoref{thm:finite-trace-gap-socket-real-window-boundary}, and \autoref{thm:finite-trace-gap-socket-inscription-point-sibling-route} bind the carrier, the total NameCert obligation surface, classifier transport, finite replay exactness, ledger non-escape, the real-window boundary, and the inscription-point sibling route.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:finite-trace-gap-socket-carrier}, \autoref{thm:finite-trace-gap-socket-namecert-obligations}, \autoref{thm:finite-trace-gap-socket-classifier-transport}, \autoref{thm:finite-trace-gap-socket-replay-exactness}, \autoref{thm:finite-trace-gap-socket-ledger-nonescape}, \autoref{thm:finite-trace-gap-socket-real-window-boundary}, \autoref{thm:finite-trace-gap-socket-inscription-point-sibling-route}, \autoref{thm:finite-trace-gap-socket-scoped-support-package}, and \autoref{thm:finite-trace-gap-socket-tastegate-alignment-record} bind the carrier, the total NameCert obligation surface, classifier transport, finite replay exactness, ledger non-escape, the real-window boundary, the inscription-point sibling route, the scoped support package, and the checked single-carrier alignment record.}
+  \formalstatus{\theoremCheckedV}
   \leanchecked{BEDC.Derived.FiniteTraceGapSocketUp.taste\_gate}
+  \leantarget{BEDC.Derived.FiniteTraceGapSocketUp.FiniteTraceGapSocketTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close mathematical induction, host completeness, selected real limits, quotient real equality, real-order trichotomy, infinite observation streams, or a checked Lean certificate.}
-  \upgradepath{Scoped closure requires Lean encoding of the carrier and checked theorems for socket classifier transport, finite replay exactness, ledger non-escape, real-window boundary, and sibling-route consumption.}
+  \notclaimed{This chapter does not close mathematical induction, host completeness, selected real limits, quotient real equality, real-order trichotomy, or infinite observation streams.}
+  \upgradepath{Public closure requires one exported consumer theorem over the scoped finite-trace GAP socket.}
 \end{closurestatus}

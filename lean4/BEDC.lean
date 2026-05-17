@@ -193,6 +193,7 @@ import BEDC.Derived.AuditMapTemplatePacketUp.TasteGate
 import BEDC.Derived.AuditSystemUp.TasteGate
 import BEDC.Derived.AuditMapFrontierIndexUp.TasteGate
 import BEDC.Derived.AuditMapInterfaceUp
+import BEDC.Derived.AuditMapInterfaceUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.AxiomQueryLedgerUp
 import BEDC.Derived.AuditGateBoundaryUp
@@ -646,7 +647,6 @@ import BEDC.Derived.DyadicRoundingUp
 import BEDC.Derived.ModulusIndexedTailCoverUp.TasteGate
 import BEDC.Derived.ModulusIndexedDiagonalReadbackUp.TasteGate
 import BEDC.Derived.MultiHistoryPhysicsRouteUp.TasteGate
-import BEDC.Derived.PhysicsProgrammeSynthesisUp.TasteGate
 import BEDC.Derived.StableNegationBoundaryUp
 import BEDC.Derived.StableNegationBoundaryUp.TasteGate
 import BEDC.Derived.DyadicStepFunctionUp
@@ -872,6 +872,7 @@ import BEDC.Derived.OperationalMembraneUp
 import BEDC.Derived.ProofTermErasureAuditRouteUp
 import BEDC.Derived.ProofTermErasureTraceUp.TasteGate
 import BEDC.Derived.ProofTraceAuditWitnessUp.TasteGate
+import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.ProofWitnessChainUp.TasteGate
 import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.UnaryDirectionBridgeUp
@@ -3331,6 +3332,7 @@ import BEDC.Derived.FieldUp.ConcreteRatupFieldupCertificateInstance
 import BEDC.Derived.FieldUp.RatupFieldupAssembledSupportNeutralityCertificate
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Derived.FocusedLedgerUp.TasteGate
+import BEDC.Derived.KleisliTraceUp.TasteGate
 import BEDC.Derived.GapFailureBridgeAuditUp.TasteGate
 import BEDC.Derived.FieldUp.AffineAutomorphismGroupCertificate
 import BEDC.Reflection
