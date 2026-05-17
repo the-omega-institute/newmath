@@ -310,6 +310,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.FourFaceBudgetCorrespondence
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GeneratorRangeExactness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridRouteCompatibility
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridRootPackage
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.FormalHandoffPackage
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridBudgetPrecedesSeal
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridLedgerNonescape
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridSelectorExactness
@@ -776,6 +777,7 @@ import BEDC.Derived.ConsciousObserverStateUp.GapLedgerRoute
 import BEDC.Derived.ConsciousObserverStateUp.LocalGapCoverage
 import BEDC.Derived.ConsciousObserverStateUp.GapLocalityExhaustion
 import BEDC.Derived.ConsciousObserverStateUp.RouteScopePackage
+import BEDC.Derived.ConsciousObserverStateUp.RoutePackageExactness
 import BEDC.Derived.ConsciousObserverStateUp.LocalityCellHandoff
 import BEDC.Derived.ConsciousObserverStateUp.LocalityCellReadback
 import BEDC.Derived.ConsciousObserverStateUp.DependencyHandoff
@@ -1005,6 +1007,7 @@ import BEDC.Derived.ContinuationMonadUp.RootUnblockObligationPackage
 import BEDC.Derived.ContinuationMonadUp.RootBindScheduleExhaustion
 import BEDC.Derived.ContinuationMonadUp.RootCategoryHomConsumerTotality
 import BEDC.Derived.ContinuationMonadUp.CategoryHomCarrierRoute
+import BEDC.Derived.ContinuationMonadUp.CategoryHandoffExactness
 import BEDC.Derived.ContinuationMonadUp.CategoryBoundaryReadbackTotality
 import BEDC.Derived.ContinuationMonadUp.CategoryHomRouteTotality
 import BEDC.Derived.ContinuationMonadUp.RootConsumerStandardRow
@@ -1415,6 +1418,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalDiagonalPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalReadback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.UniformCauchyCriterionPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.WindowIndexScope
+import BEDC.Derived.FiniteObservationCofinalitySelectorUp.TasteGate
 import BEDC.Derived.FiniteObservationLockUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitBudgetUp.TasteGate
 import BEDC.Derived.FastCauchyUp
@@ -1453,6 +1457,7 @@ import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FoldDefectStokesUp
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.GaloisExtUp
+import BEDC.Derived.HardProblemClosureUp.TasteGate
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
 import BEDC.Derived.GaloisExtUp.PublicLedgerCoverage
@@ -1598,6 +1603,7 @@ import BEDC.Derived.HistTimeStreamUp.CompletionStreamNameHandoffFactorization
 import BEDC.Derived.HistTimeStreamUp.FiniteWindowReadbackExhaustion
 import BEDC.Derived.HistTimeStreamUp.HistTimeStreamRegSeqRatLocalClockSeparation
 import BEDC.Derived.HistTimeStreamUp.LocalTransportExhaustion
+import BEDC.Derived.HistTimeStreamUp.LocalStreamPrefixFactorization
 import BEDC.Derived.HistTimeStreamUp.NameCertRouteExhaustion
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityBridgeRoute
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityTransport
@@ -1870,6 +1876,7 @@ import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyTailCertificateUp.TasteGate
 import BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
 import BEDC.Derived.WritingItemAuditUp.TasteGate
+import BEDC.Derived.WritingItemAuditPacketUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.TasteGate
 import BEDC.Derived.TailCofinalityBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
