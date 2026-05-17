@@ -246,6 +246,22 @@ Next build the handoff package. Apply \autoref{thm:finite-kernel-category-root-h
 Finally compose with \autoref{thm:finite-kernel-category-tastegate-obligation-handoff}. The TasteGate side consumes the same single-carrier packet, so a downstream route that preserves all listed rows is unblocked, while a route omitting object/hom data, identity/composition data, ledger non-escape, or TasteGate handoff leaves the root obligation surface.
 \end{proof}
 
+\begin{theorem}[Finite-kernel category downstream root package]
+\label{thm:finite-kernel-category-downstream-root-package}
+For every accepted $\FiniteKernelCategoryUp$ carrier $K=(O,M,I,Q,A,U,H,C,P,N)$, the downstream root package for $\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ consumers is exactly the displayed row sequence
+$$
+O,M,I,Q,A,U,H,C,P,N.
+$$
+It consists of the object and hom boundary, identity and composition rows, associativity and unit rows, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row. No downstream categorical consumer receives a smaller root package by replacing those rows with quotient morphisms, host arrow equality, functor-category objects, or an external category library.
+\end{theorem}
+\begin{proof}
+Start with the root obligation scope, \autoref{thm:finite-kernel-category-root-obligation-scope}. It identifies $O,M,I,Q,A,U,H,C,P,N$ as the complete finite surface read by $\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ consumers.
+
+Next apply the root handoff package and category interface handoff. Theorem~\ref{thm:finite-kernel-category-root-handoff-package} orders the object, hom, identity, composition, law, transport, continuation, provenance, and naming rows, while \autoref{thm:finite-kernel-category-category-interface-handoff} makes the same rows the categorical interface for downstream reads.
+
+Finally use \autoref{thm:finite-kernel-category-ledger-nonescape-boundary}. Since the ledger boundary exports no quotient morphism, host arrow equality, functor-category object, or external category library, the downstream package is exactly the displayed row sequence and not a larger ambient categorical object.
+\end{proof}
+
 \begin{theorem}[Finite-kernel category hom endpoint transport determinacy]
 \label{thm:finite-kernel-category-hom-endpoint-transport-determinacy}
 Let
