@@ -160,4 +160,64 @@ theorem KernelCategoryCarrier_cont_composition_stability
     CategoryHomCarrier_hsame_transport (hsame_refl a) (hsame_refl c) sameComposite composite
   exact ⟨composite, sameComposite, compositePrime⟩
 
+theorem KernelCategoryCarrier_identity_cont_route_exhaustion
+    {object hom identity composition associativity unit provenance name identityRead : BHist} :
+    KernelCategoryCarrier object hom identity composition associativity unit provenance name →
+      hsame identityRead identity →
+        SemanticNameCert
+            (fun row : BHist => hsame row identityRead ∧ UnaryHistory row)
+            (fun row : BHist => hsame row identityRead ∧ Cont object identity object)
+            (fun row : BHist => hsame row identityRead ∧ hsame name (append provenance unit))
+            hsame ∧
+          Cont object identity object ∧ hsame identityRead identity ∧
+            hsame name (append provenance unit) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory SemanticNameCert
+  intro carrier identitySame
+  have carrierPacket :
+      KernelCategoryCarrier object hom identity composition associativity unit provenance name :=
+    carrier
+  obtain ⟨_unaryObject, identityCarrier, _compositionRoute, _associativitySame,
+    _unitSame, nameSame⟩ := carrier
+  have identityObjectRoute : Cont object identity object := by
+    exact KernelCategoryCarrier_identity_continuation carrierPacket (hsame_refl object)
+      (hsame_refl identity) identityCarrier
+  have unaryIdentity : UnaryHistory identity :=
+    identityCarrier.right.right.left
+  have unaryIdentityRead : UnaryHistory identityRead :=
+    unary_transport unaryIdentity (hsame_symm identitySame)
+  have sourceIdentityRead :
+      (fun row : BHist => hsame row identityRead ∧ UnaryHistory row) identityRead := by
+    exact ⟨hsame_refl identityRead, unaryIdentityRead⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row identityRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row identityRead ∧ Cont object identity object)
+          (fun row : BHist => hsame row identityRead ∧ hsame name (append provenance unit))
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro identityRead sourceIdentityRead
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left)
+            (unary_transport source.right same)
+      }
+      pattern_sound := by
+        intro _row source
+        exact ⟨source.left, identityObjectRoute⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, nameSame⟩
+    }
+  exact ⟨cert, identityObjectRoute, identitySame, nameSame⟩
+
 end BEDC.Derived.KernelCategoryUp
