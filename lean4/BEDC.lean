@@ -173,6 +173,7 @@ import BEDC.Derived.AxisCarryDiamondRouteUp.TasteGate
 import BEDC.Derived.AxisCarryRefusalLedgerUp
 import BEDC.Derived.AxisCarryRefusalLedgerUp.TasteGate
 import BEDC.Derived.ApartnessRealUp
+import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
 import BEDC.Derived.ArchimedeanRealUp
@@ -635,6 +636,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
 import BEDC.Derived.DyadicApproximationUp.L10RealCompletionSiblingRoute
 import BEDC.Derived.FiniteObservationInterfaceUp.TasteGate
+import BEDC.Derived.HistoryPrefixUp.TasteGate
 import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
 import BEDC.Derived.LocalEmpiricalClosureGateUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
@@ -874,6 +876,7 @@ import BEDC.Derived.KernelNormalizationAuditJoinUp.TasteGate
 import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
+import BEDC.Derived.KernelCategoryUp.CarrierAdmissionObligation
 import BEDC.Derived.KernelCategoryUp.CertificateSurface
 import BEDC.Derived.KernelCategoryUp.CompositeEndpointDeterminacy
 import BEDC.Derived.KernelCategoryUp.CompositionContRouteExactness
@@ -1960,6 +1963,7 @@ import BEDC.Derived.SubjectReductionDischargeUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeLedgerUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeLedgerUp
 import BEDC.Derived.SubjectReductionDischargeSocketUp
+import BEDC.Derived.SubjectFreeObservationUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteClassifierUp
 import BEDC.Derived.SubjectReductionRouteUp.TasteGate
 import BEDC.Derived.SubjectReductionUp
