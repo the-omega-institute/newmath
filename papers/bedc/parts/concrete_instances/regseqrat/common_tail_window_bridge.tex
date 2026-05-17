@@ -51,3 +51,19 @@ Now invoke \autoref{thm:regseqrat-common-tail-window-classifier-bridge}. The tra
 
 Finally apply \autoref{thm:regseqrat-real-seal-handoff}. Since the $\RealUp$ seal consumes exactly this accepted regular-rational finite source surface, the consumer factors through the common-tail packet. Quotient streams, host real equality, selected limits, metric-completion points, $\RealUp$ completeness data, and extra seal coordinates have no displayed carrier row from which to be read.
 \end{proof}
+
+\begin{theorem}[RegSeqRat common-tail finite-request Real seal pullback]
+\label{thm:regseqrat-common-tail-finite-request-real-seal-pullback}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, let $T_0$ and $T_1$ be two certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$, and let the two shifted tail reads land in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet} with common refinement $W_\ast$. For any finite-request $\RealUp$ seal consumer whose request is visible along that common-tail packet, the visible pullback of the consumer is exactly the finite source surface listed in \autoref{def:regseqrat-common-tail-window-packet}: the $\StreamNameUp$ schedule and refinement rows, the $\DyadicRatCoreUp$ endpoint, radius, and distance rows, the $\RegSeqRatUp$ classifier and regularity rows, the $\RealUp$ seal-source rows, componentwise $\hsame$, displayed $\Cont$, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance.
+
+Equivalently, the common-tail window source surface and the finite-request $\RealUp$ seal pullback present the same BEDC-visible rows. The equivalence exports no quotient stream, selected limit, host real equality, ambient completeness row, hidden completion carrier, or second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-common-tail-window-terminality}. Any completion-facing consumer whose visible rows are the shifted tail reads, the common window $W_\ast$, the dyadic ledger, classifier, seal-source rows, transports, continuations, package provenance, and local naming must factor through the common-tail packet.
+
+Next use \autoref{thm:regseqrat-tail-budget-window-seal-pullback}. A finite-request $\RealUp$ seal consumer has visible pullback exactly the StreamName schedule row, DyadicRatCore endpoint, radius, and distance rows, RegSeqRat classifier and regularity rows, displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$ provenance, and local $\NameCert$ row.
+
+Now apply \autoref{thm:regseqrat-shared-window-terminal-pullback-equivalence}. It identifies equality of the shared selector surface with equality of the terminal $\RealUp$ seal reads after both requests have been read through the ordered finite packet from $\DyadicRatCoreUp$ to $\RealUp$. Thus the common-tail presentation and the finite-request pullback presentation determine one another on the same displayed rows.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-selector-nonescape}. The selector boundary removes the excluded coordinates from both descriptions: quotient streams, selected limits, host real equality, ambient completeness data, hidden completion carriers, and second seal data have no row in either surface. The remaining rows are precisely the StreamName schedule and refinement rows, DyadicRatCore endpoint, radius, and distance rows, RegSeqRat classifier and regularity rows, RealUp seal-source rows, componentwise $\hsame$, displayed $\Cont$, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance listed in \autoref{def:regseqrat-common-tail-window-packet}.
+\end{proof}
