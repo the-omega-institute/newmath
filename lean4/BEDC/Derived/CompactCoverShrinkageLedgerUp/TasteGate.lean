@@ -235,4 +235,56 @@ instance compactCoverShrinkageLedgerNontrivial :
         intro h
         cases h⟩
 
+theorem CompactCoverShrinkageLedgerTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      compactCoverShrinkageLedgerDecodeBHist
+          (compactCoverShrinkageLedgerEncodeBHist h) =
+        h) ∧
+      (∀ x y : CompactCoverShrinkageLedgerUp,
+        compactCoverShrinkageLedgerFields x =
+            compactCoverShrinkageLedgerFields y →
+          x = y) ∧
+        ∃ x y : CompactCoverShrinkageLedgerUp, x ≠ y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact compactCoverShrinkageLedgerDecode_encode_bhist
+  · constructor
+    · intro x y h
+      cases x with
+      | packet compactNet₁ uniformConsumer₁ finiteFold₁ metric₁ rat₁ route₁ transport₁
+          provenance₁ name₁ =>
+          cases y with
+          | packet compactNet₂ uniformConsumer₂ finiteFold₂ metric₂ rat₂ route₂ transport₂
+              provenance₂ name₂ =>
+              injection h with hCompactNet t1
+              injection t1 with hUniformConsumer t2
+              injection t2 with hFiniteFold t3
+              injection t3 with hMetric t4
+              injection t4 with hRat t5
+              injection t5 with hRoute t6
+              injection t6 with hTransport t7
+              injection t7 with hProvenance t8
+              injection t8 with hName _
+              cases hCompactNet
+              cases hUniformConsumer
+              cases hFiniteFold
+              cases hMetric
+              cases hRat
+              cases hRoute
+              cases hTransport
+              cases hProvenance
+              cases hName
+              rfl
+    · exact
+        Exists.intro
+          (CompactCoverShrinkageLedgerUp.packet BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
+          (Exists.intro
+            (CompactCoverShrinkageLedgerUp.packet (BHist.e0 BHist.Empty) BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty)
+            (by
+              intro h
+              cases h))
+
 end BEDC.Derived.CompactCoverShrinkageLedgerUp
