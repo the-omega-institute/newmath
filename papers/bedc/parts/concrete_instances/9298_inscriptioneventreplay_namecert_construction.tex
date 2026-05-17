@@ -4,7 +4,7 @@
 
 The $\InscriptionEventReplayUp$ packet realizes the replay-only boundary named in \autoref{ch:visions-inscription-event-as-concrete-instance}. It sits downstream of the agency-bearing inscription surface of \autoref{ch:concrete-instances-inscriptionevent-namecert}, consumes the accepted route exposed by \autoref{ch:concrete-instances-inscribedroute-namecert}, and offers deterministic checker replay to the route-audit surface of \autoref{ch:concrete-instances-inscription-route-audit-namecert}. The point of the packet is negative as much as positive: replay is valuable audit evidence, but it is not the technical inscription event unless the carrier also contains the acceptance row that selects the route as the record to inscribe.
 
-\falsifiablePrediction{A replay packet whose carrier has no stored accepted public route is not an accepted \InscriptionEventReplayUp carrier.}
+\falsifiablePrediction{A replay packet whose carrier has no stored accepted public route is not an accepted $\InscriptionEventReplayUp$ carrier.}
 
 \independenceWitness{inscriptionevent, inscribedroute, inscriptionrouteaudit, inscriptiongapledger, finitewindowobserver; the replay carrier is not bijective to any sibling because it requires a pre-existing accepted route and checker replay row while excluding the inscription-acceptance coordinate that the inscription-event siblings carry.}
 
