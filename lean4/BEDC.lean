@@ -392,6 +392,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootWindowTerminalFactorizati
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootWindowExtraction
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootWindowReadiness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCriterionTailPullback
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootBudgetConsumerExactness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootUnblock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootSelectorBridge
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ScopedDependencyPackage
@@ -1116,6 +1117,7 @@ import BEDC.Derived.ContinuationMonadUp.ScopedRouteDependencies
 import BEDC.Derived.ContinuationMonadUp.UnitRouteNonescape
 import BEDC.Derived.ContinuationMonadUp.RootUnitBindExhaustion
 import BEDC.Derived.ContinuationMonadUp.CategoryHomRowExposure
+import BEDC.Derived.ContinuationMonadUp.ObligationClosure
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -1478,6 +1480,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalRouteGuard
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalWindowNonescape
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalSelectorSynchronization
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalSectionPullbackUniqueness
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalFourFacePullbackLock
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TailAgreementLimitSealTriangle
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalDiagonalPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalReadback
@@ -1949,6 +1952,7 @@ import BEDC.Derived.RegularCauchyTailFusionUp
 import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionFrontierUp.TasteGate
+import BEDC.Derived.RegularCauchyClassifierNormalFormUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyTailCertificateUp.TasteGate
 import BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
