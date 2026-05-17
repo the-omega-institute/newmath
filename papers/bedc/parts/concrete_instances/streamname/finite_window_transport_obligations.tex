@@ -212,3 +212,57 @@ absence of selected limits, metric completeness, and standard bridge rows,
 so the displayed row list is exactly the scope available before the
 downstream consumers read the packet.
 \end{proof}
+
+\begin{theorem}[StreamName finite-window global classifier exhaustion]
+\label{thm:streamname-finite-window-global-classifier-exhaustion}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be certified StreamName schedules.
+Assume that for every certified unary history $n:\mathsf{BHist}$ the singleton
+window $\Bcons(n,\Bnil)$ is supplied with a finite row
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\Bcons(n,\Bnil))$, its
+$\mathsf{UnaryHistory}(n)$ and $\mathsf{InBundle}(n,\Bcons(n,\Bnil))$
+support rows, the pointwise classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$, displayed $\hsame$ transport,
+$\Cont$ route, $\Pkg$ provenance, and local $\NameCert_{\StreamNameUp}$
+support. Then the public StreamName source available to any
+$\RegSeqRatUp$, $\DyadicRatCoreUp$, or finite-window $\RealUp$ consumer is
+exactly the reconstructed global classifier
+$\mathsf{RatStreamNameClassifier}(s,t)$.
+
+After this reconstruction, the downstream read is only through the existing
+handoff rows
+\autoref{thm:streamname-regseqrat-pointwise-handoff},
+\autoref{thm:streamname-regseq-window-handoff-exactness}, and
+\autoref{thm:streamname-regseqrat-realup-finite-window-pullback-criterion}.
+It exports no quotient stream equality, host sequence equality, selected
+limit, regularity row, completeness datum, metric-completion row, or
+standard bridge row from the StreamName source packet.
+\end{theorem}
+\begin{proof}
+First rebuild the source classifier. Apply
+\autoref{thm:rat-stream-name-finite-window-exhausts-classifier} to the
+family of singleton-window classifiers. Since every certified unary history
+is supplied with its singleton finite row, support rows, and pointwise
+$\mathsf{RatHistoryClassifier}$ witness, singleton exhaustion repacks those
+rows as the global $\mathsf{RatStreamNameClassifier}(s,t)$.
+
+Next identify what the regular-rational consumer can read. Apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff} to the reconstructed
+classifier and to the displayed singleton rows. The $\RegSeqRatUp$ interface
+receives the selected rational rows as StreamName pointwise data, together
+with the same unary-history, bundle-membership, $\hsame$, $\Cont$, $\Pkg$,
+and local naming rows.
+
+Now apply the finite-window handoff exactness theorem,
+\autoref{thm:streamname-regseq-window-handoff-exactness}. It says that the
+complete finite handoff packet is precisely the finite classifier and selected
+point certificates already used to reconstruct the global StreamName
+classifier, so the downstream read has no second source coordinate.
+
+Finally apply the finite-window pullback criterion,
+\autoref{thm:streamname-regseqrat-realup-finite-window-pullback-criterion}.
+The $\RealUp$ and $\DyadicRatCoreUp$ consumers therefore pull back only along
+the same finite StreamName rows. Quotient stream equality, host sequence
+equality, selected limits, regularity, completeness, metric completion, and
+standard bridge data remain downstream obligations rather than StreamName
+source rows.
+\end{proof}
