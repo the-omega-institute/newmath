@@ -1423,6 +1423,26 @@ def cycle() -> None:
         print(f"[heal] not on {BASE_BRANCH} (on {cur}); skipping cycle",
               file=sys.stderr)
         return
+    # Cooldown cause analysis runs FIRST, observation-only / alert-only.
+    # Previously this was at end of cycle but never reached because
+    # every prior heal phase (dup labels / CI / propext / gate-storm)
+    # ends with `return  # one heal per cycle is enough`. Running it
+    # first means alerts + (optionally) one cooldown hot-fix get
+    # dispatched even when later heal phases also fire. Hot-fix
+    # dispatch returns its own commit which the cycle then pushes;
+    # other phases run on next cycle.
+    try:
+        if cooldown_analysis_phase():
+            if push_to_origin():
+                print("[heal] codex committed + pushed (cooldown hot-fix)",
+                      flush=True)
+            else:
+                print("[heal] codex committed but push failed (cooldown hot-fix retry next tick)",
+                      flush=True)
+            return  # one cooldown hot-fix this cycle
+    except Exception as exc:
+        print(f"[heal] cooldown_analysis_phase crashed: {exc}",
+              file=sys.stderr)
     # Skip if working tree has TRACKED modifications, UNLESS the same
     # dirt has been stuck for ≥ STUCK_DIRT_THRESHOLD_TICKS consecutive
     # cycles. Untracked files (`?? path`) are tolerated.
@@ -1590,16 +1610,8 @@ def cycle() -> None:
                       flush=True)
             return
 
-    # Cooldown cause analysis runs after the existing audit / CI /
-    # propext / gate-storm phases. It handles repeated cooldown symptoms
-    # by dispatching narrow hot-fixes for known categories or emitting a
-    # structured alert for operator-visible monitoring.
-    if cooldown_analysis_phase():
-        if push_to_origin():
-            print("[heal] codex committed + pushed (cooldown hot-fix)", flush=True)
-        else:
-            print("[heal] codex committed but push failed (cooldown hot-fix retry next tick)",
-                  flush=True)
+    # Cooldown analysis already ran at top of cycle (alerts written + at most
+    # one hot-fix dispatched). Nothing more to do here.
 
 
 def main() -> int:
