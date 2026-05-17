@@ -10,13 +10,6 @@ on:
   workflow_run:
     workflows: ["Build Paper"]
     types: [completed]
-  workflow_dispatch:
-    inputs:
-      target_ref:
-        description: Branch, tag, or SHA to publish as a daily prerelease (manual).
-        required: false
-        default: dev
-        type: string
 
 permissions:
   contents: write
@@ -30,20 +23,17 @@ jobs:
   publish_prerelease:
     name: Publish daily prerelease
     # Only act on successful Build Paper runs that pushed to dev.
-    # workflow_dispatch still allows manual publishing of any ref.
     if: |
-      github.event_name == 'workflow_dispatch' || (
-        github.event.workflow_run.conclusion == 'success' &&
-        github.event.workflow_run.event == 'push' &&
-        github.event.workflow_run.head_branch == 'dev'
-      )
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'dev'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - name: Check out repository at triggering SHA
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.target_ref || github.event.workflow_run.head_sha }}
+          ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
 
       - name: Resolve daily target
@@ -54,12 +44,6 @@ jobs:
           echo "target_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
           echo "release_name=Daily Build $daily_date" >> "$GITHUB_OUTPUT"
-
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "should_publish=true" >> "$GITHUB_OUTPUT"
-            echo "skip_reason=" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
 
           git fetch origin --tags --force
           if git rev-parse -q --verify "refs/tags/$release_tag" >/dev/null; then
@@ -77,24 +61,13 @@ jobs:
           exit 0
 
       - name: Download PDF artifact from Build Paper run
-        if: ${{ steps.resolve_target.outputs.should_publish == 'true' && github.event_name != 'workflow_dispatch' }}
+        if: ${{ steps.resolve_target.outputs.should_publish == 'true' }}
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: bedc-pdf
           path: release-assets/pdf
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
-
-      - name: Build PDF inline (workflow_dispatch path)
-        if: ${{ steps.resolve_target.outputs.should_publish == 'true' && github.event_name == 'workflow_dispatch' }}
-        run: |
-          # workflow_dispatch has no triggering Build Paper run to consume,
-          # so build inline. This path is for manual operator runs only.
-          cd papers/bedc
-          make
-          mkdir -p ../../release-assets/pdf
-          ts=$(date -u +%Y-%m-%dT%H%M%SZ)
-          cp main.pdf "../../release-assets/pdf/bedc_${ts}.pdf"
 
       - name: Resolve release assets
         if: ${{ steps.resolve_target.outputs.should_publish == 'true' }}

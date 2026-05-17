@@ -10,7 +10,6 @@ on:
   workflow_run:
     workflows: ["Build Paper"]
     types: [completed]
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -20,21 +19,22 @@ permissions:
 
 concurrency:
   # PR renders skip deploy. Scope PR renders to a per-PR group so
-  # push/workflow_dispatch keep the canonical `pages` queue.
+  # push runs keep the canonical `pages` queue.
   group: ${{ github.event.workflow_run.event == 'pull_request' && format('pages-pr-{0}', github.event.workflow_run.pull_requests[0].number) || 'pages' }}
   cancel-in-progress: ${{ github.event.workflow_run.event == 'pull_request' }}
 
 jobs:
   build_dossier:
     name: Render dossier
-    # Only react to successful Build Paper push runs on deploy branches.
-    # PR-triggered Build Paper runs and other branches are skipped (they
-    # don't need rendering since they won't deploy).
+    # Render deploy-branch pushes and all PR-triggered Build Paper runs.
+    # PR renders validate dossier sources without deploying.
     if: |
-      github.event_name == 'workflow_dispatch' || (
-        github.event.workflow_run.conclusion == 'success' &&
-        github.event.workflow_run.event == 'push' &&
-        contains(fromJSON('["feature/dossier","dev","main","auto-dev"]'), github.event.workflow_run.head_branch)
+      github.event.workflow_run.conclusion == 'success' && (
+        (
+          github.event.workflow_run.event == 'push' &&
+          contains(fromJSON('["feature/dossier","dev","main","auto-dev"]'), github.event.workflow_run.head_branch)
+        ) ||
+        github.event.workflow_run.event == 'pull_request'
       )
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -115,6 +115,7 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: build_dossier
+    if: ${{ github.event.workflow_run.event == 'push' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
