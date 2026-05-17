@@ -44,3 +44,21 @@ Use \autoref{thm:dyadic-rat-core-tolerance-radius-monotonicity} for the radius p
 
 Finally compare with the public bridge and handoff clauses, \autoref{thm:dyadicratcore-public-bridge-consumer-exactness}, \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}, and \autoref{thm:dyadicratcore-namecert-obligation-surface}. The downstream StreamName, RegSeqRat, and Real consumers receive exactly the displayed signed mantissa, exponent, denominator, comparison, radius, transport, replay, provenance, and local NameCert rows, with no quotient rational, host equality, completed endpoint, or ambient completeness coordinate.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore signed-exponent source determinacy]
+\label{thm:dyadic-rat-core-signed-exponent-source-determinacy}
+Let $Q=(m,e,\ell,W,R,H,C,P,N)$ be a signed-exponent $\DyadicRatCoreUp$ carrier as in \autoref{def:dyadic-rat-core-signed-exponent-carrier}. Any accepted downstream dyadic source read for $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ determines exactly the displayed mantissa row $m$, positive unary exponent row $e$, denominator ledger $\ell$, common-exponent window $W$, tolerance-radius row $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\DyadicRatCoreUp}$ row $N$. Conversely, any finite packet exposing precisely those nine rows repacks as the same signed-exponent dyadic source surface for those consumers.
+\end{theorem}
+\begin{proof}
+Project the signed-exponent carrier of \autoref{def:dyadic-rat-core-signed-exponent-carrier}. The projection names the only rows available to a downstream source read: $m$, $e$, $\ell$, $W$, $R$, $H$, $C$, $P$, and $N$.
+
+The exponent and denominator coordinates are fixed by \autoref{thm:dyadicratcore-denominator-ledger}. The comparison and radius coordinates are fixed by \autoref{thm:dyadic-rat-core-common-exponent-stability} and \autoref{thm:dyadic-rat-core-tolerance-radius-monotonicity}. Together these clauses leave no additional source coordinate through which a consumer could distinguish two accepted reads.
+
+The naming surface is then fixed by \autoref{thm:dyadic-rat-core-namecert-obligation-surface}. It identifies the local $\NameCert_{\DyadicRatCoreUp}$ obligations with the same mantissa, positive unary exponent, denominator ledger, comparison window, radius, transport, replay, provenance, and local naming rows.
+
+Apply the public bridge and handoff clauses, \autoref{thm:dyadicratcore-public-bridge-consumer-exactness} and \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}. They say that the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ reads consume exactly the public dyadic source rows already displayed, so an accepted downstream read determines exactly those rows.
+
+For the converse, start with any finite packet exposing precisely $m$, $e$, $\ell$, $W$, $R$, $H$, $C$, $P$, and $N$. The carrier projection repacks these rows as the signed-exponent surface, and the NameCert obligation theorem supplies the same public source boundary for the three consumers.
+
+The correspondence exports no quotient rational, host equality row, completed $\RealUp$ endpoint, ambient completeness principle, or selected host limit.
+\end{proof}
