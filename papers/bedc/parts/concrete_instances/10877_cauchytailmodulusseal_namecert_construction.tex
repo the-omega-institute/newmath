@@ -106,20 +106,39 @@ Next use \autoref{thm:cauchy-tail-modulus-seal-threshold-readback} to fix the un
 Finally compare with \autoref{thm:cauchy-tail-modulus-seal-independence-witness}. That theorem separates this route from the sibling seal surfaces, so the displayed classifier is the public route carried by the accepted $\CauchyTailModulusSealUp$ packet.
 \end{proof}
 
+\begin{theorem}[Cauchy tail-modulus seal paper bridge]
+\label{thm:cauchy-tail-modulus-seal-paper-bridge}
+For every accepted $\CauchyTailModulusSealUp$ packet
+$$
+S=(M,F,X,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N),
+$$
+the public classifier route $M,F,X,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N$ forms the paper bridge between the shared-tail modulus row, the tail-modulus fusion row, the witness-extractor row, the $\StreamNameUp$ windows, the $\RegSeqRatUp$ readbacks, the $\DyadicRatCoreUp$ ledger, and the $\RealUp$ seal row. The bridge exports no quotient stream equality, host real equality, selected host limit, or ambient Real completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:cauchy-tail-modulus-seal-carrier}. It displays exactly the shared-tail row $M$, fusion row $F$, witness-extractor row $X$, shared threshold $\tau$, dyadic ledger $D$, paired windows $W_0,W_1$, paired readbacks $Q_0,Q_1$, RealUp seal $E$, transport $H$, continuation $C$, provenance $P$, and local name $N$.
+
+Apply \autoref{thm:cauchy-tail-modulus-seal-namecert-obligations} to read these rows as the local NameCert surface. Apply \autoref{thm:cauchy-tail-modulus-seal-threshold-readback} to force the single threshold service before the window, readback, witness-facing, and RealUp-facing rows become available.
+
+Next use \autoref{thm:cauchy-tail-modulus-seal-nonescape}. It rules out exits to private thresholds, quotient stream equality, host real equality, selected limits, independent RealUp seals, and ambient Real completeness.
+
+Finally use \autoref{thm:cauchy-tail-modulus-seal-independence-witness} and \autoref{thm:cauchy-tail-modulus-seal-public-classifier-route}. The first separates this packet from the neighboring seal surfaces, and the second identifies the single public classifier route, so the displayed rows give exactly the paper bridge for the $\CauchyTailModulusSealUp$ seal.
+\end{proof}
+
 \closureat{CauchyTailModulusSealUp}{seedStr}
 \closureat{CauchyTailModulusSealUp}{obligationStr}[BEDC.Derived.CauchyTailModulusSealUp.CauchyTailModulusSealTasteGate\_single\_carrier\_alignment]
 \closureat{CauchyTailModulusSealUp}{scopedStr}[BEDC.Derived.CauchyTailModulusSealUp.CauchyTailModulusSealTasteGate\_single\_carrier\_alignment]
 \closureat{CauchyTailModulusSealUp}{publicStr}[BEDC.Derived.CauchyTailModulusSealUp.CauchyTailModulusSealTasteGate\_single\_carrier\_alignment]
+\closureat{CauchyTailModulusSealUp}{bridgedStr}[BEDC.Derived.CauchyTailModulusSealUp.CauchyTailModulusSealTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\CauchyTailModulusSealUp}
   \constructivestory{A $\CauchyTailModulusSealUp$ packet is generated from a shared-tail modulus row, a tail-modulus fusion row, a witness-extractor row, one shared threshold, a dyadic ledger, paired StreamName windows, paired RegSeqRat readbacks, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:cauchy-tail-modulus-seal-carrier} and the theorem rows of \autoref{thm:cauchy-tail-modulus-seal-namecert-obligations}, \autoref{thm:cauchy-tail-modulus-seal-threshold-readback}, \autoref{thm:cauchy-tail-modulus-seal-nonescape}, \autoref{thm:cauchy-tail-modulus-seal-independence-witness}, and \autoref{thm:cauchy-tail-modulus-seal-public-classifier-route} bind the displayed carrier to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchySharedTailModulusUp$, $\CauchyTailModulusFusionUp$, and $\RealCompletionWitnessExtractorUp$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-modulus-seal-carrier} and the theorem rows of \autoref{thm:cauchy-tail-modulus-seal-namecert-obligations}, \autoref{thm:cauchy-tail-modulus-seal-threshold-readback}, \autoref{thm:cauchy-tail-modulus-seal-nonescape}, \autoref{thm:cauchy-tail-modulus-seal-independence-witness}, \autoref{thm:cauchy-tail-modulus-seal-public-classifier-route}, and \autoref{thm:cauchy-tail-modulus-seal-paper-bridge} bind the displayed carrier to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchySharedTailModulusUp$, $\CauchyTailModulusFusionUp$, and $\RealCompletionWitnessExtractorUp$.}
   \leanchecked{BEDC.Derived.CauchyTailModulusSealUp.taste\_gate}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.CauchyTailModulusSealUp.CauchyTailModulusSealTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
-  \notclaimed{This chapter does not close quotient stream equality, host real equality, selected host limits, Real completeness, or a public standard bridge.}
-  \upgradepath{Bridged closure requires a standard bridge for the same public classifier route.}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, selected host limits, Real completeness, or bridge checking.}
+  \upgradepath{Mature closure requires downstream examples or completeness-style consumer coverage for the same public classifier route.}
 \end{closurestatus}
