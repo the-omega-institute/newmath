@@ -237,4 +237,26 @@ theorem LocalClockBudgetNameCert_obligations {H T W B L Q P N : BHist}
           hsame_refl N⟩
   }
 
+theorem LocalClockBudgetPublic_export {H T W B L Q P N publicRead : BHist}
+    (carrier : LocalClockBudgetCarrier H T W B L Q P N)
+    (streamRoute : Cont BHist.Empty T H)
+    (windowRoute : Cont T W Q)
+    (ledgerRoute : Cont L Q publicRead) :
+    LocalClockBudgetWindowSurface H T W B Q ∧
+      Cont L Q publicRead ∧
+        hsame H H ∧
+          hsame T T ∧
+            hsame W W ∧
+              hsame B B ∧
+                hsame Q Q ∧
+                  hsame P P ∧
+                    hsame N N ∧
+                      localClockBudgetFields (LocalClockBudgetUp.mk H T W B L Q P N) =
+                        [H, T, W, B, L, Q, P, N] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  have total := LocalClockBudgetWindow_totality carrier streamRoute windowRoute
+  exact
+    ⟨total.left, ledgerRoute, hsame_refl H, hsame_refl T, hsame_refl W,
+      hsame_refl B, hsame_refl Q, hsame_refl P, hsame_refl N, total.right⟩
+
 end BEDC.Derived.LocalClockBudgetUp
