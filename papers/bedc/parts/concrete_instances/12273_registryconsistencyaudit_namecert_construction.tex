@@ -68,3 +68,13 @@ Finally inspect $T,L,P,N$. These rows supply componentwise stability, replay, pr
 
 \closureat{RegistryConsistencyAuditUp}{seedStr}
 \closureat{RegistryConsistencyAuditUp}{obligationStr}
+
+\begin{closurestatus}{\RegistryConsistencyAuditUp}
+  \constructivestory{A $\RegistryConsistencyAuditUp$ packet is generated from displayed registry, status, dependency, gap, cannot-claim, closure/formal-status, proof-trace, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter records only the finite carrier and certificate surface for registry-consistency audit packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close public export, bridge checking, Lean verification, or any registry repair route for $\RegistryConsistencyAuditUp$.}
+  \upgradepath{The next paper-side step is obligationClosure via a complete local NameCert obligation and route-exhaustion surface.}
+\end{closurestatus}
