@@ -670,6 +670,7 @@ import BEDC.Derived.CofinalDiagonalSealUp.TasteGate
 import BEDC.Derived.HashLikeFiberBoundaryUp.TasteGate
 import BEDC.Derived.LocalStencilObservationUp.TasteGate
 import BEDC.Derived.DyadicCoverUp
+import BEDC.Derived.FiniteRealSectionUp.TasteGate
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealCompletionRouteAuditUp.TasteGate
 import BEDC.Derived.RealCompletionWitnessExtractorUp
@@ -1042,6 +1043,7 @@ import BEDC.Derived.ContinuationMonadUp.RootTerminalReadbackCoverage
 import BEDC.Derived.ContinuationMonadUp.RootCategoryGeneratorObligationSurface
 import BEDC.Derived.ContinuationMonadUp.RootFormalTargetExactness
 import BEDC.Derived.ContinuationMonadUp.BindRouteTotality
+import BEDC.Derived.ContinuationMonadUp.BindRouteCoverage
 import BEDC.Derived.ContinuationMonadUp.UnitRouteNonescape
 import BEDC.Derived.ContinuationMonadUp.RootUnitBindExhaustion
 import BEDC.Derived.ContinuationBigStepUp
@@ -1430,6 +1432,7 @@ import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
 import BEDC.Derived.FocusedMultiHistLedgerUp.TasteGate
 import BEDC.Derived.ForwardBindingGapLedgerUp.TasteGate
 import BEDC.Derived.FiniteKernelCategoryUp.TasteGate
+import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
 import BEDC.Derived.FuelIndexedSubstrateBridgeUp.TasteGate
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteMapUp
