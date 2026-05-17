@@ -71,6 +71,46 @@ seal surface by those rows. Hence agreement of the displayed section rows is
 both necessary and sufficient.
 \end{proof}
 
+\begin{theorem}[StreamName finite-request section classifier pullback]
+\label{thm:streamname-finite-request-section-classifier-pullback}
+Let $Q$ and $Q'$ be RealUp-facing finite requests on the terminal L10
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ route. Suppose that the
+two requests display the same $\StreamNameUp$ section schedule, the same
+$\DyadicRatCoreUp$ endpoint-radius ledger, the same $\RegSeqRatUp$
+regularity and readback surface, the same $\RealUp$ seal boundary, and the
+same support rows $\BHist$, componentwise $\hsame$, displayed $\Cont$ routes,
+$\Pkg$ provenance, and local $\NameCert$ rows. Then $Q$ and $Q'$ pull back to
+the same finite carrier verdict and the same classifier verdict on that
+terminal four-face route.
+
+The pullback uses only the displayed four faces and the named support rows. It
+exports no quotient stream equality, no host sequence equality, no selected
+limit, no ambient completeness row, no countable-choice row, and no bridge
+row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-finite-request-section-pullback} to both
+$Q$ and $Q'$. The two RealUp-facing requests are read through the displayed
+StreamName schedule, DyadicRatCore endpoint-radius ledger, RegSeqRat
+regularity/readback surface, RealUp seal boundary, and support rows named in
+the hypotheses.
+
+Next use \autoref{thm:streamname-regseqrat-real-finite-request-section-lock}.
+Since those displayed rows agree, the two seal presentations have the same
+finite request section at the terminal route.
+
+Now apply \autoref{thm:streamname-finite-section-classifier-determinacy}. The
+common finite section fixes the carrier verdict and classifier verdict read by
+the $\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ four-face route, so
+there is no second classifier route for either request.
+
+Finally apply \autoref{thm:streamname-finite-request-section-nonescape}. The
+common verdict is supported only by the displayed faces and support rows, and
+the excluded quotient stream equality, host sequence equality, selected limit,
+ambient completeness, countable-choice, and bridge rows are not part of the
+pullback.
+\end{proof}
+
 \begin{theorem}[StreamName finite-request section nonescape]
 \label{thm:streamname-finite-request-section-nonescape}
 The finite-request section pullback of
