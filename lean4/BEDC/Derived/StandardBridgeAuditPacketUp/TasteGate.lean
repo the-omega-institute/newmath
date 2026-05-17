@@ -245,5 +245,4 @@ instance standardBridgeAuditPacketNontrivial :
 def taste_gate : ChapterTasteGate StandardBridgeAuditPacketUp :=
   -- BEDC touchpoint anchor: BHist BMark
   standardBridgeAuditPacketChapterTasteGate
-
 end BEDC.Derived.StandardBridgeAuditPacketUp
