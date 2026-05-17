@@ -114,6 +114,20 @@ Apply \autoref{thm:finite-observation-interface-namecert-obligations} to bind th
 Finally combine \autoref{thm:finite-observation-interface-selected-stream-handoff}, \autoref{thm:finite-observation-interface-scoped-closure}, and \autoref{thm:finite-observation-interface-public-certificate-route}. The public route is reusable by L10 consumers, but its reuse is still the same finite boundary, so the listed non-export claims remain unavailable.
 \end{proof}
 
+\begin{theorem}[Finite observation interface L10 bridge]
+\label{thm:finite-observation-interface-l10-bridge}
+For every accepted packet $O=(S,R,D,T,E,H,C,P,N)$, the public certificate route of \autoref{thm:finite-observation-interface-public-certificate-route} is exactly the L10 bridge surface consumed by $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ readers. Every bridge read factors through $S,R,D,T,E,H,C,P,N$, and no bridge read exports Real completeness, selected limits, quotient stream equality, host real equality, or omitted-tail-as-selected-stream data.
+\end{theorem}
+\begin{proof}
+Start from the public reusable certificate route. By \autoref{thm:finite-observation-interface-public-certificate-route}, the exported surface is the displayed finite route through $S,R,D,T,E,H,C,P,N$, with no additional Real-facing coordinate.
+
+The selected-stream handoff of \autoref{thm:finite-observation-interface-selected-stream-handoff} identifies the only route by which a Real-facing finite observation read can reach the sibling $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ surfaces. The scoped closure theorem \autoref{thm:finite-observation-interface-scoped-closure} keeps that route inside the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Now apply consumer reuse from \autoref{thm:finite-observation-interface-consumer-reuse}. Any L10 reader using the packet must reuse the public certificate route, so its bridge read has no bypass around $S,R,D,T,E,H,C,P,N$.
+
+Finally use the L10 no-escape boundary of \autoref{thm:finite-observation-interface-l10-noescape-public-boundary}. Since the public route exports only the displayed finite certificate rows, the bridge surface consumed by the four downstream readers cannot export Real completeness, selected limits, quotient stream equality, host real equality, or omitted-tail-as-selected-stream data.
+\end{proof}
+
 \falsifiablePrediction{Every accepted FiniteObservationInterfaceUp packet exposes a selected finite observation window before any RealUp handoff and cannot export an omitted tail as a selected stream row.}
 
 \independenceWitness{streamname, regseqrat, dyadicratcore, real, finitewindowenvelope: the interface packet combines selected-window, omitted-tail, dyadic tolerance, regularity, and Real handoff rows; each sibling lacks at least one of these carrier rows, so no bijection preserves the full field inventory.}
@@ -122,15 +136,16 @@ The Lean file \texttt{Derived/FiniteObservationInterfaceUp/TasteGate.lean} must 
 
 \closureat{FiniteObservationInterfaceUp}{scopedStr}
 \closureat{FiniteObservationInterfaceUp}{publicStr}
+\closureat{FiniteObservationInterfaceUp}{bridgedStr}
 
 \begin{closurestatus}{\FiniteObservationInterfaceUp}
   \constructivestory{A $\FiniteObservationInterfaceUp$ packet is generated from a StreamName observation row, RegSeqRat regularity row, DyadicRatCore tolerance row, selected finite-window row, omitted-tail ledger, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
   \leanchecked{BEDC.Derived.FiniteObservationInterfaceUp.taste\_gate}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:finite-observation-interface-carrier}, \autoref{thm:finite-observation-interface-namecert-obligations}, \autoref{thm:finite-observation-interface-selected-stream-handoff}, \autoref{thm:finite-observation-interface-scoped-closure}, and \autoref{thm:finite-observation-interface-public-certificate-route} bind the finite observation carrier, local NameCert obligation surface, selected-window route, omitted-tail boundary, dyadic accountability, Real-facing non-escape scope, and reusable public certificate route.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:finite-observation-interface-carrier}, \autoref{thm:finite-observation-interface-namecert-obligations}, \autoref{thm:finite-observation-interface-selected-stream-handoff}, \autoref{thm:finite-observation-interface-scoped-closure}, \autoref{thm:finite-observation-interface-public-certificate-route}, and \autoref{thm:finite-observation-interface-l10-bridge} bind the finite observation carrier, local NameCert obligation surface, selected-window route, omitted-tail boundary, dyadic accountability, Real-facing non-escape scope, reusable public certificate route, and L10 bridge surface.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{This chapter does not close Real completeness, selected-limit existence, quotient stream equality, host real equality, Lean verification, or bridge checking.}
-  \upgradepath{The next paper-side step is a bridge theorem connecting this public finite observation certificate route to the standard L10 interface.}
+  \upgradepath{Mature closure requires examples or completeness-style consumer coverage over the same finite observation bridge.}
 \end{closurestatus}
