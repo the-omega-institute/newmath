@@ -90,3 +90,14 @@ Field faithfulness records preservation of each displayed row. In particular, it
 \falsifiablePrediction{A packet with no displayed finite Cont trace may carry a refusal boundary but cannot be read as a positive termination witness.}
 
 \independenceWitness{haltingdiagonal, haltingobstruction, finiterefutationboundary, certificatetruthbranchboundary: no sibling is bijective because this carrier stores both positive finite trace rows and refusal-to-decide rows while preserving their separation.}
+
+\begin{closurestatus}{\TerminationRefusalBoundaryUp}
+  \constructivestory{The termination-refusal boundary is generated from $BHist$ rows that name a boundary carrier, a refusal verdict, and the TasteGate obligation that consumes that verdict. The carrier is built bottom-up: first the history records the termination claim under inspection, then a refusal row marks the exact point where the claim leaves the admitted route, and finally $\Cont$ extensions may carry that refusal forward without changing its boundary. The $hsame$ relation keeps the verdict stable across equivalent histories. Non-escape and independence then show that the boundary is not a disguised termination proof, but a visible certificate of where such a proof is absent.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the termination-refusal boundary carrier, NameCert obligations, non-escape, independence, and TasteGate-obligation theorems.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim termination, decidability of all termination questions, or a route through any proof object outside the refusal boundary.}
+  \upgradepath{Reaching obligationClosure requires a formal refusal-boundary carrier and checked non-escape for routes that omit the refusal row.}
+\end{closurestatus}

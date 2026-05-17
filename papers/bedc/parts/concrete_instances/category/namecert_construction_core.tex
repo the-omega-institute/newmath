@@ -1,0 +1,697 @@
+\input{parts/concrete_instances/category/carrier_and_hom_laws}
+\input{parts/concrete_instances/category/certificate_and_visible_cases}
+
+The Category hom-carrier tail surface consumes the finite continuation packet
+exported by \autoref{ch:concrete-instances-continuationmonad-namecert}. The
+Category side reads hom carriers through continuation tails, while
+$\ContinuationMonadUp$ supplies the root source rows and the bind and unit route
+rows that make those tails available to downstream consumers.
+
+\begin{theorem}[Continuation morphism fixed tail iff]
+\label{thm:continuation-morphism-tail-hsame-iff}
+For histories $a,b,t:\mathsf{BHist}$ and a fixed continuation morphism
+$m:\mathsf{ContinuationMorphism}(a,b)$,
+$$
+\hsame(\mathsf{tail}(m),t)\Longleftrightarrow \ContR(a,t,b).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction transports the relation field
+$\ContR(a,\mathsf{tail}(m),b)$ along the displayed tail comparison, with
+source and target held fixed. Conversely, if $t$ is a continuation tail from
+$a$ to $b$, then the relation field of $m$ and this new continuation share
+the same source and target, so continuation left cancellation identifies
+$\mathsf{tail}(m)$ with $t$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_hsame\_iff}
+
+\begin{theorem}[Category hom carrier unary prefix exactness]
+\label{thm:category-hom-carrier-unary-prefix-iff}
+For a unary prefix $p$, a displayed hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$ is equivalent to the
+unprefixed hom-carrier from $a$ to $b$, together with the same morphism
+history.
+\end{theorem}
+\begin{proof}
+The forward direction cancels the common unary prefix in the two endpoint
+carriers and in the continuation ledger. The reverse direction uses unary
+append closure on both endpoints and prefixes the same continuation ledger.
+\end{proof}
+
+\begin{theorem}[Category hom carrier and continuation morphism tail correspondence]
+\label{thm:category-hom-carrier-continuation-morphism-tail-correspondence}
+For histories $a,b,f:\mathsf{BHist}$, the concrete hom-carrier witness is
+exactly a unary endpoint-and-tail presentation of a continuation morphism:
+$$
+\mathsf{CategoryHomCarrier}(a,b,f)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(a)\wedge
+\mathsf{UnaryHistory}(b)\wedge
+\mathsf{UnaryHistory}(f)\wedge
+\exists m:\mathsf{ContinuationMorphism}(a,b),\,
+\hsame(\mathsf{tail}(m),f).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the hom-carrier witness. Its displayed
+fields give unary membership for $a$, $b$, and $f$, together with the
+continuation ledger $\ContR(a,f,b)$. Taking the continuation morphism whose
+tail is $f$ and whose relation field is this ledger gives the required
+existential witness, and reflexivity of $\hsame$ classifies the displayed tail.
+
+Conversely, unpack the existential continuation morphism $m$. Its record
+contains the displayed continuation witness
+$\ContR(a,\mathsf{tail}(m),b)$, while the hypothesis supplies
+$\hsame(\mathsf{tail}(m),f)$ and the three unary witnesses.
+
+Apply Theorem~\ref{thm:cont-hsame-transport} with reflexive source and target
+endpoint classifiers and the displayed tail classifier to transport
+$\ContR(a,\mathsf{tail}(m),b)$ to $\ContR(a,f,b)$. Reassemble
+$\mathsf{CategoryHomCarrier}(a,b,f)$ from the unary source, unary target,
+unary morphism, and transported continuation fields.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_continuation\_morphism\_tail\_iff}
+\leanvariant{BEDC.Derived.CategoryUp.CategoryHomCarrier\_continuationMorphism\_tail\_iff}
+\leanvariant{BEDC.Derived.CategoryUp.CategoryHomCarrier\_continuation\_morphism\_tail\_correspondence}
+
+\begin{theorem}[Continuation morphism tail identity square closure]
+\label{thm:continuation-morphism-tail-identity-square-closed}
+For a continuation morphism $m:\mathsf{ContinuationMorphism}(a,b)$, if $left$
+is obtained by composing $\emp$ before $\mathsf{tail}(m)$ and $right$ is
+obtained by composing $\emp$ after $\mathsf{tail}(m)$, then
+$\HSame(left,right)$ and both displayed tails carry continuations from $a$ to
+$b$.
+\end{theorem}
+\begin{proof}
+The left-unit continuation identifies $left$ with $\mathsf{tail}(m)$.
+Determinism against the right-unit continuation identifies $right$ with
+$\mathsf{tail}(m)$. Transport the relation field of $m$ across these two
+history equalities and compose the equalities by transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_identity\_square\_closed}
+
+\begin{theorem}[Continuation morphism composite endpoint transport]
+\label{thm:continuation-morphism-comp-endpoint-hsame-tail-transport}
+For continuation morphisms $left:a\to b$, $right:b\to c$,
+$left':a'\to b'$, and $right':b'\to c'$, if $\hsame(a,a')$ and
+$\hsame(c,c')$, then the canonical composite tail of $left$ and $right$
+transports to a continuation from $a'$ to $c'$, and it is $\hsame$ to the
+canonical composite tail of $left'$ and $right'$.
+\end{theorem}
+\begin{proof}
+Transport the composite continuation field of $left\circ right$ across the
+source and target endpoint comparisons, keeping its displayed tail fixed.
+The transported continuation and the composite continuation field of
+$left'\circ right'$ share source and target, so finite-kernel left
+cancellation identifies their tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_hsame\_tail\_transport}
+
+\begin{theorem}[Continuation morphism composite endpoint transport existence]
+\label{thm:category-continuation-morphism-comp-endpoint-transport-exists}
+For continuation morphisms $m:a\to b$ and $n:b\to c$, endpoint comparisons
+$a\hsame a'$, $b\hsame b'$, and $c\hsame c'$ determine transported factor
+morphisms $m':a'\to b'$ and $n':b'\to c'$ such that the transported composite
+tail is history-same to the original composite tail and carries a continuation
+from $a'$ to $c'$.
+\end{theorem}
+\begin{proof}
+Keep the displayed tails of $m$ and $n$. Transport the relation field of $m$
+across the source and middle endpoint comparisons, and transport the relation
+field of $n$ across the middle and target endpoint comparisons. The composite
+of these transported factor morphisms has the same appended tail as the
+original composite by reflexivity, and its own relation field supplies the
+continuation from $a'$ to $c'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_transport\_exists}
+
+\begin{theorem}[Continuation morphism composite tail append determinacy]
+\label{thm:continuation-morphism-comp-tail-append-deterministic}
+For continuation morphisms $left,left':a\to b$ and $right,right':b\to c$, the
+appended composite tail is determined by the endpoints:
+$$
+\hsame(\mathsf{append}(\mathsf{tail}(left),\mathsf{tail}(right)),
+\mathsf{append}(\mathsf{tail}(left'),\mathsf{tail}(right'))).
+$$
+\end{theorem}
+\begin{proof}
+Continuation left cancellation identifies the two displayed tails from $a$ to
+$b$, and again identifies the two displayed tails from $b$ to $c$. Congruence
+of BEDC append combines these two tail comparisons into the composite-tail
+comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_append\_deterministic}
+
+\begin{theorem}[Continuation morphism composite tail unary closure]
+\label{thm:continuation-morphism-comp-tail-unary-closed}
+For continuation morphisms $left:a\to b$ and $right:b\to c$, if both displayed
+factor tails are unary histories, then the closed composite tail of
+$left\circ right$ is a unary history.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The closed composite tail is
+$\mathsf{append}(\mathsf{tail}(left),\mathsf{tail}(right))$, so unary append
+closure applies to the two supplied tail carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_unary\_closed}
+
+\begin{theorem}[Continuation morphism tail factorization iff]
+\label{thm:continuation-morphism-tail-factorization-iff}
+For histories $a,c,l,r,t:\mathsf{BHist}$, if $\ContR(l,r,t)$, then a
+continuation morphism from $a$ to $c$ whose displayed tail is $t$ exists
+exactly when there is a middle history $b$ carrying a left continuation
+morphism from $a$ to $b$ with tail $l$ and a right continuation morphism from
+$b$ to $c$ with tail $r$.
+\end{theorem}
+\begin{proof}
+For the forward implication, unpack the composite morphism and the displayed
+split $\ContR(l,r,t)$. The middle object is $\mathsf{append}(a,l)$. The left
+factor is the reflexive continuation from $a$ through $l$ to that middle, and
+the right factor is obtained by reassociating the composite continuation
+witness through the displayed split.
+
+For the reverse implication, compose the two displayed factor morphisms. The
+closed composite tail is the append of the two factor tails; transport that
+tail along the two supplied tail classifiers and the split $\ContR(l,r,t)$ to
+obtain the required composite tail classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_factorization\_iff}
+
+\begin{theorem}[Continuation morphism identity and composition closure]
+\label{thm:continuation-morphism-identity-composition-closure}
+Every history $h$ has an empty-tail identity witness in
+$\mathsf{ContinuationMorphism}(h,h)$. Moreover, composable continuation
+morphisms $left:a\to b$ and $right:b\to c$ determine an inhabited
+$\mathsf{ContinuationMorphism}(a,c)$ by the closed composite.
+\end{theorem}
+\begin{proof}
+For the identity clause, take the empty tail. The continuation witness is the
+empty right-unit continuation at $h$, so the corresponding continuation
+morphism inhabits $\mathsf{ContinuationMorphism}(h,h)$.
+
+For the composition clause, apply
+$\mathsf{ContinuationMorphism\_comp\_closed}$ to $left$ and $right$. The result
+is the closed composite continuation morphism from $a$ to $c$, which supplies
+the required inhabitant.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_identity\_comp\_closure}
+
+Per-object certificate: traditional target hom-as-continuation morphism bridge;
+BEDC source $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$,
+$\mathsf{UnaryHistory}$, and $\mathsf{Cont}$; carrier $\mathsf{BHist}$ tails;
+classifier $\hsame$; stability obligation continuation transport; ledger the
+displayed tail and continuation witness; core theorem this correspondence;
+exactness predicate the iff; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[Unary-continuation category stability law package]
+\label{thm:category-unary-continuation-stability-law-package}
+For the concrete unary-continuation category on $\mathsf{BHist}$, with object
+carrier the unary histories, hom-carrier
+$\mathsf{CategoryHomCarrier}(a,b,f)$, object classifier $\hsame$, and morphism
+classifier $\hsame$ on displayed hom histories, the $\CategoryUp$ stability
+laws are satisfied. At every unary object the empty history is an identity
+hom-carrier, composition of displayed hom-carriers is closed, any two
+associations of a threefold displayed composite classify together, the left and
+right empty-composition laws hold under the morphism classifier, and morphism
+classification is preserved after endpoint $\hsame$ transport.
+\end{theorem}
+\begin{proof}
+The identity and binary composition fields are the concrete hom-carrier laws.
+The empty history is an identity hom-carrier at each unary object by
+\autoref{thm:category-hom-carrier-empty-identity}, and displayed composition
+closure is exactly \autoref{thm:category-hom-carrier-comp-closed}.
+
+For associativity, use the two-step closure supplied by
+\autoref{thm:category-hom-carrier-comp-assoc-closed}. It builds both
+associated composites as hom-carriers over the same endpoints and identifies
+their morphism histories by the classifier $\hsame$.
+
+The unit laws are supplied by the identity square. Applying
+\autoref{thm:category-hom-carrier-identity-square-closed} to a displayed
+hom-carrier and the two empty-composition ledgers gives the left and right
+unit composites and the required morphism-classifier equality.
+
+It remains to record stability under endpoint transport. Transporting the
+source endpoint, target endpoint, and morphism history along $\hsame$ keeps the
+displayed hom-carrier witness by
+\autoref{thm:category-hom-carrier-hsame-transport}; once the endpoints have
+been transported, any two displayed morphism witnesses over classified
+endpoints are identified by
+\autoref{thm:category-hom-carrier-endpoint-hsame-morphism-deterministic}.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_continuation\_stability\_law\_package}
+
+\begin{corollary}[Category hom carrier stability law package]
+\label{cor:category-hom-carrier-stability-law-package}
+For the same unary-continuation category on $\mathsf{BHist}$, the identity
+hom-carriers, binary composition closure, associativity of displayed
+composition, and empty-composition unit fields form the basic $\CategoryUp$
+hom-carrier stability package.
+\end{corollary}
+\begin{proof}
+Project the identity, binary composition closure, associativity, and
+empty-composition unit clauses from
+Theorem~\ref{thm:category-unary-continuation-stability-law-package}. These are
+exactly the four displayed fields of the basic $\CategoryUp$ hom-carrier
+stability package.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_stability\_law\_package}
+\begin{definition}[Opposite category certificate data]
+\label{def:opposite-category-certificate-data}
+Let a $\CategoryUp$ certificate $\mathcal C$ have object carrier
+$\mathcal O$, object classifier $\sim_{\mathcal O}$, hom-carrier
+$\mathcal H(a,b,f)$, morphism classifier $\sim_{\mathcal H}$, identity
+witnesses $\mathsf{id}_a$, and composition relation
+$\mathsf{Comp}_{\mathcal C}(f,g,h)$ for displayed composable morphisms
+$f:a\to b$ and $g:b\to c$. The opposite certificate data
+$\mathcal C^{\mathrm{op}}$ are defined by
+$$
+\begin{aligned}
+\mathcal O^{\mathrm{op}}(a)&:=\mathcal O(a),&
+ a\sim_{\mathcal O}^{\mathrm{op}}a'&:=a\sim_{\mathcal O}a',\\
+\mathcal H^{\mathrm{op}}(a,b,f)&:=\mathcal H(b,a,f),&
+ f\sim_{\mathcal H}^{\mathrm{op}}g&:=f\sim_{\mathcal H}g,\\
+\mathsf{id}^{\mathrm{op}}_a&:=\mathsf{id}_a,&
+\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(f,g,h)&:=
+\mathsf{Comp}_{\mathcal C}(g,f,h).
+\end{aligned}
+$$
+\end{definition}
+
+\begin{theorem}[Opposite category certificate]
+\label{thm:opposite-category-certificate}
+If $\mathcal C$ satisfies the $\CategoryUp$ certificate obligations of
+\autoref{def:category-carrier}, then the data of
+\autoref{def:opposite-category-certificate-data} also satisfy the
+$\CategoryUp$ certificate obligations. Thus reversing hom-carriers and
+composition produces a $\CategoryUp(\mathcal C^{\mathrm{op}})$ certificate
+with the same object carrier, identity witnesses, object classifier, and
+morphism classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_opposite\_comp\_assoc\_closed}
+\begin{proof}
+The object carrier and object classifier fields are literal reuses of the
+corresponding fields of $\mathcal C$, so their carrier and classifier laws are
+unchanged. For a fixed ordered pair $(a,b)$ in the opposite data, the
+hom-carrier predicate is the original predicate for the ordered pair $(b,a)$.
+The corresponding $\NameCert$ source, pattern, ledger, and classifier laws are
+therefore exactly the original hom-carrier certificate fields with the endpoint
+order swapped.
+
+The identity field is also inherited. At an object $a$,
+$$
+\mathcal H^{\mathrm{op}}(a,a,\mathsf{id}^{\mathrm{op}}_a)
+=
+\mathcal H(a,a,\mathsf{id}_a),
+$$
+which is the original identity hom-carrier field.
+
+For composition closure, let $f:a\to b$ and $g:b\to c$ be displayed in
+$\mathcal C^{\mathrm{op}}$. This means
+$\mathcal H(b,a,f)$ and $\mathcal H(c,b,g)$ in $\mathcal C$. If
+$\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(f,g,h)$ holds, then by definition
+$\mathsf{Comp}_{\mathcal C}(g,f,h)$ holds. The original composition closure in
+$\mathcal C$ gives $\mathcal H(c,a,h)$, which is exactly
+$\mathcal H^{\mathrm{op}}(a,c,h)$.
+
+For associativity, take composable opposite morphisms $f:a\to b$,
+$g:b\to c$, and $h:c\to d$, with displayed composites $fg$, $gh$, $left$, and
+$right$. The four opposite composition ledgers are, in $\mathcal C$,
+$$
+\mathsf{Comp}_{\mathcal C}(g,f,fg),\quad
+\mathsf{Comp}_{\mathcal C}(h,g,gh),\quad
+\mathsf{Comp}_{\mathcal C}(h,fg,left),\quad
+\mathsf{Comp}_{\mathcal C}(gh,f,right).
+$$
+Apply associativity in $\mathcal C$ to the reversed chain $h,g,f$. It compares
+$\mathsf{Comp}_{\mathcal C}(gh,f,right)$ with
+$\mathsf{Comp}_{\mathcal C}(h,fg,left)$, giving
+$right\sim_{\mathcal H}left$. Symmetry of the morphism classifier gives
+$left\sim_{\mathcal H}^{\mathrm{op}}right$.
+
+For unit laws, let $f:a\to b$ be displayed in the opposite data, so
+$f:b\to a$ in $\mathcal C$. The left unit law in $\mathcal C^{\mathrm{op}}$ is
+$\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(\mathsf{id}_a,f,left)$, which is
+$\mathsf{Comp}_{\mathcal C}(f,\mathsf{id}_a,left)$; this is the original right
+unit law. The right unit law in $\mathcal C^{\mathrm{op}}$ is
+$\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(f,\mathsf{id}_b,right)$, which is
+$\mathsf{Comp}_{\mathcal C}(\mathsf{id}_b,f,right)$; this is the original left
+unit law. Hence both opposite unit composites are classified with $f$.
+
+Endpoint transport is inherited with the same swap. A transported opposite
+hom-carrier $\mathcal H^{\mathrm{op}}(a,b,f)$ is the original carrier
+$\mathcal H(b,a,f)$, so source transport in the opposite data is target
+transport in $\mathcal C$, and target transport in the opposite data is source
+transport in $\mathcal C$. The morphism classifier is unchanged, so morphism
+transport and morphism determinacy are inherited directly.
+
+Specializing $\mathcal C$ to the unary-continuation law package of
+\autoref{thm:category-unary-continuation-stability-law-package} uses the
+identity field from \autoref{thm:category-hom-carrier-empty-identity}, the
+composition field from \autoref{thm:category-hom-carrier-comp-closed}, the
+associativity field from \autoref{thm:category-hom-carrier-comp-assoc-closed},
+the unit classification from \autoref{thm:category-hom-carrier-identity-square-closed},
+and endpoint transport from \autoref{thm:category-hom-carrier-hsame-transport}.
+\end{proof}
+\leanvariant{BEDC.Derived.CategoryUp.CategoryHomCarrier\_opposite\_comp\_assoc\_closed}
+
+\begin{theorem}[Standard unary-continuation category bridge]
+\label{thm:category-standard-unary-continuation-bridge}
+The public unary-continuation $\CategoryUp$ export supplies a paper-level
+standard bridge to a host category interface, with six displayed fields:
+\begin{enumerate}
+  \item object translation reads host objects through
+  $\mathsf{UnaryHistory}$;
+  \item morphism translation reads host arrows through
+  $\mathsf{CategoryHomCarrier}$;
+  \item classifier compatibility is exactly endpoint and morphism comparison
+  by $\hsame$;
+  \item theorem correspondence pairs the host identity, composition,
+  associativity, and unit rows with the unary-continuation $\CategoryUp$ law
+  package;
+  \item reflection is restricted to displayed BEDC histories and their
+  hom-carrier witnesses;
+  \item the no-host-leak field asserts that host category structure is read
+  only through these BEDC predicates, with no host equality, primitive category
+  universe, or host carrier constructor entering the $\CategoryUp$ public
+  surface.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For objects, the bridge reads a host object only when the displayed BEDC
+history satisfies $\mathsf{UnaryHistory}$. For arrows, it reads a host morphism
+only when the displayed source, target, and arrow history satisfy
+$\mathsf{CategoryHomCarrier}$. The carrier exactness is the concrete
+hom-carrier and continuation-morphism tail correspondence of
+\autoref{thm:category-hom-carrier-continuation-morphism-tail-correspondence},
+and classifier compatibility is the same $\hsame$ relation already used by the
+object and morphism surfaces.
+
+The theorem-preservation field is the public unary-continuation stability law
+package of \autoref{thm:category-unary-continuation-stability-law-package}.
+Its identity, composition, associativity, and unit clauses are precisely the
+rows expected by the host category interface. The semantic certificate target
+$\mathsf{CategoryHomCarrier\_comp\_result\_semanticNameCert}$ supplies the
+displayed BEDC ledger for the composition-result name certificate, so the host
+composition row is reflected through the same BEDC source, pattern, ledger,
+and classifier fields.
+
+Reflection is therefore limited to histories displayed by
+$\mathsf{UnaryHistory}$ and morphism histories displayed by
+$\mathsf{CategoryHomCarrier}$. The bridge never asks the host for a primitive
+object equality, a primitive category universe, or an external morphism
+classifier; it only reads the host interface through the six BEDC predicates
+listed above. This is the paper-level no-host-leak argument required for the
+standard bridge.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryUp\_StdBridge}
+
+\begin{theorem}[Double opposite category certificate data identity]
+\label{thm:double-opposite-category-certificate-data-identity}
+Let $\mathcal C$ be a $\CategoryUp$ certificate satisfying the certificate
+obligations of \autoref{def:category-carrier}, with object carrier
+$\mathcal O$, object classifier $\sim_{\mathcal O}$, hom-carrier
+$\mathcal H(a,b,f)$, morphism classifier $\sim_{\mathcal H}$, identity
+witnesses $\mathsf{id}_a$, and composition relation
+$\mathsf{Comp}_{\mathcal C}$. Let
+$\mathcal C^{\mathrm{opop}}=(\mathcal C^{\mathrm{op}})^{\mathrm{op}}$ be
+obtained by applying \autoref{def:opposite-category-certificate-data} twice.
+Then $\mathcal C^{\mathrm{opop}}$ is a $\CategoryUp$ certificate, and its
+object carrier, object classifier, hom-carrier predicate, morphism classifier,
+identity witnesses, and composition relation are componentwise identical to
+those of $\mathcal C$:
+$$
+\begin{aligned}
+\mathcal O^{\mathrm{opop}}(a)&=\mathcal O(a),&
+ a\sim_{\mathcal O}^{\mathrm{opop}}a'&=a\sim_{\mathcal O}a',\\
+\mathcal H^{\mathrm{opop}}(a,b,f)&=\mathcal H(a,b,f),&
+ f\sim_{\mathcal H}^{\mathrm{opop}}g&=f\sim_{\mathcal H}g,\\
+\mathsf{id}^{\mathrm{opop}}_a&=\mathsf{id}_a,&
+\mathsf{Comp}_{\mathcal C^{\mathrm{opop}}}(f,g,h)&=
+\mathsf{Comp}_{\mathcal C}(f,g,h).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Because $\mathcal C$ satisfies the $\CategoryUp$ obligations,
+\autoref{thm:opposite-category-certificate} makes $\mathcal C^{\mathrm{op}}$
+a certified $\CategoryUp$ instance. Applying the same theorem to that certified
+opposite data makes $\mathcal C^{\mathrm{opop}}$ a certified $\CategoryUp$
+instance.
+
+It remains only to compare the displayed data. For the object carrier and
+object classifier, two unfoldings of
+\autoref{def:opposite-category-certificate-data} give
+$\mathcal O^{\mathrm{opop}}(a)=\mathcal O^{\mathrm{op}}(a)=\mathcal O(a)$
+and
+$a\sim_{\mathcal O}^{\mathrm{opop}}a'=a\sim_{\mathcal O}^{\mathrm{op}}a'=
+a\sim_{\mathcal O}a'$.
+
+For hom-carriers, the first opposite swaps the endpoints and the second
+opposite swaps them back:
+$$
+\mathcal H^{\mathrm{opop}}(a,b,f)
+=\mathcal H^{\mathrm{op}}(b,a,f)
+=\mathcal H(a,b,f).
+$$
+The morphism classifier is not changed by either opposite construction, hence
+$f\sim_{\mathcal H}^{\mathrm{opop}}g=f\sim_{\mathcal H}g$. The identity row is
+also reused at both stages, so
+$\mathsf{id}^{\mathrm{opop}}_a=\mathsf{id}^{\mathrm{op}}_a=\mathsf{id}_a$.
+
+For composition, the two argument reversals cancel:
+$$
+\mathsf{Comp}_{\mathcal C^{\mathrm{opop}}}(f,g,h)
+=\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(g,f,h)
+=\mathsf{Comp}_{\mathcal C}(f,g,h).
+$$
+Thus every listed data field of the double opposite certificate is the original
+field of $\mathcal C$.
+\end{proof}
+
+\begin{theorem}[Opposite category certificate involution]
+\label{thm:opposite-category-certificate-involution}
+Let $\mathcal C$ be a $\CategoryUp$ certificate satisfying the obligations of
+\autoref{def:category-carrier}. Write its object carrier as $\mathcal O$,
+object classifier as $\sim_{\mathcal O}$, hom-carrier predicate as
+$\mathcal H(a,b,f)$, morphism classifier as $\sim_{\mathcal H}$, identity
+witnesses as $\mathsf{id}_a$, and composition classifier as
+$\mathsf{Comp}_{\mathcal C}(f,g,h)$. Let
+$\mathcal C^{\mathrm{opop}}=(\mathcal C^{\mathrm{op}})^{\mathrm{op}}$ be
+obtained by applying \autoref{def:opposite-category-certificate-data} twice.
+Then $\mathcal C^{\mathrm{opop}}$ is a $\CategoryUp$ certificate, and its
+object carrier, object classifier, hom-carrier predicate, morphism classifier,
+identity witnesses, and composition classifier reduce componentwise to those of
+$\mathcal C$:
+$$
+\begin{aligned}
+\mathcal O^{\mathrm{opop}}(a)&=\mathcal O(a),&
+ a\sim_{\mathcal O}^{\mathrm{opop}}a'&=a\sim_{\mathcal O}a',\\
+\mathcal H^{\mathrm{opop}}(a,b,f)&=\mathcal H(a,b,f),&
+ f\sim_{\mathcal H}^{\mathrm{opop}}g&=f\sim_{\mathcal H}g,\\
+\mathsf{id}^{\mathrm{opop}}_a&=\mathsf{id}_a,&
+\mathsf{Comp}_{\mathcal C^{\mathrm{opop}}}(f,g,h)&=
+\mathsf{Comp}_{\mathcal C}(f,g,h).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Since $\mathcal C$ satisfies the $\CategoryUp$ obligations,
+\autoref{thm:opposite-category-certificate} gives a $\CategoryUp$ certificate
+on $\mathcal C^{\mathrm{op}}$. Applying the same theorem to that certificate
+gives a $\CategoryUp$ certificate on
+$\mathcal C^{\mathrm{opop}}=(\mathcal C^{\mathrm{op}})^{\mathrm{op}}$.
+
+The field comparison is obtained by two unfoldings of
+\autoref{def:opposite-category-certificate-data}. The object carrier and
+object classifier are reused by each opposite construction, so
+$\mathcal O^{\mathrm{opop}}(a)=\mathcal O^{\mathrm{op}}(a)=\mathcal O(a)$
+and
+$a\sim_{\mathcal O}^{\mathrm{opop}}a'=a\sim_{\mathcal O}^{\mathrm{op}}a'=
+a\sim_{\mathcal O}a'$.
+
+For hom-carriers, the first opposite reverses the endpoint order and the
+second opposite reverses it back:
+$$
+\mathcal H^{\mathrm{opop}}(a,b,f)
+=\mathcal H^{\mathrm{op}}(b,a,f)
+=\mathcal H(a,b,f).
+$$
+The morphism classifier is unchanged at both stages, hence
+$f\sim_{\mathcal H}^{\mathrm{opop}}g=f\sim_{\mathcal H}g$. The identity
+witnesses are also reused at both stages, so
+$\mathsf{id}^{\mathrm{opop}}_a=\mathsf{id}^{\mathrm{op}}_a=\mathsf{id}_a$.
+
+For composition, the defining reversal is applied twice. Thus, for displayed
+composable morphisms $f:a\to b$ and $g:b\to c$,
+$$
+\mathsf{Comp}_{\mathcal C^{\mathrm{opop}}}(f,g,h)
+=\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(g,f,h)
+=\mathsf{Comp}_{\mathcal C}(f,g,h).
+$$
+Every displayed data field of the double opposite certificate is therefore the
+corresponding displayed data field of $\mathcal C$.
+\end{proof}
+
+\begin{definition}[Category split epimorphism witness]
+\label{def:category-split-epimorphism-witness}
+With the notation of \autoref{def:category-carrier}, let $\mathcal C$ be a
+$\CategoryUp$ certificate and let $\mathcal H(a,b,f)$ display a hom-carrier
+$f:a\to b$. A split-epimorphism witness for $f$ consists of a hom-carrier
+$\mathcal H(b,a,s)$, a displayed composite $sf:b\to b$ with
+$\mathsf{Comp}_{\mathcal C}(s,f,sf)$, and a morphism-classifier comparison
+$sf\sim_{\mathcal H}\mathsf{id}_b$ to the identity witness at $b$.
+\end{definition}
+
+\begin{theorem}[Category split epimorphism right cancellation]
+\label{thm:category-split-epimorphism-right-cancellative}
+Let $\mathcal C$ be a $\CategoryUp$ certificate as in
+\autoref{def:category-carrier}. Suppose $\mathcal H(a,b,f)$ has a
+split-epimorphism witness $(s,sf)$ in the sense of
+\autoref{def:category-split-epimorphism-witness}. For hom-carriers
+$\mathcal H(b,x,u)$ and $\mathcal H(b,x,v)$, let $fu$ and $fv$ be displayed
+composites of $u$ after $f$ and $v$ after $f$:
+$$
+\mathsf{Comp}_{\mathcal C}(f,u,fu),
+\qquad
+\mathsf{Comp}_{\mathcal C}(f,v,fv).
+$$
+If $fu\sim_{\mathcal H}fv$, then $u\sim_{\mathcal H}v$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategorySplitEpiWitness\_right\_cancellative}
+\begin{proof}
+Let $sf$ be the split composite and let
+$sf\sim_{\mathcal H}\mathsf{id}_b$ be its classifier comparison with the
+identity at $b$. Precompose the comparison $fu\sim_{\mathcal H}fv$ by the
+section $s$. The classifier-respecting composition field of the $\CategoryUp$
+certificate gives classifier equality between the two composites $fu$ after
+$s$ and $fv$ after $s$.
+
+Consider the $u$ side. Associativity for the displayed triple $s:b\to a$,
+$f:a\to b$, and $u:b\to x$ identifies the right-associated composite $fu$
+after $s$ with the left-associated composite $u$ after $sf$. The split
+comparison replaces $sf$ by $\mathsf{id}_b$, again by classifier-respecting
+composition. The left-unit law then classifies $u$ after $\mathsf{id}_b$ with
+$u$ itself. Hence the composite $fu$ after $s$ is classified with $u$.
+
+The same argument with $v$ shows that the composite $fv$ after $s$ is
+classified with $v$. Combining these two reductions with the classifier
+equality between $fu$ after $s$ and $fv$ after $s$, and using symmetry and
+transitivity of $\sim_{\mathcal H}$, gives $u\sim_{\mathcal H}v$.
+\end{proof}
+
+\begin{theorem}[Category split epimorphism composition closure]
+\label{thm:category-split-epimorphism-composition-closed}
+Let $\mathcal C$ be a $\CategoryUp$ certificate satisfying the obligations of
+\autoref{def:category-certificate-obligations}. With the notation of
+\autoref{def:category-carrier}, let $\mathcal H(a,b,f)$ and
+$\mathcal H(b,c,g)$ display hom-carriers. Suppose $f$ has a
+split-epimorphism witness with right-inverse hom-carrier
+$f^\dagger:b\to a$ and split composite $s_f:b\to b$,
+$$
+\mathsf{Comp}_{\mathcal C}(f^\dagger,f,s_f),
+\qquad
+s_f\sim_{\mathcal H}\mathsf{id}_b,
+$$
+and suppose $g$ has a split-epimorphism witness with right-inverse
+hom-carrier $g^\dagger:c\to b$ and split composite $s_g:c\to c$,
+$$
+\mathsf{Comp}_{\mathcal C}(g^\dagger,g,s_g),
+\qquad
+s_g\sim_{\mathcal H}\mathsf{id}_c,
+$$
+in the sense of \autoref{def:category-split-epimorphism-witness}. If
+$u:a\to c$ is a displayed composite of $g$ after $f$ and $\ell:c\to a$ is
+the displayed reverse composite of their right-inverse witnesses,
+$$
+\mathsf{Comp}_{\mathcal C}(f,g,u),
+\qquad
+\mathsf{Comp}_{\mathcal C}(g^\dagger,f^\dagger,\ell),
+$$
+then $u$ is a displayed hom-carrier from $a$ to $c$ and carries a
+split-epimorphism witness whose right-inverse hom-carrier is $\ell$.
+\end{theorem}
+\begin{proof}
+The two split-epimorphism witnesses supply hom-carriers for $f^\dagger$ and
+$g^\dagger$. Composition closure in the $\CategoryUp$ stability certificate
+therefore makes the displayed composites $u$ and $\ell$ hom-carriers over
+$a\to c$ and $c\to a$.
+
+Let $R:c\to c$ be the composite display selected for $u$ after $\ell$, so
+$\mathsf{Comp}_{\mathcal C}(\ell,u,R)$. It remains to classify $R$ with
+$\mathsf{id}_c$. The four displayed factors form the chain
+$$
+c\xrightarrow{g^\dagger}b\xrightarrow{f^\dagger}a
+\xrightarrow{f}b\xrightarrow{g}c.
+$$
+The associativity row of \autoref{def:category-stability-certificate}, applied
+twice, compares the outside bracketing
+$(g\circ_{\mathcal C} f)\circ_{\mathcal C}(f^\dagger\circ_{\mathcal C}g^\dagger)$
+with the bracketing
+$g\circ_{\mathcal C}((f\circ_{\mathcal C}f^\dagger)\circ_{\mathcal C}g^\dagger)$.
+Thus $R$ is classified with the display obtained by first using the inner
+split composite $s_f$, then composing with $g^\dagger$, and finally composing
+with $g$.
+
+Since $s_f\sim_{\mathcal H}\mathsf{id}_b$, composition congruence replaces
+$s_f\circ_{\mathcal C}g^\dagger$ by
+$\mathsf{id}_b\circ_{\mathcal C}g^\dagger$. The identity law at the target of
+$g^\dagger$ classifies this composite with $g^\dagger$. Composing that
+comparison with the outer factor $g$ compares the resulting display with
+$s_g=g\circ_{\mathcal C}g^\dagger$. Transitivity of the morphism classifier,
+together with the stored comparison $s_g\sim_{\mathcal H}\mathsf{id}_c$, gives
+$R\sim_{\mathcal H}\mathsf{id}_c$.
+
+The hom-carriers for $u$ and $\ell$, the target identity display
+$\mathsf{id}_c$, the composite ledger
+$\mathsf{Comp}_{\mathcal C}(\ell,u,R)$, and the classifier comparison
+$R\sim_{\mathcal H}\mathsf{id}_c$ are exactly the data required by
+\autoref{def:category-split-epimorphism-witness}. Hence $u$ carries a
+split-epimorphism witness with right-inverse hom-carrier $\ell$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategorySplitEpiWitness\_composition\_closed}
+
+\begin{theorem}[CategoryUp mature host-interface inventory]
+\label{thm:categoryup-mature-host-interface-inventory}
+The unary-continuation $\CategoryUp$ mature host interface is exactly the object
+carrier $\mathsf{UnaryHistory}$, the hom carrier
+$\mathsf{CategoryHomCarrier}$, identity witnesses, the composition-result
+carrier and semantic certificate, the associativity and unit law package,
+endpoint transport, opposite-category data identity, split-epimorphism right
+cancellation, and split-epimorphism composition closure.
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryUp\_mature\_host\_interface\_inventory}
+\begin{proof}
+The standard host bridge is the paper-level interface of
+\autoref{thm:category-standard-unary-continuation-bridge}: it reads objects
+through $\mathsf{UnaryHistory}$, arrows through
+$\mathsf{CategoryHomCarrier}$, and the composition-result ledger through the
+semantic certificate target named there.
+
+The law package is the unary-continuation stability package of
+\autoref{thm:category-unary-continuation-stability-law-package}. Its identity,
+composition, associativity, unit, and endpoint-transport rows are precisely the
+host-interface rows needed by the bridge.
+
+The remaining inventory rows are the category-specific closure theorems already
+displayed in this chapter. Opposite-category data identity is
+\autoref{thm:double-opposite-category-certificate-data-identity};
+split-epimorphism right cancellation is
+\autoref{thm:category-split-epimorphism-right-cancellative}; and
+split-epimorphism composition closure is
+\autoref{thm:category-split-epimorphism-composition-closed}. These theorem
+sites exhaust the stated mature host-interface inventory and introduce no
+additional host-category primitives.
+\end{proof}
+
+\begin{closurestatus}{\CategoryUp}
+  \constructivestory{A category here is built from the unary history spine: objects are exactly the histories accepted by $\mathsf{UnaryHistory}$, and a morphism from $a$ to $b$ is a visible unary tail $f$ together with the continuation row $\ContR(a,f,b)$. Two objects, and likewise two displayed morphism histories over fixed endpoints, are classified by $\hsame$, so composition never leaves the BEDC history surface: it appends two visible tails and then uses continuation associativity and transport to compare the two possible ledgers. The source, pattern, and ledger rows are the same concrete hom-carrier and continuation predicates, recording identities as empty tails, composable pairs as displayed continuation chains, and all source-target movement as endpoint $\hsame$ transport. The five name-certificate obligations are supplied by the unary empty object and empty identity tail for inhabitation, by reflexivity, symmetry, and transitivity of $\hsame$, and by hom-carrier transport, which keeps carried objects and arrows carried after classification. A morphism history $h$ lies in the signature gap of a $\CategoryUp$ token $p$ when the source-domain accepts the relevant unary endpoints, the signature relation pairs the displayed hom or composite result with an answer history and evidence ledger, and token introduction names that answer as $p$; unfolded, the gap says that $h$ is the visible tail of the continuation morphism or composite result encoded by the token. The standard bridge reads the same package as an ordinary host category only through unary objects, $\mathsf{CategoryHomCarrier}$ arrows, classifier-compatible identities, composition, associativity, and unit rows, then reads back to the same histories. The chapter registers this unary-continuation construction under the name $\CategoryUp$; categorical structure is the existing continuation calculus with no global category universe, host equality, limits, adjunctions, or external morphism type.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The unary-continuation $\CategoryUp$ host interface is closed for the public unary-continuation export, the paper-level standard bridge of \autoref{thm:category-standard-unary-continuation-bridge}, the double-opposite certificate data identity and involution sites of \autoref{thm:double-opposite-category-certificate-data-identity} and \autoref{thm:opposite-category-certificate-involution}, and the split-epimorphism right-cancellation and composition-closure sites of \autoref{thm:category-split-epimorphism-right-cancellative} and \autoref{thm:category-split-epimorphism-composition-closed}.}
+  \formalstatus{\bridgeCheckedV}
+  \leantarget{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_semanticNameCert}
+  \bridgestatus{bridgeChecked}
+  \notclaimed{This chapter does not close arbitrary categories, limits, colimits, adjunctions, equivalences, enriched categories, categorical foundations, or machine-checked bridge verification.}
+  \upgradepath{No further upgrade -- chapter at top of formal axis.}
+\end{closurestatus}

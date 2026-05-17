@@ -1,0 +1,28 @@
+\begin{theorem}[UniformCauchyCriterion tail-budget bridge]
+\label{thm:uniform-cauchy-criterion-tail-budget-bridge}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. The packet exports a Real-facing tail-budget bridge exactly when the displayed Real-facing route factors through the same named sibling rows:
+$$
+\CauchyTailModulusSealUp \longrightarrow
+\RealWindowBudgetUp \longrightarrow
+\StreamNameUp \longrightarrow
+\RegSeqRatUp \longrightarrow
+\DyadicRatCoreUp \longrightarrow
+\RealUp.
+$$
+Equivalently, every Real-completion or compact-uniform consumer of $U$ receives the tail budget only by reading the shared window route, the seal route, the finite-tail-filter alignment, the Real-completion window exhaustion, and the public non-escape route already named in this chapter. The bridge exports no quotient stream, selected limit, countable-choice row, detached window, or ambient completeness object.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with an exported Real-facing tail-budget read. The shared-window obligation and shared-threshold transport force the read through the common $I,W,M,Q,T$ surface before the seal row can be inspected.
+
+Next attach the seal side. The seal-route obligation and Real-seal handoff place every $\RealUp$ endpoint behind the same finite route, while the finite-tail-filter alignment identifies the visible tail ledger with the cofinal-tail sibling surface rather than with an external selector.
+
+The named sibling rows are then read in order. The $\CauchyTailModulusSealUp$ row supplies the tail-modulus seal, the $\RealWindowBudgetUp$ row keeps the budget attached to the displayed finite window, the $\StreamNameUp$ row supplies the common window, the $\RegSeqRatUp$ row supplies regular readback, the $\DyadicRatCoreUp$ row supplies the tolerance ledger, and the $\RealUp$ row supplies the terminal seal.
+
+For the reverse direction, assume the displayed consumer route already factors through those six sibling rows. The Real-completion window exhaustion theorem keeps the completion-facing request inside the same finite window and tolerance budget, and the public non-escape export prevents any off-packet analytic coordinate from being added.
+
+Repack the route through $H,C,P,N$. The accepted packet therefore exports exactly the Real-facing tail-budget bridge described above, and any attempted route through quotient streams, selected limits, countable choice, detached windows, or ambient completeness is excluded by the same public boundary.
+\end{proof}
