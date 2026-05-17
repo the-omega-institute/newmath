@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CertificateAuditGateUp.TasteGate
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -288,6 +290,25 @@ theorem CertificateAuditGateTasteGate_single_carrier_alignment :
           · constructor
             · exact ⟨certificateAuditGateWitnessPair⟩
             · rfl
+
+theorem CertificateAuditGateSoundnessBoundary
+    (gateInput checkedSurface refusal drift axiomPurity transport continuation provenance
+      name : BHist) :
+    certificateAuditGateFields
+        (CertificateAuditGateUp.mk gateInput checkedSurface refusal drift axiomPurity
+          transport continuation provenance name) =
+          [gateInput, checkedSurface, refusal, drift, axiomPurity, transport, continuation,
+            provenance, name] /\
+      Cont (append checkedSurface drift) axiomPurity
+        (append (append checkedSurface drift) axiomPurity) /\
+        hsame (append (append checkedSurface drift) axiomPurity)
+          (append (append checkedSurface drift) axiomPurity) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · rfl
 
 end BEDC.Derived.CertificateAuditGateUp.TasteGate
 
