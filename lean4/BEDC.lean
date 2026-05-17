@@ -580,6 +580,7 @@ import BEDC.Derived.RealWindowBudgetUp.RegSeqSelectorExactness
 import BEDC.Derived.RealWindowBudgetUp.SelectorDisclosureScope
 import BEDC.Derived.RealWindowBudgetUp.SelectorPullback
 import BEDC.Derived.RealWindowBudgetUp.TasteGate
+import BEDC.Derived.RealWindowBudgetUp.TerminalPullbackCoherence
 import BEDC.Derived.RefusalRegistryUp.TasteGate
 import BEDC.Derived.RegistryLayerUp.TasteGate
 import BEDC.Derived.RegistryExportSurfaceUp.TasteGate
@@ -605,6 +606,7 @@ import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
 import BEDC.Derived.UnitCalibrationLedgerUp.TasteGate
 import BEDC.Derived.HostTotalTraceUp.TasteGate
+import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
 import BEDC.Derived.FuelBoundedPartialTraceUp.TasteGate
 import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
@@ -1426,6 +1428,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.FiniteLedgerRouteCoverage
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteFamilyRootSealPackage
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteTailFilterAlignment
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteTailFilterRealWindowHandoff
+import BEDC.Derived.UniformCauchyCriterionUp.FiniteTailWindowFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteWindowRealSealExtraction
 import BEDC.Derived.UniformCauchyCriterionUp.FamilyUnion
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteIndexLedgerTransport
