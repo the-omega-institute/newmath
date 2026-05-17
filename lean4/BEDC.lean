@@ -962,6 +962,7 @@ import BEDC.Derived.ContinuationMonadUp.PublicReadback
 import BEDC.Derived.UnaryContMonoidUp
 import BEDC.Derived.UnaryContMonoidUp.CategoryRootReadiness
 import BEDC.Derived.UnaryContMonoidUp.KernelCategoryConsumerBoundary
+import BEDC.Derived.UnaryContinuationCategoryUp.TasteGate
 import BEDC.Derived.ContinuationMonadUp.RootPublicObligationTriad
 import BEDC.Derived.ContinuationMonadUp.RootFormalRouteSaturation
 import BEDC.Derived.ContinuationMonadUp.RootFormalPublicReadback
