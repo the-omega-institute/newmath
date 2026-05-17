@@ -436,4 +436,17 @@ theorem CorpusSupplyDistillationSourceChannel_exposure :
     injection hfields with hrow _
     cases hrow
 
+theorem CorpusSupplyDistillation_filter_route_order
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        Cont C F (append C F) ∧
+          Cont F D (append F D) ∧
+            Cont D O (append D O) ∧
+              FieldFaithful.fields x = [C, F, D, O, R, H, T, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont FieldFaithful
+  cases x with
+  | mk C F D O R H T P N =>
+      exact ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl, rfl, rfl⟩
+
 end BEDC.Derived.CorpusSupplyDistillationUp
