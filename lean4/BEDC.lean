@@ -664,6 +664,7 @@ import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NonAxiomAdmissionUp.TasteGate
+import BEDC.Derived.FormalTargetDependencyAuditUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
 import BEDC.Derived.UnitCalibrationLedgerUp.TasteGate
@@ -1611,6 +1612,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.TailCofinalSealReflector
 import BEDC.Derived.UniformCauchyCriterionUp.TailFiberSealCompatibility
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalRegseqRealClassifierCorrespondence
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalRealRouteCertificate
+import BEDC.Derived.UniformCauchyCriterionUp.TerminalRealCompletionLock
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalSealEnvelope
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalSealClassifierRoute
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalQuotientRefusalBoundary
