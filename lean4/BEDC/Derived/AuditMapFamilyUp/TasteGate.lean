@@ -267,4 +267,16 @@ theorem AuditMapFamilyTasteGate_single_carrier_alignment :
         exact auditMapFamilyToEventFlow_injective heq
       · rfl
 
+theorem AuditMapFamily_tastegate_primality_commitment :
+    Nonempty (FieldFaithful AuditMapFamilyUp) ∧
+      AuditMapFamilyUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty ≠
+        AuditMapFamilyUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact ⟨auditMapFamilyFieldFaithful⟩
+  · intro h
+    cases h
+
 end BEDC.Derived.AuditMapFamilyUp
