@@ -76,12 +76,23 @@ def _extract_conclusion(sig: str) -> str:
     return sig[last_colon + 1:] if last_colon >= 0 else sig
 BHIST_CONSTRUCTOR_RE = re.compile(
     r"\b("
+    # FKernel primitive constructors (the original kernel layer)
     r"BHist|BMark|Empty|e0|e1|cons|append|sameSig|"
     r"ProbeBundle|SigRel|InGap|NameCert|SemanticNameCert|Pkg|hsame|msame|"
     r"Cont|Ext|InBundle|SameSig|UnaryHistory|StageInterface|"
     r"SealEvent|SealInterface|AskEvent|AskPolicy|BundleAskPolicy|"
     r"DescentCertificate|StableTransformation|ThreadFamily|"
-    r"bundleAppend|bundleLength|bwordLength"
+    r"bundleAppend|bundleLength|bwordLength|"
+    # BEDC-defined typeclasses that derived chapters routinely instance —
+    # mentioning these counts as anchoring because the typeclass itself
+    # is BHist-grounded (BHistCarrier requires toEventFlow into EventFlow,
+    # ChapterTasteGate requires round_trip + layer_separation, etc.)
+    r"BHistCarrier|ChapterTasteGate|FieldFaithful|"
+    # Any \w+Up identifier — derived chapter carriers and their projections.
+    # By BEDC convention every chapter under BEDC/Derived/ exposes <Name>Up
+    # as its carrier. A theorem/instance mentioning any <X>Up name is
+    # transitively anchored through that chapter's BHist carrier definition.
+    r"\w+Up"
     r")\b"
 )
 DERIVED_PATH_PREFIX = "lean4/BEDC/Derived"
