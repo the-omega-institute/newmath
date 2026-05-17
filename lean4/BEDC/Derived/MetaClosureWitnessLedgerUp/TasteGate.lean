@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
+namespace BEDC.Derived.MetaClosureWitnessLedgerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive MetaClosureWitnessLedgerUp : Type where
-  | mk (W K D A R H C P N : BHist) : MetaClosureWitnessLedgerUp
+  | mk :
+      (witness classifierTransport directionalTransport dependencyAudit replacement componentHsame
+        continuation provenance localName : BHist) →
+      MetaClosureWitnessLedgerUp
   deriving DecidableEq
 
 def metaClosureWitnessLedgerEncodeBHist : BHist → RawEvent
@@ -25,10 +28,9 @@ def metaClosureWitnessLedgerDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (metaClosureWitnessLedgerDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (metaClosureWitnessLedgerDecodeBHist tail)
 
-private theorem metaClosureWitnessLedgerDecode_encode_bhist :
+private theorem metaClosureWitnessLedgerDecodeEncodeBHist :
     ∀ h : BHist,
-      metaClosureWitnessLedgerDecodeBHist
-        (metaClosureWitnessLedgerEncodeBHist h) = h := by
+      metaClosureWitnessLedgerDecodeBHist (metaClosureWitnessLedgerEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -39,149 +41,163 @@ private theorem metaClosureWitnessLedgerDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def metaClosureWitnessLedgerFields :
-    MetaClosureWitnessLedgerUp → List BHist
+def metaClosureWitnessLedgerFields : MetaClosureWitnessLedgerUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | MetaClosureWitnessLedgerUp.mk W K D A R H C P N => [W, K, D, A, R, H, C, P, N]
+  | MetaClosureWitnessLedgerUp.mk witness classifierTransport directionalTransport
+      dependencyAudit replacement componentHsame continuation provenance localName =>
+      [witness, classifierTransport, directionalTransport, dependencyAudit, replacement,
+        componentHsame, continuation, provenance, localName]
 
-def metaClosureWitnessLedgerToEventFlow :
-    MetaClosureWitnessLedgerUp → EventFlow
+def metaClosureWitnessLedgerToEventFlow : MetaClosureWitnessLedgerUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | MetaClosureWitnessLedgerUp.mk W K D A R H C P N =>
-      [[BMark.b0],
-        metaClosureWitnessLedgerEncodeBHist W,
-        [BMark.b1, BMark.b0],
-        metaClosureWitnessLedgerEncodeBHist K,
-        [BMark.b1, BMark.b1, BMark.b0],
-        metaClosureWitnessLedgerEncodeBHist D,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        metaClosureWitnessLedgerEncodeBHist A,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        metaClosureWitnessLedgerEncodeBHist R,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        metaClosureWitnessLedgerEncodeBHist H,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        metaClosureWitnessLedgerEncodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        metaClosureWitnessLedgerEncodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        metaClosureWitnessLedgerEncodeBHist N]
-
-private def metaClosureWitnessLedgerRawAt : Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => metaClosureWitnessLedgerRawAt n rest
-
-private def metaClosureWitnessLedgerLengthEq : Nat → EventFlow → Bool
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => metaClosureWitnessLedgerLengthEq n rest
+  | MetaClosureWitnessLedgerUp.mk witness classifierTransport directionalTransport
+      dependencyAudit replacement componentHsame continuation provenance localName =>
+      [metaClosureWitnessLedgerEncodeBHist witness,
+        metaClosureWitnessLedgerEncodeBHist classifierTransport,
+        metaClosureWitnessLedgerEncodeBHist directionalTransport,
+        metaClosureWitnessLedgerEncodeBHist dependencyAudit,
+        metaClosureWitnessLedgerEncodeBHist replacement,
+        metaClosureWitnessLedgerEncodeBHist componentHsame,
+        metaClosureWitnessLedgerEncodeBHist continuation,
+        metaClosureWitnessLedgerEncodeBHist provenance,
+        metaClosureWitnessLedgerEncodeBHist localName]
 
 def metaClosureWitnessLedgerFromEventFlow :
     EventFlow → Option MetaClosureWitnessLedgerUp
   -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      match metaClosureWitnessLedgerLengthEq 18 flow with
-      | true =>
-          some
-            (MetaClosureWitnessLedgerUp.mk
-              (metaClosureWitnessLedgerDecodeBHist
-                (metaClosureWitnessLedgerRawAt 1 flow))
-              (metaClosureWitnessLedgerDecodeBHist
-                (metaClosureWitnessLedgerRawAt 3 flow))
-              (metaClosureWitnessLedgerDecodeBHist
-                (metaClosureWitnessLedgerRawAt 5 flow))
-              (metaClosureWitnessLedgerDecodeBHist
-                (metaClosureWitnessLedgerRawAt 7 flow))
-              (metaClosureWitnessLedgerDecodeBHist
-                (metaClosureWitnessLedgerRawAt 9 flow))
-              (metaClosureWitnessLedgerDecodeBHist
-                (metaClosureWitnessLedgerRawAt 11 flow))
-              (metaClosureWitnessLedgerDecodeBHist
-                (metaClosureWitnessLedgerRawAt 13 flow))
-              (metaClosureWitnessLedgerDecodeBHist
-                (metaClosureWitnessLedgerRawAt 15 flow))
-              (metaClosureWitnessLedgerDecodeBHist
-                (metaClosureWitnessLedgerRawAt 17 flow)))
-      | false => none
+  | [] => none
+  | witness :: rest0 =>
+      match rest0 with
+      | [] => none
+      | classifierTransport :: rest1 =>
+          match rest1 with
+          | [] => none
+          | directionalTransport :: rest2 =>
+              match rest2 with
+              | [] => none
+              | dependencyAudit :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | replacement :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | componentHsame :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | continuation :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | provenance :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | localName :: rest8 =>
+                                      match rest8 with
+                                      | [] =>
+                                          some
+                                            (MetaClosureWitnessLedgerUp.mk
+                                              (metaClosureWitnessLedgerDecodeBHist witness)
+                                              (metaClosureWitnessLedgerDecodeBHist
+                                                classifierTransport)
+                                              (metaClosureWitnessLedgerDecodeBHist
+                                                directionalTransport)
+                                              (metaClosureWitnessLedgerDecodeBHist
+                                                dependencyAudit)
+                                              (metaClosureWitnessLedgerDecodeBHist replacement)
+                                              (metaClosureWitnessLedgerDecodeBHist
+                                                componentHsame)
+                                              (metaClosureWitnessLedgerDecodeBHist continuation)
+                                              (metaClosureWitnessLedgerDecodeBHist provenance)
+                                              (metaClosureWitnessLedgerDecodeBHist localName))
+                                      | _ :: _ => none
 
 private theorem metaClosureWitnessLedger_round_trip :
     ∀ x : MetaClosureWitnessLedgerUp,
-      metaClosureWitnessLedgerFromEventFlow
-        (metaClosureWitnessLedgerToEventFlow x) = some x := by
+      metaClosureWitnessLedgerFromEventFlow (metaClosureWitnessLedgerToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk W K D A R H C P N =>
+  | mk witness classifierTransport directionalTransport dependencyAudit replacement
+      componentHsame continuation provenance localName =>
       change
         some
           (MetaClosureWitnessLedgerUp.mk
             (metaClosureWitnessLedgerDecodeBHist
-              (metaClosureWitnessLedgerEncodeBHist W))
+              (metaClosureWitnessLedgerEncodeBHist witness))
             (metaClosureWitnessLedgerDecodeBHist
-              (metaClosureWitnessLedgerEncodeBHist K))
+              (metaClosureWitnessLedgerEncodeBHist classifierTransport))
             (metaClosureWitnessLedgerDecodeBHist
-              (metaClosureWitnessLedgerEncodeBHist D))
+              (metaClosureWitnessLedgerEncodeBHist directionalTransport))
             (metaClosureWitnessLedgerDecodeBHist
-              (metaClosureWitnessLedgerEncodeBHist A))
+              (metaClosureWitnessLedgerEncodeBHist dependencyAudit))
             (metaClosureWitnessLedgerDecodeBHist
-              (metaClosureWitnessLedgerEncodeBHist R))
+              (metaClosureWitnessLedgerEncodeBHist replacement))
             (metaClosureWitnessLedgerDecodeBHist
-              (metaClosureWitnessLedgerEncodeBHist H))
+              (metaClosureWitnessLedgerEncodeBHist componentHsame))
             (metaClosureWitnessLedgerDecodeBHist
-              (metaClosureWitnessLedgerEncodeBHist C))
+              (metaClosureWitnessLedgerEncodeBHist continuation))
             (metaClosureWitnessLedgerDecodeBHist
-              (metaClosureWitnessLedgerEncodeBHist P))
+              (metaClosureWitnessLedgerEncodeBHist provenance))
             (metaClosureWitnessLedgerDecodeBHist
-              (metaClosureWitnessLedgerEncodeBHist N))) =
-          some (MetaClosureWitnessLedgerUp.mk W K D A R H C P N)
-      rw [metaClosureWitnessLedgerDecode_encode_bhist W,
-        metaClosureWitnessLedgerDecode_encode_bhist K,
-        metaClosureWitnessLedgerDecode_encode_bhist D,
-        metaClosureWitnessLedgerDecode_encode_bhist A,
-        metaClosureWitnessLedgerDecode_encode_bhist R,
-        metaClosureWitnessLedgerDecode_encode_bhist H,
-        metaClosureWitnessLedgerDecode_encode_bhist C,
-        metaClosureWitnessLedgerDecode_encode_bhist P,
-        metaClosureWitnessLedgerDecode_encode_bhist N]
+              (metaClosureWitnessLedgerEncodeBHist localName))) =
+          some
+            (MetaClosureWitnessLedgerUp.mk witness classifierTransport directionalTransport
+              dependencyAudit replacement componentHsame continuation provenance localName)
+      rw [metaClosureWitnessLedgerDecodeEncodeBHist witness,
+        metaClosureWitnessLedgerDecodeEncodeBHist classifierTransport,
+        metaClosureWitnessLedgerDecodeEncodeBHist directionalTransport,
+        metaClosureWitnessLedgerDecodeEncodeBHist dependencyAudit,
+        metaClosureWitnessLedgerDecodeEncodeBHist replacement,
+        metaClosureWitnessLedgerDecodeEncodeBHist componentHsame,
+        metaClosureWitnessLedgerDecodeEncodeBHist continuation,
+        metaClosureWitnessLedgerDecodeEncodeBHist provenance,
+        metaClosureWitnessLedgerDecodeEncodeBHist localName]
 
 private theorem metaClosureWitnessLedgerToEventFlow_injective
     {x y : MetaClosureWitnessLedgerUp} :
-    metaClosureWitnessLedgerToEventFlow x =
-      metaClosureWitnessLedgerToEventFlow y → x = y := by
+    metaClosureWitnessLedgerToEventFlow x = metaClosureWitnessLedgerToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      metaClosureWitnessLedgerFromEventFlow
-          (metaClosureWitnessLedgerToEventFlow x) =
-        metaClosureWitnessLedgerFromEventFlow
-          (metaClosureWitnessLedgerToEventFlow y) :=
+      metaClosureWitnessLedgerFromEventFlow (metaClosureWitnessLedgerToEventFlow x) =
+        metaClosureWitnessLedgerFromEventFlow (metaClosureWitnessLedgerToEventFlow y) :=
     congrArg metaClosureWitnessLedgerFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (metaClosureWitnessLedger_round_trip x).symm
       (Eq.trans hread (metaClosureWitnessLedger_round_trip y)))
 
-private theorem metaClosureWitnessLedger_fields_faithful :
+private theorem metaClosureWitnessLedger_field_faithful :
     ∀ x y : MetaClosureWitnessLedgerUp,
-      metaClosureWitnessLedgerFields x =
-        metaClosureWitnessLedgerFields y → x = y := by
+      metaClosureWitnessLedgerFields x = metaClosureWitnessLedgerFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk W K D A R H C P N =>
+  | mk witness₁ classifierTransport₁ directionalTransport₁ dependencyAudit₁ replacement₁
+      componentHsame₁ continuation₁ provenance₁ localName₁ =>
       cases y with
-      | mk W' K' D' A' R' H' C' P' N' =>
-          cases hfields
+      | mk witness₂ classifierTransport₂ directionalTransport₂ dependencyAudit₂ replacement₂
+          componentHsame₂ continuation₂ provenance₂ localName₂ =>
+          injection hfields with hwitness tail0
+          injection tail0 with hclassifierTransport tail1
+          injection tail1 with hdirectionalTransport tail2
+          injection tail2 with hdependencyAudit tail3
+          injection tail3 with hreplacement tail4
+          injection tail4 with hcomponentHsame tail5
+          injection tail5 with hcontinuation tail6
+          injection tail6 with hprovenance tail7
+          injection tail7 with hlocalName _
+          subst hwitness
+          subst hclassifierTransport
+          subst hdirectionalTransport
+          subst hdependencyAudit
+          subst hreplacement
+          subst hcomponentHsame
+          subst hcontinuation
+          subst hprovenance
+          subst hlocalName
           rfl
 
-instance metaClosureWitnessLedgerBHistCarrier :
-    BHistCarrier MetaClosureWitnessLedgerUp where
+instance metaClosureWitnessLedgerBHistCarrier : BHistCarrier MetaClosureWitnessLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := metaClosureWitnessLedgerToEventFlow
   fromEventFlow := metaClosureWitnessLedgerFromEventFlow
@@ -191,22 +207,19 @@ instance metaClosureWitnessLedgerChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      metaClosureWitnessLedgerFromEventFlow
-        (metaClosureWitnessLedgerToEventFlow x) = some x
+    change metaClosureWitnessLedgerFromEventFlow (metaClosureWitnessLedgerToEventFlow x) =
+      some x
     exact metaClosureWitnessLedger_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (metaClosureWitnessLedgerToEventFlow_injective heq)
 
-instance metaClosureWitnessLedgerFieldFaithful :
-    FieldFaithful MetaClosureWitnessLedgerUp where
+instance metaClosureWitnessLedgerFieldFaithful : FieldFaithful MetaClosureWitnessLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := metaClosureWitnessLedgerFields
-  field_faithful := metaClosureWitnessLedger_fields_faithful
+  field_faithful := metaClosureWitnessLedger_field_faithful
 
-instance metaClosureWitnessLedgerNontrivial :
-    Nontrivial MetaClosureWitnessLedgerUp where
+instance metaClosureWitnessLedgerNontrivial : Nontrivial MetaClosureWitnessLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨MetaClosureWitnessLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -217,20 +230,116 @@ instance metaClosureWitnessLedgerNontrivial :
         intro h
         cases h⟩
 
-theorem MetaClosureWitnessLedgerTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      metaClosureWitnessLedgerDecodeBHist
-        (metaClosureWitnessLedgerEncodeBHist h) = h) ∧
-      Nonempty (Nontrivial MetaClosureWitnessLedgerUp) ∧
-        Nonempty (ChapterTasteGate MetaClosureWitnessLedgerUp) ∧
-          Nonempty (FieldFaithful MetaClosureWitnessLedgerUp) ∧
-            metaClosureWitnessLedgerEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact
-    ⟨metaClosureWitnessLedgerDecode_encode_bhist,
-      ⟨metaClosureWitnessLedgerNontrivial⟩,
-      ⟨metaClosureWitnessLedgerChapterTasteGate⟩,
-      ⟨metaClosureWitnessLedgerFieldFaithful⟩,
-      rfl⟩
+def taste_gate : ChapterTasteGate MetaClosureWitnessLedgerUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  metaClosureWitnessLedgerChapterTasteGate
 
-end BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
+theorem MetaClosureWitnessLedgerTasteGate_single_carrier_alignment :
+    (∀ h : BHist, metaClosureWitnessLedgerDecodeBHist
+      (metaClosureWitnessLedgerEncodeBHist h) = h) ∧
+      (∀ x : MetaClosureWitnessLedgerUp,
+        metaClosureWitnessLedgerFromEventFlow (metaClosureWitnessLedgerToEventFlow x) =
+          some x) ∧
+        (∀ x y : MetaClosureWitnessLedgerUp,
+          metaClosureWitnessLedgerToEventFlow x = metaClosureWitnessLedgerToEventFlow y →
+            x = y) ∧
+          metaClosureWitnessLedgerEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact metaClosureWitnessLedgerDecodeEncodeBHist
+  · constructor
+    · exact metaClosureWitnessLedger_round_trip
+    · constructor
+      · intro x y heq
+        cases x with
+        | mk witness₁ classifierTransport₁ directionalTransport₁ dependencyAudit₁
+            replacement₁ componentHsame₁ continuation₁ provenance₁ localName₁ =>
+            cases y with
+            | mk witness₂ classifierTransport₂ directionalTransport₂ dependencyAudit₂
+                replacement₂ componentHsame₂ continuation₂ provenance₂ localName₂ =>
+                injection heq with hwitness tail0
+                injection tail0 with hclassifierTransport tail1
+                injection tail1 with hdirectionalTransport tail2
+                injection tail2 with hdependencyAudit tail3
+                injection tail3 with hreplacement tail4
+                injection tail4 with hcomponentHsame tail5
+                injection tail5 with hcontinuation tail6
+                injection tail6 with hprovenance tail7
+                injection tail7 with hlocalName _
+                have witnessEq : witness₁ = witness₂ := by
+                  have hdecode := congrArg metaClosureWitnessLedgerDecodeBHist hwitness
+                  rw [metaClosureWitnessLedgerDecodeEncodeBHist witness₁,
+                    metaClosureWitnessLedgerDecodeEncodeBHist witness₂] at hdecode
+                  exact hdecode
+                have classifierTransportEq : classifierTransport₁ = classifierTransport₂ := by
+                  have hdecode :=
+                    congrArg metaClosureWitnessLedgerDecodeBHist hclassifierTransport
+                  rw [metaClosureWitnessLedgerDecodeEncodeBHist classifierTransport₁,
+                    metaClosureWitnessLedgerDecodeEncodeBHist classifierTransport₂] at hdecode
+                  exact hdecode
+                have directionalTransportEq :
+                    directionalTransport₁ = directionalTransport₂ := by
+                  have hdecode :=
+                    congrArg metaClosureWitnessLedgerDecodeBHist hdirectionalTransport
+                  rw [metaClosureWitnessLedgerDecodeEncodeBHist directionalTransport₁,
+                    metaClosureWitnessLedgerDecodeEncodeBHist directionalTransport₂] at hdecode
+                  exact hdecode
+                have dependencyAuditEq : dependencyAudit₁ = dependencyAudit₂ := by
+                  have hdecode := congrArg metaClosureWitnessLedgerDecodeBHist hdependencyAudit
+                  rw [metaClosureWitnessLedgerDecodeEncodeBHist dependencyAudit₁,
+                    metaClosureWitnessLedgerDecodeEncodeBHist dependencyAudit₂] at hdecode
+                  exact hdecode
+                have replacementEq : replacement₁ = replacement₂ := by
+                  have hdecode := congrArg metaClosureWitnessLedgerDecodeBHist hreplacement
+                  rw [metaClosureWitnessLedgerDecodeEncodeBHist replacement₁,
+                    metaClosureWitnessLedgerDecodeEncodeBHist replacement₂] at hdecode
+                  exact hdecode
+                have componentHsameEq : componentHsame₁ = componentHsame₂ := by
+                  have hdecode := congrArg metaClosureWitnessLedgerDecodeBHist hcomponentHsame
+                  rw [metaClosureWitnessLedgerDecodeEncodeBHist componentHsame₁,
+                    metaClosureWitnessLedgerDecodeEncodeBHist componentHsame₂] at hdecode
+                  exact hdecode
+                have continuationEq : continuation₁ = continuation₂ := by
+                  have hdecode := congrArg metaClosureWitnessLedgerDecodeBHist hcontinuation
+                  rw [metaClosureWitnessLedgerDecodeEncodeBHist continuation₁,
+                    metaClosureWitnessLedgerDecodeEncodeBHist continuation₂] at hdecode
+                  exact hdecode
+                have provenanceEq : provenance₁ = provenance₂ := by
+                  have hdecode := congrArg metaClosureWitnessLedgerDecodeBHist hprovenance
+                  rw [metaClosureWitnessLedgerDecodeEncodeBHist provenance₁,
+                    metaClosureWitnessLedgerDecodeEncodeBHist provenance₂] at hdecode
+                  exact hdecode
+                have localNameEq : localName₁ = localName₂ := by
+                  have hdecode := congrArg metaClosureWitnessLedgerDecodeBHist hlocalName
+                  rw [metaClosureWitnessLedgerDecodeEncodeBHist localName₁,
+                    metaClosureWitnessLedgerDecodeEncodeBHist localName₂] at hdecode
+                  exact hdecode
+                cases witnessEq
+                cases classifierTransportEq
+                cases directionalTransportEq
+                cases dependencyAuditEq
+                cases replacementEq
+                cases componentHsameEq
+                cases continuationEq
+                cases provenanceEq
+                cases localNameEq
+                rfl
+      · rfl
+
+namespace TasteGate
+
+theorem MetaClosureWitnessLedgerTasteGate_single_carrier_alignment :
+    (∀ h : BHist, metaClosureWitnessLedgerDecodeBHist
+      (metaClosureWitnessLedgerEncodeBHist h) = h) ∧
+      (∀ x : MetaClosureWitnessLedgerUp,
+        metaClosureWitnessLedgerFromEventFlow (metaClosureWitnessLedgerToEventFlow x) =
+          some x) ∧
+        (∀ x y : MetaClosureWitnessLedgerUp,
+          metaClosureWitnessLedgerToEventFlow x = metaClosureWitnessLedgerToEventFlow y →
+            x = y) ∧
+          metaClosureWitnessLedgerEncodeBHist BHist.Empty = ([] : List BMark) :=
+  _root_.BEDC.Derived.MetaClosureWitnessLedgerUp.MetaClosureWitnessLedgerTasteGate_single_carrier_alignment
+
+end TasteGate
+
+end BEDC.Derived.MetaClosureWitnessLedgerUp
