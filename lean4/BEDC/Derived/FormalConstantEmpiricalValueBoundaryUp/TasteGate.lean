@@ -67,7 +67,7 @@ def formalConstantEmpiricalValueBoundaryToEventFlow :
 private def formalConstantEmpiricalValueBoundaryRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | 0, [] => []
-  | 0, w :: _ => w
+  | 0, head :: _ => head
   | Nat.succ _, [] => []
   | Nat.succ n, _ :: rest => formalConstantEmpiricalValueBoundaryRawAt n rest
 
