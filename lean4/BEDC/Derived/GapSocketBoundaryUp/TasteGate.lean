@@ -71,19 +71,42 @@ def gapSocketBoundaryToEventFlow : GapSocketBoundaryUp → EventFlow
 
 def gapSocketBoundaryFromEventFlow : EventFlow → Option GapSocketBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
-  | typedSocket :: externalityGate :: apophaticFarEnd :: refusalLedger :: transport ::
-      route :: provenance :: localName :: [] =>
-      some
-        (GapSocketBoundaryUp.packet
-          (gapSocketBoundaryDecodeBHist typedSocket)
-          (gapSocketBoundaryDecodeBHist externalityGate)
-          (gapSocketBoundaryDecodeBHist apophaticFarEnd)
-          (gapSocketBoundaryDecodeBHist refusalLedger)
-          (gapSocketBoundaryDecodeBHist transport)
-          (gapSocketBoundaryDecodeBHist route)
-          (gapSocketBoundaryDecodeBHist provenance)
-          (gapSocketBoundaryDecodeBHist localName))
-  | _ => none
+  | [] => none
+  | typedSocket :: rest0 =>
+      match rest0 with
+      | [] => none
+      | externalityGate :: rest1 =>
+          match rest1 with
+          | [] => none
+          | apophaticFarEnd :: rest2 =>
+              match rest2 with
+              | [] => none
+              | refusalLedger :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | transport :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | route :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | provenance :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | localName :: rest7 =>
+                                  match rest7 with
+                                  | [] =>
+                                      some
+                                        (GapSocketBoundaryUp.packet
+                                          (gapSocketBoundaryDecodeBHist typedSocket)
+                                          (gapSocketBoundaryDecodeBHist externalityGate)
+                                          (gapSocketBoundaryDecodeBHist apophaticFarEnd)
+                                          (gapSocketBoundaryDecodeBHist refusalLedger)
+                                          (gapSocketBoundaryDecodeBHist transport)
+                                          (gapSocketBoundaryDecodeBHist route)
+                                          (gapSocketBoundaryDecodeBHist provenance)
+                                          (gapSocketBoundaryDecodeBHist localName))
+                                  | _ :: _ => none
 
 private theorem gapSocketBoundary_round_trip :
     ∀ x : GapSocketBoundaryUp,
@@ -213,5 +236,16 @@ theorem GapSocketBoundaryCarrier_namecert_obligations [AskSetup] [PackageSetup]
     ⟨typedUnary, gateUnary, farEndUnary, refusalUnary, typedReplayUnary, gateReplayUnary,
       farEndReplayUnary, refusalReplayUnary, typedCont, gateCont, farEndCont, refusalCont,
       provenancePkg⟩
+
+theorem GapSocketBoundaryTasteGate_single_carrier_alignment :
+    (∀ h : BHist, gapSocketBoundaryDecodeBHist (gapSocketBoundaryEncodeBHist h) = h) ∧
+      (∀ x : GapSocketBoundaryUp,
+        gapSocketBoundaryFromEventFlow (gapSocketBoundaryToEventFlow x) = some x) ∧
+        (∀ x y : GapSocketBoundaryUp, gapSocketBoundaryToEventFlow x =
+          gapSocketBoundaryToEventFlow y → x = y) ∧
+          gapSocketBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact ⟨gapSocketBoundaryDecodeEncodeBHist, gapSocketBoundary_round_trip,
+    fun _ _ heq => gapSocketBoundaryToEventFlow_injective heq, rfl⟩
 
 end BEDC.Derived.GapSocketBoundaryUp
