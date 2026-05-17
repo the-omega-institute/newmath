@@ -168,4 +168,31 @@ theorem ForbiddenAxiomAncestryCarrier_forbidden_row_coverage [AskSetup] [Package
   exact
     ⟨forbiddenUnary, auditReadUnary, verdictComparison, provenancePkg, auditPkg⟩
 
+theorem ForbiddenAxiomAncestryCarrier_consumer_replay_completeness [AskSetup] [PackageSetup]
+    {theoremRow ancestry forbidden verdict transports routes provenance nameRow
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ForbiddenAxiomAncestryCarrier theoremRow ancestry forbidden verdict transports routes
+        provenance nameRow bundle pkg ->
+      Cont routes nameRow consumerRead ->
+        PkgSig bundle consumerRead pkg ->
+          UnaryHistory theoremRow ∧ UnaryHistory ancestry ∧ UnaryHistory forbidden ∧
+            UnaryHistory verdict ∧ UnaryHistory transports ∧ UnaryHistory routes ∧
+              UnaryHistory provenance ∧ UnaryHistory nameRow ∧ UnaryHistory consumerRead ∧
+                hsame verdict (append ancestry forbidden) ∧
+                  Cont theoremRow ancestry transports ∧ Cont transports routes provenance ∧
+                    Cont routes nameRow consumerRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory hsame
+  intro carrier consumerRoute consumerPkg
+  obtain ⟨theoremUnary, ancestryUnary, forbiddenUnary, verdictUnary, transportsUnary,
+    routesUnary, provenanceUnary, nameRowUnary, verdictComparison, theoremAncestry,
+      transportProvenance, provenancePkg⟩ := carrier
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed routesUnary nameRowUnary consumerRoute
+  exact
+    ⟨theoremUnary, ancestryUnary, forbiddenUnary, verdictUnary, transportsUnary, routesUnary,
+      provenanceUnary, nameRowUnary, consumerReadUnary, verdictComparison, theoremAncestry,
+      transportProvenance, consumerRoute, provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.ForbiddenAxiomAncestryUp
