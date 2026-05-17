@@ -423,4 +423,29 @@ theorem RussellAnalysisLadderCarrier_description_factorization
     ⟨descriptionContextRelation', stratumWitnessRoutes', sameRowsRoutesProvenance,
       localCertPkg, RussellAnalysisLadderCarrier_namecert_obligations carrierWitness⟩
 
+theorem RussellAnalysisLadderCarrier_non_escape_boundary
+    [AskSetup] [PackageSetup]
+    {description context relation stratum witness sameRows routes provenance localCert
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RussellAnalysisLadderCarrier description context relation stratum witness sameRows routes
+        provenance localCert bundle pkg ->
+      Cont routes localCert consumerRead ->
+        PkgSig bundle consumerRead pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              RussellAnalysisLadderCarrier description context relation stratum witness sameRows
+                routes provenance localCert bundle pkg ∧ hsame row localCert)
+            (fun row : BHist =>
+              Cont description context relation ∧ Cont stratum witness routes ∧
+                Cont sameRows routes provenance ∧ hsame row localCert)
+            (fun row : BHist => PkgSig bundle localCert pkg ∧ hsame row localCert)
+            hsame ∧
+            Cont routes localCert consumerRead ∧ PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier routesLocalConsumer consumerPkg
+  exact
+    ⟨RussellAnalysisLadderCarrier_namecert_obligations carrier, routesLocalConsumer,
+      consumerPkg⟩
+
 end BEDC.Derived.RussellAnalysisLadderUp
