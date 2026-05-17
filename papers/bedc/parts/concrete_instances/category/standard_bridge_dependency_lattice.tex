@@ -1,0 +1,33 @@
+\begin{proposition}[Category standard bridge dependency lattice]
+\label{prop:category-standard-bridge-dependency-lattice}
+The $\CategoryUp$ Hom carrier, composition row, identity row, and checked
+standard bridge surface are the shared substrate consumed by
+\autoref{ch:concrete-instances-functor-namecert} and
+\autoref{ch:concrete-instances-nattrans-namecert}. Their downstream reads use
+the category rows as dependency anchors: functor and natural-transformation
+certificates receive the displayed $\mathsf{CategoryHomCarrier}$ arrows,
+empty-tail identities, continuation composition ledger, and the
+$\mathsf{CategoryHomCarrier\_comp\_result\_semanticNameCert}$ bridge-facing
+certificate, rather than a host-category object, host-category equality, or
+external morphism primitive.
+\end{proposition}
+\begin{proof}
+The CategoryUp certificate in
+\autoref{thm:category-unary-continuation-stability-law-package} supplies the
+identity, composition, associativity, unit, and endpoint-transport rows over
+the unary-continuation Hom carrier. The standard bridge of
+\autoref{thm:category-standard-unary-continuation-bridge} reads the same
+surface through $\mathsf{UnaryHistory}$, $\mathsf{CategoryHomCarrier}$, and
+$\hsame$, and the closure block of
+\autoref{ch:concrete-instances-category-namecert} records this package at
+$\matureClosure$ with $\bridgeCheckedV$ status.
+
+The FunctorUp and NatTransUp chapters cite the CategoryUp chapter by
+\autoref{ch:concrete-instances-functor-namecert} and
+\autoref{ch:concrete-instances-nattrans-namecert}. Their certificate rows
+therefore attach to the displayed object, Hom, identity, composition, and
+bridge-facing semantic-certificate rows already exported by CategoryUp. No
+downstream clause needs a host-category carrier or primitive host equality:
+the dependency lattice is the BEDC row package itself, and the bridge reads
+that package without replacing it.
+\end{proof}
