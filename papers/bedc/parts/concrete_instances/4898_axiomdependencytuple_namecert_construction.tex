@@ -180,15 +180,101 @@ readback preserves that case split. Hence any downstream consumer is confined to
 the finite displayed rows.
 \end{proof}
 
+\begin{theorem}[AxiomDependencyTuple zero-supply row separation]
+\label{thm:axiom-dependency-tuple-zero-supply-row-separation}
+In Mode A, an accepted $\AxiomDependencyTupleUp$ packet exposes an internal
+zero-supply witness in $W$ and an empty external-supply ledger in $S$ before any
+consumer route can read the witness. The displayed $\Cont$ row $C$ may replay
+that separation, but it cannot insert host conversion, quotient equality,
+$\mathsf{Classical.choice}$, $\mathsf{propext}$, or ambient classical supply into
+the Mode A branch.
+\end{theorem}
+\begin{proof}
+Begin with the carrier
+$$
+A=(M,W,S,H,C,P,N).
+$$
+By \autoref{def:axiom-dependency-tuple-carrier}, the witness row and the
+required-supply ledger are separate displayed coordinates.
+
+Apply \autoref{thm:axiom-dependency-tuple-mode-exhaustion}. In the Mode A case,
+$W$ is the internal proof witness and $S$ is empty of external supply.
+
+Now use \autoref{thm:axiom-dependency-tuple-supply-ledger-readback} and
+\autoref{thm:axiom-dependency-tuple-route-nonexport}. A consumer route must read
+the displayed ledger before consuming $W$, and the route has no constructor that
+turns an empty ledger into host or classical supply.
+
+Finally, \autoref{thm:axiom-dependency-tuple-consumer-exhaustion} confines every
+consumer to the finite rows $M,W,S,H,C,P,N$. Hence Mode A exposes zero supply as
+a row property of the packet rather than as a hidden external assumption.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyTuple restricted-supply ledger totality]
+\label{thm:axiom-dependency-tuple-restricted-supply-ledger-totality}
+In Mode B, every restricted-proof witness in an accepted
+$\AxiomDependencyTupleUp$ packet is consumed only together with the full
+displayed required-supply row $S$. No consumer may read a proper subledger,
+erase a named supply entry, or replace $S$ by an implicit host rule.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:axiom-dependency-tuple-carrier}. The Mode B
+branch stores the restricted-proof witness in $W$ and its required supply in the
+single ledger coordinate $S$.
+
+The mode split is fixed by
+\autoref{thm:axiom-dependency-tuple-mode-exhaustion}. In that branch, the witness
+is not a zero-supply proof and not a counterexample or socket; it is read as a
+restricted proof under the displayed supply row.
+
+Apply \autoref{thm:axiom-dependency-tuple-supply-ledger-readback}. Any route that
+consumes $W$ must first expose the same row $S$, including every host conversion,
+quotient equality, choice, propositional extensionality, ambient theorem, or
+other named supply entry recorded there.
+
+The route and consumer boundaries then close the case. By
+\autoref{thm:axiom-dependency-tuple-route-nonexport} and
+\autoref{thm:axiom-dependency-tuple-consumer-exhaustion}, the consumer has access
+only to the displayed tuple rows, so it cannot silently shrink $S$ or promote a
+ledger entry into a BEDC proof rule.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyTuple counterexample socket nonexport]
+\label{thm:axiom-dependency-tuple-counterexample-socket-nonexport}
+In Mode C, every accepted counterexample or socket witness names refused supply
+through the witness row $W$ and required-supply ledger $S$, while the route row
+$C$, provenance row $P$, and local $\NameCert_{\AxiomDependencyTupleUp}$ row $N$
+prevent that named supply from becoming an exported BEDC proof rule.
+\end{theorem}
+\begin{proof}
+Read the carrier definition first. The witness row $W$ and the ledger row $S$
+are displayed separately from route, provenance, and naming data.
+
+Apply \autoref{thm:axiom-dependency-tuple-mode-exhaustion}. In Mode C, the
+witness coordinate is a counterexample or socket, so the packet records refused
+supply rather than a proof discharge.
+
+Next use \autoref{thm:axiom-dependency-tuple-supply-ledger-readback}. Any named
+host conversion, quotient equality, $\mathsf{Classical.choice}$,
+$\mathsf{propext}$, ambient theorem, or other external supply remains visible in
+$S$ when a consumer reads the witness.
+
+Finally combine \autoref{thm:axiom-dependency-tuple-route-nonexport} with
+\autoref{thm:axiom-dependency-tuple-consumer-exhaustion}. The route can only
+replay the displayed rows, and every consumer is exhausted by those rows, so the
+counterexample or socket cannot export the refused supply as a BEDC rule.
+\end{proof}
+
 \closureat{AxiomDependencyTupleUp}{seedStr}
+\closureat{AxiomDependencyTupleUp}{obligationStr}
 
 \begin{closurestatus}{\AxiomDependencyTupleUp}
   \constructivestory{An $\AxiomDependencyTupleUp$ packet is generated from a three-mode row, a proof, restricted-proof, counterexample, or socket witness row, a required-supply ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:axiom-dependency-tuple-carrier}, \autoref{thm:axiom-dependency-tuple-namecert-obligations}, \autoref{thm:axiom-dependency-tuple-mode-exhaustion}, \autoref{thm:axiom-dependency-tuple-supply-ledger-readback}, \autoref{thm:axiom-dependency-tuple-route-nonexport}, and \autoref{thm:axiom-dependency-tuple-consumer-exhaustion} bind the finite dependency-tuple carrier, mode exhaustion, ledger exactness, route non-export, and consumer exhaustion.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:axiom-dependency-tuple-carrier}, \autoref{thm:axiom-dependency-tuple-namecert-obligations}, \autoref{thm:axiom-dependency-tuple-mode-exhaustion}, \autoref{thm:axiom-dependency-tuple-supply-ledger-readback}, \autoref{thm:axiom-dependency-tuple-route-nonexport}, \autoref{thm:axiom-dependency-tuple-consumer-exhaustion}, \autoref{thm:axiom-dependency-tuple-zero-supply-row-separation}, \autoref{thm:axiom-dependency-tuple-restricted-supply-ledger-totality}, and \autoref{thm:axiom-dependency-tuple-counterexample-socket-nonexport} bind the finite dependency-tuple carrier, mode exhaustion, ledger exactness, route non-export, consumer exhaustion, and the three mode-specific obligation rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not enumerate all classical CIC claims, internalize host conversion, quotient equality, choice, propositional extensionality, or ambient classical CIC theorem supply, give Lean verification, or bridge check the tuple.}
-  \upgradepath{Obligation closure requires checked carrier admission, mode exhaustion, witness transport, required-supply ledger exactness, route readback, provenance, local naming, and non-export for the same finite packet.}
+  \upgradepath{Scoped closure next requires binding these obligation rows to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives.}
 \end{closurestatus}
