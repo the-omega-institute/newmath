@@ -80,6 +80,24 @@ Inspect the carrier inventory in \autoref{def:inscription-point-carrier}. The ex
 \autoref{thm:inscription-point-gap-handoff} fixes the route shape for downstream reads. Since every read passes through the finite gap, ledger, handoff, and event rows before the local name is consumed, there is no projection target for a private subject primitive, hidden selector, global observer frame, or positive far-end predicate.
 \end{proof}
 
+\begin{theorem}[InscriptionPoint socket surface through the canonical carrier]
+\label{thm:inscription-point-socket-surface-merged-into-canonical-carrier}
+Every supply-socket read of an accepted $\InscriptionPointUp$ carrier factors through the canonical rows
+$$
+H,G,S,T,I,L,R,C,P,N.
+$$
+The socket and $\Gap$ portion is supplied by $G,S,T$, the public event portion by $I,L$, and transport and provenance by $R,C,P,N$. The canonical carrier already absorbs the $O,S,A,G,H,C,P,N$ socket surface: it exports no internally supplied theorem, hidden receiver, private source predicate, selected witness, quotient equality, or completed supply principle.
+\end{theorem}
+\begin{proof}
+\autoref{def:inscription-point-carrier} fixes the accepted carrier as the displayed tuple $J=(H,G,S,T,I,L,R,C,P,N)$. Its socket-facing rows are not external receivers; they are the finite trace gap, supply-socket ledger, and transcendental-induction handoff rows named by $G,S,T$.
+
+\autoref{thm:inscription-point-namecert-obligations} gives the NameCert inventory. Gap and supply exactness identify $G,S,T$ as the only socket and handoff portion, while event and transport stability identify $I,L,R,C$ as the public event and replay surface for the same packet.
+
+\autoref{thm:inscription-point-gap-handoff} forces every consumer read through $G,S,T,I$ before the local $\NameCert$ row is consumed. \autoref{thm:inscription-point-non-escape} supplies the boundary: the carrier has no coordinate for an internally supplied theorem, hidden receiver, private source predicate, selected witness, quotient equality, or completed supply principle.
+
+Thus any read formerly expressible as $O,S,A,G,H,C,P,N$ is read inside the canonical rows. Observation, socket, actuality, gap, transport, continuation, provenance, and naming are accounted for by $H,G,S,T,I,L,R,C,P,N$, with no additional exported theorem or hidden supply surface.
+\end{proof}
+
 \closureat{InscriptionPointUp}{seedStr}
 \closureat{InscriptionPointUp}{obligationStr}[BEDC.Derived.InscriptionPointUp.InscriptionPointTasteGate\_single\_carrier\_alignment]
 \closureat{InscriptionPointUp}{scopedStr}[BEDC.Derived.InscriptionPointUp.InscriptionPointTasteGate\_single\_carrier\_alignment]
