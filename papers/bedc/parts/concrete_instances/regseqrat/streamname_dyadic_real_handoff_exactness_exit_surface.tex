@@ -147,6 +147,61 @@ identified, so it cannot introduce a new face or a different support row. Hence
 both parenthesizations expose the same finite BEDC rows and no extra route.
 \end{proof}
 
+\begin{theorem}[RegSeqRat Real seal common-refinement cover completeness]
+\label{thm:regseqrat-real-seal-common-refinement-cover-completeness}
+Let $\{\mathcal{S}_i\}_{i\in I}$ be a finite family of accepted public
+$\RegSeqRatUp$ reads whose members exit as $\RealUp$ seals. Suppose each
+$\mathcal{S}_i$ is saturated by exactly the four displayed faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Suppose further that every finite subfamily $J\subseteq I$ has a certified
+$\StreamNameUp$ common-refinement packet $\mathcal{R}_J$ whose restrictions to
+the members of $J$ agree on the dyadic endpoint, radius, distance, and tail
+ledger rows, on the $\RegSeqRatUp$ classifier and regularity rows, on the
+$\RealUp$ public seal row, and on the displayed $\mathsf{BHist}$,
+componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support.
+
+Then the glued family is covered by one finite four-face pullback surface over
+the union of the accepted reads. This surface restricts to each
+$\mathcal{R}_J$ on every finite subfamily and displays only the
+$\StreamNameUp$ schedule and membership face, the $\DyadicRatCoreUp$ ledger
+face, the $\RegSeqRatUp$ classifier, regularity, and transport face, the
+$\RealUp$ seal face, and the listed $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support rows. It exports no quotient stream, no host
+equality, no selected limit, no ambient or metric-completeness datum, no choice
+data, and no second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the common-refinement packets. By
+\autoref{thm:streamname-common-refinement-public-exactness}, each
+$\mathcal{R}_J$ exposes only the public StreamName source tuple and forces all
+downstream $\RegSeqRatUp$ and finite-window $\RealUp$ reads to factor through
+that tuple.
+
+Next apply
+\autoref{thm:streamname-real-regseqrat-seal-common-refinement}. For every
+finite subfamily, the StreamName window, RegSeqRat readback,
+$\DyadicRatCoreUp$ ledger, and $\RealUp$ seal row form one finite pullback
+with exactly the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and
+local $\NameCert$ support.
+
+Now pass from subfamily pullbacks to the whole finite family. Apply
+\autoref{thm:regseqrat-real-seal-finite-cover-gluing} to glue the accepted
+reads along their shared dyadic ledger, classifier, regularity, seal, and
+support rows. The hypotheses give the overlap agreement required by that
+gluing theorem because every overlap is the restriction of some
+$\mathcal{R}_J$.
+
+Finally use
+\autoref{thm:regseqrat-real-seal-finite-cover-associativity}. Reordering or
+reparenthesizing the finite subfamilies does not change the resulting
+four-face packet, so the cover obtained from the common-refinement packets is
+complete for the finite family. The cited results list all exported rows, and
+none supplies quotient streams, host equality, selected limits, ambient or
+metric completeness, choice data, or a second Real seal coordinate.
+\end{proof}
+
 \begin{theorem}[RegSeqRat StreamName Dyadic Real audit-clean exit readiness]
 \label{thm:regseqrat-streamname-dyadic-real-audit-clean-exit-readiness}
 For any accepted public L10 exit read of a $\RegSeqRatUp$ carrier, audit-clean
