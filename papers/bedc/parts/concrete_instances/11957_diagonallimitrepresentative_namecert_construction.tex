@@ -316,3 +316,60 @@ Now compare those faces with the representative carrier. The hypothesis identifi
 
 Finally apply the representative dyadic-real seal nonescape theorem, \autoref{thm:diagonal-limit-representative-dyadic-real-seal-nonescape}. Since the shared dyadic ledger and Real seal are consumed only through the displayed representative support, the compatibility terminal read factors through $E$ before it reaches the seal. The excluded host, quotient, selector, choice, completeness, and second-seal routes are absent from both the compatibility readiness surface and the representative carrier boundary.
 \end{proof}
+
+\begin{definition}[Diagonal-limit representative shared-terminal carrier]
+\label{def:diagonal-limit-representative-shared-terminal-carrier}
+A shared-terminal $\DiagonalLimitRepresentativeUp$ carrier is a finite $\BHist$ packet extending
+$$
+D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N)
+$$
+from \autoref{def:diagonal-limit-representative-carrier} by finite-prefix budget rows
+$$
+F=(Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F)
+$$
+from \autoref{ch:concrete-instances-finite-prefix-limit-budget-namecert}. The extended packet records the following additional rows:
+\begin{enumerate}
+\item $Q$ is the finite diagonal request whose precision and prefix depth cover the selected representative read $n,k,i$;
+\item $B$ is the finite observation-budget selector row admitting $Q$ before the selected $\StreamNameUp$ window is served;
+\item $W$ is the finite prefix-window ledger containing the representative window $w$ and the prefix windows required for the same terminal read;
+\item $D_F$ is the prefix-depth exhaustion row accounting for every served offset in $W$ and refusing outside-prefix reads before the regular readback or seal is consumed;
+\item $R$ is the $\RegSeqRatUp$ readback row compatible with the representative readback $r$;
+\item $S$ is the completion-facing or $\RealUp$ seal row compatible with the representative terminal seal $e$;
+\item $E_F,H_F,C_F,P_F,N_F$ record the finite-prefix exclusion, transport, continuation, provenance, and local naming rows used by the same terminal consumer.
+\end{enumerate}
+The shared-terminal carrier exports the representative row and the finite-prefix budget row as one ordered surface. It exports no quotient stream, host real equality, selected limit, hidden tail schedule, countable choice row, or ambient $\RealUp$ completeness witness.
+\end{definition}
+
+\begin{theorem}[Diagonal-limit representative shared-terminal route]
+\label{thm:diagonal-limit-representative-shared-terminal-route}
+Every terminal seal read of an accepted shared-terminal $\DiagonalLimitRepresentativeUp$ carrier factors through the ordered public surface
+$$
+\StreamNameUp,\quad \RegSeqRatUp,\quad \DyadicRatCoreUp,\quad \FinitePrefixLimitBudgetUp,\quad \RealUp.
+$$
+The representative rows $w,r,d,e$ and the finite-prefix rows $Q,B,W,D_F,R,S$ are consumed as one terminal route; no consumer may reach the $\RealUp$ seal before the finite-prefix budget has displayed its selector, prefix window, exhaustion row, and regular readback.
+\end{theorem}
+\begin{proof}
+Start with the representative carrier. By \autoref{thm:diagonal-limit-representative-streamname-regseqrat-handoff}, every route to the representative seal exposes the selected $\StreamNameUp$ window $w$ before the selected $\RegSeqRatUp$ readback $r$, and then consumes the downstream $\DyadicRatCoreUp$ ledger $d$ before the $\RealUp$ seal row $e$.
+
+Attach the finite-prefix budget packet. The seal-ordering theorem \autoref{thm:finite-prefix-limit-budget-seal-ordering} forces every budget-facing seal read through
+$$
+Q \to B \to W \to D_F \to R \to S.
+$$
+Thus the shared terminal route cannot read the seal before the selector, prefix-window ledger, depth-exhaustion row, and regular readback row have all been displayed.
+
+Now compare the two terminal surfaces. The shared-terminal carrier identifies the representative window, readback, and seal with the budget window, readback, and seal rows, while the representative dyadic ledger remains the arithmetic ledger between readback and seal. The consumer-boundary theorem \autoref{thm:finite-prefix-limit-budget-consumer-boundary} and the representative window-ledger exhaustion theorem \autoref{thm:diagonal-limit-representative-window-ledger-exhaustion} both confine public reads to the displayed rows.
+
+Therefore a terminal consumer factors through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FinitePrefixLimitBudgetUp$, and $\RealUp$ in that finite order. There is no bypass from the representative modulus, from the prefix selector, or from the dyadic ledger directly to a completed Real object.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative finite-prefix budget handoff]
+\label{thm:diagonal-limit-representative-finite-prefix-budget-handoff}
+The shared-terminal handoff from \autoref{def:diagonal-limit-representative-shared-terminal-carrier} preserves the representative nonchoice boundary and the finite-prefix consumer boundary. It supplies a concrete terminal interface for the Real-completion route, but it does not supply quotient-stream equality, host real equality, selected completed limits, hidden tail schedules, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First read the representative side. The nonchoice boundary \autoref{thm:diagonal-limit-representative-nonchoice-boundary} and completion boundary \autoref{thm:diagonal-limit-representative-completion-boundary} say that the representative packet exports only $X,\mu,n,k,i,w,r,d,e,H,C,P,N$ and no host limit, quotient stream, hidden selector, countable choice row, or ambient completeness principle.
+
+Next read the finite-prefix side. By \autoref{thm:finite-prefix-limit-budget-seal-consumer-coverage}, a $\RealUp$, $\RegSeqRatUp$, or completion-facing consumer receives exactly the prefix-budget route $Q \to B \to W \to D_F \to R \to S$ together with $E_F,H_F,C_F,P_F,N_F$. By \autoref{thm:finite-prefix-limit-budget-real-seal-nonescape-extension}, quotient streams, selected limits, host real equality, hidden tail schedules, countable choice, and ambient completeness cannot replace that route.
+
+Finally use the shared-terminal route theorem above. It composes the representative route with the finite-prefix budget route without adding a new coordinate: the terminal read is still a finite BEDC packet read through StreamName, RegSeqRat, DyadicRatCore, FinitePrefixLimitBudget, and Real rows. Hence the handoff gives the Real-completion route a concrete L10 terminal surface while preserving the nonchoice and no-completeness boundaries on both sides.
+\end{proof}
