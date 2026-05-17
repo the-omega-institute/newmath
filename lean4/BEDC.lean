@@ -158,6 +158,7 @@ import BEDC.Derived.ExternalSupplySignatureSealUp.TasteGate
 import BEDC.Derived.ExternalSupplyBoundaryUp
 import BEDC.Derived.ExternalSupplyBoundaryUp.TasteGate
 import BEDC.Derived.EmptyFableMachineUp.TasteGate
+import BEDC.Derived.EmptyFableMachineUp.Ledger
 import BEDC.Derived.ArzelaAscoliUp
 import BEDC.Derived.AscoliModulusUp
 import BEDC.Derived.AspectChainUp.TasteGate
@@ -3175,6 +3176,4 @@ import BEDC.HostBridge.HostInterpreterArith
 import BEDC.HostBridge.ChurchBoolPairRoundTrip
 import BEDC.HostBridge.ChurchOptionRoundTrip
 import BEDC.HostBridge.ChurchEitherListRoundTrip
-/- Capstone formalizations. -/
-import BEDC.Capstone
 import BEDC.Manifest
