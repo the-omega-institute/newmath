@@ -214,6 +214,50 @@ Apply \autoref{thm:finite-kernel-category-composition-laws}. The associativity a
 Finally use \autoref{thm:finite-kernel-category-ledger-nonescape-boundary} and \autoref{thm:finite-kernel-category-tastegate-scope}. Category-shaped downstream consumers receive only the finite packet surface, and the TasteGate handoff has no route back from quotient morphisms, host equality, functor-category objects, or an external category library.
 \end{proof}
 
+\begin{theorem}[Finite-kernel category scoped closure package]
+\label{thm:finite-kernel-category-scoped-closure-package}
+For every accepted $\FiniteKernelCategoryUp$ carrier
+$$
+K=(O,M,I,Q,A,U,H,C,P,N),
+$$
+the scoped package consists exactly of the object row $O$, hom row $M$, identity row $I$, composition row $Q$, associativity row $A$, unit row $U$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$. These rows are bound to the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and existing $\FiniteKernelCategoryUp$ TasteGate marker. A $\CategoryUp$, $\FunctorUp$, or $\NatTransUp$ consumer may cite the root package only by preserving this whole row family.
+
+The scoped package introduces no external category object, quotient morphism, host arrow equality, functor-category object, or ambient category library.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:finite-kernel-category-namecert-obligations}. Carrier exposure, classifier stability, identity exactness, composition exactness, and ledger non-escape already bind $O,M,I,Q,A,U,H,C,P,N$ to the displayed finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+Next apply \autoref{thm:finite-kernel-category-composition-laws}. It makes associativity and unit part of the same law ledger as identity and composition, transported through $H$ and consumed through $C$ with provenance $P$ and local name $N$.
+
+Finally use \autoref{thm:finite-kernel-category-root-obligation-scope} and \autoref{thm:finite-kernel-category-tastegate-obligation-handoff}. The root scope is the exact row family read by downstream categorical consumers, and the TasteGate handoff consumes the same single-carrier packet. By \autoref{thm:finite-kernel-category-ledger-nonescape-boundary}, no external category object or quotient morphism can replace any row.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category row scope exhaustion]
+\label{thm:finite-kernel-category-row-scope-exhaustion}
+Let $K=(O,M,I,Q,A,U,H,C,P,N)$ be an accepted $\FiniteKernelCategoryUp$ carrier. Every root-obligation read of $K$ is exhausted by the rows $O,M,I,Q,A,U,H,C,P,N$ over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and existing TasteGate support. In particular, object, hom, identity, composition, associativity, unit, transport, continuation, provenance, and local naming data cannot be distributed across a larger ambient categorical carrier before a consumer reads the $\FiniteKernelCategoryUp$ root package.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:finite-kernel-category-root-obligation-scope}. It states that the root obligation surface is exactly the object and hom boundary, identity and composition rows, associativity and unit rows, componentwise transport, continuation, provenance, and local naming rows.
+
+Use \autoref{thm:finite-kernel-category-root-handoff-package}. The handoff to $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ consumers is the single package $O,M,I,Q,A,U,H,C,P,N$, not a family of detachable ambient objects.
+
+Now apply \autoref{thm:finite-kernel-category-category-interface-handoff} and \autoref{thm:finite-kernel-category-functor-nattrans-handoff}. Category, functor, and natural-transformation consumers read only after this finite package has exposed the row family that supports their preservation and naturality data.
+
+The exhaustion is closed by \autoref{thm:finite-kernel-category-ledger-nonescape-boundary}. Since the carrier exports no quotient morphism, host arrow equality, functor-category object, or external category library, no additional root row remains outside the displayed package.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category public consumer boundary]
+\label{thm:finite-kernel-category-public-consumer-boundary}
+A public consumer may treat the $\FiniteKernelCategoryUp$ root package as scoped only when it reads object, hom, identity, composition, associativity, unit, transport, continuation, provenance, local naming, and the existing TasteGate marker through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. This is the consumer boundary for $\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ handoffs: the consumer receives a finite BEDC package, not a verified bridge claim and not an imported external category object.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-kernel-category-scoped-closure-package}. It identifies the scoped row package and binds it to the existing TasteGate support over the displayed BEDC support rows.
+
+Next use \autoref{thm:finite-kernel-category-row-scope-exhaustion}. A consumer that has not read all ten rows has not exhausted the root obligation surface, while a consumer that has read them has the finite package required for the downstream categorical interface.
+
+Finally apply \autoref{thm:finite-kernel-category-category-interface-handoff} together with \autoref{thm:finite-kernel-category-functor-nattrans-handoff}. These handoffs make $\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ consumers depend on the finite package before preservation or naturality data is read. The ledger non-escape theorem and TasteGate scope then exclude quotient morphisms, external category objects, aggregate bridge claims, and any imported category library from the public consumer boundary.
+\end{proof}
+
 \begin{theorem}[Finite-kernel category root handoff package]
 \label{thm:finite-kernel-category-root-handoff-package}
 For every accepted $\FiniteKernelCategoryUp$ carrier $K=(O,M,I,Q,A,U,H,C,P,N)$, the root handoff package to $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ consumers is the single package

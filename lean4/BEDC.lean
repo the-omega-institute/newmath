@@ -150,6 +150,7 @@ import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.MachineInterfaceFormalizationTargetUp.TasteGate
 import BEDC.Derived.ExternalityGateUp.TasteGate
+import BEDC.Derived.ExternalSupplySignatureSealUp.TasteGate
 import BEDC.Derived.ExternalSupplyBoundaryUp
 import BEDC.Derived.ExternalSupplyBoundaryUp.TasteGate
 import BEDC.Derived.EmptyFableMachineUp.TasteGate
@@ -331,7 +332,9 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootWindowTerminalFactorizati
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootWindowExtraction
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootWindowReadiness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCriterionTailPullback
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootSelectorBridge
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ScopedDependencyPackage
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SharedBudgetMeet
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SourceRowExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SourceToSealTriad
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailModulusScope
@@ -736,6 +739,7 @@ import BEDC.Derived.ObserverBoundarySelectorUp.TasteGate
 import BEDC.Derived.ObserverAccumulationClockUp.TasteGate
 import BEDC.Derived.ObserverPerspectiveCompositionUp.TasteGate
 import BEDC.Derived.ObservationTimeOrderUp.TasteGate
+import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.OperationalMembraneUp
 import BEDC.Derived.ProofTermErasureAuditRouteUp
 import BEDC.Derived.ProofTermErasureTraceUp.TasteGate
@@ -1312,6 +1316,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalReadinessCorrespon
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalRouteNoBranching
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalRouteEndpointExactness
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalRouteStatusReadback
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalWindowNonescape
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalSelectorSynchronization
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalSectionPullbackUniqueness
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalDiagonalPullback
