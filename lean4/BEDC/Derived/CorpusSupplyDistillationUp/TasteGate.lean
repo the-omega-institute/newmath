@@ -346,6 +346,22 @@ theorem CorpusSupplyDistillationNameCert_obligations
   | mk C F D O R H T P N =>
       exact ⟨C, F, D, O, R, H, T, P, N, rfl, hsame_refl H, rfl⟩
 
+theorem CorpusSupplyDistillationCarrier_admission
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        FieldFaithful.fields x = [C, F, D, O, R, H, T, P, N] ∧
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
+            hsame H H ∧ Cont T P (append T P) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk C F D O R H T P N =>
+      exact
+        ⟨C, F, D, O, R, H, T, P, N, rfl, rfl,
+          corpusSupplyDistillationChapterTasteGate.round_trip
+            (CorpusSupplyDistillationUp.mk C F D O R H T P N),
+          hsame_refl H, rfl⟩
+
 theorem CorpusSupplyDistillation_public_nonescape {x : CorpusSupplyDistillationUp} :
     ∃ C F D O R H T P N : BHist,
       x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
