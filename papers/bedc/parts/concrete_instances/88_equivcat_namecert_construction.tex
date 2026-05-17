@@ -1,5 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\EquivCatUp$}
 \label{ch:concrete-instances-equivcat-namecert}
+\origin{human}
 
 The categorical-equivalence interface $\EquivCatUp$ packages a pair of functors that are mutually quasi-inverse together with the natural-isomorphism witnesses. It depends on $\NameCert_{\AdjunctionUp}$ (\autoref{ch:concrete-instances-adjunction-namecert}) and $\NameCert_{\NatTransUp}$ (\autoref{ch:concrete-instances-nattrans-namecert}), and is the structural notion of sameness for $\NameCert_{\CategoryUp}$ instances.
 
@@ -330,3 +331,14 @@ $$
 because the two triangle-result classifiers are reflexivity of $\hsame(\emp,\emp)$. Finally, \autoref{def:adjunction-unit-counit-carrier} projects the first two fields of this carrier, giving the two displayed empty identity components for the transported source prefix.
 \end{proof}
 \leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_source\_prefix\_hsame\_transport}
+
+\begin{closurestatus}{\EquivCatUp}
+  \constructivestory{An $\EquivCatUp$ certificate is generated from an adjunction unit-counit carrier with source and target prefix histories, object row, unit and counit component rows, two roundtrip result rows, continuation ledgers, and $\hsame$ transport. The BEDC carrier reads categorical equivalence through finite empty-roundtrip evidence: when both triangle results are empty, the unit and counit components are forced to empty identity components, and prefix sameness is recovered by the NatTrans classifier. The construction therefore names the equivalence interface through displayed adjunction rows, not through ambient category equality.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the equivalence empty-roundtrip component, prefix determinacy, exclusion, and transport theorems.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim general categorical equivalence of arbitrary categories, univalence, quotient categories, or host isomorphism equality.}
+  \upgradepath{To reach obligationClosure, package the checked empty-roundtrip adjunction theorems as the explicit EquivCatUp NameCert carrier.}
+\end{closurestatus}

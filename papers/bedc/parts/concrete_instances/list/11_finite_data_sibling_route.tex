@@ -1,0 +1,11 @@
+The finite-data dependency lattice for $\ListUp$ passes through the sibling certificates \autoref{ch:concrete-instances-bool-namecert}, \autoref{ch:concrete-instances-option-namecert}, \autoref{ch:concrete-instances-prod-namecert}, and \autoref{ch:concrete-instances-sum-namecert}. Bool supplies the tag rows, Option supplies endpoint absence and presence rows, Product supplies component-envelope rows, and Sum supplies branch-tag rows; the list spine classifier becomes public only after those finite-data rows are available as sibling routes.
+
+\begin{theorem}[List finite-data sibling route]
+\label{thm:list-finite-data-sibling-route}
+The public $\ListUp$ spine classifier consumes $\BoolUp$ tag rows, $\OptionUp$ endpoint absence/presence rows, $\ProdUp$ component envelope rows, and $\SumUp$ branch tag rows before its spine classifier is public. Therefore any accepted list-spine read factors through the finite-data sibling lattice of \autoref{ch:concrete-instances-bool-namecert}, \autoref{ch:concrete-instances-option-namecert}, \autoref{ch:concrete-instances-prod-namecert}, and \autoref{ch:concrete-instances-sum-namecert} before it exports an empty, cons, append, reverse, or payload-bearing spine route.
+\end{theorem}
+\begin{proof}
+Read the sibling rows in finite-data order. The $\BoolUp$ surface supplies the visible tag discipline, $\OptionUp$ separates absence from presence, $\ProdUp$ supplies component envelopes for payload and tail rows, and $\SumUp$ supplies branch tags for the empty and cons alternatives.
+
+The $\ListUp$ spine classifier then reuses those rows as the finite route on which empty, singleton, append, reverse, and payload-bearing reads are displayed. Since the route has already passed through the tag, endpoint, component, and branch surfaces, the spine classifier is public only as a consumer of that sibling lattice.
+\end{proof}

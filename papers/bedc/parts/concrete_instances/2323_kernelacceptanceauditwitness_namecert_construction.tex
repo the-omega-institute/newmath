@@ -189,6 +189,46 @@ Use query-ledger totality for the audit side. Every query is accounted for by th
 Finally apply replay/query non-escape. The finite packet exports no row for kernel correctness, replay success without $R$, or dependency cleanliness without $Q$, so the source-to-query route is exhausted by the displayed rows and cannot be replaced by $G,K,A,L,H,P,N$ alone.
 \end{proof}
 
+\begin{theorem}[KernelAcceptanceAuditWitness standard bridge preconditions]
+\label{thm:kernel-acceptance-audit-witness-standard-bridge-preconditions}
+For every accepted $\KernelAcceptanceAuditWitnessUp$ carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+a standard bridge request for this audit witness must display the generated-term row $G$, kernel-candidate row $K$, accepted-declaration row $A$, environment-ledger row $L$, axiom-query row $Q$, build-replay row $R$, componentwise transport row $H$, displayed continuation row $C$, provenance row $P$, and local naming row $N$. These are the bridge preconditions for a public replay/query handoff over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\KernelAcceptanceAuditWitnessUp}$.
+
+The bridge request may not replace any of these rows by an accepted-name string, prose confidence, host runtime behavior, kernel-correctness claim, hidden dependency classification, or unledgered replay artifact.
+\end{theorem}
+\begin{proof}
+Start with the carrier in \autoref{def:kernel-acceptance-audit-witness-carrier}. It lists exactly the generated term, candidate, accepted declaration, environment ledger, axiom query, build replay, transport, continuation, provenance, and local name as the finite packet rows.
+
+Apply the NameCert obligation surface of \autoref{thm:kernel-acceptance-audit-witness-namecert-obligations}. The local naming row packages precisely those coordinates, so a bridge request that consumes the NameCert must display the same rows rather than a smaller accepted-name surface.
+
+Use the axiom-query boundary and route determinacy, \autoref{thm:kernel-acceptance-audit-witness-axiom-query-boundary} and \autoref{thm:kernel-acceptance-audit-witness-route-determinacy}. They force dependency classification through $Q$ and route replay/query access through $C$ to the displayed $R$ and $Q$ endpoints.
+
+Finally combine query-ledger totality and source-query route exhaustion, \autoref{thm:kernel-acceptance-audit-witness-query-ledger-totality} and \autoref{thm:kernel-acceptance-audit-witness-source-query-route-exhaustion}. These results account for every bridge-facing source-to-query read by the ledgered packet $G,K,A,L,Q,R,H,C,P,N$, leaving no hidden row from which a standard bridge request could infer acceptance, replay, dependency cleanliness, or local naming.
+\end{proof}
+
+\begin{theorem}[KernelAcceptanceAuditWitness bridge query replay boundary]
+\label{thm:kernel-acceptance-audit-witness-bridge-query-replay-boundary}
+For every accepted $\KernelAcceptanceAuditWitnessUp$ carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+the bridge-facing read of $A$ cannot infer dependency cleanliness without the axiom-query row $Q$ and cannot infer replay success without the build-replay row $R$. The continuation row $C$, ledger row $L$, provenance row $P$, and local name $N$ may route, ledger, package, and name the read, but they do not substitute for $Q$ or $R$.
+
+Thus the public bridge boundary separates dependency classification from build replay while keeping both rows inside the same finite $\KernelAcceptanceAuditWitnessUp$ packet.
+\end{theorem}
+\begin{proof}
+First apply the axiom-query boundary, \autoref{thm:kernel-acceptance-audit-witness-axiom-query-boundary}. It makes $Q$ the only coordinate through which a bridge-facing consumer may classify the accepted declaration's transitive dependency ancestry.
+
+Next apply route determinacy, \autoref{thm:kernel-acceptance-audit-witness-route-determinacy}. The displayed continuation row $C$ fixes the replay endpoint $R$ and the query endpoint $Q$, but it does not turn either endpoint into the other.
+
+Use query-ledger totality and source-query route exhaustion, \autoref{thm:kernel-acceptance-audit-witness-query-ledger-totality} and \autoref{thm:kernel-acceptance-audit-witness-source-query-route-exhaustion}. Together they account for every source-facing bridge read through $G,K,A,L,Q,R,C,N$ and require the query and replay rows before dependency and replay conclusions can be consumed.
+
+Finally inspect the carrier rows through \autoref{def:kernel-acceptance-audit-witness-carrier}. The remaining rows $H,P,N$ transport, package, and name the finite packet, but none of them is an axiom query or build replay. The bridge boundary therefore permits no dependency cleanliness without $Q$ and no replay success without $R$.
+\end{proof}
+
 \begin{theorem}[KernelAcceptanceAuditWitness query replay interface]
 \label{thm:kernel-acceptance-audit-witness-query-replay-interface}
 For every accepted $\KernelAcceptanceAuditWitnessUp$ carrier

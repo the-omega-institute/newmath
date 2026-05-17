@@ -1,5 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\PublicKeyUp$}
 \label{ch:concrete-instances-publickey-namecert}
+\origin{human}
 
 The public-key-cryptosystem interface $\PublicKeyUp$ packages a key-generation, encryption, and decryption triple together with security reductions to a hardness assumption (factoring, discrete logarithm, lattice). It depends on $\NameCert_{\GroupUp}$ (\autoref{ch:concrete-instances-group-namecert}) and $\NameCert_{\NumFieldUp}$ (\autoref{ch:concrete-instances-numfield-namecert}).
 
@@ -237,3 +238,14 @@ $$
 \mu_{\mathcal P}(d_1,d_2).
 $$
 \end{proof}
+
+\begin{closurestatus}{\PublicKeyUp}
+  \constructivestory{A $\PublicKeyUp$ packet is generated from finite $\BHist$ rows for public keys, secret keys, plaintexts, ciphertexts, encryption transcripts, decryption transcripts, and the plaintext classifier inherited from the number-field source. Correctness is read bottom-up: key generation and certified encryption expose displayed rows, $\Cont$ routes the decryption endpoint, and the result is compared by the carried classifier rather than by host message equality. Componentwise $\hsame$ transports key, ciphertext, plaintext, and transcript rows, while $\Pkg$ records the group and number-field dependencies. The security-facing surface remains a finite transcript certificate, not a cryptographic hardness theorem.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the decrypt-encrypt transcript interface, decrypt-encrypt correctness, and classifier-facing stability results for $\PublicKeyUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim semantic security, hardness reductions, randomness soundness, host plaintext equality, or a concrete encryption implementation.}
+  \upgradepath{Obligation closure requires Lean encodings of the transcript carrier, decrypt-encrypt exactness row, and classifier transport for decrypted endpoints.}
+\end{closurestatus}

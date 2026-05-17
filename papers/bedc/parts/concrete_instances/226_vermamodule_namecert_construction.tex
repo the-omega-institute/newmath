@@ -1,5 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\VermaModuleUp$}
 \label{ch:concrete-instances-vermamodule-namecert}
+\origin{human}
 
 The Verma-module interface $\VermaModuleUp$ packages, for a semisimple Lie algebra and a highest weight, the universal highest-weight module obtained by inducing from a Borel subalgebra. It depends on $\NameCert_{\LieAlgebraUp}$ (\autoref{ch:concrete-instances-liealgebra-namecert}) and $\NameCert_{\RootSystemUp}$ (\autoref{ch:concrete-instances-rootsystem-namecert}).
 
@@ -87,3 +88,14 @@ module, irreducible classifier, or basis choice.
 \end{proof}
 \leanchecked{BEDC.Derived.VermaModuleUp.VermaModuleFiniteCarrier\_obligation\_ledger\_surface}
 \leanchecked{BEDC.Derived.VermaModuleUp.VermaModuleFiniteCarrier\_semanticNameCert}
+
+\begin{closurestatus}{\VermaModuleUp}
+  \constructivestory{A $\VermaModuleUp$ packet is generated from finite $\BHist$ rows for a Lie-algebra source, a highest-weight row, a generator row, an action ledger, and the displayed module-facing carrier rows. The Verma surface is assembled by replaying the generator and action routes through $\Cont$, so consumers see finite obligation rows rather than a host universal module. The classifier transports the highest-weight, generator, and action rows by $\hsame$, and $\Pkg$ records the consumed Lie-algebra and module dependencies. The resulting certificate names the finite highest-weight ledger and its semantic carrier boundary without exporting irreducible quotients or basis choices.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the finite carrier obligation ledger surface and semantic NameCert surface for $\VermaModuleUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim universal-module construction, irreducible quotient classification, character formulae, host module equality, or a chosen PBW basis.}
+  \upgradepath{Obligation closure requires Lean encodings of the finite carrier, highest-weight action ledger, semantic NameCert rows, and non-escape boundary.}
+\end{closurestatus}

@@ -1,48 +1,33 @@
-\chapter{A Concrete Naming Certificate for $\SheafUp$}
-\label{ch:concrete-instances-sheaf-namecert}
-
-The sheaf interface $\SheafUp$ packages a presheaf satisfying the locality and gluing axioms over open covers. It depends on $\NameCert_{\PreSheafUp}$ (\autoref{ch:concrete-instances-presheaf-namecert}) and $\NameCert_{\TopologyUp}$ (\autoref{ch:concrete-instances-topology-namecert}), and is the substrate for ringed-space and scheme certificates.
-
+\input{parts/concrete_instances/sheaf/namecert_construction}
 \input{parts/concrete_instances/sheaf/01_carrier_and_cover_surface}
 \input{parts/concrete_instances/sheaf/02_bhist_obligation_surface}
 \input{parts/concrete_instances/sheaf/03_gluing_classifier_rows}
 \input{parts/concrete_instances/sheaf/04_refinement_exactness}
 \input{parts/concrete_instances/sheaf/05_refinement_composition_and_presentation}
-\input{parts/concrete_instances/129_sheaf_restricted_open_surface}
+\input{parts/concrete_instances/sheaf/06_restricted_common_refinement_exactness}
+\input{parts/concrete_instances/sheaf/07_downstream_consumption_boundary}
+\input{parts/concrete_instances/sheaf/08_triple_overlap_route_ledger}
 \input{parts/concrete_instances/sheaf/129_base_change_surface}
 \input{parts/concrete_instances/sheaf/base_change_functoriality}
-\input{parts/concrete_instances/129_sheaf_cover_presentation_classifier}
-\input{parts/concrete_instances/sheaf/06_restricted_common_refinement_exactness}
-\input{parts/concrete_instances/sheaf/08_triple_overlap_route_ledger}
-\input{parts/concrete_instances/129_sheaf_point_germ_ledger}
-\input{parts/concrete_instances/sheaf/root_point_germ_classifier_laws}
-\input{parts/concrete_instances/sheaf/root_namecert_obligations}
-\input{parts/concrete_instances/sheaf/root_namecert_field_inventory}
-\input{parts/concrete_instances/sheaf/root_unblock_obligations}
-\input{parts/concrete_instances/sheaf/identity_cover_root_package}
-\input{parts/concrete_instances/sheaf/downstream_root_unblock_surface}
-\input{parts/concrete_instances/sheaf/root_export_threshold}
-\input{parts/concrete_instances/sheaf/root_threshold_certificate_surface}
-\input{parts/concrete_instances/sheaf/root_consumer_threshold_projection}
-\input{parts/concrete_instances/sheaf/root_face_exactness}
-\input{parts/concrete_instances/sheaf/root_consumer_projection_seal}
-\input{parts/concrete_instances/sheaf/root_consumer_access_trace}
-\input{parts/concrete_instances/sheaf/root_access_normal_form}
 \input{parts/concrete_instances/sheaf/consumer_trace_composition}
+\input{parts/concrete_instances/sheaf/cover_presentation_classifier}
+\input{parts/concrete_instances/sheaf/downstream_root_unblock_surface}
+\input{parts/concrete_instances/sheaf/identity_cover_root_package}
+\input{parts/concrete_instances/sheaf/point_germ_ledger}
+\input{parts/concrete_instances/sheaf/restricted_open_surface}
+\input{parts/concrete_instances/sheaf/root_access_normal_form}
+\input{parts/concrete_instances/sheaf/root_consumer_access_trace}
 \input{parts/concrete_instances/sheaf/root_consumer_access_trace_composition}
-\input{parts/concrete_instances/sheaf/root_downstream_consumer_surface}
-\input{parts/concrete_instances/sheaf/root_joint_consumer_face}
-\input{parts/concrete_instances/sheaf/root_route_exactness_packet}
+\input{parts/concrete_instances/sheaf/root_consumer_projection_seal}
+\input{parts/concrete_instances/sheaf/root_consumer_threshold_projection}
 \input{parts/concrete_instances/sheaf/root_cover_descent_exhaustion}
-\input{parts/concrete_instances/sheaf/07_downstream_consumption_boundary}
-
-\begin{closurestatus}{\SheafUp}
-  \constructivestory{A sheaf row starts with a $\TopologyUp$ indexed-open carrier and a $\PreSheafUp$ restriction surface, then attaches section carriers over each open index, section classifiers, restriction maps, indexed cover rows, overlap intersections, and the locality and gluing fields. The carrier admits exactly those indexed presheaf packets whose cover data is displayed by the topology ledger and whose local families satisfy the overlap compatibility rows; a cover presentation with missing inclusions, missing overlap comparisons, or no gluing/locality witness is outside the sheaf surface. Two sheaf presentations are classified together when the section classifiers identify the relevant global or restricted sections after transport through restrictions, refinements, common refinements, restricted opens, and base-change squares, not when host open covers or stalk quotients are identified. The source specification is the topology-plus-presheaf cover surface, the pattern specification records restriction identity and composition, restriction classifier stability, locality, gluing, refinement invariance, common-refinement exactness, point-germ rows, and downstream access traces, and the ledger keeps cover indices, member maps, inclusion proofs, overlap restrictions, base-change routes, and consumer projections visible. The five name-certificate obligations are supplied by the indexed section carrier and its classifier family: an admitted section surface inhabits the carrier, each local classifier is reflexive, symmetric, and transitive, and restriction/refinement transport keeps classified representatives inside the same displayed cover-gluing interface. A sheaf packet $h$ lies in the signature gap of a $\SheafUp$ token $p$ when the source-domain accepts its indexed cover and section data, the signature relation pairs it with an answer sheaf packet and evidence ledger, and the token-introduction relation names that answer as $p$; concretely, the compatible local family, its gluing, and all refinement or restricted-open rows must be the ones encoded by $p$. The checked bridge here reads the same indexed section, restriction, locality, and gluing rows as the standard sheaf interface for downstream ringed-space and scheme consumers, while still refusing host powerset equality, cover quotients, stalk quotients, and external sheafification.}
-  \theoryclosure{\matureClosure}
-  \scopeclosed{The mature paper-side package is the indexed sheaf downstream boundary of \autoref{sec:sheaf-downstream-consumption-boundary}, bound by \autoref{thm:sheaf-consumer-access-trace-exhaustion}, \autoref{thm:sheaf-consumer-access-trace-composite-exhaustion}, \autoref{thm:sheaf-root-joint-consumer-face-exhaustion}, and \autoref{thm:sheaf-root-cover-descent-downstream-interface}.}
-  \formalstatus{\bridgeCheckedV}
-  \leantarget{BEDC.Derived.SheafUp.SheafUp\_StdBridge}
-  \bridgestatus{bridgeChecked}
-  \notclaimed{This chapter does not claim a machine-checked bridge, host powerset equality, cover quotient, stalk quotient, external sheafification, $\RingedSpaceUp$ closure, or $\SchemeUp$ closure.}
-  \upgradepath{no further upgrade -- chapter at top of formal axis}
-\end{closurestatus}
+\input{parts/concrete_instances/sheaf/root_downstream_consumer_surface}
+\input{parts/concrete_instances/sheaf/root_export_threshold}
+\input{parts/concrete_instances/sheaf/root_face_exactness}
+\input{parts/concrete_instances/sheaf/root_joint_consumer_face}
+\input{parts/concrete_instances/sheaf/root_namecert_field_inventory}
+\input{parts/concrete_instances/sheaf/root_namecert_obligations}
+\input{parts/concrete_instances/sheaf/root_point_germ_classifier_laws}
+\input{parts/concrete_instances/sheaf/root_route_exactness_packet}
+\input{parts/concrete_instances/sheaf/root_threshold_certificate_surface}
+\input{parts/concrete_instances/sheaf/root_unblock_obligations}

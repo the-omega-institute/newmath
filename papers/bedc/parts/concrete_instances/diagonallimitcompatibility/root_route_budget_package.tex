@@ -457,3 +457,34 @@ The Cauchy-refinement consumer correspondence, \autoref{thm:diagonal-limit-compa
 
 Finally invoke the four-face consumer equivalence, \autoref{thm:diagonal-limit-compatibility-four-face-consumer-equivalence}. It identifies the diagonal terminal route, the Cauchy threshold exit spine, and the UniformCauchy Real-completion exit exhaustion as one public BEDC route. Therefore open-phase readiness is precisely the displayed four-face surface over $H,C,P,N$, with no quotient stream, host real equality, selected limit, choice datum, completeness datum, or bridge row.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root-route selector minimality]
+\label{thm:diagonal-limit-compatibility-root-route-selector-minimality}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Any terminal $\RealUp$ or $\CompletionUp$ read of $K$ that reaches the four faces
+$$
+\StreamNameUp(W),\qquad
+\DyadicRatCoreUp(T),\qquad
+\RegSeqRatUp(Q),\qquad
+\RealUp(L)
+$$
+must factor through the displayed budget-source row, mesh row, triangle row, and stream-window row before the seal route is read. Thus the root route has no smaller selector surface that still exposes all four faces.
+\end{theorem}
+\begin{proof}
+Start from the root-route budget package. It places the $\CauchyDiagonalBudgetUp$ source row, $\RealDiagonalMeshBudgetUp$ mesh row, $\RegularCauchyTriangleBoundUp$ triangle row, and $\StreamNameUp$ window row before the regular readback, seal route, and Real seal rows.
+
+Use source exhaustion and the seal-window lock. The source exhaustion theorem says that no alternate source row can serve the terminal route, while the seal-window lock prevents a seal-facing read from choosing a different window after the source rows have been displayed.
+
+Finally apply the four-face consumer equivalence. Since the terminal consumer sees exactly $\StreamNameUp(W)$, $\DyadicRatCoreUp(T)$, $\RegSeqRatUp(Q)$, and $\RealUp(L)$ over the same support rows, removing any one of the budget-source, mesh, triangle, or stream-window rows destroys the displayed route to at least one face. The remaining non-escape theorem excludes hidden tail oracles, selected host limits, quotient streams, choice data, and ambient completeness as substitutes.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root-route budget-source totality]
+\label{thm:diagonal-limit-compatibility-root-route-budget-source-totality}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. The budget-source rows of the root route exhaust all selector inputs for any terminal $\RealUp$ or $\CompletionUp$ read of $K$. In particular, the terminal route admits no hidden tail oracle, quotient stream, selected host limit, countable-choice datum, or ambient-completeness coordinate outside the displayed source, mesh, triangle, stream-window, readback, seal, transport, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+First compose the root-route budget package with source exhaustion. The only selector inputs made available before terminal readback are the displayed diagonal budget source, mesh budget, triangle bound, and stream-window rows.
+
+Next apply the seal-window lock. Once those rows are fixed, the regular readback $Q$, the seal route $S$, and the Real seal $L$ can be read only through the same route, with $H,C,P,N$ carrying transport, replay, provenance, and local naming.
+
+The four-face consumer equivalence identifies this route with the public exit surface seen by the Cauchy-refinement and UniformCauchy consumers. The non-escape theorem then removes every proposed outside selector input: hidden tail oracle, quotient stream, selected host limit, countable choice, and ambient completeness are not rows of the accepted packet.
+\end{proof}
