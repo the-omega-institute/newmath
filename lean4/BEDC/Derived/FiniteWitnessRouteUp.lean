@@ -486,4 +486,23 @@ theorem FiniteWitnessRouteConsumer_route_exactness
           · exact exactness.right.right.right.right
           · exact ⟨requestRoute, sealRoute⟩
 
+theorem FiniteWitnessRouteSelectedWindowSeal_uniqueness
+    {q w r r' d d' s s' h c p n : BHist}
+    (requestRoute : Cont q w r)
+    (requestRoute' : Cont q w r')
+    (sealRoute : Cont r d s)
+    (sealRoute' : Cont r' d' s')
+    (sameD : hsame d d') :
+    hsame r r' ∧ hsame s s' ∧
+      (∃ packet : FiniteWitnessRouteUp,
+        packet = FiniteWitnessRouteUp.mk q w r d s h c p n ∧ Cont q w r ∧ Cont r d s) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  have sameR : hsame r r' := cont_deterministic requestRoute requestRoute'
+  have transportedSealRoute : Cont r' d' s := by
+    exact cont_hsame_transport sameR sameD (hsame_refl s) sealRoute
+  have sameS : hsame s s' := cont_deterministic transportedSealRoute sealRoute'
+  exact
+    ⟨sameR, sameS,
+      ⟨FiniteWitnessRouteUp.mk q w r d s h c p n, rfl, requestRoute, sealRoute⟩⟩
+
 end BEDC.Derived.FiniteWitnessRouteUp

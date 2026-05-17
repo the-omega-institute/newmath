@@ -168,4 +168,48 @@ theorem AxisCarryRefusalLedgerCarrier_nonidentification_rows :
       injection htail₇ with hrow _
       cases hrow
 
+theorem AxisCarryRefusalLedgerCarrier_local_namecert_exhaustion :
+    (∀ x : AxisCarryRefusalLedgerUp,
+      ∃ G Z F A B L H C P N : BHist,
+        x = AxisCarryRefusalLedgerUp.mk G Z F A B L H C P N ∧
+          FieldFaithful.fields x = [G, Z, F, A, B, L, H, C, P, N]) ∧
+      (∀ G Z F A B L H C P : BHist,
+        BHistCarrier.toEventFlow
+          (AxisCarryRefusalLedgerUp.mk G Z F A B L H C P (BHist.e0 BHist.Empty)) ≠
+        BHistCarrier.toEventFlow
+          (AxisCarryRefusalLedgerUp.mk G Z F A B L H C P BHist.Empty)) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    cases x with
+    | mk G Z F A B L H C P N =>
+        exact ⟨G, Z, F, A, B, L, H, C, P, N, rfl, rfl⟩
+  · intro G Z F A B L H C P heq
+    change
+      axisCarryRefusalLedgerToEventFlow
+          (AxisCarryRefusalLedgerUp.mk G Z F A B L H C P (BHist.e0 BHist.Empty)) =
+        axisCarryRefusalLedgerToEventFlow
+          (AxisCarryRefusalLedgerUp.mk G Z F A B L H C P BHist.Empty) at heq
+    injection heq with _ htail₁
+    injection htail₁ with _ htail₂
+    injection htail₂ with _ htail₃
+    injection htail₃ with _ htail₄
+    injection htail₄ with _ htail₅
+    injection htail₅ with _ htail₆
+    injection htail₆ with _ htail₇
+    injection htail₇ with _ htail₈
+    injection htail₈ with _ htail₉
+    injection htail₉ with _ htail₁₀
+    injection htail₁₀ with _ htail₁₁
+    injection htail₁₁ with _ htail₁₂
+    injection htail₁₂ with _ htail₁₃
+    injection htail₁₃ with _ htail₁₄
+    injection htail₁₄ with _ htail₁₅
+    injection htail₁₅ with _ htail₁₆
+    injection htail₁₆ with _ htail₁₇
+    injection htail₁₇ with _ htail₁₈
+    injection htail₁₈ with _ htail₁₉
+    injection htail₁₉ with hrow _
+    cases hrow
+
 end BEDC.Derived.AxisCarryRefusalLedgerUp
