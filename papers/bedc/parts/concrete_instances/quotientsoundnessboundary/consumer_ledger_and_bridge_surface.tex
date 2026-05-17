@@ -90,6 +90,39 @@ eliminators, or representative-selection exports.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_refusal\_transport\_sibling\_handoff}
 
+\begin{theorem}[QuotientSoundnessBoundary socket-kind route]
+\label{thm:quotient-soundness-boundary-socket-kind-route}
+Every accepted $\SocketKindClassifierUp$ quotient-kind read that cites a
+$\QuotientSoundnessBoundaryUp$ packet factors through the quotient boundary
+refusal-before-transport route. It first reads the representative-demand and
+refusal rows $A,V$, then reads the positive $\psame$ transport package
+$E,T,H,C,P,N$, and only then supplies the $\SocketKindClassifierUp$ kind row
+from \autoref{ch:concrete-instances-socketkindclassifier-namecert}. The route
+cannot reinterpret the quotient boundary packet as $\mathsf{Quot.sound}$, a
+quotient carrier, a host quotient eliminator, or a representative selector.
+\end{theorem}
+\begin{proof}
+Begin with the sibling handoff,
+\autoref{thm:quotient-soundness-boundary-refusal-transport-sibling-handoff}.
+It forces every downstream quotient-like sibling to receive the refusal rows
+$A,V$ before it can use the positive transport surface, and it exports only
+classifier-respecting $\psame$ transport with $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ structure.
+
+Next apply representative-demand exposure. The demanded representative surface
+remains audit-visible inside the finite $\BHist$ packet, so the classifier read
+cannot treat $A$ as an admitted selector or erase the refusal verdict $V$ before
+the kind row is assigned.
+
+Finally use consumer ledger coverage and the downstream classifier surface in
+\autoref{ch:concrete-instances-socketkindclassifier-namecert}. The ledger
+exhausts quotient-like consumption by the refusal rows and the displayed
+transport rows, while the classifier contributes only the socket-kind row.
+Thus the cited quotient boundary is consumed as a finite BEDC refusal kind, not
+as $\mathsf{Quot.sound}$, a quotient carrier, a representative selector, or a
+host quotient principle.
+\end{proof}
+
 \begin{theorem}[QuotientSoundnessBoundary representative demand exposure]
 \label{thm:quotient-soundness-boundary-representative-demand-exposure}
 Under the sibling handoff of
