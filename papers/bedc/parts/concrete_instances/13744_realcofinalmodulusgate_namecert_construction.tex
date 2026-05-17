@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\RealCofinalModulusGateUp$}
+\label{ch:concrete-instances-real-cofinal-modulus-gate-namecert}
+\origin{ai}
+
+The $\RealCofinalModulusGateUp$ packet packages the finite gate that a Real-completeness limit consumer must read before treating a $\RealUp$ seal as supported by cofinal modulus data. It sits after the tail budget of \autoref{ch:concrete-instances-tail-cofinality-budget-namecert}, the normalization route of \autoref{ch:concrete-instances-cofinal-modulus-normalization-seal-namecert}, and the threshold normal form of \autoref{ch:concrete-instances-cauchy-tail-threshold-normalizer-namecert}. Its terminal readback is anchored by \autoref{ch:concrete-instances-real-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, so the gate exposes the finite cofinal schedule and comparison rows rather than allowing a Real seal to stand alone.
+
+\begin{definition}[Real cofinal modulus gate carrier]
+\label{def:real-cofinal-modulus-gate-carrier}
+A $\RealCofinalModulusGateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(T,M,W,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the tail-cofinality schedule row consumed from the $\TailCofinalityBudgetUp$ surface.
+\item $M$ is the cofinal modulus-comparison row normalized through $\CofinalModulusNormalizationSealUp$.
+\item $W$ is the $\StreamNameUp$ finite window whose readback is indexed by the displayed tail schedule and modulus comparison.
+\item $S$ is the $\RegSeqRatUp$ witness row read through the same window.
+\item $R$ is the terminal $\RealUp$ seal row available only after $T,M,W,S$ have been displayed.
+\item $E$ is the exactness ledger recording that the Real seal read is the one routed through the displayed cofinal tail and modulus rows.
+\item $H$ stores componentwise $\hsame$ transport for the tail schedule, modulus comparison, window, regular-rational witness, Real seal, exactness, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from the cofinal tail schedule through the modulus comparison, StreamName window, RegSeqRat witness, Real seal, exactness ledger, provenance, and local naming row.
+\item $P$ is the $\Pkg$ provenance over $\RealCofinalModulusGateUp$, $\TailCofinalityBudgetUp$, $\CofinalModulusNormalizationSealUp$, $\CauchyTailThresholdNormalizerUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCofinalModulusGateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a bare Real seal, quotient stream equality, host-selected limit, private tail threshold, untracked modulus conversion, or ambient completeness field.
+\end{definition}
+
+\begin{definition}[Real cofinal modulus gate classifier]
+\label{def:real-cofinal-modulus-gate-classifier}
+Two accepted $\RealCofinalModulusGateUp$ carriers classify together exactly when their tail-cofinality schedules, cofinal modulus-comparison rows, StreamName windows, RegSeqRat witnesses, Real seal rows, exactness ledgers, componentwise transports, displayed continuation replays, package provenance rows, and local naming rows agree componentwise through the recorded $\hsame$ comparisons and $\Cont$ routes. The classifier compares the ten-row gate packet only.
+\end{definition}
+
+\begin{theorem}[Real cofinal modulus gate NameCert obligations]
+\label{thm:real-cofinal-modulus-gate-namecert-obligations}
+For the carrier of \autoref{def:real-cofinal-modulus-gate-carrier}, the local $\NameCert_{\RealCofinalModulusGateUp}$ surface consists exactly of carrier exposure through $G$, cofinal-tail exactness through $T$, modulus-comparison exposure through $M$, window-readback stability through $W,S$, RealUp seal preservation through $R,E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, local naming through $N$, and ledger non-escape for bare Real seals, quotient stream equality, host-selected limits, private tail thresholds, untracked modulus conversion, and ambient completeness fields.
+\end{theorem}
+\begin{proof}
+Project the packet $G$. The carrier displays the tail schedule, modulus comparison, StreamName window, RegSeqRat witness, Real seal, exactness ledger, transport, continuation, provenance, and local naming row.
+
+The analytic readback is finite. The rows $T$ and $M$ determine the cofinal tail and comparison budget; $W$ and $S$ are read through that same displayed budget before the terminal Real seal row $R$ appears.
+
+The remaining rows do not add a second analytic source. The exactness ledger $E$ records that $R$ is the seal reached through $T,M,W,S$, while $H,C,P,N$ transport, replay, source, and name the displayed route. Since no excluded coordinate occurs in the carrier, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Real cofinal modulus gate tail-cofinality exactness]
+\label{thm:real-cofinal-modulus-gate-tail-cofinality-exactness}
+A consumer of an accepted $\RealCofinalModulusGateUp$ packet cannot read the displayed $\RealUp$ seal row $R$ without also reading the cofinal tail schedule $T$ and the modulus-comparison row $M$. Equivalently, the Real seal route factors through
+$$
+T\longmapsto M\longmapsto W\longmapsto S\longmapsto R\longmapsto(E,H,C,P,N).
+$$
+\end{theorem}
+\begin{proof}
+Start with the carrier exposure in \autoref{thm:real-cofinal-modulus-gate-namecert-obligations}. It places the tail schedule $T$ and modulus comparison $M$ before the window $W$, witness $S$, and Real seal $R$.
+
+Window-readback stability then fixes the middle of the route. The StreamName window and RegSeqRat witness are indexed by the displayed cofinal data, so a consumer cannot substitute a private tail or modulus row between $M$ and $R$.
+
+Finally read the exactness ledger. The row $E$ records that the seal is the one routed through $T,M,W,S$, while $H,C,P,N$ only transport, replay, source, and name that route. Thus reducing the packet to $R$ alone loses data that the NameCert obligations require before the Real seal can be consumed.
+\end{proof}
+
+\falsifiablePrediction{An accepted \RealCofinalModulusGateUp packet cannot be reduced to a RealUp seal alone without losing either the cofinal tail schedule or the modulus-comparison row.}
+
+\independenceWitness{tailcofinalitybudget, cofinalmodulusnormalizationseal, cauchytailthresholdnormalizer, real, regseqrat: not bijective to the ten-row gate packet because each listed sibling supplies only a source, normalization, threshold, seal, or witness surface, while the gate binds all ten rows together with exactness, transport, replay, provenance, and local naming.}
+
+Lean follow-up provides explicit $\mathsf{Nontrivial}\ \RealCofinalModulusGateUp$ and $\mathsf{FieldFaithful}\ \RealCofinalModulusGateUp$ instances in \texttt{lean4/BEDC/Derived/RealCofinalModulusGateUp/TasteGate.lean}.
+
+\closureat{RealCofinalModulusGateUp}{seedStr}
