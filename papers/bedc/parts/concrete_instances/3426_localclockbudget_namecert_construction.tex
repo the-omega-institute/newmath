@@ -125,14 +125,15 @@ Finally use observer handoff. \autoref{thm:local-clock-budget-observer-handoff} 
 
 \closureat{LocalClockBudgetUp}{seedStr}
 \closureat{LocalClockBudgetUp}{obligationStr}
+\closureat{LocalClockBudgetUp}{scopedStr}
 
 \begin{closurestatus}{\LocalClockBudgetUp}
   \constructivestory{A $\LocalClockBudgetUp$ packet is generated from one observed $\Hist$ row, its finite local $\Cont$ stream, finite step-window rows, a unary budget row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:local-clock-budget-carrier}, \autoref{thm:local-clock-budget-window-totality}, \autoref{thm:local-clock-budget-route-determinacy}, \autoref{thm:local-clock-budget-namecert-obligations}, \autoref{thm:local-clock-budget-observer-handoff}, \autoref{thm:local-clock-budget-carrier-scope}, \autoref{thm:local-clock-budget-classifier-stability}, and \autoref{thm:local-clock-budget-ledger-boundary} bind the exact scoped primitive surface: carrier rows, window totality, route determinacy, NameCert obligations, observer handoff, carrier scope, classifier stability, and ledger boundary.}
+  \scopeclosed{\autoref{def:local-clock-budget-carrier}, \autoref{thm:local-clock-budget-carrier-scope}, \autoref{thm:local-clock-budget-classifier-stability}, \autoref{thm:local-clock-budget-ledger-boundary}, and \autoref{thm:local-clock-budget-observer-handoff} close the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope for the finite local-clock-budget packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close global clocks, synchronized time across distinct histories, host time parameters, hidden limit schedules, observer-substance beyond $\Hist$, Lean verification, or bridge checking.}
-  \upgradepath{Public closure requires export of the local-clock-budget interface for observer-facing consumers while preserving the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \upgradepath{Lean closure requires checked carrier, classifier-stability, ledger-boundary, and observer-handoff targets for the same finite packet.}
 \end{closurestatus}

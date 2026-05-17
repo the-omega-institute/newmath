@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-constructiverefutation-namecert}
 \origin{ai}
 
-The $\ConstructiveRefutationUp$ surface turns the contradiction-boundary discipline of \autoref{ch:visions-reasoning-by-contradiction-boundary} into a finite naming packet. It records an assumption row, a displayed route from that assumption to contradiction, the contradiction witness itself, the optional decidability row when such a row is supplied, the fixed certificate scope, the transport and continuation rows through which a consumer may replay the route, package provenance, and the local naming ledger. The packet certifies constructor-visible refutation only; it does not contain a certificate-indexed truth branch.
+The $\ConstructiveRefutationUp$ surface turns the contradiction-boundary discipline of \autoref{ch:visions-reasoning-by-contradiction-boundary} into a finite naming packet. It records an assumption row, a displayed route from that assumption to contradiction, the contradiction witness itself, the optional decidability row when such a row is supplied, the fixed certificate scope, the transport and continuation rows through which a consumer may replay the route, package provenance, and the local naming ledger. The packet consumes the boundary surface of \autoref{ch:concrete-instances-constructiverefutation-boundary-namecert} before exposing permitted refutation routes. The packet certifies constructor-visible refutation only; it does not contain a certificate-indexed truth branch.
 
 The packet consumes the same local assumption and refutation route surface as \autoref{ch:concrete-instances-decidablerefutation-namecert} and the same optional-decision boundary as \autoref{ch:concrete-instances-decidable-refutation-boundary-namecert}, while keeping the exported route restricted to its own rows $A,R,F,D,S,T,P,N$.
 
@@ -49,6 +49,8 @@ An accepted $\ConstructiveRefutationUp$ carrier cannot export any forbidden patt
 \end{theorem}
 \begin{proof}
 Inspect the carrier inventory in \autoref{def:constructive-refutation-carrier}. Its only rows are $A,R,F,D,S,T,P,N$.
+
+The boundary sibling supplies the forbidden-branch ledger, so the $\ConstructiveRefutationUp$ carrier cannot erase that ledger when replaying $A,R,F,D,S,T,P,N$.
 
 The permitted route is constructor-visible: it starts with the assumption row $A$, follows the displayed route $R$, and ends at the contradiction witness $F$ within the fixed scope $S$. The rows $T$, $P$, and $N$ record transport, consumer access, provenance, and local naming data for that route.
 
