@@ -207,6 +207,26 @@ theorem OnticResidueLedgerObserverAccess_row_nonescape
 
 namespace TasteGate
 
+theorem OnticResidueLedgerSignatureResidue_row_nonescape
+    {O M S A C R H T P N : BHist}
+    (hR : R = BHist.e0 BHist.Empty) :
+    onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+      onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C BHist.Empty H T P N) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hfields
+  injection hfields with _ tail1
+  injection tail1 with _ tail2
+  injection tail2 with _ tail3
+  injection tail3 with _ tail4
+  injection tail4 with _ tail5
+  injection tail5 with hResidue _
+  cases hR
+  exact BHist.noConfusion hResidue
+
+end TasteGate
+
+namespace TasteGate
+
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
