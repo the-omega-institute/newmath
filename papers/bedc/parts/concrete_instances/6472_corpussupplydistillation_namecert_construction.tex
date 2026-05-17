@@ -149,6 +149,48 @@ Apply \autoref{thm:corpus-supply-distillation-namecert-obligations}. It makes re
 Conclude with \autoref{thm:corpus-supply-distillation-public-nonescape}. Each refused object is outside the carrier, so the exact public refusal route is $R,H,T,P,N$ and nothing stronger is exported.
 \end{proof}
 
+\begin{theorem}[CorpusSupplyDistillation carrier admission]
+\label{thm:corpus-supply-distillation-carrier-admission}
+Every accepted $\CorpusSupplyDistillationUp$ read exposes exactly the finite carrier rows
+$$
+C,F,D,O,R,H,T,P,N.
+$$
+The accepted read therefore displays source-channel, filtering, distillation, output-prior, refusal, componentwise transport, continuation route, provenance, and local naming rows, and it exposes no corpus-wide truth, hidden source selection, model consciousness, host semantic understanding, internally certified output truth, or model-side proof object.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:corpus-supply-distillation-carrier}. Its displayed coordinates are exactly $C,F,D,O,R,H,T,P,N$, so an accepted read has no additional coordinate to expose.
+
+Apply the obligation surface of \autoref{thm:corpus-supply-distillation-namecert-obligations}. It assigns the local NameCert duties to the same source-channel, filtering, distillation, output-prior, refusal, transport, replay, provenance, and naming rows.
+
+Finally use the obligation ledger of \autoref{def:corpus-supply-distillation-obligation-ledger}. The ledger names the refused stronger readings outside the carrier, so admission exposes only the displayed rows.
+\end{proof}
+
+\begin{theorem}[CorpusSupplyDistillation classifier stability]
+\label{thm:corpus-supply-distillation-classifier-stability}
+Componentwise $\hsame$ transport of accepted $\CorpusSupplyDistillationUp$ packets preserves the source-channel, filtering, distillation, output-prior, refusal, route, provenance, and naming rows. In particular, a transported packet remains a read of $C,F,D,O,R,H,T,P,N$ rather than a read of a hidden corpus selector or internally certified output truth.
+\end{theorem}
+\begin{proof}
+Read the carrier rows from \autoref{def:corpus-supply-distillation-carrier}. The classifier has one displayed component for each of $C,F,D,O,R,H,T,P,N$, so componentwise $\hsame$ transport can only preserve those rows.
+
+Use the ordered route of \autoref{thm:corpus-supply-distillation-filter-route-order}. It keeps filtering before distillation and output-prior exposure, preventing transport from reordering the source-channel route.
+
+Then apply \autoref{thm:corpus-supply-distillation-refusal-exactness}. Refusal remains attached through $R,H,T,P,N$, so stronger readings are still refused after transport.
+
+The NameCert obligations of \autoref{thm:corpus-supply-distillation-namecert-obligations} repack the transported rows into the same local naming surface.
+\end{proof}
+
+\begin{theorem}[CorpusSupplyDistillation ledger exactness]
+\label{thm:corpus-supply-distillation-ledger-exactness}
+The $\CorpusSupplyDistillationUp$ obligation ledger exports no corpus-wide truth, hidden source selection, model consciousness, host semantic understanding, internally certified output truth, or model-side proof object. Its public ledger is exactly the source-channel, filtering, distillation, output-prior, refusal, transport, route, provenance, and local naming surface of the accepted packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:corpus-supply-distillation-obligation-ledger}. The ledger names the admissible public rows and lists the stronger readings as refused objects rather than exported fields.
+
+Use \autoref{thm:corpus-supply-distillation-carrier-admission} to identify the accepted carrier surface with $C,F,D,O,R,H,T,P,N$. There is no coordinate for corpus-wide truth, hidden source selection, model consciousness, host semantic understanding, internally certified output truth, or a model-side proof object.
+
+Finally combine \autoref{thm:corpus-supply-distillation-filter-route-order} with \autoref{thm:corpus-supply-distillation-refusal-exactness}. The first theorem fixes the source-to-output-prior order, and the second fixes the refusal route, so the obligation ledger exports exactly the finite packet and no stronger semantic claim.
+\end{proof}
+
 \falsifiablePrediction{If the source-channel row is removed, the packet cannot distinguish corpus-carried output priors from internally certified output truth.}
 
 \independenceWitness{Nearest siblings: largemodelinscriptionpoint, inscriptionpoint, inscriptionevent, apophaticname, and observerinterface. None is bijective to $\CorpusSupplyDistillationUp$ because LargeModelInscriptionPoint carries inference and output rows in addition to corpus supply, InscriptionPoint and InscriptionEvent carry inscription handoff rows without the filtering and distillation source channel, ApophaticName carries a boundary request rather than corpus provenance, and ObserverInterface carries public observer rows without the corpus-supply, filtering, distillation, and output-prior route.}
