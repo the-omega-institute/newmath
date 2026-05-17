@@ -288,4 +288,50 @@ Next apply \autoref{thm:cofinal-modulus-seal-shared-budget-exhaustion}. The rows
 Finish with \autoref{thm:cofinal-modulus-seal-completion-scope-factorization}. Since every completion-facing scope factors through $B,M,W,T,D,R,L,E,H,C,P,N$, no host-selected limit, quotient stream, private modulus, hidden selector, or ambient completeness row is available to a tail-budget consumer.
 \end{proof}
 
+\begin{theorem}[Cofinal modulus seal cofinal readback factorization]
+\label{thm:cofinal-modulus-seal-cofinal-readback-factorization}
+Every completion-facing readback from the source rows $B,M,W$ to the Real-facing row $E$ factors first through the seal rows $T,D,R,L$ and then through the support rows $H,C,P,N$. Equivalently, a public $\CofinalModulusSealUp$ readback has the finite route
+$$
+B,M,W \longrightarrow T,D,R,L \longrightarrow E \longrightarrow H,C,P,N
+$$
+and has no direct source-to-Real edge outside the displayed carrier.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cofinal-modulus-seal-tail-cofinality-lock}. It places every completion read behind the shared cofinal source route $B,M,W$ before any StreamName, dyadic, regular-sequence, Cauchy-limit, or Real-facing row is public.
+
+Next apply \autoref{thm:cofinal-modulus-seal-completion-scope-factorization}. The completion-facing scope is exactly the finite row sequence $B,M,W,T,D,R,L,E,H,C,P,N$, so the readback must pass through $T,D,R,L$ before it reaches $E$.
+
+Finally use \autoref{thm:cofinal-modulus-seal-tail-budget-factorization}. Its tail-budget factorization excludes host-selected limits, quotient streams, private moduli, hidden selectors, and ambient completeness, leaving only the support rows $H,C,P,N$ to transport, replay, source, and name the completed readback.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal route NameCert exhaustion]
+\label{thm:cofinal-modulus-seal-route-namecert-exhaustion}
+The local $\NameCert_{\CofinalModulusSealUp}$ route is exhausted by the rows
+$$
+B,M,W,T,D,R,L,E,H,C,P,N.
+$$
+Every accepted carrier, public completion readback, root-unblock consumer, and non-escape check for $\CofinalModulusSealUp$ is a statement about these rows, and no additional naming coordinate is available.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:cofinal-modulus-seal-carrier}. The carrier contains exactly the cofinal source rows $B,M,W$, the seal and readback rows $T,D,R,L,E$, and the support rows $H,C,P,N$.
+
+Apply \autoref{thm:cofinal-modulus-seal-namecert-obligations}. Its carrier admission, route synchronization, completion handoff, structural replay, and non-escape clauses are all written over the displayed rows.
+
+Use \autoref{thm:cofinal-modulus-seal-root-unblock-package} to read the downstream package boundary. The root-unblock surface for tail-budget, StreamName, RegSeqRat, DyadicRatCore, and RealUp consumers is built from the same finite packet.
+
+Finally apply \autoref{thm:cofinal-modulus-seal-nonescape}. Since quotient equality, host equality, selected limits, countable choice, ambient completeness, and undisplayed completion seals are absent from the carrier, the local NameCert route has no coordinate beyond $B,M,W,T,D,R,L,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal window ledger no-choice boundary]
+\label{thm:cofinal-modulus-seal-window-ledger-nochoice-boundary}
+Window-budget reads in an accepted $\CofinalModulusSealUp$ packet cannot introduce countable-choice selectors, hidden $\StreamNameUp$ selectors, quotient stream equality, selected host limits, or ambient Real completeness. The window ledger is bounded by the shared rows $B,W,T,D,R$ and by the non-escape boundary of the same carrier.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cofinal-modulus-seal-window-budget-exactness}. It routes every $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ window read through the same $\RealWindowBudgetUp$ row $W$ and $\CofinalTailBudgetUp$ row $B$.
+
+Next use \autoref{thm:cofinal-modulus-seal-shared-budget-exhaustion}. The shared budget rows $B,M,W$ exhaust the admissible cofinal-tail supply for the downstream rows $T,D,R,L,E,H,C,P,N$, so no private selector or detached window ledger can be inserted.
+
+Finish with \autoref{thm:cofinal-modulus-seal-nonescape}. The carrier has no coordinate for countable choice, hidden StreamName selection, quotient stream equality, selected host limits, or ambient Real completeness. Therefore the window ledger remains a finite no-choice boundary inside the displayed packet.
+\end{proof}
+
 Lean TasteGate formalization for this route must provide \texttt{Nontrivial CofinalModulusSealUp} and \texttt{FieldFaithful CofinalModulusSealUp} instances in \texttt{BEDC.Derived.CofinalModulusSealUp}.
