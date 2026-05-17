@@ -23,6 +23,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for private meaning, social repetition without a rule witness, a machine-facing export without registry control, a hidden source supply, or a local name admitted without a NameCert row.
 \end{definition}
+\leandef{BEDC.Derived.CertifiedUseProcessUp.CertifiedUseProcessUp}
 
 \begin{theorem}[Certified-use process NameCert surface]
 \label{thm:certified-use-process-namecert-surface}
@@ -52,7 +53,7 @@ Thus a consumer that omits the rule witness or refusal ledger changes the packet
 
 \independenceWitness{socketuseledger, registryexportsurface, machineinterfaceboundary, apophaticname, nameeligibilityproof: none is bijective because CertifiedUseProcessUp binds use, rule witness, continuation route, refusal ledger, transport, provenance, and local naming in one packet.}
 
-The Lean follow-up must provide $\Nontrivial\ \CertifiedUseProcessUp$ and $\FieldFaithful\ \CertifiedUseProcessUp$ instances in \texttt{lean4/BEDC/Derived/CertifiedUseProcessUp/TasteGate.lean}. The nontrivial witness must expose an accepted public-use packet, and field faithfulness must keep $U,R,C,L,H,K,P,N$ distinct.
+The Lean carrier realization provides $\Nontrivial\ \CertifiedUseProcessUp$ and $\FieldFaithful\ \CertifiedUseProcessUp$ instances in \texttt{lean4/BEDC/Derived/CertifiedUseProcessUp/TasteGate.lean}. The nontrivial witness exposes an accepted public-use packet, and field faithfulness keeps $U,R,C,L,H,K,P,N$ distinct.
 
 \closureat{CertifiedUseProcessUp}{seedStr}
 \closureat{CertifiedUseProcessUp}{obligationStr}
@@ -61,7 +62,8 @@ The Lean follow-up must provide $\Nontrivial\ \CertifiedUseProcessUp$ and $\Fiel
   \constructivestory{A $\CertifiedUseProcessUp$ packet is generated from process rows, rule rows, use-witness rows, registry and machine-interface rows, source and name rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. The finite $\BHist$ carrier accepts a use process only when the rule witness, registry control, machine-facing boundary, and NameCert row are all displayed. Its classifier makes certified use public and nonprivate: repeated use becomes readable only through the recorded rule and process ledger, while hidden source supply, social repetition without witness, and machine export without registry control never become accepted coordinates.}
   \theoryclosure{\seedClosure}
   \scopeclosed{This chapter binds the carrier definition, NameCert-surface theorem, nonprivate-rule-following theorem, Lean-follow-up boundary, and existing closure annotations for $\CertifiedUseProcessUp$.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.CertifiedUseProcessUp.CertifiedUseProcessUp}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim private meaning, social repetition without a rule witness, machine-facing export without registry control, hidden source supply, or local naming without NameCert.}
