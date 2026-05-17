@@ -559,6 +559,8 @@ import BEDC.Derived.FiniteObservationInterfaceUp.TasteGate
 import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
+import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
+import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
 import BEDC.Derived.OpenFitResidueGateUp.TasteGate
 import BEDC.Derived.OnticResidueLedgerUp.TasteGate
 import BEDC.Derived.OnticStateUp.TasteGate
@@ -1163,6 +1165,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.RootRequestAccountability
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamPackage
 import BEDC.Derived.QuotientSoundnessBoundaryUp.TransportGate
 import BEDC.Derived.QuotientSoundnessBoundaryUp.Certificates
+import BEDC.Derived.QuotientSoundnessBoundaryUp.RootDownstreamUnblockSurface
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate

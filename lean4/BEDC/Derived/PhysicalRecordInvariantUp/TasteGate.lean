@@ -52,18 +52,23 @@ def physicalRecordInvariantFields : PhysicalRecordInvariantUp → List BHist
 def physicalRecordInvariantToEventFlow : PhysicalRecordInvariantUp → EventFlow
   | x => (physicalRecordInvariantFields x).map physicalRecordInvariantEncodeBHist
 
-def physicalRecordInvariantFromEventFlow : EventFlow → Option PhysicalRecordInvariantUp
-  | R :: I :: O :: H :: C :: P :: N :: [] =>
-      some
-        (PhysicalRecordInvariantUp.mk
-          (physicalRecordInvariantDecodeBHist R)
-          (physicalRecordInvariantDecodeBHist I)
-          (physicalRecordInvariantDecodeBHist O)
-          (physicalRecordInvariantDecodeBHist H)
-          (physicalRecordInvariantDecodeBHist C)
-          (physicalRecordInvariantDecodeBHist P)
-          (physicalRecordInvariantDecodeBHist N))
-  | _ => none
+private def physicalRecordInvariantEventAtDefault : Nat → EventFlow → RawEvent
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      physicalRecordInvariantEventAtDefault index rest
+
+def physicalRecordInvariantFromEventFlow (ef : EventFlow) : Option PhysicalRecordInvariantUp :=
+  some
+    (PhysicalRecordInvariantUp.mk
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 0 ef))
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 1 ef))
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 2 ef))
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 3 ef))
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 4 ef))
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 5 ef))
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 6 ef)))
 
 private theorem physicalRecordInvariant_round_trip :
     ∀ x : PhysicalRecordInvariantUp,
