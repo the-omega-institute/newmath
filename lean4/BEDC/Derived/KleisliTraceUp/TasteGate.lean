@@ -200,7 +200,7 @@ theorem KleisliTraceTasteGate_single_carrier_alignment :
       (∀ x : KleisliTraceUp,
         kleisliTraceFromEventFlow (kleisliTraceToEventFlow x) = some x) ∧
         (∀ x y : KleisliTraceUp,
-          kleisliTraceToEventFlow x = kleisliTraceToEventFlow y -> x = y) ∧
+          kleisliTraceToEventFlow x = kleisliTraceToEventFlow y → x = y) ∧
           Nonempty (FieldFaithful KleisliTraceUp) ∧
             Nonempty (Nontrivial KleisliTraceUp) ∧
               kleisliTraceEncodeBHist BHist.Empty = ([] : List BMark) := by
