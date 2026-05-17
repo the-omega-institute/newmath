@@ -103,4 +103,16 @@ theorem RefutationBoundaryPermittedNegationSound
     _sameN, markSame⟩ := carrier
   exact ⟨route, follow, sameA, sameF, sameD, rfl, markSame⟩
 
+theorem RefutationBoundaryCarrier_permitted_negation_sound {A F D S T H C P N : BHist}
+    (carrier : RefutationBoundaryCarrier A F D S T H C P N) (replay : Cont D C P) :
+    Cont A (append F C) P ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append
+  constructor
+  · cases carrier with
+    | intro route rest =>
+        cases route
+        cases replay
+        exact append_assoc A F C
+  · rfl
+
 end BEDC.Derived.RefutationBoundaryUp
