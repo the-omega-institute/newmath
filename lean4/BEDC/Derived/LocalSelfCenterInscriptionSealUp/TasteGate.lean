@@ -278,4 +278,33 @@ theorem LocalSelfCenterInscriptionSealTasteGate_single_carrier_alignment :
             LocalSelfCenterInscriptionSealTasteGate_single_carrier_alignment_injective heq)
         rfl))
 
+theorem LocalSelfCenterInscriptionSealSelfCenter_nonidentity_boundary
+    {localRow inscription selfCenter verdict transport route provenance name : BHist} :
+    selfCenter ≠ BHist.Empty →
+      BHistCarrier.toEventFlow
+          (LocalSelfCenterInscriptionSealUp.mk localRow inscription selfCenter BHist.Empty verdict
+            transport route provenance name) ≠
+        BHistCarrier.toEventFlow
+          (LocalSelfCenterInscriptionSealUp.mk localRow inscription BHist.Empty BHist.Empty verdict
+            transport route provenance name) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hselfCenter heq
+  apply hselfCenter
+  have hcarrier :
+      LocalSelfCenterInscriptionSealUp.mk localRow inscription selfCenter BHist.Empty verdict
+          transport route provenance name =
+        LocalSelfCenterInscriptionSealUp.mk localRow inscription BHist.Empty BHist.Empty verdict
+          transport route provenance name := by
+    apply LocalSelfCenterInscriptionSealTasteGate_single_carrier_alignment_injective
+    change
+      localSelfCenterInscriptionSealToEventFlow
+          (LocalSelfCenterInscriptionSealUp.mk localRow inscription selfCenter BHist.Empty verdict
+            transport route provenance name) =
+        localSelfCenterInscriptionSealToEventFlow
+          (LocalSelfCenterInscriptionSealUp.mk localRow inscription BHist.Empty BHist.Empty verdict
+            transport route provenance name)
+    exact heq
+  cases hcarrier
+  rfl
+
 end BEDC.Derived.LocalSelfCenterInscriptionSealUp
