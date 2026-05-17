@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ObservationFiberDigestUp$}
+\label{ch:concrete-instances-observation-fiber-digest-namecert}
+\origin{ai}
+
+The $\ObservationFiberDigestUp$ packet realizes the local visible digest and observation-fiber discipline of \autoref{ch:visions-hash-like-apophatic-fixed-point} as a finite NameCert carrier. It sits beside the digest provenance packet of \autoref{ch:concrete-instances-digestprovenancepacket-namecert}, the apophatic naming boundary of \autoref{ch:concrete-instances-apophaticname-namecert}, and the fiber ledger of \autoref{ch:concrete-instances-digestfiberledger-namecert}. Those siblings expose digest provenance, far-end refusal, and fiber membership separately; this carrier binds visible digest, observation-fiber membership, GAP ledger, signature and package provenance, local naming, far-end status, transport, and replay before any consumer may use a digest as an observation boundary.
+
+\falsifiablePrediction{Every accepted ObservationFiberDigestUp consumer must expose visible digest, observation-fiber membership, GAP ledger, Pkg/Sig provenance, NameCert row, and far-end status before using the digest as an observation boundary.}
+
+\independenceWitness{digestprovenancepacket, apophaticname, observerhistidentity, inscriptionevent, gapfailurebridgeaudit: none is bijective because each omits either the observation-fiber membership row, the local visible digest row, or the apophatic far-end boundary status.}
+
+\begin{definition}[ObservationFiberDigest carrier]
+\label{def:observation-fiber-digest-carrier}
+An $\ObservationFiberDigestUp$ carrier is a finite packet
+$$
+O=(D,F,G,S,P,N,T,H,C)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the local visible digest row, naming the classifier-facing digest token available to a particular observer state;
+\item $F$ is the observation-fiber membership row, recording the generated relation that binds the visible digest to compatible observation histories without identifying them;
+\item $G$ is the $\mathsf{GAP}$ ledger row for missing source supply, far-end socketing, and unavailable exactness data;
+\item $S$ is the signature provenance row, recording the $\mathsf{Sig}$ or classifier route that made the digest visible;
+\item $P$ is the $\Pkg$ provenance over $\DigestProvenancePacketUp$, $\ApophaticNameUp$, $\DigestFiberLedgerUp$, observation histories, signatures, GAP rows, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ObservationFiberDigestUp}$ row;
+\item $T$ is the far-end status row, recording whether the observation fiber terminates in a refused, socketed, or locally exact boundary;
+\item $H$ records componentwise $\hsame$ transport for the digest, fiber, GAP, signature, package, local naming, far-end status, and replay rows;
+\item $C$ records the displayed $\Cont$ replay routes by which accepted consumers inspect $D,F,G,S,P,N,T,H$.
+\end{enumerate}
+The carrier has no coordinate for digest-as-source equality, a global universe digest, object-level $\mathsf{T}$, quotient fiber equality, hidden source equality, host preimage recovery, or observer-independent totalization.
+\end{definition}
+\leandef{BEDC.Derived.ObservationFiberDigestUp.ObservationFiberDigestUp}
+
+\begin{theorem}[ObservationFiberDigest NameCert obligations]
+\label{thm:observation-fiber-digest-namecert-obligations}
+For an accepted $\ObservationFiberDigestUp$ packet
+$$
+O=(D,F,G,S,P,N,T,H,C),
+$$
+the local $\NameCert_{\ObservationFiberDigestUp}$ surface consists exactly of carrier admission for the nine displayed rows, visible digest exposure through $D$, observation-fiber membership through $F$, GAP ledger exposure through $G$, signature provenance through $S$, package provenance through $P$, local naming through $N$, far-end status through $T$, componentwise transport through $H$, replay locality through $C$, and non-escape from digest-as-source equality, global universe digest, object-level $\mathsf{T}$, quotient fiber equality, and hidden source equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:observation-fiber-digest-carrier}. Its visible inventory is exactly $D,F,G,S,P,N,T,H,C$, so carrier admission and local naming attach to those rows and to no host digest function or hidden observation substrate.
+
+The digest boundary is read first through $D$. The observation fiber is not the same datum: it is the generated membership row $F$, and source-sensitive reads must keep $F$ visible before the digest can be cited as an observation boundary.
+
+The rows $G,S,P,N,T$ then provide the finite obligation surface. The GAP row records missing supply and unavailable exactness; the signature row records how the digest became visible; the package row records the sibling route through \autoref{ch:concrete-instances-digestprovenancepacket-namecert}, \autoref{ch:concrete-instances-apophaticname-namecert}, and \autoref{ch:concrete-instances-digestfiberledger-namecert}; the local NameCert row records the packet name; and the far-end row records whether the fiber boundary is refused, socketed, or locally exact.
+
+Finally $H$ and $C$ preserve the same finite packet under transport and replay. Since no displayed row is a source payload, a universe digest, an object-level truth value, a quotient representative, or a hidden equality witness, the listed non-escape obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[ObservationFiberDigest non-escape]
+\label{thm:observation-fiber-digest-nonescape}
+Every accepted $\ObservationFiberDigestUp$ consumer that uses the digest as an observation boundary must factor through the displayed rows
+$$
+D,F,G,S,P,N,T,H,C.
+$$
+The consumer obtains a local visible digest with fiber, ledger, signature, package, naming, far-end, transport, and replay evidence, but cannot obtain digest-as-source equality, a global universe digest, object-level $\mathsf{T}$, quotient fiber equality, hidden source equality, host preimage recovery, or observer-independent totalization from the packet.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $O=(D,F,G,S,P,N,T,H,C)$. A token-only read of $D$ obtains only the visible digest row, because \autoref{def:observation-fiber-digest-carrier} gives no source coordinate behind $D$.
+
+If the consumer uses the digest as an observation boundary, the read must open the observation-fiber membership row $F$. Without $F$, the digest is merely a visible classifier-facing token and has no packet-local authority to delimit compatible observation histories.
+
+Next the read must pass through $G,S,P,N,T$. These rows expose the GAP ledger, signature provenance, package provenance, local certificate, and far-end status. In particular, $T$ keeps the apophatic boundary visible rather than replacing it with an internal object.
+
+The remaining rows $H$ and $C$ transport and replay the same packet. They do not add a preimage oracle, quotient collapse, hidden source equality, global universe digest, or object-level $\mathsf{T}$ coordinate. Therefore every accepted boundary use is confined to the displayed observation-fiber digest packet.
+\end{proof}
+
+\closureat{ObservationFiberDigestUp}{obligationStr}[BEDC.Derived.ObservationFiberDigestUp.taste\_gate]
+
+\begin{closurestatus}{\ObservationFiberDigestUp}
+  \constructivestory{An $\ObservationFiberDigestUp$ packet is generated from a local visible digest, observation-fiber membership row, GAP ledger, signature provenance, package provenance, local $\NameCert$ row, far-end status row, componentwise $\hsame$ transports, and displayed $\Cont$ replay routes.}
+  \leanchecked{BEDC.Derived.ObservationFiberDigestUp.taste\_gate}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:observation-fiber-digest-carrier}, \autoref{thm:observation-fiber-digest-namecert-obligations}, and \autoref{thm:observation-fiber-digest-nonescape} bind the displayed digest, fiber, GAP, signature, package, local naming, far-end, transport, and replay packet.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ObservationFiberDigestUp.taste\_gate}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close source equality, global universe digest exposure, object-level truth, quotient fiber equality, hidden source equality, host preimage recovery, or bridge verification.}
+  \upgradepath{A bridge-checked grade requires a standard bridge for the same observation-fiber digest packet and its displayed boundary rows.}
+\end{closurestatus}
