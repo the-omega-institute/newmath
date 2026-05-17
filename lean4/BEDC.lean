@@ -1237,6 +1237,7 @@ import BEDC.Derived.CauchyCriterionUp.TerminalSelectorSealNochoiceExhaustion
 import BEDC.Derived.CauchyCriterionUp.TerminalRegSeqRatRealCompletionRoute
 import BEDC.Derived.CauchyCriterionUp.UniformSelectorSealCompatibility
 import BEDC.Derived.CauchyCriterionUp.UniformCriterionFiniteFamilyReduction
+import BEDC.Derived.CauchyCriterionUp.VisibleTerminalClosure
 import BEDC.Derived.CauchyCriterionUp.MatureDownstreamConsumers
 import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyPairingUp
