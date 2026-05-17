@@ -89,3 +89,14 @@ The three ledger obligations exhaust the remaining public reads. By \autoref{thm
 
 Combining the carrier projection, classifier projection, and the three ledger projections gives every row listed in \autoref{def:zeroknowledge-public-finite-transcript-surface}, so the finite-transcript surface is public. Conversely, the same five obligations leave no public field outside those rows: each public read is either a carrier coordinate, a componentwise classifier comparison, a transcript continuation route, one of the completeness, soundness, or simulation ledger rows, or one of the two dependency provenance rows. Therefore the public $\NameCert_{\ZeroKnowledgeUp}$ surface is exactly the displayed finite $\BHist/\Cont/\Pkg$ transcript surface and exports none of the excluded host-level data.
 \end{proof}
+
+\begin{closurestatus}{\ZeroKnowledgeUp}
+  \constructivestory{A $\ZeroKnowledgeUp$ packet is generated from finite $\BHist$ rows for prover, verifier, challenge, response, commitment, computable-verifier, simulator transcript, and evidence ledger data. Completeness, soundness, and simulation appear only as public transcript ledgers: each accepted read is routed by $\Cont$ through displayed transcript rows, not through probability spaces or external machines. The classifier is componentwise $\hsame$ on prover, verifier, transcript, commitment, simulator, and ledger rows, while $\Pkg$ records the $\HashUp$ and $\ComputableUp$ sources. The resulting object is a finite public transcript surface with explicit refusal of hidden cryptographic semantics.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the finite transcript carrier, classifier projection, completeness, soundness, simulation ledger obligations, and public finite-transcript surface for $\ZeroKnowledgeUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim negligible bounds, distributional indistinguishability, extractor existence, host randomness, or a standard protocol bridge.}
+  \upgradepath{Obligation closure requires Lean encodings of the finite transcript carrier, componentwise classifier, and the three public ledger obligations.}
+\end{closurestatus}
