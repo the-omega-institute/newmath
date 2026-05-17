@@ -44,20 +44,50 @@ def onticResidueLedgerToEventFlow : OnticResidueLedgerUp -> EventFlow
 
 def onticResidueLedgerFromEventFlow : EventFlow -> Option OnticResidueLedgerUp
   -- BEDC touchpoint anchor: BHist BMark
-  | O :: M :: S :: A :: C :: R :: H :: T :: P :: N :: [] =>
-      some
-        (OnticResidueLedgerUp.mk
-          (onticResidueLedgerDecodeBHist O)
-          (onticResidueLedgerDecodeBHist M)
-          (onticResidueLedgerDecodeBHist S)
-          (onticResidueLedgerDecodeBHist A)
-          (onticResidueLedgerDecodeBHist C)
-          (onticResidueLedgerDecodeBHist R)
-          (onticResidueLedgerDecodeBHist H)
-          (onticResidueLedgerDecodeBHist T)
-          (onticResidueLedgerDecodeBHist P)
-          (onticResidueLedgerDecodeBHist N))
-  | _ => none
+  | [] => none
+  | O :: rest0 =>
+      match rest0 with
+      | [] => none
+      | M :: rest1 =>
+          match rest1 with
+          | [] => none
+          | S :: rest2 =>
+              match rest2 with
+              | [] => none
+              | A :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | C :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | R :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | H :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | T :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | P :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | N :: rest9 =>
+                                          match rest9 with
+                                          | [] =>
+                                              some
+                                                (OnticResidueLedgerUp.mk
+                                                  (onticResidueLedgerDecodeBHist O)
+                                                  (onticResidueLedgerDecodeBHist M)
+                                                  (onticResidueLedgerDecodeBHist S)
+                                                  (onticResidueLedgerDecodeBHist A)
+                                                  (onticResidueLedgerDecodeBHist C)
+                                                  (onticResidueLedgerDecodeBHist R)
+                                                  (onticResidueLedgerDecodeBHist H)
+                                                  (onticResidueLedgerDecodeBHist T)
+                                                  (onticResidueLedgerDecodeBHist P)
+                                                  (onticResidueLedgerDecodeBHist N))
+                                          | _ :: _ => none
 
 private theorem onticResidueLedger_round_trip :
     forall x : OnticResidueLedgerUp,
