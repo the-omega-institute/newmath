@@ -577,4 +577,35 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_positive_bridge_exclusion [AskSe
       exact ⟨sameProvenanceName, provenancePkg, bridgePkg⟩
   }
 
+theorem AxisZeckendorfCannotClaimRegistryPacket_negative_refusal_coverage [AskSetup]
+    [PackageSetup] {a b c d e f g h p n negative audit : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg →
+      (hsame negative a ∨ hsame negative b ∨ hsame negative c ∨ hsame negative d) →
+        Cont h p audit →
+          PkgSig bundle audit pkg →
+            UnaryHistory negative ∧ Cont a b h ∧ Cont c d h ∧ hsame p n ∧
+              PkgSig bundle p pkg ∧ PkgSig bundle audit pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  intro packet negativeRow auditRoute auditPkg
+  obtain
+    ⟨aUnary, bUnary, cUnary, dUnary, _eUnary, _fUnary, _gUnary, routeAB, routeCD,
+      _routeEF, _pUnary, sameProvenanceName, provenancePkg⟩ := packet
+  have negativeUnary : UnaryHistory negative := by
+    cases negativeRow with
+    | inl sameA =>
+        exact unary_transport_symm aUnary sameA
+    | inr rest =>
+        cases rest with
+        | inl sameB =>
+            exact unary_transport_symm bUnary sameB
+        | inr rest =>
+            cases rest with
+            | inl sameC =>
+                exact unary_transport_symm cUnary sameC
+            | inr sameD =>
+                exact unary_transport_symm dUnary sameD
+  exact
+    ⟨negativeUnary, routeAB, routeCD, sameProvenanceName, provenancePkg, auditPkg⟩
+
 end BEDC.Derived.AxisZeckendorfCannotClaimUp
