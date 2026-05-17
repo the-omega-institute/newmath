@@ -144,3 +144,19 @@ Next apply RegSeqRat window handoff exactness, \autoref{thm:streamname-regseq-wi
 
 Finally cite the pointwise handoff theorem \autoref{thm:streamname-regseqrat-pointwise-handoff}. It keeps $\RegSeqRat$ regularity and $\RealUp$ completion obligations on the downstream side, so the transported StreamName source packet is ready for those consumers without exporting quotient stream equality, a host Nat stream, a selected real value, regularity, or completeness.
 \end{proof}
+
+\begin{theorem}[StreamName finite-window section transport closure]
+\label{thm:streamname-finite-window-section-transport-closure}
+Let $\mathcal{S}$ be an accepted finite $\StreamNameUp$ window section whose displayed rows contain the finite classifier, selected point certificates, $\mathsf{UnaryHistory}$ observations, $\mathsf{InBundle}$ ledger, componentwise $\BHist$ rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\StreamNameUp}$ registration. If $\mathcal{S}$ is transported through those displayed $\hsame$ and $\Cont$ rows, then the downstream $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ tolerance ledger, and the finite-window $\RealUp$ seal remain on that same transported section route.
+
+Conversely, any current Phase Real and Completion read that exposes the same finite $\StreamNameUp$ window, dyadic ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, and displayed $\BHist,\hsame,\Cont,\Pkg,\NameCert$ rows is read as the transported section $\mathcal{S}$. This section closure exports no quotient stream, selected limit, host sequence equality, ambient $\RealUp$ completeness, metric completeness, or standard bridge row.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the pointwise transport theorem \autoref{thm:streamname-window-pointwise-transport}. It moves the accepted finite window through the displayed $\hsame$ rows while preserving the same bundle, membership, unary-history, continuation, provenance, and local naming surface.
+
+Next apply RegSeqRat window handoff exactness, \autoref{thm:streamname-regseq-window-handoff-exactness}. The handoff identifies the downstream readback with exactly the transported finite-window classifier and selected point certificates, so the $\RegSeqRatUp$ read remains on the same section route.
+
+Finally use the readiness theorem \autoref{thm:streamname-finite-window-transport-regseqrat-real-readiness}. It states that the finite classifier, point certificates, dyadic tolerance ledger, transports, routes, provenance, and local naming are sufficient for the finite-window $\RealUp$ consumer, while regularity and completion obligations stay downstream.
+
+For the converse direction, inspect the exposed Phase Real and Completion read. If it shows the same finite StreamName window, dyadic ledger, RegSeqRat readback, Real seal, and displayed $\BHist,\hsame,\Cont,\Pkg,\NameCert$ rows, then the preceding exactness and readiness results reconstruct the unique transported section route read by those consumers. The exclusions follow because none of the cited rows contains quotient streams, selected limits, host sequence equality, ambient Real completeness, metric completeness, or standard bridge data.
+\end{proof}
