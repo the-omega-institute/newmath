@@ -1457,6 +1457,7 @@ import BEDC.Derived.FactorUp
 import BEDC.Derived.FiniteRealRouteCommitmentUp.TasteGate
 import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
 import BEDC.Derived.FiniteTraceEvaluatorUp.TasteGate
+import BEDC.Derived.FiniteTraceEvaluatorUp.NameCertObligations
 import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
 import BEDC.Derived.FiniteLimitSealEnvelopeUp.TasteGate
 import BEDC.Derived.FiniteObservationBudgetSelectorUp
@@ -1747,6 +1748,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateEvidenceBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObligationEvidenceSplit
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedNormalBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RouteReadbackPublicExport
+import BEDC.Derived.MetaCICNormalizationFrontierUp.RootObligationTriad
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
