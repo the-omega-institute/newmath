@@ -73,3 +73,55 @@ Inspect the carrier coordinates of \autoref{def:diagonal-limit-representative-ca
 
 The excluded objects require additional coordinates absent from the carrier. Hence they cannot be exported by the local naming certificate or recovered by a consumer of the displayed diagonal-limit representative route.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit representative index stability]
+\label{thm:diagonal-limit-representative-index-stability}
+Let $D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N)$ and $D'=(X',\mu',n',k',i',w',r',d',e',H',C',P',N')$ be accepted $\DiagonalLimitRepresentativeUp$ carriers classified together by the componentwise $\hsame$ rows recorded in their transport data. Then the displayed index equations are preserved:
+$$
+k=\mu(1/(n+1)),\qquad i=k+n+1,
+$$
+and
+$$
+k'=\mu'(1/(n'+1)),\qquad i'=k'+n'+1.
+$$
+Consequently the selected family index and selected readback index remain the same diagonal route under accepted componentwise transport, and no classifier read may replace them by a hidden selector.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:diagonal-limit-representative-carrier}. The rows $k,i$ and $k',i'$ are not auxiliary choices; they are the displayed computations tied to $\mu,n$ and $\mu',n'$ inside the packet.
+
+Use the classifier of \autoref{def:diagonal-limit-representative-classifier}. Classification requires the modulus rows, selected family indices, readback indices, windows, readbacks, ledgers, seals, transports, continuations, provenance, and local naming rows to be related componentwise by the recorded $\hsame$ comparisons and $\Cont$ routes.
+
+Finally apply the NameCert obligations of \autoref{thm:diagonal-limit-representative-namecert-obligations}. Since the local certificate includes the two index computations themselves, transport of the packet preserves those displayed computations rather than producing a new tail selector. The accepted diagonal route is therefore stable under the componentwise classifier.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative window-ledger exhaustion]
+\label{thm:diagonal-limit-representative-window-ledger-exhaustion}
+Every public read of the window, readback, ledger, and seal coordinates of an accepted $\DiagonalLimitRepresentativeUp$ carrier
+$$
+D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N)
+$$
+factors through the displayed sibling rows $w,r,d,e$. The row $w$ is read through $\StreamNameUp$, $r$ through $\RegSeqRatUp$, $d$ through $\DyadicRatCoreUp$, and $e$ through $\RealUp$, with $H,C,P,N$ only transporting, replaying, sourcing, and naming those same rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier row. The only window, regular-rational readback, dyadic arithmetic ledger, and Real-facing seal coordinates are $w,r,d,e$.
+
+Read the public route in the order forced by \autoref{thm:diagonal-limit-representative-real-seal-factorization}. The selected window $w$ exposes the finite $\StreamNameUp$ observation, the readback $r$ exposes the $\RegSeqRatUp$ row selected from that window, the ledger $d$ records the $\DyadicRatCoreUp$ tolerance and arithmetic data, and the seal $e$ is the downstream $\RealUp$ row.
+
+It remains to exclude extra public reads. The support rows $H,C,P,N$ preserve, replay, source, and name the displayed carrier; they do not add a second window, a second ledger, or an unrecorded Real seal. Hence every public read of $w,r,d,e$ is exhausted by the four sibling surfaces already displayed in the carrier.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative completion boundary]
+\label{thm:diagonal-limit-representative-completion-boundary}
+An accepted $\DiagonalLimitRepresentativeUp$ packet supplies the diagonal representative boundary
+$$
+X,\mu,n,k,i,w,r,d,e,H,C,P,N
+$$
+and nothing stronger. In particular, it does not supply a host limit, quotient equality of streams, countable choice for a family of representatives, or an ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+The positive content is exactly the carrier and certificate surface. By \autoref{thm:diagonal-limit-representative-namecert-obligations}, the packet admits the family, modulus, request, computed indices, selected window, readback, ledger, Real seal, transport, continuation, provenance, and local naming rows.
+
+The consumer-facing route is already exhausted by \autoref{thm:diagonal-limit-representative-window-ledger-exhaustion}. Any read of the Real-facing coordinate must pass through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and the displayed $\RealUp$ seal row of the same packet.
+
+Finally use the nonchoice boundary of \autoref{thm:diagonal-limit-representative-nonchoice-boundary}. A host limit, quotient stream equality, countable choice principle, or Real-completeness theorem would require coordinates not present in the carrier. The packet therefore supplies only the diagonal representative boundary.
+\end{proof}
