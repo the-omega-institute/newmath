@@ -1,7 +1,30 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v5.21 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.22 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+
+## Source priority weights (dispatch_balancer)
+
+Read `.dispatch_weights.json::lean::weights` to get current per-source priority. If the file is missing or stale (`computed_at` > 1h old), proceed without it.
+
+Allocate your 3 targets approximately matching these weights:
+- 0.50 weight = pick ≈1-2 targets from this source
+- 0.25 weight = ≈1 target
+- 0.10 weight = ≈0-1 target (only if supply > 0 and HARD GATE allows)
+
+Source meanings:
+- top: `critical_path.top[0..N]` (existing primary)
+- formal_axis_top: `critical_path.formal_axis_top` (theory-grade-high + formal-grade-low)
+- unformalized_top: `critical_path.unformalized_top` (theorem-level unformalized)
+- carrier_isomorphism_capstone: opportunity to draft a capstone abstracting a big phase-2 bucket from `carrier_isomorphism` field
+
+If you choose carrier_isomorphism_capstone:
+- Pick the largest phase-2 bucket NOT yet covered by an existing capstone
+- Write a new file `lean4/BEDC/Capstones/<Name>Capstone.lean` containing a class abstraction
+- DO NOT modify the existing chapter files in the bucket (instance migration is a separate human-reviewed step)
+- The capstone draft counts as 1 of your 3 targets; you may also pick 2 normal targets
+
+The existing HARD GATEs (1 of 3 from `top[0..2]`, root_unblocks gate) STILL APPLY. Source weights are SOFT guidance for filling remaining slots after HARD GATEs are met.
 
 ## TOP-LEVEL HARD GATE — never emit empty targets; formal_axis_top is the safety net
 
