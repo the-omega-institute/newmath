@@ -904,6 +904,7 @@ import BEDC.Derived.GapClosureBoundaryUp.NamecertObligations
 import BEDC.Derived.GapClosureBoundaryUp.SourceRouteTotality
 import BEDC.Derived.GapSocketBoundaryUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
+import BEDC.Derived.KernelAuditWitnessUp.AcceptanceGate
 import BEDC.Derived.SynchronizationCertificateUp.TasteGate
 import BEDC.Derived.LayeredRelationCertUp.TasteGate
 import BEDC.Derived.LayeredRelationFailureBoundaryUp.TasteGate
@@ -1698,6 +1699,7 @@ import BEDC.Derived.HistTimeStreamUp.ContStepCoverage
 import BEDC.Derived.HistTimeStreamUp.CompletionStreamNameHandoffFactorization
 import BEDC.Derived.HistTimeStreamUp.FiniteWindowReadbackExhaustion
 import BEDC.Derived.HistTimeStreamUp.HistTimeStreamRegSeqRatLocalClockSeparation
+import BEDC.Derived.HistTimeStreamUp.RegSeqReindexStability
 import BEDC.Derived.HistTimeStreamUp.LocalTransportExhaustion
 import BEDC.Derived.HistTimeStreamUp.LocalClockRefusal
 import BEDC.Derived.HistTimeStreamUp.LocalStreamPrefixFactorization
