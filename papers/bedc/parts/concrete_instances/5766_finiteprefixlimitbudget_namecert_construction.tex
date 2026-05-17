@@ -201,6 +201,50 @@ Use record factorization, \autoref{thm:finite-prefix-limit-budget-record-factori
 The diagonal-consumption theorem above identifies the point at which the seal-facing consumer may read $R$ and $S$. Since that access comes only after $Q,B,W,D$, a $\RealUp$ or $\CauchyLimitSealUp$ consumer that substitutes a host equality, quotient stream, selected limit, choice principle, hidden tail schedule, or ambient completeness witness leaves the accepted carrier.
 \end{proof}
 
+\begin{theorem}[Finite-prefix limit-budget observer lock]
+\label{thm:finite-prefix-limit-budget-observer-lock}
+For every accepted $\FinitePrefixLimitBudgetUp$ carrier
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N),
+$$
+each served finite observation is locked to the displayed request row $Q$, the finite selector row $B$, the $\StreamNameUp$ prefix-window row $W$, and the prefix-depth exhaustion row $D$. No observer of the packet can serve a finite observation through a different request, selector, StreamName window, or prefix-depth row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier from \autoref{def:finite-prefix-limit-budget-carrier}. The only observation-facing rows before readback are $Q,B,W,D$, and the carrier exports no alternate request coordinate or alternate prefix-window coordinate.
+
+Use the NameCert obligations of \autoref{thm:finite-prefix-limit-budget-namecert-obligations}. The selector row $B$ admits the displayed request $Q$, the window row $W$ is served under that selector, and the exhaustion row $D$ accounts for every offset admitted by $W$.
+
+Finally apply carrier-classifier scope, \autoref{thm:finite-prefix-limit-budget-carrier-classifier-scope}. It confines every classifier read to the same displayed finite prefix-budget surface, so an observer cannot detach a served finite observation from $Q,B,W,D$.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget outside-tail refusal]
+\label{thm:finite-prefix-limit-budget-tail-refusal}
+For every accepted $\FinitePrefixLimitBudgetUp$ carrier, any outside-prefix read or hidden-tail read is refused before the regular readback row $R$ or the seal row $S$ becomes available. The refusal is recorded by the prefix-exhaustion row $D$ together with the exclusion ledger $E$.
+\end{theorem}
+\begin{proof}
+Start with prefix-exhaustion coverage, \autoref{thm:finite-prefix-limit-budget-prefix-exhaustion-coverage}. It accounts for every admitted offset through $D$ and refuses every outside-prefix read before $R$ or $S$ can be consumed.
+
+Next use seal ordering, \autoref{thm:finite-prefix-limit-budget-seal-ordering}. Since every seal-facing route is ordered as $Q \to B \to W \to D \to R \to S$, no consumer reaches regular readback or the seal before the exhaustion row has performed its refusal work.
+
+It remains to block hidden tails. Apply the nonescape criterion, \autoref{thm:finite-prefix-limit-budget-nonescape-criterion}: hidden tail schedules occur only as refused claims in $E$. Thus outside-prefix and hidden-tail reads are both rejected within the finite packet before $R$ or $S$ is available.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget seal-consumer coverage]
+\label{thm:finite-prefix-limit-budget-seal-consumer-coverage}
+Every $\RealUp$, $\RegSeqRatUp$, or $\CauchyLimitSealUp$ consumer of an accepted $\FinitePrefixLimitBudgetUp$ carrier receives exactly the displayed prefix-budget route
+$$
+Q \to B \to W \to D \to R \to S
+$$
+together with the exclusion, transport, continuation, provenance, and local naming rows $E,H,C,P,N$. Such a consumer receives no quotient stream, selected limit, host real equality, hidden tail schedule, countable choice principle, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First compose the Real-route handoff of \autoref{thm:finite-prefix-limit-budget-real-route-handoff} with the regular readback path fixed by the carrier. This places the completion-facing consumer behind the finite selector, StreamName prefix windows, RegSeqRat readback, and Real-facing seal rows.
+
+Next use record factorization and the consumer boundary, \autoref{thm:finite-prefix-limit-budget-record-factorization} and \autoref{thm:finite-prefix-limit-budget-consumer-boundary}. Together they say that $\RealUp$, $\RegSeqRatUp$, and $\CauchyLimitSealUp$ consumers read only $Q,B,W,D,R,S,E,H,C,P,N$.
+
+Finally apply the Real seal non-escape theorem, \autoref{thm:finite-prefix-limit-budget-real-seal-nonescape-extension}. It excludes quotient streams, selected limits, host real equality, hidden tail schedules, countable choice, and ambient completeness from the seal-facing route, leaving exactly the displayed prefix-budget route and its local certificate rows.
+\end{proof}
+
 \closureat{FinitePrefixLimitBudgetUp}{seedStr}
 \closureat{FinitePrefixLimitBudgetUp}{obligationStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
 
@@ -208,7 +252,7 @@ The diagonal-consumption theorem above identifies the point at which the seal-fa
   \constructivestory{A $\FinitePrefixLimitBudgetUp$ packet is generated from a finite diagonal request, finite observation-budget selector row, finite StreamName prefix-window ledger, prefix-depth exhaustion row, RegSeqRat readback row, Real-facing seal row, exclusion ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \leanchecked{BEDC.Derived.FinitePrefixLimitBudgetUp.taste\_gate}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:finite-prefix-limit-budget-carrier}, \autoref{thm:finite-prefix-limit-budget-namecert-obligations}, \autoref{thm:finite-prefix-limit-budget-seal-ordering}, \autoref{thm:finite-prefix-limit-budget-real-route-handoff}, \autoref{thm:finite-prefix-limit-budget-prefix-exhaustion-coverage}, \autoref{thm:finite-prefix-limit-budget-hsame-transport}, \autoref{thm:finite-prefix-limit-budget-nonescape-criterion}, \autoref{thm:finite-prefix-limit-budget-carrier-classifier-scope}, \autoref{thm:finite-prefix-limit-budget-record-factorization}, and \autoref{thm:finite-prefix-limit-budget-consumer-boundary} specify the finite prefix-budget carrier, five NameCert rows, seal ordering, Real-route handoff, prefix-exhaustion coverage, transport stability, non-escape criterion, carrier-classifier scope, record factorization, and consumer boundary.}
+  \scopeclosed{\autoref{def:finite-prefix-limit-budget-carrier}, \autoref{thm:finite-prefix-limit-budget-namecert-obligations}, \autoref{thm:finite-prefix-limit-budget-seal-ordering}, \autoref{thm:finite-prefix-limit-budget-real-route-handoff}, \autoref{thm:finite-prefix-limit-budget-prefix-exhaustion-coverage}, \autoref{thm:finite-prefix-limit-budget-hsame-transport}, \autoref{thm:finite-prefix-limit-budget-nonescape-criterion}, \autoref{thm:finite-prefix-limit-budget-carrier-classifier-scope}, \autoref{thm:finite-prefix-limit-budget-record-factorization}, \autoref{thm:finite-prefix-limit-budget-consumer-boundary}, \autoref{thm:finite-prefix-limit-budget-observer-lock}, \autoref{thm:finite-prefix-limit-budget-tail-refusal}, and \autoref{thm:finite-prefix-limit-budget-seal-consumer-coverage} specify the finite prefix-budget carrier, five NameCert rows, seal ordering, Real-route handoff, prefix-exhaustion coverage, transport stability, non-escape criterion, carrier-classifier scope, record factorization, consumer boundary, observer lock, outside-tail refusal, and seal-consumer coverage.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
