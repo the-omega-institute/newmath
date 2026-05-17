@@ -11,6 +11,8 @@ Run with no arguments. Output is JSON to stdout.
 
 from __future__ import annotations
 
+import argparse
+import bisect
 import fcntl
 import json
 import os
@@ -24,6 +26,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 NAMECERT_GLOB = ROOT / "papers/bedc/parts/concrete_instances"
 DERIVED_DIR = ROOT / "lean4/BEDC/Derived"
+_THEOREM_ENVS_CACHE_PATH = Path("/tmp/.bedc_cp_theorem_envs_cache.json")
+_LEAN_DECLS_CACHE_PATH = Path("/tmp/.bedc_cp_lean_decls_cache.json")
+_CACHE_ENABLED = True
 
 # Per-call rolling cooldown: when 8+ paper reviewers run critical_path in the
 # same minute they all see identical scores and converge on the same top-1,
@@ -1923,19 +1928,90 @@ def _infer_lean_anchor(file_path: Path, label: str | None,
     return None
 
 
+def _load_theorem_envs_cache() -> dict:
+    try:
+        if not _THEOREM_ENVS_CACHE_PATH.exists():
+            return {}
+        data = json.loads(_THEOREM_ENVS_CACHE_PATH.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def _save_theorem_envs_cache(cache: dict) -> None:
+    try:
+        tmp = _THEOREM_ENVS_CACHE_PATH.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+        tmp.replace(_THEOREM_ENVS_CACHE_PATH)
+    except Exception:
+        pass
+
+
+def _load_lean_decls_cache() -> dict:
+    try:
+        if not _LEAN_DECLS_CACHE_PATH.exists():
+            return {}
+        data = json.loads(_LEAN_DECLS_CACHE_PATH.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def _save_lean_decls_cache(cache: dict) -> None:
+    try:
+        tmp = _LEAN_DECLS_CACHE_PATH.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+        tmp.replace(_LEAN_DECLS_CACHE_PATH)
+    except Exception:
+        pass
+
+
 def _build_declared_set() -> set[str]:
-    """Set of qualified Lean names actually declared in lean4/BEDC/.
-    Reuses bedc_ci's inventory via dynamic import."""
+    """Per-file cached set of qualified Lean names declared in lean4/BEDC/."""
     try:
         sys_path_addition = str((ROOT / "lean4" / "scripts").resolve())
         import sys as _sys
         if sys_path_addition not in _sys.path:
             _sys.path.insert(0, sys_path_addition)
-        from bedc_ci import build_declaration_inventory  # type: ignore
-        declarations, _ = build_declaration_inventory()
-        return {d.qualified_name for d in declarations}
+        from bedc_ci import collect_declarations, lean_files  # type: ignore
     except Exception:
         return set()
+
+    cache = _load_lean_decls_cache() if _CACHE_ENABLED else {}
+    new_cache: dict = {}
+    declared: set[str] = set()
+
+    for path in lean_files():
+        try:
+            file_rel = str(path.relative_to(ROOT))
+        except ValueError:
+            file_rel = str(path)
+        try:
+            mtime = path.stat().st_mtime
+        except Exception:
+            continue
+
+        cached_entry = cache.get(file_rel) if isinstance(cache, dict) else None
+        if (
+            isinstance(cached_entry, dict)
+            and cached_entry.get("mtime") == mtime
+            and isinstance(cached_entry.get("decls"), list)
+        ):
+            decls_list = cached_entry["decls"]
+        else:
+            try:
+                file_decls, _file_fields = collect_declarations(path)
+                decls_list = [d.qualified_name for d in file_decls]
+            except Exception:
+                decls_list = []
+
+        new_cache[file_rel] = {"mtime": mtime, "decls": decls_list}
+        for q in decls_list:
+            declared.add(str(q))
+
+    if _CACHE_ENABLED:
+        _save_lean_decls_cache(new_cache)
+    return declared
 
 
 def _count_paper_wide_autorefs(files: list[Path]) -> dict[str, int]:
@@ -1953,6 +2029,39 @@ def _count_paper_wide_autorefs(files: list[Path]) -> dict[str, int]:
             label = m.group(1)
             counts[label] = counts.get(label, 0) + 1
     return counts
+
+
+def _scan_theorem_envs_for_file(text: str) -> list[dict]:
+    envs: list[dict] = []
+    line_starts = [0] + [i + 1 for i, c in enumerate(text) if c == "\n"]
+    for m in THEOREM_ENV_RE.finditer(text):
+        kind = m.group(1)
+        start = m.start()
+        line_start = bisect.bisect_right(line_starts, start)
+        window = text[start:start + 4000]
+        label_m = LABEL_INSIDE_RE.search(window)
+        label = label_m.group(1) if label_m else None
+        marker_m = ALL_MARKERS_RE.search(window)
+        actual_anchor = (
+            marker_m.group(2).replace("\\_", "_").strip()
+            if marker_m else None
+        )
+        marker_kind = marker_m.group(1) if marker_m else None
+
+        body_window = window[:1200]
+        statement_preview = re.sub(r"\s+", " ", body_window).strip()[:200]
+        has_kernel = bool(KERNEL_OBJECT_RE.search(body_window))
+
+        envs.append({
+            "kind": kind,
+            "line": line_start,
+            "label": label,
+            "anchor_actual": actual_anchor,
+            "marker_kind": marker_kind,
+            "statement_preview": statement_preview,
+            "has_kernel_object": has_kernel,
+        })
+    return envs
 
 
 def discover_all_theorems() -> list[dict]:
@@ -1978,6 +2087,8 @@ def discover_all_theorems() -> list[dict]:
     objective_grades = load_objective_formal_grades()
     declared_set = _build_declared_set()
     autoref_counts = _count_paper_wide_autorefs(files)
+    cache = _load_theorem_envs_cache() if _CACHE_ENABLED else {}
+    new_cache: dict = {}
 
     rows: list[dict] = []
     for f in files:
@@ -1985,13 +2096,28 @@ def discover_all_theorems() -> list[dict]:
         if zone in ("unknown", "meta"):
             continue
         try:
-            text = f.read_text(encoding="utf-8", errors="replace")
+            mtime = f.stat().st_mtime
         except Exception:
             continue
         try:
             file_rel = str(f.relative_to(ROOT))
         except ValueError:
             file_rel = str(f)
+        cached_entry = cache.get(file_rel)
+        if (
+            isinstance(cached_entry, dict)
+            and cached_entry.get("mtime") == mtime
+            and isinstance(cached_entry.get("envs"), list)
+        ):
+            envs = cached_entry["envs"]
+        else:
+            try:
+                text = f.read_text(encoding="utf-8", errors="replace")
+            except Exception:
+                continue
+            envs = _scan_theorem_envs_for_file(text)
+        if _CACHE_ENABLED:
+            new_cache[file_rel] = {"mtime": mtime, "envs": envs}
         # Chapter inference for grouping: the namecert hub name when in horizon,
         # otherwise the file stem stripped of leading numeric prefix.
         try:
@@ -2013,20 +2139,14 @@ def discover_all_theorems() -> list[dict]:
         else:
             chapter = None
 
-        for m in THEOREM_ENV_RE.finditer(text):
-            kind = m.group(1)
-            start = m.start()
-            line_start = text.count("\n", 0, start) + 1
-            window = text[start:start + 4000]
-            label_m = LABEL_INSIDE_RE.search(window)
-            label = label_m.group(1) if label_m else None
-            marker_m = ALL_MARKERS_RE.search(window)
-            actual_anchor = (
-                marker_m.group(2).replace("\\_", "_").strip()
-                if marker_m else None
-            )
-            marker_kind = marker_m.group(1) if marker_m else None
-
+        for env in envs:
+            if not isinstance(env, dict):
+                continue
+            kind = env.get("kind")
+            line_start = env.get("line")
+            label = env.get("label")
+            actual_anchor = env.get("anchor_actual")
+            marker_kind = env.get("marker_kind")
             if actual_anchor:
                 # Skip placeholder targets like `BEDC.<...>.<theorem>` —
                 # paper uses `<...>` as template syntax in didactic
@@ -2044,12 +2164,8 @@ def discover_all_theorems() -> list[dict]:
                 anchor_status = "unwritten"
                 suggested = _infer_lean_anchor(f, label, zone)
 
-            # statement_preview: first 200 chars of the env body, newlines
-            # collapsed. Used by workers to decide if the statement is
-            # actually formalisable without opening the file.
-            body_window = window[:1200]
-            statement_preview = re.sub(r"\s+", " ", body_window).strip()[:200]
-            has_kernel = bool(KERNEL_OBJECT_RE.search(body_window))
+            statement_preview = env.get("statement_preview")
+            has_kernel = bool(env.get("has_kernel_object"))
 
             # Score formula: paper-wide cross-reference count, weighted by
             # zone. ground_compiler kernel-grounded entries get a ×2 boost so
@@ -2081,6 +2197,8 @@ def discover_all_theorems() -> list[dict]:
                 "zone_weight": round(weight, 2),
                 "score": round(score, 2),
             })
+    if _CACHE_ENABLED:
+        _save_theorem_envs_cache(new_cache)
     return rows
 
 
@@ -2161,7 +2279,19 @@ def summarize_theorem_inventory(rows: list[dict]) -> dict:
     }
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    global _CACHE_ENABLED
+    parser = argparse.ArgumentParser(
+        description="发现 BEDC critical-path 派发候选。"
+    )
+    parser.add_argument(
+        "--no-cache",
+        action="store_true",
+        help="绕过 theorem-env 与 declared-set 缓存。",
+    )
+    args = parser.parse_args(argv)
+    _CACHE_ENABLED = not args.no_cache
+
     horizons = extract_horizons()
     downstream = transitive_downstream(horizons)
 
