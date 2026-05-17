@@ -62,4 +62,41 @@ theorem DiagonalLimitCompatibilityCarrier_selector_budget_finite_tail_filter_han
     ⟨windowsUnary, dyadicUnary, readbackUnary, realSealUnary, finiteSealUnary,
       realReadUnary, completionReadUnary, filterPacket, provenancePkg, completionPkg⟩
 
+theorem DiagonalLimitSelectorBudgetFiniteTailFilterHandoff [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      source tail packet routeOut locked : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      UnaryHistory source ->
+        UnaryHistory tail ->
+          Cont windows dyadic source ->
+            Cont source tail packet ->
+              Cont packet realSeal routeOut ->
+                Cont routeOut cert locked ->
+                  PkgSig bundle locked pkg ->
+                    UnaryHistory windows ∧ UnaryHistory dyadic ∧ UnaryHistory source ∧
+                      UnaryHistory tail ∧ UnaryHistory packet ∧ UnaryHistory realSeal ∧
+                        UnaryHistory routeOut ∧ UnaryHistory cert ∧ UnaryHistory locked ∧
+                          Cont windows dyadic source ∧ Cont source tail packet ∧
+                            Cont packet realSeal routeOut ∧ Cont routeOut cert locked ∧
+                              PkgSig bundle provenance pkg ∧ PkgSig bundle locked pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier sourceUnary tailUnary windowsDyadicSource sourceTailPacket packetRealSealRouteOut
+    routeOutCertLocked lockedPkg
+  obtain ⟨_diagonalUnary, _triangleUnary, _sealUnary, dyadicUnary, windowsUnary,
+    _readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have packetUnary : UnaryHistory packet :=
+    unary_cont_closed sourceUnary tailUnary sourceTailPacket
+  have routeOutUnary : UnaryHistory routeOut :=
+    unary_cont_closed packetUnary realSealUnary packetRealSealRouteOut
+  have lockedUnary : UnaryHistory locked :=
+    unary_cont_closed routeOutUnary certUnary routeOutCertLocked
+  exact
+    ⟨windowsUnary, dyadicUnary, sourceUnary, tailUnary, packetUnary, realSealUnary,
+      routeOutUnary, certUnary, lockedUnary, windowsDyadicSource, sourceTailPacket,
+      packetRealSealRouteOut, routeOutCertLocked, provenancePkg, lockedPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
