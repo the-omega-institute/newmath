@@ -1003,6 +1003,7 @@ import BEDC.Derived.CrossPerspectiveAlignmentUp.TasteGate
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
+import BEDC.Derived.BareObjectRefusalUp.TasteGate
 import BEDC.Derived.ClosurePreservationAuditTraceUp.TasteGate
 import BEDC.Derived.ClosedSubstrateQuadrantUp.TasteGate
 import BEDC.Derived.CrossHistCausalRouteUp.TasteGate
