@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\EpistemicWitnessUp$}
+\label{ch:concrete-instances-epistemicwitness-namecert}
+\origin{ai}
+
+The $\EpistemicWitnessUp$ packet realizes the BEDC account of knowledge in \autoref{subsec:philosophy-total-epistemology} as a finite auditable witness rather than as a bare truth predicate. It sits beside the failure-certificate packet of \autoref{ch:concrete-instances-failurecertificate-namecert}, the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, and the machine-facing socket of \autoref{ch:concrete-instances-machine-interface-socket-namecert}. Those siblings respectively expose blocked gates, public export, and formalization routing; this packet binds a claimed proposition to its visible witness route, strength row, gap or refusal boundary, bridge row, and local naming certificate before it can be read as BEDC knowledge.
+
+\begin{definition}[Epistemic witness carrier]
+\label{def:epistemic-witness-carrier}
+An $\EpistemicWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+E=(P,W,A,S,G,B,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the proposition or claim row whose BEDC knowledge status is being named;
+\item $W$ is the witness row, storing the sameness, continuation, classifier, package, gap, naming, semantic-naming, derivation, bridge, gap-report, or failure witness used by the claim;
+\item $A$ is the audit-route row, recording the finite path by which the witness may be inspected;
+\item $S$ is the strength row, recording seed, obligation, paper-level closure, checked theorem, checked bridge, gap, or cannot-claim status without collapsing the theory and verification axes;
+\item $G$ is the gap-or-refusal row, recording any missing route, failed gate, blocked export, or explicit cannot-claim boundary;
+\item $B$ is the bridge row, recording whether the witness is internal, paper-bridged, checked-bridged, or explicitly unbridged;
+\item $H$ records componentwise $\hsame$ transport for the claim, witness, audit route, strength, gap-or-refusal, bridge, provenance, and local name;
+\item $C$ records displayed $\Cont$ replay for the witness route, audit route, strength row, gap-or-refusal row, and bridge row;
+\item $K$ is the $\Pkg$ provenance over $\FailureCertificateUp$, $\RegistryExportSurfaceUp$, $\MachineInterfaceSocketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\EpistemicWitnessUp}$ row.
+\end{enumerate}
+The carrier contains no row for bare truth, hidden conviction, external oracle access, host-level semantic satisfaction, or a bridge that bypasses the displayed audit route.
+\end{definition}
+
+\begin{theorem}[Epistemic witness names knowledge audit]
+\label{thm:epistemic-witness-names-knowledge-audit}
+For the carrier of \autoref{def:epistemic-witness-carrier}, the local $\NameCert_{\EpistemicWitnessUp}$ surface consists of five obligation rows:
+\begin{enumerate}
+\item carrier admission for $E=(P,W,A,S,G,B,H,C,K,N)$;
+\item witness-route audit through $W,A,H,C$;
+\item strength-axis readback through $S$ without identifying theory closure with formal verification;
+\item gap, refusal, and bridge boundary readback through $G,B$;
+\item provenance and local naming through $K,N$.
+\end{enumerate}
+Every BEDC knowledge read exported by an accepted $\EpistemicWitnessUp$ packet factors through these five rows. In particular, the read cannot be replaced by bare truth, prose assent, hidden registry state, an uninspected derivation certificate, or a bridge witness that omits the audit route.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $E=(P,W,A,S,G,B,H,C,K,N)$. The claim row $P$ and witness row $W$ give the object being known and the finite witness by which it is known, while $A,H,C$ make the route inspectable and stable under transport and replay.
+
+Read the status rows next. The strength row $S$ records the grade of the knowledge claim, and the gap-or-refusal row $G$ records the boundary when the route is incomplete or blocked. These rows are separate, so a gap, cannot-claim status, checked theorem, and checked bridge cannot be interchanged by a consumer.
+
+Finally read the bridge and naming rows. The bridge row $B$ records how far the witness is exported beyond its local audit route, while $K,N$ source and name the packet. Since no other coordinate exists, an accepted knowledge read must consume the five displayed obligation rows and cannot recover a bare truth predicate or hidden witness from outside the carrier.
+\end{proof}
+
+\falsifiablePrediction{Deleting the audit-route row leaves a claim-like packet but not a BEDC knowledge witness.}
+
+\independenceWitness{failurecertificate, registryexportsurface, bridgewitness, derivcert, machineinterfacesocket: none is bijective to $\EpistemicWitnessUp$ under NameCert-row preservation. A failure certificate records blocked gates without the full knowledge-strength and bridge surface; a registry export surface controls public release without owning the witness route; a bridge witness may expose cross-theory transport without the local gap-or-refusal row; a derivation certificate records proof ancestry without the public audit-strength packet; and a machine-interface socket routes formal targets without naming the epistemic witness as knowledge.}
+
+The later Lean \texttt{TasteGate.lean} boundary for this carrier must include \texttt{Nontrivial EpistemicWitnessUp} and \texttt{FieldFaithful EpistemicWitnessUp} instances, so the knowledge packet is inhabited by an actual audit witness and preserves $P,W,A,S,G,B,H,C,K,N$ as distinct rows.
+
+\closureat{EpistemicWitnessUp}{seedStr}
+\closureat{EpistemicWitnessUp}{obligationStr}
