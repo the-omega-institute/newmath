@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.SocketReportUp.TasteGate
+namespace BEDC.Derived.SocketReportUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,104 +10,118 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive SocketReportUp : Type where
-  | mk (S U K G H C P N : BHist) : SocketReportUp
+  | mk :
+      (site requestedSupply socketKind auditGate transport continuation provenance
+        localName : BHist) →
+        SocketReportUp
   deriving DecidableEq
 
-def socketReportEncodeBHist : BHist -> RawEvent
+def socketReportEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: socketReportEncodeBHist h
   | BHist.e1 h => BMark.b1 :: socketReportEncodeBHist h
 
-def socketReportDecodeBHist : RawEvent -> BHist
+def socketReportDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (socketReportDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (socketReportDecodeBHist tail)
 
-private theorem socketReportDecode_encode_bhist :
-    forall h : BHist, socketReportDecodeBHist (socketReportEncodeBHist h) = h := by
+private theorem SocketReportTasteGate_single_carrier_alignment_decode_encode :
+    ∀ h : BHist, socketReportDecodeBHist (socketReportEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-def socketReportFields : SocketReportUp -> List BHist
+def socketReportFields : SocketReportUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | SocketReportUp.mk S U K G H C P N => [S, U, K, G, H, C, P, N]
+  | SocketReportUp.mk site requestedSupply socketKind auditGate transport continuation
+      provenance localName =>
+      [site, requestedSupply, socketKind, auditGate, transport, continuation, provenance,
+        localName]
 
-def socketReportToEventFlow : SocketReportUp -> EventFlow
+def socketReportToEventFlow : SocketReportUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (socketReportFields x).map socketReportEncodeBHist
 
-def socketReportFromEventFlow : EventFlow -> Option SocketReportUp
+def socketReportFromEventFlow : EventFlow → Option SocketReportUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
-  | S :: rest0 =>
+  | site :: rest0 =>
       match rest0 with
       | [] => none
-      | U :: rest1 =>
+      | requestedSupply :: rest1 =>
           match rest1 with
           | [] => none
-          | K :: rest2 =>
+          | socketKind :: rest2 =>
               match rest2 with
               | [] => none
-              | G :: rest3 =>
+              | auditGate :: rest3 =>
                   match rest3 with
                   | [] => none
-                  | H :: rest4 =>
+                  | transport :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | C :: rest5 =>
+                      | continuation :: rest5 =>
                           match rest5 with
                           | [] => none
-                          | P :: rest6 =>
+                          | provenance :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | N :: rest7 =>
+                              | localName :: rest7 =>
                                   match rest7 with
                                   | [] =>
                                       some
                                         (SocketReportUp.mk
-                                          (socketReportDecodeBHist S)
-                                          (socketReportDecodeBHist U)
-                                          (socketReportDecodeBHist K)
-                                          (socketReportDecodeBHist G)
-                                          (socketReportDecodeBHist H)
-                                          (socketReportDecodeBHist C)
-                                          (socketReportDecodeBHist P)
-                                          (socketReportDecodeBHist N))
+                                          (socketReportDecodeBHist site)
+                                          (socketReportDecodeBHist requestedSupply)
+                                          (socketReportDecodeBHist socketKind)
+                                          (socketReportDecodeBHist auditGate)
+                                          (socketReportDecodeBHist transport)
+                                          (socketReportDecodeBHist continuation)
+                                          (socketReportDecodeBHist provenance)
+                                          (socketReportDecodeBHist localName))
                                   | _ :: _ => none
 
-private theorem socketReport_round_trip :
-    forall x : SocketReportUp,
-      socketReportFromEventFlow (socketReportToEventFlow x) = some x := by
+private theorem SocketReportTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : SocketReportUp, socketReportFromEventFlow (socketReportToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk S U K G H C P N =>
+  | mk site requestedSupply socketKind auditGate transport continuation provenance localName =>
       change
         some
           (SocketReportUp.mk
-            (socketReportDecodeBHist (socketReportEncodeBHist S))
-            (socketReportDecodeBHist (socketReportEncodeBHist U))
-            (socketReportDecodeBHist (socketReportEncodeBHist K))
-            (socketReportDecodeBHist (socketReportEncodeBHist G))
-            (socketReportDecodeBHist (socketReportEncodeBHist H))
-            (socketReportDecodeBHist (socketReportEncodeBHist C))
-            (socketReportDecodeBHist (socketReportEncodeBHist P))
-            (socketReportDecodeBHist (socketReportEncodeBHist N))) =
-          some (SocketReportUp.mk S U K G H C P N)
-      rw [socketReportDecode_encode_bhist S, socketReportDecode_encode_bhist U,
-        socketReportDecode_encode_bhist K, socketReportDecode_encode_bhist G,
-        socketReportDecode_encode_bhist H, socketReportDecode_encode_bhist C,
-        socketReportDecode_encode_bhist P, socketReportDecode_encode_bhist N]
+            (socketReportDecodeBHist (socketReportEncodeBHist site))
+            (socketReportDecodeBHist (socketReportEncodeBHist requestedSupply))
+            (socketReportDecodeBHist (socketReportEncodeBHist socketKind))
+            (socketReportDecodeBHist (socketReportEncodeBHist auditGate))
+            (socketReportDecodeBHist (socketReportEncodeBHist transport))
+            (socketReportDecodeBHist (socketReportEncodeBHist continuation))
+            (socketReportDecodeBHist (socketReportEncodeBHist provenance))
+            (socketReportDecodeBHist (socketReportEncodeBHist localName))) =
+          some
+            (SocketReportUp.mk site requestedSupply socketKind auditGate transport continuation
+              provenance localName)
+      rw [SocketReportTasteGate_single_carrier_alignment_decode_encode site,
+        SocketReportTasteGate_single_carrier_alignment_decode_encode requestedSupply,
+        SocketReportTasteGate_single_carrier_alignment_decode_encode socketKind,
+        SocketReportTasteGate_single_carrier_alignment_decode_encode auditGate,
+        SocketReportTasteGate_single_carrier_alignment_decode_encode transport,
+        SocketReportTasteGate_single_carrier_alignment_decode_encode continuation,
+        SocketReportTasteGate_single_carrier_alignment_decode_encode provenance,
+        SocketReportTasteGate_single_carrier_alignment_decode_encode localName]
 
-private theorem socketReportToEventFlow_injective
+private theorem SocketReportTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : SocketReportUp} :
-    socketReportToEventFlow x = socketReportToEventFlow y -> x = y := by
+    socketReportToEventFlow x = socketReportToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -115,18 +129,35 @@ private theorem socketReportToEventFlow_injective
         socketReportFromEventFlow (socketReportToEventFlow y) :=
     congrArg socketReportFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (socketReport_round_trip x).symm
-      (Eq.trans hread (socketReport_round_trip y)))
+    (Eq.trans (SocketReportTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (SocketReportTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem socketReport_fields_faithful :
-    forall x y : SocketReportUp, socketReportFields x = socketReportFields y -> x = y := by
+private theorem SocketReportTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : SocketReportUp, socketReportFields x = socketReportFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk S1 U1 K1 G1 H1 C1 P1 N1 =>
+  | mk site₁ requestedSupply₁ socketKind₁ auditGate₁ transport₁ continuation₁
+      provenance₁ localName₁ =>
       cases y with
-      | mk S2 U2 K2 G2 H2 C2 P2 N2 =>
-          cases hfields
+      | mk site₂ requestedSupply₂ socketKind₂ auditGate₂ transport₂ continuation₂
+          provenance₂ localName₂ =>
+          injection hfields with hSite tail0
+          injection tail0 with hRequestedSupply tail1
+          injection tail1 with hSocketKind tail2
+          injection tail2 with hAuditGate tail3
+          injection tail3 with hTransport tail4
+          injection tail4 with hContinuation tail5
+          injection tail5 with hProvenance tail6
+          injection tail6 with hLocalName _
+          subst hSite
+          subst hRequestedSupply
+          subst hSocketKind
+          subst hAuditGate
+          subst hTransport
+          subst hContinuation
+          subst hProvenance
+          subst hLocalName
           rfl
 
 instance socketReportBHistCarrier : BHistCarrier SocketReportUp where
@@ -139,15 +170,15 @@ instance socketReportChapterTasteGate : ChapterTasteGate SocketReportUp where
   round_trip := by
     intro x
     change socketReportFromEventFlow (socketReportToEventFlow x) = some x
-    exact socketReport_round_trip x
+    exact SocketReportTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (socketReportToEventFlow_injective heq)
+    exact hxy (SocketReportTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance socketReportFieldFaithful : FieldFaithful SocketReportUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := socketReportFields
-  field_faithful := socketReport_fields_faithful
+  field_faithful := SocketReportTasteGate_single_carrier_alignment_fields_faithful
 
 instance socketReportNontrivial : Nontrivial SocketReportUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -165,48 +196,15 @@ def taste_gate : ChapterTasteGate SocketReportUp :=
   socketReportChapterTasteGate
 
 theorem SocketReportTasteGate_single_carrier_alignment :
-    (forall h : BHist, socketReportDecodeBHist (socketReportEncodeBHist h) = h) ∧
-      (forall x : SocketReportUp,
-        socketReportFromEventFlow (socketReportToEventFlow x) = some x) ∧
-        (forall x y : SocketReportUp,
-          socketReportToEventFlow x = socketReportToEventFlow y -> x = y) ∧
+    (∀ h : BHist, socketReportDecodeBHist (socketReportEncodeBHist h) = h) ∧
+      (∀ x : SocketReportUp, socketReportFromEventFlow (socketReportToEventFlow x) = some x) ∧
+        (∀ x y : SocketReportUp, socketReportToEventFlow x = socketReportToEventFlow y → x = y) ∧
           socketReportEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · intro h
-    induction h with
-    | Empty => rfl
-    | e0 h ih => exact congrArg BHist.e0 ih
-    | e1 h ih => exact congrArg BHist.e1 ih
-  · constructor
-    · intro x
-      cases x with
-      | mk S U K G H C P N =>
-          change
-            some
-              (SocketReportUp.mk
-                (socketReportDecodeBHist (socketReportEncodeBHist S))
-                (socketReportDecodeBHist (socketReportEncodeBHist U))
-                (socketReportDecodeBHist (socketReportEncodeBHist K))
-                (socketReportDecodeBHist (socketReportEncodeBHist G))
-                (socketReportDecodeBHist (socketReportEncodeBHist H))
-                (socketReportDecodeBHist (socketReportEncodeBHist C))
-                (socketReportDecodeBHist (socketReportEncodeBHist P))
-                (socketReportDecodeBHist (socketReportEncodeBHist N))) =
-              some (SocketReportUp.mk S U K G H C P N)
-          rw [socketReportDecode_encode_bhist S, socketReportDecode_encode_bhist U,
-            socketReportDecode_encode_bhist K, socketReportDecode_encode_bhist G,
-            socketReportDecode_encode_bhist H, socketReportDecode_encode_bhist C,
-            socketReportDecode_encode_bhist P, socketReportDecode_encode_bhist N]
-    · constructor
-      · intro x y heq
-        have hread :
-            socketReportFromEventFlow (socketReportToEventFlow x) =
-              socketReportFromEventFlow (socketReportToEventFlow y) :=
-          congrArg socketReportFromEventFlow heq
-        exact Option.some.inj
-          (Eq.trans (socketReport_round_trip x).symm
-            (Eq.trans hread (socketReport_round_trip y)))
-      · rfl
+  exact
+    ⟨SocketReportTasteGate_single_carrier_alignment_decode_encode,
+      SocketReportTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => SocketReportTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
-end BEDC.Derived.SocketReportUp.TasteGate
+end BEDC.Derived.SocketReportUp
