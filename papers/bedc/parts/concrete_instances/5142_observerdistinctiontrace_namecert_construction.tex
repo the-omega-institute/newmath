@@ -27,6 +27,7 @@ The carrier has no coordinate for an observer-substance, a host equality of obse
 \label{thm:observer-distinction-trace-namecert-obligations}
 For the carrier of \autoref{def:observer-distinction-trace-carrier}, the local $\NameCert_{\ObserverDistinctionTraceUp}$ surface consists exactly of carrier admission for $D=(H,T,K,C,L,P,N)$, ordered distinction-step exposure, $\Hist$ growth-row exactness, displayed $\Cont$ route replay, componentwise $\hsame$ transport, no-subject provenance, and local naming exactness.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverDistinctionTraceUp.ObserverDistinctionTraceNameCert\_obligations}
 \begin{proof}
 Carrier admission is projection from the finite packet. The rows $H,T,K,C,L,P,N$ display the observed source, the ordered distinction steps, the growth ledger, the continuation routes, transport, provenance, and local name.
 
@@ -76,6 +77,18 @@ The later Lean target in \texttt{lean4/BEDC/Derived/ObserverDistinctionTraceUp/T
 Nontriviality is forced by the ordered trace shape. A packet that collapses the source, step ledger, and growth rows cannot witness a distinction trace.
 
 Field faithfulness is forced by the carrier inventory. Each projection must preserve the source row, distinction-step rows, growth rows, route rows, transport row, provenance row, and local name separately so consumers can reject any read that bypasses the displayed trace.
+\end{proof}
+
+\begin{theorem}[ObserverDistinctionTrace public route]
+\label{thm:observer-distinction-trace-public-route}
+Every public $\ObserverDistinctionTraceUp$ read factors through $\ObserverHistIdentityUp$, $\ObserverSubjectBoundaryUp$, $\HistTimeStreamUp$, and $\LocalClockBudgetUp$ before exposing the ordered distinction-step trace. The exposed trace is then read only through the local carrier rows $H,T,K,C,L,P,N$: observed $\Hist$ source, ordered distinction steps, growth ledger, displayed $\Cont$ routes, componentwise $\hsame$ transport, no-subject provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Start with the local carrier and NameCert obligations. They expose $H,T,K,C,L,P,N$ as the whole trace surface, with $T$ carrying ordered distinction steps, $K$ carrying $\Hist$ growth, and $C$ carrying replay routes.
+
+The public route first passes through the sibling observer surfaces. $\ObserverHistIdentityUp$ supplies the history identity read, $\ObserverSubjectBoundaryUp$ prevents a hidden observer-substance coordinate, $\HistTimeStreamUp$ supplies finite stream rows, and $\LocalClockBudgetUp$ supplies the local step budget before the distinction trace is exported.
+
+Apply the temporal factorization, non-escape, and TasteGate rows already in this chapter. They keep growth, replay, transport, no-subject provenance, and local naming tied to the same finite packet, so a downstream observer-history consumer receives an ordered distinction-step trace rather than host observer identity, global time, or subject substance.
 \end{proof}
 
 \falsifiablePrediction{Any accepted ObserverDistinctionTraceUp trace factors through the displayed Hist and Cont rows and cannot export an observer-substance coordinate.}

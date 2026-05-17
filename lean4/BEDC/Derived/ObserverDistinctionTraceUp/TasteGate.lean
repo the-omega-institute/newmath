@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ObserverDistinctionTraceUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -251,5 +255,56 @@ theorem ObserverDistinctionTraceTasteGate_single_carrier_alignment :
       · intro x y heq
         exact observerDistinctionTraceToEventFlow_injective heq
       · rfl
+
+theorem ObserverDistinctionTraceNameCert_obligations
+    {source trace growth routes transport provenance localName : BHist}
+    (routeReplay : Cont source routes growth) :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row source ∧
+          ∃ packet : ObserverDistinctionTraceUp,
+            packet =
+              ObserverDistinctionTraceUp.mk source trace growth routes transport provenance
+                localName)
+      (fun row : BHist =>
+        hsame row source ∧ hsame trace trace ∧ hsame growth growth ∧ hsame routes routes)
+      (fun row : BHist =>
+        Cont source routes growth ∧ hsame row source ∧ hsame transport transport ∧
+          hsame provenance provenance ∧ hsame localName localName)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro source
+          ⟨hsame_refl source,
+            Exists.intro
+              (ObserverDistinctionTraceUp.mk source trace growth routes transport provenance
+                localName)
+              rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.left, hsame_refl trace, hsame_refl growth, hsame_refl routes⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨routeReplay, sourceRow.left, hsame_refl transport, hsame_refl provenance,
+          hsame_refl localName⟩
+  }
 
 end BEDC.Derived.ObserverDistinctionTraceUp

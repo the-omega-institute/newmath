@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RegistryNoSmugglingPredicateUp$}
+\label{ch:concrete-instances-registrynosmugglingpredicate-namecert}
+\origin{ai}
+
+The $\RegistryNoSmugglingPredicateUp$ packet realizes the first machine-facing no-smuggling predicate demanded by \autoref{subsec:philosophy-machine-facing-interface} as finite registry NameCert data. It sits beside the target rows of $\MachineInterfaceFormalizationTargetUp$, the export rows of $\RegistryExportSurfaceUp$, the status gate of $\RegistryExportConsistencyGateUp$, the classifier of \autoref{ch:concrete-instances-smugglingpatternclassifier-namecert}, and the machine boundary of $\MachineInterfaceBoundaryUp$. Those siblings store targets, expose export rows, check consistency, classify smuggling forms, and limit machine-facing reads; this packet is the registry predicate that refuses theorem-evidence export whenever one of those routes reports a smuggling row.
+
+\begin{definition}[Registry no-smuggling predicate carrier]
+\label{def:registry-no-smuggling-predicate-carrier}
+A $\RegistryNoSmugglingPredicateUp$ carrier is a finite $\BHist$ packet
+$$
+R=(T,E,G,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the formalization-target row, recording the $\MachineInterfaceFormalizationTargetUp$ name, namespace, statement skeleton, dependency surface, expected status, and not-claimed surface being checked;
+\item $E$ is the registry-export row, recording the $\RegistryExportSurfaceUp$ registration, blocking, status, machine-target, audit, and non-smuggling fields for the same candidate export;
+\item $G$ is the consistency-gate row, recording the $\RegistryExportConsistencyGateUp$ status, audit-route, formal-target readback, and no-smuggling decision;
+\item $U$ is the refusal-classifier row, recording the $\SmugglingPatternClassifierUp$ reading as no philosophical smuggling, no mathematical smuggling, no host smuggling, no roadmap-as-theorem, or no cannot-claim conflict;
+\item $H$ records componentwise $\hsame$ transport for target, export, gate, classifier, boundary, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay through the machine-interface boundary, target lookup, registry export surface, consistency gate, classifier refusal, provenance, and local naming;
+\item $P$ records $\Pkg$ provenance over $\MachineInterfaceFormalizationTargetUp$, $\RegistryExportSurfaceUp$, $\RegistryExportConsistencyGateUp$, $\SmugglingPatternClassifierUp$, $\MachineInterfaceBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RegistryNoSmugglingPredicateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for upgrading a roadmap, philosophical doctrine, mathematical tradition, host primitive, or cannot-claim entry into theorem evidence unless the displayed target, export, gate, classifier, boundary, transport, replay, provenance, and local naming rows all admit the route.
+\end{definition}
+
+\begin{theorem}[Registry no-smuggling predicate NameCert obligations]
+\label{thm:registry-no-smuggling-predicate-namecert-obligations}
+For the carrier of \autoref{def:registry-no-smuggling-predicate-carrier}, the local $\NameCert_{\RegistryNoSmugglingPredicateUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for $R=(T,E,G,U,H,C,P,N)$;
+\item target and export exposure through $T$ and $E$;
+\item consistency and no-smuggling routing through $G$ and $U$;
+\item machine-boundary replay, componentwise transport, and package provenance through $C,H,P$;
+\item local naming through $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the displayed packet $R=(T,E,G,U,H,C,P,N)$. The target row $T$ names the machine-facing object being checked, while $E$ records the registry export surface that would otherwise expose it to a theorem-facing consumer.
+
+The consistency-gate row $G$ and classifier row $U$ decide whether the same candidate passes no-smuggling. The classifier row keeps the five early refusal modes separate: philosophical smuggling, mathematical smuggling, host smuggling, roadmap-as-theorem, and cannot-claim conflict.
+
+The rows $H,C,P,N$ then preserve and name the same decision across transport, replay, package provenance, and local certification. Since no additional coordinate exists, the five displayed obligation rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[No-smuggling refusal blocks theorem-evidence export]
+\label{thm:registry-no-smuggling-predicate-refusal-blocks-export}
+If an accepted $\RegistryNoSmugglingPredicateUp$ packet marks a registry export by a no-smuggling refusal row, then that export cannot be read as theorem evidence by the same machine-facing registry route. Any later theorem evidence must pass through a distinct accepted packet whose classifier row no longer carries the refusal.
+\end{theorem}
+\begin{proof}
+Read the candidate export through $E$ and the same target through $T$. The gate row $G$ compares that export with the target status, dependency surface, and audit route before a machine-facing consumer may use it.
+
+When $U$ records a no-smuggling refusal, the displayed route is refusal rather than admission. The sibling classifier of \autoref{ch:concrete-instances-smugglingpatternclassifier-namecert} supplies the classification row, while the machine-interface boundary keeps the route from importing a hidden theorem object.
+
+The transport, replay, provenance, and naming rows preserve the refused route. Therefore the same packet cannot export theorem evidence; a theorem-evidence export requires a separately displayed packet with its own accepted classifier row.
+\end{proof}
+
+\falsifiablePrediction{A registry export marked by a RegistryNoSmugglingPredicateUp no-smuggling refusal row cannot be exported as theorem evidence by the same machine-facing registry route.}
+
+\independenceWitness{machineinterfaceformalizationtarget, registryexportsurface, registryexportconsistencygate, smugglingpatternclassifier, machineinterfaceboundary: none carries the joint target, export, consistency-gate, five-form no-smuggling refusal, boundary replay, transport, provenance, and local NameCert packet of $\RegistryNoSmugglingPredicateUp$.}
+
+The Lean follow-up must provide $\Nontrivial\ \RegistryNoSmugglingPredicateUp$ and $\mathsf{FieldFaithful}\ \RegistryNoSmugglingPredicateUp$ instances in \texttt{lean4/BEDC/Derived/RegistryNoSmugglingPredicateUp/TasteGate.lean}. The field-faithfulness witness must preserve $T,E,G,U,H,C,P,N$ as distinct rows before any machine-facing registry consumer cites $\mathsf{BEDC.Derived.RegistryNoSmugglingPredicateUp}$.
+
+\closureat{RegistryNoSmugglingPredicateUp}{seedStr}
+
+\begin{closurestatus}{\RegistryNoSmugglingPredicateUp}
+  \constructivestory{A $\RegistryNoSmugglingPredicateUp$ packet is generated from machine target, registry export, consistency gate, no-smuggling classifier, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:registry-no-smuggling-predicate-carrier}, \autoref{thm:registry-no-smuggling-predicate-namecert-obligations}, and \autoref{thm:registry-no-smuggling-predicate-refusal-blocks-export} bind the finite predicate packet and its export refusal consequence.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not supply theorem evidence, bridge checking, host primitive admission, mathematical-tradition import, philosophical truth, roadmap closure, or automatic registry proof generation for $\RegistryNoSmugglingPredicateUp$.}
+  \upgradepath{Lean closure requires Nontrivial RegistryNoSmugglingPredicateUp and FieldFaithful RegistryNoSmugglingPredicateUp instances.}
+\end{closurestatus}
