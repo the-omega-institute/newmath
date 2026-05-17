@@ -1005,6 +1005,7 @@ import BEDC.Derived.ContinuationMonadUp.RootUnblockObligationPackage
 import BEDC.Derived.ContinuationMonadUp.RootBindScheduleExhaustion
 import BEDC.Derived.ContinuationMonadUp.RootCategoryHomConsumerTotality
 import BEDC.Derived.ContinuationMonadUp.CategoryHomCarrierRoute
+import BEDC.Derived.ContinuationMonadUp.CategoryHandoffExactness
 import BEDC.Derived.ContinuationMonadUp.CategoryBoundaryReadbackTotality
 import BEDC.Derived.ContinuationMonadUp.CategoryHomRouteTotality
 import BEDC.Derived.ContinuationMonadUp.RootConsumerStandardRow
@@ -1415,6 +1416,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalDiagonalPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalReadback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.UniformCauchyCriterionPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.WindowIndexScope
+import BEDC.Derived.FiniteObservationCofinalitySelectorUp.TasteGate
 import BEDC.Derived.FiniteObservationLockUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitBudgetUp.TasteGate
 import BEDC.Derived.FastCauchyUp
@@ -1453,6 +1455,7 @@ import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FoldDefectStokesUp
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.GaloisExtUp
+import BEDC.Derived.HardProblemClosureUp.TasteGate
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
 import BEDC.Derived.GaloisExtUp.PublicLedgerCoverage
