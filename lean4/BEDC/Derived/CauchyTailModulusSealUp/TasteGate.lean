@@ -173,6 +173,12 @@ private theorem cauchyTailModulusSealToEventFlow_injective
     (Eq.trans (cauchyTailModulusSeal_round_trip x).symm
       (Eq.trans hread (cauchyTailModulusSeal_round_trip y)))
 
+private theorem cauchyTailModulusSeal_layer_separation :
+    ∀ x y : CauchyTailModulusSealUp, x ≠ y →
+      cauchyTailModulusSealToEventFlow x ≠ cauchyTailModulusSealToEventFlow y := by
+  intro x y hxy heq
+  exact hxy (cauchyTailModulusSealToEventFlow_injective heq)
+
 private theorem cauchyTailModulusSeal_fields_faithful :
     ∀ x y : CauchyTailModulusSealUp,
       cauchyTailModulusSealFields x = cauchyTailModulusSealFields y → x = y := by
@@ -195,9 +201,7 @@ instance cauchyTailModulusSealChapterTasteGate :
     change cauchyTailModulusSealFromEventFlow
       (cauchyTailModulusSealToEventFlow x) = some x
     exact cauchyTailModulusSeal_round_trip x
-  layer_separation := by
-    intro x y hxy heq
-    exact hxy (cauchyTailModulusSealToEventFlow_injective heq)
+  layer_separation := cauchyTailModulusSeal_layer_separation
 
 instance cauchyTailModulusSealFieldFaithful :
     FieldFaithful CauchyTailModulusSealUp where
@@ -254,8 +258,7 @@ theorem CauchyTailModulusSealTasteGate_single_carrier_alignment :
     · constructor
       · exact cauchyTailModulusSeal_round_trip
       · constructor
-        · intro x y hxy heq
-          exact hxy (cauchyTailModulusSealToEventFlow_injective heq)
+        · exact cauchyTailModulusSeal_layer_separation
         · constructor
           · exact cauchyTailModulusSeal_fields_faithful
           · constructor
