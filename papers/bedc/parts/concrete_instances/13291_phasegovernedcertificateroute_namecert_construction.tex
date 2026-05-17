@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\PhaseGovernedCertificateRouteUp$}
+\label{ch:concrete-instances-phasegovernedcertificateroute-namecert}
+\origin{ai}
+
+The $\PhaseGovernedCertificateRouteUp$ packet realizes the research-programme route of \autoref{sec:visions-philosophy-research-programme} as a finite certificate router. It sits beside $\ProgrammeStrengthLedgerUp$ of \autoref{ch:concrete-instances-programme-strength-ledger-namecert}, $\PhilosophyCannotClaimRegistryUp$ of \autoref{ch:concrete-instances-philosophy-cannot-claim-registry-namecert}, $\CannotClaimExportGateUp$ of \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert}, and $\UseProcessBoundaryUp$ of \autoref{ch:concrete-instances-use-process-boundary-namecert}: those siblings record strength, refusal, export blocking, and certified-use process boundaries, while this packet binds their rows before a philosophy programme may present a claim as routed through a named certificate phase. The certified-use consumer of \autoref{ch:concrete-instances-certifieduseprocess-namecert} supplies the public use process read by the same route.
+
+\begin{definition}[Phase-governed certificate route carrier]
+\label{def:phase-governed-certificate-route-carrier}
+A $\PhaseGovernedCertificateRouteUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,S,F,E,D,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the phase row, recording the current certificate phase and the admissible next phase for the programme route;
+\item $S$ is the strength row, read from the $\ProgrammeStrengthLedgerUp$ surface;
+\item $F$ is the refusal row, read from the $\PhilosophyCannotClaimRegistryUp$ surface;
+\item $E$ is the export-gate row, read from the $\CannotClaimExportGateUp$ surface before any checked-target reading is exposed;
+\item $D$ is the dependency and failure-audit row, recording open blockers, failed obligations, and audit-facing non-export decisions;
+\item $U$ is the certified-use and process-boundary row, read through $\UseProcessBoundaryUp$ and $\CertifiedUseProcessUp$;
+\item $H$ records componentwise $\hsame$ transport for phase, strength, refusal, export, dependency, use-process, continuation, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay through the same rows;
+\item $P$ records $\Pkg$ provenance over $\PhaseGovernedCertificateRouteUp$, $\ProgrammeStrengthLedgerUp$, $\PhilosophyCannotClaimRegistryUp$, $\CannotClaimExportGateUp$, $\UseProcessBoundaryUp$, $\CertifiedUseProcessUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\PhaseGovernedCertificateRouteUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for skipping the phase row, erasing refusal, inflating strength, exporting a blocked target, hiding a failure-audit row, or reading a certified use outside the displayed process boundary.
+\end{definition}
+
+\begin{theorem}[Phase-governed certificate route NameCert obligations]
+\label{thm:phase-governed-certificate-route-namecert-obligations}
+For the carrier of \autoref{def:phase-governed-certificate-route-carrier}, the local $\NameCert_{\PhaseGovernedCertificateRouteUp}$ surface consists exactly of carrier admission for $R=(A,S,F,E,D,U,H,C,P,N)$, phase exposure through $A$, strength exposure through $S$, refusal exposure through $F$, export-gate exposure through $E$, dependency and failure-audit exposure through $D$, certified-use and process-boundary exposure through $U$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet. The phase row $A$ is read before the strength, refusal, export, dependency, and use-process rows can be treated as one route.
+
+Read the sibling surfaces in the displayed order. The strength ledger supplies $S$, the cannot-claim registry supplies $F$, the export gate supplies $E$, and the use-process boundary supplies $U$; the failure-audit row $D$ records blockers that prevent a stronger certificate reading.
+
+Finally use $H,C,P,N$ to transport, replay, source, and name the same packet. Since no further route coordinate is present, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Phase-governed certificate route nonescape]
+\label{thm:phase-governed-certificate-route-nonescape}
+Every accepted $\PhaseGovernedCertificateRouteUp$ consumer reads a programme claim through the phase row $A$, strength row $S$, refusal row $F$, export-gate row $E$, dependency and failure-audit row $D$, certified-use and process-boundary row $U$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. It cannot export a stronger phase, erase a refusal, bypass a blocked export gate, hide a failure-audit row, replace certified use by prose, or obtain a checked target outside those rows.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations. They force any accepted route to expose $A,S,F,E,D,U,H,C,P,N$ before the local name is available.
+
+The sibling packets keep the route non-escaping. $\ProgrammeStrengthLedgerUp$ blocks strength inflation, $\PhilosophyCannotClaimRegistryUp$ preserves the refusal row, $\CannotClaimExportGateUp$ blocks refused checked-target export, and $\UseProcessBoundaryUp$ keeps certified use tied to process mediation.
+
+The remaining transport, replay, provenance, and naming rows preserve that same display. Hence the accepted route has no coordinate from which a stronger phase, erased refusal, bypassed export, hidden blocker, prose-only use, or unchecked target can be exported.
+\end{proof}
+
+\falsifiablePrediction{If a PhaseGovernedCertificateRouteUp packet remains accepted after deleting either its phase row or its refusal row, then the route carrier is refuted.}
+
+\independenceWitness{programmestrengthledger, philosophycannotclaimregistry, cannotclaimexportgate, useprocessboundary, certifieduseprocess: none is bijective to PhaseGovernedCertificateRouteUp because the route binds phase, strength, refusal, export gate, failure audit, dependency, certified use, transport, replay, provenance, and local naming in one finite packet.}
+
+The Lean follow-up requires $\Nontrivial\ \PhaseGovernedCertificateRouteUp$ and $\FieldFaithful\ \PhaseGovernedCertificateRouteUp$ instances in \texttt{lean4/BEDC/Derived/PhaseGovernedCertificateRouteUp/TasteGate.lean}. The field-faithfulness witness must keep $A,S,F,E,D,U,H,C,P,N$ as distinct rows before a checked boundary can cite \texttt{BEDC.Derived.PhaseGovernedCertificateRouteUp.TasteGate}.
+
+\closureat{PhaseGovernedCertificateRouteUp}{seedStr}
