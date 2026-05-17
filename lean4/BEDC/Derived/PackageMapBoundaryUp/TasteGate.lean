@@ -215,9 +215,25 @@ def taste_gate : ChapterTasteGate PackageMapBoundaryUp :=
   packageMapBoundaryChapterTasteGate
 
 theorem PackageMapBoundaryTasteGate_single_carrier_alignment :
-    packageMapBoundaryEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
-      Nonempty (ChapterTasteGate PackageMapBoundaryUp) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact ⟨rfl, ⟨packageMapBoundaryChapterTasteGate⟩⟩
+    (∀ h : BHist, packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist h) = h) ∧
+      (∀ x : PackageMapBoundaryUp,
+        packageMapBoundaryFromEventFlow (packageMapBoundaryToEventFlow x) = some x) ∧
+        (∀ x y : PackageMapBoundaryUp,
+          packageMapBoundaryToEventFlow x = packageMapBoundaryToEventFlow y → x = y) ∧
+          packageMapBoundaryFields
+              (PackageMapBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+            [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+              BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
+            packageMapBoundaryEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
+              Nonempty (ChapterTasteGate PackageMapBoundaryUp) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨PackageMapBoundaryTasteGate_single_carrier_alignment_decode_encode,
+      PackageMapBoundaryTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => PackageMapBoundaryTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl,
+      rfl,
+      ⟨packageMapBoundaryChapterTasteGate⟩⟩
 
 end BEDC.Derived.PackageMapBoundaryUp
