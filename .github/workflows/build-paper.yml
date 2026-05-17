@@ -1,0 +1,144 @@
+name: Build Paper
+
+# Single source of truth for PDF + Lean4 build. Runs on any push / PR that
+# touches paper, lean, dossier source, or any workflow file involved in the
+# build chain. Uploads `bedc-pdf` artifact for downstream consumers
+# (dossier.yml, daily-build.yml) to download via workflow_run, removing
+# the previous PR-time and dev-push-time duplicate PDF builds.
+
+on:
+  push:
+    branches:
+      - auto-dev
+      - dev
+      - main
+      - feature/dossier
+    paths:
+      - 'docs/dossier/**'
+      - 'papers/bedc/**'
+      - 'lean4/**'
+      - 'tools/**'
+      - '.github/workflows/build-paper.yml'
+      - '.github/workflows/reusable-pdf.yml'
+      - '.github/workflows/reusable-lean4.yml'
+  pull_request:
+    paths:
+      - 'docs/dossier/**'
+      - 'papers/bedc/**'
+      - 'lean4/**'
+      - 'tools/**'
+      - '.github/workflows/build-paper.yml'
+      - '.github/workflows/reusable-pdf.yml'
+      - '.github/workflows/reusable-lean4.yml'
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+permissions:
+  contents: read
+
+concurrency:
+  # PR runs scope to the PR number so concurrent PRs don't cancel each
+  # other; push runs scope to the ref so superseded pushes cancel.
+  group: build-paper-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  detect_changes:
+    name: Detect relevant changes
+    runs-on: ubuntu-latest
+    outputs:
+      tex: ${{ steps.detect.outputs.tex }}
+      lean4: ${{ steps.detect.outputs.lean4 }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed files
+        id: detect
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          # workflow_dispatch and push (where we don't have a clean base SHA)
+          # treat everything as relevant and run both PDF and Lean.
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "tex=true" >> "$GITHUB_OUTPUT"
+            echo "lean4=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          changed_files="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
+          tex=false
+          lean4=false
+          if printf '%s\n' "$changed_files" | grep -Eq '^papers/bedc/.*\.tex$|^docs/dossier/|^tools/'; then
+            tex=true
+          fi
+          if printf '%s\n' "$changed_files" | grep -Eq '^lean4/|^tools/check-axioms\.py$'; then
+            lean4=true
+          fi
+          echo "tex=$tex" >> "$GITHUB_OUTPUT"
+          echo "lean4=$lean4" >> "$GITHUB_OUTPUT"
+
+      - name: Write summary
+        run: |
+          {
+            echo "build-paper path detection"
+            echo
+            echo "- tex/dossier/tools changed: \`${{ steps.detect.outputs.tex }}\`"
+            echo "- lean4 changed: \`${{ steps.detect.outputs.lean4 }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  build_pdf:
+    name: Build main.pdf
+    needs: detect_changes
+    if: ${{ needs.detect_changes.outputs.tex == 'true' }}
+    uses: ./.github/workflows/reusable-pdf.yml
+    with:
+      upload_artifact: true
+      artifact_name: bedc-pdf
+      artifact_retention_days: 14
+    secrets: inherit
+
+  build_lean4:
+    name: Build Lean4
+    needs: detect_changes
+    if: ${{ needs.detect_changes.outputs.lean4 == 'true' }}
+    uses: ./.github/workflows/reusable-lean4.yml
+    secrets: inherit
+
+  gate:
+    name: Gate
+    needs: [detect_changes, build_pdf, build_lean4]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check results
+        run: |
+          detect_result="${{ needs.detect_changes.result }}"
+          pdf_result="${{ needs.build_pdf.result }}"
+          lean4_result="${{ needs.build_lean4.result }}"
+
+          {
+            echo "build-paper results"
+            echo
+            echo "- detect_changes: \`$detect_result\`"
+            echo "- build_pdf: \`$pdf_result\`"
+            echo "- build_lean4: \`$lean4_result\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          # detect_changes must succeed.
+          if [ "$detect_result" != "success" ]; then
+            exit 1
+          fi
+          # Each sub-job: must be `success` (ran and passed) or `skipped`
+          # (path detection said not needed). Any other state fails the gate.
+          for r in "$pdf_result" "$lean4_result"; do
+            case "$r" in
+              success|skipped) : ;;
+              *) exit 1 ;;
+            esac
+          done
