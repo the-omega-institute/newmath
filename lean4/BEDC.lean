@@ -597,6 +597,7 @@ import BEDC.Derived.RealWindowBudgetUp.ObservationScopeExhaustion
 import BEDC.Derived.RealWindowBudgetUp.OpenPhaseFourFaceStatusPullback
 import BEDC.Derived.RealWindowBudgetUp.SelectorDisclosureScope
 import BEDC.Derived.RealWindowBudgetUp.SelectorPullback
+import BEDC.Derived.RealWindowBudgetUp.StreamNameRegSeqRatFactorization
 import BEDC.Derived.RealWindowBudgetUp.TasteGate
 import BEDC.Derived.RealWindowBudgetUp.TerminalPullbackCoherence
 import BEDC.Derived.RefusalRegistryUp.TasteGate
