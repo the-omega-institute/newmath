@@ -100,3 +100,66 @@ choice, ambient completeness, metric-completeness data, or a standard bridge
 row, so those data cannot be recovered from either direction of the normal
 form.
 \end{proof}
+
+\begin{theorem}[Real terminal seal four-face cover descent determinacy]
+\label{thm:real-terminal-seal-four-face-cover-descent-determinacy}
+Let $\mathcal P$ and $\mathcal Q$ be finite-cover normal-form packets for the
+public $\RealUp$ terminal seal. Suppose both packets expose exactly the four
+faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+agree on all overlap restrictions for those faces, and use only the displayed
+support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+
+Then $\mathcal P$ and $\mathcal Q$ determine the same public $\RealUp$
+terminal seal read. Conversely, equality of the public terminal seal read
+recovers exactly the common $\StreamNameUp$ finite window, the
+$\DyadicRatCoreUp$ endpoint-radius-distance ledger, the $\RegSeqRatUp$
+finite-request classifier and regularity rows, and the local $\RealUp$
+seal-source row. It recovers no quotient-stream coordinate, host-real
+coordinate, selected limit, countable-choice selector, ambient-completeness
+principle, metric-completeness datum, or standard-bridge coordinate.
+\end{theorem}
+\begin{proof}
+Read both packets through the sibling route of
+\autoref{thm:real-terminal-seal-sibling-route}. This places $\mathcal P$ and
+$\mathcal Q$ on the same four public faces and confirms that their support
+surface is exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ surface.
+
+Apply the normal-form theorem
+\autoref{thm:real-terminal-seal-four-face-cover-normal-form} to both packets.
+The hypotheses on overlap restrictions put the two packets on one
+finite-cover surface, because the StreamName windows, dyadic tolerance rows,
+RegSeqRat readback rows, and Real seal-source rows are identified on every
+common section.
+
+The common section is determined by the finite cover itself. Use
+\autoref{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness} for
+the fused StreamName window, and use
+\autoref{thm:regseqrat-finite-request-terminal-budget-factorization} for the
+RegSeqRat finite-request budget over that window.
+
+It remains to transport the dyadic and Real rows across the common section.
+Apply \autoref{thm:dyadicratcore-regseqrat-real-pullback-composition} to the
+endpoint, radius, distance, classifier, regularity, readback, and seal-source
+rows. They are therefore the same pullback data for $\mathcal P$ and
+$\mathcal Q$.
+
+Finally apply \autoref{thm:real-finite-cover-seal-pasting-criterion}. The
+pasting criterion says that a four-face packet with those overlap
+restrictions has a unique public terminal seal read, so $\mathcal P$ and
+$\mathcal Q$ determine the same read.
+
+For the converse, start from equality of the public terminal seal read and
+read it back through the same sibling route and normal-form theorem. The
+restriction data are exactly the four recovered faces listed in the statement.
+The exclusion clause follows because every cited route uses only the displayed
+support rows and has no coordinate for quotient streams, host reals, selected
+limits, countable choice, ambient completeness, metric completeness, or a
+standard bridge.
+\end{proof}
