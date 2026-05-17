@@ -237,6 +237,68 @@ Finally apply dyadic-real seal nonescape, \autoref{thm:diagonal-limit-representa
 Thus a request-refinement consumer that preserves the classifier remains monotone in the displayed request route: it reads $\mu,n,k,i$ first, then $w,r,d,e$, and it has only $H,C,P,N$ as support.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit representative dependency-ready package]
+\label{thm:diagonal-limit-representative-dependency-ready-package}
+For every accepted $\DiagonalLimitRepresentativeUp$ carrier
+$$
+D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N),
+$$
+the displayed packet is a single dependency-ready boundary for the diagonal representative route. It consumes the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows in the order
+$$
+\mu,n,k,i,w,r,d,e,H,C,P,N,
+$$
+and it packages them as one $\Pkg$-sourced $\NameCert_{\DiagonalLimitRepresentativeUp}$ surface. Every downstream consumer that asks for the diagonal representative endpoint must pass through this packet rather than through a detached stream name, detached regular sequence, detached dyadic ledger, or detached real seal.
+\end{theorem}
+\begin{proof}
+Begin with the carrier obligations of \autoref{thm:diagonal-limit-representative-namecert-obligations}. They place the family row, modulus row, request, computed indices, selected window, readback, dyadic ledger, terminal seal, transport, continuation, package, and local naming row in one finite certificate.
+
+Next apply the StreamName--RegSeqRat handoff of \autoref{thm:diagonal-limit-representative-streamname-regseqrat-handoff}. It forces every route to the terminal seal through $w$ and $r$ before the dyadic ledger and the Real-facing row can be consumed.
+
+Use request-monotone seal routing, \autoref{thm:diagonal-limit-representative-request-monotone-seal-route}, to place the modulus request and computed indices before the sibling rows. Then use dyadic-real seal nonescape, \autoref{thm:diagonal-limit-representative-dyadic-real-seal-nonescape}, to confine the dyadic and Real endpoints to $d,e,H,C,P,N$.
+
+These dependencies exhaust the same carrier. Hence $D$ is not a collection of independent endpoint names; it is one dependency-ready package tying the diagonal representative route to the four consumed rows and to the local $\NameCert_{\DiagonalLimitRepresentativeUp}$ boundary.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative modulus-window-readback package]
+\label{thm:diagonal-limit-representative-modulus-window-readback-package}
+In an accepted $\DiagonalLimitRepresentativeUp$ carrier
+$$
+D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N),
+$$
+every consumer reaches the terminal $\RealUp$ seal row $e$ only through the finite modulus-window-readback route
+$$
+\mu,n,k,i,w,r,d.
+$$
+The rows $H,C,P,N$ may transport, replay, source, and name this route, but they do not supply an alternate route to $e$.
+\end{theorem}
+\begin{proof}
+First read the modulus route from \autoref{thm:diagonal-limit-representative-index-stability}. The selected family index and readback index are the displayed computations attached to $\mu$ and $n$; a consumer cannot replace them by another selector while preserving the accepted classifier.
+
+Next pass to the window and readback rows. By \autoref{thm:diagonal-limit-representative-streamname-regseqrat-handoff}, the route to $e$ must expose the selected $\StreamNameUp$ window $w$ and then the selected $\RegSeqRatUp$ readback $r$ before any Real-facing seal is available.
+
+Now consume the dyadic ledger. The window-ledger exhaustion theorem, \autoref{thm:diagonal-limit-representative-window-ledger-exhaustion}, says that public reads of $w,r,d,e$ are exhausted by those displayed sibling rows, with $H,C,P,N$ only preserving the same surface.
+
+Finally use real-seal factorization, \autoref{thm:diagonal-limit-representative-real-seal-factorization}. It orders every Real-facing read through $\mu,n,k,i,w,r,d,e,H,C,P,N$. Therefore the only path to $e$ has already passed through $\mu,n,k,i,w,r,d$, and the support rows cannot create an alternate endpoint.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative Real--Completion frontier boundary]
+\label{thm:diagonal-limit-representative-real-completion-frontier-boundary}
+The package
+$$
+(X,\mu,n,k,i,w,r,d,e,H,C,P,N)
+$$
+supports the Real-and-Completion frontier as a named diagonal representative endpoint: it reaches the terminal $\RealUp$ seal row through the dependency-ready route of \autoref{thm:diagonal-limit-representative-dependency-ready-package} and the modulus-window-readback route of \autoref{thm:diagonal-limit-representative-modulus-window-readback-package}. It does not claim Real completeness, quotient stream equality, host limits, selected limits, hidden tail selectors, or countable choice.
+\end{theorem}
+\begin{proof}
+The positive frontier content is the accepted representative package. By \autoref{thm:diagonal-limit-representative-dependency-ready-package}, the packet binds the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows into a single $\Pkg$-sourced $\NameCert_{\DiagonalLimitRepresentativeUp}$ boundary.
+
+The endpoint route is finite. By \autoref{thm:diagonal-limit-representative-modulus-window-readback-package}, every consumer reaches the terminal seal $e$ only through $\mu,n,k,i,w,r,d$, with $H,C,P,N$ serving as support for the same displayed route.
+
+It remains to state the frontier. The completion boundary of \autoref{thm:diagonal-limit-representative-completion-boundary} says that the carrier supplies the diagonal representative boundary and nothing stronger. The tail-selector exclusion of \autoref{thm:diagonal-limit-representative-tail-selector-exclusion} rules out hidden selectors, host limits, quotient stream equality, and countable-choice rows.
+
+Therefore the package is ready for Real-and-Completion consumers that need the named diagonal representative endpoint, while the analytic completion principles and choice-sensitive comparisons remain outside this certificate.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility representative handoff]
 \label{thm:diagonal-limit-compatibility-representative-handoff}
 Let $K=(R,T,S,D,W,Q,L,H_K,C_K,P_K,N_K)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet whose terminal read has the same four L10 faces as an accepted $\DiagonalLimitRepresentativeUp$ carrier
