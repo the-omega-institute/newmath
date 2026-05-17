@@ -82,3 +82,48 @@ $\hsame$-compatible, their endpoint rows agree, and their displayed
 $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows transport componentwise, so the
 exported public finite observation section is the same.
 \end{proof}
+
+\begin{theorem}[StreamName reindex terminal coverage]
+\label{thm:streamname-reindex-terminal-coverage}
+A certified public $\StreamNameUp$ finite-window reindex route preserves exactly
+the terminal four-face L10 exit route. Namely, if an accepted reindex route
+transports the public finite window together with the displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, then the transported
+exit packet exposes the same $\StreamNameUp$ window, the same
+$\DyadicRatCoreUp$ ledger, the same $\RegSeqRatUp$ readback, and the same
+$\RealUp$ seal as its terminal Phase Real and Completion route.
+
+Conversely, any terminal four-face route transported by the identity certified
+reindexer or by composable certified reindexers reads the same public finite
+observation section. The coverage is confined to the finite route and excludes
+quotient stream equality, host sequence equality, selected limits, countable
+choice, ambient $\RealUp$ completeness, metric completeness, and standard
+bridge rows.
+\end{theorem}
+\begin{proof}
+Start with the public finite-window section. The determinacy theorem,
+\autoref{thm:streamname-window-reindex-determinacy}, says that matching
+endpoint rows, $\hsame$-compatible reindex maps, and componentwise transported
+$\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows determine one public finite
+observation section.
+
+For the identity route, apply
+\autoref{thm:streamname-public-reindexing-identity-law}. It keeps the displayed
+finite window, unary-history ledger, bundle membership, rational classifier,
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows unchanged, so the
+terminal packet is read from the same public section.
+
+For composable certified routes, apply
+\autoref{thm:streamname-public-reindexing-associative-law}. The two-step and
+composite reindexings expose the same finite section, hence they present the
+same support rows to the exit boundary.
+
+Finally use \autoref{thm:streamname-open-phase-four-face-terminality} and
+\autoref{thm:streamname-open-phase-four-face-exit-readback}. Terminality fixes
+the four faces once the StreamName window, DyadicRatCore ledger, RegSeqRat
+readback, RealUp seal, and support rows agree, while readback says every
+terminal exit read factors through exactly those rows. Thus transported
+identity and composable routes cover precisely the finite four-face exit route,
+with no additional quotient, host, limit, choice, completeness, or bridge
+coordinate.
+\end{proof}
