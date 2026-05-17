@@ -945,6 +945,7 @@ import BEDC.Derived.DiagonalTailSelectorUp
 import BEDC.Derived.TailCofinalityScheduleUp
 import BEDC.Derived.TailCofinalityScheduleUp.DiagonalSelectorNonempty
 import BEDC.Derived.TailCofinalityScheduleUp.DiagonalTailSelectorFactorization
+import BEDC.Derived.TailCofinalityScheduleUp.OpenPhaseRowExhaustion
 import BEDC.Derived.TailCofinalityScheduleUp.RealCompletionDiagonalRoute
 import BEDC.Derived.TailCofinalityScheduleUp.RealCompletionSelectorRoute
 import BEDC.Derived.TailCofinalityScheduleUp.SelectorCompletionPullback
@@ -1015,6 +1016,7 @@ import BEDC.Derived.CertificateCompilerUp.ClassifierRouteDependencyScope
 import BEDC.Derived.CertificateCompilerUp.DependencyScope
 import BEDC.Derived.CertificateCompilerUp.SourceTargetLandingExhaustion
 import BEDC.Derived.CertificateCompilerUp.EndpointKernelMorphismRoundtrip
+import BEDC.Derived.CertificateCompilerUp.TripleCompositeAssociativity
 import BEDC.Derived.MachineInterfaceBoundaryUp.TasteGate
 import BEDC.Derived.MachineInterfaceSocketUp.TasteGate
 import BEDC.Derived.UnitCalibrationLedgerUp.TasteGate
