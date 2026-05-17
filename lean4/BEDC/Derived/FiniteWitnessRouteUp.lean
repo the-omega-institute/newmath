@@ -505,4 +505,33 @@ theorem FiniteWitnessRouteSelectedWindowSeal_uniqueness
     ⟨sameR, sameS,
       ⟨FiniteWitnessRouteUp.mk q w r d s h c p n, rfl, requestRoute, sealRoute⟩⟩
 
+theorem FiniteWitnessRouteRegSeq_budget_exhaustion
+    {q w r d s h c p n consumer tail : BHist}
+    (requestRoute : Cont q w r)
+    (sealRoute : Cont r d s)
+    (routeThroughName : Cont s c consumer) :
+    (∃ packet : FiniteWitnessRouteUp,
+        packet = FiniteWitnessRouteUp.mk q w r d s h c p n ∧
+          Cont q w r ∧ Cont r d s ∧ Cont s c consumer) ∧
+      (Cont r (BHist.e0 tail) q → False) ∧
+        (Cont r (BHist.e1 tail) q → False) ∧
+          (Cont s (BHist.e0 tail) r → False) ∧
+            (Cont s (BHist.e1 tail) r → False) := by
+  -- BEDC touchpoint anchor: BHist Cont
+  constructor
+  · exact
+      ⟨FiniteWitnessRouteUp.mk q w r d s h c p n,
+        rfl, requestRoute, sealRoute, routeThroughName⟩
+  · constructor
+    · intro routeBackToRequest
+      exact (cont_mutual_extension_right_tail_absurd).left requestRoute routeBackToRequest
+    · constructor
+      · intro routeBackToRequest
+        exact (cont_mutual_extension_right_tail_absurd).right requestRoute routeBackToRequest
+      · constructor
+        · intro routeBackToReadback
+          exact (cont_mutual_extension_right_tail_absurd).left sealRoute routeBackToReadback
+        · intro routeBackToReadback
+          exact (cont_mutual_extension_right_tail_absurd).right sealRoute routeBackToReadback
+
 end BEDC.Derived.FiniteWitnessRouteUp
