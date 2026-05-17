@@ -839,6 +839,7 @@ import BEDC.Derived.CofinalModulusNormalizationSealUp.TasteGate
 import BEDC.Derived.CofinalWindowRealSealUp.TasteGate
 import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.CofinalTailEquivalenceUp.TasteGate
+import BEDC.Derived.CofinalStreamTailSelectorUp.TasteGate
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContinuationMonadUp
 import BEDC.Derived.ContinuationMonadUp.RouteReadbackDeterminacy
@@ -1294,6 +1295,7 @@ import BEDC.Derived.HaltingDiagonalUp.TasteGate
 import BEDC.Derived.HaltingDistinctionUp
 import BEDC.Derived.HaltingDistinctionUp.ClassifierStability
 import BEDC.Derived.HaltingDistinctionUp.ContinuationBoundary
+import BEDC.Derived.HaltingDistinctionUp.ConsumerBoundaryPackage
 import BEDC.Derived.HaltingDistinctionUp.HaltingDistinctionCarrierObligation
 import BEDC.Derived.HaltingDistinctionUp.InscriptionTraceGate
 import BEDC.Derived.HaltingDistinctionUp.ObstructionConsumerBoundary
@@ -1405,6 +1407,7 @@ import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.HistTimeStreamUp
 import BEDC.Derived.HistTimeStreamUp.ClockRefusal
 import BEDC.Derived.HistTimeStreamUp.CompletionStreamNameHandoffFactorization
+import BEDC.Derived.HistTimeStreamUp.FiniteWindowReadbackExhaustion
 import BEDC.Derived.HistTimeStreamUp.HistTimeStreamRegSeqRatLocalClockSeparation
 import BEDC.Derived.HistTimeStreamUp.LocalTransportExhaustion
 import BEDC.Derived.HistTimeStreamUp.NameCertRouteExhaustion
