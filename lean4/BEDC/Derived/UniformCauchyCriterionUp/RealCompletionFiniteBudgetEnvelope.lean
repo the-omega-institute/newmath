@@ -43,4 +43,35 @@ theorem UniformCauchyCriterionPacket_real_completion_finite_budget_envelope
         cont_triangle_cycle_right_zero_tail_absurd realNameCompletion
           completionRoutesEnvelope back)⟩
 
+theorem UniformCauchyCriterionPacket_real_completion_finite_envelope
+    [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name realRead
+      completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      Cont tail sealRow realRead ->
+        Cont realRead transports completionRead ->
+          PkgSig bundle realRead pkg ->
+            PkgSig bundle completionRead pkg ->
+              UnaryHistory windows ∧ UnaryHistory tolerance ∧ UnaryHistory tail ∧
+                UnaryHistory realRead ∧ UnaryHistory completionRead ∧
+                  Cont modulus tolerance tail ∧ Cont tail sealRow realRead ∧
+                    Cont realRead transports completionRead ∧ PkgSig bundle name pkg ∧
+                      PkgSig bundle realRead pkg ∧ PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet tailSealRealRead realTransportCompletion realReadPkg completionReadPkg
+  obtain ⟨_indexUnary, windowsUnary, _modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+    transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, _indexWindowsModulus,
+    modulusToleranceTail, _tailSealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
+    packet
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed tailUnary sealRowUnary tailSealRealRead
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed realReadUnary transportsUnary realTransportCompletion
+  exact
+    ⟨windowsUnary, toleranceUnary, tailUnary, realReadUnary, completionReadUnary,
+      modulusToleranceTail, tailSealRealRead, realTransportCompletion, namePkg, realReadPkg,
+      completionReadPkg⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp
