@@ -10,8 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive FiniteWindowRealSealAuditUp : Type where
-  | mk : (window dyadic regseq realSeal refusal transport continuation provenance name : BHist) →
-      FiniteWindowRealSealAuditUp
+  | mk (W D R E F H C P N : BHist) : FiniteWindowRealSealAuditUp
   deriving DecidableEq
 
 def finiteWindowRealSealAuditEncodeBHist : BHist → RawEvent
@@ -26,236 +25,116 @@ def finiteWindowRealSealAuditDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (finiteWindowRealSealAuditDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (finiteWindowRealSealAuditDecodeBHist tail)
 
-private theorem finiteWindowRealSealAudit_decode_encode_bhist :
+private theorem FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
       finiteWindowRealSealAuditDecodeBHist
         (finiteWindowRealSealAuditEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
-
-def finiteWindowRealSealAuditFields :
-    FiniteWindowRealSealAuditUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | FiniteWindowRealSealAuditUp.mk window dyadic regseq realSeal refusal transport
-      continuation provenance name =>
-      [window, dyadic, regseq, realSeal, refusal, transport, continuation, provenance, name]
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def finiteWindowRealSealAuditToEventFlow :
     FiniteWindowRealSealAuditUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | FiniteWindowRealSealAuditUp.mk window dyadic regseq realSeal refusal transport
-      continuation provenance name =>
+  | FiniteWindowRealSealAuditUp.mk W D R E F H C P N =>
       [[BMark.b0],
-        finiteWindowRealSealAuditEncodeBHist window,
+        finiteWindowRealSealAuditEncodeBHist W,
         [BMark.b1, BMark.b0],
-        finiteWindowRealSealAuditEncodeBHist dyadic,
+        finiteWindowRealSealAuditEncodeBHist D,
         [BMark.b1, BMark.b1, BMark.b0],
-        finiteWindowRealSealAuditEncodeBHist regseq,
+        finiteWindowRealSealAuditEncodeBHist R,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        finiteWindowRealSealAuditEncodeBHist realSeal,
+        finiteWindowRealSealAuditEncodeBHist E,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        finiteWindowRealSealAuditEncodeBHist refusal,
+        finiteWindowRealSealAuditEncodeBHist F,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        finiteWindowRealSealAuditEncodeBHist transport,
+        finiteWindowRealSealAuditEncodeBHist H,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        finiteWindowRealSealAuditEncodeBHist continuation,
+        finiteWindowRealSealAuditEncodeBHist C,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        finiteWindowRealSealAuditEncodeBHist provenance,
+        finiteWindowRealSealAuditEncodeBHist P,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        finiteWindowRealSealAuditEncodeBHist name]
+        finiteWindowRealSealAuditEncodeBHist N]
 
-def finiteWindowRealSealAuditFromEventFlow :
-    EventFlow → Option FiniteWindowRealSealAuditUp
+private def finiteWindowRealSealAuditEventAtDefault :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _tag0 :: rest0 =>
-      match rest0 with
-      | [] => none
-      | window :: rest1 =>
-          match rest1 with
-          | [] => none
-          | _tag1 :: rest2 =>
-              match rest2 with
-              | [] => none
-              | dyadic :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | _tag2 :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | regseq :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | _tag3 :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | realSeal :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | _tag4 :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | refusal :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | _tag5 :: rest10 =>
-                                              match rest10 with
-                                              | [] => none
-                                              | transport :: rest11 =>
-                                                  match rest11 with
-                                                  | [] => none
-                                                  | _tag6 :: rest12 =>
-                                                      match rest12 with
-                                                      | [] => none
-                                                      | continuation :: rest13 =>
-                                                          match rest13 with
-                                                          | [] => none
-                                                          | _tag7 :: rest14 =>
-                                                              match rest14 with
-                                                              | [] => none
-                                                              | provenance :: rest15 =>
-                                                                  match rest15 with
-                                                                  | [] => none
-                                                                  | _tag8 :: rest16 =>
-                                                                      match rest16 with
-                                                                      | [] => none
-                                                                      | name :: rest17 =>
-                                                                          match rest17 with
-                                                                          | [] =>
-                                                                              some
-                                                                                (FiniteWindowRealSealAuditUp.mk
-                                                                                  (finiteWindowRealSealAuditDecodeBHist
-                                                                                    window)
-                                                                                  (finiteWindowRealSealAuditDecodeBHist
-                                                                                    dyadic)
-                                                                                  (finiteWindowRealSealAuditDecodeBHist
-                                                                                    regseq)
-                                                                                  (finiteWindowRealSealAuditDecodeBHist
-                                                                                    realSeal)
-                                                                                  (finiteWindowRealSealAuditDecodeBHist
-                                                                                    refusal)
-                                                                                  (finiteWindowRealSealAuditDecodeBHist
-                                                                                    transport)
-                                                                                  (finiteWindowRealSealAuditDecodeBHist
-                                                                                    continuation)
-                                                                                  (finiteWindowRealSealAuditDecodeBHist
-                                                                                    provenance)
-                                                                                  (finiteWindowRealSealAuditDecodeBHist
-                                                                                    name))
-                                                                          | _ :: _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      finiteWindowRealSealAuditEventAtDefault index rest
 
-private theorem finiteWindowRealSealAudit_round_trip_mk_congr
-    {window window' dyadic dyadic' regseq regseq' realSeal realSeal' refusal refusal'
-      transport transport' continuation continuation' provenance provenance' name name' : BHist} :
-    window = window' →
-      dyadic = dyadic' →
-        regseq = regseq' →
-          realSeal = realSeal' →
-            refusal = refusal' →
-              transport = transport' →
-                continuation = continuation' →
-                  provenance = provenance' →
-                    name = name' →
-                      FiniteWindowRealSealAuditUp.mk window dyadic regseq realSeal refusal
-                          transport continuation provenance name =
-                        FiniteWindowRealSealAuditUp.mk window' dyadic' regseq' realSeal'
-                          refusal' transport' continuation' provenance' name' := by
+def finiteWindowRealSealAuditFromEventFlow
+    (ef : EventFlow) : Option FiniteWindowRealSealAuditUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  intro hWindow hDyadic hRegseq hRealSeal hRefusal hTransport hContinuation hProvenance
-    hName
-  cases hWindow
-  cases hDyadic
-  cases hRegseq
-  cases hRealSeal
-  cases hRefusal
-  cases hTransport
-  cases hContinuation
-  cases hProvenance
-  cases hName
-  rfl
+  some
+    (FiniteWindowRealSealAuditUp.mk
+      (finiteWindowRealSealAuditDecodeBHist
+        (finiteWindowRealSealAuditEventAtDefault 1 ef))
+      (finiteWindowRealSealAuditDecodeBHist
+        (finiteWindowRealSealAuditEventAtDefault 3 ef))
+      (finiteWindowRealSealAuditDecodeBHist
+        (finiteWindowRealSealAuditEventAtDefault 5 ef))
+      (finiteWindowRealSealAuditDecodeBHist
+        (finiteWindowRealSealAuditEventAtDefault 7 ef))
+      (finiteWindowRealSealAuditDecodeBHist
+        (finiteWindowRealSealAuditEventAtDefault 9 ef))
+      (finiteWindowRealSealAuditDecodeBHist
+        (finiteWindowRealSealAuditEventAtDefault 11 ef))
+      (finiteWindowRealSealAuditDecodeBHist
+        (finiteWindowRealSealAuditEventAtDefault 13 ef))
+      (finiteWindowRealSealAuditDecodeBHist
+        (finiteWindowRealSealAuditEventAtDefault 15 ef))
+      (finiteWindowRealSealAuditDecodeBHist
+        (finiteWindowRealSealAuditEventAtDefault 17 ef)))
 
-theorem finiteWindowRealSealAudit_round_trip :
+private theorem FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_round_trip :
     ∀ x : FiniteWindowRealSealAuditUp,
       finiteWindowRealSealAuditFromEventFlow
         (finiteWindowRealSealAuditToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk window dyadic regseq realSeal refusal transport continuation provenance name =>
+  | mk W D R E F H C P N =>
       change
         some
           (FiniteWindowRealSealAuditUp.mk
             (finiteWindowRealSealAuditDecodeBHist
-              (finiteWindowRealSealAuditEncodeBHist window))
+              (finiteWindowRealSealAuditEncodeBHist W))
             (finiteWindowRealSealAuditDecodeBHist
-              (finiteWindowRealSealAuditEncodeBHist dyadic))
+              (finiteWindowRealSealAuditEncodeBHist D))
             (finiteWindowRealSealAuditDecodeBHist
-              (finiteWindowRealSealAuditEncodeBHist regseq))
+              (finiteWindowRealSealAuditEncodeBHist R))
             (finiteWindowRealSealAuditDecodeBHist
-              (finiteWindowRealSealAuditEncodeBHist realSeal))
+              (finiteWindowRealSealAuditEncodeBHist E))
             (finiteWindowRealSealAuditDecodeBHist
-              (finiteWindowRealSealAuditEncodeBHist refusal))
+              (finiteWindowRealSealAuditEncodeBHist F))
             (finiteWindowRealSealAuditDecodeBHist
-              (finiteWindowRealSealAuditEncodeBHist transport))
+              (finiteWindowRealSealAuditEncodeBHist H))
             (finiteWindowRealSealAuditDecodeBHist
-              (finiteWindowRealSealAuditEncodeBHist continuation))
+              (finiteWindowRealSealAuditEncodeBHist C))
             (finiteWindowRealSealAuditDecodeBHist
-              (finiteWindowRealSealAuditEncodeBHist provenance))
+              (finiteWindowRealSealAuditEncodeBHist P))
             (finiteWindowRealSealAuditDecodeBHist
-              (finiteWindowRealSealAuditEncodeBHist name))) =
-          some
-            (FiniteWindowRealSealAuditUp.mk window dyadic regseq realSeal refusal transport
-              continuation provenance name)
-      have hWindow :
-          finiteWindowRealSealAuditDecodeBHist
-            (finiteWindowRealSealAuditEncodeBHist window) = window :=
-        finiteWindowRealSealAudit_decode_encode_bhist window
-      have hDyadic :
-          finiteWindowRealSealAuditDecodeBHist
-            (finiteWindowRealSealAuditEncodeBHist dyadic) = dyadic :=
-        finiteWindowRealSealAudit_decode_encode_bhist dyadic
-      have hRegseq :
-          finiteWindowRealSealAuditDecodeBHist
-            (finiteWindowRealSealAuditEncodeBHist regseq) = regseq :=
-        finiteWindowRealSealAudit_decode_encode_bhist regseq
-      have hRealSeal :
-          finiteWindowRealSealAuditDecodeBHist
-            (finiteWindowRealSealAuditEncodeBHist realSeal) = realSeal :=
-        finiteWindowRealSealAudit_decode_encode_bhist realSeal
-      have hRefusal :
-          finiteWindowRealSealAuditDecodeBHist
-            (finiteWindowRealSealAuditEncodeBHist refusal) = refusal :=
-        finiteWindowRealSealAudit_decode_encode_bhist refusal
-      have hTransport :
-          finiteWindowRealSealAuditDecodeBHist
-            (finiteWindowRealSealAuditEncodeBHist transport) = transport :=
-        finiteWindowRealSealAudit_decode_encode_bhist transport
-      have hContinuation :
-          finiteWindowRealSealAuditDecodeBHist
-            (finiteWindowRealSealAuditEncodeBHist continuation) = continuation :=
-        finiteWindowRealSealAudit_decode_encode_bhist continuation
-      have hProvenance :
-          finiteWindowRealSealAuditDecodeBHist
-            (finiteWindowRealSealAuditEncodeBHist provenance) = provenance :=
-        finiteWindowRealSealAudit_decode_encode_bhist provenance
-      have hName :
-          finiteWindowRealSealAuditDecodeBHist
-            (finiteWindowRealSealAuditEncodeBHist name) = name :=
-        finiteWindowRealSealAudit_decode_encode_bhist name
-      exact congrArg some
-        (finiteWindowRealSealAudit_round_trip_mk_congr hWindow hDyadic hRegseq hRealSeal
-          hRefusal hTransport hContinuation hProvenance hName)
+              (finiteWindowRealSealAuditEncodeBHist N))) =
+          some (FiniteWindowRealSealAuditUp.mk W D R E F H C P N)
+      rw [FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_decode W,
+        FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_decode D,
+        FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_decode R,
+        FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_decode E,
+        FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_decode F,
+        FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_decode H,
+        FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_decode C,
+        FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_decode P,
+        FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_decode N]
 
-private theorem finiteWindowRealSealAuditToEventFlow_injective
+private theorem FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_injective
     {x y : FiniteWindowRealSealAuditUp} :
     finiteWindowRealSealAuditToEventFlow x =
       finiteWindowRealSealAuditToEventFlow y → x = y := by
@@ -268,20 +147,26 @@ private theorem finiteWindowRealSealAuditToEventFlow_injective
           (finiteWindowRealSealAuditToEventFlow y) :=
     congrArg finiteWindowRealSealAuditFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (finiteWindowRealSealAudit_round_trip x).symm
-      (Eq.trans hread (finiteWindowRealSealAudit_round_trip y)))
+    (Eq.trans
+      (FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem finiteWindowRealSealAudit_field_faithful :
+private def finiteWindowRealSealAuditFields :
+    FiniteWindowRealSealAuditUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | FiniteWindowRealSealAuditUp.mk W D R E F H C P N => [W, D, R, E, F, H, C, P, N]
+
+private theorem FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_fields :
     ∀ x y : FiniteWindowRealSealAuditUp,
-      finiteWindowRealSealAuditFields x =
-        finiteWindowRealSealAuditFields y → x = y := by
+      finiteWindowRealSealAuditFields x = finiteWindowRealSealAuditFields y →
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk window dyadic regseq realSeal refusal transport continuation provenance name =>
+  | mk W1 D1 R1 E1 F1 H1 C1 P1 N1 =>
       cases y with
-      | mk window' dyadic' regseq' realSeal' refusal' transport' continuation' provenance'
-          name' =>
+      | mk W2 D2 R2 E2 F2 H2 C2 P2 N2 =>
           cases hfields
           rfl
 
@@ -299,19 +184,23 @@ instance finiteWindowRealSealAuditChapterTasteGate :
     change
       finiteWindowRealSealAuditFromEventFlow
         (finiteWindowRealSealAuditToEventFlow x) = some x
-    exact finiteWindowRealSealAudit_round_trip x
+    exact FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (finiteWindowRealSealAuditToEventFlow_injective heq)
+    exact hxy (FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_injective heq)
+
+def taste_gate : ChapterTasteGate FiniteWindowRealSealAuditUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  finiteWindowRealSealAuditChapterTasteGate
 
 instance finiteWindowRealSealAuditFieldFaithful :
     FieldFaithful FiniteWindowRealSealAuditUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := finiteWindowRealSealAuditFields
-  field_faithful := finiteWindowRealSealAudit_field_faithful
+  field_faithful := FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_fields
 
 instance finiteWindowRealSealAuditNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial FiniteWindowRealSealAuditUp where
+    Nontrivial FiniteWindowRealSealAuditUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨FiniteWindowRealSealAuditUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -322,8 +211,26 @@ instance finiteWindowRealSealAuditNontrivial :
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate FiniteWindowRealSealAuditUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  finiteWindowRealSealAuditChapterTasteGate
+theorem FiniteWindowRealSealAuditTasteGate_single_carrier_alignment :
+    finiteWindowRealSealAuditEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
+      finiteWindowRealSealAuditEncodeBHist (BHist.e1 BHist.Empty) = [BMark.b1] ∧
+        (∀ h : BHist,
+          finiteWindowRealSealAuditDecodeBHist
+            (finiteWindowRealSealAuditEncodeBHist h) = h) ∧
+          (∀ x : FiniteWindowRealSealAuditUp,
+            finiteWindowRealSealAuditFromEventFlow
+              (finiteWindowRealSealAuditToEventFlow x) = some x) ∧
+            (∀ x y : FiniteWindowRealSealAuditUp,
+              finiteWindowRealSealAuditToEventFlow x =
+                finiteWindowRealSealAuditToEventFlow y → x = y) ∧
+              Nonempty (FieldFaithful FiniteWindowRealSealAuditUp) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨rfl, rfl,
+      FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_decode,
+      FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        FiniteWindowRealSealAuditTasteGate_single_carrier_alignment_injective heq),
+      ⟨finiteWindowRealSealAuditFieldFaithful⟩⟩
 
 end BEDC.Derived.FiniteWindowRealSealAuditUp
