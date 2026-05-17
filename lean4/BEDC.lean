@@ -2160,6 +2160,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteObservationBudgetFactoriz
 import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteWindowOnlyConsumer
 import BEDC.Derived.DiagonallimitcompatibilityUp.FourFaceBudgetOwnership
 import BEDC.Derived.DiagonallimitcompatibilityUp.FourFaceBudgetDeterminacy
+import BEDC.Derived.DiagonallimitcompatibilityUp.FourFaceConsumerEquivalence
 import BEDC.Derived.DiagonallimitcompatibilityUp.FourFacePullbackExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteObservationBudgetRefusalExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealNonescape
@@ -3263,6 +3264,7 @@ import BEDC.Derived.EventualTailAgreementUp.TasteGate
 import BEDC.Derived.PhysicalRecordInvariantUp.TasteGate
 import BEDC.Derived.PropextTransportBoundaryUp
 import BEDC.Derived.LocalClockBudgetUp
+import BEDC.Derived.PackageMapBoundaryUp.TasteGate
 import BEDC.Derived.PackageGovernanceExportUp.TasteGate
 import BEDC.Derived.SubstitutionBoundaryAuditUp.TasteGate
 import BEDC.Derived.UseProcessLimitUp.TasteGate
