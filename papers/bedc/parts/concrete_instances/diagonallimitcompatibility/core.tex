@@ -351,6 +351,54 @@ principle, the shared budget-window-schedule-dyadic-modulus-meet surface is
 the only handoff available before $L$.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility finite-prefix budget handoff]
+\label{thm:diagonal-limit-compatibility-finite-prefix-budget-handoff}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted
+$\DiagonalLimitCompatibilityUp$ packet. Let
+$$
+F=(Q_F,B_F,W_F,D_F,R_F,S_F,E_F,H_F,C_F,P_F,N_F)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet serving the same
+$\StreamNameUp$ window, $\RegSeqRatUp$ readback, and Real or Cauchy-limit seal
+boundary as $K$ under the displayed $\hsame$ transports. Then every
+diagonal-limit or Real-completion consumer of $K$ that reads $F$ must pass
+through the finite prefix route
+$$
+Q_F \to B_F \to W_F \to D_F
+$$
+before reading the diagonal-limit readback row $Q$, the $\CauchyLimitSealUp$
+route $S$, or the $\RealUp$ seal row $L$. The handoff exports no quotient
+stream, selected host limit, host real equality, countable choice datum, hidden
+tail schedule, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the finite-prefix packet $F$. Apply
+\autoref{thm:finite-prefix-limit-budget-diagonal-selector-consumption} and
+\autoref{thm:finite-prefix-limit-budget-real-completion-root-unblock}. These
+theorems place every diagonal-selector, diagonal-limit, and Real-completion
+read behind the finite route $Q_F \to B_F \to W_F \to D_F$ before the regular
+readback row $R_F$ or seal row $S_F$ is available.
+
+Now attach the diagonal-limit packet $K$. The shared $\StreamNameUp$ window,
+$\RegSeqRatUp$ readback, and Real or Cauchy-limit seal boundary identify
+$W_F,R_F,S_F$ with the corresponding $W,Q,S,L$ surface of $K$ through the
+displayed $\hsame$ transports and $\Cont$ routes.
+
+Use \autoref{thm:diagonal-limit-compatibility-public-budget-route} and
+\autoref{thm:diagonal-limit-compatibility-shared-tail-budget-factorization}.
+The first theorem identifies the public budget route through
+$R,T,D,W,S,Q,L,H,C,P,N$, while the second forces any compatible tail handoff to
+meet the same finite window, dyadic ledger, readback, and seal rows before a
+completion-facing read reaches $Q$ or $L$.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-non-escape}. Since the
+diagonal-limit packet exports no quotient stream, selected host limit, host
+real equality, choice datum, hidden tail oracle, or ambient completeness row,
+and the finite-prefix packet records hidden-tail and outside-prefix refusals in
+$E_F$, there is no route to $Q$, $S$, or $L$ except through
+$Q_F \to B_F \to W_F \to D_F$.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit shared-tail budget factorization]
 \label{thm:diagonal-limit-compatibility-shared-tail-budget-factorization}
 Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted
