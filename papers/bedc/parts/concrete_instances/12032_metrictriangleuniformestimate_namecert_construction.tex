@@ -99,6 +99,48 @@ Next apply the NameCert obligations of \autoref{thm:metric-triangle-uniform-esti
 Finally use \autoref{thm:metric-triangle-uniform-estimate-consumer-handoff}. It states that the consumer receives exactly $e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N$, so every accepted $\UniformModulusUp$ read factors through those rows and through no host compactness or completion object.
 \end{proof}
 
+\begin{theorem}[Metric-triangle uniform-estimate radius composition]
+\label{thm:metric-triangle-uniform-estimate-radius-composition}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the selected precision row $e_c$, compact-net coverage, and the source metric triangle row determine the source-distance row $d_{x'}$ at the same selected center $c$. The determination factors through the carrier of \autoref{def:metric-triangle-uniform-estimate-carrier}, the NameCert obligations of \autoref{thm:metric-triangle-uniform-estimate-namecert-obligations}, source-triangle coherence of \autoref{thm:metric-triangle-uniform-estimate-source-triangle-coherence}, target-triangle coherence of \autoref{thm:metric-triangle-uniform-estimate-target-triangle-coherence}, and the consumer handoff of \autoref{thm:metric-triangle-uniform-estimate-consumer-handoff}.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $c,d_x,d_{x'},e_c$ and the source metric row $X$ are displayed coordinates of $E$.
+
+Apply the NameCert obligations. Source triangle admissibility reads $e_c$ and the compact-net coverage row $d_x$ before using the source metric triangle row to obtain $d_{x'}$.
+
+Use source-triangle coherence to identify the center. The theorem fixes both source-distance rows on the selected center $c$, so $d_{x'}$ cannot be recomputed at another center.
+
+The target-triangle coherence and consumer handoff keep the resulting row in the same downstream route. The $\UniformModulusUp$ consumer receives $d_{x'}$ only as this displayed source-triangle output.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate center reuse determinacy]
+\label{thm:metric-triangle-uniform-estimate-center-reuse-determinacy}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the same selected center $c$ is used by both pointwise target estimates $e_x,e_{x'}$ and by the final target triangle row $T$. No accepted consumer route may replace that center between the two pointwise estimates or between those estimates and the target triangle row.
+\end{theorem}
+\begin{proof}
+Read $c,e_x,e_{x'},T$ from the carrier of \autoref{def:metric-triangle-uniform-estimate-carrier}. The pointwise estimates and the final triangle row are displayed in one packet.
+
+Apply target triangle admissibility from \autoref{thm:metric-triangle-uniform-estimate-namecert-obligations}. It says that $T$ is read from the target metric triangle row using the two pointwise target estimates at the same selected center $c$.
+
+Use \autoref{thm:metric-triangle-uniform-estimate-target-triangle-coherence}. The theorem identifies the target estimate between $f(x)$ and $f(x')$ as the route through $e_x$, $e_{x'}$, and $T$ at that center.
+
+Finally apply \autoref{thm:metric-triangle-uniform-estimate-consumer-handoff}. The handoff exports no second center, so the same $c$ is determined for both pointwise estimates and for the final target triangle row.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate no completion escape]
+\label{thm:metric-triangle-uniform-estimate-no-completion-escape}
+A $\UniformModulusUp$ consumer of an accepted $\MetricTriangleUniformEstimateUp$ carrier cannot add real completeness, open-cover compactness, choice, or a second selected center. Its read is exhausted by the displayed source bounds, pointwise target estimates, final target triangle row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations. They expose the finite rows $X,Y,F,x,x',c,d_x,d_{x'},e_c,e_x,e_{x'},T,H,C,P,N$ and no outside analytic coordinate.
+
+Apply source-triangle coherence and radius composition. These results determine $d_x$ and $d_{x'}$ from the selected center route, compact-net coverage, selected precision, and source triangle row.
+
+Apply target-triangle coherence and center reuse determinacy. The target route uses the same $c$ for both pointwise estimates and for the final target triangle row $T$.
+
+The consumer handoff and route exhaustion then list the whole downstream surface. Since real completeness, open-cover compactness, choice, and a second center are absent from that list, a $\UniformModulusUp$ consumer cannot obtain them from the accepted packet.
+\end{proof}
+
 \closureat{MetricTriangleUniformEstimateUp}{seedStr}
 
 \begin{closurestatus}{\MetricTriangleUniformEstimateUp}
