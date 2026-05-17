@@ -386,6 +386,51 @@ Apply compact-net selector factorization. Any compact-net route to a modulus sel
 Finally use the open-cover refusal boundary, \autoref{thm:finite-lebesgue-number-open-cover-refusal-boundary}. It blocks arbitrary open families, host compactness, and selected-subcover coordinates, leaving $\UniformModulusUp$ with only the finite Lebesgue-number radius packet.
 \end{proof}
 
+\begin{definition}[Finite Lebesgue-number radius lower-bound fold]
+\label{def:finite-lebesgue-number-radius-lower-bound-fold}
+For an accepted $\FiniteLebesgueNumberUp$ root coverage ledger
+$$
+\Lambda=(D,M,R,S,G,E,K,H,C,P,N),
+$$
+the radius lower-bound fold is the finite $\BHist$ packet
+$$
+\Fold_\Lambda=(D,R,M,S,G,E,K,H,C,P,N)
+$$
+whose read order first displays the $\DyadicCoverUp$ row $D$, then the $\RationalBallUp$ radius row $R$, then the $\DyadicMeshUp$ row $M$, and then the $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompactNetModulusSelectorUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The fold is a finite lower-bound packet for the displayed radius rows only: it has no coordinate for a host minimum, arbitrary open-cover compactness, selected subcover choice, quotient equality, or external modulus selector.
+\end{definition}
+
+\begin{theorem}[Finite Lebesgue-number cover-shrinkage stability]
+\label{thm:finite-lebesgue-number-cover-shrinkage-stability}
+Let $\Lambda=(D,M,R,S,G,E,K,H,C,P,N)$ be an accepted $\FiniteLebesgueNumberUp$ root coverage ledger. Shrinking each displayed cover cell along the folded positive radius packet $\Fold_\Lambda$ preserves the same $\DyadicCoverUp$, $\RationalBallUp$, $\DyadicMeshUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route. In particular, every shrunken-cell read remains a read through the folded finite lower-bound packet and not through an open-cover compactness theorem, selected subcover, host minimum, quotient equality, or choice coordinate.
+\end{theorem}
+\begin{proof}
+Project the root coverage ledger of \autoref{def:finite-lebesgue-number-root-coverage-ledger}. Its rows already place $D,R,M,S,G,E,K,H,C,P,N$ in one finite $\BHist$ packet, and the lower-bound fold only changes the read order so the rational-ball radius is inspected before the mesh row.
+
+Use the selector-radius domain theorem, \autoref{thm:finite-lebesgue-number-selector-radius-domain}. It says the positive radius ledger is readable only through the displayed dyadic cover, rational-ball, dyadic mesh, stream, regular-rational, real, transport, replay, provenance, and naming rows.
+
+Apply compact-net selector factorization and uniform-modulus radius exhaustion. \autoref{thm:finite-lebesgue-number-compactnet-selector-factorization} keeps the selector downstream of the folded packet, and \autoref{thm:finite-lebesgue-number-uniform-modulus-radius-exhaustion} prevents a modulus consumer from replacing that radius with open-cover compactness or a selected subcover.
+
+Thus cover-cell shrinkage is stable under the same displayed transports and replays. The shrinkage endpoint is the folded finite lower-bound packet, not a host minimum or external equality coordinate.
+\end{proof}
+
+\begin{theorem}[Finite Lebesgue-number UniformModulus consumer exactness]
+\label{thm:finite-lebesgue-number-uniform-modulus-consumer-exactness}
+Every $\UniformModulusUp$ consumer of an accepted $\FiniteLebesgueNumberUp$ root coverage ledger factors through the radius lower-bound fold $\Fold_\Lambda$. The consumer receives exactly the finite radius packet
+$$
+D,R,M,S,G,E,H,C,P,N \to K
+$$
+carried by $\DyadicCoverUp$, $\RationalBallUp$, $\DyadicMeshUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and it receives no open-cover compactness theorem, selected subcover, host minimum, quotient equality, choice coordinate, or external modulus row.
+\end{theorem}
+\begin{proof}
+Begin with the root coverage ledger. By \autoref{def:finite-lebesgue-number-root-coverage-ledger}, every candidate consumer row is already displayed inside $\Lambda=(D,M,R,S,G,E,K,H,C,P,N)$, and \autoref{def:finite-lebesgue-number-radius-lower-bound-fold} repacks those rows as the finite lower-bound packet $\Fold_\Lambda$.
+
+Apply \autoref{thm:finite-lebesgue-number-selector-radius-domain}. It identifies $R$ as the positive radius ledger over the displayed $D,M$ dyadic packet and keeps all later reads inside $S,G,E,H,C,P,N$.
+
+Next apply \autoref{thm:finite-lebesgue-number-compactnet-selector-factorization} and \autoref{thm:finite-lebesgue-number-uniform-modulus-radius-exhaustion}. The first theorem routes $K$ through the finite packet before any selector read, and the second theorem states that a $\UniformModulusUp$ consumer receives only the finite Lebesgue-number radius packet.
+
+Finally use cover-shrinkage stability. It shows that shrinking cover cells to the folded positive radius remains stable under the same displayed transport and replay rows, so the consumer receives exactly $D,R,M,S,G,E,H,C,P,N \to K$ and no open-cover compactness, selected-subcover, host-minimum, quotient-equality, or choice coordinate.
+\end{proof}
+
 \begin{theorem}[Finite Lebesgue number radius-modulus transport scope]
 \label{thm:finite-lebesgue-number-radius-modulus-transport-scope}
 In every accepted $\FiniteLebesgueNumberUp$ root coverage ledger, the positive radius ledger is transported toward a modulus only together with the displayed $\DyadicCoverUp$, $\RationalBallUp$, $\DyadicMeshUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Thus the radius-to-modulus route has no separate carrier for a compact minimum, an open-cover selector, or a choice coordinate outside the finite dyadic-cover packet.
@@ -416,14 +461,16 @@ Finally apply uniform-modulus radius exhaustion. The uniform-modulus consumer re
 
 \begin{theorem}[Finite Lebesgue number scoped closure package]
 \label{thm:finite-lebesgue-number-scoped-closure-package}
-The finite dyadic-cover obligations displayed in the $\FiniteLebesgueNumberUp$ root coverage ledger form a scoped closure package: the root unblock package, selector-radius domain, compact-net selector factorization, uniform-modulus radius exhaustion, radius-modulus transport scope, and compact uniform handoff scope all use the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet. Hence the chapter closes the finite Lebesgue-number scope for explicit dyadic-cover radius transport and compact-to-uniform handoff.
+The finite dyadic-cover obligations displayed in the $\FiniteLebesgueNumberUp$ root coverage ledger form a scoped closure package: the root unblock package, selector-radius domain, compact-net selector factorization, uniform-modulus radius exhaustion, radius lower-bound fold, cover-shrinkage stability, UniformModulus consumer exactness, radius-modulus transport scope, and compact uniform handoff scope all use the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet. Hence the chapter closes the finite Lebesgue-number scope for explicit dyadic-cover radius transport and compact-to-uniform handoff.
 \end{theorem}
 \begin{proof}
 First assemble the existing root route. The root unblock package exposes the dyadic cover, dyadic mesh, rational radius, stream, regular-rational, real endpoint, compact-metric, compact-net selector, transport, replay, provenance, and local naming rows in one finite packet.
 
 The selector-radius domain, compact-net selector factorization, and uniform-modulus radius exhaustion theorems then route the positive radius from that packet toward selector and uniform-modulus consumers. No step introduces an external open cover, selected subcover, host minimum, or choice coordinate.
 
-Add the radius-modulus transport scope and compact uniform handoff scope. These two rows state that both the modulus transport and the compact-to-uniform handoff consume the same displayed dyadic-cover packet, so the finite Lebesgue-number scope is closed at the displayed rows.
+Insert the radius lower-bound fold and cover-shrinkage stability rows. They turn the displayed rational-ball radius into the finite lower-bound packet and keep cover shrinkage inside the same transported and replayed rows.
+
+Add UniformModulus consumer exactness, radius-modulus transport scope, and compact uniform handoff scope. These rows state that both the modulus transport and the compact-to-uniform handoff consume the same displayed dyadic-cover packet, so the finite Lebesgue-number scope is closed at the displayed rows.
 \end{proof}
 
 \closureat{FiniteLebesgueNumberUp}{seedStr}
@@ -433,7 +480,7 @@ Add the radius-modulus transport scope and compact uniform handoff scope. These 
 \begin{closurestatus}{\FiniteLebesgueNumberUp}
   \constructivestory{A $\FiniteLebesgueNumberUp$ packet is generated from an accepted $\DyadicCoverUp$ finite cover, a $\FiniteWindowEnvelopeUp$ row, a positive rational radius ledger, a $\DyadicMeshUp$ refinement ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped finite-cover radius route is closed by the carrier, local NameCert obligations, root unblock package, selector-radius domain, compact-net selector factorization, uniform-modulus radius exhaustion, radius-modulus transport scope \autoref{thm:finite-lebesgue-number-radius-modulus-transport-scope}, compact uniform handoff scope \autoref{thm:finite-lebesgue-number-compact-uniform-handoff-scope}, and scoped closure package \autoref{thm:finite-lebesgue-number-scoped-closure-package}.}
+  \scopeclosed{The scoped finite-cover radius route is closed by the carrier, local NameCert obligations, root unblock package, selector-radius domain, compact-net selector factorization, uniform-modulus radius exhaustion, radius lower-bound fold \autoref{def:finite-lebesgue-number-radius-lower-bound-fold}, cover-shrinkage stability \autoref{thm:finite-lebesgue-number-cover-shrinkage-stability}, UniformModulus consumer exactness \autoref{thm:finite-lebesgue-number-uniform-modulus-consumer-exactness}, radius-modulus transport scope \autoref{thm:finite-lebesgue-number-radius-modulus-transport-scope}, compact uniform handoff scope \autoref{thm:finite-lebesgue-number-compact-uniform-handoff-scope}, and scoped closure package \autoref{thm:finite-lebesgue-number-scoped-closure-package}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
