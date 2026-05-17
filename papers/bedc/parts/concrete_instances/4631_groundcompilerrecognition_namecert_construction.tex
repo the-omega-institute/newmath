@@ -78,6 +78,42 @@ Use the finite trace evaluator packet of \autoref{ch:concrete-instances-finitetr
 Return through $H,C,P,N$ to the recognition rows. The route records only the displayed bounded handoff and then resumes at $G$ and $A$, so it supplies recognition and accepted export evidence without adding an evaluator, proof object, infinite trace, or truth predicate.
 \end{proof}
 
+\begin{theorem}[GroundCompiler recognition flow carrier exposure]
+\label{thm:groundcompiler-recognition-flow-carrier-exposure}
+For every accepted $\GroundCompilerRecognitionUp$ carrier $R=(I,G,A,T,V,L,H,C,P,N)$, the event-flow input, generated recognizer, accepted-export gate, finite-trace handoff, report non-evidence row, cannot-claim ledger, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row are all visible before recognition is consumed. No accepted consumer may read generated recognition while omitting $I$, $G$, or $A$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:groundcompiler-recognition-carrier}. The visible packet is exactly $I,G,A,T,V,L,H,C,P,N$.
+
+Use \autoref{thm:groundcompiler-recognition-finitetrace-handoff} for the evaluator-facing coordinate. It places the bounded trace and accepted-result handoff inside $T$ and returns the read to $G$ and $A$ without adding host validation.
+
+The remaining rows $V,L,H,C,P,N$ expose the report boundary, cannot-claim ledger, transports, replay routes, provenance, and local name. Thus recognition consumption cannot skip the event-flow, recognizer, or accepted-export coordinates.
+\end{proof}
+
+\begin{theorem}[GroundCompiler recognition certificate gate stability]
+\label{thm:groundcompiler-recognition-certificate-gate-stability}
+Every theorem-facing or NameCert-facing read of an accepted $\GroundCompilerRecognitionUp$ carrier factors through the accepted-export row $A$. The generated recognizer row $G$, finite-trace handoff row $T$, report non-evidence row $V$, and cannot-claim ledger row $L$ may constrain that read, but none of them creates a second certificate gate.
+\end{theorem}
+\begin{proof}
+Start from the accepted-export coordinate $A$. It is the only row in the carrier whose role is theorem-facing or NameCert-facing export.
+
+Apply the finite-trace handoff theorem. The handoff through $T$ supplies bounded evaluator data and then returns to the recognizer and export rows; it does not create another accepted-export channel.
+
+Finally inspect $V$ and $L$. Reports, code, raw event-flow equality, and unrecorded self-hosting claims are listed as non-evidence or cannot-claim data. They therefore restrict the certificate gate rather than replacing $A$.
+\end{proof}
+
+\begin{theorem}[GroundCompiler recognition NameCert non-escape]
+\label{thm:groundcompiler-recognition-namecert-nonescape}
+The local $\NameCert_{\GroundCompilerRecognitionUp}$ obligations for $I,G,A,T,V,L,H,C,P,N$ prevent accepted-export routing from bypassing $A$ and prevent reports, chapter code, theorem code, metric reports, or motif reports from becoming proof evidence. Every accepted read remains inside the displayed recognition carrier and its finite-trace handoff.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligation theorem. It lists carrier admission, generated-recognizer exposure, accepted-export routing, finite-trace handoff, and report-plus-ledger exhaustion over the same finite carrier.
+
+The certificate gate stability theorem confines theorem-facing and NameCert-facing export to $A$. The finite-trace handoff theorem confines evaluator-facing data to $T$ and returns it to $G,A$.
+
+It remains to inspect the report and code rows. The row $V$ separates reports and code from proof or certificate evidence, while $L$ records the cannot-claim readings. Hence no accepted route can turn reports or code into proof evidence, and no route can bypass $A$.
+\end{proof}
+
 \closureat{GroundCompilerRecognitionUp}{seedStr}
 
 \begin{closurestatus}{\GroundCompilerRecognitionUp}
