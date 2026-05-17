@@ -214,3 +214,14 @@ Thus restricting the non-escape factorization to the displayed prefix gives the 
 
 It remains to exclude later intervention rows. A later row is, by definition, a row of $I$ outside the initial segment $I_{\leq k}$. Since the consumer route has already been restricted to the retained prefix route family $C_{\leq k}$ and its retained provenance rows, no projection in that route has a source coordinate in the later part of $I$. Reading such a later row would require leaving the retained prefix packet and using an intervention coordinate not present in $D_{\leq k}$. This is impossible for an intervention-facing read that factors through the displayed prefix subledger. Therefore no later intervention row can be read.
 \end{proof}
+
+\begin{closurestatus}{\DoCalculusUp}
+  \constructivestory{A $\DoCalculusUp$ packet is generated from a finite intervention ledger, observed-variable rows, adjustment-set ledger, modified distribution rows, conditional-independence certificates, conditional-expectation rows, export rows, componentwise $\hsame$ transport, displayed $\Cont$ routes, package provenance, and local naming. The classifier reads an intervention only through the same finite causal ledger and its adjustment and probability-facing handoff rows. The prefix subledger story is constructive locality: an initial intervention segment generates its own retained packet, and later intervention rows cannot be read through routes that were restricted to the displayed prefix. No causal oracle or hidden intervention is introduced.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the DoCalculus carrier and displayed-prefix-subledger definitions plus the NameCert-surface, adjustment-ledger, intervention-non-escape, probability-handoff, and prefix-locality theorems for $\DoCalculusUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim hidden interventions, host graphical causal semantics, causal oracles, external probability equality, or adjustment rows outside the finite ledger.}
+  \upgradepath{To reach obligationClosure, the intervention ledger and prefix-locality results must be assembled into a checked finite-carrier closure theorem.}
+\end{closurestatus}

@@ -82,3 +82,14 @@ It remains to identify the route used by a composed boundary read. The boundary 
 
 The same reasoning applies to $B'$ with $C'$ and $T'$. No alternative middle row can be inserted, because \autoref{thm:certificate-compiler-middle-row-handoff} forces a composite of the two accepted compiler packets to hand off only through their displayed middle $\NameCert$ row, and \autoref{thm:certificate-compiler-edge-classifier-exactness} makes classifier transport pass through the displayed landing, $\hsame$, and $\Cont$ rows of those same packets. Since the boundary carrier has no coordinate for an independent middle certificate, host compiler semantics, program equivalence theorem, or unrecorded target behavior, every composed boundary read of either accepted packet factors through that common middle row.
 \end{proof}
+
+\begin{closurestatus}{\CertificatePipelineStageBoundaryUp}
+  \constructivestory{A $\CertificatePipelineStageBoundaryUp$ packet is generated from finite $\BHist$ rows for source, middle, and target certificate stages, two compiler-edge packets, compatibility rows at the shared middle endpoint, and the composed boundary read. The pipeline boundary is built by replaying the first compiler route, the middle-stage handoff, and the second compiler route through $\Cont$ before any target-facing row is available. Componentwise $\hsame$ transports source, middle, target, landing, and classifier rows, while $\Pkg$ records the certificate-compiler dependencies. The common middle row is therefore a displayed boundary coordinate, not an inferred host compiler equivalence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the stage-boundary carrier, middle-row handoff, edge-classifier exactness, and composed-boundary factorization for $\CertificatePipelineStageBoundaryUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim host compiler semantics, program equivalence, an independent hidden middle certificate, or unrecorded target behavior.}
+  \upgradepath{Obligation closure requires Lean encodings of the boundary carrier, middle compatibility row, edge classifier transport, and composed-read factorization.}
+\end{closurestatus}

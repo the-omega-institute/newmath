@@ -73,3 +73,14 @@ Finally, the non-escape theorem excludes every stronger consumer request. Hence 
 \end{proof}
 
 \closureat{SrDischargeRouteAuditUp}{seedStr}
+
+\begin{closurestatus}{\SrDischargeRouteAuditUp}
+  \constructivestory{A $\SrDischargeRouteAuditUp$ packet is generated from finite $\BHist$ rows for the four subject-reduction discharge payloads, a route-audit row comparing bundle and typeclass consumption, an obstruction row, transports, continuations, provenance, and local naming. The route row is replayed by $\Cont$ either through the explicit bundle or through setup-to-bundle conversion, but both paths expose the same four payload rows and keep the obstruction visible. Componentwise $\hsame$ preserves the payload, route, and obstruction rows, while $\Pkg$ records neighboring discharge and audit dependencies. The packet certifies route coherence without discharging subject reduction.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the SrDischargeRouteAudit carrier, payload exposure, bundle-typeclass coherence, obstruction preservation, non-escape theorem, and NameCert obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim a missing discharge proof, closed subject reduction, host conversion semantics, quotient equality of MetaCIC terms, or an unrecorded route around the obstruction.}
+  \upgradepath{Obligation closure requires Lean encodings of the audit carrier, route-coherence theorem, obstruction preservation, and non-escape theorem.}
+\end{closurestatus}
