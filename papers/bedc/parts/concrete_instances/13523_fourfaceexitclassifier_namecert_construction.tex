@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\FourFaceExitClassifierUp$}
+\label{ch:concrete-instances-four-face-exit-classifier-namecert}
+\origin{ai}
+
+The $\FourFaceExitClassifierUp$ packet realizes the regular-Cauchy exit route of \autoref{sec:real-completeness-regular-cauchy} as one finite classifier packet. It sits beside the window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the observation budget discipline of \autoref{ch:concrete-instances-realwindowbudget-namecert}. Those siblings provide the four faces and their budget context; this chapter binds them as a single accepted exit classifier without quotient streams, selected limits, ambient completeness, or bridge rows.
+
+\begin{definition}[Four-face exit classifier carrier]
+\label{def:four-face-exit-classifier-carrier}
+A $\FourFaceExitClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite observation window for the inspected regular-Cauchy read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and rational readback ledger attached to that window.
+\item $R$ is the $\RegSeqRatUp$ readback row exposed through the same window and tolerance ledger.
+\item $E$ is the $\RealUp$ seal row reached only after $S,D,R$ have been read on the same packet.
+\item $H$ records componentwise $\hsame$ transport for $S,D,R,E$ and for the local naming row.
+\item $C$ records displayed $\Cont$ replay from window admission through tolerance, readback, real seal, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\FourFaceExitClassifierUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\RealWindowBudgetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FourFaceExitClassifierUp}$ row.
+\end{enumerate}
+The carrier exports no quotient-stream equality, selected limit, host real, ambient completeness principle, or detached bridge row.
+\end{definition}
+
+\begin{theorem}[Four-face exit classifier NameCert obligations]
+\label{thm:four-face-exit-classifier-namecert-obligations}
+For the carrier of \autoref{def:four-face-exit-classifier-carrier}, the local $\NameCert_{\FourFaceExitClassifierUp}$ surface consists exactly of carrier admission for $F=(S,D,R,E,H,C,P,N)$, finite-window exposure through $S$, dyadic tolerance and readback accounting through $D$, regular-rational readback through $R$, real-seal exposure through $E$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the packet. The only four face rows are $S,D,R,E$, and the remaining rows are structural support for transport, replay, provenance, and naming.
+
+The finite window is read through \autoref{ch:concrete-instances-streamname-namecert}. The tolerance ledger is read through \autoref{ch:concrete-instances-dyadicratcore-namecert}. The regular-rational readback is read through \autoref{ch:concrete-instances-regseqrat-namecert}. The real-facing seal is read through \autoref{ch:concrete-instances-real-namecert}.
+
+The budget discipline of \autoref{ch:concrete-instances-realwindowbudget-namecert} controls the observation request, but it is not an extra face of this carrier. Since $H,C,P,N$ preserve and name only the displayed rows, the listed obligations exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Four-face exit classifier stream-readback exactness]
+\label{thm:four-face-exit-classifier-stream-regseq-exactness}
+Every accepted $\FourFaceExitClassifierUp$ consumer that reads the $\RegSeqRatUp$ row $R$ must first read the same finite $\StreamNameUp$ window $S$ and the same $\DyadicRatCoreUp$ tolerance ledger $D$ recorded in the carrier. The readback row cannot be replaced by a detached regular sequence, by a second window, or by a tolerance-free real seal.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:four-face-exit-classifier-namecert-obligations}. It admits $R$ only as the readback row of the displayed carrier $F=(S,D,R,E,H,C,P,N)$.
+
+The window coordinate $S$ supplies the finite inspection site, while $D$ supplies the tolerance and rational arithmetic ledger for that site. Therefore the readback coordinate $R$ is exact only relative to the same $S$ and $D$ rows.
+
+Transport through $H$ and replay through $C$ preserve the componentwise packet. They do not introduce a second window, a detached regular sequence, or a tolerance-free route into the real seal. Hence every accepted read of $R$ remains the stream-readback route displayed in the carrier.
+\end{proof}
+
+\begin{theorem}[Four-face exit classifier no-completeness escape]
+\label{thm:four-face-exit-classifier-no-completeness-escape}
+An accepted $\FourFaceExitClassifierUp$ packet exports the exit route
+$$
+S,D,R,E,H,C,P,N
+$$
+and nothing stronger. In particular, a consumer cannot obtain quotient-stream equality, a selected limit, a host real, ambient completeness, or an acceptance bridge from the packet.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:four-face-exit-classifier-carrier} lists exactly the four face rows and the structural support rows. None of those coordinates is quotient equality, a selected limit, a host real, a completeness principle, or a bridge row.
+
+Use \autoref{thm:four-face-exit-classifier-stream-regseq-exactness} to keep the regular-rational readback attached to the finite window and dyadic ledger. Use \autoref{thm:four-face-exit-classifier-namecert-obligations} to keep the real seal downstream of those rows and of the displayed support.
+
+Thus every public consumer remains inside the finite four-face route. Requests for quotient streams, selected limits, host completeness, or bridge acceptance leave the accepted carrier rather than being supplied by it.
+\end{proof}
+
+\falsifiablePrediction{A packet with the StreamName and RealUp faces but no DyadicRatCore tolerance ledger is not an accepted FourFaceExitClassifierUp carrier.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, real, realwindowbudget: no sibling is bijective because StreamNameUp supplies only finite windows, DyadicRatCoreUp supplies tolerance and arithmetic ledgers without regular readback, RegSeqRatUp supplies regular-rational names without the observation budget, RealUp supplies the seal row without its window and tolerance provenance, and RealWindowBudgetUp schedules observations without itself carrying the four-face packet.}
+
+The Lean follow-up must provide $\mathsf{Nontrivial}\ \FourFaceExitClassifierUp$ and $\mathsf{FieldFaithful}\ \FourFaceExitClassifierUp$ instances in $\mathsf{lean4/BEDC/Derived/FourFaceExitClassifierUp/TasteGate.lean}$. The target $\mathsf{BEDC.Derived.FourFaceExitClassifierUp.FourFaceExitClassifierTasteGate\_single\_carrier\_alignment}$ may be cited only after those instances distinguish the window, tolerance ledger, readback, real seal, transport, replay, provenance, and local NameCert rows.
+
+\closureat{FourFaceExitClassifierUp}{seedStr}
