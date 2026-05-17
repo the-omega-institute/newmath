@@ -126,6 +126,24 @@ Apply window totality and route determinacy. These theorems force ledger reads t
 Finally use observer handoff. \autoref{thm:local-clock-budget-observer-handoff} exposes exactly the same rows to downstream consumers, while the carrier exclusions rule out every global-clock or host-time escape.
 \end{proof}
 
+\begin{theorem}[Local clock budget public export]
+\label{thm:local-clock-budget-public-export}
+Every observer-facing consumer of an accepted $\LocalClockBudgetUp$ packet receives the finite packet
+$$
+H,T,W,B,L,Q,P,N
+$$
+as the public $\LocalClockBudgetUp$ export through window totality, route determinacy, observer handoff, carrier scope, classifier stability, and ledger boundary. The export may expose the observed history, local time stream, selected $\Cont$ windows, unary budget, componentwise $\hsame$ transport, displayed route, provenance, and local name, but it cannot read a global clock, host time parameter, inter-history synchronization coordinate, limit scheduler, or observer-substance outside $\Hist$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:local-clock-budget-carrier}. The public packet is the finite tuple $H,T,W,B,L,Q,P,N$.
+
+Apply window totality and route determinacy. \autoref{thm:local-clock-budget-window-totality} binds $W$ and $B$ to the displayed local stream, and \autoref{thm:local-clock-budget-route-determinacy} blocks any second route through a global or host-side clock.
+
+Use observer handoff and carrier scope next. \autoref{thm:local-clock-budget-observer-handoff} gives the downstream consumer exactly the same rows, while \autoref{thm:local-clock-budget-carrier-scope} keeps the export anchored in one displayed history row and its finite local stream.
+
+Finally apply classifier stability and ledger boundary. \autoref{thm:local-clock-budget-classifier-stability} preserves the packet under recorded transport and replay, and \autoref{thm:local-clock-budget-ledger-boundary} excludes global clocks, host time parameters, inter-history synchronization coordinates, limit schedulers, and observer-substance from the public export.
+\end{proof}
+
 \closureat{LocalClockBudgetUp}{seedStr}
 \closureat{LocalClockBudgetUp}{obligationStr}
 \closureat{LocalClockBudgetUp}{scopedStr}
