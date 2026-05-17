@@ -156,6 +156,32 @@ theorem KernelAcceptanceAuditWitnessCarrier_bridge_query_replay_boundary
   exact
     ⟨replayRouteMatchesCarrier, queryRouteMatchesAxiom, nameAccepted, nameLedger⟩
 
+theorem KernelAcceptanceAuditWitnessCarrier_query_replay_interface
+    {generated candidate accepted ledger axiomQuery replay transport route provenance name
+      replayRoute queryRoute : BHist} :
+    KernelAcceptanceAuditWitnessCarrier generated candidate accepted ledger axiomQuery replay
+        transport route provenance name →
+      Cont axiomQuery replay replayRoute →
+        Cont accepted ledger queryRoute →
+          hsame replayRoute route ∧ hsame axiomQuery queryRoute ∧ hsame name accepted ∧
+            hsame name ledger ∧ hsame route (append queryRoute replay) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier replayRead queryRead
+  obtain ⟨_generatedCandidateAccepted, acceptedLedgerAxiom, axiomReplayRoute,
+    _transportSame, _provenanceSame, nameAccepted, nameLedger⟩ := carrier
+  have replayRouteMatchesCarrier : hsame replayRoute route :=
+    cont_respects_hsame (hsame_refl axiomQuery) (hsame_refl replay) replayRead
+      axiomReplayRoute
+  have queryRouteMatchesAxiom : hsame axiomQuery queryRoute :=
+    cont_respects_hsame (hsame_refl accepted) (hsame_refl ledger) acceptedLedgerAxiom
+      queryRead
+  have carrierRouteFromQuery : hsame route (append queryRoute replay) := by
+    cases queryRouteMatchesAxiom
+    exact axiomReplayRoute
+  exact
+    ⟨replayRouteMatchesCarrier, queryRouteMatchesAxiom, nameAccepted, nameLedger,
+      carrierRouteFromQuery⟩
+
 theorem KernelAcceptanceAuditWitnessCarrier_dependency_query_exhaustion
     {generated candidate accepted ledger axiomQuery replay transport route provenance name
       queryBoundary : BHist} :
