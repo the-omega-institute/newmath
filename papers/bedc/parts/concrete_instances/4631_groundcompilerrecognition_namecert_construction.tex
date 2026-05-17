@@ -116,6 +116,42 @@ The certificate gate stability theorem confines theorem-facing and NameCert-faci
 It remains to inspect the report and code rows. The row $V$ separates reports and code from proof or certificate evidence, while $L$ records the cannot-claim readings. Hence no accepted route can turn reports or code into proof evidence, and no route can bypass $A$.
 \end{proof}
 
+\begin{theorem}[GroundCompiler recognition accepted-export totality]
+\label{thm:groundcompiler-recognition-accepted-export-totality}
+For every accepted $\GroundCompilerRecognitionUp$ carrier $R=(I,G,A,T,V,L,H,C,P,N)$, every theorem-facing export and every NameCert-facing export passes through the accepted-export row $A$. The carrier of \autoref{def:groundcompiler-recognition-carrier} and the obligations of \autoref{thm:groundcompiler-recognition-namecert-obligations} leave no second export row outside $A$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The theorem-facing and NameCert-facing export coordinate in the displayed packet is $A$.
+
+Apply \autoref{thm:groundcompiler-recognition-namecert-obligations}. Its accepted-export obligation states that no consumer route bypasses the accepted-export row.
+
+Use certificate gate stability, \autoref{thm:groundcompiler-recognition-certificate-gate-stability}. The generated recognizer row $G$, finite-trace handoff row $T$, report boundary row $V$, and ledger row $L$ constrain the read, but none supplies a second certificate gate. Hence every such export factors through $A$.
+\end{proof}
+
+\begin{theorem}[GroundCompiler recognition report boundary exhaustion]
+\label{thm:groundcompiler-recognition-report-boundary-exhaustion}
+For every accepted $\GroundCompilerRecognitionUp$ carrier $R=(I,G,A,T,V,L,H,C,P,N)$, every report read, chapter-code read, theorem-code read, metric-report read, or motif-report read passes through the report non-evidence row $V$ before evidence use is refused. The carrier and NameCert obligations therefore exhaust the report boundary before any downstream consumer can treat those reads as proof or certificate evidence.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:groundcompiler-recognition-carrier}. The row $V$ is the displayed report non-evidence row separating metric reports, motif reports, theorem code, chapter code, and readable source from proof or certificate evidence.
+
+Apply \autoref{thm:groundcompiler-recognition-namecert-obligations}. Its report and cannot-claim exhaustion obligation routes the listed report and code reads through $V,L,H,C,P,N$ before a consumer may inspect the packet as evidence.
+
+Now use \autoref{thm:groundcompiler-recognition-namecert-nonescape}. It prevents reports and code from becoming proof evidence and keeps every accepted read inside the displayed carrier and finite-trace handoff. Thus $V$ is the report boundary, and evidence use is refused after that boundary is displayed.
+\end{proof}
+
+\begin{theorem}[GroundCompiler recognition cannot-claim ledger coverage]
+\label{thm:groundcompiler-recognition-cannot-claim-ledger-coverage}
+For every accepted $\GroundCompilerRecognitionUp$ carrier $R=(I,G,A,T,V,L,H,C,P,N)$, every forbidden compiler reading is covered by the cannot-claim ledger row $L$, componentwise $\hsame$ transports $H$, displayed replay routes $C$, package provenance $P$, and the local $\NameCert$ row $N$. In particular hidden compiler input, raw event-flow equality, report-as-proof, code-as-proof, and unrecorded self-hosting claims cannot escape the ledger surface.
+\end{theorem}
+\begin{proof}
+Project the packet of \autoref{def:groundcompiler-recognition-carrier}. The forbidden compiler readings are listed in the cannot-claim row $L$, and the structural rows $H,C,P,N$ are the only transport, route, provenance, and naming rows available to replay them.
+
+Apply \autoref{thm:groundcompiler-recognition-namecert-obligations}. Its final obligation covers report and cannot-claim exhaustion through $V,L,H,C,P,N$ over the same finite carrier.
+
+Use ledger non-escape, \autoref{thm:groundcompiler-recognition-ledger-nonescape}. It already excludes hidden compiler input, host recognizers, proof from code or reports, raw event-flow equality, and self-hosting outside the displayed ledger. Therefore each forbidden reading is covered by $L,H,C,P,N$ and no compiler reading escapes the packet.
+\end{proof}
+
 \closureat{GroundCompilerRecognitionUp}{seedStr}
 
 \begin{closurestatus}{\GroundCompilerRecognitionUp}
