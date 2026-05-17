@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
@@ -305,5 +306,32 @@ theorem EffectiveReplacementLedgerPropextTransportRow
   · constructor
     · rfl
     · rfl
+
+theorem EffectiveReplacementLedgerAxiomPurityBoundary
+    (choiceWitness quotientTransport propextTransport axiomPurity transport continuation
+      provenance name hostTail : BHist) :
+    effectiveReplacementLedgerFields
+        (EffectiveReplacementLedgerUp.mk choiceWitness quotientTransport propextTransport
+          axiomPurity transport continuation provenance name) =
+          [choiceWitness, quotientTransport, propextTransport, axiomPurity, transport,
+            continuation, provenance, name] /\
+      Cont axiomPurity continuation (append axiomPurity continuation) /\
+        hsame (append axiomPurity continuation) (append axiomPurity continuation) /\
+          (Cont (append axiomPurity continuation) (BHist.e0 hostTail) axiomPurity ->
+            False) /\
+            (Cont (append axiomPurity continuation) (BHist.e1 hostTail) axiomPurity ->
+              False) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · constructor
+        · intro back
+          exact cont_mutual_extension_right_tail_absurd.left rfl back
+        · intro back
+          exact cont_mutual_extension_right_tail_absurd.right rfl back
 
 end BEDC.Derived.EffectiveReplacementLedgerUp
