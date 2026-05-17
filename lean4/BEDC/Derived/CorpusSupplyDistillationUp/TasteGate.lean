@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -344,5 +345,24 @@ theorem CorpusSupplyDistillationNameCert_obligations
   cases x with
   | mk C F D O R H T P N =>
       exact ⟨C, F, D, O, R, H, T, P, N, rfl, hsame_refl H, rfl⟩
+
+theorem CorpusSupplyDistillation_public_nonescape {x : CorpusSupplyDistillationUp} :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        hsame H H ∧
+          Cont T P (append T P) ∧
+            (Cont (append T P) (BHist.e0 C) T → False) ∧
+              (Cont (append T P) (BHist.e1 C) T → False) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk C F D O R H T P N =>
+      exact
+        ⟨C, F, D, O, R, H, T, P, N, rfl, hsame_refl H, rfl,
+          (fun hbad =>
+            (cont_mutual_extension_right_tail_absurd
+              (h := T) (k := append T P) (leftTail := P) (rightTail := C)).left rfl hbad),
+          (fun hbad =>
+            (cont_mutual_extension_right_tail_absurd
+              (h := T) (k := append T P) (leftTail := P) (rightTail := C)).right rfl hbad)⟩
 
 end BEDC.Derived.CorpusSupplyDistillationUp
