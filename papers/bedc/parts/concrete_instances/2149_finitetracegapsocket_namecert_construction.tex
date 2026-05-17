@@ -24,7 +24,6 @@ with the following displayed rows:
 \end{enumerate}
 The carrier is exactly this finite trace socket. It has no row for induction, no row for a completed infinite observation stream, no selected limit, no host real equality test, and no completeness principle.
 \end{definition}
-\leanchecked{BEDC.Derived.FiniteTraceGapSocketUp.FiniteTraceGapSocketTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[FiniteTraceGapSocket NameCert obligations]
 \label{thm:finite-trace-gap-socket-namecert-obligations}
@@ -47,6 +46,46 @@ For finite observation replay, a consumer first reads a window from $T$. The onl
 Ledger non-escape follows from the package inventory. Since $P$ names only the displayed BEDC rows, any induction rule, infinite stream, selected limit, host equality test, trichotomy branch, or completeness principle would require an extra coordinate absent from $G$.
 
 Finally, the $\StreamNameUp/\RegSeqRatUp$ handoff is the route $T$ to $S$ to $R$ to $Q$. Thus the real-and-completion consumer sees only finite replay data and the visible GAP socket that records what remains unclosed.
+\end{proof}
+
+\begin{theorem}[FiniteTraceGapSocket classifier transport]
+\label{thm:finite-trace-gap-socket-classifier-transport}
+For an accepted $\FiniteTraceGapSocketUp$ carrier $G=(T,W,S,R,Q,H,C,P,N)$, componentwise $\hsame$ transport preserves the displayed trace row $T$, GAP socket row $W$, stream schedule $S$, regular readback $R$, real seal boundary $Q$, transport ledger $H$, continuation ledger $C$, provenance row $P$, and local naming row $N$. The transport does not add host real equality, quotient equality, trichotomy, completeness, induction, a selected limit, or an infinite observation stream.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-trace-gap-socket-carrier}. Its transport coordinate $H$ is indexed by exactly the displayed rows $T,W,S,R,Q,H,C,P,N$, so classifier comparison can only move a consumer along these named component rows.
+
+The continuation ledger $C$ remains tied to the same coordinates after transport. Thus the trace read, the GAP socket read, the replay schedule, the regular readback, the real seal boundary, the provenance row, and the local $\NameCert_{\FiniteTraceGapSocketUp}$ row are preserved component by component.
+
+Any host equality, quotient equality, trichotomy branch, completeness principle, induction rule, selected limit, or infinite stream would require a coordinate not present in $G$. Since the transport is componentwise over the existing carrier rows, it cannot create such a coordinate.
+\end{proof}
+
+\begin{theorem}[FiniteTraceGapSocket replay exactness]
+\label{thm:finite-trace-gap-socket-replay-exactness}
+Every observed-window read of an accepted $\FiniteTraceGapSocketUp$ packet factors through the finite route
+$$
+T \to S \to R.
+$$
+The real seal row $Q$ is visible only after the regular readback row $R$ has been reached through that route.
+\end{theorem}
+\begin{proof}
+An observed-window read begins with the finite trace coordinate $T$ of the carrier. No other coordinate of $G$ is an observation source, so the read first selects one of the bounded rows already present in $T$.
+
+The stream-facing continuation in $C$ then sends that selected finite window through the replay schedule $S$. The regular-readback continuation is the displayed handoff from $S$ to $R$, so the read factors through $T \to S \to R$ before any real-facing row is available.
+
+Finally, $Q$ is listed as the downstream $\RealUp$ seal boundary, not as an independent observation source. It is therefore exposed only after the regular readback $R$ has been obtained from the finite replay path.
+\end{proof}
+
+\begin{theorem}[FiniteTraceGapSocket ledger non-escape]
+\label{thm:finite-trace-gap-socket-ledger-nonescape}
+For an accepted $\FiniteTraceGapSocketUp$ carrier $G=(T,W,S,R,Q,H,C,P,N)$, the package row $P$, the local naming row $N$, and the GAP socket $W$ leave mathematical induction, selected limits, infinite streams, trichotomy, host real equality, quotient real equality, and completeness outside the packet.
+\end{theorem}
+\begin{proof}
+Read the package inventory $P$ and local naming row $N$ from the carrier. They name the finite trace, the GAP socket, the replay schedule, the regular readback, the real seal boundary, the componentwise transports, the displayed continuations, provenance, and the local naming certificate.
+
+The GAP socket $W$ records precisely that the finite trace leaves the universal claim open. It is a named row of the packet, not a constructor for induction, a selected limit, an infinite stream, trichotomy, host equality, quotient equality, or completeness.
+
+Thus any consumer using $P$, $N$, or $W$ remains inside the finite carrier rows. The listed non-finite principles are not coordinates of $G$, so the ledger cannot provide them by route composition.
 \end{proof}
 
 \begin{theorem}[FiniteTraceGapSocket real-window boundary]
@@ -82,14 +121,16 @@ Therefore the inscription-point route factors through this chapter's finite sock
 \end{proof}
 
 \closureat{FiniteTraceGapSocketUp}{seedStr}
+\closureat{FiniteTraceGapSocketUp}{obligationStr}
 
 \begin{closurestatus}{\FiniteTraceGapSocketUp}
   \constructivestory{A $\FiniteTraceGapSocketUp$ packet is generated from a bounded finite observation trace, an explicit GAP socket row, a $\StreamNameUp$ replay schedule, a $\RegSeqRatUp$ readback row, a $\RealUp$ seal boundary, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-trace-gap-socket-carrier}, \autoref{thm:finite-trace-gap-socket-namecert-obligations}, and \autoref{thm:finite-trace-gap-socket-real-window-boundary} bind the finite-trace carrier, GAP socket classifier, finite observation replay, ledger non-escape, and $\StreamNameUp/\RegSeqRatUp$ handoff.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:finite-trace-gap-socket-carrier}, \autoref{thm:finite-trace-gap-socket-namecert-obligations}, \autoref{thm:finite-trace-gap-socket-classifier-transport}, \autoref{thm:finite-trace-gap-socket-replay-exactness}, \autoref{thm:finite-trace-gap-socket-ledger-nonescape}, \autoref{thm:finite-trace-gap-socket-real-window-boundary}, and \autoref{thm:finite-trace-gap-socket-inscription-point-sibling-route} bind the carrier, the total NameCert obligation surface, classifier transport, finite replay exactness, ledger non-escape, the real-window boundary, and the inscription-point sibling route.}
   \formalstatus{\unformalizedV}
+  \leanchecked{BEDC.Derived.FiniteTraceGapSocketUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close mathematical induction, host completeness, selected real limits, quotient real equality, real-order trichotomy, infinite observation streams, or a checked Lean certificate.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for socket classifier transport, finite replay, ledger non-escape, and $\StreamNameUp/\RegSeqRatUp$ handoff.}
+  \upgradepath{Scoped closure requires Lean encoding of the carrier and checked theorems for socket classifier transport, finite replay exactness, ledger non-escape, real-window boundary, and sibling-route consumption.}
 \end{closurestatus}

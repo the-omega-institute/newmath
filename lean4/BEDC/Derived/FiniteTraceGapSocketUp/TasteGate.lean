@@ -237,6 +237,9 @@ instance finiteTraceGapSocketChapterTasteGate :
     intro x y hxy heq
     exact hxy (finiteTraceGapSocketToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate FiniteTraceGapSocketUp :=
+  finiteTraceGapSocketChapterTasteGate
+
 theorem FiniteTraceGapSocketTasteGate_single_carrier_alignment :
     (∀ h : BHist, finiteTraceGapSocketDecodeBHist (finiteTraceGapSocketEncodeBHist h) = h) ∧
       (∀ x : FiniteTraceGapSocketUp,
