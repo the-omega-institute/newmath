@@ -249,6 +249,51 @@ countable-choice row, metric-completeness datum, or standard bridge row, so
 none of those objects can fill a missing face.
 \end{proof}
 
+\begin{theorem}[Real uniform Cauchy four-face record minimality]
+\label{thm:real-uniform-cauchy-four-face-record-minimality}
+Let $U=(I,W,M,Q,T,E,H,C,P,N)$ be an accepted
+$\UniformCauchyCriterionUp$ packet read by a Phase Real and Completion
+consumer. Suppose the accepted L10 exit reaches the completion-facing
+$\RealUp$ seal through exactly the four local faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Then the four local closurestatus and formalstatus records form a minimal
+facewise audit family for status exactness. No proper subfamily of these four
+records is sufficient for the status-exact L10 exit read.
+
+In particular, identifying two face records, replacing one face record by an
+aggregate formalstatus token, or replacing one face record by route-level
+bridge prose destroys the accepted Real-and-Completion exit read. The audit
+boundary must retain one local status record for StreamName, one for
+DyadicRatCore, one for RegSeqRat, and one for the local Real seal.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-uniform-cauchy-four-face-status-exactness}. It identifies
+status exactness with the four objectwise closurestatus and formalstatus
+records and rejects aggregate formal-status tokens, fifth completion objects,
+quotient streams, selected limits, and bridge rows as replacements.
+
+Next apply
+\autoref{thm:real-uniform-cauchy-four-object-terminal-determinacy}. It fixes
+the terminal completion-facing pullback on the four displayed faces, so a
+proper subfamily leaves at least one terminal face without its status
+coordinate.
+
+The separation of records is not route-level rhetoric. By
+\autoref{thm:real-l10-face-status-noncollapse}, the four local reports cannot
+be fused into a new formalstatus token, aggregate bridge row, or Real
+completeness claim.
+
+Finally apply
+\autoref{thm:real-l10-incomplete-face-exit-obstruction}. If any one face is
+absent, identified with another face, or detached from its local status
+record, the packet has no accepted L10 exit route. Thus all four independent
+face records are minimal data for the status-exact Real-and-Completion
+handoff.
+\end{proof}
+
 \begin{theorem}[Real RegSeqRat--StreamName audit-clean handoff]
 \label{thm:real-regseqrat-streamname-auditclean-handoff}
 Every Phase Real and Completion consumer that reaches the $\RealUp$ seal
