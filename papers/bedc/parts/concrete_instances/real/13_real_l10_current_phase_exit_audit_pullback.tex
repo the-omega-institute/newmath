@@ -1,6 +1,49 @@
 \section{Real L10 current phase exit audit pullback}
 \label{sec:real-l10-current-phase-exit-audit-pullback}
 
+\begin{theorem}[Real L10 four-face status lookup]
+\label{thm:real-l10-four-face-status-lookup}
+Any accepted current Phase Real and Completion exit read through
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+reads four separate local closurestatus records. The $\DyadicRatCoreUp$ face
+contributes $\matureClosure$ with $\axiomCleanV$ and paperBridge status; the
+$\StreamNameUp$ face contributes $\matureClosure$ with $\bridgeCheckedV$; the
+$\RegSeqRatUp$ face contributes $\matureClosure$ with $\axiomCleanV$ and
+paperBridge status; and the $\RealUp$ face contributes $\matureClosure$ with
+$\bridgeCheckedV$.
+
+These four entries are objectwise face records. They are not an aggregate
+formalstatus token, an aggregate bridge row, or a route-level closurestatus
+record for the composite exit.
+\end{theorem}
+\begin{proof}
+The four faces are the Real L10 faces named by
+\autoref{def:real-l10-dependency-lattice}. The local records are read from the
+same concrete chapters that supply the face data:
+\autoref{thm:dyadicratcore-standard-source-bridge} for
+$\DyadicRatCoreUp$, \autoref{thm:streamname-public-interface-export-package},
+\autoref{thm:streamname-standard-sequence-bridge}, and
+\autoref{thm:streamname-scoped-interface-package} for $\StreamNameUp$,
+\autoref{thm:regseqrat-real-seal-handoff} for $\RegSeqRatUp$, and
+\autoref{thm:realup-phase-real-completion-boundary} for $\RealUp$.
+
+The closurestatus block attached to the DyadicRatCore handoff records
+$\matureClosure$, $\axiomCleanV$, and paperBridge status. The StreamName public
+interface closurestatus records $\matureClosure$ and $\bridgeCheckedV$. The
+RegSeqRat real-seal boundary closurestatus records $\matureClosure$,
+$\axiomCleanV$, and paperBridge status. The RealUp certificate-boundary
+closurestatus records $\matureClosure$ and $\bridgeCheckedV$.
+
+By the two-axis convention of
+\autoref{sec:roadmap-closure-and-verification-axes}, a closure entry and a
+verification entry remain attached to the object whose closurestatus block
+contains them. Reading the four faces therefore produces four objectwise face
+records and does not create a fifth formalstatus token, route-level bridge row,
+or composite closurestatus record.
+\end{proof}
+
 \begin{theorem}[Real L10 current phase exit audit pullback]
 \label{thm:real-l10-current-phase-exit-audit-pullback}
 For any accepted current Phase Real and Completion exit read through the four
@@ -35,14 +78,10 @@ coordinates. The StreamName exit correspondence,
 \autoref{thm:real-l10-streamname-exit-route-correspondence}, names the same
 packet as the current Phase Real and Completion exit route.
 
-It remains to read the audit status. The DyadicRatCore closure record reports
-$\matureClosure$ with $\axiomCleanV$ formal status; the StreamName closure
-record reports $\matureClosure$ with $\bridgeCheckedV$ formal status; the
-RegSeqRat closure record reports $\matureClosure$ with $\axiomCleanV$ formal
-status; and the RealUp closure record reports $\matureClosure$ with
-$\bridgeCheckedV$ formal status. By the two-axis convention of
-\autoref{sec:roadmap-closure-and-verification-axes}, these entries are read as
-local reports and are not fused into a new formal token.
+It remains to read the audit status. Apply
+\autoref{thm:real-l10-four-face-status-lookup}. It reads the DyadicRatCore,
+StreamName, RegSeqRat, and RealUp closurestatus entries as four objectwise face
+records and excludes any aggregate formalstatus token or aggregate bridge row.
 
 Therefore the exit audit is the product of the four cited local records. Since
 the exactness and correspondence theorems export no fifth face, no quotient

@@ -62,6 +62,24 @@ Attach the sibling faces. The cited StreamName, DyadicRatCore, RegSeqRat, and Re
 Inspect the refusal row. Since $F$ records the excluded coordinates and the carrier has no other coordinate through which to read them, any consumer that bypasses $W,D,R$ before reaching $E$ has left the accepted audit packet.
 \end{proof}
 
+\begin{theorem}[Finite-window Real-seal audit four-face minimality]
+\label{thm:finite-window-real-seal-audit-four-face-minimality}
+For every accepted $\FiniteWindowRealSealAuditUp$ carrier
+$$
+A=(W,D,R,E,F,H,C,P,N),
+$$
+each of the four source faces $W,D,R,E$ is individually necessary for the accepted route. The row $W$ supplies the $\StreamNameUp$ finite-window face, $D$ supplies the $\DyadicRatCoreUp$ tolerance and readback face, $R$ supplies the $\RegSeqRatUp$ readback face, and $E$ supplies the terminal $\RealUp$ seal face.
+
+Replacing or omitting any one of $W,D,R,E$ leaves no accepted $\FiniteWindowRealSealAuditUp$ packet with the same route role. The rows $F,H,C,P,N$ can refuse, transport, replay, package, and name only after the four source faces have been displayed; they cannot manufacture a missing StreamName window, dyadic tolerance ledger, RegSeqRat readback, or terminal Real seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-real-seal-audit-carrier}. The four rows $W,D,R,E$ are not auxiliary annotations: they are the source faces from which the displayed route obtains its finite window, dyadic tolerance ledger, regular-rational readback, and terminal Real seal.
+
+Apply \autoref{thm:finite-window-real-seal-audit-namecert-obligations}. The exact row inventory places $W,D,R,E$ in the local certificate before the audit-refusal, transport, continuation, provenance, and naming rows. Thus each of the four faces has a distinct certificate role not repeated by $F,H,C,P,N$.
+
+Apply \autoref{thm:finite-window-real-seal-audit-nonescape}. An accepted consumer has no bypass coordinate through which a missing window, tolerance ledger, readback, or seal can be recovered. Therefore dropping or replacing any one of $W,D,R,E$ breaks the accepted finite-window Real-seal audit route componentwise.
+\end{proof}
+
 Lean development for this route provides \texttt{Nontrivial FiniteWindowRealSealAuditUp} and \texttt{FieldFaithful FiniteWindowRealSealAuditUp} in \texttt{lean4/BEDC/Derived/FiniteWindowRealSealAuditUp/TasteGate.lean}.
 
 \begin{closurestatus}{\FiniteWindowRealSealAuditUp}
