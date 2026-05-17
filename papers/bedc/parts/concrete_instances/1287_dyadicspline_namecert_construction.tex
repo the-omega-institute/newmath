@@ -114,6 +114,22 @@ Apply \autoref{thm:dyadic-spline-regseqrat-real-boundary}. The $\RegSeqRatUp$ an
 The downstream $\DyadicApproximationUp$ consumer therefore receives exactly the finite piecewise-linear tuple named in the statement. There is no remaining carrier coordinate from which a host function, completed real graph, quotient real, or choice-selected limit could be read.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation DyadicSpline consumer route]
+\label{thm:dyadic-approximation-dyadic-spline-consumer-route}
+Every $\DyadicApproximationUp$ consumer of an accepted $\DyadicSplineUp$ packet must read the packet through the $\DyadicApproximationUp$ chapter surface of \autoref{ch:concrete-instances-dyadicapproximation-namecert} together with the displayed $\DyadicRatCoreUp$, $\DyadicMeshUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, and $\RealUp$ rows of \autoref{def:dyadic-spline-finite-carrier}.
+
+The consumer route is exactly the finite piecewise-linear tuple of \autoref{thm:dyadic-spline-standard-piecewise-linear-reading}, transported through the mesh-refinement handoff of \autoref{thm:dyadic-spline-mesh-refinement-handoff} and sealed by the $\RegSeqRatUp$/$\RealUp$ boundary of \autoref{thm:dyadic-spline-regseqrat-real-boundary}. It exports no host spline function, quotient real graph, selected limit, ambient completion, infinite knot row, or independent analytic approximation object.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $S=(K,A,L,I,Q,R,H,C,P,N)$. The standard reading theorem identifies the public surface of $S$ with the displayed mesh row, endpoint coefficient rows, segment ledger, rational cell ledger, readback row, seal row, transports, continuations, provenance, and local name row.
+
+A $\DyadicApproximationUp$ consumer reaches that surface through \autoref{ch:concrete-instances-dyadicapproximation-namecert}. Its dyadic observations therefore read the $\DyadicRatCoreUp$ coefficients along the $\DyadicMeshUp$ cells, inspect the $\RationalIntervalUp$ cell ledger, and pass the resulting finite observation through the $\RegSeqRatUp$ and $\RealUp$ rows.
+
+If the consumer asks for a finer displayed window, apply the mesh-refinement handoff. Refinement replaces the mesh and segment ledger by finite subdivided rows while keeping the transported endpoint coefficients, rational cell boundaries, and consumer-facing readback route inside the same carrier format.
+
+Finally apply the RegSeqRat/Real boundary theorem. Since the route to the seal factors through the finite segment and cell ledgers before reaching $Q$ and $R$, there is no coordinate from which the consumer can read a host function, quotient real graph, selected limit, ambient completion, infinite knot row, or separate analytic approximation object.
+\end{proof}
+
 \begin{theorem}[DyadicSpline common refinement segment exhaustion]
 \label{thm:dyadic-spline-common-refinement-segment-exhaustion}
 Let $S=(K,A,L,I,Q,R,H,C,P,N)$ and $S'=(K',A',L',I',Q',R',H',C',P',N')$ be accepted $\DyadicSplineUp$ packets compared by classifier transport. Then their comparison refines to one displayed dyadic mesh and one finite segment ledger. Every compared endpoint coefficient, rational cell, $\RegSeqRatUp$ readback, and $\RealUp$ seal read factors through that common mesh and ledger.
