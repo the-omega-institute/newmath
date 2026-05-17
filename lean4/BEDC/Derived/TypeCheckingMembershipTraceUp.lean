@@ -1,3 +1,5 @@
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Sig
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -6,6 +8,11 @@ namespace BEDC.Derived.TypeCheckingMembershipTraceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Ext
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Sig
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -211,5 +218,57 @@ theorem TypeCheckingMembershipTraceTasteGate_single_carrier_alignment :
       · intro x y heq
         exact TypeCheckingMembershipTraceTasteGate_single_carrier_alignment_injective heq
       · rfl
+
+def TypeCheckingMembershipTraceKernelRows [AskSetup] (M D R S H C P N : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist BMark Ext Cont SigRel ProbeBundle AskSetup
+  Ext M BMark.b0 D ∧
+    Cont D R C ∧
+      SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) S BHist.Empty ∧
+        hsame H H ∧ hsame P P ∧ hsame N N
+
+theorem TypeCheckingMembershipTraceClassifier_stability [AskSetup]
+    {M D R S H C P N M' D' R' S' H' C' P' N' : BHist}
+    (rows : TypeCheckingMembershipTraceKernelRows M D R S H C P N)
+    (sameM : hsame M M')
+    (sameD : hsame D D')
+    (sameR : hsame R R')
+    (sameS : hsame S S')
+    (sameH : hsame H H')
+    (sameC : hsame C C')
+    (sameP : hsame P P')
+    (sameN : hsame N N') :
+    TypeCheckingMembershipTraceKernelRows M' D' R' S' H' C' P' N' ∧ hsame C C' := by
+  -- BEDC touchpoint anchor: BHist BMark Ext Cont SigRel ProbeBundle AskSetup
+  cases sameM
+  cases sameD
+  cases sameR
+  cases sameS
+  cases sameH
+  cases sameC
+  cases sameP
+  cases sameN
+  cases rows with
+  | intro membership rowsTail =>
+      cases rowsTail with
+      | intro route rowsTail =>
+          cases rowsTail with
+          | intro readback rowsTail =>
+              cases rowsTail with
+              | intro transportH rowsTail =>
+                  cases rowsTail with
+                  | intro transportP transportN =>
+                      constructor
+                      · constructor
+                        · exact membership
+                        · constructor
+                          · exact route
+                          · constructor
+                            · exact readback
+                            · constructor
+                              · exact transportH
+                              · constructor
+                                · exact transportP
+                                · exact transportN
+                      · rfl
 
 end BEDC.Derived.TypeCheckingMembershipTraceUp
