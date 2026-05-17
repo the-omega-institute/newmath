@@ -1,0 +1,117 @@
+\chapter{A Concrete Naming Certificate for $\BHistNonaTupleNameCertUp$}
+\label{ch:concrete-instances-b-hist-nona-tuple-name-cert-namecert}
+\origin{ai-composite}
+
+The $\BHistNonaTupleNameCertUp$ packet abstracts the shared arity-nine tag-encoded $\BHist$ carrier pattern used across a carrier-isomorphism bucket. It is composite over the anchor-stability certificate of \autoref{ch:concrete-instances-anchor-stability-certificate-namecert}, the audit-map family of \autoref{ch:concrete-instances-auditmapfamily-namecert}, the BEDC self-substrate packet of \autoref{ch:concrete-instances-bedc-self-substrate-namecert}, the apophatic fixed-point fiber of \autoref{ch:concrete-instances-apophatic-fixed-point-fiber-namecert}, and the beta critical-pair packet of \autoref{ch:concrete-instances-beta-critical-pair-namecert}. Those siblings exhibit the same finite shape: a fixed list of tagged $\BHist$ rows, componentwise comparison, displayed $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. This chapter names that carrier-isomorphism surface directly so downstream rows can cite one BEDC-native packet rather than repeating the same arity-nine pattern.
+
+\begin{definition}[BHistNonaTupleNameCert carrier]
+\label{def:b-hist-nona-tuple-name-cert-carrier}
+A $\BHistNonaTupleNameCertUp$ carrier is a finite $\BHist$ packet
+$$
+N=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0,\ldots,R_8$ are the nine tag-encoded carrier rows. Each row is a $\BHist$ entry whose tag records the local role used by the member chapter and whose payload is read only as a displayed BEDC history component.
+\item $H$ records componentwise $\hsame$ transport for $R_0,\ldots,R_8,C,P,L$ and no transport row outside the displayed packet.
+\item $C$ records the displayed $\Cont$ route that replays row admission, componentwise comparison, transport, provenance readback, and local naming for the same nine-row packet.
+\item $P$ is the $\Pkg$ provenance over the arity-nine tag encoder, the five named sibling carrier families, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\BHistNonaTupleNameCertUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an untagged row, a tenth carrier component, a host-side equality test, a bucket-wide rewrite of sibling chapters, or a detached provenance table.
+\end{definition}
+
+\begin{definition}[BHistNonaTupleNameCert classifier]
+\label{def:b-hist-nona-tuple-name-cert-classifier}
+Two $\BHistNonaTupleNameCertUp$ packets
+$$
+N=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,H,C,P,L)
+$$
+and
+$$
+N'=(R'_0,R'_1,R'_2,R'_3,R'_4,R'_5,R'_6,R'_7,R'_8,H',C',P',L')
+$$
+are classifier-equivalent exactly when each displayed carrier row compares componentwise,
+$$
+\begin{aligned}
+&R_0 \sim R'_0,\quad R_1 \sim R'_1,\quad R_2 \sim R'_2,\quad R_3 \sim R'_3,\quad R_4 \sim R'_4,\\
+&R_5 \sim R'_5,\quad R_6 \sim R'_6,\quad R_7 \sim R'_7,\quad R_8 \sim R'_8,
+\end{aligned}
+$$
+the transport rows display the same $\hsame$ routes for those components and for $C,P,L$, and the replay rows display the same $\Cont$ route from row admission through local naming. No comparison is available through an omitted component, an untagged payload, or a member-chapter rewrite.
+\end{definition}
+
+\begin{theorem}[BHistNonaTupleNameCert carrier admission]
+\label{thm:b-hist-nona-tuple-name-cert-carrier-admission}
+Every accepted $\BHistNonaTupleNameCertUp$ packet admits exactly the carrier rows
+$$
+R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,H,C,P,L.
+$$
+The nine rows are tag-encoded $\BHist$ components, and $H,C,P,L$ are the only structural rows by which a consumer may transport, replay, source, or locally name the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:b-hist-nona-tuple-name-cert-carrier}. The definition lists the nine tag-encoded $\BHist$ rows and then lists the transport, continuation, provenance, and local naming rows.
+
+There is no remaining coordinate in the packet. Thus any accepted carrier read lands in exactly the displayed rows, and any proposed tenth component or detached structural table lies outside the accepted surface.
+\end{proof}
+
+\begin{theorem}[BHistNonaTupleNameCert classifier exactness]
+\label{thm:b-hist-nona-tuple-name-cert-classifier-exactness}
+For accepted $\BHistNonaTupleNameCertUp$ packets $N$ and $N'$, the classifier of \autoref{def:b-hist-nona-tuple-name-cert-classifier} is exact for the arity-nine carrier surface: it compares the nine tagged $\BHist$ rows componentwise, compares the displayed $\hsame$ and $\Cont$ routes through $H,H',C,C'$, and preserves the provenance and local naming rows through $P,P',L,L'$. It does not compare by bucket membership alone, by a host equality test, or by a hidden isomorphism between member chapters.
+\end{theorem}
+\begin{proof}
+Start with the classifier definition. It requires one comparison for each of $R_0,\ldots,R_8$, then requires the displayed transport and replay routes to match the same component list.
+
+The provenance and local naming rows are part of the same carrier, so their comparison is not an external bucket judgment. Since the classifier has no clause for bucket membership alone, host equality, or hidden chapter isomorphism, the displayed componentwise route is the exact comparison surface.
+\end{proof}
+
+\begin{theorem}[BHistNonaTupleNameCert componentwise stability]
+\label{thm:b-hist-nona-tuple-name-cert-componentwise-stability}
+Componentwise $\hsame$ transport for a $\BHistNonaTupleNameCertUp$ packet preserves exactly the nine tagged rows, the replay route, provenance, and local name. Any stable consumer of the carrier must preserve
+$$
+R_0,\ldots,R_8,H,C,P,L
+$$
+as displayed fields of the same packet before reading a carrier-isomorphism claim.
+\end{theorem}
+\begin{proof}
+Use the $H$ row in \autoref{def:b-hist-nona-tuple-name-cert-carrier}. It is the only row that records componentwise $\hsame$ transport, and its component list is exactly the nine carrier rows together with the replay, provenance, and local naming rows.
+
+The classifier exactness of \autoref{thm:b-hist-nona-tuple-name-cert-classifier-exactness} forces any carrier-isomorphism read to pass through that displayed component list. A consumer that drops a row or adds an unlisted row is therefore no longer reading the accepted packet.
+\end{proof}
+
+\begin{theorem}[BHistNonaTupleNameCert provenance readback]
+\label{thm:b-hist-nona-tuple-name-cert-provenance-readback}
+The provenance row $P$ of an accepted $\BHistNonaTupleNameCertUp$ packet reads back only the arity-nine tag encoder, the sibling carrier families named in this chapter, and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. It does not read a bucket-wide replacement of \autoref{ch:concrete-instances-anchor-stability-certificate-namecert}, \autoref{ch:concrete-instances-auditmapfamily-namecert}, \autoref{ch:concrete-instances-bedc-self-substrate-namecert}, \autoref{ch:concrete-instances-apophatic-fixed-point-fiber-namecert}, or \autoref{ch:concrete-instances-beta-critical-pair-namecert}.
+\end{theorem}
+\begin{proof}
+Inspect the provenance row in the carrier definition. It records the arity-nine tag encoder, the named sibling carrier families, and the local BEDC support rows.
+
+The row is a readback ledger, not a command to alter any sibling chapter. Since neither the carrier nor the classifier contains a member-chapter replacement coordinate, provenance can source the shared pattern without rewriting any bucket member.
+\end{proof}
+
+\begin{theorem}[BHistNonaTupleNameCert local naming nonescape]
+\label{thm:b-hist-nona-tuple-name-cert-local-naming-nonescape}
+Every local $\NameCert_{\BHistNonaTupleNameCertUp}$ read factors through the displayed packet
+$$
+N=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,H,C,P,L).
+$$
+The read may expose the arity-nine tag-encoded carrier pattern and its componentwise routes, but it cannot export an untagged carrier, a tenth row, a host-side equality test, or a relocation of existing bucket member chapters into this capstone.
+\end{theorem}
+\begin{proof}
+The local name is the row $L$ of the carrier. By \autoref{thm:b-hist-nona-tuple-name-cert-carrier-admission}, $L$ is read only together with the nine carrier rows and the displayed structural rows.
+
+Use classifier exactness and componentwise stability. They force any carrier-isomorphism read to preserve the same tag-encoded components and the same displayed $\hsame$ and $\Cont$ routes. Since no untagged carrier, tenth row, host equality test, or member-chapter replacement row appears in the packet, local naming cannot export one.
+\end{proof}
+
+\closureat{BHistNonaTupleNameCertUp}{seedStr}
+
+\begin{closurestatus}{\BHistNonaTupleNameCertUp}
+  \constructivestory{A $\BHistNonaTupleNameCertUp$ packet is generated from nine tag-encoded $\BHist$ carrier rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:b-hist-nona-tuple-name-cert-carrier}, \autoref{def:b-hist-nona-tuple-name-cert-classifier}, \autoref{thm:b-hist-nona-tuple-name-cert-carrier-admission}, \autoref{thm:b-hist-nona-tuple-name-cert-classifier-exactness}, \autoref{thm:b-hist-nona-tuple-name-cert-componentwise-stability}, \autoref{thm:b-hist-nona-tuple-name-cert-provenance-readback}, and \autoref{thm:b-hist-nona-tuple-name-cert-local-naming-nonescape} bind the arity-nine tag-encoded carrier-isomorphism surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not relocate, rewrite, replace, or retire any bucket member chapter, and it does not close Lean verification or bridge checking.}
+  \upgradepath{Obligation closure requires Lean carrier admission, arity-nine classifier exactness, componentwise stability, provenance readback, and local naming nonescape for the same packet.}
+\end{closurestatus}
