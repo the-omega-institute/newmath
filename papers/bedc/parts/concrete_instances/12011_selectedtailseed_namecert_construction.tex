@@ -132,6 +132,18 @@ Next read $K$ and $S$. The $\RegSeqRatUp$ row $K$ reads the selected window as r
 The Real row $R$ is then the seal obtained from this selected stationary readback. By \autoref{thm:selected-tail-seed-namecert-obligations} these rows are part of the same local NameCert surface, and by \autoref{thm:selected-tail-seed-real-window-handoff} every Real-window consumer remains on the finite route. The structural rows $H,C,P,N$ do not create a second readback; they preserve the single chain.
 \end{proof}
 
+\begin{theorem}[Selected-tail seed tail-window determinacy]
+\label{thm:selected-tail-seed-tail-window-determinacy}
+For every accepted carrier $T=(Q,E,A,W,K,S,R,H,C,P,N)$ of \autoref{def:selected-tail-seed-carrier}, any consumer route that exposes the selected stationary endpoint as a $\RealUp$ seal from the same finite-tail admission row $A$ must use the displayed chain $A,W,K,S,R$, with endpoint exactness supplied by $E$ and structural rows supplied by $H,C,P,N$. No alternate stream window, regular-rational readback, dyadic ledger, or Real seal is a $\SelectedTailSeedUp$ consumer route unless it is supplied as one of these carrier rows.
+\end{theorem}
+\begin{proof}
+Project the carrier $T$. The finite-tail admission row is the displayed coordinate $A$, and \autoref{thm:selected-tail-seed-finite-tail-admission-exactness} makes the selected endpoint pass through that finite admission gate with endpoint exactness $E$.
+
+Next apply \autoref{thm:selected-tail-seed-window-readback-coherence}. Once $A$ is fixed, the consumer-visible readback is the single window chain $W,K,S,R$: $W$ exposes the selected stream window, $K$ reads it as regular-rational data, $S$ records the dyadic ledger, and $R$ seals the same selected stationary endpoint as a Real row.
+
+Finally apply \autoref{thm:selected-tail-seed-real-seal-handoff}. The structural rows $H,C,P,N$ preserve, replay, source, and name the displayed chain, while quotient streams, host real equality, detached limits, and ambient Real completeness are not coordinates of the carrier. Hence a route using a different window, readback, ledger, or seal is not a $\SelectedTailSeedUp$ consumer route unless that data has already been supplied as one of the rows of $T$.
+\end{proof}
+
 This chapter is composite rather than atomic. Its independence from the sibling chapters is not expressed by row-by-row atomic separation: $\SelectedTailSeedUp$ deliberately joins $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\FiniteTailFilterUp$ into one stationary selected-tail seed packet, and each sibling omits at least one coordinate needed for the full Real-window handoff.
 
 The Lean \texttt{TasteGate.lean} boundary for $\SelectedTailSeedUp$ must provide explicit $\mathsf{Nontrivial}\ \SelectedTailSeedUp$ and $\mathsf{FieldFaithful}\ \SelectedTailSeedUp$ instances preserving $Q,E,A,W,K,S,R,H,C,P,N$.
