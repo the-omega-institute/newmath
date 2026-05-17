@@ -85,6 +85,49 @@ theorem RussellBoundaryCarrier_fivefold_obligations
       exact ⟨localCertPkg, sourceRow.right⟩
   }
 
+theorem RussellBoundaryCarrier_namecert_noncollapse
+    [AskSetup] [PackageSetup]
+    {source relation description classifier classifier' bridge bridge' descent descent'
+      transport route provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RussellBoundaryCarrier source relation description classifier bridge descent transport route
+        provenance localCert bundle pkg ->
+      hsame classifier classifier' ->
+        hsame bridge bridge' ->
+          hsame descent descent' ->
+            UnaryHistory classifier' ∧ UnaryHistory bridge' ∧ UnaryHistory descent' ∧
+              Cont classifier' bridge' descent' ∧
+                SemanticNameCert
+                  (fun row : BHist =>
+                    RussellBoundaryCarrier source relation description classifier bridge descent
+                      transport route provenance localCert bundle pkg ∧ hsame row localCert)
+                  (fun row : BHist =>
+                    Cont source relation description ∧ Cont classifier bridge descent ∧
+                      Cont transport route provenance ∧ hsame row localCert)
+                  (fun row : BHist => PkgSig bundle localCert pkg ∧ hsame row localCert)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont PkgSig SemanticNameCert hsame
+  intro carrier sameClassifier sameBridge sameDescent
+  have carrierWitness := carrier
+  obtain ⟨_sourceUnary, _relationUnary, _descriptionUnary, classifierUnary, bridgeUnary,
+    descentUnary, _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary,
+    _sourceRelationDescription, classifierBridgeDescent, _transportRouteProvenance,
+    _localCertPkg⟩ := carrier
+  have classifierUnary' : UnaryHistory classifier' :=
+    unary_transport classifierUnary sameClassifier
+  have bridgeUnary' : UnaryHistory bridge' :=
+    unary_transport bridgeUnary sameBridge
+  have descentUnary' : UnaryHistory descent' :=
+    unary_transport descentUnary sameDescent
+  have classifierBridgeDescent' : Cont classifier' bridge' descent' := by
+    cases sameClassifier
+    cases sameBridge
+    cases sameDescent
+    exact classifierBridgeDescent
+  exact
+    ⟨classifierUnary', bridgeUnary', descentUnary', classifierBridgeDescent',
+      RussellBoundaryCarrier_fivefold_obligations carrierWitness⟩
+
 theorem RussellBoundaryCarrier_witnessed_descent_ledger
     [AskSetup] [PackageSetup]
     {source relation description classifier bridge descent transport route provenance
@@ -107,5 +150,39 @@ theorem RussellBoundaryCarrier_witnessed_descent_ledger
     unary_cont_closed descentUnary routeUnary descentRoute
   exact
     ⟨descentUnary, routeUnary, downwardUnary, descentRoute, localCertPkg, downwardPkg⟩
+
+theorem RussellBoundaryCarrier_public_certificate
+    [AskSetup] [PackageSetup]
+    {source relation description classifier bridge descent transport route provenance
+      localCert publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RussellBoundaryCarrier source relation description classifier bridge descent transport route
+        provenance localCert bundle pkg ->
+      Cont relation route publicRead ->
+        PkgSig bundle publicRead pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              RussellBoundaryCarrier source relation description classifier bridge descent
+                transport route provenance localCert bundle pkg ∧ hsame row localCert)
+            (fun row : BHist =>
+              Cont source relation description ∧ Cont classifier bridge descent ∧
+                Cont transport route provenance ∧ hsame row localCert)
+            (fun row : BHist => PkgSig bundle localCert pkg ∧ hsame row localCert)
+            hsame ∧
+            UnaryHistory relation ∧ UnaryHistory route ∧ UnaryHistory publicRead ∧
+              Cont relation route publicRead ∧ PkgSig bundle localCert pkg ∧
+                PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier relationRoutePublic publicPkg
+  have carrierWitness := carrier
+  obtain ⟨_sourceUnary, relationUnary, _descriptionUnary, _classifierUnary, _bridgeUnary,
+    _descentUnary, _transportUnary, routeUnary, _provenanceUnary, _localCertUnary,
+    _sourceRelationDescription, _classifierBridgeDescent, _transportRouteProvenance,
+    localCertPkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed relationUnary routeUnary relationRoutePublic
+  exact
+    ⟨RussellBoundaryCarrier_fivefold_obligations carrierWitness, relationUnary, routeUnary,
+      publicUnary, relationRoutePublic, localCertPkg, publicPkg⟩
 
 end BEDC.Derived.RussellBoundaryUp
