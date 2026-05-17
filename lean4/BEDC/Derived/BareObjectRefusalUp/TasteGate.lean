@@ -47,20 +47,46 @@ def bareObjectRefusalToEventFlow : BareObjectRefusalUp → EventFlow
   | x => (bareObjectRefusalFields x).map bareObjectRefusalEncodeBHist
 
 def bareObjectRefusalFromEventFlow : EventFlow → Option BareObjectRefusalUp
-  | [objectName, missingFields, refusal, witnessAudit, ledger, transport, routes,
-      provenance, localName] =>
-      some
-        (BareObjectRefusalUp.mk
-          (bareObjectRefusalDecodeBHist objectName)
-          (bareObjectRefusalDecodeBHist missingFields)
-          (bareObjectRefusalDecodeBHist refusal)
-          (bareObjectRefusalDecodeBHist witnessAudit)
-          (bareObjectRefusalDecodeBHist ledger)
-          (bareObjectRefusalDecodeBHist transport)
-          (bareObjectRefusalDecodeBHist routes)
-          (bareObjectRefusalDecodeBHist provenance)
-          (bareObjectRefusalDecodeBHist localName))
-  | _ => none
+  | [] => none
+  | objectName :: rest0 =>
+      match rest0 with
+      | [] => none
+      | missingFields :: rest1 =>
+          match rest1 with
+          | [] => none
+          | refusal :: rest2 =>
+              match rest2 with
+              | [] => none
+              | witnessAudit :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | ledger :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | transport :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | routes :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | provenance :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | localName :: rest8 =>
+                                      match rest8 with
+                                      | [] =>
+                                          some
+                                            (BareObjectRefusalUp.mk
+                                              (bareObjectRefusalDecodeBHist objectName)
+                                              (bareObjectRefusalDecodeBHist missingFields)
+                                              (bareObjectRefusalDecodeBHist refusal)
+                                              (bareObjectRefusalDecodeBHist witnessAudit)
+                                              (bareObjectRefusalDecodeBHist ledger)
+                                              (bareObjectRefusalDecodeBHist transport)
+                                              (bareObjectRefusalDecodeBHist routes)
+                                              (bareObjectRefusalDecodeBHist provenance)
+                                              (bareObjectRefusalDecodeBHist localName))
+                                      | _ :: _ => none
 
 private theorem bareObjectRefusal_round_trip :
     ∀ x : BareObjectRefusalUp,
