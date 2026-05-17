@@ -190,6 +190,7 @@ import BEDC.Derived.AuditGateCompositionUp.TasteGate
 import BEDC.Derived.AuditGateFailureWitnessUp.TasteGate
 import BEDC.Derived.AuditMapRouteCompilerUp.TasteGate
 import BEDC.Derived.AuditWritingDisciplineUp.TasteGate
+import BEDC.Derived.WritingItemAuditPacketUp.TasteGate
 import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
 import BEDC.Derived.AuditMapDependencyWeaveUp
 import BEDC.Derived.AuditMapFamilyUp.TasteGate
@@ -251,6 +252,7 @@ import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
 import BEDC.Derived.BoundedUniversalTraceUp.TasteGate
 import BEDC.Derived.BoundedMonotoneConvergenceSealUp.TasteGate
 import BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
+import BEDC.Derived.ClosedObservationSupplyBoundaryUp.TasteGate
 import BEDC.Derived.BudgetedRealSealRouteUp.TasteGate
 import BEDC.Derived.BudgetedRealSealRouteUp.NameCertObligations
 import BEDC.Derived.RealityConstrainedPhysicalInductionUp.TasteGate
@@ -773,6 +775,7 @@ import BEDC.Derived.ConsciousObserverStateUp.GapLedgerRoute
 import BEDC.Derived.ConsciousObserverStateUp.LocalGapCoverage
 import BEDC.Derived.ConsciousObserverStateUp.GapLocalityExhaustion
 import BEDC.Derived.ConsciousObserverStateUp.RouteScopePackage
+import BEDC.Derived.ConsciousObserverStateUp.RoutePackageExactness
 import BEDC.Derived.ConsciousObserverStateUp.LocalityCellHandoff
 import BEDC.Derived.ConsciousObserverStateUp.LocalityCellReadback
 import BEDC.Derived.ConsciousObserverStateUp.DependencyHandoff
@@ -1595,6 +1598,7 @@ import BEDC.Derived.HistTimeStreamUp.CompletionStreamNameHandoffFactorization
 import BEDC.Derived.HistTimeStreamUp.FiniteWindowReadbackExhaustion
 import BEDC.Derived.HistTimeStreamUp.HistTimeStreamRegSeqRatLocalClockSeparation
 import BEDC.Derived.HistTimeStreamUp.LocalTransportExhaustion
+import BEDC.Derived.HistTimeStreamUp.LocalStreamPrefixFactorization
 import BEDC.Derived.HistTimeStreamUp.NameCertRouteExhaustion
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityBridgeRoute
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityTransport
@@ -1867,6 +1871,7 @@ import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyTailCertificateUp.TasteGate
 import BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
 import BEDC.Derived.WritingItemAuditUp.TasteGate
+import BEDC.Derived.WritingItemAuditPacketUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.TasteGate
 import BEDC.Derived.TailCofinalityBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
