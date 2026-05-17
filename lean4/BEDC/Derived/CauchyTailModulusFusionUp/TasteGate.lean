@@ -245,6 +245,19 @@ theorem CauchyTailModulusFusionTasteGate_single_carrier_alignment :
   exact ⟨cauchyTailModulusFusionDecode_encode_bhist, cauchyTailModulusFusion_round_trip,
     fun _ _ heq => cauchyTailModulusFusionToEventFlow_injective heq, rfl⟩
 
+theorem taste_gate :
+    (∀ h : BHist,
+        cauchyTailModulusFusionDecodeBHist (cauchyTailModulusFusionEncodeBHist h) = h) ∧
+      (∀ x : CauchyTailModulusFusionUp,
+        cauchyTailModulusFusionFromEventFlow (cauchyTailModulusFusionToEventFlow x) =
+          some x) ∧
+      (∀ x y : CauchyTailModulusFusionUp,
+        cauchyTailModulusFusionToEventFlow x = cauchyTailModulusFusionToEventFlow y →
+          x = y) ∧
+      cauchyTailModulusFusionEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact CauchyTailModulusFusionTasteGate_single_carrier_alignment
+
 theorem CauchyTailModulusFusionCarrier_namecert_obligations
     (F : CauchyTailModulusFusionUp) :
     SemanticNameCert
