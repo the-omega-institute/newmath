@@ -53,17 +53,38 @@ def physicalRecordInvariantToEventFlow : PhysicalRecordInvariantUp → EventFlow
   | x => (physicalRecordInvariantFields x).map physicalRecordInvariantEncodeBHist
 
 def physicalRecordInvariantFromEventFlow : EventFlow → Option PhysicalRecordInvariantUp
-  | R :: I :: O :: H :: C :: P :: N :: [] =>
-      some
-        (PhysicalRecordInvariantUp.mk
-          (physicalRecordInvariantDecodeBHist R)
-          (physicalRecordInvariantDecodeBHist I)
-          (physicalRecordInvariantDecodeBHist O)
-          (physicalRecordInvariantDecodeBHist H)
-          (physicalRecordInvariantDecodeBHist C)
-          (physicalRecordInvariantDecodeBHist P)
-          (physicalRecordInvariantDecodeBHist N))
-  | _ => none
+  | [] => none
+  | R :: rest0 =>
+      match rest0 with
+      | [] => none
+      | I :: rest1 =>
+          match rest1 with
+          | [] => none
+          | O :: rest2 =>
+              match rest2 with
+              | [] => none
+              | H :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | C :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | P :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | N :: rest6 =>
+                              match rest6 with
+                              | [] =>
+                                  some
+                                    (PhysicalRecordInvariantUp.mk
+                                      (physicalRecordInvariantDecodeBHist R)
+                                      (physicalRecordInvariantDecodeBHist I)
+                                      (physicalRecordInvariantDecodeBHist O)
+                                      (physicalRecordInvariantDecodeBHist H)
+                                      (physicalRecordInvariantDecodeBHist C)
+                                      (physicalRecordInvariantDecodeBHist P)
+                                      (physicalRecordInvariantDecodeBHist N))
+                              | _ :: _ => none
 
 private theorem physicalRecordInvariant_round_trip :
     ∀ x : PhysicalRecordInvariantUp,
@@ -136,8 +157,20 @@ def taste_gate : ChapterTasteGate PhysicalRecordInvariantUp :=
   physicalRecordInvariantChapterTasteGate
 
 theorem PhysicalRecordInvariantTasteGate_single_carrier_alignment :
-    physicalRecordInvariantEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  rfl
+    (∀ h : BHist,
+      physicalRecordInvariantDecodeBHist (physicalRecordInvariantEncodeBHist h) = h) ∧
+      (∀ x : PhysicalRecordInvariantUp,
+        physicalRecordInvariantFromEventFlow
+            (physicalRecordInvariantToEventFlow x) =
+          some x) ∧
+        (∀ x y : PhysicalRecordInvariantUp,
+          physicalRecordInvariantToEventFlow x = physicalRecordInvariantToEventFlow y →
+            x = y) ∧
+          physicalRecordInvariantEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  exact
+    ⟨physicalRecordInvariant_decode_encode_bhist,
+      physicalRecordInvariant_round_trip,
+      (fun _ _ heq => physicalRecordInvariantToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.PhysicalRecordInvariantUp
