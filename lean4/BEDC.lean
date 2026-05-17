@@ -2780,6 +2780,7 @@ import BEDC.Derived.CompactUniformContinuityUp.MetricDistanceRouting
 import BEDC.Derived.CompactUniformContinuityUp.ModulusCertificate
 import BEDC.Derived.CompactUniformContinuityUp.ModulusChoiceSurface
 import BEDC.Derived.CompactUniformContinuityUp.NonEscapeLedger
+import BEDC.Derived.CompactUniformContinuityUp.PrecisionRouteTotality
 import BEDC.Derived.CompactUniformContinuityUp.RealMetricSealNonescape
 import BEDC.Derived.CompactUniformContinuityUp.RealSealBoundary
 import BEDC.Derived.CompactUniformContinuityUp.RootNonescapePackage

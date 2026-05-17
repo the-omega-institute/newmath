@@ -205,6 +205,47 @@ instance haltingDistinctionLimitChapterTasteGate :
     intro x y hxy heq
     exact hxy (haltingDistinctionLimitToEventFlow_injective heq)
 
+def haltingDistinctionLimitFields : HaltingDistinctionLimitUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | HaltingDistinctionLimitUp.mk program input trace diagonalObstruction transport route
+      packageProvenance localNameCertLedger =>
+      [program, input, trace, diagonalObstruction, transport, route, packageProvenance,
+        localNameCertLedger]
+
+private theorem HaltingDistinctionLimitTasteGate_field_faithful_concrete :
+    ∀ x y : HaltingDistinctionLimitUp,
+      haltingDistinctionLimitFields x = haltingDistinctionLimitFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk program₁ input₁ trace₁ diagonal₁ transport₁ route₁ provenance₁ ledger₁ =>
+      cases y with
+      | mk program₂ input₂ trace₂ diagonal₂ transport₂ route₂ provenance₂ ledger₂ =>
+          simp only [haltingDistinctionLimitFields] at h
+          injection h with hProgram tProgram
+          injection tProgram with hInput tInput
+          injection tInput with hTrace tTrace
+          injection tTrace with hDiagonal tDiagonal
+          injection tDiagonal with hTransport tTransport
+          injection tTransport with hRoute tRoute
+          injection tRoute with hProvenance tProvenance
+          injection tProvenance with hLedger _
+          subst hProgram
+          subst hInput
+          subst hTrace
+          subst hDiagonal
+          subst hTransport
+          subst hRoute
+          subst hProvenance
+          subst hLedger
+          rfl
+
+instance haltingDistinctionLimitFieldFaithful :
+    FieldFaithful HaltingDistinctionLimitUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := haltingDistinctionLimitFields
+  field_faithful := HaltingDistinctionLimitTasteGate_field_faithful_concrete
+
 def taste_gate : ChapterTasteGate HaltingDistinctionLimitUp :=
   -- BEDC touchpoint anchor: BHist BMark
   haltingDistinctionLimitChapterTasteGate
@@ -260,5 +301,39 @@ theorem HaltingDistinctionLimitFixedPointBoundary
         haltingDistinctionLimit_round_trip
           (HaltingDistinctionLimitUp.mk program input trace diagonal transport route
             packageProvenance localNameCertLedger)⟩
+
+theorem HaltingDistinctionLimitPacket_sibling_boundary
+    {program input trace diagonal transport route packageProvenance localNameCertLedger
+      endpoint siblingRead : BHist}
+    (traceRoute : Cont input trace diagonal)
+    (returnRoute : Cont diagonal route endpoint)
+    (siblingRoute : Cont endpoint packageProvenance siblingRead) :
+    Cont input (append trace (append route packageProvenance)) siblingRead ∧
+      Cont input (append trace route) endpoint ∧
+        hsame diagonal diagonal ∧ hsame packageProvenance packageProvenance ∧
+          haltingDistinctionLimitFromEventFlow
+              (haltingDistinctionLimitToEventFlow
+                (HaltingDistinctionLimitUp.mk program input trace diagonal transport route
+                  packageProvenance localNameCertLedger)) =
+            some
+              (HaltingDistinctionLimitUp.mk program input trace diagonal transport route
+                packageProvenance localNameCertLedger) := by
+  -- BEDC touchpoint anchor: BHist Cont append hsame
+  constructor
+  · cases traceRoute
+    cases returnRoute
+    cases siblingRoute
+    exact
+      Eq.trans (append_assoc (append input trace) route packageProvenance)
+        (append_assoc input trace (append route packageProvenance))
+  · constructor
+    · cases traceRoute
+      cases returnRoute
+      exact append_assoc input trace route
+    · exact
+        ⟨rfl, rfl,
+          haltingDistinctionLimit_round_trip
+            (HaltingDistinctionLimitUp.mk program input trace diagonal transport route
+              packageProvenance localNameCertLedger)⟩
 
 end BEDC.Derived.HaltingDistinctionLimitUp
