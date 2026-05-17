@@ -61,6 +61,7 @@ import BEDC.Derived.ActiveReadingGateUp.TasteGate
 import BEDC.Derived.AnchorStabilityCertificateUp.TasteGate
 import BEDC.Derived.AnchorChangeInvariantUp.TasteGate
 import BEDC.Derived.ApophaticGateQuestionUp
+import BEDC.Derived.ApophaticGateQuestionUp.AxiomPurityConsumerBoundary
 import BEDC.Derived.ApophaticGateQuestionUp.AuditReadbackCut
 import BEDC.Derived.ApophaticGateQuestionUp.AuditRouteExactness
 import BEDC.Derived.ApophaticGateQuestionUp.BoundaryRowTriad
@@ -133,6 +134,7 @@ import BEDC.Derived.ApophaticNameUp.BridgeRouteScope
 import BEDC.Derived.ApophaticNameUp.RefusalGateRouteLocality
 import BEDC.Derived.ApophaticNameUp.SocketCitationScope
 import BEDC.Derived.ApophaticNameUp.SocketRefusal
+import BEDC.Derived.ApophaticNameUp.SocketRefusalCorrespondence
 import BEDC.Derived.ApophaticNameUp.BoundaryLedgerExactness
 import BEDC.Derived.ApophaticNameUp.ExternalityHandoff
 import BEDC.Derived.ApophaticNameUp.ClassifierRefusalTransport
