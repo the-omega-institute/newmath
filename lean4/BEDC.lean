@@ -236,6 +236,7 @@ import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BedcPhilosophyPackageUp.TasteGate
 import BEDC.Derived.BedcTheoryIdentityUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationUp
+import BEDC.Derived.BetaCongruenceDomainAuditUp.TasteGate
 import BEDC.Derived.BetaCriticalPairUp.TasteGate
 import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BishopRealUp
@@ -324,6 +325,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.LocatedTrapRefinement
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.MonotoneSourceSealBridge
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.MonotoneBoundRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ModulusLedgerExhaustion
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.MonotoneTailCoherence
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ObligationClosure
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.PublicLedgerExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealRouteNonescape
@@ -1389,6 +1391,7 @@ import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
 import BEDC.Derived.FiniteObservationBudgetSelectorUp
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetApproximationPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetLedgerMinimality
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetPrefixPullbackInversion
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetSealCut
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CauchyLimitSealPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalRouteChoiceFreeness
@@ -1441,6 +1444,7 @@ import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FiniteReflectionTupleUp.Core
 import BEDC.Derived.FiniteReflectionTupleUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
+import BEDC.Derived.FinitePrefixLimitStabilityUp.LedgerExactness
 import BEDC.Derived.ForbiddenAxiomAncestryUp
 import BEDC.Derived.ForbiddenAxiomAncestryUp.RefusalDeterminacy
 import BEDC.Derived.FiniteWindowEnvelopeUp
@@ -2221,6 +2225,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.ToleranceLedgerHandoff
 import BEDC.Derived.DiagonallimitcompatibilityUp.TriangleReadbackLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.TriangleSelectorAlignment
 import BEDC.Derived.DiagonallimitcompatibilityUp.TriangleSealScope
+import BEDC.Derived.DiagonallimitcompatibilityUp.TriangleSealTransportRoute
 import BEDC.Derived.DiagonallimitcompatibilityUp.TripleBudgetRouteExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.UniformCauchyTerminalHandoff
 import BEDC.Derived.DiagonallimitcompatibilityUp.UniformCriterionTerminalUniquenessPullback
