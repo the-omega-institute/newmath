@@ -71,3 +71,14 @@ Finally apply the non-escape obligation. Since the packet has no coordinate for 
 \independenceWitness{real, streamname, regseqrat, observationbudgetlimiter, cauchylimitseal: no sibling is bijective to $\mathsf{FiniteRealRouteCommitment}^{\uparrow}$ because this packet stores the route commitment that joins precision, budget, StreamName window, RegSeqRat readback, RealUp seal, and CauchyLimitSeal handoff rows in one NameCert surface.}
 
 \closureat{FiniteRealRouteCommitmentUp}{seedStr}
+
+\begin{closurestatus}{\mathsf{FiniteRealRouteCommitment}^{\uparrow}}
+  \constructivestory{A $\mathsf{FiniteRealRouteCommitment}^{\uparrow}$ packet is generated from finite $\BHist$ rows for a precision request, observation-budget limiter, $\StreamNameUp$ finite window, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\CauchyLimitSealUp$ handoff, transports, continuations, provenance, and local naming. The route is ordered by $\Cont$: request, budget, window, readback, seal, and handoff must be displayed in sequence before any Real or Cauchy-limit consumer can read the packet. Componentwise $\hsame$ preserves that route, and $\Pkg$ records the observation, stream, regular-sequence, Real, and limit-seal dependencies.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the finite Real route-commitment carrier, NameCert obligations, budget non-escape theorem, falsifiable prediction, and independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim unbounded observation schedules, quotient streams, selected host limits, host real equality, trichotomy, independent real carriers, or ambient completeness.}
+  \upgradepath{Obligation closure requires Lean encodings of the route-commitment carrier, budget-to-window route, seal ordering, Cauchy-limit handoff, and non-escape theorem.}
+\end{closurestatus}
