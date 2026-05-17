@@ -208,3 +208,25 @@ Now compare the original and replacement routes. By hypothesis they share the ex
 
 Finally apply diagonal terminal route exhaustion and the terminal Real-completion lock, \autoref{thm:uniform-cauchy-criterion-diagonal-terminal-route-exhaustion} and \autoref{thm:uniform-cauchy-criterion-terminal-real-completion-lock}. They exhaust all admissible Phase Real and Completion reads by the same finite route. Therefore quotient streams, host equality, selected limits, countable choice, ambient completeness, and independent completion data remain outside the preserved selector boundary.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion diagonal uniqueness four-face terminal]
+\label{thm:uniform-cauchy-diagonal-uniqueness-four-face-terminal}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet whose terminal read shares the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\DiagonalLimitCompatibilityUp$, $\RealLimitUniquenessSealUp$, and $\TailCofinalityScheduleUp$ rows. Then every accepted UniformCauchyCriterion terminal read over those rows factors through the same four-face Phase Real and Completion packet with structural route
+$$
+W,Q,T,E,H,C,P,N.
+$$
+The four faces are exactly the stream-window, dyadic-tolerance, regular-readback, and Real-seal faces, and the route is preserved through the same diagonal-compatibility, uniqueness-seal, and tail-cofinality rows. No quotient stream, host real equality, selected limit, countable-choice row, ambient-completeness witness, detached tail oracle, or independent completion datum can distinguish a second terminal read.
+\end{theorem}
+\begin{proof}
+First apply diagonal budget extraction, \autoref{thm:uniform-cauchy-criterion-diagonal-budget-extraction}. It identifies $W,Q,T,E,H,C,P,N$ as the finite budget route delivered to Phase Real and Completion-facing consumers of the accepted terminal exit.
+
+Next use exit route consumer coverage, \autoref{thm:uniform-cauchy-criterion-exit-route-consumer-coverage}. Every accepted terminal consumer is already routed through the same extracted budget together with the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\DiagonalLimitCompatibilityUp$, and $\RealLimitUniquenessSealUp$ rows.
+
+Now apply diagonal structural-face coverage, \autoref{thm:uniform-cauchy-criterion-diagonal-structural-face-coverage}. The route is forced to expose the four structural faces $W,Q,T,E$ and the support rows $H,C,P,N$ before the terminal classifier or any Phase Real and Completion consumer may be read.
+
+Finally use selector-route stability, \autoref{thm:uniform-cauchy-criterion-real-completion-selector-route-stability}. Since the original and replacement terminal reads share the extracted budget and the same diagonal-compatibility, uniqueness-seal, and tail-cofinality rows, the replacement preserves the Phase Real and Completion selector boundary. The listed quotient, host-equality, choice, completeness, tail-oracle, and detached-completion coordinates therefore have no accepted route slot.
+\end{proof}
