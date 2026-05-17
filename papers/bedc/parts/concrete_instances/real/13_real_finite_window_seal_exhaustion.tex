@@ -1,0 +1,19 @@
+\begin{theorem}[Real finite-window seal exhaustion]
+\label{thm:real-finite-window-seal-exhaustion}
+Every terminal $\RealUp$ seal read used by a Real-completion consumer factors through the displayed $\StreamNameUp$ finite window, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ tolerance row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\RealUp$ seal row. Equivalently, the terminal read is exhausted by the finite route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+together with the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+The read cannot add quotient stream equality, host real equality, selected host limits, ambient completeness, countable-choice selectors, metric-completeness data, or a standard bridge row.
+\end{theorem}
+\begin{proof}
+Project the terminal seal through the existing $\RealUp$ finite-window rows. The name-seal carrier of \autoref{def:real-name-seal-carrier} displays the finite-window schedule, dyadic observation, RegSeqRat regularity row, finite ledger, local seal row, and the support rows $H,C,P,N$.
+
+Apply \autoref{thm:real-name-seal-source-factorization}. It forces every public seal read to pass through the displayed source route from the $\StreamNameUp$ window and $\DyadicRatCoreUp$ observation to the $\RegSeqRatUp$ readback and then to the local $\RealUp$ seal.
+
+Use the sibling routes already present in the hub. The StreamName finite-window face is the public interface of \autoref{thm:streamname-public-finite-window-interface}, the RegSeqRat handoff is \autoref{thm:regseqrat-real-seal-handoff}, and the DyadicRatCore tolerance source is \autoref{thm:dyadicratcore-real-phase-source-coverage}. Together with \autoref{thm:real-streamname-regseqrat-seal-route}, these rows repack the read as the four-face route in the statement.
+
+Finally apply the local non-escape and readback surface supplied by \autoref{thm:real-name-seal-four-face-coverage} and \autoref{thm:real-regseqrat-terminal-budget-exhaustion}. Those theorems expose no quotient stream equality, host real equality, selected host limits, ambient completeness, choice selector, metric-completeness row, or standard bridge row, so a terminal Real-completion consumer cannot acquire any of those objects from the finite seal read.
+\end{proof}
