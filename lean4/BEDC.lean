@@ -2912,6 +2912,7 @@ import BEDC.Derived.FieldUp.ConcreteRatupFieldupCertificateInstance
 import BEDC.Derived.FieldUp.RatupFieldupAssembledSupportNeutralityCertificate
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Derived.FocusedLedgerUp.TasteGate
+import BEDC.Derived.GapFailureBridgeAuditUp.TasteGate
 import BEDC.Derived.FieldUp.AffineAutomorphismGroupCertificate
 import BEDC.Reflection
 import BEDC.MetaCIC
