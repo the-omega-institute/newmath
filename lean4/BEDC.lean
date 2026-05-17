@@ -942,6 +942,7 @@ import BEDC.Derived.FiniteNetMinimumFoldUp.CompactModulusAttainment
 import BEDC.Derived.FiniteNetMinimumFoldUp.CompactUniformPointwiseRadiusChain
 import BEDC.Derived.FiniteNetMinimumFoldUp.RootCompactCoverReadback
 import BEDC.Derived.FiniteNetMinimumFoldUp.TerminalReadback
+import BEDC.Derived.FiniteNetMinimumFoldUp.UniformCompactMetricHandoffGate
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.DimLiftBoundaryUp
