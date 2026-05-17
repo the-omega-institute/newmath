@@ -169,6 +169,38 @@ Next apply record factorization. \autoref{thm:finite-prefix-limit-budget-record-
 Finally use the closurestatus upgrade-path surface as the boundary vocabulary: the regular-readback consumer and completion-facing seal interface are the consumers being scoped here. Because the same finite packet supplies both interfaces, $\RealUp$, $\RegSeqRatUp$, and $\CauchyLimitSealUp$ consumers receive exactly the displayed prefix-budget rows and nothing beyond them.
 \end{proof}
 
+\begin{theorem}[Finite-prefix limit-budget diagonal selector consumption]
+\label{thm:finite-prefix-limit-budget-diagonal-selector-consumption}
+Every diagonal-selector or Real-completion consumer of an accepted $\FinitePrefixLimitBudgetUp$ packet
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+must consume the finite route
+$$
+Q \to B \to W \to D
+$$
+before reading the regular readback row $R$ or the completion-facing seal row $S$.
+\end{theorem}
+\begin{proof}
+First use seal ordering, \autoref{thm:finite-prefix-limit-budget-seal-ordering}. It places every completion-facing read behind the route $Q \to B \to W \to D \to R \to S$, so neither $R$ nor $S$ is available before the exhaustion row.
+
+Next use prefix-exhaustion coverage, \autoref{thm:finite-prefix-limit-budget-prefix-exhaustion-coverage}. The diagonal selector spends only the finite windows admitted by $W$, and $D$ records that every admitted offset has been accounted for while outside-prefix reads are refused.
+
+Finally apply the consumer boundary, \autoref{thm:finite-prefix-limit-budget-consumer-boundary}. A Real-completion consumer receives only $Q,B,W,D,R,S,E,H,C,P,N$, so it cannot read the diagonal selector as a completed tail or selected limit before the finite request, budget, window, and exhaustion rows have been consumed.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget Real seal non-escape extension]
+\label{thm:finite-prefix-limit-budget-real-seal-nonescape-extension}
+No $\RealUp$ or $\CauchyLimitSealUp$ consumer of an accepted $\FinitePrefixLimitBudgetUp$ packet can replace the displayed finite prefix route by host real equality, quotient streams, selected limits, countable choice, hidden tail schedules, or ambient completeness. The only seal-facing route available to such a consumer is the displayed finite route through $Q,B,W,D,R,S,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the nonescape criterion, \autoref{thm:finite-prefix-limit-budget-nonescape-criterion}. Host real equality, quotient streams, selected limits, countable choice, hidden tail schedules, and ambient completeness appear only as refused claims in the exclusion row $E$.
+
+Use record factorization, \autoref{thm:finite-prefix-limit-budget-record-factorization}. Every record read of the packet factors through the finite rows $Q,B,W,D,R,S,E,H,C,P,N$, so no external analytic object can replace the displayed prefix route.
+
+The diagonal-consumption theorem above identifies the point at which the seal-facing consumer may read $R$ and $S$. Since that access comes only after $Q,B,W,D$, a $\RealUp$ or $\CauchyLimitSealUp$ consumer that substitutes a host equality, quotient stream, selected limit, choice principle, hidden tail schedule, or ambient completeness witness leaves the accepted carrier.
+\end{proof}
+
 \closureat{FinitePrefixLimitBudgetUp}{seedStr}
 \closureat{FinitePrefixLimitBudgetUp}{obligationStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
 
