@@ -91,3 +91,14 @@ Apply gap routing from \autoref{thm:status-downgrade-gap-routing}. The lowered r
 \independenceWitness{failurecertificate, typedfailurecertificate, auditgatefailurewitness, closurestatusreference, axiompuritygate: none is bijective because only StatusDowngradeUp stores prior status, failure certificate, lowered report, exposed gap row, downgrade route, provenance, and local NameCert together.}
 
 The Lean follow-up for this chapter must provide \texttt{Derived/StatusDowngradeUp/TasteGate.lean} with $\mathsf{Nontrivial}\ \StatusDowngradeUp$ and $\mathsf{FieldFaithful}\ \StatusDowngradeUp$ instances for the displayed carrier fields.
+
+\begin{closurestatus}{\StatusDowngradeUp}
+  \constructivestory{The status downgrade certificate is generated from $BHist$ rows that record an original status, a failure certificate, a weaker report status, and the exposed gap route that explains why the weaker status is the admitted one. The carrier first reads the strength ordering, then records the gap routing row, and finally allows $\Cont$ to carry the weaker status forward without silently restoring the stronger one. The $hsame$ relation keeps the downgrade stable across representative histories. NameCert obligations, strength monotonicity, gap routing, nonescape, prediction, and independence witness define a visible status transition: every downgrade must expose both the target and the ledger reason that blocks the stronger status.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the status downgrade carrier, NameCert obligations, strength-monotonicity theorem, gap-routing theorem, nonescape theorem, falsifiable prediction, and independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim recovery of the stronger status, hidden gap discharge, or status conversion outside the recorded downgrade route.}
+  \upgradepath{Reaching obligationClosure requires formal status-order and gap-route predicates plus checked nonescape of downgraded statuses.}
+\end{closurestatus}
