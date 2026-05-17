@@ -37,3 +37,17 @@ The entry theorem then synchronizes the sources. Theorem~\ref{thm:metacic-critic
 
 The frontier theorem gives the open-phase filter. Theorem~\ref{thm:metacic-critical-path-real-completion-frontier-filter} admits only claims backed by those four displayed source rows and refuses quotient reals, host equality, trichotomy, open-cover compactness, and completed-real data. Together these rows are exactly the current paper-side readiness surface used by the Phase Real and Completion route.
 \end{proof}
+
+\begin{theorem}[MetaCIC critical-path Phase Real dependency diamond]
+\label{thm:metacic-critical-path-phase-real-dependency-diamond}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, a public Phase Real or Completion entry is accepted exactly when its route factors through the four displayed source rows attached to $K$: the $\DyadicRatCoreUp$ finite observation budget, the $\StreamNameUp$ schedule, the $\RegSeqRatUp$ readback, and the $\RealUp$ seal row. The four projections of this factorization recover those source rows and no other public entry row is available. In particular, the diamond exports no quotient stream equality, selected host limit, host equality, trichotomy, open-cover compactness, or completed-real theorem.
+\end{theorem}
+\begin{proof}
+Start from the current open-phase surface. Theorem~\ref{thm:metacic-critical-path-current-open-phase-readiness} says that a Phase Real or Completion consumer sees the Phase Real dependency budget together with the synchronized L10 entry surface and the Real completion frontier filter.
+
+The entry side supplies the four displayed sources. Theorem~\ref{thm:metacic-critical-path-l10-entry-budget-synchronization} requires the dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal rows before public entry, while Theorem~\ref{thm:metacic-critical-path-real-completion-frontier-filter} admits only claims backed by those rows at the Completion frontier.
+
+The projections are forced by the readiness and order rows. Theorems~\ref{thm:metacic-critical-path-real-streamname-source-readiness}, \ref{thm:metacic-critical-path-regseqrat-readback-readiness}, \ref{thm:metacic-critical-path-real-completion-readiness}, and \ref{thm:metacic-critical-path-dyadicratcore-budget-readiness} identify the four sources as rows of the same packet $K$.
+
+Finally use the route-order and seal-frontier exactness theorems. Theorems~\ref{thm:metacic-critical-path-streamname-regseqrat-route-order} and~\ref{thm:metacic-critical-path-real-seal-frontier-exactness} place those rows in the displayed diamond and exclude off-budget exits. Hence the public entry route factors through exactly the four source rows, and the excluded completion or host principles have no exported coordinate.
+\end{proof}
