@@ -50,41 +50,31 @@ def physicalRecordInvariantFields : PhysicalRecordInvariantUp → List BHist
   | PhysicalRecordInvariantUp.mk r i o h c p n => [r, i, o, h, c, p, n]
 
 def physicalRecordInvariantToEventFlow : PhysicalRecordInvariantUp → EventFlow
-  | x => (physicalRecordInvariantFields x).map physicalRecordInvariantEncodeBHist
+  | PhysicalRecordInvariantUp.mk r i o h c p n =>
+      [physicalRecordInvariantEncodeBHist r,
+        physicalRecordInvariantEncodeBHist i,
+        physicalRecordInvariantEncodeBHist o,
+        physicalRecordInvariantEncodeBHist h,
+        physicalRecordInvariantEncodeBHist c,
+        physicalRecordInvariantEncodeBHist p,
+        physicalRecordInvariantEncodeBHist n]
 
-def physicalRecordInvariantFromEventFlow : EventFlow → Option PhysicalRecordInvariantUp
-  | [] => none
-  | R :: rest0 =>
-      match rest0 with
-      | [] => none
-      | I :: rest1 =>
-          match rest1 with
-          | [] => none
-          | O :: rest2 =>
-              match rest2 with
-              | [] => none
-              | H :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | C :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | P :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | N :: rest6 =>
-                              match rest6 with
-                              | [] =>
-                                  some
-                                    (PhysicalRecordInvariantUp.mk
-                                      (physicalRecordInvariantDecodeBHist R)
-                                      (physicalRecordInvariantDecodeBHist I)
-                                      (physicalRecordInvariantDecodeBHist O)
-                                      (physicalRecordInvariantDecodeBHist H)
-                                      (physicalRecordInvariantDecodeBHist C)
-                                      (physicalRecordInvariantDecodeBHist P)
-                                      (physicalRecordInvariantDecodeBHist N))
-                              | _ :: _ => none
+private def physicalRecordInvariantEventAtDefault : Nat → EventFlow → RawEvent
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => physicalRecordInvariantEventAtDefault index rest
+
+def physicalRecordInvariantFromEventFlow (ef : EventFlow) : Option PhysicalRecordInvariantUp :=
+  some
+    (PhysicalRecordInvariantUp.mk
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 0 ef))
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 1 ef))
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 2 ef))
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 3 ef))
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 4 ef))
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 5 ef))
+      (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEventAtDefault 6 ef)))
 
 private theorem physicalRecordInvariant_round_trip :
     ∀ x : PhysicalRecordInvariantUp,
@@ -92,16 +82,24 @@ private theorem physicalRecordInvariant_round_trip :
   intro x
   cases x with
   | mk r i o h c p n =>
-      exact
-        congrArg some
-          (physicalRecordInvariant_mk_congr
-            (physicalRecordInvariant_decode_encode_bhist r)
-            (physicalRecordInvariant_decode_encode_bhist i)
-            (physicalRecordInvariant_decode_encode_bhist o)
-            (physicalRecordInvariant_decode_encode_bhist h)
-            (physicalRecordInvariant_decode_encode_bhist c)
-            (physicalRecordInvariant_decode_encode_bhist p)
-            (physicalRecordInvariant_decode_encode_bhist n))
+      change
+        some
+          (PhysicalRecordInvariantUp.mk
+            (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEncodeBHist r))
+            (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEncodeBHist i))
+            (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEncodeBHist o))
+            (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEncodeBHist h))
+            (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEncodeBHist c))
+            (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEncodeBHist p))
+            (physicalRecordInvariantDecodeBHist (physicalRecordInvariantEncodeBHist n))) =
+          some (PhysicalRecordInvariantUp.mk r i o h c p n)
+      rw [physicalRecordInvariant_decode_encode_bhist r,
+        physicalRecordInvariant_decode_encode_bhist i,
+        physicalRecordInvariant_decode_encode_bhist o,
+        physicalRecordInvariant_decode_encode_bhist h,
+        physicalRecordInvariant_decode_encode_bhist c,
+        physicalRecordInvariant_decode_encode_bhist p,
+        physicalRecordInvariant_decode_encode_bhist n]
 
 private theorem physicalRecordInvariantToEventFlow_injective
     {x y : PhysicalRecordInvariantUp} :
