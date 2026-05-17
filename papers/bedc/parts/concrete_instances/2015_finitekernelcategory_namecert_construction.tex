@@ -296,6 +296,94 @@ endpoints would require an extra host arrow equality or quotient morphism,
 and those coordinates are not exported by the carrier.
 \end{proof}
 
+\begin{theorem}[Finite-kernel categorical row readback]
+\label{thm:finite-kernel-category-category-functor-nattrans-row-readback}
+Let
+$$
+K=(O,M,I,Q,A,U,H,C,P,N)
+$$
+be an accepted $\FiniteKernelCategoryUp$ carrier. Every $\CategoryUp$,
+$\FunctorUp$, or $\NatTransUp$ readback of $K$ factors through exactly the
+displayed rows $O,M,I,Q,A,U,H,C,P,N$: category reads consume object, hom,
+identity, composition, associativity, and unit rows; functor reads consume the
+same rows before preservation data; natural-transformation reads consume the
+same rows before component and naturality data. No readback may replace those
+rows by quotient morphisms, host arrow equality, a functor-category object, or
+an external category library.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-kernel-category-carrier}. The
+accepted packet has only the rows $O,M,I,Q,A,U,H,C,P,N$ available for
+categorical consumers.
+
+Apply the category interface handoff,
+\autoref{thm:finite-kernel-category-category-interface-handoff}. It makes
+$O,M,I,Q,A,U,H,C,P,N$ the $\CategoryUp$-readable boundary and forces
+$\FunctorUp$ and $\NatTransUp$ consumers to read that boundary first.
+
+Use the functor and natural-transformation handoff together with the ledger
+non-escape theorem, \autoref{thm:finite-kernel-category-functor-nattrans-handoff}
+and \autoref{thm:finite-kernel-category-ledger-nonescape-boundary}. The
+handoff supplies no quotient morphism, host equality, functor-category object,
+or external library coordinate, so every readback factors through exactly the
+finite BEDC row sequence.
+\end{proof}
+
+\begin{theorem}[Finite-kernel composition provenance factorization]
+\label{thm:finite-kernel-category-composition-provenance-factorization}
+For every accepted $\FiniteKernelCategoryUp$ carrier $K=(O,M,I,Q,A,U,H,C,P,N)$,
+composition, associativity, and unit consumption factor through the composition
+row $Q$, associativity row $A$, unit row $U$, componentwise transport row $H$,
+displayed continuation row $C$, package provenance row $P$, and local
+$\NameCert$ row $N$. A consumer cannot skip the provenance row or the local
+NameCert row while still consuming the category-law surface of $K$.
+\end{theorem}
+\begin{proof}
+Start with the law rows of \autoref{def:finite-kernel-category-carrier}. The
+composition row is $Q$, associativity is recorded in $A$, and the left and
+right unit laws are recorded in $U$.
+
+Apply the composition laws,
+\autoref{thm:finite-kernel-category-composition-laws}. They require the law
+rows to be transported through $H$ and consumed through $C$, so the laws are
+not detached from the displayed packet.
+
+Finally use the interface handoff and hom endpoint transport determinacy,
+\autoref{thm:finite-kernel-category-category-interface-handoff} and
+\autoref{thm:finite-kernel-category-hom-endpoint-transport-determinacy}. These
+force categorical consumers to keep endpoints, hom histories, law rows,
+provenance, and local naming in the same $Q,A,U,H,C,P,N$ factorization.
+\end{proof}
+
+\begin{theorem}[Finite-kernel bridge consumer nonescape]
+\label{thm:finite-kernel-category-bridge-consumer-nonescape}
+Every bridge-facing categorical consumer of an accepted $\FiniteKernelCategoryUp$
+carrier receives only the finite BEDC packet
+$$
+O,M,I,Q,A,U,H,C,P,N.
+$$
+It receives no quotient morphism, host arrow equality, functor-category object,
+external category library, or bridge route that reads category, functor, or
+natural-transformation data outside the displayed rows.
+\end{theorem}
+\begin{proof}
+First read the carrier and category interface through
+\autoref{def:finite-kernel-category-carrier} and
+\autoref{thm:finite-kernel-category-category-interface-handoff}. The bridge
+consumer starts from the same object, hom, identity, composition,
+associativity, unit, transport, continuation, provenance, and naming rows.
+
+Next apply \autoref{thm:finite-kernel-category-functor-nattrans-handoff}. It
+keeps functor and natural-transformation consumers on the same finite row
+sequence before preservation, components, or naturality are inspected.
+
+Finish with the ledger non-escape boundary and endpoint determinacy,
+\autoref{thm:finite-kernel-category-ledger-nonescape-boundary} and
+\autoref{thm:finite-kernel-category-hom-endpoint-transport-determinacy}. Since
+the carrier has no quotient, host equality, functor-category, or external
+library coordinate, a bridge-facing consumer cannot export one.
+\end{proof}
+
 \closureat{FiniteKernelCategoryUp}{seedStr}
 \closureat{FiniteKernelCategoryUp}{obligationStr}
 
