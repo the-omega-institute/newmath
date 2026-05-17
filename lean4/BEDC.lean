@@ -150,6 +150,7 @@ import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.MachineInterfaceFormalizationTargetUp.TasteGate
 import BEDC.Derived.ExternalityGateUp.TasteGate
+import BEDC.Derived.ExternalSupplySignatureSealUp.TasteGate
 import BEDC.Derived.ExternalSupplyBoundaryUp
 import BEDC.Derived.ExternalSupplyBoundaryUp.TasteGate
 import BEDC.Derived.EmptyFableMachineUp.TasteGate
@@ -659,6 +660,7 @@ import BEDC.Derived.RealWindowBudgetUp.TerminalPullbackCoherence
 import BEDC.Derived.RefusalRegistryUp.TasteGate
 import BEDC.Derived.RegistryLayerUp.TasteGate
 import BEDC.Derived.RegistryExportSurfaceUp.TasteGate
+import BEDC.Derived.RegistryNoSmugglingPredicateUp.TasteGate
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.RealSelectorComparisonUp.TasteGate
 import BEDC.Derived.RelationalFrameAuditUp.TasteGate
@@ -716,6 +718,7 @@ import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelCorpusSupplyUp.TasteGate
 import BEDC.Derived.CorpusSupplyDistillationUp.TasteGate
+import BEDC.Derived.PhilosophyCannotClaimRegistryUp.TasteGate
 import BEDC.Derived.LargeModelAttentionGateUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionPointUp
 import BEDC.Derived.LargeModelInscriptionPointUp.TasteGate
@@ -734,6 +737,7 @@ import BEDC.Derived.ObserverBoundarySelectorUp.TasteGate
 import BEDC.Derived.ObserverAccumulationClockUp.TasteGate
 import BEDC.Derived.ObserverPerspectiveCompositionUp.TasteGate
 import BEDC.Derived.ObservationTimeOrderUp.TasteGate
+import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.OperationalMembraneUp
 import BEDC.Derived.ProofTermErasureAuditRouteUp
 import BEDC.Derived.ProofTermErasureTraceUp.TasteGate

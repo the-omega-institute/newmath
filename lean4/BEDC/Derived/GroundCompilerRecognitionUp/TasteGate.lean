@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.GroundCompilerRecognitionUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -484,5 +486,15 @@ theorem GroundCompilerRecognitionCarrier_finite_trace_handoff_boundary :
     injection htail₆ with _ htail₇
     injection htail₇ with hrow _
     cases hrow
+
+theorem GroundCompilerRecognitionNameCert_obligations
+    (x : GroundCompilerRecognitionUp) :
+    ∃ I G A T V L H C P N : BHist,
+      x = GroundCompilerRecognitionUp.mk I G A T V L H C P N ∧
+        hsame H H ∧ Cont C P (append C P) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk I G A T V L H C P N =>
+      exact ⟨I, G, A, T, V, L, H, C, P, N, rfl, hsame_refl H, rfl⟩
 
 end BEDC.Derived.GroundCompilerRecognitionUp

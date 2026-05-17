@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CorpusSupplyDistillationUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -332,5 +334,15 @@ theorem CorpusSupplyDistillationTasteGate_single_carrier_alignment :
   exact
     ⟨corpusSupplyDistillationDecode_encode_bhist, corpusSupplyDistillation_round_trip,
       (fun _ _ heq => corpusSupplyDistillationToEventFlow_injective heq), rfl⟩
+
+theorem CorpusSupplyDistillationNameCert_obligations
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        hsame H H ∧ Cont T P (append T P) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk C F D O R H T P N =>
+      exact ⟨C, F, D, O, R, H, T, P, N, rfl, hsame_refl H, rfl⟩
 
 end BEDC.Derived.CorpusSupplyDistillationUp

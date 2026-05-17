@@ -192,6 +192,19 @@ theorem OnticResidueLedgerTasteGate_single_carrier_alignment :
           · rfl
           · rfl
 
+theorem OnticResidueLedgerObserverAccess_row_nonescape
+    {O M S A C R H T P N : BHist}
+    (visibleA : A ≠ BHist.Empty) :
+    onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+      onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S BHist.Empty C R H T P N) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hfields
+  injection hfields with _ htail
+  injection htail with _ htail
+  injection htail with _ htail
+  injection htail with hA _
+  exact visibleA hA
+
 namespace TasteGate
 
 open BEDC.FKernel.Hist

@@ -273,6 +273,50 @@ theorem TypeCheckingMembershipTraceClassifier_stability [AskSetup]
                                 · exact transportN
                       · rfl
 
+theorem TypeCheckingMembershipTraceNameCert_obligation_surface [AskSetup]
+    {M D R S H C P N M' D' R' S' H' C' P' N' : BHist}
+    (membership : Ext M BMark.b0 D)
+    (route : Cont D R C)
+    (readback : SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) S BHist.Empty)
+    (sameM : hsame M M')
+    (sameD : hsame D D')
+    (sameR : hsame R R')
+    (sameS : hsame S S')
+    (sameH : hsame H H')
+    (sameC : hsame C C')
+    (sameP : hsame P P')
+    (sameN : hsame N N') :
+    Ext M' BMark.b0 D' ∧
+      Cont D' R' C' ∧
+        SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) S' BHist.Empty ∧
+          typeCheckingMembershipTraceFromEventFlow
+              (typeCheckingMembershipTraceToEventFlow
+                (TypeCheckingMembershipTraceUp.mk M D R S H C P N)) =
+            some (TypeCheckingMembershipTraceUp.mk M D R S H C P N) ∧
+            typeCheckingMembershipTraceFields
+                (TypeCheckingMembershipTraceUp.mk M D R S H C P N) =
+              [M, D, R, S, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist BMark Ext Cont SigRel ProbeBundle AskSetup
+  cases sameM
+  cases sameD
+  cases sameR
+  cases sameS
+  cases sameH
+  cases sameC
+  cases sameP
+  cases sameN
+  constructor
+  · exact membership
+  · constructor
+    · exact route
+    · constructor
+      · exact readback
+      · constructor
+        · exact
+            TypeCheckingMembershipTraceTasteGate_single_carrier_alignment_round_trip
+              (TypeCheckingMembershipTraceUp.mk M D R S H C P N)
+        · rfl
+
 theorem TypeCheckingMembershipTraceNameCert_obligations [AskSetup]
     {M D R S H C P N : BHist}
     (rows : TypeCheckingMembershipTraceKernelRows M D R S H C P N) :
