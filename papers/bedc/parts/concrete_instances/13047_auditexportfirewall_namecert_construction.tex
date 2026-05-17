@@ -69,3 +69,14 @@ The Lean $\mathsf{TasteGate.lean}$ surface must provide $\mathsf{Nontrivial}\ \A
 
 \closureat{AuditExportFirewallUp}{seedStr}
 \closureat{AuditExportFirewallUp}{obligationStr}
+
+\begin{closurestatus}{\AuditExportFirewallUp}
+  \constructivestory{The audit export firewall is generated from $BHist$ rows that record a claim site, positive certificate row, active failure row, registry admission row, consistency gate, audit witness, and firewall decision controlling whether the object may leave the audit context. The carrier first reads the audited row, then the export gate, and finally uses $\Cont$ only to carry export-visible data through that same firewall. The $hsame$ relation preserves the firewall boundary across equivalent histories. NameCert obligations, non-escape, prediction, and independence witness keep the firewall distinct from the audit packet, failure certificate, claim registry, or kernel acceptance witness it may mention; it is the visible boundary condition for export, not the exported object itself.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the audit export-firewall carrier, NameCert obligations, non-escape theorem, sibling-independence theorem, falsifiable prediction, and independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim unrestricted export, audit correctness, socket-report content, or roadmap status outside the firewall boundary.}
+  \upgradepath{Reaching obligationClosure requires formal export-boundary rows and checked non-escape for routes that bypass the firewall.}
+\end{closurestatus}

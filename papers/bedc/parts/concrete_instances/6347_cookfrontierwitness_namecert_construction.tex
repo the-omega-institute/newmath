@@ -83,3 +83,14 @@ By \autoref{thm:cook-frontier-witness-obligation-surface}, an accepted consumer 
 
 The componentwise transport row $H$ records the $\hsame$ transports for $F,M,Y,R,T,A,O,P,N$. Applying its frontier-coordinate component to the two factorizations through the common row $F$ gives the displayed identification of the two frontier-coordinate reads. The continuation row $C$, provenance row $P$, and naming row $N$ are also common, so no second route remains through which either packet could expose a different frontier-coordinate read. Therefore $u\hsame u'$ under the same finite replay route.
 \end{proof}
+
+\begin{closurestatus}{\CookFrontierWitnessUp}
+  \constructivestory{A $\CookFrontierWitnessUp$ packet is generated from a finite frontier coordinate, the TM-to-tag, tag-to-cyclic, and cyclic-to-Rule-110 stage rows, a halted-target row, replay audit, obstruction ledger, componentwise transport, continuation replay, provenance, and local naming. The $\BHist$ carrier keeps each stage as a displayed coordinate; $\hsame$ identifies only matching stage and audit rows; and $\Cont$ replays the route from the Rule 110 trace back through the compiler stages to the halted target. The certificate names a bounded frontier witness rather than Cook universality itself.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the Cook frontier witness carrier, obligation surface, and replay-audit route determinacy lemma.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim a total halting decision, semantic oracle, host compiler-stage equality, unbounded trace, or unstaged universality theorem.}
+  \upgradepath{To reach obligationClosure, formalize the staged compiler rows and replay-audit determinacy as a checked finite NameCert carrier.}
+\end{closurestatus}

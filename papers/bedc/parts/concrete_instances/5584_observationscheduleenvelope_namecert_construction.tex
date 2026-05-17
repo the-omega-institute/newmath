@@ -87,3 +87,14 @@ The excluded objects have no coordinate in the packet. Therefore a route that as
 \end{proof}
 
 The Lean TasteGate surface for this chapter carries \texttt{Nontrivial ObservationScheduleEnvelopeUp} and \texttt{FieldFaithful ObservationScheduleEnvelopeUp} instances for the same finite envelope carrier.
+
+\begin{closurestatus}{\ObservationScheduleEnvelopeUp}
+  \constructivestory{An $\ObservationScheduleEnvelopeUp$ packet is generated from finite $\BHist$ rows for request windows, observation schedule, envelope boundary, budget rows, route rows, transports, provenance, and local naming. The envelope admits only displayed finite observation routes: $\Cont$ carries each request through schedule and budget rows before any downstream read can inspect a selected window. Componentwise $\hsame$ preserves the schedule, envelope, budget, and route inventory, while $\Pkg$ records the observation, StreamName, budget, Real, and completion-adjacent dependencies. The packet names a finite observation envelope and refuses completed streams or hidden persistence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the observation-schedule envelope carrier, route obligations, excluded-object boundary, and finite envelope surface for $\ObservationScheduleEnvelopeUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim completed streams, future observations, hidden persistence, quotient equality, selected Real data, independent budget carriers, or ambient completion.}
+  \upgradepath{Obligation closure requires Lean encodings of the envelope carrier, schedule route, budget boundary, field-faithful surface, and non-escape theorem.}
+\end{closurestatus}
