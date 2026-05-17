@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.PointwiseModulusLedgerUp
+namespace BEDC.Derived.PointwiseModulusLedgerUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -54,6 +54,17 @@ def pointwiseModulusLedgerToEventFlow : PointwiseModulusLedgerUp → EventFlow
 
 def pointwiseModulusLedgerFromEventFlow : EventFlow → Option PointwiseModulusLedgerUp
   -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | _a :: [] => none
+  | _a :: _b :: [] => none
+  | _a :: _b :: _c :: [] => none
+  | _a :: _b :: _c :: _d :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: _f :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: _j :: [] => none
   | source :: target :: graph :: center :: tolerance :: radius :: implication :: transport ::
       route :: provenance :: localName :: [] =>
       some
@@ -69,7 +80,8 @@ def pointwiseModulusLedgerFromEventFlow : EventFlow → Option PointwiseModulusL
           (pointwiseModulusLedgerDecodeBHist route)
           (pointwiseModulusLedgerDecodeBHist provenance)
           (pointwiseModulusLedgerDecodeBHist localName))
-  | _ => none
+  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: _j :: _k :: _l ::
+      _rest => none
 
 private theorem PointwiseModulusLedgerTasteGate_single_carrier_alignment_round_trip :
     ∀ x : PointwiseModulusLedgerUp,
@@ -188,19 +200,22 @@ instance pointwiseModulusLedgerNontrivial : Nontrivial PointwiseModulusLedgerUp 
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate PointwiseModulusLedgerUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  pointwiseModulusLedgerChapterTasteGate
-
 theorem PointwiseModulusLedgerTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       pointwiseModulusLedgerDecodeBHist (pointwiseModulusLedgerEncodeBHist h) = h) ∧
-      pointwiseModulusLedgerEncodeBHist BHist.Empty = ([] : List BMark) ∧
-      (∀ x y : PointwiseModulusLedgerUp,
-        pointwiseModulusLedgerFields x = pointwiseModulusLedgerFields y → x = y) := by
+      Nonempty (Nontrivial PointwiseModulusLedgerUp) ∧
+        Nonempty (ChapterTasteGate PointwiseModulusLedgerUp) ∧
+          Nonempty (FieldFaithful PointwiseModulusLedgerUp) ∧
+            pointwiseModulusLedgerEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨PointwiseModulusLedgerTasteGate_single_carrier_alignment_decode_encode, rfl,
-      PointwiseModulusLedgerTasteGate_single_carrier_alignment_fields_faithful⟩
+  constructor
+  · exact PointwiseModulusLedgerTasteGate_single_carrier_alignment_decode_encode
+  · constructor
+    · exact ⟨pointwiseModulusLedgerNontrivial⟩
+    · constructor
+      · exact ⟨pointwiseModulusLedgerChapterTasteGate⟩
+      · constructor
+        · exact ⟨pointwiseModulusLedgerFieldFaithful⟩
+        · rfl
 
-end BEDC.Derived.PointwiseModulusLedgerUp
+end BEDC.Derived.PointwiseModulusLedgerUp.TasteGate
