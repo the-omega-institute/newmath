@@ -393,6 +393,26 @@ theorem CorpusSupplyDistillation_public_nonescape {x : CorpusSupplyDistillationU
             (cont_mutual_extension_right_tail_absurd
               (h := T) (k := append T P) (leftTail := P) (rightTail := C)).right rfl hbad)⟩
 
+theorem CorpusSupplyDistillation_output_prior_refusal_exactness
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        Cont O R (append O R) ∧
+          Cont R N (append R N) ∧
+            (Cont (append R N) (BHist.e0 O) R → False) ∧
+              (Cont (append R N) (BHist.e1 O) R → False) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk C F D O R H T P N =>
+      exact
+        ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl,
+          (fun hbad =>
+            (cont_mutual_extension_right_tail_absurd
+              (h := R) (k := append R N) (leftTail := N) (rightTail := O)).left rfl hbad),
+          (fun hbad =>
+            (cont_mutual_extension_right_tail_absurd
+              (h := R) (k := append R N) (leftTail := N) (rightTail := O)).right rfl hbad)⟩
+
 theorem CorpusSupplyDistillationSourceChannel_exposure :
     (∀ x : CorpusSupplyDistillationUp,
       ∃ C F D O R H T P N : BHist,

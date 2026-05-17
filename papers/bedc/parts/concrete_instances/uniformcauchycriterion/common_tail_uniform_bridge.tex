@@ -1,0 +1,25 @@
+\begin{theorem}[UniformCauchyCriterion common-tail uniform criterion bridge]
+\label{thm:uniform-cauchy-criterion-common-tail-uniform-criterion-bridge}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, let $T_0$ and $T_1$ be two certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$, and let the two shifted reads land in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet} with common refinement $W_\ast$. Suppose the finite-request $\RealUp$ seal pullback of the common-tail packet is the surface of \autoref{thm:regseqrat-common-tail-finite-request-real-seal-pullback}. If the displayed rows of that pullback align with an accepted $\UniformCauchyCriterionUp$ packet
+$$
+U=(I,W,M,Q,T,E,H,C,P_U,N),
+$$
+so that $W_\ast$ is read as the shared family window $W$, the dyadic endpoint and distance rows are read through the tolerance row $Q$, the common-tail comparison rows are read through the tail ledger $T$, and the seal-source row is read through $E$, then the same finite rows determine the $\UniformCauchyCriterionUp$ route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+Thus the RegSeqRat common-tail pullback recovers a uniform finite-family criterion through the shared window $W$, threshold schedule $M$, tolerance row $Q$, tail ledger $T$, and seal row $E$.
+
+The bridge is only a finite BEDC packet comparison. It asserts no quotient stream, selected limit, host real equality, ambient completeness principle, or second $\RealUp$ seal route.
+\end{theorem}
+\begin{proof}
+First read the RegSeqRat side. By \autoref{thm:regseqrat-common-tail-finite-request-real-seal-pullback}, the two cofinal tail reads and their common refinement expose exactly the finite source surface consisting of the $\StreamNameUp$ rows, $\DyadicRatCoreUp$ endpoint, radius, and distance rows, $\RegSeqRatUp$ classifier and regularity rows, $\RealUp$ seal-source rows, componentwise $\hsame$, displayed $\Cont$, package provenance, and local $\NameCert$ provenance.
+
+Next impose the row alignment with $U$. The common refinement $W_\ast$ is read as the shared family window $W$, the dyadic rows are read as the tolerance row $Q$, the common-tail comparison rows are read as the finite ledger $T$, and the seal-source row is read as $E$. The finite family ledger $I$ and the shared schedule row $M$ are therefore the uniform criterion coordinates through which those rows are consumed.
+
+Apply \autoref{thm:uniform-cauchy-criterion-root-downstream-unblock}. Once the aligned rows are viewed as a $\UniformCauchyCriterionUp$ packet, every downstream $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\DyadicTailBoundUp$, $\RegSeqRatUp$, and $\RealUp$ consumer is exhausted by the finite package $I,W,M,Q,T,E,H,C,P_U,N$.
+
+Now use \autoref{thm:uniform-cauchy-criterion-finite-tail-filter-alignment}. The Real-facing route and the shared finite-window route agree on $W,Q,T,E,H,C,P_U,N$, so the common-tail comparison rows cannot split into a separate tail selector outside the uniform packet.
+
+Finally apply \autoref{thm:uniform-cauchy-criterion-finite-window-real-seal-extraction}. It extracts the Real-seal route from the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ faces of $W,T,Q,E$. The non-escape clauses in the RegSeqRat pullback and the UniformCauchyCriterion extraction remove quotient streams, selected limits, host real equality, ambient completeness, hidden completion carriers, and second seal routes, leaving exactly the uniform finite-family criterion route through $W,M,Q,T,E$.
+\end{proof}
