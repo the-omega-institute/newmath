@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\ProgrammeStrengthGradientLedgerUp$}
+\label{ch:concrete-instances-programme-strength-gradient-ledger-namecert}
+\origin{ai}
+
+The $\ProgrammeStrengthGradientLedgerUp$ packet realizes the programme-strength gradient of \autoref{subsec:philosophy-programme-strength-gradient} as a finite ledger whose rows prevent over-reporting across naming seed, paper certificate, machine-checked certificate, and conservative bridge. It refines the strength ledger of \autoref{ch:concrete-instances-programme-strength-ledger-namecert} by making each reported grade consume its displayed closure, formal, bridge, downgrade, interface, harness, registry, and empirical-boundary rows before the public strength report is readable.
+
+\begin{definition}[Programme strength gradient ledger carrier]
+\label{def:programme-strength-gradient-ledger-carrier}
+A $\ProgrammeStrengthGradientLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+G=(Q,L,T,F,B,M,V,D,U,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the claim-site row naming the theorem, definition, chapter, bridge, package row, or machine-facing output being graded.
+\item $L$ is the layer row naming the programme layer and lower-layer dependencies consumed by the claim site.
+\item $T$ is the theory-closure row, recording seed, obligation, scoped, public, bridged, or mature closure as the paper-side grade.
+\item $F$ is the formal-status row, recording unformalized, formal target, encoded definition, checked scaffold, checked theorem, audit-clean, axiom-clean, or bridge-checked status as the verification-side grade.
+\item $B$ is the bridge row, recording absent, paper-only, or checked conservative-bridge status.
+\item $M$ is the machine-interface row, exposing the machine-facing boundary through which any checked output or kernel readback is reported.
+\item $V$ is the verified-output harness row, exposing checker-facing acceptance for reported machine output.
+\item $D$ is the status-downgrade row, recording the lower report that must be emitted when $T,F,B,M,$ or $V$ is weaker than the requested grade.
+\item $U$ is the upgrade-registry row, recording the next displayed obligation rather than silently raising the report.
+\item $E$ is the formal-constant empirical-value boundary row, separating formal strength from empirical value claims.
+\item $R$ is the refusal row for over-strong reports, hidden bridge claims, unchecked machine claims, erased downgrade rows, and empirical-value substitution.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records displayed $\Cont$ replay from claim site to layer, closure, formal status, bridge, machine interface, verified output, downgrade, upgrade registry, empirical boundary, and refusal rows.
+\item $P$ records $\Pkg$ provenance over $\ProgrammeStrengthLedgerUp$, $\MachineInterfaceBoundaryUp$, $\VerifiedOutputHarnessUp$, $\StatusDowngradeUp$, $\UpgradeRegistryUp$, $\FormalConstantEmpiricalValueBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ProgrammeStrengthGradientLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for reporting a claim above its displayed theory closure, formal status, bridge row, machine-interface row, verified-output harness, downgrade row, upgrade-registry row, empirical boundary, or refusal row.
+\end{definition}
+
+\begin{theorem}[Programme strength gradient ledger obligations]
+\label{thm:programme-strength-ledger-obligations}
+For the carrier of \autoref{def:programme-strength-gradient-ledger-carrier}, the local $\NameCert_{\ProgrammeStrengthGradientLedgerUp}$ surface consists exactly of carrier admission for $G=(Q,L,T,F,B,M,V,D,U,E,R,H,C,P,N)$, layer exposure through $L$, theory-closure exposure through $T$, formal-status exposure through $F$, bridge exposure through $B$, machine-interface exposure through $M$, verified-output exposure through $V$, downgrade exposure through $D$, upgrade-registry exposure through $U$, empirical-boundary exposure through $E$, refusal exposure through $R$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet. The claim site $Q$ is not yet a public strength report; it becomes reportable only after the layer, closure, formal, bridge, machine-interface, verified-output, downgrade, registry, empirical-boundary, and refusal rows have all been read.
+
+Use the sibling packets as row sources. The programme-strength ledger supplies the base strength discipline, the machine-interface boundary supplies checked-output routing, the verified-output harness supplies checker-facing acceptance, the status-downgrade row supplies the lower report, the upgrade registry supplies the next obligation, and the formal-constant empirical-value boundary prevents formal strength from becoming empirical value.
+
+Transport, replay, provenance, and local naming preserve the same finite packet. Since no further coordinate can raise $T,F,B,M,V,D,U,E,$ or $R$, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Programme strength gradient no over-reporting]
+\label{thm:programme-strength-gradient-no-overreporting}
+An accepted $\ProgrammeStrengthGradientLedgerUp$ packet cannot export a reported strength above the minimum grade licensed by its displayed theory-closure row $T$, formal-status row $F$, bridge row $B$, machine-interface row $M$, verified-output harness row $V$, downgrade row $D$, upgrade-registry row $U$, empirical-boundary row $E$, and refusal row $R$. A consumer that asks for a stronger grade receives the downgrade row rather than a promoted report.
+\end{theorem}
+\begin{proof}
+Read $T,F,$ and $B$ first. These rows record the independent paper, verification, and bridge axes, so no one axis can raise the others.
+
+Read $M$ and $V$ next. A machine-facing report is available only through the displayed interface and checker-facing harness; unchecked machine output is therefore not a higher grade inside the packet.
+
+Finally read $D,U,E,$ and $R$. The downgrade row supplies the lower report, the upgrade registry names the next obligation, the empirical-boundary row blocks value substitution, and the refusal row names over-strong reports. The carrier has no remaining coordinate that can convert these blockers into discharged obligations.
+\end{proof}
+
+\begin{theorem}[Programme strength ledger falsifiable prediction]
+\label{thm:programme-strength-ledger-falsifiable-prediction}
+Any accepted $\ProgrammeStrengthGradientLedgerUp$ report that grades a claim above its displayed closure row, formal-status row, bridge row, machine-interface row, verified-output row, downgrade row, upgrade-registry row, empirical-boundary row, or refusal row refutes the carrier.
+\end{theorem}
+\begin{proof}
+Assume an accepted report exports a stronger grade. By \autoref{thm:programme-strength-ledger-obligations}, every accepted report must expose $T,F,B,M,V,D,U,E,$ and $R$ before the local name is consumed.
+
+Apply \autoref{thm:programme-strength-gradient-no-overreporting}. The strongest readable grade is bounded by those displayed rows, and a stronger request must be routed to the downgrade row rather than promoted.
+
+Thus the over-strong report cannot be a consumer of the accepted carrier. It is a falsifying observation for the purported $\ProgrammeStrengthGradientLedgerUp$ packet.
+\end{proof}
+
+\falsifiablePrediction{Any accepted programme-strength ledger that reports a claim above its displayed closure, formal, or bridge row refutes the carrier.}
+
+\independenceWitness{machineinterfaceboundary, verifiedoutputharness, statusdowngrade, upgraderegistry, formalconstantempiricalvalueboundary: none is bijective with $\ProgrammeStrengthGradientLedgerUp$ because the gradient ledger simultaneously carries claim site, layer, theory closure, formal status, bridge status, machine-interface route, verified-output harness, downgrade, upgrade registry, empirical boundary, refusal, transport, replay, provenance, and local NameCert rows.}
+
+Lean follow-up requires \texttt{Nontrivial ProgrammeStrengthGradientLedgerUp} and \texttt{FieldFaithful ProgrammeStrengthGradientLedgerUp} in \texttt{lean4/BEDC/Derived/ProgrammeStrengthGradientLedgerUp/TasteGate.lean}. The target \texttt{BEDC.Derived.ProgrammeStrengthGradientLedgerUp.taste\_gate} must preserve distinct rows for $Q,L,T,F,B,M,V,D,U,E,R,H,C,P,N$.
+
+\closureat{ProgrammeStrengthGradientLedgerUp}{seedStr}
