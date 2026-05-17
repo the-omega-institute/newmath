@@ -212,3 +212,29 @@ Use \autoref{thm:real-name-seal-terminal-source-uniqueness} to make the readback
 
 Finally apply \autoref{thm:real-name-seal-no-completeness}. The packet has no coordinate for quotient streams, selected limits, host equality, ambient Real completeness, metric-completeness data, countable choice, or standard bridge evidence. The status rows for closure, Lean target, bridge status, and completeness therefore remain chapter-local obligations of the four public faces.
 \end{proof}
+
+\begin{theorem}[Real constant dyadic name-seal exhaustion]
+\label{thm:real-constant-dyadic-name-seal-exhaustion}
+Let $C$ be a $\RegSeqRatUp$ constant dyadic source packet over a displayed $\DyadicRatCoreUp$ endpoint $d$, and let
+$$
+R=(D,S,Q,L,E,H,C_R,P,N)
+$$
+be an induced accepted $\RealUp$ name-seal packet for the carrier of \autoref{def:real-name-seal-carrier}. Then every public read of $R$ factors through exactly the constant $\StreamNameUp$ schedule of $C$, the displayed $\DyadicRatCoreUp$ endpoint row $d$, the requested dyadic-radius rows, the $\RegSeqRatUp$ regularity and classifier ledger of $C$, the finite ledger $L$, and the local $\RealUp$ seal rows of \autoref{def:real-name-seal-carrier}.
+
+Equivalently, the induced packet is exhausted by the route
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It exports no quotient stream, selected limit, host real equality, ambient completeness row, metric-completeness datum, choice principle, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Project the induced packet through \autoref{def:real-name-seal-carrier}. The projection exposes the finite-window schedule row $S$, the dyadic observation row $D$, the RegSeqRat row $Q$, the finite ledger $L$, the local seal row $E$, and the structural rows $H,C_R,P,N$.
+
+Apply \autoref{thm:regseqrat-constant-dyadic-regularity} to the constant source packet. Every requested finite window is therefore represented by the same displayed $\DyadicRatCoreUp$ endpoint $d$, the requested radius rows, the equal-endpoint dyadic-distance row, the regularity ledger, and the componentwise transport, continuation, package, and naming rows.
+
+Next apply \autoref{thm:regseqrat-constant-real-seal-handoff} and \autoref{thm:regseqrat-constant-dyadic-request-exhaustion}. These results say that every $\RealUp$-facing request made of the constant source reaches the seal only through the constant $\StreamNameUp$ schedule, the $\DyadicRatCoreUp$ endpoint and radius rows, the $\RegSeqRatUp$ regularity and classifier ledger, the cofinal finite window, and the same finite BEDC structural rows.
+
+Now repack that source description through the local Real seal route. Use \autoref{thm:real-name-seal-source-factorization} to force any public read of $R$ through $S,D,Q,L \longmapsto E$, and use \autoref{thm:real-streamname-regseqrat-seal-route} to identify the only public faces of that route as $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Finally apply \autoref{thm:real-name-seal-no-completeness}. Since neither the constant RegSeqRat source nor the Real name-seal carrier has a coordinate for quotient streams, selected limits, host real equality, ambient completeness, metric-completeness data, choice, or a standard bridge, the induced packet has no remaining public row beyond the listed constant-source and local seal rows.
+\end{proof}
