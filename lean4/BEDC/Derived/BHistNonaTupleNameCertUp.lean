@@ -326,4 +326,39 @@ theorem BHistNonaTupleNameCertTasteGate_single_carrier_alignment :
         exact bHistNonaTupleNameCertToEventFlow_injective heq
       · rfl
 
+theorem BHistNonaTupleNameCertLocalNamingNonescape {row localRead : BHist} :
+    bHistNonaTupleNameCertCarrier row →
+      hsame row localRead →
+        SemanticNameCert
+          (fun out : BHist => bHistNonaTupleNameCertCarrier row ∧ hsame out localRead)
+          (fun out : BHist => hsame out localRead)
+          (fun out : BHist => hsame out row ∧ hsame localRead row)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist NameCert SemanticNameCert hsame
+  intro carrierRow rowLocal
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro localRead
+        (And.intro carrierRow (hsame_refl localRead))
+      equiv_refl := by
+        intro out _source
+        exact hsame_refl out
+      equiv_symm := by
+        intro _out _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _out _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _out _other same source
+        exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+    }
+    pattern_sound := by
+      intro _out source
+      exact source.right
+    ledger_sound := by
+      intro _out source
+      exact And.intro (hsame_trans source.right (hsame_symm rowLocal)) (hsame_symm rowLocal)
+  }
+
 end BEDC.Derived.BHistNonaTupleNameCertUp
