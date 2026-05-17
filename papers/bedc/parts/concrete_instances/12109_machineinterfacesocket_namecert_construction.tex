@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for anonymous target admission, global namespace correctness, host-side proof search success, bypassed audit acceptance, supplied witness content, or a theorem asserting that every declared target is true.
 \end{definition}
+\leandef{BEDC.Derived.MachineInterfaceSocketUp.MachineInterfaceSocketUp}
 
 \begin{theorem}[MachineInterfaceSocket NameCert obligations]
 \label{thm:machine-interface-socket-namecert-obligations}
@@ -43,7 +44,7 @@ Read the dependency rows in order. The target row $T$ gives the machine-facing r
 
 Finally inspect $R,H,C,P,N$. The refusal-locality row blocks refused gate kinds, while the support rows only transport, replay, package, and name the same finite packet. Thus the NameCert obligations are exhausted by the displayed rows.
 \end{proof}
-\leanchecked{BEDC.Derived.MachineInterfaceSocketUp.MachineInterfaceSocketUp\_taste\_gate\_obligations}
+\leanchecked{BEDC.Derived.MachineInterfaceSocketUp.machineInterfaceSocket\_round\_trip}
 
 \begin{theorem}[MachineInterfaceSocket gate locality]
 \label{thm:machine-interface-socket-gate-locality}
@@ -73,7 +74,7 @@ Finally compare $\SupplySocketLedgerUp$. It accounts for requested supply socket
 
 \independenceWitness{socketkindclassifier, socketuseledger, auditgateboundary, apophaticsocket, supplysocketledger: the classifier lacks the formalization-target row, the use ledger lacks the target-bound gate refusal row, the audit gate lacks socket-use and supply-ledger accounting for target routing, the apophatic socket refuses supply without target admission, and the supply socket ledger lacks target-row authorization; no bijection preserves target row plus gate-locality row.}
 
-The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \MachineInterfaceSocketUp$ and $\mathsf{FieldFaithful}\ \MachineInterfaceSocketUp$ instances in $\mathsf{BEDC.Derived.MachineInterfaceSocketUp.TasteGate}$ before the target $\mathsf{BEDC.Derived.MachineInterfaceSocketUp.taste\_gate}$ can be cited by a checked paper marker.
+The Lean carrier file $\mathsf{BEDC.Derived.MachineInterfaceSocketUp.TasteGate}$ provides explicit $\mathsf{Nontrivial}\ \MachineInterfaceSocketUp$ and $\mathsf{FieldFaithful}\ \MachineInterfaceSocketUp$ instances over the displayed packet.
 
 \closureat{MachineInterfaceSocketUp}{seedStr}
 \closureat{MachineInterfaceSocketUp}{obligationStr}

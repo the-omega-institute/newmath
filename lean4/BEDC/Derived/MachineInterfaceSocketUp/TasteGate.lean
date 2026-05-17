@@ -10,11 +10,9 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive MachineInterfaceSocketUp : Type where
-  | root : MachineInterfaceSocketUp
   | mk :
-      (target socketKind useLedger auditGate supplyLedger refusalLocality transport replay
-        provenance localName : BHist) →
-      MachineInterfaceSocketUp
+      (T K U A S R H C P N : BHist) →
+        MachineInterfaceSocketUp
   deriving DecidableEq
 
 def machineInterfaceSocketEncodeBHist : BHist → RawEvent
@@ -29,7 +27,7 @@ def machineInterfaceSocketDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (machineInterfaceSocketDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (machineInterfaceSocketDecodeBHist tail)
 
-private theorem machineInterfaceSocketDecode_encode_bhist :
+theorem machineInterfaceSocketDecode_encode_bhist :
     ∀ h : BHist,
       machineInterfaceSocketDecodeBHist (machineInterfaceSocketEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -42,205 +40,114 @@ private theorem machineInterfaceSocketDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private theorem machineInterfaceSocket_mk_congr
-    {target target' socketKind socketKind' useLedger useLedger' auditGate auditGate'
-      supplyLedger supplyLedger' refusalLocality refusalLocality' transport transport'
-      replay replay' provenance provenance' localName localName' : BHist}
-    (hTarget : target' = target)
-    (hSocketKind : socketKind' = socketKind)
-    (hUseLedger : useLedger' = useLedger)
-    (hAuditGate : auditGate' = auditGate)
-    (hSupplyLedger : supplyLedger' = supplyLedger)
-    (hRefusalLocality : refusalLocality' = refusalLocality)
-    (hTransport : transport' = transport)
-    (hReplay : replay' = replay)
-    (hProvenance : provenance' = provenance)
-    (hLocalName : localName' = localName) :
-    MachineInterfaceSocketUp.mk target' socketKind' useLedger' auditGate' supplyLedger'
-        refusalLocality' transport' replay' provenance' localName' =
-      MachineInterfaceSocketUp.mk target socketKind useLedger auditGate supplyLedger
-        refusalLocality transport replay provenance localName := by
+private def machineInterfaceSocketRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  cases hTarget
-  cases hSocketKind
-  cases hUseLedger
-  cases hAuditGate
-  cases hSupplyLedger
-  cases hRefusalLocality
-  cases hTransport
-  cases hReplay
-  cases hProvenance
-  cases hLocalName
+  | 0, [] => []
+  | 0, head :: _ => head
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => machineInterfaceSocketRawAt n rest
+
+private theorem machineInterfaceSocket_mk_congr
+    {T T' K K' U U' A A' S S' R R' H H' C C' P P' N N' : BHist}
+    (hT : T' = T)
+    (hK : K' = K)
+    (hU : U' = U)
+    (hA : A' = A)
+    (hS : S' = S)
+    (hR : R' = R)
+    (hH : H' = H)
+    (hC : C' = C)
+    (hP : P' = P)
+    (hN : N' = N) :
+    MachineInterfaceSocketUp.mk T' K' U' A' S' R' H' C' P' N' =
+      MachineInterfaceSocketUp.mk T K U A S R H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hT
+  cases hK
+  cases hU
+  cases hA
+  cases hS
+  cases hR
+  cases hH
+  cases hC
+  cases hP
+  cases hN
   rfl
 
-def machineInterfaceSocketToEventFlow (x : MachineInterfaceSocketUp) : EventFlow :=
+def machineInterfaceSocketToEventFlow : MachineInterfaceSocketUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  match x with
-  | MachineInterfaceSocketUp.root => [[BMark.b0]]
-  | MachineInterfaceSocketUp.mk target socketKind useLedger auditGate supplyLedger
-      refusalLocality transport replay provenance localName =>
-      [[BMark.b1],
-        machineInterfaceSocketEncodeBHist target,
-        [BMark.b1, BMark.b0],
-        machineInterfaceSocketEncodeBHist socketKind,
-        [BMark.b1, BMark.b1, BMark.b0],
-        machineInterfaceSocketEncodeBHist useLedger,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        machineInterfaceSocketEncodeBHist auditGate,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        machineInterfaceSocketEncodeBHist supplyLedger,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        machineInterfaceSocketEncodeBHist refusalLocality,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        machineInterfaceSocketEncodeBHist transport,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        machineInterfaceSocketEncodeBHist replay,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        machineInterfaceSocketEncodeBHist provenance,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        machineInterfaceSocketEncodeBHist localName]
+  fun
+  | MachineInterfaceSocketUp.mk T K U A S R H C P N =>
+      [machineInterfaceSocketEncodeBHist T,
+        machineInterfaceSocketEncodeBHist K,
+        machineInterfaceSocketEncodeBHist U,
+        machineInterfaceSocketEncodeBHist A,
+        machineInterfaceSocketEncodeBHist S,
+        machineInterfaceSocketEncodeBHist R,
+        machineInterfaceSocketEncodeBHist H,
+        machineInterfaceSocketEncodeBHist C,
+        machineInterfaceSocketEncodeBHist P,
+        machineInterfaceSocketEncodeBHist N]
 
 def machineInterfaceSocketFromEventFlow :
-    EventFlow → Option MachineInterfaceSocketUp
+    EventFlow → Option MachineInterfaceSocketUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _tag0 :: rest0 =>
-      match rest0 with
-      | [] => some MachineInterfaceSocketUp.root
-      | target :: rest1 =>
-          match rest1 with
-          | [] => none
-          | _tag1 :: rest2 =>
-              match rest2 with
-              | [] => none
-              | socketKind :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | _tag2 :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | useLedger :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | _tag3 :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | auditGate :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | _tag4 :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | supplyLedger :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | _tag5 :: rest10 =>
-                                              match rest10 with
-                                              | [] => none
-                                              | refusalLocality :: rest11 =>
-                                                  match rest11 with
-                                                  | [] => none
-                                                  | _tag6 :: rest12 =>
-                                                      match rest12 with
-                                                      | [] => none
-                                                      | transport :: rest13 =>
-                                                          match rest13 with
-                                                          | [] => none
-                                                          | _tag7 :: rest14 =>
-                                                              match rest14 with
-                                                              | [] => none
-                                                              | replay :: rest15 =>
-                                                                  match rest15 with
-                                                                  | [] => none
-                                                                  | _tag8 :: rest16 =>
-                                                                      match rest16 with
-                                                                      | [] => none
-                                                                      | provenance ::
-                                                                          rest17 =>
-                                                                          match rest17 with
-                                                                          | [] => none
-                                                                          | _tag9 ::
-                                                                              rest18 =>
-                                                                              match rest18 with
-                                                                              | [] =>
-                                                                                  none
-                                                                              | localName ::
-                                                                                  rest19 =>
-                                                                                  match rest19 with
-                                                                                  | [] =>
-                                                                                      some
-                                                                                        (MachineInterfaceSocketUp.mk
-                                                                                          (machineInterfaceSocketDecodeBHist target)
-                                                                                          (machineInterfaceSocketDecodeBHist socketKind)
-                                                                                          (machineInterfaceSocketDecodeBHist useLedger)
-                                                                                          (machineInterfaceSocketDecodeBHist auditGate)
-                                                                                          (machineInterfaceSocketDecodeBHist supplyLedger)
-                                                                                          (machineInterfaceSocketDecodeBHist refusalLocality)
-                                                                                          (machineInterfaceSocketDecodeBHist transport)
-                                                                                          (machineInterfaceSocketDecodeBHist replay)
-                                                                                          (machineInterfaceSocketDecodeBHist provenance)
-                                                                                          (machineInterfaceSocketDecodeBHist localName))
-                                                                                  | _ ::
-                                                                                      _ =>
-                                                                                      none
+  fun ef =>
+    some
+      (MachineInterfaceSocketUp.mk
+        (machineInterfaceSocketDecodeBHist (machineInterfaceSocketRawAt 0 ef))
+        (machineInterfaceSocketDecodeBHist (machineInterfaceSocketRawAt 1 ef))
+        (machineInterfaceSocketDecodeBHist (machineInterfaceSocketRawAt 2 ef))
+        (machineInterfaceSocketDecodeBHist (machineInterfaceSocketRawAt 3 ef))
+        (machineInterfaceSocketDecodeBHist (machineInterfaceSocketRawAt 4 ef))
+        (machineInterfaceSocketDecodeBHist (machineInterfaceSocketRawAt 5 ef))
+        (machineInterfaceSocketDecodeBHist (machineInterfaceSocketRawAt 6 ef))
+        (machineInterfaceSocketDecodeBHist (machineInterfaceSocketRawAt 7 ef))
+        (machineInterfaceSocketDecodeBHist (machineInterfaceSocketRawAt 8 ef))
+        (machineInterfaceSocketDecodeBHist (machineInterfaceSocketRawAt 9 ef)))
 
-private theorem machineInterfaceSocket_round_trip :
+def machineInterfaceSocketFields : MachineInterfaceSocketUp → List BHist :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fun
+  | MachineInterfaceSocketUp.mk T K U A S R H C P N =>
+      [T, K, U, A, S, R, H, C, P, N]
+
+theorem machineInterfaceSocket_round_trip :
     ∀ x : MachineInterfaceSocketUp,
       machineInterfaceSocketFromEventFlow (machineInterfaceSocketToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | root =>
-      rfl
-  | mk target socketKind useLedger auditGate supplyLedger refusalLocality transport replay
-      provenance localName =>
-      change
-        some
-          (MachineInterfaceSocketUp.mk
-            (machineInterfaceSocketDecodeBHist (machineInterfaceSocketEncodeBHist target))
-            (machineInterfaceSocketDecodeBHist (machineInterfaceSocketEncodeBHist socketKind))
-            (machineInterfaceSocketDecodeBHist (machineInterfaceSocketEncodeBHist useLedger))
-            (machineInterfaceSocketDecodeBHist (machineInterfaceSocketEncodeBHist auditGate))
-            (machineInterfaceSocketDecodeBHist
-              (machineInterfaceSocketEncodeBHist supplyLedger))
-            (machineInterfaceSocketDecodeBHist
-              (machineInterfaceSocketEncodeBHist refusalLocality))
-            (machineInterfaceSocketDecodeBHist (machineInterfaceSocketEncodeBHist transport))
-            (machineInterfaceSocketDecodeBHist (machineInterfaceSocketEncodeBHist replay))
-            (machineInterfaceSocketDecodeBHist (machineInterfaceSocketEncodeBHist provenance))
-            (machineInterfaceSocketDecodeBHist (machineInterfaceSocketEncodeBHist localName))) =
-          some
-            (MachineInterfaceSocketUp.mk target socketKind useLedger auditGate supplyLedger
-              refusalLocality transport replay provenance localName)
+  | mk T K U A S R H C P N =>
       exact
         congrArg some
           (machineInterfaceSocket_mk_congr
-            (machineInterfaceSocketDecode_encode_bhist target)
-            (machineInterfaceSocketDecode_encode_bhist socketKind)
-            (machineInterfaceSocketDecode_encode_bhist useLedger)
-            (machineInterfaceSocketDecode_encode_bhist auditGate)
-            (machineInterfaceSocketDecode_encode_bhist supplyLedger)
-            (machineInterfaceSocketDecode_encode_bhist refusalLocality)
-            (machineInterfaceSocketDecode_encode_bhist transport)
-            (machineInterfaceSocketDecode_encode_bhist replay)
-            (machineInterfaceSocketDecode_encode_bhist provenance)
-            (machineInterfaceSocketDecode_encode_bhist localName))
+            (machineInterfaceSocketDecode_encode_bhist T)
+            (machineInterfaceSocketDecode_encode_bhist K)
+            (machineInterfaceSocketDecode_encode_bhist U)
+            (machineInterfaceSocketDecode_encode_bhist A)
+            (machineInterfaceSocketDecode_encode_bhist S)
+            (machineInterfaceSocketDecode_encode_bhist R)
+            (machineInterfaceSocketDecode_encode_bhist H)
+            (machineInterfaceSocketDecode_encode_bhist C)
+            (machineInterfaceSocketDecode_encode_bhist P)
+            (machineInterfaceSocketDecode_encode_bhist N))
 
-private theorem machineInterfaceSocketToEventFlow_injective
-    {x y : MachineInterfaceSocketUp} :
-    machineInterfaceSocketToEventFlow x = machineInterfaceSocketToEventFlow y → x = y := by
+theorem machineInterfaceSocketToEventFlow_injective :
+    ∀ x y : MachineInterfaceSocketUp,
+      machineInterfaceSocketToEventFlow x = machineInterfaceSocketToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have hread :
-      machineInterfaceSocketFromEventFlow (machineInterfaceSocketToEventFlow x) =
-        machineInterfaceSocketFromEventFlow (machineInterfaceSocketToEventFlow y) :=
-    congrArg machineInterfaceSocketFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (machineInterfaceSocket_round_trip x).symm
-      (Eq.trans hread (machineInterfaceSocket_round_trip y)))
+  intro x y hxy
+  have optionEq : some x = some y := by
+    calc
+      some x =
+          machineInterfaceSocketFromEventFlow (machineInterfaceSocketToEventFlow x) :=
+        (machineInterfaceSocket_round_trip x).symm
+      _ =
+          machineInterfaceSocketFromEventFlow (machineInterfaceSocketToEventFlow y) :=
+        congrArg machineInterfaceSocketFromEventFlow hxy
+      _ = some y := machineInterfaceSocket_round_trip y
+  exact Option.some.inj optionEq
 
 instance machineInterfaceSocketBHistCarrier : BHistCarrier MachineInterfaceSocketUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -252,89 +159,61 @@ instance machineInterfaceSocketChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      machineInterfaceSocketFromEventFlow (machineInterfaceSocketToEventFlow x) = some x
+    change machineInterfaceSocketFromEventFlow (machineInterfaceSocketToEventFlow x) = some x
     exact machineInterfaceSocket_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (machineInterfaceSocketToEventFlow_injective heq)
+    exact hxy (machineInterfaceSocketToEventFlow_injective x y heq)
 
-instance machineInterfaceSocketFieldFaithful : FieldFaithful MachineInterfaceSocketUp where
+instance machineInterfaceSocketNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial MachineInterfaceSocketUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | MachineInterfaceSocketUp.root => []
-    | MachineInterfaceSocketUp.mk target socketKind useLedger auditGate supplyLedger
-        refusalLocality transport replay provenance localName =>
-        [target, socketKind, useLedger, auditGate, supplyLedger, refusalLocality, transport,
-          replay, provenance, localName]
+  witness_pair :=
+    ⟨MachineInterfaceSocketUp.mk
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      MachineInterfaceSocketUp.mk
+        (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        -- BEDC touchpoint anchor: BHist BMark
+        intro h
+        cases h⟩
+
+instance machineInterfaceSocketFieldFaithful :
+    FieldFaithful MachineInterfaceSocketUp where
+  fields := machineInterfaceSocketFields
   field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
     intro x y h
     cases x with
-    | root =>
+    | mk T1 K1 U1 A1 S1 R1 H1 C1 P1 N1 =>
         cases y with
-        | root =>
+        | mk T2 K2 U2 A2 S2 R2 H2 C2 P2 N2 =>
+            injection h with hT t1
+            injection t1 with hK t2
+            injection t2 with hU t3
+            injection t3 with hA t4
+            injection t4 with hS t5
+            injection t5 with hR t6
+            injection t6 with hH t7
+            injection t7 with hC t8
+            injection t8 with hP t9
+            injection t9 with hN _
+            cases hT
+            cases hK
+            cases hU
+            cases hA
+            cases hS
+            cases hR
+            cases hH
+            cases hC
+            cases hP
+            cases hN
             rfl
-        | mk target₂ socketKind₂ useLedger₂ auditGate₂ supplyLedger₂ refusalLocality₂
-            transport₂ replay₂ provenance₂ localName₂ =>
-            cases h
-    | mk target₁ socketKind₁ useLedger₁ auditGate₁ supplyLedger₁ refusalLocality₁
-        transport₁ replay₁ provenance₁ localName₁ =>
-        cases y with
-        | root =>
-            cases h
-        | mk target₂ socketKind₂ useLedger₂ auditGate₂ supplyLedger₂ refusalLocality₂
-            transport₂ replay₂ provenance₂ localName₂ =>
-            simp only [] at h
-            injection h with hTarget t1
-            injection t1 with hSocketKind t2
-            injection t2 with hUseLedger t3
-            injection t3 with hAuditGate t4
-            injection t4 with hSupplyLedger t5
-            injection t5 with hRefusalLocality t6
-            injection t6 with hTransport t7
-            injection t7 with hReplay t8
-            injection t8 with hProvenance t9
-            injection t9 with hLocalName _
-            subst hTarget
-            subst hSocketKind
-            subst hUseLedger
-            subst hAuditGate
-            subst hSupplyLedger
-            subst hRefusalLocality
-            subst hTransport
-            subst hReplay
-            subst hProvenance
-            subst hLocalName
-            rfl
-
-instance machineInterfaceSocketNontrivial : Nontrivial MachineInterfaceSocketUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair := by
-    exact
-      ⟨MachineInterfaceSocketUp.root,
-        MachineInterfaceSocketUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-          BHist.Empty,
-        by
-          intro h
-          cases h⟩
 
 def taste_gate : ChapterTasteGate MachineInterfaceSocketUp :=
   -- BEDC touchpoint anchor: BHist BMark
   machineInterfaceSocketChapterTasteGate
-
-theorem MachineInterfaceSocketUp_taste_gate_obligations :
-    Nonempty (ChapterTasteGate MachineInterfaceSocketUp) ∧
-      Nonempty (FieldFaithful MachineInterfaceSocketUp) ∧
-        ∃ x : MachineInterfaceSocketUp,
-          BHistCarrier.toEventFlow x = [[BMark.b0]] := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨Nonempty.intro machineInterfaceSocketChapterTasteGate,
-      Nonempty.intro machineInterfaceSocketFieldFaithful,
-      ⟨MachineInterfaceSocketUp.root,
-        by
-          rfl⟩⟩
 
 end BEDC.Derived.MachineInterfaceSocketUp
