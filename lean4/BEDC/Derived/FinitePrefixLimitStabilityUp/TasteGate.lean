@@ -1,14 +1,20 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
-import BEDC.FKernel.Unary.History
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FinitePrefixLimitStabilityUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -323,6 +329,29 @@ theorem FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment :
         · intro x y hxy
           exact FinitePrefixLimitStabilityUpTasteGate_single_carrier_alignment_injective hxy
         · exact ⟨finitePrefixLimitStabilityChapterTasteGate⟩
+
+theorem FinitePrefixLimitStabilityCarrier_admission [AskSetup] [PackageSetup]
+    {B W R D E H C P N terminal : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    UnaryHistory B → UnaryHistory W → UnaryHistory D → UnaryHistory E →
+      Cont B W R → Cont R D terminal → Cont terminal E C → hsame N E →
+        PkgSig bundle terminal pkg →
+          ∃ packet : FinitePrefixLimitStabilityUp,
+            packet = FinitePrefixLimitStabilityUp.packet B W R D E H C P N ∧
+              UnaryHistory B ∧ UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory D ∧
+                UnaryHistory E ∧ UnaryHistory terminal ∧ Cont B W R ∧
+                  Cont R D terminal ∧ Cont terminal E C ∧ hsame N E ∧
+                    PkgSig bundle terminal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro unaryB unaryW unaryD unaryE contBW contRD contTerminalE sameName pkgTerminal
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryB unaryW contBW
+  have unaryTerminal : UnaryHistory terminal :=
+    unary_cont_closed unaryR unaryD contRD
+  exact
+    ⟨FinitePrefixLimitStabilityUp.packet B W R D E H C P N, rfl, unaryB, unaryW,
+      unaryR, unaryD, unaryE, unaryTerminal, contBW, contRD, contTerminalE, sameName,
+      pkgTerminal⟩
 
 theorem FinitePrefixLimitStabilityCarrier_route_unary_closure
     {B W R D E H C P N BW WR RD DE : BHist}
