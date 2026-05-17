@@ -346,6 +346,18 @@ theorem CorpusSupplyDistillationNameCert_obligations
   | mk C F D O R H T P N =>
       exact ⟨C, F, D, O, R, H, T, P, N, rfl, hsame_refl H, rfl⟩
 
+theorem CorpusSupplyDistillation_carried_output_boundary
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        Cont C F (append C F) ∧
+          Cont F D (append F D) ∧
+            Cont D O (append D O) ∧ hsame H H := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk C F D O R H T P N =>
+      exact ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl, rfl, hsame_refl H⟩
+
 theorem CorpusSupplyDistillationCarrier_admission
     (x : CorpusSupplyDistillationUp) :
     ∃ C F D O R H T P N : BHist,
