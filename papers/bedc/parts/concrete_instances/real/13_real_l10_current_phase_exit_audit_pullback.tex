@@ -7,12 +7,10 @@ Any accepted current Phase Real and Completion exit read through
 $$
 \DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
 $$
-reads four separate local closurestatus records. The $\DyadicRatCoreUp$ face
-contributes $\matureClosure$ with $\axiomCleanV$ and paperBridge status; the
-$\StreamNameUp$ face contributes $\matureClosure$ with $\bridgeCheckedV$; the
-$\RegSeqRatUp$ face contributes $\matureClosure$ with $\axiomCleanV$ and
-paperBridge status; and the $\RealUp$ face contributes $\matureClosure$ with
-$\bridgeCheckedV$.
+reads four separate local closurestatus records. Each face contributes exactly
+the closurestatus, formalstatus, leantarget, and bridgestatus rows declared in
+its own local closurestatus block. The lookup cites those rows objectwise and
+does not cache their token values in the Real L10 exit audit section.
 
 These four entries are objectwise face records. They are not an aggregate
 formalstatus token, an aggregate bridge row, or a route-level closurestatus
@@ -29,12 +27,10 @@ $\DyadicRatCoreUp$, \autoref{thm:streamname-public-interface-export-package},
 \autoref{thm:regseqrat-real-seal-handoff} for $\RegSeqRatUp$, and
 \autoref{thm:realup-phase-real-completion-boundary} for $\RealUp$.
 
-The closurestatus block attached to the DyadicRatCore handoff records
-$\matureClosure$, $\axiomCleanV$, and paperBridge status. The StreamName public
-interface closurestatus records $\matureClosure$ and $\bridgeCheckedV$. The
-RegSeqRat real-seal boundary closurestatus records $\matureClosure$,
-$\axiomCleanV$, and paperBridge status. The RealUp certificate-boundary
-closurestatus records $\matureClosure$ and $\bridgeCheckedV$.
+The cited theorem anchors locate the four local chapters, but this theorem does
+not copy their token values. The local closurestatus block for each face is the
+sole source for its closurestatus, formalstatus, leantarget, and bridgestatus
+rows.
 
 By the two-axis convention of
 \autoref{sec:roadmap-closure-and-verification-axes}, a closure entry and a
@@ -52,10 +48,10 @@ $$
 \DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
 $$
 of the $\RealUp$ L10 dependency lattice, the audit boundary is exactly the
-product of the four local face records. The $\DyadicRatCoreUp$ and
-$\RegSeqRatUp$ faces contribute their $\axiomCleanV$ BEDC-side finite-route
-records; the $\StreamNameUp$ and $\RealUp$ faces contribute their
-$\bridgeCheckedV$ records.
+product of the four local face records. Each face contributes exactly the
+closurestatus, formalstatus, leantarget, and bridgestatus rows declared in its
+own local closurestatus block, read by reference from that face and not
+restated as cached Real L10 status data.
 
 The exit packet contributes no fifth formal token, no aggregate bridge, no
 $\RealUp$ completeness claim, no quotient stream, no selected limit, and no
@@ -157,10 +153,9 @@ $$
 $$
 read through the Real L10 source-route, interface-totality, four-face
 exactness, StreamName exit-correspondence, and audit-pullback records. Its
-certificate content is the cited local closure evidence: the
-$\DyadicRatCoreUp$ and $\RegSeqRatUp$ faces contribute their $\axiomCleanV$
-records, while the $\StreamNameUp$ and $\RealUp$ faces contribute their
-$\bridgeCheckedV$ records.
+certificate content is the cited local closure evidence: each face contributes
+exactly the closurestatus, formalstatus, leantarget, and bridgestatus rows
+declared in its own local closurestatus block.
 
 The certificate exports no $\RealUp$ completeness claim, no quotient stream,
 no selected limit, no metric-completeness row, no aggregate bridge, and no
