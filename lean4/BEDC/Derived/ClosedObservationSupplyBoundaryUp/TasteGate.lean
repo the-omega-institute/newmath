@@ -229,4 +229,29 @@ theorem ClosedObservationSupplyBoundaryTasteGate_single_carrier_alignment :
         exact closedObservationSupplyBoundaryToEventFlow_injective heq
       · rfl
 
+theorem ClosedObservationSupplyBoundaryUpTasteGate_single_carrier_alignment :
+    closedObservationSupplyBoundaryEncodeBHist BHist.Empty = [] ∧
+      (∀ h : BHist,
+        closedObservationSupplyBoundaryDecodeBHist
+          (closedObservationSupplyBoundaryEncodeBHist h) = h) ∧
+      (∀ x : ClosedObservationSupplyBoundaryUp,
+        closedObservationSupplyBoundaryFromEventFlow
+          (closedObservationSupplyBoundaryToEventFlow x) = some x) ∧
+      (∀ x y : ClosedObservationSupplyBoundaryUp,
+        closedObservationSupplyBoundaryToEventFlow x =
+            closedObservationSupplyBoundaryToEventFlow y →
+          x = y) ∧
+      Nonempty (ChapterTasteGate ClosedObservationSupplyBoundaryUp) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · constructor
+    · exact closedObservationSupplyBoundary_decode_encode_bhist
+    · constructor
+      · exact closedObservationSupplyBoundary_round_trip
+      · constructor
+        · intro x y heq
+          exact closedObservationSupplyBoundaryToEventFlow_injective heq
+        · exact ⟨closedObservationSupplyBoundaryChapterTasteGate⟩
+
 end BEDC.Derived.ClosedObservationSupplyBoundaryUp
