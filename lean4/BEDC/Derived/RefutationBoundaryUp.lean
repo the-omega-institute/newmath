@@ -116,6 +116,21 @@ theorem RefutationBoundaryCarrier_permitted_negation_sound {A F D S T H C P N : 
         exact append_assoc A F C
   · rfl
 
+theorem RefutationBoundaryCarrier_realup_consumer_scope
+    {A F D S T H C P N endpoint : BHist} :
+    RefutationBoundaryCarrier A F D S T H C P N →
+      Cont D C endpoint →
+        Cont A (append F C) endpoint ∧ hsame S S ∧ hsame T T ∧ hsame H H ∧
+          hsame P P ∧ hsame N N ∧ msame BMark.b0 BMark.b0 := by
+  -- BEDC touchpoint anchor: BHist Cont hsame msame BMark
+  intro carrier endpointRoute
+  obtain ⟨route, _sameA, _sameF, _sameD, sameS, sameT, sameH, _sameC, sameP,
+    sameN, markSame⟩ := carrier
+  have consumerRoute : Cont A (append F C) endpoint := by
+    cases route
+    exact endpointRoute.trans (append_assoc A F C)
+  exact ⟨consumerRoute, sameS, sameT, sameH, sameP, sameN, markSame⟩
+
 theorem RefutationBoundaryForbiddenTruthBranchExclusion
     {A F D S T H C P N tail : BHist}
     (carrier : RefutationBoundaryCarrier A F D S T H C P N) :

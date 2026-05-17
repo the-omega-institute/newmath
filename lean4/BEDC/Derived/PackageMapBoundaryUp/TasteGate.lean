@@ -10,7 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive PackageMapBoundaryUp : Type where
-  | mk (T G R S X A H C P N : BHist) : PackageMapBoundaryUp
+  | mk :
+      (theoremMap gapMap traditionMap scientificMap axisBoundary auditRoute transport replay
+        provenance nameCert : BHist) →
+        PackageMapBoundaryUp
   deriving DecidableEq
 
 def packageMapBoundaryEncodeBHist : BHist → RawEvent
@@ -25,7 +28,7 @@ def packageMapBoundaryDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (packageMapBoundaryDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (packageMapBoundaryDecodeBHist tail)
 
-private theorem packageMapBoundaryDecode_encode_bhist :
+private theorem PackageMapBoundaryTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist, packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -39,101 +42,98 @@ private theorem packageMapBoundaryDecode_encode_bhist :
 
 def packageMapBoundaryFields : PackageMapBoundaryUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | PackageMapBoundaryUp.mk T G R S X A H C P N => [T, G, R, S, X, A, H, C, P, N]
+  | PackageMapBoundaryUp.mk theoremMap gapMap traditionMap scientificMap axisBoundary auditRoute
+      transport replay provenance nameCert =>
+      [theoremMap, gapMap, traditionMap, scientificMap, axisBoundary, auditRoute, transport,
+        replay, provenance, nameCert]
 
 def packageMapBoundaryToEventFlow : PackageMapBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | PackageMapBoundaryUp.mk T G R S X A H C P N =>
-      [[BMark.b0],
-        packageMapBoundaryEncodeBHist T,
-        [BMark.b1, BMark.b0],
-        packageMapBoundaryEncodeBHist G,
-        [BMark.b1, BMark.b1, BMark.b0],
-        packageMapBoundaryEncodeBHist R,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        packageMapBoundaryEncodeBHist S,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        packageMapBoundaryEncodeBHist X,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        packageMapBoundaryEncodeBHist A,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        packageMapBoundaryEncodeBHist H,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        packageMapBoundaryEncodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        packageMapBoundaryEncodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        packageMapBoundaryEncodeBHist N]
-
-private def packageMapBoundaryRawAt : Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => packageMapBoundaryRawAt n rest
-
-private def packageMapBoundaryLengthEq : Nat → EventFlow → Bool
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => packageMapBoundaryLengthEq n rest
+  | x => (packageMapBoundaryFields x).map packageMapBoundaryEncodeBHist
 
 def packageMapBoundaryFromEventFlow : EventFlow → Option PackageMapBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      match packageMapBoundaryLengthEq 20 flow with
-      | true =>
-          some
-            (PackageMapBoundaryUp.mk
-              (packageMapBoundaryDecodeBHist (packageMapBoundaryRawAt 1 flow))
-              (packageMapBoundaryDecodeBHist (packageMapBoundaryRawAt 3 flow))
-              (packageMapBoundaryDecodeBHist (packageMapBoundaryRawAt 5 flow))
-              (packageMapBoundaryDecodeBHist (packageMapBoundaryRawAt 7 flow))
-              (packageMapBoundaryDecodeBHist (packageMapBoundaryRawAt 9 flow))
-              (packageMapBoundaryDecodeBHist (packageMapBoundaryRawAt 11 flow))
-              (packageMapBoundaryDecodeBHist (packageMapBoundaryRawAt 13 flow))
-              (packageMapBoundaryDecodeBHist (packageMapBoundaryRawAt 15 flow))
-              (packageMapBoundaryDecodeBHist (packageMapBoundaryRawAt 17 flow))
-              (packageMapBoundaryDecodeBHist (packageMapBoundaryRawAt 19 flow)))
-      | false => none
+  | [] => none
+  | theoremMap :: rest0 =>
+      match rest0 with
+      | [] => none
+      | gapMap :: rest1 =>
+          match rest1 with
+          | [] => none
+          | traditionMap :: rest2 =>
+              match rest2 with
+              | [] => none
+              | scientificMap :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | axisBoundary :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | auditRoute :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | transport :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | replay :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | provenance :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | nameCert :: rest9 =>
+                                          match rest9 with
+                                          | [] =>
+                                              some
+                                                (PackageMapBoundaryUp.mk
+                                                  (packageMapBoundaryDecodeBHist theoremMap)
+                                                  (packageMapBoundaryDecodeBHist gapMap)
+                                                  (packageMapBoundaryDecodeBHist traditionMap)
+                                                  (packageMapBoundaryDecodeBHist scientificMap)
+                                                  (packageMapBoundaryDecodeBHist axisBoundary)
+                                                  (packageMapBoundaryDecodeBHist auditRoute)
+                                                  (packageMapBoundaryDecodeBHist transport)
+                                                  (packageMapBoundaryDecodeBHist replay)
+                                                  (packageMapBoundaryDecodeBHist provenance)
+                                                  (packageMapBoundaryDecodeBHist nameCert))
+                                          | _ :: _ => none
 
-private theorem packageMapBoundary_round_trip :
+private theorem PackageMapBoundaryTasteGate_single_carrier_alignment_round_trip :
     ∀ x : PackageMapBoundaryUp,
       packageMapBoundaryFromEventFlow (packageMapBoundaryToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk T G R S X A H C P N =>
+  | mk theoremMap gapMap traditionMap scientificMap axisBoundary auditRoute transport replay
+      provenance nameCert =>
       change
         some
           (PackageMapBoundaryUp.mk
-            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist T))
-            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist G))
-            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist R))
-            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist S))
-            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist X))
-            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist A))
-            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist H))
-            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist C))
-            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist P))
-            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist N))) =
-          some (PackageMapBoundaryUp.mk T G R S X A H C P N)
-      rw [packageMapBoundaryDecode_encode_bhist T,
-        packageMapBoundaryDecode_encode_bhist G,
-        packageMapBoundaryDecode_encode_bhist R,
-        packageMapBoundaryDecode_encode_bhist S,
-        packageMapBoundaryDecode_encode_bhist X,
-        packageMapBoundaryDecode_encode_bhist A,
-        packageMapBoundaryDecode_encode_bhist H,
-        packageMapBoundaryDecode_encode_bhist C,
-        packageMapBoundaryDecode_encode_bhist P,
-        packageMapBoundaryDecode_encode_bhist N]
+            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist theoremMap))
+            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist gapMap))
+            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist traditionMap))
+            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist scientificMap))
+            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist axisBoundary))
+            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist auditRoute))
+            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist transport))
+            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist replay))
+            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist provenance))
+            (packageMapBoundaryDecodeBHist (packageMapBoundaryEncodeBHist nameCert))) =
+          some
+            (PackageMapBoundaryUp.mk theoremMap gapMap traditionMap scientificMap axisBoundary
+              auditRoute transport replay provenance nameCert)
+      rw [PackageMapBoundaryTasteGate_single_carrier_alignment_decode_encode theoremMap,
+        PackageMapBoundaryTasteGate_single_carrier_alignment_decode_encode gapMap,
+        PackageMapBoundaryTasteGate_single_carrier_alignment_decode_encode traditionMap,
+        PackageMapBoundaryTasteGate_single_carrier_alignment_decode_encode scientificMap,
+        PackageMapBoundaryTasteGate_single_carrier_alignment_decode_encode axisBoundary,
+        PackageMapBoundaryTasteGate_single_carrier_alignment_decode_encode auditRoute,
+        PackageMapBoundaryTasteGate_single_carrier_alignment_decode_encode transport,
+        PackageMapBoundaryTasteGate_single_carrier_alignment_decode_encode replay,
+        PackageMapBoundaryTasteGate_single_carrier_alignment_decode_encode provenance,
+        PackageMapBoundaryTasteGate_single_carrier_alignment_decode_encode nameCert]
 
-private theorem packageMapBoundaryToEventFlow_injective
+private theorem PackageMapBoundaryTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : PackageMapBoundaryUp} :
     packageMapBoundaryToEventFlow x = packageMapBoundaryToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -143,19 +143,40 @@ private theorem packageMapBoundaryToEventFlow_injective
         packageMapBoundaryFromEventFlow (packageMapBoundaryToEventFlow y) :=
     congrArg packageMapBoundaryFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (packageMapBoundary_round_trip x).symm
-      (Eq.trans hread (packageMapBoundary_round_trip y)))
+    (Eq.trans (PackageMapBoundaryTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (PackageMapBoundaryTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem packageMapBoundary_field_faithful :
+private theorem PackageMapBoundaryTasteGate_single_carrier_alignment_fields_faithful :
     ∀ x y : PackageMapBoundaryUp,
       packageMapBoundaryFields x = packageMapBoundaryFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk T1 G1 R1 S1 X1 A1 H1 C1 P1 N1 =>
+  | mk theoremMap₁ gapMap₁ traditionMap₁ scientificMap₁ axisBoundary₁ auditRoute₁
+      transport₁ replay₁ provenance₁ nameCert₁ =>
       cases y with
-      | mk T2 G2 R2 S2 X2 A2 H2 C2 P2 N2 =>
-          cases hfields
+      | mk theoremMap₂ gapMap₂ traditionMap₂ scientificMap₂ axisBoundary₂ auditRoute₂
+          transport₂ replay₂ provenance₂ nameCert₂ =>
+          injection hfields with hTheoremMap tail0
+          injection tail0 with hGapMap tail1
+          injection tail1 with hTraditionMap tail2
+          injection tail2 with hScientificMap tail3
+          injection tail3 with hAxisBoundary tail4
+          injection tail4 with hAuditRoute tail5
+          injection tail5 with hTransport tail6
+          injection tail6 with hReplay tail7
+          injection tail7 with hProvenance tail8
+          injection tail8 with hNameCert _
+          subst hTheoremMap
+          subst hGapMap
+          subst hTraditionMap
+          subst hScientificMap
+          subst hAxisBoundary
+          subst hAuditRoute
+          subst hTransport
+          subst hReplay
+          subst hProvenance
+          subst hNameCert
           rfl
 
 instance packageMapBoundaryBHistCarrier : BHistCarrier PackageMapBoundaryUp where
@@ -163,21 +184,20 @@ instance packageMapBoundaryBHistCarrier : BHistCarrier PackageMapBoundaryUp wher
   toEventFlow := packageMapBoundaryToEventFlow
   fromEventFlow := packageMapBoundaryFromEventFlow
 
-instance packageMapBoundaryChapterTasteGate :
-    ChapterTasteGate PackageMapBoundaryUp where
+instance packageMapBoundaryChapterTasteGate : ChapterTasteGate PackageMapBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change packageMapBoundaryFromEventFlow (packageMapBoundaryToEventFlow x) = some x
-    exact packageMapBoundary_round_trip x
+    exact PackageMapBoundaryTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (packageMapBoundaryToEventFlow_injective heq)
+    exact hxy (PackageMapBoundaryTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance packageMapBoundaryFieldFaithful : FieldFaithful PackageMapBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := packageMapBoundaryFields
-  field_faithful := packageMapBoundary_field_faithful
+  field_faithful := PackageMapBoundaryTasteGate_single_carrier_alignment_fields_faithful
 
 instance packageMapBoundaryNontrivial : Nontrivial PackageMapBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -204,12 +224,16 @@ theorem PackageMapBoundaryTasteGate_single_carrier_alignment :
               (PackageMapBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
                 BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
             [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-              BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
+              BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
+            packageMapBoundaryEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
+              Nonempty (ChapterTasteGate PackageMapBoundaryUp) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨packageMapBoundaryDecode_encode_bhist,
-      packageMapBoundary_round_trip,
-      (fun _ _ heq => packageMapBoundaryToEventFlow_injective heq),
-      rfl⟩
+    ⟨PackageMapBoundaryTasteGate_single_carrier_alignment_decode_encode,
+      PackageMapBoundaryTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => PackageMapBoundaryTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl,
+      rfl,
+      ⟨packageMapBoundaryChapterTasteGate⟩⟩
 
 end BEDC.Derived.PackageMapBoundaryUp
