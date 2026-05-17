@@ -465,6 +465,93 @@ or external library coordinate, so every readback factors through exactly the
 finite BEDC row sequence.
 \end{proof}
 
+\begin{theorem}[Finite-kernel functor identity preservation]
+\label{thm:finite-kernel-category-functor-identity-preservation}
+Every $\FunctorUp$ consumer of an accepted $\FiniteKernelCategoryUp$ carrier
+$K=(O,M,I,Q,A,U,H,C,P,N)$ preserves the displayed identity row $I$ through the
+same object, hom, identity, composition, associativity, unit, transport,
+continuation, provenance, and naming rows $O,M,I,Q,A,U,H,C,P,N$. The
+preservation obligation is a BEDC row obligation and is not discharged by a
+quotient morphism, host arrow equality, external category library, or
+functor-category object.
+\end{theorem}
+\begin{proof}
+Start with the category, functor, and natural-transformation readback theorem,
+\autoref{thm:finite-kernel-category-category-functor-nattrans-row-readback}.
+It makes the accepted consumer read the finite row sequence
+$O,M,I,Q,A,U,H,C,P,N$ rather than an ambient category object.
+
+Apply the functor and natural-transformation handoff,
+\autoref{thm:finite-kernel-category-functor-nattrans-handoff}. A
+$\FunctorUp$ consumer can inspect identity preservation only after the
+identity row $I$ has been exported with the carrier rows that determine its
+source and target histories.
+
+Finally use the composition provenance factorization and ledger non-escape
+boundary,
+\autoref{thm:finite-kernel-category-composition-provenance-factorization} and
+\autoref{thm:finite-kernel-category-ledger-nonescape-boundary}. The
+provenance and local naming rows keep the preservation witness inside the
+displayed BEDC packet, so no quotient or host equality route can replace $I$.
+\end{proof}
+
+\begin{theorem}[Finite-kernel functor composition preservation]
+\label{thm:finite-kernel-category-functor-composition-preservation}
+Every $\FunctorUp$ consumer of an accepted $\FiniteKernelCategoryUp$ carrier
+$K=(O,M,I,Q,A,U,H,C,P,N)$ preserves the displayed composition row $Q$ through
+the same row sequence $O,M,I,Q,A,U,H,C,P,N$. Composition preservation may use
+the associativity row $A$, the unit row $U$, componentwise transport $H$,
+continuation consumption $C$, provenance $P$, and local naming $N$, but it has
+no separate quotient morphism, host arrow equality, external category library,
+or functor-category object.
+\end{theorem}
+\begin{proof}
+Read the accepted consumer through
+\autoref{thm:finite-kernel-category-category-functor-nattrans-row-readback}.
+The composition preservation input is the displayed row $Q$ in the same packet
+as $O,M,I,A,U,H,C,P,N$.
+
+Use \autoref{thm:finite-kernel-category-composition-provenance-factorization}.
+It factors composition, associativity, and unit consumption through
+$Q,A,U,H,C,P,N$, so a functor cannot preserve composition by bypassing the
+provenance row or the local $\NameCert$ row.
+
+Now apply \autoref{thm:finite-kernel-category-functor-nattrans-handoff} and
+\autoref{thm:finite-kernel-category-ledger-nonescape-boundary}. The handoff
+exports the displayed category-law rows to $\FunctorUp$ consumers, and the
+boundary excludes quotient morphisms, host equality, external category
+libraries, and functor-category objects from the preservation surface.
+\end{proof}
+
+\begin{theorem}[Finite-kernel natural-transformation square boundary]
+\label{thm:finite-kernel-category-natural-transformation-square-boundary}
+Every $\NatTransUp$ consumer of an accepted $\FiniteKernelCategoryUp$ carrier
+$K=(O,M,I,Q,A,U,H,C,P,N)$ reads the naturality square boundary through the
+displayed object row $O$, hom row $M$, identity row $I$, composition row $Q$,
+associativity and unit rows $A,U$, componentwise transport $H$, continuation
+row $C$, provenance row $P$, and local naming row $N$. The square has no
+boundary edge supplied by quotient morphisms, host arrow equality, an external
+category library, or a functor-category object.
+\end{theorem}
+\begin{proof}
+Begin with the readback theorem,
+\autoref{thm:finite-kernel-category-category-functor-nattrans-row-readback}.
+It routes $\NatTransUp$ consumers through the finite row sequence, so the
+naturality square boundary is assembled from displayed object and hom histories
+and their identity and composition rows.
+
+Apply the functor and natural-transformation handoff,
+\autoref{thm:finite-kernel-category-functor-nattrans-handoff}. The handoff
+places naturality inspection after the category rows $O,M,I,Q,A,U$ and their
+transport, continuation, provenance, and naming rows have been exported.
+
+Finish with composition provenance factorization and ledger non-escape,
+\autoref{thm:finite-kernel-category-composition-provenance-factorization} and
+\autoref{thm:finite-kernel-category-ledger-nonescape-boundary}. These results
+keep every boundary edge inside $O,M,I,Q,A,U,H,C,P,N$ and block any external
+category-library or functor-category replacement.
+\end{proof}
+
 \begin{theorem}[Finite-kernel composition provenance factorization]
 \label{thm:finite-kernel-category-composition-provenance-factorization}
 For every accepted $\FiniteKernelCategoryUp$ carrier $K=(O,M,I,Q,A,U,H,C,P,N)$,
@@ -607,15 +694,106 @@ an external composition law or by a quotient morphism outside the displayed
 carrier.
 \end{proof}
 
+\begin{theorem}[Finite-kernel displayed source totality]
+\label{thm:finite-kernel-category-displayed-source-totality}
+Every accepted finite-kernel category consumer must display the complete row
+family
+$$
+O,M,I,Q,A,U,H,C,P,N
+$$
+of the carrier $K=(O,M,I,Q,A,U,H,C,P,N)$. The object and hom rows are read over
+finite $\BHist$ histories, the identity, composition, associativity, and unit
+rows are read through $\hsame$ and $\Cont$, the provenance row is read through
+$\Pkg$, and the local naming row is read through $\NameCert$. No downstream
+$\CategoryUp$, $\FunctorUp$, or $\NatTransUp$ consumer has accepted the root
+package until all ten rows are displayed together.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-kernel-category-carrier}. Its
+visible source is the ten-row packet $O,M,I,Q,A,U,H,C,P,N$, with no separate
+coordinate for a host category object or a quotient morphism carrier.
+
+Apply the NameCert obligations,
+\autoref{thm:finite-kernel-category-namecert-obligations}. They bind carrier
+habitation, classifier stability, identity exactness, composition exactness,
+and ledger non-escape to the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
+
+Finally use the root obligation scope,
+\autoref{thm:finite-kernel-category-root-obligation-scope}. It identifies that
+same displayed row family as the only source package exported to categorical
+consumers, so a partial row read is not an accepted $\FiniteKernelCategoryUp$
+consumer read.
+\end{proof}
+
+\begin{theorem}[Finite-kernel composite ledger determinacy]
+\label{thm:finite-kernel-category-composite-ledger-determinacy}
+Let $K=(O,M,I,Q,A,U,H,C,P,N)$ be an accepted $\FiniteKernelCategoryUp$ carrier.
+If two composite reads have the same displayed object rows $O$, hom rows $M$,
+identity row $I$, composition row $Q$, continuation row $C$, provenance row
+$P$, and local naming row $N$, then they determine the same public ledger read
+of $K$. The determinacy is internal to the displayed carrier: it uses the
+composition ledger nonescape boundary and the identity-composition exactness
+scope, not an external category-library equality.
+\end{theorem}
+\begin{proof}
+First read the two composites through the displayed carrier. The shared object
+and hom rows fix the endpoints, while the shared identity and composition rows
+fix the BEDC-native law surface.
+
+Apply the identity-composition exactness scope,
+\autoref{thm:finite-kernel-category-identity-composition-exactness-scope}. It
+identifies identity exactness with $I$ and composition exactness with $Q$, with
+associativity, unit, transport, continuation, provenance, and naming supplied by
+the same packet.
+
+Finish with the composition ledger nonescape theorem,
+\autoref{thm:finite-kernel-category-composition-ledger-nonescape}. Since a
+public composite cannot leave $Q,C,P,N$ for a quotient morphism, host arrow
+equality, or external category object, the two reads expose the same public
+ledger.
+\end{proof}
+
+\begin{theorem}[Finite-kernel natural-transformation consumer scope]
+\label{thm:finite-kernel-category-nattrans-consumer-scope}
+The downstream $\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ consumers may read
+the $\FiniteKernelCategoryUp$ root package only through the full displayed row
+family
+$$
+O,M,I,Q,A,U,H,C,P,N
+$$
+together with the existing $\FiniteKernelCategoryUp$ TasteGate marker. They may
+not read it through quotient morphisms, host arrow equality, functor-category
+objects, or an external category library.
+\end{theorem}
+\begin{proof}
+Start with the displayed source totality theorem,
+\autoref{thm:finite-kernel-category-displayed-source-totality}. It forces every
+accepted downstream consumer to display the complete ten-row source package
+over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Next apply the TasteGate handoff,
+\autoref{thm:finite-kernel-category-tastegate-obligation-handoff}. The existing
+TasteGate marker consumes the same single-carrier alignment, so the consumer
+scope includes that marker only as a read of the displayed package.
+
+Finally use the category, functor, and natural-transformation readback theorem,
+\autoref{thm:finite-kernel-category-category-functor-nattrans-row-readback}.
+It routes all three downstream consumers through the same finite row sequence
+and excludes quotient morphisms, host arrow equality, functor-category objects,
+and external category libraries from the public read.
+\end{proof}
+
 \closureat{FiniteKernelCategoryUp}{seedStr}
 \closureat{FiniteKernelCategoryUp}{obligationStr}
+\closureat{FiniteKernelCategoryUp}{scopedStr}
 
 \begin{closurestatus}{\FiniteKernelCategoryUp}
   \constructivestory{A $\FiniteKernelCategoryUp$ packet is generated from finite object histories, displayed hom histories, empty-continuation identity rows, displayed $\Cont$ composition rows, associativity and unit ledgers, componentwise $\hsame$ transport, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope records the finite BEDC-native category carrier, NameCert obligations, category-law rows, interface handoff, and TasteGate obligation handoff over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped package records the BEDC-native rows $O,M,I,Q,A,U,H,C,P,N$, the finite category carrier, NameCert obligations, category-law rows, interface handoff, TasteGate obligation handoff, displayed source totality in \autoref{thm:finite-kernel-category-displayed-source-totality}, composite ledger determinacy in \autoref{thm:finite-kernel-category-composite-ledger-determinacy}, functor identity preservation in \autoref{thm:finite-kernel-category-functor-identity-preservation}, functor composition preservation in \autoref{thm:finite-kernel-category-functor-composition-preservation}, natural-transformation square boundary in \autoref{thm:finite-kernel-category-natural-transformation-square-boundary}, and downstream consumer scope in \autoref{thm:finite-kernel-category-nattrans-consumer-scope} over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a checked Lean target, a TasteGate proof, arbitrary categorical constructions, quotient morphisms, host category libraries, functor categories, or bridge checking.}
-  \upgradepath{The next paper grade is scoped closure by naming the exact BEDC primitives used by carrier habitation, classifier stability, identity exactness, composition exactness, ledger non-escape, and TasteGate handoff over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \upgradepath{The next paper grade is public closure by exposing a public object surface for the displayed $\FiniteKernelCategoryUp$ package and then connecting it to checked Lean targets without collapsing the theory and verification axes.}
 \end{closurestatus}
