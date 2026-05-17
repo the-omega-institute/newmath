@@ -1,4 +1,4 @@
-name: Build Paper
+name: BEDC Build
 
 # Single source of truth for PDF + Lean4 build. Runs on any push / PR that
 # touches paper, lean, dossier source, or any workflow file involved in the
@@ -125,7 +125,7 @@ jobs:
         run: npm ci
         working-directory: tools/dagre_layout
 
-      - name: Download PDF artifact from current Build Paper run
+      - name: Download PDF artifact from current BEDC Build run
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: bedc-pdf

@@ -1,19 +1,19 @@
 name: Deploy BEDC Dossier
 
-# Consumer of Build Paper's bedc-pdf artifact. Triggered by workflow_run
-# after Build Paper succeeds. Renders the Quarto dossier site and (on push
+# Consumer of BEDC Build's bedc-pdf artifact. Triggered by workflow_run
+# after BEDC Build succeeds. Renders the Quarto dossier site and (on push
 # only) deploys to GitHub Pages. Previously this workflow rebuilt the PDF
 # itself; that step is now subsumed by build-paper.yml so PR-time and
 # push-time PDFs are produced exactly once per commit.
 
 on:
   workflow_run:
-    workflows: ["Build Paper"]
+    workflows: ["BEDC Build"]
     types: [completed]
   workflow_dispatch:
     inputs:
       source_run_id:
-        description: "Build Paper run ID whose bedc-pdf artifact to deploy"
+        description: "BEDC Build run ID whose bedc-pdf artifact to deploy"
         required: true
         type: string
 
@@ -60,7 +60,7 @@ jobs:
         run: npm ci
         working-directory: tools/dagre_layout
 
-      - name: Download PDF artifact from Build Paper run
+      - name: Download PDF artifact from BEDC Build run
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: bedc-pdf
