@@ -961,6 +961,7 @@ import BEDC.Derived.ContinuationMonadUp.PublicReadback
 import BEDC.Derived.UnaryContMonoidUp
 import BEDC.Derived.UnaryContMonoidUp.CategoryRootReadiness
 import BEDC.Derived.UnaryContMonoidUp.KernelCategoryConsumerBoundary
+import BEDC.Derived.UnaryContinuationCategoryUp.TasteGate
 import BEDC.Derived.ContinuationMonadUp.RootPublicObligationTriad
 import BEDC.Derived.ContinuationMonadUp.RootFormalRouteSaturation
 import BEDC.Derived.ContinuationMonadUp.RootFormalPublicReadback
@@ -1183,6 +1184,7 @@ import BEDC.Derived.CauchyLimitSealUp.SynchronizerFiniteWindow
 import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchySealBudgetSynchronizerUp
 import BEDC.Derived.CauchySealBudgetSynchronizerUp.TasteGate
+import BEDC.Derived.CauchySealInterfaceUp.TasteGate
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
 import BEDC.Derived.CrossHistoryCausalDependenceUp.TasteGate

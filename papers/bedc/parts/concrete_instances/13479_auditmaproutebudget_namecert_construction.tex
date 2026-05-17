@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapRouteBudgetUp$}
+\label{ch:concrete-instances-auditmaproutebudget-namecert}
+\origin{ai}
+
+The $\AuditMapRouteBudgetUp$ packet realizes the route-budget surface of the GroundCompiler audit map in \autoref{ch:bedc-groundcompiler-audit-map}. It sits beside the cross-map weave of \autoref{ch:concrete-instances-auditmapdependencyweave-namecert}, the common audit interface of \autoref{ch:concrete-instances-auditmapinterface-namecert}, the event-flow audit packet of \autoref{ch:concrete-instances-groundcompilereventflowaudit-namecert}, the flow-level round-trip packet of \autoref{ch:concrete-instances-groundcompilerflowlevelroundtrip-namecert}, and the cannot-claim export gate of \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert}. Those siblings expose dependency routing, generic audit rows, event-flow evidence, flow readback, or claim-export refusal separately; this packet binds the complete event-flow, source-channel, recognizer, certificate-gate, report-boundary, and cannot-claim route budget as one finite NameCert surface.
+
+\begin{definition}[Audit-map route-budget carrier]
+\label{def:audit-map-route-budget-carrier}
+An $\AuditMapRouteBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(E,S,R,G,Q,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the event-flow input row naming the GroundCompiler event family admitted by \autoref{ch:bedc-groundcompiler-audit-map}.
+\item $S$ is the source-channel encoding row recording the legal source channel, channel readback, and lossless route on the same event family.
+\item $R$ is the recognizer-evidence row recording generated recognizer acceptance without treating reports or generated code as proof.
+\item $G$ is the certificate-gate row recording which exported certificate gates are open for the accepted route and which gates are absent.
+\item $Q$ is the report-boundary row recording compiler reports, metric reports, motif reports, theorem-code rows, and chapter-code rows as reports rather than certificates.
+\item $L$ is the cannot-claim ledger row recording hidden-input, proof-export, and certificate-export refusals for the same route.
+\item $H$ records componentwise $\hsame$ transport for event-flow, source-channel, recognizer, certificate-gate, report-boundary, ledger, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for reading $E,S,R,G,Q,L$ in the accepted order.
+\item $P$ records $\Pkg$ provenance over \autoref{ch:bedc-groundcompiler-audit-map}, the cited sibling concrete packets, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\AuditMapRouteBudgetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a hidden compiler input, proof object, certificate object, report-derived theorem, unbudgeted route, or cannot-claim discharge outside $E,S,R,G,Q,L,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Audit-map route-budget NameCert obligations]
+\label{thm:audit-map-route-budget-namecert-obligations}
+For the carrier of \autoref{def:audit-map-route-budget-carrier}, the local $\NameCert_{\AuditMapRouteBudgetUp}$ surface consists exactly of carrier admission for $B=(E,S,R,G,Q,L,H,C,P,N)$, event-flow input exposure through $E$, source-channel readback through $S$, recognizer evidence through $R$, certificate-gate exposure through $G$, report-boundary exposure through $Q$, cannot-claim ledger exposure through $L$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-map-route-budget-carrier}. The event-flow row, source-channel row, recognizer row, certificate-gate row, report-boundary row, and cannot-claim ledger row are visible as separate $\BHist$ coordinates.
+
+The GroundCompiler audit-map reading of \autoref{ch:bedc-groundcompiler-audit-map} fixes the order of use. A public route first reads event-flow input, then source-channel encoding, then recognizer evidence, and only then reaches certificate gates, reports, and cannot-claim ledgers.
+
+The support rows $H,C,P,N$ preserve the same route. Componentwise $\hsame$ cannot add a proof coordinate, displayed $\Cont$ replay cannot bypass a certificate gate, $\Pkg$ records the cited siblings, and local $\NameCert$ naming binds the route budget to the displayed packet.
+\end{proof}
+
+\begin{theorem}[Audit-map route-budget falsifiable boundary]
+\label{thm:audit-map-route-budget-falsifiable-boundary}
+An accepted $\AuditMapRouteBudgetUp$ packet cannot export a proof, certificate, or hidden compiler input unless the corresponding certificate-gate row $G$ or cannot-claim ledger row $L$ is displayed in the same route budget. A consumer that reads $E,S,R,Q,H,C,P,N$ while omitting $G$ or $L$ may read event flow, channel encoding, recognizer evidence, and reports, but it cannot claim exported proof evidence, exported certificate evidence, or hidden input access.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:audit-map-route-budget-namecert-obligations}. They separate recognizer evidence, certificate-gate exposure, report-boundary exposure, and cannot-claim ledger exposure as distinct rows.
+
+If $G$ is omitted, no row records an opened certificate gate. If $L$ is omitted, no row records the hidden-input, proof-export, or certificate-export refusal. The remaining rows can still expose event flow, channel encoding, recognizer acceptance, reports, transports, continuations, provenance, and local naming, but none of them is a proof or certificate export row.
+
+Thus the boundary is falsifiable by inspection. A displayed route that exports proof evidence, certificate evidence, or hidden input while lacking the matching $G$ or $L$ row is not an accepted $\AuditMapRouteBudgetUp$ packet.
+\end{proof}
+
+\begin{theorem}[Audit-map route-budget dependency independence]
+\label{thm:audit-map-route-budget-dependency-independence}
+The $\AuditMapRouteBudgetUp$ carrier is not bijective to the sibling packets in \autoref{ch:concrete-instances-auditmapdependencyweave-namecert}, \autoref{ch:concrete-instances-auditmapinterface-namecert}, \autoref{ch:concrete-instances-groundcompilereventflowaudit-namecert}, \autoref{ch:concrete-instances-groundcompilerflowlevelroundtrip-namecert}, or \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert}. None of those siblings carries the complete route-budget row set $E,S,R,G,Q,L,H,C,P,N$: the dependency weave lacks GroundCompiler source-channel and report rows, the generic interface lacks the GroundCompiler-specific event and certificate budget, the event-flow audit lacks the full report and cannot-claim ledger, the flow-level round trip lacks the recognizer and certificate-gate budget, and the cannot-claim export gate lacks event-flow, source-channel, and recognizer rows.
+\end{theorem}
+\begin{proof}
+Compare row inventories. Each cited sibling supplies a necessary surface, but each omits at least one row required by \autoref{def:audit-map-route-budget-carrier}.
+
+The dependency weave contributes cross-map routing, the interface contributes generic audit shape, the event-flow audit contributes event evidence, the flow-level round trip contributes channel readback, and the cannot-claim export gate contributes refusal discipline. None supplies all of $E,S,R,G,Q,L,H,C,P,N$ with the same local $\NameCert$ row.
+
+Therefore a route-budget consumer may cite those siblings through $P$, but it cannot substitute any one sibling for the accepted $\AuditMapRouteBudgetUp$ carrier.
+\end{proof}
+
+\falsifiablePrediction{An accepted AuditMapRouteBudgetUp route cannot export proof evidence, certificate evidence, or hidden compiler input unless the matching certificate-gate or cannot-claim row is displayed in the same finite packet.}
+
+\independenceWitness{auditmapdependencyweave, auditmapinterface, groundcompilereventflowaudit, groundcompilerflowlevelroundtrip, cannotclaimexportgate: none is bijective to AuditMapRouteBudgetUp because none carries the simultaneous event-flow, source-channel, recognizer, certificate-gate, report-boundary, cannot-claim, transport, continuation, provenance, and local NameCert rows.}
+
+The Lean follow-up for \texttt{BEDC.Derived.AuditMapRouteBudgetUp.TasteGate.lean} must include explicit $\Nontrivial\ \AuditMapRouteBudgetUp$ and $\FieldFaithful\ \AuditMapRouteBudgetUp$ instances. The field-faithfulness witness must keep $E,S,R,G,Q,L,H,C,P,N$ distinct, so report rows cannot be read as certificates and cannot-claim rows cannot be erased by transport.
+
+\closureat{AuditMapRouteBudgetUp}{seedStr}
+
+\begin{closurestatus}{\AuditMapRouteBudgetUp}
+  \constructivestory{An $\AuditMapRouteBudgetUp$ packet is generated from GroundCompiler event-flow rows, source-channel encoding rows, recognizer-evidence rows, certificate-gate rows, report-boundary rows, cannot-claim ledger rows, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-map-route-budget-carrier}, \autoref{thm:audit-map-route-budget-namecert-obligations}, \autoref{thm:audit-map-route-budget-falsifiable-boundary}, and \autoref{thm:audit-map-route-budget-dependency-independence} bind the finite GroundCompiler route-budget carrier and its audit-map export boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, compiler self-hosting, proof extraction from reports, certificate extraction from recognizers, hidden compiler input, global audit-map closure, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-channel readback, recognizer evidence, certificate-gate exposure, report-boundary exposure, cannot-claim ledger exposure, transport stability, continuation stability, provenance, and local naming for the displayed route budget.}
+\end{closurestatus}
