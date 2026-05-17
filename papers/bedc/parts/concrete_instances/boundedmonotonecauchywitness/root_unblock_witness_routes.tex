@@ -126,6 +126,22 @@ Finally apply located-trap stability and root seal route exhaustion. The trap th
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessRootRealSealThresholdExhaustion}
 
+\begin{theorem}[Bounded monotone Cauchy witness root selector bridge]
+\label{thm:bounded-monotone-cauchy-witness-root-selector-bridge}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Any root-facing consumer that reaches the $\RealUp$ seal row $Q$ must traverse, in order, the selector budget supplied by the $\StreamNameUp$ schedule $\sigma$, the dyadic tolerance ledger $\lambda$, the located trap $I$, and the $\RealUp$ seal threshold $Q$.
+
+Thus the root selector bridge is the ordered finite route through the StreamName schedule, dyadic ledger, located trap, and Real seal threshold. It exports no selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selector.
+\end{theorem}
+\begin{proof}
+Begin with root extraction. Theorem~\ref{thm:bounded-monotone-cauchy-witness-root-extraction} confines every root-facing read of $W$ to the displayed packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so the bridge has no coordinate outside the accepted carrier.
+
+Next force the selector budget. By \autoref{thm:bounded-monotone-cauchy-witness-root-tail-window-totality}, every root-facing seal consumer must pass through the $\StreamNameUp$ schedule $\sigma$ together with the Cauchy witness row $\mu$ and the dyadic ledger $\lambda$ before any located-trap or seal row is read.
+
+Now stabilize the trap. The located-trap stability theorem, \autoref{thm:bounded-monotone-cauchy-witness-root-located-trap-stability}, keeps $I$ as the pre-seal enclosure after the scheduled tail and dyadic tolerance rows have been consumed.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-root-real-seal-threshold-exhaustion}. Since the Real-seal threshold is reached only at $Q$ after $\sigma,\mu,\lambda$ and $I$, any consumer reaching $Q$ has traversed the selector budget, dyadic tolerance ledger, located trap, and threshold in that order. The same exhaustion removes selected limits, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, and choice-like tail selectors from the bridge.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness grid route compatibility]
 \label{thm:bounded-monotone-cauchy-witness-grid-route-compatibility}
 Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier, and suppose its root route consumes an accepted $\RealCauchyWitnessGridUp$ packet $G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)$. Then the root route must read the selector budget $B$, witness ledger $L$, completion-seal classifier $K$, and tail-witness envelope $T$ of $G$ before it reaches the $\RealUp$ seal row $Q$ of $W$.
