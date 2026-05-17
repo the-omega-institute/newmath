@@ -205,6 +205,7 @@ import BEDC.Derived.BudgetedRealSealRouteUp.NameCertObligations
 import BEDC.Derived.RealityConstrainedPhysicalInductionUp.TasteGate
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.TasteGate
+import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
 import BEDC.Derived.GroundLoopBoundaryUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditPacketUp.TasteGate
@@ -247,6 +248,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridSelectorExactness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridSynchronizerTerminalEnvelope
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.LocatedTrapConvergenceSealCofinality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.L10ExitConsumerPackage
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.L10TerminalRouteExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.LocatedTrapHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.LimitSealHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.LocatedTrapRefinement
@@ -2908,6 +2910,7 @@ import BEDC.Derived.FieldUp.ConcreteRatupFieldupCertificateInstance
 import BEDC.Derived.FieldUp.RatupFieldupAssembledSupportNeutralityCertificate
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Derived.FocusedLedgerUp.TasteGate
+import BEDC.Derived.GapFailureBridgeAuditUp.TasteGate
 import BEDC.Derived.FieldUp.AffineAutomorphismGroupCertificate
 import BEDC.Reflection
 import BEDC.MetaCIC
