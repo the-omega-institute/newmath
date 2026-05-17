@@ -126,6 +126,42 @@ The failed items remain boundary items of their original witnesses. Since neithe
 The composed trace also cannot replace the diagnostic rows. It is a consumer of $D_0$ and $D_1$, not a primitive diagnostic for either gate row. Thus the handoff preserves both failure witnesses while keeping the failures outside theorem content.
 \end{proof}
 
+\begin{theorem}[Audit-gate failure-witness root public handoff]
+\label{thm:audit-gate-failure-witness-root-public-handoff}
+Every root-facing public handoff of an accepted $\AuditGateFailureWitnessUp$ carrier keeps the diagnostic row before refusal-target reads. The handoff surface is exactly $G,F,R,D,H,C,P,N$, and it contains no theorem-content recovery from the failed boundary item.
+\end{theorem}
+\begin{proof}
+Project the carrier $W=(G,F,R,D,H,C,P,N)$. The gate row, failed item, refusal target, diagnostic readback, transport, replay, provenance, and local name are the only displayed coordinates.
+
+Apply the NameCert obligations and the composition handoff. They require public refusal reads to pass through the diagnostic row and allow composition to consume only visible diagnostic, refusal, and replay rows.
+
+The TasteGate marker context names the same finite carrier for later formal alignment. Since $F$ is never a theorem-content coordinate, the root handoff exports a diagnostic boundary and nothing recovered from the failed item.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness composition readback scope]
+\label{thm:audit-gate-failure-witness-composition-readback-scope}
+In every $\AuditGateCompositionUp$ consumption of $\AuditGateFailureWitnessUp$, the readable scope of each component witness is $G,F,D,R,H,C,P,N$ with $D$ before the refusal target $R$. The composition may compare diagnostics and refusal targets but may not replace either diagnostic row by the composed trace.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:audit-gate-failure-witness-composition-handoff}. It gives the composition access to $D_0,R_0,C_0$ and $D_1,R_1,C_1$ while leaving the failed items as boundary items of their own witnesses.
+
+Next apply refusal-route exactness and refusal attachment stability. They keep $R$ attached to the concrete pair $(F,D)$ under the displayed $\hsame$ and $\Cont$ rows.
+
+Thus the composition readback scope is diagnostic-first on $G,F,D,R,H,C,P,N$. The composed trace is downstream of those rows and cannot become a primitive diagnostic for either witness.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness diagnostic target exhaustion]
+\label{thm:audit-gate-failure-witness-diagnostic-target-exhaustion}
+After an accepted $\AuditGateFailureWitnessUp$ consumer has read $G,F,D,R,H,C,P,N$, no further diagnostic target remains inside the packet. In particular, the packet exposes no internalizer, repair row, host-supply row, or theorem-content row for the failed item.
+\end{theorem}
+\begin{proof}
+Start from the root public handoff. It identifies the complete public surface as the displayed diagnostic witness rows and places $D$ before refusal-target consumption.
+
+Then use composition readback scope. Even when the witness is consumed by a composed audit gate, the available rows remain $G,F,D,R,H,C,P,N$ and the composed trace does not replace the component diagnostic.
+
+Finally apply boundary-item noninternalization coverage. Rows for internalization, repair, host supply, and theorem content are absent from the carrier, so no diagnostic target remains after the displayed rows are exhausted.
+\end{proof}
+
 \begin{theorem}[Audit-gate failure-witness refusal attachment stability]
 \label{thm:audit-gate-failure-witness-refusal-attachment-stability}
 Let

@@ -620,6 +620,7 @@ quotient streams, selected host limits, host real equality, countable choice,
 ambient completeness, hidden selectors, and second seal sources, so the three
 presentations determine the same terminal packet.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_selector\_budget\_three\_way\_terminality}
 
 \begin{theorem}[CauchyCriterion terminal selector-seal no-choice exhaustion]
 \label{thm:cauchycriterion-terminal-selector-seal-nochoice-exhaustion}
@@ -674,6 +675,7 @@ terminal read has no exported quotient stream, selected host limit, host real
 equality, countable-choice schedule, ambient completeness, hidden selector, or
 second seal source available outside the stated route.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_terminal\_selector\_seal\_nochoice\_exhaustion}
 
 \begin{theorem}[CauchyCriterion budget-selector section exactness]
 \label{thm:cauchycriterion-budget-selector-section-exactness}
@@ -742,3 +744,23 @@ Now apply common selector refinement and finite selector exhaustion. The selecto
 Finally combine terminality with \autoref{thm:cauchycriterion-budget-selector-section-exactness}. The section exactness theorem returns the same finite window and seal row under replay, while terminality blocks quotient streams, host real equality, countable-choice selectors, ambient completeness, detached thresholds, and second seals. Thus every shared-surface route factors through the named finite rows and no additional route coordinate remains.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_budget\_selector\_terminal\_route\_exhaustion}
+
+\begin{theorem}[CauchyCriterion StreamName Real budget bridge readiness]
+\label{thm:cauchycriterion-streamname-real-budget-bridge-readiness}
+Every bridge-ready $\CauchyCriterionUp$ selector route factors through the displayed $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal, finite-observation budget selector, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchycriterion-budget-selector-terminal-route-exhaustion}. It makes the accepted selector route terminal over the named finite surfaces.
+
+Then read the boundary, section-return, and exactness theorems already cited there. They keep bridge readiness on $W,M,T,Q,E,H,C,P,N$ and add no quotient stream, hidden selector, countable-choice row, or ambient Real-completeness premise.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion selector budget formal target boundary]
+\label{thm:cauchycriterion-selector-budget-formal-target-boundary}
+A later formal target for the $\CauchyCriterionUp$ StreamName-to-Real budget selector may consume only the finite selector-budget boundary named in \autoref{thm:cauchycriterion-streamname-real-budget-bridge-readiness}. It may not import quotient stream equality, countable choice, ambient Real completeness, or a hidden selector.
+\end{theorem}
+\begin{proof}
+Use bridge readiness to enumerate the admissible inputs. The formal target receives the StreamName window, RegSeqRat readback, DyadicRatCore ledger, RealUp seal, finite selector, transport, replay, provenance, and naming rows.
+
+Now apply terminal route exhaustion. Any additional quotient equality, choice selector, completeness witness, or hidden selector would be a new coordinate outside the terminal finite route, so it is not part of the formal boundary.
+\end{proof}
