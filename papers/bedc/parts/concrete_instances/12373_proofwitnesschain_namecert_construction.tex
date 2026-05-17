@@ -74,3 +74,14 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/ProofWitnessChainUp/TasteGate
 \independenceWitness{prooftraceauditwitness, kernelauditwitness, namecertmorphism, prooftermerasuretrace, finitewitnessroute: none is bijective to $\ProofWitnessChainUp$ because preserving the carrier requires proof trace, source, classifier, transport, ledger, refusal, audit verdict, provenance, and local name together. ProofTraceAuditWitnessUp audits the trace face, KernelAuditWitnessUp audits accepted declarations, NameCertMorphismUp transports certificate rows, ProofTermErasureTraceUp separates erased proof rows, and FiniteWitnessRouteUp records finite route exits; no listed sibling preserves the whole proof witness chain surface.}
 
 \closureat{ProofWitnessChainUp}{seedStr}
+
+\begin{closurestatus}{\ProofWitnessChainUp}
+  \constructivestory{The proof witness chain is generated from $BHist$ rows that list proof trace data, source rows, classifier witnesses, transport, ledger entries, forbidden-resource refusal, audit verdict, provenance, and local naming in order. The carrier first reads each witness row, then checks that the ledger connects adjacent rows as a chain, and finally allows $\Cont$ to carry the trace forward without replacing it by an external proof object. The $hsame$ relation keeps the witness sequence stable when histories are represented differently. The NameCert obligations, ledger non-escape, proof-trace handoff, prediction, and independence witness thus make the chain a visible certificate of derivation evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the proof witness-chain carrier, NameCert obligations, ledger-non-escape theorem, proof-trace handoff theorem, falsifiable prediction, and independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim proof validity outside the witness chain, proof irrelevance, or derivations not recorded in the ledger.}
+  \upgradepath{Reaching obligationClosure requires formal witness-chain rows and checked handoff preservation for the visible proof trace.}
+\end{closurestatus}

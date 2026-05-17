@@ -71,3 +71,14 @@ The Lean TasteGate file must provide explicit $\Nontrivial\ \ReviewAcceptanceGat
 
 \closureat{ReviewAcceptanceGateUp}{seedStr}
 \closureat{ReviewAcceptanceGateUp}{obligationStr}
+
+\begin{closurestatus}{\ReviewAcceptanceGateUp}
+  \constructivestory{A $\ReviewAcceptanceGateUp$ packet is generated from proposal, decision, rejected-alternative, human-acceptance, machine-boundary, kernel-acceptance, kernel-audit, blocked-claim, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming rows. The classifier reads operator approval only when the proposal and decision are paired with the explicit human acceptance coordinate; machine-produced proposals, kernel stamps, audits, and refusals remain separate rows. The ledger story is non-automation: every accepted review route is generated from finite BEDC evidence plus the displayed acceptance row, and transport or replay can preserve that row but cannot synthesize it from machine evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier definition, NameCert-obligation, human-approval-boundary, non-automation-boundary, independence witness, Lean-follow-up boundary, and existing closure annotations for $\ReviewAcceptanceGateUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim conversion of machine proposals, kernel acceptance, audit readback, refusals, or failure certificates into approval without the human acceptance row.}
+  \upgradepath{To reach obligationClosure, the review carrier and non-automation boundary must be checked as finite-row acceptance obligations.}
+\end{closurestatus}
