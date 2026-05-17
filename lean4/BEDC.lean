@@ -71,6 +71,7 @@ import BEDC.Derived.ApophaticGateQuestionUp.ReadbackLocality
 import BEDC.Derived.ApophaticGateQuestionUp.RefusalRowTransport
 import BEDC.Derived.ApophaticGateQuestionUp.RootRefusalRouteExactness
 import BEDC.Derived.ApophaticGateQuestionUp.RootReadbackRoute
+import BEDC.Derived.ApophaticGateQuestionUp.SourceGateExactness
 import BEDC.Derived.ApophaticGateQuestionUp.SocketNameDependency
 import BEDC.Derived.ApophaticGateQuestionUp.SocketRefusalCoverage
 import BEDC.Derived.ApophaticGateQuestionUp.SupplyKindRouteTotality
@@ -2798,6 +2799,7 @@ import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CommRingUp.ZeroDivisor
 import BEDC.Derived.CertificateAuditGateUp.TasteGate
+import BEDC.Derived.CoreRegistryIndexUp.TasteGate
 import BEDC.DerivedIndexAnalysis
 import BEDC.Derived.CompactUp.ImageLedger
 import BEDC.Derived.CompactUp.Suffix
@@ -2847,6 +2849,8 @@ import BEDC.Derived.FieldUp.ConcreteRatupFieldupCertificateInstance
 import BEDC.Derived.FieldUp.RatupFieldupAssembledSupportNeutralityCertificate
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Derived.FieldUp.AffineAutomorphismGroupCertificate
+import BEDC.Derived.MachineInterfaceSocketUp.TasteGate
+import BEDC.Derived.FocusedLedgerUp.TasteGate
 import BEDC.Reflection
 import BEDC.MetaCIC
 import BEDC.GroundCompiler.AuditReexport
