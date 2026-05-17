@@ -57,3 +57,23 @@ The audit-readiness package of \autoref{thm:diagonal-limit-representative-audit-
 
 Finally apply the handoff boundary of \autoref{thm:diagonal-limit-representative-formal-handoff-boundary}. Its exclusions remove quotient-stream equality, host equality, selected limits, countable choice, and ambient completeness from the obligation surface. Route exhaustion leaves only the finite rows named above, which is the required pullback coverage contract for downstream Real-and-Completion consumption.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit representative terminal pullback determinacy]
+\label{thm:diagonal-limit-representative-terminal-pullback-determinacy}
+Let two accepted Real-and-Completion consumers of the $\DiagonalLimitRepresentativeUp$ formal handoff agree componentwise, by the recorded $\hsame$ and $\Cont$ replay, on the representative rows
+$$
+X,\mu,n,k,i,w,r,d,e,H,C,P,N
+$$
+and on the shared-terminal budget rows
+$$
+Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F.
+$$
+Then the two consumers induce the same terminal $\RealUp$ seal route and the same finite-prefix budget pullback. Quotient-stream equality, host $\RealUp$ equality, a selected limit, countable choice, or an ambient $\RealUp$ completeness row cannot distinguish the induced pullback.
+\end{theorem}
+\begin{proof}
+The displayed agreement is exactly agreement on the Lean target surface of \autoref{thm:diagonal-limit-representative-lean-target-surface}. That theorem records the representative rows and shared-terminal budget rows as one finite $\BHist$ surface, so the two consumers begin with the same formal handoff data.
+
+Next apply the audit-readiness package of \autoref{thm:diagonal-limit-representative-audit-readiness-package}. It identifies the carrier, classifier, shared-terminal route, dependency scope, and root-readiness exactness data consumed by any accepted handoff, so componentwise $\hsame$ and $\Cont$ replay transport the same package to both consumers.
+
+Finally use terminal pullback coverage from \autoref{thm:diagonal-limit-representative-terminal-pullback-coverage}. Coverage leaves no off-packet route through quotient streams, host equality, selected limits, countable choice, or ambient completeness. The only remaining Real-and-Completion read is the displayed terminal $\RealUp$ seal route with its finite-prefix budget pullback, hence the two accepted consumers determine the same pullback.
+\end{proof}

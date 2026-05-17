@@ -65,6 +65,37 @@ theorem PropextTransportBoundaryDirectionDeterminacy [AskSetup] [PackageSetup]
       localNameUnary, forwardUnary, reverseUnary, forwardCont, reverseCont, localNamePkg,
       forwardPkg, reversePkg⟩
 
+theorem PropextTransportBoundaryNonEscapeReadback [AskSetup] [PackageSetup]
+    {bidirectional direction replacement transport continuation provenance localName
+      contextRead ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PropextTransportBoundaryCarrier bidirectional direction replacement transport
+        continuation provenance localName bundle pkg →
+      Cont replacement transport contextRead →
+        Cont bidirectional direction ledgerRead →
+          PkgSig bundle localName pkg →
+            UnaryHistory replacement ∧
+              UnaryHistory transport ∧
+                UnaryHistory provenance ∧
+                  UnaryHistory contextRead ∧
+                    UnaryHistory ledgerRead ∧
+                      Cont replacement transport contextRead ∧
+                        Cont bidirectional direction ledgerRead ∧
+                          PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg AskSetup PackageSetup
+  intro carrier contextCont ledgerCont localPkg
+  rcases carrier with
+    ⟨bidirectionalUnary, directionUnary, replacementUnary, transportUnary,
+      _continuationUnary, provenanceUnary, _localNameUnary, _carrierLedger,
+      _carrierContext, _carrierPkg⟩
+  have contextUnary : UnaryHistory contextRead :=
+    unary_cont_closed replacementUnary transportUnary contextCont
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed bidirectionalUnary directionUnary ledgerCont
+  exact
+    ⟨replacementUnary, transportUnary, provenanceUnary, contextUnary, ledgerUnary,
+      contextCont, ledgerCont, localPkg⟩
+
 theorem PropextTransportBoundaryNonEscape [AskSetup] [PackageSetup]
     {bidirectional direction replacement transport continuation provenance localName
       contextRead : BHist}
