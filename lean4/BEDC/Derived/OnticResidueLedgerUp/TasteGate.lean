@@ -223,6 +223,38 @@ theorem OnticResidueLedgerSignatureResidue_row_nonescape
   cases hR
   exact BHist.noConfusion hResidue
 
+theorem OnticResidueLedgerScoped_consumer_surface
+    {O M S A C R H T P N : BHist}
+    (visibleO : O ≠ BHist.Empty)
+    (visibleM : M ≠ BHist.Empty)
+    (visibleA : A ≠ BHist.Empty)
+    (hR : R = BHist.e0 BHist.Empty) :
+    onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) =
+        [O, M, S, A, C, R, H, T, P, N] ∧
+      onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+        onticResidueLedgerFields (OnticResidueLedgerUp.mk BHist.Empty M S A C R H T P N) ∧
+        onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+          onticResidueLedgerFields (OnticResidueLedgerUp.mk O BHist.Empty S A C R H T P N) ∧
+          onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+            onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S BHist.Empty C R H T P N) ∧
+            onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+              onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C BHist.Empty H T P N) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  constructor
+  · rfl
+  · constructor
+    · intro hfields
+      injection hfields with hO _
+      exact visibleO hO
+    · constructor
+      · intro hfields
+        injection hfields with _ tail1
+        injection tail1 with hM _
+        exact visibleM hM
+      · constructor
+        · exact OnticResidueLedgerObserverAccess_row_nonescape visibleA
+        · exact OnticResidueLedgerSignatureResidue_row_nonescape hR
+
 end TasteGate
 
 namespace TasteGate
