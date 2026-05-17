@@ -210,12 +210,13 @@ theorem HostPrimitiveLeakageTasteGate_single_carrier_alignment :
           (∀ x : HostPrimitiveLeakageUp,
             hostPrimitiveLeakageFromEventFlow (hostPrimitiveLeakageToEventFlow x) = some x) ∧
           (∀ x y : HostPrimitiveLeakageUp,
-            hostPrimitiveLeakageToEventFlow x = hostPrimitiveLeakageToEventFlow y → x = y) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+            hostPrimitiveLeakageToEventFlow x = hostPrimitiveLeakageToEventFlow y → x = y) ∧
+          hostPrimitiveLeakageEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
     ⟨hostPrimitiveLeakageChapterTasteGate, ⟨hostPrimitiveLeakageNontrivial⟩,
       ⟨hostPrimitiveLeakageFieldFaithful⟩, hostPrimitiveLeakageDecode_encode_bhist,
-      hostPrimitiveLeakage_round_trip,
-      fun _ _ heq => hostPrimitiveLeakageToEventFlow_injective heq⟩
+      hostPrimitiveLeakage_round_trip, (fun _ _ heq => hostPrimitiveLeakageToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.HostPrimitiveLeakageUp
