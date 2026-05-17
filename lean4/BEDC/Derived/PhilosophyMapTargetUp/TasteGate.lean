@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.PhilosophyMapTargetUp.TasteGate
+namespace BEDC.Derived.PhilosophyMapTargetUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive PhilosophyMapTargetUp : Type where
-  | mk : (R G K S A X H C P N : BHist) → PhilosophyMapTargetUp
+  | mk (R G K S A X H C P N : BHist) : PhilosophyMapTargetUp
   deriving DecidableEq
 
 def philosophyMapTargetEncodeBHist : BHist → RawEvent
@@ -34,13 +34,32 @@ private theorem philosophyMapTargetDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def philosophyMapTargetFields : PhilosophyMapTargetUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | PhilosophyMapTargetUp.mk R G K S A X H C P N => [R, G, K, S, A, X, H, C, P, N]
-
 def philosophyMapTargetToEventFlow : PhilosophyMapTargetUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (philosophyMapTargetFields x).map philosophyMapTargetEncodeBHist
+  | PhilosophyMapTargetUp.mk R G K S A X H C P N =>
+      [[BMark.b0],
+        philosophyMapTargetEncodeBHist R,
+        [BMark.b1, BMark.b0],
+        philosophyMapTargetEncodeBHist G,
+        [BMark.b1, BMark.b1, BMark.b0],
+        philosophyMapTargetEncodeBHist K,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        philosophyMapTargetEncodeBHist S,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        philosophyMapTargetEncodeBHist A,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        philosophyMapTargetEncodeBHist X,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        philosophyMapTargetEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        philosophyMapTargetEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        philosophyMapTargetEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        philosophyMapTargetEncodeBHist N]
 
 private def philosophyMapTargetEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -53,16 +72,16 @@ def philosophyMapTargetFromEventFlow (ef : EventFlow) : Option PhilosophyMapTarg
   -- BEDC touchpoint anchor: BHist BMark
   some
     (PhilosophyMapTargetUp.mk
-      (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 0 ef))
       (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 1 ef))
-      (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 2 ef))
       (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 3 ef))
-      (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 4 ef))
       (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 5 ef))
-      (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 6 ef))
       (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 7 ef))
-      (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 8 ef))
-      (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 9 ef)))
+      (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 9 ef))
+      (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 11 ef))
+      (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 13 ef))
+      (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 15 ef))
+      (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 17 ef))
+      (philosophyMapTargetDecodeBHist (philosophyMapTargetEventAtDefault 19 ef)))
 
 private theorem philosophyMapTarget_round_trip :
     ∀ x : PhilosophyMapTargetUp,
@@ -108,15 +127,19 @@ private theorem philosophyMapTargetToEventFlow_injective {x y : PhilosophyMapTar
     (Eq.trans (philosophyMapTarget_round_trip x).symm
       (Eq.trans hread (philosophyMapTarget_round_trip y)))
 
+def philosophyMapTargetFields : PhilosophyMapTargetUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | PhilosophyMapTargetUp.mk R G K S A X H C P N => [R, G, K, S, A, X, H, C, P, N]
+
 private theorem philosophyMapTarget_fields_faithful :
     ∀ x y : PhilosophyMapTargetUp, philosophyMapTargetFields x = philosophyMapTargetFields y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk R₁ G₁ K₁ S₁ A₁ X₁ H₁ C₁ P₁ N₁ =>
+  | mk R1 G1 K1 S1 A1 X1 H1 C1 P1 N1 =>
       cases y with
-      | mk R₂ G₂ K₂ S₂ A₂ X₂ H₂ C₂ P₂ N₂ =>
+      | mk R2 G2 K2 S2 A2 X2 H2 C2 P2 N2 =>
           cases hfields
           rfl
 
@@ -127,10 +150,17 @@ instance philosophyMapTargetBHistCarrier : BHistCarrier PhilosophyMapTargetUp wh
 
 instance philosophyMapTargetChapterTasteGate : ChapterTasteGate PhilosophyMapTargetUp where
   -- BEDC touchpoint anchor: BHist BMark
-  round_trip := philosophyMapTarget_round_trip
+  round_trip := by
+    intro x
+    change philosophyMapTargetFromEventFlow (philosophyMapTargetToEventFlow x) = some x
+    exact philosophyMapTarget_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (philosophyMapTargetToEventFlow_injective heq)
+
+def taste_gate : ChapterTasteGate PhilosophyMapTargetUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  philosophyMapTargetChapterTasteGate
 
 instance philosophyMapTargetFieldFaithful : FieldFaithful PhilosophyMapTargetUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -148,28 +178,33 @@ instance philosophyMapTargetNontrivial : Nontrivial PhilosophyMapTargetUp where
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate PhilosophyMapTargetUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  philosophyMapTargetChapterTasteGate
+theorem PhilosophyMapTargetTasteGate_single_carrier_alignment :
+    (∀ h : BHist, philosophyMapTargetDecodeBHist (philosophyMapTargetEncodeBHist h) = h) ∧
+      philosophyMapTargetEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
+        (∀ x : PhilosophyMapTargetUp,
+          philosophyMapTargetFromEventFlow (philosophyMapTargetToEventFlow x) = some x) ∧
+          (∀ x y : PhilosophyMapTargetUp,
+            philosophyMapTargetToEventFlow x = philosophyMapTargetToEventFlow y → x = y) ∧
+            Nonempty (FieldFaithful PhilosophyMapTargetUp) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨philosophyMapTargetDecode_encode_bhist, rfl, philosophyMapTarget_round_trip,
+      (fun _ _ heq => philosophyMapTargetToEventFlow_injective heq),
+      ⟨philosophyMapTargetFieldFaithful⟩⟩
+
+namespace TasteGate
 
 theorem PhilosophyMapTargetTasteGate_single_carrier_alignment :
     (∀ h : BHist, philosophyMapTargetDecodeBHist (philosophyMapTargetEncodeBHist h) = h) ∧
-      (∀ x : PhilosophyMapTargetUp,
-        philosophyMapTargetFromEventFlow (philosophyMapTargetToEventFlow x) = some x) ∧
-        (∀ x y : PhilosophyMapTargetUp,
-          philosophyMapTargetToEventFlow x = philosophyMapTargetToEventFlow y → x = y) ∧
-          Nonempty (FieldFaithful PhilosophyMapTargetUp) ∧
-            philosophyMapTargetEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
-  constructor
-  · exact philosophyMapTargetDecode_encode_bhist
-  · constructor
-    · exact philosophyMapTarget_round_trip
-    · constructor
-      · intro x y heq
-        exact philosophyMapTargetToEventFlow_injective heq
-      · constructor
-        · exact ⟨philosophyMapTargetFieldFaithful⟩
-        · rfl
+      philosophyMapTargetEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
+        (∀ x : PhilosophyMapTargetUp,
+          philosophyMapTargetFromEventFlow (philosophyMapTargetToEventFlow x) = some x) ∧
+          (∀ x y : PhilosophyMapTargetUp,
+            philosophyMapTargetToEventFlow x = philosophyMapTargetToEventFlow y → x = y) ∧
+            Nonempty (FieldFaithful PhilosophyMapTargetUp) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact BEDC.Derived.PhilosophyMapTargetUp.PhilosophyMapTargetTasteGate_single_carrier_alignment
 
-end BEDC.Derived.PhilosophyMapTargetUp.TasteGate
+end TasteGate
+
+end BEDC.Derived.PhilosophyMapTargetUp
