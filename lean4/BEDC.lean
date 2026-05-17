@@ -551,6 +551,7 @@ import BEDC.Derived.OnticStateUp.TasteGate
 import BEDC.Derived.ObservationReflectionPacketUp.TasteGate
 import BEDC.Derived.ObservationCouplingUp
 import BEDC.Derived.OpenPhysicalFitUp.TasteGate
+import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.NameCert
 import BEDC.Derived.PhysicalModelAuditUp.TasteGate
 import BEDC.Derived.PhysicalOperationDescentUp.TasteGate
@@ -660,6 +661,7 @@ import BEDC.Derived.ObserverRegularUp.Carrier
 import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.ObserverDirectionUp.TasteGate
 import BEDC.Derived.ObserverSubjectBoundaryUp.TasteGate
+import BEDC.Derived.ObserverKernelTraceUp
 import BEDC.Derived.ObserverTraceKernelUp.TasteGate
 import BEDC.Derived.ObserverTraceSealUp.TasteGate
 import BEDC.Derived.ConsciousObserverStateUp
