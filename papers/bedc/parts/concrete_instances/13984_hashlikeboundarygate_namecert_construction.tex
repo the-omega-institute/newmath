@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\HashLikeBoundaryGateUp$}
+\label{ch:concrete-instances-hashlikeboundarygate-namecert}
+\origin{ai}
+
+The $\HashLikeBoundaryGateUp$ packet realizes the eight-question audit family of \autoref{def:hash-like-boundary-gate} as finite NameCert data. It sits after the general boundary-gate packet of \autoref{ch:concrete-instances-boundary-gate-namecert}, the hash-like fiber boundary of \autoref{ch:concrete-instances-hashlikefiberboundary-namecert}, the digest-fiber ledger of \autoref{ch:concrete-instances-digestfiberledger-namecert}, the hash digest-fiber boundary of \autoref{ch:concrete-instances-hashdigestfiberboundary-namecert}, and the digest provenance packet of \autoref{ch:concrete-instances-digestprovenancepacket-namecert}. Those siblings provide boundary questions, visible digest rows, hidden fiber rows, exactness/refusal discipline, and provenance rows; this packet makes the H1--H8 gate itself a consumer-facing certificate.
+
+\begin{definition}[HashLikeBoundaryGate carrier]
+\label{def:hash-like-boundary-gate-carrier}
+A $\HashLikeBoundaryGateUp$ carrier is a finite $\BHist$ packet
+$$
+X=(D,F,E,R,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the visible digest-like token row;
+\item $F$ is the provenance fiber row attached to the same token;
+\item $E$ is the exactness row recording whether digest equality is licensed as source equality;
+\item $R$ is the refusal row for absent provenance, absent exactness, global-universe hashes, $\mathsf{T}$-value confusion, self-substance leakage, physical-constant derivation, quotient collapse, and un sourced certificate names;
+\item $V$ is the audit-verdict row for the H1--H8 questions of \autoref{def:hash-like-boundary-gate};
+\item $H$ records componentwise $\hsame$ transport for $D,F,E,R,V$ together with the structural rows;
+\item $C$ records the displayed $\Cont$ routes through digest, fiber, exactness, refusal, audit verdict, transport, provenance, and local naming reads;
+\item $P$ is the $\Pkg$ provenance over $\BoundaryGateUp$, $\HashLikeFiberBoundaryUp$, $\DigestFiberLedgerUp$, $\HashDigestFiberBoundaryUp$, $\DigestProvenancePacketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\HashLikeBoundaryGateUp}$ row.
+\end{enumerate}
+The carrier accepts exactly those digest-like consumers that display provenance fiber, exactness, refusal, audit verdict, transport, continuation, package, and local naming rows before treating digest equality as any source-facing claim.
+\end{definition}
+
+\begin{theorem}[HashLikeBoundaryGate NameCert obligations]
+\label{thm:hash-like-boundary-gate-namecert-obligations}
+For the carrier of \autoref{def:hash-like-boundary-gate-carrier}, the local $\NameCert_{\HashLikeBoundaryGateUp}$ surface consists exactly of carrier admission for
+$$
+X=(D,F,E,R,V,H,C,P,N),
+$$
+visible digest exposure through $D$, provenance-fiber exposure through $F$, exactness exposure through $E$, H1--H8 refusal exposure through $R$, audit-verdict exposure through $V$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Consequently, an accepted consumer cannot use digest equality as source equality unless the exactness row $E$ is displayed together with $F,R,V,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $D,F,E,R,V$ are the complete audit content, while $H,C,P,N$ transport, replay, package, and name the same finite packet.
+
+Read the sibling routes in order. The boundary-gate surface supplies the finite question and verdict pattern, the hash-like fiber boundary supplies digest and hidden-fiber discipline, the digest-fiber ledger supplies provenance-fiber exposure, the hash digest-fiber boundary supplies exactness discipline, and the digest provenance packet supplies source-row ancestry.
+
+The H1--H8 refusal row then exhausts the gate. Since the carrier has no coordinate for a global universe hash, detached digest-to-source equality, unledgered $\mathsf{T}$ input, subject parameter outside $\mathsf{Hist}$, physical constant derivation, quotient collapse, or un sourced certificate citation, no accepted consumer can obtain those readings from the packet.
+\end{proof}
+
+\begin{theorem}[HashLikeBoundaryGate nonescape]
+\label{thm:hash-like-boundary-gate-nonescape}
+Every accepted $\HashLikeBoundaryGateUp$ consumer factors through
+$$
+D,F,E,R,V,H,C,P,N.
+$$
+The packet exports no digest-as-source equality, no selected preimage, no global universe digest, no $\mathsf{T}$-valued theorem input, no subject behind $\mathsf{Hist}$, no physical constant, no quotient source equality, and no certificate name detached from its source rows.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:hash-like-boundary-gate-namecert-obligations}. They place every consumer-visible read on the same digest, fiber, exactness, refusal, audit-verdict, transport, continuation, provenance, and local naming route.
+
+The exactness coordinate is displayed as a gate row rather than as an implicit equality principle. Thus digest equality can be consumed only after the packet also exposes its fiber, refusal, verdict, transport, route, provenance, and naming rows.
+
+The forbidden outputs require coordinates absent from \autoref{def:hash-like-boundary-gate-carrier}. Transport and replay preserve the displayed packet; they do not create source preimages, universe hashes, theorem inputs, subject parameters, physical constants, quotient equalities, or detached certificate names.
+\end{proof}
+
+\falsifiablePrediction{Every accepted HashLikeBoundaryGateUp consumer must display provenance fiber, exactness, refusal, audit verdict, hsame, Cont, Pkg, and NameCert rows before using digest equality as source equality.}
+
+\independenceWitness{boundarygate, hashlikefiberboundary, digestfiberledger, hashdigestfiberboundary, and digestprovenancepacket: none is bijective to HashLikeBoundaryGateUp because this carrier binds the H1--H8 audit verdict to digest, fiber, exactness, refusal, transport, continuation, provenance, and local naming rows in one packet.}
+
+The Lean follow-up namespace is \texttt{BEDC.Derived.HashLikeBoundaryGateUp}. Its \texttt{TasteGate.lean} file must include \texttt{Nontrivial HashLikeBoundaryGateUp} and \texttt{FieldFaithful HashLikeBoundaryGateUp} instances for the displayed digest, fiber, exactness, refusal, audit verdict, transport, continuation, provenance, and naming carrier.
+
+\closureat{HashLikeBoundaryGateUp}{seedStr}

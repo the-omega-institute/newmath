@@ -1,5 +1,6 @@
 \chapter{A Concrete Naming Certificate for \(\ZetaZerosUp\)}
 \label{ch:concrete-instances-zeta-zeros-namecert}
+\origin{human}
 
 This chapter gives a concrete naming-certificate construction for the predicate "\(s\) is a zero of \(\zeta\)" without yet constructing any non-trivial zeros. The trivial zeros at negative even integers \(-2, -4, -6, \ldots\) are constructed explicitly; the non-trivial zero predicate is characterized as elements of the critical strip whose \(\zeta\)-value (under the analytic continuation \(\ZetaContUp\), \autoref{ch:concrete-instances-zeta-continuation}) is the zero complex history. The chapter explicitly notes that whether non-trivial zeros all lie on the critical line is the content of the Riemann Hypothesis (\autoref{ch:visions-riemann-hypothesis}); this chapter only sets up the predicate, the classifier, and the closure laws compatible with conjugate symmetry. Builds on \(\ZetaBasicUp\) (\autoref{ch:concrete-instances-zeta-basic-namecert}), \(\ZetaContUp\) (\autoref{ch:concrete-instances-zeta-continuation}), and \(\CritStripUp\) (\autoref{ch:concrete-instances-critical-strip-namecert}). The construction is fully constructive at the predicate level and uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
 
@@ -267,3 +268,14 @@ The concrete certificate of \autoref{thm:zeta-zeros-namecert} satisfies the sema
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
 \end{proof}
+
+\begin{closurestatus}{\ZetaZerosUp}
+  \constructivestory{A $\ZetaZerosUp$ packet is generated from finite $\BHist$ rows for a complex-history point, zeta-value readback, zero classifier, critical-strip or continuation source rows, transports, continuations, provenance, and local naming. A zero read is obtained by replaying the displayed zeta row and zero witness through $\Cont$, not by selecting a host complex zero or quotient zero-set element. Componentwise $\hsame$ transports point, value, zero, strip, and continuation rows, while $\Pkg$ records the zeta-basic, continuation, critical-strip, and complex dependencies. The certificate names the finite zero surface and keeps analytic zero theory outside the packet.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the zeta-zero predicate, zero readback rows, source-boundary routes, classifier stability, and semantic NameCert surface for $\ZetaZerosUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim a complete zero set, RH, analytic zero search, quotient equality of zeros, host complex equality, or meromorphic continuation beyond displayed sources.}
+  \upgradepath{Obligation closure requires Lean encodings of the zero carrier, zeta readback route, source-boundary rows, classifier stability, and semantic NameCert theorem.}
+\end{closurestatus}
