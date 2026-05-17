@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\TraceVerdictBoundaryUp$}
+\label{ch:concrete-instances-trace-verdict-boundary-namecert}
+\origin{ai}
+
+The $\TraceVerdictBoundaryUp$ packet realizes the proof discipline of \autoref{subsec:philosophy-proof-discipline} as a concrete boundary between proof traces and verdict export. It sits beside the proof-trace audit witness of \autoref{ch:concrete-instances-prooftraceauditwitness-namecert}, the machine-interface formalization target of \autoref{ch:concrete-instances-machine-interface-formalization-target-namecert}, the ground compiler audit verdict of \autoref{ch:concrete-instances-groundcompilerauditverdict-namecert}, and the definition-theorem-proof audit packet of \autoref{ch:concrete-instances-definition-theorem-proof-audit-namecert}. Those siblings expose trace witnesses, interface targets, verdict rows, and proof-discipline rows separately; this chapter binds the handoff from trace data to public verdict export.
+
+\begin{definition}[Trace verdict boundary carrier]
+\label{def:trace-verdict-boundary-carrier}
+A $\TraceVerdictBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,R,V,I,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\ProofTraceAuditWitnessUp$ row recording the finite proof trace, transport, ledger, refusal, audit-verdict, provenance, and local NameCert witness;
+\item $R$ is the forbidden-resource refusal row recording hidden choice, host equality as BEDC equality, quotient collapse, propositional extensional rewrite, global truth predicate, global clock, unledgered compression, and unscoped universal claim as unavailable proof resources;
+\item $V$ is the verdict-export row supplied through the $\GroundCompilerAuditVerdictUp$ surface;
+\item $I$ is the $\MachineInterfaceFormalizationTargetUp$ row naming the checker-facing formalization target through which the verdict may be exported;
+\item $A$ is the $\DefinitionTheoremProofAuditUp$ row recording the proof-discipline site whose trace is being judged;
+\item $H$ records componentwise $\hsame$ transport for $T,R,V,I,A,C,P,N$;
+\item $C$ records displayed $\Cont$ replay for the trace, refusal, verdict, interface-target, proof-discipline, provenance, and local naming rows;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:concrete-instances-prooftraceauditwitness-namecert}, \autoref{ch:concrete-instances-machine-interface-formalization-target-namecert}, \autoref{ch:concrete-instances-groundcompilerauditverdict-namecert}, \autoref{ch:concrete-instances-definition-theorem-proof-audit-namecert}, \autoref{subsec:philosophy-proof-discipline}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TraceVerdictBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for reading a proof trace as a verdict, exporting a verdict without a refusal row, bypassing the machine-interface target, or replacing the displayed proof-discipline site with host-side semantic confidence.
+\end{definition}
+
+\begin{definition}[Trace verdict boundary classifier]
+\label{def:trace-verdict-boundary-classifier}
+Two accepted $\TraceVerdictBoundaryUp$ carriers classify together exactly when their proof-trace, refusal, verdict, interface-target, proof-discipline, transport, replay, provenance, and local naming rows compare componentwise by $\hsame$:
+$$
+\begin{gathered}
+T\sim_{\hsame}T',\quad R\sim_{\hsame}R',\quad V\sim_{\hsame}V',\quad I\sim_{\hsame}I',\\
+A\sim_{\hsame}A',\quad H\sim_{\hsame}H',\quad C\sim_{\hsame}C',\quad P\sim_{\hsame}P',\quad N\sim_{\hsame}N'.
+\end{gathered}
+$$
+No classifier clause compares hidden proof-checker state, host-side truth, private verdict policy, or trace data outside the displayed handoff.
+\end{definition}
+
+\begin{theorem}[Trace verdict boundary NameCert obligations]
+\label{thm:trace-verdict-boundary-namecert-obligations}
+For the carrier of \autoref{def:trace-verdict-boundary-carrier}, the local $\NameCert_{\TraceVerdictBoundaryUp}$ surface consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for $B=(T,R,V,I,A,H,C,P,N)$ with proof trace, forbidden-resource refusal, verdict export, interface target, proof-discipline site, transport, replay, provenance, and local name all displayed;
+\item classifier stability for the same rows under componentwise $\hsame$ as in \autoref{def:trace-verdict-boundary-classifier};
+\item trace-to-verdict exactness, requiring a verdict export through $V$ to read the proof trace $T$ only together with the refusal row $R$ and interface-target row $I$;
+\item provenance and route exactness, requiring every verdict-boundary read to pass through the proof-trace witness, machine-interface formalization target, ground compiler audit verdict, definition-theorem-proof audit packet, replay row, package row, and local name;
+\item non-escape for bare proof traces, forbidden-resource erasure, hidden checker state, private verdict policy, host semantic confidence, and verdict export outside the displayed interface target.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:trace-verdict-boundary-carrier}. The packet displays trace, refusal, verdict, interface target, proof-discipline, transport, replay, provenance, and local naming rows before the verdict boundary can be read.
+
+Classifier stability is componentwise. The classifier of \autoref{def:trace-verdict-boundary-classifier} compares exactly those rows by $\hsame$, so a transported packet cannot keep a verdict while dropping its trace, refusal, interface target, or proof-discipline row.
+
+Trace-to-verdict exactness follows from the route order. The proof trace $T$ supplies audit evidence, but it does not become a verdict export until $R,V,I,A,H,C,P,N$ are displayed in the same packet.
+
+Provenance and route exactness use the sibling packets named in the statement. The proof-trace witness supplies the trace row, the interface target supplies checker-facing export scope, the ground compiler audit verdict supplies verdict data, and the definition-theorem-proof audit supplies the proof-discipline site.
+
+Non-escape is immediate from the carrier inventory. There is no coordinate for bare trace export, hidden checker state, private verdict policy, forbidden-resource erasure, or host semantic confidence, so the NameCert surface cannot export one.
+\end{proof}
+
+\begin{theorem}[Trace verdict boundary nonescape]
+\label{thm:trace-verdict-boundary-nonescape}
+An accepted $\TraceVerdictBoundaryUp$ packet never exports a proof trace as a verdict unless the forbidden-resource refusal row, ground compiler audit verdict row, machine-interface target row, proof-discipline row, transport row, replay row, provenance row, and local name are displayed with it. Deleting the refusal row while preserving the trace and verdict rows leaves a partial trace-verdict projection, not an accepted verdict boundary carrier.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:trace-verdict-boundary-namecert-obligations}. They require trace-to-verdict exactness through $T,R,V,I,A,H,C,P,N$ before a public verdict-boundary read is accepted.
+
+If $R$ is absent, the packet no longer records the refusal of hidden choice, host equality, quotient collapse, propositional extensional rewrite, global truth, global clock, unledgered compression, or unscoped universal claim. A trace row and verdict row without that refusal do not satisfy the carrier admission clause.
+
+The interface and proof-discipline rows cannot repair the missing refusal. They scope the verdict export and identify the proof site, but the boundary classifier still compares $R$ as a displayed row. Hence the partial read is rejected by the $\TraceVerdictBoundaryUp$ classifier rather than exported as a verdict boundary.
+\end{proof}
+
+\begin{theorem}[Trace verdict boundary proof-trace handoff]
+\label{thm:trace-verdict-boundary-prooftraceauditwitness-handoff}
+Every accepted $\TraceVerdictBoundaryUp$ verdict export factors through the $\ProofTraceAuditWitnessUp$ row and then through the forbidden-resource refusal, $\GroundCompilerAuditVerdictUp$, $\MachineInterfaceFormalizationTargetUp$, $\DefinitionTheoremProofAuditUp$, transport, replay, provenance, and local NameCert rows. The proof trace remains audit evidence for the verdict route; it is not itself the exported verdict.
+\end{theorem}
+\begin{proof}
+Project the carrier $B=(T,R,V,I,A,H,C,P,N)$. The first visible witness row is the $\ProofTraceAuditWitnessUp$ row $T$, while the verdict row $V$ appears only after the refusal row $R$ and alongside the interface target $I$ and proof-discipline row $A$.
+
+Apply the NameCert obligations. Trace-to-verdict exactness requires the verdict export to preserve $T,R,V,I,A,H,C,P,N$ as one route, and provenance exactness records the sibling surfaces named in the statement.
+
+Finally use nonescape. Since a bare proof trace cannot be exported as a verdict and a missing refusal row invalidates the carrier, the handoff from proof trace to verdict export is exactly the displayed finite boundary route.
+\end{proof}
+
+\falsifiablePrediction{Deleting the forbidden-resource refusal row while keeping trace and verdict rows invalidates the verdict boundary carrier.}
+
+\independenceWitness{prooftraceauditwitness, machineinterfaceformalizationtarget, groundcompilerauditverdict, auditgatefailurewitness, definitiontheoremproofaudit: none is bijective because this packet uniquely binds trace rows to verdict export through refusal, interface target, provenance, and local NameCert rows.}
+
+Lean $\mathsf{TasteGate.lean}$ must include explicit $\mathsf{Nontrivial}\ \TraceVerdictBoundaryUp$ and $\mathsf{FieldFaithful}\ \TraceVerdictBoundaryUp$ instances preserving $T,R,V,I,A,H,C,P,N$ as distinct rows.
