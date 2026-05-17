@@ -54,6 +54,44 @@ the package does not create another order and does not replace constructive
 comparison by classical trichotomy.
 \end{proof}
 
+\begin{theorem}[OrderUp total-order alias boundary]
+\label{thm:orderup-totalorder-alias-boundary}
+The L7 public $\OrderUp$ phase package used by Full Nat Arithmetic is exactly
+the tuple
+$(\mathsf{UnaryHistory},\rho_{\mathsf{u}},\le_{\mathsf{u}})$ obtained by
+projecting the unary-prefix $\TotalOrderUp$ construction of
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup} and by
+assembling the phase-exit rows of
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. Its carrier row is
+$\mathsf{UnaryHistory}$, its classifier row is $\rho_{\mathsf{u}}$, and its
+relation row is the prefix relation $\le_{\mathsf{u}}$.
+
+The public $\OrderUp$ rows are precisely the projected preorder,
+antisymmetry, constructive comparison, finite interval coverage, and endpoint
+classifier uniqueness rows named by those two theorem blocks. Thus downstream
+consumers may cite $\OrderUp$ as the unary-prefix projection of
+$\TotalOrderUp$, but they receive no second order relation, no host
+$\mathsf{Nat}$ order, no quotient order, and no classical trichotomy.
+\end{theorem}
+\begin{proof}
+Project the base tuple from
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}. The carrier
+is $\mathsf{UnaryHistory}$, the classifier is $\rho_{\mathsf{u}}$, and the
+relation is $\le_{\mathsf{u}}$, the concrete prefix relation on carried unary
+histories.
+
+Next apply \autoref{thm:unary-prefix-orderup-phase-exit-package}. It repacks
+the $\TotalOrderUp$ preorder and antisymmetry rows, the constructive
+comparison branches, the finite interval coverage row, and the endpoint
+classifier uniqueness row as the public $\OrderUp$ phase package.
+
+The two cited theorem blocks name all consumer-visible rows of this phase
+object. Since each row is a projection from the unary-prefix construction or a
+phase-exit assembly of those projections, there is no independent order row to
+transport, no ambient $\mathsf{Nat}$ ordering to import, no quotient ordering
+to identify, and no classical trichotomy principle to add.
+\end{proof}
+
 \subsection{OrderUp obligation set}
 \label{sec:totalorder-orderup-obligation-set}
 
