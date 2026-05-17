@@ -98,15 +98,55 @@ The route predicate obligation identifies the exact predicate surface consumed b
 Combining these pieces yields the chapter's obligation surface. The exclusions are inherited from the carrier and from the already established nonchoice and completion boundaries, so the package closes the obligation level without adding quotient, host-limit, choice, or ambient-completeness data.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit representative primitive-scope exhaustion]
+\label{thm:diagonal-limit-representative-primitive-scope-exhaustion}
+For every accepted $\DiagonalLimitRepresentativeUp$ carrier
+$$
+D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N),
+$$
+the displayed route predicates are scoped exactly by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the sibling rows supplied by $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\FinitePrefixLimitBudgetUp$. The representative route uses $X,\mu,n,k,i,w,r,d,e,H,C,P,N$ together with the shared-terminal finite-prefix rows of \autoref{def:diagonal-limit-representative-shared-terminal-carrier}; it has no primitive outside those listed BEDC rows.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only local rows are the family, modulus, request, selected indices, window, readback, ledger, seal, transport, continuation, provenance, and naming rows listed in \autoref{def:diagonal-limit-representative-carrier}.
+
+Read the sibling surfaces. The route predicate obligation places $w,r,d,e$ respectively in $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$, and the shared-terminal carrier adds only the finite-prefix budget rows from $\FinitePrefixLimitBudgetUp$.
+
+The support rows are exactly $H,C,P,N$. Thus every transport, replay, source, and local name is accounted for by $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ over $\BHist$. Since the carrier and the shared-terminal extension export no further coordinates, the primitive scope is exhausted by the listed rows.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative support-scope nonescape]
+\label{thm:diagonal-limit-representative-hsame-cont-scope}
+All accepted transport and replay for the $\DiagonalLimitRepresentativeUp$ route occurs through the recorded support rows $H,C,P,N$. No hidden selector, quotient stream, host limit, ambient completeness field, countable-choice row, detached window, alternate dyadic ledger, or off-packet terminal seal can enter the route through $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$.
+\end{theorem}
+\begin{proof}
+Begin with terminal stability, \autoref{thm:diagonal-limit-representative-terminal-stability-obligation}. It says that accepted componentwise transport preserves the displayed route $\mu,n,k,i,w,r,d,e$ and does not manufacture hidden selectors or off-packet terminal seals.
+
+Use the nonchoice and completion boundaries, \autoref{thm:diagonal-limit-representative-nonchoice-boundary} and \autoref{thm:diagonal-limit-representative-completion-boundary}. These boundaries remove quotient stream equality, host limits, countable choice, and ambient completeness from the packet surface.
+
+Finally read the support rows. The classifier permits only the componentwise $\hsame$ comparisons and $\Cont$ routes recorded by $H$ and $C$, while $P$ and $N$ source and name the same finite packet. Therefore accepted transport and replay remain inside the recorded support scope.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative scoped-closure package]
+\label{thm:diagonal-limit-representative-scoped-closure-package}
+The $\DiagonalLimitRepresentativeUp$ scoped-closure surface is the package consisting of the obligation-closure package of \autoref{thm:diagonal-limit-representative-obligation-closure-package}, the primitive-scope exhaustion theorem of \autoref{thm:diagonal-limit-representative-primitive-scope-exhaustion}, and the support-scope nonescape theorem of \autoref{thm:diagonal-limit-representative-hsame-cont-scope}. This package binds the diagonal representative route to the displayed BEDC primitives without claiming Real completeness, quotient-stream equality, host limits, selected completed limits, countable choice, or machine verification.
+\end{theorem}
+\begin{proof}
+The obligation-closure package supplies the accepted carrier, classifier, NameCert obligations, route predicate obligation, and terminal stability obligation. These theorems identify the diagonal representative route and the terminal Real seal boundary.
+
+The primitive-scope exhaustion theorem identifies the primitive rows available to the route: $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, the four representative sibling surfaces, and the finite-prefix budget surface. The support-scope nonescape theorem confines every accepted transport and replay step to $H,C,P,N$.
+
+Combining these two scope results with the obligation package gives a closed scoped surface for the paper chapter. The exclusions are precisely the absent coordinates named by the carrier, nonchoice boundary, completion boundary, and finite-prefix handoff, so the package records scoped closure without adding analytic completion data.
+\end{proof}
+
 \begin{closurestatus}{\DiagonalLimitRepresentativeUp}
   \constructivestory{The diagonal-limit representative is generated from $BHist$ rows that record diagonal indices, finite prefixes, window ledgers, stream-name to regular-rational handoffs, and the shared terminal route. The construction follows the familiar diagonal-limit idea, but every representative is read through the carrier rather than selected from an ambient completion. The $hsame$ relation transports index and terminal rows across equivalent histories, while $\Cont$ carries the finite-prefix and Real-seal handoffs forward. The chapter's boundary, uniqueness, selector-exclusion, completion-frontier, shared-terminal, and handoff theorems keep the representative bottom-up: a terminal diagonal representative exists only as the visible route assembled from the named finite ledgers.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter binds the diagonal-limit representative carrier, classifier, NameCert obligations, the route predicate obligation of \autoref{thm:diagonal-limit-representative-route-predicate-obligation}, the terminal stability obligation of \autoref{thm:diagonal-limit-representative-terminal-stability-obligation}, the closure package of \autoref{thm:diagonal-limit-representative-obligation-closure-package}, Real-seal and completion boundaries, uniqueness, selector-exclusion, shared-terminal route, and finite-prefix budget handoff.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{This chapter binds the diagonal-limit representative carrier, classifier, NameCert obligations, the route predicate obligation of \autoref{thm:diagonal-limit-representative-route-predicate-obligation}, the terminal stability obligation of \autoref{thm:diagonal-limit-representative-terminal-stability-obligation}, the closure package of \autoref{thm:diagonal-limit-representative-obligation-closure-package}, primitive-scope exhaustion of \autoref{thm:diagonal-limit-representative-primitive-scope-exhaustion}, support-scope nonescape of \autoref{thm:diagonal-limit-representative-hsame-cont-scope}, scoped-closure packaging of \autoref{thm:diagonal-limit-representative-scoped-closure-package}, Real-seal and completion boundaries, uniqueness, selector-exclusion, shared-terminal route, and finite-prefix budget handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim a selected completion point, quotient-stream equality, global limit uniqueness, or choice beyond the displayed diagonal route.}
-  \upgradepath{Reaching scopedClosure requires an explicit BEDC primitive scope for the displayed diagonal route predicates and their shared finite-prefix terminal route.}
+  \upgradepath{A higher closure grade requires Lean verification and a public bridge for the scoped package.}
 \end{closurestatus}
 
 \begin{theorem}[Diagonal-limit representative Real-seal factorization]
