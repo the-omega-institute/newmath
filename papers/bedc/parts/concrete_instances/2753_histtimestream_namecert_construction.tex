@@ -244,6 +244,7 @@ Use the Real completion consumer boundary and transport lock, \autoref{thm:histt
 
 Finally apply the clock refusal obligation, \autoref{thm:hist-time-stream-clock-refusal}. Since no shared clock, host index, sibling Hist source, quotient stream, selected limit, or ambient completeness coordinate exists in the packet, the completion or Real consumer factors through the local packet before the StreamName handoff and nowhere else.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_completion\_streamname\_handoff\_factorization}
 
 \begin{theorem}[HistTimeStream observer-locality consumption bridge]
 \label{thm:histtimestream-observer-locality-consumption-bridge}
@@ -303,6 +304,7 @@ Q=(H,T,S,C,L,P,N)
 $$
 be an accepted $\HistTimeStreamUp$ packet. The displayed finite time stream is exactly the $\Cont$-prefix route from $\emp$ to the source $\Hist$ row $H$, read through the finite schedule $T$, the start-at-empty ledger $S$, the replay row $C$, the transport and locality ledger $L$, the package row $P$, and the local naming row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_cont\_prefix\_exactness}
 \begin{proof}
 Start with the carrier of \autoref{def:histtimestream-namecert-carrier}. It presents $H,T,S,C,L,P,N$ as the complete local stream packet, with $S$ recording the start-at-empty boundary and $C$ recording the displayed replay route.
 
@@ -389,6 +391,7 @@ Now transport componentwise. The hsame prefix transport theorem, \autoref{thm:hi
 
 Finally apply observer-locality transport and local clock refusal. Theorem~\ref{thm:histtimestream-observer-locality-transport} keeps the transported packet local for observer-facing consumers, while \autoref{thm:histtimestream-local-clock-refusal} rejects every nonlocal clock read unless it has already factored through the displayed rows. Hence the transport is exhausted by the local packet.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_local\_transport\_exhaustion}
 
 \begin{theorem}[HistTimeStream NameCert route exhaustion]
 \label{thm:hist-time-stream-namecert-route-exhaustion}
