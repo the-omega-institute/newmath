@@ -433,4 +433,44 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_dimlift_refusal_route [AskSetup]
       exact ⟨source.right.right, hsame_symm source.left⟩
   }
 
+theorem AxisZeckendorfCannotClaimRegistryPacket_refusal_ledger_row [AskSetup] [PackageSetup]
+    {a b c d e f g h p n refusal : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg →
+      (hsame refusal a ∨ hsame refusal b ∨ hsame refusal c ∨ hsame refusal d ∨
+          hsame refusal e ∨ hsame refusal f ∨ hsame refusal g) →
+        UnaryHistory refusal ∧ Cont a b h ∧ Cont c d h ∧ Cont e f h ∧ hsame p n ∧
+          PkgSig bundle p pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  intro packet refusalRow
+  obtain
+    ⟨aUnary, bUnary, cUnary, dUnary, eUnary, fUnary, gUnary, routeAB, routeCD, routeEF,
+      _pUnary, sameProvenanceName, pkgSig⟩ := packet
+  have refusalUnary : UnaryHistory refusal := by
+    cases refusalRow with
+    | inl sameA =>
+        exact unary_transport_symm aUnary sameA
+    | inr rest =>
+        cases rest with
+        | inl sameB =>
+            exact unary_transport_symm bUnary sameB
+        | inr rest =>
+            cases rest with
+            | inl sameC =>
+                exact unary_transport_symm cUnary sameC
+            | inr rest =>
+                cases rest with
+                | inl sameD =>
+                    exact unary_transport_symm dUnary sameD
+                | inr rest =>
+                    cases rest with
+                    | inl sameE =>
+                        exact unary_transport_symm eUnary sameE
+                    | inr rest =>
+                        cases rest with
+                        | inl sameF =>
+                            exact unary_transport_symm fUnary sameF
+                        | inr sameG =>
+                            exact unary_transport_symm gUnary sameG
+  exact ⟨refusalUnary, routeAB, routeCD, routeEF, sameProvenanceName, pkgSig⟩
+
 end BEDC.Derived.AxisZeckendorfCannotClaimUp
