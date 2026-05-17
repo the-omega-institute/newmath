@@ -58,21 +58,60 @@ def formalConstantEmpiricalValueBoundaryToEventFlow :
 def formalConstantEmpiricalValueBoundaryFromEventFlow :
     EventFlow → Option FormalConstantEmpiricalValueBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
-  | formal :: empirical :: calibration :: uncertainty :: reproducibility :: failure ::
-      transport :: replay :: provenance :: localCert :: [] =>
-      some
-        (FormalConstantEmpiricalValueBoundaryUp.mk
-          (formalConstantEmpiricalValueBoundaryDecodeBHist formal)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist empirical)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist calibration)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist uncertainty)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist reproducibility)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist failure)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist transport)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist replay)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist provenance)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist localCert))
-  | _ => none
+  | List.nil => none
+  | List.cons formal rest₁ =>
+      match rest₁ with
+      | List.nil => none
+      | List.cons empirical rest₂ =>
+          match rest₂ with
+          | List.nil => none
+          | List.cons calibration rest₃ =>
+              match rest₃ with
+              | List.nil => none
+              | List.cons uncertainty rest₄ =>
+                  match rest₄ with
+                  | List.nil => none
+                  | List.cons reproducibility rest₅ =>
+                      match rest₅ with
+                      | List.nil => none
+                      | List.cons failure rest₆ =>
+                          match rest₆ with
+                          | List.nil => none
+                          | List.cons transport rest₇ =>
+                              match rest₇ with
+                              | List.nil => none
+                              | List.cons replay rest₈ =>
+                                  match rest₈ with
+                                  | List.nil => none
+                                  | List.cons provenance rest₉ =>
+                                      match rest₉ with
+                                      | List.nil => none
+                                      | List.cons localCert rest₁₀ =>
+                                          match rest₁₀ with
+                                          | List.nil =>
+                                              some
+                                                (FormalConstantEmpiricalValueBoundaryUp.mk
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    formal)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    empirical)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    calibration)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    uncertainty)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    reproducibility)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    failure)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    transport)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    replay)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    provenance)
+                                                  (formalConstantEmpiricalValueBoundaryDecodeBHist
+                                                    localCert))
+                                          | List.cons _ _ => none
 
 private theorem formalConstantEmpiricalValueBoundary_round_trip :
     ∀ x : FormalConstantEmpiricalValueBoundaryUp,

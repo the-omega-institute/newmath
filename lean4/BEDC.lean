@@ -387,6 +387,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootWindowTerminalFactorizati
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootWindowExtraction
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootWindowReadiness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCriterionTailPullback
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootUnblock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootSelectorBridge
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ScopedDependencyPackage
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SharedBudgetMeet
@@ -416,6 +417,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealCompleteness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealReadbackCompleteness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowCoverage
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailBudgetSealCorrespondence
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
