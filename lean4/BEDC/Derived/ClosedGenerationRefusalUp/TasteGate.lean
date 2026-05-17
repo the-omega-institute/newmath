@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.ClosedGenerationRefusalUp
+namespace BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,7 +25,7 @@ def closedGenerationRefusalDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (closedGenerationRefusalDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (closedGenerationRefusalDecodeBHist tail)
 
-private theorem closedGenerationRefusal_decode_encode_bhist :
+private theorem closedGenerationRefusalDecode_encode_bhist :
     ∀ h : BHist,
       closedGenerationRefusalDecodeBHist (closedGenerationRefusalEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -38,8 +38,11 @@ private theorem closedGenerationRefusal_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def closedGenerationRefusalToEventFlow :
-    ClosedGenerationRefusalUp → EventFlow
+private def closedGenerationRefusalFields : ClosedGenerationRefusalUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | ClosedGenerationRefusalUp.mk P T G R I H C Q N => [P, T, G, R, I, H, C, Q, N]
+
+def closedGenerationRefusalToEventFlow : ClosedGenerationRefusalUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | ClosedGenerationRefusalUp.mk P T G R I H C Q N =>
       [[BMark.b0],
@@ -63,33 +66,42 @@ def closedGenerationRefusalToEventFlow :
           BMark.b1, BMark.b0],
         closedGenerationRefusalEncodeBHist N]
 
-private def closedGenerationRefusalEventAtDefault :
-    Nat → EventFlow → RawEvent
+private def closedGenerationRefusalRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      closedGenerationRefusalEventAtDefault index rest
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => closedGenerationRefusalRawAt n rest
 
-def closedGenerationRefusalFromEventFlow
-    (ef : EventFlow) : Option ClosedGenerationRefusalUp :=
+private def closedGenerationRefusalLengthEq : Nat → EventFlow → Bool
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (ClosedGenerationRefusalUp.mk
-      (closedGenerationRefusalDecodeBHist (closedGenerationRefusalEventAtDefault 1 ef))
-      (closedGenerationRefusalDecodeBHist (closedGenerationRefusalEventAtDefault 3 ef))
-      (closedGenerationRefusalDecodeBHist (closedGenerationRefusalEventAtDefault 5 ef))
-      (closedGenerationRefusalDecodeBHist (closedGenerationRefusalEventAtDefault 7 ef))
-      (closedGenerationRefusalDecodeBHist (closedGenerationRefusalEventAtDefault 9 ef))
-      (closedGenerationRefusalDecodeBHist (closedGenerationRefusalEventAtDefault 11 ef))
-      (closedGenerationRefusalDecodeBHist (closedGenerationRefusalEventAtDefault 13 ef))
-      (closedGenerationRefusalDecodeBHist (closedGenerationRefusalEventAtDefault 15 ef))
-      (closedGenerationRefusalDecodeBHist (closedGenerationRefusalEventAtDefault 17 ef)))
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => closedGenerationRefusalLengthEq n rest
+
+def closedGenerationRefusalFromEventFlow : EventFlow → Option ClosedGenerationRefusalUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match closedGenerationRefusalLengthEq 18 flow with
+      | true =>
+          some
+            (ClosedGenerationRefusalUp.mk
+              (closedGenerationRefusalDecodeBHist (closedGenerationRefusalRawAt 1 flow))
+              (closedGenerationRefusalDecodeBHist (closedGenerationRefusalRawAt 3 flow))
+              (closedGenerationRefusalDecodeBHist (closedGenerationRefusalRawAt 5 flow))
+              (closedGenerationRefusalDecodeBHist (closedGenerationRefusalRawAt 7 flow))
+              (closedGenerationRefusalDecodeBHist (closedGenerationRefusalRawAt 9 flow))
+              (closedGenerationRefusalDecodeBHist (closedGenerationRefusalRawAt 11 flow))
+              (closedGenerationRefusalDecodeBHist (closedGenerationRefusalRawAt 13 flow))
+              (closedGenerationRefusalDecodeBHist (closedGenerationRefusalRawAt 15 flow))
+              (closedGenerationRefusalDecodeBHist (closedGenerationRefusalRawAt 17 flow)))
+      | false => none
 
 private theorem closedGenerationRefusal_round_trip :
     ∀ x : ClosedGenerationRefusalUp,
-      closedGenerationRefusalFromEventFlow (closedGenerationRefusalToEventFlow x) = some x := by
+      closedGenerationRefusalFromEventFlow
+        (closedGenerationRefusalToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -107,15 +119,15 @@ private theorem closedGenerationRefusal_round_trip :
             (closedGenerationRefusalDecodeBHist (closedGenerationRefusalEncodeBHist Q))
             (closedGenerationRefusalDecodeBHist (closedGenerationRefusalEncodeBHist N))) =
           some (ClosedGenerationRefusalUp.mk P T G R I H C Q N)
-      rw [closedGenerationRefusal_decode_encode_bhist P,
-        closedGenerationRefusal_decode_encode_bhist T,
-        closedGenerationRefusal_decode_encode_bhist G,
-        closedGenerationRefusal_decode_encode_bhist R,
-        closedGenerationRefusal_decode_encode_bhist I,
-        closedGenerationRefusal_decode_encode_bhist H,
-        closedGenerationRefusal_decode_encode_bhist C,
-        closedGenerationRefusal_decode_encode_bhist Q,
-        closedGenerationRefusal_decode_encode_bhist N]
+      rw [closedGenerationRefusalDecode_encode_bhist P,
+        closedGenerationRefusalDecode_encode_bhist T,
+        closedGenerationRefusalDecode_encode_bhist G,
+        closedGenerationRefusalDecode_encode_bhist R,
+        closedGenerationRefusalDecode_encode_bhist I,
+        closedGenerationRefusalDecode_encode_bhist H,
+        closedGenerationRefusalDecode_encode_bhist C,
+        closedGenerationRefusalDecode_encode_bhist Q,
+        closedGenerationRefusalDecode_encode_bhist N]
 
 private theorem closedGenerationRefusalToEventFlow_injective
     {x y : ClosedGenerationRefusalUp} :
@@ -123,17 +135,14 @@ private theorem closedGenerationRefusalToEventFlow_injective
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      closedGenerationRefusalFromEventFlow (closedGenerationRefusalToEventFlow x) =
-        closedGenerationRefusalFromEventFlow (closedGenerationRefusalToEventFlow y) :=
+      closedGenerationRefusalFromEventFlow
+          (closedGenerationRefusalToEventFlow x) =
+        closedGenerationRefusalFromEventFlow
+          (closedGenerationRefusalToEventFlow y) :=
     congrArg closedGenerationRefusalFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (closedGenerationRefusal_round_trip x).symm
       (Eq.trans hread (closedGenerationRefusal_round_trip y)))
-
-private def closedGenerationRefusalFields :
-    ClosedGenerationRefusalUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | ClosedGenerationRefusalUp.mk P T G R I H C Q N => [P, T, G, R, I, H, C, Q, N]
 
 private theorem closedGenerationRefusal_field_faithful :
     ∀ x y : ClosedGenerationRefusalUp,
@@ -147,8 +156,7 @@ private theorem closedGenerationRefusal_field_faithful :
           cases hfields
           rfl
 
-instance closedGenerationRefusalBHistCarrier :
-    BHistCarrier ClosedGenerationRefusalUp where
+instance closedGenerationRefusalBHistCarrier : BHistCarrier ClosedGenerationRefusalUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := closedGenerationRefusalToEventFlow
   fromEventFlow := closedGenerationRefusalFromEventFlow
@@ -159,7 +167,8 @@ instance closedGenerationRefusalChapterTasteGate :
   round_trip := by
     intro x
     change
-      closedGenerationRefusalFromEventFlow (closedGenerationRefusalToEventFlow x) = some x
+      closedGenerationRefusalFromEventFlow
+        (closedGenerationRefusalToEventFlow x) = some x
     exact closedGenerationRefusal_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -171,14 +180,13 @@ instance closedGenerationRefusalFieldFaithful :
   fields := closedGenerationRefusalFields
   field_faithful := closedGenerationRefusal_field_faithful
 
-instance closedGenerationRefusalNontrivial :
-    Nontrivial ClosedGenerationRefusalUp where
+instance closedGenerationRefusalNontrivial : Nontrivial ClosedGenerationRefusalUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨ClosedGenerationRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+    ⟨ClosedGenerationRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      ClosedGenerationRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      ClosedGenerationRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -188,26 +196,27 @@ def taste_gate : ChapterTasteGate ClosedGenerationRefusalUp :=
   closedGenerationRefusalChapterTasteGate
 
 theorem closedGenerationRefusalTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      closedGenerationRefusalDecodeBHist (closedGenerationRefusalEncodeBHist h) = h) ∧
-      (∀ x : ClosedGenerationRefusalUp,
-        closedGenerationRefusalFromEventFlow (closedGenerationRefusalToEventFlow x) = some x) ∧
-        (∀ x y : ClosedGenerationRefusalUp,
-          closedGenerationRefusalToEventFlow x = closedGenerationRefusalToEventFlow y →
-            x = y) ∧
-          closedGenerationRefusalToEventFlow
-              (ClosedGenerationRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
+    closedGenerationRefusalEncodeBHist BHist.Empty = [] ∧
+      (∀ h : BHist,
+        closedGenerationRefusalDecodeBHist (closedGenerationRefusalEncodeBHist h) = h) ∧
+        (∀ x : ClosedGenerationRefusalUp,
+          closedGenerationRefusalFromEventFlow (closedGenerationRefusalToEventFlow x) =
+            some x) ∧
+          (∀ x y : ClosedGenerationRefusalUp,
+            closedGenerationRefusalToEventFlow x = closedGenerationRefusalToEventFlow y →
+              x = y) ∧
             closedGenerationRefusalToEventFlow
-              (ClosedGenerationRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) := by
+                (ClosedGenerationRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
+              closedGenerationRefusalToEventFlow
+                (ClosedGenerationRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨closedGenerationRefusal_decode_encode_bhist,
-      closedGenerationRefusal_round_trip,
+    ⟨rfl, closedGenerationRefusalDecode_encode_bhist, closedGenerationRefusal_round_trip,
       (fun _ _ heq => closedGenerationRefusalToEventFlow_injective heq),
       by
         intro h
         cases h⟩
 
-end BEDC.Derived.ClosedGenerationRefusalUp
+end BEDC.Derived.ClosedGenerationRefusalUp.TasteGate

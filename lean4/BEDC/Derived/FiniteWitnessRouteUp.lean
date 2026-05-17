@@ -351,4 +351,25 @@ theorem FiniteWitnessRouteConsumer_factorization
         ⟨rfl, requestRoute, sealRoute, consumerRoute⟩,
       FiniteWitnessRouteNameCert_obligations requestRoute sealRoute⟩
 
+theorem FiniteWitnessRouteStreamName_source_lock
+    {q w r d s h c p n consumer tail : BHist}
+    (requestRoute : Cont q w r)
+    (sealRoute : Cont r d s)
+    (consumerRoute : Cont s c consumer) :
+    (∃ packet : FiniteWitnessRouteUp,
+        packet = FiniteWitnessRouteUp.mk q w r d s h c p n ∧
+          Cont q w r ∧ Cont r d s ∧ Cont s c consumer) ∧
+      (Cont r (BHist.e0 tail) q → False) ∧
+        (Cont s (BHist.e1 tail) r → False) := by
+  -- BEDC touchpoint anchor: BHist Cont
+  constructor
+  · exact
+      ⟨FiniteWitnessRouteUp.mk q w r d s h c p n,
+        rfl, requestRoute, sealRoute, consumerRoute⟩
+  · constructor
+    · intro routeBackToRequest
+      exact (cont_mutual_extension_right_tail_absurd).left requestRoute routeBackToRequest
+    · intro routeBackToReadback
+      exact (cont_mutual_extension_right_tail_absurd).right sealRoute routeBackToReadback
+
 end BEDC.Derived.FiniteWitnessRouteUp
