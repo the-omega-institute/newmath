@@ -173,4 +173,44 @@ Now combine the window lock with tail readback totality. The first theorem requi
 Finally apply non-escape. Since the carrier has no coordinate for quotient stream equality, selected limits, countable choice, or ambient completeness, every completion consumer stops at the displayed finite boundary.
 \end{proof}
 
+\begin{theorem}[Cofinal modulus seal tail cofinality lock]
+\label{thm:cofinal-modulus-seal-tail-cofinality-lock}
+Every accepted $\CofinalModulusSealUp$ packet locks a completion read to the shared cofinal tail budget before the read may inspect the seal side. In particular, a public completion read must pass through the $\CofinalTailBudgetUp$, $\CauchyTailModulusSealUp$, $\RealWindowBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CofinalModulusSealUp}$ rows in the same finite carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-modulus-seal-carrier}. The rows $B,M,W$ form the source side of the cofinal tail route, while $T,D,R,L,E$ form the StreamName, dyadic, regular-sequence, Cauchy-limit, and Real-facing seal side.
+
+Use source-row synchronization and window-budget exactness. \autoref{thm:cofinal-modulus-seal-source-row-synchronization} identifies $B,M,W$ as one shared cofinal route, and \autoref{thm:cofinal-modulus-seal-window-budget-exactness} routes the $T,D,R$ windows through that same budget.
+
+The Real handoff then places $L$ and $E$ downstream of the synchronized rows, while $H,C,P,N$ preserve transport, replay, provenance, and local naming. Thus the completion read has no entry point except the displayed cofinal tail lock.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal shared budget exhaustion]
+\label{thm:cofinal-modulus-seal-shared-budget-exhaustion}
+For every accepted $\CofinalModulusSealUp$ consumer, the shared budget rows $B,M,W$ exhaust the admissible cofinal-tail supply for the downstream rows $T,D,R,L,E,H,C,P,N$. No consumer may replace that supply by a private modulus, a detached RealWindowBudget, a hidden StreamName, quotient stream equality, selected host limits, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations. They admit only the displayed carrier $S=(B,M,W,L,R,T,D,E,H,C,P,N)$ and require cofinal route synchronization before completion-seal handoff.
+
+The tail cofinality lock above gives the budget use required by each completion read. The lock forces $\CofinalTailBudgetUp$, $\CauchyTailModulusSealUp$, and $\RealWindowBudgetUp$ to be the same route source for StreamName, DyadicRatCore, RegSeqRat, CauchyLimitSeal, and RealUp reads.
+
+Finally apply non-escape. Since the carrier has no coordinate for a private modulus, detached window budget, hidden stream selector, quotient equality, selected host limit, or ambient completeness principle, the shared budget rows exhaust the public supply.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal completion scope factorization]
+\label{thm:cofinal-modulus-seal-completion-scope-factorization}
+Every completion-facing scope exported by $\CofinalModulusSealUp$ factors through the finite row sequence
+$$
+B,M,W,T,D,R,L,E,H,C,P,N.
+$$
+Thus downstream $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ consumers may cite only the cofinal budget, CauchyTailModulusSeal, RealWindowBudget, CauchyLimitSeal, hsame, Cont, Pkg, and NameCert rows displayed by the same accepted packet.
+\end{theorem}
+\begin{proof}
+First use the completion consumer boundary. It already states that a completion-facing consumer may consume the seal only after every row in the displayed carrier has been exposed.
+
+Next apply shared budget exhaustion. The rows $B,M,W$ supply the only admissible cofinal-tail budget, while $T,D,R,L,E$ are the only StreamName, dyadic, regular-sequence, limit-seal, and Real-facing rows downstream of that budget.
+
+The support rows $H,C,P,N$ then factor the scope through componentwise transport, displayed continuation, provenance, and local naming. Hence the completion-facing export is a finite scope factorization, not a route through endpoint-only Real validation or hidden completion data.
+\end{proof}
+
 Lean TasteGate formalization for this route must provide \texttt{Nontrivial CofinalModulusSealUp} and \texttt{FieldFaithful CofinalModulusSealUp} instances in \texttt{BEDC.Derived.CofinalModulusSealUp}.
