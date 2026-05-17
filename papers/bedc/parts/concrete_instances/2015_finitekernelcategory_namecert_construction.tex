@@ -520,6 +520,93 @@ the carrier has no quotient, host equality, functor-category, or external
 library coordinate, a bridge-facing consumer cannot export one.
 \end{proof}
 
+\begin{theorem}[Finite-kernel category carrier habitation scope]
+\label{thm:finite-kernel-category-carrier-habitation-scope}
+For an accepted $\FiniteKernelCategoryUp$ carrier
+$$
+K=(O,M,I,Q,A,U,H,C,P,N),
+$$
+carrier habitation is grounded exactly by the finite object-history row $O$,
+the displayed hom-history row $M$, the empty-continuation identity row $I$,
+and the local $\NameCert$ row $N$. The habitation witness uses no quotient
+morphism, host category object, ambient arrow equality, or external category
+library object.
+\end{theorem}
+\begin{proof}
+Start from the carrier coordinates in
+\autoref{def:finite-kernel-category-carrier}. The object carrier is presented
+by finite $\BHist$ histories in $O$, the hom carrier by displayed histories in
+$M$, identities by the empty $\Cont$ continuations recorded in $I$, and local
+naming by $N$.
+
+Use the obligation surface of
+\autoref{thm:finite-kernel-category-namecert-obligations}. Its habitation row
+binds those object, hom, identity, and local naming coordinates to the same
+finite packet, so there is no second carrier source to read.
+
+Finally apply the root obligation boundary,
+\autoref{thm:finite-kernel-category-root-obligation-scope}. That boundary
+exports only $O,M,I,Q,A,U,H,C,P,N$ to categorical consumers; quotient
+morphisms, host category objects, and ambient category-library objects are not
+coordinates of the accepted carrier.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category classifier stability scope]
+\label{thm:finite-kernel-category-classifier-stability-scope}
+For an accepted $\FiniteKernelCategoryUp$ carrier
+$$
+K=(O,M,I,Q,A,U,H,C,P,N),
+$$
+classifier transport is exactly the componentwise $\hsame$ row $H$ over the
+object, hom, identity, composition, associativity, and unit ledgers. The
+transport is consumed only through the displayed continuation row $C$, the
+package provenance row $P$, and the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Read the classifier coordinates from
+\autoref{def:finite-kernel-category-carrier}. The row $H$ is the
+componentwise $\hsame$ transport for the displayed object and hom histories
+and for the ledger rows that depend on them.
+
+Use \autoref{thm:finite-kernel-category-composition-laws} to identify the
+dependent law surface. Identity, composition, associativity, and unit reads
+are the rows $I,Q,A,U$, so classifier stability acts on the full law ledger
+rather than on a detached ambient category object.
+
+Now apply \autoref{thm:finite-kernel-category-namecert-obligations} and
+\autoref{thm:finite-kernel-category-root-obligation-scope}. The same
+componentwise transport is consumed through $C$ and named through $P,N$; no
+consumer receives an alternate classifier route outside $\Cont$, $\Pkg$, and
+\NameCert.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category identity-composition exactness scope]
+\label{thm:finite-kernel-category-identity-composition-exactness-scope}
+For an accepted $\FiniteKernelCategoryUp$ carrier
+$$
+K=(O,M,I,Q,A,U,H,C,P,N),
+$$
+identity exactness is the row $I$ and composition exactness is the row $Q$.
+Associativity and unit support enter only through $A$ and $U$, transported by
+$H$, consumed through $C$, recorded by $P$, and named locally by $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-kernel-category-carrier}. The
+identity row is $I$, and the composition row is $Q$; both are displayed BEDC
+rows over the same object and hom histories.
+
+Apply \autoref{thm:finite-kernel-category-namecert-obligations}. Its
+identity-exactness and composition-exactness obligations attach $I$ and $Q$
+to the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+packet.
+
+Finally use \autoref{thm:finite-kernel-category-composition-laws} and
+\autoref{thm:finite-kernel-category-root-obligation-scope}. Associativity and
+unit support are precisely $A,U,H,C,P,N$, so exactness cannot be discharged by
+an external composition law or by a quotient morphism outside the displayed
+carrier.
+\end{proof}
+
 \closureat{FiniteKernelCategoryUp}{seedStr}
 \closureat{FiniteKernelCategoryUp}{obligationStr}
 
