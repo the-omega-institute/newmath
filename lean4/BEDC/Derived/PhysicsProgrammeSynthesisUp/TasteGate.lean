@@ -1,16 +1,20 @@
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.PhysicsProgrammeSynthesisUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive PhysicsProgrammeSynthesisUp : Type where
-  | mk (R F L V E H C P N : BHist) : PhysicsProgrammeSynthesisUp
+  | mk (route falsification ledger verification failure transport continuation provenance name :
+      BHist) : PhysicsProgrammeSynthesisUp
   deriving DecidableEq
 
 def physicsProgrammeSynthesisEncodeBHist : BHist → RawEvent
@@ -47,20 +51,24 @@ private def physicsProgrammeSynthesisRawAt : Nat → EventFlow → RawEvent
 
 def physicsProgrammeSynthesisFields : PhysicsProgrammeSynthesisUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | PhysicsProgrammeSynthesisUp.mk R F L V E H C P N => [R, F, L, V, E, H, C, P, N]
+  | PhysicsProgrammeSynthesisUp.mk route falsification ledger verification failure transport
+      continuation provenance name =>
+      [route, falsification, ledger, verification, failure, transport, continuation, provenance,
+        name]
 
 def physicsProgrammeSynthesisToEventFlow : PhysicsProgrammeSynthesisUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | PhysicsProgrammeSynthesisUp.mk R F L V E H C P N =>
-      [physicsProgrammeSynthesisEncodeBHist R,
-        physicsProgrammeSynthesisEncodeBHist F,
-        physicsProgrammeSynthesisEncodeBHist L,
-        physicsProgrammeSynthesisEncodeBHist V,
-        physicsProgrammeSynthesisEncodeBHist E,
-        physicsProgrammeSynthesisEncodeBHist H,
-        physicsProgrammeSynthesisEncodeBHist C,
-        physicsProgrammeSynthesisEncodeBHist P,
-        physicsProgrammeSynthesisEncodeBHist N]
+  | PhysicsProgrammeSynthesisUp.mk route falsification ledger verification failure transport
+      continuation provenance name =>
+      [physicsProgrammeSynthesisEncodeBHist route,
+        physicsProgrammeSynthesisEncodeBHist falsification,
+        physicsProgrammeSynthesisEncodeBHist ledger,
+        physicsProgrammeSynthesisEncodeBHist verification,
+        physicsProgrammeSynthesisEncodeBHist failure,
+        physicsProgrammeSynthesisEncodeBHist transport,
+        physicsProgrammeSynthesisEncodeBHist continuation,
+        physicsProgrammeSynthesisEncodeBHist provenance,
+        physicsProgrammeSynthesisEncodeBHist name]
 
 def physicsProgrammeSynthesisFromEventFlow
     (flow : EventFlow) : Option PhysicsProgrammeSynthesisUp :=
@@ -109,19 +117,19 @@ private theorem physicsProgrammeSynthesis_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk R F L V E H C P N =>
+  | mk route falsification ledger verification failure transport continuation provenance name =>
       exact
         congrArg some
           (physicsProgrammeSynthesis_mk_congr
-            (physicsProgrammeSynthesis_decode_encode_bhist R)
-            (physicsProgrammeSynthesis_decode_encode_bhist F)
-            (physicsProgrammeSynthesis_decode_encode_bhist L)
-            (physicsProgrammeSynthesis_decode_encode_bhist V)
-            (physicsProgrammeSynthesis_decode_encode_bhist E)
-            (physicsProgrammeSynthesis_decode_encode_bhist H)
-            (physicsProgrammeSynthesis_decode_encode_bhist C)
-            (physicsProgrammeSynthesis_decode_encode_bhist P)
-            (physicsProgrammeSynthesis_decode_encode_bhist N))
+            (physicsProgrammeSynthesis_decode_encode_bhist route)
+            (physicsProgrammeSynthesis_decode_encode_bhist falsification)
+            (physicsProgrammeSynthesis_decode_encode_bhist ledger)
+            (physicsProgrammeSynthesis_decode_encode_bhist verification)
+            (physicsProgrammeSynthesis_decode_encode_bhist failure)
+            (physicsProgrammeSynthesis_decode_encode_bhist transport)
+            (physicsProgrammeSynthesis_decode_encode_bhist continuation)
+            (physicsProgrammeSynthesis_decode_encode_bhist provenance)
+            (physicsProgrammeSynthesis_decode_encode_bhist name))
 
 private theorem physicsProgrammeSynthesisToEventFlow_injective
     {x y : PhysicsProgrammeSynthesisUp} :
@@ -142,27 +150,29 @@ private theorem physicsProgrammeSynthesis_field_faithful :
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk R F L V E H C P N =>
+  | mk route₁ falsification₁ ledger₁ verification₁ failure₁ transport₁ continuation₁
+      provenance₁ name₁ =>
       cases y with
-      | mk R' F' L' V' E' H' C' P' N' =>
-          injection hfields with hR t1
-          injection t1 with hF t2
-          injection t2 with hL t3
-          injection t3 with hV t4
-          injection t4 with hE t5
-          injection t5 with hH t6
-          injection t6 with hC t7
-          injection t7 with hP t8
-          injection t8 with hN _
-          cases hR
-          cases hF
-          cases hL
-          cases hV
-          cases hE
-          cases hH
-          cases hC
-          cases hP
-          cases hN
+      | mk route₂ falsification₂ ledger₂ verification₂ failure₂ transport₂ continuation₂
+          provenance₂ name₂ =>
+          injection hfields with hroute tail₁
+          injection tail₁ with hfalsification tail₂
+          injection tail₂ with hledger tail₃
+          injection tail₃ with hverification tail₄
+          injection tail₄ with hfailure tail₅
+          injection tail₅ with htransport tail₆
+          injection tail₆ with hcontinuation tail₇
+          injection tail₇ with hprovenance tail₈
+          injection tail₈ with hname _
+          cases hroute
+          cases hfalsification
+          cases hledger
+          cases hverification
+          cases hfailure
+          cases htransport
+          cases hcontinuation
+          cases hprovenance
+          cases hname
           rfl
 
 instance physicsProgrammeSynthesisBHistCarrier : BHistCarrier PhysicsProgrammeSynthesisUp where
@@ -228,6 +238,39 @@ namespace TasteGate
 
 abbrev PhysicsProgrammeSynthesisUp :=
   BEDC.Derived.PhysicsProgrammeSynthesisUp.PhysicsProgrammeSynthesisUp
+
+theorem PhysicsProgrammeSynthesisFalsificationNonescape
+    (route falsification ledger verification failure transport continuation provenance name
+      hostTail : BHist) :
+    physicsProgrammeSynthesisFields
+        (PhysicsProgrammeSynthesisUp.mk route falsification ledger verification failure
+          transport continuation provenance name) =
+        [route, falsification, ledger, verification, failure, transport, continuation,
+          provenance, name] ∧
+      Cont route falsification (append route falsification) ∧
+        hsame (append route falsification) (append route falsification) ∧
+          (Cont (append route falsification) (BHist.e0 hostTail) route -> False) ∧
+            (Cont (append route falsification) (BHist.e1 hostTail) route -> False) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · constructor
+        · intro hostReturn
+          have noReturn :=
+            cont_mutual_extension_right_tail_absurd
+              (h := route) (k := append route falsification) (leftTail := falsification)
+              (rightTail := hostTail)
+          exact noReturn.left rfl hostReturn
+        · intro hostReturn
+          have noReturn :=
+            cont_mutual_extension_right_tail_absurd
+              (h := route) (k := append route falsification) (leftTail := falsification)
+              (rightTail := hostTail)
+          exact noReturn.right rfl hostReturn
 
 end TasteGate
 
