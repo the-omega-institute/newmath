@@ -176,6 +176,7 @@ import BEDC.Derived.AuditMapTemplatePacketUp.TasteGate
 import BEDC.Derived.AuditSystemUp.TasteGate
 import BEDC.Derived.AuditMapFrontierIndexUp.TasteGate
 import BEDC.Derived.AuditMapInterfaceUp
+import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.AxiomQueryLedgerUp
 import BEDC.Derived.AuditGateBoundaryUp
 import BEDC.Derived.AuditGateBoundaryUp.StrictAxiomPurityReplay
@@ -600,6 +601,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
 import BEDC.Derived.DyadicApproximationUp.L10RealCompletionSiblingRoute
 import BEDC.Derived.FiniteObservationInterfaceUp.TasteGate
 import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
+import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.LocalEmpiricalClosureGateUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
 import BEDC.Derived.SocketReportUp.TasteGate
@@ -651,6 +653,7 @@ import BEDC.Derived.LocalStencilObservationUp.TasteGate
 import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealCompletionRouteAuditUp.TasteGate
+import BEDC.Derived.RealCompletionWitnessExtractorUp
 import BEDC.Derived.RealCompletionSelectorSealUp
 import BEDC.Derived.RealCompletionSelectorSealUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.TasteGate
@@ -659,6 +662,7 @@ import BEDC.Derived.RealObservationBudgetUp.WindowCoverage
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
 import BEDC.Derived.RestrictedSurfaceBudgetUp.TasteGate
 import BEDC.Derived.RealSealAdmissionCutUp.TasteGate
+import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessSealUp
 import BEDC.Derived.RealLimitUniquenessSealUp.TasteGate
 import BEDC.Derived.RealSealCongruenceUp.TasteGate
@@ -1200,6 +1204,7 @@ import BEDC.Derived.CauchySealBudgetSynchronizerUp
 import BEDC.Derived.CauchySealBudgetSynchronizerUp.TasteGate
 import BEDC.Derived.CauchySealInterfaceUp.TasteGate
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
+import BEDC.Derived.ChoiceRecipeLedgerUp
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
 import BEDC.Derived.CrossHistoryCausalDependenceUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp
@@ -1261,6 +1266,7 @@ import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
 import BEDC.Derived.MultihistCouplingUp.TasteGate
 import BEDC.Derived.InterHistInvariantUp.TasteGate
 import BEDC.Derived.ForceInterHistRelationUp.TasteGate
+import BEDC.Derived.InterHistTransportSealUp.TasteGate
 import BEDC.Derived.InterHistInvariantUp.StdBridge
 import BEDC.Derived.CauchySequenceSpaceUp
 import BEDC.Derived.CauchySequenceSpaceUp.WindowFactorization
@@ -1861,6 +1867,7 @@ import BEDC.Derived.RefutationBoundaryUp
 import BEDC.Derived.RefuterTraceUp.TasteGate
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.RussellAnalysisLadderUp.TasteGate
+import BEDC.Derived.RussellBoundaryUp
 import BEDC.Derived.RussellSelfMembershipBoundaryUp.TasteGate
 import BEDC.Derived.ObservableCauchySealUp.TasteGate
 import BEDC.Derived.UnwitnessedExistenceClosureUp.TasteGate

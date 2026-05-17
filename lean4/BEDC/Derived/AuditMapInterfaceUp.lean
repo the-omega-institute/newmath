@@ -102,4 +102,27 @@ theorem AuditMapInterfaceCarrier_namecert_obligations
       transportUnary, routeUnary, provenanceUnary, localCertUnary, establishedConditionalObstruction,
         obstructionFrontierCrossMap, transportRouteProvenance, localCertPkg⟩
 
+theorem AuditMapInterfaceCarrier_cross_map_consumer_boundary
+    [AskSetup] [PackageSetup]
+    {established conditional obstruction frontier crossMap transport route provenance
+      localCert consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapInterfaceCarrier established conditional obstruction frontier crossMap transport route
+        provenance localCert bundle pkg ->
+      Cont crossMap route consumerRead ->
+        PkgSig bundle consumerRead pkg ->
+          UnaryHistory crossMap ∧ UnaryHistory route ∧ UnaryHistory consumerRead ∧
+            Cont crossMap route consumerRead ∧ PkgSig bundle localCert pkg ∧
+              PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig
+  intro carrier crossMapRoute consumerPkg
+  obtain ⟨_establishedUnary, _conditionalUnary, _obstructionUnary, _frontierUnary,
+    crossMapUnary, _transportUnary, routeUnary, _provenanceUnary, _localCertUnary,
+    _establishedConditionalObstruction, _obstructionFrontierCrossMap,
+    _transportRouteProvenance, localCertPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed crossMapUnary routeUnary crossMapRoute
+  exact
+    ⟨crossMapUnary, routeUnary, consumerUnary, crossMapRoute, localCertPkg, consumerPkg⟩
+
 end BEDC.Derived.AuditMapInterfaceUp
