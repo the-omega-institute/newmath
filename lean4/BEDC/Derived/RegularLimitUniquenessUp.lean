@@ -448,4 +448,44 @@ theorem RegularLimitUniquenessCarrier_ledger_non_escape_scope [AskSetup] [Packag
       exact ⟨auditReadPkg, sourceRow.left⟩
   }
 
+theorem RegularLimitUniquenessCarrier_separated_comparison_scope [AskSetup] [PackageSetup]
+    {family diagonalLeft diagonalRight threshold readbackLeft readbackRight sealLeft sealRight
+      separated transport route provenance localCert endpoint scopeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLimitUniquenessCarrier family diagonalLeft diagonalRight threshold readbackLeft
+        readbackRight sealLeft sealRight separated transport route provenance localCert endpoint
+        bundle pkg ->
+      Cont separated localCert scopeRead ->
+        PkgSig bundle scopeRead pkg ->
+          UnaryHistory readbackLeft ∧ UnaryHistory readbackRight ∧ UnaryHistory sealLeft ∧
+            UnaryHistory sealRight ∧ UnaryHistory separated ∧ UnaryHistory scopeRead ∧
+              Cont diagonalLeft threshold readbackLeft ∧
+                Cont diagonalRight threshold readbackRight ∧
+                  Cont readbackLeft threshold sealLeft ∧
+                    Cont readbackRight threshold sealRight ∧
+                      Cont sealLeft sealRight separated ∧
+                        Cont separated localCert scopeRead ∧ PkgSig bundle endpoint pkg ∧
+                          PkgSig bundle scopeRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig
+  intro carrier separatedLocalCertScope scopeReadPkg
+  obtain ⟨_familyUnary, _diagonalLeftUnary, _diagonalRightUnary, thresholdUnary,
+    readbackLeftUnary, readbackRightUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    localCertUnary, _familyThresholdDiagonalLeft, _familyThresholdDiagonalRight,
+    diagonalLeftThresholdReadback, diagonalRightThresholdReadback, readbackLeftThresholdSeal,
+    readbackRightThresholdSeal, sealComparison, _separatedTransportEndpoint,
+    _routeProvenanceEndpoint, endpointPkg⟩ := carrier
+  have sealLeftUnary : UnaryHistory sealLeft :=
+    unary_cont_closed readbackLeftUnary thresholdUnary readbackLeftThresholdSeal
+  have sealRightUnary : UnaryHistory sealRight :=
+    unary_cont_closed readbackRightUnary thresholdUnary readbackRightThresholdSeal
+  have separatedUnary : UnaryHistory separated :=
+    unary_cont_closed sealLeftUnary sealRightUnary sealComparison
+  have scopeReadUnary : UnaryHistory scopeRead :=
+    unary_cont_closed separatedUnary localCertUnary separatedLocalCertScope
+  exact
+    ⟨readbackLeftUnary, readbackRightUnary, sealLeftUnary, sealRightUnary, separatedUnary,
+      scopeReadUnary, diagonalLeftThresholdReadback, diagonalRightThresholdReadback,
+      readbackLeftThresholdSeal, readbackRightThresholdSeal, sealComparison,
+      separatedLocalCertScope, endpointPkg, scopeReadPkg⟩
+
 end BEDC.Derived.RegularLimitUniquenessUp
