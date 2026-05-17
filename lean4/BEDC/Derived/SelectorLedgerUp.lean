@@ -1,16 +1,56 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SelectorLedgerUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 
 inductive SelectorLedgerUp : Type where
   | mk : (history trace selectors transport cont provenance name : BHist) → SelectorLedgerUp
   deriving DecidableEq
+
+def SelectorLedgerCarrier [AskSetup] [PackageSetup]
+    (history trace selectors transport cont provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  UnaryHistory history ∧ UnaryHistory trace ∧ UnaryHistory selectors ∧
+    UnaryHistory transport ∧ UnaryHistory cont ∧ UnaryHistory provenance ∧
+      UnaryHistory name ∧ Cont history trace transport ∧ Cont trace selectors cont ∧
+        PkgSig bundle provenance pkg
+
+theorem SelectorLedgerNameCertObligations [AskSetup] [PackageSetup]
+    {history trace selectors transport cont provenance name route : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SelectorLedgerCarrier history trace selectors transport cont provenance name bundle pkg →
+      Cont cont name route →
+        PkgSig bundle route pkg →
+          UnaryHistory history ∧ UnaryHistory trace ∧ UnaryHistory selectors ∧
+            UnaryHistory route ∧ Cont history trace transport ∧ Cont trace selectors cont ∧
+              Cont cont name route ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle route pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier routeCont routePkg
+  rcases carrier with
+    ⟨historyUnary, traceUnary, selectorsUnary, _transportUnary, contUnary,
+      _provenanceUnary, nameUnary, historyTrace, traceSelectors, provenancePkg⟩
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed contUnary nameUnary routeCont
+  exact
+    ⟨historyUnary, traceUnary, selectorsUnary, routeUnary, historyTrace, traceSelectors,
+      routeCont, provenancePkg, routePkg⟩
 
 def selectorLedgerEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
