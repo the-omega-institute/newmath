@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
@@ -47,5 +48,32 @@ theorem ContextualClassReadingCarrier_classifier_transport [AskSetup] [PackageSe
   exact
     ⟨contextUnary, relationUnary, transportedUnary, replayUnary, contextRelation,
       transportedScope, replayPkg⟩
+
+theorem ContextualClassReadingCarrier_no_object_promotion [AskSetup] [PackageSetup]
+    {expression context relation scope transport route provenance localName objectRead hostTail :
+      BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextualClassReadingCarrier expression context relation scope transport route provenance
+        localName bundle pkg ->
+      Cont context relation objectRead ->
+        PkgSig bundle objectRead pkg ->
+          UnaryHistory context ∧ UnaryHistory relation ∧ UnaryHistory objectRead ∧
+            Cont context relation objectRead ∧ PkgSig bundle localName pkg ∧
+              PkgSig bundle objectRead pkg ∧
+                (Cont objectRead (BHist.e0 hostTail) context -> False) ∧
+                  (Cont objectRead (BHist.e1 hostTail) context -> False) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier contextRelation objectReadPkg
+  obtain ⟨_expressionUnary, contextUnary, relationUnary, _scopeUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _localNameUnary, _expressionContextRelation,
+    _relationScopeRoute, _routeTransportProvenance, localNamePkg⟩ := carrier
+  have objectReadUnary : UnaryHistory objectRead :=
+    unary_cont_closed contextUnary relationUnary contextRelation
+  exact
+    ⟨contextUnary, relationUnary, objectReadUnary, contextRelation, localNamePkg,
+      objectReadPkg,
+      (fun back =>
+        (cont_mutual_extension_right_tail_absurd.left contextRelation back)),
+      (fun back =>
+        (cont_mutual_extension_right_tail_absurd.right contextRelation back))⟩
 
 end BEDC.Derived.ContextualClassReadingUp
