@@ -56,4 +56,51 @@ theorem CompactUniformContinuityPacket_namecert_ledger_exhaustion [AskSetup] [Pa
       modulusRowsRadiusRowsFold, foldTransportRoute, routeNamePrecision, precisionNameMetric,
       metricTransportReal, radiusRowsFoldRadiusRead, precisionPkg, realReadPkg, radiusReadPkg⟩
 
+theorem CompactUniformContinuityPacket_modulus_ledger_exhaustion [AskSetup] [PackageSetup]
+    {source target graph tolerance precision net coverage modulusRows radiusRows fold transport
+      route nameRow centerRead metricRead targetRead radiusRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactUniformContinuityPacket source target graph tolerance precision net coverage
+        modulusRows radiusRows fold transport route nameRow bundle pkg ->
+      Cont net coverage centerRead ->
+        Cont centerRead target metricRead ->
+          Cont metricRead transport targetRead ->
+            Cont modulusRows radiusRows fold ->
+              Cont radiusRows fold radiusRead ->
+                PkgSig bundle targetRead pkg ->
+                  PkgSig bundle radiusRead pkg ->
+                    UnaryHistory centerRead ∧ UnaryHistory metricRead ∧
+                      UnaryHistory targetRead ∧ UnaryHistory fold ∧
+                        UnaryHistory radiusRead ∧ Cont net coverage centerRead ∧
+                          Cont centerRead target metricRead ∧
+                            Cont metricRead transport targetRead ∧
+                              Cont modulusRows radiusRows fold ∧
+                                Cont radiusRows fold radiusRead ∧
+                                  PkgSig bundle precision pkg ∧
+                                    PkgSig bundle targetRead pkg ∧
+                                      PkgSig bundle radiusRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet netCoverageCenter centerTargetMetric metricTransportTarget
+    modulusRowsRadiusRowsFold radiusRowsFoldRadiusRead targetReadPkg radiusReadPkg
+  obtain ⟨_sourceUnary, targetUnary, _graphUnary, _toleranceUnary, netUnary,
+    coverageUnary, radiusRowsUnary, transportUnary, _nameRowUnary, netCoverageModulusRows,
+    _packetModulusRowsRadiusRowsFold, _foldTransportRoute, _routeNamePrecision,
+    precisionPkg⟩ := packet
+  have centerReadUnary : UnaryHistory centerRead :=
+    unary_cont_closed netUnary coverageUnary netCoverageCenter
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed centerReadUnary targetUnary centerTargetMetric
+  have targetReadUnary : UnaryHistory targetRead :=
+    unary_cont_closed metricReadUnary transportUnary metricTransportTarget
+  have modulusRowsUnary : UnaryHistory modulusRows :=
+    unary_cont_closed netUnary coverageUnary netCoverageModulusRows
+  have foldUnary : UnaryHistory fold :=
+    unary_cont_closed modulusRowsUnary radiusRowsUnary modulusRowsRadiusRowsFold
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed radiusRowsUnary foldUnary radiusRowsFoldRadiusRead
+  exact
+    ⟨centerReadUnary, metricReadUnary, targetReadUnary, foldUnary, radiusReadUnary,
+      netCoverageCenter, centerTargetMetric, metricTransportTarget, modulusRowsRadiusRowsFold,
+      radiusRowsFoldRadiusRead, precisionPkg, targetReadPkg, radiusReadPkg⟩
+
 end BEDC.Derived.CompactUniformContinuityUp
