@@ -138,9 +138,9 @@ private theorem traditionLandingLedger_field_faithful :
   -- BEDC touchpoint anchor: BHist BMark
   intro x y h
   cases x with
-  | mk S₁ T₁ R₁ D₁ H₁ C₁ P₁ N₁ =>
+  | mk S1 T1 R1 D1 H1 C1 P1 N1 =>
       cases y with
-      | mk S₂ T₂ R₂ D₂ H₂ C₂ P₂ N₂ =>
+      | mk S2 T2 R2 D2 H2 C2 P2 N2 =>
           cases h
           rfl
 
