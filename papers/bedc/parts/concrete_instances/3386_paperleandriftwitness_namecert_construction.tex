@@ -81,6 +81,54 @@ Resolution reads pass through the normalized name and Lean inventory rows. Dupli
 The provenance row $P$ and local name row $N$ package this finite read as a NameCert surface. Since the carrier contains no semantic-equivalence row between paper prose and Lean theorem meaning, the consumer obtains exact marker resolution only.
 \end{proof}
 
+\begin{theorem}[Paper-Lean drift witness verdict determinism]
+\label{thm:paper-lean-drift-witness-verdict-determinism}
+For an accepted $\PaperLeanDriftWitnessUp$ carrier
+$$
+W=(M,A,L,I,R,H,C,P,N),
+$$
+fix the paper marker row $M$, normalized requested-name row $A$, paper-label ledger row $L$, and Lean inventory row $I$. The verdict row $R$ exposes exactly one local outcome for that same quadruple: exact resolution, unresolved-name refusal, ambiguous-name refusal, or duplicate-label refusal. A consumer replaying the displayed route $C$ under componentwise transport $H$ cannot obtain a second verdict for the same $M,A,L,I$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the rows $M,A,L,I,R,H,C,P,N$. The rows $M,A,L,I$ determine the marker site, the normalized request, the paper-label ledger read, and the finite Lean inventory read being adjudicated.
+
+The verdict coordinate is a single row $R$ attached to those projected inputs. Its allowed local outcomes are the four carrier outcomes listed in \autoref{def:paper-lean-drift-witness-carrier}: exact resolution, unresolved-name refusal, ambiguous-name refusal, and duplicate-label refusal.
+
+Replay does not introduce another decision channel. The displayed route $C$ parses the marker, normalizes the requested name, checks the label ledger, checks the Lean inventory, and exposes the verdict row. Componentwise transport in $H$ preserves the same inputs through that route, so replaying the same carrier cannot expose a distinct verdict for the fixed $M,A,L,I$.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness duplicate-label priority]
+\label{thm:paper-lean-drift-witness-duplicate-label-priority}
+Let
+$$
+W=(M,A,L,I,R,H,C,P,N)
+$$
+be an accepted $\PaperLeanDriftWitnessUp$ carrier. If the paper-label ledger row $L$ records duplicate-label refusal for the marker site $M$, then no exact-resolution verdict in $R$ may be exported for that site, even when the normalized requested name $A$ is present in the Lean inventory row $I$.
+\end{theorem}
+\begin{proof}
+Read the carrier in the displayed row order $M,A,L,I,R,H,C,P,N$. The label ledger row $L$ is consulted before the verdict row is exposed, and its duplicate-label refusal is a local refusal for the same marker site $M$.
+
+By \autoref{thm:paper-lean-drift-witness-resolution-exactness}, exact resolution requires both an inventory hit for $A$ in $I$ and the absence of duplicate-label refusal in $L$. Thus an inventory hit alone is not sufficient for exporting an exact-resolution row.
+
+The replay route $C$ keeps the label-ledger comparison on the path to $R$, and $H$ preserves that ledger row under transport. Therefore a duplicate-label refusal in $L$ has priority over the inventory hit and prevents export of an exact-resolution verdict for the refused marker site.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness unresolved marker refusal]
+\label{thm:paper-lean-drift-witness-unresolved-marker-refusal}
+Let
+$$
+W=(M,A,L,I,R,H,C,P,N)
+$$
+be an accepted $\PaperLeanDriftWitnessUp$ carrier. If the normalized requested name $A$ is absent from the Lean inventory row $I$, then every consumer read through $R,H,C,P,N$ remains a refusal row and cannot be promoted to a checked marker.
+\end{theorem}
+\begin{proof}
+Absence of $A$ from $I$ blocks the exact-resolution condition. By \autoref{thm:paper-lean-drift-witness-resolution-exactness}, an exact-resolution verdict can be read only when the normalized requested name is present in the Lean inventory row and the paper-label ledger does not refuse the site.
+
+The only remaining verdict information for the same marker passes through the refusal rows of $R$. The route $C$ replays the same normalization and inventory lookup, while $H$ preserves the same normalized name and inventory row under transport.
+
+Non-escape from \autoref{thm:paper-lean-drift-witness-nonescape} prevents the packet from exporting a checked theorem, statement, definition, or closure-status target outside the exact marker-resolution rows. The consumer boundary in \autoref{thm:paper-lean-drift-witness-consumer-boundary} confines downstream reads to $R,H,C,P,N$, so the absent inventory hit remains a refusal and cannot become a checked marker.
+\end{proof}
+
 \closureat{PaperLeanDriftWitnessUp}{seedStr}
 \closureat{PaperLeanDriftWitnessUp}{obligationStr}
 
