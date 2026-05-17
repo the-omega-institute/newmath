@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-chernweil-namecert}
 \origin{human}
 
-The Chern-Weil interface $\ChernWeilUp$ packages the cohomology-class invariants of a principal bundle as polynomial expressions in the curvature form of any chosen connection. It depends on $\NameCert_{\CurvatureUp}$ (\autoref{ch:concrete-instances-curvature-namecert}) and $\NameCert_{\DeRhamUp}$ (\autoref{ch:concrete-instances-deRham-namecert}), and bridges differential and topological certificates through the same characteristic-class classifier.
+The Chern-Weil interface $\ChernWeilUp$ packages the cohomology-class invariants of a principal bundle as polynomial expressions in the curvature form of any chosen connection. It depends on $\NameCert_{\CurvatureUp}$ (\autoref{ch:concrete-instances-curvature-namecert}) and $\NameCert_{\DeRhamUp}$ (\autoref{ch:concrete-instances-derham-namecert}), and bridges differential and topological certificates through the same characteristic-class classifier.
 
 \section{Carrier definition}
 \label{sec:chernweil-carrier}
@@ -128,7 +128,7 @@ For packets of \autoref{def:chernweil-carrier-packet}, the de~Rham class row $[\
 \begin{proof}
 Use the exactness field of the roadmap ten-field template in \autoref{sec:roadmap-per-object-template}. Exactness asks that every public row be generated from the listed source, carrier, classifier, stability, and ledger data.
 
-The source row for closed cohomology representatives is the $\NameCert_{\DeRhamUp}$ dependency chapter \autoref{ch:concrete-instances-deRham-namecert}. Feed it the polynomial endpoint row $\pi$ carried by the Chern-Weil packet. Its accepted output is the representative row $\omega$ together with the class row $[\omega]$.
+The source row for closed cohomology representatives is the $\NameCert_{\DeRhamUp}$ dependency chapter \autoref{ch:concrete-instances-derham-namecert}. Feed it the polynomial endpoint row $\pi$ carried by the Chern-Weil packet. Its accepted output is the representative row $\omega$ together with the class row $[\omega]$.
 
 Conversely, if $[\omega]$ is displayed as a Chern-Weil class row, the packet definition lists no source other than $\mathcal{D}$ and no path other than $\lambda$ from $\pi$ to $\omega$ and then to $[\omega]$. Therefore class acceptance is precisely de~Rham acceptance of the polynomial endpoint as a closed representative, mediated by $\mathsf{BHist}$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
 \end{proof}
@@ -140,7 +140,7 @@ In a $\ChernWeilUp$ carrier packet, the choice of connection, invariant-polynomi
 \begin{proof}
 Project the connection-dependent curvature boundary from $\NameCert_{\CurvatureUp}$ using \autoref{thm:curvature-namecert-scope-obligation}. That theorem exposes the boundary row, cyclic ledger, tensorial transport row, and provenance rows, but it does not export a host-level curvature form or connection equality.
 
-Project the cohomology representative side from the $\NameCert_{\DeRhamUp}$ dependency chapter \autoref{ch:concrete-instances-deRham-namecert}. The representative and class rows enter the Chern-Weil packet as $\mathsf{BHist}$ rows reached by $\lambda$, with their source provenance recorded in $\rho$.
+Project the cohomology representative side from the $\NameCert_{\DeRhamUp}$ dependency chapter \autoref{ch:concrete-instances-derham-namecert}. The representative and class rows enter the Chern-Weil packet as $\mathsf{BHist}$ rows reached by $\lambda$, with their source provenance recorded in $\rho$.
 
 Thus changing a connection, a polynomial presentation, a representative form, or a representative class can affect the packet only by changing ledger entries. The classifier compares the carried rows through $\hsame$ and finite $\Cont$ transport, so the choices are part of the certificate ledger rather than part of carrier equality.
 \end{proof}
@@ -154,7 +154,7 @@ The minimum $\NameCert_{\ChernWeilUp}$ obligation surface consists of the carrie
 \begin{proof}
 Assemble the four rows by the roadmap ten-field template of \autoref{sec:roadmap-per-object-template}. The traditional target is a Chern-Weil characteristic class; the BEDC sources are $\NameCert_{\CurvatureUp}$ and $\NameCert_{\DeRhamUp}$; the carrier is the displayed $\mathsf{BHist}$ packet; the classifier is the characteristic-class classifier; the stability, ledger, and exactness fields are the three theorem rows above.
 
-The curvature component is licensed by \autoref{thm:curvature-namecert-scope-obligation}. The cohomology component is licensed by the dependency chapter \autoref{ch:concrete-instances-deRham-namecert}. The shared primitives are exactly $\mathsf{BHist}$ for rows, $\hsame$ for transported endpoint comparison, $\Cont$ for finite readback, $\mathsf{Pkg}$ for provenance, and $\NameCert$ for dependency admission.
+The curvature component is licensed by \autoref{thm:curvature-namecert-scope-obligation}. The cohomology component is licensed by the dependency chapter \autoref{ch:concrete-instances-derham-namecert}. The shared primitives are exactly $\mathsf{BHist}$ for rows, $\hsame$ for transported endpoint comparison, $\Cont$ for finite readback, $\mathsf{Pkg}$ for provenance, and $\NameCert$ for dependency admission.
 
 Therefore every downstream consumer receives a finite obligation surface with visible carrier, classifier, stability, ledger, and exactness rows. Anything beyond those rows, including a standard bridge or an analytic equality of characteristic classes, must be supplied by a later bridge certificate rather than read from $\ChernWeilUp$ itself.
 \end{proof}
