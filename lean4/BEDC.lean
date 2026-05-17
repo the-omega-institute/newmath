@@ -395,6 +395,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailBudgetSealCorrespondence
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
+import BEDC.Derived.ClosedObservationSupplyBoundaryUp.TasteGate
 import BEDC.Derived.ClosureStatusReferenceUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
 import BEDC.Derived.CauchyInverseBudgetUp.TasteGate
@@ -696,6 +697,7 @@ import BEDC.Derived.RealTailAgreementSealUp.WindowRoute
 import BEDC.Derived.RealTailAgreementSealUp.TerminalRoute
 import BEDC.Derived.RealTailAgreementSealUp.RootBudget
 import BEDC.Derived.SelfTheoryReflectionLoopUp.TasteGate
+import BEDC.Derived.ResearchProgrammeAuditLoopUp.TasteGate
 import BEDC.Derived.RealTailAgreementTransitivityUp.TasteGate
 import BEDC.Derived.RealWindowBudgetUp
 import BEDC.Derived.RealWindowBudgetUp.DiagonalObservationRouteExhaustion
@@ -919,6 +921,7 @@ import BEDC.Derived.ReflectiveStabilityUp.TasteGate
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.TasteGate
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.Certificate
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationBoundaryTotality
+import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationRowPrecedence
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.InputStateExposure
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.TraceProvenanceLock
@@ -1596,6 +1599,7 @@ import BEDC.Derived.HistTimeStreamUp.ObserverLocalityBridgeRoute
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityTransport
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityConsumptionBridge
 import BEDC.Derived.HistTimeStreamUp.ObserverLocalityTotality
+import BEDC.Derived.HistTimeStreamUp.RealCompletionWindowNonescape
 import BEDC.Derived.HistTimeStreamUp.StartLedgerTotality
 import BEDC.Derived.HistTimeStreamUp.StartLedgerUniqueness
 import BEDC.Derived.HistTimeStreamUp.ScheduleEndpointTransport
@@ -1604,6 +1608,7 @@ import BEDC.Derived.HistTimeStreamUp.StreamNameScheduleClassifierBoundary
 import BEDC.Derived.HistTimeStreamUp.TransportLock
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp
+import BEDC.Derived.RegularCauchyModulusNormalizerUp.CarrierAdmission
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.BridgeObstructionBoundary
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.BudgetPullbackExhaustion
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.ComparisonStability
@@ -3161,6 +3166,7 @@ import BEDC.Derived.LocalClockBudgetUp
 import BEDC.Derived.PackageGovernanceExportUp.TasteGate
 import BEDC.Derived.SubstitutionBoundaryAuditUp.TasteGate
 import BEDC.Derived.UseProcessLimitUp.TasteGate
+import BEDC.Derived.UseProcessBoundaryUp.TasteGate
 import BEDC.Derived.UseProcessLimitLedgerUp.TasteGate
 import BEDC.Derived.CauchyModulusRefinementUp.TailMeetRealSeal
 import BEDC.Derived.FunctorUp.CompositionIdentityRespect

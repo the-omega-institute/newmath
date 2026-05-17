@@ -135,6 +135,7 @@ Finally apply \autoref{thm:reflection-runtime-checkpoint-validation-nonescape-ro
 \label{thm:reflection-runtime-checkpoint-validation-row-precedence}
 For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, any validation-facing checkpoint consumer must read the displayed rows $I,S,T,V$ in that order: $I$ supplies the admitted runtime-candidate input, $S$ supplies the checkpoint state reached by that input, $T$ supplies bounded trace evidence for that state, and only then $V$ supplies the validation-boundary row. In particular, neither $S$ nor $T$ may be treated as a validation row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointCarrier\_validation\_row\_precedence}
 \begin{proof}
 Project the carrier of \autoref{def:reflection-runtime-checkpoint-carrier}. Its first four rows are $I,S,T,V$, with $I$ typed as the admitted candidate row, $S$ as the checkpoint-state row, $T$ as trace evidence, and $V$ as the validation-boundary row.
 
