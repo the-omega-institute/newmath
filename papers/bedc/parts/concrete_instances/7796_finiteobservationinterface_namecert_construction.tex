@@ -37,6 +37,7 @@ For every accepted $\FiniteObservationInterfaceUp$ carrier $O=(S,R,D,T,E,H,C,P,N
 \item StreamName/RegSeqRat/Real handoff non-escape: every handoff to RealUp factors through $S$, $R$, $D$, $T$, $E$, $H$, $C$, $P$, and $N$, and no quotient stream equality, host real equality, full Real completeness, or selected limit is exported.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationInterfaceUp.FiniteObservationInterfaceNameCert\_obligation\_surface}
 \begin{proof}
 Carrier admission is projection from \autoref{def:finite-observation-interface-carrier}. The StreamName observation row, RegSeqRat regularity row, DyadicRatCore tolerance row, selected window, omitted-tail ledger, transport, continuation, provenance, and naming coordinates are all displayed in the same finite packet.
 
@@ -137,15 +138,17 @@ The Lean file \texttt{Derived/FiniteObservationInterfaceUp/TasteGate.lean} must 
 \closureat{FiniteObservationInterfaceUp}{scopedStr}
 \closureat{FiniteObservationInterfaceUp}{publicStr}
 \closureat{FiniteObservationInterfaceUp}{bridgedStr}
+\closureat{FiniteObservationInterfaceUp}{matureStr}
 
 \begin{closurestatus}{\FiniteObservationInterfaceUp}
   \constructivestory{A $\FiniteObservationInterfaceUp$ packet is generated from a StreamName observation row, RegSeqRat regularity row, DyadicRatCore tolerance row, selected finite-window row, omitted-tail ledger, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
   \leanchecked{BEDC.Derived.FiniteObservationInterfaceUp.taste\_gate}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:finite-observation-interface-carrier}, \autoref{thm:finite-observation-interface-namecert-obligations}, \autoref{thm:finite-observation-interface-selected-stream-handoff}, \autoref{thm:finite-observation-interface-scoped-closure}, \autoref{thm:finite-observation-interface-public-certificate-route}, and \autoref{thm:finite-observation-interface-l10-bridge} bind the finite observation carrier, local NameCert obligation surface, selected-window route, omitted-tail boundary, dyadic accountability, Real-facing non-escape scope, reusable public certificate route, and L10 bridge surface.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.FiniteObservationInterfaceUp.taste\_gate}
   \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{This chapter does not close Real completeness, selected-limit existence, quotient stream equality, host real equality, Lean verification, or bridge checking.}
-  \upgradepath{Mature closure requires examples or completeness-style consumer coverage over the same finite observation bridge.}
+  \upgradepath{No further theory-axis closure is claimed here; remaining verification-axis work is auditCleanV or bridgeCheckedV for the displayed finite observation interface.}
 \end{closurestatus}

@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ExternalSupplySignatureSealUp$}
+\label{ch:concrete-instances-external-supply-signature-seal-namecert}
+\origin{ai}
+
+The $\ExternalSupplySignatureSealUp$ packet realizes the reality-facing signature discipline of \autoref{ch:visions-subhub-reality-constrained}, especially \autoref{sec:reality-constrained-signatures}, as one finite NameCert carrier for external-supply certification. It sits beside the residue packet of \autoref{ch:concrete-instances-reality-constrained-signature-residue-namecert}, the descent packet of \autoref{ch:concrete-instances-reality-constrained-signature-descent-namecert}, the fit packet of \autoref{ch:concrete-instances-reality-constrained-signature-fit-namecert}, the GAP socket boundary of \autoref{ch:concrete-instances-gap-socket-boundary-namecert}, and the registry no-smuggling predicate of \autoref{ch:concrete-instances-registrynosmugglingpredicate-namecert}. Those siblings expose gap residue, operation descent, physical-signature fit, socket boundary, and registry refusal rows separately; this packet binds an external source signature to the mathematical classifier only when the physical row, descent certificate, hidden-supply ledger, and local naming row travel with it.
+
+\falsifiablePrediction{Every accepted ExternalSupplySignatureSealUp packet that exports a mathematical classifier without the physical signature row fails the descent-refusal obligation.}
+
+\independenceWitness{reality-constrained-signature-residue, reality-constrained-signature-descent, reality-constrained-signature-fit, gap-socket-boundary, registrynosmugglingpredicate: none is bijective to the seal because each lacks at least one of the ontic source, external representation, physical signature, GAP socket, descent certificate, hidden-supply ledger, and local NameCert rows.}
+
+\begin{definition}[External supply signature seal carrier]
+\label{def:external-supply-signature-seal-carrier}
+An $\ExternalSupplySignatureSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(O,M,Q,G,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the ontic signature source row from \autoref{def:ontic-signature-source};
+\item $M$ is the mathematical representation row from \autoref{def:reality-constrained-mathematical-representation};
+\item $Q$ is the physical signature row exposed by the admissible question bundle;
+\item $G$ is the GAP socket row that records the represented absence and admissible compression boundary;
+\item $D$ is the descent certificate row that decides which operations survive the classifier route;
+\item $L$ is the hidden-supply ledger recording source material not exported by the mathematical representation;
+\item $H$ records componentwise $\hsame$ transport for the source, representation, signature, GAP, descent, ledger, and local naming rows;
+\item $C$ records displayed $\Cont$ replay for the same route;
+\item $P$ is the $\Pkg$ provenance over $\ExternalSupplySignatureSealUp$, $\RealityConstrainedSignatureResidueUp$, $\RealityConstrainedSignatureDescentUp$, $\RealityConstrainedSignatureFitUp$, $\GapSocketBoundaryUp$, $\RegistryNoSmugglingPredicateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ExternalSupplySignatureSealUp}$ row.
+\end{enumerate}
+The classifier may compare accepted carriers only through these rows. It has no coordinate for a bare mathematical classifier, a hidden physical signature, an unledgered external source, or a registry export detached from $G,D,L,N$.
+\end{definition}
+
+\begin{theorem}[External supply signature seal NameCert obligations]
+\label{thm:external-supply-signature-seal-namecert-obligations}
+For the carrier of \autoref{def:external-supply-signature-seal-carrier}, the local $\NameCert_{\ExternalSupplySignatureSealUp}$ surface consists exactly of carrier admission for $S=(O,M,Q,G,D,L,H,C,P,N)$, source-signature exposure through $O,Q$, representation exposure through $M$, GAP and descent exposure through $G,D$, hidden-supply ledger exposure through $L$, structural replay through $H,C,P$, and local naming through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ExternalSupplySignatureSealUp.ExternalSupplySignatureSealNameCert\_obligations}
+\begin{proof}
+Project the carrier. The tuple lists one ontic source row, one mathematical representation row, one physical signature row, one GAP socket row, one descent certificate row, one hidden-supply ledger row, and the structural support rows.
+
+Read the sibling rows componentwise. The residue sibling supplies representation-gap discipline, the descent sibling supplies operation-descent discipline, the fit sibling supplies physical-signature compatibility, the GAP socket boundary supplies represented absence, and the registry no-smuggling predicate supplies the export refusal row.
+
+The support rows $H,C,P,N$ transport, replay, source, and name only this displayed packet. Since no further coordinate exists, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[External supply signature seal descent refusal]
+\label{thm:external-supply-signature-seal-descent-refusal}
+An accepted $\ExternalSupplySignatureSealUp$ packet refuses any export of the mathematical representation row $M$ as a reality-facing classifier unless the same route displays the physical signature row $Q$, the GAP socket row $G$, the descent certificate row $D$, and the hidden-supply ledger row $L$.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:external-supply-signature-seal-namecert-obligations}. It makes source-signature exposure, GAP exposure, descent exposure, and ledger exposure separate required rows of the same local certificate.
+
+Use the descent and fit siblings next. \autoref{ch:concrete-instances-reality-constrained-signature-descent-namecert} supplies the operation-descent row, while \autoref{ch:concrete-instances-reality-constrained-signature-fit-namecert} supplies the physical-signature compatibility row.
+
+Finally attach the GAP socket and no-smuggling siblings. The boundary of \autoref{ch:concrete-instances-gap-socket-boundary-namecert} records the represented absence, and \autoref{ch:concrete-instances-registrynosmugglingpredicate-namecert} prevents a registry route from exporting the mathematical row as if the omitted source rows had been supplied. Thus a route missing $Q,G,D,L$ is refused rather than accepted as a seal.
+\end{proof}
+
+\begin{theorem}[External supply signature seal ledger exactness]
+\label{thm:external-supply-signature-seal-ledger-exactness}
+In every accepted $\ExternalSupplySignatureSealUp$ packet, the hidden-supply ledger $L$ records exactly the source material not exported by $M$ but still required by the physical signature row $Q$, the GAP socket row $G$, and the descent certificate row $D$.
+\end{theorem}
+\begin{proof}
+First project the carrier rows $O,M,Q,G,D,L$. The source row $O$ is not identified with its mathematical representation $M$, and the physical signature row $Q$ is not recoverable from $M$ unless the packet displays the GAP, descent, and ledger rows.
+
+Apply the NameCert obligations. They expose $L$ as its own ledger coordinate, not as a consequence of $M$ or $Q$ alone.
+
+The residue, descent, and no-smuggling siblings then fix exactness. Residue records what remains after mathematical identification, descent records which operations survive the route, and the registry predicate refuses an export that hides supply rows. Therefore $L$ is exact for the omitted source material required by $Q,G,D$ and no broader host supply.
+\end{proof}
+
+The Lean \texttt{TasteGate.lean} development for $\ExternalSupplySignatureSealUp$ is committed to explicit \texttt{Nontrivial ExternalSupplySignatureSealUp} and \texttt{FieldFaithful ExternalSupplySignatureSealUp} instances in \texttt{BEDC.Derived.ExternalSupplySignatureSealUp}. These instances must preserve the row order $O,M,Q,G,D,L,H,C,P,N$ and keep the external supply, physical signature, GAP socket, descent, ledger, and local NameCert rows separated.
+
+\closureat{ExternalSupplySignatureSealUp}{seedStr}
+
+\begin{closurestatus}{\ExternalSupplySignatureSealUp}
+  \constructivestory{An $\ExternalSupplySignatureSealUp$ packet is generated from an ontic signature source, a mathematical representation, a physical signature row, a GAP socket, a descent certificate, a hidden-supply ledger, componentwise transport, displayed replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:external-supply-signature-seal-carrier}, \autoref{thm:external-supply-signature-seal-namecert-obligations}, \autoref{thm:external-supply-signature-seal-descent-refusal}, and \autoref{thm:external-supply-signature-seal-ledger-exactness} bind the external-supply signature seal as a finite GAP, descent, ledger, and NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim physical truth, full representation adequacy, registry finality, public closure, bridge checking, or Lean verification for $\ExternalSupplySignatureSealUp$.}
+  \upgradepath{Lean closure requires Nontrivial ExternalSupplySignatureSealUp and FieldFaithful ExternalSupplySignatureSealUp instances in \texttt{lean4/BEDC/Derived/ExternalSupplySignatureSealUp/TasteGate.lean}.}
+\end{closurestatus}
