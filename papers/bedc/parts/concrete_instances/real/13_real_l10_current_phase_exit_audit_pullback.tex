@@ -252,3 +252,81 @@ composite route has no route-level Lean target or bridge row. Thus any
 below-audit-clean face blocks satisfaction of the current Phase Real and
 Completion exit criterion.
 \end{proof}
+
+\begin{theorem}[Real L10 current phase exit witness]
+\label{thm:real-l10-current-phase-exit-witness}
+The displayed four-face product
+$\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$
+satisfies the Phase Real and Completion exit criterion objectwise. Each face
+supplies its own local closurestatus record at least $\scopedClosure$ and its
+own verification record at least $\auditCleanV$, read from the local face
+record rather than from an aggregate Real L10 row.
+
+This witness contributes no aggregate route-level $\formalstatus$, no
+aggregate bridge row, no $\RealUp$ completeness claim, no quotient stream, no
+selected limit, and no metric-completeness datum.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-four-face-status-lookup}. It reads the four local
+face records from the already displayed anchors:
+\autoref{thm:dyadicratcore-standard-source-bridge} for $\DyadicRatCoreUp$,
+\autoref{thm:streamname-public-interface-export-package} and
+\autoref{thm:streamname-standard-sequence-bridge} for $\StreamNameUp$,
+\autoref{thm:regseqrat-real-seal-handoff} for $\RegSeqRatUp$, and
+\autoref{thm:realup-phase-real-completion-boundary} for $\RealUp$.
+
+Apply \autoref{thm:real-l10-current-phase-exit-audit-pullback}. The accepted
+current phase audit is the pullback of those four local records, so the witness
+is read object by object through the displayed product
+$\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$.
+
+Apply \autoref{thm:real-l10-phase-exit-criterion-objectwise}. Since the four
+local records supply the required closure and audit-clean verification grades,
+the Phase Real and Completion exit criterion is satisfied exactly by those
+face records.
+
+Finally apply \autoref{thm:real-l10-face-leantarget-noncollapse}. The local
+Lean-target and bridge-status rows stay attached to their faces, and the
+product exports no route-level formalstatus, bridge row, Real completeness
+claim, quotient stream, selected limit, or metric-completeness datum.
+\end{proof}
+
+\begin{theorem}[Real L10 four-face exit sufficiency]
+\label{thm:real-l10-four-face-exit-sufficiency}
+Suppose the four local closurestatus records for $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ each display the local
+theory-closure row required by the current Phase Real and Completion
+criterion and an audit-clean verification row. Then the current Phase Real
+and Completion exit criterion is satisfied exactly as the four-face product
+over those records.
+
+This sufficiency is only the objectwise exit read. It supplies no aggregate
+route-level $\formalstatus$, no aggregate bridge row, no quotient stream, no
+selected limit, no countable-choice row, no metric-completeness datum, and no
+$\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-phase-exit-criterion-objectwise}. The criterion
+asks only for the four local records of $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with each closure,
+verification, Lean-target, and bridge-status row kept on its own face.
+
+Apply \autoref{thm:real-l10-current-phase-exit-certificate}. Under the stated
+local closure and audit-clean verification rows, the accepted exit
+certificate is the four-face product over exactly those records. Apply
+\autoref{thm:real-l10-current-phase-exit-audit-pullback} to read the status
+coordinates from the four local closurestatus blocks rather than from cached
+Real L10 route data.
+
+It remains to exclude non-objectwise witnesses. Apply
+\autoref{thm:real-l10-face-status-noncollapse}. It rules out an aggregate
+formalstatus token, aggregate bridge row, Real completeness row, quotient
+stream, selected limit, and metric-completeness datum for the composite
+route.
+
+Finally apply \autoref{thm:real-l10-face-leantarget-noncollapse}. The
+Lean-target and bridge-status rows remain attached to their source faces and
+do not assemble a route-level target or bridge. Since none of the cited
+objectwise records supplies a countable-choice row either, the sufficiency
+claim is exactly the four-face product and nothing further.
+\end{proof}
