@@ -44,12 +44,26 @@ Read the ledger next. Its base row is the empty product endpoint, and every visi
 Finally, the ledger concatenation of successive continuation rows is exactly the concrete unary-history monoid route displayed by \autoref{ch:concrete-instances-monoid-namecert}. Repacking these three projections gives the claimed factorization and leaves no independent multiplication primitive.
 \end{proof}
 
-\begin{theorem}[MulUp finite data boundary]
-\label{thm:mul-unary-product-finite-data-boundary}
-The $\MulUp$ chapter exports only the finite unary product rows of \autoref{def:mul-unary-product-carrier}, their classifier of \autoref{def:mul-unary-product-classifier}, the local $\NameCert_{\MulUp}$ obligations of \autoref{thm:mul-unary-product-namecert-obligations}, and the additive route of \autoref{thm:mul-unary-product-additive-route}. The downstream divisibility and $\PrimeUp$ multiplication consumer may therefore read $\mathsf{NatMul}$ rows through this repeated-addition boundary, while full semiring or ring algebra, divisibility completeness, and standard bridge checking remain outside this local certificate surface.
+\begin{theorem}[MulUp unary product recursion laws]
+\label{thm:mul-unary-product-recursion-laws}
+Every accepted row $\mathsf{MulRow}(d,q,n,\lambda)$ satisfies the unary recursion laws for multiplication. When the visible multiplier ledger is empty, the product endpoint is the carrier endpoint $\emp$. When the visible multiplier ledger has successor form, the row decomposes into the previous product row followed by one $\AddUp$ continuation row that adds the multiplicand $d$ to the previous partial product.
+
+These endpoint and successor laws are stable under componentwise $\hsame$ transport of the displayed multiplicand, multiplier, and product histories, and they are stable under replay of the stored $\Cont$ ledger. Thus $\MulUp$ remains a finite repeated-addition route through $\NatUp$, $\AddUp$, $\MonoidUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$, rather than a separate primitive operation.
 \end{theorem}
 \begin{proof}
-The exported rows are exactly the carrier, classifier, NameCert obligations, and route theorem just listed. Each row is a finite object: two factor histories, one result history, and a finite additive ledger whose entries are $\AddUp$ continuation steps over $\NatUp$ unary histories.
+Inspect the visible unary multiplier ledger in the accepted row. In the empty case there is no displayed multiplier step, so the product row is exactly the endpoint row already present in the carrier, namely $\emp$.
+
+In the successor case the final visible multiplier step can be peeled from the finite ledger. The prefix ledger is the previous product row, and the peeled terminal row is an $\AddUp$ continuation adding one copy of the multiplicand to that previous partial product.
+
+Transport is componentwise. The classifier supplies the $\hsame$ comparisons on the multiplicand, multiplier, and product histories, and continuation replay sends each stored additive row to the transported additive row. Therefore the endpoint and successor decompositions persist after transport and after replay of the same finite ledger.
+\end{proof}
+
+\begin{theorem}[MulUp finite data boundary]
+\label{thm:mul-unary-product-finite-data-boundary}
+The $\MulUp$ chapter exports only the finite unary product rows of \autoref{def:mul-unary-product-carrier}, their classifier of \autoref{def:mul-unary-product-classifier}, the local $\NameCert_{\MulUp}$ obligations of \autoref{thm:mul-unary-product-namecert-obligations}, the additive route of \autoref{thm:mul-unary-product-additive-route}, and the recursion laws of \autoref{thm:mul-unary-product-recursion-laws}. The downstream divisibility and $\PrimeUp$ multiplication consumer may therefore read $\mathsf{NatMul}$ rows through this repeated-addition boundary, while full semiring or ring algebra, divisibility completeness, and standard bridge checking remain outside this local certificate surface.
+\end{theorem}
+\begin{proof}
+The exported rows are exactly the carrier, classifier, NameCert obligations, route theorem, and recursion-law theorem just listed. Each row is a finite object: two factor histories, one result history, and a finite additive ledger whose entries are $\AddUp$ continuation steps over $\NatUp$ unary histories.
 
 The divisibility and prime-number consumer in \autoref{ch:concrete-instances-prime-namecert} reads the same multiplication relation through the $\mathsf{NatMul}$ surface, in particular the semantic exit and phase boundary of \autoref{thm:unary-multiplication-mulup-semantic-exit-package} and \autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary}. Those consumer rows add divisibility, order, and audit-clean arithmetic boundaries, but they do not change the local repeated-addition carrier defined here.
 
@@ -58,4 +72,6 @@ Since none of the four local exports contains a semiring carrier, a ring carrier
 
 \closureat{MulUp}{seedStr}
 
-The mature Full Nat Arithmetic consumer boundary for the same named interface is recorded with its binding $\MulUp$ closurestatus in the prime-number multiplicative structure files, where the checked $\mathsf{NatMul}$ result certificate, divisibility-order rows, $\AddUp$ distribution rows, and order rows are assembled for downstream arithmetic use.
+\input{parts/concrete_instances/prime/mulup_closure_status}
+
+The mature Full Nat Arithmetic consumer boundary for the same named interface records the checked $\mathsf{NatMul}$ result certificate, divisibility-order rows, $\AddUp$ distribution rows, and order rows assembled for downstream arithmetic use.
