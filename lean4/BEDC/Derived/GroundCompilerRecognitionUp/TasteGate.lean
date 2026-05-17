@@ -560,4 +560,39 @@ theorem GroundCompilerRecognitionCarrier_flow_carrier_exposure :
     injection htail with hrow _
     cases hrow
 
+theorem GroundCompilerRecognitionCarrier_certificate_gate_stability :
+    (∀ x : GroundCompilerRecognitionUp,
+      ∃ I G A T V L H C P N : BHist,
+        x = GroundCompilerRecognitionUp.mk I G A T V L H C P N ∧
+          FieldFaithful.fields x = [I, G, A, T, V, L, H, C, P, N]) ∧
+      (∀ I G T V L H C P N : BHist,
+        BHistCarrier.toEventFlow
+          (GroundCompilerRecognitionUp.mk I G (BHist.e0 BHist.Empty) T V L H C P N) ≠
+        BHistCarrier.toEventFlow
+          (GroundCompilerRecognitionUp.mk I G BHist.Empty T V L H C P N)) ∧
+        (∀ _I _G _A _T _V _L H C P _N : BHist,
+          hsame H H ∧ Cont C P (append C P)) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    cases x with
+    | mk I G A T V L H C P N =>
+        exact ⟨I, G, A, T, V, L, H, C, P, N, rfl, rfl⟩
+  · constructor
+    · intro I G T V L H C P N heq
+      change
+        groundCompilerRecognitionToEventFlow
+            (GroundCompilerRecognitionUp.mk I G (BHist.e0 BHist.Empty) T V L H C P N) =
+          groundCompilerRecognitionToEventFlow
+            (GroundCompilerRecognitionUp.mk I G BHist.Empty T V L H C P N) at heq
+      injection heq with _ htail₁
+      injection htail₁ with _ htail₂
+      injection htail₂ with _ htail₃
+      injection htail₃ with _ htail₄
+      injection htail₄ with _ htail₅
+      injection htail₅ with hrow _
+      cases hrow
+    · intro _ _ _ _ _ _ H C P _
+      exact ⟨hsame_refl H, rfl⟩
+
 end BEDC.Derived.GroundCompilerRecognitionUp
