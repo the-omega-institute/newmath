@@ -1,4 +1,4 @@
-\chapter{A Concrete Naming Certificate for \MetacicNormalizationConfluenceBridgeUp}
+\chapter{A Concrete Naming Certificate for $\MetacicNormalizationConfluenceBridgeUp$}
 \label{ch:concrete-instances-metacic-normalization-confluence-bridge-namecert}
 \origin{ai}
 
@@ -62,6 +62,7 @@ Finally pass to $A$. The closed-consistency assembly can read the normal false-p
 \label{thm:metacic-normalization-confluence-bridge-tastegate-surface}
 The Lean file \texttt{TasteGate.lean} for \MetacicNormalizationConfluenceBridgeUp{} must provide $\mathrm{Nontrivial}\ \MetacicNormalizationConfluenceBridgeUp$ and $\mathrm{FieldFaithful}\ \MetacicNormalizationConfluenceBridgeUp$ instances. The nontrivial instance must distinguish bridge packets that agree on $N,Q$ but differ on $D$ or $A$, and the field-faithful instance must preserve the separate rows $N,Q,D,A,T,H,C,P,L$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.MetacicNormalizationConfluenceBridgeTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 The carrier has four sibling packet rows and five structural rows. A TasteGate that identifies all carriers would collapse the bridge to one point and would lose the distinction between normalization, confluence, discharge-ledger, and assembly reads.
 
@@ -75,7 +76,8 @@ Field faithfulness is forced by the same packet shape. Preserving $N,Q,D,A,T,H,C
   \constructivestory{The MetaCIC normalization-confluence bridge is generated from a $BHist$ packet that records a normalization row, a confluence row, and the bridge route joining them to the local certificate surface. The carrier does not assert global metatheory; it reads only the named normalization and confluence evidence and transports that evidence along $hsame$ when the representing history changes. $\Cont$ supplies the route boundary: later uses of the bridge must extend the same packet rather than appeal to an external proof of adequacy. The TasteGate surface is then the visible bridge between these rows and the admitted NameCert obligation.}
   \theoryclosure{\seedClosure}
   \scopeclosed{This chapter binds the MetaCIC normalization-confluence bridge carrier, NameCert obligations, route-boundary theorem, and TasteGate-surface theorem.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.MetacicNormalizationConfluenceBridgeTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim full MetaCIC normalization, global confluence, or kernel soundness outside the displayed bridge packet.}

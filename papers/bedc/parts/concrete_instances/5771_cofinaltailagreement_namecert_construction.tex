@@ -40,6 +40,50 @@ The dependency rows are read in order. The shared threshold $M$ supplies the com
 The consumer-facing rows are then forced. The dyadic readback $D$ and regular readbacks $R$ feed the Real agreement seal $S$, and the completion-facing reader reaches the Cauchy-limit handoff $L$ only through the same displayed route. Since $H,C,P,N$ name all transports, continuations, provenance, and local certificate rows, no hidden tail selector or ambient completeness principle is exported.
 \end{proof}
 
+\begin{theorem}[Cofinal tail-agreement carrier admission]
+\label{thm:cofinal-tail-agreement-carrier-admission}
+Every accepted $\CofinalTailAgreementUp$ packet admits the displayed $\BHist$ carrier
+$$
+A=(M,F,B,S,D,R,L,H,C,P,N)
+$$
+before any public Real-completion consumer may read a tail-agreement result. The admission row exposes $M,F,B,D,R,S,L$ as source, budget, readback, seal, and handoff data, while $H,C,P,N$ expose componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\CofinalTailAgreementUp}$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-tail-agreement-carrier}. Its rows are already a finite $\BHist$ packet rather than quotient-stream or host-limit data.
+
+Apply the obligation surface of \autoref{thm:cofinal-tail-agreement-namecert-obligations}. Carrier admission is the first obligation, and the same surface names shared-threshold exactness, fused-tail exactness, selector-budget readback, dyadic readback, seal handoff, and non-escape.
+
+The TasteGate marker following \autoref{def:cofinal-tail-agreement-carrier} records the same single-carrier alignment. Thus a public consumer starts from $A=(M,F,B,S,D,R,L,H,C,P,N)$ and cannot bypass the $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ support rows.
+\end{proof}
+
+\begin{theorem}[Cofinal tail-agreement tail readback]
+\label{thm:cofinal-tail-agreement-tail-readback}
+Every public tail readback of an accepted $\CofinalTailAgreementUp$ packet factors through the full row route
+$$
+M,F,B,D,R,S,L,H,C,P,N.
+$$
+The readback first uses the shared threshold and fused cofinal tail rows $M,F$, then the finite selector budget $B$, then the dyadic and regular source readbacks $D,R$, then the Real agreement seal $S$ and Cauchy-limit handoff $L$, with $H,C,P,N$ preserving the same route.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission, \autoref{thm:cofinal-tail-agreement-carrier-admission}. It makes the full row set visible before any consumer-facing agreement read.
+
+Use \autoref{thm:cofinal-tail-agreement-namecert-obligations}. The obligations place shared-threshold exactness before fused-tail exactness, selector-budget readback before dyadic and regular readback, and seal handoff after those readback rows.
+
+Finally apply the consumer factorization pattern established by \autoref{thm:cofinal-tail-agreement-consumer-factorization}. The rows $H,C,P,N$ do not select a new tail; they transport, replay, package, and name the already displayed route.
+\end{proof}
+
+\begin{theorem}[Cofinal tail-agreement cofinal nonescape]
+\label{thm:cofinal-tail-agreement-cofinal-nonescape}
+No accepted $\CofinalTailAgreementUp$ carrier exports quotient stream equality, a selected host limit, countable choice, or ambient Real completeness as a substitute for the displayed cofinal route $M,F,B,D,R,S,L,H,C,P,N$. Any Completion-facing consumer that omits one of these rows cannot be repacked as a public read of the accepted packet.
+\end{theorem}
+\begin{proof}
+Read the admitted carrier from \autoref{thm:cofinal-tail-agreement-carrier-admission}. The finite packet supplies exactly the displayed rows and no quotient-stream, selected-limit, choice, or ambient-completeness coordinate.
+
+Apply tail readback, \autoref{thm:cofinal-tail-agreement-tail-readback}. The public route to the Real and Completion handoff passes through $M,F,B,D,R,S,L$ and then through the support rows $H,C,P,N$.
+
+Use the existing non-escape theorem, \autoref{thm:cofinal-tail-agreement-nonescape}. A route omitting the shared threshold, fused tail, budget, readbacks, seal, handoff, transport, continuation, provenance, or local name is outside the packet, so none of the refused host objects can be exported as the cofinal tail agreement.
+\end{proof}
+
 \begin{theorem}[Cofinal tail-agreement consumer factorization]
 \label{thm:cofinal-tail-agreement-consumer-factorization}
 Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\CofinalTailAgreementUp$ packet factors through the shared-threshold row $M$, the fused tail row $F$, the selector-budget row $B$, the dyadic readback row $D$, the regular readback row $R$, the $\RealTailAgreementSealUp$ row $S$, and the $\CauchyLimitSealUp$ row $L$ before it can read a completion-facing agreement result. The consumer receives the paired route
@@ -272,21 +316,36 @@ The terminal compatibility and completion source exhaustion results identify thi
 Finally, quotient-stream refusal and non-escape close the boundary. Any attempted replacement asks for data outside the carrier and therefore cannot be repacked as a $\CofinalTailAgreementUp$ consumer read.
 \end{proof}
 
+\begin{theorem}[Cofinal tail-agreement scoped kernel route]
+\label{thm:cofinal-tail-agreement-scoped-kernel-route}
+Every accepted public $\CofinalTailAgreementUp$ read factors through the displayed route $M,F,B,D,R,S,L,H,C,P,N$. This route is scoped exactly by the carrier's $\BHist$ rows, componentwise $\hsame$ transports, displayed $\Cont$ continuation, $\Pkg$ provenance, local $\NameCert$ row, and the named $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\RegularCauchyTailMeetUp$, $\RegularCauchyTailFusionUp$, $\RegularCauchySelectorBudgetUp$, $\RealTailAgreementSealUp$, and $\CauchyLimitSealUp$ surfaces. No accepted read may replace any part of the route by quotient stream equality, host stream equality, a selected limit, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:cofinal-tail-agreement-carrier} and \autoref{thm:cofinal-tail-agreement-namecert-obligations}. They present $M,F,B,D,R,S,L,H,C,P,N$ as one finite packet, with $H$ supplying componentwise $\hsame$ transport, $C$ supplying the displayed $\Cont$ replay, $P$ supplying $\Pkg$ provenance, and $N$ supplying local $\NameCert$ naming over the StreamName, dyadic, regular, Real, and tail-handoff rows.
+
+Next apply \autoref{thm:cofinal-tail-agreement-consumer-factorization}, \autoref{thm:cofinal-tail-agreement-route-coverage}, and \autoref{thm:cofinal-tail-agreement-dependency-lock}. These results put every public read on the same $M,F,B,D,R,S,L,H,C,P,N$ route and lock the shared threshold, fused tail, selector budget, dyadic readback, regular readback, Real agreement seal, and Cauchy-limit handoff to the same $H,C,P,N$ support.
+
+\autoref{thm:cofinal-tail-agreement-completion-boundary} supplies the final exclusion. A reader that asks for quotient stream equality, host stream equality, a selected limit, countable choice, or ambient Real completeness asks for a coordinate not present in the accepted packet. Hence the public read is scoped by exactly the displayed BEDC kernel rows and the listed completion-route surfaces.
+\end{proof}
+
 \falsifiablePrediction{Deleting the shared cofinal threshold row breaks the Real/Completion consumer route while leaving the one-sided tail-fusion route intact.}
 
 \independenceWitness{The nearest siblings regularcauchytailmeet, regularcauchytailfusion, regularcauchyselectorbudget, realtailagreementseal, and cauchylimitseal share individual rows with $\CofinalTailAgreementUp$, but no bijection preserves all paired-source, shared-threshold, dyadic-readback, and seal-handoff rows at once: the tail-meet packet lacks the selector-budget and seal-handoff rows, the tail-fusion packet lacks the terminal Cauchy-limit handoff, the selector-budget packet lacks the paired agreement seal, the Real tail-agreement seal lacks the upstream fusion budget, and the Cauchy-limit seal lacks the paired-source threshold route.}
 
 The Lean \texttt{TasteGate.lean} boundary for this carrier must include \texttt{Nontrivial CofinalTailAgreementUp} and \texttt{FieldFaithful CofinalTailAgreementUp} instances, so the paired shared-threshold route is represented by a nonempty and field-faithful carrier rather than by a vacuous type.
 
-\closureat{CofinalTailAgreementUp}{seedStr}
+\closureat{CofinalTailAgreementUp}{obligationStr}[BEDC.Derived.CofinalTailAgreementUp.CofinalTailAgreementTasteGate\_single\_carrier\_alignment]
+\closureat{CofinalTailAgreementUp}{scopedStr}[BEDC.Derived.CofinalTailAgreementUp.CofinalTailAgreementTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\CofinalTailAgreementUp}
   \constructivestory{A $\CofinalTailAgreementUp$ packet is generated from a shared RegularCauchyTailMeet threshold, RegularCauchyTailFusion paired tail route, RegularCauchySelectorBudget finite selector budget, dyadic and regular readbacks, RealTailAgreementSeal handoff, CauchyLimitSeal handoff, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cofinal-tail-agreement-carrier}, \autoref{thm:cofinal-tail-agreement-namecert-obligations}, \autoref{thm:cofinal-tail-agreement-consumer-factorization}, and \autoref{thm:cofinal-tail-agreement-nonescape} bind the finite paired cofinal-tail agreement carrier and its Real/Completion consumer route.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:cofinal-tail-agreement-scoped-kernel-route} binds every accepted public read of the finite paired cofinal-tail agreement carrier to the displayed BEDC kernel rows and Real/Completion route surfaces.}
+  \formalstatus{\theoremCheckedV}
+  \leanchecked{BEDC.Derived.CofinalTailAgreementUp.taste\_gate}
+  \leantarget{BEDC.Derived.CofinalTailAgreementUp.CofinalTailAgreementTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close Lean verification, quotient stream equality, selected host limits, countable choice, ambient Real completeness, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, shared-threshold exactness, fused-tail exactness, selector-budget readback, dyadic agreement readback, Cauchy-limit handoff, and non-escape for the same packet.}
+  \notclaimed{This chapter does not close public-object closure, quotient stream equality, selected host limits, countable choice, ambient Real completeness, or bridge checking.}
+  \upgradepath{Public closure requires exhibiting the route as a stable public object surface rather than only a scoped finite kernel route.}
 \end{closurestatus}

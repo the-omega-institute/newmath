@@ -33,3 +33,21 @@ Use \autoref{thm:regseqrat-streamname-dyadic-window-lock} to lock the $\StreamNa
 
 Finally invoke \autoref{thm:regseqrat-real-seal-handoff}. The $\RealUp$ seal consumes exactly the accepted regular-rational finite source surface already identified, and the carrier has no coordinate for quotient streams, host real equality, selected limits, metric completions, completeness data, or further seal coordinates.
 \end{proof}
+
+\begin{theorem}[RegSeqRat common-tail window terminality]
+\label{thm:regseqrat-common-tail-window-terminality}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $T_0$ and $T_1$ be two certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$. Suppose the two shifted tail reads land in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet} with common refinement $W_\ast$. Every completion-facing $\RealUp$ consumer whose visible rows are exactly the two shifted reads, the common $\StreamNameUp$ window $W_\ast$, the $\DyadicRatCoreUp$ endpoint, radius, and regularity rows, the $\RegSeqRatUp$ classifier rows, the $\RealUp$ seal-source rows, the displayed $\hsame$ rows, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance factors through that common-tail packet.
+
+The terminal factorization exports no quotient stream, host real equality, selected limit, metric-completion point, $\RealUp$ completeness datum, or additional seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-tail-stable-cover-common-window-lock} to the two cofinal tail shifts. The tail-stable cover places both completion-facing seal consumers on one accepted common finite window with the StreamName schedule rows, DyadicRatCore endpoint and radius ledgers, RegSeqRat classifier and regularity ledgers, and displayed provenance.
+
+Next use \autoref{thm:regseqrat-refined-window-gluing-real-seal-factorization}. The common refinement $W_\ast$ repacks the two shifted tail reads into one RealUp-facing seal source, so every consumer whose visible rows are limited to the displayed shifts and the common window is already routed through the common-tail packet.
+
+Apply \autoref{thm:regseqrat-streamname-dyadic-window-lock}. It locks the common $\StreamNameUp$ refinement to the same $\DyadicRatCoreUp$ endpoint, radius, and regularity rows, leaving the consumer no separate dyadic or schedule coordinate outside $W_\ast$.
+
+Now invoke \autoref{thm:regseqrat-common-tail-window-classifier-bridge}. The transported classifier read and the transported seal-source rows are the same rows listed by the common-tail packet, including the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+Finally apply \autoref{thm:regseqrat-real-seal-handoff}. Since the $\RealUp$ seal consumes exactly this accepted regular-rational finite source surface, the consumer factors through the common-tail packet. Quotient streams, host real equality, selected limits, metric-completion points, $\RealUp$ completeness data, and extra seal coordinates have no displayed carrier row from which to be read.
+\end{proof}

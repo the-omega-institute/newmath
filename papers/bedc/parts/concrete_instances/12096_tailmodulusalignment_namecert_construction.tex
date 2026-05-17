@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier exports only the displayed alignment rows and their transport, replay, provenance, and naming support.
 \end{definition}
+\leandef{BEDC.Derived.TailModulusAlignmentUp.tail\_modulus\_alignment\_taste\_gate}
 
 \begin{theorem}[Tail-modulus alignment obligation surface]
 \label{thm:tail-modulus-alignment-obligation-surface}
@@ -38,6 +39,7 @@ The data-bearing obligations are inherited in order. The refinement row exposes 
 
 The remaining rows are the common BEDC support rows. The $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and $\RealUp$ seal are consumed along the displayed route, while $H,C,P,N$ only transport, replay, source, and name that route. Thus the listed rows exhaust the local naming obligations.
 \end{proof}
+\leanchecked{BEDC.Derived.TailModulusAlignmentUp.TasteGate.TailModulusAlignmentTasteGate\_single\_carrier\_alignment}
 
 \begin{closurestatus}{\TailModulusAlignmentUp}
   \constructivestory{The tail-modulus alignment object is generated from $BHist$ rows that separately record a tail refinement route, a modulus schedule, common stream windows, regular-rational readback, and dyadic ledger data, then bind them by an explicit fusion witness. The carrier first reads the tail evidence, then the modulus evidence, and finally the ledger row showing that both are synchronized for the same Real-facing seal. The $hsame$ relation keeps the aligned rows stable under representative change, while $\Cont$ permits later handoffs only when the tail and modulus witnesses travel together. The sibling-dependency and non-escape theorems make this a composite certificate over visible upstream packets rather than a free-standing modulus principle.}

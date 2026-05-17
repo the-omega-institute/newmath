@@ -459,6 +459,40 @@ theorem HaltingDistinctionCarrier_finite_obstruction_ledger_exhaustion
       obstructionReadUnary, ledgerReadUnary, traceRouteRead, classifierRouteObstruction,
       traceObstructionLedger, provenancePkg, ledgerPkg⟩
 
+theorem HaltingDistinctionRootObstructionHandoffLock [AskSetup] [PackageSetup]
+    {question trace diagonal halt classifier route provenance cert traceRead obstructionRead
+      lockRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+        bundle pkg →
+      Cont trace route traceRead →
+        Cont classifier route obstructionRead →
+          Cont traceRead obstructionRead lockRead →
+            PkgSig bundle lockRead pkg →
+              UnaryHistory question ∧ UnaryHistory trace ∧ UnaryHistory diagonal ∧
+                UnaryHistory route ∧ UnaryHistory traceRead ∧ UnaryHistory obstructionRead ∧
+                  UnaryHistory lockRead ∧ Cont question trace diagonal ∧
+                    Cont trace route traceRead ∧ Cont classifier route obstructionRead ∧
+                      Cont traceRead obstructionRead lockRead ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle lockRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle UnaryHistory PkgSig
+  intro carrier trace_route_traceRead classifier_route_obstructionRead
+    traceRead_obstructionRead_lockRead lockRead_pkg
+  obtain ⟨questionUnary, traceUnary, diagonalUnary, _haltUnary, classifierUnary, routeUnary,
+    _provenanceUnary, _certUnary, questionTraceDiagonal, _diagonalHaltClassifier,
+    _classifierRouteCert, provenancePkg⟩ := carrier
+  have traceReadUnary : UnaryHistory traceRead :=
+    unary_cont_closed traceUnary routeUnary trace_route_traceRead
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed classifierUnary routeUnary classifier_route_obstructionRead
+  have lockReadUnary : UnaryHistory lockRead :=
+    unary_cont_closed traceReadUnary obstructionReadUnary traceRead_obstructionRead_lockRead
+  exact
+    ⟨questionUnary, traceUnary, diagonalUnary, routeUnary, traceReadUnary,
+      obstructionReadUnary, lockReadUnary, questionTraceDiagonal, trace_route_traceRead,
+      classifier_route_obstructionRead, traceRead_obstructionRead_lockRead, provenancePkg,
+      lockRead_pkg⟩
+
 theorem HaltingDistinctionDiagonalObstructionPublicPackage [AskSetup] [PackageSetup]
     {question trace diagonal halt classifier route provenance cert diagonalRead traceRead
       endpoint obstructionRead packageRead : BHist}

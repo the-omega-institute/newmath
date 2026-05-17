@@ -1,6 +1,5 @@
 \chapter{A Concrete Naming Certificate for $\KernelAuditWitnessUp$}
 \label{ch:concrete-instances-kernel-audit-witness-namecert}
-\label{ch:concrete-instances-kernelauditwitness-namecert}
 \origin{ai}
 
 The $\KernelAuditWitnessUp$ surface is the concrete NameCert realization of Lean kernel acceptance as a BEDC audit witness. It packages the term generator, the accepted candidate, the environment ledger, axiom-ancestry report, replay route, provenance, and paper-marker name into one finite packet. The packet refines the socket-boundary discipline of \autoref{ch:concrete-instances-apophaticname-namecert} and the accepted-declaration ledger of \autoref{ch:concrete-instances-kernelacceptancewitness-namecert} into a theorem-marker audit surface. The packet does not certify the Lean kernel itself; it records the audit surface by which BEDC reads accepted Lean declarations as checked ledger rows.
@@ -35,6 +34,7 @@ K=(G,A,L,R,H,C,P,N),
 $$
 the local $\NameCert_{\KernelAuditWitnessUp}$ surface consists exactly of carrier admission for $K$, candidate exposure through $G$, kernel-stamp exposure through $A$, environment-ledger exposure through $L$, axiom-ancestry exposure through $R$, componentwise transport through $H$, replay and marker-resolution routes through $C$, package provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelAuditWitnessUp.KernelAuditWitnessNameCert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:kernel-audit-witness-carrier}. The packet exposes exactly the generator, stamp, ledger, ancestry, transport, continuation, provenance, and local naming rows.
 

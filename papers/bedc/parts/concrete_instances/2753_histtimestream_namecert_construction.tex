@@ -271,6 +271,7 @@ H,T,S,C,L,P,N,
 $$
 then through the sibling $\ObserverHistoryIdentityUp$ and $\ObserverLocalityTransportUp$ surfaces of \autoref{ch:concrete-instances-observerhistidentity-namecert} and \autoref{ch:concrete-instances-observer-locality-transport-namecert}. The route cannot add a global clock, host time index, inter-Hist synchronization row, or temporal-rate row.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamObserverLocalityBridgeRoute}
 \begin{proof}
 Start from the public export theorem, \autoref{thm:histtimestream-public-export}. It makes $H,T,S,C,L,P,N$ the whole local-time stream surface visible to an outside consumer.
 
@@ -287,6 +288,7 @@ Q=(H,T,S,C,L,P,N)
 $$
 be an accepted $\HistTimeStreamUp$ packet. If the public export of $Q$ is consumed by $\ObserverHistoryIdentityUp$ or $\ObserverLocalityTransportUp$, then the transport through the sibling observer-locality surfaces carries exactly the displayed local-time rows $H,T,S,C,L,P,N$. It preserves the no-global-clock ledger $L$ and cannot add inter-Hist synchronization, host-indexed time, temporal-rate rows, or hidden routes.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_observer\_locality\_transport}
 \begin{proof}
 Start with the carrier definition of \autoref{def:histtimestream-namecert-carrier}. The accepted packet has only the source $\Hist$ row $H$, finite $\Eone/\Ezero$ schedule $T$, start-at-empty ledger $S$, displayed $\Cont$ replay row $C$, componentwise $\hsame$ and no-global-clock ledger $L$, package provenance row $P$, and local $\NameCert$ row $N$.
 
@@ -344,6 +346,7 @@ Next apply schedule classifier stability and ledger exhaustion. Theorem~\ref{thm
 
 Finally use the observer-locality lattice link, public export, and bridge route. Theorems~\ref{thm:histtimestream-observer-locality-lattice-link}, \ref{thm:histtimestream-public-export}, and \ref{thm:histtimestream-observer-locality-bridge-route} show that observer-facing consumers receive only the local packet before any sibling route is available. Thus totality holds on $H,T,S,C,L,P,N$ and all nonlocal time reads are excluded.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_observer\_locality\_totality}
 
 \begin{theorem}[HistTimeStream start-ledger uniqueness]
 \label{thm:histtimestream-start-ledger-uniqueness}
@@ -362,6 +365,7 @@ Finally use ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhau
 \label{thm:histtimestream-cont-step-coverage}
 Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. Every public local-time step read from $Q$ is one of the displayed $\Eone/\Ezero$ schedule entries in $T$ replayed by $C$. The packet exposes no step outside the finite schedule, no temporal-rate coordinate, and no hidden continuation branch.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_cont\_step\_coverage}
 \begin{proof}
 First read the schedule classifier. By \autoref{thm:histtimestream-schedule-classifier-stability}, the finite $\Eone/\Ezero$ schedule is the classifier-stable step surface carried by $T$.
 
@@ -381,6 +385,7 @@ Use start-ledger uniqueness and Cont-step coverage next. Theorems~\ref{thm:histt
 
 Finally apply observer-locality transport, \autoref{thm:histtimestream-observer-locality-transport}. Observer-facing transport reads only the local packet and its no-global-clock ledger, so the endpoint is preserved by componentwise $\hsame$ and no nonlocal time coordinate appears.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_hsame\_schedule\_endpoint\_transport}
 
 \begin{theorem}[HistTimeStream local transport exhaustion]
 \label{thm:hist-time-stream-local-transport-exhaustion}
@@ -446,6 +451,7 @@ Q=(H,T,S,C,L,P,N)
 $$
 be an accepted $\HistTimeStreamUp$ packet. The displayed $\Cont$-prefix route of $Q$ induces the finite $\StreamNameUp$ window read by \autoref{ch:concrete-instances-streamname-namecert}: the source row $H$, finite schedule $T$, start ledger $S$, replay row $C$, componentwise $\hsame$ ledger $L$, package row $P$, and local name row $N$ are passed as one bounded naming packet before any countable-name consumer may read the stream. The handoff carries no quotient stream, no selected host limit, no ambient completeness witness, and no host-indexed time coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_streamname\_finite\_window\_handoff}
 \begin{proof}
 Start from Cont-prefix exactness, \autoref{thm:histtimestream-cont-prefix-exactness}. It identifies the local stream as the finite route from $\emp$ to the displayed source row $H$ through $T,S,C,L,P,N$.
 

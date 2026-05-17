@@ -46,15 +46,107 @@ The diagonal-index computation is finite. The modulus surface supplies $k$, the 
 The remaining rows expose the route through the four concrete sibling surfaces: $\StreamNameUp$ for $w$, $\RegSeqRatUp$ for $r$, $\DyadicRatCoreUp$ for $d$, and $\RealUp$ for $e$. Since $H,C,P,N$ only transport, replay, source, and name those displayed rows, the listed obligations exhaust the local certificate.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit representative route predicate obligation]
+\label{thm:diagonal-limit-representative-route-predicate-obligation}
+For an accepted $\DiagonalLimitRepresentativeUp$ carrier
+$$
+D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N),
+$$
+the accepted route predicates are exactly the displayed rows $X,\mu,n,k,i,w,r,d,e,H,C,P,N$. The family and readback rows are read through $\RegSeqRatUp$, the selected window through $\StreamNameUp$, the dyadic ledger through $\DyadicRatCoreUp$, and the terminal seal through $\RealUp$. The support predicates are precisely componentwise $\hsame$ transport through $H$, $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\DiagonalLimitRepresentativeUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:diagonal-limit-representative-carrier}. Its rows already name the family, modulus, request, selected indices, selected window, readback, dyadic ledger, Real seal, and the four support coordinates.
+
+Apply the NameCert obligations of \autoref{thm:diagonal-limit-representative-namecert-obligations}. They certify the two index computations and expose the sibling rows in the order $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.
+
+It remains to exclude additional route predicates. The classifier of \autoref{def:diagonal-limit-representative-classifier} allows transport only by componentwise $\hsame$ and replay only by the recorded $\Cont$ routes, while $P$ and $N$ source and name the same packet. Hence the accepted route predicate surface is exactly the displayed carrier row.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative terminal stability obligation]
+\label{thm:diagonal-limit-representative-terminal-stability-obligation}
+Let
+$$
+D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N)
+$$
+and
+$$
+D'=(X',\mu',n',k',i',w',r',d',e',H',C',P',N')
+$$
+be accepted $\DiagonalLimitRepresentativeUp$ carriers classified together by their recorded componentwise $\hsame$ rows and replayed $\Cont$ routes. Then the selected diagonal indices, selected $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and terminal $\RealUp$ seal remain on the displayed route
+$$
+\mu,n,k,i,w,r,d,e.
+$$
+The transport does not introduce a hidden selector, detached window, alternate readback, second dyadic ledger, or off-packet terminal Real seal.
+\end{theorem}
+\begin{proof}
+First read index stability. By \autoref{thm:diagonal-limit-representative-index-stability}, the displayed equations for $k,i$ and $k',i'$ are part of the accepted route and remain tied to the modulus request under classifier transport.
+
+Next read the terminal route. The window-ledger exhaustion theorem, \autoref{thm:diagonal-limit-representative-window-ledger-exhaustion}, confines public reads of $w,r,d,e$ to the displayed sibling rows, and \autoref{thm:diagonal-limit-representative-real-seal-factorization} places every Real-facing read downstream of those rows.
+
+Finally use the support rows. Componentwise $\hsame$ and replayed $\Cont$ preserve the rows already present in the packet; $\Pkg$ and $\NameCert$ name that same packet. Therefore terminal stability is stability of the displayed route, not permission to manufacture a hidden selector or an off-packet terminal seal.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative obligation-closure package]
+\label{thm:diagonal-limit-representative-obligation-closure-package}
+The chapter's $\DiagonalLimitRepresentativeUp$ obligation surface is the package consisting of the carrier of \autoref{def:diagonal-limit-representative-carrier}, the classifier of \autoref{def:diagonal-limit-representative-classifier}, the NameCert obligations of \autoref{thm:diagonal-limit-representative-namecert-obligations}, the route predicate obligation of \autoref{thm:diagonal-limit-representative-route-predicate-obligation}, and the terminal stability obligation of \autoref{thm:diagonal-limit-representative-terminal-stability-obligation}. This package is the concrete diagonal representative surface available to later Lean formalization; it contains no quotient stream equality, host limit, selected completed limit, countable choice, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+The carrier and classifier supply the accepted packet and its componentwise comparison rule. The NameCert obligations certify the displayed diagonal-index computations, sibling rows, and support rows.
+
+The route predicate obligation identifies the exact predicate surface consumed by downstream readers. The terminal stability obligation then proves that componentwise transport and continuation replay preserve the selected diagonal route through the terminal Real seal.
+
+Combining these pieces yields the chapter's obligation surface. The exclusions are inherited from the carrier and from the already established nonchoice and completion boundaries, so the package closes the obligation level without adding quotient, host-limit, choice, or ambient-completeness data.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative primitive-scope exhaustion]
+\label{thm:diagonal-limit-representative-primitive-scope-exhaustion}
+For every accepted $\DiagonalLimitRepresentativeUp$ carrier
+$$
+D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N),
+$$
+the displayed route predicates are scoped exactly by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the sibling rows supplied by $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\FinitePrefixLimitBudgetUp$. The representative route uses $X,\mu,n,k,i,w,r,d,e,H,C,P,N$ together with the shared-terminal finite-prefix rows of \autoref{def:diagonal-limit-representative-shared-terminal-carrier}; it has no primitive outside those listed BEDC rows.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only local rows are the family, modulus, request, selected indices, window, readback, ledger, seal, transport, continuation, provenance, and naming rows listed in \autoref{def:diagonal-limit-representative-carrier}.
+
+Read the sibling surfaces. The route predicate obligation places $w,r,d,e$ respectively in $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$, and the shared-terminal carrier adds only the finite-prefix budget rows from $\FinitePrefixLimitBudgetUp$.
+
+The support rows are exactly $H,C,P,N$. Thus every transport, replay, source, and local name is accounted for by $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ over $\BHist$. Since the carrier and the shared-terminal extension export no further coordinates, the primitive scope is exhausted by the listed rows.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative support-scope nonescape]
+\label{thm:diagonal-limit-representative-hsame-cont-scope}
+All accepted transport and replay for the $\DiagonalLimitRepresentativeUp$ route occurs through the recorded support rows $H,C,P,N$. No hidden selector, quotient stream, host limit, ambient completeness field, countable-choice row, detached window, alternate dyadic ledger, or off-packet terminal seal can enter the route through $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$.
+\end{theorem}
+\begin{proof}
+Begin with terminal stability, \autoref{thm:diagonal-limit-representative-terminal-stability-obligation}. It says that accepted componentwise transport preserves the displayed route $\mu,n,k,i,w,r,d,e$ and does not manufacture hidden selectors or off-packet terminal seals.
+
+Use the nonchoice and completion boundaries, \autoref{thm:diagonal-limit-representative-nonchoice-boundary} and \autoref{thm:diagonal-limit-representative-completion-boundary}. These boundaries remove quotient stream equality, host limits, countable choice, and ambient completeness from the packet surface.
+
+Finally read the support rows. The classifier permits only the componentwise $\hsame$ comparisons and $\Cont$ routes recorded by $H$ and $C$, while $P$ and $N$ source and name the same finite packet. Therefore accepted transport and replay remain inside the recorded support scope.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative scoped-closure package]
+\label{thm:diagonal-limit-representative-scoped-closure-package}
+The $\DiagonalLimitRepresentativeUp$ scoped-closure surface is the package consisting of the obligation-closure package of \autoref{thm:diagonal-limit-representative-obligation-closure-package}, the primitive-scope exhaustion theorem of \autoref{thm:diagonal-limit-representative-primitive-scope-exhaustion}, and the support-scope nonescape theorem of \autoref{thm:diagonal-limit-representative-hsame-cont-scope}. This package binds the diagonal representative route to the displayed BEDC primitives without claiming Real completeness, quotient-stream equality, host limits, selected completed limits, countable choice, or machine verification.
+\end{theorem}
+\begin{proof}
+The obligation-closure package supplies the accepted carrier, classifier, NameCert obligations, route predicate obligation, and terminal stability obligation. These theorems identify the diagonal representative route and the terminal Real seal boundary.
+
+The primitive-scope exhaustion theorem identifies the primitive rows available to the route: $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, the four representative sibling surfaces, and the finite-prefix budget surface. The support-scope nonescape theorem confines every accepted transport and replay step to $H,C,P,N$.
+
+Combining these two scope results with the obligation package gives a closed scoped surface for the paper chapter. The exclusions are precisely the absent coordinates named by the carrier, nonchoice boundary, completion boundary, and finite-prefix handoff, so the package records scoped closure without adding analytic completion data.
+\end{proof}
+
 \begin{closurestatus}{\DiagonalLimitRepresentativeUp}
   \constructivestory{The diagonal-limit representative is generated from $BHist$ rows that record diagonal indices, finite prefixes, window ledgers, stream-name to regular-rational handoffs, and the shared terminal route. The construction follows the familiar diagonal-limit idea, but every representative is read through the carrier rather than selected from an ambient completion. The $hsame$ relation transports index and terminal rows across equivalent histories, while $\Cont$ carries the finite-prefix and Real-seal handoffs forward. The chapter's boundary, uniqueness, selector-exclusion, completion-frontier, shared-terminal, and handoff theorems keep the representative bottom-up: a terminal diagonal representative exists only as the visible route assembled from the named finite ledgers.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the diagonal-limit representative carrier, classifier, NameCert obligations, Real-seal and completion boundaries, uniqueness, selector-exclusion, shared-terminal route, and finite-prefix budget handoff.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{This chapter binds the diagonal-limit representative carrier, classifier, NameCert obligations, the route predicate obligation of \autoref{thm:diagonal-limit-representative-route-predicate-obligation}, the terminal stability obligation of \autoref{thm:diagonal-limit-representative-terminal-stability-obligation}, the closure package of \autoref{thm:diagonal-limit-representative-obligation-closure-package}, primitive-scope exhaustion of \autoref{thm:diagonal-limit-representative-primitive-scope-exhaustion}, support-scope nonescape of \autoref{thm:diagonal-limit-representative-hsame-cont-scope}, scoped-closure packaging of \autoref{thm:diagonal-limit-representative-scoped-closure-package}, Real-seal and completion boundaries, uniqueness, selector-exclusion, shared-terminal route, and finite-prefix budget handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim a selected completion point, quotient-stream equality, global limit uniqueness, or choice beyond the displayed diagonal route.}
-  \upgradepath{Reaching obligationClosure requires formal diagonal route predicates and checked terminal representative stability for the shared finite-prefix carrier.}
+  \upgradepath{A higher closure grade requires Lean verification and a public bridge for the scoped package.}
 \end{closurestatus}
 
 \begin{theorem}[Diagonal-limit representative Real-seal factorization]
@@ -501,4 +593,60 @@ First read the representative side. The nonchoice boundary \autoref{thm:diagonal
 Next read the finite-prefix side. By \autoref{thm:finite-prefix-limit-budget-seal-consumer-coverage}, a $\RealUp$, $\RegSeqRatUp$, or completion-facing consumer receives exactly the prefix-budget route $Q \to B \to W \to D_F \to R \to S$ together with $E_F,H_F,C_F,P_F,N_F$. By \autoref{thm:finite-prefix-limit-budget-real-seal-nonescape-extension}, quotient streams, selected limits, host real equality, hidden tail schedules, countable choice, and ambient completeness cannot replace that route.
 
 Finally use the shared-terminal route theorem above. It composes the representative route with the finite-prefix budget route without adding a new coordinate: the terminal read is still a finite BEDC packet read through StreamName, RegSeqRat, DyadicRatCore, FinitePrefixLimitBudget, and Real rows. Hence the handoff gives the Real-completion route a concrete L10 terminal surface while preserving the nonchoice and no-completeness boundaries on both sides.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative public exactness package]
+\label{thm:diagonal-limit-representative-public-exactness-package}
+For an accepted shared-terminal $\DiagonalLimitRepresentativeUp$ carrier, the public exactness package is precisely the ordered surface
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \FinitePrefixLimitBudgetUp \to \RealUp
+$$
+over the representative rows
+$$
+X,\mu,n,k,i,w,r,d,e,H,C,P,N
+$$
+and the shared-terminal finite-prefix rows
+$$
+Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F.
+$$
+The package has no additional public row beyond these displayed carrier, route, support, budget, exclusion, continuation, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+First take the terminal route from \autoref{thm:diagonal-limit-representative-shared-terminal-route}. It orders every terminal consumer through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FinitePrefixLimitBudgetUp$, and $\RealUp$, so the type-level surface is already fixed.
+
+Next read the finite-prefix handoff in \autoref{thm:diagonal-limit-representative-finite-prefix-budget-handoff}. It says that the representative rows $X,\mu,n,k,i,w,r,d,e,H,C,P,N$ and the budget rows $Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F$ are consumed as one terminal interface, with the nonchoice and no-completeness boundaries preserved on both sides.
+
+The dependency-ready package \autoref{thm:diagonal-limit-representative-dependency-ready-package} supplies the $\Pkg$-sourced $\NameCert_{\DiagonalLimitRepresentativeUp}$ boundary for the representative half of the route. The Real--Completion frontier boundary \autoref{thm:diagonal-limit-representative-real-completion-frontier-boundary} then identifies the terminal endpoint as the named diagonal representative frontier and excludes stronger analytic structure.
+
+Therefore the public exactness package is exactly the displayed ordered surface over the displayed rows. Any extra public row would either precede one of the ordered dependencies, duplicate the finite-prefix budget route, or add a Real-completion principle explicitly excluded by the frontier boundary.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative completion consumer factorization]
+\label{thm:diagonal-limit-representative-completion-consumer-factorization}
+Every Real-and-Completion consumer of an accepted shared-terminal $\DiagonalLimitRepresentativeUp$ carrier factors through the public exactness package of \autoref{thm:diagonal-limit-representative-public-exactness-package}. Such a consumer cannot bypass that package by quotient stream equality, host real equality, selected completed limits, hidden tail schedules, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the exactness package just established. It presents the only public route from the selected stream window and regular readback to the dyadic ledger, finite-prefix budget, and terminal Real seal.
+
+The shared-terminal route theorem \autoref{thm:diagonal-limit-representative-shared-terminal-route} supplies the factorization order. The finite-prefix budget handoff \autoref{thm:diagonal-limit-representative-finite-prefix-budget-handoff} supplies the consumer boundary for completion-facing reads, including the refusal of quotient streams, selected limits, host equality, hidden schedules, choice data, and ambient completeness.
+
+It remains to connect this route to the representative frontier. The dependency-ready package \autoref{thm:diagonal-limit-representative-dependency-ready-package} binds the displayed rows into the accepted representative certificate, while \autoref{thm:diagonal-limit-representative-real-completion-frontier-boundary} states that the frontier is a named diagonal representative endpoint and not a completed Real object supplied by the host.
+
+Hence every Real-and-Completion consumer reaches the endpoint through the public package. A bypass would have to supply one of the excluded equality, limit, schedule, choice, or completeness rows, and those rows are absent from both the representative frontier and the finite-prefix handoff.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative bridge precondition package]
+\label{thm:diagonal-limit-representative-bridge-precondition-package}
+Any later standard bridge for the $\DiagonalLimitRepresentativeUp$ chapter must preserve the same finite packet route
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \FinitePrefixLimitBudgetUp \to \RealUp
+$$
+over the rows named in \autoref{thm:diagonal-limit-representative-public-exactness-package}. The bridge precondition may transport the package into a standard schema, but it may not replace the route by quotient equality, host Real equality, selected completed limits, hidden tail schedules, countable choice, or ambient completeness, and it may not identify the paper closure axis with Lean bridge checking.
+\end{theorem}
+\begin{proof}
+The route to be preserved is fixed by \autoref{thm:diagonal-limit-representative-shared-terminal-route}. It is a finite terminal packet route through the StreamName, RegSeqRat, DyadicRatCore, finite-prefix budget, and Real rows, with the representative and budget coordinates read as one public surface.
+
+The exact rows to be preserved are fixed by the finite-prefix budget handoff \autoref{thm:diagonal-limit-representative-finite-prefix-budget-handoff} and the dependency-ready package \autoref{thm:diagonal-limit-representative-dependency-ready-package}. Together they identify the carrier rows, support rows, budget rows, exclusion row, continuation row, provenance row, and naming row that the bridge must transport.
+
+Finally, the Real--Completion frontier boundary \autoref{thm:diagonal-limit-representative-real-completion-frontier-boundary} gives the negative side of the precondition: no quotient stream equality, host equality, selected completed limit, hidden tail schedule, choice principle, or ambient completeness is part of the chapter certificate. The bridge may check a schema for the same finite route, but that verification status is separate from the paper closure axis recorded by the chapter.
 \end{proof}

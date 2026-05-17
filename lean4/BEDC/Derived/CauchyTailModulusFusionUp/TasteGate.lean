@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyTailModulusFusionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -242,5 +244,103 @@ theorem CauchyTailModulusFusionTasteGate_single_carrier_alignment :
   -- BEDC touchpoint anchor: BHist BMark
   exact ⟨cauchyTailModulusFusionDecode_encode_bhist, cauchyTailModulusFusion_round_trip,
     fun _ _ heq => cauchyTailModulusFusionToEventFlow_injective heq, rfl⟩
+
+theorem taste_gate :
+    (∀ h : BHist,
+        cauchyTailModulusFusionDecodeBHist (cauchyTailModulusFusionEncodeBHist h) = h) ∧
+      (∀ x : CauchyTailModulusFusionUp,
+        cauchyTailModulusFusionFromEventFlow (cauchyTailModulusFusionToEventFlow x) =
+          some x) ∧
+      (∀ x y : CauchyTailModulusFusionUp,
+        cauchyTailModulusFusionToEventFlow x = cauchyTailModulusFusionToEventFlow y →
+          x = y) ∧
+      cauchyTailModulusFusionEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact CauchyTailModulusFusionTasteGate_single_carrier_alignment
+
+theorem CauchyTailModulusFusionCarrier_namecert_obligations
+    (F : CauchyTailModulusFusionUp) :
+    SemanticNameCert
+      (fun row : BHist =>
+        ∃ T0 T1 mu0 mu1 tau V W0 W1 D0 D1 Q0 Q1 E H C P N : BHist,
+          F = CauchyTailModulusFusionUp.mk T0 T1 mu0 mu1 tau V W0 W1 D0 D1 Q0 Q1
+            E H C P N ∧ hsame row H)
+      (fun row : BHist =>
+        ∃ T0 T1 mu0 mu1 tau V W0 W1 D0 D1 Q0 Q1 E H C P N : BHist,
+          F = CauchyTailModulusFusionUp.mk T0 T1 mu0 mu1 tau V W0 W1 D0 D1 Q0 Q1
+            E H C P N ∧ hsame row H)
+      (fun row : BHist =>
+        ∃ T0 T1 mu0 mu1 tau V W0 W1 D0 D1 Q0 Q1 E H C P N : BHist,
+          F = CauchyTailModulusFusionUp.mk T0 T1 mu0 mu1 tau V W0 W1 D0 D1 Q0 Q1
+            E H C P N ∧ hsame row H)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame NameCert
+  cases F with
+  | mk T0 T1 mu0 mu1 tau V W0 W1 D0 D1 Q0 Q1 E H C P N =>
+      exact {
+        core := {
+          carrier_inhabited :=
+            Exists.intro H
+              ⟨T0, T1, mu0, mu1, tau, V, W0, W1, D0, D1, Q0, Q1, E, H, C, P, N,
+                rfl, hsame_refl H⟩
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other same
+            exact hsame_symm same
+          equiv_trans := by
+            intro _row _middle _other sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro row other same source
+            have sameRow : hsame row H := by
+              cases source with
+              | intro T0' source =>
+                  cases source with
+                  | intro T1' source =>
+                      cases source with
+                      | intro mu0' source =>
+                          cases source with
+                          | intro mu1' source =>
+                              cases source with
+                              | intro tau' source =>
+                                  cases source with
+                                  | intro V' source =>
+                                      cases source with
+                                      | intro W0' source =>
+                                          cases source with
+                                          | intro W1' source =>
+                                              cases source with
+                                              | intro D0' source =>
+                                                  cases source with
+                                                  | intro D1' source =>
+                                                      cases source with
+                                                      | intro Q0' source =>
+                                                          cases source with
+                                                          | intro Q1' source =>
+                                                              cases source with
+                                                              | intro E' source =>
+                                                                  cases source with
+                                                                  | intro H' source =>
+                                                                      cases source with
+                                                                      | intro C' source =>
+                                                                          cases source with
+                                                                          | intro P' source =>
+                                                                              cases source with
+                                                                              | intro N' source =>
+                                                                                  cases source.left
+                                                                                  exact source.right
+            exact
+              ⟨T0, T1, mu0, mu1, tau, V, W0, W1, D0, D1, Q0, Q1,
+                E, H, C, P, N, rfl, hsame_trans (hsame_symm same) sameRow⟩
+        }
+        pattern_sound := by
+          intro _row source
+          exact source
+        ledger_sound := by
+          intro _row source
+          exact source
+      }
 
 end BEDC.Derived.CauchyTailModulusFusionUp
