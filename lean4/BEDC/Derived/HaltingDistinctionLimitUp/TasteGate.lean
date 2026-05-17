@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -6,6 +7,7 @@ namespace BEDC.Derived.HaltingDistinctionLimitUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -226,5 +228,37 @@ theorem HaltingDistinctionLimitTasteGate_single_carrier_alignment :
       · intro x y heq
         exact haltingDistinctionLimitToEventFlow_injective heq
       · rfl
+
+theorem HaltingDistinctionLimitFixedPointBoundary
+    {program input trace diagonal transport route packageProvenance localNameCertLedger
+      endpoint : BHist}
+    (traceRoute : Cont input trace diagonal)
+    (returnRoute : Cont diagonal route endpoint) :
+    Cont input (append trace route) endpoint ∧
+      hsame program program ∧
+        hsame input input ∧
+          hsame trace trace ∧
+            hsame diagonal diagonal ∧
+              hsame transport transport ∧
+                hsame route route ∧
+                  hsame packageProvenance packageProvenance ∧
+                    hsame localNameCertLedger localNameCertLedger ∧
+                      haltingDistinctionLimitFromEventFlow
+                          (haltingDistinctionLimitToEventFlow
+                            (HaltingDistinctionLimitUp.mk program input trace diagonal
+                              transport route packageProvenance localNameCertLedger)) =
+                        some
+                          (HaltingDistinctionLimitUp.mk program input trace diagonal
+                            transport route packageProvenance localNameCertLedger) := by
+  -- BEDC touchpoint anchor: BHist Cont append hsame
+  constructor
+  · cases traceRoute
+    cases returnRoute
+    exact append_assoc input trace route
+  · exact
+      ⟨rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl,
+        haltingDistinctionLimit_round_trip
+          (HaltingDistinctionLimitUp.mk program input trace diagonal transport route
+            packageProvenance localNameCertLedger)⟩
 
 end BEDC.Derived.HaltingDistinctionLimitUp

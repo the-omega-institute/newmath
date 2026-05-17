@@ -258,6 +258,26 @@ Use Real-consumer coverage to identify the exposed completion surface. The theor
 Finally apply selector-budget RegSeqRat Real-seal determinacy and tail-budget seal uniqueness, \autoref{thm:cauchy-modulus-refinement-selector-budget-regseqrat-real-seal-determinacy} and \autoref{thm:cauchy-modulus-refinement-tail-budget-seal-uniqueness}. The shared selector budget, selected window, dyadic tolerance, and Real seal determine one Real-completion consumer surface through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement uniform diagonal seal correspondence]
+\label{thm:cauchy-modulus-refinement-uniform-diagonal-seal-correspondence}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Let $J$ be an accepted $\UniformCauchyCriterionUp$ tail packet and let $K$ be an accepted $\DiagonalLimitCompatibilityUp$ root packet. Suppose the selector-budget row, selected $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, structural $\BHist$ route, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows of $R$ agree with the corresponding terminal rows read by $J$ and $K$.
+
+Then the $\CauchyModulusRefinementUp$ refinement-selector surface, the $\UniformCauchyCriterionUp$ tail surface, and the $\DiagonalLimitCompatibilityUp$ root surface expose the same terminal $\RealUp$ seal exactly when the three surfaces traverse the same displayed BEDC route through
+$$
+\StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp,\RealUp,\BHist,\hsame,\Cont,\Pkg,\NameCert.
+$$
+The correspondence is terminal for Real and Completion consumers: no quotient stream, selected host limit, host real equality, countable-choice selector, ambient completeness coordinate, hidden selector, second meet row, or side-channel completion row supplies another terminal seal surface.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the UniformCauchyCriterion route theorem, \autoref{thm:cauchy-modulus-refinement-uniform-criterion-real-route-determinacy}. It places the uniform tail consumer on the displayed selector-budget, window, tolerance, readback, seal, transport, replay, provenance, and local naming route. Apply the diagonal handoff theorem, \autoref{thm:cauchy-modulus-refinement-diagonal-handoff-determinacy}, to place the diagonal root consumer on the same finite rows.
+
+Now compare the two terminal readings with the refinement-selector surface. The L10 consumer spine comparison, \autoref{thm:cauchy-modulus-refinement-l10-consumer-spine-comparison}, identifies the CauchyModulusRefinement and DiagonalLimitCompatibility consumer spines once their $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows agree. Hence a common terminal $\RealUp$ seal exposes the same displayed BEDC route on all three surfaces.
+
+For the reverse direction, assume the three surfaces traverse the same displayed route. Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}, exhausts the completion-facing consumer boundary of $R$ by $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$. Terminal-spine choice refusal, \autoref{thm:cauchy-modulus-refinement-terminal-spine-choice-refusal}, rules out any choice, quotient, host-equality, ambient-completeness, or alternate-selector coordinate after those terminal rows agree.
+
+Therefore the shared route has only one terminal $\RealUp$ seal to expose. The agreed uniform tail packet, diagonal root packet, and refinement selector packet are three readings of that same finite BEDC terminal surface, so their Real and Completion consumers receive the same seal.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement selector-seal two-step transport]
 \label{thm:cauchy-modulus-refinement-selector-seal-two-step-transport}
 Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Suppose a second downstream route has selector row $V'$, selector-budget row $T'$, tolerance-readback row $Q'$, and seal row $E'$. If the displayed $\hsame$ rows identify $V$ with $V'$ and $E$ with $E'$, and the displayed $\Cont$ rows carry the source-meet route through $U,V',T'$ and then through $T',W,Q'$, then the two routes determine the same selector-budget row and the same $\RealUp$ seal consumer surface through $H,C,P,N$.
