@@ -370,4 +370,50 @@ Next use \autoref{thm:cofinal-modulus-seal-shared-budget-exhaustion}. The shared
 Finish with \autoref{thm:cofinal-modulus-seal-nonescape}. The carrier has no coordinate for countable choice, hidden StreamName selection, quotient stream equality, selected host limits, or ambient Real completeness. Therefore the window ledger remains a finite no-choice boundary inside the displayed packet.
 \end{proof}
 
+\begin{theorem}[Cofinal modulus seal RegSeqRat route exhaustion]
+\label{thm:cofinal-modulus-seal-regseqrat-route-exhaustion}
+Every $\RegSeqRatUp$-facing read through an accepted $\CofinalModulusSealUp$ packet factors through the finite rows
+$$
+B,M,W,T,D,R,H,C,P,N.
+$$
+In particular, the regular-sequence row is consumed only after the cofinal budget, modulus, window, StreamName, and dyadic rows have been displayed, and its public readback is transported, replayed, sourced, and named only through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-modulus-seal-carrier}. The regular-sequence row $R$ is not an independent source; it sits behind the cofinal source rows $B,M,W$ and the StreamName and dyadic rows $T,D$.
+
+Apply \autoref{thm:cofinal-modulus-seal-window-budget-exactness}. It identifies the common window budget used by the StreamName, dyadic, and regular-sequence consumers, so a $\RegSeqRatUp$ read cannot bypass $B,M,W,T,D$.
+
+Use \autoref{thm:cofinal-modulus-seal-root-unblock-package} and \autoref{thm:cofinal-modulus-seal-route-namecert-exhaustion}. The downstream package and the local NameCert route have no naming coordinate beyond the displayed finite carrier rows.
+
+Finish with \autoref{thm:cofinal-modulus-seal-window-ledger-nochoice-boundary}. It excludes hidden selectors, quotient stream equality, selected host limits, and choice-like completion data, leaving $H,C,P,N$ as the only structural support for the regular-sequence readback.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal StreamName window consistency]
+\label{thm:cofinal-modulus-seal-streamname-window-consistency}
+In an accepted $\CofinalModulusSealUp$ packet, the $\StreamNameUp$ row $T$ and the window row $W$ are consumed on the same cofinal route. No public route may read a StreamName selector from $T$ while using a different window ledger than the displayed $W$.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:cofinal-modulus-seal-carrier}. The carrier lists $W$ before $T$ in the same finite packet, so both rows are coordinates of one accepted cofinal route.
+
+Apply \autoref{thm:cofinal-modulus-seal-window-budget-exactness}. It binds the StreamName-facing window read to the same budget row $W$ used by the dyadic and regular-sequence rows.
+
+Then use \autoref{thm:cofinal-modulus-seal-root-unblock-package} and \autoref{thm:cofinal-modulus-seal-route-namecert-exhaustion}. Any downstream root-unblock consumer of $T$ is named only through the exhausted route of the same carrier.
+
+Finally apply \autoref{thm:cofinal-modulus-seal-window-ledger-nochoice-boundary}. A hidden StreamName selector or detached window ledger would be a choice-like coordinate outside the packet, so the accepted route must consume $T$ and $W$ together.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus seal RealUp non-completeness boundary]
+\label{thm:cofinal-modulus-seal-realup-noncompleteness-boundary}
+The $\RealUp$ row $E$ in an accepted $\CofinalModulusSealUp$ packet is only a finite seal handoff. It carries no Real-completeness premise, quotient-real equality, selected-limit operator, countable-choice selector, or ambient host-completion assumption.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:cofinal-modulus-seal-carrier}. The row $E$ is displayed after the cofinal source, window, StreamName, dyadic, regular-sequence, and Cauchy-limit rows, and before the structural support rows $H,C,P,N$.
+
+Apply \autoref{thm:cofinal-modulus-seal-root-unblock-package}. The Real-facing handoff is part of the finite downstream package for tail-budget, StreamName, RegSeqRat, DyadicRatCore, and RealUp consumers; it is not a separate completeness service.
+
+Use \autoref{thm:cofinal-modulus-seal-route-namecert-exhaustion} to exhaust the naming route. Since the NameCert has no coordinate outside $B,M,W,T,D,R,L,E,H,C,P,N$, the Real-facing row cannot import an external completion principle.
+
+Finish with \autoref{thm:cofinal-modulus-seal-window-ledger-nochoice-boundary}. Countable choice, quotient equality, selected host limits, and ambient Real completeness are all excluded from the same finite ledger, so $E$ remains a handoff row rather than a Real-completeness claim.
+\end{proof}
+
 Lean TasteGate formalization for this route must provide \texttt{Nontrivial CofinalModulusSealUp} and \texttt{FieldFaithful CofinalModulusSealUp} instances in \texttt{BEDC.Derived.CofinalModulusSealUp}.
