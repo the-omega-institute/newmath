@@ -590,6 +590,7 @@ import BEDC.Derived.DyadicTailRadiusComparisonUp.TasteGate
 import BEDC.Derived.DyadicAbsoluteValueUp
 import BEDC.Derived.DyadicRoundingUp
 import BEDC.Derived.ModulusIndexedTailCoverUp.TasteGate
+import BEDC.Derived.ModulusIndexedDiagonalReadbackUp.TasteGate
 import BEDC.Derived.MultiHistoryPhysicsRouteUp.TasteGate
 import BEDC.Derived.StableNegationBoundaryUp
 import BEDC.Derived.StableNegationBoundaryUp.TasteGate
@@ -669,6 +670,7 @@ import BEDC.Derived.CofinalDiagonalSealUp.TasteGate
 import BEDC.Derived.HashLikeFiberBoundaryUp.TasteGate
 import BEDC.Derived.LocalStencilObservationUp.TasteGate
 import BEDC.Derived.DyadicCoverUp
+import BEDC.Derived.FiniteRealSectionUp.TasteGate
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealCompletionRouteAuditUp.TasteGate
 import BEDC.Derived.RealCompletionWitnessExtractorUp
