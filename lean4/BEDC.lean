@@ -525,6 +525,7 @@ import BEDC.Derived.CauchyWitnessLedgerUp.ObserverFilterBudgetSelectorLock
 import BEDC.Derived.CauchyWitnessLedgerUp.StreamnameRegseqFactorization
 import BEDC.Derived.CauchyWitnessLedgerUp.RootBudgetCoherence
 import BEDC.Derived.CauchyChoiceBoundaryUp.TasteGate
+import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.LayeredRelationGateUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.RouteReplayExactness
 import BEDC.Derived.CauchySealFunctorUp.TasteGate
