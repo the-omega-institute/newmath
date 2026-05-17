@@ -77,6 +77,7 @@ import BEDC.Derived.ApophaticGateQuestionUp.QuestionExactnessRoute
 import BEDC.Derived.ApophaticGateQuestionUp.ReadbackLocality
 import BEDC.Derived.ApophaticGateQuestionUp.RefusalNonescapeCoverage
 import BEDC.Derived.ApophaticGateQuestionUp.RefusalRowTransport
+import BEDC.Derived.ApophaticGateQuestionUp.RootClassifierSocketTriad
 import BEDC.Derived.ApophaticGateQuestionUp.RootConsumerLedgerReadiness
 import BEDC.Derived.ApophaticGateQuestionUp.RootUnblockPackage
 import BEDC.Derived.ApophaticGateQuestionUp.RootRefusalAuditLedger
@@ -90,6 +91,7 @@ import BEDC.Derived.ApophaticGateQuestionUp.SourceQuestionLedgerLock
 import BEDC.Derived.ApophaticGateQuestionUp.SocketNameDependency
 import BEDC.Derived.ApophaticGateQuestionUp.SocketRefusalCoverage
 import BEDC.Derived.ApophaticGateQuestionUp.SupplyKindRouteTotality
+import BEDC.Derived.ApophaticGateQuestionUp.VisibleSocketNonescape
 import BEDC.Derived.ApophaticKernelBoundaryUp.TasteGate
 import BEDC.Derived.ApophaticNameUp
 import BEDC.Derived.ApophaticNameUp.LedgerNonescape
@@ -588,6 +590,7 @@ import BEDC.Derived.DyadicTailRadiusComparisonUp.TasteGate
 import BEDC.Derived.DyadicAbsoluteValueUp
 import BEDC.Derived.DyadicRoundingUp
 import BEDC.Derived.ModulusIndexedTailCoverUp.TasteGate
+import BEDC.Derived.ModulusIndexedDiagonalReadbackUp.TasteGate
 import BEDC.Derived.MultiHistoryPhysicsRouteUp.TasteGate
 import BEDC.Derived.StableNegationBoundaryUp
 import BEDC.Derived.StableNegationBoundaryUp.TasteGate
@@ -759,6 +762,7 @@ import BEDC.Derived.ConsciousObserverStateUp.ClassifierStability
 import BEDC.Derived.ConsciousObserverStateUp.CurrentLedgerHandoff
 import BEDC.Derived.ConsciousObserverStateUp.GapConsumerExactness
 import BEDC.Derived.ConsciousObserverStateUp.GapLedgerRoute
+import BEDC.Derived.ConsciousObserverStateUp.LocalGapCoverage
 import BEDC.Derived.ConsciousObserverStateUp.GapLocalityExhaustion
 import BEDC.Derived.ConsciousObserverStateUp.RouteScopePackage
 import BEDC.Derived.ConsciousObserverStateUp.LocalityCellHandoff
@@ -1587,6 +1591,7 @@ import BEDC.Derived.HistTimeStreamUp.StartLedgerTotality
 import BEDC.Derived.HistTimeStreamUp.StartLedgerUniqueness
 import BEDC.Derived.HistTimeStreamUp.ScheduleEndpointTransport
 import BEDC.Derived.HistTimeStreamUp.StreamNameFiniteWindowHandoff
+import BEDC.Derived.HistTimeStreamUp.StreamNameScheduleClassifierBoundary
 import BEDC.Derived.HistTimeStreamUp.TransportLock
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp
