@@ -598,6 +598,7 @@ import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.NameCert
 import BEDC.Derived.PhysicalModelAuditUp.TasteGate
 import BEDC.Derived.PhysicalOperationDescentUp.TasteGate
+import BEDC.Derived.UpgradeRegistryUp.TasteGate
 import BEDC.Derived.PhysicalNameCertAuditUp.TasteGate
 import BEDC.Derived.PhysicalInductionStabilitySealUp.TasteGate
 import BEDC.Derived.PhilosophySynthesisAuditUp.TasteGate
@@ -3029,6 +3030,7 @@ import BEDC.Derived.CompactUp.PrefixDeterminism
 import BEDC.Derived.CompactUp.RefinementPrefix
 import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
+import BEDC.Derived.CompactUp.StdBridge
 import BEDC.Derived.CompactUp.EmptyFinalReflection
 import BEDC.Derived.CompactUp.NonemptyForward
 import BEDC.Derived.CompactUp.CompletePackage
