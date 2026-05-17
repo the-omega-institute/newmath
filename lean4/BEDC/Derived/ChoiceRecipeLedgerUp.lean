@@ -160,4 +160,26 @@ theorem ChoiceRecipeLedgerCarrier_term_stratum_handoff [AskSetup] [PackageSetup]
     ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, handoffUnary, requestRecipesOutput,
       outputRefusalRoute, localNameRequest, localNamePkg, handoffPkg⟩
 
+theorem ChoiceRecipeLedgerTermStratumHandoff [AskSetup] [PackageSetup]
+    {request recipes output refusal transport route provenance localName handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ChoiceRecipeLedgerCarrier request recipes output refusal transport route provenance localName
+        bundle pkg →
+      Cont request output handoffRead →
+        UnaryHistory request ∧ UnaryHistory recipes ∧ UnaryHistory output ∧
+          UnaryHistory refusal ∧ UnaryHistory handoffRead ∧ Cont request recipes output ∧
+            Cont request output handoffRead ∧ Cont output refusal route ∧
+              PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier requestOutputHandoff
+  rcases carrier with
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, _transportUnary, _routeUnary,
+      _provenanceUnary, _localNameUnary, requestRecipesOutput, outputRefusalRoute,
+      _routeTransportProvenance, localNamePkg⟩
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed requestUnary outputUnary requestOutputHandoff
+  exact
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, handoffUnary,
+      requestRecipesOutput, requestOutputHandoff, outputRefusalRoute, localNamePkg⟩
+
 end BEDC.Derived.ChoiceRecipeLedgerUp
