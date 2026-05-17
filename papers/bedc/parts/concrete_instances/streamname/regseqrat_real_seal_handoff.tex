@@ -28,3 +28,23 @@ For the reverse direction, start with the common finite pullback. Its projection
 
 Composing each projection with the seal handoff gives the same $\RealUp$ seal-visible source. The coordinate inventory excludes quotient stream equality, selected limits, host real equality, and ambient completeness, so equality at the seal is exactly the displayed finite pullback condition.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Real seal correspondence]
+\label{thm:streamname-regseqrat-real-seal-correspondence}
+Let $W$ be a finite-window packet accepted by $\StreamNameUp$. Suppose each point row of $W$ is certified by $\DyadicRatCoreUp$, the adjacent-window rows satisfy the $\RegSeqRatUp$ budget, and the displayed support rows are the finite-window $\BHist$ rows, componentwise $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. A seal-visible source section determined by $W$ is the same as the seal-visible source section of the corresponding public finite $\RegSeqRatUp$ request exactly when both sections factor through the ordered four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+with the same visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. This correspondence exports no quotient stream equality, host real equality, selected limit, choice datum, ambient completeness datum, metric-completeness row, or second seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-regseqrat-real-seal-handoff} to read the accepted $\StreamNameUp$ window at the $\RealUp$ seal boundary. The handoff exposes only the finite StreamName window, the DyadicRatCore point certificates, the RegSeqRat adjacent-window budget, and the listed support rows.
+
+Next apply \autoref{thm:regseqrat-finite-request-source-section} to the corresponding public finite $\RegSeqRatUp$ request. Its source section displays the same schedule, dyadic ledger, classifier and regularity rows, componentwise $\hsame$ transports, $\Cont$ replay rows, $\Pkg$ provenance, and local $\NameCert$ surface.
+
+For the forward direction, compose these two readings with \autoref{thm:regseqrat-finite-request-real-seal-correspondence}. A seal-visible source section coming from $W$ therefore restricts to the same finite request source section precisely when the public request and the StreamName packet share the displayed rows of the four-face route.
+
+For the reverse direction, start with a common ordered route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The finite request source section repacks along the StreamName handoff, and \autoref{thm:real-regseqrat-terminal-budget-exhaustion} identifies the resulting packet as the same terminal-budget Real seal read.
+
+The non-escape clause is the coordinate inventory of the cited routes. None of them contains a row for quotient stream equality, host real equality, selected limits, choice, ambient completeness, metric-completeness data, or a second seal coordinate, so the correspondence is exactly the equality of the displayed finite BEDC surface.
+\end{proof}
