@@ -1,0 +1,15 @@
+\begin{theorem}[RegSeqRat tail-budget exhaustion]
+\label{thm:regseqrat-tail-budget-exhaustion}
+Every finite dyadic request admitted by the $\RegSeqRatUp$ tail selector is exhausted by a displayed tail budget and cannot escape the $\RealUp$ seal route. The displayed budget contains the StreamName window row, DyadicRatCore tolerance row, RegSeqRat regularity row, selected tail row, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Thus no admitted finite dyadic request can be consumed as a Real-facing request without passing through the same tail-budget packet and the same public seal boundary.
+\end{theorem}
+\begin{proof}
+Begin with the tail-budget handoff of \autoref{thm:regseqrat-tail-budget-meet-handoff}. It names the finite StreamName window, DyadicRatCore observation rows, RegSeqRat regularity rows, and local support rows that any Real-facing tail-budget request must display.
+
+Apply the tail selector Real-seal exhaustion theorem, \autoref{thm:regseqrat-tail-budget-terminal-real-seal}. The selector cannot export a finite dyadic request to the Real seal unless the displayed budget rows already carry that request.
+
+Now use the non-escape result \autoref{thm:regseqrat-tail-budget-nonescape}. It removes quotient sequence equality, selected limits, countable choice, and ambient completeness from the tail-budget consumer route.
+
+The remaining data are exactly the displayed tail budget and the public RealUp seal route. Therefore every admitted finite dyadic request is exhausted by that budget and cannot escape the seal boundary.
+\end{proof}
