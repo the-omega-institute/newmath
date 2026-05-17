@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.PhysicsProgrammeSynthesisUp.TasteGate
+namespace BEDC.Derived.PhysicsProgrammeSynthesisUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,10 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive PhysicsProgrammeSynthesisUp : Type where
-  | mk :
-      (route falsification strength verification failure transport replay provenance
-        localName : BHist) →
-      PhysicsProgrammeSynthesisUp
+  | mk (R F L V E H C P N : BHist) : PhysicsProgrammeSynthesisUp
   deriving DecidableEq
 
 def physicsProgrammeSynthesisEncodeBHist : BHist → RawEvent
@@ -34,97 +31,97 @@ private theorem physicsProgrammeSynthesis_decode_encode_bhist :
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-def physicsProgrammeSynthesisToEventFlow :
-    PhysicsProgrammeSynthesisUp → EventFlow
+private def physicsProgrammeSynthesisRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | PhysicsProgrammeSynthesisUp.mk route falsification strength verification failure transport
-      replay provenance localName =>
-      [[BMark.b1, BMark.b0, BMark.b1],
-        physicsProgrammeSynthesisEncodeBHist route,
-        physicsProgrammeSynthesisEncodeBHist falsification,
-        physicsProgrammeSynthesisEncodeBHist strength,
-        physicsProgrammeSynthesisEncodeBHist verification,
-        physicsProgrammeSynthesisEncodeBHist failure,
-        physicsProgrammeSynthesisEncodeBHist transport,
-        physicsProgrammeSynthesisEncodeBHist replay,
-        physicsProgrammeSynthesisEncodeBHist provenance,
-        physicsProgrammeSynthesisEncodeBHist localName]
-
-private def physicsProgrammeSynthesisEventAtDefault : Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => physicsProgrammeSynthesisEventAtDefault index rest
-
-def physicsProgrammeSynthesisFromEventFlow :
-    EventFlow → Option PhysicsProgrammeSynthesisUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (PhysicsProgrammeSynthesisUp.mk
-        (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisEventAtDefault 1 ef))
-        (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisEventAtDefault 2 ef))
-        (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisEventAtDefault 3 ef))
-        (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisEventAtDefault 4 ef))
-        (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisEventAtDefault 5 ef))
-        (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisEventAtDefault 6 ef))
-        (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisEventAtDefault 7 ef))
-        (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisEventAtDefault 8 ef))
-        (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisEventAtDefault 9 ef)))
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => physicsProgrammeSynthesisRawAt n rest
 
 def physicsProgrammeSynthesisFields : PhysicsProgrammeSynthesisUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | PhysicsProgrammeSynthesisUp.mk route falsification strength verification failure transport
-      replay provenance localName =>
-      [route, falsification, strength, verification, failure, transport, replay, provenance,
-        localName]
+  | PhysicsProgrammeSynthesisUp.mk R F L V E H C P N => [R, F, L, V, E, H, C, P, N]
+
+def physicsProgrammeSynthesisToEventFlow : PhysicsProgrammeSynthesisUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | PhysicsProgrammeSynthesisUp.mk R F L V E H C P N =>
+      [physicsProgrammeSynthesisEncodeBHist R,
+        physicsProgrammeSynthesisEncodeBHist F,
+        physicsProgrammeSynthesisEncodeBHist L,
+        physicsProgrammeSynthesisEncodeBHist V,
+        physicsProgrammeSynthesisEncodeBHist E,
+        physicsProgrammeSynthesisEncodeBHist H,
+        physicsProgrammeSynthesisEncodeBHist C,
+        physicsProgrammeSynthesisEncodeBHist P,
+        physicsProgrammeSynthesisEncodeBHist N]
+
+def physicsProgrammeSynthesisFromEventFlow
+    (flow : EventFlow) : Option PhysicsProgrammeSynthesisUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (PhysicsProgrammeSynthesisUp.mk
+      (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisRawAt 0 flow))
+      (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisRawAt 1 flow))
+      (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisRawAt 2 flow))
+      (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisRawAt 3 flow))
+      (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisRawAt 4 flow))
+      (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisRawAt 5 flow))
+      (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisRawAt 6 flow))
+      (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisRawAt 7 flow))
+      (physicsProgrammeSynthesisDecodeBHist (physicsProgrammeSynthesisRawAt 8 flow)))
+
+private theorem physicsProgrammeSynthesis_mk_congr
+    {R R' F F' L L' V V' E E' H H' C C' P P' N N' : BHist}
+    (hR : R' = R)
+    (hF : F' = F)
+    (hL : L' = L)
+    (hV : V' = V)
+    (hE : E' = E)
+    (hH : H' = H)
+    (hC : C' = C)
+    (hP : P' = P)
+    (hN : N' = N) :
+    PhysicsProgrammeSynthesisUp.mk R' F' L' V' E' H' C' P' N' =
+      PhysicsProgrammeSynthesisUp.mk R F L V E H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hR
+  cases hF
+  cases hL
+  cases hV
+  cases hE
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
 
 private theorem physicsProgrammeSynthesis_round_trip :
     ∀ x : PhysicsProgrammeSynthesisUp,
-      physicsProgrammeSynthesisFromEventFlow (physicsProgrammeSynthesisToEventFlow x) = some x :=
-    by
+      physicsProgrammeSynthesisFromEventFlow
+        (physicsProgrammeSynthesisToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk route falsification strength verification failure transport replay provenance localName =>
-      change
-        some
-          (PhysicsProgrammeSynthesisUp.mk
-            (physicsProgrammeSynthesisDecodeBHist
-              (physicsProgrammeSynthesisEncodeBHist route))
-            (physicsProgrammeSynthesisDecodeBHist
-              (physicsProgrammeSynthesisEncodeBHist falsification))
-            (physicsProgrammeSynthesisDecodeBHist
-              (physicsProgrammeSynthesisEncodeBHist strength))
-            (physicsProgrammeSynthesisDecodeBHist
-              (physicsProgrammeSynthesisEncodeBHist verification))
-            (physicsProgrammeSynthesisDecodeBHist
-              (physicsProgrammeSynthesisEncodeBHist failure))
-            (physicsProgrammeSynthesisDecodeBHist
-              (physicsProgrammeSynthesisEncodeBHist transport))
-            (physicsProgrammeSynthesisDecodeBHist
-              (physicsProgrammeSynthesisEncodeBHist replay))
-            (physicsProgrammeSynthesisDecodeBHist
-              (physicsProgrammeSynthesisEncodeBHist provenance))
-            (physicsProgrammeSynthesisDecodeBHist
-              (physicsProgrammeSynthesisEncodeBHist localName))) =
-          some
-            (PhysicsProgrammeSynthesisUp.mk route falsification strength verification failure
-              transport replay provenance localName)
-      rw [physicsProgrammeSynthesis_decode_encode_bhist route,
-        physicsProgrammeSynthesis_decode_encode_bhist falsification,
-        physicsProgrammeSynthesis_decode_encode_bhist strength,
-        physicsProgrammeSynthesis_decode_encode_bhist verification,
-        physicsProgrammeSynthesis_decode_encode_bhist failure,
-        physicsProgrammeSynthesis_decode_encode_bhist transport,
-        physicsProgrammeSynthesis_decode_encode_bhist replay,
-        physicsProgrammeSynthesis_decode_encode_bhist provenance,
-        physicsProgrammeSynthesis_decode_encode_bhist localName]
+  | mk R F L V E H C P N =>
+      exact
+        congrArg some
+          (physicsProgrammeSynthesis_mk_congr
+            (physicsProgrammeSynthesis_decode_encode_bhist R)
+            (physicsProgrammeSynthesis_decode_encode_bhist F)
+            (physicsProgrammeSynthesis_decode_encode_bhist L)
+            (physicsProgrammeSynthesis_decode_encode_bhist V)
+            (physicsProgrammeSynthesis_decode_encode_bhist E)
+            (physicsProgrammeSynthesis_decode_encode_bhist H)
+            (physicsProgrammeSynthesis_decode_encode_bhist C)
+            (physicsProgrammeSynthesis_decode_encode_bhist P)
+            (physicsProgrammeSynthesis_decode_encode_bhist N))
 
 private theorem physicsProgrammeSynthesisToEventFlow_injective
     {x y : PhysicsProgrammeSynthesisUp} :
@@ -143,35 +140,32 @@ private theorem physicsProgrammeSynthesis_field_faithful :
     ∀ x y : PhysicsProgrammeSynthesisUp,
       physicsProgrammeSynthesisFields x = physicsProgrammeSynthesisFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x y h
+  intro x y hfields
   cases x with
-  | mk route₁ falsification₁ strength₁ verification₁ failure₁ transport₁ replay₁
-      provenance₁ localName₁ =>
+  | mk R F L V E H C P N =>
       cases y with
-      | mk route₂ falsification₂ strength₂ verification₂ failure₂ transport₂ replay₂
-          provenance₂ localName₂ =>
-          injection h with hRoute t1
-          injection t1 with hFalsification t2
-          injection t2 with hStrength t3
-          injection t3 with hVerification t4
-          injection t4 with hFailure t5
-          injection t5 with hTransport t6
-          injection t6 with hReplay t7
-          injection t7 with hProvenance t8
-          injection t8 with hLocalName _
-          cases hRoute
-          cases hFalsification
-          cases hStrength
-          cases hVerification
-          cases hFailure
-          cases hTransport
-          cases hReplay
-          cases hProvenance
-          cases hLocalName
+      | mk R' F' L' V' E' H' C' P' N' =>
+          injection hfields with hR t1
+          injection t1 with hF t2
+          injection t2 with hL t3
+          injection t3 with hV t4
+          injection t4 with hE t5
+          injection t5 with hH t6
+          injection t6 with hC t7
+          injection t7 with hP t8
+          injection t8 with hN _
+          cases hR
+          cases hF
+          cases hL
+          cases hV
+          cases hE
+          cases hH
+          cases hC
+          cases hP
+          cases hN
           rfl
 
-instance physicsProgrammeSynthesisBHistCarrier :
-    BHistCarrier PhysicsProgrammeSynthesisUp where
+instance physicsProgrammeSynthesisBHistCarrier : BHistCarrier PhysicsProgrammeSynthesisUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := physicsProgrammeSynthesisToEventFlow
   fromEventFlow := physicsProgrammeSynthesisFromEventFlow
@@ -181,8 +175,8 @@ instance physicsProgrammeSynthesisChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change physicsProgrammeSynthesisFromEventFlow (physicsProgrammeSynthesisToEventFlow x) =
-      some x
+    change physicsProgrammeSynthesisFromEventFlow
+      (physicsProgrammeSynthesisToEventFlow x) = some x
     exact physicsProgrammeSynthesis_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -194,8 +188,7 @@ instance physicsProgrammeSynthesisFieldFaithful :
   fields := physicsProgrammeSynthesisFields
   field_faithful := physicsProgrammeSynthesis_field_faithful
 
-instance physicsProgrammeSynthesisNontrivial :
-    Nontrivial PhysicsProgrammeSynthesisUp where
+instance physicsProgrammeSynthesisNontrivial : Nontrivial PhysicsProgrammeSynthesisUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨PhysicsProgrammeSynthesisUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -203,7 +196,6 @@ instance physicsProgrammeSynthesisNontrivial :
       PhysicsProgrammeSynthesisUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
-        -- BEDC touchpoint anchor: BHist BMark
         intro h
         cases h⟩
 
@@ -215,4 +207,28 @@ def taste_gate_witness : FieldFaithful PhysicsProgrammeSynthesisUp :=
   -- BEDC touchpoint anchor: BHist BMark
   physicsProgrammeSynthesisFieldFaithful
 
-end BEDC.Derived.PhysicsProgrammeSynthesisUp.TasteGate
+theorem PhysicsProgrammeSynthesisTasteGate_single_carrier_alignment :
+    (∀ h : BHist, physicsProgrammeSynthesisDecodeBHist
+      (physicsProgrammeSynthesisEncodeBHist h) = h) ∧
+      (∀ x : PhysicsProgrammeSynthesisUp,
+        physicsProgrammeSynthesisFromEventFlow (physicsProgrammeSynthesisToEventFlow x) =
+          some x) ∧
+        (∀ x y : PhysicsProgrammeSynthesisUp,
+          physicsProgrammeSynthesisToEventFlow x = physicsProgrammeSynthesisToEventFlow y →
+            x = y) ∧
+          physicsProgrammeSynthesisEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨physicsProgrammeSynthesis_decode_encode_bhist,
+      physicsProgrammeSynthesis_round_trip,
+      (fun _x _y heq => physicsProgrammeSynthesisToEventFlow_injective heq),
+      rfl⟩
+
+namespace TasteGate
+
+abbrev PhysicsProgrammeSynthesisUp :=
+  BEDC.Derived.PhysicsProgrammeSynthesisUp.PhysicsProgrammeSynthesisUp
+
+end TasteGate
+
+end BEDC.Derived.PhysicsProgrammeSynthesisUp
