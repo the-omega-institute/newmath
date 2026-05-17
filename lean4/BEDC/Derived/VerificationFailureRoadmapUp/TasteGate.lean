@@ -5,7 +5,7 @@ import BEDC.FKernel.NameCert
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.VerificationFailureRoadmapUp.TasteGate
+namespace BEDC.Derived.VerificationFailureRoadmapUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
@@ -15,27 +15,25 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive VerificationFailureRoadmapUp : Type where
-  | mk : (R A F D M U B T C P N : BHist) → VerificationFailureRoadmapUp
+  | mk :
+      (report audit failure downgrade roadmap upgrade cannotClaim transport replay provenance
+        name : BHist) →
+        VerificationFailureRoadmapUp
   deriving DecidableEq
 
-def verificationFailureRoadmapFields : VerificationFailureRoadmapUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | VerificationFailureRoadmapUp.mk R A F D M U B T C P N =>
-      [R, A, F, D, M, U, B, T, C, P, N]
-
-private def verificationFailureRoadmapEncodeBHist : BHist → RawEvent
+def verificationFailureRoadmapEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: verificationFailureRoadmapEncodeBHist h
   | BHist.e1 h => BMark.b1 :: verificationFailureRoadmapEncodeBHist h
 
-private def verificationFailureRoadmapDecodeBHist : RawEvent → BHist
+def verificationFailureRoadmapDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (verificationFailureRoadmapDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (verificationFailureRoadmapDecodeBHist tail)
 
-private theorem verificationFailureRoadmapDecode_encode_bhist :
+private theorem verificationFailureRoadmap_decode_encode_bhist :
     ∀ h : BHist,
       verificationFailureRoadmapDecodeBHist
         (verificationFailureRoadmapEncodeBHist h) = h := by
@@ -49,48 +47,81 @@ private theorem verificationFailureRoadmapDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
+def verificationFailureRoadmapFields :
+    VerificationFailureRoadmapUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | VerificationFailureRoadmapUp.mk report audit failure downgrade roadmap upgrade cannotClaim
+      transport replay provenance name =>
+      [report, audit, failure, downgrade, roadmap, upgrade, cannotClaim, transport, replay,
+        provenance, name]
+
 def verificationFailureRoadmapToEventFlow :
     VerificationFailureRoadmapUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (verificationFailureRoadmapFields x).map verificationFailureRoadmapEncodeBHist
-
-private def verificationFailureRoadmapEventAtDefault :
-    Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      verificationFailureRoadmapEventAtDefault index rest
+  | x => List.map verificationFailureRoadmapEncodeBHist (verificationFailureRoadmapFields x)
 
 def verificationFailureRoadmapFromEventFlow :
     EventFlow → Option VerificationFailureRoadmapUp
   -- BEDC touchpoint anchor: BHist BMark
-  | ef =>
-      some
-        (VerificationFailureRoadmapUp.mk
-          (verificationFailureRoadmapDecodeBHist
-            (verificationFailureRoadmapEventAtDefault 0 ef))
-          (verificationFailureRoadmapDecodeBHist
-            (verificationFailureRoadmapEventAtDefault 1 ef))
-          (verificationFailureRoadmapDecodeBHist
-            (verificationFailureRoadmapEventAtDefault 2 ef))
-          (verificationFailureRoadmapDecodeBHist
-            (verificationFailureRoadmapEventAtDefault 3 ef))
-          (verificationFailureRoadmapDecodeBHist
-            (verificationFailureRoadmapEventAtDefault 4 ef))
-          (verificationFailureRoadmapDecodeBHist
-            (verificationFailureRoadmapEventAtDefault 5 ef))
-          (verificationFailureRoadmapDecodeBHist
-            (verificationFailureRoadmapEventAtDefault 6 ef))
-          (verificationFailureRoadmapDecodeBHist
-            (verificationFailureRoadmapEventAtDefault 7 ef))
-          (verificationFailureRoadmapDecodeBHist
-            (verificationFailureRoadmapEventAtDefault 8 ef))
-          (verificationFailureRoadmapDecodeBHist
-            (verificationFailureRoadmapEventAtDefault 9 ef))
-          (verificationFailureRoadmapDecodeBHist
-            (verificationFailureRoadmapEventAtDefault 10 ef)))
+  | [] => none
+  | report :: rest0 =>
+      match rest0 with
+      | [] => none
+      | audit :: rest1 =>
+          match rest1 with
+          | [] => none
+          | failure :: rest2 =>
+              match rest2 with
+              | [] => none
+              | downgrade :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | roadmap :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | upgrade :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | cannotClaim :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | transport :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | replay :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | provenance :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | name :: rest10 =>
+                                              match rest10 with
+                                              | [] =>
+                                                  some
+                                                    (VerificationFailureRoadmapUp.mk
+                                                      (verificationFailureRoadmapDecodeBHist
+                                                        report)
+                                                      (verificationFailureRoadmapDecodeBHist
+                                                        audit)
+                                                      (verificationFailureRoadmapDecodeBHist
+                                                        failure)
+                                                      (verificationFailureRoadmapDecodeBHist
+                                                        downgrade)
+                                                      (verificationFailureRoadmapDecodeBHist
+                                                        roadmap)
+                                                      (verificationFailureRoadmapDecodeBHist
+                                                        upgrade)
+                                                      (verificationFailureRoadmapDecodeBHist
+                                                        cannotClaim)
+                                                      (verificationFailureRoadmapDecodeBHist
+                                                        transport)
+                                                      (verificationFailureRoadmapDecodeBHist
+                                                        replay)
+                                                      (verificationFailureRoadmapDecodeBHist
+                                                        provenance)
+                                                      (verificationFailureRoadmapDecodeBHist
+                                                        name))
+                                              | _ :: _ => none
 
 private theorem verificationFailureRoadmap_round_trip :
     ∀ x : VerificationFailureRoadmapUp,
@@ -99,33 +130,47 @@ private theorem verificationFailureRoadmap_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk R A F D M U B T C P N =>
+  | mk report audit failure downgrade roadmap upgrade cannotClaim transport replay provenance
+      name =>
       change
         some
           (VerificationFailureRoadmapUp.mk
-            (verificationFailureRoadmapDecodeBHist (verificationFailureRoadmapEncodeBHist R))
-            (verificationFailureRoadmapDecodeBHist (verificationFailureRoadmapEncodeBHist A))
-            (verificationFailureRoadmapDecodeBHist (verificationFailureRoadmapEncodeBHist F))
-            (verificationFailureRoadmapDecodeBHist (verificationFailureRoadmapEncodeBHist D))
-            (verificationFailureRoadmapDecodeBHist (verificationFailureRoadmapEncodeBHist M))
-            (verificationFailureRoadmapDecodeBHist (verificationFailureRoadmapEncodeBHist U))
-            (verificationFailureRoadmapDecodeBHist (verificationFailureRoadmapEncodeBHist B))
-            (verificationFailureRoadmapDecodeBHist (verificationFailureRoadmapEncodeBHist T))
-            (verificationFailureRoadmapDecodeBHist (verificationFailureRoadmapEncodeBHist C))
-            (verificationFailureRoadmapDecodeBHist (verificationFailureRoadmapEncodeBHist P))
-            (verificationFailureRoadmapDecodeBHist (verificationFailureRoadmapEncodeBHist N))) =
-          some (VerificationFailureRoadmapUp.mk R A F D M U B T C P N)
-      rw [verificationFailureRoadmapDecode_encode_bhist R,
-        verificationFailureRoadmapDecode_encode_bhist A,
-        verificationFailureRoadmapDecode_encode_bhist F,
-        verificationFailureRoadmapDecode_encode_bhist D,
-        verificationFailureRoadmapDecode_encode_bhist M,
-        verificationFailureRoadmapDecode_encode_bhist U,
-        verificationFailureRoadmapDecode_encode_bhist B,
-        verificationFailureRoadmapDecode_encode_bhist T,
-        verificationFailureRoadmapDecode_encode_bhist C,
-        verificationFailureRoadmapDecode_encode_bhist P,
-        verificationFailureRoadmapDecode_encode_bhist N]
+            (verificationFailureRoadmapDecodeBHist
+              (verificationFailureRoadmapEncodeBHist report))
+            (verificationFailureRoadmapDecodeBHist
+              (verificationFailureRoadmapEncodeBHist audit))
+            (verificationFailureRoadmapDecodeBHist
+              (verificationFailureRoadmapEncodeBHist failure))
+            (verificationFailureRoadmapDecodeBHist
+              (verificationFailureRoadmapEncodeBHist downgrade))
+            (verificationFailureRoadmapDecodeBHist
+              (verificationFailureRoadmapEncodeBHist roadmap))
+            (verificationFailureRoadmapDecodeBHist
+              (verificationFailureRoadmapEncodeBHist upgrade))
+            (verificationFailureRoadmapDecodeBHist
+              (verificationFailureRoadmapEncodeBHist cannotClaim))
+            (verificationFailureRoadmapDecodeBHist
+              (verificationFailureRoadmapEncodeBHist transport))
+            (verificationFailureRoadmapDecodeBHist
+              (verificationFailureRoadmapEncodeBHist replay))
+            (verificationFailureRoadmapDecodeBHist
+              (verificationFailureRoadmapEncodeBHist provenance))
+            (verificationFailureRoadmapDecodeBHist
+              (verificationFailureRoadmapEncodeBHist name))) =
+          some
+            (VerificationFailureRoadmapUp.mk report audit failure downgrade roadmap upgrade
+              cannotClaim transport replay provenance name)
+      rw [verificationFailureRoadmap_decode_encode_bhist report,
+        verificationFailureRoadmap_decode_encode_bhist audit,
+        verificationFailureRoadmap_decode_encode_bhist failure,
+        verificationFailureRoadmap_decode_encode_bhist downgrade,
+        verificationFailureRoadmap_decode_encode_bhist roadmap,
+        verificationFailureRoadmap_decode_encode_bhist upgrade,
+        verificationFailureRoadmap_decode_encode_bhist cannotClaim,
+        verificationFailureRoadmap_decode_encode_bhist transport,
+        verificationFailureRoadmap_decode_encode_bhist replay,
+        verificationFailureRoadmap_decode_encode_bhist provenance,
+        verificationFailureRoadmap_decode_encode_bhist name]
 
 private theorem verificationFailureRoadmapToEventFlow_injective
     {x y : VerificationFailureRoadmapUp} :
@@ -134,26 +179,25 @@ private theorem verificationFailureRoadmapToEventFlow_injective
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      verificationFailureRoadmapFromEventFlow
-          (verificationFailureRoadmapToEventFlow x) =
-        verificationFailureRoadmapFromEventFlow
-          (verificationFailureRoadmapToEventFlow y) :=
+      verificationFailureRoadmapFromEventFlow (verificationFailureRoadmapToEventFlow x) =
+        verificationFailureRoadmapFromEventFlow (verificationFailureRoadmapToEventFlow y) :=
     congrArg verificationFailureRoadmapFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (verificationFailureRoadmap_round_trip x).symm
       (Eq.trans hread (verificationFailureRoadmap_round_trip y)))
 
-private theorem verificationFailureRoadmap_fields_faithful :
+private theorem verificationFailureRoadmap_field_faithful :
     ∀ x y : VerificationFailureRoadmapUp,
-      verificationFailureRoadmapFields x =
-        verificationFailureRoadmapFields y → x = y := by
+      verificationFailureRoadmapFields x = verificationFailureRoadmapFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
+  intro x y h
   cases x with
-  | mk R₁ A₁ F₁ D₁ M₁ U₁ B₁ T₁ C₁ P₁ N₁ =>
+  | mk report₁ audit₁ failure₁ downgrade₁ roadmap₁ upgrade₁ cannotClaim₁ transport₁ replay₁
+      provenance₁ name₁ =>
       cases y with
-      | mk R₂ A₂ F₂ D₂ M₂ U₂ B₂ T₂ C₂ P₂ N₂ =>
-          cases hfields
+      | mk report₂ audit₂ failure₂ downgrade₂ roadmap₂ upgrade₂ cannotClaim₂ transport₂ replay₂
+          provenance₂ name₂ =>
+          cases h
           rfl
 
 instance verificationFailureRoadmapBHistCarrier :
@@ -179,7 +223,7 @@ instance verificationFailureRoadmapFieldFaithful :
     FieldFaithful VerificationFailureRoadmapUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := verificationFailureRoadmapFields
-  field_faithful := verificationFailureRoadmap_fields_faithful
+  field_faithful := verificationFailureRoadmap_field_faithful
 
 instance verificationFailureRoadmapNontrivial :
     Nontrivial VerificationFailureRoadmapUp where
@@ -187,7 +231,7 @@ instance verificationFailureRoadmapNontrivial :
   witness_pair :=
     ⟨VerificationFailureRoadmapUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      VerificationFailureRoadmapUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+      VerificationFailureRoadmapUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty,
       by
@@ -198,9 +242,29 @@ def taste_gate : ChapterTasteGate VerificationFailureRoadmapUp :=
   -- BEDC touchpoint anchor: BHist BMark
   verificationFailureRoadmapChapterTasteGate
 
+theorem verificationFailureRoadmap_taste_gate_surface :
+    Nonempty (ChapterTasteGate VerificationFailureRoadmapUp) ∧
+      Nonempty (FieldFaithful VerificationFailureRoadmapUp) ∧
+        VerificationFailureRoadmapUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty ≠
+          VerificationFailureRoadmapUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨Nonempty.intro verificationFailureRoadmapChapterTasteGate,
+      Nonempty.intro verificationFailureRoadmapFieldFaithful,
+      by
+        intro h
+        cases h⟩
+
+namespace TasteGate
+
 theorem VerificationFailureRoadmapNameCertObligations
     (R A F D M U B T C P N : BHist) :
-    verificationFailureRoadmapFields (VerificationFailureRoadmapUp.mk R A F D M U B T C P N) =
+    verificationFailureRoadmapFields
+          (VerificationFailureRoadmapUp.mk R A F D M U B T C P N) =
         [R, A, F, D, M, U, B, T, C, P, N] ∧
       Cont R A (append R A) ∧ hsame (append F D) (append F D) ∧
         SemanticNameCert
@@ -235,4 +299,6 @@ theorem VerificationFailureRoadmapNameCertObligations
           exact source
       }⟩
 
-end BEDC.Derived.VerificationFailureRoadmapUp.TasteGate
+end TasteGate
+
+end BEDC.Derived.VerificationFailureRoadmapUp
