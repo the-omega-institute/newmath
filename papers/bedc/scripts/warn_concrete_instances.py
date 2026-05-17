@@ -24,6 +24,8 @@ Checks (IDs match the analysis report):
   L  BEDC \\FooUp chapter macros must not appear outside math mode
   M  every \\input{path} under parts/frontmatter/appendices must resolve
   N  content namecert chapters must not duplicate chapter labels
+  O  each region \\<X>Up has at most one \\begin{closurestatus} block site
+  P  each (region, level) pair has at most one \\closureat site
 
 Modes:
   default       human-readable WARN to stderr, exit 0
@@ -351,13 +353,43 @@ def check_c_closurestatus_fields() -> list[dict]:
     return out
 
 
+CHAPTER_REGION_RE = re.compile(r"\\chapter\{[^}]*?\\([A-Z][A-Za-z]+Up)\b")
+CLOSURE_BEGIN_REGION_RE = re.compile(r"\\begin\{closurestatus\}\{\\?([A-Z][A-Za-z]*Up)\}")
+
+
+def _regions_with_closurestatus_anywhere() -> set[str]:
+    """Scan all parts/ tex files for \\begin{closurestatus}{\\<X>Up} blocks and
+    return the set of region macros that have at least one block somewhere."""
+    out: set[str] = set()
+    for tex in iter_part_tex():
+        text = read_text(tex)
+        for m in CLOSURE_BEGIN_REGION_RE.finditer(text):
+            out.add(m.group(1))
+    return out
+
+
 def check_d_content_reaches_closurestatus() -> list[dict]:
+    """Each chapter binding \\<X>Up (via \\chapter{... \\<X>Up ...}) is OK iff
+    some closurestatus block for \\<X>Up exists somewhere in concrete_instances/.
+    Per-region rule (not per-file): one canonical chapter per region owns the
+    closurestatus; sibling chapters covering the same region don't need their
+    own block. Combine with check O for region uniqueness."""
     out: list[dict] = []
+    covered_regions = _regions_with_closurestatus_anywhere()
     for tex in sorted(CONCRETE_DIR.glob(NAMECERT_CONTENT_GLOB)):
         rel = tex.relative_to(PAPER_DIR)
         text = read_text(tex)
         if not CHAPTER_RE.search(text):
             continue
+        m = CHAPTER_REGION_RE.search(text)
+        if not m:
+            # Chapter without an Up-macro region binding — skip (rare)
+            continue
+        region = m.group(1)
+        if region in covered_regions:
+            continue
+        # No closurestatus anywhere for this region's macro — also check
+        # \input chain in case the chapter forwards to an off-region block
         reachable = collect_reachable(tex)
         if any(CLOSURE_BEGIN_RE.search(read_text(f)) for f in reachable):
             continue
@@ -365,7 +397,10 @@ def check_d_content_reaches_closurestatus() -> list[dict]:
             "check": "D",
             "file": str(rel),
             "line": 1,
-            "msg": "content namecert chapter does not reach \\begin{closurestatus} (directly or via \\input chain)",
+            "msg": (
+                f"content namecert chapter binds region \\{region} but no "
+                f"\\begin{{closurestatus}}{{\\{region}}} block exists anywhere"
+            ),
         })
     return out
 
@@ -620,6 +655,68 @@ def check_j_region_subdir_naming() -> list[dict]:
     return out
 
 
+def check_o_closurestatus_region_unique() -> list[dict]:
+    """For each region \\<X>Up, \\begin{closurestatus}{\\<X>Up} should appear
+    in at most one file (one canonical owner per region). Multiple sites
+    cause data drift between blocks."""
+    out: list[dict] = []
+    sites: dict[str, list[tuple[str, int]]] = {}
+    for tex in iter_part_tex():
+        rel = str(tex.relative_to(PAPER_DIR))
+        text = read_text(tex)
+        for m in CLOSURE_BEGIN_REGION_RE.finditer(text):
+            line_no = text.count("\n", 0, m.start()) + 1
+            sites.setdefault(m.group(1), []).append((rel, line_no))
+    for region, locs in sorted(sites.items()):
+        files = {f for f, _ in locs}
+        if len(files) <= 1:
+            continue
+        for f, ln in locs:
+            out.append({
+                "check": "O",
+                "file": f,
+                "line": ln,
+                "msg": (
+                    f"\\begin{{closurestatus}}{{\\{region}}} appears in "
+                    f"{len(files)} distinct files; only one canonical owner allowed"
+                ),
+            })
+    return out
+
+
+def check_p_closureat_region_level_unique() -> list[dict]:
+    """For each (region, level), \\closureat{<X>Up}{<level>Str} should appear
+    in at most one file. Multiple sites for the same (region, level) are
+    redundant progression entries that drift apart."""
+    out: list[dict] = []
+    sites: dict[tuple[str, str], list[tuple[str, int]]] = {}
+    pat = re.compile(r"\\closureat\{([A-Z][A-Za-z]*Up)\}\{([a-z]+Str)\}")
+    for tex in iter_part_tex():
+        rel = str(tex.relative_to(PAPER_DIR))
+        text = strip_verbatim_preserve_lines(read_text(tex))
+        for i, line in enumerate(text.splitlines(), 1):
+            if line.lstrip().startswith("%"):
+                continue
+            for m in pat.finditer(line):
+                key = (m.group(1), m.group(2))
+                sites.setdefault(key, []).append((rel, i))
+    for (region, level), locs in sorted(sites.items()):
+        files = {f for f, _ in locs}
+        if len(files) <= 1:
+            continue
+        for f, ln in locs:
+            out.append({
+                "check": "P",
+                "file": f,
+                "line": ln,
+                "msg": (
+                    f"\\closureat{{{region}}}{{{level}}} appears in "
+                    f"{len(files)} distinct files; only one canonical site allowed"
+                ),
+            })
+    return out
+
+
 CHECKS = {
     "A": check_a_closureat_enum,
     "C": check_c_closurestatus_fields,
@@ -634,6 +731,8 @@ CHECKS = {
     "L": check_l_math_mode_in_text,
     "M": check_m_stale_input,
     "N": check_n_duplicate_chapter_label,
+    "O": check_o_closurestatus_region_unique,
+    "P": check_p_closureat_region_level_unique,
 }
 
 
