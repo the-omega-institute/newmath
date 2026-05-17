@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\AuditFinalityCertificateUp$}
+\label{ch:concrete-instances-auditfinalitycertificate-namecert}
+\origin{ai}
+
+The $\AuditFinalityCertificateUp$ packet realizes the total auditable synthesis of \autoref{sec:visions-philosophy-total-synthesis} as a finite finality certificate. It sits beside the firewall of \autoref{ch:concrete-instances-auditexportfirewall-namecert}, the two-axis separation packet of \autoref{ch:concrete-instances-audit-axis-separation-namecert}, the definition-theorem-proof audit of \autoref{ch:concrete-instances-definition-theorem-proof-audit-namecert}, and the reality-constrained final-synthesis ledger of \autoref{ch:concrete-instances-reality-constrained-final-synthesis-ledger-namecert}. Those siblings expose export refusal, status-axis separation, proof-route auditing, and reality-constrained synthesis ledgers separately; this carrier binds them into one terminal audit packet without claiming host-final truth.
+
+\begin{definition}[Audit finality certificate carrier]
+\label{def:audit-finality-certificate-carrier}
+An $\AuditFinalityCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+A=(K,C,F,R,E,S,W,L,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the claim row, recording the exact finite claim site whose public finality is being certified.
+\item $C$ is the positive certificate row, recording the accepted certificate data when the claim is admissible.
+\item $F$ is the failure row, recording the active failure certificate when the claim is defeated.
+\item $R$ is the refusal row, recording the explicit non-export readings.
+\item $E$ is the export-grade row, recording which public export surface may read the packet.
+\item $S$ is the synthesis row, recording the total-synthesis route through the displayed audit and reality-constrained siblings.
+\item $W$ is the firewall row, read from $\AuditExportFirewallUp$.
+\item $L$ is the final-synthesis ledger row, read from $\RealityConstrainedFinalSynthesisLedgerUp$.
+\item $H$ records componentwise $\hsame$ transport for claim, certificate, failure, refusal, export-grade, synthesis, firewall, ledger, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay for the same finality packet.
+\item $P$ is the $\Pkg$ provenance over $\AuditFinalityCertificateUp$, $\AuditExportFirewallUp$, $\AuditAxisSeparationUp$, $\DefinitionTheoremProofAuditUp$, $\RealityConstrainedFinalSynthesisLedgerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\AuditFinalityCertificateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unbounded final truth, erased failure, collapsed theory/formal status, proofless theorem export, firewall bypass, hidden model--reality identity, or host-side completeness.
+\end{definition}
+
+\begin{definition}[Audit finality certificate classifier]
+\label{def:audit-finality-certificate-classifier}
+The classifier for $\AuditFinalityCertificateUp$ accepts exactly those packets $A=(K,C,F,R,E,S,W,L,H,T,P,N)$ whose claim row $K$, certificate row $C$, failure row $F$, refusal row $R$, export-grade row $E$, synthesis row $S$, firewall row $W$, final-synthesis ledger row $L$, transport row $H$, replay row $T$, provenance row $P$, and local name row $N$ are all displayed in the same finite $\BHist$ carrier and are preserved by the local $\NameCert_{\AuditFinalityCertificateUp}$ row. It rejects any packet that omits one of those rows or replaces them by a host-final truth predicate.
+\end{definition}
+
+\begin{theorem}[Audit finality certificate NameCert obligations]
+\label{thm:audit-finality-certificate-namecert-obligations}
+For the carrier of \autoref{def:audit-finality-certificate-carrier} and classifier of \autoref{def:audit-finality-certificate-classifier}, the local $\NameCert_{\AuditFinalityCertificateUp}$ surface consists exactly of five obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $A=(K,C,F,R,E,S,W,L,H,T,P,N)$;
+\item classifier exactness for accepting exactly the same displayed packet and rejecting host-final replacements;
+\item audit-row preservation for claim, positive certificate, failure, refusal, export-grade, synthesis, firewall, and final-synthesis ledger rows;
+\item structural preservation by componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, and $\Pkg$ provenance through $P$;
+\item local naming through $N$ with no erased failure, collapsed status axis, proofless theorem export, firewall bypass, or model--reality identity row.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the finite packet. The rows $K,C,F,R,E,S,W,L$ are the only audit-finality data coordinates available before transport, replay, provenance, and local naming are read.
+
+Read the classifier next. It accepts exactly the same displayed rows and rejects host-final replacements, so classifier exactness and audit-row preservation are the same finite surface.
+
+Inspect the sibling rows. The firewall row $W$ supplies the export refusal surface, the axis-separation data is carried through $P$, the definition-theorem-proof route is carried through $P$, and the final-synthesis ledger row $L$ supplies the reality-constrained synthesis boundary.
+
+Finally inspect $H,T,P,N$. These rows preserve, replay, source, and name the same packet, so the certificate cannot add a hidden finality coordinate outside the displayed carrier. The listed rows therefore exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Audit finality certificate export refusal]
+\label{thm:audit-finality-certificate-export-refusal}
+If an $\AuditFinalityCertificateUp$ packet has an active failure row $F$ or a refusal row $R$ at the same claim site $K$, then the export-grade row $E$ may report the refusal but cannot turn the packet into an admitted final claim. The firewall row $W$, axis-separation provenance, proof-route provenance, and final-synthesis ledger row $L$ remain visible as audit evidence rather than becoming a host-final truth predicate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:audit-finality-certificate-carrier}. The claim, certificate, failure, refusal, export-grade, synthesis, firewall, and ledger rows are separate displayed coordinates.
+
+Apply \autoref{thm:audit-finality-certificate-namecert-obligations}. An accepted read must preserve $F$ and $R$ before $E$ can be consumed, and the firewall row $W$ records the same refusal-sensitive export boundary.
+
+The provenance row $P$ keeps the axis-separation and definition-theorem-proof audit sources attached to the packet. Hence a consumer may report the refusal or the defeated claim, but it has no coordinate that converts refusal, proof-route audit, firewall evidence, or synthesis ledger evidence into host-final truth.
+\end{proof}
+
+\falsifiablePrediction{A finality packet that omits the failure row, refusal row, firewall row, or final-synthesis ledger row is not an accepted \AuditFinalityCertificateUp carrier.}
+
+\independenceWitness{auditexportfirewall, auditaxisseparation, definitiontheoremproofaudit, realityconstrainedfinalsynthesisledger: none is bijective to \AuditFinalityCertificateUp because this carrier simultaneously binds claim, certificate, failure, refusal, export-grade, synthesis, firewall, ledger, transport, replay, provenance, and local NameCert rows.}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/AuditFinalityCertificateUp/TasteGate.lean} must provide explicit $\Nontrivial\ \AuditFinalityCertificateUp$ and $\FieldFaithful\ \AuditFinalityCertificateUp$ instances preserving $K,C,F,R,E,S,W,L,H,T,P,N$ as distinct rows.
+
+\closureat{AuditFinalityCertificateUp}{seedStr}
+
+\begin{closurestatus}{\AuditFinalityCertificateUp}
+  \constructivestory{An $\AuditFinalityCertificateUp$ packet is generated from finite claim, certificate, failure, refusal, export-grade, synthesis, firewall, ledger, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-finality-certificate-carrier}, \autoref{def:audit-finality-certificate-classifier}, \autoref{thm:audit-finality-certificate-namecert-obligations}, and \autoref{thm:audit-finality-certificate-export-refusal} bind the finality certificate, classifier, and export-refusal boundary as a finite NameCert surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not claim host-final truth, erased failure, collapsed theory/formal status, proofless theorem export, firewall bypass, model--reality identity, Lean verification, or bridge checking.}
+  \upgradepath{Lean closure requires Nontrivial AuditFinalityCertificateUp and FieldFaithful AuditFinalityCertificateUp instances for $K,C,F,R,E,S,W,L,H,T,P,N$.}
+\end{closurestatus}
