@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
@@ -306,5 +307,38 @@ theorem ObserverDistinctionTraceNameCert_obligations
         ⟨routeReplay, sourceRow.left, hsame_refl transport, hsame_refl provenance,
           hsame_refl localName⟩
   }
+
+theorem ObserverDistinctionTrace_non_escape
+    {source trace growth routes transport provenance localName consumer
+      subjectTail : BHist}
+    (routeReplay : Cont source routes growth)
+    (consumerRoute : Cont growth provenance consumer) :
+    SemanticNameCert
+        (fun row : BHist =>
+          hsame row source ∧
+            ∃ packet : ObserverDistinctionTraceUp,
+              packet =
+                ObserverDistinctionTraceUp.mk source trace growth routes transport provenance
+                  localName)
+        (fun row : BHist =>
+          hsame row source ∧ hsame trace trace ∧ hsame growth growth ∧ hsame routes routes)
+        (fun row : BHist =>
+          Cont source routes growth ∧ hsame row source ∧ hsame transport transport ∧
+            hsame provenance provenance ∧ hsame localName localName)
+        hsame ∧
+      Cont growth provenance consumer ∧
+        (Cont consumer (BHist.e0 subjectTail) growth → False) ∧
+          (Cont consumer (BHist.e1 subjectTail) growth → False) := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  exact
+    ⟨ObserverDistinctionTraceNameCert_obligations
+        (source := source) (trace := trace) (growth := growth) (routes := routes)
+        (transport := transport) (provenance := provenance) (localName := localName)
+        routeReplay,
+      consumerRoute,
+      (fun subjectReturn =>
+        cont_mutual_extension_right_tail_absurd.left consumerRoute subjectReturn),
+      (fun subjectReturn =>
+        cont_mutual_extension_right_tail_absurd.right consumerRoute subjectReturn)⟩
 
 end BEDC.Derived.ObserverDistinctionTraceUp
