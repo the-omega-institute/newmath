@@ -202,6 +202,7 @@ import BEDC.Derived.AuditMapFamilyUp.TasteGate
 import BEDC.Derived.AuditMapFamilyLedgerUp.TasteGate
 import BEDC.Derived.AuditMapFamilyObligationLedgerUp.TasteGate
 import BEDC.Derived.AuditReexportNamespaceUp.TasteGate
+import BEDC.Derived.AuditExportFirewallUp.TasteGate
 import BEDC.Derived.AuditTranscriptEnvelopeUp.TasteGate
 import BEDC.Derived.AuditAxisSeparationUp.TasteGate
 import BEDC.Derived.AxiomDependencyMapUp
@@ -961,6 +962,7 @@ import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationRowPrecedence
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.InputStateExposure
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.TraceProvenanceLock
+import BEDC.Derived.ReflectionRuntimeCheckpointUp.HostValidationNonescape
 import BEDC.Derived.RuntimeCandidateBoundaryUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyInscriptionUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyLedgerUp.TasteGate
@@ -2133,6 +2135,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.CompletionConsumerPackage
 import BEDC.Derived.DiagonallimitcompatibilityUp.CompletionSealBudget
 import BEDC.Derived.DiagonallimitcompatibilityUp.ConsumerTransport
 import BEDC.Derived.DiagonallimitcompatibilityUp.CriterionUniformSealPullback
+import BEDC.Derived.DiagonallimitcompatibilityUp.DownstreamConsumerGate
 import BEDC.Derived.DiagonallimitcompatibilityUp.DownstreamPublicBoundary
 import BEDC.Derived.DiagonallimitcompatibilityUp.EnvelopeRefinementPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteSourceLock
