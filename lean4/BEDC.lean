@@ -548,6 +548,7 @@ import BEDC.Derived.CauchyWitnessLedgerUp.BudgetRealRouteTotality
 import BEDC.Derived.CauchyWitnessLedgerUp.ObserverFilterBudgetSelectorLock
 import BEDC.Derived.CauchyWitnessLedgerUp.StreamnameRegseqFactorization
 import BEDC.Derived.CauchyWitnessLedgerUp.RootBudgetCoherence
+import BEDC.Derived.CauchyWitnessLedgerUp.ForbiddenCoordinateExclusion
 import BEDC.Derived.CauchyChoiceBoundaryUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.LayeredRelationGateUp.TasteGate
