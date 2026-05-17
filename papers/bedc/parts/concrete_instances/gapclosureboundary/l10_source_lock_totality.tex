@@ -1,0 +1,11 @@
+\begin{theorem}[GapClosureBoundary L10 source-lock totality]
+\label{thm:gap-closure-boundary-l10-source-lock-totality}
+Every L10 terminal $\GapClosureBoundaryUp$ consumer that reads a completion-facing refusal must pass through the source-refusal branch, the source-classifier row, the route-completion row, the terminal-route row, and the local $\NameCert_{\GapClosureBoundaryUp}$ row before the refusal is public. A terminal read that bypasses any one of those rows is outside the accepted packet $B=(G,S,R,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Start with the source-refusal admission triad and source-refusal totality. They split every accepted request into the displayed source branch $G \longrightarrow S$ or refusal branch $G \longrightarrow R$ over the structural rows $H,C,P,N$.
+
+Next add the classifier and route-completion rows. \autoref{thm:gap-closure-boundary-classifier-stability} keeps supported and unsupported requests separated under $\hsame$ transport and $\Cont$ replay, while \autoref{thm:gap-closure-boundary-namecert-route-completion} keeps the read inside the local NameCert surface.
+
+Finally use terminal route totality together with the L10 terminal source lock. The terminal consumer can inspect a completion-facing refusal only after the source/refusal branch, classifier, route-completion, terminal-route, and NameCert rows have all been displayed, so no hidden completion witness or off-packet refusal remains.
+\end{proof}
