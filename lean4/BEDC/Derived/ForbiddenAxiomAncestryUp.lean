@@ -147,4 +147,25 @@ theorem ForbiddenAxiomAncestryCarrier_transport_replay [AskSetup] [PackageSetup]
     ⟨transportsUnary, routesUnary, replayReadUnary, verdictComparison, provenancePkg,
       replayPkg⟩
 
+theorem ForbiddenAxiomAncestryCarrier_forbidden_row_coverage [AskSetup] [PackageSetup]
+    {theoremRow ancestry forbidden verdict transports routes provenance nameRow
+      auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ForbiddenAxiomAncestryCarrier theoremRow ancestry forbidden verdict transports routes
+        provenance nameRow bundle pkg ->
+      Cont routes nameRow auditRead ->
+        PkgSig bundle auditRead pkg ->
+          UnaryHistory forbidden ∧ UnaryHistory auditRead ∧
+            hsame verdict (append ancestry forbidden) ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory hsame
+  intro carrier auditRoute auditPkg
+  obtain ⟨_theoremUnary, _ancestryUnary, forbiddenUnary, _verdictUnary,
+    _transportsUnary, routesUnary, _provenanceUnary, nameRowUnary, verdictComparison,
+      _theoremAncestry, _transportProvenance, provenancePkg⟩ := carrier
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed routesUnary nameRowUnary auditRoute
+  exact
+    ⟨forbiddenUnary, auditReadUnary, verdictComparison, provenancePkg, auditPkg⟩
+
 end BEDC.Derived.ForbiddenAxiomAncestryUp

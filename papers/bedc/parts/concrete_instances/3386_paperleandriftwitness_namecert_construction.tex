@@ -129,6 +129,68 @@ The only remaining verdict information for the same marker passes through the re
 Non-escape from \autoref{thm:paper-lean-drift-witness-nonescape} prevents the packet from exporting a checked theorem, statement, definition, or closure-status target outside the exact marker-resolution rows. The consumer boundary in \autoref{thm:paper-lean-drift-witness-consumer-boundary} confines downstream reads to $R,H,C,P,N$, so the absent inventory hit remains a refusal and cannot become a checked marker.
 \end{proof}
 
+\begin{theorem}[Paper-Lean drift witness resolution stability]
+\label{thm:paper-lean-drift-witness-resolution-stability}
+Let
+$$
+W=(M,A,L,I,R,H,C,P,N)
+$$
+be an accepted $\PaperLeanDriftWitnessUp$ carrier with an exact-resolution verdict in $R$. If
+$$
+M \hsame M',\quad A \hsame A',\quad L \hsame L',\quad I \hsame I',\quad R \hsame R',\quad H \hsame H',\quad C \hsame C',\quad P \hsame P',\quad N \hsame N',
+$$
+are componentwise transport rows displayed by $H$, then the transported packet
+$$
+W'=(M',A',L',I',R',H',C',P',N')
+$$
+has the same exact-resolution outcome for the transported marker site. In particular, exact resolution remains an inventory hit for $A'$ in $I'$ together with the absence of duplicate-label refusal in $L'$.
+\end{theorem}
+\begin{proof}
+The carrier theorem exposes the nine coordinates as the complete local surface for a drift witness. The NameCert-obligation theorem identifies $H$ as componentwise transport for marker rows, normalized names, label ledgers, inventory rows, verdicts, replay routes, provenance, and local names.
+
+Apply the resolution-exactness theorem before transport. Exact resolution of $W$ reads the same marker through $M$, the normalized request $A$, the duplicate-label ledger $L$, and the Lean inventory row $I$; it requires an inventory hit and no duplicate-label refusal.
+
+The transport rows in $H$ carry each of these coordinates to the corresponding primed row. Non-escape prevents an additional row from changing the verdict during transport, and the consumer-boundary theorem forces every downstream read of $W'$ through the transported coordinates.
+
+Therefore the transported verdict in $R'$ is still exact resolution for $M'$ precisely by the transported inventory hit for $A'$ in $I'$ and the transported non-refusal in $L'$.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness marker-kind separation]
+\label{thm:paper-lean-drift-witness-marker-kind-separation}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier
+$$
+W=(M,A,L,I,R,H,C,P,N),
+$$
+the marker kind recorded by $M$ is preserved as its displayed paper-row kind throughout normalization, inventory lookup, verdict exposure, transport, replay, provenance, and local naming. A row whose source marker is \texttt{\textbackslash leanchecked} cannot be consumed as \texttt{\textbackslash leanvariant}, \texttt{\textbackslash leanstmt}, \texttt{\textbackslash leandef}, or \texttt{\textbackslash leantarget}; the same separation holds for each of the five marker kinds.
+\end{theorem}
+\begin{proof}
+The carrier definition stores the marker kind inside the paper marker row $M$. The NameCert-obligation theorem exposes this marker-site row as one of the required certificate rows and gives no separate coordinate for marker-kind conversion.
+
+Resolution exactness then reads the normalized declaration request from $A$ as obtained from that same marker row, and it checks $A$ against the inventory row $I$ under the duplicate-label ledger $L$. The verdict is therefore attached to the marker site and kind already exposed by $M$.
+
+Non-escape rules out marker-kind coercion as exported content of the packet. The replay and transport coordinates $C$ and $H$ can only replay and transport the displayed rows, while the consumer-boundary theorem confines consumers to $M,A,L,I,R,H,C,P,N$.
+
+Thus no consumer can reinterpret a row for one of \texttt{\textbackslash leanchecked}, \texttt{\textbackslash leanvariant}, \texttt{\textbackslash leanstmt}, \texttt{\textbackslash leandef}, or \texttt{\textbackslash leantarget} as a row for another kind.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness inventory verdict totality]
+\label{thm:paper-lean-drift-witness-inventory-verdict-totality}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier
+$$
+W=(M,A,L,I,R,H,C,P,N),
+$$
+each accepted verdict exposed by $R$ is read from the displayed Lean inventory row $I$ together with the duplicate-label ledger row $L$. No accepted verdict may be obtained from approximate declaration matching, prose-only promotion, or a paper marker whose duplicate-label row is refused.
+\end{theorem}
+\begin{proof}
+The carrier definition lists the admissible resolution outcomes in the verdict row $R$ and lists no coordinate for approximate matching or prose-only promotion. The NameCert obligations require the duplicate-label ledger, Lean inventory lookup, and verdict exposure as displayed rows of the same packet.
+
+For the exact-resolution case, apply the resolution-exactness theorem. The verdict requires that $A$ occurs as the same fully qualified declaration in $I$ and that $L$ does not refuse the marker site.
+
+For refusal cases, the non-escape theorem prevents unresolved names, duplicate labels, marker-kind coercions, approximate matches, and prose-only declarations from leaving the exact marker-resolution surface as checked content. The consumer-boundary theorem confines every audit-map consumer to the rows $M,A,L,I,R,H,C,P,N$.
+
+Hence every accepted verdict is total over the displayed inventory and duplicate-label ledger rows: it is either the exact inventory-and-ledger outcome or a refusal exposed by $R$, never an approximate or prose-only promotion.
+\end{proof}
+
 \closureat{PaperLeanDriftWitnessUp}{seedStr}
 \closureat{PaperLeanDriftWitnessUp}{obligationStr}
 
