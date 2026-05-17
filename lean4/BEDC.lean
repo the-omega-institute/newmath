@@ -86,6 +86,7 @@ import BEDC.Derived.ApophaticGateQuestionUp.RootReadbackRoute
 import BEDC.Derived.ApophaticGateQuestionUp.RootVisibleSocketTriad
 import BEDC.Derived.ApophaticGateQuestionUp.RootVisibleSource
 import BEDC.Derived.ApophaticGateQuestionUp.SourceGateExactness
+import BEDC.Derived.ApophaticGateQuestionUp.SourceQuestionLedgerLock
 import BEDC.Derived.ApophaticGateQuestionUp.SocketNameDependency
 import BEDC.Derived.ApophaticGateQuestionUp.SocketRefusalCoverage
 import BEDC.Derived.ApophaticGateQuestionUp.SupplyKindRouteTotality
@@ -1420,6 +1421,7 @@ import BEDC.Derived.HaltingDistinctionUp.RootCarrierSurface
 import BEDC.Derived.HaltingDistinctionUp.RootDiagonalNonescape
 import BEDC.Derived.HaltingDistinctionUp.RootLedgerNonescape
 import BEDC.Derived.HaltingDistinctionUp.RootConsumerObstructionExhaustion
+import BEDC.Derived.HaltingDistinctionUp.RootDiagonalRouteTotality
 import BEDC.Derived.HaltingDistinctionUp.RootSiblingConsumerLock
 import BEDC.Derived.HaltingDistinctionUp.RouteStability
 import BEDC.Derived.HaltingDistinctionLimitUp.TasteGate
