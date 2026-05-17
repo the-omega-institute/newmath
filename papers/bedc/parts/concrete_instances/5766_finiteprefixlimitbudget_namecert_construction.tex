@@ -498,18 +498,41 @@ Next apply tail-modulus fusion and stability handoff, \autoref{thm:finite-prefix
 Finally apply common-refinement determinacy, \autoref{thm:finite-prefix-limit-budget-common-refinement-determinacy}. Any second packet serving the same seal-facing request is compared by a common finite refinement of $W,D,R$, so the consumer has no remaining route to hidden tails, quotient streams, selected limits, host equality, choice, or ambient completeness outside $Q,B,W,D,R,S,E,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[Finite-prefix limit-budget public interface export]
+\label{thm:finite-prefix-limit-budget-public-interface-export}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet. The packet is the public Phase Real and Completion interface exported to $\RealUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\CauchyTailModulusFusionUp$, and $\FinitePrefixLimitStabilityUp$ consumers. Every such public read factors through the finite prefix-budget route
+$$
+Q \to B \to W \to D \to R \to S
+$$
+and then through the displayed exclusion, transport, continuation, provenance, and local naming rows $E,H,C,P,N$.
+
+The exported interface carries no host real equality, quotient stream, selected limit, countable-choice row, hidden tail schedule, ambient completeness coordinate, bridge-status certificate, or aggregate verification token beyond that displayed packet.
+\end{theorem}
+\begin{proof}
+Start with public-axis scope and the Real-completion root unblock, \autoref{thm:finite-prefix-limit-budget-public-axis-scope} and \autoref{thm:finite-prefix-limit-budget-real-completion-root-unblock}. These identify the Phase Real, $\RegSeqRatUp$, and $\CauchyLimitSealUp$ read surface with the same finite packet $Q,B,W,D,R,S,E,H,C,P,N$ and force the seal-facing route through $Q \to B \to W \to D \to R \to S$.
+
+Next apply tail-modulus fusion and stability handoff, \autoref{thm:finite-prefix-limit-budget-tail-modulus-fusion} and \autoref{thm:finite-prefix-limit-budget-stability-handoff}. The first admits a $\CauchyTailModulusFusionUp$ consumer only through the displayed prefix contribution, and the second replays the $\FinitePrefixLimitStabilityUp$ surface componentwise under the same $\hsame$ transports and $\Cont$ routes.
+
+Finally use diagonal seal determinacy and seal-read factorization, \autoref{thm:finite-prefix-limit-budget-diagonal-seal-determinacy} and \autoref{thm:finite-prefix-limit-budget-seal-read-factorization}. They leave no second seal path and repack every seal-facing public read through $Q,B,W,D,R,S,E,H,C,P,N$. The exclusions already recorded by the six cited results rule out host real equality, quotient streams, selected limits, countable choice, hidden tail schedules, ambient completeness, bridge-status certificates, and aggregate verification tokens.
+\end{proof}
+
 \closureat{FinitePrefixLimitBudgetUp}{seedStr}
 \closureat{FinitePrefixLimitBudgetUp}{obligationStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
 \closureat{FinitePrefixLimitBudgetUp}{scopedStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{FinitePrefixLimitBudgetUp}{publicStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\FinitePrefixLimitBudgetUp}
   \constructivestory{A $\FinitePrefixLimitBudgetUp$ packet is generated from a finite diagonal request, finite observation-budget selector row, finite StreamName prefix-window ledger, prefix-depth exhaustion row, RegSeqRat readback row, Real-facing seal row, exclusion ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \leanchecked{BEDC.Derived.FinitePrefixLimitBudgetUp.taste\_gate}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:finite-prefix-limit-budget-carrier}, \autoref{thm:finite-prefix-limit-budget-namecert-obligations}, \autoref{thm:finite-prefix-limit-budget-seal-consumer-coverage}, \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}, and \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion}, together with the visible TasteGate carrier marker, scope the finite prefix-budget carrier, route totality before seal consumption, and completion-facing consumer exhaustion over $Q,B,W,D,R,S,E,H,C,P,N$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:finite-prefix-limit-budget-carrier}, \autoref{thm:finite-prefix-limit-budget-namecert-obligations}, \autoref{thm:finite-prefix-limit-budget-seal-consumer-coverage}, \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion}, and \autoref{thm:finite-prefix-limit-budget-public-interface-export}, together with the visible TasteGate carrier marker, close the finite prefix-budget carrier, route totality before seal consumption, completion-facing consumer exhaustion, and the public Phase Real and Completion export over $Q,B,W,D,R,S,E,H,C,P,N$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove real completeness, select a completed limit, identify quotient streams, assert host real equality, use countable choice, or close a Lean implementation.}
-  \upgradepath{Public closure requires a downstream Real or diagonal-limit consumer to export this finite prefix-budget interface as a public object surface.}
+  \upgradepath{Bridged closure requires an explicit $\StdBridge$ theorem connecting the public finite prefix-budget interface to the acceptance-bridge schema.}
 \end{closurestatus}

@@ -101,4 +101,28 @@ theorem ForbiddenAxiomAncestryCarrier_namecert_obligations [AskSetup] [PackageSe
                 (And.intro verdictComparison
                   (And.intro provenancePkg auditPkg)))))))
 
+theorem ForbiddenAxiomAncestryCarrier_comparison_exactness [AskSetup] [PackageSetup]
+    {theoremRow ancestry forbidden verdict transports routes provenance nameRow
+      compareRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ForbiddenAxiomAncestryCarrier theoremRow ancestry forbidden verdict transports routes
+        provenance nameRow bundle pkg ->
+      Cont verdict routes compareRead ->
+        PkgSig bundle compareRead pkg ->
+          UnaryHistory ancestry ∧ UnaryHistory forbidden ∧ UnaryHistory verdict ∧
+            UnaryHistory routes ∧ UnaryHistory compareRead ∧
+              hsame verdict (append ancestry forbidden) ∧
+                Cont verdict routes compareRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle compareRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory hsame
+  intro carrier comparisonRoute comparisonPkg
+  obtain ⟨_theoremUnary, ancestryUnary, forbiddenUnary, verdictUnary, _transportsUnary,
+    routesUnary, _provenanceUnary, _nameRowUnary, verdictComparison, _theoremAncestry,
+      _transportProvenance, provenancePkg⟩ := carrier
+  have compareReadUnary : UnaryHistory compareRead :=
+    unary_cont_closed verdictUnary routesUnary comparisonRoute
+  exact
+    ⟨ancestryUnary, forbiddenUnary, verdictUnary, routesUnary, compareReadUnary,
+      verdictComparison, comparisonRoute, provenancePkg, comparisonPkg⟩
+
 end BEDC.Derived.ForbiddenAxiomAncestryUp
