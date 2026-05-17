@@ -65,4 +65,31 @@ theorem PropextTransportBoundaryDirectionDeterminacy [AskSetup] [PackageSetup]
       localNameUnary, forwardUnary, reverseUnary, forwardCont, reverseCont, localNamePkg,
       forwardPkg, reversePkg⟩
 
+theorem PropextTransportBoundaryNonEscape [AskSetup] [PackageSetup]
+    {bidirectional direction replacement transport continuation provenance localName
+      contextRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PropextTransportBoundaryCarrier bidirectional direction replacement transport
+        continuation provenance localName bundle pkg →
+      Cont replacement continuation contextRead →
+        PkgSig bundle contextRead pkg →
+          UnaryHistory contextRead ∧
+            Cont replacement continuation contextRead ∧
+              PkgSig bundle localName pkg ∧
+                PkgSig bundle contextRead pkg ∧
+                  hsame bidirectional bidirectional ∧
+                    hsame replacement replacement ∧
+                      hsame continuation continuation := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg AskSetup PackageSetup
+  intro carrier contextCont contextPkg
+  rcases carrier with
+    ⟨_bidirectionalUnary, _directionUnary, replacementUnary, _transportUnary,
+      continuationUnary, _provenanceUnary, _localNameUnary, _carrierForward,
+      _carrierReverse, localNamePkg⟩
+  have contextUnary : UnaryHistory contextRead :=
+    unary_cont_closed replacementUnary continuationUnary contextCont
+  exact
+    ⟨contextUnary, contextCont, localNamePkg, contextPkg, hsame_refl bidirectional,
+      hsame_refl replacement, hsame_refl continuation⟩
+
 end BEDC.Derived.PropextTransportBoundaryUp
