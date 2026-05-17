@@ -49,6 +49,46 @@ The algebra and order stability rows then repack the transported coordinates int
 Ledger exactness follows because every consumer-facing row is a coordinate of $R$ or a row of $O$ generated from those coordinates. Since no coordinate stores trichotomy, quotient real equality, a host real carrier, or ambient completeness, none of those principles can be projected from the local $\NameCert_{\RealAlgOrderUp}$ surface.
 \end{proof}
 
+\begin{theorem}[RealAlgOrder classifier transport companion]
+\label{thm:real-alg-order-classifier-transport-companion}
+For constant rational histories $d,e,d',e'$, a rational carrier row for $d$, a rational classifier row $d\to e$, and transports $d\hsame d'$ and $e\hsame e'$ determine the transported constant-real carrier rows for $BHist.e1(d')$ and $BHist.e1(e')$, the transported constant-real classifier row $BHist.e1(d')\to BHist.e1(e')$, and the transported rational classifier row $d'\to e'$.
+\end{theorem}
+\begin{proof}
+Unpack the classifier-transport row of \autoref{thm:real-alg-order-namecert-obligations}. The stored $\hsame$ transports move the rational classifier $d\to e$ to the displayed row $d'\to e'$, and the rational carrier for $d'$ is transported along the same route.
+
+Now read the constant-real interface through $BHist.e1$. The $\RatHistoryCarrier$ and $\RatHistoryClassifier$ rows are exactly the inputs to $\mathsf{RealConstantHistoryCarrier}$ and $\mathsf{RealConstantHistoryClassifier}$ on the endpoint histories, so the transported rational classifier supplies the two carrier rows and the real classifier row without adding trichotomy, quotient equality, or completeness.
+\end{proof}
+
+\begin{theorem}[RealAlgOrder algebra-row companion]
+\label{thm:real-alg-order-algebra-row-companion}
+For constant rational histories $d,e,o,d',e',o'$, rational classifier rows $d\to d'$, $e\to e'$, and $o\to o'$ determine the constant-real carrier rows for $BHist.e1(d)$, $BHist.e1(e)$, and $BHist.e1(o)$, together with the three constant-real classifier rows $BHist.e1(d)\to BHist.e1(d')$, $BHist.e1(e)\to BHist.e1(e')$, and $BHist.e1(o)\to BHist.e1(o')$.
+\end{theorem}
+\begin{proof}
+Project the algebra stability row of \autoref{thm:real-alg-order-namecert-obligations}. The endpoint, endpoint-transport, and operation histories are all rational classifier rows, so each source history carries the rational carrier evidence needed by the local algebra ledger.
+
+Passing through the constant-real classifier interface converts those three rational classifier rows into the three displayed $\mathsf{RealConstantHistoryClassifier}$ rows on $BHist.e1$. Their source carriers become the displayed $\mathsf{RealConstantHistoryCarrier}$ rows, and no further real-algebra structure is read.
+\end{proof}
+
+\begin{theorem}[RealAlgOrder rational order-boundary companion]
+\label{thm:real-alg-order-rational-order-boundary-companion}
+For constant rational histories $d,e,o,d',e',o'$, rational classifier rows $d\to e$ and $e\to o$ and transports $d\hsame d'$, $e\hsame e'$, and $o\hsame o'$ determine the transported constant-real carrier rows for $BHist.e1(d')$, $BHist.e1(e')$, and $BHist.e1(o')$, the transported constant-real classifier rows $BHist.e1(d')\to BHist.e1(e')$ and $BHist.e1(e')\to BHist.e1(o')$, and the transitive rational boundary row $d'\to o'$.
+\end{theorem}
+\begin{proof}
+Use the order stability row of \autoref{thm:real-alg-order-namecert-obligations}. The two rational classifier rows are first transported componentwise along the stored $\hsame$ witnesses, giving $d'\to e'$ and $e'\to o'$ inside the displayed finite order surface.
+
+The constant-real interface then reads these transported rational classifiers through $BHist.e1$, producing the three endpoint carrier rows and the two adjacent real classifier rows. Finally, transitivity of the transported rational classifier rows gives the boundary row $d'\to o'$, which is still a rational ledger row rather than a quotient-real or completeness witness.
+\end{proof}
+
+\begin{theorem}[RealAlgOrder apartness companion]
+\label{thm:real-alg-order-apartness-companion}
+For constant rational histories $d,e,d',e'$, rational classifier rows $d\to d'$ and $e\to e'$ determine the constant-real carrier rows for $BHist.e1(d)$, $BHist.e1(d')$, $BHist.e1(e)$, and $BHist.e1(e')$, together with the two constant-real classifier rows $BHist.e1(d)\to BHist.e1(d')$ and $BHist.e1(e)\to BHist.e1(e')$.
+\end{theorem}
+\begin{proof}
+Read the strict-apartness side of \autoref{thm:real-alg-order-namecert-obligations}. The apartness ledger consumes only the displayed endpoint classifier rows, so the two rational classifiers expose both their source and target rational carrier rows.
+
+Applying the constant-real classifier interface to each classifier row yields the four displayed $\mathsf{RealConstantHistoryCarrier}$ rows and the two $\mathsf{RealConstantHistoryClassifier}$ rows. The packet therefore exposes only finite endpoint classifier evidence for apartness, with no branch for real trichotomy, quotient equality, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[RealAlgOrder apartness and order non-escape]
 \label{thm:real-alg-order-apartness-nonescape}
 Every $\MetricSpaceUp$, $\ProbSpaceUp$, measure, or real-algebra consumer of an accepted $\RealAlgOrderUp$ packet receives only the displayed finite rows of \autoref{def:real-alg-order-carrier}: $\RealUp$ endpoint rows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ operation and nonnegative-comparison ledgers, $\StreamNameUp$ finite windows, $\ApartnessRealUp$ finite-window separation rows when strict apartness is requested, and the visible $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ provenance.
