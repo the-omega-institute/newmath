@@ -584,6 +584,7 @@ import BEDC.Derived.DyadicStepFunctionUp
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicApproximationUp
 import BEDC.Derived.TailCauchyRouterUp.TasteGate
+import BEDC.Derived.TailCompatibleCauchySectionUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp.DiagonalMeshSelector
 import BEDC.Derived.DyadicApproximationUp.CommonRefinementEnclosureCertificate
 import BEDC.Derived.DyadicApproximationUp.NameCertObligationSurface
