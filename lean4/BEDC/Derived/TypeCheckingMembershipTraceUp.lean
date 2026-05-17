@@ -196,6 +196,16 @@ instance typeCheckingMembershipTraceNontrivial :
         intro h
         cases h⟩
 
+theorem TypeCheckingMembershipTraceMembership_row_nonescape
+    {M D R S H C P N : BHist} (visibleM : M ≠ BHist.Empty) :
+    typeCheckingMembershipTraceFields (TypeCheckingMembershipTraceUp.mk M D R S H C P N) ≠
+      typeCheckingMembershipTraceFields
+        (TypeCheckingMembershipTraceUp.mk BHist.Empty D R S H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hfields
+  injection hfields with hM _tail
+  exact visibleM hM
+
 def taste_gate : ChapterTasteGate TypeCheckingMembershipTraceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   typeCheckingMembershipTraceChapterTasteGate
