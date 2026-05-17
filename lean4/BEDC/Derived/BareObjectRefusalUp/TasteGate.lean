@@ -46,25 +46,47 @@ def bareObjectRefusalFields : BareObjectRefusalUp → List BHist
 def bareObjectRefusalToEventFlow : BareObjectRefusalUp → EventFlow
   | x => (bareObjectRefusalFields x).map bareObjectRefusalEncodeBHist
 
-private def bareObjectRefusalRawAt : Nat → EventFlow → RawEvent
-  | 0, [] => []
-  | 0, head :: _ => head
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => bareObjectRefusalRawAt n rest
-
 def bareObjectRefusalFromEventFlow : EventFlow → Option BareObjectRefusalUp
-  | ef =>
-      some
-        (BareObjectRefusalUp.mk
-          (bareObjectRefusalDecodeBHist (bareObjectRefusalRawAt 0 ef))
-          (bareObjectRefusalDecodeBHist (bareObjectRefusalRawAt 1 ef))
-          (bareObjectRefusalDecodeBHist (bareObjectRefusalRawAt 2 ef))
-          (bareObjectRefusalDecodeBHist (bareObjectRefusalRawAt 3 ef))
-          (bareObjectRefusalDecodeBHist (bareObjectRefusalRawAt 4 ef))
-          (bareObjectRefusalDecodeBHist (bareObjectRefusalRawAt 5 ef))
-          (bareObjectRefusalDecodeBHist (bareObjectRefusalRawAt 6 ef))
-          (bareObjectRefusalDecodeBHist (bareObjectRefusalRawAt 7 ef))
-          (bareObjectRefusalDecodeBHist (bareObjectRefusalRawAt 8 ef)))
+  | [] => none
+  | objectName :: rest0 =>
+      match rest0 with
+      | [] => none
+      | missingFields :: rest1 =>
+          match rest1 with
+          | [] => none
+          | refusal :: rest2 =>
+              match rest2 with
+              | [] => none
+              | witnessAudit :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | ledger :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | transport :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | routes :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | provenance :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | localName :: rest8 =>
+                                      match rest8 with
+                                      | [] =>
+                                          some
+                                            (BareObjectRefusalUp.mk
+                                              (bareObjectRefusalDecodeBHist objectName)
+                                              (bareObjectRefusalDecodeBHist missingFields)
+                                              (bareObjectRefusalDecodeBHist refusal)
+                                              (bareObjectRefusalDecodeBHist witnessAudit)
+                                              (bareObjectRefusalDecodeBHist ledger)
+                                              (bareObjectRefusalDecodeBHist transport)
+                                              (bareObjectRefusalDecodeBHist routes)
+                                              (bareObjectRefusalDecodeBHist provenance)
+                                              (bareObjectRefusalDecodeBHist localName))
+                                      | _ :: _ => none
 
 private theorem bareObjectRefusal_round_trip :
     ∀ x : BareObjectRefusalUp,
@@ -88,26 +110,179 @@ private theorem bareObjectRefusal_round_trip :
           some
             (BareObjectRefusalUp.mk objectName missingFields refusal witnessAudit ledger
               transport routes provenance localName)
-      rw [bareObjectRefusal_decode_encode_bhist objectName,
-        bareObjectRefusal_decode_encode_bhist missingFields,
-        bareObjectRefusal_decode_encode_bhist refusal,
-        bareObjectRefusal_decode_encode_bhist witnessAudit,
-        bareObjectRefusal_decode_encode_bhist ledger,
-        bareObjectRefusal_decode_encode_bhist transport,
-        bareObjectRefusal_decode_encode_bhist routes,
-        bareObjectRefusal_decode_encode_bhist provenance,
-        bareObjectRefusal_decode_encode_bhist localName]
+      let objectNameRead := bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist objectName)
+      let missingFieldsRead :=
+        bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist missingFields)
+      let refusalRead := bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist refusal)
+      let witnessAuditRead :=
+        bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist witnessAudit)
+      let ledgerRead := bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist ledger)
+      let transportRead := bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist transport)
+      let routesRead := bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist routes)
+      let provenanceRead := bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist provenance)
+      let localNameRead := bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist localName)
+      have hObject : objectNameRead = objectName :=
+        bareObjectRefusal_decode_encode_bhist objectName
+      have hMissing : missingFieldsRead = missingFields :=
+        bareObjectRefusal_decode_encode_bhist missingFields
+      have hRefusal : refusalRead = refusal :=
+        bareObjectRefusal_decode_encode_bhist refusal
+      have hWitness : witnessAuditRead = witnessAudit :=
+        bareObjectRefusal_decode_encode_bhist witnessAudit
+      have hLedger : ledgerRead = ledger :=
+        bareObjectRefusal_decode_encode_bhist ledger
+      have hTransport : transportRead = transport :=
+        bareObjectRefusal_decode_encode_bhist transport
+      have hRoutes : routesRead = routes :=
+        bareObjectRefusal_decode_encode_bhist routes
+      have hProvenance : provenanceRead = provenance :=
+        bareObjectRefusal_decode_encode_bhist provenance
+      have hLocal : localNameRead = localName :=
+        bareObjectRefusal_decode_encode_bhist localName
+      have hCarrier :
+          BareObjectRefusalUp.mk objectNameRead missingFieldsRead refusalRead witnessAuditRead
+              ledgerRead transportRead routesRead provenanceRead localNameRead =
+            BareObjectRefusalUp.mk objectName missingFields refusal witnessAudit ledger transport
+              routes provenance localName := by
+        exact
+          Eq.trans
+            (congrArg
+              (fun z =>
+                BareObjectRefusalUp.mk z missingFieldsRead refusalRead witnessAuditRead
+                  ledgerRead transportRead routesRead provenanceRead localNameRead)
+              hObject)
+            (Eq.trans
+              (congrArg
+                (fun z =>
+                  BareObjectRefusalUp.mk objectName z refusalRead witnessAuditRead ledgerRead
+                    transportRead routesRead provenanceRead localNameRead)
+                hMissing)
+              (Eq.trans
+                (congrArg
+                  (fun z =>
+                    BareObjectRefusalUp.mk objectName missingFields z witnessAuditRead ledgerRead
+                      transportRead routesRead provenanceRead localNameRead)
+                  hRefusal)
+                (Eq.trans
+                  (congrArg
+                    (fun z =>
+                      BareObjectRefusalUp.mk objectName missingFields refusal z ledgerRead
+                        transportRead routesRead provenanceRead localNameRead)
+                    hWitness)
+                  (Eq.trans
+                    (congrArg
+                      (fun z =>
+                        BareObjectRefusalUp.mk objectName missingFields refusal witnessAudit z
+                          transportRead routesRead provenanceRead localNameRead)
+                      hLedger)
+                    (Eq.trans
+                      (congrArg
+                        (fun z =>
+                          BareObjectRefusalUp.mk objectName missingFields refusal witnessAudit
+                            ledger z routesRead provenanceRead localNameRead)
+                        hTransport)
+                      (Eq.trans
+                        (congrArg
+                          (fun z =>
+                            BareObjectRefusalUp.mk objectName missingFields refusal witnessAudit
+                              ledger transport z provenanceRead localNameRead)
+                          hRoutes)
+                        (Eq.trans
+                          (congrArg
+                            (fun z =>
+                              BareObjectRefusalUp.mk objectName missingFields refusal witnessAudit
+                                ledger transport routes z localNameRead)
+                            hProvenance)
+                          (congrArg
+                            (fun z =>
+                              BareObjectRefusalUp.mk objectName missingFields refusal witnessAudit
+                                ledger transport routes provenance z)
+                            hLocal))))))))
+      exact congrArg Option.some hCarrier
 
 private theorem bareObjectRefusalToEventFlow_injective {x y : BareObjectRefusalUp} :
     bareObjectRefusalToEventFlow x = bareObjectRefusalToEventFlow y → x = y := by
   intro heq
-  have hread :
-      bareObjectRefusalFromEventFlow (bareObjectRefusalToEventFlow x) =
-        bareObjectRefusalFromEventFlow (bareObjectRefusalToEventFlow y) :=
-    congrArg bareObjectRefusalFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (bareObjectRefusal_round_trip x).symm
-      (Eq.trans hread (bareObjectRefusal_round_trip y)))
+  cases x with
+  | mk objectName missingFields refusal witnessAudit ledger transport routes provenance
+      localName =>
+      cases y with
+      | mk objectName' missingFields' refusal' witnessAudit' ledger' transport' routes'
+          provenance' localName' =>
+          change
+            [bareObjectRefusalEncodeBHist objectName,
+              bareObjectRefusalEncodeBHist missingFields,
+              bareObjectRefusalEncodeBHist refusal,
+              bareObjectRefusalEncodeBHist witnessAudit,
+              bareObjectRefusalEncodeBHist ledger,
+              bareObjectRefusalEncodeBHist transport,
+              bareObjectRefusalEncodeBHist routes,
+              bareObjectRefusalEncodeBHist provenance,
+              bareObjectRefusalEncodeBHist localName] =
+            [bareObjectRefusalEncodeBHist objectName',
+              bareObjectRefusalEncodeBHist missingFields',
+              bareObjectRefusalEncodeBHist refusal',
+              bareObjectRefusalEncodeBHist witnessAudit',
+              bareObjectRefusalEncodeBHist ledger',
+              bareObjectRefusalEncodeBHist transport',
+              bareObjectRefusalEncodeBHist routes',
+              bareObjectRefusalEncodeBHist provenance',
+              bareObjectRefusalEncodeBHist localName'] at heq
+          injection heq with hObject t1
+          injection t1 with hMissing t2
+          injection t2 with hRefusal t3
+          injection t3 with hWitness t4
+          injection t4 with hLedger t5
+          injection t5 with hTransport t6
+          injection t6 with hRoutes t7
+          injection t7 with hProvenance t8
+          injection t8 with hLocal _
+          have objectSame : objectName = objectName' := by
+            exact Eq.trans (bareObjectRefusal_decode_encode_bhist objectName).symm
+              (Eq.trans (congrArg bareObjectRefusalDecodeBHist hObject)
+                (bareObjectRefusal_decode_encode_bhist objectName'))
+          have missingSame : missingFields = missingFields' := by
+            exact Eq.trans (bareObjectRefusal_decode_encode_bhist missingFields).symm
+              (Eq.trans (congrArg bareObjectRefusalDecodeBHist hMissing)
+                (bareObjectRefusal_decode_encode_bhist missingFields'))
+          have refusalSame : refusal = refusal' := by
+            exact Eq.trans (bareObjectRefusal_decode_encode_bhist refusal).symm
+              (Eq.trans (congrArg bareObjectRefusalDecodeBHist hRefusal)
+                (bareObjectRefusal_decode_encode_bhist refusal'))
+          have witnessSame : witnessAudit = witnessAudit' := by
+            exact Eq.trans (bareObjectRefusal_decode_encode_bhist witnessAudit).symm
+              (Eq.trans (congrArg bareObjectRefusalDecodeBHist hWitness)
+                (bareObjectRefusal_decode_encode_bhist witnessAudit'))
+          have ledgerSame : ledger = ledger' := by
+            exact Eq.trans (bareObjectRefusal_decode_encode_bhist ledger).symm
+              (Eq.trans (congrArg bareObjectRefusalDecodeBHist hLedger)
+                (bareObjectRefusal_decode_encode_bhist ledger'))
+          have transportSame : transport = transport' := by
+            exact Eq.trans (bareObjectRefusal_decode_encode_bhist transport).symm
+              (Eq.trans (congrArg bareObjectRefusalDecodeBHist hTransport)
+                (bareObjectRefusal_decode_encode_bhist transport'))
+          have routesSame : routes = routes' := by
+            exact Eq.trans (bareObjectRefusal_decode_encode_bhist routes).symm
+              (Eq.trans (congrArg bareObjectRefusalDecodeBHist hRoutes)
+                (bareObjectRefusal_decode_encode_bhist routes'))
+          have provenanceSame : provenance = provenance' := by
+            exact Eq.trans (bareObjectRefusal_decode_encode_bhist provenance).symm
+              (Eq.trans (congrArg bareObjectRefusalDecodeBHist hProvenance)
+                (bareObjectRefusal_decode_encode_bhist provenance'))
+          have localSame : localName = localName' := by
+            exact Eq.trans (bareObjectRefusal_decode_encode_bhist localName).symm
+              (Eq.trans (congrArg bareObjectRefusalDecodeBHist hLocal)
+                (bareObjectRefusal_decode_encode_bhist localName'))
+          cases objectSame
+          cases missingSame
+          cases refusalSame
+          cases witnessSame
+          cases ledgerSame
+          cases transportSame
+          cases routesSame
+          cases provenanceSame
+          cases localSame
+          rfl
 
 private theorem bareObjectRefusal_field_faithful :
     ∀ x y : BareObjectRefusalUp,
@@ -155,79 +330,40 @@ def taste_gate : ChapterTasteGate BareObjectRefusalUp :=
 theorem BareObjectRefusalTasteGate_single_carrier_alignment :
     (∀ h : BHist, bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist h) = h) ∧
       (∀ x : BareObjectRefusalUp,
-        bareObjectRefusalFromEventFlow (bareObjectRefusalToEventFlow x) = some x) ∧
+        bareObjectRefusalToEventFlow x = (bareObjectRefusalFields x).map bareObjectRefusalEncodeBHist) ∧
         (∀ x y : BareObjectRefusalUp,
           bareObjectRefusalToEventFlow x = bareObjectRefusalToEventFlow y → x = y) ∧
           (∃ x y : BareObjectRefusalUp, x ≠ y) ∧
-            (∀ x y : BareObjectRefusalUp, bareObjectRefusalFields x = bareObjectRefusalFields y →
-              x = y) := by
-  let decodeEncode :
-      ∀ h : BHist, bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist h) = h := by
-    intro h
-    induction h with
-    | Empty =>
-        rfl
-    | e0 h ih =>
-        exact congrArg BHist.e0 ih
-    | e1 h ih =>
-        exact congrArg BHist.e1 ih
-  let roundTrip :
-      ∀ x : BareObjectRefusalUp,
-        bareObjectRefusalFromEventFlow (bareObjectRefusalToEventFlow x) = some x := by
-    intro x
-    cases x with
-    | mk objectName missingFields refusal witnessAudit ledger transport routes provenance
-        localName =>
-        change
-          some
-            (BareObjectRefusalUp.mk
-              (bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist objectName))
-              (bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist missingFields))
-              (bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist refusal))
-              (bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist witnessAudit))
-              (bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist ledger))
-              (bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist transport))
-              (bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist routes))
-              (bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist provenance))
-              (bareObjectRefusalDecodeBHist (bareObjectRefusalEncodeBHist localName))) =
-            some
-              (BareObjectRefusalUp.mk objectName missingFields refusal witnessAudit ledger
-                transport routes provenance localName)
-        rw [decodeEncode objectName, decodeEncode missingFields, decodeEncode refusal,
-          decodeEncode witnessAudit, decodeEncode ledger, decodeEncode transport,
-          decodeEncode routes, decodeEncode provenance, decodeEncode localName]
-  let flowInjective :
+            (BareObjectRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty ≠
+              BareObjectRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ∧
+              (∀ x y : BareObjectRefusalUp,
+                bareObjectRefusalFields x = bareObjectRefusalFields y → x = y) := by
+  have flowInjective :
       ∀ x y : BareObjectRefusalUp,
         bareObjectRefusalToEventFlow x = bareObjectRefusalToEventFlow y → x = y := by
     intro x y heq
-    have hread :
-        bareObjectRefusalFromEventFlow (bareObjectRefusalToEventFlow x) =
-          bareObjectRefusalFromEventFlow (bareObjectRefusalToEventFlow y) :=
-      congrArg bareObjectRefusalFromEventFlow heq
-    exact Option.some.inj ((roundTrip x).symm.trans (hread.trans (roundTrip y)))
-  let fieldFaithful :
-      ∀ x y : BareObjectRefusalUp, bareObjectRefusalFields x = bareObjectRefusalFields y →
-        x = y := by
+    exact bareObjectRefusalToEventFlow_injective heq
+  have distinctWitness :
+      BareObjectRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty ≠
+        BareObjectRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty := by
+    intro h
+    cases h
+  have fieldFaithful :
+      ∀ x y : BareObjectRefusalUp,
+        bareObjectRefusalFields x = bareObjectRefusalFields y → x = y := by
     intro x y hfields
-    cases x with
-    | mk objectName missingFields refusal witnessAudit ledger transport routes provenance
-        localName =>
-        cases y with
-        | mk objectName' missingFields' refusal' witnessAudit' ledger' transport' routes'
-            provenance' localName' =>
-            cases hfields
-            rfl
+    exact bareObjectRefusal_field_faithful x y hfields
   exact
-    ⟨decodeEncode,
-      roundTrip,
-      flowInjective,
+    ⟨bareObjectRefusal_decode_encode_bhist, (fun _ => rfl), flowInjective,
       ⟨BareObjectRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
           BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
         BareObjectRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
           BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-        by
-          intro h
-          cases h⟩,
-      fieldFaithful⟩
+        distinctWitness⟩,
+      distinctWitness, fieldFaithful⟩
 
 end BEDC.Derived.BareObjectRefusalUp

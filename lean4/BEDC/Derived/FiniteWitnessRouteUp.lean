@@ -1,11 +1,16 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteWitnessRouteUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -248,5 +253,102 @@ theorem FiniteWitnessRouteTasteGate_single_carrier_alignment :
       · intro x y heq
         exact FiniteWitnessRouteTasteGate_single_carrier_alignment_injective heq
       · rfl
+
+theorem FiniteWitnessRouteNameCert_obligations
+    {q w r d s h c p n : BHist}
+    (requestRoute : Cont q w r)
+    (sealRoute : Cont r d s) :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row q ∧
+          ∃ packet : FiniteWitnessRouteUp,
+            packet = FiniteWitnessRouteUp.mk q w r d s h c p n)
+      (fun row : BHist => hsame row q ∧ hsame w w ∧ hsame r r ∧ hsame d d)
+      (fun row : BHist =>
+        Cont q w r ∧ Cont r d s ∧ hsame row q ∧ hsame h h ∧ hsame c c ∧
+          hsame p p ∧ hsame n n)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro q
+          ⟨hsame_refl q, Exists.intro (FiniteWitnessRouteUp.mk q w r d s h c p n) rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, hsame_refl w, hsame_refl r, hsame_refl d⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨requestRoute, sealRoute, sourceRow.left, hsame_refl h, hsame_refl c,
+          hsame_refl p, hsame_refl n⟩
+  }
+
+theorem FiniteWitnessRouteNonEscape_boundary
+    {q w r d s h c p n consumer hostTail : BHist}
+    (requestRoute : Cont q w r)
+    (sealRoute : Cont r d s)
+    (consumerRoute : Cont s p consumer) :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row q ∧
+          ∃ packet : FiniteWitnessRouteUp,
+            packet = FiniteWitnessRouteUp.mk q w r d s h c p n)
+      (fun row : BHist => hsame row q ∧ hsame w w ∧ hsame r r ∧ hsame d d)
+      (fun row : BHist =>
+        Cont q w r ∧ Cont r d s ∧ hsame row q ∧ hsame h h ∧ hsame c c ∧
+          hsame p p ∧ hsame n n)
+      hsame ∧
+      Cont s p consumer ∧
+        (Cont consumer (BHist.e0 hostTail) s → False) ∧
+          (Cont consumer (BHist.e1 hostTail) s → False) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  constructor
+  · exact FiniteWitnessRouteNameCert_obligations requestRoute sealRoute
+  · constructor
+    · exact consumerRoute
+    · constructor
+      · intro hostRoute
+        exact (cont_mutual_extension_right_tail_absurd).left consumerRoute hostRoute
+      · intro hostRoute
+        exact (cont_mutual_extension_right_tail_absurd).right consumerRoute hostRoute
+
+theorem FiniteWitnessRouteConsumer_factorization
+    {q w r d s h c p n consumer : BHist}
+    (requestRoute : Cont q w r)
+    (sealRoute : Cont r d s)
+    (consumerRoute : Cont s c consumer) :
+    (∃ packet : FiniteWitnessRouteUp,
+        packet = FiniteWitnessRouteUp.mk q w r d s h c p n ∧
+          Cont q w r ∧ Cont r d s ∧ Cont s c consumer) ∧
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row q ∧
+            ∃ packet : FiniteWitnessRouteUp,
+              packet = FiniteWitnessRouteUp.mk q w r d s h c p n)
+        (fun row : BHist => hsame row q ∧ hsame w w ∧ hsame r r ∧ hsame d d)
+        (fun row : BHist =>
+          Cont q w r ∧ Cont r d s ∧ hsame row q ∧ hsame h h ∧ hsame c c ∧
+            hsame p p ∧ hsame n n)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont SemanticNameCert hsame
+  exact
+    ⟨Exists.intro (FiniteWitnessRouteUp.mk q w r d s h c p n)
+        ⟨rfl, requestRoute, sealRoute, consumerRoute⟩,
+      FiniteWitnessRouteNameCert_obligations requestRoute sealRoute⟩
 
 end BEDC.Derived.FiniteWitnessRouteUp

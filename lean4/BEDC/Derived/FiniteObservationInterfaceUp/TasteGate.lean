@@ -365,4 +365,37 @@ theorem FiniteObservationInterfaceSelectedStream_handoff
     · exact finiteObservationInterface_round_trip
         (FiniteObservationInterfaceUp.mk S R D T E H C P N)
 
+theorem FiniteObservationInterfaceNameCert_obligation_surface
+    {S R D T E H C P N S' R' D' T' E' H' C' P' N' : BHist}
+    (hS : hsame S S')
+    (hR : hsame R R')
+    (hD : hsame D D')
+    (hT : hsame T T')
+    (hE : hsame E E')
+    (hH : hsame H H')
+    (hC : hsame C C')
+    (hP : hsame P P')
+    (hN : hsame N N')
+    (streamRegular : Cont S R C)
+    (regularDyadic : Cont R D C)
+    (selectedTail : Cont T E H) :
+    Cont S' R' C' ∧
+      Cont R' D' C' ∧
+        Cont T' E' H' ∧
+          finiteObservationInterfaceFromEventFlow
+            (finiteObservationInterfaceToEventFlow
+              (FiniteObservationInterfaceUp.mk S R D T E H C P N)) =
+            some (FiniteObservationInterfaceUp.mk S R D T E H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  cases hP
+  cases hN
+  constructor
+  · exact cont_hsame_transport hS hR hC streamRegular
+  · constructor
+    · exact cont_hsame_transport hR hD hC regularDyadic
+    · constructor
+      · exact cont_hsame_transport hT hE hH selectedTail
+      · exact finiteObservationInterface_round_trip
+          (FiniteObservationInterfaceUp.mk S R D T E H C P N)
+
 end BEDC.Derived.FiniteObservationInterfaceUp

@@ -260,6 +260,50 @@ Center reuse determinacy and the two-triangle route prevent a hidden choice of c
 The remaining exclusions follow from no-completion escape, shared-modulus domain, consumer coverage, and source-target lock. Host compactness, open-cover compactness, semantic continuity, and Real completeness are not coordinates of the accepted packet, and the $\UniformModulusUp$ handoff cannot synthesize them from $H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[Metric-triangle uniform-estimate two-point target boundary]
+\label{thm:metric-triangle-uniform-estimate-two-point-target-boundary}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the pointwise target estimates delivered to the final uniform-estimate boundary are exactly the two rows $e_x$ and $e_{x'}$ at the selected center $c$. The first row is the displayed $\ContinuousMapUp$ estimate from $f(c)$ to $f(x)$, the second is the displayed $\ContinuousMapUp$ estimate from $f(c)$ to $f(x')$, and the target triangle row $T$ consumes those two rows before any $\UniformModulusUp$ handoff can occur.
+\end{theorem}
+\begin{proof}
+Read the source side through source-triangle coherence. It fixes the selected center $c$, the compact-net coverage row $d_x$, and the derived source bound $d_{x'}$ before the target estimates are read.
+
+Next apply target-triangle coherence with center reuse determinacy. These theorems identify $e_x$ and $e_{x'}$ as the two pointwise target rows at that same center and identify $T$ as the target metric triangle row built from them.
+
+Finally use route exhaustion and choice refusal. The exhausted $\UniformModulusUp$ boundary lists no third target estimate and no replacement center, while choice refusal blocks host compactness or a choice-selected center from changing the two pointwise target rows.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate center-bound continuation]
+\label{thm:metric-triangle-uniform-estimate-center-bound-continuation}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, every center-bound route from the selected precision row $e_c$ to the source bounds $d_x,d_{x'}$ and onward to the target triangle row $T$ factors through the displayed $\Cont$ support inside $C$. The route cannot bypass the carrier by appealing to host compactness, semantic continuity, open-cover compactness, choice, or real completeness.
+\end{theorem}
+\begin{proof}
+Start with source-triangle coherence and center reuse determinacy. They bind the selected center $c$ to the source bounds $d_x,d_{x'}$ and to the two pointwise target estimates.
+
+Use target-triangle coherence to continue the same route into $T$. The target estimate is therefore not a separate semantic assertion; it is the next displayed continuation step after the source and pointwise rows.
+
+Route exhaustion then identifies the consumer surface as $e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N$. Since $C$ is the displayed $\Cont$ support for this surface, any accepted center-bound handoff must pass through those continuation rows.
+
+Choice refusal supplies the negative boundary. Host compactness, semantic continuity, open covers, choice, and real completeness are not carrier coordinates and cannot serve as alternate continuations.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate UniformModulus exact package]
+\label{thm:metric-triangle-uniform-estimate-uniform-modulus-exact-package}
+The exact $\UniformModulusUp$ consumer package exported by an accepted $\MetricTriangleUniformEstimateUp$ carrier is
+$$
+(e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N).
+$$
+The package contains the selected finite precision, both source bounds at the selected center, both pointwise target estimates at that center, the final target triangle row, componentwise $\hsame$ transport, displayed $\Cont$ support, $\Pkg$ provenance, and the local $\NameCert$ row; it contains no additional analytic or choice-theoretic boundary data.
+\end{theorem}
+\begin{proof}
+Combine source-triangle coherence with target-triangle coherence. The source theorem supplies $d_x,d_{x'}$ from the selected center route, and the target theorem supplies $e_x,e_{x'}$ and $T$ at the same center.
+
+Use center reuse determinacy to keep these rows in one boundary. The two pointwise target estimates and the final target triangle row cannot move to another center after the source bounds have been fixed.
+
+Route exhaustion gives the full downstream list $e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N$. This is exactly the package read by $\UniformModulusUp$.
+
+Choice refusal closes the excluded side of the claim. The accepted carrier exports no host compactness row, semantic continuity theorem, open-cover compactness object, choice row, or real-completeness row, so none of them can be added to the exact package.
+\end{proof}
+
 \closureat{MetricTriangleUniformEstimateUp}{seedStr}
 
 \begin{closurestatus}{\MetricTriangleUniformEstimateUp}

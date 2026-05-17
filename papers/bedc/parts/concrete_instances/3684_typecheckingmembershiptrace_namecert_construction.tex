@@ -59,6 +59,8 @@ The local $\NameCert_{\TypeCheckingMembershipTraceUp}$ surface has five finite o
 \item the non-escape ledger excludes host type equality, global normalization, proof irrelevance, quotient syntax, conversion oracles, and any proof-term equality not displayed in the packet.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.TypeCheckingMembershipTraceUp.TypeCheckingMembershipTraceNameCert\_obligation\_surface}
+\leanchecked{BEDC.Derived.TypeCheckingMembershipTraceUp.TypeCheckingMembershipTraceNameCert\_obligations}
 \begin{proof}
 Carrier admission is projection from the finite tuple. The membership row, derivation row, subject-reduction row, readback row, transport row, replay row, package row, and local naming row are all coordinates of the same $\BHist$ packet.
 
@@ -122,10 +124,11 @@ Finally use \autoref{thm:typechecking-membership-trace-obligation-assembly}. The
 \closureat{TypeCheckingMembershipTraceUp}{seedStr}
 \closureat{TypeCheckingMembershipTraceUp}{obligationStr}
 \closureat{TypeCheckingMembershipTraceUp}{scopedStr}
+\closureat{TypeCheckingMembershipTraceUp}{publicStr}
 
 \begin{closurestatus}{\TypeCheckingMembershipTraceUp}
   \constructivestory{A $\TypeCheckingMembershipTraceUp$ packet is generated from finite Ext-membership, derivation-route, subject-reduction, SigRel readback, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{thm:typechecking-membership-trace-scoped-kernel-surface} binds Ext membership, finite derivation, subject-reduction, SigRel readback, hsame transport, Cont replay, Pkg provenance, and local NameCert rows inside the finite membership-trace certificate.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
