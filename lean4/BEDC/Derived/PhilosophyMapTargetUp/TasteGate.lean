@@ -127,7 +127,7 @@ private theorem philosophyMapTargetToEventFlow_injective {x y : PhilosophyMapTar
     (Eq.trans (philosophyMapTarget_round_trip x).symm
       (Eq.trans hread (philosophyMapTarget_round_trip y)))
 
-private def philosophyMapTargetFields : PhilosophyMapTargetUp → List BHist
+def philosophyMapTargetFields : PhilosophyMapTargetUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | PhilosophyMapTargetUp.mk R G K S A X H C P N => [R, G, K, S, A, X, H, C, P, N]
 
@@ -191,5 +191,20 @@ theorem PhilosophyMapTargetTasteGate_single_carrier_alignment :
     ⟨philosophyMapTargetDecode_encode_bhist, rfl, philosophyMapTarget_round_trip,
       (fun _ _ heq => philosophyMapTargetToEventFlow_injective heq),
       ⟨philosophyMapTargetFieldFaithful⟩⟩
+
+namespace TasteGate
+
+theorem PhilosophyMapTargetTasteGate_single_carrier_alignment :
+    (∀ h : BHist, philosophyMapTargetDecodeBHist (philosophyMapTargetEncodeBHist h) = h) ∧
+      philosophyMapTargetEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
+        (∀ x : PhilosophyMapTargetUp,
+          philosophyMapTargetFromEventFlow (philosophyMapTargetToEventFlow x) = some x) ∧
+          (∀ x y : PhilosophyMapTargetUp,
+            philosophyMapTargetToEventFlow x = philosophyMapTargetToEventFlow y → x = y) ∧
+            Nonempty (FieldFaithful PhilosophyMapTargetUp) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact BEDC.Derived.PhilosophyMapTargetUp.PhilosophyMapTargetTasteGate_single_carrier_alignment
+
+end TasteGate
 
 end BEDC.Derived.PhilosophyMapTargetUp
