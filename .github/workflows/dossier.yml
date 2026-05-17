@@ -10,6 +10,12 @@ on:
   workflow_run:
     workflows: ["Build Paper"]
     types: [completed]
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: "Build Paper run ID whose bedc-pdf artifact to deploy"
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -18,23 +24,17 @@ permissions:
   actions: read  # cross-workflow artifact download
 
 concurrency:
-  # PR renders skip deploy. Scope PR renders to a per-PR group so
-  # push runs keep the canonical `pages` queue.
-  group: ${{ github.event.workflow_run.event == 'pull_request' && format('pages-pr-{0}', github.event.workflow_run.pull_requests[0].number) || 'pages' }}
-  cancel-in-progress: ${{ github.event.workflow_run.event == 'pull_request' }}
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build_dossier:
     name: Render dossier
-    # Render deploy-branch pushes and all PR-triggered Build Paper runs.
-    # PR renders validate dossier sources without deploying.
     if: |
-      github.event.workflow_run.conclusion == 'success' && (
-        (
-          github.event.workflow_run.event == 'push' &&
-          contains(fromJSON('["feature/dossier","dev","main","auto-dev"]'), github.event.workflow_run.head_branch)
-        ) ||
-        github.event.workflow_run.event == 'pull_request'
+      github.event_name == 'workflow_dispatch' || (
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'push' &&
+        contains(fromJSON('["feature/dossier","dev","main","auto-dev"]'), github.event.workflow_run.head_branch)
       )
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -42,7 +42,7 @@ jobs:
       - name: Check out repository at triggering SHA
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.workflow_run.head_sha }}
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
@@ -66,7 +66,7 @@ jobs:
           name: bedc-pdf
           path: pdf-artifact
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ inputs.source_run_id || github.event.workflow_run.id }}
 
       - name: Stage PDF with UTC timestamp
         id: stage_pdf
@@ -115,7 +115,7 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: build_dossier
-    if: ${{ github.event.workflow_run.event == 'push' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.event == 'push' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages

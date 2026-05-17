@@ -10,6 +10,12 @@ on:
   workflow_run:
     workflows: ["Build Paper"]
     types: [completed]
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: "Build Paper run ID whose bedc-pdf artifact to publish"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -24,16 +30,18 @@ jobs:
     name: Publish daily prerelease
     # Only act on successful Build Paper runs that pushed to dev.
     if: |
-      github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.event == 'push' &&
-      github.event.workflow_run.head_branch == 'dev'
+      github.event_name == 'workflow_dispatch' || (
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'push' &&
+        github.event.workflow_run.head_branch == 'dev'
+      )
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - name: Check out repository at triggering SHA
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.workflow_run.head_sha }}
           fetch-depth: 0
 
       - name: Resolve daily target
@@ -67,7 +75,7 @@ jobs:
           name: bedc-pdf
           path: release-assets/pdf
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ inputs.source_run_id || github.event.workflow_run.id }}
 
       - name: Resolve release assets
         if: ${{ steps.resolve_target.outputs.should_publish == 'true' }}

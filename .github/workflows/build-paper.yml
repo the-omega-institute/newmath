@@ -19,6 +19,8 @@ on:
       - 'lean4/**'
       - 'tools/**'
       - '.github/workflows/build-paper.yml'
+      - '.github/workflows/dossier.yml'
+      - '.github/workflows/daily-build.yml'
       - '.github/workflows/reusable-pdf.yml'
       - '.github/workflows/reusable-lean4.yml'
   pull_request:
@@ -28,6 +30,8 @@ on:
       - 'lean4/**'
       - 'tools/**'
       - '.github/workflows/build-paper.yml'
+      - '.github/workflows/dossier.yml'
+      - '.github/workflows/daily-build.yml'
       - '.github/workflows/reusable-pdf.yml'
       - '.github/workflows/reusable-lean4.yml'
   workflow_dispatch:
@@ -93,9 +97,80 @@ jobs:
     uses: ./.github/workflows/reusable-lean4.yml
     secrets: inherit
 
+  render_dossier_check:
+    name: Render dossier check
+    needs: [detect_changes, build_pdf]
+    if: ${{ github.event_name == 'pull_request' && needs.detect_changes.outputs.tex == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: "1.9.37"
+
+      - name: Set up Node.js (for dagre layout bake)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: tools/dagre_layout/package-lock.json
+
+      - name: Install dagre layout deps
+        run: npm ci
+        working-directory: tools/dagre_layout
+
+      - name: Download PDF artifact from current Build Paper run
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: bedc-pdf
+          path: pdf-artifact
+
+      - name: Stage PDF with UTC timestamp
+        id: stage_pdf
+        run: |
+          ts=$(date -u +%Y-%m-%dT%H%M%SZ)
+          pdf_name="bedc_${ts}.pdf"
+          echo "pdf_name=${pdf_name}" >> "$GITHUB_OUTPUT"
+          pdf_file=$(find pdf-artifact -maxdepth 1 -type f -name '*.pdf' -print -quit)
+          if [ -z "$pdf_file" ]; then
+            echo "No PDF found in artifact" >&2
+            ls -la pdf-artifact || true
+            exit 1
+          fi
+          cp "$pdf_file" "docs/dossier/${pdf_name}"
+          ls -lh "docs/dossier/${pdf_name}"
+          sed -i "s|bedc\.pdf|${pdf_name}|g" \
+            docs/dossier/_quarto.yml \
+            docs/dossier/index.qmd \
+            docs/dossier/index.zh-CN.qmd
+
+      - name: Build dossier visualization data
+        run: python3 tools/build_dossier_status.py
+
+      - name: Glossary completeness gate
+        run: python3 tools/check_glossary.py
+
+      - name: Render dossier
+        run: quarto render docs/dossier/
+
+      - name: Verify PDF reached _site
+        run: |
+          pdf_name="${{ steps.stage_pdf.outputs.pdf_name }}"
+          if [ ! -f "docs/dossier/_site/${pdf_name}" ]; then
+            echo "PDF missing from _site after render; copying as fallback"
+            cp "docs/dossier/${pdf_name}" "docs/dossier/_site/${pdf_name}"
+          fi
+          ls -lh "docs/dossier/_site/${pdf_name}"
+
   gate:
     name: Gate
-    needs: [detect_changes, build_pdf, build_lean4]
+    needs: [detect_changes, build_pdf, build_lean4, render_dossier_check]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
@@ -104,6 +179,7 @@ jobs:
           detect_result="${{ needs.detect_changes.result }}"
           pdf_result="${{ needs.build_pdf.result }}"
           lean4_result="${{ needs.build_lean4.result }}"
+          dossier_result="${{ needs.render_dossier_check.result }}"
 
           {
             echo "build-paper results"
@@ -111,6 +187,7 @@ jobs:
             echo "- detect_changes: \`$detect_result\`"
             echo "- build_pdf: \`$pdf_result\`"
             echo "- build_lean4: \`$lean4_result\`"
+            echo "- render_dossier_check: \`$dossier_result\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
           # detect_changes must succeed.
@@ -119,7 +196,7 @@ jobs:
           fi
           # Each sub-job: must be `success` (ran and passed) or `skipped`
           # (path detection said not needed). Any other state fails the gate.
-          for r in "$pdf_result" "$lean4_result"; do
+          for r in "$pdf_result" "$lean4_result" "$dossier_result"; do
             case "$r" in
               success|skipped) : ;;
               *) exit 1 ;;
