@@ -557,4 +557,44 @@ theorem FiniteTailFilterCarrier_common_tail_seal_cofinality
       unaryRealWindow, unaryUniform, unaryTerminal, routeR, routeQ, sealRoute,
       realWindowRoute, uniformRoute, terminalRoute, sameNameSeal, terminalPkg⟩
 
+theorem FiniteTailFilterCarrier_terminal_classifier_exactness
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N sealRow realWindowRead uniformRead terminalRead
+      classifierRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      Cont Q E sealRow -> Cont sealRow H realWindowRead ->
+        Cont realWindowRead C uniformRead -> Cont uniformRead H terminalRead ->
+          Cont terminalRead N classifierRead -> UnaryHistory C -> PkgSig bundle classifierRead pkg ->
+              UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory B ∧
+                UnaryHistory Q ∧ UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧
+                  UnaryHistory sealRow ∧ UnaryHistory realWindowRead ∧
+                    UnaryHistory uniformRead ∧ UnaryHistory terminalRead ∧
+                      UnaryHistory classifierRead ∧ Cont S D R ∧ Cont R B Q ∧
+                        Cont Q E sealRow ∧ Cont sealRow H realWindowRead ∧
+                          Cont realWindowRead C uniformRead ∧
+                            Cont uniformRead H terminalRead ∧
+                              Cont terminalRead N classifierRead ∧ hsame N E ∧
+                                PkgSig bundle classifierRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sealRoute realWindowRoute uniformRoute terminalRoute classifierRoute
+    unaryC classifierPkg
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, unaryH, routeR, routeQ, sameNameSeal⟩ :=
+    carrier
+  have unaryR : UnaryHistory R := unary_cont_closed unaryS unaryD routeR
+  have unaryQ : UnaryHistory Q := unary_cont_closed unaryR unaryB routeQ
+  have unarySeal : UnaryHistory sealRow := unary_cont_closed unaryQ unaryE sealRoute
+  have unaryRealWindow : UnaryHistory realWindowRead :=
+    unary_cont_closed unarySeal unaryH realWindowRoute
+  have unaryUniform : UnaryHistory uniformRead :=
+    unary_cont_closed unaryRealWindow unaryC uniformRoute
+  have unaryTerminal : UnaryHistory terminalRead :=
+    unary_cont_closed unaryUniform unaryH terminalRoute
+  have unaryN : UnaryHistory N := unary_transport unaryE (hsame_symm sameNameSeal)
+  have unaryClassifier : UnaryHistory classifierRead :=
+    unary_cont_closed unaryTerminal unaryN classifierRoute
+  exact ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, unaryH, unaryC, unarySeal,
+    unaryRealWindow, unaryUniform, unaryTerminal, unaryClassifier, routeR, routeQ,
+    sealRoute, realWindowRoute, uniformRoute, terminalRoute, classifierRoute,
+    sameNameSeal, classifierPkg⟩
+
 end BEDC.Derived.FiniteTailFilterUp
