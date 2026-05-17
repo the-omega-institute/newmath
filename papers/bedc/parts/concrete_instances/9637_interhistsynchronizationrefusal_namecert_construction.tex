@@ -60,3 +60,14 @@ No displayed row is a shared clock, host time index, quotient stream, global syn
 \independenceWitness{Nearest siblings: histtimestream, observerhistidentity, observerlocalitytransport, observerframerefusal, and observerfilter. HistTimeStreamUp names one local stream rather than a two-stream refusal; ObserverHistIdentityUp identifies observer with Hist but does not carry a synchronization token; ObserverLocalityTransportUp transports locality rows but does not reject a shared clock; ObserverFrameRefusalUp rejects a frame but not the two-stream synchronization token; ObserverFilterUp selects observation rows without naming a clock-refusal carrier. No bijection preserving two local streams, refusal token, refusal ledger, hsame transport, Cont replay, provenance, and local naming identifies these packets.}
 
 The Lean site \texttt{lean4/BEDC/Derived/InterHistSynchronizationRefusalUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \InterHistSynchronizationRefusalUp$ and $\mathsf{FieldFaithful}\ \InterHistSynchronizationRefusalUp$ instances. These instances must preserve the two local streams, proposed synchronization token, refusal ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming row as distinguishable fields.
+
+\begin{closurestatus}{\InterHistSynchronizationRefusalUp}
+  \constructivestory{An $\InterHistSynchronizationRefusalUp$ packet is generated from two local HistTimeStream rows, a proposed synchronization token, refusal ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. The $\BHist$ carrier records the two local streams as visible data and then refuses the token that would identify them by a shared clock. Each accepted read keeps both stream rows and the refusal token in the same packet. The classifier accepts the two-stream packet only with the refusal ledger attached, so transport and continuation replay preserve locality rather than manufacturing synchronized observer time or a global frame.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the inter-Hist synchronization refusal carrier, non-escape theorem, prediction, and independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim shared clocks, host time indices, quotient streams, global synchronization rows, synchronized frames, or real-completion timing oracles.}
+  \upgradepath{To reach obligationClosure, check the two local streams and refusal token as distinguishable nontrivial and field-faithful rows.}
+\end{closurestatus}

@@ -1,5 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\EigenUp$}
 \label{ch:concrete-instances-eigen-namecert}
+\origin{human}
 
 The eigen-pair interface $\EigenUp$ packages an eigenvalue / eigenvector pair $(\lambda, v)$ for a linear endomorphism. It depends on $\NameCert_{\LinearMapUp}$ (\autoref{ch:concrete-instances-linearmap-namecert}) and $\NameCert_{\DeterminantUp}$ (\autoref{ch:concrete-instances-determinant-namecert}), with $\lambda$ certified as a root of the characteristic polynomial.
 
@@ -270,3 +271,14 @@ from $\hsame$, with carrier membership retained in the classifier fields.
 Pattern and ledger soundness are the identity inclusions on the same carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.EigenUp.eigen\_singleton\_semantic\_name\_certificate}
+
+\begin{closurestatus}{\EigenUp}
+  \constructivestory{An $\EigenUp$ singleton certificate is generated from a linear-map history, scalar history, vector history, and scalar-vector continuation endpoint. In the displayed BEDC carrier, the scalar row is admitted through the determinant singleton certificate, the map and vector rows are admitted through linear-map singleton carriers, and $\Cont$ composes the scalar-vector pair with the map row. The $\hsame$ classifier then transports and compares the resulting eigen endpoint. In this singleton presentation the accepted endpoint collapses to the empty history, so the chapter certifies the BEDC name discipline for the eigen interface without adding analytic spectral data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the Eigen singleton component carrier, singleton carrier, classifier, and semantic name certificate.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim a general spectral theorem, nonzero eigenvector existence, host vector-space equality, or characteristic-polynomial completeness.}
+  \upgradepath{To reach obligationClosure, align the paper closure block with a checked Eigen carrier target and its classifier transport theorems.}
+\end{closurestatus}

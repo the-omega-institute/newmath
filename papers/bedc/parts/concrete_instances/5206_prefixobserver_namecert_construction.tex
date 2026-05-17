@@ -138,3 +138,14 @@ Finally apply the inscription handoff. The downstream $\InscriptionEventUp$ cons
 
 \falsifiablePrediction{If PrefixObserverUp is atomic, then every accepted inscription-facing prefix read factors through its displayed prefix and check rows before the InscriptionEventUp handoff.}
 \independenceWitness{Compare inscriptionevent, observersubjectboundary, observerhistidentity, finitewindowobserver, and streamname: PrefixObserverUp is not bijective to any one of them because it carries the accepted-prefix check and consumer handoff rows simultaneously.}
+
+\begin{closurestatus}{\PrefixObserverUp}
+  \constructivestory{A $\PrefixObserverUp$ packet is generated from finite $\BHist$ rows for an observed prefix, accepted-prefix check, observer-facing subject rows, inscription-event handoff, transports, continuations, provenance, and local naming. The observer read is produced by $\Cont$ through the displayed prefix and check rows before reaching the inscription-facing handoff, so consumers cannot bypass the finite prefix test. Componentwise $\hsame$ transports the prefix, check, observer, and handoff rows, while $\Pkg$ records the inscription, observer-boundary, observer-identity, finite-window, and stream-name dependencies. The packet is atomic because it combines prefix checking and consumer handoff in one surface.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the PrefixObserver carrier, accepted-prefix check, InscriptionEvent handoff, falsifiable prediction, and sibling independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim completed streams, unrestricted observer subject identity, hidden prefix selection, host equality of histories, or a general observation scheduler.}
+  \upgradepath{Obligation closure requires Lean encodings of the prefix carrier, accepted-prefix check, handoff route, transport stability, and sibling non-bijection boundary.}
+\end{closurestatus}

@@ -1,5 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\MonadUp$}
 \label{ch:concrete-instances-monad-namecert}
+\origin{human}
 
 The monad interface $\MonadUp$ packages an endofunctor on a category with unit and multiplication natural transformations satisfying the monad laws. It depends on $\NameCert_{\NatTransUp}$ (\autoref{ch:concrete-instances-nattrans-namecert}) and $\NameCert_{\AdjunctionUp}$ (\autoref{ch:concrete-instances-adjunction-namecert}), and supplies the substrate for algebraic theories and computational effect models.
 
@@ -263,3 +264,14 @@ and ledger-soundness rows of the semantic certificate are identity projections,
 as in the certificate template of \autoref{def:typed-naming-certificate}.
 \end{proof}
 \leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_semanticNameCert}
+
+\begin{closurestatus}{\MonadUp}
+  \constructivestory{A $\MonadUp$ certificate is generated here from an adjunction endomorphism carrier: prefix rows, object row, unit and counit component histories, triangle-result histories, continuation ledgers, and componentwise $\hsame$ classifiers. The $\BHist$ construction collapses the displayed endomorphism unit, counit, and triangle rows to the empty identity behavior by finite carrier inversion and $\Cont$ determinacy. The semantic certificate uses the same carrier as source, pattern, and ledger, so the monad-facing name is generated from explicit adjunction data rather than from an ambient category-theoretic law object.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the Monad adjunction-endomorphism triangle, bridge, empty-component, and semantic name-certificate theorems.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim arbitrary monad laws for all categories, Eilenberg-Moore constructions, Kleisli category equivalence, or host categorical equality.}
+  \upgradepath{To reach obligationClosure, expose the checked adjunction-endomorphism carrier as the formal MonadUp obligation surface.}
+\end{closurestatus}

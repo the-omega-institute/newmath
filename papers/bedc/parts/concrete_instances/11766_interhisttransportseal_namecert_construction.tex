@@ -80,3 +80,14 @@ If either row is absent, the candidate has no accepted $\InterHistTransportSealU
 \independenceWitness{interhistlocalityledger, interhistinvariant, observerlocalitycell, crosshistcausalroute, maxcausalrate: locality ledgers lack the sealed route export, invariant packets lack observer-cell admission, observer-locality cells lack the paired invariant route, causal routes lack the joint nonescape boundary, and maximum-rate packets are downstream consumers rather than transport seals.}
 
 The Lean TasteGate follow-up for $\mathsf{BEDC.Derived.InterHistTransportSealUp}$ must provide $\mathsf{Nontrivial}\ \InterHistTransportSealUp$ and $\mathsf{FieldFaithful}\ \InterHistTransportSealUp$ instances for the displayed carrier $A,B,L,I,O,R,H,C,P,N$.
+
+\begin{closurestatus}{\InterHistTransportSealUp}
+  \constructivestory{The Inter-Hist transport seal is generated from named $BHist$ rows for locality, invariant data, observer-cell admission, and the sealed transport route between histories. The seal begins with the source-facing row, reads the target-facing invariant through the declared transport path, and uses $\Cont$ only when the continuation preserves that path. The $hsame$ relation is the mechanism that lets equivalent source or target presentations retain the same seal without appealing to host identity. Non-escape, sibling independence, and the falsifiable prediction all express the same construction: any valid inter-history transport must expose its observer-locality, invariant, and continuation witness in the ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the Inter-Hist transport-seal carrier, NameCert obligations, nonescape, sibling-independence, and falsifiable-prediction theorems.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim arbitrary history equivalence, transport without a visible continuation witness, or host-level identity between source and target histories.}
+  \upgradepath{Reaching obligationClosure requires formal source-target transport rows and checked non-escape for transports lacking the carrier witness.}
+\end{closurestatus}
