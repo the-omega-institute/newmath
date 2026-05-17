@@ -252,6 +252,7 @@ import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.ResearchProgrammeExecutionGateUp.TasteGate
 import BEDC.Derived.BranchObstructionUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
+import BEDC.Derived.BoundedBetaComparisonUp.TasteGate
 import BEDC.Derived.BoundedUniversalTraceUp.TasteGate
 import BEDC.Derived.BoundedMonotoneConvergenceSealUp.TasteGate
 import BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
@@ -270,6 +271,7 @@ import BEDC.Derived.GroundLoopBoundaryUp.TasteGate
 import BEDC.Derived.GroundRefutationUp
 import BEDC.Derived.GroundCompilerAuditPacketUp.TasteGate
 import BEDC.Derived.StandardBridgeAuditPacketUp.TasteGate
+import BEDC.Derived.GroundCompilerAuditMapUp
 import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
 import BEDC.Derived.GroundCompilerRecognizerFlowUp.TasteGate
 import BEDC.Derived.GroundCompilerRecognizerBoundaryUp.TasteGate
@@ -902,6 +904,7 @@ import BEDC.Derived.ClosurePreservationAuditSealUp.TasteGate
 import BEDC.Derived.ClosurePreservationClassifierUp.TasteGate
 import BEDC.Derived.ClosedConsistencyGapUp.TasteGate
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
+import BEDC.Derived.ClosedNormalCanonicityUp.TasteGate
 import BEDC.Derived.ClosedNormalEndpointLedgerUp.TasteGate
 import BEDC.Derived.InterHistLocalityLedgerUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceAuditPacketUp.TasteGate
