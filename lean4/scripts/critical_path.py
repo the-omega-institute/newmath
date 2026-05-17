@@ -208,6 +208,118 @@ def _git_head_short() -> str:
 
 
 _objective_grades_cache: dict[str, str] | None = None
+_carrier_isomorphism_cache: dict | None = None
+
+
+def _shape_summary(shape: object) -> str:
+    """Compact phase-2 toEventFlow shape for critical_path JSON."""
+    if not isinstance(shape, list) or not shape:
+        return "unparsed"
+    kinds = [
+        str(item.get("kind"))
+        for item in shape
+        if isinstance(item, dict) and item.get("kind") is not None
+    ]
+    if len(kinds) == len(shape) and len(set(kinds)) == 1:
+        return f"{kinds[0]}×{len(kinds)}"
+    if (
+        len(kinds) == len(shape)
+        and len(kinds) % 2 == 0
+        and all(kinds[i] == "tag" and kinds[i + 1] == "encode" for i in range(0, len(kinds), 2))
+    ):
+        return f"tag-encode×{len(kinds) // 2}"
+    preview = "-".join(kinds[:8])
+    if len(kinds) > 8:
+        preview += f"+{len(kinds) - 8}"
+    return preview or "unparsed"
+
+
+def _get_carrier_isomorphism_summary() -> dict:
+    """Return a small carrier-isomorphism summary, not the full audit JSON."""
+    global _carrier_isomorphism_cache
+    if _carrier_isomorphism_cache is not None:
+        return _carrier_isomorphism_cache
+
+    try:
+        result = subprocess.run(
+            ["python3", str(ROOT / "lean4" / "scripts" / "bedc_ci.py"),
+             "carrier-isomorphism", "--json"],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            check=False,
+            timeout=30,
+        )
+    except subprocess.TimeoutExpired:
+        _carrier_isomorphism_cache = {
+            "available": False,
+            "reason": "carrier-isomorphism timed out after 30s",
+        }
+        return _carrier_isomorphism_cache
+    except Exception as exc:
+        _carrier_isomorphism_cache = {
+            "available": False,
+            "reason": f"carrier-isomorphism failed to start: {exc}",
+        }
+        return _carrier_isomorphism_cache
+
+    if result.returncode != 0:
+        stderr = (result.stderr or result.stdout or "").strip()
+        _carrier_isomorphism_cache = {
+            "available": False,
+            "reason": stderr[:500] or f"carrier-isomorphism exited {result.returncode}",
+        }
+        return _carrier_isomorphism_cache
+
+    try:
+        payload = json.loads(result.stdout)
+    except Exception as exc:
+        _carrier_isomorphism_cache = {
+            "available": False,
+            "reason": f"carrier-isomorphism JSON parse failed: {exc}",
+        }
+        return _carrier_isomorphism_cache
+
+    buckets = payload.get("phase2_buckets", [])
+    if not isinstance(buckets, list):
+        buckets = []
+    ranked = sorted(
+        enumerate(buckets, start=1),
+        key=lambda item: len(item[1].get("members", [])) if isinstance(item[1], dict) else 0,
+        reverse=True,
+    )
+    top_buckets = []
+    for bucket_id, bucket in ranked[:10]:
+        if not isinstance(bucket, dict):
+            continue
+        fingerprint = bucket.get("fingerprint", {})
+        if not isinstance(fingerprint, dict):
+            fingerprint = {}
+        members = bucket.get("members", [])
+        if not isinstance(members, list):
+            members = []
+        names = [
+            str(member.get("name"))
+            for member in members
+            if isinstance(member, dict) and member.get("name")
+        ]
+        members_preview = names[:5]
+        if len(names) > 5:
+            members_preview.append("...")
+        top_buckets.append({
+            "bucket_id": bucket_id,
+            "arity": fingerprint.get("arity"),
+            "shape_summary": _shape_summary(fingerprint.get("shape")),
+            "member_count": len(members),
+            "members_preview": members_preview,
+        })
+
+    _carrier_isomorphism_cache = {
+        "available": True,
+        "carriers_scanned": payload.get("carriers_scanned"),
+        "phase2_top_buckets": top_buckets,
+    }
+    return _carrier_isomorphism_cache
 
 
 def load_objective_formal_grades() -> dict[str, str]:
@@ -2014,6 +2126,7 @@ def main() -> int:
         "bridge_candidates": bridge_candidates,
         "formal_axis_top": formal_axis_top,
         "capstone_overlap_map": compute_capstone_overlap_map(),
+        "carrier_isomorphism": _get_carrier_isomorphism_summary(),
     }
     # Theorem-level surfaces (D-1 inventory + D-2 unformalized_top / drift_top).
     # Compute discover_all_theorems() once and reuse — the scan is the heaviest
@@ -2022,6 +2135,19 @@ def main() -> int:
     payload["theorem_inventory"] = summarize_theorem_inventory(theorem_rows)
     payload["unformalized_top"] = compute_unformalized_top(theorem_rows, max_n=50)
     payload["drift_top"] = compute_drift_top(theorem_rows, max_n=50)
+    # Side-effect: refresh dispatch weights for prompt consumption.
+    # Best-effort; don't fail critical_path if balancer crashes.
+    if os.environ.get("BEDC_SKIP_DISPATCH_BALANCER") != "1":
+        try:
+            subprocess.run(
+                ["python3", str(ROOT / "tools" / "dispatch_balancer.py")],
+                cwd=str(ROOT),
+                timeout=15,
+                check=False,
+                capture_output=True,
+            )
+        except Exception:
+            pass
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
 
