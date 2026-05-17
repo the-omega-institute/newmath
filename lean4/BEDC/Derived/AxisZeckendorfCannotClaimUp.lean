@@ -503,4 +503,78 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_refusal_kernel_scope [AskSetup]
     ⟨refusalUnary, transportedUnary, auditUnary, routeAB, routeCD, routeEF, auditRoute',
       sameProvenanceName, provenancePkg, auditPkg'⟩
 
+theorem AxisZeckendorfCannotClaimRegistryPacket_positive_bridge_exclusion [AskSetup]
+    [PackageSetup] {a b c d e f g h p n bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg ->
+      Cont h p bridge ->
+        PkgSig bundle bridge pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              (hsame row h ∨ hsame row p ∨ hsame row n) ∧ UnaryHistory h ∧
+                PkgSig bundle p pkg)
+            (fun row : BHist =>
+              UnaryHistory row ∧ (hsame row h ∨ hsame row p ∨ hsame row n))
+            (fun _row : BHist =>
+              hsame p n ∧ PkgSig bundle p pkg ∧ PkgSig bundle bridge pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro packet bridgeRoute bridgePkg
+  obtain
+    ⟨aUnary, bUnary, _cUnary, _dUnary, _eUnary, _fUnary, _gUnary, routeAB, _routeCD,
+      _routeEF, pUnary, sameProvenanceName, provenancePkg⟩ := packet
+  have hUnary : UnaryHistory h :=
+    unary_cont_closed aUnary bUnary routeAB
+  have nUnary : UnaryHistory n :=
+    unary_transport pUnary sameProvenanceName
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro h
+          ⟨Or.inl (hsame_refl h), hUnary, provenancePkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        obtain ⟨sourceRow, sourceHUnary, sourcePkg⟩ := source
+        have sameRow'Row : hsame row' row :=
+          hsame_symm sameRows
+        have sourceRow' : hsame row' h ∨ hsame row' p ∨ hsame row' n := by
+          cases sourceRow with
+          | inl sameRowH =>
+              exact Or.inl (hsame_trans sameRow'Row sameRowH)
+          | inr rest =>
+              cases rest with
+              | inl sameRowP =>
+                  exact Or.inr (Or.inl (hsame_trans sameRow'Row sameRowP))
+              | inr sameRowN =>
+                  exact Or.inr (Or.inr (hsame_trans sameRow'Row sameRowN))
+        exact ⟨sourceRow', sourceHUnary, sourcePkg⟩
+    }
+    pattern_sound := by
+      intro row source
+      obtain ⟨sourceRow, _sourceHUnary, _sourcePkg⟩ := source
+      have rowUnary : UnaryHistory row := by
+        cases sourceRow with
+        | inl sameRowH =>
+            exact unary_transport_symm hUnary sameRowH
+        | inr rest =>
+            cases rest with
+            | inl sameRowP =>
+                exact unary_transport_symm pUnary sameRowP
+            | inr sameRowN =>
+                exact unary_transport_symm nUnary sameRowN
+      exact ⟨rowUnary, sourceRow⟩
+    ledger_sound := by
+      intro _row _source
+      exact ⟨sameProvenanceName, provenancePkg, bridgePkg⟩
+  }
+
 end BEDC.Derived.AxisZeckendorfCannotClaimUp
