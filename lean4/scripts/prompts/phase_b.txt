@@ -1,11 +1,11 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v5.22 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.32 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
-## Source priority weights (dispatch_balancer)
+## Source priority weights (critical_path dispatch_weights)
 
-Read `.dispatch_weights.json::lean::weights` to get current per-source priority. If the file is missing or stale (`computed_at` > 1h old), proceed without it.
+Run `python3 lean4/scripts/critical_path.py | jq '.dispatch_weights.lean'` (or read the JSON directly) and use `critical_path.py` output's `"dispatch_weights"::"lean"::"weights"` to get current per-source priority. The same object also exposes `"supply"`, `"consumption_60min"`, and `"advice"` subfields for the lean side. If `dispatch_weights.lean` is absent or carries an `error`, proceed without it.
 
 Allocate your 3 targets approximately matching these weights:
 - 0.50 weight = pick ≈1-2 targets from this source
