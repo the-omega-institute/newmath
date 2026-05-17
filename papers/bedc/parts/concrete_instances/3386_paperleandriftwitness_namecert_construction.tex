@@ -209,6 +209,52 @@ Marker-kind separation prevents a consumer from retyping one paper marker kind a
 It remains only to bind the package boundary. Componentwise $\hsame$ transport is confined to $H$, displayed $\Cont$ replay is confined to $C$, $\Pkg$ provenance is confined to $P$, and local naming is confined to $N$. By non-escape and the consumer-boundary theorem, no checked theorem content, semantic equivalence row, approximate match, or prose-only promotion can leave this finite witness packet.
 \end{proof}
 
+\begin{theorem}[Paper-Lean drift witness closure-target resolution]
+\label{thm:paper-lean-drift-witness-closure-target-resolution}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier
+$$
+W=(M,A,L,I,R,H,C,P,N),
+$$
+any closure-status consumer or paper-marker consumer must read the exact paper marker row $M$, normalized Lean target row $A$, duplicate-label ledger row $L$, Lean inventory row $I$, and verdict row $R$ before treating a \texttt{\textbackslash leanchecked}, \texttt{\textbackslash leanvariant}, \texttt{\textbackslash leanstmt}, \texttt{\textbackslash leandef}, or \texttt{\textbackslash leantarget} occurrence as resolving. The resolving read is accepted only as the displayed exact inventory-and-ledger verdict for that same marker site.
+\end{theorem}
+\begin{proof}
+Begin with the carrier row order. The marker site is exposed by $M$, the requested Lean declaration is normalized in $A$, the paper-label ledger is read through $L$, the Lean inventory is read through $I$, and the verdict is exposed by $R$.
+
+Resolution exactness supplies the positive case: an exact verdict requires the normalized requested name to occur in $I$ and the label row not to be refused by $L$. Duplicate-label priority prevents an inventory hit from resolving a marker whose label row is refused.
+
+Unresolved-marker refusal keeps absent inventory hits inside refusal rows, while marker-kind separation keeps each of the five marker commands in its own paper-row kind. Inventory verdict totality then exhausts the accepted outcomes over the displayed inventory and ledger rows.
+
+Therefore a closure-status or marker consumer can treat a paper marker as resolving only after reading $M,A,L,I,R$ for the same site and receiving the exact inventory-and-ledger verdict.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness axis separation]
+\label{thm:paper-lean-drift-witness-axis-separation}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier, an exact-resolution verdict certifies only the verification-axis lookup of the requested Lean declaration in the displayed inventory. It does not upgrade the paper-side closure axis, bridge status, or semantic theorem content attached to the paper claim.
+\end{theorem}
+\begin{proof}
+The non-escape theorem states that the packet exports no checked theorem, statement, definition, or closure-status target beyond the exact marker-resolution rows. Its positive content is the marker-resolution verdict attached to the displayed paper marker, normalized name, label ledger, and Lean inventory lookup.
+
+The consumer-boundary theorem confines every audit consumer to $M,A,L,I,R,H,C,P,N$. Those rows include no coordinate for changing theory closure, no bridge certificate, and no semantic equivalence row between paper claims and Lean declarations.
+
+Thus an exact-resolution verdict may certify that the requested Lean declaration is found on the verification axis. Any paper-side closure claim, bridge status, or semantic theorem content must be supplied by a separate certificate and cannot be projected from this witness.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness audit-map handoff]
+\label{thm:paper-lean-drift-witness-audit-map-handoff}
+Every audit-map dependency consumer receiving an accepted $\PaperLeanDriftWitnessUp$ carrier receives exactly the finite packet
+$$
+M,A,L,I,R,H,C,P,N.
+$$
+It may use that packet as a row for marker-resolution dependency routing, but not as a replacement for a Lean theorem proof or for paper-side closure evidence.
+\end{theorem}
+\begin{proof}
+The consumer boundary gives the audit-map consumer precisely the displayed finite rows $M,A,L,I,R,H,C,P,N$. These rows expose marker parsing, name normalization, duplicate-label comparison, inventory lookup, verdict exposure, transport, replay, provenance, and local naming.
+
+Resolution stability permits the same exact-resolution outcome to be replayed under componentwise $\hsame$ transport of those rows. Closure-target resolution identifies the resolving read as the exact inventory-and-ledger verdict for the same marker site.
+
+Axis separation then fixes the boundary of the handoff. The packet is a dependency-routing row for marker resolution; a Lean theorem proof and paper-side closure evidence remain separate obligations supplied outside the $\PaperLeanDriftWitnessUp$ witness.
+\end{proof}
+
 \closureat{PaperLeanDriftWitnessUp}{seedStr}
 \closureat{PaperLeanDriftWitnessUp}{obligationStr}
 
