@@ -55,24 +55,28 @@ def tailModulusAlignmentToEventFlow : TailModulusAlignmentUp → EventFlow
         tailModulusAlignmentEncodeBHist provenance,
         tailModulusAlignmentEncodeBHist name]
 
-def tailModulusAlignmentFromEventFlow : EventFlow → Option TailModulusAlignmentUp
+private def tailModulusAlignmentEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | refinement :: schedule :: fusion :: windows :: readback :: dyadic :: sealRow ::
-      transport :: route :: provenance :: name :: [] =>
-      some
-        (TailModulusAlignmentUp.mk
-          (tailModulusAlignmentDecodeBHist refinement)
-          (tailModulusAlignmentDecodeBHist schedule)
-          (tailModulusAlignmentDecodeBHist fusion)
-          (tailModulusAlignmentDecodeBHist windows)
-          (tailModulusAlignmentDecodeBHist readback)
-          (tailModulusAlignmentDecodeBHist dyadic)
-          (tailModulusAlignmentDecodeBHist sealRow)
-          (tailModulusAlignmentDecodeBHist transport)
-          (tailModulusAlignmentDecodeBHist route)
-          (tailModulusAlignmentDecodeBHist provenance)
-          (tailModulusAlignmentDecodeBHist name))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => tailModulusAlignmentEventAtDefault index rest
+
+def tailModulusAlignmentFromEventFlow (ef : EventFlow) : Option TailModulusAlignmentUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (TailModulusAlignmentUp.mk
+      (tailModulusAlignmentDecodeBHist (tailModulusAlignmentEventAtDefault 0 ef))
+      (tailModulusAlignmentDecodeBHist (tailModulusAlignmentEventAtDefault 1 ef))
+      (tailModulusAlignmentDecodeBHist (tailModulusAlignmentEventAtDefault 2 ef))
+      (tailModulusAlignmentDecodeBHist (tailModulusAlignmentEventAtDefault 3 ef))
+      (tailModulusAlignmentDecodeBHist (tailModulusAlignmentEventAtDefault 4 ef))
+      (tailModulusAlignmentDecodeBHist (tailModulusAlignmentEventAtDefault 5 ef))
+      (tailModulusAlignmentDecodeBHist (tailModulusAlignmentEventAtDefault 6 ef))
+      (tailModulusAlignmentDecodeBHist (tailModulusAlignmentEventAtDefault 7 ef))
+      (tailModulusAlignmentDecodeBHist (tailModulusAlignmentEventAtDefault 8 ef))
+      (tailModulusAlignmentDecodeBHist (tailModulusAlignmentEventAtDefault 9 ef))
+      (tailModulusAlignmentDecodeBHist (tailModulusAlignmentEventAtDefault 10 ef)))
 
 private theorem tailModulusAlignment_round_trip :
     ∀ x : TailModulusAlignmentUp,
@@ -183,5 +187,27 @@ instance tailModulusAlignmentNontrivial : Nontrivial TailModulusAlignmentUp wher
 def tail_modulus_alignment_taste_gate : ChapterTasteGate TailModulusAlignmentUp :=
   -- BEDC touchpoint anchor: BHist BMark
   tailModulusAlignmentChapterTasteGate
+
+namespace TasteGate
+
+theorem TailModulusAlignmentTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+        tailModulusAlignmentDecodeBHist (tailModulusAlignmentEncodeBHist h) = h) ∧
+      (∀ x : TailModulusAlignmentUp,
+        tailModulusAlignmentFromEventFlow (tailModulusAlignmentToEventFlow x) = some x) ∧
+      (∀ x y : TailModulusAlignmentUp,
+        tailModulusAlignmentToEventFlow x = tailModulusAlignmentToEventFlow y → x = y) ∧
+      tailModulusAlignmentEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact tailModulusAlignmentDecode_encode_bhist
+  · constructor
+    · exact tailModulusAlignment_round_trip
+    · constructor
+      · intro x y heq
+        exact tailModulusAlignmentToEventFlow_injective heq
+      · rfl
+
+end TasteGate
 
 end BEDC.Derived.TailModulusAlignmentUp
