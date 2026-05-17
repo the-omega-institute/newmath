@@ -1439,6 +1439,7 @@ import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FiniteReflectionTupleUp.Core
 import BEDC.Derived.FiniteReflectionTupleUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
+import BEDC.Derived.FinitePrefixLimitStabilityUp.LedgerExactness
 import BEDC.Derived.ForbiddenAxiomAncestryUp
 import BEDC.Derived.ForbiddenAxiomAncestryUp.RefusalDeterminacy
 import BEDC.Derived.FiniteWindowEnvelopeUp
@@ -2217,6 +2218,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.ToleranceLedgerHandoff
 import BEDC.Derived.DiagonallimitcompatibilityUp.TriangleReadbackLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.TriangleSelectorAlignment
 import BEDC.Derived.DiagonallimitcompatibilityUp.TriangleSealScope
+import BEDC.Derived.DiagonallimitcompatibilityUp.TriangleSealTransportRoute
 import BEDC.Derived.DiagonallimitcompatibilityUp.TripleBudgetRouteExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.UniformCauchyTerminalHandoff
 import BEDC.Derived.DiagonallimitcompatibilityUp.UniformCriterionTerminalUniquenessPullback
