@@ -1,4 +1,5 @@
 import BEDC.Derived.MetaCICNormalizationFrontierUp.NameCertObligations
+import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.MetaCICNormalizationFrontierUp
 
@@ -78,5 +79,30 @@ theorem MetaCICNormalizationFrontierPublicExportTotality [AskSetup] [PackageSetu
         exact ⟨publicPkg, source.left⟩
     }
   exact ⟨candidateRouteUnary, finishedRouteUnary, publicReadUnary, obstructionSame, cert⟩
+
+theorem MetaCICNormalizationFrontierPublicExport_nonescape [AskSetup] [PackageSetup]
+    {candidate closedCandidate finished endpoint obstruction transport replay provenance localRow
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICNormalizationFrontierCarrier candidate closedCandidate finished endpoint obstruction
+        transport replay provenance localRow bundle pkg →
+      Cont replay provenance publicRead →
+        PkgSig bundle publicRead pkg →
+          UnaryHistory publicRead ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle publicRead pkg ∧ hsame obstruction obstruction ∧
+              (Cont publicRead (BHist.e0 candidate) replay → False) ∧
+                (Cont publicRead (BHist.e1 finished) replay → False) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier replayProvenancePublic publicPkg
+  obtain ⟨_candidateUnary, _closedCandidateUnary, _finishedUnary, _endpointUnary,
+    _obstructionUnary, _transportUnary, replayUnary, provenanceUnary, _localRowUnary,
+    _candidateClosedLocal, _finishedEndpointReplay, _endpointReplayProvenance,
+    _transportSameCandidateFinished, provenancePkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed replayUnary provenanceUnary replayProvenancePublic
+  exact
+    ⟨publicUnary, provenancePkg, publicPkg, hsame_refl obstruction,
+      (fun back => cont_mutual_extension_right_tail_absurd.left replayProvenancePublic back),
+      (fun back => cont_mutual_extension_right_tail_absurd.right replayProvenancePublic back)⟩
 
 end BEDC.Derived.MetaCICNormalizationFrontierUp
