@@ -1042,6 +1042,7 @@ import BEDC.Derived.FiniteNetMinimumFoldUp.CompactModulusAttainment
 import BEDC.Derived.FiniteNetMinimumFoldUp.CompactUniformPointwiseRadiusChain
 import BEDC.Derived.FiniteNetMinimumFoldUp.RootCompactCoverReadback
 import BEDC.Derived.FiniteNetMinimumFoldUp.TerminalReadback
+import BEDC.Derived.FiniteNetMinimumFoldUp.TasteGate
 import BEDC.Derived.FiniteNetMinimumFoldUp.UniformCompactMetricHandoffGate
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.DivisibilityUp
@@ -1954,8 +1955,8 @@ import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealDiagonalMeshBudgetUp
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.RealDiagonalWindowCoverageUp
-import BEDC.Derived.RealCompletenessUp
 import BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate
+import BEDC.Derived.RealCompletenessUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.StreamNameDyadicRealHandoff
@@ -2833,6 +2834,7 @@ import BEDC.Derived.CompactUniformContinuityUp.PrecisionRouteTotality
 import BEDC.Derived.CompactUniformContinuityUp.RealMetricSealNonescape
 import BEDC.Derived.CompactUniformContinuityUp.RealSealBoundary
 import BEDC.Derived.CompactUniformContinuityUp.RootNonescapePackage
+import BEDC.Derived.CompactUniformContinuityUp.StandardBridgeObligationPackage
 import BEDC.Derived.CompactUniformContinuityUp.UniformPrecisionConsumerRoute
 import BEDC.Derived.FourFaceExitClassifierUp.TasteGate
 import BEDC.Derived.AxisNatUp.TasteGate
