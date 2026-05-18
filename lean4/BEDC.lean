@@ -257,6 +257,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputAuditTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBranchOutputClosedBoundary
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootHostBoundaryNameCertExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootUnblockLedgerNonescape
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBoundaryNonescape
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
@@ -571,6 +572,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.RealSealRefusal
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealFactorization
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealPullbackNonescape
+import BEDC.Derived.CauchyModulusRefinementUp.RealSealRouteNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealRootHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RealConsumerCoverage
 import BEDC.Derived.CauchyModulusRefinementUp.RealConsumerNonescape
@@ -3469,6 +3471,7 @@ import BEDC.Derived.CompactCoverShrinkageLedgerUp.TasteGate
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalCommitmentUp
 import BEDC.Derived.CausalCommitmentUp.CausalCommitmentClassifierStability
+import BEDC.Derived.CausalCommitmentUp.PublicForwardGapExport
 import BEDC.Derived.ContinuationBisimulationUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
