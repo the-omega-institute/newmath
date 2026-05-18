@@ -418,3 +418,58 @@ Since both applications use only the visible four roadmap faces, the exact
 boundary face on that route, and the five displayed support rows, no additional
 consumer coordinate is available.
 \end{proof}
+
+\begin{theorem}[StreamName terminal fusion universal consumer normal form]
+\label{thm:streamname-terminal-fusion-universal-consumer-normal-form}
+Let $\mathcal W$ be an accepted terminal fused StreamName packet supplied with a
+same-route $\RealCompletionExactBoundaryUp$ face, so that it is readable as an
+accepted terminal $\PhaseRealCompletionExitUp$ consumer. Every downstream
+consumer of this terminal Phase Real and Completion packet that preserves
+BEDC-visible public rows factors through exactly the four roadmap faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+and the support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Equivalently, once those displayed rows are fixed, the consumer readback is in
+normal form: two presentations with the same displayed rows give the same
+downstream consumer readback.
+
+This normal form exports no quotient stream equality, no host sequence
+equality, no selected limit, no ambient completeness row, no metric-completeness
+datum, no countable-choice row, no bridge token, no aggregate formalstatus row,
+and no fused completion witness.
+\end{theorem}
+\begin{proof}
+First reduce the terminal packet to its source rows. By
+\autoref{thm:streamname-terminal-window-fusion-source-exhaustion}, an accepted
+terminal fused StreamName packet is exhausted by the four roadmap faces and the
+displayed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ support rows. Thus a
+BEDC-visible downstream consumer cannot read an additional StreamName-side
+coordinate before the phase-exit face is attached.
+
+Next attach the same-route exact-boundary face and read the result as a
+phase-exit consumer. Apply
+\autoref{thm:streamname-terminal-fusion-phase-exit-consumer-readback}. The
+consumer readback consists of the four roadmap records, the
+$\RealCompletionExactBoundaryUp$ face constrained to that route, and the same
+support rows; the excluded quotient, limit, choice, completeness, aggregate
+status, bridge, and fused-witness rows are not part of the exported interface.
+
+It remains to check independence from presentation. If two terminal
+presentations display the same four roadmap faces and the same support rows,
+then apply
+\autoref{thm:streamname-terminal-fusion-phase-exit-refinement-readback-invariance}
+to any certified common refinement between them. The refined and original
+presentations give the same five-face phase-exit consumer readback, hence the
+same downstream readback for every row-preserving consumer.
+
+Finally restrict the conclusion to the four-face L10 route. By
+\autoref{thm:streamname-l10-four-face-exit-gate}, the only roadmap faces
+available to the terminal route are $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$. Combining that gate with source exhaustion,
+phase-exit readback, and refinement readback invariance gives the stated
+universal normal form.
+\end{proof}
