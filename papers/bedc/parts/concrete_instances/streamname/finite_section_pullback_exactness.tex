@@ -310,3 +310,73 @@ Restricting those rows to any finite local window gives an accepted local
 section, and restricting them to a pairwise overlap gives the same rows from
 both sides.
 \end{proof}
+
+\begin{theorem}[StreamName finite-section tail-window terminal equivalence]
+\label{thm:streamname-finite-section-tail-window-terminal-equivalence}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase Real and
+Completion $\StreamNameUp$ request sections, and let
+$$
+\mathcal P_0,\mathcal P_1,\ldots,\mathcal P_n
+$$
+be a finite chain of $\StreamNameUp$ tail-window coverage packets over the
+same public endpoints and the same accepted $\RegSeqRat$ spine. Suppose each
+$Q_i$ and each $\mathcal P_j$ displays the same $\StreamNameUp$ finite-window
+row, $\DyadicRatCoreUp$ ledger row, $\RegSeqRatUp$ readback row, $\RealUp$ seal
+boundary, and the same $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support rows. Then the public reflection surface produced by
+finite-section descent gluing and the terminal read produced by tail-window
+cover-chain coverage are the same four-face terminal route through
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, with the same carrier
+and the same classifier verdict.
+
+Conversely, any terminal tail-window read over this four-face route restricts
+to compatible accepted finite sections whose overlaps display exactly those
+finite-window, ledger, readback, seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows. Both directions exclude quotient streams, selected limits,
+host sequence equality, ambient Real completeness, metric-completeness data,
+countable choice, and standard bridge rows.
+\end{theorem}
+\begin{proof}
+For the finite-section side, apply
+\autoref{thm:streamname-finite-section-descent-gluing}. The accepted local
+sections glue to one public reflection surface over the four-face route because
+their overlaps carry the same StreamName finite window, DyadicRatCore ledger,
+RegSeqRat readback, RealUp seal boundary, and displayed support rows.
+
+Apply \autoref{thm:streamname-finite-section-terminal-reflection} to that
+glued surface. The result is a terminal public reflection surface on the
+current Phase Real and Completion route. By
+\autoref{thm:streamname-finite-section-classifier-determinacy}, the carrier and
+classifier verdict of this surface are already determined by the displayed
+four-face rows.
+
+For the tail-window side, use
+\autoref{thm:streamname-tail-window-cover-chain-source-confluence}. Every
+packet in the cover chain induces the same consumer-facing finite source
+surface. Then apply \autoref{thm:streamname-tail-window-terminal-coverage} to
+identify the terminal RealUp read with exactly that common source surface.
+
+It remains to compare the two terminal surfaces. The common rows assumed for
+the $Q_i$ and the $\mathcal P_j$ are the rows named by
+\autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}; hence both
+constructions factor through the same StreamName, DyadicRatCore, RegSeqRat,
+and RealUp faces, and no additional carrier or classifier coordinate is
+available on either side.
+
+For the converse, start with a terminal tail-window read over the same
+four-face route. By
+\autoref{thm:streamname-tail-window-cover-chain-source-confluence} and
+\autoref{thm:streamname-tail-window-terminal-coverage}, it is covered by one
+common finite source surface. Restricting that surface to the finite windows
+selected by the accepted current Phase Real and Completion requests gives
+finite sections whose overlaps inherit the same displayed rows.
+
+Finally apply \autoref{thm:streamname-finite-section-descent-gluing} to these
+restricted sections and
+\autoref{thm:streamname-finite-section-classifier-determinacy} to their visible
+classifier rows. The resulting finite-section surface is the same terminal
+four-face route as the original tail-window read, and the boundary exclusions
+above leave no quotient stream, selected limit, host sequence equality,
+ambient Real completeness, metric-completeness data, countable choice, or
+standard bridge row to distinguish them.
+\end{proof}
