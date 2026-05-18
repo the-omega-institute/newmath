@@ -60,23 +60,37 @@ def cauchyWindowTransducerToEventFlow :
         cauchyWindowTransducerEncodeBHist provenance,
         cauchyWindowTransducerEncodeBHist nameCert]
 
-def cauchyWindowTransducerFromEventFlow :
-    EventFlow → Option CauchyWindowTransducerUp
-  | streamWindow :: dyadicTolerance :: windowStep :: regSeqReadback :: realSeal ::
-      limitSelector :: transport :: continuation :: provenance :: nameCert :: [] =>
-      some
-        (CauchyWindowTransducerUp.mk
-          (cauchyWindowTransducerDecodeBHist streamWindow)
-          (cauchyWindowTransducerDecodeBHist dyadicTolerance)
-          (cauchyWindowTransducerDecodeBHist windowStep)
-          (cauchyWindowTransducerDecodeBHist regSeqReadback)
-          (cauchyWindowTransducerDecodeBHist realSeal)
-          (cauchyWindowTransducerDecodeBHist limitSelector)
-          (cauchyWindowTransducerDecodeBHist transport)
-          (cauchyWindowTransducerDecodeBHist continuation)
-          (cauchyWindowTransducerDecodeBHist provenance)
-          (cauchyWindowTransducerDecodeBHist nameCert))
-  | _ => none
+private def cauchyWindowTransducerEventAtDefault : Nat → EventFlow → RawEvent
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      cauchyWindowTransducerEventAtDefault index rest
+
+def cauchyWindowTransducerFromEventFlow
+    (ef : EventFlow) : Option CauchyWindowTransducerUp :=
+  some
+    (CauchyWindowTransducerUp.mk
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 0 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 1 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 2 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 3 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 4 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 5 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 6 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 7 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 8 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 9 ef)))
 
 private theorem cauchyWindowTransducer_round_trip :
     ∀ x : CauchyWindowTransducerUp,
@@ -86,8 +100,40 @@ private theorem cauchyWindowTransducer_round_trip :
   cases x with
   | mk streamWindow dyadicTolerance windowStep regSeqReadback realSeal
       limitSelector transport continuation provenance nameCert =>
-      simp [cauchyWindowTransducerFromEventFlow, cauchyWindowTransducerToEventFlow,
-        cauchyWindowTransducerDecode_encode_bhist]
+      change
+        some (CauchyWindowTransducerUp.mk
+          (cauchyWindowTransducerDecodeBHist
+            (cauchyWindowTransducerEncodeBHist streamWindow))
+          (cauchyWindowTransducerDecodeBHist
+            (cauchyWindowTransducerEncodeBHist dyadicTolerance))
+          (cauchyWindowTransducerDecodeBHist
+            (cauchyWindowTransducerEncodeBHist windowStep))
+          (cauchyWindowTransducerDecodeBHist
+            (cauchyWindowTransducerEncodeBHist regSeqReadback))
+          (cauchyWindowTransducerDecodeBHist
+            (cauchyWindowTransducerEncodeBHist realSeal))
+          (cauchyWindowTransducerDecodeBHist
+            (cauchyWindowTransducerEncodeBHist limitSelector))
+          (cauchyWindowTransducerDecodeBHist
+            (cauchyWindowTransducerEncodeBHist transport))
+          (cauchyWindowTransducerDecodeBHist
+            (cauchyWindowTransducerEncodeBHist continuation))
+          (cauchyWindowTransducerDecodeBHist
+            (cauchyWindowTransducerEncodeBHist provenance))
+          (cauchyWindowTransducerDecodeBHist
+            (cauchyWindowTransducerEncodeBHist nameCert))) =
+          some (CauchyWindowTransducerUp.mk streamWindow dyadicTolerance windowStep
+            regSeqReadback realSeal limitSelector transport continuation provenance nameCert)
+      rw [cauchyWindowTransducerDecode_encode_bhist streamWindow,
+        cauchyWindowTransducerDecode_encode_bhist dyadicTolerance,
+        cauchyWindowTransducerDecode_encode_bhist windowStep,
+        cauchyWindowTransducerDecode_encode_bhist regSeqReadback,
+        cauchyWindowTransducerDecode_encode_bhist realSeal,
+        cauchyWindowTransducerDecode_encode_bhist limitSelector,
+        cauchyWindowTransducerDecode_encode_bhist transport,
+        cauchyWindowTransducerDecode_encode_bhist continuation,
+        cauchyWindowTransducerDecode_encode_bhist provenance,
+        cauchyWindowTransducerDecode_encode_bhist nameCert]
 
 private theorem cauchyWindowTransducerToEventFlow_injective
     {x y : CauchyWindowTransducerUp}
