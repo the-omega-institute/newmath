@@ -57,3 +57,38 @@ Since those inputs provide no fifth face, no route-level Lean-target
 coordinate, and no aggregate bridge coordinate, the local Lean-target and
 bridge-status rows remain attached to the faces from which they are read.
 \end{proof}
+
+\begin{theorem}[Real L10 face axis independence]
+\label{thm:real-l10-face-axis-independence}
+Any accepted Phase Real and Completion audit read through
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ preserves
+four independent local coordinates on each face: paper closure, formalstatus,
+leantarget, and bridgestatus. No coordinate from one face promotes any
+coordinate of another face, and no conjunction of face coordinates creates
+route-level closure, route-level formalstatus, route-level leantarget,
+aggregate bridge status, quotient stream, selected limit, countable-choice
+row, metric-completeness row, or $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-current-phase-exit-audit-pullback}. The audit is
+read as a product of the displayed faces
+$\DyadicRatCoreUp,\StreamNameUp,\RegSeqRatUp,\RealUp$ over the Real L10
+dependency lattice, with no additional route coordinate.
+
+Apply \autoref{thm:real-l10-face-status-noncollapse}. It keeps the paper
+closure and formalstatus reports face-local and blocks any reading in which a
+conjunction of local status records becomes route-level closure, route-level
+formalstatus, an aggregate bridge, or a $\RealUp$ completeness claim.
+
+Apply \autoref{thm:real-l10-face-leantarget-noncollapse}. It keeps
+leantarget and bridgestatus records attached to their source faces and blocks
+any reading in which one face supplies the Lean target or bridge row for
+another face.
+
+Finally use the two-axis discipline of
+\autoref{sec:roadmap-closure-and-verification-axes}. Paper closure,
+formalstatus, leantarget, and bridgestatus are reported as separate
+coordinates; the roadmap supplies no rule that turns their conjunction into a
+quotient stream, selected limit, countable-choice row, metric-completeness
+row, aggregate bridge, or completed real-completeness certificate.
+\end{proof}
