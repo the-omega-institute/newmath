@@ -2654,6 +2654,7 @@ import BEDC.Derived.LinearMapUp.ContinuationVisibleSource
 import BEDC.Derived.LinearMapUp.ContinuationVisibleTarget
 import BEDC.Derived.LinearMapUp.EvalContextPair
 import BEDC.Derived.LinearMapUp.EvalContinuationPair
+import BEDC.Derived.LinearMapUp.EvaluationGraphComposition
 import BEDC.Derived.LinearMapUp.EvaluationGraphNameCert
 import BEDC.Derived.LinearMapUp.EvaluationGraphPackage
 import BEDC.Derived.LinearMapUp.Image
@@ -2800,6 +2801,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateEvidenceBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateFinishedBoundaryTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmission
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmissionRoute
+import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierRows
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClassifierStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedCandidateReadbackExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedNormalConsumerRoute
@@ -4322,6 +4324,7 @@ import BEDC.Derived.ZnormalUp.TasteGate
 import BEDC.Derived.ZnormalUp.TerminalConsumerTotality
 import BEDC.Derived.ZnormalUp.TerminalNormalityRefusalStability
 import BEDC.Derived.ZnormalUp.TerminalReadbackExactness
+import BEDC.Derived.ZnormalUp.TerminalRouteExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
 import BEDC.DerivedIndexAnalysis
 import BEDC.FKernel.Ask
