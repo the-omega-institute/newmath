@@ -1,11 +1,13 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.ContourIntegralOperationUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def ContourIntegralOperationCarrier (G F S M I H P N : BHist) : Prop :=
@@ -133,6 +135,52 @@ theorem ContourIntegralOperationPublicExport {G F S M I H P N : BHist} :
     unary_cont_closed unaryI unaryP exportRoute
   exact
     ⟨unaryG, unaryF, unaryS, unaryM, unaryI, unaryN, sameInputFace, integralRoute,
+      exportRoute⟩
+
+theorem ContourIntegralOperationNameCertObligations {G F S M I H P N : BHist} :
+    ContourIntegralOperationCarrier G F S M I H P N ->
+      SemanticNameCert
+          (fun row : BHist => ContourIntegralOperationCarrier G F S M I H P N ∧ hsame row I)
+          (fun row : BHist => hsame row I ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row I ∧ hsame H (append G F) ∧ Cont S M I ∧ Cont I P N)
+          hsame ∧
+        UnaryHistory G ∧ UnaryHistory F ∧ UnaryHistory S ∧ UnaryHistory M ∧
+          UnaryHistory I ∧ UnaryHistory N ∧ hsame H (append G F) ∧ Cont S M I ∧
+            Cont I P N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro carrier
+  have carrierKeep := carrier
+  obtain ⟨unaryG, unaryF, unaryS, unaryM, unaryP, sameInputFace, integralRoute,
+    exportRoute⟩ := carrier
+  have unaryI : UnaryHistory I :=
+    unary_cont_closed unaryS unaryM integralRoute
+  have unaryN : UnaryHistory N :=
+    unary_cont_closed unaryI unaryP exportRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => ContourIntegralOperationCarrier G F S M I H P N ∧ hsame row I)
+          (fun row : BHist => hsame row I ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row I ∧ hsame H (append G F) ∧ Cont S M I ∧ Cont I P N)
+          hsame := by
+    constructor
+    · constructor
+      · exact Exists.intro I ⟨carrierKeep, hsame_refl I⟩
+      · intro row _source
+        exact hsame_refl row
+      · intro _row _row' same
+        exact hsame_symm same
+      · intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro _row _row' same source
+        exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+    · intro row source
+      exact ⟨source.right, unary_transport unaryI (hsame_symm source.right)⟩
+    · intro _row source
+      exact ⟨source.right, sameInputFace, integralRoute, exportRoute⟩
+  exact
+    ⟨cert, unaryG, unaryF, unaryS, unaryM, unaryI, unaryN, sameInputFace, integralRoute,
       exportRoute⟩
 
 end BEDC.Derived.ContourIntegralOperationUp
