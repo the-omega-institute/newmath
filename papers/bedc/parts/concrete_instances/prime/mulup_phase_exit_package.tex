@@ -256,6 +256,47 @@ classifier, and the same $\mathsf{NatMul}$ result row, without adding host
 multiplication, quotient equality, or cancellation beyond the displayed package.
 \end{proof}
 
+\begin{theorem}[MulUp bridge consumer status alignment]
+\label{thm:mulup-bridge-consumer-status-alignment}
+The $\MulUp$ chapter's paper bridge status is exactly the consumer package
+obtained by combining the unary standard bridge boundary of
+\autoref{thm:mulup-unary-standard-bridge-boundary}, the checked law audit
+package of \autoref{thm:mulup-checked-law-audit-package}, the phase-exit
+boundary of \autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary}, the
+window-exhaustion boundary of
+\autoref{thm:mulup-full-nat-arithmetic-window-exhaustion}, and the mature
+boundary of \autoref{thm:mulup-full-nat-arithmetic-mature-boundary}. This
+package justifies recording paperBridge for $\MulUp$, while it does not justify
+$\bridgeCheckedV$ until a Lean-side standard bridge theorem for the same
+boundary exists.
+\end{theorem}
+\begin{proof}
+The unary standard bridge boundary supplies the external paper reading: each
+$\mathsf{NatMul}(d,q,n)$ ledger is read as finite repeated-unary continuation
+and returns to the same $\mathsf{UnaryHistory}$ endpoint, $\hsame$ classifier,
+and displayed $\mathsf{NatMul}$ result row.
+
+The checked law audit package and the phase-exit boundary identify the law rows
+that this reading may consume. They give totality, result closure,
+functionality, unit, unit laws, commutativity, associativity, operation
+congruence, result $\mathsf{NameCert}$, the two $\AddUp$ distributivity rows,
+the $\OrderUp$ monotonicity row, and the divisibility-order rows over the same
+$\mathsf{BHist}$ and $\mathsf{UnaryHistory}$ surface.
+
+The window-exhaustion and mature-boundary theorems close the consumer side.
+They say that the finite Full Nat Arithmetic window has no row outside the
+displayed package, and in particular no host multiplication, quotient equality,
+host cancellation law, second carrier, or semiring surface is exported to the
+bridge consumer.
+
+Thus the paper has a complete bridge account at the manuscript boundary: the
+external unary-word reading consumes exactly the audited rows and nothing beyond
+them. The verification axis remains below $\bridgeCheckedV$, because the cited
+Lean target certifies the $\mathsf{NatMul}$ result semantic
+$\mathsf{NameCert}$ rather than a standard bridge theorem for this consumer
+boundary.
+\end{proof}
+
 \begin{theorem}[MulUp Full Nat Arithmetic audit surface]
 \label{thm:mulup-full-nat-arithmetic-audit-surface}
 Over $\mathsf{BHist}$ and the carrier $\mathsf{UnaryHistory}$, a Full Nat
