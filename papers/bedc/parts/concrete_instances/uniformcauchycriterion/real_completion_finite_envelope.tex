@@ -158,3 +158,29 @@ For the reverse direction, suppose the route displays exactly those rows. The fi
 
 It remains to exclude extra sources. The no-choice extraction boundary in \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-no-choice-extraction} rules out quotient streams, selected host limits, host real equality, countable choice, ambient completeness, and metric-completeness data. Tail-window stability in \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-tail-window-stability} prevents a second stream or readback source, and the dyadic ledger coordinate in the carrier prevents a second tolerance source. Thus the listed rows are both sufficient and source-minimal.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Real-envelope witness extraction]
+\label{thm:uniform-cauchy-criterion-real-envelope-witness-extraction}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Let $\mathcal{T}$ be an admissible $\RealUp$-facing or $\CompletionUp$-facing terminal envelope for $U$ whose displayed rows satisfy the source-minimality characterization of \autoref{thm:uniform-cauchy-criterion-real-envelope-source-minimality}. Then $\mathcal{T}$ determines a finite BEDC witness packet
+$$
+\mathcal{W}_{\RealUp}(U,\mathcal{T})=
+(W_{\StreamNameUp},R_{\RegSeqRatUp},Q_{\DyadicRatCoreUp},
+S_{\CauchyLimitSealUp},E_{\RealCauchyCompletionUp},H,C,P,N).
+$$
+Its coordinates are exactly the displayed $\StreamNameUp$ window family, the $\RegSeqRatUp$ source rows reached by the uniform tail ledger, the $\DyadicRatCoreUp$ tolerance ledger, the $\CauchyLimitSealUp$ tail-meet route, the $\RealCauchyCompletionUp$ public export, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\UniformCauchyCriterionUp}$ rows. Every $\RealUp$ or $\CompletionUp$ consumer read of $\mathcal{T}$ factors through this witness packet before the terminal $\RealUp$ row is consumed.
+
+The witness packet has no coordinate for quotient streams, selected host limits, host real equality, countable choice, ambient completeness, metric-completeness data, a second stream source, a second readback source, or a second tolerance source.
+\end{theorem}
+\begin{proof}
+Start with carrier exposure. The finite-envelope carrier of \autoref{def:uniform-cauchy-criterion-real-completion-finite-envelope-carrier} displays the accepted packet together with $W_{\StreamNameUp}$, $R_{\RegSeqRatUp}$, $Q_{\DyadicRatCoreUp}$, $S_{\CauchyLimitSealUp}$, $E_{\RealCauchyCompletionUp}$, and the structural rows $H,C,P,N$. The NameCert obligations of \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-namecert-obligations} identify these rows as the local carrier, stability, exactness, export, and non-escape data.
+
+Now apply consumer exhaustion and terminal routing. By \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-consumer-exhaustion}, every $\RealUp$ or $\CompletionUp$ consumer read factors through the displayed carrier rows. By \autoref{thm:uniform-cauchy-criterion-real-completion-synchronizer-terminal-envelope}, the terminal Real-facing read is reached only after the synchronizer rows have been displayed.
+
+Route determinacy turns the displayed rows into a witness rather than a mere description. \autoref{thm:uniform-cauchy-criterion-finite-envelope-route-determinacy} makes the terminal $\RealUp$ row determined by agreement on the listed rows, and \autoref{thm:uniform-cauchy-criterion-real-envelope-source-minimality} says an admissible terminal envelope satisfying the source-minimality characterization cannot omit or replace any of them. Therefore $\mathcal{T}$ canonically yields the finite packet $\mathcal{W}_{\RealUp}(U,\mathcal{T})$ with exactly those coordinates.
+
+Finally exclude external analytic sources. The no-choice extraction theorem \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-no-choice-extraction} rules out quotient streams, selected host limits, host real equality, countable choice, ambient completeness, and metric-completeness data. Tail-window stability rules out second stream and readback sources, while the dyadic ledger row in the carrier fixes the tolerance source. Hence every consumer read reaches the terminal $\RealUp$ row through the witness packet and through no additional source.
+\end{proof}
