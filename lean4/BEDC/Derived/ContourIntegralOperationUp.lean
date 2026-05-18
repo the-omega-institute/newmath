@@ -254,4 +254,42 @@ theorem ContourIntegralOperationNameCertObligations [AskSetup] [PackageSetup]
     }
   · exact And.intro unaryI (And.intro unaryN (And.intro sameInputFace pkgP))
 
+theorem ContourIntegralOperationClassifierStability
+    {G F S M I H P N G' F' S' M' I' H' P' N' : BHist} :
+    ContourIntegralOperationCarrier G F S M I H P N ->
+      hsame G G' ->
+        hsame F F' ->
+          hsame S S' ->
+            hsame M M' ->
+              hsame P P' ->
+                hsame H' (append G' F') ->
+                  Cont S' M' I' ->
+                    Cont I' P' N' ->
+                      ContourIntegralOperationCarrier G' F' S' M' I' H' P' N' ∧
+                        UnaryHistory I' ∧ UnaryHistory N' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrier sameG sameF sameS sameM sameP sameInputFace' integralRoute' exportRoute'
+  obtain
+    ⟨unaryG, unaryF, unaryS, unaryM, unaryP, _sameInputFace, _integralRoute,
+      _exportRoute⟩ :=
+      carrier
+  have unaryG' : UnaryHistory G' :=
+    unary_transport unaryG sameG
+  have unaryF' : UnaryHistory F' :=
+    unary_transport unaryF sameF
+  have unaryS' : UnaryHistory S' :=
+    unary_transport unaryS sameS
+  have unaryM' : UnaryHistory M' :=
+    unary_transport unaryM sameM
+  have unaryP' : UnaryHistory P' :=
+    unary_transport unaryP sameP
+  have unaryI' : UnaryHistory I' :=
+    unary_cont_closed unaryS' unaryM' integralRoute'
+  have unaryN' : UnaryHistory N' :=
+    unary_cont_closed unaryI' unaryP' exportRoute'
+  exact
+    ⟨⟨unaryG', unaryF', unaryS', unaryM', unaryP', sameInputFace', integralRoute',
+        exportRoute'⟩,
+      unaryI', unaryN'⟩
+
 end BEDC.Derived.ContourIntegralOperationUp
