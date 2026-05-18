@@ -961,6 +961,7 @@ import BEDC.Derived.KernelMorphismUp.CompositeCompilerHandoffBoundary
 import BEDC.Derived.KernelMorphismUp.NameCertObligations
 import BEDC.Derived.KernelMorphismUp.NonEscape
 import BEDC.Derived.KernelMorphismUp.ScopedConsumerPacket
+import BEDC.Derived.KernelMorphismUp.SourceGraphEdgeReadback
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailRealSealRouteTotality
 import BEDC.Derived.NoAbsoluteBridgeAuditUp.TasteGate
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
