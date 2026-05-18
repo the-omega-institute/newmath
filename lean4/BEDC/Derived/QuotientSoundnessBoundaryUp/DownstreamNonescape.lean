@@ -58,6 +58,32 @@ theorem QuotientSoundnessBoundary_downstream_nonescape [AskSetup] [PackageSetup]
       (fun hostReturn =>
         cont_mutual_extension_right_tail_absurd.right transportConsumerDownstream hostReturn)⟩
 
+theorem QuotientSoundnessBoundary_consumer_nonescape [AskSetup] [PackageSetup]
+    {e a t v h c p n consumer hostTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
+      Cont h c consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory e ∧ UnaryHistory a ∧ UnaryHistory t ∧ UnaryHistory v ∧
+            UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory consumer ∧ Cont e a v ∧
+              Cont e t h ∧ Cont h c consumer ∧ PkgSig bundle p pkg ∧
+                PkgSig bundle n pkg ∧ PkgSig bundle consumer pkg ∧ hsame h n ∧
+                  (Cont consumer (BHist.e0 hostTail) h -> False) ∧
+                    (Cont consumer (BHist.e1 hostTail) h -> False) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier hCConsumer consumerPkg
+  obtain ⟨eUnary, aUnary, tUnary, vUnary, hUnary, cUnary, _pUnary, _nUnary, eAV, eTH,
+    _hCN, pPkg, nPkg, hN⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed hUnary cUnary hCConsumer
+  exact
+    ⟨eUnary, aUnary, tUnary, vUnary, hUnary, cUnary, consumerUnary, eAV, eTH,
+      hCConsumer, pPkg, nPkg, consumerPkg, hN,
+      (fun hostReturn =>
+        cont_mutual_extension_right_tail_absurd.left hCConsumer hostReturn),
+      (fun hostReturn =>
+        cont_mutual_extension_right_tail_absurd.right hCConsumer hostReturn)⟩
+
 theorem QuotientSoundnessBoundary_downstream_representative_nonescape_certificate
     [AskSetup] [PackageSetup]
     {e a t v h c p n refusalRead transportRead consumer downstreamRead hostTail : BHist}
