@@ -183,16 +183,19 @@ theorem ExternalSupplyAuditRouteTasteGate_single_carrier_alignment :
       (∀ x : ExternalSupplyAuditRouteUp,
         externalSupplyAuditRouteFromEventFlow
           (externalSupplyAuditRouteToEventFlow x) = some x) ∧
-        (∀ x y : ExternalSupplyAuditRouteUp,
-          externalSupplyAuditRouteToEventFlow x =
-              externalSupplyAuditRouteToEventFlow y →
-            x = y) ∧
-          externalSupplyAuditRouteEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+      (∀ x y : ExternalSupplyAuditRouteUp,
+        externalSupplyAuditRouteToEventFlow x =
+          externalSupplyAuditRouteToEventFlow y → x = y) ∧
+      Nonempty (FieldFaithful ExternalSupplyAuditRouteUp) ∧
+      Nonempty (Nontrivial ExternalSupplyAuditRouteUp) ∧
+      externalSupplyAuditRouteEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
     ⟨externalSupplyAuditRoute_decode_encode_bhist,
       externalSupplyAuditRoute_round_trip,
       (fun _ _ heq => externalSupplyAuditRouteToEventFlow_injective heq),
+      ⟨externalSupplyAuditRouteFieldFaithful⟩,
+      ⟨externalSupplyAuditRouteNontrivial⟩,
       rfl⟩
 
 end BEDC.Derived.ExternalSupplyAuditRouteUp
