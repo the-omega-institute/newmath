@@ -145,6 +145,87 @@ theorem ZnormalPacket_namecert_obligations [AskSetup] [PackageSetup]
                         provenancePkg
   }
 
+theorem ZnormalPacket_root_bhist_source_surface [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg →
+      UnaryHistory typed ∧ UnaryHistory fuel ∧ UnaryHistory terminal ∧
+        UnaryHistory normal ∧ UnaryHistory continuation ∧ UnaryHistory transports ∧
+          UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+            Cont typed fuel terminal ∧ Cont terminal normal continuation ∧
+              Cont continuation transports routes ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet
+  obtain ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary,
+    transportsUnary, routesUnary, provenanceUnary, nameUnary, typedFuelTerminal,
+    terminalNormalContinuation, continuationTransportsRoutes, _namePkg, provenancePkg⟩ :=
+    packet
+  exact
+    ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary,
+      transportsUnary, routesUnary, provenanceUnary, nameUnary, typedFuelTerminal,
+      terminalNormalContinuation, continuationTransportsRoutes, provenancePkg⟩
+
+theorem ZnormalPacket_normal_form_consumer_coverage [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name normalRead
+      downstream : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg →
+      Cont normal continuation normalRead →
+        Cont normalRead transports downstream →
+          PkgSig bundle downstream pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row downstream ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  Cont normal continuation normalRead ∧
+                    Cont normalRead transports row ∧ PkgSig bundle downstream pkg)
+                (fun row : BHist => UnaryHistory row ∧ PkgSig bundle downstream pkg)
+                hsame ∧
+              UnaryHistory normalRead ∧ UnaryHistory downstream := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro packet normalContinuationRead normalReadTransportsDownstream downstreamPkg
+  obtain ⟨_typedUnary, _fuelUnary, _terminalUnary, normalUnary, continuationUnary,
+    transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, _typedFuelTerminal,
+    _terminalNormalContinuation, _continuationTransportsRoutes, _namePkg, _provenancePkg⟩ :=
+    packet
+  have normalReadUnary : UnaryHistory normalRead :=
+    unary_cont_closed normalUnary continuationUnary normalContinuationRead
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed normalReadUnary transportsUnary normalReadTransportsDownstream
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro downstream (And.intro (hsame_refl downstream) downstreamUnary)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro row row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro row row' row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' sameRows sourceData
+          constructor
+          · exact hsame_trans (hsame_symm sameRows) sourceData.left
+          · exact unary_transport sourceData.right sameRows
+      }
+      pattern_sound := by
+        intro row sourceData
+        exact
+          ⟨normalContinuationRead,
+            cont_result_hsame_transport normalReadTransportsDownstream
+              (hsame_symm sourceData.left),
+            downstreamPkg⟩
+      ledger_sound := by
+        intro row sourceData
+        exact ⟨sourceData.right, downstreamPkg⟩
+    }
+  · exact ⟨normalReadUnary, downstreamUnary⟩
+
 theorem ZnormalPacket_componentwise_namecert_transport [AskSetup] [PackageSetup]
     {typed fuel terminal normal continuation transports routes provenance name typed' fuel'
       terminal' normal' continuation' transports' routes' provenance' name' : BHist}
