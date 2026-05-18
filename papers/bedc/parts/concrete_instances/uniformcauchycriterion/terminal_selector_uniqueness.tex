@@ -1,0 +1,23 @@
+\begin{theorem}[UniformCauchyCriterion terminal selector uniqueness]
+\label{thm:uniform-cauchy-criterion-terminal-selector-uniqueness}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ terminal packet whose displayed finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row agree with the terminal rows of $U$. Suppose also that an accepted StreamName--RegSeqRat--RealUp tail-selector transport packet exposes the same finite windows, dyadic ledger, regular rational readback, Real seal, and visible transport rows.
+
+Then every $\RealUp$-facing or completion-facing terminal consumer of these accepted packets reads one terminal selector surface before the seal. That surface is the common finite route through $W,D,R,E,H,C,P,N$, equivalently through the UniformCauchyCriterion rows $W,Q,T,E,H,C,P,N$. It has no coordinate for quotient streams, host real equality, hidden selectors, selected limits, choice schedules, metric-completeness rows, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the UniformCauchyCriterion side. By \autoref{thm:uniform-cauchy-criterion-finite-window-selector-uniqueness}, a $\RealUp$-facing or completion-facing consumer of $U$ cannot read past the displayed finite-window selector surface before the seal. The surface is already fixed by the shared $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ tail readback, $\RealUp$ seal row, and the structural $H,C,P,N$ rows.
+
+Next attach the terminal observation-budget selector. The coverage theorem \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-coverage} places every compatible terminal consumer of $F$ on the finite route through $B,S,W,D,R,E$ and the same $H,C,P,N$ envelope. The seal inversion theorem \autoref{thm:finite-observation-budget-selector-terminal-window-seal-inversion} identifies the seal-facing route with the terminal window route, so the consumer cannot introduce a second terminal selector between the window and the seal.
+
+Now descend the StreamName--RegSeqRat--RealUp transport. By \autoref{thm:streamname-realup-tail-selector-public-interface-descent}, the public tail-selector interface is exactly the displayed finite ledger carrying the StreamName windows, regular rational readback, dyadic endpoint rows, RealUp readback, and visible $\hsame/\Cont/\Pkg/\NameCert$ support. Since those rows agree with the terminal rows of $U$ and $F$, the transport contributes the same selector surface rather than a separate one.
+
+Combining the three surfaces gives a single terminal selector before $E$. The excluded data are absent from every cited route: quotient streams, host real equality, hidden selectors, selected limits, choice schedules, metric-completeness rows, and ambient completeness are not rows of the accepted UniformCauchyCriterion packet, the terminal observation-budget selector, or the public tail-selector transport.
+\end{proof}
