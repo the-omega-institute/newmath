@@ -270,6 +270,26 @@ instance zetaContinuationApplicationChapterTasteGate :
     intro x y hxy heq
     exact hxy (zetaContinuationApplicationToEventFlow_injective heq)
 
+instance zetaContinuationApplicationFieldFaithful :
+    FieldFaithful ZetaContinuationApplicationUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | ZetaContinuationApplicationUp.mk eta functional pole zeroLedger gamma application
+        transport route provenance name =>
+        [eta, functional, pole, zeroLedger, gamma, application, transport, route, provenance,
+          name]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk eta1 functional1 pole1 zeroLedger1 gamma1 application1 transport1 route1
+        provenance1 name1 =>
+        cases y with
+        | mk eta2 functional2 pole2 zeroLedger2 gamma2 application2 transport2 route2
+            provenance2 name2 =>
+            cases hfields
+            rfl
+
 def taste_gate : ChapterTasteGate ZetaContinuationApplicationUp :=
   zetaContinuationApplicationChapterTasteGate
 
@@ -303,6 +323,34 @@ def ZetaContinuationApplicationCarrier [AskSetup] [PackageSetup]
       UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
         UnaryHistory name ∧ UnaryHistory endpoint ∧ Cont eta route endpoint ∧
           Cont functional route endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem ZetaContinuationApplicationCarrier_carrier_source_obligation [AskSetup]
+    [PackageSetup]
+    {eta functional pole zeroLedger gamma application transport route provenance name endpoint
+      sourceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationApplicationCarrier eta functional pole zeroLedger gamma application transport
+        route provenance name endpoint bundle pkg →
+      hsame sourceRead eta →
+        UnaryHistory sourceRead ∧ UnaryHistory eta ∧ UnaryHistory gamma ∧
+          UnaryHistory application ∧ UnaryHistory endpoint ∧ Cont eta route endpoint ∧
+            Cont functional route endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameSourceEta
+  obtain ⟨etaUnary, _functionalUnary, _poleUnary, _zeroLedgerUnary, gammaUnary,
+    applicationUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    endpointUnary, etaRouteEndpoint, functionalRouteEndpoint, endpointPkg⟩ := carrier
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_transport etaUnary (hsame_symm sameSourceEta)
+  exact
+    ⟨sourceReadUnary,
+      etaUnary,
+      gammaUnary,
+      applicationUnary,
+      endpointUnary,
+      etaRouteEndpoint,
+      functionalRouteEndpoint,
+      endpointPkg⟩
 
 theorem ZetaContinuationApplicationCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {eta functional pole zeroLedger gamma application transport route provenance name endpoint :
