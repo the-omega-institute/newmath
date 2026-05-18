@@ -130,6 +130,7 @@ import BEDC.Derived.ApophaticNameUp.RootFactorization
 import BEDC.Derived.ApophaticNameUp.RootPublicCitationSelectorExclusion
 import BEDC.Derived.ApophaticNameUp.RootCitationExport
 import BEDC.Derived.ApophaticNameUp.RootCitationReadback
+import BEDC.Derived.ApophaticNameUp.RootCitationNonescape
 import BEDC.Derived.ApophaticNameUp.RootBoundaryLedgerPackage
 import BEDC.Derived.ApophaticNameUp.RootReflectionAxisRefusal
 import BEDC.Derived.ApophaticNameUp.RefusalReadbackRow
@@ -279,9 +280,11 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptanceTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.DisplayedRouteSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.DisplayedRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSource
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RouteAuthorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OutputAuthorizationClosure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10Carrier
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.AdmissionExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OpenPhaseSourceTriad
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamOutputFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RouteFactorizationAndBoundary
@@ -1241,6 +1244,7 @@ import BEDC.Derived.ContinuationMonadUp.RootRefusalExhaustion
 import BEDC.Derived.ContinuationMonadUp.RootSourceTriadExactness
 import BEDC.Derived.ContinuationMonadUp.RootUnblockSourceTriad
 import BEDC.Derived.ContinuationMonadUp.RootSourcePublicContract
+import BEDC.Derived.ContinuationMonadUp.NameCertPackage
 import BEDC.Derived.ContinuationMonadUp.UnitBindKernelMorphismCompilerCoherence
 import BEDC.Derived.ContinuationMonadUp.CategoryGeneratorFormalHandoff
 import BEDC.Derived.ContinuationMonadUp.RootSourceCoverage
@@ -1938,6 +1942,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedCandidateReadbackExhaus
 import BEDC.Derived.MetaCICNormalizationFrontierUp.SubstitutionStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedEndpointUseTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerBoundaryCompletion
+import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerScopeExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RouteReadbackPublicExport
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionVisibleTransport
 import BEDC.Derived.MetaCICNormalizationFrontierUp.PublicExportSurface
