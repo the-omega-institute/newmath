@@ -343,4 +343,32 @@ theorem RecursorGeneratorCarrier_closed_term_handoff
   exact
     ⟨outputReadUnary, closedReadUnary, eliminatorBranchesOutput, outputMetaCICClosed, rfl⟩
 
+theorem RecursorGeneratorBranchDescentExhaustion
+    {signature eliminator branches audit metacic transport cont provenance name branchRead
+      descentRead : BHist} :
+    recursorGeneratorFromEventFlow
+        (recursorGeneratorToEventFlow
+          (RecursorGeneratorUp.mk signature eliminator branches audit metacic transport cont
+            provenance name)) =
+        some
+          (RecursorGeneratorUp.mk signature eliminator branches audit metacic transport cont
+            provenance name) →
+      Cont eliminator branches branchRead →
+        Cont branchRead metacic descentRead →
+          UnaryHistory eliminator →
+            UnaryHistory branches →
+              UnaryHistory metacic →
+                UnaryHistory branchRead ∧ UnaryHistory descentRead ∧
+                  Cont eliminator branches branchRead ∧ Cont branchRead metacic descentRead ∧
+                    recursorGeneratorEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory
+  intro _roundTrip eliminatorBranchesBranch branchMetaCICDescent eliminatorUnary branchesUnary
+    metacicUnary
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed eliminatorUnary branchesUnary eliminatorBranchesBranch
+  have descentReadUnary : UnaryHistory descentRead :=
+    unary_cont_closed branchReadUnary metacicUnary branchMetaCICDescent
+  exact
+    ⟨branchReadUnary, descentReadUnary, eliminatorBranchesBranch, branchMetaCICDescent, rfl⟩
+
 end BEDC.Derived.RecursorGeneratorUp
