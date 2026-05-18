@@ -184,32 +184,30 @@ so no additional row can separate the two refined windows.
 
 \begin{theorem}[DyadicRatCore real-phase source coverage]
 \label{thm:dyadicratcore-real-phase-source-coverage}
-Every $\StreamNameUp$, $\RegSeqRat$, or $\RealUp$ dyadic observation that
-consumes $\DyadicRatCoreUp$ data downstream reads through the mantissa,
-positive exponent, denominator ledger, common-exponent classifier,
-arithmetic-window, distance-window, monotone-radius, $\hsame$, $\Cont$, and
-$\Pkg$ rows listed in this chapter. The source boundary exports no quotient
-of dyadic pairs, host rational equality, or completed real endpoint.
+An accepted $\DyadicRatCoreUp$ packet with transported mantissa and displayed
+$\Cont$ rows for the real row and the ledger window supplies exactly the
+real-phase source rows used here: the $\RealUp$ constant-history row at the
+transported mantissa head, the positive unary denominator row, the unary ledger
+row, the unary transported window row, the displayed readback
+$\hsame$ from the real row to the mantissa-head/exponent append, and the
+displayed readback $\hsame$ from the transported window to the real-row/ledger
+append.
 \end{theorem}
 \leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_real\_phase\_source\_coverage}
 \begin{proof}
-Start with a downstream dyadic observation in one of the real-construction
-interfaces. Its input is an accepted $\DyadicRatCoreUp$ packet, so the only
-available source coordinates are the carrier rows of
-\autoref{def:dyadicratcore-carrier} and the classifier rows of
-\autoref{def:dyadicratcore-classifier}.
+Start with the accepted $\DyadicRatCoreUp$ packet. Its carrier clause gives a
+$\RatUp$ mantissa carrier, a positive unary denominator row, and a unary ledger
+row. Transport the mantissa along the displayed $\hsame$ row; the transported
+mantissa remains a $\RatUp$ history carrier.
 
-Arithmetic and distance observations factor through
-\autoref{thm:dyadicratcore-arithmetic-window-stability} and
-\autoref{thm:dyadicratcore-distance-window-stability}. Radius observations
-factor through \autoref{thm:dyadicratcore-monotone-radius-obligation}, and
-classifier comparisons factor through
-\autoref{thm:dyadicratcore-common-exponent-exactness}.
+Taking the head of the transported mantissa yields the
+$\RealUp$ constant-history carrier. The displayed $\Cont$ row from that head
+and the exponent is read back as the real-row append, and the displayed
+$\Cont$ row from the real row and the ledger is read back as the window append.
 
-These projections exhaust the finite rows named by the downstream readback.
-Since no row in the packet carries a quotient class, a host rational equality,
-or a completed real endpoint, the real-phase consumer can only use the listed
-BEDC source rows.
+Finally transport the displayed window along its $\hsame$ row. Unary closure of
+$\Cont$ gives the unary transported window, while the two append readbacks are
+exactly the two displayed $\hsame$ rows named in the statement.
 \end{proof}
 
 \begin{theorem}[DyadicRatCore RegSeqRat window radius handoff]
@@ -224,9 +222,9 @@ a quotient rational, host epsilon equality, or $\RealUp$ completion endpoint.
 \leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreRegSeqRatWindow\_radius\_handoff}
 \begin{proof}
 Start with the downstream handoff and apply
-\autoref{thm:dyadicratcore-real-phase-source-coverage}. The observation can
-only read the dyadic packet through the listed source rows and has no access to
-a quotient rational or completed real endpoint.
+\autoref{thm:dyadicratcore-real-phase-source-coverage} to obtain the real
+constant-history row, the positive unary denominator row, the unary ledger and
+window rows, and the two append readbacks.
 
 Use \autoref{thm:dyadicratcore-monotone-radius-obligation} to identify the
 radius premise as a displayed positive-unary refinement over the denominator
@@ -280,9 +278,10 @@ The arithmetic, radius, common-exponent, and real-phase source clauses are
 \autoref{thm:dyadicratcore-arithmetic-window-stability},
 \autoref{thm:dyadicratcore-monotone-radius-obligation},
 \autoref{thm:dyadicratcore-common-exponent-exactness}, and
-\autoref{thm:dyadicratcore-real-phase-source-coverage}. Together they state
-which finite rows downstream real-construction chapters may consume and how
-those rows refine under displayed unary denominator extension.
+\autoref{thm:dyadicratcore-real-phase-source-coverage}. Together they identify
+the finite arithmetic rows, the radius refinement rows, the common-exponent
+comparison rows, and the real-row/window readbacks used by downstream
+real-construction chapters.
 
 Exactness follows by inspection of the listed rows: every readable component
 of the dyadic source is one of the mantissa, exponent, denominator,
@@ -321,10 +320,10 @@ denominator transport.
 
 The real-phase and NameCert clauses are
 \autoref{thm:dyadicratcore-real-phase-source-coverage} and
-\autoref{thm:dyadicratcore-namecert-obligation-surface}. They exhaust the
-downstream source rows consumed by $\StreamNameUp$, $\RegSeqRat$, and
-$\RealUp$ without adding a quotient class, a host-rational equality row, a
-standard bridge, or a completed real endpoint. Hence the listed primitives are
+\autoref{thm:dyadicratcore-namecert-obligation-surface}. The first contributes
+the real constant-history row, unary ledger/window rows, and append readbacks;
+the second packages those rows with the separate arithmetic, distance, radius,
+classifier, and provenance obligations. Hence the listed primitives are
 precisely the scoped boundary exported by this chapter.
 \end{proof}
 
@@ -357,10 +356,10 @@ then forced through the named certificate rows. Use
 \autoref{thm:dyadicratcore-common-exponent-exactness} to identify the visible
 rows that remain available under transport and denominator refinement.
 
-Finally apply \autoref{thm:dyadicratcore-real-phase-source-coverage} and
-\autoref{thm:dyadicratcore-scoped-source-boundary}. They state that the
-downstream $\StreamNameUp$, $\RegSeqRat$, and $\RealUp$ reads consume exactly
-this dyadic source surface. Since the carrier inventory contains no quotient
+Finally apply \autoref{thm:dyadicratcore-real-phase-source-coverage} for the
+real constant-history row, unary ledger/window rows, and append readbacks, and
+apply \autoref{thm:dyadicratcore-scoped-source-boundary} for the full public
+dyadic source surface. Since the carrier inventory contains no quotient
 rational, host equality row, standard bridge, or completed real endpoint, none
 of those objects can be exported by the public consumer certificate.
 \end{proof}
