@@ -98,6 +98,7 @@ REGION_DIR_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 REGION_PREFIX_RE = re.compile(r"^([0-9]+[a-z]?_[a-z][a-z0-9]*)_")
 
 UP_MACRO_RE = re.compile(r"\\[A-Z][a-zA-Z]+Up\b")
+BLOCK_MATH_STATE_MARKERS = ("$$", r"\[", r"\]", r"\begin{", r"\end{")
 UP_MACRO_DEFINITION_RE = re.compile(
     r"^\s*\\(?:re)?newcommand\*?\{\\[A-Z][a-zA-Z]+Up\}"
     r"|^\s*\\providecommand\*?\{\\[A-Z][a-zA-Z]+Up\}"
@@ -116,6 +117,7 @@ TEXT_ARG_COMMANDS = {
     "textbf", "textit", "emph", "falsifiablePrediction",
     "independenceWitness", "closureat",
 }
+TEXT_ARG_COMMAND_MARKERS = tuple(f"\\{cmd}" for cmd in sorted(TEXT_ARG_COMMANDS))
 TEXT_ARG_COMMAND_RE = re.compile(
     r"\\(" + "|".join(sorted(TEXT_ARG_COMMANDS, key=len, reverse=True)) + r")\b"
 )
@@ -294,6 +296,10 @@ def _brace_argument_spans(line: str, open_brace: int) -> tuple[int, int] | None:
 
 def _text_command_argument_up_hits(line: str) -> list[tuple[str, int, str]]:
     code = _line_text_without_comment(line)
+    if "Up" not in code:
+        return []
+    if not any(marker in code for marker in TEXT_ARG_COMMAND_MARKERS):
+        return []
     hits: list[tuple[str, int, str]] = []
     for cmd in TEXT_ARG_COMMAND_RE.finditer(code):
         pos = cmd.end()
@@ -319,6 +325,35 @@ def _text_command_argument_up_hits(line: str) -> list[tuple[str, int, str]]:
             while pos < len(code) and code[pos].isspace():
                 pos += 1
     return hits
+
+
+def _scan_block_math_state(line: str, in_display: bool, math_env_depth: int) -> tuple[bool, int]:
+    i = 0
+    while i < len(line):
+        if line.startswith(r"\[", i):
+            in_display = True
+            i += 2
+            continue
+        if line.startswith(r"\]", i):
+            in_display = False
+            i += 2
+            continue
+        env = BEGIN_END_ENV_RE.match(line, i)
+        if env:
+            kind, name = env.group(1), env.group(2)
+            if name in MATH_ENV_NAMES:
+                if kind == "begin":
+                    math_env_depth += 1
+                else:
+                    math_env_depth = max(0, math_env_depth - 1)
+            i = env.end()
+            continue
+        if line.startswith("$$", i):
+            in_display = not in_display
+            i += 2
+            continue
+        i += 1
+    return in_display, math_env_depth
 
 
 def check_a_closureat_enum() -> list[dict]:
@@ -561,33 +596,48 @@ def check_l_math_mode_in_text() -> list[dict]:
                 continue
             if UP_MACRO_DEFINITION_RE.match(line):
                 continue
-            command_hits = _text_command_argument_up_hits(line)
-            for macro, col, command in command_hits:
-                out.append({
-                    "check": "L",
-                    "file": str(rel),
-                    "line": i,
-                    "msg": f"{macro} appears outside math mode in \\{command} argument (column {col}); wrap as ${macro}$",
-                })
-            line_hits, next_display, next_depth = _text_mode_up_macro_hits(
-                line, in_display, math_env_depth,
-            )
-            for macro, col in line_hits:
-                prefix = line[: col - 1].strip()
-                if prefix:
-                    continue
-                if not first_content_seen:
-                    context = "first content line"
-                elif at_paragraph_start:
-                    context = "paragraph start"
+            if "Up" in line:
+                command_hits = _text_command_argument_up_hits(line)
+                for macro, col, command in command_hits:
+                    out.append({
+                        "check": "L",
+                        "file": str(rel),
+                        "line": i,
+                        "msg": f"{macro} appears outside math mode in \\{command} argument (column {col}); wrap as ${macro}$",
+                    })
+                if (
+                    not in_display
+                    and math_env_depth == 0
+                    and (not first_content_seen or at_paragraph_start)
+                ):
+                    m = re.match(r"\s*(\\[A-Z][a-zA-Z]+Up\b)", line)
+                    if m:
+                        macro = m.group(1)
+                        context = "first content line" if not first_content_seen else "paragraph start"
+                        col = m.start(1) + 1
+                        out.append({
+                            "check": "L",
+                            "file": str(rel),
+                            "line": i,
+                            "msg": f"{macro} appears outside math mode at {context} (column {col}); wrap as ${macro}$",
+                        })
+                if any(marker in line for marker in BLOCK_MATH_STATE_MARKERS):
+                    code = _line_text_without_comment(line)
+                    next_display, next_depth = _scan_block_math_state(
+                        code, in_display, math_env_depth,
+                    )
                 else:
-                    continue
-                out.append({
-                    "check": "L",
-                    "file": str(rel),
-                    "line": i,
-                    "msg": f"{macro} appears outside math mode at {context} (column {col}); wrap as ${macro}$",
-                })
+                    next_display = in_display
+                    next_depth = math_env_depth
+            else:
+                if any(marker in line for marker in BLOCK_MATH_STATE_MARKERS):
+                    code = _line_text_without_comment(line)
+                    next_display, next_depth = _scan_block_math_state(
+                        code, in_display, math_env_depth,
+                    )
+                else:
+                    next_display = in_display
+                    next_depth = math_env_depth
             first_content_seen = True
             at_paragraph_start = line.rstrip().endswith(r"\end{proof}") or line.rstrip().startswith(r"\end{")
             in_display = next_display
