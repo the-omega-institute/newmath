@@ -2654,6 +2654,7 @@ import BEDC.Derived.LinearMapUp.ContinuationVisibleSource
 import BEDC.Derived.LinearMapUp.ContinuationVisibleTarget
 import BEDC.Derived.LinearMapUp.EvalContextPair
 import BEDC.Derived.LinearMapUp.EvalContinuationPair
+import BEDC.Derived.LinearMapUp.EvaluationGraphComposition
 import BEDC.Derived.LinearMapUp.EvaluationGraphNameCert
 import BEDC.Derived.LinearMapUp.EvaluationGraphPackage
 import BEDC.Derived.LinearMapUp.Image
@@ -2800,6 +2801,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateEvidenceBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateFinishedBoundaryTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmission
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmissionRoute
+import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierRows
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClassifierStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedCandidateReadbackExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedNormalConsumerRoute
@@ -2886,9 +2888,11 @@ import BEDC.Derived.MetricTriangleUniformEstimateUp.CompactNetTriangleExtraction
 import BEDC.Derived.MetricTriangleUniformEstimateUp.ConsumerBoundaryPackage
 import BEDC.Derived.MetricTriangleUniformEstimateUp.ConsumerHandoff
 import BEDC.Derived.MetricTriangleUniformEstimateUp.FiniteRouteNonescape
+import BEDC.Derived.MetricTriangleUniformEstimateUp.NoCompletionEscape
 import BEDC.Derived.MetricTriangleUniformEstimateUp.PublicUniformityCriterion
 import BEDC.Derived.MetricTriangleUniformEstimateUp.RadiusComposition
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedCenterTriangleComposition
+import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedModulusDomain
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusBoundaryExactness
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusExactPackage
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusExport
@@ -3879,6 +3883,7 @@ import BEDC.Derived.StreamLimitReflectionUp.TasteGate
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.StreamNameUp.CertifiedObservationDeterminacy
 import BEDC.Derived.StreamNameUp.EmptyWindow
+import BEDC.Derived.StreamNameUp.FiniteSectionClassifierDeterminacy
 import BEDC.Derived.StreamNameUp.FiniteWindowEndpoint
 import BEDC.Derived.StreamNameUp.FiniteWindowStructural
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
@@ -4319,6 +4324,7 @@ import BEDC.Derived.ZnormalUp.TasteGate
 import BEDC.Derived.ZnormalUp.TerminalConsumerTotality
 import BEDC.Derived.ZnormalUp.TerminalNormalityRefusalStability
 import BEDC.Derived.ZnormalUp.TerminalReadbackExactness
+import BEDC.Derived.ZnormalUp.TerminalRouteExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
 import BEDC.DerivedIndexAnalysis
 import BEDC.FKernel.Ask
