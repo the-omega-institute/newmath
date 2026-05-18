@@ -301,6 +301,7 @@ import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BinaryExpansionUp
 import BEDC.Derived.BinderBudgetSealUp.CarrierAdmission
 import BEDC.Derived.BinderBudgetSealUp.ShiftNonescape
+import BEDC.Derived.BinderBudgetSealUp.SelfCompileHandoff
 import BEDC.Derived.BinderBudgetSealUp.SubstitutionNonescape
 import BEDC.Derived.BinderBudgetSealUp.TasteGate
 import BEDC.Derived.BinderContextSubstitutionSealUp
@@ -1224,6 +1225,7 @@ import BEDC.Derived.ContinuationMonadUp.CategoryHomRowExposure
 import BEDC.Derived.ContinuationMonadUp.ObligationClosure
 import BEDC.Derived.ContinuationMonadUp.PublicRouteBridgeTotality
 import BEDC.Derived.ContinuationMonadUp.ClassifierStability
+import BEDC.Derived.ContinuationMonadUp.Associativity
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -1575,6 +1577,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetApproximationPullbac
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetLedgerMinimality
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetPrefixPullbackInversion
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetSealCut
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.BoundedMonotoneDiagonalSynchronization
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BoundedMonotoneDiagonalSynchronizationLeanHandoff
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CauchyLimitSealPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalRouteChoiceFreeness
@@ -2003,6 +2006,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.LateOverlap
 import BEDC.Derived.UniformCauchyCriterionUp.NonEscapeObligation
 import BEDC.Derived.UniformCauchyCriterionUp.NonEscapeBoundary
 import BEDC.Derived.UniformCauchyCriterionUp.ObligationAssembly
+import BEDC.Derived.UniformCauchyCriterionUp.OverlapRoundtripConfluence
 import BEDC.Derived.UniformCauchyCriterionUp.PairedOverlapRealSealDeterminacy
 import BEDC.Derived.UniformCauchyCriterionUp.PhaseRealEndpointDeterminacy
 import BEDC.Derived.UniformCauchyCriterionUp.PhaseRealExitConsumerExhaustion
@@ -3491,6 +3495,7 @@ import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalCommitmentUp
 import BEDC.Derived.CausalCommitmentUp.CausalCommitmentClassifierStability
 import BEDC.Derived.CausalCommitmentUp.ForwardGapScopePackage
+import BEDC.Derived.CausalCommitmentUp.ObservedRegularityNonchoice
 import BEDC.Derived.CausalCommitmentUp.PublicForwardGapExport
 import BEDC.Derived.ContinuationBisimulationUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
