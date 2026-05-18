@@ -86,25 +86,56 @@ private theorem cauchyWindowTransducer_round_trip :
   cases x with
   | mk streamWindow dyadicTolerance windowStep regSeqReadback realSeal
       limitSelector transport continuation provenance nameCert =>
-      simp [cauchyWindowTransducerFromEventFlow, cauchyWindowTransducerToEventFlow,
-        cauchyWindowTransducerDecode_encode_bhist]
+      change
+        some
+            (CauchyWindowTransducerUp.mk
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist streamWindow))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist dyadicTolerance))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist windowStep))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist regSeqReadback))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist realSeal))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist limitSelector))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist transport))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist continuation))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist provenance))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist nameCert))) =
+          some
+            (CauchyWindowTransducerUp.mk streamWindow dyadicTolerance windowStep
+              regSeqReadback realSeal limitSelector transport continuation provenance
+              nameCert)
+      rw [cauchyWindowTransducerDecode_encode_bhist streamWindow,
+        cauchyWindowTransducerDecode_encode_bhist dyadicTolerance,
+        cauchyWindowTransducerDecode_encode_bhist windowStep,
+        cauchyWindowTransducerDecode_encode_bhist regSeqReadback,
+        cauchyWindowTransducerDecode_encode_bhist realSeal,
+        cauchyWindowTransducerDecode_encode_bhist limitSelector,
+        cauchyWindowTransducerDecode_encode_bhist transport,
+        cauchyWindowTransducerDecode_encode_bhist continuation,
+        cauchyWindowTransducerDecode_encode_bhist provenance,
+        cauchyWindowTransducerDecode_encode_bhist nameCert]
 
 private theorem cauchyWindowTransducerToEventFlow_injective
     {x y : CauchyWindowTransducerUp}
     (h : cauchyWindowTransducerToEventFlow x =
       cauchyWindowTransducerToEventFlow y) :
     x = y := by
-  have hsome : some x = some y := by
-    calc
-      some x = cauchyWindowTransducerFromEventFlow
-          (cauchyWindowTransducerToEventFlow x) := by
-            exact Eq.symm (cauchyWindowTransducer_round_trip x)
-      _ = cauchyWindowTransducerFromEventFlow
-          (cauchyWindowTransducerToEventFlow y) := by
-            rw [h]
-      _ = some y := cauchyWindowTransducer_round_trip y
-  cases hsome
-  rfl
+  have hread :
+      cauchyWindowTransducerFromEventFlow (cauchyWindowTransducerToEventFlow x) =
+        cauchyWindowTransducerFromEventFlow (cauchyWindowTransducerToEventFlow y) :=
+    congrArg cauchyWindowTransducerFromEventFlow h
+  exact Option.some.inj
+    (Eq.trans (cauchyWindowTransducer_round_trip x).symm
+      (Eq.trans hread (cauchyWindowTransducer_round_trip y)))
 
 private theorem cauchyWindowTransducer_fields_faithful :
     ∀ x y : CauchyWindowTransducerUp,
@@ -152,15 +183,22 @@ def taste_gate : ChapterTasteGate CauchyWindowTransducerUp :=
   cauchyWindowTransducerChapterTasteGate
 
 theorem CauchyWindowTransducerTasteGate_single_carrier_alignment :
-    (∀ h : BHist, cauchyWindowTransducerDecodeBHist
+    Nonempty (BHistCarrier CauchyWindowTransducerUp) ∧
+      Nonempty (ChapterTasteGate CauchyWindowTransducerUp) ∧
+        Nonempty (FieldFaithful CauchyWindowTransducerUp) ∧
+          Nonempty (Nontrivial CauchyWindowTransducerUp) ∧
+            (∀ h : BHist, cauchyWindowTransducerDecodeBHist
         (cauchyWindowTransducerEncodeBHist h) = h) ∧
-      (∀ x y : CauchyWindowTransducerUp,
-        cauchyWindowTransducerFields x = cauchyWindowTransducerFields y → x = y) ∧
-        cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-          cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
-  -- BEDC touchpoint anchor: BHist BMark
+              (∀ x y : CauchyWindowTransducerUp,
+                cauchyWindowTransducerFields x =
+                  cauchyWindowTransducerFields y → x = y) ∧
+                cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+                  cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
   exact
-    ⟨cauchyWindowTransducerDecode_encode_bhist, cauchyWindowTransducer_fields_faithful,
+    ⟨⟨cauchyWindowTransducerBHistCarrier⟩, ⟨cauchyWindowTransducerChapterTasteGate⟩,
+      ⟨cauchyWindowTransducerFieldFaithful⟩, ⟨cauchyWindowTransducerNontrivial⟩,
+      cauchyWindowTransducerDecode_encode_bhist, cauchyWindowTransducer_fields_faithful,
       rfl, rfl⟩
 
 end BEDC.Derived.CauchyWindowTransducerUp
