@@ -4,7 +4,7 @@
 
 The $\CausalCommitmentUp$ surface packages the causality reading of \autoref{def:hard-problems-causal-commitment} as finite NameCert data. It records observed regularity rows, the $\mathsf{GAP}$ socket that binds those rows to not-yet-observed continuations, transport evidence for the visible ledger, and the local naming row that prevents the packet from becoming a hidden law of nature, selected future record, or global observer frame.
 
-The forward-GAP refinement is consumed through the locality-cell surface of \autoref{ch:concrete-instances-localitycell-namecert} and, when the consumer is observer-indexed, through the observer-locality surface of \autoref{ch:concrete-instances-observerlocalitycell-namecert}. The precise dependency is asymmetric: $\CausalCommitmentUp$ supplies the observed-regularity $\mathsf{GAP}$ row, while the locality-cell chapters restrict the consumer to local observer cells and prevent selected future observations or global observer frames.
+The forward-GAP refinement is consumed through the locality-cell surface of \autoref{ch:concrete-instances-localitycell-namecert} and, when the consumer is observer-indexed, through the observer-locality surface of \autoref{ch:concrete-instances-observer-locality-cell-namecert}. The precise dependency is asymmetric: $\CausalCommitmentUp$ supplies the observed-regularity $\mathsf{GAP}$ row, while the locality-cell chapters restrict the consumer to local observer cells and prevent selected future observations or global observer frames.
 
 \begin{definition}[Causal commitment carrier]
 \label{def:causal-commitment-namecert-carrier}
@@ -37,6 +37,7 @@ The rows $O$ and $R$ are finite history and regularity ledgers. They display wha
 
 Therefore any consumer that asks for the causal step must pass through the $\mathsf{GAP}$ socket. Since no other coordinate names future universality, the packet cannot expose an internally generated empirical law.
 \end{proof}
+\leanchecked{BEDC.Derived.CausalCommitmentUp.CausalCommitmentCarrier\_gap\_socket}
 
 \begin{theorem}[CausalCommitment forward-binding route]
 \label{thm:causal-commitment-forward-binding-route}
@@ -49,6 +50,7 @@ The forward-facing step is then recorded by $F$ and replayed by $C$. These rows 
 
 At the output side the consumer receives the local commitment row $N$ together with the same provenance and transport data. Thus the forward-binding route is finite, named, and confined to the displayed packet.
 \end{proof}
+\leanchecked{BEDC.Derived.CausalCommitmentUp.CausalCommitmentCarrier\_forward\_binding\_route}
 
 \begin{definition}[CausalCommitment forward-GAP carrier]
 \label{def:causal-commitment-forward-gap-carrier}
@@ -70,6 +72,7 @@ For an accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$, the l
 \item non-escape for selected future observations, global observer frames, universal empirical laws, hidden induction rules, and ambient causal primitives.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.CausalCommitmentUp.CausalCommitmentForwardGapObligations}
 \begin{proof}
 Carrier exposure is projection from \autoref{def:causal-commitment-forward-gap-carrier}. The refinement adds only the locality-cell consumer row $L$ to the rows already displayed by the base carrier.
 
@@ -84,12 +87,100 @@ The non-escape clauses follow by inventory. The refined packet has no coordinate
 \label{thm:causal-commitment-locality-cell-handoff}
 Every observer-locality consumer of an accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$ reads the causal commitment only through the displayed locality-cell row $L$. The handoff may expose the observed ledger, regularity ledger, $\mathsf{GAP}$ socket, forward-binding route, transports, continuations, provenance, and local naming row, but it cannot extract a selected future observation, a global observer frame, or an ambient causal primitive.
 \end{theorem}
+\leanchecked{BEDC.Derived.CausalCommitmentUp.CausalCommitmentLocalityCellHandoff}
 \begin{proof}
 Begin with the consumer side of the refined carrier. The only row addressed to observer-locality consumption is $L$, so any such consumer first enters the finite locality-cell handoff.
 
 Inside that handoff, the available reads are the rows already displayed by $O,R,G,F,H,C,P,N$. The row $L$ does not add a further observation source or a global frame; it routes the same commitment through the locality-cell discipline.
 
 Therefore the consumer receives a local commitment packet and nothing beyond it. A selected future observation, global observer frame, or ambient causal primitive has no carrier coordinate and no read route through $L$.
+\end{proof}
+
+\begin{theorem}[CausalCommitment carrier visibility]
+\label{thm:causal-commitment-carrier-visibility}
+For every accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$, the finite $\BHist$ rows $O,R,G,F,L,H,C,P,N$ are visible before any consumer reads $\CausalCommitmentUp$. The observed-history row, regularity row, $\mathsf{GAP}$ socket, forward-binding route, locality consumer row, $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row cannot be replaced by a hidden causal primitive.
+\end{theorem}
+\begin{proof}
+Project the forward-GAP carrier of \autoref{def:causal-commitment-forward-gap-carrier}. It displays exactly $O,R,G,F,L,H,C,P,N$.
+
+Use the GAP socket theorem and the forward-binding route theorem. The future-facing content is named by $G$, while $F$ and $C$ replay the observed-regularity route from $O,R$ to the local commitment row.
+
+The locality row $L$ only hands the same carrier to locality-cell consumers. Since $H,P,N$ transport, record, and name the displayed rows, the accepted carrier has no coordinate for a hidden causal primitive.
+\end{proof}
+\leanchecked{BEDC.Derived.CausalCommitmentUp.CausalCommitmentCarrier\_visibility}
+
+\begin{theorem}[CausalCommitment classifier stability]
+\label{thm:causal-commitment-classifier-stability}
+The $\CausalCommitmentUp$ classifier is stable under componentwise $\hsame$ transport of the displayed rows $O,R,G,F,L,H,C,P,N$. A consumer may replay the forward-GAP route through $\Cont$ and $\Pkg$ data, but it must preserve the finite $\BHist$ carrier, the $\mathsf{GAP}$ socket, the forward-binding route, the locality row, and the local $\NameCert$ row as separate coordinates.
+\end{theorem}
+\begin{proof}
+Begin with the componentwise transport row $H$. By construction it transports $O,R,G,F,L$ together with package provenance and local naming data.
+
+Apply \autoref{thm:causal-commitment-gap-socket} and \autoref{thm:causal-commitment-forward-binding-route}. These theorems identify the forward-looking content with $G$ and the observed-to-commitment route with $F$ and $C$.
+
+The forward-GAP obligations then force the locality consumer to pass through $L$. Thus classifier membership is preserved only by transporting the displayed rows componentwise; it is not preserved by collapsing the socket, route, locality row, or local NameCert into one ambient causal claim.
+\end{proof}
+
+\begin{theorem}[CausalCommitment ledger non-escape]
+\label{thm:causal-commitment-ledger-nonescape}
+No accepted $\CausalCommitmentUp$ read over the forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$ can export a selected future observation, a universal empirical law, a hidden induction rule, a synchronized global frame, or an ambient causal primitive. The local $\NameCert_{\CausalCommitmentUp}$ row names only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, locality, GAP, and forward-binding rows.
+\end{theorem}
+\begin{proof}
+Start from carrier visibility. Every accepted read begins with the displayed rows $O,R,G,F,L,H,C,P,N$.
+
+Use classifier stability to keep those rows separated under $\hsame$ transport and $\Cont$ replay. The GAP socket remains $G$, the forward route remains $F$, and the locality consumer remains $L$.
+
+Finally apply the forward-GAP obligations. Their non-escape clause excludes selected future observations, global observer frames, universal empirical laws, hidden induction rules, and ambient causal primitives. Since no displayed row names one of those objects, the local ledger cannot export it.
+\end{proof}
+
+\begin{theorem}[CausalCommitment carrier obligation]
+\label{thm:causal-commitment-carrier-obligation}
+Every accepted forward-GAP $\CausalCommitmentUp$ carrier exposes exactly the displayed rows
+$$
+O,R,G,F,L,H,C,P,N.
+$$
+Here $O,R$ are the finite observed and regularity ledgers, $G$ is the $\mathsf{GAP}$ socket, $F$ is the forward-binding route, $L$ is the locality-cell consumer row, $H,C$ are the componentwise transport and displayed replay rows, $P$ is package provenance, and $N$ is the local $\NameCert_{\CausalCommitmentUp}$ row. No other causal, observer, locality, or induction coordinate belongs to the accepted carrier.
+\end{theorem}
+\begin{proof}
+Project the forward-GAP carrier of \autoref{def:causal-commitment-forward-gap-carrier}. It lists $O,R,G,F,L,H,C,P,N$ and describes $L$ as the only locality-cell consumer handoff.
+
+Apply the GAP socket theorem and the forward-binding route theorem. They account for the only forward-looking row $G$ and the only route from observed regularity to commitment, namely $F$ replayed by $C$.
+
+Next use the forward-GAP obligations. Carrier exposure, GAP accountability, route stability, locality restriction, and non-escape are all stated over the same nine displayed rows.
+
+Finally invoke ledger non-escape. Since selected future observations, global observer frames, universal empirical laws, hidden induction rules, and ambient causal primitives have no coordinate in the packet, the carrier obligation is exactly $O,R,G,F,L,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[CausalCommitment locality transport]
+\label{thm:causal-commitment-locality-transport}
+Every observer-locality transport of an accepted $\CausalCommitmentUp$ forward-GAP packet factors through the locality-cell row $L$ and the displayed $\Cont$ replay row $C$. A consumer may move the commitment into $\LocalityCellUp$ or $\ObserverLocalityCellUp$ only by reading $L$ after the route
+$$
+O,R \longrightarrow G \longrightarrow F \longrightarrow C
+$$
+has been exposed on the same finite carrier.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:causal-commitment-forward-gap-obligations}. Its locality-cell consumer restriction names $L$ as the required handoff for every observer-locality consumer.
+
+Use the forward-binding route theorem. The observed ledger and regularity ledger reach the commitment only through $G$ and $F$, with $C$ replaying the route inside the finite packet.
+
+Apply classifier stability. Componentwise $\hsame$ transport keeps $G,F,L$ and the replay row $C$ separate, so an observer-indexed consumer cannot collapse the locality handoff into a global frame.
+
+The locality-cell handoff theorem then supplies the endpoint. Since $L$ is the only row that points to $\LocalityCellUp$ and $\ObserverLocalityCellUp$, every observer-locality transport factors through $L$ and the displayed $\Cont$ replay.
+\end{proof}
+
+\begin{theorem}[CausalCommitment ledger exactness]
+\label{thm:causal-commitment-ledger-exactness}
+The $\CausalCommitmentUp$ ledger excludes selected future observations, global observer frames, universal empirical laws, hidden induction rules, and ambient causal primitives. Its accepted readback is exactly the finite route through $O,R,G,F,L,H,C,P,N$, with no off-packet empirical law and no unrecorded causal constructor.
+\end{theorem}
+\begin{proof}
+Start from the carrier obligation. The accepted forward-GAP packet has only the nine displayed rows, so every consumer read must project one of those rows or use transport, replay, provenance, and local naming attached to them.
+
+Apply \autoref{thm:causal-commitment-gap-socket} and \autoref{thm:causal-commitment-forward-binding-route}. These keep the forward-looking content in $G$ and the observed-to-commitment route in $F$ and $C$.
+
+Next use locality transport. Observer-locality consumption must pass through $L$, so it cannot introduce a synchronized global frame or selected future observation outside the finite carrier.
+
+Finally apply \autoref{thm:causal-commitment-ledger-nonescape}. The non-escape clause removes the remaining forbidden objects: universal empirical laws, hidden induction rules, and ambient causal primitives. Therefore the ledger readback is exactly the displayed finite route.
 \end{proof}
 
 \begin{theorem}[CausalCommitment non-escape boundary]
@@ -117,17 +208,328 @@ Forward-binding route accountability follows from \autoref{thm:causal-commitment
 
 Finally apply the non-escape boundary. Since all consumer reads factor through the displayed rows, the local NameCert row cannot export selected future observations, universal empirical laws, hidden induction, global frames, or ambient causal primitives.
 \end{proof}
+\leanchecked{BEDC.Derived.CausalCommitmentUp.CausalCommitmentNameCertObligations}
+
+\begin{definition}[CausalCommitment classifier row]
+\label{def:causal-commitment-classifier-row}
+The $\CausalCommitmentUp$ classifier compares two finite packets
+$$
+K=(O,R,G,F,H,C,P,N)
+\qquad\text{and}\qquad
+K'=(O',R',G',F',H',C',P',N')
+$$
+component by component. A classifier read may identify the packets only when the observed-history ledgers $O,O'$, regularity ledgers $R,R'$, $\mathsf{GAP}$ socket rows $G,G'$, forward-binding routes $F,F'$, transport rows $H,H'$, continuation rows $C,C'$, package provenance rows $P,P'$, and local $\NameCert_{\CausalCommitmentUp}$ rows $N,N'$ are matched by the displayed $\hsame$, $\Cont$, and $\Pkg$ witnesses. It has no ambient equality row for causal commitment apart from these named coordinates.
+\end{definition}
+
+\begin{theorem}[CausalCommitment carrier transport]
+\label{thm:causal-commitment-carrier-transport}
+For accepted $\CausalCommitmentUp$ packets $K=(O,R,G,F,H,C,P,N)$ and $K'=(O',R',G',F',H',C',P',N')$, a componentwise $\hsame$ transport preserving the classifier row of \autoref{def:causal-commitment-classifier-row} preserves the observed ledger, regularity ledger, $\mathsf{GAP}$ row, forward route, continuation rows, provenance row, and local NameCert row. In particular, transport cannot replace $G$ by an unrecorded forward rule, cannot replace $F$ by a hidden route, and cannot export $N$ outside the finite packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.CausalCommitmentUp.CausalCommitmentCarrier\_transport}
+\begin{proof}
+Project both packets from \autoref{def:causal-commitment-namecert-carrier}. The carrier displays exactly the rows $O,R,G,F,H,C,P,N$, and the classifier row asks for the corresponding displayed rows of $K'$.
+
+Apply \autoref{thm:causal-commitment-gap-socket} to the transported $\mathsf{GAP}$ coordinate. Since the only forward-looking row is $G$, componentwise $\hsame$ transport preserves the socket instead of manufacturing a separate future law.
+
+Apply \autoref{thm:causal-commitment-forward-binding-route} to the transported route coordinates. The route remains the displayed $F$ replayed by the $\Cont$ rows in $C$, with $P$ recording the same package provenance.
+
+Finally use \autoref{thm:causal-commitment-non-escape-boundary}. The transported local NameCert row still names only the finite packet, so no selected future record, global frame, hidden induction rule, universal empirical law, or ambient causal primitive is exported.
+\end{proof}
+
+\begin{theorem}[CausalCommitment classifier coherence]
+\label{thm:causal-commitment-classifier-coherence}
+The classifier row of \autoref{def:causal-commitment-classifier-row} cannot identify two accepted $\CausalCommitmentUp$ packets whose $\mathsf{GAP}$ socket rows disagree, and it cannot identify two accepted packets whose forward-binding routes disagree. Any accepted classifier comparison must preserve both the socket that carries the forward-facing commitment and the route that returns it to the local NameCert row.
+\end{theorem}
+\begin{proof}
+Use the classifier row. Its comparison is componentwise, so a packet comparison has a separate coordinate for the $\mathsf{GAP}$ socket and a separate coordinate for the forward-binding route.
+
+For the socket coordinate, apply \autoref{thm:causal-commitment-gap-socket}. The forward-looking content of a packet is named only by $G$. If $G$ and $G'$ disagree, the classifier has no other coordinate through which to identify the commitment-facing content.
+
+For the route coordinate, apply \autoref{thm:causal-commitment-forward-binding-route}. The observed-regularity route must be the displayed $F$ together with the $\Cont$ replay in $C$. If $F$ and $F'$ disagree, the comparison cannot repair that disagreement by appealing to a hidden route.
+
+The non-escape boundary then rules out an ambient causal primitive that would identify the two packets outside their displayed coordinates.
+\end{proof}
+\leanchecked{BEDC.Derived.CausalCommitmentUp.CausalCommitmentCarrier\_classifier\_coherence}
+
+\begin{theorem}[CausalCommitment observer-locality GAP readback]
+\label{thm:causal-commitment-locality-gap-readback}
+Every observer-locality readback of an accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$ factors through the $\mathsf{GAP}$ socket row $G$ and the locality-cell handoff row $L$ before exposing the local $\NameCert_{\CausalCommitmentUp}$ row $N$. The readback may use the observed ledger $O$, regularity ledger $R$, forward-binding row $F$, transport row $H$, continuation replay $C$, and provenance row $P$, but it cannot expose $N$ as an observer-locality certificate before $G$ and $L$ have both been replayed.
+\end{theorem}
+\leanchecked{BEDC.Derived.CausalCommitmentUp.CausalCommitmentLocalityGapReadback}
+\begin{proof}
+Project the forward-GAP carrier of \autoref{def:causal-commitment-forward-gap-carrier}. Its observer-facing rows are the displayed packet rows $O,R,G,F,L,H,C,P,N$, with $G$ as the forward socket and $L$ as the locality handoff.
+
+Apply \autoref{thm:causal-commitment-gap-socket} and \autoref{thm:causal-commitment-forward-binding-route}. These identify the forward-looking content with $G$ and route the observed regularity through $F$ and $C$ before the local commitment row is available.
+
+Now apply \autoref{thm:causal-commitment-locality-cell-handoff}. An observer-locality consumer reads the same commitment only through $L$, so the NameCert row $N$ is exposed as observer-local only after both the GAP socket and the locality handoff have been replayed.
+
+Finally use \autoref{thm:causal-commitment-classifier-stability} and \autoref{thm:causal-commitment-ledger-nonescape}. They keep $G,L,N$ as separate coordinates under transport and prevent the readback from replacing either row by a hidden causal primitive.
+\end{proof}
+
+\begin{theorem}[CausalCommitment observer-cell non-escape]
+\label{thm:causal-commitment-observer-cell-nonescape}
+The observer-cell handoff of an accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$ cannot export a selected future observation, global observer frame, or ambient causal primitive. Every observer-cell read remains a finite read of the observed ledger, regularity ledger, $\mathsf{GAP}$ socket, forward-binding route, locality row, transport, continuation replay, provenance, and local NameCert rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CausalCommitmentUp.CausalCommitmentObserverCellNonescape}
+\begin{proof}
+Begin with the locality-cell handoff theorem. \autoref{thm:causal-commitment-locality-cell-handoff} says that observer-locality consumption enters only through $L$ and reads only the rows displayed by the forward-GAP packet.
+
+Use carrier visibility and the forward route. By \autoref{thm:causal-commitment-carrier-visibility}, the rows $O,R,G,F,L,H,C,P,N$ are visible before the read; by \autoref{thm:causal-commitment-forward-binding-route}, the forward commitment passes through $G,F,C$ rather than a hidden induction rule.
+
+The non-escape claim follows from \autoref{thm:causal-commitment-ledger-nonescape}. Since the displayed packet has no coordinate for a selected future observation, global observer frame, or ambient causal primitive, the observer-cell handoff cannot export one.
+\end{proof}
+
+\begin{theorem}[CausalCommitment forward-GAP scope package]
+\label{thm:causal-commitment-forward-gap-scope-package}
+For every accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$, carrier visibility, classifier stability, ledger exactness, and observer-locality handoff assemble into the dependency-ready forward-GAP scope package. Any downstream observer-locality consumer may depend on $O,R,G,F,L,H,C,P,N$ as one finite packet, with $G$ carrying the forward-facing socket, $L$ carrying observer-cell locality, and $N$ naming only that displayed package.
+\end{theorem}
+\begin{proof}
+First build the visible carrier surface. Apply \autoref{def:causal-commitment-forward-gap-carrier} and \autoref{thm:causal-commitment-carrier-visibility} to expose exactly $O,R,G,F,L,H,C,P,N$.
+
+Next attach the forward route and classifier stability. Apply \autoref{thm:causal-commitment-gap-socket}, \autoref{thm:causal-commitment-forward-binding-route}, and \autoref{thm:causal-commitment-classifier-stability}; together they keep the socket $G$, route $F,C$, and transported packet rows distinct.
+
+Then add ledger exactness and observer-cell locality. Use \autoref{thm:causal-commitment-ledger-route-exactness}, \autoref{thm:causal-commitment-locality-cell-handoff}, and \autoref{thm:causal-commitment-locality-gap-readback} to route downstream observer-locality reads through the same finite packet before the local NameCert row is exposed.
+
+Finally apply \autoref{thm:causal-commitment-observer-cell-nonescape} and \autoref{thm:causal-commitment-ledger-nonescape}. These close the package against selected future observations, global observer frames, ambient causal primitives, and hidden induction routes, so the displayed rows form the dependency-ready scope.
+\end{proof}
+
+\begin{theorem}[CausalCommitment ledger route exactness]
+\label{thm:causal-commitment-ledger-route-exactness}
+Every consumer route into an accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$ factors through the displayed finite packet and then through the locality-cell handoff. The route first reads $O,R$, enters the $\mathsf{GAP}$ socket $G$, follows the forward-binding row $F$ with the $\Cont$ replay in $C$, records provenance in $P$, and reaches the local NameCert row $N$ only through the locality row $L$ when an observer-locality consumer is present.
+\end{theorem}
+\begin{proof}
+Project the refined carrier of \autoref{def:causal-commitment-forward-gap-carrier}. Its consumer-visible coordinates are exactly $O,R,G,F,L,H,C,P,N$.
+
+The observed side of the route is forced by \autoref{thm:causal-commitment-forward-binding-route}. A consumer begins with $O,R$, passes through $G$, and follows $F$ together with the continuation replay in $C$.
+
+The locality side is forced by \autoref{thm:causal-commitment-locality-cell-handoff}. An observer-locality consumer receives the commitment only through $L$, which hands off the same finite rows rather than adding a global frame or selected future record.
+
+Finally apply \autoref{thm:causal-commitment-non-escape-boundary}. Since every displayed route has already factored through the packet and the locality handoff, no consumer can bypass the ledger by exporting a hidden induction rule, universal empirical law, ambient causal primitive, selected future observation, or synchronized global frame.
+\end{proof}
+\leanchecked{BEDC.Derived.CausalCommitmentUp.CausalCommitmentLedgerRouteExactness}
+
+\begin{theorem}[CausalCommitment public forward-GAP export]
+\label{thm:causal-commitment-public-forward-gap-export}
+Every public consumer of an accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$ receives observed regularity only through the displayed route
+$$
+O,R,G,F,L,H,C,P,N.
+$$
+The export reads the observed ledger $O$, regularity ledger $R$, $\mathsf{GAP}$ socket $G$, forward-binding row $F$, locality row $L$, transport row $H$, continuation row $C$, provenance row $P$, and local NameCert row $N$; it exports no selected future observation, hidden induction rule, universal empirical law, synchronized global frame, or ambient causal primitive.
+\end{theorem}
+\begin{proof}
+First expose the forward-GAP carrier. Apply \autoref{thm:causal-commitment-carrier-visibility} to make $O,R,G,F,L,H,C,P,N$ visible before a public consumer reads the commitment.
+
+Next route the observed regularity through the forward boundary. Use \autoref{thm:causal-commitment-gap-socket} and \autoref{thm:causal-commitment-forward-binding-route}; the consumer must read $O,R$, enter $G$, and replay the forward-binding row $F$ through $C$.
+
+Finally apply \autoref{thm:causal-commitment-locality-cell-handoff}, \autoref{thm:causal-commitment-classifier-stability}, and \autoref{thm:causal-commitment-ledger-route-exactness}. These keep the locality row $L$, transport $H$, provenance $P$, and local name $N$ on the same finite route, so the public export has no coordinate for a selected future observation or hidden induction rule.
+\end{proof}
+
+\begin{theorem}[CausalCommitment locality consumer exactness]
+\label{thm:causal-commitment-locality-consumer-exactness}
+For every accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$, an observer-locality consumer reads the commitment exactly through the locality row $L$ after the observed regularity has passed through $O,R,G,F$. The consumer may transport, replay, package, and name the read only by $H,C,P,N$, and it cannot replace $L$ by a selected future observation, a global observer frame, or a hidden causal-law row.
+\end{theorem}
+\begin{proof}
+Begin with the locality handoff. \autoref{thm:causal-commitment-locality-cell-handoff} identifies $L$ as the only observer-locality consumer row in the forward-GAP carrier.
+
+Then attach the forward route. \autoref{thm:causal-commitment-forward-binding-route} and \autoref{thm:causal-commitment-ledger-route-exactness} force the consumer to read $O,R$, pass through $G$, and follow $F$ with the displayed continuation replay before $N$ is available.
+
+Use classifier stability for exactness. \autoref{thm:causal-commitment-classifier-stability} preserves $O,R,G,F,L,H,C,P,N$ as separate coordinates under transport, so the observer-locality read cannot collapse the locality row into a global frame or hidden causal law.
+\end{proof}
+
+\begin{theorem}[CausalCommitment observed regularity nonchoice]
+\label{thm:causal-commitment-observed-regularity-nonchoice}
+Every public read of observed regularity from an accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$ is a finite read of the displayed rows $O,R,G,F,L,H,C,P,N$. The read passes through the $\mathsf{GAP}$ socket and the locality row before it is public, so it does not choose a future observation, add a hidden induction rule, or supply an unledgered regularity principle.
+\end{theorem}
+\begin{proof}
+Project the observed side first. \autoref{thm:causal-commitment-gap-socket} says that $O$ and $R$ are finite ledgers and that forward-facing content is named only by $G$.
+
+Now compose the public route. Apply \autoref{thm:causal-commitment-public-forward-gap-export} and \autoref{thm:causal-commitment-locality-consumer-exactness}. The public consumer reaches the regularity claim only after $G,F,L,H,C,P,N$ have carried the observed ledger.
+
+Finally apply \autoref{thm:causal-commitment-ledger-nonescape} and \autoref{thm:causal-commitment-ledger-route-exactness}. Since the displayed route has no coordinate for selected futures, hidden induction, or an unledgered regularity principle, the observed regularity read is nonchoice data.
+\end{proof}
+
+\begin{theorem}[CausalCommitment locality obligations]
+\label{thm:causal-commitment-locality-obligations}
+Every accepted $\CausalCommitmentUp$ forward-GAP carrier binds its commitment row to $\LocalityCellUp$ and $\ObserverLocalityCellUp$ through the displayed locality row $L$. The observer-facing commitment may be transported only through the finite rows $O,R,G,F,L,H,C,P,N$; it has no hidden causal-law row, selected future observation, synchronized global frame, or unledgered agency primitive.
+\end{theorem}
+\begin{proof}
+Project the forward-GAP carrier of \autoref{def:causal-commitment-forward-gap-carrier}. The row $L$ is the only locality-facing coordinate added to the base packet $O,R,G,F,H,C,P,N$.
+
+Apply \autoref{thm:causal-commitment-locality-cell-handoff}. It routes the commitment through the locality-cell and observer-locality surfaces without adding a global observer frame or selected future record.
+
+Use \autoref{thm:causal-commitment-ledger-route-exactness}. Every consumer route must read $O,R$, pass through $G$ and $F$, replay through $C$, record provenance in $P$, and reach $N$ only through the displayed locality row when an observer-locality consumer is present.
+
+Finally apply \autoref{thm:causal-commitment-ledger-nonescape}. Since hidden causal laws, selected future observations, synchronized global frames, and unledgered primitives have no coordinate in the packet, the locality obligations are exactly the displayed rows.
+\end{proof}
+
+\begin{theorem}[CausalCommitment observer-locality handoff]
+\label{thm:causal-commitment-observer-locality-handoff}
+An observer-facing read of $\CausalCommitmentUp$ factors through $\ObserverLocalityCellUp$ only after the carrier has displayed the $\BHist$ rows $O,R,G,F,L$, the $\hsame$ row $H$, the $\Cont$ row $C$, the $\Pkg$ row $P$, and the local $\NameCert$ row $N$. No observer-facing route may bypass those rows by appealing to an ambient causal law, a selected future observation, or a primitive agency coordinate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:causal-commitment-carrier-visibility}. It makes the rows $O,R,G,F,L,H,C,P,N$ visible before any consumer reads the refined packet.
+
+Apply \autoref{thm:causal-commitment-forward-binding-route}. The commitment-facing content enters through $G$ and returns along $F$ with the displayed continuation replay in $C$.
+
+Use \autoref{thm:causal-commitment-locality-cell-handoff}. The observer-locality consumer receives the commitment through $L$, not through a global frame or selected future record.
+
+Finish with \autoref{thm:causal-commitment-non-escape-boundary}. The route has no coordinate for hidden causal laws, unledgered agency primitives, universal empirical laws, or selected future observations, so the observer-locality handoff remains finite and local.
+\end{proof}
+
+\begin{theorem}[CausalCommitment NameCert ledger]
+\label{thm:causal-commitment-namecert-ledger}
+The local $\NameCert_{\CausalCommitmentUp}$ ledger for an accepted forward-GAP carrier is exhausted by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, locality, GAP, and forward-binding rows $O,R,G,F,L,H,C,P,N$. It records observer-facing commitments only as ledgered transport through those rows and excludes hidden causal laws, unledgered agency primitives, selected future observations, and synchronized global frames.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:causal-commitment-namecert-obligations}. The local NameCert surface already records carrier admission, observed-ledger exposure, regularity-ledger exposure, GAP accountability, forward-binding route accountability, transport, replay, provenance, and non-escape.
+
+Add the locality row using \autoref{thm:causal-commitment-forward-gap-obligations}. The refined carrier exposes $L$ as the consumer-facing handoff and leaves all other coordinates unchanged.
+
+Apply \autoref{thm:causal-commitment-locality-obligations} and \autoref{thm:causal-commitment-observer-locality-handoff}. These obligations bind locality and observer-locality reads to $O,R,G,F,L,H,C,P,N$.
+
+Finally use \autoref{thm:causal-commitment-ledger-nonescape}. Anything outside the displayed ledger has no NameCert coordinate, so no hidden causal law or agency primitive can be exported from the packet.
+\end{proof}
+
+\begin{theorem}[CausalCommitment GAP locality exactness]
+\label{thm:causal-commitment-gap-locality-exactness}
+Every public causal read from an accepted $\CausalCommitmentUp$ packet must preserve the displayed $\mathsf{GAP}$ socket row $G$ and the locality row $L$ before any observer-facing commitment is exported. The public read may transport those rows through $H$, replay them through $C$, package them through $P$, and name them through $N$, but it may not replace $G$ by a hidden induction rule or $L$ by a synchronized global frame.
+\end{theorem}
+\begin{proof}
+Start with the GAP socket. \autoref{thm:causal-commitment-gap-socket} makes $G$ the only forward-facing socket row available to the carrier, so a public read cannot name a hidden causal primitive in place of the displayed socket.
+
+Attach the observer-locality handoff. By \autoref{thm:causal-commitment-locality-cell-handoff}, the locality consumer receives the commitment through $L$ and not through an ambient observer frame.
+
+Use classifier stability before export. \autoref{thm:causal-commitment-classifier-stability} preserves $O,R,G,F,L,H,C,P,N$ as separate rows under componentwise transport. Therefore the exported observer-facing commitment still carries the same GAP socket and locality row.
+
+Finally read the ledger of \autoref{thm:causal-commitment-namecert-ledger}. Its exactness excludes hidden causal laws, selected future observations, synchronized global frames, and unledgered primitives from the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CausalCommitment forward GAP observer route]
+\label{thm:causal-commitment-forward-gap-observer-route}
+The route from observed regularity to observer-locality handoff in an accepted $\CausalCommitmentUp$ packet factors through
+$$
+O,R,G,F,L,H,C,P,N.
+$$
+Thus the observed-history row, regularity row, GAP socket, forward-binding row, locality row, transport, continuation replay, provenance, and local name are all crossed before an observer-facing commitment is available.
+\end{theorem}
+\begin{proof}
+Begin with the observed and regularity rows. \autoref{thm:causal-commitment-forward-binding-route} routes the observed pattern through $O,R$ into the forward-facing content named by $G$ and the displayed forward-binding row $F$.
+
+Next attach the GAP socket and locality handoff. \autoref{thm:causal-commitment-gap-socket} identifies the public socket row as $G$, while \autoref{thm:causal-commitment-locality-cell-handoff} routes the observer-locality consumer through $L$.
+
+It remains to preserve the support rows. \autoref{thm:causal-commitment-classifier-stability} keeps $H,C,P,N$ attached to the same packet under transport, and \autoref{thm:causal-commitment-namecert-ledger} records that no additional observer-facing row is exported.
+\end{proof}
+
+\begin{theorem}[CausalCommitment kernel row exhaustion]
+\label{thm:causal-commitment-kernel-row-exhaustion}
+The accepted $\CausalCommitmentUp$ packet exports only $\BHist$, $\mathsf{GAP}$, $\hsame$, $\Cont$, $\Pkg$, locality-cell, observer-locality, and local $\NameCert$ rows. It exports no hidden causal law, selected future observation, synchronized global frame, universal empirical law, or unledgered agency primitive.
+\end{theorem}
+\begin{proof}
+Read the packet rows first. \autoref{thm:causal-commitment-gap-socket} and \autoref{thm:causal-commitment-forward-binding-route} expose the $\BHist$ observed and regularity rows, the GAP socket, and the forward route through $O,R,G,F$.
+
+Add locality and observer access. \autoref{thm:causal-commitment-locality-cell-handoff} supplies the locality-cell and observer-locality row $L$, while \autoref{thm:causal-commitment-classifier-stability} preserves the componentwise $\hsame$, displayed $\Cont$, and $\Pkg$ rows.
+
+Finally apply \autoref{thm:causal-commitment-namecert-ledger}. The local NameCert ledger is exhausted by the displayed rows, so any attempted export outside $\BHist$, GAP, transport, replay, provenance, locality, observer-locality, and local naming exits the packet.
+\end{proof}
+
+\begin{theorem}[CausalCommitment GAP locality adjunction]
+\label{thm:causal-commitment-gap-locality-adjunction}
+For an accepted $\CausalCommitmentUp$ packet, the GAP socket row $G$ and the
+locality row $L$ form the only admissible route from observed regularity to
+observer-locality handoff. Any observer-facing commitment read must pass from
+the observed and regularity rows through $G$, then through the forward-binding
+row $F$, and finally through $L$ before the transport, replay, provenance, and
+local naming rows may expose it.
+\end{theorem}
+\begin{proof}
+Start with the carrier and GAP socket. The carrier of
+\autoref{def:causal-commitment-namecert-carrier} displays the rows
+$O,R,G,F,L,H,C,P,N$, and \autoref{thm:causal-commitment-gap-socket} makes $G$
+the public GAP row available to the packet.
+
+Next use the forward binding route. By
+\autoref{thm:causal-commitment-forward-binding-route}, the observed
+regularity content enters the commitment-facing route through $O,R,G,F$ and
+does not pass through an unledgered future selector.
+
+Finally attach observer locality. \autoref{thm:causal-commitment-locality-cell-handoff}
+routes the consumer through $L$, while
+\autoref{thm:causal-commitment-non-escape-boundary} excludes hidden causal
+laws, synchronized global frames, and selected future observations. Thus the
+only admissible observed-regularity to observer-locality route is the
+displayed $G,F,L$ handoff inside $O,R,G,F,L,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[CausalCommitment observer row factorization]
+\label{thm:causal-commitment-observer-row-factorization}
+Every observer-facing read of an accepted $\CausalCommitmentUp$ packet factors
+through
+$$
+O,R,G,F,L,H,C,P,N.
+$$
+The observer row, regularity row, GAP socket, forward-binding row, locality
+handoff, transport, continuation replay, provenance, and local NameCert row
+are all required before the read can be exported to an observer-locality
+consumer.
+\end{theorem}
+\begin{proof}
+Begin with the route already exposed by
+\autoref{thm:causal-commitment-forward-gap-observer-route}. It identifies the
+observer-facing route with the displayed rows $O,R,G,F,L,H,C,P,N$.
+
+Use classifier stability to keep the rows separate during transport.
+\autoref{thm:causal-commitment-classifier-stability} preserves the same
+carrier coordinates under the componentwise $\hsame$ and displayed $\Cont$
+replay rows, so the observer read cannot collapse $G$, $F$, or $L$ into a
+single hidden primitive.
+
+The ledger then closes the factorization.
+\autoref{thm:causal-commitment-namecert-ledger} and
+\autoref{thm:causal-commitment-ledger-nonescape} say that no row outside
+$O,R,G,F,L,H,C,P,N$ has a local NameCert coordinate. Hence every accepted
+observer-facing read factors through exactly those rows.
+\end{proof}
+
+\begin{theorem}[CausalCommitment forward GAP NameCert export]
+\label{thm:causal-commitment-forward-gap-namecert-export}
+The forward-GAP obligation surface of $\CausalCommitmentUp$ exports a local
+NameCert row only after the GAP-locality adjunction and observer-row
+factorization are both satisfied. The exported certificate packages the
+carrier, GAP socket, forward-binding route, locality handoff, classifier
+stability, and ledger non-escape rows, and it exports no hidden causal
+primitive or selected future observation.
+\end{theorem}
+\begin{proof}
+First package the carrier and locality route. Apply
+\autoref{thm:causal-commitment-gap-locality-adjunction}; it gives the only
+admissible route from observed regularity through the GAP socket and forward
+binding row to the observer-locality handoff.
+
+Next package the observer-facing read. Apply
+\autoref{thm:causal-commitment-observer-row-factorization}; it requires the
+complete row sequence $O,R,G,F,L,H,C,P,N$ before any observer-locality
+consumer receives the commitment.
+
+It remains to read the local NameCert ledger.
+\autoref{thm:causal-commitment-namecert-ledger} supplies the local naming row,
+while \autoref{thm:causal-commitment-ledger-nonescape} and
+\autoref{thm:causal-commitment-non-escape-boundary} exclude hidden causal
+laws, unledgered agency primitives, synchronized global frames, universal
+empirical laws, and selected future observations. Therefore the exported
+NameCert is exactly the displayed forward-GAP obligation surface.
+\end{proof}
 
 \closureat{CausalCommitmentUp}{seedStr}
 \closureat{CausalCommitmentUp}{obligationStr}
+\closureat{CausalCommitmentUp}{scopedStr}
 
 \begin{closurestatus}{\CausalCommitmentUp}
   \constructivestory{A $\CausalCommitmentUp$ packet is generated from a finite observed-history ledger, an observed regularity ledger, a displayed $\mathsf{GAP}$ socket, a forward-binding route, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:causal-commitment-namecert-carrier}, \autoref{thm:causal-commitment-gap-socket}, \autoref{thm:causal-commitment-forward-binding-route}, \autoref{thm:causal-commitment-non-escape-boundary}, and \autoref{thm:causal-commitment-namecert-obligations} bind the finite carrier, GAP socket, forward-binding route, non-escape boundary, and local naming obligations.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a Lean implementation, bridge status, selected future observation, universal empirical law, hidden induction rule, synchronized global frame, or ambient causal primitive.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for the GAP socket, forward-binding route, non-escape boundary, and NameCert obligations.}
+  \upgradepath{The next paper-side step is public export after Lean encoding catches up to the scoped carrier, GAP socket, forward-binding route, non-escape boundary, and NameCert obligations.}
 \end{closurestatus}

@@ -1,0 +1,26 @@
+\begin{theorem}[UniformCauchyCriterion finite-window selector uniqueness]
+\label{thm:uniform-cauchy-criterion-finite-window-selector-uniqueness}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+and
+$$
+U'=(I',W',M',Q',T',E',H',C',P',N')
+$$
+be accepted $\UniformCauchyCriterionUp$ packets. Suppose their finite family ledgers, $\StreamNameUp$ window families, shared modulus rows, $\DyadicRatCoreUp$ tolerance rows, $\RegSeqRatUp$ tail readbacks, $\RealUp$ seal rows, and structural $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows agree componentwise along the displayed BEDC transports.
+
+Then every $\RealUp$-facing or completion-facing consumer of $U$ reads the same finite-window selector surface as the corresponding consumer of $U'$ before reaching the seal. The common surface is exactly the route through the finite family ledger, $W,M,Q,T,E,H,C,P,N$, equivalently through the matched route $W',M',Q',T',E',H',C',P',N'$. It has no coordinate for quotient stream families, selected limits, host real equality, choice schedules, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_finite\_window\_selector\_uniqueness}
+\begin{proof}
+Start with tail-ledger exactness, \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. It places every accepted comparison of each packet after the displayed finite family ledger, the $\StreamNameUp$ window row, the shared modulus row, and the dyadic tolerance row. The componentwise agreement hypotheses therefore identify the two tail-ledger routes before any consumer reaches a seal-facing row.
+
+Next apply shared-threshold transport, \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport}. The transported threshold request remains the same $M$-route, or the matched $M'$-route, under the recorded $\hsame$ and $\Cont$ rows. Thus a consumer cannot distinguish the packets by choosing another modulus schedule or by moving the tolerance read outside the displayed transport.
+
+Now use RegSeqRat tail equivalence, \autoref{thm:uniform-cauchy-criterion-regseqrat-tail-equivalence}. The regular rational readback carried by $T$ is the same tail evidence already fixed by the window and tolerance route, and the same statement holds for $T'$. Since the readbacks agree componentwise, the two packets present a single $\RegSeqRatUp$ selector surface to downstream consumers.
+
+Finally apply finite-window Real-seal extraction, \autoref{thm:uniform-cauchy-criterion-finite-window-real-seal-extraction}. The $\RealUp$ seal row is reached only through the finite window family, dyadic tolerance row, tail readback, and structural rows. The matched $H,C,P,N$ and $H',C',P',N'$ rows carry the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ evidence, so the Real-facing and completion-facing consumers read one finite-window selector surface before $E$ or $E'$ is consumed.
+
+The excluded objects are not rows of that surface. Quotient stream families, selected limits, host real equality, choice schedules, and ambient completeness cannot supply an alternate selector, so the componentwise matched packets are indistinguishable to every Real-facing or completion-facing consumer up to the seal.
+\end{proof}

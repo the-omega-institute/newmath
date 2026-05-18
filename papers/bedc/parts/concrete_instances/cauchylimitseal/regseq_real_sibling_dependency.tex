@@ -1,0 +1,37 @@
+\begin{theorem}[CauchyLimitSeal RegSeq-Real sibling dependency]
+\label{thm:cauchy-limit-seal-regseq-real-sibling-dependency}
+Every accepted $\CauchyLimitSealUp$ handoff consumes $\StreamNameUp$ for finite observations, $\RegSeqRatUp$ for regular Cauchy rows, and $\RealUp$ for the public seal and readback row. The handoff therefore factors through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}; it cannot be read as a standalone completion principle.
+\end{theorem}
+\begin{proof}
+Begin with the root L10 sibling route, \autoref{thm:cauchy-limit-seal-root-l10-sibling-route}. It already places every accepted Real-facing or completion-facing route through the finite-window surface, regular readback, dyadic ledger, and Real seal boundary.
+
+The finite observations are supplied by the StreamName surface. The scheduled window row records the finite observations before any regular Cauchy source or seal row is public.
+
+The regular Cauchy content is supplied by the RegSeqRat row. The accepted handoff reads the regular source and its readback before it reaches the seal endpoint.
+
+The public endpoint is supplied by the RealUp seal row. Since the accepted route has no coordinate for quotient streams, selected host limits, hidden tail oracles, host equality, or ambient completeness, the CauchyLimitSeal packet is a sibling-dependent handoff rather than an isolated completion principle.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal RegSeqRat--Real handoff exactness]
+\label{thm:cauchy-limit-seal-regseqrat-real-handoff-exactness}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. An accepted consumer route for $L$ whose public endpoint is a $\RealUp$ seal is exact if and only if it factors through the displayed $\StreamNameUp$ finite window, the matching $\RegSeqRatUp$ regular row, the $\DyadicRatCoreUp$ observation ledger, and the local $\RealUp$ seal row, with all transport carried only by the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the packet.
+
+Equivalently, the exact Real-facing handoff is the finite route
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \RealUp
+$$
+read inside the public route packet of $L$. No quotient stream, selected host limit, host real equality, hidden tail oracle, independent completion object, or ambient completeness coordinate belongs to that exact handoff.
+\end{theorem}
+\begin{proof}
+For the forward direction, start from the sibling dependency theorem \autoref{thm:cauchy-limit-seal-regseq-real-sibling-dependency}. It already places each accepted $\RealUp$ handoff through the StreamName finite observations, RegSeqRat regular rows, and RealUp public seal surface.
+
+Next refine the dependency by the root L10 sibling route, \autoref{thm:cauchy-limit-seal-root-l10-sibling-route}. This identifies the missing observation ledger as the displayed $\DyadicRatCoreUp$ row and keeps the route inside the same finite-window, regular-source, dyadic-ledger, and Real-seal packet.
+
+Finally apply the public route packet and non-escape boundary from \autoref{def:cauchy-limit-seal-public-route-packet} and \autoref{thm:cauchy-limit-seal-non-escape}. These surfaces leave only the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ transport and provenance rows, so an exact public endpoint cannot pass through an omitted sibling row or an external completion coordinate.
+
+For the reverse direction, assume the consumer factors through the displayed StreamName window, RegSeqRat row, DyadicRatCore ledger, RealUp seal, and structural BEDC rows. The public route boundary of \autoref{thm:cauchy-limit-seal-public-route-boundary} repacks those rows as the accepted public route packet of $L$.
+
+Use the RealUp consumer boundary, \autoref{thm:cauchy-limit-seal-realup-consumer-boundary}, to read the terminal seal from that packet. Because every coordinate of the proposed route is already a carrier row or one of its visible transport, continuation, provenance, and naming rows, the repacked route is an admissible $\RealUp$ consumer handoff.
+
+The non-escape boundary then rules out any second route through quotient streams, selected limits, host equality, hidden tail data, independent completion objects, or ambient completeness. Thus the displayed factorization is not merely sufficient for a Real-facing read; it is exactly the accepted CauchyLimitSeal handoff surface.
+\end{proof}

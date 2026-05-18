@@ -56,6 +56,7 @@ read through the same finite dyadic ledger, selected windows, modulus schedule,
 regular-rational witness, RealUp seal, transport rows, continuation rows, and
 local certificate.
 \end{definition}
+\leandef{BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier}
 
 \begin{theorem}[Real completion witness-extractor NameCert obligations]
 \label{thm:real-completion-witness-extractor-namecert-obligations}
@@ -114,6 +115,7 @@ $S$. The transport, continuation, provenance, and local naming rows keep the
 handoff inside the same finite packet, and the carrier has no quotient-real
 or ambient-completion coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_diagonal\_handoff}
 
 \begin{theorem}[Real completion witness-extractor non-escape]
 \label{thm:real-completion-witness-extractor-nonescape}
@@ -157,6 +159,7 @@ window exposure, and modulus exposure to the same displayed packet. Thus a
 consumer cannot read $Q,L,S$ without first passing through the selected-window
 route determined by $D,W,M$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_selected\_window\_admission}
 
 \begin{theorem}[Real completion witness-extractor regular readback route]
 \label{thm:real-completion-witness-extractor-regular-readback-route}
@@ -178,6 +181,7 @@ The carrier contains no second copy of $W$ or $M$ and no alternate provenance
 or naming coordinate. Therefore the $\RegSeqRatUp$ readback cannot select a
 different window family or modulus schedule.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_regular\_readback\_route}
 
 \begin{theorem}[Real completion witness-extractor seal handoff totality]
 \label{thm:real-completion-witness-extractor-seal-handoff-totality}
@@ -201,16 +205,146 @@ carrier. Since the packet has no quotient equality row, no host-limit row, no
 choice row, and no ambient-completeness row, the seal and handoff are total
 only for the displayed finite route.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_seal\_handoff\_totality}
+
+\begin{theorem}[Real completion witness-extractor transport totality]
+\label{thm:real-completion-witness-extractor-transport-totality}
+For every accepted $\RealCompletionWitnessExtractorUp$ carrier
+$$
+X=(D,W,M,Q,L,S,H,C,P,N),
+$$
+the transport and route rows $H,C$ are total for the selected-window, regular-readback, nonescape, and seal-handoff obligations. In particular, every read of $D,W,M,Q,L,S$ that is accepted by the local certificate replays through $H,C$ before it reaches package provenance $P$ and local naming $N$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:real-completion-witness-extractor-selected-window-admission}. It fixes the selected-window route $D,W,M$ before any later witness coordinate is visible.
+
+Apply \autoref{thm:real-completion-witness-extractor-regular-readback-route}. The readback row $Q$ remains attached to the same selected windows, modulus schedule, transport, route, provenance, and naming rows.
+
+Now use \autoref{thm:real-completion-witness-extractor-seal-handoff-totality}. The RealUp seal $L$ and completion-facing handoff $S$ are consumed only after the selected-window and readback rows have passed through $H,C,P,N$.
+
+Finally, \autoref{thm:real-completion-witness-extractor-nonescape} excludes quotient stream equality, selected host limits, host real equality, arbitrary diagonal choice, and ambient completeness. Thus the displayed $H,C$ rows exhaust transport and route replay for the accepted carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_transport\_totality}
+
+\begin{theorem}[Real completion witness-extractor provenance exhaustion]
+\label{thm:real-completion-witness-extractor-provenance-exhaustion}
+For every accepted $\RealCompletionWitnessExtractorUp$ carrier
+$$
+X=(D,W,M,Q,L,S,H,C,P,N),
+$$
+the provenance and naming rows $P,N$ account for all source chapters needed by the selected-window, regular-readback, nonescape, and seal-handoff route: $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyLimitSealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. Its package row $P$ explicitly names the dyadic tolerance ledger, selected StreamName windows, regular-rational readback, RealUp seal, CauchyLimitSeal handoff, history, transport, route, package, and naming dependencies.
+
+Use \autoref{thm:real-completion-witness-extractor-selected-window-admission} and \autoref{thm:real-completion-witness-extractor-regular-readback-route}. These theorems place $D,W,M,Q$ under the same $H,C,P,N$ packet.
+
+Use \autoref{thm:real-completion-witness-extractor-seal-handoff-totality} together with \autoref{thm:real-completion-witness-extractor-nonescape}. The seal and handoff rows add no second provenance source and export none of the excluded completion or choice principles.
+
+Therefore $P,N$ exhaust the provenance and local naming obligations for the displayed witness-extractor carrier.
+\end{proof}
+
+\begin{theorem}[Real completion witness-extractor obligation closure package]
+\label{thm:real-completion-witness-extractor-obligation-closure-package}
+The accepted carrier
+$$
+X=(D,W,M,Q,L,S,H,C,P,N)
+$$
+is an obligation-closed $\RealCompletionWitnessExtractorUp$ package for the present chapter: the selected-window route is fixed by $D,W,M$, the regular-readback route is fixed by $Q$, the Real and completion handoff route is fixed by $L,S$, transport and route replay are exhausted by $H,C$, and provenance plus local naming are exhausted by $P,N$.
+\end{theorem}
+\begin{proof}
+Assemble the obligation rows from the preceding theorems. The selected-window theorem supplies the $D,W,M$ admission route, the regular-readback theorem supplies the $Q$ route, and the seal-handoff theorem supplies the $L,S$ route.
+
+Apply \autoref{thm:real-completion-witness-extractor-transport-totality}. It accounts for componentwise transport and continuation replay across every displayed consumer read.
+
+Apply \autoref{thm:real-completion-witness-extractor-provenance-exhaustion}. It accounts for package provenance and local naming over the Real and Completion dependency surface.
+
+The nonescape theorem then removes the remaining forbidden exits: quotient stream equality, selected host limits, host real equality, arbitrary diagonal choice, ambient completeness, and un displayed completion operators. Hence the displayed carrier closes the chapter's transport, route replay, provenance, and naming obligations.
+\end{proof}
+
+\begin{theorem}[Real completion witness-extractor scoped route]
+\label{thm:real-completion-witness-extractor-scoped-route}
+Every accepted $\RealCompletionWitnessExtractorUp$ packet
+$$
+X=(D,W,M,Q,L,S,H,C,P,N)
+$$
+is scoped by the displayed finite witness route: the DyadicRatCore tolerance ledger $D$, StreamName windows $W$, RegSeqRat readback row $Q$, RealUp seal $L$, CauchyLimitSeal handoff $S$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ route row $C$, package row $P$, and local $\NameCert$ row $N$. The route exports no quotient stream equality, host real equality, selected host limit, arbitrary diagonal choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First build the finite witness route. Apply \autoref{thm:real-completion-witness-extractor-selected-window-admission} to fix the dyadic tolerance ledger, selected StreamName windows, and modulus schedule. Apply \autoref{thm:real-completion-witness-extractor-regular-readback-route} to attach the RegSeqRat readback row to the same packet.
+
+Next attach the completion-facing rows. Use \autoref{thm:real-completion-witness-extractor-seal-handoff-totality} for the RealUp seal and CauchyLimitSeal handoff, then use \autoref{thm:real-completion-witness-extractor-transport-totality} to route all displayed reads through componentwise $\hsame$ transport and displayed $\Cont$ continuation.
+
+Finally, apply \autoref{thm:real-completion-witness-extractor-provenance-exhaustion} to account for $\Pkg$ provenance and local $\NameCert$ naming. The nonescape theorem, \autoref{thm:real-completion-witness-extractor-nonescape}, excludes quotient stream equality, host real equality, selected host limits, arbitrary diagonal choice, and ambient completeness. Therefore the accepted packet is scoped exactly by the displayed finite witness route.
+\end{proof}
+
+\begin{theorem}[Real completion witness-extractor kernel support scope]
+\label{thm:real-completion-witness-extractor-kernel-support-scope}
+The scoped route of \autoref{thm:real-completion-witness-extractor-scoped-route} depends only on the named sibling chapters $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyLimitSealUp$, together with the BEDC kernel rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No further completion carrier, quotient principle, host equality row, selected-limit operator, diagonal-choice operator, or ambient-completeness row is part of the support.
+\end{theorem}
+\begin{proof}
+Project the carrier
+
+$$
+X=(D,W,M,Q,L,S,H,C,P,N).
+$$
+
+The first five witness rows are the displayed sibling-chapter rows, while $H,C,P,N$ are the displayed kernel transport, route, package, and naming rows attached to the same packet.
+
+Apply \autoref{thm:real-completion-witness-extractor-scoped-route}. It already factors every accepted read through the selected-window route, regular-readback route, seal-handoff route, componentwise transport, displayed continuation, provenance, and local naming rows.
+
+The support list is exhausted by \autoref{thm:real-completion-witness-extractor-provenance-exhaustion}. The excluded carriers and principles are absent by \autoref{thm:real-completion-witness-extractor-nonescape}, so the scoped route has exactly the stated kernel support.
+\end{proof}
+
+\begin{theorem}[Real completion witness-extractor standard bridge surface]
+\label{thm:real-completion-witness-extractor-standard-bridge-surface}
+For every accepted $\RealCompletionWitnessExtractorUp$ packet
+$$
+X=(D,W,M,Q,L,S,H,C,P,N),
+$$
+the finite rows $D,W,M,Q,L,S,H,C,P,N$ form the paper bridge surface from the BEDC witness extractor to the standard diagonal-witness reading. Every standard consumer read factors through the checked diagonal handoff, the selected-window admission route, the regular-readback route, the seal-handoff totality row, and the transport totality rows. No quotient stream equality, host limit, choice datum, or ambient completeness row is exported by this bridge surface.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-completion-witness-extractor-diagonal-handoff}. It supplies the checked handoff from the displayed BEDC packet to the diagonal-witness reading while keeping the same carrier coordinates $D,W,M,Q,L,S,H,C,P,N$.
+
+Next compose the route witnesses. Apply \autoref{thm:real-completion-witness-extractor-selected-window-admission} for $D,W,M$, then apply \autoref{thm:real-completion-witness-extractor-regular-readback-route} for $Q$. These two rows place each standard read over the selected dyadic windows and the displayed regular readback coordinate.
+
+Now attach the completion-facing handoff. Apply \autoref{thm:real-completion-witness-extractor-seal-handoff-totality} for $L,S$, and apply \autoref{thm:real-completion-witness-extractor-transport-totality} for $H,C$. Thus the consumer route is carried only by the displayed seal, handoff, transport, and continuation rows.
+
+Finally, the nonescape and support theorems exclude the remaining exits. Quotient stream equality, host limits, choice data, and ambient completeness do not occur among the exported rows, so the displayed finite packet is exactly the paper bridge surface for the standard diagonal-witness reading.
+\end{proof}
+
+\begin{theorem}[Real completion witness-extractor finite-prefix stability handoff]
+\label{thm:real-completion-witness-extractor-prefix-stability-handoff}
+Every accepted $\RealCompletionWitnessExtractorUp$ packet whose selected-window route is supplied by an accepted $\FinitePrefixLimitStabilityUp$ packet must read the finite prefix budget, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance row, terminal $\RealUp$ seal, and extractor rows through one ordered finite route before any Completion-facing handoff is visible. Thus the extractor can consume finite-prefix stability only as the displayed handoff
+$$
+B \to W \to R \to D \to E \to X
+$$
+where $X=(D',W',M,Q,L,S,H,C,P,N)$ is the accepted extractor carrier, with $D',W',M$ reading the selected extractor window, $Q$ reading the regular-rational extractor row, and $L,S,H,C,P,N$ reading only the displayed seal, handoff, transport, continuation, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+First read the supplying stability packet. Apply \autoref{thm:finite-prefix-limit-stability-real-handoff} to identify the finite handoff from the displayed prefix observation to the terminal $\RealUp$ seal, and apply \autoref{thm:finite-prefix-limit-stability-route-determinacy} to make that seal the unique consumer-facing end of the route.
+
+Next pass the displayed route into the extractor. Apply \autoref{thm:real-completion-witness-extractor-selected-window-admission} to attach the extractor's selected window rows $D',W',M$ to the same finite route. Apply \autoref{thm:real-completion-witness-extractor-regular-readback-route} to read $Q$ only after that selected window has been admitted.
+
+Finally attach the Completion-facing rows. Use \autoref{thm:real-completion-witness-extractor-seal-handoff-totality} to read $L,S$ as the visible Real and Completion handoff rows of the accepted extractor packet. Since the supplying stability packet has already fixed the order $B \to W \to R \to D \to E$, and the extractor theorems expose only $D',W',M,Q,L,S,H,C,P,N$, no Completion-facing handoff is visible before the finite-prefix stability route and the extractor rows have both been displayed.
+\end{proof}
 
 \closureat{RealCompletionWitnessExtractorUp}{seedStr}
+\closureat{RealCompletionWitnessExtractorUp}{obligationStr}
+\closureat{RealCompletionWitnessExtractorUp}{scopedStr}
+\closureat{RealCompletionWitnessExtractorUp}{publicStr}[BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_diagonal\_handoff]
+\closureat{RealCompletionWitnessExtractorUp}{bridgedStr}[BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_diagonal\_handoff]
+\closureat{RealCompletionWitnessExtractorUp}{matureStr}[BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_diagonal\_handoff]
 
 \begin{closurestatus}{\RealCompletionWitnessExtractorUp}
   \constructivestory{A $\RealCompletionWitnessExtractorUp$ packet is generated from a dyadic tolerance ledger, selected StreamNameUp windows, a modulus schedule, a RegSeqRat readback row, a RealUp seal row, a completion-facing handoff row, displayed hsame transports, Cont routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-completion-witness-extractor-carrier}, \autoref{thm:real-completion-witness-extractor-namecert-obligations}, \autoref{thm:real-completion-witness-extractor-diagonal-handoff}, and \autoref{thm:real-completion-witness-extractor-nonescape} bind the finite diagonal witness-extractor packet for Real and Completion consumers.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:real-completion-witness-extractor-carrier}, \autoref{thm:real-completion-witness-extractor-standard-bridge-surface}, and \autoref{thm:real-completion-witness-extractor-prefix-stability-handoff} bind the finite diagonal witness-extractor packet, its standard bridge surface, and its finite-prefix stability handoff for Real and Completion consumers.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.RealCompletionWitnessExtractorUp.RealCompletionWitnessExtractorCarrier\_diagonal\_handoff}
+  \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close quotient stream equality, selected host limits, host real equality, arbitrary diagonal choice, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, selected-window admission, regular-rational readback, RealUp seal handoff, completion-facing handoff, componentwise transport, route replay, package provenance, local naming, and non-escape for the same witness packet.}
+  \notclaimed{This chapter does not close quotient stream equality, selected host limits, host real equality, arbitrary diagonal choice, ambient completeness, or bridge checking.}
+  \upgradepath{The theory axis is mature; the remaining work is verification-axis bridge checking only.}
 \end{closurestatus}

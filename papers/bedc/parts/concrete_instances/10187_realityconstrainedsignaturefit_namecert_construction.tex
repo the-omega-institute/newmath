@@ -131,6 +131,7 @@ that can be attacked without first asserting a public physical-signature fit.
 \label{thm:reality-constrained-signature-fit-metric-streamname-real-dependency}
 Every public physical-signature fit read of an accepted $\RealityConstrainedSignatureFitUp$ packet first displays the $\StreamNameUp$ observation schedule $S$, $\RealUp$ approximation row $A$, $\MetricUp$ comparison row $M$, GAP-policy row $G$, physical-representation certificate $P$, classifier row $C$, componentwise transport row $H$, package provenance row $Q$, and local naming row $N$. No accepted read may identify Real approximation with physical adequacy, bypass the Metric comparison row, bypass the StreamName observation schedule, or export a physical-fit claim before the GAP and representation-certificate rows are visible.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedSignatureFitUp.RealityConstrainedSignatureFitCarrier\_metric\_streamname\_real\_dependency}
 \begin{proof}
 Start with the carrier of \autoref{def:reality-constrained-signature-fit-carrier}. The packet lists $S,A,M,G,P,C,H,Q,N$ as the complete finite surface for physical-signature compatibility.
 
@@ -139,6 +140,21 @@ Apply the classifier definition of \autoref{def:reality-constrained-signature-fi
 Next use the NameCert obligations of \autoref{thm:reality-constrained-signature-fit-namecert-obligations}. They require physical-signature exposure through $S,G,P,C$ and mathematical-approximation exposure through $A,M,C$ before any fit read is public.
 
 The no-free descent theorem \autoref{thm:reality-constrained-signature-fit-no-free-descent} prevents an operation transported through the mathematical classifier from descending to a physical-signature claim without the stream schedule, GAP policy, and representation certificate. The formal target surface of \autoref{thm:reality-constrained-signature-fit-formal-target-surface} then exhausts the available rows, so the StreamName, Real, and Metric dependencies are mandatory for every public physical-fit read.
+\end{proof}
+
+\begin{theorem}[Reality-constrained signature-fit GAP-policy exactness]
+\label{thm:reality-constrained-signature-fit-gap-policy-exactness}
+Every public physical-signature fit read of an accepted $\RealityConstrainedSignatureFitUp$ packet must display exactly the $\StreamNameUp$ schedule $S$, $\RealUp$ approximation row $A$, $\MetricUp$ comparison row $M$, GAP-policy row $G$, representation certificate $P$, classifier row $C$, transport row $H$, provenance row $Q$, and local name $N$. If $G$ or $P$ is absent, the route remains a mathematical approximation route and not a physical fit.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedSignatureFitUp.RealityConstrainedSignatureFitCarrier\_gap\_policy\_exactness}
+\begin{proof}
+Start with the carrier of \autoref{def:reality-constrained-signature-fit-carrier}. It lists the complete finite packet $R=(S,A,M,G,P,C,H,Q,N)$ and gives no hidden coordinate for physical adequacy.
+
+Apply the classifier of \autoref{def:reality-constrained-signature-fit-classifier} and the NameCert obligations of \autoref{thm:reality-constrained-signature-fit-namecert-obligations}. Together they require physical-signature exposure through $S,G,P,C$ and mathematical approximation exposure through $A,M,C$ inside the same transported packet.
+
+Use \autoref{thm:reality-constrained-signature-fit-no-free-descent}. It blocks descent from mathematical classifier transport to physical-signature fit unless the stream schedule, GAP-policy row, and representation certificate travel on the same route.
+
+Finally apply \autoref{thm:reality-constrained-signature-fit-formal-target-surface}, \autoref{thm:reality-constrained-signature-fit-nonescape}, and \autoref{thm:reality-constrained-signature-fit-metric-streamname-real-dependency}. These results exhaust the public rows as $S,A,M,G,P,C,H,Q,N$ and make the StreamName, Real, Metric, GAP, and representation dependencies exact. Without $G$ or $P$, the route has only approximation data and cannot be read as a physical fit.
 \end{proof}
 
 \falsifiablePrediction{An accepted RealityConstrainedSignatureFitUp consumer that transports an operation through a mathematical classifier without a displayed physical-signature descent row refutes the packet.}
@@ -158,7 +174,8 @@ The Lean site \texttt{lean4/BEDC/Derived/RealityConstrainedSignatureFitUp/TasteG
   \leanchecked{BEDC.Derived.RealityConstrainedSignatureFitUp.taste\_gate}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:reality-constrained-signature-fit-carrier}, \autoref{def:reality-constrained-signature-fit-classifier}, \autoref{thm:reality-constrained-signature-fit-namecert-obligations}, \autoref{thm:reality-constrained-signature-fit-no-free-descent}, and \autoref{thm:reality-constrained-signature-fit-nonescape} bind exactly the StreamName, RealUp, MetricUp, GAP-policy, physical-representation certificate, classifier, componentwise $\hsame$, $\Pkg$, and local $\NameCert$ rows for physical-signature compatibility.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.RealityConstrainedSignatureFitUp.RealityConstrainedSignatureFitTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove Lean verification, bridge checking, host physical adequacy, equality of physical systems, total operation descent, or identity between Real approximation and physical fit.}

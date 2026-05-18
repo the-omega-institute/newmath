@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\ResearchProgrammeExecutionGateUp$}
+\label{ch:concrete-instances-research-programme-execution-gate-namecert}
+\origin{ai}
+
+The $\ResearchProgrammeExecutionGateUp$ packet realizes the programme route of \autoref{sec:visions-philosophy-research-programme} inside the auditable-generativity discipline of \autoref{ch:visions-philosophy-auditable-generativity}. It sits beside the strength ledger of \autoref{ch:concrete-instances-programme-strength-ledger-namecert}, the strength-gradient ledger of \autoref{ch:concrete-instances-programme-strength-gradient-ledger-namecert}, the kernel phase refusal packet of \autoref{ch:concrete-instances-kernelphaserefusal-namecert}, the verification-failure roadmap of \autoref{ch:concrete-instances-verification-failure-roadmap-namecert}, and the name-eligibility proof of \autoref{ch:concrete-instances-name-eligibility-proof-namecert}. Those sibling chapters expose strength, gradient, phase refusal, verification failure, and name eligibility separately; this carrier binds them into one finite execution gate before a programme target is accepted.
+
+\begin{definition}[ResearchProgrammeExecutionGate carrier]
+\label{def:research-programme-execution-gate-carrier}
+A $\ResearchProgrammeExecutionGateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(T,P,D,S,F,B,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the target row naming the programme target proposed for execution;
+\item $P$ is the current-phase row naming the phase in which the target is being considered;
+\item $D$ is the dependency-readiness row exposing the lowest open ready phase and its blockers;
+\item $S$ is the strength-report row inherited from the programme strength and gradient ledgers;
+\item $F$ is the formal-status row recording the theorem, audit, and axiom-clean status currently visible for the target;
+\item $B$ is the bridge row recording whether a standard-bridge consumer is present, absent, or refused;
+\item $R$ is the refusal row for targets outside the displayed lowest open ready phase;
+\item $H$ records componentwise $\hsame$ transport for the target, phase, dependency, strength, formal-status, bridge, refusal, replay, provenance, and naming rows;
+\item $C$ records displayed $\Cont$ replay of the route through $P,D,S,F,B,R$ before $T$ is accepted;
+\item $Q$ is the $\Pkg$ provenance over $\ProgrammeStrengthLedgerUp$, $\ProgrammeStrengthGradientLedgerUp$, $\KernelPhaseRefusalUp$, $\VerificationFailureRoadmapUp$, $\NameEligibilityProofUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ResearchProgrammeExecutionGateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a hidden priority override, off-phase target promotion, unreported blocker discharge, bridge status inferred from formal status, or name eligibility supplied outside the displayed local certificate.
+\end{definition}
+\leandef{BEDC.Derived.ResearchProgrammeExecutionGateUp.ResearchProgrammeExecutionGateUp}
+
+\begin{theorem}[ResearchProgrammeExecutionGate NameCert obligations]
+\label{thm:research-programme-execution-gate-namecert-obligations}
+For the carrier of \autoref{def:research-programme-execution-gate-carrier}, the local $\NameCert_{\ResearchProgrammeExecutionGateUp}$ surface consists exactly of carrier admission for $G=(T,P,D,S,F,B,R,H,C,Q,N)$, target exposure through $T$, current-phase exposure through $P$, lowest-open-layer dependency readiness through $D$, strength exposure through $S$, formal-status exposure through $F$, bridge exposure through $B$, refusal exposure through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $G=(T,P,D,S,F,B,R,H,C,Q,N)$. The first seven rows expose the target, current phase, dependency readiness, strength report, formal-status report, bridge row, and refusal row that determine whether the programme route may be executed.
+
+Read the structural rows next. Transport through $H$ preserves the displayed coordinates, replay through $C$ keeps the consumer on the same route, provenance through $Q$ records the sibling packets supplying the rows, and $N$ names the accepted carrier.
+
+Since the carrier contains no further coordinate, these rows exhaust the local NameCert obligations. A purported execution gate that omits one of them is a projection or sibling report, not the accepted $\ResearchProgrammeExecutionGateUp$ packet.
+\end{proof}
+
+\begin{theorem}[ResearchProgrammeExecutionGate lowest-open-layer readiness]
+\label{thm:research-programme-execution-gate-lowest-open-layer-readiness}
+Every accepted $\ResearchProgrammeExecutionGateUp$ packet reads the current-phase row $P$ and dependency-readiness row $D$ before it accepts the target row $T$. The accepted target must lie in the displayed lowest open ready phase, and any target outside that phase is routed to the refusal row $R$ before the local $\NameCert_{\ResearchProgrammeExecutionGateUp}$ row is consumed.
+\end{theorem}
+\begin{proof}
+Start with the carrier obligations of \autoref{thm:research-programme-execution-gate-namecert-obligations}. They require the current phase and dependency-readiness rows to be visible in the same finite packet as the target row.
+
+Use the kernel phase refusal sibling together with the verification-failure roadmap. The phase row identifies which layer is ready, while the dependency-readiness row records blockers that prevent a stronger target from being accepted.
+
+Finally read the displayed replay route $C$. A target in the lowest open ready phase reaches $T$ only after $P$ and $D$ are displayed; a target outside that phase reaches $R$ before $N$. Thus acceptance and refusal are both carried by the same local NameCert route.
+\end{proof}
+
+\begin{theorem}[ResearchProgrammeExecutionGate noninflation boundary]
+\label{thm:research-programme-execution-gate-noninflation-boundary}
+An accepted $\ResearchProgrammeExecutionGateUp$ packet cannot promote a target above the strength row $S$, formal-status row $F$, bridge row $B$, dependency-readiness row $D$, or refusal row $R$ displayed in its carrier. In particular, a consumer may not treat an unchecked target as checked, an unbridged target as bridge-checked, an off-phase target as ready, or a refused target as accepted.
+\end{theorem}
+\begin{proof}
+Read the strength and status rows from the carrier. The programme strength ledger and gradient ledger supply the reported strength $S$, while $F$ and $B$ keep formal and bridge status as separate coordinates.
+
+The dependency and refusal rows fix the execution boundary. If $D$ reports an open blocker or $R$ records an off-phase refusal, no structural row can erase that fact: $\hsame$ transports displayed coordinates, $\Cont$ replays displayed reads, and $\Pkg$ provenance records the same packet.
+
+Therefore any promoted reading asks for a coordinate absent from $G=(T,P,D,S,F,B,R,H,C,Q,N)$. The classifier rejects that reading as outside the execution gate.
+\end{proof}
+
+\falsifiablePrediction{Any accepted execution-gate packet that selects a target outside the displayed lowest open ready phase refutes the carrier.}
+
+\independenceWitness{programmestrengthledger, programmestrengthgradientledger, kernelphaserefusal, verificationfailureroadmap, nameeligibilityproof: none is bijective with $\ResearchProgrammeExecutionGateUp$ because the execution gate simultaneously carries target, current phase, dependency readiness, strength report, formal-status row, bridge row, refusal row, transport, replay, provenance, and local NameCert rows.}
+
+The Lean surface uses explicit \texttt{Nontrivial ResearchProgrammeExecutionGateUp} and \texttt{FieldFaithful ResearchProgrammeExecutionGateUp} instances in \texttt{lean4/BEDC/Derived/ResearchProgrammeExecutionGateUp/TasteGate.lean}. The carrier keeps $T,P,D,S,F,B,R,H,C,Q,N$ as distinct rows.
+
+\closureat{ResearchProgrammeExecutionGateUp}{seedStr}
+
+\begin{closurestatus}{\ResearchProgrammeExecutionGateUp}
+  \constructivestory{A $\ResearchProgrammeExecutionGateUp$ packet is generated from a target row, current phase, dependency readiness, strength report, formal-status row, bridge row, refusal row, componentwise transport, displayed replay, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:research-programme-execution-gate-carrier}, \autoref{thm:research-programme-execution-gate-namecert-obligations}, \autoref{thm:research-programme-execution-gate-lowest-open-layer-readiness}, and \autoref{thm:research-programme-execution-gate-noninflation-boundary} specify the finite execution-gate packet and its noninflation boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, standard bridge checking, downstream execution scheduling, or any target outside the displayed lowest open ready phase.}
+  \upgradepath{Lean closure requires Nontrivial ResearchProgrammeExecutionGateUp and FieldFaithful ResearchProgrammeExecutionGateUp instances for the same finite execution-gate packet.}
+\end{closurestatus}

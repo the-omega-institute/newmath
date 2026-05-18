@@ -27,6 +27,7 @@ whose displayed rows are:
 \end{enumerate}
 The packet contains no host evaluator, no hidden category composition oracle, no selected normalizer, and no quotient of computations. Every exported computation read is a row of $K$.
 \end{definition}
+\leandef{BEDC.Derived.KleisliTraceUp.TasteGate.KleisliTraceUp}
 
 \begin{theorem}[KleisliTrace NameCert obligation surface]
 \label{thm:kleisli-trace-namecert-obligation-surface}
@@ -40,6 +41,7 @@ For the carrier of \autoref{def:kleisli-trace-carrier}, the local $\NameCert_{\K
 \end{enumerate}
 These five rows are the obligation surface that a later Lean TasteGate must expose through both $\mathsf{Nontrivial}\,\KleisliTraceUp$ and $\mathsf{FieldFaithful}\,\KleisliTraceUp$ instances.
 \end{theorem}
+\leanchecked{BEDC.Derived.KleisliTraceUp.TasteGate.KleisliTraceTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 Carrier admission is projection from \autoref{def:kleisli-trace-carrier}. The accepted packet exposes exactly $S,B,T,G,H,C,P,N$.
 
@@ -83,3 +85,14 @@ Apply \autoref{thm:kleisli-trace-common-trace-route}. Its shared route for both 
 \closureat{KleisliTraceUp}{seedStr}
 \closureat{KleisliTraceUp}{obligationStr}
 \closureat{KleisliTraceUp}{scopedStr}
+
+\begin{closurestatus}{\KleisliTraceUp}
+  \constructivestory{A $\KleisliTraceUp$ packet is generated from a monadic bind row, trace-normal-form row, category-hom row, shared trace route, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. The carrier reads a computation trace by first exposing the bind surface, then the finite trace normal form, then the category-facing hom surface. The same trace route is consumed by both monadic and categorical consumers, while $\hsame$ preserves the displayed coordinates and $\Cont$ replays the finite handoff. The construction names a shared Kleisli trace, not hidden evaluator composition.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the Kleisli trace carrier, obligation surface, common trace route, and route non-escape argument.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim hidden category composition, selected normalizers, quotient computations, or host evaluator equality.}
+  \upgradepath{To reach obligationClosure, provide a checked carrier tying the monadic bind, trace-normal-form, and category-hom rows to one finite route.}
+\end{closurestatus}

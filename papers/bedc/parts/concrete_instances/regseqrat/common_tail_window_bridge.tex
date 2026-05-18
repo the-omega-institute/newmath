@@ -1,0 +1,155 @@
+\begin{definition}[RegSeqRat common-tail window packet]
+\label{def:regseqrat-common-tail-window-packet}
+A $\RegSeqRatUp$ common-tail window packet is a finite $\mathsf{BHist}$ packet over one accepted $\RegSeqRatUp$ source $P$ with the following displayed rows:
+\begin{enumerate}
+\item two certified cofinal tail shifts $T_0$ and $T_1$ of the $\StreamNameUp$ schedule carried by $P$;
+\item one common $\StreamNameUp$ refinement window $W_\ast$ through which the selected tail windows of $T_0$ and $T_1$ both restrict;
+\item the $\DyadicRatCoreUp$ endpoint rows read on $W_\ast$, together with the displayed radius rows and regularity bounds
+$$
+2^{-n}+2^{-m}
+$$
+for the selected unary indices;
+\item the $\mathsf{RegSeqRatClassifier}$ rows for the two tail-window reads and for their transported read on $W_\ast$;
+\item the $\RealUp$ seal-source rows consumed from the same common finite surface by \autoref{thm:regseqrat-real-seal-handoff};
+\item the componentwise $\hsame$ rows, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance attached to the StreamName, DyadicRatCore, RegSeqRat, and RealUp-facing rows.
+\end{enumerate}
+The packet is only a finite common-tail source surface. It stores no quotient stream, host real value, selected limit, metric-completion point, $\RealUp$ completeness datum, or standard-bridge coordinate beyond the displayed rows.
+\end{definition}
+
+\begin{theorem}[RegSeqRat common-tail window classifier bridge]
+\label{thm:regseqrat-common-tail-window-classifier-bridge}
+Let $P$ be an accepted $\RegSeqRatUp$ source, and let $T_0$ and $T_1$ be two certified cofinal tail shifts of the $\StreamNameUp$ schedule of $P$. Suppose two tail-window classifier reads land in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet} with common refinement $W_\ast$. Then the two reads determine the same $\RealUp$ seal-source surface and the same $\mathsf{RegSeqRatClassifier}$ read after restriction to $W_\ast$.
+
+The bridge conclusion is a statement about the displayed finite packet only. It exports no quotient stream, host real equality, selected limit, metric-completion point, $\RealUp$ completeness datum, or additional seal coordinate.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:regseqrat-tail-stable-cover-common-window-lock}. The two seal consumers carried by the cofinal tail shifts factor through one accepted common finite window, and the visible rows of that window are exactly the StreamName schedule rows, DyadicRatCore endpoint and radius ledgers, RegSeqRat classifier and regularity ledgers, and the displayed provenance.
+
+Next read the common-tail packet rows componentwise. The definition lists the cofinal tail shifts, the common $\StreamNameUp$ refinement $W_\ast$, the DyadicRatCore endpoint and radius ledgers, the classifier rows, the $\RealUp$ seal-source rows, and the $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance. Thus each tail-window read restricts to the same finite source surface on $W_\ast$.
+
+Apply \autoref{thm:regseqrat-refined-window-gluing-real-seal-factorization}. The refined-window gluing surface factors the RealUp-facing handoff through the displayed finite packet $W_\ast$, so the two tail-window origins cannot supply separate seal-source surfaces once their rows have been restricted to the common refinement.
+
+Use \autoref{thm:regseqrat-streamname-dyadic-window-lock} to lock the $\StreamNameUp$ schedule rows to the same $\DyadicRatCoreUp$ endpoint and radius ledgers inside the common window. The classifier reads inspect only those locked rows together with the regularity ledgers and provenance, so their transported RegSeqRat classifier read on $W_\ast$ is the same displayed read.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-handoff}. The $\RealUp$ seal consumes exactly the accepted regular-rational finite source surface already identified, and the carrier has no coordinate for quotient streams, host real equality, selected limits, metric completions, completeness data, or further seal coordinates.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail window terminality]
+\label{thm:regseqrat-common-tail-window-terminality}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $T_0$ and $T_1$ be two certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$. Suppose the two shifted tail reads land in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet} with common refinement $W_\ast$. Every completion-facing $\RealUp$ consumer whose visible rows are exactly the two shifted reads, the common $\StreamNameUp$ window $W_\ast$, the $\DyadicRatCoreUp$ endpoint, radius, and regularity rows, the $\RegSeqRatUp$ classifier rows, the $\RealUp$ seal-source rows, the displayed $\hsame$ rows, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance factors through that common-tail packet.
+
+The terminal factorization exports no quotient stream, host real equality, selected limit, metric-completion point, $\RealUp$ completeness datum, or additional seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-tail-stable-cover-common-window-lock} to the two cofinal tail shifts. The tail-stable cover places both completion-facing seal consumers on one accepted common finite window with the StreamName schedule rows, DyadicRatCore endpoint and radius ledgers, RegSeqRat classifier and regularity ledgers, and displayed provenance.
+
+Next use \autoref{thm:regseqrat-refined-window-gluing-real-seal-factorization}. The common refinement $W_\ast$ repacks the two shifted tail reads into one RealUp-facing seal source, so every consumer whose visible rows are limited to the displayed shifts and the common window is already routed through the common-tail packet.
+
+Apply \autoref{thm:regseqrat-streamname-dyadic-window-lock}. It locks the common $\StreamNameUp$ refinement to the same $\DyadicRatCoreUp$ endpoint, radius, and regularity rows, leaving the consumer no separate dyadic or schedule coordinate outside $W_\ast$.
+
+Now invoke \autoref{thm:regseqrat-common-tail-window-classifier-bridge}. The transported classifier read and the transported seal-source rows are the same rows listed by the common-tail packet, including the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+Finally apply \autoref{thm:regseqrat-real-seal-handoff}. Since the $\RealUp$ seal consumes exactly this accepted regular-rational finite source surface, the consumer factors through the common-tail packet. Quotient streams, host real equality, selected limits, metric-completion points, $\RealUp$ completeness data, and extra seal coordinates have no displayed carrier row from which to be read.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail finite-request Real seal pullback]
+\label{thm:regseqrat-common-tail-finite-request-real-seal-pullback}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, let $T_0$ and $T_1$ be two certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$, and let the two shifted tail reads land in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet} with common refinement $W_\ast$. For any finite-request $\RealUp$ seal consumer whose request is visible along that common-tail packet, the visible pullback of the consumer is exactly the finite source surface listed in \autoref{def:regseqrat-common-tail-window-packet}: the $\StreamNameUp$ schedule and refinement rows, the $\DyadicRatCoreUp$ endpoint, radius, and distance rows, the $\RegSeqRatUp$ classifier and regularity rows, the $\RealUp$ seal-source rows, componentwise $\hsame$, displayed $\Cont$, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance.
+
+Equivalently, the common-tail window source surface and the finite-request $\RealUp$ seal pullback present the same BEDC-visible rows. The equivalence exports no quotient stream, selected limit, host real equality, ambient completeness row, hidden completion carrier, or second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-common-tail-window-terminality}. Any completion-facing consumer whose visible rows are the shifted tail reads, the common window $W_\ast$, the dyadic ledger, classifier, seal-source rows, transports, continuations, package provenance, and local naming must factor through the common-tail packet.
+
+Next use \autoref{thm:regseqrat-tail-budget-window-seal-pullback}. A finite-request $\RealUp$ seal consumer has visible pullback exactly the StreamName schedule row, DyadicRatCore endpoint, radius, and distance rows, RegSeqRat classifier and regularity rows, displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$ provenance, and local $\NameCert$ row.
+
+Now apply \autoref{thm:regseqrat-shared-window-terminal-pullback-equivalence}. It identifies equality of the shared selector surface with equality of the terminal $\RealUp$ seal reads after both requests have been read through the ordered finite packet from $\DyadicRatCoreUp$ to $\RealUp$. Thus the common-tail presentation and the finite-request pullback presentation determine one another on the same displayed rows.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-selector-nonescape}. The selector boundary removes the excluded coordinates from both descriptions: quotient streams, selected limits, host real equality, ambient completeness data, hidden completion carriers, and second seal data have no row in either surface. The remaining rows are precisely the StreamName schedule and refinement rows, DyadicRatCore endpoint, radius, and distance rows, RegSeqRat classifier and regularity rows, RealUp seal-source rows, componentwise $\hsame$, displayed $\Cont$, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance listed in \autoref{def:regseqrat-common-tail-window-packet}.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail Real boundary equivalence]
+\label{thm:regseqrat-common-tail-real-boundary-equivalence}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, let $T_0$ and $T_1$ be two certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$, and suppose the shifted tail reads land in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet} with common refinement $W_\ast$. Then the common-tail packet and the finite-request $\RealUp$ seal boundary determine one another exactly on the $\StreamNameUp$ schedule and refinement rows, the $\DyadicRatCoreUp$ endpoint, radius, and distance rows, the $\RegSeqRatUp$ classifier and regularity rows, the $\RealUp$ seal-source rows, componentwise $\hsame$, displayed $\Cont$, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance.
+
+The public boundary is only this finite BEDC surface. It excludes quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, and any completion row not displayed by the common-tail packet.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-common-tail-window-classifier-bridge}. The two cofinal tail reads restrict to one classifier and one seal-source surface on $W_\ast$, so the common-tail packet already determines the RegSeqRat and RealUp-facing rows of the boundary.
+
+Next use \autoref{thm:regseqrat-common-tail-window-terminality}. Every completion-facing consumer whose visible rows are the two shifts, the common StreamName window, the dyadic endpoint-radius-distance ledger, the classifier and regularity ledger, and the displayed structural rows factors through the common-tail packet. Thus a finite-request $\RealUp$ seal boundary cannot add a second route outside that packet.
+
+Now apply \autoref{thm:regseqrat-common-tail-finite-request-real-seal-pullback}. It identifies the visible pullback of any finite-request seal consumer with exactly the rows listed in \autoref{def:regseqrat-common-tail-window-packet}. Hence the finite-request boundary determines the common-tail packet on the same StreamName, DyadicRatCore, RegSeqRat, RealUp, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+
+Finally compose the Real L10 four-face route results. The canonical route and exactness theorems, \autoref{thm:real-l10-four-face-canonical-route} and \autoref{thm:real-l10-four-face-exactness}, place the accepted Real-and-Completion read on the ordered $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces. The terminal correspondence and pullback uniqueness theorems, \autoref{thm:real-l10-terminal-four-face-correspondence} and \autoref{thm:real-l10-terminal-pullback-uniqueness}, then repack the same displayed rows as one terminal finite boundary. Since none of the cited packets carries quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, or hidden completion data, the two presentations determine one another exactly on the stated BEDC-visible surface.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail four-face cocycle determinacy]
+\label{thm:regseqrat-common-tail-four-face-cocycle-determinacy}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $T_0$, $T_1$, and $T_2$ be three certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$. Suppose each pair $(T_i,T_j)$ lands in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet}, and suppose the three pairwise packets restrict to one triple $\StreamNameUp$ refinement $W_\ast$ with the same $\DyadicRatCoreUp$ endpoint, radius, and distance ledger and the same $\RealUp$ seal-source row.
+
+Then the three pairwise common-tail $\RealUp$ boundaries satisfy one finite four-face cocycle exactly when the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows agree on the triple refinement $W_\ast$. The cocycle surface has no coordinate for quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, standard-bridge data, or hidden completion carriers.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-common-tail-real-boundary-equivalence} to the three pairs $(T_0,T_1)$, $(T_1,T_2)$, and $(T_0,T_2)$. Each pairwise boundary is thereby identified with the same kind of finite common-tail source surface: StreamName schedule and refinement rows, DyadicRatCore endpoint-radius-distance rows, RegSeqRat classifier and regularity rows, RealUp seal-source rows, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+On the triple refinement $W_\ast$, the definition of the common-tail window packet identifies those rows componentwise. The hypotheses give one StreamName refinement, one dyadic ledger, and one Real seal-source row, so the RegSeqRat classifier and regularity rows and the support provenance are the only remaining displayed coordinates to compare.
+
+For the forward direction, a finite four-face cocycle already pastes the three pairwise Real boundaries along the ordered $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces. The Real L10 canonical route and exactness results, \autoref{thm:real-l10-four-face-canonical-route} and \autoref{thm:real-l10-four-face-exactness}, force that pasted surface to read through the displayed rows on $W_\ast$, so disagreement on any listed row would give two different finite boundaries for the same face.
+
+For the reverse direction, assume the displayed rows agree on $W_\ast$. Use the Real L10 terminal correspondence and pullback uniqueness results, \autoref{thm:real-l10-terminal-four-face-correspondence} and \autoref{thm:real-l10-terminal-pullback-uniqueness}, to repack the shared rows as one terminal four-face surface. The three pairwise common-tail boundaries are the restrictions of that surface, hence they satisfy the finite cocycle.
+
+No additional boundary coordinate remains to choose. The preceding common-tail Real boundary equivalence and finite-request seal pullback show that quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, standard bridges, and hidden completion data are not rows of the packet, so they cannot split the cocycle after the displayed surface agrees.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail triple-overlap cocycle]
+\label{thm:regseqrat-common-tail-triple-overlap-cocycle}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $T_0$, $T_1$, and $T_2$ be three certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$. Suppose each shifted pair $(T_i,T_j)$ lands in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet}, and suppose the three packets restrict to one triple refinement $W_\ast$ carrying the same $\StreamNameUp$ schedule rows, the same $\DyadicRatCoreUp$ endpoint, radius, and distance ledger, the same $\RegSeqRatUp$ classifier and regularity rows, the same $\RealUp$ seal-source rows, componentwise $\hsame$, displayed $\Cont$, displayed $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance.
+
+Then the three pairwise $\RealUp$ boundary equivalences agree on the triple refinement if and only if $W_\ast$ exposes exactly that same finite common-tail surface. This triple-overlap cocycle exports no quotient stream, host real equality, selected limit, countable choice, ambient completeness, metric-completeness row, standard-bridge coordinate, or completion datum outside the displayed packet.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-common-tail-window-classifier-bridge} to the three pairs $(T_0,T_1)$, $(T_1,T_2)$, and $(T_0,T_2)$. Each pairwise shifted read is transported to the same kind of common-tail classifier and seal-source surface on its refinement face.
+
+Use \autoref{thm:regseqrat-common-tail-window-terminality} next. Every completion-facing consumer whose visible rows are the shifted reads, the common StreamName refinement, the dyadic endpoint-radius-distance ledger, the classifier and regularity rows, the seal-source rows, componentwise $\hsame$, displayed $\Cont$, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance factors through the corresponding common-tail packet.
+
+For the forward direction, assume the three pairwise $\RealUp$ boundary equivalences agree on $W_\ast$. Apply \autoref{thm:regseqrat-common-tail-real-boundary-equivalence} on each face. The Real L10 canonical route and exactness results cited there, \autoref{thm:real-l10-four-face-canonical-route} and \autoref{thm:real-l10-four-face-exactness}, identify a unique BEDC-visible boundary on the ordered $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces. Therefore any row visible to the triple refinement must be one of the displayed common-tail rows, and each such row has the same value on the three faces.
+
+For the reverse direction, suppose $W_\ast$ exposes exactly the common finite surface listed in the statement. The three pairwise boundaries are then restrictions of one displayed packet. Apply \autoref{thm:regseqrat-common-tail-real-boundary-equivalence} on each pair and use the Real L10 terminal correspondence and pullback uniqueness results, \autoref{thm:real-l10-terminal-four-face-correspondence} and \autoref{thm:real-l10-terminal-pullback-uniqueness}, to identify the same terminal finite boundary on all three restrictions.
+
+The exclusions are forced by the carrier rows already used. Neither \autoref{def:regseqrat-common-tail-window-packet} nor the Real L10 four-face route supplies quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, standard-bridge coordinates, or hidden completion data, so no such coordinate can distinguish the triple-overlap cocycle once the displayed common-tail surface agrees.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail cocycle descent]
+\label{thm:regseqrat-common-tail-cocycle-descent}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $T_0$, $T_1$, and $T_2$ be three certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$. Suppose each shifted pair $(T_i,T_j)$ lands in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet}, and suppose the three pairwise common-tail windows restrict to one triple refinement $W_\ast$ carrying the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows, componentwise $\hsame$, displayed $\Cont$, displayed $\Pkg$ provenance, and local $\NameCert$ provenance.
+
+If the three pairwise $\RealUp$ boundary equivalences agree on $W_\ast$, then the three boundaries descend to a single finite four-face exit boundary over exactly the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces, with precisely the same componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows. Conversely, any single displayed four-face boundary with exactly those rows restricts to the three pairwise common-tail boundary equivalences. The descent boundary contains no quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, standard bridge data, or hidden completion carriers.
+\end{theorem}
+\begin{proof}
+Assume first that the three pairwise $\RealUp$ boundary equivalences agree on $W_\ast$. Apply \autoref{thm:regseqrat-common-tail-triple-overlap-cocycle}. The triple refinement exposes exactly the common finite tail surface on the StreamName, DyadicRatCore, RegSeqRat, RealUp, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Now use \autoref{thm:regseqrat-common-tail-four-face-cocycle-determinacy}. Since the displayed rows agree on the triple refinement, the three pairwise common-tail boundaries satisfy the finite four-face cocycle criterion. This turns pairwise agreement into one cocycle surface rather than three unrelated boundary presentations.
+
+Package that surface by applying \autoref{thm:real-l10-terminal-four-face-correspondence} and \autoref{thm:real-l10-terminal-pullback-uniqueness}. The terminal Real L10 pullback identifies the shared StreamName, DyadicRatCore, RegSeqRat, and RealUp rows as one finite four-face exit boundary, and uniqueness prevents any second boundary with the same displayed rows.
+
+For the converse direction, start with a single displayed four-face boundary over exactly those four faces and support rows. Restrict it along the three pairwise common-tail windows. Each restriction has precisely the rows required by \autoref{thm:regseqrat-common-tail-real-boundary-equivalence}, so it recovers the corresponding pairwise $\RealUp$ boundary equivalence.
+
+The exclusions follow from the same displayed-row accounting. The common-tail packet, the cocycle criterion, and the Real L10 terminal pullback provide no coordinates for quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, standard bridge data, or hidden completion carriers, so none can appear in the descended boundary or in its pairwise restrictions.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail face-status objectwise pullback]
+\label{thm:regseqrat-common-tail-face-status-objectwise-pullback}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $T_0$, $T_1$, and $T_2$ be three certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$. Suppose the shifted pairs land in accepted RegSeqRat common-tail triple-overlap packets whose pairwise boundaries agree on the shared $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Then the only status data pulled back by the resulting common-tail four-face cocycle are the four local face records read objectwise from the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ chapters' own $\mathsf{closurestatus}$ blocks. The cocycle creates no aggregate $\mathsf{formalstatus}$, no aggregate bridge token, no ambient $\RealUp$ completeness row, and no metric-completeness or countable-choice coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-common-tail-triple-overlap-cocycle}. The accepted triple-overlap surface is exactly the finite common-tail surface on the displayed StreamName, DyadicRatCore, RegSeqRat, RealUp, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, with no hidden completion or bridge coordinate.
+
+Next use \autoref{thm:regseqrat-common-tail-real-boundary-equivalence}. The common-tail packet and the finite-request $\RealUp$ boundary determine one another on the same visible rows. Thus any status read available to the cocycle must pass through the same four visible faces rather than through a separate Real-completion carrier.
+
+Now apply \autoref{thm:streamname-real-completion-four-object-terminal-pullback}. The terminal four-object boundary is built from the ordered $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces plus their displayed support rows. Terminality leaves no fifth status object in which an aggregate verification grade, bridge datum, completeness theorem, or choice principle could be stored.
+
+Finally use \autoref{thm:streamname-real-completion-face-status-pullback}. That result reads closure grades, $\mathsf{formalstatus}$ tokens, Lean targets, and bridge rows only from the corresponding face chapters' own $\mathsf{closurestatus}$ records. Pulling those four records through the RegSeqRat common-tail cocycle therefore preserves them object by object, while metric completeness, countable choice, ambient $\RealUp$ completeness, and aggregate bridge or verification data remain absent from the packet.
+\end{proof}

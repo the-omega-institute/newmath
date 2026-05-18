@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\CauchySealInterfaceUp$}
+\label{ch:concrete-instances-cauchy-seal-interface-namecert}
+\origin{ai}
+
+The $\CauchySealInterfaceUp$ packet realizes the Real-completion seal interface of \autoref{ch:visions-real-completeness} as one finite naming surface. It is composite: the limit-seal row is supplied by \autoref{ch:concrete-instances-cauchylimitseal-namecert}, the classifier row by \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}, the budget-synchronizer row by \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}, and the public observation faces by \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The chapter records the common interface rather than a new completeness principle.
+
+\begin{definition}[Cauchy seal interface carrier]
+\label{def:cauchy-seal-interface-carrier}
+A $\CauchySealInterfaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(L,Q,B,T,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\CauchyLimitSealUp$ row naming the completion-facing limit seal;
+\item $Q$ is the $\RealCompletionSealClassifierUp$ row classifying the visible completion-seal read;
+\item $B$ is the $\CauchySealBudgetSynchronizerUp$ row synchronizing the finite budget used by the seal read;
+\item $T$ is the $\StreamNameUp$ finite-window face exposed by the synchronized budget;
+\item $R$ is the $\RegSeqRatUp$ readback face reached from that finite window;
+\item $D$ is the $\DyadicRatCoreUp$ ledger face attached to the same readback;
+\item $E$ is the $\RealUp$ handoff face consumed by Real-completion users;
+\item $H$ records componentwise $\hsame$ transport for $L,Q,B,T,R,D,E$ and the local naming row;
+\item $C$ records displayed $\Cont$ replay through the limit seal, classifier, budget synchronizer, StreamName, RegSeqRat, dyadic, and RealUp rows;
+\item $P$ is the $\Pkg$ provenance over $\CauchyLimitSealUp$, $\RealCompletionSealClassifierUp$, $\CauchySealBudgetSynchronizerUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchySealInterfaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for quotient streams, host real equality, selected host limits, countable choice, metric-completeness data, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy seal interface carrier admission]
+\label{thm:cauchy-seal-interface-carrier-admission}
+An accepted $\CauchySealInterfaceUp$ carrier is admitted exactly as the finite tuple $S=(L,Q,B,T,R,D,E,H,C,P,N)$ of \autoref{def:cauchy-seal-interface-carrier}. Carrier admission exposes no hidden selector, quotient stream, host equality, selected limit, choice row, or ambient-completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchySealInterfaceUp.CauchySealInterfaceTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier definition. The data rows are precisely the limit seal $L$, classifier $Q$, synchronizer $B$, public faces $T,R,D,E$, and support rows $H,C,P,N$.
+
+The cited sibling chapters provide those rows as finite NameCert surfaces, and the present carrier contains no second field from which an external selector or host-level equality could be read. Therefore admission is rowwise admission of the displayed tuple.
+\end{proof}
+
+\begin{theorem}[Cauchy seal interface synchronization]
+\label{thm:cauchy-seal-interface-seal-synchronization}
+Every accepted $\CauchySealInterfaceUp$ read synchronizes the $\CauchyLimitSealUp$ row $L$, the $\RealCompletionSealClassifierUp$ row $Q$, and the $\CauchySealBudgetSynchronizerUp$ row $B$ before any of the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ faces are public.
+\end{theorem}
+\begin{proof}
+Read the source side $L,Q,B$ in the carrier. These rows are the only seal, classifier, and budget-synchronizer coordinates available to the packet.
+
+The public faces $T,R,D,E$ occur downstream of the same support rows $H,C,P,N$. Since no detached budget or classifier coordinate is present, any public face must be read through the synchronized seal interface $L,Q,B$.
+\end{proof}
+
+\begin{theorem}[Cauchy seal interface finite-window readback]
+\label{thm:cauchy-seal-interface-finite-window-readback}
+The finite-window segment of an accepted $\CauchySealInterfaceUp$ packet is exactly the route $B,T,R,D$ supported by $H,C,P,N$. It cannot be replaced by a hidden $\StreamNameUp$ selector, a quotient stream, a selected host limit, or a countable-choice row.
+\end{theorem}
+\begin{proof}
+Start from the synchronized budget row $B$. The only finite-window face selected by the interface is $T$, the only regular-rational readback is $R$, and the only dyadic ledger attached to that readback is $D$.
+
+The carrier has no coordinate for any alternative selector or quotient stream. The support rows transport and replay the displayed route, so finite-window readback is exactly $B,T,R,D$ inside the same packet.
+\end{proof}
+
+\begin{theorem}[Cauchy seal interface RealUp handoff]
+\label{thm:cauchy-seal-interface-realup-handoff}
+Every $\RealUp$ consumer of an accepted $\CauchySealInterfaceUp$ packet reaches the Real-facing row $E$ only through the synchronized route
+$$
+L,Q,B \to T,R,D \to E
+$$
+with the support rows $H,C,P,N$. The handoff is a finite seal interface and not a Real-completeness assertion.
+\end{theorem}
+\begin{proof}
+Use seal synchronization to place $L,Q,B$ before the public observation faces. Use finite-window readback to route the StreamName, RegSeqRat, and dyadic faces through the same budget row.
+
+The Real-facing row $E$ is the next displayed face after $T,R,D$, and the support rows only preserve the same packet. Thus a RealUp consumer receives a finite handoff, while completeness data remains outside the carrier.
+\end{proof}
+
+\begin{theorem}[Cauchy seal interface no-choice non-quotient nonescape]
+\label{thm:cauchy-seal-interface-nochoice-nonquotient-nonescape}
+No accepted $\CauchySealInterfaceUp$ consumer can escape the displayed interface to quotient streams, host real equality, selected host limits, countable choice, metric-completeness data, hidden selectors, or ambient Real completeness. The public surface is exhausted by $L,Q,B,T,R,D,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission enumerates the public rows, seal synchronization fixes the seal-classifier-budget source, finite-window readback fixes the observation faces, and the RealUp handoff fixes the terminal face.
+
+Every excluded object would require a coordinate not present in $S=(L,Q,B,T,R,D,E,H,C,P,N)$. Therefore the local NameCert row $N$ names only the displayed finite interface.
+\end{proof}
+
+This composite packet depends on its sibling rows without collapsing into any one of them: $\CauchyLimitSealUp$ supplies the limit seal, $\RealCompletionSealClassifierUp$ supplies seal classification, $\CauchySealBudgetSynchronizerUp$ supplies budget synchronization, and the StreamName, RegSeqRat, DyadicRatCore, and RealUp rows supply the public readback faces. Later Lean TasteGate formalization for \texttt{BEDC.Derived.CauchySealInterfaceUp} must provide \texttt{Nontrivial CauchySealInterfaceUp} and \texttt{FieldFaithful CauchySealInterfaceUp} instances for the same finite carrier.
+
+\closureat{CauchySealInterfaceUp}{seedStr}
+
+\begin{closurestatus}{\CauchySealInterfaceUp}
+  \constructivestory{A $\CauchySealInterfaceUp$ packet is generated from a CauchyLimitSeal row, RealCompletionSealClassifier row, CauchySealBudgetSynchronizer row, StreamName finite-window face, RegSeqRat readback face, DyadicRatCore ledger face, RealUp handoff face, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-seal-interface-carrier}, \autoref{thm:cauchy-seal-interface-carrier-admission}, \autoref{thm:cauchy-seal-interface-seal-synchronization}, \autoref{thm:cauchy-seal-interface-finite-window-readback}, \autoref{thm:cauchy-seal-interface-realup-handoff}, and \autoref{thm:cauchy-seal-interface-nochoice-nonquotient-nonescape} bind the finite interface carrier, seal synchronization, finite-window readback, RealUp handoff, and no-choice non-quotient boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, Real completeness, quotient stream equality, host real equality, selected host limits, countable choice, metric-completeness data, ambient completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, seal synchronization, finite-window readback, RealUp handoff, no-choice non-quotient nonescape, and local NameCert support for the same finite packet.}
+\end{closurestatus}

@@ -245,4 +245,24 @@ theorem GroundLoopBoundaryTasteGate_single_carrier_alignment :
               exact Or.inr rfl
         · rfl
 
+theorem GroundLoopBoundaryCarrier_meta_nonescape (x : GroundLoopBoundaryUp) :
+    ∃ marks sameness cross reflection history contRoutes provenance nameCert : BHist,
+      x = GroundLoopBoundaryUp.mk marks sameness cross reflection history contRoutes
+        provenance nameCert ∧
+        (∀ w m, List.Mem w (groundLoopBoundaryToEventFlow x) → List.Mem m w →
+          m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk marks sameness cross reflection history contRoutes provenance nameCert =>
+      exact
+        ⟨marks, sameness, cross, reflection, history, contRoutes, provenance, nameCert,
+          rfl,
+          by
+            intro _w m _hw _hm
+            cases m with
+            | b0 =>
+                exact Or.inl rfl
+            | b1 =>
+                exact Or.inr rfl⟩
+
 end BEDC.Derived.GroundLoopBoundaryUp

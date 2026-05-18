@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\NameEligibilityProofUp$}
+\label{ch:concrete-instances-name-eligibility-proof-namecert}
+\origin{ai}
+
+The $\NameEligibilityProofUp$ packet realizes the inward eligibility proof demanded by \autoref{thm:philosophy-programme-not-expansionism} as one finite NameCert carrier. It sits beside the machine-facing route of \autoref{ch:concrete-instances-machine-interface-boundary-namecert}, the registry audit of \autoref{ch:concrete-instances-registry-consistency-audit-namecert}, the kernel audit witness of \autoref{ch:concrete-instances-kernel-audit-witness-namecert}, and the apophatic naming boundary of \autoref{ch:concrete-instances-apophaticname-namecert}. Those siblings expose machine routing, registry consistency, accepted-kernel readback, and refusal-bearing named boundaries; this chapter binds source eligibility, classifier eligibility, strength, audit, refusal, transport, replay, provenance, and local naming before a proposed name can be reported as licensed.
+
+\begin{definition}[Name eligibility proof carrier]
+\label{def:name-eligibility-proof-carrier}
+A $\NameEligibilityProofUp$ carrier is a finite $\BHist$ packet
+$$
+E=(T,S,C,Q,A,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the target-name row, recording the candidate BEDC name and the public surface on which the name is requested.
+\item $S$ is the source-route row, recording the finite source specification through which the candidate name is generated or inherited.
+\item $C$ is the classifier-route row, recording the classifier evidence through which accepted packets for the name are compared.
+\item $Q$ is the strength row, recording seed, paper-certificate, machine-checked, or conservative-bridge strength without allowing a lower row to report a higher strength.
+\item $A$ is the audit row, recording the registry, machine-interface, and kernel-readback surfaces consulted before the name is admitted.
+\item $R$ is the refusal row, recording apophatic boundary data for missing source, classifier, strength, audit, or bridge obligations.
+\item $H$ records componentwise $\hsame$ transport for target names, source routes, classifier routes, strength rows, audit rows, refusal rows, provenance, and local naming.
+\item $K$ records displayed $\Cont$ replay for source eligibility, classifier eligibility, audit readback, refusal propagation, and strength reporting.
+\item $P$ is the $\Pkg$ provenance over $\MachineInterfaceBoundaryUp$, $\RegistryConsistencyAuditUp$, $\KernelAuditWitnessUp$, $\ApophaticNameUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\NameEligibilityProofUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host-selected object, hidden source supply, classifier by prose resemblance, strength promotion without audit, kernel route outside the displayed audit row, or refusal erased after naming.
+\end{definition}
+\leandef{BEDC.Derived.NameEligibilityProofUp.NameEligibilityProofUp}
+
+\begin{theorem}[Name eligibility proof NameCert obligations]
+\label{thm:name-eligibility-proof-namecert-obligations}
+For the carrier of \autoref{def:name-eligibility-proof-carrier}, the local $\NameCert_{\NameEligibilityProofUp}$ obligation surface consists exactly of target-name admission through $T$, source-route eligibility through $S$, classifier-route eligibility through $C$, strength reporting through $Q$, audit exposure through $A$, refusal exposure through $R$, componentwise transport through $H$, displayed continuation replay through $K$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $E=(T,S,C,Q,A,R,H,K,P,N)$. The target-name row, source route, and classifier route give the eligibility spine before any local name can be consumed.
+
+Read the machine, registry, kernel, and apophatic siblings next. The machine-interface boundary routes the target to an auditable machine surface, the registry-consistency audit checks export agreement, the kernel audit witness supplies accepted-declaration readback when such a route is present, and the apophatic name row keeps absent supply or refused internalization visible.
+
+The strength, audit, and refusal rows then determine whether the name is only seeded, paper-certified, machine-checked, or bridge-facing. Transport, replay, provenance, and local naming preserve that same packet. Since no further coordinate is present, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Name eligibility proof strength non-inflation]
+\label{thm:name-eligibility-proof-strength-noninflation}
+An accepted $\NameEligibilityProofUp$ packet cannot raise a target-name row from seed strength to machine-checked strength unless the audit row $A$ and the replay row $K$ display the machine-interface, registry-consistency, and kernel-readback route used for that report.
+\end{theorem}
+\begin{proof}
+Begin with the strength row $Q$. It records the reported certificate strength as one row of the same packet, not as an ambient judgement detached from the carrier.
+
+Apply the NameCert obligations above. Machine-checked strength requires source-route and classifier-route eligibility, and it also requires audit exposure through $A$ plus displayed replay through $K$. The sibling machine-interface, registry-consistency, and kernel-audit rows supply exactly that public route.
+
+If $A$ or $K$ is absent, the packet still may contain a target name, source route, classifier route, or refusal row, but it lacks the displayed evidence required for machine-checked reporting. Thus the strength row cannot promote the name beyond the audit surface carried by the packet.
+\end{proof}
+
+\begin{theorem}[Name eligibility proof kernel-route non-escape]
+\label{thm:name-eligibility-proof-kernel-route-nonescape}
+Every kernel-facing route exported by an accepted $\NameEligibilityProofUp$ packet factors through
+$$
+T,S,C,Q,A,R,H,K,P,N.
+$$
+It cannot bypass the source route, classifier route, audit row, refusal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, or local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:name-eligibility-proof-namecert-obligations} to enumerate the public surface. A kernel-facing export is admitted only after the target, source, classifier, strength, audit, and refusal rows have been read in the same packet.
+
+The kernel audit witness contributes accepted-declaration readback only through $A$ and $K$. The registry and machine-interface siblings keep the route public, while the apophatic-name sibling keeps missing supply visible rather than internalized.
+
+Finally read $H,P,N$. These rows transport, source, and name the displayed carrier; they do not add a hidden kernel route. Therefore every exported kernel-facing route remains on the finite row sequence shown above.
+\end{proof}
+
+\falsifiablePrediction{If a NameEligibilityProofUp packet raises a seed-strength name to machine-checked strength without an audit row, the carrier is refuted.}
+
+\independenceWitness{machineinterfaceboundary, registryconsistencyaudit, kernelauditwitness, apophaticname: none is bijective because NameEligibilityProofUp simultaneously binds source eligibility, classifier eligibility, strength, audit, refusal, transport, replay, provenance, and local NameCert rows.}
+
+Lean follow-up requires \texttt{Nontrivial NameEligibilityProofUp} and \texttt{FieldFaithful NameEligibilityProofUp} in \texttt{lean4/BEDC/Derived/NameEligibilityProofUp/TasteGate.lean}.
+
+\closureat{NameEligibilityProofUp}{seedStr}
+
+\begin{closurestatus}{\NameEligibilityProofUp}
+  \constructivestory{A $\NameEligibilityProofUp$ packet is generated by displaying the proposed name, source row, classifier row, proof witness, strength row, audit row, gap-or-refusal row, kernel-route row, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming in a finite $\BHist$ carrier. The classifier licenses a name only when the source, proof, audit, strength, and refusal boundaries remain attached to the same packet. Its ledger story is eligibility before use: the name cannot be selected by a host object or by resemblance in prose, because every accepted read must pass through the explicit proof and kernel-route surfaces already recorded in the carrier.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier definition, NameCert-obligation, strength-non-inflation, kernel-route-non-escape, Lean-follow-up boundary, and existing closure annotation for $\NameEligibilityProofUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim host-selected objects, hidden source supply, prose classifiers, unaudited strength promotion, off-route kernel acceptance, or erased refusals.}
+  \upgradepath{To reach obligationClosure, the eligibility carrier and its strength and kernel-route boundaries must be checked against finite-history transport.}
+\end{closurestatus}

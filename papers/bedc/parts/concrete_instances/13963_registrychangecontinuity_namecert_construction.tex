@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RegistryChangeContinuityUp$}
+\label{ch:concrete-instances-registry-change-continuity-namecert}
+\origin{ai}
+
+The $\RegistryChangeContinuityUp$ packet realizes the active-reading continuity clause of \autoref{sec:visions-philosophy-machine-interface} as a finite NameCert carrier. It sits beside the active-reading gate of \autoref{ch:concrete-instances-active-reading-gate-namecert}, the closure-status reference of \autoref{ch:concrete-instances-closure-status-reference-namecert}, the registry-consistency audit of \autoref{ch:concrete-instances-registry-consistency-audit-namecert}, the claim registry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, and the cannot-claim registry of \autoref{ch:concrete-instances-philosophy-cannot-claim-registry-namecert}. Those siblings expose current-reading uniqueness, status bounds, consistency checks, claim admission, and refusal rows; this carrier binds the current row, the displaced row, the status boundary, the refusal route, and the replay evidence in one registry-machine packet.
+
+\begin{definition}[Registry-change continuity carrier]
+\label{def:registry-change-continuity-carrier}
+A $\RegistryChangeContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,A,D,S,R,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the registry target row, naming the theorem, definition, writing item, formal target, or package entry whose reading changes.
+\item $A$ is the active-reading row after the change, imported through the current-reading surface of $\ActiveReadingGateUp$.
+\item $D$ is the displaced-reading row, retained as blocked audit data rather than as a second active reading.
+\item $S$ is the status-bound row, recording the closure-status and formal-status boundary read from $\ClosureStatusReferenceUp$.
+\item $R$ is the cannot-claim refusal row, recording the public reason that blocks the displaced row from export as current.
+\item $B$ is the blocked-reading row, binding $D$ to $R$ and recording that the displaced row remains visible only as audit data.
+\item $H$ records componentwise $\hsame$ transport for target, active reading, displaced reading, status bound, refusal, blocking, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from $T$ through $A,S,R,B$ to the export-readable registry route.
+\item $P$ is the $\Pkg$ provenance over $\RegistryChangeContinuityUp$, $\ActiveReadingGateUp$, $\ClosureStatusReferenceUp$, $\RegistryConsistencyAuditUp$, $\ClaimRegistryLayerUp$, $\PhilosophyCannotClaimRegistryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegistryChangeContinuityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for exporting $D$ as a second active reading, changing the status boundary outside $S$, citing a refusal outside $R$, replaying the change outside $C$, or naming the packet outside the finite row $K=(T,A,D,S,R,B,H,C,P,N)$.
+\end{definition}
+\leanchecked{BEDC.Derived.RegistryChangeContinuityUp.RegistryChangeContinuityTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Registry-change continuity obligations]
+\label{thm:registry-change-continuity-obligations}
+For the carrier of \autoref{def:registry-change-continuity-carrier}, the local $\NameCert_{\RegistryChangeContinuityUp}$ surface consists exactly of carrier admission for $K=(T,A,D,S,R,B,H,C,P,N)$; target admission through $T$; current-reading admission through $A$; displaced-reading exposure through $D$; status-bound exactness through $S$; refusal and blocked-reading compatibility through $R$ and $B$; registry-consistency and claim-layer readability through $\RegistryConsistencyAuditUp$ and $\ClaimRegistryLayerUp$; and transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:registry-change-continuity-carrier}. The rows $T,A,D,S,R,B,H,C,P,N$ are the only coordinates available to the local certificate, so every accepted change-continuity read must pass through those rows.
+
+The registry target is fixed by $T$. The active row $A$ is the single current reading, while $D$ is retained only as displaced audit data. The status row $S$ bounds the change by the closure-status and formal-status surface, so the carrier cannot silently change the public grade of the target.
+
+The refusal and blocking rows supply the non-export clause. Row $R$ records the cannot-claim reason, and row $B$ binds that reason to the displaced row. Thus the carrier exposes why $D$ remains readable as history while refusing to make it a second current claim.
+
+Rows $H,C,P,N$ preserve the same finite packet under transport, replay, provenance, and naming. They add no coordinate for a hidden active row, so the displayed obligations exhaust the local $\NameCert_{\RegistryChangeContinuityUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Registry-change continuity active-reading refusal]
+\label{thm:registry-change-continuity-active-reading-refusal}
+Every accepted $\RegistryChangeContinuityUp$ packet exports the target row $T$ through the active row $A$, the status-bound row $S$, the refusal row $R$, and the blocked-reading row $B$. A packet that exports both $A$ and $D$ as active readings for the same target is rejected by $\RegistryChangeContinuityUp$.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet
+$$
+K=(T,A,D,S,R,B,H,C,P,N).
+$$
+By \autoref{thm:registry-change-continuity-obligations}, the export-readable route contains $T,A,S,R,B$ as displayed rows.
+
+The active-reading gate supplies uniqueness for $A$, and the closure-status reference supplies the status bound $S$. The displaced row $D$ is still present, but it is tied to the cannot-claim row $R$ through the blocked-reading row $B$.
+
+Transport, replay, provenance, and local naming preserve that same route. Since no coordinate turns $D$ into an additional active row, any packet that exports both $A$ and $D$ as active readings for the same target leaves the displayed carrier and is refused by $B$.
+\end{proof}
+
+\falsifiablePrediction{A packet that exports both the active row and the displaced row for the same target as active readings is rejected by RegistryChangeContinuityUp.}
+
+\independenceWitness{active-reading-gate, closure-status-reference, registry-consistency-audit, claimregistrylayer, philosophycannotclaimregistry: none is bijective because RegistryChangeContinuityUp binds active reading, blocked displaced reading, status bound, cannot-claim refusal, transport, replay, provenance, and local NameCert rows in one carrier.}
+
+The Lean follow-up must provide explicit $\Nontrivial\ \RegistryChangeContinuityUp$ and $\FieldFaithful\ \RegistryChangeContinuityUp$ instances in \texttt{lean4/BEDC/Derived/RegistryChangeContinuityUp/TasteGate.lean}. Those instances must preserve $T,A,D,S,R,B,H,C,P,N$ as separate displayed fields before $\mathsf{BEDC.Derived.RegistryChangeContinuityUp.TasteGate.RegistryChangeContinuityTasteGate\_single\_carrier\_alignment}$ can be cited by a checked paper marker.
+
+\closureat{RegistryChangeContinuityUp}{seedStr}
+
+\begin{closurestatus}{\RegistryChangeContinuityUp}
+  \constructivestory{A $\RegistryChangeContinuityUp$ packet is generated from target, active-reading, displaced-reading, status-bound, refusal, blocked-reading, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:registry-change-continuity-carrier}, \autoref{thm:registry-change-continuity-obligations}, and \autoref{thm:registry-change-continuity-active-reading-refusal} bind active-reading continuity to a finite registry-machine NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, global registry repair, archival completeness for every displaced reading, or public export correctness for every downstream consumer.}
+  \upgradepath{Lean closure requires Nontrivial RegistryChangeContinuityUp and FieldFaithful RegistryChangeContinuityUp instances in \texttt{lean4/BEDC/Derived/RegistryChangeContinuityUp/TasteGate.lean}.}
+\end{closurestatus}

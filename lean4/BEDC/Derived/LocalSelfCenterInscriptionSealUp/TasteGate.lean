@@ -1,11 +1,21 @@
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Ask
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LocalSelfCenterInscriptionSealUp
 
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Ask
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -228,6 +238,24 @@ instance localSelfCenterInscriptionSealNontrivial :
         intro h
         cases h⟩
 
+theorem LocalSelfCenterInscriptionSealProvenance_row_nonescape
+    {H I S A V R C P N : BHist} (visibleP : P ≠ BHist.Empty) :
+    localSelfCenterInscriptionSealFields
+        (LocalSelfCenterInscriptionSealUp.mk H I S A V R C P N) ≠
+      localSelfCenterInscriptionSealFields
+        (LocalSelfCenterInscriptionSealUp.mk H I S A V R C BHist.Empty N) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hfields
+  injection hfields with _hH tail0
+  injection tail0 with _hI tail1
+  injection tail1 with _hS tail2
+  injection tail2 with _hA tail3
+  injection tail3 with _hV tail4
+  injection tail4 with _hR tail5
+  injection tail5 with _hC tail6
+  injection tail6 with hP _tail7
+  exact visibleP hP
+
 def taste_gate : ChapterTasteGate LocalSelfCenterInscriptionSealUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
@@ -256,6 +284,30 @@ theorem LocalSelfCenterInscriptionSealUp_taste_gate_boundary :
   · intro x w m hw hm
     exact event_flow_conservativity (S := localSelfCenterInscriptionSealToEventFlow x) hw hm
 
+theorem LocalSelfCenterInscriptionSealCarrier_transport_exactness [AskSetup] [PackageSetup]
+    {H I S A V R C P N routeRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory R ->
+      UnaryHistory C ->
+        Cont R C routeRead ->
+          PkgSig bundle P pkg ->
+            hsame P N ->
+              localSelfCenterInscriptionSealFromEventFlow
+                  (localSelfCenterInscriptionSealToEventFlow
+                    (LocalSelfCenterInscriptionSealUp.mk H I S A V R C P N)) =
+                some (LocalSelfCenterInscriptionSealUp.mk H I S A V R C P N) ->
+                UnaryHistory routeRead ∧ Cont R C routeRead ∧ PkgSig bundle P pkg ∧
+                  hsame P N ∧
+                    BHistCarrier.toEventFlow
+                        (LocalSelfCenterInscriptionSealUp.mk H I S A V R C P N) =
+                      localSelfCenterInscriptionSealToEventFlow
+                        (LocalSelfCenterInscriptionSealUp.mk H I S A V R C P N) := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  intro routeUnary displayedRouteUnary routeCont provenancePkg sameProvenanceName _roundTrip
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed routeUnary displayedRouteUnary routeCont
+  exact
+    ⟨routeReadUnary, routeCont, provenancePkg, sameProvenanceName, rfl⟩
+
 theorem LocalSelfCenterInscriptionSealTasteGate_single_carrier_alignment :
     (∀ h : BHist,
         localSelfCenterInscriptionSealDecodeBHist
@@ -277,5 +329,34 @@ theorem LocalSelfCenterInscriptionSealTasteGate_single_carrier_alignment :
           exact
             LocalSelfCenterInscriptionSealTasteGate_single_carrier_alignment_injective heq)
         rfl))
+
+theorem LocalSelfCenterInscriptionSealSelfCenter_nonidentity_boundary
+    {localRow inscription selfCenter verdict transport route provenance name : BHist} :
+    selfCenter ≠ BHist.Empty →
+      BHistCarrier.toEventFlow
+          (LocalSelfCenterInscriptionSealUp.mk localRow inscription selfCenter BHist.Empty verdict
+            transport route provenance name) ≠
+        BHistCarrier.toEventFlow
+          (LocalSelfCenterInscriptionSealUp.mk localRow inscription BHist.Empty BHist.Empty verdict
+            transport route provenance name) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hselfCenter heq
+  apply hselfCenter
+  have hcarrier :
+      LocalSelfCenterInscriptionSealUp.mk localRow inscription selfCenter BHist.Empty verdict
+          transport route provenance name =
+        LocalSelfCenterInscriptionSealUp.mk localRow inscription BHist.Empty BHist.Empty verdict
+          transport route provenance name := by
+    apply LocalSelfCenterInscriptionSealTasteGate_single_carrier_alignment_injective
+    change
+      localSelfCenterInscriptionSealToEventFlow
+          (LocalSelfCenterInscriptionSealUp.mk localRow inscription selfCenter BHist.Empty verdict
+            transport route provenance name) =
+        localSelfCenterInscriptionSealToEventFlow
+          (LocalSelfCenterInscriptionSealUp.mk localRow inscription BHist.Empty BHist.Empty verdict
+            transport route provenance name)
+    exact heq
+  cases hcarrier
+  rfl
 
 end BEDC.Derived.LocalSelfCenterInscriptionSealUp

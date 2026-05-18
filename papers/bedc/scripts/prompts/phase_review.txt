@@ -1,7 +1,46 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.16 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.30 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## Source priority weights (critical_path dispatch_weights)
+
+Run `python3 "$(dirname "$(git rev-parse --git-common-dir)")/lean4/scripts/critical_path.py" | jq '.dispatch_weights.paper'` (or read the JSON directly). Note the shell substitution — this runs critical_path against the **main checkout** content (not your worktree's in-flight edits), which lets the per-file mtime cache work across concurrent workers (your worktree has different mtimes from main checkout). The script is READ-ONLY against `lean4/BEDC/` and `papers/bedc/parts/`; never modify those files outside your worktree. Use `critical_path.py` output's `"dispatch_weights"::"paper"::"weights"` to get current per-source priority. The same object also exposes `"supply"`, `"consumption_60min"`, and `"advice"` subfields for the paper side. If `dispatch_weights.paper` is absent or carries an `error`, proceed without it.
+
+Allocate your 5 review targets approximately matching these weights:
+- 0.40 weight = pick ≈2 targets from this source
+- 0.30 weight = ≈1-2 targets
+- 0.20 weight = ≈1 target
+- 0.10 weight = ≈0-1 target (only if supply > 0 and HARD GATE allows)
+
+Source meanings:
+- top: `critical_path.top[0..N]` (existing primary)
+- top_root_unblocks: `critical_path.top_root_unblocks` (root chapters needing theorem support)
+- closure_mark: closurestatus/token work from `critical_path.drift_chapters`, `bridge_sync_pending`, and `top_transitions`
+- carrier_isomorphism_capstone: opportunity to write a new chapter abstracting a big phase-2 bucket in `carrier_isomorphism`
+
+If `dispatch_weights.paper.capstone_candidate` is non-null, you have a pre-picked carrier-isomorphism abstraction candidate. Use the suggested name and slug from that object — do NOT pick your own bucket or invent a different name (the rotation picks the next bucket each cycle so you don't need to choose).
+
+The capstone chapter to draft follows the hub + subdir convention:
+- Hub: `papers/bedc/parts/concrete_instances/<NNNN>_<suggested_paper_slug>_namecert_construction.tex`
+- Subdir spine: `papers/bedc/parts/concrete_instances/<suggested_paper_slug>/namecert_construction.tex`
+- The `<NNNN>` is the next available number — pick one not yet used after checking `ls papers/bedc/parts/concrete_instances/ | grep -oE '^[0-9]+' | sort -un | tail -3`
+- Include preamble macro `\newcommand{\<SuggestedLeanName>}{\mathsf{<...>}^{\uparrow}}` and the `main.tex` include
+- Treat it as a regular concrete-instance chapter. The top-level hub only contains structural input lines; the subdir spine holds the chapter heading, label, origin, intro, seed-level `closurestatus`, and `\leanstmt{BEDC.Derived.<suggested_lean_name>}` pointing at the lean-side draft if it exists
+- DO NOT modify the bucket member chapters this round (instance migration is a separate human-reviewed step)
+
+### HARD FLOOR for carrier_isomorphism_capstone
+
+If ALL of:
+- `dispatch_weights.paper.capstone_candidate` is non-null
+- `dispatch_weights.paper.consumption_60min.carrier_isomorphism_capstone == 0`
+- `<ROUND_NUM> % 25 == 0`  (one in 25 rounds — exact match on the modulo)
+
+then you MUST include exactly 1 capstone target (the pre-picked one) as 1 of your 5 targets, even if other sources have higher weights. This is an override floor that ensures periodic capstone attention. The other 4 of 5 targets fill normally per HARD GATEs + soft weights.
+
+If the HARD FLOOR doesn't fire, soft weight allocation continues (capstone gets ~0.10 share, picked only if codex naturally would).
+
+The existing HARD GATEs (candidate_pool size, vision_concretization, conjecture_chase, orphan_repair, bridge/drift sync) STILL APPLY. Source weights are SOFT guidance for filling remaining slots after HARD GATEs are met.
 
 ## Multi-target round emission (HARD GATE — minimum 5 candidates)
 
@@ -692,7 +731,7 @@ Each target's JSON MAY include a `grade_transition` field quoting `next_grade_tr
 Run before target selection:
 
 ```bash
-python3 lean4/scripts/critical_path.py
+python3 "$(dirname "$(git rev-parse --git-common-dir)")/lean4/scripts/critical_path.py"
 ```
 
 The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (with `1/(1+thms)` as tiebreaker) after excluding nodes that carry a closurestatus block whose theoryclosure is scopedClosure-or-above and whose formalstatus is theoremCheckedV-or-above, or whose dependencies are not yet ready. **At least 1 candidate's `paper_files[0]` MUST correspond to a chapter from `top[0..2]`** of that JSON output (e.g. `top[0].file_paper` → `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`). Prefer `kind="theory_extension"` or `kind="missing_companion"` in those chapters — those are the kinds that grow the chapter.

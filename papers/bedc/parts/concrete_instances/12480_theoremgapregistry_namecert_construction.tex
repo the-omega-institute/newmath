@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\TheoremGapRegistryUp$}
+\label{ch:concrete-instances-theoremgapregistry-namecert}
+\origin{ai}
+
+The $\TheoremGapRegistryUp$ packet realizes the theorem and gap registry surface of \autoref{ch:visions-philosophy-auditable-generativity} as one finite NameCert carrier. It sits beside the registry layer of \autoref{ch:concrete-instances-registrylayer-namecert}, the claim registry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, the truth-residue ledger of \autoref{ch:concrete-instances-truth-residue-ledger-namecert}, and the gap-failure-bridge audit packet of \autoref{ch:concrete-instances-gap-failure-bridge-audit-namecert}. Those siblings expose package registry control, single-claim export, scientific-truth residue, and bridge-facing failure audit; this carrier joins theorem-strength rows to gap-gate rows before any consumer may read a theorem entry as stronger than its displayed dependencies or read a gap entry without its blocking gate.
+
+\begin{definition}[Theorem-gap registry carrier]
+\label{def:theorem-gap-registry-carrier}
+A $\TheoremGapRegistryUp$ carrier is a finite $\BHist$ packet
+$$
+R=(T,D,S,G,C,F,A,L,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the theorem-entry row, recording name, statement, proof mode, proof site, and public registry status.
+\item $D$ is the dependency-strength row, recording the displayed BEDC dependencies and the weakest strength available among them.
+\item $S$ is the theorem-strength row, recording the strength claimed for the theorem entry and the witnessed dependency row that licenses it.
+\item $G$ is the gap-entry row, recording name, site, requested supply, socket type, gate, consequence if internalized, and current registry status.
+\item $C$ is the gap-gate coverage row, recording that every gap entry has a blocking gate and a cannot-claim or refusal route.
+\item $F$ is the refusal row, recording theorem-strength overclaim refusals, gate-absent gap refusals, and theorem-to-gap leakage refusals.
+\item $A$ is the audit-export row, recording the route through $\RegistryLayerUp$, $\ClaimRegistryLayerUp$, $\TruthResidueLedgerUp$, and $\GapFailureBridgeAuditUp$.
+\item $L$ is the ledger nonescape row, recording that missing theorem-strength evidence and missing gap gates cannot be supplied by prose placement, hidden registry state, or host truth.
+\item $H$ stores componentwise $\hsame$ transport for theorem entries, dependency strengths, theorem strengths, gap entries, gap gates, refusals, audit export, ledger nonescape, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\TheoremGapRegistryUp$, $\RegistryLayerUp$, $\ClaimRegistryLayerUp$, $\TruthResidueLedgerUp$, $\GapFailureBridgeAuditUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TheoremGapRegistryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a theorem strength above its displayed dependency witness, a gate-free gap entry, an erased refusal, a hidden registry table, or a ledger export outside $R=(T,D,S,G,C,F,A,L,H,P,N)$.
+\end{definition}
+\leanchecked{BEDC.Derived.TheoremGapRegistryUp.TheoremGapRegistryTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Theorem-gap registry strength gate]
+\label{thm:theorem-gap-registry-strength-gate}
+For the carrier of \autoref{def:theorem-gap-registry-carrier}, an accepted theorem entry cannot be exported with strength above the weakest displayed dependency strength unless the packet also displays a witnessed dependency row in $D$ that licenses the stronger reading through $S$.
+\end{theorem}
+\begin{proof}
+Project the theorem-entry, dependency-strength, and theorem-strength rows $T,D,S$. The theorem entry is public only through the finite packet, and its stated strength is read through $S$ rather than through prose placement or hidden theorem state.
+
+If $S$ reports a strength no greater than the weakest displayed dependency in $D$, the export is licensed by the visible dependency chain. If $S$ reports a stronger reading, the carrier requires an additional witnessed dependency row in $D$ naming the evidence for that stronger reading.
+
+The structural rows $H,P,N$ preserve, source, and name the same displayed rows. They cannot create an absent dependency witness, so a strength overclaim has no accepted export route through $\TheoremGapRegistryUp$.
+\end{proof}
+
+\begin{theorem}[Theorem-gap registry gap-gate coverage]
+\label{thm:theorem-gap-registry-gap-gate-coverage}
+Every accepted gap entry in a $\TheoremGapRegistryUp$ packet is covered by a displayed gate in $C$ and by a refusal or cannot-claim route in $F$. A gap row with no gate is not an accepted registry entry.
+\end{theorem}
+\begin{proof}
+Start with the gap-entry row $G$. It records the requested supply, socket type, consequence if internalized, and registry status, but it does not by itself explain why the supply is unavailable to the internal theory.
+
+The coverage row $C$ supplies that explanation by naming the blocking gate for each displayed gap entry. The refusal row $F$ then records the public cannot-claim route or refusal route that prevents the requested supply from being read as a theorem dependency.
+
+Finally, the audit-export and ledger rows $A,L$ preserve the same gate and refusal data through the sibling registry surfaces. Since the carrier has no gate-free gap coordinate, a row in $G$ without coverage in $C$ and $F$ is outside the accepted packet.
+\end{proof}
+
+\begin{theorem}[Theorem-gap registry ledger nonescape]
+\label{thm:theorem-gap-registry-ledger-nonescape}
+Every accepted $\TheoremGapRegistryUp$ export factors through
+$$
+T,D,S,G,C,F,A,L,H,P,N.
+$$
+No theorem entry may escape the dependency-strength gate, and no gap entry may escape the gate-coverage row, when the packet is read through the registry layer, claim registry layer, truth-residue ledger, and gap-failure-bridge audit surface.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:theorem-gap-registry-strength-gate} for theorem entries. The rows $T,D,S$ expose the claimed theorem, the dependency strengths, and the witnessed license for the reported strength.
+
+Use \autoref{thm:theorem-gap-registry-gap-gate-coverage} for gap entries. The rows $G,C,F$ expose the requested supply, the blocking gate, and the refusal route.
+
+The audit-export row $A$ points to \autoref{ch:concrete-instances-registrylayer-namecert}, \autoref{ch:concrete-instances-claimregistrylayer-namecert}, \autoref{ch:concrete-instances-truth-residue-ledger-namecert}, and \autoref{ch:concrete-instances-gap-failure-bridge-audit-namecert}. Those sibling surfaces can transport and inspect the packet, but none supplies a hidden coordinate that bypasses $D$ or $C$.
+
+The ledger nonescape row $L$ records this absence explicitly. Componentwise transport, package provenance, and local naming preserve the displayed packet, so every accepted export factors through the listed rows and no theorem or gap reading escapes its gate.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\TheoremGapRegistryUp$ packet cannot raise a theorem entry above the weakest displayed dependency strength unless a new witnessed dependency row is added to the packet.}
+
+\independenceWitness{registrylayer, claimregistrylayer, truth-residue-ledger, gap-failure-bridge-audit: $\TheoremGapRegistryUp$ joins theorem-strength rows to gap-gate rows; the sibling packets lack that combined carrier and are not bijective to it.}
+
+The future Lean \texttt{TasteGate.lean} must provide explicit $\Nontrivial\ \TheoremGapRegistryUp$ and $\FieldFaithful\ \TheoremGapRegistryUp$ instances. Those instances must preserve $T,D,S,G,C,F,A,L,H,P,N$ as separate displayed fields before any checked theorem may cite the $\TheoremGapRegistryUp$ packet as a field-faithful registry surface.
+
+\closureat{TheoremGapRegistryUp}{seedStr}
+
+\begin{closurestatus}{\TheoremGapRegistryUp}
+  \constructivestory{A $\TheoremGapRegistryUp$ packet is generated from theorem-entry, dependency-strength, theorem-strength, gap-entry, gap-gate coverage, refusal, audit-export, ledger nonescape, hsame transport, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:theorem-gap-registry-carrier}, \autoref{thm:theorem-gap-registry-strength-gate}, \autoref{thm:theorem-gap-registry-gap-gate-coverage}, and \autoref{thm:theorem-gap-registry-ledger-nonescape} bind theorem strength and gap gates into one finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, complete registry governance, bridge checking, or correctness of every downstream theorem and gap entry.}
+  \upgradepath{Lean closure requires Nontrivial TheoremGapRegistryUp and FieldFaithful TheoremGapRegistryUp instances in \texttt{lean4/BEDC/Derived/TheoremGapRegistryUp/TasteGate.lean}.}
+\end{closurestatus}

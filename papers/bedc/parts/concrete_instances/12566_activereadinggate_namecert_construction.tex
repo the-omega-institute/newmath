@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\ActiveReadingGateUp$}
+\label{ch:concrete-instances-active-reading-gate-namecert}
+\origin{ai}
+
+The $\ActiveReadingGateUp$ packet realizes the single-active-reading governance surface of \autoref{ch:visions-philosophy-auditable-generativity} as a finite NameCert carrier. It reads the current-reading discipline through the machine-interface ledger and sits beside the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the registry layer of \autoref{ch:concrete-instances-registrylayer-namecert}, the claim registry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, the audit transcript envelope of \autoref{ch:concrete-instances-audit-transcript-envelope-namecert}, and the writing-item audit packet of \autoref{ch:concrete-instances-writingitemaudit-namecert}. Those siblings expose registry export, registry admission, claim admission, transcript replay, and writing-item legality; this carrier binds the unique active reading before any downstream consumer may export a prose, registry, or machine-facing route.
+
+\begin{definition}[Active reading gate carrier]
+\label{def:active-reading-gate-carrier}
+An $\ActiveReadingGateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(T,A,R,B,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the target row, naming the theorem, definition, registry entry, writing item, machine-facing target, or package surface whose reading is being exported.
+\item $A$ is the active-reading row, recording the single current reading allowed for $T$.
+\item $R$ is the retired-reading row, recording displaced readings as non-exportable audit data rather than as active alternatives.
+\item $B$ is the blocking or refusal row, recording the public refusal that blocks a second active reading for the same target.
+\item $E$ is the export row, recording the only route through which the active reading may leave the gate.
+\item $H$ records componentwise $\hsame$ transport for target, active reading, retired reading, blocking row, export row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the target row through the active-reading and blocking rows to the export row.
+\item $P$ is the $\Pkg$ provenance over $\ActiveReadingGateUp$, $\RegistryExportSurfaceUp$, $\RegistryLayerUp$, $\ClaimRegistryLayerUp$, $\AuditTranscriptEnvelopeUp$, $\WritingItemAuditUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ActiveReadingGateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a parallel active reading, hidden target alias, export that bypasses the blocking row, audit transcript without replay, writing item without the current reading, or local name outside the finite packet $G=(T,A,R,B,E,H,C,P,N)$.
+\end{definition}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Active reading gate NameCert obligations]
+\label{thm:active-reading-gate-obligation-surface}
+For the carrier of \autoref{def:active-reading-gate-carrier}, the local $\NameCert_{\ActiveReadingGateUp}$ surface consists exactly of carrier admission for $G=(T,A,R,B,E,H,C,P,N)$; target admission through $T$; active-reading uniqueness through $A$ and $B$; retired-reading exposure through $R$; registry and blocking coverage through $\RegistryExportSurfaceUp$, $\RegistryLayerUp$, and $\ClaimRegistryLayerUp$; export non-escape through $E$; and transport, replay, provenance, and naming stability through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:active-reading-gate-carrier}. The rows $T,A,R,B,E,H,C,P,N$ are the only coordinates available to the local certificate.
+
+The target and reading rows supply the governance surface. Row $T$ fixes the object being read, row $A$ supplies the unique current reading, row $R$ records displaced readings only as audit data, and row $B$ blocks any attempt to export a second current reading.
+
+The registry siblings provide the public routes. $\RegistryExportSurfaceUp$ controls export, $\RegistryLayerUp$ keeps package rows finite, and $\ClaimRegistryLayerUp$ prevents a claim consumer from treating the retired row as a second accepted claim.
+
+Rows $E,H,C,P,N$ make that boundary stable. They expose the single export route, preserve the displayed rows componentwise, replay the route through the blocking surface, record package provenance, and name the packet. No remaining coordinate can create a parallel active reading or bypass the refusal row.
+\end{proof}
+
+\begin{theorem}[Active reading gate single export route]
+\label{thm:active-reading-gate-single-export-route}
+Every registry, claim, transcript, or writing-item consumer of an accepted $\ActiveReadingGateUp$ packet must read the target row $T$ through the active-reading row $A$ and the blocking row $B$ before the export row $E$. Such a consumer cannot export a parallel active reading for the same target.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet
+$$
+G=(T,A,R,B,E,H,C,P,N).
+$$
+By \autoref{thm:active-reading-gate-obligation-surface}, the export row $E$ is available only as part of the displayed carrier containing $T,A,R,B,H,C,P,N$.
+
+A registry or claim consumer therefore reaches $E$ through the unique active row $A$ and the refusal row $B$. The retired row $R$ remains visible, but it is read as non-exportable audit data rather than as a second claim route.
+
+Transcript and writing-item consumers receive the same route through the provenance row $P$, which names \autoref{ch:concrete-instances-audit-transcript-envelope-namecert} and \autoref{ch:concrete-instances-writingitemaudit-namecert}. Since $H$ only transports displayed fields and $C$ only replays the displayed route, neither structural row can turn $R$ into a second active row.
+
+Thus every accepted export factors through $T,A,B,E$, with $R$ blocked from active export. A packet exporting both $A$ and $R$ as active readings for the same target leaves $\ActiveReadingGateUp$ and is refused by $B$.
+\end{proof}
+
+\falsifiablePrediction{If both $A$ and $R$ are exported as active readings for the same target, the packet is refuted by the blocking row.}
+
+\independenceWitness{registryexportsurface, registrylayer, claimregistrylayer, audittranscriptenvelope, writingitemaudit: none is bijective to ActiveReadingGateUp. The registry export surface controls public export but does not store the active and retired readings together; the registry layer lacks the single-reading gate; the claim registry layer lacks retired-reading audit data; the audit transcript envelope lacks registry blocking as the active-reading gate; and the writing-item audit packet lacks the target-specific export route $T,A,B,E$ as one finite carrier.}
+
+The Lean follow-up must provide explicit $\Nontrivial\ \ActiveReadingGateUp$ and $\FieldFaithful\ \ActiveReadingGateUp$ instances in \texttt{lean4/BEDC/Derived/ActiveReadingGateUp/TasteGate.lean}. Those instances must preserve $T,A,R,B,E,H,C,P,N$ as separate displayed fields before $\mathsf{BEDC.Derived.ActiveReadingGateUp.taste\_gate}$ can be cited by a checked paper marker.
+
+\closureat{ActiveReadingGateUp}{seedStr}
+
+\begin{closurestatus}{\ActiveReadingGateUp}
+  \constructivestory{An $\ActiveReadingGateUp$ packet is generated from target, active-reading, retired-reading, blocking, export, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:active-reading-gate-carrier}, \autoref{thm:active-reading-gate-obligation-surface}, and \autoref{thm:active-reading-gate-single-export-route} bind single-active-reading export to a finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, complete governance of every prose replacement, correctness of every registry consumer, or archival completeness for retired readings.}
+  \upgradepath{Lean closure requires Nontrivial ActiveReadingGateUp and FieldFaithful ActiveReadingGateUp instances in \texttt{lean4/BEDC/Derived/ActiveReadingGateUp/TasteGate.lean}.}
+\end{closurestatus}

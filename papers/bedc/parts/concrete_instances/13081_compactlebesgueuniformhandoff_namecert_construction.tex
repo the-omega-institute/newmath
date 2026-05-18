@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\CompactLebesgueUniformHandoffUp$}
+\label{ch:concrete-instances-compact-lebesgue-uniform-handoff-namecert}
+\origin{ai}
+
+The $\CompactLebesgueUniformHandoffUp$ packet realizes the finite radius-ledger bridge isolated by \autoref{ch:visions-compact-uniform-continuity}. It binds the Lebesgue-number ledger of \autoref{ch:concrete-instances-finite-lebesgue-number-namecert}, the compact-net selector of \autoref{ch:concrete-instances-compactnetmodulusselector-namecert}, the uniform-modulus consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}, the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, and the pointwise continuity rows of \autoref{ch:concrete-instances-continuousmap-namecert}. The coordinate added here is the single public handoff row that makes the finite Lebesgue radius ledger readable by the compact-net selector before the $\UniformModulusUp$ consumer accepts a tolerance-only modulus packet.
+
+\begin{definition}[Compact Lebesgue uniform handoff carrier]
+\label{def:compact-lebesgue-uniform-handoff-carrier}
+A $\CompactLebesgueUniformHandoffUp$ carrier is a finite $\BHist$ packet
+$$
+U=(K,F,S,R,M,C,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row carrying the finite compact-metric witness consumed by the compact-uniform route;
+\item $F$ is the $\ContinuousMapUp$ pointwise-modulus row over the same source and target metric carriers;
+\item $S$ is the $\FiniteLebesgueNumberUp$ positive radius ledger, read through $\DyadicCoverUp$, $\FiniteWindowEnvelopeUp$, $\RationalBallUp$, and $\DyadicMeshUp$ rows;
+\item $R$ is the compact-net selector packet supplied by $\CompactNetModulusSelectorUp$, with its finite $\mathsf{ProbeBundle}$ centers and radius-route witnesses;
+\item $M$ is the $\UniformModulusUp$ output row that may read a tolerance-only precision history only after $K,F,S,$ and $R$ have been displayed;
+\item $C$ records the displayed $\Cont$ routes from compact source, pointwise modulus, Lebesgue radius ledger, and selector packet into the uniform-modulus row;
+\item $H$ records componentwise $\hsame$ transport for the compact source, continuous-map row, radius ledger, selector packet, uniform-modulus output, continuation, provenance, and local name rows;
+\item $T$ is the handoff trace row stating that the selector consumes exactly the positive finite Lebesgue-number ledger before the uniform-modulus row is public;
+\item $P$ is the $\Pkg$ provenance over $\FiniteLebesgueNumberUp$, $\CompactNetModulusSelectorUp$, $\UniformModulusUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\DyadicCoverUp$, $\FiniteWindowEnvelopeUp$, $\RationalBallUp$, $\DyadicMeshUp$, $\BHist$, $\hsame$, $\Cont$, and local certificate rows;
+\item $N$ is the local $\NameCert_{\CompactLebesgueUniformHandoffUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, a host minimum, a selected subcover, quotient equality of source points, or an external modulus function.
+\end{definition}
+
+\begin{theorem}[Compact Lebesgue uniform handoff NameCert obligations]
+\label{thm:compact-lebesgue-uniform-handoff-namecert-obligations}
+For the carrier of \autoref{def:compact-lebesgue-uniform-handoff-carrier}, the local $\NameCert_{\CompactLebesgueUniformHandoffUp}$ surface consists exactly of carrier admission for $U=(K,F,S,R,M,C,H,T,P,N)$, compact metric source exposure through $K$, pointwise continuous-map modulus exposure through $F$, finite Lebesgue-number radius-ledger exposure through $S$, compact-net selector exposure through $R$, uniform-modulus output exposure through $M$, displayed continuation through $C$, componentwise $\hsame$ transport through $H$, handoff trace exposure through $T$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $K,F,S,R,M,C,H,T,P,N$ list the full compact-uniform route before any consumer can read the uniform-modulus output.
+
+The source and pointwise rows are read first. The compact source row $K$ supplies the finite compact-metric context, while $F$ supplies the pointwise-modulus relation over that same source route.
+
+The radius ledger and selector rows form the handoff. The finite Lebesgue-number row $S$ exposes only the dyadic cover, finite-window, rational-ball, and mesh ledgers, and the selector row $R$ reads that positive radius ledger as its compact-net input.
+
+The output row is therefore downstream of the displayed handoff trace $T$. The transport, continuation, provenance, and local naming rows add no open-cover compactness, host minimum, selected subcover, quotient equality, or external modulus coordinate, so the listed rows exhaust the local certificate surface.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate.CompactLebesgueUniformHandoffTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Compact Lebesgue uniform handoff factorization]
+\label{thm:compact-lebesgue-uniform-handoff-factorization}
+Every accepted $\UniformModulusUp$ read from a $\CompactLebesgueUniformHandoffUp$ carrier factors through the ordered route
+$$
+\CompactMetricUp,\quad \ContinuousMapUp,\quad \FiniteLebesgueNumberUp,\quad \CompactNetModulusSelectorUp,\quad \UniformModulusUp .
+$$
+The factorization reads the finite Lebesgue-number positive radius ledger through $\DyadicCoverUp$, $\FiniteWindowEnvelopeUp$, $\RationalBallUp$, and $\DyadicMeshUp$, then hands that ledger to the compact-net selector packet, and finally exposes the uniform-modulus output through the carried $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:compact-lebesgue-uniform-handoff-namecert-obligations}. They identify $K,F,S,R,M,C,H,T,P,N$ as the complete consumer-facing surface.
+
+The finite Lebesgue-number row $S$ is the only positive radius ledger in the carrier. By \autoref{ch:concrete-instances-finite-lebesgue-number-namecert}, its public read is limited to the displayed dyadic-cover, finite-window, rational-ball, mesh, transport, continuation, provenance, and local naming rows.
+
+The selector row $R$ is therefore forced to consume that finite ledger rather than an open-cover compactness object. The route through \autoref{ch:concrete-instances-compactnetmodulusselector-namecert} packages the compact-net centers and radius comparisons before the $\UniformModulusUp$ output row $M$ is public.
+
+Finally the compact source $K$ and pointwise continuous-map row $F$ provide the source and local modulus data used by the selector. Since the carrier has no coordinate for host minima, selected subcovers, quotient equality, or external modulus functions, every accepted uniform-modulus read factors through the displayed route and no wider one.
+\end{proof}
+
+\falsifiablePrediction{Every accepted CompactLebesgueUniformHandoffUp consumer must expose the finite Lebesgue-number radius ledger, compact-net selector packet, compact metric source, continuous-map pointwise-modulus row, uniform-modulus output, hsame, Cont, Pkg, and NameCert rows before a uniform-modulus handoff is public.}
+
+\independenceWitness{finitelebesguenumber, compactnetmodulusselector, uniformmodulus, compactmetric, continuousmap: no sibling is bijective because the handoff binds the radius ledger, selector route, source compactness, pointwise continuity, and output modulus as one packet.}
+
+The later Lean $\mathsf{TasteGate.lean}$ surface must include explicit $\mathsf{Nontrivial}\ \CompactLebesgueUniformHandoffUp$ and $\mathsf{FieldFaithful}\ \CompactLebesgueUniformHandoffUp$ instances.
+
+\begin{closurestatus}{\CompactLebesgueUniformHandoffUp}
+  \constructivestory{A $\CompactLebesgueUniformHandoffUp$ packet is generated by placing compact finite-net data, pointwise continuous-map radii, a Lebesgue-style radius selector, a uniform-modulus output row, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming into one finite $\BHist$ carrier. The classifier does not search an ambient open cover; it only inspects the displayed compact source and the local modulus rows already carried by the packet. The ledger story is the handoff from local to uniform: the selector records a finite radius choice and the uniform-modulus row may consume it only through the same transport and continuation routes.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier definition, the NameCert-obligation and factorization theorems, the falsifiable prediction, independence witness, and Lean-follow-up boundary for $\CompactLebesgueUniformHandoffUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim open-cover compactness, host minima, selected subcovers, quotient equality of points, or an external modulus function.}
+  \upgradepath{To reach obligationClosure, the compact finite-net handoff and uniform-modulus factorization must be represented as checked finite-carrier obligations.}
+\end{closurestatus}

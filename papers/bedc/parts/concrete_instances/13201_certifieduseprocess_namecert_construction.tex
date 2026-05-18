@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CertifiedUseProcessUp$}
+\label{ch:concrete-instances-certifieduseprocess-namecert}
+\origin{ai}
+
+The $\CertifiedUseProcessUp$ packet realizes the use-as-public-process surface of \autoref{subsec:philosophy-wittgenstein-use} inside the auditable-generativity programme of \autoref{ch:visions-philosophy-auditable-generativity}. It sits beside the socket-use ledger of \autoref{ch:concrete-instances-socket-use-ledger-namecert}, the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the machine-facing boundary of \autoref{ch:concrete-instances-machine-interface-boundary-namecert}, the apophatic naming boundary of \autoref{ch:concrete-instances-apophaticname-namecert}, and the inward eligibility proof of \autoref{ch:concrete-instances-name-eligibility-proof-namecert}. Those siblings separately expose visible use, export control, machine routing, refused supply, and name admission; this carrier binds them before a public use may be read as rule-following.
+
+\begin{definition}[Certified-use process carrier]
+\label{def:certified-use-process-carrier}
+A $\CertifiedUseProcessUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(U,R,C,L,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the certified-use row, recording the public use event, its name, item, local history, and source/classifier surface.
+\item $R$ is the public rule-witness row, recording the finite rule-following evidence by which the use may be cited outside private impression.
+\item $C$ is the continuation-process route, recording the displayed $\Cont$ path through which the use is replayed for downstream consumers.
+\item $L$ is the refusal ledger, recording hidden-source refusals, private-meaning refusals, and blocked rule-following claims.
+\item $H$ stores componentwise $\hsame$ transport for certified use, rule witness, continuation route, refusal ledger, replay, provenance, and local naming rows.
+\item $K$ stores displayed $\Cont$ replay of the same certified-use process route.
+\item $P$ is the $\Pkg$ provenance over $\SocketUseLedgerUp$, $\RegistryExportSurfaceUp$, $\MachineInterfaceBoundaryUp$, $\ApophaticNameUp$, $\NameEligibilityProofUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CertifiedUseProcessUp}$ row binding the packet to the displayed use process.
+\end{enumerate}
+The carrier has no coordinate for private meaning, social repetition without a rule witness, a machine-facing export without registry control, a hidden source supply, or a local name admitted without a NameCert row.
+\end{definition}
+\leandef{BEDC.Derived.CertifiedUseProcessUp.CertifiedUseProcessUp}
+
+\begin{theorem}[Certified-use process NameCert surface]
+\label{thm:certified-use-process-namecert-surface}
+For the carrier of \autoref{def:certified-use-process-carrier}, the local $\NameCert_{\CertifiedUseProcessUp}$ surface consists exactly of certified-use admission through $U$, public rule-witness admission through $R$, continuation-process routing through $C$ and $K$, refusal-ledger exposure through $L$, componentwise transport through $H$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $Q=(U,R,C,L,H,K,P,N)$. The rows $U,R,C,L$ display the use, rule witness, process route, and refusals before any consumer may cite the packet.
+
+The rows $H$ and $K$ preserve that same displayed route under transport and replay. They do not add a private-meaning coordinate or replace the rule witness by social repetition.
+
+Finally $P$ records the sibling surfaces and $N$ names the local packet. Since the carrier has no other fields, these rows exhaust the local $\NameCert_{\CertifiedUseProcessUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Certified-use process nonprivate rule-following]
+\label{thm:certified-use-process-nonprivate-rule-following}
+Every accepted $\CertifiedUseProcessUp$ consumer reads public rule-following through the certified-use row $U$, rule-witness row $R$, continuation rows $C,K$, refusal ledger $L$, transport row $H$, provenance row $P$, and local naming row $N$. A route that accepts the public use while deleting either $R$ or $L$ is not an accepted $\CertifiedUseProcessUp$ carrier.
+\end{theorem}
+\begin{proof}
+Begin with the certified-use row $U$. It records a public use event, but the carrier does not let that event stand alone as meaning or rule-following.
+
+The rule-witness row $R$ and refusal ledger $L$ determine whether the use is publicly licensed or blocked. The continuation rows $C,K$ then replay only that licensed route, while $H,P,N$ transport, source, and name the same finite packet.
+
+Thus a consumer that omits the rule witness or refusal ledger changes the packet into a projection. The projection may mention a use, but it no longer carries the public rule-following surface of \autoref{def:certified-use-process-carrier}.
+\end{proof}
+
+\falsifiablePrediction{A public use accepted without the rule-witness row or ledger row is not a CertifiedUseProcessUp packet.}
+
+\independenceWitness{socketuseledger, registryexportsurface, machineinterfaceboundary, apophaticname, nameeligibilityproof: none is bijective because CertifiedUseProcessUp binds use, rule witness, continuation route, refusal ledger, transport, provenance, and local naming in one packet.}
+
+The Lean carrier realization provides $\Nontrivial\ \CertifiedUseProcessUp$ and $\FieldFaithful\ \CertifiedUseProcessUp$ instances in \texttt{lean4/BEDC/Derived/CertifiedUseProcessUp/TasteGate.lean}. The nontrivial witness exposes an accepted public-use packet, and field faithfulness keeps $U,R,C,L,H,K,P,N$ distinct.
+
+\closureat{CertifiedUseProcessUp}{seedStr}
+\closureat{CertifiedUseProcessUp}{obligationStr}
+
+\begin{closurestatus}{\CertifiedUseProcessUp}
+  \constructivestory{A $\CertifiedUseProcessUp$ packet is generated from process rows, rule rows, use-witness rows, registry and machine-interface rows, source and name rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. The finite $\BHist$ carrier accepts a use process only when the rule witness, registry control, machine-facing boundary, and NameCert row are all displayed. Its classifier makes certified use public and nonprivate: repeated use becomes readable only through the recorded rule and process ledger, while hidden source supply, social repetition without witness, and machine export without registry control never become accepted coordinates.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier definition, NameCert-surface theorem, nonprivate-rule-following theorem, Lean-follow-up boundary, and existing closure annotations for $\CertifiedUseProcessUp$.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.CertifiedUseProcessUp.CertifiedUseProcessUp}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim private meaning, social repetition without a rule witness, machine-facing export without registry control, hidden source supply, or local naming without NameCert.}
+  \upgradepath{To reach obligationClosure, the certified-use carrier and nonprivate rule-following theorem must be checked as finite packet obligations.}
+\end{closurestatus}

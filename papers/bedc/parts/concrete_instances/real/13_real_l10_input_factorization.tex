@@ -31,7 +31,7 @@ The packet exports no quotient stream equality, host real equality, selected lim
 \begin{proof}
 Begin with \autoref{thm:realup-l10-input-factorization}. It already forces every public $\RealUp$ seal read and classifier read usable as Phase Real and Completion data through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
 
-Now pass to the five downstream faces. A $\MetricSpaceUp$, $\RealAlgOrderUp$, $\CompleteMetricUp$, $\CompactMetricUp$, or $\ContinuousMapUp$ consumer can use the $\RealUp$ row only as the public seal or classifier surface supplied by \autoref{ch:concrete-instances-real-namecert}. The sibling surfaces \autoref{ch:concrete-instances-metric-namecert}, \autoref{ch:concrete-instances-realalgorder-namecert}, \autoref{ch:concrete-instances-completemetric-namecert}, \autoref{ch:concrete-instances-compactmetric-namecert}, and \autoref{ch:concrete-instances-continuousmap-namecert} therefore inherit the same Real route rather than a separate analytic entrance.
+Now pass to the five downstream faces. A $\MetricSpaceUp$, $\RealAlgOrderUp$, $\CompleteMetricUp$, $\CompactMetricUp$, or $\ContinuousMapUp$ consumer can use the $\RealUp$ row only as the public seal or classifier surface supplied by \autoref{ch:concrete-instances-real-namecert}. The sibling surfaces \autoref{ch:concrete-instances-metric-namecert}, \autoref{ch:concrete-instances-real-alg-order-namecert}, \autoref{ch:concrete-instances-completemetric-namecert}, \autoref{ch:concrete-instances-compactmetric-namecert}, and \autoref{ch:concrete-instances-continuousmap-namecert} therefore inherit the same Real route rather than a separate analytic entrance.
 
 Finally apply \autoref{thm:real-name-seal-no-completeness}. The public Real seal exports no quotient stream, selected limit, host real equality, host sequence equality, or ambient completeness theorem; the L10 input theorem also excludes countable choice from the route. Since the downstream consumer receives only that public Real row together with the displayed structural support, it cannot acquire quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, or metric-completeness rows from the Real input boundary.
 \end{proof}
@@ -44,6 +44,22 @@ $$
 $$
 Its support data are componentwise $\hsame$ transports between the displayed rows, displayed $\Cont$ replay maps for the accepted reads, $\Pkg$ provenance for each of the four source faces, and the local $\NameCert_{\RealUp}$ row naming the resulting Real-facing surface. The packet has no coordinate other than those four source faces and the listed BEDC support rows.
 \end{definition}
+
+\begin{theorem}[Real L10 four-source handoff initiality]
+\label{thm:real-l10-four-source-handoff-initiality}
+Every admissible Phase Real and Completion public $\RealUp$ seal read or classifier read whose support is confined to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows factors through the Real L10 four-source handoff packet of \autoref{def:real-l10-four-source-handoff-packet}. If two such factorizations agree on the $\DyadicRatCoreUp$ observation face, the $\StreamNameUp$ finite-window face, the $\RegSeqRatUp$ regular readback face, the $\RealUp$ seal or classifier face, and the displayed support rows, then they determine the same accepted public read.
+
+Conversely, the four-source handoff packet supplies the initial admissible source for these public reads: any accepted Real-and-Completion read with the listed support rows is obtained from that packet, and no quotient stream, selected limit, host real equality, ambient completeness, metric-completeness, countable-choice, or standard bridge coordinate can supply a competing initial source.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:realup-l10-input-factorization}. It sends every admissible Phase Real and Completion public $\RealUp$ seal or classifier read through the ordered four-object route. The definition of the handoff packet then records exactly that route as public source data, together with the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows allowed in the statement.
+
+The factorization is determined by the four visible faces. Apply \autoref{thm:streamname-regseqrat-dyadic-real-four-face-exactness} to identify the DyadicRatCore observations, StreamName finite windows, RegSeqRat readback surface, and Real seal or classifier row as one exact four-face boundary. Then apply \autoref{thm:regseqrat-four-face-terminal-pullback} to repack any accepted terminal read over the same displayed support rows. Therefore two factorizations that agree on those faces and rows have the same accepted public read.
+
+For existence in the reverse direction, apply \autoref{thm:real-l10-four-source-handoff-totality}. It says that every Phase Real public read and every Completion public $\RealUp$ read already factors through the named packet, so the packet is an admissible source for every read under consideration.
+
+Finally use \autoref{thm:real-l10-four-source-handoff-nonescape}. The packet has no outlet for quotient streams, selected limits, host real equality, ambient completeness, metric-completeness, countable choice, or a standard bridge coordinate. Since the exactness and pullback steps leave only the four faces and the displayed support rows, no external analytic or bridge coordinate can serve as another initial source.
+\end{proof}
 
 \begin{theorem}[Real L10 four-source handoff totality]
 \label{thm:real-l10-four-source-handoff-totality}
@@ -69,4 +85,28 @@ Apply \autoref{thm:realup-l10-downstream-interface-nonescape}. It excludes the l
 Now use \autoref{thm:realup-l10-input-factorization}. The source of the downstream row is already limited to the four-object route and to the displayed support rows, so an excluded coordinate cannot enter before the downstream handoff.
 
 Finally apply \autoref{thm:real-terminal-four-face-open-phase-exit}. The terminal open-phase exit has no fifth face where quotient streams, host real equality, selected limits, countable choice, ambient completeness, or metric-completeness data could be stored. Therefore the named packet is non-escaping.
+\end{proof}
+
+\begin{theorem}[Real L10 four-source handoff obstruction classification]
+\label{thm:real-l10-four-source-handoff-obstruction-classification}
+For a Phase Real and Completion public $\RealUp$ read, factorization through the Real L10 four-source handoff packet of \autoref{def:real-l10-four-source-handoff-packet} fails exactly when at least one of the following finite sites is absent or not componentwise transported:
+\begin{enumerate}
+\item the $\DyadicRatCoreUp$ observation face;
+\item the $\StreamNameUp$ finite-window face;
+\item the $\RegSeqRatUp$ regular readback face;
+\item the local $\RealUp$ seal or classifier face;
+\item one of the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$.
+\end{enumerate}
+Equivalently, once these four faces and support rows are present and componentwise transported, the public $\RealUp$ read factors through the named packet and has no further obstruction. No quotient stream equality, host real equality, selected limit, countable-choice selector, ambient completeness row, metric-completeness row, or additional bridge coordinate can witness failure.
+\end{theorem}
+\begin{proof}
+For the failure direction, begin with \autoref{thm:realup-l10-input-factorization}. It places every usable Phase Real and Completion public $\RealUp$ seal read or classifier read on the route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with only the displayed structural support rows.
+
+Use \autoref{thm:real-l10-four-source-handoff-totality} to compare the read with the packet of \autoref{def:real-l10-four-source-handoff-packet}. If the read does not factor through that packet, the totality theorem leaves no possible missing coordinate except one of the four displayed faces or one of the listed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The exact location is finite. Apply \autoref{thm:streamname-regseqrat-dyadic-real-four-face-exactness} to inspect the DyadicRatCore observation face, the StreamName finite-window face, the RegSeqRat readback face, and the local Real seal or classifier face. Then apply \autoref{thm:regseqrat-four-face-terminal-pullback} to inspect the common support rows used to repack the terminal read. Any remaining failure is therefore exactly one of the five listed sites.
+
+For the converse direction, suppose one listed site is absent or not componentwise transported. Then the read lacks a required public face or a required support row of \autoref{def:real-l10-four-source-handoff-packet}, so it cannot factor through that packet.
+
+If none of the five listed sites occurs, \autoref{thm:real-l10-four-source-handoff-totality} supplies the factorization through the packet. Finally \autoref{thm:real-l10-four-source-handoff-nonescape} excludes quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, metric-completeness, and additional bridge coordinates as possible obstruction witnesses.
 \end{proof}

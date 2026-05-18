@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\AllowedProofAuditUp$}
+\label{ch:concrete-instances-allowed-proof-audit-namecert}
+\origin{ai}
+
+The $\AllowedProofAuditUp$ packet realizes the allowed and refused proof boundary of \autoref{ch:visions-philosophy-auditable-generativity} and \autoref{subsec:philosophy-total-logic} as finite NameCert data. It sits beside the certificate-preserving route of \autoref{ch:concrete-instances-namecertmorphism-namecert}, the classifier-preserving route of \autoref{ch:concrete-instances-classifiermorphism-namecert}, the host primitive refusal of \autoref{ch:concrete-instances-hostprimitiveleakage-namecert}, and the gap-and-bridge refusal packet of \autoref{ch:concrete-instances-gap-failure-bridge-audit-namecert}. Those siblings expose certificate transport, classifier transport, host-source leakage, and gap routing; this carrier binds the proof-admissibility surface itself before a consumer may treat a proof as accepted BEDC evidence.
+
+\begin{definition}[AllowedProofAudit carrier]
+\label{def:allowed-proof-audit-carrier}
+An $\AllowedProofAuditUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(A,F,S,W,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the allowed proof surface, naming the explicit witness construction or local refutation route accepted by the current carrier, classifier, and certificate;
+\item $F$ is the refused proof boundary, recording attempted extraction of positive content without a constructor witness and attempted closure of global truth, choice, quotient, propositional extensionality, or halting surfaces;
+\item $S$ is the scope row fixing the carrier, classifier, certificate, and local theorem site over which $A$ and $F$ are read;
+\item $W$ is the witness-construction row that exposes the constructor data supporting every positive proof read in $A$;
+\item $R$ is the local-refutation row that records the finite contradiction or failed classifier route used by every negative proof read in $A$;
+\item $L$ is the ledger-residue row for refused dependencies, unexported host material, failed extraction attempts, and proof obligations not discharged inside $S$;
+\item $H$ records componentwise $\hsame$ transport for $A,F,S,W,R,L,C,P,N$;
+\item $C$ records displayed $\Cont$ replay of allowed reads, refused reads, witness construction, local refutation, and ledger inspection;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-philosophy-auditable-generativity}, \autoref{subsec:philosophy-total-logic}, \autoref{ch:concrete-instances-namecertmorphism-namecert}, \autoref{ch:concrete-instances-classifiermorphism-namecert}, \autoref{ch:concrete-instances-hostprimitiveleakage-namecert}, \autoref{ch:concrete-instances-gap-failure-bridge-audit-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AllowedProofAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for hidden proof search, ambient semantic validity, unrecorded host extraction, global truth closure, quotient collapse, choice supply, propositional extensionality, or total halting decision.
+\end{definition}
+\leanchecked{BEDC.Derived.AllowedProofAuditUp.AllowedProofAuditTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[AllowedProofAudit NameCert obligations]
+\label{thm:allowed-proof-audit-namecert-obligations}
+For the carrier of \autoref{def:allowed-proof-audit-carrier}, the local $\NameCert_{\AllowedProofAuditUp}$ surface consists exactly of carrier admission, allowed proof visibility, refused proof visibility, scope visibility, witness construction, local refutation, ledger exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $Q=(A,F,S,W,R,L,H,C,P,N)$. The first six rows expose accepted proof reads, refused proof attempts, the scope in which those reads are meaningful, the constructor witnesses, the local refutations, and the residue ledger.
+
+Read the structural rows. Transport through $H$ preserves the displayed components, replay through $C$ keeps the consumer inside the same finite route, provenance through $P$ records the proof-audit sources, and $N$ names the packet.
+
+Since the carrier contains no further proof coordinate, the listed rows exhaust the local NameCert surface. A claimed audit that omits one of them is a projection of the packet, not the accepted packet itself.
+\end{proof}
+
+\begin{theorem}[AllowedProofAudit witness construction]
+\label{thm:allowed-proof-audit-witness-construction}
+For an accepted $\AllowedProofAuditUp$ packet $Q=(A,F,S,W,R,L,H,C,P,N)$, every positive proof read in $A$ factors through the displayed witness-construction row $W$, and every negative proof read in $A$ factors through the displayed local-refutation row $R$. No accepted proof read may be supplied by $P$, $H$, or $C$ unless the same route is already visible in $W$ or $R$ under the fixed scope $S$.
+\end{theorem}
+\begin{proof}
+Start with the scope row $S$. It fixes the carrier, classifier, certificate, and theorem site over which allowed proof reads are admitted.
+
+For positive content, the carrier exposes only the witness-construction row $W$. The transport and replay rows can preserve and replay that witness, but they do not create a constructor outside the displayed row.
+
+For negative content, the carrier exposes only the local-refutation row $R$. The ledger row $L$ may record residue and refused dependencies, but it is not a proof source unless the finite contradiction or failed classifier route is displayed in $R$.
+
+Thus every accepted proof read in $A$ factors through $W$ or $R$ within $S$. The structural rows certify preservation and provenance for those routes, not independent proof supply.
+\end{proof}
+
+\begin{theorem}[AllowedProofAudit non-escape]
+\label{thm:allowed-proof-audit-nonescape}
+Any proof read that extracts positive content without the witness row $W$, closes a refused surface recorded in $F$, or cites a dependency present only as ledger residue in $L$ is rejected by the $\AllowedProofAuditUp$ classifier. In particular, neither certificate transport, classifier transport, host primitive refusal, nor gap-and-bridge audit routing can turn a refused proof attempt into accepted BEDC evidence unless the same finite packet exposes $A,F,S,W,R,L,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:allowed-proof-audit-namecert-obligations}. Accepted proof reads, refused boundaries, scope, witnesses, refutations, and ledger residue are all projections from the same finite packet.
+
+Apply the witness-construction theorem \autoref{thm:allowed-proof-audit-witness-construction}. Positive content must pass through $W$, and negative content must pass through $R$, with both rows read under the scope $S$.
+
+If a proof read closes a boundary recorded in $F$ or cites only residue in $L$, then it asks for a coordinate absent from $Q$. Transport through $H$, replay through $C$, and provenance through $P$ cannot add that coordinate.
+
+Therefore the classifier rejects the attempted escape. The surrounding packets named by \autoref{ch:concrete-instances-namecertmorphism-namecert}, \autoref{ch:concrete-instances-classifiermorphism-namecert}, \autoref{ch:concrete-instances-hostprimitiveleakage-namecert}, and \autoref{ch:concrete-instances-gap-failure-bridge-audit-namecert} may route or refuse proof material, but they do not replace the displayed allowed-proof audit packet.
+\end{proof}
+
+\falsifiablePrediction{Omitting either the witness-construction row $W$ or the refused-proof boundary row $F$ refutes the $\AllowedProofAuditUp$ packet: the classifier can no longer distinguish accepted proof evidence from host extraction or refused closure.}
+
+\independenceWitness{objectknowledgecertificate, gapfailurebridgeaudit, hostprimitiveleakage, classifiermorphism, and namecertmorphism: none is bijective to $\AllowedProofAuditUp$ because this carrier binds allowed proof surface, refused proof boundary, scope, witness construction, local refutation, ledger residue, transport, replay, provenance, and local naming as one proof-admissibility packet.}
+
+The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \AllowedProofAuditUp$ and $\mathsf{FieldFaithful}\ \AllowedProofAuditUp$ instances before the touchpoint theorem $\mathsf{BEDC.Derived.AllowedProofAuditUp.taste\_gate}$ can serve as a checked TasteGate realization.
+
+\closureat{AllowedProofAuditUp}{seedStr}
+
+\begin{closurestatus}{\AllowedProofAuditUp}
+  \constructivestory{The allowed proof audit is generated from $BHist$ rows that record an allowed proof surface, refused proof boundary, scope row, witness construction, local refutation, ledger residue, transport, replay, provenance, and local naming. The carrier first reads the permitted proof evidence, then attaches the audit witness, and finally lets $\Cont$ carry the audited proof route forward only if the same permission and refusal rows remain present. The $hsame$ relation preserves the audit across equivalent histories. NameCert obligations, witness construction, non-escape, prediction, and independence witness therefore define the object as an audit of permitted proof use, not as a general proof checker or an untracked derivation route.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the AllowedProofAudit carrier, NameCert obligations, witness-construction theorem, non-escape theorem, falsifiable prediction, and independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim proof validity outside the allowed row, global proof checking, or acceptance of unaudited derivations.}
+  \upgradepath{Reaching obligationClosure requires formal allowed-proof and audit-witness rows plus checked non-escape for untracked proof routes.}
+\end{closurestatus}

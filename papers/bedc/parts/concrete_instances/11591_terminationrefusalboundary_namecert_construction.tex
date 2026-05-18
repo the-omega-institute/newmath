@@ -81,6 +81,7 @@ Thus no listed sibling preserves $S,I,T,F,U,H,C,P,N$ with the same obligation su
 \label{thm:termination-refusal-boundary-tastegate-obligation}
 The Lean TasteGate file for $\TerminationRefusalBoundaryUp$ will include explicit $\mathsf{Nontrivial}\ \TerminationRefusalBoundaryUp$ and $\mathsf{FieldFaithful}\ \TerminationRefusalBoundaryUp$ instances for the same carrier rows $S,I,T,F,U,H,C,P,N$. These instances must preserve the distinction between positive finite trace rows and refusal-to-decide rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.TerminationRefusalBoundaryUp.TerminationRefusalBoundaryTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 Nontriviality is forced by the separation of $T,F$ from $U$. A carrier with a verified finite trace and a carrier with only the refusal row cannot collapse without losing the distinction recorded by \autoref{def:halting-termination}.
 
@@ -90,3 +91,14 @@ Field faithfulness records preservation of each displayed row. In particular, it
 \falsifiablePrediction{A packet with no displayed finite Cont trace may carry a refusal boundary but cannot be read as a positive termination witness.}
 
 \independenceWitness{haltingdiagonal, haltingobstruction, finiterefutationboundary, certificatetruthbranchboundary: no sibling is bijective because this carrier stores both positive finite trace rows and refusal-to-decide rows while preserving their separation.}
+
+\begin{closurestatus}{\TerminationRefusalBoundaryUp}
+  \constructivestory{The termination-refusal boundary is generated from $BHist$ rows that name a boundary carrier, a refusal verdict, and the TasteGate obligation that consumes that verdict. The carrier is built bottom-up: first the history records the termination claim under inspection, then a refusal row marks the exact point where the claim leaves the admitted route, and finally $\Cont$ extensions may carry that refusal forward without changing its boundary. The $hsame$ relation keeps the verdict stable across equivalent histories. Non-escape and independence then show that the boundary is not a disguised termination proof, but a visible certificate of where such a proof is absent.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the termination-refusal boundary carrier, NameCert obligations, non-escape, independence, and TasteGate-obligation theorems.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim termination, decidability of all termination questions, or a route through any proof object outside the refusal boundary.}
+  \upgradepath{Reaching obligationClosure requires a formal refusal-boundary carrier and checked non-escape for routes that omit the refusal row.}
+\end{closurestatus}

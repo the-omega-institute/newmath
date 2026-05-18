@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\FiniteRealSectionUp$}
+\label{ch:concrete-instances-finite-real-section-namecert}
+\origin{ai}
+
+The $\FiniteRealSectionUp$ packet realizes one finite section of the diagonal-limit representative of \autoref{def:real-completeness-diagonal-limit}. It sits between the representative packet of \autoref{ch:concrete-instances-diagonallimitrepresentative-namecert} and the tail-alignment packet of \autoref{ch:concrete-instances-tail-modulus-alignment-namecert}, and it consumes the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the seal rows of \autoref{ch:concrete-instances-real-namecert}. The packet names a single displayed precision request and its section route; it is not a quotient stream, selected host limit, countable-choice selector, ambient Real-completeness principle, or standard bridge.
+
+\begin{definition}[Finite real section carrier]
+\label{def:finite-real-section-carrier}
+A $\FiniteRealSectionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(q,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $q$ is the finite precision request for the diagonal-limit section;
+\item $W$ is the $\StreamNameUp$ window exposing the selected stream read for that request;
+\item $R$ is the $\RegSeqRatUp$ readback row read through $W$;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the rational arithmetic and error budget attached to $R$;
+\item $E$ is the $\RealUp$ seal row reached after the selected regular-rational readback has been repacked through $D$;
+\item $H$ records componentwise $\hsame$ transport for $q,W,R,D,E$ and the local certificate row;
+\item $C$ records displayed $\Cont$ replay from the request through the window, readback, dyadic ledger, and Real seal;
+\item $P$ is the $\Pkg$ provenance over $\FiniteRealSectionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FiniteRealSectionUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed finite-section route and its transport, replay, provenance, and naming support.
+\end{definition}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSectionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Finite real section obligation surface]
+\label{thm:finite-real-section-obligation-surface}
+For the carrier of \autoref{def:finite-real-section-carrier}, the local $\NameCert_{\FiniteRealSectionUp}$ surface consists exactly of carrier admission, classifier stability for the displayed tuple $(q,W,R,D,E)$, window-readback compatibility between $W$ and $R$, dyadic-tolerance exposure through $D$, $\RealUp$ seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $S$. Its coordinates list one precision request, one stream window, one regular-rational readback, one dyadic ledger, one Real seal, transport, replay, provenance, and local naming rows.
+
+The data-bearing obligations are inherited in order. Carrier admission exposes $q$; the classifier is stable precisely because accepted packets compare the displayed tuple $(q,W,R,D,E)$ componentwise before any support row is read; the window-readback obligation then forces $R$ to be the readback attached to $W$.
+
+The remaining rows are downstream support. The dyadic ledger $D$ records the tolerance row for the readback, the seal row $E$ is reachable only after that ledger is displayed, and $H,C,P,N$ only transport, replay, source, and name the same finite route. Thus the listed obligations exhaust the local naming surface.
+\end{proof}
+
+\begin{closurestatus}{\FiniteRealSectionUp}
+  \constructivestory{The finite Real section is generated from a $BHist$ packet that records a finite request, stream window, regular-rational readback, dyadic tolerance ledger, and the Real-facing seal row consumed by that route. The carrier convention does not assume a completed Real object; it reads only the finite section, transports it along $hsame$, and permits $\Cont$ extensions that preserve the same finite witness. The obligation surface names the finite section and the non-escape theorem records the boundary: a consumer that needs an infinite completion witness, quotient stream, selected host limit, or ambient Real equality has left the carrier. Thus the chapter packages a finite visible section as the whole admissible certificate.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the finite Real section carrier, obligation-surface theorem, and non-escape theorem.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim full Real construction, infinite-section availability, quotient-stream equality, selected host limits, or ambient completeness.}
+  \upgradepath{Reaching obligationClosure requires a formal finite-section carrier and checked exclusion of routes requiring infinite or quotient data.}
+\end{closurestatus}
+
+\begin{theorem}[Finite real section non-escape]
+\label{thm:finite-real-section-nonescape}
+Every Real- or Completion-facing consumer of an accepted $\FiniteRealSectionUp$ packet factors through the finite route
+$$
+q,W,R,D,E,H,C,P,N.
+$$
+The consumer receives a single precision request, one $\StreamNameUp$ window, one $\RegSeqRatUp$ readback, one $\DyadicRatCoreUp$ tolerance row, one $\RealUp$ seal, and the displayed transport, replay, provenance, and local naming rows. It receives no quotient stream equality, host sequence equality, selected host limit, countable-choice selector, ambient Real completeness, or standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:finite-real-section-carrier}. The only Real-facing coordinate is the seal row $E$, and it is downstream of the finite request $q$, stream window $W$, regular-rational readback $R$, and dyadic tolerance ledger $D$.
+
+Apply \autoref{thm:finite-real-section-obligation-surface}. It forces every consumer to pass through carrier admission, classifier stability, window-readback compatibility, dyadic-tolerance exposure, seal exposure, transport, replay, provenance, and local naming before using the packet.
+
+The excluded objects require coordinates that the carrier does not contain. The rows $H,C,P,N$ preserve and name displayed data, but they do not create quotient stream equality, host sequence equality, a selected host limit, a countable-choice selector, ambient Real completeness, or a standard bridge. Hence none of those objects can be projected from the finite-section certificate.
+\end{proof}

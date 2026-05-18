@@ -283,4 +283,13 @@ theorem VerifiedOutputHarnessTasteGate_single_carrier_alignment :
         exact verifiedOutputHarnessToEventFlow_injective heq
       · rfl
 
+theorem taste_gate :
+    (∀ h : BHist, verifiedOutputHarnessDecodeBHist (verifiedOutputHarnessEncodeBHist h) = h) ∧
+      (∀ x : VerifiedOutputHarnessUp,
+        verifiedOutputHarnessFromEventFlow (verifiedOutputHarnessToEventFlow x) = some x) ∧
+        (∀ x y : VerifiedOutputHarnessUp,
+          verifiedOutputHarnessToEventFlow x = verifiedOutputHarnessToEventFlow y → x = y) ∧
+          verifiedOutputHarnessEncodeBHist BHist.Empty = ([] : List BMark) := by
+  exact VerifiedOutputHarnessTasteGate_single_carrier_alignment
+
 end BEDC.Derived.VerifiedOutputHarnessUp

@@ -66,4 +66,35 @@ theorem FiniteObservationBudgetSelectorCarrier_terminal_cofinal_window_coverage
       exact ⟨routeW, routeR, terminalRoute, cofinalRoute, cofinalPkg⟩
   }
 
+theorem FiniteObservationBudgetSelectorCarrier_selected_tail_terminal_pullback
+    [AskSetup] [PackageSetup]
+    {B S W D R E H C P N terminalRead WT K RT : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ->
+      Cont R E terminalRead ->
+        hsame W WT ->
+          hsame D K ->
+            hsame E RT ->
+              PkgSig bundle terminalRead pkg ->
+                UnaryHistory B ∧ UnaryHistory S ∧ UnaryHistory W ∧ UnaryHistory D ∧
+                  UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory terminalRead ∧
+                    Cont B S W ∧ Cont W D R ∧ Cont R E terminalRead ∧
+                      hsame C terminalRead ∧ hsame W WT ∧ hsame D K ∧ hsame E RT ∧
+                        PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier terminalRoute sameWindow sameDyadic sameSeal terminalPkg
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, _unaryH, routeW, routeR, routeC,
+    _sameName⟩ := carrier
+  have unaryW : UnaryHistory W :=
+    unary_cont_closed unaryB unaryS routeW
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryW unaryD routeR
+  have unaryTerminal : UnaryHistory terminalRead :=
+    unary_cont_closed unaryR unaryE terminalRoute
+  have sameTerminal : hsame C terminalRead :=
+    cont_respects_hsame (hsame_refl R) (hsame_refl E) routeC terminalRoute
+  exact
+    ⟨unaryB, unaryS, unaryW, unaryD, unaryR, unaryE, unaryTerminal, routeW, routeR,
+      terminalRoute, sameTerminal, sameWindow, sameDyadic, sameSeal, terminalPkg⟩
+
 end BEDC.Derived.FiniteObservationBudgetSelectorUp

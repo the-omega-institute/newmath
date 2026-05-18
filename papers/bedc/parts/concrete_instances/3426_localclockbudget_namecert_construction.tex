@@ -4,6 +4,8 @@
 
 The $\LocalClockBudgetUp$ packet realizes observer local time as a finite certificate surface. It reads a single $\Hist$ stream through bounded $\Cont$ windows, records the local unary budget for those windows, transports the same rows by $\hsame$, and exposes a no-global-clock ledger for downstream consumers. The packet does not synchronize distinct histories, choose an ambient clock, or import a hidden limit schedule. The local stream is consumed as the time-budget face of the observer-history surface in \autoref{ch:concrete-instances-observerhistoryidentity-namecert} and the locality-cell boundary in \autoref{ch:concrete-instances-observer-locality-cell-namecert}.
 
+The same finite local-window budget supplies the observer-facing boundary consumed by \autoref{ch:concrete-instances-observersubjectboundary-namecert} and the distinction-trace consumer of \autoref{ch:concrete-instances-observer-distinction-trace-namecert}. In both cases the dependency is the carrier window row $W$ together with the ledger-boundary row that prevents a downstream observer packet from replacing local time by a global clock.
+
 \begin{definition}[Local clock budget carrier]
 \label{def:local-clock-budget-carrier}
 A $\LocalClockBudgetUp$ carrier is a finite $\BHist$ packet
@@ -31,6 +33,7 @@ $$
 C=(H,T,W,B,L,Q,P,N).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.LocalClockBudgetUp.LocalClockBudgetWindow\_totality}
 \begin{proof}
 Project the carrier of \autoref{def:local-clock-budget-carrier}. The rows $H,T,W,B,L,Q,P,N$ display the observed history, its local stream, finite windows, unary budget, transport, routes, provenance, and local name.
 
@@ -43,6 +46,7 @@ The unary row $B$ counts the selected windows and endpoints, while $Q$ replays t
 \label{thm:local-clock-budget-route-determinacy}
 Let two accepted $\LocalClockBudgetUp$ consumer routes display the same rows $H,T,W,B,L,Q,P,N$. Then they determine the same local-time-budget surface up to the componentwise $\hsame$ transports recorded in $L$. No second route may distinguish the same local stream by appealing to a global clock, a host time parameter, or an inter-history synchronization value.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocalClockBudgetUp.LocalClockBudgetRoute\_determinacy}
 \begin{proof}
 Start with the displayed history and stream rows. The rows $H$ and $T$ fix the local source surface that any consumer route may inspect.
 
@@ -55,6 +59,7 @@ Finally use the transport row $L$. Componentwise $\hsame$ transport preserves th
 \label{thm:local-clock-budget-namecert-obligations}
 The local $\NameCert_{\LocalClockBudgetUp}$ surface for \autoref{def:local-clock-budget-carrier} consists exactly of carrier admission for $C=(H,T,W,B,L,Q,P,N)$, observed-history projection, local-time-stream exposure, finite $\Cont$-window totality, unary budget readback, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, no-global-clock ledger exclusion, and the local naming row.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocalClockBudgetUp.LocalClockBudgetNameCert\_obligations}
 \begin{proof}
 Carrier admission is projection from the displayed packet. The rows $H,T,W,B$ provide the observed history, local stream, finite windows, and unary budget.
 
@@ -71,6 +76,7 @@ H,T,W,B,L,Q,P,N.
 $$
 The consumer may inspect the observed history, its local time stream, the selected $\Cont$ windows, the unary budget, componentwise $\hsame$ transports, displayed replay routes, provenance, and local naming. It may not extract a global clock, a synchronized comparison between distinct histories, an ambient time parameter, a hidden limit schedule, or an observer-substance beyond $\Hist$.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocalClockBudgetUp.LocalClockBudgetCarrier\_observer\_handoff}
 \begin{proof}
 Project the accepted carrier. The only consumer-visible coordinates are $H,T,W,B,L,Q,P,N$.
 
@@ -94,11 +100,13 @@ Use window totality. \autoref{thm:local-clock-budget-window-totality} anchors th
 
 The carrier inventory excludes every global or host-side clock coordinate. Therefore the carrier scope is exactly the displayed $\BHist$-anchored packet.
 \end{proof}
+\leanchecked{BEDC.Derived.LocalClockBudgetUp.LocalClockBudgetCarrier\_scope}
 
 \begin{theorem}[Local clock budget classifier stability]
 \label{thm:local-clock-budget-classifier-stability}
 Let $C=(H,T,W,B,L,Q,P,N)$ be an accepted $\LocalClockBudgetUp$ packet. Transporting $H,T,W,B,P,N$ componentwise by the $\hsame$ rows recorded in $L$ and then replaying the displayed $\Cont$ routes in $Q$ preserves the local-clock-budget classifier. In particular, no transported packet can be separated by a global clock, host time parameter, inter-history synchronization value, limit scheduler, or observer-substance beyond $\Hist$.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocalClockBudgetUp.LocalClockBudgetClassifier\_stability}
 \begin{proof}
 Start from the displayed transport row $L$. Its entries move the history row, local stream row, window family, budget row, provenance row, and local name componentwise to the common $\hsame$ surface.
 
@@ -115,6 +123,7 @@ C=(H,T,W,B,L,Q,P,N)
 $$
 is bounded by the displayed $\BHist$-anchored local stream, finite $\Cont$ windows, unary budget, transport, route, provenance, and local naming rows. The ledger may be handed to observer-facing consumers through \autoref{thm:local-clock-budget-observer-handoff}, but it cannot export a global clock, host time parameter, inter-history synchronization value, hidden limit schedule, or observer-substance outside $\Hist$.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocalClockBudgetUp.LocalClockBudgetLedger\_boundary}
 \begin{proof}
 Read the ledger from the carrier. The only budget-bearing rows are the local stream $T$, window family $W$, unary budget $B$, transport row $L$, route row $Q$, provenance row $P$, and local name $N$ over the observed history row $H$.
 
@@ -123,15 +132,37 @@ Apply window totality and route determinacy. These theorems force ledger reads t
 Finally use observer handoff. \autoref{thm:local-clock-budget-observer-handoff} exposes exactly the same rows to downstream consumers, while the carrier exclusions rule out every global-clock or host-time escape.
 \end{proof}
 
+\begin{theorem}[Local clock budget public export]
+\label{thm:local-clock-budget-public-export}
+Every observer-facing consumer of an accepted $\LocalClockBudgetUp$ packet receives the finite packet
+$$
+H,T,W,B,L,Q,P,N
+$$
+as the public $\LocalClockBudgetUp$ export through window totality, route determinacy, observer handoff, carrier scope, classifier stability, and ledger boundary. The export may expose the observed history, local time stream, selected $\Cont$ windows, unary budget, componentwise $\hsame$ transport, displayed route, provenance, and local name, but it cannot read a global clock, host time parameter, inter-history synchronization coordinate, limit scheduler, or observer-substance outside $\Hist$.
+\end{theorem}
+\leanchecked{BEDC.Derived.LocalClockBudgetUp.LocalClockBudgetPublic\_export}
+\begin{proof}
+Project the accepted carrier through \autoref{def:local-clock-budget-carrier}. The public packet is the finite tuple $H,T,W,B,L,Q,P,N$.
+
+Apply window totality and route determinacy. \autoref{thm:local-clock-budget-window-totality} binds $W$ and $B$ to the displayed local stream, and \autoref{thm:local-clock-budget-route-determinacy} blocks any second route through a global or host-side clock.
+
+Use observer handoff and carrier scope next. \autoref{thm:local-clock-budget-observer-handoff} gives the downstream consumer exactly the same rows, while \autoref{thm:local-clock-budget-carrier-scope} keeps the export anchored in one displayed history row and its finite local stream.
+
+Finally apply classifier stability and ledger boundary. \autoref{thm:local-clock-budget-classifier-stability} preserves the packet under recorded transport and replay, and \autoref{thm:local-clock-budget-ledger-boundary} excludes global clocks, host time parameters, inter-history synchronization coordinates, limit schedulers, and observer-substance from the public export.
+\end{proof}
+
 \closureat{LocalClockBudgetUp}{seedStr}
+\closureat{LocalClockBudgetUp}{obligationStr}
+\closureat{LocalClockBudgetUp}{scopedStr}
+\closureat{LocalClockBudgetUp}{publicStr}[BEDC.Derived.LocalClockBudgetUp.LocalClockBudgetWindow\_totality]
 
 \begin{closurestatus}{\LocalClockBudgetUp}
   \constructivestory{A $\LocalClockBudgetUp$ packet is generated from one observed $\Hist$ row, its finite local $\Cont$ stream, finite step-window rows, a unary budget row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:local-clock-budget-carrier}, \autoref{thm:local-clock-budget-window-totality}, \autoref{thm:local-clock-budget-route-determinacy}, \autoref{thm:local-clock-budget-namecert-obligations}, and \autoref{thm:local-clock-budget-observer-handoff} bind the finite local-clock-budget carrier, local stream windows, route determinacy, NameCert obligations, and observer handoff.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:local-clock-budget-carrier}, \autoref{thm:local-clock-budget-carrier-scope}, \autoref{thm:local-clock-budget-classifier-stability}, \autoref{thm:local-clock-budget-ledger-boundary}, \autoref{thm:local-clock-budget-observer-handoff}, and \autoref{thm:local-clock-budget-public-export} close the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and exported public packet for the finite local-clock-budget surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close global clocks, synchronized time across distinct histories, host time parameters, hidden limit schedules, observer-substance beyond $\Hist$, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, window totality, route determinacy, no-global-clock ledger exclusion, and observer handoff for the same finite packet.}
+  \upgradepath{Bridge closure requires a checked bridge/export theorem for the same finite local-clock-budget packet.}
 \end{closurestatus}

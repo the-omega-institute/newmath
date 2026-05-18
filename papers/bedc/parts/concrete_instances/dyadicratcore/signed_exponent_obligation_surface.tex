@@ -1,0 +1,64 @@
+\begin{definition}[DyadicRatCore signed-exponent carrier]
+\label{def:dyadic-rat-core-signed-exponent-carrier}
+The signed-exponent $\DyadicRatCoreUp$ carrier refines the carrier of \autoref{def:dyadicratcore-carrier} to the finite packet
+$$
+Q=(m,e,\ell,W,R,H,C,P,N)
+$$
+where $m$ is the signed $\RatUp$ mantissa row, $e$ is the positive unary exponent row, $\ell$ is the denominator ledger for $2^e$, $W$ is the common-exponent comparison window of \autoref{def:dyadicratcore-classifier}, $R$ is the dyadic tolerance-radius row, $H$ records componentwise $\hsame$ transport, $C$ records displayed $\Cont$ replay, $P$ records the $\Pkg$ provenance over $\IntUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers, and $N$ is the local $\NameCert_{\DyadicRatCoreUp}$ row. The packet has no quotient rational, host equality row, completed $\RealUp$ endpoint, or ambient completeness coordinate.
+\end{definition}
+
+\begin{theorem}[DyadicRatCore common-exponent stability]
+\label{thm:dyadic-rat-core-common-exponent-stability}
+Let $Q$ and $Q'$ be signed-exponent $\DyadicRatCoreUp$ carriers whose mantissa, exponent, denominator ledger, tolerance-radius row, transport, replay, provenance, and local name are related by displayed $\hsame$ and $\Cont$ rows. Any common-exponent comparison window for $Q$ factors through the same finite rows as the transported common-exponent comparison window for $Q'$, namely the signed mantissa rows, positive unary exponent rows, transported denominator ledgers, scaled $\RatUp$ mantissas, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ rows.
+\end{theorem}
+\begin{proof}
+Start from the signed-exponent carrier of \autoref{def:dyadic-rat-core-signed-exponent-carrier}. Its comparison row $W$ is already the common-exponent classifier window of \autoref{def:dyadicratcore-classifier}.
+
+Apply denominator ledger transport, \autoref{thm:dyadicratcore-denominator-ledger}, to the exponent and denominator rows. This transports the positive unary exponent and the ledger for $2^e$ without introducing a quotient rational or host normal form.
+
+Use common-exponent window exactness, \autoref{thm:dyadicratcore-common-exponent-window-exactness}. The transported classifier is determined by the transported exponent, ledgers, scaled mantissas, $\RatUp$ classifier row, $\Cont$ replay, and $\Pkg$ provenance. The displayed $\hsame$ rows therefore carry the same common-exponent comparison surface from $Q$ to $Q'$.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore tolerance-radius monotonicity]
+\label{thm:dyadic-rat-core-tolerance-radius-monotonicity}
+For a signed-exponent $\DyadicRatCoreUp$ carrier $Q$, every displayed positive-unary refinement of the exponent row induces a monotone refinement of the tolerance-radius row $R$. The refined radius window remains a finite BEDC row over the denominator ledger, common-exponent comparison window, distance window, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ data, and it exports no host epsilon equality or completed $\RealUp$ endpoint.
+\end{theorem}
+\begin{proof}
+Read the radius row $R$ through the signed-exponent carrier. It is attached to the same positive unary exponent and denominator ledger that define the common-exponent comparison window.
+
+Apply the monotone-radius obligation of \autoref{thm:dyadicratcore-monotone-radius-obligation}. A positive-unary refinement widens the denominator scale and transports the dyadic radius through displayed ledger rows.
+
+Then apply the distance-window stability of \autoref{thm:dyadicratcore-distance-window-stability}. The distance and absolute-value observations remain inside the transported signed mantissa, common exponent, denominator ledger, $\hsame$, $\Cont$, and $\Pkg$ rows. Hence the tolerance-radius refinement is monotone on the displayed finite packet and cannot read host epsilon equality or a completed real endpoint.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore signed-exponent NameCert obligation surface]
+\label{thm:dyadic-rat-core-namecert-obligation-surface}
+For the signed-exponent carrier of \autoref{def:dyadic-rat-core-signed-exponent-carrier}, the local $\NameCert_{\DyadicRatCoreUp}$ obligation surface consists exactly of signed mantissa admission through $m$, positive unary exponent admission through $e$, denominator-ledger exposure through $\ell$, common-exponent comparison through $W$, tolerance-radius monotonicity through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. This surface is the finite obligation layer consumed by $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ when they read dyadic source data.
+\end{theorem}
+\begin{proof}
+Project the carrier $Q=(m,e,\ell,W,R,H,C,P,N)$. The mantissa, exponent, and denominator ledger rows are the signed dyadic source data of \autoref{def:dyadicratcore-carrier}, while $W$ is the common-exponent classifier window and $R$ is the tolerance-radius row.
+
+Use \autoref{thm:dyadic-rat-core-common-exponent-stability} for the comparison part of the surface. It keeps common-exponent reads stable under the displayed transport and replay rows.
+
+Use \autoref{thm:dyadic-rat-core-tolerance-radius-monotonicity} for the radius part. It keeps all tolerance refinements on positive unary exponent data and finite dyadic distance rows.
+
+Finally compare with the public bridge and handoff clauses, \autoref{thm:dyadicratcore-public-bridge-consumer-exactness}, \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}, and \autoref{thm:dyadicratcore-namecert-obligation-surface}. The downstream StreamName, RegSeqRat, and Real consumers receive exactly the displayed signed mantissa, exponent, denominator, comparison, radius, transport, replay, provenance, and local NameCert rows, with no quotient rational, host equality, completed endpoint, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore signed-exponent source determinacy]
+\label{thm:dyadic-rat-core-signed-exponent-source-determinacy}
+Let $Q=(m,e,\ell,W,R,H,C,P,N)$ be a signed-exponent $\DyadicRatCoreUp$ carrier as in \autoref{def:dyadic-rat-core-signed-exponent-carrier}. Any accepted downstream dyadic source read for $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ determines exactly the displayed mantissa row $m$, positive unary exponent row $e$, denominator ledger $\ell$, common-exponent window $W$, tolerance-radius row $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\DyadicRatCoreUp}$ row $N$. Conversely, any finite packet exposing precisely those nine rows repacks as the same signed-exponent dyadic source surface for those consumers.
+\end{theorem}
+\begin{proof}
+Project the signed-exponent carrier of \autoref{def:dyadic-rat-core-signed-exponent-carrier}. The projection names the only rows available to a downstream source read: $m$, $e$, $\ell$, $W$, $R$, $H$, $C$, $P$, and $N$.
+
+The exponent and denominator coordinates are fixed by \autoref{thm:dyadicratcore-denominator-ledger}. The comparison and radius coordinates are fixed by \autoref{thm:dyadic-rat-core-common-exponent-stability} and \autoref{thm:dyadic-rat-core-tolerance-radius-monotonicity}. Together these clauses leave no additional source coordinate through which a consumer could distinguish two accepted reads.
+
+The naming surface is then fixed by \autoref{thm:dyadic-rat-core-namecert-obligation-surface}. It identifies the local $\NameCert_{\DyadicRatCoreUp}$ obligations with the same mantissa, positive unary exponent, denominator ledger, comparison window, radius, transport, replay, provenance, and local naming rows.
+
+Apply the public bridge and handoff clauses, \autoref{thm:dyadicratcore-public-bridge-consumer-exactness} and \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}. They say that the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ reads consume exactly the public dyadic source rows already displayed, so an accepted downstream read determines exactly those rows.
+
+For the converse, start with any finite packet exposing precisely $m$, $e$, $\ell$, $W$, $R$, $H$, $C$, $P$, and $N$. The carrier projection repacks these rows as the signed-exponent surface, and the NameCert obligation theorem supplies the same public source boundary for the three consumers.
+
+The correspondence exports no quotient rational, host equality row, completed $\RealUp$ endpoint, ambient completeness principle, or selected host limit.
+\end{proof}

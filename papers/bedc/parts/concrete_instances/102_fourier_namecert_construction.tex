@@ -1,5 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\FourierUp$}
 \label{ch:concrete-instances-fourier-namecert}
+\origin{human}
 
 The Fourier interface $\FourierUp$ packages the constructive Fourier series and transform of suitable functions on $\NameCert_{\SOneUp}$ (\autoref{ch:concrete-instances-s1-namecert}) and $\NameCert_{\RealUp}$. It depends on $\NameCert_{\InnerProductUp}$ (\autoref{ch:concrete-instances-innerproduct-namecert}) and $\NameCert_{\IntegralUp}$ (\autoref{ch:concrete-instances-integral-namecert}).
 
@@ -87,6 +88,7 @@ Finally apply \autoref{thm:fourier-exactness-obligation}. Its coverage, soundnes
 \label{thm:fourier-finite-observation-subpacket-restriction}
 Let $F$ be a $\FourierUp$ finite-observation package over the sources $\NameCert_{\SOneUp}$, $\NameCert_{\RealUp}$, $\NameCert_{\mathsf{InnerProduct}^{\uparrow}}$, and $\NameCert_{\mathsf{Integral}^{\uparrow}}$. Suppose $\Omega$ is a displayed finite selector on the observation rows of $F$, and suppose every selected row is retained together with its attached truncation window, coefficient-window row, orthogonality probe, integration witness, convergence-modulus ledger entry, $\ProbeBundle$ row, and $\SigRel$ evidence. Then the selected packet $F_{\Omega}$ is again a $\FourierUp$ finite-observation package over the same four source certificates. Its carrier, classifier, ledger, and exactness rows are exactly the restrictions of the corresponding rows of $F$ to the selected finite observations.
 \end{theorem}
+\leanchecked{BEDC.Derived.FourierUp.FourierFiniteObservation\_subpacket\_restriction}
 \begin{proof}
 Read $F$ through the carrier obligation of \autoref{thm:fourier-carrier-obligation}. Its visible observations are only finite coefficient observations, transform samples, inner-product probes, and integral witnesses, and each such observation is already presented as a $\ProbeBundle$ entry with $\SigRel$ evidence over the four named source certificates. Since $\Omega$ is a displayed finite selector on those rows, the carrier of $F_{\Omega}$ is obtained by keeping precisely the selected $\ProbeBundle$ entries and their selected $\SigRel$ evidence. No host Fourier function, ambient transform, or analytic completion coordinate is introduced by this selection.
 

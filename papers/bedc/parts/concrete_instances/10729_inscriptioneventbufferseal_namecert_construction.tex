@@ -9,7 +9,7 @@ of inscription events. It sits beside the event carrier of
 inscription point of \autoref{ch:concrete-instances-inscriptionpoint-namecert},
 the audit trace of \autoref{ch:concrete-instances-inscriptionaudittrace-namecert},
 and the digest inscription packet of
-\autoref{ch:concrete-instances-digestinscription-namecert}. Those siblings
+\autoref{ch:concrete-instances-digest-inscription-namecert}. Those siblings
 provide single-event admission, gap accounting, pointwise commitment, audit
 trace routing, and digest naming; the buffer seal binds a finite replay window
 without exporting an unbounded inscription stream.
@@ -96,7 +96,7 @@ replay route has no coordinate in the accepted packet. Such a demand can only
 be rejected at the audit-route boundary, not exported by the buffer seal.
 \end{proof}
 
-\falsifiablePrediction{No accepted \InscriptionEventBufferSealUp packet exports an unbounded inscription stream or host-level replay oracle beyond the displayed finite event window.}
+\falsifiablePrediction{No accepted $\InscriptionEventBufferSealUp$ packet exports an unbounded inscription stream or host-level replay oracle beyond the displayed finite event window.}
 
 \independenceWitness{inscriptionevent, inscriptiongapledger, inscriptionpoint, inscriptionaudittrace, digestinscription: $\InscriptionEventBufferSealUp$ is not bijective to any listed sibling because it simultaneously carries finite event admission, bounded replay window, replay order, digest attachment, audit-route coverage, componentwise transport, displayed continuation, provenance, and local naming rows.}
 

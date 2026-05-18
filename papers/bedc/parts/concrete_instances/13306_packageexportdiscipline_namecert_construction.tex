@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\PackageExportDisciplineUp$}
+\label{ch:concrete-instances-package-export-discipline-namecert}
+\origin{ai}
+
+The $\PackageExportDisciplineUp$ packet realizes the export discipline of \autoref{sec:visions-philosophy-package-governance} as a finite NameCert carrier for philosophy-package exports. It sits beside the package-map boundary of \autoref{ch:concrete-instances-packagemapboundary-namecert}, the cannot-claim registry of \autoref{ch:concrete-instances-philosophy-cannot-claim-registry-namecert}, the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the cannot-claim export gate of \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert}, and the formal-target ledger of \autoref{ch:concrete-instances-philosophy-formal-target-ledger-namecert}. Those siblings expose map boundaries, refusal status, registry export rows, export-grade gates, and formal-target ledgers separately; this carrier binds them into one package export packet before a philosophy reading can leave the package.
+
+\begin{definition}[Package export discipline carrier]
+\label{def:package-export-discipline-carrier}
+A $\PackageExportDisciplineUp$ carrier is a finite $\BHist$ packet
+$$
+E=(M,R,S,G,T,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the package-map row, recording theorem-map, gap-map, tradition-map, scientific-map, and axis-boundary data from $\PackageMapBoundaryUp$;
+\item $R$ is the refusal-registry row, recording cannot-claim status, exclusion reason, upgrade boundary, and blocking gate from $\PhilosophyCannotClaimRegistryUp$;
+\item $S$ is the registry-export row, recording registration, blocking, status, machine target, audit route, and non-smuggling data from $\RegistryExportSurfaceUp$;
+\item $G$ is the export-gate row, recording refusal, export decision, export grade, target route, and audit readback from $\CannotClaimExportGateUp$;
+\item $T$ is the formal-target row, recording claim entry, target skeleton, no-smuggling, closure status, refusal boundary, and machine-readable audit route from $\PhilosophyFormalTargetLedgerUp$;
+\item $U$ is the package non-smuggling row, recording that no export may bypass any of $M,R,S,G,T$ by prose adjacency, hidden registry state, or an unchecked machine target;
+\item $H$ records componentwise $\hsame$ transport for the five sibling rows, non-smuggling row, replay, provenance, and local naming;
+\item $C$ records displayed $\Cont$ replay for package-map inspection, refusal inspection, registry-export inspection, gate inspection, formal-target inspection, and non-smuggling readback;
+\item $P$ is the $\Pkg$ provenance over $\PackageMapBoundaryUp$, $\PhilosophyCannotClaimRegistryUp$, $\RegistryExportSurfaceUp$, $\CannotClaimExportGateUp$, $\PhilosophyFormalTargetLedgerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\PackageExportDisciplineUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an export that preserves only a package map, only a registry row, only a refusal, only an export gate, only a formal target, or a hidden package-level synthesis outside the displayed packet.
+\end{definition}
+
+\begin{theorem}[Package export discipline NameCert obligations]
+\label{thm:package-export-discipline-namecert-obligations}
+For the carrier of \autoref{def:package-export-discipline-carrier}, the local $\NameCert_{\PackageExportDisciplineUp}$ obligation surface consists exactly of carrier admission for $E=(M,R,S,G,T,U,H,C,P,N)$, package-map coverage through $M$, refusal-registry coverage through $R$, registry-export coverage through $S$, cannot-claim export-gate coverage through $G$, formal-target coverage through $T$, non-smuggling coverage through $U$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $E=(M,R,S,G,T,U,H,C,P,N)$. The first five rows are read as sibling NameCert surfaces: $M$ supplies the package-map boundary, $R$ supplies the cannot-claim registry, $S$ supplies the registry-export surface, $G$ supplies the cannot-claim export gate, and $T$ supplies the formal-target ledger.
+
+Read the non-smuggling row next. It states that a package export is not admitted through prose adjacency, hidden registry state, or unchecked target routing unless the same packet carries $M,R,S,G,T$.
+
+Finally $H,C,P,N$ transport, replay, source, and locally name the displayed rows. Since the carrier has no further coordinate, these rows exhaust the local $\NameCert_{\PackageExportDisciplineUp}$ obligation surface.
+\end{proof}
+
+\begin{theorem}[Package export discipline non-smuggling boundary]
+\label{thm:package-export-discipline-non-smuggling-boundary}
+Every accepted $\PackageExportDisciplineUp$ export factors through the package-map row $M$, refusal-registry row $R$, registry-export row $S$, export-gate row $G$, formal-target row $T$, and non-smuggling row $U$ before local naming. Removing either the cannot-claim gate row $G$ or the registry-export row $S$ permits only a partial package record, not an accepted package export discipline packet.
+\end{theorem}
+\begin{proof}
+Start with the obligation theorem. The export reads $M,R,S,G,T$ before any package-level export can be named, and $U$ blocks routes that skip one of those rows.
+
+If $S$ is absent, the packet has no displayed registry-export row recording registration, blocking, status, machine target, audit route, and non-smuggling data. A consumer may still inspect map or refusal data, but it cannot export a registry reading through $\PackageExportDisciplineUp$.
+
+If $G$ is absent, the packet has no displayed cannot-claim export gate. A refused claim can no longer be checked against an export decision, export grade, target route, and audit readback inside the same package export carrier.
+
+The rows $H,C,P,N$ preserve and name the accepted packet only after $M,R,S,G,T,U$ have been supplied. Hence a route missing $S$ or $G$ leaves the accepted carrier rather than producing a package export discipline packet.
+\end{proof}
+
+\begin{theorem}[Package export discipline cross-reference handoff]
+\label{thm:package-export-discipline-cross-reference-handoff}
+The Lean-facing handoff for $\PackageExportDisciplineUp$ must preserve package-map, registry-export, cannot-claim, export-gate, formal-target, non-smuggling, transport, replay, provenance, and local NameCert rows as distinct fields. A consumer that collapses any of $M,R,S,G,T$ cannot recover the cross-reference discipline required by \autoref{ch:concrete-instances-packagemapboundary-namecert}, \autoref{ch:concrete-instances-philosophy-cannot-claim-registry-namecert}, \autoref{ch:concrete-instances-registry-export-surface-namecert}, \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert}, and \autoref{ch:concrete-instances-philosophy-formal-target-ledger-namecert}.
+\end{theorem}
+\begin{proof}
+The five sibling rows are cited for different reasons. The package-map row supplies boundary coordinates, the refusal-registry row supplies cannot-claim status, the registry-export row supplies public export control, the export-gate row supplies the refused-claim gate, and the formal-target row supplies the machine-readable target ledger.
+
+The non-smuggling, transport, replay, provenance, and local naming rows keep those citations tied to the same finite packet. They do not identify the rows with one another and do not create a replacement route when a sibling row is missing.
+
+Therefore the handoff to Lean must use a field-faithful carrier. The proposed Lean follow-up must provide explicit $\Nontrivial\ \PackageExportDisciplineUp$ and $\FieldFaithful\ \PackageExportDisciplineUp$ instances in \texttt{lean4/BEDC/Derived/PackageExportDisciplineUp/TasteGate.lean}, with a target shaped for \texttt{BEDC.Derived.PackageExportDisciplineUp.PackageExportDisciplineTasteGate\_single\_carrier\_alignment}.
+\end{proof}
+\leanchecked{BEDC.Derived.PackageExportDisciplineUp.PackageExportDisciplineTasteGate\_single\_carrier\_alignment}
+
+\falsifiablePrediction{Removing the cannot-claim gate row or registry-export row permits an export that the package discipline theorem rejects.}
+
+\independenceWitness{packagemapboundary, philosophycannotclaimregistry, registryexportsurface, cannotclaimexportgate, philosophyformaltargetledger: none is bijective to $\PackageExportDisciplineUp$ because the export packet preserves package-map, registry-export, cannot-claim, export-gate, and formal-target rows simultaneously.}
+
+\closureat{PackageExportDisciplineUp}{seedStr}
+\closureat{PackageExportDisciplineUp}{obligationStr}
+
+\begin{closurestatus}{\PackageExportDisciplineUp}
+  \constructivestory{A $\PackageExportDisciplineUp$ packet is generated from a package-map row, registry row, refusal row, export-gate row, formal-target row, synthesis row, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. The classifier requires all of these rows before an export can be read as disciplined; no single package map, registry entry, refusal, gate, or formal target is enough by itself. The ledger story is anti-smuggling: the same finite $\BHist$ packet must carry map, registry, refusal, gate, target, and synthesis evidence, and the continuation routes expose exactly which rows a downstream export consumes.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier definition, NameCert-obligation, non-smuggling-boundary, cross-reference-handoff, independence witness, and existing closure annotations for $\PackageExportDisciplineUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim exports preserving only one constituent row or hidden package-level synthesis outside the displayed packet.}
+  \upgradepath{To reach obligationClosure, the export-discipline carrier and non-smuggling boundary must be checked as finite-row dependency obligations.}
+\end{closurestatus}

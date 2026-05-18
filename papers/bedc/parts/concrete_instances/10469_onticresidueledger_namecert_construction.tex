@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-ontic-residue-ledger-namecert}
 \origin{ai}
 
-The $\OnticResidueLedgerUp$ packet realizes the representation-ledger boundary of \autoref{def:representation-ledger} as a finite NameCert carrier. It sits after the ontic-source surface of \autoref{ch:concrete-instances-onticstate-namecert}, the audit rows of \autoref{ch:concrete-instances-physicalmodelaudit-namecert}, the finite model-state carrier of \autoref{ch:concrete-instances-statespacemodel-namecert}, the observer-access support row of \autoref{ch:concrete-instances-observer-budget-support-namecert}, and the current observer-state row of \autoref{ch:concrete-instances-consciousobserverstate-namecert}. Its role is to store signature exposure, observer access, model comparison, residue, transport, route replay, provenance, and local naming before any consumer treats a model packet as exhausting the ontic source.
+The $\OnticResidueLedgerUp$ packet realizes the representation-ledger boundary of \autoref{def:representation-ledger} as a finite NameCert carrier. It sits after the ontic-source surface of \autoref{ch:concrete-instances-onticstate-namecert}, the audit rows of \autoref{ch:concrete-instances-physical-model-audit-namecert}, the finite model-state carrier of \autoref{ch:concrete-instances-statespacemodel-namecert}, the observer-access support row of \autoref{ch:concrete-instances-observer-budget-support-namecert}, and the current observer-state row of \autoref{ch:concrete-instances-consciousobserverstate-namecert}. Its role is to store signature exposure, observer access, model comparison, residue, transport, route replay, provenance, and local naming before any consumer treats a model packet as exhausting the ontic source.
 
 \begin{definition}[Ontic residue ledger carrier]
 \label{def:ontic-residue-ledger-carrier}
@@ -68,6 +68,7 @@ The observer-access row $A$ records how those signatures may be inspected from $
 
 The residue row $R$ remains visible after the comparison. Consequently the exactness claim never collapses into source-model identity; it is the accepted comparison plus the displayed account of what the model row does not represent.
 \end{proof}
+\leanchecked{BEDC.Derived.OnticResidueLedgerUp.TasteGate.OnticResidueLedgerSignatureResidue\_row\_nonescape}
 
 \begin{theorem}[Ontic residue ledger nonescape]
 \label{thm:ontic-residue-ledger-nonescape}
@@ -76,6 +77,7 @@ $$
 O,M,S,A,C,R,H,T,P,N.
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.OnticResidueLedgerUp.OnticResidueLedgerObserverAccess\_row\_nonescape}
 \begin{proof}
 The state-space row $S$ records only the finite model-state representation. It does not contain the ontic source row $O$, the observer-access row $A$, the signature classifier row $C$, or the residue row $R$.
 
@@ -107,6 +109,7 @@ The exactness and boundary claims then close the surface. By \autoref{thm:ontic-
 
 Finally the TasteGate row and the Lean-side Nontrivial and FieldFaithful witnesses record that the ten displayed fields remain separately visible. Therefore no accepted consumer may replace the packet by state-space exhaustion, host reality access, unbounded observation, detached observer authority, or quotienting away residue.
 \end{proof}
+\leanchecked{BEDC.Derived.OnticResidueLedgerUp.TasteGate.OnticResidueLedgerScoped\_consumer\_surface}
 
 \closureat{OnticResidueLedgerUp}{seedStr}
 \closureat{OnticResidueLedgerUp}{scopedStr}[BEDC.Derived.OnticResidueLedgerUp.taste\_gate]
@@ -114,11 +117,11 @@ Finally the TasteGate row and the Lean-side Nontrivial and FieldFaithful witness
 \begin{closurestatus}{\OnticResidueLedgerUp}
   \constructivestory{An $\OnticResidueLedgerUp$ packet is generated from an ontic source row, physical model audit row, finite state-space model row, observer-access row, signature classifier, residue ledger, componentwise hsame transport, displayed Cont routes, Pkg provenance, and local NameCert row.}
   \leanchecked{BEDC.Derived.OnticResidueLedgerUp.taste\_gate}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{thm:ontic-residue-ledger-scoped-consumer-surface} binds the public consumer scope to the displayed rows $O,M,S,A,C,R,H,T,P,N$ from \autoref{def:ontic-residue-ledger-carrier}, \autoref{def:ontic-residue-ledger-classifier}, \autoref{thm:ontic-residue-ledger-namecert-obligations}, \autoref{thm:ontic-residue-ledger-signature-exactness}, and \autoref{thm:ontic-residue-ledger-nonescape}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, total ontology, state-space exhaustion, host-level reality access, unbounded observation, detached observer authority, or quotienting away residue.}
-  \upgradepath{Lean verification must internalize the scoped consumer surface, TasteGate nontriviality, and field faithfulness for $O,M,S,A,C,R,H,T,P,N$.}
+  \upgradepath{The next paper obligation is bridge closure for the same displayed rows $O,M,S,A,C,R,H,T,P,N$, with Lean verification and bridge checking recorded on their separate axes.}
 \end{closurestatus}

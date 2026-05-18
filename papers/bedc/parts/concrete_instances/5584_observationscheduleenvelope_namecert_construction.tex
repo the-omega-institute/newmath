@@ -45,11 +45,13 @@ Schedule-source exposure reads $Q$ through \autoref{ch:concrete-instances-counta
 
 The refusal and handoff rows then bind the envelope. The refusal row $R$ blocks completed streams and future-law data, and the handoff row $J$ forces the consumer to carry $Q,S,W$ together before the route is authenticated by $H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.ObservationScheduleEnvelopeUp.TasteGate.ObservationScheduleEnvelopeNameCert\_obligations}
 
 \begin{theorem}[Observation schedule envelope window transport]
 \label{thm:observation-schedule-envelope-window-transport}
 For an accepted $\ObservationScheduleEnvelopeUp$ carrier $E=(Q,S,W,R,J,H,C,P,N)$, any displayed transport of the Real-facing request window preserves the same source schedule row $Q$, StreamName source row $S$, joint refusal row $R$, and consumer-handoff row $J$. Transport may replay the window through $H$ and $C$, but it may not enlarge $W$, replace $S$ by an unlisted source, or turn the observed prefix carried by $Q$ into a completed stream.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObservationScheduleEnvelopeUp.ObservationScheduleEnvelope\_window\_transport}
 \begin{proof}
 Project the carrier and read the componentwise transport row $H$. The row records transport for the schedule source, StreamName source, Real-facing window, refusal row, handoff row, route row, provenance row, and local name.
 
@@ -87,3 +89,14 @@ The excluded objects have no coordinate in the packet. Therefore a route that as
 \end{proof}
 
 The Lean TasteGate surface for this chapter carries \texttt{Nontrivial ObservationScheduleEnvelopeUp} and \texttt{FieldFaithful ObservationScheduleEnvelopeUp} instances for the same finite envelope carrier.
+
+\begin{closurestatus}{\ObservationScheduleEnvelopeUp}
+  \constructivestory{An $\ObservationScheduleEnvelopeUp$ packet is generated from finite $\BHist$ rows for request windows, observation schedule, envelope boundary, budget rows, route rows, transports, provenance, and local naming. The envelope admits only displayed finite observation routes: $\Cont$ carries each request through schedule and budget rows before any downstream read can inspect a selected window. Componentwise $\hsame$ preserves the schedule, envelope, budget, and route inventory, while $\Pkg$ records the observation, StreamName, budget, Real, and completion-adjacent dependencies. The packet names a finite observation envelope and refuses completed streams or hidden persistence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the observation-schedule envelope carrier, route obligations, excluded-object boundary, and finite envelope surface for $\ObservationScheduleEnvelopeUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim completed streams, future observations, hidden persistence, quotient equality, selected Real data, independent budget carriers, or ambient completion.}
+  \upgradepath{Obligation closure requires Lean encodings of the envelope carrier, schedule route, budget boundary, field-faithful surface, and non-escape theorem.}
+\end{closurestatus}

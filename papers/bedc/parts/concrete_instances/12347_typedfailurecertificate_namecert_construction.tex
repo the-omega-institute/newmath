@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\TypedFailureCertificateUp$}
+\label{ch:concrete-instances-typed-failure-certificate-namecert}
+\origin{ai}
+
+The $\TypedFailureCertificateUp$ packet realizes the failure-certificate discipline of \autoref{subsec:philosophy-failure-certificates} inside the auditable-generativity programme of \autoref{ch:visions-philosophy-auditable-generativity}. It sits beside the failed-gate witness of \autoref{ch:concrete-instances-auditgatefailurewitness-namecert}, the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the cannot-claim packet of \autoref{ch:concrete-instances-axiszeckendorfcannotclaim-namecert}, and the standard-bridge audit packet of \autoref{ch:concrete-instances-standardbridgeauditpacket-namecert}. Those siblings expose local gate failure, registry blocking, axis-specific refusal, and bridge-audit rows; this packet names the typed failure itself before any consumer may treat a gap, failure, or bridge refusal as public audit data.
+
+\begin{definition}[Typed failure certificate carrier]
+\label{def:typed-failure-certificate-carrier}
+A $\TypedFailureCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+F=(N,C,V,S,R,D,H,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the object-name row for the object, chapter, theorem site, bridge site, or registry entry whose claimed status is being tested;
+\item $C$ is the theory-grade row, recording the claimed paper-side closure grade and the theory-side gate that fails when the branch is theory-facing;
+\item $V$ is the formal-status row, recording the claimed verification grade and the verification-side gate that fails when the branch is checker-facing;
+\item $S$ is the failed-site row, recording the exact source, classifier, exactness, descent, gap, scope, bridge, host-leak, checker, audit, or axis site at which the claimed gate is blocked;
+\item $R$ is the refusal-route row, recording the gate, registry, bridge, or export route that consumes the failure as refusal data;
+\item $D$ is the diagnostic-branch row, recording whether the failure is theory-side, verification-side, or axis-confusion data, together with the typed branch named by the failure-certificate discipline;
+\item $H$ records componentwise $\hsame$ transport for object name, theory grade, formal status, failed site, refusal route, and diagnostic branch;
+\item $P$ is the $\Pkg$ provenance over $\TypedFailureCertificateUp$, $\AuditGateFailureWitnessUp$, $\RegistryExportSurfaceUp$, $\AxisZeckendorfCannotClaimUp$, $\StandardBridgeAuditPacketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $L$ is the local $\NameCert_{\TypedFailureCertificateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a failed gate without a diagnostic branch, a verification failure read as theory closure, a theory failure read as verification status, a bridge refusal detached from its route, or an export permission that bypasses the displayed refusal data.
+\end{definition}
+\leanchecked{BEDC.Derived.TypedFailureCertificateUp.TypedFailureCertificateTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Typed failure certificate NameCert obligations]
+\label{thm:typed-failure-certificate-namecert-obligations}
+For the carrier of \autoref{def:typed-failure-certificate-carrier}, the local $\NameCert_{\TypedFailureCertificateUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for $F=(N,C,V,S,R,D,H,P,L)$;
+\item object-and-status readback through the object name $N$, theory-grade row $C$, and formal-status row $V$;
+\item failure localization through the failed-site row $S$ and diagnostic-branch row $D$;
+\item refusal consumption through the route row $R$ and componentwise transport row $H$;
+\item package provenance and local naming through $P$ and $L$.
+\end{enumerate}
+Thus every accepted failure certificate is a finite NameCert packet over the named object, the two independent status axes, the failed site, the refusal route, the diagnostic branch, transport, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier of \autoref{def:typed-failure-certificate-carrier}. The rows $N,C,V,S,R,D,H,P,L$ are the only coordinates available to a local certificate.
+
+First read the object and status rows. The object row $N$ fixes the site being tested, while $C$ and $V$ keep the theory-grade and formal-status claims as separate rows.
+
+Next read the failure rows. The failed-site row $S$ locates the gate that did not pass, and the diagnostic branch $D$ states whether the failure is theory-side, verification-side, or axis-confusion data.
+
+Finally read $R,H,P,L$. The refusal route consumes the failure, transport preserves the same displayed coordinates, provenance lists the sibling surfaces through which the certificate may be consumed, and the local name seals the packet. Since no further coordinate remains, the five obligation rows exhaust the local $\NameCert_{\TypedFailureCertificateUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Typed failure certificate axis separation]
+\label{thm:typed-failure-certificate-axis-separation}
+For every accepted $\TypedFailureCertificateUp$ carrier
+$$
+F=(N,C,V,S,R,D,H,P,L),
+$$
+the theory-side failures, verification-side failures, and axis-confusion failures remain separated by the diagnostic branch $D$. A consumer may use a theory-side branch to block the theory gate named by $C$, a verification-side branch to block the formal-status gate named by $V$, and an axis-confusion branch to block the verified-gate pairing, but no branch may be read as a failure of the other axis.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:typed-failure-certificate-namecert-obligations}. The second obligation row exposes $C$ and $V$ separately, and the third obligation row requires the diagnostic branch $D$ before a failed site can be consumed.
+
+If $D$ is theory-side, the refused content is read through the theory-grade row $C$ and the failed site $S$. The formal-status row $V$ remains displayed but does not become the failed gate.
+
+If $D$ is verification-side, the refused content is read through $V$ and $S$. The theory-grade row $C$ remains displayed but does not become the failed gate.
+
+If $D$ is axis-confusion data, the failure is the attempted collapse of the two rows. The branch blocks the verified-gate pairing while preserving the separate theory and verification rows for downstream audit.
+
+The transport, provenance, and local-name rows $H,P,L$ preserve the same packet. They cannot replace $D$ with a branch-free reading, so the three failure classes remain separated.
+\end{proof}
+
+\begin{theorem}[Typed failure certificate export blocking]
+\label{thm:typed-failure-certificate-export-blocking}
+No $\RegistryExportSurfaceUp$, $\AxisZeckendorfCannotClaimUp$, $\AuditGateFailureWitnessUp$, or $\StandardBridgeAuditPacketUp$ consumer may export a public route past a displayed $\TypedFailureCertificateUp$ failure unless it consumes both the diagnostic branch $D$ and the refusal route $R$ of
+$$
+F=(N,C,V,S,R,D,H,P,L).
+$$
+An export route that reads only $N,C,V,S,H,P,L$ is not an accepted export of the failed claim, failed status, or failed bridge.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:typed-failure-certificate-namecert-obligations}. Failure localization uses $S$ together with $D$, and refusal consumption uses $R$ together with the transport row $H$.
+
+For registry export, the sibling surface of \autoref{ch:concrete-instances-registry-export-surface-namecert} requires the blocking and audit rows before a claim may leave the registry. A typed failure certificate supplies those data only through $D$ and $R$.
+
+For cannot-claim, audit-gate failure, and standard-bridge reads, the sibling chapters \autoref{ch:concrete-instances-axiszeckendorfcannotclaim-namecert}, \autoref{ch:concrete-instances-auditgatefailurewitness-namecert}, and \autoref{ch:concrete-instances-standardbridgeauditpacket-namecert} consume refusal rows rather than hidden prose. The displayed diagnostic branch tells which gate failed, and the displayed route tells how the refusal is replayed.
+
+If either $D$ or $R$ is omitted, the consumer still sees an object and status pair but cannot tell which typed branch failed or how the refusal is consumed. Such a route is outside the accepted $\TypedFailureCertificateUp$ carrier and therefore cannot export the failed claim, failed status, or failed bridge as public BEDC audit data.
+\end{proof}
+
+\falsifiablePrediction{If the diagnostic branch is deleted, a failed theory-grade row and a failed formal-status row become indistinguishable to public consumers.}
+
+\independenceWitness{auditgatefailurewitness, registryexportsurface, axiszeckendorfcannotclaim, standardbridgeauditpacket: AuditGateFailureWitnessUp records a failed gate witness without the full theory-grade, formal-status, and axis-confusion branch surface; RegistryExportSurfaceUp records export blocking without naming every typed failure branch; AxisZeckendorfCannotClaimUp records cannot-claim refusal without checker-facing failure status; StandardBridgeAuditPacketUp records bridge fields and no-host-leak rows without the full failure-certificate branch taxonomy. None is bijective to $\TypedFailureCertificateUp$.}
+
+The Lean follow-up must provide explicit $\Nontrivial\ \TypedFailureCertificateUp$ and $\FieldFaithful\ \TypedFailureCertificateUp$ instances in \texttt{lean4/BEDC/Derived/TypedFailureCertificateUp/TasteGate.lean}. The field-faithfulness witness must preserve $N,C,V,S,R,D,H,P,L$ as distinct rows before $\mathsf{BEDC.Derived.TypedFailureCertificateUp.taste\_gate}$ can be cited by a checked paper marker.
+
+\closureat{TypedFailureCertificateUp}{seedStr}
+\closureat{TypedFailureCertificateUp}{obligationStr}
+
+\begin{closurestatus}{\TypedFailureCertificateUp}
+  \constructivestory{A $\TypedFailureCertificateUp$ packet is generated from object-name, theory-grade, formal-status, failed-site, refusal-route, diagnostic-branch, componentwise transport, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface records the finite packet $F=(N,C,V,S,R,D,H,P,L)$ and separates object name, theory grade, formal status, failed site, refusal route, diagnostic branch, transport, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not claim checked Lean code, public export closure, public bridge closure, standard bridge checking, or a completed TasteGate carrier for $\TypedFailureCertificateUp$.}
+  \upgradepath{Obligation and public progress require the Lean TasteGate carrier together with the Nontrivial and FieldFaithful instances described above.}
+\end{closurestatus}

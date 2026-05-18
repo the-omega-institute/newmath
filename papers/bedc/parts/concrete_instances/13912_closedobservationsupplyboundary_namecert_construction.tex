@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\ClosedObservationSupplyBoundaryUp$}
+\label{ch:concrete-instances-closed-observation-supply-boundary-namecert}
+\origin{ai}
+
+The $\ClosedObservationSupplyBoundaryUp$ packet realizes the transcendental supply position of \autoref{subsec:philosophy-transcendental-supply} as finite BEDC NameCert data without turning that position into a closed observation object. It sits beside the closed observation system of \autoref{ch:concrete-instances-closedobservationsystem-namecert}, the forward-binding gap ledger of \autoref{ch:concrete-instances-forward-binding-gap-ledger-namecert}, and the gap socket boundary of \autoref{ch:concrete-instances-gap-socket-boundary-namecert}. Those siblings respectively record closed observation rows, present forward-binding commitments, and socket boundary discipline; this packet binds the supply-position row, closed-record interface, GAP socket, noninternalization refusal, route, provenance, and local naming rows before any consumer may read the position as licensed supply.
+
+\begin{definition}[Closed observation supply boundary carrier]
+\label{def:closed-observation-supply-boundary-carrier}
+A $\ClosedObservationSupplyBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+S=(R,Q,G,F,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the closed observation record row, read only through the closed observational discipline of \autoref{ch:concrete-instances-closedobservationsystem-namecert};
+\item $Q$ is the supply-position socket row naming the $T$-position without installing it as an observation state, record, rule, axiom, or object;
+\item $G$ is the GAP commitment row inherited from the forward-binding gap ledger of \autoref{ch:concrete-instances-forward-binding-gap-ledger-namecert};
+\item $F$ is the noninternalization refusal row separating the supply position from substrate content;
+\item $A$ is the apophatic naming row that names the boundary without supplying a far-end object;
+\item $H$ records componentwise $\hsame$ transports for the closed record, socket, GAP, refusal, naming, route, provenance, and local certificate rows;
+\item $C$ records displayed $\Cont$ routes for supply-position inspection, GAP replay, noninternalization refusal, and downstream consumer audit;
+\item $P$ is the $\Pkg$ provenance over \autoref{subsec:philosophy-closed-observational-systems}, \autoref{subsec:philosophy-transcendental-supply}, $\ClosedObservationSystemUp$, $\ForwardBindingGapLedgerUp$, $\GapSocketBoundaryUp$, $\ApophaticNameUp$, $\NegativeCertificateBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ClosedObservationSupplyBoundaryUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible rows are $R,Q,G,F,A,H,C,P,N$. It contains no hidden supply object, no closed-generation rule for $T$, no substrate axiom, no far-end witness, and no route that reads $Q$ as a closed observation record.
+\end{definition}
+\leanchecked{BEDC.Derived.ClosedObservationSupplyBoundaryUp.ClosedObservationSupplyBoundaryUpTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Closed observation supply boundary NameCert obligations]
+\label{thm:closed-observation-supply-boundary-namecert-obligations}
+For every accepted $\ClosedObservationSupplyBoundaryUp$ carrier $S=(R,Q,G,F,A,H,C,P,N)$, the local $\NameCert_{\ClosedObservationSupplyBoundaryUp}$ surface consists of finite carrier admission for the displayed packet, closed-record accountability through $R$, supply-position exposure through $Q$, GAP commitment through $G$, noninternalization refusal through $F$, apophatic boundary naming through $A$, componentwise transport through $H$, replay through $C$, provenance through $P$, and local certificate replay through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClosedObservationSupplyBoundaryUp.ClosedObservationSupplyBoundaryTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Start with carrier projection. The packet exposes exactly $R,Q,G,F,A,H,C,P,N$, so every accepted read is a read of one of those finite rows.
+
+The sibling closed observation system supplies the closed-record discipline for $R$, while the forward-binding gap ledger supplies the GAP commitment row $G$. The gap socket boundary supplies the socket-side boundary shape through which $Q$ is inspected.
+
+The rows $F$ and $A$ keep the supply position from becoming substrate content. They allow the position to be named and refused as internal content without adding a closed-generation rule, a far-end witness, or a hidden axiom.
+
+Finally the rows $H,C,P,N$ replay only the displayed packet. Thus the NameCert surface is the listed finite obligation set and not an additional object layer.
+\end{proof}
+
+\begin{theorem}[Closed observation supply boundary noninternalization]
+\label{thm:closed-observation-supply-boundary-noninternalization}
+No accepted $\ClosedObservationSupplyBoundaryUp$ carrier exports the supply-position row $Q$ as a closed observation record, substrate axiom, closed-generation rule, licensed object, or far-end witness. Any consumer that reads $Q$ as one of those internalized forms leaves the carrier surface $R,Q,G,F,A,H,C,P,N$ and refutes the packet.
+\end{theorem}
+\begin{proof}
+Use the carrier definition. The closed observation record is $R$, while the supply-position socket is $Q$; the two rows have different roles in the packet.
+
+Apply the NameCert obligation theorem. It routes closed-record accountability through $R$, GAP commitment through $G$, and supply-position exposure through $Q$ before the refusal and naming rows are consumed.
+
+The noninternalization row $F$ blocks the internal readings. The apophatic row $A$ names the boundary without adding a far-end object, and the rows $H,C,P,N$ preserve that separation under transport, replay, provenance, and local naming. Hence a consumer that treats $Q$ as record, rule, axiom, object, or witness no longer reads an accepted packet.
+\end{proof}
+
+\falsifiablePrediction{A consumer that reads the supply-position row as a closed observation record refutes the packet.}
+
+\independenceWitness{closedobservationsystem, forwardbindinggapledger, gapsocketboundary, apophaticname, negativecertificateboundary: none is bijective because none carries closed records, supply-position socket, GAP commitment, noninternalization refusal, route, provenance, and NameCert as one packet.}
+
+The later Lean \texttt{TasteGate.lean} development for $\ClosedObservationSupplyBoundaryUp$ must provide explicit $\mathsf{Nontrivial}\ \ClosedObservationSupplyBoundaryUp$ and $\mathsf{FieldFaithful}\ \ClosedObservationSupplyBoundaryUp$ instances in \texttt{lean4/BEDC/Derived/ClosedObservationSupplyBoundaryUp/TasteGate.lean}. Those instances must preserve the closed record row, supply-position socket row, GAP commitment row, noninternalization refusal row, apophatic naming row, componentwise transport, replay route, package provenance, and local naming row.
+
+\begin{closurestatus}{\ClosedObservationSupplyBoundaryUp}
+  \constructivestory{A $\ClosedObservationSupplyBoundaryUp$ packet is generated by attaching, in one finite $\BHist$ carrier, the supply-position row, the closed-observation record interface, the GAP socket row, the noninternalization refusal row, the apophatic naming row, and the transport / replay / package / local-NameCert rows. The classifier never identifies the supply-position row with the closed-record interface or with any internal observation object; every coordinate is compared through componentwise $\hsame$ along the visible $\Cont$ routes. The ledger story is therefore a boundary story: the supply position is named but not closed, and any consumer trying to read it as record, rule, axiom, object, or witness leaves the carrier.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the supply-boundary carrier, NameCert obligation surface, noninternalization theorem, falsifiable prediction, and independence witness for $\ClosedObservationSupplyBoundaryUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not internalize the supply position as a closed observation object, supply a far-end witness, or admit a host-level realization of the GAP socket.}
+  \upgradepath{To reach obligationClosure, the finite carrier and noninternalization obligations must be mirrored by Lean definitions and checked transport / TasteGate instances under \texttt{lean4/BEDC/Derived/ClosedObservationSupplyBoundaryUp/}.}
+\end{closurestatus}

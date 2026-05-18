@@ -1,9 +1,22 @@
 \chapter{A Concrete Naming Certificate for \(\AddUp\)}
 \label{ch:concrete-instances-add-namecert}
+\origin{human}
 
 The addition-like interface is licensed by continuation of unary histories. It is not a primitive operation.
 
 The $\AddUp$ carrier consumes the unary-history source licensed in \autoref{ch:concrete-instances-nat-namecert}. Its two input histories are $\NatUp$ unary spines, and $\AddUp$ adds only the displayed $\Cont$ result row and continuation ledger.
+
+\begin{theorem}[AddUp consumes NatUp as a sibling route]
+\label{thm:addup-natup-sibling-dependency-route}
+Every accepted $\AddUp$ carrier row reads its two source histories through \autoref{ch:concrete-instances-nat-namecert} before the displayed $\Cont$ result row is admitted. Consequently $\AddUp$ is a downstream consumer of the $\NatUp$ unary spine, not a kernel-only arithmetic primitive.
+\end{theorem}
+\begin{proof}
+Project the source side of the $\AddUp$ carrier. By \autoref{def:additive-source-specification}, an additive source is an ordered pair of unary histories together with a continuation witness producing the result row.
+
+The unary hypotheses on the two source histories are precisely the $\NatUp$ spine discipline cited by \autoref{ch:concrete-instances-nat-namecert}. The continuation lemmas below then act only after those source histories have already been accepted as unary rows.
+
+Apply \autoref{lem:unary-continuation-unit}, \autoref{lem:unary-continuation-associativity}, and the continuation-preservation lemma of this section to the displayed $\Cont$ witness. These results admit and transport the result row, but they do not create the two source spines. Hence the source read factors through $\NatUp$ before $\AddUp$ admits its continuation result.
+\end{proof}
 
 \section{Unary continuation}
 

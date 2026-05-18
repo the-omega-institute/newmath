@@ -1,0 +1,114 @@
+\chapter{A Concrete Naming Certificate for $\AuditTranscriptEnvelopeUp$}
+\label{ch:concrete-instances-audit-transcript-envelope-namecert}
+\origin{ai}
+
+The $\AuditTranscriptEnvelopeUp$ packet realizes the writing-item discipline of \autoref{def:philosophy-writing-item} as a finite transcript object. It sits between the machine consumer of \autoref{ch:concrete-instances-machine-readable-audit-interface-namecert}, the registry coherence check of \autoref{ch:concrete-instances-registry-consistency-audit-namecert}, and the proof-readback witness of \autoref{ch:concrete-instances-prooftraceauditwitness-namecert}. Those siblings read reports, compare registry rows, and expose proof traces; this carrier names the per-claim envelope that keeps status, source, replay, gap, ledger, and refusal data together before any audit export is consumed.
+
+\begin{definition}[Audit transcript envelope carrier]
+\label{def:audit-transcript-envelope-carrier}
+An $\AuditTranscriptEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(K,C,L,S,G,A,R,U,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the claim-kind row, recording whether the writing item is read as a definition, theorem, corollary, proof, schema, report, roadmap, or refusal;
+\item $C$ is the carrier/classifier row, recording the BEDC carrier and the classifier or equality surface under which the item is read;
+\item $L$ is the ledger row, recording package provenance, dependency entries, and hidden-material refusals visible to the item;
+\item $S$ is the theory/formal-status pair, recording the theory-closure grade and formal-verification grade as two separate axes;
+\item $G$ is the gap-report row, recording open gaps, refused gaps, closed gaps, and the reason each gap is or is not consumable;
+\item $A$ is the source-anchor row, recording the manuscript label, file site, or registry entry from which the writing item is read;
+\item $R$ is the replay-checksum row, recording the displayed replay route by which the envelope is reconstructed;
+\item $U$ is the not-claimed surface, recording the strongest nearby readings that the envelope explicitly refuses;
+\item $H$ records componentwise $\hsame$ transport for claim kind, carrier/classifier, ledger, status-pair, gap, anchor, replay, and not-claimed rows;
+\item $T$ records displayed $\Cont$ replay from the source anchor through the checksum row to the machine-readable export boundary;
+\item $P$ is the $\Pkg$ provenance over $\AuditTranscriptEnvelopeUp$, $\MachineReadableAuditInterfaceUp$, $\RegistryConsistencyAuditUp$, $\ProofTraceAuditWitnessUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AuditTranscriptEnvelopeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a hidden proof object, unanchored prose claim, single-axis status collapse, off-ledger gap repair, unchecked replay substitute, or erased not-claimed surface.
+\end{definition}
+\leandef{BEDC.Derived.AuditTranscriptEnvelopeUp.AuditTranscriptEnvelopeUp}
+
+\begin{theorem}[Audit transcript envelope field coverage]
+\label{thm:audit-transcript-envelope-field-coverage}
+For the carrier of \autoref{def:audit-transcript-envelope-carrier}, the local $\NameCert_{\AuditTranscriptEnvelopeUp}$ surface consists exactly of five obligation groups:
+\begin{enumerate}
+\item carrier admission for $E=(K,C,L,S,G,A,R,U,H,T,P,N)$;
+\item writing-item exposure through the claim-kind row $K$ and carrier/classifier row $C$;
+\item audit-status exactness through the ledger row $L$, theory/formal-status pair $S$, and gap-report row $G$;
+\item source and replay accountability through the source-anchor row $A$, replay-checksum row $R$, not-claimed row $U$, transport row $H$, and replay row $T$;
+\item package provenance and local naming through $P$ and $N$.
+\end{enumerate}
+Thus every auditable writing item consumed through this packet is read as one finite transcript envelope, not as a prose sentence with detachable audit metadata.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-transcript-envelope-carrier}. The rows $K,C,L,S,G,A,R,U,H,T,P,N$ are the only coordinates available to the local certificate.
+
+First read the writing-item rows. The kind row $K$ fixes the permitted claim type, and $C$ fixes the carrier/classifier surface on which that claim is meaningful.
+
+Next read the audit rows. The ledger row $L$, status pair $S$, and gap row $G$ state what the claim depends on, which paper-side and verification-side grades it carries, and which gaps are exposed or refused.
+
+Finally inspect $A,R,U,H,T,P,N$. These rows anchor the claim, replay the envelope, preserve the not-claimed surface, transport the displayed coordinates, record provenance, and name the packet. Since no further coordinate remains, the five obligation groups exhaust the local $\NameCert_{\AuditTranscriptEnvelopeUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Audit transcript envelope non-evidence refusal]
+\label{thm:audit-transcript-envelope-non-evidence-refusal}
+If an $\AuditTranscriptEnvelopeUp$ carrier lacks either the theory/formal-status pair $S$ or the replay-checksum row $R$, then no accepted $\MachineReadableAuditInterfaceUp$ export may consume the envelope as theorem evidence.
+\end{theorem}
+\begin{proof}
+Begin with an accepted envelope
+$$
+E=(K,C,L,S,G,A,R,U,H,T,P,N).
+$$
+The machine-readable consumer of \autoref{ch:concrete-instances-machine-readable-audit-interface-namecert} reads audit data through displayed schema, checker, export, refusal, report, transport, replay, provenance, and local naming rows.
+
+If $S$ is absent, the consumer cannot distinguish paper-side closure from Lean-side verification status. If $R$ is absent, the consumer has no checksum row tying the displayed transcript to a replay route.
+
+In either case the requested theorem-evidence reading is stronger than the envelope supplies. The only available response is the non-evidence refusal recorded by the audit interface, so the envelope may still be reported but not consumed as theorem evidence.
+\end{proof}
+
+\begin{theorem}[Audit transcript envelope sibling independence]
+\label{thm:audit-transcript-envelope-sibling-independence}
+The $\AuditTranscriptEnvelopeUp$ carrier is not bijective, under NameCert-row preservation, to $\MachineReadableAuditInterfaceUp$, $\ProofTraceAuditWitnessUp$, $\RegistryConsistencyAuditUp$, or $\MachineInterfaceFormalizationTargetUp$.
+\end{theorem}
+\begin{proof}
+Compare row inventories. $\MachineReadableAuditInterfaceUp$ supplies schema, checker, export, refusal, and report rows for a machine consumer, but it does not store the per-claim source anchor, replay checksum, and not-claimed surface as one writing-item envelope.
+
+$\ProofTraceAuditWitnessUp$ binds a proof trace to source, classifier, transport, forbidden-resource refusal, verdict, provenance, and local naming. It does not carry the theory/formal-status pair or the gap report required for a general writing item.
+
+$\RegistryConsistencyAuditUp$ compares registry entries and status agreement across exports, while $\MachineInterfaceFormalizationTargetUp$ stores formal target skeletons and machine-facing target data. Neither is a per-claim transcript envelope with all of $K,C,L,S,G,A,R,U$ displayed together.
+
+Any NameCert-row-preserving bijection would have to preserve each of claim kind, carrier/classifier row, ledger row, status pair, gap report, source anchor, replay checksum, and not-claimed surface. Each named sibling omits at least one of those rows, so no such bijection exists.
+\end{proof}
+
+\begin{theorem}[Audit transcript envelope falsifiable prediction]
+\label{thm:audit-transcript-envelope-falsifiable-prediction}
+An $\AuditTranscriptEnvelopeUp$ carrier is rejected as a machine-consumable audit transcript exactly when a consumer asks for a theorem-evidence, registry-consistency, or proof-readback consequence not backed by its displayed kind, carrier/classifier, ledger, status-pair, gap, source-anchor, replay-checksum, not-claimed, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:audit-transcript-envelope-field-coverage} to read the complete envelope inventory. Every accepted read factors through $K,C,L,S,G,A,R,U,H,T,P,N$.
+
+For theorem-evidence reads, inspect the status pair $S$ and replay checksum $R$ together with \autoref{thm:audit-transcript-envelope-non-evidence-refusal}. For registry-consistency reads, inspect $L,S,G,A$ and the provenance row $P$ naming the registry audit surface. For proof-readback reads, inspect $C,L,A$ and the provenance row naming the proof-trace witness.
+
+If one of those rows is absent, disagrees with the requested consequence, or is refused by $U$, the consumer has left the envelope. Conversely a consequence backed by the displayed rows is precisely the finite audit transcript reading exposed by this carrier.
+\end{proof}
+
+\falsifiablePrediction{If an envelope omits either the closure-status row or the replay checksum row, then it cannot be consumed by a MachineReadableAuditInterfaceUp export without a non-evidence refusal.}
+
+\independenceWitness{machinereadableauditinterface, prooftraceauditwitness, registryconsistencyaudit, machineinterfaceformalizationtarget: none is bijective to AuditTranscriptEnvelopeUp because each omits at least one of per-claim status-pair, source-anchor, replay-checksum, or not-claimed rows.}
+
+The Lean follow-up must provide explicit $\Nontrivial\ \AuditTranscriptEnvelopeUp$ and $\FieldFaithful\ \AuditTranscriptEnvelopeUp$ instances in \texttt{lean4/BEDC/Derived/AuditTranscriptEnvelopeUp/TasteGate.lean}. The field-faithfulness witness must preserve $K,C,L,S,G,A,R,U,H,T,P,N$ as separate displayed fields before $\mathsf{BEDC.Derived.AuditTranscriptEnvelopeUp.taste\_gate}$ can be cited by a checked paper marker.
+
+\closureat{AuditTranscriptEnvelopeUp}{seedStr}
+\closureat{AuditTranscriptEnvelopeUp}{obligationStr}
+
+\begin{closurestatus}{\AuditTranscriptEnvelopeUp}
+  \constructivestory{An $\AuditTranscriptEnvelopeUp$ packet is generated from claim kind, carrier/classifier, ledger, theory/formal-status, gap, source-anchor, replay-checksum, not-claimed, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-transcript-envelope-carrier}, \autoref{thm:audit-transcript-envelope-field-coverage}, \autoref{thm:audit-transcript-envelope-non-evidence-refusal}, \autoref{thm:audit-transcript-envelope-sibling-independence}, and \autoref{thm:audit-transcript-envelope-falsifiable-prediction} bind auditable writing items to finite transcript envelopes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, registry completeness, proof-trace correctness, machine export schema completeness, or global audit log finality.}
+  \upgradepath{Obligation closure requires checked carrier admission, five-row NameCert coverage, non-evidence refusal, sibling independence, TasteGate nontriviality, and field faithfulness for $K,C,L,S,G,A,R,U,H,T,P,N$.}
+\end{closurestatus}

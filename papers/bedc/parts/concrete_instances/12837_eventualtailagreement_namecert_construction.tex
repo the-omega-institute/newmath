@@ -1,0 +1,90 @@
+\chapter{EventualTailAgreement NameCert Construction}
+\label{ch:concrete-instances-eventualtailagreement-namecert}
+\origin{ai}
+
+The $\EventualTailAgreementUp$ packet realizes the shared-tail classifier route for the regular-Cauchy completion surface of \autoref{sec:real-completeness-regular-cauchy}. It sits after the finite StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the RegSeqRat readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, the paired seal route of \autoref{ch:concrete-instances-realtailagreementseal-namecert}, and the cofinal agreement route of \autoref{ch:concrete-instances-cofinaltailagreement-namecert}. The packet records a finite shared-tail window before any Real or completion-facing seal is served; it is not a quotient of streams, a host real equality, a selected limiting real, countable choice, or ambient completeness.
+
+\falsifiablePrediction{Every accepted $\EventualTailAgreementUp$ packet must expose the shared $\StreamNameUp$ tail window before a $\RealTailAgreementSealUp$ handoff; a consumer route reaching the seal without that window refutes the packet.}
+
+\independenceWitness{streamname, regseqrat, real, realtailagreementseal, cofinaltailagreement: EventualTailAgreementUp is not bijective to any listed sibling because it jointly carries two Real-facing regular-Cauchy sources, one eventual threshold and modulus row, a shared StreamName tail window, paired RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a RealTailAgreementSeal handoff, and local transport, continuation, package, and naming rows.}
+
+\begin{definition}[Eventual tail-agreement carrier]
+\label{def:eventual-tail-agreement-carrier}
+An $\EventualTailAgreementUp$ carrier is a finite $\BHist$ packet
+$$
+E=(A,B,M,T,R,D,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two Real-facing regular-Cauchy source rows whose tails are compared.
+\item $M$ is the shared eventual threshold and modulus row; it records the point after which both sources are read by the same tolerance request.
+\item $T$ is the shared $\StreamNameUp$ tail-window row exposed at that threshold.
+\item $R$ is the paired $\RegSeqRatUp$ readback row for $A$ and $B$ over the same window $T$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the radius, endpoint, and comparison rows used by the shared readback.
+\item $S$ is the $\RealTailAgreementSealUp$ handoff row reached only after $A,B,M,T,R,D$ are displayed.
+\item $H$ records componentwise $\hsame$ transport for $A,B,M,T,R,D,S$ and the local certificate row.
+\item $C$ records displayed $\Cont$ replay from the two source rows through the shared threshold, tail window, readback, dyadic ledger, and seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\EventualTailAgreementUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RealTailAgreementSealUp$, $\CofinalTailAgreementUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EventualTailAgreementUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed shared-tail classifier packet and its Real-completion handoff surface.
+\end{definition}
+
+\begin{theorem}[Eventual tail-agreement NameCert obligations]
+\label{thm:eventual-tail-agreement-namecert-obligations}
+For the carrier of \autoref{def:eventual-tail-agreement-carrier}, the local $\NameCert_{\EventualTailAgreementUp}$ surface consists exactly of carrier admission for $E=(A,B,M,T,R,D,S,H,C,P,N)$, source admission for $A$ and $B$, shared threshold and modulus exposure through $M$, shared $\StreamNameUp$ tail-window exposure through $T$, paired $\RegSeqRatUp$ readback through $R$, $\DyadicRatCoreUp$ tolerance-ledger exactness through $D$, $\RealTailAgreementSealUp$ handoff exposure through $S$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.EventualTailAgreementUp.EventualTailAgreementTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier. Its coordinates display the two regular-Cauchy source rows, the shared eventual threshold and modulus row, the tail window, the paired regular readback, the dyadic tolerance ledger, the Real-tail seal row, and the structural support rows.
+
+Read the sibling surfaces in order. The $\StreamNameUp$ row supplies the finite tail window, the $\RegSeqRatUp$ row supplies the paired regular-rational readback, the $\DyadicRatCoreUp$ row supplies the tolerance ledger, and the $\RealTailAgreementSealUp$ row supplies the downstream seal handoff.
+
+The transport, continuation, package, and local naming rows do not add another analytic object. They authenticate exactly the displayed rows $A,B,M,T,R,D,S$, so the listed clauses exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Eventual tail-agreement tail-shift invariance]
+\label{thm:eventual-tail-agreement-tail-shift-invariance}
+Let $E=(A,B,M,T,R,D,S,H,C,P,N)$ be an accepted $\EventualTailAgreementUp$ carrier. If the shared eventual threshold in $M$ is shifted to a later displayed threshold and the corresponding $\StreamNameUp$ tail window is replayed through the same $H$ and $C$ rows, then the accepted classifier surface remains
+$$
+A,B,M,T,R,D,S,H,C,P,N.
+$$
+The shift changes only the chosen late window inside the same shared-tail route; it preserves the paired $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ tolerance ledger, and the $\RealTailAgreementSealUp$ handoff, and it exports no quotient stream, host real equality, selected limit, countable-choice row, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the threshold coordinate $M$ and the tail-window coordinate $T$. The carrier stores no independent tail oracle; a later threshold is admitted only by replaying the same source rows through the displayed StreamName route.
+
+Use \autoref{thm:eventual-tail-agreement-namecert-obligations}. The paired readback $R$ and tolerance ledger $D$ are attached to the shared tail window, while $H$ and $C$ transport and replay that attachment componentwise.
+
+Finally read the seal coordinate $S$. Since the seal handoff is downstream of $A,B,M,T,R,D$, a tail shift that preserves the displayed route preserves the same Real-facing classifier surface and cannot import any excluded external equality or selection principle.
+\end{proof}
+
+\begin{theorem}[Eventual tail-agreement Real-seal handoff]
+\label{thm:eventual-tail-agreement-real-seal-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\EventualTailAgreementUp$ packet reaches the $\RealTailAgreementSealUp$ row $S$ only after the two source rows $A,B$, the shared eventual threshold and modulus $M$, the shared $\StreamNameUp$ tail window $T$, the paired $\RegSeqRatUp$ readback $R$, and the $\DyadicRatCoreUp$ tolerance ledger $D$ have been displayed. The consumer route is exhausted by
+$$
+A,B,M,T,R,D,S,H,C,P,N.
+$$
+No consumer of this packet receives a quotient stream comparison, host real equality, selected host limit, countable-choice schedule, hidden tail oracle, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. Its only Real-facing coordinate is the $\RealTailAgreementSealUp$ row $S$, and the carrier places $S$ after the two source rows, the shared threshold row, the shared window, the paired regular readback, and the dyadic ledger.
+
+Apply \autoref{thm:eventual-tail-agreement-namecert-obligations}. The local certificate makes $A,B,M,T,R,D$ mandatory before $S$ can be consumed, with $H,C,P,N$ recording the visible transport, replay, provenance, and naming route.
+
+Apply \autoref{thm:eventual-tail-agreement-tail-shift-invariance} for later-tail reindexing. Any accepted shift remains on the same shared-tail surface, so a Real or completion-facing consumer cannot bypass the finite window by appealing to quotient streams, selected limits, host equality, countable choice, or ambient completeness.
+\end{proof}
+
+The Lean follow-up for this chapter is to provide $\mathsf{Nontrivial}\ \EventualTailAgreementUp$ and $\mathsf{FieldFaithful}\ \EventualTailAgreementUp$ instances in \texttt{BEDC.Derived.EventualTailAgreementUp/TasteGate.lean} for the same finite packet.
+
+\closureat{EventualTailAgreementUp}{seedStr}
+
+\begin{closurestatus}{\EventualTailAgreementUp}
+  \constructivestory{An $\EventualTailAgreementUp$ packet is generated from two Real-facing regular-Cauchy source rows, one shared eventual threshold and modulus row, a shared StreamName tail window, paired RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a RealTailAgreementSeal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eventual-tail-agreement-carrier}, \autoref{thm:eventual-tail-agreement-namecert-obligations}, \autoref{thm:eventual-tail-agreement-tail-shift-invariance}, and \autoref{thm:eventual-tail-agreement-real-seal-handoff} bind the finite shared-tail classifier packet and its Real-completion handoff surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, selected limits, hidden tail selection, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligations, tail-shift invariance, Real-seal handoff, Nontrivial EventualTailAgreementUp, and FieldFaithful EventualTailAgreementUp for the same finite packet.}
+\end{closurestatus}

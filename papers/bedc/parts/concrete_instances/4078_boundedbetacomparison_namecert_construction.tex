@@ -1,5 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\BoundedBetaComparisonUp$}
 \label{ch:concrete-instances-bounded-beta-comparison-namecert}
+\origin{ai}
 
 The $\BoundedBetaComparisonUp$ packet turns the normal-equality surface of
 \autoref{ch:metacic-decidable-audit-map} into concrete finite BEDC data. It
@@ -38,6 +39,7 @@ sibling $\NameCert$ rows;
 The local classifier compares accepted packets only through the displayed rows
 $f,t,u,n_t,n_u,e,w_t,w_u,H,C,P,N$.
 \end{definition}
+\leanchecked{BEDC.Derived.BoundedBetaComparisonUp.TasteGate.BoundedBetaComparisonTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Bounded beta-comparison NameCert obligations]
 \label{thm:bounded-beta-comparison-namecert-obligations}
@@ -115,3 +117,14 @@ they are present. Since the packet has no coordinate for fuel erasure,
 quotient equality, host conversion, or arbitrary closed-term normalisation,
 none of those readings can be exported.
 \end{proof}
+
+\begin{closurestatus}{\BoundedBetaComparisonUp}
+  \constructivestory{A $\BoundedBetaComparisonUp$ packet is generated from finite $\BHist$ rows for source and target terms, bounded beta fuel, local beta-step evidence, comparison result, transports, continuations, provenance, and local naming. The comparison is read by replaying the bounded beta route through $\Cont$, so the packet exposes only the steps and fuel that are actually displayed. Componentwise $\hsame$ transports source, target, fuel, and step rows without erasing the bound, while $\Pkg$ records the beta-comparison and closed-term dependencies. The result is a finite comparison certificate rather than unrestricted conversion or normalization.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the bounded beta comparison carrier, bounded route replay, fuel preservation, comparison readback, and non-export boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim fuel erasure, quotient equality, host conversion, arbitrary closed-term normalization, confluence, or global beta completeness.}
+  \upgradepath{Obligation closure requires Lean encodings of the bounded comparison carrier, fuel-indexed route, comparison stability, and non-escape theorem.}
+\end{closurestatus}

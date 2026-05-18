@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ProgrammeStrengthLedgerUp$}
+\label{ch:concrete-instances-programme-strength-ledger-namecert}
+\origin{ai}
+
+The $\ProgrammeStrengthLedgerUp$ packet realizes the strength-gradient discipline of \autoref{subsec:philosophy-programme-strength-gradient} inside the auditable-generativity programme of \autoref{ch:visions-philosophy-auditable-generativity}. It sits beside the philosophy-package carrier of \autoref{ch:concrete-instances-bedc-philosophy-package-namecert}, the upgrade registry of \autoref{ch:concrete-instances-upgraderegistry-namecert}, the verification-failure roadmap of \autoref{ch:concrete-instances-verification-failure-roadmap-namecert}, the gap-and-bridge audit surface of \autoref{ch:concrete-instances-gap-failure-bridge-audit-namecert}, and the formal-constant empirical-value boundary of \autoref{ch:concrete-instances-formalconstantempiricalvalueboundary-namecert}. Those siblings expose package rows, promotion rows, failure-roadmap rows, bridge-audit rows, and empirical-boundary rows separately; this packet binds claim strength, dependency status, verification status, bridge status, refusal, provenance, transport, replay, and local naming before a claim may export a reported BEDC strength.
+
+\begin{definition}[Programme strength ledger carrier]
+\label{def:programme-strength-ledger-carrier}
+A $\ProgrammeStrengthLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(Q,S,D,V,B,R,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $Q$ is the claim-site row, recording the theorem, definition, chapter, bridge target, or package row whose reported strength is being inspected.
+\item $S$ is the reported-strength row, recording whether the site is a naming seed, paper certificate, machine-checked certificate, or conservative bridge.
+\item $D$ is the dependency row, recording lower-layer blockers, sibling inputs, open gaps, and required upstream rows.
+\item $V$ is the theory/formal status pair, recording the independent theory-closure and verification-status axes without collapsing either axis into the other.
+\item $B$ is the bridge-status row, recording whether the site has no bridge, a paper bridge, or a checked bridge.
+\item $R$ is the refusal and not-claimed row, recording the stronger readings that the site may not export.
+\item $H$ records componentwise $\hsame$ transport for $Q,S,D,V,B,R,C,P,N$.
+\item $C$ records displayed $\Cont$ replay through the claim site, reported strength, dependency, status, bridge, and refusal rows.
+\item $P$ is the $\Pkg$ provenance over $\ProgrammeStrengthLedgerUp$, $\BedcPhilosophyPackageUp$, $\UpgradeRegistryUp$, $\VerificationFailureRoadmapUp$, $\GapFailureBridgeAuditUp$, $\FormalConstantEmpiricalValueBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ProgrammeStrengthLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for promoting a seed to a certificate, treating a paper certificate as machine checked, reading an unchecked bridge as conservative, erasing a blocker row, or exporting a stronger claim after the refusal row has named it.
+\end{definition}
+
+\begin{theorem}[ProgrammeStrengthLedger NameCert obligations]
+\label{thm:programme-strength-ledger-namecert-obligations}
+For the carrier of \autoref{def:programme-strength-ledger-carrier}, the local $\NameCert_{\ProgrammeStrengthLedgerUp}$ surface consists exactly of carrier admission for $L=(Q,S,D,V,B,R,H,C,P,N)$, claim-site exposure through $Q$, reported-strength exposure through $S$, dependency exposure through $D$, theory/formal status exposure through $V$, bridge-status exposure through $B$, refusal and not-claimed exposure through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ProgrammeStrengthLedgerUp.ProgrammeStrengthLedgerNameCert\_obligations}
+\begin{proof}
+Project the displayed $\BHist$ packet. The claim site $Q$ is not yet a strength report; it becomes reportable only after the strength row $S$, dependency row $D$, status pair $V$, bridge row $B$, and refusal row $R$ have all been read.
+
+The structural rows preserve the same display. Componentwise transport through $H$ keeps each row separate, the continuation row $C$ replays the inspection order, and the provenance row $P$ records the sibling package, registry, roadmap, audit, and empirical-boundary sources.
+
+The local naming row $N$ therefore names the whole packet rather than a bare claim site. Since the carrier has no additional promotion coordinate, these rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[ProgrammeStrengthLedger no strength inflation]
+\label{thm:programme-strength-ledger-no-strength-inflation}
+An accepted $\ProgrammeStrengthLedgerUp$ packet cannot export a reported BEDC strength above the row displayed by $S$. In particular, an open dependency in $D$, a weaker theory/formal status in $V$, an absent or unchecked bridge row in $B$, or a refusal in $R$ blocks any consumer from reading $Q$ as a stronger seed, certificate, machine-check, or bridge claim.
+\end{theorem}
+\begin{proof}
+Read the carrier rows in order. The reported strength $S$ is paired with dependency status $D$, theory/formal status $V$, bridge status $B$, and refusal row $R$ before the claim site can be exported.
+
+Apply the strength-gradient rule of \autoref{thm:philosophy-programme-no-strength-inflation}. A stronger report would require one of the missing obligations to be treated as discharged.
+
+The packet contains no such discharge row. The upgrade registry can record a next obligation, the verification-failure roadmap can record a blocker, and the gap-and-bridge audit can record an open bridge, but none of those sibling rows changes $S$ inside this carrier. Hence every exported strength is bounded by the displayed row.
+\end{proof}
+
+\begin{theorem}[ProgrammeStrengthLedger axis separation]
+\label{thm:programme-strength-ledger-axis-separation}
+For an accepted $\ProgrammeStrengthLedgerUp$ carrier, the claim site $Q$, reported-strength row $S$, dependency row $D$, theory/formal status pair $V$, bridge-status row $B$, refusal row $R$, and local $\NameCert$ row $N$ remain separate audit coordinates. A consumer may combine them into one public strength report, but it may not derive the theory-closure axis from the verification axis, derive bridge status from formal status, erase dependency blockers by provenance, or replace the refusal row by a sibling package reading.
+\end{theorem}
+\begin{proof}
+Inspect the displayed packet. The status pair $V$ records two independent axes, while $B$ and $R$ record bridge and refusal information that are not components of $V$.
+
+The support rows $H,C,P,N$ preserve and name the separation. Transport and replay can move the packet through equivalent presentations, and provenance can cite the package, registry, roadmap, audit, and boundary siblings, but none of those operations merges rows.
+
+Thus every public report must keep the rows jointly visible. Any route that infers bridge status from formal status, erases a blocker from $D$, or replaces $R$ by prose from a sibling chapter leaves the accepted $\ProgrammeStrengthLedgerUp$ carrier.
+\end{proof}
+
+\falsifiablePrediction{A packet that omits $S$ or $V$ can still name a claim site, but it cannot export a reported BEDC strength.}
+
+\independenceWitness{bedcphilosophypackage, upgraderegistry, verificationfailureroadmap, gapfailurebridgeaudit, formalconstantempiricalvalueboundary: no listed sibling is bijective with $\ProgrammeStrengthLedgerUp$ because none preserves claim site, strength row, dependency row, theory/formal status pair, bridge row, refusal row, transport, replay, provenance, and local NameCert together. The package carrier stores programme rows without owning the strength audit packet; the upgrade registry records current and next obligations without binding refusal and bridge rows; the verification-failure roadmap records blockers without exporting a strength ledger; the gap-failure bridge audit records bridge blockers without the full status pair; and the empirical-value boundary separates formal and empirical constants rather than claim-strength reporting.}
+
+The Lean-side boundary is expected to provide explicit $\Nontrivial\ \ProgrammeStrengthLedgerUp$ and $\FieldFaithful\ \ProgrammeStrengthLedgerUp$ instances in \texttt{lean4/BEDC/Derived/ProgrammeStrengthLedgerUp/TasteGate.lean}. The field-faithfulness witness must keep $Q,S,D,V,B,R,H,C,P,N$ as distinct rows before the target \texttt{BEDC.Derived.ProgrammeStrengthLedgerUp.taste\_gate} can classify strength-ledger packets.
+
+\closureat{ProgrammeStrengthLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ProgrammeStrengthLedgerUp}
+  \constructivestory{A $\ProgrammeStrengthLedgerUp$ packet is generated from a claim site, reported strength, dependency row, theory/formal status pair, bridge-status row, refusal row, componentwise transport, displayed replay, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:programme-strength-ledger-carrier}, \autoref{thm:programme-strength-ledger-namecert-obligations}, \autoref{thm:programme-strength-ledger-no-strength-inflation}, and \autoref{thm:programme-strength-ledger-axis-separation} bind reported claim strength to one finite audit packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, correctness of every package row, discharge of every dependency blocker, or promotion of any named claim beyond its displayed strength row.}
+  \upgradepath{Lean closure requires Nontrivial ProgrammeStrengthLedgerUp and FieldFaithful ProgrammeStrengthLedgerUp instances in \texttt{lean4/BEDC/Derived/ProgrammeStrengthLedgerUp/TasteGate.lean}.}
+\end{closurestatus}

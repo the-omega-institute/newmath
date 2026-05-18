@@ -1,0 +1,164 @@
+\chapter{A Concrete Naming Certificate for $\ClosedGenerationRefusalUp$}
+\label{ch:concrete-instances-closed-generation-refusal-namecert}
+\origin{ai}
+
+The $\ClosedGenerationRefusalUp$ packet realizes the negative boundary of
+the inscription-event vision in
+\autoref{ch:visions-inscription-event-as-concrete-instance}. It sits beside
+the public inscription event of
+\autoref{ch:concrete-instances-inscriptionevent-namecert}, the route audit of
+\autoref{ch:concrete-instances-inscription-route-audit-namecert}, and the
+kernel observation sieve of
+\autoref{ch:concrete-instances-kernel-observation-sieve-namecert}. Those
+siblings expose accepted public inscription rows, accepted route rows, and
+accepted-or-rejected observation rows; this packet records the finite case in
+which a candidate transition is refused as closed-generation-certified from
+the prior records.
+
+\begin{definition}[ClosedGenerationRefusal carrier]
+\label{def:closed-generation-refusal-carrier}
+A $\ClosedGenerationRefusalUp$ carrier is a finite $\BHist$ packet
+$$
+F=(P,T,G,R,I,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the prior-record row naming the finite records visible before the candidate transition is tested;
+\item $T$ is the candidate-transition row whose inscription-facing admission is under audit;
+\item $G$ is the closed-generation test row, recording whether the prior records certify $T$ by authorized generators;
+\item $R$ is the refusal-ledger row, present exactly when $G$ does not certify $T$ as prior-record generated;
+\item $I$ is the inscription-comparison row, reading $T$ against the inscription-event packet of \autoref{ch:concrete-instances-inscriptionevent-namecert};
+\item $H$ records componentwise $\hsame$ transport for $P,T,G,R,I$;
+\item $C$ records displayed $\Cont$ replay through the prior records, candidate transition, closed-generation test, refusal ledger, and inscription comparison;
+\item $Q$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\InscriptionEventUp$, $\InscriptionRouteAuditUp$, $\KernelObservationSieveUp$, $\CausalCommitmentUp$, and $\ApophaticSocketUp$ rows;
+\item $N$ is the local $\NameCert_{\ClosedGenerationRefusalUp}$ row.
+\end{enumerate}
+The classifier has no coordinate for a transition accepted by the
+closed-generation test, an untested candidate, a hidden generator, a private
+agency predicate, or a route that bypasses the refusal ledger.
+\end{definition}
+\leanchecked{BEDC.Derived.ClosedGenerationRefusalUp.TasteGate.closedGenerationRefusalTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[ClosedGenerationRefusal NameCert obligations]
+\label{thm:closed-generation-refusal-namecert-obligations}
+For the carrier of \autoref{def:closed-generation-refusal-carrier}, the local
+$\NameCert_{\ClosedGenerationRefusalUp}$ surface consists exactly of carrier
+admission for
+$$
+F=(P,T,G,R,I,H,C,Q,N),
+$$
+prior-record exposure through $P$, candidate-transition exposure through $T$,
+closed-generation testing through $G$, refusal-ledger accountability through
+$R$, inscription-event comparison through $I$, componentwise $\hsame$
+stability through $H$, displayed $\Cont$ replay through $C$, package
+provenance through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $P,T,G,R,I,H,C,Q,N$ are the full
+inventory available to the certificate reader, and the classifier lists no
+extra coordinate for an untested candidate or hidden generator.
+
+Read the refusal surface in order. The prior-record row $P$ supplies the
+finite source, the candidate row $T$ supplies the transition under audit, and
+the test row $G$ is the only displayed place where prior-record closed
+generation may certify the candidate.
+
+Finally inspect $R,I,H,C,Q,N$. The refusal ledger records the negative result
+of $G$, the inscription comparison $I$ connects the candidate to the
+inscription-event sibling, and the support rows only transport, replay,
+package, and name the same finite packet. Hence the listed rows exhaust the
+local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[ClosedGenerationRefusal inscription separation]
+\label{thm:closed-generation-refusal-inscription-separation}
+An accepted $\ClosedGenerationRefusalUp$ packet separates the candidate
+transition $T$ from prior-record closed generation without treating $T$ as a
+private agency object. The row $R$ records only that $G$ does not certify $T$
+from $P$, while $I$ keeps the public inscription comparison routed through
+\autoref{ch:concrete-instances-inscriptionevent-namecert} and
+\autoref{ch:concrete-instances-inscription-route-audit-namecert}.
+\end{theorem}
+\begin{proof}
+Begin with $P,T,G$. The candidate transition is tested against the displayed
+prior records by the closed-generation row, so the refusal is not a claim
+about an unrecorded psychological state or host process.
+
+Use the refusal ledger $R$. Its content is negative and local: the candidate
+is not certified by the displayed prior-record test. The carrier gives no
+coordinate for replacing that local refusal with an external agency object.
+
+The inscription-comparison row $I$ then routes the same candidate through the
+public inscription-event and route-audit siblings. Thus the packet separates
+closed-generation refusal from inscription-facing comparison while keeping
+both rows inside one finite certificate.
+\end{proof}
+
+\begin{theorem}[ClosedGenerationRefusal ledger non-escape]
+\label{thm:closed-generation-refusal-ledger-nonescape}
+No consumer of an accepted $\ClosedGenerationRefusalUp$ packet can export the
+candidate transition as inscription-event novelty while omitting the
+refusal-ledger row $R$. A consumer may read the prior records, candidate,
+test, and inscription comparison through $P,T,G,I,H,C,Q,N$, but the negative
+closed-generation boundary remains public only through $R$.
+\end{theorem}
+\begin{proof}
+Project the carrier $F=(P,T,G,R,I,H,C,Q,N)$. The negative
+closed-generation boundary is named only in $R$, while $P,T,G$ name the test
+surface and $I$ names the inscription comparison.
+
+Apply \autoref{thm:closed-generation-refusal-namecert-obligations}. Refusal
+accountability is one of the local obligations, and the support rows $H,C,Q,N$
+preserve the same displayed packet rather than adding a second route around
+$R$.
+
+Consequently a consumer that omits $R$ may still see a prior-record test and
+candidate row, but it has not read the certificate row that makes the negative
+closed-generation boundary public.
+\end{proof}
+
+\begin{theorem}[ClosedGenerationRefusal sibling independence]
+\label{thm:closed-generation-refusal-sibling-independence}
+The $\ClosedGenerationRefusalUp$ carrier is not bijective, under
+NameCert-row preservation, to $\InscriptionEventUp$,
+$\InscriptionRouteAuditUp$, $\KernelObservationSieveUp$,
+$\CausalCommitmentUp$, or $\ApophaticSocketUp$. It uniquely binds the
+prior-record row $P$, candidate-transition row $T$, closed-generation test
+$G$, refusal ledger $R$, and inscription comparison $I$ as one packet.
+\end{theorem}
+\begin{proof}
+Compare the inscription siblings first. $\InscriptionEventUp$ records an
+accepted public inscription packet, and $\InscriptionRouteAuditUp$ records a
+visible gap-to-accepted-route audit; neither carries the prior-record
+closed-generation test together with the refusal ledger.
+
+Compare the sieve and commitment siblings next. $\KernelObservationSieveUp$
+has accepted and rejected observation ledgers, and $\CausalCommitmentUp$
+records commitment-facing causal rows, but neither preserves the candidate
+transition, closed-generation test, and inscription comparison as one local
+NameCert surface.
+
+Finally compare $\ApophaticSocketUp$. It records a supply-facing refusal
+socket, not the prior-record test of a candidate transition. Therefore no
+NameCert-row-preserving bijection can preserve $P,T,G,R,I,H,C,Q,N$ across
+any of the listed siblings.
+\end{proof}
+
+\falsifiablePrediction{A packet whose closed-generation test row accepts the candidate transition cannot inhabit $\ClosedGenerationRefusalUp$.}
+
+\independenceWitness{inscriptionevent, inscriptionrouteaudit, kernelobservationsieve, causalcommitment, apophaticsocket: the refusal packet has the prior-record row, candidate-transition row, closed-generation test, refusal ledger, inscription comparison, transport, replay, provenance, and local NameCert rows; each sibling lacks at least the closed-generation test with its refusal ledger, so no NameCert-row-preserving bijection exists.}
+
+The Lean carrier file \texttt{lean4/BEDC/Derived/ClosedGenerationRefusalUp/TasteGate.lean} must provide explicit $\Nontrivial\ \ClosedGenerationRefusalUp$ and $\FieldFaithful\ \ClosedGenerationRefusalUp$ instances for $P,T,G,R,I,H,C,Q,N$ before the taste-gate target $\mathsf{BEDC.Derived.ClosedGenerationRefusalUp.TasteGate.closedGenerationRefusalTasteGate\_single\_carrier\_alignment}$ can be cited as checked.
+
+\closureat{ClosedGenerationRefusalUp}{seedStr}
+
+\begin{closurestatus}{\ClosedGenerationRefusalUp}
+  \constructivestory{A $\ClosedGenerationRefusalUp$ packet is generated from prior records, a candidate transition, a closed-generation test, a refusal ledger, an inscription comparison, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-generation-refusal-carrier}, \autoref{thm:closed-generation-refusal-namecert-obligations}, \autoref{thm:closed-generation-refusal-inscription-separation}, \autoref{thm:closed-generation-refusal-ledger-nonescape}, and \autoref{thm:closed-generation-refusal-sibling-independence} specify the finite prior-record closed-generation refusal packet and its inscription-facing comparison boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a global agency predicate, hidden generator completeness, untested transition admission, or positive inscription-event acceptance.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed-generation refusal accountability, inscription comparison, ledger non-escape, nontriviality, and field faithfulness for $P,T,G,R,I,H,C,Q,N$.}
+\end{closurestatus}

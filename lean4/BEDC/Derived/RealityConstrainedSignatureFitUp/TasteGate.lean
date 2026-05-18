@@ -1,11 +1,19 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealityConstrainedSignatureFitUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -387,5 +395,140 @@ theorem RealityConstrainedSignatureFitCarrier_finite_nonescape
           realityConstrainedSignatureFit_round_trip
             (RealityConstrainedSignatureFitUp.mk S A M G P C H Q N),
           rfl⟩
+
+theorem RealityConstrainedSignatureFitCarrier_gap_policy_exactness
+    (R : RealityConstrainedSignatureFitUp) {row : BHist} :
+    List.Mem row (realityConstrainedSignatureFitFields R) →
+      ∃ S A M G P C H Q N : BHist,
+        R = RealityConstrainedSignatureFitUp.mk S A M G P C H Q N ∧
+          List.Mem G (realityConstrainedSignatureFitFields R) ∧
+          List.Mem P (realityConstrainedSignatureFitFields R) ∧
+          (row = S ∨ row = A ∨ row = M ∨ row = G ∨ row = P ∨ row = C ∨
+            row = H ∨ row = Q ∨ row = N) ∧
+          realityConstrainedSignatureFitFromEventFlow
+            (realityConstrainedSignatureFitToEventFlow R) = some R ∧
+          realityConstrainedSignatureFitEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hrow
+  cases R with
+  | mk S A M G P C H Q N =>
+      change List.Mem row [S, A, M, G, P, C, H, Q, N] at hrow
+      have hrowOr :
+          row = S ∨ row = A ∨ row = M ∨ row = G ∨ row = P ∨ row = C ∨
+            row = H ∨ row = Q ∨ row = N := by
+        cases hrow with
+        | head =>
+            exact Or.inl rfl
+        | tail _ hA =>
+            cases hA with
+            | head =>
+                exact Or.inr (Or.inl rfl)
+            | tail _ hM =>
+                cases hM with
+                | head =>
+                    exact Or.inr (Or.inr (Or.inl rfl))
+                | tail _ hG =>
+                    cases hG with
+                    | head =>
+                        exact Or.inr (Or.inr (Or.inr (Or.inl rfl)))
+                    | tail _ hP =>
+                        cases hP with
+                        | head =>
+                            exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))
+                        | tail _ hC =>
+                            cases hC with
+                            | head =>
+                                exact Or.inr
+                                  (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl)))))
+                            | tail _ hH =>
+                                cases hH with
+                                | head =>
+                                    exact Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr (Or.inr (Or.inr (Or.inl rfl))))))
+                                | tail _ hQ =>
+                                    cases hQ with
+                                    | head =>
+                                        exact Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr (Or.inr (Or.inl rfl)))))))
+                                    | tail _ hN =>
+                                        cases hN with
+                                        | head =>
+                                            exact Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inr (Or.inr rfl)))))))
+                                        | tail _ hnil =>
+                                            cases hnil
+      exact
+        ⟨S, A, M, G, P, C, H, Q, N, rfl,
+          by
+            exact List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))),
+          by
+            exact
+              List.Mem.tail _
+                (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))),
+          hrowOr,
+          realityConstrainedSignatureFit_round_trip
+            (RealityConstrainedSignatureFitUp.mk S A M G P C H Q N),
+          rfl⟩
+
+def RealityConstrainedSignatureFitCarrier [AskSetup] [PackageSetup]
+    (S A M G P C H Q N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory S ∧ UnaryHistory A ∧ UnaryHistory M ∧ UnaryHistory G ∧ UnaryHistory P ∧
+    UnaryHistory C ∧ UnaryHistory H ∧ UnaryHistory Q ∧ UnaryHistory N ∧
+      Cont A M C ∧ hsame C (append A M) ∧ PkgSig bundle Q pkg
+
+theorem RealityConstrainedSignatureFitCarrier_metric_streamname_real_dependency
+    [AskSetup] [PackageSetup]
+    {S A M G P C H Q N fitRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealityConstrainedSignatureFitCarrier S A M G P C H Q N bundle pkg →
+      Cont S A fitRead →
+        hsame fitRead C →
+          PkgSig bundle fitRead pkg →
+            UnaryHistory S ∧ UnaryHistory A ∧ UnaryHistory M ∧ UnaryHistory G ∧
+              UnaryHistory P ∧ UnaryHistory C ∧ UnaryHistory fitRead ∧
+                Cont S A fitRead ∧ hsame fitRead C ∧ hsame C (append A M) ∧
+                  PkgSig bundle Q pkg ∧ PkgSig bundle fitRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro carrier fitReadRoute fitReadSame classifierPkg
+  cases carrier with
+  | intro sUnary carrier =>
+      cases carrier with
+      | intro aUnary carrier =>
+          cases carrier with
+          | intro mUnary carrier =>
+              cases carrier with
+              | intro gUnary carrier =>
+                  cases carrier with
+                  | intro pUnary carrier =>
+                      cases carrier with
+                      | intro cUnary carrier =>
+                          cases carrier with
+                          | intro _hUnary carrier =>
+                              cases carrier with
+                              | intro _qUnary carrier =>
+                                  cases carrier with
+                                  | intro _nUnary carrier =>
+                                      cases carrier with
+                                      | intro _metricCont carrier =>
+                                          cases carrier with
+                                          | intro metricSame qPkg =>
+                                              have fitReadUnary : UnaryHistory fitRead :=
+                                                unary_cont_closed sUnary aUnary fitReadRoute
+                                              exact
+                                                ⟨sUnary, aUnary, mUnary, gUnary, pUnary,
+                                                  cUnary, fitReadUnary, fitReadRoute,
+                                                  fitReadSame, metricSame, qPkg,
+                                                  classifierPkg⟩
 
 end BEDC.Derived.RealityConstrainedSignatureFitUp

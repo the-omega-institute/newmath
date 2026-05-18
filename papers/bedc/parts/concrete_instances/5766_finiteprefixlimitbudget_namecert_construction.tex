@@ -81,15 +81,483 @@ Read the window and regular-rational siblings next. The $\StreamNameUp$ windows 
 Finally compare with the $\RealObservationBudgetUp$ surface. That chapter supplies the completion-facing observation discipline; the present packet narrows it to the finite prefix-budget classifier needed before the Real completeness seal read. The non-escape row keeps quotient streams, host real equality, selected limits, countable choice, hidden tail schedules, and ambient completeness outside the handoff.
 \end{proof}
 
+\begin{theorem}[Finite-prefix limit-budget prefix-exhaustion coverage]
+\label{thm:finite-prefix-limit-budget-prefix-exhaustion-coverage}
+For every accepted $\FinitePrefixLimitBudgetUp$ carrier
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N),
+$$
+each admitted offset served by the finite $\StreamNameUp$ window row $W$ is accounted for by the depth-exhaustion row $D$. Every outside-prefix read is refused before the regular readback row $R$ or the seal row $S$ is available to a consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $Q,B,W,D,R,S$ from \autoref{def:finite-prefix-limit-budget-carrier}. The finite request row $Q$ must pass through the budget selector row $B$ before the prefix-window ledger $W$ serves an offset.
+
+Apply \autoref{thm:finite-prefix-limit-budget-namecert-obligations}. Its prefix-window exhaustion clause identifies $D$ as the row that accounts for every offset admitted by $W$ and records refusal for outside-prefix reads.
+
+Apply \autoref{thm:finite-prefix-limit-budget-seal-ordering}. Since every seal-facing route has order $Q \to B \to W \to D \to R \to S$, neither $R$ nor $S$ is available until the exhaustion row has already accepted the displayed prefix offsets and refused the reads outside the finite window.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget hsame transport]
+\label{thm:finite-prefix-limit-budget-hsame-transport}
+Componentwise $\hsame$ transports of an accepted $\FinitePrefixLimitBudgetUp$ carrier preserve the ordered route
+$$
+Q \to B \to W \to D \to R \to S.
+$$
+They cannot create a new prefix window, a new prefix-depth exhaustion row, a new regular readback row, or a new seal row outside the displayed carrier.
+\end{theorem}
+\begin{proof}
+Use the transport coordinate $H$ of the carrier together with the continuation, provenance, and naming rows $C,P,N$. These rows are part of the finite packet, so transport acts componentwise on the displayed coordinates rather than adding a fresh carrier coordinate.
+
+The ordered route is already fixed by \autoref{thm:finite-prefix-limit-budget-seal-ordering}. Transport through $H$ can replay the same $Q,B,W,D,R,S$ route, and $C$ records only the displayed continuations from request to budget, from budget to windows, from exhaustion to readback, and from readback to seal.
+
+Finally, $P$ and $N$ keep the transported packet inside the same $\Pkg$ provenance and local $\NameCert_{\FinitePrefixLimitBudgetUp}$ surface. No coordinate in $H,C,P,N$ names an additional prefix window or an additional seal row, so componentwise $\hsame$ cannot create one.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget nonescape criterion]
+\label{thm:finite-prefix-limit-budget-nonescape-criterion}
+Any consumer of an accepted $\FinitePrefixLimitBudgetUp$ packet that claims host real equality, quotient streams, selected limits, countable choice, hidden tail schedules, or ambient completeness is outside the carrier unless the claim factors through the displayed exclusion row $E$.
+\end{theorem}
+\begin{proof}
+Read the carrier definition first. The final sentence of \autoref{def:finite-prefix-limit-budget-carrier} states that the packet exports none of the listed analytic objects; it exports only the finite budget classifier rows.
+
+Apply the non-escape clause of \autoref{thm:finite-prefix-limit-budget-namecert-obligations}. That clause assigns the exclusion work to $E,H,C,P,N$ and requires those rows to preserve the same finite route while blocking host real equality, quotient streams, selected limits, countable choice, hidden tail schedules, and ambient completeness.
+
+Thus a consumer that asserts one of those objects must leave the displayed carrier surface unless it presents the assertion through $E$. The remaining rows only replay selection, prefix-window exhaustion, readback, seal handoff, transport, continuation, provenance, and local naming for the finite route.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget carrier-classifier scope]
+\label{thm:finite-prefix-limit-budget-carrier-classifier-scope}
+Every accepted $\FinitePrefixLimitBudgetUp$ packet has its carrier and classifier scoped by the displayed finite prefix request $Q$, the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the $\RealObservationBudgetUp$-facing seal row $S$, componentwise $\hsame$ transport $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\FinitePrefixLimitBudgetUp}$ row $N$. No classifier read is accepted outside that finite prefix-budget surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-prefix-limit-budget-carrier}. The request, selector, window, exhaustion, readback, seal, exclusion, transport, route, provenance, and naming rows are already displayed as $Q,B,W,D,R,S,E,H,C,P,N$.
+
+Use the obligation and seal-ordering theorems. \autoref{thm:finite-prefix-limit-budget-namecert-obligations} makes selection, exhaustion, regular readback, and seal handoff part of the local certificate, while \autoref{thm:finite-prefix-limit-budget-seal-ordering} orders every consumer route through $Q \to B \to W \to D \to R \to S$.
+
+Finally attach the transport and nonescape rows, \autoref{thm:finite-prefix-limit-budget-hsame-transport} and \autoref{thm:finite-prefix-limit-budget-nonescape-criterion}. They keep classifier replay inside the same $H,C,P,N$ support and exclude any outside prefix-budget coordinate.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget record factorization]
+\label{thm:finite-prefix-limit-budget-record-factorization}
+All record reads of an accepted $\FinitePrefixLimitBudgetUp$ packet factor through the finite rows
+$$
+Q,B,W,D,R,S,E,H,C,P,N.
+$$
+In particular, a record read cannot use quotient streams, host real equality, selected limits, countable choice, hidden tail schedules, or ambient completeness to replace the displayed finite prefix route.
+\end{theorem}
+\begin{proof}
+Begin with prefix-exhaustion coverage, \autoref{thm:finite-prefix-limit-budget-prefix-exhaustion-coverage}. It forces every served offset through the finite $\StreamNameUp$ window row $W$ and the exhaustion row $D$ before $R$ or $S$ is available.
+
+Apply carrier-classifier scope, \autoref{thm:finite-prefix-limit-budget-carrier-classifier-scope}. The carrier and classifier are bounded by the same request, window, readback, seal, transport, route, provenance, and local naming rows.
+
+The exclusion follows from \autoref{thm:finite-prefix-limit-budget-nonescape-criterion}. Since quotient streams, host real equality, selected limits, countable choice, hidden tail schedules, and ambient completeness occur only as refused claims in $E$, they cannot serve as alternate record factors.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget consumer boundary]
+\label{thm:finite-prefix-limit-budget-consumer-boundary}
+Every $\RealUp$, $\RegSeqRatUp$, or $\CauchyLimitSealUp$ consumer of an accepted $\FinitePrefixLimitBudgetUp$ packet receives only the same finite prefix-budget surface
+$$
+Q,B,W,D,R,S,E,H,C,P,N.
+$$
+The consumer may read the finite request, selected prefix windows, exhaustion row, regular readback, seal handoff, exclusion ledger, transport, route, provenance, and local naming rows, but it receives no completed limit, quotient stream, host real equality, selected tail, hidden schedule, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Read the Real-route handoff first. \autoref{thm:finite-prefix-limit-budget-real-route-handoff} places the Real completeness consumer behind the finite selector, StreamName, RegSeqRat, and RealObservationBudget rows already carried by the packet.
+
+Next apply record factorization. \autoref{thm:finite-prefix-limit-budget-record-factorization} says every record read used by such a consumer factors through $Q,B,W,D,R,S,E,H,C,P,N$ and through no quotient or selected-limit route.
+
+Finally use the closurestatus upgrade-path surface as the boundary vocabulary: the regular-readback consumer and completion-facing seal interface are the consumers being scoped here. Because the same finite packet supplies both interfaces, $\RealUp$, $\RegSeqRatUp$, and $\CauchyLimitSealUp$ consumers receive exactly the displayed prefix-budget rows and nothing beyond them.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget diagonal selector consumption]
+\label{thm:finite-prefix-limit-budget-diagonal-selector-consumption}
+Every diagonal-selector or Real-completion consumer of an accepted $\FinitePrefixLimitBudgetUp$ packet
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+must consume the finite route
+$$
+Q \to B \to W \to D
+$$
+before reading the regular readback row $R$ or the completion-facing seal row $S$.
+\end{theorem}
+\begin{proof}
+First use seal ordering, \autoref{thm:finite-prefix-limit-budget-seal-ordering}. It places every completion-facing read behind the route $Q \to B \to W \to D \to R \to S$, so neither $R$ nor $S$ is available before the exhaustion row.
+
+Next use prefix-exhaustion coverage, \autoref{thm:finite-prefix-limit-budget-prefix-exhaustion-coverage}. The diagonal selector spends only the finite windows admitted by $W$, and $D$ records that every admitted offset has been accounted for while outside-prefix reads are refused.
+
+Finally apply the consumer boundary, \autoref{thm:finite-prefix-limit-budget-consumer-boundary}. A Real-completion consumer receives only $Q,B,W,D,R,S,E,H,C,P,N$, so it cannot read the diagonal selector as a completed tail or selected limit before the finite request, budget, window, and exhaustion rows have been consumed.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget Real seal non-escape extension]
+\label{thm:finite-prefix-limit-budget-real-seal-nonescape-extension}
+No $\RealUp$ or $\CauchyLimitSealUp$ consumer of an accepted $\FinitePrefixLimitBudgetUp$ packet can replace the displayed finite prefix route by host real equality, quotient streams, selected limits, countable choice, hidden tail schedules, or ambient completeness. The only seal-facing route available to such a consumer is the displayed finite route through $Q,B,W,D,R,S,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the nonescape criterion, \autoref{thm:finite-prefix-limit-budget-nonescape-criterion}. Host real equality, quotient streams, selected limits, countable choice, hidden tail schedules, and ambient completeness appear only as refused claims in the exclusion row $E$.
+
+Use record factorization, \autoref{thm:finite-prefix-limit-budget-record-factorization}. Every record read of the packet factors through the finite rows $Q,B,W,D,R,S,E,H,C,P,N$, so no external analytic object can replace the displayed prefix route.
+
+The diagonal-consumption theorem above identifies the point at which the seal-facing consumer may read $R$ and $S$. Since that access comes only after $Q,B,W,D$, a $\RealUp$ or $\CauchyLimitSealUp$ consumer that substitutes a host equality, quotient stream, selected limit, choice principle, hidden tail schedule, or ambient completeness witness leaves the accepted carrier.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget observer lock]
+\label{thm:finite-prefix-limit-budget-observer-lock}
+For every accepted $\FinitePrefixLimitBudgetUp$ carrier
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N),
+$$
+each served finite observation is locked to the displayed request row $Q$, the finite selector row $B$, the $\StreamNameUp$ prefix-window row $W$, and the prefix-depth exhaustion row $D$. No observer of the packet can serve a finite observation through a different request, selector, StreamName window, or prefix-depth row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier from \autoref{def:finite-prefix-limit-budget-carrier}. The only observation-facing rows before readback are $Q,B,W,D$, and the carrier exports no alternate request coordinate or alternate prefix-window coordinate.
+
+Use the NameCert obligations of \autoref{thm:finite-prefix-limit-budget-namecert-obligations}. The selector row $B$ admits the displayed request $Q$, the window row $W$ is served under that selector, and the exhaustion row $D$ accounts for every offset admitted by $W$.
+
+Finally apply carrier-classifier scope, \autoref{thm:finite-prefix-limit-budget-carrier-classifier-scope}. It confines every classifier read to the same displayed finite prefix-budget surface, so an observer cannot detach a served finite observation from $Q,B,W,D$.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget outside-tail refusal]
+\label{thm:finite-prefix-limit-budget-tail-refusal}
+For every accepted $\FinitePrefixLimitBudgetUp$ carrier, any outside-prefix read or hidden-tail read is refused before the regular readback row $R$ or the seal row $S$ becomes available. The refusal is recorded by the prefix-exhaustion row $D$ together with the exclusion ledger $E$.
+\end{theorem}
+\begin{proof}
+Start with prefix-exhaustion coverage, \autoref{thm:finite-prefix-limit-budget-prefix-exhaustion-coverage}. It accounts for every admitted offset through $D$ and refuses every outside-prefix read before $R$ or $S$ can be consumed.
+
+Next use seal ordering, \autoref{thm:finite-prefix-limit-budget-seal-ordering}. Since every seal-facing route is ordered as $Q \to B \to W \to D \to R \to S$, no consumer reaches regular readback or the seal before the exhaustion row has performed its refusal work.
+
+It remains to block hidden tails. Apply the nonescape criterion, \autoref{thm:finite-prefix-limit-budget-nonescape-criterion}: hidden tail schedules occur only as refused claims in $E$. Thus outside-prefix and hidden-tail reads are both rejected within the finite packet before $R$ or $S$ is available.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget seal-consumer coverage]
+\label{thm:finite-prefix-limit-budget-seal-consumer-coverage}
+Every $\RealUp$, $\RegSeqRatUp$, or $\CauchyLimitSealUp$ consumer of an accepted $\FinitePrefixLimitBudgetUp$ carrier receives exactly the displayed prefix-budget route
+$$
+Q \to B \to W \to D \to R \to S
+$$
+together with the exclusion, transport, continuation, provenance, and local naming rows $E,H,C,P,N$. Such a consumer receives no quotient stream, selected limit, host real equality, hidden tail schedule, countable choice principle, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First compose the Real-route handoff of \autoref{thm:finite-prefix-limit-budget-real-route-handoff} with the regular readback path fixed by the carrier. This places the completion-facing consumer behind the finite selector, StreamName prefix windows, RegSeqRat readback, and Real-facing seal rows.
+
+Next use record factorization and the consumer boundary, \autoref{thm:finite-prefix-limit-budget-record-factorization} and \autoref{thm:finite-prefix-limit-budget-consumer-boundary}. Together they say that $\RealUp$, $\RegSeqRatUp$, and $\CauchyLimitSealUp$ consumers read only $Q,B,W,D,R,S,E,H,C,P,N$.
+
+Finally apply the Real seal non-escape theorem, \autoref{thm:finite-prefix-limit-budget-real-seal-nonescape-extension}. It excludes quotient streams, selected limits, host real equality, hidden tail schedules, countable choice, and ambient completeness from the seal-facing route, leaving exactly the displayed prefix-budget route and its local certificate rows.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget seal-window route totality]
+\label{thm:finite-prefix-limit-budget-seal-window-route-totality}
+For every accepted $\FinitePrefixLimitBudgetUp$ carrier
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N),
+$$
+each packet accepted by a $\RealUp$, $\RegSeqRatUp$, or $\CauchyLimitSealUp$ consumer routes through
+$$
+Q \to B \to W \to D \to R \to S
+$$
+with finite prefix-window totality completed before any seal read. The seal consumer may read $S$ only after the request $Q$, finite budget selector $B$, prefix-window ledger $W$, depth-exhaustion row $D$, and regular-rational readback $R$ have all been displayed.
+\end{theorem}
+\begin{proof}
+Begin with seal ordering, \autoref{thm:finite-prefix-limit-budget-seal-ordering}. It fixes the only completion-facing route as $Q \to B \to W \to D \to R \to S$ and refuses any seal read that precedes the prefix-depth exhaustion row.
+
+Next attach prefix-exhaustion coverage and diagonal selector consumption. \autoref{thm:finite-prefix-limit-budget-prefix-exhaustion-coverage} accounts for every admitted offset inside $W$ through $D$, while \autoref{thm:finite-prefix-limit-budget-diagonal-selector-consumption} prevents $R$ or $S$ from being read before the finite request, budget, window, and exhaustion rows have been consumed.
+
+Finally use seal-consumer coverage. \autoref{thm:finite-prefix-limit-budget-seal-consumer-coverage} says that every $\RealUp$, $\RegSeqRatUp$, or $\CauchyLimitSealUp$ consumer receives exactly the displayed route together with $E,H,C,P,N$. Thus prefix-window totality is already settled inside the finite packet before any completion-facing seal read occurs.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget completion consumer exhaustion]
+\label{thm:finite-prefix-limit-budget-completion-consumer-exhaustion}
+Every $\RealUp$, $\RegSeqRatUp$, and $\CauchyLimitSealUp$ consumer of an accepted $\FinitePrefixLimitBudgetUp$ carrier is exhausted by the finite packet rows
+$$
+Q,B,W,D,R,S,E,H,C,P,N.
+$$
+No such consumer can add quotient streams, selected limits, countable choice, hidden tail schedules, host real equality, or ambient completeness beyond the displayed prefix-budget certificate.
+\end{theorem}
+\begin{proof}
+First use the consumer boundary, \autoref{thm:finite-prefix-limit-budget-consumer-boundary}. It identifies the rows delivered to $\RealUp$, $\RegSeqRatUp$, and $\CauchyLimitSealUp$ consumers as exactly $Q,B,W,D,R,S,E,H,C,P,N$.
+
+Next apply record factorization and seal-consumer coverage. \autoref{thm:finite-prefix-limit-budget-record-factorization} routes every record read through the displayed finite packet, and \autoref{thm:finite-prefix-limit-budget-seal-consumer-coverage} repacks the same rows as the seal-facing surface.
+
+Finally apply the Real seal non-escape extension. \autoref{thm:finite-prefix-limit-budget-real-seal-nonescape-extension} blocks quotient streams, selected limits, host real equality, countable choice, hidden tail schedules, and ambient completeness from replacing the displayed route. Therefore every completion consumer is exhausted by the same finite prefix-budget packet.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget public-axis scope]
+\label{thm:finite-prefix-limit-budget-public-axis-scope}
+For every accepted $\FinitePrefixLimitBudgetUp$ packet
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N),
+$$
+any current Phase Real and Completion public read may consume $F$ only as the finite prefix-budget route through $Q,B,W,D,R,S,E,H,C,P,N$. The route preserves the finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealObservationBudgetUp$-facing seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. It does not create host real equality, quotient streams, selected limits, countable choice, ambient $\RealUp$ completeness, metric-completeness data, $\bridgeCheckedV$ status, or an aggregate formal-status token.
+\end{theorem}
+\begin{proof}
+Begin with seal ordering, \autoref{thm:finite-prefix-limit-budget-seal-ordering}. It fixes the public read behind the finite route $Q \to B \to W \to D \to R \to S$, so the seal-facing consumer cannot bypass the displayed prefix-depth exhaustion row.
+
+Next use the consumer boundary, \autoref{thm:finite-prefix-limit-budget-consumer-boundary}. It identifies the completion-facing read surface with $Q,B,W,D,R,S,E,H,C,P,N$ and keeps the $\StreamNameUp$, $\RegSeqRatUp$, $\RealObservationBudgetUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows inside the same finite packet.
+
+Finally apply completion consumer exhaustion, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion}, together with the two-axis discipline of \autoref{sec:roadmap-closure-and-verification-axes}. The former excludes host real equality, quotient streams, selected limits, countable choice, hidden tail schedules, ambient $\RealUp$ completeness, and metric-completeness data from the packet; the latter prevents this paper-side public route from manufacturing $\bridgeCheckedV$ status or any aggregate verification token.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget Real-completion root unblock]
+\label{thm:finite-prefix-limit-budget-real-completion-root-unblock}
+Every Real-completion or diagonal-limit consumer of an accepted $\FinitePrefixLimitBudgetUp$ packet must read the finite route
+$$
+Q \to B \to W \to D \to R \to S
+$$
+through the displayed FiniteObservationBudgetSelector, $\StreamNameUp$, $\RegSeqRatUp$, $\RealObservationBudgetUp$, $\RealUp$, and $\CauchyLimitSealUp$ rows. The same route supplies the exclusion, transport, continuation, provenance, and local naming rows $E,H,C,P,N$. No such consumer receives a quotient stream, host real equality, selected limit, countable choice principle, hidden tail schedule, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition, \autoref{def:finite-prefix-limit-budget-carrier}. It names the packet rows $Q,B,W,D,R,S,E,H,C,P,N$ and makes the finite selector, prefix-window ledger, regular-rational readback, Real-facing seal, and local naming rows part of one carrier.
+
+Apply the NameCert obligations and seal ordering, \autoref{thm:finite-prefix-limit-budget-namecert-obligations} and \autoref{thm:finite-prefix-limit-budget-seal-ordering}. They force every seal-facing consumer to pass through $Q \to B \to W \to D \to R \to S$ before the seal row is available.
+
+Finally use the Real-route handoff, completion-consumer exhaustion, and public-axis scope, \autoref{thm:finite-prefix-limit-budget-real-route-handoff}, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion}, and \autoref{thm:finite-prefix-limit-budget-public-axis-scope}. These results identify the Real-completion and diagonal-limit read surface with the same finite packet and exclude quotient streams, host real equality, selected limits, countable choice, hidden tails, and ambient completeness data.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget RegSeqRat StreamName interface]
+\label{thm:finite-prefix-limit-budget-regseq-streamname-interface}
+For every accepted $\FinitePrefixLimitBudgetUp$ packet, the $\StreamNameUp$ prefix-window row $W$ and the $\RegSeqRatUp$ readback row $R$ are exposed as one finite interface. Any $\RegSeqRatUp$ consumer sees only prefix windows admitted by the finite budget selector $B$ and exhausted by the depth row $D$ before the readback row $R$ is available.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to read $B,W,D,R$ as rows of the same finite packet. The packet does not offer a separate StreamName object or a separate RegSeqRat readback surface outside $Q,B,W,D,R,S,E,H,C,P,N$.
+
+Apply the NameCert obligations. The budget selector row $B$ admits the displayed finite request, the prefix-window row $W$ is served under that selector, and the exhaustion row $D$ accounts for the offsets admitted by $W$.
+
+Now apply seal ordering together with the public-axis scope theorem. Since the route is ordered as $Q \to B \to W \to D \to R \to S$, a $\RegSeqRatUp$ consumer cannot read $R$ before $W$ has been admitted by $B$ and exhausted by $D$.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget CauchyLimitSeal consumer scope]
+\label{thm:finite-prefix-limit-budget-cauchy-limit-seal-consumer-scope}
+Every $\CauchyLimitSealUp$ consumer of an accepted $\FinitePrefixLimitBudgetUp$ packet receives only
+$$
+Q,B,W,D,R,S,E,H,C,P,N.
+$$
+The consumer may use these rows as the finite seal route, but it may not replace the route by a completed limit, quotient stream, choice-derived tail, host real equality witness, hidden tail schedule, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition and NameCert obligations. Together they display the exact packet rows and assign request admission, prefix-window service, exhaustion, regular readback, seal handoff, exclusion, transport, continuation, provenance, and naming to $Q,B,W,D,R,S,E,H,C,P,N$.
+
+Use seal ordering and the Real-route handoff. These results keep the $\CauchyLimitSealUp$ read behind the finite path $Q \to B \to W \to D \to R \to S$ and prevent the seal row from being reached by a separate completion coordinate.
+
+Finally apply completion-consumer exhaustion and public-axis scope. They state that the consumer boundary is exhausted by the displayed rows and that completed limits, quotient streams, choice-derived tails, host real equality, hidden tail schedules, and ambient completeness data are not part of the packet.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget tail-modulus fusion]
+\label{thm:finite-prefix-limit-budget-tail-modulus-fusion}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet. Any $\CauchyTailModulusFusionUp$ consumer of $F$ may enter the tail-modulus fusion surface only through the displayed finite prefix route
+$$
+Q \to B \to W \to D \to R \to S.
+$$
+The handoff exposes the finite selector, prefix window, exhaustion row, regular-rational readback, and seal row already present in $F$; it does not add a hidden tail schedule, selected limit, quotient stream, host real equality witness, countable-choice row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the seal-window route totality of \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}. It fixes the only completion-facing route of $F$ as $Q \to B \to W \to D \to R \to S$ before any seal-facing consumer can read $S$.
+
+Next use the RegSeqRat StreamName interface, \autoref{thm:finite-prefix-limit-budget-regseq-streamname-interface}. The prefix window $W$, exhaustion row $D$, and readback row $R$ are therefore already joined inside the finite packet that a tail-modulus consumer receives.
+
+Now compare with the tail-modulus fusion certificate of \autoref{ch:concrete-instances-cauchy-tail-modulus-fusion-namecert}. Its completion-facing read is a displayed fusion of tail, modulus, threshold, selector-window, rational-readback, and Real-seal rows, so the incoming finite prefix-budget route supplies only the visible selector-window side of that surface.
+
+Finally apply completion consumer exhaustion and CauchyLimitSeal consumer scope, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion} and \autoref{thm:finite-prefix-limit-budget-cauchy-limit-seal-consumer-scope}. They exclude hidden tails, selected limits, quotient streams, host real equality, countable choice, and ambient completeness data from the handoff, leaving the route through $Q,B,W,D,R,S$ as the entire prefix-budget contribution to $\CauchyTailModulusFusionUp$.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget stability handoff]
+\label{thm:finite-prefix-limit-budget-stability-handoff}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet. Any $\FinitePrefixLimitStabilityUp$ replay of $F$ preserves the displayed rows $Q,B,W,D,R,S,E,H,C,P,N$ componentwise under the same $\hsame$ transports and $\Cont$ replays. The stability surface may read the finite budget, StreamName window, RegSeqRat readback, Real-facing seal, provenance, and local NameCert rows, but it may not replace them by a detached selector, independent stream object, selected limit, quotient stream, or ambient Real-completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the finite route of \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}. The rows $Q,B,W,D,R,S$ are displayed before the seal row is available, so a stability replay inherits an ordered prefix-budget route rather than an unstructured completion object.
+
+Use the RegSeqRat StreamName interface, \autoref{thm:finite-prefix-limit-budget-regseq-streamname-interface}. It keeps $W,D,R$ in one finite read surface, which is exactly the StreamName and RegSeqRat side consumed by the stability certificate of \autoref{ch:concrete-instances-finite-prefix-limit-stability-namecert}.
+
+The same packet carries the transport and continuation rows $H$ and $C$. Reading the stability chapter through those rows makes the replay componentwise: the $\hsame$ comparison transports each displayed row, and the $\Cont$ replay returns the same finite prefix-budget surface to the consumer.
+
+Finally apply completion consumer exhaustion and CauchyLimitSeal consumer scope, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion} and \autoref{thm:finite-prefix-limit-budget-cauchy-limit-seal-consumer-scope}. These results prevent a detached selector, independent stream object, selected limit, quotient stream, host real equality, choice-derived tail, or ambient completeness coordinate from entering the stability handoff.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget diagonal seal determinacy]
+\label{thm:finite-prefix-limit-budget-diagonal-seal-determinacy}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet. Any diagonal-limit or Real-completion seal consumer receiving both the tail-modulus fusion handoff of \autoref{thm:finite-prefix-limit-budget-tail-modulus-fusion} and the stability handoff of \autoref{thm:finite-prefix-limit-budget-stability-handoff} has a unique displayed seal route through
+$$
+Q \to B \to W \to D \to R \to S.
+$$
+The consumer may combine the $\CauchyTailModulusFusionUp$ and $\FinitePrefixLimitStabilityUp$ surfaces only along that route; it cannot choose a second seal path through a hidden tail schedule, detached stability replay, selected limit, quotient stream, host real equality witness, countable-choice row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+The local route is already unique at the prefix-budget boundary. By \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}, the seal row is reached only after $Q,B,W,D,R$, and by \autoref{thm:finite-prefix-limit-budget-regseq-streamname-interface}, the StreamName and RegSeqRat readback rows are not detachable from the finite window and exhaustion rows.
+
+The tail-modulus side adds no second route. \autoref{thm:finite-prefix-limit-budget-tail-modulus-fusion} sends the prefix-budget packet into the $\CauchyTailModulusFusionUp$ surface of \autoref{ch:concrete-instances-cauchy-tail-modulus-fusion-namecert} only through $Q \to B \to W \to D \to R \to S$.
+
+The stability side preserves the same rows. \autoref{thm:finite-prefix-limit-budget-stability-handoff} reads the $\FinitePrefixLimitStabilityUp$ surface of \autoref{ch:concrete-instances-finite-prefix-limit-stability-namecert} through componentwise $\hsame$ transport and displayed $\Cont$ replay, so the replay cannot manufacture a detached seal path.
+
+Finally use completion consumer exhaustion and CauchyLimitSeal consumer scope, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion} and \autoref{thm:finite-prefix-limit-budget-cauchy-limit-seal-consumer-scope}. They remove hidden tail schedules, selected limits, quotient streams, host real equality, countable choice, and ambient completeness from the consumer boundary. Hence the diagonal-limit or Real-completion consumer has only the displayed seal route through $Q \to B \to W \to D \to R \to S$.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget common-refinement determinacy]
+\label{thm:finite-prefix-limit-budget-common-refinement-determinacy}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+and
+$$
+F'=(Q',B',W',D',R',S',E',H',C',P',N')
+$$
+be accepted $\FinitePrefixLimitBudgetUp$ carriers serving the same $\RealUp$, $\RegSeqRatUp$, or $\CauchyLimitSealUp$ consumer request. If the two packets admit a common finite $\StreamNameUp$ refinement window, then both consumer reads factor through the same displayed selector and exhaustion route before either seal row is available.
+
+The comparison is determined by the common $W/W'$ refinement, the $D/D'$ exhaustion rows, and the $R/R'$ regular readbacks. It is not determined by quotient streams, selected limits, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. It presents each accepted packet only through the displayed rows $Q,B,W,D,R,S,E,H,C,P,N$ and $Q',B',W',D',R',S',E',H',C',P',N'$, so a shared consumer request has no hidden coordinate outside the two finite packets.
+
+Apply finite prefix-window route totality, \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}. For each packet, the seal-facing route is forced through the finite selector, prefix window, exhaustion row, and regular readback before the seal row is reachable.
+
+Next use the RegSeqRat StreamName interface, \autoref{thm:finite-prefix-limit-budget-regseq-streamname-interface}. The common $\StreamNameUp$ refinement window is therefore read as a common finite comparison of $W/W'$, exhausted by $D/D'$, and exposed to the consumer through $R/R'$ rather than through a separate stream object.
+
+Finally apply the CauchyLimitSeal consumer scope, \autoref{thm:finite-prefix-limit-budget-cauchy-limit-seal-consumer-scope}. It blocks completed limits, quotient streams, choice-derived tails, host real equality, hidden tail schedules, and ambient completeness data from entering the consumer boundary, so the common-refinement comparison is already determined before either seal row is available.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget prefix-selector totality]
+\label{thm:finite-prefix-limit-budget-prefix-selector-totality}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet. Every $\RealUp$, $\RegSeqRatUp$, or $\CauchyLimitSealUp$ consumer request admitted by $F$ first factors through the displayed request row $Q$ and finite selector row $B$. The consumer cannot read the prefix window $W$, exhaustion row $D$, regular-rational readback $R$, or seal row $S$ unless the finite selector row has already admitted the request.
+
+Equivalently, the packet offers no direct route from a consumer request to $W,D,R,S$, no quotient stream standing behind $W$, no selected tail standing behind $R$, and no host Real equality witness standing behind $S$.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:finite-prefix-limit-budget-namecert-obligations}. Their prefix-budget selection row places the admitted request $Q$ through the finite selector row $B$ before any $\StreamNameUp$ window is served.
+
+Apply seal-window route totality, \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}. It fixes the only seal-facing route as
+$$
+Q \to B \to W \to D \to R \to S.
+$$
+
+Use the RegSeqRat StreamName interface, \autoref{thm:finite-prefix-limit-budget-regseq-streamname-interface}. The rows $W,D,R$ are read as one finite prefix-window and regular-readback surface, so they are not available before the selector row has admitted the request.
+
+Finally apply common-refinement determinacy, \autoref{thm:finite-prefix-limit-budget-common-refinement-determinacy}. A second consumer packet serving the same request is compared only through a common finite selector and window refinement, which rules out a direct read of $W,D,R,S$ outside $Q,B$.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget prefix-window stability]
+\label{thm:finite-prefix-limit-budget-prefix-window-stability}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+and
+$$
+F'=(Q',B',W',D',R',S',E',H',C',P',N')
+$$
+be accepted $\FinitePrefixLimitBudgetUp$ packets related by the componentwise $\hsame$ transports displayed in $H$ and $H'$. If $F$ and $F'$ serve the same finite $\StreamNameUp$ window request for a $\RegSeqRatUp$ readback, then the transported comparison preserves the finite window rows $W/W'$, the exhaustion rows $D/D'$, and the readback rows $R/R'$.
+
+The transport may replay the displayed $\Cont$ routes, but it cannot create quotient streams, selected tails, a detached StreamName object, or an ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply the NameCert obligations of \autoref{thm:finite-prefix-limit-budget-namecert-obligations}. They identify $H$ and $H'$ as componentwise transport rows attached to the displayed packets, not as sources of new analytic coordinates.
+
+Next use the RegSeqRat StreamName interface, \autoref{thm:finite-prefix-limit-budget-regseq-streamname-interface}. It binds the $\StreamNameUp$ window rows $W/W'$ to the exhaustion rows $D/D'$ and the regular-rational readback rows $R/R'$ inside the finite prefix surface.
+
+Apply the stability handoff theorem, \autoref{thm:finite-prefix-limit-budget-stability-handoff}. Its replay of the $\FinitePrefixLimitStabilityUp$ surface preserves $Q,B,W,D,R,S,E,H,C,P,N$ componentwise under $\hsame$ transport and displayed $\Cont$ replay.
+
+Finally invoke common-refinement determinacy, \autoref{thm:finite-prefix-limit-budget-common-refinement-determinacy}. Since packets serving the same request compare through a common finite window refinement before either seal row is reached, the transported comparison has no route to quotient streams, selected tails, detached StreamName objects, or ambient completeness data.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget seal-read factorization]
+\label{thm:finite-prefix-limit-budget-seal-read-factorization}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet. Every seal-facing read of $F$ factors through the full displayed packet
+$$
+Q,B,W,D,R,S,E,H,C,P,N.
+$$
+The factorization first admits the request through $Q,B$, then reads the finite prefix window and RegSeqRat surface through $W,D,R$, then reaches the seal row $S$, and finally replays the exclusion, transport, continuation, provenance, and local NameCert rows $E,H,C,P,N$.
+
+Thus a $\RealUp$, diagonal-limit, or $\CauchyLimitSealUp$ consumer may combine the tail-modulus fusion handoff, stability handoff, and common-refinement comparison only through that displayed packet; it may not read a hidden tail schedule, quotient stream, selected limit, host Real equality witness, countable-choice row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with prefix-selector totality, \autoref{thm:finite-prefix-limit-budget-prefix-selector-totality}. It forces every admitted seal-facing consumer request through $Q,B$ before any window, readback, or seal row is visible.
+
+Use seal-window route totality and the RegSeqRat StreamName interface, \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality} and \autoref{thm:finite-prefix-limit-budget-regseq-streamname-interface}. Together they identify the finite route $Q \to B \to W \to D \to R \to S$ and keep $W,D,R$ inside the same prefix-window readback surface.
+
+Next apply tail-modulus fusion and stability handoff, \autoref{thm:finite-prefix-limit-budget-tail-modulus-fusion} and \autoref{thm:finite-prefix-limit-budget-stability-handoff}. The former admits only the displayed prefix contribution to $\CauchyTailModulusFusionUp$, while the latter replays the same rows componentwise under $\hsame$ and $\Cont$.
+
+Finally apply common-refinement determinacy, \autoref{thm:finite-prefix-limit-budget-common-refinement-determinacy}. Any second packet serving the same seal-facing request is compared by a common finite refinement of $W,D,R$, so the consumer has no remaining route to hidden tails, quotient streams, selected limits, host equality, choice, or ambient completeness outside $Q,B,W,D,R,S,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget public interface export]
+\label{thm:finite-prefix-limit-budget-public-interface-export}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet. The packet is the public Phase Real and Completion interface exported to $\RealUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\CauchyTailModulusFusionUp$, and $\FinitePrefixLimitStabilityUp$ consumers. Every such public read factors through the finite prefix-budget route
+$$
+Q \to B \to W \to D \to R \to S
+$$
+and then through the displayed exclusion, transport, continuation, provenance, and local naming rows $E,H,C,P,N$.
+
+The exported interface carries no host real equality, quotient stream, selected limit, countable-choice row, hidden tail schedule, ambient completeness coordinate, bridge-status certificate, or aggregate verification token beyond that displayed packet.
+\end{theorem}
+\begin{proof}
+Start with public-axis scope and the Real-completion root unblock, \autoref{thm:finite-prefix-limit-budget-public-axis-scope} and \autoref{thm:finite-prefix-limit-budget-real-completion-root-unblock}. These identify the Phase Real, $\RegSeqRatUp$, and $\CauchyLimitSealUp$ read surface with the same finite packet $Q,B,W,D,R,S,E,H,C,P,N$ and force the seal-facing route through $Q \to B \to W \to D \to R \to S$.
+
+Next apply tail-modulus fusion and stability handoff, \autoref{thm:finite-prefix-limit-budget-tail-modulus-fusion} and \autoref{thm:finite-prefix-limit-budget-stability-handoff}. The first admits a $\CauchyTailModulusFusionUp$ consumer only through the displayed prefix contribution, and the second replays the $\FinitePrefixLimitStabilityUp$ surface componentwise under the same $\hsame$ transports and $\Cont$ routes.
+
+Finally use diagonal seal determinacy and seal-read factorization, \autoref{thm:finite-prefix-limit-budget-diagonal-seal-determinacy} and \autoref{thm:finite-prefix-limit-budget-seal-read-factorization}. They leave no second seal path and repack every seal-facing public read through $Q,B,W,D,R,S,E,H,C,P,N$. The exclusions already recorded by the six cited results rule out host real equality, quotient streams, selected limits, countable choice, hidden tail schedules, ambient completeness, bridge-status certificates, and aggregate verification tokens.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget acceptance-bridge interface]
+\label{thm:finite-prefix-limit-budget-acceptance-bridge-interface}
+Let
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+be an accepted $\FinitePrefixLimitBudgetUp$ packet. Every acceptance-bridge consumer that transports the accepted packet preserves the same public route
+$$
+Q \to B \to W \to D \to R \to S
+$$
+and the same support rows $E,H,C,P,N$.
+
+The bridge may transport the public interface exported by \autoref{thm:finite-prefix-limit-budget-public-interface-export} across the public axis scope of \autoref{thm:finite-prefix-limit-budget-public-axis-scope} and the completion-consumer exhaustion boundary of \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion}. It cannot add host real equality, quotient streams, selected limits, countable choice, ambient completeness, bridge-status certificates, or an aggregate verification token.
+\end{theorem}
+\begin{proof}
+Begin with the public interface export, \autoref{thm:finite-prefix-limit-budget-public-interface-export}. It identifies the whole Phase Real and Completion read surface with the displayed route $Q \to B \to W \to D \to R \to S$ followed by $E,H,C,P,N$.
+
+Next apply public-axis scope, \autoref{thm:finite-prefix-limit-budget-public-axis-scope}. The public axis may expose the finite route to $\RealUp$, $\RegSeqRatUp$, and $\CauchyLimitSealUp$ consumers, but it does not manufacture a second analytic coordinate or a verification aggregate.
+
+Finally use completion-consumer exhaustion, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion}. Since the completion-facing consumer has already exhausted the packet through $Q,B,W,D,R,S,E,H,C,P,N$, an acceptance bridge can only transport that interface. The exclusions in the three cited results rule out host real equality, quotient streams, selected limits, countable choice, ambient completeness, bridge-status certificates, and aggregate verification tokens outside the displayed packet.
+\end{proof}
+
 \closureat{FinitePrefixLimitBudgetUp}{seedStr}
+\closureat{FinitePrefixLimitBudgetUp}{obligationStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{FinitePrefixLimitBudgetUp}{scopedStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{FinitePrefixLimitBudgetUp}{publicStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{FinitePrefixLimitBudgetUp}{bridgedStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{FinitePrefixLimitBudgetUp}{matureStr}[BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\FinitePrefixLimitBudgetUp}
   \constructivestory{A $\FinitePrefixLimitBudgetUp$ packet is generated from a finite diagonal request, finite observation-budget selector row, finite StreamName prefix-window ledger, prefix-depth exhaustion row, RegSeqRat readback row, Real-facing seal row, exclusion ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-prefix-limit-budget-carrier}, \autoref{thm:finite-prefix-limit-budget-namecert-obligations}, \autoref{thm:finite-prefix-limit-budget-seal-ordering}, and \autoref{thm:finite-prefix-limit-budget-real-route-handoff} specify the finite prefix-budget carrier, five NameCert rows, seal ordering, and Real-route handoff.}
-  \formalstatus{\unformalizedV}
+  \leanchecked{BEDC.Derived.FinitePrefixLimitBudgetUp.taste\_gate}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:finite-prefix-limit-budget-carrier}, \autoref{thm:finite-prefix-limit-budget-namecert-obligations}, \autoref{thm:finite-prefix-limit-budget-seal-consumer-coverage}, \autoref{thm:finite-prefix-limit-budget-seal-window-route-totality}, \autoref{thm:finite-prefix-limit-budget-completion-consumer-exhaustion}, \autoref{thm:finite-prefix-limit-budget-tail-modulus-fusion}, \autoref{thm:finite-prefix-limit-budget-stability-handoff}, \autoref{thm:finite-prefix-limit-budget-common-refinement-determinacy}, \autoref{thm:finite-prefix-limit-budget-public-interface-export}, and \autoref{thm:finite-prefix-limit-budget-acceptance-bridge-interface}, together with the visible TasteGate carrier marker, close the mature finite prefix-budget treatment: public interface export, acceptance-bridge interface, tail-modulus fusion handoff, stability handoff, and common-refinement theorem over the route $Q \to B \to W \to D \to R \to S$ and rows $E,H,C,P,N$.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.FinitePrefixLimitBudgetUp.FinitePrefixLimitBudgetTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not prove real completeness, select a completed limit, identify quotient streams, assert host real equality, use countable choice, or close a Lean implementation.}
-  \upgradepath{Scoped closure requires checked carrier, prefix-exhaustion, seal-ordering, and Real-route handoff theorems for the same finite prefix-budget packet.}
+  \notclaimed{This chapter does not prove real completeness, select a completed limit, identify quotient streams, assert host real equality, use countable choice, or close Lean implementation closure.}
+  \upgradepath{$\bridgeCheckedV$ remains a Lean-side bridge task, while the paper-side mature route is closed by the displayed finite-prefix interface $Q \to B \to W \to D \to R \to S$ with rows $E,H,C,P,N$.}
 \end{closurestatus}

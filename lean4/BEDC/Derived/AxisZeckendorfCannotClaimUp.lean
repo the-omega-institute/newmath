@@ -253,6 +253,33 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_refusal_transport [AskSetup] [Pa
                             exact unary_transport_symm gUnary sameG
   exact ⟨consumerUnary, routeAB, routeCD, routeEF, refusalRow, consumerPkg⟩
 
+theorem AxisZeckendorfCannotClaimRegistryPacket_audit_gate_boundary [AskSetup] [PackageSetup]
+    {a b c d e f g h p n r audit : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg ->
+      (hsame r a ∨ hsame r b ∨ hsame r c ∨ hsame r d ∨ hsame r e ∨ hsame r f ∨
+          hsame r g) ->
+        PkgSig bundle r pkg ->
+          Cont h p audit ->
+            PkgSig bundle audit pkg ->
+              UnaryHistory r ∧ UnaryHistory audit ∧ Cont h p audit ∧ hsame p n ∧
+                PkgSig bundle p pkg ∧ PkgSig bundle audit pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont PkgSig hsame
+  intro packet refusalRow refusalPkg auditRoute auditPkg
+  have refusalBoundary :=
+    AxisZeckendorfCannotClaimRegistryPacket_refusal_transport packet refusalRow refusalPkg
+  have publicBoundary :=
+    AxisZeckendorfCannotClaimRegistryPacket_public_boundary packet auditRoute auditPkg
+  obtain ⟨refusalUnary, _routeAB, _routeCD, _routeEF, _rowWitness, _rowPkg⟩ :=
+    refusalBoundary
+  obtain
+    ⟨_aUnary, _bUnary, _cUnary, _dUnary, _eUnary, _fUnary, _gUnary, _hUnary,
+      _pUnary, auditUnary, auditRoute', sameProvenanceName, provenancePkg,
+      auditPkg'⟩ := publicBoundary
+  exact
+    ⟨refusalUnary, auditUnary, auditRoute', sameProvenanceName, provenancePkg,
+      auditPkg'⟩
+
 theorem AxisZeckendorfCannotClaimRegistryPacket_real_refusal_route [AskSetup] [PackageSetup]
     {a b c d e f g h p n e' h' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -405,5 +432,180 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_dimlift_refusal_route [AskSetup]
       intro _row source
       exact ⟨source.right.right, hsame_symm source.left⟩
   }
+
+theorem AxisZeckendorfCannotClaimRegistryPacket_refusal_ledger_row [AskSetup] [PackageSetup]
+    {a b c d e f g h p n refusal : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg →
+      (hsame refusal a ∨ hsame refusal b ∨ hsame refusal c ∨ hsame refusal d ∨
+          hsame refusal e ∨ hsame refusal f ∨ hsame refusal g) →
+        UnaryHistory refusal ∧ Cont a b h ∧ Cont c d h ∧ Cont e f h ∧ hsame p n ∧
+          PkgSig bundle p pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  intro packet refusalRow
+  obtain
+    ⟨aUnary, bUnary, cUnary, dUnary, eUnary, fUnary, gUnary, routeAB, routeCD, routeEF,
+      _pUnary, sameProvenanceName, pkgSig⟩ := packet
+  have refusalUnary : UnaryHistory refusal := by
+    cases refusalRow with
+    | inl sameA =>
+        exact unary_transport_symm aUnary sameA
+    | inr rest =>
+        cases rest with
+        | inl sameB =>
+            exact unary_transport_symm bUnary sameB
+        | inr rest =>
+            cases rest with
+            | inl sameC =>
+                exact unary_transport_symm cUnary sameC
+            | inr rest =>
+                cases rest with
+                | inl sameD =>
+                    exact unary_transport_symm dUnary sameD
+                | inr rest =>
+                    cases rest with
+                    | inl sameE =>
+                        exact unary_transport_symm eUnary sameE
+                    | inr rest =>
+                        cases rest with
+                        | inl sameF =>
+                            exact unary_transport_symm fUnary sameF
+                        | inr sameG =>
+                            exact unary_transport_symm gUnary sameG
+  exact ⟨refusalUnary, routeAB, routeCD, routeEF, sameProvenanceName, pkgSig⟩
+
+theorem AxisZeckendorfCannotClaimRegistryPacket_refusal_kernel_scope [AskSetup]
+    [PackageSetup] {a b c d e f g h p n refusal transported audit : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg ->
+      (hsame refusal a ∨ hsame refusal b ∨ hsame refusal c ∨ hsame refusal d ∨
+          hsame refusal e ∨ hsame refusal f ∨ hsame refusal g) ->
+        hsame refusal transported ->
+          Cont h p audit ->
+            PkgSig bundle audit pkg ->
+              UnaryHistory refusal ∧ UnaryHistory transported ∧ UnaryHistory audit ∧
+                Cont a b h ∧ Cont c d h ∧ Cont e f h ∧ Cont h p audit ∧ hsame p n ∧
+                  PkgSig bundle p pkg ∧ PkgSig bundle audit pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  intro packet refusalRow sameTransported auditRoute auditPkg
+  have refusalBoundary :=
+    AxisZeckendorfCannotClaimRegistryPacket_refusal_ledger_row packet refusalRow
+  have publicBoundary :=
+    AxisZeckendorfCannotClaimRegistryPacket_public_boundary packet auditRoute auditPkg
+  obtain ⟨refusalUnary, routeAB, routeCD, routeEF, sameProvenanceName, provenancePkg⟩ :=
+    refusalBoundary
+  obtain
+    ⟨_aUnary, _bUnary, _cUnary, _dUnary, _eUnary, _fUnary, _gUnary, _hUnary,
+      _pUnary, auditUnary, auditRoute', _sameProvenanceName', _provenancePkg',
+      auditPkg'⟩ := publicBoundary
+  have transportedUnary : UnaryHistory transported :=
+    unary_transport refusalUnary sameTransported
+  exact
+    ⟨refusalUnary, transportedUnary, auditUnary, routeAB, routeCD, routeEF, auditRoute',
+      sameProvenanceName, provenancePkg, auditPkg'⟩
+
+theorem AxisZeckendorfCannotClaimRegistryPacket_positive_bridge_exclusion [AskSetup]
+    [PackageSetup] {a b c d e f g h p n bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg ->
+      Cont h p bridge ->
+        PkgSig bundle bridge pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              (hsame row h ∨ hsame row p ∨ hsame row n) ∧ UnaryHistory h ∧
+                PkgSig bundle p pkg)
+            (fun row : BHist =>
+              UnaryHistory row ∧ (hsame row h ∨ hsame row p ∨ hsame row n))
+            (fun _row : BHist =>
+              hsame p n ∧ PkgSig bundle p pkg ∧ PkgSig bundle bridge pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro packet bridgeRoute bridgePkg
+  obtain
+    ⟨aUnary, bUnary, _cUnary, _dUnary, _eUnary, _fUnary, _gUnary, routeAB, _routeCD,
+      _routeEF, pUnary, sameProvenanceName, provenancePkg⟩ := packet
+  have hUnary : UnaryHistory h :=
+    unary_cont_closed aUnary bUnary routeAB
+  have nUnary : UnaryHistory n :=
+    unary_transport pUnary sameProvenanceName
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro h
+          ⟨Or.inl (hsame_refl h), hUnary, provenancePkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        obtain ⟨sourceRow, sourceHUnary, sourcePkg⟩ := source
+        have sameRow'Row : hsame row' row :=
+          hsame_symm sameRows
+        have sourceRow' : hsame row' h ∨ hsame row' p ∨ hsame row' n := by
+          cases sourceRow with
+          | inl sameRowH =>
+              exact Or.inl (hsame_trans sameRow'Row sameRowH)
+          | inr rest =>
+              cases rest with
+              | inl sameRowP =>
+                  exact Or.inr (Or.inl (hsame_trans sameRow'Row sameRowP))
+              | inr sameRowN =>
+                  exact Or.inr (Or.inr (hsame_trans sameRow'Row sameRowN))
+        exact ⟨sourceRow', sourceHUnary, sourcePkg⟩
+    }
+    pattern_sound := by
+      intro row source
+      obtain ⟨sourceRow, _sourceHUnary, _sourcePkg⟩ := source
+      have rowUnary : UnaryHistory row := by
+        cases sourceRow with
+        | inl sameRowH =>
+            exact unary_transport_symm hUnary sameRowH
+        | inr rest =>
+            cases rest with
+            | inl sameRowP =>
+                exact unary_transport_symm pUnary sameRowP
+            | inr sameRowN =>
+                exact unary_transport_symm nUnary sameRowN
+      exact ⟨rowUnary, sourceRow⟩
+    ledger_sound := by
+      intro _row _source
+      exact ⟨sameProvenanceName, provenancePkg, bridgePkg⟩
+  }
+
+theorem AxisZeckendorfCannotClaimRegistryPacket_negative_refusal_coverage [AskSetup]
+    [PackageSetup] {a b c d e f g h p n negative audit : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg →
+      (hsame negative a ∨ hsame negative b ∨ hsame negative c ∨ hsame negative d) →
+        Cont h p audit →
+          PkgSig bundle audit pkg →
+            UnaryHistory negative ∧ Cont a b h ∧ Cont c d h ∧ hsame p n ∧
+              PkgSig bundle p pkg ∧ PkgSig bundle audit pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  intro packet negativeRow auditRoute auditPkg
+  obtain
+    ⟨aUnary, bUnary, cUnary, dUnary, _eUnary, _fUnary, _gUnary, routeAB, routeCD,
+      _routeEF, _pUnary, sameProvenanceName, provenancePkg⟩ := packet
+  have negativeUnary : UnaryHistory negative := by
+    cases negativeRow with
+    | inl sameA =>
+        exact unary_transport_symm aUnary sameA
+    | inr rest =>
+        cases rest with
+        | inl sameB =>
+            exact unary_transport_symm bUnary sameB
+        | inr rest =>
+            cases rest with
+            | inl sameC =>
+                exact unary_transport_symm cUnary sameC
+            | inr sameD =>
+                exact unary_transport_symm dUnary sameD
+  exact
+    ⟨negativeUnary, routeAB, routeCD, sameProvenanceName, provenancePkg, auditPkg⟩
 
 end BEDC.Derived.AxisZeckendorfCannotClaimUp

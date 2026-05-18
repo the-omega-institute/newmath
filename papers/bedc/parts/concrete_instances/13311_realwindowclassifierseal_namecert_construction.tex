@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\RealWindowClassifierSealUp$}
+\label{ch:concrete-instances-real-window-classifier-seal-namecert}
+\origin{human}
+
+The $\RealWindowClassifierSealUp$ packet packages the finite-window classifier demanded by the Real-completion axiom-purity boundary. It sits after the explicit-modulus refusal surface of \autoref{ch:concrete-instances-real-modulus-purity-boundary-namecert}, the finite-window seal audit of \autoref{ch:concrete-instances-finite-window-real-seal-audit-namecert}, the regular Cauchy naming layer of \autoref{ch:concrete-instances-regularcauchyname-namecert}, and the readback carriers \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Its job is to make the Real-facing classifier a displayed NameCert packet before any completion consumer reads a seal row.
+
+\begin{definition}[Real window classifier seal carrier]
+\label{def:real-window-classifier-seal-carrier}
+A $\RealWindowClassifierSealUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,D,R,E,F,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ window row naming the finite stream observations used by the completion consumer.
+\item $D$ is the $\DyadicRatCoreUp$ readback row for the dyadic values and tolerance ledger visible inside that window.
+\item $R$ is the $\RegSeqRatUp$ handoff row proving that the displayed dyadic readbacks are regular-Cauchy data.
+\item $E$ is the $\RealUp$ seal row reached only after $S,D,R$ have been displayed.
+\item $F$ is the finite-window classifier row, comparing accepted packets by the displayed stream window, dyadic readback, regular-Cauchy handoff, and Real seal.
+\item $A$ is the axiom-refusal row, recording absence of quotient streams, host real equality, selected limits, countable choice, $\Quot$ soundness, classical case splits, and proposition extensionality.
+\item $H$ records componentwise $\hsame$ transport for the window, dyadic, regular, seal, classifier, refusal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from $S$ through $D$ and $R$ into $E$ and $F$.
+\item $P$ records $\Pkg$ provenance over $\RealModulusPurityBoundaryUp$, $\FiniteWindowRealSealAuditUp$, $\RegularCauchyNameUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealWindowClassifierSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host-level real, a quotient stream, a selected limit, a non-displayed modulus, an ambient completeness theorem, or an axiom outside the finite packet.
+\end{definition}
+\leandef{BEDC.Derived.RealWindowClassifierSealUp.taste\_gate}
+
+\begin{theorem}[Real window classifier seal NameCert obligations]
+\label{thm:real-window-classifier-seal-namecert-obligations}
+For every accepted $\RealWindowClassifierSealUp$ carrier
+$$
+W=(S,D,R,E,F,A,H,C,P,N),
+$$
+the local $\NameCert_{\RealWindowClassifierSealUp}$ surface consists exactly of carrier admission, StreamName window exposure through $S$, DyadicRatCore readback through $D$, RegSeqRat handoff through $R$, RealUp seal routing through $E$, finite-window classification through $F$, axiom-refusal exposure through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-window-classifier-seal-carrier}. The packet displays one finite stream window, one dyadic tolerance readback, one regular-Cauchy handoff, one Real seal row, one classifier row, and one refusal row.
+
+The readback route is ordered. The StreamName row $S$ exposes the finite window, the DyadicRatCore row $D$ reads the dyadic data inside it, and the RegSeqRat row $R$ is reached only after those finite observations have been displayed.
+
+The Real seal and classifier are therefore downstream of the same finite data. The rows $E$ and $F$ read $S,D,R$ rather than an ambient real object, while $A$ records the axiom-purity refusals attached to that route.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier has no further coordinates, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Real window classifier seal nonescape]
+\label{thm:real-window-classifier-seal-nonescape}
+An accepted $\RealWindowClassifierSealUp$ packet cannot expose quotient-stream equality, host real equality, selected limits, countable choice, $\Quot$ soundness, classical case splits, proposition extensionality, an undisplayed modulus, or ambient $\RealUp$ completeness to a Real-completion consumer.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates in \autoref{def:real-window-classifier-seal-carrier}. The data rows are exactly $S,D,R,E,F,A$ and the structural rows are exactly $H,C,P,N$.
+
+The refusal row $A$ is displayed alongside the classifier row $F$. Thus the same packet that authorizes the finite-window comparison also records that quotient streams, host real equality, selected limits, countable choice, $\Quot$ soundness, classical case splits, proposition extensionality, undisplayed moduli, and ambient completeness are not exported.
+
+Transport, continuation, provenance, and naming preserve the displayed route. They do not add a second Real seal route or an axiom-bearing coordinate, so a completion consumer can read only the finite packet.
+\end{proof}
+
+\begin{theorem}[Real window classifier seal consumer handoff]
+\label{thm:real-window-classifier-seal-consumer-handoff}
+Every Real-completion modulus consumer of an accepted $\RealWindowClassifierSealUp$ packet factors through
+$$
+S\longmapsto D\longmapsto R\longmapsto(E,F,A,H,C,P,N).
+$$
+Consequently the consumer receives a finite-window classifier and a visible axiom-refusal row before it may read the $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:real-window-classifier-seal-namecert-obligations}. They require the consumer-facing packet to display the StreamName window, DyadicRatCore readback, and RegSeqRat handoff before the RealUp seal row is available.
+
+Next read the classifier row. Because $F$ compares accepted packets only through $S,D,R,E$ and the structural rows, the classifier is attached to the same finite window that produced the seal route.
+
+The refusal row $A$ is part of the same handoff. By \autoref{thm:real-window-classifier-seal-nonescape}, no quotient-stream equality, host real equality, selected limit, hidden modulus, completeness theorem, or forbidden axiom can be supplied after the classifier has been read. The consumer handoff is therefore exactly the displayed finite route.
+\end{proof}
+
+\falsifiablePrediction{A Real-completion modulus consumer cannot read a RealUp seal from a RealWindowClassifierSealUp packet without first reading the finite StreamName window, DyadicRatCore readback, RegSeqRat handoff, classifier row, and axiom-refusal row.}
+
+\independenceWitness{realmoduluspurityboundary, finitewindowrealsealaudit, regularcauchyname, streamname, dyadicratcore, regseqrat, real: not bijective because the seal packet carries the finite window, dyadic readback, regular handoff, Real seal, classifier, axiom-refusal, transport, continuation, provenance, and local NameCert rows simultaneously.}
+
+Lean follow-up provides explicit carrier and TasteGate fields under \texttt{lean4/BEDC/Derived/RealWindowClassifierSealUp.lean}, preserving $S,D,R,E,F,A,H,C,P,N$ as distinct rows before a checked target may cite \texttt{BEDC.Derived.RealWindowClassifierSealUp}.
+
+\closureat{RealWindowClassifierSealUp}{seedStr}
+
+\begin{closurestatus}{\RealWindowClassifierSealUp}
+  \constructivestory{A $\RealWindowClassifierSealUp$ packet is generated from a StreamName window, RegSeqRat readback, RealWindowBudget request, tail-meet row, RealUp seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. The classifier seals a real-facing read only through the finite window and regular readback rows that the budget admits. The ledger story is finite observation before real sealing: the window, tolerance, tail agreement, and RealUp rows are generated together from $\BHist$ data, and transport preserves them coordinatewise so no quotient stream, selected limit, or ambient completeness theorem can enter as a hidden classifier.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier definition, NameCert-obligation, nonescape, consumer-handoff, Lean-follow-up boundary, and existing closure annotation for $\RealWindowClassifierSealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim host-level reals, quotient streams, selected limits, non-displayed moduli, ambient completeness, or axioms outside the finite packet.}
+  \upgradepath{To reach obligationClosure, the real-window seal and consumer handoff must be encoded with checked finite-window classifier obligations.}
+\end{closurestatus}

@@ -45,7 +45,7 @@ the local $\NameCert_{\NegativeCertificateBoundaryUp}$ surface consists of five 
 \item non-internalization: the packet exports the refusal boundary and its audit readback, but it exports no constructor, theorem, axiom, quotient representative, host datum, setup object, or positive supply witness for the requested externality.
 \end{enumerate}
 \end{theorem}
-\leanchecked{BEDC.Derived.NegativeCertificateBoundaryUp.NegativeCertificateBoundaryTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.NegativeCertificateBoundaryUp.NegativeCertificateBoundaryCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:negative-certificate-boundary-carrier}. The tuple exposes exactly $S,R,G,A,H,C,P,N$, so every admitted boundary row is part of the finite packet.
 
@@ -64,12 +64,60 @@ S,R,G,A,H,C,P,N.
 $$
 The audit readback exposes the named socket, the refused internalizer, the $\mathsf{GAP}$ ledger entry, componentwise transport, continuation replay, provenance, and local naming certificate. It exposes no separate positive object for the requested external supply.
 \end{theorem}
+\leanchecked{BEDC.Derived.NegativeCertificateBoundaryUp.NegativeCertificateBoundaryCarrier\_audit\_surface}
 \begin{proof}
 Start with the carrier definition. The only readback row available to a downstream consumer is $A$, and $A$ is attached to the socket row $S$, refused internalizer row $R$, and $\mathsf{GAP}$ ledger row $G$.
 
 Use the continuation routes in $C$ to order the read. A consumer first reaches the socket, then the refusal row, then the ledger, and only then the audit readback.
 
 The transport and provenance rows preserve the same surface. Since the tuple has no coordinate for a positive supply object, the audit surface is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[NegativeCertificateBoundary refusal classifier stability]
+\label{thm:negative-certificate-boundary-refusal-classifier-stability}
+Let
+$$
+B=(S,R,G,A,H,C,P,N)
+$$
+be an accepted $\NegativeCertificateBoundaryUp$ carrier. Any componentwise $\hsame$ transport of $S,R,G,A,H,C,P,N$ preserves the refusal classifier determined by the socket row $S$ and the refused internalizer row $R$. In particular, transport cannot turn $R$ into an admitted internalizer for the requested external supply.
+\end{theorem}
+\leanchecked{BEDC.Derived.NegativeCertificateBoundaryUp.NegativeCertificateBoundaryCarrier\_refusal\_classifier\_stability}
+\begin{proof}
+Project the carrier $B$. The transport row $H$ moves the socket, refused internalizer, ledger, audit readback, provenance, and local certificate rows componentwise, so the transported packet still has the same displayed coordinates.
+
+Use the continuation row $C$ to replay only the displayed route from $S$ to $R$, from $R$ to $G$, and from $G$ to $A$. The refusal classifier is therefore read through the same finite chain after transport.
+
+The NameCert obligations in \autoref{thm:negative-certificate-boundary-namecert-obligations} include refusal classifier stability and non-internalization. Since no coordinate of $B$ exports a positive supply witness or an admitted internalizer, componentwise transport preserves the refusal boundary rather than converting $R$ into substrate content.
+\end{proof}
+
+\begin{theorem}[NegativeCertificateBoundary GAP ledger exactness]
+\label{thm:negative-certificate-boundary-gap-ledger-exactness}
+For every accepted $\NegativeCertificateBoundaryUp$ carrier
+$$
+B=(S,R,G,A,H,C,P,N),
+$$
+the $\mathsf{GAP}$ row $G$ is exact for the pair $(S,R)$: every accepted refusal read passes through $G$, every entry recorded by $G$ is attached to the displayed socket $S$ and refused internalizer $R$, and the packet contains no anonymous refusal source and no acceptance route bypassing the ledger.
+\end{theorem}
+\begin{proof}
+The carrier definition identifies $G$ as the unique displayed $\mathsf{GAP}$ ledger row for the pair consisting of the socket $S$ and the refused internalizer $R$. Thus coverage is finite and named: an accepted refusal read has a displayed ledger coordinate.
+
+Soundness follows from the NameCert obligations. The ledger exactness row ties the entry in $G$ to the socket $S$ and the proposed internalizer $R$, and the continuation row $C$ gives the route from socket to refusal to ledger.
+
+Completeness is the audit consequence. By \autoref{thm:negative-certificate-boundary-audit-surface}, downstream readback factors through $A$ after $S,R,G$ and exposes no positive object for the requested external supply. Hence the carrier leaves no anonymous refusal and no unrecorded acceptance route outside the displayed ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.NegativeCertificateBoundaryUp.NegativeCertificateBoundaryCarrier\_gap\_ledger\_exactness}
+
+\begin{theorem}[NegativeCertificateBoundary audit-gate handoff]
+\label{thm:negative-certificate-boundary-audit-gate-handoff}
+Every downstream audit read of an accepted $\NegativeCertificateBoundaryUp$ carrier factors through the audit-gate row $A$ after reading $S,R,G$. The handoff exports the socket, refused internalizer, and ledger decision, but exports no constructor, theorem, axiom, quotient representative, host datum, setup object, or positive supply witness for the requested externality.
+\end{theorem}
+\leanchecked{BEDC.Derived.NegativeCertificateBoundaryUp.NegativeCertificateBoundaryCarrier\_audit\_gate\_handoff}
+\begin{proof}
+Apply the audit surface theorem to the accepted carrier. The only consumer-facing readback row is $A$, and the continuation route reaches it only after the socket row $S$, the refused internalizer row $R$, and the ledger row $G$.
+
+The apophatic sibling route in \autoref{thm:negative-certificate-boundary-apophatic-sibling-route} fixes the boundary as a named socket and refused-internalizer route rather than as an isolated positive object. This keeps the downstream read attached to the sibling apophatic surface.
+
+Finally, the carrier inventory contains no coordinate for a constructor, theorem, axiom, quotient representative, host datum, setup object, or positive supply witness. The audit handoff is therefore a boundary readback, not an admission route.
 \end{proof}
 
 \begin{theorem}[NegativeCertificateBoundary apophatic sibling route]
@@ -87,16 +135,19 @@ The rows $R,G,A$ give the refusal and audit route. The refused internalizer $R$ 
 
 Thus the packet first inherits the apophatic-name and apophatic-socket sibling route, then passes through the apophatic-gate question route for the refused internalizer and audit readback. The exposed boundary is therefore a downstream finite refusal boundary, not an isolated kernel-only object.
 \end{proof}
+\leanchecked{BEDC.Derived.NegativeCertificateBoundaryUp.NegativeCertificateBoundaryCarrier\_apophatic\_sibling\_route}
 
-\closureat{NegativeCertificateBoundaryUp}{seedStr}
+\closureat{NegativeCertificateBoundaryUp}{obligationStr}
+\closureat{NegativeCertificateBoundaryUp}{scopedStr}[BEDC.Derived.NegativeCertificateBoundaryUp.NegativeCertificateBoundaryTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\NegativeCertificateBoundaryUp}
   \constructivestory{A $\NegativeCertificateBoundaryUp$ packet is generated from a named socket row, a refused internalizer row, a GAP ledger row, an audit-gate readback row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:negative-certificate-boundary-carrier}, \autoref{thm:negative-certificate-boundary-namecert-obligations}, \autoref{thm:negative-certificate-boundary-audit-surface}, and \autoref{thm:negative-certificate-boundary-apophatic-sibling-route} bind the finite refusal-boundary carrier, local NameCert obligations, GAP ledger exactness, audit handoff, non-internalization surface, and apophatic sibling route.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:negative-certificate-boundary-carrier}, \autoref{thm:negative-certificate-boundary-namecert-obligations}, \autoref{thm:negative-certificate-boundary-refusal-classifier-stability}, \autoref{thm:negative-certificate-boundary-gap-ledger-exactness}, \autoref{thm:negative-certificate-boundary-audit-gate-handoff}, and \autoref{thm:negative-certificate-boundary-apophatic-sibling-route} bind the finite $\BHist$ carrier, refusal classifier stability under $\hsame$, GAP ledger exactness through $\Cont$, audit-gate handoff through $\Pkg$ and $\NameCert$, non-internalization of the refused supply, and the sibling route through the apophatic-name, apophatic-socket, apophatic-gate-question, and audit-gate-boundary chapters.}
   \formalstatus{\unformalizedV}
+  \leanchecked{BEDC.Derived.NegativeCertificateBoundaryUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close a Lean implementation, bridge checking, global absence of the external supply, or a positive object representing the refused content.}
-  \upgradepath{Obligation closure requires checked carrier admission, refusal classifier stability, GAP ledger exactness, audit-gate handoff, and non-internalization for the displayed packet.}
+  \upgradepath{The next paper-side step is a public export theorem for the finite refusal-boundary NameCert surface.}
 \end{closurestatus}

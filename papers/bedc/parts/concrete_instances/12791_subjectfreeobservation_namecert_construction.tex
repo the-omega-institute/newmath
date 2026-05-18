@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\SubjectFreeObservationUp$}
+\label{ch:concrete-instances-subject-free-observation-namecert}
+\origin{ai}
+
+The \SubjectFreeObservationUp packet realizes the subject-free observation discipline of \autoref{sec:visions-philosophy-observation-subject-time} as a finite NameCert surface. It consumes the observer-history identity packet of \autoref{ch:concrete-instances-observerhistoryidentity-namecert}, the observer-filter split of \autoref{ch:concrete-instances-observer-filter-namecert}, the kernel observation sieve of \autoref{ch:concrete-instances-kernel-observation-sieve-namecert}, and the local clock budget of \autoref{ch:concrete-instances-localclockbudget-namecert}. The packet records an observation as displayed $\Cont$ replay, treats observer identity as $\hsame$ over history rows, and exposes the absence of any global subject parameter as a ledgered exclusion.
+
+\begin{definition}[Subject-free observation carrier]
+\label{def:subject-free-observation-carrier}
+A \SubjectFreeObservationUp carrier is a finite $\BHist$ packet
+$$
+S=(O,H,K,D,L,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the displayed $\Cont$ observation row, recording the observation event as a continuation over the current history surface;
+\item $H$ is the $\hsame$ observer-history identity row certified by \autoref{ch:concrete-instances-observerhistoryidentity-namecert};
+\item $K$ is the subject-free signature row, recording that the observation is typed by its $\BHist$, $\Cont$, and $\hsame$ rows rather than by an auxiliary subject carrier;
+\item $D$ is the no-subject exclusion row, refusing a subject-substance coordinate, owner map, global observer parameter, or private viewpoint object outside the displayed history rows;
+\item $L$ is the public ledger-event row, exposing the accepted observation event to downstream consumers as a named finite record;
+\item $C$ records $\Cont$ replay for observation readback, signature inspection, no-subject checking, and ledger-event exposure;
+\item $P$ is the $\Pkg$ provenance over $\mathsf{ObserverHistoryIdentity}^{\uparrow}$, $\ObserverFilterUp$, $\mathsf{KernelObservationSieve}^{\uparrow}$, $\LocalClockBudgetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SubjectFreeObservationUp}$ row.
+\end{enumerate}
+The classifier compares carriers only through $O,H,K,D,L,C,P,N$. It has no coordinate for a subject-substance, host observer identity, owner function, global viewpoint, or observation source outside the displayed $\BHist$, $\Cont$, and $\hsame$ rows.
+\end{definition}
+
+\begin{theorem}[Subject-free observation NameCert obligations]
+\label{thm:subject-free-observation-namecert-obligations}
+For the carrier of \autoref{def:subject-free-observation-carrier}, the local $\NameCert_{\SubjectFreeObservationUp}$ surface consists exactly of carrier admission for $S=(O,H,K,D,L,C,P,N)$, displayed $\Cont$ observation through $O$, observer-history identity through $H$, subject-free signature exposure through $K$, no-subject exclusion through $D$, public ledger-event exposure through $L$, replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.SubjectFreeObservationUp.SubjectFreeObservationTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier. The tuple lists the observation row, observer-history identity row, subject-free signature row, no-subject exclusion row, public ledger-event row, replay row, provenance row, and local naming row.
+
+Read the observation and identity rows first. The observation is the displayed $\Cont$ row $O$, while observer identity is supplied by the $\hsame$ row $H$ from the observer-history identity surface.
+
+The rows $K$ and $D$ then separate admissible signature data from excluded subject data. The signature is built from the displayed history, continuation, and sameness rows, and the exclusion row records that no subject-substance coordinate is available.
+
+Finally $L,C,P,N$ expose, replay, source, and name the same packet. Since the carrier contains no hidden subject coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Subject-free observation no-subject parameter]
+\label{thm:subject-free-observation-no-subject-parameter}
+If a purported observation packet requires a subject-substance coordinate outside the displayed $\BHist$, $\Cont$, and $\hsame$ rows, then it is not an accepted \SubjectFreeObservationUp carrier.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:subject-free-observation-carrier}. The only observation source is $O$, the only observer-identity row is $H$, and the only signature row is $K$.
+
+The no-subject row $D$ records the forbidden coordinates before any public ledger event is exposed. A subject-substance coordinate outside the displayed rows would have to be read either from $K$ or from $L$.
+
+Both routes are blocked by the carrier inventory. The signature row records only the subject-free observation type, and the ledger row exposes only the accepted finite event, so a packet requiring an auxiliary subject parameter falls outside the classifier.
+\end{proof}
+
+\begin{theorem}[Subject-free observation ledger event]
+\label{thm:subject-free-observation-ledger-event}
+Every public event exported by an accepted \SubjectFreeObservationUp packet factors through
+$$
+O,H,K,D,L,C,P,N.
+$$
+The event is a displayed $\Cont$ observation with $\hsame$ observer-history identity and a no-subject ledger, not a host-side subject report.
+\end{theorem}
+\begin{proof}
+Start from the accepted packet $S=(O,H,K,D,L,C,P,N)$. The public event row is $L$, and it is read only after the observation row $O$, observer-history row $H$, signature row $K$, and exclusion row $D$ have been displayed.
+
+Replay through $C$ preserves this order for consumers. Provenance through $P$ names the observer-history, observer-filter, kernel-sieve, and local-clock-budget source rows, while $N$ names the local certificate.
+
+No additional report channel appears in the packet. Thus the exported event is exactly the finite ledgered observation route and cannot be interpreted as a host-side subject report.
+\end{proof}
+
+\begin{theorem}[Subject-free observation sibling independence]
+\label{thm:subject-free-observation-sibling-independence}
+The \SubjectFreeObservationUp carrier is not bijective, under NameCert-row preservation, to $\mathsf{ObserverHistoryIdentity}^{\uparrow}$, $\ObserverFilterUp$, $\mathsf{KernelObservationSieve}^{\uparrow}$, $\LocalClockBudgetUp$, or $\mathsf{ConsciousObserverState}^{\uparrow}$.
+\end{theorem}
+\begin{proof}
+Compare the sibling surfaces. $\mathsf{ObserverHistoryIdentity}^{\uparrow}$ supplies $\hsame$ observer-history identity, $\ObserverFilterUp$ separates selected and omitted rows, $\mathsf{KernelObservationSieve}^{\uparrow}$ filters kernel-facing observations, $\LocalClockBudgetUp$ budgets local observation windows, and $\mathsf{ConsciousObserverState}^{\uparrow}$ records current observer-state rows.
+
+None of those siblings carries the full tuple $O,H,K,D,L,C,P,N$ with both the displayed $\Cont$ observation row and the no-subject exclusion ledger. A NameCert-row-preserving bijection would have to preserve those two rows together with the public ledger-event row.
+
+Because the siblings each supply only a proper dependency surface, $\SubjectFreeObservationUp$ remains a distinct finite carrier for subject-free observation packets.
+\end{proof}
+
+\falsifiablePrediction{If a packet requires a subject-substance coordinate outside the displayed BHist, Cont, and hsame rows, it cannot satisfy the SubjectFreeObservationUp NameCert obligations.}
+
+\independenceWitness{observerhistoryidentity, observerfilter, kernelobservationsieve, localclockbudget, consciousobserverstate: none carries the displayed Cont observation row, hsame observer-history identity row, subject-free signature row, no-subject exclusion ledger, public event row, replay row, provenance row, and local NameCert row in one packet.}
+
+The Lean follow-up in \texttt{lean4/BEDC/Derived/SubjectFreeObservationUp/TasteGate.lean} must provide $\Nontrivial\ \SubjectFreeObservationUp$ and $\FieldFaithful\ \SubjectFreeObservationUp$ instances before \texttt{BEDC.Derived.SubjectFreeObservationUp.SubjectFreeObservationTasteGate\_single\_carrier\_alignment} can be cited by a checked paper marker.
+
+\closureat{SubjectFreeObservationUp}{seedStr}
+
+\begin{closurestatus}{\SubjectFreeObservationUp}
+  \constructivestory{The subject-free observation certificate is generated from a $BHist$ event row, a displayed $\Cont$ observation row, an $hsame$ observer-history identity row, a subject-free signature row, and a no-subject exclusion ledger. The carrier first reads the observation event, then records that no subject slot is part of the route, and finally uses $\Cont$ only to extend the same event-ledger path. The $hsame$ relation preserves subject-freeness under changes of representative history: an equivalent history may carry the same observation, but it cannot introduce a hidden subject row. The NameCert obligations, no-subject parameter theorem, ledger-event theorem, and sibling-independence result together make observation a visible event packet.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the subject-free observation carrier, NameCert obligations, no-subject parameter theorem, ledger-event theorem, sibling-independence theorem, prediction, and seed closure marker.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim observer identity, subject experience, subject-substance coordinates, or support-lattice membership outside the subject-free event ledger.}
+  \upgradepath{Reaching obligationClosure requires a formal observation-event carrier and checked absence of subject parameters under $hsame$ transport.}
+\end{closurestatus}

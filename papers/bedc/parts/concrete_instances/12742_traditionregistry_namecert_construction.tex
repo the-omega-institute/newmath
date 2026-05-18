@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\TraditionRegistryUp$}
+\label{ch:concrete-instances-tradition-registry-namecert}
+\origin{ai}
+
+The $\TraditionRegistryUp$ packet realizes the tradition registry of \autoref{subsec:philosophy-tradition-registry-table} as a finite NameCert carrier. It sits after the auditable-generativity context of \autoref{ch:visions-philosophy-auditable-generativity}, beside the core registry index of \autoref{ch:concrete-instances-core-registry-index-namecert}, the concept-registry surface of \autoref{ch:concrete-instances-concept-registry-surface-namecert}, and the theorem-gap registry of \autoref{ch:concrete-instances-theoremgapregistry-namecert}. These siblings index concepts, expose concept surfaces, and record theorem gaps; the present packet binds one inherited tradition comparison to the rejected-surplus and comparison-discipline rows required before that comparison is named.
+
+\begin{definition}[Tradition registry carrier]
+\label{def:tradition-registry-carrier}
+A $\TraditionRegistryUp$ carrier is a finite $\BHist$ packet
+$$
+X=(T,S,P,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the tradition row, naming the inherited tradition and the traditional claim being compared.
+\item $S$ is the BEDC-site row, naming the concrete BEDC chapter, definition, theorem, or registry surface where the comparison is allowed to land.
+\item $P$ is the preserved-structure row, recording the exact constructor, classifier, transport, or obligation shape preserved by the comparison.
+\item $R$ is the rejected-surplus row, recording the doctrine, host semantics, prose reading, metaphysical claim, or ambient assumption not imported into the BEDC site.
+\item $H$ records componentwise $\hsame$ transport for the tradition, site, preserved-structure, rejected-surplus, continuation, provenance, and naming rows.
+\item $C$ records the displayed $\Cont$ route from the inherited comparison through the BEDC site and rejected-surplus boundary.
+\item $Q$ is the $\Pkg$ provenance row over philosophy tradition entries, $\CoreRegistryIndexUp$, $\ConceptRegistrySurfaceUp$, $\TheoremGapRegistryUp$, $\ClaimRegistryLayerUp$, $\AuditSystemUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TraditionRegistryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,S,P,R,H,C,Q,N$. It has no coordinate for inherited doctrine without rejected surplus, a BEDC site without preserved structure, a hidden comparison rule, or a sibling registry bijection.
+\end{definition}
+\leandef{BEDC.Derived.TraditionRegistryUp.TraditionRegistryUp}
+
+\begin{theorem}[Tradition registry NameCert obligations]
+\label{thm:tradition-registry-namecert-obligations}
+For the carrier of \autoref{def:tradition-registry-carrier}, the local $\NameCert_{\TraditionRegistryUp}$ surface consists exactly of carrier admission for $X=(T,S,P,R,H,C,Q,N)$, tradition and BEDC-site exposure through $T,S$, preserved-structure exposure through $P$, rejected-surplus exposure through $R$, componentwise transport through $H$, displayed comparison replay through $C$, package provenance through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The rows $T,S,P,R$ display the inherited tradition, the BEDC landing site, the structure preserved by the comparison, and the surplus reading rejected at that site.
+
+The support rows $H,C,Q,N$ then transport, replay, source, and name the same comparison packet. They do not add a second doctrine row, a second landing site, or an unrecorded comparison rule.
+
+Thus every accepted NameCert obligation is one of the displayed rows. Since the carrier contains no further coordinate, the listed rows exhaust the local $\NameCert_{\TraditionRegistryUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Tradition registry rejected-surplus nonescape]
+\label{thm:tradition-registry-rejected-surplus-nonescape}
+Every accepted $\TraditionRegistryUp$ packet must display the rejected-surplus row $R$ before a tradition comparison can be exported as a BEDC comparison. A packet with $T,S,P,H,C,Q,N$ but no $R$ is outside the registry surface.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:tradition-registry-namecert-obligations}. It requires the preserved structure and the rejected surplus to be displayed in the same finite packet before the local name is public.
+
+The siblings named by the provenance row can index a concept, expose a concept surface, record a theorem gap, route a claim, or audit the packet. None of them manufactures the missing rejected-surplus coordinate.
+
+Therefore an export without $R$ is not an accepted $\TraditionRegistryUp$ packet. It has left the finite registry carrier rather than completing it.
+\end{proof}
+
+\begin{theorem}[Tradition registry sibling dependency]
+\label{thm:tradition-registry-sibling-dependency}
+The sibling packets $\CoreRegistryIndexUp$, $\ConceptRegistrySurfaceUp$, $\TheoremGapRegistryUp$, $\ClaimRegistryLayerUp$, and $\AuditSystemUp$ are dependencies of $\TraditionRegistryUp$ only through the displayed provenance and replay rows $Q,C$. None is bijective with the carrier $X=(T,S,P,R,H,C,Q,N)$.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates. The tradition row, BEDC-site row, preserved-structure row, and rejected-surplus row are local to $X$ and are not replaced by a concept index, theorem-gap row, claim row, or audit row.
+
+The siblings enter through $Q$ as package provenance and through $C$ as displayed replay. Those rows state where the comparison can be checked and consumed, but they do not erase $T,S,P,R$ or reconstruct them from a sibling alone.
+
+Hence each sibling is a non-bijective dependency. The registry packet remains the finite tradition-comparison surface with its own rejected-surplus and naming rows.
+\end{proof}
+
+\falsifiablePrediction{Any accepted TraditionRegistryUp packet without a rejected-surplus row is rejected before the comparison can be exported as a BEDC tradition-registry entry.}
+
+\independenceWitness{coreregistryindex, conceptregistrysurface, theoremgapregistry, claimregistrylayer, auditsystem: no sibling is bijective because each exposes only an index, concept surface, theorem-gap row, claim route, or audit route, while TraditionRegistryUp binds tradition, BEDC site, preserved structure, rejected surplus, hsame transport, Cont replay, Pkg provenance, and local NameCert in one packet.}
+
+The later Lean \texttt{TasteGate.lean} for this chapter must include explicit \texttt{Nontrivial TraditionRegistryUp} and \texttt{FieldFaithful TraditionRegistryUp} instances preserving $T,S,P,R,H,C,Q,N$ as separate displayed rows.
+
+\closureat{TraditionRegistryUp}{seedStr}
+
+\begin{closurestatus}{\TraditionRegistryUp}
+  \constructivestory{A $\TraditionRegistryUp$ packet is generated from tradition, BEDC-site, preserved-structure, rejected-surplus, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tradition-registry-carrier}, \autoref{thm:tradition-registry-namecert-obligations}, \autoref{thm:tradition-registry-rejected-surplus-nonescape}, and \autoref{thm:tradition-registry-sibling-dependency} bind tradition comparisons to a finite rejected-surplus NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, philosophical correctness of every tradition comparison, or completeness of the sibling registry lattice.}
+  \upgradepath{Lean closure requires Nontrivial TraditionRegistryUp and FieldFaithful TraditionRegistryUp instances in \texttt{lean4/BEDC/Derived/TraditionRegistryUp/TasteGate.lean}.}
+\end{closurestatus}

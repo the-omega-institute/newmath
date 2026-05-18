@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\UpgradeRegistryUp$}
+\label{ch:concrete-instances-upgraderegistry-namecert}
+\origin{ai}
+
+The $\UpgradeRegistryUp$ packet realizes the upgrade-registry table of \autoref{subsec:philosophy-upgrade-registry-table} as a finite NameCert surface for promotion claims. It sits beside the claim-entry discipline of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, the public export gate of \autoref{ch:concrete-instances-registry-export-surface-namecert}, and the refusal axis of \autoref{ch:concrete-instances-axiszeckendorfcannotclaim-namecert}. Those siblings admit a claim row, expose registry export, and block overstrong readings; this packet binds the current-status, next-status, blocker, formal-target, provenance, transport, and local naming rows before any promotion may be read as accepted.
+
+\begin{definition}[UpgradeRegistry carrier]
+\label{def:upgrade-registry-carrier}
+An $\UpgradeRegistryUp$ carrier is a finite $\BHist$ packet
+$$
+U=(T,S,Nx,F,B,A,R,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the target row naming the chapter, package, theorem site, registry family, or bridge surface whose status may be promoted;
+\item $S$ is the current-status row, recording the theory grade, verification grade, and bridge-status grade presently exported by the target;
+\item $Nx$ is the next-status row, naming the immediate stronger status that may be accepted only after the required rows are discharged;
+\item $F$ is the required-field row, listing the carrier, classifier, stability, exactness, ledger, bridge, or proof fields that must become public packet data;
+\item $B$ is the blocker row, recording the open gap, refused reading, missing proof, missing bridge, or unresolved dependency that prevents immediate completion export;
+\item $A$ is the audit row, recording the registry-consistency, writing-discipline, and cannot-claim checks consumed before the promotion is exported;
+\item $R$ is the formal-target row, naming the Lean declaration, statement-only target, bridge obligation, or absence of such a target as public registry data;
+\item $H$ records componentwise $\hsame$ transports for the target, current-status, next-status, field, blocker, audit, formal-target, continuation, package, and local naming rows;
+\item $C$ records displayed $\Cont$ routes by which claim consumers, export consumers, and refusal consumers read the same promotion packet;
+\item $P$ is the $\Pkg$ provenance row over $\ClaimRegistryLayerUp$, $\RegistryExportSurfaceUp$, $\AxisZeckendorfCannotClaimUp$, $\AuditWritingDisciplineUp$, $\RegistryConsistencyAuditUp$, $\BHist$, $\hsame$, $\Cont$, and local certificate data;
+\item $L$ is the local $\NameCert_{\UpgradeRegistryUp}$ row.
+\end{enumerate}
+The classifier for two accepted upgrade-registry packets compares only the displayed target, current-status, next-status, required-field, blocker, audit, formal-target, transport, continuation, package, and local naming rows.
+\end{definition}
+\leanchecked{BEDC.Derived.UpgradeRegistryUp.TasteGate.UpgradeRegistryTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[UpgradeRegistry NameCert obligations]
+\label{thm:upgrade-registry-namecert-obligations}
+For the carrier of \autoref{def:upgrade-registry-carrier}, the local $\NameCert_{\UpgradeRegistryUp}$ surface consists of six finite obligations:
+\begin{enumerate}
+\item carrier exposure: every accepted registry promotion packet exposes exactly $U=(T,S,Nx,F,B,A,R,H,C,P,L)$;
+\item status locality: public comparison reads the current-status row $S$ and next-status row $Nx$ before any promotion claim is exported;
+\item blocker accountability: every accepted blocker row $B$ remains visible to the claim registry and cannot-claim registry until the required-field row $F$ is discharged;
+\item formal-target exposure: the formal-target row $R$ is public packet data and cannot be replaced by prose expectation or hidden tooling state;
+\item audit preservation: registry-consistency and writing-discipline checks are carried through the audit row $A$ and the displayed $\Cont$ routes in $C$;
+\item naming locality: componentwise $\hsame$, $\Pkg$, and $\NameCert$ provenance preserve the same promotion packet for all public consumers.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:upgrade-registry-carrier}. The tuple displays the target, status rows, required fields, blockers, audit route, formal target, transports, continuations, package provenance, and local naming row.
+
+Status locality and blocker accountability follow from the classifier. Since $S,Nx,F,B,A,R,H,C,P,L$ are the only compared rows, a consumer cannot read a promotion without also reading the current status and the blocker surface that prevents completion export.
+
+Formal-target exposure and audit preservation are the $R,A,C$ coordinates. The claim layer admits the row only through the public registry packet, while the export surface and cannot-claim sibling read the same displayed continuation routes. Componentwise transport and package provenance then repack the rows as the local NameCert packet.
+\end{proof}
+
+\begin{theorem}[UpgradeRegistry status preservation]
+\label{thm:upgrade-registry-status-preservation}
+If an accepted $\UpgradeRegistryUp$ packet has current-status row $S$, next-status row $Nx$, required-field row $F$, blocker row $B$, audit row $A$, and formal-target row $R$, then every public export route preserves the distinction between current status and next status. A promotion claim may be exported only through the displayed route $S,Nx,F,B,A,R,H,C,P,L$; it cannot be exported from the next-status row alone.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:upgrade-registry-namecert-obligations}. The status rows are adjacent coordinates in the finite carrier, and the NameCert obligations force both to remain visible to the public comparison.
+
+The blocker and required-field rows are also displayed. Thus a route that attempts to read $Nx$ as already accepted must also expose $F$ and $B$, where the unmet field or blocker remains part of the same packet.
+
+Finally, the export route factors through $A,R,H,C,P,L$. These rows preserve audit, formal-target, transport, continuation, provenance, and local naming data, so no consumer route can erase the current-status row while retaining the promotion claim.
+\end{proof}
+
+\begin{theorem}[UpgradeRegistry noncompletion surface]
+\label{thm:upgrade-registry-noncompletion-surface}
+An accepted $\UpgradeRegistryUp$ packet with no current-status row or no blocker row cannot export a completion claim. The packet may still expose a target row, next-status row, required-field row, audit row, or formal-target row, but those rows do not constitute a completed promotion without the displayed current-status and blocker accounting.
+\end{theorem}
+\begin{proof}
+Use the carrier definition. A valid packet exposes $S$ and $B$ as coordinates, so a route without either coordinate is not the accepted carrier of \autoref{def:upgrade-registry-carrier}.
+
+Use status preservation from \autoref{thm:upgrade-registry-status-preservation}. Completion export requires a route that preserves the distinction between current status and next status, and that route also carries the blocker surface. Without $S$ or $B$, the route may at most display a target, desired status, field list, audit row, or formal target; it cannot display the complete promotion packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\UpgradeRegistryUp$ packet with no current-status row or blocker row cannot export a completion claim.}
+
+\independenceWitness{claimregistrylayer, registryexportsurface, auditwritingdiscipline, axiszeckendorfcannotclaim, registryconsistencyaudit: $\UpgradeRegistryUp$ is not bijective to any sibling because it simultaneously carries target, current-status, next-status, required-field, blocker, audit, formal-target, transport, continuation, provenance, and local NameCert rows. The claim layer admits claim rows without the full promotion packet; the export surface controls release without blocker accounting; the writing-discipline packet controls prose legality without next-status fields; the cannot-claim packet records refusals without promotion transport; and the consistency audit checks agreement without owning the registry entry.}
+
+The Lean follow-up for this chapter must provide $\mathsf{Nontrivial}\ \UpgradeRegistryUp$ and $\mathsf{FieldFaithful}\ \UpgradeRegistryUp$ instances for the displayed carrier fields.
+
+\closureat{UpgradeRegistryUp}{seedStr}
+
+\begin{closurestatus}{\UpgradeRegistryUp}
+  \constructivestory{An $\UpgradeRegistryUp$ packet is generated from target, current-status, next-status, required-field, blocker, audit, formal-target, transport, continuation, package, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:upgrade-registry-carrier}, \autoref{thm:upgrade-registry-namecert-obligations}, \autoref{thm:upgrade-registry-status-preservation}, and \autoref{thm:upgrade-registry-noncompletion-surface} display the carrier, status, blocker, audit, formal-target, transport, continuation, package, and local naming rows currently owned by the upgrade-registry certificate.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close bridge checking, Lean verification, public export, or obligationClosure for the registry rows.}
+  \upgradepath{The next paper-side step is obligationClosure for the current-status, next-status, required-field, blocker, audit, formal-target, transport, continuation, package, and local naming rows.}
+\end{closurestatus}

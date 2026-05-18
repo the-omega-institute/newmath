@@ -22,6 +22,7 @@ with the following displayed coordinates:
 \end{enumerate}
 The carrier is this finite packet. It contains no global chooser, no hidden branch function, no host equality of traces, and no oracle row.
 \end{definition}
+\leanchecked{BEDC.Derived.SelectorLedgerUp.SelectorLedgerCarrier\_public\_trace\_readback}
 
 \begin{theorem}[SelectorLedger NameCert obligations]
 \label{thm:selector-ledger-namecert-obligations}
@@ -36,6 +37,7 @@ Trace admission reads $T$ from the constructor spine of $h$. Each non-empty edge
 
 The transport and continuation obligations are exactly the rows $H$ and $C$. They move the displayed history, trace, and selector witnesses componentwise while preserving the same package provenance and local naming row. Since the carrier has no further selector coordinate, the certificate has no hidden choice field to export.
 \end{proof}
+\leanchecked{BEDC.Derived.SelectorLedgerUp.SelectorLedgerNameCertObligations}
 
 \begin{theorem}[SelectorLedger trace soundness]
 \label{thm:selector-ledger-trace-soundness}
@@ -58,6 +60,7 @@ Every consumer read of an accepted $\SelectorLedgerUp$ carrier factors through t
 
 The packet therefore exposes the Empty-fable selector ledger as a finite $\NameCert_{\SelectorLedgerUp}$ surface and exports no global choice function, hidden chooser, host trace quotient, or truth oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.SelectorLedgerUp.SelectorLedgerNoHiddenChoice}
 \begin{proof}
 Inspect the carrier inventory. The only branch-facing coordinate is the finite selector-step list $S$, and the only sequence-facing coordinate is the trace row $T$.
 
@@ -72,6 +75,7 @@ Every accepted $\SelectorLedgerUp$ consumer route that is used as public record 
 
 Thus the public record view of a selector ledger is not a standalone chooser interface. It is finite inscription-event route data whose readable branch content is already exposed by the displayed ledger packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.SelectorLedgerUp.SelectorLedgerInscriptionEventConsumerRoute}
 \begin{proof}
 Write the accepted selector ledger as $L=(h,T,S,H,C,P,N)$. By \autoref{thm:selector-ledger-no-hidden-choice}, any consumer read of $L$ can reach branch information only by projecting a displayed $\mathsf{SelStep}$ row from $S$, and can reach trace information only through the finite trace row $T$ transported by the displayed $\hsame$ and $\Cont$ rows in $H$ and $C$.
 

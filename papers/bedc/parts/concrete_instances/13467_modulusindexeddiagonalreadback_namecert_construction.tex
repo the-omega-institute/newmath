@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\ModulusIndexedDiagonalReadbackUp$}
+\label{ch:concrete-instances-modulus-indexed-diagonal-readback-namecert}
+\origin{ai}
+
+The $\ModulusIndexedDiagonalReadbackUp$ packet realizes the diagonal representative of \autoref{def:real-completeness-diagonal-limit} as a finite selector certificate. It sits after the diagonal-limit representative surface of \autoref{ch:concrete-instances-diagonallimitrepresentative-namecert}, the regular-Cauchy diagonal route of \autoref{ch:concrete-instances-regularcauchydiagonal-namecert}, and the finite readback carriers $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. The packet binds one modulus request to one selected window, one dyadic tolerance ledger, one regular readback, and one Real seal before any Real-facing diagonal read becomes public.
+
+\begin{definition}[Regular-Cauchy diagonal selector carrier]
+\label{def:regular-cauchy-diagonal-selector-carrier}
+A $\ModulusIndexedDiagonalReadbackUp$ carrier is a finite $\BHist$ packet
+$$
+D=(M,S,R,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the modulus-index request row, naming the precision request $n$ and the selected modulus value $\mu(1/(n+1))$ used by the diagonal representative.
+\item $S$ is the $\StreamNameUp$ window row that records the finite observation window selected from that modulus request.
+\item $R$ is the $\RegSeqRatUp$ readback row that reads the selected regular rational sequence at the displayed window.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance ledger that records the dyadic comparison budget attached to the selected diagonal value.
+\item $E$ is the $\RealUp$ seal row reached only after $M,S,R,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus request, stream window, regular readback, dyadic tolerance, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the modulus request through the selected window, regular readback, dyadic tolerance ledger, and Real seal.
+\item $P$ records $\Pkg$ provenance over $\ModulusIndexedDiagonalReadbackUp$, $\DiagonalLimitRepresentativeUp$, $\RegularCauchyDiagonalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ModulusIndexedDiagonalReadbackUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible diagonal readback surface is $M,S,R,Q,E,H,C,P,N$. It has no coordinate for quotient streams, a selected limit representative outside the packet, ambient completeness, countable choice, host real equality, or an undisplayed diagonal selector.
+\end{definition}
+
+\begin{theorem}[Regular-Cauchy diagonal selector NameCert obligations]
+\label{thm:regular-cauchy-diagonal-selector-namecert-obligations}
+For every accepted $\ModulusIndexedDiagonalReadbackUp$ carrier $D=(M,S,R,Q,E,H,C,P,N)$, the local $\NameCert_{\ModulusIndexedDiagonalReadbackUp}$ surface consists exactly of carrier admission, modulus-index exposure through $M$, StreamName window exposure through $S$, RegSeqRat readback through $R$, DyadicRatCore tolerance exposure through $Q$, RealUp seal routing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-diagonal-selector-carrier}. It displays one modulus request, one selected stream window, one regular rational readback, one dyadic tolerance ledger, and one Real seal row.
+
+The continuation route orders the readback. The modulus request $M$ selects the window $S$, the selected window supplies the regular readback $R$, and the dyadic ledger $Q$ records the tolerance budget before the Real seal $E$ is consumed.
+
+The support rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier lists no quotient-stream, selected-limit, choice, host-equality, ambient-completeness, or hidden-selector coordinate, these rows exhaust the local NameCert obligations.
+\end{proof}
+\leanchecked{BEDC.Derived.ModulusIndexedDiagonalReadbackUp.ModulusIndexedDiagonalReadbackTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular-Cauchy diagonal selector terminal exactness]
+\label{thm:regular-cauchy-diagonal-selector-terminal-exactness}
+Every accepted Real-facing diagonal read from a $\ModulusIndexedDiagonalReadbackUp$ packet factors through the finite route
+$$
+M,S,R,Q,E,H,C,P,N.
+$$
+The terminal read is exact at the displayed modulus index: it exposes the same modulus request, StreamName window, RegSeqRat readback, DyadicRatCore tolerance ledger, RealUp seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before any consumer may treat the diagonal value as public. No quotient stream, selected limit, host real equality, choice row, ambient completeness witness, or off-packet selector can replace that route.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:regular-cauchy-diagonal-selector-namecert-obligations}. They place the modulus request, stream window, regular readback, dyadic tolerance ledger, and Real seal on one displayed carrier before a consumer may read the diagonal value.
+
+Next compare the packet with the diagonal representative. The representative of \autoref{def:real-completeness-diagonal-limit} chooses the diagonal value by the modulus index and the selected sequence window; the carrier records precisely those two selector rows as $M$ and $S$ and then records the regular readback and tolerance ledger as $R$ and $Q$.
+
+Finally read the terminal seal through $E,H,C,P,N$. These rows preserve the same packet under componentwise transport, continuation replay, provenance, and local naming. Because no other selector or completion coordinate appears in the carrier, every public Real-facing diagonal read factors through the displayed finite route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted ModulusIndexedDiagonalReadbackUp consumer exposes the modulus request, StreamName window, RegSeqRat readback, DyadicRatCore tolerance ledger, RealUp seal, hsame, Cont, Pkg, and NameCert rows before any Real-facing diagonal read is public.}
+
+\independenceWitness{regularcauchydiagonal, diagonallimitrepresentative, streamname, regseqrat, dyadicratcore: no listed sibling is bijective because each lacks the single modulus-indexed selector packet tying the request index, selected window, dyadic tolerance, regular readback, and Real seal into one local NameCert row.}
+
+The future Lean file \texttt{lean4/BEDC/Derived/ModulusIndexedDiagonalReadbackUp/TasteGate.lean} must provide \texttt{Nontrivial ModulusIndexedDiagonalReadbackUp} and \texttt{FieldFaithful ModulusIndexedDiagonalReadbackUp} instances. Those instances preserve $M,S,R,Q,E,H,C,P,N$ as distinct displayed rows before any checked target may cite \texttt{BEDC.Derived.ModulusIndexedDiagonalReadbackUp}.
+
+\closureat{ModulusIndexedDiagonalReadbackUp}{seedStr}
+\closureat{ModulusIndexedDiagonalReadbackUp}{obligationStr}
+
+\begin{closurestatus}{\ModulusIndexedDiagonalReadbackUp}
+  \constructivestory{A $\ModulusIndexedDiagonalReadbackUp$ packet is generated from a modulus row, schedule row, regular-readback row, dyadic-tolerance ledger, RealUp seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming around one diagonal selector. The classifier accepts diagonal readback only when the modulus indexes the displayed schedule and the readback and seal rows are downstream of that same finite route. The ledger story is choice-free diagonalization: every terminal read is generated from finite modulus-indexed data already present in the $\BHist$ carrier, so no quotient stream, selected representative, countable choice, or hidden diagonal selector can be projected.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier definition, NameCert-obligation, terminal-exactness, Lean-follow-up boundary, and existing closure annotations for $\ModulusIndexedDiagonalReadbackUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim quotient streams, selected limit representatives outside the packet, ambient completeness, countable choice, host real equality, or undisplayed diagonal selectors.}
+  \upgradepath{To reach obligationClosure, the modulus-indexed selector and terminal exactness must be checked as finite carrier and readback obligations.}
+\end{closurestatus}

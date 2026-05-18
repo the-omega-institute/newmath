@@ -84,6 +84,36 @@ Use \autoref{thm:streamname-dyadicratcore-window-anchor} to rule out a dyadic by
 Finally apply \autoref{thm:streamname-real-completion-gateway-terminality}. Since all terminal Real-completion routes factor through the same four-face packet, a consumer cannot reorder the faces or jump directly from $S$ to $E$ without leaving the exported gateway carrier.
 \end{proof}
 
+\begin{theorem}[StreamName Real-completion gateway touchpoint factorization]
+\label{thm:streamname-real-completion-gateway-touchpoint-factorization}
+Let
+$$
+G=(S,D,R,E,B,H,C,P,N)
+$$
+be an accepted $\StreamNameUp$ Real-completion gateway packet whose source readback follows
+$$
+S \longrightarrow D \longrightarrow R \longrightarrow E .
+$$
+Then the machine-facing surface of $G$ is exactly the factorization through the StreamName singleton finite-window handoff, the DyadicRatCore RegSeqRat bridge handoff exactness, and the RegSeqRat Real seal handoff. Equivalently, the only Lean-route positions consumed by the gateway are
+$$
+\begin{gathered}
+\texttt{BEDC.Derived.StreamNameUp.RatStreamNameFiniteWindowClassifier\_singleton\_diagonal\_handoff},\\
+\texttt{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_regseqrat\_bridge\_handoff\_exactness},\\
+\texttt{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff}.
+\end{gathered}
+$$
+The factorization exports no quotient stream equality, host sequence equality, selected limit, ambient $\RealUp$ completeness, metric-completeness data, countable-choice row, standard bridge row, or bridge-row substitute.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-real-completion-gateway-ordered-source-readback}. It fixes the gateway source order as $S$ before $D$, $R$ only from the paired $S,D$ route, and $E$ only after $R$.
+
+Next apply \autoref{thm:streamname-real-completion-gateway-obligations}. The accepted packet exposes exactly the four faces $S,D,R,E$ and the support rows $B,H,C,P,N$, so the gateway has no machine-facing coordinate outside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ inventory.
+
+Now use \autoref{thm:streamname-real-completion-exit-lean-route-boundary} together with \autoref{thm:streamname-open-phase-lean-touchpoint-triad}. These bind the same four-face exit read to exactly the StreamName singleton finite-window handoff, the DyadicRatCore RegSeqRat bridge handoff exactness, and the RegSeqRat Real seal handoff. The three touchpoints are route positions for the existing window, ledger, readback, and seal rows, not additional carrier data.
+
+Finally invoke \autoref{thm:streamname-real-completion-gateway-nonescape}. Since every accepted gateway read factors through $S,D,R,E,B,H,C,P,N$, the cited Lean-route boundary cannot introduce quotient stream equality, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, countable choice, a standard bridge row, or any bridge-row substitute. Thus the ordered gateway packet and the three touchpoints form one exact factorization surface.
+\end{proof}
+
 \begin{theorem}[StreamName Real-completion gateway status exactness]
 \label{thm:streamname-real-completion-gateway-status-exactness}
 Let
@@ -100,4 +130,26 @@ Use \autoref{thm:streamname-real-completion-gateway-ordered-source-readback}. Th
 Apply \autoref{thm:streamname-real-completion-four-object-exit-route} and \autoref{thm:streamname-real-completion-status-ledger-exactness}. These theorems identify the same four Phase Real and Completion faces as the StreamName finite window, DyadicRatCore finite dyadic budget, RegSeqRat regularity handoff, and RealUp seal route.
 
 Finally use the two-axis discipline recorded by the roadmap closurestatus blocks. The closurestatus and formalstatus rows are read per object, while $B,H,C,P,N$ only observe, transport, replay, package, and name the displayed faces. Therefore the gateway is status-exact precisely for those four per-object records, with no extra completion, quotient, choice, metric-completeness, selected-limit, or bridge status row hidden in the route.
+\end{proof}
+
+\begin{theorem}[StreamName Real-completion gateway no-choice normal form]
+\label{thm:streamname-real-completion-gateway-no-choice-normal-form}
+Let
+$$
+G=(S,D,R,E,B,H,C,P,N)
+$$
+be an accepted $\StreamNameUp$ Real-completion gateway packet. Every terminal seal consumer or completion-facing consumer of $G$ that is status-exact and machine-facing through the StreamName singleton finite-window handoff, the DyadicRatCore RegSeqRat bridge handoff exactness, and the RegSeqRat Real seal handoff has the normal form
+$$
+S \longrightarrow D \longrightarrow R \longrightarrow E
+$$
+with support rows $B,H,C,P,N$. Any read mentioning quotient stream equality, host sequence equality, a selected limit, countable choice, ambient $\RealUp$ completeness, metric-completeness data, a standard bridge row, or a bridge-row substitute lies outside the exported gateway carrier.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:streamname-real-completion-gateway-ordered-source-readback}. It fixes the only consumer order exported by the accepted gateway packet as $S$ before $D$, $R$ only from the paired $S,D$ read, and $E$ only after $R$.
+
+Apply \autoref{thm:streamname-real-completion-gateway-status-exactness}. A status-exact consumer reads the four public status faces as the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ records, while $B,H,C,P,N$ remain support rows rather than additional completion data.
+
+Next use \autoref{thm:streamname-real-completion-gateway-touchpoint-factorization}. The machine-facing route is exactly the three existing touchpoints named in the statement, so no fourth machine coordinate can supply quotient equality, a selected limit, choice, completeness, or bridge data.
+
+Finally invoke \autoref{thm:streamname-real-completion-gateway-nonescape}. Since every accepted gateway read factors through $S,D,R,E,B,H,C,P,N$, any consumer that mentions one of the excluded coordinates has left the exported carrier. Thus every terminal seal or completion-facing consumer that remains inside the gateway has precisely the displayed no-choice normal form.
 \end{proof}

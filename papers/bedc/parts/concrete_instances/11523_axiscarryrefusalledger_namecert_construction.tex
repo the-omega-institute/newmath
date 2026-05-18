@@ -47,6 +47,8 @@ Finally replay the support rows. Transport through $H$ preserves the displayed r
 \label{thm:axis-carry-refusal-ledger-nonidentification}
 For an accepted $\AxisCarryRefusalLedgerUp$ packet, no consumer can derive $\hsame$ from the $\ZCarryUp$ row, a $\RealUp$ field surface from the $\FullAxisUp$ row, or a replacement of $\NatUp$ by $\AxisNatUp$ from the axis-natural row. Each such reading is rejected unless its corresponding refusal row $Z$, $F$, or $A$ is absent, in which case the packet is not the accepted carrier of \autoref{def:axis-carry-refusal-ledger-carrier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.AxisCarryRefusalLedgerUp.AxisCarryRefusalLedgerCarrier\_nonidentification\_rows}
+\leanvariant{BEDC.Derived.AxisCarryRefusalLedgerUp.AxisCarryRefusalLedgerCarrier\_refusal\_rows\_nonidentification}
 \begin{proof}
 Use \autoref{thm:axis-carry-refusal-ledger-realizes-registry-refusals}. The accepted carrier exposes $Z,F,A$ as part of the same finite refusal ledger, so none of the three rows is optional for this packet.
 
@@ -55,17 +57,69 @@ The structural rows do not add hidden identifications. The transport row $H$ pre
 Coordinate exhaustion gives the claim. The carrier contains no host equality, no Real field-operation surface for $\FullAxisUp$, and no replacement map from $\AxisNatUp$ to $\NatUp$; therefore the proposed readings are rejected by the ledger classifier.
 \end{proof}
 
-Lean follow-up must provide \texttt{Nontrivial AxisCarryRefusalLedgerUp} and \texttt{FieldFaithful AxisCarryRefusalLedgerUp} in \texttt{TasteGate.lean}.
+\begin{theorem}[Axis carry-refusal ledger negative-row exactness]
+\label{thm:axis-carry-refusal-ledger-negative-row-exactness}
+For an accepted $\AxisCarryRefusalLedgerUp$ packet
+$$
+R=(G,Z,F,A,B,L,H,C,P,N),
+$$
+the negative rows $Z,F,A$ are exactly the refusal rows sourced from the $\AxisZeckendorfCannotClaimUp$ registry row $G$ and bound into the ledger row $L$. The row $Z$ refuses to identify $\ZCarryUp$ with $\hsame$, the row $F$ refuses to read $\FullAxisUp$ as $\RealUp$ or as a complete metric object, and the row $A$ refuses to replace $\NatUp$ by $\AxisNatUp$. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve those refusals without converting them into equalities or quotients.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisCarryRefusalLedgerUp.AxisCarryRefusalLedgerCarrier\_negative\_row\_layer\_separation}
+\begin{proof}
+Project the carrier of \autoref{def:axis-carry-refusal-ledger-carrier}. The rows $G,Z,F,A,B,L,H,C,P,N$ are all displayed, and $Z,F,A$ are the only negative rows carried by the packet.
+
+Use \autoref{thm:axis-carry-refusal-ledger-realizes-registry-refusals}. It reads the $\AxisZeckendorfCannotClaimUp$ registry through $G$ and binds the carry, full-axis, and axis-natural refusals into the same finite ledger $L$.
+
+Now apply the non-identification theorem \autoref{thm:axis-carry-refusal-ledger-nonidentification}. Since $H,C,P,N$ only preserve, replay, source, and name the displayed rows, no refusal row can become an equality, a quotient witness, or a Real field surface.
+\end{proof}
+
+\begin{theorem}[Axis carry-refusal ledger bridge-boundary preservation]
+\label{thm:axis-carry-refusal-ledger-bridge-boundary-preservation}
+Every accepted comparison between the $\AxisNatUp$ side and the $\NatUp$ side of an $\AxisCarryRefusalLedgerUp$ packet
+$$
+R=(G,Z,F,A,B,L,H,C,P,N)
+$$
+passes through the displayed $\UnaryDirectionBridgeUp$ boundary row $B$. The refusal rows $Z,F,A$ and ledger row $L$ may be transported along $H$ and replayed through $C$, but the packet does not permit a consumer to bypass $B$ by treating $\AxisNatUp$ as $\NatUp$, $\FullAxisUp$ as $\RealUp$, or $\ZCarryUp$ as an $\hsame$ equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisCarryRefusalLedgerUp.AxisCarryRefusalLedgerCarrier\_bridge\_boundary\_preservation}
+\begin{proof}
+Read the bridge coordinate in the carrier. The row $B$ is the only displayed route through which axis and unary natural comparisons are admitted.
+
+The refusal ledger theorem \autoref{thm:axis-carry-refusal-ledger-realizes-registry-refusals} binds $B$ together with $G,Z,F,A,L,H,C,P,N$. Thus the bridge is not a decorative witness; it is part of the same transportable packet as the cannot-claim registry and the three negative rows.
+
+Finally use \autoref{thm:axis-carry-refusal-ledger-nonidentification}. Any route that bypasses $B$ would have to identify one of the refused surfaces, but the carrier contains no coordinate for such an identification. The bridge boundary is therefore preserved by every accepted transport and replay of the ledger.
+\end{proof}
+
+\begin{theorem}[Axis carry-refusal ledger local NameCert exhaustion]
+\label{thm:axis-carry-refusal-ledger-local-namecert-exhaustion}
+The local $\NameCert_{\AxisCarryRefusalLedgerUp}$ row of an accepted packet
+$$
+R=(G,Z,F,A,B,L,H,C,P,N)
+$$
+exposes exactly the registry row $G$, refusal rows $Z,F,A$, $\UnaryDirectionBridgeUp$ boundary row $B$, ledger row $L$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local naming row $N$. It exposes no additional equality between $\ZCarryUp$ and $\hsame$, no quotient identifying $\FullAxisUp$ with $\RealUp$, no replacement of $\NatUp$ by $\AxisNatUp$, and no private route around the NameCert anchors.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisCarryRefusalLedgerUp.AxisCarryRefusalLedgerCarrier\_local\_namecert\_exhaustion}
+\begin{proof}
+Begin with the carrier definition. Its finite packet has exactly the rows $G,Z,F,A,B,L,H,C,P,N$, and the provenance row $P$ names the relevant $\AxisZeckendorfCannotClaimUp$, $\UnaryDirectionBridgeUp$, $\AxisNatUp$, $\NatUp$, $\FullAxisUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ anchors.
+
+Apply negative-row exactness to fix the meaning of $Z,F,A$. Apply bridge-boundary preservation to fix the only admissible route between the axis and unary natural sides.
+
+It remains to account for local naming. The row $N$ names the same finite packet after $H$ and $C$ have transported and replayed it; it does not create new carrier coordinates. Hence the local NameCert surface is exhausted by the displayed registry, refusal, bridge, ledger, transport, continuation, provenance, and naming rows.
+\end{proof}
 
 \closureat{AxisCarryRefusalLedgerUp}{seedStr}
+\closureat{AxisCarryRefusalLedgerUp}{obligationStr}[BEDC.Derived.AxisCarryRefusalLedgerUp.AxisCarryRefusalLedgerTasteGate\_single\_carrier\_alignment]
+\closureat{AxisCarryRefusalLedgerUp}{scopedStr}[BEDC.Derived.AxisCarryRefusalLedgerUp.AxisCarryRefusalLedgerCarrier\_bridge\_boundary\_preservation]
 
 \begin{closurestatus}{\AxisCarryRefusalLedgerUp}
   \constructivestory{An $\AxisCarryRefusalLedgerUp$ packet is generated from the AxisZeckendorf cannot-claim registry, checked carry refusal, FullAxis horizon refusal, AxisNat replacement refusal, unary-direction bridge boundary, ledger, componentwise transport, displayed replay, provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:axis-carry-refusal-ledger-carrier}, \autoref{thm:axis-carry-refusal-ledger-realizes-registry-refusals}, and \autoref{thm:axis-carry-refusal-ledger-nonidentification} specify the finite carrier, registry realization, and no-identification boundary for the refusal ledger.}
+  \leanchecked{BEDC.Derived.AxisCarryRefusalLedgerUp.taste\_gate}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:axis-carry-refusal-ledger-carrier}, \autoref{thm:axis-carry-refusal-ledger-realizes-registry-refusals}, \autoref{thm:axis-carry-refusal-ledger-nonidentification}, and \autoref{thm:axis-carry-refusal-ledger-local-namecert-exhaustion} specify the carrier, negative-row exactness, bridge-boundary preservation, and local NameCert exhaustion scope for the finite refusal ledger.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove Lean verification, bridge checking, ZCarry-to-hsame identification, FullAxis-to-Real identification, AxisNat replacement of Nat, or any hidden host quotient.}
-  \upgradepath{Obligation closure requires checked carrier admission, negative-row exactness, horizon-refusal exactness, bridge-boundary preservation, ledger replay, transport, provenance, and local naming over the same finite packet.}
+  \upgradepath{Public closure requires a bridge-facing consumer surface over the same carrier, negative-row exactness, bridge-boundary preservation, transport, provenance, and local naming rows.}
 \end{closurestatus}

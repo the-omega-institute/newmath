@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\ProofWitnessChainUp$}
+\label{ch:concrete-instances-proofwitnesschain-namecert}
+\origin{ai}
+
+The $\ProofWitnessChainUp$ packet realizes the BEDC proof form of \autoref{subsec:philosophy-bedc-form-proof} as a concrete finite NameCert carrier. It sits between the proof-trace audit packet of \autoref{ch:concrete-instances-prooftraceauditwitness-namecert}, the accepted-declaration audit surface of \autoref{ch:concrete-instances-kernel-audit-witness-namecert}, the certificate-preserving route of \autoref{ch:concrete-instances-namecertmorphism-namecert}, and the proof-object erasure surface of \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. Those siblings audit narrower faces of proof use; this carrier binds the proof trace, source carrier, classifier witness, transport, ledger, refusal, audit verdict, provenance, and local name into one finite witness-chain object.
+
+\begin{definition}[Proof witness chain carrier]
+\label{def:proof-witness-chain-carrier}
+A $\ProofWitnessChainUp$ carrier is a finite $\BHist$ packet
+$$
+W=(T,S,K,H,L,F,A,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the proof-trace row, recording the finite witness chain consumed by the proof site.
+\item $S$ is the source-carrier row, recording the BEDC carrier, source object, theorem surface, or certificate row whose proof evidence is being read.
+\item $K$ is the classifier-witness row, recording the classifier membership, comparison, stability, or exactness witness licensing the chain.
+\item $H$ is the displayed-transport row, recording the $\hsame$ transport needed across classifier, package, bridge, or history-identity surfaces.
+\item $L$ is the proof ledger row, recording $\Cont$ replay, package route, local ledger entries, and proof-site handoff rows.
+\item $F$ is the forbidden-resource refusal row, recording refusal of hidden choice, host equality as BEDC equality, quotient collapse, propositional extensional rewrite, global truth predicate, unledgered compression, and unscoped universal claim.
+\item $A$ is the audit-verdict row, recording accepted, refused, or displayed-obligation status for the whole witness chain.
+\item $P$ is the $\Pkg$ provenance over $\ProofTraceAuditWitnessUp$, $\KernelAuditWitnessUp$, $\NameCertMorphismUp$, $\ProofTermErasureTraceUp$, $\FiniteWitnessRouteUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ProofWitnessChainUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for an untraced proof, implicit classifier crossing, hidden proof source, erased refusal, host equality proof, or audit verdict detached from provenance and local naming.
+\end{definition}
+\leandef{BEDC.Derived.ProofWitnessChainUp.ProofWitnessChainUp}
+
+\begin{theorem}[Proof witness chain NameCert obligations]
+\label{thm:proof-witness-chain-namecert-obligations}
+For the carrier of \autoref{def:proof-witness-chain-carrier}, the local $\NameCert_{\ProofWitnessChainUp}$ surface consists exactly of the following obligation rows: carrier admission for $W=(T,S,K,H,L,F,A,P,N)$; proof-trace and source-carrier exposure through $T$ and $S$; classifier-witness stability through $K$; displayed transport through $H$; ledger replay and proof-site handoff through $L$; forbidden-resource refusal and audit-verdict exactness through $F$ and $A$; and provenance plus local naming through $P$ and $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ProofWitnessChainUp.ProofWitnessChainTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier of \autoref{def:proof-witness-chain-carrier}. The rows $T,S,K,H,L,F,A,P,N$ are the only displayed coordinates of an accepted proof witness chain, so the local NameCert first reads a finite proof trace, its source surface, and the classifier witness that licenses the trace.
+
+Next read the transport and ledger rows. The displayed transport row $H$ keeps classifier crossing inside $\hsame$ data, while the ledger row $L$ records replay, package route, local ledger entries, and handoff rows in $\Cont$, $\Pkg$, and $\NameCert$ form.
+
+Finally attach the refusal, verdict, provenance, and local name rows. The refusal row $F$ records which proof resources are unavailable, the verdict row $A$ classifies the whole chain, and $P,N$ bind that verdict to finite provenance and local naming. Repacking these rows gives the listed obligations and leaves no coordinate for hidden proof evidence.
+\end{proof}
+
+\begin{theorem}[Proof witness chain ledger non-escape]
+\label{thm:proof-witness-chain-ledger-nonescape}
+Every accepted $\ProofWitnessChainUp$ proof read factors through the displayed rows
+$$
+T,S,K,H,L,F,A,P,N.
+$$
+Deleting the classifier-witness row $K$ or the forbidden-resource refusal row $F$ invalidates the accepted proof witness chain carrier.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:proof-witness-chain-namecert-obligations}. The accepted chain must expose proof trace, source carrier, classifier witness, displayed transport, ledger handoff, forbidden-resource refusal, audit verdict, provenance, and local naming as one finite packet.
+
+If $K$ is absent, the trace has no displayed classifier comparison or stability witness. The source row $S$ and trace row $T$ remain visible, but no NameCert obligation licenses them as a BEDC proof read.
+
+If $F$ is absent, the packet no longer records refusal of hidden choice, quotient collapse, host equality, propositional extensional rewrite, global truth, unledgered compression, or unscoped universal claim. The verdict row $A$ then has no refusal boundary to audit.
+
+Thus every accepted proof read remains inside the displayed packet. A consumer that reads proof evidence without $K$ or $F$ has left the $\ProofWitnessChainUp$ carrier rather than extracting a hidden proof resource from it.
+\end{proof}
+
+\begin{theorem}[Proof witness chain proof-trace handoff]
+\label{thm:proof-witness-chain-prooftrace-handoff}
+Every accepted $\ProofWitnessChainUp$ carrier hands its trace row $T$ to \autoref{ch:concrete-instances-prooftraceauditwitness-namecert} before a downstream consumer may read the proof as BEDC-internal evidence. The handoff preserves the source row $S$, classifier row $K$, transport row $H$, ledger row $L$, refusal row $F$, audit verdict $A$, provenance row $P$, and local name $N$.
+\end{theorem}
+\begin{proof}
+Read the proof-trace component $T$ of \autoref{def:proof-witness-chain-carrier}. The trace is not a standalone proof object; it is the row sent to the proof-trace audit witness surface.
+
+The surrounding rows $S,K,H,L,F,A,P,N$ provide the exact context in which the trace is consumed. The source row and classifier witness determine what the trace is evidence for, transport and ledger rows determine how it is replayed, and the refusal and verdict rows determine whether it is accepted or refused.
+
+The handoff therefore preserves the full packet boundary. A downstream consumer may route through $\ProofTraceAuditWitnessUp$, $\KernelAuditWitnessUp$, $\NameCertMorphismUp$, or $\ProofTermErasureTraceUp$, but it may not replace the witness chain by any one of those siblings alone.
+\end{proof}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/ProofWitnessChainUp/TasteGate.lean} must provide explicit $\Nontrivial\ \ProofWitnessChainUp$ and $\FieldFaithful\ \ProofWitnessChainUp$ instances, preserving $T,S,K,H,L,F,A,P,N$ as separate displayed fields.
+
+\falsifiablePrediction{Deleting the classifier-witness or forbidden-resource refusal row invalidates the accepted proof witness chain carrier.}
+
+\independenceWitness{prooftraceauditwitness, kernelauditwitness, namecertmorphism, prooftermerasuretrace, finitewitnessroute: none is bijective to $\ProofWitnessChainUp$ because preserving the carrier requires proof trace, source, classifier, transport, ledger, refusal, audit verdict, provenance, and local name together. ProofTraceAuditWitnessUp audits the trace face, KernelAuditWitnessUp audits accepted declarations, NameCertMorphismUp transports certificate rows, ProofTermErasureTraceUp separates erased proof rows, and FiniteWitnessRouteUp records finite route exits; no listed sibling preserves the whole proof witness chain surface.}
+
+\closureat{ProofWitnessChainUp}{seedStr}
+
+\begin{closurestatus}{\ProofWitnessChainUp}
+  \constructivestory{The proof witness chain is generated from $BHist$ rows that list proof trace data, source rows, classifier witnesses, transport, ledger entries, forbidden-resource refusal, audit verdict, provenance, and local naming in order. The carrier first reads each witness row, then checks that the ledger connects adjacent rows as a chain, and finally allows $\Cont$ to carry the trace forward without replacing it by an external proof object. The $hsame$ relation keeps the witness sequence stable when histories are represented differently. The NameCert obligations, ledger non-escape, proof-trace handoff, prediction, and independence witness thus make the chain a visible certificate of derivation evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the proof witness-chain carrier, NameCert obligations, ledger-non-escape theorem, proof-trace handoff theorem, falsifiable prediction, and independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim proof validity outside the witness chain, proof irrelevance, or derivations not recorded in the ledger.}
+  \upgradepath{Reaching obligationClosure requires formal witness-chain rows and checked handoff preservation for the visible proof trace.}
+\end{closurestatus}

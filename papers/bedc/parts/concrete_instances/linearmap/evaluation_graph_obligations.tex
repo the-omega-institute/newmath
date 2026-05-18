@@ -1,0 +1,43 @@
+\begin{definition}[LinearMap evaluation-graph carrier]
+\label{def:linearmap-evaluation-graph-carrier}
+Let $F$ carry a $\FieldUp(F)$ certificate, and let $V$ and $W$ carry $\VecSpaceUp(F,V)$ and $\VecSpaceUp(F,W)$ certificates over the same scalar source. A $\LinearMapUp(V,W)$ evaluation-graph packet is a finite $\BHist$ family with the following rows:
+\begin{enumerate}
+  \item a source vector-space row naming the carrier, addition, zero, additive inverse, scalar action, and classifier of $V$;
+  \item a target vector-space row naming the corresponding data of $W$;
+  \item an evaluation graph row $G_f$ whose entries record carried source endpoints $x:V$, carried target endpoints $y:W$, and graph witnesses $f(x)\sim_W y$;
+  \item an additivity ledger row stating that every carried pair $x,u:V$ has a graph witness for $x+_V u$ whose target endpoint is classified with $f(x)+_W f(u)$;
+  \item a scalar-compatibility ledger row stating that every carried scalar $a:F$ and carried $x:V$ have a graph witness for $a\odot_V x$ whose target endpoint is classified with $a\odot_W f(x)$;
+  \item a pointwise classifier row comparing two such graph packets by target-classifier comparison at each carried source endpoint;
+  \item continuation rows showing that evaluation, additivity, and scalar-compatibility entries remain visible after the relevant $\Cont$ routes and context appends;
+  \item a $\Pkg$ provenance row recording the function identifier, the source and target vector-space packages, the three graph ledgers, and the finite history addresses used by the packet;
+  \item a $\NameCert$ row asserting reflexivity, symmetry, transitivity, carrier transport, and ledger exactness for the pointwise graph classifier.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[LinearMap evaluation-graph NameCert obligations]
+\label{thm:linearmap-evaluation-graph-namecert-obligations}
+Every evaluation-graph packet of \autoref{def:linearmap-evaluation-graph-carrier} supplies the local $\LinearMapUp(V,W)$ NameCert obligation surface: carrier admission for the map-code, pointwise classifier transport along the target $\NameCert$, additivity stability, scalar-compatibility stability, and exact recovery of the displayed graph, additivity, scalar, continuation, $\Pkg$, and naming ledgers. Conversely, any finite $\BHist$ packet carrying precisely those rows is admitted by the evaluation-graph carrier and determines the same pointwise $\LinearMapUp(V,W)$ classifier.
+\end{theorem}
+\begin{proof}
+Carrier admission reads the source and target vector-space rows through the $\VecSpaceUp$ certificates and then reads their module fragments through \autoref{prop:vecspace-module-fragment-projection}. The output-closure part of the graph row gives the carried target endpoint for each carried source input, so the packet has the map-code carrier required by \autoref{def:linearmap-carrier}.
+
+Pointwise classifier transport is inherited from the target $\NameCert$. For each carried source endpoint, the graph row gives a target classifier comparison, and \autoref{def:linearmap-classifier-specification} packages those target comparisons as the $\LinearMapUp(V,W)$ classifier. Reflexivity, symmetry, and transitivity are the pointwise rows isolated in \autoref{thm:linearmap-pointwise-classifier-equivalence}.
+
+Additivity and scalar compatibility are the two stability ledgers. The additivity row is the same law used in \autoref{def:linearmap-stability-certificate}; the scalar row is the vector-space form of the module certificate in \autoref{def:module-linearmap-certificate-package}. The zero and inverse consequences available in \autoref{thm:module-zero-linearmap-certificate}, \autoref{thm:module-zero-linearmap-classifier-uniqueness}, and \autoref{thm:linearmap-additive-inverse-preservation} show that no separate function-extensional equality is needed.
+
+Finally, the continuation rows are checked by the singleton evaluation and composition continuation surfaces in \autoref{thm:linearmap-singleton-eval-context-continuation-append-target-carrier-iff}, \autoref{thm:linearmap-singleton-eval-context-append-input-result-carrier-iff}, and \autoref{thm:linearmap-singleton-eval-comp-continuation-pair-classifier}. Since every public read is one of the listed $\BHist$ rows, the $\Pkg$ row and the $\NameCert$ row recover exactly the carrier, classifier, stability, and ledger fields of \autoref{def:linearmap-certificate-obligations}.
+\end{proof}
+
+\begin{theorem}[LinearMap evaluation-graph composition closure]
+\label{thm:linearmap-evaluation-graph-composition-closure}
+Let $F$ carry a $\FieldUp(F)$ certificate, and let $U$, $V$, and $W$ carry $\VecSpaceUp(F,U)$, $\VecSpaceUp(F,V)$, and $\VecSpaceUp(F,W)$ certificates over the same scalar source. If $G_f$ is an accepted evaluation-graph packet for $f:U\to V$ and $G_g$ is an accepted evaluation-graph packet for $g:V\to W$, with the target vector-space row of $G_f$ matching the source vector-space row of $G_g$, then the $\Cont$-spliced graph packet for $g\circ f:U\to W$ is an accepted evaluation-graph packet. Its pointwise classifier is the target classifier of $W$, its additivity ledger is the composite of the additivity ledgers of $G_f$ and $G_g$, and its scalar-compatibility ledger is the composite of their scalar ledgers.
+\end{theorem}
+\begin{proof}
+The matching middle row identifies the target classifier and operations of the first packet with the source classifier and operations of the second packet. Thus every carried $u:U$ evaluated by $G_f$ produces a carried middle endpoint in $V$, and the carrier-admission row of $G_g$ evaluates that endpoint in $W$. Splicing the two $\Cont$ routes gives the graph row for $g(f(u))$.
+
+For additivity, the first packet classifies $f(u+_U u')$ with $f(u)+_V f(u')$. The second packet transports that middle classifier comparison through its pointwise descent row and then applies its own additivity ledger to classify $g(f(u)+_V f(u'))$ with $g(f(u))+_W g(f(u'))$. The target $\NameCert$ in $W$ composes these comparisons into the displayed additivity ledger for $g\circ f$.
+
+The scalar row is parallel. The first packet classifies $f(a\odot_U u)$ with $a\odot_V f(u)$. The second packet transports along the shared middle classifier and applies scalar compatibility in the target vector space, yielding a comparison with $a\odot_W g(f(u))$.
+
+All pointwise comparisons are recorded as target-classifier rows in $W$, so \autoref{def:linearmap-classifier-specification} supplies the composite $\LinearMapUp(U,W)$ classifier. The $\Pkg$ provenance is the ordered pair of input packet identifiers together with the spliced continuation address, and the exactness clause follows because no row outside the two accepted graph packets and their shared middle vector-space row is read.
+\end{proof}

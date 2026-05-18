@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\CannotClaimExportGateUp$}
+\label{ch:concrete-instances-cannot-claim-export-gate-namecert}
+\origin{ai}
+
+The $\CannotClaimExportGateUp$ packet realizes the philosophy-package cannot-claim registry of \autoref{def:philosophy-package-cannot-claim-registry} and the export interface of \autoref{def:philosophy-export} as one finite NameCert gate. It sits beside the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the refusal registry of \autoref{ch:concrete-instances-refusalregistry-namecert}, the machine-interface boundary of \autoref{ch:concrete-instances-machine-interface-boundary-namecert}, the package carrier of \autoref{ch:concrete-instances-bedc-philosophy-package-namecert}, and the audit export firewall of \autoref{ch:concrete-instances-auditexportfirewall-namecert}. Those siblings expose exported registry rows, refusal rows, target routing, package ledgers, and audit-firewall decisions separately; this carrier binds the same refused claim before it can be read as a checked formal-package target.
+
+\begin{definition}[Cannot-claim export gate carrier]
+\label{def:cannot-claim-export-gate-carrier}
+A $\CannotClaimExportGateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(R,F,E,Q,T,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the registry row, recording the philosophy-package claim text, registry status, theorem-map site when present, gap-map site when present, and export request.
+\item $F$ is the refusal row, recording the active cannot-claim entry, refusal reason, blocked reading, and required target condition for the same claim.
+\item $E$ is the export-decision row, recording whether the request is refused, reading-export only, paper-synthesis export, component-checked export, formal-package target, or formal-package checked.
+\item $Q$ is the export-grade row, recording the grade named in \autoref{def:philosophy-export-grade} together with the reason the refused row cannot occupy the checked grade.
+\item $T$ is the target row, recording the machine-facing target route, Lean target name when present, paper-only route when present, and the absence of a checked package target for refused rows.
+\item $A$ is the audit row, recording the readback from the registry export surface, refusal registry, machine-interface boundary, package carrier, and audit export firewall for the same claim site.
+\item $H$ records componentwise $\hsame$ transport for registry, refusal, export decision, export grade, target route, audit readback, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for reading $R,F,E,Q,T,A$ without adding a host-side checked-target override.
+\item $P$ records $\Pkg$ provenance over the five sibling packets, the philosophy-package export interface, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CannotClaimExportGateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for exporting a refused cannot-claim registry row as a checked formal-package target outside the displayed registry, refusal, export, target, audit, transport, continuation, provenance, and local naming rows.
+\end{definition}
+
+\begin{theorem}[Cannot-claim export gate NameCert obligations]
+\label{thm:cannot-claim-export-gate-obligations}
+For the carrier of \autoref{def:cannot-claim-export-gate-carrier}, the local $\NameCert_{\CannotClaimExportGateUp}$ surface consists exactly of carrier admission for $G=(R,F,E,Q,T,A,H,C,P,N)$, registry exposure through $R$, refusal exposure through $F$, export-decision exposure through $E$, export-grade exposure through $Q$, target-route exposure through $T$, audit readback through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $G=(R,F,E,Q,T,A,H,C,P,N)$. The registry row $R$ gives the claim site and requested export, while the refusal row $F$ displays the active cannot-claim entry for that same site.
+
+The export rows are then read against the refusal. The decision row $E$ and grade row $Q$ record the permitted export level, and the target row $T$ records the machine-facing route without supplying a checked package target when $F$ is active.
+
+Finally the audit, transport, replay, provenance, and naming rows preserve that same display. Since the carrier has no additional export coordinate, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cannot-claim export gate refusal nonescape]
+\label{thm:cannot-claim-export-gate-refusal-nonescape}
+If an accepted $\CannotClaimExportGateUp$ packet carries an active refusal row $F$ for registry row $R$, then its export-decision row $E$ and export-grade row $Q$ cannot expose that same row as formal package checked, and its target row $T$ cannot expose it as a checked formal-package target.
+\end{theorem}
+\begin{proof}
+Assume an accepted packet $G=(R,F,E,Q,T,A,H,C,P,N)$ with $F$ active for $R$. The active refusal row is read before the export decision, grade, or target route can be projected.
+
+The decision row $E$ and grade row $Q$ are the only coordinates from which an export status may be read. Because they are displayed together with $F$, they record a refusal or a weaker export grade rather than the checked formal-package grade for the refused claim.
+
+The target row $T$ is likewise read after $F,E,Q$. It may record a paper-only route or a missing checked target, but it has no separate coordinate that can turn the refused row into a checked package target. Transport, continuation, provenance, and local naming preserve that refusal instead of escaping it.
+\end{proof}
+
+\begin{theorem}[Cannot-claim export gate registry factorization]
+\label{thm:cannot-claim-export-gate-registry-factorization}
+Every accepted $\CannotClaimExportGateUp$ export reading factors through the registry row $R$, refusal row $F$, export rows $E,Q$, target row $T$, and audit row $A$ before local naming. No registry claim reaches the local $\NameCert_{\CannotClaimExportGateUp}$ row by prose adjacency to the philosophy package alone.
+\end{theorem}
+\begin{proof}
+Read the packet by coordinates. The registry row $R$ supplies the claim site, and $F$ supplies the cannot-claim status for that site. The export rows $E,Q$ then determine the grade, while $T$ supplies the target route.
+
+The audit row $A$ checks the same site against the registry export surface, refusal registry, machine-interface boundary, package carrier, and audit export firewall. Thus the local naming row $N$ receives a factored packet rather than an uninspected package paragraph.
+
+Since $H,C,P$ only transport, replay, and source the displayed rows, they do not create a second route from prose to checked target. The export reading therefore factors through the listed rows.
+\end{proof}
+
+\begin{theorem}[Cannot-claim export gate TasteGate handoff]
+\label{thm:cannot-claim-export-gate-tastegate-handoff}
+The Lean-facing handoff for $\CannotClaimExportGateUp$ must keep registry row $R$, refusal row $F$, export-decision row $E$, export-grade row $Q$, target row $T$, audit row $A$, transport row $H$, continuation row $C$, provenance row $P$, and local NameCert row $N$ as distinct fields. Collapsing any of $F,E,Q,T,A$ removes the field on which the refused-claim export block depends.
+\end{theorem}
+\leanchecked{BEDC.Derived.CannotClaimExportGateUp.CannotClaimExportGateTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+The gate blocks a refused checked-target export by comparing the refusal row with the export decision, export grade, target route, and audit readback. These comparisons require the rows $F,E,Q,T,A$ to remain separately projected.
+
+Rows $H,C,P,N$ preserve and name the same packet after the comparison. If a Lean-facing carrier merged the refusal with the decision, grade, route, or audit rows, a consumer could no longer state which field records refusal and which field records export. The TasteGate handoff therefore keeps all ten rows as field-faithful data.
+\end{proof}
+
+\falsifiablePrediction{A refused cannot-claim registry row cannot be exported as a checked formal-package target through an accepted CannotClaimExportGateUp packet.}
+
+\independenceWitness{registryexportsurface, refusalregistry, machineinterfaceboundary, bedcphilosophypackage, auditexportfirewall: none is bijective to CannotClaimExportGateUp because the gate simultaneously carries refusal status, export grade, target route, audit readback, transport, continuation, provenance, and local NameCert rows.}
+
+The Lean follow-up must provide $\Nontrivial\ \CannotClaimExportGateUp$ and $\FieldFaithful\ \CannotClaimExportGateUp$ instances in \texttt{lean4/BEDC/Derived/CannotClaimExportGateUp/TasteGate.lean}. The field-faithfulness witness must preserve $R,F,E,Q,T,A,H,C,P,N$ as distinct rows before a checked target can cite \texttt{BEDC.Derived.CannotClaimExportGateUp.TasteGate.CannotClaimExportGateTasteGate\_single\_carrier\_alignment}.
+
+\closureat{CannotClaimExportGateUp}{seedStr}
+
+\begin{closurestatus}{\CannotClaimExportGateUp}
+  \constructivestory{A $\CannotClaimExportGateUp$ packet is generated from registry rows, refusal rows, export-decision rows, target rows, audit rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. The classifier makes a blocked claim exportable only as a blocked claim: any consumer must read the registry entry and the refusal surface before reaching the export gate or formal target row. The ledger story is refusal preservation, where the audit and continuation rows carry the same cannot-claim evidence forward, preventing a refused registry item from being read as a checked package target or silently converted into success.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier definition, NameCert-obligation, refusal-nonescape, registry-factorization, TasteGate-handoff, Lean-follow-up boundary, and existing closure annotation for $\CannotClaimExportGateUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim export of refused registry rows as checked formal-package targets outside the displayed registry, refusal, export, target, audit, transport, and naming rows.}
+  \upgradepath{To reach obligationClosure, the cannot-claim carrier and refusal-preserving export factorization must be encoded and checked over finite rows.}
+\end{closurestatus}

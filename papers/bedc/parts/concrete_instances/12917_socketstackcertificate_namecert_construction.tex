@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\SocketStackCertificateUp$}
+\label{ch:concrete-instances-socketstackcertificate-namecert}
+\origin{ai}
+
+The $\SocketStackCertificateUp$ packet realizes stacked socket reports from \autoref{subsec:philosophy-unity-transcendental-supply} as finite NameCert data. It sits beside the typed gap socket taxonomy of \autoref{ch:concrete-instances-typedgapsockettaxonomy-namecert}, the socket-kind classifier of \autoref{ch:concrete-instances-socketkindclassifier-namecert}, the socket taxonomy ledger of \autoref{ch:concrete-instances-socket-taxonomy-ledger-namecert}, the supply socket ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert}, and the apophatic far-end socket of \autoref{ch:concrete-instances-apophaticfarendsocket-namecert}. Those siblings expose kind families, single-row classifiers, non-collapse accounting, requested-supply ledgers, and the common far-end boundary; this packet binds an ordered multi-socket stack without collapsing the component requests into one dominant kind.
+
+\begin{definition}[Socket stack certificate carrier]
+\label{def:socket-stack-certificate-carrier}
+A $\SocketStackCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+\Sigma=(Q,R,E,K,A,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the stack site row, naming the blocked proof, construction, or audit position whose requested supply has more than one socket component;
+\item $R=(R_0,\ldots,R_n)$ is a nonempty ordered list of component socket-report rows, each carrying its site, requested-supply, narrow kind, and local gate;
+\item $E$ is the stack-exposure row, recording that every component socket row is visible to audit consumers before any summary row is read;
+\item $K=(K_0,\ldots,K_n)$ is the componentwise narrowest-kind classifier row, with $K_i$ classifying $R_i$ by the smallest socket kind licensed for that component;
+\item $A=(A_0,\ldots,A_n)$ is the per-row audit-gate preservation row, requiring each component gate to be replayed at its own socket row;
+\item $L$ is the non-discharge ledger route, recording that the stack reports requested supply without supplying any component row;
+\item $H$ stores componentwise $\hsame$ transport for $Q,R,E,K,A,L,C,P,N$;
+\item $C$ stores displayed $\Cont$ continuation from the stack site through the component reports, classifiers, gates, ledger route, provenance, and local name;
+\item $P$ is the $\Pkg$ provenance over $\TypedGapSocketTaxonomyUp$, $\SocketKindClassifierUp$, $\SocketTaxonomyLedgerUp$, $\SupplySocketLedgerUp$, $\ApophaticFarEndSocketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SocketStackCertificateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for replacing the ordered component list by a single aggregate socket kind, deleting a component row after acceptance, moving a component gate to a sibling row, or treating the common far-end position as a discharge witness.
+\end{definition}
+\leandef{BEDC.Derived.SocketStackCertificateUp.SocketStackCertificateUp}
+
+\begin{theorem}[Socket stack certificate NameCert obligations]
+\label{thm:socket-stack-certificate-namecert-obligations}
+For the carrier of \autoref{def:socket-stack-certificate-carrier}, the local $\NameCert_{\SocketStackCertificateUp}$ surface consists exactly of carrier exposure for
+$$
+\Sigma=(Q,R,E,K,A,L,H,C,P,N),
+$$
+stack-site exposure through $Q$, ordered component socket exposure through $R$, stack exhaustion through $E$, componentwise narrowest-kind classification through $K$, per-row audit-gate preservation through $A$, non-discharge ledger routing through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ continuation through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $\Sigma=(Q,R,E,K,A,L,H,C,P,N)$. The stack site and the ordered component rows are read before classifier, gate, ledger, continuation, provenance, and naming rows, so the certificate cannot replace the stack by an uninspected summary.
+
+Read $K$ and $A$ componentwise. Each $K_i$ names the narrow socket kind for the displayed component $R_i$, while each $A_i$ preserves the local gate attached to that same row. Componentwise transport in $H$ can replay these rows but cannot move a classifier or gate to a different component.
+
+Finally inspect $L,C,P,N$. These rows account for the route, replay the same ordered packet, cite the sibling socket ledgers, and name the certificate. None supplies a requested component row, so the non-discharge route remains part of the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Socket stack certificate exhaustion]
+\label{thm:socket-stack-certificate-stack-exhaustion}
+Every accepted $\SocketStackCertificateUp$ packet exposes all component socket rows in its ordered carrier. Removing any component row from an accepted stack changes the componentwise classifier surface or breaks the $\NameCert$ handoff.
+\end{theorem}
+\begin{proof}
+Let $\Sigma=(Q,R,E,K,A,L,H,C,P,N)$ be accepted. By \autoref{thm:socket-stack-certificate-namecert-obligations}, the exposure row $E$ is part of the local NameCert surface and is read against the ordered component list $R=(R_0,\ldots,R_n)$.
+
+If a component row $R_i$ is removed, then the matching classifier row $K_i$ and gate row $A_i$ either become unmatched or must also be removed. In the first case, the componentwise classifier surface is no longer a well-formed stack surface. In the second case, the displayed packet named by $N$ is a different finite carrier.
+
+Thus accepted stacks are exhausted by their displayed component rows. A shorter stack may be a separate packet, but it is not the same accepted $\SocketStackCertificateUp$ certificate.
+\end{proof}
+
+\begin{theorem}[Socket stack certificate sibling independence]
+\label{thm:socket-stack-certificate-sibling-independence}
+The $\SocketStackCertificateUp$ carrier is not bijective, under NameCert-row preservation, to $\TypedGapSocketTaxonomyUp$, $\SocketKindClassifierUp$, $\SocketTaxonomyLedgerUp$, $\SupplySocketLedgerUp$, or $\ApophaticFarEndSocketUp$.
+\end{theorem}
+\begin{proof}
+Compare the displayed rows. $\TypedGapSocketTaxonomyUp$ carries the seven-kind taxonomy, $\SocketKindClassifierUp$ classifies a socket kind, $\SocketTaxonomyLedgerUp$ records taxonomy and non-collapse rows, $\SupplySocketLedgerUp$ accounts for requested supply, and $\ApophaticFarEndSocketUp$ names the common far-end boundary.
+
+None of those siblings carries an ordered multi-socket component list with stack exposure, per-row narrowest-kind classifiers, per-row gate preservation, stack exhaustion, and a non-discharge ledger route. A NameCert-row-preserving bijection would have to preserve that joint ordered surface, so no listed sibling is bijective to $\SocketStackCertificateUp$.
+\end{proof}
+
+\falsifiablePrediction{Removing any component socket row from an accepted stack changes the componentwise classifier or breaks the NameCert handoff.}
+
+\independenceWitness{typedgapsockettaxonomy, socketkindclassifier, sockettaxonomyledger, supplysocketledger, apophaticfarendsocket: none carries an ordered multi-socket carrier with per-row gate preservation and stack exhaustion.}
+
+The Lean follow-up file for $\mathsf{BEDC.Derived.SocketStackCertificateUp}$ must provide explicit $\Nontrivial\ \SocketStackCertificateUp$ and $\FieldFaithful\ \SocketStackCertificateUp$ instances. The field-faithfulness witness must preserve $Q,R,E,K,A,L,H,C,P,N$ as distinct rows so a checked TasteGate theorem can rule out component deletion and single-kind collapse of an accepted stack.
+
+\closureat{SocketStackCertificateUp}{seedStr}
+\closureat{SocketStackCertificateUp}{obligationStr}
+
+\begin{closurestatus}{\SocketStackCertificateUp}
+  \constructivestory{The socket stack certificate is generated from $BHist$ rows that record an ordered multi-socket carrier, component socket rows, per-row gate preservation, and an exhaustion witness saying that the stack has been read as a stack. The carrier first names the stack packet, then checks that the stack rows are exhausted by the certificate, and finally allows $\Cont$ only to carry the same certified stack forward. The $hsame$ relation preserves the stack certificate across representative histories. NameCert obligations, stack exhaustion, sibling independence, prediction, and independence witness keep this object distinct from typed-gap taxonomy, socket-kind classifier, supply socket ledger, and apophatic far-end sockets.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the socket stack-certificate carrier, NameCert obligations, stack-exhaustion theorem, sibling-independence theorem, falsifiable prediction, and independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim report classification, typed supply availability, phase-refusal verdicts, or stack equality outside the certified rows.}
+  \upgradepath{Reaching obligationClosure requires formal stack rows and checked exhaustion plus sibling separation for the stack certificate.}
+\end{closurestatus}

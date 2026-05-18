@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-certifiedontictower-namecert}
 \origin{ai}
 
-The $\CertifiedOnticTowerUp$ packet realizes the certified-tower direction of \autoref{ch:visions-reality-constrained-ontic-state} as a finite staged NameCert carrier. It sits next to the ontic-source surface of \autoref{ch:concrete-instances-onticstate-namecert}, the approximation carrier of \autoref{ch:concrete-instances-reality-constrained-approximation-tower-namecert}, the observation-routing surface of \autoref{ch:concrete-instances-observationreflectionpacket-namecert}, the model-state surface of \autoref{ch:concrete-instances-statespacemodel-namecert}, and the certified-truth surface of \autoref{ch:concrete-instances-certified-physical-truth-namecert}. Those siblings expose source, approximation, route, model, or truth-certificate rows separately; this carrier binds staged signature refinement and ledger continuity before stable ontic content is read from the tower.
+The $\CertifiedOnticTowerUp$ packet realizes the certified-tower direction of \autoref{sec:ontic-state-stable-signature-source} as a finite staged NameCert carrier. It sits next to the ontic-source surface of \autoref{ch:concrete-instances-onticstate-namecert}, the approximation carrier of \autoref{ch:concrete-instances-reality-constrained-approximation-tower-namecert}, the observation-routing surface of \autoref{ch:concrete-instances-observationreflectionpacket-namecert}, the model-state surface of \autoref{ch:concrete-instances-statespacemodel-namecert}, and the certified-truth surface of \autoref{ch:concrete-instances-certified-physical-truth-namecert}. Those siblings expose source, approximation, route, model, or truth-certificate rows separately; this carrier binds staged signature refinement and ledger continuity before stable ontic content is read from the tower.
 
 \begin{definition}[CertifiedOnticTower carrier]
 \label{def:certified-ontic-tower-carrier}
@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for an imported limit object, total reality oracle, unledgered stage transition, bare model state, or certified-truth row detached from the staged ledger.
 \end{definition}
+\leandef{BEDC.Derived.CertifiedOnticTowerUp.taste\_gate}
 
 \begin{definition}[CertifiedOnticTower classifier]
 \label{def:certified-ontic-tower-classifier}
@@ -65,3 +66,14 @@ The later Lean file \texttt{lean4/BEDC/Derived/CertifiedOnticTowerUp/TasteGate.l
 \falsifiablePrediction{Removing the ledger-continuity row breaks stable-content readback while leaving stagewise signature rows readable.}
 
 \independenceWitness{onticstate, realityconstrainedapproximationtower, observationreflectionpacket, statespacemodel, certifiedphysicaltruth: none is bijective because the tower carrier stores staged refinement and ledger continuity, while the siblings store a single ontic source, approximation tower packet, observation route, model state, or truth-certificate surface.}
+
+\begin{closurestatus}{\CertifiedOnticTowerUp}
+  \constructivestory{The certified ontic tower is generated from a finite $BHist$ packet whose visible rows already contain the tower layers, certificate row, and signature residue used to recognize the tower. The carrier convention reads each layer through $hsame$-stable anchors: changing the representing history may rename the packet, but it cannot add a hidden level or replace the ledger row. Continuation data enter only through $\Cont$ extensions that preserve the displayed certification spine. The classifier is therefore bottom-up: first the tower carrier records the layer ledger, then the certificate bit is read back from the same history, and finally signature stability checks that all later consumers see the same certified tower route.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the CertifiedOnticTower carrier, classifier, ledger-continuity theorem, and signature-stability theorem.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim host-level ontic equality, ambient tower completeness, or certification by any row outside the displayed $BHist$ ledger.}
+  \upgradepath{Reaching obligationClosure requires a Lean carrier for the tower packet plus checked preservation of the classifier under $hsame$ and $\Cont$.}
+\end{closurestatus}

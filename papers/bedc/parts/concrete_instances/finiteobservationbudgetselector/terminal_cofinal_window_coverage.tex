@@ -181,6 +181,55 @@ Now apply terminal section pullback uniqueness, \autoref{thm:finite-observation-
 Finally use \autoref{thm:streamname-finite-section-pullback-exactness}. Its finite-section pullback gives the displayed $\StreamNameUp$ window face, $\DyadicRatCoreUp$ ledger face, $\RegSeqRatUp$ readback face, and $\RealUp$ seal face, while the non-escape clauses in the cited theorems exclude quotient streams, host real equality, choice rows, hidden selectors, detached limits, metric-completeness rows, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[Finite observation-budget selector terminal route status readback]
+\label{thm:finite-observation-budget-selector-terminal-route-status-readback}
+Every terminal cofinal consumer of an accepted $\FiniteObservationBudgetSelectorUp$ packet reports its route status only through the displayed budget, schedule, finite window, dyadic ledger, regular-rational readback, Real seal, transport, continuation, provenance, and local naming rows
+$$
+B,S,W,D,R,E,H,C,P,N.
+$$
+No quotient stream, hidden selector, host real equality, metric-completeness row, countable choice row, or ambient completeness oracle is a status coordinate for the same terminal route.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_terminal\_route\_status\_readback}
+\begin{proof}
+First apply terminal cofinal-window coverage. It places every compatible terminal consumer on the displayed route from budget and schedule through the window, dyadic, regular, and Real-seal faces.
+
+Next use terminal cofinal-window transport invariance. The status readback is preserved by the componentwise $\hsame$ rows, the displayed continuation row, the package provenance row, and the local naming row, so transport cannot create a second terminal status.
+
+Finally apply terminal cofinal-window section decomposition. The route decomposes into the four displayed faces $W,D,R,E$ inside the envelope $B,S,H,C,P,N$, and the four-face pullback exactness excludes quotient, hidden-selector, choice, host-equality, metric-completeness, and ambient-completeness coordinates.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector cofinal window exhaustion]
+\label{thm:finite-observation-budget-selector-cofinal-window-exhaustion}
+For an accepted $\FiniteObservationBudgetSelectorUp$ packet, the cofinal terminal route is exhausted by the rows $B,S,W,D,R,E,H,C,P,N$. No quotient stream, hidden selector, countable choice row, host real equality, metric-completeness row, or ambient completeness oracle can refine the same route while preserving the displayed terminal window.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_cofinal\_window\_exhaustion}
+\begin{proof}
+Begin with terminal window minimality. Removing a displayed row loses terminal endpoint determination, so a refinement of the same route must preserve the visible budget, schedule, window, dyadic, regular, seal, transport, continuation, provenance, and naming rows.
+
+Use terminal route status readback. Any compatible terminal consumer reports status through those rows alone, so a hidden selector, quotient stream, or choice row would be an extra status coordinate rather than a refinement of the same route.
+
+Finally invoke terminal cofinal-window section decomposition and the four-face pullback exactness. The four faces $W,D,R,E$ already determine the terminal section over $B,S,H,C,P,N$, leaving no host real equality, metric-completeness row, or ambient completeness oracle to refine the cofinal window.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector terminal-window nonescape]
+\label{thm:finite-observation-budget-selector-terminal-window-nonescape}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Every terminal Real-completion consumer that preserves the displayed budget, schedule, finite $\StreamNameUp$ window, dyadic ledger, $\RegSeqRatUp$ handoff, Real seal, $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row has no additional status coordinate for quotient streams, hidden selectors, host real equality, metric-completeness data, countable choice, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_terminal\_window\_nonescape}
+\begin{proof}
+First use terminal-window minimality, \autoref{thm:finite-observation-budget-selector-terminal-window-minimality}. It says that the displayed rows $B,S,W,D,R,E,H,C,P,N$ are sufficient for terminal endpoint determination and that dropping any displayed row loses that determination.
+
+Next apply terminal route status readback, \autoref{thm:finite-observation-budget-selector-terminal-route-status-readback}. A compatible terminal consumer reports status only through the same rows, so any quotient stream, hidden selector, host equality, metric-completeness row, choice row, or ambient-completeness oracle would be an additional status coordinate.
+
+Use cofinal-window exhaustion, \autoref{thm:finite-observation-budget-selector-cofinal-window-exhaustion}, to rule out refinements of the same terminal route. The route is already exhausted by the displayed packet.
+
+Finally apply the four-face terminal correspondence, \autoref{thm:finite-observation-budget-selector-four-face-terminal-correspondence}. The section faces $W,D,R,E$ assemble the terminal consumer over $B,S,H,C,P,N$, leaving no further terminal-window escape coordinate.
+\end{proof}
+
 \begin{theorem}[Finite observation-budget selector four-face terminal correspondence]
 \label{thm:finite-observation-budget-selector-four-face-terminal-correspondence}
 Let
@@ -193,6 +242,7 @@ B,S \to W \to D \to R \to E
 $$
 and the correspondence exports no quotient stream, host real equality, choice row, detached completion limit, metric-completeness row, or ambient completeness oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_four\_face\_terminal\_correspondence}
 \begin{proof}
 Start with terminal cofinal-window section decomposition, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-section-decomposition}. It sends every compatible terminal consumer to the four displayed faces $W,D,R,E$ inside the shared envelope $B,S,H,C,P,N$.
 
@@ -201,6 +251,29 @@ For the reverse direction, apply terminal section exactness, \autoref{thm:finite
 The two constructions are inverse on the displayed rows by terminal section pullback uniqueness, \autoref{thm:finite-observation-budget-selector-terminal-section-pullback-uniqueness}. No second terminal section can have the same budget, schedule, window, dyadic, regular, seal, transport, continuation, provenance, and naming rows.
 
 Finally use \autoref{thm:streamname-finite-section-pullback-exactness}. The underlying finite $\StreamNameUp$ section has no additional quotient, host-equality, choice, detached-limit, metric-completeness, or ambient-completeness coordinate, so the four faces are exactly the terminal route.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector terminal cofinal-window route reflection]
+\label{thm:finite-observation-budget-selector-terminal-cofinal-window-route-reflection}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Any terminal consumer whose four displayed terminal faces are the same $W,D,R,E$ reflects to the same finite public route
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp .
+$$
+Any claimed terminal read outside the displayed faces $W,D,R,E$ is not a refinement of the same packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_terminal\_cofinal\_window\_route\_reflection}
+\begin{proof}
+Apply terminal cofinal-window coverage, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-coverage}. The accepted packet exhausts the terminal finite observation window through the displayed $\StreamNameUp$ row and its dyadic, regular-sequence, and Real-seal faces.
+
+Next use terminal cofinal-window section decomposition, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-section-decomposition}. A terminal consumer over the packet decomposes into exactly the four faces $W,D,R,E$ inside the shared envelope $B,S,H,C,P,N$.
+
+Route status readback, \autoref{thm:finite-observation-budget-selector-terminal-route-status-readback}, identifies every terminal status claim with those same displayed rows. Terminal-window nonescape, \autoref{thm:finite-observation-budget-selector-terminal-window-nonescape}, then excludes any additional terminal coordinate.
+
+Finally apply the four-face terminal correspondence, \autoref{thm:finite-observation-budget-selector-four-face-terminal-correspondence}. The common faces $W,D,R,E$ determine the same $\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp$ route, while any read outside those faces asks for quotient streams, hidden selectors, host real equality, metric-completeness rows, countable choice, or ambient completeness rather than a refinement of $F$.
 \end{proof}
 
 \begin{theorem}[Finite observation-budget selector terminal budget exhaustion]
@@ -215,6 +288,7 @@ B,S \to W \to D \to R \to E.
 $$
 The exhausted surface has no quotient stream, host real equality, countable choice row, hidden selector, detached completion limit, metric-completeness row, or ambient completeness oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_terminal\_budget\_exhaustion}
 \begin{proof}
 First apply terminal window minimality, \autoref{thm:finite-observation-budget-selector-terminal-window-minimality}. It identifies the complete terminal inventory of an accepted packet and says that dropping any displayed row removes the endpoint exactness supplied by the terminal route.
 
@@ -233,6 +307,7 @@ F=(B,S,W,D,R,E,H,C,P,N)
 $$
 be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Every cofinal terminal route compatible with $F$ is determined by the displayed budget, schedule, finite window, dyadic ledger, regular handoff, Real seal, transport, continuation, provenance, and local naming rows. In particular, cofinal compatibility requires no independent choice of terminal route, no choice of a hidden tail selector, and no choice of an external completion witness beyond the four faces $W,D,R,E$ inside the envelope $B,S,H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_cofinal\_route\_choice\_freeness}
 \begin{proof}
 Start from terminal cofinal-window coverage, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-coverage}. It forces any compatible cofinal consumer onto the displayed finite route from the selected budget and schedule through $W,D,R$ to $E$.
 
@@ -257,6 +332,7 @@ be an accepted $\FiniteObservationBudgetSelectorUp$ packet. The following termin
 \end{enumerate}
 Under this correspondence, later $\RealUp$, diagonal-completion, and selector-seal consumers receive exactly the displayed budget-readiness rows and no quotient stream, host real equality, countable choice operation, hidden selector, detached completion limit, metric-completeness row, or ambient completeness oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_terminal\_readiness\_correspondence}
 \begin{proof}
 First pass from a compatible terminal consumer to the exhausted route. By \autoref{thm:finite-observation-budget-selector-terminal-budget-exhaustion}, any terminal route reaching $E$ is already confined to the displayed budget, schedule, window, dyadic, regular, seal, transport, continuation, provenance, and local naming rows.
 
@@ -288,6 +364,7 @@ B,S \to W \to D \to R \to E
 $$
 with transport, continuation, provenance, and local naming supplied only by $H,C,P,N$. The locked surface contains no quotient stream, host real equality, countable choice operation, hidden tail selector, detached completion witness, metric-completeness row, or ambient completeness oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_terminal\_four\_face\_pullback\_lock}
 \begin{proof}
 First identify the public readiness surface. The terminal readiness correspondence, \autoref{thm:finite-observation-budget-selector-terminal-readiness-correspondence}, equates a compatible terminal consumer, the exhausted route $B,S \to W \to D \to R \to E$, and the four-face section $W,D,R,E$ inside the shared $H,C,P,N$ envelope.
 
@@ -316,6 +393,7 @@ with transport, continuation, provenance, and local naming supplied only by $H,C
 
 The locked surface contains no quotient stream, countable choice operation, hidden selector, detached completion limit, metric-completeness row, or ambient completeness oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_terminal\_cofinal\_schedule\_lock}
 \begin{proof}
 First apply terminal cofinal-window coverage, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-coverage}, to $F_0$ and to $F_1$. Each compatible terminal consumer is forced onto the displayed finite route through the $\StreamNameUp$ window family $W$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ handoff $R$, and $\RealUp$ seal $E$.
 
@@ -351,6 +429,7 @@ Combining these route locks gives determinacy at the terminal selector surface. 
 
 The non-escape clauses in the cited selector and TailMeet results remove every unlisted resource. Hence no second tail-meet threshold, hidden cofinal schedule, quotient stream, host real equality, choice row, detached limit, metric-completeness row, or ambient completeness oracle can be added at the synchronized terminal surface.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_terminal\_tail\_meet\_synchronization}
 
 \begin{theorem}[Finite observation-budget selector terminal window seal inversion]
 \label{thm:finite-observation-budget-selector-terminal-window-seal-inversion}
@@ -373,6 +452,7 @@ For the reverse direction, read an accepted Real-seal route through the four-fac
 
 Thus terminal routes and compatible terminal windows determine one another over the displayed packet. The non-escape clauses in the cited theorems exclude quotient streams, host real equality, countable choice, detached limits, metric-completeness rows, and ambient completeness from either direction of the correspondence.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_terminal\_window\_seal\_inversion}
 
 \begin{theorem}[Finite observation-budget selector terminal window choice-free section]
 \label{thm:finite-observation-budget-selector-terminal-window-choice-free-section}
@@ -386,6 +466,7 @@ B,S \to W \to D \to R \to E.
 $$
 It is not determined by a hidden choice of subsequence, a host-selected limit, a quotient stream, host real equality, a detached completion point, a metric-completeness row, or an ambient completeness oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_terminal\_window\_choice\_free\_section}
 \begin{proof}
 Start with terminal cofinal-window coverage, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-coverage}. It places every compatible terminal consumer on the displayed finite route through the window, dyadic ledger, regular handoff, and Real seal.
 
@@ -410,6 +491,7 @@ Conversely, a section that passes through the displayed rows $B,S,W,D,R,E,H,C,P,
 
 This inversion exports only the accepted budget prefix, selected schedule, window family, dyadic ledger, regular readback, Real seal, componentwise $\hsame$ transports, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row. It excludes quotient streams, host real equality, choice rows, hidden selectors, detached completion limits, metric-completeness rows, and ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_budget\_prefix\_pullback\_inversion}
 \begin{proof}
 For the forward direction, begin with the agreed budget and schedule prefix. Terminal budget exhaustion, \autoref{thm:finite-observation-budget-selector-terminal-budget-exhaustion}, confines any compatible terminal route reaching $E$ to the displayed packet rows, so the prefix inventory cannot be enlarged beyond $B,S$ and the rows they expose.
 
@@ -422,4 +504,103 @@ Finally remove hidden selection. Terminal window choice-free section, \autoref{t
 For the converse direction, read the displayed route as a terminal consumer surface. The four-face terminal correspondence, \autoref{thm:finite-observation-budget-selector-four-face-terminal-correspondence}, assembles the four displayed faces $W,D,R,E$ together with the agreed rows $B,S,H,C,P,N$ into a compatible terminal consumer for $F$.
 
 The same correspondence identifies that consumer with the terminal four-face section it exposes. Hence any route through the displayed rows is exactly the compatible terminal four-face section, and the excluded quotient, host-equality, choice, hidden-selector, detached-limit, metric-completeness, and ambient-completeness data have no coordinate in either direction.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector selected-tail terminal pullback]
+\label{thm:finite-observation-budget-selector-selected-tail-terminal-pullback}
+Let
+$$
+F=(B_F,S_F,W_F,D_F,R_F,E_F,H_F,C_F,P_F,N_F)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet, and let
+$$
+T=(Q,E_T,A_T,W_T,K_T,S_T,R_T,H_T,C_T,P_T,N_T)
+$$
+be an accepted $\SelectedTailSeedUp$ packet. Suppose the selected finite-tail admission, window, readback, dyadic, and Real rows $A_T,W_T,K_T,S_T,R_T$ agree with the terminal four faces $W_F,D_F,R_F,E_F$ of $F$ through the displayed componentwise $\hsame$ rows, the same $\Cont$ replay route, the same $\Pkg$ provenance, and the compatible local $\NameCert_{\FiniteObservationBudgetSelectorUp}$ and $\NameCert_{\SelectedTailSeedUp}$ rows. Then every terminal consumer compatible with both packets factors through the single finite selector route
+$$
+B_F,S_F \to W_F \to D_F \to R_F \to E_F
+$$
+and, under the selected-tail identification, through the finite-tail-to-Real route
+$$
+A_T,W_T,K_T,S_T,R_T.
+$$
+This pullback exposes only the accepted finite budget, selected schedule, terminal window, dyadic ledger, regular readback, Real seal, selected finite-tail admission, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. It excludes quotient streams, host real equality, countable choice, detached completion limits, metric-completeness rows, and ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_selected\_tail\_terminal\_pullback}
+\begin{proof}
+Start on the terminal selector side. By terminal cofinal-window coverage, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-coverage}, every compatible terminal consumer of $F$ is already routed through the displayed finite terminal surface.
+
+Now apply budget-prefix pullback inversion, \autoref{thm:finite-observation-budget-selector-budget-prefix-pullback-inversion}. Since the shared consumer agrees with the finite budget prefix $B_F,S_F$ and the seal-facing row $E_F$ through the displayed structural rows, the terminal selector section is forced to be the route $B_F,S_F \to W_F \to D_F \to R_F \to E_F$.
+
+Turn to the selected-tail side. The finite-tail Real-boundary scope theorem, \autoref{thm:selected-tail-seed-finite-tail-real-boundary-scope}, identifies $A_T,W_T,K_T,S_T,R_T$ as the exact finite-tail-to-Real boundary supplied by $T$. The Real-completion boundary theorem, \autoref{thm:selected-tail-seed-real-completion-boundary}, keeps that boundary finite and prevents it from being enlarged into an ambient completion principle.
+
+The hypotheses identify the selected-tail rows with the terminal four faces through $\hsame$, $\Cont$, $\Pkg$, and the two local $\NameCert$ rows. Therefore a consumer compatible with both packets has no second route: the selector route and the selected-tail boundary are the same finite BEDC handoff. The cited nonescape clauses remove quotient streams, host real equality, countable choice, detached completion limits, metric-completeness rows, and ambient completeness from the pullback surface.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector bounded-monotone diagonal synchronization]
+\label{thm:finite-observation-budget-selector-bounded-monotone-diagonal-synchronization}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Let $M$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet whose convergence-seal route is terminal-compatible with $F$, and let $L$ be an accepted $\DiagonalLimitCompatibilityUp$ packet reading the same terminal $\RealUp$ and $\CauchyLimitSealUp$ surface. Then every downstream $\RealUp$, $\CauchyLimitSealUp$, $\RegularCauchyTailSelectorUp$, or diagonal-completion consumer compatible with $F$, $M$, and $L$ factors through the single finite terminal route
+$$
+B,S \to W \to D \to R \to E
+$$
+together with the common $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+The synchronized surface exports no quotient stream, selected host limit, host real equality, trichotomy, countable choice, hidden selector, detached completion limit, metric-completeness row, open-cover compactness, or ambient completeness oracle.
+\end{theorem}
+\begin{proof}
+First bind the terminal surface supplied by $F$. Terminal cofinal-window coverage, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-coverage}, places every compatible terminal read on the displayed finite window route, and the terminal four-face pullback lock, \autoref{thm:finite-observation-budget-selector-terminal-four-face-pullback-lock}, identifies the four terminal faces as $W,D,R,E$ inside the same $H,C,P,N$ envelope.
+
+Next apply the budget-prefix inversion above. Since the compatible reads agree on the budget prefix $B,S$ and the terminal seal $E$, \autoref{thm:finite-observation-budget-selector-budget-prefix-pullback-inversion} forces the section to be exactly the route $B \to S \to W \to D \to R \to E$ rather than a route selected from outside the accepted packet.
+
+Now attach the bounded-monotone consumer. The bounded-monotone selector terminal pullback and Real-seal route exhaustion, \autoref{thm:bounded-monotone-cauchy-witness-selector-terminal-pullback} and \autoref{thm:bounded-monotone-cauchy-witness-real-seal-public-unblock}, route the convergence-seal and limit-seal consumers through the displayed witness rows and then through the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Finally read the diagonal packet as a compatibility consumer of that same surface. The diagonal-limit bounded-monotone handoff and the existing compatibility pullback allow $L$ to inspect only the terminal Real and limit-seal rows already exposed by $F$ and $M$. It therefore adds no second terminal route and no independent completion-side coordinate.
+
+Combining these route locks, every named downstream consumer factors through the single displayed terminal surface. The non-escape clauses in the finite-selector and bounded-monotone theorems exclude quotient streams, selected host limits, host real equality, trichotomy, countable choice, hidden selectors, detached completion limits, metric-completeness rows, open-cover compactness, and ambient completeness from the synchronized route.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector bounded-monotone diagonal Lean handoff]
+\label{thm:finite-observation-budget-selector-bounded-monotone-diagonal-synchronization-lean-handoff}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Let $M$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet, and let $L$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Suppose $F$, $M$, and $L$ satisfy the terminal compatibility hypotheses of \autoref{thm:finite-observation-budget-selector-bounded-monotone-diagonal-synchronization}: the bounded-monotone witness reads the terminal convergence-seal route of $F$, and the diagonal packet reads the same terminal $\RealUp$ and $\CauchyLimitSealUp$ surface.
+
+Then the later Lean target may be stated as one BEDC route handoff over exactly the displayed finite-selector rows $B,S,W,D,R,E,H,C,P,N$, the bounded-monotone selector and real-seal rows, and the diagonal seal and readback rows. The handoff consumes no quotient stream, selected host limit, host real equality, countable choice, metric-completeness row, ambient completeness oracle, hidden selector, detached completion limit, or independent diagonal completion coordinate.
+\end{theorem}
+\begin{proof}
+First read the selector side. Terminal route status readback and terminal budget exhaustion, \autoref{thm:finite-observation-budget-selector-terminal-route-status-readback} and \autoref{thm:finite-observation-budget-selector-terminal-budget-exhaustion}, force every compatible terminal read of $F$ onto the displayed rows $B,S,W,D,R,E,H,C,P,N$.
+
+Next attach the bounded-monotone witness. The bounded-monotone selector terminal pullback and Real-seal public route exhaustion identify the convergence-seal consumer of $M$ with the same selector surface, so its selector and real-seal rows do not introduce a second host limit, quotient stream, or countable-choice coordinate.
+
+Finally attach the diagonal packet. The diagonal-limit compatibility four-face terminal pullback and synchronized budget terminality theorems, \autoref{thm:diagonal-limit-compatibility-four-face-terminal-pullback} and \autoref{thm:diagonal-limit-compatibility-synchronized-budget-terminality}, make $L$ a reader of the same terminal seal and readback rows rather than a supplier of an independent completion oracle.
+
+Combining the three route locks gives a single formalization-ready BEDC obligation: Lean must consume the finite-selector rows, the bounded-monotone seal rows, and the diagonal seal/readback rows as one route handoff, with every excluded host, quotient, choice, metric-completeness, ambient-completeness, and detached-limit coordinate absent from the statement.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector UniformCauchy Real readiness]
+\label{thm:finite-observation-budget-selector-uniform-cauchy-real-readiness}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Any Real-and-Completion consumer simultaneously compatible with the $\UniformCauchyCriterionUp$ pullback, the bounded-monotone diagonal synchronization hypotheses, and the terminal four-face pullback lock factors through the same finite route
+$$
+B,S \to W \to D \to R \to E.
+$$
+The public readiness surface exposes only the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows carried by that route. It excludes quotient streams, host real equality, countable choice, hidden selectors, detached limits, metric-completeness rows, and ambient completeness.
+\end{theorem}
+\begin{proof}
+First place the uniform-Cauchy read on the selector route. The UniformCauchyCriterion pullback, \autoref{thm:finite-observation-budget-selector-uniform-cauchycriterion-pullback}, identifies the shared-window, tolerance-ledger, regular-consumer, and seal rows with $W,D,R,E$ over the finite selector path from $B,S$.
+
+Next bind the terminal surface. The terminal readiness correspondence and terminal four-face pullback lock, \autoref{thm:finite-observation-budget-selector-terminal-readiness-correspondence} and \autoref{thm:finite-observation-budget-selector-terminal-four-face-pullback-lock}, force every compatible terminal consumer to expose exactly the four faces $W,D,R,E$ inside the displayed $H,C,P,N$ envelope.
+
+Now attach the bounded-monotone and diagonal side. The bounded-monotone diagonal synchronization theorem, \autoref{thm:finite-observation-budget-selector-bounded-monotone-diagonal-synchronization}, makes the bounded-monotone witness and diagonal packet readers of the same $\RealUp$ and $\CauchyLimitSealUp$ surface rather than suppliers of an independent completion coordinate.
+
+Finally use the bounded-monotone diagonal Lean handoff, \autoref{thm:finite-observation-budget-selector-bounded-monotone-diagonal-synchronization-lean-handoff}, to package the three compatibility requirements as one route obligation. The only remaining public rows are the finite selector faces together with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. The non-escape clauses in the cited pullback, terminal, and synchronization results remove quotient streams, host real equality, countable choice, hidden selectors, detached limits, metric-completeness rows, and ambient completeness from the readiness surface.
 \end{proof}

@@ -1,5 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\EnrichedCatUp$}
 \label{ch:concrete-instances-enrichedcat-namecert}
+\origin{human}
 
 The enriched-category interface $\EnrichedCatUp$ packages a collection of objects with hom-objects valued in a fixed monoidal category, with composition and identity morphisms in that monoidal category. It depends on $\NameCert_{\MonoidalCatUp}$ (\autoref{ch:concrete-instances-monoidalcat-namecert}) and $\NameCert_{\CategoryUp}$ (\autoref{ch:concrete-instances-category-namecert}).
 
@@ -261,3 +262,14 @@ Transport the two-step composition source along that associator row. The compone
 
 Finally apply \autoref{thm:enrichedcat-source-obligation} and \autoref{thm:enrichedcat-classifier-transport-obligation}. They identify every public source and classifier row of the $\EnrichedCatUp$ certificate with one of the displayed $\BHist$, $\hsame$, $\Pkg$, and $\Cont$ coordinates of $\mathcal{E}$. Repacking the transported endpoint comparison through those coordinates gives the public comparison between $L_{ad}$ and $R_{ad}$ on the same packet surface.
 \end{proof}
+
+\begin{closurestatus}{\EnrichedCatUp}
+  \constructivestory{An $\EnrichedCatUp$ packet is generated from a CategoryUp object boundary, a MonoidalCatUp tensor boundary, hom-object rows, identity rows, composition rows, componentwise $\hsame$ transport, $\Pkg$ provenance, and finite $\Cont$ readbacks. The classifier reads enriched structure only by projecting those finite $\BHist$ coordinates and transporting them componentwise; associativity and two-step composition are routed through the monoidal boundary already consumed by the packet. The ledger story is enrichment by visible dependency rows: hom objects, tensor composition, identity, reassociation, provenance, and readback remain attached to the same carrier, so no host-level enriched-category equality or off-packet coherence datum is introduced.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the EnrichedCat BHist packet definition and the hom-object, tensor-composition, source, classifier-transport, ledger-exactness, monoidal-boundary, consumer-readback, public-source, and two-step-reassociation theorems for $\EnrichedCatUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim host-level enriched-category equality, coherence data outside the consumed monoidal boundary, or an implicit enriched carrier beyond displayed rows.}
+  \upgradepath{To reach obligationClosure, the existing checked theorem surfaces must be summarized into a formal closure target that records the full packet-level obligation assembly.}
+\end{closurestatus}

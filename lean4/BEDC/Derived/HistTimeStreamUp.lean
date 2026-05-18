@@ -316,8 +316,83 @@ theorem HistTimeStreamCarrier_hsame_prefix_transport [AskSetup] [PackageSetup]
           And.intro
             (hsame_trans sourceRow.right (hsame_symm endpointTransported))
             transportedPkg
-    }
+  }
   exact And.intro semantic (And.intro transportedUnary transportedSameProvenance)
+
+theorem HistTimeStreamCarrier_window_habitation [AskSetup] [PackageSetup]
+    {source schedule start replay transport provenance name window : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg →
+      Cont schedule start replay →
+        Cont source replay window →
+          PkgSig bundle window pkg →
+            SemanticNameCert
+                (fun row : BHist =>
+                  HistTimeStreamCarrier source schedule start replay transport provenance name
+                    bundle pkg ∧ hsame row window)
+                (fun row : BHist =>
+                  UnaryHistory source ∧ UnaryHistory schedule ∧ UnaryHistory start ∧
+                    UnaryHistory replay ∧ hsame row window)
+                (fun _row : BHist =>
+                  Cont schedule start replay ∧ Cont source replay window ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle window pkg)
+                hsame ∧
+              UnaryHistory window ∧ hsame window provenance := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier scheduleStartReplay windowRoute windowPkg
+  have carrierWitness := carrier
+  obtain ⟨sourceUnary, scheduleUnary, startUnary, replayUnary, _transportUnary,
+    _provenanceUnary, _nameUnary, _carrierScheduleStartReplay, sourceReplayProvenance,
+    _provenanceReplay, provenancePkg, _namePkg⟩ := carrier
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed sourceUnary replayUnary windowRoute
+  have windowSameProvenance : hsame window provenance :=
+    cont_deterministic windowRoute sourceReplayProvenance
+  have certCore :
+      NameCert
+        (fun row : BHist =>
+          HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg ∧
+            hsame row window)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro window
+        (And.intro carrierWitness (hsame_refl window))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+  have semantic :
+      SemanticNameCert
+          (fun row : BHist =>
+            HistTimeStreamCarrier source schedule start replay transport provenance name
+              bundle pkg ∧ hsame row window)
+          (fun row : BHist =>
+            UnaryHistory source ∧ UnaryHistory schedule ∧ UnaryHistory start ∧
+              UnaryHistory replay ∧ hsame row window)
+          (fun _row : BHist =>
+            Cont schedule start replay ∧ Cont source replay window ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle window pkg)
+          hsame := by
+    exact {
+      core := certCore
+      pattern_sound := by
+        intro _row sourceRow
+        exact
+          ⟨sourceUnary, scheduleUnary, startUnary, replayUnary, sourceRow.right⟩
+      ledger_sound := by
+        intro _row _sourceRow
+        exact ⟨scheduleStartReplay, windowRoute, provenancePkg, windowPkg⟩
+    }
+  exact And.intro semantic (And.intro windowUnary windowSameProvenance)
 
 theorem HistTimeStreamCarrier_cont_replay_determinacy [AskSetup] [PackageSetup]
     {source schedule start replay transport provenance name prefixRow prefixRow' : BHist}
@@ -393,5 +468,129 @@ theorem HistTimeStreamCarrier_public_export [AskSetup] [PackageSetup]
     ⟨sourceUnary, scheduleUnary, startUnary, replayUnary, transportUnary, provenanceUnary,
       nameUnary, publicUnary, scheduleStartReplay, sourceReplayProvenance,
       provenanceNamePublic, provenancePkg, namePkg, publicPkg⟩
+
+theorem HistTimeStreamCarrier_real_streamname_window_lock [AskSetup] [PackageSetup]
+    {source schedule start replay transport provenance name streamRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg ->
+      Cont source replay streamRead ->
+        Cont streamRead transport realRead ->
+          PkgSig bundle realRead pkg ->
+            UnaryHistory source ∧ UnaryHistory schedule ∧ UnaryHistory start ∧
+              UnaryHistory replay ∧ UnaryHistory transport ∧ UnaryHistory streamRead ∧
+                UnaryHistory realRead ∧ Cont schedule start replay ∧
+                  Cont source replay streamRead ∧ Cont streamRead transport realRead ∧
+                    hsame provenance replay ∧ PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sourceReplayStream streamTransportReal realPkg
+  obtain ⟨sourceUnary, scheduleUnary, startUnary, replayUnary, transportUnary,
+    _provenanceUnary, _nameUnary, scheduleStartReplay, _sourceReplayProvenance,
+    provenanceReplay, _provenancePkg, _namePkg⟩ := carrier
+  have streamUnary : UnaryHistory streamRead :=
+    unary_cont_closed sourceUnary replayUnary sourceReplayStream
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed streamUnary transportUnary streamTransportReal
+  exact
+    ⟨sourceUnary, scheduleUnary, startUnary, replayUnary, transportUnary, streamUnary,
+      realUnary, scheduleStartReplay, sourceReplayStream, streamTransportReal,
+      provenanceReplay, realPkg⟩
+
+theorem HistTimeStreamCarrier_real_completion_consumer_boundary [AskSetup] [PackageSetup]
+    {source schedule start replay transport provenance name completionRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg ->
+      Cont source replay completionRead ->
+        Cont completionRead transport realRead ->
+          PkgSig bundle realRead pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  HistTimeStreamCarrier source schedule start replay transport provenance name
+                    bundle pkg ∧ hsame row realRead)
+                (fun row : BHist =>
+                  UnaryHistory source ∧ UnaryHistory schedule ∧ UnaryHistory replay ∧
+                    hsame row realRead)
+                (fun _row : BHist =>
+                  Cont source replay completionRead ∧ Cont completionRead transport realRead ∧
+                    hsame provenance replay ∧ PkgSig bundle realRead pkg)
+                hsame ∧
+              UnaryHistory completionRead ∧ UnaryHistory realRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier completionRoute realRoute realPkg
+  have carrierWitness := carrier
+  obtain ⟨sourceUnary, scheduleUnary, _startUnary, replayUnary, transportUnary,
+    _provenanceUnary, _nameUnary, _scheduleStartReplay, _sourceReplayProvenance,
+    provenanceReplay, _provenancePkg, _namePkg⟩ := carrier
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed sourceUnary replayUnary completionRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed completionUnary transportUnary realRoute
+  have certCore :
+      NameCert
+        (fun row : BHist =>
+          HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg ∧
+            hsame row realRead)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro realRead
+        (And.intro carrierWitness (hsame_refl realRead))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+  have semantic :
+      SemanticNameCert
+          (fun row : BHist =>
+            HistTimeStreamCarrier source schedule start replay transport provenance name
+              bundle pkg ∧ hsame row realRead)
+          (fun row : BHist =>
+            UnaryHistory source ∧ UnaryHistory schedule ∧ UnaryHistory replay ∧
+              hsame row realRead)
+          (fun _row : BHist =>
+            Cont source replay completionRead ∧ Cont completionRead transport realRead ∧
+              hsame provenance replay ∧ PkgSig bundle realRead pkg)
+          hsame := by
+    exact {
+      core := certCore
+      pattern_sound := by
+        intro _row sourceRow
+        exact ⟨sourceUnary, scheduleUnary, replayUnary, sourceRow.right⟩
+      ledger_sound := by
+        intro _row _sourceRow
+        exact ⟨completionRoute, realRoute, provenanceReplay, realPkg⟩
+    }
+  exact And.intro semantic (And.intro completionUnary realUnary)
+
+theorem HistTimeStreamCarrier_cont_prefix_exactness [AskSetup] [PackageSetup]
+    {source schedule start replay transport provenance name prefixRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg ->
+      Cont schedule start prefixRead ->
+        Cont source prefixRead endpoint ->
+          PkgSig bundle endpoint pkg ->
+            UnaryHistory source ∧ UnaryHistory schedule ∧ UnaryHistory start ∧
+              UnaryHistory prefixRead ∧ UnaryHistory endpoint ∧
+                Cont schedule start prefixRead ∧ Cont source prefixRead endpoint ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier scheduleStartPrefix sourcePrefixEndpoint endpointPkg
+  obtain ⟨sourceUnary, scheduleUnary, startUnary, _replayUnary, _transportUnary,
+    _provenanceUnary, _nameUnary, _scheduleStartReplay, _sourceReplayProvenance,
+    _provenanceReplay, provenancePkg, _namePkg⟩ := carrier
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed scheduleUnary startUnary scheduleStartPrefix
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed sourceUnary prefixUnary sourcePrefixEndpoint
+  exact
+    ⟨sourceUnary, scheduleUnary, startUnary, prefixUnary, endpointUnary,
+      scheduleStartPrefix, sourcePrefixEndpoint, provenancePkg, endpointPkg⟩
 
 end BEDC.Derived.HistTimeStreamUp

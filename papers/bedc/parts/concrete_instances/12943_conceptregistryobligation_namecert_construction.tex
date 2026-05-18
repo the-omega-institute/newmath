@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\ConceptRegistryObligationUp$}
+\label{ch:concrete-instances-conceptregistryobligation-namecert}
+\origin{ai}
+
+The $\ConceptRegistryObligationUp$ packet realizes the concept-entry obligation of \autoref{def:philosophy-concept-entry} and \autoref{thm:philosophy-core-concepts-require-entries} as finite BEDC data. It sits beside \autoref{ch:concrete-instances-concept-registry-surface-namecert}, \autoref{ch:concrete-instances-registry-export-surface-namecert}, \autoref{ch:concrete-instances-core-registry-index-namecert}, \autoref{ch:concrete-instances-registrylayer-namecert}, and \autoref{ch:concrete-instances-auditgatefailurewitness-namecert}. Those siblings expose the concept-registry surface, public export boundary, core index, package registry layer, and failed-gate diagnostic surface; this carrier isolates the finite row packet a concept entry must carry before it can be exported as philosophy-package vocabulary.
+
+\begin{definition}[Concept registry obligation carrier]
+\label{def:concept-registry-obligation-carrier}
+A $\ConceptRegistryObligationUp$ carrier is a finite $\BHist$ packet
+$$
+O=(E,A,L,F,S,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the concept-entry row, recording the name named by the philosophy package and the entry surface required by \autoref{def:philosophy-concept-entry};
+\item $A$ is the carrier-and-classifier row, recording the displayed BEDC carrier and classifier to which the concept entry is attached;
+\item $L$ is the ledger row, recording the positive reading, supporting ledger, and package route that a consumer may inspect;
+\item $F$ is the forbidden-reading row, recording the readings blocked before the entry can be exported;
+\item $S$ is the status row, recording gap status, theory closure, formal status, and export readiness as finite registry data;
+\item $X$ is the export row, recording whether the entry is read by the concept-registry surface, registry-export surface, core registry index, or registry layer;
+\item $H$ stores componentwise $\hsame$ transport for concept-entry, carrier-and-classifier, ledger, forbidden-reading, status, export, route, provenance, and local naming rows;
+\item $C$ stores displayed $\Cont$ routes from concept entry through carrier, classifier, ledger, forbidden-reading, status, and export rows;
+\item $P$ is the $\Pkg$ provenance over $\ConceptRegistryObligationUp$, $\ConceptRegistrySurfaceUp$, $\RegistryExportSurfaceUp$, $\CoreRegistryIndexUp$, $\RegistryLayerUp$, $\AuditGateFailureWitnessUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ConceptRegistryObligationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a prose-only concept, missing carrier, missing classifier, erased ledger, absent forbidden-reading row, hidden status row, export bypass, host semantic equality, or package-private override.
+\end{definition}
+\leanchecked{BEDC.Derived.ConceptRegistryObligationUp.ConceptRegistryObligationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Concept registry obligation NameCert obligations]
+\label{thm:concept-registry-obligation-namecert-obligations}
+For the carrier of \autoref{def:concept-registry-obligation-carrier}, the local $\NameCert_{\ConceptRegistryObligationUp}$ surface consists exactly of carrier admission for $O=(E,A,L,F,S,X,H,C,P,N)$; concept-entry exposure through $E$; carrier and classifier exposure through $A$; ledger accountability through $L$; forbidden-reading accountability through $F$; status exposure through $S$; export routing through $X$; transport and route replay through $H,C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet of \autoref{def:concept-registry-obligation-carrier}. The row $E$ names the entry required by the philosophy concept registry, and $A,L,F,S$ display the carrier, classifier, ledger, forbidden readings, and status fields that \autoref{def:philosophy-concept-entry} requires.
+
+The export row $X$ binds the same entry to the sibling registry surfaces. The concept-registry surface reads the entry discipline, the registry-export surface reads public export control, the core registry index reads the table location, and the registry layer reads package-level admit-or-block routing.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same rows. Since the carrier has no hidden row from which a missing carrier, classifier, ledger, forbidden-reading, or status field can be reconstructed, the displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Concept registry obligation export readiness]
+\label{thm:concept-registry-obligation-export-readiness}
+An accepted $\ConceptRegistryObligationUp$ packet is export-ready only when the concept-entry row $E$, carrier-and-classifier row $A$, ledger row $L$, forbidden-reading row $F$, status row $S$, export row $X$, transport row $H$, route row $C$, provenance row $P$, and local naming row $N$ are all present in the same finite packet. A concept export missing any one of carrier, classifier, ledger, forbidden-reading, or status data exits the accepted carrier.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:concept-registry-obligation-namecert-obligations}. It lists each accepted row as part of one local NameCert surface, so export readiness cannot be checked by the entry name alone.
+
+If $A$ is absent, the concept has no displayed BEDC carrier and classifier. If $L$ is absent, the positive reading and supporting ledger are not available to the consumer. If $F$ is absent, blocked readings can be smuggled into the export. If $S$ is absent, gap, closure, and formal status cannot be inspected.
+
+The row $X$ routes the admitted packet to the registry surfaces, while $H,C,P,N$ preserve and name the route. None of these support rows synthesizes a missing obligation row, so absence of any listed field exits the accepted $\ConceptRegistryObligationUp$ carrier.
+\end{proof}
+
+\begin{theorem}[Concept registry obligation forbidden-reading boundary]
+\label{thm:concept-registry-obligation-forbidden-reading-boundary}
+Every public reading of an accepted $\ConceptRegistryObligationUp$ packet must carry the forbidden-reading row $F$ together with the carrier-and-classifier row $A$, ledger row $L$, status row $S$, and export row $X$. The packet cannot export subject substance, hidden theorem content, host semantic equality, audit-gate failure as theorem proof, or a registry entry whose blocked readings are not displayed.
+\end{theorem}
+\begin{proof}
+Begin with export readiness, \autoref{thm:concept-registry-obligation-export-readiness}. It keeps $F$ in the same finite packet as the carrier, classifier, ledger, status, and export rows.
+
+The audit-gate failure witness is diagnostic. It can record a failed gate and route that failure to the registry boundary, but it does not convert a missing forbidden-reading row into theorem content or export permission.
+
+The concept-registry surface and registry-export surface then read the same displayed boundary. Since neither sibling surface contains a coordinate for hidden host semantics, subject substance, or blocked readings erased from the packet, the forbidden-reading boundary is exact for accepted concept export.
+\end{proof}
+
+\begin{theorem}[Concept registry obligation sibling dependency]
+\label{thm:concept-registry-obligation-sibling-dependency}
+The $\ConceptRegistryObligationUp$ packet depends on the sibling rows $\ConceptRegistrySurfaceUp$, $\RegistryExportSurfaceUp$, $\CoreRegistryIndexUp$, $\RegistryLayerUp$, and $\AuditGateFailureWitnessUp$ only through displayed route and provenance data. None of those siblings is bijective to $\ConceptRegistryObligationUp$: each lacks at least one of the simultaneous concept-entry, carrier-and-classifier, ledger, forbidden-reading, status, export, transport, route, provenance, and local NameCert rows.
+\end{theorem}
+\begin{proof}
+Read the provenance row $P$ and route row $C$. They name the sibling surfaces as consumers or diagnostic neighbors of the obligation packet, not as replacements for the local carrier.
+
+The concept-registry surface records concept-family export, but it does not isolate the obligation packet required for each concept entry. The registry-export surface records public export control, but not the concept-entry carrier and classifier obligations together. The core registry index records table position, while the registry layer records package admit-or-block routing. The audit-gate failure witness records diagnostic failure rather than export readiness.
+
+Thus the dependency is one-way through displayed route and provenance rows. A sibling can consume or diagnose the packet, but none reconstructs the entire finite carrier $O=(E,A,L,F,S,X,H,C,P,N)$.
+\end{proof}
+
+\falsifiablePrediction{A concept export missing carrier, classifier, ledger, forbidden-reading, or status rows fails the ConceptRegistryObligationUp carrier.}
+
+\independenceWitness{conceptregistrysurface, registryexportsurface, coreregistryindex, registrylayer, auditgatefailurewitness: none is bijective because ConceptRegistryObligationUp carries concept-entry, carrier-and-classifier, ledger, forbidden-reading, status, export, transport, route, provenance, and local NameCert rows simultaneously.}
+
+The Lean follow-up for this chapter must provide \texttt{Nontrivial ConceptRegistryObligationUp} and \texttt{FieldFaithful ConceptRegistryObligationUp} instances in \texttt{BEDC.Derived.ConceptRegistryObligationUp.TasteGate}. These instances must preserve $E,A,L,F,S,X,H,C,P,N$ as separate displayed rows before any checked theorem cites the packet as a TasteGate surface.
+
+\closureat{ConceptRegistryObligationUp}{seedStr}
+
+\begin{closurestatus}{\ConceptRegistryObligationUp}
+  \constructivestory{A $\ConceptRegistryObligationUp$ packet is generated from concept-entry, carrier-and-classifier, ledger, forbidden-reading, status, export, componentwise $\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:concept-registry-obligation-carrier}, \autoref{thm:concept-registry-obligation-namecert-obligations}, \autoref{thm:concept-registry-obligation-export-readiness}, \autoref{thm:concept-registry-obligation-forbidden-reading-boundary}, and \autoref{thm:concept-registry-obligation-sibling-dependency} bind philosophy concept-entry obligations to a finite registry packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ConceptRegistryObligationUp.ConceptRegistryObligationTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, complete philosophy-package governance, correctness of every concept entry, or public export without the displayed obligation rows.}
+  \upgradepath{Lean closure requires Nontrivial ConceptRegistryObligationUp and FieldFaithful ConceptRegistryObligationUp instances preserving $E,A,L,F,S,X,H,C,P,N$.}
+\end{closurestatus}

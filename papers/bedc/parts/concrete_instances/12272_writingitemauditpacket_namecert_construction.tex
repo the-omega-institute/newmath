@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\WritingItemAuditPacketUp$}
+\label{ch:concrete-instances-writing-item-audit-packet-namecert}
+\origin{ai}
+
+The $\WritingItemAuditPacketUp$ carrier realizes the writing-item discipline of \autoref{subsec:philosophy-writing-items} inside the auditable-generativity programme of \autoref{ch:visions-philosophy-auditable-generativity}. It sits beside the closure-status discipline of \autoref{subsec:philosophy-closure-status-blocks}, the registry layer of \autoref{ch:concrete-instances-registrylayer-namecert}, the object-knowledge certificate of \autoref{ch:concrete-instances-objectknowledgecertificate-namecert}, the registry-consistency audit of \autoref{ch:concrete-instances-registry-consistency-audit-namecert}, and the machine-readable audit interface of \autoref{ch:concrete-instances-machine-readable-audit-interface-namecert}. Those siblings bind chapter scope, registry admission, object-witness evidence, consistency checking, and machine-facing report reads; this packet names the finite writing item before a consumer may read prose as an auditable BEDC claim.
+
+\begin{definition}[Writing-item audit packet carrier]
+\label{def:writing-item-audit-packet-carrier}
+A $\WritingItemAuditPacketUp$ carrier is a finite $\BHist$ packet
+$$
+W=(K,C,R,L,T,F,G,Q,H,A,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the kind row, recording whether the item is a definition, theorem, corollary, proof, reading, schema, roadmap, or refusal;
+\item $C$ is the carrier row, recording the BEDC object, packet, registry entry, or refusal surface on which the item lives;
+\item $R$ is the classifier row, recording the displayed identity, equivalence, or classification relation by which the item is compared;
+\item $L$ is the ledger row, recording hidden material, package provenance, consumed certificates, and refusal handoffs visible to the item;
+\item $T$ is the theory-closure row, recording the paper-side closure grade and exact scope licensed by the item;
+\item $F$ is the formal-status row, recording the Lean-side or audit-side status for the relevant declaration, target, encoded carrier, or explicit absence;
+\item $G$ is the gap-report row, recording open gaps, refused gaps, closed gaps, and cannot-claim boundaries attached to the item;
+\item $Q$ is the permitted-claim row, recording the strongest sentence the item authorizes a reader to believe;
+\item $H$ records componentwise $\hsame$ transport for kind, carrier, classifier, ledger, theory closure, formal status, gap report, and permitted claim text;
+\item $A$ records displayed $\Cont$ replay from item admission through classifier readback, ledger inspection, status readback, gap exposure, and claim publication;
+\item $P$ is the $\Pkg$ provenance over $\WritingItemAuditPacketUp$, $\RegistryLayerUp$, $\ObjectKnowledgeCertificateUp$, $\RegistryConsistencyAuditUp$, $\MachineReadableAuditInterfaceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\WritingItemAuditPacketUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a prose override, unledgered carrier, hidden classifier, status-free claim, gap-erasing read, or claim text stronger than $Q$.
+\end{definition}
+
+\begin{theorem}[Writing-item audit packet NameCert obligations]
+\label{thm:writing-item-audit-packet-namecert-obligations}
+For the carrier of \autoref{def:writing-item-audit-packet-carrier}, the local $\NameCert_{\WritingItemAuditPacketUp}$ surface consists exactly of eight obligation groups:
+\begin{enumerate}
+\item carrier admission for $W=(K,C,R,L,T,F,G,Q,H,A,P,N)$;
+\item kind and carrier readback through $K$ and $C$;
+\item classifier exactness through $R$;
+\item ledger coverage through $L$;
+\item theory-closure and formal-status readback through $T$ and $F$;
+\item gap-report exposure through $G$;
+\item permitted-claim readback through $Q$;
+\item componentwise transport, replay, package provenance, and local naming through $H,A,P,N$.
+\end{enumerate}
+Thus a legal writing item is a finite NameCert surface over kind, carrier, classifier, ledger, closure status, formal status, gap report, and permitted claim text, not a bare prose assertion.
+\end{theorem}
+\leanchecked{BEDC.Derived.WritingItemAuditPacketUp.WritingItemAuditPacketTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.WritingItemAuditPacketUp.WritingItemAuditPacketNameCert\_obligations}
+\begin{proof}
+Project the displayed packet $W=(K,C,R,L,T,F,G,Q,H,A,P,N)$. The first seven visible rows supply the writing discipline named in \autoref{def:philosophy-writing-item}: kind, carrier, classifier, ledger, theory-closure status, formal-verification status, gap report, and claim text.
+
+Read the carrier-facing obligations next. The rows $K,C,R,L$ decide what kind of item is being read, where it lives, how it is compared, and which hidden material or refusal handoffs have been ledgered.
+
+The status and boundary obligations are separate. The rows $T,F,G,Q$ expose the paper closure grade, formal status, gap report, and permitted claim text before a consumer may use the item. The transport, replay, provenance, and local naming rows $H,A,P,N$ preserve exactly that finite inventory, so the eight groups exhaust the local $\NameCert_{\WritingItemAuditPacketUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Writing-item audit packet closure bound]
+\label{thm:writing-item-audit-packet-closure-bound}
+No accepted $\WritingItemAuditPacketUp$ packet authorizes a consumer claim stronger than the conjunction of its displayed theory-closure row $T$, formal-status row $F$, gap-report row $G$, and permitted-claim row $Q$.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet $W=(K,C,R,L,T,F,G,Q,H,A,P,N)$. The rows $T$ and $F$ report the two independent axes described by \autoref{thm:philosophy-theory-formal-independent}, while $G$ records the visible gap or refusal boundary.
+
+Inspect $Q$. By \autoref{def:writing-item-audit-packet-carrier}, $Q$ is the strongest sentence the item authorizes a reader to believe, and the carrier has no coordinate for a stronger prose override.
+
+Finally use $H,A,P,N$. These rows transport, replay, package, and name the same displayed packet; they do not introduce an additional status grade or a second permitted-claim coordinate. Therefore any stronger consumer claim exits the accepted carrier.
+\end{proof}
+
+\begin{theorem}[Writing-item audit packet gap exposure]
+\label{thm:writing-item-audit-packet-gap-exposure}
+If the gap-report row $G$ of an accepted $\WritingItemAuditPacketUp$ packet records an open gap, refused gap, or cannot-claim boundary, every permitted consumer read of the packet exposes that row before publishing the permitted claim text $Q$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:writing-item-audit-packet-namecert-obligations}. Gap-report exposure is one of the eight local NameCert obligation groups, so a consumer read cannot reach the local name while ignoring $G$.
+
+The replay row $A$ orders the public read through item admission, classifier readback, ledger inspection, status readback, gap exposure, and claim publication. Thus $Q$ is not a free-standing prose sentence; it is read after the displayed gap report.
+
+If a consumer omits the open-gap, refused-gap, or cannot-claim content of $G$, the read no longer follows the displayed replay row and no longer preserves the local NameCert surface. Such a read is not a permitted consumer read of the packet.
+\end{proof}
+
+\falsifiablePrediction{A consumer whose claim text exceeds its displayed closure-status row refutes the $\WritingItemAuditPacketUp$ packet.}
+
+\independenceWitness{registrylayer, objectknowledgecertificate, registryconsistencyaudit, machinereadableauditinterface: none is bijective to $\WritingItemAuditPacketUp$ because the registry layer lacks per-item permitted claim text, the object-knowledge certificate lacks the writing-kind and formal-status rows, the registry-consistency audit lacks the item-kind and permitted-claim rows, and the machine-readable audit interface lacks the carrier-classifier-ledger writing discipline as one finite NameCert surface.}
+
+The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \WritingItemAuditPacketUp$ and $\mathsf{FieldFaithful}\ \WritingItemAuditPacketUp$ instances in \texttt{lean4/BEDC/Derived/WritingItemAuditPacketUp/TasteGate.lean}. The field-faithfulness witness must preserve $K,C,R,L,T,F,G,Q,H,A,P,N$ as distinct rows before $\mathsf{BEDC.Derived.WritingItemAuditPacketUp.taste\_gate}$ can be cited by a checked paper marker.
+
+\closureat{WritingItemAuditPacketUp}{seedStr}
+\closureat{WritingItemAuditPacketUp}{obligationStr}
+
+\begin{closurestatus}{\WritingItemAuditPacketUp}
+  \constructivestory{The writing-item audit packet is generated from $BHist$ rows that name a writing kind, permitted claim text, closure-status row, formal-status row, gap row, and the classifier-ledger discipline that binds them. The carrier first reads the item from the ledger, then attaches the audit packet, and finally permits $\Cont$ extensions only when the same closure, formal-status, and gap rows remain visible. The $hsame$ relation makes the packet stable under changes of representative history. The NameCert obligations, closure-bound theorem, gap-exposure theorem, prediction, and independence witness define a local audit mechanism: a writing item is admissible only when its permitted text and exposed bounds are carried by the packet.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the writing-item audit-packet carrier, NameCert obligations, closure-bound theorem, gap-exposure theorem, falsifiable prediction, and independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim full document closure, correctness of unaudited writing items, or hidden gap discharge outside the packet rows.}
+  \upgradepath{Reaching obligationClosure requires formal audit-packet rows and checked linkage between permitted claim text, closure bounds, and exposed gaps.}
+\end{closurestatus}

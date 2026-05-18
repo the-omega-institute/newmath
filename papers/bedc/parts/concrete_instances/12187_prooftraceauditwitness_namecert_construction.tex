@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\ProofTraceAuditWitnessUp$}
+\label{ch:concrete-instances-prooftraceauditwitness-namecert}
+\origin{ai}
+
+The $\ProofTraceAuditWitnessUp$ packet realizes the proof-discipline surface of \autoref{def:philosophy-bedc-proof-discipline} as a finite NameCert carrier. It sits beside the kernel audit witness of \autoref{ch:concrete-instances-kernel-audit-witness-namecert}, the compiler trace faithfulness packet of \autoref{ch:concrete-instances-compilertracefaithfulness-namecert}, the NameCert morphism route of \autoref{ch:concrete-instances-namecertmorphism-namecert}, the category certificate surface of \autoref{ch:concrete-instances-category-namecert}, and the proof-term erasure trace of \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. Those siblings audit accepted declarations, compiler routes, certificate morphisms, categorical rows, and proof-object erasure; this packet binds proof trace, source carrier, classifier witness, displayed transport, forbidden-resource refusal, audit verdict, provenance, and local naming before a proof row may be read as BEDC-internal evidence.
+
+\begin{definition}[Proof trace audit witness carrier]
+\label{def:proof-trace-audit-witness-carrier}
+A $\ProofTraceAuditWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(T,S,K,H,L,F,A,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the proof-trace row, recording the finite witness chain consumed by the proof site.
+\item $S$ is the source-carrier row, recording the BEDC carrier, source object, or theorem surface whose evidence is being audited.
+\item $K$ is the classifier-witness row, recording the classifier membership, stability, or exactness witness used by the proof trace.
+\item $H$ is the displayed-transport row, recording the $\hsame$ transport needed whenever the trace crosses a classifier, package, bridge, or history-identity surface.
+\item $L$ is the ledger-witness row, recording the $\Cont$ replay, package route, and local ledger entries consumed by the trace.
+\item $F$ is the forbidden-resource row, recording refusal of hidden choice, host equality as BEDC equality, quotient collapse, propositional extensional rewrite, global truth predicate, unledgered compression, and unscoped universal claim.
+\item $A$ is the audit-verdict row, recording whether the trace is accepted, refused, or held as a displayed obligation at the proof site.
+\item $P$ is the $\Pkg$ provenance over $\KernelAuditWitnessUp$, $\CompilerTraceFaithfulnessUp$, $\NameCertMorphismUp$, $\CategoryUp$, $\ProofTermErasureTraceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ProofTraceAuditWitnessUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for an untraced proof, an implicit transport, an erased forbidden-resource refusal, a host equality proof, or an audit verdict detached from provenance and local naming.
+\end{definition}
+\leandef{BEDC.Derived.ProofTraceAuditWitnessUp.ProofTraceAuditWitnessUp}
+\leanchecked{BEDC.Derived.ProofTraceAuditWitnessUp.taste\_gate}
+
+\begin{theorem}[Proof trace audit witness NameCert obligations]
+\label{thm:proof-trace-audit-witness-namecert-obligations}
+For the carrier of \autoref{def:proof-trace-audit-witness-carrier}, the local $\NameCert_{\ProofTraceAuditWitnessUp}$ surface consists exactly of six obligation rows: carrier admission for $W=(T,S,K,H,L,F,A,P,N)$; proof-trace and source-carrier exposure through $T$ and $S$; classifier-witness stability through $K$; displayed transport and replay through $H$ and $L$; forbidden-resource refusal and audit-verdict exactness through $F$ and $A$; and provenance plus local naming through $P$ and $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ProofTraceAuditWitnessUp.ProofTraceAuditWitnessNameCertObligations}
+\begin{proof}
+Project the carrier of \autoref{def:proof-trace-audit-witness-carrier}. The rows $T,S,K,H,L,F,A,P,N$ are the only available proof-audit coordinates, so a proof consumer first reads a finite trace, its source carrier, and the classifier witness that licenses the trace.
+
+Next read the transport and ledger rows. The displayed transport row $H$ prevents classifier crossing from being treated as host equality, while the ledger row $L$ keeps replay, package route, and proof-site ledger entries visible in $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ form.
+
+Finally attach the refusal and verdict rows. The forbidden-resource row $F$ records which proof resources are unavailable, and the audit-verdict row $A$ can be read only with that refusal row and the provenance and local name rows $P,N$. Repacking these rows gives the six local NameCert obligations and no additional proof coordinate.
+\end{proof}
+
+\begin{theorem}[Proof trace audit witness ledger non-escape]
+\label{thm:proof-trace-audit-witness-ledger-nonescape}
+Every accepted $\ProofTraceAuditWitnessUp$ proof read factors through the displayed rows
+$$
+T,S,K,H,L,F,A,P,N.
+$$
+In particular, deleting the displayed-transport row $H$, erasing the forbidden-resource row $F$, or detaching the audit-verdict row $A$ from the provenance row $P$ leaves no carrier route from the proof trace $T$ to BEDC-internal proof evidence.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:proof-trace-audit-witness-namecert-obligations}. They require proof-trace exposure, source-carrier exposure, classifier-witness stability, displayed transport, ledger replay, forbidden-resource refusal, audit verdict, provenance, and local naming to be read as one packet.
+
+If $H$ is absent, the trace has no displayed way to cross a classifier, package, bridge, or history-identity surface. If $F$ is absent, the proof site no longer records refusal of hidden choice, quotient collapse, host equality, or propositional extensional rewrite. If $A$ is detached from $P$, the verdict is no longer tied to a finite proof-site provenance row.
+
+Thus every accepted proof read remains inside the listed packet. A consumer that asks for proof evidence without one of these rows has left the $\ProofTraceAuditWitnessUp$ carrier rather than extracting a hidden proof resource from it.
+\end{proof}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/ProofTraceAuditWitnessUp/TasteGate.lean} must provide explicit $\Nontrivial\ \ProofTraceAuditWitnessUp$ and $\FieldFaithful\ \ProofTraceAuditWitnessUp$ instances, preserving $T,S,K,H,L,F,A,P,N$ as separate displayed fields.
+
+\falsifiablePrediction{Deleting the displayed transport row while keeping the proof trace and verdict rows invalidates the audit witness carrier.}
+
+\independenceWitness{kernelauditwitness, groundcompilerauditwitness, namecertmorphism, category, prooftermerasuretrace: none is bijective because this packet uniquely binds a proof trace to displayed transport, forbidden-resource refusal, audit verdict, provenance, and local NameCert rows.}
+
+\closureat{ProofTraceAuditWitnessUp}{seedStr}
+
+\begin{closurestatus}{\ProofTraceAuditWitnessUp}
+  \constructivestory{A $\ProofTraceAuditWitnessUp$ packet is generated from proof trace, source carrier, classifier witness, displayed transport, ledger witness, forbidden-resource refusal, audit verdict, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proof-trace-audit-witness-carrier}, \autoref{thm:proof-trace-audit-witness-namecert-obligations}, and \autoref{thm:proof-trace-audit-witness-ledger-nonescape} bind proof-discipline evidence to a finite proof-audit packet.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ProofTraceAuditWitnessUp.taste\_gate}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, global proof search, kernel soundness, proof-term erasure correctness, or a host equality proof rule.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligation coverage, ledger non-escape, TasteGate nontriviality, and field faithfulness for $T,S,K,H,L,F,A,P,N$.}
+\end{closurestatus}

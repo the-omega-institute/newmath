@@ -1,0 +1,538 @@
+\chapter{A Concrete Naming Certificate for $\MetricTriangleUniformEstimateUp$}
+\label{ch:concrete-instances-metric-triangle-uniform-estimate-namecert}
+\origin{human}
+
+The $\MetricTriangleUniformEstimateUp$ packet isolates the last estimate in the compact-uniform-continuity construction of \autoref{ch:visions-compact-uniform-continuity}. It is the Bishop--Bridges finite-net proof surface for Heine--Cantor in BEDC form: a selected compact-net center is used twice in the source metric, the continuous-map rows provide two pointwise target estimates at that center, and the target metric triangle row returns the final uniform estimate. The packet is anchored in the metric certificate of \autoref{ch:concrete-instances-metric-namecert}, compact metric data of \autoref{ch:concrete-instances-compactmetric-namecert}, continuous-map data of \autoref{ch:concrete-instances-continuousmap-namecert}, finite lower-bound folding of \autoref{ch:concrete-instances-finitenetminimumfold-namecert}, and the consumer surface of \autoref{ch:concrete-instances-uniformmodulus-namecert}.
+
+\begin{definition}[Metric-triangle uniform-estimate carrier]
+\label{def:metric-triangle-uniform-estimate-carrier}
+A $\MetricTriangleUniformEstimateUp$ carrier is a finite packet
+$$
+E=(X,Y,F,x,x',c,d_x,d_{x'},e_c,e_x,e_{x'},T,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricUp$ or $\CompactMetricUp$ row carrying the located source-distance classifier.
+\item $Y$ is the target $\MetricUp$ row carrying the target-distance classifier.
+\item $F$ is the $\ContinuousMapUp$ graph and pointwise-modulus packet for the displayed function from $X$ to $Y$.
+\item $x$ and $x'$ are the two source histories whose target images are compared by the uniform-modulus consumer.
+\item $c$ is the compact-net center selected from the finite bundle associated to the tolerance row.
+\item $d_x$ is the source distance row from $x$ to $c$ supplied by compact-net coverage.
+\item $d_{x'}$ is the source distance row from $x'$ to $c$ obtained from the selected precision row, the source distance between $x$ and $x'$, and the source triangle ledger.
+\item $e_c$ is the selected precision row exported by the finite fold of \autoref{ch:concrete-instances-finitenetminimumfold-namecert}.
+\item $e_x$ and $e_{x'}$ are the two pointwise target-distance estimates at $c$, one for $f(x)$ and one for $f(x')$.
+\item $T$ is the final target triangle ledger joining the two pointwise target estimates into the displayed estimate between $f(x)$ and $f(x')$.
+\item $H$ stores the componentwise $\hsame$ transports for all source, target, precision, and triangle rows.
+\item $C$ stores the $\Cont$ routes by which a consumer reads the source triangle, the target triangle, and the uniform-modulus handoff.
+\item $P$ is the $\Pkg$ provenance over $\MetricUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\RatUp$, $\FiniteNetMinimumFoldUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, and $\Cont$ rows.
+\item $N$ is the local $\NameCert_{\MetricTriangleUniformEstimateUp}$ registration row.
+\end{enumerate}
+The classifier compares carriers only through these displayed rows. It has no coordinate for host compactness, selected subsequences, choice principles, open-cover compactness, or completeness of the real numbers.
+\end{definition}
+\leandef{BEDC.Derived.MetricTriangleUniformEstimateUp.MetricTriangleUniformEstimateCarrier}
+
+\begin{theorem}[Metric-triangle uniform-estimate NameCert obligations]
+\label{thm:metric-triangle-uniform-estimate-namecert-obligations}
+The local $\NameCert_{\MetricTriangleUniformEstimateUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier exposure, requiring every public read of $E$ to factor through the displayed source metric, target metric, continuous graph, selected center, distance, precision, triangle, transport, continuation, provenance, and local naming rows;
+\item classifier stability, requiring componentwise $\hsame$ transport for $X,Y,F,x,x',c,d_x,d_{x'},e_c,e_x,e_{x'},T,H,C,P,N$;
+\item source triangle admissibility, requiring $d_{x'}$ to be read from the source metric triangle row using the selected precision $e_c$, the compact-net coverage row $d_x$, and the displayed source distance between $x$ and $x'$;
+\item target triangle admissibility, requiring $T$ to be read from the target metric triangle row using the two pointwise target-distance estimates $e_x$ and $e_{x'}$ at the same center $c$;
+\item $\UniformModulusUp$ consumer handoff, requiring the downstream uniform-modulus packet to receive only the finite selected precision row, the two source metric bounds, the two pointwise target bounds, the final target triangle row, and the visible transport and provenance rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier $E=(X,Y,F,x,x',c,d_x,d_{x'},e_c,e_x,e_{x'},T,H,C,P,N)$. Carrier exposure and classifier stability are the displayed coordinates and the componentwise transports in $H$.
+
+For source admissibility, read the finite-fold precision row $e_c$ and the compact-net coverage row $d_x$. The source metric triangle row in $X$ combines those rows with the displayed distance between $x$ and $x'$ and produces the source bound $d_{x'}$ at the same center $c$.
+
+For target admissibility, use the pointwise rows in $F$ at the chosen center. They give $e_x$ and $e_{x'}$ as target estimates from $f(c)$ to $f(x)$ and from $f(c)$ to $f(x')$. The target metric triangle row in $Y$ then supplies $T$.
+
+The consumer handoff is the continuation route $C$ with provenance $P$ and local name $N$. Since the packet has no coordinate for host compactness, selected subsequences, choice, open-cover compactness, or real completeness, none of those objects can be exported to $\UniformModulusUp$.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate consumer handoff]
+\label{thm:metric-triangle-uniform-estimate-consumer-handoff}
+Every $\UniformModulusUp$ consumer of an accepted $\MetricTriangleUniformEstimateUp$ carrier receives exactly the selected precision row $e_c$, the two source metric bounds $d_x$ and $d_{x'}$, the two pointwise target bounds $e_x$ and $e_{x'}$, the final target triangle row $T$, and the displayed transport, continuation, provenance, and local naming rows $H,C,P,N$. It receives no host compactness coordinate, selected subsequence, choice-selected point outside the finite bundle, open-cover compactness object, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Start with the carrier exposure and source triangle admissibility of \autoref{thm:metric-triangle-uniform-estimate-namecert-obligations}. They identify the only source-side data delivered to a consumer: the selected precision row, compact-net coverage, the source distance between $x$ and $x'$, and the source triangle row producing $d_{x'}$.
+
+Next use target triangle admissibility. The pointwise target estimates $e_x$ and $e_{x'}$ are read from the continuous-map packet at the same selected center, and the final estimate is the target triangle row $T$.
+
+Finally apply the handoff obligation. The continuation and provenance rows send precisely those finite coordinates to $\UniformModulusUp$, while the excluded host compactness, subsequence, choice, open-cover, and real-completeness objects are absent from the carrier.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate source-triangle coherence]
+\label{thm:metric-triangle-uniform-estimate-source-triangle-coherence}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the selected center route and the source metric triangle row determine the two source-distance rows $d_x$ and $d_{x'}$ used by the uniform-estimate packet. The determination uses the carrier rows, the local NameCert obligations, compact-net coverage from \autoref{ch:concrete-instances-compactmetric-namecert}, finite lower-bound precision from \autoref{ch:concrete-instances-finitenetminimumfold-namecert}, and the source $\MetricUp$ triangle ledger; it uses no host compactness, selected subsequence, open-cover compactness, choice principle, or real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-triangle-uniform-estimate-carrier}. The displayed rows include the selected center $c$, the selected precision $e_c$, compact-net coverage for $x$ at $c$, the source distance between $x$ and $x'$, and the source triangle ledger inside $X$.
+
+Apply the NameCert obligations of \autoref{thm:metric-triangle-uniform-estimate-namecert-obligations}. Source triangle admissibility says that $d_x$ is the compact-net coverage row and that $d_{x'}$ is read from the source triangle row using $e_c$, $d_x$, and the displayed distance between $x$ and $x'$.
+
+The consumer handoff theorem \autoref{thm:metric-triangle-uniform-estimate-consumer-handoff} then fixes these rows as the only source bounds sent onward. Since the carrier has no host compactness or choice coordinate, no outside compactness principle can alter the determined source route.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate target-triangle coherence]
+\label{thm:metric-triangle-uniform-estimate-target-triangle-coherence}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the two pointwise target estimates $e_x$ and $e_{x'}$ at the same selected center $c$ feed the target triangle row $T$ and determine the displayed target estimate between $f(x)$ and $f(x')$. The route factors through the target $\MetricUp$ row, the $\ContinuousMapUp$ pointwise rows, the carrier, the local NameCert obligations, and the consumer handoff, with no semantic target-space completeness or host equality of target points.
+\end{theorem}
+\begin{proof}
+Read the carrier rows $Y,F,c,e_x,e_{x'},T$ from \autoref{def:metric-triangle-uniform-estimate-carrier}. The target metric row $Y$ supplies the triangle ledger, while the continuous-map packet $F$ supplies both pointwise target estimates at the same selected center.
+
+Use target triangle admissibility from \autoref{thm:metric-triangle-uniform-estimate-namecert-obligations}. It identifies $T$ as the row obtained from those two pointwise estimates through the target metric triangle.
+
+Apply \autoref{thm:metric-triangle-uniform-estimate-consumer-handoff}. The downstream $\UniformModulusUp$ consumer receives $T$ only through this finite target route, so the estimate is not supplemented by target completeness, host equality, or a hidden semantic metric argument.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate uniform-modulus route exhaustion]
+\label{thm:metric-triangle-uniform-estimate-uniform-modulus-route-exhaustion}
+Every $\UniformModulusUp$ consumer of an accepted $\MetricTriangleUniformEstimateUp$ carrier factors through the selected precision $e_c$, the two source bounds $d_x,d_{x'}$, the two target bounds $e_x,e_{x'}$, the final target triangle row $T$, and the visible transport, continuation, provenance, and local naming rows $H,C,P,N$. No consumer route may add host compactness, a choice-selected center outside the finite bundle, an open-cover compactness witness, a semantic continuity theorem, or a $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+First combine source-triangle coherence with target-triangle coherence. The source side fixes $d_x$ and $d_{x'}$ from the selected center route and source triangle ledger, while the target side fixes $T$ from the two pointwise target estimates at that same center.
+
+Next apply the NameCert obligations of \autoref{thm:metric-triangle-uniform-estimate-namecert-obligations}. They make carrier exposure, classifier stability, source admissibility, target admissibility, and consumer handoff the full obligation surface for the packet.
+
+Finally use \autoref{thm:metric-triangle-uniform-estimate-consumer-handoff}. It states that the consumer receives exactly $e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N$, so every accepted $\UniformModulusUp$ read factors through those rows and through no host compactness or completion object.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate classifier transport]
+\label{thm:metric-triangle-uniform-estimate-classifier-transport}
+For accepted $\MetricTriangleUniformEstimateUp$ carriers $E$ and $E'$, componentwise $\hsame$ transport of
+$$
+X,Y,F,x,x',c,d_x,d_{x'},e_c,e_x,e_{x'},T,H,C,P,N
+$$
+preserves the public classifier. The transported route remains internal to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; it does not pass through host compactness, selected subsequences, open-cover compactness, choice, semantic continuity, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:metric-triangle-uniform-estimate-carrier}. The classifier reads only the displayed rows $X,Y,F,x,x',c,d_x,d_{x'},e_c,e_x,e_{x'},T,H,C,P,N$.
+
+Apply classifier stability from \autoref{thm:metric-triangle-uniform-estimate-namecert-obligations}. Each displayed coordinate is transported by the matching component of $H$, so the two public reads agree component by component.
+
+Use source-triangle coherence, target-triangle coherence, and route exhaustion. These results keep the source bound, target triangle, and consumer handoff inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route, so no external compactness or completion coordinate can affect the classifier.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate shared-center triangle composition]
+\label{thm:metric-triangle-uniform-estimate-shared-center-triangle-composition}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the shared center $c$ composes compact-net coverage, source triangle admissibility, the two $\ContinuousMapUp$ pointwise estimates, and the target $\MetricUp$ triangle row into the displayed estimate between $f(x)$ and $f(x')$. The composite route factors through the carrier rows and the local NameCert obligations.
+\end{theorem}
+\begin{proof}
+Begin with compact-net coverage at the selected center. The carrier exposes $c$, $d_x$, $e_c$, and the source metric row $X$, while source-triangle coherence identifies $d_{x'}$ as the source-triangle output at the same center.
+
+Next read the continuous-map packet $F$. Its two pointwise rows give $e_x$ and $e_{x'}$ at the shared center $c$.
+
+Apply target-triangle coherence. The target metric row $Y$ uses those two pointwise estimates to produce $T$, the displayed target estimate between $f(x)$ and $f(x')$.
+
+Finally apply the NameCert obligations and route exhaustion. They repack the compact-net coverage, source triangle, pointwise estimates, and target triangle as one internal consumer route.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate UniformModulus boundary exactness]
+\label{thm:metric-triangle-uniform-estimate-uniformmodulus-boundary-exactness}
+Every $\UniformModulusUp$ consumer of an accepted $\MetricTriangleUniformEstimateUp$ carrier receives exactly the finite boundary rows
+$$
+e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N
+$$
+and no host compactness row, selected subsequence row, open-cover compactness row, choice row, or $\RealUp$ completeness row. This boundary is exact for the consumer interface of the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier and apply the NameCert obligations. Carrier exposure lists the finite rows, and the consumer handoff obligation restricts the public $\UniformModulusUp$ read to the displayed boundary.
+
+Use source-triangle coherence and shared-center triangle composition. They show that $d_x,d_{x'}$ and $e_x,e_{x'},T$ are not auxiliary imports; they are the source and target sides of the same selected-center route.
+
+Finally apply route exhaustion. It identifies $e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N$ as the whole downstream surface, so the absent compactness, subsequence, open-cover, choice, and real-completeness objects cannot be received by any accepted consumer.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate radius composition]
+\label{thm:metric-triangle-uniform-estimate-radius-composition}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the selected precision row $e_c$, compact-net coverage, and the source metric triangle row determine the source-distance row $d_{x'}$ at the same selected center $c$. The determination factors through the carrier of \autoref{def:metric-triangle-uniform-estimate-carrier}, the NameCert obligations of \autoref{thm:metric-triangle-uniform-estimate-namecert-obligations}, source-triangle coherence of \autoref{thm:metric-triangle-uniform-estimate-source-triangle-coherence}, target-triangle coherence of \autoref{thm:metric-triangle-uniform-estimate-target-triangle-coherence}, and the consumer handoff of \autoref{thm:metric-triangle-uniform-estimate-consumer-handoff}.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $c,d_x,d_{x'},e_c$ and the source metric row $X$ are displayed coordinates of $E$.
+
+Apply the NameCert obligations. Source triangle admissibility reads $e_c$ and the compact-net coverage row $d_x$ before using the source metric triangle row to obtain $d_{x'}$.
+
+Use source-triangle coherence to identify the center. The theorem fixes both source-distance rows on the selected center $c$, so $d_{x'}$ cannot be recomputed at another center.
+
+The target-triangle coherence and consumer handoff keep the resulting row in the same downstream route. The $\UniformModulusUp$ consumer receives $d_{x'}$ only as this displayed source-triangle output.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate center reuse determinacy]
+\label{thm:metric-triangle-uniform-estimate-center-reuse-determinacy}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the same selected center $c$ is used by both pointwise target estimates $e_x,e_{x'}$ and by the final target triangle row $T$. No accepted consumer route may replace that center between the two pointwise estimates or between those estimates and the target triangle row.
+\end{theorem}
+\begin{proof}
+Read $c,e_x,e_{x'},T$ from the carrier of \autoref{def:metric-triangle-uniform-estimate-carrier}. The pointwise estimates and the final triangle row are displayed in one packet.
+
+Apply target triangle admissibility from \autoref{thm:metric-triangle-uniform-estimate-namecert-obligations}. It says that $T$ is read from the target metric triangle row using the two pointwise target estimates at the same selected center $c$.
+
+Use \autoref{thm:metric-triangle-uniform-estimate-target-triangle-coherence}. The theorem identifies the target estimate between $f(x)$ and $f(x')$ as the route through $e_x$, $e_{x'}$, and $T$ at that center.
+
+Finally apply \autoref{thm:metric-triangle-uniform-estimate-consumer-handoff}. The handoff exports no second center, so the same $c$ is determined for both pointwise estimates and for the final target triangle row.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate no completion escape]
+\label{thm:metric-triangle-uniform-estimate-no-completion-escape}
+A $\UniformModulusUp$ consumer of an accepted $\MetricTriangleUniformEstimateUp$ carrier cannot add real completeness, open-cover compactness, choice, or a second selected center. Its read is exhausted by the displayed source bounds, pointwise target estimates, final target triangle row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations. They expose the finite rows $X,Y,F,x,x',c,d_x,d_{x'},e_c,e_x,e_{x'},T,H,C,P,N$ and no outside analytic coordinate.
+
+Apply source-triangle coherence and radius composition. These results determine $d_x$ and $d_{x'}$ from the selected center route, compact-net coverage, selected precision, and source triangle row.
+
+Apply target-triangle coherence and center reuse determinacy. The target route uses the same $c$ for both pointwise estimates and for the final target triangle row $T$.
+
+The consumer handoff and route exhaustion then list the whole downstream surface. Since real completeness, open-cover compactness, choice, and a second center are absent from that list, a $\UniformModulusUp$ consumer cannot obtain them from the accepted packet.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate shared-modulus domain]
+\label{thm:metric-triangle-uniform-estimate-shared-modulus-domain}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the selected compact-net center $c$, source metric triangle row, two $\ContinuousMapUp$ pointwise rows, target metric triangle row, and $\UniformModulusUp$ consumer handoff share one displayed modulus domain. The carrier does not permit the source triangle, the two target estimates, or the final handoff to choose separate centers, separate tolerance rows, or separate consumer domains.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-triangle-uniform-estimate-carrier}. The rows $c,d_x,d_{x'},e_c,e_x,e_{x'},T$ occur in one packet, so the selected center and selected precision are visible before any consumer handoff.
+
+Apply the NameCert obligations of \autoref{thm:metric-triangle-uniform-estimate-namecert-obligations}. Source triangle admissibility uses $e_c$, $d_x$, and the displayed source distance to produce $d_{x'}$, while target triangle admissibility uses the two pointwise target estimates at the same center to produce $T$.
+
+Finally use \autoref{thm:metric-triangle-uniform-estimate-consumer-handoff}. The $\UniformModulusUp$ consumer receives only those rows and the structural rows $H,C,P,N$, so no second center, tolerance row, or consumer domain is available.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate consumer coverage]
+\label{thm:metric-triangle-uniform-estimate-consumer-coverage}
+Every accepted $\UniformModulusUp$ read of a $\MetricTriangleUniformEstimateUp$ carrier is covered by the compact-net center row, the source triangle row, the two continuous-map pointwise rows, the target triangle row, and the handoff rows $H,C,P,N$. A consumer that asks for a compactness theorem, a semantic continuity theorem, a real-completeness row, or a selected center outside the carrier is outside the covered surface.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metric-triangle-uniform-estimate-shared-modulus-domain}. It places the source and target estimates over the same selected center and selected precision.
+
+Use route exhaustion from \autoref{thm:metric-triangle-uniform-estimate-uniform-modulus-route-exhaustion}. The consumer route is exhausted by $e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N$.
+
+Apply no-completion escape from \autoref{thm:metric-triangle-uniform-estimate-no-completion-escape}. The excluded compactness theorem, semantic continuity theorem, real-completeness row, and outside center are not carrier coordinates and cannot be supplied by the handoff.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate source-target lock]
+\label{thm:metric-triangle-uniform-estimate-source-target-lock}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier, the source metric triangle row and the target metric triangle row are locked to the same selected compact-net center and the same $\UniformModulusUp$ handoff. The source-side production of $d_{x'}$ cannot be consumed without the target-side production of $T$, and the target-side production of $T$ cannot be consumed without the displayed source bounds $d_x,d_{x'}$.
+\end{theorem}
+\begin{proof}
+Read the source side first. Source-triangle coherence and radius composition identify $d_x$ and $d_{x'}$ as the source bounds produced from the selected center, selected precision, and source triangle row.
+
+Read the target side next. Target-triangle coherence and center reuse determinacy identify $T$ as the target triangle row using the two pointwise estimates at the same selected center.
+
+The lock is the consumer boundary. By \autoref{thm:metric-triangle-uniform-estimate-consumer-handoff} and \autoref{thm:metric-triangle-uniform-estimate-uniformmodulus-boundary-exactness}, the downstream $\UniformModulusUp$ read receives source rows and target rows together as one finite boundary, with no separate source-only or target-only export route.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate two-triangle route]
+\label{thm:metric-triangle-uniform-estimate-source-target-two-triangle-route}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier, the source metric triangle row and the target metric triangle row form one selected-center route: the compact-net center $c$ supplies the source bounds $d_x,d_{x'}$, the pointwise target estimates $e_x,e_{x'}$, and the final target triangle row $T$ before the $\UniformModulusUp$ handoff. A public consumer cannot choose one center for the source triangle and another center for the target triangle.
+\end{theorem}
+\begin{proof}
+Begin with source-triangle coherence and radius composition. They produce the source-side bounds from the selected compact-net center, the selected precision row, and the displayed source triangle.
+
+Next read target-triangle coherence with center reuse determinacy. The target estimate row $T$ is built from the same center $c$ and the same pointwise target estimates that the carrier already exposes.
+
+The route exhaustion and source-target lock theorems join these two readings. They show that the $\UniformModulusUp$ handoff receives the source and target triangle rows as a single finite route, so a second center would be an absent coordinate rather than a valid consumer choice.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate finite-net consumer lock]
+\label{thm:metric-triangle-uniform-estimate-finite-net-consumer-lock}
+Every $\UniformModulusUp$ consumer of an accepted $\MetricTriangleUniformEstimateUp$ carrier receives only the finite selected precision, the source bounds, the pointwise target estimates, the final target triangle row, and the structural rows $H,C,P,N$. The consumer handoff does not export a compactness theorem, an open-cover argument, a semantic continuity principle, or any center selected outside the finite net row.
+\end{theorem}
+\begin{proof}
+Project the carrier and NameCert obligations. The finite selected precision, source-distance rows, pointwise target estimates, final target triangle row, and $H,C,P,N$ support are all named inside one accepted packet.
+
+Use the shared-modulus domain and consumer coverage theorems. They identify the handoff data delivered to $\UniformModulusUp$ and keep the selected center, source bounds, target estimates, and support rows together.
+
+Finally apply source-target lock and no-completion escape. The consumer receives a finite handoff package only; host compactness, open covers, semantic continuity, and Real completeness are not support rows and therefore cannot be read from the accepted packet.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate choice refusal]
+\label{thm:metric-triangle-uniform-estimate-choice-refusal}
+No accepted $\MetricTriangleUniformEstimateUp$ route may replace its finite selected center and selected precision by host compactness, choice-selected centers, open-cover compactness, semantic continuity, or Real completeness. Such replacements fail to preserve the compact-net row, source triangle row, pointwise target estimate rows, target triangle row, and $\UniformModulusUp$ consumer boundary.
+\end{theorem}
+\begin{proof}
+The finite route is already exhausted by \autoref{thm:metric-triangle-uniform-estimate-uniform-modulus-route-exhaustion}. It names the selected compact-net center, the source and target estimate rows, and the consumer support rows.
+
+Center reuse determinacy and the two-triangle route prevent a hidden choice of centers. The source and target estimates use the same displayed $c$, so a choice-selected replacement would no longer be the carrier route.
+
+The remaining exclusions follow from no-completion escape, shared-modulus domain, consumer coverage, and source-target lock. Host compactness, open-cover compactness, semantic continuity, and Real completeness are not coordinates of the accepted packet, and the $\UniformModulusUp$ handoff cannot synthesize them from $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate two-point target boundary]
+\label{thm:metric-triangle-uniform-estimate-two-point-target-boundary}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the pointwise target estimates delivered to the final uniform-estimate boundary are exactly the two rows $e_x$ and $e_{x'}$ at the selected center $c$. The first row is the displayed $\ContinuousMapUp$ estimate from $f(c)$ to $f(x)$, the second is the displayed $\ContinuousMapUp$ estimate from $f(c)$ to $f(x')$, and the target triangle row $T$ consumes those two rows before any $\UniformModulusUp$ handoff can occur.
+\end{theorem}
+\begin{proof}
+Read the source side through source-triangle coherence. It fixes the selected center $c$, the compact-net coverage row $d_x$, and the derived source bound $d_{x'}$ before the target estimates are read.
+
+Next apply target-triangle coherence with center reuse determinacy. These theorems identify $e_x$ and $e_{x'}$ as the two pointwise target rows at that same center and identify $T$ as the target metric triangle row built from them.
+
+Finally use route exhaustion and choice refusal. The exhausted $\UniformModulusUp$ boundary lists no third target estimate and no replacement center, while choice refusal blocks host compactness or a choice-selected center from changing the two pointwise target rows.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate center-bound continuation]
+\label{thm:metric-triangle-uniform-estimate-center-bound-continuation}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, every center-bound route from the selected precision row $e_c$ to the source bounds $d_x,d_{x'}$ and onward to the target triangle row $T$ factors through the displayed $\Cont$ support inside $C$. The route cannot bypass the carrier by appealing to host compactness, semantic continuity, open-cover compactness, choice, or real completeness.
+\end{theorem}
+\begin{proof}
+Start with source-triangle coherence and center reuse determinacy. They bind the selected center $c$ to the source bounds $d_x,d_{x'}$ and to the two pointwise target estimates.
+
+Use target-triangle coherence to continue the same route into $T$. The target estimate is therefore not a separate semantic assertion; it is the next displayed continuation step after the source and pointwise rows.
+
+Route exhaustion then identifies the consumer surface as $e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N$. Since $C$ is the displayed $\Cont$ support for this surface, any accepted center-bound handoff must pass through those continuation rows.
+
+Choice refusal supplies the negative boundary. Host compactness, semantic continuity, open covers, choice, and real completeness are not carrier coordinates and cannot serve as alternate continuations.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate UniformModulus exact package]
+\label{thm:metric-triangle-uniform-estimate-uniform-modulus-exact-package}
+The exact $\UniformModulusUp$ consumer package exported by an accepted $\MetricTriangleUniformEstimateUp$ carrier is
+$$
+(e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N).
+$$
+The package contains the selected finite precision, both source bounds at the selected center, both pointwise target estimates at that center, the final target triangle row, componentwise $\hsame$ transport, displayed $\Cont$ support, $\Pkg$ provenance, and the local $\NameCert$ row; it contains no additional analytic or choice-theoretic boundary data.
+\end{theorem}
+\begin{proof}
+Combine source-triangle coherence with target-triangle coherence. The source theorem supplies $d_x,d_{x'}$ from the selected center route, and the target theorem supplies $e_x,e_{x'}$ and $T$ at the same center.
+
+Use center reuse determinacy to keep these rows in one boundary. The two pointwise target estimates and the final target triangle row cannot move to another center after the source bounds have been fixed.
+
+Route exhaustion gives the full downstream list $e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N$. This is exactly the package read by $\UniformModulusUp$.
+
+Choice refusal closes the excluded side of the claim. The accepted carrier exports no host compactness row, semantic continuity theorem, open-cover compactness object, choice row, or real-completeness row, so none of them can be added to the exact package.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate compact-net triangle extraction]
+\label{thm:metric-triangle-uniform-estimate-compact-net-triangle-extraction}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, compact-net coverage and the source $\MetricUp$ triangle row extract one shared-center route
+$$
+(c,e_c,d_x,d_{x'})
+$$
+and no second center route. The extracted data are the selected center from the $\CompactMetricUp$ finite bundle, the selected precision row supplied by $\FiniteNetMinimumFoldUp$, the compact-net source bound from $x$ to $c$, and the source-triangle bound from $x'$ to the same $c$; the extraction factors through the carrier, local $\NameCert$ obligations, source-triangle coherence, and consumer handoff.
+\end{theorem}
+\begin{proof}
+Project $E$ through the carrier definition. The visible rows already contain the compact-net center $c$, the finite selected precision $e_c$, the coverage row $d_x$, the source distance between $x$ and $x'$, and the source metric triangle ledger inside $X$. These are the rows supplied by the metric, compact-metric, and finite-fold chapters cited in the opening paragraph.
+
+Apply the local NameCert obligations. Source triangle admissibility reads $d_{x'}$ from the source $\MetricUp$ triangle row using $e_c$, $d_x$, and the displayed source distance; carrier exposure keeps all four rows in the same packet.
+
+Now use source-triangle coherence and center reuse determinacy. They identify the center used by compact-net coverage with the center used by the derived source bound, so the package exports one route $(c,e_c,d_x,d_{x'})$ rather than parallel center choices.
+
+The consumer handoff fixes the downstream boundary. Since the handoff sees only the finite source rows and the displayed structural support, host compactness, open covers, choice, and real completeness cannot supply another extraction route.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate UniformModulus export]
+\label{thm:metric-triangle-uniform-estimate-uniform-modulus-export}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the $\ContinuousMapUp$ pointwise rows at the compact-net center and the target $\MetricUp$ triangle row export exactly the finite $\UniformModulusUp$ estimate package
+$$
+(e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N).
+$$
+The export uses the compact-net triangle extraction, the two pointwise target estimates at $c$, and the target triangle row $T$; it does not add a semantic continuity theorem, target completeness principle, or external metric estimate.
+\end{theorem}
+\begin{proof}
+Start from the compact-net triangle extraction theorem. It supplies the shared-center source route $(c,e_c,d_x,d_{x'})$ that the finite $\UniformModulusUp$ consumer expects, using the $\MetricUp$, $\CompactMetricUp$, and $\FiniteNetMinimumFoldUp$ surfaces cited above.
+
+Read the $\ContinuousMapUp$ rows in $F$ at this same center. They provide the pointwise target estimates $e_x$ and $e_{x'}$ from $f(c)$ to the two target points, with the componentwise transports recorded in $H$ and with the target triangle ledger read from the cited $\MetricUp$ chapter.
+
+Apply target-triangle coherence and the two-point target boundary. The target $\MetricUp$ triangle row consumes exactly $e_x$ and $e_{x'}$ and returns $T$ before any consumer handoff is formed.
+
+Finally apply the UniformModulus exact package theorem. It identifies the exported package as $(e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N)$, while route exhaustion excludes semantic continuity, target completeness, and any external estimate row.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate finite-route nonescape]
+\label{thm:metric-triangle-uniform-estimate-finite-route-nonescape}
+Every accepted $\MetricTriangleUniformEstimateUp$ route from compact-net coverage to the $\UniformModulusUp$ export remains inside the finite rows of the carrier. It contains no host compactness row, no open-cover compactness object, no choice principle, no $\RealUp$ completeness row, and no second selected center.
+\end{theorem}
+\begin{proof}
+The compact-net triangle extraction theorem binds the source side to one selected center $c$, one selected precision $e_c$, and the two source bounds $d_x,d_{x'}$. This is the finite-net route through the cited compact-metric and finite-fold chapters, and center reuse determinacy prevents a second center from entering the route.
+
+The UniformModulus export theorem then binds the target side to the two pointwise estimates $e_x,e_{x'}$ at $c$ and to the target triangle row $T$. The handoff package is finite, is carried by $H,C,P,N$, and lands at the cited $\UniformModulusUp$ consumer surface.
+
+Use choice refusal and no-completion escape for the negative boundary. Host compactness, open-cover compactness, choice, real completeness, and hidden semantic continuity are not coordinates of $E$ and are not accepted consumer rows.
+
+Therefore the whole compact-net-to-uniform-modulus route is the displayed finite carrier route. It cannot leave the carrier and re-enter through an analytic compactness or completeness principle.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate primitive scope]
+\label{thm:metric-triangle-uniform-estimate-primitive-scope}
+For every accepted $\MetricTriangleUniformEstimateUp$ carrier
+$$
+E=(X,Y,F,x,x',c,d_x,d_{x'},e_c,e_x,e_{x'},T,H,C,P,N),
+$$
+the metric, compact-net, continuous-map, finite-fold, target-triangle, and $\UniformModulusUp$ obligation rows are scoped by concrete BEDC primitives. The metric rows are finite $\BHist$ rows, classifier stability is componentwise $\hsame$, every replay from compact-net coverage to the consumer handoff is displayed by $\Cont$, provenance is carried by $\Pkg$, and local admission is the row $N$ of $\NameCert_{\MetricTriangleUniformEstimateUp}$. No obligation coordinate is read as host compactness, semantic continuity, choice, open-cover compactness, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:metric-triangle-uniform-estimate-carrier}. The source and target metric data, selected compact-net center, finite precision row, source bounds, pointwise target bounds, and target triangle ledger are all named rows of $E$.
+
+Apply the local NameCert obligations. Carrier exposure reads these rows as the public surface, classifier stability transports them component by component through $H$, and the source and target admissibility clauses keep the metric rows inside the displayed $\BHist$ ledgers.
+
+The continuation support $C$ replays the compact-net-to-consumer route. It passes from the source metric rows through finite-net selection, pointwise target estimates, and the target triangle row before reaching the $\UniformModulusUp$ handoff.
+
+Finally read $P$ and $N$. The provenance row records the BEDC support chapters, and the local NameCert row admits exactly this primitive surface, so the accepted scope has no coordinate for the excluded analytic or choice-theoretic objects.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate continuation route scope]
+\label{thm:metric-triangle-uniform-estimate-cont-route-scope}
+Every accepted compact-net-to-$\UniformModulusUp$ consumer route of $\MetricTriangleUniformEstimateUp$ factors through the displayed $\Cont$ path from the source metric rows through finite-net selection and into the target triangle rows. The route consumes $\CompactMetricUp$ coverage, $\FiniteNetMinimumFoldUp$ precision, $\ContinuousMapUp$ pointwise target estimates, the target $\MetricUp$ triangle ledger, and the exported $\UniformModulusUp$ package only as carrier rows and continuation rows. It has no host compactness, open-cover compactness, choice, semantic continuity, or $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with compact-net triangle extraction. It fixes the selected center $c$, selected precision $e_c$, and source bounds $d_x,d_{x'}$ as the finite source route read from the metric, compact-metric, and finite-fold rows.
+
+Next apply the UniformModulus export theorem. The continuous-map rows at $c$ supply $e_x$ and $e_{x'}$, and the target triangle row supplies $T$, so the consumer package is the displayed tuple $(e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N)$.
+
+The center-bound continuation theorem identifies $C$ as the $\Cont$ support for this route. Thus every accepted replay from the source metric boundary to the uniform-modulus consumer passes through the continuation rows already exposed by the carrier.
+
+Use finite-route nonescape for the negative boundary. Since host compactness, open covers, choice, semantic continuity, and real completeness are not rows of $E$, they cannot provide another factorization of the same consumer route.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate NameCert scoped surface]
+\label{thm:metric-triangle-uniform-estimate-namecert-scope}
+The scoped $\NameCert_{\MetricTriangleUniformEstimateUp}$ surface is the finite package whose clauses are carrier exposure, classifier stability, source triangle admissibility, target triangle admissibility, and $\UniformModulusUp$ handoff, all read through the primitive support rows of
+$$
+\MetricUp,\CompactMetricUp,\ContinuousMapUp,\FiniteNetMinimumFoldUp,\RatUp,\RealUp,\UniformModulusUp,\BHist,\hsame,\Cont,\Pkg,\NameCert.
+$$
+The source chapters cited in the introduction supply only those rows to this chapter, and the local NameCert surface exports only those rows to downstream consumers.
+\end{theorem}
+\begin{proof}
+Carrier exposure gives the visible tuple $E$ and classifier stability gives the componentwise $\hsame$ transport over that tuple. These are the first two local NameCert clauses and they determine how the public carrier can be read.
+
+Source triangle admissibility then reads $d_x,d_{x'}$ through the source $\MetricUp$, $\CompactMetricUp$, $\FiniteNetMinimumFoldUp$, $\RatUp$, and $\BHist$ support rows. Target triangle admissibility reads $e_x,e_{x'}$ and $T$ through the target $\MetricUp$ and $\ContinuousMapUp$ rows.
+
+The handoff clause passes the exact boundary package to $\UniformModulusUp$. The continuation and provenance coordinates are $C$ and $P$, so the export is a $\Cont$ route with $\Pkg$ provenance and local $\NameCert$ admission.
+
+The primitive-scope and continuation-route-scope theorems identify this as the full scoped surface. No sibling chapter contributes a host compactness theorem, open-cover object, choice row, semantic-continuity assertion, or real-completeness coordinate to the accepted package.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate root-unblock certificate spine]
+\label{thm:metric-triangle-uniform-estimate-root-unblock-certificate-spine}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the finite root-unblock certificate spine is exactly the conjunction of carrier exposure, source-triangle coherence, target-triangle coherence, finite-net consumer lock, and no-completion escape. The spine reads the displayed rows
+$$
+X,Y,F,x,x',c,d_x,d_{x'},e_c,e_x,e_{x'},T,H,C,P,N
+$$
+and exports no host compactness row, open-cover compactness object, choice principle, semantic continuity theorem, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Carrier exposure is the first row of the local NameCert obligations. It identifies the public read of $E$ with the displayed source metric, target metric, continuous graph, selected center, source-distance, precision, target-estimate, triangle, transport, continuation, provenance, and local naming rows.
+
+Source-triangle coherence and target-triangle coherence provide the two internal triangle routes. The source route fixes $d_x,d_{x'}$ at the selected compact-net center, and the target route fixes $e_x,e_{x'}$ and $T$ at that same center.
+
+The finite-net consumer lock theorem then packages these rows for $\UniformModulusUp$. It keeps the selected center, selected precision, source bounds, pointwise target bounds, target triangle row, and support rows in one consumer boundary.
+
+Finally apply the finite-route nonescape theorem. It removes host compactness, open-cover compactness, choice, semantic continuity, and $\RealUp$ completeness from the accepted route, so the displayed finite conjunction is the whole root-unblock certificate spine.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate dependency readiness]
+\label{thm:metric-triangle-uniform-estimate-l10-dependency-readiness}
+Every Real-facing dependency row used by the $\MetricTriangleUniformEstimateUp$ root-unblock spine is consumed only as a displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ row through
+$$
+\MetricUp,\CompactMetricUp,\ContinuousMapUp,\FiniteNetMinimumFoldUp,\RatUp,\RealUp,\UniformModulusUp.
+$$
+No dependency is consumed as host compactness, open-cover compactness, selected-subsequence data, semantic continuity, a choice principle, or a $\RealUp$ completeness axiom.
+\end{theorem}
+\begin{proof}
+Read the NameCert obligations for carrier exposure, classifier stability, source triangle admissibility, target triangle admissibility, and consumer handoff. These obligations name only displayed $\BHist$ rows, componentwise $\hsame$ transports, $\Cont$ consumer routes, $\Pkg$ provenance, and the local $\NameCert$ registration.
+
+The metric, compact-metric, continuous-map, finite-fold, rational, real-row, and uniform-modulus chapters enter through those displayed rows. Source-triangle coherence consumes the source $\MetricUp$, $\CompactMetricUp$, $\FiniteNetMinimumFoldUp$, and $\RatUp$ precision surface; target-triangle coherence consumes the target $\MetricUp$ and $\ContinuousMapUp$ pointwise surface.
+
+The finite-net consumer lock and UniformModulus export theorems identify the downstream consumer package. They pass exactly $e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N$ to $\UniformModulusUp$.
+
+Use finite-route nonescape for the boundary. Since no accepted dependency row is a host compactness object, open-cover compactness object, selected subsequence, semantic continuity theorem, choice principle, or $\RealUp$ completeness row, all Real-facing dependency data have already been consumed in the displayed BEDC row classes.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate consumer boundary package]
+\label{thm:metric-triangle-uniform-estimate-consumer-boundary-package}
+The finite boundary exported by $\MetricTriangleUniformEstimateUp$ to $\UniformModulusUp$ is the pair consisting of the root-unblock certificate spine and the dependency-readiness row. A downstream $\UniformModulusUp$ consumer may cite this pair as the complete BEDC obligation package for the compact-net-to-target-triangle estimate.
+\end{theorem}
+\begin{proof}
+The root-unblock certificate spine theorem supplies the constructive estimate route. It combines carrier exposure, source-triangle coherence, target-triangle coherence, finite-net consumer lock, and no-completion escape.
+
+The dependency-readiness theorem supplies the allowed dependency interface. It says that the Real-facing support is read only through displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows over the cited metric, compact-metric, continuous-map, finite-fold, rational, real-row, and uniform-modulus chapters.
+
+Package the two rows together. The first row gives the finite estimate carrier and the second row gives the permitted dependency boundary, so the $\UniformModulusUp$ consumer receives one finite BEDC obligation package and no external compactness, choice, semantic-continuity, or completeness route.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate public uniformity criterion]
+\label{thm:metric-triangle-uniform-estimate-public-uniformity-criterion}
+For an accepted $\MetricTriangleUniformEstimateUp$ carrier $E$, the following finite BEDC surface is exactly the public finite uniformity criterion consumed by a $\UniformModulusUp$ packet:
+carrier exposure, the local $\NameCert_{\MetricTriangleUniformEstimateUp}$ obligations, shared-center triangle composition, compact-net triangle extraction, the $\UniformModulusUp$ export, dependency readiness, and the consumer boundary package. Equivalently, a public $\UniformModulusUp$ read of the compact-net-to-target-triangle estimate is admissible precisely when it factors through those rows and through no host compactness, open-cover compactness, selected-subsequence data, choice principle, semantic continuity theorem, $\RealUp$ completeness row, or second selected center.
+\end{theorem}
+\begin{proof}
+For the forward reading, start with an accepted public $\UniformModulusUp$ read of $E$. Carrier exposure and the local NameCert obligations identify the displayed rows $c,e_c,d_x,d_{x'},e_x,e_{x'},T,H,C,P,N$ as the only rows available to that read.
+
+The shared-center triangle composition and compact-net triangle extraction theorems then determine the source side of the route. They bind the compact-net center, selected precision, compact-net coverage row, and source triangle output before any target estimate is read.
+
+Next apply the $\UniformModulusUp$ export and dependency-readiness theorems. The export supplies the target pointwise rows and the final target triangle row, while dependency readiness restricts all support to displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows over the cited source chapters.
+
+For the reverse reading, assume exactly this finite surface. The consumer boundary package repacks the root-unblock certificate spine together with the dependency-readiness row. Hence the $\UniformModulusUp$ consumer receives the complete public finite uniformity criterion and no excluded analytic or choice-theoretic route.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate Heine--Cantor last step]
+\label{thm:metric-triangle-uniform-estimate-heine-cantor-last-step}
+In the $\MetricTriangleUniformEstimateUp$ packet, the Heine--Cantor last-step route is the finite composition in which $\CompactMetricUp$ finite-net coverage supplies the selected center and the source bounds, $\ContinuousMapUp$ pointwise estimates at that center supply the two target bounds, and the target $\MetricUp$ triangle row yields the displayed uniform estimate. The route uses no open-cover compactness, choice, selected subsequence, $\RealUp$ completeness, or host semantic continuity.
+\end{theorem}
+\begin{proof}
+Read compact-net triangle extraction first. It gives the selected center $c$, selected precision $e_c$, compact-net source bound $d_x$, and source-triangle bound $d_{x'}$ inside the finite carrier route.
+
+At the same center, read the two $\ContinuousMapUp$ pointwise rows from the $\UniformModulusUp$ export theorem. These are the rows $e_x$ and $e_{x'}$, and center reuse determinacy keeps them attached to the compact-net center already chosen by the source route.
+
+Apply target-triangle coherence and the two-point target boundary. The target $\MetricUp$ triangle row consumes exactly $e_x$ and $e_{x'}$ and returns $T$, the displayed uniform estimate between the two target values.
+
+Finally apply finite-route nonescape and dependency readiness. They state that every step of this last route is already carried by the finite BEDC rows and that the excluded open-cover, choice, subsequence, semantic-continuity, and completeness objects have no coordinate in the accepted packet.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate UniformModulus readiness]
+\label{thm:metric-triangle-uniform-estimate-uniformmodulus-readiness}
+A downstream $\UniformModulusUp$ packet may cite \autoref{thm:metric-triangle-uniform-estimate-public-uniformity-criterion} together with \autoref{thm:metric-triangle-uniform-estimate-consumer-boundary-package} as its complete BEDC input surface for the compact-net-to-target-triangle estimate. No additional $\MetricUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\FiniteNetMinimumFoldUp$, $\RatUp$, $\RealUp$, or host analytic datum is required beyond the displayed rows already exported by $\MetricTriangleUniformEstimateUp$.
+\end{theorem}
+\begin{proof}
+The public uniformity criterion names the complete finite surface that a $\UniformModulusUp$ consumer is allowed to read. It includes carrier exposure, NameCert obligations, shared-center triangle composition, compact-net extraction, the export theorem, and dependency readiness.
+
+The consumer boundary package supplies the packaged input object. It joins the root-unblock certificate spine with the dependency-readiness row, so the downstream packet receives one boundary rather than a collection of local rows that must be rediscovered.
+
+It remains only to rule out missing inputs. The Heine--Cantor last-step theorem and finite-route nonescape show that the compact-net coverage, pointwise estimates, and target triangle row already produce the final estimate inside the carrier. Therefore the cited criterion and boundary package are the whole BEDC input surface for $\UniformModulusUp$ readiness.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate public closure package]
+\label{thm:metric-triangle-uniform-estimate-public-closure-package}
+The public export surface of $\MetricTriangleUniformEstimateUp$ for downstream $\UniformModulusUp$ consumers is the package consisting of \autoref{thm:metric-triangle-uniform-estimate-consumer-boundary-package}, \autoref{thm:metric-triangle-uniform-estimate-public-uniformity-criterion}, \autoref{thm:metric-triangle-uniform-estimate-heine-cantor-last-step}, and \autoref{thm:metric-triangle-uniform-estimate-uniformmodulus-readiness}. Every public read of the compact-net-to-target-triangle estimate factors through the displayed $\CompactMetricUp$, $\MetricUp$, $\ContinuousMapUp$, $\FiniteNetMinimumFoldUp$, $\RatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and through no open-cover compactness, choice principle, selected-subsequence datum, host semantic-continuity theorem, or $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+The consumer-boundary package supplies the public object boundary: it joins the root-unblock certificate spine with dependency readiness and makes that pair the complete BEDC obligation package for a downstream $\UniformModulusUp$ consumer.
+
+The public uniformity criterion then identifies the admissible read surface. It says that the consumer may read carrier exposure, local $\NameCert$ obligations, shared-center triangle composition, compact-net triangle extraction, the $\UniformModulusUp$ export, dependency readiness, and the boundary package, and that no excluded analytic or choice-theoretic route is part of the public criterion.
+
+The Heine--Cantor last-step theorem supplies the estimate route inside that surface. Compact-net coverage chooses the center, continuous-map pointwise rows supply the two target estimates, and the target $\MetricUp$ triangle row returns the displayed uniform estimate without open-cover compactness, selected subsequences, semantic continuity, choice, or completeness data.
+
+Finally, UniformModulus readiness repacks these components as the complete input surface for downstream $\UniformModulusUp$ use. Hence the four cited theorem blocks compose to a single public closure package whose public reads factor exactly through the displayed BEDC rows and through none of the excluded data.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate compact-continuous bridge]
+\label{thm:metric-triangle-uniform-estimate-compact-continuous-bridge}
+Every accepted $\MetricTriangleUniformEstimateUp$ packet bridges the $\CompactMetricUp$ finite-net coverage row, the $\FiniteNetMinimumFoldUp$ selected precision row, the $\ContinuousMapUp$ pointwise estimate rows, the target $\MetricUp$ triangle ledger, and the exported $\UniformModulusUp$ consumer package through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The bridge route is exactly the public package of \autoref{thm:metric-triangle-uniform-estimate-public-closure-package} read together with the Heine--Cantor last step, UniformModulus readiness, compact-net triangle extraction, and the consumer boundary package. It contains no open-cover compactness, choice principle, selected-subsequence datum, semantic-continuity theorem, $\RealUp$ completeness row, or host compactness datum.
+\end{theorem}
+\begin{proof}
+Start with the public closure package. It identifies the displayed $\CompactMetricUp$, $\MetricUp$, $\ContinuousMapUp$, $\FiniteNetMinimumFoldUp$, $\RatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows as the public read surface for the compact-net-to-target-triangle estimate.
+
+Apply compact-net triangle extraction and the Heine--Cantor last-step theorem. The compact-metric finite-net row supplies the selected center and source bounds, the finite-fold row supplies the selected precision, the continuous-map rows supply the two pointwise target estimates, and the target metric triangle ledger returns the final target estimate.
+
+Next apply UniformModulus readiness and the consumer boundary package. These two rows repack the estimate route as the downstream $\UniformModulusUp$ input surface, with the root-unblock certificate spine and dependency-readiness row carried as one public consumer package.
+
+Finally use finite-route nonescape and dependency readiness. Since every step has already been read through displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates, no open-cover compactness, choice principle, selected subsequence, semantic-continuity theorem, $\RealUp$ completeness row, or host compactness datum remains available to the route.
+\end{proof}
+
+\closureat{MetricTriangleUniformEstimateUp}{seedStr}
+\closureat{MetricTriangleUniformEstimateUp}{obligationStr}
+\closureat{MetricTriangleUniformEstimateUp}{scopedStr}
+\closureat{MetricTriangleUniformEstimateUp}{publicStr}
+
+\begin{closurestatus}{\MetricTriangleUniformEstimateUp}
+  \constructivestory{A $\MetricTriangleUniformEstimateUp$ packet is generated from source and target metric rows, a continuous-map pointwise row, two source histories, a selected compact-net center, two source-distance rows, a finite-fold precision row, two pointwise target estimates, a final target triangle row, componentwise $\hsame$ transport, $\Cont$ consumer routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The obligation scope records carrier exposure, classifier stability, source triangle admissibility, target triangle admissibility, $\UniformModulusUp$ consumer handoff, and the public closure package of \autoref{thm:metric-triangle-uniform-estimate-public-closure-package}.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.MetricTriangleUniformEstimateUp.MetricTriangleUniformEstimateCarrier}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a Lean target, a full compact-uniform-continuity theorem, open-cover compactness, selected subsequences, choice principles, or real completeness.}
+  \upgradepath{The next paper-theory step is bridged closure via a bridge theorem for the same public finite compact-net-to-$\UniformModulusUp$ package while leaving Lean verification on the independent formal axis.}
+\end{closurestatus}

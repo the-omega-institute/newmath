@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\ClosureStatusReferenceUp$}
+\label{ch:concrete-instances-closure-status-reference-namecert}
+\origin{ai}
+
+The $\ClosureStatusReferenceUp$ packet realizes the closure-status reference layer of \autoref{subsec:philosophy-closure-status-reference-layer} as a finite NameCert carrier for registry-bound export status. It sits after the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the consistency gate of \autoref{ch:concrete-instances-registry-export-consistency-gate-namecert}, the refusal registry of \autoref{ch:concrete-instances-refusalregistry-namecert}, the theorem-gap registry of \autoref{ch:concrete-instances-theoremgapregistry-namecert}, and the concept registry surface of \autoref{ch:concrete-instances-concept-registry-surface-namecert}. Those siblings expose export rows, consistency checks, refusal rows, theorem gaps, and concept entries; this packet binds the displayed closure-status reference that caps the strength of each exported registry read.
+
+\begin{definition}[Closure status reference carrier]
+\label{def:closure-status-reference-carrier}
+A $\ClosureStatusReferenceUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,T,F,L,B,N,U,H,C,P,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the constructive-story row describing how the target packet is generated from finite BEDC data.
+\item $T$ is the theory-closure row recording the paper-side grade and its closed scope.
+\item $F$ is the formal-status row recording the Lean-side grade and the canonical target when one is displayed.
+\item $L$ is the Lean-target row, empty exactly when the reference records an unformalized or statement-only site.
+\item $B$ is the bridge-status row recording whether no bridge, a paper bridge, or a checked bridge is available.
+\item $N$ is the not-claimed row recording the surfaces that the reference refuses to export.
+\item $U$ is the next-grade row recording the route needed before the registry may advertise a stronger status.
+\item $H$ stores componentwise $\hsame$ transport for $S,T,F,L,B,N,U$.
+\item $C$ stores displayed $\Cont$ replay from registry export rows through the closure-status bound.
+\item $P$ is the $\Pkg$ provenance over $\RegistryExportSurfaceUp$, $\RegistryExportConsistencyGateUp$, $\RefusalRegistryUp$, $\TheoremGapRegistryUp$, $\ConceptRegistrySurfaceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $Q$ is the local $\NameCert_{\ClosureStatusReferenceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a registry export stronger than the displayed reference, for merging the theory and verification axes, for erasing the bridge-status row, or for bypassing the not-claimed and next-grade rows.
+\end{definition}
+\leanchecked{BEDC.Derived.ClosureStatusReferenceUp.ClosureStatusReferenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Closure status reference export bound]
+\label{thm:closure-status-reference-export-bound}
+Every registry export read through an accepted $\ClosureStatusReferenceUp$ carrier is bounded by the displayed rows
+$$
+S,T,F,L,B,N,U,H,C,P,Q.
+$$
+In particular, an export row cannot report a theory grade stronger than $T$, a formal grade stronger than $F$, or a bridge grade stronger than $B$ unless the same carrier also replaces the reference rows and their next-grade route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closure-status-reference-carrier}. The only status coordinates are the theory row $T$, formal row $F$, Lean-target row $L$, bridge row $B$, not-claimed row $N$, and next-grade row $U$.
+
+Read the registry siblings through $C$ and $P$. The export surface supplies the public read, the consistency gate checks it against the same reference, the refusal and theorem-gap registries record blocked or open surfaces, and the concept registry supplies the named target row.
+
+Since $H,C,P,Q$ only transport, replay, source, and name those displayed rows, no consumer receives an extra status coordinate. Any stronger export would need a row outside $R$, so it is not accepted by this carrier.
+\end{proof}
+
+\begin{theorem}[Closure status reference nonescape]
+\label{thm:closure-status-reference-nonescape}
+An accepted $\ClosureStatusReferenceUp$ packet exports only constructive story, two-axis status, Lean-target display, bridge status, not-claimed surface, next-grade route, transport, replay, provenance, and local naming. It does not export theorem truth, global registry correctness, host proof search, bridge completion, or status promotion outside those displayed fields.
+\end{theorem}
+\begin{proof}
+Inspect the fields of \autoref{def:closure-status-reference-carrier}. They list the constructive story row, theory-closure row, formal-status row, Lean-target row, bridge-status row, not-claimed row, next-grade row, and structural support rows.
+
+Apply \autoref{thm:closure-status-reference-export-bound}. The registry export can read only those rows, and the consistency gate can compare only against the same displayed reference.
+
+The excluded claims would require a truth row, global-correctness row, host-search row, checked-bridge row, or status-promotion row not present in $R$. Hence they cannot escape through the $\ClosureStatusReferenceUp$ carrier.
+\end{proof}
+
+\falsifiablePrediction{A registry export that reports a status stronger than the displayed closure-status reference is not accepted by the $\ClosureStatusReferenceUp$ carrier.}
+
+\independenceWitness{registryexportsurface, registryexportconsistencygate, refusalregistry, theoremgapregistry, conceptregistrysurface: the registry export surface lacks the full constructive-story and next-grade packet, the consistency gate lacks the not-claimed and bridge-status rows, the refusal registry lacks positive two-axis status, the theorem-gap registry lacks the complete closure reference, and the concept registry surface lacks the export-bound reference; none carries the full constructive-story, two-axis status, bridge-status, not-claimed, and next-grade packet.}
+
+The Lean TasteGate follow-up must include explicit $\Nontrivial\ \ClosureStatusReferenceUp$ and $\FieldFaithful\ \ClosureStatusReferenceUp$ instances in \texttt{lean4/BEDC/Derived/ClosureStatusReferenceUp/TasteGate.lean}. The proofs must exhibit a witness pair for the carrier and prove field projections for $S,T,F,L,B,N,U,H,C,P,Q$ so the two axes, bridge status, not-claimed row, and next-grade route remain separate.
+
+\closureat{ClosureStatusReferenceUp}{seedStr}
+\closureat{ClosureStatusReferenceUp}{obligationStr}
+
+\begin{closurestatus}{\ClosureStatusReferenceUp}
+  \constructivestory{A $\ClosureStatusReferenceUp$ packet is generated from constructive-story, theory-closure, formal-status, Lean-target, bridge-status, not-claimed, next-grade, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closure-status-reference-carrier}, \autoref{thm:closure-status-reference-export-bound}, and \autoref{thm:closure-status-reference-nonescape} seed the registry export bound as a displayed finite closure-status reference.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, theorem truth, global registry correctness, host proof search, or status promotion outside the displayed reference.}
+  \upgradepath{Lean closure requires Nontrivial ClosureStatusReferenceUp and FieldFaithful ClosureStatusReferenceUp instances with explicit witness-pair and field-projection proofs.}
+\end{closurestatus}

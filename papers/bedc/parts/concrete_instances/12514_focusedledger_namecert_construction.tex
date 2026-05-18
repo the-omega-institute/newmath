@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\FocusedLedgerUp$}
+\label{ch:concrete-instances-focused-ledger-namecert}
+\origin{ai}
+
+The $\FocusedLedgerUp$ packet realizes the finite focused multi-Hist ledger of \autoref{subsec:philosophy-focused-multi-hist-ledgers} and \autoref{def:philosophy-focused-multi-hist-ledger} as a concrete NameCert carrier. It sits beside $\ConsciousUniverseSpaceUp$ in \autoref{ch:concrete-instances-consciousuniversespace-namecert}, $\ObserverHistIdentityUp$ in \autoref{ch:concrete-instances-observerhistidentity-namecert}, $\InterHistLocalityLedgerUp$ in \autoref{ch:concrete-instances-inter-hist-locality-ledger-namecert}, $\InscriptionEventUp$ in \autoref{ch:concrete-instances-inscriptionevent-namecert}, and $\OnticResidueLedgerUp$ in \autoref{ch:concrete-instances-ontic-residue-ledger-namecert}. Those siblings consume histories, identity rows, locality rows, inscription events, or residue rows; this packet binds the whole focus-selector-digest-gap-relation-invariant-audit tuple before those readings are separated.
+
+\begin{definition}[Focused ledger carrier]
+\label{def:focused-ledger-carrier}
+A $\FocusedLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,H,T,F,S,D,G,R,J,Q,\rho,A,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index ledger naming the available history slots;
+\item $H$ assigns a finite $\Hist$ row to each slot of $I$;
+\item $T$ records local continuation chains for the displayed histories, without adding a global scalar clock;
+\item $F$ is the focus index selecting the visible history slot;
+\item $S$ is the selector ledger that records the branch choices and focus reads used by $F$;
+\item $D$ is the digest ledger recording finite summaries whose provenance remains displayed;
+\item $G$ is the gap and provenance row recording boundary pressure, missing observations, and source data for each digest;
+\item $R$ is the inter-history relation row;
+\item $J$ is the inter-history invariant row;
+\item $Q$ is the dependence row, including optional maximum-rate readings when such rows are present;
+\item $\rho$ is the focused self-proxy row for the selected history;
+\item $A$ is the audit row refusing subject parameters, global clocks, hidden choosers, unledgered compression, object-level $T$, and hidden dependence on meta-closure;
+\item $C$ records displayed $\Cont$ replay across $I,H,T,F,S,D,G,R,J,Q,\rho,A$;
+\item $P$ records $\Pkg$ provenance over $\FocusedLedgerUp$, $\FocusedMultiHistLedgerUp$, $\ConsciousUniverseSpaceUp$, $\ObserverHistIdentityUp$, $\InterHistLocalityLedgerUp$, $\InscriptionEventUp$, $\OnticResidueLedgerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FocusedLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a subject substance, ambient universe object, hidden scheduler, unrecorded quotient of histories, object-level time object, or meta-closure oracle.
+\end{definition}
+\leandef{BEDC.Derived.FocusedLedgerUp.FocusedLedgerUp}
+
+\begin{theorem}[Focused ledger audit closure]
+\label{thm:focused-ledger-audit-closure}
+For the carrier of \autoref{def:focused-ledger-carrier}, the audit row $A$ closes exactly the refusals of no subject, no global clock, no hidden chooser, no unledgered compression, no object-level $T$, and no hidden meta-closure dependence. Every accepted $\FocusedLedgerUp$ consumer must read focus, selection, digest, gap, relation, invariant, dependence, self-proxy, replay, provenance, and local naming through
+$$
+I,H,T,F,S,D,G,R,J,Q,\rho,A,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $I,H,T,F,S,D,G,R,J,Q,\rho$ expose the finite histories, focus, selector, digest, gap, relation, invariant, dependence, and self-proxy data that the packet is allowed to use.
+
+Read the audit row next. The no-subject refusal prevents a hidden owner coordinate; the no-global-clock refusal keeps $T$ local; the no-hidden-chooser refusal forces all branch choice through $S$; the no-unledgered-compression refusal keeps summaries tied to $D$ and $G$; the no object-level $T$ refusal prevents a time object from replacing the local continuation rows; and the no hidden meta-closure refusal prevents the packet from citing a closure source not displayed in $A$.
+
+Finally use the structural rows. The replay row $C$, provenance row $P$, and local name $N$ preserve and name only the displayed packet, so no consumer can recover an omitted subject, clock, chooser, compression, time object, or meta-closure dependency from the certificate surface.
+\end{proof}
+
+\begin{theorem}[Focused ledger NameCert obligation surface]
+\label{thm:focused-ledger-namecert-obligation-surface}
+The local $\NameCert_{\FocusedLedgerUp}$ surface for \autoref{def:focused-ledger-carrier} consists of exactly five obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $L=(I,H,T,F,S,D,G,R,J,Q,\rho,A,C,P,N)$;
+\item classifier stability for the selected history, selector ledger, digest ledger, relation row, invariant row, dependence row, and self-proxy row under componentwise $\hsame$ transport;
+\item continuation exactness for the displayed $\Cont$ routes in $C$ and no replay route outside the finite index ledger $I$;
+\item audit-row exactness for the six refusals recorded in $A$;
+\item provenance and local naming through $P$ and $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier definition displays all content rows before transport, replay, provenance, and naming. The first obligation admits that finite packet as the only carrier surface.
+
+The second and third obligations are forced by the BEDC structural rows: $\hsame$ transport preserves the selected carrier fields componentwise, and $\Cont$ replay is read only through $C$.
+
+The fourth obligation is \autoref{thm:focused-ledger-audit-closure}. The fifth obligation is the terminal NameCert packaging: $P$ records the source rows and $N$ names the accepted packet. No sixth obligation is available, because every accepted consumer already factors through the displayed carrier.
+\end{proof}
+
+\begin{theorem}[Focused ledger sibling independence]
+\label{thm:focused-ledger-sibling-independence}
+$\FocusedLedgerUp$ is not bijective with $\ConsciousUniverseSpaceUp$, $\ObserverHistIdentityUp$, $\InterHistLocalityLedgerUp$, $\InscriptionEventUp$, or $\OnticResidueLedgerUp$. The focused ledger carries the whole focus-selector-digest-gap-relation-invariant-audit tuple, while each sibling omits at least one of the required focused-ledger rows or one audit refusal.
+\end{theorem}
+\begin{proof}
+Compare the carrier inventories. $\ConsciousUniverseSpaceUp$ reads universe-slice, locality-cell, local-time, and trace-identity structure after a focused ledger row is available, but it does not carry the full selector, digest, gap, relation, invariant, dependence, and audit tuple of \autoref{def:focused-ledger-carrier}.
+
+$\ObserverHistIdentityUp$ supplies observer-history identity rows, and $\InterHistLocalityLedgerUp$ supplies inter-history locality rows. Neither packet contains the focused selector ledger, digest provenance, self-proxy, and six-refusal audit row together.
+
+$\InscriptionEventUp$ records inscription-event admission, while $\OnticResidueLedgerUp$ records residue-bearing observation structure. Those packets can consume focused-ledger information, but neither contains the whole finite packet $I,H,T,F,S,D,G,R,J,Q,\rho,A,C,P,N$. Therefore no sibling is bijective with $\FocusedLedgerUp$ as a NameCert carrier.
+\end{proof}
+
+\falsifiablePrediction{A $\FocusedLedgerUp$ packet cannot be reduced to an $\InscriptionEventUp$ packet without losing at least the selector, digest, relation, invariant, or audit row.}
+
+\independenceWitness{consciousuniversespace, observerhistidentity, interhistlocalityledger, inscriptionevent, onticresidueledger: none is bijective with $\FocusedLedgerUp$ because each omits at least one required focused-ledger row or audit refusal.}
+
+The Lean TasteGate file \texttt{lean4/BEDC/Derived/FocusedLedgerUp/TasteGate.lean} provides explicit $\mathsf{Nontrivial}\ \FocusedLedgerUp$ and $\mathsf{FieldFaithful}\ \FocusedLedgerUp$ instances over the same finite carrier.
+
+\closureat{FocusedLedgerUp}{seedStr}
+
+\begin{closurestatus}{\FocusedLedgerUp}
+  \constructivestory{A $\FocusedLedgerUp$ packet is generated from finite history slots, local continuation rows, a focus index, selector rows, digest rows, gap and provenance rows, relation rows, invariant rows, dependence rows, a self-proxy row, audit refusals, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:focused-ledger-carrier}, \autoref{thm:focused-ledger-audit-closure}, \autoref{thm:focused-ledger-namecert-obligation-surface}, and \autoref{thm:focused-ledger-sibling-independence} bind the finite focused multi-Hist ledger as a concrete NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, public-object export, global spacetime, subject substance, or hidden meta-closure.}
+  \upgradepath{Further verification requires object-specific closure theorems tying the audit and NameCert rows to explicit BEDC kernel dependencies.}
+\end{closurestatus}

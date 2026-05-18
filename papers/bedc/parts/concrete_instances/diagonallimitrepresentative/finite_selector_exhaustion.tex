@@ -1,0 +1,47 @@
+\begin{theorem}[Diagonal-limit representative finite selector exhaustion]
+\label{thm:diagonal-limit-representative-finite-selector-exhaustion}
+For an accepted shared-terminal $\DiagonalLimitRepresentativeUp$ carrier, fix the visible rows $X,\mu,n,k,i$ on the root-readiness surface. If the carrier is accepted by the root NameCert obligations and is consumed by a Real-and-Completion route, then the selected $\StreamNameUp$ window $w$ and $\RegSeqRatUp$ readback $r$ are forced through the displayed equations
+$$
+k=\mu(1/(n+1))
+$$
+and
+$$
+i=k+n+1.
+$$
+The resulting finite selector packet is exactly the route through $X,\mu,n,k,i,w,r,H,C,P,N$; it does not contain a hidden modulus selector, quotient-stream equality, host stream equality, countable choice, selected completed limit, or ambient completion principle.
+\end{theorem}
+\begin{proof}
+Start with the root-readiness triad of \autoref{thm:diagonal-limit-representative-root-readiness-triad}. It requires any downstream Real-and-Completion consumer to expose $\mu,n,k,i,w,r$ before the support rows are consumed, with $H,C,P,N$ only transporting, replaying, sourcing, and naming that displayed surface.
+
+The readback-index scope and selected-window determinacy theorems, \autoref{thm:diagonal-limit-representative-readback-index-scope} and \autoref{thm:diagonal-limit-representative-selected-window-determinacy}, then identify the selected window and readback as the rows attached to the visible indices. The equations for $k$ and $i$ are not external parameters; they are the displayed computations carried by the accepted packet.
+
+Finally apply budget-source determinacy, \autoref{thm:diagonal-limit-representative-budget-source-determinacy}. It prevents a downstream consumer from replacing the selected rows by an off-packet terminal source. Hence fixed $X,\mu,n,k,i$ exhaust the finite selector route through the named StreamName and RegSeqRat rows, with no additional selector or equality principle available.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative support route coverage]
+\label{thm:diagonal-limit-representative-support-route-coverage}
+Every accepted support row of a shared-terminal $\DiagonalLimitRepresentativeUp$ carrier is covered by the finite BEDC support surface
+$$
+\BHist,\hsame,\Cont,\Pkg,\NameCert,\StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp,\FinitePrefixLimitBudgetUp,\RealUp.
+$$
+More explicitly, the support rows $H,C,P,N$ cover only the recorded history, componentwise transport, continuation replay, provenance, local naming, selected window, regular-rational readback, dyadic ledger, finite-prefix budget, and terminal Real seal routes. They cannot cover a detached support primitive, hidden selector, quotient stream equality, host equality, selected completed limit, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First read primitive-scope exhaustion, \autoref{thm:diagonal-limit-representative-primitive-scope-exhaustion}. It lists the available primitive rows as $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the sibling rows supplied by $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FinitePrefixLimitBudgetUp$, and $\RealUp$.
+
+Next apply support-scope nonescape, \autoref{thm:diagonal-limit-representative-hsame-cont-scope}. It confines accepted transport and replay to $H,C,P,N$, so no detached support primitive can be inserted after the selector and terminal rows have been displayed.
+
+The dependency-readiness scope of \autoref{thm:diagonal-limit-representative-dependency-readiness-scope} and the public exactness package of \autoref{thm:diagonal-limit-representative-public-exactness-package} supply the coverage direction. They make the five sibling surfaces and the four support rows the whole consumer-facing route, while excluding quotient, host, selector, choice, and ambient-completeness alternatives.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative terminal seal stability]
+\label{thm:diagonal-limit-representative-terminal-seal-stability}
+Let $A$ and $A'$ be accepted shared-terminal $\DiagonalLimitRepresentativeUp$ carriers with the same visible selector rows $X,\mu,n,k,i,w,r,d$ and the same finite-prefix budget rows. Then their terminal $\RealUp$ seal routes are stable up to the recorded $\hsame$ support and displayed $\Cont$ replay of $H,C,P,N$. This stability is exactly a finite NameCert seal: it cannot introduce host equality, quotient-stream equality, selected completed limits, hidden selectors, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with terminal-seal determinacy, \autoref{thm:diagonal-limit-representative-terminal-seal-determinacy}. It says that the visible finite-prefix budget rows together with $w,r,d$ determine the terminal Real seal source up to the recorded $\hsame$ rows and the displayed $\Cont$ replay.
+
+Consumer-route exhaustion, \autoref{thm:diagonal-limit-representative-consumer-route-exhaustion}, supplies the route boundary. Every accepted Real-and-Completion consumer factors through the ordered route containing the selector rows, dyadic ledger, finite-prefix budget rows, terminal seal, and support rows; no other support surface is available.
+
+Use Real-seal nonchoice export and the formal handoff boundary, \autoref{thm:diagonal-limit-representative-real-seal-nonchoice-export} and \autoref{thm:diagonal-limit-representative-formal-handoff-boundary}, for the negative clause. They preserve the displayed terminal row as finite NameCert data and prevent the seal from being strengthened into host equality, quotient equality, selected limits, hidden selectors, choice data, or ambient completeness. Therefore the two carriers have the same terminal seal route precisely up to the recorded support.
+\end{proof}

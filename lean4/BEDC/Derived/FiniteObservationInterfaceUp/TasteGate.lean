@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.Meta.TasteGate
 
 /-!
@@ -10,6 +11,7 @@ namespace BEDC.Derived.FiniteObservationInterfaceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -339,5 +341,61 @@ theorem FiniteObservationInterfaceTasteGate_single_carrier_alignment :
       · intro x y heq
         exact finiteObservationInterfaceToEventFlow_injective heq
       · rfl
+
+theorem FiniteObservationInterfaceSelectedStream_handoff
+    {S R D T E H C P N T' H' E' C' : BHist}
+    (selectedRoute : Cont BHist.Empty T H)
+    (tailLedgerRoute : Cont T E C)
+    (hT : hsame T T')
+    (hH : hsame H H')
+    (hE : hsame E E')
+    (hC : hsame C C') :
+    Cont BHist.Empty T' H' ∧
+      Cont T' E' C' ∧
+        finiteObservationInterfaceFromEventFlow
+          (finiteObservationInterfaceToEventFlow
+            (FiniteObservationInterfaceUp.mk S R D T E H C P N)) =
+          some (FiniteObservationInterfaceUp.mk S R D T E H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  constructor
+  · exact cont_hsame_transport (show hsame BHist.Empty BHist.Empty from rfl) hT hH
+      selectedRoute
+  · constructor
+    · exact cont_hsame_transport hT hE hC tailLedgerRoute
+    · exact finiteObservationInterface_round_trip
+        (FiniteObservationInterfaceUp.mk S R D T E H C P N)
+
+theorem FiniteObservationInterfaceNameCert_obligation_surface
+    {S R D T E H C P N S' R' D' T' E' H' C' P' N' : BHist}
+    (hS : hsame S S')
+    (hR : hsame R R')
+    (hD : hsame D D')
+    (hT : hsame T T')
+    (hE : hsame E E')
+    (hH : hsame H H')
+    (hC : hsame C C')
+    (hP : hsame P P')
+    (hN : hsame N N')
+    (streamRegular : Cont S R C)
+    (regularDyadic : Cont R D C)
+    (selectedTail : Cont T E H) :
+    Cont S' R' C' ∧
+      Cont R' D' C' ∧
+        Cont T' E' H' ∧
+          finiteObservationInterfaceFromEventFlow
+            (finiteObservationInterfaceToEventFlow
+              (FiniteObservationInterfaceUp.mk S R D T E H C P N)) =
+            some (FiniteObservationInterfaceUp.mk S R D T E H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  cases hP
+  cases hN
+  constructor
+  · exact cont_hsame_transport hS hR hC streamRegular
+  · constructor
+    · exact cont_hsame_transport hR hD hC regularDyadic
+    · constructor
+      · exact cont_hsame_transport hT hE hH selectedTail
+      · exact finiteObservationInterface_round_trip
+          (FiniteObservationInterfaceUp.mk S R D T E H C P N)
 
 end BEDC.Derived.FiniteObservationInterfaceUp

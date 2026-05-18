@@ -29,6 +29,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier exports no quotient stream equality, host real equality, detached external limit, countable-choice row, ambient completeness principle, or untracked witness replacement beyond the displayed pullback packet.
 \end{definition}
+\leanchecked{BEDC.Derived.CauchyWitnessPullbackUp.TasteGate.CauchyWitnessPullbackTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[CauchyWitnessPullback NameCert obligations]
 \label{thm:cauchy-witness-pullback-namecert-obligations}
@@ -66,10 +67,71 @@ Read the recovered side. The ledger $L$, tail envelope $T$, synchronizer $S$, st
 The structural rows $H,C,P,N$ then repack these coordinates into the local NameCert surface. Replacing any recovered coordinate while keeping only the glued seal fixed therefore gives a different candidate packet, not the same $\CauchyWitnessPullbackUp$ factorization.
 \end{proof}
 
-The Lean TasteGate development will need explicit $\mathsf{Nontrivial}\ \CauchyWitnessPullbackUp$ and $\mathsf{FieldFaithful}\ \CauchyWitnessPullbackUp$ instances in $\mathsf{BEDC.Derived.CauchyWitnessPullbackUp.TasteGate}$, with the single-carrier alignment target named $\mathsf{BEDC.Derived.CauchyWitnessPullbackUp.CauchyWitnessPullbackTasteGate\_single\_carrier\_alignment}$.
+\begin{theorem}[CauchyWitnessPullback recovered ledger determinacy]
+\label{thm:cauchy-witness-pullback-recovered-ledger-determinacy}
+Let
+$$
+Q=(G,K,R,L,T,S,U,V,D,A,H,C,P,N)
+$$
+be an accepted $\CauchyWitnessPullbackUp$ packet. Any second accepted pullback packet that agrees with $Q$ on $G,K,R,A,H,C,P,N$ has the same recovered witness-ledger row $L$. Thus the recovered ledger is determined by the glued seal, completion classifier, Real seal, pullback agreement, transport, continuation, provenance, and local NameCert rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-witness-pullback-carrier}. The row $L$ is a displayed coordinate of the same finite packet as $G,K,R,A,H,C,P,N$, not an ambient ledger chosen after the seal has been read.
+
+Apply \autoref{thm:cauchy-witness-pullback-namecert-obligations}. A consumer that preserves the glued seal, classifier, Real seal, agreement, transports, continuations, provenance, and local name but changes $L$ fails to preserve the carrier.
+
+Finally use \autoref{thm:cauchy-witness-pullback-real-seal-factorization}. The Real-facing read passes through $G \to K \to R \to A$ before it reaches the recovered witness side, so agreement on those structural rows fixes the ledger coordinate recovered by the pullback packet.
+\end{proof}
+
+\begin{theorem}[CauchyWitnessPullback tail synchronizer compatibility]
+\label{thm:cauchy-witness-pullback-tail-synchronizer-compatibility}
+For every accepted $\CauchyWitnessPullbackUp$ packet
+$$
+Q=(G,K,R,L,T,S,U,V,D,A,H,C,P,N),
+$$
+the recovered rows $T,S,U,V,D$ remain on the same $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ route that the agreement row reads back from $G,K,R$. In particular, a consumer cannot keep $G,K,R,L,A,H,C,P,N$ fixed while moving the recovered tail envelope, synchronizer, stream row, regular-sequence row, or dyadic ledger to an unrelated route.
+\end{theorem}
+\begin{proof}
+Read the displayed coordinates in \autoref{def:cauchy-witness-pullback-carrier}. The tail envelope $T$, synchronizer $S$, stream row $U$, regular-sequence row $V$, and dyadic ledger $D$ are named together with the recovered ledger $L$ and the agreement row $A$.
+
+Apply \autoref{thm:cauchy-witness-pullback-namecert-obligations}. Preserving the pullback carrier preserves the same recovered witness-readback packet, including the rows that route from the tail envelope through synchronizer, stream, regular-sequence, and dyadic data.
+
+Use \autoref{thm:cauchy-witness-pullback-real-seal-factorization}. Since the Real seal factors through the displayed recovered side, replacing any one of $T,S,U,V,D$ by an unrelated route while keeping the structural rows fixed leaves the $\CauchyWitnessPullbackUp$ factorization.
+\end{proof}
+
+\begin{theorem}[CauchyWitnessPullback Real-seal readback exactness]
+\label{thm:cauchy-witness-pullback-real-seal-readback-exactness}
+Every completion-facing consumer of an accepted $\CauchyWitnessPullbackUp$ packet receives exactly the rows
+$$
+G,K,R,L,T,S,U,V,D,A,H,C,P,N
+$$
+as its readback surface. The readback exports no quotient stream, selected limit, choice row, ambient completeness datum, host real equality, or hidden witness replacement.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:cauchy-witness-pullback-carrier}. The carrier lists precisely the fourteen displayed rows and explicitly excludes quotient stream equality, detached limits, choice rows, ambient completeness, and untracked witness replacement.
+
+Apply \autoref{thm:cauchy-witness-pullback-namecert-obligations}. The local NameCert surface is preserved only by preserving those displayed coordinates together, so a completion-facing consumer has no additional row from which to read a selected limit or hidden witness.
+
+Finally use \autoref{thm:cauchy-witness-pullback-real-seal-factorization}. The Real-seal read passes through the glued seal, classifier, Real seal, agreement, and recovered witness-side rows, with $H,C,P,N$ visible as structural rows. That factorization is exactly the exported readback surface.
+\end{proof}
+
+The Lean TasteGate namespace $\mathsf{BEDC.Derived.CauchyWitnessPullbackUp.TasteGate}$ provides explicit $\mathsf{Nontrivial}\ \CauchyWitnessPullbackUp$ and $\mathsf{FieldFaithful}\ \CauchyWitnessPullbackUp$ instances for the displayed carrier, with the single-carrier alignment target named $\mathsf{BEDC.Derived.CauchyWitnessPullbackUp.TasteGate.CauchyWitnessPullbackTasteGate\_single\_carrier\_alignment}$.
 
 \falsifiablePrediction{If the pullback packet is accepted, a Real-completion consumer preserving the glued seal but changing the witness-ledger row is rejected by the classifier.}
 
 \independenceWitness{cauchywitnessgluing, cauchywitnessledger, cauchytailwitnessenvelope, cauchysealbudgetsynchronizer, realcompletionsealclassifier: no bijection preserves all pullback rows because the pullback packet carries the glued seal, classifier, Real seal, recovered ledger, recovered tail, recovered synchronizer, StreamName, RegSeqRat, DyadicRatCore, agreement, transport, continuation, provenance, and local NameCert rows together, while each sibling exposes only one direction or one face of that readback.}
 
 \closureat{CauchyWitnessPullbackUp}{seedStr}
+\closureat{CauchyWitnessPullbackUp}{obligationStr}[BEDC.Derived.CauchyWitnessPullbackUp.TasteGate.CauchyWitnessPullbackTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\CauchyWitnessPullbackUp}
+  \constructivestory{A $\CauchyWitnessPullbackUp$ packet is generated from a glued seal row, completion classifier, Real seal, recovered witness ledger, recovered tail envelope, recovered synchronizer, StreamName row, RegSeqRat row, DyadicRatCore row, agreement row, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. The carrier reads a Real-completion seal backwards through the witness data that produced it: the classifier exposes the recovered ledger, envelope, and synchronizer together. The agreement and transport rows keep that recovery tied to the same seal. A consumer preserving the glued seal but changing the witness ledger leaves the displayed pullback route.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cauchy-witness-pullback-carrier}, \autoref{thm:cauchy-witness-pullback-namecert-obligations}, \autoref{thm:cauchy-witness-pullback-real-seal-factorization}, \autoref{thm:cauchy-witness-pullback-recovered-ledger-determinacy}, \autoref{thm:cauchy-witness-pullback-tail-synchronizer-compatibility}, \autoref{thm:cauchy-witness-pullback-real-seal-readback-exactness}, and \leanchecked{BEDC.Derived.CauchyWitnessPullbackUp.taste\_gate} bind the Cauchy witness pullback carrier, recovered-ledger determinacy, tail synchronizer compatibility, Real-seal readback exactness, prediction, and independence witness.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CauchyWitnessPullbackUp.TasteGate.CauchyWitnessPullbackTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim arbitrary pullback of completed reals, quotient sequence equality, hidden witness recovery, or ambient completeness.}
+  \upgradepath{To reach scopedClosure, close the bridge-facing readback boundary for arbitrary standard reflection consumers of the checked pullback carrier.}
+\end{closurestatus}

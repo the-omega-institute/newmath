@@ -154,6 +154,27 @@ Now use \autoref{thm:real-regseqrat-completion-consumer-section-exactness}. Each
 Finally apply \autoref{thm:real-regseqrat-finite-request-section-terminality}. The two sections agree on the StreamName pullback and on every visible dyadic, classifier, readback, local seal, transport, route, package, and naming row; terminality therefore identifies the displayed finite $\BHist$ Real seal packet. The cited boundaries keep quotient stream equality, host real equality, selected limits, choice data, ambient completeness, and a second Real seal coordinate outside the packet.
 \end{proof}
 
+\begin{theorem}[RealUp RegSeqRat finite-request route equivalence]
+\label{thm:real-regseqrat-finite-request-route-equivalence}
+Let $Q$ be an accepted $\RegSeqRatUp$ packet and let $S$ be a public finite request to a $\RealUp$ seal over $Q$. A completion-facing or $\RealUp$-facing finite-request read over $S$ is accepted exactly when it factors through the same four displayed L10 source faces:
+\begin{enumerate}
+\item the $\StreamNameUp$ finite-window row selected by the request;
+\item the $\DyadicRatCoreUp$ endpoint, radius, and finite-distance ledger read at that window;
+\item the $\RegSeqRatUp$ classifier, readback, and regularity rows of the accepted packet;
+\item the local $\NameCert_{\RealUp}$ seal row.
+\end{enumerate}
+The factorization includes precisely the displayed $\BHist$, $\hsame$, $\Cont$, and $\Pkg$ support tying those four faces to one finite packet. The displayed packet is unique among accepted completion-facing and $\RealUp$-facing reads with these rows, and the equivalence exports no quotient stream equality, no host real equality, no selected limit, no choice data, no ambient completeness, no metric-completeness row, no standard bridge row, and no second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply \autoref{thm:real-regseqrat-finite-request-four-face-source-exhaustion}. Any accepted read over $S$ has no visible source beyond the StreamName finite window, the DyadicRatCore endpoint-radius-distance ledger, the RegSeqRat classifier-readback-regularity surface, and the local Real naming row.
+
+For the reverse direction, assume the read factors through these four faces together with the displayed $\BHist$, $\hsame$, $\Cont$, and $\Pkg$ support. Apply \autoref{thm:real-regseqrat-completion-consumer-section-exactness}. Its section criterion accepts exactly the completion-facing and $\RealUp$-facing consumers whose visible rows factor through the displayed finite section, so the factored read is accepted.
+
+It remains to identify the packet. Apply \autoref{thm:real-regseqrat-finite-request-determinacy} to any two accepted reads displaying the same four faces and support rows. Then use \autoref{thm:real-streamname-finite-request-terminal-bridge} to identify the StreamName-facing pullback with the Real-facing terminal section on the same finite $\BHist$ packet.
+
+Thus accepted reads are precisely the four-object L10 finite route through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and the local $\NameCert_{\RealUp}$ seal row. Since the cited boundaries carry only the listed finite support, the route does not add quotient stream equality, host real equality, selected limits, choice data, ambient completeness, metric-completeness rows, standard bridge rows, or a second Real seal coordinate.
+\end{proof}
+
 \begin{theorem}[RealUp RegSeqRat Cauchy-witness budget projection]
 \label{thm:real-regseqrat-streamname-cauchy-witness-budget-projection}
 Let $Q$ be an accepted $\RegSeqRatUp$ packet, let $S$ be a public finite request to a $\RealUp$ seal over $Q$, and let $L=(Q_L,B_L,S_L,K_L,H_L,C_L,P_L,N_L)$ be an accepted $\CauchyWitnessLedgerUp$ budget row whose visible $\StreamNameUp$ finite window is the same window read by $S$. Then the visible budget projection of the combined read is exactly the displayed packet consisting of the $\StreamNameUp$ finite-window row, the $\DyadicRatCoreUp$ endpoint, radius, and finite-distance rows, the $\RegSeqRatUp$ classifier and readback rows, the local $\RealUp$ seal row, and the supporting $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Equivalently, the Cauchy-witness ledger consumes the same finite packet through its diagonal-budget, observation-budget, synchronizer, and completion-seal rows before any completion-facing classifier is visible.
@@ -168,4 +189,20 @@ Next use \autoref{thm:real-regseqrat-finite-request-four-face-source-exhaustion}
 Now apply the terminal bridge \autoref{thm:real-streamname-finite-request-terminal-bridge}. Since the ledger row and the Real request display the same finite StreamName window, the StreamName-facing pullback and the Real-facing terminal section name the same finite $\BHist$ packet with the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
 
 Finally read the witness-ledger side through \autoref{thm:cauchy-witness-ledger-budget-factorization}, \autoref{thm:cauchy-witness-ledger-budget-source-coherence}, and \autoref{thm:cauchy-witness-ledger-root-source-lock}. These rows order every accepted completion-facing read through the same diagonal-budget, observation-budget, synchronizer, and completion-seal route, and they identify the ledger's $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ source surface with the one already fixed by the finite request. Thus all budget consumers reuse the same finite packet, and the excluded quotient, host, selected-limit, choice, completeness, metric-completion, bridge, and duplicate-seal data remain outside the projection.
+\end{proof}
+
+\begin{theorem}[RealUp RegSeqRat StreamName dyadic tail-budget pullback]
+\label{thm:real-regseqrat-streamname-dyadic-tail-budget-pullback}
+Let $Q$ be an accepted $\RegSeqRatUp$ packet, let $S$ be a public finite request to a $\RealUp$ seal over $Q$, and let $L=(E,T,W,D,R,A,H,C,P,N)$ be an accepted $\DyadicTailRadiusLedgerUp$ row whose visible $\StreamNameUp$ finite window $W$ is the same window selected by $S$. Then the $\RealUp$ finite-request packet pulls back exactly to the shared finite packet consisting of the $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ endpoint, radius, and finite-distance rows in $D$, the $\RegSeqRatUp$ classifier, readback, and regularity rows of $Q$ and $R$, the local $\RealUp$ seal row $A$, and the supporting $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$.
+
+Equivalently, every completion-facing or $\RealUp$-facing read of $S$ that is mediated by the tail-radius ledger $L$ is accepted exactly through the same four L10 faces: the selected StreamName window, the DyadicRatCore endpoint-radius-distance ledger, the RegSeqRat classifier and readback surface, and the local Real seal row. The pullback exports no quotient streams, no host real equality, no selected limits, no choice data, no ambient completeness, no metric-completion rows, no standard bridge rows, and no duplicate $\RealUp$ seal coordinates.
+\end{theorem}
+\begin{proof}
+Start with the Real finite request. By \autoref{thm:real-regseqrat-finite-request-four-face-source-exhaustion}, the accepted source of $S$ has exactly the StreamName window face, the DyadicRatCore endpoint-radius-distance face, the RegSeqRat classifier-readback-regularity face, and the local $\NameCert_{\RealUp}$ seal face.
+
+Next apply \autoref{thm:real-regseqrat-finite-request-route-equivalence}. A completion-facing read over $S$ is accepted precisely when it factors through those four faces together with the displayed $\BHist$, $\hsame$, $\Cont$, and $\Pkg$ support. Thus the Real-facing section has no coordinate outside the finite L10 packet.
+
+Now use \autoref{thm:real-regseqrat-streamname-cauchy-witness-budget-projection}. Its budget projection identifies the Cauchy-witness budget surface with the same StreamName, DyadicRatCore, RegSeqRat, Real seal, and support rows already fixed by the finite request.
+
+Finally apply the DyadicTailRadiusLedger handoff, namely \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage} and \autoref{thm:dyadic-tail-radius-ledger-regseq-real-handoff}. Since $L$ displays the same finite StreamName window $W$ selected by $S$, tail-budget coverage places the precision, tail-window, StreamName-window, and dyadic readback rows on the same finite route, and the handoff carries that route through the RegSeqRat and Real seal rows. Repacking these rows gives exactly the shared packet $W,D,Q,R,A,H,C,P,N$, with no quotient stream, host equality, selected limit, choice, completeness, metric-completion, bridge, or duplicate Real-seal coordinate available to the pullback.
 \end{proof}

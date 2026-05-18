@@ -1,0 +1,280 @@
+\begin{theorem}[Real terminal seal sibling route]
+\label{thm:real-terminal-seal-sibling-route}
+Every public $\RealUp$ terminal seal read factors through the finite
+$\StreamNameUp$ window, the $\RegSeqRatUp$ readback, and the
+$\DyadicRatCoreUp$ tolerance ledger before it reaches the local Real seal.
+The route is the cross-chapter certificate route through
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert}, and
+\autoref{ch:concrete-instances-dyadicratcore-namecert}; its transport data
+are only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+rows already exposed by those sibling chapters.
+
+Consequently an accepted terminal seal read has no route that bypasses the
+finite StreamName window, RegSeqRat readback, or DyadicRatCore tolerance
+ledger. In particular it exports no host real equality, quotient-stream
+equality, ambient completeness principle, countable-choice selector, selected
+limit, or independent host-completion row.
+\end{theorem}
+\begin{proof}
+Start with the handoff theorem
+\autoref{thm:realup-regseqrat-streamname-seal-handoff}. It reads the public
+$\RealUp$ seal as a package whose visible rows are the StreamName classifier
+window, the RegSeqRat readback surface, the dyadic observation ledger, and
+the local Real seal provenance. The sibling chapter references in the
+statement are exactly the public sources of those rows.
+
+Next apply the dyadic StreamName RegSeqRat route theorem
+\autoref{thm:real-dyadic-stream-regseq-route}. It orders the exposed rows as
+one finite BEDC path from $\DyadicRatCoreUp$ observations through the
+$\StreamNameUp$ finite window and $\RegSeqRatUp$ readback before the
+$\RealUp$ seal is read. Since the route carries only $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ coordinates, it has no coordinate for a host
+completion or quotient-stream equality.
+
+Finally use the finite-window seal tightness theorem
+\autoref{thm:real-regseqrat-streamname-tightness}. Tightness says that an
+accepted terminal seal is admissible exactly when the three sibling rows
+agree on one common finite request. Any proposed route omitting one of those
+rows therefore fails to be an accepted public $\RealUp$ terminal seal, and
+any route adding host real equality, ambient completeness, countable choice,
+or a selected limit lies outside the displayed certificate surface.
+\end{proof}
+
+\begin{theorem}[Real terminal seal four-face cover normal form]
+\label{thm:real-terminal-seal-four-face-cover-normal-form}
+Let $\{\mathcal R_i\}_{i\in I}$ be a finite family of public $\RealUp$
+terminal seal reads. Suppose each local route exposes the same four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+where the $\StreamNameUp$ finite windows agree pairwise on their restrictions,
+the $\DyadicRatCoreUp$ endpoint, radius, and distance ledgers agree on every
+overlap, the $\RegSeqRatUp$ classifier and regularity rows agree on the same
+finite request sections, the local $\RealUp$ seal-source rows agree on the
+common boundary, and all routes use the shared support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+
+Then the family descends to one finite-cover normal-form packet for the public
+$\RealUp$ terminal seal. Conversely, any finite-cover normal-form packet with
+exactly those four faces and support rows restricts to the local terminal seal
+routes $\mathcal R_i$. The packet exports no quotient stream equality, host
+real equality, selected limit, countable choice, ambient completeness,
+metric-completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First read every local seal through the sibling route of
+\autoref{thm:real-terminal-seal-sibling-route}. Each $\mathcal R_i$ is thereby
+placed on the StreamName finite window, the RegSeqRat readback face, the
+DyadicRatCore tolerance ledger, and the local Real seal-source row, with only
+the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next build the finite-cover surface. Apply
+\autoref{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness} to the
+pairwise StreamName window agreements. The common terminal fused packet is
+then transported through the RegSeqRat finite-request section supplied by
+\autoref{thm:regseqrat-finite-request-terminal-budget-factorization}.
+
+Now transport the dyadic and Real boundary faces. Use
+\autoref{thm:dyadicratcore-regseqrat-real-pullback-composition} to identify
+the endpoint, radius, distance, classifier, regularity, readback, and
+seal-source rows as one pullback surface over the same finite requests.
+
+For the descent direction, apply
+\autoref{thm:real-finite-cover-seal-pasting-criterion}. The pasted
+StreamName surface, the shared dyadic ledger, the RegSeqRat classifier and
+regularity rows, and the local Real seal-source rows therefore form one
+finite-cover normal-form packet for the terminal seal.
+
+For the restriction direction, start with such a normal-form packet and
+restrict it to any window of the finite cover. The same pasting criterion and
+the sibling route read the restricted packet back as the local terminal seal
+route $\mathcal R_i$, because no additional coordinate is present beyond the
+four displayed faces and the shared support rows.
+
+The exclusion clause is inherited from the cited routes. None of them exports
+quotient stream equality, host real equality, selected limits, countable
+choice, ambient completeness, metric-completeness data, or a standard bridge
+row, so those data cannot be recovered from either direction of the normal
+form.
+\end{proof}
+
+\begin{theorem}[Real terminal seal four-face cover descent determinacy]
+\label{thm:real-terminal-seal-four-face-cover-descent-determinacy}
+Let $\mathcal P$ and $\mathcal Q$ be finite-cover normal-form packets for the
+public $\RealUp$ terminal seal. Suppose both packets expose exactly the four
+faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+agree on all overlap restrictions for those faces, and use only the displayed
+support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+
+Then $\mathcal P$ and $\mathcal Q$ determine the same public $\RealUp$
+terminal seal read. Conversely, equality of the public terminal seal read
+recovers exactly the common $\StreamNameUp$ finite window, the
+$\DyadicRatCoreUp$ endpoint-radius-distance ledger, the $\RegSeqRatUp$
+finite-request classifier and regularity rows, and the local $\RealUp$
+seal-source row. It recovers no quotient-stream coordinate, host-real
+coordinate, selected limit, countable-choice selector, ambient-completeness
+principle, metric-completeness datum, or standard-bridge coordinate.
+\end{theorem}
+\begin{proof}
+Read both packets through the sibling route of
+\autoref{thm:real-terminal-seal-sibling-route}. This places $\mathcal P$ and
+$\mathcal Q$ on the same four public faces and confirms that their support
+surface is exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ surface.
+
+Apply the normal-form theorem
+\autoref{thm:real-terminal-seal-four-face-cover-normal-form} to both packets.
+The hypotheses on overlap restrictions put the two packets on one
+finite-cover surface, because the StreamName windows, dyadic tolerance rows,
+RegSeqRat readback rows, and Real seal-source rows are identified on every
+common section.
+
+The common section is determined by the finite cover itself. Use
+\autoref{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness} for
+the fused StreamName window, and use
+\autoref{thm:regseqrat-finite-request-terminal-budget-factorization} for the
+RegSeqRat finite-request budget over that window.
+
+It remains to transport the dyadic and Real rows across the common section.
+Apply \autoref{thm:dyadicratcore-regseqrat-real-pullback-composition} to the
+endpoint, radius, distance, classifier, regularity, readback, and seal-source
+rows. They are therefore the same pullback data for $\mathcal P$ and
+$\mathcal Q$.
+
+Finally apply \autoref{thm:real-finite-cover-seal-pasting-criterion}. The
+pasting criterion says that a four-face packet with those overlap
+restrictions has a unique public terminal seal read, so $\mathcal P$ and
+$\mathcal Q$ determine the same read.
+
+For the converse, start from equality of the public terminal seal read and
+read it back through the same sibling route and normal-form theorem. The
+restriction data are exactly the four recovered faces listed in the statement.
+The exclusion clause follows because every cited route uses only the displayed
+support rows and has no coordinate for quotient streams, host reals, selected
+limits, countable choice, ambient completeness, metric completeness, or a
+standard bridge.
+\end{proof}
+
+\begin{theorem}[Real terminal seal finite-cover cocycle exactness]
+\label{thm:real-terminal-seal-finite-cover-cocycle-exactness}
+Let $\{\mathcal R_i\}_{i\in I}$ be a finite family of local terminal-seal
+reads for the public $\RealUp$ surface. Suppose every $\mathcal R_i$ exposes
+exactly the four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+with support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert,
+$$
+and suppose that for every overlap $i,j$ the restrictions of the
+$\StreamNameUp$ finite window, the $\DyadicRatCoreUp$
+endpoint-radius-distance ledger, the $\RegSeqRatUp$ finite-request classifier
+and regularity rows, and the local $\RealUp$ seal-source row agree. Assume
+also that on every triple overlap $i,j,k$ the two restriction routes from
+$\mathcal R_i$ to the common section coincide:
+$$
+(\mathcal R_i|_{ij})|_{ijk}=(\mathcal R_i|_{ik})|_{ijk},
+\qquad
+(\mathcal R_i|_{ij})|_{ijk}=(\mathcal R_j|_{ij})|_{ijk}.
+$$
+
+Then the family pastes to a unique public $\RealUp$ terminal-seal read whose
+restriction to each finite cover member is $\mathcal R_i$. Conversely, any
+public $\RealUp$ terminal-seal read restricts to such a finite cocycle on the
+four displayed faces. This exactness exports no quotient stream equality, host
+real equality, selected limit, countable choice, ambient completeness,
+metric-completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First put every local read in four-face normal form. Apply
+\autoref{thm:real-terminal-seal-four-face-cover-normal-form}; each
+$\mathcal R_i$ is read as a finite StreamName window, a DyadicRatCore
+endpoint-radius-distance ledger, a RegSeqRat finite-request classifier with
+regularity rows, and a local Real seal-source row over the shared $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next paste the StreamName face. The overlap and triple-overlap assumptions are
+exactly the cocycle data used by
+\autoref{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness}, so
+the finite windows fuse to one terminal StreamName packet and restrict back to
+the given windows.
+
+Transport the remaining faces over that fused window. Use
+\autoref{thm:dyadicratcore-regseqrat-real-pullback-composition} to carry the
+dyadic endpoint, radius, and distance rows together with the RegSeqRat
+classifier, regularity, readback, and Real seal-source rows as one pullback
+surface over the common finite requests.
+
+Now apply \autoref{thm:real-finite-cover-seal-pasting-criterion}. The pasted
+StreamName packet and transported pullback rows give a public terminal-seal
+read, and its restriction to every cover member is the original
+$\mathcal R_i$.
+
+Uniqueness is the determinacy content of
+\autoref{thm:real-terminal-seal-four-face-cover-descent-determinacy}. Any two
+public reads with those restrictions have the same four faces on every overlap,
+hence determine the same terminal-seal read.
+
+For the converse, start with a public $\RealUp$ terminal-seal read and restrict
+it along the finite cover. The normal-form theorem supplies the four local
+faces, the StreamName fusion theorem gives the cocycle equations on triple
+overlaps, and the pasting criterion identifies the recovered public read with
+the original one.
+
+The exclusion clause is stable under each cited step: none of the normal-form,
+fusion, pullback-composition, pasting, or determinacy results introduces
+quotient stream equality, host real equality, selected limits, countable
+choice, ambient completeness, metric-completeness data, or a standard bridge
+row.
+\end{proof}
+
+\begin{theorem}[Real terminal seal audit noncollapse]
+\label{thm:real-terminal-seal-audit-noncollapse}
+Let $\{\mathcal R_i\}_{i\in I}$ be a finite family of local terminal-seal
+reads satisfying the hypotheses of
+\autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness}, and let
+$\mathcal R$ be the resulting public $\RealUp$ terminal-seal read. Then the
+audit rows visible from $\mathcal R$ over the four displayed faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+are exactly the objectwise closurestatus, formalstatus, leantarget, and
+bridgestatus rows of those four faces. The finite-cover descent supplies no
+aggregate route-level status row, no replacement leantarget, and no
+standard-bridge row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness}. The
+public read $\mathcal R$ is obtained only by pasting the StreamName,
+DyadicRatCore, RegSeqRat, and local Real terminal-seal faces over their common
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next read the audit coordinate through
+\autoref{thm:real-l10-current-phase-exit-audit-pullback}. That pullback
+identifies the current Phase Real and Completion audit report with the
+objectwise product of the four face reports, so the pasted terminal-seal route
+has no separate audit carrier beyond the displayed face rows.
+
+Apply \autoref{thm:real-l10-face-status-noncollapse}. The closurestatus,
+formalstatus, and bridgestatus rows therefore remain attached to their
+respective faces and are not replaced by a route-level status row. Apply
+\autoref{thm:real-l10-face-leantarget-noncollapse}; the same locality holds
+for the leantarget rows.
+
+Finally reuse the exclusion clause of
+\autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness}. Since the
+descent has no coordinate for quotient streams, host reals, selected limits,
+countable choice, ambient completeness, metric completeness, or a standard
+bridge, the audit read cannot manufacture an aggregate bridge or verification
+record.
+\end{proof}

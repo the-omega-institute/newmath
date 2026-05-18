@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\RegistryConsistencyAuditUp$}
+\label{ch:concrete-instances-registry-consistency-audit-namecert}
+\origin{ai}
+
+The $\RegistryConsistencyAuditUp$ packet realizes the registry-consistency requirement of \autoref{subsec:philosophy-registry-consistency} as a finite audit carrier for export-facing registry rows. It sits beside the export packet of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the machine boundary of \autoref{ch:concrete-instances-machine-interface-boundary-namecert}, the claim-entry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, the cannot-claim registry of \autoref{ch:concrete-instances-axiszeckendorfcannotclaim-namecert}, and the proof-trace audit packet of \autoref{ch:concrete-instances-prooftraceauditwitness-namecert}. Those siblings expose claim rows, machine-facing routes, registry admission, refusal boundaries, and proof-readback evidence; this carrier checks that all such exported readings agree before a package-level registry audit is accepted.
+
+\begin{definition}[Registry-consistency audit carrier]
+\label{def:registry-consistency-audit-carrier}
+A $\RegistryConsistencyAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(R,S,D,G,X,F,T,L,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the registry-row ledger, naming the primary entry and every related entry whose export reading is being audited;
+\item $S$ is the status-agreement row, comparing concept status, theorem status, science-roadmap status, closure status, and formal status for the same claim;
+\item $D$ is the dependency-strength row, recording whether each dependency is definitional, theorem-level, statement-only, encoded, or external to the carrier;
+\item $G$ is the gap-status row, recording open gaps, refused gaps, and closed gaps visible to the audit;
+\item $X$ is the cannot-claim row, importing the relevant refusal boundary from $\AxisZeckendorfCannotClaimUp$ or an adjacent cannot-claim packet;
+\item $F$ is the closure/formal-status row, comparing the manuscript closure block with the machine-readable formal-status target for the same entry;
+\item $T$ is the transport row, storing componentwise $\hsame$ stability for registry, status, dependency, gap, refusal, closure/formal-status, replay, provenance, and local naming rows;
+\item $L$ is the displayed $\Cont$ replay row through which an audit consumer reads $R,S,D,G,X,F,T$;
+\item $Q$ is the proof-trace row, recording the proof-readback or explicit absence read from $\ProofTraceAuditWitnessUp$ when the audited entry cites proof evidence;
+\item $P$ is the $\Pkg$ provenance over $\RegistryExportSurfaceUp$, $\MachineInterfaceBoundaryUp$, $\ClaimRegistryLayerUp$, $\AxisZeckendorfCannotClaimUp$, $\ProofTraceAuditWitnessUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RegistryConsistencyAuditUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a hidden registry override, prose-only status repair, machine target outside $F$, proof read outside $Q$, or cannot-claim bypass outside $X$.
+\end{definition}
+\leandef{BEDC.Derived.RegistryConsistencyAuditUp.RegistryConsistencyAuditUp}
+\leanchecked{BEDC.Derived.RegistryConsistencyAuditUp.RegistryConsistencyAuditTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Registry-consistency audit route]
+\label{thm:registry-consistency-audit-route}
+Every accepted $\RegistryConsistencyAuditUp$ packet routes an exported claim through the same registry entry, status agreement, dependency-strength, gap-status, cannot-claim, closure/formal-status, proof-trace, transport, replay, provenance, and local naming rows displayed in \autoref{def:registry-consistency-audit-carrier}. If any related registry entry disagrees with the primary entry on status, dependency strength, gap status, cannot-claim boundary, closure status, or formal target, the packet is not accepted as a consistency audit for that exported claim.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $A=(R,S,D,G,X,F,T,L,Q,P,N)$. The primary registry location and all related entries are read first through $R$, so an audit consumer cannot substitute a private registry row.
+
+Read the agreement rows next. Status agreement is displayed in $S$, dependency strength in $D$, gap status in $G$, cannot-claim boundaries in $X$, and closure/formal-status comparison in $F$. A disagreement in any of these rows leaves the corresponding consistency clause without a displayed witness.
+
+The proof-trace row $Q$ and the routing rows $T,L,P,N$ only transport, replay, package, and name the same finite audit packet. Since no remaining coordinate repairs a failed agreement row, an inconsistent registry reading exits the carrier rather than producing an accepted audit.
+\end{proof}
+
+\begin{theorem}[Registry-consistency audit NameCert obligations]
+\label{thm:registry-consistency-audit-namecert-obligations}
+For the carrier of \autoref{def:registry-consistency-audit-carrier}, the local $\NameCert_{\RegistryConsistencyAuditUp}$ surface consists exactly of eight obligation groups:
+\begin{enumerate}
+\item carrier admission for $A=(R,S,D,G,X,F,T,L,Q,P,N)$;
+\item registry-row coverage through $R$;
+\item status-agreement and dependency-strength exactness through $S$ and $D$;
+\item gap-status and cannot-claim boundary agreement through $G$ and $X$;
+\item closure/formal-status agreement through $F$;
+\item proof-trace readback or explicit proof absence through $Q$;
+\item componentwise transport and replay through $T$ and $L$;
+\item package provenance and local naming through $P$ and $N$.
+\end{enumerate}
+Thus the certificate audits registry coherence by finite rows and does not turn prose governance, hidden proof objects, or host registry state into additional certificate inputs.
+\end{theorem}
+\begin{proof}
+Carrier admission is tuple projection from \autoref{def:registry-consistency-audit-carrier}. The registry surface is exhausted by $R$, and every agreement clause named by \autoref{def:philosophy-registry-consistency-clauses} is assigned to one of $S,D,G,X,F$.
+
+The proof-trace row is separate. It allows a proof-bearing entry to cite the proof-readback packet while allowing an explicitly absent proof read to remain absent; neither case changes the registry, status, dependency, gap, refusal, or closure/formal-status rows.
+
+Finally inspect $T,L,P,N$. These rows supply componentwise stability, replay, provenance, and local naming for the same displayed packet. They do not add another agreement clause, so the eight groups exhaust the local $\NameCert_{\RegistryConsistencyAuditUp}$ obligation surface.
+\end{proof}
+
+\falsifiablePrediction{If two registry entries for the same exported claim disagree on status, dependency strength, gap status, cannot-claim boundary, closure status, or formal target, no accepted RegistryConsistencyAuditUp packet certifies that export as registry-consistent.}
+
+\independenceWitness{registryexportsurface, machineinterfaceboundary, claimregistrylayer, axiszeckendorfcannotclaim, prooftraceauditwitness: none carries the joint registry-row, status-agreement, dependency-strength, gap-status, cannot-claim, closure/formal-status, proof-trace, transport, replay, provenance, and local NameCert packet of $\RegistryConsistencyAuditUp$.}
+
+\closureat{RegistryConsistencyAuditUp}{seedStr}
+\closureat{RegistryConsistencyAuditUp}{obligationStr}
+
+\begin{closurestatus}{\RegistryConsistencyAuditUp}
+  \constructivestory{A $\RegistryConsistencyAuditUp$ packet is generated from displayed registry, status, dependency, gap, cannot-claim, closure/formal-status, proof-trace, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter records only the finite carrier and certificate surface for registry-consistency audit packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close public export, bridge checking, Lean verification, or any registry repair route for $\RegistryConsistencyAuditUp$.}
+  \upgradepath{The next paper-side step is obligationClosure via a complete local NameCert obligation and route-exhaustion surface.}
+\end{closurestatus}

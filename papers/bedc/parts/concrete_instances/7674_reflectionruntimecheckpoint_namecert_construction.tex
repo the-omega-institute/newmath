@@ -67,6 +67,7 @@ K=(I,S,T,V,H,C,P,N),
 $$
 every checkpoint consumer reads the runtime-candidate input row $I$ and checkpoint-state row $S$ before it reads any trace-evidence row or validation-facing row. Thus neither $T$ nor $V$ can be treated as a detached source of runtime state.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointCarrier\_input\_state\_exposure}
 \begin{proof}
 Project the carrier of \autoref{def:reflection-runtime-checkpoint-carrier}. The packet is ordered as $K=(I,S,T,V,H,C,P,N)$, with $I$ carrying the admitted runtime candidate and $S$ carrying the displayed checkpoint state reached by that candidate.
 
@@ -79,6 +80,7 @@ Finally use the TasteGate carrier alignment of \autoref{thm:reflection-runtime-c
 \label{thm:reflection-runtime-checkpoint-trace-boundary-readback}
 For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, the row $T$ is bounded trace evidence routed through the finite trace evaluator and finite trace gap-socket siblings, through the package provenance $P$, and back through the transport, continuation, and naming rows $H,C,N$. It is not an unbounded evaluator and it is not a validation act.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointCarrier\_trace\_boundary\_readback}
 \begin{proof}
 Start from the provenance row in \autoref{def:reflection-runtime-checkpoint-carrier}. The row $P$ cites the runtime-candidate boundary, finite trace evaluator, finite trace gap socket, and reflection-limit boundary as the displayed sources for the checkpoint packet.
 
@@ -134,6 +136,7 @@ Finally apply \autoref{thm:reflection-runtime-checkpoint-validation-nonescape-ro
 \label{thm:reflection-runtime-checkpoint-validation-row-precedence}
 For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, any validation-facing checkpoint consumer must read the displayed rows $I,S,T,V$ in that order: $I$ supplies the admitted runtime-candidate input, $S$ supplies the checkpoint state reached by that input, $T$ supplies bounded trace evidence for that state, and only then $V$ supplies the validation-boundary row. In particular, neither $S$ nor $T$ may be treated as a validation row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointCarrier\_validation\_row\_precedence}
 \begin{proof}
 Project the carrier of \autoref{def:reflection-runtime-checkpoint-carrier}. Its first four rows are $I,S,T,V$, with $I$ typed as the admitted candidate row, $S$ as the checkpoint-state row, $T$ as trace evidence, and $V$ as the validation-boundary row.
 
@@ -170,6 +173,7 @@ Finally apply \autoref{thm:reflection-runtime-checkpoint-validation-nonescape-ro
 \label{thm:reflection-runtime-checkpoint-state-trace-coupling}
 For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, the checkpoint state row $S$ and trace-evidence row $T$ are consumed together before a validation-facing read reaches $V$. A consumer may not read $S$ as a detached runtime state or read $T$ as a detached validation act.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointCarrier\_state\_trace\_coupling}
 \begin{proof}
 Project the carrier of \autoref{def:reflection-runtime-checkpoint-carrier}. The rows $S$ and $T$ are adjacent checkpoint coordinates of the same finite packet, following the admitted runtime-candidate input row $I$ and preceding the validation-boundary row $V$.
 
@@ -198,6 +202,7 @@ I,S,T,V,H,C,P,N.
 $$
 Every validation-facing consumer must pass through $V$, with $S,T,H,C,P,N$ serving only as checkpoint state, bounded trace evidence, transport, route, provenance, and local naming rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointCarrier\_host\_validation\_nonescape}
 \begin{proof}
 Begin with the carrier of \autoref{def:reflection-runtime-checkpoint-carrier}. It explicitly lists $I,S,T,V,H,C,P,N$ and states that no detached host-validation coordinate, total truth row, or unbounded evaluator is present.
 
@@ -246,6 +251,7 @@ Finish with \autoref{thm:reflection-runtime-checkpoint-audit-provenance-exhausti
 \label{thm:reflection-runtime-checkpoint-validation-prefix-exhaustion}
 For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, each validation-facing read exposes the runtime-candidate input row $I$, checkpoint-state row $S$, bounded trace row $T$, and validation-boundary row $V$ before any transport, continuation, provenance, or local naming row $H,C,P,N$ is consumed. No validation consumer reaches $H,C,P,N$ as a substitute for that prefix.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointCarrier\_validation\_prefix\_exhaustion}
 \begin{proof}
 Project the carrier by \autoref{def:reflection-runtime-checkpoint-carrier}. The validation prefix of the packet is exactly $I,S,T,V$, followed by the transport, route, provenance, and naming rows.
 
@@ -258,6 +264,7 @@ Use \autoref{thm:reflection-runtime-checkpoint-validation-nonescape-route}. It p
 \label{thm:reflection-runtime-checkpoint-trace-provenance-lock}
 For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, the trace row $T$ is locked to the runtime candidate $I$, the finite-trace evaluator, the finite-trace gap socket, and the reflection-limit provenance cited by $P$. A consumer may replay $T$ only through this finite provenance route and not as a detached host validator, total truth predicate, or unbounded evaluator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointCarrier\_trace\_provenance\_lock}
 \begin{proof}
 Read $T$ from \autoref{def:reflection-runtime-checkpoint-carrier}. The trace row is bundled with the runtime candidate $I$ and checkpoint state $S$, and the provenance row $P$ names the finite trace siblings and reflection-limit source used by the route.
 
@@ -363,6 +370,7 @@ The host-validation nonescape theorem, \autoref{thm:reflection-runtime-checkpoin
 \independenceWitness{RuntimeCandidateBoundary, FiniteTraceEvaluator, FiniteTraceGapSocket, ReflectionLimitBoundary: the checkpoint carrier has a displayed checkpoint state and validation-boundary pair not bijective to candidate-only, evaluator-only, gap-socket, or pure boundary packets.}
 
 \closureat{ReflectionRuntimeCheckpointUp}{obligationStr}
+\closureat{ReflectionRuntimeCheckpointUp}{publicStr}[BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointTasteGate\_single\_carrier\_alignment]
 
 \begin{theorem}[ReflectionRuntimeCheckpoint scoped source register]
 \label{thm:reflection-runtime-checkpoint-scope-source-register}
@@ -610,14 +618,17 @@ Apply root carrier totality, root validator boundary, and root ledger exactness,
 Finally read the provenance citations through the TasteGate row, \autoref{thm:reflection-runtime-checkpoint-tastegate-obligation}. The cited runtime-candidate, finite-trace, finite-gap, and reflection-limit sibling rows are exactly the sources named by $P$, so the ledger is exhausted by the displayed scoped surface.
 \end{proof}
 
+\closureat{ReflectionRuntimeCheckpointUp}{bridgedStr}[BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointTasteGate\_single\_carrier\_alignment]
+\closureat{ReflectionRuntimeCheckpointUp}{matureStr}[BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointTasteGate\_single\_carrier\_alignment]
+
 \begin{closurestatus}{\ReflectionRuntimeCheckpointUp}
   \constructivestory{A $\ReflectionRuntimeCheckpointUp$ packet is generated from a runtime-candidate input row, checkpoint-state row, trace-evidence row, validation-boundary row, componentwise transports, continuation routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:reflection-runtime-checkpoint-scoped-carrier-exposure}, \autoref{thm:reflection-runtime-checkpoint-scoped-validation-boundary}, and \autoref{thm:reflection-runtime-checkpoint-scoped-ledger-exhaustion} bind scoped root consumers to the displayed carrier, validation boundary, and exact ledger surface, while \autoref{def:reflection-runtime-checkpoint-carrier}, \autoref{thm:reflection-runtime-checkpoint-namecert-obligations}, \autoref{thm:reflection-runtime-checkpoint-root-unblock-package}, \autoref{thm:reflection-runtime-checkpoint-root-consumer-exhaustion}, \autoref{thm:reflection-runtime-checkpoint-root-carrier-totality}, \autoref{thm:reflection-runtime-checkpoint-root-validator-boundary}, \autoref{thm:reflection-runtime-checkpoint-root-ledger-exactness}, and \leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.taste\_gate} provide the finite runtime-checkpoint carrier and TasteGate grounding.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{This chapter does not provide host runtime validation, a total truth predicate, an unbounded evaluator, or bridge checking for $\ReflectionRuntimeCheckpointUp$.}
-  \upgradepath{Bridge closure requires a checked standard bridge connecting the checkpoint packet to the public bridge schema.}
+  \upgradepath{No paper-side theory upgrade remains; a separately reported checked bridge records the verification-side bridge status.}
 \end{closurestatus}

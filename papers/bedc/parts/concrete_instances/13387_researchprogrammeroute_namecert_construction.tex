@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\ResearchProgrammeRouteUp$}
+\label{ch:concrete-instances-research-programme-route-namecert}
+\origin{ai}
+
+The $\ResearchProgrammeRouteUp$ packet realizes the research programme and implementation route of \autoref{sec:visions-philosophy-research-programme} as a composite finite NameCert carrier. It sits after the programme-strength ledger of \autoref{ch:concrete-instances-programme-strength-ledger-namecert}, the kernel-phase refusal surface of \autoref{ch:concrete-instances-kernelphaserefusal-namecert}, the verification-failure roadmap of \autoref{ch:concrete-instances-verification-failure-roadmap-namecert}, the physics-programme synthesis of \autoref{ch:concrete-instances-physicsprogrammesynthesis-namecert}, and the package-export discipline of \autoref{ch:concrete-instances-package-export-discipline-namecert}. These siblings expose strength, phase refusal, verification failure, physical synthesis, and export discipline separately; this carrier binds existing programme surfaces rather than claiming atomic novelty.
+
+\begin{definition}[Research programme route carrier]
+\label{def:research-programme-route-carrier}
+A $\ResearchProgrammeRouteUp$ carrier is a finite $\BHist$ packet
+$$
+R=(P,S,K,V,E,O,X,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the phase-route row, recording the current research phase, admissible next phase, and the displayed route through the certificate programme;
+\item $S$ is the $\ProgrammeStrengthLedgerUp$ row, recording claim strength, dependency status, theory and verification status, bridge status, refusal, and local naming;
+\item $K$ is the $\KernelPhaseRefusalUp$ row, recording the phase-boundary refusal that blocks targets outside the displayed kernel phase;
+\item $V$ is the $\VerificationFailureRoadmapUp$ row, recording checked-report failure, downgrade route, roadmap boundary, cannot-claim data, and upgrade-registry data;
+\item $E$ is the $\PackageExportDisciplineUp$ row, recording package-map coverage, refusal-registry coverage, registry-export coverage, export-gate coverage, formal-target coverage, and non-smuggling coverage;
+\item $O$ is the operator-review row, recording which displayed programme rows a reviewer may inspect before accepting the route as a public research programme reading;
+\item $X$ is the exit-criterion row, recording which phase, strength, refusal, failure-roadmap, export, and review rows must be present before the route can leave the current research phase;
+\item $H$ records componentwise $\hsame$ transport for $P,S,K,V,E,O,X$, package provenance, and the local naming row;
+\item $C$ records displayed $\Cont$ replay for phase routing, strength inspection, refusal inspection, verification-failure replay, export inspection, operator review, and exit-criterion handoff;
+\item $G$ is the $\Pkg$ provenance over $\ResearchProgrammeRouteUp$, $\ProgrammeStrengthLedgerUp$, $\KernelPhaseRefusalUp$, $\VerificationFailureRoadmapUp$, $\PhysicsProgrammeSynthesisUp$, $\PackageExportDisciplineUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ResearchProgrammeRouteUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible rows are $P,S,K,V,E,O,X,H,C,G,N$. It contains no independent programme-success coordinate, no hidden phase promotion, no review authority outside $O$, no exit criterion outside $X$, and no export reading outside the displayed package row.
+\end{definition}
+
+\begin{theorem}[Research programme route NameCert obligations]
+\label{thm:research-programme-route-namecert-obligations}
+For the carrier of \autoref{def:research-programme-route-carrier}, the local $\NameCert_{\ResearchProgrammeRouteUp}$ surface consists exactly of carrier admission for $R=(P,S,K,V,E,O,X,H,C,G,N)$, phase-route exposure through $P$, strength-ledger exposure through $S$, kernel-refusal exposure through $K$, verification-failure exposure through $V$, package-export exposure through $E$, operator-review exposure through $O$, exit-criterion exposure through $X$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet. The carrier inventory displays $P,S,K,V,E,O,X,H,C,G,N$ before the local name can be read.
+
+Read the sibling rows in their programme order. The strength ledger supplies $S$, the kernel-phase refusal packet supplies $K$, the verification-failure roadmap supplies $V$, the physics-programme synthesis supplies the physical consumer named by the provenance row, and the package-export discipline supplies $E$.
+
+Finally inspect the local rows. The operator-review row $O$ and exit-criterion row $X$ are part of the same finite packet, while $H,C,G,N$ transport, replay, source, and name the displayed data. Since the carrier has no further coordinate, these rows exhaust the local NameCert obligation surface.
+\end{proof}
+\leanchecked{BEDC.Derived.ResearchProgrammeRouteUp.ResearchProgrammeRouteTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Research programme route phase refusal]
+\label{thm:research-programme-route-phase-refusal}
+Every accepted $\ResearchProgrammeRouteUp$ packet reads the phase-route row $P$ together with the kernel-refusal row $K$ before any programme phase can be treated as admissible. A target blocked by $K$ cannot be exported by strengthening $S$, by citing the roadmap $V$, by packaging through $E$, or by appealing to operator review $O$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier rows. The route row $P$ and refusal row $K$ are separate displayed coordinates, so phase admissibility is not read from strength, roadmap, export, or review data alone.
+
+Apply the kernel-phase refusal sibling. Its accepted packet records the current phase, attempted target, dependency blocker, refusal verdict, transport, continuation, provenance, and local name. This row remains visible inside $\ResearchProgrammeRouteUp$ as $K$.
+
+The rows $S,V,E,O$ can report strength, failure, export, and review only for the same displayed packet. They do not contain a second phase-admission coordinate. Hence a target refused by $K$ remains outside the accepted route.
+\end{proof}
+
+\begin{theorem}[Research programme route review boundary]
+\label{thm:research-programme-route-review-boundary}
+For an accepted $\ResearchProgrammeRouteUp$ carrier, the operator-review row $O$ may inspect only the displayed rows $P,S,K,V,E,X,H,C,G,N$. It cannot introduce an unlisted proof obligation, erase a verification-failure row, promote a strength row, bypass a package-export blocker, or replace the exit criterion by reviewer preference.
+\end{theorem}
+\begin{proof}
+Project the review coordinate. The row $O$ is one component of $R=(P,S,K,V,E,O,X,H,C,G,N)$, so its authority is bounded by the same packet that it inspects.
+
+Use the sibling constraints. $\ProgrammeStrengthLedgerUp$ keeps strength claims tied to displayed dependency and status rows, $\VerificationFailureRoadmapUp$ keeps failure and downgrade data visible, and $\PackageExportDisciplineUp$ keeps export through its package rows.
+
+It remains to compare $O$ with $X$. The exit-criterion row is a separate displayed coordinate, not a conclusion of review preference. Therefore operator review cannot erase, promote, bypass, or replace any listed programme boundary.
+\end{proof}
+
+\begin{theorem}[Research programme route nonescape]
+\label{thm:research-programme-route-nonescape}
+Every accepted $\ResearchProgrammeRouteUp$ consumer receives phase route, strength ledger, kernel refusal, verification-failure roadmap, package export, operator review, exit criterion, transport, replay, provenance, and local naming as one displayed packet. It cannot read the composite route as completed physics, completed verification, bridge-checked closure, package export without blockers, or a reviewer-authorized phase exit unless the corresponding row is present in $R$.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations. They expose all rows $P,S,K,V,E,O,X,H,C,G,N$ and no additional programme-success row.
+
+Read the composite dependency. $\PhysicsProgrammeSynthesisUp$ is named through provenance as the physical consumer, while the strength, refusal, roadmap, and export siblings preserve their own rows inside the packet. The route therefore binds existing programme surfaces rather than collapsing them into one atomic certificate.
+
+The transport, replay, provenance, and local naming rows preserve the same display. A consumer that claims completed physics, completed verification, bridge-checked closure, unblocked package export, or review-authorized phase exit without the corresponding row has left the accepted $\ResearchProgrammeRouteUp$ carrier.
+\end{proof}
+
+\falsifiablePrediction{If a ResearchProgrammeRouteUp packet remains accepted after deleting its kernel-refusal row, verification-failure row, or exit-criterion row, then the route carrier is refuted.}
+
+\independenceWitness{programme-strength-ledger, kernel-phase-refusal, verification-failure-roadmap, physics-programme-synthesis, package-export-discipline: none is bijective with $\ResearchProgrammeRouteUp$ because the composite packet preserves phase, strength, refusal, verification-failure, export, review, exit, transport, replay, provenance, and local NameCert rows together.}
+
+The Lean follow-up requires $\Nontrivial\ \ResearchProgrammeRouteUp$ and $\FieldFaithful\ \ResearchProgrammeRouteUp$ instances in \texttt{lean4/BEDC/Derived/ResearchProgrammeRouteUp/TasteGate.lean}. The field-faithfulness witness must keep $P,S,K,V,E,O,X,H,C,G,N$ as distinct rows before a checked boundary can cite \texttt{BEDC.Derived.ResearchProgrammeRouteUp.taste\_gate}.
+
+\closureat{ResearchProgrammeRouteUp}{seedStr}
+\closureat{ResearchProgrammeRouteUp}{obligationStr}
+
+\begin{closurestatus}{\ResearchProgrammeRouteUp}
+  \constructivestory{A $\ResearchProgrammeRouteUp$ packet is generated from phase, strength, kernel, verification, export, review, exit, componentwise $\hsame$ transport, displayed $\Cont$ continuation, gate, and local naming rows. The classifier accepts a programme route only as this visible carrier tuple, so no hidden phase promotion, review authority, exit criterion, or package export can be read outside the displayed rows. The ledger story is route governance: a programme moves by finite carrier coordinates whose phase, review, and exit surfaces remain auditable, while refusals and gates record why a path stops or stays below a stronger claim.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier definition, NameCert-obligation, phase-refusal, review-boundary, nonescape, independence witness, Lean-follow-up boundary, and existing closure annotations for $\ResearchProgrammeRouteUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim independent programme success, hidden phase promotion, review authority outside the review row, exit criteria outside the exit row, or export outside the package row.}
+  \upgradepath{To reach obligationClosure, the programme-route carrier and phase, review, and export boundary theorems must be checked over finite rows.}
+\end{closurestatus}

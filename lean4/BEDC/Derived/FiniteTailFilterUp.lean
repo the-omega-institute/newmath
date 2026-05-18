@@ -119,6 +119,83 @@ theorem FiniteTailFilterCarrier_real_seal_handoff
       unaryCompletionRead, routeR, routeQ, sealRoute, realRoute, completionRoute,
       sameNameSeal, completionPkg⟩
 
+theorem FiniteTailFilterCarrier_cofinal_route_exhaustion
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N sealRead realWindowRead completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      Cont Q E sealRead ->
+        Cont sealRead H realWindowRead ->
+          UnaryHistory C ->
+            Cont realWindowRead C completionRead ->
+              PkgSig bundle completionRead pkg ->
+                UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory B ∧
+                  UnaryHistory Q ∧ UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧
+                    UnaryHistory sealRead ∧ UnaryHistory realWindowRead ∧
+                      UnaryHistory completionRead ∧ Cont S D R ∧ Cont R B Q ∧
+                        Cont Q E sealRead ∧ Cont sealRead H realWindowRead ∧
+                          Cont realWindowRead C completionRead ∧ hsame N E ∧
+                            PkgSig bundle completionRead pkg ∧
+                              SemanticNameCert
+                                (fun row : BHist => hsame row completionRead ∧
+                                  UnaryHistory row)
+                                (fun row : BHist => hsame row completionRead ∧
+                                  Cont Q E sealRead ∧ Cont sealRead H realWindowRead ∧
+                                    Cont realWindowRead C completionRead)
+                                (fun row : BHist => hsame row completionRead ∧
+                                  PkgSig bundle completionRead pkg)
+                                hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier sealRoute realWindowRoute unaryC completionRoute completionPkg
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, unaryH, routeR, routeQ, sameNameSeal⟩ :=
+    carrier
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryS unaryD routeR
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryR unaryB routeQ
+  have unarySeal : UnaryHistory sealRead :=
+    unary_cont_closed unaryQ unaryE sealRoute
+  have unaryRealWindow : UnaryHistory realWindowRead :=
+    unary_cont_closed unarySeal unaryH realWindowRoute
+  have unaryCompletion : UnaryHistory completionRead :=
+    unary_cont_closed unaryRealWindow unaryC completionRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+        (fun row : BHist => hsame row completionRead ∧ Cont Q E sealRead ∧
+          Cont sealRead H realWindowRead ∧ Cont realWindowRead C completionRead)
+        (fun row : BHist => hsame row completionRead ∧ PkgSig bundle completionRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro completionRead ⟨hsame_refl completionRead, unaryCompletion⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact ⟨source.left, sealRoute, realWindowRoute, completionRoute⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, completionPkg⟩
+    }
+  exact
+    ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, unaryH, unaryC, unarySeal,
+      unaryRealWindow, unaryCompletion, routeR, routeQ, sealRoute, realWindowRoute,
+      completionRoute, sameNameSeal, completionPkg, cert⟩
+
 theorem FiniteTailFilterCarrier_real_window_consumer
     [AskSetup] [PackageSetup]
     {S D R B Q E H C P N sealRow realWindowRead : BHist}
@@ -303,5 +380,221 @@ theorem FiniteTailFilterCarrier_transport_obligation
         sameNameSeal'⟩,
       unaryS', unaryD', unaryR', unaryB', unaryQ', unaryE', routeR', routeQ',
       sameNameSeal', pkgSig⟩
+
+theorem FiniteTailFilterCarrier_real_completion_lattice_link
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N cofinalWindow latticeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      Cont S D cofinalWindow ->
+        Cont cofinalWindow E latticeRead ->
+          PkgSig bundle latticeRead pkg ->
+            UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory E ∧
+              UnaryHistory cofinalWindow ∧ UnaryHistory latticeRead ∧ Cont S D R ∧
+                Cont S D cofinalWindow ∧ Cont cofinalWindow E latticeRead ∧
+                  hsame cofinalWindow R ∧ hsame N E ∧
+                    PkgSig bundle latticeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier cofinalRoute latticeRoute latticePkg
+  obtain ⟨unaryS, unaryD, _unaryB, unaryE, _unaryH, routeR, _routeQ,
+    sameNameSeal⟩ := carrier
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryS unaryD routeR
+  have unaryCofinalWindow : UnaryHistory cofinalWindow :=
+    unary_cont_closed unaryS unaryD cofinalRoute
+  have unaryLatticeRead : UnaryHistory latticeRead :=
+    unary_cont_closed unaryCofinalWindow unaryE latticeRoute
+  have cofinalWindowSameR : hsame cofinalWindow R :=
+    cont_deterministic cofinalRoute routeR
+  exact
+    ⟨unaryS, unaryD, unaryR, unaryE, unaryCofinalWindow, unaryLatticeRead, routeR,
+      cofinalRoute, latticeRoute, cofinalWindowSameR, sameNameSeal, latticePkg⟩
+
+theorem FiniteTailFilterCarrier_structural_provenance_obligation
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      UnaryHistory P ->
+        Cont P N E ->
+          PkgSig bundle P pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row N /\ UnaryHistory row)
+                (fun row : BHist => Cont P row E /\ hsame N E)
+                (fun row : BHist => hsame row N /\ PkgSig bundle P pkg)
+                hsame /\
+              UnaryHistory P /\ UnaryHistory N /\ hsame N E /\ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier unaryP provenanceRoute provenancePkg
+  obtain ⟨_unaryS, _unaryD, _unaryB, unaryE, _unaryH, _routeR, _routeQ,
+    sameNameSeal⟩ := carrier
+  have unaryN : UnaryHistory N :=
+    unary_transport unaryE (hsame_symm sameNameSeal)
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row N /\ UnaryHistory row)
+        (fun row : BHist => Cont P row E /\ hsame N E)
+        (fun row : BHist => hsame row N /\ PkgSig bundle P pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro N ⟨hsame_refl N, unaryN⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro _row source
+        cases source.left
+        exact ⟨provenanceRoute, sameNameSeal⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, provenancePkg⟩
+    }
+  exact ⟨cert, unaryP, unaryN, sameNameSeal, provenancePkg⟩
+
+theorem FiniteTailFilterCarrier_shared_window_meet
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N meetWindow siblingRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N →
+      Cont S D meetWindow →
+        Cont meetWindow E siblingRead →
+          Cont siblingRead H realRead →
+            PkgSig bundle realRead pkg →
+              UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory E ∧
+                UnaryHistory meetWindow ∧ UnaryHistory siblingRead ∧ UnaryHistory realRead ∧
+                  Cont S D R ∧ Cont S D meetWindow ∧ Cont meetWindow E siblingRead ∧
+                    Cont siblingRead H realRead ∧ hsame meetWindow R ∧ hsame N E ∧
+                      PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier meetRoute siblingRoute realRoute realPkg
+  obtain ⟨unaryS, unaryD, _unaryB, unaryE, unaryH, routeR, _routeQ,
+    sameNameSeal⟩ := carrier
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryS unaryD routeR
+  have unaryMeet : UnaryHistory meetWindow :=
+    unary_cont_closed unaryS unaryD meetRoute
+  have unarySibling : UnaryHistory siblingRead :=
+    unary_cont_closed unaryMeet unaryE siblingRoute
+  have unaryReal : UnaryHistory realRead :=
+    unary_cont_closed unarySibling unaryH realRoute
+  have sameMeet : hsame meetWindow R :=
+    cont_deterministic meetRoute routeR
+  exact
+    ⟨unaryS, unaryD, unaryR, unaryE, unaryMeet, unarySibling, unaryReal, routeR,
+      meetRoute, siblingRoute, realRoute, sameMeet, sameNameSeal, realPkg⟩
+
+theorem FiniteTailFilterCarrier_nonescape
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N S' D' R' B' Q' E' H' C' P' N' : BHist} :
+    FiniteTailFilterCarrier S D R B Q E H C P N →
+      FiniteTailFilterCarrier S' D' R' B' Q' E' H' C' P' N' →
+        hsame S S' → hsame D D' → hsame B B' → hsame E E' →
+          hsame R R' ∧ hsame Q Q' ∧ hsame N N' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier carrier' sameS sameD sameB sameE
+  obtain ⟨_unaryS, _unaryD, _unaryB, _unaryE, _unaryH, routeR, routeQ,
+    sameNameSeal⟩ := carrier
+  obtain ⟨_unaryS', _unaryD', _unaryB', _unaryE', _unaryH', routeR', routeQ',
+    sameNameSeal'⟩ := carrier'
+  have sameR : hsame R R' :=
+    cont_respects_hsame sameS sameD routeR routeR'
+  have sameQ : hsame Q Q' :=
+    cont_respects_hsame sameR sameB routeQ routeQ'
+  have sameN : hsame N N' :=
+    hsame_trans sameNameSeal
+      (hsame_trans sameE (hsame_symm sameNameSeal'))
+  exact ⟨sameR, sameQ, sameN⟩
+
+theorem FiniteTailFilterCarrier_common_tail_seal_cofinality
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N sealRow realWindowRead uniformRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      Cont Q E sealRow ->
+        Cont sealRow H realWindowRead ->
+          Cont realWindowRead C uniformRead ->
+            Cont uniformRead H terminalRead ->
+              UnaryHistory C ->
+                PkgSig bundle terminalRead pkg ->
+                  UnaryHistory S /\ UnaryHistory D /\ UnaryHistory R /\ UnaryHistory B /\
+                    UnaryHistory Q /\ UnaryHistory E /\ UnaryHistory H /\ UnaryHistory C /\
+                      UnaryHistory sealRow /\ UnaryHistory realWindowRead /\
+                        UnaryHistory uniformRead /\ UnaryHistory terminalRead /\
+                          Cont S D R /\ Cont R B Q /\ Cont Q E sealRow /\
+                            Cont sealRow H realWindowRead /\
+                              Cont realWindowRead C uniformRead /\
+                                Cont uniformRead H terminalRead /\ hsame N E /\
+                                  PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sealRoute realWindowRoute uniformRoute terminalRoute unaryC terminalPkg
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, unaryH, routeR, routeQ, sameNameSeal⟩ :=
+    carrier
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryS unaryD routeR
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryR unaryB routeQ
+  have unarySeal : UnaryHistory sealRow :=
+    unary_cont_closed unaryQ unaryE sealRoute
+  have unaryRealWindow : UnaryHistory realWindowRead :=
+    unary_cont_closed unarySeal unaryH realWindowRoute
+  have unaryUniform : UnaryHistory uniformRead :=
+    unary_cont_closed unaryRealWindow unaryC uniformRoute
+  have unaryTerminal : UnaryHistory terminalRead :=
+    unary_cont_closed unaryUniform unaryH terminalRoute
+  exact
+    ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, unaryH, unaryC, unarySeal,
+      unaryRealWindow, unaryUniform, unaryTerminal, routeR, routeQ, sealRoute,
+      realWindowRoute, uniformRoute, terminalRoute, sameNameSeal, terminalPkg⟩
+
+theorem FiniteTailFilterCarrier_terminal_classifier_exactness
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N sealRow realWindowRead uniformRead terminalRead
+      classifierRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      Cont Q E sealRow -> Cont sealRow H realWindowRead ->
+        Cont realWindowRead C uniformRead -> Cont uniformRead H terminalRead ->
+          Cont terminalRead N classifierRead -> UnaryHistory C -> PkgSig bundle classifierRead pkg ->
+              UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory B ∧
+                UnaryHistory Q ∧ UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧
+                  UnaryHistory sealRow ∧ UnaryHistory realWindowRead ∧
+                    UnaryHistory uniformRead ∧ UnaryHistory terminalRead ∧
+                      UnaryHistory classifierRead ∧ Cont S D R ∧ Cont R B Q ∧
+                        Cont Q E sealRow ∧ Cont sealRow H realWindowRead ∧
+                          Cont realWindowRead C uniformRead ∧
+                            Cont uniformRead H terminalRead ∧
+                              Cont terminalRead N classifierRead ∧ hsame N E ∧
+                                PkgSig bundle classifierRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sealRoute realWindowRoute uniformRoute terminalRoute classifierRoute
+    unaryC classifierPkg
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, unaryH, routeR, routeQ, sameNameSeal⟩ :=
+    carrier
+  have unaryR : UnaryHistory R := unary_cont_closed unaryS unaryD routeR
+  have unaryQ : UnaryHistory Q := unary_cont_closed unaryR unaryB routeQ
+  have unarySeal : UnaryHistory sealRow := unary_cont_closed unaryQ unaryE sealRoute
+  have unaryRealWindow : UnaryHistory realWindowRead :=
+    unary_cont_closed unarySeal unaryH realWindowRoute
+  have unaryUniform : UnaryHistory uniformRead :=
+    unary_cont_closed unaryRealWindow unaryC uniformRoute
+  have unaryTerminal : UnaryHistory terminalRead :=
+    unary_cont_closed unaryUniform unaryH terminalRoute
+  have unaryN : UnaryHistory N := unary_transport unaryE (hsame_symm sameNameSeal)
+  have unaryClassifier : UnaryHistory classifierRead :=
+    unary_cont_closed unaryTerminal unaryN classifierRoute
+  exact ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, unaryH, unaryC, unarySeal,
+    unaryRealWindow, unaryUniform, unaryTerminal, unaryClassifier, routeR, routeQ,
+    sealRoute, realWindowRoute, uniformRoute, terminalRoute, classifierRoute,
+    sameNameSeal, classifierPkg⟩
 
 end BEDC.Derived.FiniteTailFilterUp

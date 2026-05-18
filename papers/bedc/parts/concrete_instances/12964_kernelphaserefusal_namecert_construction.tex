@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\KernelPhaseRefusalUp$}
+\label{ch:concrete-instances-kernelphaserefusal-namecert}
+\origin{ai}
+
+The $\KernelPhaseRefusalUp$ packet realizes the phase-bundle discipline of \autoref{ch:visions-philosophy-auditable-generativity} as a finite NameCert surface for refusing targets that attempt to cross a displayed programme boundary. It sits beside the claim-entry discipline of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, the promotion table of \autoref{ch:concrete-instances-upgraderegistry-namecert}, the formal-target ledger of \autoref{ch:concrete-instances-philosophy-formal-target-ledger-namecert}, and the closure reference carrier of \autoref{ch:concrete-instances-closure-status-reference-namecert}. Those siblings store claim rows, upgrade rows, target skeletons, and closure references; this packet binds the current phase, attempted target, dependency blocker, refusal verdict, transport, continuation, provenance, and local name in one classifier surface.
+
+\begin{definition}[Kernel phase-refusal carrier]
+\label{def:kernel-phase-refusal-carrier}
+A $\KernelPhaseRefusalUp$ carrier is a finite $\BHist$ packet
+$$
+K=(P,T,D,R,A,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the current-phase row, recording the phase bundle currently licensed by the philosophy programme.
+\item $T$ is the attempted-target row, naming the proof target, certificate target, chapter target, bridge target, or review gate that asks to be treated as available.
+\item $D$ is the dependency-blocker row, recording the lower carrier, theorem, bridge, audit field, or NameCert obligation that must be displayed before $T$ can be accepted.
+\item $R$ is the refusal-verdict row, classifying the target as in phase, blocked by $D$, or off-table relative to $P$.
+\item $A$ is the admissibility row, recording which claim-registry, upgrade-registry, formal-target-ledger, and closure-status-reference rows have been read by the classifier.
+\item $H$ stores componentwise $\hsame$ transport for phase, target, blocker, verdict, admissibility, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from the current phase through the attempted target, blocker, verdict, admissibility row, provenance, and local name.
+\item $Q$ is the $\Pkg$ provenance over $\ClaimRegistryLayerUp$, $\UpgradeRegistryUp$, $\PhilosophyFormalTargetLedgerUp$, $\ClosureStatusReferenceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\KernelPhaseRefusalUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for accepting a later-phase target without a blocker row, promoting an off-table verdict to an in-phase verdict, erasing the current phase after classification, or replacing the finite dependency route by ambient attraction to a famous goal.
+\end{definition}
+\leandef{BEDC.Derived.KernelPhaseRefusalUp.KernelPhaseRefusalUp}
+\leanchecked{BEDC.Derived.KernelPhaseRefusalUp.KernelPhaseRefusalTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Kernel phase-refusal phase order]
+\label{thm:kernel-phase-refusal-phase-order}
+For the carrier of \autoref{def:kernel-phase-refusal-carrier}, every accepted $\KernelPhaseRefusalUp$ packet reads the current-phase row $P$ before the attempted-target row $T$, and reads the dependency-blocker row $D$ before any refusal verdict that places $T$ outside the current phase. A target above the current phase cannot be accepted unless its blocker row is displayed in the same finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(P,T,D,R,A,H,C,Q,N)$. The phase row, target row, blocker row, and verdict row are separate coordinates, and the continuation row $C$ orders their public readback.
+
+The sibling rows preserve the same ordering. $\ClaimRegistryLayerUp$ supplies the admitted claim row, $\UpgradeRegistryUp$ supplies the status and blocker route, $\PhilosophyFormalTargetLedgerUp$ supplies the target skeleton, and $\ClosureStatusReferenceUp$ supplies the closure report that bounds the current phase.
+
+Finally inspect $H,Q,N$. Transport, provenance, and local naming preserve the displayed packet; they do not create a second route from $T$ to acceptance. Therefore a later-phase target without $D$ is not an accepted read of the phase-refusal packet.
+\end{proof}
+
+\begin{theorem}[Kernel phase-refusal off-table boundary]
+\label{thm:kernel-phase-refusal-offtable-boundary}
+An accepted $\KernelPhaseRefusalUp$ packet exports only the current phase, attempted target, displayed blocker, refusal verdict, admissibility row, componentwise transport, displayed continuation, provenance, and local naming. It does not export a hidden target queue, a host-priority override, a famous-goal exception, a bridge-completion claim, or a proof that the blocker has been discharged.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:kernel-phase-refusal-carrier}. The carrier exposes exactly the nine rows $P,T,D,R,A,H,C,Q,N$, and none of those rows is a hidden queue, host-priority override, exception list, bridge-completion proof, or blocker discharge.
+
+Use \autoref{thm:kernel-phase-refusal-phase-order}. When the verdict places $T$ above the current phase, the packet must keep the blocker row visible. The verdict may refuse the target or record the displayed dependency, but it cannot silently convert that dependency into completion.
+
+The structural rows do not alter this boundary. Componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ naming replay the same finite object, so every listed stronger reading lies outside the accepted $\KernelPhaseRefusalUp$ surface.
+\end{proof}
+
+\falsifiablePrediction{A packet whose attempted target lies above the current phase without a displayed dependency-blocker row cannot be accepted by the phase-refusal classifier.}
+
+\independenceWitness{claimregistrylayer, upgraderegistry, philosophyformaltargetledger, closurestatusreference: this carrier binds phase order, target admissibility, and refusal verdict in one packet, while the siblings store claims, upgrade rows, formal targets, or closure references without the phase-refusal classifier.}
+
+The Lean follow-up must provide \texttt{lean4/BEDC/Derived/KernelPhaseRefusalUp/TasteGate.lean} with $\Nontrivial\ \KernelPhaseRefusalUp$ and $\FieldFaithful\ \KernelPhaseRefusalUp$ instances. The field-faithfulness witness must preserve $P,T,D,R,A,H,C,Q,N$ as distinct rows so the checked TasteGate surface can rule out no-blocker acceptance, off-table promotion, and hidden target-queue readings.
+
+\begin{closurestatus}{\KernelPhaseRefusalUp}
+  \constructivestory{The kernel phase-refusal certificate is generated from a $BHist$ packet that records phase order, target admissibility, dependency blockers, and a refusal verdict in one visible carrier. The construction first reads the phase row, then the attempted target row, then the blocker row, and finally the refusal boundary that says the target is off-table for that phase. The $hsame$ relation preserves the verdict under equivalent histories, while $\Cont$ can only propagate the same phase-refusal packet. The phase-order theorem, off-table boundary theorem, prediction, and independence witness keep the object separate from claim registries, formal-target ledgers, status references, or closure metadata that do not carry the refusal classifier.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the kernel phase-refusal carrier, phase-order theorem, off-table boundary theorem, falsifiable prediction, and independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim target invalidity in all phases, claim-registry status, or closure metadata beyond the recorded refusal packet.}
+  \upgradepath{Reaching obligationClosure requires formal phase and admissibility rows plus checked preservation of the refusal verdict under $hsame$.}
+\end{closurestatus}

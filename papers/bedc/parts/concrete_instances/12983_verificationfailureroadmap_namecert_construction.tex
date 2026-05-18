@@ -1,0 +1,106 @@
+\chapter{A Concrete Naming Certificate for $\VerificationFailureRoadmapUp$}
+\label{ch:concrete-instances-verification-failure-roadmap-namecert}
+\origin{ai}
+
+The $\VerificationFailureRoadmapUp$ packet realizes the verification-failure roadmap of \autoref{ch:visions-philosophy-auditable-generativity} and \autoref{subsec:philosophy-programme-roadmap-cannot-claim} as a finite NameCert carrier for checked reports, audit rows, failure certificates, downgrade routes, roadmap boundaries, and cannot-claim rows. It sits beside \autoref{ch:concrete-instances-typed-failure-certificate-namecert}, \autoref{ch:concrete-instances-failurecertificate-namecert}, \autoref{ch:concrete-instances-gap-failure-bridge-audit-namecert}, \autoref{ch:concrete-instances-axiom-purity-gate-namecert}, and \autoref{ch:concrete-instances-upgraderegistry-namecert}. Those siblings expose typed failure, failure certificates, gap-and-bridge audit, forbidden-dependency gates, and promotion registries separately; this packet binds the full report, failure, downgrade, roadmap, refusal, transport, replay, provenance, and local naming surface before a verification-failure route can be consumed.
+
+\begin{definition}[Verification failure roadmap carrier]
+\label{def:verification-failure-roadmap-carrier}
+A $\VerificationFailureRoadmapUp$ carrier is a finite $\BHist$ packet
+$$
+V=(R,A,F,D,M,U,B,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the checked-report row, recording the theorem, definition, bridge, audit, or closure-status report whose advertised verification state is being inspected.
+\item $A$ is the audit-report row, recording the finite checker, marker, dependency, bridge, and paper-to-Lean rows that make the report inspectable.
+\item $F$ is the failure-certificate row, consumed from $\TypedFailureCertificateUp$, $\FailureCertificateUp$, $\GapFailureBridgeAuditUp$, or $\AxiomPurityGateUp$.
+\item $D$ is the downgrade-route row, recording how the advertised status is lowered after $F$ is read.
+\item $M$ is the roadmap-boundary row, recording which named blocker must be discharged before the report may be promoted.
+\item $U$ is the upgrade-registry row, consumed from $\UpgradeRegistryUp$ and recording the current status, next status, required field, and blocker.
+\item $B$ is the cannot-claim row, recording the stronger readings that the failed report may not export.
+\item $T$ records componentwise $\hsame$ transport for report, audit, failure, downgrade, roadmap, upgrade, cannot-claim, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay through the report, audit, failure certificate, downgrade route, roadmap boundary, upgrade registry, and cannot-claim rows.
+\item $P$ is the $\Pkg$ provenance over $\VerificationFailureRoadmapUp$, $\TypedFailureCertificateUp$, $\FailureCertificateUp$, $\GapFailureBridgeAuditUp$, $\AxiomPurityGateUp$, $\UpgradeRegistryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\VerificationFailureRoadmapUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for hidden checker success, silent marker promotion, unstated bridge completion, unreported axiom-purity discharge, erased failure certificates, or roadmap advancement without the displayed blocker row.
+\end{definition}
+
+\begin{theorem}[VerificationFailureRoadmap NameCert obligations]
+\label{thm:verification-failure-roadmap-namecert-obligations}
+For the carrier of \autoref{def:verification-failure-roadmap-carrier}, the local $\NameCert_{\VerificationFailureRoadmapUp}$ surface consists exactly of carrier admission for
+$$
+V=(R,A,F,D,M,U,B,T,C,P,N),
+$$
+checked-report display through $R$, audit-report display through $A$, failure-certificate display through $F$, downgrade-route display through $D$, roadmap-boundary display through $M$, upgrade-registry display through $U$, cannot-claim display through $B$, componentwise $\hsame$ transport through $T$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.VerificationFailureRoadmapUp.TasteGate.VerificationFailureRoadmapNameCertObligations}
+\begin{proof}
+Project the finite carrier. The report, audit, failure, downgrade, roadmap, upgrade-registry, and cannot-claim rows are displayed before the structural rows are read.
+
+Read the sibling rows in order. $\TypedFailureCertificateUp$ and $\FailureCertificateUp$ supply failure branches, $\GapFailureBridgeAuditUp$ supplies the gap-and-bridge audit row, $\AxiomPurityGateUp$ supplies forbidden-dependency refusal, and $\UpgradeRegistryUp$ supplies the current-status and next-status registry entry.
+
+Finally inspect $T,C,P,N$. These rows preserve, replay, source, and name the same displayed packet. They do not create a hidden checker result, bridge completion, or marker promotion, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+\leanchecked{BEDC.Derived.VerificationFailureRoadmapUp.verificationFailureRoadmap\_taste\_gate\_surface}
+
+\begin{theorem}[VerificationFailureRoadmap downgrade route]
+\label{thm:verification-failure-roadmap-downgrade-route}
+Every accepted $\VerificationFailureRoadmapUp$ packet
+$$
+V=(R,A,F,D,M,U,B,T,C,P,N)
+$$
+routes a failed verification report from $R$ through the audit row $A$ and failure-certificate row $F$ before the downgrade row $D$ can be read. A consumer that reads a lowered status without $A$ and $F$ leaves the accepted carrier and cannot cite the packet as a roadmap result.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:verification-failure-roadmap-namecert-obligations}. The report row $R$, audit row $A$, failure-certificate row $F$, and downgrade row $D$ are all separate displayed coordinates.
+
+The replay row $C$ records the order in which the report is inspected, the audit row is read, the failure certificate is consumed, and the downgrade route is exposed. Transport through $T$ preserves these coordinates rather than replacing them.
+
+Therefore a lowered report that omits $A$ or $F$ is not a read of the same carrier. It may be a detached editorial statement, but it is not an accepted $\VerificationFailureRoadmapUp$ route.
+\end{proof}
+
+\begin{theorem}[VerificationFailureRoadmap nonclaim boundary]
+\label{thm:verification-failure-roadmap-nonclaim-boundary}
+For every accepted $\VerificationFailureRoadmapUp$ packet, the roadmap-boundary row $M$, upgrade-registry row $U$, and cannot-claim row $B$ jointly determine which stronger verification readings are refused. The packet does not export a checked theorem, bridge-checked status, axiom-clean status, public closure, or completed roadmap item unless that reading is licensed by the displayed registry and not listed in $B$.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory. The roadmap boundary, upgrade registry, and cannot-claim row are displayed as $M,U,B$ and are named by the same local $\NameCert_{\VerificationFailureRoadmapUp}$ row.
+
+Apply the downgrade-route theorem \autoref{thm:verification-failure-roadmap-downgrade-route}. A failed report reaches consumers only after the audit and failure rows are read, so no stronger verification reading can bypass those rows.
+
+The structural rows preserve the same refusal boundary. Since $T,C,P,N$ do not add a completion coordinate, any reading listed in $B$ or blocked by $M,U$ lies outside the accepted public export of the packet.
+\end{proof}
+
+\begin{theorem}[VerificationFailureRoadmap sibling independence]
+\label{thm:verification-failure-roadmap-sibling-independence}
+The $\VerificationFailureRoadmapUp$ carrier depends on $\TypedFailureCertificateUp$, $\FailureCertificateUp$, $\GapFailureBridgeAuditUp$, $\AxiomPurityGateUp$, and $\UpgradeRegistryUp$ without being bijective to any one sibling under NameCert-row preservation.
+\end{theorem}
+\begin{proof}
+Compare the displayed rows. $\TypedFailureCertificateUp$ names typed failure branches, $\FailureCertificateUp$ names rejected gate attempts, $\GapFailureBridgeAuditUp$ binds typed gaps to bridge-audit rows, $\AxiomPurityGateUp$ binds forbidden-dependency refusal, and $\UpgradeRegistryUp$ records current and next status for promotion claims.
+
+The present carrier stores those component rows together with checked report, audit report, downgrade route, roadmap boundary, cannot-claim row, transport, replay, provenance, and local NameCert rows. A row-preserving bijection to any single sibling would have to preserve fields that the sibling does not carry.
+
+Thus the siblings are inputs to one verification-failure roadmap packet, not alternative names for the same carrier.
+\end{proof}
+
+\falsifiablePrediction{Any reported verification upgrade that lacks the displayed audit report, failure-certificate, downgrade, and cannot-claim rows is rejected by the VerificationFailureRoadmapUp classifier.}
+
+\independenceWitness{typedfailurecertificate, failurecertificate, gapfailurebridgeaudit, axiompuritygate, upgraderegistry: no sibling is bijective because each supplies only a component row while VerificationFailureRoadmapUp binds report, failure, downgrade, roadmap, refusal, transport, replay, provenance, and NameCert rows in one packet.}
+
+The Lean follow-up must provide $\Nontrivial\ \VerificationFailureRoadmapUp$ and $\FieldFaithful\ \VerificationFailureRoadmapUp$ instances in the future namespace \texttt{BEDC.Derived.VerificationFailureRoadmapUp}. The field-faithfulness witness must preserve $R,A,F,D,M,U,B,T,C,P,N$ as distinct rows before a checked TasteGate theorem may classify verification-failure reports.
+
+\closureat{VerificationFailureRoadmapUp}{seedStr}
+\closureat{VerificationFailureRoadmapUp}{obligationStr}
+
+\begin{closurestatus}{\VerificationFailureRoadmapUp}
+  \constructivestory{The verification failure roadmap is generated from $BHist$ rows that name an audit report, failure certificate, downgrade row, cannot-claim row, roadmap route, and sibling references that remain outside the roadmap carrier. The carrier first records the failure row, then the route toward weaker status or exposed gap, and finally allows $\Cont$ to carry that roadmap forward as the same plan. The $hsame$ relation keeps the failure row stable under representative change. NameCert obligations, downgrade route, nonclaim boundary, sibling independence, prediction, and independence witness make the object a visible response plan for verification failure rather than a proof or audit packet.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the verification failure-roadmap carrier, NameCert obligations, downgrade-route theorem, nonclaim-boundary theorem, sibling-independence theorem, falsifiable prediction, and independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim verification success, proof recovery, hidden gap closure, or substitution by downgrade and audit sibling packets.}
+  \upgradepath{Reaching obligationClosure requires formal failure-roadmap rows and checked routing from failure to downgrade and nonclaim boundaries.}
+\end{closurestatus}

@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RecursorBranchCompletenessUp$}
+\label{ch:concrete-instances-recursorbranchcompleteness-namecert}
+\origin{human}
+
+The $\RecursorBranchCompletenessUp$ packet realizes the branch-completeness side of the recursor-as-authorized-generator vision of \autoref{ch:recursor-as-authorized-generator}. It sits next to the authorized generator surface of \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert} and the finite kernel audit perspective of \autoref{ch:concrete-instances-finitekernelcategory-namecert}. The packet records when an accepted inductive signature, emitted recursor, motive, and branch table have all been checked before any recursor output is available to a public consumer.
+
+\begin{definition}[Recursor branch-completeness carrier]
+\label{def:recursor-branch-completeness-carrier}
+A $\RecursorBranchCompletenessUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(I,R,M,B,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the accepted inductive signature row, including the constructor index set and strict-positivity admission needed before a recursor may be emitted.
+\item $R$ is the emitted recursor row, naming the eliminator generated from $I$.
+\item $M$ is the motive row, recording the target family against which every constructor branch is checked.
+\item $B$ is the branch package row, listing one displayed branch for each constructor admitted by $I$.
+\item $K$ is the branch-completeness ledger, recording that the constructor index rows of $I$ and the branch rows of $B$ have the same finite coverage.
+\item $H$ records componentwise $\hsame$ transport for $I,R,M,B,K,C,P,N$.
+\item $C$ records the displayed $\Cont$ replay routes by which a consumer reads the emitted recursor only after the branch package and completeness ledger have been replayed.
+\item $P$ is the $\Pkg$ provenance over $\AuthorizedGeneratorRecursorUp$, $\FiniteKernelCategoryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RecursorBranchCompletenessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a missing branch, host induction principle, proof-producing generator channel, unchecked motive, or recursor output detached from the displayed branch-completeness ledger.
+\end{definition}
+
+\begin{theorem}[Recursor branch-completeness NameCert obligations]
+\label{thm:recursor-branch-completeness-namecert-obligations}
+For the carrier of \autoref{def:recursor-branch-completeness-carrier}, the local $\NameCert_{\RecursorBranchCompletenessUp}$ surface consists exactly of signature admission through $I$, emitted recursor naming through $R$, motive checking through $M$, constructor-indexed branch exposure through $B$, branch-completeness exactness through $K$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RecursorBranchCompletenessUp.TasteGate.RecursorBranchCompletenessTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from the displayed packet $Q=(I,R,M,B,K,H,C,P,N)$. The accepted signature row $I$ supplies the constructor index set, and the emitted recursor row $R$ is read only as the eliminator generated from that admitted signature.
+
+The motive and branch rows supply the finite checking surface. The motive row $M$ fixes the target family, while $B$ gives one displayed branch for each constructor row admitted by $I$.
+
+The completeness ledger $K$ binds those two finite lists together. It records that a consumer cannot read $R$ as authorized unless every constructor row in $I$ has a corresponding branch in $B$ and every branch in $B$ is accounted for by the same signature.
+
+Finally, $H,C,P,N$ keep the obligation surface local. Transport, continuation replay, provenance, and the local NameCert row preserve the displayed packet rather than replacing it by host induction or a proof-producing generator channel.
+\end{proof}
+
+\begin{theorem}[Recursor branch-completeness non-escape]
+\label{thm:recursor-branch-completeness-nonescape}
+Every public consumer of an accepted $\RecursorBranchCompletenessUp$ packet can read only the displayed signature, emitted recursor, motive, branch package, branch-completeness ledger, transport, replay, provenance, and local NameCert rows
+$$
+I,R,M,B,K,H,C,P,N.
+$$
+It cannot export a recursor output, missing-branch repair, unchecked motive, hidden induction rule, or proof-producing generator apart from the same finite packet.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. They force every public read through the displayed rows and make $K$ the only ledger by which branch coverage can be consumed.
+
+The authorized generator sibling supplies the recursor discipline. By \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert}, an authorized generator recursor is public only through accepted signature, motive, branch, descent, audit, transport, continuation, package, boundary, and local naming rows. The present packet records the branch-completeness portion of that route and does not add a separate generator outlet.
+
+The finite kernel category sibling supplies the finite audit perspective. Its finite-kernel rows license only displayed constructor and morphism data, so a consumer cannot use them to manufacture an off-packet branch or host induction rule.
+
+Thus any attempted export outside $I,R,M,B,K,H,C,P,N$ has no carrier coordinate. The accepted packet exposes branch-complete recursor use as finite NameCert data and nothing beyond that packet.
+\end{proof}
+
+\falsifiablePrediction{Deleting the branch-completeness ledger $K$ leaves an emitted recursor packet whose branch package cannot certify constructor-index coverage for all accepted constructors in $I$.}
+
+\independenceWitness{authorizedgeneratorrecursor and finitekernelcategory are not bijective to RecursorBranchCompletenessUp because the present packet alone records accepted signature, emitted recursor, motive, branch package, branch-completeness ledger, hsame transport, Cont replay, Pkg provenance, and local NameCert rows together.}
+
+\begin{closurestatus}{\RecursorBranchCompletenessUp}
+  \constructivestory{A $\RecursorBranchCompletenessUp$ packet is generated from recursor-code rows, motive rows, branch-family rows, branch-completeness ledger rows, output rows, coverage-audit rows, obstruction rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. The classifier accepts a recursor output only when every branch required by the displayed motive is accounted for in the finite ledger. The constructive story is branch coverage before elimination: missing branches, unchecked motives, proof-producing generator channels, and host induction principles are represented as absence or obstruction, while the accepted route is generated by replaying the same finite branch ledger through transport and continuation.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier definition, NameCert-obligation, non-escape theorem, falsifiable prediction, and independence witness for $\RecursorBranchCompletenessUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim missing branches, host induction principles, proof-producing generator channels, unchecked motives, or recursor outputs detached from the branch-completeness ledger.}
+  \upgradepath{To reach obligationClosure, the branch-completeness carrier and obstruction boundary must be checked as finite recursor-ledger obligations.}
+\end{closurestatus}

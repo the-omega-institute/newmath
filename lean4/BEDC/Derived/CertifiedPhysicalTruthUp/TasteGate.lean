@@ -287,4 +287,57 @@ theorem CertifiedPhysicalTruthTasteGate_single_carrier_alignment :
       (fun _ _ heq => CertifiedPhysicalTruthTasteGate_single_carrier_alignment_injective heq),
       rfl⟩
 
+theorem CertifiedPhysicalTruthCarrier_reality_fit
+    {S G K A D I L F H C P N : BHist} :
+    certifiedPhysicalTruthToEventFlow (CertifiedPhysicalTruthUp.mk S G K A D I L F H C P N) =
+      [[BMark.b0], certifiedPhysicalTruthEncodeBHist S, [BMark.b1, BMark.b0],
+        certifiedPhysicalTruthEncodeBHist G, [BMark.b1, BMark.b1, BMark.b0],
+        certifiedPhysicalTruthEncodeBHist K, [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        certifiedPhysicalTruthEncodeBHist A, [BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0], certifiedPhysicalTruthEncodeBHist D, [BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0], certifiedPhysicalTruthEncodeBHist I,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        certifiedPhysicalTruthEncodeBHist L, [BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0], certifiedPhysicalTruthEncodeBHist F,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0], certifiedPhysicalTruthEncodeBHist H, [BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0], certifiedPhysicalTruthEncodeBHist C, [BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0], certifiedPhysicalTruthEncodeBHist P, [BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0], certifiedPhysicalTruthEncodeBHist N] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  rfl
+
+theorem CertifiedPhysicalTruth_failure_surface_row_injective
+    {S G K A D I L F1 F2 H C P N : BHist}
+    (hflow :
+      certifiedPhysicalTruthToEventFlow (CertifiedPhysicalTruthUp.mk S G K A D I L F1 H C P N) =
+        certifiedPhysicalTruthToEventFlow (CertifiedPhysicalTruthUp.mk S G K A D I L F2 H C P N)) :
+    F1 = F2 ∧ certifiedPhysicalTruthEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · have hpacket :
+        CertifiedPhysicalTruthUp.mk S G K A D I L F1 H C P N =
+          CertifiedPhysicalTruthUp.mk S G K A D I L F2 H C P N :=
+      CertifiedPhysicalTruthTasteGate_single_carrier_alignment_injective hflow
+    injection hpacket
+  · rfl
+
+theorem CertifiedPhysicalTruthObserverInvariance
+    {S G K A D I L F H C P N S' G' K' A' D' I' L' F' H' C' P' N' : BHist} :
+    CertifiedPhysicalTruthUp.mk S G K A D I L F H C P N =
+        CertifiedPhysicalTruthUp.mk S' G' K' A' D' I' L' F' H' C' P' N' ->
+      I = I' ∧ H = H' ∧
+        certifiedPhysicalTruthEncodeBHist I = certifiedPhysicalTruthEncodeBHist I' ∧
+          certifiedPhysicalTruthEncodeBHist H = certifiedPhysicalTruthEncodeBHist H' ∧
+            certifiedPhysicalTruthEncodeBHist BHist.Empty = [] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hpacket
+  injection hpacket with _hS _hG _hK _hA _hD hI _hL _hF hH _hC _hP _hN
+  subst hI
+  subst hH
+  exact ⟨rfl, rfl, rfl, rfl, rfl⟩
+
 end BEDC.Derived.CertifiedPhysicalTruthUp

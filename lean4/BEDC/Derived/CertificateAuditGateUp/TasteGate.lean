@@ -1,10 +1,13 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CertificateAuditGateUp.TasteGate
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -208,7 +211,7 @@ instance certificateAuditGateChapterTasteGate :
     ChapterTasteGate CertificateAuditGateUp :=
   certificateAuditGateChapterTasteGateConcrete
 
-private def certificateAuditGateFields : CertificateAuditGateUp -> List BHist
+def certificateAuditGateFields : CertificateAuditGateUp -> List BHist
   | CertificateAuditGateUp.mk gateInput checkedSurface refusal drift axiomPurity transport
       continuation provenance name =>
       [gateInput, checkedSurface, refusal, drift, axiomPurity, transport, continuation,
@@ -266,9 +269,11 @@ theorem CertificateAuditGateTasteGate_single_carrier_alignment :
         certificateAuditGateFromEventFlow (certificateAuditGateToEventFlow x) = some x) /\
         (forall x y : CertificateAuditGateUp,
           certificateAuditGateToEventFlow x = certificateAuditGateToEventFlow y -> x = y) /\
-          Nonempty (@ChapterTasteGate CertificateAuditGateUp certificateAuditGateBHistCarrier) /\
-            Nonempty (@FieldFaithful CertificateAuditGateUp certificateAuditGateBHistCarrier) /\
-              Nonempty (Nontrivial CertificateAuditGateUp) /\
+          (forall x y : CertificateAuditGateUp,
+            x ≠ y -> certificateAuditGateToEventFlow x ≠ certificateAuditGateToEventFlow y) /\
+            (forall x y : CertificateAuditGateUp,
+              certificateAuditGateFields x = certificateAuditGateFields y -> x = y) /\
+              Nonempty (Σ' (x : CertificateAuditGateUp) (y : CertificateAuditGateUp), x ≠ y) /\
                 certificateAuditGateEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
@@ -279,12 +284,90 @@ theorem CertificateAuditGateTasteGate_single_carrier_alignment :
       · intro x y heq
         exact certificateAuditGateToEventFlow_injective heq
       · constructor
-        · exact ⟨certificateAuditGateChapterTasteGateConcrete⟩
+        · intro x y hxy heq
+          exact hxy (certificateAuditGateToEventFlow_injective heq)
         · constructor
-          · exact ⟨certificateAuditGateFieldFaithfulConcrete⟩
+          · exact certificateAuditGate_field_faithful
           · constructor
-            · exact ⟨certificateAuditGateNontrivialConcrete⟩
+            · exact ⟨certificateAuditGateWitnessPair⟩
             · rfl
+
+theorem CertificateAuditGateCarrier_event_flow_fields_iff
+    (x y : CertificateAuditGateUp) :
+    (certificateAuditGateToEventFlow x = certificateAuditGateToEventFlow y <->
+      certificateAuditGateFields x = certificateAuditGateFields y) /\
+      certificateAuditGateEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · constructor
+    · intro heq
+      cases certificateAuditGateToEventFlow_injective heq
+      rfl
+    · intro hfields
+      cases certificateAuditGate_field_faithful x y hfields
+      rfl
+  · rfl
+
+theorem CertificateAuditGateSoundnessBoundary
+    (gateInput checkedSurface refusal drift axiomPurity transport continuation provenance
+      name : BHist) :
+    certificateAuditGateFields
+        (CertificateAuditGateUp.mk gateInput checkedSurface refusal drift axiomPurity
+          transport continuation provenance name) =
+          [gateInput, checkedSurface, refusal, drift, axiomPurity, transport, continuation,
+            provenance, name] /\
+      Cont (append checkedSurface drift) axiomPurity
+        (append (append checkedSurface drift) axiomPurity) /\
+        hsame (append (append checkedSurface drift) axiomPurity)
+          (append (append checkedSurface drift) axiomPurity) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · rfl
+
+theorem CertificateAuditGateObligationSurface
+    (gateInput checkedSurface refusal drift axiomPurity transport continuation provenance
+      name : BHist) :
+    certificateAuditGateFields
+        (CertificateAuditGateUp.mk gateInput checkedSurface refusal drift axiomPurity
+          transport continuation provenance name) =
+          [gateInput, checkedSurface, refusal, drift, axiomPurity, transport, continuation,
+            provenance, name] /\
+      Cont gateInput continuation (append gateInput continuation) /\
+        hsame (append gateInput continuation) (append gateInput continuation) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · rfl
+
+theorem CertificateAuditGateNonescape
+    (gateInput checkedSurface refusal drift axiomPurity transport continuation provenance
+      name hostTail : BHist) :
+    certificateAuditGateFields
+        (CertificateAuditGateUp.mk gateInput checkedSurface refusal drift axiomPurity
+          transport continuation provenance name) =
+        [gateInput, checkedSurface, refusal, drift, axiomPurity, transport, continuation,
+          provenance, name] /\
+      Cont refusal continuation (append refusal continuation) /\
+        hsame (append refusal continuation) (append refusal continuation) /\
+            (Cont (append refusal continuation) (BHist.e0 hostTail) refusal -> False) /\
+            (Cont (append refusal continuation) (BHist.e1 hostTail) refusal -> False) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · constructor
+        · intro back
+          exact cont_mutual_extension_right_tail_absurd.left rfl back
+        · intro back
+          exact cont_mutual_extension_right_tail_absurd.right rfl back
 
 end BEDC.Derived.CertificateAuditGateUp.TasteGate
 

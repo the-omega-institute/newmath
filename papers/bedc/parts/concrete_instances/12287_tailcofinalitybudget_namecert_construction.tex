@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\TailCofinalityBudgetUp$}
+\label{ch:concrete-instances-tail-cofinality-budget-namecert}
+\origin{ai}
+
+The $\TailCofinalityBudgetUp$ packet realizes the shared finite tail threshold consumed by the Real-completion route of \autoref{sec:real-completeness-limit-theorem}. It is a concrete NameCert surface over the finite tail filter of \autoref{ch:concrete-instances-finite-tail-filter-namecert}, the stream-window naming of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the Real seal of \autoref{ch:concrete-instances-real-namecert}, the finite-prefix stability route of \autoref{ch:concrete-instances-finite-prefix-limit-stability-namecert}, and the selected endpoint seed of \autoref{ch:concrete-instances-selected-tail-seed-namecert}. The packet records the common cofinal threshold and the terminal seal handoff without exporting a selected limit, quotient stream equality, host real equality, countable-choice row, or ambient completeness witness.
+
+\falsifiablePrediction{No accepted TailCofinalityBudgetUp packet exports a selected limit, quotient stream equality, host real equality, countable-choice row, or ambient completeness witness outside the displayed finite tail rows.}
+
+\independenceWitness{finite-tail-filter, finite-prefix-limit-stability, selected-tail-seed, streamname, regseqrat: TailCofinalityBudgetUp is not bijective to any listed sibling because it records the shared cofinal threshold and seal handoff row, while those siblings respectively record the broad filter surface, prefix stability, selected endpoint, pointwise stream naming, or regular-rational readback without the same cofinal-budget packet.}
+
+\begin{definition}[Tail cofinality budget carrier]
+\label{def:tail-cofinality-budget-carrier}
+A $\TailCofinalityBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+T=(R,W,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the finite tail request row naming the common cofinal threshold consumed by the Real-completion read.
+\item $W$ is the $\StreamNameUp$ window ledger exposed only at or beyond the threshold named by $R$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the same threshold and window.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the displayed stream window and dyadic tolerance.
+\item $E$ is the $\RealUp$ seal handoff reached only after $R,W,D,Q$ are visible in the packet.
+\item $H$ records componentwise $\hsame$ transport for $R,W,D,Q,E$ and the local certificate row.
+\item $C$ records displayed $\Cont$ replay from finite tail request through stream window, dyadic tolerance, regular-rational readback, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\TailCofinalityBudgetUp$, $\FiniteTailFilterUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\FinitePrefixLimitStabilityUp$, $\SelectedTailSeedUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TailCofinalityBudgetUp}$ row.
+\end{enumerate}
+The carrier exports only the finite threshold, the threshold-indexed observation rows, the Real seal handoff, and the structural transport, replay, provenance, and naming rows displayed above.
+\end{definition}
+
+\begin{theorem}[Tail cofinality budget NameCert obligations]
+\label{thm:tail-cofinality-budget-namecert-obligations}
+For the carrier of \autoref{def:tail-cofinality-budget-carrier}, the local $\NameCert_{\TailCofinalityBudgetUp}$ surface consists exactly of carrier admission for $T=(R,W,D,Q,E,H,C,P,N)$, finite tail request admission through $R$, $\StreamNameUp$ window exposure through $W$, $\DyadicRatCoreUp$ tolerance exposure through $D$, $\RegSeqRatUp$ readback exposure through $Q$, terminal $\RealUp$ seal handoff through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its coordinates list the finite tail request, stream window, dyadic tolerance, regular-rational readback, Real seal, transport, replay, provenance, and local naming row.
+
+Read the sibling surfaces in the displayed order. The finite tail filter supplies the threshold discipline for $R$; the $\StreamNameUp$ chapter supplies $W$; the $\DyadicRatCoreUp$ chapter supplies $D$; the $\RegSeqRatUp$ chapter supplies $Q$; and the $\RealUp$ chapter supplies $E$.
+
+The remaining rows are structural. The $\FinitePrefixLimitStabilityUp$ and $\SelectedTailSeedUp$ siblings identify the prefix-stability and selected-seed routes that may consume the same threshold, while $H,C,P,N$ only transport, replay, source, and name the rows already displayed. These rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Tail cofinality budget nonescape]
+\label{thm:tail-cofinality-budget-nonescape}
+Every Real-completion consumer of an accepted $\TailCofinalityBudgetUp$ packet factors through the finite route
+$$
+R,W,D,Q,E,H,C,P,N.
+$$
+The consumer receives the shared finite cofinal threshold, the $\StreamNameUp$ window ledger, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback row, the $\RealUp$ seal handoff, and the structural support rows. It receives no selected limit, quotient stream equality, host real equality, countable-choice row, or ambient completeness witness outside those displayed finite tail rows.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:tail-cofinality-budget-carrier}. The only Real-facing coordinate is the seal handoff $E$, and it is downstream of the threshold row $R$, window row $W$, dyadic row $D$, and readback row $Q$.
+
+Apply \autoref{thm:tail-cofinality-budget-namecert-obligations}. It forces every accepted consumer to expose the finite tail request, stream window, tolerance ledger, regular-rational readback, seal handoff, transport, replay, provenance, and local name before the packet is usable.
+
+The excluded objects are not coordinates of the carrier. Since $H,C,P,N$ preserve and name displayed rows without creating analytic data, no accepted consumer can project a selected limit, quotient stream equality, host real equality, countable-choice row, or ambient completeness witness from this packet.
+\end{proof}
+
+\begin{theorem}[Tail cofinality budget TasteGate obligation]
+\label{thm:tail-cofinality-budget-tastegate-obligation}
+The Lean boundary for $\TailCofinalityBudgetUp$ must supply a nonempty carrier and a field-faithful observation of $R,W,D,Q,E,H,C,P,N$. In concrete terms, the future file \texttt{lean4/BEDC/Derived/TailCofinalityBudgetUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \TailCofinalityBudgetUp$ and $\mathsf{FieldFaithful}\ \TailCofinalityBudgetUp$ instances whose projections preserve the finite tail threshold and the terminal Real seal handoff.
+\end{theorem}
+\begin{proof}
+The carrier is meaningful only when the displayed threshold route can be inhabited. Nontriviality supplies such a packet without replacing the finite rows by an empty or vacuous surface.
+
+Field faithfulness is the corresponding projection discipline. It prevents a consumer from identifying two packets while forgetting the threshold row $R$, the observation rows $W,D,Q$, the seal row $E$, or the structural rows $H,C,P,N$.
+
+Together these two obligations are exactly the TasteGate boundary needed before the packet can be used by the Real-completion route as a shared finite tail budget.
+\end{proof}
+\leanchecked{BEDC.Derived.TailCofinalityBudgetUp.TailCofinalityBudgetTasteGate\_obligation\_surface}
+
+\closureat{TailCofinalityBudgetUp}{seedStr}
+
+\begin{closurestatus}{\TailCofinalityBudgetUp}
+  \constructivestory{A $\TailCofinalityBudgetUp$ packet is generated from a finite tail request, threshold-indexed stream window, dyadic tolerance ledger, regular-rational readback, Real seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tail-cofinality-budget-carrier}, \autoref{thm:tail-cofinality-budget-namecert-obligations}, \autoref{thm:tail-cofinality-budget-nonescape}, and \autoref{thm:tail-cofinality-budget-tastegate-obligation} bind the shared finite cofinal threshold and Real seal handoff as a finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient streams, selected host limits, host real equality, countable choice, or ambient Real completeness.}
+  \upgradepath{Lean closure requires Nontrivial TailCofinalityBudgetUp and FieldFaithful TailCofinalityBudgetUp instances in \texttt{lean4/BEDC/Derived/TailCofinalityBudgetUp/TasteGate.lean}.}
+\end{closurestatus}

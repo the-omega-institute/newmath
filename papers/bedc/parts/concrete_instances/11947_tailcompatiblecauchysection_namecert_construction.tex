@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\TailCompatibleCauchySectionUp$}
+\label{ch:concrete-instances-tailcompatiblecauchysection-namecert}
+\origin{ai}
+
+The $\TailCompatibleCauchySectionUp$ packet realizes the finite-window route behind the regular-Cauchy diagonal-limit construction of \autoref{ch:visions-real-completeness}. It is structurally composite over the stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic ledgers of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the finite observation-budget selector of \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}. The packet names a compatible finite section, not a host limit, quotient stream, selected infinite subsequence, or ambient completeness principle.
+
+Because the carrier is composite over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and $\FiniteObservationBudgetSelectorUp$, its falsifiability and independence witnesses are inherited from those component packets. The atomic falsifiability and independence rows used for primitive carriers are therefore not used here.
+
+\begin{definition}[Tail-compatible Cauchy section carrier]
+\label{def:tail-compatible-cauchy-section-carrier}
+A $\TailCompatibleCauchySectionUp$ carrier is a finite packet
+$$
+S=(X,\mu,n,k,i,W,B,R,D,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $X$ is the displayed regular-Cauchy family from \autoref{sec:real-completeness-regular-cauchy};
+\item $\mu$ is the modulus row selecting tail indices for $X$;
+\item $n$ is the visible precision request;
+\item $k=\mu(1/(n+1))$ and $i=k+n+1$ are the displayed diagonal-section indices;
+\item $W$ is the $\StreamNameUp$ finite window exposing the $i$-th read of the $k$-th regular-rational member;
+\item $B$ is the $\FiniteObservationBudgetSelectorUp$ budget row certifying that the same window is admissible for the section read;
+\item $R$ is the $\RegSeqRatUp$ readback row for the selected regular-rational member along $W$;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and arithmetic ledger attached to the selected readback;
+\item $E$ is the $\RealUp$ seal row reached by repacking the selected regular-rational read through the displayed finite route;
+\item $H$ records componentwise $\hsame$ transport for $X,\mu,n,k,i,W,B,R,D,E$ and the local certificate row;
+\item $C$ records $\Cont$ replay from the precision request through the budgeted window, readback, dyadic ledger, and real seal;
+\item $P$ is the $\Pkg$ provenance over $\TailCompatibleCauchySectionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\FiniteObservationBudgetSelectorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\TailCompatibleCauchySectionUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed finite section rows and their transport, replay, provenance, and naming support.
+\end{definition}
+
+\begin{definition}[Tail-compatible Cauchy section classifier]
+\label{def:tail-compatible-cauchy-section-classifier}
+Two accepted $\TailCompatibleCauchySectionUp$ carriers classify together exactly when their regular-Cauchy family rows and modulus rows select the same displayed diagonal-section route, their precision requests yield the same finite index pair $k,i$, and their $\StreamNameUp$, $\FiniteObservationBudgetSelectorUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, transport, continuation, package, and local naming rows are related componentwise by the recorded $\hsame$ comparisons and $\Cont$ routes.
+\end{definition}
+
+\begin{theorem}[Tail-compatible Cauchy section NameCert obligations]
+\label{thm:tail-compatible-cauchy-section-namecert-obligations}
+For the carrier of \autoref{def:tail-compatible-cauchy-section-carrier}, the local $\NameCert_{\TailCompatibleCauchySectionUp}$ surface consists exactly of carrier admission, the finite diagonal-section computations $k=\mu(1/(n+1))$ and $i=k+n+1$, $\StreamNameUp$ window exposure, $\FiniteObservationBudgetSelectorUp$ budget admission, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, $\RealUp$ seal exposure, componentwise transport, continuation replay, package provenance, and local naming.
+\end{theorem}
+\leanchecked{BEDC.Derived.TailCompatibleCauchySectionUp.TailCompatibleCauchySectionTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the packet $S$. Its coordinates list the regular-Cauchy family, modulus, precision request, computed section indices, stream window, budget selector, regular-rational readback, dyadic ledger, real seal, transport, replay, provenance, and local naming rows.
+
+The finite index computation is internal to the packet. The modulus row supplies $k$, the request supplies $n$, and the displayed arithmetic supplies $i=k+n+1$, matching the diagonal representative of \autoref{def:real-completeness-diagonal-limit}.
+
+The remaining rows are precisely the component certificate surfaces. The stream window, budget selector, regular-rational readback, dyadic ledger, and real seal are consumed in that order, while $H,C,P,N$ only transport, replay, source, and name those rows. No further NameCert obligation remains.
+\end{proof}
+
+\begin{closurestatus}{\TailCompatibleCauchySectionUp}
+  \constructivestory{The tail-compatible Cauchy section is generated from a $BHist$ packet that records a Cauchy section, its modulus-selected index pair, finite tail witnesses, and the classifier that checks compatibility with the RealUp seal boundary. The carrier reads the section only through those tail rows; $hsame$ transports the same finite witness data when a history representative changes. Continuation data may extend the section route, but $\Cont$ must preserve the tail-compatible classifier already recorded. The NameCert surface is therefore a composite certificate: it connects a Cauchy section to StreamName, finite observation budget, RegSeqRat, DyadicRatCore, and RealUp through visible tail evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the tail-compatible Cauchy-section carrier, classifier, NameCert obligations, and RealUp seal-boundary theorem.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim arbitrary Cauchy section choice, quotient-stream equality, host real equality, or Real equality outside the finite tail-compatible witness route.}
+  \upgradepath{Reaching obligationClosure requires formal tail witness rows and checked classifier preservation under $hsame$ and $\Cont$.}
+\end{closurestatus}
+
+\begin{theorem}[Tail-compatible Cauchy section RealUp seal boundary]
+\label{thm:tail-compatible-cauchy-section-real-seal-boundary}
+Every $\RealUp$-facing consumer read of an accepted $\TailCompatibleCauchySectionUp$ packet factors through the finite route
+$$
+X,\mu,n,k,i,W,B,R,D,E,H,C,P,N.
+$$
+The seal coordinate $E$ is reachable only after the shared tail-compatible $\StreamNameUp$ window, $\FiniteObservationBudgetSelectorUp$ budget row, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ ledger have been displayed on the same carrier. The packet exports no host real, quotient stream equality, chosen limit, detached selector, countable-choice row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:tail-compatible-cauchy-section-namecert-obligations}. It forces every accepted packet to expose the modulus-selected index pair before any readback or seal-facing row is available.
+
+Next read the component surfaces in order. The $\StreamNameUp$ row supplies the finite tail-compatible window, the $\FiniteObservationBudgetSelectorUp$ row admits that window as a finite budgeted request, the $\RegSeqRatUp$ row supplies the selected regular-rational readback, and the $\DyadicRatCoreUp$ row records the tolerance ledger attached to that readback.
+
+Only then can the $\RealUp$ seal row be consumed, and it is preserved solely through the displayed transport, replay, provenance, and local naming rows. Since none of the carrier coordinates is a host real, quotient stream equality, chosen limit, detached selector, countable-choice row, or ambient completeness witness, no Real-facing consumer can obtain such data from the section packet.
+\end{proof}

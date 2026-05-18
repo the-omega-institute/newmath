@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The local classifier compares two accepted carriers only through the displayed membership, derivation, subject-reduction, readback, transport, continuation, package, and naming rows.
 \end{definition}
+\leanchecked{BEDC.Derived.TypeCheckingMembershipTraceUp.TypeCheckingMembershipTraceTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[TypeCheckingMembershipTrace classifier stability]
 \label{thm:typechecking-membership-trace-classifier-stability}
@@ -38,6 +39,7 @@ T'=(M',D',R',S',H',C',P',N')
 $$
 be accepted $\TypeCheckingMembershipTraceUp$ carriers whose classifier rows are related by the displayed local comparison. Then the $\Ext$-membership read, finite derivation route, $\Cont$ subject-reduction handoff, and $\SigRel$ readback are preserved through the componentwise $\hsame$ rows and the displayed $\Cont$ replay. The preserved object is the same finite membership-trace packet; it supplies no host typing judgment, conversion oracle, or quotient proof-term equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.TypeCheckingMembershipTraceUp.TypeCheckingMembershipTraceClassifier\_stability}
 \begin{proof}
 Project both carriers through \autoref{def:typechecking-membership-trace-carrier}. The rows $M,D,R,S$ name the classifier membership, derivation route, subject-reduction handoff, and readback boundary, while $H$ records componentwise transport for those rows.
 
@@ -57,6 +59,8 @@ The local $\NameCert_{\TypeCheckingMembershipTraceUp}$ surface has five finite o
 \item the non-escape ledger excludes host type equality, global normalization, proof irrelevance, quotient syntax, conversion oracles, and any proof-term equality not displayed in the packet.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.TypeCheckingMembershipTraceUp.TypeCheckingMembershipTraceNameCert\_obligation\_surface}
+\leanchecked{BEDC.Derived.TypeCheckingMembershipTraceUp.TypeCheckingMembershipTraceNameCert\_obligations}
 \begin{proof}
 Carrier admission is projection from the finite tuple. The membership row, derivation row, subject-reduction row, readback row, transport row, replay row, package row, and local naming row are all coordinates of the same $\BHist$ packet.
 
@@ -73,6 +77,7 @@ T=(M,D,R,S,H,C,P,N)
 $$
 exposes the membership row $M$, the derivation route $D$, the subject-reduction handoff $R$, the $\SigRel$ readback $S$, the $\hsame$ transport row $H$, the $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\TypeCheckingMembershipTraceUp}$ row $N$ before any consumer may cite type-checking membership from the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.TypeCheckingMembershipTraceUp.TypeCheckingMembershipTraceRoute\_coverage}
 \begin{proof}
 Project the accepted packet through \autoref{def:typechecking-membership-trace-carrier}. The carrier definition lists exactly the eight displayed coordinates, so a consumer has no membership citation until the row $M$ and its companion rows $D,R,S,H,C,P,N$ have been exposed.
 
@@ -88,6 +93,7 @@ The carrier has no coordinate for host type equality, global normalization, proo
 
 The final row of \autoref{thm:typechecking-membership-trace-namecert-obligations} is the non-escape ledger for this packet. It binds every exported consumer to the finite rows already displayed, so no additional equality or conversion principle can be recovered from the certificate surface.
 \end{proof}
+\leanchecked{BEDC.Derived.TypeCheckingMembershipTraceUp.TypeCheckingMembershipTraceMembership\_row\_nonescape}
 
 \begin{theorem}[TypeCheckingMembershipTrace obligation assembly]
 \label{thm:typechecking-membership-trace-obligation-assembly}
@@ -98,6 +104,7 @@ The carrier fixes the finite packet shape, and classifier stability fixes how th
 
 The non-escape theorem supplies the refusal side of the local ledger. Together with the NameCert obligations in \autoref{thm:typechecking-membership-trace-namecert-obligations}, these rows specify the complete paper-side obligation surface while making no Lean-side verification claim.
 \end{proof}
+\leanchecked{BEDC.Derived.TypeCheckingMembershipTraceUp.TypeCheckingMembershipTrace\_obligation\_assembly}
 
 \begin{theorem}[TypeCheckingMembershipTrace scoped kernel surface]
 \label{thm:typechecking-membership-trace-scoped-kernel-surface}
@@ -107,6 +114,7 @@ T=(M,D,R,S,H,C,P,N)
 $$
 to the displayed $\Ext$ membership row $M$, finite derivation route $D$, $\Cont$ subject-reduction handoff $R$, $\SigRel$ readback row $S$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\TypeCheckingMembershipTraceUp}$ row $N$. The scoped kernel surface has no host type equality, quotient syntax, conversion oracle, proof irrelevance, or global normalization coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.TypeCheckingMembershipTraceUp.TypeCheckingMembershipTrace\_scoped\_kernel\_surface}
 \begin{proof}
 Project the finite carrier with \autoref{def:typechecking-membership-trace-carrier}. It gives exactly the rows $M,D,R,S,H,C,P,N$ and no host typing or conversion coordinate.
 
@@ -117,14 +125,62 @@ Apply route coverage and non-escape, \autoref{thm:typechecking-membership-trace-
 Finally use \autoref{thm:typechecking-membership-trace-obligation-assembly}. The assembled obligation surface is therefore scoped to the local certificate: $\Ext$ membership, finite derivation, subject-reduction handoff, $\SigRel$ readback, transport, replay, provenance, and naming are all discharged inside $T$, with no appeal to a host equality or global normalizer.
 \end{proof}
 
+\begin{theorem}[TypeCheckingMembershipTrace subject-reduction consumer lock]
+\label{thm:typechecking-membership-trace-subject-reduction-consumer-lock}
+For every accepted $\TypeCheckingMembershipTraceUp$ packet
+$$
+T=(M,D,R,S,H,C,P,N),
+$$
+the subject-reduction row $R$ is mandatory before the membership row $M$ may be exported to any consumer. A consumer that cites type-checking membership must also expose the finite derivation route $D$, $\SigRel$ readback row $S$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:typechecking-membership-trace-carrier}. The membership row $M$ is not isolated: it is packaged with the derivation route $D$, subject-reduction handoff $R$, readback row $S$, transport, replay, provenance, and local name.
+
+Apply route coverage, \autoref{thm:typechecking-membership-trace-route-coverage}. It requires the displayed companion rows before a consumer can cite membership from the packet.
+
+Finally use the scoped kernel surface, \autoref{thm:typechecking-membership-trace-scoped-kernel-surface}. The surface binds $M$ to $D,R,S,H,C,P,N$ inside the same finite certificate and leaves no host equality or conversion coordinate that could export membership without the subject-reduction row.
+\end{proof}
+\leanchecked{BEDC.Derived.TypeCheckingMembershipTraceUp.TypeCheckingMembershipTraceSubjectReduction\_consumer\_lock}
+
+\begin{theorem}[TypeCheckingMembershipTrace formal target handoff]
+\label{thm:typechecking-membership-trace-formal-target-handoff}
+The rows
+$$
+M,D,R,S,H,C,P,N
+$$
+are the exact future Lean formalization target surface for $\TypeCheckingMembershipTraceUp$: $\Ext$ membership, finite derivation, subject-reduction handoff, $\SigRel$ readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. The target surface contains no host type equality, global normalization, proof irrelevance, quotient syntax, conversion oracle, or proof-term equality field.
+\end{theorem}
+\leanchecked{BEDC.Derived.TypeCheckingMembershipTraceUp.TypeCheckingMembershipTraceFormalTarget\_handoff}
+\begin{proof}
+Begin with the carrier and classifier stability, \autoref{def:typechecking-membership-trace-carrier} and \autoref{thm:typechecking-membership-trace-classifier-stability}. They identify the eight rows and keep membership, derivation, subject-reduction, and readback attached to the same packet under transport and replay.
+
+Use NameCert obligations and obligation assembly, \autoref{thm:typechecking-membership-trace-namecert-obligations} and \autoref{thm:typechecking-membership-trace-obligation-assembly}. These results account for carrier admission, classifier stability, route coverage, non-escape, provenance, and local naming without claiming Lean verification.
+
+The subject-reduction consumer lock, \autoref{thm:typechecking-membership-trace-subject-reduction-consumer-lock}, fixes the consumer-facing dependency on $R$. Together with non-escape, \autoref{thm:typechecking-membership-trace-nonescape}, this leaves exactly the displayed rows as the formal target and excludes the host-level typing and conversion fields.
+\end{proof}
+
+\begin{theorem}[TypeCheckingMembershipTrace bridge precondition]
+\label{thm:typechecking-membership-trace-bridge-precondition}
+No bridge-facing consumer may cite $\TypeCheckingMembershipTraceUp$ type-checking membership unless it carries the $\Ext$ membership row $M$, finite derivation route $D$, subject-reduction handoff $R$, $\SigRel$ readback row $S$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$ from the same accepted packet. This precondition does not supply a $\StdBridge$; it only fixes the paper-side rows any later bridge must consume.
+\end{theorem}
+\begin{proof}
+Apply route coverage and the subject-reduction consumer lock, \autoref{thm:typechecking-membership-trace-route-coverage} and \autoref{thm:typechecking-membership-trace-subject-reduction-consumer-lock}. A consumer must expose all displayed rows, and membership cannot leave the packet without the subject-reduction handoff.
+
+Next use classifier stability and NameCert obligations, \autoref{thm:typechecking-membership-trace-classifier-stability} and \autoref{thm:typechecking-membership-trace-namecert-obligations}. They keep the classifier rows stable under $H$ and $C$ and require provenance and local naming before the packet is used as membership evidence.
+
+Finally combine non-escape, obligation assembly, and the formal target handoff, \autoref{thm:typechecking-membership-trace-nonescape}, \autoref{thm:typechecking-membership-trace-obligation-assembly}, and \autoref{thm:typechecking-membership-trace-formal-target-handoff}. These results exclude host type equality, global normalization, proof irrelevance, quotient syntax, conversion oracles, proof-term equality, and any bridge claim beyond the displayed precondition rows.
+\end{proof}
+\leanchecked{BEDC.Derived.TypeCheckingMembershipTraceUp.TypeCheckingMembershipTraceBridge\_precondition}
+
 \closureat{TypeCheckingMembershipTraceUp}{seedStr}
 \closureat{TypeCheckingMembershipTraceUp}{obligationStr}
 \closureat{TypeCheckingMembershipTraceUp}{scopedStr}
+\closureat{TypeCheckingMembershipTraceUp}{publicStr}
 
 \begin{closurestatus}{\TypeCheckingMembershipTraceUp}
   \constructivestory{A $\TypeCheckingMembershipTraceUp$ packet is generated from finite Ext-membership, derivation-route, subject-reduction, SigRel readback, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:typechecking-membership-trace-scoped-kernel-surface} binds Ext membership, finite derivation, subject-reduction, SigRel readback, hsame transport, Cont replay, Pkg provenance, and local NameCert rows inside the finite membership-trace certificate.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:typechecking-membership-trace-scoped-kernel-surface}, \autoref{thm:typechecking-membership-trace-subject-reduction-consumer-lock}, \autoref{thm:typechecking-membership-trace-formal-target-handoff}, and \autoref{thm:typechecking-membership-trace-bridge-precondition} bind Ext membership, finite derivation, subject-reduction, SigRel readback, hsame transport, Cont replay, Pkg provenance, local NameCert rows, the future formal target surface, and the bridge-facing precondition inside the finite membership-trace certificate.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

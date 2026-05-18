@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\AxiomPurityGateUp$}
+\label{ch:concrete-instances-axiom-purity-gate-namecert}
+\origin{ai}
+
+The $\AxiomPurityGateUp$ packet realizes the axiom-purity section of \autoref{subsec:philosophy-axiom-purity} inside the auditable-generativity programme of \autoref{ch:visions-philosophy-auditable-generativity}. It sits beside the forbidden-schema obstruction of \autoref{ch:concrete-instances-metaclosureobstruction-namecert}, the finite choice-output refusal ledger of \autoref{ch:concrete-instances-choice-recipe-ledger-namecert}, the quotient-boundary packet of \autoref{ch:concrete-instances-quotient-soundness-boundary-namecert}, and the proposition-transport boundary of \autoref{ch:concrete-instances-propexttransportboundary-namecert}. Those siblings expose forbidden schemas, term-stratum choice demand, quotient soundness, and proposition transport; this carrier binds the dependency-audit gate that accepts only finite reports with visible forbidden-dependency refusals.
+
+\begin{definition}[AxiomPurityGate carrier]
+\label{def:axiom-purity-gate-carrier}
+An $\AxiomPurityGateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(T,D,F,R,L,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the theorem-target row naming the declaration whose dependency report is being consumed;
+\item $D$ is the finite dependency-report row, listing the transitive proof dependencies visible to the audit consumer;
+\item $F$ is the forbidden-dependency refusal row for $\mathsf{Classical.choice}$, quotient soundness, and propositional extensionality;
+\item $R$ is the replay row recording the command-level route by which the dependency report can be re-read;
+\item $L$ is the replacement row naming the constructive BEDC route used when a forbidden dependency request is refused;
+\item $S$ is the transport row recording that theorem-target, dependency-report, refusal, replay, and replacement reads are consumed componentwise;
+\item $H$ records componentwise $\hsame$ transports for $T,D,F,R,L,S,P,N$;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the report, refusals, replay route, replacement route, and transport row;
+\item $P$ is the $\Pkg$ provenance over $\MetaClosureObstructionUp$, $\UnwitnessedExistenceClosureUp$, $\ChoiceRecipeLedgerUp$, $\QuotientSoundnessBoundaryUp$, $\PropextTransportBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AxiomPurityGateUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by the displayed rows $T,D,F,R,L,S,H,C,P,N$. A packet missing any forbidden-dependency refusal row in $F$ is not accepted as an $\AxiomPurityGateUp$ carrier.
+\end{definition}
+\leanchecked{BEDC.Derived.AxiomPurityGateUp.AxiomPurityGateTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[AxiomPurityGate NameCert obligations]
+\label{thm:axiom-purity-gate-namecert-obligations}
+For the carrier of \autoref{def:axiom-purity-gate-carrier}, the local $\NameCert_{\AxiomPurityGateUp}$ surface consists of carrier admission for
+$$
+G=(T,D,F,R,L,S,H,C,P,N),
+$$
+theorem-target exposure through $T$, dependency-report exposure through $D$, forbidden-dependency refusal through $F$, replay exposure through $R$, constructive replacement exposure through $L$, transport exposure through $S$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:axiom-purity-gate-carrier}. The tuple displays the theorem target, dependency report, forbidden-dependency refusal, replay route, replacement route, transport row, componentwise stability, continuation replay, provenance, and local naming.
+
+The rows $T,D,F$ are the audit-facing core. Row $T$ names the declaration being read, row $D$ exposes the finite dependency report, and row $F$ records the refusal of each forbidden dependency class rather than treating purity as prose outside the carrier.
+
+The rows $R,L,S$ make the refusal replayable and consumable. Row $R$ records the report replay route, row $L$ records the constructive replacement route, and row $S$ records transport of the visible rows without adding a hidden dependency or host equality.
+
+Finally $H,C,P,N$ exhaust stability, continuation replay, provenance, and naming. Since no further coordinate exists, the listed rows are exactly the local NameCert obligations for the gate packet.
+\end{proof}
+
+\begin{theorem}[AxiomPurityGate non-escape]
+\label{thm:axiom-purity-gate-nonescape}
+Every accepted $\AxiomPurityGateUp$ packet exports only the finite rows
+$$
+T,D,F,R,L,S,H,C,P,N.
+$$
+No consumer can extract from such a packet an unreported theorem dependency, a $\mathsf{Classical.choice}$ dependency, a quotient-soundness dependency, a propositional-extensionality dependency, a hidden replay oracle, a host equality transport, or a proof of meta closure. A packet missing any forbidden-dependency refusal row cannot be accepted as an $\AxiomPurityGateUp$ carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the carrier inventory of \autoref{def:axiom-purity-gate-carrier}. The only dependency information available to a consumer is the theorem target $T$, the finite report $D$, and the forbidden-dependency refusal row $F$.
+
+Apply the NameCert obligations of \autoref{thm:axiom-purity-gate-namecert-obligations}. Every replay, replacement, and transport read must pass through $R,L,S,H,C,P,N$, so a consumer may inspect the displayed audit packet but cannot bypass it to obtain a hidden dependency or host-level equality route.
+
+The last claim is part of carrier admission. Row $F$ contains the refusal records for the forbidden dependency classes; removing one of those records removes a displayed coordinate required by the classifier and therefore removes acceptance as an $\AxiomPurityGateUp$ carrier.
+\end{proof}
+
+\begin{theorem}[AxiomPurityGate witness-preserving consumer]
+\label{thm:axiom-purity-gate-witness-preserving-consumer}
+Every downstream consumer of an accepted $\AxiomPurityGateUp$ packet that asks for a theorem-target audit must read the dependency report, forbidden-dependency refusal, replay route, constructive replacement route, transport row, stability row, continuation route, provenance row, and local naming row through
+$$
+T,D,F,R,L,S,H,C,P,N.
+$$
+Such a consumer preserves the displayed witness boundary: accepted theorem reads may cite the finite report and replacement rows, while rejected reads remain blocked by $F$. The consumer cannot turn the gate into a selector for witnesses, a quotient of dependency reports, a proposition-equality transport, a second replay surface, or a meta-closure proof.
+\end{theorem}
+\begin{proof}
+First expose the theorem-target audit through $T,D,F$. The dependency report is visible only as the finite row $D$, and each forbidden dependency class is handled by its refusal record in $F$.
+
+Next route replay and replacement through $R,L,S$. The replay row lets the report be re-read, the replacement row records the constructive BEDC route available after refusal, and the transport row keeps those reads componentwise rather than quotienting dependency reports.
+
+Finally apply $H,C,P,N$. These rows preserve stability, continuation replay, package provenance, and the local name of the packet. They do not add a selector, quotient, proposition-equality transport, second replay surface, or meta-closure theorem, so the consumer remains witness-preserving.
+\end{proof}
+
+\falsifiablePrediction{A packet missing any forbidden-dependency refusal row cannot be accepted as an AxiomPurityGateUp carrier.}
+
+\independenceWitness{MetaClosureObstruction, UnwitnessedExistenceClosure, ChoiceRecipeLedger, QuotientSoundnessBoundary, PropextTransportBoundary: the axiom-purity gate packet contains a theorem-target row, dependency-report row, forbidden-dependency refusal row, replay row, replacement row, transport row, provenance row, and local NameCert row. MetaClosureObstruction carries forbidden-schema refusal without dependency-report replay; UnwitnessedExistenceClosure carries the positive-content closure family without a gate-local theorem target; ChoiceRecipeLedger records term-stratum recipe refusal without quotient or propext dependency rows; QuotientSoundnessBoundary isolates quotient soundness without choice and propext refusal as one audit packet; PropextTransportBoundary isolates proposition transport without a theorem-target dependency report. Hence none is bijective to $\AxiomPurityGateUp$ while preserving all displayed NameCert rows.}
+
+The future Lean target \texttt{BEDC.Derived.AxiomPurityGateUp} must place the $\ChapterTasteGate$ realization in \texttt{TasteGate.lean} with explicit \texttt{Nontrivial} and \texttt{FieldFaithful} instances for the displayed carrier and forbidden-dependency refusal rows.
+
+\closureat{AxiomPurityGateUp}{seedStr}
+
+\begin{closurestatus}{\AxiomPurityGateUp}
+  \constructivestory{An $\AxiomPurityGateUp$ packet is generated from a theorem target, finite dependency report, forbidden-dependency refusals, replay route, replacement route, transport row, componentwise $\hsame$ stability, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:axiom-purity-gate-carrier}, \autoref{thm:axiom-purity-gate-namecert-obligations}, \autoref{thm:axiom-purity-gate-nonescape}, and \autoref{thm:axiom-purity-gate-witness-preserving-consumer} bind the finite dependency-audit gate packet for forbidden-dependency refusal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove a Lean implementation, a standard bridge, global axiom-purity for every BEDC theorem, or a replacement proof for any particular refused dependency.}
+  \upgradepath{Obligation closure requires checked Nontrivial and FieldFaithful TasteGate witnesses for $\AxiomPurityGateUp$ over the displayed carrier and forbidden-dependency refusal rows.}
+\end{closurestatus}

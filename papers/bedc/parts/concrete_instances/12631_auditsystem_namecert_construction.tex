@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\AuditSystemUp$}
+\label{ch:concrete-instances-auditsystem-namecert}
+\origin{ai}
+
+The $\AuditSystemUp$ packet realizes the total audit theory of \autoref{subsec:philosophy-total-audit} as a finite NameCert surface. It sits beside the kernel-acceptance audit witness of \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}, the claim registry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, and the failure-certificate packet of \autoref{ch:concrete-instances-failurecertificate-namecert}. Those siblings expose kernel acceptance, positive claim registration, and typed refusal separately; this packet binds admissible claims, positive certificates, failure certificates, cannot-claim rows, export grades, and ledger closure in one finite audit carrier.
+
+\begin{definition}[Audit system carrier]
+\label{def:audit-system-carrier}
+An $\AuditSystemUp$ carrier is a finite $\BHist$ packet
+$$
+A=(C,P,F,R,E,L,H,K,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the admissible-claim row, recording the claim name, subject surface, carrier, classifier, and intended export site;
+\item $P$ is the positive-certificate row, recording the certificate that licenses the claim when the carrier, classifier, ledger, status, and surface fields are present;
+\item $F$ is the failure-certificate row, recording the missing, invalid, overstated, unchecked, or axis-confused field when export is blocked;
+\item $R$ is the cannot-claim row, recording a typed refusal when the packet is required to expose non-export rather than positive admission;
+\item $E$ is the export-grade row, recording whether the claim is read as paper-scoped, theorem-checked, audit-clean, axiom-clean, bridge-checked, or explicitly non-exportable;
+\item $L$ is the ledger-closure row, recording that the claim, certificate, failure certificate, refusal row, export grade, provenance, and local naming are closed as one audit packet;
+\item $H$ stores componentwise $\hsame$ transport for admissible claim, positive certificate, failure certificate, cannot-claim row, export grade, ledger closure, replay, provenance, and local naming;
+\item $K$ stores displayed $\Cont$ replay for reading $C,P,F,R,E,L$ without adding a host-side repair route;
+\item $Q$ is the $\Pkg$ provenance over $\AuditSystemUp$, $\KernelAcceptanceAuditWitnessUp$, $\ClaimRegistryLayerUp$, $\FailureCertificateUp$, $\RegistryExportConsistencyGateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AuditSystemUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for exporting a claim outside the displayed positive certificate, failure certificate, refusal row, export grade, and ledger-closure surface.
+\end{definition}
+\leanchecked{BEDC.Derived.AuditSystemUp.AuditSystemTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Audit system NameCert surface]
+\label{thm:audit-system-namecert-surface}
+For the carrier of \autoref{def:audit-system-carrier}, the local $\NameCert_{\AuditSystemUp}$ surface consists exactly of the admissible-claim row $C$, positive-certificate row $P$, failure-certificate row $F$, cannot-claim row $R$, export-grade row $E$, ledger-closure row $L$, componentwise transport row $H$, replay row $K$, provenance row $Q$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $A=(C,P,F,R,E,L,H,K,Q,N)$. The admissible claim is read first through $C$, but it is not an exported BEDC claim until the certificate and boundary rows are read in the same carrier.
+
+Rows $P,F,R,E$ supply the positive and negative audit faces. The positive row licenses export, the failure row blocks export by naming the failed field, the cannot-claim row records explicit refusal, and the export-grade row records the public strength of the same claim site.
+
+Rows $L,H,K,Q,N$ then close, transport, replay, package, and name the displayed audit data. Since the carrier contains no additional export coordinate, these ten rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Audit system export refusal]
+\label{thm:audit-system-export-refusal}
+If an accepted $\AuditSystemUp$ packet attempts to export the claim row $C$ while its failure-certificate row $F$ or cannot-claim row $R$ is active for the same claim site, then the packet produces a certificate conflict rather than an exportable claim.
+\end{theorem}
+\begin{proof}
+Assume an accepted packet $A=(C,P,F,R,E,L,H,K,Q,N)$. The export-grade row $E$ is read together with the positive certificate $P$, failure certificate $F$, and cannot-claim row $R$.
+
+If $F$ is active for the same claim site, the packet records a missing, invalid, overstated, unchecked, or axis-confused field. The positive certificate cannot erase that negative row, because both rows are displayed before ledger closure is read.
+
+If $R$ is active, the packet records explicit refusal. Again $P$ cannot by itself create an export route, since the carrier admits no coordinate for export outside $P,F,R,E,L$.
+
+Thus the accepted packet exposes a certificate conflict. It may be audited as a blocked or refused claim, but it is not an exportable claim.
+\end{proof}
+
+\begin{theorem}[Audit system ledger closure]
+\label{thm:audit-system-ledger-closure}
+Every exported claim admitted by $\AuditSystemUp$ is ledger-closed by the same finite packet that displays its admissible-claim row, certificate row, negative rows, export grade, transport, replay, provenance, and local NameCert row.
+\end{theorem}
+\begin{proof}
+By \autoref{def:audit-system-carrier}, the only ledger-closure coordinate is $L$ inside $A=(C,P,F,R,E,L,H,K,Q,N)$. The packet therefore cannot close a claim by citing an external ledger while omitting $C,P,F,R,E$.
+
+The transport, replay, provenance, and local naming rows $H,K,Q,N$ preserve the same displayed rows. They do not add a second claim, a second export grade, or a hidden ledger.
+
+Consequently any admitted export is closed by the same finite packet that names its positive and negative audit data.
+\end{proof}
+
+\begin{theorem}[Audit system independence witness]
+\label{thm:audit-system-independence-witness}
+The $\AuditSystemUp$ carrier is not bijective, under NameCert-row preservation, to $\ClaimRegistryLayerUp$, $\FailureCertificateUp$, $\RegistryExportConsistencyGateUp$, or $\KernelAcceptanceAuditWitnessUp$.
+\end{theorem}
+\begin{proof}
+Compare the displayed rows. $\ClaimRegistryLayerUp$ registers or refuses package claims, $\FailureCertificateUp$ supplies a typed negative certificate, $\RegistryExportConsistencyGateUp$ blocks inconsistent export, and $\KernelAcceptanceAuditWitnessUp$ records kernel-side acceptance audit data.
+
+None of those siblings carries the simultaneous positive-certificate row $P$, failure-certificate row $F$, cannot-claim row $R$, export-grade row $E$, and ledger-closure row $L$ for the same admissible claim $C$. A NameCert-row-preserving bijection would have to preserve that joint positive and negative audit surface, so no such bijection exists.
+\end{proof}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/AuditSystemUp/TasteGate.lean} must provide explicit $\Nontrivial\ \AuditSystemUp$ and $\FieldFaithful\ \AuditSystemUp$ instances. The field-faithfulness witness must preserve $C,P,F,R,E,L,H,K,Q,N$ as distinct rows so positive certification, typed failure, cannot-claim refusal, export grade, and ledger closure cannot be merged.
+
+\falsifiablePrediction{If an AuditSystemUp packet accepts a claim while its failure-certificate row is active, the export-refusal theorem produces a certificate conflict rather than an exportable claim.}
+
+\independenceWitness{Compare claimregistrylayer, failurecertificate, registryexportconsistencygate, kernelacceptanceauditwitness: AuditSystemUp is not bijective with any one sibling because it carries both positive certificate and negative refusal rows plus export-grade ledger closure.}
+
+\closureat{AuditSystemUp}{seedStr}
+\closureat{AuditSystemUp}{obligationStr}
+
+\begin{closurestatus}{\AuditSystemUp}
+  \constructivestory{An $\AuditSystemUp$ packet is generated from admissible-claim, positive-certificate, failure-certificate, cannot-claim, export-grade, ledger-closure, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-system-carrier}, \autoref{thm:audit-system-namecert-surface}, \autoref{thm:audit-system-export-refusal}, \autoref{thm:audit-system-ledger-closure}, and \autoref{thm:audit-system-independence-witness} bind the carrier, NameCert surface, export refusal, ledger closure, and independence witness displayed in this chapter.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, proof of every exported claim, or registry export beyond the displayed audit packet.}
+  \upgradepath{Obligation closure requires Lean $\Nontrivial$ and $\FieldFaithful$ TasteGate instances plus checked carrier, export-refusal, and ledger rows for $C,P,F,R,E,L,H,K,Q,N$.}
+\end{closurestatus}

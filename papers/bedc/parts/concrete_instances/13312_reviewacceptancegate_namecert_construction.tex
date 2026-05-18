@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\ReviewAcceptanceGateUp$}
+\label{ch:concrete-instances-review-acceptance-gate-namecert}
+\origin{ai}
+
+The $\ReviewAcceptanceGateUp$ packet realizes the research-programme route of \autoref{sec:visions-philosophy-research-programme} as a finite NameCert surface for operator review. It sits beside the failure-certificate packet of \autoref{ch:concrete-instances-failurecertificate-namecert}, the cannot-claim export gate of \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert}, the machine-interface boundary of \autoref{ch:concrete-instances-machine-interface-boundary-namecert}, the kernel acceptance witness of \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, and the kernel audit witness of \autoref{ch:concrete-instances-kernel-audit-witness-namecert}. Those siblings expose refusal, export blocking, machine-facing routing, kernel admission, and audit readback separately; this carrier binds proposal, decision, rejected alternatives, acceptance row, audit readback, and non-automation boundary before a consumer may read operator approval.
+
+\begin{definition}[Review acceptance gate carrier]
+\label{def:review-acceptance-gate-carrier}
+A $\ReviewAcceptanceGateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,D,R,A,M,K,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the proposal row, naming the claim site, proposed paper or Lean target, requested gate, and submitted certificate packet;
+\item $D$ is the decision row, recording accept, refuse, request-more-evidence, cannot-claim, or machine-boundary refusal for the same proposal;
+\item $R$ is the rejected-alternatives row, listing rejected readings, unavailable proof routes, refused automation paths, and non-exportable claim variants;
+\item $A$ is the human acceptance row, present exactly when the operator accepts the proposal as a review decision rather than as an automated theorem result;
+\item $M$ is the $\MachineInterfaceBoundaryUp$ row, recording what the machine-facing route may expose and what it must refuse;
+\item $K$ is the kernel row, read through $\KernelAcceptanceWitnessUp$ and $\KernelAuditWitnessUp$ when a Lean declaration or marker is part of the proposal;
+\item $Q$ is the blocked-claim row, consumed from $\FailureCertificateUp$ and $\CannotClaimExportGateUp$ when the decision refuses approval or export;
+\item $H$ records componentwise $\hsame$ transport for proposal, decision, rejected alternatives, acceptance, machine boundary, kernel rows, blocked-claim rows, continuation, provenance, and local naming;
+\item $C$ records displayed $\Cont$ replay for reading $S,D,R,A,M,K,Q$ without adding an invisible approving agent;
+\item $P$ is the $\Pkg$ provenance over $\ReviewAcceptanceGateUp$, $\FailureCertificateUp$, $\CannotClaimExportGateUp$, $\MachineInterfaceBoundaryUp$, $\KernelAcceptanceWitnessUp$, $\KernelAuditWitnessUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ReviewAcceptanceGateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for converting a machine-produced proposal, kernel acceptance stamp, audit readback, cannot-claim refusal, or failure certificate into operator approval without the displayed human acceptance row $A$.
+\end{definition}
+\leanchecked{BEDC.Derived.ReviewAcceptanceGateUp.ReviewAcceptanceGateTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Review acceptance gate NameCert obligations]
+\label{thm:review-acceptance-gate-namecert-obligations}
+For the carrier of \autoref{def:review-acceptance-gate-carrier}, the local $\NameCert_{\ReviewAcceptanceGateUp}$ surface consists exactly of carrier admission for $G=(S,D,R,A,M,K,Q,H,C,P,N)$, proposal exposure through $S$, decision exposure through $D$, rejected-alternative exposure through $R$, human acceptance exposure through $A$, machine-boundary exposure through $M$, kernel acceptance and audit exposure through $K$, refusal and export-block exposure through $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $G=(S,D,R,A,M,K,Q,H,C,P,N)$. The proposal row $S$ fixes the claim site and requested gate, while $D$ records the decision attached to that same proposal.
+
+Read the boundary rows next. The rejected-alternatives row $R$ records routes not accepted; the human acceptance row $A$ is the only row that turns the decision into operator approval; the machine boundary row $M$ and kernel row $K$ expose machine and Lean-side evidence without identifying either with approval.
+
+Finally inspect $Q,H,C,P,N$. Refusal and cannot-claim rows remain visible through $Q$, while transport, replay, provenance, and local naming preserve the same displayed packet. Since no further coordinate remains, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Review acceptance gate human approval boundary]
+\label{thm:review-acceptance-gate-human-approval-boundary}
+For every accepted $\ReviewAcceptanceGateUp$ packet $G=(S,D,R,A,M,K,Q,H,C,P,N)$, a consumer may read operator approval only through the human acceptance row $A$ together with the proposal and decision rows $S,D$. Kernel acceptance data in $K$, audit readback in $K$, machine-facing route data in $M$, and refusal data in $Q$ do not by themselves produce an accepted operator decision.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. It separates the proposal, decision, rejected alternatives, human acceptance, machine boundary, kernel rows, and blocked-claim rows as distinct coordinates.
+
+The NameCert obligations above make that separation consumer-visible. A route that reads $K$ obtains kernel acceptance or audit data; a route that reads $M$ obtains machine-facing admissibility; a route that reads $Q$ obtains refusal or export blocking. None of these rows is the human acceptance row.
+
+Therefore the only approval route is the one that reads $S,D,A$ in the same packet and then transports, replays, sources, and names that packet through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Review acceptance gate non-automation boundary]
+\label{thm:review-acceptance-gate-non-automation-boundary}
+If the human acceptance row $A$ is removed from an accepted $\ReviewAcceptanceGateUp$ packet, then no route through $S,D,R,M,K,Q,H,C,P,N$ can classify the packet as operator approved. The remaining rows may still expose a proposal, a machine boundary, a kernel or audit witness, a refusal, rejected alternatives, transport, replay, provenance, and local naming, but they cannot cross the operator-only gate.
+\end{theorem}
+\begin{proof}
+Remove $A$ and read the remaining coordinates. The proposal and decision rows can still name a requested gate, and the rejected-alternatives row can still record what was refused.
+
+The machine, kernel, audit, failure, and cannot-claim rows then remain evidence rows only. They may support or block a decision, but none of them has the operator-approval type carried by $A$.
+
+Transport, continuation, provenance, and local naming preserve existing rows rather than creating a missing one. Hence a packet without $A$ cannot pass the operator-only gate as an accepted review packet.
+\end{proof}
+
+\falsifiablePrediction{Removing the human acceptance row prevents any accepted packet from passing the operator-only gate.}
+
+\independenceWitness{failurecertificate, cannotclaimexportgate, machineinterfaceboundary, kernelacceptancewitness, kernelauditwitness: none is bijective to ReviewAcceptanceGateUp because only ReviewAcceptanceGateUp preserves proposal, decision, rejected alternatives, acceptance row, and non-automation boundary in one packet.}
+
+The Lean TasteGate file must provide explicit $\Nontrivial\ \ReviewAcceptanceGateUp$ and $\FieldFaithful\ \ReviewAcceptanceGateUp$ instances in \texttt{lean4/BEDC/Derived/ReviewAcceptanceGateUp/TasteGate.lean}. The field-faithfulness witness must preserve $S,D,R,A,M,K,Q,H,C,P,N$ as distinct rows before a checked target can cite \texttt{BEDC.Derived.ReviewAcceptanceGateUp.taste\_gate}.
+
+\closureat{ReviewAcceptanceGateUp}{seedStr}
+\closureat{ReviewAcceptanceGateUp}{obligationStr}
+
+\begin{closurestatus}{\ReviewAcceptanceGateUp}
+  \constructivestory{A $\ReviewAcceptanceGateUp$ packet is generated from proposal, decision, rejected-alternative, human-acceptance, machine-boundary, kernel-acceptance, kernel-audit, blocked-claim, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming rows. The classifier reads operator approval only when the proposal and decision are paired with the explicit human acceptance coordinate; machine-produced proposals, kernel stamps, audits, and refusals remain separate rows. The ledger story is non-automation: every accepted review route is generated from finite BEDC evidence plus the displayed acceptance row, and transport or replay can preserve that row but cannot synthesize it from machine evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier definition, NameCert-obligation, human-approval-boundary, non-automation-boundary, independence witness, Lean-follow-up boundary, and existing closure annotations for $\ReviewAcceptanceGateUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim conversion of machine proposals, kernel acceptance, audit readback, refusals, or failure certificates into approval without the human acceptance row.}
+  \upgradepath{To reach obligationClosure, the review carrier and non-automation boundary must be checked as finite-row acceptance obligations.}
+\end{closurestatus}

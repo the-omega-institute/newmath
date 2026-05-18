@@ -1,9 +1,12 @@
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteReflectionTupleUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -284,5 +287,63 @@ theorem FiniteReflectionTupleTasteGate_single_carrier_alignment :
       · constructor
         · exact Nonempty.intro finiteReflectionTupleFieldFaithful
         · exact Nonempty.intro finiteReflectionTupleChapterTasteGate
+
+theorem FiniteReflectionTupleNameCert_obligations
+    (x : FiniteReflectionTupleUp) :
+    ∃ X S A W I R H C P Q N : BHist,
+      x = FiniteReflectionTupleUp.mk X S A W I R H C P Q N ∧
+        FieldFaithful.fields x = [X, S, A, W, I, R, H, C, P, Q, N] ∧
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
+            hsame H H ∧ Cont C P (append C P) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk X S A W I R H C P Q N =>
+      exact
+        ⟨X, S, A, W, I, R, H, C, P, Q, N, rfl, rfl,
+          finiteReflectionTupleChapterTasteGate.round_trip
+            (FiniteReflectionTupleUp.mk X S A W I R H C P Q N),
+          hsame_refl H, rfl⟩
+
+theorem FiniteReflectionTupleCarrier_bridge_facing_row_totality
+    (x : FiniteReflectionTupleUp) :
+    ∃ X S A W I R H C P Q N : BHist,
+      x = FiniteReflectionTupleUp.mk X S A W I R H C P Q N ∧
+        FieldFaithful.fields x = [X, S, A, W, I, R, H, C, P, Q, N] ∧
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
+            Cont I R (append I R) ∧
+              Cont H C (append H C) ∧
+                Cont C P (append C P) ∧
+                  Cont Q N (append Q N) ∧
+                    (Cont (append I R) (BHist.e0 Q) I → False) := by
+  -- BEDC touchpoint anchor: BHist Cont FieldFaithful
+  cases x with
+  | mk X S A W I R H C P Q N =>
+      exact
+        ⟨X, S, A, W, I, R, H, C, P, Q, N, rfl, rfl,
+          finiteReflectionTupleChapterTasteGate.round_trip
+            (FiniteReflectionTupleUp.mk X S A W I R H C P Q N),
+          rfl, rfl, rfl, rfl,
+          (fun hbad =>
+            (cont_mutual_extension_right_tail_absurd
+              (h := I) (k := append I R) (leftTail := R) (rightTail := Q)).left rfl hbad)⟩
+
+theorem FiniteReflectionTupleCarrier_field_faithful_prediction
+    (x : FiniteReflectionTupleUp) :
+    ∃ X S A W I R H C P Q N : BHist,
+      x = FiniteReflectionTupleUp.mk X S A W I R H C P Q N ∧
+        FieldFaithful.fields x = [X, S, A, W, I, R, H, C, P, Q, N] ∧
+          (∀ y : FiniteReflectionTupleUp, FieldFaithful.fields y = FieldFaithful.fields x →
+            y = x) ∧
+            Cont I R (append I R) ∧ Cont H C (append H C) ∧
+              Cont C P (append C P) ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame FieldFaithful
+  cases x with
+  | mk X S A W I R H C P Q N =>
+      exact
+        ⟨X, S, A, W, I, R, H, C, P, Q, N, rfl, rfl,
+          (fun y sameFields =>
+            FieldFaithful.field_faithful y
+              (FiniteReflectionTupleUp.mk X S A W I R H C P Q N) sameFields),
+          rfl, rfl, rfl, hsame_refl N⟩
 
 end BEDC.Derived.FiniteReflectionTupleUp

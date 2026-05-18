@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier records a finite flow-level encoding and decoder readback. It has no coordinate for compiler verdicts, event-flow aggregate audits, routed certificate gates, audit-map frontier packets, obstruction sockets, report evidence, motif evidence, metric evidence, or host compiler state.
 \end{definition}
+\leanchecked{BEDC.Derived.GroundCompilerFlowLevelRoundTripUp.GroundCompilerFlowLevelRoundTripTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[GroundCompiler flow-level round-trip NameCert obligations]
 \label{thm:groundcompiler-flow-level-round-trip-namecert-obligations}
@@ -62,3 +63,14 @@ The sibling packets named in the chapter opening have different carrier coordina
 \falsifiablePrediction{If a packet exposes Decode(FlowEncoding S)=some S but omits the displayed legal-stream or decoder row, then it fails the local NameCert obligations.}
 
 Lean follow-up for this surface must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in \texttt{lean4/BEDC/Derived/GroundCompilerFlowLevelRoundTripUp/TasteGate.lean}.
+
+\begin{closurestatus}{\GroundCompilerFlowLevelRoundTripUp}
+  \constructivestory{A $\GroundCompilerFlowLevelRoundTripUp$ packet is generated from a GroundCompiler flow-level row, finite flow encoding, decoder row, legal-stream certificate, audit-map transport row, route row, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. The carrier accepts a round-trip only after the encoded stream is displayed as legal and the decoder readback returns the same flow level. The classifier therefore isolates one local flow-level row of the audit map: it preserves encoding and decoder data without importing verdicts, frontiers, reports, or host compiler state.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the GroundCompiler flow-level round-trip carrier, NameCert obligations, non-escape theorem, prediction, and independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim audit verdicts, aggregate event-flow audits, certificate-gate routes, frontier packets, obstruction sockets, report evidence, or host compiler state.}
+  \upgradepath{To reach obligationClosure, formalize legal-stream admission and decoder readback as a checked finite round-trip carrier.}
+\end{closurestatus}

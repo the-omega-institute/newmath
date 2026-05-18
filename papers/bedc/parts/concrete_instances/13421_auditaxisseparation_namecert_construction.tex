@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\AuditAxisSeparationUp$}
+\label{ch:concrete-instances-audit-axis-separation-namecert}
+\origin{ai}
+
+The $\AuditAxisSeparationUp$ packet realizes the two-axis discipline of \autoref{sec:visions-philosophy-audit-methodology} as a concrete finite NameCert surface. It sits beside the writing discipline of \autoref{ch:concrete-instances-audit-writing-discipline-namecert}, the closure-status reference of \autoref{ch:concrete-instances-closure-status-reference-namecert}, the registry consistency audit of \autoref{ch:concrete-instances-registry-consistency-audit-namecert}, the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, and the registry export consistency gate of \autoref{ch:concrete-instances-registry-export-consistency-gate-namecert}. Those siblings expose legal audit prose, status references, agreement checks, public export, and consistency gates; this carrier binds the theory-closure and formal-verification rows together without allowing either row to determine the other.
+
+\begin{definition}[Audit axis separation carrier]
+\label{def:audit-axis-separation-carrier}
+An $\AuditAxisSeparationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(T,F,L,B,R,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the theory-closure row, recording the paper-side grade and its closed scope.
+\item $F$ is the formal-status row, recording the Lean-side verification grade without deriving it from $T$.
+\item $L$ is the Lean-target row, recording the canonical machine target when one is displayed and remaining empty when the packet is unformalized.
+\item $B$ is the bridge-status row, recording whether no bridge, a paper bridge, or a checked bridge is available.
+\item $R$ is the refusal and not-claimed row, recording exactly which readings the packet refuses to export.
+\item $X$ is the registry-export row, recording the public export surface that may read the status packet.
+\item $H$ records componentwise $\hsame$ transport for theory closure, formal status, Lean target, bridge status, refusal, registry export, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from registry export and closure-status consumers through the same two-axis packet.
+\item $P$ is the $\Pkg$ provenance over $\AuditAxisSeparationUp$, $\AuditWritingDisciplineUp$, $\ClosureStatusReferenceUp$, $\RegistryConsistencyAuditUp$, $\RegistryExportSurfaceUp$, $\RegistryExportConsistencyGateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\AuditAxisSeparationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a single status row, for deriving $F$ from $T$, for deriving $T$ from $F$, for erasing the Lean-target or bridge row, or for exporting a claim outside the refusal and registry rows.
+\end{definition}
+\leanchecked{BEDC.Derived.AuditAxisSeparationUp.AuditAxisSeparationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Audit axis separation NameCert obligations]
+\label{thm:audit-axis-separation-namecert-obligations}
+For the carrier of \autoref{def:audit-axis-separation-carrier}, the local $\NameCert_{\AuditAxisSeparationUp}$ surface consists exactly of carrier admission for $A=(T,F,L,B,R,X,H,C,P,N)$, theory-closure exposure through $T$, formal-status exposure through $F$, Lean-target visibility through $L$, bridge-status visibility through $B$, refusal and not-claimed exactness through $R$, registry-export exposure through $X$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet. The rows $T,F,L,B,R,X,H,C,P,N$ are the only coordinates available before the local name can be read.
+
+Read the two status axes first. The row $T$ records paper closure, while the row $F$ records formal verification. The Lean-target row $L$ and bridge-status row $B$ are separate displays, so neither status row can silently absorb machine-target or bridge data.
+
+Finally inspect the audit and registry rows. The refusal row $R$ blocks overstrong readings, $X$ supplies the public export surface, and $H,C,P,N$ transport, replay, source, and name the same displayed packet. These rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Audit axis separation noncollapse]
+\label{thm:audit-axis-separation-noncollapse}
+In every accepted $\AuditAxisSeparationUp$ packet, theory closure is read only from $T$ and formal verification is read only from $F$. Registry export may display the pair, compare the pair, and refuse claims that omit either row, but no accepted consumer can replace the pair by one collapsed status coordinate or infer either row from the other.
+\end{theorem}
+\begin{proof}
+Use the carrier inventory of \autoref{def:audit-axis-separation-carrier}. The two rows $T$ and $F$ are distinct coordinates, and the carrier contains no function row from one status coordinate to the other.
+
+Apply \autoref{thm:audit-axis-separation-namecert-obligations}. The NameCert surface exposes both rows before any Lean target, bridge status, refusal surface, registry export, transport, replay, provenance, or local name can be consumed.
+
+The registry and continuation rows preserve the displayed packet rather than computing a status grade. Hence a consumer may jointly report the two axes, but a collapsed status coordinate or cross-axis inference is outside the accepted $\AuditAxisSeparationUp$ carrier.
+\end{proof}
+
+\falsifiablePrediction{A packet with only a theory-closure row or only a formal-status row is not an accepted $\AuditAxisSeparationUp$ carrier.}
+
+\independenceWitness{audit-writing-discipline, closure-status-reference, registry-consistency-audit, registry-export-surface, registry-export-consistency-gate: none is bijective to $\AuditAxisSeparationUp$ because none carries the same paired noncollapsing theory/formal axis rows together with Lean-target, bridge-status, refusal, registry-export, transport, replay, provenance, and local NameCert rows.}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/AuditAxisSeparationUp/TasteGate.lean} must provide explicit $\Nontrivial\ \AuditAxisSeparationUp$ and $\FieldFaithful\ \AuditAxisSeparationUp$ instances. The field-faithfulness witness must preserve $T,F,L,B,R,X,H,C,P,N$ as separate rows before the canonical alignment target may be read as checked.
+
+\closureat{AuditAxisSeparationUp}{seedStr}
+
+\begin{closurestatus}{\AuditAxisSeparationUp}
+  \constructivestory{An $\AuditAxisSeparationUp$ packet is generated from theory-closure, formal-status, Lean-target, bridge-status, refusal, registry-export, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-axis-separation-carrier}, \autoref{thm:audit-axis-separation-namecert-obligations}, and \autoref{thm:audit-axis-separation-noncollapse} bind the two-axis audit packet and its noncollapse rule as a finite NameCert surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, registry correctness beyond the displayed export row, or any derivation between theory closure and formal verification.}
+  \upgradepath{Lean closure requires Nontrivial AuditAxisSeparationUp and FieldFaithful AuditAxisSeparationUp instances for $T,F,L,B,R,X,H,C,P,N$.}
+\end{closurestatus}

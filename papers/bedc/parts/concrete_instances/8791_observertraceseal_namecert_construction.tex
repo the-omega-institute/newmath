@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-observertraceseal-namecert}
 \origin{ai}
 
-The $\ObserverTraceSealUp$ packet realizes the observer-history identity vision of \autoref{ch:visions-observer-hist-identity} as a finite sealed trace certificate. It reads the no-subject identity surface of \autoref{ch:concrete-instances-observerhistidentity-namecert} together with the observer trace, distinction trace, bounded trace, and finite evaluator siblings. Its novelty is the seal row: a visible refusal ledger that binds each accepted trace to the same observer row, observation row, route, provenance, and local name before any consumer may read the trace.
+The $\ObserverTraceSealUp$ packet realizes the observer-history identity vision of \autoref{ch:visions-observer-hist-identity} as a finite sealed trace certificate. It reads the no-subject identity surface of \autoref{ch:concrete-instances-observerhistidentity-namecert} together with the observer trace, distinction trace, bounded trace, and finite evaluator siblings. The finite evaluator sibling of \autoref{ch:concrete-instances-finitetraceevaluator-namecert} supplies bounded checkpoint and runtime readback, while $\ObserverTraceSealUp$ adds the seal and no-subject refusal row. Its novelty is the seal row: a visible refusal ledger that binds each accepted trace to the same observer row, observation row, route, provenance, and local name before any consumer may read the trace.
 
 \begin{definition}[ObserverTraceSeal carrier]
 \label{def:observer-trace-seal-carrier}
@@ -64,14 +64,18 @@ Now attach the seal row $R$. The refusal ledger is part of the same accepted pac
 The seal row plus the no-subject refusal ledger prevents a bijection to any sibling carrier. $\ObserverHistIdentityUp$ supplies identity comparison without a sealed trace row, $\ObserverKernelTraceUp$ supplies trace exposure without the extra seal obligation, $\ObserverDistinctionTraceUp$ orders distinction steps without bounded trace readback, $\BoundedUniversalTraceUp$ supplies a fuel-indexed trace without observer-history identity, and $\FiniteTraceEvaluatorUp$ supplies finite evaluation without the no-subject seal.
 
 \closureat{ObserverTraceSealUp}{seedStr}
+\closureat{ObserverTraceSealUp}{obligationStr}[BEDC.Derived.ObserverTraceSealUp.ObserverTraceSealUp\_taste\_gate\_boundary]
+\closureat{ObserverTraceSealUp}{scopedStr}[BEDC.Derived.ObserverTraceSealUp.ObserverTraceSealUp\_taste\_gate\_boundary]
 
 \begin{closurestatus}{\ObserverTraceSealUp}
   \constructivestory{An $\ObserverTraceSealUp$ packet is generated from an observer row, trace row, observation row, seal and no-subject refusal ledger, componentwise hsame transport, displayed Cont routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:observer-trace-seal-carrier}, \autoref{thm:observer-trace-seal-namecert-obligations}, and \autoref{thm:observer-trace-seal-non-subject-nonescape} specify the finite sealed trace packet and its no-subject boundary.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\auditCleanV}
+  \leanchecked{BEDC.Derived.ObserverTraceSealUp.taste\_gate}
+  \leantarget{BEDC.Derived.ObserverTraceSealUp.ObserverTraceSealUp\_taste\_gate\_boundary}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, a host observer model, quotient observer identity, detached trace ownership, or evaluator graph semantics.}
-  \upgradepath{Obligation closure requires checked carrier admission, observer-trace exposure, seal refusal exactness, hsame transport, Cont replay, provenance, local naming, and TasteGate nontriviality with field faithfulness.}
+  \upgradepath{Public closure requires a bridge-facing consumer surface for the same displayed observer, trace, seal, transport, replay, provenance, and local naming rows.}
 \end{closurestatus}

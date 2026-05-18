@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\ProofPatternClassifierUp$}
+\label{ch:concrete-instances-proof-pattern-classifier-namecert}
+\origin{ai}
+
+The $\ProofPatternClassifierUp$ packet realizes the proof-pattern discipline of \autoref{subsec:philosophy-bedc-form-proof}, \autoref{subsec:philosophy-permitted-contradiction}, and \autoref{subsec:philosophy-prohibited-contradiction} as finite NameCert data. It sits beside the proof witness chain of \autoref{ch:concrete-instances-proofwitnesschain-namecert}, the forward-binding GAP ledger of \autoref{ch:concrete-instances-forward-binding-gap-ledger-namecert}, the GAP socket boundary of \autoref{ch:concrete-instances-gap-socket-boundary-namecert}, the registry no-smuggling predicate of \autoref{ch:concrete-instances-registrynosmugglingpredicate-namecert}, and the typed failure certificate of \autoref{ch:concrete-instances-typed-failure-certificate-namecert}. Those siblings expose proof traces, forward commitments, missing-supply boundaries, export refusal, and typed failure status separately; this packet classifies proof-pattern routes only when positive witness construction, local refutation, decidable double-negation, and prohibited positive extraction remain separated.
+
+\begin{definition}[Proof-pattern classifier carrier]
+\label{def:proof-pattern-classifier-carrier}
+A $\ProofPatternClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+P=(W,L,D,R,E,G,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the proof-witness-chain row, recording the accepted finite proof trace, source carrier, classifier witness, ledger, refusal, audit verdict, provenance, and local name consumed from $\ProofWitnessChainUp$;
+\item $L$ is the local carrier and classifier context, recording the fixed object row, predicate row, classifier row, and local certificate surface against which the proof pattern is read;
+\item $D$ is the displayed decidability evidence, present exactly when a local $\mathsf{Decidable}(P(h))$ route is available for the named predicate and history row;
+\item $R$ is the local refutation and inversion evidence, recording carrier no-confusion, classifier inversion, certificate-field contradiction, and typed failure rows;
+\item $E$ is the forbidden positive-extraction refusal row, blocking extraction of existential or positive witness content from $\neg\forall h,\neg P(h)$, undecided $\neg\neg P(h)$, arbitrary excluded middle, quotient collapse, host equality, or hidden choice;
+\item $G$ is the GAP row for forward-binding commitments, recording any unsupported universal, future, or missing-supply component through $\ForwardBindingGapLedgerUp$ and $\GapSocketBoundaryUp$ rather than as proof content;
+\item $H$ records componentwise $\hsame$ transport for proof witness, local classifier, decidability, refutation, refusal, GAP, continuation, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay for positive witness construction, local refutation, decidable double-negation, positive-extraction refusal, GAP handoff, and downstream audit;
+\item $Q$ records $\Pkg$ provenance over $\ProofPatternClassifierUp$, $\ProofWitnessChainUp$, $\ForwardBindingGapLedgerUp$, $\GapSocketBoundaryUp$, $\RegistryNoSmugglingPredicateUp$, $\TypedFailureCertificateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ProofPatternClassifierUp}$ row.
+\end{enumerate}
+The carrier exports no route from refutation to positive content, no double-negation eliminator without $D$, no witness for an existential claim without a displayed witness row in $W$ or $L$, and no registry export that bypasses $E,G,Q,N$.
+\end{definition}
+\leanchecked{BEDC.Derived.ProofPatternClassifierUp.ProofPatternClassifierTasteGate\_single\_carrier\_alignment}
+\leandef{BEDC.Derived.ProofPatternClassifierUp.ProofPatternClassifierUp}
+
+\begin{theorem}[Proof-pattern classifier NameCert obligations]
+\label{thm:proof-pattern-classifier-namecert-obligations}
+For the carrier of \autoref{def:proof-pattern-classifier-carrier}, the local $\NameCert_{\ProofPatternClassifierUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier exposure for $P=(W,L,D,R,E,G,H,C,Q,N)$;
+\item classifier stability for the proof-witness row $W$ against the local carrier and classifier context $L$, preserved under $H$ and $C$;
+\item local-refutation boundary through $R$, with typed failure and certificate-field contradiction kept inside the displayed carrier and classifier rows;
+\item decidable double-negation gate through $D$, allowing $\neg\neg P(h)$ to be consumed as positive content only when the same local predicate row has displayed decidability;
+\item positive-extraction refusal through $E,G,Q,N$, blocking positive witness export from negative or undecided premises and preserving the GAP and no-smuggling audit route.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the packet of \autoref{def:proof-pattern-classifier-carrier}. The local certificate can read only $W,L,D,R,E,G,H,C,Q,N$, so carrier exposure fixes the proof witness, classifier context, decision row, refutation row, refusal row, GAP row, transport, replay, provenance, and local name.
+
+Classifier stability is then read through $W,L,H,C$. The proof witness row supplies the finite proof chain, the local row supplies the predicate and classifier surface, and transport plus replay preserve that same pairing for downstream use.
+
+The remaining obligations separate the three proof-pattern exits. The refutation route uses $R$ only as local inversion against displayed rows; the double-negation route uses $D$ only as displayed decidability; and the refusal route uses $E,G,Q,N$ to prevent missing witnesses or unsupported universal commitments from becoming positive proof content.
+\end{proof}
+
+\begin{theorem}[Proof-pattern classifier local-refutation boundary]
+\label{thm:proof-pattern-classifier-local-refutation-boundary}
+An accepted $\ProofPatternClassifierUp$ packet accepts a negative proof only when its refutation factors through the displayed carrier row $L$, proof-witness row $W$, local inversion row $R$, transport row $H$, replay row $C$, provenance row $Q$, and local NameCert row $N$. A contradiction that requires a hidden truth predicate, unrecorded classifier crossing, host equality, quotient collapse, or missing certificate field is outside the accepted local-refutation route.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:proof-pattern-classifier-namecert-obligations}. A negative proof is accepted through the local-refutation row, not through a global truth classifier.
+
+The row $R$ must therefore consume a purported witness through the displayed carrier and classifier context $L$ and the proof-witness chain $W$. Transport and replay are limited to $H$ and $C$, while provenance and local naming remain $Q$ and $N$.
+
+If the contradiction uses hidden truth, unrecorded classifier crossing, host equality, quotient collapse, or an absent certificate field, the factorization through $L,W,R,H,C,Q,N$ fails. The packet then records no accepted negative proof; it records either a refusal route through $E$ or an exposed GAP route through $G$.
+\end{proof}
+
+\begin{theorem}[Proof-pattern classifier positive-extraction refusal]
+\label{thm:proof-pattern-classifier-positive-extraction-refusal}
+No accepted $\ProofPatternClassifierUp$ packet can turn $\neg\forall h,\neg P(h)$ or undecided $\neg\neg P(h)$ into positive content without the displayed decidability row $D$ or a displayed witness row in $W$ or $L$. In particular, the packet refuses existential export, theorem-evidence export, and local NameCert export for any route whose only positive source is negative pressure, undecided double negation, arbitrary excluded middle, or a hidden registry entry.
+\end{theorem}
+\begin{proof}
+Read the carrier rows. Positive content must come from a witness already displayed in $W$ or $L$, or from a decidable double-negation route whose decision evidence is displayed in $D$.
+
+The premise $\neg\forall h,\neg P(h)$ supplies no named $h$ and no row witnessing $P(h)$. The premise $\neg\neg P(h)$ supplies no constructor for $P(h)$ unless the same local predicate row is accompanied by $D$.
+
+The refusal row $E$ and GAP row $G$ record exactly these missing-source cases. Provenance and local naming through $Q,N$ preserve the refusal, while the registry no-smuggling sibling prevents a hidden entry from being exported as theorem evidence. Hence the accepted packet cannot convert negative pressure or undecided double negation into positive content.
+\end{proof}
+
+\falsifiablePrediction{If the displayed decidability row is removed, the packet cannot export double-negation elimination as an accepted proof-pattern route.}
+
+\independenceWitness{proofwitnesschain, forwardbindinggapledger, gapsocketboundary, registrynosmugglingpredicate, typedfailurecertificate: none is bijective to $\ProofPatternClassifierUp$. ProofWitnessChainUp carries a proof trace without the four-way classifier boundary; ForwardBindingGapLedgerUp carries future and unsupported commitments without local proof-pattern classification; GapSocketBoundaryUp exposes missing supply without deciding proof routes; RegistryNoSmugglingPredicateUp blocks registry export without classifying local refutation and decidable double negation; TypedFailureCertificateUp records typed failure without the positive-witness and positive-extraction refusal split.}
+
+The Lean follow-up must provide $\Nontrivial\ \ProofPatternClassifierUp$ and $\FieldFaithful\ \ProofPatternClassifierUp$ instances in \texttt{lean4/BEDC/Derived/ProofPatternClassifierUp/TasteGate.lean}. The field-faithfulness witness must preserve $W,L,D,R,E,G,H,C,Q,N$ as distinct rows before downstream audit, GAP, no-smuggling, or proof-pattern consumers cite $\mathsf{BEDC.Derived.ProofPatternClassifierUp}$.
+
+\closureat{ProofPatternClassifierUp}{seedStr}
+
+\begin{closurestatus}{\ProofPatternClassifierUp}
+  \constructivestory{A $\ProofPatternClassifierUp$ packet is generated from proof-witness-chain, local carrier and classifier, displayed decidability, local refutation, positive-extraction refusal, GAP, transport, continuation, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proof-pattern-classifier-carrier}, \autoref{thm:proof-pattern-classifier-namecert-obligations}, \autoref{thm:proof-pattern-classifier-local-refutation-boundary}, and \autoref{thm:proof-pattern-classifier-positive-extraction-refusal} bind the finite classifier packet, its naming obligations, its local refutation boundary, and its refusal of unwitnessed positive extraction.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not supply Lean verification, bridge checking, global excluded middle, a truth predicate, unwitnessed existential content, hidden registry theorem evidence, or positive extraction from undecided double negation for $\ProofPatternClassifierUp$.}
+  \upgradepath{Lean closure requires Nontrivial ProofPatternClassifierUp and FieldFaithful ProofPatternClassifierUp instances.}
+\end{closurestatus}

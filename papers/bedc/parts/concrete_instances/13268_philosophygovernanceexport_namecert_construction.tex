@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\PhilosophyGovernanceExportUp$}
+\label{ch:concrete-instances-philosophy-governance-export-namecert}
+\origin{ai}
+
+The $\PhilosophyGovernanceExportUp$ packet realizes the governance and export discipline of \autoref{sec:visions-philosophy-package-governance} as one finite NameCert carrier. It sits beside the package carrier of \autoref{ch:concrete-instances-bedc-philosophy-package-namecert}, the cannot-claim export gate of \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert}, the claim registry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, the philosophy map target of \autoref{ch:concrete-instances-philosophy-map-target-namecert}, and the gap/failure bridge audit of \autoref{ch:concrete-instances-gap-failure-bridge-audit-namecert}. Those siblings expose package rows, refusal-gate rows, claim rows, map-target rows, and bridge-audit rows separately; this carrier binds them before any package reading may leave as an export-grade claim.
+
+\begin{definition}[Philosophy governance-export carrier]
+\label{def:philosophy-governance-export-carrier}
+A $\PhilosophyGovernanceExportUp$ carrier is a finite $\BHist$ packet
+$$
+E=(P,R,L,S,C,X,T,O,H,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the package row, recording the $\BedcPhilosophyPackageUp$ thesis, registry, theorem-map, gap-map, tradition/science-map, closure-status, and audit-policy coordinates consumed by the export.
+\item $R$ is the finite cannot-claim registry row for the same package reading.
+\item $L$ is the active-label row, recording the current citation target, active formulation, and label discipline for the exported reading.
+\item $S$ is the capstone row, recording whether the reading spans the required registered domains and which dependencies are displayed.
+\item $C$ is the claim-registry row, recording claim text, admission status, local refusal status, and public route.
+\item $X$ is the export-grade row, recording reading export, paper-synthesis export, component-checked export, formal-package target, or formal-package checked status.
+\item $T$ is the transport row from $\CannotClaimExportGateUp$, $\ClaimRegistryLayerUp$, $\PhilosophyMapTargetUp$, and $\GapFailureBridgeAuditUp$ into the same package reading.
+\item $O$ is the route and provenance row, recording displayed $\Cont$ replay, $\Pkg$ source data, and package-file provenance for $P,R,L,S,C,X,T,H,N$.
+\item $H$ records componentwise $\hsame$ transport for package, registry, active-label, capstone, claim, export-grade, transport, route, provenance, and naming rows.
+\item $K$ is the policy row enforcing finite registry lookup, refusal lookup, active-label lookup, capstone dependency lookup, export-grade lookup, and no hidden checked-target override.
+\item $N$ is the local $\NameCert_{\PhilosophyGovernanceExportUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an export whose claim row bypasses the cannot-claim registry, whose active label detaches from the exported formulation, whose capstone dependency list is implicit, whose export grade outruns its certificate, or whose checked formal-package status is supplied by host-side prose.
+\end{definition}
+\leanchecked{BEDC.Derived.PhilosophyGovernanceExportUp.PhilosophyGovernanceExportTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Philosophy governance-export no override]
+\label{thm:philosophy-governance-export-no-override}
+Every accepted $\PhilosophyGovernanceExportUp$ export route factors through the package row $P$, cannot-claim registry row $R$, active-label row $L$, capstone row $S$, claim-registry row $C$, export-grade row $X$, transport row $T$, route/provenance row $O$, componentwise transport row $H$, policy row $K$, and local naming row $N$. No consumer can override an active refusal, active label, capstone dependency list, export grade, or package provenance by appealing to prose adjacency in the philosophy package.
+\end{theorem}
+\begin{proof}
+Project the finite packet $E=(P,R,L,S,C,X,T,O,H,K,N)$. The package row $P$ names the package reading, while $R,L,S,C,X$ display the refusal, active-label, capstone, claim-registry, and export-grade surfaces before any public route is named.
+
+The transport and route rows then preserve the same order. The row $T$ cites the sibling refusal gate, claim registry layer, philosophy map target, and gap/failure bridge audit, while $O$ replays the displayed route and provenance for the same reading.
+
+Finally $H,K,N$ compare, enforce, and name the packet. Since the carrier has no further coordinate, a consumer has nowhere to obtain a checked-target override, a different active label, or a stronger export grade. The no-override claim is therefore a projection of the displayed rows.
+\end{proof}
+
+\begin{theorem}[Philosophy governance-export NameCert obligations]
+\label{thm:philosophy-governance-export-namecert-obligations}
+For the carrier of \autoref{def:philosophy-governance-export-carrier}, the local $\NameCert_{\PhilosophyGovernanceExportUp}$ surface consists exactly of carrier admission for $E=(P,R,L,S,C,X,T,O,H,K,N)$, package exposure through $P$, cannot-claim exposure through $R$, active-label exposure through $L$, capstone exposure through $S$, claim-registry exposure through $C$, export-grade exposure through $X$, sibling transport through $T$, displayed route and provenance through $O$, componentwise $\hsame$ transport through $H$, finite policy enforcement through $K$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Read the packet by coordinates. Carrier admission supplies the finite $\BHist$ object, and the rows $P,R,L,S,C,X$ supply the package reading, refusal registry, active label, capstone dependencies, claim entry, and export grade.
+
+The support rows then expose the audit route. The row $T$ records which sibling surfaces are consumed, $O$ records continuation and provenance, $H$ transports only the displayed rows, and $K$ checks the finite policy conditions before the local name $N$ is available.
+
+There is no remaining field in the packet. Hence the listed coordinates exhaust the local NameCert obligations, and any accepted export must be read through those obligations.
+\end{proof}
+
+\falsifiablePrediction{If either the cannot-claim registry row $R$ or the export-grade row $X$ is absent, \autoref{thm:philosophy-governance-export-no-override} fails because a consumer can no longer distinguish refused package readings from export-grade readings inside the carrier.}
+
+\independenceWitness{bedcphilosophypackage, cannotclaimexportgate, claimregistrylayer, philosophymaptarget, gapfailurebridgeaudit: none is bijective to PhilosophyGovernanceExportUp because this packet simultaneously carries finite registry, refusal, active-label, capstone, export-grade, transport, route, provenance, policy, and local NameCert rows.}
+
+The Lean follow-up must provide $\Nontrivial\ \PhilosophyGovernanceExportUp$ and $\FieldFaithful\ \PhilosophyGovernanceExportUp$ instances in \texttt{lean4/BEDC/Derived/PhilosophyGovernanceExportUp/TasteGate.lean}. The field-faithfulness witness must preserve $P,R,L,S,C,X,T,O,H,K,N$ as distinct rows before a checked target can cite \texttt{BEDC.Derived.PhilosophyGovernanceExportUp.TasteGate.PhilosophyGovernanceExportTasteGate\_single\_carrier\_alignment}.
+
+\closureat{PhilosophyGovernanceExportUp}{seedStr}
+
+\begin{closurestatus}{\PhilosophyGovernanceExportUp}
+  \constructivestory{A $\PhilosophyGovernanceExportUp$ packet is generated from package, cannot-claim, active-label, capstone, claim-registry, export-grade, sibling-transport, route/provenance, componentwise hsame transport, policy, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:philosophy-governance-export-carrier}, \autoref{thm:philosophy-governance-export-no-override}, \autoref{thm:philosophy-governance-export-namecert-obligations}, the falsifiable prediction, and the independence witness bind governance and export discipline to a finite no-override NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, complete package correctness, checked formal-package status, or any primitive philosophical object, host truth, quotient, choice, or hidden subject reading.}
+  \upgradepath{Lean closure requires Nontrivial PhilosophyGovernanceExportUp and FieldFaithful PhilosophyGovernanceExportUp instances in \texttt{lean4/BEDC/Derived/PhilosophyGovernanceExportUp/TasteGate.lean}.}
+\end{closurestatus}

@@ -1,5 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\EqUp$}
 \label{ch:concrete-instances-eqtype-namecert}
+\origin{human}
 
 The equality-type interface $\EqUp$ packages the constructive identity type over a carrier, with reflexivity as the sole constructor and explicit transport for kernel-licit substitution. It supplies the foundational equality layer underlying every $\psame$ classifier.
 
@@ -19,6 +20,17 @@ The class predicate is the transparent history-sameness class. Compose the class
 comparison with the reverse of the displayed comparison to obtain
 $\Eone(tail)\hsame\Eone(anchor)$, then invert the e1 constructor under $\hsame$.
 \end{proof}
+
+\begin{closurestatus}{\EqUp}
+  \constructivestory{The equality-type certificate is generated from the minimal $BHist$ anchors that witness equality classes. The carrier first reads the anchor tail, visible context, and pair rows that identify when a history is in the class of another history. The $hsame$ relation is the generating comparison, so transport is not a host equality assertion but a ledger-visible movement from one anchor to another. Continuations enter only through contexts whose visible core is already determined by the anchor rows. The chapter then derives determinacy, absurdity for incompatible anchors, semantic certification, anchor transport, and transitivity from those visible class-carrier conventions.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the EqType carrier sections, anchor readback and determinacy theorems, identity semantic NameCert, anchor transport, and transitivity.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim host definitional equality, quotient equality of all histories, or equality principles beyond the displayed $hsame$ class carrier.}
+  \upgradepath{Reaching obligationClosure requires a formal EqType carrier whose anchor readback, transport, and transitivity theorems are checked in Lean.}
+\end{closurestatus}
 \leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_e1\_anchor\_tail\_readback}
 
 \begin{theorem}[EqType e0 anchor tail readback]

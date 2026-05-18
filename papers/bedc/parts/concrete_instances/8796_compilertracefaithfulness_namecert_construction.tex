@@ -30,6 +30,7 @@ with the following displayed rows:
 \end{enumerate}
 The local classifier compares two accepted packets only through the displayed source and target certificate rows, the shared compiler graph, the replay route, the classifier and $\hsame$ lift row, transport, continuation replay, package provenance, and local naming.
 \end{definition}
+\leandef{BEDC.Derived.CompilerTraceFaithfulnessUp.CompilerTraceFaithfulnessCarrier}
 
 \begin{definition}[CompilerTraceFaithfulness classifier]
 \label{def:compiler-trace-faithfulness-classifier}
@@ -37,6 +38,8 @@ The classifier of a $\CompilerTraceFaithfulnessUp$ packet accepts a source-targe
 
 Thus trace faithfulness is not a judgment about arbitrary source and target behaviors. It is a finite relation on displayed replay paths whose endpoints are already certified by the source and target $\NameCert$ rows.
 \end{definition}
+\leandef{BEDC.Derived.CompilerTraceFaithfulnessUp.CompilerTraceFaithfulnessClassifier}
+\leanchecked{BEDC.Derived.CompilerTraceFaithfulnessUp.CompilerTraceFaithfulnessClassifier\_replay\_transport}
 
 \begin{theorem}[CompilerTraceFaithfulness NameCert obligations]
 \label{thm:compiler-trace-faithfulness-namecert-obligations}
@@ -58,6 +61,7 @@ Replay totality is the additional row $R$. A source trace window is accepted onl
 
 Finally the preservation and non-escape obligations are read from $L,H,C,P,N$. The lift row records classifier and $\hsame$ transport, the continuation and package rows replay and name the same route, and the absence of any other coordinate rules out host compiler semantics, quotient equality, inverse data, selected behaviors, and undisplayed target objects.
 \end{proof}
+\leanchecked{BEDC.Derived.CompilerTraceFaithfulnessUp.CompilerTraceFaithfulnessNameCertObligations}
 
 \begin{theorem}[CompilerTraceFaithfulness finite replay boundary]
 \label{thm:compiler-trace-faithfulness-finite-replay-boundary}
@@ -76,6 +80,7 @@ The preservation row $L$ then transports source classifier membership and source
 
 If $R$ is absent, the replay-totality obligation has no coordinate to read. The packet may still resemble a compiler graph or kernel morphism packet, but it cannot certify trace faithfulness because the source-to-target route has not been displayed.
 \end{proof}
+\leanchecked{BEDC.Derived.CompilerTraceFaithfulnessUp.CompilerTraceFaithfulnessFiniteReplayBoundary}
 
 \begin{theorem}[CompilerTraceFaithfulness downstream target]
 \label{thm:compiler-trace-faithfulness-downstream-target}

@@ -90,6 +90,39 @@ eliminators, or representative-selection exports.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_refusal\_transport\_sibling\_handoff}
 
+\begin{theorem}[QuotientSoundnessBoundary socket-kind route]
+\label{thm:quotient-soundness-boundary-socket-kind-route}
+Every accepted $\SocketKindClassifierUp$ quotient-kind read that cites a
+$\QuotientSoundnessBoundaryUp$ packet factors through the quotient boundary
+refusal-before-transport route. It first reads the representative-demand and
+refusal rows $A,V$, then reads the positive $\psame$ transport package
+$E,T,H,C,P,N$, and only then supplies the $\SocketKindClassifierUp$ kind row
+from \autoref{ch:concrete-instances-socketkindclassifier-namecert}. The route
+cannot reinterpret the quotient boundary packet as $\mathsf{Quot.sound}$, a
+quotient carrier, a host quotient eliminator, or a representative selector.
+\end{theorem}
+\begin{proof}
+Begin with the sibling handoff,
+\autoref{thm:quotient-soundness-boundary-refusal-transport-sibling-handoff}.
+It forces every downstream quotient-like sibling to receive the refusal rows
+$A,V$ before it can use the positive transport surface, and it exports only
+classifier-respecting $\psame$ transport with $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ structure.
+
+Next apply representative-demand exposure. The demanded representative surface
+remains audit-visible inside the finite $\BHist$ packet, so the classifier read
+cannot treat $A$ as an admitted selector or erase the refusal verdict $V$ before
+the kind row is assigned.
+
+Finally use consumer ledger coverage and the downstream classifier surface in
+\autoref{ch:concrete-instances-socketkindclassifier-namecert}. The ledger
+exhausts quotient-like consumption by the refusal rows and the displayed
+transport rows, while the classifier contributes only the socket-kind row.
+Thus the cited quotient boundary is consumed as a finite BEDC refusal kind, not
+as $\mathsf{Quot.sound}$, a quotient carrier, a representative selector, or a
+host quotient principle.
+\end{proof}
+
 \begin{theorem}[QuotientSoundnessBoundary representative demand exposure]
 \label{thm:quotient-soundness-boundary-representative-demand-exposure}
 Under the sibling handoff of
@@ -148,6 +181,7 @@ For the reverse direction, use downstream factorization exactness, \autoref{thm:
 
 Finally apply two-surface exhaustion, \autoref{thm:quotient-soundness-boundary-two-surface-exhaustion}. The accepted packet has only the refusal surface and the positive transport surface, so quotient carrier data, representative selection, host quotient elimination, erased derivation recovery, unrestricted quotient recursion, and $\mathsf{Quot.sound}$ have no third route into the public consumer surface.
 \end{proof}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_refusal\_consumer\_public\_exactness}
 
 \begin{theorem}[QuotientSoundnessBoundary psame consumer normalization]
 \label{thm:quotient-soundness-boundary-psame-consumer-normalization}
@@ -211,6 +245,7 @@ E,T,H,C,P,N.
 $$
 There is no hidden third route through a quotient carrier, representative selector, quotient eliminator, unrestricted quotient recursion principle, erased derivation recovery, or $\mathsf{Quot.sound}$ dependency.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_two\_surface\_exhaustion}
 \begin{proof}
 Read the negative request surface from the root request triad, \autoref{thm:quotient-soundness-boundary-root-request-triad}. A representative-style demand is recorded as the requested rows $A$ together with the refusal verdict $V$.
 
@@ -229,6 +264,7 @@ E,T,H,C,P,N.
 $$
 No later consumer may reinterpret the refusal rows as representative selection, quotient equality elimination, host quotient elimination, unrestricted quotient recursion, erased derivation recovery, or a $\mathsf{Quot.sound}$ dependency.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_consumer\_refusal\_exactness}
 \begin{proof}
 First read consumer ledger coverage. The ledger records all downstream quotient-like reads before any consumer can choose a route, so a preserving consumer must use one of the rows exposed by the finite packet.
 
@@ -293,6 +329,7 @@ Use the NameCert ledger, \autoref{thm:quotient-soundness-boundary-namecert-ledge
 
 Finally apply non-escape, \autoref{thm:quotient-soundness-boundary-non-escape}. Since the excluded quotient primitives and $\mathsf{Quot.sound}$ have no coordinate in the carrier, the bridge is exactly the displayed refusal-and-transport schema.
 \end{proof}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_public\_bridge\_schema}
 
 \begin{theorem}[QuotientSoundnessBoundary psame bridge handoff]
 \label{thm:quotient-soundness-boundary-psame-bridge-handoff}
@@ -305,6 +342,7 @@ Then use $\psame$ transport exhaustion, \autoref{thm:quotient-soundness-boundary
 
 The non-escape theorem removes the quotient-side objects from the handoff. Thus the bridge gives downstream consumers a displayed $\psame$ route and no quotient-soundness primitive.
 \end{proof}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_psame\_bridge\_handoff}
 
 \begin{theorem}[QuotientSoundnessBoundary refusal-transport determinacy]
 \label{thm:quotient-soundness-boundary-refusal-transport-determinacy}
@@ -323,6 +361,7 @@ After that refusal, apply $\psame$ transport exhaustion, \autoref{thm:quotient-s
 
 Finally use kernel non-escape, \autoref{thm:quotient-soundness-boundary-kernel-nonescape}, and the public bridge, \autoref{thm:quotient-soundness-boundary-public-bridge}. Since the excluded quotient primitives have no coordinate in the packet, the accepted consumer has no second quotient route to select.
 \end{proof}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_refusal\_transport\_determinacy}
 
 \begin{theorem}[QuotientSoundnessBoundary source-row consumer totality]
 \label{thm:quotient-soundness-boundary-source-row-consumer-totality}

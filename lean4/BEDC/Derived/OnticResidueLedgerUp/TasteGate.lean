@@ -44,20 +44,50 @@ def onticResidueLedgerToEventFlow : OnticResidueLedgerUp -> EventFlow
 
 def onticResidueLedgerFromEventFlow : EventFlow -> Option OnticResidueLedgerUp
   -- BEDC touchpoint anchor: BHist BMark
-  | O :: M :: S :: A :: C :: R :: H :: T :: P :: N :: [] =>
-      some
-        (OnticResidueLedgerUp.mk
-          (onticResidueLedgerDecodeBHist O)
-          (onticResidueLedgerDecodeBHist M)
-          (onticResidueLedgerDecodeBHist S)
-          (onticResidueLedgerDecodeBHist A)
-          (onticResidueLedgerDecodeBHist C)
-          (onticResidueLedgerDecodeBHist R)
-          (onticResidueLedgerDecodeBHist H)
-          (onticResidueLedgerDecodeBHist T)
-          (onticResidueLedgerDecodeBHist P)
-          (onticResidueLedgerDecodeBHist N))
-  | _ => none
+  | [] => none
+  | O :: rest0 =>
+      match rest0 with
+      | [] => none
+      | M :: rest1 =>
+          match rest1 with
+          | [] => none
+          | S :: rest2 =>
+              match rest2 with
+              | [] => none
+              | A :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | C :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | R :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | H :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | T :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | P :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | N :: rest9 =>
+                                          match rest9 with
+                                          | [] =>
+                                              some
+                                                (OnticResidueLedgerUp.mk
+                                                  (onticResidueLedgerDecodeBHist O)
+                                                  (onticResidueLedgerDecodeBHist M)
+                                                  (onticResidueLedgerDecodeBHist S)
+                                                  (onticResidueLedgerDecodeBHist A)
+                                                  (onticResidueLedgerDecodeBHist C)
+                                                  (onticResidueLedgerDecodeBHist R)
+                                                  (onticResidueLedgerDecodeBHist H)
+                                                  (onticResidueLedgerDecodeBHist T)
+                                                  (onticResidueLedgerDecodeBHist P)
+                                                  (onticResidueLedgerDecodeBHist N))
+                                          | _ :: _ => none
 
 private theorem onticResidueLedger_round_trip :
     forall x : OnticResidueLedgerUp,
@@ -192,6 +222,71 @@ theorem OnticResidueLedgerTasteGate_single_carrier_alignment :
           · rfl
           · rfl
 
+theorem OnticResidueLedgerObserverAccess_row_nonescape
+    {O M S A C R H T P N : BHist}
+    (visibleA : A ≠ BHist.Empty) :
+    onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+      onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S BHist.Empty C R H T P N) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hfields
+  injection hfields with _ htail
+  injection htail with _ htail
+  injection htail with _ htail
+  injection htail with hA _
+  exact visibleA hA
+
+namespace TasteGate
+
+theorem OnticResidueLedgerSignatureResidue_row_nonescape
+    {O M S A C R H T P N : BHist}
+    (hR : R = BHist.e0 BHist.Empty) :
+    onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+      onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C BHist.Empty H T P N) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hfields
+  injection hfields with _ tail1
+  injection tail1 with _ tail2
+  injection tail2 with _ tail3
+  injection tail3 with _ tail4
+  injection tail4 with _ tail5
+  injection tail5 with hResidue _
+  cases hR
+  exact BHist.noConfusion hResidue
+
+theorem OnticResidueLedgerScoped_consumer_surface
+    {O M S A C R H T P N : BHist}
+    (visibleO : O ≠ BHist.Empty)
+    (visibleM : M ≠ BHist.Empty)
+    (visibleA : A ≠ BHist.Empty)
+    (hR : R = BHist.e0 BHist.Empty) :
+    onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) =
+        [O, M, S, A, C, R, H, T, P, N] ∧
+      onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+        onticResidueLedgerFields (OnticResidueLedgerUp.mk BHist.Empty M S A C R H T P N) ∧
+        onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+          onticResidueLedgerFields (OnticResidueLedgerUp.mk O BHist.Empty S A C R H T P N) ∧
+          onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+            onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S BHist.Empty C R H T P N) ∧
+            onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+              onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C BHist.Empty H T P N) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  constructor
+  · rfl
+  · constructor
+    · intro hfields
+      injection hfields with hO _
+      exact visibleO hO
+    · constructor
+      · intro hfields
+        injection hfields with _ tail1
+        injection tail1 with hM _
+        exact visibleM hM
+      · constructor
+        · exact OnticResidueLedgerObserverAccess_row_nonescape visibleA
+        · exact OnticResidueLedgerSignatureResidue_row_nonescape hR
+
+end TasteGate
+
 namespace TasteGate
 
 open BEDC.FKernel.Hist
@@ -222,7 +317,26 @@ theorem OnticResidueLedgerTasteGate_single_carrier_alignment :
                   onticResidueLedgerEncodeBHist BHist.Empty,
                   onticResidueLedgerEncodeBHist BHist.Empty,
                   onticResidueLedgerEncodeBHist BHist.Empty] := by
-  exact BEDC.Derived.OnticResidueLedgerUp.OnticResidueLedgerTasteGate_single_carrier_alignment
+  constructor
+  · exact onticResidueLedgerDecode_encode_bhist
+  · constructor
+    · intro x
+      rfl
+    · constructor
+      · exact onticResidueLedger_fields_faithful
+      · constructor
+        · exact
+            ⟨OnticResidueLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+              OnticResidueLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty,
+              by
+                intro h
+                cases h⟩
+        · constructor
+          · rfl
+          · rfl
 
 def taste_gate : ChapterTasteGate OnticResidueLedgerUp :=
   -- BEDC touchpoint anchor: BHist BMark

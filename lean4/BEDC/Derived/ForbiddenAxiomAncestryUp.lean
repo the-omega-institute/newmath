@@ -101,4 +101,154 @@ theorem ForbiddenAxiomAncestryCarrier_namecert_obligations [AskSetup] [PackageSe
                 (And.intro verdictComparison
                   (And.intro provenancePkg auditPkg)))))))
 
+theorem ForbiddenAxiomAncestryCarrier_comparison_exactness [AskSetup] [PackageSetup]
+    {theoremRow ancestry forbidden verdict transports routes provenance nameRow
+      compareRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ForbiddenAxiomAncestryCarrier theoremRow ancestry forbidden verdict transports routes
+        provenance nameRow bundle pkg ->
+      Cont verdict routes compareRead ->
+        PkgSig bundle compareRead pkg ->
+          UnaryHistory ancestry ∧ UnaryHistory forbidden ∧ UnaryHistory verdict ∧
+            UnaryHistory routes ∧ UnaryHistory compareRead ∧
+              hsame verdict (append ancestry forbidden) ∧
+                Cont verdict routes compareRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle compareRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory hsame
+  intro carrier comparisonRoute comparisonPkg
+  obtain ⟨_theoremUnary, ancestryUnary, forbiddenUnary, verdictUnary, _transportsUnary,
+    routesUnary, _provenanceUnary, _nameRowUnary, verdictComparison, _theoremAncestry,
+      _transportProvenance, provenancePkg⟩ := carrier
+  have compareReadUnary : UnaryHistory compareRead :=
+    unary_cont_closed verdictUnary routesUnary comparisonRoute
+  exact
+    ⟨ancestryUnary, forbiddenUnary, verdictUnary, routesUnary, compareReadUnary,
+      verdictComparison, comparisonRoute, provenancePkg, comparisonPkg⟩
+
+theorem ForbiddenAxiomAncestryCarrier_transport_replay [AskSetup] [PackageSetup]
+    {theoremRow ancestry forbidden verdict transports routes provenance nameRow
+      replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ForbiddenAxiomAncestryCarrier theoremRow ancestry forbidden verdict transports routes
+        provenance nameRow bundle pkg ->
+      Cont transports routes replayRead ->
+        PkgSig bundle replayRead pkg ->
+          UnaryHistory transports ∧ UnaryHistory routes ∧ UnaryHistory replayRead ∧
+            hsame verdict (append ancestry forbidden) ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory hsame
+  intro carrier replayRoute replayPkg
+  obtain ⟨_theoremUnary, _ancestryUnary, _forbiddenUnary, _verdictUnary,
+    transportsUnary, routesUnary, _provenanceUnary, _nameRowUnary, verdictComparison,
+      _theoremAncestry, _transportProvenance, provenancePkg⟩ := carrier
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportsUnary routesUnary replayRoute
+  exact
+    ⟨transportsUnary, routesUnary, replayReadUnary, verdictComparison, provenancePkg,
+      replayPkg⟩
+
+theorem ForbiddenAxiomAncestryCarrier_accepted_clean_criterion [AskSetup] [PackageSetup]
+    {theoremRow ancestry forbidden verdict transports routes provenance nameRow
+      cleanRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ForbiddenAxiomAncestryCarrier theoremRow ancestry forbidden verdict transports routes
+        provenance nameRow bundle pkg ->
+      hsame verdict BHist.Empty ->
+        Cont routes nameRow cleanRead ->
+          PkgSig bundle cleanRead pkg ->
+            UnaryHistory ancestry ∧ UnaryHistory forbidden ∧
+              hsame ancestry BHist.Empty ∧ hsame forbidden BHist.Empty ∧
+                UnaryHistory cleanRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle cleanRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory hsame
+  intro carrier verdictEmpty cleanRoute cleanPkg
+  obtain ⟨_theoremUnary, ancestryUnary, forbiddenUnary, _verdictUnary,
+    _transportsUnary, routesUnary, _provenanceUnary, nameRowUnary, verdictComparison,
+      _theoremAncestry, _transportProvenance, provenancePkg⟩ := carrier
+  have cleanReadUnary : UnaryHistory cleanRead :=
+    unary_cont_closed routesUnary nameRowUnary cleanRoute
+  have comparisonEmpty : append ancestry forbidden = BHist.Empty :=
+    verdictComparison.symm.trans verdictEmpty
+  have emptyRows : ancestry = BHist.Empty ∧ forbidden = BHist.Empty :=
+    append_eq_empty_iff.mp comparisonEmpty
+  exact
+    ⟨ancestryUnary, forbiddenUnary, emptyRows.left, emptyRows.right, cleanReadUnary,
+      provenancePkg, cleanPkg⟩
+
+theorem ForbiddenAxiomAncestryCarrier_forbidden_row_coverage [AskSetup] [PackageSetup]
+    {theoremRow ancestry forbidden verdict transports routes provenance nameRow
+      auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ForbiddenAxiomAncestryCarrier theoremRow ancestry forbidden verdict transports routes
+        provenance nameRow bundle pkg ->
+      Cont routes nameRow auditRead ->
+        PkgSig bundle auditRead pkg ->
+          UnaryHistory forbidden ∧ UnaryHistory auditRead ∧
+            hsame verdict (append ancestry forbidden) ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory hsame
+  intro carrier auditRoute auditPkg
+  obtain ⟨_theoremUnary, _ancestryUnary, forbiddenUnary, _verdictUnary,
+    _transportsUnary, routesUnary, _provenanceUnary, nameRowUnary, verdictComparison,
+      _theoremAncestry, _transportProvenance, provenancePkg⟩ := carrier
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed routesUnary nameRowUnary auditRoute
+  exact
+    ⟨forbiddenUnary, auditReadUnary, verdictComparison, provenancePkg, auditPkg⟩
+
+theorem ForbiddenAxiomAncestryCarrier_consumer_replay_completeness [AskSetup] [PackageSetup]
+    {theoremRow ancestry forbidden verdict transports routes provenance nameRow
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ForbiddenAxiomAncestryCarrier theoremRow ancestry forbidden verdict transports routes
+        provenance nameRow bundle pkg ->
+      Cont routes nameRow consumerRead ->
+        PkgSig bundle consumerRead pkg ->
+          UnaryHistory theoremRow ∧ UnaryHistory ancestry ∧ UnaryHistory forbidden ∧
+            UnaryHistory verdict ∧ UnaryHistory transports ∧ UnaryHistory routes ∧
+              UnaryHistory provenance ∧ UnaryHistory nameRow ∧ UnaryHistory consumerRead ∧
+                hsame verdict (append ancestry forbidden) ∧
+                  Cont theoremRow ancestry transports ∧ Cont transports routes provenance ∧
+                    Cont routes nameRow consumerRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory hsame
+  intro carrier consumerRoute consumerPkg
+  obtain ⟨theoremUnary, ancestryUnary, forbiddenUnary, verdictUnary, transportsUnary,
+    routesUnary, provenanceUnary, nameRowUnary, verdictComparison, theoremAncestry,
+      transportProvenance, provenancePkg⟩ := carrier
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed routesUnary nameRowUnary consumerRoute
+  exact
+    ⟨theoremUnary, ancestryUnary, forbiddenUnary, verdictUnary, transportsUnary, routesUnary,
+      provenanceUnary, nameRowUnary, consumerReadUnary, verdictComparison, theoremAncestry,
+      transportProvenance, consumerRoute, provenancePkg, consumerPkg⟩
+
+theorem ForbiddenAxiomAncestryCarrier_forbidden_dependency_nonescape [AskSetup] [PackageSetup]
+    {theoremRow ancestry forbidden verdict transports routes provenance nameRow dependencyRead
+      replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ForbiddenAxiomAncestryCarrier theoremRow ancestry forbidden verdict transports routes
+        provenance nameRow bundle pkg ->
+      Cont forbidden verdict dependencyRead ->
+        Cont routes nameRow replayRead ->
+          PkgSig bundle dependencyRead pkg ->
+            PkgSig bundle replayRead pkg ->
+              UnaryHistory forbidden ∧ UnaryHistory verdict ∧ UnaryHistory dependencyRead ∧
+                UnaryHistory replayRead ∧ hsame verdict (append ancestry forbidden) ∧
+                  Cont forbidden verdict dependencyRead ∧ Cont routes nameRow replayRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle dependencyRead pkg ∧
+                      PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory hsame
+  intro carrier dependencyRoute replayRoute dependencyPkg replayPkg
+  obtain ⟨_theoremUnary, _ancestryUnary, forbiddenUnary, verdictUnary, _transportsUnary,
+    routesUnary, _provenanceUnary, nameRowUnary, verdictComparison, _theoremAncestry,
+      _transportProvenance, provenancePkg⟩ := carrier
+  have dependencyReadUnary : UnaryHistory dependencyRead :=
+    unary_cont_closed forbiddenUnary verdictUnary dependencyRoute
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed routesUnary nameRowUnary replayRoute
+  exact
+    ⟨forbiddenUnary, verdictUnary, dependencyReadUnary, replayReadUnary, verdictComparison,
+      dependencyRoute, replayRoute, provenancePkg, dependencyPkg, replayPkg⟩
+
 end BEDC.Derived.ForbiddenAxiomAncestryUp

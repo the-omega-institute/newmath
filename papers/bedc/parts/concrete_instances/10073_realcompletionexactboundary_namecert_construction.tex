@@ -73,6 +73,7 @@ B=(L,K,J,S,W,R,D,E,H,C,P,N)
 $$
 routes the completion read through the finite chain $W,R,D,E,H,C,P,N$ after the seal, classifier, witness, and synchronizer rows $L,K,J,S$ have been displayed. In that route, $W$ supplies the $\StreamNameUp$ finite-window row, $R$ supplies the $\RegSeqRatUp$ readback row for the same window, $D$ supplies the $\DyadicRatCoreUp$ tolerance and endpoint row consumed by that readback, and $E$ supplies the terminal $\RealUp$ seal reached by the displayed completion packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryStreamNameRegSeq\_route}
 \begin{proof}
 Project the carrier of \autoref{def:real-completion-exact-boundary-carrier}. The coordinates $W,R,D,E$ occur as named rows of the same accepted packet as $L,K,J,S,H,C,P,N$.
 
@@ -175,6 +176,28 @@ Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The Nam
 Now use \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The completion and terminal Real faces exported by the boundary are exactly $W,R,D,E$ after the governing rows. Since the exactness theorem exposes no detached terminal tail, the four faces can be consumed only through the balanced seal, classifier, witness, and budget prefix.
 \end{proof}
 
+\begin{theorem}[Real completion exact-boundary seal-budget prefix pullback]
+\label{thm:real-completion-exact-boundary-seal-budget-prefix-pullback}
+Let
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RealCompletionExactBoundaryUp$ packet. Any consumer route that reaches one of the four faces
+$$
+\StreamNameUp(W),\quad \RegSeqRatUp(R),\quad \DyadicRatCoreUp(D),\quad \RealUp(E)
+$$
+pulls back the same governing prefix $L,K,J,S$. The equality test for the four governing rows is only the displayed comparison through the componentwise $\hsame$ rows $H$, the displayed $\Cont$ replay $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\RealCompletionExactBoundaryUp}$ row $N$. It does not use quotient stream equality, host real equality, a selected limit, countable choice, metric completeness, ambient completeness, or a bridge coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:real-completion-exact-boundary-carrier}. The accepted packet lists $L,K,J,S$ before the four faces $W,R,D,E$, and the structural rows $H,C,P,N$ are the only displayed rows available for comparing that prefix across consumer reads.
+
+Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. It identifies $L$ as the completion-seal row, $K$ as the classifier row, $J$ as the witness-ledger row, and $S$ as the synchronized budget row inside the same local NameCert surface. It also identifies $H,C,P,N$ as the componentwise transport, continuation replay, package provenance, and local naming rows for that surface.
+
+Use \autoref{thm:real-completion-exact-boundary-seal-classifier-witness-balance} and \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The first theorem forces any consumer of the four later faces to display the governing prefix first, while the second theorem says that the only Real and completion faces behind that prefix are $W,R,D,E$.
+
+Finally apply \autoref{thm:real-completion-exact-boundary-nonescape}. Since the accepted carrier has no quotient stream, host equality, selected-limit, choice, completeness, ambient-completeness, or bridge coordinate, none of those absent objects can alter the pullback of $L,K,J,S$ along any of the four displayed faces.
+\end{proof}
+
 \begin{theorem}[Real completion terminal consumer exactness]
 \label{thm:real-completion-exact-boundary-terminal-consumer-exactness}
 For every accepted $\RealCompletionExactBoundaryUp$ packet
@@ -190,7 +213,7 @@ The route begins with the seal, classifier, witness-ledger, and budget rows, pas
 \begin{proof}
 Start from \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The accepted NameCert surface lists the rows $L,K,J,S,W,R,D,E,H,C,P,N$ as one finite carrier inventory, so a consumer route for the accepted boundary is a route through that inventory.
 
-Apply \autoref{thm:real-completion-exact-boundary-seal-classifier-witness-balance}. It forces the first four governing rows to be displayed before the completion and Real faces are read.
+Apply \autoref{thm:real-completion-exact-boundary-seal-budget-prefix-pullback}. It pulls the first four governing rows back unchanged along the completion and Real faces and restricts their equality test to the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
 
 Next apply \autoref{thm:real-completion-exact-boundary-nonescape} and \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The non-escape theorem rules out external completion coordinates, while the four-face theorem identifies $W,R,D,E$ as the only completion-facing and terminal Real faces exported after $L,K,J,S$.
 
@@ -239,6 +262,36 @@ Next apply \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The
 Use \autoref{thm:real-completion-exact-boundary-finite-tail-filter-handoff} for the sibling cofinal-tail surface. When that sibling supplies the finite-tail-filter presentation, the same rows factor through the handoff and no additional route coordinate is introduced.
 
 Finally apply \autoref{thm:real-completion-exact-boundary-terminal-consumer-exactness} and \autoref{thm:real-completion-exact-boundary-no-completeness-escape}. The terminal consumer route is already the displayed finite row list, and quotient streams, host equality, selected limits, choice, completeness, and bridge rows have no carrier slot or insertion point. Hence the displayed route is the chapter's final finite consumer route.
+\end{proof}
+
+\begin{theorem}[Real completion exact-boundary tail cofinality schedule factorization]
+\label{thm:real-completion-exact-boundary-tail-cofinality-schedule-factorization}
+Let
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RealCompletionExactBoundaryUp$ packet, and let
+$$
+T=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)
+$$
+be an accepted $\TailCofinalityScheduleUp$ packet through which the four faces $W,R,D,E$ are consumed. Then the combined Real-completion and schedule consumer factors through the single exact-boundary route
+$$
+L,K,J,S,W,R,D,E,H,C,P,N
+$$
+together with the schedule route
+$$
+E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T.
+$$
+The schedule is a consumer-side factor of the same four faces, not an added completion coordinate. The combined route exports no quotient stream, host real equality, selected limit, countable choice, ambient completeness, metric-completeness, hidden tail oracle, unbounded schedule, or machine bridge row.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-completion-exact-boundary-four-face-exactness}. It identifies $W,R,D,E$ as the only StreamName, RegSeqRat, DyadicRatCore, and terminal Real faces exported by the accepted boundary after the governing rows $L,K,J,S$.
+
+Next apply \autoref{thm:real-completion-exact-boundary-terminal-consumer-exactness} and \autoref{thm:real-completion-exact-boundary-mature-route}. These place every Real-facing or completion-facing consumer on the exact-boundary route $L,K,J,S,W,R,D,E,H,C,P,N$ and rule out quotient streams, host equality, selected limits, choice, completeness, and bridge rows as route coordinates.
+
+Now attach the accepted $\TailCofinalityScheduleUp$ packet. By \autoref{thm:tail-cofinality-schedule-regular-cauchy-completion-route}, every completion-facing seal read through the schedule consumes the ordered schedule rows $E_T,W_T,D_T,R_T,L_T$ before the completion seal is available.
+
+Finally use \autoref{thm:tail-cofinality-schedule-shared-tail-budget-factorization}. The shared-tail budget is already a finite consumer-side factor through the schedule route and its structural rows $H_T,C_T,P_T,N_T$. Since the exact-boundary route has only the four faces $W,R,D,E$ available for the Real-completion handoff, the schedule can factor those faces only as a consumer of that route, not as a new completion coordinate or hidden tail source.
 \end{proof}
 
 \begin{theorem}[Real completion exact-boundary obligation scope]
@@ -332,4 +385,4 @@ checked machine bridge.
   \upgradepath{No further paper-side theory-axis upgrade remains; bridge checking is governed only by the verification axis.}
 \end{closurestatus}
 
-Lean development for this route must provide $\mathsf{Nontrivial}\ \RealCompletionExactBoundaryUp$ and $\mathsf{FieldFaithful}\ \RealCompletionExactBoundaryUp$ instances in \texttt{lean4/BEDC/Derived/RealCompletionExactBoundaryUp/TasteGate.lean}.
+The Lean TasteGate file supplies $\mathsf{Nontrivial}\ \RealCompletionExactBoundaryUp$ and $\mathsf{FieldFaithful}\ \RealCompletionExactBoundaryUp$ instances for the displayed finite carrier; bridge checking remains governed by the verification axis.

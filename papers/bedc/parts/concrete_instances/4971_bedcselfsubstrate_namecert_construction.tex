@@ -1,4 +1,4 @@
-\chapter{A Concrete Naming Certificate for \BedcSelfSubstrateUp}
+\chapter{A Concrete Naming Certificate for $\BedcSelfSubstrateUp$}
 \label{ch:concrete-instances-bedc-self-substrate-namecert}
 \origin{ai}
 
@@ -59,3 +59,14 @@ The excluded rows are absent from the carrier. Any consumer requiring one of the
 \falsifiablePrediction{If a downstream MetaCIC identity consumer reads a BEDC-self-substrate packet, then any exported substrate claim factors through one of the five displayed commitment rows before it can be classified as internal, restricted, or blocked.}
 
 \independenceWitness{Nearest siblings: axiomdependencymap, axiomqueryledger, kernelacceptanceauditwitness, normalfalseexclusion, auditgateboundary. None is bijective to this carrier because each sibling stores a query, verdict, acceptance, false-exclusion, or gate row, while this carrier stores the five positive substrate commitments and lacks a declaration-specific query row.}
+
+\begin{closurestatus}{\BedcSelfSubstrateUp}
+  \constructivestory{A \BedcSelfSubstrateUp{} packet is generated from finite $\BHist$ rows for the positive substrate commitments by which BEDC names its own internal substrate, plus transport, route, provenance, and local naming rows. Each downstream identity read must pass through one of the displayed commitment rows before it can be classified as internal, restricted, or blocked, so $\Cont$ exposes the commitment route rather than a hidden self-model. Componentwise $\hsame$ preserves the commitment inventory, and $\Pkg$ records the neighboring axiom, query, acceptance, false-exclusion, and audit-gate dependencies. The packet is a finite self-substrate commitment surface, not a declaration-specific oracle.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the BEDC self-substrate carrier, five commitment rows, falsifiable prediction, and sibling independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim a complete self-model, unrestricted internal truth predicate, declaration-specific query verdict, host reflection equality, or hidden kernel oracle.}
+  \upgradepath{Obligation closure requires Lean encodings of the commitment carrier, consumer factorization through commitment rows, transport stability, and sibling non-bijection boundary.}
+\end{closurestatus}

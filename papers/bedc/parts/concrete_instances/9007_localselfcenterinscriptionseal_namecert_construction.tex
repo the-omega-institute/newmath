@@ -55,6 +55,7 @@ The transport and continuation rows preserve that separation. They replay $S$ an
 
 Apply the NameCert obligations of \autoref{thm:local-self-center-inscription-seal-namecert-obligations}. A packet that identifies the local self-center with the apophatic far end omits the required verdict, so the local name row has no accepted certificate surface for it.
 \end{proof}
+\leanchecked{BEDC.Derived.LocalSelfCenterInscriptionSealUp.LocalSelfCenterInscriptionSealSelfCenter\_nonidentity\_boundary}
 
 \begin{theorem}[Local self-center inscription seal sibling separation]
 \label{thm:local-self-center-inscription-seal-sibling-separation}
@@ -79,6 +80,7 @@ Apply the NameCert obligations of \autoref{thm:local-self-center-inscription-sea
 
 Finally use the nonidentity boundary of \autoref{thm:local-self-center-inscription-seal-nonidentity-boundary}. Since an identification of $S$ with the far-end row of $A$ fails $V$, exact transport preserves the verdict boundary instead of collapsing it.
 \end{proof}
+\leanchecked{BEDC.Derived.LocalSelfCenterInscriptionSealUp.LocalSelfCenterInscriptionSealCarrier\_transport\_exactness}
 
 \begin{theorem}[Local self-center inscription seal provenance exhaustion]
 \label{thm:local-self-center-inscription-seal-provenance-exhaustion}
@@ -91,6 +93,7 @@ Use the sibling separation theorem \autoref{thm:local-self-center-inscription-se
 
 The provenance row therefore accounts for all admissible inputs to the seal without adding an extra subject, far-end object, or hidden sibling coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.LocalSelfCenterInscriptionSealUp.LocalSelfCenterInscriptionSealProvenance\_row\_nonescape}
 
 \begin{theorem}[Local self-center inscription seal carrier transport]
 \label{thm:local-self-center-inscription-seal-carrier-transport}
@@ -112,14 +115,17 @@ The later Lean TasteGate file must provide explicit \texttt{Nontrivial LocalSelf
 
 \closureat{LocalSelfCenterInscriptionSealUp}{obligationStr}[BEDC.Derived.LocalSelfCenterInscriptionSealUp.LocalSelfCenterInscriptionSealTasteGate\_single\_carrier\_alignment]
 \closureat{LocalSelfCenterInscriptionSealUp}{scopedStr}[BEDC.Derived.LocalSelfCenterInscriptionSealUp.LocalSelfCenterInscriptionSealTasteGate\_single\_carrier\_alignment]
+\closureat{LocalSelfCenterInscriptionSealUp}{publicStr}[BEDC.Derived.LocalSelfCenterInscriptionSealUp.LocalSelfCenterInscriptionSealTasteGate\_single\_carrier\_alignment]
+\closureat{LocalSelfCenterInscriptionSealUp}{bridgedStr}
+\closureat{LocalSelfCenterInscriptionSealUp}{matureStr}
 
 \begin{closurestatus}{\LocalSelfCenterInscriptionSealUp}
   \constructivestory{A $\LocalSelfCenterInscriptionSealUp$ packet is generated from local history, inscription point, self-center reading, apophatic socket, nonidentity verdict, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:local-self-center-inscription-seal-carrier}, \autoref{thm:local-self-center-inscription-seal-namecert-obligations}, \autoref{thm:local-self-center-inscription-seal-nonidentity-boundary}, \autoref{thm:local-self-center-inscription-seal-sibling-separation}, \autoref{thm:local-self-center-inscription-seal-transport-exactness}, \autoref{thm:local-self-center-inscription-seal-provenance-exhaustion}, \autoref{thm:local-self-center-inscription-seal-carrier-transport}, and \leanchecked{BEDC.Derived.LocalSelfCenterInscriptionSealUp.taste\_gate} bind the carrier, NameCert obligations, nonidentity boundary, sibling separation, transport, provenance, carrier-transport, and TasteGate rows for the finite local seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not claim Lean verification, a standard bridge, identity with the apophatic far end, or any local-state reading of the apophatic far end.}
-  \upgradepath{Public closure would require a public-object surface for the local seal beyond the present scoped carrier, transport, and TasteGate rows.}
+  \upgradepath{No further paper-theory upgrade remains for the finite local self-center seal; later work is verification and bridge checking only.}
 \end{closurestatus}

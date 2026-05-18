@@ -42,6 +42,7 @@ The local $\NameCert_{\ContinuationBisimulationUp}$ surface for the carrier of \
 \item non-escape, stating that every accepted behavioral-equivalence read factors through $L,R,F,B,E,H,C,P,N$ and cannot consult a host evaluator, quotient behaviour class, unbounded trace semantics, terminal-result selector, or one-sided simulation row.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationBisimulationUp.TasteGate.ContinuationBisimulationNameCertObligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:continuation-bisimulation-carrier}. The accepted packet displays exactly the two trace ledgers, the two simulation rows, the endpoint classifier, the transport row, the replay row, provenance, and the local naming row.
 
@@ -69,3 +70,14 @@ The surrounding siblings keep their own surfaces. \autoref{ch:concrete-instances
 
 Therefore every accepted behavioral-equivalence read remains inside $L,R,F,B,E,H,C,P,N$. Removing either $F$ or $B$ changes the local NameCert surface and leaves no route by which the endpoint classifier may export symmetric equivalence.
 \end{proof}
+
+\begin{closurestatus}{\ContinuationBisimulationUp}
+  \constructivestory{A $\ContinuationBisimulationUp$ packet is generated from left and right finite continuation ledgers, forward and backward matching rows, endpoint comparison, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. The $\BHist$ carrier does not start from behavioral equivalence as a host relation; it builds the relation by exposing both finite ledgers and both matching directions. The classifier accepts a bisimulation read only when left steps, right steps, forward matches, backward matches, and endpoint rows all remain visible under the same transport and replay surface.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the continuation bisimulation carrier, its NameCert obligations, and the non-escape field-faithfulness argument.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim quotient behavioral semantics, infinite coinductive trace equality, host evaluator equivalence, or one-sided simulation as full equivalence.}
+  \upgradepath{To reach obligationClosure, formalize the two finite ledgers and prove that both matching rows are necessary for the endpoint classifier.}
+\end{closurestatus}

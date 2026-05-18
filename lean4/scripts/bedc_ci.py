@@ -19,6 +19,7 @@ Newmath adaptation note:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -107,6 +108,21 @@ class AxiomReportRecord:
     name: str
     kind: str
     axioms: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class CarrierRecord:
+    name: str
+    file: str
+    field_names: tuple[str, ...]
+    field_types: tuple[str, ...]
+    phase2_status: str
+    to_event_flow_shape: tuple[tuple[str, int], ...] | None
+    namecert_hash: str | None
+
+    @property
+    def arity(self) -> int:
+        return len(self.field_names)
 
 
 def read_text(path: Path) -> str:
@@ -679,11 +695,11 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
             f"{where}: missing \\constructivestory (bottom-up construction story; empty arg ok)"
         )
     origin = block.get("origin", "human")
-    if origin not in {"human", "ai"}:
+    if origin not in {"human", "ai", "ai-composite"}:
         issues.append(
-            f"{where}: \\origin='{origin}' is not in {{human, ai}}"
+            f"{where}: \\origin='{origin}' is not in {{human, ai, ai-composite}}"
         )
-    if origin == "ai":
+    if origin in {"ai", "ai-composite"}:
         body = block.get("raw_body") or ""
         # AI-proposed chapters past seedClosure must witness a TasteGate instance.
         non_seed = tc and tc != "seedClosure"
@@ -1293,6 +1309,323 @@ def cmd_manifest_check(args: argparse.Namespace) -> int:
     return 0 if not failures else 1
 
 
+def camel_stem(up_name: str) -> str:
+    base = up_name[:-2] if up_name.endswith("Up") else up_name
+    return base[:1].lower() + base[1:]
+
+
+def split_lean_tokens(text: str) -> list[str]:
+    return re.findall(r"[A-Za-z_][A-Za-z0-9_']*", text)
+
+
+def normalize_lean_type(text: str) -> str:
+    return re.sub(r"\s+", " ", text.strip())
+
+
+def parse_carrier_fields(mk_body: str, carrier_name: str) -> tuple[tuple[str, ...], tuple[str, ...]] | None:
+    body = normalize_lean_type(mk_body)
+    if not body:
+        return None
+
+    segments: list[tuple[str, str]] = []
+    for match in re.finditer(r"\((?P<names>[^():]+?)\s*:\s*(?P<typ>[^()]+?)\)", body):
+        names = tuple(split_lean_tokens(match.group("names")))
+        typ = normalize_lean_type(match.group("typ"))
+        if names and typ:
+            segments.append((" ".join(names), typ))
+
+    if segments:
+        field_names: list[str] = []
+        field_types: list[str] = []
+        for names_raw, typ in segments:
+            names = split_lean_tokens(names_raw)
+            field_names.extend(names)
+            field_types.extend([typ] * len(names))
+        if field_names and field_types:
+            return tuple(field_names), tuple(field_types)
+
+    before_result = body.split("→", 1)[0]
+    before_result = before_result.split(f": {carrier_name}", 1)[0]
+    match = re.search(r":\s*(?P<typ>[A-Za-z0-9_'.]+)\s*$", before_result)
+    if not match:
+        return None
+    typ = match.group("typ")
+    names_part = before_result[:match.start()].replace(":", " ")
+    names = tuple(split_lean_tokens(names_part))
+    if not names:
+        return None
+    return names, tuple(typ for _ in names)
+
+
+def extract_inductive_block(text: str, carrier_name: str) -> str | None:
+    pattern = re.compile(
+        rf"(?ms)^\s*inductive\s+{re.escape(carrier_name)}\s*:\s*Type\s+where\s*(?P<body>.*?)(?=^\s*(?:deriving|namespace|end|def|private\s+def|theorem|private\s+theorem|lemma|instance|inductive|structure|class)\b|\Z)"
+    )
+    match = pattern.search(text)
+    return match.group("body") if match else None
+
+
+def parse_carrier_records(path: Path, text: str) -> list[CarrierRecord]:
+    rel = str(path.relative_to(REPO_ROOT))
+    records: list[CarrierRecord] = []
+    for match in re.finditer(r"(?m)^\s*inductive\s+(?P<name>[A-Za-z0-9_']+Up)\s*:\s*Type\s+where\b", text):
+        name = match.group("name")
+        block = extract_inductive_block(text[match.start():], name)
+        if not block:
+            continue
+        mk_match = re.search(r"(?ms)^\s*\|\s+mk\b(?P<body>.*?)(?=^\s*\||^\s*deriving\b|\Z)", block)
+        if not mk_match:
+            continue
+        parsed = parse_carrier_fields(mk_match.group("body"), name)
+        if not parsed:
+            continue
+        field_names, field_types = parsed
+        shape, status = parse_to_event_flow_shape(text, name, field_names)
+        records.append(
+            CarrierRecord(
+                name=name,
+                file=rel,
+                field_names=field_names,
+                field_types=field_types,
+                phase2_status=status,
+                to_event_flow_shape=shape,
+                namecert_hash=extract_namecert_hash(text, name),
+            )
+        )
+    return records
+
+
+def extract_def_body(text: str, def_name: str) -> str | None:
+    pattern = re.compile(
+        rf"(?ms)^\s*(?:private\s+)?def\s+{re.escape(def_name)}\b.*?(?P<body>(?:--[^\n]*\n\s*)?\|.*?)(?=^\s*(?:private\s+)?(?:def|theorem|lemma|instance|inductive|structure|class)\b|\Z)"
+    )
+    match = pattern.search(text)
+    if match:
+        return match.group("body")
+    typed_pattern = re.compile(
+        rf"(?ms)^\s*(?:private\s+)?def\s+{re.escape(def_name)}\b.*?EventFlow\s*(?P<body>.*?)(?=^\s*(?:private\s+)?(?:def|theorem|lemma|instance|inductive|structure|class)\b|\Z)"
+    )
+    match = typed_pattern.search(text)
+    return match.group("body") if match else None
+
+
+def parse_tag_bits(raw: str) -> int | None:
+    bits = re.findall(r"BMark\.(b[01])", raw)
+    if not bits or bits[-1] != "b0" or any(bit != "b1" for bit in bits[:-1]):
+        return None
+    return len(bits) - 1
+
+
+def parse_direct_event_flow_shape(body: str, stem: str, field_positions: dict[str, int]) -> tuple[tuple[str, int], ...] | None:
+    body = strip_comments_and_strings(body)
+    token_re = re.compile(
+        rf"\[(?P<tag>(?:\s*BMark\.b[01]\s*,?)+)\]|{re.escape(stem)}EncodeBHist\s+(?P<field>[A-Za-z0-9_']+)"
+    )
+    shape: list[tuple[str, int]] = []
+    for match in token_re.finditer(body):
+        tag_raw = match.group("tag")
+        if tag_raw is not None:
+            tag = parse_tag_bits(tag_raw)
+            if tag is not None:
+                shape.append(("tag", tag))
+            continue
+        field = match.group("field")
+        if field in field_positions:
+            shape.append(("encode", field_positions[field]))
+    if not shape:
+        return None
+    encode_positions = [value for kind, value in shape if kind == "encode"]
+    if not encode_positions:
+        return None
+    return tuple(shape)
+
+
+def parse_fields_map_shape(body: str, stem: str, arity: int) -> tuple[tuple[str, int], ...] | None:
+    if re.search(rf"\.map\s+{re.escape(stem)}EncodeBHist\b", body):
+        return tuple(("encode", idx) for idx in range(arity))
+    return None
+
+
+def parse_to_event_flow_shape(
+    text: str,
+    carrier_name: str,
+    field_names: tuple[str, ...],
+) -> tuple[tuple[tuple[str, int], ...] | None, str]:
+    stem = camel_stem(carrier_name)
+    body = extract_def_body(text, f"{stem}ToEventFlow")
+    if body is None:
+        return None, "no_toEventFlow"
+    field_positions = {name: idx for idx, name in enumerate(field_names)}
+    direct = parse_direct_event_flow_shape(body, stem, field_positions)
+    if direct is not None:
+        return direct, "parsed"
+    mapped = parse_fields_map_shape(body, stem, len(field_names))
+    if mapped is not None:
+        return mapped, "parsed"
+    return None, "unparseable_toEventFlow"
+
+
+def normalize_namecert_text(text: str) -> str:
+    cleaned = strip_comments_and_strings(text)
+    cleaned = re.sub(r"\{[^{}]*:\s*BHist\s*\}", "{_ : BHist}", cleaned)
+    cleaned = re.sub(r"\([^()]*:\s*BHist\s*\)", "(_ : BHist)", cleaned)
+    cleaned = re.sub(r"\b[A-Za-z_][A-Za-z0-9_']*\s*:\s*BHist\b", "_ : BHist", cleaned)
+    return re.sub(r"\s+", " ", cleaned).strip()
+
+
+def extract_namecert_hash(text: str, carrier_name: str) -> str | None:
+    candidates = [
+        rf"(?ms)^\s*theorem\s+{re.escape(carrier_name[:-2])}NameCert\b(?P<body>.*?)(?=^\s*(?:private\s+)?(?:def|theorem|lemma|instance|inductive|structure|class)\b|\Z)",
+        rf"(?ms)^\s*theorem\s+[A-Za-z0-9_']*(?:NameCert|semanticNameCert)\b(?P<body>.*?)(?=^\s*(?:private\s+)?(?:def|theorem|lemma|instance|inductive|structure|class)\b|\Z)",
+        rf"(?ms)^\s*instance\s+[A-Za-z0-9_']*\b[^\n]*NameCert\s+{re.escape(carrier_name)}\b(?P<body>.*?)(?=^\s*(?:private\s+)?(?:def|theorem|lemma|instance|inductive|structure|class)\b|\Z)",
+    ]
+    for pattern in candidates:
+        match = re.search(pattern, text)
+        if not match:
+            continue
+        normalized = normalize_namecert_text(match.group("body"))
+        if normalized:
+            return hashlib.sha256(normalized.encode("utf-8")).hexdigest()[:16]
+    return None
+
+
+def collect_carrier_records() -> list[CarrierRecord]:
+    records: list[CarrierRecord] = []
+    derived_root = BEDC_ROOT / "Derived"
+    for path in sorted(derived_root.rglob("*.lean")):
+        try:
+            text = read_text(path)
+        except OSError:
+            continue
+        records.extend(parse_carrier_records(path, text))
+    return records
+
+
+def carrier_member_payload(record: CarrierRecord, include_phase2: bool = True) -> dict[str, object]:
+    payload: dict[str, object] = {
+        "name": record.name,
+        "file": record.file,
+        "field_names": list(record.field_names),
+        "field_types": list(record.field_types),
+        "nameCert_hash": record.namecert_hash,
+    }
+    if include_phase2:
+        payload["phase2_status"] = record.phase2_status
+        payload["toEventFlow_shape"] = shape_to_json(record.to_event_flow_shape)
+    return payload
+
+
+def shape_to_json(shape: tuple[tuple[str, int], ...] | None) -> list[dict[str, int | str]] | None:
+    if shape is None:
+        return None
+    return [{"kind": kind, "value": value} for kind, value in shape]
+
+
+def shape_sketch(shape: tuple[tuple[str, int], ...] | None, limit: int = 14) -> str:
+    if shape is None:
+        return "unparsed"
+    parts = [f"t{value}" if kind == "tag" else f"e{value}" for kind, value in shape]
+    if len(parts) > limit:
+        return " ".join(parts[:limit]) + f" ... +{len(parts) - limit}"
+    return " ".join(parts)
+
+
+def cmd_carrier_isomorphism(args: argparse.Namespace) -> int:
+    records = collect_carrier_records()
+    phase1_map: dict[tuple[int, tuple[str, ...]], list[CarrierRecord]] = {}
+    for record in records:
+        key = (record.arity, tuple(sorted(record.field_types)))
+        phase1_map.setdefault(key, []).append(record)
+    phase1_items = [
+        (key, sorted(members, key=lambda item: (item.name, item.file)))
+        for key, members in sorted(phase1_map.items(), key=lambda item: (item[0][0], item[0][1]))
+        if len(members) >= 2
+    ]
+
+    phase1_survivors = {record.name for _key, members in phase1_items for record in members}
+    phase2_map: dict[tuple[int, tuple[str, ...], tuple[tuple[str, int], ...]], list[CarrierRecord]] = {}
+    for record in records:
+        if record.name not in phase1_survivors or record.to_event_flow_shape is None:
+            continue
+        key = (record.arity, tuple(sorted(record.field_types)), record.to_event_flow_shape)
+        phase2_map.setdefault(key, []).append(record)
+    phase2_items = [
+        (key, sorted(members, key=lambda item: (item.name, item.file)))
+        for key, members in sorted(
+            phase2_map.items(),
+            key=lambda item: (item[0][0], item[0][1], item[0][2]),
+        )
+        if len(members) >= 2
+    ]
+
+    hash_map: dict[str, list[CarrierRecord]] = {}
+    for record in records:
+        if record.namecert_hash is not None:
+            hash_map.setdefault(record.namecert_hash, []).append(record)
+    phase3_clusters = [
+        (key, sorted(members, key=lambda item: (item.name, item.file)))
+        for key, members in sorted(hash_map.items())
+        if len(members) >= 2
+    ]
+    phase3_hits = sum(1 for record in records if record.namecert_hash is not None)
+
+    if args.json:
+        payload = {
+            "carriers_scanned": len(records),
+            "phase1_buckets": [
+                {
+                    "fingerprint": {"arity": key[0], "field_types": list(key[1])},
+                    "members": [carrier_member_payload(member) for member in members],
+                }
+                for key, members in phase1_items
+            ],
+            "phase2_buckets": [
+                {
+                    "fingerprint": {
+                        "arity": key[0],
+                        "field_types": list(key[1]),
+                        "shape": shape_to_json(key[2]),
+                    },
+                    "members": [carrier_member_payload(member) for member in members],
+                }
+                for key, members in phase2_items
+            ],
+            "phase3_clusters": [
+                {
+                    "nameCert_hash": namecert_hash,
+                    "members": [carrier_member_payload(member) for member in members],
+                }
+                for namecert_hash, members in phase3_clusters
+            ],
+            "informational": True,
+        }
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print("[bedc-ci] carrier-isomorphism (informational):")
+        print(f"  carriers_scanned={len(records)}")
+        print(f"  phase1_buckets={len(phase1_items)}  (≥2-member structural)")
+        print(f"  phase2_buckets={len(phase2_items)}  (≥2-member after toEventFlow shape refinement)")
+        print(f"  phase3_hits={phase3_hits}     (chapters with matching nameCert_hash)")
+        if args.verbose:
+            for idx, (key, members) in enumerate(phase2_items, start=1):
+                arity, _field_types, shape = key
+                print(f"  phase2 bucket #{idx} [arity={arity}, shape={shape_sketch(shape)}]:")
+                width = max(len(member.name) for member in members)
+                for member in members:
+                    print(f"    {member.name.ljust(width)} ({member.file})")
+            no_phase2 = [
+                record for _key, members in phase1_items for record in members
+                if record.to_event_flow_shape is None
+            ]
+            if no_phase2:
+                print("  phase1 members without parseable toEventFlow:")
+                for record in sorted(no_phase2, key=lambda item: (item.name, item.file))[:40]:
+                    print(f"    {record.name} ({record.file}) phase2_status={record.phase2_status}")
+                if len(no_phase2) > 40:
+                    print(f"    ... and {len(no_phase2) - 40} more")
+    return 0
+
+
 def cmd_conservativity_audit(args: argparse.Namespace) -> int:
     """Informational survey of baseline imports of ai-proposed chapters.
 
@@ -1319,7 +1652,7 @@ def cmd_conservativity_audit(args: argparse.Namespace) -> int:
     blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     ai_chapters: list[str] = []
     for b in blocks:
-        if b.get("origin") == "ai":
+        if b.get("origin") in {"ai", "ai-composite"}:
             region = b.get("region")
             if region:
                 ai_chapters.append(region)
@@ -1699,6 +2032,14 @@ def parser() -> argparse.ArgumentParser:
     conservativity_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     conservativity_p.add_argument("--verbose", "-v", action="store_true", help="Show per-chapter detail")
     conservativity_p.set_defaults(func=cmd_conservativity_audit)
+
+    carrier_iso_p = sub.add_parser(
+        "carrier-isomorphism",
+        help="Informational survey of structurally isomorphic Derived <X>Up carriers (always exit 0)",
+    )
+    carrier_iso_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    carrier_iso_p.add_argument("--verbose", "-v", action="store_true", help="Show bucket members")
+    carrier_iso_p.set_defaults(func=cmd_carrier_isomorphism)
     return p
 
 
@@ -1708,4 +2049,9 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except BrokenPipeError:
+        devnull = os.open(os.devnull, os.O_WRONLY)
+        os.dup2(devnull, sys.stdout.fileno())
+        raise SystemExit(0)

@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CrossHistoryCausalDependenceUp$}
+\label{ch:concrete-instances-crosshistorycausaldependence-namecert}
+\origin{ai}
+
+The $\CrossHistoryCausalDependenceUp$ packet realizes the multi-history physics route of \autoref{subsec:philosophy-programme-multihist-physics} as a finite no-global-frame causal-route packet. It sits after the uniform metric estimate of \autoref{ch:concrete-instances-metric-triangle-uniform-estimate-namecert}, the scientific model bridge of \autoref{ch:concrete-instances-scientificmodelbridge-namecert}, and the physical law bridge of \autoref{ch:concrete-instances-physicallawbridge-namecert}. Those siblings expose estimate discipline, model-facing bridge rows, and law-facing bridge rows; this carrier binds a cross-history dependence route without asserting Lorentz geometry, completed physical law, or empirical success.
+
+\begin{definition}[Cross-history causal dependence carrier]
+\label{def:cross-history-causal-dependence-carrier}
+A $\CrossHistoryCausalDependenceUp$ carrier is a finite $\BHist$ packet
+$$
+D=(A,B,R,S,F,M,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the source-history row carrying the first displayed history, its local event window, and its admissible observation route.
+\item $B$ is the target-history row carrying the second displayed history, its local event window, and its admissible observation route.
+\item $R$ is the causal-route row stating that the target window is read as dependent on the source window through displayed continuation data rather than through host time.
+\item $S$ is the stability row recording that the dependence predicate is preserved by the componentwise history transport used by the packet.
+\item $F$ is the no-global-frame row excluding synchronized clock, privileged observer frame, ambient spacetime coordinate, and host-valued cross-history equality.
+\item $M$ is the $\MetricTriangleUniformEstimateUp$ estimate row available to consumers that later compare route bounds through a finite metric-estimate surface.
+\item $L$ is the bridge-ledger row recording how $\ScientificModelBridgeUp$ and $\PhysicalLawBridgeUp$ may consume the causal dependence as a displayed scientific or law-facing route.
+\item $H$ records componentwise $\hsame$ transport for $A,B,R,S,F,M,L,C,P,N$.
+\item $C$ records the displayed $\Cont$ routes by which the two history rows, causal route, stability row, no-global-frame refusal, metric-estimate row, and bridge-ledger row are replayed.
+\item $P$ is the $\Pkg$ provenance over $\CrossHistoryCausalDependenceUp$, $\MetricTriangleUniformEstimateUp$, $\ScientificModelBridgeUp$, $\PhysicalLawBridgeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CrossHistoryCausalDependenceUp}$ row.
+\end{enumerate}
+The classifier compares packets only through these rows. It has no coordinate for global simultaneity, preferred frame, semantic spacetime, quotient history equality, unbounded empirical confirmation, or a causal relation imported outside the displayed route.
+\end{definition}
+\leandef{BEDC.Derived.CrossHistoryCausalDependenceUp.CrossHistoryCausalDependenceUp}
+
+\begin{theorem}[Cross-history causal dependence NameCert obligations]
+\label{thm:cross-history-causal-dependence-namecert-obligations}
+For the carrier of \autoref{def:cross-history-causal-dependence-carrier}, the local $\NameCert_{\CrossHistoryCausalDependenceUp}$ surface consists exactly of carrier admission for $D=(A,B,R,S,F,M,L,H,C,P,N)$, source-history exposure through $A$, target-history exposure through $B$, causal-route exposure through $R$, transported dependence stability through $S$, no-global-frame refusal through $F$, metric-estimate handoff through $M$, scientific-model and physical-law bridge handoff through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to its displayed rows. The rows $A$ and $B$ supply the two history-local event windows, while $R$ supplies the finite route by which the second window is read as dependent on the first.
+
+Read stability and refusal next. The row $S$ keeps the route stable under the componentwise history transport of the packet, and the row $F$ blocks every read that would replace the route by synchronized time, privileged observer frame, ambient spacetime, or host-valued cross-history equality.
+
+Finally read the consumer handoff. The estimate row $M$ is the only metric-estimate surface available to later bounded-route consumers, and $L$ is the only scientific-model or physical-law bridge ledger. Transport, replay, provenance, and local naming through $H,C,P,N$ preserve exactly those displayed rows, so the listed surface exhausts the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cross-history causal dependence nonframe invariance]
+\label{thm:cross-history-causal-dependence-nonframe-invariance}
+Every accepted $\CrossHistoryCausalDependenceUp$ consumer that reads a cross-history causal dependence factors through $A,B,R,S,F,M,L,H,C,P,N$. In particular, if the no-global-frame row $F$ is absent, or if a consumer replaces $F$ by a synchronized clock, privileged observer frame, ambient spacetime coordinate, or host-valued equality of histories, then the consumer no longer reads the accepted packet.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory of \autoref{def:cross-history-causal-dependence-carrier}. The causal dependence is not a bare relation: it is the route row $R$ between the displayed source and target histories $A,B$ under the stability row $S$ and the no-global-frame row $F$.
+
+Apply the NameCert obligation surface of \autoref{thm:cross-history-causal-dependence-namecert-obligations}. Any accepted consumer route must preserve the two history rows, the route row, the stability row, the refusal row, the estimate handoff, the bridge ledger, transport, replay, provenance, and local naming.
+
+Thus deleting $F$ deletes one of the carrier obligations. Replacing $F$ by global simultaneity, a preferred frame, ambient spacetime, or host equality adds a coordinate not present in $D$. Componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and $\NameCert$ replay cannot create that coordinate, so the accepted packet is invariant only as a no-global-frame causal-route packet.
+\end{proof}
+
+\falsifiablePrediction{If the no-global-frame row is absent, the packet cannot export a cross-history causal-dependence reading.}
+
+\independenceWitness{metric-triangle-uniform-estimate, scientificmodelbridge, physicallawbridge, standardbridgeauditpacket: the cross-history packet stores multi-history causal-route and no-global-frame rows not bijective to any sibling carrier.}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/CrossHistoryCausalDependenceUp/TasteGate.lean} must provide explicit $\Nontrivial\ \CrossHistoryCausalDependenceUp$ and $\FieldFaithful\ \CrossHistoryCausalDependenceUp$ instances. These instances must preserve the two history rows, causal-route row, stability row, no-global-frame row, metric-estimate handoff, bridge-ledger row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local NameCert row before \texttt{BEDC.Derived.CrossHistoryCausalDependenceUp} can serve as the future checked namespace for this packet.
+
+\closureat{CrossHistoryCausalDependenceUp}{seedStr}
+
+\begin{closurestatus}{\CrossHistoryCausalDependenceUp}
+  \constructivestory{A $\CrossHistoryCausalDependenceUp$ packet is generated from two displayed history-event rows, a causal-route row, transported stability, no-global-frame refusal, metric-estimate handoff, scientific-model and physical-law bridge ledger, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cross-history-causal-dependence-carrier}, \autoref{thm:cross-history-causal-dependence-namecert-obligations}, and \autoref{thm:cross-history-causal-dependence-nonframe-invariance} bind the finite no-global-frame carrier, NameCert surface, and nonframe invariance boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not derive Lorentz geometry, maximum causal rate, completed physical law, empirical adequacy, standard-bridge checking, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert surface, nonframe invariance, and TasteGate nontriviality with field faithfulness for $A,B,R,S,F,M,L,H,C,P,N$.}
+\end{closurestatus}

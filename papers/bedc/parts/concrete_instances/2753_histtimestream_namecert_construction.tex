@@ -160,11 +160,13 @@ Next apply the NameCert obligation sketch, \autoref{thm:histtimestream-namecert-
 
 Finally use ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhaustion}. Every public read of the window must pass through the same carrier, schedule, replay, transport, package, and naming rows, so no host index, sibling source, or hidden pre-start row can inhabit the accepted window.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_window\_habitation}
 
 \begin{theorem}[HistTimeStream Real StreamName window lock]
 \label{thm:histtimestream-real-streamname-window-lock}
 Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. Any $\RealUp$-facing finite-window read of $Q$ must pass through the displayed $H,T,S,C,L,P,N$ rows and then through the StreamName handoff surface. It cannot read a host time index, global clock, sibling Hist source, or hidden stream row outside the accepted local packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_real\_streamname\_window\_lock}
 \begin{proof}
 Start from the carrier and obligation sketch, \autoref{def:histtimestream-namecert-carrier} and \autoref{thm:histtimestream-namecert-obligation-sketch}. These identify the accepted packet as exactly the source history, finite schedule, start ledger, replay, transport, provenance, and local naming rows.
 
@@ -177,6 +179,7 @@ Finally use the observer-locality lattice link, public export, and window habita
 \label{thm:histtimestream-regseqrat-local-clock-separation}
 Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. A $\RegSeqRatUp$ consumer may use the finite local schedule $T$ as an observation index for the displayed packet, but it cannot promote $T$ to a shared host clock, an inter-Hist synchronization row, or a temporal-rate coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_regseqrat\_local\_clock\_separation}
 \begin{proof}
 Begin with the carrier and obligation sketch, \autoref{def:histtimestream-namecert-carrier} and \autoref{thm:histtimestream-namecert-obligation-sketch}. They make $T$ a finite local schedule row tied to the source history $H$ and the displayed replay row $C$.
 
@@ -189,6 +192,7 @@ The observer-locality lattice link, public export, and window habitation theorem
 \label{thm:histtimestream-real-completion-consumer-boundary}
 For an accepted $\HistTimeStreamUp$ packet $Q=(H,T,S,C,L,P,N)$, every $\CompletionUp$ or $\RealUp$ consumer may read only the local stream packet, its componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. No such consumer obtains a host real equality row, ambient completeness principle, quotient stream, selected limit, global clock, or inter-Hist synchronization row from $Q$.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_real\_completion\_consumer\_boundary}
 \begin{proof}
 First expose the local stream packet through \autoref{def:histtimestream-namecert-carrier} and \autoref{thm:histtimestream-namecert-obligation-sketch}. The only available rows are $H,T,S,C,L,P,N$, with $C$ as the replay route, $L$ as componentwise $\hsame$ transport, $P$ as provenance, and $N$ as the local naming row.
 
@@ -201,6 +205,7 @@ Finally use the observer-locality lattice link, public export, and window habita
 \label{thm:hist-time-stream-transport-lock}
 For accepted $\HistTimeStreamUp$ packets $Q=(H,T,S,C,L,P,N)$ and $Q'=(H',T',S',C',L',P',N')$, componentwise $\hsame$ transport from $Q$ to $Q'$ preserves the finite schedule rows and the displayed $\Cont$ replay rows. The transported packet may replay the local window through $H',T',S',C',L',P',N'$, but it cannot add a host time index, shared clock coordinate, or external rate row.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamTransportLock}
 \begin{proof}
 Begin with the carrier definition, \autoref{def:histtimestream-namecert-carrier}. The transport row $L$ is componentwise transport for the displayed packet rows, not a map into an external clock carrier.
 
@@ -239,6 +244,7 @@ Use the Real completion consumer boundary and transport lock, \autoref{thm:histt
 
 Finally apply the clock refusal obligation, \autoref{thm:hist-time-stream-clock-refusal}. Since no shared clock, host index, sibling Hist source, quotient stream, selected limit, or ambient completeness coordinate exists in the packet, the completion or Real consumer factors through the local packet before the StreamName handoff and nowhere else.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_completion\_streamname\_handoff\_factorization}
 
 \begin{theorem}[HistTimeStream observer-locality consumption bridge]
 \label{thm:histtimestream-observer-locality-consumption-bridge}
@@ -248,6 +254,7 @@ H,T,S,C,L,P,N
 $$
 before reading observer-locality transport. Such a consumer cannot add inter-Hist synchronization, a global clock, or a host time index to the consumed packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_observer\_locality\_consumption\_bridge}
 \begin{proof}
 Start with the carrier of \autoref{def:histtimestream-namecert-carrier}. It presents the source history, finite step schedule, start ledger, continuation replay, transport, provenance, and local naming rows as the complete local stream packet.
 
@@ -264,6 +271,7 @@ H,T,S,C,L,P,N,
 $$
 then through the sibling $\ObserverHistoryIdentityUp$ and $\ObserverLocalityTransportUp$ surfaces of \autoref{ch:concrete-instances-observerhistidentity-namecert} and \autoref{ch:concrete-instances-observer-locality-transport-namecert}. The route cannot add a global clock, host time index, inter-Hist synchronization row, or temporal-rate row.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamObserverLocalityBridgeRoute}
 \begin{proof}
 Start from the public export theorem, \autoref{thm:histtimestream-public-export}. It makes $H,T,S,C,L,P,N$ the whole local-time stream surface visible to an outside consumer.
 
@@ -280,6 +288,7 @@ Q=(H,T,S,C,L,P,N)
 $$
 be an accepted $\HistTimeStreamUp$ packet. If the public export of $Q$ is consumed by $\ObserverHistoryIdentityUp$ or $\ObserverLocalityTransportUp$, then the transport through the sibling observer-locality surfaces carries exactly the displayed local-time rows $H,T,S,C,L,P,N$. It preserves the no-global-clock ledger $L$ and cannot add inter-Hist synchronization, host-indexed time, temporal-rate rows, or hidden routes.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_observer\_locality\_transport}
 \begin{proof}
 Start with the carrier definition of \autoref{def:histtimestream-namecert-carrier}. The accepted packet has only the source $\Hist$ row $H$, finite $\Eone/\Ezero$ schedule $T$, start-at-empty ledger $S$, displayed $\Cont$ replay row $C$, componentwise $\hsame$ and no-global-clock ledger $L$, package provenance row $P$, and local $\NameCert$ row $N$.
 
@@ -298,6 +307,7 @@ Q=(H,T,S,C,L,P,N)
 $$
 be an accepted $\HistTimeStreamUp$ packet. The displayed finite time stream is exactly the $\Cont$-prefix route from $\emp$ to the source $\Hist$ row $H$, read through the finite schedule $T$, the start-at-empty ledger $S$, the replay row $C$, the transport and locality ledger $L$, the package row $P$, and the local naming row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_cont\_prefix\_exactness}
 \begin{proof}
 Start with the carrier of \autoref{def:histtimestream-namecert-carrier}. It presents $H,T,S,C,L,P,N$ as the complete local stream packet, with $S$ recording the start-at-empty boundary and $C$ recording the displayed replay route.
 
@@ -336,11 +346,13 @@ Next apply schedule classifier stability and ledger exhaustion. Theorem~\ref{thm
 
 Finally use the observer-locality lattice link, public export, and bridge route. Theorems~\ref{thm:histtimestream-observer-locality-lattice-link}, \ref{thm:histtimestream-public-export}, and \ref{thm:histtimestream-observer-locality-bridge-route} show that observer-facing consumers receive only the local packet before any sibling route is available. Thus totality holds on $H,T,S,C,L,P,N$ and all nonlocal time reads are excluded.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_observer\_locality\_totality}
 
 \begin{theorem}[HistTimeStream start-ledger uniqueness]
 \label{thm:histtimestream-start-ledger-uniqueness}
 Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. The start-at-empty ledger $S$ determines the displayed finite schedule endpoint $H$ inside $Q$ through the schedule row $T$ and replay row $C$. No accepted read of $Q$ carries a second start row, a second endpoint row, or a host-indexed clock coordinate from which another start ledger can be recovered.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamStartLedgerUniqueness}
 \begin{proof}
 Start with the carrier and observation carrier. The definition \autoref{def:histtimestream-namecert-carrier} fixes $Q$ as the displayed tuple $H,T,S,C,L,P,N$, and \autoref{thm:histtimestream-observation-carrier} identifies the observed prefix rows as $H,T,S,C$.
 
@@ -353,6 +365,7 @@ Finally use ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhau
 \label{thm:histtimestream-cont-step-coverage}
 Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. Every public local-time step read from $Q$ is one of the displayed $\Eone/\Ezero$ schedule entries in $T$ replayed by $C$. The packet exposes no step outside the finite schedule, no temporal-rate coordinate, and no hidden continuation branch.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_cont\_step\_coverage}
 \begin{proof}
 First read the schedule classifier. By \autoref{thm:histtimestream-schedule-classifier-stability}, the finite $\Eone/\Ezero$ schedule is the classifier-stable step surface carried by $T$.
 
@@ -372,6 +385,7 @@ Use start-ledger uniqueness and Cont-step coverage next. Theorems~\ref{thm:histt
 
 Finally apply observer-locality transport, \autoref{thm:histtimestream-observer-locality-transport}. Observer-facing transport reads only the local packet and its no-global-clock ledger, so the endpoint is preserved by componentwise $\hsame$ and no nonlocal time coordinate appears.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_hsame\_schedule\_endpoint\_transport}
 
 \begin{theorem}[HistTimeStream local transport exhaustion]
 \label{thm:hist-time-stream-local-transport-exhaustion}
@@ -384,6 +398,7 @@ Now transport componentwise. The hsame prefix transport theorem, \autoref{thm:hi
 
 Finally apply observer-locality transport and local clock refusal. Theorem~\ref{thm:histtimestream-observer-locality-transport} keeps the transported packet local for observer-facing consumers, while \autoref{thm:histtimestream-local-clock-refusal} rejects every nonlocal clock read unless it has already factored through the displayed rows. Hence the transport is exhausted by the local packet.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_local\_transport\_exhaustion}
 
 \begin{theorem}[HistTimeStream NameCert route exhaustion]
 \label{thm:hist-time-stream-namecert-route-exhaustion}
@@ -396,6 +411,7 @@ Next assemble the local route. Observation carrier gives the finite prefix rows,
 
 Finally pass through the observer-locality surface. The observer-locality lattice link, public export, bridge route, observer-locality transport, and hsame prefix transport show that every downstream route reads the same local packet. Therefore the NameCert surface is exhausted by those rows and has no escape to nonlocal time structure.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamNameCertRouteExhaustion}
 
 \begin{theorem}[HistTimeStream local clock refusal]
 \label{thm:histtimestream-local-clock-refusal}
@@ -412,6 +428,7 @@ Next use hsame prefix transport. Theorem~\ref{thm:histtimestream-hsame-prefix-tr
 
 Finally apply observer-locality transport, \autoref{thm:histtimestream-observer-locality-transport}. Since observer-locality consumers receive only the displayed local stream and its no-global-clock ledger, every nonlocal clock read is refused unless it has already factored through $H,T,S,C,L,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_local\_clock\_refusal}
 
 \begin{theorem}[HistTimeStream prefix transport exhaustion]
 \label{thm:histtimestream-prefix-transport-exhaustion}
@@ -435,6 +452,7 @@ Q=(H,T,S,C,L,P,N)
 $$
 be an accepted $\HistTimeStreamUp$ packet. The displayed $\Cont$-prefix route of $Q$ induces the finite $\StreamNameUp$ window read by \autoref{ch:concrete-instances-streamname-namecert}: the source row $H$, finite schedule $T$, start ledger $S$, replay row $C$, componentwise $\hsame$ ledger $L$, package row $P$, and local name row $N$ are passed as one bounded naming packet before any countable-name consumer may read the stream. The handoff carries no quotient stream, no selected host limit, no ambient completeness witness, and no host-indexed time coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_streamname\_finite\_window\_handoff}
 \begin{proof}
 Start from Cont-prefix exactness, \autoref{thm:histtimestream-cont-prefix-exactness}. It identifies the local stream as the finite route from $\emp$ to the displayed source row $H$ through $T,S,C,L,P,N$.
 
@@ -454,6 +472,7 @@ Now transport the packet. Theorem~\ref{thm:histtimestream-hsame-prefix-transport
 
 Finally apply local clock refusal, \autoref{thm:histtimestream-local-clock-refusal}. A global clock or host-indexed time row would have to appear before the StreamName read, but the refusal theorem permits only rows that already factor through the displayed local tuple. Therefore the schedule classifier boundary is stable under componentwise transport.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_streamname\_schedule\_classifier\_boundary}
 
 \begin{theorem}[HistTimeStream real-completion window nonescape]
 \label{thm:histtimestream-real-completion-window-nonescape}
@@ -466,6 +485,7 @@ Next pass through the downstream rows. The StreamName chapter, \autoref{ch:concr
 
 It remains to exclude escape data. The hsame prefix transport theorem, \autoref{thm:histtimestream-hsame-prefix-transport}, keeps the window componentwise local, while local clock refusal, \autoref{thm:histtimestream-local-clock-refusal}, blocks quotient streams, selected host limits, ambient completeness witnesses, host-indexed time, and cross-Hist clocks unless they already appear in $H,T,S,C,L,P,N$. They do not appear there, so the real-completion consumer remains inside the four displayed rows.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_real\_completion\_window\_nonescape}
 
 \begin{theorem}[HistTimeStream start-ledger totality]
 \label{thm:histtimestream-start-ledger-totality}
@@ -478,6 +498,7 @@ Apply Cont prefix exactness, \autoref{thm:histtimestream-cont-prefix-exactness}.
 
 Finally use the observer-locality bridge route, \autoref{thm:histtimestream-observer-locality-bridge-route}. Downstream observer-history consumers receive the same local stream only after the displayed rows have been read, which preserves start-ledger totality for $Q$.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_start\_ledger\_totality}
 
 \begin{theorem}[HistTimeStream Cont replay determinacy]
 \label{thm:histtimestream-cont-replay-determinacy}
@@ -503,6 +524,7 @@ Now transport along componentwise $\hsame$ using \autoref{thm:histtimestream-hsa
 
 Finally apply the observer-locality bridge route, \autoref{thm:histtimestream-observer-locality-bridge-route}. The sibling observer-history surfaces consume this packet only as a local stream, so ambient clock equality, temporal-rate data, and global synchronization remain outside the export.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_no\_global\_clock\_nonescape}
 
 \begin{theorem}[HistTimeStream source observation totality]
 \label{thm:hist-time-stream-source-observation-totality}
@@ -515,6 +537,7 @@ Next apply Cont prefix exactness, \autoref{thm:histtimestream-cont-prefix-exactn
 
 Finally use the StreamName finite-window handoff and real-completion window nonescape, \autoref{thm:histtimestream-streamname-finite-window-handoff} and \autoref{thm:histtimestream-real-completion-window-nonescape}. These route every StreamName, RegSeqRat, and Real read through the same displayed finite window, so the source observation is total for all downstream consumers named in the statement.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_source\_observation\_totality}
 
 \begin{theorem}[HistTimeStream RegSeqRat reindex stability]
 \label{thm:hist-time-stream-regseq-reindex-stability}
@@ -527,11 +550,14 @@ Now transport the packet componentwise. The hsame prefix transport theorem, \aut
 
 Finally pass to the RegSeqRat consumer. The real-completion window nonescape theorem, \autoref{thm:histtimestream-real-completion-window-nonescape}, already routes RegSeqRat reads through HistTimeStream and StreamName; local clock refusal, \autoref{thm:histtimestream-local-clock-refusal}, blocks the listed escape data. Hence reindexing by componentwise $\hsame$ is stable for the RegSeqRat input.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_regseqrat\_reindex\_stability}
+\leanvariant{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_regseq\_reindex\_stability}
 
 \begin{theorem}[HistTimeStream Real readback ledger]
 \label{thm:hist-time-stream-real-readback-ledger}
 Any $\RealUp$ readback of an accepted $\HistTimeStreamUp$ packet factors through the HistTimeStream rows $H,T,S,C,L,P,N$, the $\StreamNameUp$ finite-window handoff, the $\RegSeqRatUp$ regular-sequence consumer, and the $\RealUp$ row. The readback ledger cannot add quotient streams, selected host limits, ambient completeness objects, host-indexed time, or cross-Hist clock data.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_real\_readback\_ledger}
 \begin{proof}
 Begin with source observation totality, \autoref{thm:hist-time-stream-source-observation-totality}. Every downstream read has already exposed the source row, finite schedule, start ledger, and replay row inside the displayed packet.
 
@@ -551,6 +577,7 @@ Next apply the StreamName finite-window handoff, \autoref{thm:histtimestream-str
 
 Finally use prefix transport exhaustion, \autoref{thm:histtimestream-prefix-transport-exhaustion}. Every observer-facing or naming-facing read has already passed through the finite prefix and componentwise $\hsame$ transport, and every attempted nonlocal time read is refused unless it preserves the displayed rows. Hence the StreamName-facing window is total and admits no hidden quotient, clock, route, limit, or completeness coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_streamname\_window\_totality}
 
 \begin{theorem}[HistTimeStream RegSeqRat Real window route]
 \label{thm:histtimestream-regseq-real-window-route}
@@ -575,6 +602,7 @@ Next apply the RegSeqRat Real window route, \autoref{thm:histtimestream-regseq-r
 
 Finally use the Real readback ledger, \autoref{thm:hist-time-stream-real-readback-ledger}. The ledger records the same source rows, StreamName handoff, RegSeqRat input, and Real readback as the complete path, so the finite-window readback obligations for the Real and Completion path are exhausted by the three named surfaces.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_finite\_window\_readback\_exhaustion}
 
 \begin{theorem}[HistTimeStream NameCert root-unblock package]
 \label{thm:histtimestream-namecert-root-unblock-package}
@@ -587,6 +615,7 @@ Next combine schedule stability, prefix exactness, and local-clock refusal. The 
 
 Finally attach the downstream readback surfaces. The StreamName handoff, RegSeqRat stability, and Real ledger, \autoref{thm:histtimestream-streamname-finite-window-handoff}, \autoref{thm:hist-time-stream-regseq-reindex-stability}, and \autoref{thm:hist-time-stream-real-readback-ledger}, consume the same finite window in order. Hence the listed rows are exactly the root-unblock package for finite-window consumers and no excluded host or quotient data is introduced.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_namecert\_root\_unblock\_package}
 
 \begin{theorem}[HistTimeStream local stream-prefix factorization]
 \label{thm:histtimestream-local-stream-prefix-factorization}
@@ -596,6 +625,7 @@ H,T,S,C,L,P,N
 $$
 before any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ read is available. The prefix is the displayed $\Cont$ route of the packet, not a hidden stream quotient, host clock, selected limit, or ambient completion coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_local\_stream\_prefix\_factorization}
 \begin{proof}
 Read the route from the carrier of \autoref{def:histtimestream-namecert-carrier}. The carrier has no coordinate outside the seven displayed rows, so any accepted consumer must begin by projecting those rows.
 

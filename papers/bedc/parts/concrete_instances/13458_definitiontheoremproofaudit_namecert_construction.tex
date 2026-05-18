@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\DefinitionTheoremProofAuditUp$}
+\label{ch:concrete-instances-definition-theorem-proof-audit-namecert}
+\origin{ai}
+
+The $\DefinitionTheoremProofAuditUp$ packet realizes the definition, theorem, and proof disciplines of \autoref{ch:visions-philosophy-auditable-generativity} as one finite NameCert carrier. It sits beside the proof-trace audit witness of \autoref{ch:concrete-instances-prooftraceauditwitness-namecert}, the writing-item audit carrier of \autoref{ch:concrete-instances-writingitemaudit-namecert}, the writing-item audit packet of \autoref{ch:concrete-instances-writing-item-audit-packet-namecert}, and the allowed proof audit packet of \autoref{ch:concrete-instances-allowed-proof-audit-namecert}. Those siblings expose proof traces, writing legality, export packet shape, and proof admissibility separately; this carrier binds definition discipline, theorem discipline, proof route, scope, refusal, two-axis status, transport, replay, provenance, and local naming as one audit object.
+
+\begin{definition}[Definition theorem proof audit carrier]
+\label{def:definition-theorem-proof-audit-carrier}
+A $\DefinitionTheoremProofAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(D,T,R,S,F,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the definition-discipline row, recording carrier, constructor or generator, classifier, ledger, scope, forbidden readings, and status for the definition site;
+\item $T$ is the theorem-discipline row, recording the claim text, explicit carrier and certificate assumptions, exact scope, conclusion, and audit line for the theorem site;
+\item $R$ is the proof-route row, recording the finite witness chain from source witness through classifier witness, transport or exactness witness, ledger witness, stability witness, and conclusion;
+\item $S$ is the scope row, fixing the local definition, theorem, proof, carrier, classifier, and certificate surface over which $D,T,R$ are read;
+\item $F$ is the forbidden-resource refusal row, recording hidden choice, host equality as BEDC equality, quotient collapse, propositional extensional rewrite, global truth predicate, global clock, unledgered compression, and unscoped universal claim as unavailable proof resources;
+\item $U$ is the two-axis status row, recording the independent theory-closure and verification-status grades for the same site without deriving either axis from the other;
+\item $H$ records componentwise $\hsame$ transport for $D,T,R,S,F,U,C,P,N$;
+\item $C$ records displayed $\Cont$ replay for reading the definition discipline, theorem discipline, proof route, scope, refusal, and two-axis status rows in the same packet;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-philosophy-auditable-generativity}, \autoref{ch:concrete-instances-prooftraceauditwitness-namecert}, \autoref{ch:concrete-instances-writingitemaudit-namecert}, \autoref{ch:concrete-instances-writing-item-audit-packet-namecert}, \autoref{ch:concrete-instances-allowed-proof-audit-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\DefinitionTheoremProofAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a theorem claim detached from proof route, a proof route detached from scope, a status row detached from the two-axis ledger, or a definition reading that omits its forbidden readings.
+\end{definition}
+\leandef{BEDC.Derived.DefinitionTheoremProofAuditUp.DefinitionTheoremProofAuditUp}
+\leanchecked{BEDC.Derived.DefinitionTheoremProofAuditUp.DefinitionTheoremProofAuditUp\_single\_carrier\_alignment}
+
+\begin{theorem}[Definition theorem proof audit NameCert obligations]
+\label{thm:definition-theorem-proof-audit-namecert-obligations}
+For the carrier of \autoref{def:definition-theorem-proof-audit-carrier}, the local $\NameCert_{\DefinitionTheoremProofAuditUp}$ surface consists exactly of definition-discipline visibility through $D$, theorem-discipline visibility through $T$, proof-route visibility through $R$, scope visibility through $S$, forbidden-resource refusal through $F$, two-axis status separation through $U$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $A=(D,T,R,S,F,U,H,C,P,N)$. The rows $D,T,R,S,F,U$ are the audit data coordinates, so the packet first exposes the definition discipline, theorem discipline, proof route, scope, refusal, and two-axis status before any consumer can read the site as accepted.
+
+Read the structural rows next. Transport through $H$ preserves the displayed coordinates, replay through $C$ keeps the consumer inside the same finite route, provenance through $P$ records the sibling audit sources, and $N$ names the packet.
+
+Since the carrier contains no further audit coordinate, the listed rows exhaust the local NameCert surface. A consumer that omits one row has only a projection of the packet rather than the accepted triadic audit object.
+\end{proof}
+
+\begin{theorem}[Definition theorem proof audit axis and proof route]
+\label{thm:definition-theorem-proof-audit-axis-and-proof-route}
+Every accepted $\DefinitionTheoremProofAuditUp$ packet reads theorem claim text through $T$ only together with the proof-route row $R$ and the two-axis status row $U$. The proof route cannot raise the verification grade by itself, and the verification grade cannot supply a missing proof-route row.
+\end{theorem}
+\begin{proof}
+Start with the theorem row $T$. It records claim text, assumptions, scope, conclusion, and audit line, but it is not accepted as a BEDC theorem site until the proof route and status rows are read in the same carrier.
+
+The proof route $R$ supplies the finite witness chain. It certifies how the theorem text is supported inside the scope $S$, but it does not determine the independent verification coordinate in $U$.
+
+Conversely, the status row $U$ records theory closure and verification status as two separate grades. It reports the status of the same site; it does not contain a witness-chain coordinate and therefore cannot replace $R$.
+
+Thus any accepted theorem read factors through $T,R,U$ together, with $S,F,H,C,P,N$ preserving scope, refusal, transport, replay, provenance, and local naming.
+\end{proof}
+
+\begin{theorem}[Definition theorem proof audit non-escape]
+\label{thm:definition-theorem-proof-audit-nonescape}
+An audit packet that supplies definition text or theorem claim text while omitting the proof-route row $R$, the scope row $S$, the forbidden-resource refusal row $F$, or the two-axis status row $U$ is rejected by the $\DefinitionTheoremProofAuditUp$ classifier. In particular, proof-trace auditing, writing-item auditing, writing-packet export, allowed-proof auditing, and audit-system consumption cannot turn a partial prose or theorem row into an accepted definition-theorem-proof audit packet.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligation surface of \autoref{thm:definition-theorem-proof-audit-namecert-obligations}. Accepted packets expose $D,T,R,S,F,U,H,C,P,N$ as one finite carrier.
+
+If $R$ is absent, the theorem row has no finite witness chain. If $S$ is absent, neither the definition nor the theorem has a fixed carrier, classifier, or certificate surface. If $F$ is absent, the packet has no displayed refusal of hidden choice, quotient collapse, host equality, or unscoped universal claim. If $U$ is absent, the audit site no longer records theory closure and verification status as independent axes.
+
+The sibling packets named in the statement may audit proof traces, writing legality, packet export, proof admissibility, or claim ledgers. They preserve their own surfaces; they do not add the missing row to this carrier. Therefore the partial read is refused rather than accepted as a $\DefinitionTheoremProofAuditUp$ packet.
+\end{proof}
+
+\falsifiablePrediction{A packet that supplies theorem claim text without the proof-route row is rejected by the audit classifier.}
+
+\independenceWitness{prooftraceauditwitness, writingitemaudit, writingitemauditpacket, allowedproofaudit, auditsystem: none is bijective to $\DefinitionTheoremProofAuditUp$ because this carrier simultaneously binds definition discipline, theorem discipline, proof route, scope, forbidden-resource refusal, two-axis status, transport, replay, provenance, and local naming.}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/DefinitionTheoremProofAuditUp/TasteGate.lean} must provide explicit $\Nontrivial\ \DefinitionTheoremProofAuditUp$ and $\FieldFaithful\ \DefinitionTheoremProofAuditUp$ instances preserving $D,T,R,S,F,U,H,C,P,N$ as distinct rows.
+
+\begin{closurestatus}{\DefinitionTheoremProofAuditUp}
+  \constructivestory{A $\DefinitionTheoremProofAuditUp$ packet is generated from definition rows, theorem-claim rows, proof-witness rows, proof-route rows, scope rows, status rows, forbidden-reading rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. The classifier accepts a definition-theorem-proof unit only when the theorem claim remains attached to its proof route and scope, and when status is read through the same two-axis ledger. The ledger story is triadic audit: definition, theorem, and proof are generated as separate visible coordinates that can be transported and replayed together, while detached claims, detached routes, and status-only reports stay outside the carrier.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier definition, NameCert-obligation, axis-and-proof-route, non-escape, independence witness, and Lean-follow-up boundary for $\DefinitionTheoremProofAuditUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim theorem statements detached from proof routes, proof routes detached from scope, status rows detached from the two-axis ledger, or definition reads omitting forbidden readings.}
+  \upgradepath{To reach obligationClosure, the triadic audit carrier and proof-route boundary must be encoded as checked finite-row obligations.}
+\end{closurestatus}

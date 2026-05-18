@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\SocketReportUp$}
+\label{ch:concrete-instances-socket-report-namecert}
+\origin{ai}
+
+The $\SocketReportUp$ packet realizes the socket-report discipline of \autoref{subsec:philosophy-gap-t-boundary-synthesis} as a finite NameCert carrier. It sits beside the typed supply socket of \autoref{ch:concrete-instances-typedsupplysocket-namecert}, the socket-kind classifier of \autoref{ch:concrete-instances-socketkindclassifier-namecert}, the supply socket ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert}, the audit gate boundary of \autoref{ch:concrete-instances-auditgateboundary-namecert}, and the closed observation system of \autoref{ch:concrete-instances-closedobservationsystem-namecert}. Those siblings expose typed requests, kind classification, ledger accounting, gate locality, and closed observation separately; this packet binds them into one report object that audit consumers can inspect without broadening the reported socket kind.
+
+\begin{definition}[Socket report carrier]
+\label{def:socket-report-carrier}
+A $\SocketReportUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,U,K,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the site row, recording the proof, construction, or audit position where a missing supply would be consumed;
+\item $U$ is the requested-supply row, recording the exact supply requested at $S$ rather than a generic gap label;
+\item $K$ is the narrow socket-kind row, recording the smallest socket kind that explains the requested supply;
+\item $G$ is the audit-gate row, recording the local gate that accepts, blocks, or refuses internalization of the request;
+\item $H$ stores componentwise $\hsame$ transport for the site, requested-supply, narrow-kind, audit-gate, continuation, provenance, and local naming rows;
+\item $C$ stores displayed $\Cont$ continuation from the reported site through the requested supply, classifier, gate, provenance, and local name;
+\item $P$ is the $\Pkg$ provenance over $\TypedSupplySocketUp$, $\SocketKindClassifierUp$, $\SupplySocketLedgerUp$, $\AuditGateBoundaryUp$, $\ClosedObservationSystemUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SocketReportUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for replacing $K$ by a broader gap family, discharging $U$, moving $G$ to a different site, or hiding the report behind the closed observation substrate.
+\end{definition}
+\leanchecked{BEDC.Derived.SocketReportUp.SocketReportTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Socket report NameCert obligations]
+\label{thm:socket-report-namecert-obligations}
+For the carrier of \autoref{def:socket-report-carrier}, the local $\NameCert_{\SocketReportUp}$ surface consists exactly of carrier exposure for
+$$
+R=(S,U,K,G,H,C,P,N),
+$$
+site exposure through $S$, requested-supply exposure through $U$, narrow-kind classifier stability through $K$, audit-gate locality through $G$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ continuation through $C$, provenance through $P$, local naming through $N$, and a non-discharge ledger stating that the report names a boundary request without supplying the requested row.
+\end{theorem}
+\begin{proof}
+Project the finite packet $R=(S,U,K,G,H,C,P,N)$. The site, requested-supply, narrow-kind, and audit-gate rows are displayed before transport, continuation, provenance, and naming are read, so the certificate cannot introduce an unreported site or a hidden request.
+
+Read the classifier and gate rows together. The row $K$ is stable because it is the only row whose role is to name the narrow socket kind for the displayed request $U$ at site $S$. The row $G$ is local because it is read in the same packet as $S$ and cannot be reassigned after continuation replay.
+
+Finally inspect $H,C,P,N$. These rows transport, replay, source, and name the same finite packet. None of them contains a supply witness for $U$, so the non-discharge ledger remains part of the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Socket report minimal classification]
+\label{thm:socket-report-minimal-classification}
+Every accepted $\SocketReportUp$ report preserves the narrowest socket kind displayed by $K$. In particular, an accepted report for the same requested-supply row $U$ cannot replace a Type II witness request, a Type III identity request, or any other displayed narrow socket kind by a broader gap label while remaining the same NameCert report.
+\end{theorem}
+\begin{proof}
+Assume an accepted packet $R=(S,U,K,G,H,C,P,N)$. By \autoref{thm:socket-report-namecert-obligations}, the classifier row $K$ is part of the local NameCert surface and is transported only componentwise with the same requested-supply row $U$.
+
+If an audit consumer broadens the report while preserving $U$, it must either erase $K$ or replace $K$ by a different classifier row. Erasing $K$ leaves the carrier of \autoref{def:socket-report-carrier}; replacing it changes the local naming row $N$ because the certificate names the displayed packet.
+
+Thus Type II, Type III, and the other narrow socket rows remain public whenever the report is accepted. A broader gap label may be written as a separate report, but it is not the same accepted $\SocketReportUp$ packet for the displayed requested supply.
+\end{proof}
+
+\begin{theorem}[Socket report sibling separation]
+\label{thm:socket-report-sibling-separation}
+The $\SocketReportUp$ carrier is not bijective, under NameCert-row preservation, to $\TypedSupplySocketUp$, $\SocketKindClassifierUp$, $\SupplySocketLedgerUp$, $\AuditGateBoundaryUp$, or $\ClosedObservationSystemUp$.
+\end{theorem}
+\begin{proof}
+Compare the displayed rows. $\TypedSupplySocketUp$ carries typed socket data, $\SocketKindClassifierUp$ classifies kinds, $\SupplySocketLedgerUp$ accounts for requested supply, $\AuditGateBoundaryUp$ exposes gate locality, and $\ClosedObservationSystemUp$ records closed observational discipline.
+
+None of those siblings carries the simultaneous report rows $S,U,K,G,H,C,P,N$ with a non-discharge ledger for the same site and request. A NameCert-row-preserving bijection would have to preserve that joint report surface, so no listed sibling is bijective to $\SocketReportUp$.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SocketReportUp$ packet is refuted by any audit consumer that replaces the displayed narrow socket kind with a broader gap label while preserving the same requested-supply row.}
+
+\independenceWitness{typedsupplysocket, socketkindclassifier, supplysocketledger, auditgateboundary, closedobservationsystem: TypedSupplySocketUp binds typed socket rows but not the full report continuation; SocketKindClassifierUp lacks site, gate, and non-discharge rows; SupplySocketLedgerUp accounts for requests without preserving the narrow classifier as a report field; AuditGateBoundaryUp localizes gates without carrying the requested-supply ledger; ClosedObservationSystemUp records substrate closure rather than a visible gap report. None is bijective to the full $\SocketReportUp$ carrier under NameCert-row preservation.}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/SocketReportUp/TasteGate.lean} must provide explicit $\Nontrivial\ \SocketReportUp$ and $\FieldFaithful\ \SocketReportUp$ instances. The field-faithfulness witness must preserve $S,U,K,G,H,C,P,N$ as distinct rows so a checked TasteGate theorem can rule out broad-gap replacement of a narrow accepted report.
+
+\closureat{SocketReportUp}{seedStr}
+\closureat{SocketReportUp}{obligationStr}
+
+\begin{closurestatus}{\SocketReportUp}
+  \constructivestory{The socket report is generated from a $BHist$ packet that contains a requested-supply row, socket kind, site, gate, narrow report classifier, and the continuation needed to identify it as a socket-facing report. The carrier does not include stack certification, typed supply, or phase-refusal rows; it reads only the report packet and transports that packet along $hsame$. A $\Cont$ extension may carry the report to a later consumer, but it must preserve the minimal classification row. The NameCert obligations, minimal classification theorem, sibling separation, prediction, and independence witness make the report a narrow ledger object: it says what socket report is present and what broader gap readings are absent.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the socket report carrier, NameCert obligations, minimal-classification theorem, sibling-separation theorem, falsifiable prediction, and independence witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim stack certification, typed supply availability, phase-refusal verdicts, or broad-gap replacement of the report classifier.}
+  \upgradepath{Reaching obligationClosure requires formal report and classification rows plus checked separation from sibling socket machinery.}
+\end{closurestatus}

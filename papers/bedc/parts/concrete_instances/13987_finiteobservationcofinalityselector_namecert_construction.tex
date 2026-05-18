@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\FiniteObservationCofinalitySelectorUp$}
+\label{ch:concrete-instances-finite-observation-cofinality-selector-namecert}
+\origin{ai-composite}
+
+The $\FiniteObservationCofinalitySelectorUp$ packet turns the finite observation-budget selector of \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert} into the cofinal window surface required by the Real-completeness route of \autoref{ch:visions-real-completeness}. It is composite over the $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. Its role is not to choose an infinite subsequence; it names the finite rows whose selected windows are cofinal for every displayed diagonal request currently served.
+
+\begin{definition}[Finite observation cofinality-selector carrier]
+\label{def:finite-observation-cofinality-selector-carrier}
+A $\FiniteObservationCofinalitySelectorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,Q,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the accepted $\FiniteObservationBudgetSelectorUp$ budget row that bounds the visible Real-completion requests;
+\item $Q$ is the cofinality-request row recording the finite diagonal requests currently served by $B$;
+\item $W$ is the finite family of selected $\StreamNameUp$ windows whose indices meet every request in $Q$;
+\item $D$ is the $\DyadicRatCoreUp$ ledger read from the windows in $W$;
+\item $R$ is the $\RegSeqRatUp$ handoff row reached after the dyadic ledger is displayed;
+\item $E$ is the $\RealUp$ seal row reached through $R$;
+\item $H$ records componentwise $\hsame$ transport for the budget, request, window, dyadic, regular, seal, continuation, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from $B$ and $Q$ to $W$, from $W$ to $D$, from $D$ to $R$, and from $R$ to $E$;
+\item $P$ is the $\Pkg$ provenance over $\FiniteObservationBudgetSelectorUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FiniteObservationCofinalitySelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten rows. It has no coordinate for a countable-choice selector, quotient stream, host real equality test, hidden diagonal subsequence, detached limit value, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Finite observation cofinality-selector NameCert obligations]
+\label{thm:finite-observation-cofinality-selector-namecert-obligations}
+For every accepted $\FiniteObservationCofinalitySelectorUp$ carrier
+$$
+F=(B,Q,W,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteObservationCofinalitySelectorUp}$ surface consists exactly of carrier exposure for $F$, budget admission through $B$, finite cofinality-request exposure through $Q$, selected-window coverage through $W$, dyadic readback through $D$, $\RegSeqRatUp$ handoff through $R$, $\RealUp$ seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-observation-cofinality-selector-carrier}. The displayed tuple lists the accepted budget selector, the finite cofinality requests, the selected StreamName windows, the dyadic ledger, the regular handoff, the Real seal, and the structural rows.
+
+Read the analytic rows in order. The budget row $B$ bounds the requests in $Q$, and the continuation route sends those requests to the selected windows $W$ before any dyadic or regular readback can be used.
+
+The seal-facing rows then remain downstream from the same finite surface. The dyadic ledger $D$ is read from $W$, the handoff row $R$ is read from $D$, and the seal row $E$ is read from $R$.
+
+Finally inspect $H,C,P,N$. These rows transport, replay, source, and name the same packet, and no further analytic coordinate appears in the carrier. Hence the listed rows exhaust the local NameCert surface.
+\end{proof}
+\leanchecked{BEDC.Derived.FiniteObservationCofinalitySelectorUp.TasteGate.FiniteObservationCofinalitySelectorTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Finite observation cofinality-selector non-escape]
+\label{thm:finite-observation-cofinality-selector-nonescape}
+Every Real-completion, diagonal-limit, $\RegSeqRatUp$, or $\RealUp$ consumer of an accepted $\FiniteObservationCofinalitySelectorUp$ packet factors through the displayed finite route
+$$
+B \to Q \to W \to D \to R \to E
+$$
+together with $H,C,P,N$. The consumer may read the finite budget selector, cofinality-request row, selected $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal, transport rows, continuation rows, provenance, and local name, but it cannot read a countable-choice selector, quotient stream, host real equality test, hidden diagonal subsequence, detached limit value, or ambient completeness theorem through the packet.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations. They place every accepted read on the displayed carrier rows and require the budget-to-window and window-to-seal route to pass through $B,Q,W,D,R,E$.
+
+Use the cofinality role of the request row. The row $Q$ records only the finite diagonal requests currently served by the budget row $B$, while $W$ records the finite selected windows that meet those requests. It is therefore a finite cofinal surface, not an infinite subsequence or choice principle.
+
+The remaining rows add no escape route. The dyadic, regular, and Real rows $D,R,E$ are downstream from the displayed windows, and $H,C,P,N$ only preserve, replay, source, and name the same route.
+
+The excluded objects are not coordinates of the carrier and are not introduced by the structural rows. Any consumer that reads one of them has left the accepted $\FiniteObservationCofinalitySelectorUp$ packet.
+\end{proof}
+
+The later Lean packet is expected at \texttt{BEDC.Derived.FiniteObservationCofinalitySelectorUp}. Because the carrier is structurally composite over the existing Real-completion budget and stream-window carriers rather than atomic, its future Lean surface still needs \texttt{Nontrivial} and \texttt{FieldFaithful} instances for the carrier of \autoref{def:finite-observation-cofinality-selector-carrier}.
+
+\closureat{FiniteObservationCofinalitySelectorUp}{seedStr}
+
+\begin{closurestatus}{\FiniteObservationCofinalitySelectorUp}
+  \constructivestory{A $\FiniteObservationCofinalitySelectorUp$ packet is generated from a finite observation-budget selector row, finite cofinality-request row, selected StreamName window family, dyadic ledger, regular handoff, Real seal, componentwise transports, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-observation-cofinality-selector-carrier}, \autoref{thm:finite-observation-cofinality-selector-namecert-obligations}, and \autoref{thm:finite-observation-cofinality-selector-nonescape} declare the finite cofinality-selector packet between observation budgets and Real seal reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close RealUp completeness, quotient-stream equality, countable choice, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal request coverage, seal-route non-escape, and TasteGate carrier support for the same packet.}
+\end{closurestatus}

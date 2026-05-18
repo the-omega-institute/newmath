@@ -1,0 +1,79 @@
+\begin{theorem}[Diagonal-limit representative Lean target surface]
+\label{thm:diagonal-limit-representative-lean-target-surface}
+For an accepted shared-terminal $\DiagonalLimitRepresentativeUp$ carrier, the exact Lean target surface is the finite displayed route
+$$
+X,\mu,n,k,i,w,r,d,e,H,C,P,N
+$$
+together with the shared-terminal budget rows
+$$
+Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F.
+$$
+The intended target reads the representative carrier, the shared-terminal carrier, and the root-readiness package as one finite $\BHist$ surface: $X,\mu,n,k,i,w,r,d,e$ are the representative rows, $H,C,P,N$ are the local transport, replay, provenance, and naming rows, and $Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F$ are the finite-prefix budget rows. No additional carrier, classifier, selector, equality principle, host limit, or ambient completion field is part of the target surface.
+\end{theorem}
+\begin{proof}
+Read the representative carrier of \autoref{def:diagonal-limit-representative-carrier}. It lists exactly the rows $X,\mu,n,k,i,w,r,d,e,H,C,P,N$ and refuses host limits, quotient stream equality, hidden selectors, countable choice, and ambient $\RealUp$ completeness.
+
+Attach the shared-terminal carrier of \autoref{def:diagonal-limit-representative-shared-terminal-carrier}. It adds only the budget rows $Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F$ and makes them part of the same terminal route.
+
+Finally apply the root-readiness exactness theorem, \autoref{thm:diagonal-limit-representative-root-readiness-exactness}. Coverage, soundness, and completeness there identify every downstream Real-and-Completion consumer route with this finite packet, so a later Lean target has precisely the displayed rows as its obligation surface.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative audit-readiness package]
+\label{thm:diagonal-limit-representative-audit-readiness-package}
+The audit-ready obligation surface for $\DiagonalLimitRepresentativeUp$ is the package consisting of the carrier and classifier of \autoref{def:diagonal-limit-representative-carrier} and \autoref{def:diagonal-limit-representative-classifier}, the shared-terminal route of \autoref{thm:diagonal-limit-representative-shared-terminal-route}, the root-readiness triad of \autoref{thm:diagonal-limit-representative-root-readiness-triad}, the dependency-readiness scope of \autoref{thm:diagonal-limit-representative-dependency-readiness-scope}, and the root-readiness exactness theorem of \autoref{thm:diagonal-limit-representative-root-readiness-exactness}. This package is exact for audit: it covers the displayed representative rows, the shared-terminal budget rows, the accepted support rows, and no off-packet route.
+\end{theorem}
+\begin{proof}
+The carrier and classifier supply the accepted object and its componentwise comparison rule. These rows determine what can be admitted before any shared-terminal consumer is attached.
+
+The shared-terminal route then attaches the finite-prefix budget rows and orders the terminal read through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FinitePrefixLimitBudgetUp$, and $\RealUp$. The root-readiness triad makes that ordered route mandatory before support rows are consumed.
+
+The dependency-readiness scope packages the route for downstream L10 chapters, and root-readiness exactness gives coverage, soundness, and completeness for the displayed packet. Therefore the audit surface is neither weaker nor stronger than the carrier, shared-terminal route, root-readiness triad, and dependency-readiness exactness already displayed in the chapter.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative formal handoff boundary]
+\label{thm:diagonal-limit-representative-formal-handoff-boundary}
+Any later Lean handoff, audit target, or standard bridge for $\DiagonalLimitRepresentativeUp$ must preserve the finite route of \autoref{thm:diagonal-limit-representative-lean-target-surface} and the audit-ready package of \autoref{thm:diagonal-limit-representative-audit-readiness-package}. Such a handoff may encode the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FinitePrefixLimitBudgetUp$, and $\RealUp$ rows, but it may not import quotient-stream equality, host $\RealUp$ equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The positive content is fixed by the Lean target surface. It names the representative rows, support rows, and finite-prefix budget rows that must be preserved by any formal consumer.
+
+The audit-readiness package supplies the binding scope for those rows. It packages carrier admission, classifier transport, shared-terminal routing, root-readiness exposure, dependency-readiness, and exactness without adding any analytic completion principle.
+
+It remains to state the boundary for later formal work. The nonchoice boundary, completion boundary, Real-seal nonchoice export, and bridge precondition package already exclude quotient equality, host equality, selected limits, choice, and ambient completeness from the chapter surface. A Lean handoff or bridge can therefore check only this finite BEDC route; importing any excluded object would change the obligation surface rather than formalize it.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative terminal pullback coverage]
+\label{thm:diagonal-limit-representative-terminal-pullback-coverage}
+Every accepted formal handoff for $\DiagonalLimitRepresentativeUp$ pulls downstream Real-and-Completion consumption back to the finite route
+$$
+\mu,n,k,i,w,r,d,Q,B,W,D_F,R,S,e,H,C,P,N,E_F,H_F,C_F,P_F,N_F.
+$$
+Coverage is supplied by the root-readiness exactness package; soundness is supplied by the cited $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FinitePrefixLimitBudgetUp$, and $\RealUp$ surfaces. Thus the handoff can consume the displayed rows, their componentwise $\BHist$ packaging, and the associated $\NameCert$ obligations, but it cannot introduce quotient-stream equality, host $\RealUp$ equality, a selected limit, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the Lean target surface of \autoref{thm:diagonal-limit-representative-lean-target-surface}. It identifies the representative rows and the shared-terminal budget rows as one finite obligation surface, so every accepted formal handoff has a named row for each element of the displayed route.
+
+The audit-readiness package of \autoref{thm:diagonal-limit-representative-audit-readiness-package} then records which carrier, classifier, shared-terminal route, dependency-readiness scope, and exactness theorem can be consumed. The root-readiness exactness theorem, cited there as \autoref{thm:diagonal-limit-representative-root-readiness-exactness}, supplies coverage for the terminal route and soundness for the support surfaces.
+
+Finally apply the handoff boundary of \autoref{thm:diagonal-limit-representative-formal-handoff-boundary}. Its exclusions remove quotient-stream equality, host equality, selected limits, countable choice, and ambient completeness from the obligation surface. Route exhaustion leaves only the finite rows named above, which is the required pullback coverage contract for downstream Real-and-Completion consumption.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative terminal pullback determinacy]
+\label{thm:diagonal-limit-representative-terminal-pullback-determinacy}
+Let two accepted Real-and-Completion consumers of the $\DiagonalLimitRepresentativeUp$ formal handoff agree componentwise, by the recorded $\hsame$ and $\Cont$ replay, on the representative rows
+$$
+X,\mu,n,k,i,w,r,d,e,H,C,P,N
+$$
+and on the shared-terminal budget rows
+$$
+Q,B,W,D_F,R,S,E_F,H_F,C_F,P_F,N_F.
+$$
+Then the two consumers induce the same terminal $\RealUp$ seal route and the same finite-prefix budget pullback. Quotient-stream equality, host $\RealUp$ equality, a selected limit, countable choice, or an ambient $\RealUp$ completeness row cannot distinguish the induced pullback.
+\end{theorem}
+\begin{proof}
+The displayed agreement is exactly agreement on the Lean target surface of \autoref{thm:diagonal-limit-representative-lean-target-surface}. That theorem records the representative rows and shared-terminal budget rows as one finite $\BHist$ surface, so the two consumers begin with the same formal handoff data.
+
+Next apply the audit-readiness package of \autoref{thm:diagonal-limit-representative-audit-readiness-package}. It identifies the carrier, classifier, shared-terminal route, dependency scope, and root-readiness exactness data consumed by any accepted handoff, so componentwise $\hsame$ and $\Cont$ replay transport the same package to both consumers.
+
+Finally use terminal pullback coverage from \autoref{thm:diagonal-limit-representative-terminal-pullback-coverage}. Coverage leaves no off-packet route through quotient streams, host equality, selected limits, countable choice, or ambient completeness. The only remaining Real-and-Completion read is the displayed terminal $\RealUp$ seal route with its finite-prefix budget pullback, hence the two accepted consumers determine the same pullback.
+\end{proof}

@@ -1,0 +1,170 @@
+\begin{theorem}[StreamName finite-window reindex determinacy]
+\label{thm:streamname-window-reindex-determinacy}
+Let $W_0$ and $W_1$ be accepted $\StreamNameUp$ finite-window packets. Suppose their reindex maps are $\hsame$-compatible, their certified endpoint rows are identical, and their displayed $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ support rows transport componentwise across the same reindex route. Then $W_0$ and $W_1$ determine the same public finite observation section.
+
+The determinacy statement is internal to the displayed StreamName packet. It does not use quotient stream equality, host sequence equality, selected limits, countable choice, or a completion row.
+\end{theorem}
+\begin{proof}
+First read both packets through the transported finite-window endpoint package of \autoref{thm:rat-stream-name-finite-window-transported-selected-full-endpoint-package}. The shared endpoint rows and the $\hsame$-compatible reindex route place both packets on the same finite endpoint surface.
+
+Next apply successor projection determinacy, \autoref{thm:streamname-successor-window-projection-determinacy}. It prevents the reindex route from creating two public successor projections once endpoint rows and support rows have been identified.
+
+Finally use terminal window fusion, \autoref{thm:streamname-real-completion-terminal-window-fusion}. The fused terminal packet has no extra coordinate beyond the finite window, endpoint data, and displayed support rows, so both accepted packets export the same public finite observation section.
+\end{proof}
+
+\begin{theorem}[StreamName public reindexing identity law]
+\label{thm:streamname-public-reindexing-identity-law}
+For every public $\StreamNameUp$ finite-window packet over a
+$\mathsf{ProbeBundle}$, the certified identity reindexer preserves the
+displayed $\mathsf{RatStreamNameFiniteWindowClassifier}$, $\UnaryHistory$
+observation rows, $\mathsf{InBundle}$ membership rows, pointwise rational
+classifier rows, $\hsame$ comparisons, $\Cont$ routes, $\Pkg$ provenance, and
+local $\NameCert$ rows. The resulting public finite observation section is the
+same section read through the identity route.
+
+This identity law is a statement about the public finite-window packet only.
+It does not introduce quotient stream equality, host sequence equality,
+selected limits, countable choice, a completion row, or a standard bridge row.
+\end{theorem}
+\begin{proof}
+Read the packet through the public finite-window interface and the public
+reindexing obligation of
+\autoref{def:streamname-public-reindexing-obligation}. On an identity
+reindexer, every certified $\UnaryHistory$ observation remains the displayed
+observation, and every $\mathsf{InBundle}$ row is read from the same
+$\mathsf{ProbeBundle}$.
+
+The pointwise rational classifier, $\hsame$ comparison, $\Cont$ route,
+$\Pkg$ provenance, and local $\NameCert$ row therefore reappear as the same
+displayed rows. No extra endpoint, quotient representative, or host-index
+coordinate is available in the public obligation surface.
+
+Apply \autoref{thm:streamname-window-reindex-determinacy} to the original
+packet and to the identity-reindexed packet. The hypotheses are exactly the
+shared endpoint rows, the identity $\hsame$ route, and the componentwise
+agreement of the displayed support rows, so the exported public finite
+observation section is unchanged.
+\end{proof}
+
+\begin{theorem}[StreamName public reindexing associative law]
+\label{thm:streamname-public-reindexing-associative-law}
+Let $r$ and $s$ be composable certified unary reindexers displayed over public
+$\StreamNameUp$ finite-window packets. The two-step packet obtained by
+reindexing along $r$ and then along $s$ exposes the same public finite-window
+section as the single packet obtained by the composite reindexer. The common
+section has the same $\mathsf{RatStreamNameFiniteWindowClassifier}$,
+$\UnaryHistory$ ledger, $\mathsf{InBundle}$ transport, pointwise rational
+classifier rows, $\hsame$ comparisons, composed $\Cont$ route, displayed
+$\Pkg$ provenance, and local $\NameCert$ rows.
+
+The law is confined to the finite public surface. It does not claim quotient
+stream equality, host sequence equality, selected limits, countable choice,
+completion data, or a standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply the public reindexing obligation of
+\autoref{def:streamname-public-reindexing-obligation} to the $r$ leg and then
+to the $s$ leg. The two applications list only the certified
+$\UnaryHistory$ observations, $\mathsf{InBundle}$ membership rows, pointwise
+rational classifier rows, $\hsame$ comparisons, $\Cont$ routes, $\Pkg$
+provenance, and local naming rows displayed by the finite packets.
+
+Next use the finite-window reindexing composition theorem,
+\autoref{thm:streamname-finite-window-reindexing-composition}. It identifies
+the two restricted finite $\mathsf{BHist}$ packets with the packet obtained by
+restricting once along the composite reindexer, with the classifier, endpoint,
+$\hsame$, and finite ledger rows merely repacked over the target
+$\mathsf{ProbeBundle}$.
+
+Finally apply \autoref{thm:streamname-window-reindex-determinacy} to the
+two-step packet and the composite packet. Their reindex maps are
+$\hsame$-compatible, their endpoint rows agree, and their displayed
+$\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows transport componentwise, so the
+exported public finite observation section is the same.
+\end{proof}
+
+\begin{theorem}[StreamName reindex terminal coverage]
+\label{thm:streamname-reindex-terminal-coverage}
+A certified public $\StreamNameUp$ finite-window reindex route preserves exactly
+the terminal four-face L10 exit route. Namely, if an accepted reindex route
+transports the public finite window together with the displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, then the transported
+exit packet exposes the same $\StreamNameUp$ window, the same
+$\DyadicRatCoreUp$ ledger, the same $\RegSeqRatUp$ readback, and the same
+$\RealUp$ seal as its terminal Phase Real and Completion route.
+
+Conversely, any terminal four-face route transported by the identity certified
+reindexer or by composable certified reindexers reads the same public finite
+observation section. The coverage is confined to the finite route and excludes
+quotient stream equality, host sequence equality, selected limits, countable
+choice, ambient $\RealUp$ completeness, metric completeness, and standard
+bridge rows.
+\end{theorem}
+\begin{proof}
+Start with the public finite-window section. The determinacy theorem,
+\autoref{thm:streamname-window-reindex-determinacy}, says that matching
+endpoint rows, $\hsame$-compatible reindex maps, and componentwise transported
+$\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows determine one public finite
+observation section.
+
+For the identity route, apply
+\autoref{thm:streamname-public-reindexing-identity-law}. It keeps the displayed
+finite window, unary-history ledger, bundle membership, rational classifier,
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows unchanged, so the
+terminal packet is read from the same public section.
+
+For composable certified routes, apply
+\autoref{thm:streamname-public-reindexing-associative-law}. The two-step and
+composite reindexings expose the same finite section, hence they present the
+same support rows to the exit boundary.
+
+Finally use \autoref{thm:streamname-open-phase-four-face-terminality} and
+\autoref{thm:streamname-open-phase-four-face-exit-readback}. Terminality fixes
+the four faces once the StreamName window, DyadicRatCore ledger, RegSeqRat
+readback, RealUp seal, and support rows agree, while readback says every
+terminal exit read factors through exactly those rows. Thus transported
+identity and composable routes cover precisely the finite four-face exit route,
+with no additional quotient, host, limit, choice, completeness, or bridge
+coordinate.
+\end{proof}
+
+\begin{theorem}[StreamName public reindexing section cancellation]
+\label{thm:streamname-public-reindexing-section-cancellation}
+Let $R_0$ and $R_1$ be certified public $\StreamNameUp$ finite-window reindex
+routes displayed over the same $\mathsf{ProbeBundle}$. Suppose they expose the
+same public finite observation section, the same endpoint rows, and the same
+displayed $\BHist$, and suppose their componentwise $\hsame$, $\Cont$, $\Pkg$,
+and local $\NameCert$ support rows agree over that section. Then every terminal
+Phase Real and Completion consumer reads the same four-face route through
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ from $R_0$
+and $R_1$.
+
+Thus the consumer cannot distinguish the two routes by reindexer shape, host
+sequence equality, quotient stream equality, selected limits, countable choice,
+ambient completeness, metric completeness, or a standard bridge row. The
+visible data are exactly the displayed finite section, endpoint rows, and
+support rows.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-window-reindex-determinacy} to the two
+certified routes. The shared endpoint rows, the common displayed
+$\mathsf{ProbeBundle}$, the displayed $\BHist$, and the componentwise
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows identify the
+public finite observation section read by the two packets.
+
+The identity and composite presentations do not add observable data. Apply
+\autoref{thm:streamname-public-reindexing-identity-law} to any identity leg
+and \autoref{thm:streamname-public-reindexing-associative-law} to any
+composite presentation. Both laws reduce the public presentation back to the
+same finite section with the same displayed support rows.
+
+Finally apply \autoref{thm:streamname-reindex-terminal-coverage} and
+\autoref{thm:streamname-real-completion-terminal-window-fusion}. Terminal
+coverage says every accepted reindex route reaches the same four-face exit
+surface once the finite section and support rows agree, while terminal window
+fusion carries that agreement through the $\StreamNameUp$ window,
+$\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal. Hence
+the terminal consumer reads one route, independent of the certified reindexer
+shape and of the excluded quotient, host, limit, choice, completeness, or
+bridge coordinates.
+\end{proof}

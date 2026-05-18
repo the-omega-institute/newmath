@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletenessTailChoiceAuditUp$}
+\label{ch:concrete-instances-real-completeness-tail-choice-audit-namecert}
+\origin{ai}
+
+The $\RealCompletenessTailChoiceAuditUp$ packet turns the canonical tail-choice realization of \autoref{ch:concrete-instances-canonical-tail-choice-namecert} into an explicit audit surface for the Real-completeness route of \autoref{ch:visions-real-completeness}. It reads the diagonal representative of \autoref{ch:concrete-instances-diagonallimitrepresentative-namecert}, the finite observation-budget selector of \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}, the stream window of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. Its purpose is to expose the finite selector boundary as a named audit packet rather than letting a completion consumer confuse it with a countable-choice selector or a host-limit computation.
+
+\falsifiablePrediction{Removing the refusal row makes the audit unable to distinguish finite tail choice from countable-choice selection.}
+
+\independenceWitness{canonicaltailchoice, diagonallimitrepresentative, finiteobservationbudgetselector, realtailagreementseal, cofinalwindowrealseal: none is bijective to $\RealCompletenessTailChoiceAuditUp$ because the listed packets isolate a canonical finite tail choice, a diagonal representative, an observation-budget selector, a paired tail agreement seal, or a cofinal Real seal, while the audit packet binds all of them to one carrier with displayed tail-window, refusal, transport, route, provenance, and Real-seal rows.}
+
+\begin{definition}[Real-completeness tail-choice audit carrier]
+\label{def:real-completeness-tail-choice-audit-carrier}
+A $\RealCompletenessTailChoiceAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(M,E,I,W,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the modulus and tolerance row inherited from the accepted $\CanonicalTailChoiceUp$ route.
+\item $E$ is the finite observation-budget row that determines which tail observations may be served.
+\item $I$ is the canonical finite tail-index row, computed from the displayed modulus and budget rows.
+\item $W$ is the tail-window row linking the index $I$ to the $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ readback surfaces.
+\item $S$ is the terminal $\RealUp$ seal row reached only after the diagonal representative and finite readback rows have been displayed.
+\item $R$ is the refusal row excluding countable choice, host-selected limits, quotient stream equality, hidden tail oracles, and ambient completeness.
+\item $H$ records componentwise $\hsame$ transport for the modulus, budget, index, window, seal, refusal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the finite selector rows through the tail-window readback, refusal row, and Real-seal route.
+\item $P$ is the $\Pkg$ provenance over $\CanonicalTailChoiceUp$, $\DiagonalLimitRepresentativeUp$, $\FiniteObservationBudgetSelectorUp$, $\RealTailAgreementSealUp$, $\CofinalWindowRealSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCompletenessTailChoiceAuditUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten rows. It has no coordinate for a countable-choice selector, a quotient stream, a selected host limit, an unbounded tail oracle, a metric-completeness proof, or a detached Real-completion theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate.RealCompletenessTailChoiceAuditTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Real-completeness tail-choice audit non-escape]
+\label{thm:real-completeness-tail-choice-audit-nonescape}
+An accepted $\RealCompletenessTailChoiceAuditUp$ packet exports exactly the rows
+$$
+M,E,I,W,S,R,H,C,P,N
+$$
+of \autoref{def:real-completeness-tail-choice-audit-carrier}. No terminal Real-completion consumer can read a countable-choice selector, selected host limit, quotient stream equality, hidden tail oracle, ambient completeness field, or detached limit theorem through the audit packet.
+\end{theorem}
+\begin{proof}
+Project the carrier. The analytic rows are the displayed modulus and tolerance row $M$, the finite observation budget $E$, the canonical index $I$, the tail-window row $W$, the Real seal row $S$, and the refusal row $R$.
+
+The structural rows add no second analytic source. The transports $H$, continuation replay $C$, provenance $P$, and local name $N$ only preserve and name the same finite packet.
+
+The refusal row is part of the carrier itself. Since the excluded objects are not coordinates of the packet and are not introduced by the structural rows, any read of one of them leaves the accepted audit surface.
+\end{proof}
+
+\begin{theorem}[Real-completeness tail-choice audit Real-seal factorization]
+\label{thm:real-completeness-tail-choice-audit-factorization}
+Every terminal $\RealUp$ or $\CompletionUp$ consumer of an accepted $\RealCompletenessTailChoiceAuditUp$ packet factors its Real-seal read through the finite route
+$$
+M\longmapsto E\longmapsto I\longmapsto W\longmapsto S\longmapsto R\longmapsto H\longmapsto C\longmapsto P\longmapsto N.
+$$
+The route first consumes the canonical tail-choice row of \autoref{ch:concrete-instances-canonical-tail-choice-namecert}, then the diagonal representative and finite observation-budget surfaces of \autoref{ch:concrete-instances-diagonallimitrepresentative-namecert} and \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}, and only then reads the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces.
+\end{theorem}
+\begin{proof}
+Begin with the canonical tail-choice packet. Its modulus, tolerance, finite-index, tail-window, seal, and refusal rows supply the finite selector route that the audit records as $M,E,I,W,S,R$.
+
+Next attach the representative and budget consumers. The diagonal representative and finite observation-budget selector are read before the terminal Real seal, so the audit can expose only their displayed finite rows, not an external limit value or an unbounded selection principle.
+
+Finally read the four concrete faces. The StreamName, DyadicRatCore, RegSeqRat, and Real surfaces appear through the same window and seal route already carried by $W$ and $S$. The structural rows $H,C,P,N$ transport, replay, source, and name that route, so every terminal read factors through the stated finite sequence.
+\end{proof}
+
+The Lean follow-up namespace is \texttt{BEDC.Derived.RealCompletenessTailChoiceAuditUp}. Its \texttt{TasteGate.lean} surface must provide \texttt{Nontrivial} and \texttt{FieldFaithful} instances for the carrier of \autoref{def:real-completeness-tail-choice-audit-carrier}.
+
+\closureat{RealCompletenessTailChoiceAuditUp}{seedStr}
+
+\begin{closurestatus}{\RealCompletenessTailChoiceAuditUp}
+  \constructivestory{A $\RealCompletenessTailChoiceAuditUp$ packet is generated from finite modulus, observation-budget, canonical-index, tail-window, Real-seal, refusal, transport, continuation, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-completeness-tail-choice-audit-carrier}, \autoref{thm:real-completeness-tail-choice-audit-nonescape}, and \autoref{thm:real-completeness-tail-choice-audit-factorization} declare the finite audit packet separating canonical tail choice from countable-choice and host-limit routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close RealUp completeness, quotient-stream equality, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, audit non-escape, Real-seal factorization, and TasteGate carrier support for the same packet.}
+\end{closurestatus}

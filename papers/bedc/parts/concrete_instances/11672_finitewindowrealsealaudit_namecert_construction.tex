@@ -28,6 +28,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted carriers only through these rows. It has no coordinate for quotient streams, selected host limits, host real equality, detached Real seals, countable choice, or ambient completeness.
 \end{definition}
+\leanchecked{BEDC.Derived.FiniteWindowRealSealAuditUp.FiniteWindowRealSealAuditTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Finite-window Real-seal audit NameCert obligations]
 \label{thm:finite-window-real-seal-audit-namecert-obligations}
@@ -61,4 +62,75 @@ Attach the sibling faces. The cited StreamName, DyadicRatCore, RegSeqRat, and Re
 Inspect the refusal row. Since $F$ records the excluded coordinates and the carrier has no other coordinate through which to read them, any consumer that bypasses $W,D,R$ before reaching $E$ has left the accepted audit packet.
 \end{proof}
 
-Lean development for this route must provide \texttt{Nontrivial FiniteWindowRealSealAuditUp} and \texttt{FieldFaithful FiniteWindowRealSealAuditUp} in \texttt{lean4/BEDC/Derived/FiniteWindowRealSealAuditUp/TasteGate.lean}.
+\begin{theorem}[Finite-window Real-seal audit four-face minimality]
+\label{thm:finite-window-real-seal-audit-four-face-minimality}
+For every accepted $\FiniteWindowRealSealAuditUp$ carrier
+$$
+A=(W,D,R,E,F,H,C,P,N),
+$$
+each of the four source faces $W,D,R,E$ is individually necessary for the accepted route. The row $W$ supplies the $\StreamNameUp$ finite-window face, $D$ supplies the $\DyadicRatCoreUp$ tolerance and readback face, $R$ supplies the $\RegSeqRatUp$ readback face, and $E$ supplies the terminal $\RealUp$ seal face.
+
+Replacing or omitting any one of $W,D,R,E$ leaves no accepted $\FiniteWindowRealSealAuditUp$ packet with the same route role. The rows $F,H,C,P,N$ can refuse, transport, replay, package, and name only after the four source faces have been displayed; they cannot manufacture a missing StreamName window, dyadic tolerance ledger, RegSeqRat readback, or terminal Real seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-real-seal-audit-carrier}. The four rows $W,D,R,E$ are not auxiliary annotations: they are the source faces from which the displayed route obtains its finite window, dyadic tolerance ledger, regular-rational readback, and terminal Real seal.
+
+Apply \autoref{thm:finite-window-real-seal-audit-namecert-obligations}. The exact row inventory places $W,D,R,E$ in the local certificate before the audit-refusal, transport, continuation, provenance, and naming rows. Thus each of the four faces has a distinct certificate role not repeated by $F,H,C,P,N$.
+
+Apply \autoref{thm:finite-window-real-seal-audit-nonescape}. An accepted consumer has no bypass coordinate through which a missing window, tolerance ledger, readback, or seal can be recovered. Therefore dropping or replacing any one of $W,D,R,E$ breaks the accepted finite-window Real-seal audit route componentwise.
+\end{proof}
+
+\begin{theorem}[Finite-window Real-seal audit refusal transport]
+\label{thm:finite-window-real-seal-audit-refusal-transport}
+Let
+$$
+A=(W,D,R,E,F,H,C,P,N)
+$$
+and
+$$
+A'=(W',D',R',E',F',H',C',P',N')
+$$
+be accepted $\FiniteWindowRealSealAuditUp$ carriers. If the rows of $A$ are transported componentwise by $\hsame$ to the corresponding rows of $A'$, then the audit-refusal row is preserved. Every transported Real-seal consumer must pass through $W',D',R'$ before reading $E'$.
+
+The transported packet has no quotient stream, selected host limit, host real equality, countable-choice row, hidden completion route, or ambient-completeness coordinate. These coordinates are still refused by $F'$ and cannot be recovered from $H',C',P',N'$.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:finite-window-real-seal-audit-namecert-obligations}. They identify the complete local inventory of an accepted carrier and make $F$ the row that records the audit refusal.
+
+Apply the componentwise $\hsame$ transport recorded by $H$ and $H'$. Since the transported rows are exactly $W',D',R',E',F',H',C',P',N'$, the refusal row travels with the same finite packet rather than opening a detached completion coordinate.
+
+Use \autoref{thm:finite-window-real-seal-audit-nonescape} for the target carrier $A'$. Any transported consumer that reaches the terminal Real seal must read the displayed route through $W',D',R'$ before $E'$.
+
+Finally apply \autoref{thm:finite-window-real-seal-audit-four-face-minimality}. The four source faces cannot be replaced by $F',H',C',P',N'$, so the refused quotient, selected-limit, host-equality, choice, hidden-completion, and ambient-completeness routes remain absent after transport.
+\end{proof}
+
+\begin{theorem}[Finite-window Real-seal audit obligation closure]
+\label{thm:finite-window-real-seal-audit-obligation-closure}
+The carrier definition, the local NameCert obligations, the non-escape theorem, four-face minimality, the refusal-transport theorem, and the displayed TasteGate alignment target together bind the carrier, classifier, stability, exactness, and ledger-refusal obligations for $\FiniteWindowRealSealAuditUp$.
+
+Concretely, \autoref{def:finite-window-real-seal-audit-carrier} supplies the carrier and classifier rows; \autoref{thm:finite-window-real-seal-audit-namecert-obligations} supplies the exact local NameCert inventory; \autoref{thm:finite-window-real-seal-audit-nonescape} supplies ledger refusal for non-displayed Real-seal routes; \autoref{thm:finite-window-real-seal-audit-four-face-minimality} supplies exactness of the four displayed faces; and \autoref{thm:finite-window-real-seal-audit-refusal-transport} supplies stability under componentwise $\hsame$ transport.
+\end{theorem}
+\begin{proof}
+The carrier and classifier obligations are read from \autoref{def:finite-window-real-seal-audit-carrier}. The definition lists the displayed rows and says that accepted comparison has no coordinate outside those rows.
+
+The exactness obligation is supplied by \autoref{thm:finite-window-real-seal-audit-namecert-obligations} and \autoref{thm:finite-window-real-seal-audit-four-face-minimality}. Together they identify the complete NameCert inventory and show that the four source faces $W,D,R,E$ are all necessary.
+
+The ledger-refusal obligation is supplied by \autoref{thm:finite-window-real-seal-audit-nonescape}. It rules out quotient streams, selected host limits, host real equality, detached Real seals, countable-choice rows, hidden completion routes, and ambient-completeness coordinates for accepted consumers.
+
+The stability obligation is supplied by \autoref{thm:finite-window-real-seal-audit-refusal-transport}. Componentwise $\hsame$ transport carries the refusal row and preserves the forced route through the displayed finite-window, dyadic-tolerance, RegSeqRat, and Real-seal faces. The TasteGate alignment target records that the same single carrier is the Lean-side audit surface for this packet, so the listed rows form the obligation-closure boundary for $\FiniteWindowRealSealAuditUp$.
+\end{proof}
+
+Lean development for this route provides \texttt{Nontrivial FiniteWindowRealSealAuditUp} and \texttt{FieldFaithful FiniteWindowRealSealAuditUp} in \texttt{lean4/BEDC/Derived/FiniteWindowRealSealAuditUp/TasteGate.lean}.
+
+\begin{closurestatus}{\FiniteWindowRealSealAuditUp}
+  \constructivestory{The finite-window Real-seal audit is generated from a $BHist$ packet whose window rows, tolerance rows, audit witness, and Real-seal handoff are all visible before any consumer route is admitted. The carrier convention first names the finite window, then records the audit row that checks the handoff, and finally allows $\Cont$ only to continue that audited route. If the representing history changes, $hsame$ transports the same audit packet rather than creating a new window. The resulting NameCert object is a local audit surface: it certifies that Real-seal use is confined to the displayed finite packet and that forbidden coordinates remain absent.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{This chapter binds the finite-window Real-seal audit carrier, NameCert obligations, non-escape theorem, four-face minimality, refusal transport of \autoref{thm:finite-window-real-seal-audit-refusal-transport}, and obligation closure of \autoref{thm:finite-window-real-seal-audit-obligation-closure}.}
+  \formalstatus{\axiomCleanV}
+  \leanchecked{BEDC.Derived.FiniteWindowRealSealAuditUp.taste\_gate}
+  \leantarget{BEDC.Derived.FiniteWindowRealSealAuditUp.FiniteWindowRealSealAuditTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim all Real windows are audited, that finite windows are complete, or that unaudited host limits are admissible.}
+  \upgradepath{Reaching scopedClosure requires explicit dependency scopes over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+\end{closurestatus}

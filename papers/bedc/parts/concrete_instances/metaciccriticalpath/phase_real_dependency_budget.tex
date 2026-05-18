@@ -1,0 +1,79 @@
+\begin{theorem}[MetaCIC critical-path DyadicRatCore budget readiness]
+\label{thm:metacic-critical-path-dyadicratcore-budget-readiness}
+For every Phase Real or Completion consumer of an accepted $\MetaCICCriticalPathUp$ root-unblock packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+any $\DyadicRatCoreUp$ finite observation budget read is permitted only as a displayed dependency row attached to the same packet. The read may bound finite rational observations for the route to $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, but it cannot be exported as quotient stream equality, a host-selected limit, Real completeness, closed subject reduction, or full consistency.
+\end{theorem}
+\begin{proof}
+Start with the finite root-unblock carrier. Theorem~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness} exposes $K$ as the displayed rows $S,N,O,U,D,H,C,P,L$, and Theorem~\ref{thm:metacic-critical-path-root-unblock-route-readiness} keeps route replay inside those rows.
+
+Place the dyadic observation budget on the Phase Real route. Theorem~\ref{thm:metacic-critical-path-phase-real-route-budget} says that every Real-facing or Completion-facing dependency read must first pass through the displayed L10 consumer surface, and Theorem~\ref{thm:metacic-critical-path-phase-real-obstruction-ledger-lock} keeps the obstruction and discharge rows visible along the route.
+
+Finally use the readiness triad. Theorems~\ref{thm:metacic-critical-path-real-streamname-source-readiness}, \ref{thm:metacic-critical-path-regseqrat-readback-readiness}, and \ref{thm:metacic-critical-path-real-completion-readiness} allow StreamName schedules, RegSeqRat readback, and Real seal reads only as displayed dependency rows. Hence a $\DyadicRatCoreUp$ finite observation budget can serve the Phase Real consumer only as such a row, with no coordinate for quotient equality, selected limits, Real completeness, closed subject reduction, or full consistency.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path StreamName before RegSeqRat route order]
+\label{thm:metacic-critical-path-streamname-regseqrat-route-order}
+For every Phase Real or Completion consumer of an accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the route order is fixed: the $\StreamNameUp$ schedule row is read before any $\RegSeqRatUp$ readback row, and both are read before the $\RealUp$ seal handoff. A consumer that tries to read regular-rational data or a Real seal without the displayed StreamName schedule is outside the L10 dependency budget of the packet.
+\end{theorem}
+\begin{proof}
+First read the root packet. Theorems~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness} and~\ref{thm:metacic-critical-path-root-unblock-consumer-readiness} make $S,N,O,U,D,H,C,P,L$ the whole consumer surface and exclude host scheduler state, undisplayed dependency edges, closed subject reduction, and full consistency.
+
+Next read the Phase Real budget. Theorem~\ref{thm:metacic-critical-path-phase-real-route-budget} requires the displayed rows before any Real-facing dependency row, $\RegSeqRatUp$ handoff row, or $\StreamNameUp$ schedule row can be used. Theorem~\ref{thm:metacic-critical-path-phase-real-normal-form-handoff} then keeps the normal-form row attached to the obstruction and discharge packet during the handoff.
+
+The readiness triad supplies the order. Theorem~\ref{thm:metacic-critical-path-real-streamname-source-readiness} exposes the StreamName schedule after the packet rows, Theorem~\ref{thm:metacic-critical-path-regseqrat-readback-readiness} consumes the RegSeqRat readback as a displayed row of that same packet, and Theorem~\ref{thm:metacic-critical-path-real-completion-readiness} packages both before the Real-facing seal route. Thus the route reads StreamName before RegSeqRat and RegSeqRat before the Real seal handoff.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path Real seal frontier exactness]
+\label{thm:metacic-critical-path-real-seal-frontier-exactness}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the exact Phase Real frontier is the displayed L10 dependency budget consisting of the packet rows together with the $\DyadicRatCoreUp$ finite observation budget, $\StreamNameUp$ schedule, $\RegSeqRatUp$ readback, and $\RealUp$ seal handoff rows consumed in that order. The frontier exports no quotient stream equality, host-selected limit, ambient Real completeness, closed subject reduction, full consistency, hidden completion selector, or theorem row outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Begin with the root-unblock exactness. Theorems~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness}, \ref{thm:metacic-critical-path-root-unblock-route-readiness}, and \ref{thm:metacic-critical-path-root-unblock-consumer-readiness} identify the available consumer surface as $S,N,O,U,D,H,C,P,L$ and refuse hidden scheduler, route, subject-reduction, and consistency coordinates.
+
+Add the Phase Real budget rows. Theorem~\ref{thm:metacic-critical-path-phase-real-route-budget} fixes the L10 consumer surface, while Theorems~\ref{thm:metacic-critical-path-phase-real-normal-form-handoff} and~\ref{thm:metacic-critical-path-phase-real-obstruction-ledger-lock} preserve the normal-form, obstruction, discharge, transport, continuation, provenance, and ledger rows along the Real-facing route.
+
+The first two theorems of this file identify the dyadic budget and route order. Theorem~\ref{thm:metacic-critical-path-dyadicratcore-budget-readiness} confines finite observation budgets to displayed dependency rows, and Theorem~\ref{thm:metacic-critical-path-streamname-regseqrat-route-order} forces the StreamName schedule before RegSeqRat readback and the Real seal handoff.
+
+Finally apply the readiness package, Theorem~\ref{thm:metacic-critical-path-real-completion-readiness}. It combines the StreamName, RegSeqRat, and Real-facing rows without adding quotient stream equality, selected limits, ambient completeness, closed subject reduction, full consistency, or a hidden completion selector. The Phase Real seal frontier is therefore exact at the displayed L10 dependency budget and nowhere beyond it.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path L10 source cut]
+\label{thm:metacic-critical-path-l10-source-cut}
+For every Phase Real or Completion consumer of an accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the source cut for a $\RealUp$-facing read must expose the $\DyadicRatCoreUp$ finite observation budget before the $\StreamNameUp$ schedule, $\RegSeqRatUp$ readback, and $\RealUp$ seal rows. A consumer that starts from quotient stream equality, a host-selected limit, Real completeness, closed consistency, or an undisplayed route row is outside the L10 source cut of $K$.
+\end{theorem}
+\begin{proof}
+Start with the dyadic budget row. Theorem~\ref{thm:metacic-critical-path-dyadicratcore-budget-readiness} permits $\DyadicRatCoreUp$ reads only as displayed finite observation budget rows attached to the packet $K$.
+
+Next use the route order. Theorem~\ref{thm:metacic-critical-path-streamname-regseqrat-route-order} forces the $\StreamNameUp$ schedule before the $\RegSeqRatUp$ readback and both before the $\RealUp$ seal handoff.
+
+The displayed source cut is therefore the packet rows followed by the dyadic budget, the StreamName schedule, the RegSeqRat readback, and the Real seal row. Since none of the cited rows has a coordinate for quotient equality, selected limits, Real completeness, closed consistency, or an undisplayed route row, no Phase Real consumer may read those objects as sources for the handoff.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path Real seal non-escape]
+\label{thm:metacic-critical-path-real-seal-no-completeness-escape}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the $\RealUp$ seal handoff exports exactly the displayed L10 dependency budget of Theorem~\ref{thm:metacic-critical-path-real-seal-frontier-exactness}. It exports no Real completeness theorem, no host-selected limit, no quotient stream equality, no closed consistency row, and no extra completion selector.
+\end{theorem}
+\begin{proof}
+Read the handoff through the readiness package. Theorem~\ref{thm:metacic-critical-path-real-completion-readiness} packages the StreamName, RegSeqRat, and Real-facing rows while keeping them inside the displayed packet surface.
+
+Then apply the frontier theorem. Theorem~\ref{thm:metacic-critical-path-real-seal-frontier-exactness} identifies the exact frontier as the L10 dependency budget and explicitly removes quotient stream equality, selected limits, ambient completeness, closed subject reduction, full consistency, hidden completion selectors, and theorem rows outside the packet.
+
+Combining these two facts leaves the Real seal handoff with only the displayed dependency rows. Hence Real completeness, host-selected limits, quotient stream equality, closed consistency, and extra completion selectors cannot escape through the seal.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path Phase Real exit conjunction]
+\label{thm:metacic-critical-path-phase-real-exit-conjunction}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, this packet supplies the paper-side exit conjunction for the Phase Real and Completion route over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$: finite observation reads are displayed as dyadic budget rows, schedule reads precede regular-rational readback, regular-rational readback precedes the Real seal, and the Real seal frontier exports no quotient equality, selected limit, ambient completeness, closed consistency, or off-budget completion selector. Verification status and bridge status remain on the independent Lean axis.
+\end{theorem}
+\begin{proof}
+The dyadic part of the conjunction is Theorem~\ref{thm:metacic-critical-path-dyadicratcore-budget-readiness}. It makes finite observation reads visible as $\DyadicRatCoreUp$ budget rows of $K$.
+
+The route-order part is Theorem~\ref{thm:metacic-critical-path-streamname-regseqrat-route-order}. It places the $\StreamNameUp$ schedule before $\RegSeqRatUp$ readback and puts both before the $\RealUp$ seal handoff.
+
+The exit boundary is supplied by Theorems~\ref{thm:metacic-critical-path-real-seal-frontier-exactness}, \ref{thm:metacic-critical-path-l10-source-cut}, and \ref{thm:metacic-critical-path-real-seal-no-completeness-escape}. Together they identify the source cut, the exact frontier, and the refusal of quotient equality, selected limits, Real completeness, closed consistency, and extra completion selectors.
+
+These are paper-side dependency and non-escape clauses. They state the Phase Real exit surface without adding a verification marker or a bridge row, so the Lean verification grade and bridge grade stay governed by the separate closurestatus axis.
+\end{proof}

@@ -53,6 +53,7 @@ W=(G,K,A,L,Q,R,H,C,P,N),
 $$
 the accepted declaration row $A$ reaches downstream consumers only through the environment-ledger row $L$, the axiom-query row $Q$, the build-replay row $R$, and the local $\NameCert$ row $N$. Thus a checked BEDC marker may consume kernel acceptance as a ledgered declaration with a replayable source and queryable dependency surface, but it cannot read acceptance as a certificate for the kernel's own correctness or for any paper-side claim not stated by the accepted declaration.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_ledger\_non\_escape}
 \begin{proof}
 Project the accepted declaration row $A$ from the carrier. Its only ledger-facing coordinate is $L$, so downstream reads of the accepted name pass through the environment row rather than through an informal description of the term.
 
@@ -76,6 +77,7 @@ The build-replay row $R$ reconstructs the acceptance event from sources, but rep
 
 That separate read is $Q$. Since the carrier designates $Q$ as the axiom-query row and provides no second ancestry coordinate, any cleanliness conclusion must pass through $Q$ rather than through the local name, the generated term, or the acceptance stamp by itself.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_axiom\_query\_boundary}
 
 \begin{definition}[KernelAcceptanceAuditWitness terminal accepted row]
 \label{def:kernel-acceptance-audit-witness-terminal-row}
@@ -131,6 +133,7 @@ W=(G,K,A,L,Q,R,H,C,P,N),
 $$
 the public obligation surface consists exactly of the accepted declaration row $A$, environment-ledger row $L$, axiom-query row $Q$, build-replay row $R$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$, together with the generated and candidate rows $G,K$ needed to replay the acceptance event. Consumers cannot read kernel correctness, compiler correctness, runtime correctness, dependency cleanliness without $Q$, replay success without $R$, or stronger paper meaning from this packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_public\_obligation\_surface}
 \begin{proof}
 First expose the finite packet by \autoref{thm:kernel-acceptance-audit-witness-namecert-obligations}. It identifies the generated row, candidate row, accepted declaration, ledger row, axiom-query row, replay row, transport row, continuation row, provenance row, and local name as the entire NameCert surface.
 
@@ -154,6 +157,7 @@ Use ledger non-escape. It forces downstream reads of $A$ through $L,Q,R,N$, so a
 
 Finally apply route determinacy. The route row $C$ fixes the passage from generation to candidate, acceptance, ledger, replay, and query, while replay/query non-escape excludes host equality, proof text, runtime evidence, and unledgered source artifacts.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_source\_gate}
 
 \begin{theorem}[KernelAcceptanceAuditWitness query-ledger totality]
 \label{thm:kernel-acceptance-audit-witness-query-ledger-totality}
@@ -170,6 +174,7 @@ Next combine the terminal accepted-row surface with route determinacy. The rows 
 
 Finally use the public obligation surface. It includes all finite rows of the packet but still withholds dependency cleanliness unless $Q$ is read, so every axiom query is accounted for by the displayed query ledger.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_query\_ledger\_totality}
 
 \begin{theorem}[KernelAcceptanceAuditWitness source-query route exhaustion]
 \label{thm:kernel-acceptance-audit-witness-source-query-route-exhaustion}
@@ -179,6 +184,7 @@ W=(G,K,A,L,Q,R,H,C,P,N),
 $$
 every public source-facing audit route from the generated row $G$ to dependency classification passes through the kernel-candidate row $K$, accepted-declaration row $A$, environment-ledger row $L$, build-replay row $R$, axiom-query row $Q$, displayed continuation row $C$, and local $\NameCert$ row $N$ in that order of displayed obligations. No audit consumer may infer kernel correctness, replay success, or dependency cleanliness from $G,K,A,L,H,P,N$ without the replay row $R$ and the query row $Q$.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_source\_query\_route\_exhaustion}
 \begin{proof}
 Start with the carrier definition. It lists exactly the rows $G,K,A,L,Q,R,H,C,P,N$, so a public source-facing route has no coordinate outside the generated row, kernel candidate, accepted declaration, ledger row, query boundary, replay row, transport, continuation, provenance, and local name.
 
@@ -187,6 +193,47 @@ Apply the source gate to the entry side. Source-facing material can enter the wi
 Use query-ledger totality for the audit side. Every query is accounted for by the ledgered route through $A,L,Q,R,C,N$, while the displayed obligations require the build replay row $R$ and axiom-query row $Q$ before the route can be consumed by $C$ and named by $N$.
 
 Finally apply replay/query non-escape. The finite packet exports no row for kernel correctness, replay success without $R$, or dependency cleanliness without $Q$, so the source-to-query route is exhausted by the displayed rows and cannot be replaced by $G,K,A,L,H,P,N$ alone.
+\end{proof}
+
+\begin{theorem}[KernelAcceptanceAuditWitness standard bridge preconditions]
+\label{thm:kernel-acceptance-audit-witness-standard-bridge-preconditions}
+For every accepted $\KernelAcceptanceAuditWitnessUp$ carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+a standard bridge request for this audit witness must display the generated-term row $G$, kernel-candidate row $K$, accepted-declaration row $A$, environment-ledger row $L$, axiom-query row $Q$, build-replay row $R$, componentwise transport row $H$, displayed continuation row $C$, provenance row $P$, and local naming row $N$. These are the bridge preconditions for a public replay/query handoff over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\KernelAcceptanceAuditWitnessUp}$.
+
+The bridge request may not replace any of these rows by an accepted-name string, prose confidence, host runtime behavior, kernel-correctness claim, hidden dependency classification, or unledgered replay artifact.
+\end{theorem}
+\begin{proof}
+Start with the carrier in \autoref{def:kernel-acceptance-audit-witness-carrier}. It lists exactly the generated term, candidate, accepted declaration, environment ledger, axiom query, build replay, transport, continuation, provenance, and local name as the finite packet rows.
+
+Apply the NameCert obligation surface of \autoref{thm:kernel-acceptance-audit-witness-namecert-obligations}. The local naming row packages precisely those coordinates, so a bridge request that consumes the NameCert must display the same rows rather than a smaller accepted-name surface.
+
+Use the axiom-query boundary and route determinacy, \autoref{thm:kernel-acceptance-audit-witness-axiom-query-boundary} and \autoref{thm:kernel-acceptance-audit-witness-route-determinacy}. They force dependency classification through $Q$ and route replay/query access through $C$ to the displayed $R$ and $Q$ endpoints.
+
+Finally combine query-ledger totality and source-query route exhaustion, \autoref{thm:kernel-acceptance-audit-witness-query-ledger-totality} and \autoref{thm:kernel-acceptance-audit-witness-source-query-route-exhaustion}. These results account for every bridge-facing source-to-query read by the ledgered packet $G,K,A,L,Q,R,H,C,P,N$, leaving no hidden row from which a standard bridge request could infer acceptance, replay, dependency cleanliness, or local naming.
+\end{proof}
+
+\begin{theorem}[KernelAcceptanceAuditWitness bridge query replay boundary]
+\label{thm:kernel-acceptance-audit-witness-bridge-query-replay-boundary}
+For every accepted $\KernelAcceptanceAuditWitnessUp$ carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+the bridge-facing read of $A$ cannot infer dependency cleanliness without the axiom-query row $Q$ and cannot infer replay success without the build-replay row $R$. The continuation row $C$, ledger row $L$, provenance row $P$, and local name $N$ may route, ledger, package, and name the read, but they do not substitute for $Q$ or $R$.
+
+Thus the public bridge boundary separates dependency classification from build replay while keeping both rows inside the same finite $\KernelAcceptanceAuditWitnessUp$ packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_bridge\_query\_replay\_boundary}
+\begin{proof}
+First apply the axiom-query boundary, \autoref{thm:kernel-acceptance-audit-witness-axiom-query-boundary}. It makes $Q$ the only coordinate through which a bridge-facing consumer may classify the accepted declaration's transitive dependency ancestry.
+
+Next apply route determinacy, \autoref{thm:kernel-acceptance-audit-witness-route-determinacy}. The displayed continuation row $C$ fixes the replay endpoint $R$ and the query endpoint $Q$, but it does not turn either endpoint into the other.
+
+Use query-ledger totality and source-query route exhaustion, \autoref{thm:kernel-acceptance-audit-witness-query-ledger-totality} and \autoref{thm:kernel-acceptance-audit-witness-source-query-route-exhaustion}. Together they account for every source-facing bridge read through $G,K,A,L,Q,R,C,N$ and require the query and replay rows before dependency and replay conclusions can be consumed.
+
+Finally inspect the carrier rows through \autoref{def:kernel-acceptance-audit-witness-carrier}. The remaining rows $H,P,N$ transport, package, and name the finite packet, but none of them is an axiom query or build replay. The bridge boundary therefore permits no dependency cleanliness without $Q$ and no replay success without $R$.
 \end{proof}
 
 \begin{theorem}[KernelAcceptanceAuditWitness query replay interface]
@@ -228,6 +275,7 @@ $Q$ supplies dependency classification, and $L,C,P,N$ ledger, route, package,
 and name the pair without adding kernel correctness, compiler correctness,
 runtime correctness, hidden dependency cleanliness, or stronger paper meaning.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_query\_replay\_interface}
 
 \begin{theorem}[KernelAcceptanceAuditWitness acceptance boundary]
 \label{thm:kernel-acceptance-audit-witness-acceptance-boundary}
@@ -237,6 +285,7 @@ W=(G,K,A,L,Q,R,H,C,P,N),
 $$
 kernel acceptance records that the declaration row $A$ has entered the environment ledger $L$ with replay route $R$ and axiom-query boundary $Q$. It does not promote host equality, proof text, generated prose, runtime behavior, compiler correctness, or a stronger BEDC theorem into evidence beyond the accepted declaration and its displayed audit rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_acceptance\_boundary}
 \begin{proof}
 Begin with the public obligation surface. It exposes the accepted declaration, environment ledger, axiom-query row, build replay, transports, continuations, provenance, local name, and the generated and candidate rows needed for replay.
 
@@ -253,6 +302,7 @@ W=(G,K,A,L,Q,R,H,C,P,N),
 $$
 each accepted declaration row consumed by the witness is covered by the displayed build-replay row $R$, environment ledger $L$, route row $C$, query row $Q$, and local name row $N$. Thus an audit consumer may read acceptance only as the replayed and ledgered declaration $A$ with its query boundary and local $\NameCert$ packaging, not as an unledgered kernel event or an external proof of correctness.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_build\_replay\_coverage}
 \begin{proof}
 Start with the carrier and terminal accepted-row surface. The carrier displays $G,K,A,L,Q,R,H,C,P,N$, while the terminal surface isolates $A,L,Q,R,N$ as the endpoint available to acceptance consumers.
 
@@ -294,6 +344,7 @@ Next apply query-ledger totality. Every audit query is accounted for by the ledg
 
 The public obligation surface then lists all rows available to the consumer and still withholds dependency cleanliness unless $Q$ is read. Therefore $G,K,A,L,H,P,N$ can identify, ledger, transport, package, and name the declaration, but none of them can replace the axiom query.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_dependency\_query\_exhaustion}
 
 \begin{theorem}[KernelAcceptanceAuditWitness marker consumer boundary]
 \label{thm:kernel-acceptance-audit-witness-marker-consumer-boundary}
@@ -338,6 +389,7 @@ Use dependency-query exhaustion for the query side. Any cleanliness read must pa
 
 Now apply build replay coverage and the marker-consumer boundary. Replay success is read through $R$, marker consumption is bounded by $A,L,Q,R,C,N$, and $P$ only packages the ledgered accepted row. Therefore an accepted-row consumer reaches provenance and local naming only after the terminal row and query ledger have already been fixed.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_accepted\_row\_consumer\_boundary}
 
 \begin{theorem}[KernelAcceptanceAuditWitness formal-axis separation]
 \label{thm:kernel-acceptance-audit-witness-formal-axis-separation}
