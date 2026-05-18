@@ -254,6 +254,29 @@ instance metaCICRedexFrontierFieldFaithful : FieldFaithful MetaCICRedexFrontierU
             cases h
             rfl
 
+theorem MetaCICRedexFrontierCarrier_beta_boundary_route
+    (x : MetaCICRedexFrontierUp) :
+    ∃ betaRedex appArgument lambdaDomain piDomain obstruction betaBoundary transport replay
+        provenance nameCert : BHist,
+      x = MetaCICRedexFrontierUp.mk betaRedex appArgument lambdaDomain piDomain obstruction
+        betaBoundary transport replay provenance nameCert ∧
+        metaCICRedexFrontierFromEventFlow (metaCICRedexFrontierToEventFlow x) = some x ∧
+          metaCICRedexFrontierEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk betaRedex appArgument lambdaDomain piDomain obstruction betaBoundary transport replay
+      provenance nameCert =>
+      refine
+        ⟨betaRedex, appArgument, lambdaDomain, piDomain, obstruction, betaBoundary,
+          transport, replay, provenance, nameCert, ?_⟩
+      constructor
+      · rfl
+      · constructor
+        · exact metaCICRedexFrontier_round_trip
+            (MetaCICRedexFrontierUp.mk betaRedex appArgument lambdaDomain piDomain
+              obstruction betaBoundary transport replay provenance nameCert)
+        · rfl
+
 theorem MetaCICRedexFrontierTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       metaCICRedexFrontierDecodeBHist (metaCICRedexFrontierEncodeBHist h) = h) ∧

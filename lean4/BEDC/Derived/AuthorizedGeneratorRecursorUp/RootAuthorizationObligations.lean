@@ -1,10 +1,14 @@
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
+import BEDC.FKernel.Package
 
 namespace BEDC.Derived.AuthorizedGeneratorRecursorUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem AuthorizedGeneratorRecursorLedgerDescent
@@ -76,5 +80,29 @@ theorem AuthorizedGeneratorRecursorLedgerDescent
       outputReadUnary, auditReadUnary, signatureEliminatorSigRead, sigReadMotiveRead,
       motiveReadBranchesBranchRead, branchReadDescentRead, descentReadOutputRead,
       outputReadAuditRead, rfl⟩
+
+theorem AuthorizedGeneratorRecursorConsumerNonescape [AskSetup] [PackageSetup]
+    {signature eliminator motive branches descent output audit transport routes provenance boundary
+      nameCert consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (∃ packet : AuthorizedGeneratorRecursorUp,
+        packet =
+          AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches descent output audit
+            transport routes provenance boundary nameCert) ->
+      Cont signature eliminator motive ->
+        Cont motive branches descent ->
+          Cont descent output audit ->
+            Cont audit nameCert consumerRead ->
+              PkgSig bundle provenance pkg ->
+                PkgSig bundle consumerRead pkg ->
+                  hsame consumerRead (append audit nameCert) ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle consumerRead pkg ∧
+                      Cont audit nameCert consumerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame PkgSig
+  intro packetWitness _signatureEliminator _motiveBranches _descentOutput auditName
+    provenancePkg consumerPkg
+  obtain ⟨_packet, packetEq⟩ := packetWitness
+  cases packetEq
+  exact ⟨auditName, provenancePkg, consumerPkg, auditName⟩
 
 end BEDC.Derived.AuthorizedGeneratorRecursorUp

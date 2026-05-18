@@ -325,6 +325,34 @@ instance metaCICClosurePreservationFieldFaithful :
             cases hName
             rfl
 
+theorem MetaCICClosurePreservationCarrier_shift_substitution_classifier_handoff
+    (x : MetaCICClosurePreservationUp) :
+    ∃ shiftClosed varSubstClosed substClosed betaClosed betaStarClosed auditRow closedSeal
+        generatorClassifier subjectReductionConsumer transport route provenance name : BHist,
+      x = MetaCICClosurePreservationUp.mk shiftClosed varSubstClosed substClosed betaClosed
+        betaStarClosed auditRow closedSeal generatorClassifier subjectReductionConsumer transport
+        route provenance name ∧
+        metaCICClosurePreservationFromEventFlow
+            (metaCICClosurePreservationToEventFlow x) =
+          some x ∧
+          metaCICClosurePreservationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk shiftClosed varSubstClosed substClosed betaClosed betaStarClosed auditRow closedSeal
+      generatorClassifier subjectReductionConsumer transport route provenance name =>
+      refine
+        ⟨shiftClosed, varSubstClosed, substClosed, betaClosed, betaStarClosed, auditRow,
+          closedSeal, generatorClassifier, subjectReductionConsumer, transport, route,
+          provenance, name, ?_⟩
+      constructor
+      · rfl
+      · constructor
+        · exact metaCICClosurePreservation_round_trip
+            (MetaCICClosurePreservationUp.mk shiftClosed varSubstClosed substClosed
+              betaClosed betaStarClosed auditRow closedSeal generatorClassifier
+              subjectReductionConsumer transport route provenance name)
+        · rfl
+
 theorem MetaCICClosurePreservationTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       metaCICClosurePreservationDecodeBHist
