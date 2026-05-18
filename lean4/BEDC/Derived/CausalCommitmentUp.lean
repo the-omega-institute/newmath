@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Sig
@@ -150,5 +151,44 @@ theorem CausalCommitmentNameCertObligations [AskSetup] [PackageSetup]
     ⟨observedUnary, regularityUnary, gapUnary, forwardUnary, transportUnary,
       continuationUnary, provenanceUnary, localCertUnary, observedRegularityGap,
         gapForwardContinuation, transportContinuationProvenance, localCertPkg, cert⟩
+
+theorem CausalCommitmentCarrier_transport [AskSetup] [PackageSetup]
+    {observed regularity gap forward transport continuation provenance localCert
+      observed' regularity' gap' forward' transport' continuation' provenance'
+      localCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CausalCommitmentCarrier observed regularity gap forward transport continuation provenance
+        localCert bundle pkg →
+      hsame observed observed' →
+      hsame regularity regularity' →
+      hsame gap gap' →
+      hsame forward forward' →
+      hsame transport transport' →
+      hsame continuation continuation' →
+      hsame provenance provenance' →
+      hsame localCert localCert' →
+      PkgSig bundle localCert' pkg →
+        CausalCommitmentCarrier observed' regularity' gap' forward' transport'
+          continuation' provenance' localCert' bundle pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  intro carrier sameObserved sameRegularity sameGap sameForward sameTransport
+    sameContinuation sameProvenance sameLocalCert localCertPkg'
+  obtain ⟨observedUnary, regularityUnary, gapUnary, forwardUnary, transportUnary,
+    continuationUnary, provenanceUnary, localCertUnary, observedRegularityGap,
+    gapForwardContinuation, transportContinuationProvenance, _localCertPkg⟩ := carrier
+  exact
+    ⟨unary_transport observedUnary sameObserved,
+      unary_transport regularityUnary sameRegularity,
+      unary_transport gapUnary sameGap,
+      unary_transport forwardUnary sameForward,
+      unary_transport transportUnary sameTransport,
+      unary_transport continuationUnary sameContinuation,
+      unary_transport provenanceUnary sameProvenance,
+      unary_transport localCertUnary sameLocalCert,
+      cont_hsame_transport sameObserved sameRegularity sameGap observedRegularityGap,
+      cont_hsame_transport sameGap sameForward sameContinuation gapForwardContinuation,
+      cont_hsame_transport sameTransport sameContinuation sameProvenance
+        transportContinuationProvenance,
+      localCertPkg'⟩
 
 end BEDC.Derived.CausalCommitmentUp
