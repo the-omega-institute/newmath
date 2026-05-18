@@ -344,4 +344,34 @@ theorem CauchyCompletionFunctorPacket_bind_ledger_consumer_exhaustion
       exportedUnary, regularSealBind, bindUniversalExtension, extensionClassifierExported,
       endpointPkg, exportedPkg⟩
 
+theorem CauchyCompletionFunctorPacket_obligation_closure_package [AskSetup] [PackageSetup]
+    {metric regular sealRow monadRow universal classifier transport nameCert endpoint unitRead
+      bindRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionFunctorPacket metric regular sealRow monadRow universal classifier transport
+        nameCert endpoint bundle pkg ->
+      Cont metric sealRow unitRead ->
+        Cont regular monadRow bindRead ->
+          PkgSig bundle unitRead pkg ->
+            PkgSig bundle bindRead pkg ->
+              UnaryHistory metric ∧ UnaryHistory regular ∧ UnaryHistory sealRow ∧
+                UnaryHistory monadRow ∧ UnaryHistory universal ∧ UnaryHistory unitRead ∧
+                  UnaryHistory bindRead ∧ Cont metric regular sealRow ∧
+                    Cont monadRow universal endpoint ∧ Cont metric sealRow unitRead ∧
+                      Cont regular monadRow bindRead ∧ PkgSig bundle endpoint pkg ∧
+                        PkgSig bundle unitRead pkg ∧ PkgSig bundle bindRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet metricSealUnit regularMonadBind unitPkg bindPkg
+  obtain ⟨metricUnary, regularUnary, sealUnary, monadUnary, universalUnary, _classifierUnary,
+    _transportUnary, _nameCertUnary, _endpointUnary, metricRegularSeal, monadUniversalEndpoint,
+    _classifierTransportNameCert, endpointPkg⟩ := packet
+  have unitReadUnary : UnaryHistory unitRead :=
+    unary_cont_closed metricUnary sealUnary metricSealUnit
+  have bindReadUnary : UnaryHistory bindRead :=
+    unary_cont_closed regularUnary monadUnary regularMonadBind
+  exact
+    ⟨metricUnary, regularUnary, sealUnary, monadUnary, universalUnary, unitReadUnary,
+      bindReadUnary, metricRegularSeal, monadUniversalEndpoint, metricSealUnit,
+      regularMonadBind, endpointPkg, unitPkg, bindPkg⟩
+
 end BEDC.Derived.CauchyCompletionFunctorUp
