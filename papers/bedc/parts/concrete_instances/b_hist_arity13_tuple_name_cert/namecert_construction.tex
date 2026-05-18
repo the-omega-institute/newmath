@@ -66,6 +66,18 @@ Start with the classifier definition. It requires one comparison for each of $R_
 The provenance and local naming rows are part of the same carrier, so their comparison is not an external bucket judgment. Since the classifier has no clause for bucket membership alone, host equality, or hidden chapter isomorphism, the displayed componentwise route is the exact comparison surface.
 \end{proof}
 
+\begin{theorem}[BHistArity13TupleNameCert tag exhaustion]
+\label{thm:b-hist-arity13-tuple-name-cert-tag-exhaustion}
+For an accepted $\BHistArity13TupleNameCertUp$ packet, the tags carried by $R_0,\ldots,R_{12}$ exhaust the carrier rows available to the local $\NameCert$ interface. Any consumer may transport or replay these rows only through the displayed $H$ and $C$ rows, and cannot manufacture an unlisted tag, collapse two tags into one bucket witness, import a carrier row from a sibling capstone, or read a fourteenth carrier component.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:b-hist-arity13-tuple-name-cert-carrier}. The carrier has exactly the thirteen tag-encoded $\BHist$ rows together with $H,C,P,L$, and \autoref{thm:b-hist-arity13-tuple-name-cert-carrier-admission} identifies this displayed list as the whole accepted row inventory.
+
+The transport and replay access paths are therefore already fixed by $H$ and $C$. No consumer can introduce another tag or merge two tags into a single bucket witness, because such a move would require an additional carrier row or a non-displayed transport clause.
+
+Finally apply \autoref{thm:b-hist-arity13-tuple-name-cert-classifier-exactness}. Every public comparison remains componentwise over the same thirteen tags and the same displayed structural rows, so sibling capstones cannot contribute hidden carrier rows and no fourteenth component is readable through the local $\NameCert$ surface.
+\end{proof}
+
 \begin{theorem}[BHistArity13TupleNameCert scoped support package]
 \label{thm:b-hist-arity13-tuple-name-cert-scoped-support-package}
 The carrier admission and classifier exactness clauses bind the $\BHistArity13TupleNameCertUp$ packet to the displayed BEDC support
@@ -76,6 +88,8 @@ to the tuple capstones from arity eight through arity twelve, and to the represe
 \end{theorem}
 \begin{proof}
 Apply \autoref{thm:b-hist-arity13-tuple-name-cert-carrier-admission} to identify the admitted rows and exclude any fourteenth coordinate. Apply \autoref{thm:b-hist-arity13-tuple-name-cert-classifier-exactness} to keep comparison on the thirteen tagged $\BHist$ rows and the displayed structural rows.
+
+Apply \autoref{thm:b-hist-arity13-tuple-name-cert-tag-exhaustion} to rule out unlisted tags, row fusion, sibling-carrier imports, and hidden components at the local $\NameCert$ interface.
 
 The support package is therefore the named BEDC packet itself. Its provenance can source the cited tuple capstones and representative bucket members, but no carrier or classifier row rewrites those sibling chapters or replaces their local certificates.
 \end{proof}
@@ -89,7 +103,7 @@ The support package is therefore the named BEDC packet itself. Its provenance ca
 \begin{closurestatus}{\BHistArity13TupleNameCertUp}
   \constructivestory{A $\BHistArity13TupleNameCertUp$ packet is generated from thirteen tag-encoded $\BHist$ carrier rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:b-hist-arity13-tuple-name-cert-carrier}, \autoref{def:b-hist-arity13-tuple-name-cert-classifier}, \autoref{thm:b-hist-arity13-tuple-name-cert-carrier-admission}, \autoref{thm:b-hist-arity13-tuple-name-cert-classifier-exactness}, and \autoref{thm:b-hist-arity13-tuple-name-cert-scoped-support-package} identify the arity-thirteen carrier-isomorphism surface and its BEDC support package.}
+  \scopeclosed{\autoref{def:b-hist-arity13-tuple-name-cert-carrier}, \autoref{def:b-hist-arity13-tuple-name-cert-classifier}, \autoref{thm:b-hist-arity13-tuple-name-cert-carrier-admission}, \autoref{thm:b-hist-arity13-tuple-name-cert-classifier-exactness}, \autoref{thm:b-hist-arity13-tuple-name-cert-tag-exhaustion}, and \autoref{thm:b-hist-arity13-tuple-name-cert-scoped-support-package} identify the arity-thirteen carrier-isomorphism surface and its BEDC support package.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai-composite}
