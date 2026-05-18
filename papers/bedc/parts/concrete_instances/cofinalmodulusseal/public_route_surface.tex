@@ -419,6 +419,24 @@ Next use \autoref{thm:cofinal-modulus-seal-real-completion-consumer-exactness}. 
 Finally apply \autoref{thm:cofinal-modulus-seal-open-phase-exit-surface}. The packet is already the Phase Real and Completion handoff surface for the finite cofinal modulus route, so the displayed rows form the L10 exit boundary.
 \end{proof}
 
+\begin{theorem}[Cofinal modulus seal L10 four-object factorization]
+\label{thm:cofinal-modulus-seal-l10-four-object-factorization}
+Every Real-facing or completion-facing consumer of an accepted $\CofinalModulusSealUp$ packet factors first through the cofinal source rows $B,M,W$ and then through the Real L10 four-object handoff packet
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+Equivalently, after the cofinal source rows are displayed, the consumer can use only the dyadic tolerance row $D$, the finite stream-name row $T$, the regular rational sequence row $R$, and the Real handoff row $E$, together with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support. It receives no quotient stream, host real equality, selected limit, countable choice, ambient completeness, detached window, or bridge coordinate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cofinal-modulus-seal-l10-exit-boundary}. It places the accepted packet on the Phase Real and Completion exit route and forces the public boundary through $B,M,W,T,D,R,L,E,H,C,P,N$.
+
+Next apply \autoref{thm:cofinal-modulus-seal-real-completion-consumer-exactness}. A Real-facing or completion-facing consumer receives exactly that route, so the first source data available to the consumer are the cofinal rows $B,M,W$, followed by the displayed terminal rows that feed the Real side.
+
+Now use \autoref{thm:realup-l10-input-factorization}. The Real-facing part of the route can be read as a four-object handoff through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with support confined to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Finally apply \autoref{thm:real-l10-four-source-handoff-nonescape}. Since the Real handoff packet exports none of the forbidden coordinates, the cofinal seal consumer cannot acquire a quotient stream, host real equality, selected limit, countable-choice selector, ambient completeness row, detached window, or bridge coordinate after the factorization.
+\end{proof}
+
 \begin{theorem}[Cofinal modulus seal row-predicate admission]
 \label{thm:cofinal-modulus-seal-row-predicate-admission}
 For an accepted $\CofinalModulusSealUp$ packet, each displayed row
