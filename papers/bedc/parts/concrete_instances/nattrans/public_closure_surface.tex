@@ -184,6 +184,48 @@ componentwise prefix classifiers, and the same empty-identity composite rows,
 the bridge is obtained by componentwise classifier comparison.
 \end{proof}
 
+\begin{theorem}[NatTrans functor-category isomorphism classifier exactness]
+\label{thm:nattrans-functor-category-isomorphism-classifier-exactness}
+For unary prefixes $p$ and $q$, let $(\eta,\epsilon)$ and
+$(\eta',\epsilon')$ be two witnesses in the carrier of
+\autoref{def:nattrans-prefix-natural-isomorphism-carrier}. These two witnesses
+classify as the same isomorphism row in the prefix functor-category of
+\autoref{def:nattrans-functor-category-prefix-carrier} exactly when, for every
+unary object $a$, the forward components $\eta_a$ and $\eta'_a$ classify by
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}$ and the reverse components
+$\epsilon_a$ and $\epsilon'_a$ classify by
+$\mathsf{NatTransPrefixComponentClassifier}_{q,p,a}$. Under these two
+componentwise classifier families, the two empty-identity composite rows are
+transported by vertical-composition stability and by the identity/composition
+laws of \autoref{thm:nattrans-functor-category-identity-and-composition}.
+\end{theorem}
+\begin{proof}
+Unpack the hom classifier in
+\autoref{def:nattrans-functor-category-prefix-carrier}. A row between $p$ and
+$q$ is a component family indexed by unary objects, and the classifier on such
+rows is the pointwise prefix component classifier. Thus equality of the forward
+hom rows is exactly the family of
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}$ classifications, while
+equality of the reverse hom rows is exactly the family of
+$\mathsf{NatTransPrefixComponentClassifier}_{q,p,a}$ classifications.
+
+Apply \autoref{thm:nattrans-functor-category-identity-and-composition}. The
+isomorphism laws in the prefix functor-category reduce to the componentwise
+vertical composites $\epsilon_a\circ\eta_a$ and $\eta_a\circ\epsilon_a$ being
+classified as the empty identity components at $\mathsf{append}(p,a)$ and
+$\mathsf{append}(q,a)$. Componentwise classifier agreement on the forward and
+reverse families transports these two composite rows through the same vertical
+composition stability used in the functor-category composition law.
+
+The remaining rows are precisely the obligation rows of
+\autoref{thm:nattrans-natural-isomorphism-obligation-package}: transport,
+inverse, ledger, and exactness are all read pointwise from the same component
+families. Hence two prefix natural-isomorphism witnesses determine the same
+BEDC isomorphism row exactly in the stated componentwise classifier situation.
+No host equality of transformations, function extensionality, arbitrary
+representability, or external transformation type is exported.
+\end{proof}
+
 \begin{theorem}[NatTrans mature package inventory]
 \label{thm:nattrans-mature-package-inventory}
 The public $\NatTransUp$ paper surface contains the mature package inventory
@@ -200,7 +242,9 @@ natural-isomorphism carrier and obligation package of
 \autoref{thm:nattrans-natural-isomorphism-obligation-package}, together with
 the identification of those carriers as isomorphisms in the prefix
 functor-category from
-\autoref{thm:nattrans-prefix-natural-isomorphism-functor-category-isomorphism}.
+\autoref{thm:nattrans-prefix-natural-isomorphism-functor-category-isomorphism}
+and the componentwise isomorphism classifier exactness of
+\autoref{thm:nattrans-functor-category-isomorphism-classifier-exactness}.
 \end{theorem}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransUp\_StdBridge}
 \begin{proof}
