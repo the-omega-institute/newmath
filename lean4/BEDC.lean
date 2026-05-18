@@ -757,6 +757,7 @@ import BEDC.Derived.CauchyWitnessLedgerUp.RootDiagnosticBudgetTransport
 import BEDC.Derived.CauchyWitnessLedgerUp.RootSourceWindowRouteLock
 import BEDC.Derived.CauchyWitnessLedgerUp.RootStreamnamePullback
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.TasteGate
+import BEDC.Derived.RegularCauchyWitnessSelectorUp.ClassifierStability
 import BEDC.Derived.CauchyWitnessLedgerUp.SourceSiblingReadback
 import BEDC.Derived.CauchyWitnessLedgerUp.FormalTargetSurface
 import BEDC.Derived.CauchyWitnessLedgerUp.TerminalObserverExactness
@@ -2038,6 +2039,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerBoundaryCompletion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerRouteExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerScopeExhaustion
+import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerRouteTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RouteReadbackPublicExport
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionVisibleTransport
 import BEDC.Derived.MetaCICNormalizationFrontierUp.PublicExportSurface
@@ -3689,6 +3691,7 @@ import BEDC.Derived.CausalCommitmentUp
 import BEDC.Derived.CausalCommitmentUp.CausalCommitmentClassifierStability
 import BEDC.Derived.CausalCommitmentUp.ForwardGapScopePackage
 import BEDC.Derived.CausalCommitmentUp.GapLocalityAdjunction
+import BEDC.Derived.CausalCommitmentUp.GapLocalityExactness
 import BEDC.Derived.CausalCommitmentUp.ObservedRegularityNonchoice
 import BEDC.Derived.CausalCommitmentUp.PublicForwardGapExport
 import BEDC.Derived.CausalCommitmentUp.LocalityObligations
