@@ -84,4 +84,23 @@ theorem ObserverBudgetSupportRouteTotality [AskSetup] [PackageSetup]
     ⟨publicSelf, observerRoute, causalRoute, observerReadRoute, publicReadRoute, namePkg,
       publicPkg, cert⟩
 
+theorem ObserverBudgetSupportLedgerExactness [AskSetup] [PackageSetup]
+    {F S X B T H C P N supportBudget causalBudget ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FieldFaithful.fields (ObserverBudgetSupportUp.mk F S X B T H C P N) =
+        [F, S, X, B, T, H, C, P, N] ->
+      Cont S B supportBudget ->
+        Cont X B causalBudget ->
+          Cont supportBudget T ledgerRead ->
+            PkgSig bundle P pkg ->
+              PkgSig bundle ledgerRead pkg ->
+                hsame ledgerRead ledgerRead ∧ Cont S B supportBudget ∧
+                  Cont X B causalBudget ∧ Cont supportBudget T ledgerRead ∧
+                    PkgSig bundle P pkg ∧ PkgSig bundle ledgerRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame FieldFaithful
+  intro _fieldsExact supportRoute causalRoute ledgerRoute provenancePkg ledgerPkg
+  exact
+    ⟨hsame_refl ledgerRead, supportRoute, causalRoute, ledgerRoute, provenancePkg,
+      ledgerPkg⟩
+
 end BEDC.Derived.ObserverBudgetSupportUp
