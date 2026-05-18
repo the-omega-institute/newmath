@@ -554,4 +554,29 @@ theorem ClosedTermSubstitutionBoundarySourceClosednessAdmission
     ⟨sameShiftRead, sameSubstitutionRead, sourceUnary, shiftReadUnary,
       substitutionReadUnary⟩
 
+theorem ClosedTermSubstitutionBoundarySubstitutionRowExactness
+    {source value depth shift substitution substitutionRead ledger audit : BHist} :
+    ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution ->
+      Cont shift depth substitutionRead ->
+        Cont substitutionRead value ledger ->
+          Cont ledger depth audit ->
+            hsame substitutionRead substitution ∧ UnaryHistory substitutionRead ∧
+              UnaryHistory ledger ∧ UnaryHistory audit ∧ Cont substitutionRead value ledger ∧
+                Cont ledger depth audit := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro classifier substitutionReadRoute substitutionReadValueLedger ledgerDepthAudit
+  obtain ⟨_sourceUnary, valueUnary, depthUnary, shiftUnary, _substitutionUnary,
+    _sourceValueShift, shiftDepthSubstitution⟩ := classifier
+  have sameSubstitutionRead : hsame substitutionRead substitution :=
+    cont_deterministic substitutionReadRoute shiftDepthSubstitution
+  have substitutionReadUnary : UnaryHistory substitutionRead :=
+    unary_cont_closed shiftUnary depthUnary substitutionReadRoute
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed substitutionReadUnary valueUnary substitutionReadValueLedger
+  have auditUnary : UnaryHistory audit :=
+    unary_cont_closed ledgerUnary depthUnary ledgerDepthAudit
+  exact
+    ⟨sameSubstitutionRead, substitutionReadUnary, ledgerUnary, auditUnary,
+      substitutionReadValueLedger, ledgerDepthAudit⟩
+
 end BEDC.Derived.ClosedtermsubstitutionboundaryUp
