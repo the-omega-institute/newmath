@@ -285,6 +285,7 @@ Apply the Kleisli boundary and Kleisli composite scope. Together they identify t
 \label{thm:continuation-monad-scope-nonescape}
 For every accepted $\ContinuationMonadUp$ packet, the scoped composite route exports no quotient Kleisli arrows, no host function composition, and no general category primitive. It exports only the displayed continuation tails, $\Cont$ route rows, componentwise $\hsame$ transports, ledger row, package provenance, and local $\NameCert$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_scope\_nonescape}
 \begin{proof}
 Project the same packet using carrier obligation. The visible rows are finite continuation data, transport data, ledger data, package provenance, and local naming data.
 
@@ -725,6 +726,7 @@ The root downstream package then supplies the $\Pkg$ provenance and local $\Name
 \label{thm:continuation-monad-downstream-route-exhaustion}
 Every downstream route exported by an accepted $\ContinuationMonadUp$ packet is exhausted by the root package rows $A,B,C,f,g,u,H,K,L,N$ over $\BHist$, $\Cont$, componentwise $\hsame$, $\Pkg$, and the local $\NameCert$ row. Unit reads, bind reads, generator-boundary reads, and $\CategoryUp$ hom reads all factor through that same package, so no downstream continuation chapter receives a host function, quotient Kleisli arrow, ambient category primitive, or continuation rule outside the displayed packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_downstream\_route\_exhaustion}
 \begin{proof}
 Begin with the root downstream package. It identifies the downstream surface with the carrier, root generator obligation, bind-route totality, ledger exactness, $\Pkg$ provenance, and local $\NameCert$ rows of the accepted packet.
 
