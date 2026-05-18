@@ -2197,6 +2197,7 @@ import BEDC.Derived.PicardContractionUp.SourceWindow
 import BEDC.Derived.PicardContractionUp.RootSourceWindowHandoff
 import BEDC.Derived.PicardContractionUp.SourceReadback
 import BEDC.Derived.PicardContractionUp.CauchyModulusSiblingRoute
+import BEDC.Derived.PicardContractionUp.LipschitzLedgerWindowExactness
 import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
