@@ -500,224 +500,7 @@ handoff, so the reverse repacking returns precisely the original finite-window
 surface.
 \end{proof}
 
-\begin{theorem}[StreamName RegSeqRat nested-window handoff]
-\label{thm:streamname-regseqrat-nested-window-handoff}
-Let $K \subseteq J \subseteq L$ be certified finite windows of a public
-$\StreamNameUp$ rational stream package. For any $\RegSeqRat$ consumer, and
-for any finite-window $\RealUp$ consumer, the source surface obtained by first
-restricting the handoff from $L$ to $J$ and then from $J$ to $K$ is the same
-source surface as the handoff obtained by restricting directly from $L$ to
-$K$.
-
-The common source surface consists only of the pointwise
-$\mathsf{RatStreamNameCarrier}$ and
-$\mathsf{RatStreamNameClassifier}$ observations at certified
-$\mathsf{UnaryHistory}$ indices, the finite $\mathsf{ProbeBundle}$ ledger,
-the $\mathsf{InBundle}$ membership rows, and the displayed $\hsame$
-comparisons. It contains no $\RegSeqRat$ regularity datum, $\RealUp$ seal
-datum, completion datum, quotient datum, or host index equality.
-\end{theorem}
-\begin{proof}
-First restrict the outer window. By
-\autoref{thm:streamname-real-regseq-finite-window-handoff}, the handoff from
-$L$ to $J$ exposes only the selected rational-stream point rows, the finite
-bundle ledger, the membership rows, and the displayed $\hsame$ comparisons.
-Applying the same theorem again to the certified subwindow $K \subseteq J$
-projects the two-step handoff to that same kind of surface over $K$.
-
-Now compare the direct route. Applying
-\autoref{thm:streamname-real-regseq-finite-window-handoff} directly to
-$K \subseteq L$ gives a handoff surface whose visible rows are again exactly
-the certified pointwise carrier and classifier observations, the finite
-$\mathsf{ProbeBundle}$ ledger, the $\mathsf{InBundle}$ membership rows, and
-the displayed $\hsame$ comparisons over $K$.
-
-Use \autoref{thm:streamname-real-regseq-overlap-unique-source} first on the
-overlap $J$ and then on the overlap $K$. The hypotheses are the same certified
-point rows and the same finite ledger rows inherited from $L$, so the two
-restriction routes cannot produce different StreamName source surfaces on
-either overlap.
-
-Finally apply
-\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. It collapses
-both restricted handoffs to the same pointwise
-$\mathsf{RatStreamNameCarrier}$ and
-$\mathsf{RatStreamNameClassifier}$ rows together with the same finite ledger.
-The exclusion clauses in that exhaustion theorem and in the finite-window
-handoff theorem keep regularity, seal, completion, quotient, and host-index
-data outside the common surface.
-\end{proof}
-
-\begin{theorem}[StreamName RegSeqRat nested-window seal determinacy]
-\label{thm:streamname-regseqrat-nested-window-seal-determinacy}
-Let $K \subseteq J \subseteq L$ be certified finite windows of a public
-$\StreamNameUp$ rational stream package. Suppose the $\RegSeqRat$ handoff
-consumes the same $\mathsf{DyadicRatCore}$ finite ledger along the direct
-restriction route from $L$ to $K$ and along the two-step restriction route from
-$L$ to $J$ and then from $J$ to $K$. Then the induced finite-window $\RealUp$
-seal classifier rows agree on every certified index of $K$.
-
-The common seal row is determined only by the pointwise
-$\mathsf{RatStreamNameCarrier}$ and
-$\mathsf{RatStreamNameClassifier}$ rows, the accepted
-$\mathsf{DyadicRatCore}$ ledger entries over $K$, the displayed $\hsame$
-transports, the finite $\Cont$ routes, and the shared $\Pkg$ provenance. It
-does not use completion data, quotient representatives, host-index equality,
-or any $\RealUp$ completeness datum.
-\end{theorem}
-\begin{proof}
-First compare the two restriction routes at the StreamName source level. By
-\autoref{thm:streamname-regseqrat-nested-window-handoff}, the direct route
-$L$ to $K$ and the two-step route through $J$ expose the same pointwise source
-rows and the same finite ledger over $K$.
-
-Next transport those rows to the seal side. Apply
-\autoref{thm:streamname-regseqrat-pointwise-seal-stability} at each certified
-index of $K$. Since the carrier row, classifier row, $\hsame$ transport,
-$\Cont$ route, $\Pkg$ provenance, and $\mathsf{DyadicRatCore}$ ledger entry are
-the same on both routes, the corresponding $\RealUp$ seal classifier row is the
-same at that index.
-
-Finally use
-\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. It says that
-the RegSeqRat consumer has no additional public handoff data beyond those
-pointwise rows and finite ledger entries. The exclusion clauses in the handoff
-and stability theorems keep completion, quotient, host-index, and
-$\RealUp$-completeness data outside the determinacy claim, so the rowwise
-agreement over $K$ is exactly the stated finite-window seal determinacy.
-\end{proof}
-
-\begin{theorem}[StreamName RegSeqRat RealUp triple seal cover]
-\label{thm:streamname-regseqrat-realup-triple-seal-cover}
-Let $\mathcal{S}$ be an accepted finite $\StreamNameUp$ rational-window
-package, let $\mathcal{R}$ be the $\RegSeqRat$ pointwise seal package read from
-the same certified unary indices, and let $\mathcal{E}$ be the $\RealUp$
-sealing endpoint reached by the finite-window consumer. Then $\mathcal{S}$,
-$\mathcal{R}$, and $\mathcal{E}$ determine the same public read exactly when
-their unary observation rows, finite $\Cont$ ledger, $\hsame$ endpoint
-transports, and $\Pkg$ provenance rows agree.
-
-Equivalently, the three-way cover contains only the pointwise
-$\mathsf{RatStreamNameCarrier}$ and
-$\mathsf{RatStreamNameClassifier}$ observations, the accepted
-$\RegSeqRat$ pointwise seal rows, the $\RealUp$ endpoint seal row, the finite
-transport ledger, and the shared provenance package. It contains no quotient
-representative, completion modulus, host index equality, or additional
-regularity datum beyond those rows.
-\end{theorem}
-\begin{proof}
-First compare the $\StreamNameUp$ and $\RegSeqRat$ sides pointwise. By
-\autoref{thm:streamname-regseqrat-pointwise-seal-stability}, agreement of the
-unary observations, $\hsame$ transports, finite $\Cont$ rows, and $\Pkg$
-provenance preserves the accepted seal row at each certified index.
-
-Next paste the pointwise seals. Apply
-\autoref{thm:streamname-regseqrat-pointwise-seal-pasting} to the certified
-finite window. The pasted package has exactly the pointwise rows and the shared
-finite ledger, so it is independent of any extra quotient or completion
-representative.
-
-Now exhaust the visible handoff. By
-\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}, every public
-row read by the RegSeqRat consumer is one of the displayed unary observation,
-transport, ledger, or provenance rows. Thus the RegSeqRat package contributes
-no additional public datum once those rows agree.
-
-Finally use \autoref{thm:streamname-regseqrat-nested-window-handoff}. It
-identifies the finite-window route to the $\RealUp$ sealing endpoint with the
-same restricted source surface. Therefore the StreamName window package, the
-RegSeqRat pointwise seal package, and the RealUp endpoint seal determine one
-public read exactly in the stated agreement conditions, and the reverse
-direction reads the same four families of rows back into the three packages.
-\end{proof}
-
-\begin{theorem}[StreamName RegSeqRat RealUp tail-selector factorization]
-\label{thm:streamname-regseqrat-realup-tail-selector-factorization}
-Every accepted finite-window $\StreamNameUp$ handoff whose $\RegSeqRat$
-carrier supplies the scheduled-window projection and whose $\RealUp$ endpoint
-read uses finite-prefix exactness factors the tail-selector read through exactly
-three public rows: the $\StreamNameUp$ finite-window classifier row, the
-$\RegSeqRat$ scheduled projection and readback row, and the $\RealUp$
-finite-prefix classifier row.
-
-The factorization exports no quotient stream, selected limit, host equality,
-countable choice row, or ambient completeness row. All exported data are already
-contained in the certified finite $\mathsf{ProbeBundle}$ ledger, the displayed
-$\Cont$ routes, the unary observation rows, the $\hsame$ transports, and the
-shared $\Pkg$ provenance.
-\end{theorem}
-\begin{proof}
-Start with the three-way cover of
-\autoref{thm:streamname-regseqrat-realup-triple-seal-cover}. It identifies the
-accepted $\StreamNameUp$ window, the pointwise $\RegSeqRat$ seal package, and
-the $\RealUp$ endpoint read on the same unary observations, finite transport
-ledger, endpoint transports, and provenance rows.
-
-The first factor is the StreamName finite-window classifier. By
-\autoref{thm:streamname-regseqrat-scheduled-seal-exhaustion}, the scheduled
-seal over the accepted window is exhausted by the visible StreamName carrier and
-classifier observations together with the finite ledger rows. Thus the
-tail-selector source read begins at the finite-window classifier rather than at
-a quotient stream or host-index equality.
-
-The second factor is the RegSeqRat scheduled projection and readback row. Apply
-\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}: every public
-row consumed by the $\RegSeqRat$ carrier is already one of the certified
-pointwise rows, $\Cont$ routes, $\hsame$ transports, and $\Pkg$ provenance rows.
-The scheduled projection therefore reads back exactly the finite window selected
-by the StreamName classifier.
-
-The third factor is the RealUp finite-prefix classifier. Use
-\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy} to compare
-all finite windows selected by the tail read. Since the overlaps are already
-compatible in the triple cover, the endpoint classifier depends only on the
-finite prefix ledger presented by the RegSeqRat readback row. This gives the
-claimed three-row factorization and excludes quotient, selected-limit,
-countable-choice, host-equality, and ambient-completeness exports.
-\end{proof}
-
-\begin{theorem}[StreamName RegSeqRat tail-budget uniformity]
-\label{thm:streamname-regseqrat-tail-budget-uniformity}
-Let a finite accepted $\StreamNameUp$--$\RegSeqRat$ handoff packet present
-StreamName finite observations through a common pointwise classifier, with
-matching $\BHist$ rows, $\hsame$ transports, finite $\Cont$ routes, shared
-$\Pkg$ provenance, and a displayed $\NameCert$ for the handoff surface. Suppose
-the $\RegSeqRat$ tail selector carries a dyadic budget row consumed by the
-finite-prefix $\RealUp$ endpoint. Then every later finite window accepted by
-the same StreamName pointwise classifier factors through the same tail-budget
-certificate.
-
-Equivalently, once the packet has fixed the StreamName finite observations,
-the RegSeqRat tail selector, and the RealUp budget consumer, enlarging the
-finite window changes only the visible window ledger. It does not export a new
-tail selector, budget witness, completion datum, quotient stream, host equality,
-or ambient regularity row outside the certified $\NameCert$, $\Cont$, $\hsame$,
-$\BHist$, and $\Pkg$ surface.
-\end{theorem}
-\begin{proof}
-First apply
-\autoref{thm:streamname-regseqrat-realup-tail-selector-factorization}. The
-tail-selector read factors through the StreamName finite-window classifier,
-the RegSeqRat scheduled projection and readback row, and the RealUp
-finite-prefix classifier. Thus the budget row is already located on the
-displayed finite ledger rather than on a selected completion representative.
-
-Next use
-\autoref{thm:streamname-regseqrat-nested-window-seal-determinacy} for a later
-finite window accepted by the same pointwise StreamName classifier. The nested
-window has the same $\BHist$ source rows, $\hsame$ transport witnesses, finite
-$\Cont$ routes, and $\Pkg$ provenance on the overlap, so the RegSeqRat
-scheduled projection reads the same tail-selector certificate on the shared
-part.
-
-Finally compare all later windows with
-\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy}. The finite
-cover determinacy theorem pastes the overlapping StreamName, RegSeqRat, and
-RealUp rows into one cover-indexed source surface. Therefore each RealUp
-budget consumer sees the same dyadic tail-budget certificate, and no further
-completion, quotient, host-index, or off-ledger regularity datum can enter the
-handoff.
-\end{proof}
+\input{parts/concrete_instances/streamname/real_regseq_tail_budget_finality}
 
 \begin{theorem}[StreamName RegSeqRat finite-window cover determinacy]
 \label{thm:streamname-regseqrat-finite-window-cover-determinacy}
@@ -753,6 +536,52 @@ For compatibility of the pasted overlaps, use
 keeps the StreamName, RegSeqRat, and RealUp reads on the same finite ledger, so
 no completion, quotient, host-index, external regularity, or off-ledger
 classifier row is introduced.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat cover Real handoff descent]
+\label{thm:streamname-regseqrat-cover-real-handoff-descent}
+Let $\{W_i\}_{i\in I}$ be a finite public $\StreamNameUp$ cover feeding one
+$\RegSeqRat$ finite-window consumer and one finite-window $\RealUp$ endpoint.
+Suppose that every displayed pairwise overlap satisfies the overlap-source
+hypotheses and the nested-window handoff hypotheses, that every nested pair
+satisfies seal determinacy, and that every displayed triple overlap satisfies
+the triple seal cover. Then the induced $\RealUp$ finite-window handoff descends
+to the single cover-indexed source surface determined by
+\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy}.
+
+The visible rows are exactly the selected $\mathsf{RatHistoryClassifier}$ rows,
+the $\mathsf{ProbeBundle}$ ledger, the $\mathsf{InBundle}$ membership rows,
+$\mathsf{UnaryHistory}$ observations, displayed $\hsame$ comparisons,
+$\mathsf{DyadicRatCore}$ finite ledger rows, and the endpoint seal rows licensed
+by the triple cover. The descent contains no completion data, quotient
+representatives, host index equality, countable choice, ambient completeness, or
+off-ledger $\RealUp$ seal classifiers.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy} to the finite
+public cover. Its conclusion supplies a single cover-indexed StreamName source
+surface for the selected classifier rows, bundle ledger, membership rows, unary
+observations, and displayed $\hsame$ comparisons.
+
+Next stabilize the endpoint-facing seal rows on nested overlaps. By
+\autoref{thm:streamname-regseqrat-nested-window-seal-determinacy}, two nested
+routes reading the same $\mathsf{DyadicRatCore}$ finite ledger induce the same
+finite-window $\RealUp$ seal classifier row on every certified subwindow.
+
+Now compare triples. The compatibility hypothesis feeds
+\autoref{thm:streamname-regseqrat-realup-triple-seal-cover}, so the StreamName
+source rows, the $\RegSeqRat$ finite ledger, and the $\RealUp$ endpoint seal
+rows read the same public package on each displayed three-way overlap.
+
+Finally exhaust the consumer-visible surface with
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. Every row seen
+by the $\RegSeqRat$ consumer or by the finite-window $\RealUp$ endpoint is one of
+the listed source, ledger, membership, observation, comparison, finite
+$\mathsf{DyadicRatCore}$, or licensed endpoint-seal rows. The exclusion clauses
+in the cover, nested-window, triple-cover, and exhaustion theorems rule out
+completion data, quotient representatives, host index equality, countable
+choice, ambient completeness, and off-ledger $\RealUp$ seal classifiers.
 \end{proof}
 
 \input{parts/concrete_instances/streamname/terminal_pullback_factorization}

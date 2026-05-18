@@ -49,6 +49,7 @@ The rows $T$ and $G$ keep the far end as a boundary name rather than a generated
 An accepted $\ApophaticFarEndSocketUp$ carrier exports only the displayed rows $S,A,T,G,I,O,L,H,C,P,N$. It exports no kernel object named $\mathsf{T}$, no state, no record, no $\mathsf{Hist}$ constructor, no subject parameter behind the trace, no global frame, no unmarked supply witness, and no object-level equality between a self-center and the far-end boundary.
 \end{theorem}
 \leanchecked{BEDC.Derived.ApophaticFarEndSocketUp.TasteGate.ApophaticFarEndSocket\_nonescape}
+\leanvariant{BEDC.Derived.ApophaticFarEndSocketUp.TasteGate.ApophaticFarEndSocketNonEscape}
 \begin{proof}
 Use \autoref{thm:apophatic-far-end-socket-namecert-obligations}. Every accepted read factors through the finite row inventory $S,A,T,G,I,O,L,H,C,P,N$.
 
@@ -77,10 +78,12 @@ The non-escape theorem supplies the semantic boundary for this encoding. Removin
 The Lean-side TasteGate surface provides $\mathrm{Nontrivial}\ \ApophaticFarEndSocketUp$ and $\mathrm{FieldFaithful}\ \ApophaticFarEndSocketUp$ instances for the same displayed carrier.
 
 \closureat{ApophaticFarEndSocketUp}{seedStr}
+\closureat{ApophaticFarEndSocketUp}{obligationStr}[BEDC.Derived.ApophaticFarEndSocketUp.taste\_gate]
 
 \begin{closurestatus}{\ApophaticFarEndSocketUp}
   \constructivestory{An $\ApophaticFarEndSocketUp$ packet is generated from a forward-socket row, apophatic-name row, far-end boundary row, gap ledger, local inscription row, observer-history identity row, supply-socket ledger row, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
+  \leanchecked{BEDC.Derived.ApophaticFarEndSocketUp.taste\_gate}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:apophatic-far-end-socket-carrier}, \autoref{thm:apophatic-far-end-socket-namecert-obligations}, \autoref{thm:apophatic-far-end-socket-nonescape}, and \autoref{thm:apophatic-far-end-socket-tastegate-readiness} bind the far-end socket packet as a finite NameCert surface over the displayed boundary and local inscription rows.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.ApophaticFarEndSocketUp.TasteGate.ApophaticFarEndSocketTasteGate\_single\_carrier\_alignment}

@@ -80,12 +80,52 @@ The positive comparison data remain public and finite: observer rows, universe-f
 No listed coordinate is a god's-eye observer, a host equality witness between worlds, a private $\mathsf{Self}$ row, or a global spacetime carrier. Therefore an accepted classifier cannot export any of those objects.
 \end{proof}
 
+\begin{theorem}[ObserverPerspectiveClassifier anchor-change stability]
+\label{thm:observer-perspective-classifier-anchor-change-stability}
+In an accepted $\ObserverPerspectiveClassifierUp$ carrier, changing the observer anchor from the $O_0$ side to the $O_1$ side, or from the $O_1$ side to the $O_0$ side, preserves a comparison verdict only through the displayed rows
+$$
+O_0,O_1,U_0,U_1,L,G,H,C,P,N.
+$$
+The stability route may use the two observer rows, the two universe-for-observer surfaces, locality evidence, paired $\mathsf{GAP}$ commitments, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row, but it cannot pass through a privileged observer or any unlisted observer-neutral witness.
+\end{theorem}
+\begin{proof}
+Apply the carrier description in \autoref{def:observer-perspective-classifier-carrier}. The only named anchors are $O_0$ and $O_1$, and each universe-for-observer surface is attached to one of those rows.
+
+Apply the obligation theorem \autoref{thm:observer-perspective-classifier-namecert-obligations}. Anchor comparison is part of the finite local naming surface, so an anchor change must be replayed through the displayed locality, commitment, transport, continuation, package, and naming rows.
+
+The locality comparison theorem \autoref{thm:observer-perspective-classifier-locality-cell-comparison} supplies the admissible comparison route, while \autoref{thm:observer-perspective-classifier-ledger-exactness} says that the ledger has no further comparison coordinate. Finally \autoref{thm:observer-perspective-classifier-nonescape} rules out a god's-eye observer and any unlisted observer-neutral witness, so the comparison is stable only through the displayed packet rows.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier GAP commitment readback]
+\label{thm:observer-perspective-classifier-gap-commitment-readback}
+Every cross-perspective comparison exported by an accepted $\ObserverPerspectiveClassifierUp$ carrier reads the paired $\mathsf{GAP}$ row $G$ before it exports a comparison verdict. A verdict based only on $O_0,O_1,U_0,U_1$ or only on the locality row $L$ is not a public classifier verdict for this carrier.
+\end{theorem}
+\begin{proof}
+The carrier in \autoref{def:observer-perspective-classifier-carrier} displays $G$ as the paired commitment ledger by which $U_0$ and $U_1$ can be compared without identifying them as one host world.
+
+By \autoref{thm:observer-perspective-classifier-namecert-obligations}, the comparison obligation is not just observer exposure or universe exposure; it is the locality and coherence comparison through $L,G,H,C$. The locality-cell comparison theorem \autoref{thm:observer-perspective-classifier-locality-cell-comparison} makes the same ordering explicit: the classifier compares after the observer rows, the locality-cell evidence, and the paired $\mathsf{GAP}$ commitments have been displayed in the same finite carrier.
+
+The exactness theorem \autoref{thm:observer-perspective-classifier-ledger-exactness} then prevents a consumer from dropping $G$ while still claiming the public verdict. The non-escape theorem \autoref{thm:observer-perspective-classifier-nonescape} prevents replacing $G$ by hidden synchronization or host equality, so the paired commitment row must be read before the verdict is exported.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier comparison-route totality]
+\label{thm:observer-perspective-classifier-comparison-route-totality}
+Every accepted comparison route for an $\ObserverPerspectiveClassifierUp$ carrier factors through all of the public classifier layers: observer rows $O_0,O_1$, universe-for-observer surfaces $U_0,U_1$, locality evidence $L$, paired $\mathsf{GAP}$ commitments $G$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Start with the finite packet in \autoref{def:observer-perspective-classifier-carrier}. Its displayed rows already enumerate the observer, universe, locality, commitment, transport, continuation, provenance, and naming layers.
+
+Apply \autoref{thm:observer-perspective-classifier-namecert-obligations} to read those layers as the local naming obligations. Apply \autoref{thm:observer-perspective-classifier-locality-cell-comparison} to place the comparison after the observer rows, universe surfaces, locality evidence, and paired commitment ledger.
+
+It remains to account for transport, routing, provenance, and local naming. The exactness theorem \autoref{thm:observer-perspective-classifier-ledger-exactness} says that public reads factor through $H,C,P,N$ after the mathematical comparison rows, and \autoref{thm:observer-perspective-classifier-nonescape} says that no hidden comparison route remains outside this finite list. Hence every accepted comparison route factors through the stated public classifier layers.
+\end{proof}
+
 \closureat{ObserverPerspectiveClassifierUp}{seedStr}
 
 \begin{closurestatus}{\ObserverPerspectiveClassifierUp}
   \constructivestory{An $\ObserverPerspectiveClassifierUp$ packet is generated from two conscious-observer state rows, two universe-for-observer record surfaces, locality-cell evidence, paired GAP commitments, componentwise transports, displayed continuation routes, package provenance, and a local naming row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:observer-perspective-classifier-carrier}, \autoref{thm:observer-perspective-classifier-namecert-obligations}, \autoref{thm:observer-perspective-classifier-locality-cell-comparison}, \autoref{thm:observer-perspective-classifier-ledger-exactness}, and \autoref{thm:observer-perspective-classifier-nonescape} bind the finite public classifier surface for universe-for-observer comparison.}
+  \scopeclosed{\autoref{def:observer-perspective-classifier-carrier}, \autoref{thm:observer-perspective-classifier-namecert-obligations}, \autoref{thm:observer-perspective-classifier-locality-cell-comparison}, \autoref{thm:observer-perspective-classifier-ledger-exactness}, \autoref{thm:observer-perspective-classifier-nonescape}, \autoref{thm:observer-perspective-classifier-anchor-change-stability}, \autoref{thm:observer-perspective-classifier-gap-commitment-readback}, and \autoref{thm:observer-perspective-classifier-comparison-route-totality} bind the finite public classifier surface for universe-for-observer comparison.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
