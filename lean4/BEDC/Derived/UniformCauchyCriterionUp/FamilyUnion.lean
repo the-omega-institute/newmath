@@ -57,4 +57,32 @@ theorem UniformCauchyCriterionPacket_paired_family_union_ledger [AskSetup] [Pack
       indexWindowsSubA, indexWindowsSubB, subATailA, subBTailB, tailUnion, namePkg,
       tailAPkg, tailBPkg, unionPkg⟩
 
+theorem UniformCauchyCriterionPacket_family_union [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name leftRead
+      rightRead unionRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      UnaryHistory leftRead ->
+        UnaryHistory rightRead ->
+          Cont leftRead rightRead unionRead ->
+            Cont tail sealRow realRead ->
+              PkgSig bundle unionRead pkg ->
+                PkgSig bundle realRead pkg ->
+                  UnaryHistory unionRead /\ UnaryHistory realRead /\
+                    Cont leftRead rightRead unionRead /\ Cont tail sealRow realRead /\
+                      PkgSig bundle unionRead pkg /\ PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet leftUnary rightUnary leftRightUnion tailSealReal unionPkg realPkg
+  obtain ⟨_indexUnary, _windowsUnary, _modulusUnary, _toleranceUnary, tailUnary,
+    sealRowUnary, _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    _indexWindowsModulus, _modulusToleranceTail, _tailSealRowTransports,
+    _transportsRoutesProvenance, _namePkg⟩ := packet
+  have unionUnary : UnaryHistory unionRead :=
+    unary_cont_closed leftUnary rightUnary leftRightUnion
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed tailUnary sealRowUnary tailSealReal
+  exact
+    ⟨unionUnary, realUnary, leftRightUnion, tailSealReal, unionPkg, realPkg⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp

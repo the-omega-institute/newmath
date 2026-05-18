@@ -239,4 +239,72 @@ theorem ClosedTermSubstitutionCompilerPacket_binder_budget_nonescape [AskSetup] 
   exact
     ⟨openExact, provenancePkg, openPkg, binderRoute, openRoute⟩
 
+theorem ClosedTermSubstitutionCompilerPacket_public_nonescape [AskSetup] [PackageSetup]
+    {termGenerator closedBoundary operation fixedWitness transport continuation provenance nameCert
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (∃ packet : ClosedTermSubstitutionCompilerUp,
+        packet =
+          ClosedTermSubstitutionCompilerUp.mk termGenerator closedBoundary operation fixedWitness
+            transport continuation provenance nameCert) ->
+      Cont continuation nameCert publicRead ->
+        PkgSig bundle provenance pkg ->
+          PkgSig bundle publicRead pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  hsame row publicRead ∧
+                    ∃ packet : ClosedTermSubstitutionCompilerUp,
+                      packet =
+                        ClosedTermSubstitutionCompilerUp.mk termGenerator closedBoundary
+                          operation fixedWitness transport continuation provenance nameCert)
+                (fun row : BHist =>
+                  hsame row publicRead ∧ Cont continuation nameCert publicRead)
+                (fun row : BHist =>
+                  hsame row publicRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle publicRead pkg)
+                hsame ∧
+              hsame publicRead (append continuation nameCert) ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro packetWitness continuationNamePublic provenancePkg publicPkg
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row publicRead ∧
+              ∃ packet : ClosedTermSubstitutionCompilerUp,
+                packet =
+                  ClosedTermSubstitutionCompilerUp.mk termGenerator closedBoundary operation
+                    fixedWitness transport continuation provenance nameCert)
+          (fun row : BHist =>
+            hsame row publicRead ∧ Cont continuation nameCert publicRead)
+          (fun row : BHist =>
+            hsame row publicRead ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle publicRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro publicRead ⟨hsame_refl publicRead, packetWitness⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _row' sameRows source
+          exact And.intro (hsame_trans (hsame_symm sameRows) source.left) source.right
+      }
+      pattern_sound := by
+        intro _row source
+        exact ⟨source.left, continuationNamePublic⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, provenancePkg, publicPkg⟩
+    }
+  exact ⟨cert, continuationNamePublic, provenancePkg, publicPkg⟩
+
 end BEDC.Derived.ClosedTermSubstitutionCompilerUp
