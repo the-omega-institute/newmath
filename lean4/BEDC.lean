@@ -129,7 +129,6 @@ import BEDC.Derived.ApophaticNameUp.RefusalAuditPackage
 import BEDC.Derived.ApophaticNameUp.RefusalClassifierStability
 import BEDC.Derived.ApophaticNameUp.RefusalExportTotality
 import BEDC.Derived.ApophaticNameUp.RefusalGateRouteLocality
-import BEDC.Derived.ApophaticNameUp.RefusalGateRouteTotality
 import BEDC.Derived.ApophaticNameUp.RefusalLedgerDownstreamCoverage
 import BEDC.Derived.ApophaticNameUp.RefusalLedgerFiberProduct
 import BEDC.Derived.ApophaticNameUp.RefusalProvenanceTransport
@@ -228,6 +227,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditBoundary
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditLedgerNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceRow
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditRowCompleteness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchAuditLedger
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchBudgetExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchOutputClosureRow
@@ -285,6 +285,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealRegSeqRatHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.PublicOutputCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ReadinessDeterminacy
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ReadinessRouteTotality
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RealOutputFactorizationLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RealSealRouteNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditBoundaryExposure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditHandoffLock
@@ -385,7 +386,6 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.ProvenanceExhaustion
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RefusalRowDeterminacy
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RegistryClassifierScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RootObligationSurface
-import BEDC.Derived.AxisZeckendorfCannotClaimUp.RootUnblockLedgerNonescape
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RootUnblockPackageCertificate
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RouteProvenanceTriadObligations
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SevenRowCoverage
@@ -399,7 +399,6 @@ import BEDC.Derived.BHistHendecaTupleNameCertUp
 import BEDC.Derived.BHistHeptaTupleNameCertUp
 import BEDC.Derived.BHistNonaSequenceNameCertUp
 import BEDC.Derived.BHistNonaTupleNameCertUp
-import BEDC.Derived.BHistOctaSequenceNameCertUp
 import BEDC.Derived.BHistOctaTupleNameCertUp
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BanachFixedPointUp
@@ -2728,6 +2727,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmissionRoute
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClassifierStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedCandidateReadbackExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedNormalConsumerRoute
+import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsistencyConsumerFactorization
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerBoundaryCompletion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerRouteExhaustion

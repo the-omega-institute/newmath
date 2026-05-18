@@ -85,3 +85,51 @@ selected host limits, ambient completeness, metric completeness, countable
 choice, or a standard bridge row, no such row can replace any face of the
 pullback.
 \end{proof}
+
+\begin{theorem}[Real constant embedding terminal four-face classifier preservation]
+\label{thm:real-constant-embedding-terminal-four-face-classifier-preservation}
+Suppose two accepted presentations of the concrete constant rational embedding
+agree on the $\DyadicRatCoreUp$ endpoint and radius rows, the constant-window
+$\StreamNameUp$ row, the $\RegSeqRatUp$ regularity and classifier ledger, and
+the local $\RealUp$ seal classifier. Then their public $\RealUp$ classifier
+read is the same terminal four-face classifier route through
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Conversely, any accepted terminal four-face classifier route carrying those
+support rows determines the classifier read of the constant rational embedding.
+
+This classifier preservation statement exports no quotient stream equality,
+selected host limit, host real equality, ambient completeness,
+metric-completeness data, countable choice, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-constant-embedding-terminal-four-face-consumption}. It
+confines the accepted constant rational embedding to the displayed four faces,
+so the classifier question can only inspect the dyadic endpoint and radius
+rows, the constant StreamName window, the RegSeqRat ledger, and the local
+Real seal classifier.
+
+Next use
+\autoref{thm:real-constant-embedding-terminal-four-face-pullback}. Agreement
+on those four faces and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support rows gives one terminal route for the public $\RealUp$
+seal read, and every accepted terminal packet with the same support rows reads
+back to that constant embedding route.
+
+Now transport the classifier data along the two handoff boundaries. Apply
+\autoref{thm:regseqrat-constant-real-seal-handoff} to identify the
+$\RegSeqRatUp$ regularity and classifier ledger that reaches the Real seal,
+and apply \autoref{thm:streamname-realup-constant-observation-handoff} to
+keep the constant observation boundary at the StreamName window.
+
+Finally invoke \autoref{thm:real-l10-four-face-classifier-pullback}. The L10
+classifier pullback identifies classifier equality on an accepted four-face
+route from exactly the displayed classifier rows. Thus the two presentations
+have the same public $\RealUp$ classifier read, and the reverse terminal route
+determines the classifier read of the constant rational embedding. The
+excluded quotient, selected-limit, host-real, completeness, choice,
+metric-completeness, and standard-bridge rows are absent from every cited
+route, so they cannot supply an alternative classifier preservation path.
+\end{proof}
