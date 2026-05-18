@@ -490,4 +490,47 @@ theorem TypeCheckingMembershipTrace_scoped_kernel_surface [AskSetup]
       exact ⟨source.right, sameH, sameP, sameN⟩
   }
 
+theorem TypeCheckingMembershipTrace_obligation_assembly [AskSetup]
+    {M D R S H C P N subjectReplay : BHist}
+    (membership : Ext M BMark.b0 D)
+    (route : Cont D R C)
+    (readback : SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) S BHist.Empty)
+    (replay : Cont R C subjectReplay)
+    (visibleM : M != BHist.Empty)
+    (visibleR : R != BHist.Empty) :
+    SemanticNameCert
+        (fun row : BHist =>
+          TypeCheckingMembershipTraceKernelRows M D R S H C P N ∧
+            hsame row subjectReplay)
+        (fun row : BHist =>
+          Ext M BMark.b0 D ∧ Cont D R C ∧ Cont R C row ∧
+            SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) S BHist.Empty)
+        (fun row : BHist =>
+          hsame row subjectReplay ∧ hsame H H ∧ hsame P P ∧ hsame N N)
+        hsame ∧
+      typeCheckingMembershipTraceFields
+          (TypeCheckingMembershipTraceUp.mk M D R S H C P N) ≠
+        typeCheckingMembershipTraceFields
+          (TypeCheckingMembershipTraceUp.mk BHist.Empty D R S H C P N) ∧
+      typeCheckingMembershipTraceFields
+          (TypeCheckingMembershipTraceUp.mk M D R S H C P N) ≠
+        typeCheckingMembershipTraceFields
+          (TypeCheckingMembershipTraceUp.mk M D BHist.Empty S H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Ext Cont SigRel SemanticNameCert hsame
+  have rows : TypeCheckingMembershipTraceKernelRows M D R S H C P N :=
+    ⟨membership, route, readback, hsame_refl H, hsame_refl P, hsame_refl N⟩
+  constructor
+  · exact TypeCheckingMembershipTrace_scoped_kernel_surface rows replay
+  · constructor
+    · intro hfields
+      injection hfields with hM _tail
+      subst hM
+      cases visibleM
+    · intro hfields
+      injection hfields with _ tail1
+      injection tail1 with _ tail2
+      injection tail2 with hR _
+      subst hR
+      cases visibleR
+
 end BEDC.Derived.TypeCheckingMembershipTraceUp
