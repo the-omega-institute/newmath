@@ -480,4 +480,28 @@ theorem ClosedTermSubstitutionBoundaryNamecertObligations [AskSetup] [PackageSet
       exact And.intro (unary_transport consumerUnary (hsame_symm source.right)) consumerPkg
   }
 
+theorem ClosedTermSubstitutionBoundarySourceClosednessAdmission
+    {source value depth shift substitution shiftRead substitutionRead : BHist} :
+    ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution ->
+      Cont source value shiftRead ->
+        Cont shiftRead depth substitutionRead ->
+          hsame shiftRead shift ∧ hsame substitutionRead substitution ∧ UnaryHistory source ∧
+            UnaryHistory shiftRead ∧ UnaryHistory substitutionRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro classifier sourceValueShiftRead shiftReadDepthSubstitutionRead
+  obtain ⟨sourceUnary, valueUnary, depthUnary, _shiftUnary, _substitutionUnary,
+    sourceValueShift, shiftDepthSubstitution⟩ := classifier
+  have sameShiftRead : hsame shiftRead shift :=
+    cont_deterministic sourceValueShiftRead sourceValueShift
+  have sameSubstitutionRead : hsame substitutionRead substitution :=
+    cont_respects_hsame sameShiftRead (hsame_refl depth) shiftReadDepthSubstitutionRead
+      shiftDepthSubstitution
+  have shiftReadUnary : UnaryHistory shiftRead :=
+    unary_cont_closed sourceUnary valueUnary sourceValueShiftRead
+  have substitutionReadUnary : UnaryHistory substitutionRead :=
+    unary_cont_closed shiftReadUnary depthUnary shiftReadDepthSubstitutionRead
+  exact
+    ⟨sameShiftRead, sameSubstitutionRead, sourceUnary, shiftReadUnary,
+      substitutionReadUnary⟩
+
 end BEDC.Derived.ClosedtermsubstitutionboundaryUp
