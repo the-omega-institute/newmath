@@ -243,6 +243,7 @@ import BEDC.Derived.CertifiedOnticTowerUp.TasteGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditBoundary
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
@@ -1656,6 +1657,7 @@ import BEDC.Derived.InscriptionEventReplayUp.TasteGate
 import BEDC.Derived.InscriptionNoveltySocketUp.TasteGate
 import BEDC.Derived.PrefixObserverUp
 import BEDC.Derived.PrefixObserverUp.TasteGate
+import BEDC.Derived.PrefixObserverUp.NameCertObligations
 import BEDC.Derived.InscriptionAcceptanceBudgetUp.TasteGate
 import BEDC.Derived.InscriptionAuditTraceUp.TasteGate
 import BEDC.Derived.InscriptionGapLedgerUp.TasteGate
