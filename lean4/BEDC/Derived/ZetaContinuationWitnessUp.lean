@@ -451,4 +451,83 @@ theorem ZetaContinuationWitnessPacket_public_export_totality [AskSetup] [Package
       publicRootUnary, publicRootUnary', publicRootSame, publicRootSame', namePkg,
       provenancePkg', publicRootPkg, publicRootPkg'⟩
 
+theorem ZetaContinuationWitnessCriticalStripLedgerTriad [AskSetup] [PackageSetup]
+    {basic eta analytic pole functional zeroLedger gamma transports routes provenance name eta'
+      analytic' transports' provenance' zeroLedger' gamma' criticalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma transports
+        routes provenance name bundle pkg ->
+      Cont basic eta' analytic' ->
+        Cont analytic' functional transports' ->
+          Cont transports' routes provenance' ->
+            Cont pole zeroLedger' gamma' ->
+              PkgSig bundle provenance' pkg ->
+                hsame eta eta' ->
+                  hsame zeroLedger zeroLedger' ->
+                    UnaryHistory routes ->
+                      UnaryHistory name ->
+                        Cont routes name criticalRead ->
+                          PkgSig bundle criticalRead pkg ->
+                            hsame analytic analytic' ∧ hsame transports transports' ∧
+                              hsame provenance provenance' ∧ hsame gamma gamma' ∧
+                                UnaryHistory criticalRead ∧
+                                  hsame criticalRead (append routes name) ∧
+                                    Cont basic eta' analytic' ∧
+                                      Cont analytic' functional transports' ∧
+                                        Cont pole zeroLedger' gamma' ∧
+                                          PkgSig bundle name pkg ∧
+                                            PkgSig bundle provenance' pkg ∧
+                                              PkgSig bundle criticalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet basicRoute functionalRoute provenanceRoute gammaRoute provenancePkg etaSame
+    zeroLedgerSame routesUnary nameUnary routesNameCritical criticalPkg
+  have readiness :=
+    ZetaContinuationWitnessPacket_root_readiness_lock
+      (basic := basic) (eta := eta) (analytic := analytic) (pole := pole)
+      (functional := functional) (zeroLedger := zeroLedger) (gamma := gamma)
+      (transports := transports) (routes := routes) (provenance := provenance)
+      (name := name) (eta' := eta') (analytic' := analytic')
+      (transports' := transports') (provenance' := provenance')
+      (zeroLedger' := zeroLedger') (gamma' := gamma') (rootRead := criticalRead)
+      (bundle := bundle) (pkg := pkg) packet basicRoute functionalRoute provenanceRoute
+      gammaRoute provenancePkg etaSame zeroLedgerSame routesUnary nameUnary routesNameCritical
+  obtain ⟨analyticSame, transportsSame, provenanceSame, gammaSame, criticalUnary,
+    criticalSame, namePkg, provenancePkg'⟩ := readiness
+  exact
+    ⟨analyticSame, transportsSame, provenanceSame, gammaSame, criticalUnary,
+      criticalSame, basicRoute, functionalRoute, gammaRoute, namePkg, provenancePkg',
+      criticalPkg⟩
+
+theorem ZetaContinuationWitnessGammaRouteNonescapeLedger [AskSetup] [PackageSetup]
+    {basic eta analytic pole functional zeroLedger gamma transports routes provenance name
+      zeroLedger' gamma' gammaRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma transports
+        routes provenance name bundle pkg ->
+      Cont pole zeroLedger' gamma' ->
+        hsame zeroLedger zeroLedger' ->
+          UnaryHistory routes ->
+            UnaryHistory name ->
+              Cont routes name gammaRead ->
+                PkgSig bundle gammaRead pkg ->
+                  hsame gamma gamma' ∧ UnaryHistory gammaRead ∧
+                    hsame gammaRead (append routes name) ∧ Cont pole zeroLedger' gamma' ∧
+                      PkgSig bundle name pkg ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle gammaRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet gammaRoute zeroLedgerSame routesUnary nameUnary routesNameGamma gammaPkg
+  have gammaBoundary :=
+    ZetaContinuationWitnessPacket_gamma_boundary
+      (basic := basic) (eta := eta) (analytic := analytic) (pole := pole)
+      (functional := functional) (zeroLedger := zeroLedger) (gamma := gamma)
+      (transports := transports) (routes := routes) (provenance := provenance)
+      (name := name) (zeroLedger' := zeroLedger') (gamma' := gamma')
+      (bundle := bundle) (pkg := pkg) packet gammaRoute zeroLedgerSame
+  obtain ⟨gammaSame, namePkg, provenancePkg⟩ := gammaBoundary
+  have gammaReadUnary : UnaryHistory gammaRead :=
+    unary_cont_closed routesUnary nameUnary routesNameGamma
+  exact
+    ⟨gammaSame, gammaReadUnary, routesNameGamma, gammaRoute, namePkg, provenancePkg,
+      gammaPkg⟩
+
 end BEDC.Derived.ZetaContinuationWitnessUp
