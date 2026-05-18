@@ -268,4 +268,34 @@ theorem FormalConstantEmpiricalValueBoundaryNoncollapse
     unary_cont_closed formalUnary empiricalUnary formalEmpiricalComparison
   exact ⟨comparisonUnary, formalEmpiricalComparison, hsame_refl failure⟩
 
+theorem FormalConstantEmpiricalValueBoundaryNameCertObligations
+    {formal empirical calibration uncertainty reproducibility failure transport replay provenance
+      localCert measurementReplay calibrationReplay : BHist} :
+    formalConstantEmpiricalValueBoundaryFields
+        (FormalConstantEmpiricalValueBoundaryUp.mk formal empirical calibration uncertainty
+          reproducibility failure transport replay provenance localCert) =
+      [formal, empirical, calibration, uncertainty, reproducibility, failure, transport, replay,
+        provenance, localCert] →
+      Cont empirical calibration measurementReplay →
+        Cont uncertainty reproducibility calibrationReplay →
+          UnaryHistory empirical →
+            UnaryHistory calibration →
+              UnaryHistory uncertainty →
+                UnaryHistory reproducibility →
+                  UnaryHistory measurementReplay ∧
+                    UnaryHistory calibrationReplay ∧
+                      Cont empirical calibration measurementReplay ∧
+                        Cont uncertainty reproducibility calibrationReplay ∧ hsame failure failure := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro hfields measurementRoute calibrationRoute empiricalUnary calibrationUnary
+    uncertaintyUnary reproducibilityUnary
+  cases hfields
+  have measurementReplayUnary : UnaryHistory measurementReplay :=
+    unary_cont_closed empiricalUnary calibrationUnary measurementRoute
+  have calibrationReplayUnary : UnaryHistory calibrationReplay :=
+    unary_cont_closed uncertaintyUnary reproducibilityUnary calibrationRoute
+  exact
+    ⟨measurementReplayUnary, calibrationReplayUnary, measurementRoute, calibrationRoute,
+      hsame_refl failure⟩
+
 end BEDC.Derived.FormalConstantEmpiricalValueBoundaryUp
