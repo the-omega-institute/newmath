@@ -29,7 +29,7 @@ theorem BinderBudgetSealCompilerBoundary [AskSetup] [PackageSetup]
   intro carrier shiftRouteNameRead substRouteNameRead shiftSubstCompiler compilerPkg
   obtain ⟨depthUnary, termUnary, payloadUnary, shiftRouteUnary, substRouteUnary,
     _transportUnary, _contRouteUnary, _provenanceUnary, nameUnary, depthTermShift,
-    depthPayloadSubst, _shiftSubstCont, namePkg⟩ := carrier
+    depthPayloadSubst, _shiftSubstCont, _provenancePkg, namePkg⟩ := carrier
   have shiftReadUnary : UnaryHistory shiftRead :=
     unary_cont_closed shiftRouteUnary nameUnary shiftRouteNameRead
   have substReadUnary : UnaryHistory substRead :=
@@ -60,7 +60,7 @@ theorem BinderBudgetSealNonEscape [AskSetup] [PackageSetup]
   intro carrier shiftRouteNameRead substRouteNameRead shiftSubstExport exportedPkg
   obtain ⟨depthUnary, termUnary, payloadUnary, shiftRouteUnary, substRouteUnary,
     _transportUnary, _contRouteUnary, _provenanceUnary, nameUnary, depthTermShift,
-    depthPayloadSubst, _shiftSubstCont, namePkg⟩ := carrier
+    depthPayloadSubst, _shiftSubstCont, _provenancePkg, namePkg⟩ := carrier
   have shiftReadUnary : UnaryHistory shiftRead :=
     unary_cont_closed shiftRouteUnary nameUnary shiftRouteNameRead
   have substReadUnary : UnaryHistory substRead :=
