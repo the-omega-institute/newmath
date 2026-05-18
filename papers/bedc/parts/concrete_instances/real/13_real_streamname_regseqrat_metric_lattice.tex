@@ -187,3 +187,53 @@ downstream continuation-depth ledger. It records metric consumer depth after the
 sealed Real route is already visible and does not add any of the excluded
 metric-side completion or choice data.
 \end{proof}
+
+\begin{theorem}[Real L10 metric witness facewise determinacy]
+\label{thm:real-l10-metric-witness-facewise-determinacy}
+Let $R$ and $S$ be accepted metric-facing $\RealUp$ finite-window observations.
+Their $\mathsf{MetricDistanceWitness}$ classifier reads agree exactly when the
+displayed four-face route agrees: the $\DyadicRatCoreUp$ endpoint, radius, and
+distance ledger; the $\StreamNameUp$ finite-window schedule; the $\RegSeqRatUp$
+regularity and common-tail classifier rows; the local $\RealUp$ seal classifier;
+and the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Conversely, componentwise agreement of those four faces and support rows
+supplies the same $\mathsf{MetricDistanceWitness}$ classifier read. This
+determinacy statement exports no quotient stream equality, selected limit,
+countable choice, host real equality, ambient completeness,
+metric-completeness row, standard bridge row, or direct access to an unsealed
+stream.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:real-streamname-regseqrat-metric-observation-factorization}. It
+routes each accepted metric-facing observation through the $\StreamNameUp$
+finite-window interface, the $\RegSeqRatUp$ regularity surface, the local
+$\RealUp$ seal, and only then the $\mathsf{MetricDistanceWitness}$ ledger.
+
+Next use
+\autoref{thm:real-streamname-regseqrat-metric-classifier-correspondence}. The
+metric classifier readback is therefore a readback of the StreamName,
+RegSeqRat, and Real seal classifiers, not a separate metric-side coordinate.
+Together with \autoref{thm:streamname-l10-four-face-exit-gate}, this places the
+Real consumer on the sibling L10 exit gate over the displayed four faces.
+
+Now apply
+\autoref{thm:real-l10-metric-classifier-pullback-correspondence}. It identifies
+agreement of the metric witness classifiers with agreement of the
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$ seal
+faces, together with the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$.
+
+For the reverse direction, start with componentwise agreement on those four
+faces and support rows. The same pullback correspondence repacks that data as
+agreement of the sealed Real-facing classifier route, and the classifier
+correspondence then supplies the identical
+$\mathsf{MetricDistanceWitness}$ read.
+
+Finally apply \autoref{thm:real-l10-metric-preseal-nonescape}. The facewise
+agreement has no coordinate for quotient stream equality, selected limit,
+countable choice, host real equality, ambient completeness, metric-completeness
+rows, standard bridge rows, or direct unsealed-stream access, so the theorem
+states only determinacy of the finite classifier route.
+\end{proof}
