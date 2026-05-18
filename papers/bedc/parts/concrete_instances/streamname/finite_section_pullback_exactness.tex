@@ -255,3 +255,58 @@ surface, with no quotient, host-equality, limit-selection, completeness,
 choice, metric-completion, or bridge data added beyond the four-face terminal
 support.
 \end{proof}
+
+\begin{theorem}[StreamName finite-section descent gluing]
+\label{thm:streamname-finite-section-descent-gluing}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase Real and
+Completion $\StreamNameUp$ request sections. Suppose that every accepted
+overlap $Q_{ij}$ has the same $\StreamNameUp$ finite-window row, the same
+$\DyadicRatCoreUp$ ledger row, the same $\RegSeqRatUp$ readback row, the same
+$\RealUp$ seal boundary, and the same displayed $\BHist$, componentwise
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows when read from
+$Q_i$ and from $Q_j$. Then the family descends to one public reflection surface
+over the four-face route
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ whose restrictions are
+the given local sections.
+
+Conversely, any public reflection surface over that four-face route restricts
+to accepted local finite sections whose pairwise overlaps agree on exactly the
+same finite-window, ledger, readback, seal, $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows. Both directions exclude quotient streams,
+selected limits, host sequence equality, ambient Real completeness,
+metric-completeness data, countable choice, and standard bridge rows.
+\end{theorem}
+\begin{proof}
+For descent, paste the finite family by induction on its finite index set. The
+two-section step is exactly
+\autoref{thm:streamname-finite-section-pasting-exactness}: the pairwise
+overlap agreement keeps the StreamName finite window, the DyadicRatCore
+ledger, the RegSeqRat readback, the RealUp seal boundary, and the displayed
+support rows fixed while the pasted section keeps the same public classifier
+verdict.
+
+At each induction step, use
+\autoref{thm:streamname-four-face-terminal-completeness}. The rows retained by
+the pasted section are already sufficient for the carrier, classifier,
+stability, ledger, and non-escape surface of the current Phase Real and
+Completion route, so no further face is available to distinguish the next
+local section from the accumulated paste.
+
+Apply \autoref{thm:streamname-finite-section-terminal-reflection} to the final
+pasted finite section. It turns the completed four-face factorization into the
+public reflection surface over
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$. The Real, RegSeq, and
+Dyadic handoff rows used above keep every read on the L10 four-object packet
+and leave no quotient-stream, selected-limit, host-equality, ambient
+completeness, metric-completion, countable-choice, or bridge coordinate to
+export.
+
+For restriction, start with a public reflection surface over the same
+four-face route. By
+\autoref{thm:streamname-finite-section-terminal-reflection}, every visible row
+of that surface factors through the StreamName finite window, DyadicRatCore
+ledger, RegSeqRat readback, RealUp seal boundary, and displayed support rows.
+Restricting those rows to any finite local window gives an accepted local
+section, and restricting them to a pairwise overlap gives the same rows from
+both sides.
+\end{proof}
