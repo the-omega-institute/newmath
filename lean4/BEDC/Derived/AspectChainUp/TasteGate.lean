@@ -202,6 +202,41 @@ instance aspectChainChapterTasteGate : ChapterTasteGate AspectChainUp where
     intro x y hxy heq
     exact hxy (aspectChainToEventFlow_injective heq)
 
+instance aspectChainFieldFaithful : FieldFaithful AspectChainUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | AspectChainUp.mk records inscription gap locality otherMinds transport routes provenance
+        nameCert =>
+        [records, inscription, gap, locality, otherMinds, transport, routes, provenance, nameCert]
+  field_faithful := by
+    intro x y fieldsSame
+    cases x with
+    | mk records inscription gap locality otherMinds transport routes provenance nameCert =>
+        cases y with
+        | mk records' inscription' gap' locality' otherMinds' transport' routes' provenance'
+            nameCert' =>
+            simp only at fieldsSame
+            injection fieldsSame with recordsSame tailSame
+            injection tailSame with inscriptionSame tailSame
+            injection tailSame with gapSame tailSame
+            injection tailSame with localitySame tailSame
+            injection tailSame with otherMindsSame tailSame
+            injection tailSame with transportSame tailSame
+            injection tailSame with routesSame tailSame
+            injection tailSame with provenanceSame tailSame
+            injection tailSame with nameCertSame _
+            cases recordsSame
+            cases inscriptionSame
+            cases gapSame
+            cases localitySame
+            cases otherMindsSame
+            cases transportSame
+            cases routesSame
+            cases provenanceSame
+            cases nameCertSame
+            rfl
+
 def taste_gate : ChapterTasteGate AspectChainUp :=
   aspectChainChapterTasteGate
 
@@ -219,5 +254,29 @@ theorem AspectChainTasteGate_single_carrier_alignment :
       · intro x y heq
         exact aspectChainToEventFlow_injective heq
       · rfl
+
+theorem AspectChainCarrier_non_collapse
+    {records inscription gap locality otherMinds transport routes provenance nameCert records'
+      inscription' gap' locality' otherMinds' transport' routes' provenance' nameCert' : BHist} :
+    aspectChainToEventFlow
+        (AspectChainUp.mk records inscription gap locality otherMinds transport routes provenance
+          nameCert) =
+      aspectChainToEventFlow
+        (AspectChainUp.mk records' inscription' gap' locality' otherMinds' transport' routes'
+          provenance' nameCert') →
+      hsame records records' ∧ hsame inscription inscription' ∧ hsame gap gap' ∧
+        hsame locality locality' ∧ hsame otherMinds otherMinds' ∧ hsame transport transport' ∧
+          hsame routes routes' ∧ hsame provenance provenance' ∧ hsame nameCert nameCert' ∧
+            aspectChainEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  intro encodedSame
+  have packetSame :
+      AspectChainUp.mk records inscription gap locality otherMinds transport routes provenance
+          nameCert =
+        AspectChainUp.mk records' inscription' gap' locality' otherMinds' transport' routes'
+          provenance' nameCert' :=
+    aspectChainToEventFlow_injective encodedSame
+  cases packetSame
+  exact ⟨rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩
 
 end BEDC.Derived.AspectChainUp
