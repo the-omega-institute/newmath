@@ -141,6 +141,7 @@ import BEDC.Derived.ApophaticNameUp.SocketRequestCoherence
 import BEDC.Derived.ApophaticNameUp.SourceRefusalTotality
 import BEDC.Derived.ApophaticNameUp.SourceRefusalTransport
 import BEDC.Derived.ApophaticNameUp.RootRefusalGateTotality
+import BEDC.Derived.ApophaticNameUp.RootRefusalLedgerExactness
 import BEDC.Derived.ApophaticNameUp.SocketGateLedgerPullback
 import BEDC.Derived.ApophaticNameUp.SocketGateRouteExhaustion
 import BEDC.Derived.ApophaticNameUp.RootUnblockRefusalBoundary
@@ -290,6 +291,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceRowAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.StructuralDescentLocality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditBoundaryExposure
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditRouteExactness
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
@@ -1970,6 +1972,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionConsumerLock
 import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionAdmission
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RedexBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.PublicObligationPackage
+import BEDC.Derived.MetaCICNormalizationFrontierUp.ClassifierStability
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
