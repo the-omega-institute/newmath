@@ -1231,6 +1231,7 @@ import BEDC.Derived.ContinuationMonadUp.ScopeNonescape
 import BEDC.Derived.ContinuationMonadUp.UnitRouteNonescape
 import BEDC.Derived.ContinuationMonadUp.RootUnitBindExhaustion
 import BEDC.Derived.ContinuationMonadUp.CategoryHomRowExposure
+import BEDC.Derived.ContinuationMonadUp.GeneratorBoundaryRefusal
 import BEDC.Derived.ContinuationMonadUp.ObligationClosure
 import BEDC.Derived.ContinuationMonadUp.PublicRouteBridgeTotality
 import BEDC.Derived.ContinuationMonadUp.ClassifierStability
@@ -3002,6 +3003,7 @@ import BEDC.Derived.CompactUniformContinuityUp.ModulusChoiceSurface
 import BEDC.Derived.CompactUniformContinuityUp.NetModulusConsumerTriad
 import BEDC.Derived.CompactUniformContinuityUp.NonEscapeLedger
 import BEDC.Derived.CompactUniformContinuityUp.ProbeMetricRoute
+import BEDC.Derived.CompactUniformContinuityUp.RationalFoldMetricCompatibility
 import BEDC.Derived.CompactUniformContinuityUp.PrecisionRouteTotality
 import BEDC.Derived.CompactUniformContinuityUp.RealMetricSealNonescape
 import BEDC.Derived.CompactUniformContinuityUp.RealMetricConsumerTriad
