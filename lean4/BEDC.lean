@@ -190,6 +190,8 @@ import BEDC.Derived.ApophaticNameUp.SocketBoundaryRouteExhaustion
 import BEDC.Derived.ApophaticNameUp.SupplyShapeRefusalExactness
 import BEDC.Derived.ApophaticNameUp.RootSocketRequestTotality
 import BEDC.Derived.ApophaticNameUp.RootBoundaryProvenanceExport
+import BEDC.Derived.ApophaticNameUp.SocketRequestGateFactorization
+import BEDC.Derived.ApophaticNameUp.BoundaryCitationExhaustion
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
