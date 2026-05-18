@@ -538,5 +538,51 @@ no completion, quotient, host-index, external regularity, or off-ledger
 classifier row is introduced.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat cover Real handoff descent]
+\label{thm:streamname-regseqrat-cover-real-handoff-descent}
+Let $\{W_i\}_{i\in I}$ be a finite public $\StreamNameUp$ cover feeding one
+$\RegSeqRat$ finite-window consumer and one finite-window $\RealUp$ endpoint.
+Suppose that every displayed pairwise overlap satisfies the overlap-source
+hypotheses and the nested-window handoff hypotheses, that every nested pair
+satisfies seal determinacy, and that every displayed triple overlap satisfies
+the triple seal cover. Then the induced $\RealUp$ finite-window handoff descends
+to the single cover-indexed source surface determined by
+\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy}.
+
+The visible rows are exactly the selected $\mathsf{RatHistoryClassifier}$ rows,
+the $\mathsf{ProbeBundle}$ ledger, the $\mathsf{InBundle}$ membership rows,
+$\mathsf{UnaryHistory}$ observations, displayed $\hsame$ comparisons,
+$\mathsf{DyadicRatCore}$ finite ledger rows, and the endpoint seal rows licensed
+by the triple cover. The descent contains no completion data, quotient
+representatives, host index equality, countable choice, ambient completeness, or
+off-ledger $\RealUp$ seal classifiers.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy} to the finite
+public cover. Its conclusion supplies a single cover-indexed StreamName source
+surface for the selected classifier rows, bundle ledger, membership rows, unary
+observations, and displayed $\hsame$ comparisons.
+
+Next stabilize the endpoint-facing seal rows on nested overlaps. By
+\autoref{thm:streamname-regseqrat-nested-window-seal-determinacy}, two nested
+routes reading the same $\mathsf{DyadicRatCore}$ finite ledger induce the same
+finite-window $\RealUp$ seal classifier row on every certified subwindow.
+
+Now compare triples. The compatibility hypothesis feeds
+\autoref{thm:streamname-regseqrat-realup-triple-seal-cover}, so the StreamName
+source rows, the $\RegSeqRat$ finite ledger, and the $\RealUp$ endpoint seal
+rows read the same public package on each displayed three-way overlap.
+
+Finally exhaust the consumer-visible surface with
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. Every row seen
+by the $\RegSeqRat$ consumer or by the finite-window $\RealUp$ endpoint is one of
+the listed source, ledger, membership, observation, comparison, finite
+$\mathsf{DyadicRatCore}$, or licensed endpoint-seal rows. The exclusion clauses
+in the cover, nested-window, triple-cover, and exhaustion theorems rule out
+completion data, quotient representatives, host index equality, countable
+choice, ambient completeness, and off-ledger $\RealUp$ seal classifiers.
+\end{proof}
+
 \input{parts/concrete_instances/streamname/terminal_pullback_factorization}
 \input{parts/concrete_instances/streamname/finite_window_route_factorization}
