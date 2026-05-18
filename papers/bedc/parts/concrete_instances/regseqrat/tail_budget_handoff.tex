@@ -188,3 +188,52 @@ selected host limits, ambient completeness carriers, choice data, hidden
 completion coordinates, and additional Real seal coordinates, leaving exactly
 the finite route stated above.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-budget facewise status pullback]
+\label{thm:regseqrat-tail-budget-facewise-status-pullback}
+Every accepted tail-budget $\RealUp$-seal consumer of an accepted
+$\RegSeqRatUp$ packet reads the four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+with each face's own closurestatus, formalstatus, leantarget, and bridgestatus
+rows. The consumer route reads those rows from the local face records and not
+from an aggregate formalstatus token.
+
+Conversely, a tail-budget packet carrying exactly those four local status
+records together with the displayed
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+support rows gives the same accepted tail-budget terminal $\RealUp$-seal route.
+This pullback has no fifth face, quotient stream equality, selected host
+limits, choice data, ambient completeness carrier, metric-completeness datum,
+standard-bridge row, or aggregate audit certificate.
+\end{theorem}
+\begin{proof}
+First locate the finite route. Apply
+\autoref{thm:regseqrat-tail-budget-terminal-real-seal}. It confines every
+completion-facing tail-budget consumer to the StreamName schedule,
+DyadicRatCore ledger, RegSeqRat classifier and regularity rows, displayed
+$\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$
+naming, and public $\RealUp$ seal.
+
+Next read the status data face by face. Apply
+\autoref{thm:real-terminal-seal-four-face-status-pullback}. It identifies the
+terminal seal status read with the four local closurestatus, formalstatus,
+leantarget, and bridgestatus rows and rejects a route-level formalstatus token
+or aggregate bridge row.
+
+For the phase boundary, apply
+\autoref{thm:real-l10-current-phase-exit-audit-pullback}. The current Phase
+Real and Completion exit read is the product of the four local face records, so
+the tail-budget route cannot contribute a fifth face or cached completion
+status.
+
+Finally reuse the nonescape clauses of
+\autoref{thm:regseqrat-tail-budget-terminal-real-seal}. They exclude quotient
+stream equality, selected host limits, choice data, ambient completeness,
+metric-completeness data, standard-bridge rows, and any additional Real seal
+coordinate. The converse is then the same finite packet read with exactly the
+four local status records and the displayed support rows.
+\end{proof}
