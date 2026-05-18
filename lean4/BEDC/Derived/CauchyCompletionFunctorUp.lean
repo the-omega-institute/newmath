@@ -478,6 +478,53 @@ theorem CauchyCompletionFunctorPacket_observation_budget_factorization
       obsStartObsWindowObsDyadic, obsDyadicObsRatObsSeal, obsSealSealRowRoutedSeal,
       monadUniversalEndpoint, endpointPkg, routedSealPkg⟩
 
+theorem CauchyCompletionFunctorPacket_observation_budget_seal_determinacy
+    [AskSetup] [PackageSetup]
+    {metric regular sealRow monadRow universal classifier transport nameCert endpoint obsStart
+      obsWindow obsDyadic obsRat obsSeal routedSeal sealConsumer sealExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionFunctorPacket metric regular sealRow monadRow universal classifier transport
+        nameCert endpoint bundle pkg →
+      UnaryHistory obsStart →
+        UnaryHistory obsWindow →
+          UnaryHistory obsRat →
+            Cont obsStart obsWindow obsDyadic →
+              Cont obsDyadic obsRat obsSeal →
+                Cont obsSeal sealRow routedSeal →
+                  Cont routedSeal monadRow sealConsumer →
+                    Cont sealConsumer universal sealExport →
+                      PkgSig bundle sealExport pkg →
+                        UnaryHistory obsDyadic ∧ UnaryHistory obsSeal ∧
+                          UnaryHistory routedSeal ∧ UnaryHistory sealConsumer ∧
+                            UnaryHistory sealExport ∧ Cont obsStart obsWindow obsDyadic ∧
+                              Cont obsDyadic obsRat obsSeal ∧ Cont obsSeal sealRow routedSeal ∧
+                                Cont routedSeal monadRow sealConsumer ∧
+                                  Cont sealConsumer universal sealExport ∧
+                                    PkgSig bundle endpoint pkg ∧
+                                      PkgSig bundle sealExport pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet obsStartUnary obsWindowUnary obsRatUnary obsStartObsWindowObsDyadic
+    obsDyadicObsRatObsSeal obsSealSealRowRoutedSeal routedSealMonadRowSealConsumer
+    sealConsumerUniversalSealExport sealExportPkg
+  obtain ⟨_metricUnary, _regularUnary, sealUnary, monadUnary, universalUnary,
+    _classifierUnary, _transportUnary, _nameCertUnary, _endpointUnary, _metricRegularSeal,
+    _monadUniversalEndpoint, _classifierTransportNameCert, endpointPkg⟩ := packet
+  have obsDyadicUnary : UnaryHistory obsDyadic :=
+    unary_cont_closed obsStartUnary obsWindowUnary obsStartObsWindowObsDyadic
+  have obsSealUnary : UnaryHistory obsSeal :=
+    unary_cont_closed obsDyadicUnary obsRatUnary obsDyadicObsRatObsSeal
+  have routedSealUnary : UnaryHistory routedSeal :=
+    unary_cont_closed obsSealUnary sealUnary obsSealSealRowRoutedSeal
+  have sealConsumerUnary : UnaryHistory sealConsumer :=
+    unary_cont_closed routedSealUnary monadUnary routedSealMonadRowSealConsumer
+  have sealExportUnary : UnaryHistory sealExport :=
+    unary_cont_closed sealConsumerUnary universalUnary sealConsumerUniversalSealExport
+  exact
+    ⟨obsDyadicUnary, obsSealUnary, routedSealUnary, sealConsumerUnary, sealExportUnary,
+      obsStartObsWindowObsDyadic, obsDyadicObsRatObsSeal, obsSealSealRowRoutedSeal,
+      routedSealMonadRowSealConsumer, sealConsumerUniversalSealExport, endpointPkg,
+      sealExportPkg⟩
+
 theorem CauchyCompletionFunctorPacket_finite_observation_selector_factorization
     [AskSetup] [PackageSetup]
     {metric regular sealRow monadRow universal classifier transport nameCert endpoint

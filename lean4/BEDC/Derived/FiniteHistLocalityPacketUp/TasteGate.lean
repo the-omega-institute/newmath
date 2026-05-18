@@ -236,4 +236,36 @@ theorem FiniteHistLocalityPacketTransportStability
     unary_cont_closed transportUnary replayRowUnary transportReplay
   exact ⟨replayUnary, transportReplay⟩
 
+theorem FiniteHistLocalityPacketNoGlobalSyncRefusal
+    {H0 H1 L I S T C Q N localityReplay symmetryReplay : BHist} :
+    finiteHistLocalityPacketFields (FiniteHistLocalityPacketUp.mk H0 H1 L I S T C Q N) =
+      [H0, H1, L, I, S, T, C, Q, N] →
+      Cont H0 H1 L →
+        Cont I S symmetryReplay →
+          Cont L T localityReplay →
+            UnaryHistory H0 →
+              UnaryHistory H1 →
+                UnaryHistory I →
+                  UnaryHistory S →
+                    UnaryHistory T →
+                      UnaryHistory L ∧
+                        UnaryHistory symmetryReplay ∧
+                          UnaryHistory localityReplay ∧
+                            Cont H0 H1 L ∧
+                              Cont I S symmetryReplay ∧
+                                Cont L T localityReplay ∧ hsame Q Q := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro hfields localityRoute symmetryRoute localityReplayRoute h0Unary h1Unary
+    invariantUnary symmetryUnary transportUnary
+  cases hfields
+  have localityUnary : UnaryHistory L :=
+    unary_cont_closed h0Unary h1Unary localityRoute
+  have symmetryReplayUnary : UnaryHistory symmetryReplay :=
+    unary_cont_closed invariantUnary symmetryUnary symmetryRoute
+  have localityReplayUnary : UnaryHistory localityReplay :=
+    unary_cont_closed localityUnary transportUnary localityReplayRoute
+  exact
+    ⟨localityUnary, symmetryReplayUnary, localityReplayUnary, localityRoute,
+      symmetryRoute, localityReplayRoute, hsame_refl Q⟩
+
 end BEDC.Derived.FiniteHistLocalityPacketUp
