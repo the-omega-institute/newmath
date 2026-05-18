@@ -130,6 +130,7 @@ import BEDC.Derived.ApophaticNameUp.RefusalClassifierStability
 import BEDC.Derived.ApophaticNameUp.RefusalExportTotality
 import BEDC.Derived.ApophaticNameUp.RefusalGateRouteLocality
 import BEDC.Derived.ApophaticNameUp.RefusalGateRouteTotality
+import BEDC.Derived.ApophaticNameUp.RefusalGateSeparation
 import BEDC.Derived.ApophaticNameUp.RefusalLedgerDownstreamCoverage
 import BEDC.Derived.ApophaticNameUp.RefusalLedgerFiberProduct
 import BEDC.Derived.ApophaticNameUp.RefusalProvenanceTransport
@@ -259,6 +260,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.HostKernelHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.KernelBoundaryExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10Carrier
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10CompletionBoundaryNonescape
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10ConsumerReadbackTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OpenPhaseConsumerHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OpenPhaseSourceTriad
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OutputAuthorizationClosure
@@ -274,6 +276,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.LocalNameOutputExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertObligationExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NormalizationFrontierConsumerLock
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputAuditLedger
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputLedgerExactness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputNameCertNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputNameStability
@@ -316,6 +319,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootConsumerFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootConsumerReadinessSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootDescentAuditCoupling
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootDescentOutputFactorization
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootDescentRowExposure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootHostBoundaryNameCertExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootMotiveDescentStability
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootNameCertConsumerReadiness
@@ -827,6 +831,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.L10FiniteRequestRouteMonotonicity
 import BEDC.Derived.CauchyModulusRefinementUp.L10HandoffSufficiency
 import BEDC.Derived.CauchyModulusRefinementUp.L10RootWindowPullbackExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.L10SiblingRoute
+import BEDC.Derived.CauchyModulusRefinementUp.L10SupportRowMinimality
 import BEDC.Derived.CauchyModulusRefinementUp.L10WindowLatticeExactness
 import BEDC.Derived.CauchyModulusRefinementUp.MeetThresholdNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.NameCertScope
@@ -969,6 +974,7 @@ import BEDC.Derived.CauchyWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.TerminalObserverExactness
 import BEDC.Derived.CauchyWitnessPullbackUp.TasteGate
 import BEDC.Derived.CausalCommitmentUp
+import BEDC.Derived.CausalCommitmentUp.CarrierObligation
 import BEDC.Derived.CausalCommitmentUp.CausalCommitmentClassifierStability
 import BEDC.Derived.CausalCommitmentUp.ClassifierRow
 import BEDC.Derived.CausalCommitmentUp.ForwardGapNameCertExport
@@ -977,6 +983,7 @@ import BEDC.Derived.CausalCommitmentUp.ForwardGapScopePackage
 import BEDC.Derived.CausalCommitmentUp.GapLocalityAdjunction
 import BEDC.Derived.CausalCommitmentUp.GapLocalityExactness
 import BEDC.Derived.CausalCommitmentUp.KernelRowExhaustion
+import BEDC.Derived.CausalCommitmentUp.LedgerExactness
 import BEDC.Derived.CausalCommitmentUp.LocalityConsumerExactness
 import BEDC.Derived.CausalCommitmentUp.LocalityObligations
 import BEDC.Derived.CausalCommitmentUp.LocalityTransport
@@ -2803,6 +2810,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.RouteReadbackPublicExport
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ScopeBinding
 import BEDC.Derived.MetaCICNormalizationFrontierUp.SealBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.SubjectObstructionPreservation
+import BEDC.Derived.MetaCICNormalizationFrontierUp.SubjectReductionObstructionCompatibility
 import BEDC.Derived.MetaCICNormalizationFrontierUp.SubstitutionStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionAdmission
@@ -3817,6 +3825,7 @@ import BEDC.Derived.StreamNameUp.OverlapExactness
 import BEDC.Derived.StreamNameUp.PointwiseHandoff
 import BEDC.Derived.StreamNameUp.PublicInterface
 import BEDC.Derived.StreamNameUp.RealCompletionFourObjectExitRoute
+import BEDC.Derived.StreamNameUp.RealRegseqObligationSeparation
 import BEDC.Derived.StreamNameUp.RegSeqRatPointwiseHandoff
 import BEDC.Derived.StreamNameUp.RegSeqRatPointwiseHandoffExhaustion
 import BEDC.Derived.StreamNameUp.RegseqratRealDyadicWindowPullback
