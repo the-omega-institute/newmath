@@ -139,6 +139,7 @@ import BEDC.Derived.ApophaticNameUp.RefusalLedgerFiberProduct
 import BEDC.Derived.ApophaticNameUp.RootBridgeTupleNoninternalization
 import BEDC.Derived.ApophaticNameUp.SocketRequestCoherence
 import BEDC.Derived.ApophaticNameUp.SourceRefusalTotality
+import BEDC.Derived.ApophaticNameUp.SourceRefusalTransport
 import BEDC.Derived.ApophaticNameUp.RootRefusalGateTotality
 import BEDC.Derived.ApophaticNameUp.SocketGateLedgerPullback
 import BEDC.Derived.ApophaticNameUp.SocketGateRouteExhaustion
@@ -164,6 +165,7 @@ import BEDC.Derived.ApophaticNameUp.RootSocketExposure
 import BEDC.Derived.ApophaticNameUp.RootDownstreamBoundaryPackage
 import BEDC.Derived.ApophaticNameUp.DownstreamNoninternalizationPackage
 import BEDC.Derived.ApophaticNameUp.DownstreamLedgerNonescape
+import BEDC.Derived.ApophaticNameUp.DownstreamRefusalLedgerExhaustion
 import BEDC.Derived.ApophaticNameUp.DownstreamSocketCitationCompleteness
 import BEDC.Derived.ApophaticNameUp.DownstreamSocketRouteExactness
 import BEDC.Derived.ApophaticNameUp.DownstreamBoundaryExactness
@@ -1818,6 +1820,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ObligationEvidenceSplit
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedNormalBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedRouteTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedCandidateReadbackExhaustion
+import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerBoundaryCompletion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RouteReadbackPublicExport
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionVisibleTransport
 import BEDC.Derived.MetaCICNormalizationFrontierUp.PublicExportSurface
