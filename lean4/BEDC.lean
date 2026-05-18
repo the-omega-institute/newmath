@@ -52,6 +52,7 @@ import BEDC.GroundCompiler
 import BEDC.Meta
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
+import BEDC.Derived.OrderUp
 import BEDC.Derived.AddUp
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
@@ -248,6 +249,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.DownstreamUnblock
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RefusalRowDeterminacy
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RegistryClassifierScope
 import BEDC.Derived.ZCarryUp
+import BEDC.Derived.ZCarryUp.TasteGate
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.ZeckendorfCarryValueUp.TasteGate
 import BEDC.Derived.BayesianUp
@@ -379,6 +381,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealRowScope
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealPublicRouteExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealScheduleExhaustion
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealUpThresholdLock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ScheduleFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealModulusDeterminacy
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealSelectorExhaustion
@@ -1663,6 +1666,7 @@ import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCutUp
 import BEDC.Derived.LocalityCellUp.TasteGate
 import BEDC.Derived.ObserverDistinctionTraceUp.TasteGate
+import BEDC.Derived.ExternalSupplySocketUp.TasteGate
 import BEDC.Derived.ObserverHistIdentityUp
 import BEDC.Derived.ObserverHistIdentityUp.TasteGate
 import BEDC.Derived.ObserverHsameClassifierUp.TasteGate
@@ -2397,6 +2401,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.UniformCauchyThreeWayTerminalCo
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteTransportStability
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteTripleLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.TasteGate
+import BEDC.Derived.DiagonallimitrepresentativeUp
 import BEDC.Derived.PackageExportDisciplineUp.TasteGate
 import BEDC.Derived.RealityConstrainedObjectivityUp.TasteGate
 import BEDC.Derived.OpenFitPacketUp.TasteGate
@@ -3303,6 +3308,7 @@ import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CommRingUp.ZeroDivisor
 import BEDC.Derived.CertificateAuditGateUp.TasteGate
+import BEDC.Derived.GeneratorLocalInductionBoundaryUp.TasteGate
 import BEDC.Derived.CertifiedUseProcessUp.TasteGate
 import BEDC.Derived.ConceptRegistrySurfaceUp.TasteGate
 import BEDC.Derived.CoreRegistryIndexUp.TasteGate
