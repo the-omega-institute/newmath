@@ -644,6 +644,7 @@ import BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyClassifierNormalFormUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.TasteGate
 import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
+import BEDC.Derived.BoundaryGateUp.TasteGate
 import BEDC.Derived.DyadicCofinalTailSelectorUp.TasteGate
 import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicMeshUp
@@ -1584,6 +1585,7 @@ import BEDC.Derived.HaltingDistinctionUp
 import BEDC.Derived.HaltingDistinctionUp.ClassifierStability
 import BEDC.Derived.HaltingDistinctionUp.ContinuationBoundary
 import BEDC.Derived.HaltingDistinctionUp.ConsumerBoundaryPackage
+import BEDC.Derived.HaltingDistinctionUp.DecisionRefusalSurface
 import BEDC.Derived.HaltingDistinctionUp.HaltingDistinctionCarrierObligation
 import BEDC.Derived.HaltingDistinctionUp.InscriptionTraceGate
 import BEDC.Derived.HaltingDistinctionUp.ObstructionConsumerBoundary
@@ -2821,7 +2823,9 @@ import BEDC.Derived.CompactUniformContinuityUp.BridgeNonEscapeBoundary
 import BEDC.Derived.CompactUniformContinuityUp.BridgeSourcePacket
 import BEDC.Derived.CompactUniformContinuityUp.ClassifierTransport
 import BEDC.Derived.CompactUniformContinuityUp.CenterRadiusCompatibility
+import BEDC.Derived.CompactUniformContinuityUp.CompactContinuousNameCertExport
 import BEDC.Derived.CompactUniformContinuityUp.FiniteNetFactorization
+import BEDC.Derived.CompactUniformContinuityUp.FiniteNetModulusExtraction
 import BEDC.Derived.CompactUniformContinuityUp.KernelNetObservationSurface
 import BEDC.Derived.CompactUniformContinuityUp.LedgerExhaustion
 import BEDC.Derived.CompactUniformContinuityUp.MetricDistanceRouting
@@ -2831,9 +2835,12 @@ import BEDC.Derived.CompactUniformContinuityUp.NonEscapeLedger
 import BEDC.Derived.CompactUniformContinuityUp.PrecisionRouteTotality
 import BEDC.Derived.CompactUniformContinuityUp.RealMetricSealNonescape
 import BEDC.Derived.CompactUniformContinuityUp.RealSealBoundary
+import BEDC.Derived.CompactUniformContinuityUp.RootConsumerTriad
 import BEDC.Derived.CompactUniformContinuityUp.RootNonescapePackage
+import BEDC.Derived.CompactUniformContinuityUp.RootProbeBundleCenterSelection
 import BEDC.Derived.CompactUniformContinuityUp.UniformPrecisionConsumerRoute
 import BEDC.Derived.FourFaceExitClassifierUp.TasteGate
+import BEDC.Derived.AxisNatUp.TasteGate
 import BEDC.Derived.MetricTriangleUniformEstimateUp
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.ContourIntegralUp

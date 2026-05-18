@@ -145,6 +145,24 @@ Apply \autoref{thm:regular-cauchy-completion-frontier-nonescape}. Since quotient
 For the converse, project the displayed packet back into the carrier of \autoref{def:regular-cauchy-completion-frontier-carrier}. The same rows supply the source window, cofinal tail, completion handoff, transport, continuation, provenance, and local naming coordinates, and the TasteGate marker \texttt{BEDC.Derived.RegularCauchyCompletionFrontierUp.taste\_gate} records the singleton carrier alignment for the resulting frontier-mediated terminal seal route.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy completion frontier terminal seal correspondence]
+\label{thm:regular-cauchy-completion-frontier-terminal-seal-correspondence}
+An accepted $\RegularCauchyCompletionFrontierUp$ packet determines exactly the public finite-window $\RealUp$ terminal seal boundary obtained by the composed route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusRefinementUp$, the selector row $A$, the cofinal-tail row $T$, the completion handoff row $E$, and the terminal seal row $L$. Its only support rows are $H,C,P,N$, carrying componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RegularCauchyCompletionFrontierUp}$ row.
+
+Conversely, any consumer of that public terminal boundary factors through the displayed rows $D,S,R,M,A,T,E,L$ together with the support rows $H,C,P,N$. No quotient stream, selected host limit, host equality proof, countable-choice selector, ambient completeness principle, metric-completeness principle, or bridge datum belongs to this boundary.
+\end{theorem}
+\begin{proof}
+Start with the accepted frontier packet. By \autoref{thm:regular-cauchy-completion-frontier-source-exhaustion}, every public Real or Completion read through the frontier is exhausted by the displayed rows $D,S,R,L,M,A,T,E,H,C,P,N$.
+
+The route part of that exhaustion is identified by \autoref{thm:regular-cauchy-completion-frontier-scoped-dependency-route}. It places the public finite-window boundary through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusRefinementUp$, the selector row $A$, the cofinal-tail row $T$, the completion handoff row $E$, and the terminal seal row $L$, with $H,C,P,N$ as the transport, continuation, provenance, and local certificate support.
+
+Use \autoref{thm:regular-cauchy-completion-frontier-obligation-closure} to close the carrier, source-window, selector, cofinal-tail, handoff, and non-escape obligations on the same finite packet. Then apply \autoref{thm:regular-cauchy-completion-frontier-real-terminal-cofinal-route} to read the route as the terminal $\RealUp$ seal boundary rather than as a detachable completion object.
+
+For the converse, any consumer of the displayed terminal boundary is already a public Real or Completion read through the accepted frontier. The source-exhaustion theorem forces it through $D,S,R,M,A,T,E,L$, and the scoped dependency route leaves only $H,C,P,N$ as support rows.
+
+The exclusions follow from the non-escape clauses used in those theorems. Quotient streams, selected limits, host equality, countable choice, ambient completeness, metric completeness, and bridge data have no carrier coordinate and no local NameCert row, so they cannot be part of the public terminal seal boundary.
+\end{proof}
+
 \falsifiablePrediction{An accepted frontier consumer that exports a $\RealUp$ limit without a displayed cofinal-tail row and completion-seal handoff row refutes the packet.}
 
 \independenceWitness{real, streamname, regseqrat, dyadicratcore, cauchymodulusrefinement: no sibling is bijective because RegularCauchyCompletionFrontierUp binds Real sealing, finite observation, regular rational readback, dyadic tolerance, modulus refinement, diagonal selection, cofinal-tail agreement, and completion handoff in one certificate. RealUp has endpoint seals without source-window selectors; StreamNameUp has windows without regular rational readback; RegSeqRatUp has regular sources without Real seals; DyadicRatCoreUp has tolerances without completion handoff; CauchyModulusRefinementUp has source-window refinement without the frontier's cofinal-tail and Real-seal package.}
