@@ -629,6 +629,7 @@ import BEDC.Derived.CauchySealFunctorUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionAuditUp.TasteGate
 import BEDC.Derived.LargeModelOutputVerifierUp.TasteGate
 import BEDC.Derived.InterHistSymmetryBudgetUp.TasteGate
+import BEDC.Derived.InterHistSynchronizationRefusalUp.TasteGate
 import BEDC.Derived.MetaCICProofObjectAuditRouteUp.TasteGate
 import BEDC.Derived.EpistemicWitnessUp.TasteGate
 import BEDC.Derived.MetaCICOpenProblemWitnessUp.TasteGate
