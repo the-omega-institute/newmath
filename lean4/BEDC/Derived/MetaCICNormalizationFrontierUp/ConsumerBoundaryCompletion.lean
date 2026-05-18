@@ -186,4 +186,27 @@ theorem MetaCICNormalizationFrontierCarrier_candidate_coverage [AskSetup] [Packa
     ⟨candidateReadUnary, publicReadUnary, candidateClosedRead, candidateReplayPublic,
       provenancePkg, publicPkg, hsame_refl obstruction⟩
 
+theorem MetaCICNormalizationFrontierCarrier_endpoint_readback [AskSetup] [PackageSetup]
+    {candidate closedCandidate finished endpoint obstruction transport replay provenance
+      localRow endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICNormalizationFrontierCarrier candidate closedCandidate finished endpoint
+        obstruction transport replay provenance localRow bundle pkg →
+      Cont finished endpoint endpointRead →
+        PkgSig bundle endpointRead pkg →
+          UnaryHistory endpointRead ∧ Cont finished endpoint endpointRead ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle endpointRead pkg ∧
+              hsame obstruction obstruction := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier finishedEndpointRead endpointPkg
+  obtain ⟨_candidateUnary, _closedCandidateUnary, finishedUnary, endpointUnary,
+    _obstructionUnary, _transportUnary, _replayUnary, _provenanceUnary, _localRowUnary,
+    _candidateClosedLocal, _finishedEndpointReplay, _endpointReplayProvenance,
+    _transportSameCandidateFinished, provenancePkg⟩ := carrier
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed finishedUnary endpointUnary finishedEndpointRead
+  exact
+    ⟨endpointReadUnary, finishedEndpointRead, provenancePkg, endpointPkg,
+      hsame_refl obstruction⟩
+
 end BEDC.Derived.MetaCICNormalizationFrontierUp
