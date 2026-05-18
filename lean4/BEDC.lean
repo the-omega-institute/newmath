@@ -447,6 +447,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootBudgetConsumerExactness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootUnblock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootSelectorBridge
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ScopedDependencyPackage
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ScheduledTailEnvelope
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SharedBudgetMeet
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SourceRowExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SourceToSealTriad
@@ -1199,6 +1200,7 @@ import BEDC.Derived.ContinuationMonadUp.BindReadbackPackage
 import BEDC.Derived.ContinuationMonadUp.FiniteStandardHandoff
 import BEDC.Derived.ContinuationMonadUp.RouteBridgeBoundary
 import BEDC.Derived.ContinuationMonadUp.ScopedRouteDependencies
+import BEDC.Derived.ContinuationMonadUp.ScopeNonescape
 import BEDC.Derived.ContinuationMonadUp.UnitRouteNonescape
 import BEDC.Derived.ContinuationMonadUp.RootUnitBindExhaustion
 import BEDC.Derived.ContinuationMonadUp.CategoryHomRowExposure
@@ -1995,6 +1997,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.TerminalSelectorUniqueness
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalRealRouteCertificate
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalRealCompletionLock
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalSealEnvelope
+import BEDC.Derived.UniformCauchyCriterionUp.RealEnvelopeWitnessExtraction
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalSealClassifierRoute
 import BEDC.Derived.UniformCauchyCriterionUp.TerminalFourFaceWindowExactness
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteFamilyTerminalBudgetExhaustion
