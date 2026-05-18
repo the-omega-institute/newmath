@@ -17,6 +17,47 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 
+theorem AuthorizedGeneratorRecursorLedgerNonescape [AskSetup] [PackageSetup]
+    {signature eliminator motive branches descent output audit transport routes provenance gap name
+      boundaryRead ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont gap name boundaryRead ->
+      Cont boundaryRead routes ledgerRead ->
+        UnaryHistory gap ->
+          UnaryHistory name ->
+            UnaryHistory routes ->
+              PkgSig bundle provenance pkg ->
+                authorizedGeneratorRecursorFromEventFlow
+                    (authorizedGeneratorRecursorToEventFlow
+                      (AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches descent
+                        output audit transport routes provenance gap name)) =
+                  some
+                    (AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches descent
+                      output audit transport routes provenance gap name) ∧
+                  UnaryHistory boundaryRead ∧ UnaryHistory ledgerRead ∧
+                    Cont gap name boundaryRead ∧ Cont boundaryRead routes ledgerRead ∧
+                      PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig Cont UnaryHistory
+  intro gapNameBoundary boundaryRoutesLedger gapUnary nameUnary routesUnary provenancePkg
+  have roundTrip :
+      authorizedGeneratorRecursorFromEventFlow
+          (authorizedGeneratorRecursorToEventFlow
+            (AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches descent output
+              audit transport routes provenance gap name)) =
+        some
+          (AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches descent output audit
+            transport routes provenance gap name) :=
+    AuthorizedGeneratorRecursorTasteGate_single_carrier_alignment.right.left
+      (AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches descent output audit
+        transport routes provenance gap name)
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed gapUnary nameUnary gapNameBoundary
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed boundaryUnary routesUnary boundaryRoutesLedger
+  exact
+    ⟨roundTrip, boundaryUnary, ledgerUnary, gapNameBoundary, boundaryRoutesLedger,
+      provenancePkg⟩
+
 theorem AuthorizedGeneratorRecursorRootUnblockLedgerNonescape [AskSetup] [PackageSetup]
     {signature eliminator motive branches descent output audit transport routes provenance gap name
       ledgerRead : BHist}
