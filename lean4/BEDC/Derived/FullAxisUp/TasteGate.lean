@@ -10,23 +10,28 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive FullAxisUp : Type where
-  | mk : (source pattern classifier stability ledger boundary sealName : BHist) → FullAxisUp
+  | mk :
+      (prefixThread source boundary classifier stability ledger provenance name : BHist) →
+        FullAxisUp
   deriving DecidableEq
 
-def fullAxisEncodeBHist : BHist → RawEvent
+def FullAxisUp_completion_sibling_separation_encodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: fullAxisEncodeBHist h
-  | BHist.e1 h => BMark.b1 :: fullAxisEncodeBHist h
+  | BHist.e0 h => BMark.b0 :: FullAxisUp_completion_sibling_separation_encodeBHist h
+  | BHist.e1 h => BMark.b1 :: FullAxisUp_completion_sibling_separation_encodeBHist h
 
-def fullAxisDecodeBHist : RawEvent → BHist
+def FullAxisUp_completion_sibling_separation_decodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (fullAxisDecodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (fullAxisDecodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (FullAxisUp_completion_sibling_separation_decodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (FullAxisUp_completion_sibling_separation_decodeBHist tail)
 
-private theorem fullAxisDecode_encode_bhist :
-    ∀ h : BHist, fullAxisDecodeBHist (fullAxisEncodeBHist h) = h := by
+private theorem FullAxisUp_completion_sibling_separation_decode_encode_bhist :
+    ∀ h : BHist,
+      FullAxisUp_completion_sibling_separation_decodeBHist
+          (FullAxisUp_completion_sibling_separation_encodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -37,186 +42,213 @@ private theorem fullAxisDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def fullAxisToEventFlow : FullAxisUp → EventFlow
+def FullAxisUp_completion_sibling_separation_toEventFlow : FullAxisUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | FullAxisUp.mk source pattern classifier stability ledger boundary sealName =>
+  | FullAxisUp.mk prefixThread source boundary classifier stability ledger provenance name =>
       [[BMark.b0],
-        fullAxisEncodeBHist source,
+        FullAxisUp_completion_sibling_separation_encodeBHist prefixThread,
         [BMark.b1, BMark.b0],
-        fullAxisEncodeBHist pattern,
+        FullAxisUp_completion_sibling_separation_encodeBHist source,
         [BMark.b1, BMark.b1, BMark.b0],
-        fullAxisEncodeBHist classifier,
+        FullAxisUp_completion_sibling_separation_encodeBHist boundary,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        fullAxisEncodeBHist stability,
+        FullAxisUp_completion_sibling_separation_encodeBHist classifier,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        fullAxisEncodeBHist ledger,
+        FullAxisUp_completion_sibling_separation_encodeBHist stability,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        fullAxisEncodeBHist boundary,
+        FullAxisUp_completion_sibling_separation_encodeBHist ledger,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        fullAxisEncodeBHist sealName]
+        FullAxisUp_completion_sibling_separation_encodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        FullAxisUp_completion_sibling_separation_encodeBHist name]
 
-def fullAxisFromEventFlow : EventFlow → Option FullAxisUp
+def FullAxisUp_completion_sibling_separation_fromEventFlow : EventFlow → Option FullAxisUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | source :: rest1 =>
+      | prefixThread :: rest1 =>
           match rest1 with
           | [] => none
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | pattern :: rest3 =>
+              | source :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | classifier :: rest5 =>
+                      | boundary :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | stability :: rest7 =>
+                              | classifier :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | ledger :: rest9 =>
+                                      | stability :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | boundary :: rest11 =>
+                                              | ledger :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | sealName :: rest13 =>
+                                                      | provenance :: rest13 =>
                                                           match rest13 with
-                                                          | [] =>
-                                                              some
-                                                                (FullAxisUp.mk
-                                                                  (fullAxisDecodeBHist source)
-                                                                  (fullAxisDecodeBHist pattern)
-                                                                  (fullAxisDecodeBHist classifier)
-                                                                  (fullAxisDecodeBHist stability)
-                                                                  (fullAxisDecodeBHist ledger)
-                                                                  (fullAxisDecodeBHist boundary)
-                                                                  (fullAxisDecodeBHist sealName))
-                                                          | _ :: _ => none
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | name :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] =>
+                                                                      some
+                                                                        (FullAxisUp.mk
+                                                                          (FullAxisUp_completion_sibling_separation_decodeBHist
+                                                                            prefixThread)
+                                                                          (FullAxisUp_completion_sibling_separation_decodeBHist
+                                                                            source)
+                                                                          (FullAxisUp_completion_sibling_separation_decodeBHist
+                                                                            boundary)
+                                                                          (FullAxisUp_completion_sibling_separation_decodeBHist
+                                                                            classifier)
+                                                                          (FullAxisUp_completion_sibling_separation_decodeBHist
+                                                                            stability)
+                                                                          (FullAxisUp_completion_sibling_separation_decodeBHist
+                                                                            ledger)
+                                                                          (FullAxisUp_completion_sibling_separation_decodeBHist
+                                                                            provenance)
+                                                                          (FullAxisUp_completion_sibling_separation_decodeBHist
+                                                                            name))
+                                                                  | _ :: _ => none
 
-private theorem fullAxis_round_trip :
-    ∀ x : FullAxisUp, fullAxisFromEventFlow (fullAxisToEventFlow x) = some x := by
+private theorem FullAxisUp_completion_sibling_separation_round_trip :
+    ∀ x : FullAxisUp,
+      FullAxisUp_completion_sibling_separation_fromEventFlow
+          (FullAxisUp_completion_sibling_separation_toEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk source pattern classifier stability ledger boundary sealName =>
+  | mk prefixThread source boundary classifier stability ledger provenance name =>
       change
         some
           (FullAxisUp.mk
-            (fullAxisDecodeBHist (fullAxisEncodeBHist source))
-            (fullAxisDecodeBHist (fullAxisEncodeBHist pattern))
-            (fullAxisDecodeBHist (fullAxisEncodeBHist classifier))
-            (fullAxisDecodeBHist (fullAxisEncodeBHist stability))
-            (fullAxisDecodeBHist (fullAxisEncodeBHist ledger))
-            (fullAxisDecodeBHist (fullAxisEncodeBHist boundary))
-            (fullAxisDecodeBHist (fullAxisEncodeBHist sealName))) =
+            (FullAxisUp_completion_sibling_separation_decodeBHist
+              (FullAxisUp_completion_sibling_separation_encodeBHist prefixThread))
+            (FullAxisUp_completion_sibling_separation_decodeBHist
+              (FullAxisUp_completion_sibling_separation_encodeBHist source))
+            (FullAxisUp_completion_sibling_separation_decodeBHist
+              (FullAxisUp_completion_sibling_separation_encodeBHist boundary))
+            (FullAxisUp_completion_sibling_separation_decodeBHist
+              (FullAxisUp_completion_sibling_separation_encodeBHist classifier))
+            (FullAxisUp_completion_sibling_separation_decodeBHist
+              (FullAxisUp_completion_sibling_separation_encodeBHist stability))
+            (FullAxisUp_completion_sibling_separation_decodeBHist
+              (FullAxisUp_completion_sibling_separation_encodeBHist ledger))
+            (FullAxisUp_completion_sibling_separation_decodeBHist
+              (FullAxisUp_completion_sibling_separation_encodeBHist provenance))
+            (FullAxisUp_completion_sibling_separation_decodeBHist
+              (FullAxisUp_completion_sibling_separation_encodeBHist name))) =
           some
-            (FullAxisUp.mk source pattern classifier stability ledger boundary sealName)
-      rw [fullAxisDecode_encode_bhist source,
-        fullAxisDecode_encode_bhist pattern,
-        fullAxisDecode_encode_bhist classifier,
-        fullAxisDecode_encode_bhist stability,
-        fullAxisDecode_encode_bhist ledger,
-        fullAxisDecode_encode_bhist boundary,
-        fullAxisDecode_encode_bhist sealName]
+            (FullAxisUp.mk prefixThread source boundary classifier stability ledger
+              provenance name)
+      rw [FullAxisUp_completion_sibling_separation_decode_encode_bhist prefixThread,
+        FullAxisUp_completion_sibling_separation_decode_encode_bhist source,
+        FullAxisUp_completion_sibling_separation_decode_encode_bhist boundary,
+        FullAxisUp_completion_sibling_separation_decode_encode_bhist classifier,
+        FullAxisUp_completion_sibling_separation_decode_encode_bhist stability,
+        FullAxisUp_completion_sibling_separation_decode_encode_bhist ledger,
+        FullAxisUp_completion_sibling_separation_decode_encode_bhist provenance,
+        FullAxisUp_completion_sibling_separation_decode_encode_bhist name]
 
-private theorem fullAxisToEventFlow_injective {x y : FullAxisUp} :
-    fullAxisToEventFlow x = fullAxisToEventFlow y → x = y := by
+private theorem FullAxisUp_completion_sibling_separation_toEventFlow_injective
+    {x y : FullAxisUp} :
+    FullAxisUp_completion_sibling_separation_toEventFlow x =
+      FullAxisUp_completion_sibling_separation_toEventFlow y →
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      fullAxisFromEventFlow (fullAxisToEventFlow x) =
-        fullAxisFromEventFlow (fullAxisToEventFlow y) :=
-    congrArg fullAxisFromEventFlow heq
+      FullAxisUp_completion_sibling_separation_fromEventFlow
+          (FullAxisUp_completion_sibling_separation_toEventFlow x) =
+        FullAxisUp_completion_sibling_separation_fromEventFlow
+          (FullAxisUp_completion_sibling_separation_toEventFlow y) :=
+    congrArg FullAxisUp_completion_sibling_separation_fromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (fullAxis_round_trip x).symm
-      (Eq.trans hread (fullAxis_round_trip y)))
+    (Eq.trans (FullAxisUp_completion_sibling_separation_round_trip x).symm
+      (Eq.trans hread (FullAxisUp_completion_sibling_separation_round_trip y)))
 
-instance fullAxisBHistCarrier : BHistCarrier FullAxisUp where
+instance fullAxisUpBHistCarrier : BHistCarrier FullAxisUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := fullAxisToEventFlow
-  fromEventFlow := fullAxisFromEventFlow
+  toEventFlow := FullAxisUp_completion_sibling_separation_toEventFlow
+  fromEventFlow := FullAxisUp_completion_sibling_separation_fromEventFlow
 
-instance fullAxisChapterTasteGate : ChapterTasteGate FullAxisUp where
+instance fullAxisUpChapterTasteGate : ChapterTasteGate FullAxisUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change fullAxisFromEventFlow (fullAxisToEventFlow x) = some x
-    exact fullAxis_round_trip x
+    change
+      FullAxisUp_completion_sibling_separation_fromEventFlow
+          (FullAxisUp_completion_sibling_separation_toEventFlow x) =
+        some x
+    exact FullAxisUp_completion_sibling_separation_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (fullAxisToEventFlow_injective heq)
+    exact hxy (FullAxisUp_completion_sibling_separation_toEventFlow_injective heq)
 
-instance fullAxisFieldFaithful : FieldFaithful FullAxisUp where
-  -- BEDC touchpoint anchor: BHist BMark
+instance fullAxisUpFieldFaithful : FieldFaithful FullAxisUp where
   fields := fun x =>
     match x with
-    | FullAxisUp.mk source pattern classifier stability ledger boundary sealName =>
-        [source, pattern, classifier, stability, ledger, boundary, sealName]
+    | FullAxisUp.mk prefixThread source boundary classifier stability ledger provenance name =>
+        [prefixThread, source, boundary, classifier, stability, ledger, provenance, name]
   field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
     intro x y h
     cases x with
-    | mk source1 pattern1 classifier1 stability1 ledger1 boundary1 sealName1 =>
+    | mk prefixThread₁ source₁ boundary₁ classifier₁ stability₁ ledger₁ provenance₁ name₁ =>
         cases y with
-        | mk source2 pattern2 classifier2 stability2 ledger2 boundary2 sealName2 =>
-            injection h with hsource tail1
-            injection tail1 with hpattern tail2
-            injection tail2 with hclassifier tail3
-            injection tail3 with hstability tail4
-            injection tail4 with hledger tail5
-            injection tail5 with hboundary tail6
-            injection tail6 with hsealName _
-            subst hsource
-            subst hpattern
-            subst hclassifier
-            subst hstability
-            subst hledger
-            subst hboundary
-            subst hsealName
+        | mk prefixThread₂ source₂ boundary₂ classifier₂ stability₂ ledger₂ provenance₂
+            name₂ =>
+            injection h with hPrefix t1
+            injection t1 with hSource t2
+            injection t2 with hBoundary t3
+            injection t3 with hClassifier t4
+            injection t4 with hStability t5
+            injection t5 with hLedger t6
+            injection t6 with hProvenance t7
+            injection t7 with hName _
+            subst hPrefix
+            subst hSource
+            subst hBoundary
+            subst hClassifier
+            subst hStability
+            subst hLedger
+            subst hProvenance
+            subst hName
             rfl
 
-instance fullAxisNontrivial : Nontrivial FullAxisUp where
+theorem FullAxisUp_completion_sibling_separation (x : FullAxisUp) :
+    (exists e : EventFlow, BHistCarrier.fromEventFlow e = some x) /\
+      forall (w : RawEvent) (m : DisplayAlphabet),
+        List.Mem w (BHistCarrier.toEventFlow x) ->
+          List.Mem m w -> m = BMark.b0 \/ m = BMark.b1 := by
   -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨FullAxisUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      FullAxisUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      by
-        intro h
-        injection h with hsource _ _ _ _ _ _
-        cases hsource⟩
-
-theorem FullAxisTasteGate_single_carrier_alignment :
-    (∀ h : BHist, fullAxisDecodeBHist (fullAxisEncodeBHist h) = h) ∧
-      (∀ x : FullAxisUp, fullAxisFromEventFlow (fullAxisToEventFlow x) = some x) ∧
-        (∀ x y : FullAxisUp, fullAxisToEventFlow x = fullAxisToEventFlow y → x = y) ∧
-          fullAxisEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact fullAxisDecode_encode_bhist
-  · constructor
-    · exact fullAxis_round_trip
-    · constructor
-      · intro x y heq
-        exact fullAxisToEventFlow_injective heq
-      · rfl
+  exact
+    And.intro
+      (ChapterTasteGate.no_hidden_input x)
+      (ChapterTasteGate.conservativity x)
 
 end BEDC.Derived.FullAxisUp

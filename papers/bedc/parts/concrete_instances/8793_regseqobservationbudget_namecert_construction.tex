@@ -138,6 +138,21 @@ Then apply the Real seal handoff. Theorem~\ref{thm:regseq-observation-budget-rea
 Finally use \autoref{thm:regseq-observation-budget-scoped-closure}. The scoped closure binds the carrier, NameCert obligations, non-escape theorem, window admission, tail monotonicity, and Real seal handoff to the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyDiagonalBudgetUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The accepted carrier has no coordinate for quotient stream equality, host real equality, hidden selectors, unbounded schedules, detached seal reads, or ambient completeness, so the displayed route is the whole public export surface.
 \end{proof}
 
+\begin{theorem}[Regular observer-budget bridge precondition]\label{thm:regseq-observation-budget-bridge-precondition}
+Any standard bridge eligible to consume the public $\NameCert_{\RegSeqObservationBudgetUp}$ export must preserve the displayed finite route
+$$
+W,R,\epsilon,D,E,H,C,P,N
+$$
+through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyDiagonalBudgetUp$, and $\RealUp$. Bridge-side data may be exposed only after the window $W$, readback $R$, tolerance $\epsilon$, diagonal selector $D$, and RealUp budget row $E$ have appeared in that order, followed by the displayed transport, continuation, provenance, and local naming rows $H,C,P,N$. No quotient stream equality, host real equality, hidden selector, unbounded schedule, detached seal read, or ambient completeness premise can serve as an alternate bridge entry.
+\end{theorem}
+\begin{proof}
+Start with the public export of \autoref{thm:regseq-observation-budget-public-consumer-export}. It already identifies the consumer-visible boundary with the single finite route $W,R,\epsilon,D,E,H,C,P,N$ and excludes quotient stream equality, host real equality, hidden selectors, unbounded schedules, detached seal reads, and ambient completeness coordinates from that boundary.
+
+Next use \autoref{thm:regseq-observation-budget-scoped-closure}. The carrier, NameCert obligations, non-escape theorem, window admission, tail monotonicity, Real seal handoff, and TasteGate witnesses are all scoped over the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyDiagonalBudgetUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Thus a standard bridge consuming the public export cannot widen the object language beyond those rows.
+
+Finally apply \autoref{thm:regseq-observation-budget-window-admission}, \autoref{thm:regseq-observation-budget-tail-monotonicity}, and \autoref{thm:regseq-observation-budget-real-seal-handoff}. Window admission orders $W$ before later rows, tail monotonicity keeps transport and replay on the same displayed budget, and Real seal handoff reaches $E$ only after $W$, $R$, $\epsilon$, and $D$. Therefore the only admissible bridge entry is the displayed route in the stated order.
+\end{proof}
+
 \closureat{RegSeqObservationBudgetUp}{obligationStr}
 \closureat{RegSeqObservationBudgetUp}{scopedStr}[BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment]
 \closureat{RegSeqObservationBudgetUp}{publicStr}[BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment]
@@ -145,11 +160,11 @@ Finally use \autoref{thm:regseq-observation-budget-scoped-closure}. The scoped c
 \begin{closurestatus}{\RegSeqObservationBudgetUp}
   \constructivestory{A $\RegSeqObservationBudgetUp$ packet is generated from a StreamName finite-window row, RegSeqRat readback row, RealUp observation-budget row, CauchyDiagonalBudget selector row, DyadicRatCore tolerance row, componentwise transports, displayed continuations, package provenance, and local NameCert row.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:regular-observer-budget-carrier}, \autoref{thm:regular-observer-budget-namecert-obligations}, \autoref{thm:regular-observer-budget-filter-schedule-nonescape}, \autoref{thm:regseq-observation-budget-window-admission}, \autoref{thm:regseq-observation-budget-tail-monotonicity}, \autoref{thm:regseq-observation-budget-real-seal-handoff}, \autoref{thm:regseq-observation-budget-public-consumer-export}, \leanchecked{BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment}, and \leanchecked{BEDC.Derived.RegSeqObservationBudgetUp.taste\_gate} bind the finite RegSeq observation-budget route over StreamNameUp, RegSeqRatUp, RealUp, CauchyDiagonalBudgetUp, DyadicRatCoreUp, hsame, Cont, Pkg, and NameCert rows and expose the public consumer export surface.}
+  \scopeclosed{\autoref{def:regular-observer-budget-carrier}, \autoref{thm:regular-observer-budget-namecert-obligations}, \autoref{thm:regular-observer-budget-filter-schedule-nonescape}, \autoref{thm:regseq-observation-budget-window-admission}, \autoref{thm:regseq-observation-budget-tail-monotonicity}, \autoref{thm:regseq-observation-budget-real-seal-handoff}, \autoref{thm:regseq-observation-budget-public-consumer-export}, \autoref{thm:regseq-observation-budget-bridge-precondition}, \leanchecked{BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment}, and \leanchecked{BEDC.Derived.RegSeqObservationBudgetUp.taste\_gate} bind the finite RegSeq observation-budget route over StreamNameUp, RegSeqRatUp, RealUp, CauchyDiagonalBudgetUp, DyadicRatCoreUp, hsame, Cont, Pkg, and NameCert rows and expose the public consumer export surface with its bridge-entry precondition.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, selected external limits, hidden selectors, ambient completeness, or bridge checking.}
-  \upgradepath{The next paper obligation is a standard bridge or bridge precondition for the same finite observation-budget packet.}
+  \upgradepath{The next obligation is a checked standard bridge for the same finite observation-budget packet.}
 \end{closurestatus}

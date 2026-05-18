@@ -261,4 +261,43 @@ theorem PropextTransportBoundaryThreeAxiomsSiblingLink [AskSetup] [PackageSetup]
     ⟨cert, transportUnary, continuationUnary, siblingUnary, transportContinuation,
       localNamePkg, siblingPkg⟩
 
+theorem PropextTransportBoundaryDirectionLedgerCoverage [AskSetup] [PackageSetup]
+    {bidirectional direction replacement transport continuation provenance localName
+      forwardRead reverseRead ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PropextTransportBoundaryCarrier bidirectional direction replacement transport continuation
+        provenance localName bundle pkg ->
+      Cont bidirectional direction forwardRead ->
+        Cont replacement transport reverseRead ->
+          Cont transport continuation ledgerRead ->
+            PkgSig bundle forwardRead pkg ->
+              PkgSig bundle reverseRead pkg ->
+                PkgSig bundle ledgerRead pkg ->
+                  UnaryHistory direction ∧ UnaryHistory forwardRead ∧
+                    UnaryHistory reverseRead ∧ UnaryHistory ledgerRead ∧
+                      Cont bidirectional direction forwardRead ∧
+                        Cont replacement transport reverseRead ∧
+                          Cont transport continuation ledgerRead ∧
+                            PkgSig bundle localName pkg ∧
+                              PkgSig bundle forwardRead pkg ∧
+                                PkgSig bundle reverseRead pkg ∧
+                                  PkgSig bundle ledgerRead pkg ∧
+                                    hsame bidirectional bidirectional := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro carrier forwardCont reverseCont ledgerCont forwardPkg reversePkg ledgerPkg
+  rcases carrier with
+    ⟨bidirectionalUnary, directionUnary, replacementUnary, transportUnary,
+      continuationUnary, _provenanceUnary, _localNameUnary, _carrierDirection,
+      _carrierReplacement, localNamePkg⟩
+  have forwardUnary : UnaryHistory forwardRead :=
+    unary_cont_closed bidirectionalUnary directionUnary forwardCont
+  have reverseUnary : UnaryHistory reverseRead :=
+    unary_cont_closed replacementUnary transportUnary reverseCont
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed transportUnary continuationUnary ledgerCont
+  exact
+    ⟨directionUnary, forwardUnary, reverseUnary, ledgerUnary, forwardCont,
+      reverseCont, ledgerCont, localNamePkg, forwardPkg, reversePkg, ledgerPkg,
+      hsame_refl bidirectional⟩
+
 end BEDC.Derived.PropextTransportBoundaryUp

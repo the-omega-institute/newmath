@@ -64,6 +64,7 @@ import BEDC.Derived.ActionCommitmentUp.TasteGate
 import BEDC.Derived.AnchorStabilityCertificateUp.TasteGate
 import BEDC.Derived.AnchorChangeInvariantUp.TasteGate
 import BEDC.Derived.ApophaticGateQuestionUp
+import BEDC.Derived.ApophaticGateQuestionUp.AuditgateCompositionBoundaryLock
 import BEDC.Derived.ApophaticGateQuestionUp.AxiomPurityConsumerBoundary
 import BEDC.Derived.ApophaticGateQuestionUp.AuditReadbackCut
 import BEDC.Derived.ApophaticGateQuestionUp.AuditRouteExactness
@@ -88,6 +89,7 @@ import BEDC.Derived.ApophaticGateQuestionUp.RefusalRowTransport
 import BEDC.Derived.ApophaticGateQuestionUp.RootClassifierSocketTriad
 import BEDC.Derived.ApophaticGateQuestionUp.RootConsumerLedgerReadiness
 import BEDC.Derived.ApophaticGateQuestionUp.RootLedgerFactorization
+import BEDC.Derived.ApophaticGateQuestionUp.RootNamingReadiness
 import BEDC.Derived.ApophaticGateQuestionUp.RootUnblockPackage
 import BEDC.Derived.ApophaticGateQuestionUp.RootRefusalAuditLedger
 import BEDC.Derived.ApophaticGateQuestionUp.RootRefusalRouteExactness
@@ -909,6 +911,7 @@ import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
 import BEDC.Derived.InscriptionCommitmentSealUp.TasteGate
 import BEDC.Derived.FullAxisUp.TasteGate
 import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
+import BEDC.Derived.FullAxisUp.TasteGate
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.GeneratorFixedPointUp
 import BEDC.Derived.GeneratorFixedPointUp.TasteGate
@@ -1150,6 +1153,8 @@ import BEDC.Derived.ContinuationMonadUp.RootCategoryGeneratorObligationSurface
 import BEDC.Derived.ContinuationMonadUp.RootFormalTargetExactness
 import BEDC.Derived.ContinuationMonadUp.BindRouteTotality
 import BEDC.Derived.ContinuationMonadUp.BindRouteCoverage
+import BEDC.Derived.ContinuationMonadUp.FiniteStandardHandoff
+import BEDC.Derived.ContinuationMonadUp.RouteBridgeBoundary
 import BEDC.Derived.ContinuationMonadUp.ScopedRouteDependencies
 import BEDC.Derived.ContinuationMonadUp.UnitRouteNonescape
 import BEDC.Derived.ContinuationMonadUp.RootUnitBindExhaustion
@@ -2851,6 +2856,7 @@ import BEDC.Derived.CompactUniformContinuityUp.RealMetricSealNonescape
 import BEDC.Derived.CompactUniformContinuityUp.RealSealBoundary
 import BEDC.Derived.CompactUniformContinuityUp.RootConsumerTriad
 import BEDC.Derived.CompactUniformContinuityUp.RootNonescapePackage
+import BEDC.Derived.CompactUniformContinuityUp.RootPointwiseModulusRow
 import BEDC.Derived.CompactUniformContinuityUp.RootProbeBundleCenterSelection
 import BEDC.Derived.CompactUniformContinuityUp.StandardBridgeObligationPackage
 import BEDC.Derived.CompactUniformContinuityUp.UniformPrecisionConsumerRoute
@@ -3348,8 +3354,10 @@ import BEDC.Derived.CompactCoverLebesgueLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverShrinkageLedgerUp.TasteGate
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalCommitmentUp
+import BEDC.Derived.ContinuationBisimulationUp.TasteGate
 import BEDC.Derived.StreamLimitReflectionUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
+import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.EventualTailAgreementUp.TasteGate
 import BEDC.Derived.PhysicalRecordInvariantUp.TasteGate
