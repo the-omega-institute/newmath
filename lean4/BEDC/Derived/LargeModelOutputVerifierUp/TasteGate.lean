@@ -284,7 +284,11 @@ theorem LargeModelOutputVerifierTasteGate_single_carrier_alignment :
                 largeModelOutputVerifierToEventFlow y →
               x = y) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact largeModelOutputVerifier_single_carrier_alignment_concrete
+  exact
+    ⟨rfl,
+      largeModelOutputVerifierDecode_encode_bhist,
+      largeModelOutputVerifier_round_trip,
+      fun _ _ heq => largeModelOutputVerifierToEventFlow_injective heq⟩
 
 end TasteGate
 
