@@ -367,4 +367,25 @@ theorem ZnormalRootCarrierObligationCompletion [AskSetup] [PackageSetup]
       typedFuelTerminal, terminalNormalContinuation, continuationTransportsRoutes,
       typedTerminalRootRead, namePkg, provenancePkg, rootReadPkg⟩
 
+theorem ZnormalPacket_root_terminal_normality_determinacy [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg ->
+      Cont typed fuel terminalRead ->
+        hsame terminalRead terminal ∧ UnaryHistory terminalRead ∧
+          Cont terminal normal continuation ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet typedFuelTerminalRead
+  obtain ⟨typedUnary, fuelUnary, _terminalUnary, _normalUnary, _continuationUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, typedFuelTerminal,
+    terminalNormalContinuation, _continuationTransportsRoutes, _namePkg, provenancePkg⟩ :=
+    packet
+  have terminalReadSame : hsame terminalRead terminal :=
+    cont_deterministic typedFuelTerminalRead typedFuelTerminal
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed typedUnary fuelUnary typedFuelTerminalRead
+  exact
+    ⟨terminalReadSame, terminalReadUnary, terminalNormalContinuation, provenancePkg⟩
+
 end BEDC.Derived.ZnormalUp
