@@ -523,3 +523,54 @@ has the same four faces and the same displayed provenance rows, finite route
 exhaustion leaves no coordinate for a second public seal or for any of the
 off-route data listed above.
 \end{proof}
+
+\begin{theorem}[RegSeqRat four-face finite-observation completeness]
+\label{thm:regseqrat-four-face-finite-observation-completeness}
+For an accepted $\RegSeqRatUp$ Phase Real and Completion exit read, admission to
+the public L10 exit surface is equivalent to finite observation data exposing
+exactly the four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ rows.
+
+On the forward reading, the accepted exit read presents the finite
+$\StreamNameUp$ observation interface, the $\DyadicRatCoreUp$ ledger, the
+$\RegSeqRatUp$ classifier and regularity rows, and the public $\RealUp$ seal.
+On the reverse reading, any finite observation packet with exactly those four
+faces and displayed rows is admitted as the same RegSeqRat-to-Real public exit
+read.
+
+The complete four-face surface exports no quotient stream, selected limit, host
+equality, countable-choice row, ambient completeness row, metric-completeness
+row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:streamname-open-phase-real-regseqrat-exit-correspondence}. It
+identifies an accepted terminal public Real seal section with the open Phase
+Real and Completion boundary whose visible support is precisely the four faces
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, together
+with the displayed history, sameness, continuity, package, and certificate rows.
+
+Next use \autoref{thm:streamname-regseqrat-real-observation-interface}. This
+pins the first face to the finite $\StreamNameUp$ window data consumed by the
+RegSeqRat-to-Real route, so the accepted read is described by finite
+observation data rather than by a quotient stream or a host-level equality.
+
+For the reverse direction, start again from the correspondence theorem and read
+the same finite packet back as a Phase Real and Completion exit boundary. Then
+apply
+\autoref{thm:regseqrat-streamname-dyadic-real-audit-clean-exit-readiness} to
+place the packet on the audit-clean L10 route through the DyadicRatCore ledger,
+the RegSeqRat classifier and regularity rows, and the public Real seal row.
+
+Finally apply
+\autoref{thm:regseqrat-dyadic-streamname-real-public-seal-nonescape}. Since the
+public seal is exhausted by the four displayed faces and provenance rows, no
+coordinate remains for a quotient stream, selected limit, host equality,
+countable-choice row, ambient completeness row, metric-completeness row, or
+standard bridge row. Thus the admitted exit reads are exactly the finite
+four-face observation packets described in the statement.
+\end{proof}
