@@ -9,3 +9,15 @@ Next use the dyadic mantissa route. It sends the same signed coordinate through 
 
 Thus the $\DyadicRatCoreUp$ chapter consumes a sibling input from $\IntUp$ rather than a detached host integer or field equality. The available route is exactly the signed-pair row, the denominator normalization row, and the dyadic mantissa support.
 \end{proof}
+
+\begin{theorem}[IntUp L10 DyadicRatCore denominator handoff]
+\label{thm:int-dyadicratcore-l10-denominator-handoff}
+Every L10 Real-and-Completion read of a $\DyadicRatCoreUp$ mantissa/denominator packet factors through the displayed $\IntUp$ signed-pair row, the $\RatUp$ denominator normalization surface, and the dyadic mantissa route before $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ may consume the packet. The handoff is finite-row data only: it exposes the signed-pair row, denominator normalization row, and mantissa route named by \autoref{thm:int-dyadicratcore-denominator-route-sibling-repair}, not host integers, quotient rationals, selected limits, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the sibling route of \autoref{thm:int-dyadicratcore-denominator-route-sibling-repair}. Its source is the displayed $\IntUp$ signed-pair row, and its first consumer is the $\RatUp$ denominator normalization surface of \autoref{ch:concrete-instances-rat-namecert}.
+
+Pass next through the dyadic face of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The mantissa coordinate is still read as finite signed-pair data, and the denominator coordinate is still the normalized rational denominator row. This is the only input the L10 Real-and-Completion route supplies to the $\DyadicRatCoreUp$ packet.
+
+Only after that packet is visible may the downstream consumers read it: $\StreamNameUp$ through \autoref{ch:concrete-instances-streamname-namecert}, $\RegSeqRatUp$ through \autoref{ch:concrete-instances-regseqrat-namecert}, and $\RealUp$ through \autoref{ch:concrete-instances-real-namecert}. None of these reads adds a host integer, quotient rational, selected limit, or completeness witness; they consume the same finite handoff row.
+\end{proof}
