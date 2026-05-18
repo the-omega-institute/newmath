@@ -1,9 +1,11 @@
+import BEDC.Derived.ExternalSupplyAuditRouteUp.TasteGate
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
 
+open BEDC.Derived.ExternalSupplyAuditRouteUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -219,5 +221,19 @@ theorem ApophaticFarEndSocketTasteGate_single_carrier_alignment :
         · constructor
           · exact ⟨apophaticFarEndSocketNontrivial⟩
           · rfl
+
+theorem ApophaticFarEndSocketNameCertObligations
+    {socket name farEnd gap inscription observer ledger transport route provenance
+      localName : BHist} :
+    apophaticFarEndSocketFields
+        (ApophaticFarEndSocketUp.mk socket name farEnd gap inscription observer ledger
+          transport route provenance localName) =
+      [socket, name, farEnd, gap, inscription, observer, ledger, transport, route,
+        provenance, localName] ∧
+      apophaticFarEndSocketDecodeBHist
+        (apophaticFarEndSocketEncodeBHist localName) = localName ∧
+      externalSupplyAuditRouteEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact ⟨rfl, apophaticFarEndSocketDecodeEncodeBHist localName, rfl⟩
 
 end BEDC.Derived.ApophaticFarEndSocketUp.TasteGate

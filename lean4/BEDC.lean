@@ -1582,6 +1582,7 @@ import BEDC.Derived.HaltingDistinctionUp
 import BEDC.Derived.HaltingDistinctionUp.ClassifierStability
 import BEDC.Derived.HaltingDistinctionUp.ContinuationBoundary
 import BEDC.Derived.HaltingDistinctionUp.ConsumerBoundaryPackage
+import BEDC.Derived.HaltingDistinctionUp.DecisionRefusalSurface
 import BEDC.Derived.HaltingDistinctionUp.HaltingDistinctionCarrierObligation
 import BEDC.Derived.HaltingDistinctionUp.InscriptionTraceGate
 import BEDC.Derived.HaltingDistinctionUp.ObstructionConsumerBoundary
