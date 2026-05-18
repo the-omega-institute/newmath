@@ -1,0 +1,115 @@
+\section{Carrier definition}
+
+\begin{definition}[MetricSpace BHist distance carrier]
+\label{def:metric-bhist-distance-carrier}
+\label{def:metric-carrier}
+A $\MetricSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+(x,y,d;\ w,c,\pi,\rho,\nu)
+$$
+where $x$ and $y$ are endpoint histories, $w$ is a displayed
+$\mathsf{MetricDistanceWitness}(x,y,d)$, $c$ is the componentwise $\hsame$
+transport surface for endpoints and result histories, $\pi$ is the visible
+$\Cont$ provenance of the distance row, $\rho$ is the $\Pkg$ provenance
+connecting the packet to the concrete source, and $\nu$ is the local
+$\NameCert$ ledger for the carrier rows. The value read as a real distance is
+not an independent host function $C\times C\to\RealUp$; it is the public
+$\RealUp$ distance component exposed through the existing real-distance
+interface of \autoref{def:metricspace-real-distance-carrier}.
+
+The carrier exposes only the displayed finite rows. It contains no ambient
+host metric, quotient distance, completion operator, or $\RealUp$ completeness
+principle.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[MetricSpace source specification]
+\label{def:metric-source-specification}
+The source is the finite endpoint packet $(x,y)$ together with its displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support.
+\end{definition}
+
+\begin{definition}[MetricSpace pattern specification]
+\label{def:metric-pattern-specification}
+The pattern is metric judgment formation from endpoint histories to displayed
+$\mathsf{MetricDistanceWitness}(x,y,d)$ rows, with the public $\RealUp$
+distance read only through the real-distance interface.
+\end{definition}
+
+\begin{definition}[MetricSpace classifier specification]
+\label{def:metric-classifier-specification}
+The classifier is componentwise $\hsame$ transport on the two endpoint
+histories and the result history. Distance-witness rows are stable under this
+transport because the transported packet carries the same $\Cont$, $\Pkg$, and
+$\NameCert$ provenance.
+\end{definition}
+
+\begin{definition}[MetricSpace stability certificate]
+\label{def:metric-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item carrier admission for finite endpoint histories and a displayed
+  $\mathsf{MetricDistanceWitness}$ row;
+  \item componentwise classifier transport for endpoints, result histories,
+  and the visible distance witness;
+  \item symmetry and triangle visibility through the checked
+  $\mathsf{MetricDistanceWitness}$ rows;
+  \item positive-distance handoff through the scoped $\RealAlgOrderUp$
+  interface;
+  \item ledger exactness excluding host metrics, quotient distances,
+  completion data, and $\RealUp$ completeness.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[MetricSpace BHist distance NameCert obligations]
+\label{thm:metric-bhist-distance-namecert-obligations}
+For every $\MetricSpaceUp$ packet of
+\autoref{def:metric-bhist-distance-carrier}, the local $\NameCert$ ledger is
+accepted exactly when it supplies the following five rows:
+\begin{enumerate}
+  \item carrier admission for the finite $\BHist$ endpoint packet
+  $(x,y,d;\ w,c,\pi,\rho,\nu)$;
+  \item distance-witness classifier transport along componentwise $\hsame$;
+  \item symmetry and triangle visibility by the existing
+  $\mathsf{MetricDistanceWitness}$ symmetry, visible-context, and triangle
+  boundary rows;
+  \item positive-distance handoff through the scoped $\RealAlgOrderUp$
+  public interface;
+  \item ledger exactness stating that the accepted packet has no host metric,
+  quotient distance, completion coordinate, or $\RealUp$ completeness row.
+\end{enumerate}
+Conversely, these five rows repack as the $\MetricSpaceUp$ carrier certificate
+and expose the real-distance value only through the public interface of
+\autoref{def:metricspace-real-distance-carrier}.
+\end{theorem}
+\begin{proof}
+For carrier admission, read the source as the finite endpoint packet of
+\autoref{def:metric-bhist-distance-carrier}. Its displayed
+$\mathsf{MetricDistanceWitness}$ row and the local $\NameCert$ ledger provide
+the concrete carrier row, while $\Pkg$ records the source provenance.
+
+For classifier transport, use the componentwise $\hsame$ rows on the two
+endpoints and the result history. The visible-context transport theorems for
+$\mathsf{MetricDistanceWitness}$ keep the same $\Cont$ and provenance rows, so
+the transported distance witness remains in the packet.
+
+For symmetry and triangle visibility, apply
+\autoref{thm:metric-distance-witness-symmetric-classifier},
+\autoref{thm:metric-distance-witness-visible-context-iff}, and
+\autoref{thm:metricspace-visible-context-triangle-boundary}. These rows expose
+only finite histories and visible continuation ledgers.
+
+For the positive-distance side, use
+\autoref{thm:metric-realalgorder-apartness-distance-scope} and the public
+real-distance carrier interface. The handoff reads the same endpoint
+histories, transport rows, $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert$ rows.
+
+The exactness row is then a direct inventory comparison. Every accepted field
+has already been listed among $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+$\NameCert$, $\mathsf{MetricDistanceWitness}$, and the public
+$\RealUp$-distance interface, so there is no coordinate through which a host
+metric, quotient distance, completion object, or $\RealUp$ completeness
+principle can enter.
+\end{proof}
