@@ -1361,6 +1361,7 @@ import BEDC.Derived.ClosedNormalEndpointTransportUp.TasteGate
 import BEDC.Derived.ClosedNormalRouteCertificateUp.TasteGate
 import BEDC.Derived.NormalFormConsistencySealUp
 import BEDC.Derived.RecursorGeneratorUp
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchBudgetExhaustion
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.NameCert
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionUp.TasteGate
@@ -3104,6 +3105,7 @@ import BEDC.Derived.CompactUniformContinuityUp.ConstantIntervalConsumerRoutes
 import BEDC.Derived.CompactUniformContinuityUp.Downstream
 import BEDC.Derived.CompactUniformContinuityUp.EquicontinuousFamilyConsumer
 import BEDC.Derived.CompactUniformContinuityUp.FiniteNetFactorization
+import BEDC.Derived.CompactUniformContinuityUp.FiniteNetCompositionRoute
 import BEDC.Derived.CompactUniformContinuityUp.FiniteNetModulusExtraction
 import BEDC.Derived.CompactUniformContinuityUp.FourSourceHandoffCorrespondence
 import BEDC.Derived.CompactUniformContinuityUp.KernelNetObservationSurface
