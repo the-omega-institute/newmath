@@ -1,0 +1,62 @@
+\begin{theorem}[HaltingDistinction root inscription trace totality]
+\label{thm:halting-distinction-root-inscription-trace-totality}
+Every root obligation read of an accepted $\HaltingDistinctionUp$ packet exposes the inscription-event route only through the finite rows
+$$
+Q,T,Z,H,C,P,N.
+$$
+The inscription event reads the diagonal row $Z$ with the sibling trace row $T$, componentwise transports $H$, displayed route $C$, package provenance $P$, and local ledger $N$; it does not expose a total halting predicate, global truth predicate, host evaluator, divergence oracle, or hidden decision procedure.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:halting-distinction-carrier}. The available rows are exactly $Q,T,Z,H,C,P,N$, with $Z$ serving as the diagonal inscription row and $T$ serving as the finite trace row.
+
+Apply the inscription-event handoff and the inscription trace gate. They route the inscription read through $Z$ and the surrounding support rows while keeping the trace-normal-form sibling attached to $T$.
+
+Finally use the consumer boundary package. Since the package is exhausted by the finite $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ rows, no total halting predicate, global truth predicate, host evaluator, divergence oracle, or hidden decision procedure can be read from the inscription route.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction root diagonal inscription nonescape]
+\label{thm:halting-distinction-root-diagonal-inscription-nonescape}
+For an accepted $\HaltingDistinctionUp$ packet, the diagonal row $Z$ cannot escape the root obligation surface as a halting decision. Any diagonal-inscription consumer reaches $Z$ only along the displayed $Q,T,H,C,P,N$ support, and the trace-normal-form sibling reads the same finite $\Cont$ route rather than a host evaluation row.
+\end{theorem}
+\begin{proof}
+Start with the diagonal boundary theorem and root ledger non-escape. They keep $Z$ inside the local packet and forbid reinterpreting the diagonal row as evaluator data.
+
+Use trace readability and the trace-normal-form handoff for the sibling route. The normal-form consumer reads $T$ through the displayed continuation row $C$, with transports supplied by $H$ and provenance by $P,N$.
+
+The inscription-event handoff then binds the diagonal read to the same finite packet. Thus neither the diagonal row nor its trace-normal-form sibling yields a total halting predicate, global truth predicate, host evaluator, divergence oracle, or hidden decision procedure.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction root consumer obstruction exhaustion]
+\label{thm:halting-distinction-root-consumer-obstruction-exhaustion}
+Every obstruction-facing root consumer of an accepted $\HaltingDistinctionUp$ packet factors through the displayed carrier rows
+$$
+Q,T,Z,H,C,P,N
+$$
+and the obstruction handoff route. The consumer may inspect the certificate-history pair, finite trace, diagonal inscription row, componentwise transports, displayed continuation route, provenance, and local $\NameCert$ ledger, but it cannot add a total halting predicate, global truth predicate, host evaluator, divergence oracle, or hidden decision procedure.
+\end{theorem}
+\leanchecked{BEDC.Derived.HaltingDistinctionUp.HaltingDistinctionCarrier\_root\_consumer\_obstruction\_exhaustion}
+\begin{proof}
+Project the carrier rows and apply the route obstruction triad. This sends obstruction-facing consumption through the displayed packet and the $\HaltingObstructionUp$ sibling before any obstruction ledger is read.
+
+Next apply the root inscription trace totality and root diagonal inscription nonescape theorems above. They bind the inscription and trace-normal-form sides to the same $Q,T,Z,H,C,P,N$ surface.
+
+Finally use the consumer boundary package with consumer non-escape. Coordinate exhaustion leaves only the finite obstruction handoff rows, so the downstream consumer receives no total halting predicate, global truth predicate, host evaluator, divergence oracle, or hidden decision procedure.
+\end{proof}
+
+\closureat{HaltingDistinctionUp}{seedStr}
+\closureat{HaltingDistinctionUp}{obligationStr}
+\closureat{HaltingDistinctionUp}{scopedStr}
+\closureat{HaltingDistinctionUp}{publicStr}
+\closureat{HaltingDistinctionUp}{bridgedStr}
+\closureat{HaltingDistinctionUp}{matureStr}
+
+\begin{closurestatus}{\HaltingDistinctionUp}
+  \constructivestory{A $\HaltingDistinctionUp$ packet is generated from a certificate-history pair row, a finite $\Cont_P$ trace row, a diagonal self-reference row, componentwise $\hsame$ transports, displayed $\Cont$ read routes, package provenance, and a local $\NameCert$ ledger.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:halting-distinction-diagonal-obstruction-public-package}, \autoref{thm:halting-distinction-route-obstruction-triad}, \autoref{thm:halting-distinction-inscription-trace-gate}, \autoref{thm:halting-distinction-root-downstream-unblock-package}, and \autoref{thm:halting-distinction-consumer-boundary-package} bind the mature paper-side surface: diagonal obstruction, route obstruction, inscription trace, downstream unblock, and consumer boundary packages over $Q,T,Z,H,C,P,N$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a total halting predicate, a global truth predicate over certificates, classical decidability of termination, divergence detection, or the independent Lean verification axis.}
+  \upgradepath{The remaining work is Lean encoding of the carrier and checked theorems for classifier transport, trace readability, diagonal boundary exactness, consumer non-escape, and bridge tuple checking.}
+\end{closurestatus}
