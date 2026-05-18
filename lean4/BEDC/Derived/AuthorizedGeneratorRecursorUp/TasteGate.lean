@@ -365,4 +365,102 @@ theorem AuthorizedGeneratorRecursorBranchExhaustion
     ⟨publicReadUnary, signatureEliminatorBranches, branchesTransportBranchRead,
       branchReadRoutesPublicRead, transportEmpty⟩
 
+theorem AuthorizedGeneratorRecursorRootUnblockRouteTotality
+    {signature eliminator motive branches descent output audit transport routes provenance gap name
+      branchRead outputRead publicRead : BHist} :
+    Cont signature eliminator branches ->
+      Cont branches descent branchRead ->
+        Cont output audit outputRead ->
+          Cont outputRead routes publicRead ->
+            hsame transport BHist.Empty ->
+              UnaryHistory signature ->
+                UnaryHistory eliminator ->
+                  UnaryHistory branches ->
+                    UnaryHistory descent ->
+                      UnaryHistory output ->
+                        UnaryHistory audit ->
+                          UnaryHistory routes ->
+                            authorizedGeneratorRecursorFromEventFlow
+                                (authorizedGeneratorRecursorToEventFlow
+                                  (AuthorizedGeneratorRecursorUp.mk signature eliminator motive
+                                    branches descent output audit transport routes provenance gap
+                                    name)) =
+                              some
+                                (AuthorizedGeneratorRecursorUp.mk signature eliminator motive
+                                  branches descent output audit transport routes provenance gap
+                                  name) ∧
+                              UnaryHistory publicRead ∧ Cont signature eliminator branches ∧
+                                Cont branches descent branchRead ∧ Cont output audit outputRead ∧
+                                  Cont outputRead routes publicRead ∧
+                                    hsame transport BHist.Empty ∧
+                                      authorizedGeneratorRecursorEncodeBHist BHist.Empty =
+                                        ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory
+  intro signatureEliminatorBranches branchesDescentBranchRead outputAuditOutputRead
+    outputReadRoutesPublicRead transportEmpty _signatureUnary _eliminatorUnary _branchesUnary
+    _descentUnary outputUnary auditUnary routesUnary
+  have routeRoundTrip :
+      authorizedGeneratorRecursorFromEventFlow
+          (authorizedGeneratorRecursorToEventFlow
+            (AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches descent output
+              audit transport routes provenance gap name)) =
+        some
+          (AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches descent output
+            audit transport routes provenance gap name) :=
+    authorizedGeneratorRecursor_round_trip
+      (AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches descent output audit
+        transport routes provenance gap name)
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed outputUnary auditUnary outputAuditOutputRead
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed outputReadUnary routesUnary outputReadRoutesPublicRead
+  exact
+    ⟨routeRoundTrip, publicReadUnary, signatureEliminatorBranches, branchesDescentBranchRead,
+      outputAuditOutputRead, outputReadRoutesPublicRead, transportEmpty, rfl⟩
+
+theorem AuthorizedGeneratorRecursorGroundCompilerAdmission
+    {signature eliminator motive branches descent output audit transport routes provenance gap name
+      compilerRead publicRead : BHist} :
+    Cont signature eliminator branches ->
+      Cont branches transport compilerRead ->
+        Cont compilerRead gap publicRead ->
+          hsame transport BHist.Empty ->
+            UnaryHistory signature ->
+              UnaryHistory eliminator ->
+                UnaryHistory branches ->
+                  UnaryHistory gap ->
+                    authorizedGeneratorRecursorFromEventFlow
+                        (authorizedGeneratorRecursorToEventFlow
+                          (AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches
+                            descent output audit transport routes provenance gap name)) =
+                      some
+                        (AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches
+                          descent output audit transport routes provenance gap name) ∧
+                      UnaryHistory publicRead ∧ Cont signature eliminator branches ∧
+                        Cont branches transport compilerRead ∧ Cont compilerRead gap publicRead ∧
+                          hsame transport BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory
+  intro signatureEliminatorBranches branchesTransportCompilerRead compilerReadGapPublicRead
+    transportEmpty _signatureUnary _eliminatorUnary branchesUnary gapUnary
+  have routeRoundTrip :
+      authorizedGeneratorRecursorFromEventFlow
+          (authorizedGeneratorRecursorToEventFlow
+            (AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches descent output
+              audit transport routes provenance gap name)) =
+        some
+          (AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches descent output
+            audit transport routes provenance gap name) :=
+    authorizedGeneratorRecursor_round_trip
+      (AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches descent output audit
+        transport routes provenance gap name)
+  have transportUnary : UnaryHistory transport :=
+    unary_transport unary_empty (hsame_symm transportEmpty)
+  have compilerReadUnary : UnaryHistory compilerRead :=
+    unary_cont_closed branchesUnary transportUnary branchesTransportCompilerRead
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed compilerReadUnary gapUnary compilerReadGapPublicRead
+  exact
+    ⟨routeRoundTrip, publicReadUnary, signatureEliminatorBranches, branchesTransportCompilerRead,
+      compilerReadGapPublicRead, transportEmpty⟩
+
 end BEDC.Derived.AuthorizedGeneratorRecursorUp
