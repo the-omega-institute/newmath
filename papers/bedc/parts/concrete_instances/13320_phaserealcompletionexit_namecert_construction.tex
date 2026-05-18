@@ -152,6 +152,20 @@ Next apply \autoref{thm:phase-real-completion-exit-facewise-audit-obligation}. T
 Finally combine \autoref{thm:phase-real-completion-exit-noncollapse-boundary} with \autoref{thm:phase-real-completion-exit-scoped-primitive-dependency-binding}. These results keep the primitive scope at the displayed rows $D,S,Q,R,B,H,C,P,N$ and reject fused bridge tokens, quotient equalities, selected limits, host completeness, ambient completion data, and single aggregate formalstatus witnesses. Therefore the only accepted gate is the local five-face status read stated above.
 \end{proof}
 
+\begin{theorem}[Phase real-completion exit audit-clean threshold]
+\label{thm:phase-real-completion-exit-audit-clean-threshold}
+An accepted $\PhaseRealCompletionExitUp$ packet serves the current Phase Real and Completion exit threshold exactly when the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RealCompletionExactBoundaryUp$ faces are separately read through their own local closurestatus and formalstatus records, and each of the five verification-axis records is at least $\auditCleanV$. The threshold is not witnessed by an aggregate bridge token, quotient stream, selected limit, host completeness row, or single fused formalstatus row.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply \autoref{thm:phase-real-completion-exit-local-status-gate}. Any accepted exit gate must read the dyadic, stream, regular-rational, real, and exact-boundary faces through their own local status rows.
+
+Next apply \autoref{thm:phase-real-completion-exit-status-token-product} and \autoref{thm:phase-real-completion-exit-facewise-audit-obligation}. The status read is the product of five local records, and the audit read must expose those records before the local naming row is consumed. Thus the roadmap threshold can be met only by five objectwise verification-axis records, each at least $\auditCleanV$.
+
+For the reverse direction, suppose the five faces have been read separately through their local closurestatus and formalstatus records, and each record is at least $\auditCleanV$. The local status gate supplies the required Phase Real and Completion exit read, while the status-token product keeps the five records in the same accepted $\PhaseRealCompletionExitUp$ packet.
+
+Finally apply \autoref{thm:phase-real-completion-exit-noncollapse-boundary}. It rejects aggregate bridge tokens, quotient streams, selected limits, host completeness, and single fused formalstatus rows, so no external completion witness can replace the five-face audit-clean threshold.
+\end{proof}
+
 \falsifiablePrediction{If a consumer fuses the dyadic, stream, regular, and real face reports into a single bridge token or completeness token, the $\PhaseRealCompletionExitUp$ packet is refuted.}
 
 \independenceWitness{dyadicratcore, streamname, regseqrat, real, realcompletionexactboundary: no single sibling is bijective to the phase product because the packet binds dyadic arithmetic, finite stream observation, regular rational handoff, real sealing, exact boundary, transport, replay, provenance, and local naming in one displayed exit carrier.}
