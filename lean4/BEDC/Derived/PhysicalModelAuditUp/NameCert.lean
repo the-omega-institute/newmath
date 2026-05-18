@@ -148,4 +148,26 @@ theorem PhysicalModelAuditPacket_failure_surface_exhaustion [AskSetup] [PackageS
   exact ⟨FUnary, HUnary, UUnary, failureUnary, auditUnary, LFS, failureRoute,
     auditRoute, NPkg, auditPkg, cert⟩
 
+theorem PhysicalModelAuditPacket_ledger_failure_strength_separation [AskSetup] [PackageSetup]
+    {Q R O M C T Y D L F S H U P N failureRead auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PhysicalModelAuditPacket Q R O M C T Y D L F S H U P N bundle pkg →
+      Cont F H failureRead →
+        Cont failureRead U auditRead →
+          UnaryHistory L ∧ UnaryHistory F ∧ UnaryHistory S ∧
+            UnaryHistory failureRead ∧ UnaryHistory auditRead ∧ Cont L F S ∧
+              Cont F H failureRead ∧ Cont failureRead U auditRead ∧
+                PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro packet failureRoute auditRoute
+  obtain ⟨_QUnary, _RUnary, _OUnary, _MUnary, _CUnary, _TUnary, _YUnary, _DUnary,
+    LUnary, FUnary, SUnary, HUnary, UUnary, _PUnary, _NUnary, _QRO, _OMC, _TYD,
+    LFS, _HUP, _UPN, NPkg⟩ := packet
+  have failureUnary : UnaryHistory failureRead :=
+    unary_cont_closed FUnary HUnary failureRoute
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed failureUnary UUnary auditRoute
+  exact ⟨LUnary, FUnary, SUnary, failureUnary, auditUnary, LFS, failureRoute,
+    auditRoute, NPkg⟩
+
 end BEDC.Derived.PhysicalModelAuditUp
