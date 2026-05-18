@@ -278,6 +278,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OpenPhaseSourceTriad
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamOutputFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceRowAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.StructuralDescentLocality
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditBoundaryExposure
 import BEDC.Derived.AxiomDependencyTupleUp
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
