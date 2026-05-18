@@ -374,4 +374,71 @@ theorem CauchyCompletionFunctorPacket_obligation_closure_package [AskSetup] [Pac
       bindReadUnary, metricRegularSeal, monadUniversalEndpoint, metricSealUnit,
       regularMonadBind, endpointPkg, unitPkg, bindPkg⟩
 
+theorem CauchyCompletionFunctorPacket_public_completion_export [AskSetup] [PackageSetup]
+    {M R S U B E P T N consumerRead exportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionFunctorPacket M R S U B E P T N bundle pkg ->
+      Cont S U consumerRead ->
+        Cont consumerRead N exportRead ->
+          PkgSig bundle exportRead pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  hsame row S ∧ CauchyCompletionFunctorPacket M R S U B E P T N bundle pkg)
+                (fun row : BHist =>
+                  hsame row S ∧ Cont S U consumerRead ∧ Cont consumerRead N exportRead)
+                (fun row : BHist => hsame row S ∧ PkgSig bundle exportRead pkg)
+                hsame ∧
+              UnaryHistory consumerRead ∧ UnaryHistory exportRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro packet sealConsumer consumerExport exportPkg
+  obtain ⟨metricUnary, regularUnary, sealUnary, monadUnary, universalUnary,
+    classifierUnary, transportUnary, nameCertUnary, endpointUnary, metricRegularSeal,
+    monadUniversalEndpoint, classifierTransportNameCert, endpointPkg⟩ := packet
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed sealUnary monadUnary sealConsumer
+  have exportUnary : UnaryHistory exportRead :=
+    unary_cont_closed consumerUnary endpointUnary consumerExport
+  have packetWitness :
+      CauchyCompletionFunctorPacket M R S U B E P T N bundle pkg := by
+    exact
+      ⟨metricUnary, regularUnary, sealUnary, monadUnary, universalUnary, classifierUnary,
+        transportUnary, nameCertUnary, endpointUnary, metricRegularSeal, monadUniversalEndpoint,
+        classifierTransportNameCert, endpointPkg⟩
+  have sourceSeal :
+      (fun row : BHist =>
+        hsame row S ∧ CauchyCompletionFunctorPacket M R S U B E P T N bundle pkg) S := by
+    exact ⟨hsame_refl S, packetWitness⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row S ∧ CauchyCompletionFunctorPacket M R S U B E P T N bundle pkg)
+          (fun row : BHist =>
+            hsame row S ∧ Cont S U consumerRead ∧ Cont consumerRead N exportRead)
+          (fun row : BHist => hsame row S ∧ PkgSig bundle exportRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro S sourceSeal
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact ⟨hsame_trans (hsame_symm same) source.left, source.right⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact ⟨source.left, sealConsumer, consumerExport⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, exportPkg⟩
+    }
+  exact ⟨cert, consumerUnary, exportUnary⟩
+
 end BEDC.Derived.CauchyCompletionFunctorUp
