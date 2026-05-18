@@ -268,3 +268,51 @@ selector carries one dyadic budget certificate across the finite cover. Thus
 the endpoint reads are forced by the same finite-cover surface and by exactly
 the three classifier/projection rows named above.
 \end{proof}
+
+\begin{theorem}[StreamName finite-section tail-window lock]
+\label{thm:streamname-finite-section-tail-window-lock}
+Let $Q$ be an accepted finite request section of the current L10
+$\StreamNameUp$ packet. Suppose that $Q$ exposes the same $\StreamNameUp$
+finite window, $\DyadicRatCoreUp$ ledger row, $\RegSeqRatUp$ scheduled
+projection and readback row, $\RealUp$ seal boundary, and StreamName
+tail-window coverage packet as a finite cover satisfying
+\autoref{thm:streamname-regseqrat-realup-cover-tail-budget-finality}. Then
+every $\RealUp$-facing or completion-facing finite consumer of $Q$ is locked to
+the same tail-budget certificate forced by that cover.
+
+Consequently each such consumer factors through exactly the $\StreamNameUp$
+finite-window classifier row, the $\RegSeqRatUp$ scheduled projection and
+readback row, and the $\RealUp$ finite-prefix classifier row. The lock exports
+no quotient stream, selected limit, host index equality, countable-choice row,
+ambient $\RealUp$ completeness, metric-completeness datum, or standard bridge
+row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-finite-section-pullback-exactness} to the
+accepted section $Q$. The shared finite window, dyadic ledger, RegSeqRat
+readback, and RealUp seal identify $Q$ with the same four-face finite route
+through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Next apply
+\autoref{thm:streamname-tail-window-terminal-consumer-factorization} to every
+finite $\RealUp$-facing or completion-facing consumer whose source reads the
+displayed tail-window coverage packet. Each consumer is therefore read only
+through the packet rows already named by the finite window, the accepted
+$\RegSeqRat$ spine, the DyadicRatCore ledger, and the shared
+$\Cont/\hsame/\Pkg$ support.
+
+Now use \autoref{thm:streamname-tail-window-terminal-source-uniqueness}. Since
+the section and the cover expose the same tail-window packet, the possible
+consumer source is unique on the displayed StreamName, RegSeqRat, DyadicRatCore,
+continuation, history, package, and ledger rows. There is no second source row
+from which a quotient representative, host index, completion object, or bridge
+datum could be read.
+
+Finally invoke
+\autoref{thm:streamname-regseqrat-realup-cover-tail-budget-finality}. The finite
+cover has already forced one tail-budget certificate and one three-row
+factorization for endpoint reads. Transporting the accepted section $Q$ through
+the same pullback and tail-window packet therefore locks every eligible consumer
+to that certificate and to exactly the StreamName classifier row, the RegSeqRat
+scheduled projection/readback row, and the RealUp finite-prefix classifier row.
+\end{proof}
