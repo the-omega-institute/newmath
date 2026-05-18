@@ -185,6 +185,7 @@ import BEDC.Derived.ExternalSupplyWitnessUp.TasteGate
 import BEDC.Derived.ExternalSupplyAuditRouteUp.TasteGate
 import BEDC.Derived.ExternalSupplyBoundaryUp
 import BEDC.Derived.ExternalSupplyBoundaryUp.TasteGate
+import BEDC.Derived.ExternalSupplyWitnessUp.TasteGate
 import BEDC.Derived.EmptyFableMachineUp.TasteGate
 import BEDC.Derived.EmptyFableMachineUp.Ledger
 import BEDC.Derived.ArzelaAscoliUp
@@ -254,6 +255,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.ProvenanceExhaustion
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.DownstreamUnblock
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RefusalRowDeterminacy
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RegistryClassifierScope
+import BEDC.Derived.AxisZeckendorfCannotClaimUp.LedgerRouteScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.HorizonRefusalCoverage
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
@@ -883,6 +885,7 @@ import BEDC.Derived.ModelTraceUp.TasteGate
 import BEDC.Derived.PromptResponseTraceUp.TasteGate
 import BEDC.Derived.ContextWindowCommitmentUp.TasteGate
 import BEDC.Derived.ContextualClassReadingUp
+import BEDC.Derived.KernelInductiveEliminatorUp.TasteGate
 import BEDC.Derived.KernelPhaseRefusalUp.TasteGate
 import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
 import BEDC.Derived.ObserverLocalityCellUp
@@ -940,6 +943,7 @@ import BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate
 import BEDC.Derived.CellularPatternCatalogUp.TasteGate
 import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
 import BEDC.Derived.CellularTrustSubstrateUp.TasteGate
+import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.CellularTrustSubstrateUp.PublicExportPackage
 import BEDC.Derived.CellularVerbRealignmentUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
