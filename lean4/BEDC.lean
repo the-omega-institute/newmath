@@ -300,6 +300,8 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.StructuralDescentLocality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditBoundaryExposure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditRouteExactness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAuthorization
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RouteTotalityLock
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalAuthorizedOutputCover
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
@@ -1320,6 +1322,7 @@ import BEDC.Derived.LimitSelectorUp
 import BEDC.Derived.FableBranchWitnessUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.SubstituteInertnessRoute
+import BEDC.Derived.ClosedSubstitutionBoundaryUp.PublicNonescape
 import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
 import BEDC.Derived.ClosedNormalEndpointTransportUp.TasteGate
 import BEDC.Derived.ClosedNormalRouteCertificateUp.TasteGate
@@ -3052,6 +3055,7 @@ import BEDC.Derived.CompactUniformContinuityUp.BridgeSourcePacket
 import BEDC.Derived.CompactUniformContinuityUp.ClassifierTransport
 import BEDC.Derived.CompactUniformContinuityUp.CenterRadiusCompatibility
 import BEDC.Derived.CompactUniformContinuityUp.CompactContinuousNameCertExport
+import BEDC.Derived.CompactUniformContinuityUp.ConstantIntervalConsumerRoutes
 import BEDC.Derived.CompactUniformContinuityUp.Downstream
 import BEDC.Derived.CompactUniformContinuityUp.EquicontinuousFamilyConsumer
 import BEDC.Derived.CompactUniformContinuityUp.FiniteNetFactorization
