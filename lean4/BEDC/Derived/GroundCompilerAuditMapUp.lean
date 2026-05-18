@@ -417,4 +417,61 @@ theorem GroundCompilerAuditMapNameCert_obligations {I K E C R Q F X H T P N : BH
           sourceRow.left, hsame_refl P, hsame_refl N⟩
   }
 
+theorem GroundCompilerAuditMapCarrier_theorem_family_handoff
+    {I K E C R Q F X H T P N consumerRead : BHist}
+    (handoffRoute : Cont F X T)
+    (consumerRoute : Cont X T consumerRead) :
+    Cont F X T ∧ Cont X T consumerRead ∧
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row X ∧
+            ∃ packet : GroundCompilerAuditMapUp,
+              packet = GroundCompilerAuditMapUp.mk I K E C R Q F X H T P N)
+        (fun row : BHist => hsame row X ∧ Cont F X T ∧ Cont X T consumerRead)
+        (fun row : BHist => hsame row X ∧ hsame K K ∧ hsame F F ∧ hsame T T)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  have packetWitness :
+      ∃ packet : GroundCompilerAuditMapUp,
+        packet = GroundCompilerAuditMapUp.mk I K E C R Q F X H T P N :=
+    Exists.intro (GroundCompilerAuditMapUp.mk I K E C R Q F X H T P N) rfl
+  have sourceX :
+      (fun row : BHist =>
+        hsame row X ∧
+          ∃ packet : GroundCompilerAuditMapUp,
+            packet = GroundCompilerAuditMapUp.mk I K E C R Q F X H T P N) X :=
+    ⟨hsame_refl X, packetWitness⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row X ∧
+            ∃ packet : GroundCompilerAuditMapUp,
+              packet = GroundCompilerAuditMapUp.mk I K E C R Q F X H T P N)
+        (fun row : BHist => hsame row X ∧ Cont F X T ∧ Cont X T consumerRead)
+        (fun row : BHist => hsame row X ∧ hsame K K ∧ hsame F F ∧ hsame T T)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro X sourceX
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source.left, handoffRoute, consumerRoute⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, hsame_refl K, hsame_refl F, hsame_refl T⟩
+  }
+  exact ⟨handoffRoute, consumerRoute, cert⟩
+
 end BEDC.Derived.GroundCompilerAuditMapUp
