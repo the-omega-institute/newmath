@@ -375,6 +375,52 @@ $\RealUp$ completeness, metric-completeness rows, and aggregate formalstatus
 tokens have no displayed row in the four-face route.
 \end{proof}
 
+\begin{theorem}[Real L10 exit refinement stability]
+\label{thm:real-l10-exit-refinement-stability}
+Let an accepted Phase Real and Completion packet be refined by an
+$\hsame$-compatible finite request section. Suppose that the refinement
+preserves the $\DyadicRatCoreUp$ scale-window packet, the $\StreamNameUp$
+finite-window section, the $\RegSeqRatUp$ common-tail boundary, and the local
+$\RealUp$ seal row, together with the displayed $\BHist$, $\Cont$, $\Pkg$,
+and $\NameCert$ support for those four faces. Then the refined packet
+determines the same Real L10 exit classifier as the original accepted packet.
+
+Equivalently, the refined read repacks as the same four-face finite BEDC exit
+route over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$. The stability assertion exports no quotient stream, no selected
+limit, no countable-choice selector, no ambient $\RealUp$ completeness claim,
+no metric-completeness row, and no aggregate formalstatus token.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-l10-common-tail-exit-correspondence}. It says
+that the Real exit classifier is determined by exactly the common
+$\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ tolerance ledger, the
+$\RegSeqRatUp$ common-tail classifier, and the local $\RealUp$ seal row.
+
+The refinement is $\hsame$-compatible and preserves those four rows. Hence it
+cannot alter the common-tail classifier read on the $\RegSeqRatUp$ face; this
+is the determinacy content of
+\autoref{thm:regseqrat-common-tail-union-classifier-determinacy}.
+
+Next apply
+\autoref{thm:streamname-terminal-fusion-common-tail-real-boundary-pullback}.
+The preserved terminal StreamName window, dyadic scale data, common-tail
+boundary, and local Real seal row are the same finite boundary before and
+after refinement.
+
+Finally use \autoref{thm:real-l10-four-face-finite-pullback-public-interface}.
+It repacks the preserved DyadicRatCore, StreamName, RegSeqRat, and Real rows
+as one finite four-face public interface. Therefore the refined packet has the
+same Real L10 exit classifier and the same finite BEDC exit route as the
+original accepted packet.
+
+The exclusion clauses in the cited correspondence, fusion, determinacy, and
+four-face interface theorems leave no place for a quotient stream, selected
+limit, countable-choice selector, ambient $\RealUp$ completeness datum,
+metric-completeness row, or aggregate formalstatus token to enter the
+refinement read.
+\end{proof}
+
 \begin{theorem}[Real L10 phase exit criterion is objectwise]
 \label{thm:real-l10-phase-exit-criterion-objectwise}
 The Phase Real and Completion exit criterion is satisfied only by reading the
