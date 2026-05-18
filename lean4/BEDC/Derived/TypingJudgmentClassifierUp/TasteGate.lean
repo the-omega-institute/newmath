@@ -242,6 +242,29 @@ def taste_gate : ChapterTasteGate TypingJudgmentClassifierUp :=
   -- BEDC touchpoint anchor: BHist BMark
   typingJudgmentClassifierChapterTasteGate
 
+theorem TypingJudgmentClassifierCarrier_derivation_route
+    (x : TypingJudgmentClassifierUp) :
+    ∃ judgment membership derivation sigReadback contReplay transport provenance
+        localName : BHist,
+      x = TypingJudgmentClassifierUp.mk judgment membership derivation sigReadback contReplay
+        transport provenance localName ∧
+        typingJudgmentClassifierFromEventFlow (typingJudgmentClassifierToEventFlow x) =
+          some x ∧
+          typingJudgmentClassifierEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk judgment membership derivation sigReadback contReplay transport provenance localName =>
+      refine
+        ⟨judgment, membership, derivation, sigReadback, contReplay, transport, provenance,
+          localName, ?_⟩
+      constructor
+      · rfl
+      · constructor
+        · exact typingJudgmentClassifier_round_trip
+            (TypingJudgmentClassifierUp.mk judgment membership derivation sigReadback
+              contReplay transport provenance localName)
+        · rfl
+
 namespace TasteGate
 
 theorem TypingJudgmentClassifierTasteGate_readiness :
