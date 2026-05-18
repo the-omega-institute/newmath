@@ -38,4 +38,38 @@ theorem GroundRefutationCarrier_ground_loop_boundary {A F H C P N : BHist}
             exact append_assoc A F C
   · exact carrier.right.right.left
 
+theorem GroundRefutationCarrier_classifier_transport
+    {A F H C P N A' F' H' C' P' N' transported : BHist}
+    (carrier : GroundRefutationCarrier A F H C P N)
+    (sameA : hsame A A')
+    (sameF : hsame F F')
+    (sameH : hsame H H')
+    (sameC : hsame C C')
+    (sameP : hsame P P')
+    (sameN : hsame N N')
+    (transportedRoute : Cont A' F' transported)
+    (sameTransported : hsame transported H') :
+    hsame transported H' ∧ hsame P' N' ∧
+      GroundRefutationCarrier A' F' H' C' P' N' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases sameA
+  cases sameF
+  cases sameH
+  cases sameC
+  cases sameP
+  cases sameN
+  constructor
+  · exact sameTransported
+  · constructor
+    · exact carrier.right.right.left
+    · exact
+        ⟨cont_result_hsame_transport transportedRoute sameTransported,
+          carrier.right.left,
+          carrier.right.right.left,
+          carrier.right.right.right.left,
+          carrier.right.right.right.right.left,
+          carrier.right.right.right.right.right.left,
+          carrier.right.right.right.right.right.right.left,
+          carrier.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.GroundRefutationUp

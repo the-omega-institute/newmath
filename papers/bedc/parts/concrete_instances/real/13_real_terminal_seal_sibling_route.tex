@@ -163,3 +163,77 @@ support rows and has no coordinate for quotient streams, host reals, selected
 limits, countable choice, ambient completeness, metric completeness, or a
 standard bridge.
 \end{proof}
+
+\begin{theorem}[Real terminal seal finite-cover cocycle exactness]
+\label{thm:real-terminal-seal-finite-cover-cocycle-exactness}
+Let $\{\mathcal R_i\}_{i\in I}$ be a finite family of local terminal-seal
+reads for the public $\RealUp$ surface. Suppose every $\mathcal R_i$ exposes
+exactly the four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+with support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert,
+$$
+and suppose that for every overlap $i,j$ the restrictions of the
+$\StreamNameUp$ finite window, the $\DyadicRatCoreUp$
+endpoint-radius-distance ledger, the $\RegSeqRatUp$ finite-request classifier
+and regularity rows, and the local $\RealUp$ seal-source row agree. Assume
+also that on every triple overlap $i,j,k$ the two restriction routes from
+$\mathcal R_i$ to the common section coincide:
+$$
+(\mathcal R_i|_{ij})|_{ijk}=(\mathcal R_i|_{ik})|_{ijk},
+\qquad
+(\mathcal R_i|_{ij})|_{ijk}=(\mathcal R_j|_{ij})|_{ijk}.
+$$
+
+Then the family pastes to a unique public $\RealUp$ terminal-seal read whose
+restriction to each finite cover member is $\mathcal R_i$. Conversely, any
+public $\RealUp$ terminal-seal read restricts to such a finite cocycle on the
+four displayed faces. This exactness exports no quotient stream equality, host
+real equality, selected limit, countable choice, ambient completeness,
+metric-completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First put every local read in four-face normal form. Apply
+\autoref{thm:real-terminal-seal-four-face-cover-normal-form}; each
+$\mathcal R_i$ is read as a finite StreamName window, a DyadicRatCore
+endpoint-radius-distance ledger, a RegSeqRat finite-request classifier with
+regularity rows, and a local Real seal-source row over the shared $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next paste the StreamName face. The overlap and triple-overlap assumptions are
+exactly the cocycle data used by
+\autoref{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness}, so
+the finite windows fuse to one terminal StreamName packet and restrict back to
+the given windows.
+
+Transport the remaining faces over that fused window. Use
+\autoref{thm:dyadicratcore-regseqrat-real-pullback-composition} to carry the
+dyadic endpoint, radius, and distance rows together with the RegSeqRat
+classifier, regularity, readback, and Real seal-source rows as one pullback
+surface over the common finite requests.
+
+Now apply \autoref{thm:real-finite-cover-seal-pasting-criterion}. The pasted
+StreamName packet and transported pullback rows give a public terminal-seal
+read, and its restriction to every cover member is the original
+$\mathcal R_i$.
+
+Uniqueness is the determinacy content of
+\autoref{thm:real-terminal-seal-four-face-cover-descent-determinacy}. Any two
+public reads with those restrictions have the same four faces on every overlap,
+hence determine the same terminal-seal read.
+
+For the converse, start with a public $\RealUp$ terminal-seal read and restrict
+it along the finite cover. The normal-form theorem supplies the four local
+faces, the StreamName fusion theorem gives the cocycle equations on triple
+overlaps, and the pasting criterion identifies the recovered public read with
+the original one.
+
+The exclusion clause is stable under each cited step: none of the normal-form,
+fusion, pullback-composition, pasting, or determinacy results introduces
+quotient stream equality, host real equality, selected limits, countable
+choice, ambient completeness, metric-completeness data, or a standard bridge
+row.
+\end{proof}

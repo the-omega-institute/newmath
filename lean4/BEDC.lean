@@ -167,6 +167,7 @@ import BEDC.Derived.ApophaticNameUp.DownstreamLedgerNonescape
 import BEDC.Derived.ApophaticNameUp.DownstreamSocketCitationCompleteness
 import BEDC.Derived.ApophaticNameUp.DownstreamSocketRouteExactness
 import BEDC.Derived.ApophaticNameUp.DownstreamBoundaryExactness
+import BEDC.Derived.ApophaticNameUp.ConsumerCitationBoundary
 import BEDC.Derived.ApophaticNameUp.SocketRequestTotality
 import BEDC.Derived.ApophaticNameUp.SocketRefusalRouteTotality
 import BEDC.Derived.ApophaticNameUp.GateLedgerExactness
@@ -948,6 +949,8 @@ import BEDC.Derived.CellularTrustSubstrateUp.PublicExportPackage
 import BEDC.Derived.CellularVerbRealignmentUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
+import BEDC.Derived.StationaryWindowSealExhaustionUp.TasteGate
+import BEDC.Derived.CauchyWitnessPullbackUp.TasteGate
 import BEDC.Derived.HaltedTmRoundTripUp.TasteGate
 import BEDC.Derived.HaltingTraceClassifierUp.TasteGate
 import BEDC.Derived.RecursionAuthorizationLedgerUp.TasteGate
@@ -1652,6 +1655,7 @@ import BEDC.Derived.InscriptionEventBufferSealUp.TasteGate
 import BEDC.Derived.InscriptionEventReplayUp.TasteGate
 import BEDC.Derived.InscriptionNoveltySocketUp.TasteGate
 import BEDC.Derived.PrefixObserverUp
+import BEDC.Derived.PrefixObserverUp.TasteGate
 import BEDC.Derived.InscriptionAcceptanceBudgetUp.TasteGate
 import BEDC.Derived.InscriptionAuditTraceUp.TasteGate
 import BEDC.Derived.InscriptionGapLedgerUp.TasteGate
