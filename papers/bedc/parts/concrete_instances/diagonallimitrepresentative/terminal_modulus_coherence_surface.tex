@@ -1,0 +1,60 @@
+\begin{definition}[Diagonal-limit representative terminal-modulus coherence surface]
+\label{def:diagonal-limit-representative-terminal-modulus-coherence-surface}
+For an accepted $\DiagonalLimitRepresentativeUp$ carrier consumed by a Real-and-Completion route, the terminal-modulus coherence surface is the finite packet
+$$
+T=(\mu,n,k,i,w,r,d,H,C,P,N).
+$$
+The rows $\mu$ and $n$ are the displayed modulus request and precision request. The rows $k=\mu(1/(n+1))$ and $i=k+n+1$ are the selected family and readback indices. The row $w$ is the $\StreamNameUp$ pointwise request selected by those indices, $r$ is the $\RegSeqRatUp$ regular-window readback, and $d$ is the $\DyadicRatCoreUp$ tolerance ledger that sits between the readback and the terminal $\RealUp$ seal. The rows $H,C,P,N$ are only the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DiagonalLimitRepresentativeUp}$ row for that same route.
+
+The packet $T$ is the terminal route made visible by \autoref{thm:diagonal-limit-representative-modulus-window-readback-package}, \autoref{thm:diagonal-limit-representative-root-readiness-triad}, \autoref{thm:diagonal-limit-representative-cofinal-tail-coverage}, and \autoref{thm:diagonal-limit-representative-real-seal-handoff}. It is not a quotient stream, a host Real limit, a choice-selected tail, an ambient completeness witness, or a second Real seal.
+\end{definition}
+
+\begin{theorem}[Diagonal-limit representative terminal-modulus coherence]
+\label{thm:diagonal-limit-representative-terminal-modulus-coherence}
+Every terminal $\RealUp$ seal read from an accepted $\DiagonalLimitRepresentativeUp$ Real-and-Completion route factors through the terminal-modulus coherence surface of \autoref{def:diagonal-limit-representative-terminal-modulus-coherence-surface}. Thus the consumer can reach the terminal seal only after it has exposed the same packet
+$$
+(\mu,n,k,i,w,r,d,H,C,P,N)
+$$
+that records the StreamName request, RegSeqRat regular window, DyadicRatCore tolerance ledger, and local support rows.
+\end{theorem}
+\begin{proof}
+Start with the modulus-window-readback package, \autoref{thm:diagonal-limit-representative-modulus-window-readback-package}. It says that every route to the terminal $\RealUp$ seal first passes through $\mu,n,k,i,w,r,d$, while $H,C,P,N$ can only transport, replay, source, and name that same route.
+
+Next attach root readiness. The root-readiness triad of \autoref{thm:diagonal-limit-representative-root-readiness-triad} makes the selected modulus request, pointwise window, readback row, dyadic ledger, terminal seal, and support rows visible before a downstream consumer can use them.
+
+The cofinal-tail coverage theorem \autoref{thm:diagonal-limit-representative-cofinal-tail-coverage} places those rows on the same finite tail surface as the cofinal and finite-prefix budget rows. The Real seal handoff theorem \autoref{thm:diagonal-limit-representative-real-seal-handoff} then confines the downstream endpoint to the finite root-unblock obligation over $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Therefore the terminal seal read has no independent entry point. It factors through the packet $T$, and the visible StreamName, RegSeqRat, DyadicRatCore, and Real rows remain coherent along that one terminal-modulus route.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative Real-RegSeqRat-StreamName tail factorization]
+\label{thm:diagonal-limit-representative-real-regseq-streamname-tail-factorization}
+For every accepted $\DiagonalLimitRepresentativeUp$ terminal route, any $\RealUp$ read of the terminal seal consumes the $\RegSeqRatUp$ tail only through the selected $\StreamNameUp$ pointwise request and the $\DyadicRatCoreUp$ tolerance row in the terminal-modulus coherence surface. Concretely, the Real-facing consumer may read the tail only in the order
+$$
+\mu,n,k,i,w,r,d,
+$$
+with $w$ supplying the StreamName request, $r$ supplying the RegSeqRat readback for that request, and $d$ supplying the DyadicRatCore tolerance ledger before the seal is consumed.
+\end{theorem}
+\begin{proof}
+Begin with the root-readiness triad \autoref{thm:diagonal-limit-representative-root-readiness-triad}. It exposes the selected indices and the ordered window-readback-ledger route as data of the accepted carrier rather than as an ambient Real construction.
+
+Now apply the modulus-window-readback package \autoref{thm:diagonal-limit-representative-modulus-window-readback-package}. The theorem orders the terminal route through $\mu,n,k,i,w,r,d$, so the $\RegSeqRatUp$ readback row $r$ is unavailable until the selected $\StreamNameUp$ request $w$ has already been exposed.
+
+The cofinal-tail coverage theorem \autoref{thm:diagonal-limit-representative-cofinal-tail-coverage} keeps the selected tail on the same finite $\BHist$ route as the cofinal modulus and finite-prefix budget rows. Finally, \autoref{thm:diagonal-limit-representative-real-seal-handoff} allows the Real-facing endpoint to consume only this finite root-unblock package.
+
+Hence the Real read cannot skip from a tail name to a seal. It must pass through the StreamName pointwise request, the RegSeqRat readback, and the DyadicRatCore tolerance ledger recorded in $T$.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative selector-modulus nonescape]
+\label{thm:diagonal-limit-representative-selector-modulus-nonescape}
+The terminal-modulus coherence surface of \autoref{def:diagonal-limit-representative-terminal-modulus-coherence-surface} exhausts the selector and modulus data available to a terminal $\DiagonalLimitRepresentativeUp$ route. No accepted consumer can replace $k=\mu(1/(n+1))$, $i=k+n+1$, the selected StreamName request $w$, the RegSeqRat readback $r$, or the DyadicRatCore ledger $d$ by a hidden tail selector, quotient stream equality, countable choice row, host $\RealUp$ limit, or ambient Real-completeness field.
+\end{theorem}
+\begin{proof}
+First read the terminal-modulus coherence theorem \autoref{thm:diagonal-limit-representative-terminal-modulus-coherence}. Every terminal seal read factors through the packet $T$, so a selector or modulus row outside $T$ would have to be an extra coordinate of the same accepted route.
+
+The root-readiness triad \autoref{thm:diagonal-limit-representative-root-readiness-triad} and the modulus-window-readback package \autoref{thm:diagonal-limit-representative-modulus-window-readback-package} account for the displayed computations $k=\mu(1/(n+1))$ and $i=k+n+1$, the selected window, the readback, and the dyadic ledger. These results leave no second selector channel for the terminal consumer.
+
+The cofinal-tail coverage theorem \autoref{thm:diagonal-limit-representative-cofinal-tail-coverage} supplies the only cofinal tail route, while the Real seal handoff theorem \autoref{thm:diagonal-limit-representative-real-seal-handoff} states the endpoint as a finite root-unblock obligation. The excluded objects are stronger than those rows and are not part of the carrier, classifier, $\BHist$ support, $\Cont$ replay, $\Pkg$ provenance, or $\NameCert$ ledger.
+
+Thus selector-modulus data cannot escape the displayed packet. Quotient streams, countable choice, hidden tail selectors, host Real limits, and ambient completeness remain outside the terminal route.
+\end{proof}

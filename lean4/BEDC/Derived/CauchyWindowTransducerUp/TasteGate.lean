@@ -62,49 +62,121 @@ def cauchyWindowTransducerToEventFlow :
 
 def cauchyWindowTransducerFromEventFlow :
     EventFlow → Option CauchyWindowTransducerUp
-  | streamWindow :: dyadicTolerance :: windowStep :: regSeqReadback :: realSeal ::
-      limitSelector :: transport :: continuation :: provenance :: nameCert :: [] =>
-      some
-        (CauchyWindowTransducerUp.mk
-          (cauchyWindowTransducerDecodeBHist streamWindow)
-          (cauchyWindowTransducerDecodeBHist dyadicTolerance)
-          (cauchyWindowTransducerDecodeBHist windowStep)
-          (cauchyWindowTransducerDecodeBHist regSeqReadback)
-          (cauchyWindowTransducerDecodeBHist realSeal)
-          (cauchyWindowTransducerDecodeBHist limitSelector)
-          (cauchyWindowTransducerDecodeBHist transport)
-          (cauchyWindowTransducerDecodeBHist continuation)
-          (cauchyWindowTransducerDecodeBHist provenance)
-          (cauchyWindowTransducerDecodeBHist nameCert))
-  | _ => none
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | streamWindow :: rest0 =>
+      match rest0 with
+      | [] => none
+      | dyadicTolerance :: rest1 =>
+          match rest1 with
+          | [] => none
+          | windowStep :: rest2 =>
+              match rest2 with
+              | [] => none
+              | regSeqReadback :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | realSeal :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | limitSelector :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | transport :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | continuation :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | provenance :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | nameCert :: rest9 =>
+                                          match rest9 with
+                                          | [] =>
+                                              some
+                                                (CauchyWindowTransducerUp.mk
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    streamWindow)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    dyadicTolerance)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    windowStep)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    regSeqReadback)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    realSeal)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    limitSelector)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    transport)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    continuation)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    provenance)
+                                                  (cauchyWindowTransducerDecodeBHist nameCert))
+                                          | _ :: _ => none
 
 private theorem cauchyWindowTransducer_round_trip :
     ∀ x : CauchyWindowTransducerUp,
       cauchyWindowTransducerFromEventFlow
         (cauchyWindowTransducerToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk streamWindow dyadicTolerance windowStep regSeqReadback realSeal
       limitSelector transport continuation provenance nameCert =>
-      simp [cauchyWindowTransducerFromEventFlow, cauchyWindowTransducerToEventFlow,
-        cauchyWindowTransducerDecode_encode_bhist]
+      change
+        some
+            (CauchyWindowTransducerUp.mk
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist streamWindow))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist dyadicTolerance))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist windowStep))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist regSeqReadback))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist realSeal))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist limitSelector))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist transport))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist continuation))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist provenance))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist nameCert))) =
+          some
+            (CauchyWindowTransducerUp.mk streamWindow dyadicTolerance windowStep
+              regSeqReadback realSeal limitSelector transport continuation provenance
+              nameCert)
+      rw [cauchyWindowTransducerDecode_encode_bhist streamWindow,
+        cauchyWindowTransducerDecode_encode_bhist dyadicTolerance,
+        cauchyWindowTransducerDecode_encode_bhist windowStep,
+        cauchyWindowTransducerDecode_encode_bhist regSeqReadback,
+        cauchyWindowTransducerDecode_encode_bhist realSeal,
+        cauchyWindowTransducerDecode_encode_bhist limitSelector,
+        cauchyWindowTransducerDecode_encode_bhist transport,
+        cauchyWindowTransducerDecode_encode_bhist continuation,
+        cauchyWindowTransducerDecode_encode_bhist provenance,
+        cauchyWindowTransducerDecode_encode_bhist nameCert]
 
 private theorem cauchyWindowTransducerToEventFlow_injective
     {x y : CauchyWindowTransducerUp}
     (h : cauchyWindowTransducerToEventFlow x =
       cauchyWindowTransducerToEventFlow y) :
     x = y := by
-  have hsome : some x = some y := by
-    calc
-      some x = cauchyWindowTransducerFromEventFlow
-          (cauchyWindowTransducerToEventFlow x) := by
-            exact Eq.symm (cauchyWindowTransducer_round_trip x)
-      _ = cauchyWindowTransducerFromEventFlow
-          (cauchyWindowTransducerToEventFlow y) := by
-            rw [h]
-      _ = some y := cauchyWindowTransducer_round_trip y
-  cases hsome
-  rfl
+  -- BEDC touchpoint anchor: BHist BMark
+  have hread :
+      cauchyWindowTransducerFromEventFlow (cauchyWindowTransducerToEventFlow x) =
+        cauchyWindowTransducerFromEventFlow (cauchyWindowTransducerToEventFlow y) :=
+    congrArg cauchyWindowTransducerFromEventFlow h
+  exact Option.some.inj
+    (Eq.trans (cauchyWindowTransducer_round_trip x).symm
+      (Eq.trans hread (cauchyWindowTransducer_round_trip y)))
 
 private theorem cauchyWindowTransducer_fields_faithful :
     ∀ x y : CauchyWindowTransducerUp,
@@ -152,22 +224,28 @@ def taste_gate : ChapterTasteGate CauchyWindowTransducerUp :=
   cauchyWindowTransducerChapterTasteGate
 
 theorem CauchyWindowTransducerTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier CauchyWindowTransducerUp) ∧
-      Nonempty (ChapterTasteGate CauchyWindowTransducerUp) ∧
-        Nonempty (FieldFaithful CauchyWindowTransducerUp) ∧
-          Nonempty (Nontrivial CauchyWindowTransducerUp) ∧
-            cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-              cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
-  constructor
-  · exact ⟨cauchyWindowTransducerBHistCarrier⟩
-  · constructor
-    · exact ⟨cauchyWindowTransducerChapterTasteGate⟩
-    · constructor
-      · exact ⟨cauchyWindowTransducerFieldFaithful⟩
-      · constructor
-        · exact ⟨cauchyWindowTransducerNontrivial⟩
-        · constructor
-          · rfl
-          · rfl
+    (∀ h : BHist,
+      cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEncodeBHist h) = h) ∧
+      (∀ x y : CauchyWindowTransducerUp,
+        cauchyWindowTransducerFields x = cauchyWindowTransducerFields y → x = y) ∧
+        cauchyWindowTransducerFields
+            (CauchyWindowTransducerUp.mk BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty) =
+          [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+            BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
+          cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+            cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
+              cauchyWindowTransducerEncodeBHist (BHist.e1 BHist.Empty) = [BMark.b1] ∧
+                cauchyWindowTransducerFields
+                    (CauchyWindowTransducerUp.mk BHist.Empty (BHist.e0 BHist.Empty)
+                      (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+                      BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+                  [BHist.Empty, BHist.e0 BHist.Empty, BHist.e1 BHist.Empty, BHist.Empty,
+                    BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+                    BHist.Empty] := by
+  exact ⟨cauchyWindowTransducerDecode_encode_bhist,
+    cauchyWindowTransducer_fields_faithful, rfl, rfl, rfl, rfl, rfl⟩
 
 end BEDC.Derived.CauchyWindowTransducerUp

@@ -44,7 +44,8 @@ theorem DiagonalLimitCompatibilityCarrier_selector_budget_finite_tail_filter_han
     readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
     _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
     _routeCertTransport, provenancePkg⟩ := diagonalCarrier
-  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryCarrierHf, routeR, routeQ, sameNE⟩ :=
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, _unaryCarrierHf, unaryCfFromCarrier, routeR,
+    routeQ, sameNE⟩ :=
     filterCarrier
   have unaryR : UnaryHistory R :=
     unary_cont_closed unaryS unaryD routeR
@@ -57,7 +58,8 @@ theorem DiagonalLimitCompatibilityCarrier_selector_budget_finite_tail_filter_han
   have completionReadUnary : UnaryHistory completionRead :=
     unary_cont_closed realReadUnary unaryCf completionReadRoute
   have filterPacket : FiniteTailFilterCarrier S D R B Q E Hf Cf Pf Nf :=
-    ⟨unaryS, unaryD, unaryB, unaryE, unaryHf, routeR, routeQ, sameNE⟩
+    ⟨unaryS, unaryD, unaryB, unaryE, unaryHf, unaryCfFromCarrier, routeR, routeQ,
+      sameNE⟩
   exact
     ⟨windowsUnary, dyadicUnary, readbackUnary, realSealUnary, finiteSealUnary,
       realReadUnary, completionReadUnary, filterPacket, provenancePkg, completionPkg⟩
