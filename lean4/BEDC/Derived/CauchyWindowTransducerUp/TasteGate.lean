@@ -62,21 +62,60 @@ def cauchyWindowTransducerToEventFlow :
 
 def cauchyWindowTransducerFromEventFlow :
     EventFlow → Option CauchyWindowTransducerUp
-  | streamWindow :: dyadicTolerance :: windowStep :: regSeqReadback :: realSeal ::
-      limitSelector :: transport :: continuation :: provenance :: nameCert :: [] =>
-      some
-        (CauchyWindowTransducerUp.mk
-          (cauchyWindowTransducerDecodeBHist streamWindow)
-          (cauchyWindowTransducerDecodeBHist dyadicTolerance)
-          (cauchyWindowTransducerDecodeBHist windowStep)
-          (cauchyWindowTransducerDecodeBHist regSeqReadback)
-          (cauchyWindowTransducerDecodeBHist realSeal)
-          (cauchyWindowTransducerDecodeBHist limitSelector)
-          (cauchyWindowTransducerDecodeBHist transport)
-          (cauchyWindowTransducerDecodeBHist continuation)
-          (cauchyWindowTransducerDecodeBHist provenance)
-          (cauchyWindowTransducerDecodeBHist nameCert))
-  | _ => none
+  | [] => none
+  | streamWindow :: restDyadicTolerance =>
+      match restDyadicTolerance with
+      | [] => none
+      | dyadicTolerance :: restWindowStep =>
+          match restWindowStep with
+          | [] => none
+          | windowStep :: restRegSeqReadback =>
+              match restRegSeqReadback with
+              | [] => none
+              | regSeqReadback :: restRealSeal =>
+                  match restRealSeal with
+                  | [] => none
+                  | realSeal :: restLimitSelector =>
+                      match restLimitSelector with
+                      | [] => none
+                      | limitSelector :: restTransport =>
+                          match restTransport with
+                          | [] => none
+                          | transport :: restContinuation =>
+                              match restContinuation with
+                              | [] => none
+                              | continuation :: restProvenance =>
+                                  match restProvenance with
+                                  | [] => none
+                                  | provenance :: restNameCert =>
+                                      match restNameCert with
+                                      | [] => none
+                                      | nameCert :: rest =>
+                                          match rest with
+                                          | [] =>
+                                              some
+                                                (CauchyWindowTransducerUp.mk
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    streamWindow)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    dyadicTolerance)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    windowStep)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    regSeqReadback)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    realSeal)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    limitSelector)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    transport)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    continuation)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    provenance)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    nameCert))
+                                          | _ :: _ => none
 
 private theorem cauchyWindowTransducer_round_trip :
     ∀ x : CauchyWindowTransducerUp,
@@ -86,25 +125,59 @@ private theorem cauchyWindowTransducer_round_trip :
   cases x with
   | mk streamWindow dyadicTolerance windowStep regSeqReadback realSeal
       limitSelector transport continuation provenance nameCert =>
-      simp [cauchyWindowTransducerFromEventFlow, cauchyWindowTransducerToEventFlow,
-        cauchyWindowTransducerDecode_encode_bhist]
+      change
+        some
+          (CauchyWindowTransducerUp.mk
+            (cauchyWindowTransducerDecodeBHist
+              (cauchyWindowTransducerEncodeBHist streamWindow))
+            (cauchyWindowTransducerDecodeBHist
+              (cauchyWindowTransducerEncodeBHist dyadicTolerance))
+            (cauchyWindowTransducerDecodeBHist
+              (cauchyWindowTransducerEncodeBHist windowStep))
+            (cauchyWindowTransducerDecodeBHist
+              (cauchyWindowTransducerEncodeBHist regSeqReadback))
+            (cauchyWindowTransducerDecodeBHist
+              (cauchyWindowTransducerEncodeBHist realSeal))
+            (cauchyWindowTransducerDecodeBHist
+              (cauchyWindowTransducerEncodeBHist limitSelector))
+            (cauchyWindowTransducerDecodeBHist
+              (cauchyWindowTransducerEncodeBHist transport))
+            (cauchyWindowTransducerDecodeBHist
+              (cauchyWindowTransducerEncodeBHist continuation))
+            (cauchyWindowTransducerDecodeBHist
+              (cauchyWindowTransducerEncodeBHist provenance))
+            (cauchyWindowTransducerDecodeBHist
+              (cauchyWindowTransducerEncodeBHist nameCert))) =
+          some
+            (CauchyWindowTransducerUp.mk streamWindow dyadicTolerance windowStep
+              regSeqReadback realSeal limitSelector transport continuation provenance
+              nameCert)
+      rw [cauchyWindowTransducerDecode_encode_bhist streamWindow,
+        cauchyWindowTransducerDecode_encode_bhist dyadicTolerance,
+        cauchyWindowTransducerDecode_encode_bhist windowStep,
+        cauchyWindowTransducerDecode_encode_bhist regSeqReadback,
+        cauchyWindowTransducerDecode_encode_bhist realSeal,
+        cauchyWindowTransducerDecode_encode_bhist limitSelector,
+        cauchyWindowTransducerDecode_encode_bhist transport,
+        cauchyWindowTransducerDecode_encode_bhist continuation,
+        cauchyWindowTransducerDecode_encode_bhist provenance,
+        cauchyWindowTransducerDecode_encode_bhist nameCert]
 
 private theorem cauchyWindowTransducerToEventFlow_injective
     {x y : CauchyWindowTransducerUp}
     (h : cauchyWindowTransducerToEventFlow x =
       cauchyWindowTransducerToEventFlow y) :
     x = y := by
-  have hsome : some x = some y := by
-    calc
-      some x = cauchyWindowTransducerFromEventFlow
-          (cauchyWindowTransducerToEventFlow x) := by
-            exact Eq.symm (cauchyWindowTransducer_round_trip x)
-      _ = cauchyWindowTransducerFromEventFlow
-          (cauchyWindowTransducerToEventFlow y) := by
-            rw [h]
-      _ = some y := cauchyWindowTransducer_round_trip y
-  cases hsome
-  rfl
+  have hread :
+      cauchyWindowTransducerFromEventFlow
+          (cauchyWindowTransducerToEventFlow x) =
+        cauchyWindowTransducerFromEventFlow
+          (cauchyWindowTransducerToEventFlow y) :=
+    congrArg cauchyWindowTransducerFromEventFlow h
+  exact Option.some.inj
+    (Eq.trans
+      (cauchyWindowTransducer_round_trip x).symm
+      (Eq.trans hread (cauchyWindowTransducer_round_trip y)))
 
 private theorem cauchyWindowTransducer_fields_faithful :
     ∀ x y : CauchyWindowTransducerUp,
