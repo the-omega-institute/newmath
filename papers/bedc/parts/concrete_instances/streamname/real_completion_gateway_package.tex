@@ -153,3 +153,37 @@ Next use \autoref{thm:streamname-real-completion-gateway-touchpoint-factorizatio
 
 Finally invoke \autoref{thm:streamname-real-completion-gateway-nonescape}. Since every accepted gateway read factors through $S,D,R,E,B,H,C,P,N$, any consumer that mentions one of the excluded coordinates has left the exported carrier. Thus every terminal seal or completion-facing consumer that remains inside the gateway has precisely the displayed no-choice normal form.
 \end{proof}
+
+\begin{theorem}[StreamName Real-completion gateway support-row minimality]
+\label{thm:streamname-real-completion-gateway-support-row-minimality}
+Let
+$$
+G=(S,D,R,E,B,H,C,P,N)
+$$
+be an accepted $\StreamNameUp$ Real-completion gateway packet for the current Phase Real and Completion boundary. The five support rows $B,H,C,P,N$ are independently necessary for the gateway surface:
+\begin{enumerate}
+\item without $B$, there is no displayed observation surface for the four faces $S,D,R,E$;
+\item without $H$, componentwise transport cannot identify the same finite route through the window, ledger, readback, seal, route, provenance, and local naming rows;
+\item without $C$, the ordered route $S \longrightarrow D \longrightarrow R \longrightarrow E$ cannot be replayed inside the packet;
+\item without $P$, provenance over the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces is absent;
+\item without $N$, the local $\NameCert_{\StreamNameUp}$ row for the four faces and their displayed support is absent.
+\end{enumerate}
+When the four faces and all five support rows are present, \autoref{thm:streamname-real-completion-gateway-no-choice-normal-form} gives the unique no-choice normal form. The minimality claim exports no quotient stream equality, host sequence equality, selected limit, countable-choice row, ambient $\RealUp$ completeness, metric-completeness data, standard bridge row, or bridge-row substitute.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:streamname-real-completion-gateway-carrier}. It displays exactly the four faces $S,D,R,E$ and the five support rows $B,H,C,P,N$, with no extra coordinate that could replace one of those support rows.
+
+Apply \autoref{thm:streamname-real-completion-gateway-obligations}. The accepted local $\NameCert_{\StreamNameUp}$ surface assigns $B$ to displayed $\BHist$ observation, $H$ to componentwise $\hsame$ transport, $C$ to displayed $\Cont$ route replay, $P$ to $\Pkg$ provenance, and $N$ to local naming. Removing any one row removes exactly the corresponding obligation from the accepted packet surface.
+
+\begin{enumerate}
+\item The $B$ row is necessary because the carrier and obligation theorem expose the four faces through displayed $\BHist$ observations. Without $B$, the packet may still name $S,D,R,E$, but it has no displayed observation surface for them.
+\item The $H$ row is necessary because the same finite route is compared componentwise through $\hsame$ across the window, ledger, readback, seal, route, provenance, and local naming rows. Without $H$, terminal agreement cannot identify that the read is the same finite route.
+\item The $C$ row is necessary by \autoref{thm:streamname-real-completion-gateway-ordered-source-readback}. The source order $S \longrightarrow D \longrightarrow R \longrightarrow E$ is part of the displayed route replay, so deleting $C$ deletes the internal replay of that order.
+\item The $P$ row is necessary by \autoref{thm:streamname-real-completion-gateway-touchpoint-factorization}. The machine-facing factorization is over the four named faces and their existing route positions; without $P$, the packet has no provenance tying those faces to the gateway package.
+\item The $N$ row is necessary by \autoref{thm:streamname-real-completion-gateway-status-exactness}. Status exactness is read through local $\NameCert_{\StreamNameUp}$ rows for the four faces and their support, so without $N$ the gateway lacks the local naming row that records the status surface.
+\end{enumerate}
+
+With all five support rows present, the same carrier, obligation, ordered-readback, factorization, and status-exactness theorems place the accepted packet back inside the hypotheses of \autoref{thm:streamname-real-completion-gateway-no-choice-normal-form}. That theorem returns the unique no-choice normal form for the current gateway.
+
+The exclusions are preserved because none of the five support rows is a quotient stream equality, host sequence equality, selected limit, countable-choice row, ambient Real completeness datum, metric-completeness datum, standard bridge row, or bridge-row substitute, and the no-choice normal form already rejects every read mentioning those coordinates.
+\end{proof}
