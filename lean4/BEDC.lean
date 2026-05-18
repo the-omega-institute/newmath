@@ -261,6 +261,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.LocalNameOutputExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertObligationExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputLedgerExactness
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputNameStability
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputProvenanceCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRefusal
@@ -408,6 +409,7 @@ import BEDC.Derived.BinderBudgetSealUp.SelfCompileHandoff
 import BEDC.Derived.BinderBudgetSealUp.ShiftNonescape
 import BEDC.Derived.BinderBudgetSealUp.SubstitutionNonescape
 import BEDC.Derived.BinderBudgetSealUp.TasteGate
+import BEDC.Derived.BinderBudgetSealUp.TasteGateCarrierGrounding
 import BEDC.Derived.BinderContextSubstitutionSealUp
 import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BitVectorUp
@@ -1037,6 +1039,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuthorizedRecursorAuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderSealFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerFactorization
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompileRoute
