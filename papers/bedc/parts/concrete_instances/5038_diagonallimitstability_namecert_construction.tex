@@ -246,20 +246,39 @@ Next apply \autoref{thm:diagonal-limit-stability-scoped-namecert-boundary}. The 
 Finally use \autoref{thm:diagonal-limit-stability-tail-refinement-invariance} and \autoref{thm:diagonal-limit-stability-cofinal-refinement-confluence}. Tail refinement and cofinal comparison preserve the sealed $\RealUp$ route through the same public-facing selector-seal corridor, while the carrier exclusions keep quotient-stream equality, host real equality, selected representatives, trichotomy, and ambient completeness outside the export.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit stability bridge corridor]
+\label{thm:diagonal-limit-stability-bridge-corridor}
+An accepted $\DiagonalLimitStabilityUp$ packet
+$$
+T=(R,D,L,S,W,H,C,P,N)
+$$
+supplies a paper bridge from the public selector-seal export of \autoref{thm:diagonal-limit-stability-public-export} to the downstream $\RealUp$-completion corridor. The representative side is bound by $\DiagonalTailSelectorUp$, the seal side is bound by $\CauchyLimitSealUp$ and $\RealUp$, the shared comparison is the displayed $\StreamNameUp$ window, and the replay and provenance rows are exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $T$. The corridor supplies no quotient-stream equality, host real equality, selected representative, trichotomy, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the public selector-seal export of \autoref{thm:diagonal-limit-stability-public-export}. It presents the accepted packet as a $\RealUp$-completeness-facing route from the regular source row through the selector and seal rows to the displayed sealed $\RealUp$ row.
+
+Use the primitive bindings to identify the two bridge sides. By \autoref{thm:diagonal-limit-stability-selector-seal-primitive-binding}, the representative side is read only through $\DiagonalTailSelectorUp$, while the seal side is read only through $\CauchyLimitSealUp$ together with $\RealUp$. By \autoref{thm:diagonal-limit-stability-window-transport-primitive-binding}, the common $\StreamNameUp$ window and the rows $H,C,P,N$ are the whole primitive transport surface.
+
+Now stabilize the corridor under downstream refinement. Apply \autoref{thm:diagonal-limit-stability-tail-refinement-invariance} to preserve the sealed $\RealUp$ route under displayed tail refinement, and apply \autoref{thm:diagonal-limit-stability-cofinal-refinement-confluence} to compare cofinal refined reads through the same sealed route. These two stability clauses make the public export usable as a bridge corridor rather than a one-step display.
+
+The exclusions are inherited from the carrier and from the two stability clauses. Since quotient-stream equality, host real equality, selected representatives, trichotomy, and ambient completeness have no coordinate in $T$, the paper bridge reaches the downstream Real-completion corridor only through the displayed selector, seal, window, replay, provenance, and naming rows.
+\end{proof}
+
 \closureat{DiagonalLimitStabilityUp}{seedStr}
 \closureat{DiagonalLimitStabilityUp}{obligationStr}[BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment]
 \closureat{DiagonalLimitStabilityUp}{scopedStr}[BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment]
 \closureat{DiagonalLimitStabilityUp}{publicStr}[BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment]
+\closureat{DiagonalLimitStabilityUp}{bridgedStr}[BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\DiagonalLimitStabilityUp}
   \constructivestory{A $\DiagonalLimitStabilityUp$ packet is generated from a $\RegSeqRatUp$ source row, diagonal representative row, limit selector row, $\RealUp$ seal row, finite $\StreamNameUp$ window, componentwise $\hsame$ transports, displayed $\Cont$ continuations, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:diagonal-limit-stability-scoped-namecert-boundary} binds the selector row, seal row, finite-window transport, replay surface, provenance, and local NameCert row to the displayed BEDC primitives, and \autoref{thm:diagonal-limit-stability-public-export} exports the resulting route as the public Real-completeness-facing selector-seal corridor.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:diagonal-limit-stability-scoped-namecert-boundary} binds the selector row, seal row, finite-window transport, replay surface, provenance, and local NameCert row to the displayed BEDC primitives, \autoref{thm:diagonal-limit-stability-public-export} exports the route, and \autoref{thm:diagonal-limit-stability-bridge-corridor} supplies the paper bridge to the downstream Real-completion corridor.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \leanchecked{BEDC.Derived.DiagonalLimitStabilityUp.taste\_gate}
-  \notclaimed{This chapter does not prove quotient-stream equality, host real equality, a choice-selected limit representative, trichotomy, ambient completeness, or a public standard bridge.}
-  \upgradepath{The next paper step is a standard bridge or a mature cross-chapter consumer package; the public selector-seal route remains limited to the displayed packet.}
+  \notclaimed{This chapter does not prove quotient-stream equality, host real equality, a choice-selected limit representative, trichotomy, ambient completeness, or a machine-checked standard bridge.}
+  \upgradepath{The remaining paper step is a mature cross-chapter consumer package or machine bridge checking; the bridged selector-seal route remains limited to the displayed packet.}
 \end{closurestatus}
