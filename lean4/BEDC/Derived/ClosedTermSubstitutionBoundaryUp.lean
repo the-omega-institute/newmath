@@ -321,6 +321,33 @@ instance closedTermSubstitutionBoundaryChapterTasteGate :
     intro x y hxy heq
     exact hxy (ClosedTermSubstitutionBoundaryPacket_single_carrier_alignment_injective heq)
 
+def closedTermSubstitutionBoundaryFields : ClosedTermSubstitutionBoundaryUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | ClosedTermSubstitutionBoundaryUp.mk term value depth sourceClosed valueClosed shiftRow
+      substituteRow ledger audit transport route provenance name =>
+      [term, value, depth, sourceClosed, valueClosed, shiftRow, substituteRow, ledger, audit,
+        transport, route, provenance, name]
+
+private theorem closedTermSubstitutionBoundary_field_faithful :
+    ∀ x y : ClosedTermSubstitutionBoundaryUp,
+      closedTermSubstitutionBoundaryFields x = closedTermSubstitutionBoundaryFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk term value depth sourceClosed valueClosed shiftRow substituteRow ledger audit transport
+      route provenance name =>
+      cases y with
+      | mk term' value' depth' sourceClosed' valueClosed' shiftRow' substituteRow' ledger'
+          audit' transport' route' provenance' name' =>
+          cases hfields
+          rfl
+
+instance closedTermSubstitutionBoundaryFieldFaithful :
+    FieldFaithful ClosedTermSubstitutionBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := closedTermSubstitutionBoundaryFields
+  field_faithful := closedTermSubstitutionBoundary_field_faithful
+
 theorem ClosedTermSubstitutionBoundaryPacket_single_carrier_alignment :
     closedTermSubstitutionBoundaryEncodeBHist BHist.Empty = ([] : List BMark) ∧
       (∀ h : BHist,
