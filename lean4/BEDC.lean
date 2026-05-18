@@ -301,6 +301,7 @@ import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BinaryExpansionUp
 import BEDC.Derived.BinderBudgetSealUp.CarrierAdmission
 import BEDC.Derived.BinderBudgetSealUp.ShiftNonescape
+import BEDC.Derived.BinderBudgetSealUp.SelfCompileHandoff
 import BEDC.Derived.BinderBudgetSealUp.SubstitutionNonescape
 import BEDC.Derived.BinderBudgetSealUp.TasteGate
 import BEDC.Derived.BinderContextSubstitutionSealUp
@@ -2003,6 +2004,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.LateOverlap
 import BEDC.Derived.UniformCauchyCriterionUp.NonEscapeObligation
 import BEDC.Derived.UniformCauchyCriterionUp.NonEscapeBoundary
 import BEDC.Derived.UniformCauchyCriterionUp.ObligationAssembly
+import BEDC.Derived.UniformCauchyCriterionUp.OverlapRoundtripConfluence
 import BEDC.Derived.UniformCauchyCriterionUp.PairedOverlapRealSealDeterminacy
 import BEDC.Derived.UniformCauchyCriterionUp.PhaseRealEndpointDeterminacy
 import BEDC.Derived.UniformCauchyCriterionUp.PhaseRealExitConsumerExhaustion
