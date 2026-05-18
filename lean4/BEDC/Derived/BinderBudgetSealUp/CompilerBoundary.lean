@@ -41,4 +41,35 @@ theorem BinderBudgetSealCompilerBoundary [AskSetup] [PackageSetup]
       compilerReadUnary, depthTermShift, depthPayloadSubst, shiftSubstCompiler, namePkg,
       compilerPkg⟩
 
+theorem BinderBudgetSealNonEscape [AskSetup] [PackageSetup]
+    {depth term payload shiftRoute substRoute transport contRoute provenance name shiftRead
+      substRead exportedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinderBudgetSealCarrier depth term payload shiftRoute substRoute transport contRoute
+        provenance name bundle pkg ->
+      Cont shiftRoute name shiftRead ->
+        Cont substRoute name substRead ->
+          Cont shiftRead substRead exportedRead ->
+            PkgSig bundle exportedRead pkg ->
+              UnaryHistory depth ∧ UnaryHistory term ∧ UnaryHistory payload ∧
+                UnaryHistory shiftRead ∧ UnaryHistory substRead ∧ UnaryHistory exportedRead ∧
+                  Cont depth term shiftRoute ∧ Cont depth payload substRoute ∧
+                    Cont shiftRead substRead exportedRead ∧ PkgSig bundle name pkg ∧
+                      PkgSig bundle exportedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier shiftRouteNameRead substRouteNameRead shiftSubstExport exportedPkg
+  obtain ⟨depthUnary, termUnary, payloadUnary, shiftRouteUnary, substRouteUnary,
+    _transportUnary, _contRouteUnary, _provenanceUnary, nameUnary, depthTermShift,
+    depthPayloadSubst, _shiftSubstCont, namePkg⟩ := carrier
+  have shiftReadUnary : UnaryHistory shiftRead :=
+    unary_cont_closed shiftRouteUnary nameUnary shiftRouteNameRead
+  have substReadUnary : UnaryHistory substRead :=
+    unary_cont_closed substRouteUnary nameUnary substRouteNameRead
+  have exportedReadUnary : UnaryHistory exportedRead :=
+    unary_cont_closed shiftReadUnary substReadUnary shiftSubstExport
+  exact
+    ⟨depthUnary, termUnary, payloadUnary, shiftReadUnary, substReadUnary,
+      exportedReadUnary, depthTermShift, depthPayloadSubst, shiftSubstExport, namePkg,
+      exportedPkg⟩
+
 end BEDC.Derived.BinderBudgetSealUp
