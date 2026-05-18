@@ -35,4 +35,36 @@ theorem AuthorizedGeneratorRecursor_grounded_acceptance_surface [AskSetup] [Pack
     unary_cont_closed outputUnary unaryC publicRoute
   exact ⟨branchUnary, descentUnary, outputUnary, publicUnary, pkgSig, sameTransport⟩
 
+theorem AuthorizedGeneratorRecursorReadbackProvenanceSurface [AskSetup] [PackageSetup]
+    {signature eliminator motive branch descent output audit transport continuation provenance
+      boundary localCert readback replay boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuthorizedGeneratorRecursorCarrier signature eliminator motive branch descent output audit
+      transport continuation provenance boundary localCert bundle pkg ->
+        Cont output continuation readback ->
+          Cont readback provenance replay ->
+            Cont boundary localCert boundaryRead ->
+              PkgSig bundle replay pkg ->
+                UnaryHistory output ∧ UnaryHistory readback ∧ UnaryHistory replay ∧
+                  UnaryHistory boundaryRead ∧ Cont output continuation readback ∧
+                    Cont readback provenance replay ∧ Cont boundary localCert boundaryRead ∧
+                      hsame transport (append audit continuation) ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle replay pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro carrier outputReadback readbackReplay boundaryReadRoute replayPkg
+  rcases carrier with
+    ⟨_signatureUnary, _eliminatorUnary, _motiveUnary, _branchUnary, _descentUnary,
+      outputUnary, _auditUnary, _transportUnary, continuationUnary, provenanceUnary,
+      boundaryUnary, localCertUnary, _signatureEliminatorMotive, _motiveBranchDescent,
+      _descentOutputAudit, sameTransport, provenancePkg⟩
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed outputUnary continuationUnary outputReadback
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed readbackUnary provenanceUnary readbackReplay
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed boundaryUnary localCertUnary boundaryReadRoute
+  exact
+    ⟨outputUnary, readbackUnary, replayUnary, boundaryReadUnary, outputReadback,
+      readbackReplay, boundaryReadRoute, sameTransport, provenancePkg, replayPkg⟩
+
 end BEDC.Derived.AuthorizedGeneratorRecursorUp
