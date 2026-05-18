@@ -11,24 +11,24 @@ open BEDC.Meta.TasteGate
 
 inductive RecursorBranchCompletenessUp : Type where
   | mk :
-      (signature recursor motive branches completeness transport continuation provenance
-        nameCert : BHist) ->
+      (signature recursor motive branches completeness transport replay provenance nameCert :
+        BHist) →
       RecursorBranchCompletenessUp
   deriving DecidableEq
 
-def recursorBranchCompletenessEncodeBHist : BHist -> RawEvent
+def recursorBranchCompletenessEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: recursorBranchCompletenessEncodeBHist h
   | BHist.e1 h => BMark.b1 :: recursorBranchCompletenessEncodeBHist h
 
-def recursorBranchCompletenessDecodeBHist : RawEvent -> BHist
+def recursorBranchCompletenessDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (recursorBranchCompletenessDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (recursorBranchCompletenessDecodeBHist tail)
 
-private theorem recursorBranchCompletenessDecodeEncodeBHist :
+private theorem recursorBranchCompleteness_decode_encode_bhist :
     ∀ h : BHist,
       recursorBranchCompletenessDecodeBHist
         (recursorBranchCompletenessEncodeBHist h) = h := by
@@ -42,19 +42,10 @@ private theorem recursorBranchCompletenessDecodeEncodeBHist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def recursorBranchCompletenessFields :
-    RecursorBranchCompletenessUp -> List BHist
+def recursorBranchCompletenessToEventFlow : RecursorBranchCompletenessUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | RecursorBranchCompletenessUp.mk signature recursor motive branches completeness transport
-      continuation provenance nameCert =>
-      [signature, recursor, motive, branches, completeness, transport, continuation,
-        provenance, nameCert]
-
-def recursorBranchCompletenessToEventFlow :
-    RecursorBranchCompletenessUp -> EventFlow
-  -- BEDC touchpoint anchor: BHist BMark
-  | RecursorBranchCompletenessUp.mk signature recursor motive branches completeness transport
-      continuation provenance nameCert =>
+      replay provenance nameCert =>
       [[BMark.b0],
         recursorBranchCompletenessEncodeBHist signature,
         [BMark.b1, BMark.b0],
@@ -68,7 +59,7 @@ def recursorBranchCompletenessToEventFlow :
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         recursorBranchCompletenessEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        recursorBranchCompletenessEncodeBHist continuation,
+        recursorBranchCompletenessEncodeBHist replay,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
         recursorBranchCompletenessEncodeBHist provenance,
@@ -77,7 +68,7 @@ def recursorBranchCompletenessToEventFlow :
         recursorBranchCompletenessEncodeBHist nameCert]
 
 def recursorBranchCompletenessFromEventFlow :
-    EventFlow -> Option RecursorBranchCompletenessUp
+    EventFlow → Option RecursorBranchCompletenessUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
@@ -119,22 +110,28 @@ def recursorBranchCompletenessFromEventFlow :
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | continuation :: rest13 =>
+                                                      | replay :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | provenance :: rest15 =>
+                                                              | provenance ::
+                                                                  rest15 =>
                                                                   match rest15 with
                                                                   | [] => none
-                                                                  | _tag8 :: rest16 =>
-                                                                      match rest16 with
-                                                                      | [] => none
+                                                                  | _tag8 ::
+                                                                      rest16 =>
+                                                                      match
+                                                                        rest16
+                                                                      with
+                                                                      | [] =>
+                                                                          none
                                                                       | nameCert ::
                                                                           rest17 =>
-                                                                          match rest17
-                                                                            with
+                                                                          match
+                                                                            rest17
+                                                                          with
                                                                           | [] =>
                                                                               some
                                                                                 (RecursorBranchCompletenessUp.mk
@@ -151,7 +148,7 @@ def recursorBranchCompletenessFromEventFlow :
                                                                                   (recursorBranchCompletenessDecodeBHist
                                                                                     transport)
                                                                                   (recursorBranchCompletenessDecodeBHist
-                                                                                    continuation)
+                                                                                    replay)
                                                                                   (recursorBranchCompletenessDecodeBHist
                                                                                     provenance)
                                                                                   (recursorBranchCompletenessDecodeBHist
@@ -166,8 +163,7 @@ private theorem recursorBranchCompleteness_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk signature recursor motive branches completeness transport continuation provenance
-      nameCert =>
+  | mk signature recursor motive branches completeness transport replay provenance nameCert =>
       change
         some
           (RecursorBranchCompletenessUp.mk
@@ -184,72 +180,56 @@ private theorem recursorBranchCompleteness_round_trip :
             (recursorBranchCompletenessDecodeBHist
               (recursorBranchCompletenessEncodeBHist transport))
             (recursorBranchCompletenessDecodeBHist
-              (recursorBranchCompletenessEncodeBHist continuation))
+              (recursorBranchCompletenessEncodeBHist replay))
             (recursorBranchCompletenessDecodeBHist
               (recursorBranchCompletenessEncodeBHist provenance))
             (recursorBranchCompletenessDecodeBHist
               (recursorBranchCompletenessEncodeBHist nameCert))) =
           some
             (RecursorBranchCompletenessUp.mk signature recursor motive branches completeness
-              transport continuation provenance nameCert)
-      rw [recursorBranchCompletenessDecodeEncodeBHist signature,
-        recursorBranchCompletenessDecodeEncodeBHist recursor,
-        recursorBranchCompletenessDecodeEncodeBHist motive,
-        recursorBranchCompletenessDecodeEncodeBHist branches,
-        recursorBranchCompletenessDecodeEncodeBHist completeness,
-        recursorBranchCompletenessDecodeEncodeBHist transport,
-        recursorBranchCompletenessDecodeEncodeBHist continuation,
-        recursorBranchCompletenessDecodeEncodeBHist provenance,
-        recursorBranchCompletenessDecodeEncodeBHist nameCert]
+              transport replay provenance nameCert)
+      rw [recursorBranchCompleteness_decode_encode_bhist signature,
+        recursorBranchCompleteness_decode_encode_bhist recursor,
+        recursorBranchCompleteness_decode_encode_bhist motive,
+        recursorBranchCompleteness_decode_encode_bhist branches,
+        recursorBranchCompleteness_decode_encode_bhist completeness,
+        recursorBranchCompleteness_decode_encode_bhist transport,
+        recursorBranchCompleteness_decode_encode_bhist replay,
+        recursorBranchCompleteness_decode_encode_bhist provenance,
+        recursorBranchCompleteness_decode_encode_bhist nameCert]
 
 private theorem recursorBranchCompletenessToEventFlow_injective
     {x y : RecursorBranchCompletenessUp} :
     recursorBranchCompletenessToEventFlow x =
-        recursorBranchCompletenessToEventFlow y ->
-      x = y := by
+      recursorBranchCompletenessToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      recursorBranchCompletenessFromEventFlow
-          (recursorBranchCompletenessToEventFlow x) =
-        recursorBranchCompletenessFromEventFlow
-          (recursorBranchCompletenessToEventFlow y) :=
+      recursorBranchCompletenessFromEventFlow (recursorBranchCompletenessToEventFlow x) =
+        recursorBranchCompletenessFromEventFlow (recursorBranchCompletenessToEventFlow y) :=
     congrArg recursorBranchCompletenessFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (recursorBranchCompleteness_round_trip x).symm
       (Eq.trans hread (recursorBranchCompleteness_round_trip y)))
 
-private theorem recursorBranchCompleteness_fields_faithful :
+def recursorBranchCompletenessFields : RecursorBranchCompletenessUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RecursorBranchCompletenessUp.mk signature recursor motive branches completeness transport
+      replay provenance nameCert =>
+      [signature, recursor, motive, branches, completeness, transport, replay, provenance,
+        nameCert]
+
+private theorem recursorBranchCompleteness_field_faithful :
     ∀ x y : RecursorBranchCompletenessUp,
-      recursorBranchCompletenessFields x =
-        recursorBranchCompletenessFields y ->
-      x = y := by
+      recursorBranchCompletenessFields x = recursorBranchCompletenessFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk signature recursor motive branches completeness transport continuation provenance
-      nameCert =>
+  | mk signature recursor motive branches completeness transport replay provenance nameCert =>
       cases y with
-      | mk signature' recursor' motive' branches' completeness' transport' continuation'
+      | mk signature' recursor' motive' branches' completeness' transport' replay'
           provenance' nameCert' =>
-          injection hfields with hSignature hTail0
-          injection hTail0 with hRecursor hTail1
-          injection hTail1 with hMotive hTail2
-          injection hTail2 with hBranches hTail3
-          injection hTail3 with hCompleteness hTail4
-          injection hTail4 with hTransport hTail5
-          injection hTail5 with hContinuation hTail6
-          injection hTail6 with hProvenance hTail7
-          injection hTail7 with hNameCert _hNil
-          cases hSignature
-          cases hRecursor
-          cases hMotive
-          cases hBranches
-          cases hCompleteness
-          cases hTransport
-          cases hContinuation
-          cases hProvenance
-          cases hNameCert
+          cases hfields
           rfl
 
 instance recursorBranchCompletenessBHistCarrier :
@@ -275,33 +255,64 @@ instance recursorBranchCompletenessFieldFaithful :
     FieldFaithful RecursorBranchCompletenessUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := recursorBranchCompletenessFields
-  field_faithful := recursorBranchCompleteness_fields_faithful
+  field_faithful := recursorBranchCompleteness_field_faithful
 
-instance recursorBranchCompletenessNontrivial :
-    Nontrivial RecursorBranchCompletenessUp where
+instance recursorBranchCompletenessNontrivial : Nontrivial RecursorBranchCompletenessUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨RecursorBranchCompletenessUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      RecursorBranchCompletenessUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+    ⟨RecursorBranchCompletenessUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RecursorBranchCompletenessUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
-theorem RecursorBranchCompletenessNameCertObligations :
-    Nonempty (ChapterTasteGate RecursorBranchCompletenessUp) ∧
-      Nonempty (FieldFaithful RecursorBranchCompletenessUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial RecursorBranchCompletenessUp) ∧
-          (∀ h : BHist,
-            recursorBranchCompletenessDecodeBHist
-              (recursorBranchCompletenessEncodeBHist h) = h) ∧
-            recursorBranchCompletenessEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+def taste_gate : ChapterTasteGate RecursorBranchCompletenessUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  recursorBranchCompletenessChapterTasteGate
+
+def taste_gate_witness : FieldFaithful RecursorBranchCompletenessUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  recursorBranchCompletenessFieldFaithful
+
+theorem RecursorBranchCompletenessTasteGate_single_carrier_alignment :
+    (∀ h : BHist, recursorBranchCompletenessDecodeBHist
+      (recursorBranchCompletenessEncodeBHist h) = h) ∧
+      (∀ x : RecursorBranchCompletenessUp,
+        recursorBranchCompletenessFromEventFlow
+          (recursorBranchCompletenessToEventFlow x) = some x) ∧
+        (∀ x y : RecursorBranchCompletenessUp,
+          recursorBranchCompletenessToEventFlow x =
+            recursorBranchCompletenessToEventFlow y → x = y) ∧
+          recursorBranchCompletenessEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  constructor
+  · exact recursorBranchCompleteness_decode_encode_bhist
+  · constructor
+    · exact recursorBranchCompleteness_round_trip
+    · constructor
+      · intro x y heq
+        exact recursorBranchCompletenessToEventFlow_injective heq
+      · rfl
+
+namespace TasteGate
+
+theorem RecursorBranchCompletenessTasteGate_single_carrier_alignment :
+    (∀ h : BHist, recursorBranchCompletenessDecodeBHist
+      (recursorBranchCompletenessEncodeBHist h) = h) ∧
+      (∀ x : RecursorBranchCompletenessUp,
+        recursorBranchCompletenessFromEventFlow
+          (recursorBranchCompletenessToEventFlow x) = some x) ∧
+        Nonempty (ChapterTasteGate RecursorBranchCompletenessUp) ∧
+          recursorBranchCompletenessEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨⟨recursorBranchCompletenessChapterTasteGate⟩,
-      ⟨⟨recursorBranchCompletenessFieldFaithful⟩,
-        ⟨⟨recursorBranchCompletenessNontrivial⟩,
-          ⟨recursorBranchCompletenessDecodeEncodeBHist, rfl⟩⟩⟩⟩
+    ⟨recursorBranchCompleteness_decode_encode_bhist,
+      recursorBranchCompleteness_round_trip,
+      ⟨recursorBranchCompletenessChapterTasteGate⟩,
+      rfl⟩
+
+end TasteGate
 
 end BEDC.Derived.RecursorBranchCompletenessUp
