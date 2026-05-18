@@ -245,4 +245,17 @@ theorem HostDelegationSocketTasteGate_single_carrier_alignment :
         exact hostDelegationSocketToEventFlow_injective heq
       · rfl
 
+theorem HostDelegationSocket_audit_kernel_rows
+    {marker marker' audit audit' kernel kernel' target target' transport transport'
+      continuation continuation' provenance provenance' ledger ledger' name name' : BHist} :
+    HostDelegationSocketUp.mk marker audit kernel target transport continuation provenance ledger
+        name =
+      HostDelegationSocketUp.mk marker' audit' kernel' target' transport' continuation'
+        provenance' ledger' name' →
+      audit = audit' ∧ kernel = kernel' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro socketEq
+  cases socketEq
+  exact ⟨rfl, rfl⟩
+
 end BEDC.Derived.HostDelegationSocketUp

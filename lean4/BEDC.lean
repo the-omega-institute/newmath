@@ -1191,7 +1191,9 @@ import BEDC.Derived.CompactUniformContinuityUp
 import BEDC.Derived.CompactUniformContinuityUp.BridgeModulusAssembly
 import BEDC.Derived.CompactUniformContinuityUp.BridgeNonEscapeBoundary
 import BEDC.Derived.CompactUniformContinuityUp.BridgeSourcePacket
+import BEDC.Derived.CompactUniformContinuityUp.CarrierBHistRows
 import BEDC.Derived.CompactUniformContinuityUp.CenterRadiusCompatibility
+import BEDC.Derived.CompactUniformContinuityUp.ClassifierSpec
 import BEDC.Derived.CompactUniformContinuityUp.ClassifierTransport
 import BEDC.Derived.CompactUniformContinuityUp.CompactContinuousNameCertExport
 import BEDC.Derived.CompactUniformContinuityUp.ConstantIntervalConsumerRoutes
@@ -4309,6 +4311,7 @@ import BEDC.Derived.ZnormalUp
 import BEDC.Derived.ZnormalUp.RootContReplayClosure
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
 import BEDC.Derived.ZnormalUp.TasteGate
+import BEDC.Derived.ZnormalUp.TerminalConsumerTotality
 import BEDC.Derived.ZnormalUp.TerminalReadbackExactness
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
 import BEDC.DerivedIndexAnalysis
