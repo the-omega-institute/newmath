@@ -39,7 +39,7 @@ $$
 &R_5 \sim R'_5,\quad R_6 \sim R'_6,\quad R_7 \sim R'_7,\quad R_8 \sim R'_8,\quad R_9 \sim R'_9,
 \end{aligned}
 $$
-the index rows display the same finite order, the transport rows display the same $\hsame$ routes for those components and for $I,C,P,L$, and the replay rows display the same $\Cont$ route from window admission through local naming. No comparison is available through hidden permutation, untagged payload, host equality, bucket membership alone, omitted position, or tuple-chapter rewrite.
+the index rows display the same finite order, the transport rows display the same $\hsame$ routes for those components and for $I,C,P,L$, and the replay rows display the same $\Cont$ route from window admission through local naming. No comparison is available through hidden permutation, untagged payload, host equality, bucket membership alone, omitted position, tuple-chapter rewrite, or sequence-chapter rewrite.
 \end{definition}
 
 \begin{theorem}[BHistDecaSequenceNameCert window admission]
@@ -58,12 +58,12 @@ There is no remaining coordinate in the packet. Thus any accepted window read la
 
 \begin{theorem}[BHistDecaSequenceNameCert classifier exactness]
 \label{thm:b-hist-deca-sequence-name-cert-classifier-exactness}
-For accepted $\BHistDecaSequenceNameCertUp$ packets $S$ and $S'$, the classifier of \autoref{def:b-hist-deca-sequence-name-cert-classifier} is exact for the arity-ten sequence window: it compares the ten $\BHist$ rows at matching indices, compares the displayed finite order through $I,I'$, compares the displayed $\hsame$ and $\Cont$ routes through $H,H',C,C'$, and preserves the provenance and local naming rows through $P,P',L,L'$. It does not compare by unordered tuple membership, by a hidden permutation, by a detached order table, by bucket membership alone, or by a host equality test.
+For accepted $\BHistDecaSequenceNameCertUp$ packets $S$ and $S'$, the classifier of \autoref{def:b-hist-deca-sequence-name-cert-classifier} is exact for the arity-ten sequence window: it compares the ten $\BHist$ rows at matching indices, compares the displayed finite order through $I,I'$, compares the displayed $\hsame$ and $\Cont$ routes through $H,H',C,C'$, and preserves the provenance and local naming rows through $P,P',L,L'$. It does not compare by unordered tuple membership, by a hidden permutation, by a detached order table, by bucket membership alone, by any sibling-chapter rewrite, or by a host equality test.
 \end{theorem}
 \begin{proof}
 Start with the classifier definition. It requires one comparison for each matching pair $R_i,R'_i$, requires the index rows to display the same finite order, and requires the displayed transport and replay routes to preserve that same ordered list.
 
-The provenance and local naming rows are part of the same sequence-window carrier, so their comparison is not an external bucket judgment. Since the classifier has no clause for unordered tuple membership, hidden permutation, detached order table, bucket membership alone, or host equality, the displayed indexwise route is the exact comparison surface.
+The provenance and local naming rows are part of the same sequence-window carrier, so their comparison is not an external bucket judgment. Since the classifier has no clause for unordered tuple membership, hidden permutation, detached order table, bucket membership alone, sibling-chapter rewrite, or host equality, the displayed indexwise route is the exact comparison surface.
 \end{proof}
 
 \begin{theorem}[BHistDecaSequenceNameCert index stability]
@@ -96,7 +96,7 @@ Every local $\NameCert_{\BHistDecaSequenceNameCertUp}$ read factors through the 
 $$
 S=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,R_9,I,H,C,P,L).
 $$
-The read may expose the ten-row sequence window, its finite order, and its componentwise routes, but it cannot export an untagged carrier, an eleventh row, a hidden permutation, a host-side equality test, or a relocation of \autoref{ch:concrete-instances-b-hist-deca-tuple-name-cert-namecert}, \autoref{ch:concrete-instances-b-hist-nona-sequence-name-cert-namecert}, \autoref{ch:concrete-instances-b-hist-octa-tuple-name-cert-namecert}, or \autoref{ch:concrete-instances-b-hist-hendeca-tuple-namecert}.
+The read may expose the ten-row sequence window, its finite order, and its componentwise routes, but it cannot export an untagged carrier, an eleventh row, a hidden permutation, a host-side equality test, or a relocation of \autoref{ch:concrete-instances-b-hist-deca-tuple-name-cert-namecert}, \autoref{ch:concrete-instances-b-hist-nona-sequence-name-cert-namecert}, \autoref{ch:concrete-instances-b-hist-nona-tuple-name-cert-namecert}, \autoref{ch:concrete-instances-b-hist-octa-tuple-name-cert-namecert}, or \autoref{ch:concrete-instances-b-hist-hendeca-tuple-namecert}.
 \end{theorem}
 \begin{proof}
 The local name is the row $L$ of the carrier. By \autoref{thm:b-hist-deca-sequence-name-cert-window-admission}, $L$ is read only together with the ten window rows, the index row, and the displayed structural rows.
@@ -113,6 +113,7 @@ $$
 to the tuple and sequence capstones
 \autoref{ch:concrete-instances-b-hist-deca-tuple-name-cert-namecert},
 \autoref{ch:concrete-instances-b-hist-nona-sequence-name-cert-namecert},
+\autoref{ch:concrete-instances-b-hist-nona-tuple-name-cert-namecert},
 \autoref{ch:concrete-instances-b-hist-octa-tuple-name-cert-namecert},
 and \autoref{ch:concrete-instances-b-hist-hendeca-tuple-namecert}, and to the audit-map and anchor-stability supports of \autoref{ch:concrete-instances-auditmapfamily-namecert} and \autoref{ch:concrete-instances-anchor-stability-certificate-namecert}. The resulting scope is the ordered arity-ten $\BHist$ sequence window with displayed index row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row; it is not an unordered bucket tuple, a host-side equality classifier, a hidden permutation, or a hidden eleventh position.
 \end{theorem}
@@ -124,9 +125,9 @@ Apply \autoref{thm:b-hist-deca-sequence-name-cert-index-stability} to force all 
 Finally, apply \autoref{thm:b-hist-deca-sequence-name-cert-local-naming-nonescape}. The local $\NameCert$ row can expose only that displayed packet, so the scoped package has no route to an unordered bucket tuple, host-side equality classifier, hidden permutation, or hidden eleventh position.
 \end{proof}
 
-\falsifiablePrediction{Any accepted consumer route that reads an untagged row, an eleventh payload row, a hidden permutation, or bucket membership alone fails window admission, classifier exactness, index stability, provenance readback, or local naming nonescape for $\BHistDecaSequenceNameCertUp$.}
+\falsifiablePrediction{Any accepted consumer route that reads an unordered tuple coordinate, an untagged row, an eleventh sequence row, a hidden permutation, bucket membership alone, an order table detached from $I$, or a sibling capstone relocation fails window admission, classifier exactness, index stability, provenance readback, or local naming nonescape for $\BHistDecaSequenceNameCertUp$.}
 
-\independenceWitness{b-hist-deca-tuple-name-cert, b-hist-nona-sequence-name-cert, b-hist-octa-tuple-name-cert, and b-hist-hendeca-tuple-namecert: none is bijective to $\BHistDecaSequenceNameCertUp$ because this packet carries ten payload rows plus an order row, while the deca tuple lacks the sequence order row and the nona sequence lacks the tenth payload row.}
+\independenceWitness{b-hist-deca-tuple-name-cert, b-hist-nona-sequence-name-cert, b-hist-nona-tuple-name-cert, b-hist-octa-tuple-name-cert, b-hist-hendeca-tuple-namecert, auditmapfamily, and anchor-stability-certificate: none is bijective to $\BHistDecaSequenceNameCertUp$ because this packet carries ten payload rows plus an order row, componentwise transport, replay, provenance, and local $\NameCert$, while the cited siblings supply sequence, tuple, audit, or anchor surfaces.}
 
 \closureat{BHistDecaSequenceNameCertUp}{seedStr}
 
