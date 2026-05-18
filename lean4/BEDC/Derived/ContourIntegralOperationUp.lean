@@ -64,4 +64,21 @@ theorem ContourIntegralOperationModulusTransport {G F S M I H P N M' outputRead 
     unary_cont_closed unaryI unaryP exportRoute
   exact ⟨unaryM', outputReadUnary, sameInputFace, outputRoute, unaryN⟩
 
+theorem ContourIntegralOperationPublicExport {G F S M I H P N : BHist} :
+    ContourIntegralOperationCarrier G F S M I H P N ->
+      UnaryHistory G ∧ UnaryHistory F ∧ UnaryHistory S ∧ UnaryHistory M ∧
+        UnaryHistory I ∧ UnaryHistory N ∧ hsame H (append G F) ∧ Cont S M I ∧
+          Cont I P N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrier
+  obtain ⟨unaryG, unaryF, unaryS, unaryM, unaryP, sameInputFace, integralRoute,
+    exportRoute⟩ := carrier
+  have unaryI : UnaryHistory I :=
+    unary_cont_closed unaryS unaryM integralRoute
+  have unaryN : UnaryHistory N :=
+    unary_cont_closed unaryI unaryP exportRoute
+  exact
+    ⟨unaryG, unaryF, unaryS, unaryM, unaryI, unaryN, sameInputFace, integralRoute,
+      exportRoute⟩
+
 end BEDC.Derived.ContourIntegralOperationUp
