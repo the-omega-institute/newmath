@@ -1,0 +1,49 @@
+\begin{definition}[MetaCIC critical-path open-phase source ledger]
+\label{def:metacic-critical-path-open-phase-source-ledger}
+For an accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the open-phase source ledger is the finite packet whose local rows are the subject row $S$, normal-form row $N$, obstruction row $O$, unblock row $U$, discharge row $D$, handoff row $H$, continuation row $C$, package row $P$, and provenance ledger row $L$, together with the following four displayed Phase Real source rows:
+$$
+\begin{aligned}
+\DyadicRatCoreUp &: \text{finite dyadic observation budget},\\
+\StreamNameUp &: \text{finite source schedule},\\
+\RegSeqRatUp &: \text{regular-rational readback route},\\
+\RealUp &: \text{terminal Real seal handoff}.
+\end{aligned}
+$$
+The four rows are grounded respectively in \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Each displayed row is read through finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance attached to $K$. The ledger exports no quotient real, host equality, selected limit, countable choice, trichotomy, open-cover compactness, or $\RealUp$ completeness claim.
+\end{definition}
+
+\begin{theorem}[MetaCIC critical-path open-phase source closure]
+\label{thm:metacic-critical-path-open-phase-source-closure}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the open-phase source ledger of Definition~\ref{def:metacic-critical-path-open-phase-source-ledger} is closed under the current Phase Real and Completion handoff surface: every admitted source read factors through the displayed packet rows $S,N,O,U,D,H,C,P,L$ and one of the four rows $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$.
+\end{theorem}
+\begin{proof}
+First expose the packet rows. Theorems~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness}, \ref{thm:metacic-critical-path-root-unblock-route-readiness}, and \ref{thm:metacic-critical-path-root-unblock-consumer-readiness} make $S,N,O,U,D,H,C,P,L$ the finite consumer surface of the accepted packet.
+
+Next attach the four Phase Real rows. Theorem~\ref{thm:metacic-critical-path-l10-entry-budget-synchronization} requires the dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal rows before the route can be entered, while Theorem~\ref{thm:metacic-critical-path-l10-four-object-exit-certificate} identifies those four rows as the current exit certificate.
+
+Finally apply the dependency diamond. Theorem~\ref{thm:metacic-critical-path-phase-real-dependency-diamond} recovers exactly the four displayed source projections from an admitted public entry, and Theorem~\ref{thm:metacic-critical-path-four-source-owner-noncollapse} keeps their owners separate. Hence every admitted source read is already a row of the ledger.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path open-phase source nonescape]
+\label{thm:metacic-critical-path-open-phase-source-nonescape}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, no claim outside the open-phase source ledger can be exported by the current Phase Real and Completion route. In particular, the route exports no quotient real, host equality, selected limit, countable choice, trichotomy, open-cover compactness, or $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with the frontier filter. Theorem~\ref{thm:metacic-critical-path-real-completion-frontier-filter} admits Completion-facing claims only when they are backed by the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.
+
+The exit certificate then removes the listed substitutes. Theorem~\ref{thm:metacic-critical-path-l10-four-object-exit-certificate} supplies no additional coordinate for quotient stream equality, selected host limits, host real equality, trichotomy, open-cover compactness, countable choice, or completed-real closure.
+
+Finally use the Phase Real exit refusal boundary. Theorem~\ref{thm:metacic-critical-path-phase-real-exit-refusal-boundary} states that the accepted exit data are only the four finite object rows together with their local status product. Since Definition~\ref{def:metacic-critical-path-open-phase-source-ledger} records exactly those rows over $S,N,O,U,D,H,C,P,L$, every listed outside principle has no export path through the ledger.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path open-phase consumer totality]
+\label{thm:metacic-critical-path-open-phase-consumer-totality}
+Every current Phase Real and Completion consumer of an accepted $\MetaCICCriticalPathUp$ packet reads the open-phase source ledger as its whole source surface. The consumer may inspect the $\DyadicRatCoreUp$ finite dyadic budget, the $\StreamNameUp$ schedule, the $\RegSeqRatUp$ readback, and the $\RealUp$ seal row through their local chapters, but it receives no fifth roadmap object and no completion principle beyond those rows.
+\end{theorem}
+\begin{proof}
+First use the current readiness surface. Theorem~\ref{thm:metacic-critical-path-current-open-phase-readiness} identifies the Phase Real and Completion route with the finite dependency budget, the L10 entry budget synchronization, and the Real completion frontier filter.
+
+Then read the objectwise status discipline. Theorems~\ref{thm:metacic-critical-path-phase-real-four-face-obligation-surface}, \ref{thm:metacic-critical-path-phase-real-status-product-readiness}, and \ref{thm:metacic-critical-path-l10-face-leantarget-locality} require consumers to use the four local face records rather than an aggregate route credential.
+
+It remains to rule out omitted consumers. Theorem~\ref{thm:metacic-critical-path-four-face-deficiency-refusal} blocks the route when any one of the four face rows is absent, while Theorem~\ref{thm:metacic-critical-path-open-phase-source-closure} says that every admitted source read is already present in the ledger. Thus the ledger is total for current Phase Real and Completion consumers, and no extra roadmap object or completion principle is exported.
+\end{proof}

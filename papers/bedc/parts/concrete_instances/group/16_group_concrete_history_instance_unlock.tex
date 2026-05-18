@@ -191,3 +191,43 @@ The opposite product is identical after reversing the induction order. Thus the
 inverse boundary is a carried $\ListUp$ word endpoint with a finite cancellation
 ledger, not a transported theorem about an ambient group object.
 \end{proof}
+
+\begin{theorem}[Group finite-word NameCert package]
+\label{thm:group-finite-word-namecert-package}
+The finite-word carrier, classifier, concatenation product, empty-word unit,
+and reversal inverse of \autoref{def:group-finite-word-history-instance},
+together with operation closure from
+\autoref{thm:group-finite-word-operation-closure}, inverse boundary from
+\autoref{thm:group-finite-word-inverse-boundary}, singleton laws from
+\autoref{thm:group-singleton-empty-history-laws}, and the $\MonoidUp$
+dependency of \autoref{thm:group-concrete-monoid-dependency}, form the local
+finite-word $\NameCert_{\GroupUp}$ package. Hence the algebra-hierarchy
+consumer receives a concrete finite $\BHist$ word surface rather than an
+abstract group parameter.
+\end{theorem}
+\begin{proof}
+Project the rows of \autoref{def:group-finite-word-history-instance}. The
+carrier is $\mathsf{WordCarrier}_{\GroupUp}$, the classifier is
+$\mathsf{WordClass}_{\GroupUp}$, the product is finite concatenation, the unit
+is $\mathsf{nil}$, and inverse is reversal followed by the singleton inverse
+row on each component.
+
+Apply \autoref{thm:group-finite-word-operation-closure}. It supplies
+multiplication closure, classifier transport for multiplication, the empty-word
+unit laws, and finite append associativity on exactly these projected rows.
+The dependency on \autoref{thm:group-concrete-monoid-dependency} identifies
+this operation ledger with the unary append $\MonoidUp$ surface consumed by
+the group packet.
+
+Next apply \autoref{thm:group-finite-word-inverse-boundary}. It supplies
+inverse closure and both finite cancellation ledgers for the reversal inverse.
+The componentwise endpoint obligations are the singleton inverse and unit rows
+of \autoref{thm:group-singleton-empty-history-laws}, so no external group
+carrier or quotient relation is imported.
+
+These rows exhaust the local $\NameCert_{\GroupUp}$ fields: carried finite
+words, componentwise classification, product, unit, inverse, product closure,
+unit and associativity laws, inverse closure, and inverse laws. Repacking them
+gives the concrete algebra-hierarchy object as a finite $\BHist$ word package,
+not a schema parameter awaiting a host group.
+\end{proof}

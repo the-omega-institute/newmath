@@ -41,6 +41,55 @@ any route adding host real equality, ambient completeness, countable choice,
 or a selected limit lies outside the displayed certificate surface.
 \end{proof}
 
+\begin{theorem}[Real terminal seal four-face status pullback]
+\label{thm:real-terminal-seal-four-face-status-pullback}
+Every public $\RealUp$ terminal seal read whose route factors through
+$$
+\StreamNameUp,\quad \RegSeqRatUp,\quad \DyadicRatCoreUp,\quad \RealUp
+$$
+reads its audit and status data exactly as the four objectwise closurestatus
+records of those faces. The $\StreamNameUp$, $\RegSeqRatUp$,
+$\DyadicRatCoreUp$, and local $\RealUp$ records keep their own closurestatus,
+formalstatus, leantarget, and bridgestatus rows; the terminal seal route
+creates no route-level $\formalstatus$ and no aggregate bridge row.
+
+Conversely, any terminal seal read carrying those four face records together
+with the displayed
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+rows factors through the same terminal seal sibling route and through the same
+four-face terminal pullback boundary. This equivalence does not assert
+quotient stream equality, selected limits, countable choice,
+metric-completeness data, or any $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+First locate the route. Apply
+\autoref{thm:real-terminal-seal-sibling-route}. The public terminal seal read
+is confined to the StreamName window, RegSeqRat readback, DyadicRatCore
+tolerance ledger, and local Real seal row, with only the displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next read the status data objectwise. Apply
+\autoref{thm:real-l10-four-face-status-lookup} and
+\autoref{thm:real-l10-current-phase-exit-audit-pullback}. These identify the
+audit boundary with the product of the four local closurestatus records, while
+leaving each closurestatus, formalstatus, leantarget, and bridgestatus entry
+attached to its own face.
+
+For the converse, start with a terminal seal read carrying exactly those four
+face records and the displayed support rows. Apply
+\autoref{thm:real-l10-terminal-pullback-coherence}. The objectwise status
+threshold and the shared StreamName, RegSeqRat, DyadicRatCore, Real,
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates repack the
+read as the same terminal pullback boundary.
+
+The exclusion clause follows from the same three cited results. None of their
+routes contains a coordinate for a route-level $\formalstatus$, aggregate
+bridge row, quotient stream equality, selected limit, countable-choice row,
+metric-completeness datum, or $\RealUp$ completeness claim.
+\end{proof}
+
 \begin{theorem}[Real terminal seal four-face cover normal form]
 \label{thm:real-terminal-seal-four-face-cover-normal-form}
 Let $\{\mathcal R_i\}_{i\in I}$ be a finite family of public $\RealUp$
@@ -277,4 +326,89 @@ descent has no coordinate for quotient streams, host reals, selected limits,
 countable choice, ambient completeness, metric completeness, or a standard
 bridge, the audit read cannot manufacture an aggregate bridge or verification
 record.
+\end{proof}
+
+\begin{definition}[Real terminal seal dependency manifest]
+\label{def:real-terminal-seal-dependency-manifest}
+The $\RealUp$ terminal-seal dependency manifest is the finite packet
+$$
+\mathsf{Dep}_{\RealUp}^{\mathrm{term}}
+  =(S,D,R,E,B,H,C,P,N)
+$$
+attached to a public terminal-seal read, with the following rows:
+\begin{enumerate}
+\item $S$ is the finite $\StreamNameUp$ window of stream names and finite
+request coordinates.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint, radius, and distance ledger over
+the window $S$.
+\item $R$ is the $\RegSeqRatUp$ classifier, regularity, and readback row over
+the same finite requests.
+\item $E$ is the local $\RealUp$ seal-source row obtained from the
+StreamName--DyadicRatCore--RegSeqRat pullback.
+\item $B,H,C,P,N$ are respectively the shared $\BHist$ ledger, $\hsame$
+transport, $\Cont$ route, $\Pkg$ provenance, and $\NameCert$ row used by the
+four faces.
+\end{enumerate}
+
+A public terminal-seal read consumes a dependency iff it is one of these nine
+rows or a restriction of one of them along a finite cover member.
+\end{definition}
+
+\begin{theorem}[Real terminal seal dependency manifest exhaustion]
+\label{thm:real-terminal-seal-dependency-manifest-exhaustion}
+Every public $\RealUp$ terminal-seal read factors through exactly the manifest
+$\mathsf{Dep}_{\RealUp}^{\mathrm{term}}$. Equivalently, after restricting the
+read to any finite cover, all data consumed by the read are exhausted by the
+$\StreamNameUp$ window, the $\DyadicRatCoreUp$ endpoint-radius-distance ledger,
+the $\RegSeqRatUp$ classifier/readback row, the local $\RealUp$ seal row, and
+the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. These
+rows paste back to the public read and no further dependency coordinate is
+available.
+\end{theorem}
+\begin{proof}
+Put the public read in four-face normal form by applying
+\autoref{thm:real-terminal-seal-four-face-cover-normal-form}. This identifies
+the read with the four displayed faces over the shared $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ support, which is precisely the manifest
+packet of \autoref{def:real-terminal-seal-dependency-manifest}.
+
+Now restrict the read along a finite cover. Apply
+\autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness}: the local
+restrictions form a cocycle on those same rows, and the cocycle pastes back to
+the original public terminal-seal read.
+
+It remains to rule out an additional dependency coordinate. Apply
+\autoref{thm:real-terminal-seal-audit-noncollapse}. The only audit rows visible
+from the pasted read are the objectwise rows of the four faces, and there is no
+route-level replacement row. Hence every public dependency is one of the
+manifest rows or its finite-cover restriction, and the manifest exhausts the
+read.
+\end{proof}
+
+\begin{theorem}[Real terminal seal dependency manifest non-escape]
+\label{thm:real-terminal-seal-dependency-manifest-non-escape}
+The manifest $\mathsf{Dep}_{\RealUp}^{\mathrm{term}}$ contains no row for
+quotient stream equality, host real equality, selected limits, countable
+choice, ambient completeness, metric-completeness data, or standard-bridge
+data. Consequently no public $\RealUp$ terminal-seal read may consume any of
+those objects through the manifest.
+\end{theorem}
+\begin{proof}
+The manifest rows are listed in
+\autoref{def:real-terminal-seal-dependency-manifest}; each row is one of
+$S,D,R,E,B,H,C,P,N$ and therefore belongs to the four-face terminal-seal route
+or to its shared BEDC support.
+
+Apply \autoref{thm:real-terminal-seal-dependency-manifest-exhaustion}. Any
+public terminal-seal read consumes only those rows or their finite-cover
+restrictions.
+
+Finally apply the exclusion clauses of
+\autoref{thm:real-terminal-seal-four-face-cover-normal-form},
+\autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness}, and
+\autoref{thm:real-terminal-seal-audit-noncollapse}. None of the four-face
+normal form, finite-cover cocycle, or audit projection contains quotient stream
+equality, host real equality, selected limits, countable choice, ambient
+completeness, metric-completeness data, or standard-bridge data. Since the
+manifest has no coordinate for such data, no public read can escape through it.
 \end{proof}

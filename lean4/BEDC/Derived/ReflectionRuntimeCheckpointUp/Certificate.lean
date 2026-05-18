@@ -17,8 +17,9 @@ def ReflectionRuntimeCheckpointCarrier
     (input state trace validation transport route provenance localName : BHist) : Prop :=
   UnaryHistory input ∧ UnaryHistory state ∧ UnaryHistory trace ∧
     UnaryHistory validation ∧ UnaryHistory transport ∧ UnaryHistory provenance ∧
-      Cont input state trace ∧ Cont trace validation route ∧
-        Cont provenance validation localName ∧ hsame localName (append provenance validation)
+      Cont input state trace ∧ Cont trace validation transport ∧
+        Cont trace validation route ∧ Cont transport route provenance ∧
+          Cont provenance validation localName ∧ hsame localName (append provenance validation)
 
 theorem ReflectionRuntimeCheckpointCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {input state trace validation transport route provenance localName checkpointRead : BHist}
@@ -36,8 +37,9 @@ theorem ReflectionRuntimeCheckpointCarrier_namecert_obligations [AskSetup] [Pack
   -- BEDC touchpoint anchor: BHist hsame UnaryHistory Cont ProbeBundle Pkg
   intro carrier checkpointSame checkpointPkg
   obtain ⟨inputUnary, stateUnary, traceUnary, validationUnary, _transportUnary,
-    _provenanceUnary, inputStateTrace, traceValidationRoute,
-    provenanceValidationLocalName, localNameMatchesValidation⟩ := carrier
+    _provenanceUnary, inputStateTrace, _traceValidationTransport, traceValidationRoute,
+    _transportRouteProvenance, provenanceValidationLocalName,
+    localNameMatchesValidation⟩ := carrier
   have checkpointUnary : UnaryHistory checkpointRead :=
     unary_transport
       (unary_cont_closed _provenanceUnary validationUnary provenanceValidationLocalName)
