@@ -251,6 +251,24 @@ def taste_gate : ChapterTasteGate LargeModelOutputVerifierUp :=
   -- BEDC touchpoint anchor: BHist BMark
   largeModelOutputVerifierChapterTasteGateConcrete
 
+private theorem largeModelOutputVerifier_single_carrier_alignment_concrete :
+    (largeModelOutputVerifierEncodeBHist BHist.Empty = ([] : List BMark)) ∧
+      (∀ h : BHist,
+        largeModelOutputVerifierDecodeBHist
+          (largeModelOutputVerifierEncodeBHist h) = h) ∧
+        (∀ x : LargeModelOutputVerifierUp,
+          largeModelOutputVerifierFromEventFlow
+            (largeModelOutputVerifierToEventFlow x) = some x) ∧
+          (∀ x y : LargeModelOutputVerifierUp,
+            largeModelOutputVerifierToEventFlow x =
+                largeModelOutputVerifierToEventFlow y →
+              x = y) := by
+  exact
+    ⟨rfl,
+      largeModelOutputVerifierDecode_encode_bhist,
+      largeModelOutputVerifier_round_trip,
+      fun _ _ heq => largeModelOutputVerifierToEventFlow_injective heq⟩
+
 namespace TasteGate
 
 theorem LargeModelOutputVerifierTasteGate_single_carrier_alignment :
@@ -266,11 +284,7 @@ theorem LargeModelOutputVerifierTasteGate_single_carrier_alignment :
                 largeModelOutputVerifierToEventFlow y →
               x = y) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact
-    ⟨rfl,
-      largeModelOutputVerifierDecode_encode_bhist,
-      largeModelOutputVerifier_round_trip,
-      (fun _ _ heq => largeModelOutputVerifierToEventFlow_injective heq)⟩
+  exact largeModelOutputVerifier_single_carrier_alignment_concrete
 
 end TasteGate
 

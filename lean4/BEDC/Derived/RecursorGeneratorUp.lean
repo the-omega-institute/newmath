@@ -294,4 +294,25 @@ theorem RecursorGenerator_audit_non_escape
       exact ⟨source.left, pkgSig⟩
   }
 
+theorem RecursorGeneratorAuthorizedOutputFactorization
+    {signature eliminator branches audit metacic transport cont provenance name outputRead :
+      BHist} :
+    recursorGeneratorFromEventFlow
+        (recursorGeneratorToEventFlow
+          (RecursorGeneratorUp.mk signature eliminator branches audit metacic transport cont
+            provenance name)) =
+      some
+        (RecursorGeneratorUp.mk signature eliminator branches audit metacic transport cont
+          provenance name) ->
+      Cont eliminator branches outputRead ->
+        UnaryHistory eliminator ->
+          UnaryHistory branches ->
+            UnaryHistory outputRead ∧ Cont eliminator branches outputRead ∧
+              recursorGeneratorEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory
+  intro _carrierRoundTrip eliminatorBranchesOutputRead eliminatorUnary branchesUnary
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed eliminatorUnary branchesUnary eliminatorBranchesOutputRead
+  exact ⟨outputReadUnary, eliminatorBranchesOutputRead, rfl⟩
+
 end BEDC.Derived.RecursorGeneratorUp
