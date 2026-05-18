@@ -290,6 +290,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NormalizationConsumerNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NormalizationFrontierConsumerLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ObligationTriad
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.OperationalMembraneAuditHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputAuditLedger
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputAuditNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputLedgerExactness
@@ -344,6 +345,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootNameCertConsumerReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootNormalizationBoundary
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputAuditExactness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputAuditTotality
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputBoundaryPackage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputBoundaryTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputConsumerTriad
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputNameCertSaturation
@@ -381,6 +383,7 @@ import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomQueryLedgerUp
+import BEDC.Derived.AxiomRefusalLedgerUp.NameCertObligations
 import BEDC.Derived.AxiomRefusalLedgerUp.TasteGate
 import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
 import BEDC.Derived.AxisAddUp.TasteGate
@@ -427,6 +430,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.RootUnblockPackageCertificate
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RouteProvenanceTriadObligations
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SevenRowCoverage
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SourceLock
+import BEDC.Derived.BHistArity13TupleNameCertUp
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
 import BEDC.Derived.BHistDecaSequenceNameCertUp
 import BEDC.Derived.BHistDecaTupleNameCertUp
@@ -2985,6 +2989,7 @@ import BEDC.Derived.NoGlobalSyncBoundaryUp.TasteGate
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.TasteGate
 import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.NonAxiomAdmissionUp.TasteGate
+import BEDC.Derived.NonAxiomBoundaryFormUp.NameCertObligations
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.NormUp
@@ -3192,6 +3197,7 @@ import BEDC.Derived.PicardContractionUp.ModulusConsumerExhaustion
 import BEDC.Derived.PicardContractionUp.ObligationSurface
 import BEDC.Derived.PicardContractionUp.PublicExports
 import BEDC.Derived.PicardContractionUp.PublicIterateLedger
+import BEDC.Derived.PicardContractionUp.RealRegSeqRatConsumerHandoff
 import BEDC.Derived.PicardContractionUp.RootModulusConsumerLock
 import BEDC.Derived.PicardContractionUp.RootSourceWindowHandoff
 import BEDC.Derived.PicardContractionUp.SourceReadback
@@ -3433,6 +3439,7 @@ import BEDC.Derived.RealUp.FiniteWindowStabilityPackage
 import BEDC.Derived.RealUp.Index
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.L10DependencyLattice
+import BEDC.Derived.RealUp.L10FaceStatusNoncollapse
 import BEDC.Derived.RealUp.L10FiniteWindowWitnessDeterminacy
 import BEDC.Derived.RealUp.L10TerminalFaceOrder
 import BEDC.Derived.RealUp.MalformedEndpoint
@@ -4274,16 +4281,20 @@ import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripConsumerNonescape
+import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPoleBoundary
+import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPublicRefusal
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaFunctionalBoundaryTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleGammaBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportRouteLock
+import BEDC.Derived.ZetaContinuationWitnessUp.PublicSourceLockExport
 import BEDC.Derived.ZetaContinuationWitnessUp.RootPackage
 import BEDC.Derived.ZetaContinuationWitnessUp.RootReadinessSourceSeal
 import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerSourceReadiness
+import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingSourceAccountability
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroRouteInputPackage
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.ZnormalUp

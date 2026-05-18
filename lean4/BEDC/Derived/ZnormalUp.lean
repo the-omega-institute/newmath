@@ -258,4 +258,32 @@ theorem ZnormalPacket_total_host_refusal_boundary [AskSetup] [PackageSetup]
       readbackUnary, typedFuelTerminal, terminalNormalRefusal, refusalContinuationReadback,
       provenancePkg, readbackPkg⟩
 
+theorem ZnormalRootCarrierObligationCompletion [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg →
+      Cont typed terminal rootRead →
+        PkgSig bundle rootRead pkg →
+          UnaryHistory typed ∧ UnaryHistory fuel ∧ UnaryHistory terminal ∧
+            UnaryHistory normal ∧ UnaryHistory continuation ∧ UnaryHistory transports ∧
+              UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+                UnaryHistory rootRead ∧ Cont typed fuel terminal ∧
+                  Cont terminal normal continuation ∧ Cont continuation transports routes ∧
+                    Cont typed terminal rootRead ∧ PkgSig bundle name pkg ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle rootRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet typedTerminalRootRead rootReadPkg
+  obtain ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary,
+    transportsUnary, routesUnary, provenanceUnary, nameUnary, typedFuelTerminal,
+    terminalNormalContinuation, continuationTransportsRoutes, namePkg, provenancePkg⟩ :=
+    packet
+  have rootReadUnary : UnaryHistory rootRead :=
+    unary_cont_closed typedUnary terminalUnary typedTerminalRootRead
+  exact
+    ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary,
+      transportsUnary, routesUnary, provenanceUnary, nameUnary, rootReadUnary,
+      typedFuelTerminal, terminalNormalContinuation, continuationTransportsRoutes,
+      typedTerminalRootRead, namePkg, provenancePkg, rootReadPkg⟩
+
 end BEDC.Derived.ZnormalUp
