@@ -283,4 +283,122 @@ def taste_gate : ChapterTasteGate TailCofinalityBudgetUp :=
   -- BEDC touchpoint anchor: BHist BMark
   tailCofinalityBudgetChapterTasteGate
 
+theorem TailCofinalityBudget_nonescape {flow : EventFlow}
+    {threshold window dyadic readback sealRow transport route provenance name : BHist}
+    (hflow :
+      tailCofinalityBudgetFromEventFlow flow =
+        some
+          (TailCofinalityBudgetUp.mk threshold window dyadic readback sealRow transport route
+            provenance name)) :
+    ∃ (tag0 eThreshold tag1 eWindow tag2 eDyadic tag3 eReadback tag4 eSeal :
+        List BMark) (tail : EventFlow),
+      flow =
+          tag0 :: eThreshold :: tag1 :: eWindow :: tag2 :: eDyadic :: tag3 :: eReadback ::
+            tag4 :: eSeal :: tail ∧
+        tailCofinalityBudgetDecodeBHist eThreshold = threshold ∧
+          tailCofinalityBudgetDecodeBHist eWindow = window ∧
+            tailCofinalityBudgetDecodeBHist eDyadic = dyadic ∧
+              tailCofinalityBudgetDecodeBHist eReadback = readback ∧
+                tailCofinalityBudgetDecodeBHist eSeal = sealRow := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases flow with
+  | nil =>
+      cases hflow
+  | cons tag0 rest0 =>
+      cases rest0 with
+      | nil =>
+          cases hflow
+      | cons eThreshold rest1 =>
+          cases rest1 with
+          | nil =>
+              cases hflow
+          | cons tag1 rest2 =>
+              cases rest2 with
+              | nil =>
+                  cases hflow
+              | cons eWindow rest3 =>
+                  cases rest3 with
+                  | nil =>
+                      cases hflow
+                  | cons tag2 rest4 =>
+                      cases rest4 with
+                      | nil =>
+                          cases hflow
+                      | cons eDyadic rest5 =>
+                          cases rest5 with
+                          | nil =>
+                              cases hflow
+                          | cons tag3 rest6 =>
+                              cases rest6 with
+                              | nil =>
+                                  cases hflow
+                              | cons eReadback rest7 =>
+                                  cases rest7 with
+                                  | nil =>
+                                      cases hflow
+                                  | cons tag4 rest8 =>
+                                      cases rest8 with
+                                      | nil =>
+                                          cases hflow
+                                      | cons eSeal rest9 =>
+                                          cases rest9 with
+                                          | nil =>
+                                              cases hflow
+                                          | cons tag5 rest10 =>
+                                              cases rest10 with
+                                              | nil =>
+                                                  cases hflow
+                                              | cons eTransport rest11 =>
+                                                  cases rest11 with
+                                                  | nil =>
+                                                      cases hflow
+                                                  | cons tag6 rest12 =>
+                                                      cases rest12 with
+                                                      | nil =>
+                                                          cases hflow
+                                                      | cons eRoute rest13 =>
+                                                          cases rest13 with
+                                                          | nil =>
+                                                              cases hflow
+                                                          | cons tag7 rest14 =>
+                                                              cases rest14 with
+                                                              | nil =>
+                                                                  cases hflow
+                                                              | cons eProvenance rest15 =>
+                                                                  cases rest15 with
+                                                                  | nil =>
+                                                                      cases hflow
+                                                                  | cons tag8 rest16 =>
+                                                                      cases rest16 with
+                                                                      | nil =>
+                                                                          cases hflow
+                                                                      | cons eName rest17 =>
+                                                                          cases rest17 with
+                                                                          | nil =>
+                                                                              injection hflow with hmk
+                                                                              cases hmk
+                                                                              exact
+                                                                                ⟨tag0,
+                                                                                  eThreshold,
+                                                                                  tag1,
+                                                                                  eWindow,
+                                                                                  tag2,
+                                                                                  eDyadic,
+                                                                                  tag3,
+                                                                                  eReadback,
+                                                                                  tag4,
+                                                                                  eSeal,
+                                                                                  [tag5,
+                                                                                    eTransport,
+                                                                                    tag6,
+                                                                                    eRoute,
+                                                                                    tag7,
+                                                                                    eProvenance,
+                                                                                    tag8,
+                                                                                    eName],
+                                                                                  rfl, rfl, rfl,
+                                                                                  rfl, rfl, rfl⟩
+                                                                          | cons _ _ =>
+                                                                              cases hflow
+
 end BEDC.Derived.TailCofinalityBudgetUp
