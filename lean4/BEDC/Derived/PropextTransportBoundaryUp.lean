@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -10,6 +11,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -153,5 +155,74 @@ theorem PropextTransportBoundaryNonEscape [AskSetup] [PackageSetup]
   exact
     ⟨contextUnary, contextCont, localNamePkg, contextPkg, hsame_refl bidirectional,
       hsame_refl replacement, hsame_refl continuation⟩
+
+theorem PropextTransportBoundaryThreeAxiomsSiblingLink [AskSetup] [PackageSetup]
+    {bidirectional direction replacement transport continuation provenance localName
+      siblingRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PropextTransportBoundaryCarrier bidirectional direction replacement transport
+        continuation provenance localName bundle pkg →
+      Cont transport continuation siblingRead →
+        PkgSig bundle siblingRead pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                hsame row localName ∧
+                  PropextTransportBoundaryCarrier bidirectional direction replacement
+                    transport continuation provenance localName bundle pkg)
+              (fun row : BHist => hsame row localName ∧
+                Cont transport continuation siblingRead)
+              (fun row : BHist => hsame row localName ∧ PkgSig bundle siblingRead pkg)
+              hsame ∧
+            UnaryHistory transport ∧ UnaryHistory continuation ∧ UnaryHistory siblingRead ∧
+              Cont transport continuation siblingRead ∧ PkgSig bundle localName pkg ∧
+                PkgSig bundle siblingRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro carrier transportContinuation siblingPkg
+  have carrierWitness := carrier
+  obtain ⟨_bidirectionalUnary, _directionUnary, _replacementUnary, transportUnary,
+    continuationUnary, _provenanceUnary, _localNameUnary, _carrierForward,
+    _carrierReverse, localNamePkg⟩ := carrier
+  have siblingUnary : UnaryHistory siblingRead :=
+    unary_cont_closed transportUnary continuationUnary transportContinuation
+  have sourceAtName :
+      hsame localName localName ∧
+        PropextTransportBoundaryCarrier bidirectional direction replacement transport
+          continuation provenance localName bundle pkg :=
+    And.intro (hsame_refl localName) carrierWitness
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row localName ∧
+              PropextTransportBoundaryCarrier bidirectional direction replacement transport
+                continuation provenance localName bundle pkg)
+          (fun row : BHist => hsame row localName ∧
+            Cont transport continuation siblingRead)
+          (fun row : BHist => hsame row localName ∧ PkgSig bundle siblingRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro localName sourceAtName
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact And.intro (hsame_trans (hsame_symm sameRows) source.left) source.right
+    }
+    pattern_sound := by
+      intro _row source
+      exact And.intro source.left transportContinuation
+    ledger_sound := by
+      intro _row source
+      exact And.intro source.left siblingPkg
+  }
+  exact
+    ⟨cert, transportUnary, continuationUnary, siblingUnary, transportContinuation,
+      localNamePkg, siblingPkg⟩
 
 end BEDC.Derived.PropextTransportBoundaryUp
