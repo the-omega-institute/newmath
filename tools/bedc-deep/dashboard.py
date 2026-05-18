@@ -1091,7 +1091,7 @@ def render_discovery_lane() -> str:
 
 
 def _read_research_latest_counts() -> dict[str, int]:
-    counts = {"packets": 0, "ready": 0, "blocked": 0, "oracle_recommended": 0}
+    counts = {"packets": 0, "ready": 0, "blocked": 0, "oracle_after_codex": 0}
     if not RESEARCH_CANDIDATES_LATEST.exists():
         return counts
     try:
@@ -1106,6 +1106,10 @@ def _read_research_latest_counts() -> dict[str, int]:
         if not match:
             continue
         key, value = match.groups()
+        if key == "oracle_recommended":
+            key = "oracle_after_codex"
+        elif key == "oracle_recommended_after_codex":
+            key = "oracle_after_codex"
         if key in counts:
             counts[key] = int(value)
     return counts
@@ -1166,7 +1170,7 @@ def render_research_candidate_lane() -> str:
     lines = [
         (
             f"  latest packets={counts['packets']} ready={counts['ready']} "
-            f"blocked={counts['blocked']} oracle_recommended={counts['oracle_recommended']}"
+            f"blocked={counts['blocked']} oracle_after_codex={counts['oracle_after_codex']}"
         )
     ]
     if counts["ready"] and profiles:

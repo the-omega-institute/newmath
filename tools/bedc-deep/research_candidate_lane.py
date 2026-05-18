@@ -339,6 +339,9 @@ def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str
         reasons.extend("logic_packet_gate:" + reason for reason in gate.reasons)
     text = _text(enriched)
     oracle_recommended = bool(ORACLE_WORTHY_RE.search(text)) and not reasons
+    # This is an escalation hint, not a routing decision.  BOARD targets still
+    # run through Codex deep reasoning first; oracle receives them only if
+    # Codex names a concrete missing structure or exhausts the local route.
     if oracle_recommended:
         enriched["oracle_mode"] = "proof_search"
     _set_missing(enriched, "difficulty", _difficulty(enriched))
@@ -569,7 +572,7 @@ def render_latest(packets: list[dict[str, Any]]) -> str:
         f"- packets: {len(packets)}",
         f"- ready: {len(ready)}",
         f"- blocked: {len(blocked)}",
-        f"- oracle_recommended: {len(oracle)}",
+        f"- oracle_recommended_after_codex: {len(oracle)}",
         f"- ready_budget: {_render_counts(ready_budget)}",
         f"- ready_difficulty: {_render_counts(ready_difficulty)}",
         f"- ready_oracle_mode: {_render_counts(ready_oracle_mode)}",
@@ -580,7 +583,7 @@ def render_latest(packets: list[dict[str, Any]]) -> str:
     for packet in ready[:20]:
         c = packet["candidate"]
         lines.append(
-            f"- {c.get('title')} [{c.get('axiom_budget')}, oracle={packet.get('oracle_recommended')}]"
+            f"- {c.get('title')} [{c.get('axiom_budget')}, oracle_after_codex={packet.get('oracle_recommended')}]"
         )
     lines.extend(["", "## Blocked", ""])
     for packet in blocked[:20]:
