@@ -383,6 +383,7 @@ The ledger non-escape theorem then removes the only remaining escape route. Beca
 \label{thm:closed-term-substitution-boundary-depth-row-stability}
 Transporting an accepted $\ClosedTermSubstitutionBoundaryUp$ packet by componentwise $\hsame$ preserves the inspected depth row $d$. The transported packet may move the displayed term rows, closedness witnesses, operation rows, ledger, audit row, continuation routes, package provenance, and local name through the rows listed in \autoref{def:closed-term-substitution-boundary-carrier}, but it cannot replace $d$ by an unlisted binder budget.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryDepthRowStability}
 \begin{proof}
 Project the carrier row of \autoref{def:closed-term-substitution-boundary-carrier}. The inspected depth $d$ is a named coordinate of the same packet as $T,V,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$.
 
@@ -395,6 +396,7 @@ Apply ledger non-escape from \autoref{thm:closed-term-substitution-boundary-ledg
 \label{thm:closed-term-substitution-boundary-closedness-ledger-coverage}
 Every consumer of the displayed shift row $Q$ or substitution row $R$ must read $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ through the closedness ledger $L$ before the corresponding operation row is available. The shift consumer may ignore the value witness only as unused data, but it still receives a packet whose local ledger records the closedness surface for both source and value rows. The route exports no host equality, no open-term subject reduction, and no hidden compiler state.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryClosednessLedgerCoverage}
 \begin{proof}
 Begin with the NameCert obligations of \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. They make shift boundary exactness depend on the displayed source closedness row and substitution boundary exactness depend on the displayed source and value closedness rows.
 
