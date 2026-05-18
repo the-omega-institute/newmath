@@ -121,6 +121,7 @@ Classifier stability is supplied by \autoref{thm:continuation-monad-classifier-s
 
 The remaining rows are bookkeeping rows. The $\Pkg$ coordinate records provenance over the named BEDC kernel and CategoryUp surfaces, and the local certificate coordinate records that the Kleisli boundary is the public consumer of the same displayed continuation data.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_namecert\_package}
 
 \begin{theorem}[ContinuationMonad root generator obligation]
 \label{thm:continuation-monad-root-generator-obligation}
@@ -727,48 +728,6 @@ Use generator-category lockdown to bind the generator and $\CategoryUp$ hom read
 
 It remains only to account for downstream escape routes. The root downstream package already excludes host functions, quotient Kleisli arrows, ambient category completion, and unlisted continuation generators, so the displayed $A,B,C,f,g,u,H,K,L,N$ packet exhausts every downstream route.
 \end{proof}
-
-\begin{theorem}[ContinuationMonad root formal target surface]
-\label{thm:continuation-monad-root-formal-target-surface}
-For an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the formal target surface available at the root consists exactly of the finite rows $A,B,C,f,g,u,H,K,L,N$ together with their displayed $\BHist$, $\Cont$, $\hsame$, $\Pkg$, $\CategoryUp$ hom-carrier, $\mathsf{ContinuationMorphism}$, and local $\NameCert$ readings. Downstream formal targets may consume unit, bind, generator-refusal, and Category hom data only through that surface, not through quotient Kleisli arrows, host-function composition, ambient category completion, or unlisted continuation generators.
-\end{theorem}
-\begin{proof}
-Use the root unit-bind exhaustion theorem to account for the unit and bind reads. It restricts those reads to the displayed source histories, continuation tails, unit tail, route rows, ledger rows, transport row, provenance, and local naming row.
-
-Use the root generator-category lock for the generator-refusal and Category hom faces. It ties those faces to the same $A,B,C,f,g,u,H,K,L,N$ route and prevents a separate quotient or ambient category object from entering the surface.
-
-Combine the two readings with the root downstream unblock package. The package is already the complete downstream surface, so the formal target surface is the same finite row list with no additional Kleisli, host-composition, completion, or generator coordinates.
-\end{proof}
-
-\begin{theorem}[ContinuationMonad root route formal handoff]
-\label{thm:continuation-monad-root-route-formal-handoff}
-Every downstream formal target that reads the $\ContinuationMonadUp$ root route receives the rows $A,B,C,f,g,u,H,K,L,N$ through the root unit-bind exhaustion, generator-category lock, root downstream unblock package, and bind readback exhaustion. The handoff may expose displayed continuation routes and Category hom readings, but it cannot reinterpret them as host Kleisli composition, quotient morphism equality, ambient category completion, or an unlisted continuation-generator rule.
-\end{theorem}
-\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_route\_formal\_handoff}
-\begin{proof}
-First apply root unit-bind exhaustion. It makes the public unit and bind entries read $u,f,g,K,L,H,N$ over the source histories $A,B,C$ rather than a host monad operation.
-
-Next apply the generator-category lock. The same finite route carries generator refusal and $\CategoryUp$ hom readings, so a downstream target cannot split the generator ledger from the Category hom row.
-
-Now use bind readback exhaustion. It states that every bind readback is already exhausted by the displayed packet rows and cannot be supplied by a quotient Kleisli arrow, host function, unlisted generator, or external evaluator.
-
-The root downstream unblock package then repacks these rows as the formal handoff. Since all consumer-visible data has already been routed through the finite packet, the refused host and quotient readings have no handoff coordinate.
-\end{proof}
-
-\begin{theorem}[ContinuationMonad root ledger formal boundary]
-\label{thm:continuation-monad-root-ledger-formal-boundary}
-The ledger boundary for root $\ContinuationMonadUp$ formal targets is the finite package $A,B,C,f,g,u,H,K,L,N$. It records the source, continuation-tail, unit-tail, transport, route, ledger, provenance, generator-refusal, Category hom, and local $\NameCert$ rows needed by downstream continuation chapters, and it refuses quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluators, and continuation generators not listed in the packet.
-\end{theorem}
-\begin{proof}
-Start with the root downstream unblock package. It identifies the rows available before downstream continuation chapters read any standard monad boundary.
-
-Add root unit-bind exhaustion and bind readback exhaustion. These theorems account for every public unit, bind, and bind-readback request through the same packet rows.
-
-Add the generator-category lock. It places generator refusal and Category hom readings on the same ledger, preventing a separate categorical carrier or unlisted generator list from supplying downstream data.
-
-Thus the ledger boundary is precisely the finite root package. Objects outside $A,B,C,f,g,u,H,K,L,N$ are not recorded by the ledger and cannot be consumed as formal-target input.
-\end{proof}
-\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_ledger\_formal\_boundary}
 
 \closureat{ContinuationMonadUp}{seedStr}
 \closureat{ContinuationMonadUp}{obligationStr}
