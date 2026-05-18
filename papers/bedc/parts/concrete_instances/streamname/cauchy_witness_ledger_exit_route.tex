@@ -43,3 +43,25 @@ Next use \autoref{thm:streamname-real-completion-exit-certificate} and \autoref{
 
 Finally apply \autoref{thm:cauchy-witness-ledger-budget-factorization}. The witness ledger consumes the fixed packet through $Q$, then $B$, then $S$, and then $K$, with $H,C,P,N$ carrying only the structural support for that route. Since neither the four-face boundary nor the factorization supplies any further public coordinate, the ledger saturates the current StreamName exit boundary rather than enlarging it.
 \end{proof}
+
+\begin{theorem}[StreamName CauchyWitnessLedger terminal determinacy]
+\label{thm:streamname-cauchy-witness-ledger-terminal-determinacy}
+Let two completion-facing $\CauchyWitnessLedgerUp$ reads of the current $\StreamNameUp$ Real-completion exit packet agree on the $\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback, the $\RealUp$ seal, and the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Then the two reads expose the same terminal $\RealUp$ seal row. The ledger may order the shared route through
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+with structural rows $H,C,P,N$, but it cannot introduce quotient streams, selected limits, host sequence equality, ambient $\RealUp$ completeness, metric-completeness data, countable choice, or a standard bridge.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-cauchy-witness-ledger-exit-route}. Each read factors through the same finite StreamName, DyadicRatCore, RegSeqRat, and Real faces, with only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows available to the ledger.
+
+Next use \autoref{thm:streamname-cauchy-witness-ledger-exit-saturation}. Since both reads agree on those four faces and support rows, the witness ledger has no additional public coordinate from which a distinct terminal seal row could be read.
+
+Now invoke \autoref{thm:streamname-open-phase-four-face-terminality}. The open Phase Real and Completion boundary is terminal once the finite window, tolerance ledger, readback, seal, and support rows are fixed, so both reads must consume the same terminal $\RealUp$ seal row.
+
+Finally apply \autoref{thm:cauchy-witness-ledger-budget-factorization}. The fixed order $Q \longmapsto B \longmapsto S \longmapsto K$, with $H,C,P,N$ preserving transport, replay, provenance, and local naming, makes the ledger a consumer of the four finite faces rather than a second source of seal data. The exclusions in the route and saturation statements therefore remain absent from the terminal read.
+\end{proof}
