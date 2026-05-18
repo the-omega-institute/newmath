@@ -204,4 +204,82 @@ theorem ObservationCouplingCarrier_locality_obligations [AskSetup] [PackageSetup
     ⟨histAUnary, histBUnary, readAUnary, readBUnary, histRouteReadA, histRouteReadB,
       readATransportSame, readBReplaySame, provenancePkg⟩
 
+theorem ObservationCouplingCarrier_standard_bridge_boundary [AskSetup] [PackageSetup]
+    {histA histB routeA routeB transport replay ledger provenance localName readA readB
+      ledgerRead bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservationCouplingCarrier histA histB routeA routeB transport replay ledger provenance
+        localName bundle pkg ->
+      Cont histA routeA readA ->
+        Cont histB routeB readB ->
+          Cont readA readB ledgerRead ->
+            Cont ledgerRead localName bridgeRead ->
+              PkgSig bundle bridgeRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row readA ∨ hsame row readB ∨ hsame row ledgerRead ∨
+                        hsame row bridgeRead)
+                    (fun row : BHist =>
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle bridgeRead pkg ∧
+                        hsame row bridgeRead)
+                    hsame ∧
+                  UnaryHistory readA ∧ UnaryHistory readB ∧ UnaryHistory ledgerRead ∧
+                    UnaryHistory bridgeRead ∧ hsame ledgerRead ledger := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier histRouteReadA histRouteReadB readsLedger ledgerLocalBridge bridgePkg
+  have carrierFull :
+      ObservationCouplingCarrier histA histB routeA routeB transport replay ledger provenance
+        localName bundle pkg :=
+    carrier
+  obtain ⟨histAUnary, histBUnary, routeAUnary, routeBUnary, _transportUnary, _replayUnary,
+    _ledgerUnary, _provenanceUnary, localNameUnary, _histATransport, _histBReplay,
+    _transportReplayLocal, _ledgerSameLocal, _ledgerProvenanceLocal, provenancePkg⟩ := carrier
+  have readAUnary : UnaryHistory readA :=
+    unary_cont_closed histAUnary routeAUnary histRouteReadA
+  have readBUnary : UnaryHistory readB :=
+    unary_cont_closed histBUnary routeBUnary histRouteReadB
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed readAUnary readBUnary readsLedger
+  have bridgeReadUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed ledgerReadUnary localNameUnary ledgerLocalBridge
+  have ledgerReadSameLedger : hsame ledgerRead ledger :=
+    ObservationCouplingCarrier_symmetric_rate_boundary carrierFull histRouteReadA histRouteReadB
+      readsLedger
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row readA ∨ hsame row readB ∨ hsame row ledgerRead ∨ hsame row bridgeRead)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle bridgeRead pkg ∧
+              hsame row bridgeRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro bridgeRead ⟨hsame_refl bridgeRead, bridgeReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, bridgePkg, source.left⟩
+  }
+  exact
+    ⟨cert, readAUnary, readBUnary, ledgerReadUnary, bridgeReadUnary, ledgerReadSameLedger⟩
+
 end BEDC.Derived.ObservationCouplingUp
