@@ -229,4 +229,78 @@ theorem CofinalWindowRealSealTasteGate_single_carrier_alignment :
     fun _ _ heq => cofinalWindowRealSealToEventFlow_injective heq,
     ⟨cofinalWindowRealSealChapterTasteGate⟩, cofinalWindowRealSeal_field_faithful, rfl⟩
 
+theorem CofinalWindowRealSeal_source_exhaustion {flow : EventFlow}
+    {B T W D R E X G H C P N : BHist}
+    (hflow :
+      cofinalWindowRealSealFromEventFlow flow =
+        some (CofinalWindowRealSealUp.mk B T W D R E X G H C P N)) :
+    ∃ (eB eT eW eD eR eE eX eG : List BMark) (tail : EventFlow),
+      flow = eB :: eT :: eW :: eD :: eR :: eE :: eX :: eG :: tail ∧
+        cofinalWindowRealSealDecodeBHist eB = B ∧
+          cofinalWindowRealSealDecodeBHist eT = T ∧
+            cofinalWindowRealSealDecodeBHist eW = W ∧
+              cofinalWindowRealSealDecodeBHist eD = D ∧
+                cofinalWindowRealSealDecodeBHist eR = R ∧
+                  cofinalWindowRealSealDecodeBHist eE = E ∧
+                    cofinalWindowRealSealDecodeBHist eX = X ∧
+                      cofinalWindowRealSealDecodeBHist eG = G := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases flow with
+  | nil =>
+      cases hflow
+  | cons eB rest0 =>
+      cases rest0 with
+      | nil =>
+          cases hflow
+      | cons eT rest1 =>
+          cases rest1 with
+          | nil =>
+              cases hflow
+          | cons eW rest2 =>
+              cases rest2 with
+              | nil =>
+                  cases hflow
+              | cons eD rest3 =>
+                  cases rest3 with
+                  | nil =>
+                      cases hflow
+                  | cons eR rest4 =>
+                      cases rest4 with
+                      | nil =>
+                          cases hflow
+                      | cons eE rest5 =>
+                          cases rest5 with
+                          | nil =>
+                              cases hflow
+                          | cons eX rest6 =>
+                              cases rest6 with
+                              | nil =>
+                                  cases hflow
+                              | cons eG rest7 =>
+                                  cases rest7 with
+                                  | nil =>
+                                      cases hflow
+                                  | cons eH rest8 =>
+                                      cases rest8 with
+                                      | nil =>
+                                          cases hflow
+                                      | cons eC rest9 =>
+                                          cases rest9 with
+                                          | nil =>
+                                              cases hflow
+                                          | cons eP rest10 =>
+                                              cases rest10 with
+                                              | nil =>
+                                                  cases hflow
+                                              | cons eN rest11 =>
+                                                  cases rest11 with
+                                                  | nil =>
+                                                      injection hflow with hmk
+                                                      cases hmk
+                                                      exact ⟨eB, eT, eW, eD, eR, eE, eX, eG,
+                                                        [eH, eC, eP, eN], rfl, rfl, rfl,
+                                                        rfl, rfl, rfl, rfl, rfl, rfl⟩
+                                                  | cons _ _ =>
+                                                      cases hflow
+
 end BEDC.Derived.CofinalWindowRealSealUp
