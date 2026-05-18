@@ -140,6 +140,18 @@ Next apply the noncollapse boundary of \autoref{thm:phase-real-completion-exit-n
 Finally read the Real L10 status lookup and pullback through \autoref{thm:real-l10-four-face-status-lookup} and \autoref{thm:real-l10-current-phase-exit-audit-pullback}. They state that the dyadic, stream, regular, and real faces contribute their own closurestatus, formalstatus, leantarget, and bridgestatus rows by reference rather than by cached aggregate status data. The exact-boundary row $B$ is the fifth face of the same displayed $\PhaseRealCompletionExitUp$ packet, so the phase status read is precisely the five-face product and nothing else.
 \end{proof}
 
+\begin{theorem}[Phase real-completion exit local status gate]
+\label{thm:phase-real-completion-exit-local-status-gate}
+An accepted $\PhaseRealCompletionExitUp$ packet may serve as the Phase Real and Completion exit gate only when the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RealCompletionExactBoundaryUp$ faces are each read through their own local closurestatus, formalstatus, leantarget, and bridgestatus rows. No aggregate formalstatus token, fused bridge token, quotient stream equality, selected limit, host completeness row, or ambient completion premise can discharge this gate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:phase-real-completion-exit-status-token-product}. It identifies the accepted status read as the product of the five local records and states that the phase-exit packet contributes no aggregate formalstatus row, bridge row, Lean target, quotient stream, selected limit, or host-completeness row.
+
+Next apply \autoref{thm:phase-real-completion-exit-facewise-audit-obligation}. The audit read must expose the dyadic, stream, regular-rational, real, and exact-boundary faces separately before the local naming row can be consumed, so an exit gate cannot be accepted from a cached status summary.
+
+Finally combine \autoref{thm:phase-real-completion-exit-noncollapse-boundary} with \autoref{thm:phase-real-completion-exit-scoped-primitive-dependency-binding}. These results keep the primitive scope at the displayed rows $D,S,Q,R,B,H,C,P,N$ and reject fused bridge tokens, quotient equalities, selected limits, host completeness, ambient completion data, and single aggregate formalstatus witnesses. Therefore the only accepted gate is the local five-face status read stated above.
+\end{proof}
+
 \falsifiablePrediction{If a consumer fuses the dyadic, stream, regular, and real face reports into a single bridge token or completeness token, the $\PhaseRealCompletionExitUp$ packet is refuted.}
 
 \independenceWitness{dyadicratcore, streamname, regseqrat, real, realcompletionexactboundary: no single sibling is bijective to the phase product because the packet binds dyadic arithmetic, finite stream observation, regular rational handoff, real sealing, exact boundary, transport, replay, provenance, and local naming in one displayed exit carrier.}
