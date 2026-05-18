@@ -1,0 +1,60 @@
+\begin{definition}[Diagonal-limit representative route-read selector package]
+\label{def:diagonal-limit-representative-route-read-selector-package}
+For an accepted $\DiagonalLimitRepresentativeUp$ carrier
+$$
+D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N),
+$$
+the route-read selector package is the finite triple
+$$
+\rho(D)=(\mathsf{indexRead},\mathsf{terminalRead},\mathsf{routeRead})
+$$
+whose rows are exactly the displayed continuation outputs
+$$
+\Cont(\mu,n,\mathsf{indexRead}),\qquad
+\Cont(w,r,\mathsf{terminalRead}),\qquad
+\Cont(d,e,\mathsf{routeRead}).
+$$
+The first read is the modulus-request selector, the second read is the window-readback selector, and the third read is the ledger-real-seal selector. The package is carried with the same $\PkgSig$ local-name row as $D$ and introduces no quotient stream equality, host $\RealUp$ equality, hidden selector, countable choice, or ambient $\RealUp$ completeness row.
+\end{definition}
+
+\begin{theorem}[Diagonal-limit representative route-read coverage]
+\label{thm:diagonal-limit-representative-route-read-coverage}
+Every accepted $\DiagonalLimitRepresentativeUp$ carrier together with the three displayed $\Cont$ rows of \autoref{def:diagonal-limit-representative-route-read-selector-package} exposes exactly the route reads $\mathsf{indexRead}$, $\mathsf{terminalRead}$, and $\mathsf{routeRead}$ and the existing $\PkgSig$ local-name package. These four outputs are the route-read obligation surface of the carrier: $\mathsf{indexRead}$ reads from the modulus request, $\mathsf{terminalRead}$ reads from the selected window and readback, $\mathsf{routeRead}$ reads from the ledger and terminal Real seal, and the local package row remains the one already named by the carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:diagonal-limit-representative-carrier}. It provides the rows $X,\mu,n,k,i,w,r,d,e,H,C,P,N$ and the local $\PkgSig$ package over the same finite $\BHist$ surface.
+
+Apply \autoref{thm:diagonal-limit-representative-namecert-obligations}. With the three displayed continuation rows as inputs, it returns exactly the three derived reads and the same local package signature, with no additional carrier coordinate.
+
+The sibling root results identify where those reads may be consumed. Root-readiness, \autoref{thm:diagonal-limit-representative-root-readiness-triad}, makes the modulus, window, readback, ledger, and seal route visible, while the root-window completion handoff keeps the Real-and-Completion consumer on that finite route. Hence coverage is precisely the package displayed above.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative route-read unary closure]
+\label{thm:diagonal-limit-representative-route-read-unary-closure}
+For every accepted $\DiagonalLimitRepresentativeUp$ carrier and route-read selector package $\rho(D)$, the three derived reads satisfy
+$$
+\UnaryHistory(\mathsf{indexRead}),\qquad
+\UnaryHistory(\mathsf{terminalRead}),\qquad
+\UnaryHistory(\mathsf{routeRead}).
+$$
+Their unary status is obtained only by $\Cont$ closure from the carrier rows $\mu,n,w,r,d,e$; it is not a separate analytic or quotient witness.
+\end{theorem}
+\begin{proof}
+Read the unary carrier rows from \autoref{thm:diagonal-limit-representative-namecert-obligations}. The theorem records $\mu,n,w,r,d,e$ as unary histories of the accepted packet.
+
+Use the three $\Cont$ rows in the selector package. The same obligation theorem closes $\mathsf{indexRead}$ from $\mu,n$, $\mathsf{terminalRead}$ from $w,r$, and $\mathsf{routeRead}$ from $d,e$ by unary continuation closure.
+
+Therefore the route reads remain finite $\BHist$ rows. The proof has no coordinate for quotient-stream equality, host Real equality, a chosen completed point, countable choice, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative route-read consumer boundary]
+\label{thm:diagonal-limit-representative-route-read-consumer-boundary}
+Downstream Real-and-Completion consumers of $\DiagonalLimitRepresentativeUp$ may use the reads $\mathsf{indexRead}$, $\mathsf{terminalRead}$, and $\mathsf{routeRead}$ only through the finite package of \autoref{def:diagonal-limit-representative-route-read-selector-package}. In particular, a consumer cannot replace that package by quotient-stream equality, host $\RealUp$ equality, a hidden selector, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with route-read coverage and unary closure. They make the three reads available exactly as finite $\BHist$ outputs of the displayed continuation rows, together with the existing local package signature.
+
+Now apply the root-readiness exactness package and the root-window completion handoff, \autoref{thm:diagonal-limit-representative-root-readiness-exactness} and \autoref{thm:diagonal-limit-representative-root-window-extraction}. These results require downstream consumers to factor through the displayed modulus, window, readback, ledger, cofinal-budget, and Real-seal route before consuming the terminal endpoint.
+
+It remains to exclude stronger replacements. The carrier and the handoff theorems list no coordinate for quotient equality, host Real equality, hidden selectors, countable choice, or ambient completeness. Since the route-read package is exhausted by the three $\Cont$ outputs and the existing $\PkgSig$ row, any such replacement lies outside the accepted consumer boundary.
+\end{proof}
