@@ -25,11 +25,13 @@ with the following displayed rows:
 \end{enumerate}
 The classifier for accepted packets compares only the displayed rows $B,X,A,F,H,C,P,N$. It has no coordinate for a host slice object, quotient arrow class, external triangle equality, or a second base object.
 \end{definition}
+\leandef{BEDC.Derived.SliceCategoryUp.SliceCategoryCarrier}
 
 \begin{theorem}[Slice-category kernel fiber obligation]
 \label{thm:slice-category-kernel-fiber-obligation}
 Every accepted $\SliceCategoryUp$ packet keeps the base object fixed and reads arrow data only through the displayed $\mathsf{CategoryHomCarrier}$ row of its own fiber packet. In particular, a public read of $S=(B,X,A,F,H,C,P,N)$ may expose $B$, $X$, the arrow-to-base row $A:X\to B$, componentwise $\hsame$ transport preserving $B$ and $A$, and replayable $\Cont$ routes, but it cannot change the base object or inspect an arrow outside the displayed row $A$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SliceCategoryUp.SliceCategoryCarrier\_kernel\_fiber\_obligation}
 \begin{proof}
 Project the accepted carrier of \autoref{def:slice-category-namecert-carrier}. The base coordinate is the single row $B$, and the fiber condition $F$ admits $X$ only together with the arrow-to-base row $A$ into that same $B$.
 
