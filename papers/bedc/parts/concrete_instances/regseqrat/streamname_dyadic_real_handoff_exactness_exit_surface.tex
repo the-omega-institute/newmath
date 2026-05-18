@@ -300,6 +300,54 @@ coordinate is part of the terminal public section. Hence every terminal section
 is exhausted by the finite four-face route and by no additional BEDC row.
 \end{proof}
 
+\begin{theorem}[RegSeqRat terminal descent uniqueness]
+\label{thm:regseqrat-terminal-descent-uniqueness}
+Let $S$ and $T$ be terminal public $\RealUp$ seal sections of accepted
+$\RegSeqRatUp$ carriers. Suppose $S$ and $T$ display the same four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+the same displayed $\mathsf{BHist}$ rows, and the same componentwise
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ support rows. Then
+$S$ and $T$ are the same terminal finite L10 section.
+
+Equivalently, descent along the RegSeqRat terminal route is unique at the
+public $\RealUp$ seal: the displayed StreamName schedules, DyadicRatCore
+ledgers, RegSeqRat classifier and regularity rows, and public Real seal row
+determine one terminal section and admit no quotient stream, host sequence
+equality, selected limit, ambient completeness witness, choice datum, or
+second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-real-seal-terminal-section-exhaustion} to both
+$S$ and $T$. Each terminal public $\RealUp$ seal section is exhausted by the
+same finite L10 route through $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$, with no extra BEDC row beyond the displayed
+support.
+
+Next apply
+\autoref{thm:regseqrat-real-seal-finite-cover-associativity}. The finite
+pieces of the two sections may be regrouped without changing any displayed
+face or support row, so the comparison is independent of the order in which
+StreamName, DyadicRatCore, RegSeqRat, and Real seal pieces are attached.
+
+Use
+\autoref{thm:regseqrat-real-seal-common-refinement-cover-completeness}. The
+two exhausted finite covers have a common accepted refinement, and the
+hypothesis identifies every displayed $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ row on that refinement. Thus both
+terminal reads descend to the same finite packet.
+
+Finally apply
+\autoref{thm:regseqrat-streamname-dyadic-real-audit-clean-exit-readiness}.
+The audit-clean boundary refuses quotient streams, host sequence equality,
+selected limits, ambient completeness, choice data, and any second $\RealUp$
+seal coordinate. Since no off-route datum remains available to separate
+$S$ from $T$, the common refined packet is the unique terminal finite L10
+section determined by the four displayed faces.
+\end{proof}
+
 \begin{theorem}[RegSeqRat Real seal terminal-section observation lock]
 \label{thm:regseqrat-real-seal-terminal-section-observation-lock}
 For every terminal public $\RealUp$ seal section of an accepted
