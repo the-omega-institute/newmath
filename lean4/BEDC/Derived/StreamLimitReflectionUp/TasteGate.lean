@@ -193,9 +193,33 @@ theorem StreamLimitReflectionTasteGate_single_carrier_alignment :
           streamLimitReflectionEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨StreamLimitReflectionTasteGate_single_carrier_alignment_decode,
-      StreamLimitReflectionTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq => StreamLimitReflectionToEventFlow_injective heq),
-      rfl⟩
+    And.intro StreamLimitReflectionTasteGate_single_carrier_alignment_decode
+      (And.intro StreamLimitReflectionTasteGate_single_carrier_alignment_round_trip
+        (And.intro
+          (fun _ _ heq => StreamLimitReflectionToEventFlow_injective heq)
+          rfl))
+
+namespace TasteGate
+
+theorem StreamLimitReflectionNameCertObligations (x : StreamLimitReflectionUp) :
+    (∃ schedule regularity realSeal structuralCode boundaryLedger transport route provenance
+        name : BHist,
+      x = StreamLimitReflectionUp.mk schedule regularity realSeal structuralCode boundaryLedger
+        transport route provenance name) ∧
+      streamLimitReflectionEncodeBHist BHist.Empty = ([] : List BMark) ∧
+        BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · cases x with
+    | mk schedule regularity realSeal structuralCode boundaryLedger transport route provenance
+        name =>
+        exact
+          ⟨schedule, regularity, realSeal, structuralCode, boundaryLedger, transport, route,
+            provenance, name, rfl⟩
+  · constructor
+    · rfl
+    · exact ChapterTasteGate.round_trip x
+
+end TasteGate
 
 end BEDC.Derived.StreamLimitReflectionUp
