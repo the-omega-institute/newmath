@@ -259,6 +259,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.RefusalRowDeterminacy
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RegistryClassifierScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.LedgerRouteScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.HorizonRefusalCoverage
+import BEDC.Derived.AxisZeckendorfCannotClaimUp.HorizonRefusalScope
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
 import BEDC.Derived.ZeckendorfNormalUp
