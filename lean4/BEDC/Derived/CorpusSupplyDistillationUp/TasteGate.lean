@@ -512,4 +512,20 @@ theorem CorpusSupplyDistillation_refusal_exactness
             (cont_mutual_extension_right_tail_absurd
               (h := P) (k := append P N) (leftTail := N) (rightTail := R)).right rfl hbad)⟩
 
+theorem CorpusSupplyDistillationLedger_exactness
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        FieldFaithful.fields x = [C, F, D, O, R, H, T, P, N] ∧
+          Cont C F (append C F) ∧
+            Cont F D (append F D) ∧
+              Cont D O (append D O) ∧
+                Cont R H (append R H) ∧
+                  Cont H T (append H T) ∧
+                    Cont T P (append T P) ∧ Cont P N (append P N) := by
+  -- BEDC touchpoint anchor: BHist Cont FieldFaithful
+  cases x with
+  | mk C F D O R H T P N =>
+      exact ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩
+
 end BEDC.Derived.CorpusSupplyDistillationUp
