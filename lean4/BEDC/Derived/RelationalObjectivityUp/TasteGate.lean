@@ -243,4 +243,27 @@ theorem RelationalObjectivityInvariantLedgerExactness
     unary_cont_closed ledgerUnary transportUnary ledgerReplay
   exact ⟨replayUnary, ledgerReplay, replayEvidence⟩
 
+theorem RelationalObjectivityNoPrivilegedAnchorCertificate
+    {F I A L T P N anchorReplay invariantReplay : BHist} :
+    relationalObjectivityFields (RelationalObjectivityUp.mk F I A L T P N) =
+      [F, I, A, L, T, P, N] →
+      Cont A T anchorReplay →
+        Cont I A invariantReplay →
+          UnaryHistory I →
+            UnaryHistory A →
+              UnaryHistory T →
+                UnaryHistory anchorReplay ∧
+                  UnaryHistory invariantReplay ∧
+                    Cont A T anchorReplay ∧
+                      Cont I A invariantReplay ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro hfields anchorRoute invariantRoute invariantUnary anchorUnary transportUnary
+  cases hfields
+  have anchorReplayUnary : UnaryHistory anchorReplay :=
+    unary_cont_closed anchorUnary transportUnary anchorRoute
+  have invariantReplayUnary : UnaryHistory invariantReplay :=
+    unary_cont_closed invariantUnary anchorUnary invariantRoute
+  exact
+    ⟨anchorReplayUnary, invariantReplayUnary, anchorRoute, invariantRoute, hsame_refl N⟩
+
 end BEDC.Derived.RelationalObjectivityUp
