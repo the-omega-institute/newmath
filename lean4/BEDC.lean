@@ -246,6 +246,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionBudgetLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionConsumerLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionConsumerRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionGate
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionGateRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionSourceExposure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.CompletionBoundarySaturation
@@ -380,7 +381,6 @@ import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomQueryLedgerUp
-import BEDC.Derived.AxiomRefusalLedgerUp.NameCertObligations
 import BEDC.Derived.AxiomRefusalLedgerUp.TasteGate
 import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
 import BEDC.Derived.AxisAddUp.TasteGate
@@ -2985,7 +2985,6 @@ import BEDC.Derived.NoGlobalSyncBoundaryUp.TasteGate
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.TasteGate
 import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.NonAxiomAdmissionUp.TasteGate
-import BEDC.Derived.NonAxiomBoundaryFormUp.NameCertObligations
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.NormUp
@@ -3044,6 +3043,7 @@ import BEDC.Derived.ObserverInterfaceUp
 import BEDC.Derived.ObserverInterfaceUp.TasteGate
 import BEDC.Derived.ObserverKernelTraceUp
 import BEDC.Derived.ObserverKernelTraceUp.TasteGate
+import BEDC.Derived.ObserverLicensedComparisonUp.TasteGate
 import BEDC.Derived.ObserverLocalityCellUp
 import BEDC.Derived.ObserverLocalityCellUp.TasteGate
 import BEDC.Derived.ObserverLocalityPullbackUp.TasteGate
