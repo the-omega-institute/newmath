@@ -633,6 +633,7 @@ The unit and bind reads therefore come after the triad is already visible. Since
 \label{thm:continuation-monad-bind-readback-exhaustion}
 Every bind readback exposed by an accepted $\ContinuationMonadUp$ packet is exhausted by the rows $A,B,C,f,g,u,H,K,L,N$. The readback may inspect the source histories $A,B,C$, the displayed continuation tails $f,g,u$, the transport row $H$, the route and ledger rows $K,L$, the $\Pkg$ provenance, and the local $\NameCert$ row $N$; it cannot read host functions, quotient Kleisli arrows, unlisted generators, or an external monad evaluator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_bind\_readback\_exhaustion}
 \begin{proof}
 First use bind-route classifier stability. It identifies every accepted bind read with the displayed continuation route through $f,g,u,K,L$ and transports that read only through $H$.
 
@@ -706,6 +707,7 @@ Finally apply the root downstream package. Its $\Pkg$ provenance and local $\Nam
 \label{thm:continuation-monad-finite-bind-readback-package}
 For an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every finite bind readback package is exactly the $\BHist$ source rows $A,B,C$, the continuation rows $f,g,u$, the $\Cont$ route row $K$, the ledger row $L$, the componentwise $\hsame$ row $H$, the $\Pkg$ provenance, and the local $\NameCert$ row $N$. A bind consumer reads this package as displayed BEDC data and not as host-function composition, quotient Kleisli equality, a general monad evaluator, or an unlisted continuation generator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_finite\_bind\_readback\_package}
 \begin{proof}
 First read bind-route totality. It forces every bind consumer through the displayed $\Cont$ route and ledger rows $K,L$ over the same source histories and continuation tails.
 
