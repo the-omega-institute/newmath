@@ -222,3 +222,59 @@ and the descent theorem lists exactly the displayed StreamName, DyadicRatCore,
 RegSeqRat, Real, and support rows. Thus the reindex data contribute only the
 public finite sections already cancelled above.
 \end{proof}
+
+\begin{theorem}[StreamName reindex four-face exit naturality]
+\label{thm:streamname-reindex-four-face-exit-naturality}
+Let $R$ be a support-row-preserving certified public $\StreamNameUp$
+finite-window reindex route, displayed over a finite
+$\mathsf{ProbeBundle}$, from a local StreamName window to the terminal Phase
+Real and Completion exit surface. Suppose the route preserves the public
+finite observation section, the endpoint rows, the displayed $\BHist$, and the
+componentwise support rows
+$$
+\hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Then transport along $R$ is natural at the terminal exit surface: the source
+read and the transported read have the same visible four-face Phase Real and
+Completion surface, namely
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+and the only support rows visible to every terminal consumer are
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+
+No additional coordinate is transported or identified. In particular, the
+naturality statement does not assert quotient stream equality, host sequence
+equality, selected limits, countable choice, ambient $\RealUp$ completeness,
+metric completeness, or any standard bridge row.
+\end{theorem}
+\begin{proof}
+First read $R$ through the public finite observation section. By
+\autoref{thm:streamname-window-reindex-determinacy}, preservation of the
+finite section, endpoint rows, displayed $\BHist$, and componentwise
+$\hsame/\Cont/\Pkg/\NameCert$ support rows fixes the public data seen before
+and after the certified reindex route.
+
+Next place that fixed public section on the terminal route. Apply
+\autoref{thm:streamname-reindex-terminal-coverage}. The route reaches exactly
+the four visible faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$,
+and $\RealUp$, with the listed support rows and with no quotient, host,
+selector, choice, completeness, metric, or bridge coordinate added to the
+surface.
+
+The certified route shape itself is immaterial to the terminal consumer. Use
+\autoref{thm:streamname-public-reindexing-section-cancellation} to compare
+any two presentations of the same preserved section; section cancellation
+keeps the terminal read invariant under reindexer shape.
+
+Finally apply
+\autoref{thm:streamname-reindex-finite-cover-terminal-descent} to the
+singleton finite family determined by $R$. Finite-family descent says the
+terminal section remains a section on the same four-face surface with exactly
+the same support rows. Hence support-row-preserving certified reindex
+transport is natural for the terminal Phase Real and Completion exit surface,
+and it carries none of the excluded quotient, host, limit, choice,
+completeness, metric, or bridge data.
+\end{proof}
