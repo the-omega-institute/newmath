@@ -17,3 +17,50 @@ Use the sibling routes already present in the hub. The StreamName finite-window 
 
 Finally apply the local non-escape and readback surface supplied by \autoref{thm:real-name-seal-four-face-coverage} and \autoref{thm:real-regseqrat-terminal-budget-exhaustion}. Those theorems expose no quotient stream equality, host real equality, selected host limits, ambient completeness, choice selector, metric-completeness row, or standard bridge row, so a terminal Real-completion consumer cannot acquire any of those objects from the finite seal read.
 \end{proof}
+
+\begin{theorem}[Real finite-window seal refinement monotonicity]
+\label{thm:real-finite-window-seal-refinement-monotonicity}
+Let $\mathcal R$ be an accepted public $\RealUp$ terminal seal read whose
+finite boundary factors through the four faces
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+Suppose $\mathcal R'$ is a second finite request whose $\StreamNameUp$ window
+refines the displayed window of $\mathcal R$, while preserving the same
+$\DyadicRatCoreUp$ endpoint, radius, and distance ledger, the same
+$\RegSeqRatUp$ classifier and readback rows, the same local $\RealUp$ seal
+row, and the same support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Then $\mathcal R'$ is again an accepted finite-window $\RealUp$ seal read.
+Moreover, $\mathcal R'$ exports no coordinate outside the same four-face
+packet and the displayed support rows.
+\end{theorem}
+\begin{proof}
+Start with the accepted read $\mathcal R$. By
+\autoref{thm:real-finite-window-seal-exhaustion}, its public terminal seal
+surface is exhausted by the $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$ faces together with the displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Now restrict the refined request to the same four-face cover. The cover normal
+form of \autoref{thm:real-terminal-seal-four-face-cover-normal-form} says that
+finite refinements of the displayed $\StreamNameUp$ windows remain in the
+same terminal seal packet when the dyadic ledger, RegSeqRat classifier and
+readback rows, Real seal row, and support rows are preserved.
+
+Next apply terminality from
+\autoref{thm:streamname-real-completion-four-object-terminal-pullback}. Since
+the refined request exposes exactly the same four faces and the same support
+rows after restriction, it factors through the terminal finite BEDC pullback
+available to Real-seal-facing consumers.
+
+Finally transport the accepted status along the unchanged support rows using
+\autoref{thm:real-regseqrat-terminal-budget-four-face-naturality}. Naturality
+keeps the RegSeqRat budget and local Real seal readback on the same accepted
+four-face route, so $\mathcal R'$ is an accepted finite-window seal read. The
+non-escape clauses in the cited exhaustion, normal-form, pullback, and
+naturality results leave no coordinate outside the four faces and the
+displayed support rows.
+\end{proof}
