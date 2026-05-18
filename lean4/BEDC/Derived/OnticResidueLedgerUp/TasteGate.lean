@@ -317,7 +317,26 @@ theorem OnticResidueLedgerTasteGate_single_carrier_alignment :
                   onticResidueLedgerEncodeBHist BHist.Empty,
                   onticResidueLedgerEncodeBHist BHist.Empty,
                   onticResidueLedgerEncodeBHist BHist.Empty] := by
-  exact BEDC.Derived.OnticResidueLedgerUp.OnticResidueLedgerTasteGate_single_carrier_alignment
+  constructor
+  · exact onticResidueLedgerDecode_encode_bhist
+  · constructor
+    · intro x
+      rfl
+    · constructor
+      · exact onticResidueLedger_fields_faithful
+      · constructor
+        · exact
+            ⟨OnticResidueLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+              OnticResidueLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty,
+              by
+                intro h
+                cases h⟩
+        · constructor
+          · rfl
+          · rfl
 
 def taste_gate : ChapterTasteGate OnticResidueLedgerUp :=
   -- BEDC touchpoint anchor: BHist BMark

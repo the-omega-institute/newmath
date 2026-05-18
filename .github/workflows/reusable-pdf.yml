@@ -66,6 +66,10 @@ jobs:
             export LC_ALL=en_US.UTF-8
           fi
 
+          # `make precheck` 跑 7 个 paper gate (tex size / math env / marker
+          # uniqueness / naming / external provenance / warn_concrete_instances
+          # / bedc_ci audit). 然后 pdflatex 两遍 (跟 main.pdf 目标的步骤一致).
+          make precheck
           pdflatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex
           pdflatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex
 
