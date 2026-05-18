@@ -54,6 +54,7 @@ import BEDC.Meta
 import BEDC.Derived.NatUp
 import BEDC.Derived.OrderUp
 import BEDC.Derived.AddUp
+import BEDC.Derived.AxisAddUp.TasteGate
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
@@ -239,6 +240,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
+import BEDC.Derived.AxisAddUp.TasteGate
 import BEDC.Derived.AxisZeckendorfCannotClaimUp
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.ConsumerHorizonExhaustion
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.FullAxisRealRefusalBoundary
@@ -1520,6 +1522,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalSectionPullbackUni
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalFourFacePullbackLock
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalTailMeetSynchronization
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalWindowSealInversion
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalWindowChoiceFreeSection
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TailAgreementLimitSealTriangle
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalDiagonalPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalReadback

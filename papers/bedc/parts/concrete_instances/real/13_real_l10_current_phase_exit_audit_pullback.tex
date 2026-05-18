@@ -86,6 +86,53 @@ row, and no aggregate bridge coordinate, the exit packet cannot contribute any
 additional audit datum.
 \end{proof}
 
+\begin{theorem}[Real L10 four-face classifier pullback]
+\label{thm:real-l10-four-face-classifier-pullback}
+Any accepted Phase Real and Completion classifier read over
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+is exactly the pullback of the four displayed classifier faces:
+\begin{enumerate}
+\item the dyadic endpoint, radius, and distance ledger;
+\item the $\StreamNameUp$ finite-window classifier;
+\item the $\RegSeqRatUp$ regularity and common-tail classifier;
+\item the local $\RealUp$ seal classifier.
+\end{enumerate}
+The pullback uses only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support along the four faces. Conversely, agreement of these four classifier
+faces determines the same finite Real classifier route.
+
+This classifier pullback carries no quotient streams, no host real equality,
+no selected limits, no countable choice, no ambient completeness, no
+metric-completeness data, no standard bridge rows, and no aggregate
+formalstatus tokens.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-four-face-exactness}. It presents the accepted
+Real L10 packet as finite data over the four displayed faces and leaves only
+the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates as
+support for the classifier read.
+
+Apply \autoref{thm:real-l10-streamname-exit-route-correspondence}. The
+StreamName finite-window route is the same route used by the current Phase
+Real and Completion exit packet, so the StreamName classifier face is not an
+extra carrier and does not introduce a quotient stream or selected limit.
+
+Apply \autoref{thm:real-l10-four-face-classifier-sheaf-condition}. It states
+that classifier agreement across the dyadic ledger, finite StreamName windows,
+RegSeqRat regularity and common tails, and the local Real seal is exactly the
+sheaf gluing condition. Hence the four faces determine one finite Real
+classifier route, and any accepted route restricts back to those four faces.
+
+Finally apply \autoref{thm:real-l10-current-phase-exit-audit-pullback}. The
+audit row is read as the objectwise product of the same four faces. This keeps
+the classifier pullback aligned with the audit pullback while keeping the two
+rows independent: the classifier row does not create host real equality,
+countable choice, ambient completeness, metric-completeness data, standard
+bridge rows, or aggregate formalstatus tokens.
+\end{proof}
+
 \begin{theorem}[Real L10 face status non-collapse]
 \label{thm:real-l10-face-status-noncollapse}
 Any current Phase Real and Completion audit read through the four faces
