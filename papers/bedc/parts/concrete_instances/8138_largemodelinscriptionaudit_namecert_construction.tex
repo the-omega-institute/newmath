@@ -74,17 +74,30 @@ The verification-channel boundary of \autoref{thm:large-model-inscription-audit-
 Field faithfulness must then be componentwise over the same displayed rows. Using $\mathsf{mk}$-derived fields keeps the Lean carrier aligned with the paper packet and prevents hidden verifier state, corpus truth, or internal ratification from entering through an unlisted coordinate.
 \end{proof}
 
+\begin{theorem}[LargeModelInscriptionAudit scoped carrier coverage]
+\label{thm:large-model-inscription-audit-scoped-carrier-coverage}
+For an accepted $\LargeModelInscriptionAuditUp$ packet $A=(O,C,V,R,T,K,H,P,N)$, every public scoped read factors through exactly the displayed output row $O$, corpus-provenance row $C$, verification-channel row $V$, refusal-ledger row $R$, $\hsame$-transport row $T$, $\Cont$-route row $K$, harness row $H$, $\Pkg$-provenance row $P$, and local $\NameCert$ row $N$. Sibling support is limited to $\LargeModelInscriptionPointUp$, $\LargeModelActivationOrbitUp$, $\LargeModelAuditChannelUp$, $\CorpusSupplyDistillationUp$, $\VerifiedOutputHarnessUp$, and $\InscriptionRouteAuditUp$. No hidden verifier state, corpus-wide truth predicate, model consciousness, or host semantic oracle is admitted by the scoped carrier.
+\end{theorem}
+\begin{proof}
+The carrier definition gives the complete finite $\BHist$ packet $A=(O,C,V,R,T,K,H,P,N)$. Each public read must therefore project one of those displayed rows, and the NameCert obligation theorem identifies carrier admission, corpus provenance, verification channel, refusal ledger, transport, route replay, harness exposure, package provenance, and local naming as the exact local certificate surface.
+
+The output-verification boundary forces checker-facing export through $V$ and $R$, while the corpus-provenance non-escape theorem forces source and distillation reads through $C$ and $P$. These two obligations rule out a hidden verifier coordinate, a selected source oracle, a corpus-wide truth predicate, and a host semantic oracle.
+
+The TasteGate obligation aligns the Lean carrier with the same componentwise rows. Since field faithfulness is witnessed over the $\mathsf{mk}$-derived coordinates $O,C,V,R,T,K,H,P,N$, the scoped read cannot gain model consciousness, internal ratification, or private semantic state through any unlisted carrier field.
+\end{proof}
+
 \falsifiablePrediction{A LargeModelInscriptionAuditUp consumer that omits the verification-channel row cannot export model output as internally ratified universal truth.}
 
 \independenceWitness{largemodelactivationorbit, largemodelauditchannel, corpussupplydistillation, verifiedoutputharness, inscriptionrouteaudit: the combined output/provenance/verification carrier is not bijective to any one sibling because activation orbit lacks the audit verification channel, audit channel lacks the corpus-provenance and route-audit combination, corpus-supply distillation lacks the accepted output harness, verified output harness lacks the standalone corpus-provenance audit row, and inscription route audit lacks the large-model output and corpus rows.}
 
 \closureat{LargeModelInscriptionAuditUp}{seedStr}
 \closureat{LargeModelInscriptionAuditUp}{obligationStr}[BEDC.Derived.LargeModelInscriptionAuditUp.LargeModelInscriptionAuditTasteGate\_single\_carrier\_alignment]
+\closureat{LargeModelInscriptionAuditUp}{scopedStr}[BEDC.Derived.LargeModelInscriptionAuditUp.LargeModelInscriptionAuditTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\LargeModelInscriptionAuditUp}
   \constructivestory{A $\LargeModelInscriptionAuditUp$ packet is generated from output, corpus-provenance, verification-channel, refusal-ledger, transport, route, harness, package provenance, and local NameCert rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:large-model-inscription-audit-carrier}, \autoref{thm:large-model-inscription-audit-namecert-obligations}, \autoref{thm:large-model-inscription-audit-output-verification-boundary}, \autoref{thm:large-model-inscription-audit-corpus-provenance-nonescape}, and \autoref{thm:large-model-inscription-audit-tastegate-obligation} specify the finite large-model inscription audit carrier and its verification-channel boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:large-model-inscription-audit-carrier}, \autoref{thm:large-model-inscription-audit-namecert-obligations}, \autoref{thm:large-model-inscription-audit-output-verification-boundary}, \autoref{thm:large-model-inscription-audit-corpus-provenance-nonescape}, \autoref{thm:large-model-inscription-audit-tastegate-obligation}, and \autoref{thm:large-model-inscription-audit-scoped-carrier-coverage} specify the finite large-model inscription audit carrier, its verification-channel boundary, and its scoped carrier coverage.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.LargeModelInscriptionAuditUp.LargeModelInscriptionAuditTasteGate\_single\_carrier\_alignment}
   \leanchecked{BEDC.Derived.LargeModelInscriptionAuditUp.taste\_gate}
