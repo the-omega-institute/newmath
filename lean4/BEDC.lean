@@ -276,6 +276,7 @@ import BEDC.Derived.BetaCriticalPairUp.TasteGate
 import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BinaryExpansionUp
+import BEDC.Derived.BinderBudgetSealUp.CarrierAdmission
 import BEDC.Derived.BinderBudgetSealUp.TasteGate
 import BEDC.Derived.BinderContextSubstitutionSealUp
 import BEDC.Derived.BitVectorUp

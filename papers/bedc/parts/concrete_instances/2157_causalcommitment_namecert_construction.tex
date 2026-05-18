@@ -254,6 +254,7 @@ The non-escape boundary then rules out an ambient causal primitive that would id
 \label{thm:causal-commitment-locality-gap-readback}
 Every observer-locality readback of an accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$ factors through the $\mathsf{GAP}$ socket row $G$ and the locality-cell handoff row $L$ before exposing the local $\NameCert_{\CausalCommitmentUp}$ row $N$. The readback may use the observed ledger $O$, regularity ledger $R$, forward-binding row $F$, transport row $H$, continuation replay $C$, and provenance row $P$, but it cannot expose $N$ as an observer-locality certificate before $G$ and $L$ have both been replayed.
 \end{theorem}
+\leanchecked{BEDC.Derived.CausalCommitmentUp.CausalCommitmentLocalityGapReadback}
 \begin{proof}
 Project the forward-GAP carrier of \autoref{def:causal-commitment-forward-gap-carrier}. Its observer-facing rows are the displayed packet rows $O,R,G,F,L,H,C,P,N$, with $G$ as the forward socket and $L$ as the locality handoff.
 
@@ -268,6 +269,7 @@ Finally use \autoref{thm:causal-commitment-classifier-stability} and \autoref{th
 \label{thm:causal-commitment-observer-cell-nonescape}
 The observer-cell handoff of an accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$ cannot export a selected future observation, global observer frame, or ambient causal primitive. Every observer-cell read remains a finite read of the observed ledger, regularity ledger, $\mathsf{GAP}$ socket, forward-binding route, locality row, transport, continuation replay, provenance, and local NameCert rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.CausalCommitmentUp.CausalCommitmentObserverCellNonescape}
 \begin{proof}
 Begin with the locality-cell handoff theorem. \autoref{thm:causal-commitment-locality-cell-handoff} says that observer-locality consumption enters only through $L$ and reads only the rows displayed by the forward-GAP packet.
 
