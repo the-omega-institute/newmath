@@ -677,4 +677,77 @@ theorem NegativeCertificateBoundaryCarrier_apophatic_sibling_route
     }
   exact ⟨cert, siblingUnary, socketInternalizerGap⟩
 
+theorem NegativeCertificateBoundaryCarrier_audit_gate_handoff [AskSetup] [PackageSetup]
+    {socket internalizer gapLedger auditReadback transport continuation provenance name
+      auditConsumer handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NegativeCertificateBoundaryCarrier socket internalizer gapLedger auditReadback transport
+        continuation provenance name bundle pkg →
+      Cont gapLedger auditReadback auditConsumer →
+        Cont auditConsumer continuation handoff →
+          PkgSig bundle handoff pkg →
+            SemanticNameCert
+                (fun row : BHist =>
+                  NegativeCertificateBoundaryCarrier socket internalizer gapLedger auditReadback
+                      transport continuation provenance name bundle pkg ∧
+                    hsame row handoff)
+                (fun row : BHist =>
+                  Cont socket internalizer gapLedger ∧
+                    Cont gapLedger auditReadback auditConsumer ∧
+                      Cont auditConsumer continuation row)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ PkgSig bundle handoff pkg ∧ hsame name provenance)
+                hsame ∧
+              UnaryHistory handoff := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig SemanticNameCert UnaryHistory hsame
+  intro carrier auditReadbackConsumer consumerHandoff handoffPkg
+  have carrierWitness := carrier
+  obtain ⟨socketUnary, internalizerUnary, gapLedgerUnary, auditReadbackUnary,
+    _transportUnary, continuationUnary, _provenanceUnary, _nameUnary,
+    socketInternalizerGap, _gapAuditContinuation, _auditPkg, nameProvenance⟩ := carrier
+  have auditConsumerUnary : UnaryHistory auditConsumer :=
+    unary_cont_closed gapLedgerUnary auditReadbackUnary auditReadbackConsumer
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed auditConsumerUnary continuationUnary consumerHandoff
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            NegativeCertificateBoundaryCarrier socket internalizer gapLedger auditReadback
+                transport continuation provenance name bundle pkg ∧
+              hsame row handoff)
+          (fun row : BHist =>
+            Cont socket internalizer gapLedger ∧ Cont gapLedger auditReadback auditConsumer ∧
+              Cont auditConsumer continuation row)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle handoff pkg ∧ hsame name provenance)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro handoff ⟨carrierWitness, hsame_refl handoff⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+      }
+      pattern_sound := by
+        intro row source
+        exact
+          ⟨socketInternalizerGap, auditReadbackConsumer,
+            cont_result_hsame_transport consumerHandoff (hsame_symm source.right)⟩
+      ledger_sound := by
+        intro row source
+        exact
+          ⟨unary_transport handoffUnary (hsame_symm source.right), handoffPkg,
+            nameProvenance⟩
+    }
+  exact ⟨cert, handoffUnary⟩
+
 end BEDC.Derived.NegativeCertificateBoundaryUp
