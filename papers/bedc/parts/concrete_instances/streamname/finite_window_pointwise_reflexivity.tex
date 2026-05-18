@@ -1,0 +1,49 @@
+\begin{theorem}[StreamName finite-window pointwise reflexivity]
+\label{thm:streamname-finite-window-pointwise-reflexivity}
+Let $s:\Hist\to\Hist$ be an accepted rational StreamName carrier and let
+$\mathcal{P}:\mathsf{ProbeBundle}$ be a certified finite bundle of unary
+observations. Then the restriction of $s$ to $\mathcal{P}$ carries the
+pointwise rows
+$$
+\mathsf{InBundle}(n,\mathcal{P})\to
+\mathsf{UnaryHistory}(n)\to
+\mathsf{RatHistoryClassifier}(s(n),s(n))
+$$
+and repacks as the finite-window self-witness
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,s,\mathcal{P}).
+$$
+The witness exposes only the displayed $\mathsf{UnaryHistory}$ observations,
+bundle-membership rows, endpoint rational-history carrier rows, pointwise
+RatUp reflexivity, $\hsame$ transports already present on the window,
+displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ rows.
+It contains no quotient stream, host sequence equality, selected limit, or
+$\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Unfold the carrier clause of Definition~\ref{def:rat-stream-name-carrier}.
+For a bundled certified unary observation $n$, the accepted carrier of $s$
+supplies the endpoint rational-history carrier row
+$\mathsf{RatHistoryCarrier}(s(n))$.
+
+Apply the reflexivity field of
+\autoref{thm:rat-stream-name-certificate-fields} pointwise at this same
+observation. Equivalently, the RatUp classifier reflexivity row turns the
+projected endpoint carrier into
+$\mathsf{RatHistoryClassifier}(s(n),s(n))$.
+
+Since $n$ was chosen with arbitrary evidence
+$\mathsf{InBundle}(n,\mathcal{P})$ and $\mathsf{UnaryHistory}(n)$, the
+pointwise rows are exactly the clauses of
+Definition~\ref{def:rat-stream-name-finite-window-classifier}. Repacking them
+therefore gives
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,s,\mathcal{P})$.
+
+The surrounding handoff surface is unchanged. The finite bundle contributes
+only membership, unary-history, displayed transport, continuation, provenance,
+and naming rows, so the same finite-window self-witness is the local source
+row consumed by
+\autoref{thm:streamname-regseqrat-singleton-diagonal-handoff} and by the
+$\RealUp$ finite-window boundary without importing quotient-stream equality,
+host sequence equality, selected limits, or completeness data.
+\end{proof}
