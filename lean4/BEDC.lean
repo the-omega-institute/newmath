@@ -266,8 +266,11 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBoundaryNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptanceTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.DisplayedRouteSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.DisplayedRoute
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSource
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OutputAuthorizationClosure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamRoute
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceRowAdmission
+import BEDC.Derived.AxiomDependencyTupleUp
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
@@ -309,6 +312,7 @@ import BEDC.Derived.BinderBudgetSealUp.CarrierAdmission
 import BEDC.Derived.BinderBudgetSealUp.ShiftNonescape
 import BEDC.Derived.BinderBudgetSealUp.SelfCompileHandoff
 import BEDC.Derived.BinderBudgetSealUp.SubstitutionNonescape
+import BEDC.Derived.BinderBudgetSealUp.CompilerBoundary
 import BEDC.Derived.BinderBudgetSealUp.TasteGate
 import BEDC.Derived.BinderContextSubstitutionSealUp
 import BEDC.Derived.BitVectorUp
@@ -1083,6 +1087,7 @@ import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationRowPrecedence
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.InputStateExposure
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.TraceProvenanceLock
+import BEDC.Derived.ReflectionRuntimeCheckpointUp.TraceEvidenceFiniteness
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.HostValidationNonescape
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationNonescapeRoute
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.AuditProvenanceExhaustion
@@ -1286,6 +1291,7 @@ import BEDC.Derived.ClosedTermSubstitutionCompilerUp.NameCert
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftLedgerExhaustion
 import BEDC.Derived.ClassifierTypingUp
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.CrossPerspectiveAlignmentUp.TasteGate
@@ -1999,6 +2005,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionFiniteEnvelopeNoChoic
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionFiniteEnvelopeTailWindowStability
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionFiniteEnvelopeNameCertObligations
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionExactBoundaryHandoff
+import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionTerminalReadiness
 import BEDC.Derived.UniformCauchyCriterionUp.RealEnvelopeSourceMinimality
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionSynchronizerTerminalEnvelope
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionWindowExhaustion
