@@ -217,6 +217,24 @@ Use the primitive-scope binding of \autoref{thm:finite-prefix-limit-stability-pr
 Finally apply the Real handoff of \autoref{thm:finite-prefix-limit-stability-real-handoff}. The handoff terminates the exported route at the displayed $\RealUp$ seal, while the TasteGate marker records the accepted public surface. The composed package is therefore the public $\NameCert_{\FinitePrefixLimitStabilityUp}$ export over precisely the listed primitives and sibling rows.
 \end{proof}
 
+\begin{theorem}[Finite-prefix limit-stability standard bridge precondition]
+\label{thm:finite-prefix-limit-stability-standard-bridge-precondition}
+Any standard bridge eligible to consume the public $\NameCert_{\FinitePrefixLimitStabilityUp}$ export must preserve the ordered finite BEDC route
+$$
+B \to W \to R \to D \to E
+$$
+through the sibling rows $\FinitePrefixLimitBudgetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. Bridge-side data may be exposed only after the finite prefix budget, stream window, regular-rational readback, dyadic tolerance ledger, and terminal Real seal have appeared in that order. No host limit, quotient stream equality, selected limit, countable-choice row, ambient Real completeness theorem, or detached bridge-schema row can serve as an alternate precondition for that bridge.
+\end{theorem}
+\begin{proof}
+Begin with the public export of \autoref{thm:finite-prefix-limit-stability-public-namecert-export}. It supplies the $\NameCert_{\FinitePrefixLimitStabilityUp}$ surface over the five sibling rows and the BEDC primitives that name the finite route.
+
+Apply the primitive-scope binding of \autoref{thm:finite-prefix-limit-stability-primitive-scope-binding}. The route is scoped exactly by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ together with the displayed sibling rows, so a standard bridge consuming the public export has no additional source from which to derive bridge-side data.
+
+Use the source lock of \autoref{thm:finite-prefix-limit-stability-source-lock}. Every Real-facing or Completion-facing read must encounter $B$, then $W$, then $R$, then $D$, and only then $E$ before support rows can be consumed.
+
+Finally apply prefix nonescape from \autoref{thm:finite-prefix-limit-stability-prefix-nonescape}. The excluded host, quotient, selected-limit, choice, completeness, and detached-schema sources cannot provide a second bridge entry. Thus the only admissible standard-bridge precondition is preservation of the displayed finite BEDC route.
+\end{proof}
+
 \begin{closurestatus}{\FinitePrefixLimitStabilityUp}
   \constructivestory{The finite-prefix limit-stability certificate is generated from $BHist$ rows that name a finite prefix budget, stream-name observation, regular-rational readback, dyadic tolerance ledger, and the terminal Real seal that keeps the route stable at that prefix. The carrier first reads the finite prefix, then records the stability witness, and finally allows $\Cont$ to continue toward a Real handoff only through that same prefix. The $hsame$ relation prevents representative changes from altering which finite prefix carries the stability evidence. The obligation surface, carrier admission, transport stability, ledger exactness, prefix nonescape, and Real handoff theorem together state that finite ledger data are sufficient for the admitted route, while external completion witnesses are outside scope.}
   \theoryclosure{\publicClosure}
