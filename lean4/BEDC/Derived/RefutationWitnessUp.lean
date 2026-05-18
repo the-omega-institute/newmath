@@ -96,4 +96,25 @@ theorem RefutationWitnessNameCertObligations [AskSetup] [PackageSetup]
     ⟨semanticCert, routeReadUnary, assumptionReadUnary, routeReadCont, assumptionReadCont,
       provenancePkg, routeReadPkg⟩
 
+theorem RefutationWitnessCarrier_truth_branch_blocker [AskSetup] [PackageSetup]
+    {proposition assumption route bottom transport replay provenance cert truthBranch branchRow :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (carrier : RefutationWitnessCarrier proposition assumption route bottom transport replay
+      provenance cert bundle pkg)
+    (routeRead : Cont assumption route bottom)
+    (branchRead : Cont truthBranch proposition branchRow)
+    (sameBranch : hsame truthBranch cert) :
+    Cont assumption route bottom ∧ Cont bottom transport replay ∧
+      PkgSig bundle provenance pkg ∧ Cont truthBranch proposition branchRow ∧
+        hsame truthBranch cert ∧ hsame cert replay ∧ UnaryHistory route ∧
+          UnaryHistory cert := by
+  -- BEDC touchpoint anchor: BHist Cont hsame Pkg ProbeBundle
+  obtain ⟨_propositionUnary, _assumptionUnary, routeUnary, _bottomUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, certUnary, _bottomRoute, replayRoute, certReplay,
+    provenancePkg⟩ := carrier
+  exact
+    ⟨routeRead, replayRoute, provenancePkg, branchRead, sameBranch, certReplay, routeUnary,
+      certUnary⟩
+
 end BEDC.Derived.RefutationWitnessUp
