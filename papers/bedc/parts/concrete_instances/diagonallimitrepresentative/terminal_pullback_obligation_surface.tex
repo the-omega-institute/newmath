@@ -1,0 +1,51 @@
+\begin{definition}[Diagonal-limit representative terminal-pullback obligation surface]
+\label{def:diagonal-limit-representative-terminal-pullback-obligation-surface}
+The terminal-pullback obligation surface for $\DiagonalLimitRepresentativeUp$ is the finite packet
+$$
+\Pi=(W,R,D,E,H,C,P,N)
+$$
+read from the accepted carrier and classifier of \autoref{def:diagonal-limit-representative-carrier} and \autoref{def:diagonal-limit-representative-classifier}. Its four source rows are:
+\begin{enumerate}
+\item $W$, the finite $\StreamNameUp$ window row supplied by \autoref{ch:concrete-instances-streamname-namecert};
+\item $R$, the $\RegSeqRatUp$ readback row supplied by \autoref{ch:concrete-instances-regseqrat-namecert};
+\item $D$, the $\DyadicRatCoreUp$ tolerance ledger supplied by \autoref{ch:concrete-instances-dyadicratcore-namecert};
+\item $E$, the terminal $\RealUp$ seal row supplied by \autoref{ch:concrete-instances-real-namecert}.
+\end{enumerate}
+The remaining rows $H,C,P,N$ are respectively the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DiagonalLimitRepresentativeUp}$ row for that same packet. The surface is terminal-pullback data: it records how the terminal Real seal is pulled back through the finite StreamName, RegSeqRat, and DyadicRatCore sources before any downstream consumer may use the seal, and it exports no quotient stream equality, host limit, countable-choice row, or ambient $\RealUp$ completeness field.
+\end{definition}
+
+\begin{theorem}[Diagonal-limit representative terminal-pullback source coverage]
+\label{thm:diagonal-limit-representative-terminal-pullback-source-coverage}
+Every accepted terminal-pullback packet $\Pi=(W,R,D,E,H,C,P,N)$ for $\DiagonalLimitRepresentativeUp$ exposes the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the terminal $\RealUp$ seal $E$ before the terminal Real seal is consumed. The source route is the one named by \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}, read through the carrier and classifier of \autoref{def:diagonal-limit-representative-carrier} and \autoref{def:diagonal-limit-representative-classifier}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its displayed tuple contains the selected window, readback, ledger, and seal rows as finite $\BHist$ coordinates, and the terminal-pullback surface of \autoref{def:diagonal-limit-representative-terminal-pullback-obligation-surface} merely renames those four rows as $W,R,D,E$.
+
+Next read the sibling sources. The window row is sourced by $\StreamNameUp$, the readback row by $\RegSeqRatUp$, the tolerance ledger by $\DyadicRatCoreUp$, and the terminal seal by $\RealUp$, with the four chapter references in the statement fixing the source side of the pullback.
+
+Finally apply the classifier boundary. Componentwise $\hsame$ transport and displayed $\Cont$ replay are the only ways to move the four source rows toward terminal consumption, while $P$ and $N$ only source and name the same packet. Hence every accepted consumer sees $W,R,D,E$ before it can use the terminal Real seal.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative terminal-pullback classifier stability]
+\label{thm:diagonal-limit-representative-terminal-pullback-classifier-stability}
+If two accepted terminal-pullback packets for $\DiagonalLimitRepresentativeUp$ are classified together by \autoref{def:diagonal-limit-representative-classifier}, then their selected $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ tolerance ledgers, and terminal $\RealUp$ seal classifiers are preserved by the displayed $\hsame$ and $\Cont$ rows. This preservation uses only the finite packet $\Pi=(W,R,D,E,H,C,P,N)$ of \autoref{def:diagonal-limit-representative-terminal-pullback-obligation-surface}; it does not require quotient stream equality, host stream equality, selected limits, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with the classifier of \autoref{def:diagonal-limit-representative-classifier}. It relates accepted carriers componentwise, so the selected window, readback, dyadic ledger, terminal seal, provenance, and local name are compared only by the recorded $\hsame$ rows and replayed only by the displayed $\Cont$ routes.
+
+Use terminal-pullback source coverage. By \autoref{thm:diagonal-limit-representative-terminal-pullback-source-coverage}, the four rows $W,R,D,E$ are already visible before the terminal seal is consumed, so classifier transport has concrete rows to preserve rather than an external stream quotient or host equality claim.
+
+The support rows close the stability claim. The rows $H,C,P,N$ are part of the finite packet and cannot introduce a second window, alternate readback, different tolerance ledger, or stronger Real seal classifier. Thus hsame transport preserves exactly the displayed terminal-pullback classifiers.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative terminal-pullback ledger exactness]
+\label{thm:diagonal-limit-representative-terminal-pullback-ledger-exactness}
+The terminal-pullback ledger for $\DiagonalLimitRepresentativeUp$ hides only the finite representative choice already displayed by the carrier of \autoref{def:diagonal-limit-representative-carrier}: the selected window $W$, readback $R$, tolerance ledger $D$, terminal seal $E$, and support rows $H,C,P,N$. It does not export a host limit, quotient-stream equality, countable choice, selected completed limit, or ambient $\RealUp$ completeness principle to a Real-and-Completion consumer.
+\end{theorem}
+\begin{proof}
+Read the terminal-pullback surface. Its packet has exactly eight rows, and the first four are sourced by the StreamName, RegSeqRat, DyadicRatCore, and Real sibling chapters named in \autoref{def:diagonal-limit-representative-terminal-pullback-obligation-surface}.
+
+Now compare with the carrier. The carrier of \autoref{def:diagonal-limit-representative-carrier} already displays the finite representative choice by its selected window, readback, ledger, and seal coordinates, while the classifier of \autoref{def:diagonal-limit-representative-classifier} permits only componentwise transport and continuation replay over those coordinates.
+
+It remains to exclude stronger exports. The rows $H,C,P,N$ transport, replay, source, and name the same finite packet; none of them is a host limit, a stream quotient, a choice functional, or an ambient completeness field. Therefore the ledger is exact: it hides only the finite representative selection and exposes no analytic completion principle beyond the terminal seal row.
+\end{proof}
