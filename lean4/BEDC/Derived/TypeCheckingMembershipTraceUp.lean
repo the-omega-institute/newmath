@@ -490,4 +490,20 @@ theorem TypeCheckingMembershipTrace_scoped_kernel_surface [AskSetup]
       exact ⟨source.right, sameH, sameP, sameN⟩
   }
 
+theorem TypeCheckingMembershipTraceFormalTarget_handoff [AskSetup]
+    {M D R S H C P N subjectReplay : BHist} :
+    TypeCheckingMembershipTraceKernelRows M D R S H C P N →
+      Cont R C subjectReplay →
+        Ext M BMark.b0 D ∧ Cont D R C ∧ Cont R C subjectReplay ∧
+          SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) S BHist.Empty ∧
+            hsame H H ∧ hsame P P ∧ hsame N N ∧
+              typeCheckingMembershipTraceFields
+                  (TypeCheckingMembershipTraceUp.mk M D R S H C P N) =
+                [M, D, R, S, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist BMark Ext Cont SigRel ProbeBundle AskSetup
+  intro rows replay
+  obtain ⟨membership, derivation, readback, sameH, sameP, sameN⟩ := rows
+  exact
+    ⟨membership, derivation, replay, readback, sameH, sameP, sameN, rfl⟩
+
 end BEDC.Derived.TypeCheckingMembershipTraceUp
