@@ -289,6 +289,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NormalizationConsumerNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NormalizationFrontierConsumerLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ObligationTriad
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.OperationalMembraneAuditHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputAuditLedger
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputAuditNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputLedgerExactness
@@ -849,6 +850,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.FourFaceStatusObjectwisePullback
 import BEDC.Derived.CauchyModulusRefinementUp.L10CompletionPullback
 import BEDC.Derived.CauchyModulusRefinementUp.L10ConsumerSpineComparison
 import BEDC.Derived.CauchyModulusRefinementUp.L10FaceOrderRigidity
+import BEDC.Derived.CauchyModulusRefinementUp.L10FaceStatusPullbackRecord
 import BEDC.Derived.CauchyModulusRefinementUp.L10FiniteRequestRouteMonotonicity
 import BEDC.Derived.CauchyModulusRefinementUp.L10HandoffSufficiency
 import BEDC.Derived.CauchyModulusRefinementUp.L10RootWindowPullbackExhaustion
@@ -863,6 +865,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.OpenPhaseExitSpine
 import BEDC.Derived.CauchyModulusRefinementUp.OpenPhaseFourObjectConsumption
 import BEDC.Derived.CauchyModulusRefinementUp.OpenPhaseSpineLock
 import BEDC.Derived.CauchyModulusRefinementUp.PaperLeanReadbackSync
+import BEDC.Derived.CauchyModulusRefinementUp.PullbackSpine
 import BEDC.Derived.CauchyModulusRefinementUp.PullbackSpineAdmission
 import BEDC.Derived.CauchyModulusRefinementUp.RealCompletenessHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RealConsumerCoverage
@@ -2210,6 +2213,7 @@ import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSeparationUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
+import BEDC.Derived.FiniteWitnessedRefutationUp
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
@@ -4277,6 +4281,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.RootPackage
 import BEDC.Derived.ZetaContinuationWitnessUp.RootReadinessSourceSeal
 import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerSourceReadiness
+import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingSourceAccountability
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroRouteInputPackage
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.ZnormalUp
