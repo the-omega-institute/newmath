@@ -215,7 +215,7 @@ private theorem domainTruthCertificateToEventFlow_injective
       (domainTruthCertificate_round_trip x).symm
       (Eq.trans hread (domainTruthCertificate_round_trip y)))
 
-private def domainTruthCertificateFields : DomainTruthCertificateUp → List BHist
+def domainTruthCertificateFields : DomainTruthCertificateUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | DomainTruthCertificateUp.mk truth domain openFit observerInvariant continuation failure
       transport replay provenance package localName =>
