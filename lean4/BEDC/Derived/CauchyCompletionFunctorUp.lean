@@ -441,4 +441,87 @@ theorem CauchyCompletionFunctorPacket_public_completion_export [AskSetup] [Packa
     }
   exact ⟨cert, consumerUnary, exportUnary⟩
 
+theorem CauchyCompletionFunctorPacket_observation_budget_factorization
+    [AskSetup] [PackageSetup]
+    {metric regular sealRow monadRow universal classifier transport nameCert endpoint obsStart
+      obsWindow obsDyadic obsRat obsSeal routedSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionFunctorPacket metric regular sealRow monadRow universal classifier transport
+        nameCert endpoint bundle pkg ->
+      UnaryHistory obsStart ->
+        UnaryHistory obsWindow ->
+          UnaryHistory obsRat ->
+            Cont obsStart obsWindow obsDyadic ->
+              Cont obsDyadic obsRat obsSeal ->
+                Cont obsSeal sealRow routedSeal ->
+                  PkgSig bundle routedSeal pkg ->
+                    UnaryHistory obsDyadic ∧ UnaryHistory obsSeal ∧
+                      UnaryHistory routedSeal ∧ Cont metric regular sealRow ∧
+                        Cont obsStart obsWindow obsDyadic ∧ Cont obsDyadic obsRat obsSeal ∧
+                          Cont obsSeal sealRow routedSeal ∧
+                            Cont monadRow universal endpoint ∧ PkgSig bundle endpoint pkg ∧
+                              PkgSig bundle routedSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet obsStartUnary obsWindowUnary obsRatUnary obsStartObsWindowObsDyadic
+    obsDyadicObsRatObsSeal obsSealSealRowRoutedSeal routedSealPkg
+  obtain ⟨_metricUnary, _regularUnary, sealUnary, _monadUnary, _universalUnary,
+    _classifierUnary, _transportUnary, _nameCertUnary, _endpointUnary, metricRegularSeal,
+    monadUniversalEndpoint, _classifierTransportNameCert, endpointPkg⟩ := packet
+  have obsDyadicUnary : UnaryHistory obsDyadic :=
+    unary_cont_closed obsStartUnary obsWindowUnary obsStartObsWindowObsDyadic
+  have obsSealUnary : UnaryHistory obsSeal :=
+    unary_cont_closed obsDyadicUnary obsRatUnary obsDyadicObsRatObsSeal
+  have routedSealUnary : UnaryHistory routedSeal :=
+    unary_cont_closed obsSealUnary sealUnary obsSealSealRowRoutedSeal
+  exact
+    ⟨obsDyadicUnary, obsSealUnary, routedSealUnary, metricRegularSeal,
+      obsStartObsWindowObsDyadic, obsDyadicObsRatObsSeal, obsSealSealRowRoutedSeal,
+      monadUniversalEndpoint, endpointPkg, routedSealPkg⟩
+
+theorem CauchyCompletionFunctorPacket_finite_observation_selector_factorization
+    [AskSetup] [PackageSetup]
+    {metric regular sealRow monadRow universal classifier transport nameCert endpoint
+      selectorStart selectorWindow selectorDyadic selectorRat selectorExit selectorRead
+      completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionFunctorPacket metric regular sealRow monadRow universal classifier transport
+        nameCert endpoint bundle pkg ->
+      UnaryHistory selectorStart ->
+        UnaryHistory selectorWindow ->
+          UnaryHistory selectorRat ->
+            UnaryHistory selectorExit ->
+              Cont selectorStart selectorWindow selectorDyadic ->
+                Cont selectorDyadic selectorRat selectorExit ->
+                  Cont selectorExit sealRow selectorRead ->
+                    Cont selectorRead monadRow completionRead ->
+                      PkgSig bundle completionRead pkg ->
+                        UnaryHistory selectorDyadic ∧ UnaryHistory selectorRead ∧
+                          UnaryHistory completionRead ∧
+                            Cont selectorStart selectorWindow selectorDyadic ∧
+                              Cont selectorDyadic selectorRat selectorExit ∧
+                                Cont selectorExit sealRow selectorRead ∧
+                                  Cont selectorRead monadRow completionRead ∧
+                                    Cont monadRow universal endpoint ∧
+                                      PkgSig bundle endpoint pkg ∧
+                                        PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet selectorStartUnary selectorWindowUnary selectorRatUnary selectorExitUnary
+    selectorStartSelectorWindowSelectorDyadic selectorDyadicSelectorRatSelectorExit
+    selectorExitSealRowSelectorRead selectorReadMonadRowCompletionRead completionReadPkg
+  obtain ⟨_metricUnary, _regularUnary, sealUnary, monadUnary, _universalUnary,
+    _classifierUnary, _transportUnary, _nameCertUnary, _endpointUnary, _metricRegularSeal,
+    monadUniversalEndpoint, _classifierTransportNameCert, endpointPkg⟩ := packet
+  have selectorDyadicUnary : UnaryHistory selectorDyadic :=
+    unary_cont_closed selectorStartUnary selectorWindowUnary
+      selectorStartSelectorWindowSelectorDyadic
+  have selectorReadUnary : UnaryHistory selectorRead :=
+    unary_cont_closed selectorExitUnary sealUnary selectorExitSealRowSelectorRead
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed selectorReadUnary monadUnary selectorReadMonadRowCompletionRead
+  exact
+    ⟨selectorDyadicUnary, selectorReadUnary, completionReadUnary,
+      selectorStartSelectorWindowSelectorDyadic, selectorDyadicSelectorRatSelectorExit,
+      selectorExitSealRowSelectorRead, selectorReadMonadRowCompletionRead, monadUniversalEndpoint,
+      endpointPkg, completionReadPkg⟩
+
 end BEDC.Derived.CauchyCompletionFunctorUp
