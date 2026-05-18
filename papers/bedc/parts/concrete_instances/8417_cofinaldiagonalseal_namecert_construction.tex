@@ -70,6 +70,46 @@ The second half binds the observable seal handoff. A consumer reaches $A$ only a
 Therefore every public Real seal exported by the packet factors through the displayed sequence and has no bypass through quotient streams, selected limits, hidden tail choice, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Cofinal diagonal seal route admission]
+\label{thm:cofinal-diagonal-seal-route-admission}
+An accepted local $\CofinalDiagonalSealUp$ packet admits exactly the displayed route rows
+$$
+\epsilon,T,D,L,R,W,Y,A,H,C,P,N.
+$$
+The admitted rows are the precision request, cofinal-tail budget, diagonal selector budget, diagonal-limit-facing budget, regular-source readback, finite-window exposure, dyadic tolerance ledger, terminal $\RealUp$ seal, componentwise transport, displayed continuation, package provenance, and local $\NameCert$ row of \autoref{def:cofinal-diagonal-seal-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-diagonal-seal-carrier}. Its tuple has exactly the displayed coordinates $\epsilon,T,D,L,R,W,Y,A,H,C,P,N$, and no further coordinate is available for the local packet.
+
+Apply \autoref{thm:cofinal-diagonal-seal-namecert-obligations}. The NameCert surface exposes precisely those carrier coordinates as the accepted rows, with $N$ naming the same local packet rather than adding an extra route.
+
+Thus local admission is coordinatewise admission of the displayed carrier. The absent coordinates named in the definition cannot be admitted by projection, so the route rows listed above are exact.
+\end{proof}
+
+\begin{theorem}[Cofinal diagonal seal observable route handoff]
+\label{thm:cofinal-diagonal-seal-observable-route-handoff}
+Every public $\RealUp$ seal handoff accepted by a $\CofinalDiagonalSealUp$ packet reads the $\RegSeqRatUp$ row $R$, the $\StreamNameUp$ finite-window row $W$, and the $\DyadicRatCoreUp$ ledger $Y$ before the terminal $\RealUp$ row $A$. The handoff excludes detached Real seals, quotient streams, selected host limits, hidden tail choice, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Use the sibling anchors named in the chapter introduction. The regular-source chapter supplies the readback row $R$, the StreamName chapter supplies the finite window $W$, and the DyadicRatCore chapter supplies the tolerance ledger $Y$ consumed by the terminal Real row $A$.
+
+Apply \autoref{thm:cofinal-diagonal-seal-route-exhaustion}. Any accepted consumer route to a public Real seal factors through the displayed sequence, so $R,W,Y$ occur before $A$ in the only admitted handoff.
+
+The carrier has no detached Real coordinate, quotient-stream classifier, selected host limit, hidden tail selector, or ambient-completion row. Therefore none of those surfaces can serve as a public handoff bypass.
+\end{proof}
+
+\begin{theorem}[Cofinal diagonal seal nontrivial faithful field]
+\label{thm:cofinal-diagonal-seal-nontrivial-faithful-field}
+The $\CofinalDiagonalSealUp$ packet has two distinguishable displayed carriers, and equality of all displayed fields is faithful to equality of the packet fields. On the Lean side, the same carrier surface is witnessed by the existing \texttt{Nontrivial CofinalDiagonalSealUp} and \texttt{FieldFaithful CofinalDiagonalSealUp} instances in \texttt{BEDC.Derived.CofinalDiagonalSealUp.TasteGate}.
+\end{theorem}
+\begin{proof}
+For distinguishability, vary a displayed carrier row while keeping the packet shape of \autoref{def:cofinal-diagonal-seal-carrier}. The NameCert obligations of \autoref{thm:cofinal-diagonal-seal-namecert-obligations} expose that row, so the two packets cannot collapse to one displayed carrier.
+
+For faithfulness, compare two accepted packets field by field along $\epsilon,T,D,L,R,W,Y,A,H,C,P,N$. If every displayed row agrees, the carrier projections agree, the displayed route agrees, and the local NameCert row names the same packet.
+
+The Lean taste-gate instances record exactly this pair of facts for the same displayed carrier family: nontriviality supplies distinct inhabitants, and field faithfulness says the visible carrier fields determine the packet fields.
+\end{proof}
+
 \begin{theorem}[Cofinal diagonal seal sibling scope]
 \label{thm:cofinal-diagonal-seal-sibling-scope}
 The $\CofinalDiagonalSealUp$ packet is scoped exactly by the sibling surfaces of \autoref{ch:concrete-instances-cofinal-tail-budget-namecert}, \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert}, \autoref{ch:concrete-instances-diagonal-limit-budget-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. It consumes those rows in one finite NameCert packet and exports no independent Real completeness theorem or quotient-stream classifier.
@@ -89,7 +129,7 @@ The later Lean namespace \texttt{BEDC.Derived.CofinalDiagonalSealUp.TasteGate} m
 \begin{closurestatus}{\CofinalDiagonalSealUp}
   \constructivestory{A $\CofinalDiagonalSealUp$ packet is generated from a finite precision request, cofinal-tail budget row, Cauchy diagonal budget row, diagonal limit budget row, RegSeqRat readback row, StreamName window row, DyadicRatCore tolerance ledger, terminal RealUp seal row, componentwise transports, displayed continuation, package provenance, and local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cofinal-diagonal-seal-carrier}, \autoref{thm:cofinal-diagonal-seal-namecert-obligations}, \autoref{thm:cofinal-diagonal-seal-route-exhaustion}, and \autoref{thm:cofinal-diagonal-seal-sibling-scope} specify the finite cofinal-tail-to-diagonal RealUp seal route and its sibling scope.}
+  \scopeclosed{\autoref{def:cofinal-diagonal-seal-carrier}, \autoref{thm:cofinal-diagonal-seal-namecert-obligations}, \autoref{thm:cofinal-diagonal-seal-route-exhaustion}, \autoref{thm:cofinal-diagonal-seal-route-admission}, \autoref{thm:cofinal-diagonal-seal-observable-route-handoff}, \autoref{thm:cofinal-diagonal-seal-nontrivial-faithful-field}, and \autoref{thm:cofinal-diagonal-seal-sibling-scope} specify the finite cofinal-tail-to-diagonal RealUp seal route and its sibling scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
