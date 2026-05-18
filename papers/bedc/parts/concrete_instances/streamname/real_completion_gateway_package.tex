@@ -205,3 +205,32 @@ With all five support rows present, the same carrier, obligation, ordered-readba
 
 The exclusions are preserved because none of the five support rows is a quotient stream equality, host sequence equality, selected limit, countable-choice row, ambient Real completeness datum, metric-completeness datum, standard bridge row, or bridge-row substitute, and the no-choice normal form already rejects every read mentioning those coordinates.
 \end{proof}
+
+\begin{theorem}[StreamName Real-completion gateway face minimality]
+\label{thm:streamname-real-completion-gateway-face-minimality}
+Let
+$$
+G=(S,D,R,E,B,H,C,P,N)
+$$
+be an accepted $\StreamNameUp$ Real-completion gateway packet for the current Phase Real and Completion boundary. The packet satisfies the current gateway read only when all four object faces $S,D,R,E$ are present:
+\begin{enumerate}
+\item deleting the $\StreamNameUp$ finite-window face $S$ leaves no accepted gateway route;
+\item deleting the $\DyadicRatCoreUp$ tolerance-ledger face $D$ leaves no accepted gateway route;
+\item deleting the $\RegSeqRatUp$ readback face $R$ leaves no accepted gateway route;
+\item deleting the $\RealUp$ seal face $E$ leaves no accepted gateway route.
+\end{enumerate}
+This face minimality is internal to the displayed gateway carrier and exports no quotient stream, host sequence equality, selected limit, countable-choice row, metric-completeness datum, standard bridge row, bridge-row substitute, or $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+First identify the accepted gateway surface. By \autoref{thm:streamname-real-completion-gateway-obligations}, an accepted packet carries the four faces $S,D,R,E$ together with the displayed support rows $B,H,C,P,N$ as a local $\NameCert_{\StreamNameUp}$ package; no extra carrier coordinate is available to stand in for a missing face.
+
+Next read the source order. Apply \autoref{thm:streamname-real-completion-gateway-ordered-source-readback}. The only gateway route has the form
+$$
+S \longrightarrow D \longrightarrow R \longrightarrow E .
+$$
+Thus the window face is the route source, the tolerance-ledger face is the dyadic budget read after that source, the readback face consumes the paired $S,D$ data, and the seal face is available only after the readback.
+
+Now remove one face. If $S$ is absent, the ordered source read has no StreamName window from which to start. If $D$ is absent, the same route has no DyadicRatCore tolerance ledger to pass from the window into the regular sequence read. If $R$ is absent, there is no RegSeqRat readback consuming the $S,D$ pair. If $E$ is absent, there is no RealUp seal endpoint. In each case the ordered readback theorem leaves no accepted gateway route on the remaining three faces.
+
+It remains to rule out replacement data. By \autoref{thm:streamname-real-completion-gateway-status-exactness}, the status records are exactly the objectwise $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows; by \autoref{thm:real-l10-exit-certificate-face-minimality}, the Real-side current Phase Real and Completion exit certificate also needs each of those four faces. These two minimality reads agree with the gateway obligations, so quotient streams, host sequence equality, selected limits, countable choice, metric-completeness data, standard bridge rows, bridge-row substitutes, and $\RealUp$ completeness cannot fill any deleted face.
+\end{proof}
