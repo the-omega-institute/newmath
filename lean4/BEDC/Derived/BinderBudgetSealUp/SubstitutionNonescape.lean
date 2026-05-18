@@ -26,7 +26,7 @@ theorem BinderBudgetSealSubstitutionNonescape [AskSetup] [PackageSetup]
   intro carrier substRouteNameRead substReadPkg
   obtain ⟨depthUnary, termUnary, payloadUnary, _shiftRouteUnary, substRouteUnary,
     _transportUnary, _contRouteUnary, _provenanceUnary, nameUnary, _depthTermShift,
-    depthPayloadSubst, _shiftSubstCont, namePkg⟩ := carrier
+    depthPayloadSubst, _shiftSubstCont, _provenancePkg, namePkg⟩ := carrier
   have substReadUnary : UnaryHistory substRead :=
     unary_cont_closed substRouteUnary nameUnary substRouteNameRead
   exact
