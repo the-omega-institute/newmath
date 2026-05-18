@@ -206,3 +206,21 @@ Now use \autoref{thm:real-regseqrat-streamname-cauchy-witness-budget-projection}
 
 Finally apply the DyadicTailRadiusLedger handoff, namely \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage} and \autoref{thm:dyadic-tail-radius-ledger-regseq-real-handoff}. Since $L$ displays the same finite StreamName window $W$ selected by $S$, tail-budget coverage places the precision, tail-window, StreamName-window, and dyadic readback rows on the same finite route, and the handoff carries that route through the RegSeqRat and Real seal rows. Repacking these rows gives exactly the shared packet $W,D,Q,R,A,H,C,P,N$, with no quotient stream, host equality, selected limit, choice, completeness, metric-completion, bridge, or duplicate Real-seal coordinate available to the pullback.
 \end{proof}
+
+\begin{theorem}[RealUp RegSeqRat reindexed finite-request descent]
+\label{thm:real-regseqrat-reindexed-finite-request-descent}
+Let $Q_0$ and $Q_1$ be accepted $\RegSeqRatUp$ packets, and let $S_0$ and $S_1$ be accepted finite requests to $\RealUp$ seals over them. Suppose the selected $\StreamNameUp$ finite windows of $S_0$ and $S_1$ are related by a certified public reindex route. Suppose also that the route preserves the same $\DyadicRatCoreUp$ endpoint, radius, and finite-distance ledger, the same $\RegSeqRatUp$ classifier and readback rows, the same local $\RealUp$ seal row, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then $S_0$ and $S_1$ determine the same finite $\RealUp$ seal packet.
+
+Conversely, equality of the accepted finite $\RealUp$ seal packet recovers exactly that reindexed four-face data: the transported StreamName window, the DyadicRatCore endpoint-radius-distance ledger, the RegSeqRat classifier and readback rows, the local Real seal row, and the displayed support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The descent exports no quotient stream equality, no host real equality, no selected limits, no choice data, no ambient completeness, no metric-completeness rows, no standard bridge rows, and no duplicate $\RealUp$ seal coordinates.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-reindex-terminal-coverage}. The certified public reindex route carries the selected StreamName finite window to the same terminal four-face exit route, with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows transported componentwise.
+
+Next use \autoref{thm:real-streamname-finite-request-terminal-bridge}. The StreamName-facing pullback and the Real-facing finite request therefore read one finite $\BHist$ packet whenever they display the same StreamName window, dyadic ledger, RegSeqRat readback, Real seal row, and support rows.
+
+Now apply \autoref{thm:real-regseqrat-finite-request-route-equivalence}. Acceptance of either request is exactly factorization through the four L10 faces: the selected StreamName window, the DyadicRatCore endpoint-radius-distance ledger, the RegSeqRat classifier-readback surface, and the local Real seal row, together with the displayed finite support.
+
+Finally use \autoref{thm:real-regseqrat-streamname-dyadic-tail-budget-pullback}. The preserved dyadic tail-budget ledger identifies the Real-facing finite packet with the same StreamName, DyadicRatCore, RegSeqRat, Real seal, and support rows on both sides of the reindex route. Thus the two accepted requests determine the same finite $\RealUp$ seal packet.
+
+For the converse, read equality of the accepted finite Real seal packet through the route equivalence just cited. Since the packet has no hidden coordinate beyond the four faces and displayed support, equality recovers exactly the transported StreamName window, dyadic ledger, RegSeqRat classifier and readback rows, local seal row, and $\BHist/\hsame/\Cont/\Pkg/\NameCert$ support rows. The same boundary exclusions keep quotient stream equality, host real equality, selected limits, choice data, ambient completeness, metric-completeness rows, standard bridge rows, and duplicate Real seal coordinates outside the conclusion.
+\end{proof}

@@ -564,4 +564,24 @@ theorem KernelAcceptanceAuditWitnessCarrier_replay_query_nonescape
       axiomReplayRoute
   exact ⟨queryMatchesAxiom, replayMatchesRoute, nameAccepted, nameLedger, terminalRoute⟩
 
+def KernelAcceptanceAuditWitnessTerminalRow
+    (accepted ledger axiomQuery replay name terminalRead : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  Cont accepted ledger axiomQuery ∧ Cont axiomQuery replay terminalRead ∧
+    hsame name accepted ∧ hsame name ledger
+
+theorem KernelAcceptanceAuditWitnessTerminalRow_boundary
+    {generated candidate accepted ledger axiomQuery replay transport route provenance name
+      terminalRead : BHist} :
+    KernelAcceptanceAuditWitnessCarrier generated candidate accepted ledger axiomQuery replay
+        transport route provenance name →
+      Cont axiomQuery replay terminalRead →
+        KernelAcceptanceAuditWitnessTerminalRow accepted ledger axiomQuery replay name
+          terminalRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier terminalRoute
+  obtain ⟨_generatedCandidateAccepted, acceptedLedgerAxiom, _axiomReplayRoute,
+    _transportSame, _provenanceSame, nameAccepted, nameLedger⟩ := carrier
+  exact ⟨acceptedLedgerAxiom, terminalRoute, nameAccepted, nameLedger⟩
+
 end BEDC.Derived.KernelAcceptanceAuditWitnessUp
