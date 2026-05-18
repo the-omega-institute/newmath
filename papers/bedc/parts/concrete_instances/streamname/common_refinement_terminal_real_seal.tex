@@ -70,6 +70,24 @@ Now apply \autoref{thm:streamname-real-regseqrat-seal-common-refinement}. The sh
 Finally use \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}. Determinacy on that pullback identifies the two seal reads as the same public seal row. The preceding factorization lists all exported coordinates, so the conclusion leaves no coordinate for quotient-stream equality, host sequence equality, ambient $\RealUp$ completeness, selected limits, or metric-completeness rows.
 \end{proof}
 
+\begin{theorem}[StreamName common-refinement terminal subcover exactness]
+\label{thm:streamname-common-refinement-terminal-subcover-exactness}
+Let $\{\mathcal R_i\}_{i \in I}$ be a finite family of common-refinement $\StreamNameUp$ finite-window packets over certified endpoint maps. Suppose that each retained packet is consumed by the accepted $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, and a finite-window $\RealUp$ seal read through the terminal surface of \autoref{thm:streamname-common-refinement-terminal-real-seal}. For every finite subfamily $J \subseteq I$, restrict the visible windows, classifier rows, $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ observations, $\mathsf{RatHistoryClassifier}$ rows, dyadic ledger rows, displayed $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows to the indices in $J$.
+
+Then the restriction of the terminal Real-seal packet on $I$ to $J$ is exactly the terminal packet obtained by assembling the common-refinement windows indexed by $J$ alone. The restricted packet has precisely the inherited $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and it introduces no quotient streams, host sequence equality, selected limits, ambient $\RealUp$ completeness, metric-completeness data, or independent seal coordinates.
+\end{theorem}
+\begin{proof}
+Restrict the finite family along $J \subseteq I$. The projection keeps exactly the selected StreamName windows, classifier rows, bundle rows, membership rows, unary-history observations, rational-history rows, dyadic ledger rows, transports, routes, provenance, and local names indexed by $J$.
+
+Apply \autoref{thm:streamname-common-refinement-terminal-real-seal} to the restricted family. Each retained consumer still reaches the same kind of terminal common-refinement packet before its $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and finite $\RealUp$ seal row are inspected.
+
+Next use \autoref{thm:streamname-real-regseq-terminal-common-window-lock}. The restricted readback and seal rows are locked to the retained StreamName windows, so the subfamily cannot acquire a separate Real-facing carrier or seal coordinate.
+
+Apply \autoref{thm:streamname-real-regseqrat-seal-common-refinement}. The retained StreamName window, accepted RegSeqRat readback, dyadic ledger, and Real seal row form the same finite pullback whether they are read as a restriction of the original family or assembled from the subfamily alone.
+
+Finally use \autoref{thm:streamname-common-refinement-real-seal-uniqueness}. The restricted packet and the packet assembled from $J$ have identical displayed terminal coordinates, hence they are the same public finite-window seal packet. The row inventory leaves no coordinate for quotient streams, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, or independent seal coordinates.
+\end{proof}
+
 \begin{theorem}[StreamName CauchyLimitSeal forward lattice]
 \label{thm:streamname-cauchy-limit-seal-forward-lattice}
 Any common-refinement $\StreamNameUp$ finite-window packet consumed by $\RegSeqRatUp$ and then by $\CauchyLimitSealUp$ factors through the StreamName window, the RegSeqRat readback, the $\DyadicRatCoreUp$ ledger, the $\RealUp$ seal row, and the finite-window seal surface of \autoref{ch:concrete-instances-cauchylimitseal-namecert}. The forward route carries only displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. It exports no quotient streams, host sequence equality, selected limits, ambient $\RealUp$ completeness, or metric-completeness data.
