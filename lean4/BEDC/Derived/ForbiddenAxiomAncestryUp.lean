@@ -223,4 +223,32 @@ theorem ForbiddenAxiomAncestryCarrier_consumer_replay_completeness [AskSetup] [P
       provenanceUnary, nameRowUnary, consumerReadUnary, verdictComparison, theoremAncestry,
       transportProvenance, consumerRoute, provenancePkg, consumerPkg⟩
 
+theorem ForbiddenAxiomAncestryCarrier_forbidden_dependency_nonescape [AskSetup] [PackageSetup]
+    {theoremRow ancestry forbidden verdict transports routes provenance nameRow dependencyRead
+      replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ForbiddenAxiomAncestryCarrier theoremRow ancestry forbidden verdict transports routes
+        provenance nameRow bundle pkg ->
+      Cont forbidden verdict dependencyRead ->
+        Cont routes nameRow replayRead ->
+          PkgSig bundle dependencyRead pkg ->
+            PkgSig bundle replayRead pkg ->
+              UnaryHistory forbidden ∧ UnaryHistory verdict ∧ UnaryHistory dependencyRead ∧
+                UnaryHistory replayRead ∧ hsame verdict (append ancestry forbidden) ∧
+                  Cont forbidden verdict dependencyRead ∧ Cont routes nameRow replayRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle dependencyRead pkg ∧
+                      PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory hsame
+  intro carrier dependencyRoute replayRoute dependencyPkg replayPkg
+  obtain ⟨_theoremUnary, _ancestryUnary, forbiddenUnary, verdictUnary, _transportsUnary,
+    routesUnary, _provenanceUnary, nameRowUnary, verdictComparison, _theoremAncestry,
+      _transportProvenance, provenancePkg⟩ := carrier
+  have dependencyReadUnary : UnaryHistory dependencyRead :=
+    unary_cont_closed forbiddenUnary verdictUnary dependencyRoute
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed routesUnary nameRowUnary replayRoute
+  exact
+    ⟨forbiddenUnary, verdictUnary, dependencyReadUnary, replayReadUnary, verdictComparison,
+      dependencyRoute, replayRoute, provenancePkg, dependencyPkg, replayPkg⟩
+
 end BEDC.Derived.ForbiddenAxiomAncestryUp
