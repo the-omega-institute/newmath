@@ -379,6 +379,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealRowScope
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealPublicRouteExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealScheduleExhaustion
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealUpThresholdLock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ScheduleFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealModulusDeterminacy
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealSelectorExhaustion
@@ -1662,6 +1663,7 @@ import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCutUp
 import BEDC.Derived.LocalityCellUp.TasteGate
 import BEDC.Derived.ObserverDistinctionTraceUp.TasteGate
+import BEDC.Derived.ExternalSupplySocketUp.TasteGate
 import BEDC.Derived.ObserverHistIdentityUp
 import BEDC.Derived.ObserverHistIdentityUp.TasteGate
 import BEDC.Derived.ObserverHsameClassifierUp.TasteGate
