@@ -25,7 +25,8 @@ theorem ReflectionRuntimeCheckpointCarrier_input_state_exposure [AskSetup] [Pack
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
   intro carrier inputStateRead stateReadTrace traceReadPkg
   obtain ⟨inputUnary, stateUnary, traceUnary, _validationUnary, _transportUnary,
-    _provenanceUnary, inputStateTrace, _traceValidationRoute, _provenanceValidationLocalName,
+    _provenanceUnary, inputStateTrace, _traceValidationTransport, _traceValidationRoute,
+    _transportRouteProvenance, _provenanceValidationLocalName,
     _localNameMatchesValidation⟩ := carrier
   have stateReadUnary : UnaryHistory stateRead :=
     unary_cont_closed inputUnary stateUnary inputStateRead

@@ -350,3 +350,12 @@ theorem ApophaticFarEndSocket_nonescape
   · rfl
 
 end BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
+
+namespace BEDC.Derived.ApophaticFarEndSocketUp
+
+def taste_gate :
+    BEDC.Meta.TasteGate.ChapterTasteGate
+      TasteGate.ApophaticFarEndSocketUp :=
+  TasteGate.taste_gate
+
+end BEDC.Derived.ApophaticFarEndSocketUp
