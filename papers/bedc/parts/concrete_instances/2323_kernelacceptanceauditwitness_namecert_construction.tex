@@ -53,6 +53,7 @@ W=(G,K,A,L,Q,R,H,C,P,N),
 $$
 the accepted declaration row $A$ reaches downstream consumers only through the environment-ledger row $L$, the axiom-query row $Q$, the build-replay row $R$, and the local $\NameCert$ row $N$. Thus a checked BEDC marker may consume kernel acceptance as a ledgered declaration with a replayable source and queryable dependency surface, but it cannot read acceptance as a certificate for the kernel's own correctness or for any paper-side claim not stated by the accepted declaration.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_ledger\_non\_escape}
 \begin{proof}
 Project the accepted declaration row $A$ from the carrier. Its only ledger-facing coordinate is $L$, so downstream reads of the accepted name pass through the environment row rather than through an informal description of the term.
 
