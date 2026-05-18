@@ -118,6 +118,53 @@ terminal-window packet are interchangeable exactly on the displayed BEDC-visible
 L10 rows.
 \end{proof}
 
+\begin{theorem}[StreamName terminal fusion source exhaustion]
+\label{thm:streamname-terminal-window-fusion-source-exhaustion}
+Every accepted current Phase Real and Completion read whose terminal request is
+presented as a fused $\StreamNameUp$ window factors through exactly the four
+faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+and exactly the support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Conversely, a terminal request carrying those four faces and those five support
+rows determines the same public finite-request section as the fused terminal
+window presentation.
+
+The source-exhaustion statement exports no quotient stream equality, no host
+sequence equality, no selected limit, no ambient $\RealUp$ completeness theorem,
+no metric-completeness data, no countable-choice row, and no bridge row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-real-completion-terminal-window-fusion}. It
+identifies an accepted current read with the fused terminal packet over the
+StreamName finite request window, the DyadicRatCore tolerance ledger, the
+RegSeqRat readback, the Real seal, and the displayed support rows.
+
+Next apply
+\autoref{thm:streamname-terminal-fusion-finite-request-section-exactness}. The
+finite-request section exposes exactly the same four faces and exactly the same
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ support rows, and no further public row is
+available on the section surface.
+
+For the reverse direction, start with a terminal request carrying the displayed
+faces and support rows. Use
+\autoref{thm:streamname-terminal-fusion-common-tail-real-boundary-pullback} to
+read those rows as the common-tail $\RealUp$ boundary of the fused terminal
+presentation, and then read the resulting packet back through finite-request
+section exactness.
+
+Finally apply
+\autoref{thm:streamname-real-completion-route-no-choice-factorization}. Quotient
+stream equality, host sequence equality, selected limits, ambient completeness,
+metric-completeness data, countable choice, and bridge rows have no coordinate
+in the route, so the four displayed faces and the five support rows exhaust the
+accepted current source.
+\end{proof}
+
 \begin{theorem}[StreamName terminal fusion finite-cover cocycle exactness]
 \label{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness}
 Let $\{\mathcal W_i\}_{i\in I}$ be a finite family of certified $\StreamNameUp$ windows. Suppose the pairwise windows $\mathcal W_{ij}$ and triple windows $\mathcal W_{ijk}$ carry the pasted-source hypotheses for finite StreamName--$\RegSeqRatUp$ covers, each local terminal fused packet transports through a $\RegSeqRatUp$ common-tail packet, and every local handoff row consumes the same $\DyadicRatCoreUp$ endpoint, radius, and distance ledger together with the same $\RealUp$ seal-source row.
