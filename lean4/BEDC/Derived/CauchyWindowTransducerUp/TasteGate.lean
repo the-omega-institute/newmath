@@ -152,22 +152,19 @@ def taste_gate : ChapterTasteGate CauchyWindowTransducerUp :=
   cauchyWindowTransducerChapterTasteGate
 
 theorem CauchyWindowTransducerTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier CauchyWindowTransducerUp) ∧
-      Nonempty (ChapterTasteGate CauchyWindowTransducerUp) ∧
-        Nonempty (FieldFaithful CauchyWindowTransducerUp) ∧
-          Nonempty (Nontrivial CauchyWindowTransducerUp) ∧
-            cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-              cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+    cauchyWindowTransducerFields
+        (CauchyWindowTransducerUp.mk BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty) =
+      [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+        BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
+      cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+        cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact ⟨cauchyWindowTransducerBHistCarrier⟩
+  · rfl
   · constructor
-    · exact ⟨cauchyWindowTransducerChapterTasteGate⟩
-    · constructor
-      · exact ⟨cauchyWindowTransducerFieldFaithful⟩
-      · constructor
-        · exact ⟨cauchyWindowTransducerNontrivial⟩
-        · constructor
-          · rfl
-          · rfl
+    · rfl
+    · rfl
 
 end BEDC.Derived.CauchyWindowTransducerUp
