@@ -1336,6 +1336,7 @@ import BEDC.Derived.ContinuationMonadUp.ClassifierStability
 import BEDC.Derived.ContinuationMonadUp.Associativity
 import BEDC.Derived.ContinuationMonadUp.LedgerRouteExactness
 import BEDC.Derived.ContinuationMonadUp.CategoryGeneratorSourceTriad
+import BEDC.Derived.ContinuationMonadUp.KernelScopeRow
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
