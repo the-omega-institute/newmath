@@ -177,6 +177,7 @@ import BEDC.Derived.ApophaticNameUp.VisibleRequestFactorization
 import BEDC.Derived.ApophaticNameUp.ContextualClassNonescape
 import BEDC.Derived.ApophaticNameUp.BoundaryDescentLedger
 import BEDC.Derived.ApophaticNameUp.SocketGateComponentwiseTransport
+import BEDC.Derived.ApophaticNameUp.SocketRequestGateExactness
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
@@ -964,6 +965,7 @@ import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
 import BEDC.Derived.CellularTrustSubstrateUp.TasteGate
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.CellularTrustSubstrateUp.PrimitiveScopeBinding
+import BEDC.Derived.CellularTrustSubstrateUp.SiblingScopeBinding
 import BEDC.Derived.CellularTrustSubstrateUp.PublicExportPackage
 import BEDC.Derived.CellularVerbRealignmentUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
@@ -1183,6 +1185,8 @@ import BEDC.Derived.ContinuationMonadUp.UnitBindKernelMorphismCompilerCoherence
 import BEDC.Derived.ContinuationMonadUp.CategoryGeneratorFormalHandoff
 import BEDC.Derived.ContinuationMonadUp.RootSourceCoverage
 import BEDC.Derived.ContinuationMonadUp.RootDownstreamGeneratorPackage
+import BEDC.Derived.ContinuationMonadUp.RootDownstreamMonadPackage
+import BEDC.Derived.ContinuationMonadUp.RootGeneratorCategoryLock
 import BEDC.Derived.ContinuationMonadUp.KleisliCompositeScope
 import BEDC.Derived.ContinuationMonadUp.RootTerminalReadbackCoverage
 import BEDC.Derived.ContinuationMonadUp.RootCategoryGeneratorObligationSurface
@@ -1247,6 +1251,7 @@ import BEDC.Derived.ClassifierTypingUp
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.CrossPerspectiveAlignmentUp.TasteGate
 import BEDC.Derived.CrossPerspectiveAlignmentUp.NameCertObligations
+import BEDC.Derived.CrossPerspectiveAlignmentUp.LocalityCellSoundness
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
@@ -1851,9 +1856,12 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.RootNormalEndpointRouteExhaus
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootObstructionTriad
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootObligationTriad
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetLedgerNonescape
+import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetCarrierCoverage
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootFormalHandoffTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootGateScopeExactness
+import BEDC.Derived.MetaCICNormalizationFrontierUp.RootGateExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.SealBoundary
+import BEDC.Derived.MetaCICNormalizationFrontierUp.NormalFormBoundary
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
