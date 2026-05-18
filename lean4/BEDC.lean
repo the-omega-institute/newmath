@@ -219,6 +219,7 @@ import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.BHistNonaSequenceNameCertUp
 import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.BHistDecaSequenceNameCertUp
+import BEDC.Derived.BHistHendecaSequenceNameCertUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
 import BEDC.Derived.ArchimedeanRealUp
@@ -323,11 +324,13 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalConsumerReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalGeneratorAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertObligationExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootDescentAuditCoupling
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptedSignatureRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuthorizationDownstreamSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadbackTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputConsumerTriad
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceFactorization
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditLedgerExactness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ConsumerLedgerExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRefusal
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealRegSeqRatHandoff
@@ -2058,6 +2061,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionAdmission
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RedexBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.BoundaryDisjointness
 import BEDC.Derived.MetaCICNormalizationFrontierUp.PublicObligationPackage
+import BEDC.Derived.MetaCICNormalizationFrontierUp.PublicObligationTriad
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClassifierStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.LedgerExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.NormalEndpointExhaustion
@@ -3246,6 +3250,7 @@ import BEDC.Derived.LinearMapUp.Image
 import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
 import BEDC.Derived.LinearMapUp.EvaluationGraphPackage
+import BEDC.Derived.LinearMapUp.EvaluationGraphNameCert
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
 import BEDC.Derived.FieldExtUp
