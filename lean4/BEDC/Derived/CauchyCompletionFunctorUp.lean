@@ -288,4 +288,60 @@ theorem CauchyCompletionFunctorPacket_universal_property_extension_exactness
     ⟨metricUnary, regularUnary, sealUnary, monadUnary, universalUnary, extensionUnary,
       metricRegularSeal, sealMonadExtension, monadUniversalEndpoint, endpointPkg, extensionPkg⟩
 
+theorem CauchyCompletionFunctorPacket_completion_consumer_handoff [AskSetup] [PackageSetup]
+    {metric regular sealRow monadRow universal classifier transport nameCert endpoint
+      completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionFunctorPacket metric regular sealRow monadRow universal classifier transport
+        nameCert endpoint bundle pkg ->
+      Cont sealRow monadRow completionRead ->
+        PkgSig bundle completionRead pkg ->
+          UnaryHistory sealRow ∧ UnaryHistory monadRow ∧ UnaryHistory universal ∧
+            UnaryHistory completionRead ∧ Cont sealRow monadRow completionRead ∧
+              Cont monadRow universal endpoint ∧ PkgSig bundle endpoint pkg ∧
+                PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet sealMonadCompletion completionPkg
+  obtain ⟨_metricUnary, _regularUnary, sealUnary, monadUnary, universalUnary,
+    _classifierUnary, _transportUnary, _nameCertUnary, _endpointUnary, _metricRegularSeal,
+    monadUniversalEndpoint, _classifierTransportNameCert, endpointPkg⟩ := packet
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed sealUnary monadUnary sealMonadCompletion
+  exact
+    ⟨sealUnary, monadUnary, universalUnary, completionUnary, sealMonadCompletion,
+      monadUniversalEndpoint, endpointPkg, completionPkg⟩
+
+theorem CauchyCompletionFunctorPacket_bind_ledger_consumer_exhaustion
+    [AskSetup] [PackageSetup]
+    {metric regular sealRow monadRow universal classifier transport nameCert endpoint bindRead
+      extensionRead exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionFunctorPacket metric regular sealRow monadRow universal classifier transport
+        nameCert endpoint bundle pkg ->
+      Cont regular sealRow bindRead ->
+        Cont bindRead universal extensionRead ->
+          Cont extensionRead classifier exported ->
+            PkgSig bundle exported pkg ->
+              UnaryHistory regular ∧ UnaryHistory sealRow ∧ UnaryHistory universal ∧
+                UnaryHistory classifier ∧ UnaryHistory bindRead ∧ UnaryHistory extensionRead ∧
+                  UnaryHistory exported ∧ Cont regular sealRow bindRead ∧
+                    Cont bindRead universal extensionRead ∧
+                      Cont extensionRead classifier exported ∧ PkgSig bundle endpoint pkg ∧
+                        PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet regularSealBind bindUniversalExtension extensionClassifierExported exportedPkg
+  obtain ⟨_metricUnary, regularUnary, sealUnary, _monadUnary, universalUnary,
+    classifierUnary, _transportUnary, _nameCertUnary, _endpointUnary, _metricRegularSeal,
+    _monadUniversalEndpoint, _classifierTransportNameCert, endpointPkg⟩ := packet
+  have bindUnary : UnaryHistory bindRead :=
+    unary_cont_closed regularUnary sealUnary regularSealBind
+  have extensionUnary : UnaryHistory extensionRead :=
+    unary_cont_closed bindUnary universalUnary bindUniversalExtension
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed extensionUnary classifierUnary extensionClassifierExported
+  exact
+    ⟨regularUnary, sealUnary, universalUnary, classifierUnary, bindUnary, extensionUnary,
+      exportedUnary, regularSealBind, bindUniversalExtension, extensionClassifierExported,
+      endpointPkg, exportedPkg⟩
+
 end BEDC.Derived.CauchyCompletionFunctorUp
