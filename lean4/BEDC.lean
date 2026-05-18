@@ -3881,7 +3881,6 @@ import BEDC.Derived.StreamLimitReflectionUp.TasteGate
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.StreamNameUp.CertifiedObservationDeterminacy
 import BEDC.Derived.StreamNameUp.EmptyWindow
-import BEDC.Derived.StreamNameUp.FiniteSectionClassifierDeterminacy
 import BEDC.Derived.StreamNameUp.FiniteWindowEndpoint
 import BEDC.Derived.StreamNameUp.FiniteWindowStructural
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
