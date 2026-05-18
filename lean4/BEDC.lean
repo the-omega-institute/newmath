@@ -326,6 +326,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuthorizationDownstreamSur
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadbackTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputConsumerTriad
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceRow
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ConsumerLedgerExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRefusal
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.LedgerSeparation
@@ -1383,6 +1384,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftLedgerExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionLedgerExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompileRoute
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerFactorization
 import BEDC.Derived.ClassifierTypingUp
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.CrossPerspectiveAlignmentUp.TasteGate
