@@ -272,6 +272,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.HorizonRefusalCoverage
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.AxisNatNatRefusalBoundary
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.HorizonRefusalScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.NegativeRowScope
+import BEDC.Derived.AxisZeckendorfCannotClaimUp.RootObligationSurface
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
 import BEDC.Derived.ZeckendorfNormalUp
@@ -2932,6 +2933,7 @@ import BEDC.Derived.CompactUniformContinuityUp.NetModulusConsumerTriad
 import BEDC.Derived.CompactUniformContinuityUp.NonEscapeLedger
 import BEDC.Derived.CompactUniformContinuityUp.PrecisionRouteTotality
 import BEDC.Derived.CompactUniformContinuityUp.RealMetricSealNonescape
+import BEDC.Derived.CompactUniformContinuityUp.RealMetricConsumerTriad
 import BEDC.Derived.CompactUniformContinuityUp.RealSealBoundary
 import BEDC.Derived.CompactUniformContinuityUp.RootConsumerTriad
 import BEDC.Derived.CompactUniformContinuityUp.RootNonescapePackage
