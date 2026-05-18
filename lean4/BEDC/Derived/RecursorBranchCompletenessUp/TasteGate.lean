@@ -257,6 +257,17 @@ instance recursorBranchCompletenessFieldFaithful :
   fields := recursorBranchCompletenessFields
   field_faithful := recursorBranchCompleteness_field_faithful
 
+instance recursorBranchCompletenessNontrivial : Nontrivial RecursorBranchCompletenessUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RecursorBranchCompletenessUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RecursorBranchCompletenessUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate RecursorBranchCompletenessUp :=
   -- BEDC touchpoint anchor: BHist BMark
   recursorBranchCompletenessChapterTasteGate
@@ -275,7 +286,7 @@ theorem RecursorBranchCompletenessTasteGate_single_carrier_alignment :
           recursorBranchCompletenessToEventFlow x =
             recursorBranchCompletenessToEventFlow y → x = y) ∧
           recursorBranchCompletenessEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   constructor
   · exact recursorBranchCompleteness_decode_encode_bhist
   · constructor
@@ -284,5 +295,24 @@ theorem RecursorBranchCompletenessTasteGate_single_carrier_alignment :
       · intro x y heq
         exact recursorBranchCompletenessToEventFlow_injective heq
       · rfl
+
+namespace TasteGate
+
+theorem RecursorBranchCompletenessTasteGate_single_carrier_alignment :
+    (∀ h : BHist, recursorBranchCompletenessDecodeBHist
+      (recursorBranchCompletenessEncodeBHist h) = h) ∧
+      (∀ x : RecursorBranchCompletenessUp,
+        recursorBranchCompletenessFromEventFlow
+          (recursorBranchCompletenessToEventFlow x) = some x) ∧
+        Nonempty (ChapterTasteGate RecursorBranchCompletenessUp) ∧
+          recursorBranchCompletenessEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨recursorBranchCompleteness_decode_encode_bhist,
+      recursorBranchCompleteness_round_trip,
+      ⟨recursorBranchCompletenessChapterTasteGate⟩,
+      rfl⟩
+
+end TasteGate
 
 end BEDC.Derived.RecursorBranchCompletenessUp
