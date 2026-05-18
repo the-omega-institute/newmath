@@ -3482,6 +3482,7 @@ import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalCommitmentUp
 import BEDC.Derived.CausalCommitmentUp.CausalCommitmentClassifierStability
 import BEDC.Derived.CausalCommitmentUp.ForwardGapScopePackage
+import BEDC.Derived.CausalCommitmentUp.ObservedRegularityNonchoice
 import BEDC.Derived.CausalCommitmentUp.PublicForwardGapExport
 import BEDC.Derived.ContinuationBisimulationUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
