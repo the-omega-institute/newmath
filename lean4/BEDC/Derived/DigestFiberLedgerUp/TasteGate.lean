@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DigestFiberLedgerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -229,5 +231,107 @@ theorem DigestFiberLedgerTasteGate_single_carrier_alignment :
       · intro x y heq
         exact digestFiberLedgerToEventFlow_injective heq
       · rfl
+
+theorem DigestFiberLedgerNameCertObligations
+    {visible fiber gap refusal transport continuation provenance name : BHist} :
+    SemanticNameCert
+        (fun row : BHist =>
+          hsame row visible ∨ hsame row fiber ∨ hsame row gap ∨ hsame row refusal ∨
+            hsame row transport ∨ hsame row continuation ∨ hsame row provenance ∨
+              hsame row name)
+        (fun row : BHist =>
+          hsame row visible ∨ hsame row fiber ∨ hsame row gap ∨ hsame row refusal ∨
+            hsame row transport ∨ hsame row continuation ∨ hsame row provenance ∨
+              hsame row name)
+        (fun row : BHist =>
+          hsame row visible ∨ hsame row fiber ∨ hsame row gap ∨ hsame row refusal ∨
+            hsame row transport ∨ hsame row continuation ∨ hsame row provenance ∨
+              hsame row name)
+        hsame ∧
+      digestFiberLedgerFields
+          (DigestFiberLedgerUp.mk visible fiber gap refusal transport continuation provenance name) =
+        [visible, fiber, gap, refusal, transport, continuation, provenance, name] := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame NameCert
+  constructor
+  · constructor
+    · constructor
+      · exact Exists.intro visible (Or.inl (hsame_refl visible))
+      · intro row _source
+        exact hsame_refl row
+      · intro row row' same
+        exact hsame_symm same
+      · intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro row row' same source
+        cases source with
+        | inl visibleSame =>
+            exact Or.inl (hsame_trans (hsame_symm same) visibleSame)
+        | inr rest =>
+            cases rest with
+            | inl fiberSame =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm same) fiberSame))
+            | inr rest =>
+                cases rest with
+                | inl gapSame =>
+                    exact Or.inr (Or.inr (Or.inl (hsame_trans (hsame_symm same) gapSame)))
+                | inr rest =>
+                    cases rest with
+                    | inl refusalSame =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inl (hsame_trans (hsame_symm same) refusalSame))))
+                    | inr rest =>
+                        cases rest with
+                        | inl transportSame =>
+                            exact
+                              Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inl
+                                        (hsame_trans (hsame_symm same) transportSame)))))
+                        | inr rest =>
+                            cases rest with
+                            | inl continuationSame =>
+                                exact
+                                  Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inl
+                                              (hsame_trans (hsame_symm same)
+                                                continuationSame))))))
+                            | inr rest =>
+                                cases rest with
+                                | inl provenanceSame =>
+                                    exact
+                                      Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inl
+                                                    (hsame_trans (hsame_symm same)
+                                                      provenanceSame)))))))
+                                | inr nameSame =>
+                                    exact
+                                      Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (hsame_trans (hsame_symm same)
+                                                      nameSame)))))))
+    · intro _row source
+      exact source
+    · intro _row source
+      exact source
+  · rfl
 
 end BEDC.Derived.DigestFiberLedgerUp
