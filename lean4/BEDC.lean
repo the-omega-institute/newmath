@@ -3446,7 +3446,6 @@ import BEDC.Derived.RealUp.FiniteWindowStabilityPackage
 import BEDC.Derived.RealUp.Index
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.L10DependencyLattice
-import BEDC.Derived.RealUp.L10FaceStatusNoncollapse
 import BEDC.Derived.RealUp.L10FiniteWindowWitnessDeterminacy
 import BEDC.Derived.RealUp.L10TerminalFaceOrder
 import BEDC.Derived.RealUp.MalformedEndpoint
@@ -4307,6 +4306,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.ZeroRouteInputPackage
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.ZnormalUp
 import BEDC.Derived.ZnormalUp.RootContReplayClosure
+import BEDC.Derived.ZnormalUp.RootDisplayPacketBridgeReadbackExactness
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
 import BEDC.Derived.ZnormalUp.TasteGate
 import BEDC.Derived.ZnormalUp.TerminalReadbackExactness
