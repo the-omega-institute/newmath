@@ -268,6 +268,8 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.DisplayedRouteSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.DisplayedRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OutputAuthorizationClosure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamRoute
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceRowAdmission
+import BEDC.Derived.AxiomDependencyTupleUp
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
@@ -1083,6 +1085,7 @@ import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationRowPrecedence
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.InputStateExposure
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.TraceProvenanceLock
+import BEDC.Derived.ReflectionRuntimeCheckpointUp.TraceEvidenceFiniteness
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.HostValidationNonescape
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationNonescapeRoute
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.AuditProvenanceExhaustion
