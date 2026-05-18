@@ -250,6 +250,55 @@ identity and leave no additional displayed component choice.
 \end{proof}
 \leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_prefix\_empty\_component\_full\_faithfulness}
 
+\begin{theorem}[Yoneda component evaluation boundary]
+\label{thm:yoneda-component-evaluation-boundary}
+Let $p$ and $q$ be unary histories, and write
+$$
+Y_p(q) :\Longleftrightarrow
+\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp).
+$$
+For every displayed unary object $a$, evaluation of the prefix Yoneda
+empty-component family at $a$ factors through exactly the following finite
+BEDC rows:
+\begin{enumerate}
+  \item the $\CategoryUp$ hom-carrier endpoint row identifying the displayed
+  empty component as the hom history from $\mathsf{append}(p,a)$ to
+  $\mathsf{append}(q,a)$;
+  \item the $\FunctorUp$ codomain-evaluation row reading the representable
+  functor hom predicate at $a$ as the codomain hom-carrier at those image
+  endpoints;
+  \item the $\NatTransUp$ component and naturality row carried by
+  $\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)$.
+\end{enumerate}
+Conversely, if these three displayed rows are present for every unary $a$, then
+they reconstruct the accepted Yoneda component-family boundary $Y_p(q)$, and
+\autoref{thm:yoneda-prefix-empty-component-full-faithfulness} identifies that
+boundary with $\HSame(p,q)$.
+\end{theorem}
+\begin{proof}
+Assume $Y_p(q)$. By
+\autoref{thm:yoneda-representable-empty-component-family-iff}, each unary
+object $a$ supplies the accepted empty component
+$\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)$. Reading this component
+through the $\NatTransUp$ surface of
+\autoref{ch:concrete-instances-nattrans-namecert} exposes the component and
+naturality row, while the underlying component morphism is the $\CategoryUp$
+hom-carrier row with endpoints $\mathsf{append}(p,a)$ and
+$\mathsf{append}(q,a)$. The functor endpoint reading is precisely the
+codomain-evaluation row of
+\autoref{thm:functor-hom-carrier-codomain-evaluation}.
+
+Conversely, suppose the endpoint hom-carrier row, the functor
+codomain-evaluation row, and the natural-transformation component row are
+present for every unary $a$. The third row is exactly the displayed component
+predicate in the definition of $Y_p(q)$, with the first two rows supplying the
+category and functor boundaries that it reads through. Repacking the rows over
+all unary objects gives $Y_p(q)$, and the prefix full-faithfulness theorem
+\autoref{thm:yoneda-prefix-empty-component-full-faithfulness} identifies the
+resulting boundary with prefix identity.
+\end{proof}
+
 \begin{theorem}[Prefix Yoneda empty-component standard bridge]
 \label{thm:yoneda-prefix-empty-component-standard-bridge}
 For unary histories $p$ and $q$, the BEDC predicate
