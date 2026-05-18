@@ -243,6 +243,8 @@ import BEDC.Derived.AuditTranscriptEnvelopeUp.TasteGate
 import BEDC.Derived.AuditAxisSeparationUp.TasteGate
 import BEDC.Derived.AxiomDependencyMapUp
 import BEDC.Derived.AxiomDependencyTupleUp
+import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
+import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
 import BEDC.Derived.CertificateTruthBranchBoundaryUp
@@ -3334,6 +3336,7 @@ import BEDC.Derived.StreamNameUp.FiniteWindowEndpoint
 import BEDC.Derived.StreamNameUp.FiniteWindowStructural
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
 import BEDC.Derived.StreamNameUp.OpenPhaseFourFaceTerminality
+import BEDC.Derived.StreamNameUp.OpenPhaseExitBoundary
 import BEDC.Derived.StreamNameUp.OverlapExactness
 import BEDC.Derived.StreamNameUp.PublicInterface
 import BEDC.Derived.StreamNameUp.RegSeqRatPointwiseHandoff
