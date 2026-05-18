@@ -80,6 +80,28 @@ theorem ZetaContinuationWitnessPacket_public_export [AskSetup] [PackageSetup]
     unary_cont_closed routesUnary nameUnary routesNameExport
   exact ⟨exportUnary, routesNameExport, namePkg, provenancePkg⟩
 
+theorem ZetaContinuationWitnessPacket_critical_strip_input_refusal [AskSetup] [PackageSetup]
+    {basic eta analytic pole functional zeroLedger gamma transports routes provenance name
+      criticalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma transports
+        routes provenance name bundle pkg ->
+      UnaryHistory routes ->
+        UnaryHistory name ->
+          Cont routes name criticalRead ->
+            UnaryHistory criticalRead ∧ hsame criticalRead (append routes name) ∧
+              Cont transports routes provenance ∧ PkgSig bundle name pkg ∧
+                PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet routesUnary nameUnary routesNameCritical
+  obtain ⟨_basicEtaAnalytic, _analyticFunctionalTransports, _poleZeroLedgerGamma,
+    transportsRoutesProvenance, namePkg, provenancePkg⟩ := packet
+  have criticalReadUnary : UnaryHistory criticalRead :=
+    unary_cont_closed routesUnary nameUnary routesNameCritical
+  exact
+    ⟨criticalReadUnary, routesNameCritical, transportsRoutesProvenance, namePkg,
+      provenancePkg⟩
+
 theorem ZetaContinuationWitnessPacket_public_source_lock_handoff [AskSetup] [PackageSetup]
     {basic eta analytic pole functional zeroLedger gamma transports routes provenance name eta'
       analytic' transports' provenance' exportRow exportRow' : BHist}
