@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -174,5 +175,16 @@ instance lawCertificateNontrivial : Nontrivial LawCertificateUp where
 def taste_gate : ChapterTasteGate LawCertificateUp :=
   -- BEDC touchpoint anchor: BHist BMark
   lawCertificateChapterTasteGate
+
+theorem lawCertificate_failure_surface_rows_nonescape (x : LawCertificateUp) :
+    ∃ F P C S E Ld H R Q N : BHist,
+      x = LawCertificateUp.mk F P C S E Ld H R Q N ∧
+        lawCertificateFields x = [F, P, C, S, E, Ld, H, R, Q, N] ∧
+          BEDC.FKernel.Cont.Cont S E (BEDC.FKernel.Cont.append S E) ∧
+            hsame (BEDC.FKernel.Cont.append S E) (BEDC.FKernel.Cont.append S E) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  cases x with
+  | mk F P C S E Ld H R Q N =>
+      exact ⟨F, P, C, S, E, Ld, H, R, Q, N, rfl, rfl, rfl, rfl⟩
 
 end BEDC.Derived.LawCertificateUp

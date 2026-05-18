@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -225,5 +226,16 @@ theorem PhysicalTruthCertificateTasteGate_single_carrier_alignment :
       physicalTruthCertificate_round_trip,
       (fun _ _ heq => physicalTruthCertificateToEventFlow_injective heq),
       rfl⟩
+
+theorem physicalTruthCertificate_observer_route_fields (x : PhysicalTruthCertificateUp) :
+    ∃ S F O D I L R H C P N : BHist,
+      x = PhysicalTruthCertificateUp.mk S F O D I L R H C P N ∧
+        physicalTruthCertificateFields x = [S, F, O, D, I, L, R, H, C, P, N] ∧
+          BEDC.FKernel.Cont.Cont O H (BEDC.FKernel.Cont.append O H) ∧
+            hsame (BEDC.FKernel.Cont.append O H) (BEDC.FKernel.Cont.append O H) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  cases x with
+  | mk S F O D I L R H C P N =>
+      exact ⟨S, F, O, D, I, L, R, H, C, P, N, rfl, rfl, rfl, rfl⟩
 
 end BEDC.Derived.PhysicalTruthCertificateUp

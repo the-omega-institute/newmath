@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -245,5 +246,16 @@ theorem onticStateTasteGate_single_carrier_alignment :
           (OnticStateUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty) at heq
     cases heq
+
+theorem onticState_access_residue_boundary_fields (x : OnticStateUp) :
+    ∃ S A K R H C P N : BHist,
+      x = OnticStateUp.mk S A K R H C P N ∧
+        FieldFaithful.fields x = [S, A, K, R, H, C, P, N] ∧
+          BEDC.FKernel.Cont.Cont A R (BEDC.FKernel.Cont.append A R) ∧
+            hsame (BEDC.FKernel.Cont.append A R) (BEDC.FKernel.Cont.append A R) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Cont hsame
+  cases x with
+  | mk S A K R H C P N =>
+      exact ⟨S, A, K, R, H, C, P, N, rfl, rfl, rfl, rfl⟩
 
 end BEDC.Derived.OnticStateUp
