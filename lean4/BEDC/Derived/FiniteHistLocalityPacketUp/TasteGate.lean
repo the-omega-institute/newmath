@@ -236,6 +236,30 @@ theorem FiniteHistLocalityPacketTransportStability
     unary_cont_closed transportUnary replayRowUnary transportReplay
   exact ⟨replayUnary, transportReplay⟩
 
+theorem FiniteHistLocalityPacketObligationSurface
+    {H0 H1 L I S T C Q N replay : BHist} :
+    finiteHistLocalityPacketFields (FiniteHistLocalityPacketUp.mk H0 H1 L I S T C Q N) =
+      [H0, H1, L, I, S, T, C, Q, N] →
+      Cont H0 H1 L →
+        Cont T C replay →
+          UnaryHistory H0 →
+            UnaryHistory H1 →
+              UnaryHistory T →
+                UnaryHistory C →
+                  UnaryHistory H0 ∧ UnaryHistory H1 ∧ UnaryHistory L ∧
+                    UnaryHistory T ∧ UnaryHistory C ∧ UnaryHistory replay ∧
+                      Cont H0 H1 L ∧ Cont T C replay ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory
+  intro hfields localityRoute replayRoute h0Unary h1Unary transportUnary replayRowUnary
+  cases hfields
+  have localityUnary : UnaryHistory L :=
+    unary_cont_closed h0Unary h1Unary localityRoute
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed transportUnary replayRowUnary replayRoute
+  exact
+    ⟨h0Unary, h1Unary, localityUnary, transportUnary, replayRowUnary, replayUnary,
+      localityRoute, replayRoute, hsame_refl N⟩
+
 theorem FiniteHistLocalityPacketNoGlobalSyncRefusal
     {H0 H1 L I S T C Q N localityReplay symmetryReplay : BHist} :
     finiteHistLocalityPacketFields (FiniteHistLocalityPacketUp.mk H0 H1 L I S T C Q N) =
