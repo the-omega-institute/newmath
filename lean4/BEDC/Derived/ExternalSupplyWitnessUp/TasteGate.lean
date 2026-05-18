@@ -25,34 +25,14 @@ def externalSupplyWitnessDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (externalSupplyWitnessDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (externalSupplyWitnessDecodeBHist tail)
 
-private theorem ExternalSupplyWitnessTasteGate_single_carrier_alignment_decode_encode :
+private theorem externalSupplyWitness_decode_encode_bhist :
     ∀ h : BHist, externalSupplyWitnessDecodeBHist (externalSupplyWitnessEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
-
-private theorem externalSupplyWitness_mk_congr
-    {S S' R R' G G' L L' H H' C C' P P' N N' : BHist}
-    (hS : S' = S) (hR : R' = R) (hG : G' = G) (hL : L' = L)
-    (hH : H' = H) (hC : C' = C) (hP : P' = P) (hN : N' = N) :
-    ExternalSupplyWitnessUp.mk S' R' G' L' H' C' P' N' =
-      ExternalSupplyWitnessUp.mk S R G L H C P N := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hS
-  cases hR
-  cases hG
-  cases hL
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def externalSupplyWitnessFields : ExternalSupplyWitnessUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -62,38 +42,28 @@ def externalSupplyWitnessToEventFlow : ExternalSupplyWitnessUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (externalSupplyWitnessFields x).map externalSupplyWitnessEncodeBHist
 
-private def externalSupplyWitnessRawAt : Nat → EventFlow → RawEvent
+private def externalSupplyWitnessEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => externalSupplyWitnessRawAt n rest
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => externalSupplyWitnessEventAtDefault index rest
 
-private def externalSupplyWitnessLengthEq : Nat → EventFlow → Bool
+def externalSupplyWitnessFromEventFlow : EventFlow → Option ExternalSupplyWitnessUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => externalSupplyWitnessLengthEq n rest
+  fun ef =>
+    some
+      (ExternalSupplyWitnessUp.mk
+        (externalSupplyWitnessDecodeBHist (externalSupplyWitnessEventAtDefault 0 ef))
+        (externalSupplyWitnessDecodeBHist (externalSupplyWitnessEventAtDefault 1 ef))
+        (externalSupplyWitnessDecodeBHist (externalSupplyWitnessEventAtDefault 2 ef))
+        (externalSupplyWitnessDecodeBHist (externalSupplyWitnessEventAtDefault 3 ef))
+        (externalSupplyWitnessDecodeBHist (externalSupplyWitnessEventAtDefault 4 ef))
+        (externalSupplyWitnessDecodeBHist (externalSupplyWitnessEventAtDefault 5 ef))
+        (externalSupplyWitnessDecodeBHist (externalSupplyWitnessEventAtDefault 6 ef))
+        (externalSupplyWitnessDecodeBHist (externalSupplyWitnessEventAtDefault 7 ef)))
 
-def externalSupplyWitnessFromEventFlow : EventFlow → Option ExternalSupplyWitnessUp
-  -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      match externalSupplyWitnessLengthEq 8 flow with
-      | true =>
-          some
-            (ExternalSupplyWitnessUp.mk
-              (externalSupplyWitnessDecodeBHist (externalSupplyWitnessRawAt 0 flow))
-              (externalSupplyWitnessDecodeBHist (externalSupplyWitnessRawAt 1 flow))
-              (externalSupplyWitnessDecodeBHist (externalSupplyWitnessRawAt 2 flow))
-              (externalSupplyWitnessDecodeBHist (externalSupplyWitnessRawAt 3 flow))
-              (externalSupplyWitnessDecodeBHist (externalSupplyWitnessRawAt 4 flow))
-              (externalSupplyWitnessDecodeBHist (externalSupplyWitnessRawAt 5 flow))
-              (externalSupplyWitnessDecodeBHist (externalSupplyWitnessRawAt 6 flow))
-              (externalSupplyWitnessDecodeBHist (externalSupplyWitnessRawAt 7 flow)))
-      | false => none
-
-private theorem ExternalSupplyWitnessTasteGate_single_carrier_alignment_round_trip :
+private theorem externalSupplyWitness_round_trip :
     ∀ x : ExternalSupplyWitnessUp,
       externalSupplyWitnessFromEventFlow (externalSupplyWitnessToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -112,19 +82,12 @@ private theorem ExternalSupplyWitnessTasteGate_single_carrier_alignment_round_tr
             (externalSupplyWitnessDecodeBHist (externalSupplyWitnessEncodeBHist P))
             (externalSupplyWitnessDecodeBHist (externalSupplyWitnessEncodeBHist N))) =
           some (ExternalSupplyWitnessUp.mk S R G L H C P N)
-      exact
-        congrArg some
-          (externalSupplyWitness_mk_congr
-            (ExternalSupplyWitnessTasteGate_single_carrier_alignment_decode_encode S)
-            (ExternalSupplyWitnessTasteGate_single_carrier_alignment_decode_encode R)
-            (ExternalSupplyWitnessTasteGate_single_carrier_alignment_decode_encode G)
-            (ExternalSupplyWitnessTasteGate_single_carrier_alignment_decode_encode L)
-            (ExternalSupplyWitnessTasteGate_single_carrier_alignment_decode_encode H)
-            (ExternalSupplyWitnessTasteGate_single_carrier_alignment_decode_encode C)
-            (ExternalSupplyWitnessTasteGate_single_carrier_alignment_decode_encode P)
-            (ExternalSupplyWitnessTasteGate_single_carrier_alignment_decode_encode N))
+      rw [externalSupplyWitness_decode_encode_bhist S, externalSupplyWitness_decode_encode_bhist R,
+        externalSupplyWitness_decode_encode_bhist G, externalSupplyWitness_decode_encode_bhist L,
+        externalSupplyWitness_decode_encode_bhist H, externalSupplyWitness_decode_encode_bhist C,
+        externalSupplyWitness_decode_encode_bhist P, externalSupplyWitness_decode_encode_bhist N]
 
-private theorem ExternalSupplyWitnessTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem externalSupplyWitnessToEventFlow_injective
     {x y : ExternalSupplyWitnessUp} :
     externalSupplyWitnessToEventFlow x = externalSupplyWitnessToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -134,12 +97,12 @@ private theorem ExternalSupplyWitnessTasteGate_single_carrier_alignment_toEventF
         externalSupplyWitnessFromEventFlow (externalSupplyWitnessToEventFlow y) :=
     congrArg externalSupplyWitnessFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (ExternalSupplyWitnessTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (ExternalSupplyWitnessTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (externalSupplyWitness_round_trip x).symm
+      (Eq.trans hread (externalSupplyWitness_round_trip y)))
 
-private theorem ExternalSupplyWitnessTasteGate_single_carrier_alignment_fields_faithful :
-    ∀ x y : ExternalSupplyWitnessUp, externalSupplyWitnessFields x = externalSupplyWitnessFields y →
-      x = y := by
+private theorem externalSupplyWitness_field_faithful :
+    ∀ x y : ExternalSupplyWitnessUp,
+      externalSupplyWitnessFields x = externalSupplyWitnessFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
@@ -159,15 +122,15 @@ instance externalSupplyWitnessChapterTasteGate : ChapterTasteGate ExternalSupply
   round_trip := by
     intro x
     change externalSupplyWitnessFromEventFlow (externalSupplyWitnessToEventFlow x) = some x
-    exact ExternalSupplyWitnessTasteGate_single_carrier_alignment_round_trip x
+    exact externalSupplyWitness_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (ExternalSupplyWitnessTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (externalSupplyWitnessToEventFlow_injective heq)
 
 instance externalSupplyWitnessFieldFaithful : FieldFaithful ExternalSupplyWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := externalSupplyWitnessFields
-  field_faithful := ExternalSupplyWitnessTasteGate_single_carrier_alignment_fields_faithful
+  field_faithful := externalSupplyWitness_field_faithful
 
 instance externalSupplyWitnessNontrivial : Nontrivial ExternalSupplyWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -184,23 +147,19 @@ def taste_gate : ChapterTasteGate ExternalSupplyWitnessUp :=
   -- BEDC touchpoint anchor: BHist BMark
   externalSupplyWitnessChapterTasteGate
 
-namespace TasteGate
-
 theorem ExternalSupplyWitnessTasteGate_single_carrier_alignment :
-    (∀ h : BHist, externalSupplyWitnessDecodeBHist (externalSupplyWitnessEncodeBHist h) = h) ∧
+    (∀ h : BHist,
+      externalSupplyWitnessDecodeBHist (externalSupplyWitnessEncodeBHist h) = h) ∧
       (∀ x : ExternalSupplyWitnessUp,
         externalSupplyWitnessFromEventFlow (externalSupplyWitnessToEventFlow x) = some x) ∧
         (∀ x y : ExternalSupplyWitnessUp,
           externalSupplyWitnessToEventFlow x = externalSupplyWitnessToEventFlow y → x = y) ∧
           externalSupplyWitnessEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   exact
-    ⟨ExternalSupplyWitnessTasteGate_single_carrier_alignment_decode_encode,
-      ExternalSupplyWitnessTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        ExternalSupplyWitnessTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+    ⟨externalSupplyWitness_decode_encode_bhist,
+      externalSupplyWitness_round_trip,
+      (fun _ _ heq => externalSupplyWitnessToEventFlow_injective heq),
       rfl⟩
-
-end TasteGate
 
 end BEDC.Derived.ExternalSupplyWitnessUp
