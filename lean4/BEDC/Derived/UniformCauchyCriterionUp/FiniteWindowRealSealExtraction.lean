@@ -49,4 +49,34 @@ theorem UniformCauchyCriterionPacket_finite_window_real_seal_extraction [AskSetu
       windowsTailRead, tailSealRead, windowSealReal, namePkg, windowReadPkg, sealReadPkg,
       realPkg⟩
 
+theorem UniformCauchyCriterionFiniteWindowRealSealExtraction [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name
+      windowToleranceRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      Cont windows tolerance windowToleranceRead ->
+        hsame windowToleranceRead tail ->
+          Cont tail sealRow sealRead ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory windows ∧ UnaryHistory tolerance ∧ UnaryHistory tail ∧
+                UnaryHistory sealRow ∧ UnaryHistory windowToleranceRead ∧
+                  UnaryHistory sealRead ∧ Cont windows tolerance windowToleranceRead ∧
+                    hsame windowToleranceRead tail ∧ Cont tail sealRow sealRead ∧
+                      PkgSig bundle name pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet windowsToleranceRead windowToleranceTail tailSealRead sealReadPkg
+  obtain ⟨_indexUnary, windowsUnary, _modulusUnary, toleranceUnary, tailUnary,
+    sealRowUnary, _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    _indexWindowsModulus, _modulusToleranceTail, _tailSealRowTransports,
+    _transportsRoutesProvenance, namePkg⟩ := packet
+  have windowToleranceUnary : UnaryHistory windowToleranceRead :=
+    unary_cont_closed windowsUnary toleranceUnary windowsToleranceRead
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed tailUnary sealRowUnary tailSealRead
+  exact
+    ⟨windowsUnary, toleranceUnary, tailUnary, sealRowUnary, windowToleranceUnary,
+      sealReadUnary, windowsToleranceRead, windowToleranceTail, tailSealRead, namePkg,
+      sealReadPkg⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp

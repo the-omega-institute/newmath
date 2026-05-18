@@ -145,4 +145,117 @@ theorem ZnormalPacket_namecert_obligations [AskSetup] [PackageSetup]
                         provenancePkg
   }
 
+theorem ZnormalPacket_componentwise_namecert_transport [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name typed' fuel'
+      terminal' normal' continuation' transports' routes' provenance' name' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg ->
+      hsame typed typed' ->
+        hsame fuel fuel' ->
+          hsame terminal terminal' ->
+            hsame normal normal' ->
+              hsame continuation continuation' ->
+                hsame transports transports' ->
+                  hsame routes routes' ->
+                    hsame provenance provenance' ->
+                      hsame name name' ->
+                        Cont typed' fuel' terminal' ->
+                          Cont terminal' normal' continuation' ->
+                            Cont continuation' transports' routes' ->
+                              PkgSig bundle name' pkg ->
+                                PkgSig bundle provenance' pkg ->
+                                  ZnormalPacket typed' fuel' terminal' normal' continuation'
+                                    transports' routes' provenance' name' bundle pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet sameTyped sameFuel sameTerminal sameNormal sameContinuation sameTransports
+    sameRoutes sameProvenance sameName typedFuelTerminal' terminalNormalContinuation'
+    continuationTransportsRoutes' namePkg' provenancePkg'
+  obtain ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary,
+    transportsUnary, routesUnary, provenanceUnary, nameUnary, _typedFuelTerminal,
+    _terminalNormalContinuation, _continuationTransportsRoutes, _namePkg, _provenancePkg⟩ :=
+    packet
+  have typedUnary' : UnaryHistory typed' :=
+    unary_transport typedUnary sameTyped
+  have fuelUnary' : UnaryHistory fuel' :=
+    unary_transport fuelUnary sameFuel
+  have terminalUnary' : UnaryHistory terminal' :=
+    unary_transport terminalUnary sameTerminal
+  have normalUnary' : UnaryHistory normal' :=
+    unary_transport normalUnary sameNormal
+  have continuationUnary' : UnaryHistory continuation' :=
+    unary_transport continuationUnary sameContinuation
+  have transportsUnary' : UnaryHistory transports' :=
+    unary_transport transportsUnary sameTransports
+  have routesUnary' : UnaryHistory routes' :=
+    unary_transport routesUnary sameRoutes
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have nameUnary' : UnaryHistory name' :=
+    unary_transport nameUnary sameName
+  exact
+    ⟨typedUnary', fuelUnary', terminalUnary', normalUnary', continuationUnary',
+      transportsUnary', routesUnary', provenanceUnary', nameUnary', typedFuelTerminal',
+      terminalNormalContinuation', continuationTransportsRoutes', namePkg', provenancePkg'⟩
+
+theorem ZnormalPacket_downstream_totality [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name
+      normalRead downstream : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg →
+      Cont normal continuation normalRead →
+        Cont normalRead transports downstream →
+          PkgSig bundle downstream pkg →
+            UnaryHistory typed ∧ UnaryHistory fuel ∧ UnaryHistory terminal ∧
+              UnaryHistory normal ∧ UnaryHistory continuation ∧ UnaryHistory normalRead ∧
+                UnaryHistory transports ∧ UnaryHistory downstream ∧ Cont typed fuel terminal ∧
+                  Cont terminal normal continuation ∧ Cont normal continuation normalRead ∧
+                    Cont normalRead transports downstream ∧ PkgSig bundle name pkg ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle downstream pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet normalContinuationRead normalReadTransportsDownstream downstreamPkg
+  obtain ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary,
+    transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, typedFuelTerminal,
+    terminalNormalContinuation, _continuationTransportsRoutes, namePkg, provenancePkg⟩ :=
+    packet
+  have normalReadUnary : UnaryHistory normalRead :=
+    unary_cont_closed normalUnary continuationUnary normalContinuationRead
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed normalReadUnary transportsUnary normalReadTransportsDownstream
+  exact
+    ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary, normalReadUnary,
+      transportsUnary, downstreamUnary, typedFuelTerminal, terminalNormalContinuation,
+      normalContinuationRead, normalReadTransportsDownstream, namePkg, provenancePkg,
+      downstreamPkg⟩
+
+theorem ZnormalPacket_total_host_refusal_boundary [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name refusal
+      readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg →
+      Cont terminal normal refusal →
+        Cont refusal continuation readback →
+          PkgSig bundle readback pkg →
+            UnaryHistory typed ∧ UnaryHistory fuel ∧ UnaryHistory terminal ∧
+              UnaryHistory normal ∧ UnaryHistory refusal ∧ UnaryHistory continuation ∧
+                UnaryHistory readback ∧ Cont typed fuel terminal ∧
+                  Cont terminal normal refusal ∧ Cont refusal continuation readback ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle readback pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet terminalNormalRefusal refusalContinuationReadback readbackPkg
+  obtain ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, typedFuelTerminal,
+    _terminalNormalContinuation, _continuationTransportsRoutes, _namePkg, provenancePkg⟩ :=
+    packet
+  have refusalUnary : UnaryHistory refusal :=
+    unary_cont_closed terminalUnary normalUnary terminalNormalRefusal
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed refusalUnary continuationUnary refusalContinuationReadback
+  exact
+    ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, refusalUnary, continuationUnary,
+      readbackUnary, typedFuelTerminal, terminalNormalRefusal, refusalContinuationReadback,
+      provenancePkg, readbackPkg⟩
+
 end BEDC.Derived.ZnormalUp
