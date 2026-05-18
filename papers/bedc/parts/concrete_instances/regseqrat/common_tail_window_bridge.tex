@@ -275,3 +275,21 @@ It remains to identify the two displayed packets. Use \autoref{thm:regseqrat-com
 
 The exclusion list follows from the row inventory already used in the restriction exactness theorem. Neither direct restriction nor two-step restriction contains a coordinate for quotient streams, selected limits, host real equality, countable choice, ambient completeness, aggregate $\mathsf{formalstatus}$ data, standard bridge data, or a hidden completion carrier, so functoriality is witnessed entirely inside the displayed finite BEDC packet.
 \end{proof}
+
+\begin{theorem}[RegSeqRat common-tail terminal section intersection exactness]
+\label{thm:regseqrat-common-tail-terminal-section-intersection-exactness}
+Let $P$ be an accepted $\RegSeqRatUp$ packet. Let $\{T_i\}_{i \in I}$ and $\{S_j\}_{j \in J}$ be two finite common-tail terminal section covers of the $\StreamNameUp$ schedule carried by $P$, both over the ordered faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. Suppose every pairwise packet, every triple-overlap cocycle row, and every displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support row of the first cover agrees with the corresponding row of the second cover on each retained index in the finite intersection $I \cap J$.
+
+Then the restriction of the first terminal section cover to $I \cap J$ and the restriction of the second terminal section cover to $I \cap J$ are the same BEDC-visible terminal four-face boundary. The common boundary is determined only by the retained common-tail packets and their displayed four-face support rows, and it contains no quotient stream, selected limit, host real equality, countable choice, ambient completeness, aggregate $\mathsf{formalstatus}$ data, standard bridge row, or hidden completion carrier.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-common-tail-terminal-section-restriction-exactness} to the first cover along the inclusion $I \cap J \subseteq I$. Apply the same theorem to the second cover along $I \cap J \subseteq J$. The two restricted covers are terminal finite section covers built from exactly the pairwise common-tail packets, triple-overlap cocycle rows, and displayed support rows retained by the finite intersection.
+
+The hypothesis identifies those retained rows component by component. Hence the two restricted covers have identical pairwise packets, identical triple-overlap cocycle rows, and the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows on every overlap that remains in $I \cap J$.
+
+Use \autoref{thm:regseqrat-common-tail-terminal-four-face-cocycle-uniqueness}. Since the restricted covers expose the same retained finite data, uniqueness identifies them as one BEDC-visible terminal four-face boundary.
+
+The descent and Real terminality inputs make the identification intrinsic to the displayed packet. By \autoref{thm:regseqrat-common-tail-cocycle-descent}, the common retained pairwise packets descend to one four-face boundary. By \autoref{thm:real-l10-terminal-four-face-correspondence} and \autoref{thm:real-l10-terminal-pullback-uniqueness}, that descended boundary is the unique terminal pullback over the ordered StreamName, DyadicRatCore, RegSeqRat, and RealUp faces.
+
+The exclusions follow from the same row inventory. The restriction theorem, cocycle uniqueness, cocycle descent, and Real L10 pullback uniqueness provide no coordinate for quotient streams, selected limits, host real equality, countable choice, ambient completeness, aggregate $\mathsf{formalstatus}$ data, standard bridge rows, or hidden completion carriers. Thus the meet boundary is exact on the retained finite intersection and nowhere else.
+\end{proof}
