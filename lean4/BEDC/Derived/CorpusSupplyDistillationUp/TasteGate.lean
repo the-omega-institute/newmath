@@ -2,6 +2,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CorpusSupplyDistillationUp
@@ -9,6 +10,7 @@ namespace BEDC.Derived.CorpusSupplyDistillationUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -527,5 +529,56 @@ theorem CorpusSupplyDistillationLedger_exactness
   cases x with
   | mk C F D O R H T P N =>
       exact ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩
+
+theorem CorpusSupplyDistillation_filter_distillation_output_prior_nonescape
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        Cont C F (append C F) ∧ Cont F D (append F D) ∧
+          Cont D O (append D O) ∧
+            (Cont (append D O) (BHist.e0 C) D → False) ∧
+              (Cont (append D O) (BHist.e1 C) D → False) := by
+  -- BEDC touchpoint anchor: BHist Cont
+  cases x with
+  | mk C F D O R H T P N =>
+      exact ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl, rfl,
+        (fun back => cont_mutual_extension_right_tail_absurd.left rfl back),
+        (fun back => cont_mutual_extension_right_tail_absurd.right rfl back)⟩
+
+theorem CorpusSupplyDistillation_obligation_ledger_namecert_boundary
+    (x : CorpusSupplyDistillationUp) :
+    ∃ C F D O R H T P N : BHist,
+      x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+        FieldFaithful.fields x = [C, F, D, O, R, H, T, P, N] ∧
+          Cont C F (append C F) ∧ Cont F D (append F D) ∧ Cont D O (append D O) ∧
+            Cont R H (append R H) ∧ Cont H T (append H T) ∧
+              Cont T P (append T P) ∧ Cont P N (append P N) ∧
+                SemanticNameCert (fun row : BHist => hsame row N)
+                  (fun row : BHist =>
+                    hsame row C ∨ hsame row F ∨ hsame row D ∨ hsame row O ∨
+                      hsame row R ∨ hsame row H ∨ hsame row T ∨ hsame row P ∨
+                        hsame row N)
+                  (fun row : BHist => hsame row N ∧ Cont P N (append P N)) hsame := by
+  -- BEDC touchpoint anchor: BHist Cont SemanticNameCert hsame
+  cases x with
+  | mk C F D O R H T P N =>
+      let cert :
+          SemanticNameCert (fun row : BHist => hsame row N)
+            (fun row : BHist =>
+              hsame row C ∨ hsame row F ∨ hsame row D ∨ hsame row O ∨ hsame row R ∨
+                hsame row H ∨ hsame row T ∨ hsame row P ∨ hsame row N)
+            (fun row : BHist => hsame row N ∧ Cont P N (append P N)) hsame := {
+        core := {
+          carrier_inhabited := Exists.intro N (hsame_refl N)
+          equiv_refl := by intro row _source; exact hsame_refl row
+          equiv_symm := by intro _row _other same; exact hsame_symm same
+          equiv_trans := by intro _row _middle _other left right; exact hsame_trans left right
+          carrier_respects_equiv := by
+            intro _row _other same source; exact hsame_trans (hsame_symm same) source }
+        pattern_sound := by
+          intro _row source
+          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source)))))))
+        ledger_sound := by intro _row source; exact ⟨source, rfl⟩ }
+      exact ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, cert⟩
 
 end BEDC.Derived.CorpusSupplyDistillationUp
