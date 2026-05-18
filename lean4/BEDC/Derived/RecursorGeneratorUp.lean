@@ -294,6 +294,56 @@ theorem RecursorGenerator_audit_non_escape
       exact ⟨source.left, pkgSig⟩
   }
 
+theorem RecursorGeneratorAuthorizationObligations
+    [AskSetup] [PackageSetup]
+    {I E B A M C P N generatedRead closedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory I →
+      UnaryHistory E →
+        UnaryHistory B →
+          UnaryHistory A →
+            UnaryHistory M →
+              UnaryHistory C →
+                UnaryHistory N →
+                  Cont E B generatedRead →
+                    Cont generatedRead M closedRead →
+                      PkgSig bundle P pkg →
+                        SemanticNameCert
+                          (fun row : BHist => hsame row N ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row N ∧ Cont E B generatedRead ∧
+                              Cont generatedRead M closedRead ∧ UnaryHistory A)
+                          (fun row : BHist => hsame row N ∧ PkgSig bundle P pkg)
+                          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro _unaryI _unaryE _unaryB unaryA _unaryM _unaryC unaryN generatedRoute
+    closedRoute pkgSig
+  have sourceN : (fun row : BHist => hsame row N ∧ UnaryHistory row) N := by
+    exact ⟨hsame_refl N, unaryN⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro N sourceN
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact ⟨hsame_trans (hsame_symm same) source.left, unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source.left, generatedRoute, closedRoute, unaryA⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, pkgSig⟩
+  }
+
 theorem RecursorGeneratorAuthorizedOutputFactorization
     {signature eliminator branches audit metacic transport cont provenance name outputRead :
       BHist} :
