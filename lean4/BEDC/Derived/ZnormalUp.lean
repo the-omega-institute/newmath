@@ -310,6 +310,136 @@ theorem ZnormalPacket_downstream_totality [AskSetup] [PackageSetup]
       normalContinuationRead, normalReadTransportsDownstream, namePkg, provenancePkg,
       downstreamPkg⟩
 
+theorem ZnormalPacket_root_total_host_source_coverage [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name sourceRead
+      sourceExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg →
+      Cont typed fuel sourceRead →
+        Cont sourceRead name sourceExport →
+          PkgSig bundle sourceExport pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row sourceExport ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row typed ∨ hsame row fuel ∨ hsame row sourceRead ∨
+                    hsame row sourceExport)
+                (fun row : BHist => hsame row sourceExport ∧ PkgSig bundle sourceExport pkg)
+                hsame ∧
+              UnaryHistory sourceRead ∧ UnaryHistory sourceExport := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro packet typedFuelSourceRead sourceReadNameSourceExport sourceExportPkg
+  obtain ⟨typedUnary, fuelUnary, _terminalUnary, _normalUnary, _continuationUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, nameUnary, _typedFuelTerminal,
+    _terminalNormalContinuation, _continuationTransportsRoutes, _namePkg, _provenancePkg⟩ :=
+    packet
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_cont_closed typedUnary fuelUnary typedFuelSourceRead
+  have sourceExportUnary : UnaryHistory sourceExport :=
+    unary_cont_closed sourceReadUnary nameUnary sourceReadNameSourceExport
+  have sourceExportSource :
+      (fun row : BHist => hsame row sourceExport ∧ UnaryHistory row) sourceExport := by
+    exact ⟨hsame_refl sourceExport, sourceExportUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sourceExport ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row typed ∨ hsame row fuel ∨ hsame row sourceRead ∨
+              hsame row sourceExport)
+          (fun row : BHist => hsame row sourceExport ∧ PkgSig bundle sourceExport pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro sourceExport sourceExportSource
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro row source
+        exact Or.inr (Or.inr (Or.inr source.left))
+      ledger_sound := by
+        intro row source
+        exact ⟨source.left, sourceExportPkg⟩
+    }
+  exact ⟨cert, sourceReadUnary, sourceExportUnary⟩
+
+theorem ZnormalPacket_downstream_normal_route_exhaustion [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name normalRead
+      downstream : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg →
+      Cont normal continuation normalRead →
+        Cont normalRead transports downstream →
+          PkgSig bundle downstream pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row downstream ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row normal ∨ hsame row continuation ∨ hsame row normalRead ∨
+                    hsame row downstream)
+                (fun row : BHist => hsame row downstream ∧ PkgSig bundle downstream pkg)
+                hsame ∧
+              UnaryHistory normalRead ∧ UnaryHistory downstream := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro packet normalContinuationRead normalReadTransportsDownstream downstreamPkg
+  obtain ⟨_typedUnary, _fuelUnary, _terminalUnary, normalUnary, continuationUnary,
+    transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, _typedFuelTerminal,
+    _terminalNormalContinuation, _continuationTransportsRoutes, _namePkg, _provenancePkg⟩ :=
+    packet
+  have normalReadUnary : UnaryHistory normalRead :=
+    unary_cont_closed normalUnary continuationUnary normalContinuationRead
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed normalReadUnary transportsUnary normalReadTransportsDownstream
+  have downstreamSource :
+      (fun row : BHist => hsame row downstream ∧ UnaryHistory row) downstream := by
+    exact ⟨hsame_refl downstream, downstreamUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row downstream ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row normal ∨ hsame row continuation ∨ hsame row normalRead ∨
+              hsame row downstream)
+          (fun row : BHist => hsame row downstream ∧ PkgSig bundle downstream pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro downstream downstreamSource
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro row source
+        exact Or.inr (Or.inr (Or.inr source.left))
+      ledger_sound := by
+        intro row source
+        exact ⟨source.left, downstreamPkg⟩
+    }
+  exact ⟨cert, normalReadUnary, downstreamUnary⟩
+
 theorem ZnormalPacket_total_host_refusal_boundary [AskSetup] [PackageSetup]
     {typed fuel terminal normal continuation transports routes provenance name refusal
       readback : BHist}
