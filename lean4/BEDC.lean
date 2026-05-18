@@ -129,7 +129,6 @@ import BEDC.Derived.ApophaticNameUp.RefusalAuditPackage
 import BEDC.Derived.ApophaticNameUp.RefusalClassifierStability
 import BEDC.Derived.ApophaticNameUp.RefusalExportTotality
 import BEDC.Derived.ApophaticNameUp.RefusalGateRouteLocality
-import BEDC.Derived.ApophaticNameUp.RefusalGateRouteTotality
 import BEDC.Derived.ApophaticNameUp.RefusalLedgerDownstreamCoverage
 import BEDC.Derived.ApophaticNameUp.RefusalLedgerFiberProduct
 import BEDC.Derived.ApophaticNameUp.RefusalProvenanceTransport
@@ -385,7 +384,6 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.ProvenanceExhaustion
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RefusalRowDeterminacy
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RegistryClassifierScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RootObligationSurface
-import BEDC.Derived.AxisZeckendorfCannotClaimUp.RootUnblockLedgerNonescape
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RootUnblockPackageCertificate
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RouteProvenanceTriadObligations
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SevenRowCoverage
@@ -399,7 +397,6 @@ import BEDC.Derived.BHistHendecaTupleNameCertUp
 import BEDC.Derived.BHistHeptaTupleNameCertUp
 import BEDC.Derived.BHistNonaSequenceNameCertUp
 import BEDC.Derived.BHistNonaTupleNameCertUp
-import BEDC.Derived.BHistOctaSequenceNameCertUp
 import BEDC.Derived.BHistOctaTupleNameCertUp
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BanachFixedPointUp

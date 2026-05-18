@@ -79,26 +79,149 @@ private def layeredRelationCertToEventFlow : LayeredRelationCertUp → EventFlow
 
 private def layeredRelationCertFromEventFlow : EventFlow → Option LayeredRelationCertUp
   -- BEDC touchpoint anchor: BHist BMark
-  | _tag0 :: chainA :: _tag1 :: chainB :: _tag2 :: layerMap :: _tag3 ::
-      classifier :: _tag4 :: preserved :: _tag5 :: refused :: _tag6 :: exactness ::
-      _tag7 :: failureBoundary :: _tag8 :: strength :: _tag9 :: transport :: _tag10 ::
-      route :: _tag11 :: provenance :: _tag12 :: nameRow :: [] =>
-      some
-        (LayeredRelationCertUp.mk
-          (layeredRelationCertDecodeBHist chainA)
-          (layeredRelationCertDecodeBHist chainB)
-          (layeredRelationCertDecodeBHist layerMap)
-          (layeredRelationCertDecodeBHist classifier)
-          (layeredRelationCertDecodeBHist preserved)
-          (layeredRelationCertDecodeBHist refused)
-          (layeredRelationCertDecodeBHist exactness)
-          (layeredRelationCertDecodeBHist failureBoundary)
-          (layeredRelationCertDecodeBHist strength)
-          (layeredRelationCertDecodeBHist transport)
-          (layeredRelationCertDecodeBHist route)
-          (layeredRelationCertDecodeBHist provenance)
-          (layeredRelationCertDecodeBHist nameRow))
-  | _ => none
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | chainA :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | chainB :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | layerMap :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | classifier :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | preserved :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | refused :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | exactness :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | failureBoundary ::
+                                                                  rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | strength ::
+                                                                          rest17 =>
+                                                                          match rest17 with
+                                                                          | [] => none
+                                                                          | _tag9 ::
+                                                                              rest18 =>
+                                                                              match
+                                                                                rest18
+                                                                              with
+                                                                              | [] =>
+                                                                                  none
+                                                                              | transport ::
+                                                                                  rest19 =>
+                                                                                  match
+                                                                                    rest19
+                                                                                  with
+                                                                                  | [] =>
+                                                                                      none
+                                                                                  | _tag10 ::
+                                                                                      rest20 =>
+                                                                                      match
+                                                                                        rest20
+                                                                                      with
+                                                                                      | [] =>
+                                                                                          none
+                                                                                      | route ::
+                                                                                          rest21 =>
+                                                                                          match
+                                                                                            rest21
+                                                                                          with
+                                                                                          | [] =>
+                                                                                              none
+                                                                                          | _tag11 ::
+                                                                                              rest22 =>
+                                                                                              match
+                                                                                                rest22
+                                                                                              with
+                                                                                              | [] =>
+                                                                                                  none
+                                                                                              | provenance ::
+                                                                                                  rest23 =>
+                                                                                                  match
+                                                                                                    rest23
+                                                                                                  with
+                                                                                                  | [] =>
+                                                                                                      none
+                                                                                                  | _tag12 ::
+                                                                                                      rest24 =>
+                                                                                                      match
+                                                                                                        rest24
+                                                                                                      with
+                                                                                                      | [] =>
+                                                                                                          none
+                                                                                                      | nameRow ::
+                                                                                                          rest25 =>
+                                                                                                          match
+                                                                                                            rest25
+                                                                                                          with
+                                                                                                          | [] =>
+                                                                                                              some
+                                                                                                                (LayeredRelationCertUp.mk
+                                                                                                                  (layeredRelationCertDecodeBHist
+                                                                                                                    chainA)
+                                                                                                                  (layeredRelationCertDecodeBHist
+                                                                                                                    chainB)
+                                                                                                                  (layeredRelationCertDecodeBHist
+                                                                                                                    layerMap)
+                                                                                                                  (layeredRelationCertDecodeBHist
+                                                                                                                    classifier)
+                                                                                                                  (layeredRelationCertDecodeBHist
+                                                                                                                    preserved)
+                                                                                                                  (layeredRelationCertDecodeBHist
+                                                                                                                    refused)
+                                                                                                                  (layeredRelationCertDecodeBHist
+                                                                                                                    exactness)
+                                                                                                                  (layeredRelationCertDecodeBHist
+                                                                                                                    failureBoundary)
+                                                                                                                  (layeredRelationCertDecodeBHist
+                                                                                                                    strength)
+                                                                                                                  (layeredRelationCertDecodeBHist
+                                                                                                                    transport)
+                                                                                                                  (layeredRelationCertDecodeBHist
+                                                                                                                    route)
+                                                                                                                  (layeredRelationCertDecodeBHist
+                                                                                                                    provenance)
+                                                                                                                  (layeredRelationCertDecodeBHist
+                                                                                                                    nameRow))
+                                                                                                          | _ ::
+                                                                                                              _ =>
+                                                                                                              none
 
 private theorem layeredRelationCert_round_trip :
     ∀ x : LayeredRelationCertUp,
@@ -223,5 +346,37 @@ theorem LayeredRelationCert_refused_row_concrete_boundary
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   cases h
+
+theorem LayeredRelationCertTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate LayeredRelationCertUp) ∧
+      Nonempty (FieldFaithful LayeredRelationCertUp) ∧
+        Nonempty (Nontrivial LayeredRelationCertUp) ∧
+          (∀ h : BHist, layeredRelationCertDecodeBHist (layeredRelationCertEncodeBHist h) = h) ∧
+            (∀ x : LayeredRelationCertUp,
+              layeredRelationCertFromEventFlow (layeredRelationCertToEventFlow x) = some x) ∧
+              (∀ x y : LayeredRelationCertUp,
+                layeredRelationCertToEventFlow x = layeredRelationCertToEventFlow y → x = y) ∧
+                LayeredRelationCertUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                    BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                    BHist.Empty BHist.Empty BHist.Empty ≠
+                  LayeredRelationCertUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                    BHist.Empty (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+                    BHist.Empty BHist.Empty BHist.Empty BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact ⟨layeredRelationCertChapterTasteGate⟩
+  · constructor
+    · exact ⟨layeredRelationCertFieldFaithful⟩
+    · constructor
+      · exact ⟨layeredRelationCertNontrivial⟩
+      · constructor
+        · exact layeredRelationCertDecode_encode_bhist
+        · constructor
+          · exact layeredRelationCert_round_trip
+          · constructor
+            · intro x y heq
+              exact layeredRelationCertToEventFlow_injective heq
+            · intro h
+              cases h
 
 end BEDC.Derived.LayeredRelationCertUp
