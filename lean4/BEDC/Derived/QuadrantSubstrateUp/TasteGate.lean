@@ -269,7 +269,7 @@ theorem QuadrantSubstrateTasteGate_single_carrier_alignment :
       (∀ x : QuadrantSubstrateUp,
         quadrantSubstrateFromEventFlow (quadrantSubstrateToEventFlow x) = some x) ∧
         (∀ x y : QuadrantSubstrateUp,
-          quadrantSubstrateToEventFlow x = quadrantSubstrateToEventFlow y -> x = y) ∧
+          quadrantSubstrateToEventFlow x = quadrantSubstrateToEventFlow y → x = y) ∧
           quadrantSubstrateEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
