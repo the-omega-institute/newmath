@@ -22,4 +22,23 @@ def ZeckendorfCarryNormalizationCarrier [AskSetup] [PackageSetup]
     Cont source target carryRoute ∧ Cont carryRoute valueLedger routes ∧
       PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg
 
+theorem ZeckendorfCarryNormalizationCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {source target carryRoute valueLedger boundary routes provenance name valueRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZeckendorfCarryNormalizationCarrier source target carryRoute valueLedger boundary routes
+      provenance name bundle pkg ->
+    Cont routes valueLedger valueRead ->
+    PkgSig bundle valueRead pkg ->
+      ZCarry source target ∧ ZNormal target ∧ ¬ ZNormal source ∧ ¬ hsame source target ∧
+        Cont source target carryRoute ∧ Cont carryRoute valueLedger routes ∧
+          Cont routes valueLedger valueRead ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle name pkg ∧ PkgSig bundle valueRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame PkgSig ZCarry ZNormal
+  intro carrier valueReadRoute valueReadPkg
+  obtain ⟨sourceTargetCarry, targetNormal, sourceNotNormal, sourceNotTarget,
+    sourceTargetRoute, carryLedgerRoute, provenancePkg, namePkg⟩ := carrier
+  exact
+    ⟨sourceTargetCarry, targetNormal, sourceNotNormal, sourceNotTarget, sourceTargetRoute,
+      carryLedgerRoute, valueReadRoute, provenancePkg, namePkg, valueReadPkg⟩
+
 end BEDC.Derived.ZeckendorfCarryNormalizationUp
