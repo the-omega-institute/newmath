@@ -588,6 +588,28 @@ For the reverse direction, assume the StreamName four-object classifier pullback
 Finally repack the recovered packet by \autoref{thm:real-l10-terminal-four-face-correspondence}. Since the packet carries only the DyadicRatCore observations, StreamName finite windows, RegSeqRat readback, local Real seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, the two terminal reads have the same Real L10 public boundary. The exclusions from the StreamName classifier surface and the Real L10 dependency lattice remove quotient stream equality, host real equality, selected limits, countable choice, completeness, metric completeness, arithmetic, order, and bridge rows from both directions.
 \end{proof}
 
+\begin{theorem}[Real L10 public-boundary classifier reflection]
+\label{thm:real-l10-public-boundary-classifier-reflection}
+For any two current Phase Real and Completion terminal $\RealUp$ reads accepted by the Real L10 dependency lattice, equality of their Real L10 public boundary is equivalent to equality of the four-face classifier packet over
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+with exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Thus the public Real boundary is precisely the classifier surface formed by those four faces and rows.
+
+The reflection exports no quotient stream equality, host equality, selected limit, countable-choice row, completeness datum, arithmetic or order package, metric-completeness row, or bridge row.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the two terminal reads have the same Real L10 public boundary. Apply \autoref{thm:real-l10-streamname-classifier-pullback-correspondence} to identify this equality with agreement of the StreamName four-object classifier pullback on the displayed four faces and support rows.
+
+Transport the agreement through \autoref{thm:streamname-real-completion-classifier-pullback}. The StreamName classifier is the same finite classifier packet over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+For the reverse direction, suppose the four-face classifier packet agrees. Use \autoref{thm:streamname-real-completion-classifier-pullback} to read that packet as equality of the StreamName public classifier surface, then apply \autoref{thm:real-l10-terminal-pullback-uniqueness} to recover the unique terminal pullback boundary over the same four faces.
+
+Finally apply \autoref{thm:real-l10-streamname-classifier-pullback-correspondence} in the reverse direction. The recovered terminal pullback is exactly the Real L10 public boundary, so equality of the classifier packet and equality of the public boundary determine each other.
+
+The exclusion clauses in the cited Real L10 and StreamName pullback theorems are stable under this reflection. They rule out quotient streams, host equality, selected limits, countable choice, completeness, arithmetic and order packages, metric-completeness rows, and bridge rows, so the public Real boundary has no coordinate beyond the stated four-face classifier surface.
+\end{proof}
+
 \begin{theorem}[Real L10 terminal-window fusion section compatibility]
 \label{thm:real-l10-terminal-window-fusion-section-compatibility}
 Let $\mathcal W_L$ and $\mathcal W_R$ be current Phase Real and Completion terminal $\RealUp$ reads accepted by the Real L10 dependency lattice. Suppose their $\StreamNameUp$ finite windows agree after terminal-window fusion through a certified common refinement that also carries the same $\DyadicRatCoreUp$ endpoint and radius ledger, and suppose the induced $\RegSeqRatUp$ finite-request sections agree after applying the terminal budget factorization to the same seal-facing request. Then $\mathcal W_L$ and $\mathcal W_R$ have the same Real L10 public boundary.

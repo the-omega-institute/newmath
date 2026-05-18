@@ -154,16 +154,16 @@ Finally combine \autoref{thm:phase-real-completion-exit-noncollapse-boundary} wi
 
 \begin{theorem}[Phase real-completion exit audit-clean threshold]
 \label{thm:phase-real-completion-exit-audit-clean-threshold}
-An accepted $\PhaseRealCompletionExitUp$ packet serves the current Phase Real and Completion exit threshold exactly when the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RealCompletionExactBoundaryUp$ faces are separately read through their own local closurestatus and formalstatus records, and each of the five verification-axis records is at least $\auditCleanV$. The threshold is not witnessed by an aggregate bridge token, quotient stream, selected limit, host completeness row, or single fused formalstatus row.
+An accepted $\PhaseRealCompletionExitUp$ packet serves the current local packet audit threshold exactly when the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RealCompletionExactBoundaryUp$ faces are separately read through their own local closurestatus and formalstatus records, and each of the five verification-axis records is at least $\auditCleanV$. The $\RealCompletionExactBoundaryUp$ row is the same-route exact-boundary witness inside this packet audit, while \autoref{thm:phase-real-completion-exit-four-object-threshold-projection} is the roadmap-facing projection that reads only the four roadmap objects. The threshold is not witnessed by an aggregate bridge token, quotient stream, selected limit, host completeness row, or single fused formalstatus row.
 \end{theorem}
 \begin{proof}
-For the forward direction, apply \autoref{thm:phase-real-completion-exit-local-status-gate}. Any accepted exit gate must read the dyadic, stream, regular-rational, real, and exact-boundary faces through their own local status rows.
+For the forward direction, apply \autoref{thm:phase-real-completion-exit-local-status-gate}. Any accepted local packet audit must read the dyadic, stream, regular-rational, real, and exact-boundary faces through their own local status rows.
 
-Next apply \autoref{thm:phase-real-completion-exit-status-token-product} and \autoref{thm:phase-real-completion-exit-facewise-audit-obligation}. The status read is the product of five local records, and the audit read must expose those records before the local naming row is consumed. Thus the roadmap threshold can be met only by five objectwise verification-axis records, each at least $\auditCleanV$.
+Next apply \autoref{thm:phase-real-completion-exit-status-token-product} and \autoref{thm:phase-real-completion-exit-facewise-audit-obligation}. The status read is the product of five local records, and the packet audit read must expose those records before the local naming row is consumed. Thus the local $\PhaseRealCompletionExitUp$ packet audit can be met only by five objectwise verification-axis records, each at least $\auditCleanV$.
 
 For the reverse direction, suppose the five faces have been read separately through their local closurestatus and formalstatus records, and each record is at least $\auditCleanV$. The local status gate supplies the required Phase Real and Completion exit read, while the status-token product keeps the five records in the same accepted $\PhaseRealCompletionExitUp$ packet.
 
-Finally apply \autoref{thm:phase-real-completion-exit-noncollapse-boundary}. It rejects aggregate bridge tokens, quotient streams, selected limits, host completeness, and single fused formalstatus rows, so no external completion witness can replace the five-face audit-clean threshold.
+Finally apply \autoref{thm:phase-real-completion-exit-noncollapse-boundary} and read the roadmap-facing projection through \autoref{thm:phase-real-completion-exit-four-object-threshold-projection}. The noncollapse result rejects aggregate bridge tokens, quotient streams, selected limits, host completeness, and single fused formalstatus rows; the projection states that the boundary row remains a same-route exact-boundary witness rather than a fifth roadmap object.
 \end{proof}
 
 \begin{theorem}[Phase real-completion exit classifier-envelope admission]
@@ -198,16 +198,16 @@ Finally apply \autoref{thm:phase-real-completion-exit-classifier-envelope-admiss
 
 \begin{theorem}[Phase real-completion exit scoped audit threshold]
 \label{thm:phase-real-completion-exit-scoped-audit-threshold}
-An accepted $\PhaseRealCompletionExitUp$ packet serves the roadmap exit gate exactly when the five visible faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RealCompletionExactBoundaryUp$ are read through separate local closurestatus and formalstatus records, each closure-axis record is at least $\scopedClosure$, and each verification-axis record is at least $\auditCleanV$. No aggregate formalstatus row, bridge token, quotient stream, selected limit, host completeness row, or fused completion witness may discharge the gate.
+An accepted $\PhaseRealCompletionExitUp$ packet serves the local phase-exit packet audit exactly when the four roadmap faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are read through separate local closurestatus and formalstatus records whose closure-axis entries are at least $\scopedClosure$ and whose verification-axis entries are at least $\auditCleanV$, while the $\RealCompletionExactBoundaryUp$ face is read as a same-route exact-boundary witness with its own local status. No aggregate formalstatus row, bridge token, quotient stream, selected limit, host completeness row, or fused completion witness may discharge the packet audit; \autoref{thm:phase-real-completion-exit-four-object-threshold-projection} gives the roadmap-facing four-object read.
 \end{theorem}
 \begin{proof}
 First apply \autoref{thm:phase-real-completion-exit-status-token-product} and \autoref{thm:phase-real-completion-exit-local-status-gate}. They identify the accepted phase-exit status read as the product of the five visible local records and require the dyadic, stream, regular-rational, real, and exact-boundary faces to remain separate through their own closurestatus and formalstatus rows.
 
-Next apply \autoref{thm:phase-real-completion-exit-audit-clean-threshold}. It supplies the verification-axis side of the gate: each of the five local formalstatus records must be at least $\auditCleanV$, and neither a fused formalstatus row nor an external completion witness can replace those local records.
+Next apply \autoref{thm:phase-real-completion-exit-audit-clean-threshold}. It supplies the verification-axis side of the local packet audit: the four roadmap faces meet $\auditCleanV$ inside the packet, and the exact-boundary face carries its own audit-clean same-route witness status without becoming a roadmap object. Neither a fused formalstatus row nor an external completion witness can replace those local records.
 
 Now use \autoref{thm:phase-real-completion-exit-classifier-envelope-admission}. The accepted classifier-envelope read adds the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\PhaseRealCompletionExitUp}$ support, while still excluding aggregate bridge tokens, quotient streams, selected limits, host-completeness rows, metric-completeness data, and countable-choice rows.
 
-Finally read the two axes independently through \autoref{sec:roadmap-closure-and-verification-axes} and the Phase Real and Completion criterion in \autoref{sec:roadmap-near-term-phases}. The roadmap gate is therefore met precisely by the five local records whose closure-axis entries are at least $\scopedClosure$ and whose verification-axis entries are at least $\auditCleanV$, with no aggregate row or fused completion witness standing in for the displayed faces.
+Finally read the two axes independently through \autoref{sec:roadmap-closure-and-verification-axes} and the Phase Real and Completion criterion in \autoref{sec:roadmap-near-term-phases}, then apply the projection of \autoref{thm:phase-real-completion-exit-four-object-threshold-projection}. The roadmap gate is therefore met by the four local roadmap records whose closure-axis entries are at least $\scopedClosure$ and whose verification-axis entries are at least $\auditCleanV$; the fifth packet face is the exact-boundary witness on the same route, with no aggregate row or fused completion witness standing in for the displayed faces.
 \end{proof}
 
 \begin{theorem}[Phase real-completion exit four-object threshold projection]
@@ -222,6 +222,60 @@ Next apply \autoref{thm:phase-real-completion-exit-scoped-audit-threshold}. The 
 Now use \autoref{thm:phase-real-completion-exit-status-token-product} together with \autoref{thm:phase-real-completion-exit-noncollapse-boundary}. These results keep the status rows objectwise and prevent the boundary row from collapsing the four roadmap records into an aggregate token, quotient stream, selected limit, host-completeness row, or fused completion witness.
 
 Finally read the roadmap criterion in \autoref{sec:roadmap-near-term-phases} through the two-axis discipline of \autoref{sec:roadmap-closure-and-verification-axes}. The roadmap exit criterion names the four objects $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$; the fifth face is the exact-boundary witness that lets the accepted packet expose the same route, not an additional roadmap object.
+\end{proof}
+
+\begin{theorem}[Phase real-completion exit public gate certificate]
+\label{thm:phase-real-completion-exit-public-gate-certificate}
+An accepted $\PhaseRealCompletionExitUp$ packet is the public paper-side gate certificate for the current Phase Real and Completion criterion exactly when the four roadmap faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ satisfy their local scoped-closure records and their local audit-clean records. The $\RealCompletionExactBoundaryUp$ face is used only as the same-route exact-boundary witness over those four records. The certificate exports no aggregate formalstatus row, aggregate bridge token, quotient stream, selected limit, host completeness row, metric-completeness row, countable-choice row, or fused completion witness.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply \autoref{thm:phase-real-completion-exit-four-object-threshold-projection}. Any accepted packet that satisfies the Phase Real and Completion exit criterion must expose the four roadmap faces through separate local closurestatus and formalstatus rows, with closure-axis entries at least $\scopedClosure$ and verification-axis entries at least $\auditCleanV$. The same theorem keeps $\RealCompletionExactBoundaryUp$ as a boundary witness over the same route rather than as another roadmap object.
+
+Next apply \autoref{thm:phase-real-completion-exit-scoped-audit-threshold}. It identifies the gate consumed by the chapter as the visible status read of the phase-exit packet, so the public certificate cannot be obtained from a cached route summary or from a single fused completion row.
+
+For the reverse direction, suppose the four roadmap faces have their local scoped-closure and audit-clean records, and suppose the accepted packet supplies $\RealCompletionExactBoundaryUp$ only as the same-route exact-boundary witness. Apply \autoref{thm:phase-real-completion-exit-status-token-product} to repack those records as the product read of the accepted $\PhaseRealCompletionExitUp$ carrier.
+
+Finally read the product through \autoref{sec:roadmap-closure-and-verification-axes}. The roadmap discipline keeps the paper closure axis, Lean verification axis, and bridge status axis independent. Therefore the certificate can be cited as a public paper-side gate while still refusing aggregate formalstatus rows, bridge tokens, quotient streams, selected limits, host completeness, metric completeness, countable choice, and fused completion witnesses.
+\end{proof}
+
+\begin{theorem}[Phase real-completion exit boundary-face nonsubstitution]
+\label{thm:phase-real-completion-exit-boundary-face-nonsubstitution}
+Let $E=(D,S,Q,R,B,H,C,P,N)$ be an accepted $\PhaseRealCompletionExitUp$ packet. If any one of the four roadmap faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ lacks its own local $\scopedClosure$ closure record and local $\auditCleanV$ verification record, or if the $\RealCompletionExactBoundaryUp$ face is not supplied on the same finite route, then $E$ fails the current Phase Real and Completion exit gate. No aggregate formalstatus row, aggregate bridge token, quotient stream, selected limit, host-completeness row, metric-completeness row, countable-choice row, or fused completion witness can replace the missing local face.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:phase-real-completion-exit-public-gate-certificate}. It identifies the public paper-side gate certificate with four roadmap faces that already carry their local scoped-closure and audit-clean records, together with $\RealCompletionExactBoundaryUp$ only as a same-route exact-boundary witness.
+
+Next apply \autoref{thm:phase-real-completion-exit-four-object-threshold-projection} and \autoref{thm:phase-real-completion-exit-scoped-audit-threshold}. These theorems separate the four roadmap objects from the boundary witness while still requiring every visible face in the accepted packet to be read through its own local closurestatus and formalstatus rows.
+
+Finally use \autoref{thm:phase-real-completion-exit-status-token-product} and \autoref{thm:phase-real-completion-exit-noncollapse-boundary}. The status product is objectwise, and the noncollapse boundary excludes aggregate formalstatus rows, bridge tokens, quotient streams, selected limits, host-completeness rows, metric-completeness rows, countable-choice rows, and fused completion witnesses from the carrier. Therefore a missing roadmap face record, or a boundary face not supplied on the same finite route, leaves the exit gate undischarged.
+\end{proof}
+
+\begin{theorem}[Phase real-completion exit facewise consumer readback]
+\label{thm:phase-real-completion-exit-facewise-consumer-readback}
+An accepted $\PhaseRealCompletionExitUp$ consumer reads back exactly the five local face records $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RealCompletionExactBoundaryUp$, together with the supporting $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert_{\PhaseRealCompletionExitUp}$ rows. Conversely, any consumer that displays precisely those five local records and those support rows, with $\RealCompletionExactBoundaryUp$ supplied on the same finite route as the four roadmap faces, is admitted by the existing classifier-envelope and public-gate certificate. The readback exports no aggregate formalstatus row, bridge token, quotient stream, selected limit, host-completeness row, metric-completeness data, countable-choice row, or fused completion witness.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply \autoref{thm:phase-real-completion-exit-classifier-envelope-admission}. It identifies the accepted classifier-envelope read with the displayed carrier rows $D,S,Q,R,B,H,C,P,N$, so every accepted consumer receives the dyadic, stream, regular-rational, real, and exact-boundary faces together with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support.
+
+Next use \autoref{thm:phase-real-completion-exit-four-object-threshold-projection} and \autoref{thm:phase-real-completion-exit-boundary-face-nonsubstitution}. These results keep $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as the four roadmap records and require $\RealCompletionExactBoundaryUp$ to remain a same-route boundary witness rather than an aggregate row or substitute face.
+
+For the reverse direction, suppose a consumer displays exactly those five local records and support rows. Apply \autoref{thm:phase-real-completion-exit-classifier-envelope-admission} to place the displayed rows inside the classifier envelope, then apply \autoref{thm:phase-real-completion-exit-public-gate-certificate} to read the same data as the public phase-exit gate certificate.
+
+Finally, the nonsubstitution theorem excludes the omitted rows from both directions of the readback. Thus quotient streams, selected limits, host completeness, metric completeness, countable choice, bridge tokens, aggregate formalstatus data, and fused completion witnesses cannot be consumed in place of the five displayed face records and their local support.
+\end{proof}
+
+\begin{theorem}[Phase real-completion exit status-face product injectivity]
+\label{thm:phase-real-completion-exit-status-face-product-injectivity}
+For accepted $\PhaseRealCompletionExitUp$ packets, the public phase-exit gate read is determined exactly by the status-face product consisting of the four roadmap status records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, together with the same-route $\RealCompletionExactBoundaryUp$ witness and the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\PhaseRealCompletionExitUp}$ support. Equivalently, two accepted packet reads give the same public phase-exit gate certificate precisely when they have the same four roadmap status records, the same same-route exact-boundary witness, and the same displayed support rows. The comparison exports no aggregate formalstatus row, bridge token, quotient stream, selected limit, host-completeness row, metric-completeness data, countable-choice row, or fused completion witness.
+\end{theorem}
+\begin{proof}
+For the forward direction, suppose two accepted packet reads have the same four roadmap status records, the same same-route $\RealCompletionExactBoundaryUp$ witness, and the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support. Apply \autoref{thm:phase-real-completion-exit-status-token-product}. It identifies the accepted status read with the objectwise product of those local records, so the two reads have the same status-face product.
+
+Next apply \autoref{thm:phase-real-completion-exit-public-gate-certificate}. The public certificate consumes exactly the four roadmap faces with their local scoped-closure and audit-clean records, while the boundary face is used only as the same-route witness over those faces.
+
+Use \autoref{thm:phase-real-completion-exit-boundary-face-nonsubstitution} to rule out alternative witnesses. Since no aggregate row, bridge token, quotient stream, selected limit, host-completeness row, or fused completion witness may replace a missing local face, the shared status-face product determines a single public gate read.
+
+For the reverse direction, suppose the two accepted reads have the same public phase-exit gate certificate. Apply \autoref{thm:phase-real-completion-exit-facewise-consumer-readback}. The certificate reads back exactly the five local face records and the supporting $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. Applying the status-token product again identifies those readback rows with the four roadmap status records plus the same-route exact-boundary witness. Hence equality of the public gate readback gives equality of the displayed status-face product.
 \end{proof}
 
 \falsifiablePrediction{If a consumer fuses the dyadic, stream, regular, and real face reports into a single bridge token or completeness token, the $\PhaseRealCompletionExitUp$ packet is refuted.}
