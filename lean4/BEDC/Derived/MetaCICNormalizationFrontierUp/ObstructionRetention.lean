@@ -87,4 +87,41 @@ theorem MetaCICNormalizationFrontierCarrier_obstruction_retention [AskSetup] [Pa
     ⟨cert, obstructionReadUnary, retainedReadUnary, obstructionTransportRead,
       obstructionReplayRetained⟩
 
+theorem MetaCICNormalizationFrontierCarrier_root_obstruction_retention [AskSetup] [PackageSetup]
+    {candidate closedCandidate finished endpoint obstruction transport replay provenance localRow
+      candidateRead endpointRead obstructionRead retainedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICNormalizationFrontierCarrier candidate closedCandidate finished endpoint obstruction
+        transport replay provenance localRow bundle pkg ->
+      Cont candidate closedCandidate candidateRead ->
+        Cont finished endpoint endpointRead ->
+          Cont obstruction transport obstructionRead ->
+            Cont obstructionRead replay retainedRead ->
+              PkgSig bundle retainedRead pkg ->
+                UnaryHistory obstruction /\ UnaryHistory candidateRead /\
+                  UnaryHistory endpointRead /\ UnaryHistory obstructionRead /\
+                    UnaryHistory retainedRead /\ hsame obstruction obstruction /\
+                      Cont obstruction transport obstructionRead /\
+                        Cont obstructionRead replay retainedRead /\
+                          PkgSig bundle provenance pkg /\ PkgSig bundle retainedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier candidateClosedRead finishedEndpointRead obstructionTransportRead
+    obstructionReplayRetained retainedPkg
+  obtain ⟨candidateUnary, closedCandidateUnary, finishedUnary, endpointUnary,
+    obstructionUnary, transportUnary, replayUnary, _provenanceUnary, _localRowUnary,
+    _candidateClosedLocal, _finishedEndpointReplay, _endpointReplayProvenance,
+    _transportSameCandidateFinished, provenancePkg⟩ := carrier
+  have candidateReadUnary : UnaryHistory candidateRead :=
+    unary_cont_closed candidateUnary closedCandidateUnary candidateClosedRead
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed finishedUnary endpointUnary finishedEndpointRead
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed obstructionUnary transportUnary obstructionTransportRead
+  have retainedReadUnary : UnaryHistory retainedRead :=
+    unary_cont_closed obstructionReadUnary replayUnary obstructionReplayRetained
+  exact
+    ⟨obstructionUnary, candidateReadUnary, endpointReadUnary, obstructionReadUnary,
+      retainedReadUnary, hsame_refl obstruction, obstructionTransportRead,
+      obstructionReplayRetained, provenancePkg, retainedPkg⟩
+
 end BEDC.Derived.MetaCICNormalizationFrontierUp
