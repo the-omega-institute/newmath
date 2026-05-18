@@ -99,7 +99,6 @@ import BEDC.Derived.ApophaticNameUp.BoundaryLedgerExactness
 import BEDC.Derived.ApophaticNameUp.BoundaryRequestNonescape
 import BEDC.Derived.ApophaticNameUp.BoundaryRequestObligationTriad
 import BEDC.Derived.ApophaticNameUp.BoundaryRequestTotality
-import BEDC.Derived.ApophaticNameUp.BoundarySocketProvenance
 import BEDC.Derived.ApophaticNameUp.BridgeRouteScope
 import BEDC.Derived.ApophaticNameUp.ClassifierRefusalTransport
 import BEDC.Derived.ApophaticNameUp.ComponentwiseNameCertTransportRow
@@ -224,6 +223,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptanceTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptedSignatureRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AdmissionExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditBoundary
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditLedgerNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchAuditLedger
@@ -2716,7 +2716,6 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerRouteExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerRouteTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerScopeExhaustion
-import BEDC.Derived.MetaCICNormalizationFrontierUp.DownstreamNormalizationBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.EvidenceChoiceExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedEndpointUseTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedNormalBoundary
