@@ -320,9 +320,9 @@ def ZetaContinuationApplicationCarrier [AskSetup] [PackageSetup]
   UnaryHistory eta ∧ UnaryHistory functional ∧ UnaryHistory pole ∧
     UnaryHistory zeroLedger ∧ UnaryHistory gamma ∧ UnaryHistory application ∧
       UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
-        UnaryHistory name ∧ Cont eta functional application ∧
-          Cont gamma application replay ∧ PkgSig bundle provenance pkg ∧
-            PkgSig bundle name pkg
+        UnaryHistory name ∧ Cont transport replay provenance ∧
+          Cont eta functional application ∧ Cont gamma application replay ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg
 
 theorem ZetaContinuationApplicationCarrier_carrier_source_obligation [AskSetup]
     [PackageSetup]
@@ -339,7 +339,8 @@ theorem ZetaContinuationApplicationCarrier_carrier_source_obligation [AskSetup]
   intro carrier sameSourceEta
   obtain ⟨etaUnary, _functionalUnary, _poleUnary, _zeroLedgerUnary, gammaUnary,
     applicationUnary, _transportUnary, replayUnary, _provenanceUnary, _nameUnary,
-    etaFunctionalApplication, gammaApplicationReplay, provenancePkg, _namePkg⟩ := carrier
+    _transportReplayProvenance, etaFunctionalApplication, gammaApplicationReplay, provenancePkg,
+    _namePkg⟩ := carrier
   have sourceReadUnary : UnaryHistory sourceRead :=
     unary_transport etaUnary (hsame_symm sameSourceEta)
   exact
@@ -374,7 +375,8 @@ theorem ZetaContinuationApplicationCarrier_namecert_obligations [AskSetup] [Pack
   have carrierWitness := carrier
   obtain ⟨etaUnary, functionalUnary, poleUnary, zeroLedgerUnary, gammaUnary,
     applicationUnary, transportUnary, replayUnary, provenanceUnary, nameUnary,
-    _etaFunctionalApplication, _gammaApplicationReplay, provenancePkg, _namePkg⟩ := carrier
+    _transportReplayProvenance, _etaFunctionalApplication, _gammaApplicationReplay, provenancePkg,
+    _namePkg⟩ := carrier
   constructor
   · constructor
     · exact Exists.intro provenance ⟨carrierWitness, hsame_refl provenance⟩
@@ -410,7 +412,8 @@ theorem ZetaContinuationApplicationCarrier_route_totality [AskSetup] [PackageSet
   intro carrier applicationReplayConsumer consumerPkg
   obtain ⟨etaUnary, functionalUnary, _poleUnary, _zeroLedgerUnary, gammaUnary,
     applicationUnary, _transportUnary, replayUnary, _provenanceUnary, _nameUnary,
-    etaFunctionalApplication, gammaApplicationReplay, provenancePkg, _namePkg⟩ := carrier
+    _transportReplayProvenance, etaFunctionalApplication, gammaApplicationReplay, provenancePkg,
+    _namePkg⟩ := carrier
   have consumerUnary : UnaryHistory consumer :=
     unary_cont_closed applicationUnary replayUnary applicationReplayConsumer
   exact
@@ -446,7 +449,8 @@ theorem ZetaContinuationApplicationCarrier_root_source_readiness [AskSetup] [Pac
   intro carrier etaGammaSource gammaApplicationRead applicationReplayOperation operationPkg
   obtain ⟨etaUnary, _functionalUnary, _poleUnary, _zeroLedgerUnary, gammaUnary,
     applicationUnary, _transportUnary, replayUnary, _provenanceUnary, _nameUnary,
-    etaFunctionalApplication, _gammaApplicationReplay, provenancePkg, _namePkg⟩ := carrier
+    _transportReplayProvenance, etaFunctionalApplication, _gammaApplicationReplay, provenancePkg,
+    _namePkg⟩ := carrier
   have sourceReadUnary : UnaryHistory sourceRead :=
     unary_cont_closed etaUnary gammaUnary etaGammaSource
   have gammaReadUnary : UnaryHistory gammaRead :=
