@@ -292,6 +292,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputNameStability
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputProvenanceCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRefusal
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRouteAuditCover
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRouteDeterminacy
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRouteNamingExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputStability
@@ -2187,6 +2188,7 @@ import BEDC.Derived.FiniteTailDiagonalSealUp
 import BEDC.Derived.FiniteTailFiberScheduleUp.TasteGate
 import BEDC.Derived.FiniteTailFilterUp
 import BEDC.Derived.FiniteTailFilterUp.CofinalWindowBudgetNormalForm
+import BEDC.Derived.FiniteTailFilterUp.FormalIntakeRouteExhaustion
 import BEDC.Derived.FiniteTailFilterUp.FormalTargetConsumerRoute
 import BEDC.Derived.FiniteTailFilterUp.LeanIntakeNonescape
 import BEDC.Derived.FiniteTailFilterUp.RealWindowBudgetConsumerLink
@@ -3552,6 +3554,7 @@ import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyFiniteObservationRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyInterleaveUp
 import BEDC.Derived.RegularCauchyInterleavingUp
+import BEDC.Derived.RegularCauchyIntervalSelectorUp
 import BEDC.Derived.RegularCauchyLimitClassifierUp
 import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyLimitTransportUp
@@ -4068,6 +4071,7 @@ import BEDC.Derived.UnaryContMonoidUp
 import BEDC.Derived.UnaryContMonoidUp.CategoryRootReadiness
 import BEDC.Derived.UnaryContMonoidUp.KernelCategoryConsumerBoundary
 import BEDC.Derived.UnaryContinuationCategoryUp.TasteGate
+import BEDC.Derived.UnaryContinuationEndofunctorUp
 import BEDC.Derived.UnaryDirectionBridgeUp
 import BEDC.Derived.UnaryDirectionNormalizerUp.TasteGate
 import BEDC.Derived.UnaryZeroSpineStandardIsoUp
@@ -4247,6 +4251,7 @@ import BEDC.Derived.WritingItemAuditUp.TasteGate
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
+import BEDC.Derived.ZeckendorfCarryNormalizationUp
 import BEDC.Derived.ZeckendorfCarryValueUp.TasteGate
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.ZeroKnowledgeUp
