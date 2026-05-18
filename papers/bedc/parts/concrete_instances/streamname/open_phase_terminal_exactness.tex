@@ -90,3 +90,17 @@ Use \autoref{thm:streamname-open-phase-terminal-readback-determinacy}. Once the 
 
 Finally apply \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary}. The boundary theorem keeps every seal-facing read inside the displayed terminal route before any refusal ledger is read. The two-axis discipline of \autoref{sec:per-chapter-closurestatus} then reads paper closure and Lean verification independently at each local face, so the \texttt{closurestatus}, \texttt{formalstatus}, \texttt{leantarget}, and \texttt{bridgestatus} rows remain face-local rather than route-level summaries.
 \end{proof}
+
+\begin{theorem}[StreamName terminal sibling status readback]
+\label{thm:streamname-open-phase-terminal-status-sibling-readback}
+Any Phase Real and Completion terminal read through $\StreamNameUp$ reads its terminal face-status records from the concrete sibling chapters \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}, together with the local $\StreamNameUp$ face itself. The read is chapter-local at each face: $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ each contribute their own \texttt{closurestatus}, \texttt{formalstatus}, \texttt{leantarget}, and \texttt{bridgestatus} rows. No aggregate formalstatus row, aggregate bridge token, quotient stream, selected limit, ambient completeness row, metric-completeness datum, countable-choice row, or host equality row can replace those concrete sibling records.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-open-phase-terminal-face-status-readback}. It already forces the terminal read to inspect closure, formal status, Lean target, and bridge status face by face rather than through a route-level summary.
+
+Next apply \autoref{thm:streamname-open-phase-terminal-ledger-coverage}. The finite terminal inventory contains only the StreamName window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, the $\RealUp$ seal, and their displayed observation, transport, route, provenance, and local naming rows.
+
+Use \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary} to place that inventory on the terminal route before any refusal ledger is read. The concrete sibling chapters \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} identify the dyadic ledger, regular readback, and real-seal faces, while the present $\StreamNameUp$ chapter supplies the finite-window face.
+
+Therefore the terminal status read has exactly four local chapter sources. Since every excluded coordinate lies outside the finite ledger and outside the terminal boundary, none of those coordinates can serve as a substitute status record for any face.
+\end{proof}
