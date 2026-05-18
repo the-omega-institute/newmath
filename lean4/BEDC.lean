@@ -327,6 +327,7 @@ import BEDC.Derived.RealityConstrainedSignatureDescentUp.TasteGate
 import BEDC.Derived.GroundLoopBoundaryUp
 import BEDC.Derived.GroundLoopBoundaryUp.TasteGate
 import BEDC.Derived.GroundRefutationUp
+import BEDC.Derived.RefutationWitnessUp
 import BEDC.Derived.GroundCompilerAuditPacketUp.TasteGate
 import BEDC.Derived.StandardBridgeAuditPacketUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditMapUp
@@ -1108,6 +1109,7 @@ import BEDC.Derived.CofinalTailEquivalenceUp.TasteGate
 import BEDC.Derived.CofinalStreamTailSelectorUp.TasteGate
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContinuationMonadUp
+import BEDC.Derived.ContinuationMonadUp.ContinuationMonadNameCertObligations
 import BEDC.Derived.ContinuationMonadUp.RouteReadbackDeterminacy
 import BEDC.Derived.ContinuationMonadUp.RouteReadbackTotality
 import BEDC.Derived.ContinuationMonadUp.RouteRowGrounding
@@ -1830,6 +1832,7 @@ import BEDC.Derived.MetaCICIdentityUp.TasteGate
 import BEDC.Derived.MetaCICIdentityBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.NameCertObligations
+import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedNormalConsumerRoute
 import BEDC.Derived.MetaCICNormalizationFrontierUp.KernelNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateEvidenceBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObligationEvidenceSplit
