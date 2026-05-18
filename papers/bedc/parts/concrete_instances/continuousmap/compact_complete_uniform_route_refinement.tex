@@ -126,6 +126,76 @@ that finite $\NameCert$ surface, and the excluded objects remain outside the
 route because none of the cited certificate surfaces exports them.
 \end{proof}
 
+\begin{theorem}[ContinuousMap compact-complete uniform exact consumer surface]
+\label{thm:continuousmap-compact-complete-uniform-exact-consumer-surface}
+Let a displayed $\ContinuousMapUp$ carrier have histories
+$source,map,target,modulus,cert,distance:\mathsf{BHist}$. Suppose the source
+metric row is supplied by a $\CompactMetricUp$ certificate, the target metric
+row is supplied by a $\CompleteMetricUp$ certificate, and the endpoint
+distance row is displayed as
+$\mathsf{MetricDistanceWitness}(source,target,distance)$. A compact-complete
+uniform-modulus consumer of
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$ is
+accepted exactly when its finite surface consists of the following rows:
+\begin{enumerate}
+  \item the six displayed $\ContinuousMapUp$ histories
+  $source,map,target,modulus,cert,distance$;
+  \item the $\CompactMetricUp$ finite-net and complete-limit rows supplied by
+  \autoref{thm:compactmetric-certificate-package} and
+  \autoref{thm:compactmetric-public-export-surface};
+  \item the target $\CompleteMetricUp$ limit-witness rows supplied by
+  \autoref{def:completemetric-limit-witness} and
+  \autoref{thm:completemetric-limit-witness-stability};
+  \item the row
+  $\mathsf{MetricDistanceWitness}(source,target,distance)$;
+  \item componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local
+  $\NameCert$ provenance for the displayed rows.
+\end{enumerate}
+Equivalently, every accepted consumer projects to precisely these rows, and
+any display of precisely these rows repacks as the same finite
+compact-complete uniform consumer surface. No open-cover compactness,
+selected subnet, quotient stream equality, host function equality, or ambient
+completeness principle is exported.
+\end{theorem}
+\begin{proof}
+For the forward direction, first apply
+\autoref{thm:continuousmap-completemetric-compactmetric-uniform-route}. It
+places the consumer behind the six-history $\ContinuousMapUp$ carrier, the
+compact source rows, and the complete target rows.
+
+Apply
+\autoref{thm:continuousmap-compact-complete-uniform-route-sharpening} and
+\autoref{thm:continuousmap-compact-complete-uniform-route-refinement} to
+identify the visible rows. These route theorems leave only the displayed
+histories, the compact finite-net contribution, the target limit-witness
+contribution, the metric-distance witness, and the componentwise $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+The compact rows are then read through
+\autoref{thm:compactmetric-certificate-package} and
+\autoref{thm:compactmetric-public-export-surface}. Thus the compact source
+coordinate contributes finite-net and complete-limit rows, not an open-cover
+compactness principle or a selected subnet.
+
+The target rows are read through
+\autoref{def:completemetric-limit-witness} and
+\autoref{thm:completemetric-limit-witness-stability}. Thus the complete
+target coordinate contributes named limit-witness and stable transport rows,
+not quotient stream equality, host function equality, or an ambient
+completeness principle.
+
+For the reverse direction, start from a displayed finite surface containing
+exactly the five listed families of rows. The six ContinuousMap histories,
+the metric-distance witness, and the componentwise $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ provenance rebuild the displayed carrier boundary.
+
+The compact finite-net and complete-limit rows supply the source side, while
+the complete limit-witness rows supply the target side. Repacking these rows
+through the same three route theorems gives the compact-complete
+uniform-modulus consumer and no additional exported object. Hence acceptance
+is exactly the displayed finite surface.
+\end{proof}
+
 \begin{theorem}[ContinuousMap CompactMetric MetricTriangle handoff]
 \label{thm:continuousmap-compactmetric-metric-triangle-handoff}
 Let a metric $\ContinuousMapUp$ carrier be displayed by the six histories
