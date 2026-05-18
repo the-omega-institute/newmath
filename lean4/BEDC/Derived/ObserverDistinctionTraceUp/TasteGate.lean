@@ -341,6 +341,46 @@ theorem ObserverDistinctionTrace_temporal_factorization -- BEDC touchpoint ancho
       (fun subjectReturn =>
         cont_mutual_extension_right_tail_absurd.right consumerRoute subjectReturn)⟩
 
+theorem ObserverDistinctionTrace_nonescape
+    {source trace growth routes transport provenance localName consumer subjectTail : BHist}
+    (routeReplay : Cont source routes growth)
+    (consumerRoute : Cont growth provenance consumer) :
+    (∃ packet : ObserverDistinctionTraceUp,
+        packet =
+          ObserverDistinctionTraceUp.mk source trace growth routes transport provenance
+            localName) ∧
+      Cont growth provenance consumer ∧
+        (Cont consumer (BHist.e0 subjectTail) growth → False) ∧
+          (Cont consumer (BHist.e1 subjectTail) growth → False) := by
+  -- BEDC touchpoint anchor: BHist Cont
+  have _cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row source ∧
+            ∃ packet : ObserverDistinctionTraceUp,
+              packet =
+                ObserverDistinctionTraceUp.mk source trace growth routes transport provenance
+                  localName)
+        (fun row : BHist =>
+          hsame row source ∧ hsame trace trace ∧ hsame growth growth ∧ hsame routes routes)
+        (fun row : BHist =>
+          Cont source routes growth ∧ hsame row source ∧ hsame transport transport ∧
+            hsame provenance provenance ∧ hsame localName localName)
+        hsame :=
+    ObserverDistinctionTraceNameCert_obligations
+      (source := source) (trace := trace) (growth := growth) (routes := routes)
+      (transport := transport) (provenance := provenance) (localName := localName)
+      routeReplay
+  exact
+    ⟨⟨ObserverDistinctionTraceUp.mk source trace growth routes transport provenance
+          localName,
+        rfl⟩,
+      consumerRoute,
+      (fun subjectReturn =>
+        cont_mutual_extension_right_tail_absurd.left consumerRoute subjectReturn),
+      (fun subjectReturn =>
+        cont_mutual_extension_right_tail_absurd.right consumerRoute subjectReturn)⟩
+
 theorem ObserverDistinctionTrace_public_route
     {source trace growth routes transport provenance localName consumer
       subjectTail : BHist}
