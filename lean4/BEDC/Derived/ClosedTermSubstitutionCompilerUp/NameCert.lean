@@ -54,4 +54,29 @@ theorem ClosedTermSubstitutionCompilerPacket_semantic_name_certificate [AskSetup
   · intro _row source
     exact ⟨source.left, provenancePkg, namePkg⟩
 
+theorem ClosedTermSubstitutionCompilerPacket_self_compile_route [AskSetup] [PackageSetup]
+    (termGenerator closedBoundary operation fixedWitness transport continuation provenance
+      nameCert operationRead : BHist)
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (boundaryOperation : Cont closedBoundary operation operationRead)
+    (operationWitness : Cont operationRead fixedWitness nameCert)
+    (provenancePkg : PkgSig bundle provenance pkg)
+    (namePkg : PkgSig bundle nameCert pkg) :
+    (∃ packet : ClosedTermSubstitutionCompilerUp,
+        packet =
+          ClosedTermSubstitutionCompilerUp.mk termGenerator closedBoundary operation fixedWitness
+            transport continuation provenance nameCert) ∧
+      hsame nameCert (append (append closedBoundary operation) fixedWitness) ∧
+        PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  have selfRoute :
+      hsame nameCert (append (append closedBoundary operation) fixedWitness) :=
+    operationWitness.trans (congrArg (fun row => append row fixedWitness) boundaryOperation)
+  exact
+    ⟨Exists.intro
+        (ClosedTermSubstitutionCompilerUp.mk termGenerator closedBoundary operation fixedWitness
+          transport continuation provenance nameCert)
+        rfl,
+      selfRoute, provenancePkg, namePkg⟩
+
 end BEDC.Derived.ClosedTermSubstitutionCompilerUp
