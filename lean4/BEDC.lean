@@ -2209,6 +2209,7 @@ import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSeparationUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
+import BEDC.Derived.FiniteWitnessedRefutationUp
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
@@ -3185,6 +3186,7 @@ import BEDC.Derived.PicardContractionUp.ModulusConsumerExhaustion
 import BEDC.Derived.PicardContractionUp.ObligationSurface
 import BEDC.Derived.PicardContractionUp.PublicExports
 import BEDC.Derived.PicardContractionUp.PublicIterateLedger
+import BEDC.Derived.PicardContractionUp.RealRegSeqRatConsumerHandoff
 import BEDC.Derived.PicardContractionUp.RootModulusConsumerLock
 import BEDC.Derived.PicardContractionUp.RootSourceWindowHandoff
 import BEDC.Derived.PicardContractionUp.SourceReadback
@@ -4266,14 +4268,18 @@ import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripConsumerNonescape
+import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPublicRefusal
+import BEDC.Derived.ZetaContinuationWitnessUp.GammaFunctionalBoundaryTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleGammaBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportRouteLock
+import BEDC.Derived.ZetaContinuationWitnessUp.PublicSourceLockExport
 import BEDC.Derived.ZetaContinuationWitnessUp.RootPackage
 import BEDC.Derived.ZetaContinuationWitnessUp.RootReadinessSourceSeal
 import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
+import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerSourceReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroRouteInputPackage
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.ZnormalUp
