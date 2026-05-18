@@ -145,6 +145,7 @@ import BEDC.Derived.ApophaticNameUp.SocketGateLedgerPullback
 import BEDC.Derived.ApophaticNameUp.SocketGateRouteExhaustion
 import BEDC.Derived.ApophaticNameUp.RootUnblockRefusalBoundary
 import BEDC.Derived.ApophaticNameUp.RootBridgeTupleAuditNormalForm
+import BEDC.Derived.ApophaticNameUp.RootConsumerSocketRequestTotality
 import BEDC.Derived.ApophaticNameUp.SocketCarrier
 import BEDC.Derived.ApophaticNameUp.GateLedgerSeparation
 import BEDC.Derived.ApophaticNameUp.GateSourceCompatibility
