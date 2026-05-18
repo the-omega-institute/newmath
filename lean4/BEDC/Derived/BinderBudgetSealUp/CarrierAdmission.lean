@@ -26,7 +26,8 @@ def BinderBudgetSealCarrier [AskSetup] [PackageSetup]
     UnaryHistory shiftRoute ∧ UnaryHistory substRoute ∧ UnaryHistory transport ∧
       UnaryHistory contRoute ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
         Cont depth term shiftRoute ∧ Cont depth payload substRoute ∧
-          Cont shiftRoute substRoute contRoute ∧ PkgSig bundle name pkg
+          Cont shiftRoute substRoute contRoute ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle name pkg
 
 theorem BinderBudgetSealCarrierAdmission [AskSetup] [PackageSetup]
     {depth term payload shiftRoute substRoute transport contRoute provenance name : BHist}
@@ -37,7 +38,8 @@ theorem BinderBudgetSealCarrierAdmission [AskSetup] [PackageSetup]
         UnaryHistory shiftRoute ∧ UnaryHistory substRoute ∧ UnaryHistory transport ∧
           UnaryHistory contRoute ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
             Cont depth term shiftRoute ∧ Cont depth payload substRoute ∧
-              Cont shiftRoute substRoute contRoute ∧ PkgSig bundle name pkg ∧
+              Cont shiftRoute substRoute contRoute ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle name pkg ∧
                 SemanticNameCert
                   (fun row : BHist =>
                     BinderBudgetSealCarrier depth term payload shiftRoute substRoute transport
@@ -52,7 +54,7 @@ theorem BinderBudgetSealCarrierAdmission [AskSetup] [PackageSetup]
   have carrierWitness := carrier
   obtain ⟨depthUnary, termUnary, payloadUnary, shiftRouteUnary, substRouteUnary,
     transportUnary, contRouteUnary, provenanceUnary, nameUnary, depthTermShift,
-    depthPayloadSubst, shiftSubstCont, namePkg⟩ := carrier
+    depthPayloadSubst, shiftSubstCont, provenancePkg, namePkg⟩ := carrier
   have cert :
       SemanticNameCert
         (fun row : BHist =>
@@ -88,8 +90,8 @@ theorem BinderBudgetSealCarrierAdmission [AskSetup] [PackageSetup]
       exact ⟨namePkg, sourceRow.right⟩
   }
   exact
-    ⟨depthUnary, termUnary, payloadUnary, shiftRouteUnary, substRouteUnary, transportUnary,
+      ⟨depthUnary, termUnary, payloadUnary, shiftRouteUnary, substRouteUnary, transportUnary,
       contRouteUnary, provenanceUnary, nameUnary, depthTermShift, depthPayloadSubst,
-        shiftSubstCont, namePkg, cert⟩
+        shiftSubstCont, provenancePkg, namePkg, cert⟩
 
 end BEDC.Derived.BinderBudgetSealUp
