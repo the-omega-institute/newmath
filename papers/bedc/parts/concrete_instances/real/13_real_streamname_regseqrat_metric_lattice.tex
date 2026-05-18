@@ -93,3 +93,53 @@ schedule, regularity window, and Real seal; quotient Cauchy classes, host real
 equality, ambient completeness, and direct access to an unsealed stream remain
 off the route.
 \end{proof}
+
+\begin{theorem}[Real L10 metric classifier pullback correspondence]
+\label{thm:real-l10-metric-classifier-pullback-correspondence}
+Let $R$ and $S$ be accepted metric-facing $\RealUp$ finite-window
+observations. Agreement of their $\mathsf{MetricDistanceWitness}$ classifiers
+is equivalent to agreement of the displayed four-face route consisting of the
+$\DyadicRatCoreUp$ endpoint, radius, and distance ledger, the $\StreamNameUp$
+finite-window schedule, the $\RegSeqRatUp$ regularity and common-tail
+classifier rows, the local $\RealUp$ seal classifier row, and the support rows
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+This pullback correspondence does not expose quotient stream equality, host
+real equality, selected limits, countable choice, ambient completeness,
+metric-completeness rows, standard bridge rows, or direct metric access to an
+unsealed stream.
+\end{theorem}
+\begin{proof}
+For the forward direction, first apply
+\autoref{thm:real-streamname-regseqrat-metric-classifier-correspondence}. It
+reads agreement of the metric witness classifier back through the
+$\StreamNameUp$ schedule, the $\RegSeqRatUp$ regularity window, and the local
+$\RealUp$ seal before any downstream metric ledger is consulted.
+
+Then apply
+\autoref{thm:real-common-tail-terminal-four-face-classifier-equivalence}. The
+terminal common-tail comparison identifies the same classifier agreement with
+agreement of the $\RegSeqRatUp$ common-tail packet, the $\StreamNameUp$
+terminal-window packet, the $\DyadicRatCoreUp$ endpoint, radius, and distance
+ledger, the local $\RealUp$ seal-source row, and the displayed support rows.
+
+Finally use \autoref{thm:real-l10-four-face-classifier-sheaf-condition}. It
+keeps the local agreements compatible on finite covers, so the metric-facing
+classifier read is exactly the four-face classifier surface rather than an
+extra metric coordinate.
+
+For the reverse direction, assume the two observations agree on the displayed
+four-face route and on the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$. Repack those rows through
+\autoref{thm:real-l10-four-face-finite-pullback-public-interface}; the result
+is one public finite pullback interface over $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ seal.
+
+With the Real seal visible, apply
+\autoref{thm:real-streamname-regseqrat-metric-classifier-correspondence} again
+to identify the sealed classifier route seen by the metric consumer. Only at
+this point may \autoref{thm:metric-distance-witness-cont-depth-add} be used:
+it records continuation-depth accounting for the already sealed distance
+witness and adds no quotient stream equality, host real equality, selected
+limit, choice, completeness, standard bridge, or unsealed-stream row.
+\end{proof}
