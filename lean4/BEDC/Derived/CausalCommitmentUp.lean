@@ -293,4 +293,78 @@ theorem CausalCommitmentForwardGapObligations [AskSetup] [PackageSetup]
   }
   exact And.intro carrier.left (And.intro localityUnary (And.intro forwardLocalityName cert))
 
+theorem CausalCommitmentLocalityCellHandoff [AskSetup] [PackageSetup]
+    {observed regularity gap forward locality transport continuation provenance localCert
+      routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CausalCommitmentForwardGapCarrier observed regularity gap forward locality transport
+        continuation provenance localCert bundle pkg →
+      Cont continuation localCert routeRead →
+        PkgSig bundle routeRead pkg →
+          UnaryHistory locality ∧ Cont forward locality localCert ∧ UnaryHistory routeRead ∧
+            SemanticNameCert
+              (fun row : BHist =>
+                CausalCommitmentForwardGapCarrier observed regularity gap forward locality
+                  transport continuation provenance localCert bundle pkg ∧ hsame row locality)
+              (fun row : BHist =>
+                Cont forward locality localCert ∧ Cont continuation localCert routeRead ∧
+                  hsame row locality)
+              (fun row : BHist =>
+                PkgSig bundle localCert pkg ∧ PkgSig bundle routeRead pkg ∧
+                  hsame row locality)
+              hsame := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier continuationLocalCertRoute routePkg
+  have carrierWitness := carrier
+  have baseCarrier :
+      CausalCommitmentCarrier observed regularity gap forward transport continuation
+        provenance localCert bundle pkg :=
+    carrier.left
+  have localityUnary : UnaryHistory locality :=
+    carrier.right.left
+  have forwardLocalityName : Cont forward locality localCert :=
+    carrier.right.right
+  obtain ⟨_observedUnary, _regularityUnary, _gapUnary, _forwardUnary, _transportUnary,
+    continuationUnary, _provenanceUnary, localCertUnary, _observedRegularityGap,
+    _gapForwardContinuation, _transportContinuationProvenance, localCertPkg⟩ := baseCarrier
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed continuationUnary localCertUnary continuationLocalCertRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          CausalCommitmentForwardGapCarrier observed regularity gap forward locality transport
+            continuation provenance localCert bundle pkg ∧ hsame row locality)
+        (fun row : BHist =>
+          Cont forward locality localCert ∧ Cont continuation localCert routeRead ∧
+            hsame row locality)
+        (fun row : BHist =>
+          PkgSig bundle localCert pkg ∧ PkgSig bundle routeRead pkg ∧
+            hsame row locality)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro locality (And.intro carrierWitness (hsame_refl locality))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        exact And.intro sourceRow.left
+          (hsame_trans (hsame_symm sameRows) sourceRow.right)
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨forwardLocalityName, continuationLocalCertRoute, sourceRow.right⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨localCertPkg, routePkg, sourceRow.right⟩
+  }
+  exact ⟨localityUnary, forwardLocalityName, routeReadUnary, cert⟩
+
 end BEDC.Derived.CausalCommitmentUp
