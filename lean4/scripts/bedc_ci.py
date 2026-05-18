@@ -59,6 +59,7 @@ PREAMBLE_COMMAND_RE = re.compile(
     r"^\\(?P<kind>newcommand|providecommand|renewcommand|DeclareRobustCommand"
     r"|newenvironment|newtheorem)\*?\{(?P<name>\\?\w+)\}"
 )
+CONCRETE_REGION_PREFIX_RE = re.compile(r"^([0-9]+[a-z]?_[a-z][a-z0-9]*)_")
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
 END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
@@ -566,6 +567,35 @@ def detect_preamble_duplicate_commands() -> list[dict[str, object]]:
     return duplicates
 
 
+def detect_concrete_instance_number_collisions() -> list[dict[str, object]]:
+    instances = PAPER_PARTS_ROOT / "concrete_instances"
+    if not instances.is_dir():
+        return []
+
+    groups: dict[str, list[Path]] = {}
+    for path in sorted(instances.glob("*.tex")):
+        match = CONCRETE_REGION_PREFIX_RE.match(path.name)
+        if not match:
+            continue
+        groups.setdefault(match.group(1), []).append(path)
+
+    collisions: list[dict[str, object]] = []
+    for region, files in sorted(groups.items()):
+        if len(files) <= 1:
+            continue
+        slug = region.split("_", 1)[1]
+        subdir = instances / slug
+        subdir_exists = subdir.is_dir()
+        if subdir_exists:
+            continue
+        collisions.append({
+            "region": region,
+            "files": [str(path.relative_to(REPO_ROOT)) for path in files],
+            "subdir_exists": subdir_exists,
+        })
+    return collisions
+
+
 CLOSURESTATUS_BEGIN_RE = re.compile(
     r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
 )
@@ -767,6 +797,7 @@ def audit_payload() -> dict[str, object]:
     ]
     case_collisions = detect_case_collision_paths()
     preamble_duplicate_commands = detect_preamble_duplicate_commands()
+    concrete_number_collisions = detect_concrete_instance_number_collisions()
 
     closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     closurestatus_diagnostics: list[str] = []
@@ -787,6 +818,8 @@ def audit_payload() -> dict[str, object]:
         "case_collisions_count": len(case_collisions),
         "preamble_duplicate_commands": preamble_duplicate_commands,
         "preamble_duplicate_commands_count": len(preamble_duplicate_commands),
+        "concrete_number_collisions": concrete_number_collisions,
+        "concrete_number_collisions_count": len(concrete_number_collisions),
         "closurestatus_blocks_total": len(closurestatus_blocks),
         "closurestatus_blocks": closurestatus_blocks,
         "closurestatus_diagnostics": closurestatus_diagnostics,
@@ -926,6 +959,15 @@ def cmd_audit(args: argparse.Namespace) -> int:
                         f"    {occurrence['file']}:{occurrence['line']} "
                         f"{occurrence['kind']}"
                     )
+        if payload["concrete_number_collisions"]:
+            print(
+                "[bedc-ci] concrete_instances numbering collisions: "
+                f"{payload['concrete_number_collisions_count']}"
+            )
+            for item in payload["concrete_number_collisions"][:50]:
+                print(f"  {item['region']}  subdir_exists={item['subdir_exists']}")
+                for path in item["files"]:
+                    print(f"    {path}")
         if payload["closurestatus_diagnostics"]:
             print(
                 "[bedc-ci] closurestatus block diagnostics: "
@@ -962,6 +1004,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + len(payload["duplicate_part_labels"])
         + payload["case_collisions_count"]
         + payload["preamble_duplicate_commands_count"]
+        + payload["concrete_number_collisions_count"]
         + payload["closurestatus_diagnostics_count"]
         + payload["orphan_concrete_subdirs_count"]
     )
