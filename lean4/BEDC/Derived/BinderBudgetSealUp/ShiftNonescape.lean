@@ -26,7 +26,7 @@ theorem BinderBudgetSealShiftNonescape [AskSetup] [PackageSetup]
   intro carrier shiftRouteNameRead shiftReadPkg
   obtain ⟨depthUnary, termUnary, _payloadUnary, shiftRouteUnary, _substRouteUnary,
     _transportUnary, _contRouteUnary, _provenanceUnary, nameUnary, depthTermShift,
-    _depthPayloadSubst, _shiftSubstCont, namePkg⟩ := carrier
+    _depthPayloadSubst, _shiftSubstCont, _provenancePkg, namePkg⟩ := carrier
   have shiftReadUnary : UnaryHistory shiftRead :=
     unary_cont_closed shiftRouteUnary nameUnary shiftRouteNameRead
   exact
