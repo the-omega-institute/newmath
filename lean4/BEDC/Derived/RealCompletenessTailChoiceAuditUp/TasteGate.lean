@@ -3,7 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RealCompletenessTailChoiceAuditUp
+namespace BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -288,18 +288,33 @@ theorem RealCompletenessTailChoiceAuditTasteGate_single_carrier_alignment :
         (∀ x y : RealCompletenessTailChoiceAuditUp,
           realCompletenessTailChoiceAuditToEventFlow x =
             realCompletenessTailChoiceAuditToEventFlow y → x = y) ∧
-          Nonempty (ChapterTasteGate RealCompletenessTailChoiceAuditUp) ∧
+          (∀ x y : RealCompletenessTailChoiceAuditUp,
+            (match x with
+              | RealCompletenessTailChoiceAuditUp.mk modulus observationBudget canonicalIndex
+                  tailWindow realSeal refusal transport route provenance name =>
+                  [modulus, observationBudget, canonicalIndex, tailWindow, realSeal, refusal,
+                    transport, route, provenance, name]) =
+              (match y with
+              | RealCompletenessTailChoiceAuditUp.mk modulus observationBudget canonicalIndex
+                  tailWindow realSeal refusal transport route provenance name =>
+                  [modulus, observationBudget, canonicalIndex, tailWindow, realSeal, refusal,
+                    transport, route, provenance, name]) → x = y) ∧
             realCompletenessTailChoiceAuditEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact realCompletenessTailChoiceAudit_decode_encode_bhist
-  · constructor
-    · exact realCompletenessTailChoiceAudit_round_trip
-    · constructor
-      · intro x y heq
-        exact realCompletenessTailChoiceAuditToEventFlow_injective heq
-      · constructor
-        · exact Nonempty.intro realCompletenessTailChoiceAuditChapterTasteGate
-        · rfl
+  exact
+    ⟨realCompletenessTailChoiceAudit_decode_encode_bhist,
+      realCompletenessTailChoiceAudit_round_trip,
+      (fun _ _ heq => realCompletenessTailChoiceAuditToEventFlow_injective heq),
+      (fun x y h => by
+        cases x with
+        | mk modulus₁ observationBudget₁ canonicalIndex₁ tailWindow₁ realSeal₁ refusal₁
+            transport₁ route₁ provenance₁ name₁ =>
+            cases y with
+            | mk modulus₂ observationBudget₂ canonicalIndex₂ tailWindow₂ realSeal₂ refusal₂
+                transport₂ route₂ provenance₂ name₂ =>
+                simp only [] at h
+                cases h
+                rfl),
+      rfl⟩
 
-end BEDC.Derived.RealCompletenessTailChoiceAuditUp
+end BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate
