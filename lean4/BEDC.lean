@@ -1900,6 +1900,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.RootFormalHandoffTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootDownstreamConsumerCoverage
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootGateScopeExactness
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootGateExhaustion
+import BEDC.Derived.MetaCICNormalizationFrontierUp.RootClosedNormalRouteTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootCandidateGateProjection
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootObstructionStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmission
@@ -2998,6 +2999,7 @@ import BEDC.Derived.CompactUniformContinuityUp.StandardBridgeObligationPackage
 import BEDC.Derived.CompactUniformContinuityUp.UniformPrecisionConsumerRoute
 import BEDC.Derived.AxisNatUp.TasteGate
 import BEDC.Derived.MetricTriangleUniformEstimateUp
+import BEDC.Derived.MetricTriangleUniformEstimateUp.ConsumerHandoff
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
