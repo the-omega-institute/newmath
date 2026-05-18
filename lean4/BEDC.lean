@@ -182,6 +182,7 @@ import BEDC.Derived.ApophaticNameUp.SocketGateComponentwiseTransport
 import BEDC.Derived.ApophaticNameUp.SocketRequestGateExactness
 import BEDC.Derived.ApophaticNameUp.RootBoundaryPackageExhaustion
 import BEDC.Derived.ApophaticNameUp.RefusalExportTotality
+import BEDC.Derived.ApophaticNameUp.RefusalLedgerDownstreamCoverage
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
@@ -264,6 +265,8 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootHostBoundaryNameCertExhaus
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootUnblockCarrierAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootUnblockLedgerNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBoundaryNonescape
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuthorizationObligations
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBoundaryAuditExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptanceTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.DisplayedRouteSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.DisplayedRoute
@@ -274,7 +277,8 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10Carrier
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OpenPhaseSourceTriad
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamOutputFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceRowAdmission
-import BEDC.Derived.AxiomDependencyTupleUp
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionGate
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.StructuralDescentLocality
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
@@ -613,6 +617,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetTotality
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetTailMeetNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorNonemptyRoute
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorSpineRouteCompleteness
+import BEDC.Derived.CauchyModulusRefinementUp.SelectorSpineTerminalPullback
 import BEDC.Derived.CauchyModulusRefinementUp.SharedThresholdTransport
 import BEDC.Derived.CauchyModulusRefinementUp.SiblingDependencyLattice
 import BEDC.Derived.CauchyModulusRefinementUp.SourceMeetExactness
@@ -1248,6 +1253,7 @@ import BEDC.Derived.ContinuationMonadUp.PublicRouteBridgeTotality
 import BEDC.Derived.ContinuationMonadUp.ClassifierStability
 import BEDC.Derived.ContinuationMonadUp.Associativity
 import BEDC.Derived.ContinuationMonadUp.LedgerRouteExactness
+import BEDC.Derived.ContinuationMonadUp.CategoryGeneratorSourceTriad
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
