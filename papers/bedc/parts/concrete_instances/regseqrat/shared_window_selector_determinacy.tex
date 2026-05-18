@@ -114,6 +114,29 @@ For the reverse direction, restrict a single triple-overlap selector surface to 
 Finally apply \autoref{thm:regseqrat-real-seal-selector-nonescape}. Since the shared-window surface has no row for quotient streams, host real equality, selected limits, completion points, ambient completeness data, choice data, or second seals, none of those objects can distinguish the triple-overlap surface from its three pairwise restrictions.
 \end{proof}
 
+\begin{theorem}[RegSeqRat dyadic triangle selector equivalence]
+\label{thm:regseqrat-dyadic-triangle-selector-equivalence}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S$, $T$, and $U$ be accepted finite requests to $P$ whose pairwise faces display the shared-window selector surface of \autoref{def:regseqrat-shared-window-selector-surface}. The following presentations determine one another on exactly the displayed finite rows:
+\begin{enumerate}
+\item pairwise agreement of the $\DyadicRatCoreUp$ common scale-window triangle ledger on the signed mantissa row, refined positive-unary exponent row, denominator ledger, common-exponent comparison row, and dyadic distance/radius rows;
+\item agreement of the $\RegSeqRatUp$ shared-window triple-overlap selector surface on the $\StreamNameUp$ finite windows, $\RegSeqRatUp$ classifier/readback/tail-budget rows, terminal $\RealUp$ seal row, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows;
+\item equality of the terminal $\RealUp$ seal read after the three requests are read through the ordered route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+\end{enumerate}
+Thus the dyadic triangle ledger and the RegSeqRat selector surface are the same BEDC-visible finite data at the terminal $\RealUp$ boundary. The equivalence adds no quotient rational, quotient stream, host real equality, selected limit, completion point, choice data, ambient completeness datum, or second seal.
+\end{theorem}
+\begin{proof}
+Begin with the dyadic presentation. Apply \autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence} to pass from pairwise agreement of the common scale-window triangle ledger to the terminal four-face pullback over the ordered $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ route.
+
+Next identify that four-face pullback with the RegSeqRat selector surface. The terminal pullback equivalence of \autoref{thm:regseqrat-shared-window-terminal-pullback-equivalence} says that equality of the shared-window selector surface and equality of the terminal $\RealUp$ seal read through the same four faces determine one another on the listed StreamName, dyadic, regular-rational, transport, continuation, package, naming, and seal rows.
+
+For three requests, use \autoref{thm:regseqrat-shared-window-triple-overlap-cocycle}. The three pairwise selector faces restrict from one triple-overlap selector surface, and conversely that surface restricts back to the three pairwise pullbacks. Hence the dyadic triangle ledger, the RegSeqRat triple-overlap surface, and the terminal seal read are three presentations of the same finite boundary data.
+
+Finally apply \autoref{thm:regseqrat-real-seal-selector-nonescape}. Since the selector surface has no row for quotient streams, host real equality, selected limits, completion points, choice data, ambient completeness rows, or second seals, the correspondence cannot be enlarged by any of those objects.
+\end{proof}
+
 \begin{theorem}[RegSeqRat Real seal selector non-escape]
 \label{thm:regseqrat-real-seal-selector-nonescape}
 A $\RealUp$ seal consumer of the RegSeqRat shared-window selector surface receives only the displayed $\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint, radius, and distance rows, $\RegSeqRatUp$ classifier and tail-budget rows, componentwise $\hsame$ rows, displayed $\Cont$ replay rows, $\Pkg$ provenance, local $\NameCert$ provenance, and the terminal $\RealUp$ seal row. The consumer receives no quotient stream, host real equality, selected limit, hidden selector, detached completeness row, or second $\RealUp$ seal.
