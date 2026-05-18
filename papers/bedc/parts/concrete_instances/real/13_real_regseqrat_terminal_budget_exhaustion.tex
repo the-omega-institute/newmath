@@ -108,3 +108,57 @@ seal uniqueness, and naturality, so the pasted terminal-budget read does not
 claim quotient, host-real, selected-limit, choice, completeness, arithmetic,
 order, metric-completion, bridge, or hidden-completion data.
 \end{proof}
+
+\begin{theorem}[Real terminal-budget finite-cover descent]
+\label{thm:real-terminal-budget-finite-cover-descent}
+Let $Q$ be an accepted $\RegSeqRatUp$ packet under a fixed $\RealUp$ seal, and
+let $\{S_i\}_{i \in I}$ be a finite cover of accepted finite RegSeqRat requests
+over $Q$. Suppose each $S_i$ carries an accepted terminal-budget read, and
+suppose every nonempty overlap in the cover satisfies the
+$\StreamNameUp$ terminal-fusion finite-cover cocycle and the $\RegSeqRatUp$
+shared-window triple-overlap cocycle while preserving the
+$\DyadicRatCoreUp$ endpoint, radius, and distance ledgers, the $\StreamNameUp$
+finite schedules, the $\RegSeqRatUp$ regularity, classifier, and provenance rows,
+the local $\RealUp$ seal row, and the displayed $\BHist$, componentwise
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows.
+
+Then the local terminal-budget reads descend to one public $\RealUp$
+terminal-budget seal row over the same ordered four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+The descended seal row exports no quotient stream equality, host real equality,
+selected limit, countable-choice selector, ambient completeness principle,
+arithmetic package, order package, metric-completeness row, standard bridge
+row, or hidden completion carrier.
+\end{theorem}
+\begin{proof}
+First fuse the finite StreamName windows. Apply
+\autoref{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness} to the
+overlap cocycle data; the result is a single finite schedule carrying the same
+displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ support rows on every member of the cover.
+
+Next identify the RegSeqRat sections over that fused schedule. The hypotheses
+give the shared-window triple-overlap cocycle, so
+\autoref{thm:regseqrat-shared-window-triple-overlap-cocycle} keeps the
+regularity, classifier, and provenance rows on one finite RegSeqRat section
+while preserving the DyadicRatCore endpoint, radius, and distance ledgers.
+
+Now paste the Real terminal-budget reads over the finite cover. On each
+pairwise overlap, \autoref{thm:real-terminal-budget-pasting-exactness} applies
+to the identified dyadic, StreamName, RegSeqRat, Real seal, and support rows,
+so the overlap has a single public $\RealUp$ seal row. Repeating this finite
+pasting along the fused schedule gives one candidate terminal-budget seal row
+for the whole cover.
+
+It remains to check that the candidate is the public terminal-budget read and
+not a hidden completion object. Use
+\autoref{thm:real-regseqrat-terminal-budget-four-face-naturality} to keep the
+pasted read on the displayed ordered route, and then apply
+\autoref{thm:real-regseqrat-terminal-budget-exhaustion}. Exhaustion says the
+route has only the four visible faces and the listed support rows, so the
+descent cannot export quotient stream equality, host real equality, selected
+limits, choice, ambient completeness, metric-completeness, standard bridge
+rows, or hidden completion carriers.
+\end{proof}
