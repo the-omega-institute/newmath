@@ -10,33 +10,63 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def UniformCauchyCriterionRealCompletionFiniteEnvelopeCarrier [AskSetup] [PackageSetup]
-    (stream readback dyadic sealRow completion transport replay provenance name : BHist)
+    (index windows modulus tolerance tail sealRow transports routes provenance name regseq dyadic
+      cauchySeal realExport envelopeRoute : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
-  UnaryHistory stream ∧ UnaryHistory readback ∧ UnaryHistory dyadic ∧ UnaryHistory sealRow ∧
-    UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
-      UnaryHistory name ∧ Cont stream readback dyadic ∧ Cont dyadic sealRow completion ∧
-        PkgSig bundle name pkg
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+      provenance name bundle pkg ∧
+    UnaryHistory regseq ∧ UnaryHistory dyadic ∧ UnaryHistory cauchySeal ∧
+      UnaryHistory realExport ∧ Cont windows regseq dyadic ∧
+        Cont dyadic cauchySeal realExport ∧ Cont realExport name envelopeRoute ∧
+          PkgSig bundle envelopeRoute pkg
 
 theorem UniformCauchyCriterionRealCompletionFiniteEnvelopeCarrier_rows
     [AskSetup] [PackageSetup]
-    {stream readback dyadic sealRow completion transport replay provenance name envelope : BHist}
+    {index windows modulus tolerance tail sealRow transports routes provenance name regseq dyadic
+      cauchySeal realExport envelopeRoute : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    UniformCauchyCriterionRealCompletionFiniteEnvelopeCarrier stream readback dyadic sealRow
-        completion transport replay provenance name bundle pkg →
-      PkgSig bundle envelope pkg →
-        UnaryHistory stream ∧ UnaryHistory readback ∧ UnaryHistory dyadic ∧
-          UnaryHistory sealRow ∧ UnaryHistory completion ∧ Cont stream readback dyadic ∧
-            Cont dyadic sealRow completion ∧ PkgSig bundle envelope pkg := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
-  intro carrier envelopePkg
-  obtain ⟨streamUnary, readbackUnary, dyadicUnary, sealRowUnary, _transportUnary,
-    _replayUnary, _provenanceUnary, _nameUnary, streamReadbackDyadic,
-    dyadicSealCompletion, _namePkg⟩ := carrier
-  have completionUnary : UnaryHistory completion :=
-    unary_cont_closed dyadicUnary sealRowUnary dyadicSealCompletion
+    UniformCauchyCriterionRealCompletionFiniteEnvelopeCarrier index windows modulus tolerance tail
+        sealRow transports routes provenance name regseq dyadic cauchySeal realExport
+        envelopeRoute bundle pkg →
+      UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+          provenance name bundle pkg ∧
+        UnaryHistory regseq ∧ UnaryHistory dyadic ∧ UnaryHistory cauchySeal ∧
+          UnaryHistory realExport ∧ Cont windows regseq dyadic ∧
+            Cont dyadic cauchySeal realExport ∧ Cont realExport name envelopeRoute ∧
+              PkgSig bundle envelopeRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier
+  exact carrier
+
+theorem UniformCauchyCriterionRealCompletionFiniteEnvelopeCarrier_consumer_row
+    [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name regseq dyadic
+      cauchySeal realExport envelopeRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionRealCompletionFiniteEnvelopeCarrier index windows modulus tolerance tail
+        sealRow transports routes provenance name regseq dyadic cauchySeal realExport
+        envelopeRoute bundle pkg →
+      UnaryHistory windows ∧ UnaryHistory regseq ∧ UnaryHistory dyadic ∧
+        UnaryHistory cauchySeal ∧ UnaryHistory realExport ∧ UnaryHistory envelopeRoute ∧
+          Cont windows regseq dyadic ∧ Cont dyadic cauchySeal realExport ∧
+            Cont realExport name envelopeRoute ∧ PkgSig bundle name pkg ∧
+              PkgSig bundle envelopeRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier
+  rcases carrier with
+    ⟨packet, regseqUnary, dyadicUnary, cauchySealUnary, realExportUnary,
+      windowsRegseqDyadic, dyadicSealReal, realNameEnvelope, envelopePkg⟩
+  rcases packet with
+    ⟨_indexUnary, windowsUnary, _modulusUnary, _toleranceUnary, _tailUnary,
+      _sealRowUnary, _transportsUnary, _routesUnary, _provenanceUnary, nameUnary,
+      _indexWindowsModulus, _modulusToleranceTail, _tailSealTransports,
+      _transportsRoutesProvenance, namePkg⟩
+  have envelopeUnary : UnaryHistory envelopeRoute :=
+    unary_cont_closed realExportUnary nameUnary realNameEnvelope
   exact
-    ⟨streamUnary, readbackUnary, dyadicUnary, sealRowUnary, completionUnary,
-      streamReadbackDyadic, dyadicSealCompletion, envelopePkg⟩
+    ⟨windowsUnary, regseqUnary, dyadicUnary, cauchySealUnary, realExportUnary,
+      envelopeUnary, windowsRegseqDyadic, dyadicSealReal, realNameEnvelope, namePkg,
+      envelopePkg⟩
 
 end BEDC.Derived.UniformCauchyCriterionUp
