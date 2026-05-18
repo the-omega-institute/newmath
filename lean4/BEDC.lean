@@ -725,6 +725,7 @@ import BEDC.Derived.ScientificModelBridgeUp.TasteGate
 import BEDC.Derived.ScientificIdealizationResidueSealUp.TasteGate
 import BEDC.Derived.ScientificObjectUp.TasteGate
 import BEDC.Derived.ScienceBridgeUp.TasteGate
+import BEDC.Derived.BHistDecaTupleNameCertUp
 import BEDC.Derived.CertifiedPhysicalTruthUp
 import BEDC.Derived.CertifiedPhysicalTruthUp.TasteGate
 import BEDC.Derived.DomainTruthCertificateUp.TasteGate
@@ -1952,6 +1953,7 @@ import BEDC.Derived.RealDiagonalMeshBudgetUp
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.RealDiagonalWindowCoverageUp
 import BEDC.Derived.RealCompletenessUp
+import BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.StreamNameDyadicRealHandoff
