@@ -55,6 +55,10 @@ MARKER_EXISTENCE_RE = re.compile(
 )
 LEAN_CHECKED_RE = re.compile(r"\\leanchecked\{([^}]+)\}")
 CLAIM_ENTRY_RE = re.compile(r'⟨"[^"]*",\s*"([^"]+)"')
+PREAMBLE_COMMAND_RE = re.compile(
+    r"^\\(?P<kind>newcommand|providecommand|renewcommand|DeclareRobustCommand"
+    r"|newenvironment|newtheorem)\*?\{(?P<name>\\?\w+)\}"
+)
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
 END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
@@ -534,6 +538,34 @@ def detect_case_collision_paths() -> list[dict[str, object]]:
     ]
 
 
+def detect_preamble_duplicate_commands() -> list[dict[str, object]]:
+    occurrences_by_name: dict[str, list[dict[str, object]]] = {}
+    for path in sorted(PAPER_ROOT.glob("preamble*.tex")):
+        if not path.is_file():
+            continue
+        for line_no, raw_line in enumerate(read_text(path).splitlines(), start=1):
+            match = PREAMBLE_COMMAND_RE.match(raw_line)
+            if not match:
+                continue
+            name = match.group("name").lstrip("\\")
+            occurrences_by_name.setdefault(name, []).append({
+                "file": str(path.relative_to(REPO_ROOT)),
+                "line": line_no,
+                "kind": match.group("kind"),
+                "raw_line": raw_line,
+            })
+
+    duplicates: list[dict[str, object]] = []
+    for name, occurrences in sorted(occurrences_by_name.items()):
+        if len(occurrences) <= 1:
+            continue
+        kinds = {str(item["kind"]) for item in occurrences}
+        if "newcommand" in kinds and "renewcommand" in kinds:
+            continue
+        duplicates.append({"name": name, "occurrences": occurrences})
+    return duplicates
+
+
 CLOSURESTATUS_BEGIN_RE = re.compile(
     r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
 )
@@ -734,6 +766,7 @@ def audit_payload() -> dict[str, object]:
         if m.target not in symbols
     ]
     case_collisions = detect_case_collision_paths()
+    preamble_duplicate_commands = detect_preamble_duplicate_commands()
 
     closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     closurestatus_diagnostics: list[str] = []
@@ -752,6 +785,8 @@ def audit_payload() -> dict[str, object]:
         "missing_marker_targets_count": len(missing_marker_targets),
         "case_collisions": case_collisions,
         "case_collisions_count": len(case_collisions),
+        "preamble_duplicate_commands": preamble_duplicate_commands,
+        "preamble_duplicate_commands_count": len(preamble_duplicate_commands),
         "closurestatus_blocks_total": len(closurestatus_blocks),
         "closurestatus_blocks": closurestatus_blocks,
         "closurestatus_diagnostics": closurestatus_diagnostics,
@@ -879,6 +914,18 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 "`git update-index --force-remove <wrong-case-path>`; "
                 "also remove the duplicate import / reference."
             )
+        if payload["preamble_duplicate_commands"]:
+            print(
+                "[bedc-ci] preamble duplicate commands: "
+                f"{payload['preamble_duplicate_commands_count']}"
+            )
+            for item in payload["preamble_duplicate_commands"][:50]:
+                print(f"  {item['name']}")
+                for occurrence in item["occurrences"]:
+                    print(
+                        f"    {occurrence['file']}:{occurrence['line']} "
+                        f"{occurrence['kind']}"
+                    )
         if payload["closurestatus_diagnostics"]:
             print(
                 "[bedc-ci] closurestatus block diagnostics: "
@@ -914,6 +961,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["missing_marker_targets_count"]
         + len(payload["duplicate_part_labels"])
         + payload["case_collisions_count"]
+        + payload["preamble_duplicate_commands_count"]
         + payload["closurestatus_diagnostics_count"]
         + payload["orphan_concrete_subdirs_count"]
     )
