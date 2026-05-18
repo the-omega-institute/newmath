@@ -76,3 +76,17 @@ Apply \autoref{thm:streamname-open-phase-terminal-readback-determinacy}. Once th
 
 Finally use the QuotientStreamRefusal route-ordering surface of \autoref{thm:quotient-stream-refusal-route-ordering}. A quotient-refusal consumer may read its refusal ledger only after the ordered StreamName, RegSeqRat, CauchyLimitSeal, and RealUp route has been exposed. At the StreamName terminal seal boundary, the dyadic ledger supplies the same finite seal face consumed by that route, so the refusal row records non-export rather than adding quotient, equality, limit, completeness, metric, or bridge data.
 \end{proof}
+
+\begin{theorem}[StreamName terminal face status readback]
+\label{thm:streamname-open-phase-terminal-face-status-readback}
+Any Phase Real and Completion terminal read through $\StreamNameUp$ reports the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces by reading each face's own local \texttt{closurestatus}, \texttt{formalstatus}, \texttt{leantarget}, and \texttt{bridgestatus} rows. The readback is facewise: no aggregate route-level status, bridge token, quotient stream, selected limit, ambient completeness, metric-completeness datum, countable-choice row, or host equality can replace one face's local status record.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-open-phase-terminal-seal-exactness}. It fixes the terminal read on the four-face route from the StreamName window through RegSeqRat readback and DyadicRatCore ledger to the RealUp seal.
+
+Next apply \autoref{thm:streamname-open-phase-terminal-ledger-coverage}. The terminal ledger exposes only the four named faces and their displayed observation, transport, route, provenance, and local naming rows, so the status rows available at the terminal boundary are the local rows attached to those faces.
+
+Use \autoref{thm:streamname-open-phase-terminal-readback-determinacy}. Once the four faces and their support rows agree, a consumer read determines the same finite terminal packet; there is no second packet whose aggregate status, bridge token, quotient stream, selected limit, ambient completeness, metric-completeness datum, countable-choice row, or host equality could stand in for a local face record.
+
+Finally apply \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary}. The boundary theorem keeps every seal-facing read inside the displayed terminal route before any refusal ledger is read. The two-axis discipline of \autoref{sec:per-chapter-closurestatus} then reads paper closure and Lean verification independently at each local face, so the \texttt{closurestatus}, \texttt{formalstatus}, \texttt{leantarget}, and \texttt{bridgestatus} rows remain face-local rather than route-level summaries.
+\end{proof}
