@@ -45,4 +45,38 @@ theorem DiagonalLimitCompatibilityRootRouteSourceExhaustion [AskSetup] [PackageS
       budgetRootWindowsBudgetWindow, budgetWindowReadbackBudgetRead, provenancePkg,
       budgetReadPkg⟩
 
+theorem DiagonalLimitCompatibilityCarrier_root_route_source_exhaustion [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      budgetSource meshSource windowRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont diagonal dyadic budgetSource ->
+        Cont budgetSource triangle meshSource ->
+          Cont meshSource windows windowRead ->
+            PkgSig bundle windowRead pkg ->
+              UnaryHistory diagonal ∧ UnaryHistory dyadic ∧ UnaryHistory triangle ∧
+                UnaryHistory windows ∧ UnaryHistory budgetSource ∧
+                  UnaryHistory meshSource ∧ UnaryHistory windowRead ∧
+                    Cont diagonal dyadic budgetSource ∧
+                      Cont budgetSource triangle meshSource ∧
+                        Cont meshSource windows windowRead ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle windowRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier diagonalDyadicBudget budgetTriangleMesh meshWindowsRead windowPkg
+  obtain ⟨diagonalUnary, triangleUnary, _sealRowUnary, dyadicUnary, windowsUnary,
+    _readbackUnary, _realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have budgetUnary : UnaryHistory budgetSource :=
+    unary_cont_closed diagonalUnary dyadicUnary diagonalDyadicBudget
+  have meshUnary : UnaryHistory meshSource :=
+    unary_cont_closed budgetUnary triangleUnary budgetTriangleMesh
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed meshUnary windowsUnary meshWindowsRead
+  exact
+    ⟨diagonalUnary, dyadicUnary, triangleUnary, windowsUnary, budgetUnary, meshUnary,
+      windowUnary, diagonalDyadicBudget, budgetTriangleMesh, meshWindowsRead, provenancePkg,
+      windowPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
