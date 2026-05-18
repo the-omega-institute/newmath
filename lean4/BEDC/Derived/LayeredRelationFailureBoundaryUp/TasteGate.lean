@@ -269,4 +269,32 @@ theorem LayeredRelationFailureBoundaryTasteGate_single_carrier_alignment :
           exact layeredRelationFailureBoundaryToEventFlow_injective heq)
         rfl))
 
+theorem LayeredRelationFailureBoundary_failure_boundary_row_determinacy
+    {relation exactness failureBoundary1 failureBoundary2 weakening gate transport route
+      provenance name : BHist}
+    (h :
+      layeredRelationFailureBoundaryToEventFlow
+          (LayeredRelationFailureBoundaryUp.mk relation exactness failureBoundary1 weakening
+            gate transport route provenance name) =
+        layeredRelationFailureBoundaryToEventFlow
+          (LayeredRelationFailureBoundaryUp.mk relation exactness failureBoundary2 weakening
+            gate transport route provenance name)) :
+    failureBoundary1 = failureBoundary2 ∧
+      LayeredRelationFailureBoundaryUp.mk relation exactness BHist.Empty weakening gate
+          transport route provenance name ≠
+        LayeredRelationFailureBoundaryUp.mk relation exactness (BHist.e0 BHist.Empty)
+          weakening gate transport route provenance name := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · have hmk :
+        LayeredRelationFailureBoundaryUp.mk relation exactness failureBoundary1 weakening
+            gate transport route provenance name =
+          LayeredRelationFailureBoundaryUp.mk relation exactness failureBoundary2 weakening
+            gate transport route provenance name :=
+      layeredRelationFailureBoundaryToEventFlow_injective h
+    cases hmk
+    rfl
+  · intro hrow
+    cases hrow
+
 end BEDC.Derived.LayeredRelationFailureBoundaryUp
