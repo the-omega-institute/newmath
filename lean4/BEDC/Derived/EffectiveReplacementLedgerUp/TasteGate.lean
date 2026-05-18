@@ -334,4 +334,21 @@ theorem EffectiveReplacementLedgerAxiomPurityBoundary
         · intro back
           exact cont_mutual_extension_right_tail_absurd.right rfl back
 
+def EffectiveReplacementLedgerCarrier (x : EffectiveReplacementLedgerUp) : Prop :=
+  -- BEDC touchpoint anchor: BHist BMark
+  exists W Q T A H C P N : BHist,
+    x = EffectiveReplacementLedgerUp.mk W Q T A H C P N /\
+      effectiveReplacementLedgerFields x = [W, Q, T, A, H, C, P, N] /\
+        Cont W C (append W C) /\
+          Cont Q H (append Q H) /\
+            Cont T C (append T C) /\
+              hsame A A
+
+theorem EffectiveReplacementLedgerCarrier_admits_mk
+    (W Q T A H C P N : BHist) :
+    EffectiveReplacementLedgerCarrier
+      (EffectiveReplacementLedgerUp.mk W Q T A H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact ⟨W, Q, T, A, H, C, P, N, rfl, rfl, rfl, rfl, rfl, rfl⟩
+
 end BEDC.Derived.EffectiveReplacementLedgerUp

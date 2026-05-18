@@ -220,8 +220,49 @@ instance cauchyTailModulusSealNontrivial : Nontrivial CauchyTailModulusSealUp wh
         intro h
         cases h⟩
 
+def cauchyTailModulusSealNontrivialConcrete :
+    Nontrivial CauchyTailModulusSealUp :=
+  {
+    witness_pair :=
+      ⟨CauchyTailModulusSealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        CauchyTailModulusSealUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        by
+          intro h
+          cases h⟩
+  }
+
+def cauchyTailModulusSealChapterTasteGateConcrete :
+    @ChapterTasteGate CauchyTailModulusSealUp cauchyTailModulusSealBHistCarrier :=
+  {
+    round_trip := by
+      intro x
+      change cauchyTailModulusSealFromEventFlow
+        (cauchyTailModulusSealToEventFlow x) = some x
+      exact cauchyTailModulusSeal_round_trip x
+    layer_separation := by
+      intro x y hxy
+      change cauchyTailModulusSealToEventFlow x ≠
+        cauchyTailModulusSealToEventFlow y
+      exact cauchyTailModulusSeal_layer_separation x y hxy
+  }
+
+def cauchyTailModulusSealFieldFaithfulConcrete :
+    @FieldFaithful CauchyTailModulusSealUp cauchyTailModulusSealBHistCarrier :=
+  {
+    fields := cauchyTailModulusSealFields
+    field_faithful := by
+      intro x y
+      change cauchyTailModulusSealFields x =
+        cauchyTailModulusSealFields y → x = y
+      exact cauchyTailModulusSeal_fields_faithful x y
+  }
+
 def taste_gate : ChapterTasteGate CauchyTailModulusSealUp :=
-  cauchyTailModulusSealChapterTasteGate
+  cauchyTailModulusSealChapterTasteGateConcrete
 
 theorem CauchyTailModulusSealTasteGate_single_carrier_alignment :
     (∀ h : BHist,
@@ -266,42 +307,11 @@ theorem CauchyTailModulusSealTasteGate_single_carrier_alignment :
               exact cauchyTailModulusSealToEventFlow_injective heq
             · constructor
               · exact
-                  ⟨{
-                    witness_pair :=
-                      ⟨CauchyTailModulusSealUp.mk BHist.Empty BHist.Empty BHist.Empty
-                          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                          BHist.Empty,
-                        CauchyTailModulusSealUp.mk (BHist.e0 BHist.Empty) BHist.Empty
-                          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                          BHist.Empty BHist.Empty,
-                        by
-                          intro h
-                          cases h⟩
-                  }⟩
+                  ⟨cauchyTailModulusSealNontrivialConcrete⟩
               · constructor
                 · exact
-                    ⟨{
-                      round_trip := by
-                        intro x
-                        change cauchyTailModulusSealFromEventFlow
-                          (cauchyTailModulusSealToEventFlow x) = some x
-                        exact cauchyTailModulusSeal_round_trip x
-                      layer_separation := by
-                        intro x y hxy
-                        change cauchyTailModulusSealToEventFlow x ≠
-                          cauchyTailModulusSealToEventFlow y
-                        exact cauchyTailModulusSeal_layer_separation x y hxy
-                    }⟩
+                    ⟨cauchyTailModulusSealChapterTasteGateConcrete⟩
                 · exact
-                    ⟨{
-                      fields := cauchyTailModulusSealFields
-                      field_faithful := by
-                        intro x y
-                        change cauchyTailModulusSealFields x =
-                          cauchyTailModulusSealFields y → x = y
-                        exact cauchyTailModulusSeal_fields_faithful x y
-                    }⟩
+                    ⟨cauchyTailModulusSealFieldFaithfulConcrete⟩
 
 end BEDC.Derived.CauchyTailModulusSealUp

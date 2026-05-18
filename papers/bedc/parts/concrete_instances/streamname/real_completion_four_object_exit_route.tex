@@ -203,6 +203,25 @@ It remains to bind the finite handoff rows. Use \autoref{thm:streamname-real-com
 The exclusions are the same exclusions carried by the cited route and separation theorems. Quotient stream equality, selected limits, ambient completeness, metric-completeness data, countable choice, host sequence equality, and bridge rows are absent from the four-face packet.
 \end{proof}
 
+\begin{theorem}[StreamName four-face audit-clean threshold readback]
+\label{thm:streamname-four-face-audit-clean-threshold-readback}
+Assume the local face records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are read from their own closurestatus blocks, and assume each face reports formal verification at least $\auditCleanV$. Then the StreamName-side Phase Real and Completion exit boundary satisfies the roadmap verification threshold objectwise: the accepted boundary is exactly the four local audit-clean face records together with the finite StreamName window, DyadicRatCore ledger, RegSeqRat readback, RealUp seal, and support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+
+This threshold readback contributes no aggregate $\formalstatus$, no aggregate bridge token, no completeness row, no quotient stream, no selected limit, and no metric-completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the four-face audit-clean boundary of \autoref{thm:streamname-four-face-auditclean-exit-boundary}. It identifies the StreamName-side exit boundary with the four local records and the displayed finite handoff rows, rather than with a route-level status token.
+
+Apply the face-status pullback, \autoref{thm:streamname-real-completion-face-status-pullback}. Each closure grade, formalstatus token, Lean target, and bridge row is read only from the corresponding local face closurestatus block, so the hypothesis that every face is at least $\auditCleanV$ is checked object by object.
+
+Next use the exit-axis separation theorem, \autoref{thm:streamname-real-completion-exit-axis-separation}. It prevents the paper-side boundary from manufacturing an aggregate verification coordinate, bridge token, completeness row, quotient stream, selected limit, or metric-completeness datum.
+
+Finally compare with the Real-side exit witness, \autoref{thm:real-l10-current-phase-exit-witness}. That witness states the current Phase Real and Completion exit criterion in exactly the same four local faces, with each verification record read at least $\auditCleanV$ from its own closurestatus block. Therefore the StreamName-side boundary satisfies the roadmap threshold precisely as an objectwise four-face readback and not as any additional completion or bridge datum.
+\end{proof}
+
 \begin{theorem}[StreamName Real-completion classifier pullback]
 \label{thm:streamname-real-completion-classifier-pullback}
 Let two current Phase Real and Completion exit reads be accepted by the four-object route through
@@ -386,4 +405,27 @@ Now insert the finite observation-budget mediation. The StreamName Real observat
 Next apply \autoref{thm:real-observation-budget-finite-route-coverage}. The accepted budget request reaches a seal read only through its finite precision, window, dyadic, regular handoff, and seal rows, so the selector supplies a finite access route rather than a new completion object or hidden observation schedule.
 
 Finally use the exit-axis separation theorem, \autoref{thm:streamname-real-completion-exit-axis-separation}. Since the four-object boundary has no quotient stream equality, host real equality, selected limit, ambient completeness, metric-completeness datum, countable-choice row, or standard bridge row, the budget-mediated consumer cannot obtain any of those rows by passing through the selector. The same four boundary faces and the same five support rows are therefore locked for every such finite observation-budget read.
+\end{proof}
+
+\begin{theorem}[RegSeqObservationBudget exit pullback]
+\label{thm:streamname-regseq-observation-budget-exit-pullback}
+Let an accepted $\RegSeqObservationBudgetUp$ consumer read its $\RealUp$ row as a current Phase Real and Completion exit read. Then the consumer factors through the same L10 four-face boundary
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+as the StreamName Real-completion exit route. Its support surface is only
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+
+Thus the observation-budget consumer is a consumer of the displayed StreamName window, dyadic tolerance ledger, RegSeqRat readback, Real seal, and support rows. It does not receive quotient stream equality, host real equality, hidden diagonal selectors, unbounded schedules, ambient $\RealUp$ completeness, metric-completeness data, countable choice, or aggregate bridge rows.
+\end{theorem}
+\begin{proof}
+First order the budget route. Theorem~\ref{thm:regseq-observation-budget-window-admission} forces the accepted $\RegSeqObservationBudgetUp$ consumer to display the StreamName window before the readback, tolerance, selector, or seal rows are used. Theorem~\ref{thm:regseq-observation-budget-real-seal-handoff} then reaches the $\RealUp$ budget row only after the window, $\RegSeqRatUp$ readback, dyadic tolerance, and diagonal selector rows have already been displayed.
+
+Now read that ordered route through the current Real and Completion exit. Apply \autoref{thm:streamname-real-completion-four-object-exit-route}. The exit packet is exactly the four finite faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next apply \autoref{thm:streamname-real-completion-four-object-terminal-pullback}. Since the RegSeqObservationBudget consumer reads its $\RealUp$ row as a current exit read, the ordered budget route factors through the same terminal finite pullback as every accepted downstream Real-completion read.
+
+Finally use \autoref{thm:streamname-real-completion-exit-axis-separation} together with \autoref{thm:regseq-observation-budget-public-consumer-export}. Axis separation removes quotient stream equality, host real equality, ambient completeness, metric-completeness data, countable choice, and bridge rows from the exit boundary, while public consumer export says the accepted budget packet exports only the displayed finite route. The hidden selector and unbounded schedule alternatives therefore have no carrier coordinate, and the four faces with the five support rows exhaust the consumer boundary.
 \end{proof}

@@ -56,6 +56,7 @@ Replay discipline is then forced by $C$ and $R$. The continuation row selects on
 
 The non-escape clause is inspection of the carrier inventory. Since no coordinate names $P=Q$, $\mathsf{propext}$, host rewrite, or arbitrary context transport, the local naming surface cannot export any of them.
 \end{proof}
+\leanchecked{BEDC.Derived.PropextTransportBoundaryUp.PropextTransportBoundaryNameCertObligations}
 
 \begin{theorem}[PropextTransportBoundary direction determinacy]
 \label{thm:propext-transport-boundary-direction-determinacy}
@@ -91,6 +92,8 @@ The context side is likewise explicit. A consumer must use a replacement route i
 
 If a witness of $P=Q$, a $\mathsf{propext}$ invocation, a host rewrite, or an arbitrary context transport were exported, it would have to be a coordinate of the finite packet or the output of one of its routes. The carrier contains no such coordinate, and $R$ and $C$ are defined only for displayed replacement reads. Hence none of the excluded operations escapes the boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.PropextTransportBoundaryUp.PropextTransportBoundaryNonEscapeReadback}
+\leanchecked{BEDC.Derived.PropextTransportBoundaryUp.PropextTransportBoundaryNonEscape}
 
 \begin{theorem}[PropextTransportBoundary ledger exactness]
 \label{thm:propext-transport-boundary-ledger-exactness}
@@ -100,6 +103,7 @@ T=(B,D,R,H,C,P,N),
 $$
 the provenance ledger of the boundary is exactly the displayed $\Pkg$ row $P$ together with the local naming row $N$ and the transport and replay rows $H,C$. Its dependency surface is over ThreeAxiomsOneClosure, core $\NameCert$, $\hsame$, $\psame$, and $\Cont$, and it contains no proposition-equality, propositional-extensionality, or host-rewrite dependency row.
 \end{theorem}
+\leanchecked{BEDC.Derived.PropextTransportBoundaryUp.PropextTransportBoundaryLedgerExactness}
 \begin{proof}
 The ledger-bearing coordinates are displayed in the carrier: $P$ records package provenance, $N$ records the local name, $H$ records transport, and $C$ records replay. These rows are finite coordinates of $T$.
 
@@ -118,6 +122,7 @@ transport, replay, provenance, and naming rows, and it introduces no witness
 of $P=Q$, no $\mathsf{propext}$ row, no host rewrite, and no arbitrary
 context transport.
 \end{theorem}
+\leanchecked{BEDC.Derived.PropextTransportBoundaryUp.PropextTransportBoundaryThreeAxiomsSiblingLink}
 \begin{proof}
 Read the local carrier inventory from
 \autoref{def:propext-transport-boundary-carrier}. The packet contains only
@@ -152,6 +157,7 @@ Acceptance is finite because every permitted read is named by a coordinate of $T
 
 Rejection is the complement of this displayed surface. A request requiring $P=Q$, $\mathsf{propext}$, host rewrite, or arbitrary proposition-valued context transport asks for a coordinate absent from $T$, so the $\ChapterTasteGate$ has a concrete reason to refuse it.
 \end{proof}
+\leanchecked{BEDC.Derived.PropextTransportBoundaryUp.PropextTransportBoundaryTasteGateHandoff}
 
 \begin{theorem}[PropextTransportBoundary context replacement locality]
 \label{thm:propext-transport-boundary-context-replacement-locality}
@@ -161,6 +167,7 @@ T=(B,D,R,H,C,P,N),
 $$
 each context read exported by the boundary is local to the displayed replacement row $R$ and the displayed $\Cont$ row $C$. A consumer may replay only a named replacement route through $C$, and the replay returns only the context-read output recorded in $R$; it does not create a host rewrite, a witness of $P=Q$, or arbitrary transport for proposition-valued contexts.
 \end{theorem}
+\leanchecked{BEDC.Derived.PropextTransportBoundaryUp.PropextTransportBoundaryContextReplacementLocality}
 \begin{proof}
 Project the carrier from \autoref{def:propext-transport-boundary-carrier}. The replacement coordinate is $R$, and the replay coordinate is $C$; no other coordinate is assigned to context transport.
 
@@ -177,6 +184,7 @@ T=(B,D,R,H,C,P,N),
 $$
 every accepted implication read is covered by one of the directed rows in $D$. The ledger never records the two implication rows in $B$ as an unordered proposition equality, and no public read of the packet can replace this directed coverage by $P=Q$ or $\mathsf{propext}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.PropextTransportBoundaryUp.PropextTransportBoundaryDirectionLedgerCoverage}
 \begin{proof}
 The carrier exposes implication evidence only through $B$ together with direction rows $D$. The NameCert obligations of \autoref{thm:propext-transport-boundary-namecert-obligations} require a consumer to name a row in $D$ before using either implication row.
 
@@ -189,6 +197,7 @@ Finally use \autoref{thm:propext-transport-boundary-ledger-exactness} and \autor
 \label{thm:propext-transport-boundary-tastegate-refusal-exactness}
 For every accepted $\PropextTransportBoundaryUp$ packet, the $\ChapterTasteGate$ refusal is exact for requests whose consumption path requires a witness of $P=Q$, $\mathsf{propext}$, host rewrite through $P=Q$, or arbitrary proposition-valued context transport. Such a request is refused precisely because no displayed row of $B,D,R,H,C,P,N$ supplies the requested operation, while requests following the directed rows in $D$, replacement row $R$, transport row $H$, replay row $C$, provenance row $P$, and naming row $N$ remain admissible.
 \end{theorem}
+\leanchecked{BEDC.Derived.PropextTransportBoundaryUp.PropextTransportBoundaryTasteGateRefusalExactness}
 \begin{proof}
 Start from the handoff theorem \autoref{thm:propext-transport-boundary-tastegate-handoff}. The gate receives exactly the displayed carrier coordinates and accepts directed replacement reads recorded by those coordinates.
 

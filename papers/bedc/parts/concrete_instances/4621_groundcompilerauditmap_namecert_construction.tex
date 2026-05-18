@@ -4,6 +4,10 @@
 
 The $\GroundCompilerAuditMapUp$ packet realizes the GroundCompiler audit-map vision of \autoref{ch:bedc-groundcompiler-audit-map} as a finite NameCert object. It sits beside the generic audit-map interface of \autoref{ch:concrete-instances-auditmapinterface-namecert} and the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}: those chapters name the common audit rows and the MetaCIC substitution sibling, while this chapter names the GroundCompiler theorem inventory, compiler-layer frontier, generated recognizer rows, report boundary, non-escape ledger, and theorem-family handoff.
 
+\falsifiablePrediction{If an accepted $\GroundCompilerAuditMapUp$ packet permits a public read that bypasses one of $I,K,E,C,R,Q,F,X,H,T,P,N$, or turns the report-boundary row $Q$ or frontier row $F$ into proof evidence, the packet is refuted.}
+
+\independenceWitness{auditmapinterface, substitutionauditmap, groundcompilereventflowaudit, groundcompilerrecognizerboundary, groundcompilerauditpacket: no listed sibling is bijective to $\GroundCompilerAuditMapUp$ because this packet simultaneously binds theorem inventory, conditional theorem cells, event-flow legality, compiler theorem rows, generated recognizers, report boundaries, frontier rows, theorem-family handoff, transport, continuation, provenance, and local NameCert rows.}
+
 \begin{definition}[GroundCompiler audit-map carrier]
 \label{def:ground-compiler-audit-map-carrier}
 A $\GroundCompilerAuditMapUp$ carrier is a finite $\BHist$ packet
@@ -29,6 +33,31 @@ The carrier has no coordinate for hidden host input, host compiler trust, source
 \end{definition}
 \leanchecked{BEDC.Derived.GroundCompilerAuditMapUp.GroundCompilerAuditMapTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[GroundCompiler audit-map obligation closure]
+\label{thm:ground-compiler-audit-map-obligation-closure}
+Promotion of $\GroundCompilerAuditMapUp$ beyond $\seedClosure$ requires the displayed carrier rows $I,K,E,C,R,Q,F,X,H,T,P,N$, the checked TasteGate alignment target for the single carrier, explicit nontriviality of the carrier, and field-faithful separation of the report-boundary row $Q$, frontier row $F$, and the remaining public rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerAuditMapUp.GroundCompilerAuditMapCarrier\_obligation\_closure}
+\begin{proof}
+The carrier definition exposes exactly the twelve rows $I,K,E,C,R,Q,F,X,H,T,P,N$. A promotion claim must therefore account for every public read through those rows and must keep the boundary rows $Q$ and $F$ from becoming proof evidence.
+
+The existing checked TasteGate target records the single-carrier alignment used by this chapter. That marker is necessary for the verification side, but it does not by itself assert a nontrivial witness pair or discharge every field-faithful separation obligation needed for obligation closure.
+
+Thus the next closure grade requires the current paper rows together with explicit Lean-side nontriviality and the remaining TasteGate row coverage, rather than only the displayed carrier syntax.
+\end{proof}
+
+\begin{theorem}[GroundCompiler audit-map independence witness]
+\label{thm:ground-compiler-audit-map-independence-witness}
+The sibling packets auditmapinterface, substitutionauditmap, groundcompilereventflowaudit, groundcompilerrecognizerboundary, and groundcompilerauditpacket cannot supply a bijection preserving all $\GroundCompilerAuditMapUp$ rows $I,K,E,C,R,Q,F,X,H,T,P,N$.
+\end{theorem}
+\begin{proof}
+The generic auditmapinterface packet names common audit rows, while substitutionauditmap specializes the MetaCIC substitution sibling. Neither packet simultaneously binds GroundCompiler theorem inventory $I$, conditional theorem cells $K$, compiler theorem rows $C$, generated recognizers $R$, report boundary $Q$, frontier $F$, and theorem-family handoff $X$.
+
+The groundcompilereventflowaudit sibling covers event-flow legality, so it can overlap $E$ but not the full theorem inventory, recognizer, report-boundary, frontier, transport, continuation, provenance, and local naming surface. The groundcompilerrecognizerboundary sibling covers recognizer and boundary data, so it can overlap $R$ and $Q$ but not all of $I,K,E,C,F,X,H,T,P,N$.
+
+The groundcompilerauditpacket sibling packages adjacent GroundCompiler audit data, but this chapter requires the simultaneous twelve-row carrier with $H$ for componentwise transport, $T$ for displayed continuation, $P$ for provenance, and $N$ for the local NameCert row. Any bijection preserving only a sibling role omits at least one required row class, so no listed sibling is bijective to the full $\GroundCompilerAuditMapUp$ packet.
+\end{proof}
+
 \begin{theorem}[GroundCompiler audit-map NameCert obligations]
 \label{thm:ground-compiler-audit-map-namecert-obligations}
 For every accepted $\GroundCompilerAuditMapUp$ carrier
@@ -37,6 +66,7 @@ G=(I,K,E,C,R,Q,F,X,H,T,P,N),
 $$
 the local $\NameCert_{\GroundCompilerAuditMapUp}$ surface consists exactly of theorem-inventory readback through $I$, conditional theorem-cell readback through $K$, event-flow and channel-legality readback through $E$, compiler theorem readback through $C$, generated-recognizer readback through $R$, report-boundary readback through $Q$, frontier readback through $F$, theorem-family handoff through $X$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerAuditMapUp.GroundCompilerAuditMapNameCert\_obligations}
 \begin{proof}
 Project the finite carrier. Its first eight coordinates are the only public theorem, compiler, recognizer, boundary, frontier, and handoff rows available to a local certificate.
 
@@ -60,6 +90,7 @@ The frontier and handoff rows $F$ and $X$ then record what remains outside the p
 
 The omitted coordinates are exactly the advertised non-escape claims. Therefore no accepted carrier read can leave the finite audit-map packet.
 \end{proof}
+\leanchecked{BEDC.Derived.GroundCompilerAuditMapUp.GroundCompilerAuditMapCarrier\_nonescape}
 
 \begin{theorem}[GroundCompiler audit-map theorem-family handoff]
 \label{thm:ground-compiler-audit-map-family-handoff}
@@ -79,6 +110,7 @@ Thus theorem-family handoff is a finite routed read, not an import of the target
 \label{thm:ground-compiler-audit-map-compiler-layer-frontier}
 For an accepted $\GroundCompilerAuditMapUp$ carrier, the compiler-layer frontier row $F$ is the binding boundary between the concrete audit map and stronger compiler claims. It permits the packet to cite the no-hidden-input streaming compiler theorem family through $C$, but it does not close host compiler trust, a self-hosted compiler tower, kernel acceptance, MetaCIC reduction or typing evidence, report-to-proof conversion, motif identity, or unrestricted equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerAuditMapUp.GroundCompilerAuditMapCarrier\_compiler\_layer\_frontier}
 \begin{proof}
 Read the compiler theorem row $C$ together with the frontier row $F$. The former records the available GroundCompiler theorem family, including the no-hidden-input streaming compiler theorem; the latter records which adjacent claims are outside the packet.
 
@@ -140,5 +172,5 @@ Now apply non-escape to the routed read through $X$. Because the carrier has no 
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close host compiler trust, a self-hosted compiler tower, kernel acceptance, MetaCIC proof evidence, report-to-proof conversion, Lean verification, audit cleanliness, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, theorem-inventory exactness, conditional-cell preservation, event-flow and channel legality readback, compiler theorem readback, generated-recognizer readback, report-boundary readback, frontier readback, theorem-family handoff, transport, continuation, provenance, naming, and non-escape for the same finite packet.}
+  \upgradepath{Paper-side atomicity rows are present; obligation closure still requires Lean-side Nontrivial evidence for $\GroundCompilerAuditMapUp$ and any missing TasteGate row separating the public carrier fields.}
 \end{closurestatus}

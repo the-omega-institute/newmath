@@ -203,14 +203,48 @@ Route determinacy, the budget-window lock, the tolerance-seal lock, the NameCert
 Finally apply prefix nonescape from \autoref{thm:finite-prefix-limit-stability-prefix-nonescape}. It excludes every non-coordinate source named in the statement, so the primitive and sibling rows listed above are the exact scope of the accepted finite-prefix limit-stability route.
 \end{proof}
 
+\begin{theorem}[Finite-prefix limit-stability public NameCert export]
+\label{thm:finite-prefix-limit-stability-public-namecert-export}
+The carrier of \autoref{def:finite-prefix-limit-stability-carrier}, the obligation surface of \autoref{thm:finite-prefix-limit-stability-obligation-surface}, the source lock of \autoref{thm:finite-prefix-limit-stability-source-lock}, the primitive-scope binding of \autoref{thm:finite-prefix-limit-stability-primitive-scope-binding}, the Real handoff of \autoref{thm:finite-prefix-limit-stability-real-handoff}, and the TasteGate marker export the public $\NameCert_{\FinitePrefixLimitStabilityUp}$ surface over $\FinitePrefixLimitBudgetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. This exported surface excludes host limits, quotient streams, selected limits, countable choice, ambient completeness, and bridge schema data.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligation triad of \autoref{thm:finite-prefix-limit-stability-namecert-obligation-triad}. It packages the budget-window lock, tolerance-seal lock, and route determinacy together with the carrier, obligation surface, transport, ledger, and prefix nonescape clauses.
+
+Apply the source lock of \autoref{thm:finite-prefix-limit-stability-source-lock}. It forces every Real-facing or Completion-facing consumer to read the ordered finite route $B \to W \to R \to D \to E$ before consuming the support rows $H,C,P,N$.
+
+Use the primitive-scope binding of \autoref{thm:finite-prefix-limit-stability-primitive-scope-binding}. This identifies the exact BEDC primitives and sibling rows that generate the route and excludes the host, quotient, choice, ambient-completeness, and bridge-schema sources named in the statement.
+
+Finally apply the Real handoff of \autoref{thm:finite-prefix-limit-stability-real-handoff}. The handoff terminates the exported route at the displayed $\RealUp$ seal, while the TasteGate marker records the accepted public surface. The composed package is therefore the public $\NameCert_{\FinitePrefixLimitStabilityUp}$ export over precisely the listed primitives and sibling rows.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-stability standard bridge precondition]
+\label{thm:finite-prefix-limit-stability-standard-bridge-precondition}
+Any standard bridge eligible to consume the public $\NameCert_{\FinitePrefixLimitStabilityUp}$ export must preserve the ordered finite BEDC route
+$$
+B \to W \to R \to D \to E
+$$
+through the sibling rows $\FinitePrefixLimitBudgetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. Bridge-side data may be exposed only after the finite prefix budget, stream window, regular-rational readback, dyadic tolerance ledger, and terminal Real seal have appeared in that order. No host limit, quotient stream equality, selected limit, countable-choice row, ambient Real completeness theorem, or detached bridge-schema row can serve as an alternate precondition for that bridge.
+\end{theorem}
+\begin{proof}
+Begin with the public export of \autoref{thm:finite-prefix-limit-stability-public-namecert-export}. It supplies the $\NameCert_{\FinitePrefixLimitStabilityUp}$ surface over the five sibling rows and the BEDC primitives that name the finite route.
+
+Apply the primitive-scope binding of \autoref{thm:finite-prefix-limit-stability-primitive-scope-binding}. The route is scoped exactly by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ together with the displayed sibling rows, so a standard bridge consuming the public export has no additional source from which to derive bridge-side data.
+
+Use the source lock of \autoref{thm:finite-prefix-limit-stability-source-lock}. Every Real-facing or Completion-facing read must encounter $B$, then $W$, then $R$, then $D$, and only then $E$ before support rows can be consumed.
+
+Finally apply prefix nonescape from \autoref{thm:finite-prefix-limit-stability-prefix-nonescape}. The excluded host, quotient, selected-limit, choice, completeness, and detached-schema sources cannot provide a second bridge entry. Thus the only admissible standard-bridge precondition is preservation of the displayed finite BEDC route.
+\end{proof}
+
+\closureat{FinitePrefixLimitStabilityUp}{bridgedStr}[BEDC.Derived.FinitePrefixLimitStabilityUp.FinitePrefixLimitStabilityTasteGate\_single\_carrier\_alignment]
+
 \begin{closurestatus}{\FinitePrefixLimitStabilityUp}
   \constructivestory{The finite-prefix limit-stability certificate is generated from $BHist$ rows that name a finite prefix budget, stream-name observation, regular-rational readback, dyadic tolerance ledger, and the terminal Real seal that keeps the route stable at that prefix. The carrier first reads the finite prefix, then records the stability witness, and finally allows $\Cont$ to continue toward a Real handoff only through that same prefix. The $hsame$ relation prevents representative changes from altering which finite prefix carries the stability evidence. The obligation surface, carrier admission, transport stability, ledger exactness, prefix nonescape, and Real handoff theorem together state that finite ledger data are sufficient for the admitted route, while external completion witnesses are outside scope.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{This chapter binds the finite-prefix limit-stability carrier, obligation-surface theorem, carrier-admission theorem, transport-stability theorem, ledger-exactness theorem, prefix-nonescape theorem, Real-handoff theorem, route-determinacy theorem, budget-window lock of \autoref{thm:finite-prefix-limit-stability-budget-window-lock}, tolerance-seal lock of \autoref{thm:finite-prefix-limit-stability-tolerance-seal-lock}, NameCert obligation triad of \autoref{thm:finite-prefix-limit-stability-namecert-obligation-triad}, primitive-scope binding of \autoref{thm:finite-prefix-limit-stability-primitive-scope-binding}, and TasteGate instance \leanchecked{BEDC.Derived.FinitePrefixLimitStabilityUp.taste\_gate}.}
-  \formalstatus{\auditCleanV}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{This chapter binds the finite-prefix limit-stability carrier, obligation-surface theorem, carrier-admission theorem, transport-stability theorem, ledger-exactness theorem, prefix-nonescape theorem, Real-handoff theorem, route-determinacy theorem, budget-window lock of \autoref{thm:finite-prefix-limit-stability-budget-window-lock}, tolerance-seal lock of \autoref{thm:finite-prefix-limit-stability-tolerance-seal-lock}, NameCert obligation triad of \autoref{thm:finite-prefix-limit-stability-namecert-obligation-triad}, primitive-scope binding of \autoref{thm:finite-prefix-limit-stability-primitive-scope-binding}, public NameCert export of \autoref{thm:finite-prefix-limit-stability-public-namecert-export}, and TasteGate instance \leanchecked{BEDC.Derived.FinitePrefixLimitStabilityUp.taste\_gate}.}
+  \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.FinitePrefixLimitStabilityUp.FinitePrefixLimitStabilityTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{It does not claim global limit existence, completed Real equality, selected limits, choice rows, or stability without the named finite prefix row.}
-  \upgradepath{A publicClosure claim requires a public-facing export theorem for the finite-prefix stability NameCert package while retaining bridge status none.}
+  \upgradepath{The next paper obligation is mature treatment of examples and downstream consumers; machine bridge checking remains a separate Lean-side target.}
 \end{closurestatus}

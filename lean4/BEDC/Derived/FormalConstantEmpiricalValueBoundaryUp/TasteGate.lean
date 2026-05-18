@@ -51,28 +51,62 @@ def formalConstantEmpiricalValueBoundaryFields :
 def formalConstantEmpiricalValueBoundaryToEventFlow :
     FormalConstantEmpiricalValueBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (formalConstantEmpiricalValueBoundaryFields x).map
-        formalConstantEmpiricalValueBoundaryEncodeBHist
+  | FormalConstantEmpiricalValueBoundaryUp.mk formal empirical calibration uncertainty
+      reproducibility failure transport replay provenance localCert =>
+      [formalConstantEmpiricalValueBoundaryEncodeBHist formal,
+        formalConstantEmpiricalValueBoundaryEncodeBHist empirical,
+        formalConstantEmpiricalValueBoundaryEncodeBHist calibration,
+        formalConstantEmpiricalValueBoundaryEncodeBHist uncertainty,
+        formalConstantEmpiricalValueBoundaryEncodeBHist reproducibility,
+        formalConstantEmpiricalValueBoundaryEncodeBHist failure,
+        formalConstantEmpiricalValueBoundaryEncodeBHist transport,
+        formalConstantEmpiricalValueBoundaryEncodeBHist replay,
+        formalConstantEmpiricalValueBoundaryEncodeBHist provenance,
+        formalConstantEmpiricalValueBoundaryEncodeBHist localCert]
+
+private def formalConstantEmpiricalValueBoundaryRawAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => []
+  | 0, head :: _ => head
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => formalConstantEmpiricalValueBoundaryRawAt n rest
+
+private def formalConstantEmpiricalValueBoundaryLengthEq : Nat → EventFlow → Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => formalConstantEmpiricalValueBoundaryLengthEq n rest
 
 def formalConstantEmpiricalValueBoundaryFromEventFlow :
     EventFlow → Option FormalConstantEmpiricalValueBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
-  | formal :: empirical :: calibration :: uncertainty :: reproducibility :: failure ::
-      transport :: replay :: provenance :: localCert :: [] =>
-      some
-        (FormalConstantEmpiricalValueBoundaryUp.mk
-          (formalConstantEmpiricalValueBoundaryDecodeBHist formal)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist empirical)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist calibration)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist uncertainty)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist reproducibility)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist failure)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist transport)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist replay)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist provenance)
-          (formalConstantEmpiricalValueBoundaryDecodeBHist localCert))
-  | _ => none
+  | flow =>
+      match formalConstantEmpiricalValueBoundaryLengthEq 10 flow with
+      | true =>
+          some
+            (FormalConstantEmpiricalValueBoundaryUp.mk
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 0 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 1 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 2 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 3 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 4 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 5 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 6 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 7 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 8 flow))
+              (formalConstantEmpiricalValueBoundaryDecodeBHist
+                (formalConstantEmpiricalValueBoundaryRawAt 9 flow)))
+      | false => none
 
 private theorem formalConstantEmpiricalValueBoundary_round_trip :
     ∀ x : FormalConstantEmpiricalValueBoundaryUp,
@@ -110,16 +144,18 @@ private theorem formalConstantEmpiricalValueBoundary_round_trip :
           some
             (FormalConstantEmpiricalValueBoundaryUp.mk formal empirical calibration uncertainty
               reproducibility failure transport replay provenance localCert)
-      rw [formalConstantEmpiricalValueBoundary_decode_encode_bhist formal,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist empirical,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist calibration,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist uncertainty,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist reproducibility,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist failure,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist transport,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist replay,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist provenance,
-        formalConstantEmpiricalValueBoundary_decode_encode_bhist localCert]
+      exact congrArg some
+        (by
+          rw [formalConstantEmpiricalValueBoundary_decode_encode_bhist formal,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist empirical,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist calibration,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist uncertainty,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist reproducibility,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist failure,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist transport,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist replay,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist provenance,
+            formalConstantEmpiricalValueBoundary_decode_encode_bhist localCert])
 
 private theorem formalConstantEmpiricalValueBoundaryToEventFlow_injective
     {x y : FormalConstantEmpiricalValueBoundaryUp} :
@@ -191,5 +227,23 @@ instance formalConstantEmpiricalValueBoundaryNontrivial :
 def taste_gate : ChapterTasteGate FormalConstantEmpiricalValueBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   formalConstantEmpiricalValueBoundaryChapterTasteGate
+
+theorem FormalConstantEmpiricalValueBoundaryTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      formalConstantEmpiricalValueBoundaryDecodeBHist
+        (formalConstantEmpiricalValueBoundaryEncodeBHist h) = h) ∧
+      (∀ x : FormalConstantEmpiricalValueBoundaryUp,
+        formalConstantEmpiricalValueBoundaryFromEventFlow
+          (formalConstantEmpiricalValueBoundaryToEventFlow x) = some x) ∧
+        (∀ x y : FormalConstantEmpiricalValueBoundaryUp,
+          formalConstantEmpiricalValueBoundaryToEventFlow x =
+            formalConstantEmpiricalValueBoundaryToEventFlow y → x = y) ∧
+          formalConstantEmpiricalValueBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨formalConstantEmpiricalValueBoundary_decode_encode_bhist,
+      formalConstantEmpiricalValueBoundary_round_trip,
+      (fun _ _ heq => formalConstantEmpiricalValueBoundaryToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.FormalConstantEmpiricalValueBoundaryUp

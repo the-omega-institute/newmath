@@ -1,0 +1,210 @@
+\begin{definition}[UniformCauchyCriterion Real-completion finite-envelope carrier]
+\label{def:uniform-cauchy-criterion-real-completion-finite-envelope-carrier}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. The Real-completion finite-envelope carrier of $U$ is the packet
+$$
+\mathcal{E}_{\RealUp}(U)=
+(U,W_{\StreamNameUp},R_{\RegSeqRatUp},Q_{\DyadicRatCoreUp},
+S_{\CauchyLimitSealUp},E_{\RealCauchyCompletionUp},H,C,P,N).
+$$
+Its rows are exactly the accepted $\UniformCauchyCriterionUp$ packet, the $\StreamNameUp$ window family $W$, the $\RegSeqRatUp$ source rows $R$ reached by the uniform tail ledger, the $\DyadicRatCoreUp$ tolerance ledger $Q$, the $\CauchyLimitSealUp$ tail-meet route $S$, the $\RealCauchyCompletionUp$ public $\RealUp$ export $E$, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\UniformCauchyCriterionUp}$ rows $H,C,P,N$. A row is admitted to the carrier only when it is displayed by this packet or by one of the named sibling routes attached to the same $U$.
+\end{definition}
+
+\begin{theorem}[UniformCauchyCriterion Real-completion finite-envelope NameCert obligations]
+\label{thm:uniform-cauchy-criterion-real-completion-finite-envelope-namecert-obligations}
+For the carrier $\mathcal{E}_{\RealUp}(U)$ of \autoref{def:uniform-cauchy-criterion-real-completion-finite-envelope-carrier}, the local $\NameCert$ obligations are the following finite rows:
+\begin{enumerate}
+\item carrier exposure: every admitted row is one of $U,W_{\StreamNameUp},R_{\RegSeqRatUp},Q_{\DyadicRatCoreUp},S_{\CauchyLimitSealUp},E_{\RealCauchyCompletionUp},H,C,P,N$;
+\item window-family stability: $\hsame$ transport of a $\StreamNameUp$ window request remains inside the same displayed $W$ family and is replayed only through the visible $\Cont$ row;
+\item regular-rational handoff: every $\RegSeqRatUp$ readback row used by a consumer is reached from the uniform tail ledger of $U$ and not from a second stream source;
+\item dyadic tolerance ledger exactness: every tolerance comparison consumed at the completion boundary is read from $Q_{\DyadicRatCoreUp}$ before the tail-meet route is sealed;
+\item public $\RealUp$ export: the $\RealCauchyCompletionUp$ route exports the named $\RealUp$ surface only after $W_{\StreamNameUp}$, $R_{\RegSeqRatUp}$, $Q_{\DyadicRatCoreUp}$, and $S_{\CauchyLimitSealUp}$ have been displayed;
+\item non-escape: no consumer row carries quotient streams, selected host limits, host real equality, countable choice, ambient completeness, metric-completeness data, or a bridge row outside $\mathcal{E}_{\RealUp}(U)$.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_real\_completion\_finite\_envelope\_namecert\_obligations}
+\begin{proof}
+Project the carrier definition. It lists the only admitted rows and records the structural rows $H,C,P,N$ as transport, continuation, provenance, and local naming data rather than analytic sources.
+
+Window stability and the regular-rational handoff are inherited from the existing $\UniformCauchyCriterionUp$ route: the $\StreamNameUp$ windows are carried by $W$, and the $\RegSeqRatUp$ rows are reached through the uniform tail ledger before any completion-facing read is available.
+
+The dyadic and public-export obligations are downstream of the same route. The tolerance ledger is the displayed $Q_{\DyadicRatCoreUp}$ row, the tail-meet route is the displayed $\CauchyLimitSealUp$ row, and the public $\RealUp$ export is read only through $\RealCauchyCompletionUp$ after those rows have been fixed.
+
+Thus every local naming obligation is discharged by one of the displayed rows. Since the carrier has no further coordinate, the excluded host-level, choice, completeness, quotient, and bridge data cannot be introduced by a consumer.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Real-completion finite-envelope consumer exhaustion]
+\label{thm:uniform-cauchy-criterion-real-completion-finite-envelope-consumer-exhaustion}
+Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\UniformCauchyCriterionUp$ packet factors through the finite-envelope carrier $\mathcal{E}_{\RealUp}(U)$ of \autoref{def:uniform-cauchy-criterion-real-completion-finite-envelope-carrier}. The factorization uses exactly the displayed rows
+$$
+U,W_{\StreamNameUp},R_{\RegSeqRatUp},Q_{\DyadicRatCoreUp},
+S_{\CauchyLimitSealUp},E_{\RealCauchyCompletionUp},H,C,P,N
+$$
+and no row outside that list can be read by such a consumer.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_real\_completion\_finite\_envelope\_consumer\_exhaustion}
+\begin{proof}
+Begin with a $\RealUp$ or $\CompletionUp$ consumer of $U$. The consumer must first read the accepted UniformCauchyCriterion packet, so its family request is already tied to the finite $I,W,M,Q,T,E,H,C,P,N$ surface.
+
+Next pass through the real-seal and tail-meet routes. The $\StreamNameUp$ window family, $\RegSeqRatUp$ source rows, and $\DyadicRatCoreUp$ tolerance ledger are the rows that feed the $\CauchyLimitSealUp$ route. No completion-facing read is available before those rows are displayed.
+
+Finally use the public export row. The $\RealCauchyCompletionUp$ route repacks the same displayed rows as a public $\RealUp$ surface, while $H,C,P,N$ replay transport, continuation, provenance, and local naming. This exhausts the consumer surface by the finite envelope.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Real-completion finite-envelope tail-window stability]
+\label{thm:uniform-cauchy-criterion-real-completion-finite-envelope-tail-window-stability}
+In $\mathcal{E}_{\RealUp}(U)$, every $\StreamNameUp$ window row used by a $\RealUp$ or $\CompletionUp$ consumer is tied to the corresponding $\RegSeqRatUp$ source row under the displayed $\hsame$ and $\Cont$ rows. Transport may rename the window and replay the readback, but it cannot replace $W_{\StreamNameUp}$ or $R_{\RegSeqRatUp}$ by a second window family or a second regular-rational source.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionRealCompletionFiniteEnvelope\_tail\_window\_stability}
+\begin{proof}
+Read the window request inside the carrier. The only window-family row is $W_{\StreamNameUp}$, and the only regular-rational source rows are the displayed $R_{\RegSeqRatUp}$ rows reached from the uniform tail ledger.
+
+Apply the structural rows. The $\hsame$ data compare windows componentwise, while the $\Cont$ row replays the same readback route after transport. Both rows act on the displayed carrier coordinates rather than creating a new source.
+
+Therefore any transported completion-facing consumer still reads the same $W_{\StreamNameUp}$ and $R_{\RegSeqRatUp}$ pair. A second window family or a second regular-rational source has no coordinate in the envelope.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Real-completion finite-envelope no-choice extraction]
+\label{thm:uniform-cauchy-criterion-real-completion-finite-envelope-no-choice-extraction}
+The finite-envelope carrier $\mathcal{E}_{\RealUp}(U)$ exports no quotient stream, no selected host limit, no host real equality, no countable-choice selector, no ambient completeness principle, and no metric-completeness data. Any attempted extraction of one of those objects from a $\RealUp$ or $\CompletionUp$ consumer is therefore outside the displayed carrier and outside its local $\NameCert$ obligations.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows. The analytic rows are the StreamName window family, RegSeqRat source rows, dyadic tolerance ledger, CauchyLimitSeal tail-meet route, and RealCauchyCompletion public export. None of these rows stores a quotient stream, a selected limit, host equality, a choice selector, or completeness data.
+
+The structural rows do not add analytic content. $\BHist$ records the visible history surface, $\hsame$ transports displayed rows, $\Cont$ replays displayed continuations, $\Pkg$ records provenance, and $\NameCert$ names the same local packet.
+
+By consumer exhaustion, every $\RealUp$ or $\CompletionUp$ consumer has already factored through this list. Hence the listed host-level and choice-based objects cannot be extracted from the envelope.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Real-completion finite envelope]
+\label{thm:uniform-cauchy-criterion-real-completion-envelope}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every $\RealUp$ or $\CompletionUp$ consumer entering through $U$ factors through exactly one finite envelope before it can read a real-facing or completion-facing result. The envelope is the displayed route through the $\StreamNameUp$ window family $W$, the $\RegSeqRatUp$ source rows reached by the uniform tail ledger, the $\DyadicRatCoreUp$ tolerance ledger $Q$, the $\CauchyLimitSealUp$ tail-meet route, the $\RealCauchyCompletionUp$ public $\RealUp$ export, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows carried by the packet and its sibling routes.
+
+Thus the accepted consumer surface has no coordinate for quotient streams, selected host limits, host real equality, countable choice, ambient completeness, metric-completeness data, or bridge rows outside the displayed finite envelope.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_real\_completion\_finite\_envelope}
+\begin{proof}
+Begin with the finite-envelope carrier of \autoref{def:uniform-cauchy-criterion-real-completion-finite-envelope-carrier}. It displays the accepted packet, the $\StreamNameUp$ window family, the $\RegSeqRatUp$ source rows, the dyadic tolerance ledger, the CauchyLimitSeal tail-meet route, the RealCauchyCompletion public export, and the visible structural rows in one packet.
+
+Use the NameCert obligation surface of \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-namecert-obligations}. It records carrier exposure, window-family stability, regular-rational handoff, dyadic tolerance exactness, public $\RealUp$ export, and non-escape as the finite obligations for the same displayed packet.
+
+Next apply consumer exhaustion and tail-window stability. \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-consumer-exhaustion} forces every $\RealUp$ or $\CompletionUp$ consumer through the displayed carrier rows, and \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-tail-window-stability} keeps the $\StreamNameUp$ windows tied to the $\RegSeqRatUp$ source rows under $\hsame$ and $\Cont$.
+
+Finally invoke the no-choice extraction boundary of \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-no-choice-extraction}. Since the consumer surface has already been exhausted by the carrier and its obligations, the Real and completion-facing surface has no coordinate for quotient streams, selected host limits, host real equality, countable choice, ambient completeness, metric-completeness data, or bridge rows outside the displayed finite envelope.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Real-completion synchronizer terminal envelope]
+\label{thm:uniform-cauchy-criterion-real-completion-synchronizer-terminal-envelope}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every $\RealUp$ or $\CompletionUp$ consumer that factors through $\mathcal{E}_{\RealUp}(U)$ and preserves the Phase Real route reaches its terminal $\RealUp$ row through the same finite synchronizer envelope. That envelope consists exactly of the $\StreamNameUp$ window family, the $\RegSeqRatUp$ readback rows, the $\DyadicRatCoreUp$ tolerance ledger, the $\CauchyLimitSealUp$ tail-meet route, the $\RealCompletionSelectorSealUp$ route when present, the $\RealCauchyCompletionUp$ public export, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows attached to $U$.
+
+Consequently the terminal Real row is not obtained from quotient streams, selected host limits, host real equality, countable choice, a second stream source, a second readback source, a second tolerance source, metric completeness, open-cover compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the finite envelope. By \autoref{thm:uniform-cauchy-criterion-real-completion-envelope}, the consumer has already passed through the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, $\RealCauchyCompletionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. By \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-consumer-exhaustion}, there is no additional consumer coordinate outside that list.
+
+Next use the no-choice boundary. \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-no-choice-extraction} rules out quotient streams, selected host limits, host real equality, countable choice, ambient completeness, and metric-completeness data. The tail-window stability theorem also keeps the StreamName window family and RegSeqRat readback rows tied to the same $\hsame$ and $\Cont$ transport, so no second stream or readback source can enter the envelope. The dyadic tolerance row is already the displayed $Q_{\DyadicRatCoreUp}$ ledger, so no second tolerance source is available.
+
+Now identify the terminal route. Apply \autoref{thm:uniform-cauchy-criterion-selector-seal-synchronization} when the selector-seal row is present; it places the selector-facing route on the same StreamName, RegSeqRat, DyadicRatCore, CauchyLimitSeal, and terminal $\RealUp$ surface.
+
+Finally apply \autoref{thm:uniform-cauchy-criterion-phase-real-route-iff} and \autoref{thm:uniform-cauchy-criterion-phase-real-endpoint-determinacy}. The first theorem identifies Phase Real admissibility with preservation of the displayed route, and the second theorem makes the endpoint row determined by that route. Hence every admissible Real or Completion consumer reaches the terminal $\RealUp$ row through precisely the finite synchronizer envelope displayed above, with no appeal to open-cover compactness or ambient completeness.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion finite-envelope route determinacy]
+\label{thm:uniform-cauchy-criterion-finite-envelope-route-determinacy}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Consider two $\RealUp$ or $\CompletionUp$ consumers of $U$ that preserve the Phase Real route and factor through the finite envelope $\mathcal{E}_{\RealUp}(U)$. If the two consumers read the same displayed $\StreamNameUp$ rows, $\RegSeqRatUp$ rows, $\DyadicRatCoreUp$ tolerance ledger, $\CauchyLimitSealUp$ route, optional $\RealCompletionSelectorSealUp$ row, $\RealCauchyCompletionUp$ export, and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, then they reach the same terminal $\RealUp$ row.
+
+Thus Phase Real and Completion consumers of $\UniformCauchyCriterionUp$ have a deterministic terminal Real route once their finite-envelope rows agree. No quotient stream, selected host limit, host real equality, countable-choice selector, second tolerance ledger, metric-completeness object, open-cover compactness datum, or ambient completeness principle can separate the two terminal rows.
+\end{theorem}
+\begin{proof}
+First exhaust both consumers through the finite envelope. Apply \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-consumer-exhaustion} to place each consumer inside the displayed carrier, and apply \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-tail-window-stability} to keep the $\StreamNameUp$ and $\RegSeqRatUp$ rows tied to the same $\hsame$ and $\Cont$ transport.
+
+The remaining excluded coordinates cannot distinguish the consumers. By \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-no-choice-extraction}, neither consumer can read quotient streams, selected host limits, host equality, choice selectors, ambient completeness, or metric-completeness data from the envelope.
+
+Now synchronize the selector-facing part of the route. When the optional $\RealCompletionSelectorSealUp$ row is present, \autoref{thm:uniform-cauchy-criterion-selector-seal-synchronization} places it on the same $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, and terminal $\RealUp$ surface already read by the two consumers. When the row is absent, the common finite envelope has no selector coordinate to separate.
+
+Finally use the Phase Real route criterion and endpoint determinacy. \autoref{thm:uniform-cauchy-criterion-phase-real-route-iff} identifies both consumers as preserving the same admissible finite route, and \autoref{thm:uniform-cauchy-criterion-phase-real-endpoint-determinacy} makes the terminal endpoint row determined by that route. Since the displayed rows agree, the two terminal $\RealUp$ rows agree as well.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Real-envelope source minimality]
+\label{thm:uniform-cauchy-criterion-real-envelope-source-minimality}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. A $\RealUp$-facing or $\CompletionUp$-facing terminal envelope for $U$ is admissible exactly when its displayed route contains the same $\StreamNameUp$ window family, the same $\RegSeqRatUp$ source rows, the same $\DyadicRatCoreUp$ tolerance ledger, the same $\CauchyLimitSealUp$ tail-meet route, the same $\RealCauchyCompletionUp$ export row, and the packet's visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Equivalently, the Real-completion finite envelope $\mathcal{E}_{\RealUp}(U)$ is source-minimal among admissible terminal envelopes: deleting any listed row destroys either the local $\NameCert$ obligation surface, the consumer factorization, the terminal synchronizer envelope, or route determinacy; adjoining quotient streams, selected host limits, host real equality, countable choice, ambient completeness, metric-completeness data, a second stream source, a second readback source, or a second tolerance source produces no new admissible terminal envelope for $U$.
+\end{theorem}
+\begin{proof}
+First read the displayed carrier and its local obligations. \autoref{def:uniform-cauchy-criterion-real-completion-finite-envelope-carrier} lists the only rows of $\mathcal{E}_{\RealUp}(U)$, and \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-namecert-obligations} records why the window family, regular-rational rows, dyadic ledger, tail-meet route, public export, and structural packet rows are all required by the local $\NameCert$ surface.
+
+For the forward direction, take an admissible terminal envelope. By \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-consumer-exhaustion}, every $\RealUp$ or $\CompletionUp$ consumer already factors through the displayed rows of $\mathcal{E}_{\RealUp}(U)$. By \autoref{thm:uniform-cauchy-criterion-real-completion-synchronizer-terminal-envelope}, the terminal Real route uses the same synchronizer rows, and by \autoref{thm:uniform-cauchy-criterion-finite-envelope-route-determinacy}, agreement on those rows determines the terminal $\RealUp$ row. Hence an admissible terminal envelope cannot omit or replace one of the displayed sources.
+
+For the reverse direction, suppose the route displays exactly those rows. The finite-envelope carrier supplies the local $\NameCert$ obligations, consumer exhaustion supplies the factorization through the displayed route, and the synchronizer theorem supplies the terminal Real-facing row. Route determinacy then identifies the resulting terminal row as the unique endpoint for that displayed route.
+
+It remains to exclude extra sources. The no-choice extraction boundary in \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-no-choice-extraction} rules out quotient streams, selected host limits, host real equality, countable choice, ambient completeness, and metric-completeness data. Tail-window stability in \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-tail-window-stability} prevents a second stream or readback source, and the dyadic ledger coordinate in the carrier prevents a second tolerance source. Thus the listed rows are both sufficient and source-minimal.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Real-envelope witness extraction]
+\label{thm:uniform-cauchy-criterion-real-envelope-witness-extraction}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Let $\mathcal{T}$ be an admissible $\RealUp$-facing or $\CompletionUp$-facing terminal envelope for $U$ whose displayed rows satisfy the source-minimality characterization of \autoref{thm:uniform-cauchy-criterion-real-envelope-source-minimality}. Then $\mathcal{T}$ determines a finite BEDC witness packet
+$$
+\mathcal{W}_{\RealUp}(U,\mathcal{T})=
+(W_{\StreamNameUp},R_{\RegSeqRatUp},Q_{\DyadicRatCoreUp},
+S_{\CauchyLimitSealUp},E_{\RealCauchyCompletionUp},H,C,P,N).
+$$
+Its coordinates are exactly the displayed $\StreamNameUp$ window family, the $\RegSeqRatUp$ source rows reached by the uniform tail ledger, the $\DyadicRatCoreUp$ tolerance ledger, the $\CauchyLimitSealUp$ tail-meet route, the $\RealCauchyCompletionUp$ public export, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\UniformCauchyCriterionUp}$ rows. Every $\RealUp$ or $\CompletionUp$ consumer read of $\mathcal{T}$ factors through this witness packet before the terminal $\RealUp$ row is consumed.
+
+The witness packet has no coordinate for quotient streams, selected host limits, host real equality, countable choice, ambient completeness, metric-completeness data, a second stream source, a second readback source, or a second tolerance source.
+\end{theorem}
+\begin{proof}
+Start with carrier exposure. The finite-envelope carrier of \autoref{def:uniform-cauchy-criterion-real-completion-finite-envelope-carrier} displays the accepted packet together with $W_{\StreamNameUp}$, $R_{\RegSeqRatUp}$, $Q_{\DyadicRatCoreUp}$, $S_{\CauchyLimitSealUp}$, $E_{\RealCauchyCompletionUp}$, and the structural rows $H,C,P,N$. The NameCert obligations of \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-namecert-obligations} identify these rows as the local carrier, stability, exactness, export, and non-escape data.
+
+Now apply consumer exhaustion and terminal routing. By \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-consumer-exhaustion}, every $\RealUp$ or $\CompletionUp$ consumer read factors through the displayed carrier rows. By \autoref{thm:uniform-cauchy-criterion-real-completion-synchronizer-terminal-envelope}, the terminal Real-facing read is reached only after the synchronizer rows have been displayed.
+
+Route determinacy turns the displayed rows into a witness rather than a mere description. \autoref{thm:uniform-cauchy-criterion-finite-envelope-route-determinacy} makes the terminal $\RealUp$ row determined by agreement on the listed rows, and \autoref{thm:uniform-cauchy-criterion-real-envelope-source-minimality} says an admissible terminal envelope satisfying the source-minimality characterization cannot omit or replace any of them. Therefore $\mathcal{T}$ canonically yields the finite packet $\mathcal{W}_{\RealUp}(U,\mathcal{T})$ with exactly those coordinates.
+
+Finally exclude external analytic sources. The no-choice extraction theorem \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-no-choice-extraction} rules out quotient streams, selected host limits, host real equality, countable choice, ambient completeness, and metric-completeness data. Tail-window stability rules out second stream and readback sources, while the dyadic ledger row in the carrier fixes the tolerance source. Hence every consumer read reaches the terminal $\RealUp$ row through the witness packet and through no additional source.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Real-completion terminal readiness]
+\label{thm:uniform-cauchy-criterion-real-completion-terminal-readiness}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet, and let $\mathcal{T}$ be an admissible $\RealUp$-facing or $\CompletionUp$-facing terminal envelope for $U$ satisfying the source-minimality characterization of \autoref{thm:uniform-cauchy-criterion-real-envelope-source-minimality}. Any terminal Real-and-Completion consumer compatible with the finite witness packet $\mathcal{W}_{\RealUp}(U,\mathcal{T})$, the finite-selector UniformCauchy Real readiness route of \autoref{thm:finite-observation-budget-selector-uniform-cauchy-real-readiness}, and the Real L10 four-face exit sufficiency route of \autoref{thm:real-l10-four-face-exit-sufficiency} factors through the single displayed terminal readiness surface
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert.
+$$
+
+This terminal readiness surface has no coordinate for quotient streams, host real equality, selected host limits, countable choice, metric-completeness rows, ambient completeness, aggregate $\formalstatus$ rows, or aggregate bridge rows. In particular it is a readiness theorem for consuming the finite Real-and-Completion route, not a claim of $\RealUp$ completeness or a route-level bridge.
+\end{theorem}
+\begin{proof}
+First extract the finite witness packet. By \autoref{thm:uniform-cauchy-criterion-real-envelope-witness-extraction}, the admissible envelope $\mathcal{T}$ canonically exposes exactly the finite rows $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, $\RealCauchyCompletionUp$, and the structural support $H,C,P,N$ carried by $U$. Its no-escape clause removes quotient streams, selected host limits, host real equality, countable choice, ambient completeness, metric-completeness data, and duplicate stream or tolerance sources.
+
+Next attach the selector-side terminal route. Apply \autoref{thm:finite-observation-budget-selector-uniform-cauchy-real-readiness}. It turns any compatible finite-selector consumer into a reader of the same public rows $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, without hidden selectors, detached limits, metric-completeness rows, ambient completeness, quotient streams, host real equality, or countable choice.
+
+Now attach the objectwise Phase Real and Completion exit. By \autoref{thm:real-l10-four-face-exit-sufficiency}, the Phase Real and Completion exit is supplied exactly by the four local records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The cited sufficiency theorem supplies no aggregate $\formalstatus$ row, no aggregate bridge row, no quotient stream, no selected limit, no countable-choice row, no metric-completeness datum, and no $\RealUp$ completeness claim.
+
+The three routes therefore have the same terminal consumer surface. The finite witness packet gives the UniformCauchy envelope rows, the selector theorem gives the terminal public readiness route, and Real L10 exit sufficiency certifies that the Phase Real and Completion exit is objectwise over the same four faces. The no-escape clauses in the UniformCauchy envelope together with the Real L10 face-status noncollapse results prevent every listed external coordinate from serving as an alternate terminal read.
+\end{proof}

@@ -185,4 +185,47 @@ theorem RussellBoundaryCarrier_public_certificate
     ⟨RussellBoundaryCarrier_fivefold_obligations carrierWitness, relationUnary, routeUnary,
       publicUnary, relationRoutePublic, localCertPkg, publicPkg⟩
 
+theorem RussellBoundaryCarrier_source_relation_description_transport
+    [AskSetup] [PackageSetup]
+    {source relation description source' relation' description' classifier bridge descent
+      transport route provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RussellBoundaryCarrier source relation description classifier bridge descent transport route
+        provenance localCert bundle pkg ->
+      hsame source source' ->
+        hsame relation relation' ->
+          hsame description description' ->
+            UnaryHistory source' ∧ UnaryHistory relation' ∧ UnaryHistory description' ∧
+              Cont source' relation' description' ∧
+                SemanticNameCert
+                  (fun row : BHist =>
+                    RussellBoundaryCarrier source relation description classifier bridge descent
+                      transport route provenance localCert bundle pkg ∧ hsame row localCert)
+                  (fun row : BHist =>
+                    Cont source relation description ∧ Cont classifier bridge descent ∧
+                      Cont transport route provenance ∧ hsame row localCert)
+                  (fun row : BHist => PkgSig bundle localCert pkg ∧ hsame row localCert)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier sameSource sameRelation sameDescription
+  have carrierWitness := carrier
+  obtain ⟨sourceUnary, relationUnary, descriptionUnary, _classifierUnary, _bridgeUnary,
+    _descentUnary, _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary,
+    sourceRelationDescription, _classifierBridgeDescent, _transportRouteProvenance,
+    _localCertPkg⟩ := carrier
+  have sourceUnary' : UnaryHistory source' :=
+    unary_transport sourceUnary sameSource
+  have relationUnary' : UnaryHistory relation' :=
+    unary_transport relationUnary sameRelation
+  have descriptionUnary' : UnaryHistory description' :=
+    unary_transport descriptionUnary sameDescription
+  have sourceRelationDescription' : Cont source' relation' description' := by
+    cases sameSource
+    cases sameRelation
+    cases sameDescription
+    exact sourceRelationDescription
+  exact
+    ⟨sourceUnary', relationUnary', descriptionUnary', sourceRelationDescription',
+      RussellBoundaryCarrier_fivefold_obligations carrierWitness⟩
+
 end BEDC.Derived.RussellBoundaryUp

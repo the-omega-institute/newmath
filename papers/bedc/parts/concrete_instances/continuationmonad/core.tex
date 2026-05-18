@@ -315,6 +315,7 @@ Use classifier stability and ledger exactness to keep the unit, first-step, seco
 
 Finally apply \autoref{thm:continuation-monad-kleisli-composition-boundary}, \autoref{thm:continuation-monad-scoped-route-dependencies}, and \autoref{thm:continuation-monad-route-readback-determinacy}. The boundary supplies the finite Kleisli-facing route, the dependency theorem restricts all consumers to the listed BEDC rows, and determinacy says the four displayed readbacks exhaust the public route.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_route\_readback\_totality}
 
 \begin{theorem}[ContinuationMonad unit-composite readback totality]
 \label{thm:continuation-monad-unit-composite-readback-totality}
@@ -381,6 +382,7 @@ Use classifier stability and ledger exactness to transport the same route data a
 
 Finally apply the local NameCert package and the Kleisli composition boundary. They repack carrier admission, stability, exactness, provenance, and consumer boundary as the public obligation surface for $\ContinuationMonadUp$.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_obligation\_closure}
 
 \begin{definition}[ContinuationMonad kernel scope row]
 \label{def:continuation-monad-kernel-scope-row}
@@ -433,6 +435,7 @@ A \xrightarrow{\,f\,} B \xrightarrow{\,g\,} C
 $$
 to the standard monad-reading boundary is mediated only by the rows $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$. The boundary exports no quotient Kleisli arrow, no host function composition, and no host monad equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_route\_bridge\_boundary}
 \begin{proof}
 Begin with the public package of \autoref{thm:continuation-monad-namecert-package}. It supplies carrier admission, classifier stability, ledger exactness, package provenance, and the Kleisli boundary for the same packet $Z$.
 
@@ -445,6 +448,7 @@ Finally use \autoref{thm:continuation-monad-scoped-route-dependencies}. The Cate
 \label{thm:continuation-monad-finite-standard-handoff}
 The public $\ContinuationMonadUp$ handoff to standard monad notation is finite: the source, middle, and target histories are $A,B,C$; the displayed non-unit tails are $f,g$; the unit tail is $u$; the transport, route, ledger, and naming rows are $H,K,L,N$. Every standard-looking unit or composite read is a reading of these rows through $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$, not a host-side monad structure.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_finite\_standard\_handoff}
 \begin{proof}
 Use \autoref{thm:continuation-monad-kleisli-composite-scope}. It identifies every composite consumer with the displayed tails, route row, transport row, ledger row, CategoryUp readings, package provenance, and local certificate.
 

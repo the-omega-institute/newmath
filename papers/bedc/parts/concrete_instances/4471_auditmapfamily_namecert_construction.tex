@@ -67,11 +67,14 @@ The frontier coordinate is therefore carried as $B$, not recomputed from neighbo
 
 The NameCert row $N$ then binds the transported packet to the same public surface. The frontier remains stable because the only accepted frontier read is still the displayed row $B$ routed through $C$ and cited through $K$.
 \end{proof}
+\leanchecked{BEDC.Derived.AuditMapFamilyUp.AuditMapFamilyFrontierStability}
+\leanvariant{BEDC.Derived.AuditMapFamilyUp.AuditMapFamilyCarrier\_frontier\_stability}
 
 \begin{theorem}[Audit-map family frontier non-escape]
 \label{thm:audit-map-family-frontier-nonescape}
 For every accepted $\AuditMapFamilyUp$ carrier $F=(T,I,O,R,B,H,C,K,N)$, no entry of the frontier row $B$ can be read as a closed proof of the corresponding frontier claim. A consumer may cite the frontier entry as a named boundary of the audit-map family, but cannot extract subject reduction, confluence, candidate-free normalisation, full closed consistency, host semantic equality, or any other unlisted discharge from that citation.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditMapFamilyUp.AuditMapFamilyCarrier\_frontier\_nonescape}
 \begin{proof}
 Read the frontier row directly. By \autoref{def:audit-map-family-namecert-carrier}, $B$ records consumer-facing claims that are named by the family packet but not closed by it.
 
@@ -107,6 +110,7 @@ Thus the falsifiability and independence rows are not external prose conditions.
 \label{thm:audit-map-family-obstruction-row-exactness}
 For every accepted $\AuditMapFamilyUp$ carrier $F=(T,I,O,R,B,H,C,K,N)$, a blocked or conditional audit fact is read exactly through the obstruction row $O$. Such a fact remains an obstruction entry transported by $H$ and read through $C,K,N$; it cannot become an inventory theorem in $I$, a closed frontier row in $B$, or a discharge route absent from the displayed family packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditMapFamilyUp.AuditMapFamilyCarrier\_obstruction\_row\_exactness}
 \begin{proof}
 Read the partition of rows from \autoref{thm:audit-map-family-inventory-factorization}. Established local material passes through $I$, while blocked or conditional material passes through $O$.
 
@@ -132,6 +136,7 @@ Obstruction exactness prevents hidden detours. \autoref{thm:audit-map-family-obs
 \label{thm:audit-map-family-obligation-unblock-package}
 The $\AuditMapFamilyUp$ obligation package for the finite family packet $F=(T,I,O,R,B,H,C,K,N)$ consists of inventory factorization, cross-map non-escape, frontier stability, frontier non-escape, obstruction row exactness, and routing row exhaustion. This package makes the family obligation-ready while still excluding subject reduction, confluence, normalisation, closed consistency, host equality, hidden obstruction discharge, and unlisted family maps unless the corresponding row is displayed in the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditMapFamilyUp.AuditMapFamilyObligationUnblockPackage}
 \begin{proof}
 Assemble the carrier rows first. \autoref{thm:audit-map-family-inventory-factorization} partitions consumer reads through $T,I,O,R,B,H,C,K,N$, and \autoref{thm:audit-map-family-cross-map-nonescape} confines neighbouring-map access to displayed source, target, route, transport, continuation, provenance, and naming rows.
 
