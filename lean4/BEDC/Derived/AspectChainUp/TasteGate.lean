@@ -240,42 +240,6 @@ instance aspectChainFieldFaithful : FieldFaithful AspectChainUp where
 def taste_gate : ChapterTasteGate AspectChainUp :=
   aspectChainChapterTasteGate
 
-instance aspectChainFieldFaithful : FieldFaithful AspectChainUp where
-  fields := fun x =>
-    match x with
-    | AspectChainUp.mk records inscription gap locality otherMinds transport routes provenance
-        nameCert =>
-        [records, inscription, gap, locality, otherMinds, transport, routes, provenance,
-          nameCert]
-  field_faithful := by
-    -- BEDC touchpoint anchor: BHist BMark
-    intro x y h
-    cases x with
-    | mk records1 inscription1 gap1 locality1 otherMinds1 transport1 routes1 provenance1
-        nameCert1 =>
-        cases y with
-        | mk records2 inscription2 gap2 locality2 otherMinds2 transport2 routes2 provenance2
-            nameCert2 =>
-            injection h with hrecords tail1
-            injection tail1 with hinscription tail2
-            injection tail2 with hgap tail3
-            injection tail3 with hlocality tail4
-            injection tail4 with hotherMinds tail5
-            injection tail5 with htransport tail6
-            injection tail6 with hroutes tail7
-            injection tail7 with hprovenance tail8
-            injection tail8 with hnameCert _
-            cases hrecords
-            cases hinscription
-            cases hgap
-            cases hlocality
-            cases hotherMinds
-            cases htransport
-            cases hroutes
-            cases hprovenance
-            cases hnameCert
-            rfl
-
 theorem AspectChainTasteGate_single_carrier_alignment :
     (∀ h : BHist, aspectChainDecodeBHist (aspectChainEncodeBHist h) = h) ∧
       (∀ x : AspectChainUp, aspectChainFromEventFlow (aspectChainToEventFlow x) = some x) ∧
