@@ -166,6 +166,28 @@ theorem ZnormalPacket_root_bhist_source_surface [AskSetup] [PackageSetup]
       transportsUnary, routesUnary, provenanceUnary, nameUnary, typedFuelTerminal,
       terminalNormalContinuation, continuationTransportsRoutes, provenancePkg⟩
 
+theorem ZnormalPacket_root_carrier_exposure [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg ->
+      UnaryHistory typed ∧ UnaryHistory fuel ∧ UnaryHistory terminal ∧
+        UnaryHistory normal ∧ UnaryHistory continuation ∧ UnaryHistory transports ∧
+          UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+            Cont typed fuel terminal ∧ Cont terminal normal continuation ∧
+              Cont continuation transports routes ∧ PkgSig bundle name pkg ∧
+                PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet
+  obtain ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary,
+    transportsUnary, routesUnary, provenanceUnary, nameUnary, typedFuelTerminal,
+    terminalNormalContinuation, continuationTransportsRoutes, namePkg, provenancePkg⟩ :=
+    packet
+  exact
+    ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary,
+      transportsUnary, routesUnary, provenanceUnary, nameUnary, typedFuelTerminal,
+      terminalNormalContinuation, continuationTransportsRoutes, namePkg, provenancePkg⟩
+
 theorem ZnormalPacket_normal_form_consumer_coverage [AskSetup] [PackageSetup]
     {typed fuel terminal normal continuation transports routes provenance name normalRead
       downstream : BHist}
@@ -517,5 +539,69 @@ theorem ZnormalPacket_root_terminal_normality_determinacy [AskSetup] [PackageSet
     unary_cont_closed typedUnary fuelUnary typedFuelTerminalRead
   exact
     ⟨terminalReadSame, terminalReadUnary, terminalNormalContinuation, provenancePkg⟩
+
+theorem ZnormalPacket_terminal_fuel_route_admission [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name terminalRead
+      continuationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg →
+      Cont typed fuel terminalRead →
+        Cont terminalRead normal continuationRead →
+          PkgSig bundle continuationRead pkg →
+            hsame terminalRead terminal ∧ UnaryHistory terminalRead ∧
+              UnaryHistory continuationRead ∧ Cont terminalRead normal continuationRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle continuationRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet typedFuelTerminalRead terminalReadNormalContinuationRead continuationReadPkg
+  obtain ⟨typedUnary, fuelUnary, _terminalUnary, normalUnary, _continuationUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, typedFuelTerminal,
+    _terminalNormalContinuation, _continuationTransportsRoutes, _namePkg, provenancePkg⟩ :=
+    packet
+  have terminalReadSame : hsame terminalRead terminal :=
+    cont_deterministic typedFuelTerminalRead typedFuelTerminal
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed typedUnary fuelUnary typedFuelTerminalRead
+  have continuationReadUnary : UnaryHistory continuationRead :=
+    unary_cont_closed terminalReadUnary normalUnary terminalReadNormalContinuationRead
+  exact
+    ⟨terminalReadSame, terminalReadUnary, continuationReadUnary,
+      terminalReadNormalContinuationRead, provenancePkg, continuationReadPkg⟩
+
+theorem ZnormalPacket_consumer_route_totality [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name normalRead
+      downstream consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg →
+      Cont normal continuation normalRead →
+        Cont normalRead transports downstream →
+          Cont downstream routes consumer →
+            PkgSig bundle consumer pkg →
+              UnaryHistory typed ∧ UnaryHistory fuel ∧ UnaryHistory terminal ∧
+                UnaryHistory normal ∧ UnaryHistory continuation ∧ UnaryHistory normalRead ∧
+                  UnaryHistory transports ∧ UnaryHistory downstream ∧ UnaryHistory routes ∧
+                    UnaryHistory consumer ∧ Cont typed fuel terminal ∧
+                      Cont terminal normal continuation ∧ Cont normal continuation normalRead ∧
+                        Cont normalRead transports downstream ∧ Cont downstream routes consumer ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet normalContinuationRead normalReadTransportsDownstream downstreamRoutesConsumer
+    consumerPkg
+  obtain ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary,
+    transportsUnary, routesUnary, _provenanceUnary, _nameUnary, typedFuelTerminal,
+    terminalNormalContinuation, _continuationTransportsRoutes, _namePkg, provenancePkg⟩ :=
+    packet
+  have normalReadUnary : UnaryHistory normalRead :=
+    unary_cont_closed normalUnary continuationUnary normalContinuationRead
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed normalReadUnary transportsUnary normalReadTransportsDownstream
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed downstreamUnary routesUnary downstreamRoutesConsumer
+  exact
+    ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary, normalReadUnary,
+      transportsUnary, downstreamUnary, routesUnary, consumerUnary, typedFuelTerminal,
+      terminalNormalContinuation, normalContinuationRead, normalReadTransportsDownstream,
+      downstreamRoutesConsumer, provenancePkg, consumerPkg⟩
 
 end BEDC.Derived.ZnormalUp
