@@ -710,3 +710,61 @@ selected-limit, countable-choice, metric-completeness, or $\RealUp$
 completeness reading. Hence the coarse packet $P$ carries exactly the same
 objectwise exit threshold and no route-level strengthening.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal pullback coherence]
+\label{thm:real-l10-terminal-pullback-coherence}
+Let $T$ be an accepted terminal finite-window $\RealUp$ read presented through
+the public $\StreamNameUp$--$\RegSeqRatUp$ route. Suppose its StreamName
+window, $\DyadicRatCoreUp$ tolerance ledger, accepted $\RegSeqRatUp$ pointwise
+seal and readback, $\RealUp$ seal row, and shared $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support agree with a four-face Phase Real and
+Completion packet $P$. Then $T$ satisfies the same objectwise exit threshold as
+$P$ in the sense of
+\autoref{thm:real-l10-objectwise-exit-threshold-equivalence}.
+
+Conversely, any terminal finite-window $\RealUp$ read satisfying that
+objectwise threshold and carrying the displayed StreamName, DyadicRatCore,
+RegSeqRat, Real seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows
+factors through the StreamName--$\RegSeqRat$--$\RealUp$ terminal pullback over
+the four-face Phase Real and Completion packet.
+
+The coherent terminal read is only this displayed finite-window pullback. It
+does not assert an aggregate route-level $\formalstatus$, an aggregate bridge
+row, a quotient stream, a selected limit, a countable-choice row, a
+metric-completeness datum, or a $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+First read the terminal route. Apply
+\autoref{thm:streamname-regseqrat-realup-terminal-pullback-factorization}. The
+accepted terminal $\RealUp$ read factors through exactly the displayed
+StreamName window rows, accepted $\RegSeqRatUp$ pointwise seal rows,
+$\RealUp$ finite-window seal boundary, $\hsame$ transports, finite $\Cont$
+ledger, bundle membership, observations, and $\Pkg$ provenance. Apply
+\autoref{thm:streamname-regseqrat-real-finite-window-route-factorization} to
+include the $\DyadicRatCoreUp$ tolerance ledger in the same finite route.
+
+Now compare the resulting route with the four-face Phase Real and Completion
+packet $P$. The agreement assumptions identify the StreamName window,
+DyadicRatCore tolerance, RegSeqRat seal and readback, Real seal, $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates of the terminal read
+with the corresponding objectwise faces of $P$. Apply
+\autoref{thm:real-l10-objectwise-exit-threshold-equivalence} to read the exit
+threshold from those four local closurestatus records.
+
+For the converse direction, start with a terminal finite-window $\RealUp$ read
+that already carries the objectwise threshold and the displayed finite route
+rows. Apply
+\autoref{thm:streamname-regseqrat-real-finite-window-route-factorization} to
+recover the finite StreamName--RegSeqRat route, and then apply
+\autoref{thm:streamname-regseqrat-realup-terminal-pullback-factorization} to
+repack the same rows as the terminal pullback boundary.
+
+It remains to keep the terminal comparison at the same threshold. Apply
+\autoref{thm:real-l10-finite-cover-exit-threshold-descent} to descend any
+finite-window cover presentation back to the coarse packet $P$. Finally apply
+\autoref{thm:real-l10-face-status-noncollapse} and
+\autoref{thm:real-l10-face-leantarget-noncollapse}. These keep formalstatus,
+bridge, Lean-target, quotient-stream, selected-limit, choice,
+metric-completeness, and $\RealUp$ completeness data attached only to the
+source faces, so the pullback coherence gives no route-level strengthening.
+\end{proof}
