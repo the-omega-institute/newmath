@@ -480,6 +480,56 @@ theorem ClosedTermSubstitutionBoundaryNamecertObligations [AskSetup] [PackageSet
       exact And.intro (unary_transport consumerUnary (hsame_symm source.right)) consumerPkg
   }
 
+theorem ClosedTermSubstitutionBoundaryLedgerNonEscape [AskSetup] [PackageSetup]
+    {source value depth shift substitution ledger audit route consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution →
+      Cont shift substitution ledger →
+        Cont substitution depth audit →
+          Cont ledger audit route →
+            Cont route audit consumer →
+              PkgSig bundle consumer pkg →
+                UnaryHistory ledger ∧ UnaryHistory audit ∧ UnaryHistory route ∧
+                  UnaryHistory consumer ∧ Cont shift substitution ledger ∧
+                    Cont substitution depth audit ∧ Cont ledger audit route ∧
+                      Cont route audit consumer ∧ PkgSig bundle consumer pkg ∧
+                        SemanticNameCert
+                          (fun row : BHist =>
+                            ClosedTermSubstitutionBoundaryClassifier source value depth shift
+                              substitution ∧ hsame row consumer)
+                          (fun row : BHist => Cont route audit row ∧ PkgSig bundle consumer pkg)
+                          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle consumer pkg)
+                          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro classifierWitness shiftSubstitutionLedger substitutionDepthAudit ledgerAuditRoute
+    routeAuditConsumer consumerPkg
+  have classifierPacket :
+      ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution :=
+    classifierWitness
+  obtain ⟨_sourceUnary, _valueUnary, depthUnary, shiftUnary, substitutionUnary,
+    _sourceValueShift, _shiftDepthSubstitution⟩ := classifierWitness
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed shiftUnary substitutionUnary shiftSubstitutionLedger
+  have auditUnary : UnaryHistory audit :=
+    unary_cont_closed substitutionUnary depthUnary substitutionDepthAudit
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed ledgerUnary auditUnary ledgerAuditRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed routeUnary auditUnary routeAuditConsumer
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution ∧
+            hsame row consumer)
+        (fun row : BHist => Cont route audit row ∧ PkgSig bundle consumer pkg)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle consumer pkg)
+        hsame :=
+    ClosedTermSubstitutionBoundaryNamecertObligations classifierPacket shiftSubstitutionLedger
+      substitutionDepthAudit ledgerAuditRoute routeAuditConsumer consumerPkg
+  exact
+    ⟨ledgerUnary, auditUnary, routeUnary, consumerUnary, shiftSubstitutionLedger,
+      substitutionDepthAudit, ledgerAuditRoute, routeAuditConsumer, consumerPkg, cert⟩
+
 theorem ClosedTermSubstitutionBoundarySourceClosednessAdmission
     {source value depth shift substitution shiftRead substitutionRead : BHist} :
     ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution ->
