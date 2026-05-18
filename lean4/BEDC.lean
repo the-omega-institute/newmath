@@ -1949,6 +1949,7 @@ import BEDC.Derived.RealDiagonalMeshBudgetUp
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.RealDiagonalWindowCoverageUp
 import BEDC.Derived.RealCompletenessUp
+import BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.StreamNameDyadicRealHandoff
