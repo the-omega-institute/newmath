@@ -88,4 +88,38 @@ theorem OrderFullNatArithmeticHandoff :
               ⟨OrderUnaryComparisonCarrier.mk h k unaryH unaryK
                 (OrderComparisonBranch.rightPrefix rightStrict), rfl, rfl⟩
 
+theorem OrderEndpointTransportObligation {Z : OrderUnaryComparisonCarrier}
+    {left right : BHist} :
+    hsame Z.left left → hsame Z.right right →
+      UnaryHistory left ∧ UnaryHistory right ∧
+        (NatUnaryStrictPrefix left right ∨
+          NatUnaryStrictPrefix right left ∨ hsame left right) := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory NatUnaryStrictPrefix
+  intro leftSame rightSame
+  have leftUnary : UnaryHistory left :=
+    unary_transport Z.leftUnary leftSame
+  have rightUnary : UnaryHistory right :=
+    unary_transport Z.rightUnary rightSame
+  have branch :
+      NatUnaryStrictPrefix left right ∨
+        NatUnaryStrictPrefix right left ∨ hsame left right := by
+    cases Z.branch with
+    | leftPrefix strict =>
+        cases strict with
+        | intro tail data =>
+            exact Or.inl
+              (NatUnaryStrictPrefix_cont_hsame_transport data.left data.right.left
+                data.right.right leftSame rightSame)
+    | rightPrefix strict =>
+        cases strict with
+        | intro tail data =>
+            exact Or.inr
+              (Or.inl
+                (NatUnaryStrictPrefix_cont_hsame_transport data.left data.right.left
+                  data.right.right rightSame leftSame))
+    | same sameEndpoints =>
+        exact Or.inr (Or.inr (hsame_trans (hsame_symm leftSame)
+          (hsame_trans sameEndpoints rightSame)))
+  exact ⟨leftUnary, rightUnary, branch⟩
+
 end BEDC.Derived.OrderUp
