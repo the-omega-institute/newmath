@@ -58,3 +58,17 @@ The four-face exactness theorem \autoref{thm:streamname-regseqrat-dyadic-real-fo
 
 Finally combine the exclusion clauses in those three results. Quotient streams, host sequence equality, selected limits, ambient completeness, metric-completeness, bridges, trichotomy, open-cover compactness, and choice rows are not coordinates of the displayed terminal packet. The Lean route names \texttt{BEDC.Derived.StreamNameUp.StreamNameRealCompletionFourObjectExitRoute} and \texttt{BEDC.Derived.StreamNameUp.StreamNameRealCompletionFourObjectTerminalPullback} identify the corresponding formalization touchpoints for this four-face route.
 \end{proof}
+
+\begin{theorem}[StreamName L10 four-face exit gate reindex stability]
+\label{thm:streamname-l10-four-face-exit-gate-reindex-stability}
+Let $U$ be an accepted L10 seal-facing read satisfying the four-face exit gate of \autoref{thm:streamname-l10-four-face-exit-gate}. Suppose $U$ is transported along a support-row-preserving public $\StreamNameUp$ finite-window reindex route. Then the transported read satisfies the same exit gate over the same visible faces $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$, with the same displayed $\BHist$ rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance rows, and local $\NameCert$ rows. The reindexed gate exports no quotient streams, host sequence equality, selected limits, ambient completeness, metric completeness, bridge rows, trichotomy, open-cover compactness, or choice.
+\end{theorem}
+\begin{proof}
+Start with the original gate, \autoref{thm:streamname-l10-four-face-exit-gate}. It identifies the accepted read with the four visible faces and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows, and it excludes all non-displayed source rows.
+
+Transport that terminal surface along the certified public reindex route by \autoref{thm:streamname-reindex-four-face-exit-naturality}. Support-row preservation keeps the finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and $\RealUp$ seal on the same public route.
+
+Next apply the pullback statement, \autoref{thm:streamname-terminal-reindex-four-face-pullback}. It says that a reindexed terminal packet whose four faces and support rows agree is read through the same finite four-face surface, not through the shape of the reindexer or a hidden host coordinate.
+
+Finally use the converse admissibility direction of \autoref{thm:streamname-regseqrat-dyadic-real-four-face-exactness}. Since the transported packet displays exactly the same four faces and the same support rows, it is again an admissible L10 seal-facing read satisfying the exit gate. The exclusion list is preserved because none of quotient streams, host sequence equality, selected limits, ambient completeness, metric completeness, bridge rows, trichotomy, open-cover compactness, or choice is a coordinate of that transported packet.
+\end{proof}
