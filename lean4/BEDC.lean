@@ -259,6 +259,8 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.LocalNameOutputExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertObligationExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputLedgerExactness
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputNameStability
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputProvenanceCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRefusal
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRouteDeterminacy
@@ -287,6 +289,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootCarrierTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootConsumerFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootDescentAuditCoupling
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootHostBoundaryNameCertExhaustion
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootNameCertConsumerReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputAuditTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputBoundaryTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputConsumerTriad
@@ -366,6 +369,7 @@ import BEDC.Derived.BHistDecaTupleNameCertUp
 import BEDC.Derived.BHistDodecaTupleNameCertUp
 import BEDC.Derived.BHistHendecaSequenceNameCertUp
 import BEDC.Derived.BHistHendecaTupleNameCertUp
+import BEDC.Derived.BHistHeptaTupleNameCertUp
 import BEDC.Derived.BHistNonaSequenceNameCertUp
 import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.BHistOctaTupleNameCertUp
@@ -1020,6 +1024,7 @@ import BEDC.Derived.ClosedNormalEndpointTransportUp.TasteGate
 import BEDC.Derived.ClosedNormalRouteCertificateUp.TasteGate
 import BEDC.Derived.ClosedObservationSupplyBoundaryUp.TasteGate
 import BEDC.Derived.ClosedObservationSystemUp
+import BEDC.Derived.ClosedSubstitutionBoundaryUp.ClosedSliceTransport
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.PublicNonescape
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.SubstituteInertnessRoute
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
@@ -1030,6 +1035,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuthorizedRecursorAuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderSealFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerFactorization
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompileRoute
@@ -2099,6 +2105,7 @@ import BEDC.Derived.FiniteSupportUp.TasteGate
 import BEDC.Derived.FiniteTailDiagonalSealUp
 import BEDC.Derived.FiniteTailFiberScheduleUp.TasteGate
 import BEDC.Derived.FiniteTailFilterUp
+import BEDC.Derived.FiniteTailFilterUp.CofinalWindowBudgetNormalForm
 import BEDC.Derived.FiniteTailFilterUp.FormalTargetConsumerRoute
 import BEDC.Derived.FiniteTailFilterUp.RealWindowBudgetConsumerLink
 import BEDC.Derived.FiniteTailFilterUp.RealWindowBudgetSelectorBridge
@@ -3059,6 +3066,7 @@ import BEDC.Derived.PhysicsProgrammeSynthesisUp.TasteGate
 import BEDC.Derived.PiApplicationAdequacyRouteUp.TasteGate
 import BEDC.Derived.PicardContractionUp
 import BEDC.Derived.PicardContractionUp.CauchyModulusSiblingRoute
+import BEDC.Derived.PicardContractionUp.DownstreamModulusExposure
 import BEDC.Derived.PicardContractionUp.FiniteRateSealTriangle
 import BEDC.Derived.PicardContractionUp.LedgerBoundary
 import BEDC.Derived.PicardContractionUp.LipschitzLedgerWindowExactness
@@ -3973,6 +3981,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.DiagonalUniquenessExit
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalUniquenessFourFaceTerminal
 import BEDC.Derived.UniformCauchyCriterionUp.DownstreamRealConsumerExport
 import BEDC.Derived.UniformCauchyCriterionUp.EndpointBudgetReflector
+import BEDC.Derived.UniformCauchyCriterionUp.EndpointBudgetReflectorRoot
 import BEDC.Derived.UniformCauchyCriterionUp.ExitRouteConsumerCoverage
 import BEDC.Derived.UniformCauchyCriterionUp.FamilyUnion
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteEnvelopeRouteDeterminacy
