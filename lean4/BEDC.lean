@@ -1368,6 +1368,7 @@ import BEDC.Derived.ClosedTermSubstitutionUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftLedgerExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionLedgerExhaustion
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompileRoute
 import BEDC.Derived.ClassifierTypingUp
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.CrossPerspectiveAlignmentUp.TasteGate
@@ -1989,6 +1990,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedCandidateReadbackExhaus
 import BEDC.Derived.MetaCICNormalizationFrontierUp.SubstitutionStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedEndpointUseTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerBoundaryCompletion
+import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerScopeExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RouteReadbackPublicExport
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionVisibleTransport
