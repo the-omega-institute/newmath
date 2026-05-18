@@ -403,6 +403,42 @@ Resolution exactness from \autoref{thm:paper-lean-drift-witness-resolution-exact
 The non-escape theorem and the dependency-weave handoff theorem confine the exported material to finite marker-resolution rows. Hence replay, transport, provenance, and local naming preserve the unresolved-marker refusal rather than converting it into checked theorem content, semantic equivalence, bridge evidence, or closure-axis evidence.
 \end{proof}
 
+\begin{theorem}[Paper-Lean drift witness formalstatus sync readiness]
+\label{thm:paper-lean-drift-witness-formalstatus-sync-readiness}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier, a downstream consumer may synchronize a $\FormalStatus$ token in the family $\formalTargetV,\encodedDefV,\scaffoldCheckedV,\theoremCheckedV,\auditCleanV,\axiomCleanV,\bridgeCheckedV$ only after reading the same paper marker row $M$, normalized requested-name row $A$, duplicate-label ledger $L$, Lean inventory row $I$, and verdict row $R$. The synchronization is an objectwise verification-axis read of the marker-resolution verdict, and it creates no paper-side closure upgrade, bridge row, semantic equivalence, or checked theorem content.
+\end{theorem}
+\begin{proof}
+Token objectwise audit is supplied by \autoref{thm:paper-lean-drift-witness-token-objectwise-audit}. It says that the exported verification token is read from the displayed marker object and its local audit evidence, so the consumer must keep the same $M,A,L,I,R$ rows rather than replacing them by an ambient status token.
+
+Axis separation is the boundary supplied by \autoref{thm:paper-lean-drift-witness-axis-separation}. A synchronized formalstatus row remains a verification-axis report and therefore cannot become paper-side closure, bridge evidence, semantic equivalence, or theorem proof content.
+
+Finally, closure-target resolution from \autoref{thm:paper-lean-drift-witness-closure-target-resolution} fixes the inventory-and-ledger read that any status synchronization depends on. The consumer may record that read as a formalstatus token, but the only certified object is the same marker-resolution verdict row.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness marker-family resolution readiness]
+\label{thm:paper-lean-drift-witness-marker-family-resolution-readiness}
+The five marker families named by \texttt{\string\leanchecked}, \texttt{\string\leanvariant}, \texttt{\string\leansorryd}, \texttt{\string\leanstmt}, and \texttt{\string\leandef} remain separated through every synchronization consumer of an accepted $\PaperLeanDriftWitnessUp$ carrier. Each family resolves only through its own exact inventory-and-ledger verdict for the same $M,A,L,I,R$ rows, and no family may borrow exact resolution, duplicate-label refusal, or unresolved-marker refusal from another family.
+\end{theorem}
+\begin{proof}
+Marker-kind separation is the first boundary. It keeps checked theorem markers, variant markers, sorry markers, statement markers, and definition markers as different paper-site rows even when their requested Lean names have similar surface shape.
+
+Verdict-ledger totality then assigns the visible verdict for a fixed marker family and site. Apply \autoref{thm:paperleandriftwitness-verdict-ledger-totality}: the consumer sees exactly the ledger-and-inventory verdict for the selected marker row, not a family-erased verdict.
+
+Duplicate-ledger readiness and inventory-refusal readiness handle the obstruction branches. By \autoref{thm:paper-lean-drift-witness-duplicate-ledger-readiness} and \autoref{thm:paper-lean-drift-witness-inventory-refusal-readiness}, duplicate labels and absent inventory hits remain refusals for the same marker family and cannot be repackaged as another family resolution.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness audit-map consumer totality]
+\label{thm:paper-lean-drift-witness-audit-map-consumer-totality}
+Every downstream $\AuditMapDependencyWeaveUp$ consumer of an accepted $\PaperLeanDriftWitnessUp$ carrier receives exactly one of exact resolution, duplicate-label refusal, or unresolved-marker refusal for a marker site. The verdict is transported only through $H,C,P,N$, and no ambient audit route may erase a duplicate-label or unresolved-marker obstruction.
+\end{theorem}
+\begin{proof}
+The dependency-weave handoff is fixed by \autoref{thm:paperleandriftwitness-dependency-weave-handoff}. It sends the audit-map consumer the displayed finite packet and carries marker resolution only as dependency data.
+
+Dependency-routing scope and consumer-row scope identify the allowed route. By \autoref{thm:paper-lean-drift-witness-dependency-routing-scope} and \autoref{thm:paper-lean-drift-witness-consumer-row-scope}, the consumer reads the same marker, name, ledger, inventory, and verdict rows, and the only transport surface is $H,C,P,N$.
+
+The readiness rows above close the remaining consumer surface. Formalstatus synchronization from \autoref{thm:paper-lean-drift-witness-formalstatus-sync-readiness} cannot erase the obstruction, and marker-family readiness from \autoref{thm:paper-lean-drift-witness-marker-family-resolution-readiness} prevents a refused site from escaping through a different marker family.
+\end{proof}
+
 The exact-resolution row exported by $\PaperLeanDriftWitnessUp$ is consumed by the cross-map routing and synthesis-consumer rows of \autoref{ch:concrete-instances-auditmapdependencyweave-namecert}. The $\PaperLeanDriftWitnessUp$ packet supplies marker normalization, duplicate-label refusal, Lean inventory lookup, and exact-resolution verdict rows, while $\AuditMapDependencyWeaveUp$ decides how such local rows travel through neighbouring audit-map routes without discharging their obstruction rows.
 
 \closureat{PaperLeanDriftWitnessUp}{seedStr}
