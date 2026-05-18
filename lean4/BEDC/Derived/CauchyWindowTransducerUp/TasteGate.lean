@@ -152,22 +152,44 @@ def taste_gate : ChapterTasteGate CauchyWindowTransducerUp :=
   cauchyWindowTransducerChapterTasteGate
 
 theorem CauchyWindowTransducerTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier CauchyWindowTransducerUp) ∧
-      Nonempty (ChapterTasteGate CauchyWindowTransducerUp) ∧
-        Nonempty (FieldFaithful CauchyWindowTransducerUp) ∧
-          Nonempty (Nontrivial CauchyWindowTransducerUp) ∧
-            cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-              cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+    (∀ streamWindow dyadicTolerance windowStep regSeqReadback realSeal limitSelector
+        transport continuation provenance nameCert : BHist,
+      cauchyWindowTransducerToEventFlow
+        (CauchyWindowTransducerUp.mk streamWindow dyadicTolerance windowStep regSeqReadback
+          realSeal limitSelector transport continuation provenance nameCert) =
+        [cauchyWindowTransducerEncodeBHist streamWindow,
+          cauchyWindowTransducerEncodeBHist dyadicTolerance,
+          cauchyWindowTransducerEncodeBHist windowStep,
+          cauchyWindowTransducerEncodeBHist regSeqReadback,
+          cauchyWindowTransducerEncodeBHist realSeal,
+          cauchyWindowTransducerEncodeBHist limitSelector,
+          cauchyWindowTransducerEncodeBHist transport,
+          cauchyWindowTransducerEncodeBHist continuation,
+          cauchyWindowTransducerEncodeBHist provenance,
+          cauchyWindowTransducerEncodeBHist nameCert]) ∧
+      (∀ x y : CauchyWindowTransducerUp,
+        cauchyWindowTransducerFields x = cauchyWindowTransducerFields y → x = y) ∧
+        (∃ x y : CauchyWindowTransducerUp, x ≠ y) ∧
+          cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+            cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
   constructor
-  · exact ⟨cauchyWindowTransducerBHistCarrier⟩
+  · intro streamWindow dyadicTolerance windowStep regSeqReadback realSeal limitSelector
+      transport continuation provenance nameCert
+    rfl
   · constructor
-    · exact ⟨cauchyWindowTransducerChapterTasteGate⟩
+    · exact cauchyWindowTransducer_fields_faithful
     · constructor
-      · exact ⟨cauchyWindowTransducerFieldFaithful⟩
+      · exact
+          ⟨CauchyWindowTransducerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+            CauchyWindowTransducerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty,
+            by
+              intro h
+              cases h⟩
       · constructor
-        · exact ⟨cauchyWindowTransducerNontrivial⟩
-        · constructor
-          · rfl
-          · rfl
+        · rfl
+        · rfl
 
 end BEDC.Derived.CauchyWindowTransducerUp
