@@ -329,4 +329,28 @@ theorem ClosedTermSubstitutionCompilerPacket_public_nonescape [AskSetup] [Packag
     }
   exact ⟨cert, continuationNamePublic, provenancePkg, publicPkg⟩
 
+theorem ClosedTermSubstitutionCompilerPacket_shift_substitute_compatibility [AskSetup]
+    [PackageSetup]
+    {termGenerator closedBoundary operation fixedWitness transport continuation provenance
+      nameCert substitutionRead shiftRead sharedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (∃ packet : ClosedTermSubstitutionCompilerUp,
+        packet =
+          ClosedTermSubstitutionCompilerUp.mk termGenerator closedBoundary operation fixedWitness
+            transport continuation provenance nameCert) →
+      Cont closedBoundary operation substitutionRead →
+        Cont closedBoundary fixedWitness shiftRead →
+          Cont substitutionRead shiftRead sharedRead →
+            PkgSig bundle provenance pkg →
+              PkgSig bundle sharedRead pkg →
+                hsame substitutionRead (append closedBoundary operation) ∧
+                  hsame shiftRead (append closedBoundary fixedWitness) ∧
+                    hsame sharedRead (append substitutionRead shiftRead) ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle sharedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame PkgSig
+  intro packetWitness substitutionRoute shiftRoute sharedRoute provenancePkg sharedPkg
+  obtain ⟨_packet, packetEq⟩ := packetWitness
+  cases packetEq
+  exact ⟨substitutionRoute, shiftRoute, sharedRoute, provenancePkg, sharedPkg⟩
+
 end BEDC.Derived.ClosedTermSubstitutionCompilerUp
