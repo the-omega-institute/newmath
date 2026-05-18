@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\BHistNonaSequenceNameCertUp$}
+\label{ch:concrete-instances-b-hist-nona-sequence-name-cert-namecert}
+\origin{ai-composite}
+
+The $\BHistNonaSequenceNameCertUp$ packet is the sequence-window capstone for the arity-nine carrier-isomorphism bucket. It is anchored by the static nona tuple certificate of \autoref{ch:concrete-instances-b-hist-nona-tuple-name-cert-namecert}, the arity-eight neighbor of \autoref{ch:concrete-instances-b-hist-octa-tuple-name-cert-namecert}, and the arity-eleven neighbor of \autoref{ch:concrete-instances-b-hist-hendeca-tuple-namecert}. The tuple chapters exhibit fixed finite carriers; this chapter names the BEDC-native window that reads the same nine displayed $\BHist$ rows together with an order row, componentwise transport, continuation replay, provenance, and local naming.
+
+\begin{definition}[BHistNonaSequenceNameCert carrier]
+\label{def:b-hist-nona-sequence-name-cert-carrier}
+A $\BHistNonaSequenceNameCertUp$ carrier is a finite sequence-window packet
+$$
+S=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,I,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0,\ldots,R_8$ are the nine tag-encoded $\BHist$ rows admitted by the window. Each row is read as a displayed BEDC history component, and its tag records the local sequence role rather than a host-side position.
+\item $I$ is the index and order row. It records the finite window order, the first and last admitted positions, and the rule that every sequence read factors through one of $R_0,\ldots,R_8$.
+\item $H$ records componentwise $\hsame$ transport for $R_0,\ldots,R_8,I,C,P,L$ and no transport row outside the displayed packet.
+\item $C$ records the displayed $\Cont$ replay from window admission through index preservation, componentwise comparison, transport, provenance readback, and local naming.
+\item $P$ is the $\Pkg$ provenance over the nine-row window encoder, the tuple capstone anchors cited above, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\BHistNonaSequenceNameCertUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an untagged row, a tenth sequence component, a reordered hidden window, a host equality test, or a replacement of any tuple capstone chapter.
+\end{definition}
+
+\begin{definition}[BHistNonaSequenceNameCert classifier]
+\label{def:b-hist-nona-sequence-name-cert-classifier}
+Two $\BHistNonaSequenceNameCertUp$ packets
+$$
+S=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,I,H,C,P,L)
+$$
+and
+$$
+S'=(R'_0,R'_1,R'_2,R'_3,R'_4,R'_5,R'_6,R'_7,R'_8,I',H',C',P',L')
+$$
+are classifier-equivalent exactly when each displayed window row compares componentwise,
+$$
+\begin{aligned}
+&R_0 \sim R'_0,\quad R_1 \sim R'_1,\quad R_2 \sim R'_2,\quad R_3 \sim R'_3,\quad R_4 \sim R'_4,\\
+&R_5 \sim R'_5,\quad R_6 \sim R'_6,\quad R_7 \sim R'_7,\quad R_8 \sim R'_8,
+\end{aligned}
+$$
+the index rows display the same finite order, the transport rows display the same $\hsame$ routes for those components and for $I,C,P,L$, and the replay rows display the same $\Cont$ route from window admission through local naming. No comparison is available through bucket membership alone, an omitted position, an untagged payload, or a tuple-chapter rewrite.
+\end{definition}
+
+\begin{theorem}[BHistNonaSequenceNameCert window admission]
+\label{thm:b-hist-nona-sequence-name-cert-window-admission}
+Every accepted $\BHistNonaSequenceNameCertUp$ packet admits exactly the displayed window rows
+$$
+R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,I,H,C,P,L.
+$$
+The nine rows are tag-encoded $\BHist$ components, $I$ is the only index and order row, and $H,C,P,L$ are the only structural rows by which a consumer may transport, replay, source, or locally name the sequence window.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:b-hist-nona-sequence-name-cert-carrier}. The definition lists the nine tag-encoded $\BHist$ rows, then lists the index, transport, continuation, provenance, and local naming rows.
+
+There is no remaining coordinate in the packet. Thus any accepted window read lands in exactly the displayed rows, and any proposed tenth component, detached order table, or hidden structural row lies outside the accepted surface.
+\end{proof}
+
+\begin{theorem}[BHistNonaSequenceNameCert index stability]
+\label{thm:b-hist-nona-sequence-name-cert-index-stability}
+Componentwise $\hsame$ transport for a $\BHistNonaSequenceNameCertUp$ packet preserves the finite order row $I$ together with the nine tagged rows, the replay route, provenance, and local name. A stable carrier-isomorphism read must preserve
+$$
+R_0,\ldots,R_8,I,H,C,P,L
+$$
+as displayed fields of the same sequence-window packet.
+\end{theorem}
+\begin{proof}
+Use the $H$ row in \autoref{def:b-hist-nona-sequence-name-cert-carrier}. It is the only row that records componentwise $\hsame$ transport, and its component list is exactly the nine carrier rows together with the order, replay, provenance, and local naming rows.
+
+The classifier of \autoref{def:b-hist-nona-sequence-name-cert-classifier} repeats the same list and requires the index rows to display the same finite order. A consumer that drops the order row, changes the window order, or adds an unlisted row is therefore no longer reading the accepted packet.
+\end{proof}
+
+\begin{theorem}[BHistNonaSequenceNameCert local naming nonescape]
+\label{thm:b-hist-nona-sequence-name-cert-local-naming-nonescape}
+Every local $\NameCert_{\BHistNonaSequenceNameCertUp}$ read factors through the displayed packet
+$$
+S=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,I,H,C,P,L).
+$$
+The read may expose the nine-row sequence window, its finite order, and its componentwise routes, but it cannot export an untagged carrier, a tenth row, a host-side equality test, or a relocation of \autoref{ch:concrete-instances-b-hist-nona-tuple-name-cert-namecert}, \autoref{ch:concrete-instances-b-hist-octa-tuple-name-cert-namecert}, or \autoref{ch:concrete-instances-b-hist-hendeca-tuple-namecert}.
+\end{theorem}
+\begin{proof}
+The local name is the row $L$ of the carrier. By \autoref{thm:b-hist-nona-sequence-name-cert-window-admission}, $L$ is read only together with the nine window rows, the index row, and the displayed structural rows.
+
+Use index stability and the classifier definition. They force any carrier-isomorphism read to preserve the same tag-encoded components, the same finite order, and the same displayed $\hsame$ and $\Cont$ routes. Since no untagged carrier, tenth row, host equality test, or tuple-chapter replacement row appears in the packet, local naming cannot export one.
+\end{proof}
+
+\falsifiablePrediction{Any accepted consumer route that reads an untagged row, a tenth sequence row, bucket membership alone, or an order table detached from $I$ fails window admission, index stability, or local naming nonescape for $\BHistNonaSequenceNameCertUp$.}
+
+\independenceWitness{b-hist-nona-tuple-name-cert, b-hist-octa-tuple-name-cert, and b-hist-hendeca-tuple-name-cert: none is bijective to $\BHistNonaSequenceNameCertUp$ because this packet carries a nine-row sequence window with an explicit index row, while the tuple capstones bind static arity surfaces without this order-bearing window interface.}
+
+\closureat{BHistNonaSequenceNameCertUp}{seedStr}
+
+\begin{closurestatus}{\BHistNonaSequenceNameCertUp}
+  \constructivestory{A $\BHistNonaSequenceNameCertUp$ packet is generated from nine tag-encoded $\BHist$ sequence rows, a finite index row, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:b-hist-nona-sequence-name-cert-carrier}, \autoref{def:b-hist-nona-sequence-name-cert-classifier}, \autoref{thm:b-hist-nona-sequence-name-cert-window-admission}, \autoref{thm:b-hist-nona-sequence-name-cert-index-stability}, and \autoref{thm:b-hist-nona-sequence-name-cert-local-naming-nonescape} identify the arity-nine sequence-window carrier surface and its BEDC support package.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai-composite}
+  \notclaimed{This chapter does not provide a Lean declaration, standard bridge, tuple-chapter replacement, or public acceptance interface.}
+  \upgradepath{Formalization requires a Lean carrier for BEDC.Derived.BHistNonaSequenceNameCertUp and checked window-admission, index-stability, and local-naming nonescape theorems.}
+\end{closurestatus}
