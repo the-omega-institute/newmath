@@ -170,4 +170,75 @@ theorem OtherMindsCommitmentBehaviouralEvidenceCompatibility [AskSetup] [Package
       observerCandidateLocality, localityEvidenceRoutes, publicCont, provenancePkg,
       hsame_refl evidence⟩
 
+theorem OtherMindsCommitmentNonEscapeBoundary [AskSetup] [PackageSetup]
+    {observer candidate locality evidence gap transports routes provenance nameCert
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OtherMindsCommitmentCarrier observer candidate locality evidence gap transports routes
+        provenance nameCert bundle pkg →
+      Cont locality evidence publicRead →
+        PkgSig bundle provenance pkg →
+          UnaryHistory observer ∧ UnaryHistory candidate ∧ UnaryHistory locality ∧
+            UnaryHistory evidence ∧ UnaryHistory gap ∧ UnaryHistory transports ∧
+              UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory nameCert ∧
+                UnaryHistory publicRead ∧ Cont observer candidate locality ∧
+                  Cont locality evidence routes ∧ Cont locality evidence publicRead ∧
+                    PkgSig bundle provenance pkg ∧ hsame nameCert nameCert := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro carrier publicCont provenancePkg
+  rcases carrier with
+    ⟨observerUnary, candidateUnary, localityUnary, evidenceUnary, gapUnary,
+      transportsUnary, routesUnary, provenanceUnary, nameCertUnary,
+      observerCandidateLocality, localityEvidenceRoutes, _carrierPkg⟩
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed localityUnary evidenceUnary publicCont
+  exact
+    ⟨observerUnary, candidateUnary, localityUnary, evidenceUnary, gapUnary,
+      transportsUnary, routesUnary, provenanceUnary, nameCertUnary, publicUnary,
+      observerCandidateLocality, localityEvidenceRoutes, publicCont, provenancePkg,
+      hsame_refl nameCert⟩
+
+theorem OtherMindsCommitmentObligationClosurePackage [AskSetup] [PackageSetup]
+    {observer candidate locality evidence gap transports routes provenance nameCert publicRead
+      closureRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OtherMindsCommitmentCarrier observer candidate locality evidence gap transports routes
+        provenance nameCert bundle pkg →
+      Cont locality evidence publicRead →
+        Cont provenance nameCert closureRead →
+          PkgSig bundle provenance pkg →
+            SemanticNameCert
+              (fun row : BHist =>
+                OtherMindsCommitmentCarrier observer candidate locality evidence gap transports
+                  routes provenance nameCert bundle pkg ∧ hsame row nameCert)
+              (fun row : BHist =>
+                hsame row nameCert ∧ Cont observer candidate locality ∧
+                  Cont locality evidence routes)
+              (fun row : BHist => PkgSig bundle provenance pkg ∧ hsame row nameCert)
+              hsame ∧ UnaryHistory publicRead ∧ UnaryHistory closureRead ∧
+                Cont observer candidate locality ∧ Cont locality evidence publicRead ∧
+                  Cont provenance nameCert closureRead ∧ PkgSig bundle provenance pkg ∧
+                    hsame nameCert nameCert := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro carrier publicCont closureCont provenancePkg
+  have obligations :=
+    OtherMindsCommitmentCarrier_namecert_obligations
+      (observer := observer) (candidate := candidate) (locality := locality)
+      (evidence := evidence) (gap := gap) (transports := transports)
+      (routes := routes) (provenance := provenance) (nameCert := nameCert)
+      (bundle := bundle) (pkg := pkg) carrier
+  rcases obligations with
+    ⟨cert, observerCandidateLocality, _localityEvidenceRoutes, _carrierPkg⟩
+  rcases carrier with
+    ⟨_observerUnary, _candidateUnary, localityUnary, evidenceUnary, _gapUnary,
+      _transportsUnary, _routesUnary, provenanceUnary, nameCertUnary,
+      _observerCandidateLocality, _localityEvidenceRoutes, _carrierPkg'⟩
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed localityUnary evidenceUnary publicCont
+  have closureUnary : UnaryHistory closureRead :=
+    unary_cont_closed provenanceUnary nameCertUnary closureCont
+  exact
+    ⟨cert, publicUnary, closureUnary, observerCandidateLocality, publicCont,
+      closureCont, provenancePkg, hsame_refl nameCert⟩
+
 end BEDC.Derived.OtherMindsCommitmentUp

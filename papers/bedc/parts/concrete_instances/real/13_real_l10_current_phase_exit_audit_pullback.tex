@@ -328,6 +328,53 @@ through the named route and exactness records, with only the displayed local
 closure evidence exported.
 \end{proof}
 
+\begin{theorem}[Real L10 common-tail exit correspondence]
+\label{thm:real-l10-common-tail-exit-correspondence}
+Let an accepted Phase Real and Completion packet be read through the four
+faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+Assume that its $\RegSeqRatUp$ face satisfies the common-tail union classifier
+determinacy of
+\autoref{thm:regseqrat-common-tail-union-classifier-determinacy}. Then the
+Real exit classifier is determined exactly by the common $\StreamNameUp$
+finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$
+common-tail classifier, and the local $\RealUp$ seal row.
+
+This correspondence is only a four-face finite BEDC exit route. It exports no
+quotient streams, no host-selected limits, no countable choice, no ambient
+$\RealUp$ completeness, no metric-completeness row, and no aggregate
+formalstatus token.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-l10-four-face-classifier-pullback}. It reads an
+accepted Real L10 classifier route as the pullback of the dyadic ledger,
+finite StreamName windows, RegSeqRat regularity and common-tail classifier,
+and the local Real seal classifier.
+
+Next apply \autoref{thm:real-l10-streamname-exit-route-correspondence}. The
+StreamName finite-window route is the same source route used by the current
+Phase Real and Completion exit packet, so the common window is a coordinate
+of the Real exit read rather than a separate carrier.
+
+Now use
+\autoref{thm:regseqrat-common-tail-union-classifier-determinacy}. On the
+$\RegSeqRatUp$ face, the common-tail window determines one accepted
+$\mathsf{RegSeqRatClassifier}$ read over the displayed StreamName schedule,
+dyadic endpoint and radius rows, regularity rows, Real seal-source rows,
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ provenance.
+
+Finally apply \autoref{thm:real-l10-current-phase-exit-certificate}. The
+accepted exit certificate exports exactly the four local face reports and no
+fifth coordinate. Combining that certificate with the classifier pullback
+leaves precisely the common StreamName finite window, DyadicRatCore
+tolerance ledger, RegSeqRat common-tail classifier, and local Real seal row
+as the data determining the Real exit classifier.
+
+The exclusion clauses in the four cited theorems remove the other possible
+readings: quotient streams, host-selected limits, countable choice, ambient
+$\RealUp$ completeness, metric-completeness rows, and aggregate formalstatus
+tokens have no displayed row in the four-face route.
+\end{proof}
+
 \begin{theorem}[Real L10 phase exit criterion is objectwise]
 \label{thm:real-l10-phase-exit-criterion-objectwise}
 The Phase Real and Completion exit criterion is satisfied only by reading the
