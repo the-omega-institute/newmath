@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RelationalObjectivityUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -223,5 +226,21 @@ theorem RelationalObjectivityTasteGate_single_carrier_alignment :
       RelationalObjectivityTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => RelationalObjectivityTasteGate_single_carrier_alignment_injective heq),
       rfl⟩
+
+theorem RelationalObjectivityInvariantLedgerExactness
+    {F I A L T P N replay evidence : BHist} :
+    relationalObjectivityFields (RelationalObjectivityUp.mk F I A L T P N) =
+      [F, I, A, L, T, P, N] →
+      Cont L T replay →
+        hsame replay evidence →
+          UnaryHistory L →
+            UnaryHistory T →
+              UnaryHistory replay ∧ Cont L T replay ∧ hsame replay evidence := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro hfields ledgerReplay replayEvidence ledgerUnary transportUnary
+  cases hfields
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed ledgerUnary transportUnary ledgerReplay
+  exact ⟨replayUnary, ledgerReplay, replayEvidence⟩
 
 end BEDC.Derived.RelationalObjectivityUp
