@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.ExternalSupplyAuditRouteUp.TasteGate
+namespace BEDC.Derived.ExternalSupplyAuditRouteUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,21 +25,35 @@ def externalSupplyAuditRouteDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (externalSupplyAuditRouteDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (externalSupplyAuditRouteDecodeBHist tail)
 
-private theorem externalSupplyAuditRouteDecodeEncodeBHist :
+private theorem externalSupplyAuditRoute_decode_encode_bhist :
     ∀ h : BHist,
       externalSupplyAuditRouteDecodeBHist
         (externalSupplyAuditRouteEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
-def externalSupplyAuditRouteFields : ExternalSupplyAuditRouteUp → List BHist
+private theorem externalSupplyAuditRoute_mk_congr
+    {B B' W W' G G' L L' H H' P P' N N' : BHist}
+    (hB : B' = B) (hW : W' = W) (hG : G' = G) (hL : L' = L)
+    (hH : H' = H) (hP : P' = P) (hN : N' = N) :
+    ExternalSupplyAuditRouteUp.mk B' W' G' L' H' P' N' =
+      ExternalSupplyAuditRouteUp.mk B W G L H P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hB
+  cases hW
+  cases hG
+  cases hL
+  cases hH
+  cases hP
+  cases hN
+  rfl
+
+private def externalSupplyAuditRouteFields :
+    ExternalSupplyAuditRouteUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | ExternalSupplyAuditRouteUp.mk B W G L H P N => [B, W, G, L, H, P, N]
 
@@ -48,43 +62,35 @@ def externalSupplyAuditRouteToEventFlow :
   -- BEDC touchpoint anchor: BHist BMark
   | x => (externalSupplyAuditRouteFields x).map externalSupplyAuditRouteEncodeBHist
 
-def externalSupplyAuditRouteFromEventFlow :
-    EventFlow → Option ExternalSupplyAuditRouteUp
+private def externalSupplyAuditRouteEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | B :: rest0 =>
-      match rest0 with
-      | [] => none
-      | W :: rest1 =>
-          match rest1 with
-          | [] => none
-          | G :: rest2 =>
-              match rest2 with
-              | [] => none
-              | L :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | H :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | P :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | N :: rest6 =>
-                              match rest6 with
-                              | [] =>
-                                  some
-                                    (ExternalSupplyAuditRouteUp.mk
-                                      (externalSupplyAuditRouteDecodeBHist B)
-                                      (externalSupplyAuditRouteDecodeBHist W)
-                                      (externalSupplyAuditRouteDecodeBHist G)
-                                      (externalSupplyAuditRouteDecodeBHist L)
-                                      (externalSupplyAuditRouteDecodeBHist H)
-                                      (externalSupplyAuditRouteDecodeBHist P)
-                                      (externalSupplyAuditRouteDecodeBHist N))
-                              | _ :: _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => externalSupplyAuditRouteEventAtDefault index rest
 
-private theorem externalSupplyAuditRouteRoundTrip :
+def externalSupplyAuditRouteFromEventFlow :
+    EventFlow → Option ExternalSupplyAuditRouteUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fun ef =>
+    some
+      (ExternalSupplyAuditRouteUp.mk
+        (externalSupplyAuditRouteDecodeBHist
+          (externalSupplyAuditRouteEventAtDefault 0 ef))
+        (externalSupplyAuditRouteDecodeBHist
+          (externalSupplyAuditRouteEventAtDefault 1 ef))
+        (externalSupplyAuditRouteDecodeBHist
+          (externalSupplyAuditRouteEventAtDefault 2 ef))
+        (externalSupplyAuditRouteDecodeBHist
+          (externalSupplyAuditRouteEventAtDefault 3 ef))
+        (externalSupplyAuditRouteDecodeBHist
+          (externalSupplyAuditRouteEventAtDefault 4 ef))
+        (externalSupplyAuditRouteDecodeBHist
+          (externalSupplyAuditRouteEventAtDefault 5 ef))
+        (externalSupplyAuditRouteDecodeBHist
+          (externalSupplyAuditRouteEventAtDefault 6 ef)))
+
+private theorem externalSupplyAuditRoute_round_trip :
     ∀ x : ExternalSupplyAuditRouteUp,
       externalSupplyAuditRouteFromEventFlow
         (externalSupplyAuditRouteToEventFlow x) = some x := by
@@ -92,31 +98,16 @@ private theorem externalSupplyAuditRouteRoundTrip :
   intro x
   cases x with
   | mk B W G L H P N =>
-      change
-        some
-          (ExternalSupplyAuditRouteUp.mk
-            (externalSupplyAuditRouteDecodeBHist
-              (externalSupplyAuditRouteEncodeBHist B))
-            (externalSupplyAuditRouteDecodeBHist
-              (externalSupplyAuditRouteEncodeBHist W))
-            (externalSupplyAuditRouteDecodeBHist
-              (externalSupplyAuditRouteEncodeBHist G))
-            (externalSupplyAuditRouteDecodeBHist
-              (externalSupplyAuditRouteEncodeBHist L))
-            (externalSupplyAuditRouteDecodeBHist
-              (externalSupplyAuditRouteEncodeBHist H))
-            (externalSupplyAuditRouteDecodeBHist
-              (externalSupplyAuditRouteEncodeBHist P))
-            (externalSupplyAuditRouteDecodeBHist
-              (externalSupplyAuditRouteEncodeBHist N))) =
-          some (ExternalSupplyAuditRouteUp.mk B W G L H P N)
-      rw [externalSupplyAuditRouteDecodeEncodeBHist B,
-        externalSupplyAuditRouteDecodeEncodeBHist W,
-        externalSupplyAuditRouteDecodeEncodeBHist G,
-        externalSupplyAuditRouteDecodeEncodeBHist L,
-        externalSupplyAuditRouteDecodeEncodeBHist H,
-        externalSupplyAuditRouteDecodeEncodeBHist P,
-        externalSupplyAuditRouteDecodeEncodeBHist N]
+      exact
+        congrArg some
+          (externalSupplyAuditRoute_mk_congr
+            (externalSupplyAuditRoute_decode_encode_bhist B)
+            (externalSupplyAuditRoute_decode_encode_bhist W)
+            (externalSupplyAuditRoute_decode_encode_bhist G)
+            (externalSupplyAuditRoute_decode_encode_bhist L)
+            (externalSupplyAuditRoute_decode_encode_bhist H)
+            (externalSupplyAuditRoute_decode_encode_bhist P)
+            (externalSupplyAuditRoute_decode_encode_bhist N))
 
 private theorem externalSupplyAuditRouteToEventFlow_injective
     {x y : ExternalSupplyAuditRouteUp} :
@@ -125,38 +116,23 @@ private theorem externalSupplyAuditRouteToEventFlow_injective
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      externalSupplyAuditRouteFromEventFlow
-          (externalSupplyAuditRouteToEventFlow x) =
-        externalSupplyAuditRouteFromEventFlow
-          (externalSupplyAuditRouteToEventFlow y) :=
+      externalSupplyAuditRouteFromEventFlow (externalSupplyAuditRouteToEventFlow x) =
+        externalSupplyAuditRouteFromEventFlow (externalSupplyAuditRouteToEventFlow y) :=
     congrArg externalSupplyAuditRouteFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (externalSupplyAuditRouteRoundTrip x).symm
-      (Eq.trans hread (externalSupplyAuditRouteRoundTrip y)))
+    (Eq.trans (externalSupplyAuditRoute_round_trip x).symm
+      (Eq.trans hread (externalSupplyAuditRoute_round_trip y)))
 
-private theorem externalSupplyAuditRouteFieldsFaithful :
+private theorem externalSupplyAuditRoute_field_faithful :
     ∀ x y : ExternalSupplyAuditRouteUp,
       externalSupplyAuditRouteFields x = externalSupplyAuditRouteFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk B₁ W₁ G₁ L₁ H₁ P₁ N₁ =>
+  | mk B W G L H P N =>
       cases y with
-      | mk B₂ W₂ G₂ L₂ H₂ P₂ N₂ =>
-          injection hfields with hB t1
-          injection t1 with hW t2
-          injection t2 with hG t3
-          injection t3 with hL t4
-          injection t4 with hH t5
-          injection t5 with hP t6
-          injection t6 with hN _
-          subst hB
-          subst hW
-          subst hG
-          subst hL
-          subst hH
-          subst hP
-          subst hN
+      | mk B' W' G' L' H' P' N' =>
+          cases hfields
           rfl
 
 instance externalSupplyAuditRouteBHistCarrier :
@@ -173,7 +149,7 @@ instance externalSupplyAuditRouteChapterTasteGate :
     change
       externalSupplyAuditRouteFromEventFlow
         (externalSupplyAuditRouteToEventFlow x) = some x
-    exact externalSupplyAuditRouteRoundTrip x
+    exact externalSupplyAuditRoute_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (externalSupplyAuditRouteToEventFlow_injective heq)
@@ -182,15 +158,15 @@ instance externalSupplyAuditRouteFieldFaithful :
     FieldFaithful ExternalSupplyAuditRouteUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := externalSupplyAuditRouteFields
-  field_faithful := externalSupplyAuditRouteFieldsFaithful
+  field_faithful := externalSupplyAuditRoute_field_faithful
 
 instance externalSupplyAuditRouteNontrivial :
     Nontrivial ExternalSupplyAuditRouteUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨ExternalSupplyAuditRouteUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      ExternalSupplyAuditRouteUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+    ⟨ExternalSupplyAuditRouteUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      ExternalSupplyAuditRouteUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
@@ -213,13 +189,13 @@ theorem ExternalSupplyAuditRouteTasteGate_single_carrier_alignment :
       Nonempty (FieldFaithful ExternalSupplyAuditRouteUp) ∧
       Nonempty (Nontrivial ExternalSupplyAuditRouteUp) ∧
       externalSupplyAuditRouteEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨externalSupplyAuditRouteDecodeEncodeBHist,
-      externalSupplyAuditRouteRoundTrip,
+    ⟨externalSupplyAuditRoute_decode_encode_bhist,
+      externalSupplyAuditRoute_round_trip,
       (fun _ _ heq => externalSupplyAuditRouteToEventFlow_injective heq),
       ⟨externalSupplyAuditRouteFieldFaithful⟩,
       ⟨externalSupplyAuditRouteNontrivial⟩,
       rfl⟩
 
-end BEDC.Derived.ExternalSupplyAuditRouteUp.TasteGate
+end BEDC.Derived.ExternalSupplyAuditRouteUp

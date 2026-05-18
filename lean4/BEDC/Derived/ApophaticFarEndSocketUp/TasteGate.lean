@@ -5,7 +5,7 @@ import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
 
-open BEDC.Derived.ExternalSupplyAuditRouteUp.TasteGate
+open BEDC.Derived.ExternalSupplyAuditRouteUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
