@@ -353,4 +353,42 @@ theorem HaltingDistinctionLimitPacket_sibling_boundary
             (HaltingDistinctionLimitUp.mk program input trace diagonal transport route
               packageProvenance localNameCertLedger)⟩
 
+theorem HaltingDistinctionLimitNameCertObligations
+    {program input trace diagonal transport route packageProvenance localNameCertLedger
+      ledgerRead contextRead : BHist}
+    (traceRoute : Cont input trace diagonal)
+    (ledgerRoute : Cont diagonal route ledgerRead)
+    (contextRoute : Cont ledgerRead packageProvenance contextRead) :
+    Cont input (append trace (append route packageProvenance)) contextRead ∧
+      hsame program program ∧
+        hsame input input ∧
+          hsame trace trace ∧
+            hsame diagonal diagonal ∧
+              hsame transport transport ∧
+                hsame route route ∧
+                  hsame packageProvenance packageProvenance ∧
+                    hsame localNameCertLedger localNameCertLedger ∧
+                      haltingDistinctionLimitFromEventFlow
+                          (haltingDistinctionLimitToEventFlow
+                            (HaltingDistinctionLimitUp.mk program input trace diagonal
+                              transport route packageProvenance localNameCertLedger)) =
+                        some
+                          (HaltingDistinctionLimitUp.mk program input trace diagonal
+                            transport route packageProvenance localNameCertLedger) := by
+  -- BEDC touchpoint anchor: BHist Cont append hsame
+  constructor
+  · cases traceRoute
+    cases ledgerRoute
+    cases contextRoute
+    exact
+      Eq.trans (append_assoc (append input trace) route packageProvenance)
+        (append_assoc input trace (append route packageProvenance))
+  · exact
+      ⟨hsame_refl program, hsame_refl input, hsame_refl trace, hsame_refl diagonal,
+        hsame_refl transport, hsame_refl route, hsame_refl packageProvenance,
+        hsame_refl localNameCertLedger,
+        haltingDistinctionLimit_round_trip
+          (HaltingDistinctionLimitUp.mk program input trace diagonal transport route
+            packageProvenance localNameCertLedger)⟩
+
 end BEDC.Derived.HaltingDistinctionLimitUp
