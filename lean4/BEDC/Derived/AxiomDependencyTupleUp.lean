@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -8,6 +9,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -17,9 +19,10 @@ def AxiomDependencyTupleCarrier [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory hsame Cont PkgSig
   (hsame mode BHist.Empty ∨
       hsame mode (BHist.e0 BHist.Empty) ∨ hsame mode (BHist.e1 BHist.Empty)) ∧
-    UnaryHistory witness ∧ UnaryHistory supply ∧ UnaryHistory transport ∧
-      UnaryHistory route ∧ UnaryHistory localName ∧ hsame transport transport ∧
-        Cont mode witness route ∧ Cont route supply localName ∧ PkgSig bundle provenance pkg
+    UnaryHistory mode ∧ UnaryHistory witness ∧ UnaryHistory supply ∧
+      UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory localName ∧
+        hsame transport transport ∧ Cont mode witness route ∧ Cont route supply localName ∧
+          PkgSig bundle provenance pkg
 
 theorem AxiomDependencyTupleCarrier_mode_exhaustion [AskSetup] [PackageSetup]
     {mode witness supply transport route provenance localName : BHist}
@@ -34,8 +37,9 @@ theorem AxiomDependencyTupleCarrier_mode_exhaustion [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory hsame Cont PkgSig
   intro carrier
   rcases carrier with
-    ⟨modeCases, witnessUnary, supplyUnary, _transportUnary, routeUnary, localNameUnary,
-      _transportSame, modeWitnessRoute, routeSupplyLocalName, provenancePkg⟩
+    ⟨modeCases, _modeUnary, witnessUnary, supplyUnary, _transportUnary, routeUnary,
+      localNameUnary, _transportSame, modeWitnessRoute, routeSupplyLocalName,
+      provenancePkg⟩
   exact
     ⟨modeCases, witnessUnary, supplyUnary, routeUnary, localNameUnary, modeWitnessRoute,
       routeSupplyLocalName, provenancePkg⟩
