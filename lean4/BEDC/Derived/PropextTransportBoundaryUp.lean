@@ -154,4 +154,40 @@ theorem PropextTransportBoundaryNonEscape [AskSetup] [PackageSetup]
     ⟨contextUnary, contextCont, localNamePkg, contextPkg, hsame_refl bidirectional,
       hsame_refl replacement, hsame_refl continuation⟩
 
+theorem PropextTransportBoundaryContextReplacementLocality [AskSetup] [PackageSetup]
+    {bidirectional direction replacement transport continuation provenance localName
+      contextRead ledgerRead replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PropextTransportBoundaryCarrier bidirectional direction replacement transport
+        continuation provenance localName bundle pkg →
+      Cont replacement transport contextRead →
+        Cont bidirectional direction ledgerRead →
+          Cont contextRead localName replayRead →
+            PkgSig bundle contextRead pkg →
+              PkgSig bundle replayRead pkg →
+                UnaryHistory replacement ∧
+                  UnaryHistory transport ∧
+                    UnaryHistory contextRead ∧
+                      UnaryHistory replayRead ∧
+                        Cont replacement transport contextRead ∧
+                          Cont contextRead localName replayRead ∧
+                            PkgSig bundle localName pkg ∧
+                              PkgSig bundle contextRead pkg ∧
+                                PkgSig bundle replayRead pkg ∧
+                                  hsame replacement replacement ∧
+                                    hsame transport transport := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg AskSetup PackageSetup
+  intro carrier contextCont _ledgerCont replayCont contextPkg replayPkg
+  rcases carrier with
+    ⟨_bidirectionalUnary, _directionUnary, replacementUnary, transportUnary,
+      _continuationUnary, _provenanceUnary, localNameUnary, _carrierLedger,
+      _carrierContext, localNamePkg⟩
+  have contextUnary : UnaryHistory contextRead :=
+    unary_cont_closed replacementUnary transportUnary contextCont
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed contextUnary localNameUnary replayCont
+  exact
+    ⟨replacementUnary, transportUnary, contextUnary, replayUnary, contextCont, replayCont,
+      localNamePkg, contextPkg, replayPkg, hsame_refl replacement, hsame_refl transport⟩
+
 end BEDC.Derived.PropextTransportBoundaryUp
