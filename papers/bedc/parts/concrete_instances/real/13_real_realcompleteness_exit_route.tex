@@ -150,6 +150,26 @@ The source route is then read by projection. The dyadic row $D$ supplies the ari
 The remaining rows are structural. The $\BHist$ rows name the source histories, $\hsame$ transports componentwise agreement, $\Cont$ records replay of the same route, $\Pkg$ records provenance, and $\NameCert$ records the local certificate surfaces. No further carrier or classifier is used.
 \end{proof}
 
+\begin{theorem}[Real L10 four-face exit criterion]
+\label{thm:real-l10-four-face-exit-criterion}
+An accepted Phase Real and Completion endpoint read of a $\RealUp$ seal is admissible exactly when it is supplied by the ordered four-face packet
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+Each face must expose its own local closurestatus and formalstatus record, and the only shared route support rows are $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Equivalently, the current L10 exit route accepts precisely the packets whose dyadic arithmetic face, finite-window StreamName face, regular-rational readback face, and local Real seal face all appear in that order with those local records and shared support rows. It accepts no quotient row, host equality row, selected external limit, completeness row, choice row, metric-completion row, or $\StdBridge$ reading in place of one of the four faces.
+\end{theorem}
+\begin{proof}
+For the forward direction, begin with \autoref{thm:real-completeness-l10-exit-interface-exhaustion}. It restricts every accepted Phase Real and Completion endpoint read to the four L10 boundary faces and to the displayed BEDC support rows.
+
+Apply \autoref{thm:real-l10-four-face-audit-clean-handoff} to read the closurestatus and formalstatus records face by face. Then apply \autoref{thm:real-streamname-regseqrat-dyadic-audit-route} to order the faces as the dyadic ledger, the StreamName finite-window rows, the RegSeqRat readback rows, and the local Real seal.
+
+For the reverse direction, use \autoref{thm:real-open-phase-four-object-terminal-route}. A packet that supplies exactly the ordered four faces, their local records, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows has the terminal route data read by the Phase Real and Completion endpoint.
+
+It remains to exclude substitute readings. The incomplete-face obstruction \autoref{thm:real-l10-incomplete-face-exit-obstruction} rules out deleting or replacing any one face, and \autoref{thm:real-up-no-completeness-from-seal} rules out quotient construction, host equality, selected limits, completeness, choice, metric-completion, and $\StdBridge$ consequences from the seal handoff. Thus the four-face packet is both necessary and sufficient for the admissible L10 endpoint read.
+\end{proof}
+
 \begin{theorem}[RealUp seal handoff has no completeness consequence]
 \label{thm:real-up-no-completeness-from-seal}
 The $\RealUp$ seal handoff supplied by the L10 exit route does not imply that $\RealUp$ is complete. It also does not imply Dedekind-cut completeness, trichotomy, quotient-by-equivalence-class construction of reals, selected external limits, host real equality, countable choice, or any standard bridge consequence not explicitly present in the four-face route.
