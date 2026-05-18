@@ -156,6 +156,28 @@ Apply \autoref{thm:real-completion-exact-boundary-streamname-regseq-route}. The 
 Finally apply \autoref{thm:real-completion-exact-boundary-nonescape} and \autoref{thm:real-completion-exact-boundary-four-face-exactness}. Two accepted reads with the same displayed nonterminal route and the same structural rows can be compared only through the four-face inventory already exported by the packet. The theorem explicitly refuses quotient streams, host real equality, selected limits, countable choice, metric completeness, and bridge rows, so those absent objects cannot distinguish the two completion-facing reads.
 \end{proof}
 
+\begin{theorem}[Real completion terminal seal determinacy]
+\label{thm:real-completion-exact-boundary-terminal-seal-determinacy}
+Let
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N)
+$$
+and
+$$
+B'=(L',K',J',S',W',R',D',E',H',C',P',N')
+$$
+be accepted $\RealCompletionExactBoundaryUp$ packets. Suppose the rows $L,K,J,S,W,R,D,H,C,P,N$ and $L',K',J',S',W',R',D',H',C',P',N'$ agree through the displayed componentwise $\hsame$ comparison, the displayed $\Cont$ replay, the displayed $\Pkg$ provenance row, and the local $\NameCert_{\RealCompletionExactBoundaryUp}$ comparison. Then every completion-facing consumer identifies the terminal $\RealUp$ rows $E$ and $E'$ only through the displayed terminal coordinate of the finite packets. No quotient stream, host real equality, selected limit, countable choice, metric-completeness row, ambient-completeness row, or bridge row can distinguish the two terminal seal reads.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:real-completion-exact-boundary-terminal-route-pullback}. The terminal $\RealUp$ read in each accepted packet is pulled back over the same displayed StreamName, RegSeqRat, and DyadicRatCore route above the governing rows $L,K,J,S$.
+
+Apply \autoref{thm:real-completion-exact-boundary-seal-budget-prefix-pullback}. The assumed comparison of the nonterminal rows is exactly the comparison admitted by the finite boundary: componentwise $\hsame$, continuation replay, package provenance, and the local NameCert row. Thus the two terminal reads meet over the same displayed prefix and structural tail, not over an external Real object.
+
+Now use \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The only completion-facing and terminal Real faces exported after the prefix are $W,R,D,E$ in the first packet and $W',R',D',E'$ in the second packet. Since the first three faces are already part of the displayed comparison, the remaining terminal coordinate is the only place where a completion-facing consumer can read the Real seal.
+
+Finally apply \autoref{thm:real-completion-exact-boundary-real-seal-nonescape}, \autoref{thm:real-completion-exact-boundary-nonescape}, and \autoref{thm:real-completion-exact-boundary-no-completeness-escape}. These exclusions leave no quotient stream, host equality, selected-limit, choice, metric-completeness, ambient-completeness, or bridge coordinate with a carrier slot or insertion point. Hence any accepted consumer identifies $E$ and $E'$ only through the displayed terminal coordinate of the finite $\RealCompletionExactBoundaryUp$ packet.
+\end{proof}
+
 \begin{theorem}[Real completion seal-classifier witness balance]
 \label{thm:real-completion-exact-boundary-seal-classifier-witness-balance}
 Let
