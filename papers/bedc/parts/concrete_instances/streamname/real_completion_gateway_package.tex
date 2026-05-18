@@ -132,6 +132,24 @@ Apply \autoref{thm:streamname-real-completion-four-object-exit-route} and \autor
 Finally use the two-axis discipline recorded by the roadmap closurestatus blocks. The closurestatus and formalstatus rows are read per object, while $B,H,C,P,N$ only observe, transport, replay, package, and name the displayed faces. Therefore the gateway is status-exact precisely for those four per-object records, with no extra completion, quotient, choice, metric-completeness, selected-limit, or bridge status row hidden in the route.
 \end{proof}
 
+\begin{theorem}[StreamName Real-completion gateway face-record noncollapse]
+\label{thm:streamname-real-completion-gateway-face-record-noncollapse}
+Let
+$$
+G=(S,D,R,E,B,H,C,P,N)
+$$
+be an accepted $\StreamNameUp$ Real-completion gateway packet. The four public record faces of $G$ are exactly the local $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ closurestatus, formalstatus, leantarget, and bridgestatus rows. The support rows $B,H,C,P,N$ observe, transport, replay, package, and name those faces, respectively, but they do not create an aggregate formalstatus, replacement leantarget, route-level bridgestatus, standard bridge row, selected limit, quotient stream equality, countable-choice row, metric-completeness datum, or $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Project the gateway carrier of \autoref{def:streamname-real-completion-gateway-carrier}. The accepted packet exposes only the four public faces $S,D,R,E$ and the support rows $B,H,C,P,N$, so every audit-facing record must be read through that displayed objectwise surface.
+
+Apply \autoref{thm:streamname-real-completion-gateway-status-exactness}. It identifies the closurestatus and formalstatus records as the four local $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces, with $B,H,C,P,N$ remaining support rows rather than status carriers.
+
+Next use \autoref{thm:streamname-real-completion-gateway-touchpoint-factorization}. The Lean-facing route has exactly the StreamName singleton finite-window handoff, the DyadicRatCore RegSeqRat bridge handoff exactness, and the RegSeqRat Real seal handoff. These are route positions attached to the same four faces, not replacement leantargets or route-level bridgestatus data.
+
+Finally invoke \autoref{thm:streamname-real-completion-gateway-nonescape} and \autoref{thm:streamname-real-completion-gateway-ordered-source-readback}. The source order $S \longrightarrow D \longrightarrow R \longrightarrow E$ has no bypass through quotient stream equality, host sequence equality, selected limits, ambient $\RealUp$ completeness, metric-completeness data, countable choice, a standard bridge row, or any bridge-row substitute. Therefore the four public records remain objectwise face records, while $B,H,C,P,N$ only carry the named support roles.
+\end{proof}
+
 \begin{theorem}[StreamName Real-completion gateway no-choice normal form]
 \label{thm:streamname-real-completion-gateway-no-choice-normal-form}
 Let
@@ -147,7 +165,7 @@ with support rows $B,H,C,P,N$. Any read mentioning quotient stream equality, hos
 \begin{proof}
 Use \autoref{thm:streamname-real-completion-gateway-ordered-source-readback}. It fixes the only consumer order exported by the accepted gateway packet as $S$ before $D$, $R$ only from the paired $S,D$ read, and $E$ only after $R$.
 
-Apply \autoref{thm:streamname-real-completion-gateway-status-exactness}. A status-exact consumer reads the four public status faces as the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ records, while $B,H,C,P,N$ remain support rows rather than additional completion data.
+Apply \autoref{thm:streamname-real-completion-gateway-status-exactness} and \autoref{thm:streamname-real-completion-gateway-face-record-noncollapse}. A status-exact consumer reads the four public status faces as the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ objectwise records, while $B,H,C,P,N$ remain support rows rather than aggregate formalstatus, replacement leantarget, route-level bridgestatus, or additional completion data.
 
 Next use \autoref{thm:streamname-real-completion-gateway-touchpoint-factorization}. The machine-facing route is exactly the three existing touchpoints named in the statement, so no fourth machine coordinate can supply quotient equality, a selected limit, choice, completeness, or bridge data.
 
