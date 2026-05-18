@@ -52,6 +52,7 @@ import BEDC.GroundCompiler
 import BEDC.Meta
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
+import BEDC.Derived.OrderUp
 import BEDC.Derived.AddUp
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
@@ -248,6 +249,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.DownstreamUnblock
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RefusalRowDeterminacy
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RegistryClassifierScope
 import BEDC.Derived.ZCarryUp
+import BEDC.Derived.ZCarryUp.TasteGate
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.ZeckendorfCarryValueUp.TasteGate
 import BEDC.Derived.BayesianUp
