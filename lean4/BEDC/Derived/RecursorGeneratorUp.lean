@@ -315,4 +315,32 @@ theorem RecursorGeneratorAuthorizedOutputFactorization
     unary_cont_closed eliminatorUnary branchesUnary eliminatorBranchesOutputRead
   exact ⟨outputReadUnary, eliminatorBranchesOutputRead, rfl⟩
 
+theorem RecursorGeneratorCarrier_closed_term_handoff
+    {signature eliminator branches audit metacic transport cont provenance name outputRead
+      closedRead : BHist} :
+    recursorGeneratorFromEventFlow
+        (recursorGeneratorToEventFlow
+          (RecursorGeneratorUp.mk signature eliminator branches audit metacic transport cont
+            provenance name)) =
+        some
+          (RecursorGeneratorUp.mk signature eliminator branches audit metacic transport cont
+            provenance name) →
+      Cont eliminator branches outputRead →
+        Cont outputRead metacic closedRead →
+          UnaryHistory eliminator →
+            UnaryHistory branches →
+              UnaryHistory metacic →
+                UnaryHistory outputRead ∧ UnaryHistory closedRead ∧
+                  Cont eliminator branches outputRead ∧ Cont outputRead metacic closedRead ∧
+                    recursorGeneratorEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory
+  intro _roundTrip eliminatorBranchesOutput outputMetaCICClosed eliminatorUnary branchesUnary
+    metacicUnary
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed eliminatorUnary branchesUnary eliminatorBranchesOutput
+  have closedReadUnary : UnaryHistory closedRead :=
+    unary_cont_closed outputReadUnary metacicUnary outputMetaCICClosed
+  exact
+    ⟨outputReadUnary, closedReadUnary, eliminatorBranchesOutput, outputMetaCICClosed, rfl⟩
+
 end BEDC.Derived.RecursorGeneratorUp
