@@ -278,6 +278,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.AxisNatNatRefusalBoundary
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.HorizonRefusalScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.NegativeRowScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RootObligationSurface
+import BEDC.Derived.AxisZeckendorfCannotClaimUp.AuditGateConsumption
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
 import BEDC.Derived.ZeckendorfNormalUp
@@ -1820,6 +1821,8 @@ import BEDC.Derived.HistTimeStreamUp.StreamNameWindowTotality
 import BEDC.Derived.HistTimeStreamUp.StreamNameScheduleClassifierBoundary
 import BEDC.Derived.HistTimeStreamUp.TransportLock
 import BEDC.Derived.HistTimeStreamUp.StreamNameTailScope
+import BEDC.Derived.HistTimeStreamUp.StreamNameRealConsumerRoute
+import BEDC.Derived.HistTimeStreamUp.RegSeqRatWindowExactness
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.CarrierAdmission
@@ -1886,6 +1889,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.RootFormalHandoffTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootDownstreamConsumerCoverage
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootGateScopeExactness
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootGateExhaustion
+import BEDC.Derived.MetaCICNormalizationFrontierUp.RootCandidateGateProjection
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootObstructionStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmission
 import BEDC.Derived.MetaCICNormalizationFrontierUp.SealBoundary
@@ -1896,6 +1900,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionLedger
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetClassifierTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionRouteFactorization
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionConsumerLock
+import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionAdmission
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
