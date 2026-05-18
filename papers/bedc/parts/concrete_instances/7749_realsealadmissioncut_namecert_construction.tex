@@ -60,6 +60,50 @@ Use $H$ and $C$ to transport and replay the same finite route. Componentwise $\h
 It remains to exclude downstream escape. The carrier inventory has no row for an unbounded observation schedule, a selected host limit, quotient stream equality, independent real equality, or ambient completeness. Therefore any downstream $\RealUp$ or $\CauchyLimitSealUp$ consumer receives only the admitted boundary $E,B,W,Q,S,L,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[Real seal admission-cut source scope]
+\label{thm:real-seal-admission-cut-source-scope}
+Every admitted $\RealSealAdmissionCutUp$ packet exposes the ordered source faces
+$$
+E,B,W,Q,S,L
+$$
+as the request face, $\ObservationBudgetLimiterUp$ face, $\StreamNameUp$ finite-window face, $\RegSeqRatUp$ readback face, $\RealUp$ seal face, and $\CauchyLimitSealUp$ handoff face. No consumer of the packet may read $Q$, $S$, or $L$ without first projecting the budget and window faces $B$ and $W$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-seal-admission-cut-carrier}. Its first six rows are named in the order $E,B,W,Q,S,L$, and the definition assigns these rows to the request, budget limiter, window, readback, Real seal, and limit handoff.
+
+Apply \autoref{thm:real-seal-admission-cut-namecert-obligations}. The local certificate surface accepts readback, seal, and handoff rows only as part of the displayed admission chain.
+
+Finally apply \autoref{thm:real-seal-admission-cut-route-nonescape}. Since every admitted downstream read factors through $E \to B \to W \to Q \to S \to L$, a consumer that skips $B$ or $W$ is outside the packet's admitted source scope.
+\end{proof}
+
+\begin{theorem}[Real seal admission-cut classifier transport]
+\label{thm:real-seal-admission-cut-classifier-transport}
+For accepted packets with displayed rows
+$$
+A=(E,B,W,Q,S,L,H,C,P,N),
+$$
+componentwise $\hsame$ on the request, budget, window, readback, seal, handoff, provenance, and naming faces, together with the replay row $C$, transports admission of the same finite boundary. The transported packet has no bypass route from $E$ to $Q$, $S$, or $L$, and no route from $W$ to a host-selected limit outside the displayed handoff.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to separate the transport row $H$ from the replay row $C$. The row $H$ records componentwise $\hsame$ for the displayed faces, while $C$ records the displayed $\Cont$ route through the same ordered boundary.
+
+The NameCert obligations of \autoref{thm:real-seal-admission-cut-namecert-obligations} bind those two rows to carrier admission, window locality, readback locality, Real-seal ordering, and CauchyLimitSeal handoff ordering. Transport therefore preserves the classifier only by preserving each displayed face and the replay route that connects them.
+
+Apply \autoref{thm:real-seal-admission-cut-route-nonescape} to exclude bypasses. A route from $E$ directly to $Q$, $S$, or $L$, or from $W$ to an unlisted host-selected limit, would not factor through the displayed admission chain and hence would not be the transported packet.
+\end{proof}
+
+\begin{theorem}[Real seal admission-cut ledger exactness]
+\label{thm:real-seal-admission-cut-ledger-exactness}
+In an accepted $\RealSealAdmissionCutUp$ packet, the ledger rows $P$ and $N$ exhaust the local provenance and naming data for the admission cut. They record provenance over $\BHist$, $\ObservationBudgetLimiterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyLimitSealUp$, $\hsame$, $\Cont$, and $\NameCert$, together with the local $\NameCert_{\RealSealAdmissionCutUp}$ row, and they exclude ledger coordinates for unbounded schedules, quotient streams, selected limits, host real equality, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the final two rows of the carrier. The row $P$ is the stated $\Pkg$ provenance over the displayed primitives, and $N$ is the local naming row for the admission-cut packet.
+
+Apply the NameCert obligations to identify which rows the local certificate admits. The obligations list provenance and local naming only through $P$ and $N$, and the carrier contains no separate field for another provenance ledger or naming source.
+
+The exclusions follow from the carrier inventory. Since unbounded schedules, quotient streams, selected limits, host real equality, and ambient completeness have no displayed coordinates, they cannot be recovered from $P$ or $N$ as local admission-cut ledger data.
+\end{proof}
+
 \begin{theorem}[Real seal admission-cut transport provenance field faithfulness]
 \label{thm:real-seal-admission-cut-transport-provenance-field-faithfulness}
 For an accepted $\RealSealAdmissionCutUp$ packet
@@ -93,10 +137,11 @@ The Lean \texttt{TasteGate.lean} boundary for this packet must provide \texttt{N
 \begin{closurestatus}{\RealSealAdmissionCutUp}
   \constructivestory{A $\RealSealAdmissionCutUp$ packet is generated from a finite seal request, an observation-budget limiter, a StreamName window, a RegSeqRat readback, a RealUp seal, a CauchyLimitSeal handoff, componentwise transports, displayed replay, provenance, and a local NameCert row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:real-seal-admission-cut-carrier}, \autoref{thm:real-seal-admission-cut-namecert-obligations}, \autoref{thm:real-seal-admission-cut-route-nonescape}, \autoref{thm:real-seal-admission-cut-transport-provenance-field-faithfulness}, and \leanchecked{BEDC.Derived.RealSealAdmissionCutUp.taste\_gate} bind the finite admission-cut carrier, ordered budget-window-readback boundary, RealUp seal ordering, CauchyLimitSeal handoff, non-escape surface, transport-provenance field separation, and checked TasteGate instance.}
-  \formalstatus{\unformalizedV}
+  \scopeclosed{\autoref{def:real-seal-admission-cut-carrier}, \autoref{thm:real-seal-admission-cut-namecert-obligations}, \autoref{thm:real-seal-admission-cut-route-nonescape}, \autoref{thm:real-seal-admission-cut-source-scope}, \autoref{thm:real-seal-admission-cut-classifier-transport}, \autoref{thm:real-seal-admission-cut-ledger-exactness}, \autoref{thm:real-seal-admission-cut-transport-provenance-field-faithfulness}, and \leanchecked{BEDC.Derived.RealSealAdmissionCutUp.taste\_gate} bind the finite admission-cut carrier, ordered budget-window-readback boundary, RealUp seal ordering, CauchyLimitSeal handoff, non-escape surface, source scope, classifier transport, ledger exactness, transport-provenance field separation, and TasteGate marker.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RealSealAdmissionCutUp.RealSealAdmissionCutTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close Lean verification, host real equality, quotient stream equality, selected limits, ambient completeness, unbounded observation, independent RealUp seal exposure, or bridge checking.}
-  \upgradepath{Scoped closure requires checked carrier admission, budget-window locality, readback ordering, transport provenance, nontriviality, and field faithfulness for the same finite packet.}
+  \notclaimed{This chapter does not close host real equality, quotient stream equality, selected limits, ambient completeness, unbounded observation, independent RealUp seal exposure, or bridge checking.}
+  \upgradepath{Scoped closure requires tying source scope, classifier transport, ledger exactness, carrier admission, nontriviality, and field faithfulness to the named BEDC primitives on the same finite packet.}
 \end{closurestatus}
