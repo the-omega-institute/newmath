@@ -203,3 +203,219 @@ without identity closure, non-orbit-closure is noise or unformed data
 rather than agency. The contrast is not between law and lawlessness,
 but between two ledger-visible structures: orbit closure and
 identity-preserving orbit escape.
+
+\subsubsection{Relative Non-Domination and the Refusal of Absolute Acausality}
+\label{subsubsec:philosophy-relative-non-domination}
+
+The preceding schema also fixes the admissible reading of free-will
+language. It does not introduce free will as a primitive metaphysical
+substance, nor does it identify freedom with absolute acausality. The
+only BEDC-legible form is indexed by an observer-history, a finite
+ledger, a classifier package, a rule family, and a feedback prefix:
+$$
+\text{freedom-like appearance}
+\quad\rightsquigarrow\quad
+\text{relative non-domination by a finite observer ledger}.
+$$
+The index is load-bearing. A prefix may be freedom-like relative to one
+observer and material relative to another when their ledgers, probes,
+classifiers, and available orbit rules differ.
+
+\begin{definition}[Ledger dominance]
+\label{def:philosophy-ledger-dominance}
+Let $\mathcal O_A=(A,\Pi_A,X,I_A,S_A,\mathcal R_A,L_A)$ and
+$\mathcal O_B=(B,\Pi_B,X,I_B,S_B,\mathcal R_B,L_B)$ be observational
+contexts for the same candidate interface $X$. The observer-history
+$B$ ledger-dominates $X$ over prefix length $N$, written
+$B\triangleright_N X$, when the $B$-context supplies identity closure
+and an orbit-closing rule:
+$$
+\mathsf{IdCl}^N_{\mathcal O_B}(F_B)
+\quad\wedge\quad
+\exists T_B\in\mathcal R_B,\,
+\mathsf{OrbitCl}^N_{\mathcal O_B}(F_B,T_B).
+$$
+Equivalently, $X$ has material appearance relative to the
+$B$-context over that prefix.
+\end{definition}
+
+\begin{definition}[Relative non-domination]
+\label{def:philosophy-relative-non-domination}
+The interface $X$ is non-dominated relative to $\mathcal O_A$ over
+prefix length $N$ when
+$$
+\mathsf{NonDom}^N_{\mathcal O_A}(X)
+\quad\Longleftrightarrow\quad
+\mathsf{IdCl}^N_{\mathcal O_A}(F_A)
+\wedge
+\mathsf{Escape}^N_{\mathcal O_A}(F_A,\mathcal R_A).
+$$
+Thus relative non-domination is not the absence of cause. It is the
+presence of traceable sameness together with certified escape from the
+finite orbit rules available to the observer ledger.
+\end{definition}
+
+\begin{definition}[Forbidden absolute predicate]
+\label{def:philosophy-forbidden-absolute-freewill}
+A context-free predicate $\mathsf{FreeWill}(X)$ would assert a property
+of $X$ independently of observer-history, probe pattern, identity
+classifier, state classifier, rule family, ledger, and prefix length.
+This section does not introduce such a predicate. The admissible
+judgments are indexed forms such as
+$$
+\mathsf{FreedomLike}^N_{\mathcal O_A}(F_A),
+\quad
+\mathsf{NonDom}^N_{\mathcal O_A}(X),
+\quad
+\mathsf{Material}^N_{\mathcal O_A}(F_A),
+\quad
+B\triangleright_N X.
+$$
+\end{definition}
+
+\begin{proposition}[Dominance collapses freedom-like appearance in the same context]
+\label{prop:philosophy-dominance-collapses-freedomlike}
+Assume state-separation soundness in the $B$-context:
+$$
+S_B(a,b)\Rightarrow\neg\mathsf{Sep}_{S_B}(a,b).
+$$
+If $B\triangleright_N X$, then $X$ does not have freedom-like
+appearance relative to the same $B$-context over that prefix.
+\end{proposition}
+\begin{proof}
+By \autoref{def:philosophy-ledger-dominance}, there is some
+$T_B\in\mathcal R_B$ such that
+$$
+\forall i<N,\quad S_B(r_{i+1},T_B(r_i)).
+$$
+If the same prefix were freedom-like relative to $\mathcal O_B$, then
+escape from $\mathcal R_B$ would give an index $i<N$ with
+$$
+\mathsf{Sep}_{S_B}(r_{i+1},T_B(r_i)).
+$$
+This contradicts state-separation soundness for the orbit-closure
+witness supplied by $T_B$.
+\end{proof}
+
+\begin{corollary}[Layer-indexed materialization]
+\label{cor:philosophy-layer-indexed-materialization}
+If $B\triangleright_N A$, then $A$ has material appearance relative to
+$B$ and lacks freedom-like appearance relative to $B$ over that prefix.
+This does not imply $\neg\mathsf{FreeWill}(A)$, since
+\autoref{def:philosophy-forbidden-absolute-freewill} supplies no such
+context-free predicate.
+\end{corollary}
+\begin{proof}
+The first assertion is the defining equivalence in
+\autoref{def:philosophy-ledger-dominance}. The second follows from
+\autoref{prop:philosophy-dominance-collapses-freedomlike}. The final
+sentence records that only indexed judgments are available in this
+schema.
+\end{proof}
+
+\begin{proposition}[Complexity is not dominance]
+\label{prop:philosophy-complexity-not-dominance}
+Greater ledger complexity for $B$ alone does not imply
+$B\triangleright_N A$.
+\end{proposition}
+\begin{proof}
+Ledger dominance requires the correct probe pattern, an identity
+classifier adequate for $A$, a state classifier adequate for $A$'s
+feedback, a rule $T_B\in\mathcal R_B$, and ledger witnesses for the
+rule's success. A complexity comparison supplies none of these
+certificate fields by itself.
+\end{proof}
+
+\begin{proposition}[Freedom-like appearance is stronger than randomness]
+\label{prop:philosophy-freedomlike-stronger-than-randomness}
+Freedom-like appearance implies identity closure. Hence randomness or
+unpredictability alone is insufficient for freedom-like appearance.
+\end{proposition}
+\begin{proof}
+By definition,
+$$
+\mathsf{FreedomLike}^N_{\mathcal O_A}(F_A)
+\Longrightarrow
+\mathsf{IdCl}^N_{\mathcal O_A}(F_A).
+$$
+Randomness may obstruct an orbit-closing rule, but without identity
+closure the prefix is noise-like or unformed rather than freedom-like.
+\end{proof}
+
+\begin{definition}[Exposed prediction and reflexive escape]
+\label{def:philosophy-exposed-prediction-reflexive-escape}
+Let $T_A\in\mathcal R_A$ be a rule by which $A$ attempts to predict
+the next response of $X$, and write $p=T_A(r_i)$. The prediction is
+exposed to $X$ when $p$ becomes part of the feedback information
+available to $X$ before the next response. The interface has reflexive
+escape capacity at that stage when there is a response operation
+$D_X$ with
+$$
+r_{i+1}=D_X(p)
+\quad\text{and}\quad
+\mathsf{Sep}_{S_A}(D_X(p),p).
+$$
+\end{definition}
+
+\begin{proposition}[Exposed prediction obstructs complete orbit closure]
+\label{prop:philosophy-exposed-prediction-obstructs-closure}
+Assume state-separation soundness for $S_A$. If $p=T_A(r_i)$ is exposed
+to $X$ and $X$ has reflexive escape capacity at stage $i$, then
+$T_A$ does not orbit-close the prefix at that stage.
+\end{proposition}
+\begin{proof}
+If $T_A$ orbit-closed the prefix, then
+$$
+S_A(r_{i+1},T_A(r_i)).
+$$
+Since $p=T_A(r_i)$ and $r_{i+1}=D_X(p)$, this gives
+$S_A(D_X(p),p)$. Reflexive escape supplies
+$\mathsf{Sep}_{S_A}(D_X(p),p)$, contradicting state-separation
+soundness.
+\end{proof}
+
+\begin{corollary}[Hidden higher-layer prediction]
+\label{cor:philosophy-hidden-higher-layer-prediction}
+If a higher-layer prediction by $B$ is not visible to $A$, then the
+specific diagonal obstruction in
+\autoref{prop:philosophy-exposed-prediction-obstructs-closure} is not
+available to $A$. A hidden, ledger-certified, state-sound rule may
+therefore continue to materialize $A$ relative to $B$ over the given
+prefix.
+\end{corollary}
+\begin{proof}
+The diagonal obstruction requires exposure of the prediction to the
+interface whose next response is being classified. Without that
+exposure, the response operation using the prediction as input is not
+part of the displayed feedback context.
+\end{proof}
+
+\begin{corollary}[De-indexing is the illicit promotion]
+\label{cor:philosophy-deindexing-illicit-promotion}
+The appearance itself is not the illicit step. The illicit step is the
+promotion
+$$
+\mathsf{FreedomLike}^N_{\mathcal O_A}(F_A)
+\quad\leadsto\quad
+\mathsf{FreeWill}(X),
+$$
+which removes the observer, ledger, classifiers, rule family, and
+prefix length.
+\end{corollary}
+\begin{proof}
+The left-hand side is an admissible indexed judgment. The right-hand
+side is the forbidden context-free predicate of
+\autoref{def:philosophy-forbidden-absolute-freewill}.
+\end{proof}
+
+The resulting philosophical reading is neither an assertion that free
+will absolutely exists nor a denial derived from a final global
+observer. A stone lacks freedom-like appearance relative to an
+observer who can identity-track it and close its fall under a
+ledger-certified rule. Likewise, an observer-history $A$ lacks
+freedom-like appearance relative to a stronger observer-history $B$
+when $B$ can identity-track and orbit-close $A$'s feedback. These are
+indexed materializations, not absolute eliminations. BEDC records
+freedom-like appearance as real at the level of the finite ledger that
+witnesses identity-preserving non-closure, and invalid only when that
+indexed appearance is promoted into an observer-free substance claim.
