@@ -96,6 +96,37 @@ theorem PropextTransportBoundaryNonEscapeReadback [AskSetup] [PackageSetup]
     ⟨replacementUnary, transportUnary, provenanceUnary, contextUnary, ledgerUnary,
       contextCont, ledgerCont, localPkg⟩
 
+theorem PropextTransportBoundaryLedgerExactness [AskSetup] [PackageSetup]
+    {bidirectional direction replacement transport continuation provenance localName
+      ledgerRead replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PropextTransportBoundaryCarrier bidirectional direction replacement transport
+        continuation provenance localName bundle pkg →
+      Cont transport continuation ledgerRead →
+        Cont ledgerRead localName replayRead →
+          PkgSig bundle replayRead pkg →
+            UnaryHistory transport ∧
+              UnaryHistory continuation ∧
+                UnaryHistory ledgerRead ∧
+                  UnaryHistory replayRead ∧
+                    Cont transport continuation ledgerRead ∧
+                      Cont ledgerRead localName replayRead ∧
+                        PkgSig bundle localName pkg ∧
+                          PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg AskSetup PackageSetup
+  intro carrier ledgerCont replayCont replayPkg
+  rcases carrier with
+    ⟨_bidirectionalUnary, _directionUnary, _replacementUnary, transportUnary,
+      continuationUnary, _provenanceUnary, localNameUnary, _carrierForward,
+      _carrierReverse, localNamePkg⟩
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed transportUnary continuationUnary ledgerCont
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed ledgerUnary localNameUnary replayCont
+  exact
+    ⟨transportUnary, continuationUnary, ledgerUnary, replayUnary, ledgerCont,
+      replayCont, localNamePkg, replayPkg⟩
+
 theorem PropextTransportBoundaryNonEscape [AskSetup] [PackageSetup]
     {bidirectional direction replacement transport continuation provenance localName
       contextRead : BHist}
