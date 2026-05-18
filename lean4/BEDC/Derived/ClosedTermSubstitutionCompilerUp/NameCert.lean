@@ -137,4 +137,80 @@ theorem ClosedTermSubstitutionCompilerPacket_classifier_transport [AskSetup] [Pa
       exact And.intro source.left (And.intro provenancePkg transportedPkg)
   }
 
+theorem ClosedTermSubstitutionCompilerPacket_boundary_ledger_exactness [AskSetup]
+    [PackageSetup]
+    {termGenerator closedBoundary operation fixedWitness transport continuation provenance
+      nameCert operationRead witnessRead ledger audit : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (∃ packet : ClosedTermSubstitutionCompilerUp,
+        packet =
+          ClosedTermSubstitutionCompilerUp.mk termGenerator closedBoundary operation fixedWitness
+            transport continuation provenance nameCert) ->
+      Cont closedBoundary operation operationRead ->
+        Cont operationRead fixedWitness witnessRead ->
+          Cont operationRead witnessRead ledger ->
+            Cont ledger nameCert audit ->
+              PkgSig bundle provenance pkg ->
+                PkgSig bundle nameCert pkg ->
+                  SemanticNameCert
+                      (fun row : BHist =>
+                        hsame row audit ∧
+                          ∃ packet : ClosedTermSubstitutionCompilerUp,
+                            packet =
+                              ClosedTermSubstitutionCompilerUp.mk termGenerator closedBoundary
+                                operation fixedWitness transport continuation provenance nameCert)
+                      (fun row : BHist =>
+                        Cont operationRead witnessRead ledger ∧ Cont ledger nameCert audit ∧
+                          hsame row audit)
+                      (fun row : BHist =>
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg ∧
+                          hsame row audit)
+                      hsame ∧
+                    hsame witnessRead (append operationRead fixedWitness) ∧
+                      hsame ledger (append operationRead witnessRead) ∧
+                        hsame audit (append ledger nameCert) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro packetWitness _boundaryOperation operationWitness witnessLedger ledgerName
+    provenancePkg namePkg
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row audit ∧
+            ∃ packet : ClosedTermSubstitutionCompilerUp,
+              packet =
+                ClosedTermSubstitutionCompilerUp.mk termGenerator closedBoundary operation
+                  fixedWitness transport continuation provenance nameCert)
+        (fun row : BHist =>
+          Cont operationRead witnessRead ledger ∧ Cont ledger nameCert audit ∧
+            hsame row audit)
+        (fun row : BHist =>
+          PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg ∧ hsame row audit)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro audit (And.intro (hsame_refl audit) packetWitness)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact And.intro (hsame_trans (hsame_symm sameRows) source.left) source.right
+    }
+    pattern_sound := by
+      intro _row source
+      exact And.intro witnessLedger (And.intro ledgerName source.left)
+    ledger_sound := by
+      intro _row source
+      exact And.intro provenancePkg (And.intro namePkg source.left)
+  }
+  exact
+    And.intro cert
+      (And.intro operationWitness (And.intro witnessLedger ledgerName))
+
 end BEDC.Derived.ClosedTermSubstitutionCompilerUp
