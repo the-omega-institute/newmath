@@ -270,6 +270,51 @@ ledgers, and component histories, so the listed package is closed as a current
 paper surface.
 \end{proof}
 
+\begin{theorem}[NatTrans Category-Functor prefix bridge exhaustion]
+\label{thm:nattrans-category-functor-prefix-bridge-exhaustion}
+Every public prefix bridge read for $\NatTransUp$ factors through the finite
+three-layer BEDC surface consisting exactly of the $\CategoryUp$
+unary-continuation object, Hom, identity, and composition bridge rows; the
+$\FunctorUp$ fixed-prefix object-map, morphism-map, identity-preservation, and
+composition-preservation bridge rows; the $\NatTransUp$ component-family,
+naturality, vertical-composition, and horizontal-composition rows; and the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ provenance
+that those rows carry. This factorization exports no host category universe,
+host functor equality, external transformation type, representability,
+adjunction data, or arbitrary functor-category primitive.
+\end{theorem}
+\begin{proof}
+First read the $\CategoryUp$ dependency lattice. By
+\autoref{prop:category-standard-bridge-dependency-lattice}, downstream
+functor and natural-transformation clauses consume only the displayed object,
+Hom, identity, composition, continuation, and classifier rows of the
+unary-continuation category. These rows are already the bridge-facing
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data, so the first layer
+contains no host category carrier or external morphism primitive.
+
+Next read the fixed-prefix functor package. The standard bridge of
+\autoref{thm:functor-prefix-standard-bridge} specializes $\FunctorUp$ to the
+object map $a\mapsto\mathsf{append}(p,a)$ and the induced morphism rows, with
+identity and composition preservation witnessed through the same
+$\CategoryUp$ classifiers. Thus the second layer adds only the fixed-prefix
+object and morphism preservation rows and does not introduce host functor
+equality or a separate functor category.
+
+Finally read the $\NatTransUp$ surface through
+\autoref{thm:nattrans-prefix-standard-bridge} and
+\autoref{thm:nattrans-mature-package-inventory}. The component-family carrier,
+componentwise classifier, naturality readback, vertical composition, horizontal
+composition, whiskering rows, and prefix functor-category rows are all expressed
+as displayed component histories over the two fixed-prefix functors.
+
+Repacking these three layers gives a single finite prefix bridge surface:
+category rows supply the endpoints and composition calculus, functor rows
+supply the two fixed-prefix endpoint maps, and natural-transformation rows
+supply the component family and its composition ledgers. The exclusions in the
+statement are exactly the non-claimed data absent from those rows, so the public
+read is exhausted by the listed BEDC-native provenance.
+\end{proof}
+
 \begin{closurestatus}{\NatTransUp}
   \constructivestory{A natural transformation here is a component family between two fixed-prefix functors: for unary prefixes $p$ and $q$, each unary object $a$ receives a displayed morphism $\eta_a$ from $\mathsf{append}(p,a)$ to $\mathsf{append}(q,a)$ in the $\CategoryUp$ hom carrier. The carrier admits only those component histories whose source and target are the two functor images and whose naturality, identity, vertical composition, horizontal composition, whiskering, and prewhiskering rows are witnessed through the existing functor and category classifiers. Two component families classify together componentwise, using $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}$, which is just carried component data plus $\hsame$ on every displayed component history rather than host equality of transformations. The source, pattern, and ledger rows are the two functor ledgers together with the component morphism ledgers, the naturality square readbacks, the composition and whiskering ledgers, and the prefix natural-isomorphism rows where the two component cycles classify as empty identities. The five name-certificate obligations are assembled componentwise: identities give inhabited component families, reflexivity, symmetry, and transitivity come from the component classifiers, and carrier closure follows by component transport and vertical-composition stability. A component-family history $h$ lies in the signature gap of a $\NatTransUp$ token $p$ when the source-domain accepts the two functor endpoints and every component row, the signature relation pairs that family with an answer family and evidence ledger, and token introduction names that answer as $p$; unfolded, every unary object must carry exactly the component morphism and naturality evidence encoded by the token. The standard bridge reads the package as ordinary natural transformations between fixed-prefix functors, and reads it back as the same componentwise hom-carrier and classifier rows. The chapter registers this component-family construction under the name $\NatTransUp$; naturality is carried by visible component ledgers, not by host function extensionality, arbitrary representability, adjunction data, or an external transformation type.}
   \theoryclosure{\matureClosure}
