@@ -159,6 +159,33 @@ theorem CauchyCompletionMonadPacket_public_real_seal_factorization [AskSetup]
     ⟨observationsUnary, sealRowUnary, routeUnary, scheduleWindowsObservations,
       observationsDiagonalSealRow, sealRowTransportRoute, sealRowPkg⟩
 
+theorem CauchyCompletionMonadPacket_left_unit_factorization [AskSetup] [PackageSetup]
+    {sourceFamily windows observations schedule diagonal sealRow transport route nameRow :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionMonadPacket sourceFamily windows observations schedule diagonal sealRow
+        transport route nameRow bundle pkg ->
+      ∃ publicRead : BHist,
+        UnaryHistory publicRead ∧ hsame publicRead (append sourceFamily sealRow) ∧
+          UnaryHistory sourceFamily ∧ UnaryHistory windows ∧ UnaryHistory observations ∧
+            Cont schedule windows observations ∧ Cont observations diagonal sealRow ∧
+              Cont sealRow transport route ∧ Cont route nameRow sealRow ∧
+                PkgSig bundle sealRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet
+  obtain ⟨sourceFamilyUnary, windowsUnary, scheduleUnary, diagonalUnary, _transportUnary,
+    _nameRowUnary, scheduleWindowsObservations, observationsDiagonalSealRow,
+    sealRowTransportRoute, routeNameSealRow, sealRowPkg⟩ := packet
+  have observationsUnary : UnaryHistory observations :=
+    unary_cont_closed scheduleUnary windowsUnary scheduleWindowsObservations
+  have sealRowUnary : UnaryHistory sealRow :=
+    unary_cont_closed observationsUnary diagonalUnary observationsDiagonalSealRow
+  exact
+    ⟨append sourceFamily sealRow, unary_append_closed sourceFamilyUnary sealRowUnary,
+      hsame_refl _, sourceFamilyUnary, windowsUnary, observationsUnary,
+      scheduleWindowsObservations, observationsDiagonalSealRow, sealRowTransportRoute,
+      routeNameSealRow, sealRowPkg⟩
+
 theorem CauchyCompletionMonadPacket_downstream_regseqrat_consumer_route [AskSetup]
     [PackageSetup]
     {sourceFamily windows observations schedule diagonal sealRow transport route nameRow :
