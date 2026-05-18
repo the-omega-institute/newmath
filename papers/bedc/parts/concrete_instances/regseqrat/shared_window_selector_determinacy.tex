@@ -51,6 +51,25 @@ It remains to recover the selector surface. The finite-request factorization ret
 For the consumer form, take any terminal-budget consumer accepted by $S$. By terminal-budget exhaustion it reads only the four displayed faces and support rows, so the already established surface equality repacks the same visible rows as an accepted consumer for $T$; the converse is symmetric. Finally, \autoref{thm:regseqrat-real-seal-selector-nonescape} excludes quotient streams, host real equality, selected limits, hidden selectors, completion carriers, ambient completeness data, and second seals from both sides of the correspondence.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-selector section pullback]
+\label{thm:regseqrat-tail-selector-section-pullback}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S$ and $T$ be accepted finite requests to $P$ whose displayed selector surfaces are the shared-window surface of \autoref{def:regseqrat-shared-window-selector-surface}. Agreement of the shared-window selector surface displayed by $S$ and $T$ is equivalent to agreement of the finite-request source section of \autoref{thm:regseqrat-finite-request-source-section}, restricted exactly to the $\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows, $\RegSeqRatUp$ classifier, regularity, and tail-budget rows, the terminal $\RealUp$ seal row, componentwise $\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+The pullback has no coordinates for quotient stream equality, host real equality, selected limits, completion points, ambient completeness data, choice data, or second seal coordinates. Thus the selector surface and the finite-request source section name the same finite request data over the ordered handoff
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, begin with \autoref{thm:regseqrat-shared-window-selector-determinacy}. Agreement of the shared-window selector surface identifies the visible schedule, dyadic ledger, classifier, regularity, tail-budget, transport, continuation, package, naming, and terminal seal rows.
+
+Apply the finite-request source section theorem, \autoref{thm:regseqrat-finite-request-source-section}. It records exactly those visible rows as the finite source section of each accepted request. The StreamName-Dyadic-Real handoff exactness theorem, \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}, keeps the schedule rows, dyadic endpoint and radius rows, regular-rational classifier rows, and terminal seal row on the same finite handoff, so the two source sections agree on precisely the displayed rows named in the statement.
+
+For the reverse direction, suppose the finite-request source sections agree on those rows. Use \autoref{thm:regseqrat-finite-request-terminal-budget-factorization} to factor both accepted requests through the common terminal-budget section. Then \autoref{thm:real-regseqrat-terminal-budget-exhaustion} places every visible Real-facing consumer on that same four-face packet, and \autoref{thm:real-regseqrat-terminal-budget-seal-uniqueness} identifies the terminal seal row.
+
+It remains only to rule out hidden coordinates. The selector surface definition contains no row for quotient streams, host equality, selected limits, completion points, ambient completeness, choice data, or a second seal coordinate. Applying \autoref{thm:regseqrat-real-seal-selector-nonescape} removes those candidates from the Real-facing boundary, so agreement of the finite-request source section repacks exactly as agreement of the shared-window selector surface.
+\end{proof}
+
 \begin{theorem}[RegSeqRat Real seal selector non-escape]
 \label{thm:regseqrat-real-seal-selector-nonescape}
 A $\RealUp$ seal consumer of the RegSeqRat shared-window selector surface receives only the displayed $\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint, radius, and distance rows, $\RegSeqRatUp$ classifier and tail-budget rows, componentwise $\hsame$ rows, displayed $\Cont$ replay rows, $\Pkg$ provenance, local $\NameCert$ provenance, and the terminal $\RealUp$ seal row. The consumer receives no quotient stream, host real equality, selected limit, hidden selector, detached completeness row, or second $\RealUp$ seal.

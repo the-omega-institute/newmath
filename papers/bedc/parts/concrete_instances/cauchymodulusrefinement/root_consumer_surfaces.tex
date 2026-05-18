@@ -551,21 +551,3 @@ no quotient stream, selected host limit, ambient completeness coordinate,
 hidden selector, or second meet row, so a $\CompleteMetricUp$ consumer can only
 see the displayed completion-facing route after the $\RealUp$ seal.
 \end{proof}
-
-\begin{theorem}[Cauchy modulus refinement CompleteMetric no-choice interface]
-\label{thm:cauchy-modulus-refinement-completemetric-no-choice-interface}
-Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Any $\CompleteMetricUp$ consumer that has read the displayed rows
-$$
-U,V,T,W,Q,E,H,C,P,N
-$$
-is determined by the selector-budget route of $R$. It cannot be separated from another such consumer by countable choice, a quotient stream, host real equality, a selected host limit, ambient completeness, a hidden selector, or a second meet.
-\end{theorem}
-\begin{proof}
-First apply selector-budget normal form, \autoref{thm:cauchy-modulus-refinement-selector-budget-normal-form}. Once the rows $U,V,T,W,Q,E,H,C,P,N$ are exposed, the consumer has already passed through the displayed budget route and has no additional selector coordinate to inspect.
-
-Next apply the CompleteMetric consumer route, \autoref{thm:cauchy-modulus-refinement-complete-metric-consumer-route}. That theorem places every completion-facing read behind the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces before any completion-facing conclusion is consumed.
-
-Then use terminal pullback consumer uniqueness, \autoref{thm:cauchy-modulus-refinement-terminal-pullback-consumer-uniqueness}. Two consumers that expose the displayed rows therefore determine the same terminal $\RealUp$ seal surface.
-
-Finally apply the tail-budget selector lock, \autoref{thm:cauchy-modulus-refinement-tail-budget-selector-lock}. Countable choice, quotient streams, host real equality, selected host limits, ambient completeness, hidden selectors, and second meets are not rows of the accepted packet, so none can separate the two displayed CompleteMetric reads.
-\end{proof}
