@@ -232,3 +232,26 @@ For the converse, start from equality of transported public classifier surfaces.
 
 Finally use \autoref{thm:real-l10-four-face-witness-minimality} to rule out a smaller witness inventory. Removing any one of the four faces or any one of $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ destroys the displayed route on which separatedness is read. The same row inventory excludes quotient streams, selected limits, host real equality, countable choice, ambient completeness, metric completeness, standard bridge rows, and a second classifier coordinate from both directions of the functoriality statement.
 \end{proof}
+
+\begin{theorem}[Real L10 cofinal classifier refinement invariance]
+\label{thm:real-l10-cofinal-classifier-refinement-invariance}
+Let $\mathcal P$ be a current Phase $\RealUp$ and Completion finite-window public classifier packet. Let $\mathcal R$ be a cofinal family of finite-request refinements of $\mathcal P$: every finite public readback request for $\mathcal P$ is dominated by some refinement in $\mathcal R$. Suppose that each refinement in $\mathcal R$ preserves the four displayed faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ seal-source rows, and also preserves the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+
+Then all public classifier surfaces read from refinements in $\mathcal R$ determine the same $\RealUp$ classifier surface as $\mathcal P$. Conversely, if two cofinal refined reads determine different public $\RealUp$ classifier surfaces, then the disagreement is witnessed at some finite refinement stage on one of the displayed DyadicRatCore ledger rows, StreamName finite-window rows, RegSeqRat common-tail rows, local Real seal-source rows, or $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+The invariance is only an assertion about the displayed finite BEDC classifier surface. It asserts no formal-status row, bridge row, quotient stream equality, selected limit, countable-choice row, ambient completeness row, metric-completeness row, standard bridge row, or second public classifier coordinate.
+\end{theorem}
+\begin{proof}
+First fix one refinement in $\mathcal R$. The preservation hypotheses are exactly the hypotheses of \autoref{thm:real-l10-four-face-classifier-functoriality}, so transport along that refinement reads the refined public classifier surface as the same public classifier surface carried by $\mathcal P$ on the displayed four faces and support rows.
+
+Now compare two refinements in the cofinal family. Cofinality gives a further finite request dominating the two finite reads. Applying functoriality along the two induced refinement maps transports both classifier surfaces to the same displayed four-face packet over that common finite request. Hence every refined read in $\mathcal R$ determines the same public $\RealUp$ classifier surface.
+
+For the converse, suppose two refined public classifier surfaces disagree. By \autoref{thm:real-l10-four-face-classifier-separatedness}, any such disagreement is already visible on one of the DyadicRatCore ledger rows, StreamName finite-window rows, RegSeqRat common-tail rows, local Real seal-source rows, or displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+The witness is finite because both disagreeing surfaces come from finite-request refinements, and cofinality supplies a common finite refinement stage on which the two reads can be compared. The separatedness witness therefore appears at such a finite stage, not in an ambient quotient, limit, choice, completeness, bridge, or duplicate classifier coordinate.
+
+Finally, \autoref{thm:real-l10-four-face-witness-minimality} rules out shrinking the displayed witness inventory, while \autoref{thm:real-l10-classifier-status-axis-separation} keeps the classifier claim separate from audit status. Thus the theorem states cofinal invariance of the public classifier surface only, with no assertion about formal status, bridge status, quotient streams, selected limits, countable choice, ambient completeness, or metric completeness.
+\end{proof}

@@ -81,4 +81,39 @@ theorem DiagonalLimitCompatibility_budget_seal_handoff_determinacy
       exact And.intro sealBudgetUnary (And.intro sealBudgetPkg endpointPkg)
   }
 
+theorem DiagonalLimitCompatibilityBudgetSealHandoffDeterminacy [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      budgetPrefix mesh sealBudget terminal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont diagonal dyadic budgetPrefix ->
+        Cont budgetPrefix windows mesh ->
+          Cont mesh sealRow sealBudget ->
+            Cont sealBudget realSeal terminal ->
+              PkgSig bundle terminal pkg ->
+                UnaryHistory budgetPrefix ∧ UnaryHistory mesh ∧ UnaryHistory sealBudget ∧
+                  UnaryHistory terminal ∧ Cont diagonal dyadic budgetPrefix ∧
+                    Cont budgetPrefix windows mesh ∧ Cont mesh sealRow sealBudget ∧
+                      Cont sealBudget realSeal terminal ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle terminal pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier diagonalDyadicBudget budgetWindowsMesh meshSealBudget sealBudgetTerminal
+    terminalPkg
+  obtain ⟨diagonalUnary, _triangleUnary, sealRowUnary, dyadicUnary, windowsUnary,
+    _readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSealRow, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have budgetUnary : UnaryHistory budgetPrefix :=
+    unary_cont_closed diagonalUnary dyadicUnary diagonalDyadicBudget
+  have meshUnary : UnaryHistory mesh :=
+    unary_cont_closed budgetUnary windowsUnary budgetWindowsMesh
+  have sealBudgetUnary : UnaryHistory sealBudget :=
+    unary_cont_closed meshUnary sealRowUnary meshSealBudget
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed sealBudgetUnary realSealUnary sealBudgetTerminal
+  exact
+    ⟨budgetUnary, meshUnary, sealBudgetUnary, terminalUnary, diagonalDyadicBudget,
+      budgetWindowsMesh, meshSealBudget, sealBudgetTerminal, provenancePkg, terminalPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
