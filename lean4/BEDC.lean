@@ -1493,6 +1493,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalWindowExhaustion
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.FourFaceTerminalCorrespondence
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalBudgetExhaustion
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalBudgetNonempty
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalCofinalScheduleLock
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.PrimitiveScope
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.PublicExport
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.RealCompletionSelectorSealPullback
@@ -2699,6 +2700,7 @@ import BEDC.Derived.TreeUp.GraphSourceObligationRows
 import BEDC.Derived.TreeUp.ClassifierTransportObligation
 import BEDC.Derived.TreeUp.SemanticNameCertificate
 import BEDC.Derived.FiniteTailFilterUp
+import BEDC.Derived.FiniteTailFilterUp.RealWindowBudgetConsumerLink
 import BEDC.Derived.TranscendentalInductionSocketUp
 import BEDC.Derived.TranscendentalInductionSocketUp.TasteGate
 import BEDC.Derived.SheafUp.RefinedCoverExactness
