@@ -186,6 +186,63 @@ equality, completion witnesses, ambient completeness, or metric-completeness
 data available to the terminal seal.
 \end{proof}
 
+\begin{theorem}[StreamName-RegSeqRat-DyadicRatCore-RealUp terminal pullback factorization]
+\label{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}
+Let $W$ be a finite public $\StreamNameUp$ rational observation window, and
+let $R$ be a terminal finite-window $\RealUp$ seal read over $W$. Suppose $R$
+is presented through the public StreamName rational window interface, the
+accepted $\RegSeqRat$ pointwise seal over that window, and the
+$\DyadicRatCoreUp$ endpoint-radius-distance ledger anchored to the same
+window. Then $R$ factors through exactly four visible faces: the StreamName
+point and window rows, the $\DyadicRatCoreUp$ endpoint-radius-distance ledger,
+the $\RegSeqRat$ pointwise and readback rows, and the local $\RealUp$
+finite-window seal boundary.
+
+The only support rows available to this factorization are the displayed
+$\BHist$ observations, componentwise $\hsame$ transports, finite $\Cont$
+routes, shared $\Pkg$ provenance, $\mathsf{ProbeBundle}$ and
+$\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ observations, and
+local $\NameCert$ support. Conversely, any packet displaying precisely those
+four faces and support rows repacks into the same terminal finite-window
+$\RealUp$ seal read. It exports no quotient stream equality, selected host
+limit, host real equality, ambient completeness row, metric-completeness row,
+bridge row, trichotomy row, open-cover compactness row, or choice datum.
+\end{theorem}
+\begin{proof}
+Start from the three-face terminal pullback of
+\autoref{thm:streamname-regseqrat-realup-terminal-pullback-factorization}. It
+places the terminal $\RealUp$ finite-window read on the StreamName point rows,
+accepted $\RegSeqRat$ pointwise seal rows, and $\RealUp$ seal boundary, with
+the displayed finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$
+support.
+
+Next insert the dyadic ledger face. Apply
+\autoref{thm:streamname-regseqrat-dyadic-real-four-face-exactness}. Its
+forward direction says that an accepted seal-facing read has exactly the
+StreamName, $\RegSeqRat$, $\DyadicRatCoreUp$, and $\RealUp$ faces, with the
+listed finite support rows. Its converse direction repacks any packet with
+those four faces into the same admissible public interface.
+
+It remains to identify the dyadic face with the same finite window used by the
+regular-rational readback. Use the Dyadic-RegSeq route factorization
+\autoref{thm:streamname-dyadic-regseq-route-factorization}, as cited in the
+four-face exactness proof. This pins every endpoint, radius, distance, and
+readback coordinate to $W$ before either the $\RegSeqRat$ or $\RealUp$
+consumer can inspect the packet.
+
+Combining these steps gives both directions of the terminal pullback. The
+three-face theorem supplies the StreamName--$\RegSeqRat$--$\RealUp$ terminal
+boundary, the four-face exactness theorem supplies the
+$\DyadicRatCoreUp$ ledger as the fourth visible face, and the route
+factorization prevents a detached tolerance route from entering the packet.
+
+The excluded objects are therefore not public coordinates of the factorization.
+There is no quotient stream equality, selected host limit, host real equality,
+ambient completeness row, metric-completeness row, bridge row, trichotomy row,
+open-cover compactness row, or choice datum available to the terminal read.
+\end{proof}
+
 \begin{theorem}[StreamName-RegSeqRat-RealUp composite terminal pullback]
 \label{thm:streamname-regseqrat-realup-composite-terminal-pullback}
 Let $W$ be a finite public $\StreamNameUp$ rational observation window. Suppose
