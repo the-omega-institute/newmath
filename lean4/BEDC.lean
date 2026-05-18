@@ -1478,6 +1478,7 @@ import BEDC.Derived.EqtypeUp
 import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.CountableObservationScheduleUp.TasteGate
 import BEDC.Derived.ObservationScheduleEnvelopeUp
+import BEDC.Derived.ObservationScheduleEnvelopeUp.TasteGate
 import BEDC.Derived.ObservationBudgetLimiterUp.TasteGate
 import BEDC.Derived.ObservationBudgetLimiterUp.SealOrdering
 import BEDC.Derived.IntUp
@@ -1874,6 +1875,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionSelectorRouteStabilit
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionExitExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionFiniteBudgetEnvelope
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionFiniteEnvelopeConsumerExhaustion
+import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionFiniteEnvelopeTailWindowStability
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionFiniteEnvelopeNameCertObligations
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionWindowExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.RealSealCompletionBoundary
@@ -1909,6 +1911,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.RootThresholdSealRoundtrip
 import BEDC.Derived.UniformCauchyCriterionUp.SealObligationSurface
 import BEDC.Derived.UniformCauchyCriterionUp.SelectorSealExactPullback
 import BEDC.Derived.UniformCauchyCriterionUp.SelectorSealHandoffLock
+import BEDC.Derived.UniformCauchyCriterionUp.SelectorSealSynchronization
 import BEDC.Derived.UniformCauchyCriterionUp.SharedSealRouteDeterminacy
 import BEDC.Derived.UniformCauchyCriterionUp.SharedTailSubfamilyPullback
 import BEDC.Derived.UniformCauchyCriterionUp.SharedScheduleCofinalPullback
