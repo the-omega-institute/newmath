@@ -238,6 +238,62 @@ theorem ApophaticFarEndSocketNameCertObligations
   -- BEDC touchpoint anchor: BHist BMark
   exact ⟨rfl, apophaticFarEndSocketDecodeEncodeBHist localName, rfl⟩
 
+private def ApophaticFarEndSocketNonEscape_depth : BHist → Nat
+  | BHist.Empty => 0
+  | BHist.e0 h => Nat.succ (ApophaticFarEndSocketNonEscape_depth h)
+  | BHist.e1 h => Nat.succ (ApophaticFarEndSocketNonEscape_depth h)
+
+private theorem ApophaticFarEndSocketNonEscape_noSelfE0 :
+    ∀ h : BHist, h ≠ BHist.e0 h := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  induction h with
+  | Empty =>
+      intro hEq
+      cases hEq
+  | e0 tail ih =>
+      intro hEq
+      exact ih (BHist.e0.inj hEq)
+  | e1 tail _ih =>
+      intro hEq
+      cases hEq
+
+private theorem ApophaticFarEndSocketNonEscape_farEnd_eq
+    {socket name farEnd farEnd' gap inscription observer ledger transport route provenance
+      localName : BHist} :
+    [socket, name, farEnd, gap, inscription, observer, ledger, transport, route,
+        provenance, localName] =
+      [socket, name, farEnd', gap, inscription, observer, ledger, transport, route,
+        provenance, localName] →
+      farEnd = farEnd' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hfields
+  cases hfields
+  rfl
+
+theorem ApophaticFarEndSocketNonEscape
+    {socket name farEnd gap inscription observer ledger transport route provenance
+      localName : BHist} :
+    apophaticFarEndSocketFields
+        (ApophaticFarEndSocketUp.mk socket name farEnd gap inscription observer ledger
+          transport route provenance localName) =
+      [socket, name, farEnd, gap, inscription, observer, ledger, transport, route,
+        provenance, localName] ∧
+      apophaticFarEndSocketFields
+          (ApophaticFarEndSocketUp.mk socket name farEnd gap inscription observer ledger
+            transport route provenance localName) ≠
+        apophaticFarEndSocketFields
+          (ApophaticFarEndSocketUp.mk socket name (BHist.e0 farEnd) gap inscription
+            observer ledger transport route provenance localName) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · intro hfields
+    have farEndSame :
+        farEnd = BHist.e0 farEnd :=
+      ApophaticFarEndSocketNonEscape_farEnd_eq hfields
+    exact ApophaticFarEndSocketNonEscape_noSelfE0 farEnd farEndSame
+
 theorem ApophaticFarEndSocket_nonescape
     {socket name farEnd gap inscription observer ledger transport route provenance
       localName : BHist} :
