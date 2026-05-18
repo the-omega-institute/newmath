@@ -138,7 +138,7 @@ theorem GroundCompilerAuditMapCarrier_obligation_closure :
         injection htail₁₂ with _ htail₁₃
         injection htail₁₃ with hrow _
         cases hrow
-      · rfl
+      · exact rfl
 
 theorem GroundCompilerAuditMapCarrier_compiler_layer_frontier
     {I K E R Q X H T P N I' K' E' R' Q' X' H' T' P' N' : BHist}
