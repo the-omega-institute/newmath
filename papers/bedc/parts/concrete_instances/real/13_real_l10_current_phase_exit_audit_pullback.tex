@@ -133,6 +133,51 @@ countable choice, ambient completeness, metric-completeness data, standard
 bridge rows, or aggregate formalstatus tokens.
 \end{proof}
 
+\begin{theorem}[Real L10 four-face status-classifier square]
+\label{thm:real-l10-four-face-status-classifier-square}
+Any accepted Phase Real and Completion packet over
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+has a commuting status-classifier square. Its horizontal reads are the four
+classifier faces of \autoref{thm:real-l10-four-face-classifier-pullback}, and
+its vertical reads are the four local status records of
+\autoref{thm:real-l10-four-face-status-lookup}. Reading the classifier faces
+first and then reading status gives the same four objectwise records as
+reading the local status records first and then restricting them along the
+classifier faces.
+
+The square adds no aggregate formalstatus token, no bridge row for the
+composite route, no quotient stream, no selected limit, and no completeness
+datum.
+\end{theorem}
+\begin{proof}
+First locate the common source route. Apply
+\autoref{thm:real-l10-source-route-nonescape} and
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. They confine
+every accepted packet to the same DyadicRatCore, StreamName, RegSeqRat, and
+RealUp faces and exhaust the current Phase Real and Completion interface rows.
+
+Next read the classifier side. Apply
+\autoref{thm:real-l10-four-face-classifier-pullback}. It identifies the
+horizontal reads as the dyadic ledger, finite StreamName windows, RegSeqRat
+regularity and common-tail classifier, and the local Real seal classifier over
+that route.
+
+Now read the status side. Apply
+\autoref{thm:real-l10-four-face-status-lookup}. It reads the closurestatus,
+formalstatus, leantarget, and bridgestatus rows from the four local face
+records, object by object.
+
+Both readings use the same four source faces, so restricting the status read
+along the classifier faces returns the same four objectwise records as first
+forming the classifier pullback and then reading the local status records. The
+two-axis convention of \autoref{sec:roadmap-closure-and-verification-axes}
+keeps classifier agreement and verification status independent, so the square
+does not create an aggregate formalstatus token, bridge row, quotient stream,
+selected limit, or completeness datum.
+\end{proof}
+
 \begin{theorem}[Real L10 face status non-collapse]
 \label{thm:real-l10-face-status-noncollapse}
 Any current Phase Real and Completion audit read through the four faces
