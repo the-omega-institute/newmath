@@ -528,6 +528,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.FourFaceConsumerBoundary
 import BEDC.Derived.CauchyModulusRefinementUp.FourFaceNocollapse
 import BEDC.Derived.CauchyModulusRefinementUp.L10CompletionPullback
 import BEDC.Derived.CauchyModulusRefinementUp.L10ConsumerSpineComparison
+import BEDC.Derived.CauchyModulusRefinementUp.L10SiblingRoute
 import BEDC.Derived.CauchyModulusRefinementUp.RealObservationBudgetHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RealLimitUniquenessHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RootSourceMeetDeterminacy
@@ -979,6 +980,7 @@ import BEDC.Derived.CellularTrustSubstrateUp.TasteGate
 import BEDC.Derived.CellularTrustSubstrateUp.PrimitiveScopeBinding
 import BEDC.Derived.CellularTrustSubstrateUp.SiblingScopeBinding
 import BEDC.Derived.CellularTrustSubstrateUp.PublicExportPackage
+import BEDC.Derived.CellularTrustSubstrateUp.MatureRouteCompleteness
 import BEDC.Derived.CellularVerbRealignmentUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
@@ -994,6 +996,7 @@ import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelAcceptanceTraceUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.PublicExport
+import BEDC.Derived.KernelAcceptanceAuditWitnessUp.StandardBridgePreconditions
 import BEDC.Derived.KernelAcceptanceBuildReplayUp.TasteGate
 import BEDC.Derived.KernelAcceptanceWitnessUp
 import BEDC.Derived.KernelInductiveAcceptanceUp.TasteGate
@@ -1334,6 +1337,8 @@ import BEDC.Derived.CertificateCompilerUp.EndpointKernelMorphismRoundtrip
 import BEDC.Derived.CertificateCompilerUp.TripleCompositeAssociativity
 import BEDC.Derived.CertificateCompilerUp.LeftIdentityUnit
 import BEDC.Derived.CertificateCompilerUp.LeftIdentitySemanticNameCertificate
+import BEDC.Derived.CertificateCompilerUp.LeftIdentityPublicRouteCertificate
+import BEDC.Derived.CertificateCompilerUp.ClassifierSemanticNameCertificate
 import BEDC.Derived.CertificateCompilerUp.RightIdentityUnit
 import BEDC.Derived.PhysicsFalsificationSurfaceUp.TasteGate
 import BEDC.Derived.TypedFailureCertificateUp.TasteGate
@@ -1889,6 +1894,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.RootFormalHandoffTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootDownstreamConsumerCoverage
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootGateScopeExactness
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootGateExhaustion
+import BEDC.Derived.MetaCICNormalizationFrontierUp.RootCandidateGateProjection
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootObstructionStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmission
 import BEDC.Derived.MetaCICNormalizationFrontierUp.SealBoundary
@@ -1899,6 +1905,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionLedger
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetClassifierTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionRouteFactorization
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionConsumerLock
+import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionAdmission
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
