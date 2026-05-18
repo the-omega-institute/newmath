@@ -192,6 +192,7 @@ import BEDC.Derived.ApophaticNameUp.RootSocketRequestTotality
 import BEDC.Derived.ApophaticNameUp.RootBoundaryProvenanceExport
 import BEDC.Derived.ApophaticNameUp.SocketRequestGateFactorization
 import BEDC.Derived.ApophaticNameUp.BoundaryCitationExhaustion
+import BEDC.Derived.ApophaticNameUp.RefusalProvenanceTransport
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
@@ -219,6 +220,7 @@ import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.BHistNonaSequenceNameCertUp
 import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.BHistDecaSequenceNameCertUp
+import BEDC.Derived.BHistHendecaSequenceNameCertUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
 import BEDC.Derived.ArchimedeanRealUp
@@ -296,6 +298,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootCarrierRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RouteAuthorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OutputAuthorizationClosure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamRoute
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamHandoffRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10Carrier
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBranchPackageCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ReadinessRouteTotality
@@ -323,6 +326,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalConsumerReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalGeneratorAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertObligationExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootDescentAuditCoupling
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptedSignatureRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuthorizationDownstreamSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadbackTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputConsumerTriad
@@ -331,6 +335,9 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditLedgerExactness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ConsumerLedgerExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRefusal
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootReadinessExhaustion
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchOutputClosureRow
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RouteRefusal
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealRegSeqRatHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.LedgerSeparation
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRouteDeterminacy
@@ -777,6 +784,7 @@ import BEDC.Derived.OracleResponseLedgerUp.TasteGate
 import BEDC.Derived.OracleSubstrateBoundaryUp.TasteGate
 import BEDC.Derived.ObserverBridgeLedgerUp.TasteGate
 import BEDC.Derived.ObserverBudgetSupportUp.NameCert
+import BEDC.Derived.ObserverBudgetSupportUp.RouteTotality
 import BEDC.Derived.ObserverBudgetSupportUp.TasteGate
 import BEDC.Derived.ObserverTimeStepUp.TasteGate
 import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
@@ -842,6 +850,7 @@ import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
 import BEDC.Derived.OpenFitResidueGateUp.TasteGate
 import BEDC.Derived.OnticResidueLedgerUp.TasteGate
 import BEDC.Derived.OnticStateUp.TasteGate
+import BEDC.Derived.OnticStateUp.SignatureStability
 import BEDC.Derived.ObservationReflectionPacketUp.StdBridge
 import BEDC.Derived.ObservationReflectionPacketUp.TasteGate
 import BEDC.Derived.ObservationCouplingUp
@@ -3167,6 +3176,7 @@ import BEDC.Derived.AxisNatUp.TasteGate
 import BEDC.Derived.SliceCategoryUp
 import BEDC.Derived.MetricTriangleUniformEstimateUp
 import BEDC.Derived.MetricTriangleUniformEstimateUp.ConsumerHandoff
+import BEDC.Derived.MetricTriangleUniformEstimateUp.RadiusComposition
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedCenterTriangleComposition
 import BEDC.Derived.MetricTriangleUniformEstimateUp.CenterBoundContinuation
 import BEDC.Derived.UniformContinuityUp
