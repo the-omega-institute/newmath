@@ -143,3 +143,47 @@ it records continuation-depth accounting for the already sealed distance
 witness and adds no quotient stream equality, host real equality, selected
 limit, choice, completeness, standard bridge, or unsealed-stream row.
 \end{proof}
+
+\begin{theorem}[Real L10 metric pre-seal non-escape]
+\label{thm:real-l10-metric-preseal-nonescape}
+Let $R$ be an accepted metric-facing $\RealUp$ finite-window observation. Suppose
+the $\mathsf{MetricDistanceWitness}$ classifier of $R$ agrees with the displayed
+four-face route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, the
+local $\RealUp$ seal classifier, and the support rows $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$. Then the sealed $\RealUp$ boundary contains no
+BEDC coordinate for quotient stream equality, selected limits, countable choice,
+host real equality, ambient Real completeness, metric-completeness rows,
+standard bridge rows, or direct access to an unsealed stream.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-streamname-regseqrat-metric-observation-factorization}. It
+places the metric-facing observation on the ordered route through
+$\StreamNameUp$, $\RegSeqRatUp$, the local $\RealUp$ seal, and only then the
+$\mathsf{MetricDistanceWitness}$ ledger.
+
+Next use
+\autoref{thm:real-streamname-regseqrat-metric-classifier-correspondence}. The
+metric witness classifier is read back through the finite StreamName schedule,
+the RegSeqRat regularity classifier, and the Real seal classifier, so the
+classifier agreement has no independent metric-side carrier.
+
+Now apply
+\autoref{thm:real-l10-metric-classifier-pullback-correspondence}. It identifies
+that classifier agreement with the four-face pullback over
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, the local $\RealUp$ seal,
+and the displayed support rows.
+
+The non-escape conclusion is exactly the boundary statement of
+\autoref{thm:real-l10-metric-boundary-nonescape}: before the sealed Real
+readback is present, there is no BEDC coordinate for quotient stream equality,
+selected limits, countable choice, host real equality, ambient Real
+completeness, metric-completeness rows, standard bridge rows, or direct access
+to an unsealed stream.
+
+After that boundary is fixed,
+\autoref{thm:metric-distance-witness-cont-depth-add} may be cited only as the
+downstream continuation-depth ledger. It records metric consumer depth after the
+sealed Real route is already visible and does not add any of the excluded
+metric-side completion or choice data.
+\end{proof}
