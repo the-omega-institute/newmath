@@ -237,3 +237,44 @@ quotient stream equality, host real equality, selected limits, countable
 choice, ambient completeness, metric-completeness data, or a standard bridge
 row.
 \end{proof}
+
+\begin{theorem}[Real terminal seal audit noncollapse]
+\label{thm:real-terminal-seal-audit-noncollapse}
+Let $\{\mathcal R_i\}_{i\in I}$ be a finite family of local terminal-seal
+reads satisfying the hypotheses of
+\autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness}, and let
+$\mathcal R$ be the resulting public $\RealUp$ terminal-seal read. Then the
+audit rows visible from $\mathcal R$ over the four displayed faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+are exactly the objectwise closurestatus, formalstatus, leantarget, and
+bridgestatus rows of those four faces. The finite-cover descent supplies no
+aggregate route-level status row, no replacement leantarget, and no
+standard-bridge row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness}. The
+public read $\mathcal R$ is obtained only by pasting the StreamName,
+DyadicRatCore, RegSeqRat, and local Real terminal-seal faces over their common
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next read the audit coordinate through
+\autoref{thm:real-l10-current-phase-exit-audit-pullback}. That pullback
+identifies the current Phase Real and Completion audit report with the
+objectwise product of the four face reports, so the pasted terminal-seal route
+has no separate audit carrier beyond the displayed face rows.
+
+Apply \autoref{thm:real-l10-face-status-noncollapse}. The closurestatus,
+formalstatus, and bridgestatus rows therefore remain attached to their
+respective faces and are not replaced by a route-level status row. Apply
+\autoref{thm:real-l10-face-leantarget-noncollapse}; the same locality holds
+for the leantarget rows.
+
+Finally reuse the exclusion clause of
+\autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness}. Since the
+descent has no coordinate for quotient streams, host reals, selected limits,
+countable choice, ambient completeness, metric completeness, or a standard
+bridge, the audit read cannot manufacture an aggregate bridge or verification
+record.
+\end{proof}
