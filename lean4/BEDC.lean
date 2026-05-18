@@ -184,6 +184,7 @@ import BEDC.Derived.ApophaticNameUp.SocketRequestGateExactness
 import BEDC.Derived.ApophaticNameUp.RootBoundaryPackageExhaustion
 import BEDC.Derived.ApophaticNameUp.RefusalExportTotality
 import BEDC.Derived.ApophaticNameUp.RefusalLedgerDownstreamCoverage
+import BEDC.Derived.ApophaticNameUp.RootLedgerCoverage
 import BEDC.Derived.ApophaticNameUp.SocketBoundaryRouteExhaustion
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
@@ -293,6 +294,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceRowAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.StructuralDescentLocality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditBoundaryExposure
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAuthorization
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
@@ -562,6 +564,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.FiniteObservationBudgetSelectorHan
 import BEDC.Derived.CauchyModulusRefinementUp.FiniteObservationBudgetPullback
 import BEDC.Derived.CauchyModulusRefinementUp.FourFaceConsumerBoundary
 import BEDC.Derived.CauchyModulusRefinementUp.FourFaceNocollapse
+import BEDC.Derived.CauchyModulusRefinementUp.FourFaceStatusObjectwisePullback
 import BEDC.Derived.CauchyModulusRefinementUp.L10CompletionPullback
 import BEDC.Derived.CauchyModulusRefinementUp.L10ConsumerSpineComparison
 import BEDC.Derived.CauchyModulusRefinementUp.L10SiblingRoute
