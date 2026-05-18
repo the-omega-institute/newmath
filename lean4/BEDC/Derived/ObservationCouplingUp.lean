@@ -137,4 +137,33 @@ theorem ObservationCouplingCarrier_symmetric_rate_boundary [AskSetup] [PackageSe
     cont_respects_hsame readATransportSame readBReplaySame readsLedger transportReplayLocal
   exact hsame_trans ledgerReadLocalSame (hsame_symm ledgerSameLocal)
 
+theorem ObservationCouplingCarrier_locality_obligations [AskSetup] [PackageSetup]
+    {histA histB routeA routeB transport replay ledger provenance localName readA readB : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservationCouplingCarrier histA histB routeA routeB transport replay ledger provenance
+        localName bundle pkg →
+      Cont histA routeA readA →
+        Cont histB routeB readB →
+          UnaryHistory histA ∧ UnaryHistory histB ∧ UnaryHistory readA ∧
+            UnaryHistory readB ∧ Cont histA routeA readA ∧ Cont histB routeB readB ∧
+              hsame readA transport ∧ hsame readB replay ∧
+                PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame PkgSig
+  intro carrier histRouteReadA histRouteReadB
+  rcases carrier with
+    ⟨histAUnary, histBUnary, routeAUnary, routeBUnary, _transportUnary, _replayUnary,
+      _ledgerUnary, _provenanceUnary, _localNameUnary, histATransport, histBReplay,
+      _transportReplayLocal, _ledgerSameLocal, _ledgerProvenanceLocal, provenancePkg⟩
+  have readAUnary : UnaryHistory readA :=
+    unary_cont_closed histAUnary routeAUnary histRouteReadA
+  have readBUnary : UnaryHistory readB :=
+    unary_cont_closed histBUnary routeBUnary histRouteReadB
+  have readATransportSame : hsame readA transport :=
+    cont_deterministic histRouteReadA histATransport
+  have readBReplaySame : hsame readB replay :=
+    cont_deterministic histRouteReadB histBReplay
+  exact
+    ⟨histAUnary, histBUnary, readAUnary, readBUnary, histRouteReadA, histRouteReadB,
+      readATransportSame, readBReplaySame, provenancePkg⟩
+
 end BEDC.Derived.ObservationCouplingUp
