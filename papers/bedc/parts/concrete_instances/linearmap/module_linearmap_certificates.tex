@@ -615,5 +615,40 @@ $$
 The ledger entries are the source inverse comparison, the evaluation descent witness, the additive row, the zero-preservation row, the codomain inverse row, and the inverse-uniqueness comparison required by \autoref{def:linearmap-ledger-policy}.
 \end{proof}
 
+\begin{theorem}[LinearMap difference preservation]
+\label{thm:linearmap-difference-preservation}
+Let $F$ carry a $\FieldUp(F)$ certificate, and let $V$ and $W$ carry $\VecSpaceUp(F,V)$ and $\VecSpaceUp(F,W)$ certificates. Write $+_W$, $-_W$, and $\sim_W$ for the codomain vector addition, additive inverse, and classifier. Let $f,g:V\to W$ be carried $\LinearMapUp(V,W)$ maps. Define $d:V\to W$ pointwise by
+$$
+d(m):=f(m)+_W(-_W g(m)).
+$$
+Then $d$ carries a $\LinearMapUp(V,W)$ certificate, and every carried source point $m:V$ satisfies
+$$
+d(m)\sim_W f(m)+_W(-_W g(m)).
+$$
+The ten-field fit is: BEDC source $\LinearMapUp+\VecSpaceUp+\FieldUp$ over the common scalar field and the two vector-space certificates; carrier the pointwise difference function $d$; classifier the pointwise codomain classifier from \autoref{def:linearmap-classifier-specification}; stability the sum rows together with the codomain inverse rows; ledger the pointwise-sum ledger plus the pointwise-inverse ledger; core theorem this block; exactness predicate the displayed endpoint formula; standard bridge the usual difference of linear maps in $\operatorname{Hom}_F(V,W)$; public pattern the hom-space additive-group operation; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Read the two vector-space certificates through their module reducts by \autoref{prop:vecspace-module-fragment-projection}. The carried $\LinearMapUp(V,W)$ data for $f$ and $g$ provide the corresponding module linear-map certificates over this common module source.
+
+Apply \autoref{thm:module-linearmap-pointwise-inverse-certificate} to $g$. This certifies the pointwise inverse map $u:V\to W$ defined by
+$$
+u(m):=-_W g(m).
+$$
+The endpoint identity for $u$ is the codomain additive inverse operation; the source-inverse behavior remains compatible with \autoref{thm:linearmap-additive-inverse-preservation}.
+
+Now apply \autoref{thm:module-linearmap-pointwise-sum-certificate} to the certified maps $f$ and $u$. Its carrier is the pointwise sum
+$$
+m\longmapsto f(m)+_W u(m),
+$$
+which is exactly the displayed difference carrier $d$ after substituting the definition of $u$.
+
+For a carried source point $m:V$, the classifier for $\LinearMapUp(V,W)$ is pointwise in $\sim_W$ by \autoref{def:linearmap-classifier-specification}. The displayed defining equation for $d$ and classifier reflexivity at the carried codomain endpoint give
+$$
+d(m)\sim_W f(m)+_W(-_W g(m)).
+$$
+
+The ledger is the concatenation of the pointwise-inverse ledger for $g$ and the pointwise-sum ledger for $f$ with that inverse map. Thus all carrier, classifier, stability, exactness, and ledger rows required for the $\LinearMapUp(V,W)$ certificate are supplied.
+\end{proof}
+
 
 \input{parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex}
