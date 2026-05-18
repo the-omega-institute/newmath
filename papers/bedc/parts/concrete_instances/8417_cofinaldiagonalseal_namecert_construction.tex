@@ -168,17 +168,62 @@ Now use route exhaustion. Every accepted consumer route to a public $\RealUp$ se
 The cited RegSeqRat, StreamName, DyadicRatCore, and Real sibling chapters supply exactly the $R,W,Y,A$ handoff rows. The cofinal-tail, diagonal-budget, and diagonal-limit siblings supply the preceding route rows, so the terminal readback remains a scoped handoff rather than a global completeness principle.
 \end{proof}
 
+\begin{theorem}[Cofinal diagonal seal cofinal budget compatibility]
+\label{thm:cofinal-diagonal-seal-cofinal-budget-compatibility}
+For an accepted $\CofinalDiagonalSealUp$ packet, the cofinal-tail row $T$, diagonal selector row $D$, and diagonal-limit row $L$ are jointly required before any $R,W,Y,A$ $\RealUp$-seal handoff can classify as the same local packet. In particular, a route that omits one of $T,D,L$ cannot be identified with the displayed local packet even if it presents the same regular-source, finite-window, dyadic, and terminal $\RealUp$ rows.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:cofinal-diagonal-seal-carrier}. The budget side of the packet is not a single row: $T$ fixes the cofinal-tail threshold, $D$ fixes the diagonal selector budget, and $L$ records the diagonal-limit-facing budget.
+
+Apply \autoref{thm:cofinal-diagonal-seal-route-row-exposure}. It places $T,D,L$ before the handoff rows $R,W,Y,A$, so the handoff cannot become public until the budget side has been read as part of the same local carrier.
+
+Use \autoref{thm:cofinal-diagonal-seal-route-exhaustion} and \autoref{thm:cofinal-diagonal-seal-carrier-row-readback}. Every accepted consumer route factors through the displayed rows and every accepted carrier exposes exactly those rows, hence a route lacking one of $T,D,L$ is not the same local packet as the displayed $\CofinalDiagonalSealUp$ seal.
+\end{proof}
+
+\begin{theorem}[Cofinal diagonal seal terminal exactness]
+\label{thm:cofinal-diagonal-seal-terminal-exactness}
+For an accepted $\CofinalDiagonalSealUp$ packet, the terminal row $A$ is public only through the displayed route
+$$
+T,D,L,R,W,Y,H,C,P,N.
+$$
+It is never public as Real completeness, quotient-stream equality, a selected host limit, hidden tail choice, ambient completion, or a detached $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The row $A$ is a coordinate of the finite carrier, and the surrounding rows $T,D,L,R,W,Y,H,C,P,N$ record the budget side, observable handoff, transport, continuation, provenance, and local naming that make the row public.
+
+Apply \autoref{thm:cofinal-diagonal-seal-terminal-readback-handoff}. It identifies the terminal $\RealUp$ row as public through the $R,W,Y$ handoff and rejects ambient completeness, quotient-stream classifiers, and detached Real seals.
+
+Now combine \autoref{thm:cofinal-diagonal-seal-route-exhaustion} with \autoref{thm:cofinal-diagonal-seal-route-row-exposure}. Route exhaustion forces every public seal readback through the displayed finite sequence, while row exposure forces the cofinal-tail, diagonal-selector, and diagonal-limit rows to precede the handoff. Therefore $A$ is terminal exactness for this finite route, not a Real-completeness theorem or quotient-stream equality principle.
+\end{proof}
+
+\begin{theorem}[Cofinal diagonal seal hidden selector refusal]
+\label{thm:cofinal-diagonal-seal-hidden-selector-refusal}
+No selected host limit, hidden tail choice, detached selector row, or off-route terminal seal can be consumed by a $\CofinalDiagonalSealUp$ packet unless it is one of the displayed finite rows
+$$
+\epsilon,T,D,L,R,W,Y,A,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:cofinal-diagonal-seal-carrier}. The carrier lists exactly the finite rows $\epsilon,T,D,L,R,W,Y,A,H,C,P,N$ and explicitly has no coordinate for selected host limits, hidden tail choice, detached selector rows, quotient-stream equality, ambient completeness, or off-route Real handoffs.
+
+Apply \autoref{thm:cofinal-diagonal-seal-carrier-row-readback}. Every accepted carrier exposes exactly the displayed rows and no hidden-tail, selected-limit, quotient-stream, or detached Real coordinate.
+
+Finally use \autoref{thm:cofinal-diagonal-seal-route-exhaustion} and \autoref{thm:cofinal-diagonal-seal-terminal-exactness}. Any consumed public seal must factor through the displayed route, and the terminal row is exact only for that route. Thus a hidden selector or host-limit witness is consumable only when it has already been identified with one of the displayed finite rows.
+\end{proof}
+
 The later Lean namespace \texttt{BEDC.Derived.CofinalDiagonalSealUp.TasteGate} must provide \texttt{Nontrivial CofinalDiagonalSealUp} and \texttt{FieldFaithful CofinalDiagonalSealUp} instances for the same displayed carrier.
 
-\closureat{CofinalDiagonalSealUp}{seedStr}
+\closureat{CofinalDiagonalSealUp}{obligationStr}[BEDC.Derived.CofinalDiagonalSealUp.CofinalDiagonalSealTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\CofinalDiagonalSealUp}
   \constructivestory{A $\CofinalDiagonalSealUp$ packet is generated from a finite precision request, cofinal-tail budget row, Cauchy diagonal budget row, diagonal limit budget row, RegSeqRat readback row, StreamName window row, DyadicRatCore tolerance ledger, terminal RealUp seal row, componentwise transports, displayed continuation, package provenance, and local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cofinal-diagonal-seal-carrier}, \autoref{thm:cofinal-diagonal-seal-namecert-obligations}, \autoref{thm:cofinal-diagonal-seal-route-exhaustion}, \autoref{thm:cofinal-diagonal-seal-route-admission}, \autoref{thm:cofinal-diagonal-seal-observable-route-handoff}, \autoref{thm:cofinal-diagonal-seal-nontrivial-faithful-field}, and \autoref{thm:cofinal-diagonal-seal-sibling-scope} specify the finite cofinal-tail-to-diagonal RealUp seal route and its sibling scope.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cofinal-diagonal-seal-carrier}, \autoref{thm:cofinal-diagonal-seal-namecert-obligations}, \autoref{thm:cofinal-diagonal-seal-route-exhaustion}, \autoref{thm:cofinal-diagonal-seal-route-admission}, \autoref{thm:cofinal-diagonal-seal-observable-route-handoff}, \autoref{thm:cofinal-diagonal-seal-nontrivial-faithful-field}, \autoref{thm:cofinal-diagonal-seal-sibling-scope}, \autoref{thm:cofinal-diagonal-seal-carrier-row-readback}, \autoref{thm:cofinal-diagonal-seal-route-row-exposure}, \autoref{thm:cofinal-diagonal-seal-terminal-readback-handoff}, \autoref{thm:cofinal-diagonal-seal-cofinal-budget-compatibility}, \autoref{thm:cofinal-diagonal-seal-terminal-exactness}, and \autoref{thm:cofinal-diagonal-seal-hidden-selector-refusal} specify the finite cofinal-tail-to-diagonal RealUp seal route, its sibling scope, its budget-compatible handoff, and its refusal of hidden selectors.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CofinalDiagonalSealUp.CofinalDiagonalSealTasteGate\_single\_carrier\_alignment}
+  \leanchecked{BEDC.Derived.CofinalDiagonalSealUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected host limits, hidden tail choice, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, budget exposure, regular-source readback, finite-window exposure, dyadic tolerance exposure, terminal Real seal exposure, nontriviality, and field faithfulness for the same packet.}
+  \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected host limits, hidden tail choice, ambient completeness, public-object export, or bridge checking.}
+  \upgradepath{Public closure requires a public-object surface beyond the finite cofinal-tail-to-diagonal route seal.}
 \end{closurestatus}
