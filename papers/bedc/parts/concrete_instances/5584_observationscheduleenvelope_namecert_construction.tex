@@ -45,11 +45,13 @@ Schedule-source exposure reads $Q$ through \autoref{ch:concrete-instances-counta
 
 The refusal and handoff rows then bind the envelope. The refusal row $R$ blocks completed streams and future-law data, and the handoff row $J$ forces the consumer to carry $Q,S,W$ together before the route is authenticated by $H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.ObservationScheduleEnvelopeUp.TasteGate.ObservationScheduleEnvelopeNameCert\_obligations}
 
 \begin{theorem}[Observation schedule envelope window transport]
 \label{thm:observation-schedule-envelope-window-transport}
 For an accepted $\ObservationScheduleEnvelopeUp$ carrier $E=(Q,S,W,R,J,H,C,P,N)$, any displayed transport of the Real-facing request window preserves the same source schedule row $Q$, StreamName source row $S$, joint refusal row $R$, and consumer-handoff row $J$. Transport may replay the window through $H$ and $C$, but it may not enlarge $W$, replace $S$ by an unlisted source, or turn the observed prefix carried by $Q$ into a completed stream.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObservationScheduleEnvelopeUp.ObservationScheduleEnvelope\_window\_transport}
 \begin{proof}
 Project the carrier and read the componentwise transport row $H$. The row records transport for the schedule source, StreamName source, Real-facing window, refusal row, handoff row, route row, provenance row, and local name.
 

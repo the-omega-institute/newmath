@@ -219,6 +219,51 @@ instance crossPerspectiveAlignmentChapterTasteGate :
     intro x y hxy heq
     exact hxy (crossPerspectiveAlignmentToEventFlow_injective heq)
 
+def crossPerspectiveAlignmentFields :
+    CrossPerspectiveAlignmentUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | CrossPerspectiveAlignmentUp.mk source target locality commitment multiHist transports routes
+      provenance nameCert =>
+      [source, target, locality, commitment, multiHist, transports, routes, provenance,
+        nameCert]
+
+private theorem crossPerspectiveAlignment_fields_faithful :
+    ∀ x y : CrossPerspectiveAlignmentUp,
+      crossPerspectiveAlignmentFields x = crossPerspectiveAlignmentFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk source₁ target₁ locality₁ commitment₁ multiHist₁ transports₁ routes₁ provenance₁
+      nameCert₁ =>
+      cases y with
+      | mk source₂ target₂ locality₂ commitment₂ multiHist₂ transports₂ routes₂ provenance₂
+          nameCert₂ =>
+          injection hfields with hSource tail0
+          injection tail0 with hTarget tail1
+          injection tail1 with hLocality tail2
+          injection tail2 with hCommitment tail3
+          injection tail3 with hMultiHist tail4
+          injection tail4 with hTransports tail5
+          injection tail5 with hRoutes tail6
+          injection tail6 with hProvenance tail7
+          injection tail7 with hNameCert _
+          subst hSource
+          subst hTarget
+          subst hLocality
+          subst hCommitment
+          subst hMultiHist
+          subst hTransports
+          subst hRoutes
+          subst hProvenance
+          subst hNameCert
+          rfl
+
+instance crossPerspectiveAlignmentFieldFaithful :
+    FieldFaithful CrossPerspectiveAlignmentUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := crossPerspectiveAlignmentFields
+  field_faithful := crossPerspectiveAlignment_fields_faithful
+
 def taste_gate : ChapterTasteGate CrossPerspectiveAlignmentUp :=
   crossPerspectiveAlignmentChapterTasteGate
 

@@ -444,4 +444,78 @@ theorem FiniteReflectionTupleCarrier_audit_result_nonescape
     }
   exact ⟨semantic, auditUnary, bridgeUnary⟩
 
+theorem FiniteReflectionTupleCarrier_bridge_request_boundary
+    [AskSetup] [PackageSetup]
+    {candidate stability admission compiler image readback transport replay provenance request
+      localCert bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteReflectionTupleCarrier candidate stability admission compiler image readback transport
+        replay provenance request localCert bundle pkg ->
+      Cont image readback transport ->
+        Cont provenance request bridgeRead ->
+          PkgSig bundle bridgeRead pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  FiniteReflectionTupleCarrier candidate stability admission compiler image readback
+                    transport replay provenance request localCert bundle pkg ∧
+                    hsame row bridgeRead)
+                (fun row : BHist =>
+                  Cont image readback transport ∧ Cont provenance request bridgeRead ∧
+                    hsame row bridgeRead)
+                (fun row : BHist => PkgSig bundle bridgeRead pkg ∧ hsame row bridgeRead)
+                hsame ∧
+              UnaryHistory bridgeRead ∧ Cont provenance request bridgeRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier imageReadbackTransport provenanceRequestBridge bridgePkg
+  have carrierWitness := carrier
+  obtain ⟨_candidateUnary, _stabilityUnary, _admissionUnary, _compilerUnary, _imageUnary,
+    _readbackUnary, _transportUnary, _replayUnary, provenanceUnary, requestUnary,
+    _localCertUnary, _candidateStabilityAdmission, _admissionCompilerImage,
+    _imageReadbackTransport, _transportReplayProvenance, _provenanceRequestLocalCert,
+    _localCertPkg⟩ := carrier
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed provenanceUnary requestUnary provenanceRequestBridge
+  have certCore :
+      NameCert
+        (fun row : BHist =>
+          FiniteReflectionTupleCarrier candidate stability admission compiler image readback
+            transport replay provenance request localCert bundle pkg ∧ hsame row bridgeRead)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro bridgeRead
+        (And.intro carrierWitness (hsame_refl bridgeRead))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+  have semantic :
+      SemanticNameCert
+          (fun row : BHist =>
+            FiniteReflectionTupleCarrier candidate stability admission compiler image readback
+              transport replay provenance request localCert bundle pkg ∧ hsame row bridgeRead)
+          (fun row : BHist =>
+            Cont image readback transport ∧ Cont provenance request bridgeRead ∧
+              hsame row bridgeRead)
+          (fun row : BHist => PkgSig bundle bridgeRead pkg ∧ hsame row bridgeRead)
+          hsame := by
+    exact {
+      core := certCore
+      pattern_sound := by
+        intro _row sourceRow
+        exact ⟨imageReadbackTransport, provenanceRequestBridge, sourceRow.right⟩
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨bridgePkg, sourceRow.right⟩
+    }
+  exact ⟨semantic, bridgeUnary, provenanceRequestBridge⟩
+
 end BEDC.Derived.FiniteReflectionTupleUp
