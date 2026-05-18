@@ -222,6 +222,24 @@ Next use the exit-axis separation theorem, \autoref{thm:streamname-real-completi
 Finally compare with the Real-side exit witness, \autoref{thm:real-l10-current-phase-exit-witness}. That witness states the current Phase Real and Completion exit criterion in exactly the same four local faces, with each verification record read at least $\auditCleanV$ from its own closurestatus block. Therefore the StreamName-side boundary satisfies the roadmap threshold precisely as an objectwise four-face readback and not as any additional completion or bridge datum.
 \end{proof}
 
+\begin{theorem}[StreamName Real-completion objectwise threshold equivalence]
+\label{thm:streamname-real-completion-objectwise-threshold-equivalence}
+A StreamName-side Phase Real and Completion exit read satisfies the current objectwise exit threshold if and only if the four local face records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ each supply the required local theory-closure row and an audit-clean verification row, read from that face's own closurestatus block.
+
+This equivalence is only the local four-face threshold. It supplies no aggregate $\formalstatus$, no aggregate bridge row, no quotient stream equality, no selected limit, no countable-choice row, no metric-completeness datum, and no $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply \autoref{thm:streamname-four-face-audit-clean-threshold-readback}. It reads any accepted StreamName-side threshold witness objectwise through the four local faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with each verification row checked in that face's own closurestatus block.
+
+Use the same read through \autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. The Real-side formulation identifies the current Phase Real and Completion threshold with exactly those local theory-closure rows and audit-clean verification rows, so the StreamName-side witness has the same objectwise coordinates.
+
+For the reverse direction, suppose the four local face records each supply the required local theory-closure row and an audit-clean verification row. Apply \autoref{thm:streamname-real-completion-four-object-terminal-exactness} to bind these records to the terminal four-object Real-completion boundary.
+
+Next apply \autoref{thm:streamname-real-completion-dependency-exactness}. The dependency boundary is precisely the four faces together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, so those local records are sufficient for the StreamName-side current exit read.
+
+Finally compare again with \autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. The two formulations have the same four local faces and the same local closure and audit-clean threshold, while the cited StreamName terminal and dependency exactness theorems keep the packet from acquiring any aggregate $\formalstatus$, aggregate bridge row, quotient stream equality, selected limit, countable-choice row, metric-completeness datum, or $\RealUp$ completeness claim.
+\end{proof}
+
 \begin{theorem}[StreamName Real-completion classifier pullback]
 \label{thm:streamname-real-completion-classifier-pullback}
 Let two current Phase Real and Completion exit reads be accepted by the four-object route through
