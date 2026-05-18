@@ -2655,6 +2655,7 @@ import BEDC.Derived.LinearMapUp.ContinuationVisibleSource
 import BEDC.Derived.LinearMapUp.ContinuationVisibleTarget
 import BEDC.Derived.LinearMapUp.EvalContextPair
 import BEDC.Derived.LinearMapUp.EvalContinuationPair
+import BEDC.Derived.LinearMapUp.EvaluationGraphComposition
 import BEDC.Derived.LinearMapUp.EvaluationGraphNameCert
 import BEDC.Derived.LinearMapUp.EvaluationGraphPackage
 import BEDC.Derived.LinearMapUp.Image
@@ -4321,6 +4322,7 @@ import BEDC.Derived.ZnormalUp
 import BEDC.Derived.ZnormalUp.RootContReplayClosure
 import BEDC.Derived.ZnormalUp.RootDisplayPacketBridgeReadbackExactness
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
+import BEDC.Derived.ZnormalUp.RootUnblockNonescapeLedger
 import BEDC.Derived.ZnormalUp.TasteGate
 import BEDC.Derived.ZnormalUp.TerminalBoundaryNonescape
 import BEDC.Derived.ZnormalUp.TerminalConsumerTotality
