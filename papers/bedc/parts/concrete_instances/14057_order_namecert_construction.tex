@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\OrderUp$}
+\label{ch:concrete-instances-order-namecert}
+\origin{human}
+
+The order interface $\OrderUp$ is the unary comparison face read by the Full Nat Arithmetic boundary. It sits between the $\NatUp$ spine and the $\AddUp$, $\MulUp$, $\IntUp$, and $\RatUp$ arithmetic consumers, exposing finite comparison packets over histories rather than a host natural-number order.
+
+\section{Unary comparison packets}
+
+\begin{definition}[OrderUp unary comparison carrier]
+\label{def:order-unary-comparison-carrier}
+The carrier for $\OrderUp$ consists of finite unary comparison packets
+$$
+\mathsf{OrdRow}(h,k,\beta,\lambda)
+$$
+where $h$ and $k$ are $\NatUp$ unary histories, $\beta$ is one displayed constructive comparison branch, and $\lambda$ is the finite ledger that justifies that branch. The branch $\beta$ is either a left-prefix witness from $h$ to $k$, a right-prefix witness from $k$ to $h$, or a classifier row $h\hsame k$. The ledger $\lambda$ records only $\mathsf{BHist}$ constructors, $\hsame$ transport, and $\Cont$ prefix rows over the two unary histories.
+\end{definition}
+
+\begin{definition}[OrderUp unary comparison classifier]
+\label{def:order-unary-comparison-classifier}
+Two $\OrderUp$ comparison packets $\mathsf{OrdRow}(h,k,\beta,\lambda)$ and $\mathsf{OrdRow}(h',k',\beta',\lambda')$ are classified together when $h\hsame h'$ and $k\hsame k'$, and the comparison branch transported along those two endpoint classifiers is the displayed branch $\beta'$. The ledger component is compared by replaying the same finite prefix and endpoint rows after this $\hsame$ transport.
+\end{definition}
+
+\begin{theorem}[OrderUp unary comparison NameCert obligations]
+\label{thm:order-unary-comparison-namecert-obligations}
+The carrier and classifier of \autoref{def:order-unary-comparison-carrier} and \autoref{def:order-unary-comparison-classifier} supply the seed $\NameCert_{\OrderUp}$ obligation surface over $\mathsf{BHist}$. The carrier is inhabited by the reflexive packet on $\emp$, classifier reflexivity, symmetry, and transitivity are inherited from the endpoint $\hsame$ rows together with finite ledger replay, stability follows by transporting prefix and equality branches along $\hsame$, and the ledger records exactly the displayed carrier, branch, transport, and prefix rows.
+\end{theorem}
+\begin{proof}
+For inhabitance, take the packet with $h=k=\emp$, the equality branch $\emp\hsame\emp$, and the empty ledger.
+
+The classifier laws are componentwise. Reflexivity uses the same two endpoints and the same comparison branch. Symmetry reverses the endpoint classifiers and replays the transported branch in the opposite packet direction. Transitivity composes the endpoint $\hsame$ rows and concatenates the finite ledger replays.
+
+For stability, transport the two unary endpoints through the supplied $\hsame$ rows. A left-prefix branch remains a left-prefix branch after endpoint transport, a right-prefix branch remains right-prefix, and an equality branch remains an $\hsame$ branch. Since every ledger entry is one of these finite rows, the transported packet is again an $\OrderUp$ carrier row.
+\end{proof}
+
+\begin{theorem}[OrderUp Full Nat Arithmetic handoff]
+\label{thm:order-full-nat-arithmetic-handoff}
+The unary comparison packet of \autoref{def:order-unary-comparison-carrier}, its classifier of \autoref{def:order-unary-comparison-classifier}, and the seed obligations of \autoref{thm:order-unary-comparison-namecert-obligations} form the $\OrderUp$ face consumed by the Full Nat Arithmetic phase. Thus the $\NatUp$, $\AddUp$, $\MulUp$, $\IntUp$, and $\RatUp$ consumers read order information only as finite unary comparison rows over the same $\mathsf{BHist}$ spine.
+\end{theorem}
+\begin{proof}
+Project the carrier first. Its only endpoints are $\NatUp$ unary histories, and its comparison branch is a finite prefix-or-classifier row over those histories.
+
+Project the classifier next. It transports comparison rows along $\hsame$ on the same two endpoints, so an arithmetic consumer receives a stable comparison interface rather than a second carrier or a host relation.
+
+The seed obligations then provide the NameCert surface needed by the phase boundary: one inhabited carrier row, componentwise classifier laws, transport stability, and a ledger policy. Repacking these projections gives exactly the order face available to the Full Nat Arithmetic consumers listed in the statement.
+\end{proof}
+
+\begin{theorem}[OrderUp AddMul consumer boundary]
+\label{thm:order-add-mul-consumer-boundary}
+Every $\AddUp$ or $\MulUp$ consumer of $\OrderUp$ receives only finite unary comparison rows of \autoref{def:order-unary-comparison-carrier} and classifier transport rows of \autoref{def:order-unary-comparison-classifier}. In particular, monotonicity or divisibility-order uses may read the displayed prefix branch and its finite ledger, but they do not receive host natural-number order, classical trichotomy, quotient order, or any ordered semiring or ordered ring structure from this chapter.
+\end{theorem}
+\begin{proof}
+An $\AddUp$ consumer reads the two endpoint histories through the additive continuation surface and may attach a comparison packet only after those endpoints are already present as unary histories. The packet contributes the branch and finite ledger, not a host order predicate.
+
+A $\MulUp$ consumer reads the repeated-addition ledger and may attach comparison packets to the displayed factors, partial products, or final product. Each such attachment is again an $\mathsf{OrdRow}$ over unary endpoints with componentwise classifier transport.
+
+Since neither consumer projection introduces a semiring carrier, a ring carrier, a quotient relation, or a classical three-way decision principle, the only order data crossing this boundary are the finite prefix-or-equality rows explicitly stored in the $\OrderUp$ packet.
+\end{proof}
+
+\closureat{OrderUp}{seedStr}
