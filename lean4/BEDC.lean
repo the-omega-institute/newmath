@@ -315,10 +315,12 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditBoundaryExposure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditRouteExactness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAuthorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RouteTotalityLock
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.FiniteTailAuthorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalAuthorizedOutputCover
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSignatureTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalConsumerReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalGeneratorAdmission
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertObligationExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootDescentAuditCoupling
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuthorizationDownstreamSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadbackTotality
@@ -344,6 +346,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.DimliftPrimitiveRefusalBoundary
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.HorizonRefusalScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.NegativeRowScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RootObligationSurface
+import BEDC.Derived.AxisZeckendorfCannotClaimUp.RootUnblockPackageCertificate
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.AuditGateConsumption
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.LedgerConsumerExactness
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.DownstreamBlockerScope
@@ -859,6 +862,7 @@ import BEDC.Derived.ScienceBridgeUp.TasteGate
 import BEDC.Derived.BHistOctaTupleNameCertUp
 import BEDC.Derived.BHistDecaTupleNameCertUp
 import BEDC.Derived.BHistHendecaTupleNameCertUp
+import BEDC.Derived.BHistDodecaTupleNameCertUp
 import BEDC.Derived.CertifiedPhysicalTruthUp
 import BEDC.Derived.CertifiedPhysicalTruthUp.TasteGate
 import BEDC.Derived.DomainTruthCertificateUp.TasteGate
@@ -1082,6 +1086,7 @@ import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.PublicExport
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.PublicBridgeBoundary
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.StandardBridgePreconditions
+import BEDC.Derived.KernelAcceptanceAuditWitnessUp.FormalAxisSeparation
 import BEDC.Derived.KernelAcceptanceBuildReplayUp.TasteGate
 import BEDC.Derived.KernelAcceptanceWitnessUp
 import BEDC.Derived.KernelInductiveAcceptanceUp.TasteGate
@@ -2137,6 +2142,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.OverlapRoundtripConfluence
 import BEDC.Derived.UniformCauchyCriterionUp.PairedOverlapRealSealDeterminacy
 import BEDC.Derived.UniformCauchyCriterionUp.PhaseRealEndpointDeterminacy
 import BEDC.Derived.UniformCauchyCriterionUp.PhaseRealExitConsumerExhaustion
+import BEDC.Derived.UniformCauchyCriterionUp.PhaseRealRouteIff
 import BEDC.Derived.UniformCauchyCriterionUp.PublicExportPackage
 import BEDC.Derived.UniformCauchyCriterionUp.PublicExportSurface
 import BEDC.Derived.UniformCauchyCriterionUp.PublicNonEscapeExport
