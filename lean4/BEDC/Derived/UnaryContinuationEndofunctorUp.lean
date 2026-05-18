@@ -1,11 +1,17 @@
 import BEDC.Derived.CategoryUp
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.UnaryContinuationEndofunctorUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.CategoryUp
 
@@ -48,5 +54,74 @@ theorem UnaryContinuationEndofunctorCarrier_composition_stability
     unary_cont_closed imageFUnary imageGUnary imageCompRel
   exact And.intro composite
     (And.intro imageFGUnary (And.intro imageCompUnary sameImage))
+
+theorem UnaryContinuationEndofunctor_namecert_obligations [AskSetup] [PackageSetup]
+    {O H F I M T C P N objectRead identityRead compositionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryContinuationEndofunctorCarrier O H F I M T C P N ->
+      Cont O F objectRead ->
+        Cont H I identityRead ->
+          Cont M T compositionRead ->
+            PkgSig bundle P pkg ->
+              SemanticNameCert
+                (fun row : BHist => hsame row N ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row N ∧ Cont O F objectRead ∧ Cont H I identityRead ∧
+                    Cont M T compositionRead)
+                (fun row : BHist => hsame row N ∧ PkgSig bundle P pkg)
+                hsame ∧ UnaryHistory objectRead ∧ UnaryHistory identityRead ∧
+                UnaryHistory compositionRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier objectRoute identityRoute compositionRoute provenancePkg
+  obtain ⟨objectUnary, homUnary, actionUnary, identityUnary, compositionUnary,
+    objectActionTransport, homIdentityRoute, compositionTransportProvenance,
+    sameProvenanceName⟩ := carrier
+  have transportUnary : UnaryHistory T :=
+    unary_cont_closed objectUnary actionUnary objectActionTransport
+  have provenanceUnary : UnaryHistory P :=
+    unary_cont_closed compositionUnary transportUnary compositionTransportProvenance
+  have nameUnary : UnaryHistory N :=
+    unary_transport provenanceUnary sameProvenanceName
+  have objectReadUnary : UnaryHistory objectRead :=
+    unary_cont_closed objectUnary actionUnary objectRoute
+  have identityReadUnary : UnaryHistory identityRead :=
+    unary_cont_closed homUnary identityUnary identityRoute
+  have compositionReadUnary : UnaryHistory compositionRead :=
+    unary_cont_closed compositionUnary transportUnary compositionRoute
+  have sourceN : (fun row : BHist => hsame row N ∧ UnaryHistory row) N := by
+    exact ⟨hsame_refl N, nameUnary⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row N ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row N ∧ Cont O F objectRead ∧ Cont H I identityRead ∧
+            Cont M T compositionRead)
+        (fun row : BHist => hsame row N ∧ PkgSig bundle P pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro N sourceN
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source.left, objectRoute, identityRoute, compositionRoute⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, provenancePkg⟩
+  }
+  exact ⟨cert, objectReadUnary, identityReadUnary, compositionReadUnary⟩
 
 end BEDC.Derived.UnaryContinuationEndofunctorUp
