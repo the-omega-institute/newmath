@@ -82,6 +82,7 @@ private theorem cauchyWindowTransducer_round_trip :
     ∀ x : CauchyWindowTransducerUp,
       cauchyWindowTransducerFromEventFlow
         (cauchyWindowTransducerToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk streamWindow dyadicTolerance windowStep regSeqReadback realSeal
@@ -183,11 +184,19 @@ def taste_gate : ChapterTasteGate CauchyWindowTransducerUp :=
   cauchyWindowTransducerChapterTasteGate
 
 theorem CauchyWindowTransducerTasteGate_single_carrier_alignment :
-    cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-      cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+    cauchyWindowTransducerFields
+        (CauchyWindowTransducerUp.mk BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty) =
+      [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+        BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
+      cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+        cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark
   constructor
   · rfl
-  · rfl
+  · constructor
+    · rfl
+    · rfl
 
 end BEDC.Derived.CauchyWindowTransducerUp
