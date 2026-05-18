@@ -278,6 +278,20 @@ Use \autoref{thm:phase-real-completion-exit-boundary-face-nonsubstitution} to ru
 For the reverse direction, suppose the two accepted reads have the same public phase-exit gate certificate. Apply \autoref{thm:phase-real-completion-exit-facewise-consumer-readback}. The certificate reads back exactly the five local face records and the supporting $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. Applying the status-token product again identifies those readback rows with the four roadmap status records plus the same-route exact-boundary witness. Hence equality of the public gate readback gives equality of the displayed status-face product.
 \end{proof}
 
+\begin{theorem}[Phase real-completion exit support-row nonsubstitution]
+\label{thm:phase-real-completion-exit-support-row-nonsubstitution}
+Let $E=(D,S,Q,R,B,H,C,P,N)$ be an accepted $\PhaseRealCompletionExitUp$ packet. None of the support rows $H,C,P,N$ may be replaced by an aggregate formalstatus row, bridge token, quotient stream, selected limit, host-completeness row, metric-completeness datum, countable-choice row, or fused completion witness. The packet remains admitted only when componentwise $\hsame$ support through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local $\NameCert_{\PhaseRealCompletionExitUp}$ support through $N$ are present together with the displayed $D,S,Q,R,B$ faces.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory in \autoref{def:phase-real-completion-exit-carrier}. The accepted packet has exactly the displayed rows $D,S,Q,R,B,H,C,P,N$, where $H$ records componentwise $\hsame$, $C$ records displayed $\Cont$ routes, $P$ records $\Pkg$ provenance, and $N$ records the local $\NameCert_{\PhaseRealCompletionExitUp}$ row.
+
+Apply \autoref{thm:phase-real-completion-exit-scoped-primitive-dependency-binding}. Its primitive scope is the same finite row list, so the support rows are load-bearing coordinates rather than annotations attached to an external completion or status object.
+
+Next apply \autoref{thm:phase-real-completion-exit-facewise-consumer-readback}. Any accepted consumer reads back the five local face records together with the supporting $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows. Then use \autoref{thm:phase-real-completion-exit-status-face-product-injectivity} to identify equality of the public gate read with equality of that displayed status-face product.
+
+The remaining exclusions are the noncollapse exclusions already enforced by \autoref{thm:phase-real-completion-exit-noncollapse-boundary} and \autoref{thm:phase-real-completion-exit-boundary-face-nonsubstitution}. Aggregate formalstatus rows, bridge tokens, quotient streams, selected limits, host or metric completeness data, countable-choice rows, and fused completion witnesses have no coordinate in $E$ and cannot determine the same support-row product. Therefore $H,C,P,N$ are non-substitutable in every accepted phase-exit packet.
+\end{proof}
+
 \falsifiablePrediction{If a consumer fuses the dyadic, stream, regular, and real face reports into a single bridge token or completeness token, the $\PhaseRealCompletionExitUp$ packet is refuted.}
 
 \independenceWitness{dyadicratcore, streamname, regseqrat, real, realcompletionexactboundary: no single sibling is bijective to the phase product because the packet binds dyadic arithmetic, finite stream observation, regular rational handoff, real sealing, exact boundary, transport, replay, provenance, and local naming in one displayed exit carrier.}
