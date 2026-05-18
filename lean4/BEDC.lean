@@ -1225,6 +1225,7 @@ import BEDC.Derived.ContinuationMonadUp.CategoryHomRowExposure
 import BEDC.Derived.ContinuationMonadUp.ObligationClosure
 import BEDC.Derived.ContinuationMonadUp.PublicRouteBridgeTotality
 import BEDC.Derived.ContinuationMonadUp.ClassifierStability
+import BEDC.Derived.ContinuationMonadUp.Associativity
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -1576,6 +1577,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetApproximationPullbac
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetLedgerMinimality
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetPrefixPullbackInversion
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetSealCut
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.BoundedMonotoneDiagonalSynchronization
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BoundedMonotoneDiagonalSynchronizationLeanHandoff
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CauchyLimitSealPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalRouteChoiceFreeness
@@ -3493,6 +3495,7 @@ import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalCommitmentUp
 import BEDC.Derived.CausalCommitmentUp.CausalCommitmentClassifierStability
 import BEDC.Derived.CausalCommitmentUp.ForwardGapScopePackage
+import BEDC.Derived.CausalCommitmentUp.ObservedRegularityNonchoice
 import BEDC.Derived.CausalCommitmentUp.PublicForwardGapExport
 import BEDC.Derived.ContinuationBisimulationUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
