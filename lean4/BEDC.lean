@@ -240,6 +240,7 @@ import BEDC.Derived.AuditExportFirewallUp.TasteGate
 import BEDC.Derived.AuditTranscriptEnvelopeUp.TasteGate
 import BEDC.Derived.AuditAxisSeparationUp.TasteGate
 import BEDC.Derived.AxiomDependencyMapUp
+import BEDC.Derived.AxiomDependencyTupleUp
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
 import BEDC.Derived.CertificateTruthBranchBoundaryUp
@@ -269,6 +270,9 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.DisplayedRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSource
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OutputAuthorizationClosure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamRoute
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10Carrier
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OpenPhaseSourceTriad
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamOutputFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceRowAdmission
 import BEDC.Derived.AxiomDependencyTupleUp
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
@@ -1931,9 +1935,11 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.SubjectObstructionPreservatio
 import BEDC.Derived.MetaCICNormalizationFrontierUp.NormalFormBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FuelLedgerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionLedger
+import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionRetention
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObligationObstructionRetention
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetClassifierTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionRouteFactorization
+import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionConsumerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionConsumerLock
 import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionAdmission
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RedexBoundary
