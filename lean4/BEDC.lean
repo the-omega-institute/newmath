@@ -2080,6 +2080,7 @@ import BEDC.Derived.FiniteSupportUp.TasteGate
 import BEDC.Derived.FiniteTailDiagonalSealUp
 import BEDC.Derived.FiniteTailFiberScheduleUp.TasteGate
 import BEDC.Derived.FiniteTailFilterUp
+import BEDC.Derived.FiniteTailFilterUp.CofinalWindowBudgetNormalForm
 import BEDC.Derived.FiniteTailFilterUp.FormalTargetConsumerRoute
 import BEDC.Derived.FiniteTailFilterUp.RealWindowBudgetConsumerLink
 import BEDC.Derived.FiniteTailFilterUp.RealWindowBudgetSelectorBridge
