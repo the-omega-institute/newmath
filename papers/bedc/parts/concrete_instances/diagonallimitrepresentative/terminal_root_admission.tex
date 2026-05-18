@@ -1,0 +1,39 @@
+\begin{theorem}[Diagonal-limit representative terminal-root admission]
+\label{thm:diagonal-limit-representative-terminal-root-admission}
+Let $D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N)$ be an accepted $\DiagonalLimitRepresentativeUp$ carrier. Its terminal root is admitted only through the displayed route consisting of the $\StreamNameUp$ window $w$, the $\RegSeqRatUp$ readback $r$, the $\DyadicRatCoreUp$ ledger $d$, the terminal $\RealUp$ seal $e$, and the support rows $H,C,P,N$. The admission also requires the selected-index equations $k=\mu(1/(n+1))$ and $i=k+n+1$ to be exposed on the same finite $\BHist$ route before any downstream Real-and-Completion consumer may read the terminal row.
+\end{theorem}
+\begin{proof}
+Apply root-readiness exactness, \autoref{thm:diagonal-limit-representative-root-readiness-exactness}. It gives coverage, soundness, and completeness for the displayed route through the selected indices, window, readback, dyadic ledger, terminal seal, and local support rows.
+
+Next use terminal cofinal extraction, \autoref{thm:diagonal-limit-representative-terminal-cofinal-extraction}. It extracts the terminal package only after the root-index, finite-prefix budget, cofinal modulus, and Real seal rows have appeared on the same finite surface.
+
+Finally apply Real-completion consumer exactness, \autoref{thm:diagonal-limit-representative-real-completion-consumer-exactness}. It confines every accepted consumer to the named StreamName, RegSeqRat, DyadicRatCore, Real, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\DiagonalLimitRepresentativeUp}$ rows, so no terminal root is admitted off the displayed route.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative selected-tail coverage]
+\label{thm:diagonal-limit-representative-selected-tail-coverage}
+For an accepted terminal-root package of $\DiagonalLimitRepresentativeUp$, the selected equations $k=\mu(1/(n+1))$ and $i=k+n+1$, the window/readback/ledger/seal rows $w,r,d,e$, and the finite support rows $H,C,P,N$ exhaust every selected-tail read available to a downstream Real-and-Completion consumer. Any selected-tail read must therefore factor through the finite route
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \RealUp
+$$
+together with the displayed local support.
+\end{theorem}
+\begin{proof}
+Start with root-index readiness, \autoref{thm:diagonal-limit-representative-root-index-readiness-package}. It makes the equations for $k$ and $i$ part of the visible root-index surface before the selected window, readback, ledger, and seal rows can be consumed.
+
+Attach cofinal-tail coverage, \autoref{thm:diagonal-limit-representative-cofinal-tail-coverage}. This places the selected tail on the same finite-prefix and cofinal-modulus route as the terminal seal, so a selected-tail read cannot detach from the displayed StreamName, RegSeqRat, DyadicRatCore, and Real rows.
+
+Use finite-tail selector uniqueness, \autoref{thm:diagonal-limit-representative-finite-tail-selector-uniqueness}, for the last coordinate check. Once the selected equations and support rows agree, the accepted selected-tail route is unique up to the recorded $\hsame$ rows and displayed $\Cont$ replay, so the listed rows exhaust the selected-tail surface.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative completion-consumer nonescape]
+\label{thm:diagonal-limit-representative-completion-consumer-nonescape}
+Downstream Real-and-Completion consumers may cite the terminal-root package of $\DiagonalLimitRepresentativeUp$ as a finite BEDC source surface. Such consumers may use the displayed StreamName window, RegSeqRat readback, DyadicRatCore ledger, Real seal, selected-index equations, and local support rows, but they may not extract quotient stream equality, a host limit, a selected limit, countable choice, or ambient $\RealUp$ completeness from that citation.
+\end{theorem}
+\begin{proof}
+Apply the formal handoff boundary, \autoref{thm:diagonal-limit-representative-formal-handoff-boundary}. It records that the formal surface contains the carrier rows, shared-terminal rows, root-readiness rows, and local support, and no additional selector, equality principle, host limit, or ambient completion field.
+
+Then apply completion handoff exhaustion, \autoref{thm:diagonal-limit-representative-completion-handoff-exhaustion}. Every Real-and-Completion consumer factors through the displayed sibling surfaces and local support rows, so all permitted reads are already named by the terminal-root package.
+
+The excluded objects have no coordinate in that finite package. Quotient stream equality, host limits, selected limits, choice rows, and ambient Real completeness therefore cannot be extracted by a downstream consumer that cites only the terminal-root package.
+\end{proof}
