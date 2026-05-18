@@ -174,6 +174,7 @@ import BEDC.Derived.ApophaticNameUp.SocketRequestTotality
 import BEDC.Derived.ApophaticNameUp.SocketRefusalRouteTotality
 import BEDC.Derived.ApophaticNameUp.GateLedgerExactness
 import BEDC.Derived.ApophaticNameUp.VisibleRequestFactorization
+import BEDC.Derived.ApophaticNameUp.RequestLedgerClassifierExhaustion
 import BEDC.Derived.ApophaticNameUp.ContextualClassNonescape
 import BEDC.Derived.ApophaticNameUp.BoundaryDescentLedger
 import BEDC.Derived.ApophaticNameUp.SocketGateComponentwiseTransport
@@ -253,6 +254,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.HostKernelHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditBoundary
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputAuditTotality
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootHostBoundaryNameCertExhaustion
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
@@ -1251,6 +1253,8 @@ import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.CrossPerspectiveAlignmentUp.TasteGate
 import BEDC.Derived.CrossPerspectiveAlignmentUp.NameCertObligations
 import BEDC.Derived.CrossPerspectiveAlignmentUp.LocalityCellSoundness
+import BEDC.Derived.CrossPerspectiveAlignmentUp.ObserverIdentityHandoff
+import BEDC.Derived.CrossPerspectiveAlignmentUp.FiniteMultihistCoherence
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
