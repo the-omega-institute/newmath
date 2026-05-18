@@ -64,3 +64,112 @@ non-escape clauses in the cited exhaustion, normal-form, pullback, and
 naturality results leave no coordinate outside the four faces and the
 displayed support rows.
 \end{proof}
+
+\begin{theorem}[Real terminal finite-section pullback exactness]
+\label{thm:real-terminal-finite-section-pullback-exactness}
+Let $\mathcal S$ be a finite section of a terminal $\RealUp$ seal read. Then
+$\mathcal S$ is accepted exactly when its visible pullback is the ordered
+four-face packet
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+The $\DyadicRatCoreUp$ face is the terminal scale-window packet, the
+$\StreamNameUp$ face is the tail-compatible finite-window request, the
+$\RegSeqRatUp$ face is the common-tail finite-request readback surface, and
+the $\RealUp$ face is the local terminal seal row.
+
+Thus a finite section is accepted by the terminal seal precisely through this
+visible BEDC pullback. It has no accepted coordinate for quotient streams,
+host real equality, selected limits, countable choice, ambient completeness,
+metric-completeness rows, standard bridge rows, or hidden completion carriers.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with an accepted finite section
+$\mathcal S$. By \autoref{thm:real-finite-window-seal-exhaustion}, the
+terminal seal read is exhausted by the four displayed faces and by the
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Refine the section inside that cover. The refinement monotonicity theorem
+\autoref{thm:real-finite-window-seal-refinement-monotonicity} keeps any
+visible finite refinement on the same four-face route, so the accepted section
+cannot leave the displayed terminal packet while preserving its support rows.
+
+Now identify the three source faces. The StreamName tail-compatible request,
+\autoref{thm:streamname-tail-compatible-window-request}, supplies the finite
+window row. The RegSeqRat common-tail finite-request pullback,
+\autoref{thm:regseqrat-common-tail-finite-request-real-seal-pullback},
+identifies the common-tail readback with the same finite Real seal boundary.
+The DyadicRatCore scale-window monotonicity and terminal fusion theorems,
+\autoref{thm:dyadicratcore-scale-window-monotonicity} and
+\autoref{thm:dyadicratcore-scale-window-terminal-fusion}, force the dyadic
+entry face onto one terminal scale-window packet.
+
+For the reverse direction, suppose the visible pullback is exactly this
+ordered four-face packet with the displayed support rows. The StreamName
+request, RegSeqRat pullback, and DyadicRatCore terminal fusion results assemble
+the section as a finite route into the local $\RealUp$ seal row. Applying
+\autoref{thm:real-finite-window-seal-refinement-monotonicity} to that route
+gives an accepted finite-window terminal seal section.
+
+The exclusion clauses are inherited from the same cited routes and from
+\autoref{thm:real-finite-window-seal-exhaustion}. Quotient stream equality,
+host real equality, selected limits, countable choice, ambient completeness,
+metric-completeness rows, standard bridge rows, and hidden completion carriers
+are not rows of the pullback, so they cannot be used to accept another finite
+section of the terminal seal.
+\end{proof}
+
+\begin{theorem}[Real terminal finite-section classifier determinacy]
+\label{thm:real-terminal-finite-section-classifier-determinacy}
+Let $\mathcal S$ and $\mathcal T$ be accepted finite sections of terminal
+$\RealUp$ seal reads. Suppose their visible $\DyadicRatCoreUp$ faces carry the
+same endpoint, radius, and distance ledger, their $\StreamNameUp$ faces display
+the same finite window, their $\RegSeqRatUp$ faces display the same common-tail
+classifier and readback rows, their local $\RealUp$ faces display the same
+terminal seal row, and their support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+are the same displayed rows. Then $\mathcal S$ and $\mathcal T$ determine the
+same public $\RealUp$ classifier route.
+
+Conversely, every public $\RealUp$ classifier route accepted at this terminal
+finite-section boundary is determined by exactly the $\DyadicRatCoreUp$
+endpoint-radius ledger, the $\StreamNameUp$ finite window, the
+$\RegSeqRatUp$ common-tail readback surface, the local $\RealUp$ seal row, and
+the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+The route carries no quotient stream equality, host real equality, selected
+limits, countable choice, ambient completeness, metric-completeness data,
+standard bridge row, or hidden completion carrier.
+\end{theorem}
+\begin{proof}
+First compare two accepted sections. By
+\autoref{thm:real-terminal-finite-section-pullback-exactness}, each accepted
+finite section is represented by the same ordered four-face pullback whenever
+its dyadic ledger, StreamName window, RegSeqRat common-tail readback, local Real
+seal row, and displayed support rows agree.
+
+Now refine both representatives to the common finite window. The preservation
+clause in \autoref{thm:real-finite-window-seal-refinement-monotonicity} keeps
+the accepted status and forbids any extra coordinate from entering during this
+finite-window comparison.
+
+Terminal uniqueness supplies the classifier route. Apply
+\autoref{thm:streamname-real-completion-four-object-terminal-pullback} to the
+common $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces
+with the displayed support rows; the terminal pullback admits only one public
+Real classifier route over those faces.
+
+Finally transport that route along the RegSeqRat budget boundary using
+\autoref{thm:real-regseqrat-terminal-budget-four-face-naturality}. This gives
+the same public classifier route for $\mathcal S$ and $\mathcal T$.
+
+For the converse, start with an accepted public classifier route at the
+terminal finite-section boundary. Pullback exactness identifies its accepted
+boundary with the four displayed faces and support rows, and terminality makes
+that representation unique. Naturality then transports the route back to the
+RegSeqRat common-tail readback without adding quotient stream equality, host
+real equality, selected limits, countable choice, ambient completeness,
+metric-completeness data, a standard bridge row, or a hidden completion carrier.
+\end{proof}
