@@ -441,4 +441,153 @@ theorem ApophaticNameCarrier_closure_refusal_package [AskSetup] [PackageSetup]
       socketRequestGate, ledgerRouteExported, ledgerNameAudit, ledgerSameRequestGate,
       provenancePkg⟩
 
+theorem ApophaticNameCarrier_kernel_scope_triad [AskSetup] [PackageSetup]
+    {socket request gate ledger transport route provenance nameRow kernelRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg ->
+      Cont socket request gate ->
+        Cont gate ledger nameRow ->
+          Cont ledger nameRow kernelRead ->
+            PkgSig bundle provenance pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    ApophaticNameCarrier socket request gate ledger transport route provenance
+                      nameRow bundle pkg ∧ hsame row gate)
+                  (fun row : BHist =>
+                    hsame row gate ∧ UnaryHistory row ∧ Cont socket request gate)
+                  (fun _row : BHist =>
+                    PkgSig bundle provenance pkg ∧ Cont gate ledger nameRow ∧
+                      Cont ledger nameRow kernelRead)
+                  hsame ∧
+                UnaryHistory socket ∧ UnaryHistory request ∧ UnaryHistory gate ∧
+                  UnaryHistory kernelRead ∧ hsame ledger (append request gate) := by
+  -- BEDC touchpoint anchor: BHist AskSetup PackageSetup ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier socketRequestGate' gateLedgerNameRow' ledgerNameKernel provenancePkg'
+  have carrierPacket :
+      ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg :=
+    carrier
+  obtain ⟨socketUnary, requestUnary, gateUnary, ledgerUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, nameRowUnary, _socketRequestGate, _requestGateRoute,
+    _gateLedgerRoute, _gateLedgerNameRow, ledgerSameRequestGate, _provenancePkg⟩ := carrier
+  have kernelUnary : UnaryHistory kernelRead :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameKernel
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            ApophaticNameCarrier socket request gate ledger transport route provenance
+              nameRow bundle pkg ∧ hsame row gate)
+          (fun row : BHist => hsame row gate ∧ UnaryHistory row ∧ Cont socket request gate)
+          (fun _row : BHist =>
+            PkgSig bundle provenance pkg ∧ Cont gate ledger nameRow ∧
+              Cont ledger nameRow kernelRead)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro gate ⟨carrierPacket, hsame_refl gate⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          ⟨source.right, unary_transport gateUnary (hsame_symm source.right),
+            socketRequestGate'⟩
+      ledger_sound := by
+        intro _row _source
+        exact ⟨provenancePkg', gateLedgerNameRow', ledgerNameKernel⟩
+    }
+  exact
+    ⟨cert, socketUnary, requestUnary, gateUnary, kernelUnary, ledgerSameRequestGate⟩
+
+theorem ApophaticNameCarrier_downstream_refusal_replay [AskSetup] [PackageSetup]
+    {socket request gate ledger transport route provenance nameRow downstreamRead replayRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg ->
+      Cont ledger nameRow downstreamRead ->
+        Cont downstreamRead route replayRead ->
+          PkgSig bundle replayRead pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  ApophaticNameCarrier socket request gate ledger transport route provenance
+                    nameRow bundle pkg ∧ hsame row downstreamRead)
+                (fun row : BHist =>
+                  hsame row downstreamRead ∧ UnaryHistory row ∧
+                    Cont ledger nameRow downstreamRead)
+                (fun row : BHist =>
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle replayRead pkg ∧
+                    hsame row downstreamRead ∧ Cont downstreamRead route replayRead)
+                hsame ∧
+              UnaryHistory downstreamRead ∧ UnaryHistory replayRead ∧
+                Cont ledger nameRow downstreamRead ∧
+                  Cont downstreamRead route replayRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist AskSetup PackageSetup ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier ledgerNameDownstream downstreamRouteReplay replayPkg
+  have carrierPacket :
+      ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg :=
+    carrier
+  obtain ⟨_socketUnary, _requestUnary, _gateUnary, ledgerUnary, _transportUnary,
+    routeUnary, _provenanceUnary, nameRowUnary, _socketRequestGate, _requestGateRoute,
+    _gateLedgerRoute, _gateLedgerNameRow, _ledgerSameRequestGate, provenancePkg⟩ := carrier
+  have downstreamUnary : UnaryHistory downstreamRead :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameDownstream
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed downstreamUnary routeUnary downstreamRouteReplay
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            ApophaticNameCarrier socket request gate ledger transport route provenance
+              nameRow bundle pkg ∧ hsame row downstreamRead)
+          (fun row : BHist =>
+            hsame row downstreamRead ∧ UnaryHistory row ∧
+              Cont ledger nameRow downstreamRead)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle replayRead pkg ∧
+              hsame row downstreamRead ∧ Cont downstreamRead route replayRead)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro downstreamRead ⟨carrierPacket, hsame_refl downstreamRead⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          ⟨source.right, unary_transport downstreamUnary (hsame_symm source.right),
+            ledgerNameDownstream⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨provenancePkg, replayPkg, source.right, downstreamRouteReplay⟩
+    }
+  exact
+    ⟨cert, downstreamUnary, replayUnary, ledgerNameDownstream, downstreamRouteReplay,
+      provenancePkg⟩
+
 end BEDC.Derived.ApophaticNameUp
