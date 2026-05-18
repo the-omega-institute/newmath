@@ -144,4 +144,30 @@ theorem OtherMindsCommitmentLocalityCellSoundness [AskSetup] [PackageSetup]
     ⟨observerUnary, candidateUnary, localityUnary, evidenceUnary, publicUnary,
       observerCandidateLocality, publicCont, provenancePkg, hsame_refl locality⟩
 
+theorem OtherMindsCommitmentBehaviouralEvidenceCompatibility [AskSetup] [PackageSetup]
+    {observer candidate locality evidence gap transports routes provenance nameCert
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OtherMindsCommitmentCarrier observer candidate locality evidence gap transports routes
+        provenance nameCert bundle pkg →
+      Cont locality evidence publicRead →
+        PkgSig bundle provenance pkg →
+          UnaryHistory observer ∧ UnaryHistory candidate ∧ UnaryHistory locality ∧
+            UnaryHistory evidence ∧ UnaryHistory publicRead ∧
+              Cont observer candidate locality ∧ Cont locality evidence routes ∧
+                Cont locality evidence publicRead ∧ PkgSig bundle provenance pkg ∧
+                  hsame evidence evidence := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro carrier publicCont provenancePkg
+  rcases carrier with
+    ⟨observerUnary, candidateUnary, localityUnary, evidenceUnary, _gapUnary,
+      _transportsUnary, _routesUnary, _provenanceUnary, _nameCertUnary,
+      observerCandidateLocality, localityEvidenceRoutes, _carrierPkg⟩
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed localityUnary evidenceUnary publicCont
+  exact
+    ⟨observerUnary, candidateUnary, localityUnary, evidenceUnary, publicUnary,
+      observerCandidateLocality, localityEvidenceRoutes, publicCont, provenancePkg,
+      hsame_refl evidence⟩
+
 end BEDC.Derived.OtherMindsCommitmentUp
