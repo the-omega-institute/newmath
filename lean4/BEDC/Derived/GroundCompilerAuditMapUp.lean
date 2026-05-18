@@ -74,6 +74,32 @@ theorem GroundCompilerAuditMapCarrier_report_boundary_exactness :
     injection htail₁₁ with hrow _
     cases hrow
 
+theorem GroundCompilerAuditMapCarrier_compiler_layer_frontier
+    {I K E R Q X H T P N I' K' E' R' Q' X' H' T' P' N' : BHist}
+    (hflow :
+      BHistCarrier.toEventFlow
+          (GroundCompilerAuditMapUp.mk I K E (BHist.e1 BHist.Empty) R Q BHist.Empty X H T P N) =
+        BHistCarrier.toEventFlow
+          (GroundCompilerAuditMapUp.mk I' K' E' BHist.Empty R' Q'
+            (BHist.e1 BHist.Empty) X' H' T' P' N')) :
+    False := by
+  -- BEDC touchpoint anchor: BHist BMark
+  change
+    groundCompilerAuditMapToEventFlow
+        (GroundCompilerAuditMapUp.mk I K E (BHist.e1 BHist.Empty) R Q BHist.Empty X H T P N) =
+      groundCompilerAuditMapToEventFlow
+        (GroundCompilerAuditMapUp.mk I' K' E' BHist.Empty R' Q' (BHist.e1 BHist.Empty)
+          X' H' T' P' N') at hflow
+  injection hflow with _ htail₁
+  injection htail₁ with _ htail₂
+  injection htail₂ with _ htail₃
+  injection htail₃ with _ htail₄
+  injection htail₄ with _ htail₅
+  injection htail₅ with _ htail₆
+  injection htail₆ with _ htail₇
+  injection htail₇ with hrow _
+  cases hrow
+
 theorem GroundCompilerAuditMapCarrier_frontier_handoff_nonescape
     {I K E C R Q F X H T P N I' K' E' C' R' Q' F' X' H' T' P' N' : BHist}
     (hflow :
