@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\BHistHendecaSequenceNameCertUp$}
+\label{ch:concrete-instances-b-hist-hendeca-sequence-name-cert-namecert}
+\origin{ai-composite}
+
+The $\BHistHendecaSequenceNameCertUp$ packet is the ordered arity-eleven sequence-window capstone for the carrier-isomorphism bucket. It is composite over the deca sequence certificate of \autoref{ch:concrete-instances-b-hist-deca-sequence-name-cert-namecert}, the hendeca tuple certificate of \autoref{ch:concrete-instances-b-hist-hendeca-tuple-namecert}, the dodeca tuple certificate of \autoref{ch:concrete-instances-b-hist-dodeca-tuple-name-cert-namecert}, the audit-map family of \autoref{ch:concrete-instances-auditmapfamily-namecert}, the anchor-stability certificate of \autoref{ch:concrete-instances-anchor-stability-certificate-namecert}, and the BEDC self-substrate packet of \autoref{ch:concrete-instances-bedc-self-substrate-namecert}. The chapter names the BEDC-native window that reads eleven ordered $\BHist$ rows together with componentwise transport, continuation replay, provenance, and local naming, without changing any member chapter.
+
+\begin{definition}[BHistHendecaSequenceNameCert carrier]
+\label{def:b-hist-hendeca-sequence-name-cert-carrier}
+A $\BHistHendecaSequenceNameCertUp$ carrier is a finite sequence-window packet
+$$
+Q=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,R_9,R_{10},I,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0,\ldots,R_{10}$ are the eleven ordered $\BHist$ rows admitted by the window. Each row is read as a displayed BEDC history component, and its tag records the local sequence role rather than a host-side position.
+\item $I$ is the finite order and index row. It records the first and last admitted positions, the successor route through the eleven entries, and the rule that every sequence read factors through one of $R_0,\ldots,R_{10}$.
+\item $H$ records componentwise $\hsame$ transport for $R_0,\ldots,R_{10},I,C,P,L$ and no transport row outside the displayed packet.
+\item $C$ records the displayed $\Cont$ replay from window admission through index preservation, componentwise comparison, transport, provenance readback, and local naming.
+\item $P$ is the $\Pkg$ provenance over the eleven-row window encoder, the tuple and sequence capstone anchors cited above, \autoref{ch:concrete-instances-auditmapfamily-namecert}, \autoref{ch:concrete-instances-anchor-stability-certificate-namecert}, \autoref{ch:concrete-instances-bedc-self-substrate-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\BHistHendecaSequenceNameCertUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an untagged row, a twelfth sequence component, a hidden permutation, a host equality test, unordered bucket membership alone, or a replacement of any tuple or sequence capstone chapter.
+\end{definition}
+
+\begin{theorem}[BHistHendecaSequenceNameCert obligation surface]
+\label{thm:b-hist-hendeca-sequence-name-cert-obligation-surface}
+Every accepted $\BHistHendecaSequenceNameCertUp$ packet admits exactly the displayed window rows
+$$
+R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,R_9,R_{10},I,H,C,P,L.
+$$
+The eleven rows are ordered $\BHist$ components, $I$ is the only index and order row, and $H,C,P,L$ are the only structural rows by which a consumer may transport, replay, source, or locally name the sequence window. In particular, the NameCert obligation surface is the carrier of \autoref{def:b-hist-hendeca-sequence-name-cert-carrier} together with its index preservation, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:b-hist-hendeca-sequence-name-cert-carrier}. The definition lists the eleven ordered $\BHist$ rows, then lists the index, transport, continuation, provenance, and local naming rows.
+
+There is no remaining coordinate in the packet. Thus any accepted window read lands in exactly the displayed rows, and any proposed twelfth component, detached order table, hidden permutation, or off-packet structural row lies outside the accepted surface.
+\end{proof}
+
+\begin{theorem}[BHistHendecaSequenceNameCert field projection]
+\label{thm:b-hist-hendeca-sequence-name-cert-field-projection}
+Let
+$$
+Q=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,R_9,R_{10},I,H,C,P,L)
+$$
+be an accepted $\BHistHendecaSequenceNameCertUp$ packet. Any downstream carrier-isomorphism read of $Q$ factors through one of the displayed fields $R_0,\ldots,R_{10},I,H,C,P,L$. The projection may expose the ordered eleven-row window, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, or the local $\NameCert$ row, but it cannot expose unordered tuple membership, a host-side equality classifier, an omitted field, a hidden twelfth field, or a rewrite of \autoref{ch:concrete-instances-b-hist-deca-sequence-name-cert-namecert}, \autoref{ch:concrete-instances-b-hist-hendeca-tuple-namecert}, or \autoref{ch:concrete-instances-b-hist-dodeca-tuple-name-cert-namecert}.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:b-hist-hendeca-sequence-name-cert-obligation-surface}. It identifies the complete list of rows available to an accepted packet and states that $I,H,C,P,L$ are the only structural rows attached to the eleven ordered $\BHist$ components.
+
+A downstream projection therefore has only the displayed fields as sources. Since the carrier contains no unordered bucket-membership coordinate, no host equality classifier, no omitted-field lookup, no twelfth field, and no capstone rewrite row, none of those readings can be exported by projection.
+\end{proof}
+
+\falsifiablePrediction{Any accepted consumer route that reads unordered tuple membership, an untagged row, a hidden permutation, a twelfth sequence row, a host equality classifier, an order table detached from $I$, or a sibling capstone rewrite fails the obligation surface or field projection for $\BHistHendecaSequenceNameCertUp$.}
+
+\independenceWitness{b-hist-deca-sequence-name-cert, b-hist-hendeca-tuple-namecert, b-hist-dodeca-tuple-name-cert, auditmapfamily, anchor-stability-certificate, and bedc-self-substrate: none is bijective to $\BHistHendecaSequenceNameCertUp$ because this packet carries eleven ordered payload rows plus an index row, componentwise transport, replay, provenance, and local $\NameCert$, while the cited siblings supply different sequence, tuple, audit, anchor, or substrate surfaces.}
+
+\closureat{BHistHendecaSequenceNameCertUp}{seedStr}
+
+\begin{closurestatus}{\BHistHendecaSequenceNameCertUp}
+  \constructivestory{A $\BHistHendecaSequenceNameCertUp$ packet is generated from eleven ordered $\BHist$ sequence rows, a finite index row, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:b-hist-hendeca-sequence-name-cert-carrier}, \autoref{thm:b-hist-hendeca-sequence-name-cert-obligation-surface}, and \autoref{thm:b-hist-hendeca-sequence-name-cert-field-projection} identify the arity-eleven sequence-window carrier surface and its BEDC support package.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai-composite}
+  \notclaimed{This chapter does not provide a Lean declaration, standard bridge, tuple-chapter replacement, sequence-chapter replacement, or public acceptance interface.}
+  \upgradepath{Formalization requires a Lean carrier for BEDC.Derived.BHistHendecaSequenceNameCertUp and checked obligation-surface plus field-projection theorems.}
+\end{closurestatus}
