@@ -419,6 +419,49 @@ displayed packet, so the factorization is a paper-side bridge and not a
 checked machine bridge.
 \end{proof}
 
+\begin{theorem}[Real completion exact-boundary terminal consumer exhaustion]
+\label{thm:real-completion-exact-boundary-four-face-terminal-consumer-exhaustion}
+For every accepted $\RealCompletionExactBoundaryUp$ packet
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N),
+$$
+every completion-facing or terminal Real consumer reads exactly the four Phase
+Real and Completion faces $\StreamNameUp(W)$, $\RegSeqRatUp(R)$,
+$\DyadicRatCoreUp(D)$, and $\RealUp(E)$. Those reads occur after the governing
+rows $L,K,J,S$ and through the structural rows $H,C,P,N$. No quotient stream,
+host real equality, selected limit, countable-choice row, metric-completeness
+row, ambient-completeness row, or bridge row participates in the consumer
+surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-exact-boundary-carrier}.
+It displays the accepted packet as the finite row list
+$L,K,J,S,W,R,D,E,H,C,P,N$, so a consumer has no coordinate outside the
+displayed carrier.
+
+Apply
+\autoref{thm:real-completion-exact-boundary-namecert-obligations} and
+\autoref{thm:real-completion-exact-boundary-streamname-regseq-route}. The
+NameCert obligations bind the governing rows $L,K,J,S$, and the displayed
+route carries StreamName and RegSeqRat consumption into the later completion
+faces.
+
+Next use \autoref{thm:real-completion-exact-boundary-four-face-exactness} and
+\autoref{thm:real-completion-exact-boundary-terminal-route-pullback}. These
+identify $\StreamNameUp(W)$, $\RegSeqRatUp(R)$, $\DyadicRatCoreUp(D)$, and
+$\RealUp(E)$ as the exact four completion-facing faces, with the terminal Real
+read pulled back over the same finite route.
+
+Finally apply
+\autoref{thm:real-completion-exact-boundary-terminal-consumer-exactness} and
+\autoref{thm:real-completion-exact-boundary-no-completeness-escape}. The first
+theorem makes every completion-facing or terminal Real consumer pass through
+$L,K,J,S,W,R,D,E,H,C,P,N$, while the second rules out quotient streams, host
+real equality, selected limits, countable choice, metric completeness, ambient
+completeness, and bridge rows as carrier slots or insertion points. Hence the
+four displayed faces exhaust the terminal consumer surface.
+\end{proof}
+
 \closureat{RealCompletionExactBoundaryUp}{scopedStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
 \closureat{RealCompletionExactBoundaryUp}{publicStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
 \closureat{RealCompletionExactBoundaryUp}{bridgedStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
