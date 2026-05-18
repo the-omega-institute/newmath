@@ -175,6 +175,28 @@ Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The Nam
 Now use \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The completion and terminal Real faces exported by the boundary are exactly $W,R,D,E$ after the governing rows. Since the exactness theorem exposes no detached terminal tail, the four faces can be consumed only through the balanced seal, classifier, witness, and budget prefix.
 \end{proof}
 
+\begin{theorem}[Real completion exact-boundary seal-budget prefix pullback]
+\label{thm:real-completion-exact-boundary-seal-budget-prefix-pullback}
+Let
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RealCompletionExactBoundaryUp$ packet. Any consumer route that reaches one of the four faces
+$$
+\StreamNameUp(W),\quad \RegSeqRatUp(R),\quad \DyadicRatCoreUp(D),\quad \RealUp(E)
+$$
+pulls back the same governing prefix $L,K,J,S$. The equality test for the four governing rows is only the displayed comparison through the componentwise $\hsame$ rows $H$, the displayed $\Cont$ replay $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\RealCompletionExactBoundaryUp}$ row $N$. It does not use quotient stream equality, host real equality, a selected limit, countable choice, metric completeness, ambient completeness, or a bridge coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:real-completion-exact-boundary-carrier}. The accepted packet lists $L,K,J,S$ before the four faces $W,R,D,E$, and the structural rows $H,C,P,N$ are the only displayed rows available for comparing that prefix across consumer reads.
+
+Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. It identifies $L$ as the completion-seal row, $K$ as the classifier row, $J$ as the witness-ledger row, and $S$ as the synchronized budget row inside the same local NameCert surface. It also identifies $H,C,P,N$ as the componentwise transport, continuation replay, package provenance, and local naming rows for that surface.
+
+Use \autoref{thm:real-completion-exact-boundary-seal-classifier-witness-balance} and \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The first theorem forces any consumer of the four later faces to display the governing prefix first, while the second theorem says that the only Real and completion faces behind that prefix are $W,R,D,E$.
+
+Finally apply \autoref{thm:real-completion-exact-boundary-nonescape}. Since the accepted carrier has no quotient stream, host equality, selected-limit, choice, completeness, ambient-completeness, or bridge coordinate, none of those absent objects can alter the pullback of $L,K,J,S$ along any of the four displayed faces.
+\end{proof}
+
 \begin{theorem}[Real completion terminal consumer exactness]
 \label{thm:real-completion-exact-boundary-terminal-consumer-exactness}
 For every accepted $\RealCompletionExactBoundaryUp$ packet
@@ -190,7 +212,7 @@ The route begins with the seal, classifier, witness-ledger, and budget rows, pas
 \begin{proof}
 Start from \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The accepted NameCert surface lists the rows $L,K,J,S,W,R,D,E,H,C,P,N$ as one finite carrier inventory, so a consumer route for the accepted boundary is a route through that inventory.
 
-Apply \autoref{thm:real-completion-exact-boundary-seal-classifier-witness-balance}. It forces the first four governing rows to be displayed before the completion and Real faces are read.
+Apply \autoref{thm:real-completion-exact-boundary-seal-budget-prefix-pullback}. It pulls the first four governing rows back unchanged along the completion and Real faces and restricts their equality test to the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
 
 Next apply \autoref{thm:real-completion-exact-boundary-nonescape} and \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The non-escape theorem rules out external completion coordinates, while the four-face theorem identifies $W,R,D,E$ as the only completion-facing and terminal Real faces exported after $L,K,J,S$.
 
