@@ -138,6 +138,64 @@ theorem ChoiceRecipeLedgerCarrier_namecert_obligations [AskSetup] [PackageSetup]
       obligationReadUnary, requestRecipesOutput, outputRefusalRoute, routeTransportProvenance,
       provenanceLocalName, localNamePkg, obligationReadPkg, nameCert⟩
 
+theorem ChoiceRecipeLedgerCarrier_finite_recipe_coverage [AskSetup] [PackageSetup]
+    {request recipes output refusal transport route provenance localName coverageRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ChoiceRecipeLedgerCarrier request recipes output refusal transport route provenance localName
+        bundle pkg →
+      Cont recipes refusal coverageRead →
+        PkgSig bundle coverageRead pkg →
+          UnaryHistory request ∧ UnaryHistory recipes ∧ UnaryHistory coverageRead ∧
+            Cont request recipes output ∧ Cont recipes refusal coverageRead ∧
+              PkgSig bundle localName pkg ∧ PkgSig bundle coverageRead pkg ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row coverageRead ∧ UnaryHistory row)
+                  (fun row : BHist => hsame row recipes ∨ hsame row coverageRead)
+                  (fun row : BHist => PkgSig bundle coverageRead pkg ∧ hsame row coverageRead)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier recipesRefusalCoverage coverageReadPkg
+  obtain ⟨requestUnary, recipesUnary, _outputUnary, refusalUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _localNameUnary, requestRecipesOutput, _outputRefusalRoute,
+    _routeTransportProvenance, localNamePkg⟩ := carrier
+  have coverageReadUnary : UnaryHistory coverageRead :=
+    unary_cont_closed recipesUnary refusalUnary recipesRefusalCoverage
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row coverageRead ∧ UnaryHistory row)
+        (fun row : BHist => hsame row recipes ∨ hsame row coverageRead)
+        (fun row : BHist => PkgSig bundle coverageRead pkg ∧ hsame row coverageRead)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro coverageRead ⟨hsame_refl coverageRead, coverageReadUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _row' sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr source.left
+      ledger_sound := by
+        intro _row source
+        exact ⟨coverageReadPkg, source.left⟩
+    }
+  exact
+    ⟨requestUnary, recipesUnary, coverageReadUnary, requestRecipesOutput,
+      recipesRefusalCoverage, localNamePkg, coverageReadPkg, cert⟩
+
 theorem ChoiceRecipeLedgerCarrier_term_stratum_handoff [AskSetup] [PackageSetup]
     {request recipes output refusal transport route provenance localName handoff : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
