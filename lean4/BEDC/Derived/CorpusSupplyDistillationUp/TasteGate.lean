@@ -449,6 +449,47 @@ theorem CorpusSupplyDistillation_filter_route_order
   | mk C F D O R H T P N =>
       exact ⟨C, F, D, O, R, H, T, P, N, rfl, rfl, rfl, rfl, rfl⟩
 
+theorem CorpusSupplyDistillation_classifier_stability
+    {x y : CorpusSupplyDistillationUp} :
+    FieldFaithful.fields x = FieldFaithful.fields y →
+      ∃ C F D O R H T P N : BHist,
+        x = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+          y = CorpusSupplyDistillationUp.mk C F D O R H T P N ∧
+            FieldFaithful.fields x = [C, F, D, O, R, H, T, P, N] ∧
+              Cont C F (append C F) ∧
+                Cont F D (append F D) ∧
+                  Cont D O (append D O) ∧ Cont R N (append R N) := by
+  -- BEDC touchpoint anchor: BHist Cont FieldFaithful
+  intro hfields
+  cases x with
+  | mk C₁ F₁ D₁ O₁ R₁ H₁ T₁ P₁ N₁ =>
+      cases y with
+      | mk C₂ F₂ D₂ O₂ R₂ H₂ T₂ P₂ N₂ =>
+          change
+              [C₁, F₁, D₁, O₁, R₁, H₁, T₁, P₁, N₁] =
+                [C₂, F₂, D₂, O₂, R₂, H₂, T₂, P₂, N₂] at hfields
+          injection hfields with hC t1
+          injection t1 with hF t2
+          injection t2 with hD t3
+          injection t3 with hO t4
+          injection t4 with hR t5
+          injection t5 with hH t6
+          injection t6 with hT t7
+          injection t7 with hP t8
+          injection t8 with hN _
+          cases hC
+          cases hF
+          cases hD
+          cases hO
+          cases hR
+          cases hH
+          cases hT
+          cases hP
+          cases hN
+          exact
+            ⟨C₁, F₁, D₁, O₁, R₁, H₁, T₁, P₁, N₁, rfl, rfl, rfl, rfl, rfl, rfl,
+              rfl⟩
+
 theorem CorpusSupplyDistillation_refusal_exactness
     (x : CorpusSupplyDistillationUp) :
     ∃ C F D O R H T P N : BHist,
