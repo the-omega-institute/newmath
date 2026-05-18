@@ -291,4 +291,33 @@ theorem LayeredRelationGateTasteGate_single_carrier_alignment :
               exact layeredRelationGateToEventFlow_injective heq
             · rfl
 
+theorem LayeredRelationGate_not_preserved_row_determinacy
+    {sourceLeft sourceRight layerList preserved notPreserved1 notPreserved2 refusalLedger
+      gateVerdict transport continuation provenance : BHist}
+    (h :
+      layeredRelationGateToEventFlow
+          (LayeredRelationGateUp.mk sourceLeft sourceRight layerList preserved notPreserved1
+            refusalLedger gateVerdict transport continuation provenance) =
+        layeredRelationGateToEventFlow
+          (LayeredRelationGateUp.mk sourceLeft sourceRight layerList preserved notPreserved2
+            refusalLedger gateVerdict transport continuation provenance)) :
+    notPreserved1 = notPreserved2 ∧
+      LayeredRelationGateUp.mk sourceLeft sourceRight layerList preserved BHist.Empty
+          refusalLedger gateVerdict transport continuation provenance ≠
+        LayeredRelationGateUp.mk sourceLeft sourceRight layerList preserved
+          (BHist.e0 BHist.Empty) refusalLedger gateVerdict transport continuation
+          provenance := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · have hmk :
+        LayeredRelationGateUp.mk sourceLeft sourceRight layerList preserved notPreserved1
+            refusalLedger gateVerdict transport continuation provenance =
+          LayeredRelationGateUp.mk sourceLeft sourceRight layerList preserved notPreserved2
+            refusalLedger gateVerdict transport continuation provenance :=
+      layeredRelationGateToEventFlow_injective h
+    cases hmk
+    rfl
+  · intro hrow
+    cases hrow
+
 end BEDC.Derived.LayeredRelationGateUp
