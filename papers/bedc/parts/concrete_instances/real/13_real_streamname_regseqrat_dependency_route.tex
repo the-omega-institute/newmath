@@ -12,3 +12,19 @@ Project the StreamName surface first. A finite observation request fixes the sch
 
 Then project the RegSeqRat surface. The regularity and classifier rows of \autoref{ch:concrete-instances-regseqrat-namecert} supply the rational-source ledger consumed by the Real seal, so a completion-facing Real read is downstream of both sibling packets.
 \end{proof}
+
+\begin{theorem}[Real seal DyadicRatCore-StreamName-RegSeqRat dependency route]
+\label{thm:real-dyadic-streamname-regseqrat-dependency-route}
+Every accepted current-phase $\RealUp$ seal read factors through the ordered finite route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+The DyadicRatCore endpoint and radius ledger is read before the StreamName finite-window schedule, the RegSeqRat regularity and classifier rows, and the local Real seal. The route exports no quotient streams, selected limits, host real equality, ambient completeness, metric-completeness rows, countable choice, or Real completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the Real carrier of \autoref{def:real-carrier}. The preceding dependency route, \autoref{thm:real-streamname-regseqrat-dependency-route}, places every Real seal read downstream of the StreamName finite-window rows and the RegSeqRat regular-rational source rows.
+
+Insert the DyadicRatCore face before those rows. The RegSeqRat bridge handoff exactness of \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness} says that the RegSeqRat finite-window handoff consumes the displayed DyadicRatCore endpoint and radius ledger, while the StreamName four-object terminal pullback of \autoref{thm:streamname-real-completion-four-object-terminal-pullback} keeps the DyadicRatCore, StreamName, RegSeqRat, and local Real faces in one finite terminal packet.
+
+Finally apply Real L10 finite-window witness determinacy, \autoref{thm:real-l10-finite-window-witness-determinacy}. It identifies the public seal boundary with exactly the fused StreamName terminal-window packet, the DyadicRatCore endpoint and radius ledger, the RegSeqRat finite-request section, the local Real seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Hence the accepted current-phase seal read has the stated ordered route and none of the excluded quotient, selected-limit, host-equality, completeness, metric-completeness, choice, or Real-completeness coordinates.
+\end{proof}
