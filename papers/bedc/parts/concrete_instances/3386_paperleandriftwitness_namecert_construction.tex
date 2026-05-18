@@ -323,6 +323,50 @@ Token objectwise audit is the boundary supplied by \autoref{thm:paper-lean-drift
 Finally, \autoref{thm:paper-lean-drift-witness-axis-separation} and \autoref{thm:paper-lean-drift-witness-audit-map-handoff} keep the route from proving too much. Downstream semantic equivalence, Lean proof content, bridge checking, and paper-side closure status remain separate obligations outside the $\PaperLeanDriftWitnessUp$ packet.
 \end{proof}
 
+\begin{theorem}[Paper-Lean drift witness dependency-routing scope]
+\label{thm:paper-lean-drift-witness-dependency-routing-scope}
+Let
+$$
+W=(M,A,L,I,R,H,C,P,N)
+$$
+be an accepted $\PaperLeanDriftWitnessUp$ carrier. Every $\AuditMapDependencyWeaveUp$ consumer using $W$ as a marker-resolution dependency row must route through the displayed marker row $M$, normalized requested-name row $A$, duplicate-label ledger row $L$, Lean inventory row $I$, verdict row $R$, componentwise transport row $H$, replay row $C$, provenance row $P$, and local $\NameCert$ row $N$. The route cannot replace any of those rows by an unlisted marker, neighbouring name, outside label ledger, hidden inventory, ambient verdict, or external consumer row.
+\end{theorem}
+\begin{proof}
+The dependency-weave handoff fixes the exported packet as $M,A,L,I,R,H,C,P,N$. It gives the audit-map consumer a dependency row for marker resolution, not a separate carrier with additional coordinates.
+
+The audit-map handoff theorem identifies how the neighbouring consumer may read that packet. Marker parsing, name normalization, duplicate-label comparison, inventory lookup, verdict exposure, componentwise transport, replay, provenance, and local naming are the whole finite route.
+
+The consumer boundary and non-escape rows then rule out substitutions. A consumer may transport and replay the same rows through $H,C,P,N$, but it cannot import a second marker, a different normalized name, another label ledger, an approximate inventory hit, or a verdict outside $R$.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness consumer-row scope]
+\label{thm:paper-lean-drift-witness-consumer-row-scope}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier $W=(M,A,L,I,R,H,C,P,N)$, the marker, ledger, inventory, and verdict rows are grounded as finite $\BHist$ data: $M$ and $L$ are paper-site and paper-label ledger rows, $I$ is the Lean declaration inventory row, and $R$ is the exact-resolution or refusal verdict for the same marker site. Their consumer route is mediated only by componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row, and it is read by \autoref{ch:concrete-instances-auditmapdependencyweave-namecert} only as a routed dependency row.
+\end{theorem}
+\begin{proof}
+Carrier exposure supplies the finite $\BHist$ packet. The marker row $M$, normalized-name row $A$, duplicate-label ledger $L$, inventory row $I$, verdict row $R$, transports $H$, replay routes $C$, provenance $P$, and local name $N$ are all projected from the same accepted witness.
+
+Resolution exactness and duplicate-label priority bind the ledger and inventory reads to the same marker site. The verdict ledger totality theorem then says the visible verdict is exactly one of the accepted exact-resolution or refusal rows for $M,A,L,I$.
+
+The only consumer movement is through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure. Thus \autoref{ch:concrete-instances-auditmapdependencyweave-namecert} receives the row as routed dependency data and does not obtain a hidden theorem proof, erased obstruction, or closure-axis promotion from the witness.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness scoped closure package]
+\label{thm:paper-lean-drift-witness-scoped-closure-package}
+The $\PaperLeanDriftWitnessUp$ chapter is scoped for audit-map dependency consumption: resolution exactness fixes the inventory-and-ledger read, verdict totality exhausts the consumer-visible outcomes, axis separation prevents verification-axis rows from becoming paper-side closure evidence, and the dependency-weave handoff routes exactly the displayed packet
+$$
+M,A,L,I,R,H,C,P,N
+$$
+to the named $\AuditMapDependencyWeaveUp$ consumer surface. Within that scope, the chapter closes the paper-side dependency row for exact marker resolution, while leaving Lean verification, semantic equivalence, and bridge checking outside the witness.
+\end{theorem}
+\begin{proof}
+First combine resolution exactness with verdict totality. The accepted witness reads one marker site through $M,A,L,I$ and exposes exactly the corresponding verdict row $R$, so the consumer-facing resolution row is objectwise fixed.
+
+Next use axis separation. The same verdict may certify a verification-axis inventory lookup, but it cannot become a theorem proof, a semantic-equivalence row, a bridge certificate, or a paper-side closure claim outside the stated dependency scope.
+
+Finally apply the dependency-weave handoff together with the dependency-routing and consumer-row scope theorems. The audit-map dependency consumer receives precisely $M,A,L,I,R,H,C,P,N$ through the named \autoref{ch:concrete-instances-auditmapdependencyweave-namecert} route, so the chapter supplies a scoped paper-side package for routed marker-resolution consumption and no stronger conclusion.
+\end{proof}
+
 \begin{theorem}[Paper-Lean drift witness resolution consumer readiness]
 \label{thm:paper-lean-drift-witness-resolution-consumer-readiness}
 For every accepted $\PaperLeanDriftWitnessUp$ carrier, any consumer route treating the witness as an exact-resolution row must read the same paper marker row $M$, normalized requested-name row $A$, paper-label ledger $L$, Lean inventory row $I$, and verdict row $R$ for one marker site. The consumer may replay those rows through $H,C,P,N$, but it cannot replace them by a neighbouring marker, a different normalized name, a different label ledger, an approximate inventory row, or a second verdict.
@@ -363,14 +407,15 @@ The exact-resolution row exported by $\PaperLeanDriftWitnessUp$ is consumed by t
 
 \closureat{PaperLeanDriftWitnessUp}{seedStr}
 \closureat{PaperLeanDriftWitnessUp}{obligationStr}
+\closureat{PaperLeanDriftWitnessUp}{scopedStr}
 
 \begin{closurestatus}{\PaperLeanDriftWitnessUp}
   \constructivestory{A $\PaperLeanDriftWitnessUp$ packet is generated from a paper marker row, normalized requested-name row, duplicate-label ledger, Lean inventory lookup, resolution verdict, componentwise $\hsame$ transport, displayed replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope binds the exact-resolution, duplicate-label, unresolved-marker, marker-kind, inventory-verdict, transport, replay, provenance, and dependency-weave consumer rows for exact paper-Lean marker resolution.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the exact-resolution, duplicate-label, unresolved-marker, marker-kind, inventory-verdict, transport, replay, provenance, dependency-weave handoff, and audit-map dependency consumer rows for exact paper-Lean marker resolution.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close semantic equivalence between paper claims and Lean declarations, checked theorem content, bridge checking, or any permission to treat unresolved markers as verified.}
-  \upgradepath{Scoped closure requires grounding these consumer rows against the named audit-map dependency consumer and its dependency-routing map.}
+  \upgradepath{Public closure requires Lean verification of the scoped dependency package and a public bridge surface for downstream audit consumers.}
 \end{closurestatus}
