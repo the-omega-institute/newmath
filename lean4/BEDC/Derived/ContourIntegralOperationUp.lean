@@ -1,11 +1,13 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.ContourIntegralOperationUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def ContourIntegralOperationCarrier (G F S M I H P N : BHist) : Prop :=
@@ -33,6 +35,43 @@ theorem ContourIntegralOperationCarrier_riemann_sum_route_closure {G F S M I H P
   have unaryN : UnaryHistory N :=
     unary_cont_closed unaryI unaryP exportRoute
   exact ⟨unaryI, unaryN, sameInputFace⟩
+
+theorem ContourIntegralOperationCarrier_namecert_obligations {G F S M I H P N : BHist} :
+    ContourIntegralOperationCarrier G F S M I H P N ->
+      SemanticNameCert
+        (fun row : BHist => ContourIntegralOperationCarrier G F S M I H P N ∧ hsame row N)
+        (fun row : BHist => hsame row N ∧ UnaryHistory row)
+        (fun row : BHist =>
+          UnaryHistory G ∧ UnaryHistory F ∧ UnaryHistory S ∧ UnaryHistory M ∧
+            UnaryHistory I ∧ UnaryHistory N ∧ hsame row N ∧ hsame H (append G F) ∧
+              Cont S M I ∧ Cont I P N)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro carrier
+  have sourceCarrier := carrier
+  obtain ⟨unaryG, unaryF, unaryS, unaryM, unaryP, sameInputFace, integralRoute,
+    exportRoute⟩ := carrier
+  have unaryI : UnaryHistory I :=
+    unary_cont_closed unaryS unaryM integralRoute
+  have unaryN : UnaryHistory N :=
+    unary_cont_closed unaryI unaryP exportRoute
+  constructor
+  · constructor
+    · exact Exists.intro N ⟨sourceCarrier, hsame_refl N⟩
+    · intro row _source
+      exact hsame_refl row
+    · intro _row _other sameRows
+      exact hsame_symm sameRows
+    · intro _row _middle _other sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro _row _other sameRows source
+      exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+  · intro _row source
+    exact ⟨source.right, unary_transport unaryN (hsame_symm source.right)⟩
+  · intro _row source
+    exact
+      ⟨unaryG, unaryF, unaryS, unaryM, unaryI, unaryN, source.right, sameInputFace,
+        integralRoute, exportRoute⟩
 
 theorem ContourIntegralOperationCarrier_pl_contour_boundary {G F S M I H P N pathRead : BHist} :
     ContourIntegralOperationCarrier G F S M I H P N →
