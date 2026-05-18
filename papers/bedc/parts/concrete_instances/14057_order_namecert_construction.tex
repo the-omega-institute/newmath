@@ -4,6 +4,8 @@
 
 The order interface $\OrderUp$ is the unary comparison face read by the Full Nat Arithmetic boundary. It sits between the $\NatUp$ spine and the $\AddUp$, $\MulUp$, $\IntUp$, and $\RatUp$ arithmetic consumers, exposing finite comparison packets over histories rather than a host natural-number order.
 
+The unary comparison carrier consumes the $\NatUp$ spine of \autoref{ch:concrete-instances-nat-namecert}. Its public consumer boundary is read by \autoref{ch:concrete-instances-add-namecert}, \autoref{ch:concrete-instances-mul-namecert}, \autoref{ch:concrete-instances-int-namecert}, and \autoref{ch:concrete-instances-rat-namecert}, so the later arithmetic packets depend on $\OrderUp$ only through finite comparison rows over the shared unary history substrate.
+
 \section{Unary comparison packets}
 
 \begin{definition}[OrderUp unary comparison carrier]
@@ -31,6 +33,7 @@ The classifier laws are componentwise. Reflexivity uses the same two endpoints a
 
 For stability, transport the two unary endpoints through the supplied $\hsame$ rows. A left-prefix branch remains a left-prefix branch after endpoint transport, a right-prefix branch remains right-prefix, and an equality branch remains an $\hsame$ branch. Since every ledger entry is one of these finite rows, the transported packet is again an $\OrderUp$ carrier row.
 \end{proof}
+\leanchecked{BEDC.Derived.OrderUp.OrderUnaryComparisonNameCertObligations}
 
 \begin{theorem}[OrderUp Full Nat Arithmetic handoff]
 \label{thm:order-full-nat-arithmetic-handoff}
@@ -43,6 +46,7 @@ Project the classifier next. It transports comparison rows along $\hsame$ on the
 
 The seed obligations then provide the NameCert surface needed by the phase boundary: one inhabited carrier row, componentwise classifier laws, transport stability, and a ledger policy. Repacking these projections gives exactly the order face available to the Full Nat Arithmetic consumers listed in the statement.
 \end{proof}
+\leanchecked{BEDC.Derived.OrderUp.OrderFullNatArithmeticHandoff}
 
 \begin{theorem}[OrderUp AddMul consumer boundary]
 \label{thm:order-add-mul-consumer-boundary}
@@ -56,4 +60,49 @@ A $\MulUp$ consumer reads the repeated-addition ledger and may attach comparison
 Since neither consumer projection introduces a semiring carrier, a ring carrier, a quotient relation, or a classical three-way decision principle, the only order data crossing this boundary are the finite prefix-or-equality rows explicitly stored in the $\OrderUp$ packet.
 \end{proof}
 
-\closureat{OrderUp}{seedStr}
+\begin{theorem}[OrderUp prefix branch stability]\label{thm:order-prefix-branch-stability}
+The left-prefix branch, right-prefix branch, and equality branch of an $\OrderUp$ packet remain valid under endpoint $\hsame$ transport. More precisely, if $\mathsf{OrdRow}(h,k,\beta,\lambda)$ is a carrier row of \autoref{def:order-unary-comparison-carrier} and $h\hsame h'$ and $k\hsame k'$, then the transported packet over $h'$ and $k'$ has the same displayed branch kind: left-prefix rows replay as $\Cont$ prefix rows from $h'$ to $k'$, right-prefix rows replay as $\Cont$ prefix rows from $k'$ to $h'$, and equality rows replay as the transported classifier row $h'\hsame k'$.
+\end{theorem}
+\begin{proof}
+The carrier and classifier of \autoref{def:order-unary-comparison-carrier} and \autoref{def:order-unary-comparison-classifier} already restrict every comparison to $\mathsf{BHist}$ endpoints and a finite branch ledger. Apply \autoref{thm:order-unary-comparison-namecert-obligations} to transport the two endpoints componentwise along the supplied $\hsame$ rows.
+
+For a left-prefix branch, replay the stored prefix ledger after endpoint transport; the displayed $\Cont$ row still starts at the transported left endpoint and lands at the transported right endpoint. The right-prefix case is the same argument with the endpoints exchanged.
+
+For the equality branch, compose the left endpoint transport, the stored equality row, and the inverse of the right endpoint transport. The result is again an $\hsame$ classifier row over the transported endpoints, so the packet remains an $\OrderUp$ unary comparison row.
+\end{proof}
+
+\begin{theorem}[OrderUp IntRat consumer boundary]\label{thm:order-int-rat-consumer-boundary}
+Every $\IntUp$ or $\RatUp$ consumer of $\OrderUp$ receives only the unary comparison packet of \autoref{def:order-unary-comparison-carrier}, the finite branch ledger of \autoref{thm:order-prefix-branch-stability}, and endpoint transport through \autoref{def:order-unary-comparison-classifier}. The handoff never exports host natural-number order, quotient order on integer representatives, quotient order on rational representatives, or an ordered-ring structure.
+\end{theorem}
+\begin{proof}
+The Full Nat Arithmetic handoff of \autoref{thm:order-full-nat-arithmetic-handoff} factors the $\OrderUp$ surface through the same $\NatUp$ unary histories read by the $\AddUp$ and $\MulUp$ packets. Thus an $\IntUp$ consumer can compare displayed positive and negative unary representatives only by attaching an $\mathsf{OrdRow}$ to the relevant endpoint histories.
+
+A $\RatUp$ consumer first inherits numerator and denominator histories through the integer and multiplicative faces. Any order datum available there is still the same transported $\OrderUp$ packet: two unary endpoints, one displayed prefix-or-equality branch, and the finite ledger proving that branch.
+
+Because neither consumer receives a quotient-order constructor, an ambient ordered ring, or a host comparison predicate, every downstream use must return to the transported unary comparison carrier. This is exactly the consumer boundary recorded by \autoref{thm:order-add-mul-consumer-boundary}, extended through the $\IntUp$ and $\RatUp$ faces.
+\end{proof}
+
+\begin{theorem}[OrderUp no-trichotomy nonescape]\label{thm:order-no-trichotomy-nonescape}
+The $\OrderUp$ chapter exports finite branch evidence for unary histories, but it does not export classical trichotomy, an ordered-ring structure, quotient order, or host natural-number order. Its public surface is exhausted by the carrier, classifier, NameCert obligations, Full Nat Arithmetic handoff, and the $\AddUp$, $\MulUp$, $\IntUp$, and $\RatUp$ consumer boundaries above.
+\end{theorem}
+\begin{proof}
+The carrier rows name exactly two $\NatUp$ unary histories, one displayed comparison branch, and the finite ledger for that branch. The classifier rows transport only those endpoints and replay the stored ledger, so \autoref{thm:order-unary-comparison-namecert-obligations} supplies a NameCert obligation surface rather than a global order relation.
+
+The handoff theorem \autoref{thm:order-full-nat-arithmetic-handoff} exposes this surface to the Full Nat Arithmetic phase. The $\AddUp$ and $\MulUp$ boundary of \autoref{thm:order-add-mul-consumer-boundary} and the $\IntUp$ and $\RatUp$ boundary of \autoref{thm:order-int-rat-consumer-boundary} all project the same finite rows.
+
+No theorem in this chapter introduces a semiring order, ring order, quotient-order constructor, host natural-number comparison, or classical three-way decision principle. Hence every exported order fact remains a finite branch witness inside the $\OrderUp$ packet.
+\end{proof}
+
+\closureat{OrderUp}{obligationStr}[BEDC.Derived.OrderUp.OrderUnaryComparisonNameCertObligations]
+
+\begin{closurestatus}{\OrderUp}
+  \constructivestory{An $\OrderUp$ packet is generated from two $\NatUp$ unary histories, one displayed left-prefix, right-prefix, or equality branch, endpoint $\hsame$ transports, finite $\Cont$ prefix replay, and a replayable ledger of $\BHist$ rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope binds the unary comparison carrier, classifier transport, endpoint branch stability, Full Nat Arithmetic handoff, and finite consumer boundaries for $\NatUp$, $\AddUp$, $\MulUp$, $\IntUp$, and $\RatUp$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.OrderUp.OrderUnaryComparisonNameCertObligations}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close classical trichotomy, host natural-number order, quotient order for $\IntUp$ or $\RatUp$, ordered semiring structure, ordered ring structure, or bridge checking.}
+  \upgradepath{Scoped closure requires a public bridge binding the finite unary comparison packet to the downstream arithmetic schemas without adding order data beyond the displayed branch ledger.}
+\end{closurestatus}

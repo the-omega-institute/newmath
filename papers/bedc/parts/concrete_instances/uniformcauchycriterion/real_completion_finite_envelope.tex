@@ -98,3 +98,43 @@ Next apply consumer exhaustion and tail-window stability. \autoref{thm:uniform-c
 
 Finally invoke the no-choice extraction boundary of \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-no-choice-extraction}. Since the consumer surface has already been exhausted by the carrier and its obligations, the Real and completion-facing surface has no coordinate for quotient streams, selected host limits, host real equality, countable choice, ambient completeness, metric-completeness data, or bridge rows outside the displayed finite envelope.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Real-completion synchronizer terminal envelope]
+\label{thm:uniform-cauchy-criterion-real-completion-synchronizer-terminal-envelope}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every $\RealUp$ or $\CompletionUp$ consumer that factors through $\mathcal{E}_{\RealUp}(U)$ and preserves the Phase Real route reaches its terminal $\RealUp$ row through the same finite synchronizer envelope. That envelope consists exactly of the $\StreamNameUp$ window family, the $\RegSeqRatUp$ readback rows, the $\DyadicRatCoreUp$ tolerance ledger, the $\CauchyLimitSealUp$ tail-meet route, the $\RealCompletionSelectorSealUp$ route when present, the $\RealCauchyCompletionUp$ public export, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows attached to $U$.
+
+Consequently the terminal Real row is not obtained from quotient streams, selected host limits, host real equality, countable choice, a second stream source, a second readback source, a second tolerance source, metric completeness, open-cover compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the finite envelope. By \autoref{thm:uniform-cauchy-criterion-real-completion-envelope}, the consumer has already passed through the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, $\RealCauchyCompletionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. By \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-consumer-exhaustion}, there is no additional consumer coordinate outside that list.
+
+Next use the no-choice boundary. \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-no-choice-extraction} rules out quotient streams, selected host limits, host real equality, countable choice, ambient completeness, and metric-completeness data. The tail-window stability theorem also keeps the StreamName window family and RegSeqRat readback rows tied to the same $\hsame$ and $\Cont$ transport, so no second stream or readback source can enter the envelope. The dyadic tolerance row is already the displayed $Q_{\DyadicRatCoreUp}$ ledger, so no second tolerance source is available.
+
+Now identify the terminal route. Apply \autoref{thm:uniform-cauchy-criterion-selector-seal-synchronization} when the selector-seal row is present; it places the selector-facing route on the same StreamName, RegSeqRat, DyadicRatCore, CauchyLimitSeal, and terminal $\RealUp$ surface.
+
+Finally apply \autoref{thm:uniform-cauchy-criterion-phase-real-route-iff} and \autoref{thm:uniform-cauchy-criterion-phase-real-endpoint-determinacy}. The first theorem identifies Phase Real admissibility with preservation of the displayed route, and the second theorem makes the endpoint row determined by that route. Hence every admissible Real or Completion consumer reaches the terminal $\RealUp$ row through precisely the finite synchronizer envelope displayed above, with no appeal to open-cover compactness or ambient completeness.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion finite-envelope route determinacy]
+\label{thm:uniform-cauchy-criterion-finite-envelope-route-determinacy}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Consider two $\RealUp$ or $\CompletionUp$ consumers of $U$ that preserve the Phase Real route and factor through the finite envelope $\mathcal{E}_{\RealUp}(U)$. If the two consumers read the same displayed $\StreamNameUp$ rows, $\RegSeqRatUp$ rows, $\DyadicRatCoreUp$ tolerance ledger, $\CauchyLimitSealUp$ route, optional $\RealCompletionSelectorSealUp$ row, $\RealCauchyCompletionUp$ export, and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, then they reach the same terminal $\RealUp$ row.
+
+Thus Phase Real and Completion consumers of $\UniformCauchyCriterionUp$ have a deterministic terminal Real route once their finite-envelope rows agree. No quotient stream, selected host limit, host real equality, countable-choice selector, second tolerance ledger, metric-completeness object, open-cover compactness datum, or ambient completeness principle can separate the two terminal rows.
+\end{theorem}
+\begin{proof}
+First exhaust both consumers through the finite envelope. Apply \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-consumer-exhaustion} to place each consumer inside the displayed carrier, and apply \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-tail-window-stability} to keep the $\StreamNameUp$ and $\RegSeqRatUp$ rows tied to the same $\hsame$ and $\Cont$ transport.
+
+The remaining excluded coordinates cannot distinguish the consumers. By \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-no-choice-extraction}, neither consumer can read quotient streams, selected host limits, host equality, choice selectors, ambient completeness, or metric-completeness data from the envelope.
+
+Now synchronize the selector-facing part of the route. When the optional $\RealCompletionSelectorSealUp$ row is present, \autoref{thm:uniform-cauchy-criterion-selector-seal-synchronization} places it on the same $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, and terminal $\RealUp$ surface already read by the two consumers. When the row is absent, the common finite envelope has no selector coordinate to separate.
+
+Finally use the Phase Real route criterion and endpoint determinacy. \autoref{thm:uniform-cauchy-criterion-phase-real-route-iff} identifies both consumers as preserving the same admissible finite route, and \autoref{thm:uniform-cauchy-criterion-phase-real-endpoint-determinacy} makes the terminal endpoint row determined by that route. Since the displayed rows agree, the two terminal $\RealUp$ rows agree as well.
+\end{proof}
