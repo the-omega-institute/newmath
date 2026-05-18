@@ -233,4 +233,12 @@ theorem AddUnaryContinuation_activation_without_commutativity {h k r swapped : B
           (AddSourceSpec_from_unary_cont unaryH unaryK row)
           (AddSourceSpec_from_unary_cont unaryK unaryH rowSwapped))))
 
+theorem AddUpNatUp_sibling_dependency_route {x y result : BHist} :
+    UnaryHistory x -> UnaryHistory y -> Cont x y result ->
+      UnaryHistory x ∧ UnaryHistory y ∧ UnaryHistory result ∧ Cont x y result := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro unaryX unaryY route
+  have resultUnary : UnaryHistory result := unary_cont_closed unaryX unaryY route
+  exact ⟨unaryX, unaryY, resultUnary, route⟩
+
 end BEDC.Derived.AddUp

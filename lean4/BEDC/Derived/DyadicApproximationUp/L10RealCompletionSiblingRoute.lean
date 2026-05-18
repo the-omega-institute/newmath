@@ -86,4 +86,89 @@ theorem DyadicApproximationCarrier_l10_real_completion_sibling_route
       streamWindowUnary, regSeqReadbackUnary, dyadicLedgerUnary, realCompletionSealUnary,
       completionUnary, completionPkgProof⟩
 
+theorem DyadicApproximationCarrier_top_hub_l10_sibling_route
+    [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance terminalPrecision terminalEndpoint terminalWindow
+      terminalLedger terminalProvenance meshCell validatedEnclosure sealRow tailBudget
+      diagonalRead budgetRead streamWindow regSeqReadback dyadicLedger realCompletionSeal
+      completionRoute hubRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      hsame precision terminalPrecision ->
+        hsame endpoint terminalEndpoint ->
+          hsame ledger terminalLedger ->
+            hsame provenance terminalProvenance ->
+              Cont terminalPrecision terminalEndpoint terminalWindow ->
+                Cont terminalWindow terminalLedger terminalProvenance ->
+                  Cont terminalWindow terminalProvenance meshCell ->
+                    Cont meshCell terminalProvenance validatedEnclosure ->
+                      Cont terminalLedger terminalProvenance sealRow ->
+                        Cont sealRow terminalProvenance tailBudget ->
+                          Cont terminalWindow sealRow diagonalRead ->
+                            Cont tailBudget diagonalRead budgetRead ->
+                              Cont terminalWindow terminalProvenance streamWindow ->
+                                Cont streamWindow terminalProvenance regSeqReadback ->
+                                  Cont regSeqReadback terminalProvenance dyadicLedger ->
+                                    Cont dyadicLedger terminalProvenance realCompletionSeal ->
+                                      Cont budgetRead terminalProvenance completionRoute ->
+                                        Cont completionRoute terminalProvenance hubRead ->
+                                          PkgSig bundle tailBudget pkg ->
+                                            PkgSig bundle diagonalRead pkg ->
+                                              PkgSig bundle budgetRead pkg ->
+                                                PkgSig bundle completionRoute pkg ->
+                                                  PkgSig bundle hubRead pkg ->
+                                                    DyadicApproximationCarrier terminalPrecision
+                                                        terminalEndpoint terminalWindow
+                                                        terminalLedger terminalProvenance bundle
+                                                        pkg ∧
+                                                      UnaryHistory streamWindow ∧
+                                                        UnaryHistory regSeqReadback ∧
+                                                          UnaryHistory dyadicLedger ∧
+                                                            UnaryHistory realCompletionSeal ∧
+                                                              UnaryHistory completionRoute ∧
+                                                                UnaryHistory hubRead ∧
+                                                                  PkgSig bundle hubRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier samePrecision sameEndpoint sameLedger sameProvenance terminalWindowRoute
+  intro terminalProvenanceRoute meshCellRoute enclosureRoute sealRoute tailBudgetRoute
+  intro diagonalRoute budgetRoute streamWindowRoute regSeqRoute dyadicLedgerRoute
+  intro realCompletionSealRoute completionRouteCont hubReadCont
+  intro tailPkg diagonalPkg budgetPkg completionPkg hubPkg
+  have siblingRoute :
+      DyadicApproximationCarrier terminalPrecision terminalEndpoint terminalWindow
+          terminalLedger terminalProvenance bundle pkg ∧
+        UnaryHistory streamWindow ∧ UnaryHistory regSeqReadback ∧
+          UnaryHistory dyadicLedger ∧ UnaryHistory realCompletionSeal ∧
+            UnaryHistory completionRoute ∧ PkgSig bundle completionRoute pkg :=
+    DyadicApproximationCarrier_l10_real_completion_sibling_route carrier samePrecision
+      sameEndpoint sameLedger sameProvenance terminalWindowRoute terminalProvenanceRoute
+      meshCellRoute enclosureRoute sealRoute tailBudgetRoute diagonalRoute budgetRoute
+      streamWindowRoute regSeqRoute dyadicLedgerRoute realCompletionSealRoute
+      completionRouteCont tailPkg diagonalPkg budgetPkg completionPkg
+  have terminalCarrier :
+      DyadicApproximationCarrier terminalPrecision terminalEndpoint terminalWindow
+          terminalLedger terminalProvenance bundle pkg :=
+    siblingRoute.left
+  have streamUnary : UnaryHistory streamWindow :=
+    siblingRoute.right.left
+  have regSeqUnary : UnaryHistory regSeqReadback :=
+    siblingRoute.right.right.left
+  have dyadicLedgerUnary : UnaryHistory dyadicLedger :=
+    siblingRoute.right.right.right.left
+  have realCompletionSealUnary : UnaryHistory realCompletionSeal :=
+    siblingRoute.right.right.right.right.left
+  have completionUnary : UnaryHistory completionRoute :=
+    siblingRoute.right.right.right.right.right.left
+  obtain ⟨terminalPrecisionUnary, terminalEndpointUnary, terminalWindowUnary,
+    terminalLedgerUnary, terminalProvenanceUnary, terminalWindowRouteProof,
+    terminalProvenanceRouteProof, terminalPkg⟩ := terminalCarrier
+  have hubUnary : UnaryHistory hubRead :=
+    unary_cont_closed completionUnary terminalProvenanceUnary hubReadCont
+  exact
+    ⟨⟨terminalPrecisionUnary, terminalEndpointUnary, terminalWindowUnary,
+        terminalLedgerUnary, terminalProvenanceUnary, terminalWindowRouteProof,
+        terminalProvenanceRouteProof, terminalPkg⟩,
+      streamUnary, regSeqUnary, dyadicLedgerUnary, realCompletionSealUnary, completionUnary,
+      hubUnary, hubPkg⟩
+
 end BEDC.Derived.DyadicApproximationUp

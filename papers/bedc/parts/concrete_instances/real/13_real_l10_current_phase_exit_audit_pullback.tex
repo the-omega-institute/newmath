@@ -232,63 +232,7 @@ does not create an aggregate formalstatus token, bridge row, quotient stream,
 selected limit, or completeness datum.
 \end{proof}
 
-\begin{theorem}[Real L10 face status non-collapse]
-\label{thm:real-l10-face-status-noncollapse}
-Any current Phase Real and Completion audit read through the four faces
-$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ preserves
-the four local closure records as separate face reports. No conjunction of
-those records can be read as a new formalstatus token, a $\bridgeCheckedV$
-aggregate, a $\RealUp$ completeness claim, or a standard bridge for the
-composite exit route.
-\end{theorem}
-\begin{proof}
-Apply \autoref{thm:real-l10-current-phase-exit-audit-pullback}. It identifies
-the current exit audit as the product of the four local face records and
-states that the exit packet contributes no fifth formal token or aggregate
-bridge.
-
-The two-axis convention of
-\autoref{sec:roadmap-closure-and-verification-axes} reads closure and
-verification status locally. A face report can therefore be cited as a face
-report, but the conjunction of face reports is not itself a further
-formalstatus entry.
-
-Finally use the exactness and non-escape inputs named in the pullback proof:
-\autoref{thm:real-l10-source-route-nonescape},
-\autoref{thm:real-l10-dependency-lattice-interface-totality},
-\autoref{thm:real-l10-four-face-exactness}, and
-\autoref{thm:real-l10-streamname-exit-route-correspondence}. They keep the
-composite exit route on the four displayed faces and provide no row for
-RealUp completeness or for a standard bridge over the product.
-\end{proof}
-
-\begin{theorem}[Real L10 face Lean target non-collapse]
-\label{thm:real-l10-face-leantarget-noncollapse}
-Any accepted current Phase Real and Completion audit read through
-$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ preserves
-each face's Lean-target row and bridge-status row as local records of that
-face. No $\bridgeCheckedV$ face can supply the Lean target or bridge row for
-another face, and the composite route creates neither a route-level Lean
-target nor an aggregate bridge row.
-\end{theorem}
-\begin{proof}
-Apply \autoref{thm:real-l10-current-phase-exit-audit-pullback}. It reads the
-accepted exit audit as the product of the four local face records over the
-displayed Real L10 dependency lattice.
-
-Apply \autoref{thm:real-l10-face-status-noncollapse}. It keeps the closure
-and verification reports objectwise, so a $\bridgeCheckedV$ entry is a record
-of its own face rather than a credential for a different face.
-
-Now project the target and bridge rows along the same exactness data used by
-the pullback. The source-route non-escape, interface-totality, four-face
-exactness, and StreamName exit-correspondence inputs provide coordinates only
-for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
-
-Since those inputs provide no fifth face, no route-level Lean-target
-coordinate, and no aggregate bridge coordinate, the local Lean-target and
-bridge-status rows remain attached to the faces from which they are read.
-\end{proof}
+\input{parts/concrete_instances/real/13_real_l10_status_noncollapse}
 
 \begin{theorem}[Real L10 current phase exit certificate]
 \label{thm:real-l10-current-phase-exit-certificate}
@@ -765,4 +709,62 @@ subcover gluing from creating an aggregate status, bridge, quotient-stream,
 selected-limit, countable-choice, metric-completeness, or $\RealUp$
 completeness reading. Hence the coarse packet $P$ carries exactly the same
 objectwise exit threshold and no route-level strengthening.
+\end{proof}
+
+\begin{theorem}[Real L10 terminal pullback coherence]
+\label{thm:real-l10-terminal-pullback-coherence}
+Let $T$ be an accepted terminal finite-window $\RealUp$ read presented through
+the public $\StreamNameUp$--$\RegSeqRatUp$ route. Suppose its StreamName
+window, $\DyadicRatCoreUp$ tolerance ledger, accepted $\RegSeqRatUp$ pointwise
+seal and readback, $\RealUp$ seal row, and shared $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support agree with a four-face Phase Real and
+Completion packet $P$. Then $T$ satisfies the same objectwise exit threshold as
+$P$ in the sense of
+\autoref{thm:real-l10-objectwise-exit-threshold-equivalence}.
+
+Conversely, any terminal finite-window $\RealUp$ read satisfying that
+objectwise threshold and carrying the displayed StreamName, DyadicRatCore,
+RegSeqRat, Real seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows
+factors through the StreamName--$\RegSeqRat$--$\RealUp$ terminal pullback over
+the four-face Phase Real and Completion packet.
+
+The coherent terminal read is only this displayed finite-window pullback. It
+does not assert an aggregate route-level $\formalstatus$, an aggregate bridge
+row, a quotient stream, a selected limit, a countable-choice row, a
+metric-completeness datum, or a $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+First read the terminal route. Apply
+\autoref{thm:streamname-regseqrat-realup-terminal-pullback-factorization}. The
+accepted terminal $\RealUp$ read factors through exactly the displayed
+StreamName window rows, accepted $\RegSeqRatUp$ pointwise seal rows,
+$\RealUp$ finite-window seal boundary, $\hsame$ transports, finite $\Cont$
+ledger, bundle membership, observations, and $\Pkg$ provenance. Apply
+\autoref{thm:streamname-regseqrat-real-finite-window-route-factorization} to
+include the $\DyadicRatCoreUp$ tolerance ledger in the same finite route.
+
+Now compare the resulting route with the four-face Phase Real and Completion
+packet $P$. The agreement assumptions identify the StreamName window,
+DyadicRatCore tolerance, RegSeqRat seal and readback, Real seal, $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates of the terminal read
+with the corresponding objectwise faces of $P$. Apply
+\autoref{thm:real-l10-objectwise-exit-threshold-equivalence} to read the exit
+threshold from those four local closurestatus records.
+
+For the converse direction, start with a terminal finite-window $\RealUp$ read
+that already carries the objectwise threshold and the displayed finite route
+rows. Apply
+\autoref{thm:streamname-regseqrat-real-finite-window-route-factorization} to
+recover the finite StreamName--RegSeqRat route, and then apply
+\autoref{thm:streamname-regseqrat-realup-terminal-pullback-factorization} to
+repack the same rows as the terminal pullback boundary.
+
+It remains to keep the terminal comparison at the same threshold. Apply
+\autoref{thm:real-l10-finite-cover-exit-threshold-descent} to descend any
+finite-window cover presentation back to the coarse packet $P$. Finally apply
+\autoref{thm:real-l10-face-status-noncollapse} and
+\autoref{thm:real-l10-face-leantarget-noncollapse}. These keep formalstatus,
+bridge, Lean-target, quotient-stream, selected-limit, choice,
+metric-completeness, and $\RealUp$ completeness data attached only to the
+source faces, so the pullback coherence gives no route-level strengthening.
 \end{proof}

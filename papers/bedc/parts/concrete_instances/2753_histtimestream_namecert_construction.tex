@@ -642,6 +642,7 @@ $$
 $$
 preserves the no-global-clock ledger for the packet $Q=(H,T,S,C,L,P,N)$. Along this route every read is through the local prefix, StreamName finite-window handoff, RegSeqRat reindex surface, and Real readback ledger, and the route excludes quotient streams, selected host limits, ambient completeness witnesses, host-indexed time, and cross-Hist clocks.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_streamname\_real\_consumer\_route}
 \begin{proof}
 First factor the consumer through the local prefix by \autoref{thm:histtimestream-local-stream-prefix-factorization}. The route has already exposed the finite HistTimeStream rows before any downstream naming or readback surface is used.
 
@@ -671,6 +672,7 @@ Finally use real-completion window nonescape, the Real readback ledger, and the 
 \label{thm:histtimestream-regseqrat-window-exactness}
 For an accepted $\HistTimeStreamUp$ packet $Q=(H,T,S,C,L,P,N)$, every $\RegSeqRatUp$ consumer of the induced downstream window receives exactly the local finite window together with the $\RegSeqRatUp$ regularity obligations already routed through componentwise $\hsame$ transport. It receives no selected host limit, quotient stream representative, ambient completeness witness, global clock, or Real completeness proof.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_regseqrat\_window\_exactness}
 \begin{proof}
 Start with the StreamName tail scope of \autoref{thm:histtimestream-streamname-tail-scope}. It fixes the input to the RegSeqRat-facing consumer as the finite window already exposed by HistTimeStream and StreamName.
 
@@ -703,6 +705,7 @@ $$
 $$
 The route displays the finite HistTimeStream rows, the StreamName tail window, the RegSeqRat regular readback, the regular Cauchy modulus witness ledger, and the RealUp seal rows in that order. It has no host clock, quotient stream, selected limit, ambient completeness coordinate, or cross-Hist time parameter.
 \end{theorem}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_regular\_witness\_ledger\_route}
 \begin{proof}
 First expose the accepted packet through the local carrier and finite-prefix route. The carrier and local prefix factorization place every downstream consumer after the displayed HistTimeStream rows.
 
