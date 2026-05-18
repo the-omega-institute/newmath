@@ -202,6 +202,42 @@ instance binderBudgetSealChapterTasteGate : ChapterTasteGate BinderBudgetSealUp 
     intro x y hxy heq
     exact hxy (binderBudgetSealToEventFlow_injective heq)
 
+instance binderBudgetSealFieldFaithful : FieldFaithful BinderBudgetSealUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | BinderBudgetSealUp.mk depth term payload shiftRoute substRoute transport contRoute
+        provenance name =>
+        [depth, term, payload, shiftRoute, substRoute, transport, contRoute, provenance, name]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk depth₁ term₁ payload₁ shiftRoute₁ substRoute₁ transport₁ contRoute₁ provenance₁
+        name₁ =>
+        cases y with
+        | mk depth₂ term₂ payload₂ shiftRoute₂ substRoute₂ transport₂ contRoute₂
+            provenance₂ name₂ =>
+            injection h with hDepth rest₁
+            injection rest₁ with hTerm rest₂
+            injection rest₂ with hPayload rest₃
+            injection rest₃ with hShiftRoute rest₄
+            injection rest₄ with hSubstRoute rest₅
+            injection rest₅ with hTransport rest₆
+            injection rest₆ with hContRoute rest₇
+            injection rest₇ with hProvenance rest₈
+            injection rest₈ with hName _
+            cases hDepth
+            cases hTerm
+            cases hPayload
+            cases hShiftRoute
+            cases hSubstRoute
+            cases hTransport
+            cases hContRoute
+            cases hProvenance
+            cases hName
+            rfl
+
 def taste_gate : ChapterTasteGate BinderBudgetSealUp :=
   -- BEDC touchpoint anchor: BHist BMark
   binderBudgetSealChapterTasteGate

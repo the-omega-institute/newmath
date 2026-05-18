@@ -142,4 +142,32 @@ theorem MetaCICNormalizationFrontierCarrier_root_candidate_readback
     }
   exact ⟨candidateReadUnary, rootReadUnary, cert⟩
 
+theorem MetaCICNormalizationFrontierCarrier_candidate_route_totality
+    [AskSetup] [PackageSetup]
+    {candidate closedCandidate finished endpoint obstruction transport replay provenance
+      localRow candidateRead routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICNormalizationFrontierCarrier candidate closedCandidate finished endpoint
+        obstruction transport replay provenance localRow bundle pkg ->
+      Cont candidate closedCandidate candidateRead ->
+      Cont candidateRead replay routeRead ->
+      PkgSig bundle routeRead pkg ->
+        UnaryHistory candidate ∧ UnaryHistory closedCandidate ∧
+          UnaryHistory candidateRead ∧ UnaryHistory routeRead ∧
+            Cont candidate closedCandidate candidateRead ∧
+              Cont candidateRead replay routeRead ∧ PkgSig bundle routeRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier candidateClosedRead candidateReplayRoute routePkg
+  obtain ⟨candidateUnary, closedCandidateUnary, _finishedUnary, _endpointUnary,
+    _obstructionUnary, _transportUnary, replayUnary, _provenanceUnary, _localRowUnary,
+    _candidateClosedLocal, _finishedEndpointReplay, _endpointReplayProvenance,
+    _transportSameCandidateFinished, _provenancePkg⟩ := carrier
+  have candidateReadUnary : UnaryHistory candidateRead :=
+    unary_cont_closed candidateUnary closedCandidateUnary candidateClosedRead
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed candidateReadUnary replayUnary candidateReplayRoute
+  exact
+    ⟨candidateUnary, closedCandidateUnary, candidateReadUnary, routeReadUnary,
+      candidateClosedRead, candidateReplayRoute, routePkg⟩
+
 end BEDC.Derived.MetaCICNormalizationFrontierUp

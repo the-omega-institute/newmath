@@ -138,7 +138,7 @@ theorem GroundCompilerAuditMapCarrier_obligation_closure :
         injection htail₁₂ with _ htail₁₃
         injection htail₁₃ with hrow _
         cases hrow
-      · rfl
+      · exact rfl
 
 theorem GroundCompilerAuditMapCarrier_compiler_layer_frontier
     {I K E R Q X H T P N I' K' E' R' Q' X' H' T' P' N' : BHist}
@@ -300,6 +300,75 @@ theorem GroundCompilerAuditMapCarrier_nonescape
   injection hread with hpacket
   injection hpacket with hI hK hE hC hR hQ hF hX hH hT hP hN
   exact ⟨hI, hK, hE, hC, hR, hQ, hF, hX, hH, hT, hP, hN, rfl⟩
+
+theorem GroundCompilerAuditMapCarrier_handoff_row_independence
+    {I K E C R Q F H T P N : BHist} :
+    BHistCarrier.toEventFlow
+        (GroundCompilerAuditMapUp.mk I K E C R Q F (BHist.e0 BHist.Empty) H T P N) ≠
+      BHistCarrier.toEventFlow
+        (GroundCompilerAuditMapUp.mk I K E C R Q F BHist.Empty H T P N) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have hdecode :
+      ∀ h : BHist, groundCompilerAuditMapDecodeBHist
+        (groundCompilerAuditMapEncodeBHist h) = h := by
+    intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
+  change
+    groundCompilerAuditMapToEventFlow
+        (GroundCompilerAuditMapUp.mk I K E C R Q F (BHist.e0 BHist.Empty) H T P N) =
+      groundCompilerAuditMapToEventFlow
+        (GroundCompilerAuditMapUp.mk I K E C R Q F BHist.Empty H T P N) at heq
+  have hread :
+      groundCompilerAuditMapFromEventFlow
+          (groundCompilerAuditMapToEventFlow
+            (GroundCompilerAuditMapUp.mk I K E C R Q F (BHist.e0 BHist.Empty) H T P N)) =
+        groundCompilerAuditMapFromEventFlow
+          (groundCompilerAuditMapToEventFlow
+            (GroundCompilerAuditMapUp.mk I K E C R Q F BHist.Empty H T P N)) :=
+    congrArg groundCompilerAuditMapFromEventFlow heq
+  change
+    some
+        (GroundCompilerAuditMapUp.mk
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist I))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist K))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist E))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist C))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist R))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist Q))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist F))
+          (groundCompilerAuditMapDecodeBHist
+            (groundCompilerAuditMapEncodeBHist (BHist.e0 BHist.Empty)))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist H))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist T))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist P))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist N))) =
+      some
+        (GroundCompilerAuditMapUp.mk
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist I))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist K))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist E))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist C))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist R))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist Q))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist F))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist BHist.Empty))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist H))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist T))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist P))
+          (groundCompilerAuditMapDecodeBHist (groundCompilerAuditMapEncodeBHist N))) at hread
+  rw [hdecode I, hdecode K, hdecode E, hdecode C, hdecode R, hdecode Q, hdecode F,
+    hdecode (BHist.e0 BHist.Empty), hdecode H, hdecode T, hdecode P, hdecode N,
+    hdecode BHist.Empty] at hread
+  injection hread with hpacket
+  injection hpacket with _ _ _ _ _ _ _ hrow _ _ _ _
+  cases hrow
 
 theorem GroundCompilerAuditMapNameCert_obligations {I K E C R Q F X H T P N : BHist}
     (inventoryRoute : Cont I K T)

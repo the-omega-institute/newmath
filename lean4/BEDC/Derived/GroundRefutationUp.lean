@@ -1,11 +1,13 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.GroundRefutationUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 
 def GroundRefutationCarrier (A F H C P N : BHist) : Prop :=
   Cont A F H ∧ Cont H C P ∧ hsame P N ∧ hsame A A ∧ hsame F F ∧
@@ -71,5 +73,54 @@ theorem GroundRefutationCarrier_classifier_transport
           carrier.right.right.right.right.right.left,
           carrier.right.right.right.right.right.right.left,
           carrier.right.right.right.right.right.right.right⟩
+
+theorem GroundRefutationCarrier_consumer_readiness {A F H C P N bottom : BHist}
+    (carrier : GroundRefutationCarrier A F H C P N) (route : Cont A F bottom) :
+    SemanticNameCert
+      (fun row : BHist => GroundRefutationCarrier A F H C P N ∧ hsame row bottom)
+      (fun row : BHist => Cont A F row ∧ hsame A A)
+      (fun row : BHist => hsame row bottom ∧ hsame P N)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro bottom ⟨carrier, hsame_refl bottom⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows sourceRow
+        exact ⟨sourceRow.left, hsame_trans (hsame_symm sameRows) sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro row sourceRow
+      exact
+        ⟨cont_result_hsame_transport route (hsame_symm sourceRow.right),
+          carrier.right.right.right.left⟩
+    ledger_sound := by
+      intro row sourceRow
+      exact ⟨sourceRow.right, carrier.right.right.left⟩
+  }
+
+theorem GroundRefutationCarrier_route_stability {A F H C P N routeRead : BHist}
+    (carrier : GroundRefutationCarrier A F H C P N)
+    (assumptionFalsity : Cont A F routeRead) :
+    Cont A F routeRead ∧ Cont A F H ∧ hsame routeRead H ∧ Cont H C P ∧ hsame P N ∧
+      hsame A A ∧ hsame F F ∧ hsame C C ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  rcases carrier with
+    ⟨storedAssumptionFalsity, continuationProvenance, provenanceName, sameA, sameF, _sameH,
+      sameC, sameN⟩
+  have routeSameStored : hsame routeRead H :=
+    cont_deterministic assumptionFalsity storedAssumptionFalsity
+  exact
+    ⟨assumptionFalsity, storedAssumptionFalsity, routeSameStored, continuationProvenance,
+      provenanceName, sameA, sameF, sameC, sameN⟩
 
 end BEDC.Derived.GroundRefutationUp

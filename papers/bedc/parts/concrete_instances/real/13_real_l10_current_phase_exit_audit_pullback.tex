@@ -133,6 +133,60 @@ countable choice, ambient completeness, metric-completeness data, standard
 bridge rows, or aggregate formalstatus tokens.
 \end{proof}
 
+\begin{theorem}[Real L10 finite-window completion-exit factorization]
+\label{thm:real-l10-finite-window-completion-exit-factorization}
+Every accepted Phase Real and Completion finite-window exit read of a
+$\RealUp$ seal factors through exactly the four current-phase faces
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+The factorization uses only the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support rows on those faces: the dyadic ledger face,
+the finite StreamName window face, the RegSeqRat regularity and common-tail
+face, and the local Real seal face.
+
+Conversely, matching records on these four local faces, together with matching
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, determines
+the same accepted finite-window Phase Real and Completion exit route.
+
+The factorization refuses quotient stream equality, host real equality,
+selected limits, countable choice, ambient completeness,
+metric-completeness data, aggregate formalstatus tokens, and standard bridge
+rows.
+\end{theorem}
+\begin{proof}
+First read the classifier side. Apply
+\autoref{thm:real-l10-four-face-classifier-pullback}. It identifies every
+accepted classifier read with the dyadic ledger, finite StreamName window,
+RegSeqRat regularity and common-tail, and local Real seal faces, carried only
+by the displayed BEDC support rows.
+
+Next read the audit side. Apply
+\autoref{thm:real-l10-current-phase-exit-audit-pullback}. The accepted Phase
+Real and Completion audit route is the product of the same four local face
+records, with status and bridge coordinates read objectwise from the face
+records rather than from a route-level cache.
+
+Now compare this product with the completion interface. Apply
+\autoref{thm:real-completeness-l10-exit-interface-exhaustion}. It exhausts
+the L10 exit interface by exactly $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$, together with the same $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+For the converse direction, the four matching local records give the same
+classifier pullback and the same objectwise audit pullback. The two-axis
+roadmap discipline keeps the status rows attached to their own faces, so
+status agreement is used only to identify the face records and not as evidence
+for classifier agreement.
+
+Finally apply \autoref{thm:real-l10-incomplete-face-exit-obstruction}. If any
+one of the four faces is removed or replaced, the accepted finite-window exit
+route is not present. The exclusions named in the statement therefore remain
+off-table: no quotient stream equality, host real equality, selected limit,
+countable choice, ambient completeness, metric-completeness datum, aggregate
+formalstatus token, or standard bridge row supplies a substitute route.
+\end{proof}
+
 \begin{theorem}[Real L10 four-face status-classifier square]
 \label{thm:real-l10-four-face-status-classifier-square}
 Any accepted Phase Real and Completion packet over
@@ -272,6 +326,53 @@ selected limit, or metric-completeness row.
 Thus the accepted exit certificate is precisely the four-face product read
 through the named route and exactness records, with only the displayed local
 closure evidence exported.
+\end{proof}
+
+\begin{theorem}[Real L10 common-tail exit correspondence]
+\label{thm:real-l10-common-tail-exit-correspondence}
+Let an accepted Phase Real and Completion packet be read through the four
+faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+Assume that its $\RegSeqRatUp$ face satisfies the common-tail union classifier
+determinacy of
+\autoref{thm:regseqrat-common-tail-union-classifier-determinacy}. Then the
+Real exit classifier is determined exactly by the common $\StreamNameUp$
+finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$
+common-tail classifier, and the local $\RealUp$ seal row.
+
+This correspondence is only a four-face finite BEDC exit route. It exports no
+quotient streams, no host-selected limits, no countable choice, no ambient
+$\RealUp$ completeness, no metric-completeness row, and no aggregate
+formalstatus token.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-l10-four-face-classifier-pullback}. It reads an
+accepted Real L10 classifier route as the pullback of the dyadic ledger,
+finite StreamName windows, RegSeqRat regularity and common-tail classifier,
+and the local Real seal classifier.
+
+Next apply \autoref{thm:real-l10-streamname-exit-route-correspondence}. The
+StreamName finite-window route is the same source route used by the current
+Phase Real and Completion exit packet, so the common window is a coordinate
+of the Real exit read rather than a separate carrier.
+
+Now use
+\autoref{thm:regseqrat-common-tail-union-classifier-determinacy}. On the
+$\RegSeqRatUp$ face, the common-tail window determines one accepted
+$\mathsf{RegSeqRatClassifier}$ read over the displayed StreamName schedule,
+dyadic endpoint and radius rows, regularity rows, Real seal-source rows,
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ provenance.
+
+Finally apply \autoref{thm:real-l10-current-phase-exit-certificate}. The
+accepted exit certificate exports exactly the four local face reports and no
+fifth coordinate. Combining that certificate with the classifier pullback
+leaves precisely the common StreamName finite window, DyadicRatCore
+tolerance ledger, RegSeqRat common-tail classifier, and local Real seal row
+as the data determining the Real exit classifier.
+
+The exclusion clauses in the four cited theorems remove the other possible
+readings: quotient streams, host-selected limits, countable choice, ambient
+$\RealUp$ completeness, metric-completeness rows, and aggregate formalstatus
+tokens have no displayed row in the four-face route.
 \end{proof}
 
 \begin{theorem}[Real L10 phase exit criterion is objectwise]
@@ -469,4 +570,153 @@ Lean-target and bridge-status rows remain attached to their source faces and
 do not assemble a route-level target or bridge. Since none of the cited
 objectwise records supplies a countable-choice row either, the sufficiency
 claim is exactly the four-face product and nothing further.
+\end{proof}
+
+\begin{theorem}[Real L10 objectwise exit threshold equivalence]
+\label{thm:real-l10-objectwise-exit-threshold-equivalence}
+An accepted Phase Real and Completion exit packet satisfies the current exit
+criterion if and only if the four local face records for
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ each
+supply the required local theory-closure row and an audit-clean verification
+row, read objectwise from that face's own closurestatus block.
+
+This equivalence is exactly the current four-face threshold. It excludes any
+aggregate route-level $\formalstatus$, aggregate bridge row, quotient stream,
+selected limit, countable-choice row, metric-completeness datum, and
+$\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:real-l10-phase-exit-criterion-objectwise}. It says that an
+accepted packet can satisfy the current Phase Real and Completion exit
+criterion only through the four local records for $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Apply \autoref{thm:real-l10-local-face-record-readback}. The required
+threshold is read from each face's own closurestatus block, so the local
+theory-closure row and the local audit-clean verification row are the
+coordinates that witness the criterion. Apply
+\autoref{thm:real-l10-face-audit-minimum-blocker}; if any one of those
+local audit-clean rows is absent, the four-face product does not satisfy the
+current exit criterion.
+
+To keep the witness facewise, apply
+\autoref{thm:real-l10-face-status-noncollapse}. It rules out aggregate
+route-level $\formalstatus$, aggregate bridge rows, quotient streams,
+selected limits, countable-choice rows, metric-completeness data, and
+$\RealUp$ completeness. Apply
+\autoref{thm:real-l10-face-leantarget-noncollapse} to keep Lean-target and
+bridge-status rows attached to their source faces.
+
+For the reverse direction, suppose the four local face records each supply
+the required local theory-closure row and an audit-clean verification row.
+Apply \autoref{thm:real-l10-four-face-exit-sufficiency}. Those four
+objectwise records satisfy the current Phase Real and Completion exit
+criterion exactly as the four-face product over the local records.
+
+Finally apply \autoref{thm:real-l10-face-status-noncollapse} and
+\autoref{thm:real-l10-face-leantarget-noncollapse}. The resulting criterion
+is still the facewise threshold: no aggregate route-level verification token,
+bridge row, quotient stream, selected limit, countable-choice row,
+metric-completeness datum, or $\RealUp$ completeness claim is introduced.
+\end{proof}
+
+\begin{theorem}[Real L10 finite-cover exit threshold gluing]
+\label{thm:real-l10-finite-cover-exit-threshold-gluing}
+Let $\mathcal{U}$ be a finite family of accepted Phase Real and Completion
+exit packets. Suppose every member of $\mathcal{U}$ satisfies the objectwise
+exit threshold of
+\autoref{thm:real-l10-objectwise-exit-threshold-equivalence}, and suppose
+that every pairwise overlap agrees on the displayed $\DyadicRatCoreUp$
+endpoint and radius ledger, the $\StreamNameUp$ finite-window schedule, the
+$\RegSeqRatUp$ regularity and classifier rows, the $\RealUp$ seal rows, and
+the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+Then the family glues to one accepted four-face Phase Real and Completion
+exit packet satisfying the same objectwise exit threshold.
+
+The glued exit packet is only the finite four-face packet over those displayed
+rows. It exports no aggregate route-level $\formalstatus$, no aggregate bridge
+row, no quotient stream, no selected limit, no countable-choice row, no
+metric-completeness datum, and no $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-objectwise-exit-threshold-equivalence} to each
+member of $\mathcal{U}$. Thus every local packet contributes exactly the four
+face records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$, with the threshold read from the local closurestatus rows of those
+faces.
+
+We first glue the regular-sequence and real-seal faces. Apply
+\autoref{thm:regseqrat-real-seal-finite-cover-gluing} to the finite family of
+$\RegSeqRatUp$ regularity rows and $\RealUp$ seal rows. The overlap
+agreement hypothesis is precisely the shared regularity, classifier, seal,
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface required for that
+gluing. Apply
+\autoref{thm:regseqrat-finite-cover-real-seal-gluing-uniqueness} to identify
+the resulting seal row on common overlaps.
+
+Next glue the scheduling face. Use
+\autoref{thm:streamname-common-refinement-public-exactness} and
+\autoref{thm:streamname-finite-window-cover-refinement-classifier} to pass to
+a common finite-window presentation of the $\StreamNameUp$ schedules. Apply
+\autoref{thm:streamname-finite-request-cover-gluing} to export one schedule
+row for the finite family, still over the displayed finite-window data and not
+over a quotient stream or selected limit.
+
+The dyadic face is fixed by the overlap ledger. Apply
+\autoref{thm:dyadicratcore-finite-tail-scale-window-pullback-exactness} and
+\autoref{thm:dyadicratcore-finite-tail-endpoint-invariance}. These read the
+shared endpoint and radius data through the displayed $\DyadicRatCoreUp$
+ledger, so the glued packet has the same dyadic endpoint and radius rows on
+all refined windows.
+
+Combining the glued RegSeqRat/Real, StreamName, and DyadicRatCore rows gives
+one accepted four-face exit packet by
+\autoref{thm:real-l10-four-face-exit-sufficiency}. Finally apply
+\autoref{thm:real-l10-face-status-noncollapse} and
+\autoref{thm:real-l10-face-leantarget-noncollapse}. The glued packet remains
+objectwise: its closure, verification, Lean-target, and bridge rows stay on
+their source faces and do not form an aggregate route-level status, bridge,
+quotient, selected-limit, choice, metric-completeness, or $\RealUp$
+completeness datum.
+\end{proof}
+
+\begin{theorem}[Real L10 finite-cover exit threshold descent]
+\label{thm:real-l10-finite-cover-exit-threshold-descent}
+Let $P$ be an accepted Phase Real and Completion exit packet, and let
+$\mathcal{V}$ be a finite certified subcover of $P$. Suppose every member of
+$\mathcal{V}$ satisfies the objectwise exit threshold of
+\autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. Suppose moreover
+that each subcover member agrees with $P$ on the displayed $\DyadicRatCoreUp$
+endpoint and radius ledger, the $\StreamNameUp$ finite-window schedule, the
+$\RegSeqRatUp$ regularity and classifier rows, the $\RealUp$ seal rows, and the
+shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then
+$P$ satisfies the same objectwise exit threshold.
+
+The descended threshold is only the coarse four-face threshold of $P$. It does
+not assert an aggregate route-level $\formalstatus$, an aggregate bridge row, a
+quotient stream, a selected limit, a countable-choice row, a
+metric-completeness datum, or a $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-finite-cover-exit-threshold-gluing} to the finite
+certified subcover $\mathcal{V}$. The hypotheses on the local threshold and on
+the shared $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$,
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows give one glued
+accepted four-face packet satisfying the objectwise exit threshold.
+
+We now identify this glued packet with the coarse packet $P$. The agreement
+assumptions say that every displayed endpoint, radius, finite-window,
+regularity, classifier, seal, history, sameness, continuity, package, and
+NameCert coordinate of the glued packet is the corresponding coordinate of
+$P$. Apply \autoref{thm:real-l10-objectwise-exit-threshold-equivalence} to read
+the glued threshold as the four local face records of $P$.
+
+It remains to keep the descent facewise. Apply
+\autoref{thm:real-l10-face-status-noncollapse} and
+\autoref{thm:real-l10-face-leantarget-noncollapse}. These prevent the
+subcover gluing from creating an aggregate status, bridge, quotient-stream,
+selected-limit, countable-choice, metric-completeness, or $\RealUp$
+completeness reading. Hence the coarse packet $P$ carries exactly the same
+objectwise exit threshold and no route-level strengthening.
 \end{proof}

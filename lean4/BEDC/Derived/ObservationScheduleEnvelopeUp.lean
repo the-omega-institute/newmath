@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ObservationScheduleEnvelopeUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -269,5 +271,18 @@ theorem ObservationScheduleEnvelopeTasteGate_single_carrier_alignment :
               by
                 intro h
                 cases h⟩
+
+theorem ObservationScheduleEnvelope_window_transport (x : ObservationScheduleEnvelopeUp) :
+    ∃ Q S W R J H C P N : BHist,
+      x = ObservationScheduleEnvelopeUp.mk Q S W R J H C P N ∧
+        FieldFaithful.fields x = [Q, S, W, R, J, H, C, P, N] ∧
+          hsame W W ∧ hsame Q Q ∧ hsame S S ∧ hsame R R ∧ hsame J J ∧
+            Cont H C (append H C) := by
+  -- BEDC touchpoint anchor: BHist FieldFaithful hsame Cont
+  cases x with
+  | mk Q S W R J H C P N =>
+      exact
+        ⟨Q, S, W, R, J, H, C, P, N, rfl, rfl, hsame_refl W, hsame_refl Q,
+          hsame_refl S, hsame_refl R, hsame_refl J, rfl⟩
 
 end BEDC.Derived.ObservationScheduleEnvelopeUp

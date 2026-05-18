@@ -61,6 +61,7 @@ The ledger row $L$ records that this shared coordinate is the associativity witn
 \label{thm:continuation-monad-namecert-obligations}
 The local $\NameCert_{\ContinuationMonadUp}$ surface for \autoref{def:continuation-monad-carrier} consists of five finite rows: carrier admission for $\mathcal{K}(A,B,C)$; classifier stability under componentwise $\hsame$ transport of histories and tails; unit and associativity ledger exactness for $L$; $\Pkg$ provenance over $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, and $\mathsf{ContinuationMorphism}$; and local naming rows for the Kleisli composition handoff.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadNameCertObligations}
 \begin{proof}
 Carrier admission is the displayed tuple of \autoref{def:continuation-monad-carrier}. It fixes the readable histories, tails, routes, ledger, and local naming row.
 
@@ -633,6 +634,7 @@ The unit and bind reads therefore come after the triad is already visible. Since
 \label{thm:continuation-monad-bind-readback-exhaustion}
 Every bind readback exposed by an accepted $\ContinuationMonadUp$ packet is exhausted by the rows $A,B,C,f,g,u,H,K,L,N$. The readback may inspect the source histories $A,B,C$, the displayed continuation tails $f,g,u$, the transport row $H$, the route and ledger rows $K,L$, the $\Pkg$ provenance, and the local $\NameCert$ row $N$; it cannot read host functions, quotient Kleisli arrows, unlisted generators, or an external monad evaluator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_bind\_readback\_exhaustion}
 \begin{proof}
 First use bind-route classifier stability. It identifies every accepted bind read with the displayed continuation route through $f,g,u,K,L$ and transports that read only through $H$.
 
@@ -645,6 +647,7 @@ Finally apply the Kleisli composite scope and bind-route coverage theorems. They
 \label{thm:continuation-monad-root-unblock-package}
 The root obligation package of an accepted $\ContinuationMonadUp$ packet consists exactly of carrier admission, classifier stability, $\CategoryUp$ hom routing, generator refusal, ledger exactness, and the local $\NameCert$ rows over $A,B,C,f,g,u,H,K,L,N$. This package is the surface available to downstream continuation chapters before they read any standard monad boundary, and it exports no quotient Kleisli category, host function composition, ambient effect algebra, or independent generator list.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_unblock\_package}
 \begin{proof}
 Assemble the package from the existing obligation rows. Carrier admission supplies the packet rows, classifier stability fixes their $\hsame$ transport, category hom routing places the $\CategoryUp$ read in the finite ledger, and generator refusal excludes unlisted continuation rules.
 
@@ -677,6 +680,7 @@ Next apply \autoref{thm:continuation-monad-category-hom-route-totality}. The $\C
 
 The two reads are then combined by \autoref{thm:continuation-monad-category-generator-source-triad}. Since both sides use the same $H,K,L,N$ rows over $A,B,C,f,g,u$, no downstream consumer can split the generator ledger from the Category hom route.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_generator\_category\_lock}
 
 \begin{theorem}[ContinuationMonad root downstream unblock package]
 \label{thm:continuation-monad-root-downstream-unblock-package}
@@ -706,6 +710,7 @@ Finally apply the root downstream package. Its $\Pkg$ provenance and local $\Nam
 \label{thm:continuation-monad-finite-bind-readback-package}
 For an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every finite bind readback package is exactly the $\BHist$ source rows $A,B,C$, the continuation rows $f,g,u$, the $\Cont$ route row $K$, the ledger row $L$, the componentwise $\hsame$ row $H$, the $\Pkg$ provenance, and the local $\NameCert$ row $N$. A bind consumer reads this package as displayed BEDC data and not as host-function composition, quotient Kleisli equality, a general monad evaluator, or an unlisted continuation generator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_finite\_bind\_readback\_package}
 \begin{proof}
 First read bind-route totality. It forces every bind consumer through the displayed $\Cont$ route and ledger rows $K,L$ over the same source histories and continuation tails.
 
