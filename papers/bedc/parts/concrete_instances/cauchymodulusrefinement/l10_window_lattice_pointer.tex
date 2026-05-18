@@ -43,6 +43,28 @@ The completion pullback and the window-lattice exactness theorem then identify t
 Conversely, suppose a displayed packet carries exactly $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$. Read the first four rows as the root source-window front, the next four as the selector and four-face L10 exit, and the last four as the support ledger. The cited exactness and pullback results repack these finite rows into the same L10 route, and the excluded rows have no constructor in the displayed inventory.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement L10 finite-request route monotonicity]
+\label{thm:cauchy-modulus-refinement-l10-finite-request-route-monotonicity}
+Let
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)
+$$
+and
+$$
+R'=(M_0,M_1,U,V,T',W',Q',E',H,C,P,N)
+$$
+be accepted $\CauchyModulusRefinementUp$ packets with the same displayed source-meet, extraction, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. If the finite request displayed by $T'$ refines the finite request displayed by $T$ along the selector row over the same $M_0,M_1,U,V,H,C,P,N$, then the L10 route for $R$ is included in the L10 route for $R'$ on the same support: the $\StreamNameUp$ window row $W$, the $\DyadicRatCoreUp$ tolerance ledger $Q$, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal route $E$ are preserved by inclusion through the displayed $T \leq T'$, $W \leq W'$, $Q \leq Q'$, and $E \leq E'$ rows. No quotient stream, selected limit, countable-choice row, ambient completeness row, or host equality supplies a second route between the two requests.
+\end{theorem}
+\begin{proof}
+First fix the common source side. L10 window lattice exactness, \autoref{thm:cauchy-modulus-refinement-l10-window-lattice-exactness}, makes every Real-facing or Completion-facing read pass through $M_0,M_1,U,V$ and then through the same displayed support rows $H,C,P,N$.
+
+Now compare the selector rows. Root-window pullback exhaustion, \autoref{thm:cauchy-modulus-refinement-l10-root-window-pullback-exhaustion}, says that the consumer route has no source other than the finite spine $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$. Replacing $T$ by a displayed refinement $T'$ over the same source rows can therefore only enlarge the finite request already present in that spine.
+
+Window-tolerance exactness, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, transports this selector inclusion to the StreamName window and DyadicRatCore tolerance rows. The same displayed history and classifier support then carries the regular-rational readback row, so the route through $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ is preserved by inclusion.
+
+Finally apply Real seal factorization, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}. The $\RealUp$ seal is downstream of the selected window and rational readback route, so the seal route is included along $E \leq E'$ and cannot be replaced by a quotient stream, selected limit, countable-choice row, ambient completeness row, or host equality.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement L10 face-order rigidity]
 \label{thm:cauchy-modulus-refinement-l10-face-order-rigidity}
 For every accepted $\CauchyModulusRefinementUp$ packet
