@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteHistLocalityPacketUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -217,5 +220,20 @@ theorem FiniteHistLocalityPacketTasteGate_single_carrier_alignment :
   -- BEDC touchpoint anchor: BHist BMark
   intro H0 H1 L I S T C Q N
   rfl
+
+theorem FiniteHistLocalityPacketTransportStability
+    {H0 H1 L I S T C Q N replay : BHist} :
+    finiteHistLocalityPacketFields (FiniteHistLocalityPacketUp.mk H0 H1 L I S T C Q N) =
+      [H0, H1, L, I, S, T, C, Q, N] →
+      Cont T C replay →
+        UnaryHistory T →
+          UnaryHistory C →
+            UnaryHistory replay ∧ Cont T C replay := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  intro hfields transportReplay transportUnary replayRowUnary
+  cases hfields
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed transportUnary replayRowUnary transportReplay
+  exact ⟨replayUnary, transportReplay⟩
 
 end BEDC.Derived.FiniteHistLocalityPacketUp
