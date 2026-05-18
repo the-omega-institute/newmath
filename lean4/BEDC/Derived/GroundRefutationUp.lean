@@ -108,4 +108,19 @@ theorem GroundRefutationCarrier_consumer_readiness {A F H C P N bottom : BHist}
       exact ⟨sourceRow.right, carrier.right.right.left⟩
   }
 
+theorem GroundRefutationCarrier_route_stability {A F H C P N routeRead : BHist}
+    (carrier : GroundRefutationCarrier A F H C P N)
+    (assumptionFalsity : Cont A F routeRead) :
+    Cont A F routeRead ∧ Cont A F H ∧ hsame routeRead H ∧ Cont H C P ∧ hsame P N ∧
+      hsame A A ∧ hsame F F ∧ hsame C C ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  rcases carrier with
+    ⟨storedAssumptionFalsity, continuationProvenance, provenanceName, sameA, sameF, _sameH,
+      sameC, sameN⟩
+  have routeSameStored : hsame routeRead H :=
+    cont_deterministic assumptionFalsity storedAssumptionFalsity
+  exact
+    ⟨assumptionFalsity, storedAssumptionFalsity, routeSameStored, continuationProvenance,
+      provenanceName, sameA, sameF, sameC, sameN⟩
+
 end BEDC.Derived.GroundRefutationUp
