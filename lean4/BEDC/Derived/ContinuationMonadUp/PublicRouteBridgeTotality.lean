@@ -10,8 +10,8 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-theorem ContinuationMonadCarrier_root_downstream_monad_package [AskSetup] [PackageSetup]
-    {A B C f g u H K L N category generator unitRead bindRead publicRead consumer : BHist}
+theorem ContinuationMonadCarrier_public_route_bridge_totality [AskSetup] [PackageSetup]
+    {A B C f g u H K L N category generator unitRead bindRead publicRead bridge : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     ContinuationMonadCarrier A B C f g u H K L N ->
       Cont L N category ->
@@ -19,22 +19,19 @@ theorem ContinuationMonadCarrier_root_downstream_monad_package [AskSetup] [Packa
           Cont u N unitRead ->
             Cont K L bindRead ->
               Cont generator unitRead publicRead ->
-                Cont publicRead N consumer ->
-                  PkgSig bundle consumer pkg ->
+                Cont publicRead N bridge ->
+                  PkgSig bundle bridge pkg ->
                     SemanticNameCert
                       (fun row : BHist =>
-                        ContinuationMonadCarrier A B C f g u H K L N ∧
-                          hsame row consumer)
+                        ContinuationMonadCarrier A B C f g u H K L N ∧ hsame row bridge)
                       (fun row : BHist =>
-                        hsame row consumer ∧ Cont publicRead N row ∧
-                          Cont generator unitRead publicRead ∧ Cont K L bindRead ∧
-                            Cont u N unitRead)
+                        hsame row bridge ∧ Cont publicRead N row ∧ Cont L N category)
                       (fun row : BHist =>
-                        hsame row consumer ∧ PkgSig bundle consumer pkg)
+                        hsame row bridge ∧ PkgSig bundle bridge pkg)
                       hsame := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
-  intro carrier categoryRoute generatorRoute unitRoute bindRoute publicRoute consumerRoute
-    consumerPkg
+  intro carrier categoryRoute generatorRoute unitRoute bindRoute publicRoute bridgeRoute
+    bridgePkg
   obtain ⟨unaryA, unaryF, unaryG, unaryU, routeB, routeC, routeK, routeL,
     sameEndpoint⟩ := carrier
   have unaryB : UnaryHistory B :=
@@ -57,14 +54,14 @@ theorem ContinuationMonadCarrier_root_downstream_monad_package [AskSetup] [Packa
     unary_cont_closed unaryK unaryL bindRoute
   have unaryPublicRead : UnaryHistory publicRead :=
     unary_cont_closed unaryGenerator unaryUnitRead publicRoute
-  have _unaryConsumer : UnaryHistory consumer :=
-    unary_cont_closed unaryPublicRead unaryN consumerRoute
+  have _unaryBridge : UnaryHistory bridge :=
+    unary_cont_closed unaryPublicRead unaryN bridgeRoute
   have carrierSource : ContinuationMonadCarrier A B C f g u H K L N :=
     ⟨unaryA, unaryF, unaryG, unaryU, routeB, routeC, routeK, routeL, sameEndpoint⟩
   exact {
     core := {
       carrier_inhabited :=
-        Exists.intro consumer ⟨carrierSource, hsame_refl consumer⟩
+        Exists.intro bridge ⟨carrierSource, hsame_refl bridge⟩
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -81,11 +78,11 @@ theorem ContinuationMonadCarrier_root_downstream_monad_package [AskSetup] [Packa
     pattern_sound := by
       intro _row source
       exact
-        ⟨source.right, cont_result_hsame_transport consumerRoute (hsame_symm source.right),
-          publicRoute, bindRoute, unitRoute⟩
+        ⟨source.right, cont_result_hsame_transport bridgeRoute (hsame_symm source.right),
+          categoryRoute⟩
     ledger_sound := by
       intro _row source
-      exact ⟨source.right, consumerPkg⟩
+      exact ⟨source.right, bridgePkg⟩
   }
 
 end BEDC.Derived.ContinuationMonadUp
