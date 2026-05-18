@@ -33,6 +33,7 @@ Finally, the continuation rows are checked by the singleton evaluation and compo
 \label{thm:linearmap-evaluation-graph-composition-closure}
 Let $F$ carry a $\FieldUp(F)$ certificate, and let $U$, $V$, and $W$ carry $\VecSpaceUp(F,U)$, $\VecSpaceUp(F,V)$, and $\VecSpaceUp(F,W)$ certificates over the same scalar source. If $G_f$ is an accepted evaluation-graph packet for $f:U\to V$ and $G_g$ is an accepted evaluation-graph packet for $g:V\to W$, with the target vector-space row of $G_f$ matching the source vector-space row of $G_g$, then the $\Cont$-spliced graph packet for $g\circ f:U\to W$ is an accepted evaluation-graph packet. Its pointwise classifier is the target classifier of $W$, its additivity ledger is the composite of the additivity ledgers of $G_f$ and $G_g$, and its scalar-compatibility ledger is the composite of their scalar ledgers.
 \end{theorem}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapEvaluationGraph\_composition\_closure}
 \begin{proof}
 The matching middle row identifies the target classifier and operations of the first packet with the source classifier and operations of the second packet. Thus every carried $u:U$ evaluated by $G_f$ produces a carried middle endpoint in $V$, and the carrier-admission row of $G_g$ evaluates that endpoint in $W$. Splicing the two $\Cont$ routes gives the graph row for $g(f(u))$.
 
