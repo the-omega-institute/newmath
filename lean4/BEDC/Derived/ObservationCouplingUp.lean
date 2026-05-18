@@ -113,4 +113,28 @@ theorem ObservationCouplingCarrier_namecert_obligations [AskSetup] [PackageSetup
     ⟨cert, readAUnary, readBUnary, ledgerReadUnary, histRouteReadA, histRouteReadB,
       readsLedger, provenancePkg, ledgerPkg⟩
 
+theorem ObservationCouplingCarrier_symmetric_rate_boundary [AskSetup] [PackageSetup]
+    {histA histB routeA routeB transport replay ledger provenance localName readA readB
+      ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservationCouplingCarrier histA histB routeA routeB transport replay ledger provenance
+        localName bundle pkg ->
+      Cont histA routeA readA ->
+        Cont histB routeB readB ->
+          Cont readA readB ledgerRead ->
+            hsame ledgerRead ledger := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier histRouteReadA histRouteReadB readsLedger
+  obtain ⟨_histAUnary, _histBUnary, _routeAUnary, _routeBUnary, _transportUnary,
+    _replayUnary, _ledgerUnary, _provenanceUnary, _localNameUnary, histATransport,
+    histBReplay, transportReplayLocal, ledgerSameLocal, _ledgerProvenanceLocal,
+    _provenancePkg⟩ := carrier
+  have readATransportSame : hsame readA transport :=
+    cont_deterministic histRouteReadA histATransport
+  have readBReplaySame : hsame readB replay :=
+    cont_deterministic histRouteReadB histBReplay
+  have ledgerReadLocalSame : hsame ledgerRead localName :=
+    cont_respects_hsame readATransportSame readBReplaySame readsLedger transportReplayLocal
+  exact hsame_trans ledgerReadLocalSame (hsame_symm ledgerSameLocal)
+
 end BEDC.Derived.ObservationCouplingUp
