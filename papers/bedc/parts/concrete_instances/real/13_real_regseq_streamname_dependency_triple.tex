@@ -30,19 +30,23 @@ metric-completeness row.
 \begin{theorem}[Real RegSeqRat StreamName seal-route exhaustion]
 \label{thm:real-regseq-streamname-seal-route-exhaustion}
 Every accepted $\RealUp$ seal read from a dependency triple
-$(S,Q,D,R,H,C,P,N)$ factors through the $\StreamNameUp$ finite window row
-$S$, then the $\RegSeqRatUp$ readback row $Q$, then the
-$\DyadicRatCoreUp$ ledger row $D$, and only then the $\RealUp$ seal row $R$.
-The factorization is transported by the componentwise $\hsame$ row $H$, read
+$(S,Q,D,R,H,C,P,N)$ is witnessed by the four displayed rows
+$S,Q,D,R$. The tuple projection inventory is $(S,Q,D,R,H,C,P,N)$, while the
+source-dependency route is $D \to S \to Q \to R$: the $\DyadicRatCoreUp$
+ledger row $D$ supplies the endpoint and radius ledger read through the
+$\StreamNameUp$ finite window row $S$ before the $\RegSeqRatUp$ regular
+readback row $Q$ and the local $\RealUp$ seal row $R$ are consumed. The
+factorization is transported by the componentwise $\hsame$ row $H$, read
 through the displayed $\Cont$ route $C$, and packaged by $P,N$.
 
-Consequently the accepted seal route is exactly the sibling route through
-\autoref{ch:concrete-instances-streamname-namecert},
-\autoref{ch:concrete-instances-regseqrat-namecert}, and
-\autoref{ch:concrete-instances-dyadicratcore-namecert} before the
-$\RealUp$ seal is consumed. It exports no quotient real, selected host limit,
-host equality, ambient completeness coordinate, arithmetic package, order
-package, or metric-completeness row.
+Consequently the accepted seal route is exactly the sibling route whose source
+face is \autoref{ch:concrete-instances-dyadicratcore-namecert}, whose finite
+observation window is scheduled by
+\autoref{ch:concrete-instances-streamname-namecert}, and whose regular
+readback is supplied by \autoref{ch:concrete-instances-regseqrat-namecert}
+before the $\RealUp$ seal is consumed. It exports no quotient real, selected
+host limit, host equality, ambient completeness coordinate, arithmetic package,
+order package, or metric-completeness row.
 \end{theorem}
 \begin{proof}
 Begin with an accepted seal read from $(S,Q,D,R,H,C,P,N)$. The definition of
@@ -55,12 +59,12 @@ identifies the $\RealUp$ seal-facing package as the stream-name classifier
 row, transported unary classifier row, finite-window ledger, endpoint
 readback, and seal provenance.
 
-Now read the upstream sibling surfaces. The StreamName, RegSeqRat, and
-DyadicRatCore chapters named in
-\autoref{ch:concrete-instances-streamname-namecert},
-\autoref{ch:concrete-instances-regseqrat-namecert}, and
-\autoref{ch:concrete-instances-dyadicratcore-namecert} provide exactly the
-window, readback, and dyadic ledger rows used by the handoff. The displayed
+Now read the upstream sibling surfaces. The DyadicRatCore, StreamName, and
+RegSeqRat chapters named in
+\autoref{ch:concrete-instances-dyadicratcore-namecert},
+\autoref{ch:concrete-instances-streamname-namecert}, and
+\autoref{ch:concrete-instances-regseqrat-namecert} provide the source ledger,
+scheduled window, and regular readback rows used by the handoff. The displayed
 $H,C,P,N$ rows keep those coordinates in one $\mathsf{BHist}$ packet.
 
 Since the packet has no remaining coordinate after $R$, a public seal read
@@ -73,12 +77,12 @@ row. Thus every accepted read is exhausted by the stated route.
 \label{thm:real-regseq-streamname-cauchy-completion-interface}
 For the current $\RealUp$ completion-facing phase, the Cauchy-completion
 interface exposed by a Real RegSeqRat StreamName dependency triple is exactly
-the finite route through
+the finite source-dependency route through
+\autoref{ch:concrete-instances-dyadicratcore-namecert},
 \autoref{ch:concrete-instances-streamname-namecert},
-\autoref{ch:concrete-instances-regseqrat-namecert},
-\autoref{ch:concrete-instances-dyadicratcore-namecert}, and the local
-$\RealUp$ seal row. Any completion-facing consumer must factor through this
-route before it reads a $\RealUp$ endpoint.
+\autoref{ch:concrete-instances-regseqrat-namecert}, and the local $\RealUp$
+seal row. Any completion-facing consumer must factor through this route before
+it reads a $\RealUp$ endpoint.
 
 The interface exports the displayed finite window, regular-rational readback,
 dyadic observation ledger, seal row, componentwise $\hsame$ transport,
@@ -89,15 +93,17 @@ package, or metric-completeness row.
 \end{theorem}
 \begin{proof}
 Start from the dependency triple of
-\autoref{def:real-regseq-streamname-dependency-triple}. Its only inbound
-sibling rows are the finite $\StreamNameUp$ window $S$, the
-$\RegSeqRatUp$ readback row $Q$, and the $\DyadicRatCoreUp$ ledger row $D$,
-with the $\RealUp$ seal row $R$ placed after them in the same finite packet.
+\autoref{def:real-regseq-streamname-dependency-triple}. Its tuple inventory is
+listed as $(S,Q,D,R,H,C,P,N)$, but its inbound source route begins with the
+$\DyadicRatCoreUp$ ledger row $D$, reads that ledger through the finite
+$\StreamNameUp$ window $S$, and then reaches the $\RegSeqRatUp$ readback row
+$Q$ before the $\RealUp$ seal row $R$ is consumed in the same finite packet.
 
 Apply the seal-route exhaustion theorem
 \autoref{thm:real-regseq-streamname-seal-route-exhaustion}. It identifies
-every accepted seal read as the route through $S$, then $Q$, then $D$, and
-only then $R$, transported by $H$, read through $C$, and packaged by $P,N$.
+every accepted seal read as the route sourced at $D$, scheduled through $S$,
+read back through $Q$, and sealed at $R$, transported by $H$, read through
+$C$, and packaged by $P,N$.
 
 The local seal row is therefore the completion-facing boundary. Since the
 packet has no coordinate for quotient streams, selected host limits,
@@ -133,9 +139,10 @@ exactly $S,Q,D,R,H,C,P,N$, so any current consumer must begin from those
 coordinates.
 
 Apply \autoref{thm:real-regseq-streamname-seal-route-exhaustion}. It exhausts
-each accepted seal route by the finite-window row $S$, the regular readback row
-$Q$, the dyadic observation row $D$, and the local seal row $R$, transported
-through $H,C,P,N$.
+each accepted seal route by the dyadic observation row $D$, the finite-window
+row $S$, the regular readback row $Q$, and the local seal row $R$, while the
+packet still projects them as $S,Q,D,R$ and transports the route through
+$H,C,P,N$.
 
 Apply \autoref{thm:real-regseq-streamname-cauchy-completion-interface}. The
 same route is the completion-facing interface before a $\RealUp$ endpoint is
@@ -164,9 +171,9 @@ arithmetic package, order package, or metric-completeness row.
 \begin{proof}
 Apply \autoref{thm:real-regseq-streamname-seal-route-exhaustion} to the seal
 read. It identifies the only accepted route as the path through the finite
-$\StreamNameUp$ window row, the $\RegSeqRatUp$ readback row, the
-$\DyadicRatCoreUp$ ledger row, and the local $\RealUp$ seal row, transported
-by $\hsame$, read through $\Cont$, and packaged by $\Pkg$ and $\NameCert$.
+$\DyadicRatCoreUp$ ledger row, the $\StreamNameUp$ window row, the
+$\RegSeqRatUp$ readback row, and the local $\RealUp$ seal row, transported by
+$\hsame$, read through $\Cont$, and packaged by $\Pkg$ and $\NameCert$.
 
 Apply \autoref{thm:real-regseq-streamname-cauchy-completion-interface}. It
 turns the same finite route into the completion-facing interface and states
@@ -185,11 +192,12 @@ to export.
 \label{thm:real-finite-window-completion-boundary}
 For any accepted $\RealUp$ RegSeqRat StreamName dependency triple
 $(S,Q,D,R,H,C,P,N)$, every completion-facing $\RealUp$ consumer factors through
-the finite $\StreamNameUp$ window row $S$, the $\RegSeqRatUp$ readback row $Q$,
-the $\DyadicRatCoreUp$ ledger row $D$, and the local $\RealUp$ seal row $R$.
-The passage is transported by the componentwise $\hsame$ row $H$, read through
-the displayed $\Cont$ route $C$, and packaged by $\Pkg$ provenance and the
-local $\NameCert$ row $N$.
+the finite source-dependency route in which the $\DyadicRatCoreUp$ ledger row
+$D$ is read through the $\StreamNameUp$ window row $S$ before the
+$\RegSeqRatUp$ readback row $Q$ and the local $\RealUp$ seal row $R$. The
+passage is transported by the componentwise $\hsame$ row $H$, read through the
+displayed $\Cont$ route $C$, and packaged by $\Pkg$ provenance and the local
+$\NameCert$ row $N$.
 
 No quotient stream, selected host limit, representative choice, host equality,
 ambient completeness principle, arithmetic package, order package, or
@@ -197,9 +205,9 @@ metric-completeness row is exported by this completion-facing boundary.
 \end{theorem}
 \begin{proof}
 Apply \autoref{thm:real-regseq-streamname-seal-route-exhaustion}. It gives the
-only seal-facing route through the finite $\StreamNameUp$, $\RegSeqRatUp$,
-$\DyadicRatCoreUp$, and local $\RealUp$ seal rows, with the displayed
-$H,C,P,N$ transport, continuity, package, and naming data.
+only seal-facing route through the finite $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and local $\RealUp$ seal rows, with the displayed $H,C,P,N$
+transport, continuity, package, and naming data.
 
 Next apply
 \autoref{thm:real-regseq-streamname-cauchy-completion-interface}. This turns
@@ -229,8 +237,9 @@ four faces are present in the displayed dependency triple.
 \begin{proof}
 Start from the route exhaustion of
 \autoref{thm:real-regseq-streamname-seal-route-exhaustion}. It places every
-accepted seal read on the finite path through $S$, then $Q$, then $D$, and
-only then $R$, with $H,C,P,N$ carrying that displayed path.
+accepted seal read on the finite source route through $D$, then $S$, then $Q$,
+and only then $R$, while $H,C,P,N$ carry that route inside the displayed packet
+inventory.
 
 Use the current-surface theorem
 \autoref{thm:real-open-phase-dependency-triple-current-surface}. Its
@@ -240,9 +249,9 @@ host, completeness, arithmetic, order, or metric-completeness coordinate
 outside them.
 
 Now delete one face. If $S$ is absent, there is no finite-window source for
-the readback. If $Q$ is absent, there is no regular-rational readback for the
-dyadic observation ledger. If $D$ is absent, there is no dyadic observation
-face for the seal route. If $R$ is absent, there is no local Real seal for
+the dyadic ledger read. If $Q$ is absent, there is no regular-rational
+readback after the scheduled window. If $D$ is absent, there is no dyadic
+observation source for the seal route. If $R$ is absent, there is no local Real seal for
 the endpoint read. In each case the Cauchy-completion interface of
 \autoref{thm:real-regseq-streamname-cauchy-completion-interface} has no
 accepted endpoint route, so no current seal source remains.
@@ -253,7 +262,7 @@ accepted endpoint route, so no current seal source remains.
 Every current Phase Real and Completion consumer of an accepted dependency
 triple $(S,Q,D,R,H,C,P,N)$ must enter through the four-face route
 $$
-S,\quad Q,\quad D,\quad R
+D,\quad S,\quad Q,\quad R
 $$
 before it reads a $\RealUp$ endpoint. The gate is carried only by the
 componentwise $\hsame$ row $H$, the displayed $\Cont$ route $C$, the $\Pkg$
@@ -267,14 +276,15 @@ order packages, or metric-completeness rows.
 First apply
 \autoref{thm:real-regseq-streamname-cauchy-completion-interface}. It states
 that every completion-facing consumer must pass through the finite
-StreamName, RegSeqRat, DyadicRatCore, and local Real seal route before
+DyadicRatCore, StreamName, RegSeqRat, and local Real seal route before
 reading a $\RealUp$ endpoint.
 
 Next apply
 \autoref{thm:real-finite-window-completion-boundary}. The boundary repeats
-the same entry order for completion-facing consumers and identifies $H,C,P,N$
-as the only transport, route, provenance, and certificate rows attached to
-that entry.
+the same source-entry order for completion-facing consumers while the packet
+keeps the tuple projection order $(S,Q,D,R,H,C,P,N)$, and identifies $H,C,P,N$
+as the only transport, route, provenance, and certificate rows attached to that
+entry.
 
 Finally apply
 \autoref{thm:real-regseq-streamname-seal-source-minimality}. Since no one of
@@ -289,14 +299,15 @@ Completion-facing consumers of an accepted $\RealUp$ RegSeqRat StreamName
 dependency triple cannot bypass the four faces through quotient streams,
 selected host limits, representative choices, host equality, ambient
 completeness, arithmetic packages, order packages, or metric-completeness
-rows. Their only accepted completion route is the displayed path through the
-$\StreamNameUp$ finite-window face, the $\RegSeqRatUp$ readback face, the
-$\DyadicRatCoreUp$ observation face, and the local $\RealUp$ seal face.
+rows. Their only accepted completion route is the displayed source path through
+the $\DyadicRatCoreUp$ observation face, the $\StreamNameUp$ finite-window face,
+the $\RegSeqRatUp$ readback face, and the local $\RealUp$ seal face.
 \end{theorem}
 \begin{proof}
 Use route exhaustion to identify the only seal-facing path. By
 \autoref{thm:real-regseq-streamname-seal-route-exhaustion}, that path is the
-displayed finite route through $S,Q,D,R$ with $H,C,P,N$.
+displayed finite source route through $D,S,Q,R$ with $H,C,P,N$, even though the
+packet projection inventory is written as $(S,Q,D,R,H,C,P,N)$.
 
 Use the current-phase gate to place every Phase Real and Completion endpoint
 read behind the same path. A completion-facing consumer therefore cannot
@@ -317,13 +328,13 @@ displayed faces.
 \label{thm:real-regseq-streamname-endpoint-determinacy}
 Let $(S,Q,D,R,H,C,P,N)$ and $(S',Q',D',R',H',C',P',N')$ be accepted
 $\RealUp$ RegSeqRat StreamName dependency triples. Suppose the displayed
-$\StreamNameUp$ finite-window rows $S,S'$ are compared only by the advertised
-$\hsame$ transport rows in $H,H'$, and suppose the $\RegSeqRatUp$ readback
-rows $Q,Q'$ together with the $\DyadicRatCoreUp$ ledger rows $D,D'$ are the
+$\DyadicRatCoreUp$ ledger rows $D,D'$ are read through the advertised
+$\StreamNameUp$ finite-window rows $S,S'$ and the $\RegSeqRatUp$ readback rows
+$Q,Q'$ using only the $\hsame$ transport rows in $H,H'$, and suppose this is the
 same displayed route through
-\autoref{ch:concrete-instances-streamname-namecert},
-\autoref{ch:concrete-instances-regseqrat-namecert}, and
-\autoref{ch:concrete-instances-dyadicratcore-namecert}.
+\autoref{ch:concrete-instances-dyadicratcore-namecert},
+\autoref{ch:concrete-instances-streamname-namecert}, and
+\autoref{ch:concrete-instances-regseqrat-namecert}.
 
 Then any public $\RealUp$ endpoint comparison between the two consumers
 factors only through the finite packets
@@ -340,9 +351,9 @@ completeness, arithmetic or order packages, or metric-completeness rows.
 First apply
 \autoref{thm:real-regseq-streamname-seal-route-exhaustion} to each accepted
 consumer. Each endpoint read reaches the $\RealUp$ seal only through its
-displayed $\StreamNameUp$ finite-window row, $\RegSeqRatUp$ readback row,
-$\DyadicRatCoreUp$ ledger row, local seal row, $\hsame$ transport,
-$\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row.
+displayed $\DyadicRatCoreUp$ ledger row, $\StreamNameUp$ finite-window row,
+$\RegSeqRatUp$ readback row, local seal row, $\hsame$ transport, $\Cont$ route,
+$\Pkg$ provenance, and local $\NameCert$ row.
 
 Next use
 \autoref{thm:real-regseq-streamname-cauchy-completion-interface}. The
@@ -439,16 +450,16 @@ factors through exactly the common finite four-face window lock
 $$
 (S,Q,D,R,H,C,P,N)\simeq(S',Q',D',R',H',C',P',N').
 $$
-That lock is the shared pullback of the $\StreamNameUp$ finite-window face, the
-$\RegSeqRatUp$ readback face, the $\DyadicRatCoreUp$ ledger face, and the local
-$\RealUp$ seal face, with no quotient stream, selected host limit, host
+That lock is the shared pullback of the $\DyadicRatCoreUp$ ledger face, the
+$\StreamNameUp$ finite-window face, the $\RegSeqRatUp$ readback face, and the
+local $\RealUp$ seal face, with no quotient stream, selected host limit, host
 equality, representative choice, ambient completeness principle,
 arithmetic package, order package, or metric-completeness row.
 \end{theorem}
 \begin{proof}
 First apply \autoref{thm:real-regseq-streamname-seal-route-exhaustion} to both
 accepted triples. Each seal-facing route is exhausted by the displayed
-$\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$,
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$,
 $\Cont$, $\Pkg$, and local $\NameCert$ rows.
 
 Next apply \autoref{thm:real-regseq-streamname-cauchy-completion-interface}.
@@ -497,9 +508,10 @@ readback, and local real seal.
 \begin{proof}
 First apply
 \autoref{thm:real-regseq-streamname-seal-route-exhaustion}. It exhausts every
-accepted seal-facing route by the displayed $\StreamNameUp$ finite-window row,
-$\RegSeqRatUp$ readback row, $\DyadicRatCoreUp$ ledger row, local $\RealUp$
-seal row, and the shown $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+accepted seal-facing route by the displayed $\DyadicRatCoreUp$ ledger row,
+$\StreamNameUp$ finite-window row, $\RegSeqRatUp$ readback row, local
+$\RealUp$ seal row, and the shown $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+rows.
 
 Next apply
 \autoref{thm:real-regseq-streamname-finite-window-pullback-classifier}. The
@@ -581,8 +593,8 @@ the same finite boundary packet
 $$
 (S,Q,D,R,H,C,P,N)\simeq(S',Q',D',R',H',C',P',N').
 $$
-The boundary exposes only the StreamName finite-window face, the RegSeqRat
-readback face, the DyadicRatCore ledger face, the RealUp seal face, and the
+The boundary exposes only the DyadicRatCore ledger face, the StreamName
+finite-window face, the RegSeqRat readback face, the RealUp seal face, and the
 displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Quotient streams,
 host equality, selected limits, ambient completeness, arithmetic or order
 packages, and metric-completeness rows are not exported through this consumer
