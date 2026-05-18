@@ -385,4 +385,63 @@ theorem KernelAcceptanceAuditWitnessCarrier_axiom_query_boundary
     }
   exact ⟨cert, queryMatchesAxiom, replayMatchesRoute⟩
 
+theorem KernelAcceptanceAuditWitnessCarrier_public_obligation_surface
+    {generated candidate accepted ledger axiomQuery replay transport route provenance name
+      queryBoundary ledgeredRoute : BHist} :
+    KernelAcceptanceAuditWitnessCarrier generated candidate accepted ledger axiomQuery replay
+        transport route provenance name →
+      Cont accepted ledger queryBoundary →
+        Cont queryBoundary replay ledgeredRoute →
+          SemanticNameCert (fun row : BHist => hsame row name)
+              (fun row : BHist => hsame row accepted ∧ hsame row ledger)
+              (fun _row : BHist =>
+                Cont accepted ledger queryBoundary ∧ Cont queryBoundary replay ledgeredRoute ∧
+                  hsame axiomQuery queryBoundary ∧ hsame route ledgeredRoute ∧
+                    hsame name accepted ∧ hsame name ledger ∧
+                      hsame provenance (append ledger replay))
+              hsame ∧ hsame axiomQuery queryBoundary ∧ hsame route ledgeredRoute := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro carrier queryRoute ledgerRoute
+  obtain ⟨_generatedCandidateAccepted, acceptedLedgerAxiom, axiomReplayRoute,
+    _transportSame, provenanceSame, nameAccepted, nameLedger⟩ := carrier
+  have queryMatchesAxiom : hsame axiomQuery queryBoundary :=
+    cont_deterministic acceptedLedgerAxiom queryRoute
+  have routeMatchesLedger : hsame route ledgeredRoute :=
+    cont_respects_hsame queryMatchesAxiom (hsame_refl replay) axiomReplayRoute ledgerRoute
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row name)
+          (fun row : BHist => hsame row accepted ∧ hsame row ledger)
+          (fun _row : BHist =>
+            Cont accepted ledger queryBoundary ∧ Cont queryBoundary replay ledgeredRoute ∧
+              hsame axiomQuery queryBoundary ∧ hsame route ledgeredRoute ∧
+                hsame name accepted ∧ hsame name ledger ∧
+                  hsame provenance (append ledger replay))
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro name (hsame_refl name)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact hsame_trans (hsame_symm same) source
+      }
+      pattern_sound := by
+        intro _row source
+        exact ⟨hsame_trans source nameAccepted, hsame_trans source nameLedger⟩
+      ledger_sound := by
+        intro _row _source
+        exact
+          ⟨queryRoute, ledgerRoute, queryMatchesAxiom, routeMatchesLedger, nameAccepted,
+            nameLedger, provenanceSame⟩
+    }
+  exact ⟨cert, queryMatchesAxiom, routeMatchesLedger⟩
+
 end BEDC.Derived.KernelAcceptanceAuditWitnessUp
