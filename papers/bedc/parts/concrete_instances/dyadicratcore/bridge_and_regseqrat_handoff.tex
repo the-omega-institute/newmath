@@ -484,6 +484,76 @@ ambient real completeness, metric-completeness rows, and any extra standard
 bridge coordinate.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore RegSeqRat handoff failure localization]
+\label{thm:dyadicratcore-regseqrat-handoff-failure-localization}
+For a current Phase Real and Completion exit read whose dyadic face is a public
+$\DyadicRatCoreUp$ envelope, the $\RegSeqRatUp/\RealUp$ handoff fails exactly
+when the finite public route has an obstruction at one of the displayed sites:
+\begin{enumerate}
+\item a dyadic source row named by the public bridge is absent, or its signed
+mantissa, positive exponent, denominator ledger, common-exponent classifier, or
+distance component is not transported componentwise;
+\item the $\StreamNameUp$ finite-window face does not carry the same finite
+radius and source-row window as the dyadic bridge;
+\item the $\RegSeqRatUp$ readback face is absent, or it reads a row outside the
+terminal radius window;
+\item the local $\RealUp$ seal face is absent, or it seals data not read back
+from the terminal $\RegSeqRatUp$ face;
+\item one of the support rows $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, or $\NameCert$ is absent, or is not transported componentwise
+along the public envelope.
+\end{enumerate}
+Equivalently, once all five finite sites are present and componentwise
+transported, the open Phase Real and Completion exit read is admissible and the
+handoff has no further obstruction. No quotient rational representative, host
+equality row, selected limit, countable-choice selector, ambient $\RealUp$
+completeness theorem, metric-completeness row, or bridge row beyond the
+displayed dyadic source rows can witness failure.
+\end{theorem}
+\begin{proof}
+For the failure direction, apply
+\autoref{thm:dyadicratcore-open-phase-exit-criterion}. A non-admissible exit
+read cannot factor through the displayed dyadic source rows, the
+$\StreamNameUp$ finite-window face, the $\RegSeqRatUp$ readback face, the local
+$\RealUp$ seal face, and the listed support rows at once.
+
+Use \autoref{thm:dyadicratcore-public-bridge-consumer-exactness} to inspect the
+public envelope. If the carrier, transport, readback, package, or certificate
+support is missing, the obstruction is the fifth listed site; otherwise these
+rows are present and componentwise transported.
+
+Next use \autoref{thm:dyadicratcore-standard-source-bridge} to inspect the
+displayed dyadic source inventory. If one of its source components is absent or
+not transported componentwise, the obstruction is the first listed site.
+Otherwise the signed mantissa, positive exponent, denominator ledger,
+common-exponent classifier, and distance rows are the public source rows of the
+same envelope.
+
+It remains to locate any downstream obstruction. Apply
+\autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness} and
+\autoref{thm:dyadicratcore-regseqrat-terminal-radius-window-boundary}. These
+results force the $\StreamNameUp$ finite-window face, the $\RegSeqRatUp$
+readback face, and the local $\RealUp$ seal face to consume the same terminal
+finite radius window, so a remaining failure is exactly one of the second,
+third, or fourth listed sites.
+
+For the converse direction, assume one listed site is absent or not
+componentwise transported. Then the exit read cannot factor through all four
+finite faces and all support rows, so
+\autoref{thm:dyadicratcore-open-phase-exit-criterion} rejects admissibility of
+the $\RegSeqRatUp/\RealUp$ handoff.
+
+If none of the five listed sites occurs, the same criterion gives
+admissibility. The exclusion clauses in
+\autoref{thm:dyadicratcore-public-bridge-consumer-exactness},
+\autoref{thm:dyadicratcore-standard-source-bridge},
+\autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}, and
+\autoref{thm:dyadicratcore-regseqrat-terminal-radius-window-boundary} rule out
+quotient rational representatives, host equality, selected limits, countable
+choice, ambient real completeness, metric completeness, and extra bridge rows
+as possible obstruction witnesses.
+\end{proof}
+
 \closureat{DyadicRatCoreUp}{publicStr}
 \closureat{DyadicRatCoreUp}{bridgedStr}[BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_standard\_source\_bridge]
 \closureat{DyadicRatCoreUp}{matureStr}[BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_standard\_source\_bridge]

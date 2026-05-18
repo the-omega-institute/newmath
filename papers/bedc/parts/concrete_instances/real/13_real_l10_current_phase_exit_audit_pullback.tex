@@ -470,3 +470,52 @@ do not assemble a route-level target or bridge. Since none of the cited
 objectwise records supplies a countable-choice row either, the sufficiency
 claim is exactly the four-face product and nothing further.
 \end{proof}
+
+\begin{theorem}[Real L10 objectwise exit threshold equivalence]
+\label{thm:real-l10-objectwise-exit-threshold-equivalence}
+An accepted Phase Real and Completion exit packet satisfies the current exit
+criterion if and only if the four local face records for
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ each
+supply the required local theory-closure row and an audit-clean verification
+row, read objectwise from that face's own closurestatus block.
+
+This equivalence is exactly the current four-face threshold. It excludes any
+aggregate route-level $\formalstatus$, aggregate bridge row, quotient stream,
+selected limit, countable-choice row, metric-completeness datum, and
+$\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:real-l10-phase-exit-criterion-objectwise}. It says that an
+accepted packet can satisfy the current Phase Real and Completion exit
+criterion only through the four local records for $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Apply \autoref{thm:real-l10-local-face-record-readback}. The required
+threshold is read from each face's own closurestatus block, so the local
+theory-closure row and the local audit-clean verification row are the
+coordinates that witness the criterion. Apply
+\autoref{thm:real-l10-face-audit-minimum-blocker}; if any one of those
+local audit-clean rows is absent, the four-face product does not satisfy the
+current exit criterion.
+
+To keep the witness facewise, apply
+\autoref{thm:real-l10-face-status-noncollapse}. It rules out aggregate
+route-level $\formalstatus$, aggregate bridge rows, quotient streams,
+selected limits, countable-choice rows, metric-completeness data, and
+$\RealUp$ completeness. Apply
+\autoref{thm:real-l10-face-leantarget-noncollapse} to keep Lean-target and
+bridge-status rows attached to their source faces.
+
+For the reverse direction, suppose the four local face records each supply
+the required local theory-closure row and an audit-clean verification row.
+Apply \autoref{thm:real-l10-four-face-exit-sufficiency}. Those four
+objectwise records satisfy the current Phase Real and Completion exit
+criterion exactly as the four-face product over the local records.
+
+Finally apply \autoref{thm:real-l10-face-status-noncollapse} and
+\autoref{thm:real-l10-face-leantarget-noncollapse}. The resulting criterion
+is still the facewise threshold: no aggregate route-level verification token,
+bridge row, quotient stream, selected limit, countable-choice row,
+metric-completeness datum, or $\RealUp$ completeness claim is introduced.
+\end{proof}
