@@ -299,6 +299,43 @@ all unary objects gives $Y_p(q)$, and the prefix full-faithfulness theorem
 resulting boundary with prefix identity.
 \end{proof}
 
+\begin{theorem}[Yoneda NatTrans functor-category hom representability]
+\label{thm:yoneda-nattrans-functor-category-hom-representability}
+Let $p$ and $q$ be unary histories. In the NatTrans functor-category prefix
+carrier of \autoref{def:nattrans-functor-category-prefix-carrier}, the hom row
+from $p$ to $q$ is exactly the prefix Yoneda predicate
+$$
+Y_p(q) :\Longleftrightarrow
+\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp).
+$$
+Consequently this functor-category hom row is classified by $\HSame(p,q)$
+through
+\autoref{thm:yoneda-prefix-empty-component-full-faithfulness}.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:yoneda-component-evaluation-boundary}, the predicate $Y_p(q)$
+is the objectwise package of three BEDC rows: the $\CategoryUp$ endpoint
+hom-carrier row, the $\FunctorUp$ codomain-evaluation row, and the $\NatTransUp$
+component-and-naturality row.
+
+The definition of
+\autoref{def:nattrans-functor-category-prefix-carrier} reads a hom from $p$ to
+$q$ as precisely such a natural-transformation prefix component family over all
+unary object histories $a$. Its identity and composition clauses are the closure
+laws supplied by
+\autoref{thm:nattrans-functor-category-identity-and-composition}, so the row is
+a hom row in the certified functor-category surface, not only a displayed
+component predicate.
+
+It remains to identify the classifier. The full-faithfulness theorem
+\autoref{thm:yoneda-prefix-empty-component-full-faithfulness} states that, for
+unary histories $p$ and $q$, the accepted empty-component family $Y_p(q)$ is
+equivalent to $\HSame(p,q)$. Transporting that equivalence across the hom-row
+reading above gives the claimed representability of the NatTrans
+functor-category hom row.
+\end{proof}
+
 \begin{theorem}[Prefix Yoneda empty-component standard bridge]
 \label{thm:yoneda-prefix-empty-component-standard-bridge}
 For unary histories $p$ and $q$, the BEDC predicate
