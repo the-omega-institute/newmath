@@ -300,6 +300,54 @@ below-audit-clean face blocks satisfaction of the current Phase Real and
 Completion exit criterion.
 \end{proof}
 
+\begin{theorem}[Real L10 local face record readback]
+\label{thm:real-l10-local-face-record-readback}
+The four local closurestatus blocks for $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ provide the objectwise status
+threshold required by the current Phase Real and Completion exit criterion.
+Each face is recorded at least at $\scopedClosure$, and each verification row
+is recorded at least at $\auditCleanV$: the $\DyadicRatCoreUp$ and
+$\RegSeqRatUp$ rows are read as $\axiomCleanV$, while the $\StreamNameUp$ and
+$\RealUp$ rows are read as $\bridgeCheckedV$.
+
+This readback is only a four-face local status threshold. It contributes no
+aggregate route-level $\formalstatus$, no aggregate bridge row, no $\RealUp$
+completeness claim, no quotient stream, no selected limit, no countable-choice
+coordinate, and no metric-completeness datum.
+\end{theorem}
+\begin{proof}
+Read the four local closurestatus blocks. The $\DyadicRatCoreUp$ record is the
+block attached to \autoref{thm:dyadicratcore-standard-source-bridge}; it
+reports $\matureClosure$ and $\axiomCleanV$. The $\StreamNameUp$ record is the
+public interface block attached to
+\autoref{thm:streamname-public-interface-export-package} and
+\autoref{thm:streamname-standard-sequence-bridge}; it reports
+$\matureClosure$ and $\bridgeCheckedV$.
+
+The remaining two faces are read in the same local way. The $\RegSeqRatUp$
+record is the real-seal handoff block attached to
+\autoref{thm:regseqrat-real-seal-handoff}; it reports $\matureClosure$ and
+$\axiomCleanV$. The $\RealUp$ record is the phase-boundary block attached to
+\autoref{thm:realup-phase-real-completion-boundary}; it reports
+$\matureClosure$ and $\bridgeCheckedV$.
+
+Apply \autoref{thm:real-l10-current-phase-exit-audit-pullback}. The accepted
+current phase audit reads exactly these four local closurestatus blocks, not a
+cached Real L10 status row.
+
+Apply \autoref{thm:real-l10-phase-exit-criterion-objectwise}. Since
+$\matureClosure$ is above the required $\scopedClosure$, and
+$\axiomCleanV$ and $\bridgeCheckedV$ are above the required $\auditCleanV$, the
+four local records supply the objectwise threshold for the current Phase Real
+and Completion exit criterion.
+
+Finally apply \autoref{thm:real-l10-face-leantarget-noncollapse}. The four
+Lean-target and bridge-status rows remain attached to their own face records,
+so the readback does not create an aggregate formalstatus, aggregate bridge,
+Real completeness, quotient stream, selected limit, countable-choice, or
+metric-completeness row.
+\end{proof}
+
 \begin{theorem}[Real L10 current phase exit witness]
 \label{thm:real-l10-current-phase-exit-witness}
 The displayed four-face product
@@ -327,10 +375,13 @@ current phase audit is the pullback of those four local records, so the witness
 is read object by object through the displayed product
 $\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$.
 
-Apply \autoref{thm:real-l10-phase-exit-criterion-objectwise}. Since the four
-local records supply the required closure and audit-clean verification grades,
-the Phase Real and Completion exit criterion is satisfied exactly by those
-face records.
+Apply \autoref{thm:real-l10-local-face-record-readback}. The four local
+closurestatus blocks supply the required closure and audit-clean verification
+grades, with $\DyadicRatCoreUp$ and $\RegSeqRatUp$ read as $\axiomCleanV$ and
+$\StreamNameUp$ and $\RealUp$ read as $\bridgeCheckedV$.
+
+Apply \autoref{thm:real-l10-phase-exit-criterion-objectwise}. The Phase Real
+and Completion exit criterion is satisfied exactly by those face records.
 
 Finally apply \autoref{thm:real-l10-face-leantarget-noncollapse}. The local
 Lean-target and bridge-status rows stay attached to their faces, and the
