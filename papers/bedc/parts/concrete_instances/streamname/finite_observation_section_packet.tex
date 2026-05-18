@@ -184,3 +184,94 @@ that same finite section. Thus certified reindexing preserves coverage of the
 section packet without opening any quotient stream, host-index, selected
 limit, second-source, or ambient-completeness row.
 \end{proof}
+
+\begin{theorem}[StreamName finite-observation diagonal selector boundary]
+\label{thm:streamname-finite-observation-diagonal-selector-boundary}
+Every diagonal-limit or Real-completion consumer that reads a finite
+$\StreamNameUp$ observation section through an accepted
+$\FiniteObservationBudgetSelectorUp$ packet factors through the same finite
+route: the StreamName finite observation section, the selector rows
+$B,S,W,D,R,E$, the $\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ readback, the
+terminal $\RealUp$ seal, and the support rows $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$. The boundary preserves the four-object Phase Real and
+Completion exit surface through $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$; it exports no quotient stream equality, host
+real equality, selected limit, countable choice, hidden diagonal selector,
+ambient completeness, metric-completeness row, bridge row, or second source for
+the dyadic observations.
+\end{theorem}
+\begin{proof}
+Start with the StreamName section itself. By
+\autoref{thm:streamname-finite-observation-section}, a certified finite
+observation section exposes only the finite membership, history, classifier,
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows of the StreamName packet.
+
+The handoff theorem
+\autoref{thm:streamname-finite-observation-real-exit-handoff} places that
+section on the Phase Real and Completion route through $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. The reindex coverage theorem
+\autoref{thm:streamname-finite-observation-section-reindex-coverage} keeps any
+certified reindexed consumer on the same finite section surface.
+
+Now read the accepted selector. By
+\autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary},
+any diagonal-limit or Real-completion consumer of the selector factors through
+the displayed finite route $B \to S \to W \to D \to R \to E$ together with its
+visible support rows. By
+\autoref{thm:finite-observation-budget-selector-dyadic-window-exhaustion}, the
+dyadic observations in $D$ are exhausted by the selected finite
+$\StreamNameUp$ windows in $W$.
+
+Therefore the selector consumes the existing finite StreamName section as the
+source for its dyadic ledger rather than creating a second source. Since the
+cited section, handoff, reindexing, diagonal-boundary, and exhaustion theorems
+contain no fields for quotient stream equality, host real equality, selected
+limits, countable choice, hidden diagonal selectors, ambient completeness,
+metric-completeness rows, or bridge rows, none of those coordinates can be
+inserted between the finite section and its diagonal or Real-completion
+consumer.
+\end{proof}
+
+\begin{theorem}[StreamName finite-observation selector coverage exhaustion]
+\label{thm:streamname-finite-observation-selector-coverage-exhaustion}
+Every accepted $\FiniteObservationBudgetSelectorUp$ consumer of a finite
+$\StreamNameUp$ observation section is exhausted by the displayed selector rows
+$B,S,W,D,R,E$, the selected $\StreamNameUp$ window row, the
+$\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ readback, the terminal
+$\RealUp$ seal, and the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$. The accepted selector route exports no quotient stream equality,
+host real equality, selected limit, countable choice, hidden diagonal selector,
+ambient completeness, metric-completeness row, bridge row, or second dyadic
+source.
+\end{theorem}
+\begin{proof}
+Begin with the finite section. By
+\autoref{thm:streamname-finite-observation-section}, the StreamName side of a
+certified finite observation exposes only the bundle membership, unary-history,
+rational-history classifier, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$
+rows.
+
+Next pass to the four-object exit surface using
+\autoref{thm:streamname-finite-observation-real-exit-handoff}. The finite
+section is read through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$,
+and $\RealUp$, so the DyadicRatCore ledger, RegSeqRat readback, and terminal
+Real seal are downstream consumers of the same finite StreamName observation.
+
+Now apply
+\autoref{thm:finite-observation-budget-selector-dyadic-window-exhaustion}. For
+an accepted selector packet, the dyadic observations in $D$ are already
+exhausted by the selected finite StreamName windows in $W$. Thus the displayed
+selector rows $B,S,W,D,R,E$ cover the observation route without opening a
+second dyadic source.
+
+Finally combine
+\autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary}
+with
+\autoref{thm:streamname-finite-observation-diagonal-selector-boundary}. These
+boundary theorems place every compatible diagonal-limit or Real-completion
+consumer on the same four-object route and the same visible support rows. Since
+none of the cited packets carries quotient stream equality, host real equality,
+selected limits, countable choice, hidden diagonal selectors, ambient
+completeness, metric-completeness rows, bridge rows, or a second dyadic source,
+no such coordinate is exported by the accepted selector coverage surface.
+\end{proof}
