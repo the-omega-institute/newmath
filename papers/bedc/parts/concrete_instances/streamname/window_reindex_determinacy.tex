@@ -278,3 +278,65 @@ transport is natural for the terminal Phase Real and Completion exit surface,
 and it carries none of the excluded quotient, host, limit, choice,
 completeness, metric, or bridge data.
 \end{proof}
+
+\begin{theorem}[StreamName terminal reindex four-face pullback]
+\label{thm:streamname-terminal-reindex-four-face-pullback}
+Let $R_0$ and $R_1$ be certified public $\StreamNameUp$ finite-window
+reindex routes into the terminal Phase Real and Completion exit boundary.
+Assume both routes preserve the same public finite observation section, the
+same endpoint rows, the same displayed $\BHist$, and the same componentwise
+support rows
+$$
+\hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Assume also that the local $\NameCert$ support used by each route is the same
+finite support read over the preserved section. Then $R_0$ and $R_1$ determine
+the same terminal pullback over the four visible faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Conversely, every terminal pullback produced by such a support-row-preserving
+reindex route is read from exactly the public finite observation section, the
+endpoint rows, displayed $\BHist$, componentwise $\hsame/\Cont/\Pkg$ rows, and
+local $\NameCert$ support listed above.
+
+The assertion is only about this four-face terminal pullback. It does not
+assert quotient stream equality, host sequence equality, selected limits,
+countable choice, ambient $\RealUp$ completeness, metric-completeness data, or
+standard bridge rows.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-reindex-four-face-exit-naturality} separately to
+$R_0$ and $R_1$. Each route has the same transported terminal exit surface,
+and that surface has exactly the displayed $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces with the listed support
+rows.
+
+Next compare the two route presentations at the public section. By
+\autoref{thm:streamname-public-reindexing-section-cancellation}, the common
+finite observation section, endpoint rows, displayed $\BHist$, and
+componentwise $\hsame/\Cont/\Pkg/\NameCert$ support cancel the reindexer
+shape. Thus the two routes expose the same terminal read before any
+four-face packaging is imposed.
+
+Now keep that read inside the terminal surface. Use
+\autoref{thm:streamname-reindex-terminal-coverage} to see that no fifth face
+or hidden support coordinate is present: the route contributes precisely the
+StreamName, DyadicRatCore, RegSeqRat, Real, and local support rows named in
+the statement.
+
+Finally apply
+\autoref{thm:streamname-reindex-finite-cover-terminal-descent} to the
+singleton finite family determined by either route. Singleton descent
+identifies the finite-family terminal section with the same four-face
+terminal pullback, so $R_0$ and $R_1$ give one pullback over the shared rows.
+
+For the converse direction, start with any terminal pullback produced by a
+support-row-preserving reindex route of the stated kind. The same terminal
+coverage theorem lists all rows from which it can be read, and the singleton
+descent theorem repacks those rows without adding quotient, host, selector,
+choice, completeness, metric, or bridge data. Hence the pullback is read from
+exactly the public section, endpoint rows, displayed $\BHist$,
+componentwise $\hsame/\Cont/\Pkg$ rows, and local $\NameCert$ support.
+\end{proof}
