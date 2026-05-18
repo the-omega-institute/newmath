@@ -27,3 +27,41 @@ Now use Theorem~\ref{thm:real-l10-face-status-noncollapse}. The four local face 
 
 Finally apply Theorem~\ref{thm:real-l10-phase-exit-criterion-objectwise}. A Phase Real and Completion exit is accepted only when the four objectwise face records are presented, so quotient stream equality, selected host limits, aggregate bridge rows, and completed-real closure remain outside the MetaCIC L10 evidence.
 \end{proof}
+
+\begin{theorem}[MetaCIC Phase Real four-face obligation surface]
+\label{thm:metacic-critical-path-phase-real-four-face-obligation-surface}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, a Phase Real exit accepted through $K$ is obligated to present four separate object rows: a $\DyadicRatCoreUp$ finite-budget row, a $\StreamNameUp$ schedule row, a $\RegSeqRatUp$ readback row, and a $\RealUp$ seal row. The rows are read as distinct $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surfaces, and no one of the four may be replaced by an aggregate MetaCIC route token or by a downstream Completion credential.
+\end{theorem}
+\begin{proof}
+Start with the four-object exit certificate of Theorem~\ref{thm:metacic-critical-path-l10-four-object-exit-certificate}. It already identifies the accepted exit surface over $K$ with the dyadic budget, StreamName schedule, RegSeqRat readback, and Real terminal seal rows, each carried by finite packet provenance.
+
+Use the status bridge obligation of Theorem~\ref{thm:metacic-critical-path-l10-status-bridge-obligation} to route that certificate through the Real L10 objectwise audit pullback. Theorem~\ref{thm:real-l10-current-phase-exit-audit-pullback} then forces the displayed route to be read as the product of the four local face records, rather than as a single MetaCIC status row.
+
+Finally apply Theorem~\ref{thm:real-l10-phase-exit-criterion-objectwise}. Since the Phase Real exit criterion accepts only the objectwise presentation, every accepted exit through $K$ must expose the four named obligation rows separately. The resulting surface is exactly the root-unblock obligation surface for the current Phase Real route.
+\end{proof}
+
+\begin{theorem}[MetaCIC Phase Real status-product readiness]
+\label{thm:metacic-critical-path-phase-real-status-product-readiness}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the Phase Real exit evidence through $K$ is ready for downstream consumption only when the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces each supply their own local closurestatus, formalstatus, leantarget, and bridgestatus rows. These four reports are read independently from the local face chapters and are not inferred from the aggregate MetaCIC four-object certificate.
+\end{theorem}
+\begin{proof}
+First read the accepted packet through Theorem~\ref{thm:metacic-critical-path-l10-status-bridge-obligation}. It states that any use of the MetaCIC four-object certificate as Phase Real and Completion exit evidence must pass through the Real L10 objectwise audit pullback.
+
+The audit pullback of Theorem~\ref{thm:real-l10-current-phase-exit-audit-pullback} supplies the product reading: each of the four faces contributes its own closurestatus, formalstatus, leantarget, and bridgestatus row. This gives readiness only after all four local records have been displayed.
+
+The noncollapse clauses now rule out aggregate substitution. Theorem~\ref{thm:real-l10-face-status-noncollapse} prevents a fused formalstatus or route-level bridge row, and Theorem~\ref{thm:real-l10-face-leantarget-noncollapse} keeps the leantarget rows local to their four face chapters. Thus downstream consumers receive a four-entry status product, not a single MetaCIC route credential.
+\end{proof}
+
+\begin{theorem}[MetaCIC Phase Real exit refusal boundary]
+\label{thm:metacic-critical-path-phase-real-exit-refusal-boundary}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the Phase Real exit through $K$ refuses quotient stream equality, selected host limits, host equality, trichotomy, open-cover compactness, countable choice, and completed-real closure. The only accepted exit data are the four finite object rows of Theorem~\ref{thm:metacic-critical-path-phase-real-four-face-obligation-surface} together with their local status-product rows of Theorem~\ref{thm:metacic-critical-path-phase-real-status-product-readiness}.
+\end{theorem}
+\begin{proof}
+Begin with Theorem~\ref{thm:metacic-critical-path-l10-four-object-exit-certificate}. Its final exclusion list already keeps quotient stream equality, selected host limits, host real equality, trichotomy, open-cover compactness, countable choice, and completed-real closure outside the four-object exit certificate.
+
+Next use Theorem~\ref{thm:metacic-critical-path-l10-status-bridge-obligation}. It says that the certificate can be consumed only through the Real L10 objectwise status discipline, and it supplies no quotient stream equality, no selected host limit, no aggregate bridge row, and no $\RealUp$ completeness claim beyond the four local face records.
+
+The Real L10 audit theorems make the refusal stable under downstream reading. Theorem~\ref{thm:real-l10-face-status-noncollapse} prevents the missing coordinates from reappearing as a fused status row, while Theorem~\ref{thm:real-l10-phase-exit-criterion-objectwise} accepts the exit only through the four objectwise face records.
+
+Combining the four-face obligation surface with the status-product readiness theorem therefore leaves no admissible entry point for quotient equality, selected limits, host equality, trichotomy, open-cover compactness, countable choice, or completed-real closure. These principles remain outside the accepted Phase Real exit boundary through $K$.
+\end{proof}
