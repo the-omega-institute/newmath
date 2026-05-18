@@ -70,6 +70,30 @@ For the reverse direction, suppose the finite-request source sections agree on t
 It remains only to rule out hidden coordinates. The selector surface definition contains no row for quotient streams, host equality, selected limits, completion points, ambient completeness, choice data, or a second seal coordinate. Applying \autoref{thm:regseqrat-real-seal-selector-nonescape} removes those candidates from the Real-facing boundary, so agreement of the finite-request source section repacks exactly as agreement of the shared-window selector surface.
 \end{proof}
 
+\begin{theorem}[RegSeqRat shared-window triple-overlap cocycle]
+\label{thm:regseqrat-shared-window-triple-overlap-cocycle}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S$, $T$, and $U$ be accepted finite requests to $P$. Suppose every pair among $S$, $T$, and $U$ displays the shared-window selector surface of \autoref{def:regseqrat-shared-window-selector-surface}. Pairwise agreement on the displayed $\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows, $\RegSeqRatUp$ classifier, regularity, and tail-budget rows, terminal $\RealUp$ seal rows, componentwise $\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance, and local $\NameCert$ rows determines one triple-overlap selector surface over the ordered handoff
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+Conversely, one such triple-overlap selector surface restricts to the three pairwise pullback equivalences between $(S,T)$, $(T,U)$, and $(S,U)$.
+
+The triple-overlap surface contains no quotient stream equality, host real equality, selected limit, completion point, ambient completeness datum, choice data, or second seal coordinate. It is exactly the common finite $\BHist$ surface on the displayed StreamName, DyadicRatCore, RegSeqRat, terminal Real, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with the three pairwise selector surfaces. On each pair, apply \autoref{thm:regseqrat-shared-window-selector-determinacy} to identify the displayed schedule, dyadic ledger, classifier, regularity, tail-budget, transport, continuation, package, naming, and terminal seal rows.
+
+Next pass from pairwise selector agreement to finite-request source sections using \autoref{thm:regseqrat-tail-selector-section-pullback}. The three source-section comparisons have the same visible rows, and \autoref{thm:streamname-regseqrat-triple-overlap-source-cocycle} identifies their StreamName--RegSeqRat source restrictions as one source surface on the common triple overlap.
+
+Now attach the terminal Real row. The terminal pullback equivalence of \autoref{thm:regseqrat-shared-window-terminal-pullback-equivalence} and the Real finite-window cocycle \autoref{thm:realup-streamname-regseqrat-triple-window-cocycle} make the three terminal seal restrictions the restrictions of one $\RealUp$ boundary over the same four-face handoff.
+
+This gives the forward direction: the common source surface and the common terminal boundary are precisely the shared-window selector rows listed in \autoref{def:regseqrat-shared-window-selector-surface}, so they determine one triple-overlap selector surface.
+
+For the reverse direction, restrict a single triple-overlap selector surface to the three displayed pairwise faces. Each restriction has the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, terminal $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows, so \autoref{thm:regseqrat-tail-selector-section-pullback} returns the finite-request source-section equivalence and \autoref{thm:regseqrat-shared-window-terminal-pullback-equivalence} returns the terminal pullback equivalence for each pair.
+
+Finally apply \autoref{thm:regseqrat-real-seal-selector-nonescape}. Since the shared-window surface has no row for quotient streams, host real equality, selected limits, completion points, ambient completeness data, choice data, or second seals, none of those objects can distinguish the triple-overlap surface from its three pairwise restrictions.
+\end{proof}
+
 \begin{theorem}[RegSeqRat Real seal selector non-escape]
 \label{thm:regseqrat-real-seal-selector-nonescape}
 A $\RealUp$ seal consumer of the RegSeqRat shared-window selector surface receives only the displayed $\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint, radius, and distance rows, $\RegSeqRatUp$ classifier and tail-budget rows, componentwise $\hsame$ rows, displayed $\Cont$ replay rows, $\Pkg$ provenance, local $\NameCert$ provenance, and the terminal $\RealUp$ seal row. The consumer receives no quotient stream, host real equality, selected limit, hidden selector, detached completeness row, or second $\RealUp$ seal.
