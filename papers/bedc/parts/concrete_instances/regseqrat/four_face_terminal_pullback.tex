@@ -199,3 +199,50 @@ and standard bridge rows; schedule confluence keeps the replay on the same
 displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ inventory.
 Thus the four-face status ledger is exhaustive.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-cover terminal classifier descent]
+\label{thm:regseqrat-finite-cover-terminal-classifier-descent}
+Let $\{W_i\}_{i \in I}$ be a finite family of certified
+$\StreamNameUp$ windows for a $\RegSeqRatUp$ terminal read. Suppose the
+pairwise and triple overlaps satisfy the $\StreamNameUp$--$\RegSeqRatUp$
+source cocycle and seal cocycle hypotheses, and suppose the induced handoffs
+consume the same $\DyadicRatCoreUp$ endpoint, radius, and distance ledgers on
+overlaps. Then the resulting $\RegSeqRatUp$ terminal classifier surface is
+exactly the pasted four-face inventory consisting of the $\DyadicRatCoreUp$
+endpoint, radius, and distance ledgers; the $\StreamNameUp$ window rows; the
+$\RegSeqRatUp$ regularity, classifier, and provenance rows; and the terminal
+$\RealUp$ seal row.
+
+The descent transport uses only the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows. It introduces no quotient streams, selected host
+limits, host equality, countable choice, ambient $\RealUp$ completeness,
+metric-completeness rows, or standard bridge rows.
+\end{theorem}
+\begin{proof}
+First paste the finite StreamName cover. Apply
+\autoref{thm:streamname-regseqrat-finite-cover-pasted-source-exhaustion} to
+the certified windows and their pairwise and triple source cocycle data. Apply
+\autoref{thm:streamname-regseqrat-finite-cover-pasted-seal-exhaustion} to the
+same cover with the seal cocycle data. These two finite-cover statements keep
+the pasted source and seal on the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows, and they keep the DyadicRatCore ledgers shared
+on overlaps.
+
+Next identify the pasted cover with the terminal classifier surface. By
+\autoref{thm:regseqrat-four-face-terminal-classifier-completeness}, an
+accepted terminal $\RegSeqRatUp$ read is classified completely by the four
+visible faces: the DyadicRatCore ledger face, the StreamName window face, the
+RegSeqRat regularity/classifier/provenance face, and the terminal $\RealUp$
+seal face. The pasted finite cover supplies exactly those rows, so no extra
+classifier coordinate is available.
+
+Finally keep the terminal seal on the same four-face route. Use
+\autoref{thm:regseqrat-dyadic-tail-real-seal-status-exhaustion} to exhaust
+the $\RegSeqRatUp$ terminal status by the displayed four-face ledger, and use
+\autoref{thm:real-l10-terminal-four-face-correspondence} to read the terminal
+$\RealUp$ seal as the same four-face packet. The exclusions in these route
+statements remove quotient streams, selected host limits, host equality,
+countable choice, ambient completeness, metric-completeness rows, and standard
+bridge rows. Hence the descended classifier is precisely the pasted terminal
+four-face inventory.
+\end{proof}
