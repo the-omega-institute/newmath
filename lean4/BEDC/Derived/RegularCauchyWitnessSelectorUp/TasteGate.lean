@@ -371,4 +371,65 @@ theorem RegularCauchyWitnessSelectorTasteGate_single_carrier_alignment :
                 rfl
       · rfl
 
+theorem RegularCauchyWitnessSelector_source_totality {flow : EventFlow}
+    {modulusRequest selectedWindow tolerance readback sealRow transport route provenance name :
+      BHist}
+    (hflow :
+      regularCauchyWitnessSelectorFromEventFlow flow =
+        some
+          (RegularCauchyWitnessSelectorUp.mk modulusRequest selectedWindow tolerance readback
+            sealRow transport route provenance name)) :
+    ∃ (eM eW eT eR : List BMark) (tail : EventFlow),
+      flow = eM :: eW :: eT :: eR :: tail ∧
+        regularCauchyWitnessSelectorDecodeBHist eM = modulusRequest ∧
+          regularCauchyWitnessSelectorDecodeBHist eW = selectedWindow ∧
+            regularCauchyWitnessSelectorDecodeBHist eT = tolerance ∧
+              regularCauchyWitnessSelectorDecodeBHist eR = readback := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases flow with
+  | nil =>
+      cases hflow
+  | cons eM rest0 =>
+      cases rest0 with
+      | nil =>
+          cases hflow
+      | cons eW rest1 =>
+          cases rest1 with
+          | nil =>
+              cases hflow
+          | cons eT rest2 =>
+              cases rest2 with
+              | nil =>
+                  cases hflow
+              | cons eR rest3 =>
+                  cases rest3 with
+                  | nil =>
+                      cases hflow
+                  | cons eSeal rest4 =>
+                      cases rest4 with
+                      | nil =>
+                          cases hflow
+                      | cons eTransport rest5 =>
+                          cases rest5 with
+                          | nil =>
+                              cases hflow
+                          | cons eRoute rest6 =>
+                              cases rest6 with
+                              | nil =>
+                                  cases hflow
+                              | cons eProvenance rest7 =>
+                                  cases rest7 with
+                                  | nil =>
+                                      cases hflow
+                                  | cons eName rest8 =>
+                                      cases rest8 with
+                                      | nil =>
+                                          injection hflow with hmk
+                                          cases hmk
+                                          exact ⟨eM, eW, eT, eR,
+                                            [eSeal, eTransport, eRoute, eProvenance, eName],
+                                            rfl, rfl, rfl, rfl, rfl⟩
+                                      | cons _ _ =>
+                                          cases hflow
+
 end BEDC.Derived.RegularCauchyWitnessSelectorUp
