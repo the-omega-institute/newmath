@@ -528,6 +528,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.FourFaceConsumerBoundary
 import BEDC.Derived.CauchyModulusRefinementUp.FourFaceNocollapse
 import BEDC.Derived.CauchyModulusRefinementUp.L10CompletionPullback
 import BEDC.Derived.CauchyModulusRefinementUp.L10ConsumerSpineComparison
+import BEDC.Derived.CauchyModulusRefinementUp.L10SiblingRoute
 import BEDC.Derived.CauchyModulusRefinementUp.RealObservationBudgetHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RealLimitUniquenessHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RootSourceMeetDeterminacy
@@ -994,6 +995,7 @@ import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelAcceptanceTraceUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.PublicExport
+import BEDC.Derived.KernelAcceptanceAuditWitnessUp.StandardBridgePreconditions
 import BEDC.Derived.KernelAcceptanceBuildReplayUp.TasteGate
 import BEDC.Derived.KernelAcceptanceWitnessUp
 import BEDC.Derived.KernelInductiveAcceptanceUp.TasteGate
@@ -1889,6 +1891,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.RootFormalHandoffTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootDownstreamConsumerCoverage
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootGateScopeExactness
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootGateExhaustion
+import BEDC.Derived.MetaCICNormalizationFrontierUp.RootCandidateGateProjection
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootObstructionStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmission
 import BEDC.Derived.MetaCICNormalizationFrontierUp.SealBoundary
@@ -1899,6 +1902,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionLedger
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetClassifierTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionRouteFactorization
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionConsumerLock
+import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionAdmission
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
