@@ -194,6 +194,7 @@ import BEDC.Derived.ApproximationUp
 import BEDC.Derived.ArchimedeanRealUp
 import BEDC.Derived.ArzelaAscoliUp
 import BEDC.Derived.AscoliModulusUp
+import BEDC.Derived.AspectChainUp.NameCertObligations
 import BEDC.Derived.AspectChainUp.TasteGate
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.AttentionLedgerUp
@@ -234,6 +235,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditLedgerNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditRowCompleteness
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.BoundaryClosure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BoundaryFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchAuditLedger
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchBudgetExhaustion
@@ -4263,6 +4265,9 @@ import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripConsumerNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
+import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
+import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportFactorization
+import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportRouteLock
 import BEDC.Derived.ZetaContinuationWitnessUp.RootPackage
 import BEDC.Derived.ZetaContinuationWitnessUp.RootReadinessSourceSeal
 import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
