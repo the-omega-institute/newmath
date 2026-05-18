@@ -101,72 +101,15 @@ jobs:
     name: Render dossier check
     needs: [detect_changes, build_pdf]
     if: ${{ github.event_name == 'pull_request' && needs.detect_changes.outputs.tex == 'true' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+    uses: ./.github/workflows/reusable-dossier-render.yml
     permissions:
       contents: read
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-        with:
-          version: "1.9.37"
-
-      - name: Set up Node.js (for dagre layout bake)
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-          cache-dependency-path: tools/dagre_layout/package-lock.json
-
-      - name: Install dagre layout deps
-        run: npm ci
-        working-directory: tools/dagre_layout
-
-      - name: Download PDF artifact from current BEDC Build run
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: bedc-pdf
-          path: pdf-artifact
-
-      - name: Stage PDF with UTC timestamp
-        id: stage_pdf
-        run: |
-          ts=$(date -u +%Y-%m-%dT%H%M%SZ)
-          pdf_name="bedc_${ts}.pdf"
-          echo "pdf_name=${pdf_name}" >> "$GITHUB_OUTPUT"
-          pdf_file=$(find pdf-artifact -maxdepth 1 -type f -name '*.pdf' -print -quit)
-          if [ -z "$pdf_file" ]; then
-            echo "No PDF found in artifact" >&2
-            ls -la pdf-artifact || true
-            exit 1
-          fi
-          cp "$pdf_file" "docs/dossier/${pdf_name}"
-          ls -lh "docs/dossier/${pdf_name}"
-          sed -i "s|bedc\.pdf|${pdf_name}|g" \
-            docs/dossier/_quarto.yml \
-            docs/dossier/index.qmd \
-            docs/dossier/index.zh-CN.qmd
-
-      - name: Build dossier visualization data
-        run: python3 tools/build_dossier_status.py
-
-      - name: Glossary completeness gate
-        run: python3 tools/check_glossary.py
-
-      - name: Render dossier
-        run: quarto render docs/dossier/
-
-      - name: Verify PDF reached _site
-        run: |
-          pdf_name="${{ steps.stage_pdf.outputs.pdf_name }}"
-          if [ ! -f "docs/dossier/_site/${pdf_name}" ]; then
-            echo "PDF missing from _site after render; copying as fallback"
-            cp "docs/dossier/${pdf_name}" "docs/dossier/_site/${pdf_name}"
-          fi
-          ls -lh "docs/dossier/_site/${pdf_name}"
+      actions: read
+    with:
+      checkout_ref: ${{ github.sha }}
+      checkout_repository: ${{ github.repository }}
+      pdf_run_id: ""
+      upload_pages_artifact: false
 
   gate:
     name: Gate
