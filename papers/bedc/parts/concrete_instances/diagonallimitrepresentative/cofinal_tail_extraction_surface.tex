@@ -1,0 +1,46 @@
+\begin{definition}[Diagonal-limit representative cofinal-tail extraction]
+\label{def:diagonal-limit-representative-cofinal-tail-extraction}
+For an accepted shared-terminal $\DiagonalLimitRepresentativeUp$ carrier, the cofinal-tail extraction surface is the finite packet
+$$
+T=(\mu,n,k,i,w,r,d,e,Q,B,W,D_F,R,S,E_F,H,C,P,N).
+$$
+The first four rows record the root-index equations $k=\mu(1/(n+1))$ and $i=k+n+1$ from the root-readiness and cofinal-index readiness surfaces. The rows $w,r,d,e$ are respectively the selected $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and terminal $\RealUp$ seal. The rows $Q,B,W,D_F,R,S,E_F$ are the finite-prefix budget rows inherited from $\FinitePrefixLimitBudgetUp$, with the cofinal modulus source supplied by $\CofinalModulusSealUp$ through the cofinal-terminal budget bridge. The rows $H,C,P,N$ are the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DiagonalLimitRepresentativeUp}$ row for the same extraction.
+
+This packet is sourced by $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FinitePrefixLimitBudgetUp$, $\CofinalModulusSealUp$, and $\RealUp$ through \autoref{def:diagonal-limit-representative-carrier}, \autoref{def:diagonal-limit-representative-classifier}, \autoref{thm:diagonal-limit-representative-root-readiness-exactness}, \autoref{thm:diagonal-limit-representative-cofinal-index-terminal-readiness}, and \autoref{def:diagonal-limit-representative-cofinal-terminal-budget-bridge}. It records only finite cofinal-tail data; it exports no quotient stream equality, host limit, selected limit, countable choice, or ambient $\RealUp$ completeness field.
+\end{definition}
+
+\begin{theorem}[Diagonal-limit representative cofinal-tail coverage]
+\label{thm:diagonal-limit-representative-cofinal-tail-coverage}
+Every Real-and-Completion consumer of an accepted $\DiagonalLimitRepresentativeUp$ terminal route factors through the cofinal-tail extraction packet of \autoref{def:diagonal-limit-representative-cofinal-tail-extraction}. In particular, the consumer must read the selected root-index rows $\mu,n,k,i$, the selected window $w$, readback $r$, dyadic ledger $d$, terminal seal $e$, finite-prefix budget rows $Q,B,W,D_F,R,S,E_F$, and support rows $H,C,P,N$ as one finite $\BHist$ surface before it can consume the terminal $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier of \autoref{def:diagonal-limit-representative-carrier} and \autoref{def:diagonal-limit-representative-classifier}. They admit only the selected representative rows and their componentwise support rows, so every downstream read begins on a finite $\BHist$ surface rather than on a host stream or completed Real object.
+
+Next use the root-readiness exactness theorem \autoref{thm:diagonal-limit-representative-root-readiness-exactness} and the cofinal-index readiness package \autoref{thm:diagonal-limit-representative-cofinal-index-terminal-readiness}. These results place $\mu,n,k,i,w,r,d,e$ on the same route as the finite-prefix and cofinal modulus rows, with the equations for $k$ and $i$ visible before terminal consumption.
+
+Finally attach the cofinal-terminal budget bridge \autoref{def:diagonal-limit-representative-cofinal-terminal-budget-bridge} and the terminal-pullback obligation surface \autoref{def:diagonal-limit-representative-terminal-pullback-obligation-surface}. The bridge supplies the finite-prefix and cofinal-tail budget rows, while the pullback surface forces terminal consumption back through the displayed StreamName, RegSeqRat, DyadicRatCore, and Real sources. Hence every Real-and-Completion consumer factors through the packet $T$ and no off-packet quotient, host limit, selected limit, choice row, or completeness principle is available.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative cofinal-tail classifier stability]
+\label{thm:diagonal-limit-representative-cofinal-tail-classifier-stability}
+Let two accepted cofinal-tail extraction packets for $\DiagonalLimitRepresentativeUp$ be classified together by the displayed componentwise $\hsame$ rows and $\Cont$ replay. Then the selected rows $\mu,n,k,i,w,r,d,e$, the finite-prefix budget rows $Q,B,W,D_F,R,S,E_F$, and the support rows $H,C,P,N$ are preserved componentwise. The preservation uses only the packet of \autoref{def:diagonal-limit-representative-cofinal-tail-extraction}; it does not add a quotient stream equality, host $\RealUp$ equality, selected limit, hidden tail schedule, countable choice row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Read the classifier of \autoref{def:diagonal-limit-representative-classifier}. It compares accepted carriers componentwise, and the only transport rows available to the extraction packet are the recorded $\hsame$ rows together with displayed $\Cont$ replay.
+
+The cofinal-index readiness package fixes the rows that must be preserved. It attaches the root-index equations, the selected window and readback, the dyadic ledger, the finite-prefix budget rows, and the terminal seal to the same cofinal source route.
+
+It remains to check that no stronger transport is introduced by the extraction. The cofinal-terminal budget bridge and the terminal-pullback obligation surface preserve the same displayed terminal rows, while the formal handoff boundary \autoref{thm:diagonal-limit-representative-formal-handoff-boundary} permits later work to encode only the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and sibling rows. Therefore classifier stability is exactly componentwise stability of the finite packet $T$.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative cofinal-tail NameCert exactness]
+\label{thm:diagonal-limit-representative-cofinal-tail-namecert-exactness}
+The local $\NameCert_{\DiagonalLimitRepresentativeUp}$ obligation for cofinal-tail extraction is exactly the package consisting of the extraction surface of \autoref{def:diagonal-limit-representative-cofinal-tail-extraction}, the coverage theorem \autoref{thm:diagonal-limit-representative-cofinal-tail-coverage}, the classifier-stability theorem \autoref{thm:diagonal-limit-representative-cofinal-tail-classifier-stability}, the cofinal-terminal budget bridge, the terminal-pullback obligation surface, and the formal handoff boundary. Its ledger refuses quotient streams, host limits, selected limits, countable choice, and ambient $\RealUp$ completeness as extraction data.
+\end{theorem}
+\begin{proof}
+Coverage supplies the positive route. By \autoref{thm:diagonal-limit-representative-cofinal-tail-coverage}, every Real-and-Completion consumer reaches the terminal seal through the finite extraction packet and through the named StreamName, RegSeqRat, DyadicRatCore, finite-prefix budget, cofinal modulus, and Real rows.
+
+Classifier stability supplies the transport rule. By \autoref{thm:diagonal-limit-representative-cofinal-tail-classifier-stability}, componentwise $\hsame$ and displayed $\Cont$ replay preserve exactly the extraction rows, so the local $\NameCert$ cannot acquire a second tail, a detached terminal seal, or a hidden selected limit.
+
+The remaining ledger boundary is fixed by the existing surfaces. The cofinal-terminal budget bridge gives the finite cofinal budget route, the terminal-pullback obligation surface pulls terminal consumption back to its source rows, and the formal handoff boundary confines later formal targets to the displayed BEDC rows. Thus the NameCert exactness package is precisely the finite cofinal-tail extraction surface, with quotient streams, host limits, selected limits, countable choice, and ambient $\RealUp$ completeness refused by the ledger.
+\end{proof}
