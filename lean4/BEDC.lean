@@ -1232,6 +1232,7 @@ import BEDC.Derived.ContinuationMonadUp.RootSourceCoverage
 import BEDC.Derived.ContinuationMonadUp.RootDownstreamGeneratorPackage
 import BEDC.Derived.ContinuationMonadUp.RootDownstreamMonadPackage
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorCategoryLock
+import BEDC.Derived.ContinuationMonadUp.GeneratorCategoryLockdown
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorObligation
 import BEDC.Derived.ContinuationMonadUp.KleisliCompositeScope
 import BEDC.Derived.ContinuationMonadUp.RootTerminalReadbackCoverage
@@ -1302,6 +1303,7 @@ import BEDC.Derived.ClosedTermSubstitutionCompilerUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftLedgerExhaustion
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionLedgerExhaustion
 import BEDC.Derived.ClassifierTypingUp
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.CrossPerspectiveAlignmentUp.TasteGate
