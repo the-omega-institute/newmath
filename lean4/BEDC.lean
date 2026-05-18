@@ -54,6 +54,7 @@ import BEDC.Meta
 import BEDC.Derived.NatUp
 import BEDC.Derived.OrderUp
 import BEDC.Derived.AddUp
+import BEDC.Derived.AxisAddUp.TasteGate
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
