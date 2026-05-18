@@ -38,3 +38,23 @@ The cofinal modulus seal chapter supplies the cofinal budget boundary. Its consu
 
 It remains to close the formal interface. The formal handoff boundary allows later formal consumers to encode exactly the displayed BEDC rows. Since every possible terminal read is already accounted for by those rows, any quotient, host equality, selected limit, hidden schedule, choice, or ambient-completeness coordinate would be outside the bridge rather than a consumer of it.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit representative cofinal-terminal route determinacy]
+\label{thm:diagonal-limit-representative-cofinal-terminal-route-determinacy}
+For any accepted bridge packet $G$ of \autoref{def:diagonal-limit-representative-cofinal-terminal-budget-bridge}, the displayed representative rows, finite-prefix rows, and cofinal-modulus rows determine one terminal route through
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \FinitePrefixLimitBudgetUp \to \CofinalModulusSealUp \to \RealUp.
+$$
+If a second accepted terminal read has the same representative rows, finite-prefix rows, cofinal-modulus rows, transport rows, continuation rows, provenance rows, and local $\NameCert$ rows, then it is the same route through the displayed packet $G$, not a second $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Project the finite packet rows of $G$. The definition of the cofinal-terminal budget bridge displays the representative block, the finite-prefix budget block, and the cofinal modulus block, together with the identifications $w=T_M$, $r=R_M$, $d=D_M$, and $e=E_M$. Hence any accepted terminal read with the same displayed rows has the same StreamName window, RegSeqRat readback, DyadicRat ledger, finite-prefix budget rows, cofinal modulus rows, and terminal Real row.
+
+Next apply \autoref{thm:diagonal-limit-representative-cofinal-budget-seal-totality}. The positive route to the terminal seal factors through the displayed chain
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \FinitePrefixLimitBudgetUp \to \CofinalModulusSealUp \to \RealUp.
+$$
+Thus the terminal consumer reads the Real seal only after the representative, finite-prefix, and cofinal-modulus rows have already fixed the route.
+
+It remains to exclude an apparent second route. Apply \autoref{thm:diagonal-limit-representative-terminal-consumer-cofinal-nonescape}. A competing accepted read cannot introduce quotient stream equality, host $\RealUp$ equality, a hidden schedule, countable choice, ambient completeness, or a detached terminal seal. With those escape coordinates absent, equality of the displayed representative, finite-prefix, cofinal-modulus, transport, continuation, provenance, and local $\NameCert$ rows leaves no second Real seal to branch into.
+\end{proof}
