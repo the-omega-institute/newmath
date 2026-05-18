@@ -603,6 +603,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.L10CompletionPullback
 import BEDC.Derived.CauchyModulusRefinementUp.L10ConsumerSpineComparison
 import BEDC.Derived.CauchyModulusRefinementUp.L10HandoffSufficiency
 import BEDC.Derived.CauchyModulusRefinementUp.L10SiblingRoute
+import BEDC.Derived.CauchyModulusRefinementUp.L10WindowLatticeExactness
 import BEDC.Derived.CauchyModulusRefinementUp.RealObservationBudgetHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RealLimitUniquenessHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RootSourceMeetDeterminacy
@@ -1996,6 +1997,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.RootUnblockBoundaryRows
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootNormalEndpointRouteExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootObstructionTriad
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootObligationTriad
+import BEDC.Derived.MetaCICNormalizationFrontierUp.RootNormalEndpointHandoff
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetLedgerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetCarrierCoverage
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootFormalHandoffTotality
@@ -3624,6 +3626,7 @@ import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalCommitmentUp
 import BEDC.Derived.CausalCommitmentUp.CausalCommitmentClassifierStability
 import BEDC.Derived.CausalCommitmentUp.ForwardGapScopePackage
+import BEDC.Derived.CausalCommitmentUp.GapLocalityAdjunction
 import BEDC.Derived.CausalCommitmentUp.ObservedRegularityNonchoice
 import BEDC.Derived.CausalCommitmentUp.PublicForwardGapExport
 import BEDC.Derived.CausalCommitmentUp.LocalityObligations
