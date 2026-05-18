@@ -287,6 +287,71 @@ choice, ambient completeness, metric-completeness data, or a standard bridge
 row.
 \end{proof}
 
+\begin{theorem}[Real terminal seal RegSeqRat cover descent equivalence]
+\label{thm:real-terminal-seal-regseqrat-cover-descent-equivalence}
+Let $\{\mathcal Q_i\}_{i\in I}$ be a finite family of public
+$\RegSeqRatUp$ reads over one finite cover. The family presents an accepted
+public $\RealUp$ terminal-seal read if and only if its cover data satisfy the
+$\RegSeqRatUp$ four-face gluing rows, the $\RegSeqRatUp$ four-face
+associativity rows, the $\StreamNameUp$ finite-cover descent exactness row,
+the $\DyadicRatCoreUp$ endpoint-radius-distance ledger agreement, and the
+local $\RealUp$ seal cocycle exactness row. The accepted source has exactly
+the four public faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+and exactly the common support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+It exports no quotient streams, host equality, selected limits, countable
+choice, ambient completeness, metric completeness, aggregate formalstatus row,
+or standard bridge row.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with the accepted public $\RealUp$
+terminal-seal read presented by the finite $\RegSeqRatUp$ family. Apply
+\autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness}. The public
+read restricts to local terminal-seal reads whose only visible faces are
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ over the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next identify the descent rows carried by those restrictions. Apply
+\autoref{thm:regseqrat-real-seal-finite-cover-gluing} and
+\autoref{thm:regseqrat-real-seal-finite-cover-associativity} to read the
+$\RegSeqRatUp$ classifier, regularity, and readback data as a coherent
+four-face cover. Apply
+\autoref{thm:streamname-regseqrat-real-finite-cover-descent-exactness} to
+recover the $\StreamNameUp$ finite-cover descent row, and read the
+$\DyadicRatCoreUp$ endpoint, radius, and distance coordinates from the same
+pullback ledger. Thus the forward image is exactly the descent packet named in
+the statement.
+
+For the reverse direction, start with a finite $\RegSeqRatUp$ cover packet
+satisfying the gluing, associativity, StreamName descent, DyadicRatCore ledger,
+and local Real cocycle rows. Apply
+\autoref{thm:regseqrat-real-seal-common-refinement-cover-completeness}. The
+packet admits a common refinement whose face restrictions are comparable over
+one support spine.
+
+Now apply
+\autoref{thm:real-terminal-seal-four-face-cover-descent-determinacy}. The
+refined packet determines at most one public terminal-seal read on the four
+faces. Apply
+\autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness} to paste the
+local Real cocycle and obtain that public read. The pasted read restricts back
+to the original finite $\RegSeqRatUp$ descent data, so the two constructions
+are inverse at the accepted public-source surface.
+
+The negative boundary is audit-only. Apply
+\autoref{thm:real-terminal-seal-audit-noncollapse}; the finite-cover route
+does not create a route-level formalstatus aggregate, replacement leantarget,
+or bridge row. Since all preceding steps use only the four faces and support
+rows displayed above, no quotient stream, host equality, selected limit,
+countable-choice principle, ambient-completeness row, or metric-completeness
+row is introduced.
+\end{proof}
+
 \begin{theorem}[Real terminal seal audit noncollapse]
 \label{thm:real-terminal-seal-audit-noncollapse}
 Let $\{\mathcal R_i\}_{i\in I}$ be a finite family of local terminal-seal
@@ -507,4 +572,53 @@ choice, ambient completeness, metric-completeness data, or standard-bridge
 data. The audit pullback is facewise, not aggregate, so it also supplies no
 aggregate formalstatus token and no standard bridge row beyond the displayed
 face records.
+\end{proof}
+
+\begin{theorem}[Real terminal seal manifest exit consumer exactness]
+\label{thm:real-terminal-seal-manifest-exit-consumer-exactness}
+An accepted manifest
+$$
+\mathsf{Dep}_{\RealUp}^{\mathrm{term}}=(S,D,R,E,B,H,C,P,N)
+$$
+is accepted by the current Phase Real and Completion exit consumer exactly when
+its consumer rows are the four object faces
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$,
+together with the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support rows. Equivalently, the manifest is precisely the consumer surface used
+by the current L10 exit route. No accepted consumer presentation adds a
+quotient stream, host real equality, selected limit, countable choice, ambient
+completeness, metric-completeness row, aggregate formalstatus token, or standard
+bridge row.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:real-terminal-seal-public-source-completeness}. The accepted
+manifest already reconstructs a public terminal-seal read from exactly the
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, local $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Apply
+\autoref{thm:real-terminal-seal-dependency-manifest-phase-exit-face-product}.
+It identifies those rows with the Phase Real and Completion four-face product.
+Then apply \autoref{thm:streamname-real-completion-four-object-exit-route},
+\autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}, and
+\autoref{thm:regseqrat-real-seal-handoff}. These three handoff surfaces read
+the same finite consumer as the current L10 exit route through the StreamName,
+DyadicRatCore, RegSeqRat, and Real faces.
+
+For the reverse direction, start with a current L10 exit consumer presentation.
+The four-object exit route supplies exactly the same four object faces and the
+same shared BEDC support rows. The DyadicRatCore-to-RegSeqRat handoff and the
+RegSeqRat-to-Real seal handoff identify the downstream reads with the displayed
+dyadic ledger, regular-rational classifier, and local Real seal rows, so the
+presentation restricts to
+$\mathsf{Dep}_{\RealUp}^{\mathrm{term}}=(S,D,R,E,B,H,C,P,N)$.
+
+Finally, the exclusion clause follows from
+\autoref{thm:real-terminal-seal-dependency-manifest-non-escape} and from the
+facewise character of
+\autoref{thm:real-terminal-seal-dependency-manifest-phase-exit-face-product}.
+The consumer has no coordinate in which quotient streams, host real equality,
+selected limits, countable choice, ambient completeness, metric-completeness
+data, aggregate formalstatus tokens, or standard bridge rows could be carried.
 \end{proof}
