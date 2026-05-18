@@ -60,37 +60,62 @@ def cauchyWindowTransducerToEventFlow :
         cauchyWindowTransducerEncodeBHist provenance,
         cauchyWindowTransducerEncodeBHist nameCert]
 
-private def cauchyWindowTransducerEventAtDefault : Nat → EventFlow → RawEvent
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      cauchyWindowTransducerEventAtDefault index rest
-
-def cauchyWindowTransducerFromEventFlow
-    (ef : EventFlow) : Option CauchyWindowTransducerUp :=
-  some
-    (CauchyWindowTransducerUp.mk
-      (cauchyWindowTransducerDecodeBHist
-        (cauchyWindowTransducerEventAtDefault 0 ef))
-      (cauchyWindowTransducerDecodeBHist
-        (cauchyWindowTransducerEventAtDefault 1 ef))
-      (cauchyWindowTransducerDecodeBHist
-        (cauchyWindowTransducerEventAtDefault 2 ef))
-      (cauchyWindowTransducerDecodeBHist
-        (cauchyWindowTransducerEventAtDefault 3 ef))
-      (cauchyWindowTransducerDecodeBHist
-        (cauchyWindowTransducerEventAtDefault 4 ef))
-      (cauchyWindowTransducerDecodeBHist
-        (cauchyWindowTransducerEventAtDefault 5 ef))
-      (cauchyWindowTransducerDecodeBHist
-        (cauchyWindowTransducerEventAtDefault 6 ef))
-      (cauchyWindowTransducerDecodeBHist
-        (cauchyWindowTransducerEventAtDefault 7 ef))
-      (cauchyWindowTransducerDecodeBHist
-        (cauchyWindowTransducerEventAtDefault 8 ef))
-      (cauchyWindowTransducerDecodeBHist
-        (cauchyWindowTransducerEventAtDefault 9 ef)))
+def cauchyWindowTransducerFromEventFlow :
+    EventFlow → Option CauchyWindowTransducerUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | streamWindow :: rest0 =>
+      match rest0 with
+      | [] => none
+      | dyadicTolerance :: rest1 =>
+          match rest1 with
+          | [] => none
+          | windowStep :: rest2 =>
+              match rest2 with
+              | [] => none
+              | regSeqReadback :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | realSeal :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | limitSelector :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | transport :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | continuation :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | provenance :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | nameCert :: rest9 =>
+                                          match rest9 with
+                                          | [] =>
+                                              some
+                                                (CauchyWindowTransducerUp.mk
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    streamWindow)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    dyadicTolerance)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    windowStep)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    regSeqReadback)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    realSeal)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    limitSelector)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    transport)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    continuation)
+                                                  (cauchyWindowTransducerDecodeBHist
+                                                    provenance)
+                                                  (cauchyWindowTransducerDecodeBHist nameCert))
+                                          | _ :: _ => none
 
 private theorem cauchyWindowTransducer_round_trip :
     ∀ x : CauchyWindowTransducerUp,
@@ -144,6 +169,7 @@ private theorem cauchyWindowTransducerToEventFlow_injective
     (h : cauchyWindowTransducerToEventFlow x =
       cauchyWindowTransducerToEventFlow y) :
     x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
   have hread :
       cauchyWindowTransducerFromEventFlow (cauchyWindowTransducerToEventFlow x) =
         cauchyWindowTransducerFromEventFlow (cauchyWindowTransducerToEventFlow y) :=
