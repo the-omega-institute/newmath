@@ -306,6 +306,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealHandoffObligations
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealCarrierReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceRowAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionGate
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionConsumerLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.StructuralDescentLocality
@@ -1359,6 +1360,7 @@ import BEDC.Derived.ClosedNormalEndpointTransportUp.TasteGate
 import BEDC.Derived.ClosedNormalRouteCertificateUp.TasteGate
 import BEDC.Derived.NormalFormConsistencySealUp
 import BEDC.Derived.RecursorGeneratorUp
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchBudgetExhaustion
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.NameCert
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionUp.TasteGate
@@ -3103,6 +3105,7 @@ import BEDC.Derived.CompactUniformContinuityUp.EquicontinuousFamilyConsumer
 import BEDC.Derived.CompactUniformContinuityUp.FiniteNetFactorization
 import BEDC.Derived.CompactUniformContinuityUp.FiniteNetCompositionRoute
 import BEDC.Derived.CompactUniformContinuityUp.FiniteNetModulusExtraction
+import BEDC.Derived.CompactUniformContinuityUp.FourSourceHandoffCorrespondence
 import BEDC.Derived.CompactUniformContinuityUp.KernelNetObservationSurface
 import BEDC.Derived.CompactUniformContinuityUp.LedgerExhaustion
 import BEDC.Derived.CompactUniformContinuityUp.MetricDistanceRouting
@@ -3628,6 +3631,7 @@ import BEDC.Derived.CausalCommitmentUp.PublicForwardGapExport
 import BEDC.Derived.CausalCommitmentUp.LocalityObligations
 import BEDC.Derived.CausalCommitmentUp.LocalityConsumerExactness
 import BEDC.Derived.CausalCommitmentUp.ObserverLocalityHandoff
+import BEDC.Derived.CausalCommitmentUp.ForwardGapObserverRoute
 import BEDC.Derived.ContinuationBisimulationUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
