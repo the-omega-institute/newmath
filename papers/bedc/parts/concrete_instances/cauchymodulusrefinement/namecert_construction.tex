@@ -552,6 +552,28 @@ Now read the Real seal. Real seal factorization places $E$ after $U,V,T,W,Q$, an
 Non-escape removes all alternate lattices. The packet carries no second meet row, hidden selector, quotient stream, selected limit, host equality, or ambient completeness coordinate, so the dependency order written above is the accepted sibling lattice.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement L10 sibling route]
+\label{thm:cauchy-modulus-refinement-l10-sibling-route}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+any Phase Real and Completion consumer of the refinement reads the L10 route through
+$$
+\StreamNameUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp
+$$
+in that order after the $\CauchyModulusComparisonUp$, $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, and $\RegularCauchySelectorBudgetUp$ rows have been consumed. Such a consumer receives no quotient stream, selected limit, host real equality, hidden selector, or ambient completeness datum from the accepted packet.
+\end{theorem}
+\begin{proof}
+Start with the sibling dependency lattice of \autoref{thm:cauchy-modulus-refinement-sibling-dependency-lattice}. It places comparison, meet, extraction, and selector budget before the four downstream rows and orders those rows as $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+The finite-window handoff is the route supplied by \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}. It identifies the selected-window and tolerance-readback segment as $T \longrightarrow W \longrightarrow Q$, so the consumer cannot reach the dyadic or regular-rational readback surface before passing through the selector-budget and window rows.
+
+Now apply Real seal factorization, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}. The seal row $E$ sits after $Q$, so the $\RealUp$ read is downstream of the StreamName, DyadicRatCore, and RegSeqRat route rather than an independent completion input.
+
+Finally use non-escape, \autoref{thm:cauchy-modulus-refinement-nonescape}. Quotient streams, selected limits, host real equality, hidden selectors, and ambient completeness data are absent from the carrier, so the L10 route above is the reusable handoff available to Phase Real and Completion consumers.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement completion boundary]
 \label{thm:cauchy-modulus-refinement-completion-boundary}
 No $\RealUp$ or completion-facing consumer of an accepted $\CauchyModulusRefinementUp$ packet may read quotient streams, selected limits, host real equality, hidden selectors, second meet rows, or ambient completeness outside the displayed packet. Such a consumer must factor through
@@ -700,7 +722,7 @@ The three clauses use the same displayed carrier and the same sibling rows. Ther
 \begin{closurestatus}{\CauchyModulusRefinementUp}
   \constructivestory{A $\CauchyModulusRefinementUp$ packet is generated from displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-refinement-carrier}, \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, \autoref{thm:cauchy-modulus-refinement-source-meet-budget-chain}, \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}, \autoref{thm:cauchy-modulus-refinement-real-seal-refusal}, \autoref{thm:cauchy-modulus-refinement-classifier-transport}, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, \autoref{thm:cauchy-modulus-refinement-common-source-lock}, \autoref{thm:cauchy-modulus-refinement-shared-threshold-transport}, \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}, \autoref{thm:cauchy-modulus-refinement-selector-budget-nonescape}, \autoref{thm:cauchy-modulus-refinement-real-seal-obligation-surface}, \autoref{thm:cauchy-modulus-refinement-real-seal-consumer-exhaustion}, \autoref{thm:cauchy-modulus-refinement-obligation-closure-package}, \autoref{thm:cauchy-modulus-refinement-primitive-scope}, \autoref{thm:cauchy-modulus-refinement-sibling-dependency-lattice}, \autoref{thm:cauchy-modulus-refinement-completion-boundary}, \autoref{thm:cauchy-modulus-refinement-bhist-source-scope}, \autoref{thm:cauchy-modulus-refinement-cont-route-scope}, \autoref{thm:cauchy-modulus-refinement-namecert-scope}, \autoref{thm:cauchy-modulus-refinement-nonescape}, and the bridge witness \autoref{thm:cauchy-modulus-refinement-bridged-route-surface} bind the displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one scoped Real and completion obligation surface.}
+  \scopeclosed{\autoref{def:cauchy-modulus-refinement-carrier}, \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, \autoref{thm:cauchy-modulus-refinement-source-meet-budget-chain}, \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}, \autoref{thm:cauchy-modulus-refinement-real-seal-refusal}, \autoref{thm:cauchy-modulus-refinement-classifier-transport}, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, \autoref{thm:cauchy-modulus-refinement-common-source-lock}, \autoref{thm:cauchy-modulus-refinement-shared-threshold-transport}, \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}, \autoref{thm:cauchy-modulus-refinement-selector-budget-nonescape}, \autoref{thm:cauchy-modulus-refinement-real-seal-obligation-surface}, \autoref{thm:cauchy-modulus-refinement-real-seal-consumer-exhaustion}, \autoref{thm:cauchy-modulus-refinement-obligation-closure-package}, \autoref{thm:cauchy-modulus-refinement-primitive-scope}, \autoref{thm:cauchy-modulus-refinement-sibling-dependency-lattice}, \autoref{thm:cauchy-modulus-refinement-l10-sibling-route}, \autoref{thm:cauchy-modulus-refinement-completion-boundary}, \autoref{thm:cauchy-modulus-refinement-bhist-source-scope}, \autoref{thm:cauchy-modulus-refinement-cont-route-scope}, \autoref{thm:cauchy-modulus-refinement-namecert-scope}, \autoref{thm:cauchy-modulus-refinement-nonescape}, and the bridge witness \autoref{thm:cauchy-modulus-refinement-bridged-route-surface} bind the displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one scoped Real and completion obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
