@@ -371,4 +371,36 @@ theorem RecursorGeneratorBranchDescentExhaustion
   exact
     ⟨branchReadUnary, descentReadUnary, eliminatorBranchesBranch, branchMetaCICDescent, rfl⟩
 
+theorem RecursorGeneratorDownstreamScopePackage [AskSetup] [PackageSetup]
+    {I E B A M _H _C P N generatedRead closedRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory I →
+      UnaryHistory E →
+        UnaryHistory B →
+          UnaryHistory A →
+            UnaryHistory M →
+              UnaryHistory N →
+                Cont E B generatedRead →
+                  Cont generatedRead M closedRead →
+                    Cont closedRead N publicRead →
+                      PkgSig bundle P pkg →
+                        PkgSig bundle publicRead pkg →
+                          UnaryHistory generatedRead ∧ UnaryHistory closedRead ∧
+                            UnaryHistory publicRead ∧ Cont E B generatedRead ∧
+                              Cont generatedRead M closedRead ∧
+                                Cont closedRead N publicRead ∧ PkgSig bundle P pkg ∧
+                                  PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro _unaryI unaryE unaryB _unaryA unaryM unaryN generatedRoute closedRoute publicRoute
+    provenancePkg publicPkg
+  have generatedUnary : UnaryHistory generatedRead :=
+    unary_cont_closed unaryE unaryB generatedRoute
+  have closedUnary : UnaryHistory closedRead :=
+    unary_cont_closed generatedUnary unaryM closedRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed closedUnary unaryN publicRoute
+  exact
+    ⟨generatedUnary, closedUnary, publicUnary, generatedRoute, closedRoute, publicRoute,
+      provenancePkg, publicPkg⟩
+
 end BEDC.Derived.RecursorGeneratorUp
