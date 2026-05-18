@@ -4287,6 +4287,7 @@ import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
+import BEDC.Derived.ZetaContinuationWitnessUp.ConsumerPacketTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripConsumerNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPoleBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPublicRefusal
@@ -4309,6 +4310,8 @@ import BEDC.Derived.ZnormalUp
 import BEDC.Derived.ZnormalUp.RootContReplayClosure
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
 import BEDC.Derived.ZnormalUp.TasteGate
+import BEDC.Derived.ZnormalUp.TerminalConsumerTotality
+import BEDC.Derived.ZnormalUp.TerminalNormalityRefusalStability
 import BEDC.Derived.ZnormalUp.TerminalReadbackExactness
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
 import BEDC.DerivedIndexAnalysis
