@@ -258,6 +258,25 @@ instance closedSubstitutionBoundaryChapterTasteGate :
     intro x y hxy heq
     exact hxy (closedSubstitutionBoundaryToEventFlow_injective heq)
 
+instance closedSubstitutionBoundaryFieldFaithful :
+    FieldFaithful ClosedSubstitutionBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | ClosedSubstitutionBoundaryUp.mk term depth payload classifier shift substitute transport
+        route provenance name =>
+        [term, depth, payload, classifier, shift, substitute, transport, route, provenance, name]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y hfields
+    cases x with
+    | mk term depth payload classifier shift substitute transport route provenance name =>
+      cases y with
+      | mk term' depth' payload' classifier' shift' substitute' transport' route' provenance'
+          name' =>
+          cases hfields
+          rfl
+
 def taste_gate : ChapterTasteGate ClosedSubstitutionBoundaryUp :=
   closedSubstitutionBoundaryChapterTasteGate
 
