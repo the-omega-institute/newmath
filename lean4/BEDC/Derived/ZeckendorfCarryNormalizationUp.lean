@@ -79,4 +79,23 @@ theorem ZeckendorfCarryNormalizationCarrier_boundary_transport [AskSetup] [Packa
         sourceTargetCarry', carryLedgerRoute', provenancePkg', namePkg'⟩,
       sourceNotTarget⟩
 
+theorem ZeckendorfCarryNormalizationCarrier_value_ledger [AskSetup] [PackageSetup]
+    {source target carryRoute valueLedger boundary routes provenance name ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZeckendorfCarryNormalizationCarrier source target carryRoute valueLedger boundary routes
+        provenance name bundle pkg →
+      Cont carryRoute valueLedger ledgerRead →
+        PkgSig bundle ledgerRead pkg →
+          ZCarry source target ∧ ¬ ZNormal source ∧ ¬ hsame source target ∧
+            Cont source target carryRoute ∧ Cont carryRoute valueLedger routes ∧
+              Cont carryRoute valueLedger ledgerRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle ledgerRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame PkgSig ZCarry ZNormal
+  intro carrier carryLedgerRead ledgerReadPkg
+  obtain ⟨sourceTargetCarry, _targetNormal, sourceNotNormal, sourceNotTarget,
+    sourceTargetRoute, carryLedgerRoute, provenancePkg, _namePkg⟩ := carrier
+  exact
+    ⟨sourceTargetCarry, sourceNotNormal, sourceNotTarget, sourceTargetRoute,
+      carryLedgerRoute, carryLedgerRead, provenancePkg, ledgerReadPkg⟩
+
 end BEDC.Derived.ZeckendorfCarryNormalizationUp
