@@ -457,6 +457,74 @@ completion, host-index, metric-completeness, Classical, or standard-bridge
 datum.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat visible-row exhaustion]
+\label{thm:streamname-regseqrat-visible-row-exhaustion}
+Every finite-window row handed from $\StreamNameUp$ to a $\RegSeqRat$ consumer
+or to a finite-window $\RealUp$ consumer is exactly one of the pointwise
+$\mathsf{RatStreamNameCarrier}$ and $\mathsf{RatStreamNameClassifier}$
+observations at certified $\mathsf{UnaryHistory}$ indices, one of the displayed
+componentwise $\hsame$ rows, one of the consumed $\DyadicRatCoreUp$ finite
+ledger rows over the same finite window, one of the finite
+$\mathsf{ProbeBundle}$ ledger rows, or one of the $\mathsf{InBundle}$ membership
+rows naming the selected observations. Conversely, these pointwise
+carrier/classifier rows, componentwise comparison rows, dyadic finite ledger
+rows, bundle ledger rows, and membership rows repack into the same
+consumer-facing handoff surface.
+\end{theorem}
+\begin{proof}
+Project the finite-window handoff with
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. The projection lists
+exactly the selected rational-history classifier rows, the finite
+$\mathsf{ProbeBundle}$ ledger, the $\mathsf{InBundle}$ membership rows, the
+certified $\mathsf{UnaryHistory}$ observation rows, the displayed $\hsame$
+comparisons, and the consumed DyadicRatCore finite ledger over the same finite
+window.
+
+Identify the source rows pointwise using \autoref{def:rat-stream-name-carrier}
+and \autoref{def:rat-stream-name-classifier}. The restriction and exhaustion
+steps are supplied by \autoref{thm:rat-stream-name-finite-window-from-classifier}
+and \autoref{thm:rat-stream-name-finite-window-exhausts-classifier}, so the
+finite-window rows are exactly the certified unary-index observations and their
+selected bundle support.
+
+Finally use
+\autoref{thm:streamname-real-regseq-common-window-consumer-determinacy}. It
+keeps the consumed DyadicRatCore rows and the displayed $\hsame$ rows on the
+same public window. Repacking the listed rows through the same finite-window
+handoff theorem returns the original consumer-facing surface.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat no-extra-data exclusion]
+\label{thm:streamname-regseqrat-no-extra-data-exclusion}
+The finite-window handoff surface from $\StreamNameUp$ to a $\RegSeqRat$
+consumer or to a finite-window $\RealUp$ consumer contains no host index
+equality, quotient datum, completion datum, metric-completeness row, Classical
+datum, standard-bridge row, selected limit, or ambient $\RealUp$ completeness
+row. $\RegSeqRat$ regularity and the $\RealUp$ seal classifier remain downstream
+obligations, while the DyadicRatCore ledger, displayed $\hsame$ rows, finite
+bundle ledger, and membership rows are the visible finite handoff data.
+\end{theorem}
+\begin{proof}
+Start from
+\autoref{thm:streamname-real-regseq-obligation-separation}. It separates the
+source-facing StreamName rows from downstream $\RegSeqRat$ regularity and
+finite-window $\RealUp$ seal obligations, so neither downstream obligation can
+be read as hidden StreamName source data.
+
+Use \autoref{thm:streamname-real-regseq-overlap-unique-source} on the same
+finite window. The unique-source clause rules out alternate host-index,
+quotient, or completion coordinates for a surface with the displayed pointwise
+rows, comparisons, bundle rows, membership rows, and finite ledger.
+
+The finite-window handoff theorem
+\autoref{thm:streamname-real-regseq-finite-window-handoff} supplies only the
+listed public rows, and
+\autoref{thm:streamname-real-regseq-common-window-consumer-determinacy} keeps
+the consumed DyadicRatCore ledger on that window. No metric-completeness row,
+Classical datum, bridge row, selected limit, or ambient $\RealUp$ completeness
+row is introduced by these finite constructors.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat pointwise handoff exhaustion]
 \label{thm:streamname-regseqrat-pointwise-handoff-exhaustion}
 Every finite-window row handed from $\StreamNameUp$ to a $\RegSeqRat$ consumer
@@ -476,45 +544,27 @@ downstream obligations, while the DyadicRatCore ledger and displayed $\hsame$
 rows are part of the visible finite handoff surface.
 \end{theorem}
 \begin{proof}
-First project the public finite-window handoff. By
-\autoref{thm:streamname-real-regseq-finite-window-handoff}, the rows visible to
-either downstream consumer are the selected rational-history classifier rows,
-the finite $\mathsf{ProbeBundle}$ ledger, the $\mathsf{InBundle}$ membership
-rows, the certified $\mathsf{UnaryHistory}$ observation rows, the displayed
-$\hsame$ comparison rows, and the consumed DyadicRatCore finite ledger rows over
-the same finite window.
+Apply \autoref{thm:streamname-regseqrat-visible-row-exhaustion}. Its proof
+projects the handoff through \autoref{thm:streamname-real-regseq-finite-window-handoff},
+then identifies the pointwise carrier and classifier rows by
+\autoref{def:rat-stream-name-carrier},
+\autoref{def:rat-stream-name-classifier},
+\autoref{thm:rat-stream-name-finite-window-from-classifier}, and
+\autoref{thm:rat-stream-name-finite-window-exhausts-classifier}.
 
-Now identify those rows pointwise. The carrier and classifier definitions
-\autoref{def:rat-stream-name-carrier} and
-\autoref{def:rat-stream-name-classifier} read each certified unary index as a
-single rational-history carrier or classifier observation. The finite-window
-coverage theorem \autoref{thm:rat-stream-name-finite-window-from-classifier}
-restricts the full stream classifier to the selected bundle, while
-\autoref{thm:rat-stream-name-finite-window-exhausts-classifier} repacks the
-singleton windows back into the pointwise stream classifier.
+The same visible-row theorem uses
+\autoref{thm:streamname-real-regseq-common-window-consumer-determinacy} to keep
+the displayed $\hsame$ comparisons and consumed DyadicRatCore ledger on the
+same finite window. Thus the listed rows exhaust the consumer-facing surface
+and repack into that surface.
 
-The displayed comparison rows are fixed componentwise by the same certified
-unary indices. The shared DyadicRatCore finite ledger is the consumed downstream
-input named in
-\autoref{thm:streamname-real-regseq-common-window-consumer-determinacy}, so it
-belongs to the public finite-window handoff rather than to a hidden completion
-or quotient coordinate.
-
-The downstream split is fixed by
-\autoref{thm:streamname-real-regseq-obligation-separation}. Thus the pointwise
-carrier/classifier observations, unary-history rows, displayed $\hsame$ rows,
-DyadicRatCore ledger rows, and finite bundle ledger are exactly the visible
-handoff rows; $\RegSeqRat$ regularity and the $\RealUp$ seal classifier are
-downstream obligations rather than source data.
-
-Finally use \autoref{thm:streamname-real-regseq-overlap-unique-source}. It
-prevents two finite overlaps with the same pointwise rows, displayed
-comparisons, and finite ledgers from producing different StreamName source
-surfaces. The same theorem also keeps quotient data, completion data, and host
-index equality outside the handoff; the exclusion sentence above adds
-metric-completeness, Classical, and standard-bridge data to the same outside
-surface. Therefore the reverse repacking returns precisely the original
-finite-window surface.
+Apply \autoref{thm:streamname-regseqrat-no-extra-data-exclusion}. Its proof
+uses \autoref{thm:streamname-real-regseq-obligation-separation} and
+\autoref{thm:streamname-real-regseq-overlap-unique-source} to keep downstream
+regularity, the finite-window $\RealUp$ seal, host-index equality, quotient
+data, completion data, metric-completeness rows, Classical data, standard-bridge
+rows, selected limits, and ambient $\RealUp$ completeness outside the source
+handoff.
 \end{proof}
 
 \input{parts/concrete_instances/streamname/real_regseq_tail_budget_finality}
