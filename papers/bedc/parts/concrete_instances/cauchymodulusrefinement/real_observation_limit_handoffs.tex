@@ -78,9 +78,22 @@ Finally use the RealLimitUniquenessSeal public route theorem \autoref{thm:real-l
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_real\_limit\_uniqueness\_handoff}
 
+\begin{definition}[Cauchy modulus refinement L10 face-status pullback record]
+\label{def:cauchy-modulus-refinement-l10-face-status-pullback-record}
+For an accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+the L10 face-status pullback record is the ordered four-face product of the local closurestatus, formalstatus, leantarget, and bridgestatus rows read from $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ along the route
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+It contains no aggregate formalstatus, aggregate bridge row, selected limit, quotient stream, countable-choice row, or ambient completion coordinate.
+\end{definition}
+
 \begin{theorem}[Cauchy modulus refinement four-face status objectwise pullback]
 \label{thm:cauchy-modulus-refinement-four-face-status-objectwise-pullback}
-For every accepted $\CauchyModulusRefinementUp$ packet routed to a Real- or completion-facing consumer through the displayed handoff rows
+For every accepted $\CauchyModulusRefinementUp$ packet routed to a Real- or completion-facing consumer through the L10 face-status pullback record of \autoref{def:cauchy-modulus-refinement-l10-face-status-pullback-record} along the displayed handoff rows
 $$
 M_0,M_1,U,V,T,W,Q,E,H,C,P,N,
 $$
