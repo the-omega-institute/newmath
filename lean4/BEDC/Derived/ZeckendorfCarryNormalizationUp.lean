@@ -41,4 +41,42 @@ theorem ZeckendorfCarryNormalizationCarrier_namecert_obligations [AskSetup] [Pac
     ⟨sourceTargetCarry, targetNormal, sourceNotNormal, sourceNotTarget, sourceTargetRoute,
       carryLedgerRoute, valueReadRoute, provenancePkg, namePkg, valueReadPkg⟩
 
+theorem ZeckendorfCarryNormalizationCarrier_boundary_transport [AskSetup] [PackageSetup]
+    {source target carryRoute valueLedger boundary routes provenance name source' target'
+      carryRoute' valueLedger' boundary' routes' provenance' name' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZeckendorfCarryNormalizationCarrier source target carryRoute valueLedger boundary routes
+      provenance name bundle pkg ->
+    hsame source source' ->
+    hsame target target' ->
+    hsame carryRoute carryRoute' ->
+    hsame valueLedger valueLedger' ->
+    hsame boundary boundary' ->
+    hsame routes routes' ->
+    hsame provenance provenance' ->
+    hsame name name' ->
+    Cont source' target' carryRoute' ->
+    Cont carryRoute' valueLedger' routes' ->
+    PkgSig bundle provenance' pkg ->
+    PkgSig bundle name' pkg ->
+      ZeckendorfCarryNormalizationCarrier source' target' carryRoute' valueLedger' boundary'
+        routes' provenance' name' bundle pkg ∧ ¬ hsame source' target' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame PkgSig ZCarry ZNormal
+  intro carrier sameSource sameTarget sameCarryRoute sameValueLedger sameBoundary sameRoutes
+    sameProvenance sameName sourceTargetCarry' carryLedgerRoute' provenancePkg' namePkg'
+  obtain ⟨sourceTargetCarry, targetNormal, sourceNotNormal, sourceNotTarget,
+    _sourceTargetRoute, _carryLedgerRoute, _provenancePkg, _namePkg⟩ := carrier
+  cases sameSource
+  cases sameTarget
+  cases sameCarryRoute
+  cases sameValueLedger
+  cases sameBoundary
+  cases sameRoutes
+  cases sameProvenance
+  cases sameName
+  exact
+    ⟨⟨sourceTargetCarry, targetNormal, sourceNotNormal, sourceNotTarget,
+        sourceTargetCarry', carryLedgerRoute', provenancePkg', namePkg'⟩,
+      sourceNotTarget⟩
+
 end BEDC.Derived.ZeckendorfCarryNormalizationUp
