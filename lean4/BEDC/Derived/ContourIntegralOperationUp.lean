@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Unary
 
@@ -87,6 +88,37 @@ theorem ContourIntegralOperationCarrier_operation_law_ledger_closure
   have unaryPublicRead : UnaryHistory publicRead :=
     unary_cont_closed unaryLawRead unaryP publicRoute
   exact ⟨unaryLawRead, unaryPublicRead, sameInputFace, lawRoute, publicRoute⟩
+
+theorem ContourIntegralOperationCarrier_residue_consumer_boundary
+    {G F S M I H P N residueRead hostTail : BHist} :
+    ContourIntegralOperationCarrier G F S M I H P N ->
+      Cont I P residueRead ->
+        UnaryHistory I ∧ UnaryHistory residueRead ∧ hsame H (append G F) ∧ Cont S M I ∧
+          Cont I P residueRead ∧ (Cont residueRead (BHist.e0 hostTail) I -> False) ∧
+            (Cont residueRead (BHist.e1 hostTail) I -> False) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrier residueRoute
+  have unaryS : UnaryHistory S :=
+    carrier.right.right.left
+  have unaryM : UnaryHistory M :=
+    carrier.right.right.right.left
+  have unaryP : UnaryHistory P :=
+    carrier.right.right.right.right.left
+  have sameInputFace : hsame H (append G F) :=
+    carrier.right.right.right.right.right.left
+  have integralRoute : Cont S M I :=
+    carrier.right.right.right.right.right.right.left
+  have unaryI : UnaryHistory I :=
+    unary_cont_closed unaryS unaryM integralRoute
+  have unaryResidueRead : UnaryHistory residueRead :=
+    unary_cont_closed unaryI unaryP residueRoute
+  have e0Refusal : Cont residueRead (BHist.e0 hostTail) I -> False :=
+    fun back => cont_mutual_extension_right_tail_absurd.left residueRoute back
+  have e1Refusal : Cont residueRead (BHist.e1 hostTail) I -> False :=
+    fun back => cont_mutual_extension_right_tail_absurd.right residueRoute back
+  exact
+    ⟨unaryI, unaryResidueRead, sameInputFace, integralRoute, residueRoute, e0Refusal,
+      e1Refusal⟩
 
 theorem ContourIntegralOperationModulusTransport {G F S M I H P N M' outputRead : BHist} :
     ContourIntegralOperationCarrier G F S M I H P N ->
