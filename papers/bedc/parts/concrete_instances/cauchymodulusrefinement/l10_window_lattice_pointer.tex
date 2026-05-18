@@ -85,3 +85,21 @@ Root-window pullback exhaustion, \autoref{thm:cauchy-modulus-refinement-l10-root
 
 Suppose a proposed consumer swaps one of these four faces. Then its entry point is not the source-window front followed by the four-face exit specified above, so it is not one of the pullbacks exhausted by the accepted packet rows. The excluded resources have no constructor in the packet inventory: quotient streams and host real equality would bypass the StreamName and Real seal faces; selected limits and countable choice would bypass the dyadic and regular-readback rows; ambient completeness, metric-completeness rows, bridge aggregation, and hidden selectors would add rows absent from $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement L10 support row minimality]
+\label{thm:cauchy-modulus-refinement-l10-support-row-minimality}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+let $F$ be an accepted $\RealUp$-facing or Completion-facing consumer of $R$ that already factors through the source rows $M_0,M_1,U,V$ and the L10 face rows $T,W,Q,E$. Then the remaining support of $F$ is exactly $H,C,P,N$: $H$ supplies componentwise $\hsame$ transport along the displayed histories, $C$ supplies the displayed $\Cont$ replay, $P$ supplies the $\Pkg$ provenance row, and $N$ supplies the local $\NameCert$ row. Removing $H$, $C$, $P$, or $N$ loses respectively the history-transport, continuity-replay, package-source, or local-name obligation. Adding any further support coordinate gives an off-packet route, hence is excluded by L10 window lattice exactness and root-window pullback exhaustion.
+\end{theorem}
+\begin{proof}
+Fix the accepted packet $R$ and the consumer $F$. The hypotheses have already placed $F$ through the source rows and through the L10 face rows, so the only undecided part of the route is its support ledger.
+
+By L10 window lattice exactness, \autoref{thm:cauchy-modulus-refinement-l10-window-lattice-exactness}, every such consumer reaches support only through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Root-window pullback exhaustion, \autoref{thm:cauchy-modulus-refinement-l10-root-window-pullback-exhaustion}, then identifies the whole consumer with the finite spine $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ and leaves no second support coordinate outside that spine.
+
+Project the four support rows. The row $H$ is the componentwise history and $\hsame$ transport needed to carry source equality through the route; without it the consumer has no displayed transport witness. The row $C$ is the continuity replay row; without it the route has no displayed $\Cont$ replay for the completion-facing read. The row $P$ records the $\Pkg$ provenance of the source data; without it the consumer cannot cite the package source. The row $N$ is the local $\NameCert$ row; without it the consumer has no certified name for the packet instance.
+
+Finally apply face-order rigidity, \autoref{thm:cauchy-modulus-refinement-l10-face-order-rigidity}, to keep the support ledger downstream of the fixed source and face order. Dropping any one of $H,C,P,N$ removes the corresponding obligation just projected, while adding a further coordinate would be a route not present in the exact finite pullback inventory. Hence the accepted support ledger is precisely $H,C,P,N$.
+\end{proof}
