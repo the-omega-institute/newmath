@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.HostDelegationSocketUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -257,5 +259,30 @@ theorem HostDelegationSocket_audit_kernel_rows
   intro socketEq
   cases socketEq
   exact ⟨rfl, rfl⟩
+
+theorem HostDelegationSocket_marker_boundary
+    {marker audit kernel target transport continuation provenance ledger name marker' audit'
+      kernel' target' transport' continuation' provenance' ledger' name' : BHist} :
+    hostDelegationSocketToEventFlow
+        (HostDelegationSocketUp.mk marker audit kernel target transport continuation provenance
+          ledger name) =
+      hostDelegationSocketToEventFlow
+        (HostDelegationSocketUp.mk marker' audit' kernel' target' transport' continuation'
+          provenance' ledger' name') →
+      Cont marker target ledger →
+        hsame marker marker' ∧ hsame target target' ∧ hsame kernel kernel' ∧
+          hsame ledger ledger' ∧ Cont marker' target' ledger' := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro encodedSame markerTargetLedger
+  have carrierSame :
+      HostDelegationSocketUp.mk marker audit kernel target transport continuation provenance
+          ledger name =
+        HostDelegationSocketUp.mk marker' audit' kernel' target' transport' continuation'
+          provenance' ledger' name' :=
+    hostDelegationSocketToEventFlow_injective encodedSame
+  cases carrierSame
+  exact
+    ⟨hsame_refl marker, hsame_refl target, hsame_refl kernel, hsame_refl ledger,
+      markerTargetLedger⟩
 
 end BEDC.Derived.HostDelegationSocketUp
