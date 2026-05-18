@@ -196,3 +196,62 @@ rows. The excluded quotient, host-sequence, selected-limit, choice,
 completeness, metric-completeness, and bridge rows therefore cannot be part of
 the descent datum.
 \end{proof}
+
+\begin{theorem}[StreamName terminal fusion refinement invariance]
+\label{thm:streamname-terminal-fusion-refinement-invariance}
+Let $\{\mathcal W_i\}_{i\in I}$ be a finite family of certified
+$\StreamNameUp$ windows satisfying the hypotheses of
+\autoref{thm:streamname-terminal-fusion-cocycle-section-descent}. Suppose
+$\{\mathcal R_a\}_{a\in A}$ is a certified finite refinement of that family
+whose restrictions preserve the same $\DyadicRatCoreUp$ endpoint, radius, and
+distance ledger, the same $\RegSeqRatUp$ common-tail classifier and regularity
+rows, the same $\RealUp$ seal-source row, and the same support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Then the finite-request section descended from the refined family is the same
+section descended from the original family. Consequently the public terminal
+fused packet over the four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+is unchanged by passing to the certified refinement and restricting back to the
+original cover.
+
+The invariant packet exports no quotient stream equality, no host sequence
+equality, no selected limit, no countable-choice row, no ambient $\RealUp$
+completeness theorem, no metric-completeness datum, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+First compare each original window with its refined restrictions. Apply
+\autoref{thm:streamname-terminal-fusion-common-refinement-stability}. The
+preserved endpoint-radius-distance ledger, common-tail classifier and
+regularity rows, seal-source row, and displayed support rows make every
+restriction read the same terminal fused packet as the original window from
+which it is certified.
+
+Next verify the cocycle on the refined cover. Use
+\autoref{thm:regseqrat-common-tail-triple-overlap-cocycle} to identify the
+triple-overlap RegSeqRat common-tail rows, and then apply
+\autoref{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness}. The
+pairwise common-tail $\RealUp$ boundary condition for the refined windows is
+therefore the same finite-cover cocycle condition as for the original family.
+
+Now descend both finite covers. By
+\autoref{thm:streamname-terminal-fusion-cocycle-section-descent}, the original
+family and the certified refinement each produce one finite-request section
+carrying exactly the displayed $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
+
+Finally restrict the refined section back along the refinement maps. The
+common-refinement stability already identifies every restricted local terminal
+packet with its original local packet, while the finite-cover cocycle
+exactness identifies the pasted packet by precisely those rows. Hence the two
+descended sections are the same finite-request section, and the public
+terminal fused packet is invariant under the certified refinement. Since all
+steps read only the visible four faces and the five support rows, quotient
+stream equality, host sequence equality, selected limits, choice,
+completeness, metric-completeness data, and bridge rows remain outside the
+interface.
+\end{proof}
