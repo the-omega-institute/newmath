@@ -673,3 +673,29 @@ Now apply the substrate bisimulation boundary, \autoref{thm:finite-tail-filter-s
 
 Finally use classifier alignment, terminal classifier exactness, and non-escape, \autoref{thm:finite-tail-filter-classifier-alignment-boundary}, \autoref{thm:finite-tail-filter-terminal-classifier-exactness}, and \autoref{thm:finite-tail-filter-nonescape}. The receiving classifier must re-read the rows from $F$, evaluates only on the componentwise route $S,D,R,B,Q,E,H,C,P,N$, and has no coordinate for any excluded external structure. Therefore the left-right mirror closes only as the diagonal finite-tail packet boundary stated above.
 \end{proof}
+
+\begin{theorem}[FiniteTailFilter domain-codomain mirror boundary]
+\label{thm:finite-tail-filter-domain-codomain-mirror-boundary}
+Let
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+be an accepted $\FiniteTailFilterUp$ carrier. Any domain-oriented read of $F$ and any codomain-oriented mirror read of $F$ have the same BEDC-native boundary exactly when both reads project to the displayed packet rows
+$$
+S,D,R,B,Q,E,H,C,P,N.
+$$
+On this boundary, the domain history is the finite window ledger $S$, the domain observation and tolerance surface is $D,R,B,Q$, the codomain result is the $\RealUp$ seal $E$, the termination and replay data are $H,C$, and the certificate data are $P,N$.
+
+Consequently the codomain side is not a second carrier, not a second theorem-label surface, and not a hidden dual packet. It is admitted only by re-reading the same history, observation, result, termination, and certificate rows already displayed by $F$. If a receiving gate asks for a codomain row outside this list, the request is recorded as a boundary failure: no private selector, detached dyadic ledger, detached $\RegSeqRatUp$ readback, detached tail-budget row, detached common-tail row, detached $\RealUp$ seal, quotient stream equality, selected limit, host real equality, countable-choice row, ambient completeness row, metric-completeness row, independent completion row, or standard bridge row is available from the accepted packet.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition and the NameCert obligations, \autoref{def:finite-tail-filter-carrier} and \autoref{thm:finite-tail-filter-namecert-obligations}. They expose the accepted $\FiniteTailFilterUp$ packet as exactly the rows $S,D,R,B,Q,E,H,C,P,N$. Hence a domain-oriented read has no source coordinate except the displayed finite window, dyadic, regular-readback, tail-budget, common-tail, seal, transport, replay, provenance, and naming rows.
+
+Apply tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness}. The rows $B,Q,E$ consume the same $S,D$ window and tolerance packet, so a codomain-oriented read cannot obtain its result row by replacing the domain window, splitting the tail budget from the common-tail comparison, or substituting a detached tolerance ledger. The codomain result is the displayed seal row $E$ reached through $S,D,R,B,Q$.
+
+Use the Real seal handoff and cofinal-route exhaustion, \autoref{thm:finite-tail-filter-real-seal-handoff} and \autoref{thm:finite-tail-filter-cofinal-route-exhaustion}. They route every Real, Real-window, and completion-facing read through the same finite packet before the seal is consumed. Thus exchanging the words domain and codomain changes only the orientation of the read; it does not create an additional row on either side.
+
+The termination and certificate rows are fixed by the carrier transport, cofinal-window directedness, and structural provenance obligations, \autoref{thm:finite-tail-filter-carrier-transport-obligation}, \autoref{thm:finite-tail-filter-cofinal-window-directedness-obligation}, and \autoref{thm:finite-tail-filter-structural-provenance-obligation}. The row $H$ transports the displayed rows componentwise, $C$ replays the accepted route, and $P,N$ certify provenance and local naming for the same packet. These rows are therefore shared by the domain and codomain presentations rather than duplicated on a codomain side.
+
+Finally apply classifier alignment, substrate bisimulation, and the left-right mirror boundary, \autoref{thm:finite-tail-filter-classifier-alignment-boundary}, \autoref{thm:finite-tail-filter-substrate-bisimulation-boundary}, and \autoref{thm:finite-tail-filter-left-right-mirror-boundary}. The classifier must re-read the rows from $F$, the only admissible substrate certificate is the row embedding over $S,D,R,B,Q,E,H,C,P,N$, and the mirror read closes only as the diagonal finite-tail packet boundary. Together with non-escape, \autoref{thm:finite-tail-filter-nonescape}, this excludes every off-packet codomain coordinate listed above. Hence the codomain mirror is exactly the same displayed packet, and any stronger codomain request is stopped at the stated boundary.
+\end{proof}
