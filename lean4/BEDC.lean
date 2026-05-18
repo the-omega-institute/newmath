@@ -1111,7 +1111,6 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompilePublicPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompileRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftBudgetExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftLedgerExhaustion
-import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionFreeVariableNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionLedgerExhaustion
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.NameCert
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.TasteGate
@@ -2802,6 +2801,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionLedger
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionRetention
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionScopeStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionVisibleTransport
+import BEDC.Derived.MetaCICNormalizationFrontierUp.OpenProblemLedgerUnblock
 import BEDC.Derived.MetaCICNormalizationFrontierUp.PublicExportSurface
 import BEDC.Derived.MetaCICNormalizationFrontierUp.PublicObligationPackage
 import BEDC.Derived.MetaCICNormalizationFrontierUp.PublicObligationTriad
@@ -4245,7 +4245,6 @@ import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
-import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.ZnormalUp
 import BEDC.Derived.ZnormalUp.TasteGate
