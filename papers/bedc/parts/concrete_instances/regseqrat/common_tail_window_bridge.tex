@@ -16,6 +16,22 @@ for the selected unary indices;
 The packet is only a finite common-tail source surface. It stores no quotient stream, host real value, selected limit, metric-completion point, $\RealUp$ completeness datum, or standard-bridge coordinate beyond the displayed rows.
 \end{definition}
 
+\begin{theorem}[RegSeqRat common-tail union classifier determinacy]
+\label{thm:regseqrat-common-tail-union-classifier-determinacy}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $T_0$ and $T_1$ be two certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$. Suppose the two shifted tail-window reads land in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet} with common refinement $W_\ast$. Then the union window determined by that common-tail packet determines one accepted $\mathsf{RegSeqRatClassifier}$ read for both shifted tail windows, over exactly the displayed $\StreamNameUp$ schedule and refinement rows, $\DyadicRatCoreUp$ endpoint, radius, distance, and regularity rows, $\RegSeqRatUp$ classifier rows, $\RealUp$ seal-source rows, componentwise $\hsame$, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ provenance.
+
+The determinacy statement is only a finite BEDC classifier read on the common union window. It exports no quotient stream equality, host real equality, selected limit, ambient completeness row, metric-completeness row, hidden completion carrier, or additional seal coordinate.
+\end{theorem}
+\begin{proof}
+Project the common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet}. Its rows provide the two certified cofinal tail shifts, the common $\StreamNameUp$ refinement $W_\ast$, the transported dyadic endpoint and radius ledgers, the two tail classifier rows, the common transported classifier row, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+Apply \autoref{thm:regseqrat-common-refinement-classifier-determinacy} to the two transported tail reads on $W_\ast$. The hypotheses identify the transported $\DyadicRatCoreUp$ endpoint rows, radius rows, regularity ledgers, classifier ledgers, componentwise comparisons, continuation routes, and package provenance, so the two shifted schedules expose one $\mathsf{RegSeqRatClassifier}$ read on the common union window.
+
+Use \autoref{thm:regseqrat-streamname-dyadic-window-lock}. The common $\StreamNameUp$ refinement locks the dyadic endpoint, radius, distance, and regularity rows to the same finite ledger, so the accepted classifier read cannot branch through a separate schedule coordinate or a separate dyadic coordinate.
+
+Finally route the common classifier through \autoref{thm:regseqrat-common-tail-window-classifier-bridge} and \autoref{thm:regseqrat-real-seal-handoff}. The bridge identifies the shared classifier and seal-source surface already present on $W_\ast$, and the seal handoff consumes exactly those finite regular-rational rows. Hence quotient stream equality, host real equality, selected limits, ambient completeness, metric-completeness rows, hidden completion carriers, and extra seal data have no displayed row from which to distinguish the two shifted tail windows.
+\end{proof}
+
 \begin{theorem}[RegSeqRat common-tail window classifier bridge]
 \label{thm:regseqrat-common-tail-window-classifier-bridge}
 Let $P$ be an accepted $\RegSeqRatUp$ source, and let $T_0$ and $T_1$ be two certified cofinal tail shifts of the $\StreamNameUp$ schedule of $P$. Suppose two tail-window classifier reads land in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet} with common refinement $W_\ast$. Then the two reads determine the same $\RealUp$ seal-source surface and the same $\mathsf{RegSeqRatClassifier}$ read after restriction to $W_\ast$.
