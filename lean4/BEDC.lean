@@ -108,7 +108,6 @@ import BEDC.Derived.ApophaticNameUp.ContextualClassNonescape
 import BEDC.Derived.ApophaticNameUp.DownstreamBoundaryConsumption
 import BEDC.Derived.ApophaticNameUp.DownstreamBoundaryExactness
 import BEDC.Derived.ApophaticNameUp.DownstreamLedgerNonescape
-import BEDC.Derived.ApophaticNameUp.DownstreamNonimport
 import BEDC.Derived.ApophaticNameUp.DownstreamNoninternalizationPackage
 import BEDC.Derived.ApophaticNameUp.DownstreamRefusalLedgerExhaustion
 import BEDC.Derived.ApophaticNameUp.DownstreamSocketCitationCompleteness
@@ -169,7 +168,6 @@ import BEDC.Derived.ApophaticNameUp.SocketGateRouteExhaustion
 import BEDC.Derived.ApophaticNameUp.SocketRefusal
 import BEDC.Derived.ApophaticNameUp.SocketRefusalCorrespondence
 import BEDC.Derived.ApophaticNameUp.SocketRefusalRouteTotality
-import BEDC.Derived.ApophaticNameUp.SocketRefusalTotality
 import BEDC.Derived.ApophaticNameUp.SocketRequestCoherence
 import BEDC.Derived.ApophaticNameUp.SocketRequestGateExactness
 import BEDC.Derived.ApophaticNameUp.SocketRequestGateFactorization
@@ -257,7 +255,6 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.LocalNameOutputExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertObligationExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputLedgerExactness
-import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputProvenanceCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRefusal
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRouteDeterminacy
@@ -305,7 +302,6 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.StructuralDescentLocality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.SubstitutionMembraneLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalAuthorizedOutputCover
-import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalBranchLedgerLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalConsumerReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalGeneratorAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadbackTotality
@@ -365,7 +361,6 @@ import BEDC.Derived.BHistDecaTupleNameCertUp
 import BEDC.Derived.BHistDodecaTupleNameCertUp
 import BEDC.Derived.BHistHendecaSequenceNameCertUp
 import BEDC.Derived.BHistHendecaTupleNameCertUp
-import BEDC.Derived.BHistHeptaTupleNameCertUp
 import BEDC.Derived.BHistNonaSequenceNameCertUp
 import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.BHistOctaTupleNameCertUp
@@ -1020,6 +1015,7 @@ import BEDC.Derived.ClosedNormalEndpointTransportUp.TasteGate
 import BEDC.Derived.ClosedNormalRouteCertificateUp.TasteGate
 import BEDC.Derived.ClosedObservationSupplyBoundaryUp.TasteGate
 import BEDC.Derived.ClosedObservationSystemUp
+import BEDC.Derived.ClosedSubstitutionBoundaryUp.ClosedSliceTransport
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.PublicNonescape
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.SubstituteInertnessRoute
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
@@ -3058,7 +3054,6 @@ import BEDC.Derived.PhysicsProgrammeSynthesisUp.TasteGate
 import BEDC.Derived.PiApplicationAdequacyRouteUp.TasteGate
 import BEDC.Derived.PicardContractionUp
 import BEDC.Derived.PicardContractionUp.CauchyModulusSiblingRoute
-import BEDC.Derived.PicardContractionUp.DownstreamModulusExposure
 import BEDC.Derived.PicardContractionUp.FiniteRateSealTriangle
 import BEDC.Derived.PicardContractionUp.LedgerBoundary
 import BEDC.Derived.PicardContractionUp.LipschitzLedgerWindowExactness
