@@ -213,6 +213,12 @@ def taste_gate : ChapterTasteGate RelationalObjectivityUp :=
   -- BEDC touchpoint anchor: BHist BMark
   relationalObjectivityChapterTasteGate
 
+def RelationalObjectivityCarrier (F I A L T P N : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  UnaryHistory F ∧ UnaryHistory I ∧ UnaryHistory A ∧ UnaryHistory L ∧
+    UnaryHistory T ∧ UnaryHistory P ∧ UnaryHistory N ∧ Cont I A T ∧
+      Cont L T N ∧ hsame P P
+
 theorem RelationalObjectivityTasteGate_single_carrier_alignment :
     (∀ h : BHist, relationalObjectivityDecodeBHist (relationalObjectivityEncodeBHist h) = h) ∧
       (∀ x : RelationalObjectivityUp,
