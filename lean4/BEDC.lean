@@ -848,7 +848,6 @@ import BEDC.Derived.CauchyModulusRefinementUp.FourFaceStatusObjectwisePullback
 import BEDC.Derived.CauchyModulusRefinementUp.L10CompletionPullback
 import BEDC.Derived.CauchyModulusRefinementUp.L10ConsumerSpineComparison
 import BEDC.Derived.CauchyModulusRefinementUp.L10FaceOrderRigidity
-import BEDC.Derived.CauchyModulusRefinementUp.L10FaceStatusPullbackRecord
 import BEDC.Derived.CauchyModulusRefinementUp.L10FiniteRequestRouteMonotonicity
 import BEDC.Derived.CauchyModulusRefinementUp.L10HandoffSufficiency
 import BEDC.Derived.CauchyModulusRefinementUp.L10RootWindowPullbackExhaustion
@@ -863,7 +862,6 @@ import BEDC.Derived.CauchyModulusRefinementUp.OpenPhaseExitSpine
 import BEDC.Derived.CauchyModulusRefinementUp.OpenPhaseFourObjectConsumption
 import BEDC.Derived.CauchyModulusRefinementUp.OpenPhaseSpineLock
 import BEDC.Derived.CauchyModulusRefinementUp.PaperLeanReadbackSync
-import BEDC.Derived.CauchyModulusRefinementUp.PullbackSpine
 import BEDC.Derived.CauchyModulusRefinementUp.PullbackSpineAdmission
 import BEDC.Derived.CauchyModulusRefinementUp.RealCompletenessHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RealConsumerCoverage
@@ -1114,6 +1112,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuthorizedRecursorAuditRout
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderSealFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueShiftTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerFactorization
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ConsumerFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NormalizationFrontierHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRowDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
@@ -3426,6 +3425,7 @@ import BEDC.Derived.RealUp.FiniteWindowStabilityPackage
 import BEDC.Derived.RealUp.Index
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.L10DependencyLattice
+import BEDC.Derived.RealUp.L10FiniteWindowWitnessDeterminacy
 import BEDC.Derived.RealUp.L10TerminalFaceOrder
 import BEDC.Derived.RealUp.MalformedEndpoint
 import BEDC.Derived.RealUp.MalformedSealedDenominator
@@ -4266,6 +4266,7 @@ import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripConsumerNonescape
+import BEDC.Derived.ZetaContinuationWitnessUp.GammaFunctionalBoundaryTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleGammaBoundary
@@ -4274,6 +4275,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportRouteLock
 import BEDC.Derived.ZetaContinuationWitnessUp.RootPackage
 import BEDC.Derived.ZetaContinuationWitnessUp.RootReadinessSourceSeal
 import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
+import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerSourceReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroRouteInputPackage
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.ZnormalUp
