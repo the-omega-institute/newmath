@@ -173,6 +173,8 @@ import BEDC.Derived.ApophaticNameUp.ConsumerCitationBoundary
 import BEDC.Derived.ApophaticNameUp.SocketRequestTotality
 import BEDC.Derived.ApophaticNameUp.SocketRefusalRouteTotality
 import BEDC.Derived.ApophaticNameUp.GateLedgerExactness
+import BEDC.Derived.ApophaticNameUp.ContextualClassNonescape
+import BEDC.Derived.ApophaticNameUp.BoundaryDescentLedger
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
