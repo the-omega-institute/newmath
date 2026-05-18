@@ -158,6 +158,7 @@ import BEDC.Derived.ApophaticNameUp.SocketRefusalCorrespondence
 import BEDC.Derived.ApophaticNameUp.BoundaryRequestNonescape
 import BEDC.Derived.ApophaticNameUp.BoundaryLedgerExactness
 import BEDC.Derived.ApophaticNameUp.ExternalityHandoff
+import BEDC.Derived.ApophaticNameUp.ExternalityConsumerTotality
 import BEDC.Derived.ApophaticNameUp.ClassifierRefusalTransport
 import BEDC.Derived.ApophaticNameUp.RootSocketExposure
 import BEDC.Derived.ApophaticNameUp.RootDownstreamBoundaryPackage
@@ -934,6 +935,7 @@ import BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate
 import BEDC.Derived.CellularPatternCatalogUp.TasteGate
 import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
 import BEDC.Derived.CellularTrustSubstrateUp.TasteGate
+import BEDC.Derived.CellularTrustSubstrateUp.PublicExportPackage
 import BEDC.Derived.CellularVerbRealignmentUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
@@ -2850,6 +2852,7 @@ import BEDC.Derived.CompactUniformContinuityUp.LedgerExhaustion
 import BEDC.Derived.CompactUniformContinuityUp.MetricDistanceRouting
 import BEDC.Derived.CompactUniformContinuityUp.ModulusCertificate
 import BEDC.Derived.CompactUniformContinuityUp.ModulusChoiceSurface
+import BEDC.Derived.CompactUniformContinuityUp.NetModulusConsumerTriad
 import BEDC.Derived.CompactUniformContinuityUp.NonEscapeLedger
 import BEDC.Derived.CompactUniformContinuityUp.PrecisionRouteTotality
 import BEDC.Derived.CompactUniformContinuityUp.RealMetricSealNonescape
