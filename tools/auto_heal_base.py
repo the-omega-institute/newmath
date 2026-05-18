@@ -45,6 +45,15 @@ BASE_BRANCH = "codex-auto-dev"
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 DEFAULT_INTERVAL = 900  # 15 min
 
+_HEAL_VERIFY_FOOTER = """
+
+Before committing or claiming done: run every verification command named
+in the task above; for any Lean-side or mixed fix ALSO run
+`python3 lean4/scripts/bedc_ci.py axiom-purity --strict` and
+`(cd lean4 && lake build)`. If any verification fails, keep fixing in
+THIS codex session — do NOT commit, do NOT signal success.
+"""
+
 HEAL_DUP_LABELS_PROMPT = """You are healing the BEDC paper to remove duplicate paper labels on the codex-auto-dev branch.
 
 Audit reports the following duplicate labels (each appears in 2+ files):
@@ -429,6 +438,7 @@ def _with_fix_signature(prompt: str, signature: str) -> str:
         + "\n\n## Heal dedup signature\n\n"
         + f"Your commit subject MUST contain this exact substring: `{signature}`.\n"
         + "If you cannot make a correct fix, do not commit.\n"
+        + _HEAL_VERIFY_FOOTER
     )
 
 
@@ -603,6 +613,7 @@ exact <slug>_field_faithful_concrete
 ```
 
 5. Verify the fix: `python3 lean4/scripts/bedc_ci.py axiom-purity --strict` reports `pure=N impure=0 forbidden=...` with the offending theorem no longer listed.
+Run `python3 lean4/scripts/bedc_ci.py axiom-purity --strict` and confirm the target theorem is absent from the impure list; if the theorem still appears, your fix did not work — keep iterating in this session.
 
 6. Also verify lake build: `cd lean4 && python3 scripts/lake_gate.py build` exits 0.
 
@@ -662,6 +673,7 @@ __LOG__
    - For paper-side: `cd papers/bedc && make check` exits 0 (single-pass
      pdflatex catches macro / math-env errors without the full ~75s build).
    - For audit: `python3 lean4/scripts/bedc_ci.py audit` exits 0.
+   Run `python3 lean4/scripts/bedc_ci.py axiom-purity --strict` AND `python3 lean4/scripts/bedc_ci.py audit`; both must exit 0 before commit.
 
 4. Commit with subject `auto-heal: CI 修复 <one-line failure>` and a 1-line
    body identifying the failing workflow + run ID.
