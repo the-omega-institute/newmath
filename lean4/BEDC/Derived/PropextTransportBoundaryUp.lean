@@ -300,4 +300,86 @@ theorem PropextTransportBoundaryDirectionLedgerCoverage [AskSetup] [PackageSetup
       reverseCont, ledgerCont, localNamePkg, forwardPkg, reversePkg, ledgerPkg,
       hsame_refl bidirectional⟩
 
+theorem PropextTransportBoundaryTasteGateHandoff [AskSetup] [PackageSetup]
+    {bidirectional direction replacement transport continuation provenance localName
+      gateRead contextRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PropextTransportBoundaryCarrier bidirectional direction replacement transport continuation
+        provenance localName bundle pkg ->
+      Cont bidirectional direction gateRead ->
+        Cont replacement transport contextRead ->
+          PkgSig bundle gateRead pkg ->
+            PkgSig bundle contextRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row localName ∧
+                      PropextTransportBoundaryCarrier bidirectional direction replacement
+                        transport continuation provenance localName bundle pkg)
+                  (fun row : BHist =>
+                    hsame row localName ∧
+                      (Cont bidirectional direction gateRead ∨
+                        Cont replacement transport contextRead))
+                  (fun row : BHist =>
+                    hsame row localName ∧
+                      PkgSig bundle gateRead pkg ∧ PkgSig bundle contextRead pkg)
+                  hsame ∧
+                UnaryHistory gateRead ∧
+                  UnaryHistory contextRead ∧
+                    Cont bidirectional direction gateRead ∧
+                      Cont replacement transport contextRead ∧
+                        PkgSig bundle localName pkg ∧
+                          PkgSig bundle gateRead pkg ∧ PkgSig bundle contextRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro carrier gateCont contextCont gatePkg contextPkg
+  have carrierWitness := carrier
+  obtain ⟨bidirectionalUnary, directionUnary, replacementUnary, transportUnary,
+    _continuationUnary, _provenanceUnary, _localNameUnary, _carrierGate,
+    _carrierContext, localNamePkg⟩ := carrier
+  have gateUnary : UnaryHistory gateRead :=
+    unary_cont_closed bidirectionalUnary directionUnary gateCont
+  have contextUnary : UnaryHistory contextRead :=
+    unary_cont_closed replacementUnary transportUnary contextCont
+  have sourceAtName :
+      hsame localName localName ∧
+        PropextTransportBoundaryCarrier bidirectional direction replacement transport
+          continuation provenance localName bundle pkg :=
+    And.intro (hsame_refl localName) carrierWitness
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row localName ∧
+              PropextTransportBoundaryCarrier bidirectional direction replacement transport
+                continuation provenance localName bundle pkg)
+          (fun row : BHist =>
+            hsame row localName ∧
+              (Cont bidirectional direction gateRead ∨ Cont replacement transport contextRead))
+          (fun row : BHist =>
+            hsame row localName ∧ PkgSig bundle gateRead pkg ∧ PkgSig bundle contextRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro localName sourceAtName
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact And.intro (hsame_trans (hsame_symm sameRows) source.left) source.right
+    }
+    pattern_sound := by
+      intro _row source
+      exact And.intro source.left (Or.inl gateCont)
+    ledger_sound := by
+      intro _row source
+      exact And.intro source.left (And.intro gatePkg contextPkg)
+  }
+  exact
+    ⟨cert, gateUnary, contextUnary, gateCont, contextCont, localNamePkg, gatePkg,
+      contextPkg⟩
+
 end BEDC.Derived.PropextTransportBoundaryUp
