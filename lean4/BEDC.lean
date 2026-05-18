@@ -237,6 +237,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditRowCompleteness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BoundaryClosure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BoundaryFactorization
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.BoundaryLedgerTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchAuditLedger
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchBudgetExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchOutputClosureRow
@@ -848,6 +849,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.FourFaceStatusObjectwisePullback
 import BEDC.Derived.CauchyModulusRefinementUp.L10CompletionPullback
 import BEDC.Derived.CauchyModulusRefinementUp.L10ConsumerSpineComparison
 import BEDC.Derived.CauchyModulusRefinementUp.L10FaceOrderRigidity
+import BEDC.Derived.CauchyModulusRefinementUp.L10FaceStatusPullbackRecord
 import BEDC.Derived.CauchyModulusRefinementUp.L10FiniteRequestRouteMonotonicity
 import BEDC.Derived.CauchyModulusRefinementUp.L10HandoffSufficiency
 import BEDC.Derived.CauchyModulusRefinementUp.L10RootWindowPullbackExhaustion
@@ -862,6 +864,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.OpenPhaseExitSpine
 import BEDC.Derived.CauchyModulusRefinementUp.OpenPhaseFourObjectConsumption
 import BEDC.Derived.CauchyModulusRefinementUp.OpenPhaseSpineLock
 import BEDC.Derived.CauchyModulusRefinementUp.PaperLeanReadbackSync
+import BEDC.Derived.CauchyModulusRefinementUp.PullbackSpine
 import BEDC.Derived.CauchyModulusRefinementUp.PullbackSpineAdmission
 import BEDC.Derived.CauchyModulusRefinementUp.RealCompletenessHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RealConsumerCoverage
@@ -1111,8 +1114,10 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuthorizedRecursorAuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderSealFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueShiftTotality
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosednessLedgerCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ConsumerFactorization
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.DepthRowStability
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NormalizationFrontierHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRowDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
@@ -2208,6 +2213,7 @@ import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSeparationUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
+import BEDC.Derived.FiniteWitnessedRefutationUp
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
@@ -2867,9 +2873,11 @@ import BEDC.Derived.MetricTriangleUniformEstimateUp.CompactNetTriangleExtraction
 import BEDC.Derived.MetricTriangleUniformEstimateUp.ConsumerBoundaryPackage
 import BEDC.Derived.MetricTriangleUniformEstimateUp.ConsumerHandoff
 import BEDC.Derived.MetricTriangleUniformEstimateUp.FiniteRouteNonescape
+import BEDC.Derived.MetricTriangleUniformEstimateUp.PublicUniformityCriterion
 import BEDC.Derived.MetricTriangleUniformEstimateUp.RadiusComposition
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedCenterTriangleComposition
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusBoundaryExactness
+import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusExactPackage
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusExport
 import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.AppendCommPackage
@@ -3184,6 +3192,7 @@ import BEDC.Derived.PicardContractionUp.ModulusConsumerExhaustion
 import BEDC.Derived.PicardContractionUp.ObligationSurface
 import BEDC.Derived.PicardContractionUp.PublicExports
 import BEDC.Derived.PicardContractionUp.PublicIterateLedger
+import BEDC.Derived.PicardContractionUp.RealRegSeqRatConsumerHandoff
 import BEDC.Derived.PicardContractionUp.RootModulusConsumerLock
 import BEDC.Derived.PicardContractionUp.RootSourceWindowHandoff
 import BEDC.Derived.PicardContractionUp.SourceReadback
@@ -4266,12 +4275,14 @@ import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripConsumerNonescape
+import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPublicRefusal
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaFunctionalBoundaryTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleGammaBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportRouteLock
+import BEDC.Derived.ZetaContinuationWitnessUp.PublicSourceLockExport
 import BEDC.Derived.ZetaContinuationWitnessUp.RootPackage
 import BEDC.Derived.ZetaContinuationWitnessUp.RootReadinessSourceSeal
 import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
