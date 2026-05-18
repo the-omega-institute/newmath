@@ -425,15 +425,17 @@ Let $\mathcal W$ be an accepted terminal fused StreamName packet supplied with a
 same-route $\RealCompletionExactBoundaryUp$ face, so that it is readable as an
 accepted terminal $\PhaseRealCompletionExitUp$ consumer. Every downstream
 consumer of this terminal Phase Real and Completion packet that preserves
-BEDC-visible public rows factors through exactly the four roadmap faces
+BEDC-visible public rows factors through the four roadmap faces
 $$
 \StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
 $$
-and the support rows
+on that route, the same-route $\RealCompletionExactBoundaryUp$ face, and the
+support rows
 $$
 \BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
 $$
-Equivalently, once those displayed rows are fixed, the consumer readback is in
+Equivalently, once the four roadmap faces, the exact-boundary face on that
+route, and the displayed support rows are fixed, the consumer readback is in
 normal form: two presentations with the same displayed rows give the same
 downstream consumer readback.
 
@@ -459,17 +461,19 @@ support rows; the excluded quotient, limit, choice, completeness, aggregate
 status, bridge, and fused-witness rows are not part of the exported interface.
 
 It remains to check independence from presentation. If two terminal
-presentations display the same four roadmap faces and the same support rows,
-then apply
+presentations display the same four roadmap faces, the same exact-boundary face
+on that route, and the same support rows, then apply
 \autoref{thm:streamname-terminal-fusion-phase-exit-refinement-readback-invariance}
 to any certified common refinement between them. The refined and original
 presentations give the same five-face phase-exit consumer readback, hence the
 same downstream readback for every row-preserving consumer.
 
-Finally restrict the conclusion to the four-face L10 route. By
+Finally identify the roadmap substrate. By
 \autoref{thm:streamname-l10-four-face-exit-gate}, the only roadmap faces
 available to the terminal route are $\StreamNameUp$, $\DyadicRatCoreUp$,
-$\RegSeqRatUp$, and $\RealUp$. Combining that gate with source exhaustion,
-phase-exit readback, and refinement readback invariance gives the stated
-universal normal form.
+$\RegSeqRatUp$, and $\RealUp$. The four-face route supplies the roadmap
+substrate, while the phase-exit consumer readback retains the
+$\RealCompletionExactBoundaryUp$ face as a constrained fifth local record.
+Combining that gate with source exhaustion, phase-exit readback, and refinement
+readback invariance gives the stated universal normal form.
 \end{proof}
