@@ -766,6 +766,7 @@ import BEDC.Derived.ScientificObjectUp.TasteGate
 import BEDC.Derived.ScienceBridgeUp.TasteGate
 import BEDC.Derived.BHistOctaTupleNameCertUp
 import BEDC.Derived.BHistDecaTupleNameCertUp
+import BEDC.Derived.BHistHendecaTupleNameCertUp
 import BEDC.Derived.CertifiedPhysicalTruthUp
 import BEDC.Derived.CertifiedPhysicalTruthUp.TasteGate
 import BEDC.Derived.DomainTruthCertificateUp.TasteGate
@@ -1854,6 +1855,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerBoundaryCompletion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RouteReadbackPublicExport
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionVisibleTransport
 import BEDC.Derived.MetaCICNormalizationFrontierUp.PublicExportSurface
+import BEDC.Derived.MetaCICNormalizationFrontierUp.RootCandidateEndpointCoherence
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootUnblockBoundaryRows
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootNormalEndpointRouteExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootObstructionTriad
@@ -1870,6 +1872,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.SealBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.NormalFormBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FuelLedgerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetClassifierTotality
+import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionRouteFactorization
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
