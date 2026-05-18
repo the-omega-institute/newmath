@@ -8,56 +8,72 @@ open BEDC.FKernel.NameCert
 
 theorem KernelAcceptanceAuditWitnessCarrier_standard_bridge_preconditions
     {generated candidate accepted ledger axiomQuery replay transport route provenance name
-      bridgeRoute : BHist} :
+      queryBoundary replayRoute bridgeRead : BHist} :
     KernelAcceptanceAuditWitnessCarrier generated candidate accepted ledger axiomQuery replay
-        transport route provenance name ->
-      Cont route name bridgeRoute ->
+        transport route provenance name →
+      Cont accepted ledger queryBoundary →
+        Cont axiomQuery replay replayRoute →
+          Cont queryBoundary replay bridgeRead →
         SemanticNameCert
-          (fun row : BHist =>
-            KernelAcceptanceAuditWitnessCarrier generated candidate accepted ledger axiomQuery
-                replay transport route provenance name ∧
-              hsame row bridgeRoute)
-          (fun row : BHist =>
-            Cont generated candidate accepted ∧ Cont accepted ledger axiomQuery ∧
-              Cont axiomQuery replay route ∧ Cont route name row)
-          (fun row : BHist =>
-            hsame transport (append generated candidate) ∧ hsame provenance (append ledger replay) ∧
-              hsame name accepted ∧ hsame name ledger ∧ hsame row bridgeRoute)
-          hsame := by
+            (fun row : BHist =>
+              hsame row bridgeRead ∧
+                KernelAcceptanceAuditWitnessCarrier generated candidate accepted ledger axiomQuery
+                  replay transport route provenance name)
+            (fun row : BHist =>
+              Cont accepted ledger queryBoundary ∧ Cont axiomQuery replay replayRoute ∧
+                hsame row bridgeRead)
+            (fun row : BHist =>
+              hsame row bridgeRead ∧ hsame axiomQuery queryBoundary ∧
+                hsame replayRoute route ∧ hsame name ledger)
+            hsame ∧
+          hsame axiomQuery queryBoundary ∧ hsame replayRoute route := by
   -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
-  intro carrier bridgeRead
-  have carrierWitness :
-      KernelAcceptanceAuditWitnessCarrier generated candidate accepted ledger axiomQuery replay
-        transport route provenance name :=
-    carrier
+  intro carrier queryRoute replayRead _bridgeRoute
+  have carrierWitness := carrier
   obtain ⟨generatedCandidateAccepted, acceptedLedgerAxiom, axiomReplayRoute,
     transportSame, provenanceSame, nameAccepted, nameLedger⟩ := carrier
-  exact {
-    core := {
-      carrier_inhabited :=
-        Exists.intro bridgeRoute (And.intro carrierWitness (hsame_refl bridgeRoute))
-      equiv_refl := by
-        intro row _source
-        exact hsame_refl row
-      equiv_symm := by
-        intro _row _other same
-        exact hsame_symm same
-      equiv_trans := by
-        intro _row _middle _other sameLeft sameRight
-        exact hsame_trans sameLeft sameRight
-      carrier_respects_equiv := by
-        intro _row _other same source
-        exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+  have queryMatchesAxiom : hsame axiomQuery queryBoundary :=
+    cont_deterministic acceptedLedgerAxiom queryRoute
+  have replayMatchesRoute : hsame replayRoute route :=
+    cont_respects_hsame (hsame_refl axiomQuery) (hsame_refl replay) replayRead
+      axiomReplayRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row bridgeRead ∧
+              KernelAcceptanceAuditWitnessCarrier generated candidate accepted ledger axiomQuery
+                replay transport route provenance name)
+          (fun row : BHist =>
+            Cont accepted ledger queryBoundary ∧ Cont axiomQuery replay replayRoute ∧
+              hsame row bridgeRead)
+          (fun row : BHist =>
+            hsame row bridgeRead ∧ hsame axiomQuery queryBoundary ∧
+              hsame replayRoute route ∧ hsame name ledger)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro bridgeRead (And.intro (hsame_refl bridgeRead) carrierWitness)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left) source.right
+      }
+      pattern_sound := by
+        intro _row source
+        exact ⟨queryRoute, replayRead, source.left⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, queryMatchesAxiom, replayMatchesRoute, nameLedger⟩
     }
-    pattern_sound := by
-      intro row source
-      exact
-        ⟨generatedCandidateAccepted, acceptedLedgerAxiom, axiomReplayRoute,
-          cont_result_hsame_transport bridgeRead (hsame_symm source.right)⟩
-    ledger_sound := by
-      intro row source
-      exact
-        ⟨transportSame, provenanceSame, nameAccepted, nameLedger, source.right⟩
-  }
+  exact ⟨cert, queryMatchesAxiom, replayMatchesRoute⟩
 
 end BEDC.Derived.KernelAcceptanceAuditWitnessUp
