@@ -72,4 +72,61 @@ theorem CauchyModulusRefinementRealSealRouteNonescape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, wUnary, qUnary, eUnary, sealUnary⟩
 
+theorem CauchyModulusRefinementCarrier_real_seal_route_nonescape
+    [AskSetup] [PackageSetup]
+    {m0 m1 u v t w q e h c p n sealRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg ->
+      Cont q e sealRead ->
+        Cont sealRead h publicRead ->
+          PkgSig bundle publicRead pkg ->
+            SemanticNameCert
+              (fun row : BHist =>
+                CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg ∧
+                  hsame row publicRead)
+              (fun row : BHist =>
+                Cont t w q ∧ Cont q e sealRead ∧ Cont sealRead h row ∧
+                  PkgSig bundle publicRead pkg)
+              (fun row : BHist => UnaryHistory row ∧ PkgSig bundle publicRead pkg)
+              hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier qESeal sealHPublic publicPkg
+  rcases carrier with
+    ⟨m0Unary, m1Unary, uUnary, vUnary, tUnary, wUnary, qUnary, eUnary, hUnary,
+      cUnary, pUnary, nUnary, m0m1u, uvt, twq, qeh, pPkg, hn⟩
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed qUnary eUnary qESeal
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed sealUnary hUnary sealHPublic
+  have carrierPacket :
+      CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg :=
+    ⟨m0Unary, m1Unary, uUnary, vUnary, tUnary, wUnary, qUnary, eUnary, hUnary,
+      cUnary, pUnary, nUnary, m0m1u, uvt, twq, qeh, pPkg, hn⟩
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicRead (And.intro carrierPacket (hsame_refl publicRead))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        ⟨twq, qESeal, cont_result_hsame_transport sealHPublic
+          (hsame_symm source.right), publicPkg⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨unary_transport publicUnary (hsame_symm source.right), publicPkg⟩
+  }
+
 end BEDC.Derived.CauchyModulusRefinementUp

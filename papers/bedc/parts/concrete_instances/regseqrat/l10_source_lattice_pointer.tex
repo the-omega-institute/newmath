@@ -177,3 +177,50 @@ route, but they do not create quotient streams, host equality, selected
 limits, ambient completeness, choice data, standard bridges, or any stronger
 verification-axis status.
 \end{proof}
+
+\begin{theorem}[RegSeqRat L10 face-order initiality]
+\label{thm:regseqrat-l10-face-order-initiality}
+Every accepted L10 handoff from $\StreamNameUp$ and $\DyadicRatCoreUp$ through
+$\RegSeqRatUp$ to the public $\RealUp$ seal reads the four faces in the initial
+order
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The finite stream schedules are read first, the dyadic endpoint, radius, and
+distance ledger is read second, the $\RegSeqRatUp$ regularity and classifier
+rows are read third, and the public $\RealUp$ seal row is read last.
+
+Permuting any face, deleting any face, or inserting a fifth face fails to be an
+accepted read by a $\RealUp$ seal consumer. The only possible repairs would
+introduce one of the excluded coordinates: quotient streams, host real equality,
+selected limits, completion witnesses, ambient completeness data, choice data,
+bridge rows, or verification-axis upgrades.
+\end{theorem}
+\begin{proof}
+The source lattice pointer
+\autoref{thm:regseqrat-l10-source-lattice-pointer} fixes the public route from
+$\StreamNameUp$ and $\DyadicRatCoreUp$ through $\RegSeqRatUp$ to $\RealUp$.
+The route already places the finite stream schedules before the dyadic ledger,
+the dyadic ledger before the regularity and classifier rows, and those rows
+before the terminal seal.
+
+The source lattice exhaustion theorem
+\autoref{thm:regseqrat-l10-source-lattice-exhaustion} says that the accepted
+route has exactly the four displayed owners. Thus an order change cannot be
+explained by appealing to a hidden owner between two faces or behind the seal.
+
+Apply row-owner noncollapse,
+\autoref{thm:regseqrat-l10-row-owner-noncollapse}. A permutation would make a
+later row available before its source face is present; a deletion would erase a
+required owner; and an insertion would require an additional owner. Each case
+breaks the finite route rather than producing the same accepted handoff.
+
+Finally use owner touchpoint coverage,
+\autoref{thm:regseqrat-l10-owner-touchpoint-coverage}. The Lean-facing rows
+seen by the seal consumer are exactly the schedule rows, the dyadic bridge
+rows, the regularity and classifier rows, and the terminal seal row. Any
+consumer that attempts another order must import quotient streams, host real
+equality, selected limits, completion witnesses, ambient completeness data,
+choice data, bridge rows outside the handoff, or a verification-axis upgrade,
+all of which are outside the accepted L10 packet.
+\end{proof}
