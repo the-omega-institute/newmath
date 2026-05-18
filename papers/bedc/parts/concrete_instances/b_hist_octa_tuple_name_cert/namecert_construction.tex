@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-b-hist-octa-tuple-name-cert-namecert}
 \origin{ai-composite}
 
-The $\BHistOctaTupleNameCertUp$ packet is a composite over the arity-eight tag-encoded $\BHist$ carrier-isomorphism bucket. It sits between the nona and deca capstones of \autoref{ch:concrete-instances-b-hist-nona-tuple-name-cert-namecert} and \autoref{ch:concrete-instances-b-hist-deca-tuple-name-cert-namecert}, and it cites the same bucket anchors: the anchor-stability certificate of \autoref{ch:concrete-instances-anchor-stability-certificate-namecert}, the audit-map family of \autoref{ch:concrete-instances-auditmapfamily-namecert}, and the beta critical-pair packet of \autoref{ch:concrete-instances-beta-critical-pair-namecert}. The chapter gives the eight-row carrier a single BEDC name so consumers can read the shared tag, comparison, transport, replay, provenance, and local-name pattern without treating any sibling as an atomic replacement.
+The $\BHistOctaTupleNameCertUp$ packet is a composite over the arity-eight tag-encoded $\BHist$ carrier-isomorphism bucket. It sits between the nona and deca capstones of \autoref{ch:concrete-instances-b-hist-nona-tuple-name-cert-namecert} and \autoref{ch:concrete-instances-b-hist-deca-tuple-name-cert-namecert}, and it cites the same bucket anchors: the anchor-stability certificate of \autoref{ch:concrete-instances-anchor-stability-certificate-namecert}, the audit-map family of \autoref{ch:concrete-instances-auditmapfamily-namecert}, the beta critical-pair packet of \autoref{ch:concrete-instances-beta-critical-pair-namecert}, the eight-row checkpoint surface of \autoref{ch:concrete-instances-reflection-runtime-checkpoint-namecert}, and the finite support pattern carried by the neighboring tuple capstones. The chapter gives the eight-row carrier a single BEDC name so consumers can read the shared tag, comparison, transport, replay, provenance, and local-name pattern without treating any sibling as atomic.
 
 \begin{definition}[BHistOctaTupleNameCert carrier]
 \label{def:b-hist-octa-tuple-name-cert-carrier}
@@ -12,7 +12,7 @@ O=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,H,C,P,L)
 $$
 with the following displayed rows:
 \begin{enumerate}
-\item $R_0,\ldots,R_7$ are the eight tag-encoded carrier rows. Each row is a $\BHist$ entry whose tag records the local role used by a cited bucket sibling and whose payload is read only as a displayed BEDC history component.
+\item $R_0,\ldots,R_7$ are the eight tag-encoded carrier rows. Each row is a $\BHist$ entry whose tag records the local carrier role used by a cited bucket sibling and whose payload is read only as a displayed BEDC history component.
 \item $H$ records componentwise $\hsame$ transport for $R_0,\ldots,R_7,C,P,L$ and no transport row outside the displayed packet.
 \item $C$ records the displayed $\Cont$ route that replays row admission, componentwise comparison, transport, provenance readback, and local naming for the same eight-row packet.
 \item $P$ is the $\Pkg$ provenance over the arity-eight tag encoder, the cited sibling carrier families, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
@@ -81,7 +81,7 @@ The support package is therefore the named BEDC packet itself. Its provenance ca
 
 \falsifiablePrediction{Any accepted consumer route that reads an untagged row, a ninth carrier row, or bucket membership alone fails carrier admission or classifier exactness for $\BHistOctaTupleNameCertUp$.}
 
-\independenceWitness{b-hist-nona-tuple-name-cert, b-hist-deca-tuple-name-cert, auditmapfamily, anchor-stability-certificate, and beta-critical-pair: none is bijective to $\BHistOctaTupleNameCertUp$ because this packet carries eight tagged rows together with transport, replay, provenance, and local $\NameCert$ in one packet, while the nona and deca capstones carry different arities and each cited sibling supplies its own member-family surface.}
+\independenceWitness{b-hist-nona-tuple-name-cert, b-hist-deca-tuple-name-cert, auditmapfamily, anchor-stability-certificate, beta-critical-pair, and reflection-runtime-checkpoint: none is bijective to $\BHistOctaTupleNameCertUp$ because this packet carries exactly eight tagged rows together with transport, replay, provenance, and local $\NameCert$ in one packet, while the nona and deca capstones carry different arities and each cited sibling supplies its own member-family surface.}
 
 \closureat{BHistOctaTupleNameCertUp}{seedStr}
 

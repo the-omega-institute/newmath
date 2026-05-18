@@ -74,6 +74,72 @@ theorem GroundCompilerAuditMapCarrier_report_boundary_exactness :
     injection htail₁₁ with hrow _
     cases hrow
 
+theorem GroundCompilerAuditMapCarrier_obligation_closure :
+    (∀ x : GroundCompilerAuditMapUp,
+      ∃ I K E C R Q F X H T P N : BHist,
+        x = GroundCompilerAuditMapUp.mk I K E C R Q F X H T P N ∧
+          FieldFaithful.fields x = [I, K, E, C, R, Q, F, X, H, T, P, N]) ∧
+      (∀ I K E C R F X H T P N : BHist,
+        BHistCarrier.toEventFlow
+          (GroundCompilerAuditMapUp.mk I K E C R (BHist.e1 BHist.Empty) F X H T P N) ≠
+        BHistCarrier.toEventFlow
+          (GroundCompilerAuditMapUp.mk I K E C R BHist.Empty F X H T P N)) ∧
+        (∀ I K E C R Q X H T P N : BHist,
+          BHistCarrier.toEventFlow
+            (GroundCompilerAuditMapUp.mk I K E C R Q (BHist.e0 BHist.Empty) X H T P N) ≠
+          BHistCarrier.toEventFlow
+            (GroundCompilerAuditMapUp.mk I K E C R Q BHist.Empty X H T P N)) ∧
+          groundCompilerAuditMapEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  constructor
+  · intro x
+    cases x with
+    | mk I K E C R Q F X H T P N =>
+        exact ⟨I, K, E, C, R, Q, F, X, H, T, P, N, rfl, rfl⟩
+  · constructor
+    · intro I K E C R F X H T P N heq
+      change
+        groundCompilerAuditMapToEventFlow
+            (GroundCompilerAuditMapUp.mk I K E C R (BHist.e1 BHist.Empty) F X H T P N) =
+          groundCompilerAuditMapToEventFlow
+            (GroundCompilerAuditMapUp.mk I K E C R BHist.Empty F X H T P N) at heq
+      injection heq with _ htail₁
+      injection htail₁ with _ htail₂
+      injection htail₂ with _ htail₃
+      injection htail₃ with _ htail₄
+      injection htail₄ with _ htail₅
+      injection htail₅ with _ htail₆
+      injection htail₆ with _ htail₇
+      injection htail₇ with _ htail₈
+      injection htail₈ with _ htail₉
+      injection htail₉ with _ htail₁₀
+      injection htail₁₀ with _ htail₁₁
+      injection htail₁₁ with hrow _
+      cases hrow
+    · constructor
+      · intro I K E C R Q X H T P N heq
+        change
+          groundCompilerAuditMapToEventFlow
+              (GroundCompilerAuditMapUp.mk I K E C R Q (BHist.e0 BHist.Empty) X H T P N) =
+            groundCompilerAuditMapToEventFlow
+              (GroundCompilerAuditMapUp.mk I K E C R Q BHist.Empty X H T P N) at heq
+        injection heq with _ htail₁
+        injection htail₁ with _ htail₂
+        injection htail₂ with _ htail₃
+        injection htail₃ with _ htail₄
+        injection htail₄ with _ htail₅
+        injection htail₅ with _ htail₆
+        injection htail₆ with _ htail₇
+        injection htail₇ with _ htail₈
+        injection htail₈ with _ htail₉
+        injection htail₉ with _ htail₁₀
+        injection htail₁₀ with _ htail₁₁
+        injection htail₁₁ with _ htail₁₂
+        injection htail₁₂ with _ htail₁₃
+        injection htail₁₃ with hrow _
+        cases hrow
+      · exact rfl
+
 theorem GroundCompilerAuditMapCarrier_compiler_layer_frontier
     {I K E R Q X H T P N I' K' E' R' Q' X' H' T' P' N' : BHist}
     (hflow :

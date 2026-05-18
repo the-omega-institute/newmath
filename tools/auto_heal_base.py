@@ -65,7 +65,7 @@ For each duplicate label X appearing in files A and B:
 ## Build + commit
 
 5. After all duplicates resolved: `python3 lean4/scripts/bedc_ci.py audit` MUST exit 0 with no `duplicate paper labels` line.
-6. `git add` each touched file, `git commit -m "auto-heal: resolve N stuck dup paper labels"` (no push — the daemon does that).
+6. `git add` each touched file, `git commit -m "auto-heal: 重复标签 <main-label>"` (no push — the daemon does that). The commit subject MUST contain the dedup signature supplied by the daemon.
 
 If any duplicate is genuinely ambiguous (canonical site unclear), leave it for a human and explain in your final message.
 """
@@ -98,7 +98,7 @@ Representative failure lines (last 5):
 4. Do NOT modify `codex_formalize.py` / `codex_revise.py` themselves — orchestrator restart would lose in-flight workers, which the project rule forbids.
 5. Do NOT touch the `parts/visions/` directory, the `lean4/BEDC/**/Examples/**` tree, or any `*Examples*` / `*Scaffold*` / `*Demo*` path; those are read-only by project rule.
 6. After editing: `make check` (in `papers/bedc/`) + `python3 lean4/scripts/bedc_ci.py audit` must both exit 0.
-7. `git add` + `git commit -m "auto-heal: <gate-name> storm — explicit HARD GATE in <prompt-file>"`. Do NOT push (the daemon handles push).
+7. `git add` + `git commit -m "auto-heal: gate-storm <gate-name> 提示约束"`; the commit subject MUST contain the dedup signature supplied by the daemon. Do NOT push (the daemon handles push).
 
 ## When NOT to act
 
@@ -123,7 +123,7 @@ A typical case is theorem B's conclusion being a strict superset of A's (e.g. A 
 
 ## Build + commit
 
-5. `git add` the modified file(s), `git commit -m "auto-heal: remove stuck dup-conclusion theorem in {file}"`.
+5. `git add` the modified file(s), `git commit -m "auto-heal: 删除重复结论 {file}"`.
 6. Do NOT push — the daemon does that.
 
 If the duplication is intentional (e.g. both theorems serve documented different audiences and removing either would break downstream), leave alone and explain in your final message.
@@ -149,7 +149,7 @@ regex did not recognize one of its symbols as a BEDC anchor.
    Do not broaden the regex with a generic catch-all.
 4. Verify: `python3 lean4/scripts/phase_d_lint.py --help` exits 0 and
    `python3 -m py_compile lean4/scripts/phase_d_lint.py` exits 0.
-5. Commit with message `fix: phase_d_lint anchor for {symbol} typeclass`.
+5. Commit with message `auto-heal: cooldown NO_BEDC_TOUCHPOINT_NARROW {symbol}`. The commit subject MUST contain the dedup signature supplied by the daemon.
 
 Do NOT push. The heal daemon handles push.
 """
@@ -172,7 +172,7 @@ Representative failures:
 3. Update any local references to use the surviving theorem or a projection
    from it.
 4. Verify: `cd lean4 && lake build` exits 0.
-5. Commit with message `fix: remove repeated shallow growth in {slug}`.
+5. Commit with message `auto-heal: cooldown SHALLOW_GROWTH_REPEATED {slug}`. The commit subject MUST contain the dedup signature supplied by the daemon.
 
 Do NOT push. The heal daemon handles push.
 """
@@ -196,7 +196,7 @@ Likely duplicate symbol: `{symbol}`
    deleting the newer redundant helper if it is not referenced.
 3. Update references only as needed.
 4. Verify: `cd lean4 && lake build` exits 0.
-5. Commit with message `fix: remove duplicate declaration {symbol}`.
+5. Commit with message `auto-heal: cooldown LAKE_BUILD_STUCK_DUP {symbol}`. The commit subject MUST contain the dedup signature supplied by the daemon.
 
 Do NOT push. The heal daemon handles push.
 """
@@ -216,7 +216,7 @@ __PORCELAIN__
 
 **Decision rules per file**:
 
-1. Inspect the diff with `git diff <file>`. If the change is a substantive addition (new theorem with proof, new chapter with NameCert obligations, new \\leanchecked marker matching a real Lean declaration), it is genuinely-good work — bundle related files (e.g., a Lean theorem + its paper-side \\leanchecked marker) into one commit with subject `auto-heal-stuck-dirt: <brief description>` and a 1-2 sentence body explaining what was recovered.
+1. Inspect the diff with `git diff <file>`. If the change is a substantive addition (new theorem with proof, new chapter with NameCert obligations, new \\leanchecked marker matching a real Lean declaration), it is genuinely-good work — bundle related files (e.g., a Lean theorem + its paper-side \\leanchecked marker) into one commit with subject `auto-heal: 回收滞留工作 <brief description>` and a 1-2 sentence body explaining what was recovered.
 
 2. If the change is a deletion or partial-revert (a `\\input{...}` line removed without the chapter file also being removed, a `\\newcommand{\\<X>Up}{...}` removed without the chapter file referencing it being removed), it is debris from a half-finished revert. Either complete the revert (delete the chapter file too if it's no longer referenced anywhere) OR restore the deleted line (`git checkout HEAD -- <file>`).
 
@@ -230,7 +230,7 @@ __PORCELAIN__
 - `cd lean4 && python3 scripts/lake_gate.py build` must pass (if you committed Lean-side changes)
 - After all decisions, `git status --porcelain` must be EMPTY (no tracked modifications). Untracked `??` files are tolerated.
 
-Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Make one or more commits with the `auto-heal-stuck-dirt:` subject prefix; multiple commits are fine if the dirt naturally splits into multiple coherent groups.
+Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Make one or more commits with the `auto-heal: 回收滞留工作` subject prefix; multiple commits are fine if the dirt naturally splits into multiple coherent groups.
 
 Stop after the working tree is clean.
 """
@@ -264,7 +264,7 @@ def heal_stuck_dirt(blocking: list[str]) -> bool:
     `blocking` is the list of git-status-porcelain lines describing
     modified-but-uncommitted tracked files. Codex inspects each diff,
     decides commit-or-revert per file, and commits any recovered work
-    under `auto-heal-stuck-dirt:` subjects. Returns True iff codex made
+    under `auto-heal: 回收滞留工作` subjects. Returns True iff codex made
     progress (at least one commit OR the tree ended up clean)."""
     head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
     porcelain_str = "\n".join(blocking)
@@ -277,6 +277,10 @@ def heal_stuck_dirt(blocking: list[str]) -> bool:
         .replace("__MINUTES_TOTAL__", str(minutes_total))
         .replace("__PORCELAIN__", porcelain_str)
     )
+    signature = "stuck dirt " + _short_hash(porcelain_str)
+    if _recurring_fix_loop(signature, "stuck dirt", {"blocking": blocking[:10]}):
+        return False
+    prompt = _with_fix_signature(prompt, signature)
     rc = call_codex(prompt, timeout=1800)
     head_after = git("rev-parse", "HEAD", capture=True).stdout.strip()
     # Success criteria: commit OR clean tree.
@@ -315,6 +319,168 @@ def run(cmd, *, cwd=REPO_ROOT, check=True, capture=False, env=None, timeout=None
 
 def git(*args, **kwargs):
     return run(["git", *args], **kwargs)
+
+
+def _tail_text(text: str, limit: int = 500) -> str:
+    if isinstance(text, bytes):
+        text = text.decode("utf-8", errors="ignore")
+    text = text.strip()
+    return text[-limit:] if len(text) > limit else text
+
+
+def verify_local_ci() -> tuple[bool, str | None]:
+    """Run quick local CI suite before pushing a heal commit.
+
+    Returns (False, error_tail) on the first failed step and (True, None)
+    when all checks pass.
+    """
+    checks = [
+        ("papers/bedc make check", ["make", "check"], REPO_ROOT / "papers" / "bedc", 600),
+        ("lean4 lake build", ["lake", "build"], REPO_ROOT / "lean4", 600),
+        (
+            "bedc_ci audit",
+            ["python3", "lean4/scripts/bedc_ci.py", "audit"],
+            REPO_ROOT,
+            180,
+        ),
+        (
+            "bedc_ci axiom-purity --strict",
+            ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"],
+            REPO_ROOT,
+            240,
+        ),
+    ]
+    for name, cmd, cwd, timeout in checks:
+        print(f"[heal] verify_local_ci: running {name}", flush=True)
+        try:
+            res = run(cmd, cwd=cwd, check=False, capture=True, timeout=timeout)
+        except subprocess.TimeoutExpired as exc:
+            stdout = exc.stdout or ""
+            stderr = exc.stderr or ""
+            if isinstance(stdout, bytes):
+                stdout = stdout.decode("utf-8", errors="ignore")
+            if isinstance(stderr, bytes):
+                stderr = stderr.decode("utf-8", errors="ignore")
+            out = stdout + stderr
+            return False, f"{name} timed out after {timeout}s\n{_tail_text(out)}"
+        except Exception as exc:
+            return False, f"{name} failed to run: {exc}"
+        if res.returncode != 0:
+            out = (res.stdout or "") + (res.stderr or "")
+            return False, f"{name} failed rc={res.returncode}\n{_tail_text(out)}"
+    return True, None
+
+
+def recent_fix_signature_seen(
+    signature: str,
+    hours: int = 6,
+    threshold: int = 2,
+) -> bool:
+    """Return True when recent commit subjects contain signature often enough."""
+    if not signature:
+        return False
+    try:
+        res = git(
+            "log",
+            f"--since={hours} hours ago",
+            "--format=%s",
+            "HEAD",
+            f"origin/{BASE_BRANCH}",
+            check=False,
+            capture=True,
+            timeout=30,
+        )
+    except Exception as exc:
+        print(f"[heal] recent_fix_signature_seen failed: {exc}", file=sys.stderr)
+        return False
+    if res.returncode != 0:
+        print(f"[heal] git log for recent fix signatures failed: {res.stderr}",
+              file=sys.stderr)
+        return False
+    hits = sum(1 for line in (res.stdout or "").splitlines() if signature in line)
+    if hits >= threshold:
+        print(
+            f"[heal] recent_fix_signature_seen: signature={signature!r} "
+            f"hits={hits}/{threshold}",
+            file=sys.stderr,
+        )
+        return True
+    return False
+
+
+def _recurring_fix_loop(signature: str, phase: str, details: dict) -> bool:
+    if not recent_fix_signature_seen(signature, hours=6, threshold=2):
+        return False
+    payload = dict(details)
+    payload["signature"] = signature
+    payload["phase"] = phase
+    log_heal_alert(
+        category="RECURRING_FIX_LOOP",
+        details=payload,
+        cooldown_count=0,
+        note="近 6 小时内同一修复签名已多次出现，停止派发 codex 并转交人工分诊",
+    )
+    return True
+
+
+def _with_fix_signature(prompt: str, signature: str) -> str:
+    return (
+        prompt
+        + "\n\n## Heal dedup signature\n\n"
+        + f"Your commit subject MUST contain this exact substring: `{signature}`.\n"
+        + "If you cannot make a correct fix, do not commit.\n"
+    )
+
+
+def _ci_fix_signature(log_tail: str, failure: dict) -> str:
+    patterns = [
+        (r"Undefined control sequence\.\s*(?:.*\n){0,3}.*?(\\[A-Za-z@]+)", "missing macro"),
+        (r"Command\s+(\\[A-Za-z@]+)\s+already defined", "duplicate macro"),
+        (r"LaTeX Error:\s*Command\s+(\\[A-Za-z@]+)\s+already defined", "duplicate macro"),
+        (r"error:\s*unknown identifier\s+['`]?([A-Za-z_][A-Za-z0-9_'.]*)", "unknown identifier"),
+        (r"unresolved Lean marker\s+([A-Za-z_][A-Za-z0-9_'.]*)", "unresolved marker"),
+        (r"STALE MARKER\s+([A-Za-z_][A-Za-z0-9_'.]*)", "stale marker"),
+        (r"([A-Za-z_][A-Za-z0-9_'.]*)\s+->\s+(propext|Classical\.choice|Quot\.sound)", "axiom leak"),
+    ]
+    for pattern, prefix in patterns:
+        m = re.search(pattern, log_tail, re.IGNORECASE)
+        if not m:
+            continue
+        if prefix == "axiom leak" and len(m.groups()) >= 2:
+            return f"CI heal {prefix} {m.group(1)} {m.group(2)}"
+        return f"CI heal {prefix} {m.group(1)}"
+    fallback = _short_hash(log_tail[-2000:])
+    return f"CI heal {failure.get('workflow', '?')} {fallback}"
+
+
+def verify_then_push(phase: str) -> bool:
+    ok, err = verify_local_ci()
+    if ok:
+        if push_to_origin():
+            print(f"[heal] codex committed + pushed ({phase})", flush=True)
+            return True
+        print(f"[heal] codex committed but push failed ({phase}; retry next tick)",
+              flush=True)
+        return False
+    err = err or "unknown local CI failure"
+    print(
+        f"[heal] codex committed but local CI failed; NOT pushing. "
+        f"Error tail: {err[:200]}",
+        file=sys.stderr,
+        flush=True,
+    )
+    log_heal_alert(
+        category="LOCAL_CI_FAILED_AFTER_HEAL",
+        details={"phase": phase, "error_tail": err[:500]},
+        cooldown_count=0,
+        note="codex 的 heal 提交破坏了本地 CI，已阻止 push 并尝试回退",
+    )
+    try:
+        git("reset", "--hard", "HEAD^", check=False, capture=True)
+        print("[heal] reverted heal commit (verify failed)", flush=True)
+    except Exception as exc:
+        print(f"[heal] revert failed: {exc}", file=sys.stderr, flush=True)
+    return False
 
 
 GATE_STORM_WINDOW_MINUTES = 30
@@ -406,11 +572,11 @@ HEAL_PROPEXT_PROMPT = """You are healing a `propext`-axiom dependency in a BEDC 
 __THEOREM__ -> propext
 ```
 
-This is the **propext trap** previously hit and documented in commit `fcd515ed95` (around v5.17): typeclass projection equality (e.g. `BHistCarrier.fromEventFlow X = Y`) and similar typeclass field accesses unfold via `propext` when the instance is resolved at use-site. The pattern that triggers it is referencing `<TypeClass>.<field>` from another theorem's proof body without first concretising the resolution.
+This is the **propext trap**: typeclass projection equality (e.g. `BHistCarrier.fromEventFlow X = Y`) and similar typeclass field accesses unfold via `propext` when the instance is resolved at use-site. The pattern that triggers it is referencing `<TypeClass>.<field>` from another theorem's proof body without first concretising the resolution.
 
 Your task: rewrite the offending theorem (or its dependencies) so the proof uses concrete defs / explicit instance bodies instead of typeclass projections.
 
-**Recipe** (from the v5.17 fix):
+**Recipe**:
 
 1. Read the offending theorem source: `git grep -n "__THEOREM__"` to locate the file. The theorem is usually under `lean4/BEDC/Derived/<X>Up/` or `lean4/BEDC/Derived/<X>Up.lean`.
 
@@ -440,7 +606,7 @@ exact <slug>_field_faithful_concrete
 
 6. Also verify lake build: `cd lean4 && python3 scripts/lake_gate.py build` exits 0.
 
-7. Commit with subject `auto-heal-propext: <slug> <field-name>` and a short body identifying which typeclass projection was concretised.
+7. Commit with subject `auto-heal: propext heal <theorem>` and a short body identifying which typeclass projection was concretised. The commit subject MUST contain the dedup signature supplied by the daemon.
 
 Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Stop after axiom-purity --strict passes.
 """
@@ -497,7 +663,7 @@ __LOG__
      pdflatex catches macro / math-env errors without the full ~75s build).
    - For audit: `python3 lean4/scripts/bedc_ci.py audit` exits 0.
 
-4. Commit with subject `auto-heal-ci: fix <one-line failure>` and a 1-line
+4. Commit with subject `auto-heal: CI 修复 <one-line failure>` and a 1-line
    body identifying the failing workflow + run ID.
 
 Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Stop
@@ -614,6 +780,11 @@ def heal_ci_failure(failure: dict) -> bool:
               .replace("__WORKFLOW__", failure.get("workflow", "?"))
               .replace("__RUN_ID__", str(run_id))
               .replace("__JOB__", job_guess))
+    signature = _ci_fix_signature(log_tail, failure)
+    if _recurring_fix_loop(signature, "CI fix", failure):
+        _mark_ci_seen(run_id)
+        return False
+    prompt = _with_fix_signature(prompt, signature)
     _mark_ci_seen(run_id)  # prevent ping-pong even if codex fails
     head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
     rc = call_codex(prompt, timeout=1800)
@@ -662,7 +833,13 @@ def heal_propext_violations(violations: list[str]) -> bool:
     head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
     healed_any = False
     for thm in violations[:3]:  # cap 3 per cycle so a bad fix can't loop
-        prompt = HEAL_PROPEXT_PROMPT.replace("__THEOREM__", thm)
+        signature = f"propext heal {thm}"
+        if _recurring_fix_loop(signature, "propext", {"theorem": thm}):
+            continue
+        prompt = _with_fix_signature(
+            HEAL_PROPEXT_PROMPT.replace("__THEOREM__", thm),
+            signature,
+        )
         before = git("rev-parse", "HEAD", capture=True).stdout.strip()
         rc = call_codex(prompt, timeout=1800)
         after = git("rev-parse", "HEAD", capture=True).stdout.strip()
@@ -748,6 +925,10 @@ def heal_gate_storm(storm: dict) -> bool:
         rounds=", ".join(storm["rounds"]),
         samples="\n".join(f"  {s}" for s in storm["samples"]),
     )
+    signature = f"gate-storm {storm['gate']}"
+    if _recurring_fix_loop(signature, "gate storm", storm):
+        return False
+    prompt = _with_fix_signature(prompt, signature)
     rc = call_codex(prompt, timeout=1800)
     head_after = git("rev-parse", "HEAD", capture=True).stdout.strip()
     if head_before == head_after:
@@ -821,7 +1002,17 @@ def heal_dup_labels(dups: list[tuple[str, list[str]]]) -> bool:
     a commit, False otherwise."""
     head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
     dump_lines = [f"  {label} @ {', '.join(sites)}" for label, sites in dups]
-    prompt = HEAL_DUP_LABELS_PROMPT.format(dups="\n".join(dump_lines))
+    signature = f"dup label {dups[0][0]}"
+    if _recurring_fix_loop(
+        signature,
+        "dup labels",
+        {"labels": [label for label, _ in dups[:10]]},
+    ):
+        return False
+    prompt = _with_fix_signature(
+        HEAL_DUP_LABELS_PROMPT.format(dups="\n".join(dump_lines)),
+        signature,
+    )
     rc = call_codex(prompt, timeout=1800)
     head_after = git("rev-parse", "HEAD", capture=True).stdout.strip()
     if head_before == head_after:
@@ -1205,6 +1396,8 @@ def format_heal_alert(category: str, details: dict, *, cooldown_count: int, note
             "降低 tools/auto_tune_concurrency.py 里的 LEAN_MAX 或 PAPER_MAX，"
             "或调整 push lock 拓扑"
         ),
+        "LOCAL_CI_FAILED_AFTER_HEAL": "保留 alert，人工查看本地 CI 尾部并重新设计 heal",
+        "RECURRING_FIX_LOOP": "停止重复派发 codex，人工检查近期 git log 与失败签名",
     }.get(category, "需要人工分诊")
     lines.append(f"  suggested_action: {suggested}")
     if note:
@@ -1274,6 +1467,10 @@ def attempt_hot_fix(category: str, details: dict, *, dry_run: bool = False) -> s
         print(f"[heal] dry-run would dispatch cooldown hot-fix: {category}", file=sys.stderr)
         print(prompt[:1200], file=sys.stderr)
         return ""
+    signature = f"cooldown {category} {_details_hash(category, details)}"
+    if _recurring_fix_loop(signature, "cooldown hot-fix", details):
+        return ""
+    prompt = _with_fix_signature(prompt, signature)
     head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
     _mark_hot_fix_attempt(category, details, "")
     rc = call_codex(prompt, timeout=1800)
@@ -1433,12 +1630,7 @@ def cycle() -> None:
     # other phases run on next cycle.
     try:
         if cooldown_analysis_phase():
-            if push_to_origin():
-                print("[heal] codex committed + pushed (cooldown hot-fix)",
-                      flush=True)
-            else:
-                print("[heal] codex committed but push failed (cooldown hot-fix retry next tick)",
-                      flush=True)
+            verify_then_push("cooldown hot-fix")
             return  # one cooldown hot-fix this cycle
     except Exception as exc:
         print(f"[heal] cooldown_analysis_phase crashed: {exc}",
@@ -1478,11 +1670,7 @@ def cycle() -> None:
             for b in blocking[:5]:
                 print(f"[heal]   {b}", file=sys.stderr)
             if heal_stuck_dirt(blocking):
-                if push_to_origin():
-                    print("[heal] codex resolved stuck dirt + pushed", flush=True)
-                else:
-                    print("[heal] codex resolved stuck dirt; push failed (retry next tick)",
-                          flush=True)
+                verify_then_push("stuck dirt")
                 _write_stuck_dirt_state(0, frozenset())
                 return
             else:
@@ -1512,11 +1700,7 @@ def cycle() -> None:
         for label, sites in dups[:5]:
             print(f"[heal]   {label} @ {sites}", flush=True)
         if heal_dup_labels(dups):
-            if push_to_origin():
-                print("[heal] codex committed + pushed (dup labels)", flush=True)
-            else:
-                print("[heal] codex committed but push failed (will retry next tick)",
-                      flush=True)
+            verify_then_push("dup labels")
             return  # one heal per cycle is enough
     else:
         print("[heal] audit clean (0 dup labels)", flush=True)
@@ -1533,11 +1717,7 @@ def cycle() -> None:
                   f"workflow={failure.get('workflow','?')}); invoking codex",
                   flush=True)
             if heal_ci_failure(failure):
-                if push_to_origin():
-                    print("[heal] codex committed + pushed (CI fix)", flush=True)
-                else:
-                    print("[heal] codex committed but push failed (retry next tick)",
-                          flush=True)
+                verify_then_push("CI fix")
                 return  # one heal per cycle is enough
             break
         if not attempted:
@@ -1559,11 +1739,7 @@ def cycle() -> None:
         for v in propext_v[:5]:
             print(f"[heal]   {v}", flush=True)
         if heal_propext_violations(propext_v):
-            if push_to_origin():
-                print("[heal] codex committed + pushed (propext)", flush=True)
-            else:
-                print("[heal] codex committed but push failed (retry next tick)",
-                      flush=True)
+            verify_then_push("propext")
             return  # one heal per cycle is enough
     else:
         print("[heal] no propext violation in log tail", flush=True)
@@ -1602,12 +1778,7 @@ def cycle() -> None:
             healed = heal_gate_storm(top)
 
         if healed:
-            if push_to_origin():
-                print(f"[heal] codex committed + pushed (gate storm: {top['gate']})",
-                      flush=True)
-            else:
-                print(f"[heal] codex committed but push failed (will retry next tick)",
-                      flush=True)
+            verify_then_push(f"gate storm: {top['gate']}")
             return
 
     # Cooldown analysis already ran at top of cycle (alerts written + at most
@@ -1630,6 +1801,8 @@ def main() -> int:
         return run_cooldown_self_test()
 
     if args.dry_run:
+        print("[heal] dry-run helpers available: verify_local_ci, recent_fix_signature_seen",
+              file=sys.stderr)
         stdin_text = ""
         if not sys.stdin.isatty():
             stdin_text = sys.stdin.read()
