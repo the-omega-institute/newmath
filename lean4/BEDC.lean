@@ -261,6 +261,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.RefusalRowDeterminacy
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RegistryClassifierScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.LedgerRouteScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.HorizonRefusalCoverage
+import BEDC.Derived.AxisZeckendorfCannotClaimUp.AxisNatNatRefusalBoundary
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.HorizonRefusalScope
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
@@ -1775,6 +1776,7 @@ import BEDC.Derived.HistTimeStreamUp.StartLedgerUniqueness
 import BEDC.Derived.HistTimeStreamUp.ScheduleEndpointTransport
 import BEDC.Derived.HistTimeStreamUp.SourceObservationTotality
 import BEDC.Derived.HistTimeStreamUp.StreamNameFiniteWindowHandoff
+import BEDC.Derived.HistTimeStreamUp.StreamNameWindowTotality
 import BEDC.Derived.HistTimeStreamUp.StreamNameScheduleClassifierBoundary
 import BEDC.Derived.HistTimeStreamUp.TransportLock
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
@@ -1835,6 +1837,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.RootObligationTriad
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetLedgerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootFormalHandoffTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootGateScopeExactness
+import BEDC.Derived.MetaCICNormalizationFrontierUp.SealBoundary
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
