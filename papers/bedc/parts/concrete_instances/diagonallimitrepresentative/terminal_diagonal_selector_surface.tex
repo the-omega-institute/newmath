@@ -1,0 +1,66 @@
+\begin{definition}[Diagonal-limit representative terminal-diagonal selector]
+\label{def:diagonal-limit-representative-terminal-diagonal-selector}
+The terminal-diagonal selector for $\DiagonalLimitRepresentativeUp$ is the finite BEDC packet
+$$
+\Delta=(M,Q,X,\mu,n,k,i,w,r,d,e,B,S,H,C,P,N)
+$$
+read from an accepted carrier and classifier of \autoref{def:diagonal-limit-representative-carrier} and \autoref{def:diagonal-limit-representative-classifier}. The rows $M,Q,B,S$ are respectively the cofinal modulus seal, finite-prefix limit budget, displayed budget row, and selected finite prefix window; the rows $X,\mu,n,k,i$ are the cofinal index rows with
+$$
+k=\mu(1/(n+1))
+$$
+and
+$$
+i=k+n+1.
+$$
+The rows $w,r,d,e$ are the $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and terminal $\RealUp$ seal for that same index row. The support rows $H,C,P,N$ are the displayed $\BHist$, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DiagonalLimitRepresentativeUp}$ naming data attached to the selected terminal diagonal route.
+
+This packet is sourced by the root-index coverage surface, cofinal-tail extraction surface, finite selector exhaustion surface, terminal-pullback obligation surface, and Real-completion consumer exactness surface. It records only finite BEDC rows; it exports no host selection function, quotient stream equality, host real equality, countable choice, completed limit object, or ambient $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[Diagonal-limit representative terminal-diagonal coverage]
+\label{thm:diagonal-limit-representative-terminal-diagonal-coverage}
+Every accepted terminal-diagonal selector packet $\Delta$ for $\DiagonalLimitRepresentativeUp$ exposes, for each displayed finite prefix window $S$, one terminal representative row
+$$
+(X,\mu,n,k,i,w,r,d,e)
+$$
+with its cofinal modulus seal $M$, finite-prefix budget rows $Q,B,S$, and support rows $H,C,P,N$. The exposed row is exactly the row routed by the root-index coverage theorem, cofinal-tail coverage theorem, finite selector exhaustion theorem, terminal-pullback source coverage theorem, and Real-completion consumer exactness theorem.
+\end{theorem}
+\begin{proof}
+First read the root-index coverage theorem \autoref{thm:diagonal-limit-representative-root-index-coverage}. It makes the displayed equations for $k$ and $i$ visible before any terminal consumer reads the selected window, readback, dyadic ledger, or Real seal.
+
+Next attach cofinal-tail coverage and finite selector exhaustion, \autoref{thm:diagonal-limit-representative-cofinal-tail-coverage} and \autoref{thm:diagonal-limit-representative-finite-selector-exhaustion}. These two surfaces place the cofinal modulus seal, finite-prefix budget rows, selected finite prefix window, and fixed selector rows on the same finite $\BHist$ route.
+
+Finally use terminal-pullback source coverage and Real-completion consumer exactness, \autoref{thm:diagonal-limit-representative-terminal-pullback-source-coverage} and \autoref{thm:diagonal-limit-representative-real-completion-consumer-exactness}. They force the terminal Real seal to be consumed only after the selected StreamName, RegSeqRat, DyadicRatCore, budget, cofinal modulus, provenance, and naming rows are displayed. Hence every displayed finite prefix window exposes the stated terminal representative row and no off-packet selector is available.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative terminal-diagonal transport]
+\label{thm:diagonal-limit-representative-terminal-diagonal-transport}
+Let $\Delta$ and $\Delta'$ be accepted terminal-diagonal selector packets for $\DiagonalLimitRepresentativeUp$ whose corresponding rows are related by the componentwise $\hsame$ rows and displayed $\Cont$ replay of \autoref{def:diagonal-limit-representative-classifier}. Then the selected terminal diagonal route
+$$
+(M,Q,X,\mu,n,k,i,w,r,d,e,B,S,H,C,P,N)
+$$
+is preserved componentwise. In particular, transport cannot replace the selected terminal row by a second cofinal index row, a hidden diagonal selector, quotient stream equality, host $\RealUp$ equality, countable choice, or ambient completeness data.
+\end{theorem}
+\begin{proof}
+Start from terminal-diagonal coverage. By \autoref{thm:diagonal-limit-representative-terminal-diagonal-coverage}, each accepted selector packet has concrete rows for the cofinal modulus seal, finite-prefix budget, selected index equations, terminal representative row, and support data.
+
+Now apply the classifier stability already available on the cofinal-tail and terminal-pullback surfaces. The cofinal-tail classifier stability theorem preserves the selected cofinal rows and budget rows, while the terminal-pullback classifier stability theorem preserves the StreamName, RegSeqRat, DyadicRatCore, and Real rows through the displayed $\hsame$ and $\Cont$ data.
+
+The support rows close the transport claim. Since $H,C,P,N$ only record componentwise history, continuation replay, provenance, and local naming for the same finite packet, transport has no coordinate in which to insert an alternate terminal row or a stronger equality principle. Thus the selected terminal diagonal route is preserved exactly componentwise.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative terminal-diagonal Real handoff]
+\label{thm:diagonal-limit-representative-terminal-diagonal-real-handoff}
+Every Real-and-Completion consumer of an accepted terminal-diagonal selector packet for $\DiagonalLimitRepresentativeUp$ receives only the selected terminal diagonal row, the finite-prefix budget rows, the cofinal modulus seal, and the visible continuation and provenance rows
+$$
+(X,\mu,n,k,i,w,r,d,e,Q,B,S,M,C,P,N).
+$$
+The handoff factors through the terminal-diagonal selector of \autoref{def:diagonal-limit-representative-terminal-diagonal-selector}; it does not import host choice, quotient classes, Real completeness, an ambient diagonal selection principle, or any off-packet terminal representative.
+\end{theorem}
+\begin{proof}
+Coverage supplies the positive handoff. By \autoref{thm:diagonal-limit-representative-terminal-diagonal-coverage}, the selected terminal row and its budget, cofinal modulus, continuation, provenance, and naming rows are already displayed before the Real-and-Completion consumer can use the terminal seal.
+
+Transport supplies stability of the handoff. By \autoref{thm:diagonal-limit-representative-terminal-diagonal-transport}, componentwise $\hsame$ and displayed $\Cont$ replay preserve the same selected row and cannot exchange it for another terminal representative.
+
+It remains to identify the consumer boundary. Real-completion consumer exactness, \autoref{thm:diagonal-limit-representative-real-completion-consumer-exactness}, says that the downstream consumer factors through the displayed StreamName, RegSeqRat, DyadicRatCore, finite-prefix budget, cofinal modulus, Real, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. Therefore the Real handoff receives exactly the finite rows in the statement and no host selection, quotient, completeness, or off-packet diagonal principle.
+\end{proof}
