@@ -290,6 +290,38 @@ theorem CauchyDiagonalBudgetCarrier_real_completeness_handoff [AskSetup] [Packag
       exact ⟨unary_transport sealUnary (hsame_symm source.right), sealPkg⟩
   }
 
+theorem CauchyDiagonalBudgetCarrier_real_seal_scope [AskSetup] [PackageSetup]
+    {epsilon m w d k s h c p name sealEndpoint boundary realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg ->
+      Cont k s sealEndpoint ->
+        Cont h c boundary ->
+          Cont sealEndpoint boundary realRead ->
+            PkgSig bundle boundary pkg ->
+              PkgSig bundle realRead pkg ->
+                UnaryHistory epsilon ∧ UnaryHistory m ∧ UnaryHistory w ∧ UnaryHistory d ∧
+                  UnaryHistory k ∧ UnaryHistory s ∧ UnaryHistory h ∧ UnaryHistory c ∧
+                    UnaryHistory sealEndpoint ∧ UnaryHistory boundary ∧
+                      UnaryHistory realRead ∧ Cont epsilon m w ∧ Cont w d k ∧
+                        Cont k s sealEndpoint ∧ Cont h c boundary ∧
+                          Cont sealEndpoint boundary realRead ∧ PkgSig bundle p pkg ∧
+                            PkgSig bundle boundary pkg ∧ PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier sealRoute boundaryRoute realRoute boundaryPkg realPkg
+  rcases carrier with
+    ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, hUnary, cUnary, _pUnary,
+      _nameUnary, epsilonMW, wDK, _kSH, _hCP, _cPName, pPkg⟩
+  have sealEndpointUnary : UnaryHistory sealEndpoint :=
+    unary_cont_closed kUnary sUnary sealRoute
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed hUnary cUnary boundaryRoute
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed sealEndpointUnary boundaryUnary realRoute
+  exact
+    ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, hUnary, cUnary,
+      sealEndpointUnary, boundaryUnary, realReadUnary, epsilonMW, wDK, sealRoute,
+      boundaryRoute, realRoute, pPkg, boundaryPkg, realPkg⟩
+
 theorem CauchyDiagonalBudgetCarrier_transported_selector_naturality [AskSetup] [PackageSetup]
     {epsilon m w d k s h c p name epsilon' m' w' d' k' s' h' c' p' name' route route'
       sealRow sealRow' : BHist}
