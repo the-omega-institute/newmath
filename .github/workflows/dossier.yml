@@ -19,8 +19,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
   actions: read  # cross-workflow artifact download
 
 concurrency:
@@ -28,8 +26,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build_dossier:
-    name: Render dossier
+  resolve_source:
+    name: Resolve dossier source
     if: |
       github.event_name == 'workflow_dispatch' || (
         github.event.workflow_run.conclusion == 'success' &&
@@ -37,86 +35,63 @@ jobs:
         contains(fromJSON('["feature/dossier","dev","main","auto-dev"]'), github.event.workflow_run.head_branch)
       )
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    outputs:
+      run_id: ${{ steps.resolve.outputs.run_id }}
+      checkout_ref: ${{ steps.resolve.outputs.checkout_ref }}
+      checkout_repository: ${{ steps.resolve.outputs.checkout_repository }}
     steps:
-      - name: Check out repository at triggering SHA
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.workflow_run.head_sha }}
-
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-        with:
-          version: "1.9.37"
-
-      - name: Set up Node.js (for dagre layout bake)
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-          cache-dependency-path: tools/dagre_layout/package-lock.json
-
-      - name: Install dagre layout deps
-        run: npm ci
-        working-directory: tools/dagre_layout
-
-      - name: Download PDF artifact from BEDC Build run
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: bedc-pdf
-          path: pdf-artifact
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ inputs.source_run_id || github.event.workflow_run.id }}
-
-      - name: Stage PDF with UTC timestamp
-        id: stage_pdf
+      - id: resolve
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
         run: |
-          ts=$(date -u +%Y-%m-%dT%H%M%SZ)
-          pdf_name="bedc_${ts}.pdf"
-          echo "pdf_name=${pdf_name}" >> "$GITHUB_OUTPUT"
-          pdf_file=$(find pdf-artifact -maxdepth 1 -type f -name '*.pdf' -print -quit)
-          if [ -z "$pdf_file" ]; then
-            echo "No PDF found in artifact" >&2
-            ls -la pdf-artifact || true
-            exit 1
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            run_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}")"
+            name="$(echo "$run_json" | jq -r '.name')"
+            conclusion="$(echo "$run_json" | jq -r '.conclusion')"
+            event="$(echo "$run_json" | jq -r '.event')"
+            head_sha="$(echo "$run_json" | jq -r '.head_sha')"
+            head_repo="$(echo "$run_json" | jq -r '.head_repository.full_name')"
+            if [ "$name" != "BEDC Build" ] || [ "$conclusion" != "success" ]; then
+              echo "::error::source_run_id must be a successful BEDC Build run" >&2
+              exit 1
+            fi
+            case "$event" in push|workflow_dispatch) ;; *)
+              echo "::error::manual deploy refuses source event '$event'" >&2
+              exit 1
+            esac
+            echo "run_id=$SOURCE_RUN_ID" >> "$GITHUB_OUTPUT"
+            echo "checkout_ref=$head_sha" >> "$GITHUB_OUTPUT"
+            echo "checkout_repository=$head_repo" >> "$GITHUB_OUTPUT"
+          else
+            echo "run_id=${{ github.event.workflow_run.id }}" >> "$GITHUB_OUTPUT"
+            echo "checkout_ref=${{ github.event.workflow_run.head_sha }}" >> "$GITHUB_OUTPUT"
+            echo "checkout_repository=${{ github.event.workflow_run.head_repository.full_name }}" >> "$GITHUB_OUTPUT"
           fi
-          cp "$pdf_file" "docs/dossier/${pdf_name}"
-          ls -lh "docs/dossier/${pdf_name}"
-          # Rewrite literal `bedc.pdf` references in source files so the
-          # rendered site links to the timestamped filename.
-          sed -i "s|bedc\.pdf|${pdf_name}|g" \
-            docs/dossier/_quarto.yml \
-            docs/dossier/index.qmd \
-            docs/dossier/index.zh-CN.qmd
 
-      - name: Build dossier visualization data
-        run: python3 tools/build_dossier_status.py
-
-      - name: Glossary completeness gate
-        run: python3 tools/check_glossary.py
-
-      - name: Render dossier
-        run: quarto render docs/dossier/
-
-      - name: Verify PDF reached _site
-        run: |
-          pdf_name="${{ steps.stage_pdf.outputs.pdf_name }}"
-          if [ ! -f "docs/dossier/_site/${pdf_name}" ]; then
-            echo "PDF missing from _site after render; copying as fallback"
-            cp "docs/dossier/${pdf_name}" "docs/dossier/_site/${pdf_name}"
-          fi
-          ls -lh "docs/dossier/_site/${pdf_name}"
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs/dossier/_site
+  build_dossier:
+    name: Render dossier
+    needs: resolve_source
+    uses: ./.github/workflows/reusable-dossier-render.yml
+    permissions:
+      contents: read
+      actions: read
+    with:
+      checkout_ref: ${{ needs.resolve_source.outputs.checkout_ref }}
+      checkout_repository: ${{ needs.resolve_source.outputs.checkout_repository }}
+      pdf_run_id: ${{ needs.resolve_source.outputs.run_id }}
+      upload_pages_artifact: true
 
   deploy:
     name: Deploy to GitHub Pages
     needs: build_dossier
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.event == 'push' }}
+    if: ${{ success() }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
