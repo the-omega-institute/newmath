@@ -41,8 +41,9 @@ theorem ReflectionRuntimeCheckpointCarrier_validation_prefix_exhaustion [AskSetu
     inputStateTrace, traceValidationRoute, checkpointMatchesValidation,
     validationReadMatches, checkpointPkg'⟩ := boundary
   obtain ⟨_inputUnary, _stateUnary, _traceUnary, _validationUnary, transportUnary,
-    _provenanceUnary, _inputStateTrace, _traceValidationRoute,
-    _provenanceValidationLocalName, _localNameMatchesValidation⟩ := carrier
+    _provenanceUnary, _inputStateTrace, _traceValidationTransport, _traceValidationRoute,
+    _transportRouteProvenance, _provenanceValidationLocalName,
+    _localNameMatchesValidation⟩ := carrier
   have routedUnary : UnaryHistory routed :=
     unary_cont_closed validationReadUnary transportUnary transportRoute
   exact
