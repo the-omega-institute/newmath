@@ -413,6 +413,55 @@ completeness, metric-completeness data, or standard-bridge data. Since the
 manifest has no coordinate for such data, no public read can escape through it.
 \end{proof}
 
+\begin{theorem}[Real terminal seal public source completeness]
+\label{thm:real-terminal-seal-public-source-completeness}
+A finite packet
+$$
+M=(S,D,R,E,B,H,C,P,N)
+$$
+reconstructs a public $\RealUp$ terminal-seal read exactly when its rows are the
+terminal-seal dependency manifest rows of
+\autoref{def:real-terminal-seal-dependency-manifest}: $S$ is the finite
+$\StreamNameUp$ name-and-request window, $D$ is the
+$\DyadicRatCoreUp$ endpoint-radius-distance ledger on that window, $R$ is the
+$\RegSeqRatUp$ classifier and readback row, $E$ is the local $\RealUp$ seal row,
+and $B,H,C,P,N$ are the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support rows. The rows must satisfy the shared-face compatibility
+conditions displayed by
+\autoref{thm:real-terminal-seal-four-face-cover-normal-form} and the finite-cover
+cocycle compatibility of
+\autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness}. Under those
+conditions $M$ determines a public $\RealUp$ terminal-seal read, and every public
+$\RealUp$ terminal-seal read yields exactly such a compatible packet.
+\end{theorem}
+\begin{proof}
+Start from a compatible packet $M=(S,D,R,E,B,H,C,P,N)$. The row interpretation is
+fixed by \autoref{def:real-terminal-seal-dependency-manifest}: the first four
+rows are the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and local
+$\RealUp$ faces, and the last five rows are the common BEDC support.
+
+Apply \autoref{thm:real-terminal-seal-four-face-cover-normal-form}. The
+shared-face compatibility hypotheses identify these rows as the four terminal
+faces over one $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ spine. Apply
+\autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness}. The finite-cover
+compatibility pastes the local face restrictions into a public terminal-seal
+read.
+
+For the reverse direction, begin with a public $\RealUp$ terminal-seal read.
+Apply \autoref{thm:real-terminal-seal-dependency-manifest-exhaustion}. The read
+factors through the manifest rows and no additional dependency coordinate is
+available. The normal-form and finite-cover theorems provide the required
+shared-face and cocycle compatibility, so the read yields a packet of the
+displayed form.
+
+Finally apply
+\autoref{thm:real-terminal-seal-dependency-manifest-non-escape}. The packet has
+no coordinate for quotient stream equality, host real equality, selected limits,
+countable choice, ambient completeness, metric-completeness data, or
+standard-bridge data. Hence the reconstruction and extraction have the same
+public source surface, namely the manifest $M$.
+\end{proof}
+
 \begin{theorem}[Real terminal seal dependency manifest phase-exit face product]
 \label{thm:real-terminal-seal-dependency-manifest-phase-exit-face-product}
 Let
