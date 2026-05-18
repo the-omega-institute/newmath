@@ -117,3 +117,61 @@ choice rows, host equality, ambient completeness, a second Real seal, or an
 aggregate bridge or status surface, none of those rows can separate the two
 consumers.
 \end{proof}
+
+\begin{theorem}[RegSeqRat real terminal four-face exactness]
+\label{thm:regseqrat-real-terminal-four-face-exactness}
+Let $S$ be a finite $\RegSeqRatUp$ terminal section presented to the Phase Real
+and Completion exit. Then $S$ is accepted by the $\RealUp$ terminal seal if and
+only if its finite ledger contains one compatible four-face packet consisting
+of the $\StreamNameUp$ finite-request section, the $\DyadicRatCoreUp$ common
+scale-window witness, the $\RegSeqRatUp$ regularity witness, and the $\RealUp$
+terminal seal row, all carried by the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and local $\NameCert_{\RegSeqRatUp}$ support rows.
+
+The exact packet is the concrete terminal surface
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+It asserts no quotient stream equality, no selected limit existence, and no
+completeness property of $\RealUp$.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with the accepted $\RealUp$ terminal seal. By
+\autoref{thm:regseqrat-stream-dyadic-real-section-coherence}, the terminal read
+factors through a single finite source section whose visible coordinates are
+the StreamName finite-request window, the DyadicRatCore endpoint, radius, and
+finite-distance ledger, the RegSeqRat classifier and regularity rows, and the
+Real finite-section readback.
+
+The compatibility of those faces is already part of the same finite ledger:
+the StreamName rows are tied to the displayed dyadic rows by
+\autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}, the dyadic
+common scale-window rows are locked by
+\autoref{thm:dyadicratcore-scale-window-real-exit-source-uniqueness}, and the
+terminal Real readback is pulled from the displayed packet by
+\autoref{thm:real-terminal-finite-section-pullback-exactness}. Thus the
+accepted seal supplies exactly the four required finite faces over one
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+For the reverse direction, suppose that those four compatible faces are
+present in the finite ledger. The StreamName face gives the finite-request
+section, the DyadicRatCore face gives the common scale-window witness, the
+RegSeqRat face gives the regularity witness, and the Real face gives the
+terminal seal row. Applying
+\autoref{thm:regseqrat-stream-dyadic-real-section-coherence} packages these
+rows as one common terminal section.
+
+It remains only to identify the terminal consumer. The source uniqueness
+result \autoref{thm:regseqrat-terminal-four-face-source-uniqueness} shows that
+any accepted Phase Real and Completion consumer with these four faces must
+come from this same finite $\RegSeqRatUp$ source. The Real terminal pullback
+uniqueness theorem \autoref{thm:real-l10-terminal-pullback-uniqueness} then
+identifies the displayed Real seal row as the terminal acceptance surface for
+$S$.
+
+Every step used only rows visible in the finite $\BHist$, $\Cont$, $\hsame$,
+$\Pkg$, and $\NameCert$ ledger. There is no coordinate for quotient stream
+equality, no selector for an external limit, and no ambient completeness field
+for $\RealUp$, so none of those stronger claims is produced by the exactness
+criterion.
+\end{proof}
