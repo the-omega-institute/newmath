@@ -27,7 +27,8 @@ theorem FiniteTailFilterCarrier_real_window_budget_consumer_link
                           hsame N E ∧ PkgSig bundle completionRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier sealRoute realWindowRoute unaryC completionRoute completionPkg
-  obtain ⟨unaryS, unaryD, unaryB, unaryE, unaryH, routeR, routeQ, sameNameSeal⟩ :=
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, unaryH, _unaryCarrierC, routeR, routeQ,
+    sameNameSeal⟩ :=
     carrier
   have unaryR : UnaryHistory R :=
     unary_cont_closed unaryS unaryD routeR

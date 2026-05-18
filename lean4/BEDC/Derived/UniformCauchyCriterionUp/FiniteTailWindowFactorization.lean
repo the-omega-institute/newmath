@@ -42,7 +42,8 @@ theorem UniformCauchyCriterionPacket_finite_tail_window_factorization [AskSetup]
     _modulusToleranceTail, _tailSealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
     packet
   obtain ⟨_filterWindowsUnary, _filterToleranceUnary, budgetUnary, _filterSealUnary,
-    _filterTransportsUnary, windowsToleranceTail, tailBudgetFilterRead, nameSeal⟩ :=
+    _filterTransportsUnary, _filterRoutesUnary, windowsToleranceTail, tailBudgetFilterRead,
+    nameSeal⟩ :=
     filter
   have filterReadUnary : UnaryHistory filterRead :=
     unary_cont_closed tailUnary budgetUnary tailBudgetFilterRead
