@@ -166,6 +166,28 @@ theorem ZnormalPacket_root_bhist_source_surface [AskSetup] [PackageSetup]
       transportsUnary, routesUnary, provenanceUnary, nameUnary, typedFuelTerminal,
       terminalNormalContinuation, continuationTransportsRoutes, provenancePkg⟩
 
+theorem ZnormalPacket_root_carrier_exposure [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg ->
+      UnaryHistory typed ∧ UnaryHistory fuel ∧ UnaryHistory terminal ∧
+        UnaryHistory normal ∧ UnaryHistory continuation ∧ UnaryHistory transports ∧
+          UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+            Cont typed fuel terminal ∧ Cont terminal normal continuation ∧
+              Cont continuation transports routes ∧ PkgSig bundle name pkg ∧
+                PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet
+  obtain ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary,
+    transportsUnary, routesUnary, provenanceUnary, nameUnary, typedFuelTerminal,
+    terminalNormalContinuation, continuationTransportsRoutes, namePkg, provenancePkg⟩ :=
+    packet
+  exact
+    ⟨typedUnary, fuelUnary, terminalUnary, normalUnary, continuationUnary,
+      transportsUnary, routesUnary, provenanceUnary, nameUnary, typedFuelTerminal,
+      terminalNormalContinuation, continuationTransportsRoutes, namePkg, provenancePkg⟩
+
 theorem ZnormalPacket_normal_form_consumer_coverage [AskSetup] [PackageSetup]
     {typed fuel terminal normal continuation transports routes provenance name normalRead
       downstream : BHist}
