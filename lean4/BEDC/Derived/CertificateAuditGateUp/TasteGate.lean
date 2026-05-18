@@ -292,6 +292,22 @@ theorem CertificateAuditGateTasteGate_single_carrier_alignment :
             · exact ⟨certificateAuditGateWitnessPair⟩
             · rfl
 
+theorem CertificateAuditGateCarrier_event_flow_fields_iff
+    (x y : CertificateAuditGateUp) :
+    (certificateAuditGateToEventFlow x = certificateAuditGateToEventFlow y <->
+      certificateAuditGateFields x = certificateAuditGateFields y) /\
+      certificateAuditGateEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · constructor
+    · intro heq
+      cases certificateAuditGateToEventFlow_injective heq
+      rfl
+    · intro hfields
+      cases certificateAuditGate_field_faithful x y hfields
+      rfl
+  · rfl
+
 theorem CertificateAuditGateSoundnessBoundary
     (gateInput checkedSurface refusal drift axiomPurity transport continuation provenance
       name : BHist) :
