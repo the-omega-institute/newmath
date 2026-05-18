@@ -97,4 +97,34 @@ theorem CauchyModulusRefinementCarrier_real_window_budget_pullback [AskSetup] [P
     ⟨requestUnary, dyadicUnary, regularUnary, disclosureUnary, terminalUnary, requestRoute,
       dyadicRoute, regularRoute, disclosureRoute, terminalRoute, pPkg, terminalPkg, hn⟩
 
+theorem CauchyModulusRefinementRealWindowBudgetTerminality [AskSetup] [PackageSetup]
+    {m0 m1 u v t w q e h c p n request disclosure support consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg ->
+      Cont w q request ->
+        Cont request e disclosure ->
+          Cont disclosure c support ->
+            Cont support n consumer ->
+              PkgSig bundle consumer pkg ->
+                UnaryHistory request ∧ UnaryHistory disclosure ∧ UnaryHistory support ∧
+                  UnaryHistory consumer ∧ Cont w q request ∧ Cont request e disclosure ∧
+                    Cont disclosure c support ∧ Cont support n consumer ∧
+                      PkgSig bundle p pkg ∧ hsame h n ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro carrier requestRoute disclosureRoute supportRoute consumerRoute consumerPkg
+  rcases carrier with
+    ⟨_m0Unary, _m1Unary, _uUnary, _vUnary, _tUnary, wUnary, qUnary, eUnary, _hUnary,
+      cUnary, _pUnary, nUnary, _m0m1u, _uvt, _twq, _qeh, pPkg, hn⟩
+  have requestUnary : UnaryHistory request :=
+    unary_cont_closed wUnary qUnary requestRoute
+  have disclosureUnary : UnaryHistory disclosure :=
+    unary_cont_closed requestUnary eUnary disclosureRoute
+  have supportUnary : UnaryHistory support :=
+    unary_cont_closed disclosureUnary cUnary supportRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed supportUnary nUnary consumerRoute
+  exact
+    ⟨requestUnary, disclosureUnary, supportUnary, consumerUnary, requestRoute,
+      disclosureRoute, supportRoute, consumerRoute, pPkg, hn, consumerPkg⟩
+
 end BEDC.Derived.CauchyModulusRefinementUp
