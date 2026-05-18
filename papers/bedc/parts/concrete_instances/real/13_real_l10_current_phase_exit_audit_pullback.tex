@@ -579,3 +579,43 @@ their source faces and do not form an aggregate route-level status, bridge,
 quotient, selected-limit, choice, metric-completeness, or $\RealUp$
 completeness datum.
 \end{proof}
+
+\begin{theorem}[Real L10 finite-cover exit threshold descent]
+\label{thm:real-l10-finite-cover-exit-threshold-descent}
+Let $P$ be an accepted Phase Real and Completion exit packet, and let
+$\mathcal{V}$ be a finite certified subcover of $P$. Suppose every member of
+$\mathcal{V}$ satisfies the objectwise exit threshold of
+\autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. Suppose moreover
+that each subcover member agrees with $P$ on the displayed $\DyadicRatCoreUp$
+endpoint and radius ledger, the $\StreamNameUp$ finite-window schedule, the
+$\RegSeqRatUp$ regularity and classifier rows, the $\RealUp$ seal rows, and the
+shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then
+$P$ satisfies the same objectwise exit threshold.
+
+The descended threshold is only the coarse four-face threshold of $P$. It does
+not assert an aggregate route-level $\formalstatus$, an aggregate bridge row, a
+quotient stream, a selected limit, a countable-choice row, a
+metric-completeness datum, or a $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-finite-cover-exit-threshold-gluing} to the finite
+certified subcover $\mathcal{V}$. The hypotheses on the local threshold and on
+the shared $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$,
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows give one glued
+accepted four-face packet satisfying the objectwise exit threshold.
+
+We now identify this glued packet with the coarse packet $P$. The agreement
+assumptions say that every displayed endpoint, radius, finite-window,
+regularity, classifier, seal, history, sameness, continuity, package, and
+NameCert coordinate of the glued packet is the corresponding coordinate of
+$P$. Apply \autoref{thm:real-l10-objectwise-exit-threshold-equivalence} to read
+the glued threshold as the four local face records of $P$.
+
+It remains to keep the descent facewise. Apply
+\autoref{thm:real-l10-face-status-noncollapse} and
+\autoref{thm:real-l10-face-leantarget-noncollapse}. These prevent the
+subcover gluing from creating an aggregate status, bridge, quotient-stream,
+selected-limit, countable-choice, metric-completeness, or $\RealUp$
+completeness reading. Hence the coarse packet $P$ carries exactly the same
+objectwise exit threshold and no route-level strengthening.
+\end{proof}
