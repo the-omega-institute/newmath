@@ -74,100 +74,38 @@ theorem GroundRefutationCarrier_classifier_transport
           carrier.right.right.right.right.right.right.left,
           carrier.right.right.right.right.right.right.right⟩
 
-theorem GroundRefutationCarrier_route_semantic_name_certificate
-    {A F H C P N bottom returned : BHist}
-    (carrier : GroundRefutationCarrier A F H C P N)
-    (route : Cont A F bottom)
-    (returnRoute : Cont bottom C returned) :
+theorem GroundRefutationCarrier_consumer_readiness {A F H C P N bottom : BHist}
+    (carrier : GroundRefutationCarrier A F H C P N) (route : Cont A F bottom) :
     SemanticNameCert
-      (fun row : BHist => hsame row returned ∧ GroundRefutationCarrier A F H C P N)
-      (fun row : BHist => Cont A F bottom ∧ Cont bottom C row ∧ hsame P N)
-      (fun row : BHist => Cont A (append F C) P ∧ Cont bottom C row ∧ hsame A A ∧ hsame F F)
-      (fun row row' : BHist => hsame row row') := by
-  -- BEDC touchpoint anchor: BHist Cont hsame append SemanticNameCert NameCert
+      (fun row : BHist => GroundRefutationCarrier A F H C P N ∧ hsame row bottom)
+      (fun row : BHist => Cont A F row ∧ hsame A A)
+      (fun row : BHist => hsame row bottom ∧ hsame P N)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
   exact {
     core := {
-      carrier_inhabited := Exists.intro returned ⟨rfl, carrier⟩
+      carrier_inhabited := Exists.intro bottom ⟨carrier, hsame_refl bottom⟩
       equiv_refl := by
-        intro row source
-        rfl
+        intro row _source
+        exact hsame_refl row
       equiv_symm := by
-        intro row row' sameRows
+        intro _row _other sameRows
         exact hsame_symm sameRows
       equiv_trans := by
-        intro row row' row'' sameLeft sameRight
+        intro _row _middle _other sameLeft sameRight
         exact hsame_trans sameLeft sameRight
       carrier_respects_equiv := by
-        intro row row' sameRows source
-        constructor
-        · exact hsame_trans (hsame_symm sameRows) source.left
-        · exact source.right
+        intro row other sameRows sourceRow
+        exact ⟨sourceRow.left, hsame_trans (hsame_symm sameRows) sourceRow.right⟩
     }
     pattern_sound := by
-      intro row source
-      constructor
-      · exact route
-      · constructor
-        · cases source.left
-          exact returnRoute
-        · exact carrier.right.right.left
+      intro row sourceRow
+      exact
+        ⟨cont_result_hsame_transport route (hsame_symm sourceRow.right),
+          carrier.right.right.right.left⟩
     ledger_sound := by
-      intro row source
-      constructor
-      · exact (GroundRefutationCarrier_ground_loop_boundary carrier).left
-      · constructor
-        · cases source.left
-          exact returnRoute
-        · constructor
-          · exact carrier.right.right.right.left
-          · exact carrier.right.right.right.right.left
-  }
-
-theorem GroundRefutationCarrier_consumer_readiness_certificate
-    {A F H C P N bottom consumer : BHist}
-    (carrier : GroundRefutationCarrier A F H C P N)
-    (route : Cont A F bottom)
-    (consume : Cont bottom P consumer) :
-    SemanticNameCert
-      (fun row : BHist => hsame row consumer ∧ GroundRefutationCarrier A F H C P N)
-      (fun row : BHist => Cont A F bottom ∧ Cont bottom P row ∧ hsame P N)
-      (fun row : BHist => Cont A (append F C) P ∧ Cont bottom P row ∧ hsame N N)
-      (fun row row' : BHist => hsame row row') := by
-  -- BEDC touchpoint anchor: BHist Cont hsame append SemanticNameCert NameCert
-  exact {
-    core := {
-      carrier_inhabited := Exists.intro consumer ⟨rfl, carrier⟩
-      equiv_refl := by
-        intro row source
-        rfl
-      equiv_symm := by
-        intro row row' sameRows
-        exact hsame_symm sameRows
-      equiv_trans := by
-        intro row row' row'' sameLeft sameRight
-        exact hsame_trans sameLeft sameRight
-      carrier_respects_equiv := by
-        intro row row' sameRows source
-        constructor
-        · exact hsame_trans (hsame_symm sameRows) source.left
-        · exact source.right
-    }
-    pattern_sound := by
-      intro row source
-      constructor
-      · exact route
-      · constructor
-        · cases source.left
-          exact consume
-        · exact carrier.right.right.left
-    ledger_sound := by
-      intro row source
-      constructor
-      · exact (GroundRefutationCarrier_ground_loop_boundary carrier).left
-      · constructor
-        · cases source.left
-          exact consume
-        · exact carrier.right.right.right.right.right.right.right
+      intro row sourceRow
+      exact ⟨sourceRow.right, carrier.right.right.left⟩
   }
 
 end BEDC.Derived.GroundRefutationUp
