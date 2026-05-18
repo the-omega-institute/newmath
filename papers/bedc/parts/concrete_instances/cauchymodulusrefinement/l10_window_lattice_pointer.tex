@@ -42,3 +42,23 @@ The completion pullback and the window-lattice exactness theorem then identify t
 
 Conversely, suppose a displayed packet carries exactly $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$. Read the first four rows as the root source-window front, the next four as the selector and four-face L10 exit, and the last four as the support ledger. The cited exactness and pullback results repack these finite rows into the same L10 route, and the excluded rows have no constructor in the displayed inventory.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement L10 face-order rigidity]
+\label{thm:cauchy-modulus-refinement-l10-face-order-rigidity}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+any $\RealUp$-facing or Completion-facing consumer of $R$ must read the L10 faces, after the source rows $U,V,T$, in the displayed dependency order
+$$
+\StreamNameUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp.
+$$
+A proposed consumer that swaps the stream schedule, dyadic tolerance, regular readback, or $\RealUp$ seal face is not an accepted pullback of the refinement packet. In particular, such a consumer cannot be completed by quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, bridge aggregation, or hidden selectors.
+\end{theorem}
+\begin{proof}
+The window-lattice exactness theorem, \autoref{thm:cauchy-modulus-refinement-l10-window-lattice-exactness}, fixes the only Real-facing and Completion-facing route through $R$: the source meet, extraction, and selector-budget rows precede the L10 faces, and those faces are displayed in the order $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Root-window pullback exhaustion, \autoref{thm:cauchy-modulus-refinement-l10-root-window-pullback-exhaustion}, identifies every accepted consumer with that finite pullback spine. The root-window theorem \autoref{thm:cauchy-modulus-refinement-root-window-exhaustion} supplies the same source-window front, while \autoref{thm:real-l10-four-face-exit-criterion} supplies the four-face exit criterion. Thus the stream schedule must be available before dyadic tolerance, dyadic tolerance before regular readback, and regular readback before the $\RealUp$ seal.
+
+Suppose a proposed consumer swaps one of these four faces. Then its entry point is not the source-window front followed by the four-face exit specified above, so it is not one of the pullbacks exhausted by the accepted packet rows. The excluded resources have no constructor in the packet inventory: quotient streams and host real equality would bypass the StreamName and Real seal faces; selected limits and countable choice would bypass the dyadic and regular-readback rows; ambient completeness, metric-completeness rows, bridge aggregation, and hidden selectors would add rows absent from $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$.
+\end{proof}
