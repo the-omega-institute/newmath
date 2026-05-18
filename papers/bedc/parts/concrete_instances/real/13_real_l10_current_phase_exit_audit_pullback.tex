@@ -519,3 +519,63 @@ is still the facewise threshold: no aggregate route-level verification token,
 bridge row, quotient stream, selected limit, countable-choice row,
 metric-completeness datum, or $\RealUp$ completeness claim is introduced.
 \end{proof}
+
+\begin{theorem}[Real L10 finite-cover exit threshold gluing]
+\label{thm:real-l10-finite-cover-exit-threshold-gluing}
+Let $\mathcal{U}$ be a finite family of accepted Phase Real and Completion
+exit packets. Suppose every member of $\mathcal{U}$ satisfies the objectwise
+exit threshold of
+\autoref{thm:real-l10-objectwise-exit-threshold-equivalence}, and suppose
+that every pairwise overlap agrees on the displayed $\DyadicRatCoreUp$
+endpoint and radius ledger, the $\StreamNameUp$ finite-window schedule, the
+$\RegSeqRatUp$ regularity and classifier rows, the $\RealUp$ seal rows, and
+the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+Then the family glues to one accepted four-face Phase Real and Completion
+exit packet satisfying the same objectwise exit threshold.
+
+The glued exit packet is only the finite four-face packet over those displayed
+rows. It exports no aggregate route-level $\formalstatus$, no aggregate bridge
+row, no quotient stream, no selected limit, no countable-choice row, no
+metric-completeness datum, and no $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-objectwise-exit-threshold-equivalence} to each
+member of $\mathcal{U}$. Thus every local packet contributes exactly the four
+face records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$, with the threshold read from the local closurestatus rows of those
+faces.
+
+We first glue the regular-sequence and real-seal faces. Apply
+\autoref{thm:regseqrat-real-seal-finite-cover-gluing} to the finite family of
+$\RegSeqRatUp$ regularity rows and $\RealUp$ seal rows. The overlap
+agreement hypothesis is precisely the shared regularity, classifier, seal,
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface required for that
+gluing. Apply
+\autoref{thm:regseqrat-finite-cover-real-seal-gluing-uniqueness} to identify
+the resulting seal row on common overlaps.
+
+Next glue the scheduling face. Use
+\autoref{thm:streamname-common-refinement-public-exactness} and
+\autoref{thm:streamname-finite-window-cover-refinement-classifier} to pass to
+a common finite-window presentation of the $\StreamNameUp$ schedules. Apply
+\autoref{thm:streamname-finite-request-cover-gluing} to export one schedule
+row for the finite family, still over the displayed finite-window data and not
+over a quotient stream or selected limit.
+
+The dyadic face is fixed by the overlap ledger. Apply
+\autoref{thm:dyadicratcore-finite-tail-scale-window-pullback-exactness} and
+\autoref{thm:dyadicratcore-finite-tail-endpoint-invariance}. These read the
+shared endpoint and radius data through the displayed $\DyadicRatCoreUp$
+ledger, so the glued packet has the same dyadic endpoint and radius rows on
+all refined windows.
+
+Combining the glued RegSeqRat/Real, StreamName, and DyadicRatCore rows gives
+one accepted four-face exit packet by
+\autoref{thm:real-l10-four-face-exit-sufficiency}. Finally apply
+\autoref{thm:real-l10-face-status-noncollapse} and
+\autoref{thm:real-l10-face-leantarget-noncollapse}. The glued packet remains
+objectwise: its closure, verification, Lean-target, and bridge rows stay on
+their source faces and do not form an aggregate route-level status, bridge,
+quotient, selected-limit, choice, metric-completeness, or $\RealUp$
+completeness datum.
+\end{proof}
