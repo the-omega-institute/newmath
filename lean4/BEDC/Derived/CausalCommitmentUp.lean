@@ -216,6 +216,33 @@ theorem CausalCommitmentCarrier_forward_binding_route [AskSetup] [PackageSetup]
       localCertUnary, routeReadUnary, observedRegularityGap, gapForwardContinuation,
       continuationLocalCertRoute, localCertPkg, routePkg⟩
 
+theorem CausalCommitmentNonEscapeBoundary [AskSetup] [PackageSetup]
+    {observed regularity gap forward transport continuation provenance localCert
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CausalCommitmentCarrier observed regularity gap forward transport continuation provenance
+        localCert bundle pkg →
+      Cont continuation localCert publicRead →
+        PkgSig bundle localCert pkg →
+          UnaryHistory observed ∧ UnaryHistory regularity ∧ UnaryHistory gap ∧
+            UnaryHistory forward ∧ UnaryHistory transport ∧ UnaryHistory continuation ∧
+              UnaryHistory provenance ∧ UnaryHistory localCert ∧ UnaryHistory publicRead ∧
+                Cont observed regularity gap ∧ Cont gap forward continuation ∧
+                  Cont continuation localCert publicRead ∧ PkgSig bundle localCert pkg ∧
+                    hsame localCert localCert := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig hsame
+  intro carrier continuationLocalCertRead localCertPkg
+  rcases carrier with
+    ⟨observedUnary, regularityUnary, gapUnary, forwardUnary, transportUnary,
+      continuationUnary, provenanceUnary, localCertUnary, observedRegularityGap,
+      gapForwardContinuation, _transportContinuationProvenance, _carrierPkg⟩
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed continuationUnary localCertUnary continuationLocalCertRead
+  exact
+    ⟨observedUnary, regularityUnary, gapUnary, forwardUnary, transportUnary,
+      continuationUnary, provenanceUnary, localCertUnary, publicUnary, observedRegularityGap,
+      gapForwardContinuation, continuationLocalCertRead, localCertPkg, hsame_refl localCert⟩
+
 def CausalCommitmentForwardGapCarrier [AskSetup] [PackageSetup]
     (observed regularity gap forward locality transport continuation provenance localCert : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=

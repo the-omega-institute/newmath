@@ -117,4 +117,40 @@ theorem RefutationWitnessCarrier_truth_branch_blocker [AskSetup] [PackageSetup]
     ⟨routeRead, replayRoute, provenancePkg, branchRead, sameBranch, certReplay, routeUnary,
       certUnary⟩
 
+theorem RefutationWitnessCarrier_ground_refutation_route_link [AskSetup] [PackageSetup]
+    {proposition assumption route bottom transport replay provenance cert routeRead
+      assumptionRead boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RefutationWitnessCarrier proposition assumption route bottom transport replay provenance
+        cert bundle pkg ->
+      Cont assumption route routeRead ->
+        Cont proposition assumption assumptionRead ->
+          Cont routeRead cert boundaryRead ->
+            PkgSig bundle boundaryRead pkg ->
+              UnaryHistory proposition ∧ UnaryHistory assumption ∧ UnaryHistory route ∧
+                UnaryHistory bottom ∧ UnaryHistory replay ∧ UnaryHistory cert ∧
+                  UnaryHistory routeRead ∧ UnaryHistory assumptionRead ∧
+                    UnaryHistory boundaryRead ∧ Cont assumption route bottom ∧
+                      Cont bottom transport replay ∧ Cont assumption route routeRead ∧
+                        Cont proposition assumption assumptionRead ∧
+                          Cont routeRead cert boundaryRead ∧ hsame cert replay ∧
+                            PkgSig bundle provenance pkg ∧
+                              PkgSig bundle boundaryRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier routeReadCont assumptionReadCont boundaryReadCont boundaryPkg
+  obtain ⟨propositionUnary, assumptionUnary, routeUnary, bottomUnary, _transportUnary,
+    replayUnary, _provenanceUnary, certUnary, bottomRoute, replayRoute, certReplay,
+    provenancePkg⟩ := carrier
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed assumptionUnary routeUnary routeReadCont
+  have assumptionReadUnary : UnaryHistory assumptionRead :=
+    unary_cont_closed propositionUnary assumptionUnary assumptionReadCont
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed routeReadUnary certUnary boundaryReadCont
+  exact
+    ⟨propositionUnary, assumptionUnary, routeUnary, bottomUnary, replayUnary, certUnary,
+      routeReadUnary, assumptionReadUnary, boundaryReadUnary, bottomRoute, replayRoute,
+      routeReadCont, assumptionReadCont, boundaryReadCont, certReplay, provenancePkg,
+      boundaryPkg⟩
+
 end BEDC.Derived.RefutationWitnessUp
