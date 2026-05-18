@@ -213,4 +213,30 @@ theorem ClosedTermSubstitutionCompilerPacket_boundary_ledger_exactness [AskSetup
     And.intro cert
       (And.intro operationWitness (And.intro witnessLedger ledgerName))
 
+theorem ClosedTermSubstitutionCompilerPacket_binder_budget_nonescape [AskSetup] [PackageSetup]
+    {termGenerator closedBoundary operation fixedWitness transport continuation provenance nameCert
+      binderRead openRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (∃ packet : ClosedTermSubstitutionCompilerUp,
+        packet =
+          ClosedTermSubstitutionCompilerUp.mk termGenerator closedBoundary operation fixedWitness
+            transport continuation provenance nameCert) →
+      Cont closedBoundary fixedWitness binderRead →
+        Cont binderRead operation openRead →
+          PkgSig bundle provenance pkg →
+            PkgSig bundle openRead pkg →
+              hsame openRead (append (append closedBoundary fixedWitness) operation) ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle openRead pkg ∧
+                  Cont closedBoundary fixedWitness binderRead ∧
+                    Cont binderRead operation openRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packetWitness binderRoute openRoute provenancePkg openPkg
+  obtain ⟨_packet, packetEq⟩ := packetWitness
+  cases packetEq
+  have openExact : hsame openRead (append (append closedBoundary fixedWitness) operation) := by
+    cases binderRoute
+    exact openRoute
+  exact
+    ⟨openExact, provenancePkg, openPkg, binderRoute, openRoute⟩
+
 end BEDC.Derived.ClosedTermSubstitutionCompilerUp
