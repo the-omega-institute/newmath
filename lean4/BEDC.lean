@@ -322,6 +322,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.NegativeRowScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RootObligationSurface
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.AuditGateConsumption
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.LedgerConsumerExactness
+import BEDC.Derived.AxisZeckendorfCannotClaimUp.DownstreamBlockerScope
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
 import BEDC.Derived.ZeckendorfNormalUp
