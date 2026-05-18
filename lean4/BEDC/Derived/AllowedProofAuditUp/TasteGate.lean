@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
+import BEDC.FKernel.Unary.History
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.AllowedProofAuditUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -228,5 +238,60 @@ theorem AllowedProofAuditTasteGate_single_carrier_alignment :
       (fun _ _ heq =>
         AllowedProofAuditTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+def AllowedProofAuditPacket [AskSetup] [PackageSetup]
+    (allowed refused scope witness localRefutation ledger transport continuation provenance
+      localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory allowed ∧ UnaryHistory refused ∧ UnaryHistory scope ∧ UnaryHistory witness ∧
+    UnaryHistory localRefutation ∧
+      Cont allowed refused ledger ∧
+        Cont scope witness transport ∧
+          Cont localRefutation ledger continuation ∧
+            Cont transport continuation provenance ∧
+              Cont provenance localName localName ∧ PkgSig bundle provenance pkg
+
+theorem AllowedProofAuditPacket_namecert_obligations [AskSetup] [PackageSetup]
+    {allowed refused scope witness localRefutation ledger transport continuation provenance
+      localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AllowedProofAuditPacket allowed refused scope witness localRefutation ledger transport
+      continuation provenance localName bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          AllowedProofAuditPacket allowed refused scope witness localRefutation ledger
+            transport continuation provenance localName bundle pkg ∧ hsame row localName)
+        (fun row : BHist =>
+          AllowedProofAuditPacket allowed refused scope witness localRefutation ledger
+            transport continuation provenance localName bundle pkg ∧ hsame row localName)
+        (fun row : BHist =>
+          AllowedProofAuditPacket allowed refused scope witness localRefutation ledger
+            transport continuation provenance localName bundle pkg ∧ hsame row localName)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg SemanticNameCert
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro localName (And.intro packet (hsame_refl localName))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row col same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row col next sameRowCol sameColNext
+        exact hsame_trans sameRowCol sameColNext
+      carrier_respects_equiv := by
+        intro row col same source
+        exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.AllowedProofAuditUp

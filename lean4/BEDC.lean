@@ -300,6 +300,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealHandoffObligations
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealRegSeqRatHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.PublicOutputCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ReadinessDeterminacy
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.ReadinessRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ReadinessRouteTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RealOutputFactorizationLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RealSealRouteNonescape
@@ -1114,6 +1115,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompilePublicPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompileRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftBudgetExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftLedgerExhaustion
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstituteClosedTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionFreeVariableNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionLedgerExhaustion
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.NameCert
@@ -2775,6 +2777,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmissionRoute
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClassifierStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedCandidateReadbackExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedNormalConsumerRoute
+import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedNormalRouteBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsistencyConsumerFactorization
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerBoundaryCompletion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerNonescape
@@ -4252,10 +4255,14 @@ import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp.RootPackage
+import BEDC.Derived.ZetaContinuationWitnessUp.RootReadinessSourceSeal
+import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.ZnormalUp
+import BEDC.Derived.ZnormalUp.RootContReplayClosure
 import BEDC.Derived.ZnormalUp.TasteGate
 import BEDC.Derived.ZnormalUp.TerminalReadbackExactness
+import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
 import BEDC.DerivedIndexAnalysis
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
