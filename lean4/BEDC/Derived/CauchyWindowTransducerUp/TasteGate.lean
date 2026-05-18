@@ -184,19 +184,43 @@ def taste_gate : ChapterTasteGate CauchyWindowTransducerUp :=
   cauchyWindowTransducerChapterTasteGate
 
 theorem CauchyWindowTransducerTasteGate_single_carrier_alignment :
-    cauchyWindowTransducerFields
-        (CauchyWindowTransducerUp.mk BHist.Empty BHist.Empty BHist.Empty
-          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-          BHist.Empty BHist.Empty) =
-      [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-        BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
-      cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-        cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
-  -- BEDC touchpoint anchor: BHist BMark
+    (∀ h : BHist,
+      cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEncodeBHist h) = h) ∧
+      (∀ x y : CauchyWindowTransducerUp,
+        cauchyWindowTransducerFields x = cauchyWindowTransducerFields y → x = y) ∧
+        cauchyWindowTransducerFields
+            (CauchyWindowTransducerUp.mk BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty) =
+          [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+            BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
+          cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+            cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
   constructor
-  · rfl
+  · intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
   · constructor
-    · rfl
-    · rfl
+    · intro x y hfields
+      cases x with
+      | mk streamWindow dyadicTolerance windowStep regSeqReadback realSeal
+          limitSelector transport continuation provenance nameCert =>
+          cases y with
+          | mk streamWindow' dyadicTolerance' windowStep' regSeqReadback' realSeal'
+              limitSelector' transport' continuation' provenance' nameCert' =>
+              cases hfields
+              rfl
+    · constructor
+      · rfl
+      · constructor
+        · rfl
+        · rfl
 
 end BEDC.Derived.CauchyWindowTransducerUp
