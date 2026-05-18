@@ -361,6 +361,28 @@ The support rows do not add another endpoint. They transport, replay, source, an
 Thus the cofinal-window route is exact. The completion boundary and tail-selector exclusion remove detached windows, quotient comparisons, host limits, hidden selectors, and choice rows from the accepted route.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit representative cofinal-refinement functoriality]
+\label{thm:diagonal-limit-representative-cofinal-refinement-functoriality}
+For every accepted $\DiagonalLimitRepresentativeUp$ carrier
+$$
+D=(X,\mu,n,k,i,w,r,d,e,H,C,P,N),
+$$
+two displayed cofinal request refinements that preserve the accepted representative classifier compose to the same ordered route
+$$
+\mu,n,k,i,w,r,d,e,H,C,P,N.
+$$
+The composed refinement is still a finite $\StreamNameUp$--$\RegSeqRatUp$--$\DyadicRatCoreUp$--$\RealUp$ route through $D$. It exports no second selector, no second window, no quotient-stream comparison, no host limit, no choice row, and no $\RealUp$-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply cofinal-window route exactness to the first displayed refinement. Its classifier-preserving route is exactly $\mu,n,k,i,w,r,d,e,H,C,P,N$, with the StreamName, RegSeqRat, DyadicRatCore, and Real rows read inside the accepted packet.
+
+Apply the same exactness theorem to the second displayed refinement after it is viewed over the already refined request. Since both refinements preserve the representative classifier, request-monotone seal routing keeps $\mu,n,k,i$ before $w,r,d,e$ at both stages.
+
+Now compose the two reads. The modulus-window-readback package identifies the same window, readback, dyadic ledger, and Real seal rows, so the second stage has no fresh endpoint to append beyond $w,r,d,e,H,C,P,N$.
+
+Finally use dyadic-real seal nonescape and the completion boundary. They confine the dyadic and Real rows to the displayed seal route and exclude quotient-stream, host-limit, choice, and ambient-completeness coordinates. Hence successive classifier-preserving cofinal refinements collapse to the same finite L10 route through $D$.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit representative Real-seal consumer determinacy]
 \label{thm:diagonal-limit-representative-real-seal-consumer-determinacy}
 For every accepted $\DiagonalLimitRepresentativeUp$ carrier
