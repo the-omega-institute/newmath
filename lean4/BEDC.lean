@@ -330,6 +330,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ConsumerLedgerExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRefusal
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealRegSeqRatHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.LedgerSeparation
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRouteDeterminacy
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
