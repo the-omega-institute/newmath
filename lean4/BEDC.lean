@@ -229,6 +229,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionConsumerLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionConsumerRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionHandoff
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionSourceExposure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ConsumerLedgerExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.DisplayedRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.DisplayedRouteSurface
@@ -238,6 +239,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.GeneratorNormalizationReadines
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAuthorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerHandoff
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerRouteTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundRouteRefusalSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundedAcceptanceSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.HostKernelHandoff
@@ -1413,6 +1415,7 @@ import BEDC.Derived.CritStripUp
 import BEDC.Derived.CriticalLineWitnessUp
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
+import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
