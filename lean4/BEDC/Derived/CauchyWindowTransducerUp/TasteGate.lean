@@ -96,34 +96,38 @@ private theorem cauchyWindowTransducer_round_trip :
     ∀ x : CauchyWindowTransducerUp,
       cauchyWindowTransducerFromEventFlow
         (cauchyWindowTransducerToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk streamWindow dyadicTolerance windowStep regSeqReadback realSeal
       limitSelector transport continuation provenance nameCert =>
       change
-        some (CauchyWindowTransducerUp.mk
-          (cauchyWindowTransducerDecodeBHist
-            (cauchyWindowTransducerEncodeBHist streamWindow))
-          (cauchyWindowTransducerDecodeBHist
-            (cauchyWindowTransducerEncodeBHist dyadicTolerance))
-          (cauchyWindowTransducerDecodeBHist
-            (cauchyWindowTransducerEncodeBHist windowStep))
-          (cauchyWindowTransducerDecodeBHist
-            (cauchyWindowTransducerEncodeBHist regSeqReadback))
-          (cauchyWindowTransducerDecodeBHist
-            (cauchyWindowTransducerEncodeBHist realSeal))
-          (cauchyWindowTransducerDecodeBHist
-            (cauchyWindowTransducerEncodeBHist limitSelector))
-          (cauchyWindowTransducerDecodeBHist
-            (cauchyWindowTransducerEncodeBHist transport))
-          (cauchyWindowTransducerDecodeBHist
-            (cauchyWindowTransducerEncodeBHist continuation))
-          (cauchyWindowTransducerDecodeBHist
-            (cauchyWindowTransducerEncodeBHist provenance))
-          (cauchyWindowTransducerDecodeBHist
-            (cauchyWindowTransducerEncodeBHist nameCert))) =
-          some (CauchyWindowTransducerUp.mk streamWindow dyadicTolerance windowStep
-            regSeqReadback realSeal limitSelector transport continuation provenance nameCert)
+        some
+            (CauchyWindowTransducerUp.mk
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist streamWindow))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist dyadicTolerance))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist windowStep))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist regSeqReadback))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist realSeal))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist limitSelector))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist transport))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist continuation))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist provenance))
+              (cauchyWindowTransducerDecodeBHist
+                (cauchyWindowTransducerEncodeBHist nameCert))) =
+          some
+            (CauchyWindowTransducerUp.mk streamWindow dyadicTolerance windowStep
+              regSeqReadback realSeal limitSelector transport continuation provenance
+              nameCert)
       rw [cauchyWindowTransducerDecode_encode_bhist streamWindow,
         cauchyWindowTransducerDecode_encode_bhist dyadicTolerance,
         cauchyWindowTransducerDecode_encode_bhist windowStep,
@@ -140,17 +144,13 @@ private theorem cauchyWindowTransducerToEventFlow_injective
     (h : cauchyWindowTransducerToEventFlow x =
       cauchyWindowTransducerToEventFlow y) :
     x = y := by
-  have hsome : some x = some y := by
-    calc
-      some x = cauchyWindowTransducerFromEventFlow
-          (cauchyWindowTransducerToEventFlow x) := by
-            exact Eq.symm (cauchyWindowTransducer_round_trip x)
-      _ = cauchyWindowTransducerFromEventFlow
-          (cauchyWindowTransducerToEventFlow y) := by
-            rw [h]
-      _ = some y := cauchyWindowTransducer_round_trip y
-  cases hsome
-  rfl
+  have hread :
+      cauchyWindowTransducerFromEventFlow (cauchyWindowTransducerToEventFlow x) =
+        cauchyWindowTransducerFromEventFlow (cauchyWindowTransducerToEventFlow y) :=
+    congrArg cauchyWindowTransducerFromEventFlow h
+  exact Option.some.inj
+    (Eq.trans (cauchyWindowTransducer_round_trip x).symm
+      (Eq.trans hread (cauchyWindowTransducer_round_trip y)))
 
 private theorem cauchyWindowTransducer_fields_faithful :
     ∀ x y : CauchyWindowTransducerUp,
@@ -198,22 +198,43 @@ def taste_gate : ChapterTasteGate CauchyWindowTransducerUp :=
   cauchyWindowTransducerChapterTasteGate
 
 theorem CauchyWindowTransducerTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier CauchyWindowTransducerUp) ∧
-      Nonempty (ChapterTasteGate CauchyWindowTransducerUp) ∧
-        Nonempty (FieldFaithful CauchyWindowTransducerUp) ∧
-          Nonempty (Nontrivial CauchyWindowTransducerUp) ∧
-            cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-              cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+    (∀ h : BHist,
+      cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEncodeBHist h) = h) ∧
+      (∀ x y : CauchyWindowTransducerUp,
+        cauchyWindowTransducerFields x = cauchyWindowTransducerFields y → x = y) ∧
+        cauchyWindowTransducerFields
+            (CauchyWindowTransducerUp.mk BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty) =
+          [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+            BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
+          cauchyWindowTransducerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+            cauchyWindowTransducerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
   constructor
-  · exact ⟨cauchyWindowTransducerBHistCarrier⟩
+  · intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
   · constructor
-    · exact ⟨cauchyWindowTransducerChapterTasteGate⟩
+    · intro x y hfields
+      cases x with
+      | mk streamWindow dyadicTolerance windowStep regSeqReadback realSeal
+          limitSelector transport continuation provenance nameCert =>
+          cases y with
+          | mk streamWindow' dyadicTolerance' windowStep' regSeqReadback' realSeal'
+              limitSelector' transport' continuation' provenance' nameCert' =>
+              cases hfields
+              rfl
     · constructor
-      · exact ⟨cauchyWindowTransducerFieldFaithful⟩
+      · rfl
       · constructor
-        · exact ⟨cauchyWindowTransducerNontrivial⟩
-        · constructor
-          · rfl
-          · rfl
+        · rfl
+        · rfl
 
 end BEDC.Derived.CauchyWindowTransducerUp
