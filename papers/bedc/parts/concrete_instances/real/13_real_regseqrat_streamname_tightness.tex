@@ -255,3 +255,38 @@ The witness is finite because both disagreeing surfaces come from finite-request
 
 Finally, \autoref{thm:real-l10-four-face-witness-minimality} rules out shrinking the displayed witness inventory, while \autoref{thm:real-l10-classifier-status-axis-separation} keeps the classifier claim separate from audit status. Thus the theorem states cofinal invariance of the public classifier surface only, with no assertion about formal status, bridge status, quotient streams, selected limits, countable choice, ambient completeness, or metric completeness.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal cofinal pullback determinacy]
+\label{thm:real-l10-terminal-cofinal-pullback-determinacy}
+Let $\mathcal P$ be a current Phase $\RealUp$ and Completion public classifier packet, and let $\mathcal R$ be a cofinal family of terminal finite-request refinements of $\mathcal P$. Suppose every terminal refinement in $\mathcal R$ preserves the four displayed faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+where the $\RealUp$ face is the local seal-source row, and suppose it also preserves the support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+
+Then the terminal pullback induced by $\mathcal R$ is uniquely determined by those four faces and support rows. Conversely, if two terminal cofinal pullbacks over current Phase $\RealUp$ and Completion data disagree, then their disagreement is witnessed at a finite refinement stage on one of the DyadicRatCore ledger rows, StreamName terminal-window rows, RegSeqRat finite-request rows, local Real seal-source rows, or displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+The determinacy surface contains no quotient stream equality, host real equality, selected limit, countable-choice row, ambient completeness row, metric-completeness row, arithmetic package, order package, standard bridge row, or second public classifier coordinate.
+\end{theorem}
+\begin{proof}
+First read each terminal refinement through cofinal classifier invariance. By \autoref{thm:real-l10-cofinal-classifier-refinement-invariance}, every refinement in $\mathcal R$ presents the same public $\RealUp$ classifier surface as $\mathcal P$ whenever it preserves the displayed four faces and support rows.
+
+Next identify the finite witness carried by that common classifier surface. Apply \autoref{thm:real-l10-finite-window-witness-determinacy}; the public boundary determines exactly the fused $\StreamNameUp$ terminal-window packet, the $\DyadicRatCoreUp$ endpoint and radius ledger, the $\RegSeqRatUp$ finite-request section, the local $\RealUp$ seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Now fix the source of the pullback. The source-route exactness theorem, \autoref{thm:real-l10-source-route-exactness}, places every terminal finite-window witness on the ordered route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+Thus the terminal pullback has no independent source coordinate beyond the four displayed faces.
+
+Finally compare the three public readings. By \autoref{thm:real-l10-streamname-regseqrat-completion-route-triangle}, the StreamName finite-window classifier pullback, the RegSeqRat finite-request section, and the Real L10 source route read the same public boundary over the same support rows. The terminal pullback induced by the cofinal family is therefore unique, since all of its visible faces are already fixed by the common finite-window witness and by the route triangle.
+
+For the converse, suppose two terminal cofinal pullbacks disagree. Cofinality gives a finite refinement stage dominating the two finite reads. The preceding paragraphs identify both pullbacks at that stage with their DyadicRatCore ledger, StreamName terminal-window packet, RegSeqRat finite-request section, local Real seal-source rows, and displayed support rows.
+
+If those rows agreed, the cofinal invariance theorem and the finite-window determinacy theorem would give the same public boundary, and the route triangle would repack the same terminal pullback. Hence any disagreement must be visible at that finite stage on one of the displayed faces or support rows.
+
+The exclusion clause follows from the same cited inventory. None of the four cited results exports quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, metric completeness, arithmetic or order packages, bridge rows, or a second public classifier coordinate, so none of those data can witness or repair a terminal cofinal pullback disagreement here.
+\end{proof}
