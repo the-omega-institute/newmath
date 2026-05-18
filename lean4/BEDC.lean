@@ -987,6 +987,7 @@ import BEDC.Derived.ClosedNormalCanonicityUp.TasteGate
 import BEDC.Derived.ClosedNormalEndpointLedgerUp.TasteGate
 import BEDC.Derived.InterHistLocalityLedgerUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceAuditPacketUp.TasteGate
+import BEDC.Derived.MetaCICConfluenceAuditUp.TasteGate
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
 import BEDC.Derived.TasteGateStabilityUp.TasteGate
@@ -1807,6 +1808,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.CommonWindowExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.CommonWindowDiagonalSelectorCoherence
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalBudgetExtraction
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalBudgetPullback
+import BEDC.Derived.UniformCauchyCriterionUp.DiagonalUniquenessFourFaceTerminal
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalTerminalRouteExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalTailBudgetExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.DiagonalExitClassifier
@@ -1838,6 +1840,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.FiniteObservationTerminalSynchroniz
 import BEDC.Derived.UniformCauchyCriterionUp.LateBoundaryNoChoice
 import BEDC.Derived.UniformCauchyCriterionUp.LateBoundaryAndOverlapRoutes
 import BEDC.Derived.UniformCauchyCriterionUp.LateBoundaryFormalTargetPacket
+import BEDC.Derived.UniformCauchyCriterionUp.LateOverlapRealSealPullback
 import BEDC.Derived.UniformCauchyCriterionUp.LateOverlapRouteExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.L10ExitPublicNonescape
 import BEDC.Derived.UniformCauchyCriterionUp.TailBudgetRealRoute
