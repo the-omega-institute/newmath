@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\BHistOctaTupleNameCertUp$}
+\label{ch:concrete-instances-b-hist-octa-tuple-name-cert-namecert}
+\origin{ai-composite}
+
+The $\BHistOctaTupleNameCertUp$ packet is a composite over the arity-eight tag-encoded $\BHist$ carrier-isomorphism bucket. It sits between the nona and deca capstones of \autoref{ch:concrete-instances-b-hist-nona-tuple-name-cert-namecert} and \autoref{ch:concrete-instances-b-hist-deca-tuple-name-cert-namecert}, and it cites the same bucket anchors: the anchor-stability certificate of \autoref{ch:concrete-instances-anchor-stability-certificate-namecert}, the audit-map family of \autoref{ch:concrete-instances-auditmapfamily-namecert}, and the beta critical-pair packet of \autoref{ch:concrete-instances-beta-critical-pair-namecert}. The chapter gives the eight-row carrier a single BEDC name so consumers can read the shared tag, comparison, transport, replay, provenance, and local-name pattern without treating any sibling as an atomic replacement.
+
+\begin{definition}[BHistOctaTupleNameCert carrier]
+\label{def:b-hist-octa-tuple-name-cert-carrier}
+A $\BHistOctaTupleNameCertUp$ carrier is a finite $\BHist$ packet
+$$
+O=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0,\ldots,R_7$ are the eight tag-encoded carrier rows. Each row is a $\BHist$ entry whose tag records the local role used by a cited bucket sibling and whose payload is read only as a displayed BEDC history component.
+\item $H$ records componentwise $\hsame$ transport for $R_0,\ldots,R_7,C,P,L$ and no transport row outside the displayed packet.
+\item $C$ records the displayed $\Cont$ route that replays row admission, componentwise comparison, transport, provenance readback, and local naming for the same eight-row packet.
+\item $P$ is the $\Pkg$ provenance over the arity-eight tag encoder, the cited sibling carrier families, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\BHistOctaTupleNameCertUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an untagged row, a ninth carrier component, a host-side equality test, a bucket-wide rewrite of sibling chapters, or a detached provenance table.
+\end{definition}
+
+\begin{definition}[BHistOctaTupleNameCert classifier]
+\label{def:b-hist-octa-tuple-name-cert-classifier}
+Two $\BHistOctaTupleNameCertUp$ packets
+$$
+O=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,H,C,P,L)
+$$
+and
+$$
+O'=(R'_0,R'_1,R'_2,R'_3,R'_4,R'_5,R'_6,R'_7,H',C',P',L')
+$$
+are classifier-equivalent exactly when each displayed carrier row compares componentwise,
+$$
+\begin{aligned}
+&R_0 \sim R'_0,\quad R_1 \sim R'_1,\quad R_2 \sim R'_2,\quad R_3 \sim R'_3,\\
+&R_4 \sim R'_4,\quad R_5 \sim R'_5,\quad R_6 \sim R'_6,\quad R_7 \sim R'_7,
+\end{aligned}
+$$
+the transport rows display the same $\hsame$ routes for those components and for $C,P,L$, and the replay rows display the same $\Cont$ route from row admission through local naming. No comparison is available through an omitted component, an untagged payload, or a member-chapter rewrite.
+\end{definition}
+
+\begin{theorem}[BHistOctaTupleNameCert carrier admission]
+\label{thm:b-hist-octa-tuple-name-cert-carrier-admission}
+Every accepted $\BHistOctaTupleNameCertUp$ packet admits exactly the carrier rows
+$$
+R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,H,C,P,L.
+$$
+The eight rows are tag-encoded $\BHist$ components, and $H,C,P,L$ are the only structural rows by which a consumer may transport, replay, source, or locally name the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:b-hist-octa-tuple-name-cert-carrier}. The definition lists the eight tag-encoded $\BHist$ rows and then lists the transport, continuation, provenance, and local naming rows.
+
+There is no remaining coordinate in the packet. Thus any accepted carrier read lands in exactly the displayed rows, and any proposed ninth component or detached structural table lies outside the accepted surface.
+\end{proof}
+
+\begin{theorem}[BHistOctaTupleNameCert classifier exactness]
+\label{thm:b-hist-octa-tuple-name-cert-classifier-exactness}
+For accepted $\BHistOctaTupleNameCertUp$ packets $O$ and $O'$, the classifier of \autoref{def:b-hist-octa-tuple-name-cert-classifier} is exact for the arity-eight carrier surface: it compares the eight tagged $\BHist$ rows componentwise, compares the displayed $\hsame$ and $\Cont$ routes through $H,H',C,C'$, and preserves the provenance and local naming rows through $P,P',L,L'$. It does not compare by bucket membership alone, by a host equality test, or by a hidden isomorphism between member chapters.
+\end{theorem}
+\begin{proof}
+Start with the classifier definition. It requires one comparison for each of $R_0,\ldots,R_7$, then requires the displayed transport and replay routes to match the same component list.
+
+The provenance and local naming rows are part of the same carrier, so their comparison is not an external bucket judgment. Since the classifier has no clause for bucket membership alone, host equality, or hidden chapter isomorphism, the displayed componentwise route is the exact comparison surface.
+\end{proof}
+
+\begin{theorem}[BHistOctaTupleNameCert scoped support package]
+\label{thm:b-hist-octa-tuple-name-cert-scoped-support-package}
+The carrier admission and classifier exactness clauses bind the $\BHistOctaTupleNameCertUp$ packet to the displayed BEDC support
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert,
+$$
+and to the cited sibling carrier families. The resulting scope is the arity-eight tag-encoded $\BHist$ packet with displayed $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row; it is not a bucket-wide sibling rewrite, a host-side equality classifier, or a hidden ninth row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:b-hist-octa-tuple-name-cert-carrier-admission} to identify the admitted rows and exclude any ninth coordinate. Apply \autoref{thm:b-hist-octa-tuple-name-cert-classifier-exactness} to keep comparison on the eight tagged $\BHist$ rows and the displayed structural rows.
+
+The support package is therefore the named BEDC packet itself. Its provenance can source the cited bucket siblings, but no carrier or classifier row rewrites those sibling chapters or replaces their local certificates.
+\end{proof}
+
+\falsifiablePrediction{Any accepted consumer route that reads an untagged row, a ninth carrier row, or bucket membership alone fails carrier admission or classifier exactness for $\BHistOctaTupleNameCertUp$.}
+
+\independenceWitness{b-hist-nona-tuple-name-cert, b-hist-deca-tuple-name-cert, auditmapfamily, anchor-stability-certificate, and beta-critical-pair: none is bijective to $\BHistOctaTupleNameCertUp$ because this packet carries eight tagged rows together with transport, replay, provenance, and local $\NameCert$ in one packet, while the nona and deca capstones carry different arities and each cited sibling supplies its own member-family surface.}
+
+\closureat{BHistOctaTupleNameCertUp}{seedStr}
+
+\begin{closurestatus}{\BHistOctaTupleNameCertUp}
+  \constructivestory{A $\BHistOctaTupleNameCertUp$ packet is generated from eight tag-encoded $\BHist$ carrier rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:b-hist-octa-tuple-name-cert-carrier}, \autoref{def:b-hist-octa-tuple-name-cert-classifier}, \autoref{thm:b-hist-octa-tuple-name-cert-carrier-admission}, \autoref{thm:b-hist-octa-tuple-name-cert-classifier-exactness}, and \autoref{thm:b-hist-octa-tuple-name-cert-scoped-support-package} identify the arity-eight carrier-isomorphism surface and its BEDC support package.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai-composite}
+  \notclaimed{This chapter does not provide a Lean declaration, standard bridge, member-chapter replacement, or public acceptance interface.}
+  \upgradepath{Formalization requires a Lean carrier for BEDC.Derived.BHistOctaTupleNameCertUp and checked carrier-admission plus classifier-exactness theorems.}
+\end{closurestatus}
