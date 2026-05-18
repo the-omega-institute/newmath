@@ -53,6 +53,33 @@ theorem UniformCauchyCriterionPacket_shared_window_threshold_meet [AskSetup] [Pa
     ⟨windowsUnary, modulusUnary, toleranceUnary, thresholdUnary, toleranceReadUnary,
       tailReadUnary, sealReadUnary, thresholdSame, indexWindowsModulus,
         indexWindowsThreshold, modulusToleranceTail, modulusToleranceRead, toleranceTailRead,
-          tailSealRead, namePkg, sealPkg⟩
+      tailSealRead, namePkg, sealPkg⟩
+
+theorem UniformCauchyCriterionSharedWindowThresholdMeet [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name meet endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      Cont windows modulus meet ->
+        Cont meet tolerance endpoint ->
+          PkgSig bundle endpoint pkg ->
+            UnaryHistory windows ∧ UnaryHistory modulus ∧ UnaryHistory meet ∧
+              UnaryHistory tolerance ∧ UnaryHistory endpoint ∧ Cont windows modulus meet ∧
+                Cont meet tolerance endpoint ∧ PkgSig bundle name pkg ∧
+                  PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet windowModulusMeet meetToleranceEndpoint endpointPkg
+  obtain ⟨_indexUnary, windowsUnary, modulusUnary, toleranceUnary, _tailUnary, _sealRowUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, _indexWindowsModulus,
+    _modulusToleranceTail, _tailSealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
+    packet
+  have meetUnary : UnaryHistory meet :=
+    unary_cont_closed windowsUnary modulusUnary windowModulusMeet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed meetUnary toleranceUnary meetToleranceEndpoint
+  exact
+    ⟨windowsUnary, modulusUnary, meetUnary, toleranceUnary, endpointUnary, windowModulusMeet,
+      meetToleranceEndpoint, namePkg, endpointPkg⟩
 
 end BEDC.Derived.UniformCauchyCriterionUp

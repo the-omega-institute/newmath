@@ -573,6 +573,175 @@ GATE_PATTERNS = [
      r"\[(P\d+)\]"),
 ]
 
+_PROPEXT_VERIFY_OUTPUT: str | None = None
+
+
+def _reset_act_verify_cache() -> None:
+    global _PROPEXT_VERIFY_OUTPUT
+    _PROPEXT_VERIFY_OUTPUT = None
+
+
+def _act_verify_skip(signature: str) -> None:
+    print(
+        f"[heal] act-verify: {signature} no longer present in current state; "
+        "skipping dispatch",
+        file=sys.stderr,
+    )
+
+
+def _combined_output(res: subprocess.CompletedProcess[str]) -> str:
+    return (res.stdout or "") + (res.stderr or "")
+
+
+def _run_phase_d_lint_current() -> subprocess.CompletedProcess[str]:
+    return run(
+        [
+            "python3",
+            "lean4/scripts/phase_d_lint.py",
+            "--worktree",
+            str(REPO_ROOT),
+            "--base-branch",
+            BASE_BRANCH,
+            "--include-shallow",
+        ],
+        check=False,
+        capture=True,
+        timeout=180,
+    )
+
+
+def verify_propext_still_impure(theorem_fqn: str) -> bool:
+    """Return True iff axiom-purity still lists theorem_fqn as impure."""
+    global _PROPEXT_VERIFY_OUTPUT
+    if _PROPEXT_VERIFY_OUTPUT is None:
+        try:
+            res = run(
+                [
+                    "python3",
+                    "lean4/scripts/bedc_ci.py",
+                    "axiom-purity",
+                    "--strict",
+                    "--verbose",
+                ],
+                check=False,
+                capture=True,
+                timeout=600,
+            )
+            _PROPEXT_VERIFY_OUTPUT = _combined_output(res)
+        except subprocess.TimeoutExpired as exc:
+            stdout = exc.stdout or ""
+            stderr = exc.stderr or ""
+            if isinstance(stdout, bytes):
+                stdout = stdout.decode("utf-8", errors="ignore")
+            if isinstance(stderr, bytes):
+                stderr = stderr.decode("utf-8", errors="ignore")
+            _PROPEXT_VERIFY_OUTPUT = stdout + stderr
+        except Exception as exc:
+            print(f"[heal] act-verify propext failed: {exc}", file=sys.stderr)
+            _PROPEXT_VERIFY_OUTPUT = ""
+    needle = theorem_fqn.strip()
+    if not needle:
+        return False
+    for line in _PROPEXT_VERIFY_OUTPUT.splitlines():
+        if needle not in line:
+            continue
+        if any(tok in line for tok in ("propext", "Classical.choice", "Quot.sound", "forbidden")):
+            return True
+    return False
+
+
+def _phase_d_lint_output_matches(gate_name: str, target_file: object, out: str) -> bool:
+    gate = gate_name.upper()
+    target = target_file if isinstance(target_file, dict) else {}
+    if "NO_BEDC_TOUCHPOINT" in gate or "NO BEDC TOUCHPOINT" in gate:
+        decl = str(target.get("decl", "")).strip()
+        return (
+            "Derived theorem missing" in out
+            or "NO BEDC TOUCHPOINT" in out
+            or bool(decl and decl in out)
+        )
+    if "SHALLOW_GROWTH" in gate or "SHALLOW GROWTH" in gate:
+        chapter = str(target.get("chapter", "")).strip()
+        return "SHALLOW GROWTH PATTERN" in out and (not chapter or chapter in out)
+    return False
+
+
+def verify_push_lock_starvation_recent() -> bool:
+    """Return True iff a push-lock timeout appears in the last five minutes."""
+    cutoff = datetime.now() - timedelta(minutes=5)
+    pat = re.compile(r"push lock for branch.*held for more than 600s")
+    for path in (LEAN_ORCH_LOG, PAPER_ORCH_LOG):
+        for ts, line in _read_log_tail(path):
+            if ts >= cutoff and pat.search(line):
+                return True
+    return False
+
+
+def verify_phase_d_lint_still_rejects(cooldown_target: dict) -> bool:
+    category = cooldown_target.get("category", "")
+    details = cooldown_target.get("details", {})
+    if category == "LAKE_BUILD_STUCK_DUP":
+        try:
+            res = run(["lake", "build"], cwd=REPO_ROOT / "lean4",
+                      check=False, capture=True, timeout=600)
+        except Exception:
+            return False
+        out = _combined_output(res)
+        if res.returncode == 0:
+            return False
+        symbol = str(details.get("symbol", "")).strip()
+        dup = re.search(
+            r"already declared|duplicate declaration|has multiple definitions",
+            out,
+            re.IGNORECASE,
+        )
+        return bool(dup and (not symbol or symbol in out))
+    try:
+        res = _run_phase_d_lint_current()
+    except Exception:
+        return False
+    if res.returncode == 0:
+        return False
+    return _phase_d_lint_output_matches(category, details, _combined_output(res))
+
+
+def verify_gate_still_failing(gate_name: str, target_file: object) -> bool:
+    gate = gate_name or ""
+    if "axiom-purity" in gate:
+        if isinstance(target_file, str) and target_file:
+            return verify_propext_still_impure(target_file)
+        return any(verify_propext_still_impure(v) for v in detect_propext_violations_from_log()[:5])
+    if any(tok in gate for tok in ("NO BEDC TOUCHPOINT", "SHALLOW GROWTH PATTERN")):
+        try:
+            res = _run_phase_d_lint_current()
+        except Exception:
+            return False
+        if res.returncode == 0:
+            return False
+        return _phase_d_lint_output_matches(gate, target_file, _combined_output(res))
+    if "lake build" in gate:
+        try:
+            res = run(["lake", "build"], cwd=REPO_ROOT / "lean4",
+                      check=False, capture=True, timeout=600)
+        except Exception:
+            return False
+        return res.returncode != 0
+    if "audit" in gate or "bedc_ci.py audit" in gate:
+        try:
+            res = run(["python3", "lean4/scripts/bedc_ci.py", "audit"],
+                      check=False, capture=True, timeout=180)
+        except Exception:
+            return False
+        return res.returncode != 0
+    if "OVERSIZED .TEX" in gate:
+        for tex in (REPO_ROOT / "papers" / "bedc" / "parts").rglob("*.tex"):
+            try:
+                if sum(1 for _ in tex.open("r", encoding="utf-8", errors="ignore")) > 800:
+                    return True
+            except Exception:
+                continue
+    return False
+
 
 HEAL_PROPEXT_PROMPT = """You are healing a `propext`-axiom dependency in a BEDC Lean theorem on the codex-auto-dev branch.
 
@@ -846,6 +1015,9 @@ def heal_propext_violations(violations: list[str]) -> bool:
     healed_any = False
     for thm in violations[:3]:  # cap 3 per cycle so a bad fix can't loop
         signature = f"propext heal {thm}"
+        if not verify_propext_still_impure(thm):
+            _act_verify_skip(f"propext {thm}")
+            continue
         if _recurring_fix_loop(signature, "propext", {"theorem": thm}):
             continue
         prompt = _with_fix_signature(
@@ -938,6 +1110,9 @@ def heal_gate_storm(storm: dict) -> bool:
         samples="\n".join(f"  {s}" for s in storm["samples"]),
     )
     signature = f"gate-storm {storm['gate']}"
+    if not verify_gate_still_failing(storm["gate"], storm):
+        _act_verify_skip(signature)
+        return False
     if _recurring_fix_loop(signature, "gate storm", storm):
         return False
     prompt = _with_fix_signature(prompt, signature)
@@ -1521,6 +1696,14 @@ def cooldown_analysis_phase(
         if bucket in seen_buckets:
             continue
         seen_buckets.add(bucket)
+        if not dry_run and category == "PUSH_LOCK_STARVATION" and not verify_push_lock_starvation_recent():
+            _act_verify_skip(f"cooldown {category} {bucket}")
+            continue
+        if not dry_run and category in HOT_FIXABLE_CATEGORIES and not verify_phase_d_lint_still_rejects(
+            {"category": category, "details": details}
+        ):
+            _act_verify_skip(f"cooldown {category} {bucket}")
+            continue
         if hot_fix_recently_attempted(category, details):
             log_heal_alert(
                 category,
@@ -1609,6 +1792,50 @@ def run_cooldown_self_test() -> int:
     return 0 if ok else 1
 
 
+def run_verify_only() -> int:
+    """Print act-verify results for currently detected log symptoms."""
+    _reset_act_verify_cache()
+    propext_v = detect_propext_violations_from_log()
+    if not propext_v:
+        print("[heal] verify-only propext: no detected symptoms", file=sys.stderr)
+    for thm in propext_v[:5]:
+        ok = verify_propext_still_impure(thm)
+        print(f"[heal] verify-only propext {thm}: {ok}", file=sys.stderr)
+
+    storms = detect_gate_storms()
+    if not storms:
+        print("[heal] verify-only gate-storm: no detected symptoms", file=sys.stderr)
+    for storm in storms[:5]:
+        target: object = storm
+        if "axiom-purity" in storm.get("gate", ""):
+            target = propext_v[0] if propext_v else ""
+        ok = verify_gate_still_failing(storm.get("gate", ""), target)
+        print(
+            f"[heal] verify-only gate-storm {storm.get('gate','?')}: {ok}",
+            file=sys.stderr,
+        )
+
+    cooldowns = detect_recent_cooldowns(window_minutes=COOLDOWN_WINDOW_MINUTES)
+    if not cooldowns:
+        print("[heal] verify-only cooldown: no detected symptoms", file=sys.stderr)
+    seen_buckets: set[str] = set()
+    for cooldown in cooldowns:
+        category, details = classify_cooldown_cause(cooldown)
+        details["cooldown_timestamp"] = cooldown.get("timestamp", "")
+        bucket = _details_hash(category, details)
+        if bucket in seen_buckets:
+            continue
+        seen_buckets.add(bucket)
+        if category == "PUSH_LOCK_STARVATION":
+            ok = verify_push_lock_starvation_recent()
+        elif category in HOT_FIXABLE_CATEGORIES:
+            ok = verify_phase_d_lint_still_rejects({"category": category, "details": details})
+        else:
+            ok = True
+        print(f"[heal] verify-only cooldown {category} {bucket}: {ok}", file=sys.stderr)
+    return 0
+
+
 def push_to_origin() -> bool:
     res = run(["git", "push", "origin", BASE_BRANCH],
               check=False, capture=True, timeout=60)
@@ -1620,6 +1847,7 @@ def push_to_origin() -> bool:
 
 def cycle() -> None:
     """One healing cycle: fetch, audit, heal if needed, push."""
+    _reset_act_verify_cache()
     ts = time.strftime("%Y-%m-%d %H:%M:%S")
     print(f"[heal] {ts} tick", flush=True)
     # Always work on codex-auto-dev (or skip if not).
@@ -1807,10 +2035,15 @@ def main() -> int:
                     help="Run cooldown detection/classification only; no codex, no alert writes")
     p.add_argument("--self-test", action="store_true",
                     help="Run cooldown classifier self-tests and exit")
+    p.add_argument("--verify-only", action="store_true",
+                    help="Detect log symptoms, verify current state, and exit without dispatch")
     args = p.parse_args()
 
     if args.self_test:
         return run_cooldown_self_test()
+
+    if args.verify_only:
+        return run_verify_only()
 
     if args.dry_run:
         print("[heal] dry-run helpers available: verify_local_ci, recent_fix_signature_seen",
