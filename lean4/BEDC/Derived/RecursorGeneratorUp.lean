@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RecursorGeneratorUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 
 inductive RecursorGeneratorUp : Type where
@@ -234,5 +237,26 @@ theorem RecursorGeneratorTasteGate_single_carrier_alignment :
       · intro x y heq
         exact recursorGeneratorToEventFlow_injective heq
       · rfl
+
+theorem RecursorGeneratorAuthorizedOutputFactorization
+    {signature eliminator branches audit metacic transport cont provenance name outputRead :
+      BHist} :
+    recursorGeneratorFromEventFlow
+        (recursorGeneratorToEventFlow
+          (RecursorGeneratorUp.mk signature eliminator branches audit metacic transport cont
+            provenance name)) =
+      some
+        (RecursorGeneratorUp.mk signature eliminator branches audit metacic transport cont
+          provenance name) ->
+      Cont eliminator branches outputRead ->
+        UnaryHistory eliminator ->
+          UnaryHistory branches ->
+            UnaryHistory outputRead ∧ Cont eliminator branches outputRead ∧
+              recursorGeneratorEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory
+  intro _carrierRoundTrip eliminatorBranchesOutputRead eliminatorUnary branchesUnary
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed eliminatorUnary branchesUnary eliminatorBranchesOutputRead
+  exact ⟨outputReadUnary, eliminatorBranchesOutputRead, rfl⟩
 
 end BEDC.Derived.RecursorGeneratorUp
