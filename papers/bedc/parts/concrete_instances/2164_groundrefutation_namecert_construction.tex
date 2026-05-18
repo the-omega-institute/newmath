@@ -61,15 +61,63 @@ Transporting the packet uses $H$ componentwise. The assumption row and falsity r
 The remaining coordinates $P$ and $N$ record provenance and the local naming ledger for this route. Since the carrier has no field for truth over certificates, excluded middle, undecided double-negation elimination, or witness selection by contradiction, every exported negation stays inside the closed ground loop.
 \end{proof}
 
+\begin{theorem}[GroundRefutation classifier transport]
+\label{thm:ground-refutation-classifier-transport}
+Let $G=(A,F,H,C,P,N)$ and $G'=(A',F',H',C',P',N')$ be accepted $\GroundRefutationUp$ carriers, each displayed as a finite $\BHist$ packet with its $\hsame$ ledger, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\GroundRefutationUp}$ row. If the classifier row matches $A$ with $A'$, $F$ with $F'$, $H$ with $H'$, $C$ with $C'$, $P$ with $P'$, and $N$ with $N'$ by the displayed $\hsame$ and $\Cont$ data, then every classified negation exported from $G$ transports to the corresponding classified negation exported from $G'$. The transport has no coordinate that can introduce a certificate-indexed truth branch, excluded-middle split, undecided double-negation eliminator, or existential witness by contradiction.
+\end{theorem}
+\begin{proof}
+Read both carriers through \autoref{def:ground-refutation-carrier}. The classifier has only the six displayed coordinates, so its transport data is the componentwise comparison of assumption row, falsity route, transport ledger, continuation ledger, provenance, and naming row.
+
+Apply the $\hsame$ entries to move the assumption row and the falsity route together. Apply the $\Cont$ entries to replay the assumption read, falsity production, bottom transport, and exported-negation return inside the second packet.
+
+The $\Pkg$ row and local $\NameCert$ row account for the same finite route after transport. Since no remaining carrier coordinate stores a truth branch, excluded-middle split, undecided double-negation eliminator, or witness selector, the transported classifier remains a ground-loop classifier.
+\end{proof}
+
+\begin{theorem}[GroundRefutation route stability]
+\label{thm:ground-refutation-route-stability}
+For an accepted $\GroundRefutationUp$ carrier $G=(A,F,H,C,P,N)$ displayed as a finite $\BHist$ packet, every stored $\hsame$ transport in $H$ preserves the $\Cont$ route in $C$ that reads $A$, replays $F$, transports the bottom row, and returns the exported negation. Thus the exported negation is stable under the recorded carrier transports, with accountability still carried by $P$ and by the local $\NameCert_{\GroundRefutationUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Unpack the transport ledger $H$. Its entries are attached to the assumption row, falsity route, provenance row, and naming row rather than to an ambient meta rule.
+
+The continuation ledger $C$ is read in the same order before and after transport: read the assumption row, replay $F$, move the bottom row, and return the negation. Componentwise $\hsame$ therefore cannot detach the conclusion from its ground assumption.
+
+The provenance row $P$ and the local $\NameCert$ row $N$ remain part of the transported packet. The route stability claim is exactly that the transported output is still produced by these displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{proof}
+
+\begin{theorem}[GroundRefutation ledger accountability]
+\label{thm:ground-refutation-ledger-accountability}
+Let $G=(A,F,H,C,P,N)$ be an accepted $\GroundRefutationUp$ carrier. Any consumer that reads the bottom row produced by $F$ must also read the displayed $\BHist$ assumption row $A$, the $\hsame$ transport ledger $H$, the $\Cont$ replay ledger $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\GroundRefutationUp}$ row $N$. Consequently the bottom row is not available as an unaccounted contradiction token outside the packet.
+\end{theorem}
+\begin{proof}
+The carrier inventory has no standalone bottom-token coordinate. The bottom row appears only through the falsity-producing route $F$ and the continuation entries in $C$.
+
+A consumer of that row therefore consumes the route that produced it. The $\hsame$ ledger records how the route and assumption move, while the $\Pkg$ provenance and local $\NameCert$ row record why the route belongs to this finite packet.
+
+It follows that the contradiction cannot be exported as anonymous evidence. It is always accompanied by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $G$.
+\end{proof}
+
+\begin{theorem}[GroundRefutation consumer readiness]
+\label{thm:ground-refutation-consumer-readiness}
+An accepted $\GroundRefutationUp$ consumer may use the carrier $G=(A,F,H,C,P,N)$ only through the displayed finite $\BHist$ rows, the componentwise $\hsame$ transports, the $\Cont$ routes, the $\Pkg$ provenance, and the local $\NameCert_{\GroundRefutationUp}$ row. Such a consumer is ready for the ground-loop negation output exactly when it requests no certificate-indexed truth branch, excluded-middle split, undecided double-negation eliminator, existential witness by contradiction, or route not listed in $C$.
+\end{theorem}
+\begin{proof}
+Consumer readiness is a projection discipline on the six-coordinate packet. The available data are precisely $A,F,H,C,P,N$, read with their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure.
+
+If a consumer asks for the ground-loop negation, the packet supplies the assumption row, the falsity route, the transport ledger, the continuation replay, the provenance row, and the naming row. These are exactly the rows required by the prior boundary and accountability statements.
+
+If a consumer asks for a truth branch, excluded-middle split, undecided double-negation eliminator, existential selector, or unlisted route, the carrier has no such coordinate to project. The readiness condition therefore keeps every valid consumer inside the displayed ground-loop surface.
+\end{proof}
+
 \closureat{GroundRefutationUp}{seedStr}
 
 \begin{closurestatus}{\GroundRefutationUp}
   \constructivestory{A $\GroundRefutationUp$ packet is generated from one displayed assumption row, a falsity-producing continuation route, componentwise $\hsame$ transports, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:ground-refutation-carrier}, \autoref{thm:ground-refutation-namecert-obligations}, and \autoref{thm:ground-refutation-ground-loop-boundary} bind the finite carrier, NameCert obligation rows, and ground-loop non-escape boundary.}
+  \scopeclosed{\autoref{def:ground-refutation-carrier}, \autoref{thm:ground-refutation-namecert-obligations}, \autoref{thm:ground-refutation-ground-loop-boundary}, \autoref{thm:ground-refutation-classifier-transport}, \autoref{thm:ground-refutation-route-stability}, \autoref{thm:ground-refutation-ledger-accountability}, and \autoref{thm:ground-refutation-consumer-readiness} bind the finite carrier, NameCert obligation rows, classifier transport, route stability, ledger accountability, and consumer non-escape boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a Lean implementation, bridge status, certificate-indexed truth branch, excluded-middle split, undecided double-negation eliminator, or existential witness by contradiction.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for classifier transport, route stability, ledger accountability, and ground-loop non-escape.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for the displayed classifier transport, route stability, ledger accountability, and consumer readiness rows.}
 \end{closurestatus}
