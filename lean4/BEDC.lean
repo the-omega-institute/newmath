@@ -315,6 +315,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.RegistryClassifierScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.LedgerRouteScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.HorizonRefusalCoverage
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.AxisNatNatRefusalBoundary
+import BEDC.Derived.AxisZeckendorfCannotClaimUp.DimliftPrimitiveRefusalBoundary
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.HorizonRefusalScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.NegativeRowScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RootObligationSurface
@@ -1044,6 +1045,7 @@ import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelAcceptanceTraceUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.PublicExport
+import BEDC.Derived.KernelAcceptanceAuditWitnessUp.PublicBridgeBoundary
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.StandardBridgePreconditions
 import BEDC.Derived.KernelAcceptanceBuildReplayUp.TasteGate
 import BEDC.Derived.KernelAcceptanceWitnessUp
