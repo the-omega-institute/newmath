@@ -250,6 +250,29 @@ def taste_gate : ChapterTasteGate CannotClaimExportGateUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cannotClaimExportGateChapterTasteGate
 
+theorem CannotClaimExportGate_refusal_nonescape
+    {registry refusal refusal' exportDecision exportDecision' exportGrade exportGrade'
+      target target' audit transport continuation provenance name : BHist} :
+    cannotClaimExportGateToEventFlow
+        (CannotClaimExportGateUp.mk registry refusal exportDecision exportGrade target
+          audit transport continuation provenance name) =
+      cannotClaimExportGateToEventFlow
+        (CannotClaimExportGateUp.mk registry refusal' exportDecision' exportGrade'
+          target' audit transport continuation provenance name) →
+      refusal = refusal' ∧ exportDecision = exportDecision' ∧
+        exportGrade = exportGrade' ∧ target = target' ∧
+          cannotClaimExportGateEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have packetEq :
+      CannotClaimExportGateUp.mk registry refusal exportDecision exportGrade target
+          audit transport continuation provenance name =
+        CannotClaimExportGateUp.mk registry refusal' exportDecision' exportGrade'
+          target' audit transport continuation provenance name :=
+    cannotClaimExportGateToEventFlow_injective heq
+  cases packetEq
+  exact ⟨rfl, rfl, rfl, rfl, rfl⟩
+
 theorem CannotClaimExportGateTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       cannotClaimExportGateDecodeBHist (cannotClaimExportGateEncodeBHist h) = h) ∧
