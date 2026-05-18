@@ -279,4 +279,17 @@ theorem ReflectionRuntimeCheckpointTasteGate_single_carrier_alignment :
       ⟨reflectionRuntimeCheckpointNontrivial⟩, reflectionRuntimeCheckpoint_decode_encode_bhist,
       rfl⟩
 
+theorem ReflectionRuntimeCheckpointUp_StdBridge :
+    Nonempty (ChapterTasteGate ReflectionRuntimeCheckpointUp) ∧
+      (∀ (x : ReflectionRuntimeCheckpointUp) (w : RawEvent) (m : BMark),
+        List.Mem w (BHistCarrier.toEventFlow x) → List.Mem m w →
+          m = BMark.b0 ∨ m = BMark.b1) ∧
+        (∀ x : ReflectionRuntimeCheckpointUp,
+          ∃ e : EventFlow, BHistCarrier.fromEventFlow e = some x) := by
+  -- BEDC touchpoint anchor: BHist BMark EventFlow ChapterTasteGate BHistCarrier
+  exact
+    ⟨⟨reflectionRuntimeCheckpointChapterTasteGate⟩,
+      ChapterTasteGate.conservativity,
+      ChapterTasteGate.no_hidden_input⟩
+
 end BEDC.Derived.ReflectionRuntimeCheckpointUp
