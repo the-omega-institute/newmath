@@ -306,6 +306,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditRouteExactness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAuthorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RouteTotalityLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalAuthorizedOutputCover
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSignatureTotality
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
@@ -1542,6 +1543,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.TransportGate
 import BEDC.Derived.QuotientSoundnessBoundaryUp.Certificates
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootDownstreamUnblockSurface
 import BEDC.Derived.QuotientSoundnessBoundaryUp.SocketKindRoute
+import BEDC.Derived.QuotientSoundnessBoundaryUp.FormalTargetFrontier
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
