@@ -190,6 +190,8 @@ import BEDC.Derived.ApophaticNameUp.SocketBoundaryRouteExhaustion
 import BEDC.Derived.ApophaticNameUp.SupplyShapeRefusalExactness
 import BEDC.Derived.ApophaticNameUp.RootSocketRequestTotality
 import BEDC.Derived.ApophaticNameUp.RootBoundaryProvenanceExport
+import BEDC.Derived.ApophaticNameUp.SocketRequestGateFactorization
+import BEDC.Derived.ApophaticNameUp.BoundaryCitationExhaustion
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
@@ -310,6 +312,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditRouteExactness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAuthorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RouteTotalityLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalAuthorizedOutputCover
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSignatureTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalConsumerReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalGeneratorAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootDescentAuditCoupling
@@ -1555,6 +1558,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.TransportGate
 import BEDC.Derived.QuotientSoundnessBoundaryUp.Certificates
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootDownstreamUnblockSurface
 import BEDC.Derived.QuotientSoundnessBoundaryUp.SocketKindRoute
+import BEDC.Derived.QuotientSoundnessBoundaryUp.FormalTargetFrontier
 import BEDC.Derived.QuotientSoundnessBoundaryUp.NameCertLedger
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
