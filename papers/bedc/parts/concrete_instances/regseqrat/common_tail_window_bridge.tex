@@ -241,3 +241,19 @@ For the converse direction, start from equality of the terminal four-face bounda
 
 The exclusions follow from the same row inventory. The terminal section cover, the cocycle descent, the objectwise face-status pullback, and the Real L10 terminal pullback provide no coordinates for quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, aggregate $\mathsf{formalstatus}$, standard bridge data, or hidden completion carriers. Therefore such data cannot split two boundaries after the displayed four-face packet has been fixed, nor can it appear in the restrictions read back from an equal terminal boundary.
 \end{proof}
+
+\begin{theorem}[RegSeqRat common-tail terminal section restriction exactness]
+\label{thm:regseqrat-common-tail-terminal-section-restriction-exactness}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\{T_i\}_{i \in I}$ be a finite family of certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$. Suppose every pair $(T_i,T_j)$ lands in a RegSeqRat common-tail window packet, every triple overlap carries the common-tail cocycle rows, and these rows determine the terminal finite section cover of \autoref{thm:regseqrat-common-tail-terminal-section-cover}. For any finite subfamily $J \subseteq I$, restrict the pairwise packets and triple-overlap cocycle rows to the indices in $J$.
+
+Then the restriction of the terminal section cover on $I$ to $J$ is exactly the terminal finite section cover obtained by applying \autoref{thm:regseqrat-common-tail-terminal-section-cover} to the restricted pairwise and triple-overlap rows. The restricted cover has precisely the visible $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows inherited from the original family, and it introduces no quotient stream, selected limit, host real equality, countable choice, ambient completeness, metric-completeness row, aggregate $\mathsf{formalstatus}$ token, standard bridge datum, or completion coordinate outside those rows.
+\end{theorem}
+\begin{proof}
+Project the finite family cover along the inclusion $J \subseteq I$. The projection keeps exactly the pairwise common-tail packets indexed by pairs in $J$, the triple-overlap cocycle rows indexed by triples in $J$, and the displayed StreamName, DyadicRatCore, RegSeqRat, RealUp, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows on their finite refinements.
+
+Apply \autoref{thm:regseqrat-common-tail-terminal-section-cover} to the restricted data. The hypotheses are inherited by finite restriction: every retained pair still lands in the same common-tail window packet, every retained triple still exposes the same cocycle rows, and the row vocabulary is still the displayed four-face vocabulary of the original cover.
+
+It remains to identify the projected cover with the independently assembled subcover. Use \autoref{thm:regseqrat-common-tail-terminal-four-face-cocycle-uniqueness}. The projected cover and the subcover have identical restricted pairwise packets, identical restricted triple-overlap cocycle rows, and the same displayed support rows on every retained finite refinement, so they are the same BEDC-visible terminal four-face boundary.
+
+Finally apply the row inventory from \autoref{thm:regseqrat-common-tail-face-status-objectwise-pullback} together with the Real L10 terminal correspondence and pullback uniqueness results already used in \autoref{thm:regseqrat-common-tail-terminal-section-cover}. Terminal restriction preserves the four objectwise face records and leaves no additional coordinate through which quotient streams, selected limits, host real equality, choice principles, ambient or metric completeness, aggregate status data, bridge rows, or hidden completion carriers could enter the finite subfamily cover.
+\end{proof}
