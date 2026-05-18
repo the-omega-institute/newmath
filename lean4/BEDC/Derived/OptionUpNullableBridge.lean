@@ -1,8 +1,9 @@
-import BEDC.Derived.OptionUp
+import BEDC.Derived.OptionUp.SemanticCertificate
 
 namespace BEDC.Derived.OptionUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 def TaggedOptionToNullableBridge (S : BHist -> Prop) (Rel : BHist -> BHist -> Prop) : Prop :=
   (forall a h : BHist, S a -> hsame h (BHist.e1 a) -> S h) /\
@@ -57,6 +58,31 @@ theorem TaggedOptionToNullableBridge_descent {S : BHist -> Prop}
                                       · exact Or.inr (presentClosure b k sourceB sameK)
                                       · exact hsame_trans sameH
                                           (hsame_trans (hsame_e1_congr sameAB)
-                                            (hsame_symm sameK))
+                                          (hsame_symm sameK))
+
+theorem OptionUp_StdBridge {S : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    (cert : NameCert S Rel) (bridge : TaggedOptionToNullableBridge S Rel) :
+    SemanticNameCert (TaggedOptionHistoryCarrier S) (TaggedOptionHistoryCarrier S)
+        (TaggedOptionHistoryCarrier S) (TaggedOptionHistoryClassifier S Rel) ∧
+      (forall h : BHist, TaggedOptionHistoryCarrier S h -> OptionHistoryCarrier S h) ∧
+        (forall h k : BHist,
+          TaggedOptionHistoryClassifier S Rel h k -> OptionHistoryClassifier S h k) ∧
+          SemanticNameCert (OptionHistoryCarrier S) (OptionHistoryCarrier S)
+            (OptionHistoryCarrier S) (OptionHistoryClassifier S) := by
+  -- BEDC touchpoint anchor: BHist NameCert SemanticNameCert hsame
+  have taggedCert :
+      SemanticNameCert (TaggedOptionHistoryCarrier S) (TaggedOptionHistoryCarrier S)
+        (TaggedOptionHistoryCarrier S) (TaggedOptionHistoryClassifier S Rel) :=
+    TaggedOptionHistoryCarrier_semanticNameCert cert
+  have descent :
+      (forall h : BHist, TaggedOptionHistoryCarrier S h -> OptionHistoryCarrier S h) ∧
+        (forall h k : BHist,
+          TaggedOptionHistoryClassifier S Rel h k -> OptionHistoryClassifier S h k) :=
+    TaggedOptionToNullableBridge_descent bridge
+  have optionCert :
+      SemanticNameCert (OptionHistoryCarrier S) (OptionHistoryCarrier S)
+        (OptionHistoryCarrier S) (OptionHistoryClassifier S) :=
+    option_history_semantic_name_certificate S
+  exact ⟨taggedCert, descent.left, descent.right, optionCert⟩
 
 end BEDC.Derived.OptionUp
