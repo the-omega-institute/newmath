@@ -54,6 +54,7 @@ import BEDC.Meta
 import BEDC.Derived.NatUp
 import BEDC.Derived.OrderUp
 import BEDC.Derived.AddUp
+import BEDC.Derived.AxisAddUp.TasteGate
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
@@ -986,6 +987,7 @@ import BEDC.Derived.ClosedNormalCanonicityUp.TasteGate
 import BEDC.Derived.ClosedNormalEndpointLedgerUp.TasteGate
 import BEDC.Derived.InterHistLocalityLedgerUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceAuditPacketUp.TasteGate
+import BEDC.Derived.MetaCICConfluenceAuditUp.TasteGate
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
 import BEDC.Derived.TasteGateStabilityUp.TasteGate
