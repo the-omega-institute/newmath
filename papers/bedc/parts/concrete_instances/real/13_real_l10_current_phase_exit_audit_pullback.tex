@@ -133,6 +133,60 @@ countable choice, ambient completeness, metric-completeness data, standard
 bridge rows, or aggregate formalstatus tokens.
 \end{proof}
 
+\begin{theorem}[Real L10 finite-window completion-exit factorization]
+\label{thm:real-l10-finite-window-completion-exit-factorization}
+Every accepted Phase Real and Completion finite-window exit read of a
+$\RealUp$ seal factors through exactly the four current-phase faces
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+The factorization uses only the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support rows on those faces: the dyadic ledger face,
+the finite StreamName window face, the RegSeqRat regularity and common-tail
+face, and the local Real seal face.
+
+Conversely, matching records on these four local faces, together with matching
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, determines
+the same accepted finite-window Phase Real and Completion exit route.
+
+The factorization refuses quotient stream equality, host real equality,
+selected limits, countable choice, ambient completeness,
+metric-completeness data, aggregate formalstatus tokens, and standard bridge
+rows.
+\end{theorem}
+\begin{proof}
+First read the classifier side. Apply
+\autoref{thm:real-l10-four-face-classifier-pullback}. It identifies every
+accepted classifier read with the dyadic ledger, finite StreamName window,
+RegSeqRat regularity and common-tail, and local Real seal faces, carried only
+by the displayed BEDC support rows.
+
+Next read the audit side. Apply
+\autoref{thm:real-l10-current-phase-exit-audit-pullback}. The accepted Phase
+Real and Completion audit route is the product of the same four local face
+records, with status and bridge coordinates read objectwise from the face
+records rather than from a route-level cache.
+
+Now compare this product with the completion interface. Apply
+\autoref{thm:real-completeness-l10-exit-interface-exhaustion}. It exhausts
+the L10 exit interface by exactly $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$, together with the same $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+For the converse direction, the four matching local records give the same
+classifier pullback and the same objectwise audit pullback. The two-axis
+roadmap discipline keeps the status rows attached to their own faces, so
+status agreement is used only to identify the face records and not as evidence
+for classifier agreement.
+
+Finally apply \autoref{thm:real-l10-incomplete-face-exit-obstruction}. If any
+one of the four faces is removed or replaced, the accepted finite-window exit
+route is not present. The exclusions named in the statement therefore remain
+off-table: no quotient stream equality, host real equality, selected limit,
+countable choice, ambient completeness, metric-completeness datum, aggregate
+formalstatus token, or standard bridge row supplies a substitute route.
+\end{proof}
+
 \begin{theorem}[Real L10 four-face status-classifier square]
 \label{thm:real-l10-four-face-status-classifier-square}
 Any accepted Phase Real and Completion packet over
