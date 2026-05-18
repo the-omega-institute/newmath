@@ -315,31 +315,30 @@ theorem ZetaContinuationApplicationTasteGate_single_carrier_alignment :
       · rfl
 
 def ZetaContinuationApplicationCarrier [AskSetup] [PackageSetup]
-    (eta functional pole zeroLedger gamma application transport route provenance name endpoint :
+    (eta functional pole zeroLedger gamma application transport replay provenance localName :
       BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory eta ∧ UnaryHistory functional ∧ UnaryHistory pole ∧
     UnaryHistory zeroLedger ∧ UnaryHistory gamma ∧ UnaryHistory application ∧
-      UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
-        UnaryHistory name ∧ UnaryHistory endpoint ∧ Cont eta route endpoint ∧
-          Cont functional route endpoint ∧ PkgSig bundle endpoint pkg
+      UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+        UnaryHistory localName ∧ Cont transport replay provenance ∧ PkgSig bundle provenance pkg
 
 theorem ZetaContinuationApplicationCarrier_carrier_source_obligation [AskSetup]
     [PackageSetup]
-    {eta functional pole zeroLedger gamma application transport route provenance name endpoint
+    {eta functional pole zeroLedger gamma application transport replay provenance localName
       sourceRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     ZetaContinuationApplicationCarrier eta functional pole zeroLedger gamma application transport
-        route provenance name endpoint bundle pkg →
+        replay provenance localName bundle pkg →
       hsame sourceRead eta →
         UnaryHistory sourceRead ∧ UnaryHistory eta ∧ UnaryHistory gamma ∧
-          UnaryHistory application ∧ UnaryHistory endpoint ∧ Cont eta route endpoint ∧
-            Cont functional route endpoint ∧ PkgSig bundle endpoint pkg := by
+          UnaryHistory application ∧ UnaryHistory provenance ∧
+            Cont transport replay provenance ∧ PkgSig bundle provenance pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier sameSourceEta
   obtain ⟨etaUnary, _functionalUnary, _poleUnary, _zeroLedgerUnary, gammaUnary,
-    applicationUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
-    endpointUnary, etaRouteEndpoint, functionalRouteEndpoint, endpointPkg⟩ := carrier
+    applicationUnary, _transportUnary, _replayUnary, provenanceUnary, _localNameUnary,
+    transportReplayProvenance, provenancePkg⟩ := carrier
   have sourceReadUnary : UnaryHistory sourceRead :=
     unary_transport etaUnary (hsame_symm sameSourceEta)
   exact
@@ -347,38 +346,71 @@ theorem ZetaContinuationApplicationCarrier_carrier_source_obligation [AskSetup]
       etaUnary,
       gammaUnary,
       applicationUnary,
-      endpointUnary,
-      etaRouteEndpoint,
-      functionalRouteEndpoint,
-      endpointPkg⟩
+      provenanceUnary,
+      transportReplayProvenance,
+      provenancePkg⟩
+
+theorem ZetaContinuationApplicationCarrier_carrier_admission [AskSetup] [PackageSetup]
+    {eta functional pole zero gamma application transport replay provenance localName
+      etaFunctional gammaApplication applicationReplay : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationApplicationCarrier eta functional pole zero gamma application transport replay
+        provenance localName bundle pkg →
+      Cont eta functional etaFunctional →
+        Cont gamma application gammaApplication →
+          Cont application replay applicationReplay →
+            PkgSig bundle applicationReplay pkg →
+              UnaryHistory eta ∧ UnaryHistory functional ∧ UnaryHistory pole ∧
+                UnaryHistory zero ∧ UnaryHistory gamma ∧ UnaryHistory application ∧
+                  UnaryHistory etaFunctional ∧ UnaryHistory gammaApplication ∧
+                    UnaryHistory applicationReplay ∧ Cont eta functional etaFunctional ∧
+                      Cont gamma application gammaApplication ∧
+                        Cont application replay applicationReplay ∧
+                          PkgSig bundle provenance pkg ∧
+                            PkgSig bundle applicationReplay pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier etaRoute gammaRoute applicationRoute applicationReplayPkg
+  obtain ⟨etaUnary, functionalUnary, poleUnary, zeroUnary, gammaUnary, applicationUnary,
+    _transportUnary, replayUnary, _provenanceUnary, _localNameUnary,
+    _transportReplayProvenance, provenancePkg⟩ := carrier
+  have etaFunctionalUnary : UnaryHistory etaFunctional :=
+    unary_cont_closed etaUnary functionalUnary etaRoute
+  have gammaApplicationUnary : UnaryHistory gammaApplication :=
+    unary_cont_closed gammaUnary applicationUnary gammaRoute
+  have applicationReplayUnary : UnaryHistory applicationReplay :=
+    unary_cont_closed applicationUnary replayUnary applicationRoute
+  exact
+    ⟨etaUnary, functionalUnary, poleUnary, zeroUnary, gammaUnary, applicationUnary,
+      etaFunctionalUnary, gammaApplicationUnary, applicationReplayUnary, etaRoute,
+      gammaRoute, applicationRoute, provenancePkg, applicationReplayPkg⟩
 
 theorem ZetaContinuationApplicationCarrier_namecert_obligations [AskSetup] [PackageSetup]
-    {eta functional pole zeroLedger gamma application transport route provenance name endpoint :
+    {eta functional pole zeroLedger gamma application transport replay provenance localName :
       BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     ZetaContinuationApplicationCarrier eta functional pole zeroLedger gamma application transport
-        route provenance name endpoint bundle pkg →
+        replay provenance localName bundle pkg →
       SemanticNameCert
         (fun row : BHist =>
           ZetaContinuationApplicationCarrier eta functional pole zeroLedger gamma application
-              transport route provenance name endpoint bundle pkg ∧ hsame row endpoint)
+              transport replay provenance localName bundle pkg ∧ hsame row provenance)
         (fun row : BHist =>
-          Cont eta route row ∧ Cont functional route row ∧ PkgSig bundle row pkg)
+          Cont transport replay row ∧ PkgSig bundle row pkg)
         (fun _row : BHist =>
           UnaryHistory eta ∧ UnaryHistory functional ∧ UnaryHistory pole ∧
             UnaryHistory zeroLedger ∧ UnaryHistory gamma ∧ UnaryHistory application ∧
-              UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
-                UnaryHistory name ∧ UnaryHistory endpoint)
+              UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+                UnaryHistory localName)
         hsame := by
   -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg NameCert
   intro carrier
   have carrierWitness := carrier
   obtain ⟨etaUnary, functionalUnary, poleUnary, zeroLedgerUnary, gammaUnary,
-    applicationUnary, transportUnary, routeUnary, provenanceUnary, nameUnary, endpointUnary,
-    etaRoute, functionalRoute, endpointPkg⟩ := carrier
+    applicationUnary, transportUnary, replayUnary, provenanceUnary, localNameUnary,
+    transportReplayProvenance, provenancePkg⟩ := carrier
   constructor
   · constructor
-    · exact Exists.intro endpoint ⟨carrierWitness, hsame_refl endpoint⟩
+    · exact Exists.intro provenance ⟨carrierWitness, hsame_refl provenance⟩
     · intro row _source
       exact hsame_refl row
     · intro _row _other same
@@ -389,10 +421,10 @@ theorem ZetaContinuationApplicationCarrier_namecert_obligations [AskSetup] [Pack
       exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
   · intro _row source
     cases source.right
-    exact ⟨etaRoute, functionalRoute, endpointPkg⟩
+    exact ⟨transportReplayProvenance, provenancePkg⟩
   · intro _row _source
     exact
       ⟨etaUnary, functionalUnary, poleUnary, zeroLedgerUnary, gammaUnary, applicationUnary,
-        transportUnary, routeUnary, provenanceUnary, nameUnary, endpointUnary⟩
+        transportUnary, replayUnary, provenanceUnary, localNameUnary⟩
 
 end BEDC.Derived.ZetaContinuationApplicationUp
