@@ -327,4 +327,23 @@ theorem FiniteReflectionTupleCarrier_bridge_facing_row_totality
             (cont_mutual_extension_right_tail_absurd
               (h := I) (k := append I R) (leftTail := R) (rightTail := Q)).left rfl hbad)⟩
 
+theorem FiniteReflectionTupleCarrier_field_faithful_prediction
+    (x : FiniteReflectionTupleUp) :
+    ∃ X S A W I R H C P Q N : BHist,
+      x = FiniteReflectionTupleUp.mk X S A W I R H C P Q N ∧
+        FieldFaithful.fields x = [X, S, A, W, I, R, H, C, P, Q, N] ∧
+          (∀ y : FiniteReflectionTupleUp, FieldFaithful.fields y = FieldFaithful.fields x →
+            y = x) ∧
+            Cont I R (append I R) ∧ Cont H C (append H C) ∧
+              Cont C P (append C P) ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame FieldFaithful
+  cases x with
+  | mk X S A W I R H C P Q N =>
+      exact
+        ⟨X, S, A, W, I, R, H, C, P, Q, N, rfl, rfl,
+          (fun y sameFields =>
+            FieldFaithful.field_faithful y
+              (FiniteReflectionTupleUp.mk X S A W I R H C P Q N) sameFields),
+          rfl, rfl, rfl, hsame_refl N⟩
+
 end BEDC.Derived.FiniteReflectionTupleUp

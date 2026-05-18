@@ -73,4 +73,25 @@ theorem CertifiedPhysicalTruth_obligation_surface_row_injective
   injection hpacket with hS hG hK hA hD hI hL hF _ _ _ _
   exact ⟨hS, hG, hK, hA, hD, hI, hL, hF, rfl⟩
 
+theorem CertifiedPhysicalTruth_carrier_row_injective
+    {S G K A D I L F H C P N S' G' K' A' D' I' L' F' H' C' P' N' : BHist}
+    (hflow :
+      BHistCarrier.toEventFlow (CertifiedPhysicalTruthUp.mk S G K A D I L F H C P N) =
+        BHistCarrier.toEventFlow
+          (CertifiedPhysicalTruthUp.mk S' G' K' A' D' I' L' F' H' C' P' N')) :
+    S = S' ∧ G = G' ∧ K = K' ∧ A = A' ∧ D = D' ∧ I = I' ∧ L = L' ∧ F = F' ∧
+      H = H' ∧ C = C' ∧ P = P' ∧ N = N' ∧
+        certifiedPhysicalTruthEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  have hpacket :
+      CertifiedPhysicalTruthUp.mk S G K A D I L F H C P N =
+        CertifiedPhysicalTruthUp.mk S' G' K' A' D' I' L' F' H' C' P' N' := by
+    change
+      certifiedPhysicalTruthToEventFlow (CertifiedPhysicalTruthUp.mk S G K A D I L F H C P N) =
+        certifiedPhysicalTruthToEventFlow
+          (CertifiedPhysicalTruthUp.mk S' G' K' A' D' I' L' F' H' C' P' N') at hflow
+    exact CertifiedPhysicalTruthTasteGate_single_carrier_alignment.right.right.left _ _ hflow
+  injection hpacket with hS hG hK hA hD hI hL hF hH hC hP hN
+  exact ⟨hS, hG, hK, hA, hD, hI, hL, hF, hH, hC, hP, hN, rfl⟩
+
 end BEDC.Derived.CertifiedPhysicalTruthUp
