@@ -367,4 +367,48 @@ theorem CausalCommitmentLocalityCellHandoff [AskSetup] [PackageSetup]
   }
   exact ⟨localityUnary, forwardLocalityName, routeReadUnary, cert⟩
 
+theorem CausalCommitmentCarrier_classifier_coherence [AskSetup] [PackageSetup]
+    {observed regularity gap forward locality transport continuation provenance localCert :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CausalCommitmentForwardGapCarrier observed regularity gap forward locality transport
+        continuation provenance localCert bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          CausalCommitmentForwardGapCarrier observed regularity gap forward locality transport
+            continuation provenance localCert bundle pkg ∧ hsame row gap)
+        (fun row : BHist =>
+          hsame row gap ∧ Cont observed regularity gap ∧ Cont gap forward continuation)
+        (fun row : BHist =>
+          hsame row gap ∧ Cont forward locality localCert ∧ PkgSig bundle localCert pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier
+  have carrierWitness := carrier
+  have baseCarrier :
+      CausalCommitmentCarrier observed regularity gap forward transport continuation
+        provenance localCert bundle pkg :=
+    carrier.left
+  have forwardLocalityName : Cont forward locality localCert :=
+    carrier.right.right
+  obtain ⟨_observedUnary, _regularityUnary, _gapUnary, _forwardUnary, _transportUnary,
+    _continuationUnary, _provenanceUnary, _localCertUnary, observedRegularityGap,
+    gapForwardContinuation, _transportContinuationProvenance, localCertPkg⟩ := baseCarrier
+  constructor
+  · constructor
+    · exact Exists.intro gap (And.intro carrierWitness (hsame_refl gap))
+    · intro row _source
+      exact hsame_refl row
+    · intro _row _row' sameRows
+      exact hsame_symm sameRows
+    · intro _row _row' _row'' sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro _row _row' sameRows sourceRow
+      exact
+        ⟨sourceRow.left, hsame_trans (hsame_symm sameRows) sourceRow.right⟩
+  · intro _row sourceRow
+    exact ⟨sourceRow.right, observedRegularityGap, gapForwardContinuation⟩
+  · intro _row sourceRow
+    exact ⟨sourceRow.right, forwardLocalityName, localCertPkg⟩
+
 end BEDC.Derived.CausalCommitmentUp
