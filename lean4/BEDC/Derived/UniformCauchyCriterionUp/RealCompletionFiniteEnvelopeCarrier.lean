@@ -21,6 +21,24 @@ def UniformCauchyCriterionRealCompletionFiniteEnvelopeCarrier [AskSetup] [Packag
         Cont dyadic cauchySeal realExport ∧ Cont realExport name envelopeRoute ∧
           PkgSig bundle envelopeRoute pkg
 
+theorem UniformCauchyCriterionRealCompletionFiniteEnvelopeCarrier_rows
+    [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name regseq dyadic
+      cauchySeal realExport envelopeRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionRealCompletionFiniteEnvelopeCarrier index windows modulus tolerance tail
+        sealRow transports routes provenance name regseq dyadic cauchySeal realExport
+        envelopeRoute bundle pkg →
+      UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+          provenance name bundle pkg ∧
+        UnaryHistory regseq ∧ UnaryHistory dyadic ∧ UnaryHistory cauchySeal ∧
+          UnaryHistory realExport ∧ Cont windows regseq dyadic ∧
+            Cont dyadic cauchySeal realExport ∧ Cont realExport name envelopeRoute ∧
+              PkgSig bundle envelopeRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier
+  exact carrier
+
 theorem UniformCauchyCriterionRealCompletionFiniteEnvelopeCarrier_consumer_row
     [AskSetup] [PackageSetup]
     {index windows modulus tolerance tail sealRow transports routes provenance name regseq dyadic
