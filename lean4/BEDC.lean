@@ -922,6 +922,7 @@ import BEDC.Derived.CausalCommitmentUp.ForwardGapNameCertExport
 import BEDC.Derived.CausalCommitmentUp.ForwardGapObserverRoute
 import BEDC.Derived.CausalCommitmentUp.ForwardGapScopePackage
 import BEDC.Derived.CausalCommitmentUp.GapLocalityAdjunction
+import BEDC.Derived.CausalCommitmentUp.GapLocalityExactness
 import BEDC.Derived.CausalCommitmentUp.KernelRowExhaustion
 import BEDC.Derived.CausalCommitmentUp.LocalityConsumerExactness
 import BEDC.Derived.CausalCommitmentUp.LocalityObligations
@@ -1755,6 +1756,7 @@ import BEDC.Derived.DyadicApproximationUp
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
 import BEDC.Derived.DyadicApproximationUp.CommonRefinementEnclosureCertificate
 import BEDC.Derived.DyadicApproximationUp.DiagonalMeshSelector
+import BEDC.Derived.DyadicApproximationUp.DirectedPrecisionRefinementAssociativity
 import BEDC.Derived.DyadicApproximationUp.DyadicRatCoreDependencyRoute
 import BEDC.Derived.DyadicApproximationUp.FiniteMeshEnclosure
 import BEDC.Derived.DyadicApproximationUp.FinitePacketReadback
@@ -2679,6 +2681,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedNormalConsumerRoute
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerBoundaryCompletion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerRouteExhaustion
+import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerRouteTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ConsumerScopeExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedEndpointUseTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedNormalBoundary
@@ -3054,6 +3057,7 @@ import BEDC.Derived.PicardContractionUp.FiniteRateSealTriangle
 import BEDC.Derived.PicardContractionUp.LedgerBoundary
 import BEDC.Derived.PicardContractionUp.LipschitzLedgerWindowExactness
 import BEDC.Derived.PicardContractionUp.ModulusConsumerExhaustion
+import BEDC.Derived.PicardContractionUp.ObligationSurface
 import BEDC.Derived.PicardContractionUp.PublicExports
 import BEDC.Derived.PicardContractionUp.PublicIterateLedger
 import BEDC.Derived.PicardContractionUp.RootModulusConsumerLock
@@ -3477,6 +3481,7 @@ import BEDC.Derived.RegularCauchyWindowFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
 import BEDC.Derived.RegularCauchyWitnessScheduleUp
 import BEDC.Derived.RegularCauchyWitnessScheduleUp.TasteGate
+import BEDC.Derived.RegularCauchyWitnessSelectorUp.ClassifierStability
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.TasteGate
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegularLimitUniquenessUp

@@ -60,23 +60,37 @@ def cauchyWindowTransducerToEventFlow :
         cauchyWindowTransducerEncodeBHist provenance,
         cauchyWindowTransducerEncodeBHist nameCert]
 
-def cauchyWindowTransducerFromEventFlow :
-    EventFlow → Option CauchyWindowTransducerUp
-  | streamWindow :: dyadicTolerance :: windowStep :: regSeqReadback :: realSeal ::
-      limitSelector :: transport :: continuation :: provenance :: nameCert :: [] =>
-      some
-        (CauchyWindowTransducerUp.mk
-          (cauchyWindowTransducerDecodeBHist streamWindow)
-          (cauchyWindowTransducerDecodeBHist dyadicTolerance)
-          (cauchyWindowTransducerDecodeBHist windowStep)
-          (cauchyWindowTransducerDecodeBHist regSeqReadback)
-          (cauchyWindowTransducerDecodeBHist realSeal)
-          (cauchyWindowTransducerDecodeBHist limitSelector)
-          (cauchyWindowTransducerDecodeBHist transport)
-          (cauchyWindowTransducerDecodeBHist continuation)
-          (cauchyWindowTransducerDecodeBHist provenance)
-          (cauchyWindowTransducerDecodeBHist nameCert))
-  | _ => none
+private def cauchyWindowTransducerEventAtDefault : Nat → EventFlow → RawEvent
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      cauchyWindowTransducerEventAtDefault index rest
+
+def cauchyWindowTransducerFromEventFlow
+    (ef : EventFlow) : Option CauchyWindowTransducerUp :=
+  some
+    (CauchyWindowTransducerUp.mk
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 0 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 1 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 2 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 3 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 4 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 5 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 6 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 7 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 8 ef))
+      (cauchyWindowTransducerDecodeBHist
+        (cauchyWindowTransducerEventAtDefault 9 ef)))
 
 private theorem cauchyWindowTransducer_round_trip :
     ∀ x : CauchyWindowTransducerUp,
