@@ -530,4 +530,69 @@ theorem ZetaContinuationWitnessGammaRouteNonescapeLedger [AskSetup] [PackageSetu
     ⟨gammaSame, gammaReadUnary, routesNameGamma, gammaRoute, namePkg, provenancePkg,
       gammaPkg⟩
 
+theorem ZetaContinuationWitnessAnalyticBoundaryNonescape [AskSetup] [PackageSetup]
+    {basic eta analytic pole functional zeroLedger gamma transports routes provenance name
+      exportRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma transports
+        routes provenance name bundle pkg ->
+      UnaryHistory routes ->
+        UnaryHistory name ->
+          Cont routes name exportRow ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma
+                    transports routes provenance name bundle pkg ∧ hsame row exportRow)
+                (fun row : BHist => hsame row exportRow ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  PkgSig bundle name pkg ∧ PkgSig bundle provenance pkg ∧
+                    hsame row exportRow)
+                hsame ∧
+              UnaryHistory exportRow ∧ hsame exportRow (append routes name) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame UnaryHistory
+  intro packet routesUnary nameUnary routesNameExport
+  have packetKeep := packet
+  obtain ⟨_basicEtaAnalytic, _analyticFunctionalTransports, _poleZeroLedgerGamma,
+    _transportsRoutesProvenance, namePkg, provenancePkg⟩ := packet
+  have exportUnary : UnaryHistory exportRow :=
+    unary_cont_closed routesUnary nameUnary routesNameExport
+  have sourceExport :
+      (fun row : BHist =>
+        ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma
+          transports routes provenance name bundle pkg ∧ hsame row exportRow) exportRow := by
+    exact ⟨packetKeep, hsame_refl exportRow⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma
+              transports routes provenance name bundle pkg ∧ hsame row exportRow)
+          (fun row : BHist => hsame row exportRow ∧ UnaryHistory row)
+          (fun row : BHist =>
+            PkgSig bundle name pkg ∧ PkgSig bundle provenance pkg ∧ hsame row exportRow)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro exportRow sourceExport
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact ⟨source.right, unary_transport exportUnary (hsame_symm source.right)⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨namePkg, provenancePkg, source.right⟩
+    }
+  exact ⟨cert, exportUnary, routesNameExport⟩
+
 end BEDC.Derived.ZetaContinuationWitnessUp
