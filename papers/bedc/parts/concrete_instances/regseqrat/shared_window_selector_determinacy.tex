@@ -70,6 +70,26 @@ For the reverse direction, suppose the finite-request source sections agree on t
 It remains only to rule out hidden coordinates. The selector surface definition contains no row for quotient streams, host equality, selected limits, completion points, ambient completeness, choice data, or a second seal coordinate. Applying \autoref{thm:regseqrat-real-seal-selector-nonescape} removes those candidates from the Real-facing boundary, so agreement of the finite-request source section repacks exactly as agreement of the shared-window selector surface.
 \end{proof}
 
+\begin{theorem}[RegSeqRat shared-window reindex pullback coherence]
+\label{thm:regseqrat-shared-window-reindex-pullback-coherence}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S$ and $T$ be accepted finite requests to $P$ whose displayed selector surfaces are the shared-window surface of \autoref{def:regseqrat-shared-window-selector-surface}. Suppose $R_S$ and $R_T$ are certified public $\StreamNameUp$ finite-window reindex routes over the displayed selector surfaces of $S$ and $T$. Assume that the reindex routes preserve the displayed $\StreamNameUp$ schedule rows, the $\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows, the $\RegSeqRatUp$ classifier, regularity, and tail-budget rows, the terminal $\RealUp$ seal row, componentwise $\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+Then the RegSeqRat tail-selector section pullback of \autoref{thm:regseqrat-tail-selector-section-pullback} before applying $R_S$ and $R_T$ is equivalent to the tail-selector section pullback after applying them. Moreover, both terminal $\RealUp$ seal reads factor through the same ordered four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+The coherence is internal to the displayed finite surface. It introduces no quotient stream equality, host real equality, selected limit, completion point, choice datum, ambient completeness row, or second seal coordinate.
+\end{theorem}
+\begin{proof}
+First compare the StreamName windows before and after reindexing. Apply \autoref{thm:streamname-window-reindex-determinacy} to the certified routes $R_S$ and $R_T$. The hypotheses name the same schedule, endpoint, $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows, so the public finite observation section is unchanged by the reindex routes.
+
+Next place that preserved section on the terminal side. By \autoref{thm:streamname-reindex-terminal-coverage}, the reindexed reads expose the same $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal. The four-face exit naturality theorem, \autoref{thm:streamname-reindex-four-face-exit-naturality}, keeps this terminal read natural in the certified reindex route rather than in any hidden host coordinate.
+
+Now return to the RegSeqRat selector surface. Apply \autoref{thm:regseqrat-tail-selector-section-pullback} before reindexing and again after reindexing. Since the preserved rows are exactly the StreamName schedule rows, DyadicRatCore endpoint, radius, and distance rows, RegSeqRat classifier, regularity, and tail-budget rows, terminal seal row, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows, the two pullback readings are the same finite source-section comparison.
+
+Finally use \autoref{thm:regseqrat-shared-window-terminal-pullback-equivalence} to identify the terminal seal read with that same selector surface, and use \autoref{thm:regseqrat-real-seal-selector-nonescape} to exclude extra coordinates. Thus the pre-reindex and post-reindex pullbacks transport through the same four-face route and cannot be separated by quotient streams, host real equality, selected limits, completion points, choice data, ambient completeness rows, or second seals.
+\end{proof}
+
 \begin{theorem}[RegSeqRat shared-window triple-overlap cocycle]
 \label{thm:regseqrat-shared-window-triple-overlap-cocycle}
 Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S$, $T$, and $U$ be accepted finite requests to $P$. Suppose every pair among $S$, $T$, and $U$ displays the shared-window selector surface of \autoref{def:regseqrat-shared-window-selector-surface}. Pairwise agreement on the displayed $\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows, $\RegSeqRatUp$ classifier, regularity, and tail-budget rows, terminal $\RealUp$ seal rows, componentwise $\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance, and local $\NameCert$ rows determines one triple-overlap selector surface over the ordered handoff
