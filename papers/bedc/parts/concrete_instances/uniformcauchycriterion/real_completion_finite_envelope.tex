@@ -185,3 +185,26 @@ Route determinacy turns the displayed rows into a witness rather than a mere des
 
 Finally exclude external analytic sources. The no-choice extraction theorem \autoref{thm:uniform-cauchy-criterion-real-completion-finite-envelope-no-choice-extraction} rules out quotient streams, selected host limits, host real equality, countable choice, ambient completeness, and metric-completeness data. Tail-window stability rules out second stream and readback sources, while the dyadic ledger row in the carrier fixes the tolerance source. Hence every consumer read reaches the terminal $\RealUp$ row through the witness packet and through no additional source.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Real-completion terminal readiness]
+\label{thm:uniform-cauchy-criterion-real-completion-terminal-readiness}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet, and let $\mathcal{T}$ be an admissible $\RealUp$-facing or $\CompletionUp$-facing terminal envelope for $U$ satisfying the source-minimality characterization of \autoref{thm:uniform-cauchy-criterion-real-envelope-source-minimality}. Any terminal Real-and-Completion consumer compatible with the finite witness packet $\mathcal{W}_{\RealUp}(U,\mathcal{T})$, the finite-selector UniformCauchy Real readiness route of \autoref{thm:finite-observation-budget-selector-uniform-cauchy-real-readiness}, and the Real L10 four-face exit sufficiency route of \autoref{thm:real-l10-four-face-exit-sufficiency} factors through the single displayed terminal readiness surface
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert.
+$$
+
+This terminal readiness surface has no coordinate for quotient streams, host real equality, selected host limits, countable choice, metric-completeness rows, ambient completeness, aggregate $\formalstatus$ rows, or aggregate bridge rows. In particular it is a readiness theorem for consuming the finite Real-and-Completion route, not a claim of $\RealUp$ completeness or a route-level bridge.
+\end{theorem}
+\begin{proof}
+First extract the finite witness packet. By \autoref{thm:uniform-cauchy-criterion-real-envelope-witness-extraction}, the admissible envelope $\mathcal{T}$ canonically exposes exactly the finite rows $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, $\RealCauchyCompletionUp$, and the structural support $H,C,P,N$ carried by $U$. Its no-escape clause removes quotient streams, selected host limits, host real equality, countable choice, ambient completeness, metric-completeness data, and duplicate stream or tolerance sources.
+
+Next attach the selector-side terminal route. Apply \autoref{thm:finite-observation-budget-selector-uniform-cauchy-real-readiness}. It turns any compatible finite-selector consumer into a reader of the same public rows $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, without hidden selectors, detached limits, metric-completeness rows, ambient completeness, quotient streams, host real equality, or countable choice.
+
+Now attach the objectwise Phase Real and Completion exit. By \autoref{thm:real-l10-four-face-exit-sufficiency}, the Phase Real and Completion exit is supplied exactly by the four local records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The cited sufficiency theorem supplies no aggregate $\formalstatus$ row, no aggregate bridge row, no quotient stream, no selected limit, no countable-choice row, no metric-completeness datum, and no $\RealUp$ completeness claim.
+
+The three routes therefore have the same terminal consumer surface. The finite witness packet gives the UniformCauchy envelope rows, the selector theorem gives the terminal public readiness route, and Real L10 exit sufficiency certifies that the Phase Real and Completion exit is objectwise over the same four faces. The no-escape clauses in the UniformCauchy envelope together with the Real L10 face-status noncollapse results prevent every listed external coordinate from serving as an alternate terminal read.
+\end{proof}

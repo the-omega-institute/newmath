@@ -167,6 +167,7 @@ import BEDC.Derived.ApophaticNameUp.DownstreamLedgerNonescape
 import BEDC.Derived.ApophaticNameUp.DownstreamSocketCitationCompleteness
 import BEDC.Derived.ApophaticNameUp.DownstreamSocketRouteExactness
 import BEDC.Derived.ApophaticNameUp.DownstreamBoundaryExactness
+import BEDC.Derived.ApophaticNameUp.ConsumerCitationBoundary
 import BEDC.Derived.ApophaticNameUp.SocketRequestTotality
 import BEDC.Derived.ApophaticNameUp.SocketRefusalRouteTotality
 import BEDC.Derived.ApophaticNameUp.GateLedgerExactness
@@ -185,6 +186,7 @@ import BEDC.Derived.ExternalSupplyWitnessUp.TasteGate
 import BEDC.Derived.ExternalSupplyAuditRouteUp.TasteGate
 import BEDC.Derived.ExternalSupplyBoundaryUp
 import BEDC.Derived.ExternalSupplyBoundaryUp.TasteGate
+import BEDC.Derived.ExternalSupplyWitnessUp.TasteGate
 import BEDC.Derived.EmptyFableMachineUp.TasteGate
 import BEDC.Derived.EmptyFableMachineUp.Ledger
 import BEDC.Derived.ArzelaAscoliUp
@@ -254,6 +256,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.ProvenanceExhaustion
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.DownstreamUnblock
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RefusalRowDeterminacy
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.RegistryClassifierScope
+import BEDC.Derived.AxisZeckendorfCannotClaimUp.LedgerRouteScope
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.HorizonRefusalCoverage
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
@@ -820,6 +823,7 @@ import BEDC.Derived.CauchyLimitSealUp.RealTailAgreementHandoff
 import BEDC.Derived.CauchyLimitSealUp.CompletionConsumerReplay
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
+import BEDC.Derived.GroundCompilerFlowLevelRoundTripUp.TasteGate
 import BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
 import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.NameCertMorphismUp
@@ -882,6 +886,7 @@ import BEDC.Derived.ModelTraceUp.TasteGate
 import BEDC.Derived.PromptResponseTraceUp.TasteGate
 import BEDC.Derived.ContextWindowCommitmentUp.TasteGate
 import BEDC.Derived.ContextualClassReadingUp
+import BEDC.Derived.KernelInductiveEliminatorUp.TasteGate
 import BEDC.Derived.KernelPhaseRefusalUp.TasteGate
 import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
 import BEDC.Derived.ObserverLocalityCellUp
@@ -939,10 +944,13 @@ import BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate
 import BEDC.Derived.CellularPatternCatalogUp.TasteGate
 import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
 import BEDC.Derived.CellularTrustSubstrateUp.TasteGate
+import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.CellularTrustSubstrateUp.PublicExportPackage
 import BEDC.Derived.CellularVerbRealignmentUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
+import BEDC.Derived.StationaryWindowSealExhaustionUp.TasteGate
+import BEDC.Derived.CauchyWitnessPullbackUp.TasteGate
 import BEDC.Derived.HaltedTmRoundTripUp.TasteGate
 import BEDC.Derived.HaltingTraceClassifierUp.TasteGate
 import BEDC.Derived.RecursionAuthorizationLedgerUp.TasteGate
@@ -1647,6 +1655,7 @@ import BEDC.Derived.InscriptionEventBufferSealUp.TasteGate
 import BEDC.Derived.InscriptionEventReplayUp.TasteGate
 import BEDC.Derived.InscriptionNoveltySocketUp.TasteGate
 import BEDC.Derived.PrefixObserverUp
+import BEDC.Derived.PrefixObserverUp.TasteGate
 import BEDC.Derived.InscriptionAcceptanceBudgetUp.TasteGate
 import BEDC.Derived.InscriptionAuditTraceUp.TasteGate
 import BEDC.Derived.InscriptionGapLedgerUp.TasteGate
@@ -1799,7 +1808,10 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.KernelNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateEvidenceBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ObligationEvidenceSplit
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedNormalBoundary
+import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedRouteTotality
+import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedCandidateReadbackExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RouteReadbackPublicExport
+import BEDC.Derived.MetaCICNormalizationFrontierUp.ObstructionVisibleTransport
 import BEDC.Derived.MetaCICNormalizationFrontierUp.PublicExportSurface
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootUnblockBoundaryRows
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootObstructionTriad
