@@ -161,7 +161,7 @@ Let
 $$
 S=(N,T,E,D,R,U,P,L,H,C,Q)
 $$
-be an accepted $\StandardBridgeAuditPacketUp$ carrier. If a bridge read $bridgeRead$ is obtained by the displayed routes $\Cont\ E\ D\ R$, $\Cont\ R\ P\ bridgeRead$, and $\Cont\ P\ L\ H$, then the public bridge boundary is the $\SemanticNameCert$ surface whose carrier reads $bridgeRead$ together with the displayed packet $S$, whose pattern is exactly the encode-decode route, the round-trip-to-public route, and the no-host-ledger route, and whose ledger preserves only $bridgeRead$, $P$, and $Q$. No host primitive, theorem object, quotient equality, hidden compiler read, or detached bridge assertion is available at that boundary.
+be an accepted $\StandardBridgeAuditPacketUp$ carrier. If a bridge read $bridgeRead$ is obtained by the displayed routes $\Cont\ E\ D\ R$, $\Cont\ R\ P\ bridgeRead$, and $\Cont\ P\ L\ H$, then the public bridge boundary is the $\mathsf{SemanticNameCert}$ surface whose carrier reads $bridgeRead$ together with the displayed packet $S$, whose pattern is exactly the encode-decode route, the round-trip-to-public route, and the no-host-ledger route, and whose ledger preserves only $bridgeRead$, $P$, and $Q$. No host primitive, theorem object, quotient equality, hidden compiler read, or detached bridge assertion is available at that boundary.
 \end{theorem}
 \begin{proof}
 Start from the carrier definition in \autoref{def:standard-bridge-audit-packet-carrier}. The displayed packet fixes the rows $N,T,E,D,R,U,P,L,H,C,Q$, so a bridge-readback certificate has no coordinate beyond the accepted object, host theory, encoding, decoding, round-trip, theorem-preservation, no-host-leak, bridge ledger, transport, replay, and local naming rows.
@@ -170,7 +170,7 @@ Apply \autoref{thm:standard-bridge-audit-packet-public-bridge-audit-export} and 
 
 Next use \autoref{thm:standard-bridge-audit-packet-theorem-preservation-ledger} together with \autoref{thm:standard-bridge-audit-packet-nonhost-leak}. The theorem-preservation ledger is public only through $U,L,P$, and the no-host-leak row $P$ is required before any bridge consumer reads $E,D,R$, or $U$. Thus $\Cont\ R\ P\ bridgeRead$ is the round-trip-to-public route and $\Cont\ P\ L\ H$ is the no-host-ledger route.
 
-The Lean certificate `\texttt{BEDC.Derived.StandardBridgeAuditPacketUp.StandardBridgeAuditPacket\_nonhost\_leak\_certificate}' realizes the same $\SemanticNameCert$ shape: the carrier records $bridgeRead$ and the displayed packet, the pattern records precisely those three $\Cont$ routes, and the ledger records only $bridgeRead$, $P$, and $Q$. Hence the public bridge boundary is the stated readback surface and nothing host-side leaks across it.
+The Lean certificate `\texttt{BEDC.Derived.StandardBridgeAuditPacketUp.StandardBridgeAuditPacket\_nonhost\_leak\_certificate}' realizes the same $\mathsf{SemanticNameCert}$ shape: the carrier records $bridgeRead$ and the displayed packet, the pattern records precisely those three $\Cont$ routes, and the ledger records only $bridgeRead$, $P$, and $Q$. Hence the public bridge boundary is the stated readback surface and nothing host-side leaks across it.
 \end{proof}
 \falsifiablePrediction{A purported bridge packet that omits the no-host-leak row is not an accepted StandardBridgeAuditPacketUp carrier.}
 

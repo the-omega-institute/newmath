@@ -1,3 +1,4 @@
+import BEDC.Derived.AxisZeckendorf.AxisAdd
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -6,8 +7,11 @@ namespace BEDC.Derived.AxisAddUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
+open BEDC.Derived.AxisZeckendorf.Spine
+open BEDC.Derived.AxisZeckendorf.AxisAdd
 
 inductive AxisAddUp : Type where
   | mk : (source pattern classifier stability ledger : BHist) → AxisAddUp
@@ -168,5 +172,18 @@ theorem AxisAddTasteGate_single_carrier_alignment :
       AxisAddTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => axisAddToEventFlow_injective heq),
       rfl⟩
+
+theorem AxisAddUp_single_carrier_alignment :
+    (∀ h : BHist, axisAddDecodeBHist (axisAddEncodeBHist h) = h) ∧
+      (∀ x : AxisAddUp, axisAddFromEventFlow (axisAddToEventFlow x) = some x) ∧
+        (∀ x y : AxisAddUp, axisAddToEventFlow x = axisAddToEventFlow y → x = y) ∧
+          (∀ h k r : BHist,
+            AxisAddPatternSpec h k r → ZeroSpine h ∧ ZeroSpine k ∧ Cont h k r) := by
+  -- BEDC touchpoint anchor: BHist BMark ZeroSpine Cont
+  exact
+    ⟨AxisAddTasteGate_single_carrier_alignment_decode,
+      AxisAddTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => axisAddToEventFlow_injective heq),
+      fun _ _ _ pattern => pattern⟩
 
 end BEDC.Derived.AxisAddUp

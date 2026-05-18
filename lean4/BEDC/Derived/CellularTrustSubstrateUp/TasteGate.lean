@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CellularTrustSubstrateUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -321,6 +325,53 @@ theorem CellularTrustSubstrate_orbit_observation_boundary
     CellularTrustSubstrateTasteGate_single_carrier_alignment_injective hdisplay
   cases hpacket
   exact ⟨rfl, rfl, rfl⟩
+
+theorem CellularTrustSubstrate_obligation_surface
+    {R W K M A H C P N : BHist}
+    (ruleRoute : Cont R W K)
+    (manifestRoute : Cont K M A) :
+    SemanticNameCert
+        (fun row : BHist =>
+          hsame row R ∧
+            ∃ packet : CellularTrustSubstrateUp,
+              packet = CellularTrustSubstrateUp.mk R W K M A H C P N)
+        (fun row : BHist =>
+          hsame row R ∧ Cont R W K ∧ Cont K M A ∧ hsame C C)
+        (fun row : BHist => hsame row R ∧ hsame H H ∧ hsame P P ∧ hsame N N)
+        hsame ∧
+      cellularTrustSubstrateToEventFlow (CellularTrustSubstrateUp.mk R W K M A H C P N) =
+        cellularTrustSubstrateToEventFlow (CellularTrustSubstrateUp.mk R W K M A H C P N) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro R
+            ⟨hsame_refl R,
+              Exists.intro (CellularTrustSubstrateUp.mk R W K M A H C P N) rfl⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              source.right⟩
+      }
+      pattern_sound := by
+        intro row source
+        exact ⟨source.left, ruleRoute, manifestRoute, hsame_refl C⟩
+      ledger_sound := by
+        intro row source
+        exact ⟨source.left, hsame_refl H, hsame_refl P, hsame_refl N⟩
+    }
+  · rfl
 
 end BEDC.Derived.CellularTrustSubstrateUp.TasteGate
 
