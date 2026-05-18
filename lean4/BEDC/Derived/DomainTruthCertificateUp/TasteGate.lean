@@ -296,4 +296,103 @@ theorem DomainTruthCertificateTasteGate_single_carrier_alignment :
       (fun _ _ heq => domainTruthCertificateToEventFlow_injective heq),
       domainTruthCertificateChapterTasteGate⟩
 
+theorem DomainTruthCertificateUp_nonescape :
+    ∀ x : DomainTruthCertificateUp,
+      ∃ truth domain openFit observerInvariant continuation failure transport replay provenance
+        package localName : BHist,
+        x =
+            DomainTruthCertificateUp.mk truth domain openFit observerInvariant continuation
+              failure transport replay provenance package localName ∧
+          List.Mem (domainTruthCertificateEncodeBHist domain)
+            (domainTruthCertificateToEventFlow x) ∧
+            List.Mem (domainTruthCertificateEncodeBHist failure)
+              (domainTruthCertificateToEventFlow x) := by
+  -- BEDC touchpoint anchor: BHist BMark List.Mem
+  intro x
+  cases x with
+  | mk truth domain openFit observerInvariant continuation failure transport replay provenance
+      package localName =>
+      have domainListed :
+          List.Mem (domainTruthCertificateEncodeBHist domain)
+            (domainTruthCertificateToEventFlow
+              (DomainTruthCertificateUp.mk truth domain openFit observerInvariant continuation
+                failure transport replay provenance package localName)) := by
+        change
+          List.Mem (domainTruthCertificateEncodeBHist domain)
+            [[BMark.b0], domainTruthCertificateEncodeBHist truth, [BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist domain, [BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist openFit,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist observerInvariant,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist continuation,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist failure,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                BMark.b0],
+              domainTruthCertificateEncodeBHist transport,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist replay,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist provenance,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist package,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist localName]
+        exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _ List.mem_cons_self))
+      have failureListed :
+          List.Mem (domainTruthCertificateEncodeBHist failure)
+            (domainTruthCertificateToEventFlow
+              (DomainTruthCertificateUp.mk truth domain openFit observerInvariant continuation
+                failure transport replay provenance package localName)) := by
+        change
+          List.Mem (domainTruthCertificateEncodeBHist failure)
+            [[BMark.b0], domainTruthCertificateEncodeBHist truth, [BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist domain, [BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist openFit,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist observerInvariant,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist continuation,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist failure,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                BMark.b0],
+              domainTruthCertificateEncodeBHist transport,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist replay,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist provenance,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist package,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              domainTruthCertificateEncodeBHist localName]
+        exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _
+                    (List.mem_cons_of_mem _
+                      (List.mem_cons_of_mem _
+                        (List.mem_cons_of_mem _
+                          (List.mem_cons_of_mem _
+                            (List.mem_cons_of_mem _
+                              (List.mem_cons_of_mem _ List.mem_cons_self))))))))))
+      exact
+        ⟨truth, domain, openFit, observerInvariant, continuation, failure, transport, replay,
+          provenance, package, localName, rfl,
+          domainListed, failureListed⟩
+
 end BEDC.Derived.DomainTruthCertificateUp
