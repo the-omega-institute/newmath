@@ -3473,6 +3473,7 @@ import BEDC.Derived.CompactCoverShrinkageLedgerUp.TasteGate
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalCommitmentUp
 import BEDC.Derived.CausalCommitmentUp.CausalCommitmentClassifierStability
+import BEDC.Derived.CausalCommitmentUp.ForwardGapScopePackage
 import BEDC.Derived.ContinuationBisimulationUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
