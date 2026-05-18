@@ -64,3 +64,58 @@ non-escape clauses in the cited exhaustion, normal-form, pullback, and
 naturality results leave no coordinate outside the four faces and the
 displayed support rows.
 \end{proof}
+
+\begin{theorem}[Real terminal finite-section pullback exactness]
+\label{thm:real-terminal-finite-section-pullback-exactness}
+Let $\mathcal S$ be a finite section of a terminal $\RealUp$ seal read. Then
+$\mathcal S$ is accepted exactly when its visible pullback is the ordered
+four-face packet
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+The $\DyadicRatCoreUp$ face is the terminal scale-window packet, the
+$\StreamNameUp$ face is the tail-compatible finite-window request, the
+$\RegSeqRatUp$ face is the common-tail finite-request readback surface, and
+the $\RealUp$ face is the local terminal seal row.
+
+Thus a finite section is accepted by the terminal seal precisely through this
+visible BEDC pullback. It has no accepted coordinate for quotient streams,
+host real equality, selected limits, countable choice, ambient completeness,
+metric-completeness rows, standard bridge rows, or hidden completion carriers.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with an accepted finite section
+$\mathcal S$. By \autoref{thm:real-finite-window-seal-exhaustion}, the
+terminal seal read is exhausted by the four displayed faces and by the
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Refine the section inside that cover. The refinement monotonicity theorem
+\autoref{thm:real-finite-window-seal-refinement-monotonicity} keeps any
+visible finite refinement on the same four-face route, so the accepted section
+cannot leave the displayed terminal packet while preserving its support rows.
+
+Now identify the three source faces. The StreamName tail-compatible request,
+\autoref{thm:streamname-tail-compatible-window-request}, supplies the finite
+window row. The RegSeqRat common-tail finite-request pullback,
+\autoref{thm:regseqrat-common-tail-finite-request-real-seal-pullback},
+identifies the common-tail readback with the same finite Real seal boundary.
+The DyadicRatCore scale-window monotonicity and terminal fusion theorems,
+\autoref{thm:dyadicratcore-scale-window-monotonicity} and
+\autoref{thm:dyadicratcore-scale-window-terminal-fusion}, force the dyadic
+entry face onto one terminal scale-window packet.
+
+For the reverse direction, suppose the visible pullback is exactly this
+ordered four-face packet with the displayed support rows. The StreamName
+request, RegSeqRat pullback, and DyadicRatCore terminal fusion results assemble
+the section as a finite route into the local $\RealUp$ seal row. Applying
+\autoref{thm:real-finite-window-seal-refinement-monotonicity} to that route
+gives an accepted finite-window terminal seal section.
+
+The exclusion clauses are inherited from the same cited routes and from
+\autoref{thm:real-finite-window-seal-exhaustion}. Quotient stream equality,
+host real equality, selected limits, countable choice, ambient completeness,
+metric-completeness rows, standard bridge rows, and hidden completion carriers
+are not rows of the pullback, so they cannot be used to accept another finite
+section of the terminal seal.
+\end{proof}
