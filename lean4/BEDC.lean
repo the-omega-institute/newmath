@@ -946,6 +946,7 @@ import BEDC.Derived.CellularPatternCatalogUp.TasteGate
 import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
 import BEDC.Derived.CellularTrustSubstrateUp.TasteGate
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
+import BEDC.Derived.CellularTrustSubstrateUp.PrimitiveScopeBinding
 import BEDC.Derived.CellularTrustSubstrateUp.PublicExportPackage
 import BEDC.Derived.CellularVerbRealignmentUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
