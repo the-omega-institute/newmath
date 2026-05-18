@@ -259,4 +259,27 @@ theorem LocalClockBudgetPublic_export {H T W B L Q P N publicRead : BHist}
     ⟨total.left, ledgerRoute, hsame_refl H, hsame_refl T, hsame_refl W,
       hsame_refl B, hsame_refl Q, hsame_refl P, hsame_refl N, total.right⟩
 
+theorem LocalClockBudgetCarrier_transport_window_surface
+    {H T W B L Q P N H' T' W' B' Q' : BHist}
+    (carrier : LocalClockBudgetCarrier H T W B L Q P N)
+    (streamRoute' : Cont BHist.Empty T' H')
+    (windowRoute' : Cont T' W' Q')
+    (sameH : hsame H H')
+    (sameT : hsame T T')
+    (sameW : hsame W W')
+    (sameB : hsame B B')
+    (sameQ : hsame Q Q') :
+    LocalClockBudgetWindowSurface H' T' W' B' Q' ∧ hsame H H' ∧
+      hsame T T' ∧ hsame W W' ∧ hsame B B' ∧ hsame Q Q' ∧
+        localClockBudgetFields (LocalClockBudgetUp.mk H T W B L Q P N) =
+          [H, T, W, B, L, Q, P, N] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  have fields :
+      localClockBudgetFields (LocalClockBudgetUp.mk H T W B L Q P N) =
+        [H, T, W, B, L, Q, P, N] :=
+    carrier.right.right.right.right.right.right.right.right
+  have surface : LocalClockBudgetWindowSurface H' T' W' B' Q' := by
+    exact ⟨streamRoute', windowRoute', hsame_refl B'⟩
+  exact ⟨surface, sameH, sameT, sameW, sameB, sameQ, fields⟩
+
 end BEDC.Derived.LocalClockBudgetUp

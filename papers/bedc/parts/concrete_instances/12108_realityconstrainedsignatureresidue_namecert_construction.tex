@@ -223,6 +223,97 @@ free-standing adequacy claim, so the public consumer must factor through those
 surfaces before reading $R$.
 \end{proof}
 
+\begin{theorem}[Reality-constrained signature residue row-order totality]
+\label{thm:reality-constrained-signature-residue-row-order-totality}
+Every public residue read of an accepted $\RealityConstrainedSignatureResidueUp$
+packet exposes the finite rows in the order
+$$
+M,S,G,R,W,H,C,P,N.
+$$
+The read may stop at no earlier row as a complete residue report: $M$ supplies
+mathematical classifier agreement, $S$ supplies the physical-signature
+comparison, $G$ supplies the GAP and methodology-ledger context, $R$ supplies the
+displayed residue, $W$ supplies the witness route, $H$ and $C$ supply transport
+and replay, $P$ supplies provenance, and $N$ supplies the local NameCert row.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:reality-constrained-signature-residue-carrier}. Its displayed
+coordinates are exactly $M,S,G,R,W,H,C,P,N$, and the NameCert obligations of
+\autoref{thm:reality-constrained-signature-residue-namecert-obligations} read
+those coordinates as carrier admission, classifier separation, residue exposure,
+transport and replay stability, provenance, and local naming.
+
+Apply witness-route totality,
+\autoref{thm:reality-constrained-signature-residue-witness-route-totality}. A
+public witness of $R$ factors through the same ordered route, so no consumer can
+present $R$ before $M,S,G$ or detach it from $W,H,C,P,N$.
+
+Finally use public-consumer factorization,
+\autoref{thm:reality-constrained-signature-residue-public-consumer-factorization}.
+The fit-facing consumer must see the sibling surfaces and methodology ledger
+before reading $R$, hence the displayed row order is total for every public
+residue read.
+\end{proof}
+
+\begin{theorem}[Reality-constrained signature residue audit consumer readiness]
+\label{thm:reality-constrained-signature-residue-audit-consumer-readiness}
+An audit consumer may treat an accepted $\RealityConstrainedSignatureResidueUp$
+packet as actionable only after seeing all nine readiness rows: the classifier
+row $M$, the signature row $S$, the GAP and ledger row $G$, the residue row $R$,
+the witness route $W$, the transport row $H$, the replay row $C$, the provenance
+row $P$, and the local NameCert row $N$. Before those rows are visible, the
+consumer has at most a partial inspection route and not an actionable residue
+certificate.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations,
+\autoref{thm:reality-constrained-signature-residue-namecert-obligations}. They
+make carrier admission, classifier separation, residue exposure, transport,
+replay, provenance, and local naming mandatory parts of the packet rather than
+optional annotations.
+
+Use non-escape,
+\autoref{thm:reality-constrained-signature-residue-nonescape}. A route from $M$
+alone cannot export physical adequacy, physical inadequacy, or physical-fit
+resolution; the audit consumer must expose $S,G,R,W,H,C,P,N$ before any
+fit-facing use of the residue is available.
+
+Combine row-order totality and public-consumer factorization,
+\autoref{thm:reality-constrained-signature-residue-row-order-totality} and
+\autoref{thm:reality-constrained-signature-residue-public-consumer-factorization}.
+The actionable audit route is therefore exactly the ordered nine-row surface,
+with the classifier, signature, GAP, residue, witness, transport, replay,
+provenance, and local naming rows all present.
+\end{proof}
+
+\begin{theorem}[Reality-constrained signature residue fit-obstruction handoff]
+\label{thm:reality-constrained-signature-residue-fit-obstruction-handoff}
+Every downstream fit-obstruction consumer of an accepted
+$\RealityConstrainedSignatureResidueUp$ packet receives only the displayed
+residue obstruction carried by $R$ along the route $M,S,G,R,W,H,C,P,N$. The
+handoff does not supply physical adequacy, physical-fit resolution, or
+objectivity completion; those claims require separate accepted sibling packets.
+\end{theorem}
+\begin{proof}
+Begin with non-escape,
+\autoref{thm:reality-constrained-signature-residue-nonescape}. It blocks any
+handoff from exporting adequacy, inadequacy, or fit resolution from mathematical
+classifier agreement alone.
+
+Apply witness-route totality and public-consumer factorization,
+\autoref{thm:reality-constrained-signature-residue-witness-route-totality} and
+\autoref{thm:reality-constrained-signature-residue-public-consumer-factorization}.
+The downstream consumer receives the residue only through the displayed route
+and through the sibling surfaces named by provenance.
+
+Finally use audit consumer readiness,
+\autoref{thm:reality-constrained-signature-residue-audit-consumer-readiness}. The
+consumer may act on the residue obstruction once the nine rows are exposed, but
+the same readiness surface contains no coordinate for physical adequacy or
+objectivity completion.
+\end{proof}
+
 \begin{theorem}[Reality-constrained signature residue methodology provenance nonescape]
 \label{thm:reality-constrained-signature-residue-methodology-provenance-nonescape}
 In an accepted $\RealityConstrainedSignatureResidueUp$ packet, methodology
