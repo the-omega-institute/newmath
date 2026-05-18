@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
+import BEDC.FKernel.Unary.History
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.KernelNormalizationAuditJoinUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -287,5 +297,63 @@ theorem KernelNormalizationAuditJoinTasteGate_single_carrier_alignment :
       · intro x y heq
         exact kernelNormalizationAuditJoinToEventFlow_injective heq
       · rfl
+
+def KernelNormalizationAuditJoinPacket [AskSetup] [PackageSetup]
+    (kernelStamp axiomQuery normalizationReplay closedNormal subjectBoundary nonescape routeJoin
+      transport continuation provenance localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory kernelStamp ∧ UnaryHistory axiomQuery ∧ UnaryHistory normalizationReplay ∧
+    UnaryHistory closedNormal ∧ UnaryHistory subjectBoundary ∧ UnaryHistory nonescape ∧
+      Cont kernelStamp axiomQuery routeJoin ∧
+        Cont normalizationReplay closedNormal transport ∧
+          Cont subjectBoundary nonescape continuation ∧
+            Cont routeJoin transport provenance ∧
+              Cont provenance continuation localName ∧ PkgSig bundle provenance pkg
+
+theorem KernelNormalizationAuditJoinPacket_namecert_obligations [AskSetup] [PackageSetup]
+    {kernelStamp axiomQuery normalizationReplay closedNormal subjectBoundary nonescape routeJoin
+      transport continuation provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelNormalizationAuditJoinPacket kernelStamp axiomQuery normalizationReplay closedNormal
+      subjectBoundary nonescape routeJoin transport continuation provenance localName bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          KernelNormalizationAuditJoinPacket kernelStamp axiomQuery normalizationReplay
+            closedNormal subjectBoundary nonescape routeJoin transport continuation provenance
+            localName bundle pkg ∧ hsame row localName)
+        (fun row : BHist =>
+          KernelNormalizationAuditJoinPacket kernelStamp axiomQuery normalizationReplay
+            closedNormal subjectBoundary nonescape routeJoin transport continuation provenance
+            localName bundle pkg ∧ hsame row localName)
+        (fun row : BHist =>
+          KernelNormalizationAuditJoinPacket kernelStamp axiomQuery normalizationReplay
+            closedNormal subjectBoundary nonescape routeJoin transport continuation provenance
+            localName bundle pkg ∧ hsame row localName)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg SemanticNameCert
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro localName (And.intro packet (hsame_refl localName))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row col same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row col next sameRowCol sameColNext
+        exact hsame_trans sameRowCol sameColNext
+      carrier_respects_equiv := by
+        intro row col same source
+        exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.KernelNormalizationAuditJoinUp
