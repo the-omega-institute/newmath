@@ -290,6 +290,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.ReadinessDeterminacy
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ReadinessRouteTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RealOutputFactorizationLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RealSealRouteNonescape
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RecursionChannelRefusal
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditBoundaryExposure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditHandoffLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditLedgerExactness
@@ -324,6 +325,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputConsumerTriad
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputRouteReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputRouteSaturation
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootReadinessExhaustion
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSignatureRowTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSignatureTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSource
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootUnblockCarrierAdmission
@@ -2783,6 +2785,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.RootDownstreamConsumerCoverag
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootFormalHandoffTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootGateExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootGateScopeExactness
+import BEDC.Derived.MetaCICNormalizationFrontierUp.RootHandoffScope
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootNormalEndpointHandoff
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootNormalEndpointRouteExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.RootObligationTriad
@@ -3002,6 +3005,7 @@ import BEDC.Derived.OdeUp
 import BEDC.Derived.OnticAdequacyAuditUp.TasteGate
 import BEDC.Derived.OnticResidueLatticeUp.TasteGate
 import BEDC.Derived.OnticResidueLedgerUp.TasteGate
+import BEDC.Derived.OnticStateUp.ComponentwiseTransportScope
 import BEDC.Derived.OnticStateUp.SignatureStability
 import BEDC.Derived.OnticStateUp.TasteGate
 import BEDC.Derived.OnticTowerUp.TasteGate
