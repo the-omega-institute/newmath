@@ -174,6 +174,7 @@ import BEDC.Derived.MachineInterfaceFormalizationTargetUp.TasteGate
 import BEDC.Derived.ExternalityGateUp.TasteGate
 import BEDC.Derived.ExternalSupplySignatureSealUp.TasteGate
 import BEDC.Derived.ExternalSupplyFailureWitnessUp.TasteGate
+import BEDC.Derived.ExternalSupplyAuditRouteUp.TasteGate
 import BEDC.Derived.ExternalSupplyBoundaryUp
 import BEDC.Derived.ExternalSupplyBoundaryUp.TasteGate
 import BEDC.Derived.EmptyFableMachineUp.TasteGate
@@ -1506,6 +1507,8 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalWindowNonescape
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalSelectorSynchronization
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalSectionPullbackUniqueness
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalFourFacePullbackLock
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalTailMeetSynchronization
+import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalWindowSealInversion
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TailAgreementLimitSealTriangle
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.TerminalDiagonalPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.CofinalReadback
@@ -1658,7 +1661,6 @@ import BEDC.Derived.ObserverCoordinateFrameUp.TasteGate
 import BEDC.Derived.ObserverSupportLatticeUp.TasteGate
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
 import BEDC.Derived.RecursorBranchAuditUp.TasteGate
-import BEDC.Derived.RecursorBranchCompletenessUp.TasteGate
 import BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate
 import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
 import BEDC.Derived.OtherMindsCommitmentUp.TasteGate
@@ -2810,6 +2812,7 @@ import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.CompactUniformContinuityUp
+import BEDC.Derived.CompactUniformContinuityUp.BridgeNonEscapeBoundary
 import BEDC.Derived.CompactUniformContinuityUp.BridgeSourcePacket
 import BEDC.Derived.CompactUniformContinuityUp.ClassifierTransport
 import BEDC.Derived.CompactUniformContinuityUp.CenterRadiusCompatibility
@@ -3323,6 +3326,9 @@ import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.EventualTailAgreementUp.TasteGate
 import BEDC.Derived.PhysicalRecordInvariantUp.TasteGate
 import BEDC.Derived.PropextTransportBoundaryUp
+import BEDC.Derived.PropextTransportBoundaryUp.NameCertObligations
+import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
+import BEDC.Derived.RecursorBranchCompletenessUp.TasteGate
 import BEDC.Derived.LocalClockBudgetUp
 import BEDC.Derived.PackageMapBoundaryUp.TasteGate
 import BEDC.Derived.PackageGovernanceExportUp.TasteGate
