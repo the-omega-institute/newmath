@@ -348,6 +348,52 @@ real equality, ambient or metric-completeness datum, countable-choice row,
 Classical row, or standard bridge row appears after the subcover is retained.
 \end{proof}
 
+\begin{theorem}[StreamName finite-request Real seal cocycle determinacy]
+\label{thm:streamname-finite-request-real-seal-cocycle-determinacy}
+Let $\mathcal{R}_0,\mathcal{R}_1,\mathcal{R}_2$ be three finite
+$\StreamNameUp$ requests satisfying the hypotheses of
+\autoref{thm:streamname-finite-request-cover-gluing}. Suppose that every
+pairwise overlap among the three requests exposes the same $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows. Then the Real-facing seal row determined on the
+triple overlap is independent of the order in which the pairwise overlaps are
+consumed. Equivalently, the two finite overlap-consumption paths
+$$
+(\mathcal{R}_0\cap\mathcal{R}_1)\cap\mathcal{R}_2
+\quad\hbox{and}\quad
+\mathcal{R}_0\cap(\mathcal{R}_1\cap\mathcal{R}_2)
+$$
+repack the same terminal Real seal row through the finite BEDC support rows.
+This determinacy asserts only the displayed finite-request surface: it adds
+no quotient stream equality, no host sequence equality, no selected limit, no
+ambient or metric-completeness datum, no countable-choice row, no Classical
+row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+Start with the three pairwise overlaps. On each pair, apply
+\autoref{thm:streamname-finite-request-terminal-coherence}. The shared
+StreamName, DyadicRatCore, RegSeqRat, RealUp, $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows force both requests in the pair to land on the
+same terminal four-face packet.
+
+The possible ambiguity is only the order in which the three pairwise
+overlaps are consumed. Use
+\autoref{thm:streamname-regseqrat-triple-overlap-source-cocycle} to identify
+the StreamName source surface on the triple overlap, and use
+\autoref{thm:realup-streamname-regseqrat-triple-window-cocycle} to identify
+the corresponding RealUp finite-window consumer surface. These two cocycles
+make the left-associated and right-associated overlap readings carry the same
+source row and the same Real-facing consumer row.
+
+Finally repack that common terminal row through the displayed finite BEDC
+support data. Since the repacking reads only $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$, it cannot introduce quotient stream equality, host
+sequence equality, selected limits, ambient or metric-completeness data,
+countable choice, Classical rows, or standard bridge rows. The Real-facing
+seal row on the triple overlap is therefore determined independently of the
+overlap-consumption order.
+\end{proof}
+
 \begin{theorem}[StreamName finite-request cover CauchyLimitSeal stability]
 \label{thm:streamname-finite-request-cover-cauchy-limit-seal-stability}
 Let $\{\mathcal{R}_i\}_{i\in I}$ be a finite family of $\StreamNameUp$
