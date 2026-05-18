@@ -2008,6 +2008,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.RedexBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.BoundaryDisjointness
 import BEDC.Derived.MetaCICNormalizationFrontierUp.PublicObligationPackage
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClassifierStability
+import BEDC.Derived.MetaCICNormalizationFrontierUp.LedgerExhaustion
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
@@ -3407,6 +3408,7 @@ import BEDC.Derived.StreamNameUp.SynchronizedWindowUnion
 import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.StreamNameUp.RealCompletionFourObjectExitRoute
 import BEDC.Derived.StreamNameUp.RegseqratRealDyadicWindowPullback
+import BEDC.Derived.StreamNameUp.RegSeqRatPointwiseHandoffExhaustion
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.DividesClosure
 import BEDC.Derived.PrimeUp.EmptyRight
@@ -3605,6 +3607,7 @@ import BEDC.Derived.CausalCommitmentUp.ObservedRegularityNonchoice
 import BEDC.Derived.CausalCommitmentUp.PublicForwardGapExport
 import BEDC.Derived.CausalCommitmentUp.LocalityObligations
 import BEDC.Derived.CausalCommitmentUp.LocalityConsumerExactness
+import BEDC.Derived.CausalCommitmentUp.ObserverLocalityHandoff
 import BEDC.Derived.ContinuationBisimulationUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
