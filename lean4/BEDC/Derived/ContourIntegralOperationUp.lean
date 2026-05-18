@@ -193,6 +193,43 @@ theorem ContourIntegralOperationModulusTransport {G F S M I H P N M' outputRead 
     unary_cont_closed unaryI unaryP exportRoute
   exact ⟨unaryM', outputReadUnary, sameInputFace, outputRoute, unaryN⟩
 
+theorem ContourIntegralOperationModulusUniquenessBoundary
+    {G F S M I H P N M' outputRead publicRead : BHist} :
+    ContourIntegralOperationCarrier G F S M I H P N ->
+      hsame M M' ->
+        Cont S M' outputRead ->
+          Cont outputRead P publicRead ->
+            UnaryHistory M' ∧ UnaryHistory outputRead ∧ UnaryHistory publicRead ∧
+              hsame H (append G F) ∧ hsame M M' ∧ Cont S M' outputRead ∧
+                Cont outputRead P publicRead ∧ UnaryHistory N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrier sameModulus outputRoute publicRoute
+  have unaryS : UnaryHistory S :=
+    carrier.right.right.left
+  have unaryM : UnaryHistory M :=
+    carrier.right.right.right.left
+  have unaryP : UnaryHistory P :=
+    carrier.right.right.right.right.left
+  have sameInputFace : hsame H (append G F) :=
+    carrier.right.right.right.right.right.left
+  have integralRoute : Cont S M I :=
+    carrier.right.right.right.right.right.right.left
+  have exportRoute : Cont I P N :=
+    carrier.right.right.right.right.right.right.right
+  have unaryM' : UnaryHistory M' :=
+    unary_transport unaryM sameModulus
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed unaryS unaryM' outputRoute
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed outputReadUnary unaryP publicRoute
+  have unaryI : UnaryHistory I :=
+    unary_cont_closed unaryS unaryM integralRoute
+  have unaryN : UnaryHistory N :=
+    unary_cont_closed unaryI unaryP exportRoute
+  exact
+    ⟨unaryM', outputReadUnary, publicReadUnary, sameInputFace, sameModulus, outputRoute,
+      publicRoute, unaryN⟩
+
 theorem ContourIntegralOperationPublicExport {G F S M I H P N : BHist} :
     ContourIntegralOperationCarrier G F S M I H P N ->
       UnaryHistory G ∧ UnaryHistory F ∧ UnaryHistory S ∧ UnaryHistory M ∧
