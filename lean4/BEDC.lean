@@ -224,7 +224,6 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.AdmissionExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditBoundary
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceRow
-import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchAuditLedger
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchBudgetExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchOutputClosureRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionConsumerLock
@@ -248,6 +247,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundedAcceptanceSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.HostKernelHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.KernelBoundaryExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10Carrier
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10CompletionBoundaryNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OpenPhaseConsumerHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OpenPhaseSourceTriad
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OutputAuthorizationClosure
@@ -261,8 +261,8 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.LedgerSeparation
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.LocalNameOutputExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertObligationExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
-import BEDC.Derived.AuthorizedGeneratorRecursorUp.NormalizationFrontierConsumerLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputLedgerExactness
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputNameCertNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputNameStability
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputProvenanceCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputReadiness
@@ -274,6 +274,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealRegSeqRatHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.PublicOutputCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ReadinessDeterminacy
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ReadinessRouteTotality
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RealSealRouteNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditBoundaryExposure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditLedgerExactness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditRouteExactness
@@ -414,6 +415,7 @@ import BEDC.Derived.BinderBudgetSealUp.SelfCompileHandoff
 import BEDC.Derived.BinderBudgetSealUp.ShiftNonescape
 import BEDC.Derived.BinderBudgetSealUp.SubstitutionNonescape
 import BEDC.Derived.BinderBudgetSealUp.TasteGate
+import BEDC.Derived.BinderBudgetSealUp.TasteGateCarrierGrounding
 import BEDC.Derived.BinderContextSubstitutionSealUp
 import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BitVectorUp
@@ -789,6 +791,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.FourFaceNocollapse
 import BEDC.Derived.CauchyModulusRefinementUp.FourFaceStatusObjectwisePullback
 import BEDC.Derived.CauchyModulusRefinementUp.L10CompletionPullback
 import BEDC.Derived.CauchyModulusRefinementUp.L10ConsumerSpineComparison
+import BEDC.Derived.CauchyModulusRefinementUp.L10FaceOrderRigidity
 import BEDC.Derived.CauchyModulusRefinementUp.L10HandoffSufficiency
 import BEDC.Derived.CauchyModulusRefinementUp.L10RootWindowPullbackExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.L10SiblingRoute
