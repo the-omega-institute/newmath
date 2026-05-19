@@ -120,4 +120,42 @@ theorem TypeLevelSocketExposureNamecertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, exposureReadUnary, refusalReadUnary, certReadUnary⟩
 
+theorem TypeLevelSocketExposureLedgerNonescape [AskSetup] [PackageSetup]
+    {setup carrier classifier ledger refusal transport route provenance name exposureRead
+      refusalRead certRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TypeLevelSocketExposureCarrier setup carrier classifier ledger refusal transport route
+        provenance name bundle pkg →
+      Cont setup carrier exposureRead →
+        Cont classifier ledger refusalRead →
+          Cont route name certRead →
+            Cont certRead provenance consumerRead →
+              PkgSig bundle certRead pkg →
+                PkgSig bundle consumerRead pkg →
+                  UnaryHistory exposureRead ∧ UnaryHistory refusalRead ∧
+                    UnaryHistory certRead ∧ UnaryHistory consumerRead ∧
+                      Cont setup carrier exposureRead ∧ Cont classifier ledger refusalRead ∧
+                        Cont route name certRead ∧ Cont certRead provenance consumerRead ∧
+                          PkgSig bundle certRead pkg ∧ PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro exposureWitness setupCarrierExposure classifierLedgerRefusal routeNameCert
+    certProvenanceConsumer certPkg consumerPkg
+  have obligations :=
+    TypeLevelSocketExposureNamecertObligations
+      (setup := setup) (carrier := carrier) (classifier := classifier) (ledger := ledger)
+      (refusal := refusal) (transport := transport) (route := route)
+      (provenance := provenance) (name := name) (exposureRead := exposureRead)
+      (refusalRead := refusalRead) (certRead := certRead) (bundle := bundle) (pkg := pkg)
+      exposureWitness setupCarrierExposure classifierLedgerRefusal routeNameCert certPkg
+  obtain ⟨_cert, exposureReadUnary, refusalReadUnary, certReadUnary⟩ := obligations
+  obtain ⟨_setupUnary, _carrierUnary, _classifierUnary, _ledgerUnary, _refusalUnary,
+    _transportUnary, _routeUnary, provenanceUnary, _nameUnary, _setupCarrierClassifier,
+    _classifierLedgerRefusal, _refusalTransportRoute, _namePkg⟩ := exposureWitness
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed certReadUnary provenanceUnary certProvenanceConsumer
+  exact
+    ⟨exposureReadUnary, refusalReadUnary, certReadUnary, consumerReadUnary,
+      setupCarrierExposure, classifierLedgerRefusal, routeNameCert, certProvenanceConsumer,
+      certPkg, consumerPkg⟩
+
 end BEDC.Derived.TypeLevelSocketExposureUp
