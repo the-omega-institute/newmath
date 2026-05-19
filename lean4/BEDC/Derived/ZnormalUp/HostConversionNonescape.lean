@@ -12,50 +12,53 @@ open BEDC.FKernel.Unary
 
 theorem ZnormalPacket_host_conversion_nonescape [AskSetup] [PackageSetup]
     {typed fuel terminal normal continuation transports routes provenance name terminalRead
-      conversionRead hostBoundary : BHist}
+      hostRead consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
-        bundle pkg ->
-      Cont typed fuel terminalRead ->
-        Cont terminalRead continuation conversionRead ->
-          Cont conversionRead routes hostBoundary ->
-            PkgSig bundle hostBoundary pkg ->
+        bundle pkg →
+      Cont typed fuel terminalRead →
+        Cont terminalRead normal hostRead →
+          Cont hostRead transports consumer →
+            PkgSig bundle consumer pkg →
               SemanticNameCert
-                  (fun row : BHist => hsame row hostBoundary ∧ UnaryHistory row)
+                  (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
                   (fun row : BHist =>
-                    hsame row terminalRead ∨ hsame row conversionRead ∨
-                      hsame row hostBoundary)
+                    hsame row typed ∨ hsame row terminalRead ∨ hsame row hostRead ∨
+                      hsame row consumer)
                   (fun row : BHist =>
-                    hsame row hostBoundary ∧ PkgSig bundle hostBoundary pkg)
+                    hsame row consumer ∧ PkgSig bundle consumer pkg)
                   hsame ∧
-                hsame terminalRead terminal ∧ UnaryHistory conversionRead ∧
-                  UnaryHistory hostBoundary ∧ PkgSig bundle provenance pkg ∧
-                    PkgSig bundle hostBoundary pkg := by
+                hsame terminalRead terminal ∧ hsame hostRead continuation ∧
+                  UnaryHistory consumer ∧ PkgSig bundle provenance pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
-  intro packet typedFuelTerminalRead terminalReadContinuationConversion conversionRoutesHost
-    hostBoundaryPkg
-  obtain ⟨typedUnary, fuelUnary, _terminalUnary, _normalUnary, continuationUnary,
-    _transportsUnary, routesUnary, _provenanceUnary, _nameUnary, typedFuelTerminal,
-    _terminalNormalContinuation, _continuationTransportsRoutes, _namePkg, provenancePkg⟩ :=
+  intro packet typedFuelTerminalRead terminalReadNormalHostRead hostReadTransportsConsumer
+    consumerPkg
+  obtain ⟨typedUnary, fuelUnary, _terminalUnary, normalUnary, _continuationUnary,
+    transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, typedFuelTerminal,
+    terminalNormalContinuation, _continuationTransportsRoutes, _namePkg, provenancePkg⟩ :=
     packet
   have terminalReadSame : hsame terminalRead terminal :=
     cont_deterministic typedFuelTerminalRead typedFuelTerminal
+  have hostReadSame : hsame hostRead continuation :=
+    cont_respects_hsame terminalReadSame (hsame_refl normal)
+      terminalReadNormalHostRead terminalNormalContinuation
   have terminalReadUnary : UnaryHistory terminalRead :=
     unary_cont_closed typedUnary fuelUnary typedFuelTerminalRead
-  have conversionReadUnary : UnaryHistory conversionRead :=
-    unary_cont_closed terminalReadUnary continuationUnary terminalReadContinuationConversion
-  have hostBoundaryUnary : UnaryHistory hostBoundary :=
-    unary_cont_closed conversionReadUnary routesUnary conversionRoutesHost
+  have hostReadUnary : UnaryHistory hostRead :=
+    unary_cont_closed terminalReadUnary normalUnary terminalReadNormalHostRead
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed hostReadUnary transportsUnary hostReadTransportsConsumer
   have cert :
       SemanticNameCert
-          (fun row : BHist => hsame row hostBoundary ∧ UnaryHistory row)
+          (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row terminalRead ∨ hsame row conversionRead ∨ hsame row hostBoundary)
-          (fun row : BHist => hsame row hostBoundary ∧ PkgSig bundle hostBoundary pkg)
+            hsame row typed ∨ hsame row terminalRead ∨ hsame row hostRead ∨
+              hsame row consumer)
+          (fun row : BHist => hsame row consumer ∧ PkgSig bundle consumer pkg)
           hsame := {
     core := {
       carrier_inhabited :=
-        Exists.intro hostBoundary ⟨hsame_refl hostBoundary, hostBoundaryUnary⟩
+        Exists.intro consumer ⟨hsame_refl consumer, consumerUnary⟩
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -73,13 +76,11 @@ theorem ZnormalPacket_host_conversion_nonescape [AskSetup] [PackageSetup]
     }
     pattern_sound := by
       intro _row source
-      exact Or.inr (Or.inr source.left)
+      exact Or.inr (Or.inr (Or.inr source.left))
     ledger_sound := by
       intro _row source
-      exact ⟨source.left, hostBoundaryPkg⟩
+      exact ⟨source.left, consumerPkg⟩
   }
-  exact
-    ⟨cert, terminalReadSame, conversionReadUnary, hostBoundaryUnary, provenancePkg,
-      hostBoundaryPkg⟩
+  exact ⟨cert, terminalReadSame, hostReadSame, consumerUnary, provenancePkg⟩
 
 end BEDC.Derived.ZnormalUp
