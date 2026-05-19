@@ -47,3 +47,82 @@ row consumed by
 $\RealUp$ finite-window boundary without importing quotient-stream equality,
 host sequence equality, selected limits, or completeness data.
 \end{proof}
+
+\begin{theorem}[StreamName finite-window pointwise symmetry]
+\label{thm:streamname-finite-window-pointwise-symmetry}
+Let $s,t:\Hist\to\Hist$ be accepted rational StreamName carriers and let
+$\mathcal{P}:\mathsf{ProbeBundle}$ be a certified finite bundle of unary
+observations. If
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$ holds, then
+the same displayed bundle rows, unary observations, endpoint carrier rows,
+pointwise RatUp symmetry, $\hsame$ transports, $\Cont$ routes, $\Pkg$
+provenance, and local $\NameCert$ rows repack as
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(t,s,\mathcal{P}).
+$$
+The repacked classifier contains no quotient stream, host sequence equality,
+selected limit, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-finite-window-classifier}. A
+bundled certified unary observation $n$ supplies the same membership evidence
+$\mathsf{InBundle}(n,\mathcal{P})$, the same unary-history witness, and the two
+endpoint rational-history carrier rows already exposed by the source finite
+window.
+
+At this observation, apply the symmetry field of
+\autoref{thm:rat-stream-name-certificate-fields} to the displayed pointwise
+RatUp classifier row
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$. This yields the reversed point
+classifier $\mathsf{RatHistoryClassifier}(t(n),s(n))$ without changing the
+finite bundle or the endpoint carriers.
+
+Since the observation and bundle-membership evidence were arbitrary, the
+reversed pointwise rows satisfy exactly the clauses of
+Definition~\ref{def:rat-stream-name-finite-window-classifier} for the ordered
+pair $(t,s)$. Repack them with the unchanged $\hsame$ transports, $\Cont$
+routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+All data remain finite-window data. No quotient stream, host sequence equality,
+selected limit, or $\RealUp$ completeness witness is read or introduced.
+\end{proof}
+
+\begin{theorem}[StreamName finite-window pointwise transitivity]
+\label{thm:streamname-finite-window-pointwise-transitivity}
+Let $s,t,u:\Hist\to\Hist$ be accepted rational StreamName carriers and let
+$\mathcal{P}:\mathsf{ProbeBundle}$ be a certified finite bundle of unary
+observations. If
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$ and
+$\mathsf{RatStreamNameFiniteWindowClassifier}(t,u,\mathcal{P})$ hold over this
+same finite bundle, then the displayed finite-window rows compose pointwise to
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,u,\mathcal{P}).
+$$
+The composition uses only pointwise RatUp transitivity and the displayed
+finite-window rows; it adds no quotient stream, host sequence equality,
+selected limit, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-finite-window-classifier} for the
+two source windows. A bundled certified unary observation $n$ in
+$\mathcal{P}$ reads a point classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ from the first window and a point
+classifier $\mathsf{RatHistoryClassifier}(t(n),u(n))$ from the second.
+
+Apply the transitivity field of
+\autoref{thm:rat-stream-name-certificate-fields} at this same observation. The
+middle endpoint carrier row is the displayed $t(n)$ row already shared by the
+two windows, so the RatUp point classifiers compose to
+$\mathsf{RatHistoryClassifier}(s(n),u(n))$.
+
+Because both hypotheses use the same finite bundle $\mathcal{P}$, no
+membership transport or window refinement is needed. The composed pointwise
+rows therefore satisfy exactly the clauses of
+Definition~\ref{def:rat-stream-name-finite-window-classifier} for $(s,u)$.
+
+Repack the unchanged bundle-membership rows, unary observations, endpoint
+carrier rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert$ rows. The resulting witness remains a finite-window classifier and
+does not import quotient-stream equality, host sequence equality, selected
+limits, or completeness data.
+\end{proof}
