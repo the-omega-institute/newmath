@@ -11,6 +11,34 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def MetaCICNormalizationFrontierPublicExportSurface [AskSetup] [PackageSetup]
+    (candidate closedCandidate finished endpoint obstruction transport replay provenance
+      localRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  MetaCICNormalizationFrontierCarrier candidate closedCandidate finished endpoint obstruction
+    transport replay provenance localRow bundle pkg ∧ PkgSig bundle provenance pkg
+
+theorem MetaCICNormalizationFrontierPublicExportSurface_replay_read [AskSetup] [PackageSetup]
+    {candidate closedCandidate finished endpoint obstruction transport replay provenance
+      localRow publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICNormalizationFrontierPublicExportSurface candidate closedCandidate finished endpoint
+        obstruction transport replay provenance localRow bundle pkg →
+      Cont replay provenance publicRead →
+        PkgSig bundle publicRead pkg →
+          UnaryHistory publicRead ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro surface replayProvenancePublic publicPkg
+  obtain ⟨carrier, provenancePkg⟩ := surface
+  obtain ⟨_candidateUnary, _closedCandidateUnary, _finishedUnary, _endpointUnary,
+    _obstructionUnary, _transportUnary, replayUnary, provenanceUnary, _localRowUnary,
+    _candidateClosedLocal, _finishedEndpointReplay, _endpointReplayProvenance,
+    _transportSameCandidateFinished, _carrierProvenancePkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed replayUnary provenanceUnary replayProvenancePublic
+  exact ⟨publicUnary, provenancePkg, publicPkg⟩
+
 theorem MetaCICNormalizationFrontierPublicExportTotality [AskSetup] [PackageSetup]
     {candidate closedCandidate finished endpoint obstruction transport replay provenance
       localRow candidateRoute finishedRoute publicRead : BHist}
@@ -79,6 +107,39 @@ theorem MetaCICNormalizationFrontierPublicExportTotality [AskSetup] [PackageSetu
         exact ⟨publicPkg, source.left⟩
     }
   exact ⟨candidateRouteUnary, finishedRouteUnary, publicReadUnary, obstructionSame, cert⟩
+
+theorem MetaCICNormalizationFrontierPublicExportSurfaceCertificate [AskSetup] [PackageSetup]
+    {candidate closedCandidate finished endpoint obstruction transport replay provenance
+      localRow candidateRoute finishedRoute publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICNormalizationFrontierCarrier candidate closedCandidate finished endpoint
+        obstruction transport replay provenance localRow bundle pkg →
+      Cont candidate closedCandidate candidateRoute →
+        Cont finished endpoint finishedRoute →
+          Cont replay provenance publicRead →
+            PkgSig bundle publicRead pkg →
+              UnaryHistory candidateRoute ∧ UnaryHistory finishedRoute ∧
+                UnaryHistory publicRead ∧
+                  SemanticNameCert
+                    (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row candidateRoute ∨ hsame row finishedRoute ∨
+                        hsame row obstruction ∨ hsame row publicRead)
+                    (fun row : BHist => PkgSig bundle publicRead pkg ∧ hsame row publicRead)
+                    hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier candidateClosedRoute finishedEndpointRoute replayProvenancePublic publicPkg
+  have totality :=
+    MetaCICNormalizationFrontierPublicExportTotality
+      (candidate := candidate) (closedCandidate := closedCandidate)
+      (finished := finished) (endpoint := endpoint) (obstruction := obstruction)
+      (transport := transport) (replay := replay) (provenance := provenance)
+      (localRow := localRow) (candidateRoute := candidateRoute)
+      (finishedRoute := finishedRoute) (publicRead := publicRead)
+      (bundle := bundle) (pkg := pkg) carrier candidateClosedRoute finishedEndpointRoute
+      replayProvenancePublic publicPkg
+  exact ⟨totality.left, totality.right.left, totality.right.right.left,
+    totality.right.right.right.right⟩
 
 theorem MetaCICNormalizationFrontierPublicExport_nonescape [AskSetup] [PackageSetup]
     {candidate closedCandidate finished endpoint obstruction transport replay provenance localRow

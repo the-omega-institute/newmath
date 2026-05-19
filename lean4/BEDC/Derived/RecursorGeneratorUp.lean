@@ -453,4 +453,84 @@ theorem RecursorGeneratorDownstreamScopePackage [AskSetup] [PackageSetup]
     ⟨generatedUnary, closedUnary, publicUnary, generatedRoute, closedRoute, publicRoute,
       provenancePkg, publicPkg⟩
 
+theorem RecursorGeneratorCarrierSemanticNameCertificate [AskSetup] [PackageSetup]
+    {signature eliminator branches audit metacic transport cont provenance name generatedRead
+      closedRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory eliminator →
+      UnaryHistory branches →
+        UnaryHistory metacic →
+          UnaryHistory name →
+            Cont eliminator branches generatedRead →
+              Cont generatedRead metacic closedRead →
+                Cont closedRead name publicRead →
+                  PkgSig bundle provenance pkg →
+                    PkgSig bundle publicRead pkg →
+                      recursorGeneratorFromEventFlow
+                          (recursorGeneratorToEventFlow
+                            (RecursorGeneratorUp.mk signature eliminator branches audit metacic
+                              transport cont provenance name)) =
+                        some
+                          (RecursorGeneratorUp.mk signature eliminator branches audit metacic
+                            transport cont provenance name) ∧
+                        UnaryHistory generatedRead ∧ UnaryHistory closedRead ∧
+                          UnaryHistory publicRead ∧
+                            SemanticNameCert
+                              (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                              (fun row : BHist =>
+                                hsame row generatedRead ∨ hsame row closedRead ∨
+                                  hsame row publicRead)
+                              (fun row : BHist =>
+                                PkgSig bundle provenance pkg ∧
+                                  PkgSig bundle publicRead pkg ∧ hsame row publicRead)
+                              hsame := by
+  -- BEDC touchpoint anchor: BHist BMark ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro eliminatorUnary branchesUnary metacicUnary nameUnary generatedRoute closedRoute
+    publicRoute provenancePkg publicPkg
+  have generatedUnary : UnaryHistory generatedRead :=
+    unary_cont_closed eliminatorUnary branchesUnary generatedRoute
+  have closedUnary : UnaryHistory closedRead :=
+    unary_cont_closed generatedUnary metacicUnary closedRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed closedUnary nameUnary publicRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row generatedRead ∨ hsame row closedRead ∨ hsame row publicRead)
+        (fun row : BHist =>
+          PkgSig bundle provenance pkg ∧ PkgSig bundle publicRead pkg ∧
+            hsame row publicRead)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro publicRead ⟨hsame_refl publicRead, publicUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact
+            ⟨hsame_trans (hsame_symm same) source.left,
+              unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr source.left)
+      ledger_sound := by
+        intro _row source
+        exact ⟨provenancePkg, publicPkg, source.left⟩
+    }
+  exact
+    ⟨recursorGenerator_round_trip
+        (RecursorGeneratorUp.mk signature eliminator branches audit metacic transport cont
+          provenance name),
+      generatedUnary, closedUnary, publicUnary, cert⟩
+
 end BEDC.Derived.RecursorGeneratorUp
