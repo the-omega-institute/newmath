@@ -178,4 +178,31 @@ theorem LipschitzMapCarrier_namecert_obligation_certificate [AskSetup] [PackageS
     ⟨cert, sourceUnary, targetUnary, boundUnary, graphUnary, modulusUnary, graphBoundModulus,
       modulusRoutesProvenance, pkgSig⟩
 
+theorem LipschitzMapCarrier_target_distance_exactness [AskSetup] [PackageSetup]
+    {source target bound graph modulus transports routes provenance localCert sourceDistance
+      targetDistance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LipschitzMapCarrier source target bound graph modulus transports routes provenance localCert
+        bundle pkg ->
+      Cont source graph sourceDistance ->
+        Cont sourceDistance bound targetDistance ->
+          PkgSig bundle targetDistance pkg ->
+            UnaryHistory source ∧ UnaryHistory graph ∧ UnaryHistory bound ∧
+              UnaryHistory sourceDistance ∧ UnaryHistory targetDistance ∧
+                Cont source graph sourceDistance ∧ Cont sourceDistance bound targetDistance ∧
+                  Cont graph bound modulus ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle targetDistance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier sourceGraphDistance sourceDistanceBound targetDistancePkg
+  obtain ⟨sourceUnary, _targetUnary, boundUnary, graphUnary, _transportsUnary, _routesUnary,
+    _localCertUnary, graphBoundModulus, _modulusRoutesProvenance, provenancePkg⟩ := carrier
+  have sourceDistanceUnary : UnaryHistory sourceDistance :=
+    unary_cont_closed sourceUnary graphUnary sourceGraphDistance
+  have targetDistanceUnary : UnaryHistory targetDistance :=
+    unary_cont_closed sourceDistanceUnary boundUnary sourceDistanceBound
+  exact
+    ⟨sourceUnary, graphUnary, boundUnary, sourceDistanceUnary, targetDistanceUnary,
+      sourceGraphDistance, sourceDistanceBound, graphBoundModulus, provenancePkg,
+      targetDistancePkg⟩
+
 end BEDC.Derived.LipschitzMapUp

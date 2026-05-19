@@ -1567,6 +1567,7 @@ import BEDC.Derived.CountableObservationScheduleUp.TasteGate
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.CriticalLineWitnessUp
 import BEDC.Derived.CriticalLineWitnessUp.DepthLedgerCoverage
+import BEDC.Derived.CriticalLineWitnessUp.DepthLock
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripCarrierSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
@@ -4454,6 +4455,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.GammaCriticalStripReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaFunctionalBoundaryTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
+import BEDC.Derived.ZetaContinuationWitnessUp.NoRhNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.ObligationTriad
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleGammaBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicContourGammaSeparation
