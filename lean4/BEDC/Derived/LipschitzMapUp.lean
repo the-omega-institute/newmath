@@ -49,6 +49,25 @@ theorem LipschitzMapCarrier_uniform_modulus_boundary [AskSetup] [PackageSetup]
       carrier.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right⟩
 
+theorem LipschitzMapCarrier_identity_carrier_boundary [AskSetup] [PackageSetup]
+    {source bound graph modulus transports routes provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory source -> UnaryHistory bound -> UnaryHistory graph -> UnaryHistory transports ->
+      UnaryHistory routes -> UnaryHistory localCert -> Cont graph bound modulus ->
+        Cont modulus routes provenance -> PkgSig bundle provenance pkg ->
+          LipschitzMapCarrier source source bound graph modulus transports routes provenance
+              localCert bundle pkg ∧
+            UnaryHistory modulus := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro sourceUnary boundUnary graphUnary transportsUnary routesUnary localCertUnary
+    graphBoundModulus modulusRoutesProvenance provenancePkg
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed graphUnary boundUnary graphBoundModulus
+  exact
+    ⟨⟨sourceUnary, sourceUnary, boundUnary, graphUnary, transportsUnary, routesUnary,
+      localCertUnary, graphBoundModulus, modulusRoutesProvenance, provenancePkg⟩,
+      modulusUnary⟩
+
 theorem LipschitzMapCarrier_uniform_modulus_consumer_handoff [AskSetup] [PackageSetup]
     {source target bound graph modulus transports routes provenance localCert consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
