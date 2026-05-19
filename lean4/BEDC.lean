@@ -465,6 +465,7 @@ import BEDC.Derived.BHistArity13SequenceNameCertUp
 import BEDC.Derived.BHistArity13TupleNameCertUp
 import BEDC.Derived.BHistArity14SequenceNameCertUp
 import BEDC.Derived.BHistArity14TupleNameCertUp
+import BEDC.Derived.BHistArity15SequenceNameCertUp
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
 import BEDC.Derived.BHistDecaSequenceNameCertUp
 import BEDC.Derived.BHistDecaTupleNameCertUp
@@ -516,6 +517,7 @@ import BEDC.Derived.BinderBudgetSealUp.TasteGate
 import BEDC.Derived.BinderBudgetSealUp.TasteGateCarrierGrounding
 import BEDC.Derived.BinderContextSubstitutionSealUp
 import BEDC.Derived.BinderContextSubstitutionSealUp.CompilerHandoff
+import BEDC.Derived.BinderContextSubstitutionSealUp.ObligationConsumer
 import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BoolUp
@@ -1585,6 +1587,7 @@ import BEDC.Derived.CountableObservationScheduleUp.TasteGate
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.CriticalLineWitnessUp
 import BEDC.Derived.CriticalLineWitnessUp.BoundaryObligationSurface
+import BEDC.Derived.CriticalLineWitnessUp.CandidateClosedRoute
 import BEDC.Derived.CriticalLineWitnessUp.DepthLedgerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.DepthLock
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamModulusRefusalExport
@@ -1622,11 +1625,13 @@ import BEDC.Derived.CriticalLineWitnessUp.RootRefusalConsumerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
+import BEDC.Derived.CriticalLineWitnessUp.RootZetaLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RouteClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RouteReadbackExhaustionCertificate
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
 import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripClassifierTransport
+import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusRoute
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -2801,6 +2806,7 @@ import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.LinearMapUp.StdBridge
 import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
 import BEDC.Derived.LipschitzMapUp
+import BEDC.Derived.LipschitzMapUp.CommonBoundCompletionRoute
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.BoolReadback
@@ -3383,6 +3389,7 @@ import BEDC.Derived.PicardContractionUp.LipschitzLedgerWindowExactness
 import BEDC.Derived.PicardContractionUp.MetricCompleteLipschitzConsumerRoute
 import BEDC.Derived.PicardContractionUp.ModulusConsumerExhaustion
 import BEDC.Derived.PicardContractionUp.ModulusRowFiniteTailLock
+import BEDC.Derived.PicardContractionUp.ModulusWindowRowScope
 import BEDC.Derived.PicardContractionUp.ObligationSurface
 import BEDC.Derived.PicardContractionUp.PublicExports
 import BEDC.Derived.PicardContractionUp.PublicIterateLedger
@@ -4119,6 +4126,7 @@ import BEDC.Derived.StreamNameUp.OverlapExactness
 import BEDC.Derived.StreamNameUp.PointwiseHandoff
 import BEDC.Derived.StreamNameUp.PublicInterface
 import BEDC.Derived.StreamNameUp.RealCompletionClassifierPullback
+import BEDC.Derived.StreamNameUp.RealCompletionExitAxisSeparation
 import BEDC.Derived.StreamNameUp.RealCompletionExitConsumerExhaustion
 import BEDC.Derived.StreamNameUp.RealCompletionFourObjectExitRoute
 import BEDC.Derived.StreamNameUp.RealRegseqObligationSeparation
