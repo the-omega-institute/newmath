@@ -132,4 +132,64 @@ theorem RecursionAuthorizationLedgerCarrier_signature_acceptance [AskSetup] [Pac
       provenancePkg,
       branchPkg⟩
 
+theorem RecursionAuthorizationLedgerCarrier_audit_provenance_exhaustion
+    [AskSetup] [PackageSetup]
+    {signature recursor motive branches descent output transport routes provenance name
+      auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RecursionAuthorizationLedgerCarrier signature recursor motive branches descent output
+        transport routes provenance name bundle pkg →
+      Cont transport routes auditRead →
+        PkgSig bundle auditRead pkg →
+          UnaryHistory transport ∧ UnaryHistory routes ∧ UnaryHistory provenance ∧
+            UnaryHistory auditRead ∧ Cont transport routes provenance ∧
+              Cont transport routes auditRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle name pkg ∧ PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier transportRoutesAudit auditPkg
+  obtain ⟨_signatureUnary, _recursorUnary, _motiveUnary, _branchesUnary, _descentUnary,
+    _outputUnary, transportUnary, routesUnary, provenanceUnary, _nameUnary,
+    _signatureRecursorMotive, _branchesDescentOutput, _outputTransportRoutes,
+    transportRoutesProvenance, provenancePkg, namePkg, _semanticCert⟩ := carrier
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed transportUnary routesUnary transportRoutesAudit
+  exact
+    ⟨transportUnary, routesUnary, provenanceUnary, auditUnary, transportRoutesProvenance,
+      transportRoutesAudit, provenancePkg, namePkg, auditPkg⟩
+
+theorem RecursionAuthorizationLedgerCarrier_generator_closure_sibling_route
+    [AskSetup] [PackageSetup]
+    {signature recursor motive branches descent output transport routes provenance name
+      branchRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RecursionAuthorizationLedgerCarrier signature recursor motive branches descent output
+        transport routes provenance name bundle pkg ->
+      Cont recursor branches branchRead ->
+        PkgSig bundle branchRead pkg ->
+          UnaryHistory signature ∧ UnaryHistory recursor ∧ UnaryHistory branches ∧
+            UnaryHistory descent ∧ UnaryHistory output ∧ UnaryHistory branchRead ∧
+              Cont signature recursor motive ∧ Cont recursor branches branchRead ∧
+                Cont branches descent output ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle branchRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier recursorBranchesRead branchPkg
+  obtain ⟨signatureUnary, recursorUnary, _motiveUnary, branchesUnary, descentUnary,
+    outputUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    signatureRecursorMotive, branchesDescentOutput, _outputTransportRoutes,
+    _transportRoutesProvenance, provenancePkg, _namePkg, _semanticCert⟩ := carrier
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed recursorUnary branchesUnary recursorBranchesRead
+  exact
+    ⟨signatureUnary,
+      recursorUnary,
+      branchesUnary,
+      descentUnary,
+      outputUnary,
+      branchReadUnary,
+      signatureRecursorMotive,
+      recursorBranchesRead,
+      branchesDescentOutput,
+      provenancePkg,
+      branchPkg⟩
+
 end BEDC.Derived.RecursionAuthorizationLedgerUp

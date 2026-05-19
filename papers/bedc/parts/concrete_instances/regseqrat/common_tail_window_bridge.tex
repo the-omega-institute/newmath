@@ -22,6 +22,7 @@ Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $T_0$ and $T_1$ be two cer
 
 The determinacy statement is only a finite BEDC classifier read on the common union window. It exports no quotient stream equality, host real equality, selected limit, ambient completeness row, metric-completeness row, hidden completion carrier, or additional seal coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatCommonTailUnionClassifierDeterminacy}
 \begin{proof}
 Project the common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet}. Its rows provide the two certified cofinal tail shifts, the common $\StreamNameUp$ refinement $W_\ast$, the transported dyadic endpoint and radius ledgers, the two tail classifier rows, the common transported classifier row, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
 
@@ -222,6 +223,24 @@ The triple-overlap compatibility is supplied by \autoref{thm:regseqrat-common-ta
 Now compose the Real L10 terminal correspondence with pullback uniqueness. The theorems \autoref{thm:real-l10-terminal-four-face-correspondence} and \autoref{thm:real-l10-terminal-pullback-uniqueness} identify the pasted StreamName, DyadicRatCore, RegSeqRat, and RealUp rows as one terminal finite boundary. Applying \autoref{thm:regseqrat-common-tail-face-status-objectwise-pullback} then keeps the four face-status records objectwise, so the section cover does not acquire an aggregate status object while it is being pasted.
 
 Uniqueness follows from the same pullback calculation. Any second section cover with the same visible local sections restricts to the same pairwise common-tail packets, hence to the same Real L10 terminal boundary on every four-face overlap. Since the listed packets provide no coordinates for quotient streams, host real equality, selected limits, countable choice, ambient or metric completeness, aggregate $\mathsf{formalstatus}$, standard-bridge data, or hidden completion rows, there is no remaining BEDC-visible row on which two terminal section covers could differ.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail terminal section Real seal-source uniqueness]
+\label{thm:regseqrat-common-tail-terminal-section-real-seal-source-uniqueness}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\{T_i\}_{i \in I}$ be a finite family of certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$. Suppose the pairwise common-tail window packets and triple-overlap refinements satisfy the hypotheses of \autoref{thm:regseqrat-common-tail-terminal-section-cover}, so that they determine a terminal finite section cover over the ordered faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Let $\mathcal R$ and $\mathcal S$ be two $\RealUp$ seal-source reads exposed over this cover. Suppose their visible rows are the same $\StreamNameUp$ schedule and refinement rows, the same $\DyadicRatCoreUp$ endpoint, radius, and distance rows, the same $\RegSeqRatUp$ classifier and regularity rows, the same $\RealUp$ seal row, and the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then $\mathcal R$ and $\mathcal S$ expose the same finite $\RealUp$ seal-source surface.
+
+This uniqueness statement exports no quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric-completeness row, standard bridge data, or hidden completion carrier.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-common-tail-terminal-section-cover} to the accepted RegSeqRat packet and the finite common-tail family. The output is the terminal finite section cover whose visible vocabulary is exactly the four-face row inventory listed in the statement.
+
+Next use \autoref{thm:regseqrat-common-tail-terminal-four-face-cocycle-uniqueness}. Since $\mathcal R$ and $\mathcal S$ agree on the pairwise common-tail packets, triple-overlap refinements, and displayed support rows through the section cover, they determine the same BEDC-visible terminal four-face boundary.
+
+Now apply the Real-side uniqueness results. By \autoref{thm:realup-finite-seal-source-uniqueness}, two finite $\RealUp$ seal-source reads with the same displayed StreamName, DyadicRatCore, RegSeqRat, Real seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows have the same finite seal-source surface. By \autoref{thm:real-name-seal-terminal-source-uniqueness}, this surface is the terminal Real name-seal source seen by any downstream finite readback through the same packet.
+
+The final row inventory is the nonescape clause. The common-tail cover, the four-face cocycle uniqueness theorem, and the Real seal-source uniqueness theorems provide no coordinate for quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric completeness, standard bridge data, or hidden completion carriers. There is therefore no remaining displayed BEDC row on which the two Real seal-source surfaces can differ.
 \end{proof}
 
 \begin{theorem}[RegSeqRat terminal four-face cocycle uniqueness]

@@ -141,11 +141,13 @@ Apply \autoref{thm:observerregular-resolving-window-soundness}. The selected res
 
 The provenance row $P$ records which $\CauchyModulusUp$ and $\DyadicRatCoreUp$ certificates are being consumed, while $N$ records the local observer name. By \autoref{thm:observerregular-finite-ledger-non-escape}, there is no carrier coordinate for an external tolerance witness, quotient stream, selected limit, or ambient completeness principle. Thus each tolerance read factors through exactly the displayed finite ledger rows named in the statement.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverRegularUp.ObserverRegularCarrier\_resolving\_window\_ledger\_exactness}
 
 \begin{theorem}[ObserverRegular schedule lock for real and completion consumers]
 \label{thm:observerregular-schedule-lock-real-completion}
 Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\ObserverRegularUp$ carrier $O=(A,R,S,W,L,H,C,P,N)$ uses the displayed schedule row $S$ together with the same finite window row $W$, regular-rational readback ledger $L$, componentwise transport row $H$, continuation row $C$, package provenance $P$, and local naming row $N$. The row $S$ may name the intended consumer schedule, but it contributes no independent tolerance witness, completion witness, selected limit, quotient stream equality, or host real equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverRegularUp.ObserverRegularCarrier\_schedule\_lock\_real\_completion}
 \begin{proof}
 Start with a consumer route into $\RealUp$ or $\CompletionUp$. By \autoref{thm:observerregular-resolving-window-soundness}, the accepted resolving state first selects the displayed finite $\StreamNameUp$ window $W$ and the matching $\RegSeqRatUp$ readback ledger $L$ through the observer packet.
 
@@ -175,6 +177,7 @@ Now use \autoref{thm:observerregular-schedule-lock-real-completion}. A $\RealUp$
 
 The carrier inventory then gives non-escape. Neither packet contains a quotient stream, host sequence equality, selected limit, or ambient completeness coordinate, so schedule coherence remains a BEDC row comparison at the displayed observer boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverRegularUp.ObserverRegularCarrier\_schedule\_coherence}
 
 \begin{theorem}[ObserverRegular bridged consumer surface]
 \label{thm:observerregular-bridged-consumer-surface}

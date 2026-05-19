@@ -530,6 +530,7 @@ Only then may a recursor-generator consumer cite \autoref{ch:concrete-instances-
 \label{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}
 Every closed shift or closed substitution read from an accepted $\ClosedTermSubstitutionBoundaryUp$ packet passes through the displayed source closedness witness $C_{\mathsf{src}}$, value closedness witness $C_{\mathsf{val}}$, shift row $Q$, substitution row $R$, closedness ledger $L$, and audit row $A$. The route may transport these rows by $H$ and replay them through $C$, but it cannot expose an operation row before the corresponding closedness witness, ledger entry, and audit row have been displayed.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryShiftSubstitutionLedgerLock}
 \begin{proof}
 Project the carrier and classifier of \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. The only closedness and operation coordinates available to the packet are $C_{\mathsf{src}}$, $C_{\mathsf{val}}$, $Q$, $R$, $L$, and $A$ together with the transport, route, provenance, and naming rows.
 
@@ -703,6 +704,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
 $$
 and not an appeal to host substitution semantics, subject reduction, a host syntax quotient, hidden evaluator state, or compiler state outside the displayed packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryAuditBoundaryFactorization}
 \begin{proof}
 First read the carrier of \autoref{def:closed-term-substitution-boundary-carrier}. It supplies the finite $\BHist$ packet and the surrounding $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 
