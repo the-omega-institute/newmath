@@ -853,7 +853,6 @@ import BEDC.Derived.CauchyLimitSealUp.CompletionBudget
 import BEDC.Derived.CauchyLimitSealUp.CompletionConsumerReplay
 import BEDC.Derived.CauchyLimitSealUp.ConsumerUniformRouteLock
 import BEDC.Derived.CauchyLimitSealUp.FiniteWindowLattice
-import BEDC.Derived.CauchyLimitSealUp.FiniteWindowLatticeDependency
 import BEDC.Derived.CauchyLimitSealUp.LedgerNonescape
 import BEDC.Derived.CauchyLimitSealUp.ObservationBudgetPullback
 import BEDC.Derived.CauchyLimitSealUp.PublicRouteBoundary
@@ -2795,6 +2794,7 @@ import BEDC.Derived.KernelCategoryUp.FunctorContinuationHandoff
 import BEDC.Derived.KernelCategoryUp.LawTransportExhaustion
 import BEDC.Derived.KernelCategoryUp.NameCertRootRouteReadiness
 import BEDC.Derived.KernelInductiveAcceptanceUp.EnvironmentEntryDeterminacy
+import BEDC.Derived.KernelInductiveAcceptanceUp.EnvironmentScopeRoute
 import BEDC.Derived.KernelInductiveAcceptanceUp.FieldFaithfulBoundary
 import BEDC.Derived.KernelInductiveAcceptanceUp.GeneratorClosureRoute
 import BEDC.Derived.KernelInductiveAcceptanceUp.KernelObligationClosurePackage
@@ -2890,6 +2890,7 @@ import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.LinearMapUp.StdBridge
 import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
 import BEDC.Derived.LipschitzMapUp
+import BEDC.Derived.LipschitzMapUp.BoundDependencyLock
 import BEDC.Derived.LipschitzMapUp.CommonBoundCompletionRoute
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
