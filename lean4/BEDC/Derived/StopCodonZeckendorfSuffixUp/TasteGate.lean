@@ -54,7 +54,7 @@ def stopCodonZeckendorfSuffixFields :
 def stopCodonZeckendorfSuffixToEventFlow :
     StopCodonZeckendorfSuffixUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map stopCodonZeckendorfSuffixEncodeBHist (stopCodonZeckendorfSuffixFields x)
+  | x => (stopCodonZeckendorfSuffixFields x).map stopCodonZeckendorfSuffixEncodeBHist
 
 def stopCodonZeckendorfSuffixFromEventFlow :
     EventFlow → Option StopCodonZeckendorfSuffixUp
@@ -86,45 +86,9 @@ private theorem stopCodonZeckendorfSuffix_round_trip :
   cases x with
   | mk atlas window suffix legality bridge separation boundary transport route provenance
       name =>
-      change
-        some
-          (StopCodonZeckendorfSuffixUp.mk
-            (stopCodonZeckendorfSuffixDecodeBHist
-              (stopCodonZeckendorfSuffixEncodeBHist atlas))
-            (stopCodonZeckendorfSuffixDecodeBHist
-              (stopCodonZeckendorfSuffixEncodeBHist window))
-            (stopCodonZeckendorfSuffixDecodeBHist
-              (stopCodonZeckendorfSuffixEncodeBHist suffix))
-            (stopCodonZeckendorfSuffixDecodeBHist
-              (stopCodonZeckendorfSuffixEncodeBHist legality))
-            (stopCodonZeckendorfSuffixDecodeBHist
-              (stopCodonZeckendorfSuffixEncodeBHist bridge))
-            (stopCodonZeckendorfSuffixDecodeBHist
-              (stopCodonZeckendorfSuffixEncodeBHist separation))
-            (stopCodonZeckendorfSuffixDecodeBHist
-              (stopCodonZeckendorfSuffixEncodeBHist boundary))
-            (stopCodonZeckendorfSuffixDecodeBHist
-              (stopCodonZeckendorfSuffixEncodeBHist transport))
-            (stopCodonZeckendorfSuffixDecodeBHist
-              (stopCodonZeckendorfSuffixEncodeBHist route))
-            (stopCodonZeckendorfSuffixDecodeBHist
-              (stopCodonZeckendorfSuffixEncodeBHist provenance))
-            (stopCodonZeckendorfSuffixDecodeBHist
-              (stopCodonZeckendorfSuffixEncodeBHist name))) =
-          some
-            (StopCodonZeckendorfSuffixUp.mk atlas window suffix legality bridge separation
-              boundary transport route provenance name)
-      rw [stopCodonZeckendorfSuffix_decode_encode_bhist atlas,
-        stopCodonZeckendorfSuffix_decode_encode_bhist window,
-        stopCodonZeckendorfSuffix_decode_encode_bhist suffix,
-        stopCodonZeckendorfSuffix_decode_encode_bhist legality,
-        stopCodonZeckendorfSuffix_decode_encode_bhist bridge,
-        stopCodonZeckendorfSuffix_decode_encode_bhist separation,
-        stopCodonZeckendorfSuffix_decode_encode_bhist boundary,
-        stopCodonZeckendorfSuffix_decode_encode_bhist transport,
-        stopCodonZeckendorfSuffix_decode_encode_bhist route,
-        stopCodonZeckendorfSuffix_decode_encode_bhist provenance,
-        stopCodonZeckendorfSuffix_decode_encode_bhist name]
+      simp only [stopCodonZeckendorfSuffixToEventFlow, stopCodonZeckendorfSuffixFields,
+        stopCodonZeckendorfSuffixFromEventFlow, List.map_cons, List.map_nil,
+        stopCodonZeckendorfSuffix_decode_encode_bhist]
 
 private theorem stopCodonZeckendorfSuffixToEventFlow_injective
     {x y : StopCodonZeckendorfSuffixUp} :
@@ -155,7 +119,28 @@ private theorem stopCodonZeckendorfSuffix_field_faithful :
       cases y with
       | mk atlas₂ window₂ suffix₂ legality₂ bridge₂ separation₂ boundary₂ transport₂ route₂
           provenance₂ name₂ =>
-          cases hfields
+          injection hfields with hatlas tail0
+          injection tail0 with hwindow tail1
+          injection tail1 with hsuffix tail2
+          injection tail2 with hlegality tail3
+          injection tail3 with hbridge tail4
+          injection tail4 with hseparation tail5
+          injection tail5 with hboundary tail6
+          injection tail6 with htransport tail7
+          injection tail7 with hroute tail8
+          injection tail8 with hprovenance tail9
+          injection tail9 with hname _
+          subst hatlas
+          subst hwindow
+          subst hsuffix
+          subst hlegality
+          subst hbridge
+          subst hseparation
+          subst hboundary
+          subst htransport
+          subst hroute
+          subst hprovenance
+          subst hname
           rfl
 
 instance stopCodonZeckendorfSuffixBHistCarrier :
@@ -171,7 +156,8 @@ instance stopCodonZeckendorfSuffixChapterTasteGate :
     intro x
     change
       stopCodonZeckendorfSuffixFromEventFlow
-        (stopCodonZeckendorfSuffixToEventFlow x) = some x
+          (stopCodonZeckendorfSuffixToEventFlow x) =
+        some x
     exact stopCodonZeckendorfSuffix_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -199,5 +185,16 @@ instance stopCodonZeckendorfSuffixNontrivial :
 def taste_gate : ChapterTasteGate StopCodonZeckendorfSuffixUp :=
   -- BEDC touchpoint anchor: BHist BMark
   stopCodonZeckendorfSuffixChapterTasteGate
+
+theorem StopCodonZeckendorfSuffixTasteGate_single_carrier_alignment
+    (atlas window suffix legality bridge separation boundary transport route provenance
+      name : BHist) :
+    stopCodonZeckendorfSuffixFields
+        (StopCodonZeckendorfSuffixUp.mk atlas window suffix legality bridge separation
+          boundary transport route provenance name) =
+      [atlas, window, suffix, legality, bridge, separation, boundary, transport, route,
+        provenance, name] := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  rfl
 
 end BEDC.Derived.StopCodonZeckendorfSuffixUp
