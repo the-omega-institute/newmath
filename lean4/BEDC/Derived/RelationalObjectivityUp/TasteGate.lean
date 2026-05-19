@@ -288,4 +288,24 @@ theorem RelationalObjectivityCarrier_no_privileged_anchor_certificate
     unary_cont_closed anchorUnary transportUnary anchorRoute
   exact ⟨anchorHistory, anchorRoute, anchorReplay⟩
 
+theorem RelationalObjectivityAnchorStabilityObligation
+    {F I A L T P N anchorReplay invariantReplay : BHist} :
+    RelationalObjectivityCarrier F I A L T P N ->
+      Cont A T anchorReplay ->
+        Cont I A invariantReplay ->
+          UnaryHistory anchorReplay ∧ UnaryHistory invariantReplay ∧
+            Cont A T anchorReplay ∧ Cont I A invariantReplay ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrier anchorRoute invariantRoute
+  obtain ⟨_familyUnary, invariantUnary, anchorUnary, _ledgerUnary, transportUnary,
+    _provenanceUnary, _nameUnary, _invariantAnchorTransport, _ledgerTransportName,
+    _provenanceSelf⟩ := carrier
+  have anchorReplayUnary : UnaryHistory anchorReplay :=
+    unary_cont_closed anchorUnary transportUnary anchorRoute
+  have invariantReplayUnary : UnaryHistory invariantReplay :=
+    unary_cont_closed invariantUnary anchorUnary invariantRoute
+  exact
+    ⟨anchorReplayUnary, invariantReplayUnary, anchorRoute, invariantRoute,
+      hsame_refl N⟩
+
 end BEDC.Derived.RelationalObjectivityUp
