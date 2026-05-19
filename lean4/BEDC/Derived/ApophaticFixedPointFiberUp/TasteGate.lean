@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ApophaticFixedPointFiberUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -297,5 +309,84 @@ theorem ApophaticFixedPointFiberTasteGate_single_carrier_alignment :
             · intro x y heq
               exact apophaticFixedPointFiberToEventFlow_injective heq
             · rfl
+
+def ApophaticFixedPointFiberCarrier [AskSetup] [PackageSetup]
+    (digest socket gap boundary inscription transport routes provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory digest ∧ UnaryHistory socket ∧ UnaryHistory transport ∧
+    UnaryHistory provenance ∧ Cont digest socket gap ∧ Cont gap boundary inscription ∧
+      Cont inscription transport routes ∧ PkgSig bundle provenance pkg ∧
+        PkgSig bundle name pkg
+
+theorem ApophaticFixedPointFiber_namecert_obligations [AskSetup] [PackageSetup]
+    {digest socket gap boundary inscription transport routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticFixedPointFiberCarrier digest socket gap boundary inscription transport routes
+        provenance name bundle pkg →
+      SemanticNameCert
+          (fun row : BHist => hsame row gap ∨ hsame row boundary ∨ hsame row inscription)
+          (fun row : BHist =>
+            hsame row digest ∨ hsame row socket ∨ hsame row gap ∨ hsame row boundary ∨
+              hsame row inscription)
+          (fun _row : BHist => PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg)
+          hsame ∧
+        Cont digest socket gap ∧ Cont gap boundary inscription ∧
+          Cont inscription transport routes ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier
+  obtain ⟨_digestUnary, _socketUnary, _transportUnary, _provenanceUnary,
+    digestSocketGap, gapBoundaryInscription, inscriptionTransportRoutes, provenancePkg,
+    namePkg⟩ := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row gap ∨ hsame row boundary ∨ hsame row inscription)
+          (fun row : BHist =>
+            hsame row digest ∨ hsame row socket ∨ hsame row gap ∨ hsame row boundary ∨
+              hsame row inscription)
+          (fun _row : BHist => PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro gap (Or.inl (hsame_refl gap))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        cases source with
+        | inl sameGap =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) sameGap)
+        | inr rest =>
+            cases rest with
+            | inl sameBoundary =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameBoundary))
+            | inr sameInscription =>
+                exact Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) sameInscription))
+    }
+    pattern_sound := by
+      intro _row source
+      cases source with
+      | inl sameGap =>
+          exact Or.inr (Or.inr (Or.inl sameGap))
+      | inr rest =>
+          cases rest with
+          | inl sameBoundary =>
+              exact Or.inr (Or.inr (Or.inr (Or.inl sameBoundary)))
+          | inr sameInscription =>
+              exact Or.inr (Or.inr (Or.inr (Or.inr sameInscription)))
+    ledger_sound := by
+      intro _row _source
+      exact ⟨provenancePkg, namePkg⟩
+  }
+  exact
+    ⟨cert, digestSocketGap, gapBoundaryInscription, inscriptionTransportRoutes,
+      provenancePkg, namePkg⟩
 
 end BEDC.Derived.ApophaticFixedPointFiberUp
