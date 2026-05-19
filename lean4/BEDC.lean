@@ -39,6 +39,7 @@ import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
 import BEDC.Derived.AnalyticContinuationSocketUp
+import BEDC.Derived.AnalyticContinuationSocketUp.OutputBranchSeparation
 import BEDC.Derived.AnchorChangeInvariantUp.TasteGate
 import BEDC.Derived.AnchorStabilityCertificateUp.TasteGate
 import BEDC.Derived.ApartnessRealUp
@@ -3217,6 +3218,7 @@ import BEDC.Derived.PiApplicationAdequacyRouteUp.TasteGate
 import BEDC.Derived.PicardContractionUp
 import BEDC.Derived.PicardContractionUp.CauchyModulusSiblingRoute
 import BEDC.Derived.PicardContractionUp.DownstreamModulusExposure
+import BEDC.Derived.PicardContractionUp.FiniteConsumerExhaustion
 import BEDC.Derived.PicardContractionUp.FiniteRateSealTriangle
 import BEDC.Derived.PicardContractionUp.LedgerBoundary
 import BEDC.Derived.PicardContractionUp.LipschitzLedgerWindowExactness
@@ -4312,6 +4314,8 @@ import BEDC.Derived.ZeckendorfCarryValueUp.TasteGate
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.ZetaBasicUp
+import BEDC.Derived.ZetaContinuationApplicationUp.RootLedgerBoundary
+import BEDC.Derived.ZetaContinuationApplicationUp.RootObligations
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.ConsumerPacketTotality
@@ -4329,10 +4333,12 @@ import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleGammaBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportRouteLock
+import BEDC.Derived.ZetaContinuationWitnessUp.PublicRootCompletion
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicSourceLockExport
 import BEDC.Derived.ZetaContinuationWitnessUp.RootPackage
 import BEDC.Derived.ZetaContinuationWitnessUp.RootReadinessSourceSeal
 import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
+import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockCoverage
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerSourceReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingSourceAccountability
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroRouteInputPackage
@@ -4342,6 +4348,7 @@ import BEDC.Derived.ZnormalUp.CarryClassifierRow
 import BEDC.Derived.ZnormalUp.DecisionRouteExhaustion
 import BEDC.Derived.ZnormalUp.FuelReadbackTasteGateRoute
 import BEDC.Derived.ZnormalUp.LedgerNonescape
+import BEDC.Derived.ZnormalUp.RootConstructorReadback
 import BEDC.Derived.ZnormalUp.RootConsumerReadiness
 import BEDC.Derived.ZnormalUp.RootContReplayClosure
 import BEDC.Derived.ZnormalUp.RootDisplayPacketBridgeReadbackExactness
@@ -4350,6 +4357,7 @@ import BEDC.Derived.ZnormalUp.RootReadbackExhaustion
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
 import BEDC.Derived.ZnormalUp.RootTerminalNonescapeInterface
 import BEDC.Derived.ZnormalUp.RootTotalHostReadbackTriad
+import BEDC.Derived.ZnormalUp.RootTotalHostReadiness
 import BEDC.Derived.ZnormalUp.RootTotalHostRefusal
 import BEDC.Derived.ZnormalUp.RootUnblockNonescapeLedger
 import BEDC.Derived.ZnormalUp.TasteGate
@@ -4357,8 +4365,10 @@ import BEDC.Derived.ZnormalUp.TasteGateFieldReadbackLock
 import BEDC.Derived.ZnormalUp.TerminalBoundaryNonescape
 import BEDC.Derived.ZnormalUp.TerminalConsumerTotality
 import BEDC.Derived.ZnormalUp.TerminalFuelRouteExhaustion
+import BEDC.Derived.ZnormalUp.TerminalHostScopeTriad
 import BEDC.Derived.ZnormalUp.TerminalNormalityRefusalStability
 import BEDC.Derived.ZnormalUp.TerminalReadbackExactness
+import BEDC.Derived.ZnormalUp.TerminalReadbackRouteExhaustion
 import BEDC.Derived.ZnormalUp.TerminalRouteExhaustion
 import BEDC.Derived.ZnormalUp.TerminalRowConstructorExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
