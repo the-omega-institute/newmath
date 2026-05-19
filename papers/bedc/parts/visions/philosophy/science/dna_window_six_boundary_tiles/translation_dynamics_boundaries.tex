@@ -1,0 +1,187 @@
+\begin{proposition}[Dual $10$-to-$11$ reassignment]
+\label{prop:philosophy-dual-ten-to-eleven-reassignment}
+In genetic-code tables where $\mathrm{AUA}$ is assigned to
+$\mathrm{Met}$ and $\mathrm{UGA}$ is assigned to $\mathrm{Trp}$, the two
+dual $11$-control tiles undergo the same displayed deformation:
+$$
+  \{00,01,10\}/\{11\}
+  \rightsquigarrow
+  \{00,01\}/\{10,11\}.
+$$
+\end{proposition}
+\begin{proof}
+In the $\mathrm{AU}$ tile, $\mathrm{AUA}$ has local coordinate $10$ and
+$\mathrm{AUG}$ has coordinate $11$. In the $\mathrm{U}+\mathrm{RR}$ tile,
+$\mathrm{UGA}$ has local coordinate $10$ and $\mathrm{UGG}$ has coordinate
+$11$. Assigning $\mathrm{AUA}$ with $\mathrm{AUG}$ or assigning
+$\mathrm{UGA}$ with $\mathrm{UGG}$ therefore has the same local displayed
+form: the $10$ leaf joins the class containing the $11$ corner.
+\end{proof}
+
+\begin{corollary}[AUA-to-Met and UGA-to-Trp share a tile form]
+\label{cor:philosophy-aua-met-uga-trp-same-tile-form}
+The reassignments $\mathrm{AUA}\to\mathrm{Met}$ and
+$\mathrm{UGA}\to\mathrm{Trp}$ are structurally the same local tile
+operation under the two-axis coordinates: $10$ joins the class containing
+$11$.
+\end{corollary}
+\begin{proof}
+This is \autoref{prop:philosophy-dual-ten-to-eleven-reassignment} applied
+to the two distinguished $11$-control tiles.
+\end{proof}
+
+\begin{proposition}[Stop-arm reassignment]
+\label{prop:philosophy-stop-arm-reassignment}
+In genetic-code tables where $\mathrm{UAA}$ and $\mathrm{UAG}$ are
+assigned to a sense class while $\mathrm{UGA}$ remains a termination row,
+the stop tile displays an arm reassignment:
+$$
+  \{00,01\}\quad\text{moves as one stop-graph arm}.
+$$
+\end{proposition}
+\begin{proof}
+In the stop graph, $\mathrm{UAA}$ has coordinate $00$,
+$\mathrm{UAG}$ has coordinate $01$, and $\mathrm{UGA}$ has coordinate
+$10$. The pair $\{00,01\}$ is one Hamming edge of the local L-shape. If
+$\mathrm{UAA}$ and $\mathrm{UAG}$ are assigned together to a sense class
+while $\mathrm{UGA}$ remains termination, the local deformation moves that
+edge as a unit.
+\end{proof}
+
+\begin{corollary}[Stop-tile deformation modes]
+\label{cor:philosophy-stop-tile-deformation-modes}
+Alternative-code changes of the stop tile can be recorded at least as
+leaf reassignment, arm reassignment, or context-sensitive partial boundary
+assignment.
+\end{corollary}
+\begin{proof}
+The leaf case is represented by
+\autoref{prop:philosophy-dual-ten-to-eleven-reassignment}. The arm case is
+\autoref{prop:philosophy-stop-arm-reassignment}. Context-sensitive or
+ambiguous stop rows are recorded by allowing the biological bridge table
+to attach a partial or context-indexed classifier to one of the local
+vertices.
+\end{proof}
+
+\begin{theorem}[Release-factor recognition is the stop graph]
+\label{thm:philosophy-release-factor-stop-graph}
+For the bacterial release-factor bridge,
+$$
+\begin{aligned}
+  \mathsf{RF1Arm}&=\{\mathrm{UAA},\mathrm{UAG}\}=\{00,01\},\\
+  \mathsf{RF2Arm}&=\{\mathrm{UAA},\mathrm{UGA}\}=\{00,10\}.
+\end{aligned}
+$$
+Thus RF1/RF2 recognition traces the two arms of the stop $X_{2}$ graph.
+\end{theorem}
+\begin{proof}
+Substitute the stop graph coordinates from
+\autoref{def:philosophy-stop-graph-and-rf-arms}. The two sets
+$\{00,01\}$ and $\{00,10\}$ are exactly the two Hamming-distance-one edges
+of the L-shape $01-00-10$.
+\end{proof}
+
+\begin{corollary}[UAA is the local stop center]
+\label{cor:philosophy-uaa-local-stop-center}
+The intersection of the two release-factor arms is
+$$
+  \mathsf{RF1Arm}\cap\mathsf{RF2Arm}=\{\mathrm{UAA}\}.
+$$
+\end{corollary}
+\begin{proof}
+Compute
+$$
+  \{\mathrm{UAA},\mathrm{UAG}\}
+  \cap
+  \{\mathrm{UAA},\mathrm{UGA}\}
+  =
+  \{\mathrm{UAA}\}.
+$$
+\end{proof}
+
+\begin{theorem}[Stop tile is a local halt boundary]
+\label{thm:philosophy-stop-tile-local-halt-boundary}
+Under the local translation-state model,
+$$
+  \mathrm{Stop}
+  =
+  \mathrm{U}+\mathrm{RR}+X_{2}
+  =
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}
+$$
+is a local halt boundary.
+\end{theorem}
+\begin{proof}
+The stop equality is \autoref{thm:philosophy-stop-trp-boundary-tile}. By
+\autoref{def:philosophy-boundary-tile-finite-state-skeleton}, any state
+whose current window lies in the stop class transitions to
+$S_{\mathsf{halt}}$.
+\end{proof}
+
+\begin{corollary}[UGG is a continuation corner]
+\label{cor:philosophy-ugg-continuation-corner}
+The codon $\mathrm{UGG}=\mathrm{U}+\mathrm{RR}+11$ is adjacent to the stop
+boundary in the stop face, but the standard-code bridge assigns it to
+$\mathrm{Trp}$ rather than to $\mathrm{Stop}$.
+\end{corollary}
+\begin{proof}
+By \autoref{cor:philosophy-ugg-stop-face-eleven-corner}, $\mathrm{UGG}$ is
+the $11$ corner of the stop face. By
+\autoref{thm:philosophy-stop-trp-boundary-tile}, the other three vertices
+are the stop class. The standard-code bridge assigns $\mathrm{UGG}$ to
+$\mathrm{Trp}$, so its transition is elongation rather than termination.
+\end{proof}
+
+\begin{definition}[Finite formalization target]
+\label{def:philosophy-local-tile-finite-formalization-target}
+The checked finite target is the exhaustive enumeration:
+$$
+\begin{gathered}
+  \mathsf{AxisQ2Faces}(\Sigma^{3},b)
+  \xrightarrow{\tau_{\mathsf{std}}}
+  \mathsf{ThreeOneFaces},\\
+  \mathsf{ThreeOneFaces}
+  =
+  \{\mathsf{PheLeuFace}_{\mathrm{U}},
+    \mathsf{PheLeuFace}_{\mathrm{C}},
+    \mathsf{StopTrpFace},
+    \mathsf{AUFace}\}.
+\end{gathered}
+$$
+The intended Lean proof is finite enumeration over the $240$ axis-aligned
+$Q_{2}$ faces, not a biological necessity theorem.
+\end{definition}
+
+\begin{theorem}[Local tile cannot-claim boundary]
+\label{thm:philosophy-boundary-tile-cannot-claim-boundary}
+The local-tile bridge does not license any claim that DNA must obey
+Zeckendorf, that the genetic code is the window-six fold, that the genetic
+code is globally $X_{6}$, that $\mathrm{Stop}=X_{6}$, that $11$ is
+biologically illegal or absent, that a local DNA or RNA $11$ corner is the
+BEDC channel terminator, that the standard genetic code is logically
+necessary, that $\mathrm{UAA}$, $\mathrm{UAG}$, and $\mathrm{UGA}$ are
+universal stop codons, that $\mathrm{UGG}$ is tryptophan by BEDC logic
+alone, that alternative-code reassignments are forced by pure
+mathematics, or that $\mathsf{LocalTileDynamics}^{\uparrow}$ is already a
+checked certificate.
+\end{theorem}
+\begin{proof}
+The global $X_{6}$ refusals follow from
+\autoref{thm:philosophy-boundary-tile-local-not-global}. The channel-token
+refusal follows from
+\autoref{thm:philosophy-zstop-no-channel-token-collapse}. The biological
+label refusals follow because the standard and alternative genetic-code
+tables are external bridge data. The checked-status refusal follows from
+\autoref{def:philosophy-boundary-tile-bridge-status}.
+\end{proof}
+
+\begin{corollary}[Allowed local-tile claim]
+\label{cor:philosophy-boundary-tile-allowed-claim}
+Under the two-axis readback and the standard-code table, codons form
+$Q_{6}$, and the axis-aligned $Q_{2}$ faces with $3+1$ translation-class
+splits are exactly the two $11$-control tiles $\mathrm{Ile}/\mathrm{Met}$
+and $\mathrm{Stop}/\mathrm{Trp}$ together with the two $00$-singleton
+$\mathrm{Phe}/\mathrm{Leu}$ tiles. This is a local finite-window
+classification inside $Q_{6}$, not a global identification of the genetic
+code with $X_{6}$ or with a BEDC channel code.
+\end{corollary}

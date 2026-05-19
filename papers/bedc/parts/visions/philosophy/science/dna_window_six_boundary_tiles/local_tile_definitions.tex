@@ -1,0 +1,220 @@
+\begin{definition}[Local tile dynamics bridge status]
+\label{def:philosophy-boundary-tile-bridge-status}
+The local-tile dynamics bridge
+$\mathsf{LocalTileDynamics}^{\uparrow}$ is a
+$\mathsf{VisionSeed}/\mathsf{BiologicalBridge}$ target and a
+finite-enumeration paper-certificate candidate. A future certificate must
+separate source, pattern, classifier, stability, and ledger fields. The
+source field records the finite RNA alphabet, the two-axis readback, the
+codon cube, and the standard genetic-code table. The pattern field records
+local $Q_{2}$ faces, $3+1$ translation-class splits, corner partitions, and
+alternative-code deformations. The classifier field records codon labels.
+The stability field records closure of the finite enumeration under the
+chosen readback. The ledger policy preserves the codon, six-bit display,
+local face, free coordinates, translation label, and table provenance.
+\end{definition}
+
+\begin{definition}[RNA alphabet and window-six readback]
+\label{def:philosophy-local-tile-rna-window-six-readback}
+Let
+$$
+  \Sigma:=\{\mathrm{U},\mathrm{C},\mathrm{A},\mathrm{G}\}.
+$$
+The coordinate map $b:\Sigma\to\{0,1\}^{2}$ is
+$$
+\begin{aligned}
+  b(\mathrm{U})&=00,&
+  b(\mathrm{C})&=01,\\
+  b(\mathrm{A})&=10,&
+  b(\mathrm{G})&=11.
+\end{aligned}
+$$
+For a codon $c=c_{1}c_{2}c_{3}\in\Sigma^{3}$, the six-bit readback is
+$$
+  \beta(c):=b(c_{1})\,b(c_{2})\,b(c_{3})\in\{0,1\}^{6}.
+$$
+Write $Q_{6}:=\{0,1\}^{6}$.
+\end{definition}
+
+\begin{definition}[Standard translation label map]
+\label{def:philosophy-standard-translation-label-map}
+The standard translation label map is the external biological table
+$$
+  \tau_{\mathsf{std}}:\Sigma^{3}\rightsquigarrow
+  \mathsf{AminoAcidClass}\oplus\mathsf{Stop}.
+$$
+The rows used by this subsection are
+$$
+\begin{array}{c|l}
+  \text{label} & \text{codons}\\
+\hline
+  \mathrm{Stop} & \mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\\
+  \mathrm{Trp}  & \mathrm{UGG}\\
+  \mathrm{Ile}  & \mathrm{AUU},\mathrm{AUC},\mathrm{AUA}\\
+  \mathrm{Met}  & \mathrm{AUG}\\
+  \mathrm{Phe}  & \mathrm{UUU},\mathrm{UUC}\\
+  \mathrm{Leu}  &
+    \mathrm{UUA},\mathrm{UUG},\mathrm{CUU},\mathrm{CUC},
+    \mathrm{CUA},\mathrm{CUG}.
+\end{array}
+$$
+The biological labels are bridge data, not BEDC primitives.
+\end{definition}
+
+\begin{definition}[Axis-aligned local $Q_{2}$ face]
+\label{def:philosophy-axis-aligned-local-q-two-face}
+An axis-aligned local $Q_{2}$ face of $Q_{6}$ is obtained by choosing two
+of the six bit positions to vary and fixing the other four. Such a face
+has four vertices and is displayed as
+$$
+  F\simeq Q_{2}:=\{00,01,10,11\}.
+$$
+\end{definition}
+
+\begin{definition}[Three-plus-one face]
+\label{def:philosophy-three-plus-one-face}
+An axis-aligned local $Q_{2}$ face $F$ is a $3+1$ face under a translation
+label map $\tau$ when the multiset of labels on its four codons has
+exactly two labels with multiplicities $3$ and $1$. The size-three label
+class is the three-point class, and the remaining codon is the singleton
+corner.
+\end{definition}
+
+\begin{definition}[Local two-bit tile and corner mechanisms]
+\label{def:philosophy-local-two-bit-tile}
+The local no-$11$ triangle is
+$$
+  X_{2}:=\{00,01,10\}
+$$
+inside
+$$
+  Q_{2}:=\{00,01,10,11\}.
+$$
+Thus
+$$
+  Q_{2}=X_{2}\sqcup\{11\}.
+$$
+An $11$-control tile is a $3+1$ face whose three-point class is $X_{2}$
+and whose singleton corner is $11$. A $00$-singleton tile is a $3+1$ face
+whose singleton corner is $00$ and whose three-point class is
+$Q_{2}\setminus\{00\}$.
+\end{definition}
+
+\begin{definition}[Distinguished local faces]
+\label{def:philosophy-local-codon-q-two-face}
+The two $11$-control faces are
+$$
+\begin{aligned}
+  \mathsf{AUFace}
+    &:=\{\mathrm{AUU},\mathrm{AUC},\mathrm{AUA},\mathrm{AUG}\},\\
+  \mathsf{StopTrpFace}
+    &:=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG}\}.
+\end{aligned}
+$$
+The two $00$-singleton faces are
+$$
+\begin{aligned}
+  \mathsf{PheLeuFace}_{\mathrm{U}}
+    &:=
+      \{\mathrm{UUU},\mathrm{UUA},\mathrm{CUU},\mathrm{CUA}\},\\
+  \mathsf{PheLeuFace}_{\mathrm{C}}
+    &:=
+      \{\mathrm{UUC},\mathrm{UUG},\mathrm{CUC},\mathrm{CUG}\}.
+\end{aligned}
+$$
+\end{definition}
+
+\begin{definition}[Reserved local corner]
+\label{def:philosophy-reserved-local-corner}
+For a local codon $Q_{2}$ face $F$, a reserved local corner is a singleton
+corner whose biological bridge row is separated from the three-point
+class. Reserved means singleton or control-sensitive under the translation
+classifier. It does not mean absent, deleted, or identified with the BEDC
+channel terminator.
+\end{definition}
+
+\begin{definition}[Stop graph and release-factor arms]
+\label{def:philosophy-stop-graph-and-rf-arms}
+On
+$$
+  X_{2}=\{00,01,10\}
+$$
+put the Hamming-distance-one graph
+$$
+  01\;-\;00\;-\;10.
+$$
+Under the stop-face readback this is
+$$
+  \mathrm{UAG}\;-\;\mathrm{UAA}\;-\;\mathrm{UGA}.
+$$
+The bacterial release-factor arms are external biological bridge rows:
+$$
+\begin{aligned}
+  \mathsf{RF1Arm}&:=\{\mathrm{UAA},\mathrm{UAG}\},\\
+  \mathsf{RF2Arm}&:=\{\mathrm{UAA},\mathrm{UGA}\}.
+\end{aligned}
+$$
+\end{definition}
+
+\begin{definition}[Local reassignment modes]
+\label{def:philosophy-local-reassignment-modes}
+A leaf reassignment on an $X_{2}\sqcup\{11\}$ tile moves one leaf of the
+$X_{2}$ part to another translation class. The central displayed case is
+$$
+  \{00,01,10\}/\{11\}
+  \rightsquigarrow
+  \{00,01\}/\{10,11\}.
+$$
+An arm reassignment on the stop graph moves an edge such as
+$\{00,01\}$ as one biological classifier row.
+\end{definition}
+
+\begin{definition}[Local translation state]
+\label{def:philosophy-boundary-tile-finite-state-skeleton}
+A local translation state has the schematic form
+$$
+  S_{t}:=(f_{t},w_{t},r_{t},\kappa_{t}),
+$$
+where $f_{t}$ is the frame, $w_{t}\in Q_{6}$ is the current window,
+$r_{t}$ records release or ribosome state, and $\kappa_{t}$ records
+cellular context. Under the standard-code bridge:
+$$
+\begin{gathered}
+  w_{t}\notin\mathrm{Stop}
+    \quad\Longrightarrow\quad S_{t}\to S_{t+1},\\
+  w_{t}\in\mathrm{Stop}
+    \quad\Longrightarrow\quad S_{t}\to S_{\mathsf{halt}}.
+\end{gathered}
+$$
+This is a modeling interface, not a closed autonomous biological dynamics.
+\end{definition}
+
+\begin{lemma}[Codon cube and window-six bijection]
+\label{lem:philosophy-codon-cube-window-six-bijection}
+The readback $\beta$ gives a finite bijection
+$$
+  \Sigma^{3}\cong Q_{6}.
+$$
+\end{lemma}
+\begin{proof}
+Each base in $\Sigma$ has a unique two-bit coordinate under $b$, so a
+three-base codon has a unique six-bit display. Conversely, every six-bit
+word splits uniquely into three two-bit blocks, and each block is one of
+$00$, $01$, $10$, and $11$, hence decodes uniquely to one of
+$\mathrm{U}$, $\mathrm{C}$, $\mathrm{A}$, and $\mathrm{G}$.
+\end{proof}
+
+\begin{lemma}[Local two-bit partition]
+\label{thm:philosophy-local-two-bit-partition}
+The two-bit square satisfies
+$$
+  Q_{2}=X_{2}\sqcup\{11\},
+  \qquad
+  X_{2}=\{00,01,10\}.
+$$
+\end{lemma}
+\begin{proof}
+The four two-bit words are exactly $00$, $01$, $10$, and $11$. Removing
+the word $11$ leaves exactly $00$, $01$, and $10$. The displayed union is
+disjoint and exhaustive.
+\end{proof}
