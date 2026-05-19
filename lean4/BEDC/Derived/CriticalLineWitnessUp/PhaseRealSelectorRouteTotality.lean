@@ -6,7 +6,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
-theorem CriticalLineWitnessCarrier_phase_real_selector_route_totality
+private theorem CriticalLineWitnessCarrier_phase_real_selector_route_totality
     {Z S M R Q H C P N selectorRead regSeqRead realRead : BHist} :
     CriticalLineWitnessCarrier Z S M R Q H C P N ->
       Cont (append Z S) Q selectorRead ->
