@@ -2,6 +2,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
@@ -10,6 +11,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -322,6 +324,68 @@ theorem RealityConstrainedTowerPacketNameCertBoundary
     · intro _row sourceData
       exact sourceData
   · rfl
+
+theorem RealityConstrainedTowerPacketClassifierLedgerExactness
+    {source schedule readback realSeal residue ledger descent transport replay provenance
+      localName ledgerRead fitRead : BHist} :
+    realityConstrainedTowerPacketFields
+        (RealityConstrainedTowerPacketUp.mk source schedule readback realSeal residue ledger
+          descent transport replay provenance localName) =
+        [source, schedule, readback, realSeal, residue, ledger, descent, transport, replay,
+          provenance, localName] ->
+      Cont ledger source ledgerRead ->
+        Cont ledgerRead residue fitRead ->
+          UnaryHistory ledger ->
+            UnaryHistory source ->
+              UnaryHistory residue ->
+                UnaryHistory ledger ∧ UnaryHistory ledgerRead ∧ UnaryHistory fitRead ∧
+                  Cont ledger source ledgerRead ∧ Cont ledgerRead residue fitRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro packetFields ledgerSourceRead readResidueFit ledgerUnary sourceUnary residueUnary
+  have packetRows :
+      realityConstrainedTowerPacketFields
+          (RealityConstrainedTowerPacketUp.mk source schedule readback realSeal residue ledger
+            descent transport replay provenance localName) =
+          [source, schedule, readback, realSeal, residue, ledger, descent, transport, replay,
+            provenance, localName] :=
+    packetFields
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed ledgerUnary sourceUnary ledgerSourceRead
+  have fitReadUnary : UnaryHistory fitRead :=
+    unary_cont_closed ledgerReadUnary residueUnary readResidueFit
+  exact
+    ⟨ledgerUnary, ledgerReadUnary, fitReadUnary, ledgerSourceRead, readResidueFit⟩
+
+theorem RealityConstrainedTowerPacketDescentPermissionStability
+    {source schedule readback realSeal residue ledger descent transport replay provenance
+      localName descentRead descentReplay : BHist} :
+    realityConstrainedTowerPacketFields
+        (RealityConstrainedTowerPacketUp.mk source schedule readback realSeal residue ledger
+          descent transport replay provenance localName) =
+        [source, schedule, readback, realSeal, residue, ledger, descent, transport, replay,
+          provenance, localName] ->
+      Cont descent transport descentRead ->
+        Cont descentRead replay descentReplay ->
+          UnaryHistory descent ->
+            UnaryHistory transport ->
+              UnaryHistory replay ->
+                UnaryHistory descentRead ∧ UnaryHistory descentReplay ∧
+                  Cont descent transport descentRead ∧ Cont descentRead replay descentReplay := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro packetFields descentTransportRead readReplay descentUnary transportUnary replayUnary
+  have packetRows :
+      realityConstrainedTowerPacketFields
+          (RealityConstrainedTowerPacketUp.mk source schedule readback realSeal residue ledger
+            descent transport replay provenance localName) =
+          [source, schedule, readback, realSeal, residue, ledger, descent, transport, replay,
+            provenance, localName] :=
+    packetFields
+  have descentReadUnary : UnaryHistory descentRead :=
+    unary_cont_closed descentUnary transportUnary descentTransportRead
+  have descentReplayUnary : UnaryHistory descentReplay :=
+    unary_cont_closed descentReadUnary replayUnary readReplay
+  exact
+    ⟨descentReadUnary, descentReplayUnary, descentTransportRead, readReplay⟩
 
 end BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
 
