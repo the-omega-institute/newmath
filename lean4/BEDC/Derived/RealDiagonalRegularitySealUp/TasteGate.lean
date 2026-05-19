@@ -234,6 +234,9 @@ instance realDiagonalRegularitySealChapterTasteGate :
     intro x y hxy heq
     exact hxy (realDiagonalRegularitySealToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate RealDiagonalRegularitySealUp :=
+  realDiagonalRegularitySealChapterTasteGate
+
 instance realDiagonalRegularitySealFieldFaithful :
     FieldFaithful RealDiagonalRegularitySealUp where
   -- BEDC touchpoint anchor: BHist BMark
