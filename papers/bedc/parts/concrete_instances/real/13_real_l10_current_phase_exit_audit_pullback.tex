@@ -611,6 +611,50 @@ bridge row, quotient stream, selected limit, countable-choice row,
 metric-completeness datum, or $\RealUp$ completeness claim is introduced.
 \end{proof}
 
+\begin{theorem}[Real L10 component bridge latency]
+\label{thm:real-l10-component-bridge-latency}
+An accepted Phase Real and Completion packet satisfies the current four-face
+exit threshold exactly when the $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$ local records each provide the required
+scoped-closure row and at least $\auditCleanV$ verification. The component
+bridge rows may separately stand at $paperBridge$ or $bridgeChecked$, as in
+the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$ closurestatus anchors, but none of those component bridge rows
+supplies an aggregate $\bridgeCheckedV$ route credential.
+
+Consequently a $paperBridge$ component row does not block the current Phase
+Real and Completion threshold once the local scoped-closure and audit-clean
+rows are present, and a $bridgeChecked$ component row does not promote the
+packet to a global bridge-checked Real L10 route.
+\end{theorem}
+\begin{proof}
+For the threshold equivalence, apply
+\autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. It identifies
+the accepted packet's current exit criterion with the four local records for
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, each read
+through its own scoped-closure and audit-clean verification rows.
+
+The local records are the displayed component anchors. Apply
+\autoref{thm:real-l10-local-face-record-readback}. The $\DyadicRatCoreUp$
+row is read at \autoref{thm:dyadicratcore-standard-source-bridge}, the
+$\StreamNameUp$ row at
+\autoref{thm:streamname-public-interface-export-package} and
+\autoref{thm:streamname-standard-sequence-bridge}, the $\RegSeqRatUp$ row at
+\autoref{thm:regseqrat-real-seal-handoff}, and the $\RealUp$ row at
+\autoref{thm:realup-phase-real-completion-boundary}.
+
+It remains to separate component bridge latency from the phase threshold.
+Apply \autoref{thm:real-l10-face-status-noncollapse}. The component
+formalstatus and bridgestatus rows stay face-local, so a $paperBridge$ row is
+not a missing audit-clean row and a $bridgeChecked$ row is not an aggregate
+$\bridgeCheckedV$ route credential.
+
+Finally apply \autoref{thm:real-l10-face-leantarget-noncollapse}. The
+Lean-target and bridge-status rows remain attached to their source faces, so
+the packet gains no global bridge route beyond the objectwise threshold
+already supplied by the four local scoped-closure and audit-clean rows.
+\end{proof}
+
 \begin{theorem}[Real L10 threshold open-phase nonescape]
 \label{thm:real-l10-threshold-open-phase-nonescape}
 If a current Phase Real and Completion packet satisfies the objectwise
