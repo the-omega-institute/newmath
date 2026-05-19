@@ -143,3 +143,19 @@ Now use \autoref{thm:dyadicratcore-phase-real-completion-objectwise-exit-equival
 
 Finally apply \autoref{thm:dyadicratcore-l10-exit-ledger-facewise-noncollapse} and \autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. The dyadic rows remain the distinct $\DyadicRatCoreUp$ face, and the Phase Real and Completion threshold is consumed objectwise on the four local records. Thus no quotient rational equality, quotient stream equality, selected limit, countable-choice row, metric-completeness datum, aggregate formalstatus row, aggregate bridge row, or ambient $\RealUp$ completeness row appears in the restriction.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore L10 exit ledger common restriction compatibility]
+\label{thm:dyadicratcore-l10-exit-ledger-common-restriction-compatibility}
+Let $P$ and $Q$ be accepted Phase Real and Completion four-face packets, and let $P'$ and $Q'$ be sub-exit packets obtained from them by deleting only downstream consumer rows. Suppose $P'$ and $Q'$ preserve the same displayed $\DyadicRatCoreUp$ signed mantissa, exponent, denominator, comparison, distance, and radius rows; the same $\StreamNameUp$ finite-window rows; the same $\RegSeqRatUp$ classifier and readback rows; the same local $\RealUp$ seal rows; and the same shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Then the DyadicRatCore ledger read from $P'$ is the same BEDC-visible ledger read from $Q'$, and the two sub-exit packets determine the same restricted four-face exit packet. This compatibility has no coordinate for quotient rational equality, quotient stream equality, selected limits, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadicratcore-l10-exit-ledger-restriction-functoriality} to the pair $P,P'$ and again to the pair $Q,Q'$. The hypotheses say that both restrictions preserve the same dyadic rows, StreamName finite-window rows, RegSeqRat classifier-readback rows, Real seal rows, and displayed support rows, so the ledger read from each restricted packet is the corresponding restricted ledger of its accepted source packet.
+
+Next apply \autoref{thm:dyadicratcore-l10-exit-ledger-source-determinacy} to the two accepted source reads on the common displayed rows. The common $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support forces the BEDC-visible dyadic source ledger read from $P$ and the one read from $Q$ to agree on that support. Hence their restricted ledgers agree, and the ledger read from $P'$ is the same ledger read from $Q'$.
+
+It remains to identify the restricted exit packet. Use \autoref{thm:dyadicratcore-phase-real-completion-objectwise-exit-equivalence} to read each restricted packet through the same simultaneous four-face inventory. Then apply \autoref{thm:streamname-real-completion-four-object-terminal-pullback}; the shared DyadicRatCore, StreamName, RegSeqRat, Real, and support rows factor through one terminal finite Real-completion boundary. Thus $P'$ and $Q'$ determine the same restricted four-face exit packet.
+
+The exclusion clause is inherited from the restriction functoriality theorem, source determinacy, objectwise exit equivalence, and terminal pullback. None of those cited surfaces exposes a row for quotient rational equality, quotient stream equality, selected limits, countable choice, metric-completeness data, aggregate formalstatus, aggregate bridge data, or ambient $\RealUp$ completeness.
+\end{proof}
