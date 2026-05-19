@@ -90,3 +90,23 @@ Apply terminality, \autoref{thm:streamname-real-completion-gateway-terminality}.
 
 Finally use the reindex stability theorem, \autoref{thm:streamname-l10-four-face-exit-gate-reindex-stability}. It preserves the same displayed faces and support rows under support-row-preserving public reindexing, so the order-sensitive gate is stable under finite-window transport while retaining the exclusions of quotient streams, host sequence equality, selected limits, choice, metric completeness, bridges, and ambient Real completeness.
 \end{proof}
+
+\begin{theorem}[StreamName L10 ordered exit composition determinacy]
+\label{thm:streamname-l10-ordered-exit-composition-determinacy}
+Let $U$ and $V$ be accepted Phase Real and Completion seal-facing reads whose public surfaces both satisfy the ordered route
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp .
+$$
+Assume that the two-step read $U \to V$ and a certified composite route both preserve the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows. Then the two-step read and the certified composite expose the same terminal $\RealUp$ seal surface exactly when they agree on the $\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal row. This determinacy exports no quotient stream, selected limit, choice datum, metric-completeness row, bridge row, or ambient Real-completeness row.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the four-face exit gate \autoref{thm:streamname-l10-four-face-exit-gate}. It identifies each accepted public surface with the same four visible faces and with only the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows.
+
+Next use reindex stability, \autoref{thm:streamname-l10-four-face-exit-gate-reindex-stability}. The two-step read and the certified composite preserve the support rows by hypothesis, so transporting along either route keeps the same finite StreamName window, DyadicRatCore tolerance ledger, RegSeqRat readback row, and RealUp seal row.
+
+Now apply the ordered exit gate, \autoref{thm:streamname-l10-four-face-ordered-exit-gate}. Since both routes read the faces in the order $\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp$, the terminal Real seal is reached only after the same anchored ledger and readback rows. Agreement on those four rows therefore forces the two terminal seal exposures to coincide.
+
+For the reverse direction, suppose the two-step read and the certified composite expose the same terminal $\RealUp$ seal surface through the ordered route and preserved support rows. Terminality in the four-face gate leaves no fifth coordinate from which they could differ, so any disagreement must already appear on the StreamName window, DyadicRatCore ledger, RegSeqRat readback, or RealUp seal row. Hence equality of the terminal exposure is equivalent to componentwise agreement on those four rows.
+
+The exclusion clauses are inherited from the three gate theorems just used. Quotient streams, selected limits, choice data, metric-completeness rows, bridge rows, and ambient Real-completeness rows are not coordinates of either accepted ordered route, so they cannot witness a distinct composite exit surface.
+\end{proof}
