@@ -471,4 +471,44 @@ theorem ZetaContinuationApplicationCarrier_root_source_readiness [AskSetup] [Pac
       provenancePkg,
       operationPkg⟩
 
+theorem ZetaContinuationApplicationCarrier_componentwise_stability [AskSetup] [PackageSetup]
+    {eta functional pole zeroLedger gamma application transport replay provenance name etaRead
+      gammaRead operationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationApplicationCarrier eta functional pole zeroLedger gamma application transport
+        replay provenance name bundle pkg →
+      hsame etaRead eta →
+        Cont gamma application gammaRead →
+          Cont application replay operationRead →
+            PkgSig bundle operationRead pkg →
+              UnaryHistory etaRead ∧ UnaryHistory eta ∧ UnaryHistory gamma ∧
+                UnaryHistory application ∧ UnaryHistory gammaRead ∧
+                  UnaryHistory operationRead ∧ Cont eta functional application ∧
+                    Cont gamma application gammaRead ∧ Cont application replay operationRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle operationRead pkg := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier sameEtaRead gammaApplicationRead applicationReplayOperation operationPkg
+  obtain ⟨etaUnary, _functionalUnary, _poleUnary, _zeroLedgerUnary, gammaUnary,
+    applicationUnary, _transportUnary, replayUnary, _provenanceUnary, _nameUnary,
+    _transportReplayProvenance, etaFunctionalApplication, _gammaApplicationReplay,
+    provenancePkg, _namePkg⟩ := carrier
+  have etaReadUnary : UnaryHistory etaRead :=
+    unary_transport etaUnary (hsame_symm sameEtaRead)
+  have gammaReadUnary : UnaryHistory gammaRead :=
+    unary_cont_closed gammaUnary applicationUnary gammaApplicationRead
+  have operationReadUnary : UnaryHistory operationRead :=
+    unary_cont_closed applicationUnary replayUnary applicationReplayOperation
+  exact
+    ⟨etaReadUnary,
+      etaUnary,
+      gammaUnary,
+      applicationUnary,
+      gammaReadUnary,
+      operationReadUnary,
+      etaFunctionalApplication,
+      gammaApplicationRead,
+      applicationReplayOperation,
+      provenancePkg,
+      operationPkg⟩
+
 end BEDC.Derived.ZetaContinuationApplicationUp
