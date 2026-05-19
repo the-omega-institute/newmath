@@ -154,6 +154,30 @@ Finally apply \autoref{thm:regseqrat-four-face-exit-threshold-equivalence}. Sinc
 The boundary exclusions follow from the same objectwise path. The factorization theorem, the exit-threshold equivalence, the StreamName readback, the DyadicRatCore interface, and the Real audit pullback mention only the four local records and the displayed finite BEDC support rows. Therefore quotient streams, selected limits, host real equality, countable choice, metric-completeness rows, aggregate $\formalstatus$ rows, aggregate bridge rows, and ambient $\RealUp$ completeness are not available to witness either direction.
 \end{proof}
 
+\begin{theorem}[RegSeqRat audit-threshold face-status minimality]
+\label{thm:regseqrat-audit-threshold-face-status-minimality}
+Let $\mathcal R$ be a finite $\RegSeqRatUp$ terminal source record satisfying the current Phase $\RealUp$ and Completion audit-threshold read. The BEDC-visible status interface of this read is exactly the four local records
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+where each record contributes only its own $\mathsf{closurestatus}$, $\mathsf{formalstatus}$, $\mathsf{leantarget}$, and $\mathsf{bridgestatus}$ rows.
+
+No proper subfamily of these four local status records witnesses the audit threshold on $\mathcal R$. No aggregate $\formalstatus$ row, aggregate bridge row, selected limit, quotient stream, countable-choice row, metric-completeness datum, or ambient $\RealUp$ completeness row witnesses it either.
+
+Conversely, if the same finite source $\mathcal R$ carries the four displayed local status records and the RegSeqRat four-face exit-threshold equivalence of \autoref{thm:regseqrat-four-face-exit-threshold-equivalence}, then $\mathcal R$ satisfies the current Phase $\RealUp$ and Completion audit-threshold read.
+\end{theorem}
+\begin{proof}
+For necessity, apply \autoref{thm:regseqrat-four-face-audit-threshold-factorization} to the accepted audit-threshold read on $\mathcal R$. The read factors through the RegSeqRat four-face exit-threshold equivalence together with the local status records of $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+The records are read objectwise. By \autoref{thm:regseqrat-audit-threshold-objectwise-face-necessity}, the four faces are the StreamName finite-window rows, the DyadicRatCore endpoint, radius, distance, and regularity rows, the RegSeqRat classifier and common-tail rows, and the local Real seal rows on the same terminal source. The facewise status pullback \autoref{thm:regseqrat-tail-budget-facewise-status-pullback} and the common-tail status pullback \autoref{thm:regseqrat-common-tail-face-status-objectwise-pullback} then keep each $\mathsf{closurestatus}$, $\mathsf{formalstatus}$, $\mathsf{leantarget}$, and $\mathsf{bridgestatus}$ row attached to its own face chapter.
+
+It remains to prove minimality. Apply \autoref{thm:regseqrat-audit-threshold-missing-face-obstruction}. If any one of the four local face records is absent, the audit-threshold read has no RegSeqRat-local source. Since every proper subfamily omits at least one displayed face, no proper subfamily can witness the read.
+
+The same obstruction excludes replacements. The factorization theorem has no coordinate for an aggregate verification row or aggregate bridge row, and the objectwise face pullbacks expose no selected limit, quotient stream, countable-choice row, metric-completeness datum, or ambient $\RealUp$ completeness row. Those data therefore cannot replace a missing local status record.
+
+For sufficiency, assume the four local status records and the RegSeqRat four-face exit-threshold equivalence on the same finite source $\mathcal R$. Apply \autoref{thm:regseqrat-four-face-audit-threshold-factorization} in the reverse direction. The supplied local status rows give exactly the status side of the factorization, and the supplied exit-threshold equivalence gives the threshold side. Hence $\mathcal R$ satisfies the current Phase $\RealUp$ and Completion audit-threshold read.
+\end{proof}
+
 \begin{theorem}[RegSeqRat audit-threshold determinacy]
 \label{thm:regseqrat-audit-threshold-determinacy}
 Let $\mathcal R_0$ and $\mathcal R_1$ be finite $\RegSeqRatUp$ terminal source records. Suppose both records expose the same four visible face rows
