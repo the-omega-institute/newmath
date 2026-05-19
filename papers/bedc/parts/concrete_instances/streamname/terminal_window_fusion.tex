@@ -165,6 +165,62 @@ in the route, so the four displayed faces and the five support rows exhaust the
 accepted current source.
 \end{proof}
 
+\begin{theorem}[StreamName terminal-window fusion reindexing compatibility]
+\label{thm:streamname-terminal-window-fusion-reindexing-compatibility}
+Let $\mathcal W_0$ and $\mathcal W_1$ be accepted Phase Real and Completion
+terminal-window packets. Suppose they differ only by a certified public
+$\StreamNameUp$ finite-window reindex route, and suppose that route transports
+componentwise the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$
+readback rows, the $\RealUp$ seal row, the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ support rows, and the public endpoint rows.
+Then $\mathcal W_0$ and $\mathcal W_1$ determine the same fused
+terminal-window packet and the same public four-face route through
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+
+Conversely, any fused terminal-window packet transported by the certified
+identity reindexer or by a composable certified reindexer reads back to the
+same public finite observation section. The compatibility claim introduces no
+quotient stream equality, host sequence equality, selected limit,
+countable-choice row, ambient $\RealUp$ completeness, metric-completeness
+datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First identify the finite public section. Apply
+\autoref{thm:streamname-window-reindex-determinacy} to the two displayed
+$\StreamNameUp$ finite-window packets. The certified reindex route supplies the
+$\hsame$-compatible map, the common endpoint rows, and the componentwise
+transport of the displayed $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so
+both packets expose one public finite observation section.
+
+Next carry that section to the terminal L10 route. Use
+\autoref{thm:streamname-reindex-terminal-coverage}. The transported finite
+section presents the same $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance
+ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal as the terminal Phase Real
+and Completion route.
+
+Now repack the transported rows as a fused terminal packet. Apply
+\autoref{thm:streamname-real-completion-terminal-window-fusion} to read the
+common four-face route as one fused terminal-window packet, and apply
+\autoref{thm:streamname-terminal-window-fusion-source-exhaustion} to see that
+no source coordinate remains beyond the four faces and the displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ support rows.
+
+For the converse, read an identity-reindexed or composably reindexed fused
+packet through the same terminal coverage theorem. Identity and composable
+certified reindexers return the same finite observation section before fusion,
+and the fusion and source-exhaustion theorems repack exactly that section as
+the same public terminal route.
+
+The exclusions follow because every step is confined to the displayed
+finite-window route, the transported tolerance ledger, the readback rows, the
+seal row, and the named support rows. None of the cited results exports
+quotient stream equality, host sequence equality, selected limits,
+countable-choice data, ambient completeness, metric-completeness data, or a
+standard bridge row.
+\end{proof}
+
 \begin{theorem}[StreamName terminal fusion finite-cover cocycle exactness]
 \label{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness}
 Let $\{\mathcal W_i\}_{i\in I}$ be a finite family of certified $\StreamNameUp$ windows. Suppose the pairwise windows $\mathcal W_{ij}$ and triple windows $\mathcal W_{ijk}$ carry the pasted-source hypotheses for finite StreamName--$\RegSeqRatUp$ covers, each local terminal fused packet transports through a $\RegSeqRatUp$ common-tail packet, and every local handoff row consumes the same $\DyadicRatCoreUp$ endpoint, radius, and distance ledger together with the same $\RealUp$ seal-source row.
