@@ -72,4 +72,31 @@ theorem MonotoneCauchyCarrier_public_tail_window_certificate [AskSetup] [Package
       exact ⟨unary_transport publicReadUnary (hsame_symm source.right), publicPkg⟩
   }
 
+theorem MonotoneCauchyCarrier_interval_real_seal_route_certificate [AskSetup] [PackageSetup]
+    {regular schedule modulus ledger interval realSeal transportRow route provenance nameRow
+      sealRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MonotoneCauchyCarrier regular schedule modulus ledger interval realSeal transportRow route
+        provenance nameRow bundle pkg →
+      Cont interval realSeal sealRead →
+        Cont sealRead nameRow publicRead →
+          PkgSig bundle publicRead pkg →
+            UnaryHistory interval ∧ UnaryHistory realSeal ∧ UnaryHistory sealRead ∧
+              UnaryHistory publicRead ∧ Cont interval realSeal sealRead ∧
+                Cont sealRead nameRow publicRead ∧ Cont transportRow route provenance ∧
+                  PkgSig bundle nameRow pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier intervalRealSealRead sealNamePublic publicPkg
+  obtain ⟨_regularUnary, _scheduleUnary, _modulusUnary, _ledgerUnary, intervalUnary,
+    realSealUnary, _transportRowUnary, _routeUnary, _provenanceUnary, nameRowUnary,
+    _regularScheduleModulus, _modulusLedgerInterval, _intervalRealSealNameRow,
+    transportRouteProvenance, nameRowPkg⟩ := carrier
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed intervalUnary realSealUnary intervalRealSealRead
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed sealReadUnary nameRowUnary sealNamePublic
+  exact
+    ⟨intervalUnary, realSealUnary, sealReadUnary, publicReadUnary, intervalRealSealRead,
+      sealNamePublic, transportRouteProvenance, nameRowPkg, publicPkg⟩
+
 end BEDC.Derived.MonotoneCauchyUp
