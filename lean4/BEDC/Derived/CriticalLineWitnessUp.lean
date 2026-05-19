@@ -146,6 +146,22 @@ theorem CriticalLineWitnessRhNonescapePackage {Z S M R Q H C P N refusalRead rhR
     ⟨cert, unaryZ, unaryS, unaryM, unaryR, unaryQ, unaryC, unaryN, refusalUnary, rhUnary,
       sameH, routeQ, routeC, routeN, refusalRoute, rhRoute⟩
 
+theorem CriticalLineWitnessCarrier_zero_strip_carrier_totality {Z S M R Q H C P N : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory Q ∧
+        UnaryHistory C ∧ UnaryHistory N ∧ hsame H (append Z S) ∧ Cont M R Q ∧
+          Cont Q H C ∧ Cont C P N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro packet
+  have routeClosure :
+      UnaryHistory Q ∧ UnaryHistory C ∧ UnaryHistory N ∧ hsame H (append Z S) :=
+    CriticalLineWitnessCarrier_modulus_route_closure packet
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, _sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  exact
+    ⟨unaryZ, unaryS, unaryM, unaryR, routeClosure.left, routeClosure.right.left,
+      routeClosure.right.right.left, routeClosure.right.right.right, routeQ, routeC, routeN⟩
+
 theorem CriticalLineWitnessCarrier_zero_strip_modulus_package_exhaustion
     {Z S M R Q H C P N zetaRead modulusRead downstream : BHist} :
     CriticalLineWitnessCarrier Z S M R Q H C P N ->
