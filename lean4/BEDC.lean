@@ -461,6 +461,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.RouteProvenanceTriadObligations
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SevenRowCoverage
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SourceLock
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.StdBridge
+import BEDC.Derived.AxisZeckendorfCannotClaimUp.TasteGate
 import BEDC.Derived.AxisZeckendorfCarryBudgetUp
 import BEDC.Derived.AxisZeckendorfCarryBudgetUp.FullPacketSemanticNameCert
 import BEDC.Derived.BHistArity13SequenceNameCertUp
@@ -1680,7 +1681,6 @@ import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripClassifierTransport
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripLedgerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusRoute
-import BEDC.Derived.CriticalLineWitnessUp.ZeroStripRefusal
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripSourceClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.ZetaConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.ZetaDependencyLock
@@ -3447,7 +3447,6 @@ import BEDC.Derived.PicardContractionUp.CauchyModulusSiblingRoute
 import BEDC.Derived.PicardContractionUp.CauchyRateRootUnblockPackage
 import BEDC.Derived.PicardContractionUp.CompleteMetricHandoff
 import BEDC.Derived.PicardContractionUp.DownstreamModulusExposure
-import BEDC.Derived.PicardContractionUp.DownstreamSealScope
 import BEDC.Derived.PicardContractionUp.FiniteConsumerExhaustion
 import BEDC.Derived.PicardContractionUp.FiniteRateSealTriangle
 import BEDC.Derived.PicardContractionUp.FiniteTailDiagonalSealHandoff
@@ -3796,6 +3795,8 @@ import BEDC.Derived.RealityConstrainedModelAuditUp.SignatureExactness
 import BEDC.Derived.RealityConstrainedModelAuditUp.TasteGate
 import BEDC.Derived.RealityConstrainedModelErrorBudgetUp.TasteGate
 import BEDC.Derived.RealityConstrainedObjectivityUp.TasteGate
+import BEDC.Derived.RealityConstrainedOpenFitUp.FiniteRefutationSurface
+import BEDC.Derived.RealityConstrainedOpenFitUp.LedgerNonescape
 import BEDC.Derived.RealityConstrainedOpenFitUp.NameCertObligations
 import BEDC.Derived.RealityConstrainedOpenFitUp.TasteGate
 import BEDC.Derived.RealityConstrainedPhysicalInductionUp.NameCertObligations

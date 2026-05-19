@@ -111,9 +111,39 @@ META_PROMPT_RULE_EVOLUTION = """You are evolving the P/R automation pipeline RUL
 violations. You will receive a cluster of findings (multiple chapters / Lean
 targets exhibiting the same pattern). Your job:
 
-1. Identify the ROOT CAUSE — which P/R prompt instruction is missing, OR
+1. NEGATIVE-CRITERIA FRAMING — MANDATORY:
+
+   Your rule evolution must propose a NEGATIVE rule, not a positive one.
+
+   - NEGATIVE rule: "If X is clearly present, reject" or "If Y is verifiably missing, reject".
+     Examples of negative form: "chapter slug matches classical-math name AND
+     \\notclaimed excludes that name's canonical theorem AND status is matureClosure → reject";
+     "\\falsifiablePrediction body matches row-deletion template AND has no
+     external/computable/empirical metric → reject"; "carrier fingerprint
+     identical to ≥3 existing chapters yet origin=ai → reject".
+
+   - POSITIVE rule (FORBIDDEN): "the chapter must achieve mathematical depth X"
+     or "the proof must use simp at least once" or "the falsifiable prediction
+     must be 'meaningful'". These require defining quality, which the
+     pipeline cannot do mechanically; they will either over-fire or
+     under-fire on real data.
+
+   A good negative rule has:
+   - A precisely matchable pattern (regex, structural fingerprint, count threshold)
+   - A demonstrable example of present-bad-case from the cluster findings
+   - No reliance on subjective quality assessment
+
+   When designing the rule, ask: "Can I write a 5-line Python function that
+   returns True iff the pattern is present?" If yes, it qualifies. If no,
+   the rule is too subjective; refine or escalate to operator review.
+
+   If the cluster findings cannot yield a negative rule (e.g. they reflect
+   deep mathematical-judgment patterns), write a TASTE ALERT to alerts log
+   explaining why this cluster requires human review, and DO NOT ship a
+   rule.
+2. Identify the ROOT CAUSE — which P/R prompt instruction is missing, OR
    which audit check would have caught this pattern at merge time.
-2. Modify ONE OR MORE of these files (ONLY these — file whitelist enforced):
+3. Modify ONE OR MORE of these files (ONLY these — file whitelist enforced):
    - papers/bedc/scripts/prompts/phase_b.txt
    - papers/bedc/scripts/prompts/phase_c.txt
    - papers/bedc/scripts/prompts/phase_review.txt
@@ -127,7 +157,7 @@ targets exhibiting the same pattern). Your job:
    - papers/bedc/scripts/phase_paper_gates.py
    - lean4/scripts/phase_d_lint.py
    - docs/dossier/taste-evolutions.qmd
-2.5. NEW vs LEGACY classification — MANDATORY for any new audit detector you add:
+4. NEW vs LEGACY classification — MANDATORY for any new audit detector you add:
    When you add a detect_*() function in bedc_ci.py, you MUST:
    - Use the existing `_get_commit_changed_files()` + `_classify_violation()` helpers.
    - In the audit aggregation, split your detector's violations into new vs legacy.
@@ -140,14 +170,14 @@ targets exhibiting the same pattern). Your job:
    The principle: a new audit gate only blocks the commit that introduces a
    violation it touches; pre-existing data shows as warning to be consumed
    organically by future rounds that naturally touch those files.
-3. DO NOT touch papers/bedc/parts/concrete_instances/**/*.tex
+5. DO NOT touch papers/bedc/parts/concrete_instances/**/*.tex
    DO NOT touch lean4/BEDC/**
    DO NOT touch codex_revise.py / codex_formalize.py / other daemon scripts
    DO NOT create any other docs/ file or directory.
-4. Bump the prompt version marker in any prompt file you edit (e.g. v5.X → v5.X+1).
-5. Add terse imperative rule text. No rationale paragraphs, no incident
+6. Bump the prompt version marker in any prompt file you edit (e.g. v5.X → v5.X+1).
+7. Add terse imperative rule text. No rationale paragraphs, no incident
    history, no version-numbered names.
-6. Verify locally before commit:
+8. Verify locally before commit:
    - python3 -m py_compile lean4/scripts/bedc_ci.py
    - python3 lean4/scripts/bedc_ci.py audit
    - If touched docs/dossier/*.qmd or papers/*: cd papers/bedc && make check
@@ -155,7 +185,7 @@ targets exhibiting the same pattern). Your job:
    - If touched lean4/*: python3 lean4/scripts/bedc_ci.py axiom-purity --strict
    - For any phase_paper_gates.py change: smoke test it parses
    - For any phase_d_lint.py change: smoke test it parses
-7. APPEND a new section to docs/dossier/taste-evolutions.qmd (append, do not overwrite).
+9. APPEND a new section to docs/dossier/taste-evolutions.qmd (append, do not overwrite).
    This file is Quarto .qmd, NOT plain .md. Keep the YAML frontmatter intact
    at the top of the file; append new sections after the existing sections
    using the same `---` separator pattern.
@@ -178,6 +208,10 @@ targets exhibiting the same pattern). Your job:
    片段引用; 现有违规如何被消化 (依赖 P/R orchestrator 自然 touch
    + post-merge audit recovery, 不直接编辑).
 
+   ### 影响范围估计
+   - 5b. 这是 negative criteria（拒绝明显违规）还是 positive criteria（要求未定义的深度）？
+     仅 negative criteria 应被自动 ship。positive criteria 应进 review queue 等人工。
+
    ### 元数据
    - finding 数量: <N>
    - cluster flag: <flag>
@@ -189,9 +223,9 @@ targets exhibiting the same pattern). Your job:
    全文中文 (CLAUDE.md 工作语言纪律). 简短直接, 2-5 段, 不写迭代叙事 /
    版本号 / "新增"/"修复"/"v2.0" 这类词 (CLAUDE.md 禁止).
    新 section 追加到文件末尾; 用 `---` 分隔多个 section.
-8. Commit with message format:
+10. Commit with message format:
    "taste-evolve: <flag> pattern - <one-line summary>"
-9. Do NOT push (orchestrator [the daemon] will push after success).
+11. Do NOT push (orchestrator [the daemon] will push after success).
 
 Cluster evidence will be provided after this prompt.
 """
