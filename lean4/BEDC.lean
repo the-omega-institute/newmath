@@ -1213,6 +1213,7 @@ import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.CompactModulusCoverUp
 import BEDC.Derived.CompactModulusCoverUp.TasteGate
 import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
+import BEDC.Derived.CompactNetModulusSelectorUp.KernelCarrier
 import BEDC.Derived.CompactNetModulusSelectorUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityUp
 import BEDC.Derived.CompactUniformContinuityUp.BridgeModulusAssembly
@@ -4471,7 +4472,6 @@ import BEDC.Derived.ZnormalUp.TerminalRouteObligationCompletion
 import BEDC.Derived.ZnormalUp.TerminalRowConstructorExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostConsumerScope
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
-import BEDC.Derived.ZnormalUp.TotalHostFieldReadiness
 import BEDC.Derived.ZnormalUp.TotalHostFrontierLock
 import BEDC.Derived.ZnormalUp.TotalHostFuelReplayBoundary
 import BEDC.Derived.ZnormalUp.TotalHostLedgerExhaustion
