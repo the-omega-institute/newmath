@@ -123,4 +123,50 @@ theorem PicardContractionPacket_public_namecert_package [AskSetup] [PackageSetup
       iteratesEndpointOdeRead, endpointTransportNewtonRead, endpointTransportSealRead,
       namePkg, stepPkg, odeReadPkg, newtonReadPkg, sealReadPkg⟩
 
+theorem PicardContractionPacket_public_carrier_surface [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      realSeal consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+        routes provenance name bundle pkg ->
+      Cont endpoint transport realSeal ->
+        Cont realSeal name consumer ->
+          PkgSig bundle consumer pkg ->
+            UnaryHistory banach ∧ UnaryHistory contraction ∧ UnaryHistory lipschitz ∧
+              UnaryHistory iterates ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧
+                UnaryHistory transport ∧ UnaryHistory routes ∧ UnaryHistory provenance ∧
+                  UnaryHistory name ∧ UnaryHistory realSeal ∧ UnaryHistory consumer ∧
+                    Cont banach contraction lipschitz ∧ Cont iterates modulus endpoint ∧
+                      Cont endpoint transport realSeal ∧ Cont realSeal name consumer ∧
+                        PkgSig bundle name pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet endpointTransportRealSeal realSealNameConsumer consumerPkg
+  obtain ⟨banachUnary, contractionUnary, lipschitzUnary, iteratesUnary, modulusUnary,
+    endpointUnary, transportUnary, routesUnary, provenanceUnary, nameUnary,
+    banachContractionLipschitz, iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := packet
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed endpointUnary transportUnary endpointTransportRealSeal
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed realSealUnary nameUnary realSealNameConsumer
+  exact
+    ⟨banachUnary,
+      contractionUnary,
+      lipschitzUnary,
+      iteratesUnary,
+      modulusUnary,
+      endpointUnary,
+      transportUnary,
+      routesUnary,
+      provenanceUnary,
+      nameUnary,
+      realSealUnary,
+      consumerUnary,
+      banachContractionLipschitz,
+      iteratesModulusEndpoint,
+      endpointTransportRealSeal,
+      realSealNameConsumer,
+      namePkg,
+      consumerPkg⟩
+
 end BEDC.Derived.PicardContractionUp
