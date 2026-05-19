@@ -170,6 +170,30 @@ $$
 Finally use \autoref{thm:real-approximation-envelope-transport-nonescape} and \autoref{thm:real-approximation-envelope-consumer-boundary}. These exclude selected limits, quotient stream equality, host real equality, completed-real inverse laws, ambient completeness, and unrecorded consumer coordinates, leaving only the displayed route together with $H,C,P,N$ as the finite packet boundary.
 \end{proof}
 
+\begin{theorem}[Real approximation-envelope window-classifier exactness]
+\label{thm:real-approximation-envelope-window-classifier-exactness}
+Let
+$$
+E=(\varepsilon,W,D,R,S,H,C,P,N)
+$$
+be an accepted $\RealApproximationEnvelopeUp$ carrier. The finite window row $W$ is the unique public route by which the dyadic observation row $D$, the $\RegSeqRatUp$ classifier row $R$, and the $\RealUp$ seal row $S$ are exported. Every accepted classifier or seal read factors through the displayed chain
+$$
+\varepsilon \longrightarrow W \longrightarrow D \longrightarrow R \longrightarrow S
+$$
+together with the support rows $H,C,P,N$, and no selected limit, quotient stream equality, host real equality, completed-real inverse law, or ambient completeness premise can replace that route.
+\end{theorem}
+\begin{proof}
+The carrier definition \autoref{def:real-approximation-envelope-carrier} displays exactly the rows $\varepsilon,W,D,R,S,H,C,P,N$. Thus any public read of a dyadic observation, classifier row, or seal row must be a read of one of the named coordinates of the same finite $\BHist$ packet.
+
+Apply \autoref{thm:real-approximation-envelope-window-readback-totality} to the first step. It makes $W$ the total finite-window readback for the tolerance request $\varepsilon$ and excludes unrecorded stream coordinates from that read.
+
+Next apply \autoref{thm:real-approximation-envelope-dyadic-classifier-handoff} and \autoref{thm:real-approximation-envelope-classifier-handoff}. These identify the dyadic observation row $D$ and the classifier row $R$ as the displayed continuation of the same selected window, with only $H,C,P,N$ available as support.
+
+Apply \autoref{thm:real-approximation-envelope-seal-routing} for the real-facing end of the route. The seal row $S$ is reached only after the classifier row $R$, so a seal read cannot bypass the window, dyadic observation, or classifier handoff.
+
+Finally use \autoref{thm:real-approximation-envelope-consumer-boundary}. It rules out selected limits, quotient stream equality, host real equality, completed-real inverse laws, and ambient completeness as replacement routes, leaving the displayed finite chain as the exact public export path.
+\end{proof}
+
 \closureat{RealApproximationEnvelopeUp}{seedStr}
 
 \begin{closurestatus}{\RealApproximationEnvelopeUp}
