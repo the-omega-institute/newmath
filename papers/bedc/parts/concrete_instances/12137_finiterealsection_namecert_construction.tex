@@ -82,17 +82,6 @@ Apply \autoref{thm:finite-real-section-obligation-surface}. The same theorem ide
 For the converse direction, assume precisely the nine displayed rows with the stated transport, replay, packaging, and naming support. They match the carrier coordinates and satisfy the listed local obligations, so they assemble the accepted finite-section route and expose no additional Real, completion, quotient, or host-sequence coordinate.
 \end{proof}
 
-\begin{closurestatus}{\FiniteRealSectionUp}
-  \constructivestory{The finite Real section is generated from a $BHist$ packet that records a finite request, stream window, regular-rational readback, dyadic tolerance ledger, and the Real-facing seal row consumed by that route. The carrier convention does not assume a completed Real object; it reads only the finite section, transports it along $hsame$, and permits $\Cont$ extensions that preserve the same finite witness. The obligation surface names the finite section and the non-escape theorem records the boundary: a consumer that needs an infinite completion witness, quotient stream, selected host limit, or ambient Real equality has left the carrier. Thus the chapter packages a finite visible section as the whole admissible certificate.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the finite Real section carrier, obligation-surface theorem, and non-escape theorem.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \origin{ai}
-  \notclaimed{It does not claim full Real construction, infinite-section availability, quotient-stream equality, selected host limits, or ambient completeness.}
-  \upgradepath{Reaching obligationClosure requires a formal finite-section carrier and checked exclusion of routes requiring infinite or quotient data.}
-\end{closurestatus}
-
 \begin{theorem}[Finite real section non-escape]
 \label{thm:finite-real-section-nonescape}
 Every Real- or Completion-facing consumer of an accepted $\FiniteRealSectionUp$ packet factors through the finite route
@@ -108,3 +97,62 @@ Apply \autoref{thm:finite-real-section-obligation-surface}. It forces every cons
 
 The excluded objects require coordinates that the carrier does not contain. The rows $H,C,P,N$ preserve and name displayed data, but they do not create quotient stream equality, host sequence equality, a selected host limit, a countable-choice selector, ambient Real completeness, or a standard bridge. Hence none of those objects can be projected from the finite-section certificate.
 \end{proof}
+
+\begin{theorem}[Finite real section transport stability]
+\label{thm:finite-real-section-transport-stability}
+Let
+$$
+S=(q,W,R,D,E,H,C,P,N)
+$$
+and
+$$
+S'=(q',W',R',D',E',H',C',P',N')
+$$
+be accepted $\FiniteRealSectionUp$ packets. If $H$ displays componentwise $\hsame$ transport from $S$ to $S'$, then the transported packet preserves the same precision request, the same $\StreamNameUp$ window role, the same $\RegSeqRatUp$ readback role, the same $\DyadicRatCoreUp$ ledger role, the same $\RealUp$ seal role, the same $\Cont$ replay route, the same $\Pkg$ provenance, and the same local $\NameCert_{\FiniteRealSectionUp}$ route.
+\end{theorem}
+\begin{proof}
+Project the two carrier tuples through \autoref{def:finite-real-section-carrier}. The only rows eligible for transport are the displayed request, window, readback, ledger, seal, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:finite-real-section-obligation-surface}. Its componentwise $\hsame$ clause says that $H$ transports the listed carrier coordinates and not an ambient Real object or quotient representative.
+
+The consumer side is fixed by \autoref{thm:finite-real-section-route-consumer-exactness}: every Real- or completion-facing use reads precisely the transported finite route. Finally, \autoref{thm:finite-real-section-nonescape} excludes any target outside that route, so transport preserves the same finite-section request and its local certificate.
+\end{proof}
+
+\begin{theorem}[Finite real section refinement noncollapse]
+\label{thm:finite-real-section-refinement-noncollapse}
+For an accepted $\FiniteRealSectionUp$ packet $S=(q,W,R,D,E,H,C,P,N)$, a displayed refinement of the finite request through $C$ may refine the visible finite window, readback, ledger, and seal rows along the same route
+$$
+q \to W \to R \to D \to E.
+$$
+It cannot create a second stream, quotient stream equality, selected host limit, countable-choice row, ambient completeness row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Read the carrier in the order $q,W,R,D,E,H,C,P,N$ from \autoref{def:finite-real-section-carrier}. The replay row $C$ is downstream support for that ordered finite request; it is not an additional source of stream, quotient, host-limit, choice, completeness, or bridge data.
+
+Use \autoref{thm:finite-real-section-dyadic-seal-factorization}. The Real-facing seal factors through the displayed dyadic ledger, so refining the finite request can only refine rows already sitting on the route from $q$ to $E$.
+
+It remains to rule out collapse into a larger completion surface. Apply \autoref{thm:finite-real-section-nonescape}: the excluded objects require coordinates absent from the carrier and absent from the local obligation surface. Hence displayed refinement through $C$ preserves finite visibility without creating any of those rows.
+\end{proof}
+
+\begin{theorem}[Finite real section obligation-closure package]
+\label{thm:finite-real-section-obligation-closure-package}
+The carrier of \autoref{def:finite-real-section-carrier}, the obligation surface of \autoref{thm:finite-real-section-obligation-surface}, window-readback determinacy of \autoref{thm:finite-real-section-window-readback-determinacy}, dyadic-seal factorization of \autoref{thm:finite-real-section-dyadic-seal-factorization}, route consumer exactness of \autoref{thm:finite-real-section-route-consumer-exactness}, non-escape of \autoref{thm:finite-real-section-nonescape}, transport stability of \autoref{thm:finite-real-section-transport-stability}, and refinement noncollapse of \autoref{thm:finite-real-section-refinement-noncollapse} are exactly the finite-section obligation set for $\FiniteRealSectionUp$ over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.
+\end{theorem}
+\begin{proof}
+The carrier fixes the nine-row finite section over $\BHist$. The obligation surface names the admissible local $\NameCert_{\FiniteRealSectionUp}$ rows, while window-readback determinacy and dyadic-seal factorization identify the two data dependencies that a Real-facing consumer must respect.
+
+Route consumer exactness supplies the bidirectional packaging statement: exactly those rows are visible to a consumer and exactly those rows assemble the accepted route. Non-escape removes quotient, host-limit, choice, ambient-completeness, and bridge exits from the obligation set.
+
+The two stability clauses close the remaining transport and refinement faces. Transport stability keeps $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support on the same finite route, and refinement noncollapse keeps displayed refinement from adding any non-finite completion row. Together these clauses exhaust the finite-section obligations named for $\FiniteRealSectionUp$.
+\end{proof}
+
+\begin{closurestatus}{\FiniteRealSectionUp}
+  \constructivestory{The finite Real section is generated from a $BHist$ packet that records a finite request, stream window, regular-rational readback, dyadic tolerance ledger, and the Real-facing seal row consumed by that route. The carrier convention does not assume a completed Real object; it reads only the finite section, transports it along $hsame$, and permits $\Cont$ extensions that preserve the same finite witness. The obligation surface names the finite section and the non-escape theorem records the boundary: a consumer that needs an infinite completion witness, quotient stream, selected host limit, or ambient Real equality has left the carrier. Thus the chapter packages a finite visible section as the whole admissible certificate.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{This chapter binds the finite Real section carrier, obligation-surface theorem, window-readback determinacy, dyadic-seal factorization, route consumer exactness, non-escape theorem, transport stability, refinement noncollapse, obligation-closure package, and \leanchecked{BEDC.Derived.FiniteRealSectionUp.taste\_gate}.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim full Real construction, infinite-section availability, quotient-stream equality, selected host limits, or ambient completeness.}
+  \upgradepath{Reaching scopedClosure requires binding each finite-section obligation explicitly to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and L10 four-face rows.}
+\end{closurestatus}
