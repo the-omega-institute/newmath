@@ -273,4 +273,28 @@ theorem RealApproximationEnvelope_regularity_propagation [AskSetup] [PackageSetu
     ⟨classifierUnary, classifierReadUnary, sealRowUnary, sealReadUnary,
       dyadicClassifierRead, classifierReadSealSealRead, provenancePkg, sealReadPkg⟩
 
+theorem RealApproximationEnvelope_consumer_boundary [AskSetup] [PackageSetup]
+    {tolerance window dyadic classifier sealRow transport route provenance name consumerRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealApproximationEnvelopeCarrier tolerance window dyadic classifier sealRow transport route
+        provenance name bundle pkg →
+      Cont tolerance sealRow consumerRead →
+        PkgSig bundle consumerRead pkg →
+          UnaryHistory tolerance ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+            UnaryHistory classifier ∧ UnaryHistory sealRow ∧ UnaryHistory consumerRead ∧
+              Cont tolerance sealRow consumerRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle name pkg ∧ PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier toleranceSealConsumer consumerReadPkg
+  obtain ⟨toleranceUnary, windowUnary, dyadicUnary, classifierUnary, sealRowUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, _toleranceWindowRoute,
+    _windowDyadicClassifier, _classifierSealTransport, provenancePkg, namePkg⟩ :=
+    carrier
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed toleranceUnary sealRowUnary toleranceSealConsumer
+  exact
+    ⟨toleranceUnary, windowUnary, dyadicUnary, classifierUnary, sealRowUnary,
+      consumerReadUnary, toleranceSealConsumer, provenancePkg, namePkg, consumerReadPkg⟩
+
 end BEDC.Derived.RealApproximationEnvelopeUp

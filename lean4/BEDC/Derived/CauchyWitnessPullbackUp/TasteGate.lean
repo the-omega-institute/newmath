@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyWitnessPullbackUp.TasteGate
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -392,9 +402,74 @@ end BEDC.Derived.CauchyWitnessPullbackUp.TasteGate
 
 namespace BEDC.Derived.CauchyWitnessPullbackUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+
 def taste_gate :
     BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.CauchyWitnessPullbackUp :=
   -- BEDC touchpoint anchor: BHist BMark
   TasteGate.taste_gate
+
+theorem CauchyWitnessPullbackUp_StdBridge [AskSetup] [PackageSetup]
+    {gluedSeal classifier realSeal ledger tail synchronizer stream regular dyadic agreement
+      transport continuation provenance localName terminal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont gluedSeal classifier realSeal →
+      Cont realSeal agreement ledger →
+        Cont ledger tail synchronizer →
+          Cont stream dyadic regular →
+            Cont regular realSeal terminal →
+              PkgSig bundle terminal pkg →
+                SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row terminal ∧
+                      ∃ packet : TasteGate.CauchyWitnessPullbackUp,
+                        packet = TasteGate.CauchyWitnessPullbackUp.mk gluedSeal classifier
+                          realSeal ledger tail synchronizer stream regular dyadic agreement
+                          transport continuation provenance localName)
+                  (fun row : BHist =>
+                    Cont gluedSeal classifier realSeal ∧ Cont realSeal agreement ledger ∧
+                      Cont ledger tail synchronizer ∧ Cont stream dyadic regular ∧
+                        Cont regular realSeal terminal ∧ hsame row terminal)
+                  (fun row : BHist => hsame row terminal ∧ PkgSig bundle terminal pkg)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame SemanticNameCert
+  intro gluedReal realLedger ledgerSynchronizer streamRegular regularTerminal terminalPkg
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro terminal
+          ⟨hsame_refl terminal,
+            Exists.intro
+              (TasteGate.CauchyWitnessPullbackUp.mk gluedSeal classifier realSeal ledger tail
+                synchronizer stream regular dyadic agreement transport continuation provenance
+                localName)
+              rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨gluedReal, realLedger, ledgerSynchronizer, streamRegular, regularTerminal,
+          sourceRow.left⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, terminalPkg⟩
+  }
 
 end BEDC.Derived.CauchyWitnessPullbackUp
