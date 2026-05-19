@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.OpenPhysicalFitUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -301,5 +303,44 @@ theorem OpenPhysicalFitTasteGate_single_carrier_alignment :
         · constructor
           · exact Nonempty.intro openPhysicalFitExplicitFieldFaithful
           · rfl
+
+theorem OpenPhysicalFit_semantic_name_certificate {H Pi O M C F E L R N : BHist} :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row H ∨ hsame row Pi ∨ hsame row O ∨ hsame row M ∨ hsame row C ∨
+          hsame row F ∨ hsame row E ∨ hsame row L ∨ hsame row R ∨ hsame row N)
+      (fun row : BHist =>
+        hsame row H ∨ hsame row Pi ∨ hsame row O ∨ hsame row M ∨ hsame row C ∨
+          hsame row F ∨ hsame row E ∨ hsame row L ∨ hsame row R ∨ hsame row N)
+      (fun row : BHist =>
+        hsame row H ∨ hsame row Pi ∨ hsame row O ∨ hsame row M ∨ hsame row C ∨
+          hsame row F ∨ hsame row E ∨ hsame row L ∨ hsame row R ∨ hsame row N)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert NameCert
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro H (Or.inl (hsame_refl H))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        have rowEq : row = row' := hsame_iff_eq.mp sameRows
+        cases rowEq
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.OpenPhysicalFitUp

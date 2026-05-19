@@ -63,18 +63,95 @@ There is no observer-substance coordinate and no unlicensed observation coordina
 \end{proof}
 \leanchecked{BEDC.Derived.ObserverHsameClassifierUp.ObserverHsameClassifier\_decision\_row\_concrete\_boundary}
 
+\begin{theorem}[Observer hsame classifier licensed-observation exactness]
+\label{thm:observer-hsame-classifier-licensed-observation-exactness}
+For an accepted $\ObserverHsameClassifierUp$ packet $K=(H_0,H_1,A,R,L,D,C,P,N)$, every decision-relevant mark, $\Cont$ route, $\mathsf{ProbeBundle}$ row, $\mathsf{SigRel}$ row, and prior classifier read is licensed exactly by the pair of displayed ledger rows $A$ and $L$. No row outside $A$ can affect the classifier output, and every row in $A$ that affects the output has its source history row and naming boundary recorded in $L$.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory in \autoref{def:observer-hsame-classifier-carrier}. The only row that lists decision-relevant observations is $A$, and the only row that attaches such observations to source histories and naming boundaries is $L$.
+
+Apply \autoref{thm:observer-hsame-classifier-namecert-obligations}. Its licensed-observation clause says that marks, $\Cont$ routes, $\mathsf{ProbeBundle}$ rows, $\mathsf{SigRel}$ rows, and prior classifier reads may enter the decision only through the finite ledger, with no outside observation row available.
+
+Finally use \autoref{thm:observer-hsame-classifier-nonescape}. Since a public consumer can read only $A,R,L,D,C,P,N$, any decision-relevant observation outside $A$ would have to escape the displayed carrier. The non-escape theorem rules this out, while the entries of $L$ supply the required source and boundary records for the observations that remain.
+\end{proof}
+
+\begin{theorem}[Observer hsame classifier transport stability]
+\label{thm:observer-hsame-classifier-transport-stability}
+For an accepted $\ObserverHsameClassifierUp$ packet $K=(H_0,H_1,A,R,L,D,C,P,N)$, componentwise $\hsame$ transport through $R$ preserves the two history rows $H_0,H_1$, the licensed ledger $A$, the local ledger $L$, the decision row $D$, the route row $C$, package provenance $P$, and the local name row $N$. After transport, the classifier still compares the same two history rows through the same licensed ledger and emits only the transported decision row.
+\end{theorem}
+\begin{proof}
+Read $R$ as the componentwise transport row specified by \autoref{def:observer-hsame-classifier-carrier}. Its coordinates are aligned with the two history rows, licensed observations, classifier-output row, continuation routes, package provenance, and local name.
+
+Apply the transport clause of \autoref{thm:observer-hsame-classifier-namecert-obligations}. It requires classifier transport through the displayed $\hsame$ rows before the public decision row can be read, so transport cannot swap in a different history pair, ledger, route surface, provenance row, or name row.
+
+Use \autoref{thm:observer-hsame-classifier-nonescape} for confinement of the transported read. A transported consumer still has access only to $A,R,L,D,C,P,N$, and therefore the transported classifier output factors through the same displayed rows as the original packet.
+\end{proof}
+
+\begin{theorem}[Observer hsame classifier output confinement]
+\label{thm:observer-hsame-classifier-output-confinement}
+For an accepted $\ObserverHsameClassifierUp$ packet $K=(H_0,H_1,A,R,L,D,C,P,N)$, every agreement, disagreement, or refusal output factors through $D,L,R,C,P,N$ together with the licensed observation ledger $A$. The output cannot read observer-substance, host equality, quotient history identity, unlicensed observation, or hidden classifier state.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:observer-hsame-classifier-carrier} gives the output row $D$ only after the licensed observations pass through $A,L,R$ and the displayed consumer routes in $C$. The provenance and naming rows $P,N$ record the package and local certificate boundary.
+
+Apply \autoref{thm:observer-hsame-classifier-namecert-obligations}. Its decision-row confinement and non-escape clauses bind every public classifier read to the displayed rows and exclude observations that are not licensed by the ledger.
+
+Now apply \autoref{thm:observer-hsame-classifier-nonescape}. The carrier has no coordinate for observer-substance, host equality, quotient identity, or hidden classifier state, so an agreement, disagreement, or refusal output has no access path to those data. It must therefore factor through $A,D,L,R,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Observer hsame classifier dependency scope]
+\label{thm:observer-hsame-classifier-dependency-scope}
+For an accepted $\ObserverHsameClassifierUp$ packet $K=(H_0,H_1,A,R,L,D,C,P,N)$, the classifier decision depends exactly on the two history rows $H_0,H_1$, the licensed observation ledger $A$, the $\hsame$ transport row $R$, the local ledger $L$, the decision row $D$, the displayed $\Cont$ routes $C$, the $\Pkg$ provenance row $P$, the local $\NameCert_{\ObserverHsameClassifierUp}$ row $N$, and the sibling $\ObserverHistIdentityUp$ and $\ObserverHistoryIdentityUp$ surfaces named by $P$. It has no dependency coordinate for observer-substance, host equality, quotient history identity, unlicensed observation, or hidden classifier state.
+\end{theorem}
+\begin{proof}
+The carrier definition displays precisely the rows $H_0,H_1,A,R,L,D,C,P,N$. The provenance row $P$ is the only place where sibling surfaces enter the packet, and it names the single-packet $\ObserverHistIdentityUp$ surface and the pairwise $\ObserverHistoryIdentityUp$ surface as provenance for the displayed observer-history rows and licensed observations.
+
+Use \autoref{thm:observer-hsame-classifier-licensed-observation-exactness} for the observation side. Every decision-relevant mark, $\Cont$ route, $\mathsf{ProbeBundle}$ row, $\mathsf{SigRel}$ row, and prior classifier read must be listed by $A$ and tied to its source and boundary in $L$.
+
+Use \autoref{thm:observer-hsame-classifier-transport-stability} and \autoref{thm:observer-hsame-classifier-output-confinement} for transport and output. The public decision can move only through $R,C,P,N$ and can emit only the row $D$ after the licensed ledger has been read.
+
+Finally apply non-escape from \autoref{thm:observer-hsame-classifier-nonescape}. Since the carrier contains no observer-substance, host-equality, quotient-identity, unlicensed-observation, or hidden-state coordinate, no accepted classifier decision can depend on such data.
+\end{proof}
+
+\begin{theorem}[Observer hsame classifier TasteGate carrier scope]
+\label{thm:observer-hsame-classifier-tastegate-carrier-scope}
+The cited TasteGate alignment, $\mathsf{Nontrivial}\ \ObserverHsameClassifierUp$ instance, and $\mathsf{FieldFaithful}\ \ObserverHsameClassifierUp$ instance are scoped to the displayed classifier packet $K=(H_0,H_1,A,R,L,D,C,P,N)$. They certify the same carrier, dependency rows, and local $\NameCert_{\ObserverHsameClassifierUp}$ boundary, and they cannot be read as certifying a different observer carrier or a classifier with additional hidden coordinates.
+\end{theorem}
+\begin{proof}
+The Lean target is attached to the $\ObserverHsameClassifierUp$ surface whose paper carrier is \autoref{def:observer-hsame-classifier-carrier}. The surrounding NameCert obligations identify the packet by its displayed history rows, ledger rows, transport row, decision row, routes, provenance, and local name.
+
+The $\mathsf{Nontrivial}$ instance witnesses that this carrier has the displayed classifier surface rather than collapsing to an empty or anonymous carrier. The $\mathsf{FieldFaithful}$ instance binds the exported fields to the same rows $H_0,H_1,A,R,L,D,C,P,N$.
+
+By \autoref{thm:observer-hsame-classifier-dependency-scope}, there is no additional carrier coordinate through which a second observer classifier could be read. Thus the TasteGate, nontriviality, and field-faithfulness surfaces refer to the same displayed packet.
+\end{proof}
+
+\begin{theorem}[Observer hsame classifier scoped closure package]
+\label{thm:observer-hsame-classifier-scoped-closure-package}
+The $\ObserverHsameClassifierUp$ chapter forms a scoped closure package for the displayed classifier packet. The package consists of the carrier definition, the local $\NameCert$ obligations, non-escape, licensed-observation exactness, transport stability, output confinement, dependency scope, and TasteGate carrier scope, all over the same rows $H_0,H_1,A,R,L,D,C,P,N$.
+\end{theorem}
+\begin{proof}
+The carrier and local $\NameCert$ obligations are supplied by \autoref{def:observer-hsame-classifier-carrier} and \autoref{thm:observer-hsame-classifier-namecert-obligations}. They identify the finite packet and the five obligations that make the classifier readable.
+
+The behavior of accepted packets is closed by the four boundary theorems. Non-escape removes observer-substance and hidden-state reads; licensed-observation exactness fixes the admissible observation ledger; transport stability preserves the displayed rows through $\hsame$; output confinement forces agreement, disagreement, and refusal outputs through the displayed classifier rows.
+
+The remaining scope facts are supplied by \autoref{thm:observer-hsame-classifier-dependency-scope} and \autoref{thm:observer-hsame-classifier-tastegate-carrier-scope}. Together they bind the dependencies, TasteGate surface, nontriviality surface, and field-faithfulness surface to the same packet, so the chapter closes exactly the scoped classifier package and nothing beyond it.
+\end{proof}
+
 The Lean \texttt{TasteGate.lean} development for $\ObserverHsameClassifierUp$ provides explicit $\mathsf{Nontrivial}\ \ObserverHsameClassifierUp$ and $\mathsf{FieldFaithful}\ \ObserverHsameClassifierUp$ instances for the displayed classifier packet. These instances preserve the two history rows, licensed observation ledger, $\hsame$ transport row, local ledger, classifier-output row, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
 
 \closureat{ObserverHsameClassifierUp}{seedStr}
+\closureat{ObserverHsameClassifierUp}{obligationStr}
+\closureat{ObserverHsameClassifierUp}{scopedStr}
 
 \begin{closurestatus}{\ObserverHsameClassifierUp}
   \constructivestory{An $\ObserverHsameClassifierUp$ packet is generated from two observer-history rows, a licensed observation ledger, componentwise hsame transports, a local ledger, a classifier-output row, displayed Cont routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:observer-hsame-classifier-carrier}, \autoref{thm:observer-hsame-classifier-namecert-obligations}, and \autoref{thm:observer-hsame-classifier-nonescape} specify the finite classifier packet and its licensed-observation non-escape boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:observer-hsame-classifier-carrier}, \autoref{thm:observer-hsame-classifier-namecert-obligations}, \autoref{thm:observer-hsame-classifier-nonescape}, \autoref{thm:observer-hsame-classifier-licensed-observation-exactness}, \autoref{thm:observer-hsame-classifier-transport-stability}, \autoref{thm:observer-hsame-classifier-output-confinement}, \autoref{thm:observer-hsame-classifier-dependency-scope}, \autoref{thm:observer-hsame-classifier-tastegate-carrier-scope}, and \autoref{thm:observer-hsame-classifier-scoped-closure-package} specify the finite classifier packet, its licensed-observation boundary, and its exact carrier scope.}
+  \leanchecked{BEDC.Derived.ObserverHsameClassifierUp.taste\_gate}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.ObserverHsameClassifierUp.ObserverHsameClassifierTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close full observer-history identity, observer-filter completeness, hidden observer state, quotient history identity, unbounded observation, or bridge checking.}
-  \upgradepath{Scoped closure requires checked carrier admission, licensed-observation exactness, classifier-output confinement, non-escape, nontriviality, and field faithfulness for the same packet.}
+  \upgradepath{Public closure requires a public consumer surface that exports the scoped classifier package without adding observer-substance, host-equality, quotient-identity, unlicensed-observation, or hidden-state reads.}
 \end{closurestatus}

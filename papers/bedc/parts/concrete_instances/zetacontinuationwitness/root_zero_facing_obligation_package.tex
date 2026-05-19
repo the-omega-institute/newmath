@@ -19,6 +19,7 @@ Use \autoref{thm:zeta-continuation-witness-critical-strip-input-refusal} for the
 \label{thm:zeta-continuation-witness-analytic-readback-obligation}
 For an accepted $\ZetaContinuationWitnessUp$ packet $W=(B,E,A,P,F,T,G,H,C,R,N)$, every root-facing analytic readback factors through $B,E,A,F,H,C,R,N$ and the pole-Gamma boundary rows $P,G$ before it can be consumed by a zeta-zero or critical-strip route. The readback may use the functional-equation row $F$ and the Gamma boundary row $G$, but it cannot import an off-packet analytic branch or a completed Gamma certificate.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZetaContinuationWitnessUp.ZetaContinuationWitnessPacket\_analytic\_readback\_obligation}
 \begin{proof}
 Begin with the source obligation above. It places $B,E,A,F,H,C,R,N$ on the route before any root-facing readback is consumed.
 
@@ -38,6 +39,7 @@ Apply \autoref{thm:zeta-continuation-witness-critical-strip-input-refusal} and \
 
 Use the pole-Gamma boundary and dependency ledger to exhaust the remaining routes. Since $P,F,G,H,C,R,N$ only authenticate the displayed packet and do not add a zero-location coordinate, the trivial-zero ledger cannot escape as a completed zero classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.ZetaContinuationWitnessUp.ZetaContinuationWitnessPacket\_zero\_ledger\_nonescape}
 
 \begin{theorem}[ZetaContinuationWitness formal-target ledger]
 \label{thm:zeta-continuation-witness-formal-target-ledger}
@@ -56,6 +58,7 @@ Use zero ledger non-escape for the critical-strip boundary. It leaves the displa
 
 The chapter-level dependency ledger already records the packet dependencies through the Lean target $BEDC.Derived.ZetaContinuationWitnessUp.ZetaContinuationWitnessPacket\_dependency\_ledger$. Combining these three paper rows with that dependency ledger gives one finite formal-target surface over $B,E,A,P,F,T,G,H,C,R,N$ and no additional analytic or zero-facing coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.ZetaContinuationWitnessUp.ZetaContinuationWitnessPacket\_root\_zero\_facing\_formal\_surface}
 
 \begin{theorem}[ZetaContinuationWitness root package]
 \label{thm:zeta-continuation-witness-root-package}
@@ -68,6 +71,7 @@ Next attach analytic readback. The analytic obligation routes every root-facing 
 
 Finally apply zero ledger non-escape. The zero-facing ledger remains the displayed $T$ row inside $W$, while RH predicates, zero locators, global zero classifiers, off-packet analytic branches, and completed Gamma certificates remain outside the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.ZetaContinuationWitnessUp.ZetaContinuationWitnessPacket\_root\_package}
 
 \begin{theorem}[ZetaContinuationWitness root zero-ledger totality]
 \label{thm:zeta-continuation-witness-root-zero-ledger-totality}
@@ -81,6 +85,7 @@ non-trivial-zero, or global-zero-classifier request. No root-facing consumer
 can obtain a zero read outside the source, analytic readback, zero ledger
 non-escape, and root package surfaces already bound to $W$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZetaContinuationWitnessUp.ZetaContinuationWitnessPacket\_root\_zero\_ledger\_totality}
 \begin{proof}
 Begin with the source obligation of
 \autoref{thm:zeta-continuation-witness-source-obligation}. It fixes the packet

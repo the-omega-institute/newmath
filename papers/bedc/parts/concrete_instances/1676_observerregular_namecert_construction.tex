@@ -55,6 +55,7 @@ O=(A,R,S,W,L,H,C,P,N),
 $$
 exactly one of the finite observer routes is consumer-readable. Either the prefix row in $A$ exposes no accepted resolving state, in which case no downstream $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or $\CompletionUp$ window or readback row is readable from that prefix; or it exposes one of the displayed resolving-state rows in $R$, after which the only consumer route is through $W,L,H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverRegularUp.ObserverRegularCarrier\_prefix\_resolution\_totality}
 \begin{proof}
 Project the prefix carrier of \autoref{def:observerregular-prefix-carrier}. The prefix row $A$ is the sole entry point for a consumer request, and the resolving-state row $R$ is the sole coordinate that can authorize a downstream window or readback.
 
@@ -106,6 +107,7 @@ The downstream handoff from an accepted $\ObserverRegularUp$ carrier to $\Stream
 
 For $\CompletionUp$ schedules, the same handoff remains finite: the completion consumer receives the $\StreamNameUp$ window and $\RegSeqRatUp$ readback already exposed to the $\RealUp$ boundary, together with the displayed tolerance rows. No quotient stream, host sequence equality, selected limit, or ambient completeness coordinate is added.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverRegularUp.ObserverRegularCarrier\_streamname\_handoff}
 \begin{proof}
 Apply \autoref{thm:observerregular-resolving-window-soundness} to the accepted resolving state. It supplies the finite $\StreamNameUp$ window and matching $\RegSeqRatUp$ readback.
 
@@ -139,11 +141,13 @@ Apply \autoref{thm:observerregular-resolving-window-soundness}. The selected res
 
 The provenance row $P$ records which $\CauchyModulusUp$ and $\DyadicRatCoreUp$ certificates are being consumed, while $N$ records the local observer name. By \autoref{thm:observerregular-finite-ledger-non-escape}, there is no carrier coordinate for an external tolerance witness, quotient stream, selected limit, or ambient completeness principle. Thus each tolerance read factors through exactly the displayed finite ledger rows named in the statement.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverRegularUp.ObserverRegularCarrier\_resolving\_window\_ledger\_exactness}
 
 \begin{theorem}[ObserverRegular schedule lock for real and completion consumers]
 \label{thm:observerregular-schedule-lock-real-completion}
 Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\ObserverRegularUp$ carrier $O=(A,R,S,W,L,H,C,P,N)$ uses the displayed schedule row $S$ together with the same finite window row $W$, regular-rational readback ledger $L$, componentwise transport row $H$, continuation row $C$, package provenance $P$, and local naming row $N$. The row $S$ may name the intended consumer schedule, but it contributes no independent tolerance witness, completion witness, selected limit, quotient stream equality, or host real equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverRegularUp.ObserverRegularCarrier\_schedule\_lock\_real\_completion}
 \begin{proof}
 Start with a consumer route into $\RealUp$ or $\CompletionUp$. By \autoref{thm:observerregular-resolving-window-soundness}, the accepted resolving state first selects the displayed finite $\StreamNameUp$ window $W$ and the matching $\RegSeqRatUp$ readback ledger $L$ through the observer packet.
 
@@ -173,11 +177,13 @@ Now use \autoref{thm:observerregular-schedule-lock-real-completion}. A $\RealUp$
 
 The carrier inventory then gives non-escape. Neither packet contains a quotient stream, host sequence equality, selected limit, or ambient completeness coordinate, so schedule coherence remains a BEDC row comparison at the displayed observer boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverRegularUp.ObserverRegularCarrier\_schedule\_coherence}
 
 \begin{theorem}[ObserverRegular bridged consumer surface]
 \label{thm:observerregular-bridged-consumer-surface}
 Every bridge-ready $\RealUp$ or $\CompletionUp$ consumer of an accepted $\ObserverRegularUp$ carrier $O=(A,R,S,W,L,H,C,P,N)$ factors through the displayed rows $A,R,S,W,L,H,C,P,N$ together with the TasteGate single-carrier alignment cited at \autoref{def:observerregular-prefix-carrier}. The consumer receives the finite prefix row, resolving-state row, schedule row, $\StreamNameUp$ window row, $\RegSeqRatUp$ readback ledger, $\CauchyModulusUp$ and $\DyadicRatCoreUp$ tolerance reads, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row, and it receives no quotient stream, host sequence equality, selected limit, ambient completeness principle, or choice-selected completion witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverRegularUp.ObserverRegularCarrier\_bridged\_consumer\_surface}
 \begin{proof}
 Start with the accepted carrier and the TasteGate single-carrier alignment. The alignment fixes the bridge-facing consumer at the displayed observer packet rather than at an ambient stream or completion object.
 

@@ -511,6 +511,7 @@ Finally, consumer-horizon exhaustion and non-escape close the public route surfa
 \label{thm:axis-zeckendorf-cannot-claim-dependency-interface}
 Every admitted $\AxisZeckendorfCannotClaimUp$ packet records its dependency-facing rows for $\AxisNatUp$, $\ZCarryUp$, $\ZeckendorfNormalUp$, $\DimLiftUp$, $\FullAxisUp$, $\NatUp$, and $\RealUp$ as visible $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ data. The $\hsame$ route row preserves those dependency rows componentwise, and no consumer may read one of the seven dependencies through an unrecorded carrier, package, or naming witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.AxisZeckendorfCannotClaimUp.AxisZeckendorfCannotClaimRegistryPacket\_dependency\_interface}
 \begin{proof}
 Start with the carrier $R=(a,b,c,d,e,f,g,h,p,n)$. The negative theorem rows and horizon refusal rows list the dependency-facing surface before any public route is exposed, while the rows $h,p,n$ give the componentwise $\hsame$ and $\Cont$ route, package provenance, and local $\NameCert$ records.
 
@@ -593,6 +594,7 @@ Then apply transport non-promotion. The componentwise $\hsame$ and $\Cont$ ledge
 
 Finally use provenance exhaustion. The rows $p,n$ close the public package and naming route without adding another mathematical coordinate, so the downstream ledger has no escape path beyond the displayed refusal package.
 \end{proof}
+\leanchecked{BEDC.Derived.AxisZeckendorfCannotClaimUp.AxisZeckendorfCannotClaimRegistryPacket\_root\_unblock\_ledger\_nonescape}
 
 \begin{theorem}[AxisZeckendorf cannot-claim root obligation surface]
 \label{thm:axis-zeckendorf-cannot-claim-root-obligation-surface}
@@ -631,6 +633,7 @@ Transport and route preservation are supplied by ledger consumer exactness and t
 
 The final formalization boundary is given by consumer horizon exhaustion and root-unblock ledger non-escape. Together they rule out every listed positive structure and leave the future Lean handoff as the finite cannot-claim registry rather than an arithmetic construction.
 \end{proof}
+\leanchecked{BEDC.Derived.AxisZeckendorfCannotClaimUp.AxisZeckendorfCannotClaimUp\_StdBridge}
 
 \begin{theorem}[AxisZeckendorf seven-row refusal coverage]
 \label{thm:axis-zeckendorf-cannot-claim-seven-row-coverage}
@@ -681,9 +684,10 @@ Apply provenance exhaustion and non-escape to $p,n$. These rows add no mathemati
   \constructivestory{An $\AxisZeckendorfCannotClaimUp$ packet records four checked negative theorem rows, three horizon refusal rows, componentwise $\hsame$ and $\Cont$ routing, $\Pkg$ provenance, and a local $\NameCert$ row, while exporting no RealUp, NatUp replacement, dimension, quotient, or kernel-rewrite coordinate.}
   \theoryclosure{\matureClosure}
   \scopeclosed{The AxisZeckendorf cannot-claim registry packet is mature on the paper closure axis: its semantic-certificate readback records four negative theorem rows, three horizon refusal rows, componentwise transport, ledger exactness, non-escape, consumer exhaustion, determinacy, transport non-promotion, provenance exhaustion, negative-row scope, horizon-refusal scope, and ledger-route scope, while Lean verification and StdBridge remain separate formal-axis work.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \formalstatus{\bridgeCheckedV}
+  \leantarget{BEDC.Derived.AxisZeckendorfCannotClaimUp.AxisZeckendorfCannotClaimRegistryPacket\_semantic\_name\_certificate}
+  \bridgestatus{bridgeChecked}
   \origin{human}
   \notclaimed{This chapter does not prove a Lean implementation, a standard bridge, positive RealUp data for FullAxisUp, AxisNatUp equality with NatUp, primitive dimension lift, quotient construction, host arithmetic equality, or kernel rewriting.}
-  \upgradepath{Formal-axis progress requires Lean verification and a checked StdBridge account for the mature public registry packet; the paper-side mature surface is the displayed semantic-certificate carrier.}
+  \upgradepath{no further upgrade -- chapter at top of the formal axis.}
 \end{closurestatus}

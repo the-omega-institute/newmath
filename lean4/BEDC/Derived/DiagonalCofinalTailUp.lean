@@ -121,4 +121,75 @@ theorem DiagonalCofinalTailCarrier_common_window_refinement [AskSetup] [PackageS
     unary_cont_closed cUnary rUnary rightRoute
   exact ⟨leftUnary, rightUnary, leftRoute, rightRoute, pPkg, leftPkg, rightPkg⟩
 
+theorem DiagonalCofinalTailCarrier_route_composition [AskSetup] [PackageSetup]
+    {q s g d r w h c p n sealRead finalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg →
+      Cont r w sealRead →
+        Cont sealRead c finalRead →
+          PkgSig bundle finalRead pkg →
+            UnaryHistory q ∧ UnaryHistory s ∧ UnaryHistory g ∧ UnaryHistory d ∧
+              UnaryHistory r ∧ UnaryHistory w ∧ UnaryHistory sealRead ∧
+                UnaryHistory finalRead ∧ Cont q s g ∧ Cont g d r ∧
+                  Cont r w sealRead ∧ Cont sealRead c finalRead ∧
+                    PkgSig bundle p pkg ∧ PkgSig bundle finalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier rwSeal sealFinal finalPkg
+  obtain ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, _hUnary, cUnary,
+    _pUnary, _nUnary, qsRoute, gdRoute, _whRoute, pPkg⟩ := carrier
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed rUnary wUnary rwSeal
+  have finalUnary : UnaryHistory finalRead :=
+    unary_cont_closed sealUnary cUnary sealFinal
+  exact
+    ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, sealUnary, finalUnary, qsRoute,
+      gdRoute, rwSeal, sealFinal, pPkg, finalPkg⟩
+
+theorem DiagonalCofinalTailCarrier_hsame_transport_lock [AskSetup] [PackageSetup]
+    {q s g d r w h c p n h' c' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg ->
+      hsame h h' ->
+        Cont w h' c' ->
+          UnaryHistory h' ∧ UnaryHistory c' ∧ Cont w h' c' ∧ PkgSig bundle p pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont PkgSig UnaryHistory
+  intro carrier sameH transportedSeal
+  obtain ⟨_qUnary, _sUnary, _gUnary, _dUnary, _rUnary, wUnary, hUnary, _cUnary,
+    _pUnary, _nUnary, _qsRoute, _gdRoute, _whRoute, pPkg⟩ := carrier
+  have transportedHUnary : UnaryHistory h' :=
+    unary_transport hUnary sameH
+  have transportedCUnary : UnaryHistory c' :=
+    unary_cont_closed wUnary transportedHUnary transportedSeal
+  exact ⟨transportedHUnary, transportedCUnary, transportedSeal, pPkg⟩
+
+theorem DiagonalCofinalTailCarrier_tail_selector_lock [AskSetup] [PackageSetup]
+    {q s g d r w h c p n streamRead tailRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg ->
+      Cont s g streamRead ->
+        Cont streamRead r tailRead ->
+          Cont tailRead c consumer ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory q ∧ UnaryHistory s ∧ UnaryHistory g ∧ UnaryHistory d ∧
+                UnaryHistory r ∧ UnaryHistory w ∧ UnaryHistory h ∧ UnaryHistory c ∧
+                  UnaryHistory p ∧ UnaryHistory n ∧ UnaryHistory streamRead ∧
+                    UnaryHistory tailRead ∧ UnaryHistory consumer ∧ Cont q s g ∧
+                      Cont g d r ∧ Cont w h c ∧ Cont s g streamRead ∧
+                        Cont streamRead r tailRead ∧ Cont tailRead c consumer ∧
+                          PkgSig bundle p pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier streamRoute tailRoute consumerRoute consumerPkg
+  obtain ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, hUnary, cUnary, pUnary,
+    nUnary, qsRoute, gdRoute, whRoute, pPkg⟩ := carrier
+  have streamUnary : UnaryHistory streamRead :=
+    unary_cont_closed sUnary gUnary streamRoute
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed streamUnary rUnary tailRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed tailUnary cUnary consumerRoute
+  exact
+    ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, hUnary, cUnary, pUnary, nUnary,
+      streamUnary, tailUnary, consumerUnary, qsRoute, gdRoute, whRoute, streamRoute,
+      tailRoute, consumerRoute, pPkg, consumerPkg⟩
+
 end BEDC.Derived.DiagonalCofinalTailUp

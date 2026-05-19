@@ -648,6 +648,28 @@ Next apply \autoref{thm:real-completeness-finite-obligation-surface}. The obliga
 Use \autoref{thm:real-completeness-consumer-route-totality} to route every completion-facing consumer through those displayed rows. Then apply \autoref{thm:real-completeness-nonescape-boundary}; no quotient stream, selected host limit, countable-choice selector, ambient completeness proof, or bridge-checked object lies outside the finite-window packet.
 \end{proof}
 
+\begin{theorem}[Real completeness exact-boundary handoff]
+\label{thm:real-completeness-exact-boundary-handoff}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be an accepted $\RealCompletenessUp$ packet, and let
+$$
+B=(L,K,J,S_B,W_B,R_B,D_B,E_B,H_B,C_B,P_B,N_B)
+$$
+be an accepted $\RealCompletionExactBoundaryUp$ packet. Suppose that the $\DyadicRatCoreUp$ row $D_B$ matches $D$, the $\StreamNameUp$ row $W_B$ matches $W$, the $\RegSeqRatUp$ row $R_B$ matches $Q$, and the terminal $\RealUp$ row $E_B$ matches $S$ through the displayed componentwise $\hsame$ transports, the displayed $\Cont$ replays, the $\Pkg$ provenance rows, and the local $\NameCert_{\RealCompletenessUp}$ and $\NameCert_{\RealCompletionExactBoundaryUp}$ support. Then every completion-facing consumer of $R$ that asks for an exact-boundary witness factors through $B$ after the finite-window open-phase route. The handoff supplies only the same-route exact-boundary witness, and it exports no quotient stream, selected limit, host equality, countable choice, ambient completeness, metric completeness, or bridge token.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-completeness-finite-window-open-phase-exit}. It confines the open Phase Real and Completion exit of $R$ to the finite route through $D,W,Q,S,H,C,P,N$ and excludes quotient streams, selected host limits, countable choice, ambient completeness, and bridge-checked status from that route.
+
+Next apply \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The accepted boundary packet $B$ exposes exactly the four completion faces $\DyadicRatCoreUp(D_B)$, $\StreamNameUp(W_B)$, $\RegSeqRatUp(R_B)$, and $\RealUp(E_B)$, together with its structural rows $H_B,C_B,P_B,N_B$.
+
+The matching assumptions identify these four faces with the rows $D,W,Q,S$ already used by the finite-window route. Because the comparison is carried only by displayed $\hsame$ transports, $\Cont$ replays, $\Pkg$ provenance, and local $\NameCert$ support on both packets, the exact-boundary witness is a repacking of the same route rather than a second completion object.
+
+Finally use \autoref{thm:real-completion-exact-boundary-scoped-obligation-closure} and \autoref{thm:real-completion-exact-boundary-no-completeness-escape}. The first theorem keeps the witness inside the exact-boundary obligation surface, and the second theorem removes quotient streams, selected limits, host equality, countable choice, ambient completeness, metric completeness, and bridge tokens from the exported boundary. Hence every exact-boundary request made by a completion-facing consumer of $R$ factors through $B$ after the finite-window open-phase route and receives no additional completion witness.
+\end{proof}
+
 \input{parts/concrete_instances/realcompleteness/selector_window_seal_factorization}
 
 \closureat{RealCompletenessUp}{scopedStr}
@@ -663,6 +685,6 @@ Use \autoref{thm:real-completeness-consumer-route-totality} to route every compl
   \leantarget{BEDC.Derived.RealCompletenessUp.RealCompletenessBHistCarrier\_regseq\_seal\_handoff}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, a public standard bridge, axiom-purity audit, or bridge checking.}
-  \upgradepath{Mature closure requires finite diagonal-limit examples and the downstream completion-consumer lattice over the same displayed rows, with axiom-purity audit and bridge checking as separate verification obligations.}
+  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, a public standard bridge, or bridge checking.}
+  \upgradepath{The remaining upgrade is a bridge-checked standard bridge for the displayed RealCompleteness handoff target.}
 \end{closurestatus}

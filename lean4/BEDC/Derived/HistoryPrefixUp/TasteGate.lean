@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.HistoryPrefixUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -210,5 +212,45 @@ theorem HistoryPrefixTasteGate_single_carrier_alignment :
                 by
                   intro h
                   cases h⟩
+
+def HistoryPrefixCarrier
+    (source prefixRow residualTail continuation compatibility evidence ledger name : BHist) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  Cont prefixRow residualTail source ∧ hsame continuation source ∧
+    hsame compatibility prefixRow ∧ hsame evidence ledger ∧ hsame name name
+
+theorem HistoryPrefixCarrier_cont_replay_transport
+    {source prefixRow residualTail continuation compatibility evidence ledger name source'
+      prefixRow' residualTail' continuation' compatibility' evidence' ledger' name' : BHist} :
+    HistoryPrefixCarrier source prefixRow residualTail continuation compatibility evidence ledger
+        name →
+      hsame prefixRow prefixRow' →
+        hsame residualTail residualTail' →
+          hsame evidence evidence' →
+            hsame ledger ledger' →
+              hsame name name' →
+                Cont prefixRow' residualTail' source' →
+                  hsame continuation' source' →
+                    hsame compatibility' prefixRow' →
+                      HistoryPrefixCarrier source' prefixRow' residualTail' continuation'
+                          compatibility' evidence' ledger' name' ∧
+                        hsame source source' ∧ hsame continuation continuation' := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro carrier samePrefix sameResidual sameEvidence sameLedger _sameName replayed
+    sameContinuation' sameCompatibility'
+  rcases carrier with
+    ⟨route, sameContinuation, _sameCompatibility, sameEvidenceLedger, _sameNameSelf⟩
+  have sameSource : hsame source source' :=
+    cont_respects_hsame samePrefix sameResidual route replayed
+  have sameEvidenceLedger' : hsame evidence' ledger' :=
+    hsame_trans (hsame_symm sameEvidence) (hsame_trans sameEvidenceLedger sameLedger)
+  have sameContinuationReplay : hsame continuation continuation' :=
+    hsame_trans sameContinuation (hsame_trans sameSource (hsame_symm sameContinuation'))
+  constructor
+  · exact
+      ⟨replayed, sameContinuation', sameCompatibility', sameEvidenceLedger',
+        hsame_refl name'⟩
+  · exact ⟨sameSource, sameContinuationReplay⟩
 
 end BEDC.Derived.HistoryPrefixUp

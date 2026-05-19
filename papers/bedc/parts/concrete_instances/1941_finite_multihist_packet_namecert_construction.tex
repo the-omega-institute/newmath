@@ -59,6 +59,7 @@ It remains to check access. The routes in $C$ are the only visible continuations
 \label{thm:finite-multihist-packet-no-sync-boundary}
 The public boundary of an accepted $\FiniteMultiHistPacketUp$ carrier exports only the displayed finite histories, component ledgers, pairwise $\hsame$ rows, visible $\Cont$ routes, package provenance, and local $\NameCert$ row. It exports no privileged shared now, no global observer frame, no total ordering of observers, and no selected synchronization map between components.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteMultiHistPacketUp.FiniteMultiHistPacketUp\_no\_sync\_boundary}
 \begin{proof}
 Inspect the coordinates of \autoref{def:finite-multihist-packet-carrier}. The public rows are $H,L,S,C,B,P,N$, and each row is finite and local to the packet.
 
@@ -71,6 +72,7 @@ No other coordinate can supply such data. The history rows are local components,
 \label{thm:finite-multihist-packet-causal-interface}
 Every accepted $\FiniteMultiHistPacketUp$ carrier supplies the input surface required by a later $\CrossHistCausalUp$ certificate: a finite family of displayed observer histories, component ledgers, pairwise $\hsame$ transport rows, visible $\Cont$ routes, package provenance, and a no-global-sync boundary. It does not itself assert any cross-Hist causal dependence or maximum causal rate.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteMultiHistPacketUp.FiniteMultiHistPacketUp\_causal\_interface}
 \begin{proof}
 The consumer surface needed by $\CrossHistCausalUp$ begins with displayed histories. The row $H$ supplies the finite family of observer histories, and $L$ supplies the local ledgers from which those histories are read.
 
@@ -106,6 +108,7 @@ M|_J=(H_J,L_J,S_J,C_J,B,P_J,N_J)
 $$
 for the packet obtained by projecting $H$ to the selected histories, $L$ to the corresponding component ledgers, $S$ to the selected pairwise $\hsame$ entries, $C$ to the displayed routes that read those selected rows, and $P,N$ to the same package-provenance and local-naming data restricted to the selected rows. Then $M|_J$ is again an accepted $\FiniteMultiHistPacketUp$ carrier. Its public boundary has the same no-global-sync row $B$, so the restriction exports no privileged shared now, no global observer frame, no total observer order, and no selected synchronization map.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteMultiHistPacketUp.FiniteMultiHistPacketUp\_subpacket\_restriction}
 \begin{proof}
 The carrier shape is read from \autoref{def:finite-multihist-packet-carrier}. Since $H$ is finite and $J$ is a displayed finite subfamily, $H_J$ is a finite observer-history row. The component ledger $L_J$ is obtained by keeping exactly the entries $L_i$ whose histories $H_i$ are selected by $J$, so every component row of the restricted packet remains a displayed local ledger row of the original packet.
 

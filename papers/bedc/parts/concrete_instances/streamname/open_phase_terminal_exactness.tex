@@ -5,21 +5,21 @@
 \label{thm:streamname-open-phase-terminal-seal-exactness}
 Every Phase Real and Completion seal read available from an open-phase terminal $\StreamNameUp$ consumer is available exactly through the four-face route
 $$
-\StreamNameUp\text{ window}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RealUp\text{ seal}.
+\StreamNameUp\text{ window}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \RealUp\text{ seal}.
 $$
-The supporting rows are the displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$ rows, the StreamName finite-window row, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ ledger row, and the $\RealUp$ seal row. The seal read exports no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, no metric-completeness datum, and no standard bridge row.
+The supporting rows are the displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$ rows, the StreamName finite-window row, the $\DyadicRatCoreUp$ ledger row, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal row. The seal read exports no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, no metric-completeness datum, and no standard bridge row.
 \end{theorem}
 \begin{proof}
-Apply \autoref{thm:streamname-open-phase-terminal-route}. It places the Phase Real and Completion seal read on the terminal finite packet carrying the StreamName window, the RegSeqRat readback, the DyadicRatCore ledger, the RealUp seal row, observations, transports, routes, provenance, and local names.
+Apply \autoref{thm:streamname-open-phase-terminal-route}. It places the Phase Real and Completion seal read on the terminal finite packet carrying the StreamName window, the DyadicRatCore ledger, the RegSeqRat readback, the RealUp seal row, observations, transports, routes, provenance, and local names.
 
-Next use \autoref{thm:streamname-open-phase-four-face-lock}. The open-phase consumer can reach the seal only through the ordered four-face route displayed in the statement.
+Next use \autoref{thm:streamname-l10-four-face-ordered-exit-gate} and \autoref{thm:streamname-real-completion-gateway-ordered-source-readback}. The open-phase consumer can reach the seal only through the ordered four-face route displayed in the statement.
 
 Finally apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}. The seal-facing read is determined by those four faces and their displayed support rows, so there is no second route through quotient streams, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, or standard bridge rows.
 \end{proof}
 
 \begin{theorem}[StreamName open-phase terminal ledger coverage]
 \label{thm:streamname-open-phase-terminal-ledger-coverage}
-Every public coordinate of the open-phase terminal route for a Phase Real and Completion consumer is one of the displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$ rows, the StreamName window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, or the $\RealUp$ seal. In particular, the terminal ledger contains no quotient stream coordinate, no host sequence equality coordinate, no selected-limit coordinate, no ambient $\RealUp$ completeness coordinate, no metric-completeness coordinate, and no standard bridge coordinate.
+Every public coordinate of the open-phase terminal route for a Phase Real and Completion consumer is one of the displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$ rows, the StreamName window, the $\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ readback, or the $\RealUp$ seal. In particular, the terminal ledger contains no quotient stream coordinate, no host sequence equality coordinate, no selected-limit coordinate, no ambient $\RealUp$ completeness coordinate, no metric-completeness coordinate, and no standard bridge coordinate.
 \end{theorem}
 \begin{proof}
 First apply \autoref{thm:streamname-open-phase-terminal-nonescape}. It exhausts the consumer surface by the terminal packet rows and excludes quotient streams, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, and standard bridge rows.
@@ -31,10 +31,10 @@ Combining the two inventories leaves exactly the rows named in the statement. Si
 
 \begin{theorem}[StreamName open-phase terminal readback determinacy]
 \label{thm:streamname-open-phase-terminal-readback-determinacy}
-Let two Phase Real and Completion consumers read the same open-phase terminal route. If they have the same StreamName window face, the same $\RegSeqRatUp$ readback face, the same $\DyadicRatCoreUp$ ledger face, the same $\RealUp$ seal face, and the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ transport and provenance rows, then they determine the same terminal packet. The determined packet is only the finite BEDC packet of the four displayed faces and their support rows; it is not a quotient stream, host sequence equality, selected limit, ambient $\RealUp$ completeness object, metric-completeness datum, or standard bridge row.
+Let two Phase Real and Completion consumers read the same open-phase terminal route. If they have the same StreamName window face, the same $\DyadicRatCoreUp$ ledger face, the same $\RegSeqRatUp$ readback face, the same $\RealUp$ seal face, and the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ transport and provenance rows, then they determine the same terminal packet. The determined packet is only the finite BEDC packet of the four displayed faces and their support rows; it is not a quotient stream, host sequence equality, selected limit, ambient $\RealUp$ completeness object, metric-completeness datum, or standard bridge row.
 \end{theorem}
 \begin{proof}
-Apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy} to the two consumer reads. Equality of the StreamName window, RegSeqRat readback, DyadicRatCore ledger, RealUp seal, and displayed support rows gives the same seal-facing finite pullback surface.
+Apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy} to the two consumer reads. Equality of the StreamName window, DyadicRatCore ledger, RegSeqRat readback, RealUp seal, and displayed support rows gives the same seal-facing finite pullback surface.
 
 Next apply \autoref{thm:streamname-open-phase-terminal-ledger-coverage}. Every public coordinate of either terminal packet is one of the four displayed faces or one of the listed transport, route, provenance, observation, and naming rows.
 
@@ -45,12 +45,14 @@ The two packets therefore have the same complete public inventory. Since the cov
 \label{thm:streamname-real-regseq-terminal-factorization}
 Any Phase Real and Completion consumer that reaches a $\RealUp$ seal through $\StreamNameUp$ factors uniquely through the ordered four-face route
 $$
-\StreamNameUp\text{ window}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RealUp\text{ seal}
+\StreamNameUp\text{ window}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \RealUp\text{ seal}
 $$
 with displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The factorization is the consumer contract for the terminal seal read: no quotient stream, host sequence equality, selected limit, ambient $\RealUp$ completeness row, metric-completeness row, or bridge row can serve as an alternate factor.
 \end{theorem}
 \begin{proof}
-Apply \autoref{thm:streamname-open-phase-terminal-seal-exactness}. It supplies existence of the ordered route from the StreamName window through RegSeqRat readback and DyadicRatCore ledger to the RealUp seal.
+Apply \autoref{thm:streamname-open-phase-terminal-seal-exactness}. It supplies existence of the ordered route from the StreamName window through the DyadicRatCore ledger and RegSeqRat readback to the RealUp seal.
+
+Use \autoref{thm:streamname-l10-four-face-ordered-exit-gate} and \autoref{thm:streamname-real-completion-gateway-ordered-source-readback} to identify that route as the L10 source order.
 
 Next apply \autoref{thm:streamname-open-phase-terminal-ledger-coverage}. The coverage theorem exhausts the terminal ledger by the four faces and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
 
@@ -63,18 +65,18 @@ Finally use \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary}. Th
 \label{thm:streamname-regseqrat-realup-terminal-seal-boundary}
 Any Phase Real and Completion consumer that reaches a quotient-refusal or seal-facing boundary through $\StreamNameUp$ must expose exactly the terminal four-face route
 $$
-\StreamNameUp\text{ window}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RealUp\text{ seal}
+\StreamNameUp\text{ window}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \RealUp\text{ seal}
 $$
 together with the displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows before any refusal ledger is read. Consequently the refusal ledger cannot supply quotient streams, host sequence equality, selected limits, ambient $\RealUp$ completeness, metric-completeness data, or standard bridge rows.
 \end{theorem}
 \begin{proof}
 Apply \autoref{thm:streamname-open-phase-terminal-seal-exactness}. It fixes every seal-facing read available through the open-phase terminal $\StreamNameUp$ consumer on the four displayed faces and their support rows.
 
-Next use \autoref{thm:streamname-open-phase-terminal-ledger-coverage}. The terminal packet has no public coordinate outside the StreamName finite window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, the $\RealUp$ seal, and the displayed observation, transport, route, provenance, and local naming rows.
+Next use \autoref{thm:streamname-open-phase-terminal-ledger-coverage}. The terminal packet has no public coordinate outside the StreamName finite window, the $\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ readback, the $\RealUp$ seal, and the displayed observation, transport, route, provenance, and local naming rows.
 
 Apply \autoref{thm:streamname-open-phase-terminal-readback-determinacy}. Once those rows agree, the terminal packet is determined as the finite BEDC packet and not as a quotient stream, host sequence equality, selected limit, ambient completeness object, metric-completeness datum, or standard bridge row.
 
-Finally use the QuotientStreamRefusal route-ordering surface of \autoref{thm:quotient-stream-refusal-route-ordering}. A quotient-refusal consumer may read its refusal ledger only after the ordered StreamName, RegSeqRat, CauchyLimitSeal, and RealUp route has been exposed. At the StreamName terminal seal boundary, the dyadic ledger supplies the same finite seal face consumed by that route, so the refusal row records non-export rather than adding quotient, equality, limit, completeness, metric, or bridge data.
+Finally use the QuotientStreamRefusal route-ordering surface of \autoref{thm:quotient-stream-refusal-route-ordering} together with \autoref{thm:streamname-l10-four-face-ordered-exit-gate}. A quotient-refusal consumer may read its refusal ledger only after the ordered StreamName, DyadicRatCore, RegSeqRat, and RealUp route has been exposed. At the StreamName terminal seal boundary, the dyadic ledger supplies the finite tolerance face consumed before the RegSeqRat readback, so the refusal row records non-export rather than adding quotient, equality, limit, completeness, metric, or bridge data.
 \end{proof}
 
 \begin{theorem}[StreamName terminal face status readback]
@@ -82,11 +84,25 @@ Finally use the QuotientStreamRefusal route-ordering surface of \autoref{thm:quo
 Any Phase Real and Completion terminal read through $\StreamNameUp$ reports the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces by reading each face's own local \texttt{closurestatus}, \texttt{formalstatus}, \texttt{leantarget}, and \texttt{bridgestatus} rows. The readback is facewise: no aggregate route-level status, bridge token, quotient stream, selected limit, ambient completeness, metric-completeness datum, countable-choice row, or host equality can replace one face's local status record.
 \end{theorem}
 \begin{proof}
-Apply \autoref{thm:streamname-open-phase-terminal-seal-exactness}. It fixes the terminal read on the four-face route from the StreamName window through RegSeqRat readback and DyadicRatCore ledger to the RealUp seal.
+Apply \autoref{thm:streamname-open-phase-terminal-seal-exactness}. It fixes the terminal read on the four-face route from the StreamName window through the DyadicRatCore ledger and RegSeqRat readback to the RealUp seal.
 
 Next apply \autoref{thm:streamname-open-phase-terminal-ledger-coverage}. The terminal ledger exposes only the four named faces and their displayed observation, transport, route, provenance, and local naming rows, so the status rows available at the terminal boundary are the local rows attached to those faces.
 
 Use \autoref{thm:streamname-open-phase-terminal-readback-determinacy}. Once the four faces and their support rows agree, a consumer read determines the same finite terminal packet; there is no second packet whose aggregate status, bridge token, quotient stream, selected limit, ambient completeness, metric-completeness datum, countable-choice row, or host equality could stand in for a local face record.
 
 Finally apply \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary}. The boundary theorem keeps every seal-facing read inside the displayed terminal route before any refusal ledger is read. The two-axis discipline of \autoref{sec:per-chapter-closurestatus} then reads paper closure and Lean verification independently at each local face, so the \texttt{closurestatus}, \texttt{formalstatus}, \texttt{leantarget}, and \texttt{bridgestatus} rows remain face-local rather than route-level summaries.
+\end{proof}
+
+\begin{theorem}[StreamName terminal sibling status readback]
+\label{thm:streamname-open-phase-terminal-status-sibling-readback}
+Any Phase Real and Completion terminal read through $\StreamNameUp$ reads its terminal face-status records from the concrete sibling chapters \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}, together with the local $\StreamNameUp$ face itself. The read is chapter-local at each face: $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ each contribute their own \texttt{closurestatus}, \texttt{formalstatus}, \texttt{leantarget}, and \texttt{bridgestatus} rows. No aggregate formalstatus row, aggregate bridge token, quotient stream, selected limit, ambient completeness row, metric-completeness datum, countable-choice row, or host equality row can replace those concrete sibling records.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-open-phase-terminal-face-status-readback}. It already forces the terminal read to inspect closure, formal status, Lean target, and bridge status face by face rather than through a route-level summary.
+
+Next apply \autoref{thm:streamname-open-phase-terminal-ledger-coverage}. The finite terminal inventory contains only the StreamName window, the $\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ readback, the $\RealUp$ seal, and their displayed observation, transport, route, provenance, and local naming rows.
+
+Use \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary} to place that inventory on the terminal route before any refusal ledger is read. The concrete sibling chapters \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} identify the dyadic ledger, regular readback, and real-seal faces, while the present $\StreamNameUp$ chapter supplies the finite-window face.
+
+Therefore the terminal status read has exactly four local chapter sources. Since every excluded coordinate lies outside the finite ledger and outside the terminal boundary, none of those coordinates can serve as a substitute status record for any face.
 \end{proof}

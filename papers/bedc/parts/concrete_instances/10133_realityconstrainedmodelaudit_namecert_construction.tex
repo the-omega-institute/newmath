@@ -64,6 +64,7 @@ The non-escape clause is forced by the carrier inventory. Since the packet has n
 \label{thm:reality-constrained-model-audit-ledger-nonescape}
 A model-audit packet with an unledgered compression row cannot pass the acceptance gate for any fit claim whose signature depends on that hidden row. The accepted route must expose the source trace, observation bundle, observed signature, model-generated signature, classifier, approximation tower, audit ledger, failure surface, and strength row before the fit claim is read.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedModelAuditUp.RealityConstrainedModelAuditLedgerNonescape}
 \begin{proof}
 Read the NameCert obligations of \autoref{thm:reality-constrained-model-audit-namecert-obligations}. Ledger exactness places every compression or translation row used by the fit comparison inside $L$.
 
@@ -76,6 +77,7 @@ Therefore the acceptance gate can pass only claims whose signature dependence is
 \label{thm:reality-constrained-model-audit-fit-separation}
 Two accepted $\RealityConstrainedModelAuditUp$ packets may agree on source traces and observation bundles while remaining separated as physical audit certificates whenever their declared physical-fit comparison, failure surface, or strength row is not preserved by the classifier. This separation is visible at the certificate level and does not require a host-side judgment that either model is false.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedModelAuditUp.RealityConstrainedModelAuditFitSeparation}
 \begin{proof}
 Use the classifier definition. Agreement of $H$ and $\Pi$ supplies only the source and observation-bundle transports.
 
@@ -92,6 +94,7 @@ A=(H,\Pi,O,M,C,T,L,F,S)
 $$
 reads exactly the observed row $O$ and the model row $M$ extracted from the same source trace $H$ and observation bundle $\Pi$. No alternative observed signature, model signature, classifier input, approximation witness, ledger entry, failure row, or strength row can be substituted without leaving the accepted packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedModelAuditUp.RealityConstrainedModelAuditSignatureExactness}
 \begin{proof}
 Start with carrier admission in \autoref{thm:reality-constrained-model-audit-namecert-obligations}. It identifies the accepted object with the nine displayed rows of \autoref{def:reality-constrained-model-audit-carrier}, so the audit route has no coordinate from which a second observed or model-generated signature can be read.
 

@@ -168,6 +168,7 @@ The TasteGate handoff of \autoref{thm:authorized-generator-recursor-ground-compi
 \label{thm:authorized-generator-recursor-audit-row-completeness}
 The audit row $A$ is complete for the accepted $\AuthorizedGeneratorRecursorUp$ packet in the following finite sense: before $O$ is public, $A$ must expose the build check, source-axiom refusal, dependency refusal, and operational-membrane provenance consumed by the packet. This audit completeness does not prove kernel completeness, global termination, or a proof generator outside the accepted recursor boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorAuditRowCompleteness}
 \begin{proof}
 Begin with the carrier definition and its audit-provenance row. The displayed packet places $A$ before public output exposure and ties it to $I,E,M,B,D,O,H,C,P,G,N$.
 
@@ -185,6 +186,7 @@ $$
 R=(I,E,M,B,D,O,A,H,C,P,G,N).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorOperationalMembraneAuditHandoff}
 \begin{proof}
 Project the carrier of \autoref{def:authorized-generator-recursor-carrier}. The row $A$ records the build check, source-axiom refusal, dependency refusal, and operational-membrane provenance, while $O$ is only the displayed output-name row of the same packet.
 
@@ -197,6 +199,7 @@ Use \autoref{thm:authorized-generator-recursor-output-name-stability} with \auto
 \label{thm:authorized-generator-recursor-branch-descent-totality}
 For an accepted $\AuthorizedGeneratorRecursorUp$ packet, the accepted branch package $B$ and structural-descent row $D$ jointly exhaust all public recursive reads. A public read may reach the constructor signature, emitted eliminator, checked motive, accepted branches, descent evidence, output name, audit row, transports, routes, package provenance, boundary row, and local certificate, but it cannot read a recursive branch outside $B$ or a recursive call whose descent is absent from $D$.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorBranchDescentTotality}
 \begin{proof}
 Start from the carrier definition. The only public recursive generator named by the packet is the emitted eliminator $E$, and the rows adjacent to it are the accepted signature $I$, checked motive $M$, branch package $B$, and descent row $D$.
 
@@ -211,6 +214,7 @@ The audit boundary and output-name stability, supplied by \autoref{thm:authorize
 \label{thm:authorized-generator-recursor-hidden-generator-exclusion}
 No public route out of an accepted $\AuthorizedGeneratorRecursorUp$ packet can recover an unlisted constructor, unchecked branch, non-structural recursion channel, external axiom, or hidden proof generator. Every public route is a projection of the carrier rows $I,E,M,B,D,O,A,H,C,P,G,N$ together with the displayed $\mathsf{GAP}$ boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorHiddenGeneratorExclusion}
 \begin{proof}
 Read the carrier definition and the boundary row $G$. The tuple has no coordinate for an extra constructor, unchecked branch, non-structural recursion channel, external axiom, or hidden proof-producing generator.
 
@@ -262,6 +266,7 @@ and \autoref{thm:authorized-generator-recursor-hidden-generator-exclusion}. The
 output name cannot be transported apart from the signature, descent, audit, and
 boundary rows, and the packet has no coordinate for a hidden generator.
 \end{proof}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorSignatureRouteTotality}
 
 \begin{theorem}[AuthorizedGeneratorRecursor output audit ledger]
 \label{thm:authorized-generator-recursor-output-audit-ledger}
@@ -271,6 +276,7 @@ provenance $P$, boundary $G$, and local name $N$ over the same
 $I,E,M,B,D$ recursor route. The ledger refuses any public output whose
 dependency or audit provenance escapes the displayed packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorOutputAuditLedger}
 \begin{proof}
 Begin with \autoref{thm:authorized-generator-recursor-audit-boundary}. It
 places the public output behind the accepted signature, emitted eliminator,
@@ -629,6 +635,7 @@ structural-descent row in $D$. The public recursor surface keeps branch
 coverage, descent reads, and audit provenance as disjoint displayed ledger
 roles inside the single carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorBranchLedgerDisjointness}
 \begin{proof}
 Project the carrier
 $(I,E,M,B,D,O,A,H,C,P,G,N)$ of

@@ -199,3 +199,105 @@ and standard bridge rows; schedule confluence keeps the replay on the same
 displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ inventory.
 Thus the four-face status ledger is exhaustive.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-cover terminal classifier descent]
+\label{thm:regseqrat-finite-cover-terminal-classifier-descent}
+Let $\{W_i\}_{i \in I}$ be a finite family of certified
+$\StreamNameUp$ windows for a $\RegSeqRatUp$ terminal read. Suppose the
+pairwise and triple overlaps satisfy the $\StreamNameUp$--$\RegSeqRatUp$
+source cocycle and seal cocycle hypotheses, and suppose the induced handoffs
+consume the same $\DyadicRatCoreUp$ endpoint, radius, and distance ledgers on
+overlaps. Then the resulting $\RegSeqRatUp$ terminal classifier surface is
+exactly the pasted four-face inventory consisting of the $\DyadicRatCoreUp$
+endpoint, radius, and distance ledgers; the $\StreamNameUp$ window rows; the
+$\RegSeqRatUp$ regularity, classifier, and provenance rows; and the terminal
+$\RealUp$ seal row.
+
+The descent transport uses only the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows. It introduces no quotient streams, selected host
+limits, host equality, countable choice, ambient $\RealUp$ completeness,
+metric-completeness rows, or standard bridge rows.
+\end{theorem}
+\begin{proof}
+First paste the finite StreamName cover. Apply
+\autoref{thm:streamname-regseqrat-finite-cover-pasted-source-exhaustion} to
+the certified windows and their pairwise and triple source cocycle data. Apply
+\autoref{thm:streamname-regseqrat-finite-cover-pasted-seal-exhaustion} to the
+same cover with the seal cocycle data. These two finite-cover statements keep
+the pasted source and seal on the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows, and they keep the DyadicRatCore ledgers shared
+on overlaps.
+
+Next identify the pasted cover with the terminal classifier surface. By
+\autoref{thm:regseqrat-four-face-terminal-classifier-completeness}, an
+accepted terminal $\RegSeqRatUp$ read is classified completely by the four
+visible faces: the DyadicRatCore ledger face, the StreamName window face, the
+RegSeqRat regularity/classifier/provenance face, and the terminal $\RealUp$
+seal face. The pasted finite cover supplies exactly those rows, so no extra
+classifier coordinate is available.
+
+Finally keep the terminal seal on the same four-face route. Use
+\autoref{thm:regseqrat-dyadic-tail-real-seal-status-exhaustion} to exhaust
+the $\RegSeqRatUp$ terminal status by the displayed four-face ledger, and use
+\autoref{thm:real-l10-terminal-four-face-correspondence} to read the terminal
+$\RealUp$ seal as the same four-face packet. The exclusions in these route
+statements remove quotient streams, selected host limits, host equality,
+countable choice, ambient completeness, metric-completeness rows, and standard
+bridge rows. Hence the descended classifier is precisely the pasted terminal
+four-face inventory.
+\end{proof}
+
+\begin{theorem}[RegSeqRat finite-cover terminal refinement invariance]
+\label{thm:regseqrat-finite-cover-terminal-refinement-invariance}
+Let $\{W_i\}_{i \in I}$ and $\{V_j\}_{j \in J}$ be two finite certified
+$\StreamNameUp$ cover presentations of the same accepted $\RegSeqRatUp$
+terminal read. Suppose both covers satisfy the finite source and seal cocycle
+hypotheses of
+\autoref{thm:regseqrat-finite-cover-terminal-classifier-descent}. Suppose
+also that they admit a certified finite common refinement whose refinement
+maps preserve the $\DyadicRatCoreUp$ endpoint, radius, and distance ledgers,
+the $\StreamNameUp$ window rows, the $\RegSeqRatUp$ regularity, classifier,
+and provenance rows, the terminal $\RealUp$ seal row, and the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support.
+
+Then the two cover presentations descend to the same four-face terminal
+classifier surface. The invariant surface is exactly the visible
+$\DyadicRatCoreUp$ ledger face, $\StreamNameUp$ window face, $\RegSeqRatUp$
+regularity/classifier/provenance face, and terminal $\RealUp$ seal face. It
+contains no quotient stream, host sequence equality, selected limit, host real
+equality, countable-choice row, ambient or metric completeness datum, or
+standard bridge row.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-finite-cover-terminal-classifier-descent} to the
+$\{W_i\}_{i \in I}$ cover. The first presentation descends to the pasted
+four-face classifier surface carried by its DyadicRatCore ledgers,
+StreamName windows, RegSeqRat rows, terminal $\RealUp$ seal, and displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support.
+
+Apply the same descent theorem to the $\{V_j\}_{j \in J}$ cover. The second
+presentation also descends to a pasted four-face classifier surface with the
+same kind of visible support and with the same exclusion clauses.
+
+Use the certified common refinement to compare the two pasted surfaces. By
+hypothesis, every refinement row preserves the DyadicRatCore endpoint, radius,
+and distance ledgers, the StreamName window rows, the RegSeqRat regularity,
+classifier, and provenance rows, the terminal $\RealUp$ seal row, and the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support.
+Thus the two descended presentations have identical visible four-face
+inventories.
+
+Now apply
+\autoref{thm:regseqrat-four-face-terminal-classifier-completeness} and
+\autoref{thm:regseqrat-terminal-four-face-correspondence}. Completeness says
+that accepted terminal reads are classified exactly by those four visible
+faces, and the correspondence identifies equality of the visible inventories
+with equality of the terminal classifier surface.
+
+The exclusion clauses are inherited from the two descent applications and
+from the terminal pullback route. Hence refinement invariance is witnessed
+inside the displayed BEDC rows only: no quotient stream, host sequence
+equality, selected limit, host real equality, countable choice, ambient or
+metric completeness, or standard bridge is introduced.
+\end{proof}

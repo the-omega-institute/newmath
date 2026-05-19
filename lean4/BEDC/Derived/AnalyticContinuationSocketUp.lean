@@ -34,6 +34,33 @@ def AnalyticContinuationSocketCarrier [AskSetup] [PackageSetup]
             Cont continuation name provenance ∧ PkgSig bundle provenance pkg ∧
               PkgSig bundle name pkg
 
+theorem AnalyticContinuationSocketCarrier_overlap_source_obligation [AskSetup] [PackageSetup]
+    {source leftOverlap witness operation output branch transport continuation provenance name
+      overlapRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AnalyticContinuationSocketCarrier source leftOverlap witness operation output branch
+        transport continuation provenance name bundle pkg →
+      hsame overlapRead source →
+        UnaryHistory overlapRead ∧ UnaryHistory source ∧ UnaryHistory leftOverlap ∧
+          UnaryHistory witness ∧ Cont source leftOverlap witness ∧
+            PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameOverlapSource
+  obtain ⟨sourceUnary, leftOverlapUnary, witnessUnary, _operationUnary, _outputUnary,
+    _branchUnary, _transportUnary, _continuationUnary, _provenanceUnary, _nameUnary,
+    sourceLeftOverlapWitness, _witnessOperationOutput, _branchTransportContinuation,
+    _outputContinuationProvenance, _continuationNameProvenance, _provenancePkg, namePkg⟩ :=
+      carrier
+  have overlapUnary : UnaryHistory overlapRead :=
+    unary_transport sourceUnary (hsame_symm sameOverlapSource)
+  exact
+    ⟨overlapUnary,
+      sourceUnary,
+      leftOverlapUnary,
+      witnessUnary,
+      sourceLeftOverlapWitness,
+      namePkg⟩
+
 theorem AnalyticContinuationSocketCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {source leftOverlap witness operation output branch transport continuation provenance name
       consumer : BHist}
@@ -204,6 +231,35 @@ theorem AnalyticContinuationSocketCarrier_branch_ledger_exhaustion [AskSetup]
       branchTransportContinuation,
       provenancePkg⟩
 
+theorem AnalyticContinuationSocketCarrier_ledger_nonescape [AskSetup] [PackageSetup]
+    {source leftOverlap witness operation output branch transport continuation provenance name
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AnalyticContinuationSocketCarrier source leftOverlap witness operation output branch
+        transport continuation provenance name bundle pkg →
+      Cont output branch consumer →
+        PkgSig bundle consumer pkg →
+          UnaryHistory output ∧ UnaryHistory branch ∧ UnaryHistory consumer ∧
+            Cont output branch consumer ∧ Cont branch transport continuation ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier outputBranchConsumer consumerPkg
+  obtain ⟨_sourceUnary, _leftOverlapUnary, _witnessUnary, _operationUnary, outputUnary,
+    branchUnary, _transportUnary, _continuationUnary, _provenanceUnary, _nameUnary,
+    _sourceLeftOverlapWitness, _witnessOperationOutput, branchTransportContinuation,
+    _outputContinuationProvenance, _continuationNameProvenance, provenancePkg, _namePkg⟩ :=
+      carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed outputUnary branchUnary outputBranchConsumer
+  exact
+    ⟨outputUnary,
+      branchUnary,
+      consumerUnary,
+      outputBranchConsumer,
+      branchTransportContinuation,
+      provenancePkg,
+      consumerPkg⟩
+
 theorem AnalyticContinuationSocketCarrier_rh_handoff_boundary [AskSetup] [PackageSetup]
     {source leftOverlap witness operation output branch transport continuation provenance name
       consumer boundary : BHist}
@@ -290,6 +346,80 @@ theorem AnalyticContinuationSocketCarrier_zeta_locality_boundary [AskSetup] [Pac
       zetaPkg,
       boundaryPkg⟩
 
+theorem AnalyticContinuationSocketCarrier_operation_handoff_obligation [AskSetup] [PackageSetup]
+    {source leftOverlap witness operation output branch transport continuation provenance name
+      overlapRead outputRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AnalyticContinuationSocketCarrier source leftOverlap witness operation output branch
+        transport continuation provenance name bundle pkg →
+      Cont source leftOverlap overlapRead →
+        Cont output continuation outputRead →
+          PkgSig bundle outputRead pkg →
+            UnaryHistory source ∧ UnaryHistory leftOverlap ∧ UnaryHistory witness ∧
+              UnaryHistory operation ∧ UnaryHistory output ∧ UnaryHistory overlapRead ∧
+                UnaryHistory outputRead ∧ Cont source leftOverlap overlapRead ∧
+                  Cont witness operation output ∧ Cont output continuation outputRead ∧
+                    Cont branch transport continuation ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle outputRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier sourceOverlapRead outputContinuationRead outputReadPkg
+  obtain ⟨sourceUnary, leftOverlapUnary, witnessUnary, operationUnary, _outputUnary,
+    _branchUnary, _transportUnary, continuationUnary, _provenanceUnary, _nameUnary,
+    _sourceLeftOverlapWitness, witnessOperationOutput, branchTransportContinuation,
+    _outputContinuationProvenance, _continuationNameProvenance, provenancePkg, _namePkg⟩ :=
+    carrier
+  have outputUnary : UnaryHistory output :=
+    unary_cont_closed witnessUnary operationUnary witnessOperationOutput
+  have overlapReadUnary : UnaryHistory overlapRead :=
+    unary_cont_closed sourceUnary leftOverlapUnary sourceOverlapRead
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed outputUnary continuationUnary outputContinuationRead
+  exact
+    ⟨sourceUnary,
+      leftOverlapUnary,
+      witnessUnary,
+      operationUnary,
+      outputUnary,
+      overlapReadUnary,
+      outputReadUnary,
+      sourceOverlapRead,
+      witnessOperationOutput,
+      outputContinuationRead,
+      branchTransportContinuation,
+      provenancePkg,
+      outputReadPkg⟩
+
+theorem AnalyticContinuationSocketCarrier_overlap_classifier_stability [AskSetup] [PackageSetup]
+    {source leftOverlap witness operation output branch transport continuation provenance name
+      source' leftOverlap' witness' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AnalyticContinuationSocketCarrier source leftOverlap witness operation output branch
+        transport continuation provenance name bundle pkg ->
+      hsame source source' ->
+        hsame leftOverlap leftOverlap' ->
+          hsame witness witness' ->
+            UnaryHistory source' ∧ UnaryHistory leftOverlap' ∧ UnaryHistory witness' ∧
+              Cont source leftOverlap witness ∧ PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameSource sameLeftOverlap sameWitness
+  obtain ⟨sourceUnary, leftOverlapUnary, witnessUnary, _operationUnary, _outputUnary,
+    _branchUnary, _transportUnary, _continuationUnary, _provenanceUnary, _nameUnary,
+    sourceLeftOverlapWitness, _witnessOperationOutput, _branchTransportContinuation,
+    _outputContinuationProvenance, _continuationNameProvenance, _provenancePkg, namePkg⟩ :=
+      carrier
+  have sourcePrimeUnary : UnaryHistory source' :=
+    unary_transport sourceUnary sameSource
+  have leftOverlapPrimeUnary : UnaryHistory leftOverlap' :=
+    unary_transport leftOverlapUnary sameLeftOverlap
+  have witnessPrimeUnary : UnaryHistory witness' :=
+    unary_transport witnessUnary sameWitness
+  exact
+    ⟨sourcePrimeUnary,
+      leftOverlapPrimeUnary,
+      witnessPrimeUnary,
+      sourceLeftOverlapWitness,
+      namePkg⟩
+
 theorem AnalyticContinuationSocketCarrier_local_output_handoff [AskSetup] [PackageSetup]
     {source leftOverlap witness operation output branch transport continuation provenance name
       consumer : BHist}
@@ -331,6 +461,41 @@ theorem AnalyticContinuationSocketCarrier_local_output_handoff [AskSetup] [Packa
       provenancePkg,
       consumerPkg⟩
 
+theorem AnalyticContinuationSocketCarrier_root_source_overlap [AskSetup] [PackageSetup]
+    {source leftOverlap witness operation output branch transport continuation provenance name
+      sourceRead overlapRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AnalyticContinuationSocketCarrier source leftOverlap witness operation output branch
+        transport continuation provenance name bundle pkg ->
+      Cont source leftOverlap sourceRead ->
+        Cont sourceRead witness overlapRead ->
+          PkgSig bundle overlapRead pkg ->
+            UnaryHistory source ∧ UnaryHistory leftOverlap ∧ UnaryHistory witness ∧
+              UnaryHistory sourceRead ∧ UnaryHistory overlapRead ∧
+                Cont source leftOverlap sourceRead ∧ Cont sourceRead witness overlapRead ∧
+                  PkgSig bundle name pkg ∧ PkgSig bundle overlapRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier sourceLeftOverlapRead sourceReadWitnessOverlap overlapReadPkg
+  obtain ⟨sourceUnary, leftOverlapUnary, witnessUnary, _operationUnary, _outputUnary,
+    _branchUnary, _transportUnary, _continuationUnary, _provenanceUnary, _nameUnary,
+    _sourceLeftOverlapWitness, _witnessOperationOutput, _branchTransportContinuation,
+    _outputContinuationProvenance, _continuationNameProvenance, _provenancePkg, namePkg⟩ :=
+      carrier
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_cont_closed sourceUnary leftOverlapUnary sourceLeftOverlapRead
+  have overlapReadUnary : UnaryHistory overlapRead :=
+    unary_cont_closed sourceReadUnary witnessUnary sourceReadWitnessOverlap
+  exact
+    ⟨sourceUnary,
+      leftOverlapUnary,
+      witnessUnary,
+      sourceReadUnary,
+      overlapReadUnary,
+      sourceLeftOverlapRead,
+      sourceReadWitnessOverlap,
+      namePkg,
+      overlapReadPkg⟩
+
 def AnalyticContinuationSocketPacket [AskSetup] [PackageSetup]
     (source leftOverlap witness operation output branch transport continuation provenance
       name : BHist)
@@ -355,5 +520,71 @@ theorem AnalyticContinuationSocketPacket_overlap_transport [AskSetup] [PackageSe
     _branchUnary, _provenanceUnary, overlapRoute, continuationRoute, namePkg⟩ := packet
   exact
     ⟨sourceUnary, leftOverlapUnary, witnessUnary, overlapRoute, continuationRoute, namePkg⟩
+
+theorem AnalyticContinuationSocketCarrier_classifier_obligation [AskSetup] [PackageSetup]
+    {source leftOverlap witness operation output branch transport continuation provenance name
+      source' leftOverlap' witness' operation' output' branch' transport' continuation'
+      provenance' name' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AnalyticContinuationSocketCarrier source leftOverlap witness operation output branch
+        transport continuation provenance name bundle pkg ->
+      hsame source source' -> hsame leftOverlap leftOverlap' -> hsame witness witness' ->
+        hsame operation operation' -> hsame output output' -> hsame branch branch' ->
+          hsame transport transport' -> hsame continuation continuation' ->
+            hsame provenance provenance' -> hsame name name' ->
+              UnaryHistory source' ∧ UnaryHistory leftOverlap' ∧ UnaryHistory witness' ∧
+                UnaryHistory operation' ∧ UnaryHistory output' ∧ UnaryHistory branch' ∧
+                  UnaryHistory transport' ∧ UnaryHistory continuation' ∧
+                    UnaryHistory provenance' ∧ UnaryHistory name' ∧
+                      Cont source leftOverlap witness ∧ Cont witness operation output ∧
+                        Cont branch transport continuation ∧ Cont output continuation
+                          provenance ∧ Cont continuation name provenance ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameSource sameLeftOverlap sameWitness sameOperation sameOutput sameBranch
+    sameTransport sameContinuation sameProvenance sameName
+  obtain ⟨sourceUnary, leftOverlapUnary, witnessUnary, operationUnary, outputUnary,
+    branchUnary, transportUnary, continuationUnary, provenanceUnary, nameUnary,
+    sourceLeftOverlapWitness, witnessOperationOutput, branchTransportContinuation,
+    outputContinuationProvenance, continuationNameProvenance, provenancePkg, namePkg⟩ :=
+    carrier
+  have sourcePrimeUnary : UnaryHistory source' :=
+    unary_transport sourceUnary sameSource
+  have leftOverlapPrimeUnary : UnaryHistory leftOverlap' :=
+    unary_transport leftOverlapUnary sameLeftOverlap
+  have witnessPrimeUnary : UnaryHistory witness' :=
+    unary_transport witnessUnary sameWitness
+  have operationPrimeUnary : UnaryHistory operation' :=
+    unary_transport operationUnary sameOperation
+  have outputPrimeUnary : UnaryHistory output' :=
+    unary_transport outputUnary sameOutput
+  have branchPrimeUnary : UnaryHistory branch' :=
+    unary_transport branchUnary sameBranch
+  have transportPrimeUnary : UnaryHistory transport' :=
+    unary_transport transportUnary sameTransport
+  have continuationPrimeUnary : UnaryHistory continuation' :=
+    unary_transport continuationUnary sameContinuation
+  have provenancePrimeUnary : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have namePrimeUnary : UnaryHistory name' :=
+    unary_transport nameUnary sameName
+  exact
+    ⟨sourcePrimeUnary,
+      leftOverlapPrimeUnary,
+      witnessPrimeUnary,
+      operationPrimeUnary,
+      outputPrimeUnary,
+      branchPrimeUnary,
+      transportPrimeUnary,
+      continuationPrimeUnary,
+      provenancePrimeUnary,
+      namePrimeUnary,
+      sourceLeftOverlapWitness,
+      witnessOperationOutput,
+      branchTransportContinuation,
+      outputContinuationProvenance,
+      continuationNameProvenance,
+      provenancePkg,
+      namePkg⟩
 
 end BEDC.Derived.AnalyticContinuationSocketUp

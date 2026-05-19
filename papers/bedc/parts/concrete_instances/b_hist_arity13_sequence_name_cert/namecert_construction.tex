@@ -1,0 +1,128 @@
+\chapter{A Concrete Naming Certificate for $\BHistArityThirteenSequenceNameCertUp$}
+\label{ch:concrete-instances-b-hist-arity13-sequence-name-cert-namecert}
+\origin{ai-composite}
+
+The $\BHistArityThirteenSequenceNameCertUp$ packet is the ordered arity-thirteen sequence capstone for the carrier-isomorphism bucket. It is composite over the sequence-window certificates of \autoref{ch:concrete-instances-b-hist-nona-sequence-name-cert-namecert}, \autoref{ch:concrete-instances-b-hist-deca-sequence-name-cert-namecert}, and \autoref{ch:concrete-instances-b-hist-hendeca-sequence-name-cert-namecert}, together with the unordered arity-thirteen tuple packet of \autoref{ch:concrete-instances-b-hist-arity13-tuple-namecert}. It also reads representative bucket members $\AuditMapRouteCompilerUp$ from \autoref{ch:concrete-instances-audit-map-route-compiler-namecert}, $\AnalogyCertificateGateUp$ from \autoref{ch:concrete-instances-analogycertificategate-namecert}, $\AxisCarryDiamondRouteUp$ from \autoref{ch:concrete-instances-axis-carry-diamond-route-namecert}, $\CompressionLedgerFunctorUp$ from \autoref{ch:concrete-instances-compression-ledger-functor-namecert}, $\FiniteObservationRefutationUp$ from \autoref{ch:concrete-instances-finite-observation-refutation-namecert}, and $\FocusedMultiHistLedgerUp$ from \autoref{ch:concrete-instances-focused-multi-hist-ledger-namecert}. The chapter gives downstream consumers a single BEDC name for the ordered thirteen-row surface instead of requiring them to cite lower-arity sequence windows or the unordered tuple packet.
+
+\begin{definition}[BHistArity13SequenceNameCert carrier]
+\label{def:b-hist-arity13-sequence-name-cert-carrier}
+A $\BHistArityThirteenSequenceNameCertUp$ carrier is a finite sequence-window packet
+$$
+S=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,R_9,R_{10},R_{11},R_{12},I,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0,\ldots,R_{12}$ are the thirteen tag-encoded $\BHist$ rows admitted by the ordered window. Each row is read as a displayed BEDC history component, and its tag records the local sequence role rather than a host-side position.
+\item $I$ is the finite sequence index and order row. It records the first admitted position, the last admitted position, the successor route through all thirteen entries, and the rule that every sequence read factors through exactly one of $R_0,\ldots,R_{12}$.
+\item $H$ records componentwise $\hsame$ transport for $R_0,\ldots,R_{12},I,C,P,L$ and no transport row outside the displayed packet.
+\item $C$ records the displayed $\Cont$ replay from window admission through index preservation, componentwise comparison, transport, provenance readback, and local naming.
+\item $P$ is the $\Pkg$ provenance over the thirteen-row sequence encoder, the sequence and tuple capstones cited above, the representative bucket members cited above, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\BHistArityThirteenSequenceNameCertUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an untagged row, a fourteenth sequence component, a hidden permutation, an order table detached from $I$, unordered bucket membership alone, a host equality test, or a replacement of any tuple or sequence capstone chapter.
+\end{definition}
+
+\begin{definition}[BHistArity13SequenceNameCert classifier]
+\label{def:b-hist-arity13-sequence-name-cert-classifier}
+Two $\BHistArityThirteenSequenceNameCertUp$ packets
+$$
+S=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,R_9,R_{10},R_{11},R_{12},I,H,C,P,L)
+$$
+and
+$$
+S'=(R'_0,R'_1,R'_2,R'_3,R'_4,R'_5,R'_6,R'_7,R'_8,R'_9,R'_{10},R'_{11},R'_{12},I',H',C',P',L')
+$$
+are classifier-equivalent exactly when each displayed sequence row compares componentwise,
+$$
+\begin{aligned}
+&R_0 \sim R'_0,\quad R_1 \sim R'_1,\quad R_2 \sim R'_2,\quad R_3 \sim R'_3,\quad R_4 \sim R'_4,\quad R_5 \sim R'_5,\\
+&R_6 \sim R'_6,\quad R_7 \sim R'_7,\quad R_8 \sim R'_8,\quad R_9 \sim R'_9,\quad R_{10} \sim R'_{10},\quad R_{11} \sim R'_{11},\\
+&R_{12} \sim R'_{12},
+\end{aligned}
+$$
+the index rows display the same finite order, the transport rows display the same $\hsame$ routes for those components and for $I,C,P,L$, and the replay rows display the same $\Cont$ route from ordered window admission through local naming. No comparison is available through an omitted position, an untagged payload, unordered tuple membership, hidden permutation, sibling-capstone rewrite, or host equality.
+\end{definition}
+
+\begin{theorem}[BHistArity13SequenceNameCert carrier admission]
+\label{thm:b-hist-arity13-sequence-name-cert-carrier-admission}
+Every accepted $\BHistArityThirteenSequenceNameCertUp$ packet admits exactly the displayed rows
+$$
+R_0,R_1,R_2,R_3,R_4,R_5,R_6,R_7,R_8,R_9,R_{10},R_{11},R_{12},I,H,C,P,L.
+$$
+The thirteen rows are tag-encoded $\BHist$ components, $I$ is the only finite sequence index and order row, and $H,C,P,L$ are the only structural rows by which a consumer may transport, replay, source, or locally name the sequence window.
+\end{theorem}
+\leanchecked{BEDC.Derived.BHistArity13SequenceNameCertUp.BHistArity13SequenceNameCert\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier of \autoref{def:b-hist-arity13-sequence-name-cert-carrier}. The definition lists the thirteen tag-encoded $\BHist$ rows, then lists the index, transport, continuation, provenance, and local naming rows.
+
+There is no remaining coordinate in the packet. Thus any accepted window read lands in exactly the displayed rows, and any proposed fourteenth component, detached order table, hidden permutation, or off-packet structural row lies outside the accepted surface.
+\end{proof}
+
+\begin{theorem}[BHistArity13SequenceNameCert classifier exactness]
+\label{thm:b-hist-arity13-sequence-name-cert-classifier-exactness}
+For accepted $\BHistArityThirteenSequenceNameCertUp$ packets $S$ and $S'$, the classifier of \autoref{def:b-hist-arity13-sequence-name-cert-classifier} is exact for the arity-thirteen ordered sequence surface: it compares the thirteen $\BHist$ rows at matching indices, compares the displayed finite order through $I,I'$, compares the displayed $\hsame$ and $\Cont$ routes through $H,H',C,C'$, and preserves the provenance and local naming rows through $P,P',L,L'$. It does not compare by unordered tuple membership, hidden permutation, detached order table, sibling-capstone rewrite, bucket membership alone, or host equality.
+\end{theorem}
+\begin{proof}
+Start with the classifier definition. It requires one comparison for each matching pair $R_i,R'_i$, requires the index rows to display the same finite order, and requires the displayed transport and replay routes to preserve that same ordered list.
+
+The provenance and local naming rows are part of the same sequence-window carrier, so their comparison is not an external bucket judgment. Since the classifier has no clause for unordered tuple membership, hidden permutation, detached order table, sibling-capstone rewrite, bucket membership alone, or host equality, the displayed indexwise route is the exact comparison surface.
+\end{proof}
+
+\begin{theorem}[BHistArity13SequenceNameCert index exhaustion]
+\label{thm:b-hist-arity13-sequence-name-cert-index-exhaustion}
+For an accepted $\BHistArityThirteenSequenceNameCertUp$ packet, the index row $I$ exhausts the orderable positions readable by the local $\NameCert$ interface. Every stable carrier-isomorphism read preserves
+$$
+R_0,\ldots,R_{12},I,H,C,P,L
+$$
+as displayed fields of the same sequence-window packet, and no consumer can manufacture an omitted position, erase the order row, collapse two positions into unordered tuple membership, or read a fourteenth sequence component.
+\end{theorem}
+\begin{proof}
+Use the $I$ and $H$ rows in \autoref{def:b-hist-arity13-sequence-name-cert-carrier}. The index row displays the finite order for exactly thirteen entries, and the transport row records componentwise $\hsame$ transport for exactly those entries together with the replay, provenance, and local naming rows.
+
+The classifier of \autoref{def:b-hist-arity13-sequence-name-cert-classifier} repeats the same ordered list and requires the index rows to display the same finite order. A consumer that omits a position, erases $I$, collapses positions into unordered tuple membership, or adds a fourteenth row is therefore no longer reading the accepted packet.
+\end{proof}
+
+\begin{theorem}[BHistArity13SequenceNameCert tag exhaustion]
+\label{thm:b-hist-arity13-sequence-name-cert-tag-exhaustion}
+For an accepted $\BHistArityThirteenSequenceNameCertUp$ packet, the tags carried by $R_0,\ldots,R_{12}$ exhaust the sequence rows available to the local $\NameCert$ interface. Any consumer may transport or replay these rows only through the displayed $I$, $H$, and $C$ rows, and cannot manufacture an unlisted tag, collapse two tags into one bucket witness, import a carrier row from a sibling capstone, alter the displayed order, or read a fourteenth sequence component.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:b-hist-arity13-sequence-name-cert-carrier}. The carrier has exactly the thirteen tag-encoded $\BHist$ rows together with $I,H,C,P,L$, and \autoref{thm:b-hist-arity13-sequence-name-cert-carrier-admission} identifies this displayed list as the whole accepted row inventory.
+
+The index, transport, and replay access paths are therefore already fixed by $I$, $H$, and $C$. No consumer can introduce another tag, change the displayed order, or merge two tags into a single bucket witness, because such a move would require an additional carrier row or a non-displayed structural clause.
+
+Finally apply \autoref{thm:b-hist-arity13-sequence-name-cert-classifier-exactness}. Every public comparison remains indexwise over the same thirteen tags and the same displayed structural rows, so sibling capstones cannot contribute hidden carrier rows and no fourteenth component is readable through the local $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[BHistArity13SequenceNameCert scoped support package]
+\label{thm:b-hist-arity13-sequence-name-cert-scoped-support-package}
+The carrier admission, classifier exactness, index exhaustion, and tag exhaustion clauses bind the $\BHistArityThirteenSequenceNameCertUp$ packet exactly to the displayed BEDC support
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert,
+$$
+to the ordered sequence capstones \autoref{ch:concrete-instances-b-hist-nona-sequence-name-cert-namecert}, \autoref{ch:concrete-instances-b-hist-deca-sequence-name-cert-namecert}, and \autoref{ch:concrete-instances-b-hist-hendeca-sequence-name-cert-namecert}, to the unordered arity-thirteen tuple capstone \autoref{ch:concrete-instances-b-hist-arity13-tuple-namecert}, and to the representative bucket members $\AuditMapRouteCompilerUp$, $\AnalogyCertificateGateUp$, $\AxisCarryDiamondRouteUp$, $\CompressionLedgerFunctorUp$, $\FiniteObservationRefutationUp$, and $\FocusedMultiHistLedgerUp$. The resulting scope is the ordered arity-thirteen $\BHist$ sequence window with displayed index row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row; it is not an unordered bucket tuple, a host-side equality classifier, a hidden permutation, or a hidden fourteenth position.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:b-hist-arity13-sequence-name-cert-carrier-admission} to identify the admitted rows and exclude any fourteenth coordinate. Apply \autoref{thm:b-hist-arity13-sequence-name-cert-classifier-exactness} to keep comparison on matching sequence indices, the displayed index row, and the structural rows.
+
+Apply \autoref{thm:b-hist-arity13-sequence-name-cert-index-exhaustion} to force all stable reads through the same ordered $\hsame$ and $\Cont$ support. Apply \autoref{thm:b-hist-arity13-sequence-name-cert-tag-exhaustion} to rule out unlisted tags, order changes, row fusion, sibling-carrier imports, and hidden components at the local $\NameCert$ interface. The cited sequence capstones and the arity-thirteen tuple packet can source the provenance context, but no carrier or classifier row rewrites those sibling chapters or replaces their local certificates.
+
+The support package is therefore the named BEDC packet itself. Its local $\NameCert$ row exposes only the displayed thirteen-row sequence surface, so the scoped package has no route to an unordered bucket tuple, host-side equality classifier, hidden permutation, or hidden fourteenth position.
+\end{proof}
+
+\falsifiablePrediction{Any accepted consumer route that reads unordered tuple membership as the classifier, an untagged row, a hidden permutation, a fourteenth sequence row, a host equality classifier, an order table detached from $I$, an unlisted tag, or a sibling capstone rewrite fails carrier admission, classifier exactness, index exhaustion, or tag exhaustion for $\BHistArityThirteenSequenceNameCertUp$.}
+
+\independenceWitness{b-hist-nona-sequence-name-cert, b-hist-deca-sequence-name-cert, b-hist-hendeca-sequence-name-cert, and b-hist-arity13-tuple-namecert: none is bijective to $\BHistArityThirteenSequenceNameCertUp$ because this packet carries thirteen ordered payload rows plus an index row, componentwise transport, replay, provenance, and local $\NameCert$, while the cited siblings supply lower-arity sequence windows or an unordered arity-thirteen tuple surface.}
+
+\closureat{BHistArity13SequenceNameCertUp}{seedStr}
+
+\begin{closurestatus}{\BHistArityThirteenSequenceNameCertUp}
+  \constructivestory{A $\BHistArityThirteenSequenceNameCertUp$ packet is generated from thirteen tag-encoded $\BHist$ sequence rows, a finite index row, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:b-hist-arity13-sequence-name-cert-carrier}, \autoref{def:b-hist-arity13-sequence-name-cert-classifier}, \autoref{thm:b-hist-arity13-sequence-name-cert-carrier-admission}, \autoref{thm:b-hist-arity13-sequence-name-cert-classifier-exactness}, \autoref{thm:b-hist-arity13-sequence-name-cert-index-exhaustion}, \autoref{thm:b-hist-arity13-sequence-name-cert-tag-exhaustion}, and \autoref{thm:b-hist-arity13-sequence-name-cert-scoped-support-package} identify the arity-thirteen sequence-window carrier surface and its BEDC support package.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai-composite}
+  \notclaimed{This chapter does not provide a standard bridge, tuple-chapter replacement, sequence-chapter replacement, or public acceptance interface.}
+  \upgradepath{Formalization requires checked classifier-exactness, index-exhaustion, tag-exhaustion, and scoped-support theorems for BEDC.Derived.BHistArity13SequenceNameCertUp.}
+\end{closurestatus}

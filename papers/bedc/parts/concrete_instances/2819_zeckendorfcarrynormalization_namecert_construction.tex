@@ -49,6 +49,7 @@ ledger. It contains no source-target $\hsame$ proof, no global normalization
 algorithm, no arithmetic model outside the Fibonacci rows, and no kernel
 rewrite rule.
 \end{definition}
+\leandef{BEDC.Derived.ZeckendorfCarryNormalizationUp.ZeckendorfCarryNormalizationCarrier}
 
 \begin{theorem}[Zeckendorf carry-normalization NameCert obligations]
 \label{thm:zeckendorf-carry-normalization-namecert-obligations}
@@ -68,6 +69,7 @@ boundary;
 carrier rows and no additional normalization object.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeckendorfCarryNormalizationUp.ZeckendorfCarryNormalizationCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection of the tuple in
 \autoref{def:zeckendorf-carry-normalization-carrier}. The source row, target
@@ -103,6 +105,7 @@ is exact: $V$ may be used to read equality of the two Fibonacci sums, but it
 cannot be repacked as $\hsame(h,k)$, as a kernel rewrite, or as a global
 normalization procedure.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeckendorfCarryNormalizationUp.ZeckendorfCarryNormalizationCarrier\_value\_ledger}
 \begin{proof}
 Read the accepted packet through the carrier definition. The only coordinate
 that mentions Fibonacci value is $V$, and the continuation routes in $C$
@@ -127,6 +130,7 @@ Z=(h,k,W,V,H,C,P,N),
 $$
 the value ledger $V$ is readable only after the local carry row certified by \autoref{ch:concrete-instances-zeckendorfcarry-namecert} and the unary Fibonacci-index discipline of \autoref{ch:concrete-instances-nat-namecert} have been consumed. Thus $V$ is a sibling-dependent ledger row, not an isolated kernel-only row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeckendorfCarryNormalizationUp.ZeckendorfCarryNormalizationCarrier\_axis\_nat\_dependency}
 \begin{proof}
 Project $Z=(h,k,W,V,H,C,P,N)$ from \autoref{def:zeckendorf-carry-normalization-carrier}. The row $W$ is the local carry witness, while $V$ is the row that records equality of the displayed Fibonacci sums.
 
@@ -148,6 +152,7 @@ $\mathtt{word\_100}$ row, and every consumer route that reads the local carry
 edge $W$ also reads those two source-target normality rows through the same
 finite packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeckendorfCarryNormalizationUp.ZeckendorfCarryNormalizationCarrier\_source\_target\_window\_totality}
 \begin{proof}
 Begin with the carrier definition
 \autoref{def:zeckendorf-carry-normalization-carrier}. The rows $h$, $k$, and
@@ -179,6 +184,7 @@ witness, Fibonacci-value ledger, provenance row, or local name along those
 routes never produces an $\hsame(h,k)$ proof and never turns the carry witness
 into a kernel rewrite rule.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeckendorfCarryNormalizationUp.ZeckendorfCarryNormalizationCarrier\_boundary\_transport}
 \begin{proof}
 Project the packet through
 \autoref{def:zeckendorf-carry-normalization-carrier}. The row $H$ contains the
@@ -210,6 +216,7 @@ target normal row, carry witness, Fibonacci-value ledger, non-$\hsame$
 boundary, transport and continuation routes, and no global normalizer,
 source-target $\hsame$ proof, ambient arithmetic model, or kernel rewrite rule.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeckendorfCarryNormalizationUp.ZeckendorfCarryNormalizationCarrier\_local\_name\_window\_exhaustion}
 \begin{proof}
 Read $P$ and $N$ through the carrier definition
 \autoref{def:zeckendorf-carry-normalization-carrier}. Both rows are part of
@@ -227,6 +234,7 @@ Thus the naming surface is exhausted by $Z$ itself. Any consumer of $P$ or $N$
 receives the displayed carry-normalization packet and none of the excluded
 global or kernel-level objects.
 \end{proof}
+\leanchecked{BEDC.Derived.ZeckendorfCarryNormalizationUp.ZeckendorfCarryNormalizationCarrier\_local\_naming\_exhaustion}
 
 \closureat{ZeckendorfCarryNormalizationUp}{seedStr}
 

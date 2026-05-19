@@ -181,6 +181,22 @@ instance finiteMultiHistPacketChapterTasteGate : ChapterTasteGate FiniteMultiHis
     intro x y hxy heq
     exact hxy (finiteMultiHistPacketToEventFlow_injective heq)
 
+instance finiteMultiHistPacketFieldFaithful : FieldFaithful FiniteMultiHistPacketUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | FiniteMultiHistPacketUp.mk histories ledgers comparisons routes boundary provenance
+        nameCert =>
+        [histories, ledgers, comparisons, routes, boundary, provenance, nameCert]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk histories1 ledgers1 comparisons1 routes1 boundary1 provenance1 nameCert1 =>
+        cases y with
+        | mk histories2 ledgers2 comparisons2 routes2 boundary2 provenance2 nameCert2 =>
+            cases hfields
+            rfl
+
 theorem FiniteMultiHistPacketUp_taste_gate_boundary :
     ChapterTasteGate FiniteMultiHistPacketUp ∧
       ∃ x : FiniteMultiHistPacketUp,
@@ -258,5 +274,186 @@ theorem FiniteMultiHistPacketUp_hsame_transport
   cases hProvenance
   cases hNameCert
   rfl
+
+theorem FiniteMultiHistPacketUp_no_sync_boundary :
+    ∀ x : FiniteMultiHistPacketUp,
+      ∃ histories ledgers comparisons routes boundary provenance nameCert : BHist,
+        x =
+            FiniteMultiHistPacketUp.mk histories ledgers comparisons routes boundary provenance
+              nameCert ∧
+          List.Mem (finiteMultiHistPacketEncodeBHist boundary)
+            (finiteMultiHistPacketToEventFlow x) := by
+  -- BEDC touchpoint anchor: BHist BMark List.Mem
+  intro x
+  cases x with
+  | mk histories ledgers comparisons routes boundary provenance nameCert =>
+      have boundaryListed :
+          List.Mem (finiteMultiHistPacketEncodeBHist boundary)
+            (finiteMultiHistPacketToEventFlow
+              (FiniteMultiHistPacketUp.mk histories ledgers comparisons routes boundary
+                provenance nameCert)) := by
+        change
+          List.Mem (finiteMultiHistPacketEncodeBHist boundary)
+            [[BMark.b0], finiteMultiHistPacketEncodeBHist histories, [BMark.b1, BMark.b0],
+              finiteMultiHistPacketEncodeBHist ledgers, [BMark.b1, BMark.b1, BMark.b0],
+              finiteMultiHistPacketEncodeBHist comparisons,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              finiteMultiHistPacketEncodeBHist routes,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              finiteMultiHistPacketEncodeBHist boundary,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              finiteMultiHistPacketEncodeBHist provenance,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                BMark.b0],
+              finiteMultiHistPacketEncodeBHist nameCert]
+        exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _
+                    (List.mem_cons_of_mem _
+                      (List.mem_cons_of_mem _
+                        (List.mem_cons_of_mem _
+                          (List.mem_cons_of_mem _ List.mem_cons_self))))))))
+      exact
+        ⟨histories, ledgers, comparisons, routes, boundary, provenance, nameCert, rfl,
+          boundaryListed⟩
+
+theorem FiniteMultiHistPacketUp_causal_interface :
+    ∀ x : FiniteMultiHistPacketUp,
+      ∃ histories ledgers comparisons routes boundary provenance nameCert : BHist,
+        x =
+            FiniteMultiHistPacketUp.mk histories ledgers comparisons routes boundary provenance
+              nameCert ∧
+          List.Mem (finiteMultiHistPacketEncodeBHist histories)
+            (finiteMultiHistPacketToEventFlow x) ∧
+            List.Mem (finiteMultiHistPacketEncodeBHist ledgers)
+              (finiteMultiHistPacketToEventFlow x) ∧
+              List.Mem (finiteMultiHistPacketEncodeBHist comparisons)
+                (finiteMultiHistPacketToEventFlow x) ∧
+                List.Mem (finiteMultiHistPacketEncodeBHist routes)
+                  (finiteMultiHistPacketToEventFlow x) ∧
+                  List.Mem (finiteMultiHistPacketEncodeBHist boundary)
+                    (finiteMultiHistPacketToEventFlow x) ∧
+                    List.Mem (finiteMultiHistPacketEncodeBHist provenance)
+                      (finiteMultiHistPacketToEventFlow x) ∧
+                      List.Mem (finiteMultiHistPacketEncodeBHist nameCert)
+                        (finiteMultiHistPacketToEventFlow x) := by
+  -- BEDC touchpoint anchor: BHist BMark List.Mem
+  intro x
+  cases x with
+  | mk histories ledgers comparisons routes boundary provenance nameCert =>
+      refine
+        ⟨histories, ledgers, comparisons, routes, boundary, provenance, nameCert, rfl, ?_,
+          ?_, ?_, ?_, ?_, ?_, ?_⟩
+      · exact List.mem_cons_of_mem _ List.mem_cons_self
+      · exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _ List.mem_cons_self))
+      · exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _ List.mem_cons_self))))
+      · exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _
+                    (List.mem_cons_of_mem _
+                      (List.mem_cons_of_mem _ List.mem_cons_self))))))
+      · exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _
+                    (List.mem_cons_of_mem _
+                      (List.mem_cons_of_mem _
+                        (List.mem_cons_of_mem _
+                          (List.mem_cons_of_mem _ List.mem_cons_self))))))))
+      · exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _
+                    (List.mem_cons_of_mem _
+                      (List.mem_cons_of_mem _
+                        (List.mem_cons_of_mem _
+                          (List.mem_cons_of_mem _
+                            (List.mem_cons_of_mem _
+                              (List.mem_cons_of_mem _ List.mem_cons_self))))))))))
+      · exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _
+                    (List.mem_cons_of_mem _
+                      (List.mem_cons_of_mem _
+                        (List.mem_cons_of_mem _
+                          (List.mem_cons_of_mem _
+                            (List.mem_cons_of_mem _
+                              (List.mem_cons_of_mem _
+                                (List.mem_cons_of_mem _
+                                  (List.mem_cons_of_mem _ List.mem_cons_self))))))))))))
+
+theorem FiniteMultiHistPacketUp_subpacket_restriction
+    {histories ledgers comparisons routes boundary provenance nameCert selectedHistories
+      selectedLedgers selectedComparisons selectedRoutes selectedProvenance
+      selectedNameCert : BHist} :
+    hsame histories selectedHistories ->
+      hsame ledgers selectedLedgers ->
+        hsame comparisons selectedComparisons ->
+          hsame routes selectedRoutes ->
+            hsame provenance selectedProvenance ->
+              hsame nameCert selectedNameCert ->
+                Cont selectedHistories selectedLedgers selectedRoutes ->
+                  List.Mem (finiteMultiHistPacketEncodeBHist selectedHistories)
+                      (finiteMultiHistPacketToEventFlow
+                        (FiniteMultiHistPacketUp.mk selectedHistories selectedLedgers
+                          selectedComparisons selectedRoutes boundary selectedProvenance
+                          selectedNameCert)) ∧
+                    List.Mem (finiteMultiHistPacketEncodeBHist selectedLedgers)
+                      (finiteMultiHistPacketToEventFlow
+                        (FiniteMultiHistPacketUp.mk selectedHistories selectedLedgers
+                          selectedComparisons selectedRoutes boundary selectedProvenance
+                          selectedNameCert)) ∧
+                      List.Mem (finiteMultiHistPacketEncodeBHist boundary)
+                        (finiteMultiHistPacketToEventFlow
+                          (FiniteMultiHistPacketUp.mk selectedHistories selectedLedgers
+                            selectedComparisons selectedRoutes boundary selectedProvenance
+                            selectedNameCert)) := by
+  -- BEDC touchpoint anchor: BHist BMark hsame Cont
+  intro sameHistories sameLedgers sameComparisons sameRoutes sameProvenance sameNameCert
+    _selectedVisible
+  cases sameHistories
+  cases sameLedgers
+  cases sameComparisons
+  cases sameRoutes
+  cases sameProvenance
+  cases sameNameCert
+  constructor
+  · exact List.mem_cons_of_mem _ List.mem_cons_self
+  · constructor
+    · exact
+        List.mem_cons_of_mem _
+          (List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _ List.mem_cons_self))
+    · exact
+        List.mem_cons_of_mem _
+          (List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _
+                    (List.mem_cons_of_mem _
+                      (List.mem_cons_of_mem _
+                        (List.mem_cons_of_mem _ List.mem_cons_self))))))))
 
 end BEDC.Derived.FiniteMultiHistPacketUp

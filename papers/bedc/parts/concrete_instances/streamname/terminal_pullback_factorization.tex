@@ -186,6 +186,63 @@ equality, completion witnesses, ambient completeness, or metric-completeness
 data available to the terminal seal.
 \end{proof}
 
+\begin{theorem}[StreamName-RegSeqRat-DyadicRatCore-RealUp terminal pullback factorization]
+\label{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}
+Let $W$ be a finite public $\StreamNameUp$ rational observation window, and
+let $R$ be a terminal finite-window $\RealUp$ seal read over $W$. Suppose $R$
+is presented through the public StreamName rational window interface, the
+accepted $\RegSeqRat$ pointwise seal over that window, and the
+$\DyadicRatCoreUp$ endpoint-radius-distance ledger anchored to the same
+window. Then $R$ factors through exactly four visible faces: the StreamName
+point and window rows, the $\DyadicRatCoreUp$ endpoint-radius-distance ledger,
+the $\RegSeqRat$ pointwise and readback rows, and the local $\RealUp$
+finite-window seal boundary.
+
+The only support rows available to this factorization are the displayed
+$\BHist$ observations, componentwise $\hsame$ transports, finite $\Cont$
+routes, shared $\Pkg$ provenance, $\mathsf{ProbeBundle}$ and
+$\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ observations, and
+local $\NameCert$ support. Conversely, any packet displaying precisely those
+four faces and support rows repacks into the same terminal finite-window
+$\RealUp$ seal read. It exports no quotient stream equality, selected host
+limit, host real equality, ambient completeness row, metric-completeness row,
+bridge row, trichotomy row, open-cover compactness row, or choice datum.
+\end{theorem}
+\begin{proof}
+Start from the three-face terminal pullback of
+\autoref{thm:streamname-regseqrat-realup-terminal-pullback-factorization}. It
+places the terminal $\RealUp$ finite-window read on the StreamName point rows,
+accepted $\RegSeqRat$ pointwise seal rows, and $\RealUp$ seal boundary, with
+the displayed finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$
+support.
+
+Next insert the dyadic ledger face. Apply
+\autoref{thm:streamname-regseqrat-dyadic-real-four-face-exactness}. Its
+forward direction says that an accepted seal-facing read has exactly the
+StreamName, $\RegSeqRat$, $\DyadicRatCoreUp$, and $\RealUp$ faces, with the
+listed finite support rows. Its converse direction repacks any packet with
+those four faces into the same admissible public interface.
+
+It remains to identify the dyadic face with the same finite window used by the
+regular-rational readback. Use the Dyadic-RegSeq route factorization
+\autoref{thm:streamname-dyadic-regseq-route-factorization}, as cited in the
+four-face exactness proof. This pins every endpoint, radius, distance, and
+readback coordinate to $W$ before either the $\RegSeqRat$ or $\RealUp$
+consumer can inspect the packet.
+
+Combining these steps gives both directions of the terminal pullback. The
+three-face theorem supplies the StreamName--$\RegSeqRat$--$\RealUp$ terminal
+boundary, the four-face exactness theorem supplies the
+$\DyadicRatCoreUp$ ledger as the fourth visible face, and the route
+factorization prevents a detached tolerance route from entering the packet.
+
+The excluded objects are therefore not public coordinates of the factorization.
+There is no quotient stream equality, selected host limit, host real equality,
+ambient completeness row, metric-completeness row, bridge row, trichotomy row,
+open-cover compactness row, or choice datum available to the terminal read.
+\end{proof}
+
 \begin{theorem}[StreamName-RegSeqRat-RealUp composite terminal pullback]
 \label{thm:streamname-regseqrat-realup-composite-terminal-pullback}
 Let $W$ be a finite public $\StreamNameUp$ rational observation window. Suppose
@@ -238,4 +295,205 @@ has access to a quotient stream, selected host limit, host index equality,
 completion witness, ambient completeness row, or metric-completeness row. Thus
 the consecutive and composite terminal pullbacks are the same finite public
 packet.
+\end{proof}
+
+\begin{theorem}[StreamName terminal reindex pullback invariance]
+\label{thm:streamname-terminal-reindex-pullback-invariance}
+Let $W$ be a certified public $\StreamNameUp$ finite-window observation
+packet, and let $R$ be a certified public finite-window reindex route for
+$W$. Suppose $R$ preserves the public finite observation section, the certified
+endpoint rows, the displayed $\BHist$, the componentwise $\hsame$ transports,
+the finite $\Cont$ ledger, the shared $\Pkg$ provenance, and the local
+$\NameCert$ rows. Then the terminal pullback read through
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ is
+invariant under $R$.
+
+The invariant packet has the same visible StreamName window, the same
+$\DyadicRatCoreUp$ endpoint-radius-distance ledger, the same $\RegSeqRatUp$
+accepted readback rows, the same $\RealUp$ boundary row, and the same support
+rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+It introduces no quotient stream equality, selected host limit, host real
+equality, ambient completeness row, metric-completeness row, bridge row,
+trichotomy row, open-cover compactness row, or choice datum.
+\end{theorem}
+\begin{proof}
+First read the reindexed StreamName side. Apply
+\autoref{thm:streamname-terminal-reindex-four-face-pullback}. Its hypotheses
+are exactly the preserved public finite observation section, endpoint rows,
+displayed $\BHist$, componentwise $\hsame$, finite $\Cont$ ledger, shared
+$\Pkg$, and local $\NameCert$ rows, so the reindexed route reaches the same
+terminal four-face pullback surface.
+
+Next pin the four visible faces of that surface. Apply
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}.
+The factorization says that the terminal read has only the displayed
+$\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback,
+$\RealUp$ boundary row, and the listed support rows. Since the reindex route
+preserves those rows component by component, the visible faces are unchanged.
+
+Finally compare the two-stage and direct terminal reads. By
+\autoref{thm:streamname-regseqrat-realup-composite-terminal-pullback}, both
+presentations determine one finite $\BHist$ packet over the same support
+surface. Hence the terminal pullback is invariant under $R$, and no quotient,
+selected host limit, host real equality, completeness, bridge, trichotomy,
+open-cover compactness, or choice coordinate is added.
+\end{proof}
+
+\begin{theorem}[StreamName terminal pullback idempotence]
+\label{thm:streamname-terminal-pullback-idempotence}
+Let $W$ be a certified public $\StreamNameUp$ finite-window observation
+packet. Suppose a terminal four-face pullback packet over $W$ already exposes
+exactly the StreamName finite window, the $\DyadicRatCoreUp$
+endpoint-radius-distance ledger, the $\RegSeqRatUp$ accepted readback rows,
+the $\RealUp$ finite-window seal boundary, and the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Suppose further that the same packet displays the corresponding
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+$\mathsf{UnaryHistory}$ rows required by the public finite observation
+surface. Then applying the terminal pullback reading to this packet again
+exposes the same finite BEDC packet.
+
+Equivalently, the terminal four-face pullback is a normal form for certified
+public StreamName finite-window reads: after the four visible faces and their
+support rows are present, a further terminal reading cannot add a quotient
+stream, host equality, selected limit, ambient completeness row,
+metric-completeness row, bridge row, trichotomy row, open-cover compactness
+row, or choice coordinate.
+\end{theorem}
+\begin{proof}
+First identify the packet already in hand. Apply
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}.
+Its converse direction repacks exactly the displayed StreamName,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces, together with the
+listed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, bundle, unary-history, and
+$\NameCert$ support rows, into the terminal finite-window seal read over $W$.
+
+Next compare the second reading with the first one. By
+\autoref{thm:streamname-regseqrat-realup-composite-terminal-pullback}, a
+two-stage terminal read and the direct composite read determine the same
+finite $\BHist$ packet whenever they expose the same StreamName rows,
+accepted $\RegSeqRatUp$ rows, $\RealUp$ boundary row, finite ledger,
+transports, provenance, bundle rows, unary observations, and local
+$\NameCert$ support.
+
+Finally account for certified reindex routes. Apply
+\autoref{thm:streamname-terminal-reindex-pullback-invariance}. Any certified
+route preserving the displayed finite observation section, endpoint rows,
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows reaches the same
+terminal four-face surface. Thus the second terminal read has no coordinate
+outside the normal-form packet, and the excluded quotient, host-equality,
+selected-limit, completeness, bridge, trichotomy, open-cover compactness, and
+choice data remain unavailable.
+\end{proof}
+
+\begin{theorem}[StreamName terminal four-face support deletion obstruction]
+\label{thm:streamname-terminal-four-face-support-deletion-obstruction}
+Let $W$ be a certified public $\StreamNameUp$ finite-window packet whose terminal
+four-face read exposes exactly the $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and local $\RealUp$ faces. Suppose the displayed support surface
+consists of
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+together with the public finite-observation rows $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$. If any one of the displayed
+support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ is deleted, or
+if one of the public finite-observation rows $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, or $\mathsf{UnaryHistory}$ is deleted, the remaining packet
+is not accepted as a terminal four-face pullback over $W$.
+
+The missing row cannot be supplied by quotient stream equality, selected host
+limits, host equality, countable choice, ambient completeness,
+metric-completeness, bridge rows, trichotomy, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+First identify the four visible faces and their support surface. Apply
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}.
+It says that an accepted terminal read over $W$ factors through exactly the
+StreamName window, dyadic endpoint-radius-distance ledger, $\RegSeqRatUp$
+readback rows, and local $\RealUp$ finite-window boundary, with only the
+displayed BEDC support rows and public finite-observation rows available.
+
+Next remove one displayed row. For one of $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+or $\NameCert$, apply
+\autoref{thm:streamname-open-phase-finite-window-support-row-minimality}. That
+minimality result says that deleting any of these rows destroys the public
+finite-window support needed by the StreamName packet before the terminal
+pullback can be formed.
+
+For one of $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, or
+$\mathsf{UnaryHistory}$, use the same four-face factorization. These rows are
+part of the public finite-observation surface read by the factorization itself,
+so deleting one removes a coordinate required by the accepted terminal packet.
+
+Finally compare with the normal form. By
+\autoref{thm:streamname-terminal-pullback-idempotence}, a complete support
+surface is stable under another terminal read. Hence the converse direction of
+the four-face factorization can repack only the complete surface, not the
+shortened packet. The excluded quotient, host-limit, host-equality, choice,
+completeness, bridge, trichotomy, and compactness rows are not coordinates of
+that normal form, so none of them can fill the missing support row.
+\end{proof}
+
+\begin{theorem}[StreamName terminal pullback support exactness]
+\label{thm:streamname-terminal-pullback-support-exactness}
+Let $W$ be a certified public $\StreamNameUp$ finite-window observation
+packet. A terminal four-face pullback packet over $W$ is accepted exactly when
+it exposes the StreamName finite window, the $\DyadicRatCoreUp$
+endpoint-radius-distance ledger, the $\RegSeqRatUp$ accepted readback rows,
+the local $\RealUp$ finite-window seal boundary, and exactly the displayed
+support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert,
+$$
+together with the public finite-observation rows
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+$\mathsf{UnaryHistory}$.
+
+Conversely, any packet over $W$ with exactly those visible faces and support
+rows repacks into the same terminal four-face pullback normal form. The
+acceptance test exports no quotient stream, selected host limit, host
+equality, countable choice, ambient completeness row, metric-completeness row,
+bridge row, trichotomy row, or open-cover compactness row.
+\end{theorem}
+\begin{proof}
+For the forward direction, start from the terminal four-face factorization of
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}.
+It identifies every accepted terminal read over $W$ with the StreamName
+finite-window face, the dyadic endpoint-radius-distance ledger, the
+$\RegSeqRatUp$ readback face, the $\RealUp$ finite-window boundary, and the
+listed finite support rows.
+
+Next use
+\autoref{thm:streamname-terminal-reindex-pullback-invariance}. Since certified
+reindex routes preserve the public finite observation section, endpoint rows,
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, support cannot be
+enlarged by changing the terminal presentation of the same window.
+
+The local deletion obstruction is
+\autoref{thm:streamname-terminal-four-face-support-deletion-obstruction}. It
+says that deleting any displayed BEDC support row, or any public
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, or $\mathsf{UnaryHistory}$
+observation row, prevents acceptance, and that quotient, host-limit,
+host-equality, choice, completeness, bridge, trichotomy, and compactness rows
+cannot replace the missing coordinate.
+
+For the reverse direction, assume a packet displays exactly those four faces
+and support rows. The converse direction of
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}
+repacks it into the terminal finite-window seal read over $W$.
+
+Finally apply
+\autoref{thm:streamname-terminal-pullback-idempotence}. Once the four faces,
+the five BEDC support rows, and the three public finite-observation rows are
+present, another terminal read returns the same packet. Hence the support list
+is both sufficient and necessary for acceptance, and quotient streams,
+selected host limits, host equality, countable choice, ambient completeness,
+metric-completeness rows, bridges, trichotomy, and open-cover compactness
+remain outside the normal form.
 \end{proof}

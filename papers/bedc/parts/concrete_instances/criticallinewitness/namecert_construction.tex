@@ -63,6 +63,7 @@ The source chapters \autoref{ch:concrete-instances-zeta-zeros-namecert} and \aut
 \label{thm:critical-line-witness-root-unblock-modulus-ledger}
 For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, each modulus request factors through the displayed rows $M,R,Q,H,C,P,N$. It consumes only $\NatUp$ depth input, the $\RealUp$ real-part row, the $\RatUp$ comparison ledger, $\BHist$ carrier data, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ obligation surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_root\_unblock\_modulus\_ledger}
 \begin{proof}
 Read the modulus coordinate from \autoref{def:critical-line-witness-carrier}. The row $M$ is the only coordinate that answers a depth request, and the carrier displays $R,Q,H,C,P,N$ as the rows consumed by that answer.
 
@@ -75,6 +76,7 @@ The depth and comparison sources are the public surfaces of \autoref{ch:concrete
 \label{thm:critical-line-witness-root-unblock-refusal-boundary}
 For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the exported refusal boundary contains no $\mathsf{RH}$ proof, no zero search, no analytic-continuation certificate, no quotient representative, no host equality, and no ambient completeness witness. Downstream consumers may cite only the source triad, modulus ledger, and local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed by the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_root\_unblock\_refusal\_boundary}
 \begin{proof}
 Start with \autoref{def:critical-line-witness-carrier}. The carrier lists exactly $Z,S,M,R,Q,H,C,P,N$ and explicitly withholds global zero production, host complex equality, quotient real equality, selected representatives, and ambient analytic completeness.
 
@@ -171,6 +173,7 @@ W=(Z,S,M,R,Q,H,C,P,N),
 $$
 the $\RatUp$ comparison ledger $Q$ is exactly the finite collection of the half-line row, the dyadic tolerance row, and the strict comparison row used by the modulus coordinate $M$. Every public rational comparison read of the witness packet factors through those three rows and cannot appeal to an external real-order decision, quotient equality, or hidden numeric oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_rat\_comparison\_ledger\_exactness}
 \begin{proof}
 Inspect the comparison ledger coordinate $Q$. By carrier admission, $Q$ exposes the half-line row, the dyadic tolerance row, and the strict comparison row used by the modulus.
 
@@ -522,6 +525,7 @@ Finally use \autoref{thm:critical-line-witness-nonescape-boundary} and \autoref{
 \label{thm:critical-line-witness-depth-ledger-coverage}
 For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, each depth request is covered by the displayed rows $M,R,Q,H,C,P,N$. In particular, the half-line row and dyadic tolerance row used by the request are rows of $Q$, and the request has no route to a quotient representative, host real equality, hidden numeric oracle, or ambient analytic completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_depth\_ledger\_coverage}
 \begin{proof}
 Begin with the modulus discipline row of \autoref{thm:critical-line-witness-namecert-obligations}. A depth request is answered by $M$ and is read against the real-part row $R$ and rational comparison ledger $Q$.
 
@@ -717,6 +721,7 @@ Then use \autoref{thm:critical-line-witness-obligation-closure-package}. The the
 
 The non-escape part of that package rules out host equality, quotient representatives, analytic continuation, and external naming. Thus the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ replay is exactly the local replay of the finite ledger.
 \end{proof}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_transport\_replay\_obligation}
 
 \begin{theorem}[Critical-line witness downstream source obligation]
 \label{thm:critical-line-witness-downstream-source-obligation}

@@ -36,6 +36,7 @@ The local $\NameCert_{\FiniteWitnessedRefutationUp}$ surface consists of five fi
 \item package closure, requiring the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows to contain exactly the provenance used by downstream causal-commitment consumers.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteWitnessedRefutationUp.FiniteWitnessedRefutationCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier formation is the tuple assembly of \autoref{def:finite-witnessed-refutation-carrier}. The support ledger, commitment, key, contrary witness, decision row, transport rows, continuation routes, package provenance, and naming row are all visible coordinates of $F$.
 
@@ -54,6 +55,7 @@ F=(R,G,K,V,D,H,C,P,N),
 $$
 the public refutation read is exactly the finite route from the support ledger $R$ and forward-binding commitment $G$ to the key $K$, contrary witness $V$, and comparison ledger $D$, transported by $H$, routed by $C$, packaged by $P$, and named by $N$. No refutation read may use a witness, comparison, or support record absent from the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteWitnessedRefutationUp.FiniteWitnessedRefutationLedgerExactness}
 \begin{proof}
 Begin with \autoref{thm:finite-witnessed-refutation-namecert-obligations}. Its witness exactness clause binds every contrary record to $V$, and its decision exactness clause binds the conflict claim to $D$.
 
@@ -66,6 +68,7 @@ The remaining rows $H,C,P,N$ carry transport, continuation, provenance, and loca
 \label{thm:finite-witnessed-refutation-non-escape}
 The public boundary of $\FiniteWitnessedRefutationUp$ exports only the finite contrary-record packet over $\BHist$, $\Gap$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It exports no host causal law, no global falsification principle, no all-future causal closure, no external observation selector, and no erasure of the original $\Gap$ commitment.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteWitnessedRefutationUp.FiniteWitnessedRefutationCarrier\_non\_escape}
 \begin{proof}
 Inspect the carrier coordinates of \autoref{def:finite-witnessed-refutation-carrier}. The only failure-facing rows are the support ledger, commitment row, key, contrary witness, and decision ledger.
 
@@ -78,6 +81,7 @@ The excluded objects are absent from the tuple. The packet therefore records a f
 \label{thm:finite-witnessed-refutation-public-packet}
 An accepted $\FiniteWitnessedRefutationUp$ packet is a public causal-commitment failure surface for downstream BEDC consumers. Such a consumer may inspect the supporting observations, the forward-binding $\Gap$ row, the commitment key, the contrary witness, and the decision ledger, but every read must factor through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed by the carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteWitnessedRefutationUp.FiniteWitnessedRefutationCarrier\_public\_packet}
 \begin{proof}
 Use \autoref{thm:finite-witnessed-refutation-namecert-obligations} to obtain the carrier, stability, witness, decision, and package clauses. These clauses identify the rows available to a public consumer.
 
@@ -94,6 +98,7 @@ F=(R,G,K,V,D,H,C,P,N),
 $$
 the forward-binding $\Gap$ row $G$ and the refusal/non-escape reading of the refutation are governed by the common boundary of \autoref{ch:concrete-instances-gapclosureboundary-namecert}. The finite witnessed refutation supplies the contrary record $V$ and decision ledger $D$, while $\GapClosureBoundaryUp$ supplies the rule that unsupported closure requests route to refusal rather than to internal universal closure.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteWitnessedRefutationUp.FiniteWitnessedRefutationCarrier\_gap\_boundary\_crosslink}
 \begin{proof}
 Project the finite refutation carrier. The rows $R,G,K,V,D,H,C,P,N$ display the support ledger, forward-binding $\Gap$ commitment, commitment key, contrary witness, decision ledger, transport, continuation, provenance, and local name.
 

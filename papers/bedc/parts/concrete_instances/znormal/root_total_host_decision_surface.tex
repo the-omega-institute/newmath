@@ -6,6 +6,7 @@ T,F,V,K,R,H,C,P,N.
 $$
 Terminal normality is read through $V$ over the typed endpoint $T$ and bounded fuel replay $F$; the normal-word row $K$ cites the $\ZeckendorfNormalUp$ and $\ZCarryUp$ sibling surfaces; the terminal continuation row $R$ cites the $\ContinuationTraceNormalFormUp$ surface; and the route is transported by $\hsame$, replayed by $\Cont$, packaged by $\Pkg$, and named by $\NameCert_{\ZNormalUp}$. The accepted decision rows contain no host conversion procedure, divergence oracle, quotient computation, unrestricted evaluator, or global normalizer.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalTotalHostDecisionSurface}
 \begin{proof}
 Start with the carrier and obligation packet of \autoref{def:znormal-carrier} and \autoref{def:znormal-total-host-obligation-packet}. Together they display exactly $T,F,V,K,R,H,C,P,N$, so the decision surface has no coordinate outside the finite $\BHist$ packet.
 
@@ -18,6 +19,7 @@ Finally apply \autoref{thm:znormal-terminal-host-obligation-totality}. It assemb
 \label{thm:znormal-terminal-normality-refusal-stability}
 Let $Z=(T,F,V,K,R,H,C,P,N)$ and $Z'=(T',F',V',K',R',H',C',P',N')$ be accepted $\ZNormalUp$ packets related by componentwise $\hsame$ transport of the displayed rows. If a consumer request for $Z$ is refused because it asks for a divergence oracle, a host-conversion procedure, or a global-normalization row instead of terminal normality, then the corresponding transported request for $Z'$ is refused for the same reason. The refusal remains attached to the $\BHist$, $\Cont$, $\Pkg$, and local $\NameCert$ surface and is not converted into a transported host-side object.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalPacket\_terminal\_normality\_refusal\_stability}
 \begin{proof}
 Project both accepted packets through \autoref{def:znormal-carrier}. Componentwise transport moves only the rows $T,F,V,K,R,H,C,P,N$ and their primed counterparts, so it has no target coordinate for a divergence oracle, host conversion procedure, or global normalizer.
 
@@ -30,6 +32,7 @@ The sibling surfaces remain component inputs under transport. Typed reduction no
 \label{thm:znormal-root-unblock-namecert-exhaustion}
 The local $\NameCert_{\ZNormalUp}$ surface needed for root unblock is exhausted by the displayed terminal-normality, bounded-fuel, replay, provenance, and naming rows of the accepted packet. Concretely, carrier admission reads the $\BHist$ packet $T,F,V,K,R,H,C,P,N$; classifier and terminal-normality reads use $T,F,V,K,R$; transport and replay use $H$ and $C$; provenance and local naming use $P$ and $N$. No additional NameCert clause remains for host conversion, divergence detection, global normalization, quotient computation, unrestricted evaluation, or substrate halting.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalRootUnblockNameCertExhaustion}
 \begin{proof}
 Read the root carrier through \autoref{def:znormal-carrier} and the total-host obligation packet through \autoref{def:znormal-total-host-obligation-packet}. These definitions list the full root-unblock surface and identify the terminal-normality, fuel, replay, provenance, and naming rows.
 
@@ -46,6 +49,7 @@ Z=(T,F,V,K,R,H,C,P,N),
 $$
 the terminal-host decision route is exhausted by the finite $\BHist$ display and its $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\ZNormalUp}$ rows. The route reads carrier admission from $T,F,V,K,R,H,C,P,N$, terminal decision from $T,F,V,K,R$, transport from $H$, continuation replay from $C$, provenance from $P$, and local naming from $N$. It contains no host conversion, divergence oracle, quotient computation, unrestricted evaluator, substrate-halting row, or global normalizer.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalTotalHostDecisionRouteExhaustion}
 \begin{proof}
 Begin with \autoref{def:znormal-carrier} and \autoref{def:znormal-total-host-obligation-packet}. They present $T,F,V,K,R,H,C,P,N$ as the whole accepted carrier and obligation packet, so every terminal-host read starts inside a finite $\BHist$ display.
 
@@ -58,6 +62,7 @@ Finally use \autoref{thm:znormal-terminal-normality-refusal-stability} and \auto
 \label{thm:znormal-terminal-host-classifier-route-nonescape}
 Let $Z=(T,F,V,K,R,H,C,P,N)$ be an accepted $\ZNormalUp$ packet. Any terminal-host classifier route that reaches the root-unblock surface factors through the displayed $\BHist$ rows $T,F,V,K,R,H,C,P,N$, with classifier reads on $T,F,V,K,R$, componentwise $\hsame$ transport on $H$, $\Cont$ replay on $C$, $\Pkg$ provenance on $P$, and $\NameCert_{\ZNormalUp}$ naming on $N$. No classifier branch escapes to a host conversion procedure, divergence oracle, quotient computation, unrestricted evaluator, substrate-halting row, or global normalizer.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalPacket\_terminal\_host\_classifier\_route\_nonescape}
 \begin{proof}
 Project the route through \autoref{def:znormal-carrier} and \autoref{def:znormal-total-host-obligation-packet}. The only classifier-readable coordinates are the displayed terminal, fuel, terminal-normality, sibling normal-word, and continuation rows, with transport, replay, provenance, and naming carried by $H,C,P,N$.
 
@@ -76,6 +81,7 @@ Z=(T,F,V,K,R,H,C,P,N),
 $$
 normal-form readiness for terminal-host use is supported exactly by the finite carrier, classifier, transport, replay, provenance, and naming rows of $Z$. The readiness support consists of the $\BHist$ rows $T,F,V,K,R,H,C,P,N$, the $\hsame$ row $H$, the $\Cont$ row $C$, the $\Pkg$ row $P$, and the local $\NameCert_{\ZNormalUp}$ row $N$. It has no host conversion, divergence oracle, quotient computation, unrestricted evaluator, substrate-halting row, or global normalizer.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalPacket\_normal\_form\_readiness\_support\_totality}
 \begin{proof}
 Read the accepted packet through \autoref{def:znormal-carrier} and \autoref{def:znormal-total-host-obligation-packet}. Normal-form readiness is therefore anchored in the same finite $\BHist$ tuple $T,F,V,K,R,H,C,P,N$ as terminal-host decision.
 
@@ -85,3 +91,4 @@ Apply \autoref{thm:znormal-terminal-normality-refusal-stability} to rule out con
 
 Thus every support row needed by terminal-host normal-form readiness is already one of the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\ZNormalUp}$ rows displayed by $Z$.
 \end{proof}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalNormalFormReadinessSupportTotality}

@@ -611,160 +611,40 @@ bridge row, quotient stream, selected limit, countable-choice row,
 metric-completeness datum, or $\RealUp$ completeness claim is introduced.
 \end{proof}
 
-\begin{theorem}[Real L10 finite-cover exit threshold gluing]
-\label{thm:real-l10-finite-cover-exit-threshold-gluing}
-Let $\mathcal{U}$ be a finite family of accepted Phase Real and Completion
-exit packets. Suppose every member of $\mathcal{U}$ satisfies the objectwise
-exit threshold of
-\autoref{thm:real-l10-objectwise-exit-threshold-equivalence}, and suppose
-that every pairwise overlap agrees on the displayed $\DyadicRatCoreUp$
-endpoint and radius ledger, the $\StreamNameUp$ finite-window schedule, the
-$\RegSeqRatUp$ regularity and classifier rows, the $\RealUp$ seal rows, and
-the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
-Then the family glues to one accepted four-face Phase Real and Completion
-exit packet satisfying the same objectwise exit threshold.
+\begin{theorem}[Real L10 threshold open-phase nonescape]
+\label{thm:real-l10-threshold-open-phase-nonescape}
+If a current Phase Real and Completion packet satisfies the objectwise
+threshold of \autoref{thm:real-l10-objectwise-exit-threshold-equivalence}, then
+it licenses exactly the current four-face exit read over $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
 
-The glued exit packet is only the finite four-face packet over those displayed
-rows. It exports no aggregate route-level $\formalstatus$, no aggregate bridge
-row, no quotient stream, no selected limit, no countable-choice row, no
-metric-completeness datum, and no $\RealUp$ completeness claim.
+The same threshold does not assert that the phase is globally closed, does not
+provide $\RealUp$ completeness, does not add metric completeness, and does not
+create aggregate $\formalstatus$, bridge, selected-limit, quotient-stream, or
+countable-choice coordinates.
 \end{theorem}
 \begin{proof}
-Apply \autoref{thm:real-l10-objectwise-exit-threshold-equivalence} to each
-member of $\mathcal{U}$. Thus every local packet contributes exactly the four
-face records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
-$\RealUp$, with the threshold read from the local closurestatus rows of those
-faces.
+Apply \autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. The
+threshold is exactly the local theory-closure and audit-clean verification row
+read from each of the four face records for $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
 
-We first glue the regular-sequence and real-seal faces. Apply
-\autoref{thm:regseqrat-real-seal-finite-cover-gluing} to the finite family of
-$\RegSeqRatUp$ regularity rows and $\RealUp$ seal rows. The overlap
-agreement hypothesis is precisely the shared regularity, classifier, seal,
-$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface required for that
-gluing. Apply
-\autoref{thm:regseqrat-finite-cover-real-seal-gluing-uniqueness} to identify
-the resulting seal row on common overlaps.
+Apply \autoref{thm:real-l10-phase-exit-criterion-objectwise}. A packet that
+meets this threshold is read as the objectwise four-face exit certificate, so
+the licensed content is the current face product and not an additional
+route-level witness.
 
-Next glue the scheduling face. Use
-\autoref{thm:streamname-common-refinement-public-exactness} and
-\autoref{thm:streamname-finite-window-cover-refinement-classifier} to pass to
-a common finite-window presentation of the $\StreamNameUp$ schedules. Apply
-\autoref{thm:streamname-finite-request-cover-gluing} to export one schedule
-row for the finite family, still over the displayed finite-window data and not
-over a quotient stream or selected limit.
+The boundary is sharp. By
+\autoref{thm:real-l10-face-audit-minimum-blocker}, any missing or sub-threshold
+face obstructs the current exit criterion; hence the theorem is not a
+completion principle that could bypass a local face audit.
 
-The dyadic face is fixed by the overlap ledger. Apply
-\autoref{thm:dyadicratcore-finite-tail-scale-window-pullback-exactness} and
-\autoref{thm:dyadicratcore-finite-tail-endpoint-invariance}. These read the
-shared endpoint and radius data through the displayed $\DyadicRatCoreUp$
-ledger, so the glued packet has the same dyadic endpoint and radius rows on
-all refined windows.
-
-Combining the glued RegSeqRat/Real, StreamName, and DyadicRatCore rows gives
-one accepted four-face exit packet by
-\autoref{thm:real-l10-four-face-exit-sufficiency}. Finally apply
-\autoref{thm:real-l10-face-status-noncollapse} and
-\autoref{thm:real-l10-face-leantarget-noncollapse}. The glued packet remains
-objectwise: its closure, verification, Lean-target, and bridge rows stay on
-their source faces and do not form an aggregate route-level status, bridge,
-quotient, selected-limit, choice, metric-completeness, or $\RealUp$
-completeness datum.
+Finally apply \autoref{thm:real-l10-face-status-noncollapse} and
+\autoref{thm:real-l10-face-leantarget-noncollapse}. The status, target, and
+bridge coordinates remain attached to their source faces, so the threshold does
+not create a global phase closure claim, $\RealUp$ completeness,
+metric-completeness data, aggregate formalstatus, aggregate bridge,
+selected-limit, quotient-stream, or countable-choice coordinate.
 \end{proof}
 
-\begin{theorem}[Real L10 finite-cover exit threshold descent]
-\label{thm:real-l10-finite-cover-exit-threshold-descent}
-Let $P$ be an accepted Phase Real and Completion exit packet, and let
-$\mathcal{V}$ be a finite certified subcover of $P$. Suppose every member of
-$\mathcal{V}$ satisfies the objectwise exit threshold of
-\autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. Suppose moreover
-that each subcover member agrees with $P$ on the displayed $\DyadicRatCoreUp$
-endpoint and radius ledger, the $\StreamNameUp$ finite-window schedule, the
-$\RegSeqRatUp$ regularity and classifier rows, the $\RealUp$ seal rows, and the
-shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then
-$P$ satisfies the same objectwise exit threshold.
-
-The descended threshold is only the coarse four-face threshold of $P$. It does
-not assert an aggregate route-level $\formalstatus$, an aggregate bridge row, a
-quotient stream, a selected limit, a countable-choice row, a
-metric-completeness datum, or a $\RealUp$ completeness claim.
-\end{theorem}
-\begin{proof}
-Apply \autoref{thm:real-l10-finite-cover-exit-threshold-gluing} to the finite
-certified subcover $\mathcal{V}$. The hypotheses on the local threshold and on
-the shared $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$,
-$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows give one glued
-accepted four-face packet satisfying the objectwise exit threshold.
-
-We now identify this glued packet with the coarse packet $P$. The agreement
-assumptions say that every displayed endpoint, radius, finite-window,
-regularity, classifier, seal, history, sameness, continuity, package, and
-NameCert coordinate of the glued packet is the corresponding coordinate of
-$P$. Apply \autoref{thm:real-l10-objectwise-exit-threshold-equivalence} to read
-the glued threshold as the four local face records of $P$.
-
-It remains to keep the descent facewise. Apply
-\autoref{thm:real-l10-face-status-noncollapse} and
-\autoref{thm:real-l10-face-leantarget-noncollapse}. These prevent the
-subcover gluing from creating an aggregate status, bridge, quotient-stream,
-selected-limit, countable-choice, metric-completeness, or $\RealUp$
-completeness reading. Hence the coarse packet $P$ carries exactly the same
-objectwise exit threshold and no route-level strengthening.
-\end{proof}
-
-\begin{theorem}[Real L10 terminal pullback coherence]
-\label{thm:real-l10-terminal-pullback-coherence}
-Let $T$ be an accepted terminal finite-window $\RealUp$ read presented through
-the public $\StreamNameUp$--$\RegSeqRatUp$ route. Suppose its StreamName
-window, $\DyadicRatCoreUp$ tolerance ledger, accepted $\RegSeqRatUp$ pointwise
-seal and readback, $\RealUp$ seal row, and shared $\BHist$, $\hsame$, $\Cont$,
-$\Pkg$, and $\NameCert$ support agree with a four-face Phase Real and
-Completion packet $P$. Then $T$ satisfies the same objectwise exit threshold as
-$P$ in the sense of
-\autoref{thm:real-l10-objectwise-exit-threshold-equivalence}.
-
-Conversely, any terminal finite-window $\RealUp$ read satisfying that
-objectwise threshold and carrying the displayed StreamName, DyadicRatCore,
-RegSeqRat, Real seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows
-factors through the StreamName--$\RegSeqRat$--$\RealUp$ terminal pullback over
-the four-face Phase Real and Completion packet.
-
-The coherent terminal read is only this displayed finite-window pullback. It
-does not assert an aggregate route-level $\formalstatus$, an aggregate bridge
-row, a quotient stream, a selected limit, a countable-choice row, a
-metric-completeness datum, or a $\RealUp$ completeness claim.
-\end{theorem}
-\begin{proof}
-First read the terminal route. Apply
-\autoref{thm:streamname-regseqrat-realup-terminal-pullback-factorization}. The
-accepted terminal $\RealUp$ read factors through exactly the displayed
-StreamName window rows, accepted $\RegSeqRatUp$ pointwise seal rows,
-$\RealUp$ finite-window seal boundary, $\hsame$ transports, finite $\Cont$
-ledger, bundle membership, observations, and $\Pkg$ provenance. Apply
-\autoref{thm:streamname-regseqrat-real-finite-window-route-factorization} to
-include the $\DyadicRatCoreUp$ tolerance ledger in the same finite route.
-
-Now compare the resulting route with the four-face Phase Real and Completion
-packet $P$. The agreement assumptions identify the StreamName window,
-DyadicRatCore tolerance, RegSeqRat seal and readback, Real seal, $\BHist$,
-$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates of the terminal read
-with the corresponding objectwise faces of $P$. Apply
-\autoref{thm:real-l10-objectwise-exit-threshold-equivalence} to read the exit
-threshold from those four local closurestatus records.
-
-For the converse direction, start with a terminal finite-window $\RealUp$ read
-that already carries the objectwise threshold and the displayed finite route
-rows. Apply
-\autoref{thm:streamname-regseqrat-real-finite-window-route-factorization} to
-recover the finite StreamName--RegSeqRat route, and then apply
-\autoref{thm:streamname-regseqrat-realup-terminal-pullback-factorization} to
-repack the same rows as the terminal pullback boundary.
-
-It remains to keep the terminal comparison at the same threshold. Apply
-\autoref{thm:real-l10-finite-cover-exit-threshold-descent} to descend any
-finite-window cover presentation back to the coarse packet $P$. Finally apply
-\autoref{thm:real-l10-face-status-noncollapse} and
-\autoref{thm:real-l10-face-leantarget-noncollapse}. These keep formalstatus,
-bridge, Lean-target, quotient-stream, selected-limit, choice,
-metric-completeness, and $\RealUp$ completeness data attached only to the
-source faces, so the pullback coherence gives no route-level strengthening.
-\end{proof}
+\input{parts/concrete_instances/real/13_real_l10_finite_cover_threshold_equivalence}

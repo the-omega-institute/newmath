@@ -28,3 +28,75 @@ Insert the DyadicRatCore face before those rows. The RegSeqRat bridge handoff ex
 
 Finally apply Real L10 finite-window witness determinacy, \autoref{thm:real-l10-finite-window-witness-determinacy}. It identifies the public seal boundary with exactly the fused StreamName terminal-window packet, the DyadicRatCore endpoint and radius ledger, the RegSeqRat finite-request section, the local Real seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Hence the accepted current-phase seal read has the stated ordered route and none of the excluded quotient, selected-limit, host-equality, completeness, metric-completeness, choice, or Real-completeness coordinates.
 \end{proof}
+
+\begin{theorem}[Real L10 four-face route order uniqueness]
+\label{thm:real-l10-four-face-route-order-uniqueness}
+Every current-phase terminal $\RealUp$ seal section whose displayed rows are the $\DyadicRatCoreUp$ endpoint and radius ledger, the $\StreamNameUp$ finite-window schedule, the $\RegSeqRatUp$ classifier, regularity, and transport rows, and the public $\RealUp$ seal row has
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+as its unique BEDC route. Any attempted route omitting or permuting one face either loses one of the displayed rows or introduces an off-table coordinate, namely quotient stream equality, a selected limit, host real equality, ambient completeness, metric-completeness, countable choice, or a second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+The forward order is the route of \autoref{thm:real-dyadic-streamname-regseqrat-dependency-route}. It already reads the DyadicRatCore endpoint and radius ledger before the StreamName finite-window schedule, then the RegSeqRat regularity and classifier rows, and finally the local Real seal.
+
+The order of the first three faces cannot be permuted without dropping a displayed row. The DyadicRatCore handoff exactness of \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness} makes the endpoint and radius ledger the finite handoff read by RegSeqRat, while the StreamName four-object terminal pullback of \autoref{thm:streamname-real-completion-four-object-terminal-pullback} keeps the DyadicRatCore, StreamName, RegSeqRat, and Real faces in one terminal packet.
+
+The public seal boundary is fixed by Real L10 finite-window witness determinacy, \autoref{thm:real-l10-finite-window-witness-determinacy}. RegSeqRat terminal-section exhaustion, \autoref{thm:regseqrat-real-seal-terminal-section-exhaustion}, rules out a fifth-face witness or a shortcut witness between the regular rational section and the Real seal. Therefore every alternative route either omits one of the four displayed faces or leaves the table by adding one of the excluded quotient, selected-limit, host-equality, completeness, choice, or duplicate-seal coordinates.
+\end{proof}
+
+\begin{theorem}[Real L10 four-face classifier coherence]
+\label{thm:real-l10-four-face-classifier-coherence}
+Let $S$ be an accepted current-phase terminal $\RealUp$ seal section whose displayed rows are exactly the $\DyadicRatCoreUp$ endpoint and radius ledger, the $\StreamNameUp$ finite-window schedule, the $\RegSeqRatUp$ classifier, regularity, and transport rows, and the public $\RealUp$ seal row. Then the four visible classifier reads of $S$ determine the same finite packet
+$$
+(\BHist,\hsame,\Cont,\Pkg,\NameCert).
+$$
+Any classifier disagreement either drops one of the four displayed faces or leaves the table by adding an off-table coordinate: quotient stream equality, a selected limit, host real equality, ambient completeness, metric-completeness, countable choice, or a duplicate $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+Start with the ordered route of \autoref{thm:real-l10-four-face-route-order-uniqueness}. It fixes the only current-phase terminal order as $\DyadicRatCoreUp$ to $\StreamNameUp$ to $\RegSeqRatUp$ to $\RealUp$, so a visible classifier comparison must be read on those four faces and on no independent route.
+
+The endpoint and radius classifier compatibility comes from \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}. The finite-window packet shared by the four faces is supplied by \autoref{thm:streamname-real-completion-four-object-terminal-pullback}. Together these two results place the DyadicRatCore ledger, StreamName schedule, RegSeqRat classifier rows, and local Real seal row on one finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support packet.
+
+It remains to exclude extra classifier sources. RegSeqRat terminal-section exhaustion, \autoref{thm:regseqrat-real-seal-terminal-section-exhaustion}, rules out a shortcut from the regular rational section to the Real seal and rules out a fifth classifier face. Real L10 finite-window witness determinacy, \autoref{thm:real-l10-finite-window-witness-determinacy}, then fixes the public seal boundary to the same finite-window witness. Hence any classifier mismatch is visible as the loss of one of the four displayed faces, or else it requires one of the listed off-table coordinates.
+\end{proof}
+
+\begin{theorem}[Real L10 route face deletion obstruction]
+\label{thm:real-l10-route-face-deletion-obstruction}
+Let $S$ be an accepted current-phase terminal $\RealUp$ seal section with public seal boundary displayed on
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp .
+$$
+Then no route presenting the same public boundary may delete any one of these four faces. Deleting $\DyadicRatCoreUp$ loses the endpoint and radius ledger rows, deleting $\StreamNameUp$ loses the finite-window schedule, deleting $\RegSeqRatUp$ loses the regularity and classifier rows, and deleting $\RealUp$ loses the seal row itself. Any purported route retaining the boundary after such a deletion must leave the permitted current-phase surface by adding quotient stream equality, a selected limit, host real equality, ambient completeness, metric-completeness, countable choice, or a duplicate $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+The accepted boundary first has the ordered route of \autoref{thm:real-dyadic-streamname-regseqrat-dependency-route}. Its unique current-phase order is fixed by \autoref{thm:real-l10-four-face-route-order-uniqueness}, so any route with the same public boundary must read the four displayed faces in the same finite order.
+
+Now compare the four deletions. Without $\DyadicRatCoreUp$ the route has no endpoint and radius ledger feeding the rational source rows. Without $\StreamNameUp$ it has no finite-window schedule. Without $\RegSeqRatUp$ it has no regularity and classifier surface between the scheduled observations and the seal. Without $\RealUp$ it has no public seal row.
+
+The terminal packet cannot hide these losses in another current-phase coordinate. The StreamName terminal pullback of \autoref{thm:streamname-real-completion-four-object-terminal-pullback} keeps the four faces in one finite terminal packet, while \autoref{thm:regseqrat-real-seal-terminal-section-exhaustion} rules out a shortcut or fifth face between the regular rational section and the Real seal.
+
+Finally apply the classifier coherence theorem, \autoref{thm:real-l10-four-face-classifier-coherence}. It says the visible classifier reads determine the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet exactly on these faces; hence a route that claims the same boundary after deleting one face must supply the missing row by one of the excluded off-table coordinates.
+\end{proof}
+
+\begin{theorem}[Real L10 four-face local-threshold descent]
+\label{thm:real-l10-four-face-local-threshold-descent}
+Let $\mathcal E$ be a finite Phase $\RealUp$ and Completion packet displayed exactly on the four faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+with support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. If $\mathcal E$ satisfies the current-phase local threshold, then every accepted projection of the four-face route carries the same objectwise local threshold records on the DyadicRatCore endpoint and radius ledger, the StreamName finite-window schedule, the RegSeqRat classifier and regularity rows, and the local Real seal row.
+
+Conversely, any accepted four-face route projection carrying those four local threshold records together with the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support repacks as the current-phase Phase $\RealUp$ and Completion exit certificate of \autoref{thm:real-l10-current-phase-exit-local-threshold}. The descent and repacking use no quotient streams, selected limits, host real equality, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First put all classifier reads on one finite packet. By \autoref{thm:real-l10-four-face-classifier-coherence}, the visible classifier coordinates of an accepted route projection over the four displayed faces determine the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support packet.
+
+For descent, apply \autoref{thm:real-l10-current-phase-exit-local-threshold}. It identifies the current Phase Real and Completion exit criterion with the objectwise product of the four local threshold records on $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ face, supported by exactly those finite rows. Hence every accepted projection of that same packet reads the same four local threshold records.
+
+The projection order does not add a second certificate. Use \autoref{thm:real-l10-four-face-route-order-uniqueness} to fix the terminal route and use \autoref{thm:real-l10-face-order-permutation-invariance} to compare support-row-preserving projections of the displayed packet. Thus the descended local threshold is independent of the accepted projection order.
+
+For the converse direction, start with an accepted four-face route projection carrying the four local threshold records and the same displayed support rows. The local-threshold theorem repacks these rows as the current-phase exit certificate, and the classifier coherence theorem keeps the repacked certificate on the same finite four-face packet.
+
+Finally apply \autoref{thm:real-l10-exit-certificate-face-minimality}. Each face record and each displayed support row is indispensable, so no shortened route or off-table coordinate can present the same exit certificate. Therefore the repacking uses exactly the stated four faces and excludes the listed quotient, selected-limit, host-equality, choice, metric-completeness, aggregate-status, aggregate-bridge, standard-bridge, and completeness data.
+\end{proof}

@@ -86,6 +86,24 @@ The proof-check row cannot be detached from the verifier row, since $C$ records 
 Replay and provenance then bind the consumer route to the displayed packet. Thus an export that omits a sibling row, verifier row, proof-check row, refusal row, replay row, provenance row, or local name is not an accepted $\LargeModelOutputVerifierUp$ export.
 \end{proof}
 
+\begin{theorem}[Large-model output verifier obligation closure package]
+\label{thm:large-model-output-verifier-obligation-closure-package}
+Every accepted $\LargeModelOutputVerifierUp$ packet has exactly the obligation package consisting of carrier exposure for $V=(H,A,M,T,I,Q,C,F,R,K,P,N)$, classifier accountability, sibling exposure through $H,A,M,T,I$, verifier and proof-check exposure through $Q,C$, refusal and route exactness through $F,R$, replay and provenance through $K,P$, local naming through $N$, and the TasteGate single-carrier alignment for the same finite carrier. It exports no hidden model truth, private verifier correctness, host semantic understanding, or output route without verifier and proof-check rows.
+\end{theorem}
+\begin{proof}
+Combine the local NameCert obligations of \autoref{thm:large-model-output-verifier-namecert-obligations} with the carrier and classifier definitions. The carrier exposes exactly the rows $H,A,M,T,I,Q,C,F,R,K,P,N$, while the classifier accounts for them componentwise and does not compare hidden model meanings.
+
+Apply the public boundary of \autoref{thm:large-model-output-verifier-public-acceptance-boundary}. It forces public export through $Q$ and $C$ before the route row $R$, so no output route qualifies as accepted without the verifier and proof-check rows.
+
+Apply the ledger non-escape theorem \autoref{thm:large-model-output-verifier-ledger-nonescape}. It keeps the sibling, refusal, replay, provenance, and local naming rows visible to any consumer of the exported output.
+
+Finally use the checked TasteGate marker
+$$
+\mathsf{LargeModelOutputVerifierTasteGate\_single\_carrier\_alignment}
+$$
+for the same finite carrier. The combined package is therefore an obligation surface only; it does not add hidden model truth, private checker correctness, or host semantic understanding.
+\end{proof}
+
 \falsifiablePrediction{An accepted LargeModelOutputVerifierUp packet cannot export a model output without displayed verifier and proof-check rows.}
 
 \independenceWitness{verifiedoutputharness, largemodelauditchannel, modeltrace, promptresponsetrace, largemodelinscriptionaudit: none is bijective to $\LargeModelOutputVerifierUp$. Omitting the verifier row $Q$ gives a harness or audit-channel acceptance surface without external checking; omitting the proof-check row $C$ gives an audited output without a check transcript; omitting the refusal row $F$ erases blocked evidence; omitting $H,A,M,T,I$ loses the sibling packet route; omitting $P,N$ loses provenance and local naming.}
@@ -93,15 +111,17 @@ Replay and provenance then bind the consumer route to the displayed packet. Thus
 The Lean $\mathsf{TasteGate.lean}$ surface must provide $\mathsf{Nontrivial}\ \LargeModelOutputVerifierUp$ and $\mathsf{FieldFaithful}\ \LargeModelOutputVerifierUp$ instances for the same finite carrier.
 
 \closureat{LargeModelOutputVerifierUp}{seedStr}
+\closureat{LargeModelOutputVerifierUp}{obligationStr}[BEDC.Derived.LargeModelOutputVerifierUp.TasteGate.LargeModelOutputVerifierTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\LargeModelOutputVerifierUp}
   \constructivestory{A $\LargeModelOutputVerifierUp$ packet is generated from harness, audit-channel, model-trace, prompt-response, inscription-audit, verifier, proof-check, refusal, route, replay, provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:large-model-output-verifier-carrier}, \autoref{def:large-model-output-verifier-classifier}, \autoref{thm:large-model-output-verifier-namecert-obligations}, \autoref{thm:large-model-output-verifier-public-acceptance-boundary}, and \autoref{thm:large-model-output-verifier-ledger-nonescape} bind externally checked model-output export to the displayed verifier packet.}
+  \leanchecked{BEDC.Derived.LargeModelOutputVerifierUp.taste\_gate}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:large-model-output-verifier-carrier}, \autoref{def:large-model-output-verifier-classifier}, \autoref{thm:large-model-output-verifier-namecert-obligations}, \autoref{thm:large-model-output-verifier-public-acceptance-boundary}, \autoref{thm:large-model-output-verifier-ledger-nonescape}, and \autoref{thm:large-model-output-verifier-obligation-closure-package} bind verifier and proof-check rows, refusal and route rows, replay and provenance rows, local naming, sibling surfaces, and kernel carrier/classifier surfaces for externally checked model-output export.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.LargeModelOutputVerifierUp.TasteGate.LargeModelOutputVerifierTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close model consciousness, corpus truth, private verifier correctness, host semantic understanding, global proof checking, or bridge checking for $\LargeModelOutputVerifierUp$.}
-  \upgradepath{Obligation closure requires Lean encoding of classifier accountability and verifier/proof-check route exactness beyond the carrier alignment theorem for $H,A,M,T,I,Q,C,F,R,K,P,N$.}
+  \upgradepath{Bridge checking would require a complete $\StdBridge$ surface for $\LargeModelOutputVerifierUp$; no bridge claim is made here.}
 \end{closurestatus}

@@ -13,6 +13,8 @@ Z=(T,F,V,K,R,H,C,P,N),
 $$
 each total-host read factors through the typed endpoint row $T$, the Zeckendorf and carry-facing normal row $K$, the terminal continuation-trace row $R$, and the local $\NameCert_{\ZNormalUp}$ rows $P,N$. The read may use the finite fuel, terminal-normality, transport, and replay rows $F,V,H,C$, but it cannot bypass the displayed bridge components by a host conversion row, divergence oracle, quotient computation, unrestricted evaluator, or global normalizer.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalRootTotalHostBridgeComponents}
+\leanvariant{BEDC.Derived.ZnormalUp.ZnormalPacket\_root\_total\_host\_bridge\_components}
 \begin{proof}
 Start with \autoref{def:znormal-root-display-packet}. It exposes the accepted root surface as the finite tuple $T,F,V,K,R,H,C,P,N$, so there is no second total-host coordinate outside the displayed $\BHist$ packet.
 
@@ -26,6 +28,7 @@ Finally use \autoref{thm:znormal-root-ledger-exhaustion}. Since the ledger accou
 \begin{theorem}[$\ZNormalUp$ root continuation replay closure]\label{thm:znormal-root-cont-replay-closure}
 Every accepted replay of an accepted $\ZNormalUp$ root display packet is exhausted by the displayed $\Cont$ row $C$ together with the terminal continuation-trace row $R$, transport row $H$, provenance row $P$, and local naming row $N$. The replay cannot export a divergence oracle, host conversion row, or global normalization procedure, and it cannot manufacture a continuation trace outside the finite packet $Z$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalRootContReplayClosure}
 \begin{proof}
 Read the replay surface through \autoref{def:znormal-root-display-packet}. The only replay coordinate is $C$, and it is attached to $R,H,P,N$ inside the same finite packet.
 
@@ -43,6 +46,7 @@ $$
 $$
 Its carrier is the finite $\BHist$ packet $Z$; its classifier reads the typed endpoint, finite fuel, terminal normality, Zeckendorf and carry-facing normal row, and terminal continuation trace; its transport and replay rows are $H$ and $C$; its provenance and local name rows are $P$ and $N$. No additional carrier, classifier, transport, replay, provenance, naming, host conversion, divergence, or global-normalization component belongs to the local NameCert surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalRootNameCertComponentExhaustion}
 \begin{proof}
 Project the carrier from \autoref{def:znormal-root-display-packet} and \autoref{def:znormal-carrier}. Both descriptions display the same finite coordinates $T,F,V,K,R,H,C,P,N$ and give no external NameCert component.
 
@@ -62,6 +66,7 @@ Z=(T,F,V,K,R,H,C,P,N),
 $$
 any accepted total-host or terminal-normal consumer read of $Z$ factors through exactly the displayed typed endpoint row $T$, finite fuel row $F$, terminal-normality row $V$, Zeckendorf and carry-facing normal-word row $K$, terminal continuation-trace row $R$, componentwise transport row $H$, replay row $C$, provenance row $P$, and local name row $N$. The typed endpoint, normal-word, and continuation-trace sibling surfaces may be consumed only as displayed rows of this packet. No host conversion, divergence oracle, quotient computation, unrestricted evaluator, or global normalizer participates in the readback.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalRootDisplayPacketBridgeReadbackExactness}
 \begin{proof}
 Project the packet by \autoref{def:znormal-root-display-packet}. The accepted root surface is the finite $\BHist$ display $T,F,V,K,R,H,C,P,N$, so a consumer read has no ambient coordinate apart from these rows.
 

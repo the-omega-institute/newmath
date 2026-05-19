@@ -88,15 +88,58 @@ Invoke \autoref{thm:cofinal-window-real-seal-namecert-obligations}. It identifie
 Use \autoref{thm:cofinal-window-real-seal-terminal-meet} for non-escape. Since every Real-facing or completion-facing consumer reaches the terminal meet through the displayed route, a consumer that tries to bypass $B,T,W,D,R,X,G$ before reading $E$ has left the accepted packet.
 \end{proof}
 
+\begin{theorem}[Cofinal-window Real-seal obligation scope]
+\label{thm:cofinal-window-real-seal-obligation-scope}
+Every $\CofinalWindowRealSealUp$ NameCert obligation is scoped only over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the sibling packets $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\FiniteObservationBudgetSelectorUp$, $\TailCofinalityScheduleUp$, $\RealCompletionExactBoundaryUp$, and $\CofinalDiagonalSealUp$. No obligation row may quantify over a quotient stream, host real equality, selected host limit, hidden selector, countable-choice source, detached Real-seal coordinate, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-window-real-seal-carrier}. Its rows are exactly $B,T,W,D,R,E,X,G,H,C,P,N$, where the first eight rows name the displayed sibling surfaces and the last four rows give $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support over the same finite history.
+
+Apply \autoref{thm:cofinal-window-real-seal-namecert-obligations} to read the NameCert surface from those rows. Apply \autoref{thm:cofinal-window-real-seal-terminal-meet} to force every Real-facing consumer through the same route.
+
+Finally apply \autoref{thm:cofinal-window-real-seal-source-exhaustion}. Since the checked source-exhaustion target admits no further source coordinate, every obligation remains inside the displayed BEDC primitive and sibling dependency scope.
+\end{proof}
+
+\begin{theorem}[Cofinal-window Real-seal public certificate]
+\label{thm:cofinal-window-real-seal-public-certificate}
+The public $\CofinalWindowRealSealUp$ export is exactly the finite route
+$$
+B,T,W,D,R,E,X,G,H,C,P,N
+$$
+and its local $\NameCert_{\CofinalWindowRealSealUp}$ row. It exports no quotient stream, host equality, selected limit, completeness coordinate, hidden selector, countable-choice row, or detached Real seal.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cofinal-window-real-seal-namecert-obligations}. It identifies the local NameCert row with the displayed finite route and gives no second certificate component.
+
+Use \autoref{thm:cofinal-window-real-seal-terminal-meet} and \autoref{thm:cofinal-window-real-seal-source-exhaustion} to rule out consumer-side escape from that route. The terminal Real seal can be read only after the selector, schedule, window, dyadic ledger, RegSeqRat readback, exact boundary, and cofinal diagonal rows are present.
+
+It remains to bind the export boundary. \autoref{thm:cofinal-window-real-seal-obligation-scope} says every obligation row lives inside the same BEDC primitive and sibling dependency scope, so the public certificate is precisely the finite route together with its local $\NameCert$.
+\end{proof}
+
+\begin{theorem}[Cofinal-window Real-seal bridge boundary]
+\label{thm:cofinal-window-real-seal-bridge-boundary}
+Any standard bridge that later presents $\CofinalWindowRealSealUp$ to a Real-facing consumer must factor through the checked source-exhaustion route and through the public certificate of \autoref{thm:cofinal-window-real-seal-public-certificate}. A consumer row that bypasses either boundary is not a bridge for this packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.CofinalWindowRealSealUp.CofinalWindowRealSealUp\_StdBridge}
+\begin{proof}
+Use the checked source-exhaustion marker for \autoref{thm:cofinal-window-real-seal-source-exhaustion}. It fixes the only rows a Real-facing or completion-facing consumer may project from the accepted carrier.
+
+Apply \autoref{thm:cofinal-window-real-seal-public-certificate}. The public export contains the finite route $B,T,W,D,R,E,X,G,H,C,P,N$ and the local $\NameCert$ row, and it excludes the quotient, host-equality, selected-limit, and completeness coordinates.
+
+Therefore a standard bridge can only expose a Real-facing consumer row after passing through both boundaries. Any map that omits the checked source-exhaustion route or the displayed public certificate has left the named packet.
+\end{proof}
+
 Lean development for this route must provide \texttt{Nontrivial CofinalWindowRealSealUp} and \texttt{FieldFaithful CofinalWindowRealSealUp} in \texttt{lean4/BEDC/Derived/CofinalWindowRealSealUp/TasteGate.lean}.
 
 \begin{closurestatus}{\CofinalWindowRealSealUp}
   \constructivestory{The cofinal-window Real seal is generated from a $BHist$ packet that records selector-budget rows, tail schedules, finite windows, dyadic ledgers, regular-rational readbacks, and the terminal Real-seal handoff. The carrier convention first exposes the window ledger, then requires every later Real-facing row to be connected by $\Cont$ to that same cofinal route. The $hsame$ relation supplies representative stability: if the history is renamed, the terminal meet and source-exhaustion rows still read back the same window evidence. No quotient stream or selected limit is introduced; the seal is the visible route by which finite windows become the only admissible Real consumer surface.}
-  \theoryclosure{\seedClosure}
+  \leanchecked{BEDC.Derived.CofinalWindowRealSealUp.taste\_gate}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{This chapter binds the cofinal-window Real-seal carrier, NameCert obligations, terminal-meet theorem, and source-exhaustion theorem.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.CofinalWindowRealSealUp.CofinalWindowRealSeal\_source\_exhaustion}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim ambient real completeness, quotient-stream equality, or a selected limit beyond the cofinal window route.}
-  \upgradepath{Reaching obligationClosure requires a formal cofinal-window carrier and checked factorization of terminal and source rows through that carrier.}
+  \upgradepath{Reaching scopedClosure requires every obligation row to name its exact BEDC primitive and sibling dependency scope.}
 \end{closurestatus}
