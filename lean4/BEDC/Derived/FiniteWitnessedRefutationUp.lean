@@ -169,4 +169,40 @@ theorem FiniteWitnessedRefutationCarrier_public_packet [AskSetup] [PackageSetup]
       publicUnary, consumerUnary, regularityGapKey, keyWitnessDecision, decisionRoutePublic,
       publicRouteConsumer, provenancePkg, namePkg, consumerPkg⟩
 
+theorem FiniteWitnessedRefutationCarrier_gap_boundary_crosslink [AskSetup] [PackageSetup]
+    {regularity gap key witness decision transport route provenance name publicRead gapRefusal
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWitnessedRefutationCarrier regularity gap key witness decision transport route
+        provenance name bundle pkg →
+      Cont decision route publicRead →
+        Cont gap route gapRefusal →
+          Cont gapRefusal decision consumer →
+            PkgSig bundle publicRead pkg →
+              PkgSig bundle consumer pkg →
+                UnaryHistory gap ∧ UnaryHistory decision ∧ UnaryHistory publicRead ∧
+                  UnaryHistory gapRefusal ∧ UnaryHistory consumer ∧
+                    Cont decision route publicRead ∧ Cont gap route gapRefusal ∧
+                      Cont gapRefusal decision consumer ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle publicRead pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier decisionRoutePublic gapRouteRefusal gapRefusalDecisionConsumer publicPkg
+    consumerPkg
+  obtain ⟨regularityUnary, gapUnary, witnessUnary, routeUnary, regularityGapKey,
+    keyWitnessDecision, _decisionRouteTransport, provenancePkg, _namePkg⟩ := carrier
+  have keyUnary : UnaryHistory key :=
+    unary_cont_closed regularityUnary gapUnary regularityGapKey
+  have decisionUnary : UnaryHistory decision :=
+    unary_cont_closed keyUnary witnessUnary keyWitnessDecision
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed decisionUnary routeUnary decisionRoutePublic
+  have gapRefusalUnary : UnaryHistory gapRefusal :=
+    unary_cont_closed gapUnary routeUnary gapRouteRefusal
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed gapRefusalUnary decisionUnary gapRefusalDecisionConsumer
+  exact
+    ⟨gapUnary, decisionUnary, publicUnary, gapRefusalUnary, consumerUnary,
+      decisionRoutePublic, gapRouteRefusal, gapRefusalDecisionConsumer, provenancePkg,
+      publicPkg, consumerPkg⟩
+
 end BEDC.Derived.FiniteWitnessedRefutationUp
