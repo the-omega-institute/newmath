@@ -154,4 +154,82 @@ theorem RelationalFrameAuditLayeredRelationCert_namecert_obligation_surface [Ask
     ⟨cert, sourceAUnary, sourceBUnary, layerMapUnary, preservedUnary, refusedUnary,
       exactnessUnary, handoffUnary⟩
 
+theorem RelationalFrameAuditLayeredRelationCert_finite_relation_exactness [AskSetup]
+    [PackageSetup]
+    {sourceA sourceB layer preserved refused ledger exactness boundary _transport _route
+      _provenance _localName exactRead refusedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory sourceA ->
+      UnaryHistory sourceB ->
+        UnaryHistory layer ->
+          UnaryHistory preserved ->
+            UnaryHistory refused ->
+              UnaryHistory ledger ->
+                UnaryHistory exactness ->
+                  UnaryHistory boundary ->
+                    Cont sourceA layer preserved ->
+                      Cont sourceB layer refused ->
+                        Cont preserved refused exactRead ->
+                          Cont ledger boundary refusedRead ->
+                            PkgSig bundle exactRead pkg ->
+                              SemanticNameCert
+                                  (fun row : BHist =>
+                                    hsame row exactRead ∨ hsame row refusedRead)
+                                  (fun _row : BHist =>
+                                    Cont preserved refused exactRead ∧
+                                      Cont ledger boundary refusedRead)
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧ PkgSig bundle exactRead pkg)
+                                  hsame ∧
+                                UnaryHistory exactRead ∧ UnaryHistory refusedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro _sourceAUnary _sourceBUnary _layerUnary preservedUnary refusedUnary ledgerUnary
+    _exactnessUnary boundaryUnary _sourceRoute _refusedRoute exactRoute refusedReadRoute
+    exactPkg
+  have exactReadUnary : UnaryHistory exactRead :=
+    unary_cont_closed preservedUnary refusedUnary exactRoute
+  have refusedReadUnary : UnaryHistory refusedRead :=
+    unary_cont_closed ledgerUnary boundaryUnary refusedReadRoute
+  have carrierInhabited :
+      Exists (fun row : BHist => hsame row exactRead ∨ hsame row refusedRead) :=
+    Exists.intro exactRead (Or.inl (hsame_refl exactRead))
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row exactRead ∨ hsame row refusedRead)
+        (fun _row : BHist =>
+          Cont preserved refused exactRead ∧ Cont ledger boundary refusedRead)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle exactRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := carrierInhabited
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        cases source with
+        | inl sameExact =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) sameExact)
+        | inr sameRefused =>
+            exact Or.inr (hsame_trans (hsame_symm sameRows) sameRefused)
+    }
+    pattern_sound := by
+      intro _row _source
+      exact ⟨exactRoute, refusedReadRoute⟩
+    ledger_sound := by
+      intro row source
+      cases source with
+      | inl sameExact =>
+          exact ⟨unary_transport exactReadUnary (hsame_symm sameExact), exactPkg⟩
+      | inr sameRefused =>
+          exact ⟨unary_transport refusedReadUnary (hsame_symm sameRefused), exactPkg⟩
+  }
+  exact ⟨cert, exactReadUnary, refusedReadUnary⟩
+
 end BEDC.Derived.RelationalFrameAuditUp
