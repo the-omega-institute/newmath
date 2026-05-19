@@ -272,6 +272,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerRouteTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundRouteRefusalSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundedAcceptanceSurface
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.HiddenGeneratorExclusion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.HostKernelHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.KernelBoundaryExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10Carrier
@@ -4320,6 +4321,7 @@ import BEDC.Derived.YonedaUp
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
 import BEDC.Derived.ZeckendorfCarryNormalizationUp
+import BEDC.Derived.ZeckendorfCarryNormalizationUp.AxisNatDependency
 import BEDC.Derived.ZeckendorfCarryValueUp.TasteGate
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.ZeroKnowledgeUp
@@ -4357,6 +4359,7 @@ import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.ZnormalUp
 import BEDC.Derived.ZnormalUp.CarryClassifierRow
 import BEDC.Derived.ZnormalUp.DecisionRouteExhaustion
+import BEDC.Derived.ZnormalUp.DownstreamConsumerBoundary
 import BEDC.Derived.ZnormalUp.FuelReadbackTasteGateRoute
 import BEDC.Derived.ZnormalUp.LedgerNonescape
 import BEDC.Derived.ZnormalUp.NormalFormConsumerBoundary
