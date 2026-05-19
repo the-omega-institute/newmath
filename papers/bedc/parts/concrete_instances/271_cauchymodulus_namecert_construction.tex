@@ -314,6 +314,49 @@ and the carrier has no coordinate for a selected limit, a stream quotient, a
 host index equality, or a completion row.
 \end{proof}
 
+\begin{theorem}[Cauchy-modulus refinement consumer boundary]
+\label{thm:cauchymodulus-refinement-consumer-boundary}
+Every accepted $\CauchyModulusRefinementUp$ consumer read whose shared-meet
+row, selector-budget row, dyadic tolerance row, $\RegSeqRatUp$ schedule row,
+and $\RealUp$ seal row are admitted factors through an accepted
+$\CauchyModulusUp$ finite-window packet of
+\autoref{thm:cauchymodulus-cont-window-closure} and through the public
+consumer boundary of \autoref{thm:cauchymodulus-public-consumer-boundary}.
+The read exports only the visible $\NatUp$ precision and threshold rows,
+$\RatUp/\DyadicRatCoreUp$ tolerance rows, $\StreamNameUp$ scheduled
+observation rows, $\RegSeqRatUp$ late-pair schedule rows, $\RealUp$
+seal-transport rows, $\hsame$ rows, $\Cont$ rows, and $\mathsf{Pkg}$
+provenance consumed by the downstream carrier of
+\autoref{ch:concrete-instances-cauchy-modulus-refinement-namecert}. It exports
+no quotient stream, selected limit, host real equality, countable-choice row,
+or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the carrier rows of \autoref{def:cauchymodulus-carrier}. They
+display the precision request, threshold, tolerance, scheduled observations,
+finite consumption ledger, continuation routes, and provenance needed by any
+rate consumer.
+
+Apply the classifier of \autoref{def:cauchymodulus-classifier} to keep those
+rows componentwise under $\hsame$ transport. Then use
+\autoref{thm:cauchymodulus-cont-window-closure} to restrict the accepted read
+to the finite window containing the threshold, tolerance, scheduled
+observation, and regularity rows.
+
+Next apply \autoref{thm:cauchymodulus-public-consumer-boundary}. It identifies
+the exact public package seen by $\RegSeqRatUp$ and finite-window $\RealUp$
+consumers, including the dyadic tolerance, regular readback, real seal
+transport, continuation, and provenance rows.
+
+Finally read the refinement chapter as a downstream consumer of that package:
+\autoref{ch:concrete-instances-cauchy-modulus-refinement-namecert} admits its
+shared meet, selector budget, dyadic tolerance, regular schedule, and real
+seal rows only after this public finite-window route is present. Since the
+upstream package has no coordinate for quotient streams, selected limits, host
+real equality, countable choice, or ambient completeness, neither can the
+accepted refinement consumer read one from the $\CauchyModulusUp$ side.
+\end{proof}
+
 \begin{theorem}[CauchyModulus explicit-modulus standard bridge]
 \label{thm:cauchymodulus-explicit-modulus-standard-bridge}
 The public consumer boundary of

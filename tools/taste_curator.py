@@ -40,6 +40,7 @@ STATE_FILE = Path("/tmp/.bedc_taste_state.json")
 ALLOWLIST_FILE = REPO_ROOT / "papers" / "bedc" / "taste_allowlist.json"
 APPROVALS_FILE = REPO_ROOT / "papers" / "bedc" / "taste_approvals.json"
 CONFIG_FILE = REPO_ROOT / "papers" / "bedc" / "taste_curator_config.json"
+TASTE_EVOLUTIONS_FILE = REPO_ROOT / "docs" / "dossier" / "taste-evolutions.qmd"
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 
 DEFAULT_CONFIG: dict[str, Any] = {
@@ -56,12 +57,13 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "CYCLE_INTERVAL_SECONDS": 3600,
     "MIN_MONITOR_CYCLES": 2,
     "ADJUST_TRIGGER_FINDINGS": 5,
+    "RESEARCH_EVERY_N_ADJUSTS": 5,
     "STABILIZE_CYCLES": 3,
     "STABILIZE_HEAL_ALERT_BASELINE_MULTIPLIER": 2.0,
     "STABILIZE_AUDIT_FAIL_REGRESSION_TOLERANCE": 0,
 }
 
-VALID_STATES = {"monitor", "adjust", "stabilize"}
+VALID_STATES = {"monitor", "research", "adjust", "stabilize"}
 
 TIMEOUTS = {
     "git": 60,
@@ -79,6 +81,8 @@ AUTO_FIXABLE_FLAGS = {
     "simple_label_correction",
     "allowlist_metadata_correction",
 }
+
+RESEARCH_FINDING_PREFIX = "research_"
 
 RULE_EVOLUTION_ALLOWED_FILES = {
     "docs/dossier/taste-evolutions.qmd",
@@ -228,6 +232,44 @@ targets exhibiting the same pattern). Your job:
 11. Do NOT push (orchestrator [the daemon] will push after success).
 
 Cluster evidence will be provided after this prompt.
+"""
+
+META_PROMPT_RESEARCH = """You are doing corpus-level taste research on BEDC. Your job: find new
+garbage patterns that current detectors miss, frame them as NEGATIVE
+criteria, output as findings JSON.
+
+PROCESS:
+1. Read existing detectors in lean4/scripts/bedc_ci.py. Note what they
+   already catch. Do not propose duplicates.
+2. Run broad corpus queries — tactic shape, carrier shape, lineage
+   distribution, falsifiability text, dependency graph, topic
+   distribution, conservativity-audit. Use grep / python / bedc_ci.py
+   subcommands. Sample 5-10 chapters by reading their .tex and the
+   corresponding *Up Lean module.
+3. Identify 0-5 NEW patterns where you can confidently say "this is
+   clearly bad" using a machine-checkable definition. Each must be
+   NEGATIVE form (presence of X -> bad), not POSITIVE (absence of X).
+4. For each: provide flag name, pattern definition, 2-3 example chapter
+   slugs, data evidence (count / regex / structural fingerprint), and a
+   one-sentence justification why this is clearly garbage (not subtle
+   judgement).
+5. If you cannot find any clearly-bad NEW pattern, return empty list.
+   Do NOT invent patterns to fill a quota.
+
+OUTPUT: JSON to stdout in format:
+[
+  {
+    "proposed_flag": "<slug>",
+    "negative_criterion": "<one-sentence machine-checkable definition>",
+    "example_chapters": ["<slug1>", "<slug2>"],
+    "evidence": {"<key>": <value>, ...},
+    "rationale": "<one-sentence why clearly garbage>"
+  },
+  ...
+]
+
+DO NOT write any file. DO NOT propose code or detectors. Just identify
+patterns. Daemon will turn the JSON into findings + rule evolutions.
 """
 
 BOILERPLATE_PHRASES = (
@@ -478,6 +520,7 @@ def load_state() -> dict[str, Any]:
     data.setdefault("state_entered_at", utc_now())
     data.setdefault("monitor_cycles_in_state", 0)
     data.setdefault("stabilize_cycles_in_state", 0)
+    data.setdefault("adjusts_since_research", 0)
     data.setdefault("last_adjust_commit_sha", None)
     data.setdefault("last_adjust_at", None)
     baseline = data.get("stabilize_baseline")
@@ -501,6 +544,8 @@ def transition_state(state: dict[str, Any], next_state: str, *, reset_baseline: 
     state["state_entered_at"] = utc_now()
     if next_state == "monitor":
         state["monitor_cycles_in_state"] = 0
+    if next_state == "research":
+        state["adjusts_since_research"] = 0
     if next_state == "stabilize":
         state["stabilize_cycles_in_state"] = 0
     if reset_baseline:
@@ -673,6 +718,11 @@ def tracked_dirty_paths() -> list[str]:
             continue
         dirty.append(raw)
     return dirty
+
+
+def dirty_paths() -> list[str]:
+    out = git("status", "--porcelain", capture=True).stdout
+    return [line for line in out.splitlines() if line.strip()]
 
 
 def current_branch() -> str:
@@ -1276,7 +1326,7 @@ def top_entry_cluster(entries: list[dict[str, Any]], state: dict[str, Any]) -> t
         if qid and qid in done:
             continue
         flag = str(entry.get("flag") or "")
-        if flag in AUTO_FIXABLE_FLAGS:
+        if flag in AUTO_FIXABLE_FLAGS or flag.startswith(RESEARCH_FINDING_PREFIX):
             clusters.setdefault(flag, []).append(entry)
     if not clusters:
         return None
@@ -1296,6 +1346,192 @@ def build_rule_evolution_prompt(flag: str, evidence: list[dict[str, Any]]) -> st
         + json.dumps(cluster, indent=2, sort_keys=True)
         + "\n```\n"
     )
+
+
+def is_negative_criterion(text: str) -> bool:
+    low = text.lower()
+    positive_markers = (
+        "must achieve",
+        "must be meaningful",
+        "should achieve",
+        "requires depth",
+        "needs mathematical depth",
+        "absence of",
+    )
+    if any(marker in low for marker in positive_markers):
+        return False
+    negative_markers = (
+        "presence of",
+        "reject",
+        "bad",
+        "matches",
+        "contains",
+        "duplicates",
+        "self-refer",
+        "self refer",
+        "identical",
+        "at least",
+        ">=",
+        "regex",
+        "fingerprint",
+    )
+    return any(marker in low for marker in negative_markers)
+
+
+def normalize_research_flag(raw: str) -> str:
+    flag = re.sub(r"[^a-z0-9_]+", "_", raw.strip().lower()).strip("_")
+    flag = re.sub(r"_+", "_", flag)
+    if not flag:
+        flag = "unnamed_negative_pattern"
+    if not flag.startswith(RESEARCH_FINDING_PREFIX):
+        flag = RESEARCH_FINDING_PREFIX + flag
+    return flag[:120]
+
+
+def coerce_chapter_slugs(value: Any) -> list[str]:
+    if isinstance(value, list):
+        slugs = [sanitize_branch_piece(str(item)).lower() for item in value if str(item).strip()]
+    elif isinstance(value, str) and value.strip():
+        slugs = [sanitize_branch_piece(value).lower()]
+    else:
+        slugs = []
+    return [slug for slug in slugs if slug][:3]
+
+
+def research_payload_to_findings(payload: Any, commit: str) -> list[Finding]:
+    if not isinstance(payload, list):
+        return []
+    findings: list[Finding] = []
+    for item in payload[:5]:
+        if not isinstance(item, dict):
+            continue
+        criterion = str(item.get("negative_criterion") or "").strip()
+        if not criterion or not is_negative_criterion(criterion):
+            append_alert(
+                "research_non_negative_criterion",
+                {
+                    "proposed_flag": item.get("proposed_flag"),
+                    "negative_criterion": criterion,
+                    "rationale": item.get("rationale"),
+                },
+            )
+            continue
+        slugs = coerce_chapter_slugs(item.get("example_chapters"))
+        evidence = item.get("evidence") if isinstance(item.get("evidence"), dict) else {}
+        flag = normalize_research_flag(str(item.get("proposed_flag") or "negative_pattern"))
+        base_evidence = {
+            "source": "research",
+            "negative_criterion": criterion,
+            "rationale": str(item.get("rationale") or "").strip(),
+            "all_example_chapters": slugs,
+            "research_evidence": evidence,
+        }
+        targets = item.get("example_lean_targets")
+        if isinstance(targets, list):
+            base_evidence["example_lean_targets"] = [str(x) for x in targets[:3] if str(x).strip()]
+        for slug in slugs or ["corpus"]:
+            findings.append(Finding(
+                flag=flag,
+                chapter_slug=slug,
+                severity="medium",
+                evidence=base_evidence,
+                recommended_action="evolve a mechanical negative audit gate for this research finding",
+                commit=commit,
+            ))
+    assign_ids(findings, commit)
+    return findings
+
+
+def format_evidence_inline(evidence: dict[str, Any]) -> str:
+    parts: list[str] = []
+    for key, value in list(evidence.items())[:4]:
+        if isinstance(value, (dict, list)):
+            rendered = json.dumps(value, ensure_ascii=False, sort_keys=True)
+        else:
+            rendered = str(value)
+        parts.append(f"{key}={rendered[:120]}")
+    return ", ".join(parts) if parts else "none"
+
+
+def append_research_dossier(findings: list[Finding], dry_run: bool) -> None:
+    ts = datetime.now().replace(microsecond=0).strftime("%Y-%m-%d %H:%M:%S")
+    lines = [
+        f"## {ts} — RESEARCH",
+        "",
+        "### 探索范围",
+        "",
+        "扫描 corpus 各维度: tactic / carrier / lineage / falsifiability / 依赖图 / topic 等。",
+        "",
+        "### 发现 (negative criteria)",
+        "",
+    ]
+    if findings:
+        seen: set[tuple[str, str]] = set()
+        for finding in findings:
+            criterion = str(finding.evidence.get("negative_criterion") or "")
+            key = (finding.flag, criterion)
+            if key in seen:
+                continue
+            seen.add(key)
+            examples = finding.evidence.get("all_example_chapters")
+            if not isinstance(examples, list) or not examples:
+                examples = [finding.chapter_slug]
+            evidence = finding.evidence.get("research_evidence")
+            evidence_text = format_evidence_inline(evidence if isinstance(evidence, dict) else {})
+            lines.append(
+                f"- {finding.flag}: {criterion}, 例 {', '.join(str(x) for x in examples[:3])}; "
+                f"evidence {evidence_text}"
+            )
+    else:
+        lines.append("本轮未发现新可机械化 negative pattern, 现有 detector 已覆盖。")
+    lines.extend([
+        "",
+        "### 后续动作",
+        "",
+        "新 finding 已 append 到 queue, 下一 ADJUST cycle 派 rule evolution.",
+        "",
+        "---",
+        "",
+    ])
+    text = "\n".join(lines)
+    if dry_run:
+        print("[taste] dry-run: would append RESEARCH dossier section", flush=True)
+        return
+    TASTE_EVOLUTIONS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with TASTE_EVOLUTIONS_FILE.open("a", encoding="utf-8") as fh:
+        fh.write("\n" + text)
+
+
+def dispatch_research(dry_run: bool, commit: str) -> tuple[bool, list[Finding]]:
+    if dry_run:
+        sample = [{
+            "proposed_flag": "dry_run_negative_pattern",
+            "negative_criterion": "presence of dry-run sentinel pattern -> reject",
+            "example_chapters": ["dryrun"],
+            "evidence": {"dry_run": True},
+            "rationale": "Dry-run exercises RESEARCH state plumbing without running codex.",
+        }]
+        return True, research_payload_to_findings(sample, commit)
+    before_dirty = set(dirty_paths())
+    res = run(
+        [CODEX_PATH, "exec", "--dangerously-bypass-approvals-and-sandbox", "-C", str(REPO_ROOT), META_PROMPT_RESEARCH],
+        cwd=REPO_ROOT,
+        check=False,
+        capture=True,
+        timeout=TIMEOUTS["codex"],
+    )
+    if res.returncode != 0:
+        append_alert("research_codex_failed", {"stderr": tail((res.stdout or "") + (res.stderr or ""))})
+        return False, []
+    unexpected_dirty = sorted(set(dirty_paths()) - before_dirty)
+    if unexpected_dirty:
+        append_alert("research_codex_touched_files", {"dirty": unexpected_dirty[:20]})
+        return False, []
+    payload = extract_json_array((res.stdout or "") + "\n" + (res.stderr or ""))
+    if payload is None:
+        append_alert("research_json_parse_failed", {"output_tail": tail((res.stdout or "") + (res.stderr or ""))})
+        return False, []
+    return True, research_payload_to_findings(payload, commit)
 
 
 def dispatch_autofix_queue(
@@ -1367,9 +1603,33 @@ def state_monitor_step(cfg: dict[str, Any], state: dict[str, Any], dry_run: bool
         f"min_cycles={min_cycles} trigger={trigger}",
         flush=True,
     )
+    research_every = max(1, int(cfg.get("RESEARCH_EVERY_N_ADJUSTS", 5)))
+    if int(state.get("adjusts_since_research", 0)) >= research_every:
+        transition_state(state, "research")
+        print("[taste] transition monitor -> research", flush=True)
+        return
     if cycles >= min_cycles and len(pending) >= trigger:
         transition_state(state, "adjust")
         print("[taste] transition monitor -> adjust", flush=True)
+
+
+def state_research_step(state: dict[str, Any], artifacts: ChangedArtifacts, dry_run: bool) -> None:
+    print("[taste] state=research corpus scan", flush=True)
+    ok, findings = dispatch_research(dry_run, artifacts.head)
+    if ok:
+        print(f"[taste] research produced {len(findings)} finding(s)", flush=True)
+        for finding in findings:
+            append_queue(finding.to_queue_entry(utc_now()), dry_run=dry_run)
+        append_research_dossier(findings, dry_run=dry_run)
+        state["last_research_at"] = utc_now()
+        state["last_research_finding_count"] = len(findings)
+        transition_state(state, "adjust")
+        print("[taste] transition research -> adjust", flush=True)
+    else:
+        state["last_research_at"] = utc_now()
+        state["last_research_finding_count"] = None
+        transition_state(state, "monitor")
+        print("[taste] transition research -> monitor", flush=True)
 
 
 def state_adjust_step(cfg: dict[str, Any], state: dict[str, Any], dry_run: bool) -> None:
@@ -1391,6 +1651,7 @@ def state_adjust_step(cfg: dict[str, Any], state: dict[str, Any], dry_run: bool)
             state["last_adjust_commit_sha"] = before
             state["last_adjust_at"] = utc_now()
             state["last_adjust_outcome"] = "rule_evolution_skipped_or_failed"
+    state["adjusts_since_research"] = int(state.get("adjusts_since_research", 0)) + 1
     transition_state(state, "stabilize", reset_baseline=not dry_run)
     print("[taste] transition adjust -> stabilize", flush=True)
 
@@ -1546,6 +1807,18 @@ def extract_json_object(text: str) -> Any | None:
         return json.loads(text[start : end + 1])
     except json.JSONDecodeError:
         return None
+
+
+def extract_json_array(text: str) -> Any | None:
+    decoder = json.JSONDecoder()
+    for match in re.finditer(r"\[", text):
+        try:
+            payload, _end = decoder.raw_decode(text[match.start():])
+        except json.JSONDecodeError:
+            continue
+        if isinstance(payload, list):
+            return payload
+    return None
 
 
 def audit_json_counts(payload: Any) -> dict[str, int]:
@@ -1907,6 +2180,8 @@ def cycle(dry_run: bool = False) -> None:
     cur = str(state.get("current_state") or "monitor").lower()
     if cur == "monitor":
         state_monitor_step(cfg, state, dry_run)
+    elif cur == "research":
+        state_research_step(state, artifacts, dry_run)
     elif cur == "adjust":
         state_adjust_step(cfg, state, dry_run)
     elif cur == "stabilize":
