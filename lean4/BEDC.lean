@@ -4518,6 +4518,7 @@ import BEDC.Derived.ZnormalUp.RootNormalWordRouteExposure
 import BEDC.Derived.ZnormalUp.RootObligationDownstreamHandoff
 import BEDC.Derived.ZnormalUp.RootReadbackExhaustion
 import BEDC.Derived.ZnormalUp.RootReadinessBridgeSource
+import BEDC.Derived.ZnormalUp.RootReadinessExportCertificate
 import BEDC.Derived.ZnormalUp.RootReadinessNameCertPackage
 import BEDC.Derived.ZnormalUp.RootReadinessTerminalRefusalClosure
 import BEDC.Derived.ZnormalUp.RootRefusalLedgerSeparation
