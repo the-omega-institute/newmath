@@ -81,7 +81,7 @@ AUTO_FIXABLE_FLAGS = {
 }
 
 RULE_EVOLUTION_ALLOWED_FILES = {
-    "docs/taste-evolutions.md",
+    "docs/dossier/taste-evolutions.qmd",
     "papers/bedc/scripts/prompts/phase_b.txt",
     "papers/bedc/scripts/prompts/phase_c.txt",
     "papers/bedc/scripts/prompts/phase_review.txt",
@@ -126,11 +126,11 @@ targets exhibiting the same pattern). Your job:
      pattern: detect_preamble_duplicate_commands at line ~541)
    - papers/bedc/scripts/phase_paper_gates.py
    - lean4/scripts/phase_d_lint.py
-   - docs/taste-evolutions.md
+   - docs/dossier/taste-evolutions.qmd
 3. DO NOT touch papers/bedc/parts/concrete_instances/**/*.tex
    DO NOT touch lean4/BEDC/**
    DO NOT touch codex_revise.py / codex_formalize.py / other daemon scripts
-   DO NOT create docs/taste-evolutions/ or any other docs/ file.
+   DO NOT create any other docs/ file or directory.
 4. Bump the prompt version marker in any prompt file you edit (e.g. v5.X → v5.X+1).
 5. Add terse imperative rule text. No rationale paragraphs, no incident
    history, no version-numbered names.
@@ -140,7 +140,10 @@ targets exhibiting the same pattern). Your job:
      violations, that is expected; the gate must not crash)
    - For any phase_paper_gates.py change: smoke test it parses
    - For any phase_d_lint.py change: smoke test it parses
-7. APPEND a new section to docs/taste-evolutions.md (append, do not overwrite).
+7. APPEND a new section to docs/dossier/taste-evolutions.qmd (append, do not overwrite).
+   This file is Quarto .qmd, NOT plain .md. Keep the YAML frontmatter intact
+   at the top of the file; append new sections after the existing sections
+   using the same `---` separator pattern.
    Section format (markdown, Chinese):
 
    ## <UTC YYYY-MM-DD HH:MM:SS> — <flag>
@@ -1655,10 +1658,7 @@ def validate_rule_evolution_touched(worktree: Path, touched: list[str]) -> tuple
     allowed = existing_rule_evolution_files(worktree)
     bad: list[str] = []
     for path in touched:
-        if path == "docs/taste-evolutions" or path.startswith("docs/taste-evolutions/"):
-            bad.append(path)
-            continue
-        if path.startswith("docs/") and path != "docs/taste-evolutions.md":
+        if path.startswith("docs/") and path != "docs/dossier/taste-evolutions.qmd":
             bad.append(path)
             continue
         if any(path == prefix or path.startswith(prefix) for prefix in RULE_EVOLUTION_FORBIDDEN_PREFIXES):

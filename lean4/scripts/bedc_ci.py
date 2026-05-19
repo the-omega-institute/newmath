@@ -720,8 +720,12 @@ def changed_concrete_instance_tex_paths() -> set[Path] | None:
 
 
 def detect_mislabeled_composite_carriers(min_bucket_size: int = 6) -> list[dict[str, object]]:
+    changed = changed_concrete_instance_tex_paths()
     origins_by_region: dict[str, dict[str, object]] = {}
     for block in collect_closurestatus_blocks(PAPER_PARTS_ROOT):
+        paper_file = str(block.get("file") or "")
+        if changed is not None and (REPO_ROOT / paper_file).resolve() not in changed:
+            continue
         region = str(block.get("region") or "")
         origin = str(block.get("origin") or "human").strip().lower()
         if not region or origin not in VALID_ORIGINS:
@@ -736,6 +740,8 @@ def detect_mislabeled_composite_carriers(min_bucket_size: int = 6) -> list[dict[
     if instances.is_dir():
         for path in sorted(instances.rglob("*.tex")):
             if not path.is_file():
+                continue
+            if changed is not None and path not in changed:
                 continue
             text = read_text(path)
             label_match = CHAPTER_LABEL_RE.search(text)
@@ -1175,7 +1181,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 print(f"  {item['file']}: {item['kind']}")
         if payload["mislabeled_composite_carriers"]:
             print(
-                "[bedc-ci] mislabeled composite carriers: "
+                "[bedc-ci] mislabeled composite carriers (informational): "
                 f"{payload['mislabeled_composite_carriers_count']}"
             )
             for item in payload["mislabeled_composite_carriers"][:50]:
