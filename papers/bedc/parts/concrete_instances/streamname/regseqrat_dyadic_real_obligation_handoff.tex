@@ -72,3 +72,21 @@ Next apply the pullback statement, \autoref{thm:streamname-terminal-reindex-four
 
 Finally use the converse admissibility direction of \autoref{thm:streamname-regseqrat-dyadic-real-four-face-exactness}. Since the transported packet displays exactly the same four faces and the same support rows, it is again an admissible L10 seal-facing read satisfying the exit gate. The exclusion list is preserved because none of quotient streams, host sequence equality, selected limits, ambient completeness, metric completeness, bridge rows, trichotomy, open-cover compactness, or choice is a coordinate of that transported packet.
 \end{proof}
+
+\begin{theorem}[StreamName L10 four-face ordered exit gate]
+\label{thm:streamname-l10-four-face-ordered-exit-gate}
+An accepted Phase Real and Completion seal-facing read satisfies the public L10 exit gate only when its four visible faces are read along the ordered route
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp .
+$$
+The $\StreamNameUp$ finite window is read first, the $\DyadicRatCoreUp$ tolerance ledger is anchored to that window, the $\RegSeqRatUp$ readback is read from those anchored rows, and the $\RealUp$ seal is read last. Merely listing the four faces does not satisfy the gate if the route permutes them, detaches the dyadic ledger from the StreamName window, reads the RegSeqRat row before the ledger, or bypasses directly to the RealUp seal. The ordered gate exports no quotient stream, host sequence equality, selected limit, choice row, metric-completeness row, bridge row, or ambient Real-completeness row.
+\end{theorem}
+\begin{proof}
+First apply the four-face exit gate, \autoref{thm:streamname-l10-four-face-exit-gate}. It identifies the accepted seal-facing public surface with the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ faces and with the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows.
+
+Next read the gateway order from \autoref{thm:streamname-real-completion-gateway-ordered-source-readback}. In that gateway the finite source is consumed as $S \longrightarrow D \longrightarrow R \longrightarrow E$: the StreamName finite window precedes the DyadicRatCore ledger, the RegSeqRat readback is available only from the paired window-and-ledger route, and the RealUp seal is available only after that readback.
+
+Apply terminality, \autoref{thm:streamname-real-completion-gateway-terminality}. Since every terminal Real-completion route factors through the same four-face packet and support rows, a consumer cannot satisfy the public gate by permuting the faces, skipping the dyadic ledger, detaching the RegSeqRat row from the anchored ledger, or jumping directly from the StreamName window to the RealUp seal.
+
+Finally use the reindex stability theorem, \autoref{thm:streamname-l10-four-face-exit-gate-reindex-stability}. It preserves the same displayed faces and support rows under support-row-preserving public reindexing, so the order-sensitive gate is stable under finite-window transport while retaining the exclusions of quotient streams, host sequence equality, selected limits, choice, metric completeness, bridges, and ambient Real completeness.
+\end{proof}
