@@ -470,6 +470,7 @@ import BEDC.Derived.BHistCellRowEmbeddingUp.NameCertObligations
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
 import BEDC.Derived.BHistDecaSequenceNameCertUp
 import BEDC.Derived.BHistDecaTupleNameCertUp
+import BEDC.Derived.BHistDodecaCarrierNameCertUp
 import BEDC.Derived.BHistDodecaSequenceNameCertUp
 import BEDC.Derived.BHistDodecaTupleNameCertUp
 import BEDC.Derived.BHistHendecaSequenceNameCertUp
@@ -1179,6 +1180,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderSealFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueShiftTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosednessConsumerExport
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosednessLedgerCoverage
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerConsumerLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerScheduleLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ConsumerFactorization
@@ -1632,6 +1634,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootFiniteBudgetSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteSourceCarrier
+import BEDC.Derived.CriticalLineWitnessUp.RootFiniteSourceNameCertObligations
 import BEDC.Derived.CriticalLineWitnessUp.RootHandoffExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootLineRowExposure
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
@@ -3060,7 +3063,9 @@ import BEDC.Derived.MetricTriangleUniformEstimateUp.ClassifierTransport
 import BEDC.Derived.MetricTriangleUniformEstimateUp.CompactNetTriangleExtraction
 import BEDC.Derived.MetricTriangleUniformEstimateUp.ConsumerBoundaryPackage
 import BEDC.Derived.MetricTriangleUniformEstimateUp.ConsumerHandoff
+import BEDC.Derived.MetricTriangleUniformEstimateUp.ContRouteScope
 import BEDC.Derived.MetricTriangleUniformEstimateUp.FiniteRouteNonescape
+import BEDC.Derived.MetricTriangleUniformEstimateUp.HeineCantorLastStep
 import BEDC.Derived.MetricTriangleUniformEstimateUp.NoCompletionEscape
 import BEDC.Derived.MetricTriangleUniformEstimateUp.PublicUniformityCriterion
 import BEDC.Derived.MetricTriangleUniformEstimateUp.RadiusComposition
@@ -3426,6 +3431,7 @@ import BEDC.Derived.PicardContractionUp.RealSealNoncompletion
 import BEDC.Derived.PicardContractionUp.RegSeqRatConsumerRoute
 import BEDC.Derived.PicardContractionUp.RegSeqRatRealRateNonescape
 import BEDC.Derived.PicardContractionUp.RegSeqRatRealSealPackage
+import BEDC.Derived.PicardContractionUp.RootConsumerTriadExhaustion
 import BEDC.Derived.PicardContractionUp.RootModulusConsumerLock
 import BEDC.Derived.PicardContractionUp.RootSourceWindowHandoff
 import BEDC.Derived.PicardContractionUp.RootUnblockPackage
@@ -4590,6 +4596,7 @@ import BEDC.Derived.ZetaContinuationApplicationUp.RootLedgerBoundary
 import BEDC.Derived.ZetaContinuationApplicationUp.RootNamecertObligationSurface
 import BEDC.Derived.ZetaContinuationApplicationUp.RootNonEscape
 import BEDC.Derived.ZetaContinuationApplicationUp.RootObligations
+import BEDC.Derived.ZetaContinuationApplicationUp.SourceLockTriadSeparation
 import BEDC.Derived.ZetaContinuationApplicationUp.SourceRouteExactness
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationApplicationUp.VisibleBoundaryLock
