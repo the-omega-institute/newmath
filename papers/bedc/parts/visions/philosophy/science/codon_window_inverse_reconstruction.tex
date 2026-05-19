@@ -1,0 +1,417 @@
+\subsection{Spectral inverse reconstruction of codon-window dynamics}
+\label{subsec:philosophy-codon-window-inverse-reconstruction}
+
+The local tile analysis of
+\autoref{subsec:philosophy-dna-window-six-boundary-tiles} can be read
+in inverse form.  Rather than starting from named biological classes and
+then observing their local tile shape, one may start from finite spectra
+of an encoding
+$$
+  E:Q_{6}\to C
+$$
+and ask which codon-window mechanisms are reconstructible from those
+spectra.  The inverse program is non-axiomatic: definitions are
+coordinate choices and finite objects; theorems are calculations or
+finite enumerations; biological labels enter only through conservative
+bridge tables.
+
+\begin{definition}[Codon-window inverse bridge status]
+\label{def:philosophy-codon-window-inverse-bridge-status}
+The codon-window inverse bridge
+$\mathsf{CodonWindowInverse}^{\uparrow}$ is a
+$\mathsf{VisionSeed}/\mathsf{BiologicalBridge}$ target and a
+finite-enumeration paper-certificate candidate.  It is not a BEDC kernel
+primitive and is not a checked certificate.  A later certificate would
+have to record the finite source domain, the chosen coordinate readback,
+the encoding table, the inverse spectra, the stability of the finite
+enumerations, and a ledger preserving codons, classes, local faces,
+adjacency rows, transition rows, and biological table provenance.
+\end{definition}
+
+\begin{definition}[Codon-window domain and encoding]
+\label{def:philosophy-codon-window-inverse-domain-encoding}
+Let
+$$
+  D:=Q_{6}:=\{0,1\}^{6}.
+$$
+Under the two-axis RNA readback
+$$
+\begin{aligned}
+  \mathrm{U}&=00,&
+  \mathrm{C}&=01,\\
+  \mathrm{A}&=10,&
+  \mathrm{G}&=11,
+\end{aligned}
+$$
+each codon in $\{\mathrm{U},\mathrm{C},\mathrm{A},\mathrm{G}\}^{3}$ is
+identified with a point of $Q_{6}$.  An encoding is a surjection
+$$
+  E:D\to C
+$$
+to a finite set of coding classes.  For the standard genetic-code bridge,
+$C$ is the set of twenty amino-acid classes together with the stop class.
+\end{definition}
+
+\begin{definition}[Global fiber histogram]
+\label{def:philosophy-codon-window-global-fiber-histogram}
+For $c\in C$, define the fiber size
+$$
+  d_{E}(c):=\left|E^{-1}(c)\right|.
+$$
+The global fiber histogram is
+$$
+  H_{E}(k):=
+  \left|\{c\in C:d_{E}(c)=k\}\right|.
+$$
+It records how many coding classes have support by exactly $k$ codons.
+\end{definition}
+
+\begin{definition}[Local face spectrum]
+\label{def:philosophy-codon-window-local-face-spectrum}
+An axis-aligned $Q_{2}$ face of $Q_{6}$ is obtained by choosing two free
+bit positions and fixing the other four.  There are
+$$
+  \binom{6}{2}2^{4}=240
+$$
+such faces.  For a face $F$, let
+$$
+  H(E|_{F})
+$$
+be the multiplicity pattern of labels on the four points of $F$, such as
+$4$, $2+2$, $3+1$, $2+1+1$, or $1+1+1+1$.  The local face spectrum is
+the family
+$$
+  H_{2}(E):=\{H(E|_{F}):F\subseteq Q_{6},\ F\simeq Q_{2}\}.
+$$
+\end{definition}
+
+\begin{definition}[Adjacency and transition spectra]
+\label{def:philosophy-codon-window-adjacency-transition-spectra}
+Put the Hamming graph on $Q_{6}$, with $x\sim y$ when the Hamming
+distance from $x$ to $y$ is one.  The class-adjacency matrix is
+$$
+  A_{ij}(E):=
+  \left|\{(x,y):x\sim y,\ E(x)=i,\ E(y)=j\}\right|.
+$$
+If a deterministic transition $T:D\to D$ or stochastic kernel $P(y|x)$ is
+given, the projected class-level transition is
+$$
+  P_{E}(j|i):=
+  \sum_{x:E(x)=i}\ \sum_{y:E(y)=j} P(y|x).
+$$
+\end{definition}
+
+\begin{definition}[Enhanced inverse spectrum]
+\label{def:philosophy-enhanced-codon-window-inverse-spectrum}
+The enhanced inverse spectrum of an encoding is
+$$
+  \mathsf{InvSpec}(E):=(H_{E},H_{2}(E),A(E),P_{E}).
+$$
+The first component is global.  The remaining components add local face
+geometry, one-bit adjacency, and induced dynamics.
+\end{definition}
+
+\begin{definition}[Boundary class and control tile]
+\label{def:philosophy-inverse-boundary-class-control-tile}
+A coding class $B\subseteq C$ is a boundary class when membership
+triggers transition from elongation to halt or release:
+$$
+  E(x)\in B
+  \quad\Longrightarrow\quad
+  \mathsf{elongation}\to\mathsf{halt}/\mathsf{release}.
+$$
+Let
+$$
+  X_{2}:=\{00,01,10\},
+  \qquad
+  Q_{2}=X_{2}\sqcup\{11\}.
+$$
+A $Q_{2}$ face is an $X_{2}/\{11\}$ control tile when the three $X_{2}$
+points form one coding class and the $11$ point forms a singleton or
+control-sensitive class.
+\end{definition}
+
+\begin{definition}[Leaf and arm reassignment]
+\label{def:philosophy-inverse-leaf-arm-reassignment}
+In the L-shaped graph
+$$
+  01\;-\;00\;-\;10
+$$
+on $X_{2}$, a leaf reassignment moves one leaf, such as $10$, from the
+three-point class into the class containing the $11$ corner.  An arm
+reassignment moves an edge, such as $\{00,01\}$ or $\{00,10\}$, from a
+boundary class into another coding class.
+\end{definition}
+
+\begin{theorem}[Global histogram identities]
+\label{thm:philosophy-global-histogram-identities}
+For any finite surjection $E:D\to C$,
+$$
+  |C|=\sum_{k}H_{E}(k),
+  \qquad
+  |D|=\sum_{k}k\,H_{E}(k).
+$$
+\end{theorem}
+\begin{proof}
+Each coding class contributes exactly one fiber, so summing the number of
+fibers over all sizes gives $|C|$.  A class with fiber size $k$
+contributes $k$ domain points, so the weighted sum gives $|D|$.
+\end{proof}
+
+\begin{corollary}[Standard-code degeneracy spectrum]
+\label{cor:philosophy-standard-code-degeneracy-spectrum}
+For the standard genetic-code bridge, the global degeneracy histogram is
+$$
+\begin{array}{c|ccccc}
+  k&1&2&3&4&6\\
+\hline
+  H_{\mathsf{std}}(k)&2&9&2&5&3.
+\end{array}
+$$
+It satisfies
+$$
+  2+9+2+5+3=21
+$$
+and
+$$
+  1\cdot2+2\cdot9+3\cdot2+4\cdot5+6\cdot3=64.
+$$
+Under the standard-code bridge, the singleton classes are
+$\mathrm{Met}$ and $\mathrm{Trp}$, while the tripleton classes are
+$\mathrm{Ile}$ and $\mathrm{Stop}$.
+\end{corollary}
+\begin{proof}
+This is direct enumeration of the standard genetic-code table.  The two
+displayed identities are the instances of
+\autoref{thm:philosophy-global-histogram-identities}.
+\end{proof}
+
+\begin{theorem}[Global histogram is not complete]
+\label{thm:philosophy-global-histogram-not-complete}
+The global histogram $H_{E}$ does not uniquely determine an encoding
+$E:D\to C$.
+\end{theorem}
+\begin{proof}
+A histogram fixes only the multiset of fiber sizes.  It does not specify
+which points of $D$ belong to which fibers.  If the fiber sizes are
+$s_{1},\ldots,s_{m}$, then any partition of $D$ into blocks of those sizes
+gives an encoding with the same histogram.  For unlabeled classes, the
+number of such partitions has the form
+$$
+  \frac{64!}{\prod_{i}s_{i}!\prod_{k}H_{E}(k)!}
+$$
+when $|D|=64$.  Thus the histogram is a constraint, not a complete
+invariant.
+\end{proof}
+
+\begin{corollary}[Histograms give candidates]
+\label{cor:philosophy-histograms-give-candidates}
+The implication
+$$
+  H_{E}\quad\Longrightarrow\quad E\ \text{is uniquely determined}
+$$
+is invalid.  The licensed inference is
+$$
+  H_{E}\quad\Longrightarrow\quad
+  \text{a family of candidate encodings}.
+$$
+\end{corollary}
+\begin{proof}
+This is the contrapositive reading of
+\autoref{thm:philosophy-global-histogram-not-complete}: a single
+histogram can be realized by many different assignments of domain points
+to fibers.
+\end{proof}
+
+\begin{theorem}[Singleton and tripleton classes direct a local search]
+\label{thm:philosophy-singleton-tripleton-direct-local-search}
+If a codon encoding has singleton classes and tripleton classes, then the
+natural local geometric search target is an axis-aligned $Q_{2}$ face
+with a $3+1$ split.
+\end{theorem}
+\begin{proof}
+A tripleton and a singleton have total size $3+1=4$, exactly the size of
+a $Q_{2}$ face.  Since $Q_{2}$ is the smallest square-like local geometry
+inside the six-bit codon cube, the first finite local test is whether a
+tripleton/singleton pairing fills such a face.
+\end{proof}
+
+\begin{corollary}[Core control tiles]
+\label{cor:philosophy-inverse-core-control-tiles}
+For the standard genetic-code bridge under the two-axis readback, the
+search of \autoref{thm:philosophy-singleton-tripleton-direct-local-search}
+identifies the two $X_{2}/\{11\}$ control tiles
+$$
+\begin{aligned}
+  \{\mathrm{AUU},\mathrm{AUC},\mathrm{AUA}\}/\{\mathrm{AUG}\}
+    &=\mathrm{AU}+X_{2}/(\mathrm{AU}+11),\\
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}/\{\mathrm{UGG}\}
+    &=\mathrm{U}+\mathrm{RR}+X_{2}/(\mathrm{U}+\mathrm{RR}+11).
+\end{aligned}
+$$
+\end{corollary}
+\begin{proof}
+The two displayed faces are exactly the $11$-control rows of
+\autoref{thm:philosophy-total-local-tile-theorem}.
+\end{proof}
+
+\begin{theorem}[Boundary and continuation from the Stop/Trp tile]
+\label{thm:philosophy-inverse-stop-trp-boundary-continuation}
+In the Stop/Trp tile, the local family-suffix coordinates satisfy
+$$
+\begin{aligned}
+  \mathrm{UAA}&=00,&
+  \mathrm{UAG}&=01,\\
+  \mathrm{UGA}&=10,&
+  \mathrm{UGG}&=11.
+\end{aligned}
+$$
+If $\{00,01,10\}$ is classified as $\mathrm{Stop}$ and $\{11\}$ is
+classified as $\mathrm{Trp}$, then the induced local dynamics is
+$$
+\begin{aligned}
+  X_{2}=\{00,01,10\}
+    &\Longrightarrow \mathsf{halt}/\mathsf{release},\\
+  11
+    &\Longrightarrow \mathsf{continuation}.
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+The coordinate identification and labels are
+\autoref{thm:philosophy-stop-trp-boundary-tile}.  The boundary transition
+is the bridge reading of \autoref{thm:philosophy-stop-tile-local-halt-boundary}.
+The $\mathrm{Trp}$ corner participates in elongation, so it is the
+adjacent continuation corner.
+\end{proof}
+
+\begin{corollary}[UGG is a reserved continuation corner]
+\label{cor:philosophy-inverse-ugg-reserved-continuation-corner}
+The local $11$ corner in the Stop/Trp tile is not absent or biologically
+illegal.  It is
+$$
+  \mathrm{UGG}=\mathrm{Trp},
+$$
+a reserved continuation corner under the standard-code bridge.
+\end{corollary}
+\begin{proof}
+This is \autoref{thm:philosophy-inverse-stop-trp-boundary-continuation}
+read at the $11$ vertex.
+\end{proof}
+
+\begin{proposition}[Dual $10$-to-$11$ reassignment]
+\label{prop:philosophy-inverse-dual-ten-to-eleven-reassignment}
+Under genetic-code bridges where $\mathrm{AUA}$ is assigned to
+$\mathrm{Met}$ and $\mathrm{UGA}$ is assigned to $\mathrm{Trp}$, the two
+standard $11$-control tiles display the same local action:
+$$
+  10\ \text{joins the class containing}\ 11.
+$$
+\end{proposition}
+\begin{proof}
+In the Ile/Met tile, $\mathrm{AUA}=\mathrm{AU}+10$ and
+$\mathrm{AUG}=\mathrm{AU}+11$.  In the Stop/Trp tile,
+$\mathrm{UGA}=\mathrm{U}+\mathrm{RR}+10$ and
+$\mathrm{UGG}=\mathrm{U}+\mathrm{RR}+11$.  Assigning $\mathrm{AUA}$ with
+$\mathrm{AUG}$, or assigning $\mathrm{UGA}$ with $\mathrm{UGG}$, has the
+same coordinate form: the $10$ leaf joins the class containing the $11$
+corner.
+\end{proof}
+
+\begin{proposition}[Stop-arm reassignment]
+\label{prop:philosophy-inverse-stop-arm-reassignment}
+Under genetic-code bridges where $\mathrm{UAA}$ and $\mathrm{UAG}$ are
+assigned together to a sense class while $\mathrm{UGA}$ remains a
+termination row, the stop tile displays arm reassignment from the
+stop L-shape.
+\end{proposition}
+\begin{proof}
+In the stop L-shape,
+$$
+  \mathrm{UAA}=00,\qquad
+  \mathrm{UAG}=01,\qquad
+  \mathrm{UGA}=10.
+$$
+The pair $\{\mathrm{UAA},\mathrm{UAG}\}=\{00,01\}$ is one arm of
+$X_{2}$.  If both codons leave the stop class together and are assigned
+to a sense class, then an entire arm is reassigned.
+\end{proof}
+
+\begin{theorem}[Enhanced inverse spectrum]
+\label{thm:philosophy-enhanced-inverse-spectrum-theorem}
+The global histogram alone recovers only the degeneracy spectrum.  The
+enhanced inverse spectrum
+$$
+  \mathsf{InvSpec}(E)=(H_{E},H_{2}(E),A(E),P_{E})
+$$
+records enough finite data to detect, for the standard-code bridge and
+its compared code tables, global compression, singleton and tripleton
+classes, local $3+1$ faces, $11$ control corners, boundary/continuation
+behavior, and local leaf or arm reassignment patterns.
+\end{theorem}
+\begin{proof}
+The component $H_{E}$ gives class count and degeneracy by
+\autoref{thm:philosophy-global-histogram-identities}, but it is not
+complete by \autoref{thm:philosophy-global-histogram-not-complete}.  The
+component $H_{2}(E)$ records local face multiplicities and detects $3+1$
+faces.  The component $A(E)$ records one-bit adjacency relations,
+including centers and leaves of local L-shapes.  The component $P_{E}$
+records induced class-level dynamics, allowing a local face to be read as
+halt/continuation when a stop class is present.  Comparing these spectra
+across biological bridge tables detects the leaf and arm reassignments
+described in
+\autoref{prop:philosophy-inverse-dual-ten-to-eleven-reassignment} and
+\autoref{prop:philosophy-inverse-stop-arm-reassignment}.
+\end{proof}
+
+\begin{definition}[Finite formalization target]
+\label{def:philosophy-codon-window-inverse-finite-target}
+The finite core can be checked without biological metaphysics by encoding
+the two-axis readback, the standard-code assignment table, the histogram
+$H_{\mathsf{std}}$, the $240$ axis-aligned $Q_{2}$ faces, and the exact
+list of $3+1$ faces.  The expected finite outputs are
+$$
+\begin{gathered}
+  H_{\mathsf{std}}=\{1:2,\ 2:9,\ 3:2,\ 4:5,\ 6:3\},\\
+  \left|\{F:F\simeq Q_{2},\ H(E|_{F})=3+1\}\right|=4,
+\end{gathered}
+$$
+with the two $11$-control faces $\mathrm{Ile}/\mathrm{Met}$ and
+$\mathrm{Stop}/\mathrm{Trp}$ and the two $00$-singleton
+$\mathrm{Phe}/\mathrm{Leu}$ faces.
+\end{definition}
+
+\begin{theorem}[Inverse-spectrum cannot-claim boundary]
+\label{thm:philosophy-inverse-spectrum-cannot-claim-boundary}
+The inverse-spectrum bridge does not license any claim that a single
+global histogram uniquely determines the genetic code, that Zeckendorf
+alone proves the biological code, that the whole genetic code is the
+window-six fold or global $X_{6}$, that $11$ is biologically illegal or
+absent, that $\mathrm{UGG}$ is deleted by a no-$11$ rule, that
+$\mathrm{AUA}$ and $\mathrm{UGA}$ reassignments are forced by pure BEDC
+logic, that alternative genetic-code tables contradict the model, or that
+$\mathsf{InvSpec}(E)$ is already a checked certificate.
+\end{theorem}
+\begin{proof}
+The non-uniqueness refusal follows from
+\autoref{thm:philosophy-global-histogram-not-complete}.  The global
+$X_{6}$ refusal follows from
+\autoref{thm:philosophy-boundary-tile-local-not-global}.  The reserved
+corner refusal follows from
+\autoref{cor:philosophy-inverse-ugg-reserved-continuation-corner}.  The
+biological reassignment refusals follow because alternative code tables
+enter only as external bridge data.  The checked-status refusal follows
+from \autoref{def:philosophy-codon-window-inverse-bridge-status}.
+\end{proof}
+
+\begin{corollary}[Allowed inverse-spectrum claim]
+\label{cor:philosophy-inverse-spectrum-allowed-claim}
+Under the two-axis codon-cube readback and the standard-code bridge, the
+global histogram points to singleton/tripleton pairings; the local
+$Q_{2}$-face spectrum reveals the $\mathrm{Ile}/\mathrm{Met}$ and
+$\mathrm{Stop}/\mathrm{Trp}$ $X_{2}/\{11\}$ control tiles; adjacency and
+transition spectra record boundary/continuation structure; and compared
+genetic-code tables can be analyzed as local leaf or arm reassignments.
+This is a finite inverse-reconstruction program inside $Q_{6}$, not a
+claim that spectra or Zeckendorf logic force biology.
+\end{corollary}
