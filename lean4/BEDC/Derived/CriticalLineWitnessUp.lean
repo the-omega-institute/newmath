@@ -254,4 +254,35 @@ theorem CriticalLineWitnessCarrier_root_dependency_scope
       routeClosure.right.right.left, unaryZetaRead, unaryDepthRead, unaryLedgerRead, sameH,
       zetaRoute, routeQ, depthRoute, ledgerRoute, routeC, routeN⟩
 
+theorem CriticalLineWitnessCarrier_root_unblock_modulus_ledger
+    {Z S M R Q H C P N depthRead modulusRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N →
+      Cont M R depthRead →
+        Cont depthRead H modulusRead →
+          UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory depthRead ∧
+            UnaryHistory modulusRead ∧ hsame H (append Z S) ∧ Cont M R Q ∧
+              Cont M R depthRead ∧ Cont depthRead H modulusRead ∧ Cont Q H C ∧
+                Cont C P N := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro packet depthRoute modulusRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have depthUnary : UnaryHistory depthRead :=
+    unary_cont_closed unaryM unaryR depthRoute
+  have unaryH : UnaryHistory H :=
+    unary_transport (unary_cont_closed unaryZ unaryS (cont_intro rfl)) (hsame_symm sameH)
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed depthUnary unaryH modulusRoute
+  exact
+    ⟨unaryM,
+      unaryR,
+      depthUnary,
+      modulusUnary,
+      sameH,
+      routeQ,
+      depthRoute,
+      modulusRoute,
+      routeC,
+      routeN⟩
+
 end BEDC.Derived.CriticalLineWitnessUp
