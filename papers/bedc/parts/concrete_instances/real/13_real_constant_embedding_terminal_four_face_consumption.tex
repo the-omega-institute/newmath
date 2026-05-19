@@ -85,3 +85,140 @@ selected host limits, ambient completeness, metric completeness, countable
 choice, or a standard bridge row, no such row can replace any face of the
 pullback.
 \end{proof}
+
+\begin{theorem}[Real constant embedding terminal four-face classifier preservation]
+\label{thm:real-constant-embedding-terminal-four-face-classifier-preservation}
+Suppose two accepted presentations of the concrete constant rational embedding
+agree on the $\DyadicRatCoreUp$ endpoint and radius rows, the constant-window
+$\StreamNameUp$ row, the $\RegSeqRatUp$ regularity and classifier ledger, and
+the local $\RealUp$ seal classifier. Then their public $\RealUp$ classifier
+read is the same terminal four-face classifier route through
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Conversely, any accepted terminal four-face classifier route carrying those
+support rows determines the classifier read of the constant rational embedding.
+
+This classifier preservation statement exports no quotient stream equality,
+selected host limit, host real equality, ambient completeness,
+metric-completeness data, countable choice, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-constant-embedding-terminal-four-face-consumption}. It
+confines the accepted constant rational embedding to the displayed four faces,
+so the classifier question can only inspect the dyadic endpoint and radius
+rows, the constant StreamName window, the RegSeqRat ledger, and the local
+Real seal classifier.
+
+Next use
+\autoref{thm:real-constant-embedding-terminal-four-face-pullback}. Agreement
+on those four faces and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support rows gives one terminal route for the public $\RealUp$
+seal read, and every accepted terminal packet with the same support rows reads
+back to that constant embedding route.
+
+Now transport the classifier data along the two handoff boundaries. Apply
+\autoref{thm:regseqrat-constant-real-seal-handoff} to identify the
+$\RegSeqRatUp$ regularity and classifier ledger that reaches the Real seal,
+and apply \autoref{thm:streamname-realup-constant-observation-handoff} to
+keep the constant observation boundary at the StreamName window.
+
+Finally invoke \autoref{thm:real-l10-four-face-classifier-pullback}. The L10
+classifier pullback identifies classifier equality on an accepted four-face
+route from exactly the displayed classifier rows. Thus the two presentations
+have the same public $\RealUp$ classifier read, and the reverse terminal route
+determines the classifier read of the constant rational embedding. The
+excluded quotient, selected-limit, host-real, completeness, choice,
+metric-completeness, and standard-bridge rows are absent from every cited
+route, so they cannot supply an alternative classifier preservation path.
+\end{proof}
+
+\begin{theorem}[Real terminal four-face no direct seal collapse]
+\label{thm:real-terminal-four-face-no-direct-seal-collapse}
+If a public $\RealUp$ classifier read of the concrete constant rational
+embedding is accepted, then it factors through the displayed
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+faces with the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+rows. Conversely, a packet which omits any of the first three faces is not an
+accepted public classifier read of the constant embedding.
+
+Thus the terminal public read excludes quotient stream equality, selected
+limits, host real equality, countable choice, ambient completeness, metric
+completeness, standard bridge rows, and any direct $\RealUp$ seal edge around
+the dyadic, stream, or regular-sequence faces.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-constant-embedding-terminal-four-face-consumption}. It gives
+the route inventory for every accepted constant-embedding public seal read:
+the dyadic core, stream name, regular sequence, and Real faces are all visible,
+and their only support rows are the common $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ rows.
+
+Next use
+\autoref{thm:real-constant-embedding-terminal-four-face-pullback}. The pullback
+identifies the public seal route uniquely from precisely those faces and rows.
+Hence a purported public read that bypasses $\DyadicRatCoreUp$,
+$\StreamNameUp$, or $\RegSeqRatUp$ has no route coordinate from which the
+constant embedding seal can be pulled back.
+
+Finally apply
+\autoref{thm:real-constant-embedding-terminal-four-face-classifier-preservation}.
+Classifier preservation transports the same uniqueness statement from the seal
+route to the public classifier read. Therefore an accepted classifier read
+factors through all four faces, while a packet missing any of the first three
+faces is not an accepted constant-embedding classifier read. The excluded
+quotient stream, selected-limit, host-real, choice, ambient-completeness,
+metric-completeness, standard-bridge, and direct-seal data are absent from the
+three cited routes, so none of them supplies a replacement edge to $\RealUp$.
+\end{proof}
+
+\begin{theorem}[Real constant embedding four-face classifier terminality]
+\label{thm:real-constant-embedding-four-face-classifier-terminality}
+For any two accepted concrete constant rational embedding classifier reads,
+equality of their public $\RealUp$ classifier reads holds exactly when their
+visible terminal rows agree: the $\DyadicRatCoreUp$ endpoint and radius rows,
+the constant-window $\StreamNameUp$ row, the $\RegSeqRatUp$ regularity and
+classifier ledger, the local $\RealUp$ seal classifier, and the shared
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Conversely, any terminal four-face classifier packet carrying precisely those
+rows determines the public classifier read of the concrete constant rational
+embedding. This terminality criterion exports no quotient stream equality, host
+real equality, selected limit, countable choice, ambient completeness,
+metric-completeness row, standard bridge row, or direct $\RealUp$ seal bypass.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with the accepted public classifier equality
+and apply
+\autoref{thm:real-constant-embedding-terminal-four-face-classifier-preservation}.
+Classifier preservation restricts the equality test to the displayed four
+faces. Then use
+\autoref{thm:real-terminal-four-face-no-direct-seal-collapse}: an accepted
+classifier read cannot pass directly to $\RealUp$ while omitting the dyadic,
+stream, or regular-sequence faces.
+
+It remains to extract the rows that witness the equality. Apply
+\autoref{thm:real-constant-embedding-terminal-four-face-pullback}. The pullback
+identifies the public seal route from the $\DyadicRatCoreUp$ endpoint and
+radius rows, the constant-window $\StreamNameUp$ row, the $\RegSeqRatUp$ ledger,
+the local $\RealUp$ classifier row, and the common $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support. Hence equality of the public classifier read
+forces agreement on exactly those rows.
+
+For the reverse direction, begin with agreement on the listed terminal rows.
+The pullback theorem repacks those rows as one terminal four-face packet for the
+constant embedding seal route. Classifier preservation then transports that
+repacked packet to the public $\RealUp$ classifier read, so the two accepted
+presentations have the same classifier endpoint.
+
+The same two theorems also give the converse packet clause: a terminal
+four-face classifier packet with precisely the displayed rows determines the
+constant embedding classifier read. The no-direct-seal-collapse theorem excludes
+quotient stream equality, host real equality, selected limits, countable choice,
+ambient or metric completeness, standard bridges, and direct Real seal bypasses
+from serving as an alternative terminal endpoint.
+\end{proof}

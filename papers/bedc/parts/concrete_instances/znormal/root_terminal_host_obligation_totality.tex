@@ -6,6 +6,8 @@ Z=(T,F,V,K,R,H,C,P,N),
 $$
 the total-host obligation packet is the ordered finite surface whose rows are the typed endpoint $T$, bounded fuel replay $F$, terminal normality $V$, sibling normal-word evidence $K$, terminal readback $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\ZNormalUp}$ naming $N$. A consumer of this packet may inspect these rows only through the carrier, NameCert, terminal readback, transport, replay, provenance, and local naming routes already exposed for $\ZNormalUp$.
 \end{definition}
+\leandef{BEDC.Derived.ZnormalUp.ZnormalTotalHostObligationPacket}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalTotalHostObligationPacket\_row\_exposure}
 
 \begin{theorem}[$\ZNormalUp$ normal-form consumer coverage]
 \label{thm:znormal-normal-form-consumer-coverage}
@@ -22,6 +24,7 @@ Next use \autoref{thm:znormal-total-host-normal-form-ledger-exhaustion}. The led
 
 Finally apply \autoref{thm:znormal-downstream-normal-route-boundary}. A downstream normal-route consumer therefore reaches normal-form evidence only through the displayed obligation packet, so the coverage claim is exactly the finite row surface of \autoref{def:znormal-total-host-obligation-packet}.
 \end{proof}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalPacket\_normal\_form\_consumer\_coverage}
 
 \begin{theorem}[$\ZNormalUp$ total-host readback separation]
 \label{thm:znormal-total-host-readback-separation}
@@ -31,6 +34,7 @@ T,F,V,K,R,H,C,P,N
 $$
 from host conversion, quotient computation, unrestricted evaluation, divergence oracles, substrate halting, and global normalization. A readback that cites terminal normality, bounded fuel replay, sibling normal-word evidence, terminal readback, transport, replay, provenance, or local naming must remain inside the total-host obligation packet and cannot promote any excluded host object to a $\ZNormalUp$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalTotalHostReadbackSeparation}
 \begin{proof}
 Begin with the finite packet of \autoref{def:znormal-total-host-obligation-packet}. Its rows are the only objects named by the accepted total-host surface.
 
@@ -49,6 +53,7 @@ T,F,V,K,R,H,C,P,N,
 $$
 with terminal normality, bounded fuel replay, sibling normal-word evidence, terminal readback, transport, replay, provenance, and local naming available to downstream consumers, and with host conversion, quotient computation, unrestricted evaluation, divergence oracles, substrate halting, and global normalization absent from the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalPacket\_terminal\_host\_obligation\_totality}
 \begin{proof}
 First read the obligation packet. By \autoref{def:znormal-total-host-obligation-packet}, the terminal-host surface is the finite carrier and NameCert row family $T,F,V,K,R,H,C,P,N$.
 

@@ -165,6 +165,62 @@ in the route, so the four displayed faces and the five support rows exhaust the
 accepted current source.
 \end{proof}
 
+\begin{theorem}[StreamName terminal-window fusion reindexing compatibility]
+\label{thm:streamname-terminal-window-fusion-reindexing-compatibility}
+Let $\mathcal W_0$ and $\mathcal W_1$ be accepted Phase Real and Completion
+terminal-window packets. Suppose they differ only by a certified public
+$\StreamNameUp$ finite-window reindex route, and suppose that route transports
+componentwise the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$
+readback rows, the $\RealUp$ seal row, the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ support rows, and the public endpoint rows.
+Then $\mathcal W_0$ and $\mathcal W_1$ determine the same fused
+terminal-window packet and the same public four-face route through
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+
+Conversely, any fused terminal-window packet transported by the certified
+identity reindexer or by a composable certified reindexer reads back to the
+same public finite observation section. The compatibility claim introduces no
+quotient stream equality, host sequence equality, selected limit,
+countable-choice row, ambient $\RealUp$ completeness, metric-completeness
+datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First identify the finite public section. Apply
+\autoref{thm:streamname-window-reindex-determinacy} to the two displayed
+$\StreamNameUp$ finite-window packets. The certified reindex route supplies the
+$\hsame$-compatible map, the common endpoint rows, and the componentwise
+transport of the displayed $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so
+both packets expose one public finite observation section.
+
+Next carry that section to the terminal L10 route. Use
+\autoref{thm:streamname-reindex-terminal-coverage}. The transported finite
+section presents the same $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance
+ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal as the terminal Phase Real
+and Completion route.
+
+Now repack the transported rows as a fused terminal packet. Apply
+\autoref{thm:streamname-real-completion-terminal-window-fusion} to read the
+common four-face route as one fused terminal-window packet, and apply
+\autoref{thm:streamname-terminal-window-fusion-source-exhaustion} to see that
+no source coordinate remains beyond the four faces and the displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ support rows.
+
+For the converse, read an identity-reindexed or composably reindexed fused
+packet through the same terminal coverage theorem. Identity and composable
+certified reindexers return the same finite observation section before fusion,
+and the fusion and source-exhaustion theorems repack exactly that section as
+the same public terminal route.
+
+The exclusions follow because every step is confined to the displayed
+finite-window route, the transported tolerance ledger, the readback rows, the
+seal row, and the named support rows. None of the cited results exports
+quotient stream equality, host sequence equality, selected limits,
+countable-choice data, ambient completeness, metric-completeness data, or a
+standard bridge row.
+\end{proof}
+
 \begin{theorem}[StreamName terminal fusion finite-cover cocycle exactness]
 \label{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness}
 Let $\{\mathcal W_i\}_{i\in I}$ be a finite family of certified $\StreamNameUp$ windows. Suppose the pairwise windows $\mathcal W_{ij}$ and triple windows $\mathcal W_{ijk}$ carry the pasted-source hypotheses for finite StreamName--$\RegSeqRatUp$ covers, each local terminal fused packet transports through a $\RegSeqRatUp$ common-tail packet, and every local handoff row consumes the same $\DyadicRatCoreUp$ endpoint, radius, and distance ledger together with the same $\RealUp$ seal-source row.
@@ -360,4 +416,173 @@ support rows are precisely the fused StreamName finite-window packet. The
 excluded quotient, selected-limit, host-completeness, choice,
 metric-completeness, aggregate-status, bridge, and fused-witness rows therefore
 cannot supply another consumer coordinate.
+\end{proof}
+
+\begin{theorem}[StreamName terminal fusion phase-exit refinement readback invariance]
+\label{thm:streamname-terminal-fusion-phase-exit-refinement-readback-invariance}
+Let $\{\mathcal W_i\}_{i\in I}$ be a finite family of certified
+$\StreamNameUp$ windows satisfying the hypotheses of
+\autoref{thm:streamname-terminal-fusion-cocycle-section-descent}, and let
+$\{\mathcal R_a\}_{a\in A}$ be a certified finite refinement preserving the
+same $\DyadicRatCoreUp$ endpoint, radius, and distance ledger, the same
+$\RegSeqRatUp$ common-tail classifier and regularity rows, the same $\RealUp$
+seal-source row, and the same support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Assume moreover that the original descended packet and the refined descended
+packet are supplied with a same-route $\RealCompletionExactBoundaryUp$ face for
+their four roadmap faces. Then the accepted $\PhaseRealCompletionExitUp$
+consumer readback obtained from the refined fused terminal packet is the same
+five-face readback as the one obtained from the original fused terminal packet:
+the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and
+$\RealCompletionExactBoundaryUp$ local records, together with the supporting
+$\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local
+$\NameCert_{\PhaseRealCompletionExitUp}$ rows.
+
+The comparison exports no quotient stream equality, no host sequence equality,
+no selected limit, no countable-choice row, no ambient $\RealUp$ completeness
+theorem, no metric-completeness datum, no aggregate formalstatus row, no
+bridge token, and no fused completion witness.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-terminal-fusion-refinement-invariance}. The certified
+refinement preserves exactly the endpoint-radius-distance ledger, common-tail
+classifier and regularity rows, seal-source row, and displayed support rows
+used by the descent theorem. Hence the original cover and the refined cover
+descend to the same finite-request section and to the same public fused
+terminal packet over the four faces.
+
+Next read the original presentation as a phase-exit consumer. Apply
+\autoref{thm:streamname-terminal-fusion-phase-exit-consumer-readback} to the
+original fused packet and its same-route $\RealCompletionExactBoundaryUp$
+face. The theorem returns precisely the five local records and the displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert_{\PhaseRealCompletionExitUp}$ support
+rows.
+
+Apply the same consumer-readback theorem to the refined presentation. The
+first step identifies the refined four-face fused packet with the original
+four-face fused packet, and the hypothesis supplies the same-route
+$\RealCompletionExactBoundaryUp$ face. Therefore the refined presentation
+reads back the same five local records and the same support rows.
+
+The no-quotient, no-choice, no-host-completeness, no-metric-completeness,
+no-aggregate-status, no-bridge, and no-fused-witness exclusions are inherited
+from the refinement-invariance and phase-exit consumer-readback theorems.
+Since both applications use only the visible four roadmap faces, the exact
+boundary face on that route, and the five displayed support rows, no additional
+consumer coordinate is available.
+\end{proof}
+
+\begin{theorem}[StreamName terminal fusion universal consumer normal form]
+\label{thm:streamname-terminal-fusion-universal-consumer-normal-form}
+Let $\mathcal W$ be an accepted terminal fused StreamName packet supplied with a
+same-route $\RealCompletionExactBoundaryUp$ face, so that it is readable as an
+accepted terminal $\PhaseRealCompletionExitUp$ consumer. Every downstream
+consumer of this terminal Phase Real and Completion packet that preserves
+BEDC-visible public rows factors through the four roadmap faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+on that route, the same-route $\RealCompletionExactBoundaryUp$ face, and the
+support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Equivalently, once the four roadmap faces, the exact-boundary face on that
+route, and the displayed support rows are fixed, the consumer readback is in
+normal form: two presentations with the same displayed rows give the same
+downstream consumer readback.
+
+This normal form exports no quotient stream equality, no host sequence
+equality, no selected limit, no ambient completeness row, no metric-completeness
+datum, no countable-choice row, no bridge token, no aggregate formalstatus row,
+and no fused completion witness.
+\end{theorem}
+\begin{proof}
+First reduce the terminal packet to its source rows. By
+\autoref{thm:streamname-terminal-window-fusion-source-exhaustion}, an accepted
+terminal fused StreamName packet is exhausted by the four roadmap faces and the
+displayed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ support rows. Thus a
+BEDC-visible downstream consumer cannot read an additional StreamName-side
+coordinate before the phase-exit face is attached.
+
+Next attach the same-route exact-boundary face and read the result as a
+phase-exit consumer. Apply
+\autoref{thm:streamname-terminal-fusion-phase-exit-consumer-readback}. The
+consumer readback consists of the four roadmap records, the
+$\RealCompletionExactBoundaryUp$ face constrained to that route, and the same
+support rows; the excluded quotient, limit, choice, completeness, aggregate
+status, bridge, and fused-witness rows are not part of the exported interface.
+
+It remains to check independence from presentation. If two terminal
+presentations display the same four roadmap faces, the same exact-boundary face
+on that route, and the same support rows, then apply
+\autoref{thm:streamname-terminal-fusion-phase-exit-refinement-readback-invariance}
+to any certified common refinement between them. The refined and original
+presentations give the same five-face phase-exit consumer readback, hence the
+same downstream readback for every row-preserving consumer.
+
+Finally identify the roadmap substrate. By
+\autoref{thm:streamname-l10-four-face-exit-gate}, the only roadmap faces
+available to the terminal route are $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$. The four-face route supplies the roadmap
+substrate, while the phase-exit consumer readback retains the
+$\RealCompletionExactBoundaryUp$ face as a constrained fifth local record.
+Combining that gate with source exhaustion, phase-exit readback, and refinement
+readback invariance gives the stated universal normal form.
+\end{proof}
+
+\begin{theorem}[StreamName terminal fusion universal consumer reflection]
+\label{thm:streamname-terminal-fusion-universal-consumer-reflection}
+Let $\mathcal W$ and $\mathcal W'$ be accepted terminal fused StreamName packets
+whose four roadmap faces are supplied with same-route
+$\RealCompletionExactBoundaryUp$ faces, and suppose their row-preserving
+terminal $\PhaseRealCompletionExitUp$ consumer readbacks agree. Then the
+displayed terminal rows of the two packets agree: the four roadmap faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+the same-route $\RealCompletionExactBoundaryUp$ face, and the support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+are the same on both terminal presentations.
+
+Thus consumer equivalence for accepted terminal fused StreamName packets is
+reflected exactly by the BEDC-visible four-face terminal surface and its
+exact-boundary support. Quotient stream equality, selected limits, host sequence
+equality, ambient completeness, metric-completeness, countable choice, aggregate
+formalstatus, bridge token, and fused completion witness cannot witness
+consumer equality.
+\end{theorem}
+\begin{proof}
+First put each terminal packet in universal consumer normal form. Apply
+\autoref{thm:streamname-terminal-fusion-universal-consumer-normal-form} to
+$\mathcal W$ and to $\mathcal W'$. Every row-preserving terminal consumer of
+either packet factors through its four roadmap faces, same-route
+$\RealCompletionExactBoundaryUp$ face, and displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows.
+
+Next read both normal forms through the phase-exit interface. By
+\autoref{thm:streamname-terminal-fusion-phase-exit-consumer-readback}, the
+terminal $\PhaseRealCompletionExitUp$ consumer readback is exactly the five
+local faces together with the displayed support rows. Since the two consumer
+readbacks agree by hypothesis, the five local records and support rows named by
+that theorem agree.
+
+It remains to rule out hidden witnesses. Source exhaustion,
+\autoref{thm:streamname-terminal-window-fusion-source-exhaustion}, identifies
+the StreamName terminal packet before the exact-boundary attachment with only
+the four roadmap faces and the displayed support rows.
+
+Finally apply the no-choice route factorization,
+\autoref{thm:streamname-real-completion-route-no-choice-factorization}. It
+removes quotient stream equality, selected limits, host sequence equality,
+ambient completeness, metric-completeness, countable choice, aggregate
+formalstatus, bridge token, and fused completion witness from the terminal
+route. Therefore no excluded coordinate can account for the common consumer
+readback, and the agreement reflects back exactly to the displayed terminal
+rows.
 \end{proof}

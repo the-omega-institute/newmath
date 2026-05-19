@@ -434,4 +434,90 @@ theorem KernelInductiveAcceptanceUp_eliminator_ledger_exhaustion
     ⟨eliminatorUnary, recursorUnary, signaturesEliminatorsRead, eliminatorRecursionRead,
       recursorPkg, eliminatorsListed, recursionListed⟩
 
+theorem KernelInductiveAcceptanceUp_accepted_declaration_route
+    [AskSetup] [PackageSetup]
+    {declaration signatures eliminators positivity recursion transport routes provenance
+      nameCert entry : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont declaration signatures eliminators ->
+      Cont eliminators recursion entry ->
+        PkgSig bundle entry pkg ->
+          UnaryHistory declaration ->
+            UnaryHistory signatures ->
+              UnaryHistory eliminators ->
+                UnaryHistory recursion ->
+                  UnaryHistory declaration ∧ UnaryHistory signatures ∧
+                    UnaryHistory eliminators ∧ UnaryHistory recursion ∧ UnaryHistory entry ∧
+                      Cont declaration signatures eliminators ∧
+                        Cont eliminators recursion entry ∧ PkgSig bundle entry pkg ∧
+                          List.Mem (kernelInductiveAcceptanceEncodeBHist declaration)
+                            (kernelInductiveAcceptanceToEventFlow
+                              (KernelInductiveAcceptanceUp.mk declaration signatures eliminators
+                                positivity recursion transport routes provenance nameCert)) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont ProbeBundle Pkg
+  intro declarationSignaturesEliminators eliminatorsRecursionEntry entryPkg declarationUnary
+    signaturesUnary eliminatorsUnary recursionUnary
+  have entryUnary : UnaryHistory entry :=
+    unary_cont_closed eliminatorsUnary recursionUnary eliminatorsRecursionEntry
+  have declarationListed :
+      List.Mem (kernelInductiveAcceptanceEncodeBHist declaration)
+        (kernelInductiveAcceptanceToEventFlow
+          (KernelInductiveAcceptanceUp.mk declaration signatures eliminators positivity recursion
+            transport routes provenance nameCert)) := by
+    change
+      List.Mem (kernelInductiveAcceptanceEncodeBHist declaration)
+        [[BMark.b0], kernelInductiveAcceptanceEncodeBHist declaration, [BMark.b1, BMark.b0],
+          kernelInductiveAcceptanceEncodeBHist signatures, [BMark.b1, BMark.b1, BMark.b0],
+          kernelInductiveAcceptanceEncodeBHist eliminators,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          kernelInductiveAcceptanceEncodeBHist positivity,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          kernelInductiveAcceptanceEncodeBHist recursion,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          kernelInductiveAcceptanceEncodeBHist transport,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          kernelInductiveAcceptanceEncodeBHist routes,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b0],
+          kernelInductiveAcceptanceEncodeBHist provenance,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b0],
+          kernelInductiveAcceptanceEncodeBHist nameCert]
+    exact List.mem_cons_of_mem _ List.mem_cons_self
+  exact
+    ⟨declarationUnary, signaturesUnary, eliminatorsUnary, recursionUnary, entryUnary,
+      declarationSignaturesEliminators, eliminatorsRecursionEntry, entryPkg,
+      declarationListed⟩
+
+theorem KernelInductiveAcceptanceUp_namecert_obligations
+    {D S E P R _H _C _Q N sigRead elimRead refuseRead envRead : BHist} :
+    UnaryHistory D ->
+      UnaryHistory S ->
+        UnaryHistory E ->
+          UnaryHistory P ->
+            UnaryHistory R ->
+              Cont D S sigRead ->
+                Cont S E elimRead ->
+                  Cont P R refuseRead ->
+                    Cont E R envRead ->
+                      UnaryHistory sigRead ∧ UnaryHistory elimRead ∧
+                        UnaryHistory refuseRead ∧ UnaryHistory envRead ∧
+                          Cont D S sigRead ∧ Cont S E elimRead ∧
+                            Cont P R refuseRead ∧ Cont E R envRead ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory hsame
+  intro declarationUnary signaturesUnary eliminatorsUnary positivityUnary recursionUnary
+    declarationSignaturesRead signaturesEliminatorsRead positivityRecursionRead
+    eliminatorsRecursionRead
+  have sigUnary : UnaryHistory sigRead :=
+    unary_cont_closed declarationUnary signaturesUnary declarationSignaturesRead
+  have elimUnary : UnaryHistory elimRead :=
+    unary_cont_closed signaturesUnary eliminatorsUnary signaturesEliminatorsRead
+  have refuseUnary : UnaryHistory refuseRead :=
+    unary_cont_closed positivityUnary recursionUnary positivityRecursionRead
+  have envUnary : UnaryHistory envRead :=
+    unary_cont_closed eliminatorsUnary recursionUnary eliminatorsRecursionRead
+  exact
+    ⟨sigUnary, elimUnary, refuseUnary, envUnary, declarationSignaturesRead,
+      signaturesEliminatorsRead, positivityRecursionRead, eliminatorsRecursionRead, hsame_refl N⟩
+
 end BEDC.Derived.KernelInductiveAcceptanceUp

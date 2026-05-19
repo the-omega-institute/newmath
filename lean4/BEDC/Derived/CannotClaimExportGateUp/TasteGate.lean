@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CannotClaimExportGateUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -250,6 +262,29 @@ def taste_gate : ChapterTasteGate CannotClaimExportGateUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cannotClaimExportGateChapterTasteGate
 
+theorem CannotClaimExportGate_refusal_nonescape
+    {registry refusal refusal' exportDecision exportDecision' exportGrade exportGrade'
+      target target' audit transport continuation provenance name : BHist} :
+    cannotClaimExportGateToEventFlow
+        (CannotClaimExportGateUp.mk registry refusal exportDecision exportGrade target
+          audit transport continuation provenance name) =
+      cannotClaimExportGateToEventFlow
+        (CannotClaimExportGateUp.mk registry refusal' exportDecision' exportGrade'
+          target' audit transport continuation provenance name) →
+      refusal = refusal' ∧ exportDecision = exportDecision' ∧
+        exportGrade = exportGrade' ∧ target = target' ∧
+          cannotClaimExportGateEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have packetEq :
+      CannotClaimExportGateUp.mk registry refusal exportDecision exportGrade target
+          audit transport continuation provenance name =
+        CannotClaimExportGateUp.mk registry refusal' exportDecision' exportGrade'
+          target' audit transport continuation provenance name :=
+    cannotClaimExportGateToEventFlow_injective heq
+  cases packetEq
+  exact ⟨rfl, rfl, rfl, rfl, rfl⟩
+
 theorem CannotClaimExportGateTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       cannotClaimExportGateDecodeBHist (cannotClaimExportGateEncodeBHist h) = h) ∧
@@ -275,5 +310,146 @@ theorem CannotClaimExportGateTasteGate_single_carrier_alignment :
         · constructor
           · exact Nonempty.intro cannotClaimExportGateChapterTasteGate
           · rfl
+
+def CannotClaimExportGateCarrier [AskSetup] [PackageSetup]
+    (registry refusal exportDecision exportGrade target audit transport continuation
+      provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  UnaryHistory registry ∧ UnaryHistory refusal ∧ UnaryHistory exportDecision ∧
+    UnaryHistory exportGrade ∧ UnaryHistory target ∧ UnaryHistory audit ∧
+      UnaryHistory transport ∧ UnaryHistory continuation ∧ UnaryHistory provenance ∧
+        UnaryHistory name ∧ Cont registry refusal exportDecision ∧
+          Cont exportDecision exportGrade target ∧ Cont target audit continuation ∧
+            Cont audit transport provenance ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle name pkg
+
+theorem CannotClaimExportGate_namecert_obligations [AskSetup] [PackageSetup]
+    {registry refusal exportDecision exportGrade target audit transport continuation
+      provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CannotClaimExportGateCarrier registry refusal exportDecision exportGrade target audit
+        transport continuation provenance name bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          CannotClaimExportGateCarrier registry refusal exportDecision exportGrade target
+              audit transport continuation provenance name bundle pkg ∧
+            (hsame row registry ∨ hsame row refusal ∨ hsame row exportDecision ∨
+              hsame row exportGrade ∨ hsame row target ∨ hsame row audit ∨
+                hsame row transport ∨ hsame row continuation ∨ hsame row provenance ∨
+                  hsame row name))
+        (fun _row : BHist =>
+          Cont registry refusal exportDecision ∧ Cont exportDecision exportGrade target ∧
+            Cont target audit continuation ∧ PkgSig bundle provenance pkg)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle name pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame SemanticNameCert
+  intro carrier
+  have carrierWitness := carrier
+  obtain ⟨registryUnary, refusalUnary, exportDecisionUnary, exportGradeUnary,
+    targetUnary, auditUnary, transportUnary, continuationUnary, provenanceUnary,
+    nameUnary, registryRefusalDecision, decisionGradeTarget, targetAuditContinuation,
+    _auditTransportProvenance, provenancePkg, namePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro registry
+          (And.intro carrierWitness (Or.inl (hsame_refl registry)))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro _row _source
+      exact
+        ⟨registryRefusalDecision, decisionGradeTarget, targetAuditContinuation,
+          provenancePkg⟩
+    ledger_sound := by
+      intro row source
+      cases source.right with
+      | inl sameRegistry =>
+          exact ⟨unary_transport registryUnary (hsame_symm sameRegistry), namePkg⟩
+      | inr rest =>
+          cases rest with
+          | inl sameRefusal =>
+              exact ⟨unary_transport refusalUnary (hsame_symm sameRefusal), namePkg⟩
+          | inr rest =>
+              cases rest with
+              | inl sameDecision =>
+                  exact
+                    ⟨unary_transport exportDecisionUnary (hsame_symm sameDecision), namePkg⟩
+              | inr rest =>
+                  cases rest with
+                  | inl sameGrade =>
+                      exact
+                        ⟨unary_transport exportGradeUnary (hsame_symm sameGrade), namePkg⟩
+                  | inr rest =>
+                      cases rest with
+                      | inl sameTarget =>
+                          exact ⟨unary_transport targetUnary (hsame_symm sameTarget), namePkg⟩
+                      | inr rest =>
+                          cases rest with
+                          | inl sameAudit =>
+                              exact ⟨unary_transport auditUnary (hsame_symm sameAudit), namePkg⟩
+                          | inr rest =>
+                              cases rest with
+                              | inl sameTransport =>
+                                  exact
+                                    ⟨unary_transport transportUnary (hsame_symm sameTransport),
+                                      namePkg⟩
+                              | inr rest =>
+                                  cases rest with
+                                  | inl sameContinuation =>
+                                      exact
+                                        ⟨unary_transport continuationUnary
+                                          (hsame_symm sameContinuation), namePkg⟩
+                                  | inr rest =>
+                                      cases rest with
+                                      | inl sameProvenance =>
+                                          exact
+                                            ⟨unary_transport provenanceUnary
+                                              (hsame_symm sameProvenance), namePkg⟩
+                                      | inr sameName =>
+                                          exact
+                                            ⟨unary_transport nameUnary (hsame_symm sameName),
+                                              namePkg⟩
+  }
+
+theorem CannotClaimExportGate_registry_factorization [AskSetup] [PackageSetup]
+    {registry refusal exportDecision exportGrade target audit transport continuation
+      provenance name route : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CannotClaimExportGateCarrier registry refusal exportDecision exportGrade target audit
+        transport continuation provenance name bundle pkg →
+      Cont audit transport route →
+        PkgSig bundle route pkg →
+          UnaryHistory registry ∧ UnaryHistory refusal ∧ UnaryHistory exportDecision ∧
+            UnaryHistory exportGrade ∧ UnaryHistory target ∧ UnaryHistory audit ∧
+              UnaryHistory route ∧ Cont registry refusal exportDecision ∧
+                Cont exportDecision exportGrade target ∧ Cont target audit continuation ∧
+                  Cont audit transport route ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle name pkg ∧ PkgSig bundle route pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier auditTransportRoute routePkg
+  obtain ⟨registryUnary, refusalUnary, exportDecisionUnary, exportGradeUnary,
+    targetUnary, auditUnary, transportUnary, _continuationUnary, _provenanceUnary,
+    _nameUnary, registryRefusalDecision, decisionGradeTarget, targetAuditContinuation,
+    _auditTransportProvenance, provenancePkg, namePkg⟩ := carrier
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed auditUnary transportUnary auditTransportRoute
+  exact
+    ⟨registryUnary, refusalUnary, exportDecisionUnary, exportGradeUnary, targetUnary,
+      auditUnary, routeUnary, registryRefusalDecision, decisionGradeTarget,
+      targetAuditContinuation, auditTransportRoute, provenancePkg, namePkg, routePkg⟩
 
 end BEDC.Derived.CannotClaimExportGateUp

@@ -50,6 +50,7 @@ S,A,K,R,H,C,P,N.
 $$
 The route may expose the reality-facing signature source, admitted observer access, classifier comparison, and residue ledger. It cannot replace $R$ by a bare $\StateSpaceModelUp$ state, a $\ConsciousObserverStateUp$ state, an $\ObserverBudgetSupportUp$ support row, an $\ObserverHistIdentityUp$ identity row, or a $\QuantumStateUp$ state.
 \end{theorem}
+\leanchecked{BEDC.Derived.OnticStateUp.OnticStateResidueLedgerExactness}
 \begin{proof}
 Use the displayed carrier $O=(S,A,K,R,H,C,P,N)$. Public reads reach the local name only after the signature source, access route, classifier, residue ledger, transport row, replay row, and provenance row have been displayed.
 
@@ -103,6 +104,7 @@ For the carrier of \autoref{def:onticstate-carrier}, the local $\NameCert_{\Onti
 \end{enumerate}
 These five rows are the complete public obligation surface for using $\OnticStateUp$ as an ontic-state certificate.
 \end{theorem}
+\leanchecked{BEDC.Derived.OnticStateUp.OnticStateNameCertObligationSurface}
 \begin{proof}
 Carrier admission is the first projection from \autoref{def:onticstate-carrier}. Classifier exposure is the content of \autoref{def:onticstate-classifier}, read through $S,A,K$.
 
@@ -137,6 +139,7 @@ Apply \autoref{thm:onticstate-residue-ledger-exactness} to the public route. The
 \label{thm:onticstate-sibling-noncollapse}
 No sibling surface among $\ConsciousObserverStateUp$, $\StateSpaceModelUp$, $\ObserverBudgetSupportUp$, $\ObserverHistIdentityUp$, or $\QuantumStateUp$ can replace an accepted $\OnticStateUp$ packet. Any such replacement loses at least one displayed coordinate from the boundary $(S,A,K,R,H,C,P,N)$: the reality-facing signature source, admitted observer-access route, classifier row, residue ledger, componentwise transport, displayed replay, provenance, or local $\NameCert_{\OnticStateUp}$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.OnticStateUp.OnticStateSiblingNoncollapse}
 \begin{proof}
 Inspect the carrier in \autoref{def:onticstate-carrier}. Its coordinates bind the signature source, observer access, classifier, residue ledger, transport, replay, provenance, and local name in one finite packet.
 
@@ -197,6 +200,7 @@ The Lean follow-up file named below supplies the TasteGate-facing nontrivial and
 \label{thm:onticstate-componentwise-transport-scope}
 Let $O=(S,A,K,R,H,C,P,N)$ be an accepted $\OnticStateUp$ carrier. Any accepted public read of $O$ that preserves the source signature $S$ transports the full packet componentwise: the observer-access route $A$, classifier row $K$, residue ledger $R$, transport history $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\OnticStateUp}$ row $N$ remain the coordinates of the same packet. The transport is read through the $\hsame$ rows in $H$, the displayed $\Cont$ replay, the $\Pkg$ provenance row, and the local $\NameCert_{\OnticStateUp}$ witness; it is not a public read of $S$ alone.
 \end{theorem}
+\leanchecked{BEDC.Derived.OnticStateUp.OnticStateComponentwiseTransportScope}
 \begin{proof}
 Begin with the accepted carrier of \autoref{def:onticstate-carrier}. The tuple stores $S,A,K,R,H,C,P,N$ as one finite public packet, so a public read preserving $S$ is still evaluated against that tuple.
 

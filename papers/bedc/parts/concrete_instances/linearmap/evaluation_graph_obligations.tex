@@ -33,6 +33,7 @@ Finally, the continuation rows are checked by the singleton evaluation and compo
 \label{thm:linearmap-evaluation-graph-composition-closure}
 Let $F$ carry a $\FieldUp(F)$ certificate, and let $U$, $V$, and $W$ carry $\VecSpaceUp(F,U)$, $\VecSpaceUp(F,V)$, and $\VecSpaceUp(F,W)$ certificates over the same scalar source. If $G_f$ is an accepted evaluation-graph packet for $f:U\to V$ and $G_g$ is an accepted evaluation-graph packet for $g:V\to W$, with the target vector-space row of $G_f$ matching the source vector-space row of $G_g$, then the $\Cont$-spliced graph packet for $g\circ f:U\to W$ is an accepted evaluation-graph packet. Its pointwise classifier is the target classifier of $W$, its additivity ledger is the composite of the additivity ledgers of $G_f$ and $G_g$, and its scalar-compatibility ledger is the composite of their scalar ledgers.
 \end{theorem}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapEvaluationGraph\_composition\_closure}
 \begin{proof}
 The matching middle row identifies the target classifier and operations of the first packet with the source classifier and operations of the second packet. Thus every carried $u:U$ evaluated by $G_f$ produces a carried middle endpoint in $V$, and the carrier-admission row of $G_g$ evaluates that endpoint in $W$. Splicing the two $\Cont$ routes gives the graph row for $g(f(u))$.
 
@@ -42,3 +43,20 @@ The scalar row is parallel. The first packet classifies $f(a\odot_U u)$ with $a\
 
 All pointwise comparisons are recorded as target-classifier rows in $W$, so \autoref{def:linearmap-classifier-specification} supplies the composite $\LinearMapUp(U,W)$ classifier. The $\Pkg$ provenance is the ordered pair of input packet identifiers together with the spliced continuation address, and the exactness clause follows because no row outside the two accepted graph packets and their shared middle vector-space row is read.
 \end{proof}
+
+\begin{theorem}[LinearMap evaluation-graph composition proof interface]
+\label{thm:linearmap-evaluation-graph-composition-closure-proof-interface}
+Let $F$ carry a $\FieldUp(F)$ certificate, and let $U$, $V$, and $W$ carry vector-space rows over the same scalar source. Suppose that $G_f$ is an accepted evaluation-graph packet for $f:U\to V$, that $G_g$ is an accepted evaluation-graph packet for $g:V\to W$, that the target vector-space row of $G_f$ is $\hsame$ as the source vector-space row of $G_g$, that target-classifier transport is available in $W$, and that the displayed $\Cont$ provenance row splices the two graph reads through the shared middle row. Then these finite data determine exactly the nine rows of \autoref{def:linearmap-evaluation-graph-carrier} for $g\circ f$: the source vector-space row, the target vector-space row, the evaluation graph row, the additivity row, the scalar row, the pointwise target classifier row, the continuation row, the $\Pkg$ provenance row, and the naming row.
+
+Consequently the composite packet satisfies the local NameCert obligation surface of \autoref{thm:linearmap-evaluation-graph-namecert-obligations}.
+\end{theorem}
+\begin{proof}
+The two accepted packets are finite $\BHist$ packets, so their source vector-space rows, target vector-space rows, additivity rows, scalar rows, target classifier rows, $\Cont$ rows, $\Pkg$ rows, and naming rows are already present as carried history rows. The $\hsame$ middle hypothesis identifies the target vector-space row of $G_f$ with the source vector-space row of $G_g$, so the composite source row is read from $G_f$ and the composite target row is read from $G_g$.
+
+For the evaluation graph row, follow the $\Cont$ provenance from a carried source endpoint through $G_f$ to the middle vector-space row and then through $G_g$ to the target row of $W$. The target-classifier transport in $W$ records the resulting pointwise classifier row for $g\circ f$.
+
+For the additivity row, read the additivity row of $G_f$ in the middle vector space, transport it across the shared target classifier row, and then read the additivity row of $G_g$ in $W$. The scalar row is obtained by the same route, using the scalar rows of the two packets and the same target classifier row in $W$.
+
+The $\Pkg$ row is the paired provenance of the two input packets together with the spliced $\Cont$ address, and the naming row records that this finite packet is the graph packet for $g\circ f$. These are exactly the nine rows specified by \autoref{def:linearmap-evaluation-graph-carrier}, and \autoref{thm:linearmap-evaluation-graph-composition-closure} supplies the accepted composite packet. Applying \autoref{thm:linearmap-evaluation-graph-namecert-obligations} to those rows gives the stated local NameCert obligation surface.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapEvaluationGraphCompositionProofInterface}

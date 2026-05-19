@@ -25,6 +25,28 @@ def RefutationWitnessCarrier [AskSetup] [PackageSetup]
         Cont assumption route bottom ∧ Cont bottom transport replay ∧
           hsame cert replay ∧ PkgSig bundle provenance pkg
 
+theorem RefutationWitnessCarrier_assumption_bottom_replay_package [AskSetup] [PackageSetup]
+    {proposition assumption route bottom transport replay provenance cert routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RefutationWitnessCarrier proposition assumption route bottom transport replay provenance
+        cert bundle pkg ->
+      Cont assumption route routeRead ->
+        PkgSig bundle routeRead pkg ->
+          UnaryHistory assumption ∧ UnaryHistory route ∧ UnaryHistory routeRead ∧
+            Cont assumption route bottom ∧ Cont assumption route routeRead ∧
+              Cont bottom transport replay ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle routeRead pkg ∧ hsame cert replay := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig hsame
+  intro carrier routeReadCont routeReadPkg
+  obtain ⟨_propositionUnary, assumptionUnary, routeUnary, _bottomUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, _certUnary, bottomRoute, replayRoute, certReplay,
+    provenancePkg⟩ := carrier
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed assumptionUnary routeUnary routeReadCont
+  exact
+    ⟨assumptionUnary, routeUnary, routeReadUnary, bottomRoute, routeReadCont, replayRoute,
+      provenancePkg, routeReadPkg, certReplay⟩
+
 theorem RefutationWitnessNameCertObligations [AskSetup] [PackageSetup]
     {proposition assumption route bottom transport replay provenance cert routeRead
       assumptionRead : BHist}

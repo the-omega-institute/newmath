@@ -253,4 +253,160 @@ theorem CriticalStripZetaZeroWitnessPacket_source_route_exhaustion [AskSetup] [P
     cont_result_hsame_transport stripZeroTransport (hsame_symm sameSourceTransport)
   exact ⟨sameSourceTransport, sourceUnary, stripZeroSource, endpointPkg⟩
 
+theorem CriticalStripZetaZeroWitnessPacket_constructive_counterexample_surface
+    [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name endpoint failureRead
+      counterexampleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CriticalStripZetaZeroWitnessPacket strip zero line boundary transport route provenance name
+        endpoint bundle pkg ->
+      Cont line boundary failureRead ->
+        Cont failureRead route counterexampleRead ->
+          PkgSig bundle counterexampleRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row counterexampleRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row counterexampleRead ∧ Cont line boundary failureRead)
+                (fun row : BHist =>
+                  hsame row counterexampleRead ∧ PkgSig bundle counterexampleRead pkg)
+                hsame ∧
+              UnaryHistory line ∧ UnaryHistory boundary ∧ UnaryHistory failureRead ∧
+                UnaryHistory counterexampleRead ∧ Cont line boundary failureRead ∧
+                  Cont failureRead route counterexampleRead ∧ PkgSig bundle endpoint pkg ∧
+                    PkgSig bundle counterexampleRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro packet failureCont counterexampleCont counterexamplePkg
+  obtain ⟨_stripUnary, _zeroUnary, lineUnary, boundaryUnary, _transportUnary, routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, _stripZeroTransport, _lineBoundaryRoute,
+    _transportRouteEndpoint, _endpointProvenanceName, _endpointSameTransportRoute,
+    endpointPkg⟩ := packet
+  have failureUnary : UnaryHistory failureRead :=
+    unary_cont_closed lineUnary boundaryUnary failureCont
+  have counterexampleUnary : UnaryHistory counterexampleRead :=
+    unary_cont_closed failureUnary routeUnary counterexampleCont
+  have sourceAtCounterexample :
+      hsame counterexampleRead counterexampleRead ∧ UnaryHistory counterexampleRead :=
+    ⟨hsame_refl counterexampleRead, counterexampleUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row counterexampleRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row counterexampleRead ∧ Cont line boundary failureRead)
+          (fun row : BHist =>
+            hsame row counterexampleRead ∧ PkgSig bundle counterexampleRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro counterexampleRead sourceAtCounterexample
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source.left, failureCont⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, counterexamplePkg⟩
+  }
+  exact
+    ⟨cert, lineUnary, boundaryUnary, failureUnary, counterexampleUnary, failureCont,
+      counterexampleCont, endpointPkg, counterexamplePkg⟩
+
+theorem CriticalStripZetaZeroWitnessPacket_rh_premise_exhaustion [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name endpoint premiseRead lineRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CriticalStripZetaZeroWitnessPacket strip zero line boundary transport route provenance name
+        endpoint bundle pkg ->
+      Cont strip zero premiseRead ->
+        Cont line boundary lineRead ->
+          PkgSig bundle premiseRead pkg ->
+            PkgSig bundle lineRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row endpoint ∧ PkgSig bundle endpoint pkg)
+                  (fun row : BHist => hsame row endpoint)
+                  (fun row : BHist => PkgSig bundle endpoint pkg ∧ hsame row endpoint)
+                  hsame ∧
+                UnaryHistory premiseRead ∧ UnaryHistory lineRead ∧ hsame premiseRead transport ∧
+                  hsame lineRead route ∧ Cont strip zero transport ∧ Cont line boundary route ∧
+                    PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro packet premiseRoute lineRoute _premisePkg _linePkg
+  obtain ⟨stripUnary, zeroUnary, lineUnary, boundaryUnary, transportUnary, routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, stripZeroTransport, lineBoundaryRoute,
+    _transportRouteEndpoint, _endpointProvenanceName, _endpointSameTransportRoute,
+    endpointPkg⟩ := packet
+  have premiseReadUnary : UnaryHistory premiseRead :=
+    unary_cont_closed stripUnary zeroUnary premiseRoute
+  have lineReadUnary : UnaryHistory lineRead :=
+    unary_cont_closed lineUnary boundaryUnary lineRoute
+  have premiseSameTransport : hsame premiseRead transport :=
+    cont_deterministic premiseRoute stripZeroTransport
+  have lineReadSameRoute : hsame lineRead route :=
+    cont_deterministic lineRoute lineBoundaryRoute
+  have endpointSource : hsame endpoint endpoint ∧ PkgSig bundle endpoint pkg :=
+    And.intro (hsame_refl endpoint) endpointPkg
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row endpoint ∧ PkgSig bundle endpoint pkg)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => PkgSig bundle endpoint pkg ∧ hsame row endpoint)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        exact And.intro (hsame_trans (hsame_symm sameRows) sourceRow.left) sourceRow.right
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact sourceRow.left
+    ledger_sound := by
+      intro _row sourceRow
+      exact And.intro sourceRow.right sourceRow.left
+  }
+  exact
+    ⟨cert, premiseReadUnary, lineReadUnary, premiseSameTransport, lineReadSameRoute,
+      stripZeroTransport, lineBoundaryRoute, endpointPkg⟩
+
+theorem CriticalStripZetaZeroWitnessPacket_zero_row_admission [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name endpoint zeroRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CriticalStripZetaZeroWitnessPacket strip zero line boundary transport route provenance name
+        endpoint bundle pkg ->
+      Cont zero transport zeroRead ->
+        UnaryHistory zero ∧ UnaryHistory transport ∧ UnaryHistory zeroRead ∧
+          Cont strip zero transport ∧ Cont zero transport zeroRead ∧
+            Cont transport route endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet zeroTransportRead
+  obtain ⟨_stripUnary, zeroUnary, _lineUnary, _boundaryUnary, transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, stripZeroTransport,
+    _lineBoundaryRoute, transportRouteEndpoint, _endpointProvenanceName,
+    _endpointSameTransportRoute, endpointPkg⟩ := packet
+  have zeroReadUnary : UnaryHistory zeroRead :=
+    unary_cont_closed zeroUnary transportUnary zeroTransportRead
+  exact
+    ⟨zeroUnary, transportUnary, zeroReadUnary, stripZeroTransport, zeroTransportRead,
+      transportRouteEndpoint, endpointPkg⟩
+
 end BEDC.Derived.CriticalStripZetaZeroWitnessUp

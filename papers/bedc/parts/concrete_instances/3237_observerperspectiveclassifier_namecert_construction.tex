@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares two accepted carriers only through the displayed rows $O_0,O_1,U_0,U_1,L,G,H,C,P,N$ and their recorded transports and routes.
 \end{definition}
+\leandef{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierCarrier}
 
 \begin{theorem}[ObserverPerspectiveClassifier NameCert obligations]
 \label{thm:observer-perspective-classifier-namecert-obligations}
@@ -79,6 +80,7 @@ The positive comparison data remain public and finite: observer rows, universe-f
 
 No listed coordinate is a god's-eye observer, a host equality witness between worlds, a private $\mathsf{Self}$ row, or a global spacetime carrier. Therefore an accepted classifier cannot export any of those objects.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierNonescape}
 
 \begin{theorem}[ObserverPerspectiveClassifier anchor-change stability]
 \label{thm:observer-perspective-classifier-anchor-change-stability}
@@ -160,15 +162,169 @@ For the reverse direction, swap the two observer rows together with their univer
 It remains to exclude partial swaps. The non-escape theorem \autoref{thm:observer-perspective-classifier-nonescape} rules out any unlisted observer-neutral witness that could repair a swap of only one face. Hence acceptedness is preserved exactly when the paired observer rows, universe surfaces, locality evidence, paired commitment row, transports, routes, provenance, comparison route, and local naming row are swapped together.
 \end{proof}
 
-\closureat{ObserverPerspectiveClassifierUp}{seedStr}
+\begin{theorem}[ObserverPerspectiveClassifier dependency scope]
+\label{thm:observer-perspective-classifier-dependency-scope}
+The accepted dependency scope of an $\ObserverPerspectiveClassifierUp$ carrier is exactly the finite public row family supplied by $\ConsciousObserverStateUp$, $\LocalityCellUp$ or $\ObserverLocalityCellUp$, $\CrossPerspectiveAlignmentUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The classifier has no dependency on an ambient world row, host equality between worlds, private $\mathsf{Self}$ access, global spacetime carrier, hidden synchronization map, or unrecorded cross-perspective evidence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:observer-perspective-classifier-carrier}. Its comparison rows are the two conscious-observer state rows, the two universe-for-observer surfaces, the locality-cell row, and the paired $\mathsf{GAP}$ row; its structural rows are the $\BHist$ packet, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+
+Apply \autoref{thm:observer-perspective-classifier-locality-cell-comparison} and \autoref{thm:observer-perspective-classifier-gap-commitment-readback}. They force any comparison to pass through the displayed locality evidence, paired commitment ledger, and recorded alignment surface rather than through a shared ambient world.
+
+Finally apply \autoref{thm:observer-perspective-classifier-ledger-exactness} and \autoref{thm:observer-perspective-classifier-nonescape}. Exactness says no other comparison primitive is available, and non-escape excludes ambient world rows, host equality, private $\mathsf{Self}$ access, global spacetime carriers, hidden synchronization maps, and unrecorded evidence.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier alignment consumer]
+\label{thm:observer-perspective-classifier-alignment-consumer}
+Every downstream cross-perspective consumer of an accepted $\ObserverPerspectiveClassifierUp$ verdict must read the comparison through the displayed locality row, paired $\mathsf{GAP}$ commitment row, transport row, continuation row, provenance row, and local $\NameCert$ row. A consumer that bypasses one of those displayed rows is not reading the public classifier verdict.
+\end{theorem}
+\begin{proof}
+Start from an accepted public verdict. By \autoref{thm:observer-perspective-classifier-comparison-route-totality}, the verdict route factors through $O_0,O_1,U_0,U_1,L,G,H,C,P,N$ in the public classifier layers.
+
+The consumer side only needs the comparison layers after the observer-state and universe surfaces have been exposed. Those layers are precisely the locality row $L$, paired commitment row $G$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$.
+
+If a consumer bypasses one of these rows, \autoref{thm:observer-perspective-classifier-ledger-exactness} says the read no longer factors through the exact public ledger. The non-escape boundary of \autoref{thm:observer-perspective-classifier-nonescape} prevents replacing the missing row by hidden synchronization, host equality, or a private observer witness, so the bypassed read is not the public classifier verdict.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier observer-state GAP route]
+\label{thm:observer-perspective-classifier-observer-state-gap-route}
+For an accepted $\ObserverPerspectiveClassifierUp$ carrier $Q=(O_0,O_1,U_0,U_1,L,G,H,C,P,N)$, a public verdict may consume the paired $\mathsf{GAP}$ row $G$ only after the two conscious-observer state rows $O_0,O_1$ have exposed their GAP acknowledgement rows through the recorded state surface. A verdict that reads $G$ without both acknowledgements is not an accepted observer-perspective classifier verdict.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple from \autoref{def:observer-perspective-classifier-carrier}. The observer rows $O_0,O_1$ precede the universe surfaces, locality row, and paired commitment row, so the public carrier fixes the state coordinates before the comparison row $G$ can be read.
+
+The state-totality theorem \autoref{thm:observer-perspective-classifier-state-totality} forces both conscious-observer state rows to be exposed before any public classifier verdict. The paired commitment readback theorem \autoref{thm:observer-perspective-classifier-gap-commitment-readback} then routes the displayed $\mathsf{GAP}$ row through the same finite comparison ledger.
+
+Finally apply the ConsciousObserverState exactness anchor $\mathsf{ConsciousObserverStateCarrier\_gap\_acknowledgement\_exactness}$ to the two state rows. It identifies the required acknowledgement rows as the exact state-side witnesses consumed by $G$. The ledger exactness and non-escape theorems \autoref{thm:observer-perspective-classifier-ledger-exactness} and \autoref{thm:observer-perspective-classifier-nonescape} rule out replacing either acknowledgement by host equality, hidden synchronization, or private observer access.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier cross-alignment locality soundness]
+\label{thm:observer-perspective-classifier-cross-alignment-locality-soundness}
+A $\CrossPerspectiveAlignmentUp$ consumer may use an accepted $\ObserverPerspectiveClassifierUp$ verdict only when the displayed locality row $L$ and paired $\mathsf{GAP}$ row $G$ pass through the alignment locality-cell soundness route. If the consumer supplies a different locality cell, an unpaired commitment row, or an unrecorded alignment witness, it is not using the public classifier surface.
+\end{theorem}
+\begin{proof}
+Start with the comparison route of \autoref{thm:observer-perspective-classifier-comparison-route-totality}. It orders the public read through the two observer rows, two universe surfaces, displayed locality row $L$, paired commitment row $G$, transports $H$, continuations $C$, provenance $P$, and local naming row $N$.
+
+The alignment-consumer theorem \autoref{thm:observer-perspective-classifier-alignment-consumer} restricts downstream cross-perspective consumers to precisely the displayed comparison rows. Thus the consumer cannot detach $L$ from $G$ or replace either row before reading the classifier verdict.
+
+Apply \autoref{thm:observer-perspective-classifier-locality-cell-comparison} to compare the locality cell against the classifier ledger, and then apply the CrossPerspectiveAlignment soundness anchor $\mathsf{CrossPerspectiveAlignmentCarrier\_locality\_cell\_soundness}$. These two routes identify the accepted locality-cell soundness witness with the displayed pair $L,G$.
+
+The non-escape theorem \autoref{thm:observer-perspective-classifier-nonescape} excludes hidden synchronization, ambient world equality, and unrecorded cross-perspective evidence. Hence a consumer outside the $L,G$ soundness route is outside the public classifier surface.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier locality-cell exhaustion]
+\label{thm:observer-perspective-classifier-locality-cell-exhaustion}
+In an accepted $\ObserverPerspectiveClassifierUp$ carrier $Q=(O_0,O_1,U_0,U_1,L,G,H,C,P,N)$, the locality coordinate $L$ is exhausted by the public $\LocalityCellUp$ or $\ObserverLocalityCellUp$ packet together with the rows $H,C,P,N$. No ambient world row, hidden synchronization map, host equality, or unrecorded locality witness can replace that public locality-cell data.
+\end{theorem}
+\begin{proof}
+Read the carrier as a finite ledger. The locality row $L$ is not an abstract parameter: it is tied to the componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$.
+
+The locality-cell comparison theorem \autoref{thm:observer-perspective-classifier-locality-cell-comparison} and ledger exactness theorem \autoref{thm:observer-perspective-classifier-ledger-exactness} say that every public read of $L$ factors through those displayed rows. Apply the LocalityCell readback anchor $\mathsf{LocalityCellPacket\_interobserver\_readback}$ when $L$ is supplied by a $\LocalityCellUp$ packet, and apply the ObserverLocalityCell boundary anchor $\mathsf{ObserverLocalityCellPacket\_consumer\_boundary}$ when $L$ is supplied by an $\ObserverLocalityCellUp$ packet.
+
+It remains to rule out replacements. The dependency-scope theorem \autoref{thm:observer-perspective-classifier-dependency-scope} limits the accepted row family to the displayed public packets, and the non-escape theorem \autoref{thm:observer-perspective-classifier-nonescape} rejects ambient world rows, hidden synchronization maps, host equality, private observer access, and unrecorded cross-perspective evidence. Therefore $L$ is exhausted exactly by the public locality-cell packet and the rows $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier two-observer source admission]
+\label{thm:observer-perspective-classifier-two-observer-source-admission}
+An accepted public verdict for an $\ObserverPerspectiveClassifierUp$ carrier must first expose both accepted $\ConsciousObserverStateUp$ rows $O_0,O_1$ and their attached universe-for-observer surfaces $U_0,U_1$. The verdict may then read locality and alignment data, but it cannot read $L$, $G$, or a $\CrossPerspectiveAlignmentUp$ consumer route before the two observer-state rows and the two universe surfaces have appeared in the finite carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier $Q=(O_0,O_1,U_0,U_1,L,G,H,C,P,N)$ from \autoref{def:observer-perspective-classifier-carrier}. The first displayed rows are the two observer-state sources and their two universe-for-observer surfaces, so the classifier has no earlier public comparison coordinate.
+
+Apply the state-totality theorem \autoref{thm:observer-perspective-classifier-state-totality}. It turns this projection order into a public verdict condition: both observer-state rows and both attached universe surfaces must be exposed before the verdict is exported.
+
+Finally apply the comparison-route totality and non-escape theorems, \autoref{thm:observer-perspective-classifier-comparison-route-totality} and \autoref{thm:observer-perspective-classifier-nonescape}. They force the later locality, commitment, transport, continuation, provenance, and alignment-facing reads to remain downstream of the displayed state rows, and they rule out a hidden observer-neutral source that could bypass the two source rows.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier alignment-locality cycle]
+\label{thm:observer-perspective-classifier-alignment-locality-cycle}
+For an accepted $\ObserverPerspectiveClassifierUp$ carrier, the locality coordinate $L$ must be a public $\LocalityCellUp$ or $\ObserverLocalityCellUp$ packet paired with the same displayed $\mathsf{GAP}$ row $G$. Every $\CrossPerspectiveAlignmentUp$ consumer of the verdict must consume that $L,G$ pair through the recorded rows $H,C,P,N$; it cannot bypass the pair by supplying an ambient locality row, an unpaired commitment row, or an unrecorded alignment witness.
+\end{theorem}
+\begin{proof}
+Read $L$ from the carrier definition. Its declared role is the public locality-cell evidence row, and the next comparison coordinate $G$ is the paired $\mathsf{GAP}$ commitment ledger for comparing $U_0$ and $U_1$ without identifying them as one host world.
+
+Apply locality-cell exhaustion \autoref{thm:observer-perspective-classifier-locality-cell-exhaustion}. It restricts $L$ to the public $\LocalityCellUp$ or $\ObserverLocalityCellUp$ packet together with the recorded transport, route, provenance, and naming rows.
+
+Next apply cross-alignment locality soundness \autoref{thm:observer-perspective-classifier-cross-alignment-locality-soundness}. That theorem binds the alignment-facing consumer to the same displayed pair $L,G$.
+
+The ledger exactness and non-escape boundary, \autoref{thm:observer-perspective-classifier-ledger-exactness} and \autoref{thm:observer-perspective-classifier-nonescape}, then exclude ambient locality rows, unpaired commitment rows, hidden synchronization, and unrecorded alignment witnesses. Thus the locality and alignment reads form the stated cycle around the public $L,G$ pair.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier obligation-closure witness]
+\label{thm:observer-perspective-classifier-obligation-closure-witness}
+The carrier row, the five local $\NameCert_{\ObserverPerspectiveClassifierUp}$ obligation rows, the two observer-state source rows, the locality-cell row, the paired $\mathsf{GAP}$ row, the $\CrossPerspectiveAlignmentUp$ consumer route, the componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local naming row form one finite obligation-closure witness for $\ObserverPerspectiveClassifierUp$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and local obligation theorems, \autoref{def:observer-perspective-classifier-carrier} and \autoref{thm:observer-perspective-classifier-namecert-obligations}. They display the finite packet and identify the five local naming obligations carried by it.
+
+The source admission theorem \autoref{thm:observer-perspective-classifier-two-observer-source-admission} binds both conscious-observer state rows and both universe-for-observer surfaces before any public verdict. The alignment-locality cycle theorem \autoref{thm:observer-perspective-classifier-alignment-locality-cycle} binds the public locality row, paired commitment row, and alignment-facing consumer to the same displayed route.
+
+It remains to gather the already established public boundaries. Apply ledger exactness, non-escape, comparison-route totality, dependency scope, observer-state GAP route, cross-alignment locality soundness, and locality-cell exhaustion. These theorems account for $H,C,P,N$, exclude every unlisted observer-neutral or ambient replacement, and leave exactly the finite row family named in the statement.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier obligation unblock package]
+\label{thm:observer-perspective-classifier-obligation-unblock-package}
+The carrier exposure, local $\NameCert$ obligations, locality-cell comparison, ledger exactness, non-escape boundary, paired $\mathsf{GAP}$ readback, comparison-route totality, state totality, locality refinement, perspective stability, dependency scope, alignment-consumer discipline, observer-state GAP route, cross-alignment locality soundness, locality-cell exhaustion, two-observer source admission, alignment-locality cycle, and obligation-closure witness together form the finite $\ObserverPerspectiveClassifierUp$ obligation package for obligation-level closure.
+\end{theorem}
+\begin{proof}
+First project the finite carrier from \autoref{def:observer-perspective-classifier-carrier}. This supplies the rows $O_0,O_1,U_0,U_1,L,G,H,C,P,N$ and fixes the only coordinates available to the package.
+
+The local obligation surface is given by \autoref{thm:observer-perspective-classifier-namecert-obligations}. The comparison surface is then constrained by \autoref{thm:observer-perspective-classifier-locality-cell-comparison}, \autoref{thm:observer-perspective-classifier-ledger-exactness}, \autoref{thm:observer-perspective-classifier-nonescape}, and \autoref{thm:observer-perspective-classifier-gap-commitment-readback}.
+
+The route and state coverage are supplied by \autoref{thm:observer-perspective-classifier-comparison-route-totality} and \autoref{thm:observer-perspective-classifier-state-totality}. Stability under admissible local changes is supplied by \autoref{thm:observer-perspective-classifier-locality-refinement} and \autoref{thm:observer-perspective-classifier-perspective-stability}.
+
+It remains only to bind the consumer-facing dependency boundary. Apply \autoref{thm:observer-perspective-classifier-dependency-scope} to identify the accepted row family, and apply \autoref{thm:observer-perspective-classifier-alignment-consumer} to force downstream consumers through the displayed locality, commitment, transport, continuation, provenance, and naming rows.
+
+The three concrete rows above close the exposed obligation route. The observer-state GAP route \autoref{thm:observer-perspective-classifier-observer-state-gap-route} ties $G$ to both state acknowledgements, the cross-alignment locality soundness route \autoref{thm:observer-perspective-classifier-cross-alignment-locality-soundness} ties $L,G$ to the alignment consumer, and locality-cell exhaustion \autoref{thm:observer-perspective-classifier-locality-cell-exhaustion} rules out ambient or hidden replacements for $L$. These finite components assemble exactly the obligation package claimed.
+
+The dependency witness is explicit in the same finite packet. Apply \autoref{thm:observer-perspective-classifier-two-observer-source-admission} for the two source-state rows, \autoref{thm:observer-perspective-classifier-alignment-locality-cycle} for the $L,G$ locality and alignment cycle, and \autoref{thm:observer-perspective-classifier-obligation-closure-witness} to package these rows with the earlier carrier, obligation, exactness, and non-escape boundaries.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier BHist scope]
+\label{thm:observer-perspective-classifier-bhist-scope}
+Every accepted carrier read for $\ObserverPerspectiveClassifierUp$ is confined to the displayed finite $\BHist$ packet $Q=(O_0,O_1,U_0,U_1,L,G,H,C,P,N)$. No observer-neutral row, host-world equality row, private $\mathsf{Self}$ row, global spacetime row, hidden synchronization row, or unrecorded cross-perspective row can enter the classifier scope.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition \autoref{def:observer-perspective-classifier-carrier}. It presents the accepted classifier as the finite $\BHist$ packet $Q=(O_0,O_1,U_0,U_1,L,G,H,C,P,N)$, so every public read has one of these displayed coordinates as its source.
+
+Ledger exactness \autoref{thm:observer-perspective-classifier-ledger-exactness} identifies the rows available inside that packet. The non-escape theorem \autoref{thm:observer-perspective-classifier-nonescape} excludes observer-neutral rows, host-world equality, private $\mathsf{Self}$ access, global spacetime carriers, hidden synchronization maps, and unrecorded cross-perspective evidence.
+
+Finally apply dependency scope \autoref{thm:observer-perspective-classifier-dependency-scope}. It says the accepted row family is exactly the public family generated by the displayed observer-state, locality, alignment, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Hence no row outside $Q$ can enter the scope.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier alignment transport scope]
+\label{thm:observer-perspective-classifier-alignment-transport-scope}
+Every $\CrossPerspectiveAlignmentUp$ consumer of an accepted $\ObserverPerspectiveClassifierUp$ verdict may use only the displayed route through $L,G,H,C,P,N$. Its transport scope is the componentwise $\hsame$ row $H$ together with the displayed $\Cont$ routes $C$; it cannot import an ambient alignment map, an unpaired commitment row, or an unrecorded continuation.
+\end{theorem}
+\begin{proof}
+The comparison-route totality theorem \autoref{thm:observer-perspective-classifier-comparison-route-totality} first exposes the available route: observer rows, universe-for-observer surfaces, locality evidence, paired $\mathsf{GAP}$ commitments, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local naming.
+
+Next use the alignment-consumer theorem \autoref{thm:observer-perspective-classifier-alignment-consumer}. It forces any downstream consumer to read the verdict through $L,G,H,C,P,N$ rather than through a separate alignment channel.
+
+The cross-alignment locality soundness theorem \autoref{thm:observer-perspective-classifier-cross-alignment-locality-soundness} binds the consumer to the same displayed $L,G$ pair. The alignment-locality cycle theorem \autoref{thm:observer-perspective-classifier-alignment-locality-cycle} then returns the read to $H,C,P,N$, with $\hsame$ and $\Cont$ supplying the transport scope. Thus ambient alignment maps, unpaired commitments, and unrecorded continuations are outside the accepted consumer scope.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier NameCert ledger scope]
+\label{thm:observer-perspective-classifier-namecert-ledger-scope}
+The local $\NameCert_{\ObserverPerspectiveClassifierUp}$ row closes only the finite observer-state, locality-cell, $\mathsf{GAP}$, transport, continuation, package, and naming ledger displayed by $Q=(O_0,O_1,U_0,U_1,L,G,H,C,P,N)$. It does not close global spacetime, private $\mathsf{Self}$ access, host equality between worlds, hidden synchronization, or unrecorded cross-perspective evidence.
+\end{theorem}
+\begin{proof}
+The local naming obligations are exactly the five rows listed in \autoref{thm:observer-perspective-classifier-namecert-obligations}. They cover carrier exposure, observer anchoring, universe-for-observer exposure, locality and coherence comparison, and the non-escape boundary.
+
+Apply the obligation-closure witness \autoref{thm:observer-perspective-classifier-obligation-closure-witness}. It packages the carrier row, the local naming obligations, both observer-state rows, the locality-cell row, the paired $\mathsf{GAP}$ row, the alignment consumer route, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local naming row as one finite obligation witness.
+
+The obligation unblock package \autoref{thm:observer-perspective-classifier-obligation-unblock-package} assembles the same rows as the chapter's obligation surface. The non-escape theorem \autoref{thm:observer-perspective-classifier-nonescape} keeps global spacetime, private $\mathsf{Self}$ access, host equality, hidden synchronization, and unrecorded cross-perspective evidence outside that surface. Therefore the $\NameCert$ row closes only the displayed finite ledger.
+\end{proof}
+
+\closureat{ObserverPerspectiveClassifierUp}{obligationStr}
 
 \begin{closurestatus}{\ObserverPerspectiveClassifierUp}
   \constructivestory{An $\ObserverPerspectiveClassifierUp$ packet is generated from two conscious-observer state rows, two universe-for-observer record surfaces, locality-cell evidence, paired GAP commitments, componentwise transports, displayed continuation routes, package provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:observer-perspective-classifier-carrier}, \autoref{thm:observer-perspective-classifier-namecert-obligations}, \autoref{thm:observer-perspective-classifier-locality-cell-comparison}, \autoref{thm:observer-perspective-classifier-ledger-exactness}, \autoref{thm:observer-perspective-classifier-nonescape}, \autoref{thm:observer-perspective-classifier-anchor-change-stability}, \autoref{thm:observer-perspective-classifier-gap-commitment-readback}, \autoref{thm:observer-perspective-classifier-comparison-route-totality}, \autoref{thm:observer-perspective-classifier-state-totality}, \autoref{thm:observer-perspective-classifier-locality-refinement}, and \autoref{thm:observer-perspective-classifier-perspective-stability} bind the finite public classifier surface for universe-for-observer comparison.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:observer-perspective-classifier-carrier}, \autoref{thm:observer-perspective-classifier-namecert-obligations}, \autoref{thm:observer-perspective-classifier-locality-cell-comparison}, \autoref{thm:observer-perspective-classifier-ledger-exactness}, \autoref{thm:observer-perspective-classifier-nonescape}, \autoref{thm:observer-perspective-classifier-anchor-change-stability}, \autoref{thm:observer-perspective-classifier-gap-commitment-readback}, \autoref{thm:observer-perspective-classifier-comparison-route-totality}, \autoref{thm:observer-perspective-classifier-state-totality}, \autoref{thm:observer-perspective-classifier-locality-refinement}, \autoref{thm:observer-perspective-classifier-perspective-stability}, \autoref{thm:observer-perspective-classifier-observer-state-gap-route}, \autoref{thm:observer-perspective-classifier-cross-alignment-locality-soundness}, \autoref{thm:observer-perspective-classifier-locality-cell-exhaustion}, \autoref{thm:observer-perspective-classifier-two-observer-source-admission}, \autoref{thm:observer-perspective-classifier-alignment-locality-cycle}, \autoref{thm:observer-perspective-classifier-obligation-closure-witness}, \autoref{thm:observer-perspective-classifier-bhist-scope}, \autoref{thm:observer-perspective-classifier-alignment-transport-scope}, and \autoref{thm:observer-perspective-classifier-namecert-ledger-scope} bind the finite public classifier obligation surface for universe-for-observer comparison.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, bridge status, god's-eye observation, host equality between worlds, private Self access, global spacetime, hidden synchronization, or unrecorded cross-perspective evidence.}
-  \upgradepath{Obligation closure requires checked carrier admission, locality-cell comparison, ledger exactness, and non-escape theorems for the same finite observer-perspective packet.}
+  \upgradepath{Scoped closure next requires Lean-side and formal scope witnesses for the same finite observer-state, locality-cell, paired GAP, and alignment-consumer packet.}
 \end{closurestatus}

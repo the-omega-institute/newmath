@@ -64,6 +64,20 @@ Compare the refusal and gate siblings next. $\NegativeNameBoundaryUp$ refuses in
 Finally compare $\QuotientSoundnessBoundaryUp$. It specializes the Type III extensional-collapse refusal, while $\SocketKindClassifierUp$ must also distinguish Type I and Type II rows and later taxonomy rows. The displayed fields therefore cannot be matched by a bijection preserving all NameCert rows.
 \end{proof}
 
+\begin{theorem}[SocketKindClassifier public export package]
+\label{thm:socket-kind-classifier-public-export-package}
+Every public export of an accepted $\SocketKindClassifierUp$ packet is exactly the finite route through $S,K_D,R,G,H,C,P,N$. Downstream consumers may use the export only as the socket-site surface $S$, the socket-kind surface $K_D$, the requested-supply surface $R$, the gate-locality surface $G$, the componentwise transport surface $H$, the displayed continuation surface $C$, the provenance surface $P$, and the local $\NameCert_{\SocketKindClassifierUp}$ surface $N$. The export contains no supplied witness, quotient equality, host harmlessness proof, anonymous socket kind, or global taxonomy oracle.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:socket-kind-classifier-carrier}. Its displayed packet has exactly the rows $S,K_D,R,G,H,C,P,N$, and the carrier definition already excludes the witness, quotient, host-harmlessness, anonymous-kind, and global-taxonomy coordinates from the packet.
+
+Apply the NameCert obligations of \autoref{thm:socket-kind-classifier-namecert-obligations}. They identify the public certificate surface with carrier admission, classifier-kind exactness, gate-locality stability, displayed route and provenance readback, and non-escape for omitted supply coordinates.
+
+Use gate-locality exactness from \autoref{thm:socket-kind-classifier-gate-locality-exactness} together with sibling separation from \autoref{thm:socket-kind-classifier-sibling-separation}. The first result prevents a consumer from reclassifying the exported kind through another local gate; the second prevents the package from being read as any sibling socket ledger, refusal, audit gate, gate question, or quotient boundary.
+
+Finally read the TasteGate witness named in the closure scope. It certifies that the accepted packet is a field-faithful, nontrivial classifier over the same displayed rows, so the consumer-facing export is precisely the finite public route through $S,K_D,R,G,H,C,P,N$.
+\end{proof}
+
 \falsifiablePrediction{A socket-kind classifier packet that identifies a Type II witness socket with a Type III extensional-collapse socket fails the gate-locality row.}
 
 \independenceWitness{Compare SupplySocketLedger, NegativeNameBoundary, AuditGateBoundary, ApophaticGateQuestion, and QuotientSoundnessBoundary: the classifier has an explicit kind row that these siblings either consume, refuse, gate, question, or specialize, so no bijection preserves all NameCert rows.}
@@ -73,15 +87,16 @@ The Lean TasteGate module $\mathsf{BEDC.Derived.SocketKindClassifierUp.TasteGate
 \closureat{SocketKindClassifierUp}{seedStr}
 \closureat{SocketKindClassifierUp}{obligationStr}
 \closureat{SocketKindClassifierUp}{scopedStr}[BEDC.Derived.SocketKindClassifierUp.SocketKindClassifierTasteGate\_single\_carrier\_alignment]
+\closureat{SocketKindClassifierUp}{bridgedStr}[BEDC.Derived.SocketKindClassifierUp.SocketKindClassifierTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\SocketKindClassifierUp}
   \constructivestory{A $\SocketKindClassifierUp$ packet is generated from a socket-site row, a socket-kind row, a requested-supply row, a gate-locality row, componentwise transport, displayed continuation, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:socket-kind-classifier-carrier}, \autoref{thm:socket-kind-classifier-namecert-obligations}, \autoref{thm:socket-kind-classifier-gate-locality-exactness}, \autoref{thm:socket-kind-classifier-sibling-separation}, and \leanchecked{BEDC.Derived.SocketKindClassifierUp.taste\_gate} bind the supply taxonomy to a finite classifier packet.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:socket-kind-classifier-carrier}, \autoref{thm:socket-kind-classifier-namecert-obligations}, \autoref{thm:socket-kind-classifier-gate-locality-exactness}, \autoref{thm:socket-kind-classifier-sibling-separation}, \autoref{thm:socket-kind-classifier-public-export-package}, and \leanchecked{BEDC.Derived.SocketKindClassifierUp.taste\_gate} bind the supply taxonomy to a finite classifier packet with a consumer-facing public export.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.SocketKindClassifierUp.SocketKindClassifierTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
-  \notclaimed{This chapter does not supply missing witnesses, quotient equality, host harmlessness, global taxonomy completeness, or bridge checking for $\SocketKindClassifierUp$.}
-  \upgradepath{Public closure requires a consumer-facing export package for the same $S,K_D,R,G,H,C,P,N$ rows.}
+  \notclaimed{This chapter does not claim machine-checked StdBridge status for $\SocketKindClassifierUp$.}
+  \upgradepath{Bridge-checked status requires a $\mathsf{SocketKindClassifierUp\_StdBridge}$ theorem for the same public export packet over $S,K_D,R,G,H,C,P,N$.}
 \end{closurestatus}

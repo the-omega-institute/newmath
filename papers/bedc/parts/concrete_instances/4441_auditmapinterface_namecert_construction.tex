@@ -65,12 +65,52 @@ The carrier has no coordinate for unconditional discharge, solved obstruction, c
 \end{proof}
 \leanchecked{BEDC.Derived.AuditMapInterfaceUp.AuditMapInterfaceCarrier\_cross\_map\_consumer\_boundary}
 
+\begin{theorem}[Audit-map interface conditional row discharge boundary]
+\label{thm:audit-map-interface-conditional-row-discharge-boundary}
+For every accepted $\AuditMapInterfaceUp$ carrier
+$$
+I=(E,K,O,F,X,H,C,P,N),
+$$
+a consumer may use a conditional inventory row $K$ only together with its displayed discharge, setup, or route datum read through the continuation, transport, provenance, and local naming rows $C,H,P,N$. The same read cannot promote $K$ into the established inventory row $E$ or into an unconditional theorem coordinate.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of \autoref{def:audit-map-interface-carrier}. The rows $E$ and $K$ are separate $\BHist$ coordinates: $E$ records established theorem inventory, while $K$ records conditional inventory.
+
+Use the NameCert obligations of \autoref{thm:audit-map-interface-namecert-obligations}. Inventory exactness keeps the two rows distinct, componentwise $\hsame$ transport in $H$ preserves the row class being transported, and displayed $\Cont$ replay in $C$ returns to the same coordinate it reads.
+
+Finally apply the cross-map consumer boundary of \autoref{thm:audit-map-interface-cross-map-consumer-boundary}. A downstream consumer can carry the conditional row through $C,H,P,N$, but the carrier has no coordinate that reclassifies the conditional row as $E$ or supplies an unconditional theorem. Therefore every use of $K$ remains tied to the displayed discharge, setup, or route datum.
+\end{proof}
+
+\begin{theorem}[Audit-map interface obstruction row non-escape]
+\label{thm:audit-map-interface-obstruction-row-nonescape}
+For every accepted $\AuditMapInterfaceUp$ carrier $I=(E,K,O,F,X,H,C,P,N)$, an obstruction row $O$ remains a boundary row under componentwise $\hsame$ transport and displayed $\Cont$ replay. No route through $H,C,P,N$ can convert $O$ into a solved obligation, an established theorem row, or a closed package.
+\end{theorem}
+\begin{proof}
+Read $O$ from the carrier in \autoref{def:audit-map-interface-carrier}. It is the only coordinate whose role is to record no-go, boundary, or shape facts blocking a stronger local reading.
+
+The NameCert obligations of \autoref{thm:audit-map-interface-namecert-obligations} make the administrative rows transparent. The row $H$ transports obstruction data as obstruction data, while $C$ only replays a displayed route to the row being read; $P$ and $N$ record provenance and local naming for the same finite packet.
+
+Invoke \autoref{thm:audit-map-interface-cross-map-consumer-boundary}. It explicitly forbids turning the interface into a discharged obstruction or closed frontier package. Since neither $H$ nor $C$ introduces a theorem-producing coordinate, obstruction reads remain boundary reads for every consumer.
+\end{proof}
+
+\begin{theorem}[Audit-map interface frontier consumer routing]
+\label{thm:audit-map-interface-frontier-consumer-routing}
+For every accepted $\AuditMapInterfaceUp$ carrier $I=(E,K,O,F,X,H,C,P,N)$, every consumer route that uses the frontier row $F$ or cross-map row $X$ must pass through visible provenance, displayed continuation, componentwise transport, and local naming in $P,C,H,N$. Such a route may name neighbouring audit maps and handoffs, but it cannot import hidden rows from them or replace the finite interface by host semantic equality.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition. The rows $F$ and $X$ are visible $\BHist$ coordinates: $F$ records the strongest adjacent theorem or package outside the local map, and $X$ names neighbouring audit maps, synthesis packets, and route chapters that may consume the interface.
+
+Apply \autoref{thm:audit-map-interface-namecert-obligations}. It forces frontier and cross-map readback through the same finite NameCert surface, with $H$ for componentwise transport, $C$ for displayed continuation replay, $P$ for package provenance, and $N$ for local naming.
+
+Now use \autoref{thm:audit-map-interface-cross-map-consumer-boundary}. Frontier and cross-map reads are allowed only as interface reads. Because the carrier lacks hidden import, closed frontier package, and host semantic equality coordinates, neighbouring maps can be routed only through the visible provenance attached to $F$ and $X$.
+\end{proof}
+
 \closureat{AuditMapInterfaceUp}{seedStr}
 
 \begin{closurestatus}{\AuditMapInterfaceUp}
   \constructivestory{An $\AuditMapInterfaceUp$ packet is generated from established theorem inventory, conditional theorem inventory, obstruction, frontier, cross-map consumer, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:audit-map-interface-carrier}, \autoref{thm:audit-map-interface-namecert-obligations}, and \autoref{thm:audit-map-interface-cross-map-consumer-boundary} bind the finite audit-map interface and its cross-map consumer boundary.}
+  \scopeclosed{\autoref{def:audit-map-interface-carrier}, \autoref{thm:audit-map-interface-namecert-obligations}, \autoref{thm:audit-map-interface-cross-map-consumer-boundary}, \autoref{thm:audit-map-interface-conditional-row-discharge-boundary}, \autoref{thm:audit-map-interface-obstruction-row-nonescape}, and \autoref{thm:audit-map-interface-frontier-consumer-routing} bind the finite audit-map interface, conditional-row boundary, obstruction non-escape, and frontier routing surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
