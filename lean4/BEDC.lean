@@ -1606,6 +1606,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaSourceFactorization
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleReadbackRow
 import BEDC.Derived.CriticalLineWitnessUp.LedgerRouteStability
 import BEDC.Derived.CriticalLineWitnessUp.ModulusComparisonRouteTotality
+import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerReadback
 import BEDC.Derived.CriticalLineWitnessUp.ObligationCompletionPacket
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealBudgetSeparation
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealDependencyTotality
@@ -1623,11 +1624,13 @@ import BEDC.Derived.CriticalLineWitnessUp.RootBudgetObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerReadinessCertificate
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamTotality
+import BEDC.Derived.CriticalLineWitnessUp.RootFiniteReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteSourceCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RootHandoffExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootLineRowExposure
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
+import BEDC.Derived.CriticalLineWitnessUp.RootModulusLedgerScope
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalConsumerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
@@ -2192,6 +2195,7 @@ import BEDC.Derived.FieldUp.InverseAutomorphism
 import BEDC.Derived.FieldUp.InverseClassifier
 import BEDC.Derived.FieldUp.InverseEmptyTransport
 import BEDC.Derived.FieldUp.InverseInvolutiveNonzero
+import BEDC.Derived.FieldUp.InverseProductClassifierExitRow
 import BEDC.Derived.FieldUp.InverseProductReverseNonzero
 import BEDC.Derived.FieldUp.InverseProductRightApartness
 import BEDC.Derived.FieldUp.NestedProduct
@@ -3264,6 +3268,7 @@ import BEDC.Derived.OnticResidueLedgerUp.TasteGate
 import BEDC.Derived.OnticStateUp.ComponentwiseTransportScope
 import BEDC.Derived.OnticStateUp.NameCertObligationSurface
 import BEDC.Derived.OnticStateUp.ObserverAccessScope
+import BEDC.Derived.OnticStateUp.ObserverSupportFactorization
 import BEDC.Derived.OnticStateUp.ResidueLedgerExactness
 import BEDC.Derived.OnticStateUp.SiblingNoncollapse
 import BEDC.Derived.OnticStateUp.SignatureStability
@@ -4369,6 +4374,7 @@ import BEDC.Derived.TypingJudgmentClassifierUp.TasteGate
 import BEDC.Derived.UnaryContMonoidUp
 import BEDC.Derived.UnaryContMonoidUp.CategoryRootReadiness
 import BEDC.Derived.UnaryContMonoidUp.KernelCategoryConsumerBoundary
+import BEDC.Derived.UnaryContMonoidUp.TasteGate
 import BEDC.Derived.UnaryContinuationCategoryUp.TasteGate
 import BEDC.Derived.UnaryContinuationEndofunctorUp
 import BEDC.Derived.UnaryDirectionBridgeUp
