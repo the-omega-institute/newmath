@@ -162,6 +162,36 @@ theorem CriticalLineWitnessCarrier_zero_strip_carrier_totality {Z S M R Q H C P 
     ⟨unaryZ, unaryS, unaryM, unaryR, routeClosure.left, routeClosure.right.left,
       routeClosure.right.right.left, routeClosure.right.right.right, routeQ, routeC, routeN⟩
 
+theorem CriticalLineWitnessCarrier_fixed_strip_window_surface
+    {Z S M R Q H C P N stripRead refusalRead realWindow : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N -> Cont Z S stripRead ->
+      Cont N Q refusalRead -> Cont M R realWindow ->
+        UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+          UnaryHistory Q ∧ UnaryHistory stripRead ∧ UnaryHistory refusalRead ∧
+            UnaryHistory realWindow ∧ hsame H (append Z S) ∧ Cont Z S stripRead ∧
+              Cont N Q refusalRead ∧ Cont M R realWindow ∧ Cont M R Q ∧
+                Cont Q H C ∧ Cont C P N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro packet stripRoute refusalRoute realRoute
+  have routeClosure :
+      UnaryHistory Q ∧ UnaryHistory C ∧ UnaryHistory N ∧ hsame H (append Z S) :=
+    CriticalLineWitnessCarrier_modulus_route_closure packet
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have unaryN : UnaryHistory N :=
+    routeClosure.right.right.left
+  have unaryStrip : UnaryHistory stripRead :=
+    unary_cont_closed unaryZ unaryS stripRoute
+  have unaryRefusal : UnaryHistory refusalRead :=
+    unary_cont_closed unaryN unaryQ refusalRoute
+  have unaryReal : UnaryHistory realWindow :=
+    unary_cont_closed unaryM unaryR realRoute
+  exact
+    ⟨unaryZ, unaryS, unaryM, unaryR, unaryQ, unaryStrip, unaryRefusal, unaryReal,
+      sameH, stripRoute, refusalRoute, realRoute, routeQ, routeC, routeN⟩
+
 theorem CriticalLineWitnessCarrier_zero_strip_modulus_package_exhaustion
     {Z S M R Q H C P N zetaRead modulusRead downstream : BHist} :
     CriticalLineWitnessCarrier Z S M R Q H C P N ->
