@@ -169,6 +169,62 @@ shape and of the excluded quotient, host, limit, choice, completeness, or
 bridge coordinates.
 \end{proof}
 
+\begin{theorem}[StreamName public reindexing cancellation boundary]
+\label{thm:streamname-public-reindexing-cancellation-boundary}
+Let $R_0$ and $R_1$ be certified public $\StreamNameUp$ finite-window reindex
+routes displayed over a finite $\mathsf{ProbeBundle}$, and suppose both feed
+the same terminal Phase Real and Completion four-face route. Then any public
+distinction between $R_0$ and $R_1$ must appear in one of the displayed finite
+observation section rows:
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier},\quad
+\mathsf{ProbeBundle},\quad
+\mathsf{InBundle},\quad
+\mathsf{UnaryHistory},
+$$
+the pointwise $\RatUp$ classifier rows, the endpoint $\hsame$ rows, the
+displayed $\Cont$ routes, the $\Pkg$ provenance rows, or the local
+$\NameCert$ rows.
+
+If all those rows agree, then downstream $\RegSeqRatUp$ and $\RealUp$
+consumers receive the same terminal route through
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+The boundary contains no quotient stream equality, host sequence equality,
+selected limits, countable choice, ambient $\RealUp$ completeness, metric
+completeness, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:streamname-window-reindex-determinacy}. The finite
+window classifier, bundle membership, unary-history display, endpoint
+$\hsame$ data, displayed $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert$ rows are exactly the public rows from which a certified reindex
+packet is read.
+
+Next apply the identity and associativity laws,
+\autoref{thm:streamname-public-reindexing-identity-law} and
+\autoref{thm:streamname-public-reindexing-associative-law}. Identity legs and
+composite presentations cannot create an additional visible distinction
+beyond the same finite observation rows.
+
+Now use \autoref{thm:streamname-reindex-terminal-coverage}. Every certified
+public reindex route that reaches the terminal Phase Real and Completion
+surface is read through the four displayed faces
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, with no
+extra quotient, host, selector, choice, completeness, metric, or bridge
+coordinate.
+
+Finally apply
+\autoref{thm:streamname-public-reindexing-section-cancellation}. Once the
+listed finite rows agree, section cancellation identifies the terminal read of
+$R_0$ and $R_1$. The terminal four-face readback used by
+\autoref{thm:streamname-reindex-finite-cover-terminal-descent} then passes
+the same route to downstream $\RegSeqRatUp$ and $\RealUp$ consumers, so any
+remaining public distinction would have had to occur in the displayed finite
+rows already listed.
+\end{proof}
+
 \begin{theorem}[StreamName reindex finite-cover terminal descent]
 \label{thm:streamname-reindex-finite-cover-terminal-descent}
 Let $\{\mathcal W_i\}_{i\in I}$ be a finite family of certified public

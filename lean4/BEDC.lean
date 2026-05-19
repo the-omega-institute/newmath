@@ -443,6 +443,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.RouteProvenanceTriadObligations
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SevenRowCoverage
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SourceLock
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.StdBridge
+import BEDC.Derived.AxisZeckendorfCarryBudgetUp
 import BEDC.Derived.BHistArity13SequenceNameCertUp
 import BEDC.Derived.BHistArity13TupleNameCertUp
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
@@ -1162,6 +1163,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompilePublicPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompileRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftBudgetExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftLedgerExhaustion
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftSubstitutionLedgerLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstituteClosedTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionFreeVariableNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionLedgerExhaustion
@@ -1700,7 +1702,6 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootConsumerCoverage
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootConsumerNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootDependencyTriad
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalAuditHandoff
-import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalAuditSurface
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalKernelScope
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalLeanTargetBoundary
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalNonescape
@@ -2933,6 +2934,7 @@ import BEDC.Derived.MetricTriangleUniformEstimateUp.PublicUniformityCriterion
 import BEDC.Derived.MetricTriangleUniformEstimateUp.RadiusComposition
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedCenterTriangleComposition
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedModulusDomain
+import BEDC.Derived.MetricTriangleUniformEstimateUp.SourceTargetLock
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusBoundaryExactness
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusExactPackage
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusExport
@@ -4163,6 +4165,7 @@ import BEDC.Derived.TypeCheckingDerivationTraceUp
 import BEDC.Derived.TypeCheckingMembershipTraceUp
 import BEDC.Derived.TypeClassifierMembershipUp
 import BEDC.Derived.TypeClassifierRouteJoinUp.TasteGate
+import BEDC.Derived.TypeLevelSocketExposureUp
 import BEDC.Derived.TypePreservingCompilerUp
 import BEDC.Derived.TypedBetaCongruenceTriggerUp.TasteGate
 import BEDC.Derived.TypedFailureCertificateUp.TasteGate
@@ -4406,6 +4409,7 @@ import BEDC.Derived.ZnormalUp.CarryClassifierRow
 import BEDC.Derived.ZnormalUp.ClassifierTransport
 import BEDC.Derived.ZnormalUp.ConsumerDivergenceOracleNonescape
 import BEDC.Derived.ZnormalUp.DecisionRouteExhaustion
+import BEDC.Derived.ZnormalUp.DivergenceOracleExclusion
 import BEDC.Derived.ZnormalUp.DivergenceOracleNonescapeRow
 import BEDC.Derived.ZnormalUp.DownstreamConsumerBoundary
 import BEDC.Derived.ZnormalUp.DownstreamNormalFormReadiness
@@ -4413,6 +4417,7 @@ import BEDC.Derived.ZnormalUp.DownstreamReadinessObligationPackage
 import BEDC.Derived.ZnormalUp.FiniteFuelClassifierStability
 import BEDC.Derived.ZnormalUp.FiniteNormalwordClassifierCompatibility
 import BEDC.Derived.ZnormalUp.FuelReadbackTasteGateRoute
+import BEDC.Derived.ZnormalUp.FuelReplayClassifierRow
 import BEDC.Derived.ZnormalUp.FuelReplayNondivergenceBoundary
 import BEDC.Derived.ZnormalUp.HostConversionNonescape
 import BEDC.Derived.ZnormalUp.KernelSourceTotality
@@ -4420,6 +4425,7 @@ import BEDC.Derived.ZnormalUp.LedgerNonescape
 import BEDC.Derived.ZnormalUp.NamecertLedgerExhaustion
 import BEDC.Derived.ZnormalUp.NormalFormConsumerBoundary
 import BEDC.Derived.ZnormalUp.NormalFormReadinessSupportTotality
+import BEDC.Derived.ZnormalUp.NormalOutputRootNonescape
 import BEDC.Derived.ZnormalUp.NormalWordContinuationScopeLock
 import BEDC.Derived.ZnormalUp.ReadbackObligationTriad
 import BEDC.Derived.ZnormalUp.ReadinessBridgeSource
