@@ -59,6 +59,36 @@ coordinate, and no aggregate bridge coordinate, the local Lean-target and
 bridge-status rows remain attached to the faces from which they are read.
 \end{proof}
 
+\begin{theorem}[Real L10 face status-target pairing]
+\label{thm:real-l10-face-status-target-pairing}
+In any accepted Phase Real and Completion audit read through
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, each face's
+$\formalstatus$, $\leantarget$, and $\bridgestatus$ rows are read as one local
+face record. A status row from one face cannot be paired with the Lean target
+or bridge row of another face, and no aggregate route row can repair such a
+mismatch.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-current-phase-exit-audit-pullback}. The accepted
+audit is read as the product of the four local records carried by
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, not as a
+single route credential.
+
+Apply \autoref{thm:real-l10-face-status-noncollapse}. It keeps the
+$\formalstatus$ coordinate attached to the face whose closure record supplies
+it, so the status row cannot be detached and reused as a route-level token.
+
+Apply \autoref{thm:real-l10-face-leantarget-noncollapse}. It keeps the
+$\leantarget$ and $\bridgestatus$ coordinates attached to the same local face
+records and supplies no route-level target or aggregate bridge row.
+
+Finally read the three rows through
+\autoref{sec:roadmap-closure-and-verification-axes}. The roadmap discipline
+keeps verification status, Lean target, and bridge status as reported
+coordinates of the displayed face, so a mixed record using one face's status
+and another face's target or bridge row is outside the accepted audit read.
+\end{proof}
+
 \begin{theorem}[Real L10 face axis independence]
 \label{thm:real-l10-face-axis-independence}
 Any accepted Phase Real and Completion audit read through
