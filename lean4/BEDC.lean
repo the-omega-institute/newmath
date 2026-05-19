@@ -1173,6 +1173,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NameCertExportTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NormalizationFrontierHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRowDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorAuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompilePublicPackage
@@ -2269,6 +2270,7 @@ import BEDC.Derived.FiniteObservationLockUp.TasteGate
 import BEDC.Derived.FiniteObservationReflectionSealUp.TasteGate
 import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
+import BEDC.Derived.FinitePrefixAutomatonUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitBudgetUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitStabilityUp.LedgerExactness
 import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
@@ -3141,6 +3143,8 @@ import BEDC.Derived.ObserverBudgetSupportUp.Boundary
 import BEDC.Derived.ObserverBudgetSupportUp.BridgeSurface
 import BEDC.Derived.ObserverBudgetSupportUp.FieldFaithfulness
 import BEDC.Derived.ObserverBudgetSupportUp.NameCert
+import BEDC.Derived.ObserverBudgetSupportUp.ObligationClosurePackage
+import BEDC.Derived.ObserverBudgetSupportUp.PublicReadback
 import BEDC.Derived.ObserverBudgetSupportUp.RouteTotality
 import BEDC.Derived.ObserverBudgetSupportUp.TasteGate
 import BEDC.Derived.ObserverCoordinateFrameUp.TasteGate
@@ -3632,6 +3636,7 @@ import BEDC.Derived.RealWindowClassifierSealUp.TasteGate
 import BEDC.Derived.RealWindowSynchronizerUp.BudgetPullback
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.RealityConstrainedApproximationTowerUp.TasteGate
+import BEDC.Derived.RealityConstrainedExplanationUp.NameCert
 import BEDC.Derived.RealityConstrainedExplanationUp.TasteGate
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.TasteGate
 import BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
