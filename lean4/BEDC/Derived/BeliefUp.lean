@@ -319,4 +319,83 @@ theorem BeliefObservationUpdateCarrier_public_namecert_surface [AskSetup] [Packa
       exact rowPublic
   }
 
+theorem BeliefObservationUpdateCarrier_mature_consumer_exhaustion [AskSetup] [PackageSetup]
+    {prior observation updateTrace probability evidence posterior consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BeliefObservationUpdateCarrier (BeliefUp.mk prior observation updateTrace probability evidence)
+        posterior bundle pkg →
+      Cont evidence posterior consumer →
+        PkgSig bundle consumer pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row prior ∨ hsame row observation ∨ hsame row updateTrace ∨
+                  hsame row probability ∨ hsame row posterior ∨ hsame row evidence ∨
+                    hsame row consumer)
+              (fun row : BHist => hsame row consumer ∧ PkgSig bundle consumer pkg)
+              hsame ∧
+            UnaryHistory prior ∧ UnaryHistory observation ∧ UnaryHistory updateTrace ∧
+              UnaryHistory probability ∧ UnaryHistory posterior ∧ UnaryHistory evidence ∧
+                UnaryHistory consumer ∧ Cont prior observation updateTrace ∧
+                  Cont updateTrace probability posterior ∧ Cont evidence posterior consumer ∧
+                    PkgSig bundle evidence pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier evidencePosteriorConsumer consumerPkg
+  have posteriorUnary : UnaryHistory posterior :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have updateProbabilityUnary : UnaryHistory (append updateTrace probability) :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      (rfl : Cont updateTrace probability (append updateTrace probability))
+  have evidenceTailUnary :
+      UnaryHistory (append observation (append updateTrace probability)) :=
+    unary_cont_closed carrier.right.left updateProbabilityUnary
+      (rfl : Cont observation (append updateTrace probability)
+        (append observation (append updateTrace probability)))
+  have evidenceUnary : UnaryHistory evidence :=
+    unary_cont_closed carrier.left evidenceTailUnary
+      carrier.right.right.right.right.right.right.left
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed evidenceUnary posteriorUnary evidencePosteriorConsumer
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row prior ∨ hsame row observation ∨ hsame row updateTrace ∨
+              hsame row probability ∨ hsame row posterior ∨ hsame row evidence ∨
+                hsame row consumer)
+          (fun row : BHist => hsame row consumer ∧ PkgSig bundle consumer pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro consumer
+        ⟨hsame_refl consumer, consumerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, consumerPkg⟩
+  }
+  exact
+    ⟨cert, carrier.left, carrier.right.left, carrier.right.right.left,
+      carrier.right.right.right.left, posteriorUnary, evidenceUnary, consumerUnary,
+      carrier.right.right.right.right.left, carrier.right.right.right.right.right.left,
+      evidencePosteriorConsumer, carrier.right.right.right.right.right.right.right,
+      consumerPkg⟩
+
 end BEDC.Derived.BeliefUp
