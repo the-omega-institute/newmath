@@ -178,6 +178,42 @@ The same obstruction excludes replacements. The factorization theorem has no coo
 For sufficiency, assume the four local status records and the RegSeqRat four-face exit-threshold equivalence on the same finite source $\mathcal R$. Apply \autoref{thm:regseqrat-four-face-audit-threshold-factorization} in the reverse direction. The supplied local status rows give exactly the status side of the factorization, and the supplied exit-threshold equivalence gives the threshold side. Hence $\mathcal R$ satisfies the current Phase $\RealUp$ and Completion audit-threshold read.
 \end{proof}
 
+\begin{theorem}[RegSeqRat audit-threshold status pullback square]
+\label{thm:regseqrat-audit-threshold-status-pullback-square}
+Let $\mathcal R$ be a finite $\RegSeqRatUp$ terminal source record whose visible faces are
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+and whose support rows are only
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Read from the four faces the local $\mathsf{closurestatus}$, $\mathsf{formalstatus}$, $\mathsf{leantarget}$, and $\mathsf{bridgestatus}$ rows. Then the square
+$$
+\begin{array}{ccc}
+\mathsf{FaceStatus}(\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp)
+& \longrightarrow &
+\mathsf{RealL10TerminalPullback} \\
+\downarrow & & \downarrow \\
+\mathsf{RegSeqRatFourFaceExitThreshold}
+& \longrightarrow &
+\mathsf{BEDCVisibleStatusInterface}(\mathcal R)
+\end{array}
+$$
+commutes: reading the four local status records and then applying the $\RealUp$ L10 terminal pullback gives the same BEDC-visible status interface as first applying the RegSeqRat four-face exit-threshold equivalence and then reading the face records objectwise.
+
+The commutative square is exactly objectwise over the four displayed faces. It excludes quotient streams, selected limits, host real equality, countable choice, metric-completeness rows, aggregate $\formalstatus$ rows, aggregate bridge rows, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-four-face-audit-threshold-factorization}. The audit read on $\mathcal R$ is identified with the RegSeqRat four-face exit-threshold equivalence together with the local status records on $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Next use \autoref{thm:regseqrat-audit-threshold-face-status-minimality}. The only status records available to the audit threshold are the four local $\mathsf{closurestatus}$, $\mathsf{formalstatus}$, $\mathsf{leantarget}$, and $\mathsf{bridgestatus}$ rows, so the upper-left corner of the displayed square has no aggregate status or bridge coordinate.
+
+The vertical attachment is objectwise. By \autoref{thm:regseqrat-common-tail-face-status-objectwise-pullback}, each RegSeqRat common-tail status row remains attached to its own face chapter. By \autoref{thm:streamname-four-face-audit-clean-threshold-readback}, the StreamName audit-clean threshold is read back from the same four visible faces rather than from a route-level row.
+
+Finally apply \autoref{thm:real-l10-current-phase-exit-audit-pullback} and \autoref{thm:real-l10-terminal-pullback-uniqueness}. Both paths in the square pass through the same four-face terminal packet, so the resulting BEDC-visible status interface on $\mathcal R$ is unique. Since none of the cited pullbacks supplies quotient streams, selected limits, host real equality, countable choice, metric-completeness rows, aggregate $\formalstatus$ rows, aggregate bridge rows, or ambient $\RealUp$ completeness, those coordinates are outside the square.
+\end{proof}
+
 \begin{theorem}[RegSeqRat audit-threshold determinacy]
 \label{thm:regseqrat-audit-threshold-determinacy}
 Let $\mathcal R_0$ and $\mathcal R_1$ be finite $\RegSeqRatUp$ terminal source records. Suppose both records expose the same four visible face rows
