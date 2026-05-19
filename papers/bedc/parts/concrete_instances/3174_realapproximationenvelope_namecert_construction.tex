@@ -41,6 +41,65 @@ The classifier side routes the same finite read through $R$ and then to the seal
 No remaining coordinate can supply host real equality, quotient stream equality, selected limits, completed-real inverse laws, or ambient completeness. The obligations therefore exhaust the finite Real-and-Completion observation envelope.
 \end{proof}
 
+\begin{theorem}[Real approximation-envelope tolerance-window admission]
+\label{thm:real-approximation-envelope-tolerance-window-admission}
+Let
+$$
+E=(\varepsilon,W,D,R,S,H,C,P,N)
+$$
+be an accepted $\RealApproximationEnvelopeUp$ carrier. Each accepted tolerance request in the row $\varepsilon$ reaches the selected $\StreamNameUp$ finite window $W$ through the same finite support rows $H,C,P,N$, and the admission path uses no stream coordinate outside the window row displayed in $E$.
+\end{theorem}
+\begin{proof}
+Project the rows of $E$ from \autoref{def:real-approximation-envelope-carrier}. The row $\varepsilon$ stores the tolerance request, $W$ stores the selected $\StreamNameUp$ finite window, $H$ stores the componentwise $\hsame$ transport, $C$ stores the displayed $\Cont$ route, $P$ stores the $\Pkg$ provenance, and $N$ stores the local $\NameCert$ row.
+
+Apply \autoref{thm:real-approximation-envelope-namecert-obligations}. Its first two obligations admit the tolerance request and then the selected finite window for the same local packet, while the transport, route, provenance, and naming obligations keep the path inside $H,C,P,N$.
+
+Since the carrier lists no second stream read and no ambient stream equality, the admitted tolerance request can reach a consumer-visible stream observation only through $W$. Thus every accepted tolerance request reaches the selected finite window through the displayed rows $\varepsilon,W,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Real approximation-envelope dyadic observation soundness]
+\label{thm:real-approximation-envelope-dyadic-observation-soundness}
+Let
+$$
+E=(\varepsilon,W,D,R,S,H,C,P,N)
+$$
+be an accepted $\RealApproximationEnvelopeUp$ carrier. The selected finite window $W$ determines the $\DyadicRatCoreUp$ observation row $D$ and the $\RegSeqRatUp$ classifier row $R$ along the displayed route
+$$
+\begin{aligned}
+W &\longrightarrow D,\\
+D &\longrightarrow R.
+\end{aligned}
+$$
+The determination is internal to the support rows $H,C,P,N$ and does not use quotient stream equality, host real equality, or a selected limit.
+\end{theorem}
+\begin{proof}
+Start with the window admission theorem \autoref{thm:real-approximation-envelope-tolerance-window-admission}. It places the accepted tolerance request at the selected $\StreamNameUp$ row $W$ through the local support rows of the envelope.
+
+The NameCert obligations of \autoref{thm:real-approximation-envelope-namecert-obligations} then admit the $\DyadicRatCoreUp$ observation row $D$ and the $\RegSeqRatUp$ classifier row $R$ for the same packet. The continuation ledger $C$ records the route from $W$ to $D$ and from $D$ to $R$, while $H,P,N$ keep the route attached to the same finite carrier.
+
+No coordinate of \autoref{def:real-approximation-envelope-carrier} records quotient stream equality, host real equality, or a selected limit. The dyadic observation and classifier row are therefore sound exactly as the displayed $W$ to $D$ to $R$ observation route.
+\end{proof}
+
+\begin{theorem}[Real approximation-envelope seal ledger exactness]
+\label{thm:real-approximation-envelope-seal-ledger-exactness}
+Let
+$$
+E=(\varepsilon,W,D,R,S,H,C,P,N)
+$$
+be an accepted $\RealApproximationEnvelopeUp$ carrier. The $\RealUp$ seal row $S$ is admissible exactly as the downstream ledger endpoint of the finite route
+$$
+\varepsilon \longrightarrow W \longrightarrow D \longrightarrow R \longrightarrow S
+$$
+with support rows $H,C,P,N$. It exports no host real equality, quotient stream equality, selected limit, completed-real inverse law, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-approximation-envelope-tolerance-window-admission} and \autoref{thm:real-approximation-envelope-dyadic-observation-soundness}. These identify the admitted route from the tolerance request $\varepsilon$ through the selected window $W$, the $\DyadicRatCoreUp$ observation row $D$, and the $\RegSeqRatUp$ classifier row $R$.
+
+Apply \autoref{thm:real-approximation-envelope-namecert-obligations} to the downstream row. It admits the $\RealUp$ seal handoff and records, through $C$, that the seal is reached after the classifier row for the same carrier, with $H,P,N$ preserving transport, provenance, and local naming.
+
+The carrier definition lists the seal as a row of the finite packet rather than as a completed real value or an ambient equality principle. Since the negative boundary excludes host real equality, quotient stream equality, selected limits, completed-real inverse laws, and ambient completeness, the row $S$ is exact only as the endpoint of the displayed finite ledger.
+\end{proof}
+
 \begin{theorem}[Real approximation-envelope consumer boundary]
 \label{thm:real-approximation-envelope-consumer-boundary}
 Every diagonal-representative, stationary rational finite-window, Cauchy-modulus, or $\RealUp$ classifier consumer of an accepted $\RealApproximationEnvelopeUp$ packet must read the rows
