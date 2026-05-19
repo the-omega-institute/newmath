@@ -180,6 +180,26 @@ Without the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support,
 Conversely, when all five sites are present over the same displayed packet, \autoref{thm:dyadicratcore-real-completion-obstruction-ledger} removes every finite obstruction listed in the classification, and \autoref{thm:dyadicratcore-finite-request-real-seal-uniqueness} gives one finite request route through the displayed faces. Hence none of the five sites is replaceable by the other four, and together they are sufficient for the finite exit route claimed here.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore finite-tail obstruction classifier determinacy]
+\label{thm:dyadicratcore-finite-tail-obstruction-classifier-determinacy}
+Let two current Phase Real and Completion exit reads have first visible face a finite-tail $\DyadicRatCoreUp$ scale-window packet. Suppose the two reads expose the same terminal $\DyadicRatCoreUp$ packet, the same induced $\StreamNameUp$ finite-window face, the same $\RegSeqRatUp$ finite-request section, the same local $\RealUp$ seal-facing section, and the same transported $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows over those four faces. Then the two obstruction classifiers agree exactly when the two reads fail at the same one of the five finite sites listed in \autoref{thm:dyadicratcore-real-completion-obstruction-ledger} over that shared support surface.
+
+The classifier comparison is only the finite BEDC comparison attached to
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+It excludes quotient rational equality, quotient stream equality, selected limits, countable choice, metric-completeness rows, aggregate formalstatus rows, aggregate bridge rows, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the obstruction ledger, \autoref{thm:dyadicratcore-real-completion-obstruction-ledger}, to each failed read. Each read is classified by exactly one displayed finite site: the dyadic source and transport row, the $\StreamNameUp$ finite-window face, the $\RegSeqRatUp$ finite-request section, the local $\RealUp$ seal, or the transported support rows.
+
+Now compare the two ledger classifications over the shared four-face support. If the classifiers agree while the sites differed, one of the five sites would be replaceable by the other four together with a different failed site. This contradicts finite-tail obstruction minimality, \autoref{thm:dyadicratcore-finite-tail-obstruction-minimality}, which makes each listed site independently necessary.
+
+For the reverse direction, assume the two reads fail at the same listed finite site over the same $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. Replay the local blocking theorem for that site on both reads: the DyadicRatCore handoff block for source and transport defects, the StreamName localization block for finite-window defects, the RegSeqRat boundary block for finite-request defects, the Real L10 determinacy block for local seal defects, and the support-transport block for shared row defects.
+
+The same local blocking theorem reads the same failed coordinate in both presentations, so the obstruction classifiers agree. The nonescape clauses of the ledger and minimality theorem keep the result finite: it is a BEDC classifier determinacy statement, not a quotient-equality, selected-limit, choice, bridge, or completeness theorem.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore finite-tail exit-certificate equivalence]
 \label{thm:dyadicratcore-finite-tail-exit-certificate-equivalence}
 Let a current Phase Real and Completion exit read have first visible face a finite-tail $\DyadicRatCoreUp$ scale-window packet. Then the read satisfies the objectwise exit certificate exactly when the five finite sites of \autoref{thm:dyadicratcore-real-completion-obstruction-ledger} are present over the same four-face packet
@@ -205,4 +225,24 @@ Apply the Real L10 current-phase exit local threshold theorem, \autoref{thm:real
 Minimality comes from \autoref{thm:dyadicratcore-finite-tail-obstruction-minimality}. Removing any one of the five finite sites leaves a ledger obstruction that the other four sites cannot replace, so the equivalence cannot be shortened by substituting a different face or support coordinate.
 
 Finally, the Real L10 threshold theorem keeps the closure and verification axes facewise, and the DyadicRatCore nonescape clauses keep the route finite. Hence the accepted roadmap exit read is exactly the stated four-face certificate, with no quotient stream, selected limit, countable-choice selector, metric-completeness datum, aggregate formalstatus row, aggregate bridge row, or $\RealUp$ completeness coordinate.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore finite-tail exit-certificate refinement invariance]
+\label{thm:dyadicratcore-finite-tail-exit-certificate-refinement-invariance}
+Let $\mathcal E$ and $\mathcal E'$ be current Phase Real and Completion exit reads whose first visible face is a finite-tail $\DyadicRatCoreUp$ scale-window packet. Suppose $\rho : \mathcal E \to \mathcal E'$ is a certified finite refinement whose visible action preserves the four displayed faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$, and preserves the displayed support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Then $\mathcal E$ and $\mathcal E'$ determine the same objectwise exit certificate of \autoref{thm:dyadicratcore-finite-tail-exit-certificate-equivalence}.
+
+Conversely, if the objectwise exit certificates determined by $\mathcal E$ and $\mathcal E'$ are equal, then on the displayed four-face section this equality recovers only a certified finite refinement preserving the four displayed faces and the displayed support rows above. It recovers no quotient stream equality, selected limit, host rational equality, host real equality, countable-choice selector, ambient completion row, metric-completeness row, aggregate formalstatus row, aggregate bridge row, standard bridge row, or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+For invariance under a certified finite refinement, read both exit reads through \autoref{thm:dyadicratcore-finite-tail-exit-certificate-equivalence}. The certificate is exactly the finite-tail $\DyadicRatCoreUp$ source and transport row, the induced $\StreamNameUp$ finite-window face, the $\RegSeqRatUp$ finite-request section, the local $\RealUp$ seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support over one four-face packet.
+
+Apply the StreamName terminal pullback, \autoref{thm:streamname-real-completion-four-object-terminal-pullback}. Since $\rho$ preserves the four displayed faces and the support rows, the two reads factor through the same terminal finite pullback rather than through two independently chosen completion surfaces.
+
+Now apply Real L10 refinement functoriality, \autoref{thm:real-l10-exit-certificate-refinement-functoriality}. It transports the current Phase Real and Completion certificate across exactly such a support-row-preserving finite refinement. The local threshold theorem, \autoref{thm:real-l10-current-phase-exit-local-threshold}, identifies the transported certificate as the objectwise product of the same four local threshold records and the same displayed support rows.
+
+For the converse, assume the two objectwise exit certificates are equal. By \autoref{thm:dyadicratcore-finite-tail-exit-certificate-equivalence}, equality of certificates identifies precisely the five finite sites listed in the DyadicRatCore obstruction ledger: the dyadic source and transport row, the StreamName finite-window face, the RegSeqRat finite-request section, the local Real seal, and the displayed support rows.
+
+Use obstruction minimality, \autoref{thm:dyadicratcore-finite-tail-obstruction-minimality}. None of those five sites can be replaced by the other four, so the equality cannot recover a hidden quotient stream, selected limit, host equality, choice row, completion row, bridge row, or Real-completeness coordinate. The only recoverable comparison is the finite support-row-preserving refinement on the displayed four-face section.
+
+Finally, the Real local threshold and the StreamName terminal pullback keep the recovered comparison inside the same finite terminal packet. Therefore finite refinements preserving the displayed faces and support rows are exactly the presentation changes under which the DyadicRatCore finite-tail exit certificate remains invariant.
 \end{proof}

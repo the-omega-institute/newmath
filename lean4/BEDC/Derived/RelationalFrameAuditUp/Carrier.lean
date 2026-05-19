@@ -232,4 +232,27 @@ theorem RelationalFrameAuditLayeredRelationCert_finite_relation_exactness [AskSe
   }
   exact ⟨cert, exactReadUnary, refusedReadUnary⟩
 
+theorem RelationalFrameAuditCarrier_no_global_frame_refusal [AskSetup] [PackageSetup]
+    {multiHist observerA observerB request symmetry causal rate refusal transport continuation
+      provenance name refusedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RelationalFrameAuditCarrier multiHist observerA observerB request symmetry causal rate
+        refusal transport continuation provenance name bundle pkg →
+      Cont request refusal refusedRead →
+        PkgSig bundle refusedRead pkg →
+          UnaryHistory request ∧ UnaryHistory refusal ∧ UnaryHistory refusedRead ∧
+            Cont request refusal refusedRead ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle refusedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier refusalRoute refusedReadPkg
+  obtain ⟨_multiHistUnary, _observerAUnary, _observerBUnary, requestUnary, _symmetryUnary,
+    _causalUnary, _rateUnary, refusalUnary, _transportUnary, _continuationUnary,
+    _provenanceUnary, _nameUnary, _multiHistRoute, _requestRoute, _carrierRateRoute,
+    _provenanceRoute, provenancePkg, _semanticCert⟩ := carrier
+  have refusedReadUnary : UnaryHistory refusedRead :=
+    unary_cont_closed requestUnary refusalUnary refusalRoute
+  exact
+    ⟨requestUnary, refusalUnary, refusedReadUnary, refusalRoute, provenancePkg,
+      refusedReadPkg⟩
+
 end BEDC.Derived.RelationalFrameAuditUp
