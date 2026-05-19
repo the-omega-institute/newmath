@@ -193,6 +193,32 @@ theorem RealApproximationEnvelope_dyadic_observation_soundness [AskSetup] [Packa
     ⟨windowReadUnary, dyadicReadUnary, classifierReadUnary, toleranceWindowRead,
       windowDyadicRead, dyadicClassifierRead, provenancePkg, classifierReadPkg⟩
 
+theorem RealApproximationEnvelopeDyadicClassifierHandoff [AskSetup] [PackageSetup]
+    {tolerance window dyadic classifier sealRow transport route provenance name sealRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealApproximationEnvelopeCarrier tolerance window dyadic classifier sealRow transport
+        route provenance name bundle pkg →
+      Cont classifier sealRow sealRead →
+        PkgSig bundle sealRead pkg →
+          UnaryHistory tolerance ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+            UnaryHistory classifier ∧ UnaryHistory sealRow ∧ UnaryHistory sealRead ∧
+              Cont tolerance window route ∧ Cont window dyadic classifier ∧
+                Cont classifier sealRow sealRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle name pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier classifierSealRead sealReadPkg
+  obtain ⟨toleranceUnary, windowUnary, dyadicUnary, classifierUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, toleranceWindowRoute,
+    windowDyadicClassifier, _classifierSealTransport, provenancePkg, namePkg⟩ :=
+    carrier
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed classifierUnary sealUnary classifierSealRead
+  exact
+    ⟨toleranceUnary, windowUnary, dyadicUnary, classifierUnary, sealUnary,
+      sealReadUnary, toleranceWindowRoute, windowDyadicClassifier, classifierSealRead,
+      provenancePkg, namePkg, sealReadPkg⟩
+
 theorem RealApproximationEnvelope_window_classifier_exactness [AskSetup] [PackageSetup]
     {tolerance window dyadic classifier sealRow transport route provenance name classifierRead
       sealRead : BHist}

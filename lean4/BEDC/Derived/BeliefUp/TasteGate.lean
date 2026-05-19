@@ -150,16 +150,35 @@ theorem belief_round_trip :
 
 theorem beliefToEventFlow_injective {x y : BeliefUp} :
     beliefToEventFlow x = beliefToEventFlow y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread : beliefFromEventFlow (beliefToEventFlow x) = beliefFromEventFlow (beliefToEventFlow y) :=
     congrArg beliefFromEventFlow heq
   exact Option.some.inj (Eq.trans (belief_round_trip x).symm (Eq.trans hread (belief_round_trip y)))
 
+def beliefFields : BeliefUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | BeliefUp.mk prior observation updateTrace probability evidence =>
+      [prior, observation, updateTrace, probability, evidence]
+
+private theorem belief_field_faithful :
+    ∀ x y : BeliefUp, beliefFields x = beliefFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk prior₁ observation₁ updateTrace₁ probability₁ evidence₁ =>
+      cases y with
+      | mk prior₂ observation₂ updateTrace₂ probability₂ evidence₂ =>
+          cases h
+          rfl
+
 instance beliefBHistCarrier : BHistCarrier BeliefUp where
+  -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := beliefToEventFlow
   fromEventFlow := beliefFromEventFlow
 
 instance beliefChapterTasteGate : ChapterTasteGate BeliefUp where
+  -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change beliefFromEventFlow (beliefToEventFlow x) = some x
@@ -168,10 +187,16 @@ instance beliefChapterTasteGate : ChapterTasteGate BeliefUp where
     intro x y hxy heq
     exact hxy (beliefToEventFlow_injective heq)
 
+instance beliefFieldFaithful : FieldFaithful BeliefUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := beliefFields
+  field_faithful := belief_field_faithful
+
 theorem BeliefTasteGate_carrier_recognition :
     (forall x : BeliefUp, beliefFromEventFlow (BHistCarrier.toEventFlow x) = some x) ∧
       (forall x y : BeliefUp,
         BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y → x = y) := by
+  -- BEDC touchpoint anchor: BHist BMark
   constructor
   · intro x
     change beliefFromEventFlow (beliefToEventFlow x) = some x
@@ -181,6 +206,8 @@ theorem BeliefTasteGate_carrier_recognition :
 
 /-- Public alias matching the audit-gate marker
 `BEDC.Derived.BeliefUp.taste_gate`. -/
-def taste_gate : ChapterTasteGate BeliefUp := beliefChapterTasteGate
+def taste_gate : ChapterTasteGate BeliefUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  beliefChapterTasteGate
 
 end BEDC.Derived.BeliefUp
