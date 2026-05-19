@@ -304,4 +304,15 @@ theorem OpenFitPacketFiniteRefutationSurface (x : OpenFitPacketUp) :
   | mk H Pi S M F E L B N =>
       exact ⟨H, Pi, S, M, F, E, L, B, N, rfl, rfl, rfl⟩
 
+theorem OpenFitPacketUp_StdBridge (x : OpenFitPacketUp) :
+    ∃ H Pi S M F E L B N : BHist,
+      x = OpenFitPacketUp.mk H Pi S M F E L B N ∧
+        openFitPacketFieldFaithful.fields x = [H, Pi, S, M, F, E, L, B, N] ∧
+          openFitPacketBHistCarrier.toEventFlow x =
+            OpenFitPacketTasteGate_single_carrier_alignment_toEventFlow x := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  cases x with
+  | mk H Pi S M F E L B N =>
+      exact ⟨H, Pi, S, M, F, E, L, B, N, rfl, rfl, rfl⟩
+
 end BEDC.Derived.OpenFitPacketUp
