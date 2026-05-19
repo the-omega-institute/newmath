@@ -2,6 +2,7 @@ import BEDC.Derived.AxisZeckendorf.Carry
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 
 namespace BEDC.Derived.ZeckendorfCarryNormalizationUp
@@ -10,6 +11,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.Derived.AxisZeckendorf.Carry
 open BEDC.Derived.AxisZeckendorf.Zeckendorf
@@ -121,5 +123,122 @@ theorem ZeckendorfCarryNormalizationCarrier_source_target_totality [AskSetup] [P
     ⟨sourceTargetCarry, sourceNotNormal, targetNormal, sourceNotTarget, sourceTargetRoute,
       sourceCarryRead, targetCarryRead, provenancePkg, namePkg, sourceReadPkg,
       targetReadPkg⟩
+
+theorem ZeckendorfCarryNormalizationCarrier_source_target_window_totality [AskSetup]
+    [PackageSetup] {source target carryRoute valueLedger boundary routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZeckendorfCarryNormalizationCarrier source target carryRoute valueLedger boundary routes
+        provenance name bundle pkg →
+      source = word_011 ∧ target = word_100 ∧ ZCarry source target ∧ ZNormal target ∧
+        ¬ ZNormal source ∧ ¬ hsame source target ∧ Cont source target carryRoute ∧
+          Cont carryRoute valueLedger routes ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame PkgSig ZCarry ZNormal
+  intro carrier
+  obtain ⟨sourceTargetCarry, targetNormal, sourceNotNormal, sourceNotTarget,
+    sourceTargetRoute, carryLedgerRoute, provenancePkg, namePkg⟩ := carrier
+  obtain ⟨sourceWindow, targetWindow, _sourceWindowNotNormal, _targetWindowNormal,
+    _sourceWindowNotTarget⟩ := ZCarry_window_determinacy sourceTargetCarry
+  exact
+    ⟨sourceWindow, targetWindow, sourceTargetCarry, targetNormal, sourceNotNormal,
+      sourceNotTarget, sourceTargetRoute, carryLedgerRoute, provenancePkg, namePkg⟩
+
+theorem ZeckendorfCarryNormalizationCarrier_local_name_window_exhaustion [AskSetup]
+    [PackageSetup] {source target carryRoute valueLedger boundary routes provenance name
+      nameRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZeckendorfCarryNormalizationCarrier source target carryRoute valueLedger boundary routes
+        provenance name bundle pkg →
+      Cont provenance name nameRead →
+        PkgSig bundle nameRead pkg →
+          source = word_011 ∧ target = word_100 ∧ ZCarry source target ∧
+            ZNormal target ∧ ¬ ZNormal source ∧ ¬ hsame source target ∧
+              Cont provenance name nameRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle name pkg ∧ PkgSig bundle nameRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame PkgSig ZCarry ZNormal
+  intro carrier provenanceNameRead nameReadPkg
+  obtain ⟨sourceTargetCarry, targetNormal, sourceNotNormal, sourceNotTarget,
+    _sourceTargetRoute, _carryLedgerRoute, provenancePkg, namePkg⟩ := carrier
+  obtain ⟨sourceWindow, targetWindow, _sourceWindowNotNormal, _targetWindowNormal,
+    _sourceWindowNotTarget⟩ := ZCarry_window_determinacy sourceTargetCarry
+  exact
+    ⟨sourceWindow, targetWindow, sourceTargetCarry, targetNormal, sourceNotNormal,
+      sourceNotTarget, provenanceNameRead, provenancePkg, namePkg, nameReadPkg⟩
+
+theorem ZeckendorfCarryNormalizationCarrier_local_naming_exhaustion [AskSetup] [PackageSetup]
+    {source target carryRoute valueLedger boundary routes provenance name nameRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZeckendorfCarryNormalizationCarrier source target carryRoute valueLedger boundary routes
+        provenance name bundle pkg ->
+      Cont provenance name nameRead ->
+        PkgSig bundle nameRead pkg ->
+          SemanticNameCert
+              (fun row : BHist =>
+                ZeckendorfCarryNormalizationCarrier source target carryRoute valueLedger boundary
+                    routes provenance name bundle pkg /\ hsame row name)
+              (fun row : BHist =>
+                hsame row source \/ hsame row target \/ hsame row carryRoute \/
+                  hsame row valueLedger \/ hsame row boundary \/ hsame row routes \/
+                    hsame row provenance \/ hsame row name \/ hsame row nameRead)
+              (fun row : BHist =>
+                PkgSig bundle provenance pkg /\ PkgSig bundle name pkg /\
+                  PkgSig bundle nameRead pkg /\ hsame row name)
+              hsame /\
+            ZCarry source target /\ ZNormal target /\ ¬ ZNormal source /\
+              ¬ hsame source target /\ Cont source target carryRoute /\
+                Cont carryRoute valueLedger routes /\ Cont provenance name nameRead /\
+                  PkgSig bundle provenance pkg /\ PkgSig bundle name pkg /\
+                    PkgSig bundle nameRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert Cont hsame
+  intro carrier provenanceNameRead nameReadPkg
+  have carrierRows :
+      ZeckendorfCarryNormalizationCarrier source target carryRoute valueLedger boundary routes
+        provenance name bundle pkg :=
+    carrier
+  obtain ⟨sourceTargetCarry, targetNormal, sourceNotNormal, sourceNotTarget,
+    sourceTargetRoute, carryLedgerRoute, provenancePkg, namePkg⟩ := carrier
+  have sourceName :
+      ZeckendorfCarryNormalizationCarrier source target carryRoute valueLedger boundary routes
+          provenance name bundle pkg /\ hsame name name :=
+    ⟨carrierRows, hsame_refl name⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            ZeckendorfCarryNormalizationCarrier source target carryRoute valueLedger boundary
+                routes provenance name bundle pkg /\ hsame row name)
+          (fun row : BHist =>
+            hsame row source \/ hsame row target \/ hsame row carryRoute \/
+              hsame row valueLedger \/ hsame row boundary \/ hsame row routes \/
+                hsame row provenance \/ hsame row name \/ hsame row nameRead)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg /\ PkgSig bundle name pkg /\
+              PkgSig bundle nameRead pkg /\ hsame row name)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro name sourceName
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' same sourceSpec
+        exact ⟨sourceSpec.left, hsame_trans (hsame_symm same) sourceSpec.right⟩
+    }
+    pattern_sound := by
+      intro row sourceSpec
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inl sourceSpec.right)))))))
+    ledger_sound := by
+      intro _row sourceSpec
+      exact ⟨provenancePkg, namePkg, nameReadPkg, sourceSpec.right⟩
+  }
+  exact
+    ⟨cert, sourceTargetCarry, targetNormal, sourceNotNormal, sourceNotTarget,
+      sourceTargetRoute, carryLedgerRoute, provenanceNameRead, provenancePkg, namePkg,
+      nameReadPkg⟩
 
 end BEDC.Derived.ZeckendorfCarryNormalizationUp

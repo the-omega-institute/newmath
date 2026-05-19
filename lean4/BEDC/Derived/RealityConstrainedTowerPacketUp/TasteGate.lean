@@ -324,3 +324,11 @@ theorem RealityConstrainedTowerPacketNameCertBoundary
   · rfl
 
 end BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
+
+namespace BEDC.Derived.RealityConstrainedTowerPacketUp
+
+def taste_gate :
+    BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.RealityConstrainedTowerPacketUp :=
+  TasteGate.taste_gate
+
+end BEDC.Derived.RealityConstrainedTowerPacketUp
