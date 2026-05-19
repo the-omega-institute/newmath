@@ -499,6 +499,7 @@ import BEDC.Derived.BinderBudgetSealUp.SubstitutionNonescape
 import BEDC.Derived.BinderBudgetSealUp.TasteGate
 import BEDC.Derived.BinderBudgetSealUp.TasteGateCarrierGrounding
 import BEDC.Derived.BinderContextSubstitutionSealUp
+import BEDC.Derived.BinderContextSubstitutionSealUp.CompilerHandoff
 import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BoolUp
@@ -1147,7 +1148,6 @@ import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.ClosedSubstrateQuadrantUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
-import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditBoundaryFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRouteCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuthorizedRecursorAuditRoute
@@ -2945,6 +2945,7 @@ import BEDC.Derived.MetricTriangleUniformEstimateUp.FiniteRouteNonescape
 import BEDC.Derived.MetricTriangleUniformEstimateUp.NoCompletionEscape
 import BEDC.Derived.MetricTriangleUniformEstimateUp.PublicUniformityCriterion
 import BEDC.Derived.MetricTriangleUniformEstimateUp.RadiusComposition
+import BEDC.Derived.MetricTriangleUniformEstimateUp.RootUnblockCertificateSpine
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedCenterTriangleComposition
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedModulusDomain
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SourceTargetLock
@@ -3485,7 +3486,6 @@ import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalSealDeterminacy
 import BEDC.Derived.RealCompletionRouteAuditUp.TasteGate
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealCompletionSelectorSealUp
-import BEDC.Derived.RealCompletionSelectorSealUp.RouteDeterminacy
 import BEDC.Derived.RealCompletionSelectorSealUp.TasteGate
 import BEDC.Derived.RealCompletionWitnessExtractorUp
 import BEDC.Derived.RealDiagonalCompletionUp
@@ -4387,6 +4387,7 @@ import BEDC.Derived.ZeckendorfCarryValueUp.TasteGate
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.ZetaBasicUp
+import BEDC.Derived.ZetaContinuationApplicationUp.BoundaryExhaustion
 import BEDC.Derived.ZetaContinuationApplicationUp.EtaFactorization
 import BEDC.Derived.ZetaContinuationApplicationUp.FunctionalRowTotality
 import BEDC.Derived.ZetaContinuationApplicationUp.GammaHorizonBoundary
@@ -4426,6 +4427,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.RootReadinessSourceSeal
 import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroFacingFormalSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockCoverage
+import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockTriad
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerSourceReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingPublicFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingSourceAccountability
@@ -4489,6 +4491,7 @@ import BEDC.Derived.ZnormalUp.RootTerminalCarrierAdmission
 import BEDC.Derived.ZnormalUp.RootTerminalNonescapeInterface
 import BEDC.Derived.ZnormalUp.RootTerminalNormalityExposure
 import BEDC.Derived.ZnormalUp.RootTerminalReadbackLedgerTotality
+import BEDC.Derived.ZnormalUp.RootTerminalRouteHostTailExclusion
 import BEDC.Derived.ZnormalUp.RootTotalHostBridgeComponents
 import BEDC.Derived.ZnormalUp.RootTotalHostConsumerReadbackLock
 import BEDC.Derived.ZnormalUp.RootTotalHostFuelFrontier
