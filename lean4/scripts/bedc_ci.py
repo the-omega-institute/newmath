@@ -70,6 +70,7 @@ CLOSURESTATUS_BLOCK_RE = re.compile(
     r"\\begin\{closurestatus\}.*?\\end\{closurestatus\}",
     re.DOTALL,
 )
+TOP_LEVEL_ORIGIN_RE = re.compile(r"^\s*\\origin\{([^}]*)\}\s*$", re.MULTILINE)
 VALID_ORIGINS = {"human", "ai", "ai-composite"}
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
@@ -655,11 +656,23 @@ def detect_concrete_instance_missing_origin() -> list[dict[str, object]]:
             continue
         if is_concrete_instance_hub_only(text):
             continue
-        chapter_text = CLOSURESTATUS_BLOCK_RE.sub("", text)
-        origins = [
-            match.group(1).strip()
-            for match in ORIGIN_TAG_RE.finditer(chapter_text)
-        ]
+        has_structural_origin_surface = (
+            CLOSURESTATUS_BLOCK_RE.search(text) is not None
+            or TOP_LEVEL_ORIGIN_RE.search(text) is not None
+        )
+        if not has_structural_origin_surface:
+            continue
+        origins = []
+        for block in CLOSURESTATUS_BLOCK_RE.finditer(text):
+            origins.extend(
+                match.group(1).strip()
+                for match in ORIGIN_TAG_RE.finditer(block.group(0))
+            )
+        if not origins:
+            origins = [
+                match.group(1).strip()
+                for match in TOP_LEVEL_ORIGIN_RE.finditer(text)
+            ]
         kind = ""
         if not origins:
             kind = "missing-origin"
