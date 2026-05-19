@@ -36,3 +36,45 @@ The sibling L10 consumers
 displayed finite rows and local certificates, not an open-cover compactness
 claim.
 \end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat-Real public seal finite-section determinacy]
+\label{thm:streamname-regseqrat-real-public-seal-finite-section-determinacy}
+Let $\mathcal S_0$ and $\mathcal S_1$ be public $\RealUp$ seal routes exported
+from the $\StreamNameUp$ finite-window handoff and consumed by
+$\RegSeqRatUp$. Suppose they display the same $\StreamNameUp$ finite section,
+the same $\DyadicRatCoreUp$ ledger rows, the same $\RegSeqRatUp$ regularity
+and classifier rows, the same local $\RealUp$ finite-section readback, and the
+same support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Then $\mathcal S_0$ and $\mathcal S_1$ determine the same finite public seal
+section.
+
+This determinacy is only a statement about the public finite section of the
+BEDC ledger. It does not assert quotient-stream equality, selected limits,
+host real equality, countable choice, ambient completeness, an aggregate
+formalstatus row, bridge rows, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-finite-section-pullback-exactness} and
+\autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}. The common
+StreamName finite section is pulled back to the same DyadicRatCore ledger,
+RegSeqRat readback, local Real seal row, and displayed support rows.
+
+Next apply \autoref{thm:regseqrat-terminal-four-face-source-uniqueness}. Since
+the two routes expose the same StreamName window, dyadic ledger, RegSeqRat
+regularity and classifier rows, local Real readback, and support rows, they
+come from one common finite RegSeqRat source section.
+
+Now apply \autoref{thm:real-terminal-finite-section-pullback-exactness}. The
+local Real readback of each route is accepted exactly through the same ordered
+four-face packet over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$.
+
+The two public seal routes are therefore projections of one finite BEDC
+ledger. Projecting that ledger to the public seal coordinate gives the same
+finite public seal section for $\mathcal S_0$ and $\mathcal S_1$, and the
+excluded quotient, limit, host-equality, choice, completeness, aggregate
+status, and bridge coordinates have no displayed row from which to vary.
+\end{proof}
