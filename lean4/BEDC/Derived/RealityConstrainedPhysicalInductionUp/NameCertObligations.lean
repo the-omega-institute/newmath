@@ -52,4 +52,41 @@ theorem RealityConstrainedPhysicalInductionNameCertObligations
           exact ⟨source.left, fle⟩
       }
 
+theorem RealityConstrainedPhysicalInductionCarrier_continuation_scope
+    {H U T S O A C B F L K P N endpoint predicted : BHist} :
+    UnaryHistory H →
+      UnaryHistory U →
+        UnaryHistory B →
+          UnaryHistory L →
+            UnaryHistory K →
+              Cont H U C →
+                Cont C B F →
+                  Cont F L endpoint →
+                    Cont endpoint K predicted →
+                      ∃ carrier : RealityConstrainedPhysicalInductionUp,
+                        carrier =
+                            RealityConstrainedPhysicalInductionUp.mk H U T S O A C B F L K P N ∧
+                          UnaryHistory C ∧
+                            UnaryHistory F ∧
+                              UnaryHistory endpoint ∧
+                                UnaryHistory predicted ∧
+                                  Cont H U C ∧
+                                    Cont C B F ∧
+                                      Cont F L endpoint ∧ Cont endpoint K predicted := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro historyUnary finiteFitUnary stabilityUnary ledgerUnary transportUnary historyFitRoute
+    continuationFailureRoute failureLedgerRoute endpointPredictionRoute
+  have continuationUnary : UnaryHistory C :=
+    unary_cont_closed historyUnary finiteFitUnary historyFitRoute
+  have failureUnary : UnaryHistory F :=
+    unary_cont_closed continuationUnary stabilityUnary continuationFailureRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed failureUnary ledgerUnary failureLedgerRoute
+  have predictedUnary : UnaryHistory predicted :=
+    unary_cont_closed endpointUnary transportUnary endpointPredictionRoute
+  exact
+    ⟨RealityConstrainedPhysicalInductionUp.mk H U T S O A C B F L K P N, rfl,
+      continuationUnary, failureUnary, endpointUnary, predictedUnary, historyFitRoute,
+      continuationFailureRoute, failureLedgerRoute, endpointPredictionRoute⟩
+
 end BEDC.Derived.RealityConstrainedPhysicalInductionUp
