@@ -477,3 +477,56 @@ $\RealCompletionExactBoundaryUp$ face as a constrained fifth local record.
 Combining that gate with source exhaustion, phase-exit readback, and refinement
 readback invariance gives the stated universal normal form.
 \end{proof}
+
+\begin{theorem}[StreamName terminal fusion universal consumer reflection]
+\label{thm:streamname-terminal-fusion-universal-consumer-reflection}
+Let $\mathcal W$ and $\mathcal W'$ be accepted terminal fused StreamName packets
+whose four roadmap faces are supplied with same-route
+$\RealCompletionExactBoundaryUp$ faces, and suppose their row-preserving
+terminal $\PhaseRealCompletionExitUp$ consumer readbacks agree. Then the
+displayed terminal rows of the two packets agree: the four roadmap faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+the same-route $\RealCompletionExactBoundaryUp$ face, and the support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+are the same on both terminal presentations.
+
+Thus consumer equivalence for accepted terminal fused StreamName packets is
+reflected exactly by the BEDC-visible four-face terminal surface and its
+exact-boundary support. Quotient stream equality, selected limits, host sequence
+equality, ambient completeness, metric-completeness, countable choice, aggregate
+formalstatus, bridge token, and fused completion witness cannot witness
+consumer equality.
+\end{theorem}
+\begin{proof}
+First put each terminal packet in universal consumer normal form. Apply
+\autoref{thm:streamname-terminal-fusion-universal-consumer-normal-form} to
+$\mathcal W$ and to $\mathcal W'$. Every row-preserving terminal consumer of
+either packet factors through its four roadmap faces, same-route
+$\RealCompletionExactBoundaryUp$ face, and displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows.
+
+Next read both normal forms through the phase-exit interface. By
+\autoref{thm:streamname-terminal-fusion-phase-exit-consumer-readback}, the
+terminal $\PhaseRealCompletionExitUp$ consumer readback is exactly the five
+local faces together with the displayed support rows. Since the two consumer
+readbacks agree by hypothesis, the five local records and support rows named by
+that theorem agree.
+
+It remains to rule out hidden witnesses. Source exhaustion,
+\autoref{thm:streamname-terminal-window-fusion-source-exhaustion}, identifies
+the StreamName terminal packet before the exact-boundary attachment with only
+the four roadmap faces and the displayed support rows.
+
+Finally apply the no-choice route factorization,
+\autoref{thm:streamname-real-completion-route-no-choice-factorization}. It
+removes quotient stream equality, selected limits, host sequence equality,
+ambient completeness, metric-completeness, countable choice, aggregate
+formalstatus, bridge token, and fused completion witness from the terminal
+route. Therefore no excluded coordinate can account for the common consumer
+readback, and the agreement reflects back exactly to the displayed terminal
+rows.
+\end{proof}
