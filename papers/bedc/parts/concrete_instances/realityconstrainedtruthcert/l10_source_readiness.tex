@@ -83,3 +83,43 @@ make the displayed packet the only source-readiness route for
 $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, so the L10 export is total over
 the listed rows and has no hidden branch.
 \end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert L10 readiness obligation surface]
+\label{thm:reality-constrained-truth-cert-l10-readiness-obligation-surface}
+For every accepted $\RealityConstrainedTruthCertUp$ packet
+$(S,\Sigma,K,T,U,D,I,L,F,N)$, the three L10 rows
+\autoref{thm:reality-constrained-truth-cert-l10-source-readiness},
+\autoref{thm:reality-constrained-truth-cert-l10-failure-ledger-lock}, and
+\autoref{thm:reality-constrained-truth-cert-l10-export-totality} form the
+complete readiness obligation surface for routing the packet through
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The surface consists exactly of
+source confinement to the displayed packet, classifier-ledger-failure
+co-residence inside that packet, and total export through the finite packet
+rows $S,\Sigma,K,T,U,D,I,L,F,N$. It exposes no ambient truth predicate, quotient
+real equality, selected limit, global reality oracle, or off-packet
+continuation.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:reality-constrained-truth-cert-l10-source-readiness}. It confines
+every L10 read by $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ to the finite
+rows $S,\Sigma,K,T,U,D,I,L,F,N$, so no consumer can begin from an unlisted
+source, ambient truth predicate, global reality oracle, or off-packet
+continuation.
+
+Next use
+\autoref{thm:reality-constrained-truth-cert-l10-failure-ledger-lock}. This
+keeps the classifier row $K$, the ledger row $L$, the failure row $F$, and the
+local name row $N$ co-resident whenever a downstream L10 read reaches the
+classifier. Hence the readiness surface cannot retain classifier evidence while
+dropping defeat, domain exit, mismatch, hidden residue, observation, or
+compression provenance.
+
+Finally apply
+\autoref{thm:reality-constrained-truth-cert-l10-export-totality}. The export
+row accounts for every accepted downstream read by the displayed finite packet,
+so there is no alternate route through quotient real equality, selected limits,
+host equality, hidden repair, or an ambient truth object. The three rows
+therefore give the complete L10 obligation surface needed by the downstream
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ route.
+\end{proof}
