@@ -289,6 +289,45 @@ source for later real-construction chapters and not a bridge to host rationals
 or completed reals.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore source-boundary SemanticNameCert]
+\label{thm:dyadicratcore-source-boundary-semantic-namecert}
+For any accepted $\DyadicRatCoreUp$ carrier with mantissa $m$, exponent $e$,
+ledger $\ell$, and provenance packet $p$, the source-boundary predicate
+$$
+\begin{aligned}
+\mathsf{row}\in\mathsf{Source}_{m,e,p}
+  \quad\Longleftrightarrow\quad
+  \exists \ell'.\,
+    \DyadicRatCoreUp(m,e,\ell',p)\wedge \hsame(\mathsf{row},\ell')
+\end{aligned}
+$$
+carries a $\SemanticNameCert$ whose carrier, pattern, and ledger predicates are
+this same boundary predicate and whose equality relation is $\hsame$.
+The same certificate exposes the signed $\RatUp$ mantissa carrier, positive
+$\UnaryHistory$ exponent, unary ledger, and unary provenance rows. It does not
+identify dyadic packets by quotient rational equality and does not introduce a
+completed $\RealUp$ endpoint.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreSourceBoundary\_semanticNameCert}
+\begin{proof}
+Begin with the accepted carrier of \autoref{def:dyadicratcore-carrier}. Its
+visible coordinates give the signed $\RatUp$ mantissa, the positive unary
+exponent, the unary ledger, and the unary provenance packet. The source-boundary
+row is then the ledger component transported by $\hsame$ inside the same
+mantissa, exponent, and provenance packet.
+
+The certificate fields are the rows already packaged by
+\autoref{thm:dyadicratcore-namecert-obligation-surface} and the scoped boundary
+inventory below. Reflexivity, symmetry, transitivity, and carrier transport are
+exactly the displayed $\hsame$ rows; pattern soundness and ledger soundness are
+the same witness read in the pattern and ledger positions.
+
+Thus the SemanticNameCert is a certificate on the finite source boundary alone.
+All data used by the proof are the displayed carrier, $\hsame$, ledger, and
+provenance rows, so no quotient rational equality or completed $\RealUp$
+endpoint enters the construction.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore scoped source boundary]
 \label{thm:dyadicratcore-scoped-source-boundary}
 The scoped $\DyadicRatCoreUp$ source boundary is exactly the signed $\RatUp$
