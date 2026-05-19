@@ -425,4 +425,31 @@ theorem CannotClaimExportGate_namecert_obligations [AskSetup] [PackageSetup]
                                               namePkg⟩
   }
 
+theorem CannotClaimExportGate_registry_factorization [AskSetup] [PackageSetup]
+    {registry refusal exportDecision exportGrade target audit transport continuation
+      provenance name route : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CannotClaimExportGateCarrier registry refusal exportDecision exportGrade target audit
+        transport continuation provenance name bundle pkg →
+      Cont audit transport route →
+        PkgSig bundle route pkg →
+          UnaryHistory registry ∧ UnaryHistory refusal ∧ UnaryHistory exportDecision ∧
+            UnaryHistory exportGrade ∧ UnaryHistory target ∧ UnaryHistory audit ∧
+              UnaryHistory route ∧ Cont registry refusal exportDecision ∧
+                Cont exportDecision exportGrade target ∧ Cont target audit continuation ∧
+                  Cont audit transport route ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle name pkg ∧ PkgSig bundle route pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier auditTransportRoute routePkg
+  obtain ⟨registryUnary, refusalUnary, exportDecisionUnary, exportGradeUnary,
+    targetUnary, auditUnary, transportUnary, _continuationUnary, _provenanceUnary,
+    _nameUnary, registryRefusalDecision, decisionGradeTarget, targetAuditContinuation,
+    _auditTransportProvenance, provenancePkg, namePkg⟩ := carrier
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed auditUnary transportUnary auditTransportRoute
+  exact
+    ⟨registryUnary, refusalUnary, exportDecisionUnary, exportGradeUnary, targetUnary,
+      auditUnary, routeUnary, registryRefusalDecision, decisionGradeTarget,
+      targetAuditContinuation, auditTransportRoute, provenancePkg, namePkg, routePkg⟩
+
 end BEDC.Derived.CannotClaimExportGateUp
