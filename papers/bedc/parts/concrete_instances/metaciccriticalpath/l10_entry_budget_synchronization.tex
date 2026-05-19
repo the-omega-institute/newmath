@@ -65,3 +65,21 @@ The frontier removes every substitute. Theorem~\ref{thm:metacic-critical-path-re
 
 Finally apply the diamond. Theorem~\ref{thm:metacic-critical-path-phase-real-dependency-diamond} recovers exactly the four projections from an accepted public entry. If two owners were identified, or if an aggregate route-status token replaced one owner, one of those projections would no longer recover its named source row. Such an entry therefore lacks the required four-coordinate factorization and is not an accepted finite route.
 \end{proof}
+
+\begin{theorem}[MetaCIC critical-path L10 prefix dependency induction]
+\label{thm:metacic-critical-path-l10-prefix-dependency-induction}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+any Phase Real or Completion route admitted by Theorem~\ref{thm:metacic-critical-path-phase-real-dependency-diamond} has four finite route prefixes: the $\DyadicRatCoreUp$ budget prefix, the $\StreamNameUp$ schedule prefix, the $\RegSeqRatUp$ readback prefix, and the $\RealUp$ seal prefix. These prefixes occur in that source order, each factors through the displayed packet rows of Theorems~\ref{thm:metacic-critical-path-l10-entry-budget-synchronization}, \ref{thm:metacic-critical-path-real-completion-frontier-filter}, \ref{thm:metacic-critical-path-phase-real-dependency-diamond}, and~\ref{thm:metacic-critical-path-four-source-owner-noncollapse}, and each preserves the obstruction, discharge, host, continuation, package, and ledger rows $O,D,H,C,P,L$. No prefix may be replaced by quotient stream equality, selected host limits, host equality, trichotomy, open-cover compactness, closed subject reduction, full consistency, or completed-real data.
+\end{theorem}
+\begin{proof}
+Begin with the entry requirement. Theorem~\ref{thm:metacic-critical-path-l10-entry-budget-synchronization} admits a Phase Real route only after the packet displays the dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal rows through finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+The frontier supplies the exclusion step. Theorem~\ref{thm:metacic-critical-path-real-completion-frontier-filter} says that Completion-facing claims survive only when backed by those displayed rows, so the forbidden substitutes have no route coordinate to occupy.
+
+The diamond gives the constructive prefix split. Theorem~\ref{thm:metacic-critical-path-phase-real-dependency-diamond} recovers the four projections from an accepted entry, hence the route can be read as the ordered finite prefix chain from budget to schedule to readback to seal.
+
+Finally keep the owners and packet rows fixed. Theorem~\ref{thm:metacic-critical-path-four-source-owner-noncollapse} prevents any two source owners from collapsing and rules out aggregate route-status replacements. Therefore each prefix remains attached to its own source row while carrying forward the common obstruction, discharge, host, continuation, package, and ledger rows $O,D,H,C,P,L$.
+\end{proof}
