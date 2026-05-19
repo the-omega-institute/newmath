@@ -1933,6 +1933,7 @@ import BEDC.Derived.DigestFiberLedgerUp.TasteGate
 import BEDC.Derived.DigestInscriptionUp.TasteGate
 import BEDC.Derived.DigestLoopRefusalUp.TasteGate
 import BEDC.Derived.DigestProvenancePacketUp.NameCertObligations
+import BEDC.Derived.DigestProvenancePacketUp.NoHiddenSourceConsumption
 import BEDC.Derived.DigestProvenancePacketUp.TasteGate
 import BEDC.Derived.DimLiftBoundaryUp
 import BEDC.Derived.DirichletSeriesUp
@@ -4488,6 +4489,7 @@ import BEDC.Derived.ZetaContinuationApplicationUp.EtaFactorization
 import BEDC.Derived.ZetaContinuationApplicationUp.FunctionalRowTotality
 import BEDC.Derived.ZetaContinuationApplicationUp.GammaEtaHandoff
 import BEDC.Derived.ZetaContinuationApplicationUp.GammaHorizonBoundary
+import BEDC.Derived.ZetaContinuationApplicationUp.RootBoundaryTriad
 import BEDC.Derived.ZetaContinuationApplicationUp.RootLedgerBoundary
 import BEDC.Derived.ZetaContinuationApplicationUp.RootNamecertObligationSurface
 import BEDC.Derived.ZetaContinuationApplicationUp.RootNonEscape
