@@ -213,4 +213,41 @@ theorem PicardContractionPacket_newton_ode_shared_modulus_route [AskSetup] [Pack
       odeReadPkg,
       newtonReadPkg⟩
 
+theorem PicardContractionPacket_bridged_source_window_package [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      sourceWindow bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+        routes provenance name bundle pkg ->
+      Cont banach modulus sourceWindow ->
+        Cont sourceWindow endpoint bridgeRead ->
+          PkgSig bundle bridgeRead pkg ->
+            UnaryHistory banach ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧
+              UnaryHistory sourceWindow ∧ UnaryHistory bridgeRead ∧
+                Cont banach contraction lipschitz ∧ Cont iterates modulus endpoint ∧
+                  Cont banach modulus sourceWindow ∧ Cont sourceWindow endpoint bridgeRead ∧
+                    PkgSig bundle name pkg ∧ PkgSig bundle bridgeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet banachModulusSource sourceEndpointBridge bridgePkg
+  obtain ⟨banachUnary, _contractionUnary, _lipschitzUnary, iteratesUnary, modulusUnary,
+    endpointUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    banachContractionLipschitz, iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := packet
+  have sourceUnary : UnaryHistory sourceWindow :=
+    unary_cont_closed banachUnary modulusUnary banachModulusSource
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed sourceUnary endpointUnary sourceEndpointBridge
+  exact
+    ⟨banachUnary,
+      modulusUnary,
+      endpointUnary,
+      sourceUnary,
+      bridgeUnary,
+      banachContractionLipschitz,
+      iteratesModulusEndpoint,
+      banachModulusSource,
+      sourceEndpointBridge,
+      namePkg,
+      bridgePkg⟩
+
 end BEDC.Derived.PicardContractionUp
