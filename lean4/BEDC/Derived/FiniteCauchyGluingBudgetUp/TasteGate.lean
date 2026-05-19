@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteCauchyGluingBudgetUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -228,5 +238,56 @@ def taste_gate : ChapterTasteGate FiniteCauchyGluingBudgetUp :=
   BEDC.Derived.FiniteCauchyGluingBudgetUp.taste_gate
 
 end TasteGate
+
+theorem FiniteCauchyGluingBudgetCarrier_route_exactness [AskSetup] [PackageSetup]
+    {left right bridge budget gluing seam transport replay provenance localName terminal :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont left bridge budget →
+      Cont budget gluing seam →
+        Cont seam transport terminal →
+          PkgSig bundle terminal pkg →
+            SemanticNameCert
+              (fun row : BHist =>
+                hsame row terminal ∧
+                  ∃ packet : FiniteCauchyGluingBudgetUp,
+                    packet = FiniteCauchyGluingBudgetUp.mk left right bridge budget gluing seam
+                      transport replay provenance localName)
+              (fun row : BHist =>
+                Cont left bridge budget ∧ Cont budget gluing seam ∧
+                  Cont seam transport terminal ∧ hsame row terminal)
+              (fun row : BHist => hsame row terminal ∧ PkgSig bundle terminal pkg)
+              hsame := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame SemanticNameCert
+  intro leftBudget budgetSeam seamTerminal terminalPkg
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro terminal
+          ⟨hsame_refl terminal,
+            Exists.intro
+              (FiniteCauchyGluingBudgetUp.mk left right bridge budget gluing seam transport
+                replay provenance localName)
+              rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨leftBudget, budgetSeam, seamTerminal, sourceRow.left⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, terminalPkg⟩
+  }
 
 end BEDC.Derived.FiniteCauchyGluingBudgetUp

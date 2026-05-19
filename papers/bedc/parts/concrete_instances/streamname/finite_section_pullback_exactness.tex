@@ -487,3 +487,49 @@ selected limits, host real equality, ambient Real completeness,
 metric-completeness data, countable choice, and standard bridge rows have no
 place in the restricted descent-gluing surface.
 \end{proof}
+
+\begin{theorem}[StreamName finite-section cover descent classifier reflection]
+\label{thm:streamname-finite-section-cover-descent-classifier-reflection}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase Real and
+Completion $\StreamNameUp$ request sections. Suppose that every accepted
+overlap displays the same $\StreamNameUp$ finite-window row, the same
+$\DyadicRatCoreUp$ ledger row, the same $\RegSeqRatUp$ readback row, the same
+$\RealUp$ seal boundary, and the same $\BHist$, componentwise $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support rows from either side. Then the
+descent-gluing surface for the cover is the unique public classifier reflection
+surface for the family.
+
+Concretely, every finite restriction of the cover has the same carrier verdict
+and the same classifier verdict as the glued surface, and every Real-facing or
+completion-facing consumer factors through the same four-face route
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$. The claim excludes
+quotient stream equality, host sequence equality, selected limits, ambient Real
+completeness, metric-completeness data, countable choice, and standard bridge
+rows.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-finite-section-descent-gluing} to the whole
+finite cover. The accepted-overlap hypotheses paste the local sections into a
+single public surface over the displayed StreamName, DyadicRatCore, RegSeqRat,
+and RealUp faces, with the stated $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support rows as its only support data.
+
+Next apply \autoref{thm:streamname-finite-section-restriction-exactness} to
+each finite subfamily. Every restriction inherits the same overlap rows, so its
+descent-gluing surface is the restricted instance of the same public four-face
+route and carries the same terminal carrier and classifier verdict.
+
+Now compare refinements by
+\autoref{thm:streamname-cofinal-tail-refinement-invariance}. Any consumer that
+sees the family through a finer finite tail-window cover still reads the same
+StreamName finite window, DyadicRatCore ledger, RegSeqRat readback, RealUp seal
+boundary, and support rows, so the route available to the consumer is unchanged.
+
+Finally use \autoref{thm:streamname-finite-section-classifier-determinacy} and
+\autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}. Determinacy
+makes the carrier and classifier verdicts unique on the public surface, while
+the lock confines all Real-facing and completion-facing uses to the four visible
+faces. Hence no quotient stream equality, host sequence equality, selected
+limit, ambient Real completeness, metric-completeness datum, countable-choice
+row, or standard bridge row is part of the classifier reflection surface.
+\end{proof}
