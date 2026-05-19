@@ -24,12 +24,83 @@ def RecursionAuthorizationLedgerCarrier [AskSetup] [PackageSetup]
     UnaryHistory branches ∧ UnaryHistory descent ∧ UnaryHistory output ∧
       UnaryHistory transport ∧ UnaryHistory routes ∧ UnaryHistory provenance ∧
         UnaryHistory name ∧ Cont signature recursor motive ∧ Cont branches descent output ∧
-          Cont transport routes provenance ∧ PkgSig bundle provenance pkg ∧
-            SemanticNameCert
-              (fun row : BHist => hsame row signature ∧ UnaryHistory row)
-              (fun row : BHist => hsame row signature)
-              (fun row : BHist => hsame row signature ∧ PkgSig bundle provenance pkg)
-              hsame
+          Cont output transport routes ∧ Cont transport routes provenance ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+              SemanticNameCert
+                (fun row : BHist => hsame row signature ∧ UnaryHistory row)
+                (fun row : BHist => hsame row signature)
+                (fun row : BHist => hsame row signature ∧ PkgSig bundle provenance pkg)
+                hsame
+
+theorem RecursionAuthorizationLedgerCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {signature eliminator motive branch descent output transport route provenance name audit : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RecursionAuthorizationLedgerCarrier signature eliminator motive branch descent output
+        transport route provenance name bundle pkg ->
+      Cont signature eliminator motive ->
+        Cont branch descent output ->
+          Cont output route audit ->
+            PkgSig bundle audit pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row audit ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row signature ∨ hsame row eliminator ∨ hsame row motive ∨
+                      hsame row branch ∨ hsame row descent ∨ hsame row output ∨
+                        hsame row audit)
+                  (fun row : BHist => hsame row audit ∧ PkgSig bundle audit pkg)
+                  hsame ∧
+                UnaryHistory signature ∧ UnaryHistory eliminator ∧ UnaryHistory motive ∧
+                  UnaryHistory branch ∧ UnaryHistory descent ∧ UnaryHistory output ∧
+                    UnaryHistory audit ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle audit pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier signatureEliminatorMotive branchDescentOutput outputRouteAudit auditPkg
+  obtain ⟨signatureUnary, eliminatorUnary, motiveUnary, branchUnary, descentUnary,
+    outputUnary, _transportUnary, routeUnary, provenanceUnary, nameUnary,
+    _carrierSignatureEliminatorMotive, _carrierBranchDescentOutput,
+    _outputTransportRoute, _transportRouteProvenance, provenancePkg, _namePkg,
+    _signatureCert⟩ := carrier
+  have auditUnary : UnaryHistory audit :=
+    unary_cont_closed outputUnary routeUnary outputRouteAudit
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row audit ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row signature ∨ hsame row eliminator ∨ hsame row motive ∨
+              hsame row branch ∨ hsame row descent ∨ hsame row output ∨ hsame row audit)
+          (fun row : BHist => hsame row audit ∧ PkgSig bundle audit pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro audit ⟨hsame_refl audit, auditUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact ⟨hsame_trans (hsame_symm same) source.left,
+          unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro row source
+      exact Or.inr
+        (Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, auditPkg⟩
+  }
+  exact
+    ⟨cert, signatureUnary, eliminatorUnary, motiveUnary, branchUnary, descentUnary,
+      outputUnary, auditUnary, provenancePkg, auditPkg⟩
 
 theorem RecursionAuthorizationLedgerCarrier_signature_acceptance [AskSetup] [PackageSetup]
     {signature recursor motive branches descent output transport routes provenance name
@@ -47,7 +118,8 @@ theorem RecursionAuthorizationLedgerCarrier_signature_acceptance [AskSetup] [Pac
   intro carrier branchRoute branchPkg
   obtain ⟨signatureUnary, recursorUnary, _motiveUnary, branchesUnary, _descentUnary,
     _outputUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
-    signatureRoute, _outputRoute, _provenanceRoute, provenancePkg, _semanticCert⟩ := carrier
+    signatureRoute, _branchDescentOutput, _outputTransportRoutes, _transportRoutesProvenance,
+    provenancePkg, _namePkg, _semanticCert⟩ := carrier
   have branchAuditUnary : UnaryHistory branchAudit :=
     unary_cont_closed recursorUnary branchesUnary branchRoute
   exact
