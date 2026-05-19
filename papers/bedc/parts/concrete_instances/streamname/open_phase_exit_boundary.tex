@@ -535,7 +535,7 @@ An accepted Phase Real and Completion audit packet for the current $\StreamNameU
 $$
 \DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
 $$
-with each of $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ exposing its own current-roadmap local theory-closure record and an audit-clean verification record, read from that face's own closurestatus block, together with the displayed support rows
+with each of $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ exposing its own current-roadmap local theory-closure record and a verification record at least as strong as the audit-clean threshold, read from that face's own closurestatus block, with $\bridgeCheckedV$ read only as the local face bridge token where that face records it, together with the displayed support rows
 $$
 \BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
 $$
@@ -544,13 +544,15 @@ Equivalently, validity is the conjunction of those four objectwise threshold rec
 The audit packet excludes quotient stream equality, selected limits, ambient $\RealUp$ completeness, metric completeness, countable choice, standard bridge completion, and any aggregate formalstatus or bridge token.
 \end{theorem}
 \begin{proof}
-For sufficiency, apply \autoref{thm:streamname-open-phase-roadmap-exit-conjunction}. It identifies the paper-side boundary condition as the four local Phase Real and Completion faces read through their own local records, plus the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Then apply \autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. The Real-side criterion says those local records must meet the current objectwise threshold: each face supplies the required local theory-closure row and an audit-clean verification row, read from its own closurestatus block.
+For sufficiency, apply \autoref{thm:streamname-open-phase-roadmap-exit-conjunction}. It identifies the paper-side boundary condition as the four local Phase Real and Completion faces read through their own local records, plus the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Then apply \autoref{thm:real-l10-objectwise-exit-threshold-equivalence} as a threshold read. The Real-side criterion says those local records must meet the current objectwise threshold: each face supplies the required local theory-closure row and a local formalstatus row meeting or exceeding $\auditCleanV$, read from its own closurestatus block. If a face records $\bridgeCheckedV$, that token is read only as that face's local bridge record; it is not converted into an aggregate formalstatus or bridge token.
 
 Use \autoref{thm:streamname-open-phase-exit-route-completeness} to read that thresholded visible packet as an accepted terminal finite route.
 
 For necessity, apply \autoref{thm:streamname-open-phase-no-fifth-object-exhaustion}. It says every accepted open-phase exit route is exhausted by the same four faces and displayed rows. The ledger exactness of \autoref{thm:streamname-open-phase-four-face-ledger-exactness} fixes the tolerance-ledger coordinate inside the finite packet, while the readback theorem \autoref{thm:streamname-open-phase-four-face-exit-readback} fixes every current exit read on exactly those rows.
 
-Finally use \autoref{thm:real-l10-objectwise-exit-threshold-equivalence} and \autoref{thm:real-l10-exit-facewise-audit-obstruction}. Mere record presence is not enough: the local rows must satisfy the threshold, and no aggregate support row can compensate for a missing or sub-threshold face. Thus the necessary and sufficient audit criterion is exactly the four facewise threshold records with the displayed support rows, excluding quotient equality, selected limits, ambient completeness, metric completeness, countable choice, standard bridge completion, and aggregate verification or bridge tokens.
+Finally use \autoref{thm:real-l10-objectwise-exit-threshold-equivalence} and \autoref{thm:real-l10-exit-facewise-audit-obstruction}. Mere record presence is not enough: the local rows must satisfy the threshold, and no aggregate support row can compensate for a missing or sub-threshold face. Thus the necessary and sufficient audit criterion is exactly the four facewise threshold records with the displayed support rows, with each face keeping its own local formalstatus token and with no aggregate formalstatus, bridge token, quotient equality, selected limits, ambient completeness, metric completeness, countable choice, or standard bridge completion.
 \end{proof}
 
 \begin{theorem}[StreamName RegSeqRat--Real selector-budget normal form]
