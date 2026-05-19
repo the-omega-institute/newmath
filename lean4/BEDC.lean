@@ -736,7 +736,6 @@ import BEDC.Derived.CategoryUp.VisibleTailResult
 import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CauchyChoiceBoundaryUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
-import BEDC.Derived.CauchyCompletionFunctorUp.SelectorBudgetDeterminacy
 import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyConvolutionUp
 import BEDC.Derived.CauchyCriterionUp
@@ -982,6 +981,8 @@ import BEDC.Derived.CauchyTailModulusFusionUp.TasteGate
 import BEDC.Derived.CauchyTailModulusSealUp.TasteGate
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TasteGate
 import BEDC.Derived.CauchyTailWitnessEnvelopeUp.TasteGate
+import BEDC.Derived.CauchyWindowTransducerUp.NameCertObligations
+import BEDC.Derived.CauchyWindowTransducerUp.StdBridge
 import BEDC.Derived.CauchyWindowTransducerUp.TasteGate
 import BEDC.Derived.CauchyWitnessGluingUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.BudgetFactorization
@@ -2656,6 +2657,8 @@ import BEDC.Derived.LinearMapUp.ContinuationVisibleSource
 import BEDC.Derived.LinearMapUp.ContinuationVisibleTarget
 import BEDC.Derived.LinearMapUp.EvalContextPair
 import BEDC.Derived.LinearMapUp.EvalContinuationPair
+import BEDC.Derived.LinearMapUp.EvaluationGraphComposition
+import BEDC.Derived.LinearMapUp.EvaluationGraphCompositionClosure
 import BEDC.Derived.LinearMapUp.EvaluationGraphNameCert
 import BEDC.Derived.LinearMapUp.EvaluationGraphPackage
 import BEDC.Derived.LinearMapUp.Image
@@ -3505,6 +3508,7 @@ import BEDC.Derived.RealWindowBudgetUp.TasteGate
 import BEDC.Derived.RealWindowBudgetUp.TerminalPullbackCoherence
 import BEDC.Derived.RealWindowBudgetUp.TerminalPullbackNonescape
 import BEDC.Derived.RealWindowClassifierSealUp.TasteGate
+import BEDC.Derived.RealWindowSynchronizerUp.BudgetPullback
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.RealityConstrainedApproximationTowerUp.TasteGate
 import BEDC.Derived.RealityConstrainedExplanationUp.TasteGate
@@ -4319,16 +4323,20 @@ import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingSourceAccountability
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroRouteInputPackage
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.ZnormalUp
-import BEDC.Derived.ZnormalUp.LedgerNonescape
+import BEDC.Derived.ZnormalUp.FuelReadbackTasteGateRoute
 import BEDC.Derived.ZnormalUp.RootContReplayClosure
 import BEDC.Derived.ZnormalUp.RootDisplayPacketBridgeReadbackExactness
-import BEDC.Derived.ZnormalUp.RootReadbackExhaustion
+import BEDC.Derived.ZnormalUp.RootNormalFormReadiness
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
+import BEDC.Derived.ZnormalUp.RootUnblockNonescapeLedger
 import BEDC.Derived.ZnormalUp.TasteGate
+import BEDC.Derived.ZnormalUp.TerminalBoundaryNonescape
 import BEDC.Derived.ZnormalUp.TerminalConsumerTotality
+import BEDC.Derived.ZnormalUp.TerminalFuelRouteExhaustion
 import BEDC.Derived.ZnormalUp.TerminalNormalityRefusalStability
 import BEDC.Derived.ZnormalUp.TerminalReadbackExactness
 import BEDC.Derived.ZnormalUp.TerminalRouteExhaustion
+import BEDC.Derived.ZnormalUp.TerminalRowConstructorExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
 import BEDC.DerivedIndexAnalysis
 import BEDC.FKernel.Ask
