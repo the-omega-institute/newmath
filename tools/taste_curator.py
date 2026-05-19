@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Taste curator daemon for BEDC concrete-instance review.
 
-The daemon is conservative by default: it detects suspicious taste signals,
-alerts, and appends stable review-queue entries. Unconfirmed auto-fix dispatch
-is gated by AUTO_FIX_WITHOUT_CONFIRMATION and defaults to false. Confirmed
-execution is driven only by operator-written entries in
-papers/bedc/taste_approvals.json.
+The daemon detects suspicious taste signals, alerts, and appends stable
+review-queue entries. Its automated action is rule evolution: cluster repeated
+findings by flag and dispatch codex to tighten P/R prompts or audit/lint gates.
+It does not edit concrete-instance content directly.
 """
 
 from __future__ import annotations
@@ -44,7 +43,7 @@ CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 
 DEFAULT_CONFIG: dict[str, Any] = {
     "version": 1,
-    "AUTO_FIX_WITHOUT_CONFIRMATION": False,
+    "AUTO_FIX_WITHOUT_CONFIRMATION": True,
     "MISLABELED_COMPOSITE_FIELD_OVERLAP_MIN": 3,
     "MISLABELED_COMPOSITE_BUCKET_MEMBER_MIN": 3,
     "ISOLATED_THEOREM_GRACE_ROUNDS": 50,
@@ -72,6 +71,70 @@ AUTO_FIXABLE_FLAGS = {
     "simple_label_correction",
     "allowlist_metadata_correction",
 }
+
+RULE_EVOLUTION_ALLOWED_FILES = {
+    "papers/bedc/scripts/prompts/phase_b.txt",
+    "papers/bedc/scripts/prompts/phase_c.txt",
+    "papers/bedc/scripts/prompts/phase_review.txt",
+    "papers/bedc/scripts/prompts/phase_revise.txt",
+    "lean4/scripts/bedc_ci.py",
+    "papers/bedc/scripts/phase_paper_gates.py",
+    "lean4/scripts/phase_d_lint.py",
+}
+
+RULE_EVOLUTION_OPTIONAL_FILES = {
+    "papers/bedc/scripts/prompts/phase_verify.txt",
+    "lean4/scripts/prompts/phase_b.txt",
+    "lean4/scripts/prompts/phase_c.txt",
+    "lean4/scripts/prompts/phase_d.txt",
+}
+
+RULE_EVOLUTION_FORBIDDEN_PREFIXES = (
+    "papers/bedc/parts/concrete_instances/",
+    "lean4/BEDC/",
+    "papers/bedc/scripts/codex_revise.py",
+    "lean4/scripts/codex_formalize.py",
+)
+
+MAX_RULE_EVOLUTION_CLUSTER_SIZE = 20
+
+META_PROMPT_RULE_EVOLUTION = """You are evolving the P/R automation pipeline RULES based on observed quality
+violations. You will receive a cluster of findings (multiple chapters / Lean
+targets exhibiting the same pattern). Your job:
+
+1. Identify the ROOT CAUSE — which P/R prompt instruction is missing, OR
+   which audit check would have caught this pattern at merge time.
+2. Modify ONE OR MORE of these files (ONLY these — file whitelist enforced):
+   - papers/bedc/scripts/prompts/phase_b.txt
+   - papers/bedc/scripts/prompts/phase_c.txt
+   - papers/bedc/scripts/prompts/phase_review.txt
+   - papers/bedc/scripts/prompts/phase_revise.txt
+   - papers/bedc/scripts/prompts/phase_verify.txt (if exists)
+   - lean4/scripts/prompts/phase_b.txt
+   - lean4/scripts/prompts/phase_c.txt
+   - lean4/scripts/prompts/phase_d.txt (if exists)
+   - lean4/scripts/bedc_ci.py (add detect_*() function + payload wiring,
+     pattern: detect_preamble_duplicate_commands at line ~541)
+   - papers/bedc/scripts/phase_paper_gates.py
+   - lean4/scripts/phase_d_lint.py
+3. DO NOT touch papers/bedc/parts/concrete_instances/**/*.tex
+   DO NOT touch lean4/BEDC/**
+   DO NOT touch codex_revise.py / codex_formalize.py / other daemon scripts
+4. Bump the prompt version marker in any prompt file you edit (e.g. v5.X → v5.X+1).
+5. Add terse imperative rule text. No rationale paragraphs, no incident
+   history, no version-numbered names.
+6. Verify locally before commit:
+   - python3 -m py_compile lean4/scripts/bedc_ci.py
+   - python3 lean4/scripts/bedc_ci.py audit (NEW gate may flag legacy
+     violations, that is expected; the gate must not crash)
+   - For any phase_paper_gates.py change: smoke test it parses
+   - For any phase_d_lint.py change: smoke test it parses
+7. Commit with message format:
+   "taste-evolve: <flag> pattern - <one-line summary>"
+8. Do NOT push (orchestrator [the daemon] will push after success).
+
+Cluster evidence will be provided after this prompt.
+"""
 
 BOILERPLATE_PHRASES = (
     "name certificate",
@@ -921,96 +984,139 @@ def cooldown_action(finding: Finding, cfg: dict[str, Any], dry_run: bool) -> str
     return "queue"
 
 
-def dispatch_autofix(finding: Finding, cfg: dict[str, Any], dry_run: bool = False) -> bool:
-    if not cfg.get("AUTO_FIX_WITHOUT_CONFIRMATION", False):
-        print(f"[taste] unconfirmed auto-fix disabled for {finding.id}", flush=True)
-        return False
-    if dry_run:
-        print(f"[taste] dry-run: would dispatch unconfirmed auto-fix {finding.id}", flush=True)
-        return False
-    append_alert(
-        "unconfirmed_autofix_blocked",
-        {"id": finding.id, "flag": finding.flag, "reason": "Round policy requires operator confirmation"},
+def finding_to_evidence(finding: Finding) -> dict[str, Any]:
+    payload: dict[str, Any] = {
+        "id": finding.id,
+        "flag": finding.flag,
+        "chapter_slug": finding.chapter_slug,
+        "paper_file": finding.paper_file,
+        "lean_files": finding.lean_files,
+        "evidence": finding.evidence,
+    }
+    if finding.lean_target:
+        payload["lean_target"] = finding.lean_target
+    if finding.round_age is not None:
+        payload["round_age"] = finding.round_age
+    if finding.commit:
+        payload["commit"] = finding.commit
+    return payload
+
+
+def entry_to_evidence(entry: dict[str, Any]) -> dict[str, Any]:
+    payload: dict[str, Any] = {
+        "id": entry.get("id"),
+        "flag": entry.get("flag"),
+        "chapter_slug": entry.get("chapter_slug"),
+        "paper_file": entry.get("paper_file"),
+        "lean_files": entry.get("lean_files", []),
+        "evidence": entry.get("evidence", {}),
+    }
+    if entry.get("lean_target"):
+        payload["lean_target"] = entry.get("lean_target")
+    if entry.get("round_age") is not None:
+        payload["round_age"] = entry.get("round_age")
+    if entry.get("commit"):
+        payload["commit"] = entry.get("commit")
+    return payload
+
+
+def rule_evolution_done_ids(state: dict[str, Any]) -> set[str]:
+    raw = state.setdefault("rule_evolution_done_ids", [])
+    if not isinstance(raw, list):
+        state["rule_evolution_done_ids"] = []
+        return set()
+    return {str(x) for x in raw if x}
+
+
+def mark_rule_evolution_done(state: dict[str, Any], entries: list[dict[str, Any]], commit_sha: str | None) -> None:
+    done = rule_evolution_done_ids(state)
+    for entry in entries:
+        qid = str(entry.get("id") or "")
+        if qid:
+            done.add(qid)
+    state["rule_evolution_done_ids"] = sorted(done)[-5000:]
+    state["last_rule_evolution_at"] = utc_now()
+    state["last_rule_evolution_commit"] = commit_sha
+
+
+def top_entry_cluster(entries: list[dict[str, Any]], state: dict[str, Any]) -> tuple[str, list[dict[str, Any]]] | None:
+    done = rule_evolution_done_ids(state)
+    clusters: dict[str, list[dict[str, Any]]] = {}
+    for entry in entries:
+        qid = str(entry.get("id") or "")
+        if qid and qid in done:
+            continue
+        flag = str(entry.get("flag") or "")
+        if flag in AUTO_FIXABLE_FLAGS:
+            clusters.setdefault(flag, []).append(entry)
+    if not clusters:
+        return None
+    flag, cluster = max(clusters.items(), key=lambda item: (len(item[1]), item[0]))
+    return flag, cluster[:MAX_RULE_EVOLUTION_CLUSTER_SIZE]
+
+
+def build_rule_evolution_prompt(flag: str, evidence: list[dict[str, Any]]) -> str:
+    cluster = {
+        "flag": flag,
+        "finding_count": len(evidence),
+        "findings": evidence,
+    }
+    return (
+        META_PROMPT_RULE_EVOLUTION
+        + "\nCluster evidence:\n```json\n"
+        + json.dumps(cluster, indent=2, sort_keys=True)
+        + "\n```\n"
     )
-    return False
 
 
-def triage_findings(findings: list[Finding], cfg: dict[str, Any], dry_run: bool) -> None:
+def dispatch_autofix_queue(
+    entries: list[dict[str, Any]],
+    cfg: dict[str, Any],
+    state: dict[str, Any],
+    dry_run: bool = False,
+) -> bool:
+    if not cfg.get("AUTO_FIX_WITHOUT_CONFIRMATION", False):
+        print("[taste] rule evolution disabled", flush=True)
+        return False
+    if int(cfg.get("MAX_AUTO_FIXES_PER_CYCLE", 1)) <= 0:
+        print("[taste] rule evolution cap is zero", flush=True)
+        return False
+    cluster = top_entry_cluster(entries, state)
+    if cluster is None:
+        if dry_run:
+            print("[taste] dry-run: no rule evolution cluster available", flush=True)
+        return False
+    flag, cluster_entries = cluster
+    evidence = [entry_to_evidence(entry) for entry in cluster_entries]
+    if dry_run:
+        print(
+            f"[taste] dry-run: would dispatch rule evolution for {flag} "
+            f"with {len(evidence)} finding(s)",
+            flush=True,
+        )
+        return False
+    ok, msg, _commit_sha = dispatch_rule_evolution(flag, evidence, approval_ids=[])
+    if not ok:
+        append_alert("rule_evolution_failed", {"flag": flag, "failure_reason": msg})
+        print(f"[taste] rule evolution failed for {flag}: {msg}", flush=True)
+        return False
+    mark_rule_evolution_done(state, cluster_entries, _commit_sha)
+    print(f"[taste] rule evolution completed for {flag}: {msg}", flush=True)
+    return True
+
+
+def triage_findings(findings: list[Finding], cfg: dict[str, Any], state: dict[str, Any], dry_run: bool) -> None:
     ts = utc_now()
-    dispatched = 0
-    max_dispatch = int(cfg["MAX_AUTO_FIXES_PER_CYCLE"])
+    queue_entries: list[dict[str, Any]] = list(existing_queue_entries().values())
     for finding in findings:
         action = cooldown_action(finding, cfg, dry_run)
         entry = finding.to_queue_entry(ts)
         if action == "alert":
             append_alert(finding.flag, entry, dry_run=dry_run)
             continue
-        if (
-            finding.flag in AUTO_FIXABLE_FLAGS
-            and cfg.get("AUTO_FIX_WITHOUT_CONFIRMATION", False)
-            and dispatched < max_dispatch
-        ):
-            if dispatch_autofix(finding, cfg, dry_run=dry_run):
-                dispatched += 1
-                continue
         append_queue(entry, dry_run=dry_run)
-
-
-def prompt_for_confirmed_fix(entry: dict[str, Any], approval: dict[str, Any]) -> str:
-    flag = str(entry.get("flag") or approval.get("flag") or "")
-    hint = str(approval.get("fix_instructions") or "").strip()
-    common = f"""
-You are implementing an operator-confirmed BEDC taste-curator fix.
-
-Repository invariants: mathlib-free Lean, 0 axiom, 0 sorry. Edit only what
-the queue entry and flag require. Do not push; the daemon merges and pushes.
-
-Queue entry:
-```json
-{json.dumps(entry, indent=2, sort_keys=True)}
-```
-
-Operator hint:
-{hint or "(none)"}
-"""
-    templates = {
-        "missing_origin": """
-Task: repair a missing origin tag in the exact paper file named above.
-Choose one of \\origin{human}, \\origin{ai}, or \\origin{ai-composite} from
-nearby chapter evidence. Do not add new theory prose and do not touch Lean.
-Verify `python3 lean4/scripts/bedc_ci.py audit` and
-`cd papers/bedc && make check`, then commit locally.
-""",
-        "invalid_origin": """
-Task: repair the invalid origin tag in the exact paper file named above.
-Use only \\origin{human}, \\origin{ai}, or \\origin{ai-composite}. Do not add
-theory prose and do not touch Lean. Verify audit and make check, then commit.
-""",
-        "mislabeled_composite": """
-Task: change the chapter origin from \\origin{ai} to \\origin{ai-composite}
-when the queue evidence shows carrier-bucket overlap. Scope is the origin tag
-only unless a nearby status field repeats the same origin inconsistency.
-Do not edit theorem/proof text and do not split files. Verify
-`python3 lean4/scripts/bedc_ci.py audit`,
-`python3 lean4/scripts/bedc_ci.py carrier-isomorphism --json`, and
-`cd papers/bedc && make check`, then commit locally.
-""",
-        "simple_label_correction": """
-Task: repair the duplicate, dead, or malformed label/reference described by
-the queue entry in one chapter family only. Do not rewrite semantic prose.
-Verify audit and make check, then commit locally.
-""",
-        "allowlist_metadata_correction": """
-Task: correct only `papers/bedc/taste_allowlist.json` for the operator-approved
-allowlist metadata typo described by the queue entry. Verify JSON parsing and
-`python3 lean4/scripts/bedc_ci.py audit`, then commit locally.
-""",
-    }
-    body = templates.get(flag, """
-Task: implement the confirmed taste-curator fix described by the queue entry.
-Keep the scope narrow and commit locally only if verification passes.
-""")
-    return common + "\n" + body + "\nCommit subject: `taste: confirmed " + sanitize_branch_piece(flag) + "`\n"
+        queue_entries.append(entry)
+    dispatch_autofix_queue(queue_entries, cfg, state, dry_run=dry_run)
 
 
 def command_output_ok(cmd: list[str], cwd: Path, timeout: int) -> tuple[bool, str]:
@@ -1028,24 +1134,53 @@ def command_output_ok(cmd: list[str], cwd: Path, timeout: int) -> tuple[bool, st
     return True, tail((res.stdout or "") + (res.stderr or ""), 400)
 
 
-def verify_fix(worktree: Path, touched: list[str]) -> tuple[bool, str]:
+def command_output_no_crash(cmd: list[str], cwd: Path, timeout: int) -> tuple[bool, str]:
+    try:
+        res = run(cmd, cwd=cwd, check=False, capture=True, timeout=timeout)
+    except subprocess.TimeoutExpired as exc:
+        out = (exc.stdout or "") + (exc.stderr or "")
+        if isinstance(out, bytes):
+            out = out.decode("utf-8", errors="ignore")
+        return False, f"timeout after {timeout}s: {' '.join(cmd)}\n{tail(out)}"
+    except Exception as exc:
+        return False, f"failed to run {' '.join(cmd)}: {exc}"
+    out = (res.stdout or "") + (res.stderr or "")
+    if "Traceback (most recent call last)" in out:
+        return False, f"crash: {' '.join(cmd)}\n{tail(out)}"
+    return True, f"rc={res.returncode}: {tail(out, 400)}"
+
+
+def verify_rule_evolution(worktree: Path, touched: list[str]) -> tuple[bool, str]:
     checks: list[tuple[list[str], Path, int]] = [
-        (["python3", "lean4/scripts/bedc_ci.py", "audit"], worktree, TIMEOUTS["verify"]),
+        (["python3", "-m", "py_compile", "lean4/scripts/bedc_ci.py"], worktree, 60),
     ]
-    if any(p.startswith("lean4/") and p.endswith(".lean") for p in touched):
-        checks.extend([
-            (["lake", "build"], worktree / "lean4", TIMEOUTS["verify"]),
-            (["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"], worktree, TIMEOUTS["verify"]),
-        ])
-    if any(p.startswith("papers/bedc/") and p.endswith(".tex") for p in touched):
+    if "papers/bedc/scripts/phase_paper_gates.py" in touched:
+        checks.append((["python3", "-m", "py_compile", "papers/bedc/scripts/phase_paper_gates.py"], worktree, 60))
+    if "lean4/scripts/phase_d_lint.py" in touched:
+        checks.append((["python3", "-m", "py_compile", "lean4/scripts/phase_d_lint.py"], worktree, 60))
+    paper_changed = any(
+        p.startswith("papers/bedc/scripts/prompts/") or p == "papers/bedc/scripts/phase_paper_gates.py"
+        for p in touched
+    )
+    lean_changed = any(
+        p.startswith("lean4/scripts/prompts/") or p == "lean4/scripts/phase_d_lint.py"
+        for p in touched
+    )
+    if paper_changed:
         checks.append((["make", "check"], worktree / "papers" / "bedc", TIMEOUTS["verify"]))
-    if "papers/bedc/taste_allowlist.json" in touched or "papers/bedc/taste_approvals.json" in touched:
-        checks.append((["python3", "-m", "json.tool", "papers/bedc/taste_allowlist.json"], worktree, 60))
-        checks.append((["python3", "-m", "json.tool", "papers/bedc/taste_approvals.json"], worktree, 60))
+    if lean_changed:
+        checks.append((["lake", "build"], worktree / "lean4", TIMEOUTS["verify"]))
     for cmd, cwd, timeout in checks:
         ok, msg = command_output_ok(cmd, cwd, timeout)
         if not ok:
             return False, msg
+    ok, msg = command_output_no_crash(
+        ["python3", "lean4/scripts/bedc_ci.py", "audit"],
+        worktree,
+        TIMEOUTS["verify"],
+    )
+    if not ok:
+        return False, msg
     return True, "verification passed"
 
 
@@ -1088,14 +1223,58 @@ def update_approval_status(
     return True
 
 
-def merge_confirmed_worktree(worktree: Path, branch: str, approval_id: str) -> tuple[bool, str, str | None]:
+def existing_rule_evolution_files(worktree: Path) -> set[str]:
+    allowed = set(RULE_EVOLUTION_ALLOWED_FILES)
+    for path in RULE_EVOLUTION_OPTIONAL_FILES:
+        if (worktree / path).exists():
+            allowed.add(path)
+    return allowed
+
+
+def touched_files_since(worktree: Path, base_sha: str) -> list[str]:
+    diff = run(["git", "diff", "--name-only", f"{base_sha}..HEAD"], cwd=worktree, check=False, capture=True, timeout=30)
+    touched = {p for p in diff.stdout.splitlines() if p.strip()}
+    status = run(["git", "status", "--porcelain"], cwd=worktree, check=False, capture=True, timeout=30)
+    for raw in status.stdout.splitlines():
+        if not raw.strip():
+            continue
+        path = raw[3:] if len(raw) > 3 else raw
+        if " -> " in path:
+            _old, path = path.split(" -> ", 1)
+        touched.add(path.strip())
+    return sorted(touched)
+
+
+def validate_rule_evolution_touched(worktree: Path, touched: list[str]) -> tuple[bool, str]:
+    allowed = existing_rule_evolution_files(worktree)
+    bad: list[str] = []
+    for path in touched:
+        if any(path == prefix or path.startswith(prefix) for prefix in RULE_EVOLUTION_FORBIDDEN_PREFIXES):
+            bad.append(path)
+            continue
+        if path not in allowed:
+            bad.append(path)
+    if bad:
+        return False, "rule evolution touched forbidden path(s): " + ", ".join(bad[:20])
+    return True, "whitelist passed"
+
+
+def merge_rule_evolution_worktree(worktree: Path, branch: str, flag: str, cluster_key: str) -> tuple[bool, str, str | None]:
     fetch = git("fetch", "origin", BASE_BRANCH, check=False, capture=True)
     if fetch.returncode != 0:
         return False, f"fetch failed: {tail(fetch.stderr)}", None
     merge_base = git("merge", f"origin/{BASE_BRANCH}", check=False, capture=True)
     if merge_base.returncode != 0:
         return False, f"base merge failed: {tail(merge_base.stderr or merge_base.stdout)}", None
-    merge = git("merge", "--no-ff", branch, "-m", f"taste: confirmed fix {short_hash(approval_id)}", check=False, capture=True)
+    merge = git(
+        "merge",
+        "--no-ff",
+        branch,
+        "-m",
+        f"taste: rule evolution {sanitize_branch_piece(flag)} {cluster_key}",
+        check=False,
+        capture=True,
+    )
     if merge.returncode != 0:
         git("merge", "--abort", check=False, capture=True)
         return False, f"worktree merge failed: {tail(merge.stderr or merge.stdout)}", None
@@ -1106,13 +1285,16 @@ def merge_confirmed_worktree(worktree: Path, branch: str, approval_id: str) -> t
     return True, "merged and pushed", commit_sha
 
 
-def dispatch_confirmed_fix(entry: dict[str, Any], approval: dict[str, Any]) -> tuple[bool, str, str | None]:
-    qid = str(entry.get("id") or approval.get("id") or "")
-    flag = str(entry.get("flag") or approval.get("flag") or "unknown")
-    slug = str(entry.get("chapter_slug") or approval.get("chapter_slug") or "unknown")
-    piece = sanitize_branch_piece(f"{flag}-{slug}-{short_hash(qid)}")
-    worktree = Path("/tmp") / f"wt-taste-{piece}"
-    branch = f"taste/{piece}"
+def dispatch_rule_evolution(
+    flag: str,
+    evidence: list[dict[str, Any]],
+    *,
+    approval_ids: list[str],
+) -> tuple[bool, str, str | None]:
+    cluster_key = short_hash(json.dumps({"flag": flag, "evidence": evidence}, sort_keys=True))
+    piece = sanitize_branch_piece(f"taste-evolve-{flag}-{cluster_key}")
+    worktree = Path("/tmp") / f"wt-{piece}"
+    branch = f"taste/evolve-{sanitize_branch_piece(flag)}-{cluster_key}"
     if worktree.exists():
         shutil.rmtree(worktree)
     base_sha = git("rev-parse", "HEAD", capture=True).stdout.strip()
@@ -1120,7 +1302,9 @@ def dispatch_confirmed_fix(entry: dict[str, Any], approval: dict[str, Any]) -> t
     if add.returncode != 0:
         return False, f"worktree add failed: {tail(add.stderr or add.stdout)}", None
     try:
-        prompt = prompt_for_confirmed_fix(entry, approval)
+        prompt = build_rule_evolution_prompt(flag, evidence)
+        if approval_ids:
+            prompt += "\nConfirmed approval ids:\n```json\n" + json.dumps(approval_ids, indent=2) + "\n```\n"
         res = run(
             [CODEX_PATH, "exec", "--dangerously-bypass-approvals-and-sandbox", "-C", str(worktree), prompt],
             cwd=worktree,
@@ -1130,15 +1314,20 @@ def dispatch_confirmed_fix(entry: dict[str, Any], approval: dict[str, Any]) -> t
         )
         if res.returncode != 0:
             return False, f"codex failed rc={res.returncode}: {tail((res.stdout or '') + (res.stderr or ''))}", None
-        diff = run(["git", "diff", "--name-only", f"{base_sha}..HEAD"], cwd=worktree, check=False, capture=True, timeout=30)
-        touched = [p for p in diff.stdout.splitlines() if p.strip()]
+        touched = touched_files_since(worktree, base_sha)
         if not touched:
             dirty = run(["git", "status", "--porcelain"], cwd=worktree, check=False, capture=True, timeout=30).stdout
             return False, f"codex made no committed changes; dirty={tail(dirty)}", None
-        ok, msg = verify_fix(worktree, touched)
+        dirty = run(["git", "status", "--porcelain"], cwd=worktree, check=False, capture=True, timeout=30).stdout
+        if dirty.strip():
+            return False, f"codex left uncommitted changes: {tail(dirty)}", None
+        ok, msg = validate_rule_evolution_touched(worktree, touched)
         if not ok:
             return False, msg, None
-        ok, msg, commit_sha = merge_confirmed_worktree(worktree, branch, qid)
+        ok, msg = verify_rule_evolution(worktree, touched)
+        if not ok:
+            return False, msg, None
+        ok, msg, commit_sha = merge_rule_evolution_worktree(worktree, branch, flag, cluster_key)
         return ok, msg, commit_sha
     finally:
         git("worktree", "remove", "--force", str(worktree), check=False, capture=True)
@@ -1147,15 +1336,13 @@ def dispatch_confirmed_fix(entry: dict[str, Any], approval: dict[str, Any]) -> t
 
 def process_confirmed_approvals(cfg: dict[str, Any], dry_run: bool) -> int:
     if dry_run:
-        print("[taste] dry-run: skipping confirmed approval execution", flush=True)
+        print("[taste] dry-run: skipping confirmed rule evolution execution", flush=True)
         return 0
     data = load_approvals()
     queue = existing_queue_entries()
     cap = int(cfg["MAX_AUTO_FIXES_PER_CYCLE"])
-    done = 0
+    confirmed: list[tuple[dict[str, Any], dict[str, Any]]] = []
     for approval in data.get("approvals", []):
-        if done >= cap:
-            break
         if not isinstance(approval, dict) or approval.get("status") != "confirmed":
             continue
         qid = str(approval.get("id") or "")
@@ -1165,19 +1352,40 @@ def process_confirmed_approvals(cfg: dict[str, Any], dry_run: bool) -> int:
         if not entry:
             reason = "queue entry id not found"
             update_approval_status(qid, "failed", failure_reason=reason, push=False)
-            append_alert("confirmed_fix_failed", {"id": qid, "failure_reason": reason})
-            done += 1
+            append_alert("confirmed_rule_evolution_failed", {"id": qid, "failure_reason": reason})
             continue
-        print(f"[taste] executing confirmed fix {qid}", flush=True)
-        ok, msg, commit_sha = dispatch_confirmed_fix(entry, approval)
+        flag = str(entry.get("flag") or approval.get("flag") or "")
+        if flag not in AUTO_FIXABLE_FLAGS:
+            reason = f"flag is not rule-evolution auto-fixable: {flag}"
+            update_approval_status(qid, "failed", failure_reason=reason, push=False)
+            append_alert("confirmed_rule_evolution_failed", {"id": qid, "failure_reason": reason})
+            continue
+        confirmed.append((entry, approval))
+    if not confirmed or cap <= 0:
+        return 0
+    clusters: dict[str, list[tuple[dict[str, Any], dict[str, Any]]]] = {}
+    for entry, approval in confirmed:
+        flag = str(entry.get("flag") or approval.get("flag") or "")
+        clusters.setdefault(flag, []).append((entry, approval))
+    flag, cluster = max(clusters.items(), key=lambda item: (len(item[1]), item[0]))
+    cluster = cluster[:MAX_RULE_EVOLUTION_CLUSTER_SIZE]
+    approval_ids = [str(approval.get("id") or entry.get("id") or "") for entry, approval in cluster]
+    evidence = [entry_to_evidence(entry) for entry, _approval in cluster]
+    print(f"[taste] executing confirmed rule evolution {flag} count={len(cluster)}", flush=True)
+    ok, msg, commit_sha = dispatch_rule_evolution(flag, evidence, approval_ids=approval_ids)
+    for qid in approval_ids:
+        if not qid:
+            continue
         if ok:
-            update_approval_status(qid, "done", commit_sha=commit_sha, push=True)
-            done += 1
+            update_approval_status(qid, "done", commit_sha=commit_sha, push=False)
         else:
             update_approval_status(qid, "failed", failure_reason=msg, push=False)
-            append_alert("confirmed_fix_failed", {"id": qid, "failure_reason": msg})
-            done += 1
-    return done
+            append_alert("confirmed_rule_evolution_failed", {"id": qid, "failure_reason": msg})
+    if ok:
+        pushed = git("push", "origin", BASE_BRANCH, check=False, capture=True)
+        if pushed.returncode != 0:
+            append_alert("approval_status_push_failed", {"ids": approval_ids, "stderr": tail(pushed.stderr)})
+    return min(1, cap)
 
 
 def detect_all(
@@ -1212,9 +1420,9 @@ def cycle(dry_run: bool = False) -> None:
     print(f"[taste] detected {len(findings)} finding(s)", flush=True)
     executed = process_confirmed_approvals(cfg, dry_run)
     if executed:
-        print(f"[taste] confirmed execution count={executed}; new finding triage deferred", flush=True)
+        print(f"[taste] confirmed rule evolution count={executed}; new finding triage deferred", flush=True)
     else:
-        triage_findings(findings, cfg, dry_run)
+        triage_findings(findings, cfg, state, dry_run)
     if not dry_run:
         state["last_seen_sha"] = artifacts.head
         state["last_success_sha"] = artifacts.head
