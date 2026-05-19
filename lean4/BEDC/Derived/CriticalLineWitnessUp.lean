@@ -285,4 +285,49 @@ theorem CriticalLineWitnessCarrier_root_unblock_modulus_ledger
       routeC,
       routeN⟩
 
+theorem CriticalLineWitnessCarrier_downstream_zero_source_readback
+    {Z S M R Q H C P N zeroRead downstreamRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S zeroRead ->
+        Cont zeroRead Q downstreamRead ->
+          UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory Q ∧ UnaryHistory zeroRead ∧
+            UnaryHistory downstreamRead ∧ hsame H (append Z S) ∧ Cont Z S zeroRead ∧
+              Cont zeroRead Q downstreamRead ∧ Cont M R Q ∧ Cont Q H C ∧ Cont C P N := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro packet zeroRoute downstreamRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have zeroReadUnary : UnaryHistory zeroRead :=
+    unary_cont_closed unaryZ unaryS zeroRoute
+  have downstreamReadUnary : UnaryHistory downstreamRead :=
+    unary_cont_closed zeroReadUnary unaryQ downstreamRoute
+  exact
+    ⟨unaryZ, unaryS, unaryQ, zeroReadUnary, downstreamReadUnary, sameH, zeroRoute,
+      downstreamRoute, routeQ, routeC, routeN⟩
+
+theorem CriticalLineWitnessCarrier_root_fixed_tuple_image_row
+    {Z S M R Q H C P N image : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont (append Z S) Q image ->
+        UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+          UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory image ∧ hsame H (append Z S) ∧
+            Cont M R Q ∧ Cont Q H C ∧ Cont C P N ∧ Cont (append Z S) Q image := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro packet imageRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have sourceUnary : UnaryHistory (append Z S) :=
+    unary_cont_closed unaryZ unaryS (cont_intro rfl)
+  have unaryH : UnaryHistory H :=
+    unary_transport sourceUnary (hsame_symm sameH)
+  have imageUnary : UnaryHistory image :=
+    unary_cont_closed sourceUnary unaryQ imageRoute
+  exact
+    ⟨unaryZ, unaryS, unaryM, unaryR, unaryQ, unaryH, imageUnary, sameH, routeQ,
+      routeC, routeN, imageRoute⟩
+
 end BEDC.Derived.CriticalLineWitnessUp
