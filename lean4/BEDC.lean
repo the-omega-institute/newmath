@@ -40,6 +40,7 @@ import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
 import BEDC.Derived.AnalyticContinuationSocketUp
 import BEDC.Derived.AnalyticContinuationSocketUp.OutputBranchSeparation
+import BEDC.Derived.AnalyticContinuationSocketUp.RootBranchLedger
 import BEDC.Derived.AnchorChangeInvariantUp.TasteGate
 import BEDC.Derived.AnchorStabilityCertificateUp.TasteGate
 import BEDC.Derived.ApartnessRealUp
@@ -1140,6 +1141,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerScheduleLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ConsumerFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.DepthRowStability
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NameCertExportTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NormalizationFrontierHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRowDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
@@ -4328,6 +4330,7 @@ import BEDC.Derived.ZeckendorfCarryValueUp.TasteGate
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.ZetaBasicUp
+import BEDC.Derived.ZetaContinuationApplicationUp.EtaFactorization
 import BEDC.Derived.ZetaContinuationApplicationUp.RootLedgerBoundary
 import BEDC.Derived.ZetaContinuationApplicationUp.RootObligations
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
