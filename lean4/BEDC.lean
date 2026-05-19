@@ -461,6 +461,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.RouteProvenanceTriadObligations
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SevenRowCoverage
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SourceLock
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.StdBridge
+import BEDC.Derived.AxisZeckendorfCannotClaimUp.TasteGate
 import BEDC.Derived.AxisZeckendorfCarryBudgetUp
 import BEDC.Derived.AxisZeckendorfCarryBudgetUp.FullPacketSemanticNameCert
 import BEDC.Derived.BHistArity13SequenceNameCertUp
@@ -3794,6 +3795,8 @@ import BEDC.Derived.RealityConstrainedModelAuditUp.SignatureExactness
 import BEDC.Derived.RealityConstrainedModelAuditUp.TasteGate
 import BEDC.Derived.RealityConstrainedModelErrorBudgetUp.TasteGate
 import BEDC.Derived.RealityConstrainedObjectivityUp.TasteGate
+import BEDC.Derived.RealityConstrainedOpenFitUp.FiniteRefutationSurface
+import BEDC.Derived.RealityConstrainedOpenFitUp.LedgerNonescape
 import BEDC.Derived.RealityConstrainedOpenFitUp.NameCertObligations
 import BEDC.Derived.RealityConstrainedOpenFitUp.TasteGate
 import BEDC.Derived.RealityConstrainedPhysicalInductionUp.NameCertObligations
@@ -4635,7 +4638,6 @@ import BEDC.Derived.ZetaContinuationApplicationUp.FunctionalRowTotality
 import BEDC.Derived.ZetaContinuationApplicationUp.GammaEtaHandoff
 import BEDC.Derived.ZetaContinuationApplicationUp.GammaHorizonBoundary
 import BEDC.Derived.ZetaContinuationApplicationUp.PoleZeroLedgerSeparation
-import BEDC.Derived.ZetaContinuationApplicationUp.PrimitiveScopePackage
 import BEDC.Derived.ZetaContinuationApplicationUp.PublicExportSurface
 import BEDC.Derived.ZetaContinuationApplicationUp.RootBoundaryTriad
 import BEDC.Derived.ZetaContinuationApplicationUp.RootLedgerBoundary
@@ -4722,7 +4724,6 @@ import BEDC.Derived.ZnormalUp.NormalOutputBoundary
 import BEDC.Derived.ZnormalUp.NormalOutputRootNonescape
 import BEDC.Derived.ZnormalUp.NormalWordContinuationScopeLock
 import BEDC.Derived.ZnormalUp.NormalWordSiblingExactness
-import BEDC.Derived.ZnormalUp.ObligationClosurePackage
 import BEDC.Derived.ZnormalUp.ReadbackObligationTriad
 import BEDC.Derived.ZnormalUp.ReadinessBridgeSource
 import BEDC.Derived.ZnormalUp.RootBridgeComponents
