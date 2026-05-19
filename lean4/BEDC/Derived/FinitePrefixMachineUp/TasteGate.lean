@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FinitePrefixMachineUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -237,5 +239,21 @@ theorem FinitePrefixMachineTasteGate_single_carrier_alignment :
   · intro x
     change finitePrefixMachineFromEventFlow (finitePrefixMachineToEventFlow x) = some x
     exact finitePrefixMachine_round_trip x
+
+def FinitePrefixMachineCarrier (M Q T F E A H C N : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  Cont M F E ∧ Cont E A C ∧ hsame H T ∧ hsame N M ∧ hsame Q Q
+
+theorem FinitePrefixMachineCarrier_prefix_determinacy
+    {M Q T F E A H C N E' A' C' : BHist} :
+    FinitePrefixMachineCarrier M Q T F E A H C N →
+      Cont M F E' →
+        Cont E' A' C' →
+          hsame A A' →
+            hsame C C' → hsame E E' ∧ hsame C C' := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro carrier routeEndpoint' _routeAcceptance' _sameAcceptance sameAccepted
+  rcases carrier with ⟨routeEndpoint, _routeAcceptance, _sameReplay, _sameName, _sameState⟩
+  exact ⟨cont_deterministic routeEndpoint routeEndpoint', sameAccepted⟩
 
 end BEDC.Derived.FinitePrefixMachineUp
