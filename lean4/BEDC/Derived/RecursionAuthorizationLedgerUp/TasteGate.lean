@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
+import BEDC.FKernel.Unary.History
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RecursionAuthorizationLedgerUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -286,5 +296,59 @@ theorem RecursionAuthorizationLedgerTasteGate_single_carrier_alignment :
         · exact recursionAuthorizationLedger_round_trip
         · intro x y heq
           exact recursionAuthorizationLedgerToEventFlow_injective heq
+
+def RecursionAuthorizationLedgerPacket [AskSetup] [PackageSetup]
+    (signature recursor motive branches descent output transport routes provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  UnaryHistory signature ∧ UnaryHistory recursor ∧ UnaryHistory motive ∧
+    UnaryHistory branches ∧ UnaryHistory descent ∧ UnaryHistory output ∧
+      UnaryHistory transport ∧ UnaryHistory routes ∧ UnaryHistory provenance ∧
+        UnaryHistory name ∧ Cont signature recursor motive ∧
+          Cont motive branches descent ∧ Cont descent output transport ∧
+            Cont transport routes provenance ∧ PkgSig bundle provenance pkg
+
+theorem RecursionAuthorizationLedgerPacket_branch_descent_exactness [AskSetup]
+    [PackageSetup]
+    {signature recursor motive branches descent output transport routes provenance name
+      branchRead outputRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RecursionAuthorizationLedgerPacket signature recursor motive branches descent output
+        transport routes provenance name bundle pkg →
+      Cont branches descent branchRead →
+        Cont branchRead output outputRead →
+          PkgSig bundle outputRead pkg →
+            UnaryHistory branches ∧ UnaryHistory descent ∧ UnaryHistory branchRead ∧
+              UnaryHistory outputRead ∧ Cont branches descent branchRead ∧
+                Cont branchRead output outputRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle outputRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet branchesDescentBranchRead branchReadOutputOutputRead outputReadPkg
+  obtain ⟨_signatureUnary, _recursorUnary, _motiveUnary, branchesUnary, descentUnary,
+    outputUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    _signatureRecursorMotive, _motiveBranchesDescent, _descentOutputTransport,
+    _transportRoutesProvenance, provenancePkg⟩ := packet
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed branchesUnary descentUnary branchesDescentBranchRead
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed branchReadUnary outputUnary branchReadOutputOutputRead
+  exact
+    ⟨branchesUnary, descentUnary, branchReadUnary, outputReadUnary,
+      branchesDescentBranchRead, branchReadOutputOutputRead, provenancePkg, outputReadPkg⟩
+
+theorem RecursionAuthorizationLedger_signature_acceptance
+    {signature signature' recursor recursor' motive motive' branches branches'
+      descent descent' output output' transport transport' routes routes'
+      provenance provenance' name name' route : BHist} :
+    RecursionAuthorizationLedgerUp.mk signature' recursor' motive' branches' descent'
+        output' transport' routes' provenance' name' =
+      RecursionAuthorizationLedgerUp.mk signature recursor motive branches descent output
+        transport routes provenance name →
+      Cont signature recursor route →
+        Cont signature' recursor' route := by
+  -- BEDC touchpoint anchor: BHist Cont
+  intro sameCarrier signatureRoute
+  cases sameCarrier
+  exact signatureRoute
 
 end BEDC.Derived.RecursionAuthorizationLedgerUp
