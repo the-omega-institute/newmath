@@ -62,6 +62,33 @@ witnesses from $s,t$ to $s',t'$. Repacking the transported point classifier
 over all certified unary observations gives
 $\mathsf{RealUnaryStreamClassifier}(s',t')$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_stability\_package}
+
+\begin{theorem}[Real unary stream-name stability package]
+\label{thm:real-unary-stream-classifier-streamname-stability-package}
+For rational-observation maps $s,t,u,s',t':\Hist\to\Hist$, the stability
+package of \autoref{thm:real-unary-stream-classifier-stability-package} is
+also the StreamNameUp reading of the same unary-observation classifier data.
+In particular, under the same carrier, classifier, composability, and
+endpoint-transport hypotheses, one obtains
+$$
+\mathsf{RatStreamNameClassifier}(s,t)
+$$
+together with the self, symmetry, transitivity, endpoint-carrier, and
+transport conclusions listed in
+\autoref{thm:real-unary-stream-classifier-stability-package}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-unary-stream-classifier-stability-package} to the
+given hypotheses. Its proof unfolds the RatStreamNameUp carrier and classifier
+rows and identifies them with the same pointwise RatUp classifier used by
+$\mathsf{RealUnaryStreamClassifier}$ over certified unary observations.
+
+Thus the first component of the package is the StreamNameUp classifier
+$\mathsf{RatStreamNameClassifier}(s,t)$, while the remaining components are
+the same RealUp self, reversed, composed, endpoint-carrier, and transported
+classifier rows from the stability package.
+\end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_streamName\_stability\_package}
 
 \begin{theorem}[Real unary stream-name transported classifier]
