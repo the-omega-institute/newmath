@@ -232,6 +232,46 @@ streams, selected host limits, countable choice data, ambient and metric
 completeness rows, and second seal coordinates from the comparison.
 \end{proof}
 
+\begin{theorem}[RegSeqRat dyadic-stream tail-budget common refinement]
+\label{thm:regseqrat-dyadic-stream-tail-budget-common-refinement}
+Let $P$ and $Q$ be accepted $\RegSeqRatUp$ tail-budget presentations whose
+$\StreamNameUp$ schedules and $\DyadicRatCoreUp$ endpoint, radius, and distance
+ledgers admit a displayed common finite window. The two presentations determine
+the same terminal $\RealUp$ seal surface exactly when that common window
+preserves the $\StreamNameUp$ pointwise classifier, the $\DyadicRatCoreUp$
+radius handoff, the $\RegSeqRatUp$ classifier rows, and the $\RealUp$ source
+factorization rows.
+
+The common-refinement certificate is only this finite BEDC route through
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It contains no quotient
+stream, selected host limit, countable choice datum, ambient completeness
+carrier, or second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+First view the two accepted presentations as composable tail-budget consumer
+routes through the displayed four-face path. Apply
+\autoref{thm:regseqrat-tail-budget-composition-correspondence}; it reduces
+agreement of the terminal $\RealUp$ seal surface to preservation of the
+StreamName schedule row, DyadicRatCore ledger rows, RegSeqRat classifier and
+regularity rows, the terminal RealUp seal row, and the displayed support rows.
+
+Next identify the common finite window. The shared-window reindex composition
+law of \autoref{thm:regseqrat-shared-window-reindex-composition-law} supplies
+the finite comparison of the two StreamName schedules and DyadicRatCore ledgers.
+The pullback theorem
+\autoref{thm:regseqrat-tail-budget-window-seal-pullback} transports the
+RegSeqRat classifier rows and the Real-facing support rows along that window.
+
+Finally apply \autoref{thm:regseqrat-tail-budget-terminal-real-seal}. The
+terminal seal row is therefore determined by exactly the four preserved
+surfaces named in the statement. The later Lean route is represented by
+\texttt{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_common\_refinement\_classifier\_determinacy},
+\texttt{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreRegSeqRatWindow\_radius\_handoff},
+\texttt{BEDC.Derived.StreamNameUp.StreamNameRegSeqRatPointwiseHandoff}, and
+\texttt{BEDC.Derived.RealUp.RealNameSeal\_source\_factorization}; no Lean marker
+is asserted here.
+\end{proof}
+
 \begin{theorem}[RegSeqRat tail-budget facewise status pullback]
 \label{thm:regseqrat-tail-budget-facewise-status-pullback}
 Every accepted tail-budget $\RealUp$-seal consumer of an accepted
