@@ -1,9 +1,11 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.AxiomRequirementLedgerUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -371,5 +373,59 @@ theorem AxiomRequirementLedgerTasteGate_single_carrier_alignment :
       · intro x y heq
         exact axiomRequirementLedgerToEventFlow_injective heq
       · rfl
+
+theorem AxiomRequirementLedgerNameCertObligations (x : AxiomRequirementLedgerUp) :
+    ∃ claim mode witness required refusal transport route provenance componentRoutes
+      consumerRoutes package localName : BHist,
+      x = AxiomRequirementLedgerUp.mk claim mode witness required refusal transport route
+        provenance componentRoutes consumerRoutes package localName ∧
+      axiomRequirementLedgerFields x =
+        [claim, mode, witness, required, refusal, transport, route, provenance,
+          componentRoutes, consumerRoutes, package, localName] ∧
+      hsame (append claim mode) (append claim mode) ∧
+      Cont refusal transport (append refusal transport) ∧
+      Cont route provenance (append route provenance) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk claim mode witness required refusal transport route provenance componentRoutes
+      consumerRoutes package localName =>
+      exact
+        ⟨claim, mode, witness, required, refusal, transport, route, provenance,
+          componentRoutes, consumerRoutes, package, localName, rfl, rfl,
+          hsame_refl (append claim mode), cont_intro rfl, cont_intro rfl⟩
+
+theorem AxiomRequirementLedgerRequiredSupplyNonescape (x : AxiomRequirementLedgerUp) :
+    ∃ claim mode witness required refusal transport route provenance componentRoutes
+      consumerRoutes package localName : BHist,
+      x = AxiomRequirementLedgerUp.mk claim mode witness required refusal transport route
+        provenance componentRoutes consumerRoutes package localName ∧
+      List.Mem required (axiomRequirementLedgerFields x) ∧
+      List.Mem witness (axiomRequirementLedgerFields x) ∧
+      List.Mem refusal (axiomRequirementLedgerFields x) ∧
+      Cont required refusal (append required refusal) ∧
+      Cont transport route (append transport route) ∧
+      hsame componentRoutes componentRoutes := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk claim mode witness required refusal transport route provenance componentRoutes
+      consumerRoutes package localName =>
+      exact
+        ⟨claim, mode, witness, required, refusal, transport, route, provenance,
+          componentRoutes, consumerRoutes, package, localName, rfl, by
+            exact
+              List.Mem.tail claim
+                (List.Mem.tail mode
+                  (List.Mem.tail witness (List.Mem.head _))),
+          by
+            exact
+              List.Mem.tail claim
+                (List.Mem.tail mode (List.Mem.head _)),
+          by
+            exact
+              List.Mem.tail claim
+                (List.Mem.tail mode
+                  (List.Mem.tail witness
+                    (List.Mem.tail required (List.Mem.head _)))),
+          cont_intro rfl, cont_intro rfl, hsame_refl componentRoutes⟩
 
 end BEDC.Derived.AxiomRequirementLedgerUp
