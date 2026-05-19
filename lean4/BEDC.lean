@@ -4376,6 +4376,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleGammaBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicContourGammaSeparation
+import BEDC.Derived.ZetaContinuationWitnessUp.PublicCriticalStripExport
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportLock
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportRouteLock
@@ -4432,6 +4433,7 @@ import BEDC.Derived.ZnormalUp.RootReadinessBridgeSource
 import BEDC.Derived.ZnormalUp.RootRefusalLedgerSeparation
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
 import BEDC.Derived.ZnormalUp.RootSiblingRefusalExhaustion
+import BEDC.Derived.ZnormalUp.RootTerminalCarrierAdmission
 import BEDC.Derived.ZnormalUp.RootTerminalNonescapeInterface
 import BEDC.Derived.ZnormalUp.RootTerminalNormalityExposure
 import BEDC.Derived.ZnormalUp.RootTotalHostBridgeComponents
@@ -4469,6 +4471,7 @@ import BEDC.Derived.ZnormalUp.TerminalRouteObligationCompletion
 import BEDC.Derived.ZnormalUp.TerminalRowConstructorExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostConsumerScope
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
+import BEDC.Derived.ZnormalUp.TotalHostFieldReadiness
 import BEDC.Derived.ZnormalUp.TotalHostFrontierLock
 import BEDC.Derived.ZnormalUp.TotalHostFuelReplayBoundary
 import BEDC.Derived.ZnormalUp.TotalHostLedgerExhaustion
