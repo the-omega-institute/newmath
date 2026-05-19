@@ -807,12 +807,9 @@ def changed_concrete_instance_tex_paths() -> set[Path] | None:
 
 
 def detect_mislabeled_composite_carriers(min_bucket_size: int = 6) -> list[dict[str, object]]:
-    changed = changed_concrete_instance_tex_paths()
     origins_by_region: dict[str, dict[str, object]] = {}
     for block in collect_closurestatus_blocks(PAPER_PARTS_ROOT):
         paper_file = str(block.get("file") or "")
-        if changed is not None and (REPO_ROOT / paper_file).resolve() not in changed:
-            continue
         region = str(block.get("region") or "")
         origin = str(block.get("origin") or "human").strip().lower()
         if not region or origin not in VALID_ORIGINS:
@@ -827,8 +824,6 @@ def detect_mislabeled_composite_carriers(min_bucket_size: int = 6) -> list[dict[
     if instances.is_dir():
         for path in sorted(instances.rglob("*.tex")):
             if not path.is_file():
-                continue
-            if changed is not None and path not in changed:
                 continue
             text = read_text(path)
             label_match = CHAPTER_LABEL_RE.search(text)
@@ -863,13 +858,6 @@ def detect_mislabeled_composite_carriers(min_bucket_size: int = 6) -> list[dict[
         origin_info = origins_by_region.get(region)
         if not origin_info or origin_info.get("origin") != "ai":
             continue
-        if changed is not None:
-            paper_file = origin_info.get("paper_file")
-            if not paper_file:
-                continue
-            paper_path = (REPO_ROOT / str(paper_file)).resolve()
-            if paper_path not in changed:
-                continue
         key = (record.arity, tuple(sorted(record.field_types)))
         members = sorted(phase1_map.get(key, []), key=lambda item: item.name)
         if len(members) < min_bucket_size:
@@ -1296,7 +1284,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 print(f"  {item['file']}: {item['kind']}")
         if payload["mislabeled_composite_carriers"]:
             print(
-                "[bedc-ci] mislabeled composite carriers (informational): "
+                "[bedc-ci] mislabeled composite carriers: "
                 f"{payload['mislabeled_composite_carriers_new_count']} new (BLOCKING), "
                 f"{payload['mislabeled_composite_carriers_legacy_count']} legacy (warning)"
             )
