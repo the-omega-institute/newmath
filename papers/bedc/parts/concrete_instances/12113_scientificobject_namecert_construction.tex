@@ -77,17 +77,57 @@ The structural rows $H,C,P,N$ transport, replay, source, and name the same displ
 \end{proof}
 \leanchecked{BEDC.Derived.ScientificObjectUp.ScientificObjectTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Scientific object record-classifier admission]
+\label{thm:scientific-object-record-classifier-admission}
+Every accepted $\ScientificObjectUp$ packet first exposes its record row $R$ and classifier row $K$. The carrier transport through $H$ and the displayed replay through $C$ are available before any consumer reads the empirical ledger $L$, bridge row $B$, truth row $T$, domain row $D$, gap report $G$, provenance row $P$, or local name row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:scientific-object-carrier}. The displayed packet starts with $R$ and $K$, and its structural rows $H$ and $C$ record componentwise $\hsame$ transport and $\Cont$ replay for the same finite data.
+
+Apply \autoref{def:scientific-object-namecert-obligations}. Carrier admission, record exposure, and classifier exposure are listed before the later ledger, bridge, gap-report, audit, truth, open-fit, domain, provenance, and local-name reads. Thus a consumer cannot reach the object-facing rows while bypassing the record and classifier admission surface.
+\end{proof}
+
+\begin{theorem}[Scientific object truth-domain gap scope]
+\label{thm:scientific-object-truth-domain-gap-scope}
+In every accepted $\ScientificObjectUp$ packet, the truth row $T$, domain row $D$, and gap-report row $G$ remain separate scoped obligations. The reality-constrained truth route is readable only through the domain row, and neither row discharges the gap report.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:scientific-object-gap-report-ledger}. The gap report $G$ is a named coordinate before the local name and cannot be replaced by the empirical ledger, bridge, audit, truth, or domain rows.
+
+Use \autoref{thm:scientific-object-empirical-bridge-separation}. The reality-constrained truth row and the domain certificate row support the model-facing route, but the bridge does not discharge record exposure, invariant exposure, ledger residue, audit strength, or the gap report.
+
+Therefore $T$ supplies only the reality-constrained truth surface, $D$ supplies the domain in which that surface may be read, and $G$ remains the separate report of unclosed prediction, domain, bridge, and falsification commitments.
+\end{proof}
+
+\begin{theorem}[Scientific object obligation-closure package]
+\label{thm:scientific-object-obligation-closure-package}
+The carrier, record-classifier admission, gap-report ledger, empirical-bridge separation, truth-domain scope, NameCert surface, falsifiability row, and independence row together provide the paper-side obligation package for $\ScientificObjectUp$. Every accepted object read is constrained by
+$$
+R,K,I,L,B,G,A,T,O,D,H,C,P,N
+$$
+and by the displayed refusal of bare object existence, unledgered empirical fit, hidden model identity, global synchronization, and final physical truth outside those rows.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:scientific-object-carrier} displays all finite rows in the package and states the absent coordinates. Apply \autoref{thm:scientific-object-record-classifier-admission} to force record and classifier admission before downstream object reads.
+
+Apply \autoref{thm:scientific-object-gap-report-ledger}, \autoref{thm:scientific-object-empirical-bridge-separation}, and \autoref{thm:scientific-object-truth-domain-gap-scope}. These results keep the gap ledger, empirical bridge, truth route, and domain scope as separate obligations.
+
+Finally apply \autoref{thm:scientific-object-namecert-surface}. The falsifiability row rejects consumers that omit the gap report, empirical ledger, inter-history invariant, or reality-constrained truth rows, and the independence row records that the named siblings supply constituent surfaces rather than the full carrier. The listed rows therefore form the paper-side obligation package for $\ScientificObjectUp$.
+\end{proof}
+
 \falsifiablePrediction{Any accepted ScientificObjectUp consumer that exports a mature scientific object while omitting the gap report, empirical ledger, inter-history invariant, or reality-constrained truth rows refutes the packet.}
 
 \independenceWitness{physicalmodelaudit, realityconstrainedtruthcert, openfitpacket, domaintruthcertificate, interhistinvariant: none is bijective because $\ScientificObjectUp$ binds records, classifier, invariant, ledger, bridge, gap report, audit, truth, open-fit, domain, transport, provenance, and local NameCert rows in one carrier, while each sibling supplies only one constituent surface.}
 
-The Lean follow-up path \texttt{lean4/BEDC/Derived/ScientificObjectUp/TasteGate.lean} must provide explicit $\Nontrivial\ \ScientificObjectUp$ and $\FieldFaithful\ \ScientificObjectUp$ instances. These instances must distinguish record, classifier, invariant, empirical-ledger, bridge, gap-report, audit, truth-certificate, open-fit, domain, transport, replay, provenance, and local NameCert rows.
+The Lean TasteGate path \texttt{lean4/BEDC/Derived/ScientificObjectUp/TasteGate.lean} provides explicit $\Nontrivial\ \ScientificObjectUp$ and $\FieldFaithful\ \ScientificObjectUp$ instances. These instances distinguish record, classifier, invariant, empirical-ledger, bridge, gap-report, audit, truth-certificate, open-fit, domain, transport, replay, provenance, and local NameCert rows.
 
 \closureat{ScientificObjectUp}{seedStr}
+\closureat{ScientificObjectUp}{obligationStr}
 
 \begin{closurestatus}{\ScientificObjectUp}
   \constructivestory{A $\ScientificObjectUp$ packet is generated from finite record, classifier, invariant, empirical ledger, bridge, gap report, audit, truth, open-fit, domain, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
-  \theoryclosure{\seedClosure}
+  \leanchecked{BEDC.Derived.ScientificObjectUp.taste\_gate}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:scientific-object-carrier} and \autoref{thm:scientific-object-namecert-surface} bind the finite scientific-object carrier and its NameCert read surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

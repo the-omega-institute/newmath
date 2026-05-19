@@ -1,0 +1,50 @@
+---
+title: "Taste 演化日志"
+lang: zh-CN
+toc: true
+toc-depth: 2
+date-modified: today
+---
+
+# Taste 演化日志
+
+本文件记录 `tools/taste_curator.py` daemon 每次成功的规则演化 (rule evolution).
+
+每个 section 是一次演化, 按时间从早到晚追加. 内容固定 4 段: 变更原因 / 意义 / 实施情况 / 元数据.
+
+## 工作方式
+
+Daemon 每 cycle 扫描 codex-auto-dev 最近 commit, 按品味/质量维度 (carrier 同构 bucket /
+origin lineage / autoref entropy / boilerplate score) 检测违规, 累积到 cluster 后派 codex
+修改 P/R 自动化管线的规则文件 (papers/bedc/scripts/prompts/*, lean4/scripts/prompts/*,
+lean4/scripts/bedc_ci.py, phase gate scripts), 让未来 P/R round 不再产生同类 garbage.
+
+已经存在的违规章节不直接编辑 — P/R orchestrator 后续自然 touch 这些文件时, post-merge
+audit gate 拒绝 → codex_resolve_post_rebase_audit 调 codex 顺手修复. 自我消化.
+
+---
+
+(以下 section 由 daemon 在每次成功 rule evolution 后追加.)
+
+## 2026-05-19 16:49:31 — mislabeled_composite
+
+### 变更原因
+
+`mislabeled_composite` cluster 共 20 个 finding。代表样本包括 `realcompletionexactboundary`、`realityconstrainedmodelaudit`、`observationreflectionpacket`：paper 侧保留 atomic `\origin{ai}`，但 Lean carrier 落入 `phase1_buckets` 大桶，桶规模分别达到 54、199、157，字段类型表面与大量兄弟重合，最大共享字段重叠到 6、7、9。
+
+### 意义
+
+规则现在拒绝把大规模 carrier-isomorphism 桶成员标成 atomic `ai`。P/R round 若生成或保留 `\origin{ai}`，同时 `<X>Up` carrier 处在至少 6 个成员的 `phase1_buckets` 中，就由 audit 拒绝；该形态应标为 `ai-composite` 或重做成真正孤立的字段表面。这阻止 template multiplication 与 mislabeled lineage 混入 atomic discovery 轨道。
+
+### 实施情况
+
+修改文件：`lean4/scripts/bedc_ci.py`、`papers/bedc/scripts/prompts/phase_review.txt`、`papers/bedc/scripts/prompts/phase_revise.txt`。审计片段为 `detect_mislabeled_composite_carriers(min_bucket_size=6)`，payload 字段为 `mislabeled_composite_carriers` / `mislabeled_composite_carriers_count`；prompt 规则写入：“Do not propose an atomic `ai` chapter whose `<X>Up` carrier falls in a `phase1_buckets` carrier-isomorphism bucket with at least 6 members.” 现有违规不直接编辑，依赖 P/R orchestrator 自然 touch 与 post-merge audit recovery 消化。
+
+### 元数据
+
+- finding 数量: 20
+- cluster flag: mislabeled_composite
+- daemon cycle: 2026-05-19 16:49:31
+- 你即将 commit 的 SHA 留空, 由 daemon 后续填写或 commit message 反查
+
+---

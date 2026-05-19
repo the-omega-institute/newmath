@@ -89,6 +89,7 @@ The same minimality holds for the displayed support surface. If any displayed $\
 
 This is only a minimality statement for the objectwise exit certificate. It does not introduce quotient streams, selected limits, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, or $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealUp.RealL10ExitCertificateFaceMinimality}
 \begin{proof}
 First identify the certificate whose minimality is being tested. By \autoref{thm:real-l10-objectwise-face-status-exit}, the accepted roadmap exit read is exactly the objectwise product of the four local face-status records together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
 
@@ -113,6 +114,7 @@ Then $\mathcal P$ and $\mathcal P'$ determine the same Real L10 exit certificate
 
 Conversely, equality of Real L10 exit-certificate reads recovers equality of exactly those four local face-status records and the five displayed BEDC support rows. It recovers no quotient stream equality, no selected limit, no countable-choice selector, no metric-completeness datum, no aggregate $\formalstatus$ row, no aggregate bridge row, and no $\RealUp$ completeness claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealUp.RealL10ExitCertificateSupportNoConfusion}
 \begin{proof}
 First identify the surface on which both certificates are read. By \autoref{thm:real-l10-objectwise-face-status-exit}, an accepted Phase Real and Completion exit certificate is the objectwise product of the four face-status records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ rows, together with exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Since $\mathcal P$ and $\mathcal P'$ expose the same rows, they have the same displayed objectwise exit certificate.
 
@@ -292,24 +294,53 @@ The conclusion is therefore support-row reindexing invariance of the displayed o
 
 \begin{theorem}[Real L10 face-local formal upgrade invariance]
 \label{thm:real-l10-face-local-formal-upgrade-invariance}
-Let $\mathcal E$ be a finite Phase $\RealUp$ and Completion packet over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ rows satisfying the current-phase exit local threshold of \autoref{thm:real-l10-current-phase-exit-local-threshold}. Let $F$ be one of the four displayed faces. Form $\mathcal E_F^+$ by replacing only the local formal-status row, leantarget row, or bridgestatus row attached to $F$ by a strictly stronger local row attached to the same face.
+Let $\mathcal E$ be a finite Phase $\RealUp$ and Completion packet over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ rows satisfying the current-phase exit local threshold of \autoref{thm:real-l10-current-phase-exit-local-threshold}. Let $F$ be one of the four displayed faces. Form $\mathcal E_F^+$ by replacing only the local formal-status row attached to $F$ by a strictly stronger local formal-status row, or by replacing only the leantarget row or bridgestatus row attached to $F$ by a replacement row attached to the same face whose recorded target or bridge status refines the same local face without changing the other three face records.
 
-Assume that the other three face records are unchanged and that the displayed support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ are unchanged. Then $\mathcal E_F^+$ determines the same four-face Phase $\RealUp$ and Completion exit certificate as $\mathcal E$. Conversely, any packet with the same four-face exit certificate and with all non-$F$ face records and displayed support rows fixed differs from $\mathcal E$ only by such a face-local strengthening of the status, leantarget, or bridge-status row on $F$.
+Assume that the displayed support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ are unchanged. Then $\mathcal E_F^+$ determines the same four-face Phase $\RealUp$ and Completion exit certificate as $\mathcal E$. Conversely, any packet with the same four-face exit certificate and with all non-$F$ face records and displayed support rows fixed differs from $\mathcal E$ only by a face-local formal-status strengthening on $F$, or by a face-local leantarget or bridgestatus refinement attached to $F$ that preserves the same displayed certificate surface.
 
 This invariance is purely face-local. It does not introduce route-level formalstatus, aggregate leantarget rows, aggregate bridge rows, selected limits, quotient streams, metric-completeness data, $\RealUp$ completeness, or any replacement for the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
 \end{theorem}
 \begin{proof}
 First identify the certificate whose stability is being tested. By \autoref{thm:real-l10-objectwise-face-status-exit}, the accepted Phase $\RealUp$ and Completion exit certificate is the objectwise product of the four local face-status records together with exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
 
-For the forward direction, replace the selected row on $F$ by a strictly stronger local row attached to the same face. The other three face records and all displayed support rows are unchanged, so the objectwise product still has the same four faces and the same finite BEDC support surface. By \autoref{thm:real-l10-face-status-noncollapse} and \autoref{thm:real-l10-face-leantarget-noncollapse}, the strengthened status, Lean-target, or bridge-status data remains attached to $F$ and cannot become a route-level aggregate row.
+For the forward direction, first consider a strictly stronger local formal-status row attached to $F$. The other three face records and all displayed support rows are unchanged, so the objectwise product still has the same four faces and the same finite BEDC support surface. By \autoref{thm:real-l10-face-status-noncollapse}, the stronger formal-status data remains attached to $F$ and cannot become a route-level aggregate row.
+
+The leantarget and bridgestatus alternatives are same-face refinements rather than entries in a shared strengthening order. Their recorded target or bridge status remains attached to $F$, refines that local face, and preserves the other three face records together with the displayed support rows. By \autoref{thm:real-l10-face-leantarget-noncollapse}, the Lean-target refinement cannot become an aggregate route row, and the objectwise face-status certificate keeps bridge-status information on the displayed local face surface.
 
 Now use support-row invariance. Apply \autoref{thm:real-l10-face-order-permutation-invariance}. Since the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are fixed and no face is detached or reordered outside the accepted terminal route, the finite BEDC packet presents the same objectwise exit certificate after the local strengthening.
 
 For the converse direction, suppose a packet presents the same four-face exit certificate while the three non-$F$ face records and all displayed support rows are fixed. By \autoref{thm:real-l10-exit-certificate-face-minimality}, none of the four faces and none of the displayed support rows can be deleted, aggregated, duplicated, or replaced while the same current Real L10 exit certificate is retained.
 
-It remains only to locate the possible difference. The non-$F$ records are fixed by hypothesis, and minimality fixes the displayed support surface. The noncollapse theorems keep formalstatus and Lean-target rows attached to their source face, while the objectwise face-status theorem keeps bridge-status information local to the four displayed faces. Hence any remaining difference is exactly a stronger local formal-status, leantarget, or bridge-status row on $F$.
+It remains only to locate the possible difference. The non-$F$ records are fixed by hypothesis, and minimality fixes the displayed support surface. The noncollapse theorems keep formalstatus and Lean-target rows attached to their source face, while the objectwise face-status theorem keeps bridge-status information local to the four displayed faces. Hence any remaining difference is either a stronger local formal-status row on $F$, or a same-face leantarget or bridgestatus refinement on $F$ that preserves the displayed certificate surface.
 
-All excluded data remain absent. The cited results use only the four face records and the displayed support rows; they provide no route-level formalstatus, aggregate bridge coordinate, selected limit, quotient stream, metric-completeness datum, or $\RealUp$ completeness row. Thus the certificate is invariant precisely under the stated face-local formal strengthening.
+All excluded data remain absent. The cited results use only the four face records and the displayed support rows; they provide no route-level formalstatus, aggregate bridge coordinate, selected limit, quotient stream, metric-completeness datum, or $\RealUp$ completeness row. Thus the certificate is invariant precisely under the stated face-local formal strengthening and same-face leantarget or bridgestatus refinement.
+\end{proof}
+
+\begin{theorem}[Real L10 exit-threshold face-local correspondence]
+\label{thm:real-l10-exit-threshold-face-local-correspondence}
+Let $\mathcal E$ be a finite Phase $\RealUp$ and Completion packet over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ rows. Then $\mathcal E$ satisfies the current-phase exit local threshold of \autoref{thm:real-l10-current-phase-exit-local-threshold} if and only if it exhibits four compatible local face records over the same displayed support rows:
+\begin{enumerate}
+\item the $\DyadicRatCoreUp$ finite-tail certificate,
+\item the $\StreamNameUp$ ordered finite-window gate,
+\item the $\RegSeqRatUp$ finite-section classifier record,
+\item the local $\RealUp$ seal-facing threshold record.
+\end{enumerate}
+Compatibility means that all four records are read over the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, and that no face record is detached from the ordered terminal route.
+
+This correspondence is exactly local-record correspondence for the four displayed faces, not an aggregate audit credential. It recovers no quotient stream, selected limit, countable-choice selector, metric-completeness datum, aggregate formalstatus row, aggregate bridge row, standard bridge row, or $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+For the forward direction, read the threshold by \autoref{thm:real-l10-current-phase-exit-local-threshold}. The accepted exit read is the objectwise product of the four local threshold records on $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ face, together with exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Now factor that read through the displayed route. Apply \autoref{thm:real-l10-exit-certificate-dependency-factorization}. The dyadic finite-tail certificate, the ordered StreamName finite-window gate, the RegSeqRat finite-section classifier record, and the local Real seal-facing threshold record are the four ordered faces of the same exit certificate rather than independent summaries.
+
+Minimality fixes the vocabulary of the correspondence. By \autoref{thm:real-l10-exit-certificate-face-minimality}, none of the four face records and none of the displayed support rows can be deleted, duplicated, detached, or replaced while the same current Real L10 exit certificate is retained. Thus the forward read produces exactly the listed local records over the common support surface.
+
+For the reverse direction, assume the four compatible local records are exhibited over the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Use \autoref{thm:real-l10-exit-certificate-refinement-functoriality} to compare this displayed four-face section with the finite packet $\mathcal E$: the support-row-preserving comparison recovers the same objectwise certificate read.
+
+Finally apply \autoref{thm:real-l10-current-phase-exit-local-threshold} again. Since the recovered objectwise certificate is precisely the product of the dyadic finite-tail certificate, the ordered StreamName finite-window gate, the RegSeqRat finite-section classifier record, and the local Real seal-facing threshold record, the packet satisfies the current-phase exit local threshold.
+
+Face-local formal changes do not alter the equivalence. By \autoref{thm:real-l10-face-local-formal-upgrade-invariance}, any strengthening of a local status, leantarget, or bridge-status row remains attached to its source face and cannot become a route-level aggregate credential. Consequently the correspondence has no coordinate for quotient streams, selected limits, countable-choice selectors, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, or $\RealUp$ completeness.
 \end{proof}
 
 \begin{theorem}[Real L10 exit certificate refinement functoriality]

@@ -207,4 +207,34 @@ theorem CauchyProductPacket_root_budget_nonescape [AskSetup] [PackageSetup]
       budgetSealUnary, windowTransport, productRoute, classifierRoute, classifierBudget,
       budgetSealRoute, namePkg, budgetSealPkg⟩
 
+theorem CauchyProductPacket_root_window_regseqrat_seal_route [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name regseqSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      Cont classifier routes regseqSeal ->
+        PkgSig bundle regseqSeal pkg ->
+          UnaryHistory windowA ∧ UnaryHistory windowB ∧ UnaryHistory observationA ∧
+            UnaryHistory observationB ∧ UnaryHistory product ∧ UnaryHistory classifier ∧
+              UnaryHistory regseqSeal ∧ Cont windowA windowB transport ∧
+                Cont observationA observationB product ∧ Cont product ledger classifier ∧
+                  Cont classifier routes regseqSeal ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle regseqSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet classifierRoutesSeal regseqSealPkg
+  obtain ⟨_sourceAUnary, _sourceBUnary, windowAUnary, windowBUnary, _radiusAUnary,
+    _radiusBUnary, observationAUnary, observationBUnary, routesUnary, ledgerUnary,
+    windowTransport, productRoute, classifierRoute, namePkg⟩ := packet
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed observationAUnary observationBUnary productRoute
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed productUnary ledgerUnary classifierRoute
+  have regseqSealUnary : UnaryHistory regseqSeal :=
+    unary_cont_closed classifierUnary routesUnary classifierRoutesSeal
+  exact
+    ⟨windowAUnary, windowBUnary, observationAUnary, observationBUnary, productUnary,
+      classifierUnary, regseqSealUnary, windowTransport, productRoute, classifierRoute,
+      classifierRoutesSeal, namePkg, regseqSealPkg⟩
+
 end BEDC.Derived.CauchyProductUp
