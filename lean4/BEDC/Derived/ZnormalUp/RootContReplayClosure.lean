@@ -73,4 +73,40 @@ theorem ZnormalRootContReplayClosure [AskSetup] [PackageSetup]
     }
   exact ⟨cert, replayReadUnary, replayExportUnary⟩
 
+theorem ZnormalPacket_fuel_replay_root_exhaustion [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name terminalRead
+      continuationRead replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg →
+      Cont typed fuel terminalRead →
+        Cont terminalRead normal continuationRead →
+          Cont continuationRead transports replayRead →
+            PkgSig bundle replayRead pkg →
+              UnaryHistory typed ∧ UnaryHistory fuel ∧ UnaryHistory terminalRead ∧
+                UnaryHistory normal ∧ UnaryHistory continuationRead ∧
+                  UnaryHistory transports ∧ UnaryHistory replayRead ∧
+                    hsame terminalRead terminal ∧ Cont terminalRead normal continuationRead ∧
+                      Cont continuationRead transports replayRead ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro packet typedFuelTerminalRead terminalReadNormalContinuationRead
+    continuationReadTransportsReplay replayPkg
+  obtain ⟨typedUnary, fuelUnary, _terminalUnary, normalUnary, _continuationUnary,
+    transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, typedFuelTerminal,
+    _terminalNormalContinuation, _continuationTransportsRoutes, _namePkg, provenancePkg⟩ :=
+    packet
+  have terminalReadSame : hsame terminalRead terminal :=
+    cont_deterministic typedFuelTerminalRead typedFuelTerminal
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed typedUnary fuelUnary typedFuelTerminalRead
+  have continuationReadUnary : UnaryHistory continuationRead :=
+    unary_cont_closed terminalReadUnary normalUnary terminalReadNormalContinuationRead
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed continuationReadUnary transportsUnary continuationReadTransportsReplay
+  exact
+    ⟨typedUnary, fuelUnary, terminalReadUnary, normalUnary, continuationReadUnary,
+      transportsUnary, replayReadUnary, terminalReadSame, terminalReadNormalContinuationRead,
+      continuationReadTransportsReplay, provenancePkg, replayPkg⟩
+
 end BEDC.Derived.ZnormalUp
