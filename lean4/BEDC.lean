@@ -197,6 +197,7 @@ import BEDC.Derived.ApophaticNameUp.SupplyShapeRefusalExactness
 import BEDC.Derived.ApophaticNameUp.VisibleRequestFactorization
 import BEDC.Derived.ApophaticSocketUp
 import BEDC.Derived.ApproximationTowerResidueUp.Carrier
+import BEDC.Derived.ApproximationTowerResidueUp.Classifier
 import BEDC.Derived.ApproximationTowerResidueUp.HiddenSourceNonescape
 import BEDC.Derived.ApproximationTowerResidueUp.TasteGate
 import BEDC.Derived.ApproximationUp
@@ -4491,6 +4492,7 @@ import BEDC.Derived.ZnormalUp.RootContReplayClosure
 import BEDC.Derived.ZnormalUp.RootContinuationTraceReadiness
 import BEDC.Derived.ZnormalUp.RootDisplayPacketBridgeReadbackExactness
 import BEDC.Derived.ZnormalUp.RootForbiddenHostConversionExclusion
+import BEDC.Derived.ZnormalUp.RootFuelRouteNonescape
 import BEDC.Derived.ZnormalUp.RootLedgerExhaustion
 import BEDC.Derived.ZnormalUp.RootLedgerNonescape
 import BEDC.Derived.ZnormalUp.RootNameCertComponentExhaustion
@@ -4553,6 +4555,7 @@ import BEDC.Derived.ZnormalUp.TerminalRouteExhaustion
 import BEDC.Derived.ZnormalUp.TerminalRouteFieldExhaustion
 import BEDC.Derived.ZnormalUp.TerminalRouteObligationCompletion
 import BEDC.Derived.ZnormalUp.TerminalRowConstructorExhaustion
+import BEDC.Derived.ZnormalUp.TerminalTotalHostCarrierRow
 import BEDC.Derived.ZnormalUp.TotalHostConsumerScope
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
 import BEDC.Derived.ZnormalUp.TotalHostFieldReadiness
