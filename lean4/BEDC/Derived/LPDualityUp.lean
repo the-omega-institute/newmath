@@ -144,6 +144,25 @@ theorem LPDualityDualObjective_binary_affine_readback
       cases affineRow
       rfl)
 
+theorem LPDualityDualFeasibility_binary_convex_closure
+    {alpha beta dual dual' left right affine : BHist} :
+    hsame alpha BHist.Empty -> hsame beta BHist.Empty -> hsame dual BHist.Empty ->
+      hsame dual' BHist.Empty -> Cont alpha dual left -> Cont beta dual' right ->
+        Cont left right affine ->
+          hsame affine BHist.Empty ∧ PreorderPrefixLE affine BHist.Empty ∧
+            PreorderPrefixLE BHist.Empty affine := by
+  -- BEDC touchpoint anchor: BHist Cont hsame PreorderPrefixLE
+  intro alphaEmpty betaEmpty dualEmpty dualEmpty' leftRow rightRow affineRow
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame alphaEmpty dualEmpty leftRow (cont_right_unit BHist.Empty)
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame betaEmpty dualEmpty' rightRow (cont_right_unit BHist.Empty)
+  have affineEmpty : hsame affine BHist.Empty :=
+    cont_respects_hsame leftEmpty rightEmpty affineRow (cont_right_unit BHist.Empty)
+  exact
+    ⟨affineEmpty, PreorderPrefixLE_of_hsame affineEmpty,
+      PreorderPrefixLE_of_hsame (hsame_symm affineEmpty)⟩
+
 def LPDualityFiniteOrderedFieldFeasibilityRow [AskSetup] [PackageSetup]
     (feasible field order objective classifier route provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
