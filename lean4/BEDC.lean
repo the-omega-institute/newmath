@@ -3725,7 +3725,6 @@ import BEDC.Derived.RelationalFrameAuditUp.Carrier
 import BEDC.Derived.RelationalFrameAuditUp.TasteGate
 import BEDC.Derived.RelationalObjectivityUp.ObserverFamilySource
 import BEDC.Derived.RelationalObjectivityUp.TasteGate
-import BEDC.Derived.RelationalPhysicsUp
 import BEDC.Derived.RepresentationRingUp
 import BEDC.Derived.RepresentationRingUp.InducedConsumerBoundary
 import BEDC.Derived.RepresentationRingUp.ObligationInventory
@@ -4454,6 +4453,7 @@ import BEDC.Derived.ZnormalUp.RootNormalFormReadinessSupport
 import BEDC.Derived.ZnormalUp.RootObligationDownstreamHandoff
 import BEDC.Derived.ZnormalUp.RootReadbackExhaustion
 import BEDC.Derived.ZnormalUp.RootReadinessBridgeSource
+import BEDC.Derived.ZnormalUp.RootReadinessTerminalRefusalClosure
 import BEDC.Derived.ZnormalUp.RootRefusalLedgerSeparation
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
 import BEDC.Derived.ZnormalUp.RootSiblingRefusalExhaustion
