@@ -89,6 +89,52 @@ coordinates of the displayed face, so a mixed record using one face's status
 and another face's target or bridge row is outside the accepted audit read.
 \end{proof}
 
+\begin{theorem}[Real L10 face status product readback]
+\label{thm:real-l10-face-status-product-readback}
+Any accepted Phase Real and Completion audit read through
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ reads
+exactly the four face-local triples
+$(\formalstatus,\leantarget,\bridgestatus)$ carried by the corresponding face
+records. The readback is supported only by the displayed rows
+$$
+\begin{gathered}
+\BHist_{\DyadicRatCoreUp},\hsame_{\DyadicRatCoreUp},\Cont_{\DyadicRatCoreUp},
+\Pkg_{\DyadicRatCoreUp},\NameCert_{\DyadicRatCoreUp},\\
+\BHist_{\StreamNameUp},\hsame_{\StreamNameUp},\Cont_{\StreamNameUp},
+\Pkg_{\StreamNameUp},\NameCert_{\StreamNameUp},\\
+\BHist_{\RegSeqRatUp},\hsame_{\RegSeqRatUp},\Cont_{\RegSeqRatUp},
+\Pkg_{\RegSeqRatUp},\NameCert_{\RegSeqRatUp},\\
+\BHist_{\RealUp},\hsame_{\RealUp},\Cont_{\RealUp},
+\Pkg_{\RealUp},\NameCert_{\RealUp}.
+\end{gathered}
+$$
+It does not create an aggregate $\formalstatus$, aggregate $\leantarget$,
+aggregate bridge row, quotient stream equality, selected limit,
+countable-choice row, metric-completeness datum, or $\RealUp$ completeness
+claim.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-face-status-noncollapse}. It keeps the status
+coordinates as local reports of $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$ and supplies no fifth status coordinate.
+
+Apply \autoref{thm:real-l10-face-leantarget-noncollapse}. It keeps the
+$\leantarget$ and $\bridgestatus$ rows attached to their source faces and
+supplies no route-level target or aggregate bridge row.
+
+Apply \autoref{thm:real-l10-face-status-target-pairing}. It reads
+$\formalstatus$, $\leantarget$, and $\bridgestatus$ together on the same face,
+so the product readback is exactly the four displayed local triples rather
+than a pool of exchangeable coordinates.
+
+Finally use \autoref{sec:roadmap-closure-and-verification-axes}. The roadmap
+keeps paper closure and verification status on separate axes, and it supplies
+no rule turning the four face-local triples or their support rows
+$\BHist,\hsame,\Cont,\Pkg,\NameCert$ into quotient stream equality, a selected
+limit, a countable-choice row, a metric-completeness datum, an aggregate
+credential, or $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[Real L10 face axis independence]
 \label{thm:real-l10-face-axis-independence}
 Any accepted Phase Real and Completion audit read through
@@ -163,6 +209,42 @@ there is no rule that lets a quotient stream, selected limit,
 countable-choice row, metric-completeness row, aggregate formalstatus,
 aggregate bridge row, route-level leantarget, or $\RealUp$ completeness claim
 replace the concrete face or support coordinate where the read failed.
+\end{proof}
+
+\begin{theorem}[Real L10 exit defect face completeness]
+\label{thm:real-l10-exit-defect-face-completeness}
+Every failed accepted Phase Real and Completion audit read through
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ is exhausted
+by the four displayed face records and their displayed support rows
+$\BHist,\hsame,\Cont,\Pkg,\NameCert$. Equivalently, any accepted defect witness
+is carried either by one of the four face records or by one of those support
+rows on that face. No quotient stream, selected limit, countable-choice row,
+metric-completeness datum, aggregate formalstatus, route-level leantarget,
+aggregate bridge row, or $\RealUp$ completeness claim is an additional defect
+coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-face-axis-independence}. It supplies the complete
+coordinate inventory for an accepted audit read: paper closure, formalstatus,
+leantarget, and bridgestatus, each read locally over
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Apply \autoref{thm:real-l10-face-axis-defect-localization}. Once one of those
+coordinates fails to be preserved, the failure is witnessed on a displayed
+face record or on one of its displayed support rows
+$\BHist,\hsame,\Cont,\Pkg,\NameCert$.
+
+Apply \autoref{thm:real-l10-face-status-product-readback}. The product
+readback contains exactly the four face-local status, target, and bridge
+triples supported by the displayed rows, so there is no remaining readback
+slot in which a hidden fifth status or completion coordinate could be stored.
+
+Finally use the roadmap two-axis discipline of
+\autoref{sec:roadmap-closure-and-verification-axes}. It separates theory
+closure from verification status and provides no rule turning quotient-stream
+data, selected-limit data, countable-choice data, metric-completeness data,
+aggregate status data, route-level target data, aggregate bridge data, or
+$\RealUp$ completeness vocabulary into an accepted defect coordinate.
 \end{proof}
 
 \begin{theorem}[Real L10 StreamName terminal status minimality]

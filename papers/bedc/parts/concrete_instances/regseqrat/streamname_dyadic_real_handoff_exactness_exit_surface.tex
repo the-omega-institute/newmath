@@ -36,6 +36,51 @@ have no displayed row. Therefore the three named anchors are exactly the
 finite audit surface that remains to be formalized for the four-face route.
 \end{proof}
 
+\begin{theorem}[RegSeqRat L10 exit route order lock]
+\label{thm:regseqrat-l10-exit-route-order-lock}
+For any accepted public $\RegSeqRatUp$ read whose terminal output is a
+$\RealUp$ seal, the L10 exit route is ordered as follows: first the
+$\StreamNameUp$ finite-window membership face, second the $\DyadicRatCoreUp$
+endpoint-radius-distance ledger face, third the $\RegSeqRatUp$ classifier,
+regularity, and transport face, and last the public $\RealUp$ seal face.
+
+No later face may be read before its predecessor. In particular the public
+seal row is not available before the RegSeqRat face has been read, the
+RegSeqRat face is not available before the DyadicRatCore ledger has been read,
+and the dyadic ledger is not available before the StreamName membership face
+has fixed the finite window. The route excludes quotient streams, host real
+equality, selected limits, ambient completeness, choice rows,
+metric-completeness data, aggregate formalstatus rows, aggregate bridge rows,
+and a second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:regseqrat-streamname-dyadic-real-lean-anchor-audit-surface}. It
+identifies the three Lean-facing anchors as the finite-window handoff, the
+dyadic endpoint-radius-distance handoff, and the RegSeqRat-to-Real seal
+handoff, with no extra audit coordinate.
+
+Next apply \autoref{thm:regseqrat-l10-four-face-necessity}. Necessity says
+that the L10 public exit needs exactly the StreamName, DyadicRatCore,
+RegSeqRat, and Real faces. Thus removing or bypassing any predecessor would
+leave a later face without the finite source row on which it is certified.
+
+Use \autoref{thm:regseqrat-streamname-dyadic-real-triple-exactness} to bind
+the first three faces as one ordered finite route. The triple exactness step
+keeps the StreamName membership rows upstream of the DyadicRatCore ledger and
+keeps the dyadic ledger upstream of the RegSeqRat classifier, regularity, and
+transport rows.
+
+Finally combine
+\autoref{thm:regseqrat-streamname-dyadic-real-source-seal-correspondence} with
+\autoref{thm:regseqrat-real-seal-finite-window-saturation}. The correspondence
+places the terminal public seal on the same finite source route, while
+saturation says that the route has no fifth face and no hidden second seal
+coordinate. Hence the four public faces are read in the displayed order, and
+the excluded quotient, host-equality, limit, completeness, choice,
+formalstatus, bridge, and second-seal data remain outside the route.
+\end{proof}
+
 \begin{theorem}[RegSeqRat Real seal finite-cover gluing]
 \label{thm:regseqrat-real-seal-finite-cover-gluing}
 Let $\{\mathcal{S}_i\}_{i\in I}$ be a finite family of accepted public
