@@ -142,6 +142,11 @@ def observationReflectionPacketFromEventFlow : EventFlow → Option ObservationR
                                                                                           (observationReflectionPacketDecodeBHist N))
                                                                                   | _ :: _ => none
 
+def observationReflectionPacketFields : ObservationReflectionPacketUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | ObservationReflectionPacketUp.mk S H Sigma C P L E T R N =>
+      [S, H, Sigma, C, P, L, E, T, R, N]
+
 private theorem observationReflectionPacket_round_trip :
     ∀ x : ObservationReflectionPacketUp,
       observationReflectionPacketFromEventFlow (observationReflectionPacketToEventFlow x) =
@@ -219,10 +224,7 @@ instance observationReflectionPacketChapterTasteGate :
 instance observationReflectionPacketFieldFaithful :
     FieldFaithful ObservationReflectionPacketUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | ObservationReflectionPacketUp.mk S H Sigma C P L E T R N =>
-        [S, H, Sigma, C, P, L, E, T, R, N]
+  fields := observationReflectionPacketFields
   field_faithful := by
     intro x y h
     cases x with
