@@ -720,6 +720,7 @@ def changed_concrete_instance_tex_paths() -> set[Path] | None:
 
 
 def detect_mislabeled_composite_carriers(min_bucket_size: int = 6) -> list[dict[str, object]]:
+    changed = changed_concrete_instance_tex_paths()
     origins_by_region: dict[str, dict[str, object]] = {}
     for block in collect_closurestatus_blocks(PAPER_PARTS_ROOT):
         region = str(block.get("region") or "")
@@ -770,6 +771,13 @@ def detect_mislabeled_composite_carriers(min_bucket_size: int = 6) -> list[dict[
         origin_info = origins_by_region.get(region)
         if not origin_info or origin_info.get("origin") != "ai":
             continue
+        if changed is not None:
+            paper_file = origin_info.get("paper_file")
+            if not paper_file:
+                continue
+            paper_path = (REPO_ROOT / str(paper_file)).resolve()
+            if paper_path not in changed:
+                continue
         key = (record.arity, tuple(sorted(record.field_types)))
         members = sorted(phase1_map.get(key, []), key=lambda item: item.name)
         if len(members) < min_bucket_size:
