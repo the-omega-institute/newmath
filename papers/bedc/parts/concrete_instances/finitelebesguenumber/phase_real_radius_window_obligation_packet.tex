@@ -92,3 +92,51 @@ Next attach the boundary conditions. \autoref{thm:finite-lebesgue-number-open-ph
 
 Finally use \autoref{thm:finite-lebesgue-number-phase-real-radius-window-face-minimality} to make the ledger exit-ready rather than merely admissible. Each of the four source faces is required for its corresponding endpoint, finite-window, regularity, classifier, or seal row, and the nonescape boundary prevents replacement by quotient streams, selected limits, host real equality, ambient Real completeness, metric-completeness, or countable choice. This is exactly the finite radius ledger needed by downstream Phase Real consumers.
 \end{proof}
+
+\begin{theorem}[Finite Lebesgue-number Phase Real local radius determinacy]
+\label{thm:finite-lebesgue-number-phase-real-local-radius-determinacy}
+Let two admitted downstream reads of an accepted $\FiniteLebesgueNumberUp$ Phase Real exit consumer use the same rows
+$$
+E,\quad R,\quad D,\quad W,\quad S,\quad H,\quad C,\quad P,\quad N
+$$
+from \autoref{def:finite-lebesgue-number-phase-real-radius-window-carrier}. Then the two reads expose the same local radius-window packet $\mathcal{W}_{\lambda}^{\mathrm{PhaseReal}}$. In particular, the consumer-visible dyadic radius, finite stream window, regular-rational seal route, Real seal row, history transport, continuation replay, provenance row, and local $\NameCert$ row are fixed by the displayed packet.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The Phase Real radius-window packet is exactly the finite $\BHist$ tuple $(E,R,D,W,S,H,C,P,N)$, so equality of the displayed rows identifies the packet before any consumer interpretation is applied.
+
+The positive readback gates make the identification local at the two consumer reads. By \autoref{thm:finite-lebesgue-number-dyadic-radius-window-admission}, both reads must expose the same dyadic radius row $D$ before the same finite window row $W$. By \autoref{thm:finite-lebesgue-number-real-seal-radius-readback}, the Real-side radius access in both reads factors through the same ordered $D,W,S$ rows with the same support.
+
+It remains to rule out a hidden source of disagreement. \autoref{thm:finite-lebesgue-number-phase-real-radius-window-no-extra-source} denies any readable source beyond the four named faces and the support rows, while \autoref{thm:finite-lebesgue-number-phase-real-radius-window-face-minimality} makes those four faces necessary for the exit route. Hence two accepted reads with the same packet rows cannot expose distinct local radius-window data.
+\end{proof}
+
+\begin{theorem}[Finite Lebesgue-number Phase Real radius-window source lock]
+\label{thm:finite-lebesgue-number-phase-real-radius-window-source-lock}
+Every accepted $\FiniteLebesgueNumberUp$ Phase Real radius-window exit read has its source locked to the four faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+The rows $D,W,S,H,C,P,N$ of \autoref{def:finite-lebesgue-number-phase-real-radius-window-carrier} may be consumed only through these faces and their displayed finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+\end{theorem}
+\begin{proof}
+The carrier definition names exactly the four source chapters $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ for the radius-window packet. The remaining entries are not new sources; they are the finite history, transport, continuation, provenance, and naming rows used to read those faces.
+
+The admission and readback results fix the order of access. \autoref{thm:finite-lebesgue-number-dyadic-radius-window-admission} locks the finite window behind the dyadic radius row, and \autoref{thm:finite-lebesgue-number-real-seal-radius-readback} locks the Real-side seal behind the ordered $D,W,S$ route.
+
+Finally, \autoref{thm:finite-lebesgue-number-phase-real-radius-window-no-extra-source} excludes a fifth readable source, and \autoref{thm:finite-lebesgue-number-phase-real-radius-window-face-minimality} shows that none of the four faces can be removed from the exit route. The accepted read is therefore source-locked to precisely the displayed four-face packet.
+\end{proof}
+
+\begin{theorem}[Finite Lebesgue-number Phase Real radius consumer nonescape]
+\label{thm:finite-lebesgue-number-phase-real-radius-consumer-nonescape}
+Compact, continuous, totally bounded, compact-net, and uniform consumers of an accepted $\FiniteLebesgueNumberUp$ Phase Real radius-window exit read cannot create an additional radius source. Any radius data they expose is already read from the packet
+$$
+E,\quad R,\quad D,\quad W,\quad S,\quad H,\quad C,\quad P,\quad N
+$$
+of \autoref{def:finite-lebesgue-number-phase-real-radius-window-carrier}, with source locked to $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+\end{theorem}
+\begin{proof}
+Use the consumer-readiness theorem as the entry point. \autoref{thm:finite-lebesgue-number-phase-real-radius-window-exit-consumer-readiness} packages the dyadic admission row, the Real seal readback row, the open Phase nonescape boundary, the no-extra-source boundary, and the four-face minimality boundary as one finite radius ledger for these consumers.
+
+The local determinacy theorem then fixes repeated reads of that ledger. By \autoref{thm:finite-lebesgue-number-phase-real-local-radius-determinacy}, two accepted consumer reads with the same rows expose the same local radius-window packet. By \autoref{thm:finite-lebesgue-number-phase-real-radius-window-source-lock}, that packet is locked to the four named source faces and their support rows.
+
+Thus a compact, continuous, totally bounded, compact-net, or uniform consumer has no constructor site for an additional radius source. Any consumer-visible radius row is already one of the displayed packet rows, and the exclusions in \autoref{thm:finite-lebesgue-number-phase-real-radius-window-no-extra-source} prevent quotient streams, selected limits, host real equality, ambient Real completeness, metric-completeness, or countable choice from supplying another source.
+\end{proof}
