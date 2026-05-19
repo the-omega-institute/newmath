@@ -59,12 +59,9 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "MIN_MONITOR_CYCLES": 2,
     "ADJUST_TRIGGER_FINDINGS": 5,
     "RESEARCH_EVERY_N_ADJUSTS": 5,
-    "STABILIZE_CYCLES": 3,
-    "STABILIZE_HEAL_ALERT_BASELINE_MULTIPLIER": 2.0,
-    "STABILIZE_AUDIT_FAIL_REGRESSION_TOLERANCE": 0,
 }
 
-VALID_STATES = {"monitor", "research", "adjust", "stabilize"}
+VALID_STATES = {"monitor", "research", "adjust"}
 
 TIMEOUTS = {
     "git": 60,
@@ -583,23 +580,20 @@ def load_state() -> dict[str, Any]:
     data.setdefault("version", 1)
     data.setdefault("theorem_first_seen", {})
     cur = str(data.get("current_state") or "monitor").lower()
+    if cur == "stabilize":
+        cur = "monitor"
+        stale_prefix = "stabilize"
+        data.pop(f"{stale_prefix}_baseline", None)
+        data.pop(f"{stale_prefix}_cycles_in_state", None)
+        print("[taste] migrated stale stabilize state -> monitor", flush=True)
     if cur not in VALID_STATES:
         cur = "monitor"
     data["current_state"] = cur
     data.setdefault("state_entered_at", utc_now())
     data.setdefault("monitor_cycles_in_state", 0)
-    data.setdefault("stabilize_cycles_in_state", 0)
     data.setdefault("adjusts_since_research", 0)
     data.setdefault("last_adjust_commit_sha", None)
     data.setdefault("last_adjust_at", None)
-    baseline = data.get("stabilize_baseline")
-    if not isinstance(baseline, dict):
-        baseline = {}
-    baseline.setdefault("heal_alert_count", 0)
-    baseline.setdefault("audit_fail_count", 0)
-    baseline.setdefault("lean_failed_rate_per_hour", 0.0)
-    baseline.setdefault("taste_alert_categories", [])
-    data["stabilize_baseline"] = baseline
     data.setdefault("last_pipeline_sample", {})
     return data
 
@@ -608,17 +602,13 @@ def save_state(state: dict[str, Any], dry_run: bool) -> None:
     write_json(STATE_FILE, state, dry_run=dry_run)
 
 
-def transition_state(state: dict[str, Any], next_state: str, *, reset_baseline: bool = False) -> None:
+def transition_state(state: dict[str, Any], next_state: str) -> None:
     state["current_state"] = next_state
     state["state_entered_at"] = utc_now()
     if next_state == "monitor":
         state["monitor_cycles_in_state"] = 0
     if next_state == "research":
         state["adjusts_since_research"] = 0
-    if next_state == "stabilize":
-        state["stabilize_cycles_in_state"] = 0
-    if reset_baseline:
-        state["stabilize_baseline"] = collect_stabilize_baseline(state)
 
 
 def load_cooldown() -> dict[str, Any]:
@@ -647,20 +637,6 @@ def append_alert(category: str, details: dict[str, Any], dry_run: bool = False) 
         fh.write(line)
 
 
-def alert_categories() -> set[str]:
-    if not ALERT_LOG.exists():
-        return set()
-    text = ALERT_LOG.read_text(encoding="utf-8", errors="ignore")
-    return set(re.findall(r"TASTE ALERT category=([A-Za-z0-9_.-]+)", text))
-
-
-def alert_category_count(category: str) -> int:
-    if not ALERT_LOG.exists():
-        return 0
-    text = ALERT_LOG.read_text(encoding="utf-8", errors="ignore")
-    return len(re.findall(rf"TASTE ALERT category={re.escape(category)}\b", text))
-
-
 def count_log_hits(paths: list[Path], pattern: re.Pattern[str]) -> int:
     total = 0
     for path in paths:
@@ -671,14 +647,6 @@ def count_log_hits(paths: list[Path], pattern: re.Pattern[str]) -> int:
     return total
 
 
-def current_audit_fail_count() -> int:
-    ok, counts, msg = run_audit_counts(REPO_ROOT)
-    if not ok:
-        append_alert("audit_count_sample_failed", {"failure_reason": msg})
-        return 1
-    return sum(max(0, int(value)) for value in counts.values())
-
-
 def pipeline_failed_round_count() -> int:
     paths = [
         REPO_ROOT / "papers" / "bedc" / "scripts" / "logs" / "orchestrator.log",
@@ -687,35 +655,11 @@ def pipeline_failed_round_count() -> int:
     return count_log_hits(paths, re.compile(r"\bFAILED\b"))
 
 
-def current_pipeline_failed_rate_per_hour(state: dict[str, Any]) -> float:
-    count = pipeline_failed_round_count()
-    previous = state.get("last_pipeline_sample", {})
-    now_ts = time.time()
-    prev_count = int(previous.get("failed_round_count", count)) if isinstance(previous, dict) else count
-    prev_ts = float(previous.get("sampled_at_epoch", now_ts)) if isinstance(previous, dict) else now_ts
-    elapsed_hours = max((now_ts - prev_ts) / 3600.0, 1.0 / 60.0)
-    return max(0.0, (count - prev_count) / elapsed_hours)
-
-
 def update_pipeline_sample(state: dict[str, Any]) -> None:
     state["last_pipeline_sample"] = {
         "failed_round_count": pipeline_failed_round_count(),
         "sampled_at_epoch": time.time(),
         "sampled_at": utc_now(),
-    }
-
-
-def collect_stabilize_baseline(state: dict[str, Any] | None = None) -> dict[str, Any]:
-    sample_state = state if state is not None else {}
-    categories = sorted(alert_categories())
-    return {
-        "heal_alert_count": count_log_hits(
-            [REPO_ROOT / "scripts" / "logs" / "auto_heal.log"],
-            re.compile(r"\bHEAL ALERT\b"),
-        ),
-        "audit_fail_count": current_audit_fail_count(),
-        "lean_failed_rate_per_hour": current_pipeline_failed_rate_per_hour(sample_state),
-        "taste_alert_categories": categories,
     }
 
 
@@ -1752,71 +1696,8 @@ def state_adjust_step(cfg: dict[str, Any], state: dict[str, Any], dry_run: bool)
             state["last_adjust_at"] = utc_now()
             state["last_adjust_outcome"] = "rule_evolution_skipped_or_failed"
     state["adjusts_since_research"] = int(state.get("adjusts_since_research", 0)) + 1
-    transition_state(state, "stabilize", reset_baseline=not dry_run)
-    print("[taste] transition adjust -> stabilize", flush=True)
-
-
-def stabilize_regressions(cfg: dict[str, Any], state: dict[str, Any]) -> tuple[list[str], dict[str, Any]]:
-    baseline = state.get("stabilize_baseline")
-    if not isinstance(baseline, dict):
-        baseline = collect_stabilize_baseline(state)
-        state["stabilize_baseline"] = baseline
-    current = collect_stabilize_baseline(state)
-    evidence: dict[str, Any] = {"baseline": baseline, "current": current}
-    regressions: list[str] = []
-
-    heal_before = int(baseline.get("heal_alert_count", 0))
-    heal_now = int(current.get("heal_alert_count", 0))
-    multiplier = float(cfg.get("STABILIZE_HEAL_ALERT_BASELINE_MULTIPLIER", 2.0))
-    if heal_now > heal_before and heal_now >= max(1, heal_before) * multiplier:
-        regressions.append("heal_alert_count")
-
-    audit_before = int(baseline.get("audit_fail_count", 0))
-    audit_now = int(current.get("audit_fail_count", 0))
-    tolerance = int(cfg.get("STABILIZE_AUDIT_FAIL_REGRESSION_TOLERANCE", 0))
-    if audit_now > audit_before + tolerance:
-        regressions.append("audit_fail_count")
-
-    failed_before = float(baseline.get("lean_failed_rate_per_hour", 0.0))
-    failed_now = float(current.get("lean_failed_rate_per_hour", 0.0))
-    if failed_now > failed_before and failed_now >= max(1.0, failed_before) * 2.0:
-        regressions.append("orchestrator_failed_rate")
-
-    baseline_categories = set(str(x) for x in baseline.get("taste_alert_categories", []) if x)
-    current_categories = set(str(x) for x in current.get("taste_alert_categories", []) if x)
-    new_categories = sorted(current_categories - baseline_categories - {"stabilize_regression"})
-    if new_categories:
-        regressions.append("new_taste_alert_category")
-        evidence["new_taste_alert_categories"] = new_categories
-
-    return regressions, evidence
-
-
-def state_stabilize_step(cfg: dict[str, Any], state: dict[str, Any], dry_run: bool) -> None:
-    cycles = int(state.get("stabilize_cycles_in_state", 0)) + 1
-    state["stabilize_cycles_in_state"] = cycles
-    target = int(cfg.get("STABILIZE_CYCLES", 3))
-    regressions, evidence = stabilize_regressions(cfg, state) if not dry_run else ([], {})
-    print(
-        f"[taste] state=stabilize cycles={cycles} target={target} "
-        f"regressions={','.join(regressions) if regressions else 'none'}",
-        flush=True,
-    )
-    if regressions:
-        append_alert(
-            "stabilize_regression",
-            {
-                "regressions": regressions,
-                "last_adjust_commit_sha": state.get("last_adjust_commit_sha"),
-                "last_adjust_at": state.get("last_adjust_at"),
-                "evidence": evidence,
-            },
-            dry_run=dry_run,
-        )
-        return
-    if cycles >= target:
-        transition_state(state, "monitor")
-        print("[taste] transition stabilize -> monitor", flush=True)
+    transition_state(state, "monitor")
+    print("[taste] transition adjust -> monitor", flush=True)
 
 
 def command_output_ok(cmd: list[str], cwd: Path, timeout: int) -> tuple[bool, str]:
@@ -2286,8 +2167,6 @@ def cycle(dry_run: bool = False) -> None:
         state_research_step(state, artifacts, dry_run)
     elif cur == "adjust":
         state_adjust_step(cfg, state, dry_run)
-    elif cur == "stabilize":
-        state_stabilize_step(cfg, state, dry_run)
     else:
         state["current_state"] = "monitor"
         state["state_entered_at"] = utc_now()
