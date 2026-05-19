@@ -3900,6 +3900,7 @@ import BEDC.Derived.RegularCauchySequenceUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
 import BEDC.Derived.RegularCauchySumUp.CauchyLimitSealHandoff
+import BEDC.Derived.RegularCauchySumUp.DyadicCofinalSelectorHandoff
 import BEDC.Derived.RegularCauchySumUp.NameCertObligations
 import BEDC.Derived.RegularCauchySumUp.NonEscapeBoundary
 import BEDC.Derived.RegularCauchySumUp.SharedTailMeetHandoff
