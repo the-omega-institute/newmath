@@ -4376,6 +4376,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleGammaBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicContourGammaSeparation
+import BEDC.Derived.ZetaContinuationWitnessUp.PublicCriticalStripExport
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportLock
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportRouteLock
@@ -4418,6 +4419,7 @@ import BEDC.Derived.ZnormalUp.RootConsumerReadiness
 import BEDC.Derived.ZnormalUp.RootContReplayClosure
 import BEDC.Derived.ZnormalUp.RootDisplayPacketBridgeReadbackExactness
 import BEDC.Derived.ZnormalUp.RootForbiddenHostConversionExclusion
+import BEDC.Derived.ZnormalUp.RootLedgerExhaustion
 import BEDC.Derived.ZnormalUp.RootLedgerNonescape
 import BEDC.Derived.ZnormalUp.RootNameCertComponentExhaustion
 import BEDC.Derived.ZnormalUp.RootNameCertTerminalRouteReadiness
@@ -4431,6 +4433,7 @@ import BEDC.Derived.ZnormalUp.RootReadinessBridgeSource
 import BEDC.Derived.ZnormalUp.RootRefusalLedgerSeparation
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
 import BEDC.Derived.ZnormalUp.RootSiblingRefusalExhaustion
+import BEDC.Derived.ZnormalUp.RootTerminalCarrierAdmission
 import BEDC.Derived.ZnormalUp.RootTerminalNonescapeInterface
 import BEDC.Derived.ZnormalUp.RootTerminalNormalityExposure
 import BEDC.Derived.ZnormalUp.RootTotalHostBridgeComponents

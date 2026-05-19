@@ -336,4 +336,19 @@ theorem RecursionAuthorizationLedgerPacket_branch_descent_exactness [AskSetup]
     ⟨branchesUnary, descentUnary, branchReadUnary, outputReadUnary,
       branchesDescentBranchRead, branchReadOutputOutputRead, provenancePkg, outputReadPkg⟩
 
+theorem RecursionAuthorizationLedger_signature_acceptance
+    {signature signature' recursor recursor' motive motive' branches branches'
+      descent descent' output output' transport transport' routes routes'
+      provenance provenance' name name' route : BHist} :
+    RecursionAuthorizationLedgerUp.mk signature' recursor' motive' branches' descent'
+        output' transport' routes' provenance' name' =
+      RecursionAuthorizationLedgerUp.mk signature recursor motive branches descent output
+        transport routes provenance name →
+      Cont signature recursor route →
+        Cont signature' recursor' route := by
+  -- BEDC touchpoint anchor: BHist Cont
+  intro sameCarrier signatureRoute
+  cases sameCarrier
+  exact signatureRoute
+
 end BEDC.Derived.RecursionAuthorizationLedgerUp
