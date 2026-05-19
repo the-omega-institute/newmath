@@ -196,6 +196,64 @@ theorem CriticalLineWitnessCarrier_zero_strip_modulus_package_exhaustion
       unaryDownstream, sameH, zeroStripRoute, modulusRoute, routeQ, routeC, routeN,
       downstreamRoute⟩
 
+theorem CriticalLineWitnessCarrier_root_zeta_source_obligation
+    {Z S M R Q H C P N zetaRead sourceRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S zetaRead ->
+        Cont zetaRead H sourceRead ->
+          UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory Q ∧ UnaryHistory H ∧
+            UnaryHistory zetaRead ∧ UnaryHistory sourceRead ∧ hsame H (append Z S) ∧
+              Cont Z S zetaRead ∧ Cont zetaRead H sourceRead ∧ Cont M R Q ∧
+                Cont Q H C ∧ Cont C P N := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro packet zetaRoute sourceRoute
+  have routeClosure :
+      UnaryHistory Q ∧ UnaryHistory C ∧ UnaryHistory N ∧ hsame H (append Z S) :=
+    CriticalLineWitnessCarrier_modulus_route_closure packet
+  obtain ⟨unaryZ, unaryS, _unaryM, _unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryH : UnaryHistory H :=
+    unary_transport (unary_cont_closed unaryZ unaryS (cont_intro rfl)) (hsame_symm sameH)
+  have unaryZetaRead : UnaryHistory zetaRead :=
+    unary_cont_closed unaryZ unaryS zetaRoute
+  have unarySourceRead : UnaryHistory sourceRead :=
+    unary_cont_closed unaryZetaRead unaryH sourceRoute
+  exact
+    ⟨unaryZ, unaryS, routeClosure.left, unaryH, unaryZetaRead, unarySourceRead, sameH,
+      zetaRoute, sourceRoute, routeQ, routeC, routeN⟩
+
+theorem CriticalLineWitnessCarrier_root_dependency_scope
+    {Z S M R Q H C P N zetaRead depthRead ledgerRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S zetaRead ->
+        Cont M Q depthRead ->
+          Cont depthRead H ledgerRead ->
+            UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+              UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory N ∧
+                UnaryHistory zetaRead ∧ UnaryHistory depthRead ∧ UnaryHistory ledgerRead ∧
+                  hsame H (append Z S) ∧ Cont Z S zetaRead ∧ Cont M R Q ∧
+                    Cont M Q depthRead ∧ Cont depthRead H ledgerRead ∧ Cont Q H C ∧
+                      Cont C P N := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro packet zetaRoute depthRoute ledgerRoute
+  have routeClosure :
+      UnaryHistory Q ∧ UnaryHistory C ∧ UnaryHistory N ∧ hsame H (append Z S) :=
+    CriticalLineWitnessCarrier_modulus_route_closure packet
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryH : UnaryHistory H :=
+    unary_transport (unary_cont_closed unaryZ unaryS (cont_intro rfl)) (hsame_symm sameH)
+  have unaryZetaRead : UnaryHistory zetaRead :=
+    unary_cont_closed unaryZ unaryS zetaRoute
+  have unaryDepthRead : UnaryHistory depthRead :=
+    unary_cont_closed unaryM routeClosure.left depthRoute
+  have unaryLedgerRead : UnaryHistory ledgerRead :=
+    unary_cont_closed unaryDepthRead unaryH ledgerRoute
+  exact
+    ⟨unaryZ, unaryS, unaryM, unaryR, routeClosure.left, unaryH, routeClosure.right.left,
+      routeClosure.right.right.left, unaryZetaRead, unaryDepthRead, unaryLedgerRead, sameH,
+      zetaRoute, routeQ, depthRoute, ledgerRoute, routeC, routeN⟩
+
 theorem CriticalLineWitnessCarrier_root_unblock_modulus_ledger
     {Z S M R Q H C P N depthRead modulusRead : BHist} :
     CriticalLineWitnessCarrier Z S M R Q H C P N →
