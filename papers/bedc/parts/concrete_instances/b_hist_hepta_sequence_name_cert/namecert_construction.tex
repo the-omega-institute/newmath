@@ -94,9 +94,33 @@ Read the carrier definition and the classifier definition together. The carrier 
 The local name is the row $L$ of the same packet. Because $L$ has no coordinate outside the displayed carrier and no classifier clause adds an external tag, local naming cannot export an untagged payload, duplicate hidden row, bucket-only membership tag, or host-side equality tag.
 \end{proof}
 
+\begin{theorem}[BHistHeptaSequenceNameCert provenance readback]
+\label{thm:b-hist-hepta-sequence-name-cert-provenance-readback}
+The provenance row $P$ of an accepted $\BHistHeptaSequenceNameCertUp$ packet reads back only the seven-row window encoder, \autoref{ch:concrete-instances-b-hist-hepta-tuple-name-cert-namecert}, the bucket-member surfaces named by $\EpistemicWitnessUp$, $\ExternalSupplyAuditRouteUp$, $\PhysicalRecordInvariantUp$, $\StructuralAdjacencyUp$, $\UseProcessLimitLedgerUp$, $\ZCarryUp$, and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. It does not read a bucket-wide replacement of the hepta tuple capstone or any named bucket-member chapter.
+\end{theorem}
+\begin{proof}
+Inspect the provenance row in the carrier definition. It records the seven-row window encoder, the named capstone and bucket-member surfaces, and the local BEDC support rows.
+
+The row is a readback ledger for the ordered packet, not a command to alter any cited chapter. Since neither the carrier nor the classifier contains a replacement coordinate, provenance can source the shared bucket context without rewriting any member.
+\end{proof}
+
+\begin{theorem}[BHistHeptaSequenceNameCert local naming nonescape]
+\label{thm:b-hist-hepta-sequence-name-cert-local-naming-nonescape}
+Every local $\NameCert_{\BHistHeptaSequenceNameCertUp}$ read factors through the displayed packet
+$$
+S=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,I,H,C,P,L).
+$$
+The read may expose the seven-row sequence window, its finite order, and its componentwise routes, but it cannot export an untagged carrier, an eighth row, a hidden permutation, a host-side equality test, or a relocation of \autoref{ch:concrete-instances-b-hist-hepta-tuple-name-cert-namecert} or any named bucket-member surface.
+\end{theorem}
+\begin{proof}
+The local name is the row $L$ of the carrier. By \autoref{thm:b-hist-hepta-sequence-name-cert-carrier-admission}, $L$ is read only together with the seven window rows, the index row, and the displayed structural rows.
+
+Use index exhaustion, tag exhaustion, and the classifier definition. They force any carrier-isomorphism read to preserve the same tag-encoded components, the same finite order, and the same displayed $\hsame$ and $\Cont$ routes. Since no untagged carrier, eighth row, hidden permutation, host equality test, or capstone relocation row appears in the packet, local naming cannot export one.
+\end{proof}
+
 \begin{theorem}[BHistHeptaSequenceNameCert scoped support package]
 \label{thm:b-hist-hepta-sequence-name-cert-scoped-support-package}
-The carrier admission, classifier exactness, index exhaustion, and tag exhaustion clauses bind the $\BHistHeptaSequenceNameCertUp$ packet exactly to the displayed BEDC support
+The carrier admission, classifier exactness, index exhaustion, tag exhaustion, provenance readback, and local naming nonescape clauses bind the $\BHistHeptaSequenceNameCertUp$ packet exactly to the displayed BEDC support
 $$
 \BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert,
 $$
@@ -107,10 +131,10 @@ Apply \autoref{thm:b-hist-hepta-sequence-name-cert-carrier-admission} to identif
 
 Apply \autoref{thm:b-hist-hepta-sequence-name-cert-index-exhaustion} to force every stable read through the seven displayed positions and the same ordered support. Apply \autoref{thm:b-hist-hepta-sequence-name-cert-tag-exhaustion} to prevent untagged payloads, duplicate hidden rows, bucket-only membership tags, and host-side equality tags from escaping through the local name.
 
-The scoped package is therefore the named BEDC packet itself. Its provenance can source the hepta tuple capstone and the named bucket-member surfaces, but no carrier or classifier row rewrites those sibling chapters or replaces their local certificates.
+Apply \autoref{thm:b-hist-hepta-sequence-name-cert-provenance-readback} and \autoref{thm:b-hist-hepta-sequence-name-cert-local-naming-nonescape}. The scoped package is therefore the named BEDC packet itself. Its provenance can source the hepta tuple capstone and the named bucket-member surfaces, but no carrier or classifier row rewrites those sibling chapters or replaces their local certificates.
 \end{proof}
 
-\falsifiablePrediction{Any accepted consumer route that reads an unordered tuple coordinate, an untagged row, an eighth sequence row, a hidden permutation, bucket membership alone, an order table detached from $I$, or a sibling capstone relocation fails carrier admission, classifier exactness, index exhaustion, or tag exhaustion for $\BHistHeptaSequenceNameCertUp$.}
+\falsifiablePrediction{Any accepted consumer route that reads an unordered tuple coordinate, an untagged row, an eighth sequence row, a hidden permutation, bucket membership alone, an order table detached from $I$, or a sibling capstone relocation fails carrier admission, classifier exactness, index exhaustion, tag exhaustion, provenance readback, or local naming nonescape for $\BHistHeptaSequenceNameCertUp$.}
 
 \independenceWitness{b-hist-hepta-tuple-name-cert, epistemic-witness, external-supply-audit-route, physical-record-invariant, structural-adjacency, use-process-limit-ledger, and z-carry: none is bijective to $\BHistHeptaSequenceNameCertUp$ because this packet carries seven ordered sequence rows plus an index row, componentwise transport, replay, provenance, and local $\NameCert$, while the cited siblings supply tuple or bucket-member surfaces.}
 
@@ -119,10 +143,10 @@ The scoped package is therefore the named BEDC packet itself. Its provenance can
 \begin{closurestatus}{\BHistHeptaSequenceNameCertUp}
   \constructivestory{A $\BHistHeptaSequenceNameCertUp$ packet is generated from seven tag-encoded $\BHist$ sequence rows, a finite index row, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:b-hist-hepta-sequence-name-cert-carrier}, \autoref{def:b-hist-hepta-sequence-name-cert-classifier}, \autoref{thm:b-hist-hepta-sequence-name-cert-carrier-admission}, \autoref{thm:b-hist-hepta-sequence-name-cert-classifier-exactness}, \autoref{thm:b-hist-hepta-sequence-name-cert-index-exhaustion}, \autoref{thm:b-hist-hepta-sequence-name-cert-tag-exhaustion}, and \autoref{thm:b-hist-hepta-sequence-name-cert-scoped-support-package} identify the ordered seven-row sequence-window carrier surface and its BEDC support package.}
+  \scopeclosed{\autoref{def:b-hist-hepta-sequence-name-cert-carrier}, \autoref{def:b-hist-hepta-sequence-name-cert-classifier}, \autoref{thm:b-hist-hepta-sequence-name-cert-carrier-admission}, \autoref{thm:b-hist-hepta-sequence-name-cert-classifier-exactness}, \autoref{thm:b-hist-hepta-sequence-name-cert-index-exhaustion}, \autoref{thm:b-hist-hepta-sequence-name-cert-tag-exhaustion}, \autoref{thm:b-hist-hepta-sequence-name-cert-provenance-readback}, \autoref{thm:b-hist-hepta-sequence-name-cert-local-naming-nonescape}, and \autoref{thm:b-hist-hepta-sequence-name-cert-scoped-support-package} identify the ordered seven-row sequence-window carrier surface and its BEDC support package.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai-composite}
   \notclaimed{This chapter does not provide a Lean declaration, standard bridge, tuple-chapter replacement, bucket-member replacement, or public acceptance interface.}
-  \upgradepath{Formalization requires a Lean carrier for BEDC.Derived.BHistHeptaSequenceNameCertUp and checked carrier-admission, classifier-exactness, index-exhaustion, tag-exhaustion, and scoped-support theorems.}
+  \upgradepath{Formalization requires a Lean carrier for BEDC.Derived.BHistHeptaSequenceNameCertUp and checked carrier-admission, classifier-exactness, index-exhaustion, tag-exhaustion, provenance-readback, local-naming, and scoped-support theorems.}
 \end{closurestatus}
