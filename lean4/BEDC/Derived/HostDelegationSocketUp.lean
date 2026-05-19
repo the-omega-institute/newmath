@@ -3,7 +3,9 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.HostDelegationSocketUp
@@ -13,7 +15,9 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -353,5 +357,65 @@ theorem HostDelegationSocket_audit_face_separation [AskSetup] [PackageSetup]
   cases carrierSame
   exact
     ⟨hsame_refl audit, hsame_refl kernel, auditRoute, kernelRoute, provenancePkg⟩
+
+def HostDelegationSocketCarrier [AskSetup] [PackageSetup]
+    (marker audit kernel target transport continuation provenance ledger name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory marker ∧ UnaryHistory audit ∧ UnaryHistory kernel ∧ UnaryHistory target ∧
+    UnaryHistory transport ∧ UnaryHistory continuation ∧ UnaryHistory provenance ∧
+      UnaryHistory ledger ∧ UnaryHistory name ∧ Cont marker target ledger ∧
+        Cont ledger name continuation ∧ PkgSig bundle name pkg
+
+theorem HostDelegationSocketCarrier_semantic_name_certificate
+    [AskSetup] [PackageSetup]
+    {marker audit kernel target transport continuation provenance ledger name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HostDelegationSocketCarrier marker audit kernel target transport continuation provenance ledger
+        name bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          HostDelegationSocketCarrier marker audit kernel target transport continuation provenance
+            ledger name bundle pkg ∧ hsame row name)
+        (fun row : BHist =>
+          Cont marker target ledger ∧ Cont ledger name continuation ∧ hsame row name)
+        (fun row : BHist => PkgSig bundle name pkg ∧ hsame row name)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier
+  have carrierWitness := carrier
+  obtain ⟨_markerUnary, _auditUnary, _kernelUnary, _targetUnary, _transportUnary,
+    _continuationUnary, _provenanceUnary, _ledgerUnary, _nameUnary, markerTargetLedger,
+    ledgerNameContinuation, namePkg⟩ := carrier
+  have core :
+      NameCert
+        (fun row : BHist =>
+          HostDelegationSocketCarrier marker audit kernel target transport continuation provenance
+            ledger name bundle pkg ∧ hsame row name)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro name
+        (And.intro carrierWitness (hsame_refl name))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+  exact {
+    core := core
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨markerTargetLedger, ledgerNameContinuation, sourceRow.right⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨namePkg, sourceRow.right⟩
+  }
 
 end BEDC.Derived.HostDelegationSocketUp
