@@ -353,6 +353,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBranchDescentLedger
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBranchOutputClosedBoundary
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBranchPackageCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBranchRowExposure
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBranchRowTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootCarrierAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootCarrierRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootCarrierTotality
@@ -1604,6 +1605,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootBridgeReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerReadinessCertificate
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamPackage
+import BEDC.Derived.CriticalLineWitnessUp.RootFiniteRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
