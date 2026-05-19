@@ -52,3 +52,54 @@ for quotient streams, host equality, selected limits, countable choice, ambient
 completeness, metric completeness, or a standard bridge row, the displayed four
 sibling certificates exhaust the accepted terminal seal route.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal four-face support minimality pullback]
+\label{thm:real-l10-terminal-four-face-support-minimality-pullback}
+Let $\mathcal T$ be an accepted $\RealUp$ terminal seal read for the current
+Phase Real and Completion exit route. If a Real-facing terminal presentation
+has the same carrier verdict and the same classifier verdict as $\mathcal T$,
+then that presentation pulls back to exactly the four sibling certificates
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+and to the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+The pullback is minimal at the terminal seal: deleting any one of those four
+sibling certificates, or deleting any one of the displayed support rows,
+prevents the presentation from carrying the same Real-facing carrier and
+classifier verdicts.
+
+No quotient stream equality, selected limit, countable-choice selector, ambient
+$\RealUp$ completeness coordinate, metric-completeness coordinate, aggregate
+formalstatus row, or bridge row belongs to this terminal support surface.
+\end{theorem}
+\begin{proof}
+First read the accepted terminal seal through
+\autoref{thm:real-l10-route-sibling-exhaustion}. It places every accepted
+$\RealUp$ terminal seal read on the four sibling certificates
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, carried by
+the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next apply
+\autoref{thm:streamname-terminal-four-face-support-minimality} to the
+StreamName-facing terminal section. The same carrier and classifier verdicts
+cannot be presented after deleting the finite StreamName window, the dyadic
+ledger face, the RegSeqRat readback face, the local Real seal face, or any one
+of the listed support rows.
+
+Finally compare the RegSeqRat terminal boundary by
+\autoref{thm:regseqrat-real-terminal-four-face-exactness}. That exactness
+result reads the local $\RealUp$ terminal seal precisely from the compatible
+four-face packet over the shared support rows, so any Real-facing presentation
+with the same carrier and classifier verdict must pull back to that packet and
+to no smaller packet.
+
+The exclusion list is inherited from the three cited route descriptions. Their
+terminal packets contain no quotient stream equality, selected limit,
+countable-choice selector, ambient $\RealUp$ completeness coordinate,
+metric-completeness coordinate, aggregate formalstatus row, or bridge row, so
+none of those rows can replace a missing sibling certificate or displayed
+support row at the terminal seal.
+\end{proof}
