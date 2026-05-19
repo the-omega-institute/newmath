@@ -3120,6 +3120,7 @@ import BEDC.Derived.OnticAdequacyAuditUp.TasteGate
 import BEDC.Derived.OnticResidueLatticeUp.TasteGate
 import BEDC.Derived.OnticResidueLedgerUp.TasteGate
 import BEDC.Derived.OnticStateUp.ComponentwiseTransportScope
+import BEDC.Derived.OnticStateUp.NameCertObligationSurface
 import BEDC.Derived.OnticStateUp.ResidueLedgerExactness
 import BEDC.Derived.OnticStateUp.SignatureStability
 import BEDC.Derived.OnticStateUp.TasteGate
@@ -3454,6 +3455,7 @@ import BEDC.Derived.RealCompletionExactBoundaryUp.RealSealNonescape
 import BEDC.Derived.RealCompletionExactBoundaryUp.StreamNameRegSeqRoute
 import BEDC.Derived.RealCompletionExactBoundaryUp.TasteGate
 import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalRoutePullback
+import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalSealDeterminacy
 import BEDC.Derived.RealCompletionRouteAuditUp.TasteGate
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealCompletionSelectorSealUp
@@ -4416,6 +4418,7 @@ import BEDC.Derived.ZnormalUp.RootNameCertUnblockPackage
 import BEDC.Derived.ZnormalUp.RootNormalFormConsumerBoundary
 import BEDC.Derived.ZnormalUp.RootNormalFormReadiness
 import BEDC.Derived.ZnormalUp.RootNormalFormReadinessSupport
+import BEDC.Derived.ZnormalUp.RootObligationDownstreamHandoff
 import BEDC.Derived.ZnormalUp.RootReadbackExhaustion
 import BEDC.Derived.ZnormalUp.RootReadinessBridgeSource
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
@@ -4432,6 +4435,7 @@ import BEDC.Derived.ZnormalUp.RootTotalHostSourcePacket
 import BEDC.Derived.ZnormalUp.RootUnblockNonescapeLedger
 import BEDC.Derived.ZnormalUp.TasteGate
 import BEDC.Derived.ZnormalUp.TasteGateFieldReadbackLock
+import BEDC.Derived.ZnormalUp.TasteGateScopeBinding
 import BEDC.Derived.ZnormalUp.TerminalBoundaryNonescape
 import BEDC.Derived.ZnormalUp.TerminalConsumerTotality
 import BEDC.Derived.ZnormalUp.TerminalFuelReadbackAdmission
@@ -4439,8 +4443,10 @@ import BEDC.Derived.ZnormalUp.TerminalFuelReadbackFrontier
 import BEDC.Derived.ZnormalUp.TerminalFuelRouteExhaustion
 import BEDC.Derived.ZnormalUp.TerminalHostBoundary
 import BEDC.Derived.ZnormalUp.TerminalHostClassifierRoute
+import BEDC.Derived.ZnormalUp.TerminalHostObligationTotality
 import BEDC.Derived.ZnormalUp.TerminalHostRootFactorization
 import BEDC.Derived.ZnormalUp.TerminalHostScopeTriad
+import BEDC.Derived.ZnormalUp.TerminalNormalityAdmission
 import BEDC.Derived.ZnormalUp.TerminalNormalityCarrierExposure
 import BEDC.Derived.ZnormalUp.TerminalNormalityRefusalStability
 import BEDC.Derived.ZnormalUp.TerminalReadbackExactness
