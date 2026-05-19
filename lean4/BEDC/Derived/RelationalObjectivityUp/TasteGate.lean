@@ -219,6 +219,22 @@ def RelationalObjectivityCarrier (F I A L T P N : BHist) : Prop :=
     UnaryHistory T ∧ UnaryHistory P ∧ UnaryHistory N ∧ Cont I A T ∧
       Cont L T N ∧ hsame P P
 
+def RelationalObjectivityNameCertClassifier
+    (F I A L T P N F' I' A' L' T' P' N' : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist hsame RelationalObjectivityCarrier
+  RelationalObjectivityCarrier F I A L T P N ∧
+    RelationalObjectivityCarrier F' I' A' L' T' P' N' ∧
+      hsame F F' ∧ hsame I I' ∧ hsame A A' ∧ hsame L L' ∧
+        hsame T T' ∧ hsame P P' ∧ hsame N N'
+
+theorem RelationalObjectivityNameCertClassifier_transport
+    {F I A L T P N F' I' A' L' T' P' N' : BHist} :
+    RelationalObjectivityNameCertClassifier F I A L T P N F' I' A' L' T' P' N' ->
+      hsame N N' := by
+  -- BEDC touchpoint anchor: BHist hsame RelationalObjectivityCarrier
+  intro classifier
+  exact classifier.right.right.right.right.right.right.right.right
+
 theorem RelationalObjectivityTasteGate_single_carrier_alignment :
     (∀ h : BHist, relationalObjectivityDecodeBHist (relationalObjectivityEncodeBHist h) = h) ∧
       (∀ x : RelationalObjectivityUp,
