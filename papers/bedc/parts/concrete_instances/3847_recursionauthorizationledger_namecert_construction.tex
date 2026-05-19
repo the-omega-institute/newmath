@@ -53,6 +53,7 @@ L=(I,R,M,B,D,O,H,C,P,N),
 $$
 the accepted signature row $I$, emitted eliminator row $R$, branch package $B$, and structural descent ledger $D$ are the finite authorization ledger consumed by \autoref{ch:concrete-instances-generatorclosure-namecert} and \autoref{ch:concrete-instances-generatorinductionseal-namecert}. The consumer route also transports, exposes, packages, and names that ledger through $H,C,P,N$, but it exports no unrestricted recursion principle and no eliminator outside the accepted signature.
 \end{theorem}
+\leanchecked{BEDC.Derived.RecursionAuthorizationLedgerUp.RecursionAuthorizationLedgerCarrier\_generator\_closure\_sibling\_route}
 \begin{proof}
 Project the carrier tuple $L=(I,R,M,B,D,O,H,C,P,N)$ from \autoref{def:recursion-authorization-ledger-carrier}. The rows $I,R,B,D$ are the signature, emitted eliminator, branch package, and structural descent data that authorize the generated output row.
 
@@ -93,6 +94,7 @@ Use \autoref{thm:recursion-authorization-ledger-namecert-obligations} for output
 
 Since the carrier has no coordinate for an unrestricted recursion principle or a second eliminator, the output audit boundary is exactly the route through $D,H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.RecursionAuthorizationLedgerUp.RecursionAuthorizationLedgerCarrier\_output\_audit\_boundary}
 
 \begin{theorem}[RecursionAuthorizationLedger branch completeness and descent exactness]
 \label{thm:recursion-authorization-ledger-obligation-branch-completeness}
@@ -145,6 +147,7 @@ Apply the NameCert obligations. Structural descent exactness is attached to $D$,
 
 The continuation and provenance rows $C,P,N$ replay and name the transported route. Since the carrier has no coordinate for a non-structural recursive call or a second eliminator, transport preserves the finite descent-output surface rather than producing an escape route.
 \end{proof}
+\leanchecked{BEDC.Derived.RecursionAuthorizationLedgerUp.RecursionAuthorizationLedgerCarrier\_descent\_transport\_stability}
 
 \begin{theorem}[RecursionAuthorizationLedger audit provenance exhaustion]
 \label{thm:recursion-authorization-ledger-audit-provenance-exhaustion}
@@ -171,6 +174,7 @@ I,R,M,B,D,O,H,C,P,N.
 $$
 It exports no unlisted constructor, no omitted branch, no branch outside the accepted signature, no non-structural recursive call, no hidden eliminator, no unrestricted recursion principle, and no output whose dependency route escapes the build, source-audit, and purity-audit boundary recorded in the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RecursionAuthorizationLedgerUp.RecursionAuthorizationLedgerCarrier\_consumer\_nonescape}
 \begin{proof}
 Start with the obligation theorem. It places the generated output downstream of the accepted signature, emitted eliminator, motive, branch package, structural descent ledger, transport rows, continuation routes, provenance, and local naming row.
 
