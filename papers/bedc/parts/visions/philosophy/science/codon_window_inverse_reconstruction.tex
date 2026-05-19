@@ -1,9 +1,9 @@
-\subsection{DNA as window-six dynamics and spectral inverse reconstruction}
+\subsection{Codon-window spectral inverse dynamics}
 \label{subsec:philosophy-codon-window-inverse-reconstruction}
 
 The codon-window bridge treats RNA and DNA codons as local six-bit
 states, while keeping the biological genetic-code table outside BEDC
-kernel primitives. The resulting thesis is local rather than global:
+kernel primitives. The inverse thesis is local rather than global:
 $$
 \begin{gathered}
   \mathsf{Codon}=Q_{6}=\{0,1\}^{6},\\
@@ -14,21 +14,23 @@ $$
 The inverse question asks how much codon-window structure can be
 recovered from finite spectra of a classifier. A single global fiber
 histogram gives the degeneracy profile but not the table. Adding local
-$Q_{2}$-face spectra, Hamming adjacency spectra, and transition or
+$Q_{2}$-face spectra, Hamming adjacency spectra, and comparative
 reassignment spectra sharply constrains the local mechanisms detected in
-\autoref{subsec:philosophy-dna-window-six-boundary-tiles}.
+\autoref{subsec:philosophy-dna-window-six-boundary-tiles}: the dual
+$11$-control tiles, the two $00$-singleton Phe/Leu tiles, and the finite
+local deformations visible across compared genetic-code tables.
 
 \begin{definition}[Window-six spectral inverse bridge status]
 \label{def:philosophy-codon-window-inverse-bridge-status}
 The bridge
-$\mathsf{DNAWindow6SpectralInverse}^{\uparrow}$ is a
+$\mathsf{CodonWindowSpectralInverse}^{\uparrow}$ is a
 $\mathsf{VisionSeed}/\mathsf{BiologicalBridge}$ target and a
 finite-enumeration paper-certificate candidate. It is not a BEDC kernel
 primitive and is not a checked certificate. A future certificate would
 separate source, pattern, classifier, stability, and ledger fields for
 the finite codon cube, the two-axis readback, the coding table, the
-inverse spectra, local tile classifications, adjacency rows, transition
-rows, and biological table provenance.
+inverse spectra, local tile classifications, adjacency rows,
+reassignment rows, and biological table provenance.
 \end{definition}
 
 \begin{definition}[Two-axis codon atlas]
@@ -151,6 +153,20 @@ the stop structure is local $X_{2}$ inside the $\mathrm{U}+\mathrm{RR}$
 face, not global $X_{6}$.
 \end{proof}
 
+\begin{theorem}[Finite local face domain]
+\label{thm:philosophy-spectral-inverse-finite-local-face-domain}
+The codon cube $Q_{6}$ has exactly
+$$
+  \binom{6}{2}\,2^{4}=240
+$$
+axis-aligned $Q_{2}$ faces.
+\end{theorem}
+\begin{proof}
+Choose the two free bit coordinates in $\binom{6}{2}$ ways. Assign fixed
+values to the remaining four coordinates in $2^{4}$ ways. The resulting
+faces are exactly the axis-aligned $Q_{2}$ faces of $Q_{6}$.
+\end{proof}
+
 \begin{theorem}[Dual control tiles]
 \label{thm:philosophy-spectral-inverse-dual-control-tiles}
 The standard-code bridge contains two $X_{2}/\{11\}$ control tiles:
@@ -267,24 +283,33 @@ Hence the histogram constrains the table but is not a complete invariant.
 \begin{definition}[Enhanced inverse spectrum]
 \label{def:philosophy-enhanced-codon-window-inverse-spectrum}
 Let $F\subseteq Q_{6}$ range over all axis-aligned $Q_{2}$ faces, and
-let $H(E|_{F})$ denote the label multiplicity pattern on $F$. Define
+let $H(E|_{F})$ denote the label multiplicity pattern on $F$, such as
+$4$, $3+1$, $2+2$, $2+1+1$, or $1+1+1+1$. Define
 $$
   H_{2}(E):=\{H(E|_{F}):F\subseteq Q_{6},\ F\simeq Q_{2}\}.
 $$
+When a face has pattern $3+1$, it is a local $3+1$ tile. It is an
+$11$-control tile when the three-point class occupies $X_{2}$ and the
+singleton class occupies the local $11$ corner. It is a $00$-singleton
+tile when the singleton class occupies the local $00$ corner and the
+three-point class occupies $Q_{2}\setminus\{00\}$.
+
 Put the Hamming graph on $Q_{6}$ and define
 $$
   A_{E}(i,j):=
   |\{(x,y):x\sim y,\ E(x)=i,\ E(y)=j\}|.
 $$
-For a transition kernel $P(y|x)$, or for a comparison relation between
-code tables, define the projected class-level row
+For a baseline table $E$ and a compared table $E'$ on the same codon
+carrier, define the reassignment row
 $$
-  P_{E}(j|i):=
-  \sum_{x:E(x)=i}\ \sum_{y:E(y)=j}P(y|x).
+  M(E,E'):=\{x\in Q_{6}:E'(x)\neq E(x)\}.
 $$
+When $E$ is fixed, write $M_{E}$ for the selected finite family of such
+comparison rows, with each row recorded together with its local tile
+coordinate when applicable.
 The enhanced inverse spectrum is
 $$
-  \mathsf{InvSpec}(E):=(H_{E},H_{2}(E),A_{E},P_{E}).
+  \mathsf{InvSpec}(E):=(H_{E},H_{2}(E),A_{E},M_{E}).
 $$
 \end{definition}
 
@@ -298,6 +323,8 @@ with a $3+1$ split.
 A singleton and a tripleton have total support $1+3=4$. The smallest
 axis-aligned cube with four points is $Q_{2}$, so the natural finite
 local search object is a $Q_{2}$ face partitioned as a $3+1$ split.
+This is a search principle rather than a uniqueness theorem; uniqueness
+requires the local face spectrum.
 \end{proof}
 
 \begin{corollary}[Standard spectrum locates the control tiles]
@@ -315,6 +342,48 @@ The singleton classes are $\mathrm{Met}$ and $\mathrm{Trp}$, and the
 tripleton classes are $\mathrm{Ile}$ and $\mathrm{Stop}$ by
 \autoref{cor:philosophy-standard-code-degeneracy-spectrum}. The local
 $Q_{2}$ enumeration is \autoref{thm:philosophy-total-local-tile-theorem}.
+\end{proof}
+
+\begin{theorem}[Standard local $3+1$ face inventory]
+\label{thm:philosophy-spectral-inverse-local-face-inventory}
+Under the two-axis readback and the standard genetic-code bridge, the
+axis-aligned $Q_{2}$ faces with $3+1$ translation-class splits are
+exactly
+$$
+\begin{array}{c|c|c|c}
+  \text{face} & \text{three-point class} & \text{singleton class}
+    & \text{singleton corner}\\
+\hline
+  \{\mathrm{AUU},\mathrm{AUC},\mathrm{AUA},\mathrm{AUG}\}
+    & \mathrm{Ile} & \mathrm{Met} & 11\\
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG}\}
+    & \mathrm{Stop} & \mathrm{Trp} & 11\\
+  \{\mathrm{UUU},\mathrm{UUA},\mathrm{CUU},\mathrm{CUA}\}
+    & \mathrm{Leu} & \mathrm{Phe} & 00\\
+  \{\mathrm{UUC},\mathrm{UUG},\mathrm{CUC},\mathrm{CUG}\}
+    & \mathrm{Leu} & \mathrm{Phe} & 00.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+This is the finite enumeration of the $240$ axis-aligned $Q_{2}$ faces
+under the standard translation table, recorded in
+\autoref{thm:philosophy-standard-code-axis-aligned-three-one-face-enumeration}.
+\end{proof}
+
+\begin{corollary}[Phe/Leu sense-expansion tiles]
+\label{cor:philosophy-spectral-inverse-phe-leu-sense-expansion}
+The two Phe/Leu $3+1$ faces are $00$-singleton tiles rather than
+$11$-control tiles. They supply a sense-expansion mechanism distinct from
+the $\mathrm{Ile}/\mathrm{Met}$ and $\mathrm{Stop}/\mathrm{Trp}$
+$11$-control mechanism.
+\end{corollary}
+\begin{proof}
+In the two Phe/Leu rows of
+\autoref{thm:philosophy-spectral-inverse-local-face-inventory}, the
+singleton corner is $00$ and the three-point class is
+$Q_{2}\setminus\{00\}$. This is exactly the definition of a
+$00$-singleton tile.
 \end{proof}
 
 \begin{theorem}[Boundary and continuation reconstruction]
@@ -418,7 +487,7 @@ codon classified as $\mathrm{Stop}$ transitions to $S_{\mathsf{halt}}$.
 \label{thm:philosophy-enhanced-inverse-spectrum-theorem}
 The enhanced inverse spectrum
 $$
-  \mathsf{InvSpec}(E)=(H_{E},H_{2}(E),A_{E},P_{E})
+  \mathsf{InvSpec}(E)=(H_{E},H_{2}(E),A_{E},M_{E})
 $$
 recovers or strongly constrains global compression, singleton/tripleton
 classes, local $3+1$ $Q_{2}$ tiles, reserved control corners,
@@ -431,10 +500,10 @@ The component $H_{E}$ gives class count and support size by
 by \autoref{thm:philosophy-global-histogram-not-complete}. The local
 spectrum $H_{2}(E)$ attaches multiplicity patterns to concrete $Q_{2}$
 faces. The adjacency spectrum $A_{E}$ records one-bit class boundaries,
-including L-shape centers and leaves. The transition or reassignment
-spectrum $P_{E}$ records dynamics and changes across biological bridge
-tables. Together these spectra reduce arbitrary partitions of $Q_{6}$ to
-a small family of structured local mechanisms.
+including L-shape centers and leaves. The reassignment spectrum $M_{E}$
+records finite comparison rows across biological bridge tables or
+controlled perturbation rows. Together these spectra reduce arbitrary
+partitions of $Q_{6}$ to a small family of structured local mechanisms.
 \end{proof}
 
 \begin{definition}[Finite and empirical work surface]
@@ -442,8 +511,9 @@ a small family of structured local mechanisms.
 The finite formalization target is to define the two-axis readback,
 $Q_{6}$, $Q_{2}$, $X_{2}$, the standard-code classifier, the global
 histogram, the $240$ local $Q_{2}$ faces, the exact list of $3+1$ faces,
-and the spectrum $\mathsf{InvSpec}(E)$. The biological research surface
-then compares genetic-code tables, stop assignments, codon usage,
+and the spectrum $\mathsf{InvSpec}(E)=(H_{E},H_{2}(E),A_{E},M_{E})$. The
+biological research surface then compares genetic-code tables, stop
+assignments, codon usage,
 readthrough, ribosome-profiling pause rows, release-factor context, and
 synthetic reporter rows for terminal windows
 $$
@@ -469,7 +539,7 @@ deleted, that $\mathrm{UGG}$ is tryptophan by BEDC logic alone, that a
 single global histogram uniquely determines the genetic code, that
 alternative genetic-code tables contradict the model, that ribosome
 dynamics are determined by codon identity alone, or that
-$\mathsf{DNAWindow6SpectralInverse}^{\uparrow}$ is already a checked
+$\mathsf{CodonWindowSpectralInverse}^{\uparrow}$ is already a checked
 certificate.
 \end{theorem}
 \begin{proof}
@@ -489,8 +559,9 @@ checked-status refusal follows from
 Under the two-axis RNA/DNA bridge, codons form $Q_{6}$. The standard stop
 class is a local $\mathrm{U}+\mathrm{RR}+X_{2}$ halt boundary, not a
 global $X_{6}$ law. The enhanced inverse spectrum
-$(H_{E},H_{2}(E),A_{E},P_{E})$ reconstructs or strongly constrains local
+$(H_{E},H_{2}(E),A_{E},M_{E})$ reconstructs or strongly constrains local
 coding mechanisms such as the $\mathrm{Ile}/\mathrm{Met}$ and
-$\mathrm{Stop}/\mathrm{Trp}$ control tiles and their local reassignment
-patterns in compared genetic-code tables.
+$\mathrm{Stop}/\mathrm{Trp}$ control tiles, the Phe/Leu
+$00$-singleton tiles, and their local reassignment patterns in compared
+genetic-code tables.
 \end{corollary}
