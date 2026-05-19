@@ -533,3 +533,54 @@ faces. Hence no quotient stream equality, host sequence equality, selected
 limit, ambient Real completeness, metric-completeness datum, countable-choice
 row, or standard bridge row is part of the classifier reflection surface.
 \end{proof}
+
+\begin{theorem}[StreamName common-refinement classifier uniqueness]
+\label{thm:streamname-finite-cover-common-refinement-classifier-uniqueness}
+Let $\{Q_i\}_{i \in I}$ and $\{R_j\}_{j \in J}$ be finite families of accepted
+current Phase Real and Completion $\StreamNameUp$ request sections. Suppose
+that they admit a certified finite common refinement $\{S_k\}_{k \in K}$ with
+refinement maps $a : K \to I$ and $b : K \to J$. For every $k \in K$, the row
+$S_k$ restricts to the rows $Q_{a(k)}$ and $R_{b(k)}$, and every accepted
+overlap in the refinement displays the same $\StreamNameUp$ finite-window row,
+the same $\DyadicRatCoreUp$ ledger row, the same $\RegSeqRatUp$ readback row,
+the same $\RealUp$ seal boundary, and the same $\BHist$, componentwise
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows when read through
+either cover. Then the cover-descent classifier reflection surface determined
+by $\{Q_i\}_{i \in I}$ and the cover-descent classifier reflection surface
+determined by $\{R_j\}_{j \in J}$ are the same public four-face classifier
+surface.
+
+Equivalently, the two presentations have the same carrier verdict and the same
+classifier verdict on the visible route
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$. The comparison refuses
+quotient stream equality, host sequence equality, selected limits, ambient Real
+completeness, metric-completeness data, countable choice, and standard bridge
+rows.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-finite-section-cover-descent-classifier-reflection} to
+the cover $\{Q_i\}_{i \in I}$. Apply the same theorem to the cover
+$\{R_j\}_{j \in J}$. The hypotheses give public classifier reflection surfaces
+for both covers over the same four visible faces and the same support rows.
+
+Now apply \autoref{thm:streamname-cofinal-tail-refinement-invariance} to the
+certified common refinement $\{S_k\}_{k \in K}$. Each refined row restricts to
+the corresponding row of both covers, and every accepted refined overlap reads
+the same finite window, ledger, readback, seal boundary, $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows. Thus the two cover surfaces compare
+through the same cofinal tail-window surface.
+
+It remains to identify the public verdicts. Use
+\autoref{thm:streamname-finite-section-classifier-determinacy} on the two
+surfaces transported to the refinement surface, and use
+\autoref{thm:streamname-finite-section-real-regseq-dyadic-lock} to keep the
+carrier and classifier reads on the StreamName finite window, DyadicRatCore
+ledger, RegSeqRat readback, and RealUp seal boundary.
+
+The resulting comparison is therefore a comparison of the same public
+four-face classifier surface, not a comparison of quotient streams or host
+sequences. The lock also excludes selected limits, ambient Real completeness,
+metric-completeness data, countable-choice rows, and standard bridge rows from
+the common-refinement uniqueness claim.
+\end{proof}
