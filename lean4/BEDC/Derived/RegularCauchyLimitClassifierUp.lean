@@ -181,6 +181,41 @@ theorem RegularCauchyLimitClassifierCarrier_observation_budget_factorization [As
     ⟨budgetReadUnary, certRoutesPublicRead', samePublicBudget, sameCert, certPkg,
       publicReadPkg'⟩
 
+theorem RegularCauchyLimitClassifierCarrier_completion_consumer_boundary [AskSetup]
+    [PackageSetup]
+    {input modulus diagonal windows readback ledger sealRow transportRow routes provenance cert
+      publicRead budgetRead completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitClassifierCarrier input modulus diagonal windows readback ledger sealRow
+        transportRow routes provenance cert bundle pkg ->
+      Cont cert routes publicRead ->
+        PkgSig bundle publicRead pkg ->
+          hsame publicRead budgetRead ->
+            Cont budgetRead routes completionRead ->
+              PkgSig bundle completionRead pkg ->
+                UnaryHistory budgetRead ∧ UnaryHistory completionRead ∧
+                  Cont cert routes publicRead ∧ Cont budgetRead routes completionRead ∧
+                    hsame publicRead budgetRead ∧ hsame cert (append provenance sealRow) ∧
+                      PkgSig bundle cert pkg ∧ PkgSig bundle publicRead pkg ∧
+                        PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier certRoutesPublicRead publicReadPkg samePublicBudget
+    budgetRoutesCompletionRead completionReadPkg
+  have factorized :=
+    RegularCauchyLimitClassifierCarrier_observation_budget_factorization carrier
+      certRoutesPublicRead publicReadPkg samePublicBudget
+  obtain
+    ⟨budgetReadUnary, certRoutesPublicRead', samePublicBudget', sameCert, certPkg,
+      publicReadPkg'⟩ := factorized
+  have routesUnary : UnaryHistory routes :=
+    carrier.right.right.right.right.right.right.left
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed budgetReadUnary routesUnary budgetRoutesCompletionRead
+  exact
+    ⟨budgetReadUnary, completionReadUnary, certRoutesPublicRead',
+      budgetRoutesCompletionRead, samePublicBudget', sameCert, certPkg, publicReadPkg',
+      completionReadPkg⟩
+
 theorem RegularCauchyLimitClassifierCarrier_bridge_source_packet [AskSetup] [PackageSetup]
     {input modulus diagonal windows readback ledger sealRow transportRow routes provenance
       cert : BHist}
