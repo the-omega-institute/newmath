@@ -74,4 +74,69 @@ theorem QuotientSoundnessBoundaryDownstreamAuditPackage [AskSetup] [PackageSetup
   }
   exact ⟨cert, auditUnary, downstreamUnary⟩
 
+theorem QuotientSoundnessBoundaryCarrier_downstream_nonimport [AskSetup] [PackageSetup]
+    {e a t v h c p n auditRead downstreamRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg →
+      Cont h c auditRead →
+        Cont auditRead n downstreamRead →
+          PkgSig bundle downstreamRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row downstreamRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  Cont e a v ∧ Cont e t h ∧ Cont h c auditRead ∧
+                    Cont auditRead n row ∧ hsame h n)
+                (fun row : BHist =>
+                  PkgSig bundle p pkg ∧ PkgSig bundle downstreamRead pkg ∧
+                    hsame row downstreamRead)
+                hsame ∧
+              UnaryHistory auditRead ∧ UnaryHistory downstreamRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier hAudit auditDownstream downstreamPkg
+  obtain ⟨_eUnary, _aUnary, _tUnary, _vUnary, hUnary, cUnary, _pUnary, nUnary,
+    eAV, eTH, _hCN, pPkg, _nPkg, hSameN⟩ := carrier
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed hUnary cUnary hAudit
+  have downstreamUnary : UnaryHistory downstreamRead :=
+    unary_cont_closed auditUnary nUnary auditDownstream
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row downstreamRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            Cont e a v ∧ Cont e t h ∧ Cont h c auditRead ∧
+              Cont auditRead n row ∧ hsame h n)
+          (fun row : BHist =>
+            PkgSig bundle p pkg ∧ PkgSig bundle downstreamRead pkg ∧
+              hsame row downstreamRead)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro downstreamRead ⟨hsame_refl downstreamRead, downstreamUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          ⟨eAV, eTH, hAudit,
+            cont_result_hsame_transport auditDownstream (hsame_symm source.left), hSameN⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨pPkg, downstreamPkg, source.left⟩
+    }
+  exact ⟨cert, auditUnary, downstreamUnary⟩
+
 end BEDC.Derived.QuotientSoundnessBoundaryUp
