@@ -252,6 +252,30 @@ theorem CriticalLineWitnessCarrier_root_zeta_source_obligation
     ⟨unaryZ, unaryS, routeClosure.left, unaryH, unaryZetaRead, unarySourceRead, sameH,
       zetaRoute, sourceRoute, routeQ, routeC, routeN⟩
 
+theorem CriticalLineWitnessCarrier_root_real_window_obligation
+    {Z S M R Q H C P N realWindow : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont M R realWindow ->
+        UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory Q ∧ UnaryHistory H ∧
+          UnaryHistory C ∧ UnaryHistory N ∧ UnaryHistory realWindow ∧
+            hsame H (append Z S) ∧ Cont M R Q ∧ Cont M R realWindow ∧
+              Cont Q H C ∧ Cont C P N := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro packet realWindowRoute
+  have routeClosure :
+      UnaryHistory Q ∧ UnaryHistory C ∧ UnaryHistory N ∧ hsame H (append Z S) :=
+    CriticalLineWitnessCarrier_modulus_route_closure packet
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryH : UnaryHistory H :=
+    unary_transport (unary_cont_closed unaryZ unaryS (cont_intro rfl)) (hsame_symm sameH)
+  have unaryRealWindow : UnaryHistory realWindow :=
+    unary_cont_closed unaryM unaryR realWindowRoute
+  exact
+    ⟨unaryM, unaryR, routeClosure.left, unaryH, routeClosure.right.left,
+      routeClosure.right.right.left, unaryRealWindow, sameH, routeQ, realWindowRoute, routeC,
+      routeN⟩
+
 theorem CriticalLineWitnessCarrier_root_dependency_scope
     {Z S M R Q H C P N zetaRead depthRead ledgerRead : BHist} :
     CriticalLineWitnessCarrier Z S M R Q H C P N ->
@@ -337,6 +361,96 @@ theorem CriticalLineWitnessCarrier_downstream_zero_source_readback
     ⟨unaryZ, unaryS, unaryQ, zeroReadUnary, downstreamReadUnary, sameH, zeroRoute,
       downstreamRoute, routeQ, routeC, routeN⟩
 
+theorem CriticalLineWitnessCarrier_fixed_strip_budget_route_determinacy
+    {Z S M R Q H C P N budgetRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont (append Z S) Q budgetRead ->
+        SemanticNameCert
+            (fun row : BHist => hsame row budgetRead ∧ UnaryHistory row)
+            (fun row : BHist => hsame row budgetRead)
+            (fun row : BHist => hsame row budgetRead ∧ Cont (append Z S) Q budgetRead)
+            hsame ∧
+          UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+            UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory budgetRead ∧
+              hsame H (append Z S) ∧ Cont M R Q ∧ Cont Q H C ∧ Cont C P N ∧
+                Cont (append Z S) Q budgetRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro packet budgetRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have sourceUnary : UnaryHistory (append Z S) :=
+    unary_cont_closed unaryZ unaryS (cont_intro rfl)
+  have unaryH : UnaryHistory H :=
+    unary_transport sourceUnary (hsame_symm sameH)
+  have budgetUnary : UnaryHistory budgetRead :=
+    unary_cont_closed sourceUnary unaryQ budgetRoute
+  have sourceAtBudget : hsame budgetRead budgetRead ∧ UnaryHistory budgetRead :=
+    ⟨hsame_refl budgetRead, budgetUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row budgetRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row budgetRead)
+          (fun row : BHist => hsame row budgetRead ∧ Cont (append Z S) Q budgetRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro budgetRead sourceAtBudget
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, budgetRoute⟩
+  }
+  exact
+    ⟨cert, unaryZ, unaryS, unaryM, unaryR, unaryQ, unaryH, budgetUnary, sameH, routeQ,
+      routeC, routeN, budgetRoute⟩
+
+theorem CriticalLineWitnessCarrier_fixed_strip_classifier_separation
+    {Z S M R Q H C P N classifierRead witnessRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont (append Z S) Q classifierRead ->
+        Cont H Q witnessRead ->
+          UnaryHistory classifierRead ∧ UnaryHistory witnessRead ∧
+            hsame classifierRead witnessRead ∧ hsame H (append Z S) ∧ Cont M R Q ∧
+              Cont Q H C ∧ Cont C P N ∧ Cont (append Z S) Q classifierRead ∧
+                Cont H Q witnessRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro packet classifierRoute witnessRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have sourceUnary : UnaryHistory (append Z S) :=
+    unary_cont_closed unaryZ unaryS (cont_intro rfl)
+  have unaryH : UnaryHistory H :=
+    unary_transport sourceUnary (hsame_symm sameH)
+  have classifierUnary : UnaryHistory classifierRead :=
+    unary_cont_closed sourceUnary unaryQ classifierRoute
+  have witnessUnary : UnaryHistory witnessRead :=
+    unary_cont_closed unaryH unaryQ witnessRoute
+  have sameReads : hsame classifierRead witnessRead :=
+    cont_respects_hsame (hsame_symm sameH) (hsame_refl Q) classifierRoute witnessRoute
+  exact
+    ⟨classifierUnary, witnessUnary, sameReads, sameH, routeQ, routeC, routeN,
+      classifierRoute, witnessRoute⟩
+
 theorem CriticalLineWitnessCarrier_root_fixed_tuple_image_row
     {Z S M R Q H C P N image : BHist} :
     CriticalLineWitnessCarrier Z S M R Q H C P N ->
@@ -359,6 +473,38 @@ theorem CriticalLineWitnessCarrier_root_fixed_tuple_image_row
   exact
     ⟨unaryZ, unaryS, unaryM, unaryR, unaryQ, unaryH, imageUnary, sameH, routeQ,
       routeC, routeN, imageRoute⟩
+
+theorem CriticalLineWitnessCarrier_fixed_strip_stdbridge_route_totality
+    {Z S M R Q H C P N bridgeRead refusalRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont (append Z S) Q bridgeRead ->
+        Cont N Q refusalRead ->
+          UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+            UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory N ∧ UnaryHistory bridgeRead ∧
+              UnaryHistory refusalRead ∧ hsame H (append Z S) ∧ Cont M R Q ∧
+                Cont Q H C ∧ Cont C P N ∧ Cont (append Z S) Q bridgeRead ∧
+                  Cont N Q refusalRead := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro packet bridgeRoute refusalRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have sourceUnary : UnaryHistory (append Z S) :=
+    unary_cont_closed unaryZ unaryS (cont_intro rfl)
+  have unaryH : UnaryHistory H :=
+    unary_transport sourceUnary (hsame_symm sameH)
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryQ unaryH routeC
+  have unaryN : UnaryHistory N :=
+    unary_cont_closed unaryC _unaryP routeN
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed sourceUnary unaryQ bridgeRoute
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed unaryN unaryQ refusalRoute
+  exact
+    ⟨unaryZ, unaryS, unaryM, unaryR, unaryQ, unaryH, unaryN, bridgeUnary,
+      refusalUnary, sameH, routeQ, routeC, routeN, bridgeRoute, refusalRoute⟩
 
 theorem CriticalLineWitnessCarrier_root_unblock_refusal_boundary
     {Z S M R Q H C P N refusalRead boundaryRead : BHist} :
@@ -426,5 +572,35 @@ theorem CriticalLineWitnessCarrier_root_unblock_refusal_boundary
   exact
     ⟨cert, unaryZ, unaryS, unaryM, unaryR, unaryQ, unaryC, unaryN, refusalUnary,
       boundaryUnary, sameH, routeQ, routeC, routeN, refusalRoute, boundaryRoute⟩
+
+theorem CriticalLineWitnessCarrier_root_strip_comparison_classifier
+    {Z S M R Q H C P N zeroStripRead modulusRead classifierRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S zeroStripRead ->
+        Cont M R modulusRead ->
+          Cont zeroStripRead modulusRead classifierRead ->
+            UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+              UnaryHistory Q ∧ UnaryHistory zeroStripRead ∧ UnaryHistory modulusRead ∧
+                UnaryHistory classifierRead ∧ hsame H (append Z S) ∧
+                  Cont Z S zeroStripRead ∧ Cont M R Q ∧ Cont M R modulusRead ∧
+                    Cont zeroStripRead modulusRead classifierRead ∧ Cont Q H C ∧
+                      Cont C P N := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro packet zeroStripRoute modulusRoute classifierRoute
+  have routeClosure :
+      UnaryHistory Q ∧ UnaryHistory C ∧ UnaryHistory N ∧ hsame H (append Z S) :=
+    CriticalLineWitnessCarrier_modulus_route_closure packet
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryZeroStripRead : UnaryHistory zeroStripRead :=
+    unary_cont_closed unaryZ unaryS zeroStripRoute
+  have unaryModulusRead : UnaryHistory modulusRead :=
+    unary_cont_closed unaryM unaryR modulusRoute
+  have unaryClassifierRead : UnaryHistory classifierRead :=
+    unary_cont_closed unaryZeroStripRead unaryModulusRead classifierRoute
+  exact
+    ⟨unaryZ, unaryS, unaryM, unaryR, routeClosure.left, unaryZeroStripRead,
+      unaryModulusRead, unaryClassifierRead, sameH, zeroStripRoute, routeQ, modulusRoute,
+      classifierRoute, routeC, routeN⟩
 
 end BEDC.Derived.CriticalLineWitnessUp
