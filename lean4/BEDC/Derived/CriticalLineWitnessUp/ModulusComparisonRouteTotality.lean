@@ -74,4 +74,32 @@ theorem CriticalLineWitnessCarrier_modulus_comparison_route_totality
     ⟨cert, unaryM, unaryR, unaryQ, unaryH, unaryC, unaryN, comparisonUnary,
       ledgerUnary, sameH, routeQ, comparisonRoute, ledgerRoute, routeC, routeN⟩
 
+theorem CriticalLineWitnessCarrier_modulus_comparison_transport_stability
+    {Z S M R Q H C P N Ht Ct comparisonRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N →
+      hsame H Ht →
+        Cont Q Ht Ct →
+          Cont Ct P comparisonRead →
+            UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory Q ∧ UnaryHistory Ht ∧
+              UnaryHistory Ct ∧ UnaryHistory comparisonRead ∧ hsame H (append Z S) ∧
+                hsame H Ht ∧ Cont M R Q ∧ Cont Q Ht Ct ∧
+                  Cont Ct P comparisonRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro packet sameTransport transportedRoute comparisonRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, unaryP, sameH, routeQ, _routeC, _routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have unaryH : UnaryHistory H :=
+    unary_transport (unary_cont_closed unaryZ unaryS (cont_intro rfl)) (hsame_symm sameH)
+  have unaryHt : UnaryHistory Ht :=
+    unary_transport unaryH sameTransport
+  have unaryCt : UnaryHistory Ct :=
+    unary_cont_closed unaryQ unaryHt transportedRoute
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed unaryCt unaryP comparisonRoute
+  exact
+    ⟨unaryM, unaryR, unaryQ, unaryHt, unaryCt, comparisonUnary, sameH, sameTransport,
+      routeQ, transportedRoute, comparisonRoute⟩
+
 end BEDC.Derived.CriticalLineWitnessUp
