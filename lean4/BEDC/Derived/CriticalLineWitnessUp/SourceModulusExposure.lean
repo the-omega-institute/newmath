@@ -66,4 +66,24 @@ theorem CriticalLineWitnessCarrier_source_modulus_exposure
   }
   exact ⟨cert, sourceUnary, modulusUnary, boundaryUnary, sameH, routeQ⟩
 
+theorem CriticalLineWitnessSourceModulusExposure
+    {Z S M R Q H C P N sourceRead modulusRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S sourceRead ->
+        Cont M R modulusRead ->
+          UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+            UnaryHistory sourceRead ∧ UnaryHistory modulusRead ∧ Cont Z S sourceRead ∧
+              Cont M R modulusRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro packet sourceRoute modulusRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, _sameH, _routeQ, _routeC,
+    _routeN⟩ := packet
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed unaryZ unaryS sourceRoute
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed unaryM unaryR modulusRoute
+  exact
+    ⟨unaryZ, unaryS, unaryM, unaryR, sourceUnary, modulusUnary, sourceRoute,
+      modulusRoute⟩
+
 end BEDC.Derived.CriticalLineWitnessUp
