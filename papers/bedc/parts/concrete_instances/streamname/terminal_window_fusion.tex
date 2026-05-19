@@ -586,3 +586,62 @@ route. Therefore no excluded coordinate can account for the common consumer
 readback, and the agreement reflects back exactly to the displayed terminal
 rows.
 \end{proof}
+
+\begin{theorem}[StreamName terminal fusion four-face exit status equivalence]
+\label{thm:streamname-terminal-fusion-four-face-exit-status-equivalence}
+Let $\mathcal W$ and $\mathcal W'$ be accepted terminal fused StreamName packets
+whose four roadmap faces are supplied with same-route
+$\RealCompletionExactBoundaryUp$ faces. Row-preserving terminal
+$\PhaseRealCompletionExitUp$ consumer equivalence between $\mathcal W$ and
+$\mathcal W'$ holds if and only if their terminal presentations agree on the
+four roadmap faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+on the same-route exact-boundary face, and on the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Thus the terminal exit status for the four-object Real-completion route is
+exactly the equality class of these BEDC-visible rows.
+
+The equivalence has no further coordinates: aggregate formalstatus, bridge
+token, quotient stream equality, selected limits, host sequence equality,
+ambient completeness, metric completeness, countable choice, and fused
+completion witnesses are not part of the exit-status comparison.
+\end{theorem}
+\begin{proof}
+Assume first that the displayed terminal rows agree. Put each packet in normal
+form by
+\autoref{thm:streamname-terminal-fusion-universal-consumer-normal-form}. Since
+the two packets have the same four roadmap faces, the same same-route
+$\RealCompletionExactBoundaryUp$ face, and the same
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ support rows, the normal forms determine
+the same row-preserving terminal $\PhaseRealCompletionExitUp$ consumer readback.
+
+For the reverse direction, assume that the row-preserving terminal consumer
+readbacks agree. Apply
+\autoref{thm:streamname-terminal-fusion-universal-consumer-reflection}. The
+reflection theorem reads the common consumer back to equality of the four
+roadmap faces, the same-route exact-boundary face, and the displayed support
+rows.
+
+It remains to identify the allowed surface. Source exhaustion,
+\autoref{thm:streamname-terminal-window-fusion-source-exhaustion}, says that
+the accepted terminal fused StreamName packet supplies no StreamName-side
+coordinate beyond the four roadmap faces and the displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows. The four-face exit gate,
+\autoref{thm:streamname-l10-four-face-exit-gate}, fixes the roadmap surface as
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, while
+\autoref{thm:streamname-terminal-fusion-phase-exit-consumer-readback} records
+the same-route $\RealCompletionExactBoundaryUp$ face as the constrained local
+readback for that route.
+
+Finally apply the no-choice route factorization,
+\autoref{thm:streamname-real-completion-route-no-choice-factorization}. The
+aggregate formalstatus, bridge token, quotient stream equality, selected
+limits, host sequence equality, ambient completeness, metric completeness,
+countable choice, and fused completion witness are not consumer coordinates on
+this terminal route. Therefore the two implications above form the exact
+four-face exit status equivalence.
+\end{proof}
