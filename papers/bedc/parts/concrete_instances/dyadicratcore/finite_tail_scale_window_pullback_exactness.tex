@@ -180,6 +180,26 @@ Without the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support,
 Conversely, when all five sites are present over the same displayed packet, \autoref{thm:dyadicratcore-real-completion-obstruction-ledger} removes every finite obstruction listed in the classification, and \autoref{thm:dyadicratcore-finite-request-real-seal-uniqueness} gives one finite request route through the displayed faces. Hence none of the five sites is replaceable by the other four, and together they are sufficient for the finite exit route claimed here.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore finite-tail obstruction classifier determinacy]
+\label{thm:dyadicratcore-finite-tail-obstruction-classifier-determinacy}
+Let two current Phase Real and Completion exit reads have first visible face a finite-tail $\DyadicRatCoreUp$ scale-window packet. Suppose the two reads expose the same terminal $\DyadicRatCoreUp$ packet, the same induced $\StreamNameUp$ finite-window face, the same $\RegSeqRatUp$ finite-request section, the same local $\RealUp$ seal-facing section, and the same transported $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows over those four faces. Then the two obstruction classifiers agree exactly when the two reads fail at the same one of the five finite sites listed in \autoref{thm:dyadicratcore-real-completion-obstruction-ledger} over that shared support surface.
+
+The classifier comparison is only the finite BEDC comparison attached to
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+It excludes quotient rational equality, quotient stream equality, selected limits, countable choice, metric-completeness rows, aggregate formalstatus rows, aggregate bridge rows, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the obstruction ledger, \autoref{thm:dyadicratcore-real-completion-obstruction-ledger}, to each failed read. Each read is classified by exactly one displayed finite site: the dyadic source and transport row, the $\StreamNameUp$ finite-window face, the $\RegSeqRatUp$ finite-request section, the local $\RealUp$ seal, or the transported support rows.
+
+Now compare the two ledger classifications over the shared four-face support. If the classifiers agree while the sites differed, one of the five sites would be replaceable by the other four together with a different failed site. This contradicts finite-tail obstruction minimality, \autoref{thm:dyadicratcore-finite-tail-obstruction-minimality}, which makes each listed site independently necessary.
+
+For the reverse direction, assume the two reads fail at the same listed finite site over the same $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. Replay the local blocking theorem for that site on both reads: the DyadicRatCore handoff block for source and transport defects, the StreamName localization block for finite-window defects, the RegSeqRat boundary block for finite-request defects, the Real L10 determinacy block for local seal defects, and the support-transport block for shared row defects.
+
+The same local blocking theorem reads the same failed coordinate in both presentations, so the obstruction classifiers agree. The nonescape clauses of the ledger and minimality theorem keep the result finite: it is a BEDC classifier determinacy statement, not a quotient-equality, selected-limit, choice, bridge, or completeness theorem.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore finite-tail exit-certificate equivalence]
 \label{thm:dyadicratcore-finite-tail-exit-certificate-equivalence}
 Let a current Phase Real and Completion exit read have first visible face a finite-tail $\DyadicRatCoreUp$ scale-window packet. Then the read satisfies the objectwise exit certificate exactly when the five finite sites of \autoref{thm:dyadicratcore-real-completion-obstruction-ledger} are present over the same four-face packet
