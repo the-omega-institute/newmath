@@ -241,6 +241,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.BoundaryFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BoundaryLedgerTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchAuditLedger
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchBudgetExhaustion
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchLedgerDisjointness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchOutputClosureRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionBudgetLock
@@ -3893,6 +3894,7 @@ import BEDC.Derived.StreamNameUp
 import BEDC.Derived.StreamNameUp.CertifiedObservationDeterminacy
 import BEDC.Derived.StreamNameUp.EmptyWindow
 import BEDC.Derived.StreamNameUp.FiniteSectionClassifierDeterminacy
+import BEDC.Derived.StreamNameUp.FiniteSectionPullbackExactness
 import BEDC.Derived.StreamNameUp.FiniteWindowEndpoint
 import BEDC.Derived.StreamNameUp.FiniteWindowStructural
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
@@ -4311,6 +4313,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.ConsumerPacketTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripConsumerNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPoleBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPublicRefusal
+import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripTotalLedger
 import BEDC.Derived.ZetaContinuationWitnessUp.EtaDenominatorBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.FunctionalFactorNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryPublicExport
@@ -4321,10 +4324,12 @@ import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleGammaBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportRouteLock
+import BEDC.Derived.ZetaContinuationWitnessUp.PublicRootCompletion
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicSourceLockExport
 import BEDC.Derived.ZetaContinuationWitnessUp.RootPackage
 import BEDC.Derived.ZetaContinuationWitnessUp.RootReadinessSourceSeal
 import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
+import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockCoverage
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerSourceReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingSourceAccountability
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroRouteInputPackage
@@ -4339,6 +4344,7 @@ import BEDC.Derived.ZnormalUp.RootDisplayPacketBridgeReadbackExactness
 import BEDC.Derived.ZnormalUp.RootNormalFormReadiness
 import BEDC.Derived.ZnormalUp.RootReadbackExhaustion
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
+import BEDC.Derived.ZnormalUp.RootTotalHostReadiness
 import BEDC.Derived.ZnormalUp.RootTotalHostRefusal
 import BEDC.Derived.ZnormalUp.RootUnblockNonescapeLedger
 import BEDC.Derived.ZnormalUp.TasteGate
