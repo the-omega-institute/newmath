@@ -50,6 +50,20 @@ If a consumer attempts to read $S$, $W$, $D$, or $A$ first, it asks for a coordi
 Therefore every public window read begins at $Q$ and is exhausted by the remaining displayed rows. The packet exports no route to a separate stream, dyadic ledger, real classifier, or completion principle outside $R$.
 \end{proof}
 
+\begin{theorem}[RatClassifierTransportSeal classifier handoff determinacy]
+\label{thm:rat-classifier-transport-seal-classifier-handoff-determinacy}
+Let $R=(Q,S,W,D,A,H,C,P,N)$ and $R'=(Q',S',W',D',A',H',C',P',N')$ be accepted $\RatClassifierTransportSealUp$ carriers. Suppose the RatUp source-classifier rows $Q,Q'$, the constant $\StreamNameUp$ rows $S,S'$, the $\RegSeqRatUp$ finite-window seals $W,W'$, the $\DyadicRatCoreUp$ ledgers $D,D'$, the componentwise transport rows $H,H'$, the continuation route rows $C,C'$, the package provenance rows $P,P'$, and the local naming rows $N,N'$ agree under the displayed $\hsame$ and $\Cont$ transport from the RatUp source route. Then the $\RealUp$ classifier handoff rows $A$ and $A'$ cannot diverge: every public $\RealUp$ classifier read factors through the same visible route $Q,S,W,D,H,C,P,N$, transported to $Q',S',W',D',H',C',P',N'$.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers through \autoref{def:rat-classifier-transport-seal-carrier}. Their public coordinates are exactly the displayed rows, with $A$ and $A'$ reached only after the RatUp, StreamName, RegSeqRat, and DyadicRatCore rows have been replayed.
+
+Apply \autoref{thm:rat-classifier-transport-seal-window-exhaustion} to $R$ and to $R'$. Any public $\RealUp$ classifier read from either packet must first pass through the RatUp seed classifier and then through the finite route exhausted by the remaining displayed coordinates.
+
+The hypotheses identify those finite routes: $Q$ matches $Q'$, the constant StreamName rows match, the finite-window seals and dyadic ledgers match, and $H,C,P,N$ transport the same package and naming data to $H',C',P',N'$. Thus the replayed route that reaches $A$ is the same route that reaches $A'$.
+
+A distinct public $\RealUp$ handoff would therefore require an additional coordinate recording an independent RealUp equality, quotient stream, selected limit, host rational equality, or ambient completeness principle. Such a coordinate is excluded by \autoref{def:rat-classifier-transport-seal-carrier}. Hence $A$ and $A'$ cannot diverge along accepted public reads.
+\end{proof}
+
 \falsifiablePrediction{Every public finite-window read of an accepted RatClassifierTransportSealUp packet factors through the RatUp seed classifier before any StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, or RealUp classifier row is read.}
 
 \independenceWitness{rat, streamname, regseqrat, dyadicratcore, real: RatUp lacks finite-window and Real seal rows; StreamNameUp lacks the rational seed classifier; RegSeqRatUp lacks the RatUp source row; DyadicRatCoreUp lacks the Real classifier handoff; RealUp lacks the four-reading transport ledger, so no bijection preserves the full carrier.}
@@ -61,7 +75,7 @@ The Lean file \texttt{Derived/RatClassifierTransportSealUp/TasteGate.lean} must 
 \begin{closurestatus}{\RatClassifierTransportSealUp}
   \constructivestory{A $\RatClassifierTransportSealUp$ packet is generated from a RatUp source classifier, constant StreamName classifier, RegSeqRat finite-window seal, DyadicRatCore observation ledger, RealUp classifier handoff, componentwise transports, continuation routes, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:rat-classifier-transport-seal-carrier}, \autoref{thm:rat-classifier-transport-seal-namecert-obligations}, and \autoref{thm:rat-classifier-transport-seal-window-exhaustion} bind the finite transported stationary rational classifier seal across RatUp, StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \scopeclosed{\autoref{def:rat-classifier-transport-seal-carrier}, \autoref{thm:rat-classifier-transport-seal-namecert-obligations}, \autoref{thm:rat-classifier-transport-seal-window-exhaustion}, and \autoref{thm:rat-classifier-transport-seal-classifier-handoff-determinacy} bind the finite transported stationary rational classifier seal across RatUp, StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

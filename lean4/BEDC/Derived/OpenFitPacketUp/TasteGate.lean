@@ -291,4 +291,17 @@ theorem OpenFitPacketTasteGate_single_carrier_alignment :
         · exact ⟨openFitPacketNontrivial⟩
         · rfl
 
+theorem OpenFitPacketFiniteRefutationSurface (x : OpenFitPacketUp) :
+    ∃ H Pi S M F E L B N : BHist,
+      x = OpenFitPacketUp.mk H Pi S M F E L B N ∧
+        OpenFitPacketTasteGate_single_carrier_alignment_toEventFlow x =
+          OpenFitPacketTasteGate_single_carrier_alignment_toEventFlow
+            (OpenFitPacketUp.mk H Pi S M F E L B N) ∧
+          OpenFitPacketTasteGate_single_carrier_alignment_encodeBHist BHist.Empty =
+            ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk H Pi S M F E L B N =>
+      exact ⟨H, Pi, S, M, F, E, L, B, N, rfl, rfl, rfl⟩
+
 end BEDC.Derived.OpenFitPacketUp
