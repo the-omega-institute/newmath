@@ -1593,6 +1593,7 @@ import BEDC.Derived.CriticalLineWitnessUp.DepthLock
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamModulusRefusalExport
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamRhBoundaryRefinement
 import BEDC.Derived.CriticalLineWitnessUp.FiniteObservationRoute
+import BEDC.Derived.CriticalLineWitnessUp.FiniteSourceLatticeBoundary
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripCarrierSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripClassifierStability
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripLedgerExactness
@@ -1622,6 +1623,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootConsumerReadinessCertificate
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteRoute
+import BEDC.Derived.CriticalLineWitnessUp.RootFiniteSourceCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RootHandoffExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
@@ -2186,6 +2188,7 @@ import BEDC.Derived.FieldUp.InverseAutomorphism
 import BEDC.Derived.FieldUp.InverseClassifier
 import BEDC.Derived.FieldUp.InverseEmptyTransport
 import BEDC.Derived.FieldUp.InverseInvolutiveNonzero
+import BEDC.Derived.FieldUp.InverseProductClassifierExitRow
 import BEDC.Derived.FieldUp.InverseProductReverseNonzero
 import BEDC.Derived.FieldUp.InverseProductRightApartness
 import BEDC.Derived.FieldUp.NestedProduct
@@ -2450,6 +2453,7 @@ import BEDC.Derived.GaloisGroupUp.IdentityRowClosure
 import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaZetaFactorSealUp.TasteGate
+import BEDC.Derived.GapClosureBoundaryUp.ConsumerExactnessPackage
 import BEDC.Derived.GapClosureBoundaryUp.NamecertObligations
 import BEDC.Derived.GapClosureBoundaryUp.RefusalLedgerTransport
 import BEDC.Derived.GapClosureBoundaryUp.RefusalNonescape
@@ -4361,6 +4365,7 @@ import BEDC.Derived.TypingJudgmentClassifierUp.TasteGate
 import BEDC.Derived.UnaryContMonoidUp
 import BEDC.Derived.UnaryContMonoidUp.CategoryRootReadiness
 import BEDC.Derived.UnaryContMonoidUp.KernelCategoryConsumerBoundary
+import BEDC.Derived.UnaryContMonoidUp.TasteGate
 import BEDC.Derived.UnaryContinuationCategoryUp.TasteGate
 import BEDC.Derived.UnaryContinuationEndofunctorUp
 import BEDC.Derived.UnaryDirectionBridgeUp
