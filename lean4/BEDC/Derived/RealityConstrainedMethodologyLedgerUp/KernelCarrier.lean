@@ -85,4 +85,34 @@ theorem RealityConstrainedMethodologyLedgerCarrier_namecert_obligations [AskSetu
   exact
     ⟨cert, scopeRefusalUpgrade, upgradeFailureConsumer, consumerProvenanceName, pkgSig⟩
 
+theorem RealityConstrainedMethodologyLedgerDomainLeakageRefusal [AskSetup] [PackageSetup]
+    {X A O T I S D U F H C Q N exportRead upgradeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealityConstrainedMethodologyLedgerCarrier X A O T I S D U F H C Q N bundle pkg →
+      Cont S D U →
+        Cont U F C →
+          Cont C Q N →
+            Cont D U exportRead →
+              Cont exportRead S upgradeRead →
+                PkgSig bundle upgradeRead pkg →
+                  UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory U ∧ UnaryHistory F ∧
+                    UnaryHistory exportRead ∧ UnaryHistory upgradeRead ∧
+                      hsame H (append S D) ∧ Cont D U exportRead ∧
+                        Cont exportRead S upgradeRead ∧ PkgSig bundle Q pkg ∧
+                          PkgSig bundle upgradeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory PkgSig
+  intro carrier _scopeRefusalUpgrade _upgradeFailureConsumer _consumerProvenanceName
+    refusalUpgradeExport exportScopeUpgrade upgradePkg
+  rcases carrier with
+    ⟨_xUnary, _aUnary, _oUnary, _tUnary, _iUnary, scopeUnary, refusalUnary,
+      upgradeUnary, failureUnary, scopeRefusalSame, _carrierSDU, _carrierUFC, _carrierCQN,
+      qPkg⟩
+  have exportReadUnary : UnaryHistory exportRead :=
+    unary_cont_closed refusalUnary upgradeUnary refusalUpgradeExport
+  have upgradeReadUnary : UnaryHistory upgradeRead :=
+    unary_cont_closed exportReadUnary scopeUnary exportScopeUpgrade
+  exact
+    ⟨scopeUnary, refusalUnary, upgradeUnary, failureUnary, exportReadUnary, upgradeReadUnary,
+      scopeRefusalSame, refusalUpgradeExport, exportScopeUpgrade, qPkg, upgradePkg⟩
+
 end BEDC.Derived.RealityConstrainedMethodologyLedgerUp

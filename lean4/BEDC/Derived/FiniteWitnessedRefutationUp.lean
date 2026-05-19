@@ -136,4 +136,37 @@ theorem FiniteWitnessedRefutationLedgerExactness [AskSetup] [PackageSetup]
       publicUnary, regularityGapKey, keyWitnessDecision, decisionRoutePublic,
       provenancePkg, namePkg, publicPkg⟩
 
+theorem FiniteWitnessedRefutationCarrier_public_packet [AskSetup] [PackageSetup]
+    {regularity gap key witness decision transport route provenance name publicRead
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWitnessedRefutationCarrier regularity gap key witness decision transport route
+        provenance name bundle pkg →
+      Cont decision route publicRead →
+        Cont publicRead route consumer →
+          PkgSig bundle consumer pkg →
+            UnaryHistory regularity ∧ UnaryHistory gap ∧ UnaryHistory key ∧
+              UnaryHistory witness ∧ UnaryHistory decision ∧ UnaryHistory route ∧
+                UnaryHistory publicRead ∧ UnaryHistory consumer ∧
+                  Cont regularity gap key ∧ Cont key witness decision ∧
+                    Cont decision route publicRead ∧ Cont publicRead route consumer ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                        PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier decisionRoutePublic publicRouteConsumer consumerPkg
+  obtain ⟨regularityUnary, gapUnary, witnessUnary, routeUnary, regularityGapKey,
+    keyWitnessDecision, _decisionRouteTransport, provenancePkg, namePkg⟩ := carrier
+  have keyUnary : UnaryHistory key :=
+    unary_cont_closed regularityUnary gapUnary regularityGapKey
+  have decisionUnary : UnaryHistory decision :=
+    unary_cont_closed keyUnary witnessUnary keyWitnessDecision
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed decisionUnary routeUnary decisionRoutePublic
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed publicUnary routeUnary publicRouteConsumer
+  exact
+    ⟨regularityUnary, gapUnary, keyUnary, witnessUnary, decisionUnary, routeUnary,
+      publicUnary, consumerUnary, regularityGapKey, keyWitnessDecision, decisionRoutePublic,
+      publicRouteConsumer, provenancePkg, namePkg, consumerPkg⟩
+
 end BEDC.Derived.FiniteWitnessedRefutationUp
