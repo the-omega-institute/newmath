@@ -192,4 +192,40 @@ theorem RecursionAuthorizationLedgerCarrier_generator_closure_sibling_route
       provenancePkg,
       branchPkg⟩
 
+theorem RecursionAuthorizationLedgerCarrier_consumer_nonescape [AskSetup] [PackageSetup]
+    {signature eliminator motive branches descent output transport routes provenance name
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RecursionAuthorizationLedgerCarrier signature eliminator motive branches descent output
+        transport routes provenance name bundle pkg →
+      Cont descent output consumer →
+        PkgSig bundle consumer pkg →
+          UnaryHistory signature ∧ UnaryHistory eliminator ∧ UnaryHistory motive ∧
+            UnaryHistory branches ∧ UnaryHistory descent ∧ UnaryHistory output ∧
+              UnaryHistory consumer ∧ Cont signature eliminator motive ∧
+                Cont branches descent output ∧ Cont descent output consumer ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier descentOutputConsumer consumerPkg
+  obtain ⟨signatureUnary, eliminatorUnary, motiveUnary, branchesUnary, descentUnary,
+    outputUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    signatureEliminatorMotive, branchesDescentOutput, _outputTransportRoutes,
+    _transportRoutesProvenance, provenancePkg, _namePkg, _semanticCert⟩ :=
+    carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed descentUnary outputUnary descentOutputConsumer
+  exact
+    ⟨signatureUnary,
+      eliminatorUnary,
+      motiveUnary,
+      branchesUnary,
+      descentUnary,
+      outputUnary,
+      consumerUnary,
+      signatureEliminatorMotive,
+      branchesDescentOutput,
+      descentOutputConsumer,
+      provenancePkg,
+      consumerPkg⟩
+
 end BEDC.Derived.RecursionAuthorizationLedgerUp
