@@ -1,4 +1,5 @@
 import BEDC.Derived.ZnormalUp
+import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.ZnormalUp
 
@@ -88,5 +89,35 @@ theorem ZnormalPacket_terminal_host_boundary [AskSetup] [PackageSetup]
   exact
     ⟨cert, terminalReadSame, terminalRouteSame, siblingReadUnary, publicReadUnary,
       provenancePkg⟩
+
+theorem ZnormalFiniteHostBoundaryRefusal [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name terminalRead
+      replayRead hostTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg ->
+      Cont typed fuel terminalRead ->
+        Cont terminalRead normal replayRead ->
+          PkgSig bundle replayRead pkg ->
+            hsame terminalRead terminal ∧ UnaryHistory replayRead ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle replayRead pkg ∧
+                (Cont replayRead (BHist.e0 hostTail) terminalRead -> False) ∧
+                  (Cont replayRead (BHist.e1 hostTail) terminalRead -> False) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame PkgSig UnaryHistory
+  intro packet typedFuelTerminalRead terminalReadNormalReplay replayPkg
+  obtain ⟨typedUnary, fuelUnary, _terminalUnary, normalUnary, _continuationUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, typedFuelTerminal,
+    _terminalNormalContinuation, _continuationTransportsRoutes, _namePkg, provenancePkg⟩ :=
+    packet
+  have terminalReadSame : hsame terminalRead terminal :=
+    cont_deterministic typedFuelTerminalRead typedFuelTerminal
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed typedUnary fuelUnary typedFuelTerminalRead
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed terminalReadUnary normalUnary terminalReadNormalReplay
+  exact
+    ⟨terminalReadSame, replayUnary, provenancePkg, replayPkg,
+      cont_mutual_extension_right_tail_absurd.left terminalReadNormalReplay,
+      cont_mutual_extension_right_tail_absurd.right terminalReadNormalReplay⟩
 
 end BEDC.Derived.ZnormalUp
