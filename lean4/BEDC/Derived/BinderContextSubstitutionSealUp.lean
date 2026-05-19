@@ -152,4 +152,34 @@ theorem BinderContextSubstitutionSealCarrier_obligation_rows [AskSetup] [Package
       payloadResultTransport, transportBoundaryRoute, provenanceResult, resultBoundaryEndpoint,
       resultPkg, endpointPkg⟩
 
+theorem BinderContextSubstitutionSealCarrier_route_determinacy [AskSetup] [PackageSetup]
+    {term depth payload result boundary transport route provenance name endpoint compiled : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinderContextSubstitutionSealCarrier term depth payload result boundary transport route
+        provenance name bundle pkg ->
+      Cont result boundary endpoint ->
+        Cont payload endpoint compiled ->
+          PkgSig bundle compiled pkg ->
+            hsame endpoint result ∧ UnaryHistory term ∧ UnaryHistory depth ∧
+              UnaryHistory payload ∧ UnaryHistory result ∧ UnaryHistory endpoint ∧
+                UnaryHistory compiled ∧ Cont term depth result ∧
+                  Cont result boundary endpoint ∧ Cont payload endpoint compiled ∧
+                    PkgSig bundle result pkg ∧ PkgSig bundle compiled pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier resultBoundaryEndpoint payloadEndpointCompiled compiledPkg
+  obtain ⟨termUnary, depthUnary, payloadUnary, resultUnary, boundaryUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _nameUnary, termDepthResult, boundaryEmpty,
+    _payloadResultTransport, _transportBoundaryRoute, _provenanceResult, resultPkg⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed resultUnary boundaryUnary resultBoundaryEndpoint
+  have endpointResult : hsame endpoint result := by
+    cases boundaryEmpty
+    exact cont_deterministic resultBoundaryEndpoint (cont_right_unit result)
+  have compiledUnary : UnaryHistory compiled :=
+    unary_cont_closed payloadUnary endpointUnary payloadEndpointCompiled
+  exact
+    ⟨endpointResult, termUnary, depthUnary, payloadUnary, resultUnary, endpointUnary,
+      compiledUnary, termDepthResult, resultBoundaryEndpoint, payloadEndpointCompiled, resultPkg,
+      compiledPkg⟩
+
 end BEDC.Derived.BinderContextSubstitutionSealUp

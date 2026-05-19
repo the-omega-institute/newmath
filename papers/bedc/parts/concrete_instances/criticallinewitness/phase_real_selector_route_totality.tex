@@ -35,3 +35,21 @@ Add the source-budget readiness theorem \autoref{thm:critical-line-witness-phase
 
 Finally route toward the endpoint through \autoref{thm:critical-line-witness-phase-real-regseqrat-route-readiness} and \autoref{thm:critical-line-witness-phase-real-zeta-refusal-ledger}. These results force the $\RegSeqRatUp$ route, $\RealUp$ endpoint, and refusal ledger to remain downstream from the preserved source-window packet. Therefore the StreamName consumer preserves the finite source window before any Real-facing read is available.
 \end{proof}
+
+\begin{theorem}[CriticalLineWitness Phase Real four-face route exhaustion]
+\label{thm:critical-line-witness-phase-real-four-face-route-exhaustion}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ fixed-strip source packet. Every current Phase $\RealUp$ and Completion consumer route exported by $W$ is exhausted by the ordered four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+The route reads the displayed $\BHist$ source packet, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CriticalLineWitnessUp}$ rows already carried by $W$. No host real equality, quotient stream, selected limit, analytic truth primitive, or ambient completeness row can enter the exported consumer route.
+\end{theorem}
+\begin{proof}
+First bind the CriticalLineWitness selector side. The selector-route totality theorem \autoref{thm:critical-line-witness-phase-real-selector-route-totality} places every Phase Real selector read on the displayed source packet and on the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Next lock the source window before the endpoint is read. By \autoref{thm:critical-line-witness-streamname-source-window-lock}, any StreamName-facing consumer preserving the fixed strip must preserve the finite source-window packet before the $\RegSeqRatUp$ route reaches the $\RealUp$ endpoint. The budget separation theorem \autoref{thm:critical-line-witness-regseqrat-real-budget-separation} keeps the $\RegSeqRatUp$ budget row and the $\RealUp$ endpoint row visible as separate BEDC rows, so the route cannot collapse them into host equality or a selected limit.
+
+Now attach the ambient Real route. The Real four-face dependency route \autoref{thm:real-dyadic-streamname-regseqrat-dependency-route} gives the ordered passage from $\DyadicRatCoreUp$ through $\StreamNameUp$ and $\RegSeqRatUp$ to $\RealUp$. The order uniqueness theorem \autoref{thm:real-l10-four-face-route-order-uniqueness} rules out deletion, permutation, or shortcut coordinates for the current terminal Real surface.
+
+Combining these packets leaves exactly the CriticalLineWitness source rows together with the Real four-face route. The classifier coherence theorem \autoref{thm:real-l10-four-face-classifier-coherence} identifies the shared finite support as the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet. Hence every exported Phase Real and Completion consumer route of $W$ is exhausted by the four displayed faces, and the excluded host-equality, quotient-stream, selected-limit, analytic-truth, and ambient-completeness coordinates have no source row to read.
+\end{proof}

@@ -48,4 +48,45 @@ theorem DyadicCoverPacket_finite_subcover_exhaustion [AskSetup] [PackageSetup]
       windowRoutesIncidence, radiiIncidenceRadius, incidenceEndpointEnvelope, endpointPkg,
       incidencePkg, radiusPkg, envelopePkg⟩
 
+theorem DyadicCoverPacket_finite_window_total_bounded_correspondence
+    [AskSetup] [PackageSetup]
+    {centers radii intervals mesh window transport routes provenance nameCert endpoint incidence
+      radiusRead totalBoundedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCoverPacket centers radii intervals mesh window transport routes provenance nameCert
+        endpoint bundle pkg ->
+      Cont window routes incidence ->
+        Cont radii incidence radiusRead ->
+          Cont centers radii totalBoundedRead ->
+            PkgSig bundle incidence pkg ->
+              PkgSig bundle radiusRead pkg ->
+                PkgSig bundle totalBoundedRead pkg ->
+                  UnaryHistory centers ∧ UnaryHistory radii ∧ UnaryHistory intervals ∧
+                    UnaryHistory window ∧ UnaryHistory incidence ∧ UnaryHistory radiusRead ∧
+                      UnaryHistory totalBoundedRead ∧ Cont centers radii intervals ∧
+                        Cont intervals mesh window ∧ Cont window routes incidence ∧
+                          Cont radii incidence radiusRead ∧
+                            Cont centers radii totalBoundedRead ∧
+                              PkgSig bundle endpoint pkg ∧ PkgSig bundle incidence pkg ∧
+                                PkgSig bundle radiusRead pkg ∧
+                                  PkgSig bundle totalBoundedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet windowRoutesIncidence radiiIncidenceRadius centersRadiiTotalBounded incidencePkg
+    radiusPkg totalBoundedPkg
+  obtain ⟨centersUnary, radiiUnary, intervalsUnary, _meshUnary, windowUnary,
+    _transportUnary, routesUnary, _provenanceUnary, _nameCertUnary, _endpointUnary,
+    centersRadiiIntervals, intervalsMeshWindow, _windowRoutesEndpoint, _nameCertEndpoint,
+    endpointPkg⟩ := packet
+  have incidenceUnary : UnaryHistory incidence :=
+    unary_cont_closed windowUnary routesUnary windowRoutesIncidence
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed radiiUnary incidenceUnary radiiIncidenceRadius
+  have totalBoundedUnary : UnaryHistory totalBoundedRead :=
+    unary_cont_closed centersUnary radiiUnary centersRadiiTotalBounded
+  exact
+    ⟨centersUnary, radiiUnary, intervalsUnary, windowUnary, incidenceUnary, radiusUnary,
+      totalBoundedUnary, centersRadiiIntervals, intervalsMeshWindow, windowRoutesIncidence,
+      radiiIncidenceRadius, centersRadiiTotalBounded, endpointPkg, incidencePkg, radiusPkg,
+      totalBoundedPkg⟩
+
 end BEDC.Derived.DyadicCoverUp

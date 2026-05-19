@@ -101,6 +101,24 @@ Project the continuation coordinate $C$ from the carrier. By \autoref{def:tail-c
 The NameCert-obligation theorem records the same order as part of the local certificate surface. The seal-boundary theorem \autoref{thm:tail-compatible-cauchy-section-real-seal-boundary} identifies the RealUp-facing boundary as the end of this finite route, so a continuation replay cannot make $E$ available before the component rows $W,B,R,D$ have already appeared.
 \end{proof}
 
+\begin{theorem}[Tail-compatible Cauchy section component scope binding]
+\label{thm:tail-compatible-cauchy-section-component-scope-binding}
+Every accepted $\TailCompatibleCauchySectionUp$ packet factors its displayed section route through exactly the component scopes
+$$
+\StreamNameUp,\ \FiniteObservationBudgetSelectorUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp.
+$$
+The only support rows available to that factorization are the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\TailCompatibleCauchySectionUp}$ rows. No further carrier, classifier, host-real equality, quotient-stream equality, selector, or ambient completeness scope is exported by the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of \autoref{def:tail-compatible-cauchy-section-carrier}. Its displayed coordinates first determine the regular-Cauchy family, modulus, precision request, and diagonal indices, and then expose the component rows $W,B,R,D,E$ in the order fixed by \autoref{thm:tail-compatible-cauchy-section-namecert-obligations} and \autoref{thm:tail-compatible-cauchy-section-index-determinacy}.
+
+Read those rows as scope witnesses. The stream window is the $\StreamNameUp$ scope, the budget row is the $\FiniteObservationBudgetSelectorUp$ scope, the readback row is the $\RegSeqRatUp$ scope, the tolerance ledger is the $\DyadicRatCoreUp$ scope, and the seal row is the $\RealUp$ scope. These are the only component rows listed by the carrier surface.
+
+Use \autoref{thm:tail-compatible-cauchy-section-classifier-transport} to transport the classifier along the recorded $\hsame$ support, and use \autoref{thm:tail-compatible-cauchy-section-continuation-replay} to preserve the same ordered route under $\Cont$ replay. The remaining $\Pkg$ and local $\NameCert$ rows only source and name that finite factorization.
+
+Finally, \autoref{thm:tail-compatible-cauchy-section-real-seal-boundary} closes the route at the $\RealUp$ seal. Since the boundary theorem excludes host reals, quotient-stream equality, chosen limits, detached selectors, countable-choice rows, and ambient completeness witnesses, no component scope outside the displayed five can be read from an accepted packet.
+\end{proof}
+
 \begin{closurestatus}{\TailCompatibleCauchySectionUp}
   \constructivestory{The tail-compatible Cauchy section is generated from a $BHist$ packet that records a Cauchy section, its modulus-selected index pair, finite tail witnesses, and the classifier that checks compatibility with the RealUp seal boundary. The carrier reads the section only through those tail rows; $hsame$ transports the same finite witness data when a history representative changes. Continuation data may extend the section route, but $\Cont$ must preserve the tail-compatible classifier already recorded. The NameCert surface is therefore a composite certificate: it connects a Cauchy section to StreamName, finite observation budget, RegSeqRat, DyadicRatCore, and RealUp through visible tail evidence.}
   \theoryclosure{\obligationClosure}
