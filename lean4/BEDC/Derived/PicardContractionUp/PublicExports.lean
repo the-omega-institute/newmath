@@ -169,4 +169,48 @@ theorem PicardContractionPacket_public_carrier_surface [AskSetup] [PackageSetup]
       namePkg,
       consumerPkg⟩
 
+theorem PicardContractionPacket_newton_ode_shared_modulus_route [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      odeRead newtonRead sharedModulus : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+        routes provenance name bundle pkg ->
+      Cont iterates modulus sharedModulus ->
+        Cont iterates endpoint odeRead ->
+          Cont endpoint transport newtonRead ->
+            PkgSig bundle sharedModulus pkg ->
+              PkgSig bundle odeRead pkg ->
+                PkgSig bundle newtonRead pkg ->
+                  UnaryHistory modulus ∧ UnaryHistory sharedModulus ∧
+                    UnaryHistory odeRead ∧ UnaryHistory newtonRead ∧
+                      Cont iterates modulus sharedModulus ∧ Cont iterates endpoint odeRead ∧
+                        Cont endpoint transport newtonRead ∧ PkgSig bundle name pkg ∧
+                          PkgSig bundle sharedModulus pkg ∧ PkgSig bundle odeRead pkg ∧
+                            PkgSig bundle newtonRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet iteratesModulusShared iteratesEndpointOde endpointTransportNewton
+    sharedModulusPkg odeReadPkg newtonReadPkg
+  obtain ⟨_banachUnary, _contractionUnary, _lipschitzUnary, iteratesUnary, modulusUnary,
+    endpointUnary, transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    _banachContractionLipschitz, _iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := packet
+  have sharedModulusUnary : UnaryHistory sharedModulus :=
+    unary_cont_closed iteratesUnary modulusUnary iteratesModulusShared
+  have odeReadUnary : UnaryHistory odeRead :=
+    unary_cont_closed iteratesUnary endpointUnary iteratesEndpointOde
+  have newtonReadUnary : UnaryHistory newtonRead :=
+    unary_cont_closed endpointUnary transportUnary endpointTransportNewton
+  exact
+    ⟨modulusUnary,
+      sharedModulusUnary,
+      odeReadUnary,
+      newtonReadUnary,
+      iteratesModulusShared,
+      iteratesEndpointOde,
+      endpointTransportNewton,
+      namePkg,
+      sharedModulusPkg,
+      odeReadPkg,
+      newtonReadPkg⟩
+
 end BEDC.Derived.PicardContractionUp
