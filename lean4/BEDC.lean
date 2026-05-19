@@ -1963,6 +1963,7 @@ import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.DyadicCoverUp.FiniteSubcoverExhaustion
 import BEDC.Derived.DyadicCoverUp.LedgerNonescape
+import BEDC.Derived.DyadicCoverUp.RealEnvelopeCoverageExactness
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
@@ -3290,6 +3291,7 @@ import BEDC.Derived.PicardContractionUp.CompleteMetricHandoff
 import BEDC.Derived.PicardContractionUp.DownstreamModulusExposure
 import BEDC.Derived.PicardContractionUp.FiniteConsumerExhaustion
 import BEDC.Derived.PicardContractionUp.FiniteRateSealTriangle
+import BEDC.Derived.PicardContractionUp.FiniteTailDiagonalSealHandoff
 import BEDC.Derived.PicardContractionUp.LedgerBoundary
 import BEDC.Derived.PicardContractionUp.LipschitzLedgerWindowExactness
 import BEDC.Derived.PicardContractionUp.MetricCompleteLipschitzConsumerRoute
@@ -4420,7 +4422,6 @@ import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.ZetaContinuationApplicationUp.BoundaryExhaustion
 import BEDC.Derived.ZetaContinuationApplicationUp.EtaFactorization
 import BEDC.Derived.ZetaContinuationApplicationUp.FunctionalRowTotality
-import BEDC.Derived.ZetaContinuationApplicationUp.GammaEtaHandoff
 import BEDC.Derived.ZetaContinuationApplicationUp.GammaHorizonBoundary
 import BEDC.Derived.ZetaContinuationApplicationUp.RootLedgerBoundary
 import BEDC.Derived.ZetaContinuationApplicationUp.RootNamecertObligationSurface
@@ -4448,7 +4449,6 @@ import BEDC.Derived.ZetaContinuationWitnessUp.GammaCriticalStripReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaFunctionalBoundaryTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
-import BEDC.Derived.ZetaContinuationWitnessUp.ObligationTriad
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleGammaBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicContourGammaSeparation
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicCriticalStripExport
@@ -4522,7 +4522,6 @@ import BEDC.Derived.ZnormalUp.RootReadbackExhaustion
 import BEDC.Derived.ZnormalUp.RootReadinessBridgeSource
 import BEDC.Derived.ZnormalUp.RootReadinessNameCertPackage
 import BEDC.Derived.ZnormalUp.RootReadinessTerminalRefusalClosure
-import BEDC.Derived.ZnormalUp.RootRefusalAuditExhaustion
 import BEDC.Derived.ZnormalUp.RootRefusalLedgerSeparation
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
 import BEDC.Derived.ZnormalUp.RootSiblingRefusalExhaustion
