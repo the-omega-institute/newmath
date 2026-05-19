@@ -246,3 +246,21 @@ Use obstruction minimality, \autoref{thm:dyadicratcore-finite-tail-obstruction-m
 
 Finally, the Real local threshold and the StreamName terminal pullback keep the recovered comparison inside the same finite terminal packet. Therefore finite refinements preserving the displayed faces and support rows are exactly the presentation changes under which the DyadicRatCore finite-tail exit certificate remains invariant.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore finite-tail exit-certificate cofinal-meet stability]
+\label{thm:dyadicratcore-finite-tail-exit-certificate-cofinal-meet-stability}
+Let $\mathcal E_1$ and $\mathcal E_2$ be current Phase Real and Completion exit reads whose first visible faces are finite-tail $\DyadicRatCoreUp$ scale-window packets. Suppose each read is related by a certified finite refinement to a common cofinal finite scale-window meet $\mathcal M$, and that both refinement legs preserve the four displayed faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$, together with the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Then $\mathcal E_1$, $\mathcal E_2$, and their common meet $\mathcal M$ determine the same objectwise exit certificate of \autoref{thm:dyadicratcore-finite-tail-exit-certificate-equivalence}.
+
+Conversely, equality of the objectwise exit certificates after passage to such a common cofinal meet reflects only the displayed finite rows: the four faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$, and the transported $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. It reflects no quotient stream equality, selected limit, countable-choice selector, metric-completeness datum, aggregate formalstatus row, aggregate bridge row, standard bridge row, or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+First apply the finite-tail cofinal section theorem, \autoref{thm:dyadicratcore-finite-tail-cofinal-section}, to the visible cofinal route into $\mathcal M$. The route forces one $\RegSeqRatUp$ finite-request section and one local $\RealUp$ seal-visible section through the displayed four-face packet.
+
+Next apply finite-tail scale-window pullback exactness, \autoref{thm:dyadicratcore-finite-tail-scale-window-pullback-exactness}. The common meet supplies the terminal $\DyadicRatCoreUp$ scale-window packet, the shared $\StreamNameUp$ finite-window face, the forced $\RegSeqRatUp$ section, and the local $\RealUp$ boundary, all over the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Transport the certificate from $\mathcal E_1$ to $\mathcal M$ by \autoref{thm:dyadicratcore-finite-tail-exit-certificate-refinement-invariance}. Apply the same theorem to the refinement leg from $\mathcal E_2$ to $\mathcal M$. Both transports land on the objectwise certificate determined by the common four-face packet, so the two original reads determine the same certificate.
+
+For the converse, inspect the equality after transport to $\mathcal M$ using \autoref{thm:dyadicratcore-finite-tail-exit-certificate-equivalence}. The certificate consists exactly of the five finite sites in the obstruction ledger: the dyadic source and transport row, the StreamName finite-window face, the RegSeqRat finite-request section, the local Real seal, and the transported support rows.
+
+Finally use obstruction minimality, \autoref{thm:dyadicratcore-finite-tail-obstruction-minimality}. None of those finite sites can be replaced by quotient streams, selected limits, choice data, metric completeness, aggregate status, bridge rows, or Real-completeness coordinates. Hence equality after the cofinal meet reflects only the displayed finite rows and no hidden completion coordinate.
+\end{proof}
