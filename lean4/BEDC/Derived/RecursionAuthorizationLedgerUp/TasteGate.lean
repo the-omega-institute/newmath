@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RecursionAuthorizationLedgerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -286,5 +288,20 @@ theorem RecursionAuthorizationLedgerTasteGate_single_carrier_alignment :
         · exact recursionAuthorizationLedger_round_trip
         · intro x y heq
           exact recursionAuthorizationLedgerToEventFlow_injective heq
+
+theorem RecursionAuthorizationLedger_signature_acceptance
+    {signature signature' recursor recursor' motive motive' branches branches'
+      descent descent' output output' transport transport' routes routes'
+      provenance provenance' name name' route : BHist} :
+    RecursionAuthorizationLedgerUp.mk signature' recursor' motive' branches' descent'
+        output' transport' routes' provenance' name' =
+      RecursionAuthorizationLedgerUp.mk signature recursor motive branches descent output
+        transport routes provenance name →
+      Cont signature recursor route →
+        Cont signature' recursor' route := by
+  -- BEDC touchpoint anchor: BHist Cont
+  intro sameCarrier signatureRoute
+  cases sameCarrier
+  exact signatureRoute
 
 end BEDC.Derived.RecursionAuthorizationLedgerUp
