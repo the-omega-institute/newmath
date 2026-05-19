@@ -109,3 +109,50 @@ and bridge rows occur in neither the StreamName lock, the RegSeqRat exactness
 and uniqueness surface, nor the Real exit-totality route. Hence none of them is
 an accepted support coordinate for $U$.
 \end{proof}
+
+\begin{theorem}[StreamName terminal four-face support transport stability]
+\label{thm:streamname-terminal-four-face-support-transport-stability}
+Let $U$ and $V$ be accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request sections. Suppose their consumer-visible terminal
+reads expose the same four visible faces
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, and suppose
+their displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ support rows agree after componentwise transport and replay. Then
+$U$ and $V$ present the same consumer-visible terminal support packet.
+
+The transport cannot introduce quotient stream equality, host sequence
+equality, a selected limit, countable choice, metric-completeness data, an
+aggregate formalstatus row, a bridge row, or an ambient $\RealUp$ completeness
+row. The transported packet remains exactly the same four-face BEDC support
+surface seen by Real-facing and completion-facing consumers.
+\end{theorem}
+\begin{proof}
+First classify the accepted coordinates. Apply
+\autoref{thm:streamname-terminal-four-face-support-exhaustion} to both
+terminal request sections. Every consumer-visible support coordinate of either
+section is therefore one of the four displayed faces or one of the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Next use the minimal support theorem. By
+\autoref{thm:streamname-terminal-four-face-support-minimality}, no visible
+face and no displayed support row can be deleted or substituted while
+preserving the same Real-facing and completion-facing carrier and classifier
+verdicts. Since the hypotheses identify the four faces and replay the support
+rows componentwise, the two sections have the same StreamName-side public
+surface.
+
+Now pass through the RegSeqRat terminal route. The exactness theorem
+\autoref{thm:regseqrat-real-terminal-four-face-exactness} reads the common
+displayed faces as one terminal RegSeqRat four-face packet, and
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness} rules out a
+second RegSeqRat source section with the same public verdict. Thus the
+transported RegSeqRat component is the same finite source record.
+
+Finally read the common packet through the Real L10 exit lattice. The theorem
+\autoref{thm:real-l10-dependency-lattice-exit-totality} sends every accepted
+current Phase Real and Completion terminal read through the ordered
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ route with the
+displayed support rows. The two transported presentations therefore determine
+the same terminal support packet, and the exhaustion theorem excludes every
+off-route coordinate listed in the statement.
+\end{proof}
