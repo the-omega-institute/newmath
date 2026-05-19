@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
@@ -8,6 +9,7 @@ namespace BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -277,4 +279,56 @@ theorem RealityConstrainedTowerPacketUp_nonescape_transport
   cases hPacket
   exact ⟨hCont, rfl, rfl, rfl, rfl⟩
 
+theorem RealityConstrainedTowerPacketNameCertBoundary
+    {source schedule readback realSeal residue ledger descent transport replay provenance
+      localName : BHist} :
+    let packet :=
+      RealityConstrainedTowerPacketUp.mk source schedule readback realSeal residue ledger
+        descent transport replay provenance localName
+    SemanticNameCert
+        (fun row : BHist =>
+          hsame row localName ∧
+            realityConstrainedTowerPacketFields packet =
+              [source, schedule, readback, realSeal, residue, ledger, descent, transport,
+                replay, provenance, localName])
+        (fun row : BHist =>
+          hsame row localName ∧
+            realityConstrainedTowerPacketFields packet =
+              [source, schedule, readback, realSeal, residue, ledger, descent, transport,
+                replay, provenance, localName])
+        (fun row : BHist =>
+          hsame row localName ∧
+            realityConstrainedTowerPacketFields packet =
+              [source, schedule, readback, realSeal, residue, ledger, descent, transport,
+                replay, provenance, localName])
+        hsame ∧
+      realityConstrainedTowerPacketEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark SemanticNameCert hsame
+  dsimp only
+  constructor
+  · constructor
+    · constructor
+      · exact Exists.intro localName ⟨hsame_refl localName, rfl⟩
+      · intro row _source
+        exact hsame_refl row
+      · intro _row _other sameRows
+        exact hsame_symm sameRows
+      · intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro _row _other sameRows sourceData
+        exact ⟨hsame_trans (hsame_symm sameRows) sourceData.left, sourceData.right⟩
+    · intro _row sourceData
+      exact sourceData
+    · intro _row sourceData
+      exact sourceData
+  · rfl
+
 end BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
+
+namespace BEDC.Derived.RealityConstrainedTowerPacketUp
+
+def taste_gate :
+    BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.RealityConstrainedTowerPacketUp :=
+  TasteGate.taste_gate
+
+end BEDC.Derived.RealityConstrainedTowerPacketUp
