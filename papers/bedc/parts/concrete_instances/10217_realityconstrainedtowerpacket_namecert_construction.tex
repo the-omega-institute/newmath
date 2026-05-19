@@ -81,6 +81,46 @@ Nontriviality is forced by the non-escape theorem: a packet that omits the reali
 \end{proof}
 \leanchecked{BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate.RealityConstrainedTowerPacketTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Reality-constrained tower packet classifier-ledger exactness]
+\label{thm:reality-constrained-tower-packet-classifier-ledger-exactness}
+For every accepted $\RealityConstrainedTowerPacketUp$ carrier $T=(O,S,R,E,D,L,Q,H,C,P,N)$, the row $L$ is the only classifier-adequacy row visible to endpoint-equivalence and completion-adequacy consumers. The schedule, readback, Real-seal, and descent rows $S,R,E,Q$ may be read only as finite access and permission data, while $D$ records dyadic residue; none of $S,R,E,D$ exports physical fit without the reality-facing classifier ledger $L$ together with the source row $O$ and the local certificate rows $P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:reality-constrained-tower-packet-carrier}. The displayed classifier-adequacy coordinate is $L$, and the NameCert boundary of \autoref{thm:reality-constrained-tower-packet-namecert-boundary} lists reality-facing classifier accountability as its own obligation surface.
+
+The finite-window rows $S,R,E$ and the residue row $D$ are therefore not alternative classifier witnesses. They supply schedule, readback, completion, and tolerance data inside the packet, but their consumer routes still pass through the seven-surface boundary.
+
+Apply \autoref{thm:reality-constrained-tower-packet-nonescape}. Any endpoint-equivalence or completion-adequacy export that forgets $O,L,D,Q,H,C,P,N$ has left the accepted packet. Hence $L$ is exact as the ledger row for classifier adequacy, and $S,R,E,D$ cannot by themselves export physical fit.
+\end{proof}
+
+\begin{theorem}[Reality-constrained tower packet descent permission stability]
+\label{thm:reality-constrained-tower-packet-descent-permission-stability}
+Let $T=(O,S,R,E,D,L,Q,H,C,P,N)$ and $T'=(O',S',R',E',D',L',Q',H',C',P',N')$ be accepted $\RealityConstrainedTowerPacketUp$ carriers related by componentwise $\hsame$ transport preserving the displayed rows $O,S,R,E,D,L,Q,H,C,P,N$. If a descent is permitted for $T'$ after transport, then its permission is already displayed in the transported row $Q'$. The transport and replay rows $H',C'$ cannot add a descent outside $Q'$.
+\end{theorem}
+\begin{proof}
+Project the target carrier $T'$. By the carrier definition, descent permission is stored in the single displayed row $Q'$, while $H'$ records componentwise $\hsame$ transport and $C'$ records replay through the same named rows.
+
+Use the NameCert boundary to read descent permission as a separate obligation surface. Since the boundary exposes $Q'$ before transport and replay are consumed, replay can only preserve the displayed permission surface.
+
+Finally apply the non-escape theorem to the transported packet. A descent route outside $Q'$ would export tower descent without the mandatory descent row of the accepted carrier, contradicting the stated consumer boundary. Thus componentwise transport preserves permitted descent and cannot create a hidden descent permission.
+\end{proof}
+
+\begin{theorem}[Reality-constrained tower packet Real-phase consumer boundary]
+\label{thm:reality-constrained-tower-packet-real-phase-consumer-boundary}
+Every consumer route that passes through $\mathsf{StreamName}^{\uparrow}$, $\mathsf{RegSeqRat}^{\uparrow}$, $\RealUp$, and $\DyadicRatCoreUp$ before treating an endpoint as reality-facing must also display the rows
+$$
+O,L,Q,H,C,P,N.
+$$
+Thus finite windows, regular rational readback, Real sealing, and dyadic tolerance are not sufficient for a reality-facing endpoint unless the source, classifier ledger, descent permission, transport, replay, provenance, and local NameCert rows remain present.
+\end{theorem}
+\begin{proof}
+Read the sibling route in the order named in the chapter introduction. $\mathsf{StreamName}^{\uparrow}$ supplies finite windows, $\mathsf{RegSeqRat}^{\uparrow}$ supplies regular rational readback, $\RealUp$ supplies the completed seal, and $\DyadicRatCoreUp$ supplies dyadic tolerance and residue.
+
+The classifier-ledger exactness theorem then identifies $L$ as the visible classifier-adequacy row for endpoint and completion consumers. The descent-permission stability theorem identifies $Q$ as the only displayed descent row preserved under componentwise transport and replay.
+
+Apply the non-escape theorem to the combined route. Since every accepted consumer read factors through $O,S,R,E,D,L,Q,H,C,P,N$, the Real-phase route may use $S,R,E,D$ only while also retaining $O,L,Q,H,C,P,N$. Therefore no completed endpoint becomes reality-facing from the Real-phase rows alone.
+\end{proof}
+
 \falsifiablePrediction{Any accepted RealityConstrainedTowerPacketUp consumer that exports endpoint equivalence without reality-facing classifier, descent, and residue-ledger rows refutes the packet.}
 
 \independenceWitness{onticstate, streamname, regseqrat, real, dyadicratcore: none is bijective because $\RealityConstrainedTowerPacketUp$ binds source, classifier, descent, ledger, residue, transport, provenance, and local NameCert rows in one carrier, while each sibling supplies only one constituent surface.}
@@ -88,14 +128,16 @@ Nontriviality is forced by the non-escape theorem: a packet that omits the reali
 The Lean \texttt{TasteGate.lean} development for $\RealityConstrainedTowerPacketUp$ provides explicit $\mathsf{Nontrivial}\ \RealityConstrainedTowerPacketUp$ and $\mathsf{FieldFaithful}\ \RealityConstrainedTowerPacketUp$ instances, together with the target \texttt{BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate.RealityConstrainedTowerPacketTasteGate\_single\_carrier\_alignment}.
 
 \closureat{RealityConstrainedTowerPacketUp}{seedStr}
+\closureat{RealityConstrainedTowerPacketUp}{obligationStr}[BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate.RealityConstrainedTowerPacketTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RealityConstrainedTowerPacketUp}
   \constructivestory{A $\RealityConstrainedTowerPacketUp$ packet is generated from an ontic source row, finite stream schedule, regular rational readback, Real seal, dyadic residue ledger, reality-facing classifier ledger, descent permission row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:reality-constrained-tower-packet-carrier}, \autoref{thm:reality-constrained-tower-packet-namecert-boundary}, \autoref{thm:reality-constrained-tower-packet-nonescape}, and \autoref{thm:reality-constrained-tower-packet-tastegate-obligation} bind the source, classifier, descent, ledger, residue, transport, provenance, and local naming rows for reality-constrained approximation-tower packets.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:reality-constrained-tower-packet-carrier}, \autoref{thm:reality-constrained-tower-packet-namecert-boundary}, \autoref{thm:reality-constrained-tower-packet-nonescape}, \autoref{thm:reality-constrained-tower-packet-tastegate-obligation}, \autoref{thm:reality-constrained-tower-packet-classifier-ledger-exactness}, \autoref{thm:reality-constrained-tower-packet-descent-permission-stability}, and \autoref{thm:reality-constrained-tower-packet-real-phase-consumer-boundary} bind the source, classifier, descent, ledger, residue, transport, provenance, and local naming rows for reality-constrained approximation-tower packets.}
   \formalstatus{\unformalizedV}
+  \leanchecked{BEDC.Derived.RealityConstrainedTowerPacketUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, total physical adequacy, host physical identity, quotient equality of Real-completion data with source reality, or unrestricted tower descent.}
-  \upgradepath{Obligation closure requires checked carrier admission, NameCert boundary, non-escape, TasteGate nontriviality, and field faithfulness for the displayed packet rows.}
+  \upgradepath{Scoped closure requires Lean-checked classifier-ledger exactness, descent-permission stability, and Real-phase consumer boundary for the displayed packet rows.}
 \end{closurestatus}
