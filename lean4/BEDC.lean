@@ -519,6 +519,7 @@ import BEDC.Derived.BinderBudgetSealUp.TasteGate
 import BEDC.Derived.BinderBudgetSealUp.TasteGateCarrierGrounding
 import BEDC.Derived.BinderContextSubstitutionSealUp
 import BEDC.Derived.BinderContextSubstitutionSealUp.ClosedBoundaryExactness
+import BEDC.Derived.BinderContextSubstitutionSealUp.ClosedTermBoundaryDependency
 import BEDC.Derived.BinderContextSubstitutionSealUp.CompilerHandoff
 import BEDC.Derived.BinderContextSubstitutionSealUp.ObligationConsumer
 import BEDC.Derived.BishopRealUp
@@ -1604,9 +1605,11 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripClassifierStability
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripModulusRefusal
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripNameCertSourceLock
+import BEDC.Derived.CriticalLineWitnessUp.FixedStripObstructionExactness
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceTotalityCertificate
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZeroRouteBoundary
+import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaConsumerBoundary
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaSourceFactorization
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleReadbackRow
 import BEDC.Derived.CriticalLineWitnessUp.LedgerRouteStability
@@ -1634,6 +1637,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootFiniteBudgetSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteSourceCarrier
+import BEDC.Derived.CriticalLineWitnessUp.RootFiniteSourceNameCertObligations
 import BEDC.Derived.CriticalLineWitnessUp.RootHandoffExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootLineRowExposure
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
@@ -3410,6 +3414,7 @@ import BEDC.Derived.PhysicsProgrammeSynthesisUp.TasteGate
 import BEDC.Derived.PiApplicationAdequacyRouteUp.TasteGate
 import BEDC.Derived.PicardContractionUp
 import BEDC.Derived.PicardContractionUp.CauchyModulusSiblingRoute
+import BEDC.Derived.PicardContractionUp.CauchyRateRootUnblockPackage
 import BEDC.Derived.PicardContractionUp.CompleteMetricHandoff
 import BEDC.Derived.PicardContractionUp.DownstreamModulusExposure
 import BEDC.Derived.PicardContractionUp.FiniteConsumerExhaustion
@@ -3886,6 +3891,7 @@ import BEDC.Derived.RegularCauchySelectorBudgetUp
 import BEDC.Derived.RegularCauchySequenceUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
+import BEDC.Derived.RegularCauchySumUp.CauchyLimitSealHandoff
 import BEDC.Derived.RegularCauchySumUp.NameCertObligations
 import BEDC.Derived.RegularCauchySumUp.NonEscapeBoundary
 import BEDC.Derived.RegularCauchySumUp.SharedTailMeetHandoff
