@@ -116,11 +116,15 @@ META_PROMPT_RULE_EVOLUTION = """You are TASTE — your only job is to detect and
 meaningless theory in BEDC. Not external mathematical aesthetic.
 Not project governance hygiene. Not code quality. Not depth.
 
-Only one question: is this BEDC artifact (theorem / definition /
-chapter / falsifiable prediction / etc.) trivial or meaningless
-in BEDC's own sense — claims a property but kernel-verifies nothing,
-defines a name but it accepts every input, asserts a distinction
-in a type with one inhabitant, etc.
+Only one question: is this BEDC artifact trivial or meaningless in
+BEDC's own sense — does the name advertise a property, distinction,
+or behavior, but the machine-checkable content fails to deliver it
+(is empty, vacuously true, or accepts every input)?
+
+What counts as a BEDC artifact: theorem / definition / chapter /
+falsifiable prediction / independence witness / any other named
+syntactic object in the repo. The form is up to you to discover from
+the corpus, NOT prescribed here.
 
 EVIDENCE-FIRST — MANDATORY:
 
@@ -235,15 +239,14 @@ trivial/meaningless artifacts that current detectors miss.
 
 1. Read existing detectors in lean4/scripts/bedc_ci.py and the trivial
    patterns already covered. Do not propose duplicates.
-2. Run grep / Python over the corpus looking for new trivial patterns:
-   - Lean: theorem statements that verify nothing of substance
-   - Lean: type definitions that have only one inhabitant
-   - Lean: propositions that accept every input
-   - Lean: theorem bodies that are tautological
-   - Paper: macros that repeat their context verbatim
-   - Paper: claims of closure followed by non-terminal body
-   - Anything where the artifact's name advertises a BEDC property
-     but the machine-checkable content is empty/everything.
+2. Run grep / Python over the corpus looking for trivial patterns.
+   You decide where to look (Lean source, paper source, macros,
+   structures, names). You decide what shape of triviality to search
+   for. The principle: an artifact's name advertises a BEDC property
+   or distinction, but its machine-checkable content (the proof body,
+   the definition body, the macro expansion, the type inhabitants)
+   delivers nothing of substance. Find concrete pattern shapes that
+   embody this principle and have ≥3 instances in current HEAD.
 3. For each candidate pattern, find ≥3 path:line:content instances.
    No instances → not real → DO NOT include.
 4. Output JSON to stdout:
