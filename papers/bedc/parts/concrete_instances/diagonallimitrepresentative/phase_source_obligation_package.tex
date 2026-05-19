@@ -1,0 +1,83 @@
+\begin{theorem}[Diagonal-limit representative phase-source coverage]
+\label{thm:diagonal-limit-representative-phase-source-coverage}
+Every accepted completion-selector ledger for $\DiagonalLimitRepresentativeUp$ exposes the Phase Real source surface through exactly the four named source rows
+$$
+\DyadicRatCoreUp,\qquad \StreamNameUp,\qquad \RegSeqRatUp,\qquad \RealUp.
+$$
+The $\DyadicRatCoreUp$ row records the tolerance and rational-arithmetic ledger, the $\StreamNameUp$ row records the selected finite observation window, the $\RegSeqRatUp$ row records the selected regular-rational readback, and the $\RealUp$ row records the terminal seal reached by that readback. The ledger's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\DiagonalLimitRepresentativeUp}$ rows only transport, replay, source, and name these four rows; they do not expose a fifth phase source, a quotient-stream equality, a selected completion point, a countable-choice row, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the completion-selector ledger of \autoref{def:diagonal-limit-representative-completion-selector-ledger}. Its displayed coordinates include the selected window $w$, readback $r$, dyadic ledger $d$, terminal seal $e$, and the support rows $H,C,P,N$.
+
+Read those coordinates through the four sibling surfaces. The window $w$ is a $\StreamNameUp$ row, the readback $r$ is a $\RegSeqRatUp$ row, the ledger $d$ is a $\DyadicRatCoreUp$ row, and the seal $e$ is a $\RealUp$ row.
+
+For exhaustion, apply the four-object source exhaustion theorem and the Phase Real and Completion exit certificate, \autoref{thm:diagonal-limit-representative-four-object-source-exhaustion} and \autoref{thm:diagonal-limit-representative-phase-real-completion-exit-certificate}. They identify the same four rows as the complete exit packet and exclude quotient, choice, selected-point, and ambient-completeness coordinates. Therefore the finite diagonal representative exposes exactly the four phase sources listed above.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative tail-selector compatibility]
+\label{thm:diagonal-limit-representative-tail-selector-compatibility}
+Let $L$ and $L'$ be accepted completion-selector ledgers for $\DiagonalLimitRepresentativeUp$ whose selected diagonal routes are classified together by their recorded $\hsame$ rows and displayed $\Cont$ replay. Then the selected tail data remain compatible with the $\StreamNameUp$ and $\RegSeqRatUp$ classifiers: the selected finite windows stay on the same $\StreamNameUp$ route, the selected regular-rational readbacks stay on the same $\RegSeqRatUp$ route, and no hidden tail selector may replace either route while preserving the accepted completion-selector ledger.
+\end{theorem}
+\begin{proof}
+Begin with completion-selector stability, \autoref{thm:diagonal-limit-representative-completion-selector-stability}. It states that componentwise agreement and displayed replay determine the same selector handoff route through the StreamName, RegSeqRat, DyadicRatCore, finite-prefix, cofinal-modulus, and Real surfaces.
+
+Project the two tail coordinates from that route. The $\StreamNameUp$ classifier sees only the selected finite-window rows, while the $\RegSeqRatUp$ classifier sees only the selected readback rows reached from those windows. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve those rows as ledger data rather than recomputing them by an external selector.
+
+Finally use the support-scope nonescape theorem, \autoref{thm:diagonal-limit-representative-hsame-cont-scope}. It excludes hidden selectors, quotient streams, detached windows, alternate dyadic ledgers, and off-packet terminal seals from the accepted transport surface. Hence tail selection is compatible with the two classifiers exactly because both tail rows remain visible inside the same finite ledger.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative Real handoff exactness]
+\label{thm:diagonal-limit-representative-real-handoff-exactness}
+For every accepted completion-selector ledger for $\DiagonalLimitRepresentativeUp$, the $\RealUp$ handoff is exactly the terminal seal row reached after the displayed $\StreamNameUp$ window, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ ledger. A downstream Real-completion consumer may cite this handoff as a finite source boundary, but the citation does not assert ambient $\RealUp$ completeness, a selected host limit, quotient-stream equality, or global uniqueness of completed limits.
+\end{theorem}
+\begin{proof}
+First read the terminal route in the carrier. The Real-seal factorization theorem, \autoref{thm:diagonal-limit-representative-real-seal-factorization}, places every $\RealUp$ consumer read after the selected modulus index, selected window, selected readback, and dyadic ledger.
+
+Next pass from the carrier to the completion-selector ledger. Completion-selector existence repackages the representative row, finite-prefix rows, cofinal-modulus rows, and terminal seal row into one finite packet, while completion handoff exhaustion keeps every Real-and-Completion consumer inside the displayed sibling surfaces.
+
+The exact handoff is therefore the seal coordinate already present in the ledger. The Phase Real and Completion exit certificate names that coordinate as a finite BEDC source row and explicitly excludes quotient, choice, selected-point, and ambient-completeness claims. Thus the handoff is exact as a source boundary without becoming a Real-completeness principle.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative phase-source projection totality]
+\label{thm:diagonal-limit-representative-phase-source-projection-totality}
+Every accepted completion-selector ledger for $\DiagonalLimitRepresentativeUp$ has a total visible-source projection onto exactly the four Phase Real rows
+$$
+\DyadicRatCoreUp,\qquad \StreamNameUp,\qquad \RegSeqRatUp,\qquad \RealUp.
+$$
+The projection sends the accepted ledger to its dyadic arithmetic ledger, selected finite window, selected regular-rational readback, and terminal Real seal, and every displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\DiagonalLimitRepresentativeUp}$ row only transports, replays, sources, or names those four rows. No fifth source row, quotient-stream equality, host limit, selected completed point, countable-choice row, or ambient Real-completeness field is part of the projection.
+\end{theorem}
+\begin{proof}
+Start with phase-source coverage, \autoref{thm:diagonal-limit-representative-phase-source-coverage}. It already identifies the visible source surface of an accepted completion-selector ledger with the dyadic ledger, selected window, selected readback, and terminal Real seal, with the local support rows serving only as transport and naming data.
+
+Next apply four-object source exhaustion, \autoref{thm:diagonal-limit-representative-four-object-source-exhaustion}. It rules out additional Phase Real source coordinates and pins the exit packet to $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Finally read the completion-selector ledger definition, \autoref{def:diagonal-limit-representative-completion-selector-ledger}. Its coordinates supply each of the four rows named above, so the projection is total on accepted ledgers; because the definition has no coordinate for quotient equality, host limits, selected completed points, choice, or ambient completeness, the projection is exhausted by those four rows.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative selector-source nonescape]
+\label{thm:diagonal-limit-representative-selector-source-nonescape}
+For every accepted completion-selector ledger for $\DiagonalLimitRepresentativeUp$, the selected windows, regular-rational readbacks, and terminal seals cannot be replaced by hidden selectors, quotient-stream equality, host limits, selected completed points, countable choice, or ambient Real completeness while preserving the same ledger. Any replacement that still preserves the ledger must factor through the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\DiagonalLimitRepresentativeUp}$ rows already present in the ledger.
+\end{theorem}
+\begin{proof}
+First use tail-selector compatibility, \autoref{thm:diagonal-limit-representative-tail-selector-compatibility}. It keeps the selected finite windows on the displayed $\StreamNameUp$ route and the selected regular-rational readbacks on the displayed $\RegSeqRatUp$ route under the recorded $\hsame$ rows and $\Cont$ replay.
+
+Next use support-scope nonescape, \autoref{thm:diagonal-limit-representative-hsame-cont-scope}. That theorem confines accepted transport and replay to the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, so a detached selector or quotient-stream replacement has no support coordinate.
+
+Finally apply completion-consumer nonescape, \autoref{thm:diagonal-limit-representative-completion-consumer-nonescape}. Downstream Real-and-Completion reads remain inside the terminal-root package, so host limits, selected completed points, countable choice, and ambient Real completeness cannot preserve the same accepted ledger as replacement sources.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit representative completion-frontier readback coverage]
+\label{thm:diagonal-limit-representative-completion-frontier-readback-coverage}
+Every downstream Real-and-Completion consumer reads $\DiagonalLimitRepresentativeUp$ only through the finite completion-frontier route
+$$
+\StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RealUp
+$$
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\DiagonalLimitRepresentativeUp}$ support. The readback surface is exhausted by this route and does not add quotient-stream equality, host Real equality, a selected completed point, countable choice, ambient Real completeness, or a second completion selector.
+\end{theorem}
+\begin{proof}
+Begin with Real handoff exactness, \autoref{thm:diagonal-limit-representative-real-handoff-exactness}. It identifies the Real-facing endpoint with the terminal seal reached after the selected $\StreamNameUp$ window, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ ledger.
+
+Then compose this endpoint with the L10 completion root package, \autoref{thm:diagonal-limit-representative-l10-completion-root-package}. The package gathers terminal cofinal extraction, Real-seal extraction, root-readiness, the local NameCert ledger, the formal handoff boundary, and Real-completion consumer exactness as the finite completion-frontier citation surface.
+
+Finally apply completion handoff exhaustion, \autoref{thm:diagonal-limit-representative-completion-handoff-exhaustion}. It keeps every downstream consumer inside the displayed sibling surfaces and local support rows, so the only possible readback route is the finite frontier stated above, and the excluded quotient, host, selected-point, choice, completeness, and second-selector data have no remaining coordinate.
+\end{proof}

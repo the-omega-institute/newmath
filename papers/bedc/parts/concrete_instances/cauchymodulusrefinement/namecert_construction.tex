@@ -240,6 +240,7 @@ M_0,M_1 \longrightarrow U \longrightarrow V \longrightarrow T \longrightarrow W 
 $$
 The cofinal-window read is exhausted by the displayed $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows of the accepted packet. No quotient stream, selected host limit, host real equality, hidden selector, or ambient completeness datum supplies a second cofinal route.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCofinalWindowFactorization}
 \begin{proof}
 First bind the source side by the shared-meet dependency and selector-budget dependency, \autoref{thm:cauchy-modulus-refinement-shared-meet-dependency} and \autoref{thm:cauchy-modulus-refinement-selector-budget-dependency}. They force both source moduli $M_0,M_1$ to meet at $U$, pass through the extraction row $V$, and enter the selector-budget row $T$ before any finite-window read is available.
 
@@ -305,6 +306,7 @@ The reverse direction is repacking. A tuple admitted through the displayed meet,
 \label{thm:cauchy-modulus-refinement-shared-budget-pullback}
 For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the meet row $U$ and selector-budget row $T$ jointly determine every selected-window read in $W$ and every tolerance-readback row in $Q$. No selected window may be read from $T$ without the same shared meet row $U$, and no $\DyadicRatCoreUp$ or $\RegSeqRatUp$ readback may be read from $Q$ without the window budget determined by $U$ through $V,T$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementSharedBudgetPullback}
 \begin{proof}
 First fix the shared source. Source-meet exactness identifies $U$ as the only meet row over the two schedules $M_0,M_1$, and the source-meet budget chain places the refinement witness $V$ after that meet.
 
@@ -552,6 +554,29 @@ Now read the Real seal. Real seal factorization places $E$ after $U,V,T,W,Q$, an
 Non-escape removes all alternate lattices. The packet carries no second meet row, hidden selector, quotient stream, selected limit, host equality, or ambient completeness coordinate, so the dependency order written above is the accepted sibling lattice.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement L10 sibling route]
+\label{thm:cauchy-modulus-refinement-l10-sibling-route}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+any Phase Real and Completion consumer of the refinement reads the L10 route through
+$$
+\StreamNameUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp
+$$
+in that order after the $\CauchyModulusComparisonUp$, $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, and $\RegularCauchySelectorBudgetUp$ rows have been consumed. Such a consumer receives no quotient stream, selected limit, host real equality, hidden selector, or ambient completeness datum from the accepted packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_l10\_sibling\_route}
+\begin{proof}
+Start with the sibling dependency lattice of \autoref{thm:cauchy-modulus-refinement-sibling-dependency-lattice}. It places comparison, meet, extraction, and selector budget before the four downstream rows and orders those rows as $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+The finite-window handoff is the route supplied by \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}. It identifies the selected-window and tolerance-readback segment as $T \longrightarrow W \longrightarrow Q$, so the consumer cannot reach the dyadic or regular-rational readback surface before passing through the selector-budget and window rows.
+
+Now apply Real seal factorization, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}. The seal row $E$ sits after $Q$, so the $\RealUp$ read is downstream of the StreamName, DyadicRatCore, and RegSeqRat route rather than an independent completion input.
+
+Finally use non-escape, \autoref{thm:cauchy-modulus-refinement-nonescape}. Quotient streams, selected limits, host real equality, hidden selectors, and ambient completeness data are absent from the carrier, so the L10 route above is the reusable handoff available to Phase Real and Completion consumers.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement completion boundary]
 \label{thm:cauchy-modulus-refinement-completion-boundary}
 No $\RealUp$ or completion-facing consumer of an accepted $\CauchyModulusRefinementUp$ packet may read quotient streams, selected limits, host real equality, hidden selectors, second meet rows, or ambient completeness outside the displayed packet. Such a consumer must factor through
@@ -681,85 +706,7 @@ The three clauses use the same displayed carrier and the same sibling rows. Ther
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_root\_unblock\_package}
 
-\begin{theorem}[Cauchy modulus refinement diagonal budget cofinality]
-\label{thm:cauchy-modulus-refinement-diagonal-budget-cofinality}
-For every accepted $\CauchyModulusRefinementUp$ packet
-$$
-R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
-$$
-every diagonal Real-completion consumer that has passed through the shared-meet and selector-budget rows factors through a cofinal finite budget route before reaching the $\RealUp$ seal. The route uses the $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\CauchySharedTailModulusUp$, $\RegularCauchySelectorBudgetUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed by the packet, and it exports no choice-selected tail, quotient stream, or ambient completeness theorem.
-\end{theorem}
-\begin{proof}
-Begin with source-meet exactness from \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}. It binds the two source modulus rows and the shared meet row to the refinement witness before any selector or Real-facing consumer can be read.
-
-Apply selector budget totality from \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}. The selector row $T$ supplies the finite budget route into the selected-window and tolerance-readback rows, so a diagonal consumer receives a cofinal finite budget before it can ask for the Real seal.
-
-Next use Real seal factorization and the diagonal-consumer boundary, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization} and \autoref{thm:cauchy-modulus-refinement-diagonal-consumer-boundary}. These results force every Real-completion consumer through $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ and through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\CauchySharedTailModulusUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces.
-
-Finally use the root-unblock package of \autoref{thm:cauchy-modulus-refinement-root-unblock-package}. The package assembles the local NameCert scope, budget-selector source lock, and diagonal boundary into one route, so no choice-selected tail, quotient stream, or ambient completeness theorem is exported by the accepted packet.
-\end{proof}
-\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_diagonal\_budget\_cofinality\_terminal\_route}
-
-\begin{theorem}[Cauchy modulus refinement common-refinement selector lock]
-\label{thm:cauchy-modulus-refinement-common-refinement-selector-lock}
-For every accepted $\CauchyModulusRefinementUp$ packet
-$$
-R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
-$$
-any Real-completion consumer preserving the common meet row $U$, extraction row $V$, selector-budget row $T$, finite-window row $W$, dyadic ledger $Q$, and Real seal row $E$ must read the same finite common-refinement route before it reaches $\RealUp$. The packet makes no alternate selected tail, quotient stream, second meet row, or ambient completeness coordinate available to that consumer.
-\end{theorem}
-\begin{proof}
-Begin with source-meet exactness from \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}. It identifies the common meet row $U$ as the unique displayed meet through which the two source moduli $M_0,M_1$ can reach the extraction row $V$.
-
-Next apply selector-budget totality from \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}. The row $T$ routes the extraction row into the finite-window and tolerance surface $W,Q$, so a Real-completion consumer preserving $U,V,T,W,Q$ preserves the same finite selector budget.
-
-Use Real-seal factorization from \autoref{thm:cauchy-modulus-refinement-real-seal-factorization} and the diagonal-budget cofinality route of \autoref{thm:cauchy-modulus-refinement-diagonal-budget-cofinality}. These place the Real seal row $E$ after the same cofinal finite route through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.
-
-Finally repack the route through the structural rows of $R$. The $\BHist$ carrier, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row name only the preserved rows $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$. Since no other row is exported, there is no alternate selected tail, quotient stream, second meet row, or ambient completeness coordinate to read.
-\end{proof}
-\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_common\_refinement\_selector\_lock}
-
-\begin{theorem}[Cauchy modulus refinement RealObservationBudget handoff]
-\label{thm:cauchy-modulus-refinement-real-observation-budget-handoff}
-For every accepted $\CauchyModulusRefinementUp$ packet
-$$
-R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
-$$
-any $\RealObservationBudgetUp$ request that uses the same selected finite $\StreamNameUp$ windows, dyadic tolerance rows, $\RegSeqRatUp$ readback ledger, and $\RealUp$ seal row factors through
-$$
-M_0,M_1,U,V,T,W,Q,E,H,C,P,N
-$$
-before any Real-facing observation is consumed. The handoff exports no quotient stream, selected limit, host real equality, hidden selector, second meet row, ambient completeness coordinate, or unbudgeted observation selector.
-\end{theorem}
-\begin{proof}
-First apply the budget-selector source lock of \autoref{thm:cauchy-modulus-refinement-budget-selector-source-lock}. It places the source schedules, shared meet row, extraction witness, and selector budget in the prefix $M_0,M_1,U,V,T$ before the selected finite-window, tolerance-readback, or Real-seal rows can be read.
-
-Next use window readback exhaustion and diagonal budget cofinality, \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion} and \autoref{thm:cauchy-modulus-refinement-diagonal-budget-cofinality}. These bind the selected $\StreamNameUp$ windows, dyadic tolerance rows, and $\RegSeqRatUp$ readback ledger to $T,W,Q,E$, and they route every diagonal Real-completion consumer through the displayed cofinal finite budget before the $\RealUp$ seal is observed.
-
-Finally apply the completion boundary and non-escape, \autoref{thm:cauchy-modulus-refinement-completion-boundary} and \autoref{thm:cauchy-modulus-refinement-nonescape}. The completion boundary keeps the observation request on the displayed packet and sibling route, while non-escape removes quotient streams, selected limits, host real equality, hidden selectors, second meet rows, ambient completeness coordinates, and unbudgeted observation selectors from the exported surface.
-\end{proof}
-\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_real\_observation\_budget\_handoff}
-
-\begin{theorem}[Cauchy modulus refinement RealLimitUniqueness handoff]
-\label{thm:cauchy-modulus-refinement-real-limit-uniqueness-handoff}
-For every accepted $\CauchyModulusRefinementUp$ packet
-$$
-R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
-$$
-any $\RealLimitUniquenessSealUp$-facing consumer preserving the same selected finite $\StreamNameUp$ windows, dyadic tolerance ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal row must first factor through
-$$
-M_0,M_1,U,V,T,W,Q,E,H,C,P,N
-$$
-and then through the two-seal packet rows of \autoref{ch:concrete-instances-real-limit-uniqueness-seal-namecert}. The handoff exports no selected host limit, quotient stream equality, hidden selector, second meet, or ambient completeness row.
-\end{theorem}
-\begin{proof}
-Start with the RealObservationBudget handoff of \autoref{thm:cauchy-modulus-refinement-real-observation-budget-handoff}. It binds the selected $\StreamNameUp$ windows, dyadic tolerance rows, $\RegSeqRatUp$ readback ledger, and $\RealUp$ seal row to the displayed refinement packet before any Real-facing observation is consumed.
-
-Apply the common-refinement selector lock of \autoref{thm:cauchy-modulus-refinement-common-refinement-selector-lock}. The consumer preserving those rows must therefore keep the same source moduli, common meet, extraction row, selector budget, finite-window route, tolerance ledger, and Real seal row in the order $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$.
-
-Finally use the RealLimitUniquenessSeal public route theorem \autoref{thm:real-limit-uniqueness-bridged-seal-surface}. Its two-seal surface exposes only the two $\CauchyLimitSealUp$ rows, shared comparison row, finite window, dyadic ledger, $\RealUp$ classifier row, uniqueness handoff, transports, replay, provenance, and local name. Since neither packet exports a selected host limit, quotient stream equality, hidden selector, second meet, or ambient completeness row, the consumer factors through the displayed refinement route and then through the two-seal packet.
-\end{proof}
-\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_real\_limit\_uniqueness\_handoff}
+\input{parts/concrete_instances/cauchymodulusrefinement/real_observation_limit_handoffs}
 
 \input{parts/concrete_instances/cauchymodulusrefinement/root_consumer_surfaces}
 \input{parts/concrete_instances/cauchymodulusrefinement/root_window_selector_uniqueness}
@@ -778,7 +725,7 @@ Finally use the RealLimitUniquenessSeal public route theorem \autoref{thm:real-l
 \begin{closurestatus}{\CauchyModulusRefinementUp}
   \constructivestory{A $\CauchyModulusRefinementUp$ packet is generated from displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-refinement-carrier}, \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, \autoref{thm:cauchy-modulus-refinement-source-meet-budget-chain}, \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}, \autoref{thm:cauchy-modulus-refinement-real-seal-refusal}, \autoref{thm:cauchy-modulus-refinement-classifier-transport}, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, \autoref{thm:cauchy-modulus-refinement-common-source-lock}, \autoref{thm:cauchy-modulus-refinement-shared-threshold-transport}, \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}, \autoref{thm:cauchy-modulus-refinement-selector-budget-nonescape}, \autoref{thm:cauchy-modulus-refinement-real-seal-obligation-surface}, \autoref{thm:cauchy-modulus-refinement-real-seal-consumer-exhaustion}, \autoref{thm:cauchy-modulus-refinement-obligation-closure-package}, \autoref{thm:cauchy-modulus-refinement-primitive-scope}, \autoref{thm:cauchy-modulus-refinement-sibling-dependency-lattice}, \autoref{thm:cauchy-modulus-refinement-completion-boundary}, \autoref{thm:cauchy-modulus-refinement-bhist-source-scope}, \autoref{thm:cauchy-modulus-refinement-cont-route-scope}, \autoref{thm:cauchy-modulus-refinement-namecert-scope}, \autoref{thm:cauchy-modulus-refinement-nonescape}, and the bridge witness \autoref{thm:cauchy-modulus-refinement-bridged-route-surface} bind the displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one scoped Real and completion obligation surface.}
+  \scopeclosed{\autoref{def:cauchy-modulus-refinement-carrier}, \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, \autoref{thm:cauchy-modulus-refinement-source-meet-budget-chain}, \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}, \autoref{thm:cauchy-modulus-refinement-real-seal-refusal}, \autoref{thm:cauchy-modulus-refinement-classifier-transport}, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, \autoref{thm:cauchy-modulus-refinement-common-source-lock}, \autoref{thm:cauchy-modulus-refinement-shared-threshold-transport}, \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}, \autoref{thm:cauchy-modulus-refinement-selector-budget-nonescape}, \autoref{thm:cauchy-modulus-refinement-real-seal-obligation-surface}, \autoref{thm:cauchy-modulus-refinement-real-seal-consumer-exhaustion}, \autoref{thm:cauchy-modulus-refinement-obligation-closure-package}, \autoref{thm:cauchy-modulus-refinement-primitive-scope}, \autoref{thm:cauchy-modulus-refinement-sibling-dependency-lattice}, \autoref{thm:cauchy-modulus-refinement-l10-sibling-route}, \autoref{thm:cauchy-modulus-refinement-completion-boundary}, \autoref{thm:cauchy-modulus-refinement-bhist-source-scope}, \autoref{thm:cauchy-modulus-refinement-cont-route-scope}, \autoref{thm:cauchy-modulus-refinement-namecert-scope}, \autoref{thm:cauchy-modulus-refinement-nonescape}, and the bridge witness \autoref{thm:cauchy-modulus-refinement-bridged-route-surface} bind the displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one scoped Real and completion obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

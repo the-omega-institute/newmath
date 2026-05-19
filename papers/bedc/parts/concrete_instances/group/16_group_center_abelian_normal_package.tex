@@ -70,7 +70,7 @@ This surface is packaged by the following four clauses.
   public surface admits no endpoint outside $A_{\emp}$.
 \end{enumerate}
 \end{theorem}
-\leanchecked{BEDC.Derived.GroupUp.GroupUp\_StdBridge}
+\leanvariant{BEDC.Derived.GroupUp.GroupUp\_StdBridge}
 \begin{proof}
 The carrier, classifier, multiplication, unit, and inverse are exactly the
 objects named in \autoref{def:concrete-singleton-history-group-instance}.
@@ -177,13 +177,46 @@ equality. The BEDC-facing surface remains $\mathsf{BHist}$, $A_{\emp}$,
 $R_{\emp}$, $\mathsf{append}$, $\emp$, and the constant inverse, so no host
 primitive enters the exported $\GroupUp$ object.
 \end{proof}
+\begin{theorem}[GroupUp checked standard bridge]
+\label{thm:group-standard-bridge-status-synchronization}
+The singleton terminal bridge of
+\autoref{thm:group-singleton-terminal-standard-bridge}, the public singleton
+operation surface of \autoref{thm:group-singleton-public-operation-surface},
+and the center package of
+\autoref{thm:group-center-abelian-normal-subgroup-package} are the paper-side
+bridge surface whose checked Lean target is
+$\mathsf{BEDC.Derived.GroupUp.GroupUp\_StdBridge}$. In particular, the
+$\GroupUp$ bridge status is grounded by the checked standard bridge theorem,
+not merely by the lower-level singleton law package.
+\end{theorem}
+\begin{proof}
+\autoref{thm:group-singleton-terminal-standard-bridge} identifies the public
+singleton history carrier with the terminal standard group reference. Its
+encode, decode, round-trip, operation-translation, theorem-preservation, and
+no-host-leak clauses are exactly the paper bridge fields.
+
+\autoref{thm:group-singleton-public-operation-surface} supplies the public BEDC
+operation surface: the carrier $A_{\emp}$, classifier $R_{\emp}$, append
+product, empty unit, constant inverse, product closure and classification,
+inverse closure and classification, and append-context cancellation iff. The
+center package records the abelian normal center rows over the same
+history-level operation surface.
+
+The checked Lean theorem
+$\mathsf{BEDC.Derived.GroupUp.GroupUp\_StdBridge}$ packages these clauses as a
+single standard bridge. Its payload includes the $\mathsf{SemanticNameCert}$
+for $\GroupUp$, the empty-carrier endpoint, the product and inverse closure
+with their classifiers, and the append-context cancellation iff. Therefore the
+closure block may use the standard bridge theorem itself as the formal
+grounding target.
+\end{proof}
 \begin{closurestatus}{\GroupUp}
   \constructivestory{The group surface is anchored by the singleton history group, where every carried endpoint is classified with $\emp$, multiplication is continuation append, the unit is $\emp$, and inverse is the constant return to $\emp$; on top of the general history-level laws, the center package then carves out those endpoints that commute with every test history. The singleton carrier accepts exactly histories in the empty endpoint class, and the center carrier accepts exactly displayed central endpoints for an ambient history-level group operation; endpoints lacking the singleton witness or the universal commutativity row are outside the corresponding surface. Classification is always the displayed $\hsame$ relation restricted to the admitted carrier, with multiplication congruence, inverse congruence, and centralizer transport moving representatives, rather than an imported group equality. The source specification is the monoid-plus-inverse history surface together with the singleton and center witnesses, the pattern specification records append multiplication, empty unit, constant inverse, inverse laws, commutator collapse, conjugation invariance, normalizer action, center normality, and the abelian center row, and the ledger keeps generated expressions, central endpoints, conjugation paths, and the two product orders visible. The five name-certificate obligations are witnessed by $\emp$ and the inherited $\hsame$ equivalence: carrier nonemptiness comes from the empty endpoint or a displayed central endpoint, classifier reflexivity, symmetry, and transitivity are componentwise, and multiplication, inverse, conjugation, and centralizer transport keep classified representatives inside the carrier. A history $h$ lies in the signature gap of a $\GroupUp$ token $p$ when the source-domain accepts the singleton or center package row, the signature relation pairs it with an answer group endpoint and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, $h$ is the encoded singleton endpoint or central endpoint together with its operation and commutativity ledger. The checked bridge reads the singleton surface as the terminal group and the center package as the ordinary abelian normal center rows, while the chapter registers the construction under $\GroupUp$ without introducing non-singleton group carriers, subgroup lattices, quotient groups, arbitrary homomorphisms, or primitive inverse objects.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{thm:group-center-abelian-normal-subgroup-package}, \autoref{thm:group-singleton-public-operation-surface}, and \autoref{thm:group-singleton-terminal-standard-bridge} form the mature singleton package: public carrier $A_{\emp}$, classifier $R_{\emp}$, append multiplication, empty unit, constant inverse, generated-expression readback, no-hidden-leakage, the center abelian normal package, and the terminal paper bridge to $T_G^\ast$.}
+  \scopeclosed{\autoref{thm:group-center-abelian-normal-subgroup-package}, \autoref{thm:group-singleton-public-operation-surface}, \autoref{thm:group-singleton-terminal-standard-bridge}, and \autoref{thm:group-standard-bridge-status-synchronization} form the mature singleton package: public carrier $A_{\emp}$, classifier $R_{\emp}$, append multiplication, empty unit, constant inverse, generated-expression readback, no-hidden-leakage, the center abelian normal package, and the terminal paper bridge to $T_G^\ast$.}
   \formalstatus{\bridgeCheckedV}
-  \leantarget{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}
+  \leantarget{BEDC.Derived.GroupUp.GroupUp\_StdBridge}
   \bridgestatus{bridgeChecked}
-  \notclaimed{bridgeChecked verification, non-singleton groups, arbitrary homomorphisms, subgroup lattices, quotient groups, and general group theory are not closed here.}
+  \notclaimed{Non-singleton groups, arbitrary homomorphisms, subgroup lattices, quotient groups, and general group theory are not closed here.}
   \upgradepath{No further upgrade: chapter at top of formal axis.}
 \end{closurestatus}

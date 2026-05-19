@@ -40,6 +40,7 @@ Transport through $H$ is componentwise. Thus a transported source row must be ac
 
 The classifier of \autoref{def:onticstate-classifier} then reads the transported packet through all four content rows $S,A,K,R$. A consumer that keeps $S$ while dropping $A$, $K$, or $R$ has left the accepted $\OnticStateUp$ classifier surface.
 \end{proof}
+\leanchecked{BEDC.Derived.OnticStateUp.OnticStateSignatureStability}
 
 \begin{theorem}[OnticState residue-ledger exactness]
 \label{thm:onticstate-residue-ledger-exactness}
@@ -123,6 +124,7 @@ A public read is boundary-respecting only when it reaches the local name through
 \label{thm:onticstate-access-residue-coupling}
 Let $O=(S,A,K,R,H,C,P,N)$ be an accepted $\OnticStateUp$ carrier, and let a public read of $O$ preserve the signature source $S$ through the componentwise $\hsame$ rows in $H$ and the displayed replay row $C$. Then the read preserves the observer-access row $A$ and the residue-ledger row $R$ as displayed coordinates of the same packet. In particular, preserving the source signature while dropping either admitted observer access or the residue ledger is not an accepted $\OnticStateUp$ public read.
 \end{theorem}
+\leanchecked{BEDC.Derived.OnticStateUp.onticState\_access\_residue\_boundary\_fields}
 \begin{proof}
 Begin with the boundary of \autoref{def:onticstate-access-residue-boundary}. The public read reaches $N$ only through the full tuple $(S,A,K,R,H,C,P,N)$, so a source-preserving read is still evaluated inside the same displayed packet.
 
@@ -259,7 +261,7 @@ The Lean follow-up path is \texttt{lean4/BEDC/Derived/OnticStateUp/TasteGate.lea
   \leanchecked{BEDC.Derived.OnticStateUp.taste\_gate}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:onticstate-carrier}, \autoref{def:onticstate-classifier}, \autoref{thm:onticstate-signature-stability}, \autoref{thm:onticstate-residue-ledger-exactness}, \autoref{thm:onticstate-namecert-obligation-surface}, \autoref{def:onticstate-access-residue-boundary}, \autoref{thm:onticstate-access-residue-coupling}, \autoref{thm:onticstate-sibling-noncollapse}, \autoref{thm:onticstate-obligation-closure-package}, \autoref{thm:onticstate-componentwise-transport-scope}, \autoref{thm:onticstate-tastegate-field-scope}, \autoref{thm:onticstate-scoped-closure-package}, and \autoref{thm:onticstate-mature-consumer-completeness} bind the finite ontic-state carrier, classifier, stability row, residue ledger, access-residue boundary, sibling noncollapse, public obligation package, componentwise transport scope, TasteGate field scope, scoped public boundary, and downstream consumer completeness.}
-  \formalstatus{\auditCleanV}
+  \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.OnticStateUp.OnticStateTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}

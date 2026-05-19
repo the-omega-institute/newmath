@@ -6,6 +6,7 @@ R=(I,E,M,B,D,O,A,H,C,P,G,N),
 $$
 any accepted output read of $O$ is determined by the displayed signature row $I$, eliminator row $E$, motive row $M$, branch row $B$, descent row $D$, audit row $A$, route row $C$, package row $P$, boundary row $G$, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$. There is no accepted output route for $O$ detached from those rows, and no downstream consumer may recover a second output meaning from the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorCarrier\_output\_route\_determinacy}
 \begin{proof}
 Begin with the branch and descent rows. Theorems~\ref{thm:authorized-generator-recursor-branch-exhaustion} and~\ref{thm:authorized-generator-recursor-structural-descent-locality} force the output route to keep the accepted constructor signature, emitted eliminator, checked motive, complete branch package, and displayed structural descent.
 
@@ -29,6 +30,7 @@ Read the closed-substitution chapters as consumers, not as producers of the recu
 
 The exclusion follows by row projection. If a consumer tries to interpret substitution as an off-packet generator result, the interpretation would need a second output route or branch source. The packet has neither coordinate, and admission exhaustion keeps such requests on the displayed boundary and refusal rows.
 \end{proof}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorCarrier\_closed\_substitution\_consumer\_lock}
 
 \begin{theorem}[AuthorizedGeneratorRecursor normalization-frontier consumer lock]
 \label{thm:authorized-generator-recursor-normalization-frontier-consumer-lock}
@@ -38,6 +40,7 @@ I,E,M,B,D,O,A,H,C,P,G,N.
 $$
 Such a route cannot add a second generator, a hidden induction principle, or a proof-producing branch source beyond the authorized signature, branch, descent, audit, route, package, boundary, and local $\NameCert$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorNormalizationFrontierConsumerLock}
 \begin{proof}
 First retain the authorized route. The output-route determinacy theorem fixes $O$ behind $I,E,M,B,D,A,C,P,G,N$, with $H$ carrying componentwise transport across the same rows.
 
@@ -45,3 +48,4 @@ Next pass to the normalization-frontier and recursor-generator consumers. They m
 
 It remains to rule out hidden producers. A second generator, hidden induction principle, or proof-producing branch would require an additional constructor, eliminator, branch, descent, or output coordinate. Branch exhaustion, structural-descent locality, audit provenance factorization, and admission exhaustion leave no such coordinate, so the consumers remain locked to the finite packet.
 \end{proof}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorCarrier\_normalization\_frontier\_consumer\_lock}

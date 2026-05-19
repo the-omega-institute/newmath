@@ -46,6 +46,7 @@ $$
 $$
 Both routes are read through the displayed $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and neither route may be replaced by semantic evaluation correctness, a host binder convention, or an ambient compiler theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedTermSubstitutionCompilerUp.ClosedTermSubstitutionCompilerPacket\_boundary}
 \begin{proof}
 Project the carrier $K=(T,D,V,F,H,C,P,N)$. The term row $T$ supplies the authorized MetaCIC constructors, the boundary row $D$ supplies the displayed $\mathsf{ClosedAt}$ classifier, and the operation row $V$ supplies only the syntactic traversals $\mathsf{shift}$ and $\mathsf{substitute}$.
 
@@ -86,6 +87,7 @@ $$
 $$
 The route keeps the source term inside the registered boundary ledger. It may be composed with the displayed $\mathsf{shift\_closed}$ row for binder movement, but it does not close evaluator soundness, subject reduction, or total self-compilation.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedTermSubstitutionCompilerUp.ClosedTermSubstitutionCompilerPacket\_self\_compile\_route}
 \begin{proof}
 Begin with the compiler consumer's closed source row. The carrier exposes this row only through $D$, so the consumer first reads the displayed $\mathsf{ClosedAt}$ boundary.
 
@@ -98,6 +100,7 @@ Finally repack the route through $C,P,N$. The continuation, provenance, and loca
 \label{thm:closed-term-substitution-compiler-classifier-transport}
 For accepted $\ClosedTermSubstitutionCompilerUp$ packets, componentwise $\hsame$ transport preserves the displayed $\mathsf{ClosedAt}$ row, the $\mathsf{shift}$ row, the $\mathsf{substitute}$ row, the witness row containing $\mathsf{shift\_closed}$ and $\mathsf{substitute\_closed}$, the self-compile route, provenance, and the local $\NameCert_{\ClosedTermSubstitutionCompilerUp}$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedTermSubstitutionCompilerUp.ClosedTermSubstitutionCompilerPacket\_classifier\_transport}
 \begin{proof}
 Project the carrier of \autoref{def:closed-term-substitution-compiler}. The rows $T,D,V,F,H,C,P,N$ expose the closedness classifier, syntactic operation rows, fixed-boundary witnesses, continuation route, provenance, and naming certificate.
 
@@ -129,6 +132,7 @@ Inspect the carrier of \autoref{def:closed-term-substitution-compiler}. It conta
 
 The excluded principles are absent from the carrier and are rejected by the non-escape obligation in \autoref{thm:closed-term-substitution-compiler-namecert-obligations}. Hence no public projection can recover evaluator soundness, subject reduction, host CIC truth, or open-term semantics.
 \end{proof}
+\leanchecked{BEDC.Derived.ClosedTermSubstitutionCompilerUp.ClosedTermSubstitutionCompilerPacket\_public\_nonescape}
 
 \begin{theorem}[ClosedTermSubstitutionCompiler boundary-ledger exactness]
 \label{thm:closed-term-substitution-compiler-boundary-ledger-exactness}
@@ -138,6 +142,7 @@ $$
 $$
 No read may expose a substitution equality, a shift equality, or a self-compilation boundary step unless it first cites the $\mathsf{ClosedAt}$ classifier row and then the corresponding operation and witness row stored in the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedTermSubstitutionCompilerUp.ClosedTermSubstitutionCompilerPacket\_boundary\_ledger\_exactness}
 \begin{proof}
 Project the carrier $K=(T,D,V,F,H,C,P,N)$ of \autoref{def:closed-term-substitution-compiler}. The row $D$ is the only displayed $\mathsf{ClosedAt}$ source, $V$ is the only operation row for $\mathsf{shift}$ and $\mathsf{substitute}$, and $F$ is the only row containing $\mathsf{shift\_closed}$ and $\mathsf{substitute\_closed}$.
 
@@ -152,6 +157,7 @@ Since no other coordinate stores substitution or shift evidence, any compiler-fa
 \label{thm:closed-term-substitution-compiler-binder-budget-nonescape}
 An accepted $\ClosedTermSubstitutionCompilerUp$ packet does not export binder-budget semantics, open-term substitution semantics, evaluator soundness, subject reduction, host CIC truth, or any unregistered variable convention. Public reads are confined to the displayed $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, $\mathsf{shift\_closed}$, $\mathsf{substitute\_closed}$, $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedTermSubstitutionCompilerUp.ClosedTermSubstitutionCompilerPacket\_binder\_budget\_nonescape}
 \begin{proof}
 Inspect the carrier of \autoref{def:closed-term-substitution-compiler}. It names the term generator, closedness classifier, syntactic operation row, fixed-boundary witness row, transports, routes, provenance, and local certificate row.
 

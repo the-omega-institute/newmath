@@ -6,6 +6,7 @@ R=(I,E,M,B,D,O,A,H,C,P,G,N)
 $$
 be an accepted $\AuthorizedGeneratorRecursorUp$ packet. Any Phase Real handoff that reads $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ dependency rows for $R$ must first admit the displayed carrier as the finite $\BHist$ route $I,E,M,B,D,O,A,H,C,P,G,N$, with $H$ carrying componentwise $\hsame$, $C$ carrying displayed $\Cont$ replay, $P$ carrying package provenance, $G$ carrying the boundary ledger, and $N$ carrying the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorPhaseRealCarrierReadiness}
 \begin{proof}
 Project the carrier of \autoref{def:authorized-generator-recursor-carrier}. The generator route exposes exactly the signature, emitted recursor, motive, branch, descent, output, audit, transport, continuation, provenance, boundary, and local naming rows.
 
@@ -18,6 +19,7 @@ The Phase Real handoff therefore begins with carrier admission for the same fini
 \label{thm:authorized-generator-recursor-phase-real-regseqrat-handoff}
 For an accepted $\AuthorizedGeneratorRecursorUp$ packet $R=(I,E,M,B,D,O,A,H,C,P,G,N)$, every Phase Real $\RegSeqRatUp$ handoff is mediated by the same authorized generator route as the $\StreamNameUp$ source and the $\RealUp$ endpoint. The handoff preserves $O,A,H,C,P,G,N$ together with the signature, motive, branch, and descent rows, and it does not expose a quotient stream, selected limit, host equality, hidden generator, or off-packet proof channel.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorPhaseRealRegSeqRatHandoff}
 \begin{proof}
 Begin with \autoref{thm:authorized-generator-recursor-phase-real-carrier-readiness}. It fixes the carrier route and makes $O,A,H,C,P,G,N$ part of every Phase Real dependency read.
 
@@ -30,10 +32,49 @@ Finally use \autoref{thm:authorized-generator-recursor-open-phase-consumer-hando
 \label{thm:authorized-generator-recursor-phase-real-ledger-nonescape}
 Every Phase Real ledger exported by an accepted $\AuthorizedGeneratorRecursorUp$ packet is exhausted by the finite route $I,E,M,B,D,O,A,H,C,P,G,N$. The audit row $A$, boundary row $G$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, package row $P$, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$ are the only ledger surface visible to $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or completion-facing consumers.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorPhaseRealLedgerNonescape}
 \begin{proof}
 Read the carrier and retain the audit and boundary rows. By \autoref{thm:authorized-generator-recursor-phase-real-carrier-readiness}, every Phase Real dependency read already uses the displayed finite route.
 
 Use \autoref{thm:authorized-generator-recursor-phase-real-regseqrat-handoff} for the regular-rational route. It keeps the $\RegSeqRatUp$ handoff attached to the stream-name source, real endpoint, output row, audit row, transport, continuation, package provenance, boundary, and local naming rows.
 
 Close with \autoref{thm:authorized-generator-recursor-open-phase-ledger-nonescape}. The exported ledger has no coordinate for completion objects, real-completeness data, quotient completion equality, selected limits, host completeness proofs, or off-packet generator certificates.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor Real output factorization lock]
+\label{thm:authorized-generator-recursor-real-output-factorization-lock}
+Let $R=(I,E,M,B,D,O,A,H,C,P,G,N)$ be an accepted $\AuthorizedGeneratorRecursorUp$ packet. Every Real-facing output read from $R$ factors through the displayed finite packet before it can be consumed as $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ data. In particular, no consumer may read the output row $O$ without also retaining the audit row $A$, the componentwise transport row $H$, the displayed continuation row $C$, the provenance row $P$, the boundary ledger row $G$, and the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{thm:authorized-generator-recursor-phase-real-carrier-readiness}. The Phase Real surface first admits the finite route $I,E,M,B,D,O,A,H,C,P,G,N$, so the output row is not available as a detached Real object.
+
+Next apply \autoref{thm:authorized-generator-recursor-real-stream-route}. The public Real route already makes the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ readings pass through the same displayed packet.
+
+Finally use \autoref{thm:authorized-generator-recursor-open-phase-consumer-handoff}. Downstream consumers may specialize the route to their own readback surface, but the specialization still preserves $O$ together with $A,H,C,P,G,N$ and has no coordinate for quotient stream equality, selected limits, host Real equality, or external proof production.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor L10 consumer readback totality]
+\label{thm:authorized-generator-recursor-l10-consumer-readback-totality}
+For an accepted $\AuthorizedGeneratorRecursorUp$ packet $R=(I,E,M,B,D,O,A,H,C,P,G,N)$, every L10 consumer readback of the Real-facing output is total only as a readback of the packet rows $O,A,H,C,P,G,N$. The consumer may request $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ data, but the request preserves the output row, audit row, transport row, continuation row, provenance row, boundary ledger, and local naming row as one finite $\BHist$ route.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:authorized-generator-recursor-phase-real-carrier-readiness}. It supplies the carrier route and makes $H,C,P,G,N$ part of the Phase Real admission data.
+
+Use \autoref{thm:authorized-generator-recursor-phase-real-regseqrat-handoff}. The regular-rational handoff is mediated by the same authorized generator route as the stream-name source and the Real endpoint, so an L10 consumer cannot drop the output row or its audit, transport, continuation, provenance, boundary, and naming rows.
+
+Apply \autoref{thm:authorized-generator-recursor-phase-real-ledger-nonescape} for the ledger side. The exported ledger is exhausted by $A,H,C,P,G,N$ on the finite packet.
+
+Finally compose these obligations with \autoref{thm:authorized-generator-recursor-real-stream-route} and \autoref{thm:authorized-generator-recursor-open-phase-consumer-handoff}. The result is a total consumer readback of the displayed packet, not a separate source of Real evidence or proof-producing data.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor completion boundary saturation]
+\label{thm:authorized-generator-recursor-completion-boundary-saturation}
+Every completion-facing consumer of an accepted $\AuthorizedGeneratorRecursorUp$ packet receives only the finite route $I,E,M,B,D,O,A,H,C,P,G,N$. The route saturates the boundary: it provides the rows needed for $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ readback, while leaving no channel for quotient stream equality, selected limits, host Real equality, ambient completeness, countable choice, or external proof production.
+\end{theorem}
+\begin{proof}
+First read the carrier and the regular-rational handoff through \autoref{thm:authorized-generator-recursor-phase-real-carrier-readiness} and \autoref{thm:authorized-generator-recursor-phase-real-regseqrat-handoff}. These theorems place the completion-facing consumer on the same finite route as the stream source and Real endpoint.
+
+Next apply \autoref{thm:authorized-generator-recursor-phase-real-ledger-nonescape}. The only visible ledger is $A,H,C,P,G,N$, so a completion consumer has no boundary coordinate beyond the packet.
+
+Close with \autoref{thm:authorized-generator-recursor-real-stream-route} and \autoref{thm:authorized-generator-recursor-open-phase-consumer-handoff}. Their route and consumer clauses allow downstream readback, but only as packet-preserving specialization; they do not introduce quotient stream equality, selected limits, host Real equality, ambient completeness, countable choice, or an external proof-production channel.
 \end{proof}

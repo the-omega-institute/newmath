@@ -1,0 +1,65 @@
+\section{L10 window lattice pointer}
+\label{sec:cauchymodulusrefinement-l10-window-lattice-pointer}
+
+The $\CauchyModulusRefinementUp$ L10 ledger is the shared route consumed by \autoref{ch:concrete-instances-regular-cauchy-completion-frontier-namecert} and \autoref{ch:concrete-instances-real-namecert}. Its source side is read through \autoref{ch:concrete-instances-cauchymodulusmeet-namecert}, \autoref{ch:concrete-instances-cauchymodulusextraction-namecert}, and \autoref{ch:concrete-instances-regularcauchyselectorbudget-namecert}; its finite-window and rational-readback side is read through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-regseqrat-namecert}.
+
+\begin{theorem}[Cauchy modulus refinement L10 window lattice exactness]
+\label{thm:cauchy-modulus-refinement-l10-window-lattice-exactness}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+every $\RealUp$-facing or Completion-facing route through $R$ factors first through the source meet, extraction, and selector-budget rows $U,V,T$, then through the four L10 faces
+$$
+\StreamNameUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp,
+$$
+and then only through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows $H,C,P,N$. The route exports no quotient stream equality, selected limit, host real equality, hidden selector, second meet row, countable-choice row, bridge aggregation, ambient $\RealUp$ completeness, or ambient completion principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementL10WindowLatticeExactness}
+\begin{proof}
+Start with the L10 sibling route of \autoref{thm:cauchy-modulus-refinement-l10-sibling-route}. It places every Phase Real and Completion consumer after the source comparison, meet, extraction, and selector-budget rows, and orders the four downstream faces as $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Next pull the consumer back along the finite packet rows. The completion pullback theorem, \autoref{thm:cauchy-modulus-refinement-l10-completion-pullback}, reads the route first through the source-window front $M_0,M_1,U,V$, then through $T,W,Q,E$, and finally through the structural rows $H,C,P,N$. The one-line ledger anchors above identify those rows with the CauchyModulusMeet, CauchyModulusExtraction, RegularCauchySelectorBudget, StreamName, DyadicRatCore, RegSeqRat, and Real sibling surfaces.
+
+Finally apply L10 row exactness, \autoref{thm:cauchy-modulus-refinement-l10-row-exactness}. It identifies the public inventory with the selector path, the four L10 faces, and the displayed support rows. Since the accepted packet and those anchors contain no quotient stream equality, selected limit, host real equality, hidden selector, second meet row, countable-choice row, bridge aggregation, ambient $\RealUp$ completeness, or ambient completion principle, no additional Real-facing or Completion-facing lattice route remains.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement L10 root-window pullback exhaustion]
+\label{thm:cauchy-modulus-refinement-l10-root-window-pullback-exhaustion}
+For every Phase Real or Completion consumer of an accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+the consumer route is exhausted by the following finite pullback spine. It first passes through the root source-window front $M_0,M_1,U,V$ of \autoref{thm:cauchy-modulus-refinement-root-window-exhaustion}; it then passes through the selector and L10 face rows $T,W,Q,E$ governed by \autoref{thm:real-l10-four-face-exit-criterion}; and it finally passes through the support rows $H,C,P,N$ fixed by \autoref{thm:cauchy-modulus-refinement-l10-window-lattice-exactness} and \autoref{thm:cauchy-modulus-refinement-l10-completion-pullback}. Conversely, any displayed packet with exactly those rows repacks as the same L10 consumer route, with no additional quotient-stream, selected-host-limit, countable-choice, ambient-completeness, metric-completeness, bridge-aggregation, or hidden-selector row.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_l10\_root\_window\_pullback\_exhaustion}
+\begin{proof}
+The forward direction begins at the accepted packet $R$. Root-window exhaustion forces the source side through $M_0,M_1,U,V$, so a consumer cannot enter by a second meet row, an unstated extraction row, or an ambient completion premise.
+
+After that source window has been fixed, the L10 four-face exit criterion determines the only Real-facing exit surface. The selector row and the StreamName, DyadicRatCore, RegSeqRat, and Real rows are therefore exactly $T,W,Q,E$, and there is no room for quotient streams, selected host limits, countable choice, host $\RealUp$ equality, or a hidden selector.
+
+The completion pullback and the window-lattice exactness theorem then identify the remaining support as $H,C,P,N$. These rows account for the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support data, so metric-completeness rows and bridge aggregation are not part of the consumer route.
+
+Conversely, suppose a displayed packet carries exactly $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$. Read the first four rows as the root source-window front, the next four as the selector and four-face L10 exit, and the last four as the support ledger. The cited exactness and pullback results repack these finite rows into the same L10 route, and the excluded rows have no constructor in the displayed inventory.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement L10 face-order rigidity]
+\label{thm:cauchy-modulus-refinement-l10-face-order-rigidity}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+any $\RealUp$-facing or Completion-facing consumer of $R$ must read the L10 faces, after the source rows $U,V,T$, in the displayed dependency order
+$$
+\StreamNameUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp.
+$$
+A proposed consumer that swaps the stream schedule, dyadic tolerance, regular readback, or $\RealUp$ seal face is not an accepted pullback of the refinement packet. In particular, such a consumer cannot be completed by quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, bridge aggregation, or hidden selectors.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementL10FaceOrderRigidity}
+\begin{proof}
+The window-lattice exactness theorem, \autoref{thm:cauchy-modulus-refinement-l10-window-lattice-exactness}, fixes the only Real-facing and Completion-facing route through $R$: the source meet, extraction, and selector-budget rows precede the L10 faces, and those faces are displayed in the order $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Root-window pullback exhaustion, \autoref{thm:cauchy-modulus-refinement-l10-root-window-pullback-exhaustion}, identifies every accepted consumer with that finite pullback spine. The root-window theorem \autoref{thm:cauchy-modulus-refinement-root-window-exhaustion} supplies the same source-window front, while \autoref{thm:real-l10-four-face-exit-criterion} supplies the four-face exit criterion. Thus the stream schedule must be available before dyadic tolerance, dyadic tolerance before regular readback, and regular readback before the $\RealUp$ seal.
+
+Suppose a proposed consumer swaps one of these four faces. Then its entry point is not the source-window front followed by the four-face exit specified above, so it is not one of the pullbacks exhausted by the accepted packet rows. The excluded resources have no constructor in the packet inventory: quotient streams and host real equality would bypass the StreamName and Real seal faces; selected limits and countable choice would bypass the dyadic and regular-readback rows; ambient completeness, metric-completeness rows, bridge aggregation, and hidden selectors would add rows absent from $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$.
+\end{proof}

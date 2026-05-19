@@ -199,3 +199,114 @@ for quotient streams, host sequence equality, selected limits, ambient Real
 completeness, metric-completeness data, countable choice, or standard bridge
 data, those excluded surfaces are not part of the completeness claim.
 \end{proof}
+
+\begin{theorem}[StreamName finite-section terminal reflection]
+\label{thm:streamname-finite-section-terminal-reflection}
+Let $Q$ be an accepted finite request section of a current L10 Phase Real and
+Completion $\StreamNameUp$ packet. Then $Q$ supplies the current Phase Real and
+Completion public reflection surface exactly when every visible row of $Q$
+factors through the four faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ together with the
+displayed $\BHist$ rows, componentwise $\hsame$ transports, displayed $\Cont$
+routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+The reflected surface contains precisely the carrier, classifier, stability,
+ledger, and non-escape data readable through those rows. It contains no
+quotient stream, host sequence equality, selected limit, ambient Real
+completeness, metric-completeness datum, countable-choice row, or standard
+bridge row.
+\end{theorem}
+\begin{proof}
+For the forward direction, suppose $Q$ supplies the current Phase Real and
+Completion public reflection surface. Apply
+\autoref{thm:streamname-finite-section-pullback-exactness}. The accepted
+section is pulled back to the StreamName finite window, the DyadicRatCore
+ledger, the RegSeqRat readback, the RealUp seal boundary, and the displayed
+support rows.
+
+Next use
+\autoref{thm:streamname-finite-section-classifier-determinacy}. The carrier
+and classifier verdicts are fixed by that four-face route, so the public
+reflection surface has no second verdict outside the displayed support.
+
+Apply \autoref{thm:streamname-finite-section-pasting-exactness} to any two
+visible restrictions of the reflected finite section. On their accepted
+overlap, the pasted section retains the same terminal route and the same
+public classifier verdict, so local visible rows cannot introduce an
+additional reflection face.
+
+Now apply \autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}. Every
+Real-facing and completion-facing consumer of $Q$ is locked to the same four
+faces and support rows. Hence quotient streams, host sequence equality,
+selected limits, ambient Real completeness, metric-completeness data,
+countable choice, and standard bridge rows have no coordinate in the reflected
+surface.
+
+For the reverse direction, suppose every visible row of $Q$ factors through
+exactly the four faces and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ support rows. By
+\autoref{thm:streamname-four-face-terminal-completeness}, those rows supply the
+full carrier, classifier, stability, ledger, and non-escape surface available
+to the current Phase Real and Completion route.
+
+The same theorem also excludes every non-public row listed above. Therefore the
+factorized finite section supplies exactly the current public reflection
+surface, with no quotient, host-equality, limit-selection, completeness,
+choice, metric-completion, or bridge data added beyond the four-face terminal
+support.
+\end{proof}
+
+\begin{theorem}[StreamName finite-section descent gluing]
+\label{thm:streamname-finite-section-descent-gluing}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase Real and
+Completion $\StreamNameUp$ request sections. Suppose that every accepted
+overlap $Q_{ij}$ has the same $\StreamNameUp$ finite-window row, the same
+$\DyadicRatCoreUp$ ledger row, the same $\RegSeqRatUp$ readback row, the same
+$\RealUp$ seal boundary, and the same displayed $\BHist$, componentwise
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows when read from
+$Q_i$ and from $Q_j$. Then the family descends to one public reflection surface
+over the four-face route
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ whose restrictions are
+the given local sections.
+
+Conversely, any public reflection surface over that four-face route restricts
+to accepted local finite sections whose pairwise overlaps agree on exactly the
+same finite-window, ledger, readback, seal, $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows. Both directions exclude quotient streams,
+selected limits, host sequence equality, ambient Real completeness,
+metric-completeness data, countable choice, and standard bridge rows.
+\end{theorem}
+\begin{proof}
+For descent, paste the finite family by induction on its finite index set. The
+two-section step is exactly
+\autoref{thm:streamname-finite-section-pasting-exactness}: the pairwise
+overlap agreement keeps the StreamName finite window, the DyadicRatCore
+ledger, the RegSeqRat readback, the RealUp seal boundary, and the displayed
+support rows fixed while the pasted section keeps the same public classifier
+verdict.
+
+At each induction step, use
+\autoref{thm:streamname-four-face-terminal-completeness}. The rows retained by
+the pasted section are already sufficient for the carrier, classifier,
+stability, ledger, and non-escape surface of the current Phase Real and
+Completion route, so no further face is available to distinguish the next
+local section from the accumulated paste.
+
+Apply \autoref{thm:streamname-finite-section-terminal-reflection} to the final
+pasted finite section. It turns the completed four-face factorization into the
+public reflection surface over
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$. The Real, RegSeq, and
+Dyadic handoff rows used above keep every read on the L10 four-object packet
+and leave no quotient-stream, selected-limit, host-equality, ambient
+completeness, metric-completion, countable-choice, or bridge coordinate to
+export.
+
+For restriction, start with a public reflection surface over the same
+four-face route. By
+\autoref{thm:streamname-finite-section-terminal-reflection}, every visible row
+of that surface factors through the StreamName finite window, DyadicRatCore
+ledger, RegSeqRat readback, RealUp seal boundary, and displayed support rows.
+Restricting those rows to any finite local window gives an accepted local
+section, and restricting them to a pairwise overlap gives the same rows from
+both sides.
+\end{proof}

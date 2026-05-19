@@ -232,6 +232,28 @@ Apply \autoref{thm:cauchy-modulus-refinement-root-route-completeness}. Every $\R
 Finally combine \autoref{thm:cauchy-modulus-refinement-shared-selector-determinacy} with \autoref{thm:cauchy-modulus-refinement-selector-meet-noninterference}. Since the displayed rows agree, componentwise $\hsame$ transport and displayed $\Cont$ replay determine the accepted consumer route, while quotient stream equality, selected limits, host equality, hidden selectors, second meets, and ambient completeness remain outside the public packet.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement complete-metric no-choice interface]
+\label{thm:cauchy-modulus-refinement-complete-metric-no-choice-interface}
+For an accepted $\CauchyModulusRefinementUp$ packet, suppose a terminal read reaches two completion-facing rows through the same displayed interfaces
+$$
+\Cont(\mathrm{terminal},c,\mathrm{completionA})
+$$
+and
+$$
+\Cont(\mathrm{terminal},c,\mathrm{completionB}),
+$$
+and suppose both completion rows are packaged by the same $\Pkg$ provenance. Then the two completion reads are classified by $\hsame$.
+
+The interface exposes only the finite terminal row, the two completion rows, and the package rows. It exports no quotient stream, selected limit, host equality, choice schedule, or ambient completeness coordinate from which a second completion read could be selected.
+\end{theorem}
+\begin{proof}
+First use the accepted carrier route from \autoref{def:cauchy-modulus-refinement-carrier}. The rows $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ provide the source schedules, shared meet, extraction row, selector budget, selected window, tolerance readback, Real seal, terminal transport, displayed continuation row, package provenance, and local naming row as finite packet data.
+
+Next apply \autoref{thm:cauchy-modulus-refinement-root-selector-readback} and \autoref{thm:cauchy-modulus-refinement-root-route-completeness}. They place the selected-window and tolerance-readback route before the terminal structural rows and exhaust every Real or Completion-facing root read at the displayed carrier path, with no hidden selector, quotient stream, selected host limit, host equality, choice schedule, or ambient completeness coordinate.
+
+It remains to compare the two completion-facing endpoints. The Lean proof closes this step by applying $\mathrm{cont\_deterministic}$ to the two displayed continuation witnesses $\Cont(\mathrm{terminal},c,\mathrm{completionA})$ and $\Cont(\mathrm{terminal},c,\mathrm{completionB})$. Thus the endpoints are $\hsame$-classified over the visible terminal interface, and the same $\Pkg$ provenance records that both completion rows belong to the finite packet surface.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement RegSeqRat--StreamName--Real coherence]
 \label{thm:cauchy-modulus-refinement-regseq-streamname-real-coherence}
 For an accepted $\CauchyModulusRefinementUp$ packet displaying
@@ -361,6 +383,7 @@ U,V,T,W,Q,E,H,C,P,N.
 $$
 Neither consumer can add a detached selector, second meet, quotient stream, selected limit, host equality, countable-choice schedule, ambient completeness coordinate, or separate $\RealUp$ seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_criterion\_output\_boundary}
 \begin{proof}
 For the $\CauchyCriterionUp$ consumer, apply \autoref{thm:cauchy-modulus-refinement-cauchycriterion-selector-cofinality}. The criterion output must be read through the shared meet $U$, extraction row $V$, selector-budget row $T$, selected-window row $W$, tolerance-readback row $Q$, $\RealUp$ seal row $E$, and support rows $H,C,P,N$.
 

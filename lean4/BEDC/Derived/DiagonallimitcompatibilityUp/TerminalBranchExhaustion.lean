@@ -53,4 +53,36 @@ theorem DiagonalLimitCompatibilityCarrier_terminal_branch_exhaustion [AskSetup]
       branchBUnary, branchCUnary, diagonalWindowsPrefix, prefixReadbackTerminal,
       terminalBranchA, terminalBranchB, provenancePkg, terminalPkg, branchCPkg⟩
 
+theorem DiagonalLimitCompatibilityTerminalBranchExhaustion [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      terminalRead branchRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont realSeal cert terminalRead ->
+        Cont terminalRead route branchRead ->
+          PkgSig bundle branchRead pkg ->
+            UnaryHistory diagonal ∧ UnaryHistory triangle ∧ UnaryHistory sealRow ∧
+              UnaryHistory dyadic ∧ UnaryHistory windows ∧ UnaryHistory readback ∧
+                UnaryHistory realSeal ∧ UnaryHistory terminalRead ∧ UnaryHistory branchRead ∧
+                  Cont diagonal triangle sealRow ∧ Cont dyadic windows readback ∧
+                    Cont readback realSeal route ∧ Cont realSeal cert terminalRead ∧
+                      Cont terminalRead route branchRead ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle branchRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig Cont UnaryHistory
+  intro carrier realSealCertTerminal terminalReadRouteBranch branchReadPkg
+  obtain ⟨diagonalUnary, triangleUnary, sealRowUnary, dyadicUnary, windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, routeUnary, _provenanceUnary, certUnary,
+    diagonalTriangleSeal, dyadicWindowsReadback, readbackRealSealRoute, _routeCertTransport,
+    provenancePkg⟩ := carrier
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed realSealUnary certUnary realSealCertTerminal
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed terminalReadUnary routeUnary terminalReadRouteBranch
+  exact
+    ⟨diagonalUnary, triangleUnary, sealRowUnary, dyadicUnary, windowsUnary, readbackUnary,
+      realSealUnary, terminalReadUnary, branchReadUnary, diagonalTriangleSeal,
+      dyadicWindowsReadback, readbackRealSealRoute, realSealCertTerminal,
+      terminalReadRouteBranch, provenancePkg, branchReadPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp

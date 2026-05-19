@@ -1,6 +1,7 @@
 import BEDC.Derived.ExternalSupplyAuditRouteUp.TasteGate
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
@@ -8,6 +9,7 @@ namespace BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
 open BEDC.Derived.ExternalSupplyAuditRouteUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -236,4 +238,124 @@ theorem ApophaticFarEndSocketNameCertObligations
   -- BEDC touchpoint anchor: BHist BMark
   exact ⟨rfl, apophaticFarEndSocketDecodeEncodeBHist localName, rfl⟩
 
+private def ApophaticFarEndSocketNonEscape_depth : BHist → Nat
+  | BHist.Empty => 0
+  | BHist.e0 h => Nat.succ (ApophaticFarEndSocketNonEscape_depth h)
+  | BHist.e1 h => Nat.succ (ApophaticFarEndSocketNonEscape_depth h)
+
+private theorem ApophaticFarEndSocketNonEscape_noSelfE0 :
+    ∀ h : BHist, h ≠ BHist.e0 h := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  induction h with
+  | Empty =>
+      intro hEq
+      cases hEq
+  | e0 tail ih =>
+      intro hEq
+      exact ih (BHist.e0.inj hEq)
+  | e1 tail _ih =>
+      intro hEq
+      cases hEq
+
+private theorem ApophaticFarEndSocketNonEscape_farEnd_eq
+    {socket name farEnd farEnd' gap inscription observer ledger transport route provenance
+      localName : BHist} :
+    [socket, name, farEnd, gap, inscription, observer, ledger, transport, route,
+        provenance, localName] =
+      [socket, name, farEnd', gap, inscription, observer, ledger, transport, route,
+        provenance, localName] →
+      farEnd = farEnd' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hfields
+  cases hfields
+  rfl
+
+theorem ApophaticFarEndSocketNonEscape
+    {socket name farEnd gap inscription observer ledger transport route provenance
+      localName : BHist} :
+    apophaticFarEndSocketFields
+        (ApophaticFarEndSocketUp.mk socket name farEnd gap inscription observer ledger
+          transport route provenance localName) =
+      [socket, name, farEnd, gap, inscription, observer, ledger, transport, route,
+        provenance, localName] ∧
+      apophaticFarEndSocketFields
+          (ApophaticFarEndSocketUp.mk socket name farEnd gap inscription observer ledger
+            transport route provenance localName) ≠
+        apophaticFarEndSocketFields
+          (ApophaticFarEndSocketUp.mk socket name (BHist.e0 farEnd) gap inscription
+            observer ledger transport route provenance localName) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · intro hfields
+    have farEndSame :
+        farEnd = BHist.e0 farEnd :=
+      ApophaticFarEndSocketNonEscape_farEnd_eq hfields
+    exact ApophaticFarEndSocketNonEscape_noSelfE0 farEnd farEndSame
+
+theorem ApophaticFarEndSocket_nonescape
+    {socket name farEnd gap inscription observer ledger transport route provenance
+      localName : BHist} :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row farEnd ∧
+          ∃ packet : ApophaticFarEndSocketUp,
+            packet = ApophaticFarEndSocketUp.mk socket name farEnd gap inscription
+              observer ledger transport route provenance localName)
+      (fun row : BHist =>
+        hsame row farEnd ∧ hsame inscription inscription ∧ hsame observer observer)
+      (fun row : BHist =>
+        hsame row farEnd ∧ hsame ledger ledger ∧ hsame provenance provenance ∧
+          hsame localName localName)
+      hsame ∧
+      apophaticFarEndSocketFields
+          (ApophaticFarEndSocketUp.mk socket name farEnd gap inscription observer ledger
+            transport route provenance localName) =
+        [socket, name, farEnd, gap, inscription, observer, ledger, transport, route,
+          provenance, localName] := by
+  -- BEDC touchpoint anchor: BHist BMark SemanticNameCert hsame
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro farEnd
+            (And.intro (hsame_refl farEnd)
+              (Exists.intro
+                (ApophaticFarEndSocketUp.mk socket name farEnd gap inscription observer
+                  ledger transport route provenance localName)
+                rfl))
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact And.intro (hsame_trans (hsame_symm sameRows) source.left) source.right
+      }
+      pattern_sound := by
+        intro _row source
+        exact ⟨source.left, hsame_refl inscription, hsame_refl observer⟩
+      ledger_sound := by
+        intro _row source
+        exact
+          ⟨source.left, hsame_refl ledger, hsame_refl provenance,
+            hsame_refl localName⟩
+    }
+  · rfl
+
 end BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
+
+namespace BEDC.Derived.ApophaticFarEndSocketUp
+
+def taste_gate :
+    BEDC.Meta.TasteGate.ChapterTasteGate
+      TasteGate.ApophaticFarEndSocketUp :=
+  TasteGate.taste_gate
+
+end BEDC.Derived.ApophaticFarEndSocketUp

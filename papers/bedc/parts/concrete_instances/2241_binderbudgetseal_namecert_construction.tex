@@ -44,6 +44,7 @@ The two route obligations are read from $S$ and $U$. The shift route records the
 \label{thm:binder-budget-seal-shift-nonescape}
 For an accepted $\BinderBudgetSealUp$ carrier $B=(D,T,V,S,U,H,C,P,N)$, every shift request at the boundary named by $D$ factors through the displayed route $S$ before the term row $T$ is returned to a consumer. The route exports the same MetaCIC term row and no fresh free variable, depth extension, quotient syntax equality, or host binder operation.
 \end{theorem}
+\leanchecked{BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealShiftNonescape}
 \begin{proof}
 Begin with the binder-depth coordinate. The row $D$ names the finite closed boundary for the term row $T$, so a shift request at that boundary must first read $D$.
 
@@ -56,6 +57,7 @@ Finally apply the non-escape clause of the NameCert obligations. Since the carri
 \label{thm:binder-budget-seal-substitution-nonescape}
 For an accepted $\BinderBudgetSealUp$ carrier $B=(D,T,V,S,U,H,C,P,N)$, every substitution request at the boundary named by $D$ factors through the displayed route $U$ before the term row $T$ is returned to a consumer. The payload row $V$ is read only as boundary data, and the route exports no substituted free variable, host capture-avoidance primitive, quotient syntax equality, or compiler-stage equality outside the finite packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealSubstitutionNonescape}
 \begin{proof}
 Start from the closed-boundary row $D$ and the term row $T$. The substitution request is accepted only at the boundary named by $D$, so the payload row $V$ is not a separate source of free-variable data.
 
@@ -77,6 +79,7 @@ Now assemble the consumer packet. The displayed transports, continuation routes,
 
 The remaining exclusions follow from the same carrier inventory. No coordinate supplies full compiler closure, normalization, definitional equality, quotient syntax equality, or host soundness, so the handoff is exactly the finite binder-budget boundary for shift and substitution non-escape.
 \end{proof}
+\leanchecked{BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealSelfCompileHandoff}
 
 \begin{definition}[BinderBudgetSeal obligation surface]
 \label{def:binder-budget-seal-obligation-surface}
@@ -111,11 +114,13 @@ The shift and substitution non-escape theorems force the two compiler-facing rea
 
 Finally apply the obligation surface. Since it lists no coordinate for compiler closure, normalization, definitional equality, quotient syntax equality, or host soundness, such data cannot be exported by the boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealCompilerBoundary}
 
 \begin{theorem}[BinderBudgetSeal non-escape]
 \label{thm:binder-budget-seal-non-escape}
 Every exported read of an accepted $\BinderBudgetSealUp$ obligation surface is exhausted by $D,T,V,S,U,H,C,P,N$. A request for a fresh free variable, a host capture-avoidance primitive, a quotient syntax equality, a compiler-stage equality, a normalization theorem, or ambient host soundness leaves the carrier and is not returned as BinderBudgetSeal evidence.
 \end{theorem}
+\leanchecked{BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealNonEscape}
 \begin{proof}
 Read the request through the continuation routes in $C$. If it asks for the displayed boundary, term, payload, shift, substitution, transport, provenance, or naming rows, the finite packet supplies that row.
 
@@ -137,6 +142,7 @@ Apply the compiler boundary and non-escape theorems, \autoref{thm:binder-budget-
 
 The TasteGate carrier must therefore be grounded on row equality of this packet. Since every cited surface names $D,T,V,S,U,H,C,P,N$, a separate carrier would fail to be the accepted $\BinderBudgetSealUp$ packet.
 \end{proof}
+\leanchecked{BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealTasteGateCarrierGrounding}
 
 \closureat{BinderBudgetSealUp}{seedStr}
 \closureat{BinderBudgetSealUp}{obligationStr}[BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealTasteGate\_single\_carrier\_alignment]

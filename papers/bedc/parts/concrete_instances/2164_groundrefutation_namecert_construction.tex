@@ -85,11 +85,13 @@ The continuation ledger $C$ is read in the same order before and after transport
 
 The provenance row $P$ and the local $\NameCert$ row $N$ remain part of the transported packet. The route stability claim is exactly that the transported output is still produced by these displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 \end{proof}
+\leanchecked{BEDC.Derived.GroundRefutationUp.GroundRefutationCarrier\_route\_stability}
 
 \begin{theorem}[GroundRefutation ledger accountability]
 \label{thm:ground-refutation-ledger-accountability}
 Let $G=(A,F,H,C,P,N)$ be an accepted $\GroundRefutationUp$ carrier. Any consumer that reads the bottom row produced by $F$ must also read the displayed $\BHist$ assumption row $A$, the $\hsame$ transport ledger $H$, the $\Cont$ replay ledger $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\GroundRefutationUp}$ row $N$. Consequently the bottom row is not available as an unaccounted contradiction token outside the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundRefutationUp.GroundRefutationCarrier\_ledger\_accountability}
 \begin{proof}
 The carrier inventory has no standalone bottom-token coordinate. The bottom row appears only through the falsity-producing route $F$ and the continuation entries in $C$.
 
@@ -102,6 +104,7 @@ It follows that the contradiction cannot be exported as anonymous evidence. It i
 \label{thm:ground-refutation-consumer-readiness}
 An accepted $\GroundRefutationUp$ consumer may use the carrier $G=(A,F,H,C,P,N)$ only through the displayed finite $\BHist$ rows, the componentwise $\hsame$ transports, the $\Cont$ routes, the $\Pkg$ provenance, and the local $\NameCert_{\GroundRefutationUp}$ row. Such a consumer is ready for the ground-loop negation output exactly when it requests no certificate-indexed truth branch, excluded-middle split, undecided double-negation eliminator, existential witness by contradiction, or route not listed in $C$.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundRefutationUp.GroundRefutationCarrier\_consumer\_readiness}
 \begin{proof}
 Consumer readiness is a projection discipline on the six-coordinate packet. The available data are precisely $A,F,H,C,P,N$, read with their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure.
 

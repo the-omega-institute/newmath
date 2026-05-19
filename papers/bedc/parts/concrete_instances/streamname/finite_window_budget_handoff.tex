@@ -238,6 +238,59 @@ lock name the same carrier coordinates, the consumer has no remaining route
 outside the displayed finite packet.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat RealUp dyadic budget correspondence]
+\label{thm:streamname-regseqrat-realup-dyadic-budget-correspondence}
+Let $\mathcal W$ be an accepted finite $\StreamNameUp$ window consumed by a
+$\RegSeqRatUp$ readback and sealed as a finite-window $\RealUp$ route. Then the
+public route determined by $\mathcal W$ is exactly the visible dyadic-budget
+route carried by the $\DyadicRatCoreUp$ radius ledger: finite StreamName window
+rows, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, certified unary observations,
+DyadicRatCore ledger and radius rows, RegSeqRat readback rows, RealUp finite seal
+rows, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+Conversely, any public route displaying those same rows factors back through the
+StreamName finite-window budget handoff before a RegSeqRat readback or RealUp
+finite seal can be consumed. The correspondence exports no quotient stream,
+selected host limit, countable-choice selector, host real equality, metric
+completeness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with
+\autoref{thm:streamname-real-regseq-finite-window-budget-handoff}. It places the
+accepted StreamName window, $\mathsf{ProbeBundle}$ ledger,
+$\mathsf{InBundle}$ membership rows, and certified unary observations before any
+regularity, dyadic tolerance, or Real seal row is read.
+
+Next apply \autoref{thm:streamname-budget-tail-regular-seal-lock} and
+\autoref{thm:streamname-budget-regular-readback-exhaustion}. These identify the
+budget cap, tail threshold, finite window, dyadic ledger, RegSeqRat readback,
+Real seal, and visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ provenance as one exhausted finite packet.
+
+Now read that packet through the sibling ledger and endpoint gates. Use
+\autoref{thm:streamname-regseqrat-tail-budget-uniformity},
+\autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage},
+\autoref{thm:regular-cauchy-tail-budget-observation-gate}, and
+\autoref{thm:realup-finite-window-exhaustion-obligation}. Together they force the
+StreamName finite window, tail-budget service, DyadicRatCore radius ledger,
+RegSeqRat readback, and RealUp finite seal to expose the same visible
+dyadic-budget route.
+
+For the reverse direction, suppose a public route already displays exactly those
+rows. Tail-budget coverage places its radius read inside the finite precision,
+tail-window, StreamName-window, and dyadic readback segment, while the regular
+Cauchy observation gate orders that segment before the RegSeqRat and Real seal
+reads.
+
+The RealUp finite-window exhaustion obligation then leaves no endpoint row
+outside the displayed finite seal. Repacking the same rows gives the StreamName
+finite-window budget handoff of
+\autoref{thm:streamname-real-regseq-finite-window-budget-handoff}, and the
+non-escape clauses in the cited results exclude quotient streams, selected host
+limits, countable-choice selectors, host real equality, metric completeness, and
+ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[StreamName ObserverFilter finite-window handoff]
 \label{thm:streamname-observer-filter-finite-window-handoff}
 Every accepted finite $\ObserverFilterUp$ selected-subhistory handoff to

@@ -6,6 +6,7 @@ R=(I,E,M,B,D,O,A,H,C,P,G,N),
 $$
 the branch-package surface exposes every constructor branch only through the accepted signature, emitted eliminator, checked motive, branch package, and structural-descent rows $I,E,M,B,D$. Any branch not listed by $I$ and not carried by $B$ is rejected before a downstream generator-audit or closed-normal consumer can read the output row $O$.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorRootBranchPackageCoverage}
 \begin{proof}
 Project the carrier of \autoref{def:authorized-generator-recursor-carrier}. The rows $I,E,M,B,D$ are displayed before $O$, and the carrier has no coordinate for an extra constructor, missing branch, or detached branch table.
 
@@ -18,6 +19,7 @@ Finally apply \autoref{thm:authorized-generator-recursor-branch-exhaustion}, \au
 \label{thm:authorized-generator-recursor-root-motive-descent-stability}
 For every accepted $\AuthorizedGeneratorRecursorUp$ root packet, structural descent through $D$ preserves the checked motive row $M$ before the output row $O$ is exposed. A public recursive read cannot retain the descent row while replacing the motive, cannot read $O$ from a motive-free descent surface, and cannot route the recursor through a branch package detached from $M$.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorRootMotiveDescentStability}
 \begin{proof}
 Start with the carrier and root descent exposure. The packet of \autoref{def:authorized-generator-recursor-carrier} places $M$ and $D$ in the same displayed tuple, while \autoref{thm:authorized-generator-recursor-root-descent-row-exposure} exposes the descent row on every root-facing recursive read.
 
@@ -41,3 +43,4 @@ Use factorization through the sibling root surfaces. \autoref{thm:authorized-gen
 
 Finally apply the refusal and readiness results. \autoref{thm:authorized-generator-recursor-root-boundary-nonescape}, \autoref{thm:authorized-generator-recursor-root-audit-handoff-lock}, and \autoref{thm:authorized-generator-recursor-root-readiness-exhaustion} exclude hidden generators, unaudited dependency routes, and off-packet naming. Therefore the public ledger is exact for the displayed audit route and exports nothing beyond it.
 \end{proof}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursor\_root\_audit\_ledger\_exactness}

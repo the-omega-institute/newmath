@@ -90,6 +90,7 @@ U=(I,W,M,Q,T,E,H,C,P,N)
 $$
 be an accepted $\UniformCauchyCriterionUp$ packet. The shared window family $W$ and the single modulus row $M$ determine one finite threshold meet before any $Q,T,E$ read is available. Every tolerance row, tail-comparison row, and $\RealUp$ seal row is therefore downstream of the same $W,M$ route and cannot select an indexwise modulus family.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionSharedWindowThresholdMeet}
 \begin{proof}
 First project the carrier of \autoref{def:uniform-cauchy-criterion-carrier}. The packet has one shared window family row $W$ and one modulus schedule row $M$.
 
@@ -521,6 +522,7 @@ J \subseteq I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapst
 $$
 It preserves the same shared window family, threshold schedule, dyadic tolerance row, tail ledger, and real-seal handoff, and it exports no selected limit, host equality, quotient stream, or ambient completeness datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_index\_restriction}
 \begin{proof}
 Begin with \autoref{thm:uniform-cauchy-criterion-subfamily-restriction}. A displayed subledger $J$ is read as a restriction of the finite index ledger $I$, so it has no independent family carrier.
 
@@ -540,6 +542,7 @@ U=(I,W,M,Q,T,E,H,C,P,N)
 $$
 be an accepted $\UniformCauchyCriterionUp$ packet. Suppose $W'$ is a transported $\StreamNameUp$ window refinement of $W$ along the displayed $\hsame$ row $H$ and displayed $\Cont$ routes $C$. Then the refined request is accepted through the same shared-threshold and dyadic-tail route $I,W,M,Q,T,E$, with $W'$ serving only as the transported presentation of the original window family.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_window\_refinement\_exactness}
 \leanvariant{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_window\_refinement\_seal\_route}
 \begin{proof}
 Project the accepted carrier and the transported refinement. The refinement data are read through $H$ and $C$, so $W'$ is not a second window family but a transported presentation of the displayed $W$ row.
@@ -557,6 +560,7 @@ Let $U_J$ and $U_K$ be accepted $\UniformCauchyCriterionUp$ packets whose displa
 
 The union packet is assembled only by finite ledger union and componentwise transport. It does not select pointwise limits, compare host reals, quotient stream names, or appeal to ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_family\_union}
 \begin{proof}
 Read the two packets through their common displayed schedule and compatible finite ledgers. Compatibility means both subfamily requests already sit inside the same $\BHist$ inventory and do not supply separate threshold or tolerance coordinates.
 

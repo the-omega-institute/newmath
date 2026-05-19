@@ -153,17 +153,34 @@ Next use \autoref{thm:regseq-observation-budget-scoped-closure}. The carrier, Na
 Finally apply \autoref{thm:regseq-observation-budget-window-admission}, \autoref{thm:regseq-observation-budget-tail-monotonicity}, and \autoref{thm:regseq-observation-budget-real-seal-handoff}. Window admission orders $W$ before later rows, tail monotonicity keeps transport and replay on the same displayed budget, and Real seal handoff reaches $E$ only after $W$, $R$, $\epsilon$, and $D$. Therefore the only admissible bridge entry is the displayed route in the stated order.
 \end{proof}
 
+\begin{theorem}[Regular observer-budget mature package]\label{thm:regseq-observation-budget-mature-package}
+The public export theorem, bridge precondition, scoped closure theorem, window admission, tail monotonicity, Real seal handoff, and Lean TasteGate witnesses package the finite route
+$$
+W,R,\epsilon,D,E,H,C,P,N
+$$
+as the mature paper-side $\RegSeqObservationBudgetUp$ surface. The package binds only the displayed StreamName window, RegSeqRat readback, dyadic tolerance, CauchyDiagonalBudget selector, RealUp budget row, componentwise transports, displayed continuations, package provenance, and local NameCert row. It has no coordinate for quotient stream equality, host real equality, hidden selectors, unbounded schedules, detached seal reads, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseq-observation-budget-public-consumer-export}. The public consumer boundary is already the finite route $W,R,\epsilon,D,E,H,C,P,N$, so public RealUp, DiagonalLimitStabilityUp, and CauchyDiagonalBudgetUp consumers receive the same displayed observation budget.
+
+Next apply \autoref{thm:regseq-observation-budget-bridge-precondition} and \autoref{thm:regseq-observation-budget-scoped-closure}. The bridge precondition restricts any standard bridge entry to the same ordered rows, while scoped closure binds those rows over $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyDiagonalBudgetUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Finally apply \autoref{thm:regseq-observation-budget-window-admission}, \autoref{thm:regseq-observation-budget-tail-monotonicity}, and \autoref{thm:regseq-observation-budget-real-seal-handoff}. Window admission exposes $W$ before later rows, tail monotonicity keeps transport and replay on the same finite packet, and the Real seal handoff reaches $E$ only through $W$, $R$, $\epsilon$, and $D$. Together with the Lean TasteGate witnesses for nontriviality and field faithfulness, these clauses leave no entry for quotient stream equality, host real equality, hidden selectors, unbounded schedules, detached seal reads, or ambient completeness.
+\end{proof}
+
 \closureat{RegSeqObservationBudgetUp}{obligationStr}
 \closureat{RegSeqObservationBudgetUp}{scopedStr}[BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment]
 \closureat{RegSeqObservationBudgetUp}{publicStr}[BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{RegSeqObservationBudgetUp}{bridgedStr}[BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{RegSeqObservationBudgetUp}{matureStr}[BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RegSeqObservationBudgetUp}
   \constructivestory{A $\RegSeqObservationBudgetUp$ packet is generated from a StreamName finite-window row, RegSeqRat readback row, RealUp observation-budget row, CauchyDiagonalBudget selector row, DyadicRatCore tolerance row, componentwise transports, displayed continuations, package provenance, and local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:regular-observer-budget-carrier}, \autoref{thm:regular-observer-budget-namecert-obligations}, \autoref{thm:regular-observer-budget-filter-schedule-nonescape}, \autoref{thm:regseq-observation-budget-window-admission}, \autoref{thm:regseq-observation-budget-tail-monotonicity}, \autoref{thm:regseq-observation-budget-real-seal-handoff}, \autoref{thm:regseq-observation-budget-public-consumer-export}, \autoref{thm:regseq-observation-budget-bridge-precondition}, \leanchecked{BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment}, and \leanchecked{BEDC.Derived.RegSeqObservationBudgetUp.taste\_gate} bind the finite RegSeq observation-budget route over StreamNameUp, RegSeqRatUp, RealUp, CauchyDiagonalBudgetUp, DyadicRatCoreUp, hsame, Cont, Pkg, and NameCert rows and expose the public consumer export surface with its bridge-entry precondition.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:regular-observer-budget-carrier}, \autoref{thm:regular-observer-budget-namecert-obligations}, \autoref{thm:regular-observer-budget-filter-schedule-nonescape}, \autoref{thm:regseq-observation-budget-window-admission}, \autoref{thm:regseq-observation-budget-tail-monotonicity}, \autoref{thm:regseq-observation-budget-real-seal-handoff}, \autoref{thm:regseq-observation-budget-public-consumer-export}, \autoref{thm:regseq-observation-budget-bridge-precondition}, \autoref{thm:regseq-observation-budget-mature-package}, \leanchecked{BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment}, and \leanchecked{BEDC.Derived.RegSeqObservationBudgetUp.taste\_gate} bind the finite RegSeq observation-budget route over StreamNameUp, RegSeqRatUp, RealUp, CauchyDiagonalBudgetUp, DyadicRatCoreUp, hsame, Cont, Pkg, and NameCert rows and expose the public consumer export surface with its bridge-entry precondition and mature paper-side package.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, selected external limits, hidden selectors, ambient completeness, or bridge checking.}
   \upgradepath{The next obligation is a checked standard bridge for the same finite observation-budget packet.}

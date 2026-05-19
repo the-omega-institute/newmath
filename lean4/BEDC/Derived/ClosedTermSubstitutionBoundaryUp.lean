@@ -321,6 +321,33 @@ instance closedTermSubstitutionBoundaryChapterTasteGate :
     intro x y hxy heq
     exact hxy (ClosedTermSubstitutionBoundaryPacket_single_carrier_alignment_injective heq)
 
+def closedTermSubstitutionBoundaryFields : ClosedTermSubstitutionBoundaryUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | ClosedTermSubstitutionBoundaryUp.mk term value depth sourceClosed valueClosed shiftRow
+      substituteRow ledger audit transport route provenance name =>
+      [term, value, depth, sourceClosed, valueClosed, shiftRow, substituteRow, ledger, audit,
+        transport, route, provenance, name]
+
+private theorem closedTermSubstitutionBoundary_field_faithful :
+    ∀ x y : ClosedTermSubstitutionBoundaryUp,
+      closedTermSubstitutionBoundaryFields x = closedTermSubstitutionBoundaryFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk term value depth sourceClosed valueClosed shiftRow substituteRow ledger audit transport
+      route provenance name =>
+      cases y with
+      | mk term' value' depth' sourceClosed' valueClosed' shiftRow' substituteRow' ledger'
+          audit' transport' route' provenance' name' =>
+          cases hfields
+          rfl
+
+instance closedTermSubstitutionBoundaryFieldFaithful :
+    FieldFaithful ClosedTermSubstitutionBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := closedTermSubstitutionBoundaryFields
+  field_faithful := closedTermSubstitutionBoundary_field_faithful
+
 theorem ClosedTermSubstitutionBoundaryPacket_single_carrier_alignment :
     closedTermSubstitutionBoundaryEncodeBHist BHist.Empty = ([] : List BMark) ∧
       (∀ h : BHist,
@@ -479,5 +506,122 @@ theorem ClosedTermSubstitutionBoundaryNamecertObligations [AskSetup] [PackageSet
       intro row source
       exact And.intro (unary_transport consumerUnary (hsame_symm source.right)) consumerPkg
   }
+
+theorem ClosedTermSubstitutionBoundaryLedgerNonEscape [AskSetup] [PackageSetup]
+    {source value depth shift substitution ledger audit route consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution →
+      Cont shift substitution ledger →
+        Cont substitution depth audit →
+          Cont ledger audit route →
+            Cont route audit consumer →
+              PkgSig bundle consumer pkg →
+                UnaryHistory ledger ∧ UnaryHistory audit ∧ UnaryHistory route ∧
+                  UnaryHistory consumer ∧ Cont shift substitution ledger ∧
+                    Cont substitution depth audit ∧ Cont ledger audit route ∧
+                      Cont route audit consumer ∧ PkgSig bundle consumer pkg ∧
+                        SemanticNameCert
+                          (fun row : BHist =>
+                            ClosedTermSubstitutionBoundaryClassifier source value depth shift
+                              substitution ∧ hsame row consumer)
+                          (fun row : BHist => Cont route audit row ∧ PkgSig bundle consumer pkg)
+                          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle consumer pkg)
+                          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro classifierWitness shiftSubstitutionLedger substitutionDepthAudit ledgerAuditRoute
+    routeAuditConsumer consumerPkg
+  have classifierPacket :
+      ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution :=
+    classifierWitness
+  obtain ⟨_sourceUnary, _valueUnary, depthUnary, shiftUnary, substitutionUnary,
+    _sourceValueShift, _shiftDepthSubstitution⟩ := classifierWitness
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed shiftUnary substitutionUnary shiftSubstitutionLedger
+  have auditUnary : UnaryHistory audit :=
+    unary_cont_closed substitutionUnary depthUnary substitutionDepthAudit
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed ledgerUnary auditUnary ledgerAuditRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed routeUnary auditUnary routeAuditConsumer
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution ∧
+            hsame row consumer)
+        (fun row : BHist => Cont route audit row ∧ PkgSig bundle consumer pkg)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle consumer pkg)
+        hsame :=
+    ClosedTermSubstitutionBoundaryNamecertObligations classifierPacket shiftSubstitutionLedger
+      substitutionDepthAudit ledgerAuditRoute routeAuditConsumer consumerPkg
+  exact
+    ⟨ledgerUnary, auditUnary, routeUnary, consumerUnary, shiftSubstitutionLedger,
+      substitutionDepthAudit, ledgerAuditRoute, routeAuditConsumer, consumerPkg, cert⟩
+
+theorem ClosedTermSubstitutionBoundarySourceClosednessAdmission
+    {source value depth shift substitution shiftRead substitutionRead : BHist} :
+    ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution ->
+      Cont source value shiftRead ->
+        Cont shiftRead depth substitutionRead ->
+          hsame shiftRead shift ∧ hsame substitutionRead substitution ∧ UnaryHistory source ∧
+            UnaryHistory shiftRead ∧ UnaryHistory substitutionRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro classifier sourceValueShiftRead shiftReadDepthSubstitutionRead
+  obtain ⟨sourceUnary, valueUnary, depthUnary, _shiftUnary, _substitutionUnary,
+    sourceValueShift, shiftDepthSubstitution⟩ := classifier
+  have sameShiftRead : hsame shiftRead shift :=
+    cont_deterministic sourceValueShiftRead sourceValueShift
+  have sameSubstitutionRead : hsame substitutionRead substitution :=
+    cont_respects_hsame sameShiftRead (hsame_refl depth) shiftReadDepthSubstitutionRead
+      shiftDepthSubstitution
+  have shiftReadUnary : UnaryHistory shiftRead :=
+    unary_cont_closed sourceUnary valueUnary sourceValueShiftRead
+  have substitutionReadUnary : UnaryHistory substitutionRead :=
+    unary_cont_closed shiftReadUnary depthUnary shiftReadDepthSubstitutionRead
+  exact
+    ⟨sameShiftRead, sameSubstitutionRead, sourceUnary, shiftReadUnary,
+      substitutionReadUnary⟩
+
+theorem ClosedTermSubstitutionBoundarySubstitutionRowExactness
+    {source value depth shift substitution substitutionRead ledger audit : BHist} :
+    ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution ->
+      Cont shift depth substitutionRead ->
+        Cont substitutionRead value ledger ->
+          Cont ledger depth audit ->
+            hsame substitutionRead substitution ∧ UnaryHistory substitutionRead ∧
+              UnaryHistory ledger ∧ UnaryHistory audit ∧ Cont substitutionRead value ledger ∧
+                Cont ledger depth audit := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro classifier substitutionReadRoute substitutionReadValueLedger ledgerDepthAudit
+  obtain ⟨_sourceUnary, valueUnary, depthUnary, shiftUnary, _substitutionUnary,
+    _sourceValueShift, shiftDepthSubstitution⟩ := classifier
+  have sameSubstitutionRead : hsame substitutionRead substitution :=
+    cont_deterministic substitutionReadRoute shiftDepthSubstitution
+  have substitutionReadUnary : UnaryHistory substitutionRead :=
+    unary_cont_closed shiftUnary depthUnary substitutionReadRoute
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed substitutionReadUnary valueUnary substitutionReadValueLedger
+  have auditUnary : UnaryHistory audit :=
+    unary_cont_closed ledgerUnary depthUnary ledgerDepthAudit
+  exact
+    ⟨sameSubstitutionRead, substitutionReadUnary, ledgerUnary, auditUnary,
+      substitutionReadValueLedger, ledgerDepthAudit⟩
+
+theorem ClosedTermSubstitutionBoundaryValueClosednessAdmission
+    {source value depth shift substitution valueRead substitutionRead : BHist} :
+    ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution ->
+      Cont value depth valueRead ->
+        Cont shift valueRead substitutionRead ->
+          UnaryHistory value ∧ UnaryHistory depth ∧ UnaryHistory valueRead ∧
+            UnaryHistory shift ∧ UnaryHistory substitutionRead ∧
+              Cont value depth valueRead ∧ Cont shift valueRead substitutionRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro classifier valueDepthRead shiftValueSubstitutionRead
+  obtain ⟨_sourceUnary, valueUnary, depthUnary, shiftUnary, _substitutionUnary,
+    _sourceValueShift, _shiftDepthSubstitution⟩ := classifier
+  have valueReadUnary : UnaryHistory valueRead :=
+    unary_cont_closed valueUnary depthUnary valueDepthRead
+  exact ⟨valueUnary, depthUnary, valueReadUnary, shiftUnary,
+    unary_cont_closed shiftUnary valueReadUnary shiftValueSubstitutionRead, valueDepthRead,
+    shiftValueSubstitutionRead⟩
 
 end BEDC.Derived.ClosedtermsubstitutionboundaryUp

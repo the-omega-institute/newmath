@@ -542,4 +542,46 @@ theorem KernelAcceptanceAuditWitnessCarrier_ledger_non_escape
   exact
     ⟨queryMatchesAxiom, replayMatchesRoute, nameAccepted, nameLedger, provenanceSame⟩
 
+theorem KernelAcceptanceAuditWitnessCarrier_replay_query_nonescape
+    {generated candidate accepted ledger axiomQuery replay transport route provenance name
+      replayRoute queryBoundary terminalRead : BHist} :
+    KernelAcceptanceAuditWitnessCarrier generated candidate accepted ledger axiomQuery replay
+        transport route provenance name →
+      Cont accepted ledger queryBoundary →
+        Cont axiomQuery replay replayRoute →
+          Cont queryBoundary name terminalRead →
+            hsame axiomQuery queryBoundary ∧ hsame replayRoute route ∧
+              hsame name accepted ∧ hsame name ledger ∧
+                Cont queryBoundary name terminalRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier acceptedLedgerRead replayRead terminalRoute
+  obtain ⟨_generatedCandidateAccepted, acceptedLedgerAxiom, axiomReplayRoute,
+    _transportSame, _provenanceSame, nameAccepted, nameLedger⟩ := carrier
+  have queryMatchesAxiom : hsame axiomQuery queryBoundary :=
+    cont_deterministic acceptedLedgerAxiom acceptedLedgerRead
+  have replayMatchesRoute : hsame replayRoute route :=
+    cont_respects_hsame (hsame_refl axiomQuery) (hsame_refl replay) replayRead
+      axiomReplayRoute
+  exact ⟨queryMatchesAxiom, replayMatchesRoute, nameAccepted, nameLedger, terminalRoute⟩
+
+def KernelAcceptanceAuditWitnessTerminalRow
+    (accepted ledger axiomQuery replay name terminalRead : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  Cont accepted ledger axiomQuery ∧ Cont axiomQuery replay terminalRead ∧
+    hsame name accepted ∧ hsame name ledger
+
+theorem KernelAcceptanceAuditWitnessTerminalRow_boundary
+    {generated candidate accepted ledger axiomQuery replay transport route provenance name
+      terminalRead : BHist} :
+    KernelAcceptanceAuditWitnessCarrier generated candidate accepted ledger axiomQuery replay
+        transport route provenance name →
+      Cont axiomQuery replay terminalRead →
+        KernelAcceptanceAuditWitnessTerminalRow accepted ledger axiomQuery replay name
+          terminalRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier terminalRoute
+  obtain ⟨_generatedCandidateAccepted, acceptedLedgerAxiom, _axiomReplayRoute,
+    _transportSame, _provenanceSame, nameAccepted, nameLedger⟩ := carrier
+  exact ⟨acceptedLedgerAxiom, terminalRoute, nameAccepted, nameLedger⟩
+
 end BEDC.Derived.KernelAcceptanceAuditWitnessUp

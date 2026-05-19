@@ -56,6 +56,7 @@ Finally $H,C,P,N$ record transport, continuation, provenance, and the local nami
 \label{thm:recursor-generator-audit-non-escape}
 Every public output of an accepted $\RecursorGeneratorUp$ packet factors through the audit row $A$, the accepted inductive-signature row $I$, the legal eliminator-call row $E$, and the branch-package row $B$. A consumer cannot recover a host code generator, a non-positive eliminator, an unlisted branch, $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, $\mathsf{propext}$, or an unrecorded axiom channel from the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RecursorGeneratorUp.RecursorGenerator\_audit\_non\_escape}
 \begin{proof}
 Begin with the legal route. The only eliminator available in the carrier is the call recorded by $E$, and $E$ is licensed by the accepted signature row $I$.
 
@@ -77,6 +78,7 @@ Use $H$ and $C$ to move and read the generated output. Componentwise transport p
 
 Package provenance is then supplied by $P$ and the local naming row $N$. The consumer receives a finite certificate over the displayed dependencies, not a host reflection theorem or a global normalization result.
 \end{proof}
+\leanchecked{BEDC.Derived.RecursorGeneratorUp.RecursorGeneratorCarrier\_closed\_term\_handoff}
 
 \begin{theorem}[RecursorGenerator authorized output factorization]
 \label{thm:recursor-generator-authorized-output-factorization}
@@ -86,6 +88,7 @@ $$
 $$
 The factorization reads the legal eliminator call, the constructor-indexed branch package, the audit row, and the MetaCIC closed-term handoff before any output is exposed. Hence no public output can bypass the branch coverage supplied by the $\AuthorizedGeneratorRecursorUp$ surface in \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert}.
 \end{theorem}
+\leanchecked{BEDC.Derived.RecursorGeneratorUp.RecursorGeneratorAuthorizedOutputFactorization}
 \begin{proof}
 Start from the carrier of \autoref{def:recursor-generator-carrier}. It exposes exactly the rows $I,E,B,A,M,H,C,P,N$, so a public generated output has no coordinate outside this tuple.
 
@@ -100,6 +103,7 @@ The sibling $\AuthorizedGeneratorRecursorUp$ reference supplies the public branc
 \label{thm:recursor-generator-branch-descent-exhaustion}
 For an accepted $\RecursorGeneratorUp$ packet, every branch read and every descent read used by a generated recursor output is exhausted by the displayed constructor-indexed branch package $B$ together with the MetaCIC closed-term substitution row $M$. The packet cannot expose an unlisted constructor case, a hidden recursive call, or a descent route outside the authorized recursor surface consumed from \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert}.
 \end{theorem}
+\leanchecked{BEDC.Derived.RecursorGeneratorUp.RecursorGeneratorBranchDescentExhaustion}
 \begin{proof}
 Project the branch package from the carrier of \autoref{def:recursor-generator-carrier}. The row $B$ lists one branch package for each constructor of $I$, including branch inputs, recursive hypotheses, output row, and branch-local $\Pkg$ provenance.
 
@@ -127,6 +131,7 @@ Apply \autoref{thm:recursor-generator-authorization-obligations}, \autoref{thm:r
 
 Therefore a self-compilation row, a $\TasteGate$ row, or a generated-certificate row receives the finite $\RecursorGeneratorUp$ scope package and nothing beyond it.
 \end{proof}
+\leanchecked{BEDC.Derived.RecursorGeneratorUp.RecursorGeneratorDownstreamScopePackage}
 
 \closureat{RecursorGeneratorUp}{seedStr}
 \closureat{RecursorGeneratorUp}{obligationStr}

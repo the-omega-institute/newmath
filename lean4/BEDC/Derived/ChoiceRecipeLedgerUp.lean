@@ -138,6 +138,64 @@ theorem ChoiceRecipeLedgerCarrier_namecert_obligations [AskSetup] [PackageSetup]
       obligationReadUnary, requestRecipesOutput, outputRefusalRoute, routeTransportProvenance,
       provenanceLocalName, localNamePkg, obligationReadPkg, nameCert⟩
 
+theorem ChoiceRecipeLedgerCarrier_finite_recipe_coverage [AskSetup] [PackageSetup]
+    {request recipes output refusal transport route provenance localName coverageRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ChoiceRecipeLedgerCarrier request recipes output refusal transport route provenance localName
+        bundle pkg →
+      Cont recipes refusal coverageRead →
+        PkgSig bundle coverageRead pkg →
+          UnaryHistory request ∧ UnaryHistory recipes ∧ UnaryHistory coverageRead ∧
+            Cont request recipes output ∧ Cont recipes refusal coverageRead ∧
+              PkgSig bundle localName pkg ∧ PkgSig bundle coverageRead pkg ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row coverageRead ∧ UnaryHistory row)
+                  (fun row : BHist => hsame row recipes ∨ hsame row coverageRead)
+                  (fun row : BHist => PkgSig bundle coverageRead pkg ∧ hsame row coverageRead)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier recipesRefusalCoverage coverageReadPkg
+  obtain ⟨requestUnary, recipesUnary, _outputUnary, refusalUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _localNameUnary, requestRecipesOutput, _outputRefusalRoute,
+    _routeTransportProvenance, localNamePkg⟩ := carrier
+  have coverageReadUnary : UnaryHistory coverageRead :=
+    unary_cont_closed recipesUnary refusalUnary recipesRefusalCoverage
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row coverageRead ∧ UnaryHistory row)
+        (fun row : BHist => hsame row recipes ∨ hsame row coverageRead)
+        (fun row : BHist => PkgSig bundle coverageRead pkg ∧ hsame row coverageRead)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro coverageRead ⟨hsame_refl coverageRead, coverageReadUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _row' sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr source.left
+      ledger_sound := by
+        intro _row source
+        exact ⟨coverageReadPkg, source.left⟩
+    }
+  exact
+    ⟨requestUnary, recipesUnary, coverageReadUnary, requestRecipesOutput,
+      recipesRefusalCoverage, localNamePkg, coverageReadPkg, cert⟩
+
 theorem ChoiceRecipeLedgerCarrier_term_stratum_handoff [AskSetup] [PackageSetup]
     {request recipes output refusal transport route provenance localName handoff : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -205,5 +263,228 @@ theorem ChoiceRecipeLedgerEffectiveReplacementBoundary [AskSetup] [PackageSetup]
     ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, replacementUnary,
       requestRecipesOutput, outputRefusalRoute, outputRefusalReplacement, localNamePkg,
       replacementPkg⟩
+
+theorem ChoiceRecipeLedgerCarrier_refusal_route_determinacy [AskSetup] [PackageSetup]
+    {request recipes output refusal transport route provenance localName refusalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ChoiceRecipeLedgerCarrier request recipes output refusal transport route provenance localName
+        bundle pkg →
+      Cont output refusal refusalRead →
+        PkgSig bundle refusalRead pkg →
+          UnaryHistory request ∧ UnaryHistory recipes ∧ UnaryHistory output ∧
+            UnaryHistory refusal ∧ UnaryHistory refusalRead ∧ Cont request recipes output ∧
+              Cont output refusal route ∧ Cont output refusal refusalRead ∧
+                hsame refusalRead route ∧ PkgSig bundle localName pkg ∧
+                  PkgSig bundle refusalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame PkgSig
+  intro carrier outputRefusalRead refusalReadPkg
+  rcases carrier with
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, _transportUnary, _routeUnary,
+      _provenanceUnary, _localNameUnary, requestRecipesOutput, outputRefusalRoute,
+      _routeTransportProvenance, localNamePkg⟩
+  have refusalReadUnary : UnaryHistory refusalRead :=
+    unary_cont_closed outputUnary refusalUnary outputRefusalRead
+  have refusalReadSameRoute : hsame refusalRead route :=
+    cont_deterministic outputRefusalRead outputRefusalRoute
+  exact
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, refusalReadUnary,
+      requestRecipesOutput, outputRefusalRoute, outputRefusalRead, refusalReadSameRoute,
+      localNamePkg, refusalReadPkg⟩
+
+theorem ChoiceRecipeLedgerCarrier_requested_output_accountability [AskSetup] [PackageSetup]
+    {request recipes output refusal transport route provenance localName accountabilityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ChoiceRecipeLedgerCarrier request recipes output refusal transport route provenance localName
+        bundle pkg →
+      Cont request output accountabilityRead →
+        PkgSig bundle accountabilityRead pkg →
+          UnaryHistory request ∧ UnaryHistory recipes ∧ UnaryHistory output ∧
+            UnaryHistory refusal ∧ UnaryHistory accountabilityRead ∧
+              Cont request recipes output ∧ Cont request output accountabilityRead ∧
+                Cont output refusal route ∧ PkgSig bundle localName pkg ∧
+                  PkgSig bundle accountabilityRead pkg ∧
+                    SemanticNameCert
+                      (fun row : BHist => hsame row accountabilityRead ∧ UnaryHistory row)
+                      (fun row : BHist => hsame row output ∨ hsame row accountabilityRead)
+                      (fun row : BHist =>
+                        PkgSig bundle accountabilityRead pkg ∧ hsame row accountabilityRead)
+                      hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont SemanticNameCert hsame
+  intro carrier requestOutputAccountability accountabilityPkg
+  rcases carrier with
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, _transportUnary, _routeUnary,
+      _provenanceUnary, _localNameUnary, requestRecipesOutput, outputRefusalRoute,
+      _routeTransportProvenance, localNamePkg⟩
+  have accountabilityUnary : UnaryHistory accountabilityRead :=
+    unary_cont_closed requestUnary outputUnary requestOutputAccountability
+  have sourceAccountability :
+      (fun row : BHist => hsame row accountabilityRead ∧ UnaryHistory row)
+        accountabilityRead := by
+    exact ⟨hsame_refl accountabilityRead, accountabilityUnary⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row accountabilityRead ∧ UnaryHistory row)
+        (fun row : BHist => hsame row output ∨ hsame row accountabilityRead)
+        (fun row : BHist =>
+          PkgSig bundle accountabilityRead pkg ∧ hsame row accountabilityRead)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro accountabilityRead sourceAccountability
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨accountabilityPkg, source.left⟩
+  }
+  exact
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, accountabilityUnary,
+      requestRecipesOutput, requestOutputAccountability, outputRefusalRoute, localNamePkg,
+      accountabilityPkg, cert⟩
+
+theorem ChoiceRecipeLedgerCarrier_obligation_closure_package [AskSetup] [PackageSetup]
+    {request recipes output refusal transport route provenance localName obligationRead
+      coverageRead handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ChoiceRecipeLedgerCarrier request recipes output refusal transport route provenance localName
+        bundle pkg ->
+      Cont provenance localName obligationRead ->
+        Cont recipes refusal coverageRead ->
+          Cont localName request handoff ->
+            PkgSig bundle obligationRead pkg ->
+              PkgSig bundle coverageRead pkg ->
+                PkgSig bundle handoff pkg ->
+                  UnaryHistory request ∧ UnaryHistory recipes ∧ UnaryHistory output ∧
+                    UnaryHistory refusal ∧ UnaryHistory obligationRead ∧
+                      UnaryHistory coverageRead ∧ UnaryHistory handoff ∧
+                        Cont request recipes output ∧ Cont output refusal route ∧
+                          Cont route transport provenance ∧
+                            Cont provenance localName obligationRead ∧
+                              Cont recipes refusal coverageRead ∧
+                                Cont localName request handoff ∧ PkgSig bundle localName pkg ∧
+                                  PkgSig bundle obligationRead pkg ∧
+                                    PkgSig bundle coverageRead pkg ∧
+                                      PkgSig bundle handoff pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier provenanceLocalName recipesRefusalCoverage localNameRequest
+    obligationReadPkg coverageReadPkg handoffPkg
+  obtain ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, _transportUnary,
+    _routeUnary, provenanceUnary, localNameUnary, requestRecipesOutput, outputRefusalRoute,
+    routeTransportProvenance, localNamePkg⟩ := carrier
+  have obligationReadUnary : UnaryHistory obligationRead :=
+    unary_cont_closed provenanceUnary localNameUnary provenanceLocalName
+  have coverageReadUnary : UnaryHistory coverageRead :=
+    unary_cont_closed recipesUnary refusalUnary recipesRefusalCoverage
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed localNameUnary requestUnary localNameRequest
+  exact
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, obligationReadUnary,
+      coverageReadUnary, handoffUnary, requestRecipesOutput, outputRefusalRoute,
+      routeTransportProvenance, provenanceLocalName, recipesRefusalCoverage, localNameRequest,
+      localNamePkg, obligationReadPkg, coverageReadPkg, handoffPkg⟩
+
+theorem ChoiceRecipeLedgerCarrier_obligation_surface_exhaustion [AskSetup] [PackageSetup]
+    {request recipes output refusal transport route provenance localName obligationRead
+      replacement : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ChoiceRecipeLedgerCarrier request recipes output refusal transport route provenance localName
+        bundle pkg ->
+      Cont provenance localName obligationRead ->
+        Cont output refusal replacement ->
+          PkgSig bundle obligationRead pkg ->
+            PkgSig bundle replacement pkg ->
+              UnaryHistory request ∧ UnaryHistory recipes ∧ UnaryHistory output ∧
+                UnaryHistory refusal ∧ UnaryHistory provenance ∧ UnaryHistory obligationRead ∧
+                  UnaryHistory replacement ∧ Cont request recipes output ∧
+                    Cont output refusal route ∧ Cont route transport provenance ∧
+                      Cont provenance localName obligationRead ∧
+                        Cont output refusal replacement ∧ PkgSig bundle localName pkg ∧
+                          PkgSig bundle obligationRead pkg ∧ PkgSig bundle replacement pkg ∧
+                            SemanticNameCert
+                              (fun row : BHist =>
+                                ChoiceRecipeLedgerCarrier request recipes output refusal transport
+                                    route provenance localName bundle pkg ∧
+                                  hsame row obligationRead)
+                              (fun row : BHist =>
+                                Cont request recipes output ∧ Cont output refusal route ∧
+                                  Cont route transport provenance ∧
+                                    Cont provenance localName row ∧
+                                      PkgSig bundle obligationRead pkg)
+                              (fun row : BHist =>
+                                UnaryHistory row ∧ PkgSig bundle obligationRead pkg)
+                              hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont SemanticNameCert hsame
+  intro carrier provenanceLocalName outputRefusalReplacement obligationReadPkg replacementPkg
+  obtain ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, transportUnary, routeUnary,
+    provenanceUnary, localNameUnary, requestRecipesOutput, outputRefusalRoute,
+    routeTransportProvenance, localNamePkg⟩ := carrier
+  have carrierWitness :
+      ChoiceRecipeLedgerCarrier request recipes output refusal transport route provenance
+          localName bundle pkg :=
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, transportUnary, routeUnary,
+      provenanceUnary, localNameUnary, requestRecipesOutput, outputRefusalRoute,
+      routeTransportProvenance, localNamePkg⟩
+  have obligationReadUnary : UnaryHistory obligationRead :=
+    unary_cont_closed provenanceUnary localNameUnary provenanceLocalName
+  have replacementUnary : UnaryHistory replacement :=
+    unary_cont_closed outputUnary refusalUnary outputRefusalReplacement
+  have nameCert :
+      SemanticNameCert
+        (fun row : BHist =>
+          ChoiceRecipeLedgerCarrier request recipes output refusal transport route provenance
+              localName bundle pkg ∧
+            hsame row obligationRead)
+        (fun row : BHist =>
+          Cont request recipes output ∧ Cont output refusal route ∧
+            Cont route transport provenance ∧
+              Cont provenance localName row ∧ PkgSig bundle obligationRead pkg)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle obligationRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro obligationRead (And.intro carrierWitness (hsame_refl obligationRead))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        ⟨requestRecipesOutput, outputRefusalRoute, routeTransportProvenance,
+          cont_result_hsame_transport provenanceLocalName (hsame_symm source.right),
+          obligationReadPkg⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨unary_transport obligationReadUnary (hsame_symm source.right), obligationReadPkg⟩
+  }
+  exact
+    ⟨requestUnary, recipesUnary, outputUnary, refusalUnary, provenanceUnary,
+      obligationReadUnary, replacementUnary, requestRecipesOutput, outputRefusalRoute,
+      routeTransportProvenance, provenanceLocalName, outputRefusalReplacement, localNamePkg,
+      obligationReadPkg, replacementPkg, nameCert⟩
 
 end BEDC.Derived.ChoiceRecipeLedgerUp

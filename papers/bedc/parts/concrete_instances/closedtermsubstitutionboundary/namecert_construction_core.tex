@@ -69,6 +69,7 @@ S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N),
 $$
 the source closedness row $C_{\mathsf{src}}$ must be exposed before either the shift boundary row $Q$ or the substitution boundary row $R$ can be consumed.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundarySourceClosednessAdmission}
 \begin{proof}
 Project the carrier of \autoref{def:closed-term-substitution-boundary-carrier}. The displayed packet places $C_{\mathsf{src}}$ in the same finite $\BHist$ surface as $Q$ and $R$.
 
@@ -88,6 +89,7 @@ Read the carrier coordinates from \autoref{def:closed-term-substitution-boundary
 
 Apply \autoref{def:closed-term-substitution-boundary-classifier} and \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. Their substitution boundary clause permits a read of $R$ only after the source and value closedness witnesses have been displayed and recorded in the local ledger.
 \end{proof}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryValueClosednessAdmission}
 
 \begin{theorem}[Closed-term substitution boundary substitution-row exactness]
 \label{thm:closed-term-substitution-boundary-substitution-row-exactness}
@@ -97,6 +99,7 @@ S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N),
 $$
 the substitution row $R$ is read only through the finite surface $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},L,A,H,C,P,N$. It exports no free variable, host equality, unchecked compiler state, or subject-reduction theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundarySubstitutionRowExactness}
 \begin{proof}
 Start from the carrier and classifier. \autoref{def:closed-term-substitution-boundary-carrier} lists every row available to the substitution boundary, and \autoref{def:closed-term-substitution-boundary-classifier} allows only displayed $\hsame$ transports and $\Cont$ routes across those rows.
 
@@ -113,6 +116,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
 $$
 The ledger $L$ and audit row $A$ force every consumer read through the displayed $\mathsf{ClosedAt}$ witnesses and boundary-operation rows before it may cite the packet. No consumer receives an unregistered free variable, a hidden host equality witness, unchecked compiler state, or a subject-reduction theorem not carried by the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryLedgerNonEscape}
 \begin{proof}
 Read the carrier coordinates from \autoref{def:closed-term-substitution-boundary-carrier}. The only rows available to a consumer are the two terms, the depth row, the closedness witnesses, the shift and substitution boundary rows, the ledger, the audit row, and the displayed provenance data.
 
@@ -136,6 +140,7 @@ Apply the classifier and NameCert obligations. The classifier permits only compo
 
 Finally use ledger non-escape. Since no row carries an unregistered free variable, host equality witness, unchecked compiler state, subject-reduction theorem, or host shift semantics, every shift read is exhausted by the displayed packet rows.
 \end{proof}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryShiftLedgerExhaustion}
 
 \begin{theorem}[Closed-term substitution boundary substitution-ledger exhaustion]
 \label{thm:closed-term-substitution-boundary-substitution-ledger-exhaustion}
@@ -145,6 +150,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
 $$
 The substitution boundary row $R$ may be read only after the source and value closedness witnesses, the shift boundary row, the ledger row, and the audit row are visible inside the same carrier. It exports no unregistered free variable, hidden host equality, unchecked compiler state, subject-reduction theorem, or host substitution semantics.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundarySubstitutionLedgerExhaustion}
 \begin{proof}
 Start with the carrier and classifier. The local packet displays the substitution row $R$ only as part of the same finite surface as $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,L,A,H,C,P,N$, and the classifier admits only recorded transport of that surface.
 
@@ -168,6 +174,7 @@ Use the carrier, classifier, and NameCert obligations to repack those routes as 
 
 Finally apply ledger non-escape. Subject reduction, compiler correctness, host substitution semantics, host syntax quotients, and unchecked semantic models have no coordinate in the packet, so a self-compilation consumer receives only the finite closed-boundary route.
 \end{proof}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryPacket\_self\_compile\_route}
 
 \begin{theorem}[Closed-term substitution boundary consumer boundary]
 \label{thm:closed-term-substitution-boundary-consumer-boundary}
@@ -192,6 +199,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
 $$
 Thus the binder-budget seal of \autoref{ch:concrete-instances-binderbudgetseal-namecert} may consume the closed shift and substitution facts only through the finite $\BHist$ packet, the componentwise $\hsame$ transports, the displayed $\Cont$ routes, the $\Pkg$ provenance, and the local $\NameCert$ row of \autoref{def:closed-term-substitution-boundary-carrier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryBinderSealFactorization}
 \begin{proof}
 Start with a $\BinderBudgetSealUp$ read that asks for closed shift or closed substitution at the inspected binder depth. The local carrier theorem \autoref{thm:closed-term-substitution-boundary-consumer-boundary} restricts that read to the finite closed-term boundary surface.
 
@@ -208,6 +216,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
 $$
 of $\ClosedTermSubstitutionBoundaryUp$, then repacks the result through the compiler packet's own continuation and $\NameCert$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryCompilerFactorization}
 \begin{proof}
 Project the compiler-facing read to its closed source and closed value premises. The consumer boundary theorem \autoref{thm:closed-term-substitution-boundary-consumer-boundary} identifies those premises with a read of the closed-term substitution boundary carrier rather than with an evaluator theorem.
 
@@ -224,6 +233,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N,
 $$
 followed by the recursor generator's own branch-output packaging.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRecursorHandoff}
 \begin{proof}
 Consider a generated branch that invokes closed substitution while assembling its output. The branch has access to the boundary only through recorded $\Cont$ routes, so \autoref{thm:closed-term-substitution-boundary-consumer-boundary} forces the substitution read to enter the closed-term boundary carrier.
 
@@ -240,6 +250,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N,
 $$
 together with the authorized recursor audit provenance and local naming rows. The authorized recursor may attach its own branch-output boundary, but it cannot read closed substitution through host equality, unchecked compiler state, hidden evaluator data, or subject reduction outside the boundary packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryAuthorizedRecursorAuditRoute}
 \begin{proof}
 Start with the carrier and NameCert obligations of \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. They display the closed source, closed value, operation, ledger, audit, transport, route, provenance, and naming rows that any substitution consumer must read.
 
@@ -252,6 +263,7 @@ Now use the consumer boundary and recursor handoff, \autoref{thm:closed-term-sub
 \label{thm:closed-term-substitution-boundary-output-nonescape}
 Generated output rows downstream of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet cannot export free variables, host equality, unchecked compiler state, or subject reduction outside the packet. Every such output that cites closed shift or closed substitution must carry the displayed boundary rows, the audit row $A$, componentwise $\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, and the local $\NameCert$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryOutputNonescape}
 \begin{proof}
 Read the carrier and the local NameCert obligations. The rows $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ are the whole closed-term substitution surface, with no coordinate for an exported free variable, host equality witness, unchecked compiler state, or ambient subject-reduction theorem.
 
@@ -337,6 +349,7 @@ Use the NameCert obligations of \autoref{thm:closed-term-substitution-boundary-n
 
 Finally apply ledger non-escape and the consumer boundary from \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} and \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. Since every consumer read is already confined to the finite closed-term boundary, the audit-visible part of that read is exactly the route through $A,H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryAuditRoute}
 
 \begin{theorem}[Closed-term substitution boundary shift-budget exhaustion]
 \label{thm:closed-term-substitution-boundary-shift-budget-exhaustion}
@@ -703,6 +716,7 @@ Next use \autoref{thm:closed-term-substitution-boundary-namecert-export-totality
 
 Finally apply \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization}. Since every audit-visible consumer factors through the same carrier and export boundary, every root audit consumer is total over the displayed route and nowhere else.
 \end{proof}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootAuditTotality}
 
 \input{parts/concrete_instances/closedtermsubstitutionboundary/root_unblock_obligation_package}
 \input{parts/concrete_instances/closedtermsubstitutionboundary/root_p10719_obligation_surface}

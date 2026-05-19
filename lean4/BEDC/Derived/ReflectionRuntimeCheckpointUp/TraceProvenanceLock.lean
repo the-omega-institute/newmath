@@ -35,6 +35,7 @@ theorem ReflectionRuntimeCheckpointCarrier_trace_provenance_lock [AskSetup] [Pac
     checkpointMatchesValidation, checkpointPkg'⟩ := obligations
   obtain ⟨_carrierInputUnary, _carrierStateUnary, _carrierTraceUnary, _carrierValidationUnary,
     _transportUnary, provenanceUnary, _carrierInputStateTrace, _carrierTraceValidationRoute,
+    _carrierTraceValidationRoute', _carrierTransportRouteProvenance,
     _carrierProvenanceValidationLocalName, _carrierLocalNameMatchesValidation⟩ := carrier
   have traceReadUnary : UnaryHistory traceRead :=
     unary_cont_closed traceUnary provenanceUnary traceProvenanceRoute
@@ -71,8 +72,9 @@ theorem ReflectionRuntimeCheckpointCarrier_trace_boundary_readback [AskSetup] [P
     traceProvenanceRoute', checkpointMatchesValidation, checkpointPkg'⟩ := locked
   have localNameUnary : UnaryHistory localName := by
     obtain ⟨_inputUnary, _stateUnary, _traceUnary, validationUnary, _transportUnary,
-      _provenanceUnary, _inputStateTrace, _traceValidationRoute,
-      provenanceValidationLocalName, _localNameMatchesValidation⟩ := carrier
+      _provenanceUnary, _inputStateTrace, _traceValidationTransport, _traceValidationRoute,
+      _transportRouteProvenance, provenanceValidationLocalName,
+      _localNameMatchesValidation⟩ := carrier
     exact unary_cont_closed provenanceUnary validationUnary provenanceValidationLocalName
   have boundedUnary : UnaryHistory boundedRead :=
     unary_cont_closed traceReadUnary localNameUnary boundedRoute
@@ -99,8 +101,9 @@ theorem ReflectionRuntimeCheckpointCarrier_state_trace_coupling [AskSetup] [Pack
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
   intro carrier stateTraceRoute validationReadRoute validationReadPkg
   obtain ⟨inputUnary, stateUnary, traceUnary, validationUnary, _transportUnary,
-    _provenanceUnary, inputStateTrace, traceValidationRoute,
-    _provenanceValidationLocalName, _localNameMatchesValidation⟩ := carrier
+    _provenanceUnary, inputStateTrace, _traceValidationTransport, traceValidationRoute,
+    _transportRouteProvenance, _provenanceValidationLocalName,
+    _localNameMatchesValidation⟩ := carrier
   have stateTraceUnary : UnaryHistory stateTraceRead :=
     unary_cont_closed stateUnary traceUnary stateTraceRoute
   have validationReadUnary : UnaryHistory validationRead :=
