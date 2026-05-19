@@ -126,6 +126,7 @@ E=(\varepsilon,W,D,R,S,H,C,P,N)
 $$
 be an accepted $\RealApproximationEnvelopeUp$ carrier. Every accepted tolerance request in $E$ reaches the selected $\StreamNameUp$ finite window by the displayed route through $\varepsilon$, $W$, $H$, $C$, $P$, and $N$, and the readback uses no stream coordinate except those recorded in that finite window row.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealApproximationEnvelopeUp.RealApproximationEnvelope\_window\_readback\_totality}
 \begin{proof}
 The carrier definition in \autoref{def:real-approximation-envelope-carrier} displays $\varepsilon$ as the tolerance request row, $W$ as the selected $\StreamNameUp$ finite-window row, $H$ as the componentwise transport ledger, $C$ as the continuation route ledger, $P$ as provenance, and $N$ as the local certificate.
 
@@ -251,6 +252,28 @@ Next apply \autoref{thm:real-approximation-envelope-dyadic-classifier-handoff} a
 Apply \autoref{thm:real-approximation-envelope-seal-routing} for the real-facing end of the route. The seal row $S$ is reached only after the classifier row $R$, so a seal read cannot bypass the window, dyadic observation, or classifier handoff.
 
 Finally use \autoref{thm:real-approximation-envelope-consumer-boundary}. It rules out selected limits, quotient stream equality, host real equality, completed-real inverse laws, and ambient completeness as replacement routes, leaving the displayed finite chain as the exact public export path.
+\end{proof}
+
+\begin{theorem}[Real approximation-envelope regularity propagation]
+\label{thm:real-approximation-envelope-regularity-propagation}
+Let
+$$
+E=(\varepsilon,W,D,R,S,H,C,P,N)
+$$
+be an accepted $\RealApproximationEnvelopeUp$ carrier. The $\RegSeqRatUp$ classifier row $R$ propagates regularity to the $\RealUp$ seal row $S$ exactly along the finite envelope route
+$$
+\varepsilon \longrightarrow W \longrightarrow D \longrightarrow R \longrightarrow S
+$$
+with support rows $H,C,P,N$. No selected limit, quotient stream equality, host real equality, completed-real inverse law, ambient completeness premise, or second classifier mediates this propagation.
+\end{theorem}
+\begin{proof}
+The carrier definition \autoref{def:real-approximation-envelope-carrier} gives the only available rows of an accepted envelope. Thus a regularity read starting at $R$ can only move through coordinates already present in $E$.
+
+Apply \autoref{thm:real-approximation-envelope-dyadic-observation-soundness} and \autoref{thm:real-approximation-envelope-classifier-handoff}. They place the $\RegSeqRatUp$ classifier row after the tolerance request, finite window, and dyadic observation rows, so the regularity obligation attached to $R$ is already tied to the route $\varepsilon \to W \to D \to R$.
+
+Apply \autoref{thm:real-approximation-envelope-seal-classifier-compatibility} and \autoref{thm:real-approximation-envelope-window-classifier-exactness}. These force the real seal row $S$ to be read after the same classifier row and rule out every route that bypasses the finite window, dyadic observation, classifier handoff, and support rows $H,C,P,N$.
+
+The sibling anchors \texttt{RegSeqRatStreamCarrier\_regularit\_obligation\_surface} and \texttt{RegSeqRatStreamCarrier\_real\_seal\_handoff} name the regularity and seal faces that this envelope exposes. The preceding exactness results show that those faces meet only through the displayed finite chain, not through a selected limit, stream quotient, host equality, completed-real inverse law, ambient completeness premise, or second classifier.
 \end{proof}
 
 \begin{theorem}[Real approximation-envelope obligation coverage]
