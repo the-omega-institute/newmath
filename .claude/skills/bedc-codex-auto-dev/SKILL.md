@@ -162,6 +162,20 @@ disown
 
 `tools/auto_heal_base.py` runs every 15 min (`AUTO_HEAL_INTERVAL_SECONDS` env override, default 900s). Cycle: fetch + ff codex-auto-dev → run `bedc_ci.py audit` → if dup paper labels detected on BASE, invoke codex with `HEAL_DUP_LABELS_PROMPT` to delete the redundant copy (canonical-site rules: hub vs sibling, semantic stem matching). Codex commits the cleanup directly on main checkout, daemon pushes to origin. Without this, a single duplicate-label commit on BASE stalls every subsequent round in audit-fail / SHALLOW-GROWTH cooldown loops indefinitely (observed 2026-05-06: 9 cooldowns × 180s + 36 SHALLOW lints over 30 min before manual surgery resolved). Skips when the working tree is dirty or branch isn't codex-auto-dev — never fights a human edit.
 
+Taste curator daemon (sixth optional component):
+
+```bash
+mkdir -p $REPO/scripts/logs && \
+nohup python3 $REPO/tools/taste_curator.py >> $REPO/scripts/logs/taste_curator.log 2>&1 &
+disown
+```
+
+`tools/taste_curator.py` runs every 60 min (`TASTE_CURATOR_INTERVAL_SECONDS` env override, default from `papers/bedc/taste_curator_config.json`). Cycle: fetch + ff codex-auto-dev → scan changed concrete-instance chapters and Derived carriers → append review candidates to `/tmp/.bedc_taste_review_queue.jsonl` and alerts to `/tmp/.bedc_taste_alerts.log` → cluster auto-fixable findings by flag → evolve the P/R automation rules for the largest cluster. `AUTO_FIX_WITHOUT_CONFIRMATION` defaults true because the daemon edits only worker prompts and audit/lint gates, not chapter content; the daemon hot-loads the config on the next natural cycle.
+
+Rule evolution path: the daemon handles at most one cluster per cycle (`MAX_AUTO_FIXES_PER_CYCLE=1`). It creates `/tmp/wt-taste-evolve-*`, dispatches codex with the cluster evidence and a rule-evolution prompt, then accepts changes only under the whitelist: `papers/bedc/scripts/prompts/*.txt`, `lean4/scripts/prompts/*.txt`, `lean4/scripts/bedc_ci.py`, `papers/bedc/scripts/phase_paper_gates.py`, and `lean4/scripts/phase_d_lint.py`. It rejects any edit under `papers/bedc/parts/concrete_instances/`, `lean4/BEDC/`, or the P/R orchestrator scripts. Verification compiles `bedc_ci.py`, runs `bedc_ci.py audit` as a no-crash gate (new checks may flag existing violations), and runs `make check` for paper prompt/gate changes or `lake build` for Lean prompt/lint changes before merging and pushing.
+
+Existing violations are not directly edited by the taste daemon. They are consumed organically when future P/R rounds touch the affected files: the new prompt rule or audit gate flags the pattern, then the orchestrator's post-rebase audit recovery invokes codex to repair the content as part of that round. Confirmed approvals in `papers/bedc/taste_approvals.json` use the same cluster rule-evolution path and are marked `done` or `failed` after the daemon attempt. No P/R orchestrator restart is needed because prompts are re-read each round and audit/lints run as subprocesses.
+
 ### Verify restart success (two-step, never skip)
 
 After launching, run **two sequential one-shot checks** before declaring the restart healthy. Skipping either check has bitten the operator.
@@ -169,15 +183,15 @@ After launching, run **two sequential one-shot checks** before declaring the res
 **Step 1 — process check:**
 
 ```bash
-ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py|auto_tune_concurrency|auto_heal_base' | grep -v grep
+ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py|auto_tune_concurrency|auto_heal_base|taste_curator.py' | grep -v grep
 ```
 
-All five processes (paper orchestrator, lean orchestrator, sync daemon, autotune daemon, auto-heal daemon) must appear with `PPID=1` (init). If `PPID` is your shell's PID, `disown` didn't take and a session exit will SIGHUP the orchestrator. If any one is missing entirely, the script crashed before it ever wrote a log line — go read the relevant log tail to see the import / argparse error.
+All launched processes (paper orchestrator, lean orchestrator, sync daemon, autotune daemon, auto-heal daemon, plus taste curator if enabled) must appear with `PPID=1` (init). If `PPID` is your shell's PID, `disown` didn't take and a session exit will SIGHUP the orchestrator. If any one is missing entirely, the script crashed before it ever wrote a log line — go read the relevant log tail to see the import / argparse error.
 
 **Step 2 — progress check:**
 
 ```bash
-sleep 8 && tail -3 $REPO/lean4/scripts/logs/orchestrator.log; echo '---paper---'; tail -3 $REPO/papers/bedc/scripts/logs/orchestrator.log; echo '---sync---'; tail -3 $REPO/scripts/logs/sync_daemon.log
+sleep 8 && tail -3 $REPO/lean4/scripts/logs/orchestrator.log; echo '---paper---'; tail -3 $REPO/papers/bedc/scripts/logs/orchestrator.log; echo '---sync---'; tail -3 $REPO/scripts/logs/sync_daemon.log; echo '---taste---'; tail -3 $REPO/scripts/logs/taste_curator.log
 ```
 
 Each log should show recent timestamps (within the last ~10s for orchestrators; within the last ~600s for sync) and substantive lines: `Phase B: Target selection...` / `Phase REVIEW: theory audit...` / `Calling codex exec ...` for the orchestrators; `[sync] [sync] done: ... synchronized` or `[sync] already on codex-auto-dev` for the daemon. **Use one-shot `tail -N`, not persistent `tail -F`.** A persistent `tail -F` blocks forever waiting for output, so if startup actually crashed silently between Step 1 and Step 2 (e.g. PID-lock not released, port in use, env var missing), the persistent monitor never fires a notification — you'd think you were watching it and it'd just be hanging. One-shot tails return immediately and let you verify by inspection.
