@@ -223,8 +223,8 @@ _PAPER_BASE_WEIGHTS = {
     "carrier_isomorphism_capstone": 0.10,
 }
 _PAPER_PRIORITY_BASE = {
-    "human_derivation_gap": 0.55,
-    "metacic_priority": 0.45,
+    "human_derivation_gap": 0.8235,
+    "metacic_priority": 0.1765,
 }
 _HUMAN_CANONICAL_TERMS = (
     "canonical", "complete", "completion", "cauchy", "banach",
