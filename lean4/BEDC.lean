@@ -3619,6 +3619,7 @@ import BEDC.Derived.RefuterTraceUp.TasteGate
 import BEDC.Derived.RegSeqObservationBudgetUp.TasteGate
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
+import BEDC.Derived.RegSeqRatUp.CommonTailWindow
 import BEDC.Derived.RegSeqRatUp.StreamNameDyadicRealHandoff
 import BEDC.Derived.RegistryChangeContinuityUp.TasteGate
 import BEDC.Derived.RegistryConsistencyAuditUp.TasteGate
@@ -3725,7 +3726,6 @@ import BEDC.Derived.RelationalFrameAuditUp.Carrier
 import BEDC.Derived.RelationalFrameAuditUp.TasteGate
 import BEDC.Derived.RelationalObjectivityUp.ObserverFamilySource
 import BEDC.Derived.RelationalObjectivityUp.TasteGate
-import BEDC.Derived.RelationalPhysicsUp
 import BEDC.Derived.RepresentationRingUp
 import BEDC.Derived.RepresentationRingUp.InducedConsumerBoundary
 import BEDC.Derived.RepresentationRingUp.ObligationInventory
@@ -4460,6 +4460,7 @@ import BEDC.Derived.ZnormalUp.RootSiblingRefusalExhaustion
 import BEDC.Derived.ZnormalUp.RootTerminalCarrierAdmission
 import BEDC.Derived.ZnormalUp.RootTerminalNonescapeInterface
 import BEDC.Derived.ZnormalUp.RootTerminalNormalityExposure
+import BEDC.Derived.ZnormalUp.RootTerminalReadbackLedgerTotality
 import BEDC.Derived.ZnormalUp.RootTotalHostBridgeComponents
 import BEDC.Derived.ZnormalUp.RootTotalHostConsumerReadbackLock
 import BEDC.Derived.ZnormalUp.RootTotalHostFuelFrontier
@@ -4469,6 +4470,7 @@ import BEDC.Derived.ZnormalUp.RootTotalHostRefusal
 import BEDC.Derived.ZnormalUp.RootTotalHostRefusalLedger
 import BEDC.Derived.ZnormalUp.RootTotalHostSourcePacket
 import BEDC.Derived.ZnormalUp.RootUnblockNonescapeLedger
+import BEDC.Derived.ZnormalUp.RootVisibleSourcePackage
 import BEDC.Derived.ZnormalUp.TasteGate
 import BEDC.Derived.ZnormalUp.TasteGateFieldReadbackLock
 import BEDC.Derived.ZnormalUp.TasteGateScopeBinding
