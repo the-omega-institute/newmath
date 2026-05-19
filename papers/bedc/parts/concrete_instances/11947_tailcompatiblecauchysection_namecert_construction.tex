@@ -119,19 +119,6 @@ Use \autoref{thm:tail-compatible-cauchy-section-classifier-transport} to transpo
 Finally, \autoref{thm:tail-compatible-cauchy-section-real-seal-boundary} closes the route at the $\RealUp$ seal. Since the boundary theorem excludes host reals, quotient-stream equality, chosen limits, detached selectors, countable-choice rows, and ambient completeness witnesses, no component scope outside the displayed five can be read from an accepted packet.
 \end{proof}
 
-\begin{closurestatus}{\TailCompatibleCauchySectionUp}
-  \constructivestory{The tail-compatible Cauchy section is generated from a $BHist$ packet that records a Cauchy section, its modulus-selected index pair, finite tail witnesses, and the classifier that checks compatibility with the RealUp seal boundary. The carrier reads the section only through those tail rows; $hsame$ transports the same finite witness data when a history representative changes. Continuation data may extend the section route, but $\Cont$ must preserve the tail-compatible classifier already recorded. The NameCert surface is therefore a composite certificate: it connects a Cauchy section to StreamName, finite observation budget, RegSeqRat, DyadicRatCore, and RealUp through visible tail evidence.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter binds the tail-compatible Cauchy-section carrier, classifier, index-determinacy row, classifier-transport row, continuation-replay row, NameCert obligations, and RealUp seal-boundary theorem.}
-  \formalstatus{\theoremCheckedV}
-  \leanchecked{BEDC.Derived.TailCompatibleCauchySectionUp.taste\_gate}
-  \leantarget{BEDC.Derived.TailCompatibleCauchySectionUp.TailCompatibleCauchySectionTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
-  \origin{ai-composite}
-  \notclaimed{It does not claim arbitrary Cauchy section choice, quotient-stream equality, host real equality, or Real equality outside the finite tail-compatible witness route.}
-  \upgradepath{Reaching scopedClosure requires explicit StreamName, DyadicRatCore, RegSeqRat, RealUp, and FiniteObservationBudgetSelector scope binding for the displayed section route.}
-\end{closurestatus}
-
 \begin{theorem}[Tail-compatible Cauchy section RealUp seal boundary]
 \label{thm:tail-compatible-cauchy-section-real-seal-boundary}
 Every $\RealUp$-facing consumer read of an accepted $\TailCompatibleCauchySectionUp$ packet factors through the finite route
@@ -147,3 +134,31 @@ Next read the component surfaces in order. The $\StreamNameUp$ row supplies the 
 
 Only then can the $\RealUp$ seal row be consumed, and it is preserved solely through the displayed transport, replay, provenance, and local naming rows. Since none of the carrier coordinates is a host real, quotient stream equality, chosen limit, detached selector, countable-choice row, or ambient completeness witness, no Real-facing consumer can obtain such data from the section packet.
 \end{proof}
+
+\begin{theorem}[Tail-compatible Cauchy section scoped component readiness]
+\label{thm:tail-compatible-cauchy-section-scoped-component-readiness}
+Every accepted $\TailCompatibleCauchySectionUp$ section route is scoped by the displayed $\StreamNameUp$ window exposure, $\FiniteObservationBudgetSelectorUp$ budget admission, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and $\RealUp$ seal, together with the supporting $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\TailCompatibleCauchySectionUp}$ rows. These rows are the whole component scope exported by the packet: they do not expose a host real, quotient stream equality, detached selector, countable-choice row, or ambient completeness witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.BHistArity14TupleNameCertUp.BHistArity14TupleNameCertCarrierAdmission}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:tail-compatible-cauchy-section-namecert-obligations}. They list the carrier admission surface, the two displayed diagonal-section computations, and the ordered component rows from stream window through RealUp seal.
+
+The index-determinacy theorem \autoref{thm:tail-compatible-cauchy-section-index-determinacy} fixes the route selected by the regular-Cauchy family, modulus, and precision request. The component-scope binding theorem \autoref{thm:tail-compatible-cauchy-section-component-scope-binding} then identifies the only component scopes available along that route as $\StreamNameUp$, $\FiniteObservationBudgetSelectorUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.
+
+Use classifier transport and continuation replay from \autoref{thm:tail-compatible-cauchy-section-classifier-transport} and \autoref{thm:tail-compatible-cauchy-section-continuation-replay} to keep the same rows under $\hsame$ transport and $\Cont$ replay. The $\Pkg$ and local $\NameCert$ rows source and name the same finite factorization rather than adding a further carrier scope.
+
+Finally apply the RealUp seal boundary theorem \autoref{thm:tail-compatible-cauchy-section-real-seal-boundary}. It makes the $\RealUp$ seal the terminal read of the finite route and excludes host reals, quotient-stream equality, detached selectors, countable-choice rows, and ambient completeness witnesses from the exported packet surface.
+\end{proof}
+
+\begin{closurestatus}{\TailCompatibleCauchySectionUp}
+  \constructivestory{The tail-compatible Cauchy section is generated from a $BHist$ packet that records a Cauchy section, its modulus-selected index pair, finite tail witnesses, and the classifier that checks compatibility with the RealUp seal boundary. The carrier reads the section only through those tail rows; $hsame$ transports the same finite witness data when a history representative changes. Continuation data may extend the section route, but $\Cont$ must preserve the tail-compatible classifier already recorded. The NameCert surface is therefore a composite certificate: it connects a Cauchy section to StreamName, finite observation budget, RegSeqRat, DyadicRatCore, and RealUp through visible tail evidence.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{This chapter binds the tail-compatible Cauchy-section carrier, classifier, index-determinacy row, classifier-transport row, continuation-replay row, NameCert obligations, component scope binding, RealUp seal boundary, and scoped component readiness for the displayed section route.}
+  \formalstatus{\axiomCleanV}
+  \leanchecked{BEDC.Derived.TailCompatibleCauchySectionUp.taste\_gate}
+  \leantarget{BEDC.Derived.TailCompatibleCauchySectionUp.TailCompatibleCauchySectionTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai-composite}
+  \notclaimed{It does not claim arbitrary Cauchy section choice, quotient-stream equality, host real equality, or Real equality outside the finite tail-compatible witness route.}
+  \upgradepath{Public closure requires an exported consumer surface or bridge evidence for the same StreamName, finite-budget, RegSeqRat, DyadicRatCore, RealUp, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+\end{closurestatus}

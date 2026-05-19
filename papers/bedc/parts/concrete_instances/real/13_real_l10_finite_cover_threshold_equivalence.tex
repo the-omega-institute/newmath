@@ -211,3 +211,58 @@ readiness, and terminal-pullback results leave no aggregate status, bridge
 row, quotient stream equality, selected limit, choice principle,
 metric-completeness datum, or ambient $\RealUp$ completeness coordinate.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal finite-cover face minimality]
+\label{thm:real-l10-terminal-finite-cover-face-minimality}
+Let $T$ be an accepted terminal finite-window $\RealUp$ read satisfying the
+current Phase Real and Completion objectwise exit threshold, with displayed
+$\DyadicRatCoreUp$ endpoint and radius ledger, $\StreamNameUp$ finite-window
+schedule, $\RegSeqRatUp$ regularity and classifier rows, local $\RealUp$ seal
+rows, and shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+Then every finite certified cover witnessing the terminal finite-cover
+threshold equivalence for $T$ is face-minimal in the following sense.
+\begin{enumerate}
+\item The cover must retain the $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and local $\RealUp$ faces on the displayed terminal support.
+\item The cover must retain the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ rows through the same common support.
+\item Deleting any one of these faces or support rows makes the resulting
+subcover inadmissible as a witness for the terminal threshold.
+\item No aggregate $\formalstatus$, bridge row, quotient stream, selected
+limit, countable-choice row, metric-completeness datum, or ambient $\RealUp$
+completeness row can replace the deleted face or support row.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-l10-terminal-finite-cover-threshold-equivalence}. The
+accepted threshold for $T$ is equivalent to gluing and descent of finite
+certified covers to the same four-face packet over $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ seal, with the shared
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Apply \autoref{thm:real-l10-terminal-pullback-coherence}. This identifies the
+accepted terminal read with that four-face packet, so a cover witnessing the
+threshold is not merely a route credential: it is a cover whose visible support
+contains the dyadic ledger, the StreamName finite window, the RegSeqRat
+classifier and readback rows, the local Real seal, and the shared support rows.
+
+It remains to rule out removing a displayed face. Use
+\autoref{thm:streamname-common-refinement-terminal-subcover-exactness} for the
+StreamName finite-window subcover, use
+\autoref{thm:regseqrat-common-tail-terminal-four-face-cocycle-uniqueness} for
+the RegSeqRat common-tail and cocycle rows, and use
+\autoref{thm:dyadicratcore-l10-exit-namecert-interface} for the dyadic endpoint,
+radius, distance, and local $\NameCert$ interface. These results make each
+face visible in the common support consumed by the terminal packet.
+
+Finally apply the noncollapse clauses from
+\autoref{thm:real-l10-terminal-finite-cover-threshold-equivalence},
+\autoref{thm:real-l10-face-status-noncollapse}, and
+\autoref{thm:real-l10-face-leantarget-noncollapse}. They keep route-level
+status, bridge, quotient-stream, selected-limit, choice,
+metric-completeness, and ambient completeness data outside the objectwise face
+inventory, so none of those rows can compensate for a missing
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, local $\RealUp$, or shared
+support row.
+\end{proof}
