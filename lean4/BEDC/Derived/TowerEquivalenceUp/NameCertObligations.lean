@@ -55,4 +55,34 @@ theorem TowerEquivalence_namecert_obligations [AskSetup] [PackageSetup]
     ⟨rfl, endpointReadUnary, ledgerReadUnary, descentReadUnary, endpointRoute, ledgerRoute,
       descentRoute, descentPkg⟩
 
+theorem TowerEquivalence_ledger_descent_stability
+    {tower tower' approx approx' physical physical' openFit openFit' objectivity ledger descent
+      endpoint transport provenance name ledger' descent' route route' : BHist} :
+    UnaryHistory ledger' ->
+      UnaryHistory descent' ->
+        hsame ledger ledger' ->
+          hsame descent descent' ->
+            Cont ledger descent route ->
+              Cont ledger' descent' route' ->
+                towerEquivalenceFields
+                    (TowerEquivalenceUp.mk tower tower' approx approx' physical physical'
+                      openFit openFit' objectivity ledger descent endpoint transport
+                      provenance name) =
+                  [tower, tower', approx, approx', physical, physical', openFit, openFit',
+                    objectivity, ledger, descent, endpoint, transport, provenance, name] ∧
+                  towerEquivalenceFields
+                      (TowerEquivalenceUp.mk tower tower' approx approx' physical physical'
+                        openFit openFit' objectivity ledger' descent' endpoint transport
+                        provenance name) =
+                    [tower, tower', approx, approx', physical, physical', openFit, openFit',
+                      objectivity, ledger', descent', endpoint, transport, provenance, name] ∧
+                    UnaryHistory route' ∧ hsame route route' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro ledgerUnary' descentUnary' sameLedger sameDescent ledgerRoute ledgerRoute'
+  have routeUnary' : UnaryHistory route' :=
+    unary_cont_closed ledgerUnary' descentUnary' ledgerRoute'
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameLedger sameDescent ledgerRoute ledgerRoute'
+  exact ⟨rfl, rfl, routeUnary', sameRoute⟩
+
 end BEDC.Derived.TowerEquivalenceUp
