@@ -462,6 +462,7 @@ import BEDC.Derived.BanachUp.IdentityUnits
 import BEDC.Derived.BareObjectRefusalUp.TasteGate
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.BedcPhilosophyPackageUp.TasteGate
+import BEDC.Derived.BedcSelfSubstrateUp.ObligationSurface
 import BEDC.Derived.BedcSelfSubstrateUp.TasteGate
 import BEDC.Derived.BedcTheoryIdentityUp.TasteGate
 import BEDC.Derived.BeliefUp
@@ -1608,6 +1609,7 @@ import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DensityMatrixUp
+import BEDC.Derived.DependentCodomainClosurePreservationUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.DerivedCatUp
 import BEDC.Derived.DerivedFunctorUp
@@ -3116,6 +3118,7 @@ import BEDC.Derived.OnticAdequacyAuditUp.TasteGate
 import BEDC.Derived.OnticResidueLatticeUp.TasteGate
 import BEDC.Derived.OnticResidueLedgerUp.TasteGate
 import BEDC.Derived.OnticStateUp.ComponentwiseTransportScope
+import BEDC.Derived.OnticStateUp.NameCertObligationSurface
 import BEDC.Derived.OnticStateUp.ResidueLedgerExactness
 import BEDC.Derived.OnticStateUp.SignatureStability
 import BEDC.Derived.OnticStateUp.TasteGate
@@ -3418,7 +3421,6 @@ import BEDC.Derived.RationalIntervalUp.ConsumerReadbackSemanticNameCertificate
 import BEDC.Derived.RationalIntervalUp.DyadicNestedAmalgamationNormalForm
 import BEDC.Derived.RationalIntervalUp.FiniteConsumerCompleteness
 import BEDC.Derived.RationalIntervalUp.NameCertObligationSurface
-import BEDC.Derived.RationalIntervalUp.OverlapRegSeqRatHandoffExactness
 import BEDC.Derived.RationalIntervalUp.Refinement
 import BEDC.Derived.RationalIntervalUp.RefinementNormalForm
 import BEDC.Derived.RationalIntervalUp.TerminalSeal
@@ -3450,6 +3452,7 @@ import BEDC.Derived.RealCompletionExactBoundaryUp.RealSealNonescape
 import BEDC.Derived.RealCompletionExactBoundaryUp.StreamNameRegSeqRoute
 import BEDC.Derived.RealCompletionExactBoundaryUp.TasteGate
 import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalRoutePullback
+import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalSealDeterminacy
 import BEDC.Derived.RealCompletionRouteAuditUp.TasteGate
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealCompletionSelectorSealUp
@@ -4383,6 +4386,7 @@ import BEDC.Derived.ZnormalUp
 import BEDC.Derived.ZnormalUp.CarryClassifierRow
 import BEDC.Derived.ZnormalUp.ClassifierTransport
 import BEDC.Derived.ZnormalUp.DecisionRouteExhaustion
+import BEDC.Derived.ZnormalUp.DivergenceOracleNonescapeRow
 import BEDC.Derived.ZnormalUp.DownstreamConsumerBoundary
 import BEDC.Derived.ZnormalUp.FiniteFuelClassifierStability
 import BEDC.Derived.ZnormalUp.FiniteNormalwordClassifierCompatibility
@@ -4393,8 +4397,6 @@ import BEDC.Derived.ZnormalUp.NamecertLedgerExhaustion
 import BEDC.Derived.ZnormalUp.NormalFormConsumerBoundary
 import BEDC.Derived.ZnormalUp.NormalFormReadinessSupportTotality
 import BEDC.Derived.ZnormalUp.NormalWordContinuationScopeLock
-import BEDC.Derived.ZnormalUp.ReadbackObligationTriad
-import BEDC.Derived.ZnormalUp.ReadinessBridgeSource
 import BEDC.Derived.ZnormalUp.RootBridgeComponents
 import BEDC.Derived.ZnormalUp.RootClassifierStability
 import BEDC.Derived.ZnormalUp.RootConstructorReadback
@@ -4424,6 +4426,7 @@ import BEDC.Derived.ZnormalUp.RootTotalHostSourcePacket
 import BEDC.Derived.ZnormalUp.RootUnblockNonescapeLedger
 import BEDC.Derived.ZnormalUp.TasteGate
 import BEDC.Derived.ZnormalUp.TasteGateFieldReadbackLock
+import BEDC.Derived.ZnormalUp.TasteGateScopeBinding
 import BEDC.Derived.ZnormalUp.TerminalBoundaryNonescape
 import BEDC.Derived.ZnormalUp.TerminalConsumerTotality
 import BEDC.Derived.ZnormalUp.TerminalFuelReadbackFrontier
