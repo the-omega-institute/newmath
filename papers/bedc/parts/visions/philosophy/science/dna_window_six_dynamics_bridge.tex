@@ -1,0 +1,313 @@
+\subsection{DNA window-six symbolic-physical dynamics}
+\label{subsec:philosophy-dna-window-six-dynamics-bridge}
+
+The codon-window bridge of
+\autoref{subsec:philosophy-codon-window-six-bridge} identifies a codon
+with a six-bit local source window, and the stop-codon bridge of
+\autoref{subsec:philosophy-stop-codon-zeckendorf-suffix-bridge}
+identifies the standard stop class as a Zeckendorf-legal L-shape inside
+the $\mathrm{U}+\mathrm{RR}$ square. The dynamic bridge adds a further
+discipline: DNA and RNA should not be treated merely as static code
+tables. They form a relative symbolic-physical layer with local windows,
+frames, stop boundaries, raw-codon ledgers, and state transitions
+executed through cellular machinery.
+
+The word ``relative'' is load-bearing. Replication, transcription,
+repair, translation, release, accessibility changes, and chromatin
+updates are performed by polymerases, ribosomes, release factors, repair
+enzymes, chromatin proteins, tRNA pools, regulatory factors, and
+cellular context. The bridge therefore does not claim that DNA is a
+closed autonomous dynamics. It claims that DNA/RNA reading has a
+symbolic state space and transition surface rich enough to require its
+own ledger rather than collapsing into the final protein class.
+
+\begin{definition}[DNA window-six dynamics bridge]
+\label{def:philosophy-dna-window-six-dynamics-bridge}
+A DNA window-six dynamics bridge is a conservative biological bridge
+whose source field contains RNA or DNA sequence histories together with
+the two-axis base readback of
+\autoref{def:philosophy-rna-two-axis-readback}. Its pattern field
+records local codon windows, frame movement, stop-boundary transitions,
+replication, transcription, repair, mutation, recombination, and
+accessibility updates. Its classifier field includes the codon
+classifier, stop classifier, amino-acid classifier, and
+microstate-preserving synonymous-codon classifier. Its stability field
+requires frame-step closure, window-six readback stability,
+stop-boundary determinacy under a fixed biological code table, and
+ledger transport under explicit cellular-context parameters. Its ledger
+policy preserves the raw codon, frame position, base-axis bits, code
+table, release-factor or tRNA context when used, accessibility state,
+and biological bridge metadata.
+\end{definition}
+
+\begin{definition}[Translation state]
+\label{def:philosophy-translation-state}
+A translation state has the schematic form
+$$
+  q_{t}
+  :=
+  (f_{t},c_{t},r_{t},\kappa_{t}),
+$$
+where $f_{t}$ records the current frame, $c_{t}$ records the current
+codon, $r_{t}$ records ribosomal or release status, and $\kappa_{t}$
+records the cellular context relevant to the bridge. In the minimal
+finite model, the context is suppressed and the state is
+$$
+  q_{t}:=(f_{t},c_{t}).
+$$
+\end{definition}
+
+\begin{definition}[Elongation and stop transitions]
+\label{def:philosophy-elongation-stop-transitions}
+For a non-stop codon $c_{t}$ with
+$$
+  \mathsf{TranslateClassifier}(c_{t})
+  =
+  \mathsf{AminoAcid}(a),
+$$
+the elongation transition advances the frame by one codon and records
+the emitted amino-acid class together with the raw codon:
+$$
+  q_{t}\longrightarrow q_{t+1}.
+$$
+For a stop codon with
+$$
+  \mathsf{TranslateClassifier}(c_{t})=\mathsf{Stop},
+$$
+the transition enters a halted or release state:
+$$
+  q_{t}\longrightarrow q_{\mathsf{halt}}.
+$$
+\end{definition}
+
+\begin{theorem}[Stop codons are boundary states]
+\label{thm:philosophy-stop-codons-boundary-states}
+Under the standard-code biological bridge, the codons
+$\mathrm{UAA}$, $\mathrm{UAG}$, and $\mathrm{UGA}$ are translation
+boundary states.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-three-stop-reconstruction}, the
+Zeckendorf-family stop candidate under the chosen two-axis readback is
+exactly $\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}$. The external
+standard-code bridge supplies the biological classifier row that reads
+these codons as stop signals. Combining the finite reconstruction with
+that bridge row gives the transition
+$q_{t}\to q_{\mathsf{halt}}$ for precisely those three standard-code
+codons. This is a bridge theorem, not a BEDC kernel theorem about
+biology.
+\end{proof}
+
+\begin{definition}[Expanded DNA dynamic state]
+\label{def:philosophy-expanded-dna-dynamic-state}
+The local six-bit codon cube
+$$
+  Q_{6}:=\{0,1\}^{6}
+$$
+is sufficient for local codon classification but not for the full
+symbolic-physical dynamics. A minimal expanded state has the form
+$$
+  S_{\mathsf{DNA}}
+  :=
+  \Sigma^{n}
+  \times
+  \mathsf{FrameState}
+  \times
+  \mathsf{EpigeneticState}
+  \times
+  \mathsf{ChromatinTopologyState}
+  \times
+  \mathsf{CellularEnzymeContext}
+  \times
+  \mathsf{TranslationContext}
+  \times
+  \mathsf{RepairContext}.
+$$
+Equivalently, a compressed state may be displayed as
+$$
+  D_{t}:=(s_{t},f_{t},e_{t},c_{t},\kappa_{t}),
+$$
+where $s_{t}$ is the sequence state, $f_{t}$ is the frame and window
+position, $e_{t}$ records epigenetic marks, $c_{t}$ records accessibility
+and topology, and $\kappa_{t}$ records cellular machinery and regulatory
+context.
+\end{definition}
+
+\begin{definition}[DNA transition families]
+\label{def:philosophy-dna-transition-families}
+The dynamic bridge names transition families rather than imposing a
+universal execution order:
+$$
+\begin{array}{c|l}
+  R & \text{replication}\\
+  T & \text{transcription or selective readout}\\
+  L & \text{translation}\\
+  M & \text{mutation}\\
+  P & \text{repair}\\
+  G & \text{recombination or genome rearrangement}\\
+  E & \text{epigenetic update}\\
+  C & \text{chromatin or topology update}\\
+  F & \text{feedback from protein or translation state}
+\end{array}
+$$
+The schematic form is
+$$
+  D_{t+1}=\Phi(D_{t};\kappa_{t}),
+$$
+where the active components of $\Phi$ depend on cell state and bridge
+context. No fixed composition such as
+$C\circ E\circ P\circ M\circ R\circ T\circ L$ is licensed as a universal
+biological sequence.
+\end{definition}
+
+\begin{theorem}[Window six is local but incomplete]
+\label{thm:philosophy-window-six-local-incomplete}
+The local state $Q_{6}$ captures the codon-level classifier domain, but
+it does not exhaust DNA dynamics.
+\end{theorem}
+\begin{proof}
+Two biological states may share the same local six-bit codon window and
+differ in frame, methylation, histone-related marks, chromatin
+accessibility, polymerase status, ribosome state, repair status,
+release-factor availability, tRNA context, or code-table variant. Those
+differences may change whether the sequence is copied, read, repaired,
+translated, released, or ignored. Hence $Q_{6}$ is a local classifier
+domain, while the dynamic bridge must also record sequence position,
+frame, accessibility, repair, and cellular-machine context.
+\end{proof}
+
+\begin{definition}[Codon microstate ledger]
+\label{def:philosophy-codon-microstate-ledger}
+A codon microstate ledger is a bridge row
+$$
+  \mathsf{CodonLedger}(c,o,\kappa)
+$$
+recording the raw codon $c$, frame position, output class $o$, tRNA or
+release-factor context when used, codon-usage or optimality data when
+used, source code table, and variant-code metadata. The ledger separates
+the codon microstate from the amino-acid or stop class to which it is
+classified.
+\end{definition}
+
+\begin{theorem}[Translation does not collapse codon microstates]
+\label{thm:philosophy-translation-not-microstate-collapse}
+If two codons classify to the same amino-acid class, the biological
+bridge must still retain their raw codon rows whenever dynamic effects
+are in scope.
+\end{theorem}
+\begin{proof}
+The amino-acid output is a many-to-one classifier. If the raw codon were
+discarded, the bridge could not express codon usage, elongation-rate
+differences, mRNA-stability effects, tRNA-context dependence, or
+variant-code reassignment. Therefore the translation classifier is a
+ledger-preserving quotient, not a deletion of source microstate.
+\end{proof}
+
+\begin{definition}[Variant-code deformation fields]
+\label{def:philosophy-variant-code-deformation-fields}
+Non-standard genetic codes are recorded as deformations of biological
+bridge fields. A variant may change the stop-shape region, the
+translation classifier, release-factor or release-mechanism rows, the
+biological code table attached to the readback, or the cellular context
+that permits readthrough, recoding, or organellar translation. Such
+deformations do not refute the finite stop-square enumeration; they
+change the bridge target in which that enumeration is interpreted.
+\end{definition}
+
+\begin{definition}[Dynamic bridge modules]
+\label{def:philosophy-dynamic-bridge-modules}
+The dynamic research program decomposes into seven modules:
+\begin{description}
+  \item[Channel and Zeckendorf termination.]
+  Preserve the no-internal-$11$, first-$11$, and layer-separation
+  theorems for the BEDC channel.
+
+  \item[RNA four-phase and window six.]
+  Record $\mathsf{RNA4Alphabet}^{\uparrow}:=\BoolUp\times\BoolUp$,
+  the $\mathsf{Flat}_{6}$ map, and the codon-window ledger.
+
+  \item[Stop L-shape reconstruction.]
+  Retain $\mathsf{UPurPur}$, family suffix, Zeckendorf-legality, the
+  three-stop theorem, and the $\mathrm{UGG}$ excluded-corner row.
+
+  \item[Translation dynamics.]
+  Define translation states, elongation transitions, stop transitions,
+  and the halted or release state.
+
+  \item[DNA state-space dynamics.]
+  Define expanded sequence, frame, accessibility, chromatin, repair,
+  mutation, and cellular-context fields.
+
+  \item[Microstate ledger.]
+  Separate raw codon rows from amino-acid or stop output classes and
+  record synonymous-codon non-collapse.
+
+  \item[Release factors and variants.]
+  Compare the RF1/RF2 L-shape bridge with variant-code deformation
+  fields.
+\end{description}
+\end{definition}
+
+\begin{definition}[Dynamic bridge figures]
+\label{def:philosophy-dynamic-bridge-figures}
+The bridge has three stable display forms. The two-axis base atlas is
+$$
+\begin{array}{c|cc}
+   & \mathrm{W} & \mathrm{S}\\
+\hline
+  \mathrm{Y} & \mathrm{U} & \mathrm{C}\\
+  \mathrm{R} & \mathrm{A} & \mathrm{G}
+\end{array}
+$$
+The stop square is the L-shape of
+\autoref{def:philosophy-stop-square-diagram}. The dynamic state
+inclusion is
+$$
+  Q_{6}
+  \subset
+  S_{\mathsf{DNA}},
+$$
+where $Q_{6}$ is the local codon window and
+$S_{\mathsf{DNA}}$ is the expanded sequence-frame-accessibility-context
+state.
+\end{definition}
+
+\begin{theorem}[Dynamic bridge cannot-claim boundary]
+\label{thm:philosophy-dynamic-bridge-cannot-claim-boundary}
+The DNA window-six dynamics bridge does not license any claim that
+Zeckendorf or window six forces DNA biology, that DNA has a fully
+autonomous closed dynamics independent of cellular machinery, that the
+BEDC channel terminator is identical to a biological stop codon, that
+the family suffix $11$ in $\mathrm{UGG}$ is the channel terminator, that
+the standard stop codons are universal across all genetic codes, that
+$\mathrm{UGG}$ is tryptophan by BEDC logic alone, that synonymous codons
+are dynamically identical after amino-acid classification, that the DNA
+state space is exhausted by $Q_{6}$, that $\Phi$ has a universal fixed
+composition order, that the biological bridge replaces
+$\NameCert$ obligations, or that
+$\mathsf{DNAWindow6Dynamics}^{\uparrow}$ is already checked.
+\end{theorem}
+\begin{proof}
+The channel-token and stop-codon refusals are inherited from
+\autoref{thm:philosophy-zstop-cannot-claim-boundary} and
+\autoref{thm:philosophy-codon-window-cannot-claim-boundary}. The
+autonomy and state-space refusals follow from
+\autoref{thm:philosophy-window-six-local-incomplete}. The synonymous
+codon refusal follows from
+\autoref{thm:philosophy-translation-not-microstate-collapse}. The
+fixed-order refusal follows from
+\autoref{def:philosophy-dna-transition-families}. The checked-status
+refusal follows because the present subsection is a vision-level
+biological bridge plan rather than a Lean target.
+\end{proof}
+
+\begin{corollary}[Allowed dynamic bridge claim]
+\label{cor:philosophy-dynamic-bridge-allowed-claim}
+Under a standard-code biological bridge, window six and the no-$11$
+motif supply a structural model for local DNA and RNA reading and
+stop-boundary dynamics. The three standard stop codons form the
+Zeckendorf-legal L-shape in the $\mathrm{U}+\mathrm{RR}$ square, and the
+broader DNA layer is modeled as a relative symbolic-physical dynamics
+with state, context, transitions, and ledger-preserved codon
+microstates.
+\end{corollary}
