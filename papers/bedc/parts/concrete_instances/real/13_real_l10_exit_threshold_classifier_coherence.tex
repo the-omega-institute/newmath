@@ -138,6 +138,7 @@ $$
 
 Equivalently, the current Phase Real and Completion exit criterion is the objectwise product of those four local threshold records, reflected through the same finite classifier section, and not a route-level aggregate credential. The packet has no quotient stream, no selected limit, no countable-choice selector, no metric-completeness datum, no aggregate formalstatus row, no aggregate bridge row, and no $\RealUp$ completeness claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealUp.RealL10CurrentPhaseExitLocalThreshold}
 \begin{proof}
 For the forward direction, assume $\mathcal E$ satisfies the roadmap exit read. By \autoref{thm:real-l10-objectwise-face-status-exit}, the exit read decomposes objectwise into the four face-status records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ rows, together with only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
 
@@ -280,6 +281,30 @@ For the converse direction, assume that $\mathcal E$ and $\mathcal E'$ determine
 The finite-section classifier equivalence then reconstructs the only possible comparison between the two visible sections: it is the support-row-preserving finite refinement carrying the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$ rows to the corresponding rows and carrying the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows to themselves. Minimality makes this refinement exact, because there is no unused face coordinate or hidden support coordinate on which a different refinement could act.
 
 All exclusions are inherited from the same cited certificate surface. The argument uses only finite face rows, finite classifier sections, support-row-preserving route views, and face-local formal strengthening; it has no coordinate for quotient streams, selected limits, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, or $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Real L10 exit certificate refinement composition]
+\label{thm:real-l10-exit-certificate-refinement-composition}
+Let $\mathcal E_0$, $\mathcal E_1$, and $\mathcal E_2$ be finite Phase $\RealUp$ and Completion packets over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ rows. Suppose
+$$
+\mathcal E_0 \xrightarrow{\rho_{01}} \mathcal E_1 \xrightarrow{\rho_{12}} \mathcal E_2
+$$
+is a pair of certified finite refinements. Assume that each leg preserves the four displayed face rows $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$, and preserves the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then the composite refinement $\rho_{12}\circ\rho_{01}$ preserves the same displayed face and support rows, and $\mathcal E_0$ and $\mathcal E_2$ determine the same objectwise Phase Real and Completion exit certificate read by \autoref{thm:real-l10-current-phase-exit-local-threshold}.
+
+Equivalently, a finite chain of two certified refinements cannot create any additional exit-coordinate between the endpoints. The endpoint certificate is still exactly the compatible four-face packet on $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ face, together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+This composition law is confined to finite support-row-preserving refinements. It excludes quotient streams, selected limits, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, and $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-l10-exit-certificate-refinement-functoriality} to the first leg $\rho_{01}$. The hypotheses say that the visible action of $\rho_{01}$ preserves each of the four displayed face rows and every displayed support row, so $\mathcal E_0$ and $\mathcal E_1$ determine the same objectwise exit certificate.
+
+Apply the same theorem to the second leg $\rho_{12}$. The second visible action preserves the same four face rows and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so $\mathcal E_1$ and $\mathcal E_2$ determine the same objectwise exit certificate.
+
+Now identify the intermediate certificate. By \autoref{thm:real-l10-finite-section-classifier-equivalence}, the finite sections read from $\mathcal E_0$, $\mathcal E_1$, and $\mathcal E_2$ are compatible four-face packets over the same displayed terminal surface: the dyadic common scale-window witness, the finite $\StreamNameUp$ window, the $\RegSeqRatUp$ regularity and common-tail rows, and the local $\RealUp$ seal row. Hence the equality through $\mathcal E_1$ is equality of the same finite classifier packet, not merely agreement of unrelated summaries.
+
+It remains to read the composite. Since both legs preserve every displayed face row and every displayed support row, their composite also sends each $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$ row to the corresponding endpoint row and sends the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows to the corresponding endpoint rows. Transitivity of the two objectwise certificate identifications gives the endpoint certificate equality between $\mathcal E_0$ and $\mathcal E_2$.
+
+Finally apply \autoref{thm:real-l10-exit-certificate-face-minimality}. Minimality rules out any hidden coordinate on which the composite could act while preserving the current Real L10 exit certificate: no quotient stream, selected limit, metric-completeness datum, aggregate formalstatus row, aggregate bridge row, standard bridge row, or $\RealUp$ completeness row is part of the finite certificate surface. Thus the two-leg chain composes only as a support-row-preserving refinement of the same displayed objectwise exit certificate.
 \end{proof}
 
 \begin{theorem}[Real L10 exit certificate refinement zigzag invariance]
