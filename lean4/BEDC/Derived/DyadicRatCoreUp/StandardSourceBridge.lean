@@ -91,6 +91,44 @@ theorem DyadicRatCoreCarrier_standard_bridge_denominator_refinement_stability
       (And.intro distanceWindowUnary
         (And.intro refinedRows.right.right.left distanceWindowRow)))
 
+theorem DyadicRatCoreCarrier_directed_refinement_common_window
+    {mantissa exponent ledger provenance tail refinedExponent refinedLedger common scale left
+      window : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance →
+      UnaryHistory tail →
+        Cont exponent tail refinedExponent →
+          Cont refinedExponent mantissa refinedLedger →
+            PositiveUnaryDenominator common →
+              Cont refinedExponent common scale →
+                Cont mantissa scale left →
+                  Cont left refinedLedger window →
+                    DyadicRatCoreCarrier mantissa refinedExponent refinedLedger provenance ∧
+                      PositiveUnaryDenominator refinedExponent ∧ UnaryHistory window ∧
+                        Cont left refinedLedger window := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrier tailUnary refinedExponentRow refinedLedgerRow commonPositive scaleRow leftRow
+    windowRow
+  have refinedRows :=
+    DyadicRatCoreCarrier_monotone_radius_obligation carrier tailUnary refinedExponentRow
+      refinedLedgerRow
+  have refinedExponentUnary : UnaryHistory refinedExponent :=
+    (PositiveUnaryDenominator_unary_and_nonempty refinedRows.right.left).left
+  have commonUnary : UnaryHistory common :=
+    (PositiveUnaryDenominator_unary_and_nonempty commonPositive).left
+  have scaleUnary : UnaryHistory scale :=
+    unary_cont_closed refinedExponentUnary commonUnary scaleRow
+  have mantissaUnary : UnaryHistory mantissa :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp carrier.left)).left
+  have leftUnary : UnaryHistory left :=
+    unary_cont_closed mantissaUnary scaleUnary leftRow
+  have refinedLedgerUnary : UnaryHistory refinedLedger :=
+    refinedRows.left.right.right.right.right
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed leftUnary refinedLedgerUnary windowRow
+  exact And.intro refinedRows.left
+    (And.intro refinedRows.right.left (And.intro windowUnary windowRow))
+
 theorem DyadicRatCoreStandardBridge_denominator_refinement_stability [AskSetup] [PackageSetup]
     {mantissa exponent ledger provenance mantissa' exponent' ledger' provenance' common scale scale'
       classifierWindow tail refinedExponent refinedLedger : BHist} :
