@@ -145,4 +145,21 @@ theorem DiagonalCofinalTailCarrier_route_composition [AskSetup] [PackageSetup]
     ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, sealUnary, finalUnary, qsRoute,
       gdRoute, rwSeal, sealFinal, pPkg, finalPkg⟩
 
+theorem DiagonalCofinalTailCarrier_hsame_transport_lock [AskSetup] [PackageSetup]
+    {q s g d r w h c p n h' c' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg ->
+      hsame h h' ->
+        Cont w h' c' ->
+          UnaryHistory h' ∧ UnaryHistory c' ∧ Cont w h' c' ∧ PkgSig bundle p pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont PkgSig UnaryHistory
+  intro carrier sameH transportedSeal
+  obtain ⟨_qUnary, _sUnary, _gUnary, _dUnary, _rUnary, wUnary, hUnary, _cUnary,
+    _pUnary, _nUnary, _qsRoute, _gdRoute, _whRoute, pPkg⟩ := carrier
+  have transportedHUnary : UnaryHistory h' :=
+    unary_transport hUnary sameH
+  have transportedCUnary : UnaryHistory c' :=
+    unary_cont_closed wUnary transportedHUnary transportedSeal
+  exact ⟨transportedHUnary, transportedCUnary, transportedSeal, pPkg⟩
+
 end BEDC.Derived.DiagonalCofinalTailUp
