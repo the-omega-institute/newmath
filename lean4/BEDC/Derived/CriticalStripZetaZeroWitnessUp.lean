@@ -253,6 +253,76 @@ theorem CriticalStripZetaZeroWitnessPacket_source_route_exhaustion [AskSetup] [P
     cont_result_hsame_transport stripZeroTransport (hsame_symm sameSourceTransport)
   exact ⟨sameSourceTransport, sourceUnary, stripZeroSource, endpointPkg⟩
 
+theorem CriticalStripZetaZeroWitnessPacket_constructive_counterexample_surface
+    [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name endpoint failureRead
+      counterexampleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CriticalStripZetaZeroWitnessPacket strip zero line boundary transport route provenance name
+        endpoint bundle pkg ->
+      Cont line boundary failureRead ->
+        Cont failureRead route counterexampleRead ->
+          PkgSig bundle counterexampleRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row counterexampleRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row counterexampleRead ∧ Cont line boundary failureRead)
+                (fun row : BHist =>
+                  hsame row counterexampleRead ∧ PkgSig bundle counterexampleRead pkg)
+                hsame ∧
+              UnaryHistory line ∧ UnaryHistory boundary ∧ UnaryHistory failureRead ∧
+                UnaryHistory counterexampleRead ∧ Cont line boundary failureRead ∧
+                  Cont failureRead route counterexampleRead ∧ PkgSig bundle endpoint pkg ∧
+                    PkgSig bundle counterexampleRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro packet failureCont counterexampleCont counterexamplePkg
+  obtain ⟨_stripUnary, _zeroUnary, lineUnary, boundaryUnary, _transportUnary, routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, _stripZeroTransport, _lineBoundaryRoute,
+    _transportRouteEndpoint, _endpointProvenanceName, _endpointSameTransportRoute,
+    endpointPkg⟩ := packet
+  have failureUnary : UnaryHistory failureRead :=
+    unary_cont_closed lineUnary boundaryUnary failureCont
+  have counterexampleUnary : UnaryHistory counterexampleRead :=
+    unary_cont_closed failureUnary routeUnary counterexampleCont
+  have sourceAtCounterexample :
+      hsame counterexampleRead counterexampleRead ∧ UnaryHistory counterexampleRead :=
+    ⟨hsame_refl counterexampleRead, counterexampleUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row counterexampleRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row counterexampleRead ∧ Cont line boundary failureRead)
+          (fun row : BHist =>
+            hsame row counterexampleRead ∧ PkgSig bundle counterexampleRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro counterexampleRead sourceAtCounterexample
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source.left, failureCont⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, counterexamplePkg⟩
+  }
+  exact
+    ⟨cert, lineUnary, boundaryUnary, failureUnary, counterexampleUnary, failureCont,
+      counterexampleCont, endpointPkg, counterexamplePkg⟩
+
 theorem CriticalStripZetaZeroWitnessPacket_rh_premise_exhaustion [AskSetup] [PackageSetup]
     {strip zero line boundary transport route provenance name endpoint premiseRead lineRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
