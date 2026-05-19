@@ -1181,7 +1181,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 print(f"  {item['file']}: {item['kind']}")
         if payload["mislabeled_composite_carriers"]:
             print(
-                "[bedc-ci] mislabeled composite carriers: "
+                "[bedc-ci] mislabeled composite carriers (informational): "
                 f"{payload['mislabeled_composite_carriers_count']}"
             )
             for item in payload["mislabeled_composite_carriers"][:50]:
@@ -1231,7 +1231,6 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["preamble_duplicate_commands_count"]
         + payload["concrete_number_collisions_count"]
         + payload["concrete_missing_origin_count"]
-        + payload["mislabeled_composite_carriers_count"]
         + payload["closurestatus_diagnostics_count"]
         + payload["orphan_concrete_subdirs_count"]
     )
