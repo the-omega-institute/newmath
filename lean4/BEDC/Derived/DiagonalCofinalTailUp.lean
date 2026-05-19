@@ -192,4 +192,24 @@ theorem DiagonalCofinalTailCarrier_tail_selector_lock [AskSetup] [PackageSetup]
       streamUnary, tailUnary, consumerUnary, qsRoute, gdRoute, whRoute, streamRoute,
       tailRoute, consumerRoute, pPkg, consumerPkg⟩
 
+theorem DiagonalCofinalTailCarrier_real_seal_handoff [AskSetup] [PackageSetup]
+    {q s g d r w h c p n realConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg →
+      Cont r w realConsumer →
+        PkgSig bundle realConsumer pkg →
+          UnaryHistory q ∧ UnaryHistory s ∧ UnaryHistory g ∧ UnaryHistory d ∧
+            UnaryHistory r ∧ UnaryHistory w ∧ UnaryHistory realConsumer ∧
+              Cont q s g ∧ Cont g d r ∧ Cont r w realConsumer ∧
+                PkgSig bundle p pkg ∧ PkgSig bundle realConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier realSealRoute realConsumerPkg
+  obtain ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, qsRoute, gdRoute, _whRoute, pPkg⟩ := carrier
+  have realConsumerUnary : UnaryHistory realConsumer :=
+    unary_cont_closed rUnary wUnary realSealRoute
+  exact
+    ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, realConsumerUnary, qsRoute,
+      gdRoute, realSealRoute, pPkg, realConsumerPkg⟩
+
 end BEDC.Derived.DiagonalCofinalTailUp
