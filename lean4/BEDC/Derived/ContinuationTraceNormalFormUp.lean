@@ -126,4 +126,29 @@ theorem ContinuationTraceNormalFormCarrier_source_normalization_obligation [AskS
     ⟨sourceUnary, traceUnary, routeUnary, certUnary, replayUnary, sourceTraceTerminal,
       traceRouteReplay, provenancePkg, replayPkg⟩
 
+theorem ContinuationTraceNormalFormCarrier_terminal_readback_lock [AskSetup] [PackageSetup]
+    {source trace terminal terminalRead normal transport route provenance cert publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationTraceNormalFormCarrier source trace terminal terminalRead normal transport route
+        provenance cert bundle pkg →
+      Cont trace route publicRead →
+        PkgSig bundle publicRead pkg →
+          UnaryHistory source ∧ UnaryHistory trace ∧ UnaryHistory terminal ∧
+            UnaryHistory terminalRead ∧ UnaryHistory normal ∧ UnaryHistory transport ∧
+              UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory cert ∧
+                UnaryHistory publicRead ∧ Cont source trace terminal ∧
+                  Cont terminal terminalRead route ∧ Cont trace route publicRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier traceRoutePublic publicPkg
+  obtain ⟨sourceUnary, traceUnary, terminalUnary, terminalReadUnary, normalUnary,
+    transportUnary, routeUnary, provenanceUnary, certUnary, sourceTraceTerminal,
+    terminalReadRoute, provenancePkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed traceUnary routeUnary traceRoutePublic
+  exact
+    ⟨sourceUnary, traceUnary, terminalUnary, terminalReadUnary, normalUnary, transportUnary,
+      routeUnary, provenanceUnary, certUnary, publicUnary, sourceTraceTerminal,
+      terminalReadRoute, traceRoutePublic, provenancePkg, publicPkg⟩
+
 end BEDC.Derived.ContinuationTraceNormalFormUp
