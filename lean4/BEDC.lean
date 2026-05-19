@@ -40,6 +40,7 @@ import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
 import BEDC.Derived.AnalyticContinuationSocketUp
 import BEDC.Derived.AnalyticContinuationSocketUp.BranchObstructionConsumerLock
+import BEDC.Derived.AnalyticContinuationSocketUp.OperationLandingExactness
 import BEDC.Derived.AnalyticContinuationSocketUp.OutputBranchSeparation
 import BEDC.Derived.AnalyticContinuationSocketUp.RootBranchLedger
 import BEDC.Derived.AnchorChangeInvariantUp.TasteGate
@@ -4377,9 +4378,11 @@ import BEDC.Derived.ZetaContinuationApplicationUp.FunctionalRowTotality
 import BEDC.Derived.ZetaContinuationApplicationUp.RootLedgerBoundary
 import BEDC.Derived.ZetaContinuationApplicationUp.RootObligations
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
+import BEDC.Derived.ZetaContinuationApplicationUp.VisibleBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.AnalyticReadbackObligation
 import BEDC.Derived.ZetaContinuationWitnessUp.ConsumerPacketTotality
+import BEDC.Derived.ZetaContinuationWitnessUp.ContourRouteObligation
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripConsumerNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPoleBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPublicRefusal
