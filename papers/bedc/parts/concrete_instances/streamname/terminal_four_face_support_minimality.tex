@@ -1,0 +1,59 @@
+\begin{theorem}[StreamName terminal four-face support minimality]
+\label{thm:streamname-terminal-four-face-support-minimality}
+Let $U$ be an accepted current Phase Real and Completion terminal
+$\StreamNameUp$ request section. Then the public terminal surface of $U$ is
+accepted exactly through the four visible faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ together with the
+displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ support rows.
+
+Moreover, this support is minimal for the accepted public verdict: deleting any
+one of the four faces, or deleting any one of the displayed support rows,
+prevents the resulting packet from presenting the same carrier verdict and the
+same classifier verdict to Real-facing or completion-facing consumers. The
+minimality claim uses no quotient stream equality, host sequence equality,
+selected limits, countable choice, ambient $\RealUp$ completeness,
+metric-completeness data, aggregate formalstatus row, or bridge row.
+\end{theorem}
+\begin{proof}
+First build the public classifier surface. Apply
+\autoref{thm:streamname-finite-section-cover-descent-classifier-reflection} to
+the accepted terminal request section and its finite cover, then compare any
+two public presentations with
+\autoref{thm:streamname-finite-cover-common-refinement-classifier-uniqueness}.
+These results place the carrier and classifier verdicts on the same visible
+StreamName, DyadicRatCore, RegSeqRat, and Real faces over the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next lock the StreamName side to the dyadic, regular-rational, and Real sides.
+The theorem
+\autoref{thm:streamname-finite-section-real-regseq-dyadic-lock} says that a
+Real-facing or completion-facing read of the terminal request section can use
+only the finite StreamName window, the DyadicRatCore ledger, the RegSeqRat
+readback, the Real seal boundary, and the same support rows. Thus a packet
+with one visible face or one support row removed is no longer the packet seen
+by those consumers.
+
+Now read the same packet from the RegSeqRat terminal boundary. By
+\autoref{thm:regseqrat-real-terminal-four-face-exactness}, terminal acceptance
+is equivalent to the presence of exactly the four displayed faces with the
+shared support rows. By
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness}, any accepted
+consumer with the same public verdict has the same finite RegSeqRat source.
+Hence removing a face or support row removes the witness needed to identify the
+source that presents that verdict.
+
+Finally pass through the Real dependency lattice. The exit totality theorem
+\autoref{thm:real-l10-dependency-lattice-exit-totality} sends every current
+Phase Real and Completion terminal read through the ordered four-face route and
+the displayed support rows. Combining this totality with the classifier
+reflection and source-uniqueness steps gives the stated minimality: the public
+carrier and classifier verdicts survive exactly on the four-face support
+surface and not on any shorter packet.
+
+The exclusion list follows from the same route description. None of the cited
+surfaces contains a coordinate for quotient stream equality, host sequence
+equality, selected limits, countable choice, ambient $\RealUp$ completeness,
+metric-completeness data, aggregate formalstatus, or bridge rows, so those
+objects cannot replace a missing visible face or support row.
+\end{proof}
