@@ -181,7 +181,7 @@ Finally read the result through the roadmap two-axis discipline of \autoref{sec:
 
 \begin{theorem}[StreamName four-face local record exit boundary]
 \label{thm:streamname-four-face-local-record-exit-boundary}
-Assume the four face records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are read objectwise from their own local closurestatus blocks. The $\DyadicRatCoreUp$ face contributes its $\axiomCleanV$ paperBridge finite-route record, the $\StreamNameUp$ face contributes its $\bridgeCheckedV$ finite-window record, the $\RegSeqRatUp$ face contributes its $\axiomCleanV$ paperBridge regularity-handoff record, and the $\RealUp$ face contributes its $\bridgeCheckedV$ seal record. Assume also that the finite handoff rows read by the current Phase Real and Completion roadmap are exactly the StreamName finite window, DyadicRatCore ledger, RegSeqRat readback, RealUp seal, and the displayed support rows
+Assume the four face records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are read objectwise from their own local closurestatus blocks. The $\DyadicRatCoreUp$ face contributes its $\bridgeCheckedV$ bridgeChecked finite-route record, the $\StreamNameUp$ face contributes its $\bridgeCheckedV$ finite-window record, the $\RegSeqRatUp$ face contributes its $\axiomCleanV$ paperBridge regularity-handoff record, and the $\RealUp$ face contributes its $\bridgeCheckedV$ seal record. Assume also that the finite handoff rows read by the current Phase Real and Completion roadmap are exactly the StreamName finite window, DyadicRatCore ledger, RegSeqRat readback, RealUp seal, and the displayed support rows
 $$
 \BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
 $$
@@ -192,7 +192,7 @@ This boundary is not an aggregate audit-clean token and not an aggregate bridge 
 \begin{proof}
 First apply \autoref{thm:streamname-real-completion-four-object-exit-route}. It identifies the current exit read with the four displayed faces and the finite support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 
-Read the local closurestatus records objectwise. The $\DyadicRatCoreUp$ record supplies the dyadic finite-route face at $\axiomCleanV$ with paperBridge status, and the $\RegSeqRatUp$ record supplies the regularity-handoff face at $\axiomCleanV$ with paperBridge status. The $\StreamNameUp$ record supplies the finite-window face at $\bridgeCheckedV$, and the $\RealUp$ record supplies the seal face at $\bridgeCheckedV$.
+Read the local closurestatus records objectwise. The $\DyadicRatCoreUp$ record supplies the dyadic finite-route face at $\bridgeCheckedV$ with bridgeChecked status, and the $\RegSeqRatUp$ record supplies the regularity-handoff face at $\axiomCleanV$ with paperBridge status. The $\StreamNameUp$ record supplies the finite-window face at $\bridgeCheckedV$, and the $\RealUp$ record supplies the seal face at $\bridgeCheckedV$.
 
 Next use \autoref{thm:streamname-real-completion-exit-axis-separation}. Because these grades are read from four separate local closurestatus blocks, the packet cannot turn paper closure into verification status or verification status into paper closure.
 
@@ -238,6 +238,28 @@ For the reverse direction, suppose the four local face records each supply the r
 Next apply \autoref{thm:streamname-real-completion-dependency-exactness}. The dependency boundary is precisely the four faces together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, so those local records are sufficient for the StreamName-side current exit read.
 
 Finally compare again with \autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. The two formulations have the same four local faces and the same local closure and audit-clean threshold, while the cited StreamName terminal and dependency exactness theorems keep the packet from acquiring any aggregate $\formalstatus$, aggregate bridge row, quotient stream equality, selected limit, countable-choice row, metric-completeness datum, or $\RealUp$ completeness claim.
+\end{proof}
+
+\begin{theorem}[StreamName Real-completion exit status coherence]
+\label{thm:streamname-real-completion-exit-status-coherence}
+A current Phase Real and Completion exit read satisfies the roadmap objectwise exit threshold exactly when the same read is the StreamName four-object route readback of the four local closurestatus records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, together with the support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Equivalently, the threshold reading and the local-status reading are the same objectwise four-face status packet: the $\DyadicRatCoreUp$ dyadic budget face, the $\StreamNameUp$ finite-window face, the $\RegSeqRatUp$ regularity-handoff face, and the $\RealUp$ seal face.
+
+This coherence theorem adds no aggregate $\formalstatus$, no aggregate bridge row, no quotient stream equality, no selected limit, no countable-choice row, no metric-completeness datum, and no $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+For the threshold-to-status direction, apply \autoref{thm:streamname-real-completion-objectwise-threshold-equivalence}. It rewrites a current exit-threshold witness as the four local theory-closure and audit-clean verification rows read from the closurestatus blocks for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Next apply \autoref{thm:streamname-real-completion-local-face-status-readback}. The same four local records are exactly the StreamName-side local face-status readback. Use \autoref{thm:streamname-real-completion-status-ledger-exactness} to identify those faces with the dyadic budget, finite window, regularity handoff, and seal route, and to retain only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+For the status-to-threshold direction, start from the four local closurestatus records read through the StreamName four-object route. The local face-status readback gives precisely the same four records, and status-ledger exactness says that no additional status coordinate is present in the accepted exit packet.
+
+Apply \autoref{thm:streamname-real-completion-objectwise-threshold-equivalence} in the reverse direction. Since the four local records supply exactly the required local theory-closure rows and audit-clean verification rows, the read satisfies the roadmap objectwise exit threshold.
+
+Finally use \autoref{thm:streamname-real-completion-exit-axis-separation}. Axis separation prevents the coherence statement from turning the four-face packet into an aggregate $\formalstatus$, an aggregate bridge row, quotient stream equality, a selected limit, countable choice, metric completeness, or a $\RealUp$ completeness theorem.
 \end{proof}
 
 \begin{theorem}[StreamName Real-completion local face status readback]
