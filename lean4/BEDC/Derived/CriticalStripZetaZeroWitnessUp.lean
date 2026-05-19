@@ -318,4 +318,25 @@ theorem CriticalStripZetaZeroWitnessPacket_rh_premise_exhaustion [AskSetup] [Pac
     ⟨cert, premiseReadUnary, lineReadUnary, premiseSameTransport, lineReadSameRoute,
       stripZeroTransport, lineBoundaryRoute, endpointPkg⟩
 
+theorem CriticalStripZetaZeroWitnessPacket_zero_row_admission [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name endpoint zeroRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CriticalStripZetaZeroWitnessPacket strip zero line boundary transport route provenance name
+        endpoint bundle pkg ->
+      Cont zero transport zeroRead ->
+        UnaryHistory zero ∧ UnaryHistory transport ∧ UnaryHistory zeroRead ∧
+          Cont strip zero transport ∧ Cont zero transport zeroRead ∧
+            Cont transport route endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet zeroTransportRead
+  obtain ⟨_stripUnary, zeroUnary, _lineUnary, _boundaryUnary, transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, stripZeroTransport,
+    _lineBoundaryRoute, transportRouteEndpoint, _endpointProvenanceName,
+    _endpointSameTransportRoute, endpointPkg⟩ := packet
+  have zeroReadUnary : UnaryHistory zeroRead :=
+    unary_cont_closed zeroUnary transportUnary zeroTransportRead
+  exact
+    ⟨zeroUnary, transportUnary, zeroReadUnary, stripZeroTransport, zeroTransportRead,
+      transportRouteEndpoint, endpointPkg⟩
+
 end BEDC.Derived.CriticalStripZetaZeroWitnessUp
