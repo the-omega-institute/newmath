@@ -390,3 +390,60 @@ outside the normal-form packet, and the excluded quotient, host-equality,
 selected-limit, completeness, bridge, trichotomy, open-cover compactness, and
 choice data remain unavailable.
 \end{proof}
+
+\begin{theorem}[StreamName terminal pullback support exactness]
+\label{thm:streamname-terminal-pullback-support-exactness}
+Let $W$ be a certified public $\StreamNameUp$ finite-window observation
+packet. A terminal four-face pullback packet over $W$ is accepted exactly when
+it exposes the StreamName finite window, the $\DyadicRatCoreUp$
+endpoint-radius-distance ledger, the $\RegSeqRatUp$ accepted readback rows,
+the local $\RealUp$ finite-window seal boundary, and exactly the displayed
+support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert,
+$$
+together with the public finite-observation rows
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+$\mathsf{UnaryHistory}$.
+
+Conversely, any packet over $W$ with exactly those visible faces and support
+rows repacks into the same terminal four-face pullback normal form. The
+acceptance test exports no quotient stream, selected host limit, host
+equality, countable choice, ambient completeness row, metric-completeness row,
+bridge row, trichotomy row, or open-cover compactness row.
+\end{theorem}
+\begin{proof}
+For the forward direction, start from the terminal four-face factorization of
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}.
+It identifies every accepted terminal read over $W$ with the StreamName
+finite-window face, the dyadic endpoint-radius-distance ledger, the
+$\RegSeqRatUp$ readback face, the $\RealUp$ finite-window boundary, and the
+listed finite support rows.
+
+Next use
+\autoref{thm:streamname-terminal-reindex-pullback-invariance}. Since certified
+reindex routes preserve the public finite observation section, endpoint rows,
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, support cannot be
+enlarged by changing the terminal presentation of the same window.
+
+The local support budget is exact by
+\autoref{thm:streamname-open-phase-finite-window-support-row-minimality}. That
+minimality theorem leaves only the displayed BEDC support rows and the public
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+$\mathsf{UnaryHistory}$ observation rows available to the finite-window
+packet.
+
+For the reverse direction, assume a packet displays exactly those four faces
+and support rows. The converse direction of
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}
+repacks it into the terminal finite-window seal read over $W$.
+
+Finally apply
+\autoref{thm:streamname-terminal-pullback-idempotence}. Once the four faces,
+the five BEDC support rows, and the three public finite-observation rows are
+present, another terminal read returns the same packet. Hence the support list
+is both sufficient and necessary for acceptance, and quotient streams,
+selected host limits, host equality, countable choice, ambient completeness,
+metric-completeness rows, bridges, trichotomy, and open-cover compactness
+remain outside the normal form.
+\end{proof}
