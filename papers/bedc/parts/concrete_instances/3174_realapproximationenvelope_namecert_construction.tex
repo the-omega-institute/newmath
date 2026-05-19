@@ -147,6 +147,29 @@ The carrier and NameCert obligations then place the seal row after the classifie
 Finally apply the consumer boundary theorem \autoref{thm:real-approximation-envelope-consumer-boundary}. Since accepted consumers may inspect the seal handoff but cannot replace the finite route by selected limits, quotient stream equality, host real equality, completed-real inverse laws, or ambient completeness, the seal row exports none of those objects.
 \end{proof}
 
+\begin{theorem}[Real approximation-envelope seal-classifier compatibility]
+\label{thm:real-approximation-envelope-seal-classifier-compatibility}
+Let
+$$
+E=(\varepsilon,W,D,R,S,H,C,P,N)
+$$
+be an accepted $\RealApproximationEnvelopeUp$ carrier. The $\RegSeqRatUp$ classifier handoff row $R$ and the $\RealUp$ seal row $S$ are compatible exactly when both are read through the same displayed finite route
+$$
+\varepsilon \longrightarrow W \longrightarrow D \longrightarrow R \longrightarrow S
+$$
+and through the same support rows $H,C,P,N$. No second classifier, selected limit, quotient stream equality, host real equality, or ambient completeness coordinate may mediate the seal.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-approximation-envelope-classifier-handoff}. It identifies the unique classifier-facing route from the tolerance request $\varepsilon$ through the selected $\StreamNameUp$ window $W$ and the $\DyadicRatCoreUp$ observation row $D$ into the $\RegSeqRatUp$ classifier row $R$.
+
+Apply \autoref{thm:real-approximation-envelope-seal-routing}. The seal-facing route reaches the $\RealUp$ row $S$ only after the already displayed classifier row $R$, so the classifier handoff and the seal handoff share the same finite boundary
+$$
+\varepsilon \longrightarrow W \longrightarrow D \longrightarrow R \longrightarrow S.
+$$
+
+Finally use \autoref{thm:real-approximation-envelope-transport-nonescape} and \autoref{thm:real-approximation-envelope-consumer-boundary}. These exclude selected limits, quotient stream equality, host real equality, completed-real inverse laws, ambient completeness, and unrecorded consumer coordinates, leaving only the displayed route together with $H,C,P,N$ as the finite packet boundary.
+\end{proof}
+
 \closureat{RealApproximationEnvelopeUp}{seedStr}
 
 \begin{closurestatus}{\RealApproximationEnvelopeUp}

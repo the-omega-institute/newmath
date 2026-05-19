@@ -4435,7 +4435,7 @@ import BEDC.Derived.ZnormalUp.TasteGateFieldReadbackLock
 import BEDC.Derived.ZnormalUp.TasteGateScopeBinding
 import BEDC.Derived.ZnormalUp.TerminalBoundaryNonescape
 import BEDC.Derived.ZnormalUp.TerminalConsumerTotality
-import BEDC.Derived.ZnormalUp.TerminalFuelConsumerPackage
+import BEDC.Derived.ZnormalUp.TerminalFuelFieldScope
 import BEDC.Derived.ZnormalUp.TerminalFuelReadbackAdmission
 import BEDC.Derived.ZnormalUp.TerminalFuelReadbackFrontier
 import BEDC.Derived.ZnormalUp.TerminalFuelRouteExhaustion
