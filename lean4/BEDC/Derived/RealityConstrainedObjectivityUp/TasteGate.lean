@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealityConstrainedObjectivityUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -320,5 +324,34 @@ theorem RealityConstrainedObjectivityTasteGate_single_carrier_alignment :
       · constructor
         · exact ⟨realityConstrainedObjectivityNontrivial⟩
         · rfl
+
+theorem RealityConstrainedObjectivityCarrier_anchor_stability
+    {H A I F R T P L N anchorRoute invariantRead ledgerRead : BHist} :
+    UnaryHistory A →
+      UnaryHistory I →
+        UnaryHistory L →
+          Cont A I anchorRoute →
+            Cont anchorRoute L invariantRead →
+              Cont I L ledgerRead →
+                ∃ O : RealityConstrainedObjectivityUp,
+                  O = RealityConstrainedObjectivityUp.mk H A I F R T P L N ∧
+                    UnaryHistory anchorRoute ∧
+                      UnaryHistory invariantRead ∧
+                        UnaryHistory ledgerRead ∧
+                          Cont A I anchorRoute ∧
+                            Cont anchorRoute L invariantRead ∧ Cont I L ledgerRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro anchorUnary invariantUnary ledgerUnary anchorRouteCont invariantRouteCont
+    ledgerRouteCont
+  have anchorRouteUnary : UnaryHistory anchorRoute :=
+    unary_cont_closed anchorUnary invariantUnary anchorRouteCont
+  have invariantReadUnary : UnaryHistory invariantRead :=
+    unary_cont_closed anchorRouteUnary ledgerUnary invariantRouteCont
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed invariantUnary ledgerUnary ledgerRouteCont
+  exact
+    ⟨RealityConstrainedObjectivityUp.mk H A I F R T P L N, rfl, anchorRouteUnary,
+      invariantReadUnary, ledgerReadUnary, anchorRouteCont, invariantRouteCont,
+      ledgerRouteCont⟩
 
 end BEDC.Derived.RealityConstrainedObjectivityUp
