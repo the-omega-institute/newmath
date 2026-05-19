@@ -1,0 +1,152 @@
+\chapter{A Concrete Naming Certificate for $\BHistHeptaSequenceNameCertUp$}
+\label{ch:concrete-instances-b-hist-hepta-sequence-name-cert-namecert}
+\origin{ai-composite}
+
+The $\BHistHeptaSequenceNameCertUp$ packet is the ordered seven-row sequence capstone for the carrier-isomorphism bucket. It is anchored by the hepta tuple capstone of \autoref{ch:concrete-instances-b-hist-hepta-tuple-name-cert-namecert} and by the bucket members $\EpistemicWitnessUp$, $\ExternalSupplyAuditRouteUp$, $\PhysicalRecordInvariantUp$, $\StructuralAdjacencyUp$, $\UseProcessLimitLedgerUp$, and $\ZCarryUp$. The chapter names the BEDC-native sequence window that reads exactly seven displayed $\BHist$ rows together with an index row, componentwise transport, continuation replay, provenance, and local naming; it does not rewrite any bucket member chapter.
+
+\begin{definition}[BHistHeptaSequenceNameCert carrier]
+\label{def:b-hist-hepta-sequence-name-cert-carrier}
+A $\BHistHeptaSequenceNameCertUp$ carrier is a finite ordered sequence-window packet
+$$
+S=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,I,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0,\ldots,R_6$ are the seven tag-encoded $\BHist$ rows admitted by the sequence window. Each row is read as a displayed BEDC history component, and its tag records the local sequence role rather than a host-side position.
+\item $I$ is the finite index and order row. It records the first displayed position, the last displayed position, and the rule that every sequence read factors through one of $R_0,\ldots,R_6$ in that order.
+\item $H$ records componentwise $\hsame$ transport for $R_0,\ldots,R_6,I,C,P,L$ and no transport row outside the displayed packet.
+\item $C$ records the displayed $\Cont$ replay from window admission through index preservation, componentwise comparison, transport, provenance readback, and local naming.
+\item $P$ is the $\Pkg$ provenance over the seven-row window encoder, \autoref{ch:concrete-instances-b-hist-hepta-tuple-name-cert-namecert}, $\EpistemicWitnessUp$, $\ExternalSupplyAuditRouteUp$, $\PhysicalRecordInvariantUp$, $\StructuralAdjacencyUp$, $\UseProcessLimitLedgerUp$, $\ZCarryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\BHistHeptaSequenceNameCertUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an untagged row, an eighth sequence component, a hidden permutation, a host-side equality test, unordered bucket membership alone, or a replacement of the hepta tuple capstone or any bucket member chapter.
+\end{definition}
+
+\begin{definition}[BHistHeptaSequenceNameCert classifier]
+\label{def:b-hist-hepta-sequence-name-cert-classifier}
+Two $\BHistHeptaSequenceNameCertUp$ packets
+$$
+S=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,I,H,C,P,L)
+$$
+and
+$$
+S'=(R'_0,R'_1,R'_2,R'_3,R'_4,R'_5,R'_6,I',H',C',P',L')
+$$
+are classifier-equivalent exactly when each displayed window row compares componentwise,
+$$
+\begin{aligned}
+&R_0 \sim R'_0,\quad R_1 \sim R'_1,\quad R_2 \sim R'_2,\quad R_3 \sim R'_3,\\
+&R_4 \sim R'_4,\quad R_5 \sim R'_5,\quad R_6 \sim R'_6,
+\end{aligned}
+$$
+the index rows display the same finite order, the transport rows display the same $\hsame$ routes for those components and for $I,C,P,L$, and the replay rows display the same $\Cont$ route from window admission through local naming. No comparison is available through omitted position, hidden permutation, untagged payload, unordered bucket membership alone, host equality, or sibling-chapter replacement.
+\end{definition}
+
+\begin{theorem}[BHistHeptaSequenceNameCert carrier admission]
+\label{thm:b-hist-hepta-sequence-name-cert-carrier-admission}
+Every accepted $\BHistHeptaSequenceNameCertUp$ packet admits exactly the displayed sequence-window rows
+$$
+R_0,R_1,R_2,R_3,R_4,R_5,R_6,I,H,C,P,L.
+$$
+The seven rows are tag-encoded $\BHist$ components, $I$ is the only index and order row, and $H,C,P,L$ are the only structural rows by which a consumer may transport, replay, source, or locally name the sequence window.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:b-hist-hepta-sequence-name-cert-carrier}. The definition lists the seven tag-encoded $\BHist$ rows, then lists the index, transport, continuation, provenance, and local naming rows.
+
+There is no remaining coordinate in the packet. Thus any accepted sequence read lands in exactly the displayed rows, and any proposed eighth component, detached order table, hidden permutation, or structural row outside the packet lies outside the accepted surface.
+\end{proof}
+
+\begin{theorem}[BHistHeptaSequenceNameCert classifier exactness]
+\label{thm:b-hist-hepta-sequence-name-cert-classifier-exactness}
+For accepted $\BHistHeptaSequenceNameCertUp$ packets $S$ and $S'$, the classifier of \autoref{def:b-hist-hepta-sequence-name-cert-classifier} is exact for the ordered seven-row sequence window: it compares the seven $\BHist$ rows at matching indices, compares the displayed finite order through $I,I'$, compares the displayed $\hsame$ and $\Cont$ routes through $H,H',C,C'$, and preserves the provenance and local naming rows through $P,P',L,L'$. It does not compare by unordered bucket membership, hidden permutation, detached order table, sibling-chapter replacement, or host equality.
+\end{theorem}
+\begin{proof}
+Start with the classifier definition. It requires one comparison for each matching pair $R_i,R'_i$, requires the index rows to display the same finite order, and requires the displayed transport and replay routes to preserve that same ordered list.
+
+The provenance and local naming rows are part of the same sequence-window carrier, so their comparison is not an external bucket judgment. Since the classifier has no clause for unordered bucket membership, hidden permutation, detached order table, sibling-chapter replacement, or host equality, the displayed indexwise route is the exact comparison surface.
+\end{proof}
+
+\begin{theorem}[BHistHeptaSequenceNameCert index exhaustion]
+\label{thm:b-hist-hepta-sequence-name-cert-index-exhaustion}
+Every admitted index read of a $\BHistHeptaSequenceNameCertUp$ packet is exhausted by the seven displayed positions
+$$
+0,1,2,3,4,5,6.
+$$
+A stable carrier-isomorphism read must preserve the fields
+$$
+R_0,\ldots,R_6,I,H,C,P,L
+$$
+as rows of the same ordered sequence-window packet.
+\end{theorem}
+\begin{proof}
+Use the $I$ row in \autoref{def:b-hist-hepta-sequence-name-cert-carrier}. It records the first displayed position, the last displayed position, and the rule that every sequence read factors through one of the seven rows in order.
+
+The $H$ row records componentwise $\hsame$ transport for that exact list, and the classifier repeats the same index-preserving comparison. Thus a read that introduces an eighth index, drops a displayed position, or detaches the order row is no longer a read of the accepted packet.
+\end{proof}
+
+\begin{theorem}[BHistHeptaSequenceNameCert tag exhaustion]
+\label{thm:b-hist-hepta-sequence-name-cert-tag-exhaustion}
+The tag inventory of an accepted $\BHistHeptaSequenceNameCertUp$ packet is exhausted by the seven row tags on $R_0,\ldots,R_6$ together with the structural tags for $I,H,C,P,L$. No untagged payload, duplicate hidden row, bucket-only membership tag, or host-side equality tag is exported by the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Read the carrier definition and the classifier definition together. The carrier displays exactly seven payload rows and five structural rows, while the classifier gives comparison clauses only for those displayed rows and the structural routes attached to them.
+
+The local name is the row $L$ of the same packet. Because $L$ has no coordinate outside the displayed carrier and no classifier clause adds an external tag, local naming cannot export an untagged payload, duplicate hidden row, bucket-only membership tag, or host-side equality tag.
+\end{proof}
+
+\begin{theorem}[BHistHeptaSequenceNameCert provenance readback]
+\label{thm:b-hist-hepta-sequence-name-cert-provenance-readback}
+The provenance row $P$ of an accepted $\BHistHeptaSequenceNameCertUp$ packet reads back only the seven-row window encoder, \autoref{ch:concrete-instances-b-hist-hepta-tuple-name-cert-namecert}, the bucket-member surfaces named by $\EpistemicWitnessUp$, $\ExternalSupplyAuditRouteUp$, $\PhysicalRecordInvariantUp$, $\StructuralAdjacencyUp$, $\UseProcessLimitLedgerUp$, $\ZCarryUp$, and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. It does not read a bucket-wide replacement of the hepta tuple capstone or any named bucket-member chapter.
+\end{theorem}
+\begin{proof}
+Inspect the provenance row in the carrier definition. It records the seven-row window encoder, the named capstone and bucket-member surfaces, and the local BEDC support rows.
+
+The row is a readback ledger for the ordered packet, not a command to alter any cited chapter. Since neither the carrier nor the classifier contains a replacement coordinate, provenance can source the shared bucket context without rewriting any member.
+\end{proof}
+
+\begin{theorem}[BHistHeptaSequenceNameCert local naming nonescape]
+\label{thm:b-hist-hepta-sequence-name-cert-local-naming-nonescape}
+Every local $\NameCert_{\BHistHeptaSequenceNameCertUp}$ read factors through the displayed packet
+$$
+S=(R_0,R_1,R_2,R_3,R_4,R_5,R_6,I,H,C,P,L).
+$$
+The read may expose the seven-row sequence window, its finite order, and its componentwise routes, but it cannot export an untagged carrier, an eighth row, a hidden permutation, a host-side equality test, or a relocation of \autoref{ch:concrete-instances-b-hist-hepta-tuple-name-cert-namecert} or any named bucket-member surface.
+\end{theorem}
+\begin{proof}
+The local name is the row $L$ of the carrier. By \autoref{thm:b-hist-hepta-sequence-name-cert-carrier-admission}, $L$ is read only together with the seven window rows, the index row, and the displayed structural rows.
+
+Use index exhaustion, tag exhaustion, and the classifier definition. They force any carrier-isomorphism read to preserve the same tag-encoded components, the same finite order, and the same displayed $\hsame$ and $\Cont$ routes. Since no untagged carrier, eighth row, hidden permutation, host equality test, or capstone relocation row appears in the packet, local naming cannot export one.
+\end{proof}
+
+\begin{theorem}[BHistHeptaSequenceNameCert scoped support package]
+\label{thm:b-hist-hepta-sequence-name-cert-scoped-support-package}
+The carrier admission, classifier exactness, index exhaustion, tag exhaustion, provenance readback, and local naming nonescape clauses bind the $\BHistHeptaSequenceNameCertUp$ packet exactly to the displayed BEDC support
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert,
+$$
+to the hepta tuple capstone of \autoref{ch:concrete-instances-b-hist-hepta-tuple-name-cert-namecert}, and to the bucket-member surfaces named by $\EpistemicWitnessUp$, $\ExternalSupplyAuditRouteUp$, $\PhysicalRecordInvariantUp$, $\StructuralAdjacencyUp$, $\UseProcessLimitLedgerUp$, and $\ZCarryUp$. The resulting scope is the ordered seven-row $\BHist$ sequence window with displayed index row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row; it is not an unordered bucket tuple, a hidden permutation, a host equality classifier, or a hidden eighth position.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:b-hist-hepta-sequence-name-cert-carrier-admission} to identify the admitted rows and exclude any eighth coordinate. Apply \autoref{thm:b-hist-hepta-sequence-name-cert-classifier-exactness} to keep comparison on matching sequence indices, the displayed index row, and the structural rows.
+
+Apply \autoref{thm:b-hist-hepta-sequence-name-cert-index-exhaustion} to force every stable read through the seven displayed positions and the same ordered support. Apply \autoref{thm:b-hist-hepta-sequence-name-cert-tag-exhaustion} to prevent untagged payloads, duplicate hidden rows, bucket-only membership tags, and host-side equality tags from escaping through the local name.
+
+Apply \autoref{thm:b-hist-hepta-sequence-name-cert-provenance-readback} and \autoref{thm:b-hist-hepta-sequence-name-cert-local-naming-nonescape}. The scoped package is therefore the named BEDC packet itself. Its provenance can source the hepta tuple capstone and the named bucket-member surfaces, but no carrier or classifier row rewrites those sibling chapters or replaces their local certificates.
+\end{proof}
+
+\falsifiablePrediction{Any accepted consumer route that reads an unordered tuple coordinate, an untagged row, an eighth sequence row, a hidden permutation, bucket membership alone, an order table detached from $I$, or a sibling capstone relocation fails carrier admission, classifier exactness, index exhaustion, tag exhaustion, provenance readback, or local naming nonescape for $\BHistHeptaSequenceNameCertUp$.}
+
+\independenceWitness{b-hist-hepta-tuple-name-cert, epistemic-witness, external-supply-audit-route, physical-record-invariant, structural-adjacency, use-process-limit-ledger, and z-carry: none is bijective to $\BHistHeptaSequenceNameCertUp$ because this packet carries seven ordered sequence rows plus an index row, componentwise transport, replay, provenance, and local $\NameCert$, while the cited siblings supply tuple or bucket-member surfaces.}
+
+\closureat{BHistHeptaSequenceNameCertUp}{seedStr}
+
+\begin{closurestatus}{\BHistHeptaSequenceNameCertUp}
+  \constructivestory{A $\BHistHeptaSequenceNameCertUp$ packet is generated from seven tag-encoded $\BHist$ sequence rows, a finite index row, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:b-hist-hepta-sequence-name-cert-carrier}, \autoref{def:b-hist-hepta-sequence-name-cert-classifier}, \autoref{thm:b-hist-hepta-sequence-name-cert-carrier-admission}, \autoref{thm:b-hist-hepta-sequence-name-cert-classifier-exactness}, \autoref{thm:b-hist-hepta-sequence-name-cert-index-exhaustion}, \autoref{thm:b-hist-hepta-sequence-name-cert-tag-exhaustion}, \autoref{thm:b-hist-hepta-sequence-name-cert-provenance-readback}, \autoref{thm:b-hist-hepta-sequence-name-cert-local-naming-nonescape}, and \autoref{thm:b-hist-hepta-sequence-name-cert-scoped-support-package} identify the ordered seven-row sequence-window carrier surface and its BEDC support package.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai-composite}
+  \notclaimed{This chapter does not provide a Lean declaration, standard bridge, tuple-chapter replacement, bucket-member replacement, or public acceptance interface.}
+  \upgradepath{Formalization requires a Lean carrier for BEDC.Derived.BHistHeptaSequenceNameCertUp and checked carrier-admission, classifier-exactness, index-exhaustion, tag-exhaustion, provenance-readback, local-naming, and scoped-support theorems.}
+\end{closurestatus}
