@@ -304,6 +304,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.LedgerNonescapeSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.LedgerProvenanceClosure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.LedgerSeparation
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.LocalNameOutputExhaustion
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.MotiveBranchTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertObligationExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NormalizationConsumerNonescape
@@ -1175,6 +1176,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerScheduleLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ConsumerFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ConsumerRouteDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.DepthRowStability
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.KernelScopePackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NameCertExportTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NormalizationFrontierHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ObligationRouteTriad
@@ -1585,6 +1587,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FiniteObservationRoute
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripCarrierSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripClassifierStability
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripNameCertSourceLock
+import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceTotalityCertificate
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZeroRouteBoundary
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleReadbackRow
 import BEDC.Derived.CriticalLineWitnessUp.ModulusComparisonRouteTotality
@@ -1592,6 +1595,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ObligationCompletionPacket
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealDependencyTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRoute
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRouteTotality
+import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceBudgetReadiness
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTriad
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceWindowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
@@ -1607,6 +1611,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RouteClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RouteReadbackExhaustionCertificate
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
 import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
+import BEDC.Derived.CriticalLineWitnessUp.ZeroStripClassifierTransport
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -3562,6 +3567,7 @@ import BEDC.Derived.RealCompletionExactBoundaryUp.MatureRoute
 import BEDC.Derived.RealCompletionExactBoundaryUp.NameCertObligations
 import BEDC.Derived.RealCompletionExactBoundaryUp.NoCompletenessEscape
 import BEDC.Derived.RealCompletionExactBoundaryUp.Nonescape
+import BEDC.Derived.RealCompletionExactBoundaryUp.ObligationScope
 import BEDC.Derived.RealCompletionExactBoundaryUp.RealSealNonescape
 import BEDC.Derived.RealCompletionExactBoundaryUp.SealBudgetPrefixPullback
 import BEDC.Derived.RealCompletionExactBoundaryUp.SealClassifierWitnessBalance
