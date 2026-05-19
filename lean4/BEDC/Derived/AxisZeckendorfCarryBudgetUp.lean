@@ -124,4 +124,105 @@ theorem AxisZeckendorfCarryBudgetNamecertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, valueReadUnary, boundaryReadUnary, certReadUnary⟩
 
+theorem AxisZeckendorfCarryBudget_classifier_realization [AskSetup] [PackageSetup]
+    {source target carry normal value boundary transport route provenance name carryRead
+      budgetRead boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisZeckendorfCarryBudgetCarrier source target carry normal value boundary transport route
+        provenance name bundle pkg ->
+      Cont source target carryRead ->
+        Cont carryRead normal budgetRead ->
+          Cont budgetRead boundary boundaryRead ->
+            PkgSig bundle boundaryRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    AxisZeckendorfCarryBudgetCarrier source target carry normal value boundary
+                        transport route provenance name bundle pkg ∧
+                      (hsame row carryRead ∨ hsame row budgetRead ∨ hsame row boundaryRead))
+                  (fun _row : BHist =>
+                    Cont source target carryRead ∧ Cont carryRead normal budgetRead ∧
+                      Cont budgetRead boundary boundaryRead)
+                  (fun row : BHist => UnaryHistory row ∧ PkgSig bundle boundaryRead pkg)
+                  hsame ∧
+                UnaryHistory carryRead ∧ UnaryHistory budgetRead ∧
+                  UnaryHistory boundaryRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrierWitness sourceTargetCarryRead carryReadNormalBudgetRead
+    budgetReadBoundaryRead boundaryPkg
+  have carrierSource := carrierWitness
+  obtain ⟨sourceUnary, targetUnary, _carryUnary, normalUnary, _valueUnary, boundaryUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, _sourceTargetCarryCarrier,
+    _carryNormalValue, _valueBoundaryTransport, _transportRouteProvenance, _namePkg⟩ :=
+      carrierWitness
+  have carryReadUnary : UnaryHistory carryRead :=
+    unary_cont_closed sourceUnary targetUnary sourceTargetCarryRead
+  have budgetReadUnary : UnaryHistory budgetRead :=
+    unary_cont_closed carryReadUnary normalUnary carryReadNormalBudgetRead
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed budgetReadUnary boundaryUnary budgetReadBoundaryRead
+  have carrierInhabited :
+      Exists
+        (fun row : BHist =>
+          AxisZeckendorfCarryBudgetCarrier source target carry normal value boundary transport
+              route provenance name bundle pkg ∧
+            (hsame row carryRead ∨ hsame row budgetRead ∨ hsame row boundaryRead)) :=
+    Exists.intro boundaryRead ⟨carrierSource, Or.inr (Or.inr (hsame_refl boundaryRead))⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          AxisZeckendorfCarryBudgetCarrier source target carry normal value boundary transport
+              route provenance name bundle pkg ∧
+            (hsame row carryRead ∨ hsame row budgetRead ∨ hsame row boundaryRead))
+        (fun _row : BHist =>
+          Cont source target carryRead ∧ Cont carryRead normal budgetRead ∧
+            Cont budgetRead boundary boundaryRead)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle boundaryRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := carrierInhabited
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        cases source with
+        | intro carrierSource sourceRead =>
+            refine ⟨carrierSource, ?_⟩
+            cases sourceRead with
+            | inl sameCarry =>
+                exact Or.inl (hsame_trans (hsame_symm sameRows) sameCarry)
+            | inr rest =>
+                cases rest with
+                | inl sameBudget =>
+                    exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameBudget))
+                | inr sameBoundary =>
+                    exact Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) sameBoundary))
+    }
+    pattern_sound := by
+      intro _row _source
+      exact ⟨sourceTargetCarryRead, carryReadNormalBudgetRead, budgetReadBoundaryRead⟩
+    ledger_sound := by
+      intro row source
+      cases source with
+      | intro _carrierSource sourceRead =>
+          cases sourceRead with
+          | inl sameCarry =>
+              exact ⟨unary_transport carryReadUnary (hsame_symm sameCarry), boundaryPkg⟩
+          | inr rest =>
+              cases rest with
+              | inl sameBudget =>
+                  exact ⟨unary_transport budgetReadUnary (hsame_symm sameBudget), boundaryPkg⟩
+              | inr sameBoundary =>
+                  exact
+                    ⟨unary_transport boundaryReadUnary (hsame_symm sameBoundary),
+                      boundaryPkg⟩
+  }
+  exact ⟨cert, carryReadUnary, budgetReadUnary, boundaryReadUnary⟩
+
 end BEDC.Derived.AxisZeckendorfCarryBudgetUp
