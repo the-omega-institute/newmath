@@ -1617,6 +1617,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaSourceFactorization
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleReadbackRow
 import BEDC.Derived.CriticalLineWitnessUp.LedgerRouteStability
 import BEDC.Derived.CriticalLineWitnessUp.ModulusComparisonRouteTotality
+import BEDC.Derived.CriticalLineWitnessUp.ModulusConsumerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerReadback
 import BEDC.Derived.CriticalLineWitnessUp.ModulusStripSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ObligationCompletionPacket
@@ -1649,17 +1650,17 @@ import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusLedgerScope
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadbackUnblockPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
-import BEDC.Derived.CriticalLineWitnessUp.RootPublicReadiness
+import BEDC.Derived.CriticalLineWitnessUp.RootPhaseRealSourceUnblock
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalConsumerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaLedgerNonescape
+import BEDC.Derived.CriticalLineWitnessUp.RootZetaRealRatSourceReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RouteClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RouteReadbackExhaustionCertificate
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExposure
 import BEDC.Derived.CriticalLineWitnessUp.StreamNameSourceWindowLock
-import BEDC.Derived.CriticalLineWitnessUp.StripDepthReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroStripRoute
 import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
@@ -3709,6 +3710,7 @@ import BEDC.Derived.RealUp.Index
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.L10CurrentPhaseExitLocalThreshold
 import BEDC.Derived.RealUp.L10DependencyLattice
+import BEDC.Derived.RealUp.L10ExitCertificateFaceMinimality
 import BEDC.Derived.RealUp.L10ExitCertificateSupportNoConfusion
 import BEDC.Derived.RealUp.L10FaceStatusNoncollapse
 import BEDC.Derived.RealUp.L10FiniteWindowWitnessDeterminacy
@@ -3887,7 +3889,6 @@ import BEDC.Derived.RegularCauchyModulusNormalizerUp.NormalizedRouteBridge
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.PublicRoute
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.ScopedPrimitiveBinding
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.SharedTailMeetDeterminacy
-import BEDC.Derived.RegularCauchyModulusNormalizerUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.WitnessLedgerHandoff
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.BridgeRequestSurface
