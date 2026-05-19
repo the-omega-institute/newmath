@@ -162,4 +162,34 @@ theorem DiagonalCofinalTailCarrier_hsame_transport_lock [AskSetup] [PackageSetup
     unary_cont_closed wUnary transportedHUnary transportedSeal
   exact ⟨transportedHUnary, transportedCUnary, transportedSeal, pPkg⟩
 
+theorem DiagonalCofinalTailCarrier_tail_selector_lock [AskSetup] [PackageSetup]
+    {q s g d r w h c p n streamRead tailRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg ->
+      Cont s g streamRead ->
+        Cont streamRead r tailRead ->
+          Cont tailRead c consumer ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory q ∧ UnaryHistory s ∧ UnaryHistory g ∧ UnaryHistory d ∧
+                UnaryHistory r ∧ UnaryHistory w ∧ UnaryHistory h ∧ UnaryHistory c ∧
+                  UnaryHistory p ∧ UnaryHistory n ∧ UnaryHistory streamRead ∧
+                    UnaryHistory tailRead ∧ UnaryHistory consumer ∧ Cont q s g ∧
+                      Cont g d r ∧ Cont w h c ∧ Cont s g streamRead ∧
+                        Cont streamRead r tailRead ∧ Cont tailRead c consumer ∧
+                          PkgSig bundle p pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier streamRoute tailRoute consumerRoute consumerPkg
+  obtain ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, hUnary, cUnary, pUnary,
+    nUnary, qsRoute, gdRoute, whRoute, pPkg⟩ := carrier
+  have streamUnary : UnaryHistory streamRead :=
+    unary_cont_closed sUnary gUnary streamRoute
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed streamUnary rUnary tailRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed tailUnary cUnary consumerRoute
+  exact
+    ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, hUnary, cUnary, pUnary, nUnary,
+      streamUnary, tailUnary, consumerUnary, qsRoute, gdRoute, whRoute, streamRoute,
+      tailRoute, consumerRoute, pPkg, consumerPkg⟩
+
 end BEDC.Derived.DiagonalCofinalTailUp
