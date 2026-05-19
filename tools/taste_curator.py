@@ -127,6 +127,19 @@ targets exhibiting the same pattern). Your job:
    - papers/bedc/scripts/phase_paper_gates.py
    - lean4/scripts/phase_d_lint.py
    - docs/dossier/taste-evolutions.qmd
+2.5. NEW vs LEGACY classification — MANDATORY for any new audit detector you add:
+   When you add a detect_*() function in bedc_ci.py, you MUST:
+   - Use the existing `_get_commit_changed_files()` + `_classify_violation()` helpers.
+   - In the audit aggregation, split your detector's violations into new vs legacy.
+   - Add BOTH `<name>_new_count` and `<name>_legacy_count` to the payload.
+   - Only sum `<name>_new_count` into the audit total fail count (exit code driver).
+   - Print output in the dual format:
+     `[bedc-ci] <name>: N new (BLOCKING), M legacy (warning)`
+   This prevents your new detector from blocking P/R rounds that didn't touch
+   legacy violations — the same trap that 2026-05-19 mislabeled_composite hit.
+   The principle: a new audit gate only blocks the commit that introduces a
+   violation it touches; pre-existing data shows as warning to be consumed
+   organically by future rounds that naturally touch those files.
 3. DO NOT touch papers/bedc/parts/concrete_instances/**/*.tex
    DO NOT touch lean4/BEDC/**
    DO NOT touch codex_revise.py / codex_formalize.py / other daemon scripts
@@ -136,8 +149,10 @@ targets exhibiting the same pattern). Your job:
    history, no version-numbered names.
 6. Verify locally before commit:
    - python3 -m py_compile lean4/scripts/bedc_ci.py
-   - python3 lean4/scripts/bedc_ci.py audit (NEW gate may flag legacy
-     violations, that is expected; the gate must not crash)
+   - python3 lean4/scripts/bedc_ci.py audit
+   - If touched docs/dossier/*.qmd or papers/*: cd papers/bedc && make check
+   - If touched lean4/*: cd lean4 && lake build
+   - If touched lean4/*: python3 lean4/scripts/bedc_ci.py axiom-purity --strict
    - For any phase_paper_gates.py change: smoke test it parses
    - For any phase_d_lint.py change: smoke test it parses
 7. APPEND a new section to docs/dossier/taste-evolutions.qmd (append, do not overwrite).
@@ -1568,29 +1583,46 @@ def verify_rule_evolution(
     touched: list[str],
     baseline_audit_counts: dict[str, int] | None = None,
 ) -> tuple[bool, str]:
+    del baseline_audit_counts
+    messages: list[str] = []
     py_files = [path for path in touched if path.endswith(".py")]
     for path in py_files:
         ok, msg = command_output_ok(["python3", "-m", "py_compile", path], worktree, 60)
         if not ok:
             return False, msg
+        messages.append(f"py_compile {path}: {msg}")
 
-    lean_files = [path for path in touched if path.endswith(".lean")]
-    if lean_files:
+    ok, msg = command_output_ok(["python3", "lean4/scripts/bedc_ci.py", "audit"], worktree, TIMEOUTS["verify"])
+    if not ok:
+        return False, msg
+    messages.append(f"audit: {msg}")
+
+    touches_paper = any(
+        path.startswith("papers/") or path.startswith("docs/dossier/")
+        for path in touched
+    )
+    if touches_paper:
+        ok, msg = command_output_ok(["make", "check"], worktree / "papers" / "bedc", TIMEOUTS["verify"])
+        if not ok:
+            return False, msg
+        messages.append(f"make check: {msg}")
+
+    touches_lean = any(path.startswith("lean4/") for path in touched)
+    if touches_lean:
         ok, msg = command_output_ok(["lake", "build"], worktree / "lean4", TIMEOUTS["verify"])
         if not ok:
             return False, msg
+        messages.append(f"lake build: {msg}")
+        ok, msg = command_output_ok(
+            ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"],
+            worktree,
+            TIMEOUTS["verify"],
+        )
+        if not ok:
+            return False, msg
+        messages.append(f"axiom-purity: {msg}")
 
-    if not py_files:
-        return True, "verification passed"
-    if baseline_audit_counts is None:
-        return False, "missing baseline audit counts for Python rule evolution"
-    ok, post_counts, msg = run_audit_counts(worktree)
-    if not ok:
-        return False, msg
-    ok, compare_msg = compare_audit_counts(baseline_audit_counts, post_counts)
-    if not ok:
-        return False, compare_msg
-    return True, f"{compare_msg}; {msg}"
+    return True, "verification passed; " + "; ".join(messages)
 
 
 def update_approval_status(
@@ -1712,9 +1744,6 @@ def dispatch_rule_evolution(
     if add.returncode != 0:
         return False, f"worktree add failed: {tail(add.stderr or add.stdout)}", None
     try:
-        ok, baseline_audit_counts, msg = run_audit_counts(worktree)
-        if not ok:
-            return False, f"baseline audit failed: {msg}", None
         prompt = build_rule_evolution_prompt(flag, evidence)
         if approval_ids:
             prompt += "\nConfirmed approval ids:\n```json\n" + json.dumps(approval_ids, indent=2) + "\n```\n"
@@ -1737,7 +1766,7 @@ def dispatch_rule_evolution(
         ok, msg = validate_rule_evolution_touched(worktree, touched)
         if not ok:
             return False, msg, None
-        ok, msg = verify_rule_evolution(worktree, touched, baseline_audit_counts)
+        ok, msg = verify_rule_evolution(worktree, touched)
         if not ok:
             return False, msg, None
         ok, msg, commit_sha = merge_rule_evolution_worktree(worktree, branch, flag, cluster_key)
