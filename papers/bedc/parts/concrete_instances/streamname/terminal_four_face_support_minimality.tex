@@ -99,6 +99,64 @@ limit, completeness, choice, aggregate formalstatus, or bridge rows into
 support for the StreamName terminal verdict.
 \end{proof}
 
+\begin{theorem}[StreamName terminal support defect pullback]
+\label{thm:streamname-terminal-support-defect-pullback}
+Let $U$ and $V$ be accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request sections. Suppose a consumer-visible terminal
+presentation detects a carrier defect, a classifier defect, or a terminal
+route defect on one of the visible faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, or on one displayed
+support row $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, or local
+$\NameCert$. Then the defect pulls back to a finite request-section mismatch:
+it is witnessed by the finite-section pullback, by the Real-seal lock, by
+window reindex determinacy, or by the terminal-window fusion source and
+reindexing compatibility surfaces.
+
+Consequently excluded coordinates such as quotient stream equality, host
+sequence equality, selected limits, countable choice, metric completeness,
+aggregate formalstatus, bridge rows, and ambient $\RealUp$ completeness cannot
+serve as a defect carrier and cannot serve as a repair coordinate for the
+terminal request section consumed by the L10 Real route.
+\end{theorem}
+\begin{proof}
+First localize the visible failure. Apply
+\autoref{thm:streamname-terminal-support-defect-localization}. The carrier,
+classifier, or route defect is already forced onto one of the four visible
+faces or onto one displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or
+$\NameCert$ support row.
+
+Now pass from the terminal presentation to the finite request section. Apply
+\autoref{thm:streamname-finite-request-section-pullback}. The visible
+StreamName terminal read is pulled back to the finite window and request rows
+that the Phase $\RealUp$ route actually consumes. If the detected defect lies
+on the Real boundary of that read, apply
+\autoref{thm:streamname-finite-request-section-real-seal-lock}; the Real seal
+identifies the same finite request section rather than a separate ambient
+completion coordinate.
+
+It remains to account for presentations that differ by window transport.
+Apply \autoref{thm:streamname-window-reindex-determinacy}. The certified
+reindexing data preserve the finite observation section, so a defect surviving
+consumer-visible reindexing is still a mismatch of the same finite request
+rows.
+
+Finally use the fused terminal-window surface. The source-exhaustion theorem
+\autoref{thm:streamname-terminal-window-fusion-source-exhaustion} shows that
+an accepted terminal-window packet has no source beyond the displayed
+four-face section and support rows. The reindexing compatibility theorem
+\autoref{thm:streamname-terminal-window-fusion-reindexing-compatibility}
+keeps that source fixed under the allowed window transport. Thus every
+visible support defect pulls back to the finite request-section evidence
+listed in the statement.
+
+The exclusion clause follows because none of the pullback, seal-lock,
+determinacy, source-exhaustion, or compatibility surfaces exports a coordinate
+for quotient stream equality, host sequence equality, selected limits,
+countable choice, metric completeness, aggregate formalstatus, bridge rows, or
+ambient $\RealUp$ completeness. Such data therefore cannot carry the detected
+defect and cannot repair the finite section consumed by the L10 Real route.
+\end{proof}
+
 \begin{theorem}[StreamName terminal four-face support exhaustion]
 \label{thm:streamname-terminal-four-face-support-exhaustion}
 Let $U$ be an accepted current Phase $\RealUp$ and Completion terminal
