@@ -209,6 +209,46 @@ The consumer boundary confines downstream reads to $M,A,L,I,R,H,C,P,N$. Non-esca
 Therefore a \texttt{\textbackslash formalstatus\{...\}} token or marker-resolution synchronization justified by $W$ is evidence about the displayed objectwise marker-resolution rows for one paper site. It is not aggregate route-level closure evidence and cannot collapse the manuscript closure axis with the Lean inventory lookup axis.
 \end{proof}
 
+\begin{theorem}[Paper-Lean drift witness audit-map dependency source lock]
+\label{thm:paper-lean-drift-witness-auditmap-dependency-source-lock}
+Let
+$$
+W=(M,A,L,I,R,H,C,P,N)
+$$
+be an accepted $\PaperLeanDriftWitnessUp$ carrier. Any $\AuditMapDependencyWeaveUp$ consumer using $W$ as a dependency source must read the same marker row $M$, normalized requested-name row $A$, duplicate-label ledger row $L$, Lean inventory row $I$, verdict row $R$, componentwise transport row $H$, replay row $C$, provenance row $P$, and local $\NameCert$ row $N$. The consumer cannot replace those rows by approximate marker repair, an aggregate formalstatus token, a neighboring Lean name, or a route-level closure summary.
+\end{theorem}
+\begin{proof}
+The carrier projection exposes exactly the rows $M,A,L,I,R,H,C,P,N$. The marker row, normalized request, ledger, inventory, and verdict are therefore read from the same accepted witness rather than from a neighboring audit route.
+
+Resolution exactness fixes the positive read. An exact verdict requires the displayed normalized name $A$ to occur in the displayed inventory $I$ and requires the displayed ledger $L$ not to refuse the same marker site $M$.
+
+Token objectwise audit prevents this local verdict from becoming an aggregate formalstatus route. The consumer boundary then confines every downstream $\AuditMapDependencyWeaveUp$ read to the same displayed rows, so approximate marker repair and route-level closure summaries are outside the handoff.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness objectwise drift handoff]
+\label{thm:paper-lean-drift-witness-objectwise-drift-handoff}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier, an exact verdict hands off only the objectwise marker row $M$, normalized Lean name row $A$, duplicate-label ledger row $L$, Lean inventory hit row $I$, and verdict row $R$ for the same paper site. Replay, transport, provenance, and local naming may carry that row through $H,C,P,N$, but they cannot add a semantic-equivalence row, an approximate declaration match, or a checked-looking marker outside the exact verdict.
+\end{theorem}
+\begin{proof}
+Resolution exactness supplies the objectwise positive case: the marker row $M$, normalized request $A$, ledger $L$, inventory $I$, and verdict $R$ are read together for one paper site.
+
+Duplicate-label priority keeps the ledger in the handoff. If $L$ refuses the site, an inventory-shaped hit cannot be exported as an exact verdict, so the consumer cannot ignore the paper-label row.
+
+Unresolved-marker refusal keeps absent inventory hits inside refusal rows. Verdict determinism and inventory verdict totality then make the exported row exhaustive over the displayed local outcomes, leaving only transport, replay, provenance, and naming through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness audit-map weave consumer exactness]
+\label{thm:paper-lean-drift-witness-auditmap-weave-consumer-exactness}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier, the downstream $\AuditMapDependencyWeaveUp$ surface receives an exact local dependency row for marker resolution: the source-locked packet $M,A,L,I,R,H,C,P,N$ and the objectwise verdict handoff over $M,A,L,I,R$. It receives no semantic equivalence between paper prose and Lean declarations, no checked proof of the named Lean declaration, and no bridge or closure-axis certificate.
+\end{theorem}
+\begin{proof}
+First apply the audit-map dependency source lock. The dependency source is the displayed finite packet $M,A,L,I,R,H,C,P,N$, and every consumer read must factor through those rows.
+
+Next apply the objectwise drift handoff. The exact verdict exported to the dependency weave is the local marker-resolution row over $M,A,L,I,R$, carried only by the displayed transport, replay, provenance, and local naming rows.
+
+Finally use the consumer-boundary and non-escape theorems. The boundary gives exact marker resolution as dependency data, while non-escape prevents semantic equivalence, Lean proof content, bridge checking, or closure-axis certification from leaving the $\PaperLeanDriftWitnessUp$ packet.
+\end{proof}
+
 \begin{theorem}[Paper-Lean drift witness obligation-closure package]
 \label{thm:paper-lean-drift-witness-obligation-closure-package}
 For every accepted $\PaperLeanDriftWitnessUp$ carrier
