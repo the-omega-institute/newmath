@@ -43,6 +43,12 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Regenerate lean4/BEDC.lean.")
     parser.add_argument("--check", action="store_true", help="Check for drift without writing.")
     parser.add_argument(
+        "--output",
+        type=Path,
+        default=None,
+        help="Write regenerated content to this path instead of lean4/BEDC.lean.",
+    )
+    parser.add_argument(
         "--root",
         type=Path,
         default=None,
@@ -52,12 +58,13 @@ def main(argv: list[str] | None = None) -> int:
 
     script_root = Path(__file__).resolve().parents[2]
     root = (args.root.resolve() if args.root else _find_root(script_root)).resolve()
-    target = root / "lean4" / "BEDC.lean"
+    canonical_target = root / "lean4" / "BEDC.lean"
+    target = canonical_target if args.output is None else args.output
     desired, count = _desired_content(root)
 
     if args.check:
         try:
-            current = target.read_text(encoding="utf-8")
+            current = canonical_target.read_text(encoding="utf-8")
         except FileNotFoundError:
             current = ""
         if current == desired:
@@ -67,7 +74,7 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     target.write_text(desired, encoding="utf-8")
-    print(f"regenerated lean4/BEDC.lean ({count} imports)")
+    print(f"regenerated {target} ({count} imports)")
     return 0
 
 
