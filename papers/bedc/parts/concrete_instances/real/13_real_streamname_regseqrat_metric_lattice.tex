@@ -278,3 +278,47 @@ countable choice, host real equality, ambient completeness, metric-completeness
 rows, standard bridge rows, or direct unsealed-stream access, so the theorem
 states only determinacy of the finite classifier route.
 \end{proof}
+
+\begin{theorem}[Real L10 metric four-face completeness refusal]
+\label{thm:real-l10-metric-four-face-completeness-refusal}
+Let $R$ be an accepted metric-facing $\RealUp$ finite-window observation whose
+$\mathsf{MetricDistanceWitness}$ read agrees with the displayed four-face route
+through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, the local
+$\RealUp$ seal, and the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$. Then the metric witness supplies only the sealed distance and
+classifier read on that finite route.
+
+It cannot be reinterpreted as quotient stream equality, selected limit data,
+countable choice, ambient $\RealUp$ completeness, metric-completeness data, a
+standard bridge row, host real equality, or direct access to an unsealed stream.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-streamname-regseqrat-metric-observation-factorization}. The
+accepted metric-facing observation reaches the distance witness only through
+the StreamName finite-window schedule, the RegSeqRat regularity surface, the
+DyadicRatCore endpoint and radius ledger, the local Real seal, and the listed
+support rows.
+
+Next use the two pullback correspondences,
+\autoref{thm:real-l10-metric-classifier-pullback-correspondence} and
+\autoref{thm:real-l10-metric-distance-pullback-correspondence}. They identify
+the classifier and distance reads with the same four-face packet, so the
+metric-facing consumer receives no second coordinate beyond the sealed packet.
+
+Now apply
+\autoref{thm:real-l10-metric-witness-facewise-determinacy}. Agreement of the
+displayed faces and support rows determines the
+$\mathsf{MetricDistanceWitness}$ classifier read, and conversely that read can
+be unpacked only to those faces and rows.
+
+Finally combine the no-choice route factorization
+\autoref{thm:streamname-real-completion-route-no-choice-factorization} with
+\autoref{thm:real-l10-metric-preseal-nonescape}. The StreamName route has no
+coordinate for quotient stream equality, selected limits, countable choice,
+host sequence equality, metric-completeness data, or standard bridge rows, and
+the Real metric pre-seal boundary blocks the same data before the local
+$\RealUp$ seal is visible. Hence the metric witness remains a sealed finite
+distance and classifier read, not a completeness, choice, quotient, limit, or
+bridge assertion.
+\end{proof}
