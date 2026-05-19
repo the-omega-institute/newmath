@@ -1635,6 +1635,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootFiniteBudgetSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteSourceCarrier
+import BEDC.Derived.CriticalLineWitnessUp.RootFiniteSourceNameCertObligations
 import BEDC.Derived.CriticalLineWitnessUp.RootHandoffExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootLineRowExposure
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
@@ -1658,6 +1659,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZeroStripSourceClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
+import BEDC.Derived.CriticalStripZetaZeroWitnessUp.WitnessScopeBinding
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
 import BEDC.Derived.CrossHistCausalRateUp.Carrier
 import BEDC.Derived.CrossHistCausalRateUp.TasteGate
