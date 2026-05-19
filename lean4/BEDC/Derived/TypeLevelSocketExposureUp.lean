@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.NameCert
@@ -119,6 +120,37 @@ theorem TypeLevelSocketExposureNamecertObligations [AskSetup] [PackageSetup]
                   exact ⟨unary_transport certReadUnary (hsame_symm sameCert), certPkg⟩
   }
   exact ⟨cert, exposureReadUnary, refusalReadUnary, certReadUnary⟩
+
+theorem TypeLevelSocketExposureLedgerHostReturnExclusion [AskSetup] [PackageSetup]
+    {setup carrier classifier ledger refusal transport route provenance name exposureRead
+      refusalRead ledgerRead hostTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TypeLevelSocketExposureCarrier setup carrier classifier ledger refusal transport route
+        provenance name bundle pkg →
+      Cont setup carrier exposureRead →
+        Cont classifier ledger refusalRead →
+          Cont ledger refusal ledgerRead →
+            PkgSig bundle ledgerRead pkg →
+              UnaryHistory exposureRead ∧ UnaryHistory refusalRead ∧
+                UnaryHistory ledgerRead ∧ PkgSig bundle ledgerRead pkg ∧
+                  (Cont ledgerRead (BHist.e0 hostTail) ledger → False) ∧
+                    (Cont ledgerRead (BHist.e1 hostTail) ledger → False) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro exposureWitness setupCarrierExposure classifierLedgerRefusal ledgerRefusalRead
+    ledgerReadPkg
+  obtain ⟨setupUnary, carrierUnary, classifierUnary, ledgerUnary, refusalUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, _setupCarrierClassifier,
+    _classifierLedgerRefusal, _refusalTransportRoute, _namePkg⟩ := exposureWitness
+  have exposureReadUnary : UnaryHistory exposureRead :=
+    unary_cont_closed setupUnary carrierUnary setupCarrierExposure
+  have refusalReadUnary : UnaryHistory refusalRead :=
+    unary_cont_closed classifierUnary ledgerUnary classifierLedgerRefusal
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed ledgerUnary refusalUnary ledgerRefusalRead
+  exact
+    ⟨exposureReadUnary, refusalReadUnary, ledgerReadUnary, ledgerReadPkg,
+      cont_mutual_extension_right_tail_absurd.left ledgerRefusalRead,
+      cont_mutual_extension_right_tail_absurd.right ledgerRefusalRead⟩
 
 theorem TypeLevelSocketExposureLedgerNonescape [AskSetup] [PackageSetup]
     {setup carrier classifier ledger refusal transport route provenance name exposureRead
