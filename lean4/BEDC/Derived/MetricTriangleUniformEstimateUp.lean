@@ -430,4 +430,131 @@ theorem MetricTriangleUniformEstimateCarrier_primitive_scope [AskSetup] [Package
           localNamePkg, transportTargetTriangle⟩
   }
 
+theorem MetricTriangleUniformEstimateCarrier_l10_dependency_readiness [AskSetup] [PackageSetup]
+    {sourceMetric targetMetric graph left right center sourceBoundLeft sourceBoundRight
+      precision targetBoundLeft targetBoundRight targetTriangle transport route provenance
+      localName handoff consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricTriangleUniformEstimateCarrier sourceMetric targetMetric graph left right center
+      sourceBoundLeft sourceBoundRight precision targetBoundLeft targetBoundRight targetTriangle
+      transport route provenance localName bundle pkg ->
+    Cont precision targetTriangle handoff ->
+    Cont handoff localName consumer ->
+    PkgSig bundle consumer pkg ->
+      UnaryHistory sourceMetric ∧ UnaryHistory targetMetric ∧ UnaryHistory graph ∧
+        UnaryHistory precision ∧ UnaryHistory targetTriangle ∧ UnaryHistory handoff ∧
+          UnaryHistory consumer ∧ Cont left center sourceBoundLeft ∧
+            Cont right center sourceBoundRight ∧ Cont targetBoundLeft targetBoundRight
+              targetTriangle ∧ Cont precision targetTriangle handoff ∧
+                Cont handoff localName consumer ∧ Cont route provenance localName ∧
+                  hsame transport targetTriangle ∧ PkgSig bundle localName pkg ∧
+                    PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro carrier precisionTriangleHandoff handoffLocalConsumer consumerPkg
+  obtain ⟨sourceMetricUnary, targetMetricUnary, graphUnary, _leftUnary, _rightUnary,
+    _centerUnary, _sourceBoundLeftUnary, _sourceBoundRightUnary, precisionUnary,
+    _targetBoundLeftUnary, _targetBoundRightUnary, targetTriangleUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, localNameUnary, sourceLeftRoute, sourceRightRoute,
+    targetTriangleRoute, routeProvenanceLocalName, localNamePkg, transportTargetTriangle⟩ :=
+      carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed precisionUnary targetTriangleUnary precisionTriangleHandoff
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed handoffUnary localNameUnary handoffLocalConsumer
+  exact
+    ⟨sourceMetricUnary, targetMetricUnary, graphUnary, precisionUnary, targetTriangleUnary,
+      handoffUnary, consumerUnary, sourceLeftRoute, sourceRightRoute, targetTriangleRoute,
+      precisionTriangleHandoff, handoffLocalConsumer, routeProvenanceLocalName,
+      transportTargetTriangle, localNamePkg, consumerPkg⟩
+
+theorem MetricTriangleUniformEstimateCarrier_compact_continuous_bridge
+    [AskSetup] [PackageSetup]
+    {sourceMetric targetMetric graph left right center sourceBoundLeft sourceBoundRight
+      precision targetBoundLeft targetBoundRight targetTriangle transport route provenance
+      localName handoff consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricTriangleUniformEstimateCarrier sourceMetric targetMetric graph left right center
+      sourceBoundLeft sourceBoundRight precision targetBoundLeft targetBoundRight targetTriangle
+      transport route provenance localName bundle pkg ->
+    Cont precision targetTriangle handoff ->
+    Cont handoff localName consumer ->
+    PkgSig bundle consumer pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          MetricTriangleUniformEstimateCarrier sourceMetric targetMetric graph left right center
+            sourceBoundLeft sourceBoundRight precision targetBoundLeft targetBoundRight
+            targetTriangle transport route provenance localName bundle pkg ∧
+            hsame row consumer)
+        (fun row : BHist =>
+          UnaryHistory row ∧ (hsame row sourceBoundLeft ∨ hsame row sourceBoundRight ∨
+            hsame row targetTriangle ∨ hsame row consumer))
+        (fun _row : BHist =>
+          Cont left center sourceBoundLeft ∧ Cont right center sourceBoundRight ∧
+            Cont targetBoundLeft targetBoundRight targetTriangle ∧
+              Cont precision targetTriangle handoff ∧ Cont handoff localName consumer ∧
+                PkgSig bundle consumer pkg)
+        hsame ∧ UnaryHistory consumer := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert hsame
+  intro carrier precisionTriangleHandoff handoffLocalConsumer consumerPkg
+  have carrierWitness :
+      MetricTriangleUniformEstimateCarrier sourceMetric targetMetric graph left right center
+        sourceBoundLeft sourceBoundRight precision targetBoundLeft targetBoundRight
+        targetTriangle transport route provenance localName bundle pkg := carrier
+  obtain ⟨_sourceMetricUnary, _targetMetricUnary, _graphUnary, _leftUnary, _rightUnary,
+    _centerUnary, sourceBoundLeftUnary, _sourceBoundRightUnary, precisionUnary,
+    _targetBoundLeftUnary, _targetBoundRightUnary, targetTriangleUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, localNameUnary, sourceLeftRoute, sourceRightRoute,
+    targetTriangleRoute, _routeProvenanceLocalName, _localNamePkg, _transportTargetTriangle⟩ :=
+      carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed precisionUnary targetTriangleUnary precisionTriangleHandoff
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed handoffUnary localNameUnary handoffLocalConsumer
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          MetricTriangleUniformEstimateCarrier sourceMetric targetMetric graph left right center
+            sourceBoundLeft sourceBoundRight precision targetBoundLeft targetBoundRight
+            targetTriangle transport route provenance localName bundle pkg ∧
+            hsame row consumer)
+        (fun row : BHist =>
+          UnaryHistory row ∧ (hsame row sourceBoundLeft ∨ hsame row sourceBoundRight ∨
+            hsame row targetTriangle ∨ hsame row consumer))
+        (fun _row : BHist =>
+          Cont left center sourceBoundLeft ∧ Cont right center sourceBoundRight ∧
+            Cont targetBoundLeft targetBoundRight targetTriangle ∧
+              Cont precision targetTriangle handoff ∧ Cont handoff localName consumer ∧
+                PkgSig bundle consumer pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro consumer
+          ⟨carrierWitness, hsame_refl consumer⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨sourceRow.left, hsame_trans (hsame_symm sameRows) sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact
+          ⟨unary_transport consumerUnary (hsame_symm sourceRow.right),
+            Or.inr (Or.inr (Or.inr sourceRow.right))⟩
+      ledger_sound := by
+        intro _row _sourceRow
+        exact
+          ⟨sourceLeftRoute, sourceRightRoute, targetTriangleRoute, precisionTriangleHandoff,
+            handoffLocalConsumer, consumerPkg⟩
+    }
+  exact ⟨cert, consumerUnary⟩
+
 end BEDC.Derived.MetricTriangleUniformEstimateUp
