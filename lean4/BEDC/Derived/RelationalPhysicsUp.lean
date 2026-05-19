@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -218,5 +219,40 @@ theorem RelationalPhysicsNameCertObligations [AskSetup] [PackageSetup]
                       exact
                         ⟨unary_transport rateUnary (hsame_symm sameRate), provenancePkg⟩
   }
+
+theorem RelationalPhysicsGlobalFrameTailExclusion [AskSetup] [PackageSetup]
+    {observer invariant locality audit rate transport route provenance name invariantRead
+      auditRead frameRead hostTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RelationalPhysicsCarrier observer invariant locality audit rate transport route provenance
+        name bundle pkg →
+      Cont observer locality invariantRead →
+        Cont invariantRead audit auditRead →
+          Cont auditRead rate frameRead →
+            PkgSig bundle frameRead pkg →
+              hsame invariantRead invariant ∧ UnaryHistory auditRead ∧
+                UnaryHistory frameRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle frameRead pkg ∧
+                    (Cont frameRead (BHist.e0 hostTail) auditRead → False) ∧
+                      (Cont frameRead (BHist.e1 hostTail) auditRead → False) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory PkgSig
+  intro carrier observerLocalityInvariantRead invariantReadAuditRead auditReadRateFrame
+    framePkg
+  obtain ⟨observerUnary, _invariantUnary, localityUnary, auditUnary, rateUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    observerLocalityInvariant, _invariantAuditRate, _transportRouteProvenance,
+    _localityInvariantAudit, _auditRateRoute, provenancePkg, _namePkg⟩ := carrier
+  have invariantReadSame : hsame invariantRead invariant :=
+    cont_deterministic observerLocalityInvariantRead observerLocalityInvariant
+  have invariantReadUnary : UnaryHistory invariantRead :=
+    unary_cont_closed observerUnary localityUnary observerLocalityInvariantRead
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed invariantReadUnary auditUnary invariantReadAuditRead
+  have frameReadUnary : UnaryHistory frameRead :=
+    unary_cont_closed auditReadUnary rateUnary auditReadRateFrame
+  exact
+    ⟨invariantReadSame, auditReadUnary, frameReadUnary, provenancePkg, framePkg,
+      cont_mutual_extension_right_tail_absurd.left auditReadRateFrame,
+      cont_mutual_extension_right_tail_absurd.right auditReadRateFrame⟩
 
 end BEDC.Derived.RelationalPhysicsUp
