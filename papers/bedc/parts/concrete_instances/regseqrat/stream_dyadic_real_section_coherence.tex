@@ -234,3 +234,61 @@ finite overlap agreement and the displayed ledger rows, so it cannot produce
 quotient streams, selected limits, host equality, ambient completeness,
 countable choice, standard bridge rows, or an additional terminal seal.
 \end{proof}
+
+\begin{theorem}[RegSeqRat four-face gluing uniqueness]
+\label{thm:regseqrat-four-face-gluing-uniqueness}
+Let $\{S_i\}_{i \in I}$ be a finite cover of compatible local
+$\RegSeqRatUp$ terminal sections, and let $T$ and $T'$ be accepted
+$\RealUp$ terminal seals obtained from this same cover. Assume that both
+gluing presentations use the same $\StreamNameUp$ finite windows, the same
+$\DyadicRatCoreUp$ endpoint, radius, and finite-distance ledgers, the same
+$\RegSeqRatUp$ classifier and readback rows, the same $\RealUp$
+finite-section readbacks, and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and local $\NameCert_{\RegSeqRatUp}$ support rows on every cover member and
+every nonempty overlap. Then $T$ and $T'$ are the same BEDC-visible
+four-face terminal packet.
+
+The comparison is internal to the four displayed faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+It introduces no quotient stream, selected limit, host equality, ambient
+completeness row, countable-choice selector, standard bridge row, or second
+terminal seal.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage} separately
+to the presentations of $T$ and $T'$. For each cover member $S_i$, both
+seals therefore restrict to local packets satisfying the four-face exactness
+criterion of \autoref{thm:regseqrat-real-terminal-four-face-exactness} with
+the same StreamName, DyadicRatCore, RegSeqRat, RealUp, $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+On each local member and each nonempty overlap, use
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness}. Since the two
+presentations have identical finite windows, endpoint, radius, distance,
+classifier, readback, and support ledgers, the local $\RegSeqRatUp$ terminal
+source sections coincide as BEDC-visible records.
+
+The overlap ledger is now the same for the two presentations. Apply
+\autoref{thm:streamname-finite-section-descent-gluing} to the common
+StreamName finite windows. The glued StreamName section obtained from $T$
+and the glued StreamName section obtained from $T'$ are the same finite
+descent object, carrying the already identified dyadic, RegSeqRat, RealUp,
+and support rows.
+
+It remains to compare the terminal Real row. The common local four-face
+packet is read by
+\autoref{thm:regseqrat-real-terminal-four-face-exactness}, and terminal
+pullback uniqueness
+\autoref{thm:real-l10-terminal-pullback-uniqueness} identifies the accepted
+$\RealUp$ terminal row over that packet. Hence $T$ and $T'$ present the same
+BEDC-visible four-face terminal packet.
+
+All identifiers used in the comparison come from the finite cover and its
+overlap ledger. There is no field in the argument for a quotient stream,
+selected limit, host equality, ambient completeness principle, countable
+choice, standard bridge row, or independent second terminal seal, so none is
+introduced by the uniqueness comparison.
+\end{proof}
