@@ -48,3 +48,52 @@ stream equality, host real equality, selected limits, choice data, ambient or
 metric completeness, or a second seal coordinate, the equivalence cannot
 transport any of those objects.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-request support transport]
+\label{thm:regseqrat-finite-request-support-transport}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S$ and $T$ be public
+finite requests to $P$ consumed by the public $\RealUp$ seal route. Suppose the
+classifier-visible finite request sections of $S$ and $T$ agree. Then the
+support rows transported through that section are the same support packet:
+the componentwise $\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance, and
+local $\NameCert_{\RegSeqRatUp}$ rows of $S$ and $T$ agree component by
+component. Conversely, equality of that transported support packet recovers
+agreement of the support part of the classifier-visible finite request section.
+This support transport has no coordinate for quotient stream equality, host
+sequence equality, selected limits, choice data, ambient completeness,
+metric-completeness rows, or duplicate $\RealUp$ seal coordinates.
+\end{theorem}
+\begin{proof}
+Begin with the source section theorem,
+\autoref{thm:regseqrat-finite-request-source-section}. It displays the support
+part of each finite request as the componentwise $\hsame$ rows, displayed
+$\Cont$ rows, $\Pkg$ provenance, and local $\NameCert_{\RegSeqRatUp}$ rows in
+one finite $\BHist$ source packet.
+
+For the forward direction, apply the classifier alignment theorem,
+\autoref{thm:regseqrat-finite-request-classifier-alignment}. Agreement of the
+classifier-visible sections forces agreement on every row of the displayed
+source section that the classifier can see. The four support families listed in
+the statement are part of that displayed section, so transporting them through
+the agreed section yields one support packet.
+
+Next use the StreamName-Dyadic-Real handoff exactness theorem,
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. It keeps the
+schedule, dyadic, classifier, regularity, and terminal seal rows on the same
+finite handoff, so the support packet cannot detach from the section or acquire
+a second seal-facing coordinate.
+
+Now apply the Real finite-request fusion theorem,
+\autoref{thm:real-regseqrat-finite-request-fusion}. The $\RealUp$ consumer reads
+through the same finite $\BHist$ packet, with the same $\hsame$, $\Cont$,
+$\Pkg$, and local naming rows. Thus the support packet transported through the
+RegSeqRat section is the support packet consumed by the Real seal route.
+
+For the converse, assume the transported support packets are equal. Reading
+them back through the source section identifies exactly the support sublist of
+the classifier-visible finite request section. The classifier alignment theorem
+then recovers agreement of that support part and no larger object, because the
+cited source, handoff, and fusion routes contain no rows for quotient stream
+equality, host sequence equality, selected limits, choice data, ambient or
+metric completeness, or duplicate Real seal coordinates.
+\end{proof}

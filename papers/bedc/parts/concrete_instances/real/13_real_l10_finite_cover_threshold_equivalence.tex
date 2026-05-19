@@ -266,3 +266,52 @@ inventory, so none of those rows can compensate for a missing
 $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, local $\RealUp$, or shared
 support row.
 \end{proof}
+
+\begin{theorem}[Real L10 finite-cover threshold cocycle uniqueness]
+\label{thm:real-l10-finite-cover-threshold-cocycle-uniqueness}
+Let $T$ be an accepted terminal finite-window $\RealUp$ read. Let
+$\mathcal U$ and $\mathcal V$ be two finite certified covers of $T$, each
+satisfying the terminal finite-cover threshold equivalence. Suppose that, on
+every common refinement of $\mathcal U$ and $\mathcal V$, the two covers agree
+on the displayed $\DyadicRatCoreUp$ endpoint and radius ledger, the
+$\StreamNameUp$ finite-window schedule, the $\RegSeqRatUp$ regularity and
+classifier rows, the local $\RealUp$ seal rows, and the shared $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Then the four-face exit packet glued from $\mathcal U$ and the four-face exit
+packet glued from $\mathcal V$ are the same terminal common-refinement packet.
+This uniqueness statement is only about the displayed finite-cover threshold
+surface. It does not identify aggregate $\formalstatus$ rows, bridge rows,
+quotient streams, selected limits, countable-choice data,
+metric-completeness data, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-l10-terminal-finite-cover-threshold-equivalence} to both
+covers. Each cover is therefore a finite certified presentation whose glued
+packet and descended packet are the terminal four-face exit over the displayed
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$
+faces with the same support rows.
+
+Next pass to any common refinement. Apply
+\autoref{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness} to the
+finite-window schedule and
+\autoref{thm:regseqrat-finite-request-section-cocycle-real-seal} to the
+RegSeqRat request sections and local Real seal rows. The refinement exposes a
+single terminal four-face packet on the common StreamName, RegSeqRat, dyadic,
+and Real boundary.
+
+The dyadic ledger cannot split into two sources on that refinement. Apply
+\autoref{thm:dyadicratcore-l10-exit-ledger-source-determinacy}; the common
+endpoint and radius rows determine the same BEDC-visible dyadic source ledger
+and hence the same dyadic face of the exit packet.
+
+Finally apply \autoref{thm:real-l10-terminal-pullback-coherence} and
+\autoref{thm:real-l10-terminal-finite-cover-face-minimality}. Pullback
+coherence identifies the common four-face packet with the accepted terminal
+read $T$, and face minimality prevents any alternative support row from
+standing in for a displayed face. Thus the two glued packets coincide as the
+same terminal common-refinement packet, while aggregate status, bridge,
+quotient-stream, selected-limit, choice, metric-completeness, and ambient
+completeness coordinates remain outside the construction.
+\end{proof}
