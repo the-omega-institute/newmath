@@ -58,6 +58,47 @@ metric-completeness data, aggregate formalstatus, or bridge rows, so those
 objects cannot replace a missing visible face or support row.
 \end{proof}
 
+\begin{theorem}[StreamName terminal support defect localization]
+\label{thm:streamname-terminal-support-defect-localization}
+Let $U$ be an accepted current Phase Real and Completion terminal
+$\StreamNameUp$ request section. Suppose a public terminal presentation of
+$U$ fails to preserve at least one of the carrier verdict, the classifier
+verdict, or the consumer-facing terminal route supplied by
+\autoref{thm:streamname-terminal-four-face-support-minimality}. Then the
+failure is witnessed on one of the four visible faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, or on one of the
+displayed support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$.
+
+Consequently, quotient stream equality, host sequence equality, selected
+limits, countable choice, ambient $\RealUp$ completeness, metric completeness,
+aggregate formalstatus, and bridge rows cannot be the carrier of such a
+defect.
+\end{theorem}
+\begin{proof}
+The minimality theorem
+\autoref{thm:streamname-terminal-four-face-support-minimality} identifies the
+only support surface that presents the accepted carrier verdict and classifier
+verdict to Real-facing and completion-facing consumers. Therefore any loss of
+one of those verdicts, or of the displayed terminal route, must remove
+something from that support surface.
+
+The readback theorem
+\autoref{thm:streamname-open-phase-four-face-exit-readback} sends the public
+exit of an accepted terminal request through the same StreamName,
+DyadicRatCore, RegSeqRat, and Real faces. The Real-side localization theorem
+\autoref{thm:real-l10-face-axis-defect-localization} says that an L10 exit
+failure is detected on a displayed face or support row rather than on a hidden
+quotient, limit, choice, completeness, aggregate-status, or bridge coordinate.
+
+Combining these two route descriptions with the two-axis roadmap discipline
+gives the advertised referee check. The theory axis records which face or
+support row carries the terminal evidence, while the verification axis records
+whether that row has been checked; neither axis turns the excluded quotient,
+limit, completeness, choice, aggregate formalstatus, or bridge rows into
+support for the StreamName terminal verdict.
+\end{proof}
+
 \begin{theorem}[StreamName terminal four-face support exhaustion]
 \label{thm:streamname-terminal-four-face-support-exhaustion}
 Let $U$ be an accepted current Phase $\RealUp$ and Completion terminal
