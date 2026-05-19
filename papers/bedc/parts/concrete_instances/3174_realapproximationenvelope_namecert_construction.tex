@@ -40,6 +40,7 @@ The classifier side routes the same finite read through $R$ and then to the seal
 
 No remaining coordinate can supply host real equality, quotient stream equality, selected limits, completed-real inverse laws, or ambient completeness. The obligations therefore exhaust the finite Real-and-Completion observation envelope.
 \end{proof}
+\leanchecked{BEDC.Derived.RealApproximationEnvelopeUp.RealApproximationEnvelopePacket\_namecert\_obligations}
 
 \begin{theorem}[Real approximation-envelope tolerance-window admission]
 \label{thm:real-approximation-envelope-tolerance-window-admission}
@@ -72,6 +73,7 @@ D &\longrightarrow R.
 $$
 The determination is internal to the support rows $H,C,P,N$ and does not use quotient stream equality, host real equality, or a selected limit.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealApproximationEnvelopeUp.RealApproximationEnvelope\_dyadic\_observation\_soundness}
 \begin{proof}
 Start with the window admission theorem \autoref{thm:real-approximation-envelope-tolerance-window-admission}. It places the accepted tolerance request at the selected $\StreamNameUp$ row $W$ through the local support rows of the envelope.
 
@@ -151,6 +153,7 @@ R &\longrightarrow S.
 \end{aligned}
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.RealApproximationEnvelopeUp.RealApproximationEnvelopeDyadicClassifierHandoff}
 \begin{proof}
 By \autoref{def:real-approximation-envelope-carrier}, the packet stores the $\StreamNameUp$ row $W$, the $\DyadicRatCoreUp$ row $D$, the $\RegSeqRatUp$ row $R$, the $\RealUp$ row $S$, and the continuation ledger $C$ in one finite $\BHist$ carrier.
 
@@ -242,6 +245,7 @@ $$
 $$
 together with the support rows $H,C,P,N$, and no selected limit, quotient stream equality, host real equality, completed-real inverse law, or ambient completeness premise can replace that route.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealApproximationEnvelopeUp.RealApproximationEnvelope\_window\_classifier\_exactness}
 \begin{proof}
 The carrier definition \autoref{def:real-approximation-envelope-carrier} displays exactly the rows $\varepsilon,W,D,R,S,H,C,P,N$. Thus any public read of a dyadic observation, classifier row, or seal row must be a read of one of the named coordinates of the same finite $\BHist$ packet.
 
@@ -266,6 +270,7 @@ $$
 $$
 with support rows $H,C,P,N$. No selected limit, quotient stream equality, host real equality, completed-real inverse law, ambient completeness premise, or second classifier mediates this propagation.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealApproximationEnvelopeUp.RealApproximationEnvelope\_regularity\_propagation}
 \begin{proof}
 The carrier definition \autoref{def:real-approximation-envelope-carrier} gives the only available rows of an accepted envelope. Thus a regularity read starting at $R$ can only move through coordinates already present in $E$.
 
@@ -298,15 +303,86 @@ The real-facing endpoint is \autoref{thm:real-approximation-envelope-seal-routin
 Transport stability is exactly the componentwise $\hsame$ boundary of \autoref{thm:real-approximation-envelope-transport-nonescape}. The final consumer boundary is \autoref{thm:real-approximation-envelope-window-classifier-exactness}: every accepted classifier or seal read factors through the same finite window route, and no unrecorded equality, selected limit, inverse law, or completeness principle can replace it.
 \end{proof}
 
-\closureat{RealApproximationEnvelopeUp}{seedStr}
+\begin{theorem}[Real approximation-envelope primitive scope closure]
+\label{thm:real-approximation-envelope-primitive-scope-closure}
+Let
+$$
+E=(\varepsilon,W,D,R,S,H,C,P,N)
+$$
+be an accepted $\RealApproximationEnvelopeUp$ carrier. The seven obligation faces of \autoref{thm:real-approximation-envelope-obligation-coverage} are scoped exactly by the primitive rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, together with the four sibling surfaces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. Every tolerance-window read, dyadic observation, classifier handoff, seal route, componentwise transport, and consumer read factors through those rows. The package cannot use selected limits, quotient stream equality, host real equality, completed-real inverse laws, ambient completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+The carrier inventory is \autoref{def:real-approximation-envelope-carrier}. It exposes only the tolerance request $\varepsilon$, finite window $W$, dyadic observation $D$, classifier row $R$, seal row $S$, componentwise transport ledger $H$, continuation ledger $C$, provenance row $P$, and local certificate row $N$.
+
+Admission is supplied by \autoref{thm:real-approximation-envelope-namecert-obligations}. Thus the available primitive rows are exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, with the sibling surfaces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ named by the coordinates of $E$.
+
+The route from tolerance to seal is forced by \autoref{thm:real-approximation-envelope-window-readback-totality}, \autoref{thm:real-approximation-envelope-dyadic-classifier-handoff}, \autoref{thm:real-approximation-envelope-seal-routing}, and \autoref{thm:real-approximation-envelope-seal-classifier-compatibility}. These results identify the finite chain $\varepsilon \to W \to D \to R \to S$ as the only route available for tolerance-window reads, dyadic observations, classifier handoffs, and seal reads.
+
+Transport cannot leave that primitive scope by \autoref{thm:real-approximation-envelope-transport-nonescape}. Finally, \autoref{thm:real-approximation-envelope-obligation-coverage} repacks the carrier, admission, route, transport, and consumer faces into the seven-face package, with selected limits, quotient stream equality, host real equality, completed-real inverse laws, ambient completeness, Lean verification, and bridge checking outside the claim.
+\end{proof}
+
+\begin{theorem}[Real approximation-envelope four-face public export]
+\label{thm:real-approximation-envelope-four-face-public-export}
+Let
+$$
+E=(\varepsilon,W,D,R,S,H,C,P,N)
+$$
+be an accepted $\RealApproximationEnvelopeUp$ carrier. Its public Real-and-Completion export is exactly the four-face packet
+$$
+\StreamNameUp(W) \longrightarrow \DyadicRatCoreUp(D) \longrightarrow \RegSeqRatUp(R) \longrightarrow \RealUp(S)
+$$
+over the tolerance request $\varepsilon$, the componentwise $\hsame$ rows $H$, the displayed $\Cont$ routes $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\RealApproximationEnvelopeUp}$ row $N$. Every downstream diagonal-representative, stationary-window, Cauchy-modulus, Real-name, or Completion consumer reaches the L10 phase boundary through those rows, and no quotient stream, host real equality, selected limit, ambient completeness, metric-completeness, arithmetic/order package, or standard bridge row is exported by the envelope.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier by \autoref{def:real-approximation-envelope-carrier}. The only public face rows in the packet are the selected $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ observation $D$, the $\RegSeqRatUp$ classifier $R$, and the $\RealUp$ seal $S$, with $\varepsilon,H,C,P,N$ supplying the tolerance, transport, route, provenance, and local certificate support.
+
+Apply \autoref{thm:real-approximation-envelope-namecert-obligations}. It admits precisely those face rows and the support rows for the same local $\NameCert$ surface, so the export cannot acquire a detached quotient stream, host equality, selected limit, completeness witness, arithmetic/order package, or bridge coordinate.
+
+Next apply \autoref{thm:real-approximation-envelope-window-classifier-exactness} and \autoref{thm:real-approximation-envelope-obligation-coverage}. These force every classifier or seal read to factor through the finite route from $\varepsilon$ to $W$, then to $D$, then to $R$, and finally to $S$, while preserving the componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The consumer boundary of \autoref{thm:real-approximation-envelope-consumer-boundary} and the primitive scope closure of \autoref{thm:real-approximation-envelope-primitive-scope-closure} place the same route at the public edge of the chapter. Downstream, \autoref{thm:real-completion-exact-boundary-four-face-exactness} and \autoref{thm:real-completion-exact-boundary-terminal-route-pullback} are the Real L10 four-face exactness and pullback boundary: they consume only the corresponding StreamName, DyadicRatCore, RegSeqRat, and Real faces through finite structural rows. Thus the envelope exports exactly the displayed four-face packet to that boundary and nothing outside it.
+\end{proof}
+
+\begin{theorem}[Real approximation-envelope four-face transport stability]
+\label{thm:real-approximation-envelope-four-face-transport-stability}
+Let
+$$
+E=(\varepsilon,W,D,R,S,H,C,P,N)
+$$
+and
+$$
+E'=(\varepsilon',W',D',R',S',H',C',P',N')
+$$
+be accepted $\RealApproximationEnvelopeUp$ carriers. Suppose the tolerance requests, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, $\RegSeqRatUp$ classifier rows, $\RealUp$ seal rows, componentwise transport rows, continuation routes, provenance rows, and local $\NameCert_{\RealApproximationEnvelopeUp}$ rows are matched by componentwise $\hsame$ through the displayed support rows $H,C,P,N$ and $H',C',P',N'$. Then the public four-face export
+$$
+\StreamNameUp(W) \longrightarrow \DyadicRatCoreUp(D) \longrightarrow \RegSeqRatUp(R) \longrightarrow \RealUp(S)
+$$
+is transported to the same finite public packet
+$$
+\StreamNameUp(W') \longrightarrow \DyadicRatCoreUp(D') \longrightarrow \RegSeqRatUp(R') \longrightarrow \RealUp(S')
+$$
+over the matched tolerance, transport, route, provenance, and local certificate rows. This preservation introduces no quotient stream equality, host real equality, selected limit, ambient completeness, metric-completeness, arithmetic/order package, or bridge row.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-approximation-envelope-transport-nonescape}. The componentwise $\hsame$ rows keep the matched tolerance, window, dyadic observation, classifier, seal, provenance, and local name inside the two displayed finite carriers, so transport cannot leave the rows $H,C,P,N$ and $H',C',P',N'$.
+
+Apply \autoref{thm:real-approximation-envelope-window-classifier-exactness} to both accepted envelopes. It identifies the unique public route from the tolerance request through the selected $\StreamNameUp$ window, the $\DyadicRatCoreUp$ observation, and the $\RegSeqRatUp$ classifier row. The matched support rows therefore carry the same route shape on both sides.
+
+Next use \autoref{thm:real-approximation-envelope-regularity-propagation}. Regularity reaches the $\RealUp$ seal only through the already matched classifier row, so the transported classifier route and the transported seal route remain a single finite packet rather than two independent public objects.
+
+Finally invoke \autoref{thm:real-approximation-envelope-four-face-public-export}. Since that theorem makes the StreamName, DyadicRatCore, RegSeqRat, and Real rows the exact public boundary of the envelope, the componentwise transport preserves precisely the displayed four-face packet and adds none of the excluded quotient, host-equality, limit, completeness, arithmetic/order, or bridge data.
+\end{proof}
+
+\closureat{RealApproximationEnvelopeUp}{scopedStr}
 
 \begin{closurestatus}{\RealApproximationEnvelopeUp}
   \constructivestory{A $\RealApproximationEnvelopeUp$ packet is generated from a tolerance request, selected $\StreamNameUp$ finite window, $\DyadicRatCoreUp$ observation row, $\RegSeqRatUp$ classifier row, $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:real-approximation-envelope-carrier}, \autoref{thm:real-approximation-envelope-namecert-obligations}, and \autoref{thm:real-approximation-envelope-consumer-boundary} bind the finite observation envelope from tolerance requests through StreamNameUp windows, DyadicRatCore observations, RegSeqRat classifier rows, and RealUp seal handoffs.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:real-approximation-envelope-carrier}, \autoref{thm:real-approximation-envelope-namecert-obligations}, \autoref{thm:real-approximation-envelope-obligation-coverage}, \autoref{thm:real-approximation-envelope-primitive-scope-closure}, \autoref{thm:real-approximation-envelope-four-face-public-export}, and \autoref{thm:real-approximation-envelope-four-face-transport-stability} bind the primitive finite envelope from tolerance requests through StreamNameUp windows, DyadicRatCore observations, RegSeqRat classifier rows, RealUp seal handoffs, componentwise transport, and the public Real-and-Completion export boundary.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RealApproximationEnvelopeUp.RealApproximationEnvelope\_window\_classifier\_exactness}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient stream equality, host real equality, completed-real inverse laws, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure next records the primitive scope for the same StreamNameUp, DyadicRatCore, RegSeqRat, and RealUp rows.}
+  \upgradepath{The remaining route to a higher closure grade is axiom-purity and bridge checking for the finite StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, and RealUp envelope export.}
 \end{closurestatus}
