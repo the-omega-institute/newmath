@@ -60,3 +60,25 @@ The endpoint and radius classifier compatibility comes from \autoref{thm:dyadicr
 
 It remains to exclude extra classifier sources. RegSeqRat terminal-section exhaustion, \autoref{thm:regseqrat-real-seal-terminal-section-exhaustion}, rules out a shortcut from the regular rational section to the Real seal and rules out a fifth classifier face. Real L10 finite-window witness determinacy, \autoref{thm:real-l10-finite-window-witness-determinacy}, then fixes the public seal boundary to the same finite-window witness. Hence any classifier mismatch is visible as the loss of one of the four displayed faces, or else it requires one of the listed off-table coordinates.
 \end{proof}
+
+\begin{theorem}[Real L10 four-face local-threshold descent]
+\label{thm:real-l10-four-face-local-threshold-descent}
+Let $\mathcal E$ be a finite Phase $\RealUp$ and Completion packet displayed exactly on the four faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+with support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. If $\mathcal E$ satisfies the current-phase local threshold, then every accepted projection of the four-face route carries the same objectwise local threshold records on the DyadicRatCore endpoint and radius ledger, the StreamName finite-window schedule, the RegSeqRat classifier and regularity rows, and the local Real seal row.
+
+Conversely, any accepted four-face route projection carrying those four local threshold records together with the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support repacks as the current-phase Phase $\RealUp$ and Completion exit certificate of \autoref{thm:real-l10-current-phase-exit-local-threshold}. The descent and repacking use no quotient streams, selected limits, host real equality, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First put all classifier reads on one finite packet. By \autoref{thm:real-l10-four-face-classifier-coherence}, the visible classifier coordinates of an accepted route projection over the four displayed faces determine the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support packet.
+
+For descent, apply \autoref{thm:real-l10-current-phase-exit-local-threshold}. It identifies the current Phase Real and Completion exit criterion with the objectwise product of the four local threshold records on $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ face, supported by exactly those finite rows. Hence every accepted projection of that same packet reads the same four local threshold records.
+
+The projection order does not add a second certificate. Use \autoref{thm:real-l10-four-face-route-order-uniqueness} to fix the terminal route and use \autoref{thm:real-l10-face-order-permutation-invariance} to compare support-row-preserving projections of the displayed packet. Thus the descended local threshold is independent of the accepted projection order.
+
+For the converse direction, start with an accepted four-face route projection carrying the four local threshold records and the same displayed support rows. The local-threshold theorem repacks these rows as the current-phase exit certificate, and the classifier coherence theorem keeps the repacked certificate on the same finite four-face packet.
+
+Finally apply \autoref{thm:real-l10-exit-certificate-face-minimality}. Each face record and each displayed support row is indispensable, so no shortened route or off-table coordinate can present the same exit certificate. Therefore the repacking uses exactly the stated four faces and excludes the listed quotient, selected-limit, host-equality, choice, metric-completeness, aggregate-status, aggregate-bridge, standard-bridge, and completeness data.
+\end{proof}
