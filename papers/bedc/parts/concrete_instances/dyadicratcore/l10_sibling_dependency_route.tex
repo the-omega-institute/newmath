@@ -47,3 +47,47 @@ selected limits, countable choice, ambient completeness, metric-completeness
 rows, and $\RealUp$ completeness from the route. These exclusions are exactly
 the non-rows listed in the theorem statement.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore StreamName finite-window radius transport]
+\label{thm:dyadicratcore-streamname-finite-window-radius-transport}
+Whenever a $\StreamNameUp$ finite-window consumer reads a $\DyadicRatCoreUp$
+endpoint/radius ledger and then hands the read to a $\RegSeqRatUp$ consumer or
+to a $\RealUp$ seal route, the transported finite window preserves the same
+signed $\RatUp$ mantissa row, positive $\UnaryHistory$ exponent row,
+common-exponent classifier, radius/distance window, and displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. The transport introduces
+no point carrier, quotient rational equality, quotient stream equality,
+selected limit, host real equality, countable-choice row, metric-completeness
+row, or $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the endpoint/radius ledger supplied by
+\autoref{thm:dyadicratcore-l10-sibling-dependency-totality}. That theorem
+identifies the dyadic consumer surface with the signed mantissa, positive unary
+exponent, denominator, classifier, finite radius and distance windows, and the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Apply \autoref{thm:streamname-dyadicratcore-window-anchor}. The StreamName
+finite-window read is anchored to this dyadic observation ledger before any
+downstream consumer can inspect it, so the projection keeps the same rows rather
+than replacing them by a detached stream or host-real witness.
+
+For the RegSeqRat handoff, use
+\autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}. It reads the
+same endpoint/radius packet as the regular-rational finite window, preserving
+the classifier and radius/distance rows already visible through the StreamName
+projection.
+
+For the Real seal route, apply
+\autoref{thm:real-dyadic-streamname-regseqrat-dependency-route}. Its ordered
+route reads the DyadicRatCore face through $\StreamNameUp$ and $\RegSeqRatUp$
+before the local $\RealUp$ seal, so the Real-facing packet inherits the same
+finite support rows.
+
+The exclusion clauses in these three route theorems rule out every additional
+point carrier, quotient rational or stream equality, selected limit, host real
+equality, countable-choice row, metric-completeness row, and $\RealUp$
+completeness coordinate. Hence the finite-window transport is exactly the
+displayed DyadicRatCore radius ledger throughout the StreamName, RegSeqRat, and
+Real consumers.
+\end{proof}

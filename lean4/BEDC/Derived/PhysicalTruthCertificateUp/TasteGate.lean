@@ -39,7 +39,7 @@ private theorem physicalTruthCertificateDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def physicalTruthCertificateFields : PhysicalTruthCertificateUp → List BHist
+def physicalTruthCertificateFields : PhysicalTruthCertificateUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | PhysicalTruthCertificateUp.mk S F O D I L R H C P N => [S, F, O, D, I, L, R, H, C, P, N]
 
