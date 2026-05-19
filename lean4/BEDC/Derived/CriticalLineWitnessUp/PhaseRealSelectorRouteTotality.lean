@@ -1,5 +1,1 @@
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRoute
-
-namespace BEDC.Derived.CriticalLineWitnessUp
-
-end BEDC.Derived.CriticalLineWitnessUp
