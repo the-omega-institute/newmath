@@ -310,6 +310,21 @@ theorem ApophaticFixedPointFiberTasteGate_single_carrier_alignment :
               exact apophaticFixedPointFiberToEventFlow_injective heq
             · rfl
 
+theorem ApophaticFixedPointFiber_independence_witness :
+    apophaticFixedPointFiberToEventFlow
+        (ApophaticFixedPointFiberUp.mk BHist.Empty BHist.Empty
+          (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty) ≠
+      apophaticFixedPointFiberToEventFlow
+        (ApophaticFixedPointFiberUp.mk BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro sameFlow
+  have samePacket :=
+    apophaticFixedPointFiberToEventFlow_injective sameFlow
+  cases samePacket
+
 def ApophaticFixedPointFiberCarrier [AskSetup] [PackageSetup]
     (digest socket gap boundary inscription transport routes provenance name : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
