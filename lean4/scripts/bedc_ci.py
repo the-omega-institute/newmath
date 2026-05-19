@@ -60,6 +60,17 @@ PREAMBLE_COMMAND_RE = re.compile(
     r"|newenvironment|newtheorem)\*?\{(?P<name>\\?\w+)\}"
 )
 CONCRETE_REGION_PREFIX_RE = re.compile(r"^([0-9]+[a-z]?_[a-z][a-z0-9]*)_")
+CONCRETE_CHAPTER_RE = re.compile(r"^\s*\\chapter\{", re.MULTILINE)
+CONCRETE_INPUT_LINE_RE = re.compile(r"^\s*\\input\{[^}]+\}\s*$")
+CONCRETE_BODY_ENV_RE = re.compile(
+    r"\\begin\{(?:theorem|definition|lemma|proof|aligned)\}"
+)
+ORIGIN_TAG_RE = re.compile(r"\\origin\{([^}]*)\}")
+CLOSURESTATUS_BLOCK_RE = re.compile(
+    r"\\begin\{closurestatus\}.*?\\end\{closurestatus\}",
+    re.DOTALL,
+)
+VALID_ORIGINS = {"human", "ai", "ai-composite"}
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
 END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
@@ -596,6 +607,71 @@ def detect_concrete_instance_number_collisions() -> list[dict[str, object]]:
     return collisions
 
 
+def is_concrete_instance_hub_only(text: str) -> bool:
+    lines = [
+        line.strip()
+        for line in text.splitlines()
+        if line.strip() and not line.lstrip().startswith("%")
+    ]
+    if not lines:
+        return True
+    if CONCRETE_BODY_ENV_RE.search(text):
+        return False
+    for line in lines:
+        if CONCRETE_INPUT_LINE_RE.match(line):
+            continue
+        if line.startswith(r"\chapter{") or line.startswith(r"\label{"):
+            continue
+        if line.startswith(r"\begin{closurestatus}") or line.startswith(r"\end{closurestatus}"):
+            continue
+        if line.startswith(r"\theoryclosure{") or line.startswith(r"\scopeclosed{"):
+            continue
+        if line.startswith(r"\formalstatus{") or line.startswith(r"\leantarget{"):
+            continue
+        if line.startswith(r"\bridgestatus{") or line.startswith(r"\notclaimed{"):
+            continue
+        if line.startswith(r"\upgradepath{") or line.startswith(r"\constructivestory{"):
+            continue
+        if line.startswith(r"\origin{"):
+            continue
+        return False
+    return True
+
+
+def detect_concrete_instance_missing_origin() -> list[dict[str, object]]:
+    instances = PAPER_PARTS_ROOT / "concrete_instances"
+    if not instances.is_dir():
+        return []
+
+    missing: list[dict[str, object]] = []
+    for path in sorted(instances.rglob("*.tex")):
+        if not path.is_file():
+            continue
+        text = read_text(path)
+        if not CONCRETE_CHAPTER_RE.search(text):
+            continue
+        if is_concrete_instance_hub_only(text):
+            continue
+        chapter_text = CLOSURESTATUS_BLOCK_RE.sub("", text)
+        origins = [
+            match.group(1).strip()
+            for match in ORIGIN_TAG_RE.finditer(chapter_text)
+        ]
+        kind = ""
+        if not origins:
+            kind = "missing-origin"
+        elif len(origins) != 1:
+            kind = "duplicate-origin"
+        elif origins[0] not in VALID_ORIGINS:
+            kind = "invalid-origin"
+        if kind:
+            missing.append({
+                "file": str(path.relative_to(REPO_ROOT)),
+                "kind": kind,
+            })
+    return sorted(missing, key=lambda item: str(item["file"]))
+
+
 CLOSURESTATUS_BEGIN_RE = re.compile(
     r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
 )
@@ -798,6 +874,7 @@ def audit_payload() -> dict[str, object]:
     case_collisions = detect_case_collision_paths()
     preamble_duplicate_commands = detect_preamble_duplicate_commands()
     concrete_number_collisions = detect_concrete_instance_number_collisions()
+    concrete_missing_origin = detect_concrete_instance_missing_origin()
 
     closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     closurestatus_diagnostics: list[str] = []
@@ -820,6 +897,8 @@ def audit_payload() -> dict[str, object]:
         "preamble_duplicate_commands_count": len(preamble_duplicate_commands),
         "concrete_number_collisions": concrete_number_collisions,
         "concrete_number_collisions_count": len(concrete_number_collisions),
+        "concrete_missing_origin": concrete_missing_origin,
+        "concrete_missing_origin_count": len(concrete_missing_origin),
         "closurestatus_blocks_total": len(closurestatus_blocks),
         "closurestatus_blocks": closurestatus_blocks,
         "closurestatus_diagnostics": closurestatus_diagnostics,
@@ -968,6 +1047,13 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 print(f"  {item['region']}  subdir_exists={item['subdir_exists']}")
                 for path in item["files"]:
                     print(f"    {path}")
+        if payload["concrete_missing_origin"]:
+            print(
+                "[bedc-ci] concrete_instances missing/invalid origin tags: "
+                f"{payload['concrete_missing_origin_count']}"
+            )
+            for item in payload["concrete_missing_origin"][:50]:
+                print(f"  {item['file']}: {item['kind']}")
         if payload["closurestatus_diagnostics"]:
             print(
                 "[bedc-ci] closurestatus block diagnostics: "
@@ -1005,6 +1091,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["case_collisions_count"]
         + payload["preamble_duplicate_commands_count"]
         + payload["concrete_number_collisions_count"]
+        + payload["concrete_missing_origin_count"]
         + payload["closurestatus_diagnostics_count"]
         + payload["orphan_concrete_subdirs_count"]
     )
