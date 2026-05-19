@@ -4394,10 +4394,12 @@ import BEDC.Derived.ZnormalUp.ConsumerDivergenceOracleNonescape
 import BEDC.Derived.ZnormalUp.DecisionRouteExhaustion
 import BEDC.Derived.ZnormalUp.DivergenceOracleNonescapeRow
 import BEDC.Derived.ZnormalUp.DownstreamConsumerBoundary
+import BEDC.Derived.ZnormalUp.DownstreamNormalFormReadiness
 import BEDC.Derived.ZnormalUp.FiniteFuelClassifierStability
 import BEDC.Derived.ZnormalUp.FiniteNormalwordClassifierCompatibility
 import BEDC.Derived.ZnormalUp.FuelReadbackTasteGateRoute
 import BEDC.Derived.ZnormalUp.FuelReplayNondivergenceBoundary
+import BEDC.Derived.ZnormalUp.KernelSourceTotality
 import BEDC.Derived.ZnormalUp.LedgerNonescape
 import BEDC.Derived.ZnormalUp.NamecertLedgerExhaustion
 import BEDC.Derived.ZnormalUp.NormalFormConsumerBoundary
@@ -4438,6 +4440,8 @@ import BEDC.Derived.ZnormalUp.TasteGateFieldReadbackLock
 import BEDC.Derived.ZnormalUp.TasteGateScopeBinding
 import BEDC.Derived.ZnormalUp.TerminalBoundaryNonescape
 import BEDC.Derived.ZnormalUp.TerminalConsumerTotality
+import BEDC.Derived.ZnormalUp.TerminalFuelConsumerPackage
+import BEDC.Derived.ZnormalUp.TerminalFuelFieldScope
 import BEDC.Derived.ZnormalUp.TerminalFuelReadbackAdmission
 import BEDC.Derived.ZnormalUp.TerminalFuelReadbackFrontier
 import BEDC.Derived.ZnormalUp.TerminalFuelRouteExhaustion
