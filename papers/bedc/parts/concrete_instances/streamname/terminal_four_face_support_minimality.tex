@@ -57,3 +57,55 @@ equality, selected limits, countable choice, ambient $\RealUp$ completeness,
 metric-completeness data, aggregate formalstatus, or bridge rows, so those
 objects cannot replace a missing visible face or support row.
 \end{proof}
+
+\begin{theorem}[StreamName terminal four-face support exhaustion]
+\label{thm:streamname-terminal-four-face-support-exhaustion}
+Let $U$ be an accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request section. A consumer-visible support coordinate of $U$
+is accepted if and only if it is one of the four terminal faces
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, or one of
+the displayed rows $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$.
+
+Consequently the accepted support of $U$ has no coordinate for quotient stream
+equality, host sequence equality, selected limits, countable choice, ambient
+$\RealUp$ completeness, metric-completeness data, aggregate formalstatus rows,
+or bridge rows. None of these excluded data can be accepted as a substitute
+support coordinate for the terminal request section.
+\end{theorem}
+\begin{proof}
+For the reverse direction, the displayed four faces and support rows are
+accepted by the terminal packet described in
+\autoref{thm:streamname-terminal-four-face-support-minimality}. That theorem
+already identifies the visible StreamName, DyadicRatCore, RegSeqRat, and Real
+faces together with the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ rows as the public terminal surface of $U$.
+
+For the forward direction, let a consumer-visible support coordinate be
+accepted by the current Phase Real and Completion terminal request section.
+Apply \autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}. The
+consumer read is locked to the finite StreamName window, the DyadicRatCore
+ledger, the RegSeqRat readback, the Real seal boundary, and the same displayed
+support rows.
+
+Next read the coordinate through the RegSeqRat terminal boundary. By
+\autoref{thm:regseqrat-real-terminal-four-face-exactness}, terminal acceptance
+is exactly the four-face packet with those displayed rows. By
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness}, an accepted
+consumer with the same public verdict has the same finite RegSeqRat source, so
+no second RegSeqRat-facing support source is available.
+
+Finally pass to the Real exit route. Theorem
+\autoref{thm:real-l10-dependency-lattice-exit-totality} sends every current
+Phase Real and Completion terminal read through the ordered
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ route and the
+displayed support rows. Therefore every accepted consumer-visible support
+coordinate is one of exactly those faces or rows.
+
+The excluded objects are not coordinates of that route. Quotient stream
+equality, host sequence equality, selected limits, countable choice, ambient
+$\RealUp$ completeness, metric-completeness data, aggregate formalstatus rows,
+and bridge rows occur in neither the StreamName lock, the RegSeqRat exactness
+and uniqueness surface, nor the Real exit-totality route. Hence none of them is
+an accepted support coordinate for $U$.
+\end{proof}
