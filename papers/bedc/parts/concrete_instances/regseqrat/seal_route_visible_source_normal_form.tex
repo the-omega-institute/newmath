@@ -37,3 +37,48 @@ terminal finite $\RealUp$ seal route. Thus the common finite packet is the
 unique visible source surface consumed by the $\RealUp$ seal handoff, and every
 accepted route factors through precisely that surface.
 \end{proof}
+
+\begin{theorem}[RegSeqRat seal-route ordered face determinacy]\label{thm:regseqrat-seal-route-ordered-face-determinacy}
+Let an accepted terminal seal route carry a $\RegSeqRatUp$ packet to the
+$\RealUp$ seal boundary, and suppose its visible source rows are exactly the
+normal-form rows of
+\autoref{thm:regseqrat-seal-route-visible-source-normal-form}. Then the
+route consumes those rows in the ordered four-face route
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp.
+$$
+An accepted reindexing gives the same visible source section only when it
+preserves that order and preserves the same $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ support rows.
+
+The determinacy statement has no coordinate for quotient streams, selected
+limits, host equality, metric completion, $\RealUp$ completeness, or standard
+bridge rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-seal-route-visible-source-normal-form}. The
+accepted terminal seal route exposes one finite source surface, and that
+surface is exactly the StreamName schedule, DyadicRatCore endpoint and ledger,
+RegSeqRat regularity and classifier, $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ inventory.
+
+Next use \autoref{thm:regseqrat-terminal-four-face-axis-separation}. The same
+inventory is consumed as a four-face terminal boundary rather than as an
+ambient completion or verification-axis token. Thus the visible section must
+read first the $\StreamNameUp$ schedule face, then the $\DyadicRatCoreUp$
+ledger face, then the $\RegSeqRatUp$ regularity and classifier face, and
+finally the $\RealUp$ seal face.
+
+It remains to compare an accepted reindexing. Apply
+\autoref{thm:streamname-regseqrat-real-seal-correspondence} to the
+StreamName-facing seal handoff and then return to the normal form. A
+reindexed section reaches the same terminal seal section precisely by
+preserving the displayed ordered faces together with the same $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows.
+
+The exclusion clause follows from the coordinate inventories of the cited
+routes. Those inventories contain no quotient stream row, selected limit,
+host-equality row, metric-completion coordinate, $\RealUp$ completeness row,
+or standard bridge row, so no accepted reindexing can use such data to change
+the face order while keeping the same visible source section.
+\end{proof}
