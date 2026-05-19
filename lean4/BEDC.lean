@@ -1572,6 +1572,7 @@ import BEDC.Derived.CriticalLineWitnessUp.DepthLock
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripCarrierSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusComparisonRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
+import BEDC.Derived.CriticalLineWitnessUp.RatComparisonLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
 import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
@@ -1972,6 +1973,8 @@ import BEDC.Derived.DyadicCoverUp.FiniteCoverConsumerDeterminacy
 import BEDC.Derived.DyadicCoverUp.FiniteSubcoverExhaustion
 import BEDC.Derived.DyadicCoverUp.LedgerNonescape
 import BEDC.Derived.DyadicCoverUp.RealEnvelopeCoverageExactness
+import BEDC.Derived.DyadicCoverUp.RefinementWitnessExhaustion
+import BEDC.Derived.DyadicCoverUp.TotalBoundedRadiusLedger
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
@@ -2260,6 +2263,7 @@ import BEDC.Derived.FiniteObservationLockUp.TasteGate
 import BEDC.Derived.FiniteObservationReflectionSealUp.TasteGate
 import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
+import BEDC.Derived.FinitePrefixAutomatonUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitBudgetUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitStabilityUp.LedgerExactness
 import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
