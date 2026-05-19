@@ -3337,6 +3337,7 @@ import BEDC.Derived.OnticStateUp.NameCertObligationSurface
 import BEDC.Derived.OnticStateUp.ObserverAccessScope
 import BEDC.Derived.OnticStateUp.ObserverSupportFactorization
 import BEDC.Derived.OnticStateUp.ResidueLedgerExactness
+import BEDC.Derived.OnticStateUp.ResidueLedgerScope
 import BEDC.Derived.OnticStateUp.SiblingNoncollapse
 import BEDC.Derived.OnticStateUp.SignatureStability
 import BEDC.Derived.OnticStateUp.TasteGate
@@ -3642,6 +3643,7 @@ import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.RatClassifierTransportSealUp.TasteGate
+import BEDC.Derived.RatClassifierTransportSealUp.WindowExhaustion
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
 import BEDC.Derived.RatUp.DenominatorContext
@@ -3807,6 +3809,7 @@ import BEDC.Derived.RealWindowBudgetUp.TerminalPullbackCoherence
 import BEDC.Derived.RealWindowBudgetUp.TerminalPullbackNonescape
 import BEDC.Derived.RealWindowClassifierSealUp.TasteGate
 import BEDC.Derived.RealWindowSynchronizerUp.BudgetPullback
+import BEDC.Derived.RealWindowSynchronizerUp.StdBridge
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.RealityConstrainedApproximationTowerUp.TasteGate
 import BEDC.Derived.RealityConstrainedExplanationUp.NameCert
@@ -3821,6 +3824,7 @@ import BEDC.Derived.RealityConstrainedModelAuditUp.FailureSurfaceExhaustion
 import BEDC.Derived.RealityConstrainedModelAuditUp.FitSeparation
 import BEDC.Derived.RealityConstrainedModelAuditUp.LedgerNonescape
 import BEDC.Derived.RealityConstrainedModelAuditUp.SignatureExactness
+import BEDC.Derived.RealityConstrainedModelAuditUp.StrengthRowTransport
 import BEDC.Derived.RealityConstrainedModelAuditUp.TasteGate
 import BEDC.Derived.RealityConstrainedModelErrorBudgetUp.TasteGate
 import BEDC.Derived.RealityConstrainedObjectivityUp.TasteGate
@@ -3843,6 +3847,7 @@ import BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
 import BEDC.Derived.RealityConstrainedTruthCertUp.FieldCoverage
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10Readiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10SourceReadiness
+import BEDC.Derived.RealityConstrainedTruthCertUp.PhysicalFitNonescape
 import BEDC.Derived.RealityConstrainedTruthCertUp.RootTasteGateReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
 import BEDC.Derived.RecursionAuthorizationLedgerUp.Carrier
