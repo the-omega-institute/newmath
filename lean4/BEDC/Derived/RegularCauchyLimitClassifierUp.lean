@@ -23,7 +23,8 @@ def RegularCauchyLimitClassifierCarrier [AskSetup] [PackageSetup]
       UnaryHistory routes ∧ UnaryHistory provenance ∧ Cont input modulus diagonal ∧
         Cont diagonal windows readback ∧ Cont readback ledger sealRow ∧
           Cont sealRow transportRow routes ∧ Cont provenance sealRow cert ∧
-            hsame cert (append provenance sealRow) ∧ PkgSig bundle cert pkg
+            hsame cert (append provenance sealRow) ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle cert pkg
 
 theorem RegularCauchyLimitClassifierCarrier_stability [AskSetup] [PackageSetup]
     {input modulus diagonal windows readback ledger sealRow transportRow routes provenance
@@ -38,7 +39,8 @@ theorem RegularCauchyLimitClassifierCarrier_stability [AskSetup] [PackageSetup]
   rcases carrier with
     ⟨_inputUnary, _modulusUnary, diagonalUnary, windowsUnary, ledgerUnary, _transportUnary,
       _routesUnary, provenanceUnary, _inputModulusDiagonal, diagonalWindowsReadback,
-      readbackLedgerSeal, _sealTransportRoutes, provenanceSealCert, sameCert, certPkg⟩
+      readbackLedgerSeal, _sealTransportRoutes, provenanceSealCert, sameCert, _provenancePkg,
+      certPkg⟩
   have readbackUnary : UnaryHistory readback :=
     unary_cont_closed diagonalUnary windowsUnary diagonalWindowsReadback
   have sealUnary : UnaryHistory sealRow :=
@@ -139,7 +141,7 @@ theorem RegularCauchyLimitClassifierCarrier_public_export [AskSetup] [PackageSet
   have sameCert : hsame cert (append provenance sealRow) :=
     carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.left
   have certPkg : PkgSig bundle cert pkg :=
-    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right
   have readbackUnary : UnaryHistory readback :=
     unary_cont_closed diagonalUnary windowsUnary diagonalWindowsReadback
   have sealUnary : UnaryHistory sealRow :=
@@ -266,5 +268,41 @@ theorem RegularCauchyLimitClassifierCarrier_diagonal_seal_uniqueness [AskSetup] 
   exact
     cont_respects_hsame sameCerts (hsame_refl routes) certRoutesPublicRead
       certRoutesPublicRead'
+
+theorem RegularCauchyLimitClassifierCarrier_finite_route_exactness [AskSetup] [PackageSetup]
+    {input modulus diagonal windows readback ledger sealRow transportRow routes provenance
+      cert publicRead budgetRead completionRead completionRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitClassifierCarrier input modulus diagonal windows readback ledger sealRow
+        transportRow routes provenance cert bundle pkg →
+      Cont cert routes publicRead →
+        PkgSig bundle publicRead pkg →
+          hsame publicRead budgetRead →
+            Cont budgetRead routes completionRead →
+              Cont budgetRead routes completionRead' →
+                PkgSig bundle completionRead pkg →
+                  hsame completionRead completionRead' ∧ UnaryHistory completionRead ∧
+                    UnaryHistory completionRead' ∧ hsame publicRead budgetRead ∧
+                      hsame cert (append provenance sealRow) ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier certRoutesPublicRead publicReadPkg samePublicBudget
+    budgetRoutesCompletionRead budgetRoutesCompletionRead' _completionReadPkg
+  have factorized :=
+    RegularCauchyLimitClassifierCarrier_observation_budget_factorization carrier
+      certRoutesPublicRead publicReadPkg samePublicBudget
+  obtain
+    ⟨budgetReadUnary, _certRoutesPublicRead, samePublicBudget', sameCert, _certPkg,
+      publicReadPkg'⟩ := factorized
+  have routesUnary : UnaryHistory routes :=
+    carrier.right.right.right.right.right.right.left
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed budgetReadUnary routesUnary budgetRoutesCompletionRead
+  have completionReadUnary' : UnaryHistory completionRead' :=
+    unary_cont_closed budgetReadUnary routesUnary budgetRoutesCompletionRead'
+  have completionReadsSame : hsame completionRead completionRead' :=
+    cont_deterministic budgetRoutesCompletionRead budgetRoutesCompletionRead'
+  exact
+    ⟨completionReadsSame, completionReadUnary, completionReadUnary',
+      samePublicBudget', sameCert, publicReadPkg'⟩
 
 end BEDC.Derived.RegularCauchyLimitClassifierUp
