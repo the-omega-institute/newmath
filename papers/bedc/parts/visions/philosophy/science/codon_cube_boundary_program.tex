@@ -1,0 +1,281 @@
+\subsection{Codon-cube boundary research program}
+\label{subsec:philosophy-codon-cube-boundary-program}
+
+The DNA window-six bridge has a precise local form. The global codon
+cube is the six-bit source space
+$$
+  Q_{6}:=\{0,1\}^{6},
+$$
+but the standard stop-codon theorem is not a theorem about the global
+no-adjacent subspace of $Q_{6}$. It is a theorem about a two-bit
+boundary inside the $\mathrm{U}+\mathrm{RR}$ face. The refined slogan is
+therefore:
+$$
+  \text{codons live in }Q_{6},\qquad
+  \text{standard stops live in }\mathrm{U}+\mathrm{RR}+X_{2}^{\mathsf{fam}}.
+$$
+Here
+$$
+  X_{2}^{\mathsf{fam}}:=\{00,01,10\}
+$$
+is the local Zeckendorf-legal family suffix square. The global
+Fibonacci window $X_{6}$ remains a separate finite-window surface.
+
+\begin{definition}[Codon cube and local stop boundary]
+\label{def:philosophy-codon-cube-local-stop-boundary}
+Let the two-axis RNA or DNA readback be
+$$
+\begin{aligned}
+  \mathrm{U}/\mathrm{T} &= 00,&
+  \mathrm{C} &= 01,\\
+  \mathrm{A} &= 10,&
+  \mathrm{G} &= 11.
+\end{aligned}
+$$
+The codon cube is
+$$
+  Q_{6}:=\{0,1\}^{6}
+  \cong
+  (\{0,1\}^{2})^{3}
+  \cong
+  \{\mathrm{U},\mathrm{C},\mathrm{A},\mathrm{G}\}^{3}.
+$$
+The stop face is the codon-cube face
+$$
+  \mathsf{StopFace}:=
+  \{\mathrm{U}xy\mid x,y\in\{\mathrm{A},\mathrm{G}\}\}
+  =
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG}\}.
+$$
+The local suffix boundary is obtained by projecting the last two
+positions to the family axis and retaining only
+$X_{2}^{\mathsf{fam}}=\{00,01,10\}$.
+\end{definition}
+
+\begin{definition}[Global and local no-$11$ spaces]
+\label{def:philosophy-global-local-no-eleven-spaces}
+The global no-adjacent window is
+$$
+  X_{6}:=\{w\in Q_{6}\mid w\text{ has no adjacent }11\}.
+$$
+The local family-suffix window is
+$$
+  X_{2}^{\mathsf{fam}}
+  :=
+  \{s\in\{0,1\}^{2}\mid s\neq 11\}
+  =
+  \{00,01,10\}.
+$$
+The DNA stop theorem uses $X_{2}^{\mathsf{fam}}$ inside
+$\mathsf{StopFace}$; it does not identify stop codons with $X_{6}$.
+\end{definition}
+
+\begin{theorem}[Local $X_{2}$ stop boundary]
+\label{thm:philosophy-local-x-two-stop-boundary}
+Under the two-axis RNA bridge,
+$$
+  \mathsf{StopFace}\cap X_{2}^{\mathsf{fam}}
+  =
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+$$
+\end{theorem}
+\begin{proof}
+The stop face has four suffixes:
+$$
+\begin{aligned}
+  \mathrm{AA} &\longmapsto 00,\\
+  \mathrm{AG} &\longmapsto 01,\\
+  \mathrm{GA} &\longmapsto 10,\\
+  \mathrm{GG} &\longmapsto 11.
+\end{aligned}
+$$
+Intersecting with $X_{2}^{\mathsf{fam}}=\{00,01,10\}$ keeps the first
+three suffixes and removes the $\mathrm{GG}$ corner. Hence the selected
+codons are exactly $\mathrm{UAA}$, $\mathrm{UAG}$, and $\mathrm{UGA}$.
+\end{proof}
+
+\begin{theorem}[Local $X_{2}$ is not global $X_{6}$]
+\label{thm:philosophy-local-x-two-not-global-x-six}
+The standard stop-codon boundary is local to the family suffix and is
+not the global no-adjacent-$11$ subspace $X_{6}$ of the flattened codon
+cube.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-global-no-eleven-not-stop-classifier}, the
+flattened strings for $\mathrm{UAG}$ and $\mathrm{UGA}$ contain adjacent
+$11$ even though both are standard stop codons. Thus the global
+predicate defining $X_{6}$ would not select the standard stop set. The
+successful reconstruction is instead the two-bit family-suffix
+predicate of \autoref{thm:philosophy-local-x-two-stop-boundary}.
+\end{proof}
+
+\begin{corollary}[Codon cube, global window, local boundary]
+\label{cor:philosophy-codon-cube-global-window-local-boundary}
+The DNA/window-six bridge separates three finite spaces:
+$$
+\begin{aligned}
+  Q_{6} &:= \{0,1\}^{6}
+      &&\text{global codon-cube source space},\\
+  X_{6} &:= \{w\in Q_{6}\mid w\text{ has no adjacent }11\}
+      &&\text{global Fibonacci window},\\
+  X_{2}^{\mathsf{fam}} &:= \{00,01,10\}
+      &&\text{local stop-face family boundary}.
+\end{aligned}
+$$
+The bridge is strong because codons naturally inhabit $Q_{6}$ and the
+standard stop set is a local $X_{2}^{\mathsf{fam}}$ boundary inside
+that cube. It is not an identification of DNA with $X_{6}$ or with a
+window-six fold.
+\end{corollary}
+
+\begin{definition}[Comparative genetic-code deformation ledger]
+\label{def:philosophy-comparative-genetic-code-deformation-ledger}
+For an external genetic-code table $T$, the comparison ledger records
+$$
+  \mathsf{StopSet}_{T},\quad
+  \mathsf{SenseSet}_{T},\quad
+  \mathsf{role}_{T}(\mathrm{UAA}),\quad
+  \mathsf{role}_{T}(\mathrm{UAG}),\quad
+  \mathsf{role}_{T}(\mathrm{UGA}),\quad
+  \mathsf{role}_{T}(\mathrm{UGG}).
+$$
+The boundary deformation row is
+$$
+  \Delta_{T}
+  :=
+  \mathsf{StopSet}_{T}
+  \triangle
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\},
+$$
+where $\triangle$ denotes symmetric difference. If
+$\Delta_{T}=\varnothing$, the standard L-shape is preserved by that
+table. If $\Delta_{T}\neq\varnothing$, the table is recorded as a
+deformation of the biological bridge target.
+\end{definition}
+
+\begin{definition}[Empirical dynamics observables]
+\label{def:philosophy-empirical-dynamics-observables}
+The empirical layer tests whether the L-shape is only a finite set
+shape or also a dynamic boundary. The bridge may record observables such
+as
+$$
+\begin{gathered}
+  \Pr(\mathrm{termination}\mid
+    \mathrm{stop\ type},+4\text{ context},\mathrm{species},
+    \mathrm{release\ factor}),\\
+  \Pr(\mathrm{readthrough}\mid
+    \mathrm{stop\ type},\mathrm{downstream\ context}),\\
+  \mathrm{ribosome\ pause\ time},\qquad
+  \mathrm{mRNA\ half\ life},\\
+  \mathrm{codon\ optimality\ score},\qquad
+  \mathrm{stop\ codon\ usage\ frequency}.
+\end{gathered}
+$$
+These quantities are external biological bridge rows. They may guide
+which dynamic fields are worth naming, but they do not become BEDC
+kernel primitives.
+\end{definition}
+
+\begin{definition}[Finite-state stop-boundary prototype]
+\label{def:philosophy-finite-state-stop-boundary-prototype}
+A minimal finite-state prototype has states
+$$
+  \{\mathsf{scan},\mathsf{elongate},\mathsf{terminate},
+    \mathsf{readthrough},\mathsf{repair},\mathsf{mutate}\}
+$$
+and alphabet $\{\mathrm{U},\mathrm{C},\mathrm{A},\mathrm{G}\}$. The
+current window is a codon $w_{t}=(b_{t},b_{t+1},b_{t+2})$. Under the
+standard-code bridge, the transition rows include
+$$
+\begin{aligned}
+  \delta(\mathsf{elongate},\mathrm{UAA}) &= \mathsf{terminate},\\
+  \delta(\mathsf{elongate},\mathrm{UAG}) &= \mathsf{terminate},\\
+  \delta(\mathsf{elongate},\mathrm{UGA}) &= \mathsf{terminate},\\
+  \delta(\mathsf{elongate},\mathrm{UGG}) &= \mathsf{elongate\text{-}Trp}.
+\end{aligned}
+$$
+A stochastic extension may replace $\delta$ by
+$\Pr(\delta\mid w_{t},\mathrm{context})$ to model readthrough,
+release-factor availability, or cellular state.
+\end{definition}
+
+\begin{definition}[Work packages for the codon-cube boundary program]
+\label{def:philosophy-codon-cube-boundary-work-packages}
+The research program has seven work packages:
+\begin{description}
+  \item[Finite modeling.]
+  Define $\mathsf{Base}^{\uparrow}$, $\mathsf{Codon}^{\uparrow}\cong
+  Q_{6}$, $\mathsf{StopFace}$, $\mathsf{FamilySuffix}$,
+  $\mathsf{ZLegalFamilySuffix}$, the three-stop theorem, the excluded
+  corner, and the RF L-shape bridge.
+
+  \item[Window clarification.]
+  Separate $Q_{6}$, $X_{6}$, and $X_{2}^{\mathsf{fam}}$, and prove that
+  the strong bridge is $Q_{6}$ plus local $X_{2}^{\mathsf{fam}}$, not
+  DNA as global $X_{6}$.
+
+  \item[Genetic-code comparison.]
+  Compare standard, mitochondrial, ciliate, protozoan, nuclear,
+  bacterial, archaeal, and plastid tables by the deformation ledger
+  $\Delta_{T}$.
+
+  \item[Stop and codon usage statistics.]
+  Relate stop identity, GC content, expression level, species lineage,
+  tRNA or release-factor annotations, terminal context, and downstream
+  context to stop usage.
+
+  \item[Translation dynamics.]
+  Use ribosome-profiling, readthrough, pausing, mRNA stability, and
+  protein-output rows as external dynamic evidence.
+
+  \item[Synthetic reporter validation.]
+  Compare terminal-window replacements
+  $\mathrm{UAA}$, $\mathrm{UAG}$, $\mathrm{UGA}$, and $\mathrm{UGG}$
+  under controlled downstream and release-factor contexts.
+
+  \item[Finite-state prototype.]
+  Implement the stop-boundary automaton with context-dependent
+  transition probabilities as a bridge-side model.
+\end{description}
+\end{definition}
+
+\begin{theorem}[Codon-cube boundary cannot-claim boundary]
+\label{thm:philosophy-codon-cube-boundary-cannot-claim}
+The codon-cube boundary program does not license any claim that
+Zeckendorf alone proves the biological genetic code, that the DNA
+genetic code is a window-six fold, that the whole genetic code is
+global $X_{6}$, that BEDC $\mathrm{End}=11$ is identical to a biological
+stop codon, that the family suffix $11$ in $\mathrm{UGG}$ is the
+channel terminator, that the standard stop codons are universal across
+all genetic-code tables, that $\mathrm{UGG}$ must be tryptophan by BEDC
+logic alone, that synonymous codons are dynamically identical after
+amino-acid classification, that DNA state is exhausted by $Q_{6}$, that
+DNA has fully autonomous closed dynamics independent of cellular
+machinery, that biological tables replace $\NameCert$ obligations, or
+that $\mathsf{DNAWindow6Dynamics}^{\uparrow}$ is already checked.
+\end{theorem}
+\begin{proof}
+The global-window refusals follow from
+\autoref{thm:philosophy-local-x-two-not-global-x-six}. The channel and
+token-identity refusals follow from
+\autoref{thm:philosophy-zstop-no-channel-token-collapse}. The dynamic
+state refusals follow from
+\autoref{thm:philosophy-window-six-local-incomplete}. The
+microstate-refusal follows from
+\autoref{thm:philosophy-translation-not-microstate-collapse}. The
+checked-status refusal follows because this program is a
+vision-strength bridge target and not a Lean target.
+\end{proof}
+
+\begin{corollary}[Allowed codon-cube boundary claim]
+\label{cor:philosophy-codon-cube-boundary-allowed-claim}
+Under the two-axis DNA or RNA bridge and Zeckendorf-family suffix
+legality, the standard stop-codon set is structurally reconstructed as
+the local $X_{2}^{\mathsf{fam}}$ L-shape
+$$
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}
+$$
+inside the $\mathrm{U}+\mathrm{RR}$ face of the codon cube $Q_{6}$. The
+framework is a biological-bridge vision for symbolic-physical DNA
+dynamics, not a checked theorem that Zeckendorf alone forces biology.
+\end{corollary}
