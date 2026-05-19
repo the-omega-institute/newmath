@@ -529,6 +529,28 @@ Align this route with the roadmap by \autoref{thm:streamname-real-completion-fou
 Finally use \autoref{thm:real-l10-four-face-audit-clean-handoff} and \autoref{thm:real-l10-exit-facewise-audit-obstruction}. They require each face to contribute its own closurestatus and formalstatus record and prevent any support row or aggregate audit token from replacing a missing local face record. Therefore the componentwise four-face conjunction is sufficient only for the paper-side boundary and audit-readiness route. Full phase exit remains an objectwise read from the four local records, and the excluded selected-limit, quotient-equality, completeness, choice, metric, aggregate bridge, and aggregate formalstatus claims remain outside the theorem.
 \end{proof}
 
+\begin{theorem}[StreamName open-phase exit audit consolidation]
+\label{thm:streamname-open-phase-exit-audit-consolidation}
+An accepted Phase Real and Completion audit packet for the current $\StreamNameUp$ open-phase exit is valid exactly when it exposes exactly the four local faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+with each face read through its own closurestatus and formalstatus record, together with the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Equivalently, validity is the conjunction of those four objectwise records and those finite support rows, and nothing else.
+
+The audit packet excludes quotient stream equality, selected limits, ambient $\RealUp$ completeness, metric completeness, countable choice, standard bridge completion, and any aggregate formalstatus or bridge token.
+\end{theorem}
+\begin{proof}
+For sufficiency, apply \autoref{thm:streamname-open-phase-roadmap-exit-conjunction}. It identifies the paper-side boundary condition as the four local Phase Real and Completion faces read through their own closurestatus and formalstatus records, plus the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Then use \autoref{thm:streamname-open-phase-exit-route-completeness} to read that visible packet as an accepted terminal finite route.
+
+For necessity, apply \autoref{thm:streamname-open-phase-no-fifth-object-exhaustion}. It says every accepted open-phase exit route is exhausted by the same four faces and displayed rows. The ledger exactness of \autoref{thm:streamname-open-phase-four-face-ledger-exactness} fixes the tolerance-ledger coordinate inside the finite packet, while the readback theorem \autoref{thm:streamname-open-phase-four-face-exit-readback} fixes every current exit read on exactly those rows.
+
+Finally use \autoref{thm:real-l10-exit-facewise-audit-obstruction}. A missing local closurestatus or formalstatus record cannot be replaced by an aggregate token, support row, bridge token, or downstream completion claim. Thus the necessary and sufficient audit criterion is exactly the four facewise records with the displayed support rows, excluding quotient equality, selected limits, ambient completeness, metric completeness, countable choice, standard bridge completion, and aggregate verification or bridge tokens.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat--Real selector-budget normal form]
 \label{thm:streamname-regseqrat-real-selector-budget-normal-form}
 Every accepted Phase Real and Completion exit read whose visible faces are
