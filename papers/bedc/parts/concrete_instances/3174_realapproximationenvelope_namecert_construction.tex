@@ -59,6 +59,62 @@ Cauchy-modulus and $\RealUp$ classifier consumers then reach the real-facing bou
 The carrier inventory is exhausted by the displayed rows. Since none of them is host real equality, quotient stream equality, a selected limit, a completed-real inverse law, or an ambient completeness theorem, no accepting consumer can export such data.
 \end{proof}
 
+\begin{theorem}[Real approximation-envelope window readback totality]
+\label{thm:real-approximation-envelope-window-readback-totality}
+Let
+$$
+E=(\varepsilon,W,D,R,S,H,C,P,N)
+$$
+be an accepted $\RealApproximationEnvelopeUp$ carrier. Every accepted tolerance request in $E$ reaches the selected $\StreamNameUp$ finite window by the displayed route through $\varepsilon$, $W$, $H$, $C$, $P$, and $N$, and the readback uses no stream coordinate except those recorded in that finite window row.
+\end{theorem}
+\begin{proof}
+The carrier definition in \autoref{def:real-approximation-envelope-carrier} displays $\varepsilon$ as the tolerance request row, $W$ as the selected $\StreamNameUp$ finite-window row, $H$ as the componentwise transport ledger, $C$ as the continuation route ledger, $P$ as provenance, and $N$ as the local certificate.
+
+Apply the NameCert obligation inventory of \autoref{thm:real-approximation-envelope-namecert-obligations}. It requires tolerance-request admission, selected $\StreamNameUp$ window admission, componentwise $\hsame$ transport, displayed $\Cont$ route replay, provenance, and local naming for the same packet $E$.
+
+Finally apply the consumer boundary in \autoref{thm:real-approximation-envelope-consumer-boundary}. A consumer may inspect the selected $\StreamNameUp$ window but cannot replace that finite route by unrecorded stream access, so the readback is total exactly along the displayed envelope rows.
+\end{proof}
+
+\begin{theorem}[Real approximation-envelope dyadic classifier handoff]
+\label{thm:real-approximation-envelope-dyadic-classifier-handoff}
+Let
+$$
+E=(\varepsilon,W,D,R,S,H,C,P,N)
+$$
+be an accepted $\RealApproximationEnvelopeUp$ carrier. The selected $\StreamNameUp$ finite window $W$ determines the $\DyadicRatCoreUp$ observation row $D$, the $\RegSeqRatUp$ classifier row $R$, and the $\RealUp$ seal row $S$ along the displayed continuation route
+$$
+\begin{aligned}
+\varepsilon &\longrightarrow W,\\
+W &\longrightarrow D,\\
+D &\longrightarrow R,\\
+R &\longrightarrow S.
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:real-approximation-envelope-carrier}, the packet stores the $\StreamNameUp$ row $W$, the $\DyadicRatCoreUp$ row $D$, the $\RegSeqRatUp$ row $R$, the $\RealUp$ row $S$, and the continuation ledger $C$ in one finite $\BHist$ carrier.
+
+The NameCert obligations in \autoref{thm:real-approximation-envelope-namecert-obligations} bind these rows as a single route: tolerance request to selected window, selected window to dyadic observation, dyadic observation to classifier row, and classifier row to seal handoff.
+
+The boundary theorem \autoref{thm:real-approximation-envelope-consumer-boundary} then fixes the consumer-visible handoff. Any diagonal-representative, stationary rational finite-window, Cauchy-modulus, or $\RealUp$ classifier consumer sees the same $W,D,R,S$ chain, so the dyadic, classifier, and seal rows are the displayed continuation of the selected window.
+\end{proof}
+
+\begin{theorem}[Real approximation-envelope transport non-escape]
+\label{thm:real-approximation-envelope-transport-nonescape}
+For an accepted $\RealApproximationEnvelopeUp$ carrier
+$$
+E=(\varepsilon,W,D,R,S,H,C,P,N),
+$$
+componentwise $\hsame$ transport of $E$ preserves the tolerance request $\varepsilon$, the selected $\StreamNameUp$ finite window $W$, the $\DyadicRatCoreUp$ observation row $D$, the $\RegSeqRatUp$ classifier row $R$, and the $\RealUp$ seal handoff $S$. The transported packet exports no host real equality, quotient stream equality, selected limit, completed-real inverse law, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+The transport coordinates are part of the carrier itself by \autoref{def:real-approximation-envelope-carrier}: $H$ records componentwise $\hsame$ transports for the tolerance request, window, dyadic observation, classifier row, seal row, provenance, and local name.
+
+Use \autoref{thm:real-approximation-envelope-namecert-obligations} to replay those transport rows together with the displayed $\Cont$ routes and $\Pkg$ provenance. This keeps the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces attached to the same finite envelope packet after transport.
+
+The non-escape claim is exactly the negative boundary of \autoref{thm:real-approximation-envelope-consumer-boundary}. Since every accepted consumer must read the displayed rows of $E$, and since those rows do not contain host real equality, quotient stream equality, selected limits, completed-real inverse laws, or ambient completeness, componentwise transport cannot export any such object.
+\end{proof}
+
 \closureat{RealApproximationEnvelopeUp}{seedStr}
 
 \begin{closurestatus}{\RealApproximationEnvelopeUp}
