@@ -121,6 +121,7 @@ L=(I,R,M,B,D,O,H,C,P,N),
 $$
 the motive row $M$ and generated output row $O$ are consumed only through the finite ledger. In particular, a public output read first uses the accepted signature $I$, the emitted eliminator $R$, the checked motive $M$, the branch package $B$, and the descent ledger $D$, and only then exposes $O$ through $H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RecursionAuthorizationLedgerUp.RecursionAuthorizationLedgerMotiveOutputRoute}
 \begin{proof}
 Project the carrier. The rows $I,R,M,B,D,O$ occur in the displayed order of the ledger packet, with $M$ recorded as the checked motive for the emitted eliminator and $O$ recorded as the generated output row.
 
@@ -153,6 +154,7 @@ L=(I,R,M,B,D,O,H,C,P,N),
 $$
 all audit provenance for the signature, motive, descent, output, and purity boundary is exhausted by the rows $P$ and $N$ together with the displayed read routes $C$. The ledger exports no unlisted constructor, no omitted branch, no non-structural recursive call, no hidden eliminator, and no output provenance outside $L$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RecursionAuthorizationLedgerUp.RecursionAuthorizationLedgerCarrier\_audit\_provenance\_exhaustion}
 \begin{proof}
 Project $P,N$ and the continuation row $C$. The carrier describes $P$ as provenance over the accepted signature, emitted eliminator, branch completeness check, structural descent check, purity audit boundary, and neighboring generator certificates.
 
