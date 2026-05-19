@@ -37,3 +37,17 @@ Next pass through Real-phase coverage. \autoref{thm:finite-lebesgue-number-real-
 
 Finally compare the endpoint consumers. The $\CompactMetricUp$, $\ContinuousMapUp$, $\TotallyBoundedUp$, and $\UniformModulusUp$ rows have no coordinate outside the packet by \autoref{thm:finite-lebesgue-number-open-phase-root-unblock-choice-refusal}. Since each endpoint reads through the same source rows and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, their consumer-visible radius source is the same finite packet.
 \end{proof}
+
+\begin{theorem}[Finite Lebesgue-number root-unblock endpoint uniformity]
+\label{thm:finite-lebesgue-number-root-unblock-endpoint-uniformity}
+If two downstream endpoint reads for $\CompactMetricUp$, $\ContinuousMapUp$, $\TotallyBoundedUp$, or $\UniformModulusUp$ are accepted from the same $\FiniteLebesgueNumberUp$ open Phase root-unblock route, then their visible positive-radius source is one finite packet over $\DyadicCoverUp$, $\RationalBallUp$, $\DyadicMeshUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Conversely, any endpoint read displaying exactly that packet is an admissible consumer-visible radius read for the same route.
+\end{theorem}
+\begin{proof}
+Start from the shared source assertion. \autoref{thm:finite-lebesgue-number-open-phase-root-unblock-radius-coverage} says that every accepted root radius read exported to the open Phase Real route factors through the displayed dyadic, rational-ball, mesh, dyadic-rational, stream, regular-rational, Real, history, transport, replay, provenance, and naming rows.
+
+The refusal theorem removes every possible endpoint-specific replacement. By \autoref{thm:finite-lebesgue-number-open-phase-root-unblock-choice-refusal}, the route exports no consumer-specific radius source, open-cover compactness, selected subcover, host minimum, quotient equality, choice coordinate, external modulus, selected limit, or detached $\RealUp$-completeness row. Thus two accepted endpoint reads cannot differ by importing any outside radius witness.
+
+Now compare the endpoint reads. \autoref{thm:finite-lebesgue-number-open-phase-root-unblock-consumer-readback} states that the $\CompactMetricUp$, $\ContinuousMapUp$, $\TotallyBoundedUp$, and $\UniformModulusUp$ consumers read exactly the same finite packet and add no endpoint-specific source. Hence any two accepted reads from the same root-unblock route have the same visible positive-radius source.
+
+Conversely, an endpoint read that displays exactly the finite packet named above already presents the consumer-visible route required by \autoref{thm:finite-lebesgue-number-open-phase-root-unblock-consumer-readback}. Since the refusal theorem excludes only outside rows and the displayed packet is precisely the covered source, such a read is admissible for the same open Phase root-unblock route.
+\end{proof}
