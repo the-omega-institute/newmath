@@ -59,3 +59,17 @@ Now read the status side from the four local faces. Apply \autoref{thm:dyadicrat
 
 Thus the accepted rows of $W$ can name the finite source window and carry the shared support route into those consumers, but they cannot synthesize a route-level status coordinate or any of the listed analytic, quotient, host, bridge, selected-limit, or ambient-completion witnesses.
 \end{proof}
+
+\begin{theorem}[CriticalLineWitness Phase Real consumer determinacy]
+\label{thm:critical-line-witness-phase-real-consumer-determinacy}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Any downstream Phase Real consumer using the readback package of \autoref{thm:critical-line-witness-phase-real-root-readback-package} must choose one and only one objectwise face among $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and must consume only that face's local status and readback row. The packet cannot merge the four faces into a route-level completion witness, bridge row, selected limit, quotient equality, or host real equality.
+\end{theorem}
+\begin{proof}
+First restrict the available route. By \autoref{thm:critical-line-witness-phase-real-root-readback-package}, the readback package is a finite conjunction of displayed root and Phase Real source rows of $W$, carried by the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CriticalLineWitnessUp}$ support.
+
+Next separate the status reads. By \autoref{thm:critical-line-witness-phase-real-l10-face-status-pullback}, downstream Phase Real and Completion consumers can pull the L10 status records only objectwise from $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$; no aggregate route-level status row is supplied by $W$.
+
+It remains to check the four permitted faces. Apply \autoref{thm:dyadicratcore-l10-face-status-pullback}, \autoref{thm:streamname-four-face-audit-clean-threshold-readback}, \autoref{thm:regseqrat-four-face-audit-threshold-factorization}, and \autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. These four face results provide the local rows that the consumer may select, and they do so without identifying the rows with each other.
+
+Therefore the consumer is deterministic at the face boundary: after selecting one of the four objectwise faces, it reads that face's local status and readback row and has no constructor or cited theorem that combines the four rows into a route-level completion witness, bridge row, selected limit, quotient equality, or host real equality.
+\end{proof}
