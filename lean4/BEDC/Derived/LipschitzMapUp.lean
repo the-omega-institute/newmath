@@ -254,4 +254,30 @@ theorem LipschitzMapCarrier_contraction_threshold_handoff [AskSetup] [PackageSet
     ⟨boundUnary, thresholdUnary, handoffUnary, graphBoundModulus, thresholdRoute,
       modulusRoutesProvenance, provenancePkg, handoffPkg⟩
 
+theorem LipschitzMapCarrier_public_modulus_export [AskSetup] [PackageSetup]
+    {source target bound graph modulus transports routes provenance localCert publicRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LipschitzMapCarrier source target bound graph modulus transports routes provenance localCert
+        bundle pkg ->
+      Cont graph bound publicRead ->
+        PkgSig bundle publicRead pkg ->
+          hsame publicRead modulus ∧ UnaryHistory modulus ∧ UnaryHistory publicRead ∧
+            Cont graph bound modulus ∧ Cont graph bound publicRead ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier publicRoute publicPkg
+  obtain ⟨_sourceUnary, _targetUnary, boundUnary, graphUnary, _transportsUnary,
+    _routesUnary, _localCertUnary, graphBoundModulus, _modulusRoutesProvenance,
+    provenancePkg⟩ := carrier
+  have samePublicModulus : hsame publicRead modulus :=
+    cont_deterministic publicRoute graphBoundModulus
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed graphUnary boundUnary graphBoundModulus
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed graphUnary boundUnary publicRoute
+  exact
+    ⟨samePublicModulus, modulusUnary, publicUnary, graphBoundModulus, publicRoute,
+      provenancePkg, publicPkg⟩
+
 end BEDC.Derived.LipschitzMapUp
