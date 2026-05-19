@@ -224,6 +224,65 @@ carrier coordinate in either association, so the two pasted classifier
 surfaces are identical.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat Real triple-overlap pasting]
+\label{thm:streamname-regseqrat-real-triple-overlap-pasting}
+Let $\mathcal{W}_0,\mathcal{W}_1,\mathcal{W}_2$ be certified finite
+$\StreamNameUp$ windows. Suppose each pair carries a certified finite overlap,
+and suppose the two restrictions on every displayed overlap agree on every
+certified unary observation, every selected
+$\mathsf{RatHistoryClassifier}$ row, every $\mathsf{ProbeBundle}$ ledger row,
+every $\mathsf{InBundle}$ membership row, every displayed $\hsame$ row, and
+every consumed $\DyadicRatCoreUp$ finite ledger row. Then the three induced
+$\RegSeqRatUp$ handoff packages and the three finite-window $\RealUp$ seal
+classifier rows paste to one finite three-window source surface.
+
+The exported surface is exactly the union of the three finite-window
+$\StreamNameUp$ row sets, the shared dyadic ledgers on their overlaps, and the
+pointwise $\RegSeqRatUp$ handoff rows read from those ledgers. It exports no
+quotient stream, host index equality, selected limit, $\RealUp$ completeness
+row, metric-completeness datum, or bridge row.
+\end{theorem}
+\begin{proof}
+First fix the three pairwise sources. Apply
+\autoref{thm:streamname-real-regseq-overlap-unique-source} to
+$(\mathcal{W}_0,\mathcal{W}_1)$, to
+$(\mathcal{W}_1,\mathcal{W}_2)$, and to
+$(\mathcal{W}_0,\mathcal{W}_2)$. The hypotheses provide exactly the displayed
+unary observations, classifier rows, bundle ledgers, membership rows, and
+$\hsame$ comparisons required on each overlap.
+
+Next stabilize the seal classifiers on the three overlaps. By
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability}, the shared
+consumed $\DyadicRatCoreUp$ finite ledgers force the $\RealUp$ seal classifier
+rows induced from either side of each overlap to agree pointwise. These
+agreements are the only identifications used by the triple source surface.
+
+Now form the pairwise pasted faces. Apply
+\autoref{thm:streamname-regseqrat-pointwise-seal-pasting} to each of the
+three pairwise unions. Each application exports only finite StreamName rows,
+the shared dyadic ledger rows, and the pointwise RegSeqRat handoff rows, so no
+quotient, host-index, selected-limit, completeness, metric, or bridge datum is
+introduced on a face.
+
+It remains to identify the two possible ways of reading the three faces as a
+single surface. Use
+\autoref{thm:streamname-regseqrat-pasted-seal-associativity}. The left and
+right iterated pastings classify each member of
+$\mathcal{W}_0 \cup \mathcal{W}_1 \cup \mathcal{W}_2$ by the same
+$\RealUp$ seal row because they read the same pairwise source rows and the
+same dyadic ledger rows.
+
+Finally exhaust the resulting surface. Apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion} on each
+window and on each pairwise pasted face, and use
+\autoref{thm:streamname-real-regseq-obligation-separation} to keep downstream
+and ambient rows outside the source. Every exported row is therefore a row
+from one of the three StreamName finite windows, a shared dyadic ledger row,
+or a pointwise RegSeqRat handoff row. The listed quotient, host-index,
+selected-limit, completeness, metric-completeness, and bridge rows have no
+carrier coordinate in the triple source surface.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat Real finite-cover descent exactness]
 \label{thm:streamname-regseqrat-real-finite-cover-descent-exactness}
 Let $\{\mathcal{W}_i\}_{i\in I}$ be a finite family of certified
@@ -231,7 +290,7 @@ $\StreamNameUp$ rational windows. Suppose every pairwise certified overlap
 has the unique source surface of
 \autoref{thm:streamname-real-regseq-overlap-unique-source}, and suppose the
 triple overlaps satisfy the cocycle compatibility witnessed by
-\autoref{thm:streamname-regseqrat-pasted-seal-associativity}. Then the
+\autoref{thm:streamname-regseqrat-real-triple-overlap-pasting}. Then the
 induced $\RegSeqRatUp$ handoffs and the finite-window $\RealUp$ seal rows
 descend to one cover-indexed finite surface.
 
@@ -269,7 +328,7 @@ across that common source.
 The result is independent of the order in which the new overlap faces are
 adjoined. Indeed, whenever three windows meet, the two possible iterated
 pastings have the same seal classifier surface by
-\autoref{thm:streamname-regseqrat-pasted-seal-associativity}. Thus the
+\autoref{thm:streamname-regseqrat-real-triple-overlap-pasting}. Thus the
 finite induction produces one cover-indexed surface rather than an
 order-indexed family of surfaces.
 
