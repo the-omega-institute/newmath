@@ -3734,7 +3734,6 @@ import BEDC.Derived.RegularCauchySequenceUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
 import BEDC.Derived.RegularCauchySumUp.NameCertObligations
-import BEDC.Derived.RegularCauchySumUp.NonEscapeBoundary
 import BEDC.Derived.RegularCauchySwapBisimulationUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyTailCertificateUp.TasteGate
