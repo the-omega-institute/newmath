@@ -122,6 +122,29 @@ and cannot access any quotient rational, host integer normal form, or
 $\RealUp$ endpoint.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore common-exponent e0 exclusion]
+\label{thm:dyadicratcore-common-exponent-e0-exclusion}
+Let $D=(m,e,\ell,P)$ and $D'=(m',e',\ell',P')$ be accepted
+$\DyadicRatCoreUp$ packets whose classifier is witnessed by a displayed
+common exponent row $E$. Then $E$ cannot be an $\mathsf{e0}$ denominator row.
+Equivalently, any classifier read that tries to use $\mathsf{e0}$ as the
+common exponent lies outside the accepted dyadic classifier surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreClassifier\_common\_exponent\_e0\_exclusion}
+\begin{proof}
+By \autoref{def:dyadicratcore-classifier}, a classifier witness displays the
+common exponent row together with the two denominator-ledger scaling rows and
+the $\RatUp$ comparison row. The exactness window of
+\autoref{thm:dyadicratcore-common-exponent-window-exactness} identifies this
+common exponent as part of the same finite positive-unary denominator ledger
+transported with the accepted packets.
+
+The carrier discipline of \autoref{def:dyadicratcore-carrier} admits
+denominator rows only through positive unary denominator data. The row
+$\mathsf{e0}$ is excluded by that positive-unary discipline, so no accepted
+classifier witness can present $\mathsf{e0}$ as its common exponent.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore distance-window stability]
 \label{thm:dyadicratcore-distance-window-stability}
 Let $D_0,D_1,D'_0,D'_1$ be accepted $\DyadicRatCoreUp$ packets such that
