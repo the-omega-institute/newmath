@@ -73,6 +73,7 @@ AUTO_FIXABLE_FLAGS = {
 }
 
 RULE_EVOLUTION_ALLOWED_FILES = {
+    "docs/taste-evolutions.md",
     "papers/bedc/scripts/prompts/phase_b.txt",
     "papers/bedc/scripts/prompts/phase_c.txt",
     "papers/bedc/scripts/prompts/phase_review.txt",
@@ -117,9 +118,11 @@ targets exhibiting the same pattern). Your job:
      pattern: detect_preamble_duplicate_commands at line ~541)
    - papers/bedc/scripts/phase_paper_gates.py
    - lean4/scripts/phase_d_lint.py
+   - docs/taste-evolutions.md
 3. DO NOT touch papers/bedc/parts/concrete_instances/**/*.tex
    DO NOT touch lean4/BEDC/**
    DO NOT touch codex_revise.py / codex_formalize.py / other daemon scripts
+   DO NOT create docs/taste-evolutions/ or any other docs/ file.
 4. Bump the prompt version marker in any prompt file you edit (e.g. v5.X → v5.X+1).
 5. Add terse imperative rule text. No rationale paragraphs, no incident
    history, no version-numbered names.
@@ -129,9 +132,40 @@ targets exhibiting the same pattern). Your job:
      violations, that is expected; the gate must not crash)
    - For any phase_paper_gates.py change: smoke test it parses
    - For any phase_d_lint.py change: smoke test it parses
-7. Commit with message format:
+7. APPEND a new section to docs/taste-evolutions.md (append, do not overwrite).
+   Section format (markdown, Chinese):
+
+   ## <UTC YYYY-MM-DD HH:MM:SS> — <flag>
+
+   ### 变更原因
+   描述触发本次演化的违规 pattern: 哪个 flag cluster, 多少 finding,
+   2-3 个代表性 chapter_slug / lean_target 示例, 它们的共同结构特征
+   (carrier bucket size, shared field overlap, autoref entropy 等).
+
+   ### 意义
+   本次规则演化未来阻止什么: P/R round 命中什么条件时被新规则拒绝;
+   为什么这个 pattern 是 BEDC 品味问题 (template multiplication /
+   mislabeled lineage / low-entropy boilerplate / classical-math mis-tag 等).
+
+   ### 实施情况
+   修改了哪些文件 (路径列出); 写入的具体规则文本 / audit detector
+   片段引用; 现有违规如何被消化 (依赖 P/R orchestrator 自然 touch
+   + post-merge audit recovery, 不直接编辑).
+
+   ### 元数据
+   - finding 数量: <N>
+   - cluster flag: <flag>
+   - daemon cycle: <UTC timestamp>
+   - 你即将 commit 的 SHA 留空, 由 daemon 后续填写或 commit message 反查
+
+   ---
+
+   全文中文 (CLAUDE.md 工作语言纪律). 简短直接, 2-5 段, 不写迭代叙事 /
+   版本号 / "新增"/"修复"/"v2.0" 这类词 (CLAUDE.md 禁止).
+   新 section 追加到文件末尾; 用 `---` 分隔多个 section.
+8. Commit with message format:
    "taste-evolve: <flag> pattern - <one-line summary>"
-8. Do NOT push (orchestrator [the daemon] will push after success).
+9. Do NOT push (orchestrator [the daemon] will push after success).
 
 Cluster evidence will be provided after this prompt.
 """
@@ -1249,6 +1283,12 @@ def validate_rule_evolution_touched(worktree: Path, touched: list[str]) -> tuple
     allowed = existing_rule_evolution_files(worktree)
     bad: list[str] = []
     for path in touched:
+        if path == "docs/taste-evolutions" or path.startswith("docs/taste-evolutions/"):
+            bad.append(path)
+            continue
+        if path.startswith("docs/") and path != "docs/taste-evolutions.md":
+            bad.append(path)
+            continue
         if any(path == prefix or path.startswith(prefix) for prefix in RULE_EVOLUTION_FORBIDDEN_PREFIXES):
             bad.append(path)
             continue

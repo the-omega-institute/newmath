@@ -1663,10 +1663,12 @@ import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripClassifierTransport
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusRoute
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripSourceClassifierLock
+import BEDC.Derived.CriticalLineWitnessUp.ZetaConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.ZetaDependencyLock
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
+import BEDC.Derived.CriticalStripZetaZeroWitnessUp.WitnessScopeBinding
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
 import BEDC.Derived.CrossHistCausalRateUp.Carrier
 import BEDC.Derived.CrossHistCausalRateUp.TasteGate
@@ -4696,6 +4698,7 @@ import BEDC.Derived.ZnormalUp.ReadbackObligationTriad
 import BEDC.Derived.ZnormalUp.ReadinessBridgeSource
 import BEDC.Derived.ZnormalUp.RootBridgeComponents
 import BEDC.Derived.ZnormalUp.RootCarrierBoundary
+import BEDC.Derived.ZnormalUp.RootCarrierTotalHostReadiness
 import BEDC.Derived.ZnormalUp.RootClassifierStability
 import BEDC.Derived.ZnormalUp.RootConstructorReadback
 import BEDC.Derived.ZnormalUp.RootConsumerReadiness
@@ -4776,6 +4779,7 @@ import BEDC.Derived.ZnormalUp.TerminalRouteObligationCompletion
 import BEDC.Derived.ZnormalUp.TerminalRowConstructorExhaustion
 import BEDC.Derived.ZnormalUp.TerminalTasteGateReadiness
 import BEDC.Derived.ZnormalUp.TerminalTotalHostCarrierRow
+import BEDC.Derived.ZnormalUp.TotalHostBoundary
 import BEDC.Derived.ZnormalUp.TotalHostConsumerScope
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
 import BEDC.Derived.ZnormalUp.TotalHostFieldReadiness
