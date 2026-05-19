@@ -281,3 +281,23 @@ The finite-section classifier equivalence then reconstructs the only possible co
 
 All exclusions are inherited from the same cited certificate surface. The argument uses only finite face rows, finite classifier sections, support-row-preserving route views, and face-local formal strengthening; it has no coordinate for quotient streams, selected limits, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, or $\RealUp$ completeness.
 \end{proof}
+
+\begin{theorem}[Real L10 exit certificate refinement zigzag invariance]
+\label{thm:real-l10-exit-certificate-refinement-zigzag}
+Let $\mathcal E_0,\ldots,\mathcal E_n$ be a finite zigzag of Phase $\RealUp$ and Completion packets over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ rows. Assume that every adjacent step is a certified support-row-preserving finite refinement in one direction or the other, preserving the four displayed face rows and preserving the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Then all packets $\mathcal E_i$ determine the same objectwise Phase Real and Completion exit certificate read by \autoref{thm:real-l10-current-phase-exit-local-threshold}.
+
+Conversely, let $\mathcal E_0,\ldots,\mathcal E_n$ be a finite family of Phase $\RealUp$ and Completion packets over the same four displayed faces. If all packets determine one common objectwise Phase Real and Completion exit certificate, then the family admits a common support-row-preserving refinement zigzag through the displayed four-face sections. Each adjacent comparison preserves the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$ rows and preserves the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+This finite-zigzag invariant is confined to the displayed four-face certificate surface. It excludes quotient streams, selected limits, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, and $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, induct on the length of the finite zigzag. The empty zigzag and the one-packet zigzag read a single packet through \autoref{thm:real-l10-current-phase-exit-local-threshold}, so there is no comparison to transport.
+
+For the induction step, remove the last adjacent comparison. The induction hypothesis identifies the objectwise exit certificate of every earlier packet with the certificate of the penultimate packet. The final adjacent comparison is a certified support-row-preserving finite refinement in one direction or the other, so \autoref{thm:real-l10-exit-certificate-refinement-functoriality} identifies the penultimate and final certificate readings. Transitivity of equality of the objectwise certificate readings composes these identifications and gives one certificate for the whole zigzag.
+
+For the converse direction, assume the finite family has one common objectwise exit certificate. Apply \autoref{thm:real-l10-exit-certificate-face-minimality}. Since the four displayed face rows and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are indispensable, no member of the family can realize that common certificate by deleting, duplicating, detaching, or replacing one of those rows.
+
+Next apply \autoref{thm:real-l10-finite-section-classifier-equivalence}. Each packet therefore has a displayed four-face section over the same dyadic common scale-window witness, the same finite $\StreamNameUp$ window, the same $\RegSeqRatUp$ regularity and common-tail rows, and the same local $\RealUp$ terminal seal row. The only possible adjacent comparisons between consecutive displayed sections are the support-row-preserving certified finite refinements recovered by \autoref{thm:real-l10-exit-certificate-refinement-functoriality}.
+
+Ordering the finite family by its displayed indices and inserting these recovered adjacent comparisons gives the required common refinement zigzag. Its support surface is exactly the four-face section just described, so the construction has no coordinate for quotient streams, selected limits, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, or $\RealUp$ completeness.
+\end{proof}
