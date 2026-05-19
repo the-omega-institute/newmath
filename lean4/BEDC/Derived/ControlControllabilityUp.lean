@@ -476,4 +476,73 @@ theorem ControlControllabilityReachabilityPacket_continuation_closure [AskSetup]
                           (And.intro joinedData.right pkgSig)))))))))
           joinedData.left)
 
+theorem ControlControllabilityReachabilityPacket_mature_consumer_coverage [AskSetup]
+    [PackageSetup] {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {state input transition control horizon firstColumn reachability provenance endpoint
+      consumer : BHist} :
+    ControlControllabilityReachabilityPacket state input transition control horizon firstColumn
+        reachability provenance endpoint bundle pkg ->
+      Cont endpoint provenance consumer ->
+        PkgSig bundle consumer pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
+              (fun row : BHist => hsame row consumer)
+              (fun row : BHist => hsame row consumer ∧ PkgSig bundle consumer pkg)
+              hsame ∧
+            UnaryHistory state ∧ UnaryHistory input ∧ UnaryHistory transition ∧
+              UnaryHistory control ∧ UnaryHistory horizon ∧ UnaryHistory firstColumn ∧
+                UnaryHistory reachability ∧ UnaryHistory endpoint ∧ UnaryHistory consumer ∧
+                  Cont control horizon firstColumn ∧ Cont firstColumn transition reachability ∧
+                    Cont reachability provenance endpoint ∧ Cont endpoint provenance consumer ∧
+                      PkgSig bundle endpoint pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert Pkg UnaryHistory
+  intro packet consumerRoute consumerPkg
+  obtain
+    ⟨stateUnary, inputUnary, transitionUnary, controlUnary, horizonUnary, provenanceUnary,
+      firstColumnRoute, reachabilityRoute, endpointRoute, endpointPkg⟩ := packet
+  have firstColumnUnary : UnaryHistory firstColumn :=
+    unary_cont_closed controlUnary horizonUnary firstColumnRoute
+  have reachabilityUnary : UnaryHistory reachability :=
+    unary_cont_closed firstColumnUnary transitionUnary reachabilityRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed reachabilityUnary provenanceUnary endpointRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary provenanceUnary consumerRoute
+  have sourceAtConsumer : hsame consumer consumer ∧ UnaryHistory consumer :=
+    ⟨hsame_refl consumer, consumerUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
+          (fun row : BHist => hsame row consumer)
+          (fun row : BHist => hsame row consumer ∧ PkgSig bundle consumer pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro consumer sourceAtConsumer
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, consumerPkg⟩
+  }
+  exact
+    ⟨cert, stateUnary, inputUnary, transitionUnary, controlUnary, horizonUnary,
+      firstColumnUnary, reachabilityUnary, endpointUnary, consumerUnary, firstColumnRoute,
+      reachabilityRoute, endpointRoute, consumerRoute, endpointPkg, consumerPkg⟩
+
 end BEDC.Derived.ControlControllabilityUp
