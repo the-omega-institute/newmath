@@ -443,6 +443,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.RouteProvenanceTriadObligations
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SevenRowCoverage
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SourceLock
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.StdBridge
+import BEDC.Derived.AxisZeckendorfCarryBudgetUp
 import BEDC.Derived.BHistArity13SequenceNameCertUp
 import BEDC.Derived.BHistArity13TupleNameCertUp
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
@@ -1162,6 +1163,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompilePublicPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompileRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftBudgetExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftLedgerExhaustion
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftSubstitutionLedgerLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstituteClosedTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionFreeVariableNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionLedgerExhaustion
@@ -3586,6 +3588,7 @@ import BEDC.Derived.RealityConstrainedTowerCompressionUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
 import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
 import BEDC.Derived.RecursionAuthorizationLedgerUp.Carrier
+import BEDC.Derived.RecursionAuthorizationLedgerUp.MotiveOutputRoute
 import BEDC.Derived.RecursionAuthorizationLedgerUp.TasteGate
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.RecursorBranchAuditUp.TasteGate
@@ -4165,6 +4168,7 @@ import BEDC.Derived.TypeCheckingDerivationTraceUp
 import BEDC.Derived.TypeCheckingMembershipTraceUp
 import BEDC.Derived.TypeClassifierMembershipUp
 import BEDC.Derived.TypeClassifierRouteJoinUp.TasteGate
+import BEDC.Derived.TypeLevelSocketExposureUp
 import BEDC.Derived.TypePreservingCompilerUp
 import BEDC.Derived.TypedBetaCongruenceTriggerUp.TasteGate
 import BEDC.Derived.TypedFailureCertificateUp.TasteGate
@@ -4421,6 +4425,7 @@ import BEDC.Derived.ZnormalUp.FuelReplayNondivergenceBoundary
 import BEDC.Derived.ZnormalUp.HostConversionNonescape
 import BEDC.Derived.ZnormalUp.KernelSourceTotality
 import BEDC.Derived.ZnormalUp.LedgerNonescape
+import BEDC.Derived.ZnormalUp.NameCertObligationSurface
 import BEDC.Derived.ZnormalUp.NamecertLedgerExhaustion
 import BEDC.Derived.ZnormalUp.NormalFormConsumerBoundary
 import BEDC.Derived.ZnormalUp.NormalFormReadinessSupportTotality
