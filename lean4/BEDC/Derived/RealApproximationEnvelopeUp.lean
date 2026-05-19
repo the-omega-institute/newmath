@@ -163,4 +163,34 @@ theorem RealApproximationEnvelope_window_readback_totality [AskSetup] [PackageSe
     ⟨toleranceUnary, windowUnary, windowReadUnary, toleranceWindowRead, provenancePkg,
       namePkg, windowReadPkg⟩
 
+theorem RealApproximationEnvelope_dyadic_observation_soundness [AskSetup] [PackageSetup]
+    {tolerance window dyadic classifier sealRow transport route provenance name windowRead
+      dyadicRead classifierRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealApproximationEnvelopeCarrier tolerance window dyadic classifier sealRow transport route
+        provenance name bundle pkg →
+      Cont tolerance window windowRead →
+        Cont window dyadic dyadicRead →
+          Cont dyadic classifier classifierRead →
+            PkgSig bundle classifierRead pkg →
+              UnaryHistory windowRead ∧ UnaryHistory dyadicRead ∧
+                UnaryHistory classifierRead ∧ Cont tolerance window windowRead ∧
+                  Cont window dyadic dyadicRead ∧ Cont dyadic classifier classifierRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle classifierRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier toleranceWindowRead windowDyadicRead dyadicClassifierRead classifierReadPkg
+  obtain ⟨toleranceUnary, windowUnary, dyadicUnary, classifierUnary, _sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, _toleranceWindowRoute,
+    _windowDyadicClassifier, _classifierSealTransport, provenancePkg, _namePkg⟩ :=
+    carrier
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed toleranceUnary windowUnary toleranceWindowRead
+  have dyadicReadUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed windowUnary dyadicUnary windowDyadicRead
+  have classifierReadUnary : UnaryHistory classifierRead :=
+    unary_cont_closed dyadicUnary classifierUnary dyadicClassifierRead
+  exact
+    ⟨windowReadUnary, dyadicReadUnary, classifierReadUnary, toleranceWindowRead,
+      windowDyadicRead, dyadicClassifierRead, provenancePkg, classifierReadPkg⟩
+
 end BEDC.Derived.RealApproximationEnvelopeUp

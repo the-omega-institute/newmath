@@ -2931,6 +2931,7 @@ import BEDC.Derived.MetricTriangleUniformEstimateUp.PublicUniformityCriterion
 import BEDC.Derived.MetricTriangleUniformEstimateUp.RadiusComposition
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedCenterTriangleComposition
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedModulusDomain
+import BEDC.Derived.MetricTriangleUniformEstimateUp.SourceTargetLock
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusBoundaryExactness
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusExactPackage
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusExport
@@ -4409,6 +4410,7 @@ import BEDC.Derived.ZnormalUp.DownstreamNormalFormReadiness
 import BEDC.Derived.ZnormalUp.FiniteFuelClassifierStability
 import BEDC.Derived.ZnormalUp.FiniteNormalwordClassifierCompatibility
 import BEDC.Derived.ZnormalUp.FuelReadbackTasteGateRoute
+import BEDC.Derived.ZnormalUp.FuelReplayClassifierRow
 import BEDC.Derived.ZnormalUp.FuelReplayNondivergenceBoundary
 import BEDC.Derived.ZnormalUp.HostConversionNonescape
 import BEDC.Derived.ZnormalUp.KernelSourceTotality

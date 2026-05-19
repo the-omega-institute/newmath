@@ -301,4 +301,35 @@ theorem MetricTriangleUniformEstimateCarrier_uniform_modulus_route_exhaustion
     }
   exact ⟨cert, handoffUnary, consumerUnary⟩
 
+theorem MetricTriangleUniformEstimateCarrier_consumer_coverage [AskSetup] [PackageSetup]
+    {sourceMetric targetMetric graph left right center sourceBoundLeft sourceBoundRight
+      precision targetBoundLeft targetBoundRight targetTriangle transport route provenance
+      localName handoff consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricTriangleUniformEstimateCarrier sourceMetric targetMetric graph left right center
+      sourceBoundLeft sourceBoundRight precision targetBoundLeft targetBoundRight targetTriangle
+      transport route provenance localName bundle pkg ->
+    Cont precision targetTriangle handoff ->
+    Cont handoff localName consumer ->
+    PkgSig bundle consumer pkg ->
+      UnaryHistory precision ∧ UnaryHistory targetTriangle ∧ UnaryHistory handoff ∧
+        UnaryHistory consumer ∧ Cont precision targetTriangle handoff ∧
+          Cont handoff localName consumer ∧ hsame transport targetTriangle ∧
+            PkgSig bundle localName pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro carrier precisionTriangleHandoff handoffLocalConsumer consumerPkg
+  obtain ⟨_sourceMetricUnary, _targetMetricUnary, _graphUnary, _leftUnary, _rightUnary,
+    _centerUnary, _sourceBoundLeftUnary, _sourceBoundRightUnary, precisionUnary,
+    _targetBoundLeftUnary, _targetBoundRightUnary, targetTriangleUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, localNameUnary, _sourceLeftRoute, _sourceRightRoute,
+    _targetTriangleRoute, _localNameRoute, localNamePkg, transportTargetTriangle⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed precisionUnary targetTriangleUnary precisionTriangleHandoff
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed handoffUnary localNameUnary handoffLocalConsumer
+  exact
+    ⟨precisionUnary, targetTriangleUnary, handoffUnary, consumerUnary,
+      precisionTriangleHandoff, handoffLocalConsumer, transportTargetTriangle, localNamePkg,
+      consumerPkg⟩
+
 end BEDC.Derived.MetricTriangleUniformEstimateUp
