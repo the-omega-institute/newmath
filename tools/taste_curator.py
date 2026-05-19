@@ -119,7 +119,7 @@ Not project governance hygiene. Not code quality. Not depth.
 Only one question: is this BEDC artifact trivial or meaningless in
 BEDC's own sense — does the name advertise a property, distinction,
 or behavior, but the machine-checkable content fails to deliver it
-(is empty, vacuously true, or accepts every input)?
+(is empty or vacuously satisfied)?
 
 What counts as a BEDC artifact: theorem / definition / chapter /
 falsifiable prediction / independence witness / any other named
