@@ -99,4 +99,34 @@ theorem ObservationConservationLedgerCarrier_namecert_obligations [AskSetup] [Pa
     }
   exact And.intro cert (And.intro oldRecordsUnary (And.intro newRecordsUnary readUnary))
 
+theorem ObservationConservationLedgerCarrier_gap_read_nonescape [AskSetup] [PackageSetup]
+    {oldState newState oldRecords newRecords admission gap transport route provenance name
+      rejectedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservationConservationLedgerCarrier oldState newState oldRecords newRecords admission gap
+        transport route provenance name bundle pkg →
+      Cont gap route rejectedRead →
+        PkgSig bundle rejectedRead pkg →
+          UnaryHistory gap ∧ UnaryHistory route ∧ UnaryHistory rejectedRead ∧
+            Cont oldRecords admission newRecords ∧ Cont oldState transport newState ∧
+              Cont gap route rejectedRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle name pkg ∧ PkgSig bundle rejectedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier gapRouteRejected rejectedPkg
+  obtain ⟨_oldStateUnary, _newStateUnary, _oldRecordsUnary, _newRecordsUnary,
+    _admissionUnary, gapUnary, _transportUnary, routeUnary, _provenanceUnary, _nameUnary,
+    oldAdmissionNew, _newRouteNew, stateTransport, provenancePkg, namePkg⟩ := carrier
+  have rejectedUnary : UnaryHistory rejectedRead :=
+    unary_cont_closed gapUnary routeUnary gapRouteRejected
+  exact
+    ⟨gapUnary,
+      routeUnary,
+      rejectedUnary,
+      oldAdmissionNew,
+      stateTransport,
+      gapRouteRejected,
+      provenancePkg,
+      namePkg,
+      rejectedPkg⟩
+
 end BEDC.Derived.ObservationConservationLedgerUp
