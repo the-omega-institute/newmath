@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.31 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.32 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Source priority weights (critical_path dispatch_weights)
 
@@ -92,6 +92,8 @@ Every new `\origin{ai}` chapter MUST include the following four rows beyond the 
 4. **Lean-side `FieldFaithful <X>Up` instance** (already covered in phase_c.txt v5.20 §FieldFaithful, repeated here for paper-side awareness) — the chapter's `lean4/BEDC/Derived/<X>Up/TasteGate.lean` must provide `instance : FieldFaithful <X>Up` with a `.mk`-derived `fields` projection and a `field_faithful` proof by `match` + `injection` chain.
 
 When proposing a `vision_concretization` / `automath_concretization` / `human_chapter_extension` `new_chapter` target with `\origin{ai}`, the `proposed_change` MUST explicitly list which falsifiable prediction the chapter will commit, which 3-5 sibling slugs the independence witness will name, and confirm that Lean TasteGate.lean will include `Nontrivial` + `FieldFaithful` instances. Targets that decline these (e.g. via `\origin{ai-composite}` opt-out) must clearly state in `proposed_change.notes` why the chapter is structurally composite rather than atomic.
+
+Before emitting any `new_chapter` target with `\origin{ai}`, run `python3 lean4/scripts/bedc_ci.py audit --json` and inspect `mislabeled_composite_carriers`. Do not propose an atomic `ai` chapter whose `<X>Up` carrier falls in a `phase1_buckets` carrier-isomorphism bucket with at least 6 members. Mark it `\origin{ai-composite}` or pick a carrier with a genuinely isolated field surface.
 
 ## TOP-LEVEL HARD GATE — conjecture-chase target (sieve-orthogonal discovery)
 

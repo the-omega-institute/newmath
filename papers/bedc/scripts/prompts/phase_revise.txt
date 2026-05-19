@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.31 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.32 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Dedup partial drop handling
 
@@ -148,7 +148,10 @@ For each target in the list above:
    and `\label{...}`. Pick `human` for traditional-math NameCert
    reconstructions, `ai` for BEDC-native primitive concepts, and
    `ai-composite` when the chapter bundles 3+ existing ai chapters into a new
-   surface. Missing `\origin{}` is rejected by `bedc_ci.py audit`. `reject`
+   surface. Do not leave `\origin{ai}` on a carrier that lands in a
+   carrier-isomorphism `phase1_buckets` bucket with at least 6 members; use
+   `\origin{ai-composite}` or redesign the carrier. Missing `\origin{}` and
+   mislabeled composite carriers are rejected by `bedc_ci.py audit`. `reject`
    targets are not applied.
 
 1. Open the listed `paper_files` and locate the `anchor` (theorem/definition block or section).
