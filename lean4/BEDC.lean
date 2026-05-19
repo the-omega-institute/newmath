@@ -453,6 +453,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.StdBridge
 import BEDC.Derived.AxisZeckendorfCarryBudgetUp
 import BEDC.Derived.BHistArity13SequenceNameCertUp
 import BEDC.Derived.BHistArity13TupleNameCertUp
+import BEDC.Derived.BHistArity14SequenceNameCertUp
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
 import BEDC.Derived.BHistDecaSequenceNameCertUp
 import BEDC.Derived.BHistDecaTupleNameCertUp
@@ -3000,6 +3001,7 @@ import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.ModuleUp.ActionBoundary
+import BEDC.Derived.ModuleUp.FiberExhaustion
 import BEDC.Derived.ModuleUp.KernelExactness
 import BEDC.Derived.ModuleUp.KernelSubmoduleClosure
 import BEDC.Derived.ModuleUp.StdBridge
@@ -3490,6 +3492,7 @@ import BEDC.Derived.RealCauchyWitnessGridUp.TasteGate
 import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
 import BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate
 import BEDC.Derived.RealCompletenessUp
+import BEDC.Derived.RealCompletionExactBoundaryUp.FiniteTailFilterHandoff
 import BEDC.Derived.RealCompletionExactBoundaryUp.FourFaceExactness
 import BEDC.Derived.RealCompletionExactBoundaryUp.NameCertObligations
 import BEDC.Derived.RealCompletionExactBoundaryUp.Nonescape
@@ -4426,6 +4429,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.AnalyticReadbackObligation
 import BEDC.Derived.ZetaContinuationWitnessUp.ConsumerPacketTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.ContourRouteObligation
+import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripBridgeRow
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripConsumerNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPoleBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPublicRefusal
