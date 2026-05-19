@@ -74,4 +74,52 @@ theorem UniformCauchyCriterionPacket_real_completion_finite_envelope
       modulusToleranceTail, tailSealRealRead, realTransportCompletion, namePkg, realReadPkg,
       completionReadPkg⟩
 
+theorem UniformCauchyCriterionRealCompletionFiniteBudgetEnvelope [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name tailRead
+      realRead selectorEnvelope completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      Cont index tail tailRead ->
+        Cont tail sealRow realRead ->
+          Cont tailRead realRead selectorEnvelope ->
+            Cont selectorEnvelope sealRow completionRead ->
+              PkgSig bundle tailRead pkg ->
+                PkgSig bundle realRead pkg ->
+                  PkgSig bundle selectorEnvelope pkg ->
+                    PkgSig bundle completionRead pkg ->
+                      UnaryHistory index ∧ UnaryHistory windows ∧ UnaryHistory modulus ∧
+                        UnaryHistory tolerance ∧ UnaryHistory tail ∧ UnaryHistory sealRow ∧
+                          UnaryHistory tailRead ∧ UnaryHistory realRead ∧
+                            UnaryHistory selectorEnvelope ∧ UnaryHistory completionRead ∧
+                              Cont index windows modulus ∧ Cont modulus tolerance tail ∧
+                                Cont index tail tailRead ∧ Cont tail sealRow realRead ∧
+                                  Cont tailRead realRead selectorEnvelope ∧
+                                    Cont selectorEnvelope sealRow completionRead ∧
+                                      PkgSig bundle name pkg ∧ PkgSig bundle tailRead pkg ∧
+                                        PkgSig bundle realRead pkg ∧
+                                          PkgSig bundle selectorEnvelope pkg ∧
+                                            PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet indexTailRead tailSealRealRead tailReadRealSelector selectorSealCompletion
+    tailReadPkg realReadPkg selectorEnvelopePkg completionReadPkg
+  obtain ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, indexWindowsModulus,
+    modulusToleranceTail, _tailSealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
+    packet
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed indexUnary tailUnary indexTailRead
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed tailUnary sealRowUnary tailSealRealRead
+  have selectorEnvelopeUnary : UnaryHistory selectorEnvelope :=
+    unary_cont_closed tailReadUnary realReadUnary tailReadRealSelector
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed selectorEnvelopeUnary sealRowUnary selectorSealCompletion
+  exact
+    ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+      tailReadUnary, realReadUnary, selectorEnvelopeUnary, completionReadUnary,
+      indexWindowsModulus, modulusToleranceTail, indexTailRead, tailSealRealRead,
+      tailReadRealSelector, selectorSealCompletion, namePkg, tailReadPkg, realReadPkg,
+      selectorEnvelopePkg, completionReadPkg⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp
