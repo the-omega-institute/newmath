@@ -205,4 +205,28 @@ theorem LipschitzMapCarrier_target_distance_exactness [AskSetup] [PackageSetup]
       sourceGraphDistance, sourceDistanceBound, graphBoundModulus, provenancePkg,
       targetDistancePkg⟩
 
+theorem LipschitzMapCarrier_contraction_threshold_handoff [AskSetup] [PackageSetup]
+    {source target bound graph modulus transports routes provenance localCert threshold handoff :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LipschitzMapCarrier source target bound graph modulus transports routes provenance localCert
+        bundle pkg ->
+      UnaryHistory threshold ->
+        Cont bound threshold handoff ->
+          PkgSig bundle handoff pkg ->
+            UnaryHistory bound ∧ UnaryHistory threshold ∧ UnaryHistory handoff ∧
+              Cont graph bound modulus ∧ Cont bound threshold handoff ∧
+                Cont modulus routes provenance ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle handoff pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier thresholdUnary thresholdRoute handoffPkg
+  obtain ⟨_sourceUnary, _targetUnary, boundUnary, _graphUnary, _transportsUnary,
+    _routesUnary, _localCertUnary, graphBoundModulus, modulusRoutesProvenance,
+    provenancePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed boundUnary thresholdUnary thresholdRoute
+  exact
+    ⟨boundUnary, thresholdUnary, handoffUnary, graphBoundModulus, thresholdRoute,
+      modulusRoutesProvenance, provenancePkg, handoffPkg⟩
+
 end BEDC.Derived.LipschitzMapUp
