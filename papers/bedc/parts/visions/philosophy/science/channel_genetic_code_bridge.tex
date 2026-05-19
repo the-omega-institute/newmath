@@ -1,0 +1,470 @@
+\subsection{Channel encoding and genetic-code bridge}
+\label{subsec:philosophy-channel-genetic-code-bridge}
+
+The relation between the BEDC channel compiler and biological genetic
+coding is structural rather than token-identical. The BEDC channel code
+is a minimal self-delimiting event-stream codec. The DNA and RNA genetic
+codes are fixed-frame biological translation codecs over finite
+alphabets. Both systems combine a finite alphabet, a local reading
+discipline, a boundary or stop class, and an interpretation layer, but
+the corresponding objects live at different layers.
+
+This subsection is a vision-level scientific-model bridge. It is not a
+CheckedCert claim about molecular biology, and it does not turn a
+channel glyph into a biological base, codon, or biochemical law. Its
+governing discipline is the decode-first principle of
+\autoref{prin:analysis-pipeline-decode-first}: channel strings may be
+analyzed only after they have been decoded to source event flows.
+
+\begin{definition}[Active channel event]
+\label{def:philosophy-active-channel-event}
+Let $\Sigma=\{0,1\}$. A raw event is a finite word in $\Sigma^{*}$, and
+an event flow is a finite sequence of raw events. The active BEDC
+channel layer uses the Zeckendorf-safe body substitution
+$$
+\begin{aligned}
+  \zeta(\epsilon) &= \epsilon,\\
+  \zeta(0w) &= 0\,\zeta(w),\\
+  \zeta(1w) &= 10\,\zeta(w),
+\end{aligned}
+$$
+with event terminator $11$. The channel event associated to a raw event
+$w$ is
+$$
+  \mathsf{Ev}(w)=\zeta(w)\,11.
+$$
+\end{definition}
+
+\begin{definition}[Legal channel stream]
+\label{def:philosophy-legal-channel-stream}
+A legal BEDC channel stream is a finite concatenation of channel
+events:
+$$
+  \mathsf{LegalZStream}
+  =
+  \big((0\mid 10)^{*}\,11\big)^{*}.
+$$
+Equivalently, the active local channel rules are
+$$
+\begin{aligned}
+  \mathrm{raw}\ 0 &\longmapsto 0,\\
+  \mathrm{raw}\ 1 &\longmapsto 10,\\
+  \mathrm{End} &\longmapsto 11.
+\end{aligned}
+$$
+\end{definition}
+
+\begin{theorem}[The active channel body has no terminator]
+\label{thm:philosophy-channel-body-no-terminator}
+For every raw event $w$, the encoded body $\zeta(w)$ contains no
+adjacent substring $11$.
+\end{theorem}
+\begin{proof}
+The body is a finite concatenation of fragments from $\{0,10\}$. Neither
+fragment contains $11$. The only possible fragment junctions are
+$00$, $010$, $100$, and $1010$, and none of these contains $11$. Hence
+no adjacent $11$ occurs before the appended terminator.
+\end{proof}
+
+\begin{corollary}[The first $11$ is the channel terminator]
+\label{cor:philosophy-first-11-channel-terminator}
+For every raw event $w$, the first adjacent occurrence of $11$ in
+$\mathsf{Ev}(w)=\zeta(w)\,11$ is the appended event terminator.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:philosophy-channel-body-no-terminator}, the encoded body
+has no adjacent $11$. The only remaining adjacent $11$ is the appended
+terminator.
+\end{proof}
+
+\begin{theorem}[Channel round trip]
+\label{thm:philosophy-channel-round-trip}
+For every event flow $S$, decoding the compiled channel stream recovers
+the original source event flow:
+$$
+  \mathsf{Decode}(\mathsf{Compile}(S))=\mathsf{some}(S).
+$$
+On legal channel streams, $\mathsf{Compile}$ and $\mathsf{Decode}$ form
+an inverse pair between $\mathsf{EventFlow}$ and
+$\mathsf{LegalZStream}$.
+\end{theorem}
+\begin{proof}
+Each encoded event has a unique first $11$ terminator by
+\autoref{cor:philosophy-first-11-channel-terminator}. The stream decoder
+therefore segments a compiled string exactly at event boundaries, then
+decodes each body by the inverse local readings $0\mapsto\mathrm{raw}\ 0$
+and $10\mapsto\mathrm{raw}\ 1$. This is the vision-level restatement of
+the checked channel bijection recorded in
+\autoref{cor:channel-encoding-bijection}.
+\end{proof}
+
+\begin{remark}[The rejected channel rule]
+\label{rem:philosophy-rejected-channel-rule}
+The displayed rule $\mathrm{raw}\ 1\mapsto 01$ is not the active BEDC
+channel rule. If it were paired with the same terminator $11$, the event
+$1$ would be displayed as $0111$. A streaming decoder would consume the
+leading $0$ as body data, read $11$ as a terminator, and leave an
+isolated malformed $1$. This is exactly the failure isolated by
+\autoref{prop:channel-encoding-0111-illegal}. The active rule
+$\mathrm{raw}\ 1\mapsto 10$ avoids the collision.
+\end{remark}
+
+\begin{theorem}[Layer separation for channel and source readings]
+\label{thm:philosophy-channel-source-layer-separation}
+The channel-level terminator $11$ cannot be reinterpreted as a
+source-level raw substring, a source-level rewrite, a DNA base, a stop
+codon, or a theorem judgment without an explicit bridge.
+\end{theorem}
+\begin{proof}
+The source layer and the channel layer share displayed glyphs but not
+typing judgments. In the source layer, $11$ may occur inside a raw
+event. In the channel layer, $11$ marks the end of a channel-encoded
+event. By \autoref{thm:source-channel-layer-separation}, a displayed
+channel substring is not, in general, a decoded source event. A
+biological or theorem-level reading therefore requires a separate
+bridge after decoding.
+\end{proof}
+
+\begin{definition}[DNA four-phase alphabet bridge]
+\label{def:philosophy-dna-four-phase-alphabet-bridge}
+The canonical DNA alphabet is the four-base alphabet
+$$
+  \mathsf{DNA}_{4}:=\{\mathrm{A},\mathrm{C},\mathrm{G},\mathrm{T}\}.
+$$
+A DNA four-phase alphabet bridge is a conservative external readback
+from the BEDC product of two Bool-like interfaces to this external
+alphabet:
+$$
+  \beta_{\mathsf{DNA}}
+  \colon
+  \BoolUp\times\BoolUp
+  \rightsquigarrow
+  \mathsf{DNA}_{4}.
+$$
+One biologically meaningful readback uses one axis for purine versus
+pyrimidine shape and the other for AT-family versus GC-family pairing.
+\end{definition}
+
+\begin{definition}[Complementation readback]
+\label{def:philosophy-dna-complementation-readback}
+Under the shape-family readback, the four displayed phases are
+$$
+\begin{aligned}
+  \mathrm{A} &= (\mathrm{purine},\mathrm{AT}),\\
+  \mathrm{G} &= (\mathrm{purine},\mathrm{GC}),\\
+  \mathrm{T} &= (\mathrm{pyrimidine},\mathrm{AT}),\\
+  \mathrm{C} &= (\mathrm{pyrimidine},\mathrm{GC}).
+\end{aligned}
+$$
+The biological complementation operation is then read as the partial
+external involution
+$$
+  \mathrm{comp}(\mathrm{shape},\mathrm{family})
+  =
+  (\mathrm{flip}(\mathrm{shape}),\mathrm{family}),
+$$
+which displays $\mathrm{A}\leftrightarrow\mathrm{T}$ and
+$\mathrm{G}\leftrightarrow\mathrm{C}$.
+\end{definition}
+
+\begin{theorem}[DNA four-base product bridge]
+\label{thm:philosophy-dna-four-base-product-bridge}
+The canonical DNA alphabet has a natural conservative readback as a
+four-phase atlas over the product $\BoolUp\times\BoolUp$.
+\end{theorem}
+\begin{proof}
+The interface $\BoolUp$ supplies a licensed two-endpoint BEDC finite
+data surface, and $\ProdUp$ supplies the displayed product discipline
+for componentwise finite data. The external biological bridge maps the
+four displayed pairs to $\mathrm{A}$, $\mathrm{C}$, $\mathrm{G}$, and
+$\mathrm{T}$. The bridge is conservative because the biological names
+remain target-side readbacks; they do not become BEDC primitives.
+\end{proof}
+
+\begin{corollary}[Four as double distinction]
+\label{cor:philosophy-dna-four-as-double-distinction}
+Within this bridge, the displayed number $4$ is read as a product of
+two binary distinctions rather than as a biological primitive:
+$$
+  4=2\times 2.
+$$
+\end{corollary}
+\begin{proof}
+Each coordinate of $\BoolUp\times\BoolUp$ is a binary classifier. The
+product has four displayed phase positions, and the biological readback
+assigns those positions to the four canonical bases.
+\end{proof}
+
+\begin{definition}[DNA four-phase bridge certificate template]
+\label{def:philosophy-dna-four-phase-namecert-template}
+At vision strength, the paper certificate template for the four-phase
+DNA alphabet has the form
+$$
+\begin{aligned}
+  \mathsf{NameCert}(\mathsf{DNA4Alphabet}^{\uparrow})
+  =
+  (&\mathsf{SourceSpec},
+    \mathsf{PatternSpec},
+    \mathsf{ClassifierSpec},\\
+   &\mathsf{StabilityCert},
+    \mathsf{LedgerPolicy}).
+\end{aligned}
+$$
+The template records obligations for a conservative bridge target; it
+is not a completed paper certificate and not a checked Lean target.
+\end{definition}
+
+\begin{definition}[DNA four-phase source and pattern fields]
+\label{def:philosophy-dna-source-pattern-fields}
+The source field consists of two previously licensed $\BoolUp$
+interfaces combined through the $\ProdUp$ product interface, together
+with the external biological target $\mathsf{DNA}_{4}$. The pattern
+field consists of the four visible product phases
+$$
+\begin{gathered}
+  (\mathrm{purine},\mathrm{AT}),
+  \quad
+  (\mathrm{pyrimidine},\mathrm{AT}),\\
+  (\mathrm{purine},\mathrm{GC}),
+  \quad
+  (\mathrm{pyrimidine},\mathrm{GC}),
+\end{gathered}
+$$
+and the complement involution
+$$
+  \mathrm{comp}(\mathrm{shape},\mathrm{family})
+  =
+  (\mathrm{flip}(\mathrm{shape}),\mathrm{family}).
+$$
+The source is the BEDC product carrier; the DNA alphabet is an external
+readback target.
+\end{definition}
+
+\begin{definition}[DNA four-phase classifier, stability, and ledger fields]
+\label{def:philosophy-dna-classifier-stability-ledger-fields}
+The classifier field is the componentwise $\BoolUp$ classifier on the
+product surface, together with external $\beta_{\mathsf{DNA}}$ readback
+rows. The stability field requires product carrier closure under the
+componentwise classifier, complement descent through the classifier,
+the involution law for complement, absence of fixed points on the four
+canonical rows, triple-product closure for the codon atlas, and
+translation-classifier respect for codon classification at the external
+bridge layer. The ledger policy is the displayed pair ledger for
+$\mathsf{DNA4Alphabet}^{\uparrow}$, the displayed triple ledger for the
+codon atlas, and the biological readback provenance
+$\beta_{\mathsf{DNA}}$.
+\end{definition}
+
+\begin{theorem}[Complement is a fixed-point-free involution]
+\label{thm:philosophy-dna-complement-involution}
+For
+$$
+  \mathrm{comp}(\mathrm{shape},\mathrm{family})
+  =
+  (\mathrm{flip}(\mathrm{shape}),\mathrm{family}),
+$$
+the composite $\mathrm{comp}\circ\mathrm{comp}$ classifies with the
+identity on the product phase level. On the four canonical DNA rows, the
+complement map has no fixed point.
+\end{theorem}
+\begin{proof}
+The first coordinate is flipped twice, so it returns to its original
+classifier value, while the second coordinate is preserved. Since
+$\mathrm{flip}$ has no fixed point on the two visible shape phases, the
+product map has no fixed point on the four canonical rows.
+\end{proof}
+
+\begin{corollary}[Watson--Crick complement as product-axis flip]
+\label{cor:philosophy-watson-crick-product-axis-flip}
+Under $\beta_{\mathsf{DNA}}$, the complement map reads externally as
+$$
+  \mathrm{A}\leftrightarrow\mathrm{T},
+  \qquad
+  \mathrm{G}\leftrightarrow\mathrm{C}.
+$$
+\end{corollary}
+\begin{proof}
+$\mathrm{A}$ and $\mathrm{T}$ share the AT-family coordinate and differ
+in shape; $\mathrm{G}$ and $\mathrm{C}$ share the GC-family coordinate
+and differ in shape. Flipping shape while preserving family gives the
+displayed pairings.
+\end{proof}
+
+\begin{definition}[Codon phase atlas]
+\label{def:philosophy-codon-phase-atlas}
+The codon phase atlas is the triple product of the DNA four-phase
+alphabet:
+$$
+  \mathsf{Codon}_{64}^{\uparrow}
+  :=
+  (\mathsf{DNA}_{4}^{\uparrow})^{3}.
+$$
+Its external biological classifier separates amino-acid-emitting codons
+from stop codons.
+\end{definition}
+
+\begin{corollary}[Codon phase-space bridge]
+\label{cor:philosophy-codon-phase-space-bridge}
+The codon layer has $64$ displayed phase positions.
+\end{corollary}
+\begin{proof}
+The bridge target has four DNA phases, and a codon is a triple of such
+phases. Therefore its displayed phase space has cardinality
+$$
+  4^{3}=64.
+$$
+The stop classifier is an external biological partition of this
+phase-space. It is not the BEDC channel terminator.
+\end{proof}
+
+\begin{definition}[Genetic translation classifier]
+\label{def:philosophy-genetic-translation-classifier}
+A genetic translation classifier is an external biological classifier
+of the form
+$$
+  \mathsf{TranslateClassifier}
+  :
+  \mathsf{Codon}_{64}^{\uparrow}
+  \rightsquigarrow
+  \mathsf{AminoAcid}^{\uparrow}\oplus\mathsf{Stop}^{\uparrow}.
+$$
+It may be many-to-one: distinct codon positions may classify to the
+same amino-acid class. The original codon remains part of the ledger.
+\end{definition}
+
+\begin{definition}[Genetic-code ledger]
+\label{def:philosophy-genetic-code-ledger}
+A genetic-code ledger records the original codon triple, its three
+$\mathsf{DNA4Alphabet}^{\uparrow}$ component positions, the
+translation-classifier output, whether that output is amino-acid
+emitting or stop, and the external biological bridge provenance used to
+read each BEDC phase as a biological base.
+\end{definition}
+
+\begin{theorem}[Translation is a classifier quotient]
+\label{thm:philosophy-translation-classifier-quotient}
+Genetic translation, at this bridge strength, is represented by a
+classifier from the codon atlas to amino-acid or stop classes, and that
+classifier may be many-to-one.
+\end{theorem}
+\begin{proof}
+A codon position is source-side phase material for the bridge. An
+amino-acid or stop class is the classified visible output. Multiple
+codon positions may classify to the same amino-acid class. BEDC reads
+this as classifier quotient rather than as source erasure because
+\autoref{def:philosophy-genetic-code-ledger} keeps the original codon
+triple and component readbacks visible.
+\end{proof}
+
+\begin{corollary}[Synonymous codons are ledger-preserving compression]
+\label{cor:philosophy-synonymous-codons-ledger-compression}
+If two codons classify to the same amino-acid class, the visible
+translation meaning is compressed while each original codon remains in
+the ledger.
+\end{corollary}
+\begin{proof}
+This is the biological bridge instance of BEDC compression with memory:
+classification may hide distinctions at the visible meaning level, but
+the source map remains recoverable through the ledger.
+\end{proof}
+
+\begin{corollary}[Codon length and alphabet size generate the phase space]
+\label{cor:philosophy-codon-length-alphabet-size}
+The codon layer combines binary distinction, double distinction, a
+three-position reading window, and a stop classifier:
+$$
+\begin{gathered}
+  2=\text{binary distinction},\\
+  4=2\times 2=\text{DNA four-phase alphabet},\\
+  4^{3}=64=\text{codon phase space}.
+\end{gathered}
+$$
+\end{corollary}
+
+\begin{definition}[Stop-role bridge]
+\label{def:philosophy-stop-role-bridge}
+The stop-role bridge relates two typed termination roles:
+$$
+\begin{aligned}
+  \mathsf{ChannelEndRole}(11)
+  &:\text{ event-boundary termination},\\
+  \mathsf{GeneticStopRole}(\mathrm{codon})
+  &:\text{ protein-translation termination}.
+\end{aligned}
+$$
+The bridge asserts role analogy under finite-stream reading, not
+identity of tokens.
+\end{definition}
+
+\begin{theorem}[Stop-role analogy is not token identity]
+\label{thm:philosophy-stop-role-analogy-not-identity}
+The BEDC channel terminator and biological stop codons have the same
+abstract role of ending a finite reading process, but they are not the
+same object.
+\end{theorem}
+\begin{proof}
+The BEDC terminator $11$ ends one channel-encoded raw event inside
+$\mathsf{LegalZStream}$. A biological stop codon ends protein synthesis
+inside a codon reading frame. The former is a channel-boundary marker;
+the latter is a translation-class marker in an external biological
+model. Hence the licensed relation is role-equivalence under a
+conservative bridge, not token identity.
+\end{proof}
+
+\begin{theorem}[Channel/genetic bridge cannot-claim boundary]
+\label{thm:philosophy-channel-genetic-cannot-claim-boundary}
+The channel/genetic-code bridge does not license any of the following
+claims:
+\begin{itemize}
+  \item that BEDC channel encoding is DNA;
+  \item that the channel glyph pair $11$ is a DNA or RNA stop codon;
+  \item that $01$ is the active BEDC encoding of raw $1$;
+  \item that a DNA base can be read directly from a compiled BEDC
+    channel substring;
+  \item that a biological bridge replaces BEDC NameCert obligations;
+  \item that $\mathsf{DNA4Alphabet}^{\uparrow}$ is already a checked
+    BEDC theorem;
+  \item that the codon classifier is already a checked BEDC theorem.
+\end{itemize}
+\end{theorem}
+\begin{proof}
+The active channel rule for raw $1$ is $10$, not $01$, by
+\autoref{def:philosophy-legal-channel-stream}. Channel substrings must
+be decoded before source analysis by
+\autoref{thm:philosophy-channel-source-layer-separation}. The DNA and
+codon readings are external scientific-model bridges in the sense of
+\autoref{def:philosophy-model-bridge}, and bridge targets do not replace
+internal certificates by \autoref{cor:philosophy-host-maturity-not-replace-bedc-certification}.
+The certificate fields in
+\autoref{def:philosophy-dna-four-phase-namecert-template} are displayed
+as a vision-strength template, so they do not by themselves supply a
+checked theorem for either the DNA alphabet bridge or the translation
+classifier.
+\end{proof}
+
+\begin{corollary}[Allowed bridge claim]
+\label{cor:philosophy-channel-genetic-allowed-claim}
+The allowed claim is that BEDC channel encoding supplies a minimal
+self-delimiting event-stream skeleton, while DNA and RNA genetic coding
+supply biological fixed-frame translation systems. Their formal
+relation is a conservative finite-reading and stop-role bridge mediated
+by decoding, the product surface $\BoolUp\times\BoolUp$, and the codon
+phase atlas.
+\end{corollary}
+
+\begin{corollary}[Minimal channel skeleton and biological parser]
+\label{cor:philosophy-minimal-channel-biological-parser}
+The BEDC channel parser and the genetic-code parser share a finite
+reading motif:
+$$
+\begin{gathered}
+  0\longmapsto \mathrm{emit\ raw}\ 0,\qquad
+  10\longmapsto \mathrm{emit\ raw}\ 1,\qquad
+  11\longmapsto \mathrm{stop\ current\ event},\\
+  \mathrm{codon}\longmapsto \mathrm{emit\ amino\ acid},\qquad
+  \mathrm{stop\ codon}\longmapsto \mathrm{stop\ protein\ synthesis}.
+\end{gathered}
+$$
+The shared structure is finite stream, local reading rule, stop class,
+and ledger. The objects remain layer-distinct.
+\end{corollary}
