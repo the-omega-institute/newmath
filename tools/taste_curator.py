@@ -68,8 +68,8 @@ TIMEOUTS = {
     "carrier": 120,
     "inventory": 180,
     "scan": 180,
-    "codex": 1800,
-    "verify": 900,
+    "codex": 3600,
+    "verify": 1800,
 }
 
 AUTO_FIXABLE_FLAGS = {
