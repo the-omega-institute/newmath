@@ -320,4 +320,87 @@ theorem FiniteMultiHistPacketUp_no_sync_boundary :
         ⟨histories, ledgers, comparisons, routes, boundary, provenance, nameCert, rfl,
           boundaryListed⟩
 
+theorem FiniteMultiHistPacketUp_causal_interface :
+    ∀ x : FiniteMultiHistPacketUp,
+      ∃ histories ledgers comparisons routes boundary provenance nameCert : BHist,
+        x =
+            FiniteMultiHistPacketUp.mk histories ledgers comparisons routes boundary provenance
+              nameCert ∧
+          List.Mem (finiteMultiHistPacketEncodeBHist histories)
+            (finiteMultiHistPacketToEventFlow x) ∧
+            List.Mem (finiteMultiHistPacketEncodeBHist ledgers)
+              (finiteMultiHistPacketToEventFlow x) ∧
+              List.Mem (finiteMultiHistPacketEncodeBHist comparisons)
+                (finiteMultiHistPacketToEventFlow x) ∧
+                List.Mem (finiteMultiHistPacketEncodeBHist routes)
+                  (finiteMultiHistPacketToEventFlow x) ∧
+                  List.Mem (finiteMultiHistPacketEncodeBHist boundary)
+                    (finiteMultiHistPacketToEventFlow x) ∧
+                    List.Mem (finiteMultiHistPacketEncodeBHist provenance)
+                      (finiteMultiHistPacketToEventFlow x) ∧
+                      List.Mem (finiteMultiHistPacketEncodeBHist nameCert)
+                        (finiteMultiHistPacketToEventFlow x) := by
+  -- BEDC touchpoint anchor: BHist BMark List.Mem
+  intro x
+  cases x with
+  | mk histories ledgers comparisons routes boundary provenance nameCert =>
+      refine
+        ⟨histories, ledgers, comparisons, routes, boundary, provenance, nameCert, rfl, ?_,
+          ?_, ?_, ?_, ?_, ?_, ?_⟩
+      · exact List.mem_cons_of_mem _ List.mem_cons_self
+      · exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _ List.mem_cons_self))
+      · exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _ List.mem_cons_self))))
+      · exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _
+                    (List.mem_cons_of_mem _
+                      (List.mem_cons_of_mem _ List.mem_cons_self))))))
+      · exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _
+                    (List.mem_cons_of_mem _
+                      (List.mem_cons_of_mem _
+                        (List.mem_cons_of_mem _
+                          (List.mem_cons_of_mem _ List.mem_cons_self))))))))
+      · exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _
+                    (List.mem_cons_of_mem _
+                      (List.mem_cons_of_mem _
+                        (List.mem_cons_of_mem _
+                          (List.mem_cons_of_mem _
+                            (List.mem_cons_of_mem _
+                              (List.mem_cons_of_mem _ List.mem_cons_self))))))))))
+      · exact
+          List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _
+                    (List.mem_cons_of_mem _
+                      (List.mem_cons_of_mem _
+                        (List.mem_cons_of_mem _
+                          (List.mem_cons_of_mem _
+                            (List.mem_cons_of_mem _
+                              (List.mem_cons_of_mem _
+                                (List.mem_cons_of_mem _
+                                  (List.mem_cons_of_mem _ List.mem_cons_self))))))))))))
+
 end BEDC.Derived.FiniteMultiHistPacketUp
