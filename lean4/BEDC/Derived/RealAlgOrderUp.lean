@@ -6,6 +6,28 @@ open BEDC.FKernel.Hist
 open BEDC.Derived.RatUp
 open BEDC.Derived.RealUp
 
+def RealAlgOrderConcreteInterface (d e o : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist RatHistoryCarrier RealConstantHistoryCarrier
+  RatHistoryCarrier d ∧ RatHistoryCarrier e ∧ RatHistoryCarrier o ∧
+    RealConstantHistoryCarrier (BHist.e1 d) ∧ RealConstantHistoryCarrier (BHist.e1 e) ∧
+      RealConstantHistoryCarrier (BHist.e1 o) ∧
+        RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e)
+
+theorem RealAlgOrderConcreteInterface_constant_boundary {d e o : BHist} :
+    RatHistoryCarrier d →
+      RatHistoryClassifier d e →
+        RatHistoryCarrier o →
+          RealAlgOrderConcreteInterface d e o := by
+  -- BEDC touchpoint anchor: BHist RatHistoryCarrier RealConstantHistoryCarrier
+  intro carrierD classifiedDE carrierO
+  have carrierE : RatHistoryCarrier e := classifiedDE.right.left
+  exact
+    ⟨carrierD, carrierE, carrierO,
+      RealConstantHistoryCarrier_e1_iff_rat.mpr carrierD,
+      RealConstantHistoryCarrier_e1_iff_rat.mpr carrierE,
+      RealConstantHistoryCarrier_e1_iff_rat.mpr carrierO,
+      RealConstantHistoryClassifier_e1_iff_rat.mpr classifiedDE⟩
+
 theorem RealAlgOrderConstantCarrier_classifier_obligations {d e d' e' : BHist} :
     RatHistoryCarrier d -> RatHistoryClassifier d e -> hsame d d' -> hsame e e' ->
       RealConstantHistoryCarrier (BHist.e1 d') ∧
