@@ -354,3 +354,53 @@ metric-completeness witnesses, or a direct Real seal bypass. The transported
 classifier agreement is therefore exactly equality of the public $\RealUp$
 seal classifier surface on the shared subcover.
 \end{proof}
+
+\begin{theorem}[Real four-face terminal cover classifier finality]
+\label{thm:real-four-face-terminal-cover-classifier-finality}
+Let $C_0$ be a finite terminal cover of current Phase Real and Completion
+$\RealUp$ seal reads satisfying the hypotheses of
+\autoref{thm:real-four-face-terminal-cover-pullback}. Let $C_1$ be a second
+finite terminal presentation of the same terminal read support. Suppose that
+$C_1$ also satisfies those hypotheses, and that $C_0$ and $C_1$ agree on the
+$\DyadicRatCoreUp$ observation rows, the $\StreamNameUp$ finite-window rows,
+the $\RegSeqRatUp$ classifier and readback rows, the local $\RealUp$ seal
+rows, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support coordinates. Then $C_0$ and $C_1$ determine one and the same public
+$\RealUp$ seal classifier surface.
+
+This finality is only over the terminal four-face cover
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+It excludes quotient stream equality, host real equality, selected limits,
+countable choice, ambient completion, metric-completeness rows, and any
+direct $\RealUp$ seal bypass from the data that can affect the public
+classifier surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-four-face-terminal-cover-pullback} separately to
+$C_0$ and $C_1$. The two presentations therefore pull back to terminal
+four-face routes with the same displayed dyadic, stream, regular-rational,
+local Real, and structural support rows.
+
+On every common part of the cover, use
+\autoref{thm:real-four-face-terminal-cover-overlap-compatibility}. The
+agreement of the DyadicRatCore observations, StreamName windows, RegSeqRat
+classifier and readback rows, local Real seal rows, and displayed support
+coordinates identifies the public $\RealUp$ seal classifier surface on each
+overlap.
+
+Next pass through the four named faces. Apply
+\autoref{thm:real-dyadic-stream-regseq-seal-equivalence} to identify the
+classifier surface obtained from the dyadic, stream, regular-rational, and
+local Real presentations.
+
+Finally apply
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. The current
+Phase Real and Completion dependency lattice exposes no fifth public
+coordinate, so quotient stream equality, host real equality, selected limits,
+countable choice, ambient completion, metric-completeness rows, and direct
+Real seal bypasses have no classifier input. The overlap-compatible
+four-face surface is therefore the unique public $\RealUp$ seal classifier
+surface determined by the two presentations.
+\end{proof}
