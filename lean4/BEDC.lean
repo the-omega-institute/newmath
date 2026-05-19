@@ -3094,6 +3094,7 @@ import BEDC.Derived.OnticAdequacyAuditUp.TasteGate
 import BEDC.Derived.OnticResidueLatticeUp.TasteGate
 import BEDC.Derived.OnticResidueLedgerUp.TasteGate
 import BEDC.Derived.OnticStateUp.ComponentwiseTransportScope
+import BEDC.Derived.OnticStateUp.ResidueLedgerExactness
 import BEDC.Derived.OnticStateUp.SignatureStability
 import BEDC.Derived.OnticStateUp.TasteGate
 import BEDC.Derived.OnticTowerUp.TasteGate
@@ -4313,7 +4314,6 @@ import BEDC.Derived.ZeckendorfCarryValueUp.TasteGate
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.ZetaBasicUp
-import BEDC.Derived.ZetaContinuationApplicationUp.RootObligations
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.ConsumerPacketTotality
@@ -4367,8 +4367,10 @@ import BEDC.Derived.ZnormalUp.TerminalNormalityRefusalStability
 import BEDC.Derived.ZnormalUp.TerminalReadbackExactness
 import BEDC.Derived.ZnormalUp.TerminalReadbackRouteExhaustion
 import BEDC.Derived.ZnormalUp.TerminalRouteExhaustion
+import BEDC.Derived.ZnormalUp.TerminalRouteObligationCompletion
 import BEDC.Derived.ZnormalUp.TerminalRowConstructorExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
+import BEDC.Derived.ZnormalUp.TotalHostReadbackSeparation
 import BEDC.DerivedIndexAnalysis
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
