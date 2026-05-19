@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -51,6 +52,72 @@ theorem RelationalPhysics_namecert_handoff [AskSetup] [PackageSetup]
   exact
     ⟨observerUnary, localityUnary, invariantUnary, auditUnary, rateUnary, handoffUnary,
       localityInvariantAudit, auditRateHandoff, provenancePkg, handoffPkg⟩
+
+theorem RelationalPhysicsCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {observer invariant locality audit rateOrRefusal transport continuation provenance
+      name handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RelationalPhysicsCarrier observer invariant locality audit rateOrRefusal transport
+        continuation provenance name bundle pkg ->
+      Cont observer locality invariant ->
+        Cont invariant audit handoff ->
+          PkgSig bundle handoff pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row handoff ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row observer ∨ hsame row locality ∨ hsame row invariant ∨
+                    hsame row audit ∨ hsame row rateOrRefusal ∨ hsame row handoff)
+                (fun row : BHist => hsame row handoff ∧ PkgSig bundle handoff pkg)
+                hsame ∧
+              UnaryHistory observer ∧ UnaryHistory locality ∧ UnaryHistory invariant ∧
+                UnaryHistory audit ∧ UnaryHistory handoff ∧
+                  PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier _observerLocalityInvariant invariantAuditHandoff handoffPkg
+  obtain ⟨observerUnary, invariantUnary, localityUnary, auditUnary, rateUnary,
+    _transportUnary, _continuationUnary, _provenanceUnary, _nameUnary,
+    _observerLocalityInvariantFromCarrier, _invariantAuditRate,
+    _transportContinuationProvenance, _carrierLocalityInvariantAudit,
+    _carrierAuditRateContinuation, provenancePkg, _namePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed invariantUnary auditUnary invariantAuditHandoff
+  have sourceAtHandoff : hsame handoff handoff ∧ UnaryHistory handoff :=
+    ⟨hsame_refl handoff, handoffUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row handoff ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row observer ∨ hsame row locality ∨ hsame row invariant ∨
+              hsame row audit ∨ hsame row rateOrRefusal ∨ hsame row handoff)
+          (fun row : BHist => hsame row handoff ∧ PkgSig bundle handoff pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro handoff sourceAtHandoff
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, handoffPkg⟩
+  }
+  exact
+    ⟨cert, observerUnary, localityUnary, invariantUnary, auditUnary, handoffUnary,
+      provenancePkg⟩
 
 theorem RelationalPhysicsNameCertObligations [AskSetup] [PackageSetup]
     {observer invariant locality audit rate transport route provenance name : BHist}
@@ -152,5 +219,40 @@ theorem RelationalPhysicsNameCertObligations [AskSetup] [PackageSetup]
                       exact
                         ⟨unary_transport rateUnary (hsame_symm sameRate), provenancePkg⟩
   }
+
+theorem RelationalPhysicsGlobalFrameTailExclusion [AskSetup] [PackageSetup]
+    {observer invariant locality audit rate transport route provenance name invariantRead
+      auditRead frameRead hostTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RelationalPhysicsCarrier observer invariant locality audit rate transport route provenance
+        name bundle pkg →
+      Cont observer locality invariantRead →
+        Cont invariantRead audit auditRead →
+          Cont auditRead rate frameRead →
+            PkgSig bundle frameRead pkg →
+              hsame invariantRead invariant ∧ UnaryHistory auditRead ∧
+                UnaryHistory frameRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle frameRead pkg ∧
+                    (Cont frameRead (BHist.e0 hostTail) auditRead → False) ∧
+                      (Cont frameRead (BHist.e1 hostTail) auditRead → False) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory PkgSig
+  intro carrier observerLocalityInvariantRead invariantReadAuditRead auditReadRateFrame
+    framePkg
+  obtain ⟨observerUnary, _invariantUnary, localityUnary, auditUnary, rateUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    observerLocalityInvariant, _invariantAuditRate, _transportRouteProvenance,
+    _localityInvariantAudit, _auditRateRoute, provenancePkg, _namePkg⟩ := carrier
+  have invariantReadSame : hsame invariantRead invariant :=
+    cont_deterministic observerLocalityInvariantRead observerLocalityInvariant
+  have invariantReadUnary : UnaryHistory invariantRead :=
+    unary_cont_closed observerUnary localityUnary observerLocalityInvariantRead
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed invariantReadUnary auditUnary invariantReadAuditRead
+  have frameReadUnary : UnaryHistory frameRead :=
+    unary_cont_closed auditReadUnary rateUnary auditReadRateFrame
+  exact
+    ⟨invariantReadSame, auditReadUnary, frameReadUnary, provenancePkg, framePkg,
+      cont_mutual_extension_right_tail_absurd.left auditReadRateFrame,
+      cont_mutual_extension_right_tail_absurd.right auditReadRateFrame⟩
 
 end BEDC.Derived.RelationalPhysicsUp

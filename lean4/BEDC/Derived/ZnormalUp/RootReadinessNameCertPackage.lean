@@ -131,4 +131,120 @@ theorem ZnormalRootReadinessNameCertPackage [AskSetup] [PackageSetup]
     }
   · exact And.intro sameTerminalRead hostReadUnary
 
+theorem ZnormalPacket_root_readiness_namecert_package [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name sourceRead
+      sourceExport siblingRead terminalRead downstream : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+        bundle pkg →
+      Cont typed fuel sourceRead →
+        Cont sourceRead name sourceExport →
+          Cont normal continuation siblingRead →
+            Cont typed fuel terminalRead →
+              Cont terminalRead continuation downstream →
+                PkgSig bundle sourceExport pkg →
+                  PkgSig bundle siblingRead pkg →
+                    PkgSig bundle downstream pkg →
+                      SemanticNameCert
+                        (fun row : BHist =>
+                          (hsame row sourceExport ∨ hsame row siblingRead ∨
+                            hsame row downstream) ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row typed ∨ hsame row fuel ∨ hsame row sourceRead ∨
+                            hsame row sourceExport ∨ hsame row normal ∨
+                              hsame row continuation ∨ hsame row siblingRead ∨
+                                hsame row terminalRead ∨ hsame row downstream)
+                        (fun row : BHist =>
+                          (hsame row sourceExport ∨ hsame row siblingRead ∨
+                            hsame row downstream) ∧
+                            (PkgSig bundle sourceExport pkg ∨
+                              PkgSig bundle siblingRead pkg ∨
+                                PkgSig bundle downstream pkg))
+                        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro packet typedFuelSourceRead sourceReadNameSourceExport
+    normalContinuationSiblingRead typedFuelTerminalRead terminalReadContinuationDownstream
+    sourceExportPkg siblingReadPkg downstreamPkg
+  obtain ⟨typedUnary, fuelUnary, _terminalUnary, normalUnary, continuationUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, nameUnary, _typedFuelTerminal,
+    _terminalNormalContinuation, _continuationTransportsRoutes, _namePkg, _provenancePkg⟩ :=
+    packet
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_cont_closed typedUnary fuelUnary typedFuelSourceRead
+  have sourceExportUnary : UnaryHistory sourceExport :=
+    unary_cont_closed sourceReadUnary nameUnary sourceReadNameSourceExport
+  have siblingReadUnary : UnaryHistory siblingRead :=
+    unary_cont_closed normalUnary continuationUnary normalContinuationSiblingRead
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed typedUnary fuelUnary typedFuelTerminalRead
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed terminalReadUnary continuationUnary terminalReadContinuationDownstream
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro sourceExport
+          ⟨Or.inl (hsame_refl sourceExport), sourceExportUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        constructor
+        · cases source.left with
+          | inl sameSource =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameSource)
+          | inr rest =>
+              cases rest with
+              | inl sameSibling =>
+                  exact Or.inr
+                    (Or.inl (hsame_trans (hsame_symm sameRows) sameSibling))
+              | inr sameDownstream =>
+                  exact Or.inr
+                    (Or.inr (hsame_trans (hsame_symm sameRows) sameDownstream))
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameSource =>
+          exact Or.inr (Or.inr (Or.inr (Or.inl sameSource)))
+      | inr rest =>
+          cases rest with
+          | inl sameSibling =>
+              exact Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr (Or.inl sameSibling))))))
+          | inr sameDownstream =>
+              exact Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr sameDownstream)))))))
+    ledger_sound := by
+      intro _row source
+      constructor
+      · exact source.left
+      · cases source.left with
+        | inl _sameSource =>
+            exact Or.inl sourceExportPkg
+        | inr rest =>
+            cases rest with
+            | inl _sameSibling =>
+                exact Or.inr (Or.inl siblingReadPkg)
+            | inr _sameDownstream =>
+                exact Or.inr (Or.inr downstreamPkg)
+  }
+
 end BEDC.Derived.ZnormalUp
