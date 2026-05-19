@@ -50,3 +50,45 @@ Now read the existing nonescape boundaries. \autoref{thm:finite-lebesgue-number-
 
 Finally apply terminal and consumer exhaustion. \autoref{thm:finite-lebesgue-number-terminal-radius-phase-consumer-nonescape} and \autoref{thm:finite-lebesgue-number-l10-consumer-radius-exhaustion} keep compact, compact-net, continuous, totally bounded, and uniform consumers inside the four-face Phase Real and Completion packet. Since the carrier itself has no coordinate for quotient streams, host limits, countable choice, open-cover compactness, or ambient Real completeness, none of those rows can be exported from an admitted radius-window read.
 \end{proof}
+
+\begin{theorem}[Finite Lebesgue-number Phase Real radius-window no extra source]
+\label{thm:finite-lebesgue-number-phase-real-radius-window-no-extra-source}
+Every accepted $\FiniteLebesgueNumberUp$ Phase Real radius-window packet may read only the rows
+$$
+D,\quad W,\quad S,\quad H,\quad C,\quad P,\quad N
+$$
+of \autoref{def:finite-lebesgue-number-phase-real-radius-window-carrier}, together with the displayed finite history $\BHist$ and its componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. In particular, the packet has no readable source beyond the $\DyadicRatCoreUp$ endpoint and radius row, the $\StreamNameUp$ finite-window row, the $\RegSeqRatUp$ regularity and classifier row, and the $\RealUp$ seal row.
+\end{theorem}
+\begin{proof}
+Read the packet from its carrier definition. The only source chapters named there are \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}; the remaining coordinates are the displayed finite history, transport, continuation, provenance, and local naming rows.
+
+The three local gates make these coordinates exhaustive. \autoref{thm:finite-lebesgue-number-dyadic-radius-window-admission} exposes $D$ before $W$, \autoref{thm:finite-lebesgue-number-real-seal-radius-readback} factors the Real-side read through $D,W,S$, and \autoref{thm:finite-lebesgue-number-open-phase-nonescape} denies quotient streams, host limits, countable choice, open-cover compactness, and ambient Real completeness.
+
+Thus any admitted consumer read is already a read of the four named faces plus the displayed BEDC support rows. Since the carrier contains no further coordinate and the nonescape theorem denies the standard off-packet exits, there is no extra source available to the radius-window packet.
+\end{proof}
+
+\begin{theorem}[Finite Lebesgue-number Phase Real radius-window face minimality]
+\label{thm:finite-lebesgue-number-phase-real-radius-window-face-minimality}
+The four source faces of an accepted $\FiniteLebesgueNumberUp$ Phase Real radius-window packet are minimal for the exit route. Removing the $\DyadicRatCoreUp$ face loses the endpoint and radius row $D$; removing the $\StreamNameUp$ face loses the finite-window row $W$; removing the $\RegSeqRatUp$ face loses the regularity and classifier row in $S$; and removing the $\RealUp$ face loses the terminal seal row read through $S$.
+\end{theorem}
+\begin{proof}
+For the dyadic face, use \autoref{thm:finite-lebesgue-number-dyadic-radius-window-admission}. The theorem makes the $\DyadicRatCoreUp$ row a prerequisite for consuming the finite window, so deleting that face removes the endpoint and radius read needed before $W$ can be inspected.
+
+For the stream face, the same admission theorem identifies $W$ as the finite window available to downstream compact, continuous, totally bounded, and uniform consumers. Without $\StreamNameUp$, the packet still has a dyadic radius row, but it has no finite-window row to present at the consumer boundary.
+
+For the regular-rational and Real faces, use \autoref{thm:finite-lebesgue-number-real-seal-radius-readback}. The readback factors Real-side radius access through $D,W,S$, where $S$ records the $\RegSeqRatUp$-to-$\RealUp$ seal route. Removing $\RegSeqRatUp$ deletes the regularity and classifier part of $S$, while removing $\RealUp$ deletes the terminal seal part of the same row.
+
+\autoref{thm:finite-lebesgue-number-phase-real-radius-window-no-extra-source} supplies the converse exclusion needed for minimality: none of these losses can be repaired by an off-packet source. Hence each of the four faces is necessary for the corresponding radius-window row.
+\end{proof}
+
+\begin{theorem}[Finite Lebesgue-number Phase Real radius-window exit consumer readiness]
+\label{thm:finite-lebesgue-number-phase-real-radius-window-exit-consumer-readiness}
+The accepted $\FiniteLebesgueNumberUp$ Phase Real radius-window packet is ready for downstream compact, continuous, totally bounded, compact-net, and uniform consumers. Such a consumer may use the dyadic admission row, the Real seal readback row, the open Phase nonescape boundary, the no-extra-source boundary, and the four-face minimality boundary as one finite radius ledger, without quotient streams, selected limits, host real equality, ambient Real completeness, metric-completeness, or countable choice.
+\end{theorem}
+\begin{proof}
+Assemble the positive ledger first. \autoref{thm:finite-lebesgue-number-dyadic-radius-window-admission} provides the ordered dyadic-to-window read, and \autoref{thm:finite-lebesgue-number-real-seal-radius-readback} routes the Real seal through $D,W,S$ with the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next attach the boundary conditions. \autoref{thm:finite-lebesgue-number-open-phase-nonescape} keeps every admitted consumer read inside the finite packet, while \autoref{thm:finite-lebesgue-number-phase-real-radius-window-no-extra-source} states that no fifth source face is readable from that packet.
+
+Finally use \autoref{thm:finite-lebesgue-number-phase-real-radius-window-face-minimality} to make the ledger exit-ready rather than merely admissible. Each of the four source faces is required for its corresponding endpoint, finite-window, regularity, classifier, or seal row, and the nonescape boundary prevents replacement by quotient streams, selected limits, host real equality, ambient Real completeness, metric-completeness, or countable choice. This is exactly the finite radius ledger needed by downstream Phase Real consumers.
+\end{proof}

@@ -403,4 +403,57 @@ theorem FiniteMultiHistPacketUp_causal_interface :
                                 (List.mem_cons_of_mem _
                                   (List.mem_cons_of_mem _ List.mem_cons_self))))))))))))
 
+theorem FiniteMultiHistPacketUp_subpacket_restriction
+    {histories ledgers comparisons routes boundary provenance nameCert selectedHistories
+      selectedLedgers selectedComparisons selectedRoutes selectedProvenance
+      selectedNameCert : BHist} :
+    hsame histories selectedHistories ->
+      hsame ledgers selectedLedgers ->
+        hsame comparisons selectedComparisons ->
+          hsame routes selectedRoutes ->
+            hsame provenance selectedProvenance ->
+              hsame nameCert selectedNameCert ->
+                Cont selectedHistories selectedLedgers selectedRoutes ->
+                  List.Mem (finiteMultiHistPacketEncodeBHist selectedHistories)
+                      (finiteMultiHistPacketToEventFlow
+                        (FiniteMultiHistPacketUp.mk selectedHistories selectedLedgers
+                          selectedComparisons selectedRoutes boundary selectedProvenance
+                          selectedNameCert)) ∧
+                    List.Mem (finiteMultiHistPacketEncodeBHist selectedLedgers)
+                      (finiteMultiHistPacketToEventFlow
+                        (FiniteMultiHistPacketUp.mk selectedHistories selectedLedgers
+                          selectedComparisons selectedRoutes boundary selectedProvenance
+                          selectedNameCert)) ∧
+                      List.Mem (finiteMultiHistPacketEncodeBHist boundary)
+                        (finiteMultiHistPacketToEventFlow
+                          (FiniteMultiHistPacketUp.mk selectedHistories selectedLedgers
+                            selectedComparisons selectedRoutes boundary selectedProvenance
+                            selectedNameCert)) := by
+  -- BEDC touchpoint anchor: BHist BMark hsame Cont
+  intro sameHistories sameLedgers sameComparisons sameRoutes sameProvenance sameNameCert
+    _selectedVisible
+  cases sameHistories
+  cases sameLedgers
+  cases sameComparisons
+  cases sameRoutes
+  cases sameProvenance
+  cases sameNameCert
+  constructor
+  · exact List.mem_cons_of_mem _ List.mem_cons_self
+  · constructor
+    · exact
+        List.mem_cons_of_mem _
+          (List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _ List.mem_cons_self))
+    · exact
+        List.mem_cons_of_mem _
+          (List.mem_cons_of_mem _
+            (List.mem_cons_of_mem _
+              (List.mem_cons_of_mem _
+                (List.mem_cons_of_mem _
+                  (List.mem_cons_of_mem _
+                    (List.mem_cons_of_mem _
+                      (List.mem_cons_of_mem _
+                        (List.mem_cons_of_mem _ List.mem_cons_self))))))))
+
 end BEDC.Derived.FiniteMultiHistPacketUp
