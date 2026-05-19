@@ -259,3 +259,25 @@ It remains only to locate the possible difference. The non-$F$ records are fixed
 
 All excluded data remain absent. The cited results use only the four face records and the displayed support rows; they provide no route-level formalstatus, aggregate bridge coordinate, selected limit, quotient stream, metric-completeness datum, or $\RealUp$ completeness row. Thus the certificate is invariant precisely under the stated face-local formal strengthening.
 \end{proof}
+
+\begin{theorem}[Real L10 exit certificate refinement functoriality]
+\label{thm:real-l10-exit-certificate-refinement-functoriality}
+Let $\mathcal E$ and $\mathcal E'$ be finite Phase $\RealUp$ and Completion packets over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ rows. Suppose $\rho : \mathcal E \to \mathcal E'$ is a certified finite refinement whose visible action preserves each displayed face row and preserves the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then $\mathcal E$ and $\mathcal E'$ determine the same objectwise Phase Real and Completion exit certificate read by \autoref{thm:real-l10-current-phase-exit-local-threshold}.
+
+Conversely, if $\mathcal E$ and $\mathcal E'$ determine the same objectwise Phase Real and Completion exit certificate, then the equality recovers exactly a certified finite refinement between their displayed four-face sections that preserves the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$ rows and preserves the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+This refinement law is confined to the displayed finite certificate surface. It excludes quotient streams, selected limits, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, and $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First read both packets through the current exit criterion. By \autoref{thm:real-l10-current-phase-exit-local-threshold}, each accepted packet is read as the objectwise product of the four local threshold records on $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ face, together with exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+For the forward direction, apply the certified finite refinement $\rho$. Its visible action preserves every one of the four face rows and every displayed support row, so the finite-section read of $\mathcal E'$ has the same rows as the finite-section read of $\mathcal E$. By \autoref{thm:real-l10-finite-section-classifier-equivalence}, the two finite sections therefore present the same compatible four-face classifier packet.
+
+Now control possible reorderings or local status changes introduced by the refinement. Apply \autoref{thm:real-l10-face-order-permutation-invariance} to identify support-row-preserving views of the terminal route with the same objectwise exit certificate. Apply \autoref{thm:real-l10-face-local-formal-upgrade-invariance} to keep any face-local formal strengthening attached to its source face rather than to an aggregate route row.
+
+For the converse direction, assume that $\mathcal E$ and $\mathcal E'$ determine the same objectwise exit certificate. By \autoref{thm:real-l10-exit-certificate-face-minimality}, none of the four face rows and none of the displayed support rows can be deleted, duplicated, detached, or replaced while the same certificate is retained.
+
+The finite-section classifier equivalence then reconstructs the only possible comparison between the two visible sections: it is the support-row-preserving finite refinement carrying the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$ rows to the corresponding rows and carrying the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows to themselves. Minimality makes this refinement exact, because there is no unused face coordinate or hidden support coordinate on which a different refinement could act.
+
+All exclusions are inherited from the same cited certificate surface. The argument uses only finite face rows, finite classifier sections, support-row-preserving route views, and face-local formal strengthening; it has no coordinate for quotient streams, selected limits, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, or $\RealUp$ completeness.
+\end{proof}

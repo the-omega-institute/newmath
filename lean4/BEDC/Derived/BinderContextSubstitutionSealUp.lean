@@ -125,4 +125,31 @@ theorem BinderContextSubstitutionSealCarrier_non_escape_boundary [AskSetup] [Pac
   exact
     ⟨endpointResult, endpointUnary, termDepthResult, endpointRoute, endpointPkg⟩
 
+theorem BinderContextSubstitutionSealCarrier_obligation_rows [AskSetup] [PackageSetup]
+    {term depth payload result boundary transport route provenance name endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinderContextSubstitutionSealCarrier term depth payload result boundary transport route
+        provenance name bundle pkg →
+      Cont result boundary endpoint →
+        PkgSig bundle endpoint pkg →
+          UnaryHistory term ∧ UnaryHistory depth ∧ UnaryHistory payload ∧
+            UnaryHistory result ∧ UnaryHistory boundary ∧ UnaryHistory transport ∧
+              UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+                UnaryHistory endpoint ∧ Cont term depth result ∧ hsame boundary BHist.Empty ∧
+                  Cont payload result transport ∧ Cont transport boundary route ∧
+                    hsame provenance result ∧ Cont result boundary endpoint ∧
+                      PkgSig bundle result pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier resultBoundaryEndpoint endpointPkg
+  obtain ⟨termUnary, depthUnary, payloadUnary, resultUnary, boundaryUnary, transportUnary,
+    routeUnary, provenanceUnary, nameUnary, termDepthResult, boundaryEmpty,
+    payloadResultTransport, transportBoundaryRoute, provenanceResult, resultPkg⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed resultUnary boundaryUnary resultBoundaryEndpoint
+  exact
+    ⟨termUnary, depthUnary, payloadUnary, resultUnary, boundaryUnary, transportUnary,
+      routeUnary, provenanceUnary, nameUnary, endpointUnary, termDepthResult, boundaryEmpty,
+      payloadResultTransport, transportBoundaryRoute, provenanceResult, resultBoundaryEndpoint,
+      resultPkg, endpointPkg⟩
+
 end BEDC.Derived.BinderContextSubstitutionSealUp
