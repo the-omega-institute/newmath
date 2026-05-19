@@ -54,3 +54,71 @@ them introduces quotient stream equality, selected host limits, host real
 equality, completion witnesses outside the packet, choice schedules, or ambient
 completeness rows, so the factorized route exports none of those coordinates.
 \end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat-Real four-face seal obligation factorization]
+\label{thm:streamname-regseq-real-four-face-obligation-factorization}
+Let $C$ be a Real-facing completion consumer whose route is displayed through
+a $\DyadicRatCoreUp$ endpoint and radius ledger, a public $\StreamNameUp$
+finite-window surface, a $\RegSeqRatUp$ regularity and classifier readback over
+the same selected rational-history rows, and a $\RealUp$ seal ledger row. Then
+the finite Real-facing seal route factors through exactly the following four
+obligation blocks:
+\begin{enumerate}
+  \item the $\DyadicRatCoreUp$ block consisting of the endpoint ledger,
+  radius ledger, dyadic-tolerance rows, and their finite handoff boundary;
+  \item the $\StreamNameUp$ block consisting of the rational-history
+  classifier rows, $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ rows,
+  $\mathsf{UnaryHistory}$ observations, visible $\hsame$ transports, finite
+  $\Cont$ routes, and $\Pkg$ provenance rows;
+  \item the $\RegSeqRatUp$ block consisting of regularity, classifier,
+  dyadic-tolerance transport, stream-spine, and seal-interface rows over the
+  same selected rational-history surface;
+  \item the $\RealUp$ block consisting of the seal classifier and its finite
+  ledger boundary row.
+\end{enumerate}
+Conversely, any packet carrying exactly these four displayed blocks repacks
+into the same finite Real-facing seal route.
+
+The factorization exports no quotient stream equality, selected host limit,
+host real equality, completion witness not carried by the packet, choice
+schedule, ambient completeness row, metric-completeness row, or second
+$\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+First discard the fourth face and read the visible StreamName-RegSeqRat-Real
+part of the route. Apply
+\autoref{thm:streamname-regseq-real-seal-obligation-factorization}. It gives
+the three displayed blocks carried by the StreamName finite-window surface, the
+RegSeqRat regularity and readback surface, and the RealUp seal boundary, and it
+also records the exclusions for quotient stream equality, selected host limits,
+host real equality, external completion witnesses, choice schedules, and ambient
+completeness rows.
+
+Now insert the DyadicRatCore face at the unique upstream position. Apply
+\autoref{thm:real-dyadic-streamname-regseqrat-dependency-route}. The route
+places the endpoint and radius ledger before the StreamName finite-window
+schedule, before the RegSeqRat regularity and classifier rows, and before the
+local Real seal. Thus the three-block factorization refines to the four blocks
+listed in the statement.
+
+The order is forced by
+\autoref{thm:real-l10-four-face-route-order-uniqueness}. Any route omitting or
+permuting one of the four faces either loses a displayed ledger row or leaves
+the finite packet by adding one of the excluded off-table coordinates. Hence
+the four-block route is not merely a presentation of $C$ but the exact
+obligation factorization read by the Real-facing seal.
+
+It remains to compare the shared packet data. Apply
+\autoref{thm:real-l10-four-face-classifier-coherence}. The DyadicRatCore
+ledger, StreamName schedule, RegSeqRat classifier and transport rows, and
+RealUp seal row all determine the same finite
+$(\BHist,\hsame,\Cont,\Pkg,\NameCert)$ packet. Therefore the reverse direction
+repackages any packet carrying exactly those four blocks into the same
+Real-facing seal route.
+
+The exclusion clause follows from the same three inputs. The dependency route,
+order uniqueness theorem, and classifier-coherence theorem rule out quotient
+stream equality, selected host limits, host real equality, external completion
+witnesses, choice schedules, ambient completeness rows, metric-completeness
+rows, and a second RealUp seal coordinate.
+\end{proof}
