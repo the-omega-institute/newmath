@@ -652,6 +652,20 @@ The downstream completion consumer exactness is the consumer side of \autoref{th
 Finally use the flattened non-escape package of \autoref{thm:cauchycompletionmonad-flattened-non-escape-package}. Since the transported bind composition and each downstream consumer read the same displayed rows and no external coordinate, the finite route received by each consumer is natural in the accepted packet.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionMonad L10 exit finite-route correspondence]
+\label{thm:cauchy-completion-monad-l10-exit-finite-route-correspondence}
+For every accepted $\CauchyCompletionMonadUp$ packet and every downstream $\RegSeqRatUp$, $\RealCauchyCompletionUp$, or $\RealUp$ completion consumer, the consumer reaches the packet exactly when its visible read factors through the ordered L10 four-face packet consisting of the $\DyadicRatCoreUp$ endpoint and radius ledger, the $\StreamNameUp$ finite request window, the $\RegSeqRatUp$ classifier and readback rows, and the $\RealUp$ seal row. This factorization is the same as the completion-consumer naturality route: it carries the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates, and it exports no quotient stream, selected limit, host real equality, hidden representative, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+The forward direction starts with completion-consumer naturality from \autoref{thm:cauchy-completion-monad-completion-consumer-naturality}. That theorem places every $\RegSeqRatUp$, $\RealCauchyCompletionUp$, and $\RealUp$ consumer on the finite source-family, schedule, finite-window, dyadic-observation, diagonal-readback, public-seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ route of the accepted packet.
+
+The four faces identify this route with the L10 exit packet. Apply \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness} for the dyadic endpoint and radius ledger, \autoref{thm:streamname-real-completion-four-object-terminal-pullback} for the finite request window, and \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness} for the classifier and readback rows. Then use \autoref{thm:real-completeness-diagonal-limit-candidate} and \autoref{thm:real-completeness-realup-seal-ledger} to seal the same finite diagonal row as the public $\RealUp$ completion route.
+
+For the reverse direction, assume the visible consumer read factors through that ordered four-face packet with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates. The handoff exactness theorems identify the dyadic ledger, request window, classifier, readback, and seal rows with the rows used by the completion-consumer naturality route.
+
+Repack those rows through \autoref{thm:cauchy-completion-monad-completion-consumer-naturality}. Since the factorization contains exactly the finite coordinates admitted by the accepted $\CauchyCompletionMonadUp$ packet and no escaping completion coordinate, the downstream consumer reaches the packet by the same finite route.
+\end{proof}
+
 \begin{theorem}[CauchyCompletionMonad Kleisli source triangle]
 \label{thm:cauchy-completion-monad-kleisli-source-triangle}
 For every accepted $\CauchyCompletionMonadUp$ packet, the route that first reads a unit packet, then reads a bind packet, and then passes to a downstream $\RegSeqRatUp$, $\RealCauchyCompletionUp$, or $\RealUp$ completion consumer has the same displayed source triangle as the flattened consumer route. The source-family row, unary schedule, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation, diagonal $\RegSeqRatUp$ readback, public $\RealUp$ seal, $\BHist$, $\hsame$, displayed $\Cont$ route, $\Pkg$, and local $\NameCert$ row are read in the same finite order, with no additional completion source inserted between bind and consumer.
