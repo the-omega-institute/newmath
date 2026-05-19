@@ -464,6 +464,55 @@ completeness, and bridge rows as carrier slots or insertion points. Hence the
 four displayed faces exhaust the terminal consumer surface.
 \end{proof}
 
+\begin{theorem}[Real completion exact-boundary terminal normal-form absorption]
+\label{thm:real-completion-exact-boundary-terminal-normal-form-absorption}
+For every accepted $\RealCompletionExactBoundaryUp$ packet
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N),
+$$
+consider a certified terminal read which first passes through the
+$\StreamNameUp(W)$ finite-window normal form, then through the
+$\RegularCauchyLimitClassifierUp$ finite pullback route over the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and finally through
+the exact-boundary consumer surface of $B$. The composite read is absorbed by
+the same four-face packet
+$$
+W,R,D,E
+$$
+with structural rows $H,C,P,N$.
+
+Applying the same terminal read a second time adds no quotient stream equality,
+host real equality, selected limit, countable-choice row, ambient completeness
+row, metric-completeness row, bridge row, trichotomy row, open-cover
+compactness row, or hidden tail selector.
+\end{theorem}
+\begin{proof}
+First put the terminal read in StreamName normal form. By
+\autoref{thm:streamname-terminal-pullback-idempotence}, once the finite-window
+read exposes the displayed StreamName, DyadicRatCore, RegSeqRat, Real, and
+support rows, a further terminal pullback reads the same finite packet.
+
+Next transport that normal form through the classifier. Apply
+\autoref{thm:regular-cauchy-limit-classifier-budgeted-seal-pullback}. The
+classifier handoff remains on the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ route and exports no quotient stream, host real equality,
+selected limit, hidden selector, unbounded schedule, or ambient completeness
+coordinate.
+
+Now enter the exact-boundary surface. By
+\autoref{thm:real-completion-exact-boundary-four-face-terminal-consumer-exhaustion},
+every completion-facing or terminal Real consumer of $B$ reads exactly
+$\StreamNameUp(W)$, $\RegSeqRatUp(R)$, $\DyadicRatCoreUp(D)$, and $\RealUp(E)$
+through the structural rows $H,C,P,N$.
+
+Finally apply
+\autoref{thm:real-completion-exact-boundary-no-completeness-escape}. The
+off-table coordinates named above have no carrier slots or consumer insertion
+points in $B$, so the second terminal read is absorbed by the same four-face
+packet rather than producing a new equality, choice, completeness, bridge,
+trichotomy, compactness, or tail-selection row.
+\end{proof}
+
 \closureat{RealCompletionExactBoundaryUp}{scopedStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
 \closureat{RealCompletionExactBoundaryUp}{publicStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
 \closureat{RealCompletionExactBoundaryUp}{bridgedStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
