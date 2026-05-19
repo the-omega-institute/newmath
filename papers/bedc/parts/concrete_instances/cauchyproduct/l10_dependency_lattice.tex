@@ -1,0 +1,17 @@
+\begin{theorem}[CauchyProduct L10 dependency lattice]
+\label{thm:cauchy-product-l10-dependency-lattice}
+Every accepted $\CauchyProductUp$ packet that reaches the $\RealUp$ seal factors through the displayed L10 dependency lattice: the paired $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicRatCoreUp$ observation and radius rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\RegSeqRatUp$ classifier row of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. In coordinates the product-facing lattice is
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N,
+$$
+with any accepted observation-budget selector rows attached only as finite budget witnesses. The lattice exports no quotient streams, host multiplication primitives, selected limits, independent real carriers, trichotomy rows, countable-choice witnesses, or ambient completeness principles.
+\end{theorem}
+\begin{proof}
+Start from the product carrier row of \autoref{thm:cauchy-product-root-regular-product-carrier-row}. It puts the two source names, paired finite windows, dyadic radius and observation rows, product observation, classifier row, transport rows, continuation rows, provenance row, and local naming row into one finite $\BHist$ carrier.
+
+Next pass to the Real seal by \autoref{thm:cauchy-product-real-seal-upstream-dependency}. The seal-facing consumer can reach $\RealUp$ only after the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and local support rows have already been read.
+
+Use \autoref{thm:cauchy-product-regseqrat-product-seal-coverage} for the regular-rational side. It shows that any product-seal consumer using a finite observation-budget selector remains on the same windows, dyadic rows, classifier row, selector rows, transports, continuations, provenance, and local $\NameCert$ rows, rather than acquiring an additional carrier.
+
+Combining these three rows gives the stated L10 lattice. The cited carrier, Real-seal, and RegSeqRat coverage theorems list exactly the available coordinates, so quotient streams, host multiplication primitives, selected limits, independent real carriers, trichotomy rows, countable choice, and ambient completeness have no coordinate from which they could enter the accepted packet.
+\end{proof}
