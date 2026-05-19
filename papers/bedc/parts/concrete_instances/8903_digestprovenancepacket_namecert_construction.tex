@@ -54,6 +54,7 @@ Thus the NameCert surface refuses a global universe digest, digest-as-source equ
 \label{thm:digest-provenance-packet-no-hidden-source-consumption}
 Every accepted consumer of a $\DigestProvenancePacketUp$ carrier that reads source content must factor its read through the displayed source row $S$, fiber-membership row $F$, GAP ledger $G$, exactness or refusal row $E$, transport row $H$, replay route $C$, provenance row $P$, and local naming row $N$ before making any source equality claim. A consumer that reads only the digest token $V$ obtains a visible digest token and no source content.
 \end{theorem}
+\leanchecked{BEDC.Derived.DigestProvenancePacketUp.DigestProvenancePacketCarrier\_no\_hidden\_source\_consumption}
 \begin{proof}
 Start with a consumer read of an accepted packet $D=(V,S,F,G,E,H,C,P,N)$. If the read only asks for the digest token, \autoref{def:digest-provenance-packet-carrier} exposes $V$ as a visible token and provides no source row outside the packet.
 
