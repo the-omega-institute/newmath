@@ -255,4 +255,23 @@ theorem SubordinateModulusCoverTasteGate_single_carrier_alignment :
         exact subordinateModulusCoverToEventFlow_injective heq
       · rfl
 
+theorem SubordinateModulusCoverCarrierObligation {x : SubordinateModulusCoverUp} :
+    ∃ tolerance bundle centers radii precision pointwise coverage comparisons transport routes
+      provenance nameCert : BHist,
+      x = SubordinateModulusCoverUp.mk tolerance bundle centers radii precision pointwise coverage
+        comparisons transport routes provenance nameCert ∧
+        subordinateModulusCoverFromEventFlow (subordinateModulusCoverToEventFlow x) = some x ∧
+          subordinateModulusCoverEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk tolerance bundle centers radii precision pointwise coverage comparisons transport routes
+      provenance nameCert =>
+      exact
+        ⟨tolerance, bundle, centers, radii, precision, pointwise, coverage, comparisons,
+          transport, routes, provenance, nameCert, rfl,
+          subordinateModulusCover_round_trip
+            (SubordinateModulusCoverUp.mk tolerance bundle centers radii precision pointwise
+              coverage comparisons transport routes provenance nameCert),
+          rfl⟩
+
 end BEDC.Derived.SubordinateModulusCoverUp
