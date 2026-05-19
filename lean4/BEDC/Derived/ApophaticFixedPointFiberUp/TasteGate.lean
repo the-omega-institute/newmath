@@ -404,4 +404,94 @@ theorem ApophaticFixedPointFiber_namecert_obligations [AskSetup] [PackageSetup]
     ⟨cert, digestSocketGap, gapBoundaryInscription, inscriptionTransportRoutes,
       provenancePkg, namePkg⟩
 
+theorem ApophaticFixedPointFiberCarrier_gap_first_route_nonescape [AskSetup] [PackageSetup]
+    {digest socket gap boundary inscription transport routes provenance name terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticFixedPointFiberCarrier digest socket gap boundary inscription transport routes
+        provenance name bundle pkg →
+      UnaryHistory boundary →
+        Cont inscription transport terminalRead →
+          PkgSig bundle terminalRead pkg →
+            UnaryHistory gap ∧ UnaryHistory inscription ∧ UnaryHistory terminalRead ∧
+              Cont digest socket gap ∧ Cont gap boundary inscription ∧
+                Cont inscription transport terminalRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle name pkg ∧ PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier boundaryUnary terminalRoute terminalPkg
+  obtain ⟨digestUnary, socketUnary, transportUnary, _provenanceUnary, digestSocketGap,
+    gapBoundaryInscription, _inscriptionTransportRoutes, provenancePkg, namePkg⟩ := carrier
+  have gapUnary : UnaryHistory gap :=
+    unary_cont_closed digestUnary socketUnary digestSocketGap
+  have inscriptionUnary : UnaryHistory inscription :=
+    unary_cont_closed gapUnary boundaryUnary gapBoundaryInscription
+  have terminalUnary : UnaryHistory terminalRead :=
+    unary_cont_closed inscriptionUnary transportUnary terminalRoute
+  exact
+    ⟨gapUnary,
+      inscriptionUnary,
+      terminalUnary,
+      digestSocketGap,
+      gapBoundaryInscription,
+      terminalRoute,
+      provenancePkg,
+      namePkg,
+      terminalPkg⟩
+
+theorem ApophaticFixedPointFiber_nonescape [AskSetup] [PackageSetup]
+    {digest socket gap boundary inscription transport routes provenance name boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticFixedPointFiberCarrier digest socket gap boundary inscription transport routes
+        provenance name bundle pkg →
+      Cont gap boundary boundaryRead →
+        PkgSig bundle boundaryRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row boundaryRead)
+              (fun row : BHist =>
+                hsame row gap ∨ hsame row boundary ∨ hsame row boundaryRead)
+              (fun row : BHist => hsame row boundaryRead ∧ PkgSig bundle boundaryRead pkg)
+              hsame ∧
+            hsame boundaryRead inscription ∧ Cont digest socket gap ∧
+              Cont gap boundary boundaryRead ∧ Cont inscription transport routes ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle boundaryRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier gapBoundaryRead boundaryReadPkg
+  obtain ⟨_digestUnary, _socketUnary, _transportUnary, _provenanceUnary,
+    digestSocketGap, gapBoundaryInscription, inscriptionTransportRoutes, provenancePkg,
+    _namePkg⟩ := carrier
+  have boundaryReadInscription : hsame boundaryRead inscription :=
+    cont_respects_hsame (hsame_refl gap) (hsame_refl boundary) gapBoundaryRead
+      gapBoundaryInscription
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row boundaryRead)
+          (fun row : BHist =>
+            hsame row gap ∨ hsame row boundary ∨ hsame row boundaryRead)
+          (fun row : BHist => hsame row boundaryRead ∧ PkgSig bundle boundaryRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro boundaryRead (hsame_refl boundaryRead)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source, boundaryReadPkg⟩
+  }
+  exact
+    ⟨cert, boundaryReadInscription, digestSocketGap, gapBoundaryRead,
+      inscriptionTransportRoutes, provenancePkg, boundaryReadPkg⟩
+
 end BEDC.Derived.ApophaticFixedPointFiberUp
