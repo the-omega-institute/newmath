@@ -48,6 +48,37 @@ attached to that carrier. No host event equality, quotient event equality, or
 analytic completion object is introduced.
 \end{proof}
 
+\begin{theorem}[Measure root real-stream sibling route exactness]
+\label{thm:measure-root-real-stream-sibling-route-exactness}
+Every $\MeasureUp$ root event row covered by
+\autoref{thm:measure-root-real-stream-event-obligation} reads its stream
+observation through \autoref{ch:concrete-instances-streamname-namecert} and its
+endpoint comparison through \autoref{ch:concrete-instances-real-namecert}. The
+route retains only the displayed $\BHist$ event row, componentwise $\hsame$
+transport, $\Cont$ continuation row, $\Pkg_{\MeasureUp}$ package ledger, and the
+visible $\NameCert_{\RealUp}$ endpoint row already present in
+\autoref{def:measure-root-real-stream-regularity-front}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:measure-root-real-stream-event-obligation}. It identifies
+the root event row as a displayed $\BHist$ history carrying a
+$\StreamNameUp$-indexed endpoint observation and the attached $\RealUp$
+endpoint comparison on the same ledger row.
+
+Now read the observation-name component through
+\autoref{ch:concrete-instances-streamname-namecert} and the endpoint-comparison
+component through \autoref{ch:concrete-instances-real-namecert}. The regularity
+front \autoref{def:measure-root-real-stream-regularity-front} is exactly the
+interface that places those two sibling readings beside the root $\BHist$ row,
+the componentwise $\hsame$ transport, the $\Cont$ continuation discipline, the
+$\Pkg_{\MeasureUp}$ package row, and the visible $\NameCert_{\RealUp}$ ledger
+entry.
+
+Nothing else is added to the route. Host event equality, quotient event
+equality, ambient completion, and selected host limits are outside the displayed
+root-event row, so they cannot become part of the sibling route described here.
+\end{proof}
+
 \begin{theorem}[Measure root event classifier stability]
 \label{thm:measure-root-event-classifier-stability}
 For the root event surface of
