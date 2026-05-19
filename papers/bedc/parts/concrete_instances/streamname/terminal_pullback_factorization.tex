@@ -497,3 +497,39 @@ selected host limits, host equality, countable choice, ambient completeness,
 metric-completeness rows, bridges, trichotomy, and open-cover compactness
 remain outside the normal form.
 \end{proof}
+
+\begin{theorem}[StreamName terminal pullback metric-completion refusal]
+\label{thm:streamname-terminal-pullback-metric-completion-refusal}
+Let $W$ be a certified public $\StreamNameUp$ finite-window observation packet,
+and suppose its terminal four-face pullback is accepted. No consumer can
+reinterpret that accepted packet as a $\MetricSpaceUp$ row, a
+$\CompleteMetricUp$ row, or an ambient-completeness witness unless the
+metric or completion row is separately displayed outside the terminal pullback
+surface.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}
+to identify the accepted terminal surface. It exposes the StreamName finite
+window, the $\DyadicRatCoreUp$ endpoint-radius-distance ledger, the
+$\RegSeqRatUp$ readback rows, and the local $\RealUp$ finite-window boundary.
+
+Now read the support list through
+\autoref{thm:streamname-terminal-pullback-support-exactness}. The only support
+coordinates exported with those four faces are $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, $\NameCert$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+$\mathsf{UnaryHistory}$. A $\MetricSpaceUp$ row, a $\CompleteMetricUp$ row, and
+an ambient-completeness witness are not entries of that exact list.
+
+It remains to rule out hidden replacement by an omitted coordinate. Use
+\autoref{thm:streamname-terminal-four-face-support-deletion-obstruction}: a row
+missing from the terminal support cannot be supplied by a quotient stream,
+selected host limit, host equality, countable choice, ambient completeness,
+metric-completeness row, bridge row, trichotomy, or compactness row.
+
+Therefore any consumer that wants metric structure or completion data must
+display that data as a separate row outside the terminal pullback surface. The
+accepted StreamName--DyadicRatCore--RegSeqRat--Real four-face packet itself
+does not certify a metric space, a complete metric space, or ambient real
+completeness.
+\end{proof}
