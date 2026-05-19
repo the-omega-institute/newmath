@@ -100,3 +100,19 @@ For the converse direction, start with an accepted four-face route projection ca
 
 Finally apply \autoref{thm:real-l10-exit-certificate-face-minimality}. Each face record and each displayed support row is indispensable, so no shortened route or off-table coordinate can present the same exit certificate. Therefore the repacking uses exactly the stated four faces and excludes the listed quotient, selected-limit, host-equality, choice, metric-completeness, aggregate-status, aggregate-bridge, standard-bridge, and completeness data.
 \end{proof}
+
+\begin{theorem}[Real L10 tail-budget projection nonescape]
+\label{thm:real-l10-tail-budget-projection-nonescape}
+Let $S$ be an accepted current-phase terminal $\RealUp$ seal section whose public seal is read by a $\RegSeqRatUp$ tail-budget consumer. Then every support-row-preserving projection of that consumer remains on the displayed four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+The projection preserves the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, and it may read only the DyadicRatCore endpoint and tolerance ledger, the StreamName finite-window schedule, the RegSeqRat tail-budget classifier and regularity rows, and the terminal Real seal. No such projection may introduce quotient stream equality, selected limits, host real equality, countable choice, ambient completeness, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, or a $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+First lock the tail-budget consumer to its source route. Apply \autoref{thm:regseqrat-tail-budget-real-seal-nonescape}. The consumer can read the Real seal only through the StreamName schedule, the DyadicRatCore tolerance row, the RegSeqRat classifier, and the terminal $\RealUp$ seal. Thus the read has no source for quotient stream equality, selected limits, host real equality, choice, completeness data, or a separate Real completeness coordinate.
+
+Next identify the local threshold records on the same four faces. Apply \autoref{thm:real-l10-four-face-local-threshold-descent}. The accepted projection is therefore read objectwise on the DyadicRatCore endpoint and tolerance ledger, the StreamName finite-window schedule, the RegSeqRat classifier and regularity rows, and the local Real seal row, while preserving the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support packet.
+
+It remains to exclude alternative projections of that packet. Use \autoref{thm:real-l10-face-order-permutation-invariance} to compare support-row-preserving reads of the displayed route, and then apply \autoref{thm:real-l10-exit-certificate-face-minimality}. The first result prevents a reordered projection from changing the certificate, and the second makes every listed face and support row indispensable. Hence a projection that is shortened or enlarged cannot present the same current-phase Real seal read, so the only surviving route is the displayed four-face route with exactly the support rows named in the statement.
+\end{proof}
