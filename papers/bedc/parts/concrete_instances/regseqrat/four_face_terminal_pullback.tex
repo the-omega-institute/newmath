@@ -246,3 +246,58 @@ countable choice, ambient completeness, metric-completeness rows, and standard
 bridge rows. Hence the descended classifier is precisely the pasted terminal
 four-face inventory.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-cover terminal refinement invariance]
+\label{thm:regseqrat-finite-cover-terminal-refinement-invariance}
+Let $\{W_i\}_{i \in I}$ and $\{V_j\}_{j \in J}$ be two finite certified
+$\StreamNameUp$ cover presentations of the same accepted $\RegSeqRatUp$
+terminal read. Suppose both covers satisfy the finite source and seal cocycle
+hypotheses of
+\autoref{thm:regseqrat-finite-cover-terminal-classifier-descent}. Suppose
+also that they admit a certified finite common refinement whose refinement
+maps preserve the $\DyadicRatCoreUp$ endpoint, radius, and distance ledgers,
+the $\StreamNameUp$ window rows, the $\RegSeqRatUp$ regularity, classifier,
+and provenance rows, the terminal $\RealUp$ seal row, and the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support.
+
+Then the two cover presentations descend to the same four-face terminal
+classifier surface. The invariant surface is exactly the visible
+$\DyadicRatCoreUp$ ledger face, $\StreamNameUp$ window face, $\RegSeqRatUp$
+regularity/classifier/provenance face, and terminal $\RealUp$ seal face. It
+contains no quotient stream, host sequence equality, selected limit, host real
+equality, countable-choice row, ambient or metric completeness datum, or
+standard bridge row.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-finite-cover-terminal-classifier-descent} to the
+$\{W_i\}_{i \in I}$ cover. The first presentation descends to the pasted
+four-face classifier surface carried by its DyadicRatCore ledgers,
+StreamName windows, RegSeqRat rows, terminal $\RealUp$ seal, and displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support.
+
+Apply the same descent theorem to the $\{V_j\}_{j \in J}$ cover. The second
+presentation also descends to a pasted four-face classifier surface with the
+same kind of visible support and with the same exclusion clauses.
+
+Use the certified common refinement to compare the two pasted surfaces. By
+hypothesis, every refinement row preserves the DyadicRatCore endpoint, radius,
+and distance ledgers, the StreamName window rows, the RegSeqRat regularity,
+classifier, and provenance rows, the terminal $\RealUp$ seal row, and the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support.
+Thus the two descended presentations have identical visible four-face
+inventories.
+
+Now apply
+\autoref{thm:regseqrat-four-face-terminal-classifier-completeness} and
+\autoref{thm:regseqrat-terminal-four-face-correspondence}. Completeness says
+that accepted terminal reads are classified exactly by those four visible
+faces, and the correspondence identifies equality of the visible inventories
+with equality of the terminal classifier surface.
+
+The exclusion clauses are inherited from the two descent applications and
+from the terminal pullback route. Hence refinement invariance is witnessed
+inside the displayed BEDC rows only: no quotient stream, host sequence
+equality, selected limit, host real equality, countable choice, ambient or
+metric completeness, or standard bridge is introduced.
+\end{proof}
