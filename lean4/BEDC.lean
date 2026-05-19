@@ -279,6 +279,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.DownstreamNameCertPackage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.DownstreamReadbackExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.FiniteRouteExposure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.FiniteTailAuthorization
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.GapBoundaryRefusal
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GeneratorNormalizationReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAuthorization
@@ -1177,6 +1178,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditBoundaryFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRouteCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuthorizedRecursorAuditRoute
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderBudgetDepthLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderSealFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueShiftTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosednessConsumerExport
@@ -1631,7 +1633,6 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTriad
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceWindowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.RatComparisonLedgerExactness
-import BEDC.Derived.CriticalLineWitnessUp.RationalComparisonLedgerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RealPartModulusStability
 import BEDC.Derived.CriticalLineWitnessUp.RootBridgeReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetObligation
@@ -1651,7 +1652,6 @@ import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusLedgerScope
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadbackUnblockPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
-import BEDC.Derived.CriticalLineWitnessUp.RootRefusalBudgetCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalConsumerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceConsumerTotality
@@ -3711,6 +3711,7 @@ import BEDC.Derived.RealUp.Index
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.L10CurrentPhaseExitLocalThreshold
 import BEDC.Derived.RealUp.L10DependencyLattice
+import BEDC.Derived.RealUp.L10ExitCertificateFaceMinimality
 import BEDC.Derived.RealUp.L10ExitCertificateSupportNoConfusion
 import BEDC.Derived.RealUp.L10FaceStatusNoncollapse
 import BEDC.Derived.RealUp.L10FiniteWindowWitnessDeterminacy
@@ -4171,7 +4172,6 @@ import BEDC.Derived.StationaryWindowSealExhaustionUp.TasteGate
 import BEDC.Derived.StatusDowngradeUp.TasteGate
 import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
 import BEDC.Derived.StoneDualityUp
-import BEDC.Derived.StopCodonZeckendorfSuffixUp.TasteGate
 import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.StreamDiagonalSelectorUp
 import BEDC.Derived.StreamLimitReflectionUp.TasteGate
