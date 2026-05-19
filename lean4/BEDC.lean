@@ -39,6 +39,7 @@ import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
 import BEDC.Derived.AnalyticContinuationSocketUp
+import BEDC.Derived.AnalyticContinuationSocketUp.BranchObstructionConsumerLock
 import BEDC.Derived.AnalyticContinuationSocketUp.OutputBranchSeparation
 import BEDC.Derived.AnalyticContinuationSocketUp.RootBranchLedger
 import BEDC.Derived.AnchorChangeInvariantUp.TasteGate
@@ -1213,6 +1214,7 @@ import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.CompactModulusCoverUp
 import BEDC.Derived.CompactModulusCoverUp.TasteGate
 import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
+import BEDC.Derived.CompactNetModulusSelectorUp.KernelCarrier
 import BEDC.Derived.CompactNetModulusSelectorUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityUp
 import BEDC.Derived.CompactUniformContinuityUp.BridgeModulusAssembly
@@ -1949,6 +1951,7 @@ import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicPrecisionUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicRatCoreUp
+import BEDC.Derived.DyadicRatCoreUp.DirectedRefinementRadiusHandoff
 import BEDC.Derived.DyadicRatCoreUp.DistanceWindow
 import BEDC.Derived.DyadicRatCoreUp.NameCertObligationSurface
 import BEDC.Derived.DyadicRatCoreUp.PublicBoundary
@@ -3435,6 +3438,7 @@ import BEDC.Derived.ReachabilityGramianUp
 import BEDC.Derived.RealAlgOrderUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.RealAnalyticUp.CosEmpty
+import BEDC.Derived.RealApproximationEnvelopeUp
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealCauchyCompletionUp
 import BEDC.Derived.RealCauchyCompletionUp.BridgeHandoff
@@ -3577,6 +3581,7 @@ import BEDC.Derived.RealityConstrainedTowerCompressionUp.NameCertObligations
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
 import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
+import BEDC.Derived.RecursionAuthorizationLedgerUp.Carrier
 import BEDC.Derived.RecursionAuthorizationLedgerUp.TasteGate
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.RecursorBranchAuditUp.TasteGate
@@ -3709,6 +3714,7 @@ import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RegularityModulusUp.CarrierSurface
 import BEDC.Derived.RegularityModulusUp.ObligationCompleteness
 import BEDC.Derived.RegulatorUp
+import BEDC.Derived.RelationalFrameAuditUp.Carrier
 import BEDC.Derived.RelationalFrameAuditUp.TasteGate
 import BEDC.Derived.RelationalObjectivityUp.ObserverFamilySource
 import BEDC.Derived.RelationalObjectivityUp.TasteGate
@@ -4354,6 +4360,7 @@ import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.ZetaContinuationApplicationUp.EtaFactorization
+import BEDC.Derived.ZetaContinuationApplicationUp.FunctionalRowTotality
 import BEDC.Derived.ZetaContinuationApplicationUp.RootLedgerBoundary
 import BEDC.Derived.ZetaContinuationApplicationUp.RootObligations
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
@@ -4366,6 +4373,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPublicRefusal
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripRouteSeparation
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripTotalLedger
 import BEDC.Derived.ZetaContinuationWitnessUp.EtaDenominatorBoundary
+import BEDC.Derived.ZetaContinuationWitnessUp.EtaFunctionalRouteCoverage
 import BEDC.Derived.ZetaContinuationWitnessUp.FormalTargetLedger
 import BEDC.Derived.ZetaContinuationWitnessUp.FunctionalFactorNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryPublicExport
@@ -4400,10 +4408,12 @@ import BEDC.Derived.ZnormalUp.DivergenceOracleExclusion
 import BEDC.Derived.ZnormalUp.DivergenceOracleNonescapeRow
 import BEDC.Derived.ZnormalUp.DownstreamConsumerBoundary
 import BEDC.Derived.ZnormalUp.DownstreamNormalFormReadiness
+import BEDC.Derived.ZnormalUp.DownstreamReadinessObligationPackage
 import BEDC.Derived.ZnormalUp.FiniteFuelClassifierStability
 import BEDC.Derived.ZnormalUp.FiniteNormalwordClassifierCompatibility
 import BEDC.Derived.ZnormalUp.FuelReadbackTasteGateRoute
 import BEDC.Derived.ZnormalUp.FuelReplayNondivergenceBoundary
+import BEDC.Derived.ZnormalUp.HostConversionNonescape
 import BEDC.Derived.ZnormalUp.KernelSourceTotality
 import BEDC.Derived.ZnormalUp.LedgerNonescape
 import BEDC.Derived.ZnormalUp.NamecertLedgerExhaustion
@@ -4418,8 +4428,10 @@ import BEDC.Derived.ZnormalUp.RootClassifierStability
 import BEDC.Derived.ZnormalUp.RootConstructorReadback
 import BEDC.Derived.ZnormalUp.RootConsumerReadiness
 import BEDC.Derived.ZnormalUp.RootContReplayClosure
+import BEDC.Derived.ZnormalUp.RootContinuationTraceReadiness
 import BEDC.Derived.ZnormalUp.RootDisplayPacketBridgeReadbackExactness
 import BEDC.Derived.ZnormalUp.RootForbiddenHostConversionExclusion
+import BEDC.Derived.ZnormalUp.RootLedgerExhaustion
 import BEDC.Derived.ZnormalUp.RootLedgerNonescape
 import BEDC.Derived.ZnormalUp.RootNameCertComponentExhaustion
 import BEDC.Derived.ZnormalUp.RootNameCertTerminalRouteReadiness
@@ -4460,9 +4472,11 @@ import BEDC.Derived.ZnormalUp.TerminalHostClassifierRoute
 import BEDC.Derived.ZnormalUp.TerminalHostObligationTotality
 import BEDC.Derived.ZnormalUp.TerminalHostRootFactorization
 import BEDC.Derived.ZnormalUp.TerminalHostScopeTriad
+import BEDC.Derived.ZnormalUp.TerminalNormalFormRefusal
 import BEDC.Derived.ZnormalUp.TerminalNormalityAdmission
 import BEDC.Derived.ZnormalUp.TerminalNormalityCarrierExposure
 import BEDC.Derived.ZnormalUp.TerminalNormalityRefusalStability
+import BEDC.Derived.ZnormalUp.TerminalNormalityScopePackage
 import BEDC.Derived.ZnormalUp.TerminalReadbackExactness
 import BEDC.Derived.ZnormalUp.TerminalReadbackRouteExhaustion
 import BEDC.Derived.ZnormalUp.TerminalRouteExhaustion
@@ -4471,12 +4485,16 @@ import BEDC.Derived.ZnormalUp.TerminalRouteObligationCompletion
 import BEDC.Derived.ZnormalUp.TerminalRowConstructorExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostConsumerScope
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
+import BEDC.Derived.ZnormalUp.TotalHostFieldReadiness
 import BEDC.Derived.ZnormalUp.TotalHostFrontierLock
 import BEDC.Derived.ZnormalUp.TotalHostFuelReplayBoundary
 import BEDC.Derived.ZnormalUp.TotalHostLedgerExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostLedgerNonescape
 import BEDC.Derived.ZnormalUp.TotalHostNormalFormLedgerExhaustion
+import BEDC.Derived.ZnormalUp.TotalHostObligationPacket
+import BEDC.Derived.ZnormalUp.TotalHostReadbackDisplay
 import BEDC.Derived.ZnormalUp.TotalHostReadbackSeparation
+import BEDC.Derived.ZnormalUp.TotalHostRefusalNonescape
 import BEDC.Derived.ZnormalUp.TotalHostTerminalCarrierAdmission
 import BEDC.Derived.ZnormalUp.TotalHostTerminalExposure
 import BEDC.Derived.ZnormalUp.TypedBoundaryExhaustion

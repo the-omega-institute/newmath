@@ -9,6 +9,30 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def ZnormalTotalHostObligationPacket [AskSetup] [PackageSetup]
+    (typed fuel terminal normal continuation transports routes provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig
+  ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+      bundle pkg ∧
+    Cont typed fuel terminal ∧ Cont terminal normal continuation ∧
+      Cont continuation transports routes ∧ PkgSig bundle provenance pkg ∧
+        PkgSig bundle name pkg
+
+theorem ZnormalTotalHostObligationPacket_rows [AskSetup] [PackageSetup]
+    {typed fuel terminal normal continuation transports routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZnormalTotalHostObligationPacket typed fuel terminal normal continuation transports routes
+        provenance name bundle pkg →
+      ZnormalPacket typed fuel terminal normal continuation transports routes provenance name
+          bundle pkg ∧
+        Cont typed fuel terminal ∧ Cont terminal normal continuation ∧
+          Cont continuation transports routes ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig
+  intro packet
+  exact packet
+
 theorem ZnormalTotalHostObligationPacket_row_exposure [AskSetup] [PackageSetup]
     {typed fuel terminal normal continuation transports routes provenance name support : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
