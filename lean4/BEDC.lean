@@ -3491,6 +3491,7 @@ import BEDC.Derived.RealCompletionExactBoundaryUp.NameCertObligations
 import BEDC.Derived.RealCompletionExactBoundaryUp.Nonescape
 import BEDC.Derived.RealCompletionExactBoundaryUp.RealSealNonescape
 import BEDC.Derived.RealCompletionExactBoundaryUp.SealBudgetPrefixPullback
+import BEDC.Derived.RealCompletionExactBoundaryUp.SealClassifierWitnessBalance
 import BEDC.Derived.RealCompletionExactBoundaryUp.StdBridge
 import BEDC.Derived.RealCompletionExactBoundaryUp.StreamNameRegSeqRoute
 import BEDC.Derived.RealCompletionExactBoundaryUp.TasteGate
