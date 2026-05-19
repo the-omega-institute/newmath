@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NoGlobalSynchronizationLedgerUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -301,5 +303,31 @@ theorem NoGlobalSynchronizationLedgerTasteGate_single_carrier_alignment :
       · intro x y heq
         exact noGlobalSynchronizationLedgerToEventFlow_injective heq
       · rfl
+
+theorem NoGlobalSynchronizationLedgerUp_inter_hist_handoff
+    {H0 H1 R B O I K S C P N H0' H1' R' B' O' I' K' S' C' P' N'
+      localRead consumerRead : BHist}
+    (heq :
+      noGlobalSynchronizationLedgerToEventFlow
+          (NoGlobalSynchronizationLedgerUp.mk H0 H1 R B O I K S C P N) =
+        noGlobalSynchronizationLedgerToEventFlow
+          (NoGlobalSynchronizationLedgerUp.mk H0' H1' R' B' O' I' K' S' C' P' N'))
+    (hlocal : Cont H0 H1 localRead)
+    (hconsumer : Cont localRead R consumerRead) :
+    Cont H0' H1' localRead ∧ Cont localRead R' consumerRead ∧
+      hsame R R' ∧ hsame B B' ∧ hsame K K' := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  have hmk :=
+    noGlobalSynchronizationLedgerToEventFlow_injective
+      (x := NoGlobalSynchronizationLedgerUp.mk H0 H1 R B O I K S C P N)
+      (y := NoGlobalSynchronizationLedgerUp.mk H0' H1' R' B' O' I' K' S' C' P' N')
+      heq
+  injection hmk with hH0 hH1 hR hB _hO _hI hK _hS _hC _hP _hN
+  cases hH0
+  cases hH1
+  cases hR
+  cases hB
+  cases hK
+  exact ⟨hlocal, hconsumer, hsame_refl R, hsame_refl B, hsame_refl K⟩
 
 end BEDC.Derived.NoGlobalSynchronizationLedgerUp
