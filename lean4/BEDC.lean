@@ -436,6 +436,7 @@ import BEDC.Derived.AxisZeckendorfCannotClaimUp.RouteProvenanceTriadObligations
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SevenRowCoverage
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.SourceLock
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.StdBridge
+import BEDC.Derived.BHistArity13SequenceNameCertUp
 import BEDC.Derived.BHistArity13TupleNameCertUp
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
 import BEDC.Derived.BHistDecaSequenceNameCertUp
@@ -3365,6 +3366,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportSurface
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalVerdictMonotonicity
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RepresentativeDemandExposure
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootDownstreamUnblockSurface
+import BEDC.Derived.QuotientSoundnessBoundaryUp.RootQuotSoundNonimportCertificate
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootRelationRowExposure
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootRequestAccountability
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootRequestTriad
@@ -4362,6 +4364,8 @@ import BEDC.Derived.ZnormalUp.RootReadbackExhaustion
 import BEDC.Derived.ZnormalUp.RootReadinessBridgeSource
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
 import BEDC.Derived.ZnormalUp.RootTerminalNonescapeInterface
+import BEDC.Derived.ZnormalUp.RootTerminalNormalityExposure
+import BEDC.Derived.ZnormalUp.RootTotalHostBridgeComponents
 import BEDC.Derived.ZnormalUp.RootTotalHostReadbackTriad
 import BEDC.Derived.ZnormalUp.RootTotalHostReadiness
 import BEDC.Derived.ZnormalUp.RootTotalHostRefusal
@@ -4382,6 +4386,7 @@ import BEDC.Derived.ZnormalUp.TerminalRowConstructorExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
 import BEDC.Derived.ZnormalUp.TotalHostReadbackSeparation
 import BEDC.Derived.ZnormalUp.TotalHostTerminalExposure
+import BEDC.Derived.ZnormalUp.TypedBoundaryExhaustion
 import BEDC.DerivedIndexAnalysis
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
