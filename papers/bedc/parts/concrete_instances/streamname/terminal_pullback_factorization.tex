@@ -296,3 +296,48 @@ completion witness, ambient completeness row, or metric-completeness row. Thus
 the consecutive and composite terminal pullbacks are the same finite public
 packet.
 \end{proof}
+
+\begin{theorem}[StreamName terminal reindex pullback invariance]
+\label{thm:streamname-terminal-reindex-pullback-invariance}
+Let $W$ be a certified public $\StreamNameUp$ finite-window observation
+packet, and let $R$ be a certified public finite-window reindex route for
+$W$. Suppose $R$ preserves the public finite observation section, the certified
+endpoint rows, the displayed $\BHist$, the componentwise $\hsame$ transports,
+the finite $\Cont$ ledger, the shared $\Pkg$ provenance, and the local
+$\NameCert$ rows. Then the terminal pullback read through
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ is
+invariant under $R$.
+
+The invariant packet has the same visible StreamName window, the same
+$\DyadicRatCoreUp$ endpoint-radius-distance ledger, the same $\RegSeqRatUp$
+accepted readback rows, the same $\RealUp$ boundary row, and the same support
+rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+It introduces no quotient stream equality, selected host limit, host real
+equality, ambient completeness row, metric-completeness row, bridge row,
+trichotomy row, open-cover compactness row, or choice datum.
+\end{theorem}
+\begin{proof}
+First read the reindexed StreamName side. Apply
+\autoref{thm:streamname-terminal-reindex-four-face-pullback}. Its hypotheses
+are exactly the preserved public finite observation section, endpoint rows,
+displayed $\BHist$, componentwise $\hsame$, finite $\Cont$ ledger, shared
+$\Pkg$, and local $\NameCert$ rows, so the reindexed route reaches the same
+terminal four-face pullback surface.
+
+Next pin the four visible faces of that surface. Apply
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}.
+The factorization says that the terminal read has only the displayed
+$\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback,
+$\RealUp$ boundary row, and the listed support rows. Since the reindex route
+preserves those rows component by component, the visible faces are unchanged.
+
+Finally compare the two-stage and direct terminal reads. By
+\autoref{thm:streamname-regseqrat-realup-composite-terminal-pullback}, both
+presentations determine one finite $\BHist$ packet over the same support
+surface. Hence the terminal pullback is invariant under $R$, and no quotient,
+selected host limit, host real equality, completeness, bridge, trichotomy,
+open-cover compactness, or choice coordinate is added.
+\end{proof}
