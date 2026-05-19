@@ -1626,6 +1626,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteSourceCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RootHandoffExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.RootLineRowExposure
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalConsumerExactness
@@ -1635,6 +1636,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RouteClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RouteReadbackExhaustionCertificate
+import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExposure
 import BEDC.Derived.CriticalLineWitnessUp.StreamNameSourceWindowLock
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroStripRoute
@@ -3408,6 +3410,7 @@ import BEDC.Derived.PicardContractionUp.PublicExports
 import BEDC.Derived.PicardContractionUp.PublicIterateLedger
 import BEDC.Derived.PicardContractionUp.PublicSealExport
 import BEDC.Derived.PicardContractionUp.RealRegSeqRatConsumerHandoff
+import BEDC.Derived.PicardContractionUp.RegSeqRatConsumerRoute
 import BEDC.Derived.PicardContractionUp.RegSeqRatRealRateNonescape
 import BEDC.Derived.PicardContractionUp.RegSeqRatRealSealPackage
 import BEDC.Derived.PicardContractionUp.RootModulusConsumerLock
@@ -3777,6 +3780,7 @@ import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationBoundaryTotality
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationNonescapeRoute
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationRowPrecedence
+import BEDC.Derived.ReflectiveInquiryUp.Nonescape
 import BEDC.Derived.ReflectiveInquiryUp.TasteGate
 import BEDC.Derived.ReflectiveStabilityUp.TasteGate
 import BEDC.Derived.RefusalRegistryUp.TasteGate
