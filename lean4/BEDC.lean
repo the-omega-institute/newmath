@@ -2798,6 +2798,7 @@ import BEDC.Derived.KernelInductiveAcceptanceUp.NontrivialBoundary
 import BEDC.Derived.KernelInductiveAcceptanceUp.RefusalNonescape
 import BEDC.Derived.KernelInductiveAcceptanceUp.TasteGate
 import BEDC.Derived.KernelInductiveAcceptanceUp.TransportScope
+import BEDC.Derived.KernelInductiveAcceptanceUp.TypeClassifierScopeRoute
 import BEDC.Derived.KernelInductiveEliminatorUp.TasteGate
 import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.KernelMorphismUp.CertificateCompilerHandoff
@@ -3100,6 +3101,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionPacket
 import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionRouteFactorization
 import BEDC.Derived.MetaCICOpenProblemWitnessUp.TasteGate
 import BEDC.Derived.MetaCICProofObjectAuditRouteUp.TasteGate
+import BEDC.Derived.MetaCICRedexFrontierUp.NameCertObligations
 import BEDC.Derived.MetaCICRedexFrontierUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
