@@ -1700,6 +1700,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootConsumerCoverage
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootConsumerNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootDependencyTriad
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalAuditHandoff
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalAuditSurface
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalKernelScope
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalLeanTargetBoundary
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalNonescape
@@ -2612,6 +2613,7 @@ import BEDC.Derived.KernelCategoryUp.EndpointTransportClosure
 import BEDC.Derived.KernelCategoryUp.FunctorContinuationHandoff
 import BEDC.Derived.KernelCategoryUp.LawTransportExhaustion
 import BEDC.Derived.KernelCategoryUp.NameCertRootRouteReadiness
+import BEDC.Derived.KernelInductiveAcceptanceUp.RefusalNonescape
 import BEDC.Derived.KernelInductiveAcceptanceUp.TasteGate
 import BEDC.Derived.KernelInductiveEliminatorUp.TasteGate
 import BEDC.Derived.KernelMorphismUp
@@ -4440,6 +4442,7 @@ import BEDC.Derived.ZnormalUp.RootNameCertComponentExhaustion
 import BEDC.Derived.ZnormalUp.RootNameCertTerminalRouteReadiness
 import BEDC.Derived.ZnormalUp.RootNameCertUnblockPackage
 import BEDC.Derived.ZnormalUp.RootNormalFormConsumerBoundary
+import BEDC.Derived.ZnormalUp.RootNormalFormConsumerExhaustion
 import BEDC.Derived.ZnormalUp.RootNormalFormReadiness
 import BEDC.Derived.ZnormalUp.RootNormalFormReadinessSupport
 import BEDC.Derived.ZnormalUp.RootObligationDownstreamHandoff
@@ -4482,6 +4485,7 @@ import BEDC.Derived.ZnormalUp.TerminalNormalityRefusalStability
 import BEDC.Derived.ZnormalUp.TerminalNormalityScopePackage
 import BEDC.Derived.ZnormalUp.TerminalReadbackExactness
 import BEDC.Derived.ZnormalUp.TerminalReadbackRouteExhaustion
+import BEDC.Derived.ZnormalUp.TerminalRouteComponentTotality
 import BEDC.Derived.ZnormalUp.TerminalRouteExhaustion
 import BEDC.Derived.ZnormalUp.TerminalRouteFieldExhaustion
 import BEDC.Derived.ZnormalUp.TerminalRouteObligationCompletion
