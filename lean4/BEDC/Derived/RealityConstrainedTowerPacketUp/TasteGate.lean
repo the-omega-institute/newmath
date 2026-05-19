@@ -323,6 +323,34 @@ theorem RealityConstrainedTowerPacketNameCertBoundary
       exact sourceData
   · rfl
 
+theorem RealityConstrainedTowerPacket_descent_permission_stability
+    {source schedule readback realSeal residue ledger descent transport replay provenance
+      localName source' schedule' readback' realSeal' residue' ledger' descent' transport'
+      replay' provenance' localName' : BHist} :
+    realityConstrainedTowerPacketToEventFlow
+        (RealityConstrainedTowerPacketUp.mk source schedule readback realSeal residue ledger
+          descent transport replay provenance localName) =
+      realityConstrainedTowerPacketToEventFlow
+        (RealityConstrainedTowerPacketUp.mk source' schedule' readback' realSeal' residue'
+          ledger' descent' transport' replay' provenance' localName') →
+        realityConstrainedTowerPacketFields
+            (RealityConstrainedTowerPacketUp.mk source schedule readback realSeal residue ledger
+              descent transport replay provenance localName) =
+          realityConstrainedTowerPacketFields
+            (RealityConstrainedTowerPacketUp.mk source' schedule' readback' realSeal' residue'
+              ledger' descent' transport' replay' provenance' localName') ∧
+            descent = descent' := by
+  -- BEDC touchpoint anchor: BHist BMark EventFlow
+  intro heq
+  have hPacket :
+      RealityConstrainedTowerPacketUp.mk source schedule readback realSeal residue ledger
+          descent transport replay provenance localName =
+        RealityConstrainedTowerPacketUp.mk source' schedule' readback' realSeal' residue'
+          ledger' descent' transport' replay' provenance' localName' :=
+    realityConstrainedTowerPacketToEventFlow_injective heq
+  cases hPacket
+  exact ⟨rfl, rfl⟩
+
 end BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
 
 namespace BEDC.Derived.RealityConstrainedTowerPacketUp
