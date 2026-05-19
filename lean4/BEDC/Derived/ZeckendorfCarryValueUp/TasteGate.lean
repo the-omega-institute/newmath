@@ -231,6 +231,25 @@ instance zeckendorfCarryValueChapterTasteGate : ChapterTasteGate ZeckendorfCarry
     intro x y hxy heq
     exact hxy (zeckendorfCarryValueToEventFlow_injective heq)
 
+instance zeckendorfCarryValueFieldFaithful : FieldFaithful ZeckendorfCarryValueUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | ZeckendorfCarryValueUp.mk source target carry sourceNormal targetNormal valueRow
+        boundary route provenance nameCert =>
+        [source, target, carry, sourceNormal, targetNormal, valueRow, boundary, route,
+          provenance, nameCert]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk source target carry sourceNormal targetNormal valueRow boundary route provenance
+        nameCert =>
+        cases y with
+        | mk source' target' carry' sourceNormal' targetNormal' valueRow' boundary' route'
+            provenance' nameCert' =>
+            cases hfields
+            rfl
+
 theorem ZeckendorfCarryValueTasteGate_single_carrier_alignment :
     (∀ h : BHist, zeckendorfCarryValueDecodeBHist (zeckendorfCarryValueEncodeBHist h) = h) ∧
       (∀ x : ZeckendorfCarryValueUp,
