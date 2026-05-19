@@ -391,6 +391,55 @@ selected-limit, completeness, bridge, trichotomy, open-cover compactness, and
 choice data remain unavailable.
 \end{proof}
 
+\begin{theorem}[StreamName terminal four-face support deletion obstruction]
+\label{thm:streamname-terminal-four-face-support-deletion-obstruction}
+Let $W$ be a certified public $\StreamNameUp$ finite-window packet whose terminal
+four-face read exposes exactly the $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and local $\RealUp$ faces. Suppose the displayed support surface
+consists of
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+together with the public finite-observation rows $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$. If any one of the displayed
+support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ is deleted, or
+if one of the public finite-observation rows $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, or $\mathsf{UnaryHistory}$ is deleted, the remaining packet
+is not accepted as a terminal four-face pullback over $W$.
+
+The missing row cannot be supplied by quotient stream equality, selected host
+limits, host equality, countable choice, ambient completeness,
+metric-completeness, bridge rows, trichotomy, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+First identify the four visible faces and their support surface. Apply
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}.
+It says that an accepted terminal read over $W$ factors through exactly the
+StreamName window, dyadic endpoint-radius-distance ledger, $\RegSeqRatUp$
+readback rows, and local $\RealUp$ finite-window boundary, with only the
+displayed BEDC support rows and public finite-observation rows available.
+
+Next remove one displayed row. For one of $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+or $\NameCert$, apply
+\autoref{thm:streamname-open-phase-finite-window-support-row-minimality}. That
+minimality result says that deleting any of these rows destroys the public
+finite-window support needed by the StreamName packet before the terminal
+pullback can be formed.
+
+For one of $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, or
+$\mathsf{UnaryHistory}$, use the same four-face factorization. These rows are
+part of the public finite-observation surface read by the factorization itself,
+so deleting one removes a coordinate required by the accepted terminal packet.
+
+Finally compare with the normal form. By
+\autoref{thm:streamname-terminal-pullback-idempotence}, a complete support
+surface is stable under another terminal read. Hence the converse direction of
+the four-face factorization can repack only the complete surface, not the
+shortened packet. The excluded quotient, host-limit, host-equality, choice,
+completeness, bridge, trichotomy, and compactness rows are not coordinates of
+that normal form, so none of them can fill the missing support row.
+\end{proof}
+
 \begin{theorem}[StreamName terminal pullback support exactness]
 \label{thm:streamname-terminal-pullback-support-exactness}
 Let $W$ be a certified public $\StreamNameUp$ finite-window observation
@@ -426,12 +475,13 @@ reindex routes preserve the public finite observation section, endpoint rows,
 $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, support cannot be
 enlarged by changing the terminal presentation of the same window.
 
-The local support budget is exact by
-\autoref{thm:streamname-open-phase-finite-window-support-row-minimality}. That
-minimality theorem leaves only the displayed BEDC support rows and the public
-$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
-$\mathsf{UnaryHistory}$ observation rows available to the finite-window
-packet.
+The local deletion obstruction is
+\autoref{thm:streamname-terminal-four-face-support-deletion-obstruction}. It
+says that deleting any displayed BEDC support row, or any public
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, or $\mathsf{UnaryHistory}$
+observation row, prevents acceptance, and that quotient, host-limit,
+host-equality, choice, completeness, bridge, trichotomy, and compactness rows
+cannot replace the missing coordinate.
 
 For the reverse direction, assume a packet displays exactly those four faces
 and support rows. The converse direction of
