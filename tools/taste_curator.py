@@ -264,6 +264,16 @@ def slug_key(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "", text.lower())
 
 
+def rule_evolution_worktree_for_branch(branch: str) -> Path:
+    suffix = branch.removeprefix("taste/evolve-")
+    return Path("/tmp") / f"wt-taste-evolve-{suffix}"
+
+
+def rule_evolution_names(flag: str, cluster_key: str) -> tuple[Path, str]:
+    branch = f"taste/evolve-{sanitize_branch_piece(flag)}-{cluster_key}"
+    return rule_evolution_worktree_for_branch(branch), branch
+
+
 def rel(path: Path) -> str:
     try:
         return str(path.relative_to(REPO_ROOT))
@@ -321,6 +331,33 @@ def run(
 def git(*args: str, **kwargs: Any) -> subprocess.CompletedProcess[str]:
     kwargs.setdefault("timeout", TIMEOUTS["git"])
     return run(["git", *args], **kwargs)
+
+
+def cleanup_rule_evolution_worktree(worktree: Path, branch: str) -> None:
+    git("worktree", "remove", "--force", str(worktree), check=False, capture=True)
+    git("branch", "-D", branch, check=False, capture=True)
+
+
+def gc_orphan_taste_branches(dry_run: bool = False) -> None:
+    branches = git("branch", "--list", "taste/evolve-*", check=False, capture=True)
+    if branches.returncode != 0:
+        append_alert("taste_branch_gc_failed", {"stderr": tail(branches.stderr or branches.stdout or "")}, dry_run=dry_run)
+        return
+    for raw in (branches.stdout or "").splitlines():
+        branch = raw.replace("*", "", 1).strip()
+        if not branch:
+            continue
+        worktree = rule_evolution_worktree_for_branch(branch)
+        if worktree.exists():
+            continue
+        if dry_run:
+            print(f"[taste] dry-run: would delete orphan branch {branch}", flush=True)
+            continue
+        delete = git("branch", "-D", branch, check=False, capture=True)
+        if delete.returncode != 0:
+            append_alert("taste_branch_gc_delete_failed", {"branch": branch, "stderr": tail(delete.stderr or delete.stdout or "")})
+        else:
+            print(f"[taste] deleted orphan branch {branch}", flush=True)
 
 
 def tail(text: str, limit: int = 1200) -> str:
@@ -1451,9 +1488,7 @@ def dispatch_rule_evolution(
     approval_ids: list[str],
 ) -> tuple[bool, str, str | None]:
     cluster_key = short_hash(json.dumps({"flag": flag, "evidence": evidence}, sort_keys=True))
-    piece = sanitize_branch_piece(f"taste-evolve-{flag}-{cluster_key}")
-    worktree = Path("/tmp") / f"wt-{piece}"
-    branch = f"taste/evolve-{sanitize_branch_piece(flag)}-{cluster_key}"
+    worktree, branch = rule_evolution_names(flag, cluster_key)
     if worktree.exists():
         shutil.rmtree(worktree)
     base_sha = git("rev-parse", "HEAD", capture=True).stdout.strip()
@@ -1492,8 +1527,7 @@ def dispatch_rule_evolution(
         ok, msg, commit_sha = merge_rule_evolution_worktree(worktree, branch, flag, cluster_key)
         return ok, msg, commit_sha
     finally:
-        git("worktree", "remove", "--force", str(worktree), check=False, capture=True)
-        git("branch", "-D", branch, check=False, capture=True)
+        cleanup_rule_evolution_worktree(worktree, branch)
 
 
 def process_confirmed_approvals(cfg: dict[str, Any], dry_run: bool) -> int:
@@ -1608,6 +1642,7 @@ def main() -> int:
     cycles = 1 if args.once else args.cycle
     lock_enabled = not args.dry_run
     with pid_lock(enabled=lock_enabled):
+        gc_orphan_taste_branches(dry_run=args.dry_run)
         if cycles is not None:
             for i in range(max(0, cycles)):
                 print(f"[taste] cycle {i + 1}/{cycles}", flush=True)
