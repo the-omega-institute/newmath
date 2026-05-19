@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
@@ -8,6 +9,7 @@ namespace BEDC.Derived.RelationalObjectivityUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -307,5 +309,138 @@ theorem RelationalObjectivityAnchorStabilityObligation
   exact
     ⟨anchorReplayUnary, invariantReplayUnary, anchorRoute, invariantRoute,
       hsame_refl N⟩
+
+theorem RelationalObjectivityNameCertClassifier_semantic_certificate
+    {F I A L T P N : BHist} :
+    RelationalObjectivityCarrier F I A L T P N ->
+      SemanticNameCert
+        (fun row : BHist =>
+          RelationalObjectivityCarrier F I A L T P N ∧
+            (hsame row F ∨ hsame row I ∨ hsame row A ∨ hsame row L ∨
+              hsame row T ∨ hsame row P ∨ hsame row N))
+        (fun row : BHist =>
+          RelationalObjectivityCarrier F I A L T P N ∧
+            (hsame row F ∨ hsame row I ∨ hsame row A ∨ hsame row L ∨
+              hsame row T ∨ hsame row P ∨ hsame row N))
+        (fun row : BHist =>
+          UnaryHistory row ∧
+            (hsame row F ∨ hsame row I ∨ hsame row A ∨ hsame row L ∨
+              hsame row T ∨ hsame row P ∨ hsame row N))
+        hsame := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory SemanticNameCert RelationalObjectivityCarrier
+  intro carrier
+  have carrierWitness : RelationalObjectivityCarrier F I A L T P N := carrier
+  obtain ⟨familyUnary, invariantUnary, anchorUnary, ledgerUnary, transportUnary,
+    provenanceUnary, nameUnary, _invariantAnchorTransport, _ledgerTransportName,
+    _provenanceSelf⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro F ⟨carrierWitness, Or.inl (hsame_refl F)⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        constructor
+        · exact source.left
+        · cases source.right with
+          | inl sameF =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameF)
+          | inr rest =>
+              cases rest with
+              | inl sameI =>
+                  exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameI))
+              | inr rest =>
+                  cases rest with
+                  | inl sameA =>
+                      exact Or.inr
+                        (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameA)))
+                  | inr rest =>
+                      cases rest with
+                      | inl sameL =>
+                          exact Or.inr
+                            (Or.inr
+                              (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameL))))
+                      | inr rest =>
+                          cases rest with
+                          | inl sameT =>
+                              exact Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inl
+                                        (hsame_trans (hsame_symm sameRows) sameT)))))
+                          | inr rest =>
+                              cases rest with
+                              | inl sameP =>
+                                  exact Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inl
+                                              (hsame_trans (hsame_symm sameRows)
+                                                sameP))))))
+                              | inr sameN =>
+                                  exact Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (hsame_trans (hsame_symm sameRows)
+                                                sameN))))))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro row source
+      cases source.right with
+      | inl sameF =>
+          exact ⟨unary_transport_symm familyUnary sameF, Or.inl sameF⟩
+      | inr rest =>
+          cases rest with
+          | inl sameI =>
+              exact ⟨unary_transport_symm invariantUnary sameI, Or.inr (Or.inl sameI)⟩
+          | inr rest =>
+              cases rest with
+              | inl sameA =>
+                  exact
+                    ⟨unary_transport_symm anchorUnary sameA,
+                      Or.inr (Or.inr (Or.inl sameA))⟩
+              | inr rest =>
+                  cases rest with
+                  | inl sameL =>
+                      exact
+                        ⟨unary_transport_symm ledgerUnary sameL,
+                          Or.inr (Or.inr (Or.inr (Or.inl sameL)))⟩
+                  | inr rest =>
+                      cases rest with
+                      | inl sameT =>
+                          exact
+                            ⟨unary_transport_symm transportUnary sameT,
+                              Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameT))))⟩
+                      | inr rest =>
+                          cases rest with
+                          | inl sameP =>
+                              exact
+                                ⟨unary_transport_symm provenanceUnary sameP,
+                                  Or.inr
+                                    (Or.inr
+                                      (Or.inr (Or.inr (Or.inr (Or.inl sameP)))))⟩
+                          | inr sameN =>
+                              exact
+                                ⟨unary_transport_symm nameUnary sameN,
+                                  Or.inr
+                                    (Or.inr
+                                      (Or.inr (Or.inr (Or.inr (Or.inr sameN)))))⟩
+  }
 
 end BEDC.Derived.RelationalObjectivityUp
