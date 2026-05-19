@@ -70,6 +70,7 @@ CLOSURESTATUS_BLOCK_RE = re.compile(
     r"\\begin\{closurestatus\}.*?\\end\{closurestatus\}",
     re.DOTALL,
 )
+TOP_LEVEL_ORIGIN_RE = re.compile(r"^\s*\\origin\{([^}]*)\}\s*$", re.MULTILINE)
 VALID_ORIGINS = {"human", "ai", "ai-composite"}
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
@@ -643,20 +644,35 @@ def detect_concrete_instance_missing_origin() -> list[dict[str, object]]:
     if not instances.is_dir():
         return []
 
+    changed = changed_concrete_instance_tex_paths()
     missing: list[dict[str, object]] = []
     for path in sorted(instances.rglob("*.tex")):
         if not path.is_file():
+            continue
+        if changed is not None and path not in changed:
             continue
         text = read_text(path)
         if not CONCRETE_CHAPTER_RE.search(text):
             continue
         if is_concrete_instance_hub_only(text):
             continue
-        chapter_text = CLOSURESTATUS_BLOCK_RE.sub("", text)
-        origins = [
-            match.group(1).strip()
-            for match in ORIGIN_TAG_RE.finditer(chapter_text)
-        ]
+        has_structural_origin_surface = (
+            CLOSURESTATUS_BLOCK_RE.search(text) is not None
+            or TOP_LEVEL_ORIGIN_RE.search(text) is not None
+        )
+        if not has_structural_origin_surface:
+            continue
+        origins = []
+        for block in CLOSURESTATUS_BLOCK_RE.finditer(text):
+            origins.extend(
+                match.group(1).strip()
+                for match in ORIGIN_TAG_RE.finditer(block.group(0))
+            )
+        if not origins:
+            origins = [
+                match.group(1).strip()
+                for match in TOP_LEVEL_ORIGIN_RE.finditer(text)
+            ]
         kind = ""
         if not origins:
             kind = "missing-origin"
@@ -670,6 +686,36 @@ def detect_concrete_instance_missing_origin() -> list[dict[str, object]]:
                 "kind": kind,
             })
     return sorted(missing, key=lambda item: str(item["file"]))
+
+
+def changed_concrete_instance_tex_paths() -> set[Path] | None:
+    """Return changed concrete-instance tex paths when git base context exists."""
+    base_ref = os.environ.get("BEDC_CI_BASE_REF", "origin/codex-auto-dev")
+    try:
+        merge_base = subprocess.check_output(
+            ["git", "merge-base", base_ref, "HEAD"],
+            cwd=REPO_ROOT,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except subprocess.CalledProcessError:
+        return None
+    if not merge_base:
+        return None
+    try:
+        output = subprocess.check_output(
+            ["git", "diff", "--name-only", merge_base, "--", "papers/bedc/parts/concrete_instances"],
+            cwd=REPO_ROOT,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        )
+    except subprocess.CalledProcessError:
+        return None
+    paths: set[Path] = set()
+    for line in output.splitlines():
+        if line.endswith(".tex"):
+            paths.add((REPO_ROOT / line).resolve())
+    return paths
 
 
 CLOSURESTATUS_BEGIN_RE = re.compile(
