@@ -121,4 +121,28 @@ theorem DiagonalCofinalTailCarrier_common_window_refinement [AskSetup] [PackageS
     unary_cont_closed cUnary rUnary rightRoute
   exact ⟨leftUnary, rightUnary, leftRoute, rightRoute, pPkg, leftPkg, rightPkg⟩
 
+theorem DiagonalCofinalTailCarrier_route_composition [AskSetup] [PackageSetup]
+    {q s g d r w h c p n sealRead finalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg →
+      Cont r w sealRead →
+        Cont sealRead c finalRead →
+          PkgSig bundle finalRead pkg →
+            UnaryHistory q ∧ UnaryHistory s ∧ UnaryHistory g ∧ UnaryHistory d ∧
+              UnaryHistory r ∧ UnaryHistory w ∧ UnaryHistory sealRead ∧
+                UnaryHistory finalRead ∧ Cont q s g ∧ Cont g d r ∧
+                  Cont r w sealRead ∧ Cont sealRead c finalRead ∧
+                    PkgSig bundle p pkg ∧ PkgSig bundle finalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier rwSeal sealFinal finalPkg
+  obtain ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, _hUnary, cUnary,
+    _pUnary, _nUnary, qsRoute, gdRoute, _whRoute, pPkg⟩ := carrier
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed rUnary wUnary rwSeal
+  have finalUnary : UnaryHistory finalRead :=
+    unary_cont_closed sealUnary cUnary sealFinal
+  exact
+    ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, sealUnary, finalUnary, qsRoute,
+      gdRoute, rwSeal, sealFinal, pPkg, finalPkg⟩
+
 end BEDC.Derived.DiagonalCofinalTailUp
