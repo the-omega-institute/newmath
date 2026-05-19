@@ -245,6 +245,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditBoundary
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditGatedOutputCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditLedgerNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditNameCertLock
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceCover
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditProvenanceRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditRowCompleteness
@@ -323,6 +324,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputStability
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealCarrierReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealHandoffObligations
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealRegSeqRatHandoff
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.PublicConsumerBoundary
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.PublicOutputCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ReadinessDeterminacy
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ReadinessRoute
@@ -1165,6 +1167,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRouteCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuthorizedRecursorAuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderSealFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueShiftTotality
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosednessConsumerExport
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosednessLedgerCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerScheduleLock
@@ -1577,13 +1580,16 @@ import BEDC.Derived.CriticalLineWitnessUp
 import BEDC.Derived.CriticalLineWitnessUp.DepthLedgerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.DepthLock
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamModulusRefusalExport
+import BEDC.Derived.CriticalLineWitnessUp.FiniteObservationRoute
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripCarrierSourceTotality
+import BEDC.Derived.CriticalLineWitnessUp.FixedStripClassifierStability
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripNameCertSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZeroRouteBoundary
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleReadbackRow
 import BEDC.Derived.CriticalLineWitnessUp.ModulusComparisonRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.ObligationCompletionPacket
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealDependencyTotality
+import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRoute
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTriad
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceWindowExhaustion
@@ -1596,7 +1602,9 @@ import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
+import BEDC.Derived.CriticalLineWitnessUp.RouteClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RouteReadbackExhaustionCertificate
+import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
 import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
@@ -1937,6 +1945,7 @@ import BEDC.Derived.DigestInscriptionUp.TasteGate
 import BEDC.Derived.DigestLoopRefusalUp.TasteGate
 import BEDC.Derived.DigestProvenancePacketUp.NameCertObligations
 import BEDC.Derived.DigestProvenancePacketUp.NoHiddenSourceConsumption
+import BEDC.Derived.DigestProvenancePacketUp.SourceFiberLedgerOrder
 import BEDC.Derived.DigestProvenancePacketUp.TasteGate
 import BEDC.Derived.DimLiftBoundaryUp
 import BEDC.Derived.DirichletSeriesUp
@@ -3668,6 +3677,7 @@ import BEDC.Derived.RealityConstrainedFailureSurfaceUp.TasteGate
 import BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
 import BEDC.Derived.RealityConstrainedMethodologyLedgerUp.KernelCarrier
 import BEDC.Derived.RealityConstrainedMethodologyLedgerUp.TasteGate
+import BEDC.Derived.RealityConstrainedModelAuditUp.FailureSurfaceExhaustion
 import BEDC.Derived.RealityConstrainedModelAuditUp.FitSeparation
 import BEDC.Derived.RealityConstrainedModelAuditUp.LedgerNonescape
 import BEDC.Derived.RealityConstrainedModelAuditUp.SignatureExactness
@@ -4527,6 +4537,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.NoRhNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.ObligationTriad
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleGammaBoundary
+import BEDC.Derived.ZetaContinuationWitnessUp.PoleLedgerRefusalRow
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicContourGammaSeparation
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicCriticalStripExport
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicExportFactorization
@@ -4573,6 +4584,7 @@ import BEDC.Derived.ZnormalUp.NamecertLedgerExhaustion
 import BEDC.Derived.ZnormalUp.NoDivergenceOracleLedger
 import BEDC.Derived.ZnormalUp.NormalFormConsumerBoundary
 import BEDC.Derived.ZnormalUp.NormalFormReadinessSupportTotality
+import BEDC.Derived.ZnormalUp.NormalOutputBoundary
 import BEDC.Derived.ZnormalUp.NormalOutputRootNonescape
 import BEDC.Derived.ZnormalUp.NormalWordContinuationScopeLock
 import BEDC.Derived.ZnormalUp.ReadbackObligationTriad
@@ -4583,6 +4595,7 @@ import BEDC.Derived.ZnormalUp.RootClassifierStability
 import BEDC.Derived.ZnormalUp.RootConstructorReadback
 import BEDC.Derived.ZnormalUp.RootConsumerReadiness
 import BEDC.Derived.ZnormalUp.RootContReplayClosure
+import BEDC.Derived.ZnormalUp.RootContinuationTerminalExhaustion
 import BEDC.Derived.ZnormalUp.RootContinuationTraceReadiness
 import BEDC.Derived.ZnormalUp.RootDisplayPacketBridgeReadbackExactness
 import BEDC.Derived.ZnormalUp.RootForbiddenHostConversionExclusion
@@ -4626,6 +4639,7 @@ import BEDC.Derived.ZnormalUp.RootTotalHostRefusalLedger
 import BEDC.Derived.ZnormalUp.RootTotalHostSourcePacket
 import BEDC.Derived.ZnormalUp.RootUnblockNonescapeLedger
 import BEDC.Derived.ZnormalUp.RootVisibleSourcePackage
+import BEDC.Derived.ZnormalUp.RouteTransport
 import BEDC.Derived.ZnormalUp.TasteGate
 import BEDC.Derived.ZnormalUp.TasteGateFieldReadbackLock
 import BEDC.Derived.ZnormalUp.TasteGateScopeBinding
