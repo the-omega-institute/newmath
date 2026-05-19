@@ -1,0 +1,232 @@
+\subsection{Codons as six-bit finite windows}
+\label{subsec:philosophy-codon-window-six-bridge}
+
+The four-phase DNA and RNA bridge of
+\autoref{subsec:philosophy-channel-genetic-code-bridge} has a direct
+finite-window reading. A codon is a three-position word over a
+four-phase alphabet. Once each base is read through two binary axes, a
+codon is exactly a six-bit window at the source-space level:
+$$
+  4^{3}=64=2^{6}.
+$$
+This is the strongest window-six contact point. It is a source-space
+isomorphism, not an identification of the genetic-code translation
+table with a BEDC fold table.
+
+\begin{definition}[Codon six-bit source atlas]
+\label{def:philosophy-codon-six-bit-source-atlas}
+Let
+$$
+  \mathsf{RNA4Alphabet}^{\uparrow}
+  :=
+  \BoolUp\times\BoolUp
+$$
+be read externally by the two axes of
+\autoref{def:philosophy-rna-two-axis-readback}. The codon source atlas
+is
+$$
+  \mathsf{Codon64}^{\uparrow}
+  :=
+  (\mathsf{RNA4Alphabet}^{\uparrow})^{3}.
+$$
+The six-bit flattening map is the displayed reassociation
+$$
+  \mathsf{Flat}_{6}
+  :
+  (\BoolUp\times\BoolUp)^{3}
+  \rightsquigarrow
+  (\BoolUp)^{6},
+$$
+which reads a codon as three consecutive two-bit blocks.
+\end{definition}
+
+\begin{theorem}[Codon source space is a six-bit window]
+\label{thm:philosophy-codon-source-space-six-bit-window}
+At the source-space level, the codon atlas has the same finite carrier
+size as the six-bit binary window:
+$$
+  \left|(\BoolUp\times\BoolUp)^{3}\right|
+  =
+  |(\BoolUp)^{6}|
+  =
+  64.
+$$
+\end{theorem}
+\begin{proof}
+Each $\BoolUp$ coordinate has two visible endpoints. Hence
+$\BoolUp\times\BoolUp$ has $2\cdot 2=4$ visible phases, and a triple
+of such phases has $4^{3}=64$ visible positions. Reassociation exposes
+the same six binary coordinates, whose carrier size is $2^{6}=64$.
+\end{proof}
+
+\begin{definition}[RNA two-axis binary display]
+\label{def:philosophy-rna-two-axis-binary-display}
+Using the shape-family readback
+$$
+\begin{aligned}
+  \mathrm{U} &= 00,&
+  \mathrm{C} &= 01,\\
+  \mathrm{A} &= 10,&
+  \mathrm{G} &= 11,
+\end{aligned}
+$$
+the four codons in the $\mathrm{U}+\mathrm{RR}$ square flatten as
+$$
+\begin{array}{c|c}
+  \text{codon} & \mathsf{Flat}_{6}\text{ display}\\
+\hline
+  \mathrm{UAA} & 00\,10\,10\\
+  \mathrm{UAG} & 00\,10\,11\\
+  \mathrm{UGA} & 00\,11\,10\\
+  \mathrm{UGG} & 00\,11\,11
+\end{array}
+$$
+The DNA coding-strand display is obtained by replacing the first
+$\mathrm{U}$ with $\mathrm{T}$; the six-bit source calculation is
+unchanged.
+\end{definition}
+
+\begin{definition}[Window-six Zeckendorf target]
+\label{def:philosophy-window-six-zeckendorf-target}
+The window-six source space is
+$$
+  \Omega_{6}:=\{0,1\}^{6}.
+$$
+Its Zeckendorf-legal no-adjacent subspace is
+$$
+  X_{6}:=
+  \{w\in\Omega_{6}\mid w\text{ has no adjacent }11\}.
+$$
+For a length-six binary path, the no-adjacent-$1$ count is the
+Fibonacci count $F_{8}=21$. This is the same finite-path no-adjacent
+pattern carried by the $\FibonacciCubeUp$ packet of
+\autoref{ch:concrete-instances-fibonaccicube-namecert}.
+\end{definition}
+
+\begin{corollary}[Two parallel $64$-to-$21$ readings]
+\label{cor:philosophy-two-parallel-sixty-four-to-twenty-one-readings}
+The window-six no-adjacent target and the standard genetic-code bridge
+share the same coarse source-and-class count:
+$$
+\begin{aligned}
+  \text{window-six fold:}\quad
+    &64\ \text{binary source positions}
+      \rightsquigarrow 21\ \text{no-adjacent window types},\\
+  \text{standard genetic code:}\quad
+    &64\ \text{codons}
+      \rightsquigarrow
+      20\ \text{amino-acid classes}+1\ \text{stop class}.
+\end{aligned}
+$$
+This is a count-and-window analogy. It is not equality of classifiers or
+equality of fiber ledgers.
+\end{corollary}
+
+\begin{theorem}[The two $64$-to-$21$ ledgers are not the same table]
+\label{thm:philosophy-window-six-genetic-code-not-same-table}
+The window-six fold and the standard genetic-code translation
+classifier are not the same map.
+\end{theorem}
+\begin{proof}
+The window-six fold is a finite binary-window classifier whose target is
+the no-adjacent finite-path surface $X_{6}$. The standard genetic-code
+translation classifier is an external biological bridge from codons to
+amino-acid classes plus a stop class. Even when both displays have
+source size $64$ and target-class count $21$, their fibers are governed
+by different ledgers: the window fold records its own finite binary
+collision rows, while the genetic code records biological degeneracy
+rows, including singleton, doublet, triplet, quartet, and sextet
+amino-acid classes in the standard table. A shared count therefore does
+not license identity of maps.
+\end{proof}
+
+\begin{theorem}[Global no-$11$ is not the stop-codon classifier]
+\label{thm:philosophy-global-no-eleven-not-stop-classifier}
+The standard stop codons are not obtained by applying the global
+no-adjacent-$11$ predicate to the entire flattened six-bit codon.
+\end{theorem}
+\begin{proof}
+By \autoref{def:philosophy-rna-two-axis-binary-display}, the relevant
+flattened strings are
+$$
+\begin{aligned}
+  \mathrm{UAA} &\longmapsto 001010,\\
+  \mathrm{UAG} &\longmapsto 001011,\\
+  \mathrm{UGA} &\longmapsto 001110,\\
+  \mathrm{UGG} &\longmapsto 001111.
+\end{aligned}
+$$
+The string $001010$ has no adjacent $11$, but $001011$, $001110$, and
+$001111$ do contain adjacent $11$. Thus a global no-adjacent predicate
+on $\Omega_{6}$ would keep only $\mathrm{UAA}$ among the three standard
+stop codons. The stop-codon reconstruction of
+\autoref{thm:philosophy-three-stop-reconstruction} instead applies the
+no-$11$ motif locally to the family suffix in the
+$\mathrm{U}+\mathrm{RR}$ square.
+\end{proof}
+
+\begin{definition}[Local suffix rule inside the six-bit atlas]
+\label{def:philosophy-local-suffix-rule-inside-six-bit-atlas}
+Inside the six-bit codon atlas, the stop reconstruction uses the
+following typed local rule:
+$$
+\begin{gathered}
+  \text{select the }\mathrm{U}+\mathrm{RR}\text{ sector},\\
+  \text{project positions }2\text{ and }3\text{ to the family axis},\\
+  \text{exclude only the suffix }11.
+\end{gathered}
+$$
+Equivalently,
+$$
+  \{\mathrm{AA},\mathrm{AG},\mathrm{GA},\mathrm{GG}\}
+  \longmapsto
+  \{00,01,10,11\}
+$$
+and the Zeckendorf-legal suffixes are $00$, $01$, and $10$. The
+excluded corner is $\mathrm{GG}$, so the surviving codons are
+$\mathrm{UAA}$, $\mathrm{UAG}$, and $\mathrm{UGA}$.
+\end{definition}
+
+\begin{theorem}[Codon-window bridge cannot-claim boundary]
+\label{thm:philosophy-codon-window-cannot-claim-boundary}
+The codon-window bridge does not license any of the following claims:
+\begin{itemize}
+  \item that the biological genetic code is the window-six fold;
+  \item that the standard translation table is obtained by quotienting
+    $\Omega_{6}$ by the no-adjacent predicate;
+  \item that the standard stop codons are exactly the globally
+    no-adjacent flattened codons;
+  \item that the equality $4^{3}=2^{6}$ supplies a biological
+    derivation of codon length three;
+  \item that a shared $64$-to-$21$ count identifies the two fiber
+    distributions;
+  \item that $\mathrm{G}=11$ in the bridge readback is the BEDC channel
+    terminator.
+\end{itemize}
+\end{theorem}
+\begin{proof}
+The first five refusals follow from
+\autoref{thm:philosophy-window-six-genetic-code-not-same-table} and
+\autoref{thm:philosophy-global-no-eleven-not-stop-classifier}. The last
+refusal follows from the layer-separation theorem
+\autoref{thm:philosophy-zstop-no-channel-token-collapse}: the displayed
+binary readback of a biological base and the BEDC channel terminator
+occupy different typed layers.
+\end{proof}
+
+\begin{corollary}[Allowed codon-window claim]
+\label{cor:philosophy-codon-window-allowed-claim}
+A codon is naturally a six-bit finite window once the four DNA or RNA
+bases are read as two binary axes. The window-six bridge gives the
+source-space isomorphism
+$$
+  \mathsf{Codon64}^{\uparrow}
+  \cong
+  \Omega_{6},
+$$
+and it explains why the numbers $64$, $21$, and the no-$11$ motif are
+structurally adjacent. The stop-codon theorem remains local: in the
+$\mathrm{U}+\mathrm{RR}$ sector, excluding the family suffix $11$
+removes $\mathrm{UGG}$ and leaves the standard stop-codon L-shape
+$\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}$.
+\end{corollary}
