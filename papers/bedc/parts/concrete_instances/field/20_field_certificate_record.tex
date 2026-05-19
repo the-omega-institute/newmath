@@ -39,6 +39,35 @@ following rows as a single obligation record.
 \end{definition}
 \leandef{BEDC.Derived.FieldUp.FieldCertificateObligations}
 
+\begin{theorem}[Field certificate obligations expose Rat denominator rows]
+\label{thm:field-certificate-obligations-rat-denominator-rows}
+Every $\mathsf{FieldCertificateObligations}$ record projects the Rat carrier
+row $\mathsf{RatHistoryCarrier}(\mathsf{carrier})$, the Rat classifier row
+$\mathsf{RatHistoryClassifier}(\mathsf{carrier},\mathsf{classifier})$, the
+denominator row $\mathsf{RatDenomUnitCarrier}(\mathsf{denominatorTuple})$, and
+the contextual denominator row
+$\mathsf{RatDenomUnitClassifier}(\mathsf{denominatorTuple},\mathsf{contextualData})$.
+It also projects the four source, base, affine, and status assembly equations
+$$
+\begin{aligned}
+\hsame(\mathsf{source},\mathsf{append}(\mathsf{carrier},\mathsf{classifier})),\\
+\hsame(\mathsf{ringBase},\mathsf{append}(\mathsf{productData},\mathsf{inverseData})),\\
+\hsame(\mathsf{affineSource},\mathsf{append}(\mathsf{contextualData},\mathsf{ledgerExactness})),\\
+\hsame(\mathsf{status},\mathsf{append}(\mathsf{source},\mathsf{affineSource})).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Unfold the certificate-obligation record. Its surface is the nested conjunction
+whose first four fields are exactly the Rat carrier, Rat classifier,
+denominator carrier, and contextual denominator classifier rows.
+
+The remaining conjunctive fields are the four displayed assembly equations.
+Projecting the nested conjunction in order gives all eight rows without adding
+any extra carrier, classifier, or ledger hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldCertificateObligations\_rat\_denominator\_rows}
+
 \paragraph{Per-object certificate record.}
 \begin{enumerate}
   \item Traditional target: constructive field.
