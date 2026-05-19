@@ -387,6 +387,38 @@ theorem RealityConstrainedTowerPacketDescentPermissionStability
   exact
     ⟨descentReadUnary, descentReplayUnary, descentTransportRead, readReplay⟩
 
+theorem RealityConstrainedTowerPacketRealPhaseConsumerBoundary
+    {source schedule readback realSeal residue ledger descent transport replay provenance
+      localName realRead boundaryRead : BHist} :
+    realityConstrainedTowerPacketFields
+        (RealityConstrainedTowerPacketUp.mk source schedule readback realSeal residue ledger
+          descent transport replay provenance localName) =
+        [source, schedule, readback, realSeal, residue, ledger, descent, transport, replay,
+          provenance, localName] ->
+      Cont schedule readback realRead ->
+        Cont realRead residue boundaryRead ->
+          UnaryHistory schedule ->
+            UnaryHistory readback ->
+              UnaryHistory residue ->
+                UnaryHistory source ∧ UnaryHistory ledger ∧ UnaryHistory descent ->
+                  UnaryHistory realRead ∧ UnaryHistory boundaryRead ∧
+                    Cont schedule readback realRead ∧ Cont realRead residue boundaryRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro packetFields scheduleReadbackReal realReadResidueBoundary scheduleUnary readbackUnary
+    residueUnary _inventory
+  have packetRows :
+      realityConstrainedTowerPacketFields
+          (RealityConstrainedTowerPacketUp.mk source schedule readback realSeal residue ledger
+            descent transport replay provenance localName) =
+          [source, schedule, readback, realSeal, residue, ledger, descent, transport, replay,
+            provenance, localName] :=
+    packetFields
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed scheduleUnary readbackUnary scheduleReadbackReal
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed realReadUnary residueUnary realReadResidueBoundary
+  exact ⟨realReadUnary, boundaryReadUnary, scheduleReadbackReal, realReadResidueBoundary⟩
+
 end BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
 
 namespace BEDC.Derived.RealityConstrainedTowerPacketUp
