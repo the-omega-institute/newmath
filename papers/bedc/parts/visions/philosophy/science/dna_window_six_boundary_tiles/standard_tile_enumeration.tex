@@ -1,0 +1,283 @@
+\begin{theorem}[Stop and tryptophan $11$-control tile]
+\label{thm:philosophy-stop-trp-boundary-tile}
+In the $\mathrm{U}+\mathrm{RR}$ face,
+$$
+\begin{aligned}
+  \mathrm{U}+\mathrm{RR}+X_{2}
+    &=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}
+      =\mathrm{Stop},\\
+  \mathrm{U}+\mathrm{RR}+11
+    &=\{\mathrm{UGG}\}
+      =\mathrm{Trp}
+\end{aligned}
+$$
+under the standard-code biological bridge.
+\end{theorem}
+\begin{proof}
+The family suffix coordinates are
+$$
+\begin{aligned}
+  \mathrm{UAA} &\longmapsto 00,\\
+  \mathrm{UAG} &\longmapsto 01,\\
+  \mathrm{UGA} &\longmapsto 10,\\
+  \mathrm{UGG} &\longmapsto 11.
+\end{aligned}
+$$
+By \autoref{thm:philosophy-local-two-bit-partition}, the $X_{2}$ part is
+$\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}$ and the $11$ corner is
+$\mathrm{UGG}$. The labels $\mathrm{Stop}$ and $\mathrm{Trp}$ are supplied
+by the standard genetic-code bridge.
+\end{proof}
+
+\begin{corollary}[UGG is the stop-face $11$ corner]
+\label{cor:philosophy-ugg-stop-face-eleven-corner}
+Inside the stop face,
+$$
+  \mathrm{UGG}=\mathrm{U}+\mathrm{RR}+11.
+$$
+\end{corollary}
+\begin{proof}
+Both varying suffix bases are $\mathrm{G}$, and $\mathrm{G}$ has family
+coordinate $1$. Hence $\mathrm{GG}$ has local family suffix $11$.
+\end{proof}
+
+\begin{theorem}[Isoleucine and methionine $11$-control tile]
+\label{thm:philosophy-ile-met-boundary-tile}
+In the $\mathrm{AU}$ face,
+$$
+\begin{aligned}
+  \mathrm{AU}+X_{2}
+    &=\{\mathrm{AUU},\mathrm{AUC},\mathrm{AUA}\}
+      =\mathrm{Ile},\\
+  \mathrm{AU}+11
+    &=\{\mathrm{AUG}\}
+      =\mathrm{Met}
+\end{aligned}
+$$
+under the standard-code biological bridge. In an initiation context, the
+same $\mathrm{AUG}$ row carries the canonical start bridge row.
+\end{theorem}
+\begin{proof}
+The third-base coordinates in the $\mathrm{AU}$ face are
+$$
+\begin{aligned}
+  \mathrm{AUU} &\longmapsto 00,\\
+  \mathrm{AUC} &\longmapsto 01,\\
+  \mathrm{AUA} &\longmapsto 10,\\
+  \mathrm{AUG} &\longmapsto 11.
+\end{aligned}
+$$
+Thus the $X_{2}$ part is
+$\{\mathrm{AUU},\mathrm{AUC},\mathrm{AUA}\}$ and the $11$ corner is
+$\mathrm{AUG}$. The labels $\mathrm{Ile}$, $\mathrm{Met}$, and the
+canonical-start reading are external standard-code bridge rows.
+\end{proof}
+
+\begin{corollary}[Dual $11$-control tiles]
+\label{cor:philosophy-dual-boundary-tiles}
+The standard genetic-code bridge contains two dual
+$X_{2}\sqcup\{11\}$ tiles:
+$$
+\begin{aligned}
+  \mathrm{Ile}/\mathrm{Met}
+    &=
+      \mathrm{AU}+X_{2}\;/\;11,\\
+  \mathrm{Stop}/\mathrm{Trp}
+    &=
+      \mathrm{U}+\mathrm{RR}+X_{2}\;/\;11.
+\end{aligned}
+$$
+\end{corollary}
+\begin{proof}
+Combine \autoref{thm:philosophy-stop-trp-boundary-tile} and
+\autoref{thm:philosophy-ile-met-boundary-tile}.
+\end{proof}
+
+\begin{theorem}[Phe and Leu $00$-singleton tiles]
+\label{thm:philosophy-phe-leu-zero-zero-singleton-tiles}
+The two Phe/Leu faces are $00$-singleton tiles:
+$$
+\begin{array}{c|c|c}
+  \text{face} & 00\text{ singleton} & Q_{2}\setminus\{00\}\text{ class}\\
+\hline
+  \{\mathrm{UUU},\mathrm{UUA},\mathrm{CUU},\mathrm{CUA}\}
+    & \mathrm{UUU}=\mathrm{Phe}
+    & \mathrm{UUA},\mathrm{CUU},\mathrm{CUA}=\mathrm{Leu}\\
+  \{\mathrm{UUC},\mathrm{UUG},\mathrm{CUC},\mathrm{CUG}\}
+    & \mathrm{UUC}=\mathrm{Phe}
+    & \mathrm{UUG},\mathrm{CUC},\mathrm{CUG}=\mathrm{Leu}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the first face, vary the second bit of the first base and the second
+bit of the third base while keeping the other four bits fixed. The local
+coordinates are
+$$
+\begin{aligned}
+  00&\longmapsto\mathrm{UUU},&
+  01&\longmapsto\mathrm{UUA},\\
+  10&\longmapsto\mathrm{CUU},&
+  11&\longmapsto\mathrm{CUA}.
+\end{aligned}
+$$
+For the second face, the same free bit positions give
+$$
+\begin{aligned}
+  00&\longmapsto\mathrm{UUC},&
+  01&\longmapsto\mathrm{UUG},\\
+  10&\longmapsto\mathrm{CUC},&
+  11&\longmapsto\mathrm{CUG}.
+\end{aligned}
+$$
+The standard-code bridge labels the $00$ vertices as $\mathrm{Phe}$ and
+the remaining three vertices as $\mathrm{Leu}$.
+\end{proof}
+
+\begin{theorem}[Number of axis-aligned local $Q_{2}$ faces]
+\label{thm:philosophy-number-axis-aligned-q-two-faces}
+The codon cube $Q_{6}$ contains exactly
+$$
+  \binom{6}{2}\,2^{4}=240
+$$
+axis-aligned local $Q_{2}$ faces.
+\end{theorem}
+\begin{proof}
+Choose the two free bit positions in $\binom{6}{2}$ ways. The remaining
+four bit positions are fixed, each independently to $0$ or $1$, giving
+$2^{4}$ choices. Thus the number is $\binom{6}{2}2^{4}=15\cdot16=240$.
+\end{proof}
+
+\begin{theorem}[Standard-code axis-aligned $3+1$ face enumeration]
+\label{thm:philosophy-standard-code-axis-aligned-three-one-face-enumeration}
+Under the two-axis readback and the standard translation label map, the
+axis-aligned $Q_{2}$ faces with a $3+1$ translation-class split are
+exactly the following four faces:
+$$
+\begin{array}{c|c|c|c}
+  \text{face} & \text{three-point class} & \text{singleton class}
+    & \text{singleton corner}\\
+\hline
+  \{\mathrm{UUU},\mathrm{UUA},\mathrm{CUU},\mathrm{CUA}\}
+    & \mathrm{Leu} & \mathrm{Phe} & 00\\
+  \{\mathrm{UUC},\mathrm{UUG},\mathrm{CUC},\mathrm{CUG}\}
+    & \mathrm{Leu} & \mathrm{Phe} & 00\\
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG}\}
+    & \mathrm{Stop} & \mathrm{Trp} & 11\\
+  \{\mathrm{AUU},\mathrm{AUC},\mathrm{AUA},\mathrm{AUG}\}
+    & \mathrm{Ile} & \mathrm{Met} & 11.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The enumeration is finite. By
+\autoref{thm:philosophy-number-axis-aligned-q-two-faces}, there are
+$240$ axis-aligned $Q_{2}$ faces. For each face, decode its four vertices
+through $\beta^{-1}$, apply $\tau_{\mathsf{std}}$, and retain exactly
+those faces whose label multiplicities are $3$ and $1$. Direct
+enumeration yields the four displayed rows. The table is independent of
+any BEDC biological axiom beyond the external standard-code label map.
+\end{proof}
+
+\begin{corollary}[Two corner mechanisms]
+\label{cor:philosophy-two-corner-mechanisms}
+The four standard-code $3+1$ faces split into two corner mechanisms:
+two $11$-control tiles, $\mathrm{Ile}/\mathrm{Met}$ and
+$\mathrm{Stop}/\mathrm{Trp}$, and two $00$-singleton tiles, both
+$\mathrm{Phe}/\mathrm{Leu}$.
+\end{corollary}
+\begin{proof}
+Read the singleton-corner column in
+\autoref{thm:philosophy-standard-code-axis-aligned-three-one-face-enumeration}.
+\end{proof}
+
+\begin{theorem}[Total local tile theorem]
+\label{thm:philosophy-total-local-tile-theorem}
+Every standard-code axis-aligned $3+1$ split in the two-axis codon cube is
+one of the following:
+$$
+\begin{array}{c|c}
+  \text{tile mechanism} & \text{codon split}\\
+\hline
+  11\text{-control} &
+    \mathrm{AUU},\mathrm{AUC},\mathrm{AUA}
+      \;|\;\mathrm{AUG}\\
+  11\text{-control} &
+    \mathrm{UAA},\mathrm{UAG},\mathrm{UGA}
+      \;|\;\mathrm{UGG}\\
+  00\text{-singleton} &
+    \mathrm{UUU}
+      \;|\;\mathrm{UUA},\mathrm{CUU},\mathrm{CUA}\\
+  00\text{-singleton} &
+    \mathrm{UUC}
+      \;|\;\mathrm{UUG},\mathrm{CUC},\mathrm{CUG}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The four rows are exhaustive by
+\autoref{thm:philosophy-standard-code-axis-aligned-three-one-face-enumeration}.
+Their mechanism labels follow from
+\autoref{cor:philosophy-two-corner-mechanisms}.
+\end{proof}
+
+\begin{theorem}[Reserved-corner interpretation]
+\label{thm:philosophy-reserved-corner-interpretation}
+In the two $11$-control tiles, the local $11$ corner is not a claim of
+biological absence. It is a separated singleton or control-sensitive
+corner.
+\end{theorem}
+\begin{proof}
+The local $11$ corners are actual standard-code codons:
+$$
+\begin{aligned}
+  \mathrm{AUG} &= \mathrm{Met}
+    \quad\text{and may carry the canonical start row},\\
+  \mathrm{UGG} &= \mathrm{Trp}.
+\end{aligned}
+$$
+Therefore the bridge-level reading cannot be that local $11$ is absent
+from biology. The licensed reading is that the local $11$ corner is
+separated from the ordinary three-point class.
+\end{proof}
+
+\begin{theorem}[Stop structure is local, not global]
+\label{thm:philosophy-boundary-tile-local-not-global}
+The standard stop set is local $X_{2}$ inside the $\mathrm{U}+\mathrm{RR}$
+face. It is not the global $X_{6}$ no-adjacent language on flattened
+codons.
+\end{theorem}
+\begin{proof}
+The flattened displays are
+$$
+\begin{aligned}
+  \mathrm{UAA}&=001010,\\
+  \mathrm{UAG}&=001011,\\
+  \mathrm{UGA}&=001110.
+\end{aligned}
+$$
+The word $001010$ has no adjacent $11$, but $001011$ and $001110$ do.
+Hence the standard stop set is not contained in global $X_{6}$. By
+\autoref{thm:philosophy-stop-trp-boundary-tile}, the stop structure is
+instead the local face equality
+$$
+  \mathrm{Stop}=\mathrm{U}+\mathrm{RR}+X_{2}.
+$$
+\end{proof}
+
+\begin{corollary}[Correct window-six reading]
+\label{cor:philosophy-correct-window-six-reading}
+The correct finite-window reading is
+$$
+  \mathsf{CodonCube}=Q_{6},
+  \qquad
+  \mathrm{Stop}=\mathrm{U}+\mathrm{RR}+X_{2},
+$$
+not $\mathrm{Stop}=X_{6}$.
+\end{corollary}
+\begin{proof}
+The codon-cube equality is
+\autoref{lem:philosophy-codon-cube-window-six-bijection}; the local stop
+equality is \autoref{thm:philosophy-stop-trp-boundary-tile}; the global
+reading is rejected by \autoref{thm:philosophy-boundary-tile-local-not-global}.
+\end{proof}
