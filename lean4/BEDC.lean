@@ -1639,7 +1639,6 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusComparisonRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusConsumerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerReadback
 import BEDC.Derived.CriticalLineWitnessUp.ModulusStripSourceTotality
-import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowExactness
 import BEDC.Derived.CriticalLineWitnessUp.ObligationCompletionPacket
 import BEDC.Derived.CriticalLineWitnessUp.P11961RootRouteExposure
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealBudgetSeparation
@@ -1652,6 +1651,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceBudgetReadiness
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTriad
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceWindowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
+import BEDC.Derived.CriticalLineWitnessUp.RHSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RatComparisonLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RationalComparisonLedgerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RealPartModulusStability
@@ -1680,6 +1680,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootPublicReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalBudgetCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalConsumerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
+import BEDC.Derived.CriticalLineWitnessUp.RootRouteExposure
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
@@ -2897,7 +2898,6 @@ import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
 import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.LipschitzMapUp.BoundDependencyLock
 import BEDC.Derived.LipschitzMapUp.CommonBoundCompletionRoute
-import BEDC.Derived.LipschitzMapUp.CompleteMetricRegularSealBoundary
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.BoolReadback
@@ -3134,7 +3134,6 @@ import BEDC.Derived.MetricTriangleUniformEstimateUp.FiniteRouteNonescape
 import BEDC.Derived.MetricTriangleUniformEstimateUp.HeineCantorLastStep
 import BEDC.Derived.MetricTriangleUniformEstimateUp.NameCertScope
 import BEDC.Derived.MetricTriangleUniformEstimateUp.NoCompletionEscape
-import BEDC.Derived.MetricTriangleUniformEstimateUp.PublicClosurePackage
 import BEDC.Derived.MetricTriangleUniformEstimateUp.PublicUniformityCriterion
 import BEDC.Derived.MetricTriangleUniformEstimateUp.RadiusComposition
 import BEDC.Derived.MetricTriangleUniformEstimateUp.RootUnblockCertificateSpine
