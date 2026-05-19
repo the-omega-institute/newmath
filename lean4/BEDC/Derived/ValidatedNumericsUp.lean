@@ -318,4 +318,82 @@ theorem ValidatedNumericsUp_StdBridge [AskSetup] [PackageSetup]
   }
   exact ⟨bridgeUnary, containmentProvenanceBridge, bridgePkg, bridgeCert⟩
 
+theorem ValidatedNumericsPacket_interval_enclosure_obligation [AskSetup] [PackageSetup]
+    {interval precision modulus observation readback transport containment provenance name
+      enclosureRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ValidatedNumericsPacket interval precision modulus observation readback transport containment
+        provenance name bundle pkg ->
+      Cont interval containment enclosureRead ->
+        PkgSig bundle enclosureRead pkg ->
+          SemanticNameCert
+              (fun row : BHist =>
+                hsame row enclosureRead ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+              (fun _row : BHist =>
+                UnaryHistory interval ∧ UnaryHistory precision ∧ UnaryHistory modulus ∧
+                  Cont observation interval containment)
+              (fun row : BHist =>
+                PkgSig bundle row pkg ∧ Cont interval containment enclosureRead)
+              (fun row row' : BHist => PkgSig bundle row pkg ∧ hsame row row') ∧
+            UnaryHistory interval ∧ UnaryHistory precision ∧ UnaryHistory modulus ∧
+              UnaryHistory observation ∧ UnaryHistory containment ∧ UnaryHistory enclosureRead ∧
+                Cont precision modulus observation ∧ Cont observation interval containment ∧
+                  Cont interval containment enclosureRead ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle enclosureRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg PkgSig SemanticNameCert
+  intro packet enclosureRoute enclosurePkg
+  obtain ⟨intervalUnary, precisionUnary, modulusUnary, observationUnary, _readbackUnary,
+    _transportUnary, containmentUnary, _provenanceUnary, _nameUnary,
+    precisionModulusObservation, _observationReadbackTransport,
+    observationIntervalContainment, _containmentProvenanceName, namePkg⟩ := packet
+  have enclosureUnary : UnaryHistory enclosureRead :=
+    unary_cont_closed intervalUnary containmentUnary enclosureRoute
+  have sourceAtEnclosure :
+      hsame enclosureRead enclosureRead ∧ UnaryHistory enclosureRead ∧
+        PkgSig bundle enclosureRead pkg :=
+    ⟨hsame_refl enclosureRead, enclosureUnary, enclosurePkg⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row enclosureRead ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+          (fun row : BHist =>
+            UnaryHistory interval ∧ UnaryHistory precision ∧ UnaryHistory modulus ∧
+              Cont observation interval containment)
+          (fun row : BHist =>
+            PkgSig bundle row pkg ∧ Cont interval containment enclosureRead)
+          (fun row row' : BHist => PkgSig bundle row pkg ∧ hsame row row') := {
+    core := {
+      carrier_inhabited := Exists.intro enclosureRead sourceAtEnclosure
+      equiv_refl := by
+        intro row source
+        exact ⟨source.right.right, hsame_refl row⟩
+      equiv_symm := by
+        intro row other classified
+        cases classified.right
+        exact ⟨classified.left, hsame_refl row⟩
+      equiv_trans := by
+        intro _row _middle _other leftClassified rightClassified
+        exact
+          ⟨leftClassified.left,
+            hsame_trans leftClassified.right rightClassified.right⟩
+      carrier_respects_equiv := by
+        intro _row _other classified source
+        cases classified.right
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left
+      exact
+        ⟨intervalUnary, precisionUnary, modulusUnary, observationIntervalContainment⟩
+    ledger_sound := by
+      intro _row source
+      cases source.left
+      exact ⟨source.right.right, enclosureRoute⟩
+  }
+  exact
+    ⟨cert, intervalUnary, precisionUnary, modulusUnary, observationUnary, containmentUnary,
+      enclosureUnary, precisionModulusObservation, observationIntervalContainment,
+      enclosureRoute, namePkg, enclosurePkg⟩
+
 end BEDC.Derived.ValidatedNumericsUp
