@@ -79,4 +79,38 @@ theorem CausalCommitmentForwardGapScopePackage [AskSetup] [PackageSetup]
       routeReadUnary, scopeReadUnary, observedRegularityGap, gapForwardContinuation,
       forwardLocalityLocal, continuationLocalRoute, routeLocalityScope⟩
 
+theorem CausalCommitmentForwardGapCarrier_locality_replay_package [AskSetup] [PackageSetup]
+    {observed regularity gap forward locality transport continuation provenance localCert
+      localityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CausalCommitmentForwardGapCarrier observed regularity gap forward locality transport
+        continuation provenance localCert bundle pkg ->
+      Cont locality localCert localityRead ->
+        PkgSig bundle localityRead pkg ->
+          UnaryHistory observed ∧ UnaryHistory regularity ∧ UnaryHistory gap ∧
+            UnaryHistory forward ∧ UnaryHistory locality ∧ UnaryHistory localCert ∧
+              UnaryHistory localityRead ∧ Cont observed regularity gap ∧
+                Cont gap forward continuation ∧ Cont forward locality localCert ∧
+                  Cont locality localCert localityRead ∧ PkgSig bundle localCert pkg ∧
+                    PkgSig bundle localityRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier localityLocalCertRead localityReadPkg
+  have baseCarrier :
+      CausalCommitmentCarrier observed regularity gap forward transport continuation
+        provenance localCert bundle pkg :=
+    carrier.left
+  have localityUnary : UnaryHistory locality :=
+    carrier.right.left
+  have forwardLocalityName : Cont forward locality localCert :=
+    carrier.right.right
+  obtain ⟨observedUnary, regularityUnary, gapUnary, forwardUnary, _transportUnary,
+    _continuationUnary, _provenanceUnary, localCertUnary, observedRegularityGap,
+    gapForwardContinuation, _transportContinuationProvenance, localCertPkg⟩ := baseCarrier
+  have localityReadUnary : UnaryHistory localityRead :=
+    unary_cont_closed localityUnary localCertUnary localityLocalCertRead
+  exact
+    ⟨observedUnary, regularityUnary, gapUnary, forwardUnary, localityUnary, localCertUnary,
+      localityReadUnary, observedRegularityGap, gapForwardContinuation, forwardLocalityName,
+      localityLocalCertRead, localCertPkg, localityReadPkg⟩
+
 end BEDC.Derived.CausalCommitmentUp
