@@ -18,8 +18,15 @@ Source meanings:
 - top_root_unblocks: `critical_path.top_root_unblocks` (root chapters needing theorem support)
 - closure_mark: closurestatus/token work from `critical_path.drift_chapters`, `bridge_sync_pending`, and `top_transitions`
 - carrier_isomorphism_capstone: opportunity to write a new chapter abstracting a big phase-2 bucket in `carrier_isomorphism`
+- human_derivation_gap: `critical_path.human_derivation_gap` chapters with `\origin{human}`, canonical exclusions, and no visible induction-style derivation proof
+- metacic_priority: `critical_path.metacic_priority` chapters or imports on the MetaCIC path
 
 If `dispatch_weights.paper.capstone_candidate` is non-null, you have a pre-picked carrier-isomorphism abstraction candidate. Use the suggested name and slug from that object — do NOT pick your own bucket or invent a different name (the rotation picks the next bucket each cycle so you don't need to choose).
+
+**优先级**: 本管线当前阶段优先做两件事:
+1. 扩展 BEDC-internal derivation: human canonical 章节如果只是 NameCert shell + `\notclaimed` 排除主定理, 优先选择能在 BEDC finite-means 框架内补充真 induction 证明的目标.
+2. MetaCIC 研究: 路径含 `MetaCIC` 的目标优先, 包括 discharge conditional hypothesis / 扩 candidate-mediated SN / confluence 碎片 / decidability fragment.
+Phase Review output 的 priority/score 字段已 reflect 这些权重, 但请明确选择上述类型 target 优先.
 
 The capstone chapter to draft follows the hub + subdir convention:
 - Hub: `papers/bedc/parts/concrete_instances/<NNNN>_<suggested_paper_slug>_namecert_construction.tex`
