@@ -170,4 +170,29 @@ theorem PhysicalModelAuditPacket_ledger_failure_strength_separation [AskSetup] [
   exact ⟨LUnary, FUnary, SUnary, failureUnary, auditUnary, LFS, failureRoute,
     auditRoute, NPkg⟩
 
+theorem PhysicalModelAuditPacket_route_strength_determinacy [AskSetup] [PackageSetup]
+    {Q R O M C T Y D L F S H U P N routeRead strengthRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PhysicalModelAuditPacket Q R O M C T Y D L F S H U P N bundle pkg →
+      Cont L F routeRead →
+        Cont routeRead S strengthRead →
+          PkgSig bundle strengthRead pkg →
+            UnaryHistory L ∧ UnaryHistory F ∧ UnaryHistory S ∧
+              UnaryHistory routeRead ∧ UnaryHistory strengthRead ∧ Cont L F S ∧
+                Cont L F routeRead ∧ hsame routeRead S ∧ Cont routeRead S strengthRead ∧
+                  PkgSig bundle N pkg ∧ PkgSig bundle strengthRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig hsame
+  intro packet ledgerFailureRoute routeStrengthRead strengthPkg
+  obtain ⟨_QUnary, _RUnary, _OUnary, _MUnary, _CUnary, _TUnary, _YUnary, _DUnary,
+    LUnary, FUnary, SUnary, _HUnary, _UUnary, _PUnary, _NUnary, _QRO, _OMC, _TYD,
+    LFS, _HUP, _UPN, NPkg⟩ := packet
+  have routeUnary : UnaryHistory routeRead :=
+    unary_cont_closed LUnary FUnary ledgerFailureRoute
+  have sameRouteStrength : hsame routeRead S :=
+    cont_deterministic ledgerFailureRoute LFS
+  have strengthReadUnary : UnaryHistory strengthRead :=
+    unary_cont_closed routeUnary SUnary routeStrengthRead
+  exact ⟨LUnary, FUnary, SUnary, routeUnary, strengthReadUnary, LFS,
+    ledgerFailureRoute, sameRouteStrength, routeStrengthRead, NPkg, strengthPkg⟩
+
 end BEDC.Derived.PhysicalModelAuditUp
