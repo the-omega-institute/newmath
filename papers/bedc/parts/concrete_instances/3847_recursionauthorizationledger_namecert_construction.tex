@@ -34,7 +34,7 @@ L=(I,R,M,B,D,O,H,C,P,N),
 $$
 kernel-acceptance of the constructor signature $I$, emitted-eliminator exactness for $R$, motive admission for $M$, branch completeness for $B$, structural descent exactness for $D$, output-row exposure for $O$, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, local naming, and purity-audit non-escape.
 \end{theorem}
-\leanchecked{BEDC.Derived.RecursionAuthorizationLedgerUp.RecursionAuthorizationLedgerTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.RecursionAuthorizationLedgerUp.RecursionAuthorizationLedgerCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:recursion-authorization-ledger-carrier}. The signature, emitted eliminator, motive, branch package, descent ledger, output row, transport row, continuation row, provenance row, and local naming row are all coordinates of one finite packet.
 
@@ -69,6 +69,7 @@ L=(I,R,M,B,D,O,H,C,P,N),
 $$
 the emitted eliminator row $R$ and the branch package $B$ are readable only after the same accepted inductive signature row $I$. No unlisted constructor row can enter the ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.RecursionAuthorizationLedgerUp.RecursionAuthorizationLedger\_signature\_acceptance}
 \begin{proof}
 Project the signature, eliminator, and branch coordinates $I,R,B$ from \autoref{def:recursion-authorization-ledger-carrier}. The carrier records $R$ as emitted from $I$ and $B$ as indexed by the constructor inventory displayed by $I$.
 
@@ -110,6 +111,7 @@ Use the NameCert obligations of \autoref{thm:recursion-authorization-ledger-name
 
 The remaining rows $H,C,P,N$ only transport, expose, package, and name those displayed coordinates. Since they add no branch coordinate and no recursion coordinate, the public ledger exports neither an omitted branch nor a non-structural recursive call.
 \end{proof}
+\leanchecked{BEDC.Derived.RecursionAuthorizationLedgerUp.RecursionAuthorizationLedgerPacket\_branch\_descent\_exactness}
 
 \begin{theorem}[RecursionAuthorizationLedger motive-output route]
 \label{thm:recursion-authorization-ledger-motive-output-route}
@@ -119,6 +121,7 @@ L=(I,R,M,B,D,O,H,C,P,N),
 $$
 the motive row $M$ and generated output row $O$ are consumed only through the finite ledger. In particular, a public output read first uses the accepted signature $I$, the emitted eliminator $R$, the checked motive $M$, the branch package $B$, and the descent ledger $D$, and only then exposes $O$ through $H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RecursionAuthorizationLedgerUp.RecursionAuthorizationLedgerMotiveOutputRoute}
 \begin{proof}
 Project the carrier. The rows $I,R,M,B,D,O$ occur in the displayed order of the ledger packet, with $M$ recorded as the checked motive for the emitted eliminator and $O$ recorded as the generated output row.
 
@@ -151,6 +154,7 @@ L=(I,R,M,B,D,O,H,C,P,N),
 $$
 all audit provenance for the signature, motive, descent, output, and purity boundary is exhausted by the rows $P$ and $N$ together with the displayed read routes $C$. The ledger exports no unlisted constructor, no omitted branch, no non-structural recursive call, no hidden eliminator, and no output provenance outside $L$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RecursionAuthorizationLedgerUp.RecursionAuthorizationLedgerCarrier\_audit\_provenance\_exhaustion}
 \begin{proof}
 Project $P,N$ and the continuation row $C$. The carrier describes $P$ as provenance over the accepted signature, emitted eliminator, branch completeness check, structural descent check, purity audit boundary, and neighboring generator certificates.
 

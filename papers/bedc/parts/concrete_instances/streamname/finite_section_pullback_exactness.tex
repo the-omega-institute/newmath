@@ -434,3 +434,56 @@ quotient stream equality, host sequence equality, selected limit, ambient Real
 completeness, metric-completeness datum, countable-choice row, or standard
 bridge row can enter the invariance claim.
 \end{proof}
+
+\begin{theorem}[StreamName finite-section restriction exactness]
+\label{thm:streamname-finite-section-restriction-exactness}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase Real and
+Completion $\StreamNameUp$ request sections. Suppose that every accepted overlap
+$Q_{ij}$ displays the same $\StreamNameUp$ finite-window row, the same
+$\DyadicRatCoreUp$ ledger row, the same $\RegSeqRatUp$ readback row, the same
+$\RealUp$ seal boundary, and the same $\BHist$, componentwise $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support rows when read from either side. For every
+finite subfamily $J \subseteq I$, the restriction $\{Q_j\}_{j \in J}$ has as its
+descent-gluing surface exactly the terminal four-face route obtained by applying
+\autoref{thm:streamname-finite-section-descent-gluing} to the restricted data.
+
+The route is the same public route through
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ and has the same carrier
+and classifier verdict as the tail-window terminal read determined by the
+ambient family. The restriction excludes quotient stream equality, selected
+limits, host real equality, ambient Real completeness, metric-completeness data,
+countable choice, and standard bridge rows.
+\end{theorem}
+\begin{proof}
+Restrict the finite family to $J$. Every accepted overlap in the restricted
+family is an accepted overlap in the ambient family, so the StreamName
+finite-window row, DyadicRatCore ledger row, RegSeqRat readback row, RealUp seal
+boundary, and displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support rows are inherited without adding any new coordinate.
+
+Apply \autoref{thm:streamname-finite-section-descent-gluing} to the restricted
+family. The result is a public reflection surface over the four-face route
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, and its local
+restrictions are precisely the selected sections $\{Q_j\}_{j \in J}$.
+
+Compare this surface with the ambient terminal route by
+\autoref{thm:streamname-finite-section-tail-window-terminal-equivalence}. Both
+the ambient family and the restricted family read the same finite-window,
+ledger, readback, seal, and support rows into the tail-window terminal surface,
+so their carriers and classifier verdicts are the same terminal carrier and
+verdict.
+
+Now use \autoref{thm:streamname-cofinal-tail-refinement-invariance}. The
+restricted family is a finite refinement of the same cofinal tail-window data
+after dropping unused local sections, and the overlap rows retained above are
+exactly the rows required for the invariance comparison.
+
+Finally apply \autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}.
+The lock identifies the only Real-facing and completion-facing rows available to
+the restricted surface: the StreamName finite window, the DyadicRatCore ledger,
+the RegSeqRat readback, the RealUp seal boundary, and the displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Hence quotient stream equality,
+selected limits, host real equality, ambient Real completeness,
+metric-completeness data, countable choice, and standard bridge rows have no
+place in the restricted descent-gluing surface.
+\end{proof}
