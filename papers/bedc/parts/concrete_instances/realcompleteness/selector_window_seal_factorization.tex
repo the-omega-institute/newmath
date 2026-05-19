@@ -158,6 +158,22 @@ Now seal the consumer boundary. The seal consumer exhaustion theorem leaves no d
 Thus $H,C,P,N$ can only transport, replay, authenticate, and name the same ordered route. They do not supply another selected observation or another seal endpoint.
 \end{proof}
 
+\begin{theorem}[Real completeness selector-seal four-face uniqueness]
+\label{thm:real-completeness-selector-seal-four-face-uniqueness}
+Let $R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)$ and $R'=(X',\mu',\Delta',D',W',Q',S',H',C',P',N')$ be accepted $\RealCompletenessUp$ packets. Suppose their selector rows, dyadic ledgers, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\RealUp$ seal rows, and $\CauchyLimitSealUp$ consumer rows agree through the displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\RealCompletenessUp}$ support. Then every selector-window seal route read from either packet factors through the same four visible faces: selector source, dyadic-window ledger, regular-sequence readback, and seal-facing consumer.
+
+Consequently the two routes determine the same public endpoint. No quotient stream, host-selected limit, countable-choice selector, host real equality, hidden completion coordinate, or ambient completeness row can distinguish the two selector-window seal routes.
+\end{theorem}
+\begin{proof}
+First expose the route on each side. Theorem~\ref{thm:real-completeness-selector-route-coverage} forces every selected observation through the displayed selector route and the $\RealCompletenessUp$ rows, while \autoref{thm:real-completeness-modulus-selector-factorization} fixes the front face by making the modulus row $\mu$ and selector row $\Delta$ the only source of the selected observation.
+
+Next identify the middle faces. The finite-observation boundary for $\StreamNameUp$, the common-tail window bridge for $\RegSeqRatUp$, and the $\DyadicRatCoreUp$ radius-window handoff make the dyadic ledger, stream windows, and regular-sequence readback a single finite observation surface under the stated $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Now compare seal-facing consumers. Theorem~\ref{thm:real-completeness-seal-consumer-exhaustion} exhausts all downstream seal reads, and Theorem~\ref{thm:real-completeness-selector-window-seal-factorization} identifies the ordered route $\mu,\Delta,D,W,Q,S,H,C,P,N$ as the only selector-window-seal factorization. The CauchyLimitSeal selector nonescape and route-lock theorems then forbid a second seal-facing path outside these rows.
+
+The four visible faces therefore determine the route endpoint. Since none of a quotient stream, host-selected limit, countable-choice selector, host real equality, hidden completion coordinate, or ambient completeness row occurs as a coordinate of the route, no such object can distinguish the two accepted presentations.
+\end{proof}
+
 \begin{theorem}[Real completeness selector-window source determinacy]
 \label{thm:real-completeness-selector-window-source-determinacy}
 Let $R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)$ be an accepted $\RealCompletenessUp$ packet. Every accepted selector-window-seal read of $R$ reads the modulus row $\mu$ before it reads the selector row $\Delta$, and it reads $\Delta$ before any of the dyadic, stream-window, regular-sequence, or real-seal rows $D,W,Q,S$. The transport, route, package, and local naming rows $H,C,P,N$ can replay and certify that order, but they cannot supply an alternate source for the selected observation.

@@ -428,3 +428,70 @@ equality, countable choice, metric-completeness rows, aggregate status rows,
 standard bridge rows, or ambient $\RealUp$ completeness, so the cocycle
 packet does not claim any of them.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-request section refinement composition]
+\label{thm:regseqrat-finite-request-section-refinement-composition}
+Let $S_0$, $S_1$, and $S_2$ be accepted finite-request terminal sections over
+the four-face route
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Suppose $\rho_{01}:S_0\to S_1$ and $\rho_{12}:S_1\to S_2$ are compatible
+certified refinements preserving the finite $\StreamNameUp$ request windows,
+the $\DyadicRatCoreUp$ common-scale endpoint, radius, and finite-distance
+ledger, the $\RegSeqRatUp$ classifier and readback rows, the local
+$\RealUp$ seal row, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\RegSeqRatUp}$ support rows. Suppose also that the direct
+certificate $\rho_{02}:S_0\to S_2$ is accepted on the same visible support
+and has the same facewise restriction as the composite
+$\rho_{12}\circ\rho_{01}$.
+
+Then refining $S_0$ to $S_2$ in one certified step by $\rho_{02}$ or in two
+certified steps by $\rho_{01}$ followed by $\rho_{12}$ determines the same
+terminal four-face packet and the same local $\RealUp$ seal. The comparison
+is confined to finite request sections and their displayed support rows; it
+does not identify quotient streams, select limits, compare host reals, use
+countable choice, add metric-completeness rows, aggregate formalstatus rows,
+aggregate bridge rows, or assert $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First read both refinement routes on their visible finite supports. By
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality},
+each restriction of the one-step route and each restriction of the two-step
+route is exactly the packet obtained by restricting the displayed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and support
+rows.
+
+Next compare the request spines. Apply
+\autoref{thm:streamname-finite-section-restriction-exactness} to identify
+the finite $\StreamNameUp$ windows carried by the direct certificate with the
+windows obtained after the two successive restrictions. Apply
+\autoref{thm:dyadicratcore-common-scale-window-radius-monotone-composition}
+to the dyadic endpoint, radius, and finite-distance ledger. The common-scale
+window seen by $\rho_{02}$ is therefore the same dyadic window seen by
+$\rho_{12}\circ\rho_{01}$.
+
+The local Real seal is then forced on every overlap. Use
+\autoref{thm:regseqrat-finite-request-section-cocycle-real-seal} on the
+three sections $S_0$, $S_1$, and $S_2$ to identify the pairwise
+Real-seal-visible packets on triple overlaps. Finally apply
+\autoref{thm:real-l10-current-phase-exit-local-threshold} to read that
+common overlap packet as the local $\RealUp$ threshold seal for the same
+four visible faces and support rows.
+
+It remains only to repack the terminal object. The direct refinement route
+and the two-step refinement route now have identical StreamName request
+windows, dyadic common-scale rows, RegSeqRat classifier and readback rows,
+local Real seal rows, and support coordinates on every finite member and
+overlap. Applying
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality}
+once more, both routes determine the same terminal four-face packet.
+
+All cited inputs are finite restriction, finite cocycle, common-scale
+composition, and local Real threshold statements over the displayed BEDC
+rows. None of these constructions carries quotient stream equality,
+selected-limit data, host real equality, countable-choice data,
+metric-completeness rows, aggregate formalstatus rows, aggregate bridge rows,
+or a $\RealUp$ completeness field, so the composition law does not claim
+any such structure.
+\end{proof}
