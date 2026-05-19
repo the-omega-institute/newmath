@@ -166,11 +166,11 @@ Taste curator daemon (sixth optional component):
 
 ```bash
 mkdir -p $REPO/scripts/logs && \
-nohup python3 $REPO/tools/taste_curator.py >> $REPO/scripts/logs/taste_curator.log 2>&1 &
+nohup bash $REPO/tools/run_taste_curator.sh >> $REPO/scripts/logs/taste_curator.log 2>&1 &
 disown
 ```
 
-`tools/taste_curator.py` runs every 60 min (`TASTE_CURATOR_INTERVAL_SECONDS` env override, default from `papers/bedc/taste_curator_config.json`). Cycle: fetch + ff codex-auto-dev → scan changed concrete-instance chapters and Derived carriers → append review candidates to `/tmp/.bedc_taste_review_queue.jsonl` and alerts to `/tmp/.bedc_taste_alerts.log` → cluster auto-fixable findings by flag → evolve the P/R automation rules for the largest cluster. `AUTO_FIX_WITHOUT_CONFIRMATION` defaults true because the daemon edits only worker prompts and audit/lint gates, not chapter content; the daemon hot-loads the config on the next natural cycle.
+`tools/run_taste_curator.sh` supervises `tools/taste_curator.py` with exponential backoff. The daemon runs every 60 min (`TASTE_CURATOR_INTERVAL_SECONDS` env override, default from `papers/bedc/taste_curator_config.json`) and keeps an `fcntl` lock on `/tmp/.bedc_taste_curator.pid`; a second daemon exits immediately when the lock is held. Cycle state lives in `/tmp/.bedc_taste_state.json`: MONITOR scans changed concrete-instance chapters and Derived carriers, appends review candidates to `/tmp/.bedc_taste_review_queue.jsonl`, and emits alerts without codex dispatch; ADJUST clusters queued auto-fixable findings and evolves one P/R automation rule; STABILIZE observes heal alerts, audit fail counts, orchestrator failed rate, and new taste alert categories before returning to MONITOR. `AUTO_FIX_WITHOUT_CONFIRMATION` defaults true because ADJUST edits only worker prompts and audit/lint gates, not chapter content; the daemon hot-loads the config on the next natural cycle.
 
 Rule evolution path: the daemon handles at most one cluster per cycle (`MAX_AUTO_FIXES_PER_CYCLE=1`). It creates `/tmp/wt-taste-evolve-*`, dispatches codex with the cluster evidence and a rule-evolution prompt, then accepts changes only under the whitelist: `papers/bedc/scripts/prompts/*.txt`, `lean4/scripts/prompts/*.txt`, `lean4/scripts/bedc_ci.py`, `papers/bedc/scripts/phase_paper_gates.py`, and `lean4/scripts/phase_d_lint.py`. It rejects any edit under `papers/bedc/parts/concrete_instances/`, `lean4/BEDC/`, or the P/R orchestrator scripts. Verification compiles `bedc_ci.py`, runs `bedc_ci.py audit` as a no-crash gate (new checks may flag existing violations), and runs `make check` for paper prompt/gate changes or `lake build` for Lean prompt/lint changes before merging and pushing.
 
