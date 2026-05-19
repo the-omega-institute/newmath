@@ -2646,6 +2646,7 @@ import BEDC.Derived.KernelCategoryUp.EndpointTransportClosure
 import BEDC.Derived.KernelCategoryUp.FunctorContinuationHandoff
 import BEDC.Derived.KernelCategoryUp.LawTransportExhaustion
 import BEDC.Derived.KernelCategoryUp.NameCertRootRouteReadiness
+import BEDC.Derived.KernelInductiveAcceptanceUp.EnvironmentEntryDeterminacy
 import BEDC.Derived.KernelInductiveAcceptanceUp.RefusalNonescape
 import BEDC.Derived.KernelInductiveAcceptanceUp.TasteGate
 import BEDC.Derived.KernelInductiveAcceptanceUp.TransportScope
@@ -3638,10 +3639,12 @@ import BEDC.Derived.RealityConstrainedScientificMethodologyUp.TasteGate
 import BEDC.Derived.RealityConstrainedSignatureDescentUp.TasteGate
 import BEDC.Derived.RealityConstrainedSignatureFitUp.TasteGate
 import BEDC.Derived.RealityConstrainedSignatureResidueUp.TasteGate
+import BEDC.Derived.RealityConstrainedSignatureResidueUp.WitnessRouteTotality
 import BEDC.Derived.RealityConstrainedSynthesisSealUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.NameCertObligations
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
+import BEDC.Derived.RealityConstrainedTruthCertUp.FieldCoverage
 import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
 import BEDC.Derived.RecursionAuthorizationLedgerUp.Carrier
 import BEDC.Derived.RecursionAuthorizationLedgerUp.DescentTransportStability
