@@ -479,6 +479,42 @@ Dependency-routing scope and consumer-row scope identify the allowed route. By \
 The readiness rows above close the remaining consumer surface. Formalstatus synchronization from \autoref{thm:paper-lean-drift-witness-formalstatus-sync-readiness} cannot erase the obstruction, and marker-family readiness from \autoref{thm:paper-lean-drift-witness-marker-family-resolution-readiness} prevents a refused site from escaping through a different marker family.
 \end{proof}
 
+\begin{theorem}[Paper-Lean drift witness audit consumer kernel scope]
+\label{thm:paperleandriftwitness-audit-consumer-kernel-scope}
+Every $\AuditMapDependencyWeaveUp$ consumer of an accepted $\PaperLeanDriftWitnessUp$ carrier reads the witness only through the finite $\BHist$ rows $M,A,L,I,R,H,C,P,N$. The consumer handoff is the same marker row, normalized requested-name row, duplicate-label ledger, Lean inventory row, verdict row, componentwise $\hsame$ transport, $\Cont$ replay row, $\Pkg$ provenance row, and local $\NameCert$ naming row; it does not add an external proof object, approximate name repair, or closure-axis summary.
+\end{theorem}
+\begin{proof}
+The audit-map consumer totality theorem, \autoref{thm:paper-lean-drift-witness-audit-map-consumer-totality}, identifies the only visible verdicts as exact resolution, duplicate-label refusal, or unresolved-marker refusal for the fixed marker site. It also confines the transport surface to the displayed downstream route.
+
+The dependency-weave handoff theorem, \autoref{thm:paperleandriftwitness-dependency-weave-handoff}, names the consumer channel. Along that channel the finite packet is sent as dependency data, so the consumer can read $M,A,L,I,R,H,C,P,N$ and no unlisted carrier.
+
+Formalstatus synchronization from \autoref{thm:paper-lean-drift-witness-formalstatus-sync-readiness} keeps any status read objectwise over the same marker, name, ledger, inventory, and verdict rows. Axis separation from \autoref{thm:paper-lean-drift-witness-axis-separation} then prevents this kernel-scoped handoff from becoming theorem content, bridge evidence, or a paper-side closure certificate.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness resolution ledger kernel scope]
+\label{thm:paperleandriftwitness-resolution-ledger-kernel-scope}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier, exact resolution, duplicate-label refusal, and unresolved-marker refusal form a total consumer ledger over the finite rows $M,A,L,I,R$. No $\AuditMapDependencyWeaveUp$ consumer may replace that ledger by approximate matching, a neighbouring Lean declaration, a marker-family transfer, or a route-local guess.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:paper-lean-drift-witness-audit-map-consumer-totality}. The consumer receives exactly one of the three ledger outcomes for the marker site, and duplicate-label or unresolved-marker obstruction cannot be erased by the route.
+
+The dependency-weave handoff theorem, \autoref{thm:paperleandriftwitness-dependency-weave-handoff}, keeps the ledger attached to the exported marker-resolution dependency row. Hence exact resolution remains a read of $M,A,L,I,R$ and not a lookup against a nearby Lean name.
+
+The formalstatus synchronization theorem, \autoref{thm:paper-lean-drift-witness-formalstatus-sync-readiness}, gives only a token read after the same verdict row is fixed. By axis separation, \autoref{thm:paper-lean-drift-witness-axis-separation}, such a token cannot replace the total ledger or promote an obstruction into checked theorem content.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness status token kernel boundary]
+\label{thm:paperleandriftwitness-status-token-kernel-boundary}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier, formalstatus synchronization is only a verification-axis token read from the marker-resolution verdict over $M,A,L,I,R$. It cannot upgrade theoryclosure data, create a bridgestatus row, change the semantic theorem content of the paper claim, or supply an additional consumer obligation outside $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Formalstatus synchronization readiness, \autoref{thm:paper-lean-drift-witness-formalstatus-sync-readiness}, already fixes the status token as an objectwise verification-axis read. The token is read after the same marker, normalized-name, ledger, inventory, and verdict rows are available.
+
+Audit-map consumer totality from \autoref{thm:paper-lean-drift-witness-audit-map-consumer-totality} and the dependency-weave handoff theorem, \autoref{thm:paperleandriftwitness-dependency-weave-handoff}, identify the downstream consumer surface. The route carries the finite witness through $H,C,P,N$ rather than through a closure or bridge constructor.
+
+Axis separation, \autoref{thm:paper-lean-drift-witness-axis-separation}, supplies the boundary. A synchronized status token reports verification-axis information only, so it cannot alter theoryclosure, bridgestatus, semantic theorem content, or the kernel-scoped consumer obligations of the witness.
+\end{proof}
+
 The exact-resolution row exported by $\PaperLeanDriftWitnessUp$ is consumed by the cross-map routing and synthesis-consumer rows of \autoref{ch:concrete-instances-auditmapdependencyweave-namecert}. The $\PaperLeanDriftWitnessUp$ packet supplies marker normalization, duplicate-label refusal, Lean inventory lookup, and exact-resolution verdict rows, while $\AuditMapDependencyWeaveUp$ decides how such local rows travel through neighbouring audit-map routes without discharging their obstruction rows.
 
 \closureat{PaperLeanDriftWitnessUp}{seedStr}
