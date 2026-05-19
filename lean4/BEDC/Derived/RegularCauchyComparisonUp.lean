@@ -305,4 +305,44 @@ theorem RegularCauchyComparisonCarrier_seal_uniqueness_boundary [AskSetup] [Pack
     _ledgerSame', _pkgSig'⟩ := carrier'
   exact cont_left_cancel ledgerSealProvenance ledgerSealProvenance'
 
+theorem RegularCauchyComparisonCarrier_tolerance_row_exactness [AskSetup] [PackageSetup]
+    {leftName rightName window observations tolerance ledger sealRow sameRows routes provenance
+      nameCert toleranceRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyComparisonCarrier leftName rightName window observations tolerance ledger sealRow
+        sameRows routes provenance nameCert bundle pkg ->
+      Cont observations tolerance toleranceRead ->
+        Cont ledger sealRow sealRead ->
+          PkgSig bundle sealRead pkg ->
+            UnaryHistory tolerance ∧ UnaryHistory toleranceRead ∧ UnaryHistory ledger ∧
+              UnaryHistory sealRead ∧ Cont observations tolerance ledger ∧
+                Cont observations tolerance toleranceRead ∧ hsame ledger toleranceRead ∧
+                  Cont ledger sealRow sealRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier observationsToleranceRead ledgerSealRead sealReadPkg
+  obtain ⟨_leftUnary, _rightUnary, _windowUnary, observationsUnary, toleranceUnary,
+    ledgerUnary, sealUnary, _sameRowsUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, _leftWindowSameRows, _rightWindowSameRows, _sameRowsObservationsRoutes,
+    observationsToleranceLedger, _ledgerSealProvenance, _ledgerSame, provenancePkg⟩ :=
+      carrier
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed observationsUnary toleranceUnary observationsToleranceRead
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed ledgerUnary sealUnary ledgerSealRead
+  have sameLedgerToleranceRead : hsame ledger toleranceRead :=
+    cont_respects_hsame (hsame_refl observations) (hsame_refl tolerance)
+      observationsToleranceLedger observationsToleranceRead
+  exact
+    ⟨toleranceUnary,
+      toleranceReadUnary,
+      ledgerUnary,
+      sealReadUnary,
+      observationsToleranceLedger,
+      observationsToleranceRead,
+      sameLedgerToleranceRead,
+      ledgerSealRead,
+      provenancePkg,
+      sealReadPkg⟩
+
 end BEDC.Derived.RegularCauchyComparisonUp
