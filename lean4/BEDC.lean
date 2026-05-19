@@ -1605,6 +1605,7 @@ import BEDC.Derived.CriticalLineWitnessUp.DepthLock
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamCounterSurface
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamModulusRefusalExport
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamRhBoundaryRefinement
+import BEDC.Derived.CriticalLineWitnessUp.DownstreamSourcePackage
 import BEDC.Derived.CriticalLineWitnessUp.FiniteObservationRoute
 import BEDC.Derived.CriticalLineWitnessUp.FiniteSourceLatticeBoundary
 import BEDC.Derived.CriticalLineWitnessUp.FiniteStripCarrierAdmission
@@ -1667,6 +1668,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootRefusalBudgetCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalConsumerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceConsumerTotality
+import BEDC.Derived.CriticalLineWitnessUp.RootSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaRealRatSourceReadiness
@@ -4753,6 +4755,7 @@ import BEDC.Derived.ZnormalUp.RootLedgerExhaustion
 import BEDC.Derived.ZnormalUp.RootLedgerNonescape
 import BEDC.Derived.ZnormalUp.RootNameCertComponentExhaustion
 import BEDC.Derived.ZnormalUp.RootNameCertObligations
+import BEDC.Derived.ZnormalUp.RootNameCertReadinessSurface
 import BEDC.Derived.ZnormalUp.RootNameCertTerminalRouteReadiness
 import BEDC.Derived.ZnormalUp.RootNameCertUnblockPackage
 import BEDC.Derived.ZnormalUp.RootNormalFormConsumerBoundary
