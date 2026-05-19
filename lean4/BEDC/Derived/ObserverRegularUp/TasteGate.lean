@@ -186,6 +186,27 @@ private theorem observerRegularToEventFlow_injective {x y : ObserverRegularUp} :
     (Eq.trans (observerRegular_round_trip x).symm
       (Eq.trans hread (observerRegular_round_trip y)))
 
+def observerRegularFields : ObserverRegularUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | ObserverRegularUp.mk alphabet resolvingState schedule window readback transport route
+      provenance name =>
+      [alphabet, resolvingState, schedule, window, readback, transport, route, provenance,
+        name]
+
+private theorem observerRegular_field_faithful :
+    ∀ x y : ObserverRegularUp,
+      observerRegularFields x = observerRegularFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk alphabet₁ resolvingState₁ schedule₁ window₁ readback₁ transport₁ route₁
+      provenance₁ name₁ =>
+      cases y with
+      | mk alphabet₂ resolvingState₂ schedule₂ window₂ readback₂ transport₂ route₂
+          provenance₂ name₂ =>
+          cases h
+          rfl
+
 instance observerRegularBHistCarrier : BHistCarrier ObserverRegularUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := observerRegularToEventFlow
@@ -200,6 +221,11 @@ instance observerRegularChapterTasteGate : ChapterTasteGate ObserverRegularUp wh
   layer_separation := by
     intro x y hxy heq
     exact hxy (observerRegularToEventFlow_injective heq)
+
+instance observerRegularFieldFaithful : FieldFaithful ObserverRegularUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := observerRegularFields
+  field_faithful := observerRegular_field_faithful
 
 def taste_gate : ChapterTasteGate ObserverRegularUp :=
   -- BEDC touchpoint anchor: BHist BMark
