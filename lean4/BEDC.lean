@@ -1663,6 +1663,7 @@ import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripClassifierTransport
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusRoute
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripSourceClassifierLock
+import BEDC.Derived.CriticalLineWitnessUp.ZetaDependencyLock
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -3703,6 +3704,7 @@ import BEDC.Derived.RealUp.Index
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.L10CurrentPhaseExitLocalThreshold
 import BEDC.Derived.RealUp.L10DependencyLattice
+import BEDC.Derived.RealUp.L10ExitCertificateFaceMinimality
 import BEDC.Derived.RealUp.L10ExitCertificateSupportNoConfusion
 import BEDC.Derived.RealUp.L10FaceStatusNoncollapse
 import BEDC.Derived.RealUp.L10FiniteWindowWitnessDeterminacy
@@ -3900,8 +3902,10 @@ import BEDC.Derived.RegularCauchySequenceUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
 import BEDC.Derived.RegularCauchySumUp.CauchyLimitSealHandoff
+import BEDC.Derived.RegularCauchySumUp.FiniteBudgetNonescape
 import BEDC.Derived.RegularCauchySumUp.NameCertObligations
 import BEDC.Derived.RegularCauchySumUp.NonEscapeBoundary
+import BEDC.Derived.RegularCauchySumUp.RealSealRoute
 import BEDC.Derived.RegularCauchySumUp.SharedTailMeetHandoff
 import BEDC.Derived.RegularCauchySumUp.TailSelectorCompatibility
 import BEDC.Derived.RegularCauchySwapBisimulationUp.TasteGate

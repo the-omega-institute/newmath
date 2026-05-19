@@ -73,6 +73,7 @@ AUTO_FIXABLE_FLAGS = {
 }
 
 RULE_EVOLUTION_ALLOWED_FILES = {
+    "docs/taste-evolutions.md",
     "papers/bedc/scripts/prompts/phase_b.txt",
     "papers/bedc/scripts/prompts/phase_c.txt",
     "papers/bedc/scripts/prompts/phase_review.txt",
@@ -117,9 +118,11 @@ targets exhibiting the same pattern). Your job:
      pattern: detect_preamble_duplicate_commands at line ~541)
    - papers/bedc/scripts/phase_paper_gates.py
    - lean4/scripts/phase_d_lint.py
+   - docs/taste-evolutions.md
 3. DO NOT touch papers/bedc/parts/concrete_instances/**/*.tex
    DO NOT touch lean4/BEDC/**
    DO NOT touch codex_revise.py / codex_formalize.py / other daemon scripts
+   DO NOT create docs/taste-evolutions/ or any other docs/ file.
 4. Bump the prompt version marker in any prompt file you edit (e.g. v5.X → v5.X+1).
 5. Add terse imperative rule text. No rationale paragraphs, no incident
    history, no version-numbered names.
@@ -129,9 +132,40 @@ targets exhibiting the same pattern). Your job:
      violations, that is expected; the gate must not crash)
    - For any phase_paper_gates.py change: smoke test it parses
    - For any phase_d_lint.py change: smoke test it parses
-7. Commit with message format:
+7. APPEND a new section to docs/taste-evolutions.md (append, do not overwrite).
+   Section format (markdown, Chinese):
+
+   ## <UTC YYYY-MM-DD HH:MM:SS> — <flag>
+
+   ### 变更原因
+   描述触发本次演化的违规 pattern: 哪个 flag cluster, 多少 finding,
+   2-3 个代表性 chapter_slug / lean_target 示例, 它们的共同结构特征
+   (carrier bucket size, shared field overlap, autoref entropy 等).
+
+   ### 意义
+   本次规则演化未来阻止什么: P/R round 命中什么条件时被新规则拒绝;
+   为什么这个 pattern 是 BEDC 品味问题 (template multiplication /
+   mislabeled lineage / low-entropy boilerplate / classical-math mis-tag 等).
+
+   ### 实施情况
+   修改了哪些文件 (路径列出); 写入的具体规则文本 / audit detector
+   片段引用; 现有违规如何被消化 (依赖 P/R orchestrator 自然 touch
+   + post-merge audit recovery, 不直接编辑).
+
+   ### 元数据
+   - finding 数量: <N>
+   - cluster flag: <flag>
+   - daemon cycle: <UTC timestamp>
+   - 你即将 commit 的 SHA 留空, 由 daemon 后续填写或 commit message 反查
+
+   ---
+
+   全文中文 (CLAUDE.md 工作语言纪律). 简短直接, 2-5 段, 不写迭代叙事 /
+   版本号 / "新增"/"修复"/"v2.0" 这类词 (CLAUDE.md 禁止).
+   新 section 追加到文件末尾; 用 `---` 分隔多个 section.
+8. Commit with message format:
    "taste-evolve: <flag> pattern - <one-line summary>"
-8. Do NOT push (orchestrator [the daemon] will push after success).
+9. Do NOT push (orchestrator [the daemon] will push after success).
 
 Cluster evidence will be provided after this prompt.
 """
@@ -1150,38 +1184,157 @@ def command_output_no_crash(cmd: list[str], cwd: Path, timeout: int) -> tuple[bo
     return True, f"rc={res.returncode}: {tail(out, 400)}"
 
 
-def verify_rule_evolution(worktree: Path, touched: list[str]) -> tuple[bool, str]:
-    checks: list[tuple[list[str], Path, int]] = [
-        (["python3", "-m", "py_compile", "lean4/scripts/bedc_ci.py"], worktree, 60),
+AUDIT_COUNT_TERMS = (
+    "collision",
+    "dangling",
+    "dead",
+    "duplicate",
+    "error",
+    "fail",
+    "forbidden",
+    "invalid",
+    "mislabeled",
+    "missing",
+    "naked",
+    "orphan",
+    "unresolved",
+    "violation",
+)
+
+
+def normalize_audit_count_key(text: str) -> str:
+    key = re.sub(r"[^A-Za-z0-9]+", "_", text.strip().lower()).strip("_")
+    if not key:
+        key = "audit"
+    if not key.endswith("_count"):
+        key += "_count"
+    return key
+
+
+def parse_audit_summary(text: str) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line.startswith("[bedc-ci]") or "=" in line:
+            continue
+        body = line.removeprefix("[bedc-ci]").strip()
+        match = re.search(r"^(.+?)\s+count:\s+([0-9]+)\b", body, re.IGNORECASE)
+        if match:
+            counts[normalize_audit_count_key(match.group(1))] = int(match.group(2))
+            continue
+        match = re.search(r"^(.+?):\s+([0-9]+)\s+total\s+violation\(s\)\b", body, re.IGNORECASE)
+        if match:
+            counts[normalize_audit_count_key(match.group(1))] = int(match.group(2))
+            continue
+        match = re.search(r"^(.+?):\s+([0-9]+)\b", body)
+        if match and any(term in match.group(1).lower() for term in AUDIT_COUNT_TERMS):
+            counts[normalize_audit_count_key(match.group(1))] = int(match.group(2))
+    return counts
+
+
+def extract_json_object(text: str) -> Any | None:
+    start = text.find("{")
+    end = text.rfind("}")
+    if start < 0 or end < start:
+        return None
+    try:
+        return json.loads(text[start : end + 1])
+    except json.JSONDecodeError:
+        return None
+
+
+def audit_json_counts(payload: Any) -> dict[str, int]:
+    if not isinstance(payload, dict):
+        return {}
+    counts: dict[str, int] = {}
+    for key, value in payload.items():
+        if isinstance(value, bool):
+            continue
+        if isinstance(value, int) and key.endswith("_count"):
+            counts[key] = value
+            continue
+        if f"{key}_count" in payload or (key.endswith("s") and f"{key[:-1]}_count" in payload):
+            continue
+        if any(term in key.lower() for term in AUDIT_COUNT_TERMS):
+            if isinstance(value, (list, dict, tuple, set)):
+                counts[normalize_audit_count_key(key)] = len(value)
+    return counts
+
+
+def run_audit_counts(worktree: Path) -> tuple[bool, dict[str, int], str]:
+    attempts = [
+        ["python3", "lean4/scripts/bedc_ci.py", "audit", "--json"],
+        ["python3", "lean4/scripts/bedc_ci.py", "audit"],
     ]
-    if "papers/bedc/scripts/phase_paper_gates.py" in touched:
-        checks.append((["python3", "-m", "py_compile", "papers/bedc/scripts/phase_paper_gates.py"], worktree, 60))
-    if "lean4/scripts/phase_d_lint.py" in touched:
-        checks.append((["python3", "-m", "py_compile", "lean4/scripts/phase_d_lint.py"], worktree, 60))
-    paper_changed = any(
-        p.startswith("papers/bedc/scripts/prompts/") or p == "papers/bedc/scripts/phase_paper_gates.py"
-        for p in touched
-    )
-    lean_changed = any(
-        p.startswith("lean4/scripts/prompts/") or p == "lean4/scripts/phase_d_lint.py"
-        for p in touched
-    )
-    if paper_changed:
-        checks.append((["make", "check"], worktree / "papers" / "bedc", TIMEOUTS["verify"]))
-    if lean_changed:
-        checks.append((["lake", "build"], worktree / "lean4", TIMEOUTS["verify"]))
-    for cmd, cwd, timeout in checks:
-        ok, msg = command_output_ok(cmd, cwd, timeout)
+    messages: list[str] = []
+    for cmd in attempts:
+        try:
+            res = run(cmd, cwd=worktree, check=False, capture=True, timeout=TIMEOUTS["verify"])
+        except subprocess.TimeoutExpired as exc:
+            out = (exc.stdout or "") + (exc.stderr or "")
+            if isinstance(out, bytes):
+                out = out.decode("utf-8", errors="ignore")
+            messages.append(f"timeout after {TIMEOUTS['verify']}s: {' '.join(cmd)}\n{tail(out)}")
+            continue
+        except Exception as exc:
+            messages.append(f"failed to run {' '.join(cmd)}: {exc}")
+            continue
+        out = (res.stdout or "") + (res.stderr or "")
+        if "Traceback (most recent call last)" in out:
+            return False, {}, f"audit crashed: {' '.join(cmd)}\n{tail(out)}"
+        payload = extract_json_object(out)
+        counts = audit_json_counts(payload) if payload is not None else parse_audit_summary(out)
+        if counts:
+            return True, counts, f"rc={res.returncode}: parsed {len(counts)} audit count(s)"
+        if res.returncode == 0:
+            return True, {}, f"rc=0: no audit fail counts found"
+        messages.append(f"rc={res.returncode}: {' '.join(cmd)}\n{tail(out)}")
+    return False, {}, "audit produced no recognizable JSON or fail-count summary:\n" + "\n".join(messages[-2:])
+
+
+def compare_audit_counts(baseline: dict[str, int], post: dict[str, int]) -> tuple[bool, str]:
+    removed = sorted(set(baseline) - set(post))
+    if removed:
+        return False, "audit coverage removed check key(s): " + ", ".join(removed[:20])
+    for key in sorted(set(baseline) & set(post)):
+        before = baseline[key]
+        after = post[key]
+        if after > before:
+            return False, f"regressed check `{key}`: count went from {before} to {after}"
+    added = sorted(set(post) - set(baseline))
+    if added:
+        return True, "verification passed; new audit check key(s): " + ", ".join(added[:20])
+    return True, "verification passed"
+
+
+def verify_rule_evolution(
+    worktree: Path,
+    touched: list[str],
+    baseline_audit_counts: dict[str, int] | None = None,
+) -> tuple[bool, str]:
+    py_files = [path for path in touched if path.endswith(".py")]
+    for path in py_files:
+        ok, msg = command_output_ok(["python3", "-m", "py_compile", path], worktree, 60)
         if not ok:
             return False, msg
-    ok, msg = command_output_no_crash(
-        ["python3", "lean4/scripts/bedc_ci.py", "audit"],
-        worktree,
-        TIMEOUTS["verify"],
-    )
+
+    lean_files = [path for path in touched if path.endswith(".lean")]
+    if lean_files:
+        ok, msg = command_output_ok(["lake", "build"], worktree / "lean4", TIMEOUTS["verify"])
+        if not ok:
+            return False, msg
+
+    if not py_files:
+        return True, "verification passed"
+    if baseline_audit_counts is None:
+        return False, "missing baseline audit counts for Python rule evolution"
+    ok, post_counts, msg = run_audit_counts(worktree)
     if not ok:
         return False, msg
-    return True, "verification passed"
+    ok, compare_msg = compare_audit_counts(baseline_audit_counts, post_counts)
+    if not ok:
+        return False, compare_msg
+    return True, f"{compare_msg}; {msg}"
 
 
 def update_approval_status(
@@ -1249,6 +1402,12 @@ def validate_rule_evolution_touched(worktree: Path, touched: list[str]) -> tuple
     allowed = existing_rule_evolution_files(worktree)
     bad: list[str] = []
     for path in touched:
+        if path == "docs/taste-evolutions" or path.startswith("docs/taste-evolutions/"):
+            bad.append(path)
+            continue
+        if path.startswith("docs/") and path != "docs/taste-evolutions.md":
+            bad.append(path)
+            continue
         if any(path == prefix or path.startswith(prefix) for prefix in RULE_EVOLUTION_FORBIDDEN_PREFIXES):
             bad.append(path)
             continue
@@ -1302,6 +1461,9 @@ def dispatch_rule_evolution(
     if add.returncode != 0:
         return False, f"worktree add failed: {tail(add.stderr or add.stdout)}", None
     try:
+        ok, baseline_audit_counts, msg = run_audit_counts(worktree)
+        if not ok:
+            return False, f"baseline audit failed: {msg}", None
         prompt = build_rule_evolution_prompt(flag, evidence)
         if approval_ids:
             prompt += "\nConfirmed approval ids:\n```json\n" + json.dumps(approval_ids, indent=2) + "\n```\n"
@@ -1324,7 +1486,7 @@ def dispatch_rule_evolution(
         ok, msg = validate_rule_evolution_touched(worktree, touched)
         if not ok:
             return False, msg, None
-        ok, msg = verify_rule_evolution(worktree, touched)
+        ok, msg = verify_rule_evolution(worktree, touched, baseline_audit_counts)
         if not ok:
             return False, msg, None
         ok, msg, commit_sha = merge_rule_evolution_worktree(worktree, branch, flag, cluster_key)
