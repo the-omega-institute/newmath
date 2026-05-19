@@ -1,0 +1,328 @@
+\subsection{Research program for Zeckendorf-legal termination}
+\label{subsec:philosophy-zeckendorf-termination-research-program}
+
+The stop-codon suffix bridge of
+\autoref{subsec:philosophy-stop-codon-zeckendorf-suffix-bridge} gives a
+paper-level reconstruction of the standard stop set from a two-axis RNA
+readback and a no-$11$ family-suffix condition. The research program
+attached to that reconstruction has a narrower purpose: it separates
+the finite theorem that can be checked internally from the biological
+bridge evidence that must remain external, and it names the certificate
+fields needed before the bridge may be exported at stronger status.
+
+The guiding question is why the standard stop codons
+$\mathrm{UAA}$, $\mathrm{UAG}$, and $\mathrm{UGA}$ appear together. In
+BEDC form, the question becomes whether the standard stop-codon set can
+be reconstructed as the Zeckendorf-legal part of the
+$\mathrm{U}+\mathrm{RR}$ square under a conservative two-axis bridge for
+RNA bases:
+$$
+\begin{gathered}
+  \mathsf{UPurineSquare}
+  =
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG}\},\\
+  \mathrm{AA}\mapsto 00,\qquad
+  \mathrm{AG}\mapsto 01,\qquad
+  \mathrm{GA}\mapsto 10,\qquad
+  \mathrm{GG}\mapsto 11.
+\end{gathered}
+$$
+The finite claim keeps $00$, $01$, and $10$ and excludes the unique
+$11$ corner. The biological claim then reads the surviving L-shape as
+the standard stop set.
+
+\begin{definition}[Conditional stop-codon reconstruction problem]
+\label{def:philosophy-conditional-stop-codon-reconstruction-problem}
+The stop-codon reconstruction problem is the following conditional
+bridge target. Given
+\begin{itemize}
+  \item the product atlas
+    $\mathsf{RNA4Alphabet}^{\uparrow}:=\BoolUp\times\BoolUp$;
+  \item the readback
+    $\mathrm{U}=(\mathrm{Y},\mathrm{W})$,
+    $\mathrm{C}=(\mathrm{Y},\mathrm{S})$,
+    $\mathrm{A}=(\mathrm{R},\mathrm{W})$, and
+    $\mathrm{G}=(\mathrm{R},\mathrm{S})$;
+  \item codons as triples
+    $(\mathsf{RNA4Alphabet}^{\uparrow})^{3}$;
+  \item the stop-shape region
+    $\mathrm{U}+\mathrm{RR}$;
+  \item the family-suffix legality condition excluding $11$;
+  \item a standard-code biological bridge,
+\end{itemize}
+prove that the reconstructed stop-candidate class is exactly
+$$
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+$$
+The problem is a bridge problem, not a kernel-level derivation of the
+biological genetic code.
+\end{definition}
+
+\begin{definition}[Research inputs]
+\label{def:philosophy-zterm-research-inputs}
+The BEDC-side inputs are the active channel theorem package of
+\autoref{subsec:philosophy-channel-genetic-code-bridge}, the derived
+interfaces $\BoolUp$ and $\ProdUp$, classifier transport, displayed pair
+and triple ledgers, layer separation, and cannot-claim registry
+discipline. The biological inputs are external rows: RNA bases,
+three-position codons, the standard stop set, the assignment of
+$\mathrm{UGG}$ as a sense codon in the standard code, release-factor
+recognition data where used, and variant genetic-code tables where used.
+\end{definition}
+
+\begin{definition}[Research subquestions]
+\label{def:philosophy-zterm-research-subquestions}
+The program decomposes into nine subquestions:
+\begin{itemize}
+  \item why adjacent $11$ is the BEDC channel boundary pattern and which
+    no-internal-$11$ theorem supports it;
+  \item how RNA or DNA bases are read as a conservative
+    $\BoolUp\times\BoolUp$ target;
+  \item how the triple product yields the $64$-position codon atlas;
+  \item why the standard stop set is analyzed inside the
+    $\mathrm{U}+\mathrm{RR}$ square;
+  \item whether excluding the family suffix $11$ reconstructs exactly
+    the three standard stop codons;
+  \item how $\mathrm{UGG}$ functions as the excluded square corner while
+    remaining a standard-code sense codon;
+  \item how bacterial release-factor recognition arms compare with the
+    same L-shape;
+  \item which bridge field changes when a genetic-code variant reassigns
+    a stop codon;
+  \item which part is finite enumeration suitable for Lean checking and
+    which part remains biological bridge evidence.
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Four-phase stop-square data]
+\label{def:philosophy-four-phase-stop-square-data}
+The finite data of the stop square consists of a shape axis
+$\{\mathrm{Y},\mathrm{R}\}$, a family axis
+$\{\mathrm{W},\mathrm{S}\}$, the readback
+$$
+\begin{aligned}
+  \mathrm{U} &= (\mathrm{Y},\mathrm{W}),&
+  \mathrm{C} &= (\mathrm{Y},\mathrm{S}),\\
+  \mathrm{A} &= (\mathrm{R},\mathrm{W}),&
+  \mathrm{G} &= (\mathrm{R},\mathrm{S}),
+\end{aligned}
+$$
+and the family projection on the purine-purine suffix:
+$$
+  \mathrm{family}(\mathrm{A})=0,\qquad
+  \mathrm{family}(\mathrm{G})=1.
+$$
+Thus the second and third positions of the
+$\mathrm{U}+\mathrm{RR}$ square display the binary family square
+$00$, $01$, $10$, $11$.
+\end{definition}
+
+\begin{definition}[Research module boundaries]
+\label{def:philosophy-zterm-research-module-boundaries}
+The program has six module boundaries.
+\begin{description}
+  \item[Channel termination.]
+  Define the legal channel body, event marker, no-internal-$11$
+  theorem, first-$11$ terminator theorem, decode-compile inverse
+  theorem, and
+  layer-separation theorem.
+
+  \item[Four-phase alphabet bridge.]
+  Package $\mathsf{RNA4Alphabet}^{\uparrow}$ as a product of two
+  binary interfaces; record the two-axis biological readback,
+  complement involution, codon triple product, and translation
+  classifier as bridge data.
+
+  \item[Stop-codon enumeration.]
+  Define the $\mathrm{U}+\mathrm{RR}$ square, family suffix,
+  Zeckendorf-legality predicate, and stop-candidate classifier; prove by
+  four cases that $\mathrm{UGG}$ is the unique excluded corner.
+
+  \item[Release-factor bridge.]
+  Record the standard bacterial recognition arms
+  $\{\mathrm{UAA},\mathrm{UAG}\}$ and
+  $\{\mathrm{UAA},\mathrm{UGA}\}$ as external data and compare their
+  union with the reconstructed L-shape.
+
+  \item[Variant-code boundary.]
+  Compare standard and alternative genetic-code tables by identifying
+  which external bridge field changes: stop-shape region, translation
+  classifier, release-factor bridge, or standard-code table.
+
+  \item[Formalization boundary.]
+  Keep the finite enumeration over $\BoolUp\times\BoolUp$ inside the
+  checked layer, while keeping base names, biochemical translation, and
+  empirical recognition data as external bridge rows.
+\end{description}
+\end{definition}
+
+\begin{theorem}[Finite stop-square enumeration target]
+\label{thm:philosophy-finite-stop-square-enumeration-target}
+Inside the $\mathrm{U}+\mathrm{RR}$ square, the predicate
+``family suffix is not $11$'' selects exactly
+$\mathrm{UAA}$, $\mathrm{UAG}$, and $\mathrm{UGA}$.
+\end{theorem}
+\begin{proof}
+The square has four elements:
+$$
+  \mathrm{UAA},\quad \mathrm{UAG},\quad
+  \mathrm{UGA},\quad \mathrm{UGG}.
+$$
+Their family suffixes are respectively $00$, $01$, $10$, and $11$.
+The predicate rejects exactly the fourth suffix. Hence the selected
+class is precisely
+$$
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+$$
+\end{proof}
+
+\begin{corollary}[Distinguished non-stop corner]
+\label{cor:philosophy-distinguished-non-stop-corner}
+Within the standard-code bridge, $\mathrm{UGG}$ is the unique
+non-selected corner of the $\mathrm{U}+\mathrm{RR}$ square.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:philosophy-finite-stop-square-enumeration-target}, the
+only rejected family suffix is $11$. The codon $\mathrm{UGG}$ is the
+unique square element whose second and third positions both have family
+bit $1$.
+\end{proof}
+
+\begin{theorem}[Variant-code deformation boundary]
+\label{thm:philosophy-variant-code-deformation-boundary}
+A genetic-code variant that reassigns one of the standard stop codons
+changes external biological bridge data rather than the finite
+enumeration of \autoref{thm:philosophy-finite-stop-square-enumeration-target}.
+\end{theorem}
+\begin{proof}
+The enumeration uses only the two-axis readback, the
+$\mathrm{U}+\mathrm{RR}$ square, and the no-$11$ family-suffix
+condition. A variant genetic code changes the biological interpretation
+of at least one codon position or recognition field. That change belongs
+to the translation classifier, the release-factor bridge, the
+standard-code table, or the chosen stop-shape bridge. It therefore
+alters the bridge target, not the four-case finite calculation.
+\end{proof}
+
+\begin{definition}[Certificate ladder for the stop program]
+\label{def:philosophy-stop-program-certificate-ladder}
+The vision-level program has three strength layers. At paper-certificate
+strength it supplies proofs of no-internal-$11$, first-$11$ termination,
+the finite stop-square enumeration, the excluded-corner result, and
+layer separation. At checked-certificate strength it supplies Lean
+definitions for the four-element alphabet, codons, the
+$\mathrm{U}+\mathrm{RR}$ square, family suffix, Zeckendorf-legality
+predicate, and finite enumeration theorem. At biological-bridge
+strength it supplies the external standard genetic-code table,
+release-factor recognition rows, variant-code boundary report, and
+ledger statement forbidding host leakage.
+\end{definition}
+
+\begin{definition}[External biological reference rows]
+\label{def:philosophy-zterm-external-reference-rows}
+The biological bridge report records external references as rows rather
+than as BEDC primitives. The minimum rows are: a standard stop-codon row
+recording the $64$ codons, $61$ amino-acid codons, and three standard
+stop signals; a genetic-code table row recording standard and
+alternative code tables, including RNA/DNA notation policy; and a
+release-factor row recording the bacterial $\mathsf{RF1}$ and
+$\mathsf{RF2}$ recognition arms when that comparison is used.
+\end{definition}
+
+\begin{definition}[Lean finite skeleton]
+\label{def:philosophy-zterm-lean-finite-skeleton}
+The internal finite theorem can be represented by a small closed
+alphabet, codon triples, and Boolean predicates:
+\begin{verbatim}
+inductive Bit where
+  | zero
+  | one
+
+abbrev Shape  := Bit
+abbrev Family := Bit
+
+structure Base where
+  shape  : Shape
+  family : Family
+
+def U : Base := { shape := Bit.zero, family := Bit.zero }
+def C : Base := { shape := Bit.zero, family := Bit.one }
+def A : Base := { shape := Bit.one,  family := Bit.zero }
+def G : Base := { shape := Bit.one,  family := Bit.one }
+
+structure Codon where
+  b1 : Base
+  b2 : Base
+  b3 : Base
+
+def isPurine (b : Base) : Prop := b.shape = Bit.one
+def familyBit (b : Base) : Bit := b.family
+
+def UPurineSquare (c : Codon) : Prop :=
+  c.b1 = U /\ isPurine c.b2 /\ isPurine c.b3
+
+def ZLegalSuffix (c : Codon) : Prop :=
+  not (familyBit c.b2 = Bit.one /\ familyBit c.b3 = Bit.one)
+
+def ZStopCandidate (c : Codon) : Prop :=
+  UPurineSquare c /\ ZLegalSuffix c
+\end{verbatim}
+The target theorem states that $\mathsf{ZStopCandidate}$ is equivalent
+to membership in the three displayed codons
+$\mathrm{UAA}$, $\mathrm{UAG}$, and $\mathrm{UGA}$. The proof is a
+finite case split over the second and third bases in
+$\{\mathrm{A},\mathrm{G}\}$.
+\end{definition}
+
+\begin{definition}[Stop-square diagram]
+\label{def:philosophy-stop-square-diagram}
+The standard-code bridge target is displayed by the square
+$$
+\begin{array}{c|cc}
+   & \text{third } \mathrm{A} & \text{third } \mathrm{G}\\
+\hline
+  \text{second } \mathrm{A}
+    & \mathrm{UAA}\;:\;00\;\checkmark
+    & \mathrm{UAG}\;:\;01\;\checkmark\\
+  \text{second } \mathrm{G}
+    & \mathrm{UGA}\;:\;10\;\checkmark
+    & \mathrm{UGG}\;:\;11\;\times
+\end{array}
+$$
+The check marks denote Zeckendorf-legal family suffixes. The crossed
+corner is the unique high-high suffix. The diagram is a biological
+bridge target: the channel token $11$ and the family suffix $11$ remain
+layer-distinct.
+\end{definition}
+
+\begin{theorem}[Research-program cannot-claim boundary]
+\label{thm:philosophy-zterm-research-cannot-claim-boundary}
+The research program does not license any claim that Zeckendorf coding
+alone proves the biological genetic code, that the BEDC channel
+terminator is identical to a DNA or RNA stop codon, that the family
+suffix $11$ is the channel terminator, that the standard stop codons are
+universal across all genetic codes, that $\mathrm{UGG}$ is tryptophan by
+BEDC logic alone, that $\mathsf{ZStopCandidate}$ is already checked, or
+that a compiled channel substring directly denotes a nucleotide base.
+\end{theorem}
+\begin{proof}
+The refusals are inherited from
+\autoref{thm:philosophy-zstop-cannot-claim-boundary}. The present
+program only organizes the route from vision-strength reconstruction to
+finite enumeration and external bridge reporting; it does not discharge
+the external biological bridge fields or collapse the channel and codon
+layers.
+\end{proof}
+
+\begin{corollary}[Allowed research-program claim]
+\label{cor:philosophy-zterm-research-allowed-claim}
+Under the two-axis RNA bridge and Zeckendorf-family suffix legality, the
+standard stop-codon set is structurally reconstructed as the L-shape
+$$
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}
+$$
+inside the $\mathrm{U}+\mathrm{RR}$ square. The theorem is conditional
+and layered: Zeckendorf supplies the no-$11$ pattern, BEDC supplies
+classifier and ledger discipline, and biology supplies the standard-code
+bridge target.
+\end{corollary}

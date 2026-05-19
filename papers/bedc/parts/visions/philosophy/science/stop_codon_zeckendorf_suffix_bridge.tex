@@ -1,0 +1,349 @@
+\subsection{Stop codons as Zeckendorf-legal family suffixes}
+\label{subsec:philosophy-stop-codon-zeckendorf-suffix-bridge}
+
+The stop-codon bridge refines
+\autoref{subsec:philosophy-channel-genetic-code-bridge} at the codon
+boundary. It is a conditional biological bridge, not a checked BEDC
+theorem and not a derivation of the biological genetic code from
+Zeckendorf coding alone. Once a two-axis RNA or DNA readback, a
+three-base codon window, and the standard genetic-code bridge are fixed,
+the standard stop codons are exactly the Zeckendorf-legal corners of a
+distinguished two-bit family suffix.
+
+\begin{definition}[Two-axis RNA base readback]
+\label{def:philosophy-rna-two-axis-readback}
+Let the shape axis have visible values $\mathrm{Y}$ and $\mathrm{R}$,
+read externally as pyrimidine and purine, and let the family axis have
+visible values $\mathrm{W}$ and $\mathrm{S}$, read externally as
+AU-family and GC-family. The RNA four-phase atlas is
+$$
+  \mathsf{RNA4Alphabet}^{\uparrow}
+  :=
+  \mathrm{Shape}\times\mathrm{Family}.
+$$
+The external biological readback is
+$$
+\begin{aligned}
+  \mathrm{U} &= (\mathrm{Y},\mathrm{W}),\\
+  \mathrm{C} &= (\mathrm{Y},\mathrm{S}),\\
+  \mathrm{A} &= (\mathrm{R},\mathrm{W}),\\
+  \mathrm{G} &= (\mathrm{R},\mathrm{S}).
+\end{aligned}
+$$
+After choosing $\mathrm{Y}=0$, $\mathrm{R}=1$, $\mathrm{W}=0$, and
+$\mathrm{S}=1$, this displays
+$$
+\begin{aligned}
+  \mathrm{U} &= 00,\\
+  \mathrm{C} &= 01,\\
+  \mathrm{A} &= 10,\\
+  \mathrm{G} &= 11.
+\end{aligned}
+$$
+This is a bridge readback from a product of licensed binary classifiers;
+it is not a BEDC assertion that biological bases are primitive binary
+strings.
+\end{definition}
+
+\begin{definition}[Purine-purine stop square]
+\label{def:philosophy-purine-purine-stop-square}
+The purine-purine stop square is the four-codon region
+$$
+\begin{aligned}
+  \mathsf{UPurPur}
+  &:=\{\mathrm{U}xy\mid x\in\{\mathrm{A},\mathrm{G}\},
+        y\in\{\mathrm{A},\mathrm{G}\}\}\\
+  &=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG}\}.
+\end{aligned}
+$$
+Equivalently, it is the codon-cube corner cut out by
+$$
+\begin{gathered}
+  c_{1}=\mathrm{U},\\
+  \mathrm{shape}(c_{2})=\mathrm{R},\qquad
+  \mathrm{shape}(c_{3})=\mathrm{R}.
+\end{gathered}
+$$
+\end{definition}
+
+\begin{definition}[Family suffix]
+\label{def:philosophy-family-suffix}
+For a codon $\mathrm{U}xy$ with
+$x,y\in\{\mathrm{A},\mathrm{G}\}$, its family suffix is the two-bit
+projection of the second and third positions to the family axis:
+$$
+  \mathsf{FamSuffix}(\mathrm{U}xy)
+  :=
+  \mathrm{family}(x)\,\mathrm{family}(y).
+$$
+Thus
+$$
+\begin{aligned}
+  \mathsf{FamSuffix}(\mathrm{UAA}) &= 00,\\
+  \mathsf{FamSuffix}(\mathrm{UAG}) &= 01,\\
+  \mathsf{FamSuffix}(\mathrm{UGA}) &= 10,\\
+  \mathsf{FamSuffix}(\mathrm{UGG}) &= 11.
+\end{aligned}
+$$
+\end{definition}
+
+\begin{definition}[Zeckendorf-legal family suffix]
+\label{def:philosophy-zeckendorf-legal-family-suffix}
+A length-two family suffix is Zeckendorf-legal when it is not the
+high-high corner:
+$$
+  \mathsf{ZLegal}_{2}(s)\;:\Longleftrightarrow\;s\neq 11.
+$$
+This imports only the Zeckendorf no-$11$ motif. It does not import the
+BEDC channel token $11$ into the biological layer.
+\end{definition}
+
+\begin{definition}[Zeckendorf stop-candidate classifier]
+\label{def:philosophy-zstop-candidate-classifier}
+The Zeckendorf stop-candidate classifier is
+$$
+\begin{aligned}
+  \mathsf{ZStopCandidate}(c_{1},c_{2},c_{3})
+  :\Longleftrightarrow\;&
+  c_{1}=\mathrm{U}\\
+  &{}\wedge \mathrm{shape}(c_{2})=\mathrm{R}\\
+  &{}\wedge \mathrm{shape}(c_{3})=\mathrm{R}\\
+  &{}\wedge
+  \mathsf{ZLegal}_{2}(\mathsf{FamSuffix}(c_{1},c_{2},c_{3})).
+\end{aligned}
+$$
+Equivalently, this classifier reads
+$$
+  \mathrm{U}+\mathrm{RR}+\text{not-family-}11.
+$$
+\end{definition}
+
+\begin{definition}[Standard stop bridge]
+\label{def:philosophy-standard-stop-bridge}
+A standard stop bridge is an external biological bridge
+$$
+  \beta_{\mathsf{StopStd}}
+  :
+  \mathsf{ZStopCandidate}
+  \rightsquigarrow
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}
+$$
+equipped with a ledger recording the RNA or DNA notation choice, the
+two-axis base readback, the codon triple, the family suffix, the
+standard-code table, the exclusion of $\mathrm{UGG}$ as the family-$11$
+corner, and the variant-code caveat.
+\end{definition}
+
+\begin{theorem}[Three-stop reconstruction]
+\label{thm:philosophy-three-stop-reconstruction}
+Under the two-axis RNA readback and the Zeckendorf-legal family-suffix
+condition,
+$$
+  \mathsf{ZStopCandidate}
+  =
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+$$
+\end{theorem}
+\begin{proof}
+The $\mathrm{U}+\mathrm{RR}$ region contains exactly four codons:
+$$
+  \mathrm{UAA},\quad \mathrm{UAG},\quad
+  \mathrm{UGA},\quad \mathrm{UGG}.
+$$
+Projecting the last two positions to the family axis gives
+$$
+\begin{aligned}
+  \mathrm{AA} &\longmapsto 00,\\
+  \mathrm{AG} &\longmapsto 01,\\
+  \mathrm{GA} &\longmapsto 10,\\
+  \mathrm{GG} &\longmapsto 11.
+\end{aligned}
+$$
+The Zeckendorf-legal length-two suffixes are exactly $00$, $01$, and
+$10$. The surviving codons are therefore $\mathrm{UAA}$,
+$\mathrm{UAG}$, and $\mathrm{UGA}$, while $\mathrm{UGG}$ is the unique
+excluded corner.
+\end{proof}
+
+\begin{corollary}[Why three and not four]
+\label{cor:philosophy-stop-three-not-four}
+Inside the $\mathrm{U}+\mathrm{RR}$ square, the Zeckendorf-family
+legality filter excludes exactly one of four raw corners. Hence the
+visible stop class has size three:
+$$
+  |\mathsf{ZStopCandidate}|=4-1=3.
+$$
+\end{corollary}
+
+\begin{corollary}[The excluded corner]
+\label{cor:philosophy-ugg-excluded-corner}
+In the standard-code bridge,
+$$
+  \mathrm{UGG}\notin\mathsf{ZStopCandidate}.
+$$
+\end{corollary}
+\begin{proof}
+The codon $\mathrm{UGG}$ has purine-purine suffix $\mathrm{GG}$, whose
+family projection is $11$. Since $\mathsf{ZLegal}_{2}(11)$ is false,
+$\mathrm{UGG}$ is excluded. In the standard genetic-code bridge, this
+agrees with the external biological assignment of $\mathrm{UGG}$ to
+tryptophan rather than to stop.
+\end{proof}
+
+\begin{corollary}[Release-factor L-shape bridge]
+\label{cor:philosophy-release-factor-l-shape}
+For the standard bacterial release-factor bridge, the two recognition
+arms have the same L-shape inside the $\mathrm{U}+\mathrm{RR}$ square:
+$$
+\begin{aligned}
+  \mathsf{RF1} &= \{\mathrm{UAA},\mathrm{UAG}\},\\
+  \mathsf{RF2} &= \{\mathrm{UAA},\mathrm{UGA}\},\\
+  \mathsf{RF1}\cup\mathsf{RF2}
+    &= \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+\end{aligned}
+$$
+The stop set is the L-shape obtained by removing the $\mathrm{GG}$
+corner.
+\end{corollary}
+
+\begin{corollary}[RNA and DNA notation bridge]
+\label{cor:philosophy-rna-dna-stop-notation}
+The same construction can be displayed in DNA coding-strand notation by
+replacing $\mathrm{U}$ with $\mathrm{T}$:
+$$
+\begin{aligned}
+  \text{RNA stop set} &= \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\},\\
+  \text{DNA display} &= \{\mathrm{TAA},\mathrm{TAG},\mathrm{TGA}\}.
+\end{aligned}
+$$
+The family-suffix calculation is unchanged; only the first-position
+pyrimidine symbol is displayed differently.
+\end{corollary}
+
+\begin{definition}[Stop-candidate certificate fields]
+\label{def:philosophy-zstop-certificate-fields}
+A paper certificate for
+$\mathsf{ZStopCandidate}^{\uparrow}$ or
+$\mathsf{StopCodonBridge}^{\uparrow}$ must expose five fields. The
+source field contains
+$\mathsf{RNA4Alphabet}^{\uparrow}:=\BoolUp\times\BoolUp$, the codon
+atlas $(\mathsf{RNA4Alphabet}^{\uparrow})^{3}$, the standard-code table
+bridge, and the RNA/DNA notation policy. The pattern field states first
+position $\mathrm{U}$, purine shape in positions $2$ and $3$, and
+Zeckendorf-legal family suffix in positions $2$ and $3$. The classifier
+field identifies the standard-code bridge equality
+$$
+  \mathsf{ZStopCandidate}(c)
+  \Longleftrightarrow
+  c\in\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+$$
+\end{definition}
+
+\begin{definition}[Stop-candidate stability and ledger fields]
+\label{def:philosophy-zstop-stability-ledger-fields}
+The stability field must preserve the construction under the chosen
+RNA/DNA notation bridge, the two-axis base readback, classifier
+transport for the stop-shape predicate, family-suffix readback for
+$\mathsf{ZLegal}_{2}$, separation of the excluded $\mathrm{UGG}$
+corner, and layer separation from the BEDC channel token $11$. The
+ledger policy records the codon triple source, base-level shape and
+family bits, the family suffix for positions $2$ and $3$, the
+Zeckendorf-legality row, the standard-code reference, the
+$\mathrm{UGG}$ exclusion witness, the variant-code caveat, and the
+fact that no direct channel-token interpretation is used.
+\end{definition}
+
+\begin{theorem}[No channel-token collapse]
+\label{thm:philosophy-zstop-no-channel-token-collapse}
+The family suffix $11$ used to exclude $\mathrm{UGG}$ is not the BEDC
+channel terminator $\mathrm{End}=11$.
+\end{theorem}
+\begin{proof}
+The BEDC channel terminator is a glyph-level boundary marker in the
+self-delimiting channel codec. The family suffix is a biological-bridge
+projection of the second and third bases of a codon through a two-axis
+alphabet classifier. They share a displayed binary pattern, but they
+occupy different typed layers. By
+\autoref{thm:philosophy-channel-source-layer-separation}, the only
+licensed comparison is a role bridge; token identity is not licensed.
+\end{proof}
+
+\begin{corollary}[Stop codons are classifier-level]
+\label{cor:philosophy-stop-codons-classifier-level}
+The standard stop codons are classified at the codon layer:
+$$
+  \mathsf{Codon}_{64}^{\uparrow}
+  \rightsquigarrow
+  \mathsf{AminoAcid}^{\uparrow}\oplus\mathsf{Stop}^{\uparrow}.
+$$
+They are not obtained by scanning compiled BEDC channel substrings for
+$11$.
+\end{corollary}
+
+\begin{theorem}[Zeckendorf legality does not force the biological code]
+\label{thm:philosophy-zeckendorf-not-biological-necessity}
+Zeckendorf legality alone does not prove that biology must use exactly
+$\mathrm{UAA}$, $\mathrm{UAG}$, and $\mathrm{UGA}$ as stop codons.
+\end{theorem}
+\begin{proof}
+The reconstruction requires external bridge choices: an RNA or DNA
+alphabet read as a four-phase product, the particular two-axis
+assignment of $\mathrm{U}$, $\mathrm{C}$, $\mathrm{A}$, and
+$\mathrm{G}$, codon length three, selection of the
+$\mathrm{U}+\mathrm{RR}$ square, the standard genetic-code table, and
+the no-$11$ family-suffix filter. Without those choices, Zeckendorf
+legality supplies only the abstract no-$11$ motif. It does not specify
+nucleotides, codons, release factors, or protein synthesis.
+\end{proof}
+
+\begin{corollary}[Variant genetic codes remain bridge targets]
+\label{cor:philosophy-variant-codes-remain-targets}
+Biological genetic-code variants may reassign one or more of the
+standard stop codons. Such variants do not refute
+\autoref{thm:philosophy-three-stop-reconstruction}; they show that the
+theorem is a standard-code bridge rather than a universal biological
+law.
+\end{corollary}
+
+\begin{theorem}[Stop-codon suffix cannot-claim boundary]
+\label{thm:philosophy-zstop-cannot-claim-boundary}
+The stop-codon suffix bridge does not license any of the following
+claims:
+\begin{itemize}
+  \item that Zeckendorf legality alone proves the biological genetic
+    code;
+  \item that BEDC $\mathrm{End}=11$ is identical to a DNA or RNA stop
+    codon;
+  \item that the family suffix $11$ in $\mathrm{UGG}$ is the channel
+    terminator $11$;
+  \item that $\mathrm{UAA}$, $\mathrm{UAG}$, and $\mathrm{UGA}$ are stop
+    codons in every biological genetic code;
+  \item that $\mathrm{UGG}$ is tryptophan by BEDC logic alone;
+  \item that $\mathsf{ZStopCandidate}^{\uparrow}$ is already a checked
+    certificate;
+  \item that a compiled BEDC channel substring directly denotes a
+    nucleotide base.
+\end{itemize}
+\end{theorem}
+\begin{proof}
+The first five refusals follow from
+\autoref{thm:philosophy-zeckendorf-not-biological-necessity} and
+\autoref{cor:philosophy-variant-codes-remain-targets}. The channel-token
+refusals follow from
+\autoref{thm:philosophy-zstop-no-channel-token-collapse}. The checked
+certificate refusal follows because
+\autoref{def:philosophy-zstop-certificate-fields} and
+\autoref{def:philosophy-zstop-stability-ledger-fields} record paper
+obligations, not Lean targets.
+\end{proof}
+
+\begin{corollary}[Allowed stop-codon suffix bridge claim]
+\label{cor:philosophy-zstop-allowed-claim}
+Under the two-axis RNA or DNA bridge and a Zeckendorf-style no-$11$
+family-suffix legality condition, the standard stop-codon set is
+structurally reconstructed as
+$$
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\},
+$$
+with $\mathrm{UGG}$ as the unique excluded family-$11$ corner.
+\end{corollary}
