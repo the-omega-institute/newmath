@@ -643,9 +643,12 @@ def detect_concrete_instance_missing_origin() -> list[dict[str, object]]:
     if not instances.is_dir():
         return []
 
+    changed = changed_concrete_instance_tex_paths()
     missing: list[dict[str, object]] = []
     for path in sorted(instances.rglob("*.tex")):
         if not path.is_file():
+            continue
+        if changed is not None and path not in changed:
             continue
         text = read_text(path)
         if not CONCRETE_CHAPTER_RE.search(text):
@@ -670,6 +673,36 @@ def detect_concrete_instance_missing_origin() -> list[dict[str, object]]:
                 "kind": kind,
             })
     return sorted(missing, key=lambda item: str(item["file"]))
+
+
+def changed_concrete_instance_tex_paths() -> set[Path] | None:
+    """Return changed concrete-instance tex paths when git base context exists."""
+    base_ref = os.environ.get("BEDC_CI_BASE_REF", "origin/codex-auto-dev")
+    try:
+        merge_base = subprocess.check_output(
+            ["git", "merge-base", base_ref, "HEAD"],
+            cwd=REPO_ROOT,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except subprocess.CalledProcessError:
+        return None
+    if not merge_base:
+        return None
+    try:
+        output = subprocess.check_output(
+            ["git", "diff", "--name-only", merge_base, "--", "papers/bedc/parts/concrete_instances"],
+            cwd=REPO_ROOT,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        )
+    except subprocess.CalledProcessError:
+        return None
+    paths: set[Path] = set()
+    for line in output.splitlines():
+        if line.endswith(".tex"):
+            paths.add((REPO_ROOT / line).resolve())
+    return paths
 
 
 CLOSURESTATUS_BEGIN_RE = re.compile(
