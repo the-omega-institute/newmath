@@ -23,6 +23,7 @@ import signal
 import subprocess
 import sys
 import time
+import uuid
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -58,12 +59,9 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "MIN_MONITOR_CYCLES": 2,
     "ADJUST_TRIGGER_FINDINGS": 5,
     "RESEARCH_EVERY_N_ADJUSTS": 5,
-    "STABILIZE_CYCLES": 3,
-    "STABILIZE_HEAL_ALERT_BASELINE_MULTIPLIER": 2.0,
-    "STABILIZE_AUDIT_FAIL_REGRESSION_TOLERANCE": 0,
 }
 
-VALID_STATES = {"monitor", "research", "adjust", "stabilize"}
+VALID_STATES = {"monitor", "research", "adjust"}
 
 TIMEOUTS = {
     "git": 60,
@@ -111,43 +109,59 @@ RULE_EVOLUTION_FORBIDDEN_PREFIXES = (
 
 MAX_RULE_EVOLUTION_CLUSTER_SIZE = 20
 
-META_PROMPT_RULE_EVOLUTION = """You are evolving the P/R automation pipeline RULES based on observed quality
-violations. You will receive a cluster of findings (multiple chapters / Lean
-targets exhibiting the same pattern). Your job:
+META_PROMPT_RULE_EVOLUTION = """You are TASTE — your only job is to detect and forbid trivial or
+meaningless theory in BEDC. Not external mathematical aesthetic.
+Not project governance hygiene. Not code quality. Not depth.
 
-1. NEGATIVE-CRITERIA FRAMING — MANDATORY:
+Only one question: is this BEDC artifact trivial or meaningless in
+BEDC's own sense — does the name advertise a property, distinction,
+or behavior, but the machine-checkable content fails to deliver it
+(is empty or vacuously satisfied)?
 
-   Your rule evolution must propose a NEGATIVE rule, not a positive one.
+What counts as a BEDC artifact: theorem / definition / chapter /
+falsifiable prediction / independence witness / any other named
+syntactic object in the repo. The form is up to you to discover from
+the corpus, NOT prescribed here.
 
-   - NEGATIVE rule: "If X is clearly present, reject" or "If Y is verifiably missing, reject".
-     Examples of negative form: "chapter slug matches classical-math name AND
-     \\notclaimed excludes that name's canonical theorem AND status is matureClosure → reject";
-     "\\falsifiablePrediction body matches row-deletion template AND has no
-     external/computable/empirical metric → reject"; "carrier fingerprint
-     identical to ≥3 existing chapters yet origin=ai → reject".
+EVIDENCE-FIRST — MANDATORY:
 
-   - POSITIVE rule (FORBIDDEN): "the chapter must achieve mathematical depth X"
-     or "the proof must use simp at least once" or "the falsifiable prediction
-     must be 'meaningful'". These require defining quality, which the
-     pipeline cannot do mechanically; they will either over-fire or
-     under-fire on real data.
+Before proposing any new audit detector or any rule evolution:
+1. Run `rg` / Python / grep on the CURRENT HEAD of this worktree.
+2. Find ≥3 concrete instances of the trivial pattern (path:line:content).
+3. Cite all ≥3 in your output. No exceptions.
+4. If you cannot find ≥3 evidence-backed instances in current corpus,
+   the pattern is NOT proven real — DO NOT propose a rule. Write
+   TASTE ALERT explaining you searched and found insufficient evidence,
+   then exit.
 
-   A good negative rule has:
-   - A precisely matchable pattern (regex, structural fingerprint, count threshold)
-   - A demonstrable example of present-bad-case from the cluster findings
-   - No reliance on subjective quality assessment
+NO SPECULATION. No "theoretically this could be trivial". No "I estimate
+some chapters might be doing this". Only: "I greped, here is the line,
+here is the line, here is the line."
 
-   When designing the rule, ask: "Can I write a 5-line Python function that
-   returns True iff the pattern is present?" If yes, it qualifies. If no,
-   the rule is too subjective; refine or escalate to operator review.
+NEGATIVE-CRITERIA ONLY:
 
-   If the cluster findings cannot yield a negative rule (e.g. they reflect
-   deep mathematical-judgment patterns), write a TASTE ALERT to alerts log
-   explaining why this cluster requires human review, and DO NOT ship a
-   rule.
-2. Identify the ROOT CAUSE — which P/R prompt instruction is missing, OR
-   which audit check would have caught this pattern at merge time.
-3. Modify ONE OR MORE of these files (ONLY these — file whitelist enforced):
+The rule must be of form "if X is present → reject". Never of form
+"chapter must achieve Y". Pattern must be machine-checkable: regex,
+structural fingerprint, or count threshold.
+
+NEW-vs-LEGACY DISCIPLINE (mandatory for any new detector):
+
+When you add a detect_*() function in bedc_ci.py, you MUST:
+   - Use the existing `_get_commit_changed_files()` + `_classify_violation()` helpers.
+   - In the audit aggregation, split your detector's violations into new vs legacy.
+   - Add BOTH `<name>_new_count` and `<name>_legacy_count` to the payload.
+   - Only sum `<name>_new_count` into the audit total fail count (exit code driver).
+   - Print output in the dual format:
+     `[bedc-ci] <name>: N new (BLOCKING), M legacy (warning)`
+   This prevents your new detector from blocking P/R rounds that didn't touch
+   legacy violations — the same trap that 2026-05-19 mislabeled_composite hit.
+   The principle: a new audit gate only blocks the commit that introduces a
+   violation it touches; pre-existing data shows as warning to be consumed
+   organically by future rounds that naturally touch those files.
+
+WHITELIST + VERIFICATION + DOCS:
+
+1. Modify ONE OR MORE of these files (ONLY these — file whitelist enforced):
    - papers/bedc/scripts/prompts/phase_b.txt
    - papers/bedc/scripts/prompts/phase_c.txt
    - papers/bedc/scripts/prompts/phase_review.txt
@@ -161,27 +175,13 @@ targets exhibiting the same pattern). Your job:
    - papers/bedc/scripts/phase_paper_gates.py
    - lean4/scripts/phase_d_lint.py
    - docs/dossier/taste-evolutions.qmd
-4. NEW vs LEGACY classification — MANDATORY for any new audit detector you add:
-   When you add a detect_*() function in bedc_ci.py, you MUST:
-   - Use the existing `_get_commit_changed_files()` + `_classify_violation()` helpers.
-   - In the audit aggregation, split your detector's violations into new vs legacy.
-   - Add BOTH `<name>_new_count` and `<name>_legacy_count` to the payload.
-   - Only sum `<name>_new_count` into the audit total fail count (exit code driver).
-   - Print output in the dual format:
-     `[bedc-ci] <name>: N new (BLOCKING), M legacy (warning)`
-   This prevents your new detector from blocking P/R rounds that didn't touch
-   legacy violations — the same trap that 2026-05-19 mislabeled_composite hit.
-   The principle: a new audit gate only blocks the commit that introduces a
-   violation it touches; pre-existing data shows as warning to be consumed
-   organically by future rounds that naturally touch those files.
-5. DO NOT touch papers/bedc/parts/concrete_instances/**/*.tex
+2. DO NOT touch papers/bedc/parts/concrete_instances/**/*.tex
    DO NOT touch lean4/BEDC/**
    DO NOT touch codex_revise.py / codex_formalize.py / other daemon scripts
    DO NOT create any other docs/ file or directory.
-6. Bump the prompt version marker in any prompt file you edit (e.g. v5.X → v5.X+1).
-7. Add terse imperative rule text. No rationale paragraphs, no incident
+3. Add terse imperative rule text. No rationale paragraphs, no incident
    history, no version-numbered names.
-8. Verify locally before commit:
+4. Verify locally before commit:
    - python3 -m py_compile lean4/scripts/bedc_ci.py
    - python3 lean4/scripts/bedc_ci.py audit
    - If touched docs/dossier/*.qmd or papers/*: cd papers/bedc && make check
@@ -189,7 +189,7 @@ targets exhibiting the same pattern). Your job:
    - If touched lean4/*: python3 lean4/scripts/bedc_ci.py axiom-purity --strict
    - For any phase_paper_gates.py change: smoke test it parses
    - For any phase_d_lint.py change: smoke test it parses
-9. APPEND a new section to docs/dossier/taste-evolutions.qmd (append, do not overwrite).
+5. APPEND a new section to docs/dossier/taste-evolutions.qmd (append, do not overwrite).
    This file is Quarto .qmd, NOT plain .md. Keep the YAML frontmatter intact
    at the top of the file; append new sections after the existing sections
    using the same `---` separator pattern.
@@ -199,22 +199,19 @@ targets exhibiting the same pattern). Your job:
 
    ### 变更原因
    描述触发本次演化的违规 pattern: 哪个 flag cluster, 多少 finding,
-   2-3 个代表性 chapter_slug / lean_target 示例, 它们的共同结构特征
-   (carrier bucket size, shared field overlap, autoref entropy 等).
+   2-3 个代表性 chapter_slug / lean_target 示例, 它们的共同结构特征.
 
    ### 意义
    本次规则演化未来阻止什么: P/R round 命中什么条件时被新规则拒绝;
-   为什么这个 pattern 是 BEDC 品味问题 (template multiplication /
-   mislabeled lineage / low-entropy boilerplate / classical-math mis-tag 等).
+   为什么这个 pattern 是 BEDC trivial/meaningless theory 问题.
 
    ### 实施情况
    修改了哪些文件 (路径列出); 写入的具体规则文本 / audit detector
    片段引用; 现有违规如何被消化 (依赖 P/R orchestrator 自然 touch
    + post-merge audit recovery, 不直接编辑).
 
-   ### 影响范围估计
-   - 5b. 这是 negative criteria（拒绝明显违规）还是 positive criteria（要求未定义的深度）？
-     仅 negative criteria 应被自动 ship。positive criteria 应进 review queue 等人工。
+   ### 准则类型
+   说明这是 negative criteria: 命中什么机器可查 pattern 时拒绝。
 
    ### 元数据
    - finding 数量: <N>
@@ -227,49 +224,50 @@ targets exhibiting the same pattern). Your job:
    全文中文 (CLAUDE.md 工作语言纪律). 简短直接, 2-5 段, 不写迭代叙事 /
    版本号 / "新增"/"修复"/"v2.0" 这类词 (CLAUDE.md 禁止).
    新 section 追加到文件末尾; 用 `---` 分隔多个 section.
-10. Commit with message format:
+6. Commit with message format:
    "taste-evolve: <flag> pattern - <one-line summary>"
-11. Do NOT push (orchestrator [the daemon] will push after success).
+7. Do NOT push (orchestrator [the daemon] will push after success).
 
 Cluster evidence will be provided after this prompt.
 """
 
-META_PROMPT_RESEARCH = """You are doing corpus-level taste research on BEDC. Your job: find new
-garbage patterns that current detectors miss, frame them as NEGATIVE
-criteria, output as findings JSON.
+META_PROMPT_RESEARCH = """You are TASTE in RESEARCH mode — your job is to scan BEDC corpus for
+trivial/meaningless artifacts that current detectors miss.
 
-PROCESS:
-1. Read existing detectors in lean4/scripts/bedc_ci.py. Note what they
-   already catch. Do not propose duplicates.
-2. Run broad corpus queries — tactic shape, carrier shape, lineage
-   distribution, falsifiability text, dependency graph, topic
-   distribution, conservativity-audit. Use grep / python / bedc_ci.py
-   subcommands. Sample 5-10 chapters by reading their .tex and the
-   corresponding *Up Lean module.
-3. Identify 0-5 NEW patterns where you can confidently say "this is
-   clearly bad" using a machine-checkable definition. Each must be
-   NEGATIVE form (presence of X -> bad), not POSITIVE (absence of X).
-4. For each: provide flag name, pattern definition, 2-3 example chapter
-   slugs, data evidence (count / regex / structural fingerprint), and a
-   one-sentence justification why this is clearly garbage (not subtle
-   judgement).
-5. If you cannot find any clearly-bad NEW pattern, return empty list.
-   Do NOT invent patterns to fill a quota.
-
-OUTPUT: JSON to stdout in format:
+1. Read existing detectors in lean4/scripts/bedc_ci.py and the trivial
+   patterns already covered. Do not propose duplicates.
+2. Run grep / Python over the corpus looking for trivial patterns.
+   You decide where to look (Lean source, paper source, macros,
+   structures, names). You decide what shape of triviality to search
+   for. The principle: an artifact's name advertises a BEDC property
+   or distinction, but its machine-checkable content (the proof body,
+   the definition body, the macro expansion, the type inhabitants)
+   delivers nothing of substance. Find concrete pattern shapes that
+   embody this principle and have ≥3 instances in current HEAD.
+3. For each candidate pattern, find ≥3 path:line:content instances.
+   No instances → not real → DO NOT include.
+4. Output JSON to stdout:
 [
   {
     "proposed_flag": "<slug>",
-    "negative_criterion": "<one-sentence machine-checkable definition>",
-    "example_chapters": ["<slug1>", "<slug2>"],
-    "evidence": {"<key>": <value>, ...},
-    "rationale": "<one-sentence why clearly garbage>"
-  },
+    "negative_criterion": "<machine-checkable definition>",
+    "regex_or_fingerprint": "<exact pattern>",
+    "evidence": [
+      {"path": "<file>", "line": <N>, "content": "<excerpt>"},
+      {"path": "<file>", "line": <N>, "content": "<excerpt>"},
+      {"path": "<file>", "line": <N>, "content": "<excerpt>"}
+    ],
+    "why_trivial": "<one sentence in BEDC's own sense — what does the artifact name advertise that the machine-checkable content fails to deliver>"
+  }
   ...
 ]
+5. If you find no new patterns beyond what current detectors cover,
+   return empty list. DO NOT invent patterns to fill a quota.
 
-DO NOT write any file. DO NOT propose code or detectors. Just identify
-patterns. Daemon will turn the JSON into findings + rule evolutions.
+DO NOT write any file. DO NOT propose code. Daemon turns the JSON
+into findings, ADJUST cycle turns findings into rule evolutions.
+
+NO SPECULATION. Only: "I greped, here are the three lines."
 """
 
 BOILERPLATE_PHRASES = (
@@ -372,7 +370,8 @@ def rule_evolution_worktree_for_branch(branch: str) -> Path:
 
 
 def rule_evolution_names(flag: str, cluster_key: str) -> tuple[Path, str]:
-    branch = f"taste/evolve-{sanitize_branch_piece(flag)}-{cluster_key}"
+    cycle_suffix = f"{int(time.time())}-{uuid.uuid4().hex[:8]}"
+    branch = f"taste/evolve-{sanitize_branch_piece(flag)}-{cluster_key}-{cycle_suffix}"
     return rule_evolution_worktree_for_branch(branch), branch
 
 
@@ -440,26 +439,93 @@ def cleanup_rule_evolution_worktree(worktree: Path, branch: str) -> None:
     git("branch", "-D", branch, check=False, capture=True)
 
 
+def _taste_worktree_branches() -> dict[str, dict[str, Any]]:
+    r = git("worktree", "list", "--porcelain", check=False, capture=True)
+    out: dict[str, dict[str, Any]] = {}
+    if r.returncode != 0:
+        return out
+    current_path: str | None = None
+    current_branch: str | None = None
+    current_prunable = False
+    for raw in (r.stdout or "").splitlines() + [""]:
+        if raw.startswith("worktree "):
+            if current_branch:
+                out[current_branch] = {
+                    "path": current_path or "",
+                    "prunable": current_prunable,
+                }
+            current_path = raw[len("worktree "):].strip()
+            current_branch = None
+            current_prunable = False
+            continue
+        if raw.startswith("branch refs/heads/taste/"):
+            current_branch = raw[len("branch refs/heads/"):].strip()
+            continue
+        if "prunable" in raw:
+            current_prunable = True
+            continue
+        if raw == "" and current_branch:
+            out[current_branch] = {
+                "path": current_path or "",
+                "prunable": current_prunable,
+            }
+            current_path = None
+            current_branch = None
+            current_prunable = False
+    return out
+
+
+def force_clean_stale_taste_branches(dry_run: bool = False) -> None:
+    """Remove stale taste/evolve branches and prunable worktrees."""
+    try:
+        worktree_by_branch = _taste_worktree_branches()
+        for branch, meta in sorted(worktree_by_branch.items()):
+            if not branch.startswith("taste/evolve-"):
+                continue
+            path_text = str(meta.get("path") or "")
+            path_missing = bool(path_text) and not os.path.isdir(path_text)
+            prunable = bool(meta.get("prunable"))
+            if not (prunable or path_missing):
+                continue
+            if dry_run:
+                print(f"[taste] dry-run: would remove stale worktree {path_text} for {branch}", flush=True)
+                continue
+            if path_text:
+                git("worktree", "remove", "--force", path_text, check=False, capture=True)
+            git("branch", "-D", branch, check=False, capture=True)
+
+        live = _taste_worktree_branches()
+        branches = git("branch", "--list", "taste/evolve-*", check=False, capture=True)
+        if branches.returncode != 0:
+            append_alert(
+                "taste_branch_gc_failed",
+                {"stderr": tail(branches.stderr or branches.stdout or "")},
+                dry_run=dry_run,
+            )
+            return
+        for raw in (branches.stdout or "").splitlines():
+            branch = raw.strip().lstrip("+ *").strip()
+            if not branch.startswith("taste/evolve-"):
+                continue
+            if branch in live:
+                continue
+            if dry_run:
+                print(f"[taste] dry-run: would delete orphan branch {branch}", flush=True)
+                continue
+            delete = git("branch", "-D", branch, check=False, capture=True)
+            if delete.returncode != 0:
+                append_alert(
+                    "taste_branch_gc_delete_failed",
+                    {"branch": branch, "stderr": tail(delete.stderr or delete.stdout or "")},
+                )
+            else:
+                print(f"[taste] deleted stale branch {branch}", flush=True)
+    except Exception as exc:
+        print(f"[taste] force_clean_stale_taste_branches: {exc}", flush=True)
+
+
 def gc_orphan_taste_branches(dry_run: bool = False) -> None:
-    branches = git("branch", "--list", "taste/evolve-*", check=False, capture=True)
-    if branches.returncode != 0:
-        append_alert("taste_branch_gc_failed", {"stderr": tail(branches.stderr or branches.stdout or "")}, dry_run=dry_run)
-        return
-    for raw in (branches.stdout or "").splitlines():
-        branch = raw.replace("*", "", 1).strip()
-        if not branch:
-            continue
-        worktree = rule_evolution_worktree_for_branch(branch)
-        if worktree.exists():
-            continue
-        if dry_run:
-            print(f"[taste] dry-run: would delete orphan branch {branch}", flush=True)
-            continue
-        delete = git("branch", "-D", branch, check=False, capture=True)
-        if delete.returncode != 0:
-            append_alert("taste_branch_gc_delete_failed", {"branch": branch, "stderr": tail(delete.stderr or delete.stdout or "")})
-        else:
-            print(f"[taste] deleted orphan branch {branch}", flush=True)
+    force_clean_stale_taste_branches(dry_run=dry_run)
 
 
 def tail(text: str, limit: int = 1200) -> str:
@@ -514,23 +580,20 @@ def load_state() -> dict[str, Any]:
     data.setdefault("version", 1)
     data.setdefault("theorem_first_seen", {})
     cur = str(data.get("current_state") or "monitor").lower()
+    if cur == "stabilize":
+        cur = "monitor"
+        stale_prefix = "stabilize"
+        data.pop(f"{stale_prefix}_baseline", None)
+        data.pop(f"{stale_prefix}_cycles_in_state", None)
+        print("[taste] migrated stale stabilize state -> monitor", flush=True)
     if cur not in VALID_STATES:
         cur = "monitor"
     data["current_state"] = cur
     data.setdefault("state_entered_at", utc_now())
     data.setdefault("monitor_cycles_in_state", 0)
-    data.setdefault("stabilize_cycles_in_state", 0)
     data.setdefault("adjusts_since_research", 0)
     data.setdefault("last_adjust_commit_sha", None)
     data.setdefault("last_adjust_at", None)
-    baseline = data.get("stabilize_baseline")
-    if not isinstance(baseline, dict):
-        baseline = {}
-    baseline.setdefault("heal_alert_count", 0)
-    baseline.setdefault("audit_fail_count", 0)
-    baseline.setdefault("lean_failed_rate_per_hour", 0.0)
-    baseline.setdefault("taste_alert_categories", [])
-    data["stabilize_baseline"] = baseline
     data.setdefault("last_pipeline_sample", {})
     return data
 
@@ -539,17 +602,13 @@ def save_state(state: dict[str, Any], dry_run: bool) -> None:
     write_json(STATE_FILE, state, dry_run=dry_run)
 
 
-def transition_state(state: dict[str, Any], next_state: str, *, reset_baseline: bool = False) -> None:
+def transition_state(state: dict[str, Any], next_state: str) -> None:
     state["current_state"] = next_state
     state["state_entered_at"] = utc_now()
     if next_state == "monitor":
         state["monitor_cycles_in_state"] = 0
     if next_state == "research":
         state["adjusts_since_research"] = 0
-    if next_state == "stabilize":
-        state["stabilize_cycles_in_state"] = 0
-    if reset_baseline:
-        state["stabilize_baseline"] = collect_stabilize_baseline(state)
 
 
 def load_cooldown() -> dict[str, Any]:
@@ -578,20 +637,6 @@ def append_alert(category: str, details: dict[str, Any], dry_run: bool = False) 
         fh.write(line)
 
 
-def alert_categories() -> set[str]:
-    if not ALERT_LOG.exists():
-        return set()
-    text = ALERT_LOG.read_text(encoding="utf-8", errors="ignore")
-    return set(re.findall(r"TASTE ALERT category=([A-Za-z0-9_.-]+)", text))
-
-
-def alert_category_count(category: str) -> int:
-    if not ALERT_LOG.exists():
-        return 0
-    text = ALERT_LOG.read_text(encoding="utf-8", errors="ignore")
-    return len(re.findall(rf"TASTE ALERT category={re.escape(category)}\b", text))
-
-
 def count_log_hits(paths: list[Path], pattern: re.Pattern[str]) -> int:
     total = 0
     for path in paths:
@@ -602,14 +647,6 @@ def count_log_hits(paths: list[Path], pattern: re.Pattern[str]) -> int:
     return total
 
 
-def current_audit_fail_count() -> int:
-    ok, counts, msg = run_audit_counts(REPO_ROOT)
-    if not ok:
-        append_alert("audit_count_sample_failed", {"failure_reason": msg})
-        return 1
-    return sum(max(0, int(value)) for value in counts.values())
-
-
 def pipeline_failed_round_count() -> int:
     paths = [
         REPO_ROOT / "papers" / "bedc" / "scripts" / "logs" / "orchestrator.log",
@@ -618,35 +655,11 @@ def pipeline_failed_round_count() -> int:
     return count_log_hits(paths, re.compile(r"\bFAILED\b"))
 
 
-def current_pipeline_failed_rate_per_hour(state: dict[str, Any]) -> float:
-    count = pipeline_failed_round_count()
-    previous = state.get("last_pipeline_sample", {})
-    now_ts = time.time()
-    prev_count = int(previous.get("failed_round_count", count)) if isinstance(previous, dict) else count
-    prev_ts = float(previous.get("sampled_at_epoch", now_ts)) if isinstance(previous, dict) else now_ts
-    elapsed_hours = max((now_ts - prev_ts) / 3600.0, 1.0 / 60.0)
-    return max(0.0, (count - prev_count) / elapsed_hours)
-
-
 def update_pipeline_sample(state: dict[str, Any]) -> None:
     state["last_pipeline_sample"] = {
         "failed_round_count": pipeline_failed_round_count(),
         "sampled_at_epoch": time.time(),
         "sampled_at": utc_now(),
-    }
-
-
-def collect_stabilize_baseline(state: dict[str, Any] | None = None) -> dict[str, Any]:
-    sample_state = state if state is not None else {}
-    categories = sorted(alert_categories())
-    return {
-        "heal_alert_count": count_log_hits(
-            [REPO_ROOT / "scripts" / "logs" / "auto_heal.log"],
-            re.compile(r"\bHEAL ALERT\b"),
-        ),
-        "audit_fail_count": current_audit_fail_count(),
-        "lean_failed_rate_per_hour": current_pipeline_failed_rate_per_hour(sample_state),
-        "taste_alert_categories": categories,
     }
 
 
@@ -1416,13 +1429,44 @@ def research_payload_to_findings(payload: Any, commit: str) -> list[Finding]:
                 },
             )
             continue
+        raw_evidence = item.get("evidence")
+        if isinstance(raw_evidence, list):
+            instances = [x for x in raw_evidence if isinstance(x, dict)]
+            if len(instances) < 3:
+                append_alert(
+                    "research_insufficient_evidence",
+                    {
+                        "proposed_flag": item.get("proposed_flag"),
+                        "negative_criterion": criterion,
+                        "evidence_count": len(instances),
+                    },
+                )
+                continue
+            evidence = {"instances": instances[:20]}
+        elif isinstance(raw_evidence, dict):
+            evidence = raw_evidence
+        else:
+            append_alert(
+                "research_missing_evidence",
+                {
+                    "proposed_flag": item.get("proposed_flag"),
+                    "negative_criterion": criterion,
+                },
+            )
+            continue
         slugs = coerce_chapter_slugs(item.get("example_chapters"))
-        evidence = item.get("evidence") if isinstance(item.get("evidence"), dict) else {}
+        if not slugs and isinstance(raw_evidence, list):
+            slugs = coerce_chapter_slugs([
+                Path(str(x.get("path", "corpus"))).stem
+                for x in raw_evidence
+                if isinstance(x, dict)
+            ])
         flag = normalize_research_flag(str(item.get("proposed_flag") or "negative_pattern"))
         base_evidence = {
             "source": "research",
             "negative_criterion": criterion,
-            "rationale": str(item.get("rationale") or "").strip(),
+            "regex_or_fingerprint": str(item.get("regex_or_fingerprint") or "").strip(),
+            "rationale": str(item.get("why_trivial") or item.get("rationale") or "").strip(),
             "all_example_chapters": slugs,
             "research_evidence": evidence,
         }
@@ -1652,71 +1696,8 @@ def state_adjust_step(cfg: dict[str, Any], state: dict[str, Any], dry_run: bool)
             state["last_adjust_at"] = utc_now()
             state["last_adjust_outcome"] = "rule_evolution_skipped_or_failed"
     state["adjusts_since_research"] = int(state.get("adjusts_since_research", 0)) + 1
-    transition_state(state, "stabilize", reset_baseline=not dry_run)
-    print("[taste] transition adjust -> stabilize", flush=True)
-
-
-def stabilize_regressions(cfg: dict[str, Any], state: dict[str, Any]) -> tuple[list[str], dict[str, Any]]:
-    baseline = state.get("stabilize_baseline")
-    if not isinstance(baseline, dict):
-        baseline = collect_stabilize_baseline(state)
-        state["stabilize_baseline"] = baseline
-    current = collect_stabilize_baseline(state)
-    evidence: dict[str, Any] = {"baseline": baseline, "current": current}
-    regressions: list[str] = []
-
-    heal_before = int(baseline.get("heal_alert_count", 0))
-    heal_now = int(current.get("heal_alert_count", 0))
-    multiplier = float(cfg.get("STABILIZE_HEAL_ALERT_BASELINE_MULTIPLIER", 2.0))
-    if heal_now > heal_before and heal_now >= max(1, heal_before) * multiplier:
-        regressions.append("heal_alert_count")
-
-    audit_before = int(baseline.get("audit_fail_count", 0))
-    audit_now = int(current.get("audit_fail_count", 0))
-    tolerance = int(cfg.get("STABILIZE_AUDIT_FAIL_REGRESSION_TOLERANCE", 0))
-    if audit_now > audit_before + tolerance:
-        regressions.append("audit_fail_count")
-
-    failed_before = float(baseline.get("lean_failed_rate_per_hour", 0.0))
-    failed_now = float(current.get("lean_failed_rate_per_hour", 0.0))
-    if failed_now > failed_before and failed_now >= max(1.0, failed_before) * 2.0:
-        regressions.append("orchestrator_failed_rate")
-
-    baseline_categories = set(str(x) for x in baseline.get("taste_alert_categories", []) if x)
-    current_categories = set(str(x) for x in current.get("taste_alert_categories", []) if x)
-    new_categories = sorted(current_categories - baseline_categories - {"stabilize_regression"})
-    if new_categories:
-        regressions.append("new_taste_alert_category")
-        evidence["new_taste_alert_categories"] = new_categories
-
-    return regressions, evidence
-
-
-def state_stabilize_step(cfg: dict[str, Any], state: dict[str, Any], dry_run: bool) -> None:
-    cycles = int(state.get("stabilize_cycles_in_state", 0)) + 1
-    state["stabilize_cycles_in_state"] = cycles
-    target = int(cfg.get("STABILIZE_CYCLES", 3))
-    regressions, evidence = stabilize_regressions(cfg, state) if not dry_run else ([], {})
-    print(
-        f"[taste] state=stabilize cycles={cycles} target={target} "
-        f"regressions={','.join(regressions) if regressions else 'none'}",
-        flush=True,
-    )
-    if regressions:
-        append_alert(
-            "stabilize_regression",
-            {
-                "regressions": regressions,
-                "last_adjust_commit_sha": state.get("last_adjust_commit_sha"),
-                "last_adjust_at": state.get("last_adjust_at"),
-                "evidence": evidence,
-            },
-            dry_run=dry_run,
-        )
-        return
-    if cycles >= target:
-        transition_state(state, "monitor")
-        print("[taste] transition stabilize -> monitor", flush=True)
+    transition_state(state, "monitor")
+    print("[taste] transition adjust -> monitor", flush=True)
 
 
 def command_output_ok(cmd: list[str], cwd: Path, timeout: int) -> tuple[bool, str]:
@@ -2043,7 +2024,9 @@ def dispatch_rule_evolution(
     approval_ids: list[str],
 ) -> tuple[bool, str, str | None]:
     cluster_key = short_hash(json.dumps({"flag": flag, "evidence": evidence}, sort_keys=True))
+    force_clean_stale_taste_branches()
     worktree, branch = rule_evolution_names(flag, cluster_key)
+    cleanup_rule_evolution_worktree(worktree, branch)
     if worktree.exists():
         shutil.rmtree(worktree)
     base_sha = git("rev-parse", "HEAD", capture=True).stdout.strip()
@@ -2184,8 +2167,6 @@ def cycle(dry_run: bool = False) -> None:
         state_research_step(state, artifacts, dry_run)
     elif cur == "adjust":
         state_adjust_step(cfg, state, dry_run)
-    elif cur == "stabilize":
-        state_stabilize_step(cfg, state, dry_run)
     else:
         state["current_state"] = "monitor"
         state["state_entered_at"] = utc_now()

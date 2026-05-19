@@ -662,3 +662,48 @@ rows. Therefore the audit route is exactly the three touchpoints listed in
 the statement, with no quotient stream, selected limit, ambient completeness,
 metric-completeness row, countable choice, or bridge row.
 \end{proof}
+
+\begin{theorem}[RegSeqRat audit-clean route sufficiency]
+\label{thm:regseqrat-audit-clean-route-sufficiency}
+Let $H$ be an accepted RegSeqRat-side L10 handoff whose visible rows are
+exactly the $\StreamNameUp$ finite-window rows, the $\DyadicRatCoreUp$
+endpoint, radius, and distance ledger, the $\RegSeqRatUp$ classifier and
+regularity rows, and the $\RealUp$ seal row. Then the three Lean-facing
+anchors
+$\mathsf{RatStreamNameFiniteWindowClassifier\_singleton\_diagonal\_handoff}$,
+$\mathsf{DyadicRatCoreCarrier\_regseqrat\_bridge\_handoff\_exactness}$, and
+$\mathsf{RegSeqRatStreamCarrier\_real\_seal\_handoff}$ are sufficient for the
+Phase Real and Completion audit-clean route surface determined by $H$.
+
+No aggregate formalstatus row, bridge row, quotient stream, selected limit,
+countable-choice row, metric-completeness row, or ambient $\RealUp$
+completeness coordinate is part of that route surface.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-streamname-real-audit-clean-route-triad}. It names
+exactly the StreamName finite-window handoff, the DyadicRatCore RegSeqRat
+bridge handoff exactness, and the RegSeqRat Real seal handoff as the
+machine-facing support sites for any RegSeqRat-side L10 consumer.
+
+Next use \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}.
+This identifies the visible rows of $H$ as one finite route through the
+StreamName schedule, DyadicRatCore endpoint-radius-distance ledger,
+RegSeqRat classifier and regularity rows, and public RealUp seal row. Hence
+the four concrete-instance faces named in the statement are the whole carrier
+surface seen by the route.
+
+Then invoke \autoref{thm:regseqrat-real-seal-finite-window-saturation}. The
+RealUp seal is saturated by the same finite windows and ledger rows, so it
+adds no ambient completeness coordinate, selected limit, quotient stream, or
+hidden analytic witness beyond the displayed handoff data.
+
+Finally apply
+\autoref{thm:regseqrat-streamname-dyadic-real-budgeted-request-determinacy}.
+Even when the handoff is read through an explicit budgeted request, agreement
+on the displayed StreamName, DyadicRatCore, RegSeqRat, and RealUp rows
+determines the same route. Therefore the three Lean-facing anchors listed in
+the theorem are sufficient for the current audit-clean surface, and no
+aggregate formalstatus row, bridge row, countable-choice row,
+metric-completeness row, or ambient Real completeness coordinate is imported.
+\end{proof}
