@@ -69,49 +69,59 @@ private theorem zNormal_mk_congr
   cases hNameCert
   rfl
 
-def zNormalToEventFlow : ZNormalUp → EventFlow
+def zNormalFields : ZNormalUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | ZNormalUp.mk typedEndpoint finiteFuel terminalNormality normalWord continuationRead
       transport routes provenance nameCert =>
-      [[BMark.b0],
-        zNormalEncodeBHist typedEndpoint,
-        [BMark.b1, BMark.b0],
-        zNormalEncodeBHist finiteFuel,
-        [BMark.b1, BMark.b1, BMark.b0],
-        zNormalEncodeBHist terminalNormality,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        zNormalEncodeBHist normalWord,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        zNormalEncodeBHist continuationRead,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        zNormalEncodeBHist transport,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        zNormalEncodeBHist routes,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        zNormalEncodeBHist provenance,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        zNormalEncodeBHist nameCert]
+      [typedEndpoint, finiteFuel, terminalNormality, normalWord, continuationRead,
+        transport, routes, provenance, nameCert]
+
+def zNormalToEventFlow : ZNormalUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | x => (zNormalFields x).map zNormalEncodeBHist
 
 def zNormalFromEventFlow : EventFlow → Option ZNormalUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
-  | _tag0 :: typedEndpoint :: _tag1 :: finiteFuel :: _tag2 :: terminalNormality ::
-      _tag3 :: normalWord :: _tag4 :: continuationRead :: _tag5 :: transport ::
-        _tag6 :: routes :: _tag7 :: provenance :: _tag8 :: nameCert :: [] =>
-      some
-        (ZNormalUp.mk
-          (zNormalDecodeBHist typedEndpoint)
-          (zNormalDecodeBHist finiteFuel)
-          (zNormalDecodeBHist terminalNormality)
-          (zNormalDecodeBHist normalWord)
-          (zNormalDecodeBHist continuationRead)
-          (zNormalDecodeBHist transport)
-          (zNormalDecodeBHist routes)
-          (zNormalDecodeBHist provenance)
-          (zNormalDecodeBHist nameCert))
-  | _ => none
+  | typedEndpoint :: rest0 =>
+      match rest0 with
+      | [] => none
+      | finiteFuel :: rest1 =>
+          match rest1 with
+          | [] => none
+          | terminalNormality :: rest2 =>
+              match rest2 with
+              | [] => none
+              | normalWord :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | continuationRead :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | transport :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | routes :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | provenance :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | nameCert :: rest8 =>
+                                      match rest8 with
+                                      | [] =>
+                                          some
+                                            (ZNormalUp.mk
+                                              (zNormalDecodeBHist typedEndpoint)
+                                              (zNormalDecodeBHist finiteFuel)
+                                              (zNormalDecodeBHist terminalNormality)
+                                              (zNormalDecodeBHist normalWord)
+                                              (zNormalDecodeBHist continuationRead)
+                                              (zNormalDecodeBHist transport)
+                                              (zNormalDecodeBHist routes)
+                                              (zNormalDecodeBHist provenance)
+                                              (zNormalDecodeBHist nameCert))
+                                      | _ :: _ => none
 
 private theorem zNormal_round_trip :
     ∀ x : ZNormalUp, zNormalFromEventFlow (zNormalToEventFlow x) = some x := by
@@ -173,13 +183,6 @@ instance zNormalChapterTasteGate : ChapterTasteGate ZNormalUp where
   layer_separation := by
     intro x y hxy heq
     exact hxy (zNormalToEventFlow_injective heq)
-
-def zNormalFields : ZNormalUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | ZNormalUp.mk typedEndpoint finiteFuel terminalNormality normalWord continuationRead
-      transport routes provenance nameCert =>
-      [typedEndpoint, finiteFuel, terminalNormality, normalWord, continuationRead,
-        transport, routes, provenance, nameCert]
 
 private theorem zNormal_fields_faithful :
     ∀ x y : ZNormalUp, zNormalFields x = zNormalFields y → x = y := by
