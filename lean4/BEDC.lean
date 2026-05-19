@@ -1702,6 +1702,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootConsumerCoverage
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootConsumerNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootDependencyTriad
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalAuditHandoff
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalAuditSurface
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalKernelScope
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalLeanTargetBoundary
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalNonescape
@@ -2614,6 +2615,7 @@ import BEDC.Derived.KernelCategoryUp.EndpointTransportClosure
 import BEDC.Derived.KernelCategoryUp.FunctorContinuationHandoff
 import BEDC.Derived.KernelCategoryUp.LawTransportExhaustion
 import BEDC.Derived.KernelCategoryUp.NameCertRootRouteReadiness
+import BEDC.Derived.KernelInductiveAcceptanceUp.RefusalNonescape
 import BEDC.Derived.KernelInductiveAcceptanceUp.TasteGate
 import BEDC.Derived.KernelInductiveEliminatorUp.TasteGate
 import BEDC.Derived.KernelMorphismUp
@@ -3586,6 +3588,7 @@ import BEDC.Derived.RealityConstrainedTowerCompressionUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
 import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
 import BEDC.Derived.RecursionAuthorizationLedgerUp.Carrier
+import BEDC.Derived.RecursionAuthorizationLedgerUp.MotiveOutputRoute
 import BEDC.Derived.RecursionAuthorizationLedgerUp.TasteGate
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.RecursorBranchAuditUp.TasteGate
@@ -3722,6 +3725,7 @@ import BEDC.Derived.RelationalFrameAuditUp.Carrier
 import BEDC.Derived.RelationalFrameAuditUp.TasteGate
 import BEDC.Derived.RelationalObjectivityUp.ObserverFamilySource
 import BEDC.Derived.RelationalObjectivityUp.TasteGate
+import BEDC.Derived.RelationalPhysicsUp
 import BEDC.Derived.RepresentationRingUp
 import BEDC.Derived.RepresentationRingUp.InducedConsumerBoundary
 import BEDC.Derived.RepresentationRingUp.ObligationInventory
@@ -4422,6 +4426,7 @@ import BEDC.Derived.ZnormalUp.FuelReplayNondivergenceBoundary
 import BEDC.Derived.ZnormalUp.HostConversionNonescape
 import BEDC.Derived.ZnormalUp.KernelSourceTotality
 import BEDC.Derived.ZnormalUp.LedgerNonescape
+import BEDC.Derived.ZnormalUp.NameCertObligationSurface
 import BEDC.Derived.ZnormalUp.NamecertLedgerExhaustion
 import BEDC.Derived.ZnormalUp.NormalFormConsumerBoundary
 import BEDC.Derived.ZnormalUp.NormalFormReadinessSupportTotality
@@ -4443,6 +4448,7 @@ import BEDC.Derived.ZnormalUp.RootNameCertComponentExhaustion
 import BEDC.Derived.ZnormalUp.RootNameCertTerminalRouteReadiness
 import BEDC.Derived.ZnormalUp.RootNameCertUnblockPackage
 import BEDC.Derived.ZnormalUp.RootNormalFormConsumerBoundary
+import BEDC.Derived.ZnormalUp.RootNormalFormConsumerExhaustion
 import BEDC.Derived.ZnormalUp.RootNormalFormReadiness
 import BEDC.Derived.ZnormalUp.RootNormalFormReadinessSupport
 import BEDC.Derived.ZnormalUp.RootObligationDownstreamHandoff
@@ -4485,6 +4491,7 @@ import BEDC.Derived.ZnormalUp.TerminalNormalityRefusalStability
 import BEDC.Derived.ZnormalUp.TerminalNormalityScopePackage
 import BEDC.Derived.ZnormalUp.TerminalReadbackExactness
 import BEDC.Derived.ZnormalUp.TerminalReadbackRouteExhaustion
+import BEDC.Derived.ZnormalUp.TerminalRouteComponentTotality
 import BEDC.Derived.ZnormalUp.TerminalRouteExhaustion
 import BEDC.Derived.ZnormalUp.TerminalRouteFieldExhaustion
 import BEDC.Derived.ZnormalUp.TerminalRouteObligationCompletion
