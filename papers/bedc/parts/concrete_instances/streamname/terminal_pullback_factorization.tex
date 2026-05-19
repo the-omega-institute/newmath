@@ -341,3 +341,52 @@ surface. Hence the terminal pullback is invariant under $R$, and no quotient,
 selected host limit, host real equality, completeness, bridge, trichotomy,
 open-cover compactness, or choice coordinate is added.
 \end{proof}
+
+\begin{theorem}[StreamName terminal pullback idempotence]
+\label{thm:streamname-terminal-pullback-idempotence}
+Let $W$ be a certified public $\StreamNameUp$ finite-window observation
+packet. Suppose a terminal four-face pullback packet over $W$ already exposes
+exactly the StreamName finite window, the $\DyadicRatCoreUp$
+endpoint-radius-distance ledger, the $\RegSeqRatUp$ accepted readback rows,
+the $\RealUp$ finite-window seal boundary, and the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Suppose further that the same packet displays the corresponding
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+$\mathsf{UnaryHistory}$ rows required by the public finite observation
+surface. Then applying the terminal pullback reading to this packet again
+exposes the same finite BEDC packet.
+
+Equivalently, the terminal four-face pullback is a normal form for certified
+public StreamName finite-window reads: after the four visible faces and their
+support rows are present, a further terminal reading cannot add a quotient
+stream, host equality, selected limit, ambient completeness row,
+metric-completeness row, bridge row, trichotomy row, open-cover compactness
+row, or choice coordinate.
+\end{theorem}
+\begin{proof}
+First identify the packet already in hand. Apply
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}.
+Its converse direction repacks exactly the displayed StreamName,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces, together with the
+listed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, bundle, unary-history, and
+$\NameCert$ support rows, into the terminal finite-window seal read over $W$.
+
+Next compare the second reading with the first one. By
+\autoref{thm:streamname-regseqrat-realup-composite-terminal-pullback}, a
+two-stage terminal read and the direct composite read determine the same
+finite $\BHist$ packet whenever they expose the same StreamName rows,
+accepted $\RegSeqRatUp$ rows, $\RealUp$ boundary row, finite ledger,
+transports, provenance, bundle rows, unary observations, and local
+$\NameCert$ support.
+
+Finally account for certified reindex routes. Apply
+\autoref{thm:streamname-terminal-reindex-pullback-invariance}. Any certified
+route preserving the displayed finite observation section, endpoint rows,
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows reaches the same
+terminal four-face surface. Thus the second terminal read has no coordinate
+outside the normal-form packet, and the excluded quotient, host-equality,
+selected-limit, completeness, bridge, trichotomy, open-cover compactness, and
+choice data remain unavailable.
+\end{proof}
