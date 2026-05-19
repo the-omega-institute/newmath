@@ -511,4 +511,50 @@ theorem ZetaContinuationApplicationCarrier_componentwise_stability [AskSetup] [P
       provenancePkg,
       operationPkg⟩
 
+theorem ZetaContinuationApplicationCarrier_ledger_route_obligation [AskSetup] [PackageSetup]
+    {eta functional pole zeroLedger gamma application transport replay provenance name
+      poleRead gammaRead applicationRead ledgerRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationApplicationCarrier eta functional pole zeroLedger gamma application transport
+        replay provenance name bundle pkg ->
+      Cont pole zeroLedger poleRead -> Cont gamma application gammaRead ->
+        Cont application replay applicationRead -> Cont poleRead gammaRead ledgerRoute ->
+          PkgSig bundle ledgerRoute pkg ->
+            UnaryHistory pole ∧ UnaryHistory zeroLedger ∧ UnaryHistory gamma ∧
+              UnaryHistory application ∧ UnaryHistory poleRead ∧ UnaryHistory gammaRead ∧
+                UnaryHistory applicationRead ∧ UnaryHistory ledgerRoute ∧
+                  Cont pole zeroLedger poleRead ∧ Cont gamma application gammaRead ∧
+                    Cont application replay applicationRead ∧ Cont poleRead gammaRead ledgerRoute ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle ledgerRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier poleZeroRead gammaApplicationRead applicationReplayRead readLedgerRoute
+    ledgerRoutePkg
+  obtain ⟨_etaUnary, _functionalUnary, poleUnary, zeroLedgerUnary, gammaUnary,
+    applicationUnary, _transportUnary, replayUnary, _provenanceUnary, _nameUnary,
+    _transportReplayProvenance, _etaFunctionalApplication, _gammaApplicationReplay,
+    provenancePkg, _namePkg⟩ := carrier
+  have poleReadUnary : UnaryHistory poleRead :=
+    unary_cont_closed poleUnary zeroLedgerUnary poleZeroRead
+  have gammaReadUnary : UnaryHistory gammaRead :=
+    unary_cont_closed gammaUnary applicationUnary gammaApplicationRead
+  have applicationReadUnary : UnaryHistory applicationRead :=
+    unary_cont_closed applicationUnary replayUnary applicationReplayRead
+  have ledgerRouteUnary : UnaryHistory ledgerRoute :=
+    unary_cont_closed poleReadUnary gammaReadUnary readLedgerRoute
+  exact
+    ⟨poleUnary,
+      zeroLedgerUnary,
+      gammaUnary,
+      applicationUnary,
+      poleReadUnary,
+      gammaReadUnary,
+      applicationReadUnary,
+      ledgerRouteUnary,
+      poleZeroRead,
+      gammaApplicationRead,
+      applicationReplayRead,
+      readLedgerRoute,
+      provenancePkg,
+      ledgerRoutePkg⟩
+
 end BEDC.Derived.ZetaContinuationApplicationUp
