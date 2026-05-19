@@ -110,3 +110,21 @@ For the reverse direction, suppose the two-step read and the certified composite
 
 The exclusion clauses are inherited from the three gate theorems just used. Quotient streams, selected limits, choice data, metric-completeness rows, bridge rows, and ambient Real-completeness rows are not coordinates of either accepted ordered route, so they cannot witness a distinct composite exit surface.
 \end{proof}
+
+\begin{theorem}[StreamName L10 ordered exit face-status readback]
+\label{thm:streamname-l10-ordered-exit-face-status-readback}
+Let $U$ be an accepted Phase Real and Completion seal-facing read whose public surface satisfies the ordered route
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp .
+$$
+Then every seal-facing read of closure-status, formal-status, Lean-target, and bridge-status data for $U$ is facewise: the StreamName entry is read from the $\StreamNameUp$ chapter face, the dyadic ledger entry from the $\DyadicRatCoreUp$ chapter face, the regular-rational readback entry from the $\RegSeqRatUp$ chapter face, and the terminal seal entry from the $\RealUp$ chapter face. The ordered route creates no route-level closure-status row, formal-status row, Lean target, bridge row, quotient stream, selected limit, choice datum, metric-completeness row, or ambient Real-completeness claim.
+\end{theorem}
+\begin{proof}
+Apply the ordered exit gate, \autoref{thm:streamname-l10-four-face-ordered-exit-gate}. It fixes the only admissible read order as $\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp$ and places the public exit surface on those four visible faces with their displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows.
+
+Next apply ordered composition determinacy, \autoref{thm:streamname-l10-ordered-exit-composition-determinacy}. If two accepted seal-facing reads preserve those support rows, their terminal exposure is determined exactly by agreement on the four face rows. Hence a status reader cannot obtain an additional row from the route composite itself; any such row would distinguish two composites with identical face data.
+
+It remains to identify the status sources. Use \autoref{thm:streamname-real-completion-face-status-pullback}, \autoref{thm:dyadicratcore-l10-face-status-pullback}, \autoref{thm:real-l10-face-status-noncollapse}, and \autoref{thm:real-l10-face-leantarget-noncollapse}, together with the terminal pullback formalization touchpoint \texttt{BEDC.Derived.StreamNameUp.StreamNameRealCompletionFourObjectTerminalPullback}. They keep closure-status, formal-status, Lean-target, and bridge-status reads attached to the object faces that expose them, rather than to the ordered path between the faces.
+
+The exclusion list follows from the same gate and determinacy results. Quotient streams, selected limits, choice data, metric-completeness rows, bridge rows, route-level Lean targets, and ambient Real-completeness claims are not coordinates of the four-face packet, so the ordered route supplies no credential beyond the four facewise chapter reads.
+\end{proof}
