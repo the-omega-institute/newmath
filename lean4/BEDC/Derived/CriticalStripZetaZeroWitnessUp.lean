@@ -409,4 +409,33 @@ theorem CriticalStripZetaZeroWitnessPacket_zero_row_admission [AskSetup] [Packag
     ⟨zeroUnary, transportUnary, zeroReadUnary, stripZeroTransport, zeroTransportRead,
       transportRouteEndpoint, endpointPkg⟩
 
+theorem CriticalStripZetaZeroWitnessPacket_classifier_nonescape [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name endpoint strip' zero' line'
+      boundary' transport' route' provenance' name' endpoint' classifierRead : BHist}
+    {bundle bundle' : ProbeBundle ProbeName} {pkg pkg' : Pkg} :
+    CriticalStripZetaZeroWitnessPacket strip zero line boundary transport route provenance name
+        endpoint bundle pkg ->
+      CriticalStripZetaZeroWitnessPacket strip' zero' line' boundary' transport' route'
+        provenance' name' endpoint' bundle' pkg' ->
+        Cont endpoint endpoint' classifierRead ->
+          PkgSig bundle classifierRead pkg ->
+            UnaryHistory endpoint ∧ UnaryHistory endpoint' ∧ UnaryHistory classifierRead ∧
+              PkgSig bundle endpoint pkg ∧ PkgSig bundle' endpoint' pkg' ∧
+                Cont endpoint endpoint' classifierRead ∧ PkgSig bundle classifierRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet packet' endpointRoute classifierPkg
+  obtain ⟨_stripUnary, _zeroUnary, _lineUnary, _boundaryUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, endpointUnary, _stripZeroTransport, _lineBoundaryRoute,
+    _transportRouteEndpoint, _endpointProvenanceName, _endpointSameTransportRoute,
+    endpointPkg⟩ := packet
+  obtain ⟨_stripUnary', _zeroUnary', _lineUnary', _boundaryUnary', _transportUnary',
+    _routeUnary', _provenanceUnary', _nameUnary', endpointUnary', _stripZeroTransport',
+    _lineBoundaryRoute', _transportRouteEndpoint', _endpointProvenanceName',
+    _endpointSameTransportRoute', endpointPkg'⟩ := packet'
+  have classifierUnary : UnaryHistory classifierRead :=
+    unary_cont_closed endpointUnary endpointUnary' endpointRoute
+  exact
+    ⟨endpointUnary, endpointUnary', classifierUnary, endpointPkg, endpointPkg', endpointRoute,
+      classifierPkg⟩
+
 end BEDC.Derived.CriticalStripZetaZeroWitnessUp
