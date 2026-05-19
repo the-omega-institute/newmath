@@ -66,6 +66,7 @@ CONCRETE_BODY_ENV_RE = re.compile(
     r"\\begin\{(?:theorem|definition|lemma|proof|aligned)\}"
 )
 ORIGIN_TAG_RE = re.compile(r"\\origin\{([^}]*)\}")
+CHAPTER_LABEL_RE = re.compile(r"\\label\{ch:concrete-instances-([a-z0-9_-]+)-namecert\}")
 CLOSURESTATUS_BLOCK_RE = re.compile(
     r"\\begin\{closurestatus\}.*?\\end\{closurestatus\}",
     re.DOTALL,
@@ -718,6 +719,81 @@ def changed_concrete_instance_tex_paths() -> set[Path] | None:
     return paths
 
 
+def detect_mislabeled_composite_carriers(min_bucket_size: int = 6) -> list[dict[str, object]]:
+    changed = changed_concrete_instance_tex_paths()
+    origins_by_region: dict[str, dict[str, object]] = {}
+    for block in collect_closurestatus_blocks(PAPER_PARTS_ROOT):
+        paper_file = str(block.get("file") or "")
+        if changed is not None and (REPO_ROOT / paper_file).resolve() not in changed:
+            continue
+        region = str(block.get("region") or "")
+        origin = str(block.get("origin") or "human").strip().lower()
+        if not region or origin not in VALID_ORIGINS:
+            continue
+        origins_by_region[region] = {
+            "origin": origin,
+            "paper_file": block.get("file"),
+            "paper_line": block.get("line"),
+        }
+
+    instances = PAPER_PARTS_ROOT / "concrete_instances"
+    if instances.is_dir():
+        for path in sorted(instances.rglob("*.tex")):
+            if not path.is_file():
+                continue
+            if changed is not None and path not in changed:
+                continue
+            text = read_text(path)
+            label_match = CHAPTER_LABEL_RE.search(text)
+            closure_match = CLOSURESTATUS_BEGIN_RE.search(text)
+            if not label_match or not closure_match:
+                continue
+            if closure_match.group(1) in origins_by_region:
+                continue
+            top_origin = TOP_LEVEL_ORIGIN_RE.search(text)
+            if not top_origin:
+                continue
+            origin = top_origin.group(1).strip().lower()
+            if origin not in VALID_ORIGINS:
+                continue
+            origins_by_region[closure_match.group(1)] = {
+                "origin": origin,
+                "paper_file": str(path.relative_to(REPO_ROOT)),
+                "paper_line": text.count("\n", 0, top_origin.start()) + 1,
+            }
+
+    records = collect_carrier_records()
+    phase1_map: dict[tuple[int, tuple[str, ...]], list[CarrierRecord]] = {}
+    for record in records:
+        key = (record.arity, tuple(sorted(record.field_types)))
+        phase1_map.setdefault(key, []).append(record)
+
+    findings: list[dict[str, object]] = []
+    for record in records:
+        if not record.name.endswith("Up"):
+            continue
+        region = record.name[:-2]
+        origin_info = origins_by_region.get(region)
+        if not origin_info or origin_info.get("origin") != "ai":
+            continue
+        key = (record.arity, tuple(sorted(record.field_types)))
+        members = sorted(phase1_map.get(key, []), key=lambda item: item.name)
+        if len(members) < min_bucket_size:
+            continue
+        findings.append({
+            "carrier_name": record.name,
+            "carrier_file": record.file,
+            "paper_file": origin_info.get("paper_file"),
+            "paper_line": origin_info.get("paper_line"),
+            "origin": origin_info.get("origin"),
+            "bucket_phase": "phase1_buckets",
+            "bucket_member_count": len(members),
+            "bucket_members": [member.name for member in members[:12]],
+            "required_origin": "ai-composite",
+        })
+    return sorted(findings, key=lambda item: str(item["carrier_name"]))
+
+
 CLOSURESTATUS_BEGIN_RE = re.compile(
     r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
 )
@@ -921,6 +997,7 @@ def audit_payload() -> dict[str, object]:
     preamble_duplicate_commands = detect_preamble_duplicate_commands()
     concrete_number_collisions = detect_concrete_instance_number_collisions()
     concrete_missing_origin = detect_concrete_instance_missing_origin()
+    mislabeled_composite_carriers = detect_mislabeled_composite_carriers()
 
     closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     closurestatus_diagnostics: list[str] = []
@@ -945,6 +1022,8 @@ def audit_payload() -> dict[str, object]:
         "concrete_number_collisions_count": len(concrete_number_collisions),
         "concrete_missing_origin": concrete_missing_origin,
         "concrete_missing_origin_count": len(concrete_missing_origin),
+        "mislabeled_composite_carriers": mislabeled_composite_carriers,
+        "mislabeled_composite_carriers_count": len(mislabeled_composite_carriers),
         "closurestatus_blocks_total": len(closurestatus_blocks),
         "closurestatus_blocks": closurestatus_blocks,
         "closurestatus_diagnostics": closurestatus_diagnostics,
@@ -1100,6 +1179,20 @@ def cmd_audit(args: argparse.Namespace) -> int:
             )
             for item in payload["concrete_missing_origin"][:50]:
                 print(f"  {item['file']}: {item['kind']}")
+        if payload["mislabeled_composite_carriers"]:
+            print(
+                "[bedc-ci] mislabeled composite carriers (informational): "
+                f"{payload['mislabeled_composite_carriers_count']}"
+            )
+            for item in payload["mislabeled_composite_carriers"][:50]:
+                members = ", ".join(item["bucket_members"])
+                print(
+                    f"  {item['carrier_name']} origin={item['origin']} "
+                    f"bucket={item['bucket_member_count']} -> {item['required_origin']}"
+                )
+                print(f"    paper: {item['paper_file']}:{item['paper_line']}")
+                print(f"    lean: {item['carrier_file']}")
+                print(f"    bucket sample: {members}")
         if payload["closurestatus_diagnostics"]:
             print(
                 "[bedc-ci] closurestatus block diagnostics: "
