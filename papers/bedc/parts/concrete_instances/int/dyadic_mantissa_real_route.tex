@@ -27,3 +27,37 @@ equality, quotient representatives, primitive subtraction, or ambient
 completeness, the real-side read inherits only the displayed BEDC lattice
 surface.
 \end{proof}
+
+\begin{theorem}[IntUp dyadic mantissa L10 source uniqueness]
+\label{thm:int-dyadic-mantissa-l10-source-uniqueness}
+Let two L10 Real-and-Completion reads expose an $\IntUp$ signed-pair coordinate
+as the mantissa input of a $\DyadicRatCoreUp$ packet. Suppose both reads display
+the same $\IntUp$ signed-pair row, the same $\RatUp$ denominator normalization
+surface, and the same $\DyadicRatCoreUp$ mantissa/denominator packet before the
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers read it. Then the two
+reads determine the same finite BEDC source row for that signed mantissa
+handoff. This uniqueness is a statement about the displayed BEDC packet only;
+it does not assert host integer equality, quotient rational representatives,
+primitive subtraction, selected limits, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply the route theorem \autoref{thm:int-dyadic-mantissa-real-route}. It forces
+each read through the $\NatUp$, $\AddUp$, $\RatUp$, and $\DyadicRatCoreUp$
+chapter surfaces before any Real-and-Completion consumer can inspect a seal
+boundary.
+
+Next use the sibling route
+\autoref{thm:int-dyadicratcore-denominator-route-sibling-repair} and the L10
+handoff \autoref{thm:int-dyadicratcore-l10-denominator-handoff}. These identify
+the source of the dyadic packet as the displayed $\IntUp$ signed-pair row
+together with the displayed $\RatUp$ denominator normalization surface and the
+dyadic mantissa route.
+
+Finally apply the scoped source boundary
+\autoref{thm:dyadicratcore-scoped-source-boundary} and signed-exponent source
+determinacy \autoref{thm:dyadic-rat-core-signed-exponent-source-determinacy}.
+Those rows say that downstream $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$
+consumers can read only the visible finite dyadic packet. Since the two reads
+share that packet before the consumers act, they determine the same finite BEDC
+source row and no excluded host-level datum can split it into two sources.
+\end{proof}
