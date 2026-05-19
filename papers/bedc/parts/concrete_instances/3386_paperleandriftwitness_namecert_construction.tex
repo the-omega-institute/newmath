@@ -588,6 +588,42 @@ Marker-family resolution readiness keeps this totality family-local. A token con
 Audit-map consumer totality and formalstatus synchronization readiness identify the token-facing consumer. The status-token kernel boundary theorem then keeps the token read on the verification axis, so totality over exact resolution, duplicate-label refusal, and unresolved-marker refusal does not create bridge evidence or paper-side closure data.
 \end{proof}
 
+\begin{theorem}[Paper-Lean drift witness audit replay source lock]
+\label{thm:paper-lean-drift-witness-audit-replay-source-lock}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier, every audit replay consumed by an $\AuditMapDependencyWeaveUp$ route remains sourced in the same $M,A,L,I,R,H,C,P,N$ packet. The replay may expose the local marker row, normalized requested-name row, duplicate ledger, inventory lookup, verdict, transport, continuity replay, package provenance, and local $\NameCert$ row, but it may not substitute a neighbouring marker, neighbouring normalized name, or neighbouring verdict for the original packet.
+\end{theorem}
+\begin{proof}
+Resolution exactness, \autoref{thm:paper-lean-drift-witness-resolution-exactness}, first fixes the exact branch as a rowwise read of $M,A,L,I,R$. Marker inventory kind lock, \autoref{thm:paper-lean-drift-witness-marker-inventory-kind-lock}, keeps the marker family and inventory lookup attached to that same source before any consumer sees the replay.
+
+The public resolution export theorem, \autoref{thm:paper-lean-drift-witness-public-resolution-export}, names the exported rows as $M,A,L,I,R,H,C,P,N$. Applying public token consumer totality then shows that exact resolution, duplicate-label refusal, and unresolved-marker refusal are all consumed from this single packet, not from a second witness.
+
+Finally, the dependency-weave handoff route only transports the exported rows to neighbouring audit-map consumers. Since the handoff receives the locked packet after marker-kind separation and exactness, it cannot replace the source marker or verdict by a neighbouring marker summary.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness Lean inventory hit exhaustion]
+\label{thm:paper-lean-drift-witness-lean-inventory-hit-exhaustion}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier, exact marker resolution is exhausted by the displayed Lean inventory hit together with the non-duplicate label row. If the duplicate-label ledger marks the requested name as duplicated, or if the Lean inventory lookup is absent, the corresponding branch remains a public refusal row and cannot be consumed as an exact hit.
+\end{theorem}
+\begin{proof}
+Resolution exactness identifies the exact branch with the normalized requested-name row $A$, duplicate-label ledger $L$, Lean inventory lookup $I$, and verdict row $R$. The exact branch is therefore available only when the inventory hit and the non-duplicate label condition are both present in the displayed packet.
+
+Marker inventory kind lock keeps this inventory read within the marker family fixed by $M$. Public resolution export then exposes only the same inventory and ledger rows to downstream consumers, so no approximate declaration name or marker-family coercion can supply a second exact hit.
+
+Public token consumer totality supplies the exhaustive case split. The exact branch consumes the displayed hit; the duplicate-label branch consumes the duplicate ledger; the unresolved-marker branch consumes the absent inventory lookup. The two refusal branches remain refusal rows after export and cannot be reclassified as exact resolution.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness name normalization no-escape]
+\label{thm:paper-lean-drift-witness-name-normalization-noescape}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier, underscore and Lean-name normalization is only a replay row inside the same $M,A,L,I,R,H,C,P,N$ packet. Normalization authorizes comparison with the displayed requested-name row, but it gives no permission for approximate lookup, spelling repair, marker-family coercion, or substitution of a neighbouring declaration name.
+\end{theorem}
+\begin{proof}
+Resolution exactness uses normalization as part of the requested-name row $A$ and then reads the duplicate ledger, inventory lookup, and verdict from $L,I,R$. Thus normalization is an input row to exact resolution, not an external search rule.
+
+Marker inventory kind lock keeps the normalized name under the marker family fixed by $M$. Public resolution export carries this normalized name together with $H,C,P,N$, so audit-map consumers receive the replayed spelling only as part of the same finite packet.
+
+Public token consumer totality closes the exclusion. A consumer is total over exact resolution, duplicate-label refusal, and unresolved-marker refusal for the given packet, and this totality leaves no branch in which normalization can escape into approximate lookup or coerce one marker family into another.
+\end{proof}
+
 The exact-resolution row exported by $\PaperLeanDriftWitnessUp$ is consumed by the cross-map routing and synthesis-consumer rows of \autoref{ch:concrete-instances-auditmapdependencyweave-namecert}. The $\PaperLeanDriftWitnessUp$ packet supplies marker normalization, duplicate-label refusal, Lean inventory lookup, and exact-resolution verdict rows, while $\AuditMapDependencyWeaveUp$ decides how such local rows travel through neighbouring audit-map routes without discharging their obstruction rows.
 
 \closureat{PaperLeanDriftWitnessUp}{seedStr}
