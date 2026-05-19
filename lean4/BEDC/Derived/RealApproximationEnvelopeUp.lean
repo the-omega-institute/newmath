@@ -246,4 +246,31 @@ theorem RealApproximationEnvelope_window_classifier_exactness [AskSetup] [Packag
     ⟨windowUnary, dyadicUnary, classifierReadUnary, sealRowUnary, sealReadUnary,
       windowDyadicClassifierRead, classifierReadSealSealRead, provenancePkg, sealReadPkg⟩
 
+theorem RealApproximationEnvelope_regularity_propagation [AskSetup] [PackageSetup]
+    {tolerance window dyadic classifier sealRow transport route provenance name classifierRead
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealApproximationEnvelopeCarrier tolerance window dyadic classifier sealRow transport
+        route provenance name bundle pkg →
+      Cont dyadic classifier classifierRead →
+        Cont classifierRead sealRow sealRead →
+          PkgSig bundle sealRead pkg →
+            UnaryHistory classifier ∧ UnaryHistory classifierRead ∧ UnaryHistory sealRow ∧
+              UnaryHistory sealRead ∧ Cont dyadic classifier classifierRead ∧
+                Cont classifierRead sealRow sealRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier dyadicClassifierRead classifierReadSealSealRead sealReadPkg
+  obtain ⟨_toleranceUnary, _windowUnary, dyadicUnary, classifierUnary, sealRowUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, _toleranceWindowRoute,
+    _windowDyadicClassifier, _classifierSealTransport, provenancePkg, _namePkg⟩ :=
+    carrier
+  have classifierReadUnary : UnaryHistory classifierRead :=
+    unary_cont_closed dyadicUnary classifierUnary dyadicClassifierRead
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed classifierReadUnary sealRowUnary classifierReadSealSealRead
+  exact
+    ⟨classifierUnary, classifierReadUnary, sealRowUnary, sealReadUnary,
+      dyadicClassifierRead, classifierReadSealSealRead, provenancePkg, sealReadPkg⟩
+
 end BEDC.Derived.RealApproximationEnvelopeUp
