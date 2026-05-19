@@ -466,4 +466,25 @@ theorem CriticalStripZetaZeroWitnessPacket_classifier_nonescape [AskSetup] [Pack
     ⟨endpointUnary, endpointUnary', classifierUnary, endpointPkg, endpointPkg', endpointRoute,
       classifierPkg⟩
 
+theorem CriticalStripZetaZeroWitnessPacket_shared_source_binding [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name sourceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CriticalStripZetaZeroWitnessCarrier strip zero line boundary transport route provenance name
+        bundle pkg ->
+      Cont strip zero sourceRead ->
+        PkgSig bundle sourceRead pkg ->
+          UnaryHistory strip ∧ UnaryHistory zero ∧ UnaryHistory route ∧
+            UnaryHistory sourceRead ∧ Cont strip zero sourceRead ∧
+              Cont strip route provenance ∧ Cont zero route provenance ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle sourceRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier sourceRoute sourcePkg
+  obtain ⟨stripUnary, zeroUnary, _lineUnary, _boundaryUnary, _transportUnary, routeUnary,
+    _provenanceUnary, _nameUnary, stripRoute, zeroRoute, provenancePkg⟩ := carrier
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed stripUnary zeroUnary sourceRoute
+  exact
+    ⟨stripUnary, zeroUnary, routeUnary, sourceUnary, sourceRoute, stripRoute, zeroRoute,
+      provenancePkg, sourcePkg⟩
+
 end BEDC.Derived.CriticalStripZetaZeroWitnessUp
