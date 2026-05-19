@@ -465,6 +465,7 @@ import BEDC.Derived.BHistArity13SequenceNameCertUp
 import BEDC.Derived.BHistArity13TupleNameCertUp
 import BEDC.Derived.BHistArity14SequenceNameCertUp
 import BEDC.Derived.BHistArity14TupleNameCertUp
+import BEDC.Derived.BHistArity15SequenceNameCertUp
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
 import BEDC.Derived.BHistDecaSequenceNameCertUp
 import BEDC.Derived.BHistDecaTupleNameCertUp
@@ -1593,6 +1594,7 @@ import BEDC.Derived.CriticalLineWitnessUp.DownstreamRhBoundaryRefinement
 import BEDC.Derived.CriticalLineWitnessUp.FiniteObservationRoute
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripCarrierSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripClassifierStability
+import BEDC.Derived.CriticalLineWitnessUp.FixedStripModulusRefusal
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripNameCertSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceTotalityCertificate
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZeroRouteBoundary
@@ -1625,8 +1627,10 @@ import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
 import BEDC.Derived.CriticalLineWitnessUp.RouteClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RouteReadbackExhaustionCertificate
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
+import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroStripRoute
 import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripClassifierTransport
+import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusRoute
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -1696,6 +1700,7 @@ import BEDC.Derived.DerivedCatUp
 import BEDC.Derived.DerivedFunctorUp
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.DiagonalCofinalTailUp
+import BEDC.Derived.DiagonalCofinalTailUp.FiniteWindowReplayDeterminacy
 import BEDC.Derived.DiagonalCofinalTailUp.RegSeqRatStreamNameHandoff
 import BEDC.Derived.DiagonalCofinalTailUp.TasteGate
 import BEDC.Derived.DiagonalLimitBudgetUp.TasteGate
@@ -3182,6 +3187,7 @@ import BEDC.Derived.ObservationCouplingUp
 import BEDC.Derived.ObservationFiberDigestUp.TasteGate
 import BEDC.Derived.ObservationLogicBoundaryUp.TasteGate
 import BEDC.Derived.ObservationReflectionHandoffUp.TasteGate
+import BEDC.Derived.ObservationReflectionPacketUp.NonescapeFields
 import BEDC.Derived.ObservationReflectionPacketUp.StdBridge
 import BEDC.Derived.ObservationReflectionPacketUp.TasteGate
 import BEDC.Derived.ObservationScheduleEnvelopeUp
@@ -3240,6 +3246,7 @@ import BEDC.Derived.OnticResidueLatticeUp.TasteGate
 import BEDC.Derived.OnticResidueLedgerUp.TasteGate
 import BEDC.Derived.OnticStateUp.ComponentwiseTransportScope
 import BEDC.Derived.OnticStateUp.NameCertObligationSurface
+import BEDC.Derived.OnticStateUp.ObserverAccessScope
 import BEDC.Derived.OnticStateUp.ResidueLedgerExactness
 import BEDC.Derived.OnticStateUp.SiblingNoncollapse
 import BEDC.Derived.OnticStateUp.SignatureStability
@@ -3363,6 +3370,7 @@ import BEDC.Derived.PhysicalNameCertAuditUp.TasteGate
 import BEDC.Derived.PhysicalOperationDescentUp.TasteGate
 import BEDC.Derived.PhysicalRecordInvariantUp.TasteGate
 import BEDC.Derived.PhysicalTruthCertificateUp.NameCertObligations
+import BEDC.Derived.PhysicalTruthCertificateUp.OpenFitNonescape
 import BEDC.Derived.PhysicalTruthCertificateUp.TasteGate
 import BEDC.Derived.PhysicsFalsificationSurfaceUp.TasteGate
 import BEDC.Derived.PhysicsProgrammeSynthesisUp.TasteGate
