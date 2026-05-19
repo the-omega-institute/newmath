@@ -1004,6 +1004,7 @@ import BEDC.Derived.CauchyWitnessLedgerUp.ComponentwiseTransport
 import BEDC.Derived.CauchyWitnessLedgerUp.ForbiddenCoordinateExclusion
 import BEDC.Derived.CauchyWitnessLedgerUp.FormalTargetSurface
 import BEDC.Derived.CauchyWitnessLedgerUp.ObserverFilterBudgetSelectorLock
+import BEDC.Derived.CauchyWitnessLedgerUp.ReadbackTotality
 import BEDC.Derived.CauchyWitnessLedgerUp.RegularRealDependencyScope
 import BEDC.Derived.CauchyWitnessLedgerUp.RootBudgetCoherence
 import BEDC.Derived.CauchyWitnessLedgerUp.RootConsumerExhaustion
@@ -1140,6 +1141,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosednessLedgerCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerScheduleLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ConsumerFactorization
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ConsumerRouteDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.DepthRowStability
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NameCertExportTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NormalizationFrontierHandoff
@@ -3070,6 +3072,7 @@ import BEDC.Derived.ObserverAccumulationClockUp.TasteGate
 import BEDC.Derived.ObserverBoundarySelectorUp.TasteGate
 import BEDC.Derived.ObserverBridgeLedgerUp.TasteGate
 import BEDC.Derived.ObserverBudgetSupportUp.Boundary
+import BEDC.Derived.ObserverBudgetSupportUp.BridgeSurface
 import BEDC.Derived.ObserverBudgetSupportUp.NameCert
 import BEDC.Derived.ObserverBudgetSupportUp.RouteTotality
 import BEDC.Derived.ObserverBudgetSupportUp.TasteGate
@@ -4367,6 +4370,7 @@ import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.ZnormalUp
 import BEDC.Derived.ZnormalUp.CarryClassifierRow
 import BEDC.Derived.ZnormalUp.DecisionRouteExhaustion
+import BEDC.Derived.ZnormalUp.FiniteNormalwordClassifierCompatibility
 import BEDC.Derived.ZnormalUp.FuelReadbackTasteGateRoute
 import BEDC.Derived.ZnormalUp.LedgerNonescape
 import BEDC.Derived.ZnormalUp.NormalFormConsumerBoundary
@@ -4398,6 +4402,7 @@ import BEDC.Derived.ZnormalUp.TerminalBoundaryNonescape
 import BEDC.Derived.ZnormalUp.TerminalConsumerTotality
 import BEDC.Derived.ZnormalUp.TerminalFuelRouteExhaustion
 import BEDC.Derived.ZnormalUp.TerminalHostBoundary
+import BEDC.Derived.ZnormalUp.TerminalHostRootFactorization
 import BEDC.Derived.ZnormalUp.TerminalHostScopeTriad
 import BEDC.Derived.ZnormalUp.TerminalNormalityCarrierExposure
 import BEDC.Derived.ZnormalUp.TerminalNormalityRefusalStability
@@ -4409,9 +4414,11 @@ import BEDC.Derived.ZnormalUp.TerminalRouteObligationCompletion
 import BEDC.Derived.ZnormalUp.TerminalRowConstructorExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostConsumerScope
 import BEDC.Derived.ZnormalUp.TotalHostDecisionSurface
+import BEDC.Derived.ZnormalUp.TotalHostLedgerExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostLedgerNonescape
 import BEDC.Derived.ZnormalUp.TotalHostNormalFormLedgerExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostReadbackSeparation
+import BEDC.Derived.ZnormalUp.TotalHostTerminalCarrierAdmission
 import BEDC.Derived.ZnormalUp.TotalHostTerminalExposure
 import BEDC.Derived.ZnormalUp.TypedBoundaryExhaustion
 import BEDC.DerivedIndexAnalysis
