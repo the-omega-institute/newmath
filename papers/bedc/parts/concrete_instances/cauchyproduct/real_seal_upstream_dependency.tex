@@ -83,3 +83,41 @@ cited coverage theorem also lists the missing coordinates, so no host
 multiplication, quotient product, selected limit, trichotomy row, or ambient
 completeness object can be introduced by reusing the selector.
 \end{proof}
+
+\begin{theorem}[CauchyProduct Real seal selector coherence]
+\label{thm:cauchy-product-real-seal-selector-coherence}
+Let two accepted $\CauchyProductUp$ packets use the same finite
+observation-budget selector. Suppose their paired $\StreamNameUp$ windows,
+$\DyadicRatCoreUp$ radius and observation rows, $\RegSeqRatUp$ classifier row,
+and $\RealUp$ seal boundary agree componentwise on the public packet rows. Then
+every Real-seal consumer and every $\CauchyLimitSealUp$ sibling-seal consumer
+reads the same finite route
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
+$$
+together with the shared selector rows. Selector reuse is coherent with the full
+L10 sibling seal route, and it exports no host multiplication, quotient stream,
+selected limit, trichotomy row, choice witness, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+First read the Real-seal side through
+\autoref{thm:cauchy-product-real-seal-upstream-dependency}. That theorem
+exhausts every completion-facing Real-seal read by the displayed route, together
+with accepted observation-budget rows, before the $\RealUp$ boundary can be
+consumed.
+
+Next read the sibling-seal side through
+\autoref{thm:cauchy-product-limitseal-sibling-dependency}. It identifies the
+$\CauchyLimitSealUp$ compatibility boundary as a horizontal consumer of the same
+StreamName, dyadic, classifier, Real, transport, route, package, and local naming
+rows, so the sibling edge has no independent analytic coordinate.
+
+Finally apply
+\autoref{thm:cauchy-product-shared-selector-real-seal-associativity}. Since the
+two accepted packets share one selector and agree on the public window, radius,
+observation, classifier, and Real boundary rows, selector reuse fixes the finite
+product-route surface for both packets. Combining the three cited theorems gives
+the same route for Real-seal and $\CauchyLimitSealUp$ consumers, with no host
+multiplication, quotient streams, selected limits, trichotomy, choice, or ambient
+completeness.
+\end{proof}
