@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
@@ -9,6 +10,7 @@ namespace BEDC.Derived.ContinuationCountermodelUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -316,5 +318,152 @@ theorem ContinuationCountermodelUp_root_replay_transport
   have routedUnary : UnaryHistory routed :=
     unary_cont_closed replayUnary defeatUnary replayDefeatRouted
   exact ⟨replayUnary, routedUnary, rootReuseReplay, replayDefeatRouted⟩
+
+theorem ContinuationCountermodelNameCertObligations
+    {finiteFit admissible modelPrediction observedContinuation mismatch stability failure
+      _transport replay provenance _name routed : BHist} :
+    Cont finiteFit admissible replay ->
+      Cont modelPrediction observedContinuation mismatch ->
+        Cont replay mismatch routed ->
+          UnaryHistory finiteFit ->
+            UnaryHistory admissible ->
+              UnaryHistory modelPrediction ->
+                UnaryHistory observedContinuation ->
+                  UnaryHistory stability ->
+                    UnaryHistory failure ->
+                      SemanticNameCert
+                        (fun row : BHist =>
+                          hsame row finiteFit ∨ hsame row admissible ∨
+                            hsame row modelPrediction ∨ hsame row observedContinuation ∨
+                              hsame row mismatch ∨ hsame row replay ∨ hsame row routed)
+                        (fun row : BHist =>
+                          hsame row finiteFit ∨ hsame row admissible ∨
+                            hsame row modelPrediction ∨ hsame row observedContinuation ∨
+                              hsame row mismatch ∨ hsame row replay ∨ hsame row routed)
+                        (fun row : BHist => UnaryHistory row ∧ hsame provenance provenance)
+                        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro finiteAdmissibleReplay modelObservedMismatch replayMismatchRouted finiteUnary
+    admissibleUnary modelUnary observedUnary _stabilityUnary _failureUnary
+  have mismatchUnary : UnaryHistory mismatch :=
+    unary_cont_closed modelUnary observedUnary modelObservedMismatch
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed finiteUnary admissibleUnary finiteAdmissibleReplay
+  have routedUnary : UnaryHistory routed :=
+    unary_cont_closed replayUnary mismatchUnary replayMismatchRouted
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro finiteFit (Or.inl (hsame_refl finiteFit))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        cases source with
+        | inl sameFinite =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) sameFinite)
+        | inr rest =>
+            cases rest with
+            | inl sameAdmissible =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameAdmissible))
+            | inr rest =>
+                cases rest with
+                | inl sameModel =>
+                    exact Or.inr
+                      (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameModel)))
+                | inr rest =>
+                    cases rest with
+                    | inl sameObserved =>
+                        exact Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inl
+                                (hsame_trans (hsame_symm sameRows) sameObserved))))
+                    | inr rest =>
+                        cases rest with
+                        | inl sameMismatch =>
+                            exact Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inl
+                                      (hsame_trans (hsame_symm sameRows)
+                                        sameMismatch)))))
+                        | inr rest =>
+                            cases rest with
+                            | inl sameReplay =>
+                                exact Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inl
+                                            (hsame_trans (hsame_symm sameRows)
+                                              sameReplay))))))
+                            | inr sameRouted =>
+                                exact Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (hsame_trans (hsame_symm sameRows)
+                                              sameRouted))))))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro row source
+      cases source with
+      | inl sameFinite =>
+          exact
+            And.intro (unary_transport finiteUnary (hsame_symm sameFinite))
+              (hsame_refl provenance)
+      | inr rest =>
+          cases rest with
+          | inl sameAdmissible =>
+              exact
+                And.intro (unary_transport admissibleUnary (hsame_symm sameAdmissible))
+                  (hsame_refl provenance)
+          | inr rest =>
+              cases rest with
+              | inl sameModel =>
+                  exact
+                    And.intro (unary_transport modelUnary (hsame_symm sameModel))
+                      (hsame_refl provenance)
+              | inr rest =>
+                  cases rest with
+                  | inl sameObserved =>
+                      exact
+                        And.intro (unary_transport observedUnary (hsame_symm sameObserved))
+                          (hsame_refl provenance)
+                  | inr rest =>
+                      cases rest with
+                      | inl sameMismatch =>
+                          exact
+                            And.intro
+                              (unary_transport mismatchUnary (hsame_symm sameMismatch))
+                              (hsame_refl provenance)
+                      | inr rest =>
+                          cases rest with
+                          | inl sameReplay =>
+                              exact
+                                And.intro
+                                  (unary_transport replayUnary (hsame_symm sameReplay))
+                                  (hsame_refl provenance)
+                          | inr sameRouted =>
+                              exact
+                                And.intro
+                                  (unary_transport routedUnary (hsame_symm sameRouted))
+                                  (hsame_refl provenance)
+  }
 
 end BEDC.Derived.ContinuationCountermodelUp
