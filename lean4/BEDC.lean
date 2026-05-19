@@ -40,6 +40,7 @@ import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
 import BEDC.Derived.AnalyticContinuationSocketUp
 import BEDC.Derived.AnalyticContinuationSocketUp.BranchObstructionConsumerLock
+import BEDC.Derived.AnalyticContinuationSocketUp.CarrierAdmission
 import BEDC.Derived.AnalyticContinuationSocketUp.CarrierSourceObligation
 import BEDC.Derived.AnalyticContinuationSocketUp.HolomorphicHandoff
 import BEDC.Derived.AnalyticContinuationSocketUp.LedgerObligation
@@ -3122,6 +3123,7 @@ import BEDC.Derived.MetricTriangleUniformEstimateUp.ConsumerHandoff
 import BEDC.Derived.MetricTriangleUniformEstimateUp.ContRouteScope
 import BEDC.Derived.MetricTriangleUniformEstimateUp.FiniteRouteNonescape
 import BEDC.Derived.MetricTriangleUniformEstimateUp.HeineCantorLastStep
+import BEDC.Derived.MetricTriangleUniformEstimateUp.NameCertScope
 import BEDC.Derived.MetricTriangleUniformEstimateUp.NoCompletionEscape
 import BEDC.Derived.MetricTriangleUniformEstimateUp.PublicUniformityCriterion
 import BEDC.Derived.MetricTriangleUniformEstimateUp.RadiusComposition
@@ -3295,7 +3297,6 @@ import BEDC.Derived.ObserverBudgetSupportUp.PublicReadback
 import BEDC.Derived.ObserverBudgetSupportUp.RouteTotality
 import BEDC.Derived.ObserverBudgetSupportUp.TasteGate
 import BEDC.Derived.ObserverCoordinateFrameUp.TasteGate
-import BEDC.Derived.ObserverDirectionUp.FalsifiableBoundary
 import BEDC.Derived.ObserverDirectionUp.NameCertObligations
 import BEDC.Derived.ObserverDirectionUp.TasteGate
 import BEDC.Derived.ObserverDistinctionTraceUp.TasteGate
@@ -3693,7 +3694,6 @@ import BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate
 import BEDC.Derived.RealCompletenessUp
 import BEDC.Derived.RealCompletionExactBoundaryUp.FiniteTailFilterHandoff
 import BEDC.Derived.RealCompletionExactBoundaryUp.FourFaceExactness
-import BEDC.Derived.RealCompletionExactBoundaryUp.FourFaceTerminalConsumerExhaustion
 import BEDC.Derived.RealCompletionExactBoundaryUp.MatureRoute
 import BEDC.Derived.RealCompletionExactBoundaryUp.NameCertObligations
 import BEDC.Derived.RealCompletionExactBoundaryUp.NoCompletenessEscape
@@ -3852,7 +3852,6 @@ import BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
 import BEDC.Derived.RealityConstrainedTruthCertUp.FieldCoverage
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10Readiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10SourceReadiness
-import BEDC.Derived.RealityConstrainedTruthCertUp.NameCertObligationExhaustion
 import BEDC.Derived.RealityConstrainedTruthCertUp.PhysicalFitNonescape
 import BEDC.Derived.RealityConstrainedTruthCertUp.RootTasteGateReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
@@ -3977,6 +3976,7 @@ import BEDC.Derived.RegularCauchySumUp.DyadicCofinalSelectorHandoff
 import BEDC.Derived.RegularCauchySumUp.FiniteBudgetNonescape
 import BEDC.Derived.RegularCauchySumUp.NameCertObligations
 import BEDC.Derived.RegularCauchySumUp.NonEscapeBoundary
+import BEDC.Derived.RegularCauchySumUp.ObligationSurface
 import BEDC.Derived.RegularCauchySumUp.RealSealRoute
 import BEDC.Derived.RegularCauchySumUp.SharedTailMeetHandoff
 import BEDC.Derived.RegularCauchySumUp.TailSelectorCompatibility
