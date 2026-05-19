@@ -1123,6 +1123,7 @@ import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.ClosedSubstrateQuadrantUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRoute
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRouteCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuthorizedRecursorAuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderSealFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueShiftTotality
@@ -4311,6 +4312,9 @@ import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripConsumerNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPoleBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPublicRefusal
 import BEDC.Derived.ZetaContinuationWitnessUp.EtaDenominatorBoundary
+import BEDC.Derived.ZetaContinuationWitnessUp.FunctionalFactorNonescape
+import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryPublicExport
+import BEDC.Derived.ZetaContinuationWitnessUp.GammaCriticalStripReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaFunctionalBoundaryTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
@@ -4329,6 +4333,7 @@ import BEDC.Derived.ZnormalUp
 import BEDC.Derived.ZnormalUp.DecisionRouteExhaustion
 import BEDC.Derived.ZnormalUp.FuelReadbackTasteGateRoute
 import BEDC.Derived.ZnormalUp.LedgerNonescape
+import BEDC.Derived.ZnormalUp.RootConsumerReadiness
 import BEDC.Derived.ZnormalUp.RootContReplayClosure
 import BEDC.Derived.ZnormalUp.RootDisplayPacketBridgeReadbackExactness
 import BEDC.Derived.ZnormalUp.RootNormalFormReadiness

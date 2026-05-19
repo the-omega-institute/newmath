@@ -11,6 +11,34 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def MetaCICNormalizationFrontierPublicExportSurface [AskSetup] [PackageSetup]
+    (candidate closedCandidate finished endpoint obstruction transport replay provenance
+      localRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  MetaCICNormalizationFrontierCarrier candidate closedCandidate finished endpoint obstruction
+    transport replay provenance localRow bundle pkg ∧ PkgSig bundle provenance pkg
+
+theorem MetaCICNormalizationFrontierPublicExportSurface_replay_read [AskSetup] [PackageSetup]
+    {candidate closedCandidate finished endpoint obstruction transport replay provenance
+      localRow publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICNormalizationFrontierPublicExportSurface candidate closedCandidate finished endpoint
+        obstruction transport replay provenance localRow bundle pkg →
+      Cont replay provenance publicRead →
+        PkgSig bundle publicRead pkg →
+          UnaryHistory publicRead ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro surface replayProvenancePublic publicPkg
+  obtain ⟨carrier, provenancePkg⟩ := surface
+  obtain ⟨_candidateUnary, _closedCandidateUnary, _finishedUnary, _endpointUnary,
+    _obstructionUnary, _transportUnary, replayUnary, provenanceUnary, _localRowUnary,
+    _candidateClosedLocal, _finishedEndpointReplay, _endpointReplayProvenance,
+    _transportSameCandidateFinished, _carrierProvenancePkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed replayUnary provenanceUnary replayProvenancePublic
+  exact ⟨publicUnary, provenancePkg, publicPkg⟩
+
 theorem MetaCICNormalizationFrontierPublicExportTotality [AskSetup] [PackageSetup]
     {candidate closedCandidate finished endpoint obstruction transport replay provenance
       localRow candidateRoute finishedRoute publicRead : BHist}
