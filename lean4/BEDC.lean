@@ -40,6 +40,7 @@ import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
 import BEDC.Derived.AnalyticContinuationSocketUp
 import BEDC.Derived.AnalyticContinuationSocketUp.BranchObstructionConsumerLock
+import BEDC.Derived.AnalyticContinuationSocketUp.HolomorphicHandoff
 import BEDC.Derived.AnalyticContinuationSocketUp.OutputBranchSeparation
 import BEDC.Derived.AnalyticContinuationSocketUp.RootBranchLedger
 import BEDC.Derived.AnchorChangeInvariantUp.TasteGate
@@ -1946,6 +1947,7 @@ import BEDC.Derived.DyadicBisectionUp
 import BEDC.Derived.DyadicCofinalTailSelectorUp.TasteGate
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicCoverUp
+import BEDC.Derived.DyadicCoverUp.LedgerNonescape
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
@@ -1957,6 +1959,7 @@ import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicRatCoreUp
 import BEDC.Derived.DyadicRatCoreUp.DirectedRefinementRadiusHandoff
 import BEDC.Derived.DyadicRatCoreUp.DistanceWindow
+import BEDC.Derived.DyadicRatCoreUp.FiniteRadiusWindowCofinality
 import BEDC.Derived.DyadicRatCoreUp.NameCertObligationSurface
 import BEDC.Derived.DyadicRatCoreUp.PublicBoundary
 import BEDC.Derived.DyadicRatCoreUp.PublicReadbackEnvelope
@@ -4376,9 +4379,12 @@ import BEDC.Derived.ZeckendorfCarryValueUp.TasteGate
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.ZetaBasicUp
+import BEDC.Derived.ZetaContinuationApplicationUp.BoundaryExhaustion
 import BEDC.Derived.ZetaContinuationApplicationUp.EtaFactorization
 import BEDC.Derived.ZetaContinuationApplicationUp.FunctionalRowTotality
+import BEDC.Derived.ZetaContinuationApplicationUp.GammaHorizonBoundary
 import BEDC.Derived.ZetaContinuationApplicationUp.RootLedgerBoundary
+import BEDC.Derived.ZetaContinuationApplicationUp.RootNonEscape
 import BEDC.Derived.ZetaContinuationApplicationUp.RootObligations
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
@@ -4411,6 +4417,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.RootReadinessSourceSeal
 import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroFacingFormalSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockCoverage
+import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockTriad
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerSourceReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingPublicFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingSourceAccountability
@@ -4465,6 +4472,7 @@ import BEDC.Derived.ZnormalUp.RootNormalWordRouteExposure
 import BEDC.Derived.ZnormalUp.RootObligationDownstreamHandoff
 import BEDC.Derived.ZnormalUp.RootReadbackExhaustion
 import BEDC.Derived.ZnormalUp.RootReadinessBridgeSource
+import BEDC.Derived.ZnormalUp.RootReadinessNameCertPackage
 import BEDC.Derived.ZnormalUp.RootReadinessTerminalRefusalClosure
 import BEDC.Derived.ZnormalUp.RootRefusalLedgerSeparation
 import BEDC.Derived.ZnormalUp.RootSiblingNormalWordConsumption
