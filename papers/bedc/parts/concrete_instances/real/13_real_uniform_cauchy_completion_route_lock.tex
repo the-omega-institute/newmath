@@ -448,3 +448,49 @@ excluded quotient, host-equality, selected-limit, choice, completeness,
 metric-completeness, or bridge rows can supply another Phase Real and
 Completion exit.
 \end{proof}
+
+\begin{theorem}[Real uniform Cauchy finite-tail-filter L10 exit sufficiency]
+\label{thm:real-uniform-cauchy-finite-tail-filter-l10-exit-sufficiency}
+Let $U=(I,W,M,Q,T,E,H,C,P,N)$ be an accepted
+$\UniformCauchyCriterionUp$ packet read by a Phase Real and Completion
+consumer. Suppose $U$ factors through the displayed $\FiniteTailFilterUp$
+packet of
+\autoref{thm:real-uniform-cauchy-completion-route-lock-factorization}, and
+suppose the resulting L10 surface exposes exactly the four owners
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ with the
+shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Then this displayed finite-tail-filter route is sufficient for the Phase Real
+and Completion public exit surface. The route reads no quotient stream, host
+real equality, selected limit, countable-choice row, ambient completeness,
+metric-completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+The assumed factorization identifies the accepted
+$\UniformCauchyCriterionUp$ rows with the $\FiniteTailFilterUp$ packet by
+\autoref{thm:uniform-cauchy-criterion-finite-tail-filter-alignment}. Thus the
+finite window, dyadic tolerance ledger, regular readback, tail budget, and
+common-tail comparison are already the displayed finite-tail-filter rows.
+
+The Real-facing seal is then the handoff supplied by
+\autoref{thm:finite-tail-filter-real-seal-handoff}. It carries the same
+finite-tail packet to the Phase Real and Completion endpoint without adding an
+independent selector, a host equality predicate, or an ambient completeness
+coordinate.
+
+It remains to identify the public L10 surface. By
+\autoref{thm:real-uniform-cauchy-budget-pullback-exhaustion}, every row read at
+that endpoint pulls back to the four owners
+$(\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp)$. The factorization
+theorem
+\autoref{thm:real-uniform-cauchy-completion-route-lock-factorization} gives
+the same terminal route through $\FiniteTailFilterUp$, so the displayed
+four-object packet is exactly the terminal L10 pullback.
+
+Consequently the route is sufficient for the current Phase Real and Completion
+public exit surface: it supplies all four required owners and all shared
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Since the
+excluded quotient, host-equality, selected-limit, choice, completeness,
+metric-completeness, and bridge data are not rows of that terminal packet, they
+are not read by this exit.
+\end{proof}
