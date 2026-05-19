@@ -584,3 +584,70 @@ sequences. The lock also excludes selected limits, ambient Real completeness,
 metric-completeness data, countable-choice rows, and standard bridge rows from
 the common-refinement uniqueness claim.
 \end{proof}
+
+\begin{theorem}[StreamName finite-section cover descent normal form]
+\label{thm:streamname-finite-section-cover-descent-normal-form}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase Real and
+Completion $\StreamNameUp$ request sections. Suppose that a public
+cover-descent surface restricts to these sections, and that each restriction
+and each accepted overlap displays the same $\StreamNameUp$ finite-window row,
+the same $\DyadicRatCoreUp$ ledger row, the same $\RegSeqRatUp$ readback row,
+the same $\RealUp$ seal boundary, the displayed $\BHist$, and the
+componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then the
+surface is equivalent, as a public cover-descent reflection surface, to the
+canonical normal form consisting exactly of the finite family rows, the
+accepted overlap compatibility rows, the common-refinement classifier surface,
+the four-face consumer route
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, and the nonescape
+exclusions for quotient stream equality, host sequence equality, selected
+limits, ambient Real completeness, metric-completeness data, countable choice,
+and standard bridge rows.
+
+Conversely, any such finite family rows together with accepted overlap
+compatibility rows, the common-refinement classifier surface, the four-face
+consumer route, and the same nonescape exclusions construct a public
+cover-descent reflection surface with those restrictions.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite cover. In the empty and singleton cases the
+normal form is the displayed restriction row itself, with no hidden consumer
+route beyond the StreamName finite window, DyadicRatCore ledger, RegSeqRat
+readback, and RealUp seal boundary.
+
+For the induction step, separate the last accepted section from the already
+glued subcover. Apply
+\autoref{thm:streamname-finite-section-descent-gluing} to paste the subcover
+surface and the last section along their accepted overlaps. The induction
+hypothesis identifies the subcover surface with its finite family rows,
+overlap rows, four-face route, and nonescape exclusions, so the glued surface
+has no additional support row available.
+
+Next apply \autoref{thm:streamname-finite-section-restriction-exactness} to
+the glued surface and to every finite subfamily obtained during the induction.
+Each restriction reads the same finite-window, ledger, readback, seal
+boundary, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; hence the
+public surface is determined by the displayed cover data and not by a chosen
+enumeration of the family.
+
+Now use
+\autoref{thm:streamname-finite-section-cover-descent-classifier-reflection} to
+package the glued data as a cover-descent classifier reflection surface. Apply
+\autoref{thm:streamname-finite-cover-common-refinement-classifier-uniqueness}
+to compare any two presentations through their finite common refinement. The
+comparison identifies the common-refinement classifier surface as the unique
+classifier component of the normal form.
+
+Finally apply
+\autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}. The lock
+keeps every Real-facing and completion-facing consumer on the four visible
+faces, so quotient stream equality, host sequence equality, selected limits,
+ambient Real completeness, metric-completeness data, countable-choice rows,
+and standard bridge rows cannot enter the public reflection surface.
+
+For the converse direction, start with the finite family rows and accepted
+overlap compatibility rows. The same descent-gluing theorem constructs the
+public surface, classifier reflection supplies the classifier row, and
+common-refinement uniqueness makes the construction independent of the finite
+presentation. The lock then supplies exactly the stated nonescape exclusions,
+which is the required public cover-descent reflection surface.
+\end{proof}
