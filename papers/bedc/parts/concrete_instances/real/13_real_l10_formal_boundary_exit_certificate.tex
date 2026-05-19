@@ -102,3 +102,52 @@ and standard bridge rows cannot supply a reordered or shortened route. The only
 accepted exit route with those four visible faces is the ordered four-face
 route above.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal order window witness envelope]
+\label{thm:real-l10-terminal-order-window-witness-envelope}
+An accepted current Phase Real and Completion terminal $\RealUp$ read satisfies
+the Real L10 exit envelope if and only if both of the following hold:
+\begin{enumerate}
+\item the read has the ordered route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp;
+$$
+\item the finite-window witness rows are exactly the rows fixed by
+\autoref{thm:real-l10-finite-window-witness-determinacy}: the fused
+$\StreamNameUp$ terminal-window packet, the $\DyadicRatCoreUp$ endpoint and
+radius ledger, the $\RegSeqRatUp$ finite-request section, the local $\RealUp$
+seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+rows.
+\end{enumerate}
+The envelope contains no quotient streams, selected limits,
+countable-choice rows, metric-completeness data, aggregate formalstatus rows,
+aggregate bridge rows, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, first read the route. Apply
+\autoref{thm:real-l10-face-order-rigidity}. It forces any accepted terminal read
+with the four visible faces to use the ordered path
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+
+Next read the window data. Apply
+\autoref{thm:real-l10-finite-window-witness-determinacy}. The public boundary
+recovers exactly the fused StreamName terminal-window packet, the DyadicRatCore
+endpoint and radius ledger, the RegSeqRat finite-request section, the local Real
+seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+rows.
+
+For the reverse direction, assume the ordered route and the finite-window
+witness rows. Apply
+\autoref{thm:real-l10-formal-boundary-exit-certificate}. The route and witness
+data repack as the four-face formal boundary exported by the accepted Phase Real
+and Completion terminal read.
+
+Finally apply \autoref{thm:real-l10-face-axis-independence}. It keeps the
+certificate face-local, so quotient streams, selected limits,
+countable-choice rows, metric-completeness data, aggregate formalstatus rows,
+aggregate bridge rows, and $\RealUp$ completeness cannot be smuggled into the
+exit envelope. Hence the envelope is exactly the conjunction of the ordered
+route and the finite-window witness rows.
+\end{proof}
