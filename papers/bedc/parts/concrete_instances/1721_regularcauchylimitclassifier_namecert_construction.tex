@@ -168,6 +168,8 @@ Finally apply the public boundary and non-escape results. \autoref{thm:regular-c
 \label{thm:regular-cauchy-limit-classifier-finite-route-exactness}
 Under the hypotheses of \autoref{thm:regular-cauchy-limit-classifier-observation-budget-factorization}, the classifier rows $\Delta,W,R,D,E,H,C,P,N$ and the budget rows $E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B$ determine the same finite window, dyadic ledger, regular readback, and seal boundary up to the displayed $\hsame$ transports and $\Cont$ routes. Equivalently, any accepted completion-facing read that agrees with both packets on those displayed rows is the same finite route from the diagonal classifier to the observation-budget seal boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitClassifierUp.RegularCauchyLimitClassifierFiniteRouteExactness}
+\leanvariant{BEDC.Derived.RegularCauchyLimitClassifierUp.RegularCauchyLimitClassifierCarrier\_finite\_route\_exactness}
 \begin{proof}
 First identify the classifier side. \autoref{thm:regular-cauchy-limit-classifier-diagonal-seal-uniqueness} says that shared diagonal windows, readbacks, dyadic ledgers, and seal rows force every public completion-facing read through the same sealed diagonal-window route.
 
@@ -195,6 +197,7 @@ Read the same packet through the budget route next. \autoref{thm:real-observatio
 
 Finally combine diagonal uniqueness with budget non-escape. \autoref{thm:regular-cauchy-limit-classifier-diagonal-seal-uniqueness} prevents a second public classifier route with the same displayed seal rows, and \autoref{thm:real-observation-budget-nonescape} excludes quotient stream equality, host real equality, hidden selection, ambient completeness, and unbounded schedules from the budget side.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyLimitClassifierUp.RegularCauchyLimitClassifierCarrier\_completion\_consumer\_boundary}
 
 \begin{theorem}[Regular Cauchy limit classifier synchronizer factorization]
 \label{thm:regular-cauchy-limit-classifier-synchronizer-factorization}
@@ -238,6 +241,7 @@ be an accepted $\CauchySealBudgetSynchronizerUp$ packet. Suppose that $B$ and $Z
 
 The agreement is a finite public-route statement. It does not assert quotient stream equality, host real equality, a selected limit, a hidden selector, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitClassifierUp.RegularCauchyLimitClassifierCarrier\_budget\_synchronizer\_route\_agreement}
 \begin{proof}
 First invoke the observation-budget factorization. By \autoref{thm:regular-cauchy-limit-classifier-observation-budget-factorization}, every $\RealUp$ seal handoff of $Q$ that is read through $B$ factors through $E_B,W_B,D_B,R_B,S_B$ with only the displayed transport, continuation, provenance, and naming rows.
 
