@@ -1,0 +1,50 @@
+\begin{theorem}[RegSeqRat finite-request classifier alignment]
+\label{thm:regseqrat-finite-request-classifier-alignment}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S$ and $T$ be public
+finite requests to $P$ consumed by the public $\RealUp$ seal route. The
+following data determine one another:
+\begin{enumerate}
+\item agreement of the displayed $\StreamNameUp$ schedule rows,
+$\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows,
+$\RegSeqRatUp$ classifier and regularity rows, the terminal $\RealUp$ seal
+row, componentwise $\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance,
+and local $\NameCert_{\RegSeqRatUp}$ rows of $S$ and $T$;
+\item agreement of the classifier-visible finite request section of $S$ and
+$T$ inside the source section of
+\autoref{thm:regseqrat-finite-request-source-section}.
+\end{enumerate}
+Thus the rows consumed by the Real seal route are exactly the classifier rows
+visible in the finite request section. The alignment has no coordinate for
+quotient stream equality, host real equality, selected limits, choice data,
+ambient completeness, metric-completeness data, or second seal coordinates.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with the finite request source section of
+\autoref{thm:regseqrat-finite-request-source-section}. Agreement of the
+displayed rows in the first item names the same StreamName schedule, dyadic
+endpoint, radius, distance, RegSeqRat classifier, regularity, transport,
+continuation, package, and local naming rows in that finite $\BHist$ section.
+
+Next apply
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. It keeps the
+schedule rows, dyadic rows, RegSeqRat classifier surface, and terminal
+$\RealUp$ seal row on one ordered handoff rather than allowing a separate
+seal-facing source packet. Hence the agreed displayed rows are precisely the
+classifier-visible finite request section.
+
+For the reverse direction, suppose the classifier-visible finite request
+sections agree. Use
+\autoref{thm:regseqrat-tail-selector-section-pullback} to identify that
+agreement with agreement of the shared selector surface on the same schedule,
+dyadic, classifier, regularity, terminal seal, $\hsame$, $\Cont$, $\Pkg$, and
+local $\NameCert$ rows.
+
+Finally apply
+\autoref{thm:regseqrat-shared-window-terminal-pullback-equivalence}. The
+terminal pullback reads the same displayed selector surface as the same
+$\RealUp$ seal route, so the first list of rows agrees component by component.
+Since the source section and selector surface contain no rows for quotient
+stream equality, host real equality, selected limits, choice data, ambient or
+metric completeness, or a second seal coordinate, the equivalence cannot
+transport any of those objects.
+\end{proof}
