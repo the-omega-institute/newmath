@@ -489,4 +489,35 @@ theorem KernelInductiveAcceptanceUp_accepted_declaration_route
       declarationSignaturesEliminators, eliminatorsRecursionEntry, entryPkg,
       declarationListed⟩
 
+theorem KernelInductiveAcceptanceUp_namecert_obligations
+    {D S E P R _H _C _Q N sigRead elimRead refuseRead envRead : BHist} :
+    UnaryHistory D ->
+      UnaryHistory S ->
+        UnaryHistory E ->
+          UnaryHistory P ->
+            UnaryHistory R ->
+              Cont D S sigRead ->
+                Cont S E elimRead ->
+                  Cont P R refuseRead ->
+                    Cont E R envRead ->
+                      UnaryHistory sigRead ∧ UnaryHistory elimRead ∧
+                        UnaryHistory refuseRead ∧ UnaryHistory envRead ∧
+                          Cont D S sigRead ∧ Cont S E elimRead ∧
+                            Cont P R refuseRead ∧ Cont E R envRead ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory hsame
+  intro declarationUnary signaturesUnary eliminatorsUnary positivityUnary recursionUnary
+    declarationSignaturesRead signaturesEliminatorsRead positivityRecursionRead
+    eliminatorsRecursionRead
+  have sigUnary : UnaryHistory sigRead :=
+    unary_cont_closed declarationUnary signaturesUnary declarationSignaturesRead
+  have elimUnary : UnaryHistory elimRead :=
+    unary_cont_closed signaturesUnary eliminatorsUnary signaturesEliminatorsRead
+  have refuseUnary : UnaryHistory refuseRead :=
+    unary_cont_closed positivityUnary recursionUnary positivityRecursionRead
+  have envUnary : UnaryHistory envRead :=
+    unary_cont_closed eliminatorsUnary recursionUnary eliminatorsRecursionRead
+  exact
+    ⟨sigUnary, elimUnary, refuseUnary, envUnary, declarationSignaturesRead,
+      signaturesEliminatorsRead, positivityRecursionRead, eliminatorsRecursionRead, hsame_refl N⟩
+
 end BEDC.Derived.KernelInductiveAcceptanceUp
