@@ -181,6 +181,34 @@ theorem CriticalStripZetaZeroWitnessPacket_critical_line_boundary [AskSetup] [Pa
     ⟨lineUnary, boundaryUnary, lineReadUnary, lineBoundaryRoute, lineBoundaryRead,
       endpointPkg, lineReadPkg⟩
 
+theorem CriticalStripZetaZeroWitnessPacket_line_boundary_routing [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name endpoint sourceRead lineRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CriticalStripZetaZeroWitnessPacket strip zero line boundary transport route provenance name
+        endpoint bundle pkg ->
+      Cont strip zero sourceRead ->
+        Cont sourceRead line lineRead ->
+          PkgSig bundle lineRead pkg ->
+            UnaryHistory strip ∧ UnaryHistory zero ∧ UnaryHistory line ∧
+              UnaryHistory sourceRead ∧ UnaryHistory lineRead ∧ Cont strip zero transport ∧
+                Cont strip zero sourceRead ∧ Cont sourceRead line lineRead ∧
+                  Cont line boundary route ∧ PkgSig bundle endpoint pkg ∧
+                    PkgSig bundle lineRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet sourceReadRoute lineReadRoute lineReadPkg
+  obtain ⟨stripUnary, zeroUnary, lineUnary, _boundaryUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, stripZeroTransport, lineBoundaryRoute,
+    _transportRouteEndpoint, _endpointProvenanceName, _endpointSameTransportRoute,
+    endpointPkg⟩ := packet
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_cont_closed stripUnary zeroUnary sourceReadRoute
+  have lineReadUnary : UnaryHistory lineRead :=
+    unary_cont_closed sourceReadUnary lineUnary lineReadRoute
+  exact
+    ⟨stripUnary, zeroUnary, lineUnary, sourceReadUnary, lineReadUnary, stripZeroTransport,
+      sourceReadRoute, lineReadRoute, lineBoundaryRoute, endpointPkg, lineReadPkg⟩
+
 theorem CriticalStripZetaZeroWitnessPacket_concretizes_rh [AskSetup] [PackageSetup]
     {strip zero line boundary transport route provenance name endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
