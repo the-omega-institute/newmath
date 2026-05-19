@@ -17,4 +17,16 @@ theorem RealityConstrainedTruthCertL10SourceReadiness
   | mk S Sigma K T U D I L F N =>
       exact ⟨S, Sigma, K, T, U, D, I, L, F, N, rfl, rfl, hsame_refl (append K L), rfl⟩
 
+theorem RealityConstrainedTruthCertL10SourceExposure
+    (x : TasteGate.RealityConstrainedTruthCertUp) :
+    exists S Sigma K T U D I L F N : BHist,
+      x = TasteGate.RealityConstrainedTruthCertUp.mk S Sigma K T U D I L F N /\
+        TasteGate.realityConstrainedTruthCertFields x = [S, Sigma, K, T, U, D, I, L, F, N] /\
+          Cont S Sigma (append S Sigma) /\
+            Cont T U (append T U) /\ Cont F N (append F N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  cases x with
+  | mk S Sigma K T U D I L F N =>
+      exact ⟨S, Sigma, K, T, U, D, I, L, F, N, rfl, rfl, rfl, rfl, rfl⟩
+
 end BEDC.Derived.RealityConstrainedTruthCertUp
