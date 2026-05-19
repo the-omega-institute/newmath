@@ -255,3 +255,53 @@ displayed support rows. The two transported presentations therefore determine
 the same terminal support packet, and the exhaustion theorem excludes every
 off-route coordinate listed in the statement.
 \end{proof}
+
+\begin{theorem}[StreamName terminal support replay induction]
+\label{thm:streamname-terminal-four-face-support-replay-induction}
+Let $U$ and $V$ be accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request sections. Suppose the replay from $U$ to $V$ begins
+with the same finite $\StreamNameUp$ window, and then replays in order the
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ visible faces together with
+the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ support rows. Then finite induction over this ordered support list
+determines one consumer-visible terminal support packet.
+
+The induction uses only those displayed faces and rows. It does not use
+quotient stream equality, host sequence equality, selected limits, countable
+choice, ambient $\RealUp$ completeness, metric-completeness data, aggregate
+formalstatus rows, or bridge rows.
+\end{theorem}
+\begin{proof}
+Start with the displayed finite $\StreamNameUp$ window. The minimality theorem
+\autoref{thm:streamname-terminal-four-face-support-minimality} supplies the
+base: this window is a required support coordinate and cannot be replaced by
+any off-route equality, limit, completeness, formalstatus, or bridge datum.
+
+For the induction step, assume the replayed prefix has already determined the
+same terminal support prefix. Adding the next displayed row preserves
+determinacy because minimality forbids deleting that row or substituting a
+different support coordinate while keeping the same Real-facing and
+completion-facing verdicts.
+
+At the $\RegSeqRatUp$ step, the exactness theorem
+\autoref{thm:regseqrat-real-terminal-four-face-exactness} identifies the
+replayed prefix as the terminal four-face RegSeqRat packet. The source
+uniqueness theorem
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness} then rules out a
+second finite RegSeqRat source with the same public verdict.
+
+At the final $\RealUp$ step, theorem
+\autoref{thm:real-l10-dependency-lattice-exit-totality} sends every accepted
+current Phase Real and Completion terminal read through the ordered
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ route and the
+displayed support rows. Thus the induction has exhausted the full terminal
+route.
+
+By
+\autoref{thm:streamname-terminal-four-face-support-exhaustion}, every accepted
+consumer-visible support coordinate is one of these four faces or displayed
+rows. The componentwise replay hypotheses therefore give exactly the transport
+hypotheses of
+\autoref{thm:streamname-terminal-four-face-support-transport-stability}, which
+concludes that $U$ and $V$ present one terminal support packet.
+\end{proof}
