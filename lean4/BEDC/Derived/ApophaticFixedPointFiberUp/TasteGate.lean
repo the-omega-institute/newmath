@@ -404,4 +404,37 @@ theorem ApophaticFixedPointFiber_namecert_obligations [AskSetup] [PackageSetup]
     ⟨cert, digestSocketGap, gapBoundaryInscription, inscriptionTransportRoutes,
       provenancePkg, namePkg⟩
 
+theorem ApophaticFixedPointFiberCarrier_gap_first_route_nonescape [AskSetup] [PackageSetup]
+    {digest socket gap boundary inscription transport routes provenance name terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticFixedPointFiberCarrier digest socket gap boundary inscription transport routes
+        provenance name bundle pkg →
+      UnaryHistory boundary →
+        Cont inscription transport terminalRead →
+          PkgSig bundle terminalRead pkg →
+            UnaryHistory gap ∧ UnaryHistory inscription ∧ UnaryHistory terminalRead ∧
+              Cont digest socket gap ∧ Cont gap boundary inscription ∧
+                Cont inscription transport terminalRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle name pkg ∧ PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier boundaryUnary terminalRoute terminalPkg
+  obtain ⟨digestUnary, socketUnary, transportUnary, _provenanceUnary, digestSocketGap,
+    gapBoundaryInscription, _inscriptionTransportRoutes, provenancePkg, namePkg⟩ := carrier
+  have gapUnary : UnaryHistory gap :=
+    unary_cont_closed digestUnary socketUnary digestSocketGap
+  have inscriptionUnary : UnaryHistory inscription :=
+    unary_cont_closed gapUnary boundaryUnary gapBoundaryInscription
+  have terminalUnary : UnaryHistory terminalRead :=
+    unary_cont_closed inscriptionUnary transportUnary terminalRoute
+  exact
+    ⟨gapUnary,
+      inscriptionUnary,
+      terminalUnary,
+      digestSocketGap,
+      gapBoundaryInscription,
+      terminalRoute,
+      provenancePkg,
+      namePkg,
+      terminalPkg⟩
+
 end BEDC.Derived.ApophaticFixedPointFiberUp
