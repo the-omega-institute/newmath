@@ -23,7 +23,8 @@ def RegularCauchyLimitClassifierCarrier [AskSetup] [PackageSetup]
       UnaryHistory routes ∧ UnaryHistory provenance ∧ Cont input modulus diagonal ∧
         Cont diagonal windows readback ∧ Cont readback ledger sealRow ∧
           Cont sealRow transportRow routes ∧ Cont provenance sealRow cert ∧
-            hsame cert (append provenance sealRow) ∧ PkgSig bundle cert pkg
+            hsame cert (append provenance sealRow) ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle cert pkg
 
 theorem RegularCauchyLimitClassifierCarrier_stability [AskSetup] [PackageSetup]
     {input modulus diagonal windows readback ledger sealRow transportRow routes provenance
@@ -38,7 +39,8 @@ theorem RegularCauchyLimitClassifierCarrier_stability [AskSetup] [PackageSetup]
   rcases carrier with
     ⟨_inputUnary, _modulusUnary, diagonalUnary, windowsUnary, ledgerUnary, _transportUnary,
       _routesUnary, provenanceUnary, _inputModulusDiagonal, diagonalWindowsReadback,
-      readbackLedgerSeal, _sealTransportRoutes, provenanceSealCert, sameCert, certPkg⟩
+      readbackLedgerSeal, _sealTransportRoutes, provenanceSealCert, sameCert, _provenancePkg,
+      certPkg⟩
   have readbackUnary : UnaryHistory readback :=
     unary_cont_closed diagonalUnary windowsUnary diagonalWindowsReadback
   have sealUnary : UnaryHistory sealRow :=
@@ -139,7 +141,7 @@ theorem RegularCauchyLimitClassifierCarrier_public_export [AskSetup] [PackageSet
   have sameCert : hsame cert (append provenance sealRow) :=
     carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.left
   have certPkg : PkgSig bundle cert pkg :=
-    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right
   have readbackUnary : UnaryHistory readback :=
     unary_cont_closed diagonalUnary windowsUnary diagonalWindowsReadback
   have sealUnary : UnaryHistory sealRow :=
