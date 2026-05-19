@@ -33,6 +33,7 @@ The classifier compares accepted packets through the carry row, the two value ro
 \label{thm:zeckendorf-carry-value-non-hsame-boundary}
 For every accepted $\ZeckendorfCarryValueUp$ packet $V=(h,k,G,N_h,N_k,F,H,C,P,N)$, the value-preservation row and the history-sameness boundary occupy distinct coordinates. The row $F$ states that the displayed Fibonacci value of $h$ equals the displayed Fibonacci value of $k$, while $H$ records $\neg\HSame(h,k)$. Thus value preservation is a finite classifier-facing calculation, not a kernel identification of the two histories.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeckendorfCarryValueUp.ZeckendorfCarryValueNonHsameBoundary}
 \begin{proof}
 Project the carry row $G$ and the normality rows $N_h,N_k$. They fix the displayed source as $\mathtt{word\_011}$ and the displayed target as $\mathtt{word\_100}$ with the same orientation as the $\ZCarryUp$ packet.
 
@@ -82,6 +83,7 @@ Use the local non-$\HSame$ boundary and NameCert package, \autoref{thm:zeckendor
 
 The additional row is $F$, routed through $C$ and recorded with $P$ and $N$. Thus the accepted packet first cites the sibling carry classifier of \autoref{ch:concrete-instances-zeckendorf-carry-classifier-namecert} and then appends the finite Fibonacci value-preservation row over that cited carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.ZeckendorfCarryValueUp.ZeckendorfCarryValueUp\_classifier\_dependency\_rows}
 
 \closureat{ZeckendorfCarryValueUp}{seedStr}
 
