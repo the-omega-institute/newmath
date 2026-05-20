@@ -286,6 +286,28 @@ Apply the DyadicRatCore finite-cover comparison, \autoref{thm:dyadicratcore-l10-
 Finally use RegSeqRat common-tail cocycle descent, in particular \autoref{thm:regseqrat-common-tail-atlas-refinement-invariance}. The common-tail members, overlaps, and cocycle rows glue to the same Real seal-visible boundary and the same Phase $\RealUp$ and Completion audit-threshold coordinate. Thus the refined presentation changes only the finite support cover, while the accepted public completion witness through $\RealCauchyCompletionUp$ remains the same.
 \end{proof}
 
+\begin{theorem}[RealCauchyCompletion terminal support common-refinement comparison]
+\label{thm:real-cauchy-completion-terminal-support-common-refinement-comparison}
+Let $\mathcal P$ and $\mathcal Q$ be accepted public L10 completion routes through $\RealCauchyCompletionUp$. Suppose there is a certified finite common refinement $\mathcal R$ of the two presentations such that, after pullback to $\mathcal R$, both routes display the same four faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+and preserve the same visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows carried by the accepted completion packet. Then $\mathcal P$ and $\mathcal Q$ determine the same BEDC completion witness through $\RealCauchyCompletionUp$.
+
+The comparison is entirely internal to the certified common finite support. It introduces no quotient stream, selected limit, host real equality, countable-choice row, ambient completeness principle, metric-completeness datum, aggregate $\formalstatus$ row, aggregate bridge row, standard bridge row, or bridge-axis evidence.
+\end{theorem}
+\begin{proof}
+First pull the two accepted presentations back to the common refinement $\mathcal R$. By terminal support minimality, \autoref{thm:real-cauchy-completion-terminal-support-minimality}, both pulled-back routes are still read from the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces and from the same visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next apply terminal support defect localization, \autoref{thm:real-cauchy-completion-terminal-support-defect-localization}. Since the hypotheses preserve every named face and every support row after pullback to $\mathcal R$, a disagreement between the two accepted presentations cannot be relocated to a hidden completion coordinate.
+
+Use terminal support refinement invariance, \autoref{thm:real-cauchy-completion-terminal-support-refinement-invariance}, on the refinement from $\mathcal P$ to $\mathcal R$ and again on the refinement from $\mathcal Q$ to $\mathcal R$. Thus each original route determines the same BEDC completion witness as its pulled-back route on the certified common support.
+
+It remains to identify the pulled-back terminal support itself. Apply \autoref{thm:streamname-tail-window-cover-common-refinement} to form the shared StreamName finite window, then \autoref{thm:streamname-real-regseqrat-seal-common-refinement} to read the common terminal Real seal over that window. Finally use \autoref{thm:regseqrat-common-tail-atlas-refinement-invariance} to keep the RegSeqRat common-tail atlas and dyadic ledger invariant over the same pullback.
+
+The non-escape clauses in the preceding results rule out all substitute coordinates. Quotient streams, selected limits, host equality, countable choice, ambient completeness, metric-completeness data, aggregate status rows, bridge rows, and bridge-axis evidence are not part of the visible terminal support, so they cannot distinguish the two accepted completion witnesses.
+\end{proof}
+
 \begin{theorem}[RealCauchyCompletion terminal support refinement composition]
 \label{thm:real-cauchy-completion-terminal-support-refinement-composition}
 Let $\mathcal P$, $\mathcal Q$, and $\mathcal R$ be public L10 completion routes through $\RealCauchyCompletionUp$. Suppose $\mathcal Q$ is a finite certified refinement of $\mathcal P$, and $\mathcal R$ is a finite certified refinement of $\mathcal Q$. Suppose also that every refined member, overlap, and comparison map in both refinements preserves the same four faces
@@ -304,4 +326,26 @@ Apply the same theorem again to the certified refinement $\mathcal Q \to \mathca
 It remains to exclude a new coordinate appearing only at the intermediate stage. Use terminal support defect localization, \autoref{thm:real-cauchy-completion-terminal-support-defect-localization}. Any proposed difference between the two comparisons would have to be witnessed by an omitted or replaced face or support row, but the hypotheses preserve every named face, overlap, comparison map, and support row across both refinements.
 
 Finally apply the non-escape boundary of \autoref{thm:real-cauchy-completion-non-escape-boundary}. Quotient streams, selected limits, host equality, countable choice, ambient completeness, and bridge-axis evidence are outside the accepted carrier surface, and the status and bridge rows cannot aggregate outside the four local face records. Thus the two certified refinement steps compose without changing the BEDC completion witness determined through $\RealCauchyCompletionUp$.
+\end{proof}
+
+\begin{theorem}[RealCauchyCompletion terminal support refinement cocycle]
+\label{thm:real-cauchy-completion-terminal-support-refinement-cocycle}
+Let $\mathcal P$ and $\mathcal Q$ be two finite certified terminal-support refinements of one public L10 completion route through $\RealCauchyCompletionUp$. Suppose both refinements preserve the same four faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+and the same visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows carried by the accepted completion packet. Suppose moreover that the two refinements carry the same $\RegSeqRatUp$ common-tail pairwise packets on every retained overlap, and that their triple-overlap rows satisfy the same common-tail cocycle over the terminal four-face support. Then $\mathcal P$ and $\mathcal Q$ determine the same BEDC completion witness through $\RealCauchyCompletionUp$.
+
+The path through a finite refinement diagram is therefore independent of the certified terminal-support cover. The comparison introduces no quotient stream, selected limit, host real equality, countable-choice row, ambient completeness principle, metric-completeness datum, aggregate $\formalstatus$ row, aggregate bridge row, standard bridge row, or bridge-axis evidence.
+\end{theorem}
+\begin{proof}
+First restrict both refinements to the displayed terminal support. By terminal support minimality, \autoref{thm:real-cauchy-completion-terminal-support-minimality}, and terminal support defect localization, \autoref{thm:real-cauchy-completion-terminal-support-defect-localization}, every accepted comparison must be witnessed on the named $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces and on the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next compare the dyadic and four-face ledgers. The finite-cover refinement invariance theorem \autoref{thm:dyadicratcore-l10-exit-ledger-finite-cover-refinement-invariance} identifies the DyadicRatCore exit ledger obtained from either certified support cover, since the endpoint, radius, stream-window, regular-sequence, Real, and support rows are the same.
+
+Now descend the common-tail data. Apply \autoref{thm:regseqrat-common-tail-cocycle-descent} to the shared pairwise packets and triple-overlap rows, and then use \autoref{thm:regseqrat-common-tail-terminal-four-face-cocycle-uniqueness}. These two results identify the two refined RegSeqRat common-tail presentations as one terminal four-face cocycle boundary.
+
+Finally pass from the common terminal boundary to the completion witness. The Real L10 terminal four-face correspondence, \autoref{thm:real-l10-terminal-four-face-correspondence}, repacks the DyadicRatCore, StreamName, RegSeqRat, and Real rows as the accepted terminal four-face read, and \autoref{thm:real-l10-terminal-pullback-uniqueness} forbids a second pullback over the same visible rows. Together with terminal support refinement composition, \autoref{thm:real-cauchy-completion-terminal-support-refinement-composition}, this shows that both finite paths determine the same BEDC completion witness through $\RealCauchyCompletionUp$.
+
+The exclusion clauses follow from the cited support and terminality results. None of the comparison data carries a quotient stream, selected limit, host real equality, countable-choice row, ambient completeness principle, metric-completeness datum, aggregate $\formalstatus$ row, aggregate bridge row, standard bridge row, or bridge-axis evidence, so no such coordinate can distinguish the two certified refinement paths.
 \end{proof}
