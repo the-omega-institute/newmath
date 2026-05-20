@@ -312,6 +312,52 @@ none supplies quotient streams, host equality, selected limits, ambient or
 metric completeness, choice data, or a second Real seal coordinate.
 \end{proof}
 
+\begin{theorem}[RegSeqRat Real seal finite-cover refinement invariance]
+\label{thm:regseqrat-real-seal-finite-cover-refinement-invariance}
+Let $\{\mathcal{S}_i\}_{i\in I}$ be a finite family of accepted public
+$\RegSeqRatUp$ reads saturated by the four displayed faces
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. Let a
+second finite family refine it by certified $\StreamNameUp$ common-refinement
+packets whose restrictions preserve the dyadic endpoint, radius, distance, and
+tail ledger rows, the $\RegSeqRatUp$ classifier and regularity rows, the
+$\RealUp$ public seal row, and the displayed $\mathsf{BHist}$, componentwise
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support.
+
+Then the original finite cover and its finite certified refinement determine
+the same four-face L10 exit packet: the $\StreamNameUp$ schedule and membership
+face, the $\DyadicRatCoreUp$ ledger face, the $\RegSeqRatUp$ classifier,
+regularity, and transport face, and the $\RealUp$ seal face with the listed
+support rows. The packet contains no quotient stream, no host equality, no
+selected limit, no choice datum, no ambient or metric-completeness datum, and no
+second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-real-seal-common-refinement-cover-completeness} to the
+original finite family. It gives one finite four-face pullback surface and
+records agreement of the endpoint, radius, distance, classifier, regularity,
+seal, and support rows.
+
+Apply
+\autoref{thm:regseqrat-real-seal-finite-cover-gluing} to the refined finite
+family. The restriction hypotheses give the overlap rows required by gluing,
+because each refined member lands in the same StreamName common-refinement
+packet described by
+\autoref{thm:streamname-real-regseqrat-seal-common-refinement}.
+
+It remains only to compare the packet obtained by first gluing the refined
+family with the packet obtained by gluing the original family. Use
+\autoref{thm:regseqrat-real-seal-finite-cover-associativity}: finite regrouping
+and reparenthesizing of saturated members preserves the StreamName, dyadic
+ledger, RegSeqRat, Real seal, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
+
+Thus the refined and unrefined finite covers expose the same L10 exit packet.
+The cited theorems also list the absent data, so the comparison cannot add a
+quotient stream, host equality, selected limit, choice, ambient or metric
+completeness, or a second Real seal coordinate.
+\end{proof}
+
 \begin{theorem}[RegSeqRat StreamName Dyadic Real audit-clean exit readiness]
 \label{thm:regseqrat-streamname-dyadic-real-audit-clean-exit-readiness}
 For any accepted public L10 exit read of a $\RegSeqRatUp$ carrier, audit-clean
