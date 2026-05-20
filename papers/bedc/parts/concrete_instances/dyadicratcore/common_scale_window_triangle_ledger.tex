@@ -139,3 +139,33 @@ Use \autoref{thm:dyadicratcore-finite-tail-exit-certificate-refinement-invarianc
 
 Finally apply \autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}. The equality of dyadic exit certificates pushes through the StreamName finite-window face, the RegSeqRat classifier and readback face, and the Real seal face. The exclusions in \autoref{thm:dyadicratcore-terminal-real-exit-no-fifth-source} rule out any fifth source that could distinguish the direct and two-step certificates, so the two radius handoffs determine one finite four-face exit certificate.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore four-face scale-window chain induction]
+\label{thm:dyadicratcore-four-face-scale-window-chain-induction}
+Let
+$$
+W_0 \leq W_1 \leq \cdots \leq W_n
+$$
+be a finite nonempty nested chain of accepted $\DyadicRatCoreUp$ scale windows whose visible rows feed the ordered L10 route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+Assume each $W_i$ displays the signed mantissa row, refined positive-unary exponent row, denominator ledger, common-exponent comparison row, distance and radius rows, StreamName finite window, RegSeqRat classifier and readback rows, Real seal row, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support. Then the direct radius handoff from $W_0$ to $W_n$ and every parenthesized finite composite of adjacent handoffs along the chain determine the same finite four-face exit certificate over the displayed route.
+
+The common certificate exports no quotient rational carrier, quotient stream equality, selected $\RealUp$ endpoint, countable-choice row, metric-completeness row, bridge row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Induct on the finite chain length. In the terminal base case the chain has one window, and the direct certificate is the reflexive terminal fusion of that accepted $\DyadicRatCoreUp$ scale window with its displayed support rows.
+
+In the one-step case, apply \autoref{thm:dyadicratcore-scale-window-monotonicity} to the adjacent inclusion. The visible mantissa, exponent, denominator, comparison, distance, radius, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows are retained, so the unique adjacent handoff is already the direct handoff.
+
+For the induction step, split the chain into the prefix
+$$
+W_0 \leq W_1 \leq \cdots \leq W_{n-1}
+$$
+and the last adjacent inclusion $W_{n-1} \leq W_n$. By the induction hypothesis, every parenthesized composite inside the prefix determines the same four-face certificate as the direct handoff from $W_0$ to $W_{n-1}$.
+
+Now compose that prefix certificate with the final adjacent handoff. Apply \autoref{thm:dyadicratcore-common-scale-window-radius-monotone-composition} to the three-window comparison $W_0 \leq W_{n-1} \leq W_n$. It identifies the direct $W_0$ to $W_n$ handoff with the certificate obtained by first using the prefix handoff and then using the last adjacent inclusion.
+
+Finally apply \autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence} to push this equality through the StreamName finite-window face, the RegSeqRat classifier and readback face, and the Real seal face. The nonescape inventory of \autoref{thm:dyadicratcore-terminal-real-exit-no-fifth-source} leaves no quotient rational, quotient stream equality, selected endpoint, countable-choice row, metric-completeness row, bridge row, or ambient Real-completeness row that could distinguish a different parenthesization. Thus every finite adjacent composite and the direct handoff determine one four-face exit certificate.
+\end{proof}
