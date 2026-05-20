@@ -79,3 +79,25 @@ For the reverse direction, assume the public tolerance read of $Q$ agrees with t
 
 It remains to rule out external witnesses for a second factorization. The exhaustion theorem supplies no fifth source beyond the four visible faces, the finite-support readback supplies no hidden row outside the displayed inventory, the StreamName pullback exactness supplies no quotient stream coordinate, the RegSeqRat-Real terminal exactness supplies no quotient rational or selected-limit coordinate, and the Real terminal pullback coherence supplies no ambient completeness coordinate. Hence quotient rational equality, quotient stream equality, selected limits, countable choice, metric completeness, bridge rows, aggregate formalstatus rows, and ambient $\RealUp$ completeness cannot mediate another terminal tolerance factorization.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore terminal tolerance cofinal-refinement finality]
+\label{thm:dyadicratcore-terminal-tolerance-cofinal-refinement-finality}
+Let $P$ be an accepted L10 terminal route whose visible faces are $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ face over the same displayed
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+support. Let $R$ be any accepted cofinal refinement of $P$ preserving the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ classifier and readback row, the local $\RealUp$ seal row, the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, and the public terminal status of the route. Then the public tolerance read of $R$ factors through the same $\DyadicRatCoreUp$ tolerance ledger as $P$.
+
+Equivalently, no accepted cofinal refinement with those preserved visible faces can introduce a new tolerance coordinate. The finality statement exports no quotient rational equality, quotient stream equality, selected limit, countable-choice row, metric-completeness row, bridge row, aggregate formalstatus row, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First read $R$ as a terminal route over the preserved visible support. Since the refinement keeps the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ classifier and readback row, the local $\RealUp$ seal row, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, \autoref{thm:dyadicratcore-terminal-tolerance-pullback-initiality} applies to $P$ and $R$.
+
+The StreamName preservation clause identifies the finite-window side of the comparison. Apply \autoref{thm:streamname-finite-section-pullback-exactness}; the refinement has the same finite StreamName section and therefore cannot supply a second window through which a tolerance row could be read.
+
+Next lock the RegSeqRat and Real faces. Theorem~\ref{thm:regseqrat-real-terminal-four-face-exactness} reads the preserved classifier, readback, and local Real rows as the same four-face terminal surface, and \autoref{thm:real-l10-terminal-pullback-coherence} rules out an ambient $\RealUp$ completion coordinate.
+
+With all non-dyadic faces fixed, use \autoref{thm:dyadicratcore-terminal-four-face-tolerance-projection}. Equality of public tolerance reads is now exactly equality of the $\DyadicRatCoreUp$ tolerance ledger rows. The pullback initiality theorem then gives the desired factorization of the public tolerance read of $R$ through the ledger of $P$.
+
+Finally apply the non-export clauses in the exhaustion, projection, and initiality results. Quotient rational equality, quotient stream equality, selected limits, countable choice, metric completeness, bridge rows, aggregate formalstatus rows, and ambient $\RealUp$ completeness are not visible tolerance coordinates for the terminal route or for its accepted cofinal refinements.
+\end{proof}
