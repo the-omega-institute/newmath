@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SubstitutionBoundaryAuditUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -242,5 +244,29 @@ theorem SubstitutionBoundaryAuditTasteGate_single_carrier_alignment :
         intro x y heq
         exact substitutionBoundaryAuditToEventFlow_injective heq,
       rfl⟩
+
+theorem SubstitutionBoundaryAuditCarrier_falsifiable_route
+    {T V d Csrc Cval Q R L E H C P N T' V' d' Csrc' Cval' Q' R' L' E' H' C'
+      P' N' : BHist}
+    (heq :
+      substitutionBoundaryAuditToEventFlow
+          (SubstitutionBoundaryAuditUp.mk T V d Csrc Cval Q R L E H C P N) =
+        substitutionBoundaryAuditToEventFlow
+          (SubstitutionBoundaryAuditUp.mk T' V' d' Csrc' Cval' Q' R' L' E' H' C'
+            P' N'))
+    (hshift : Cont Csrc L Q) (hsub : Cont Cval L R) :
+    hsame Csrc Csrc' ∧ hsame Cval Cval' ∧ hsame L L' ∧ hsame Q Q' ∧
+      hsame R R' ∧ Cont Csrc' L' Q' ∧ Cont Cval' L' R' := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  have hmk :=
+    substitutionBoundaryAuditToEventFlow_injective
+      (x := SubstitutionBoundaryAuditUp.mk T V d Csrc Cval Q R L E H C P N)
+      (y := SubstitutionBoundaryAuditUp.mk T' V' d' Csrc' Cval' Q' R' L' E' H' C'
+        P' N')
+      heq
+  cases hmk
+  exact
+    ⟨hsame_refl Csrc, hsame_refl Cval, hsame_refl L, hsame_refl Q, hsame_refl R,
+      hshift, hsub⟩
 
 end BEDC.Derived.SubstitutionBoundaryAuditUp

@@ -1837,6 +1837,7 @@ import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.DependentCodomainClosurePreservationUp
+import BEDC.Derived.DependentCodomainClosurePreservationUp.Nonescape
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Transport
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.DerivedCatUp
@@ -3198,6 +3199,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionRouteFactor
 import BEDC.Derived.MetaCICOpenProblemWitnessUp.TasteGate
 import BEDC.Derived.MetaCICProofObjectAuditRouteUp.TasteGate
 import BEDC.Derived.MetaCICRedexFrontierUp.NameCertObligations
+import BEDC.Derived.MetaCICRedexFrontierUp.Nonescape
 import BEDC.Derived.MetaCICRedexFrontierUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
@@ -4331,6 +4333,7 @@ import BEDC.Derived.SocketUseLedgerUp
 import BEDC.Derived.SocketUseLedgerUp.TasteGate
 import BEDC.Derived.SolipsismGapRefusalUp.LocalityCellRefusal
 import BEDC.Derived.SolipsismGapRefusalUp.NameCertObligations
+import BEDC.Derived.SolipsismGapRefusalUp.Nonescape
 import BEDC.Derived.SolipsismGapRefusalUp.TasteGate
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SpanningTreeUp
