@@ -1,7 +1,9 @@
 import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
+import BEDC.FKernel.Cont
 
 namespace BEDC.Derived.RealityConstrainedTruthCertUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.Meta.TasteGate
 
@@ -23,5 +25,23 @@ theorem RealityConstrainedTruthCertRootNontrivialReadiness :
   have hflow : BHistCarrier.toEventFlow x ≠ BHistCarrier.toEventFlow y :=
     ChapterTasteGate.layer_separation x y hxy
   exact ⟨x, y, hxy, hflow⟩
+
+theorem RealityConstrainedTruthCertRootTasteGateObligation
+    (x : TasteGate.RealityConstrainedTruthCertUp) :
+    BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x /\
+      exists S Sigma K T U D I L F N : BHist,
+        x = TasteGate.RealityConstrainedTruthCertUp.mk S Sigma K T U D I L F N /\
+          BHistCarrier.toEventFlow x =
+            TasteGate.realityConstrainedTruthCertToEventFlow
+              (TasteGate.RealityConstrainedTruthCertUp.mk S Sigma K T U D I L F N) /\
+            hsame (append S Sigma) (append S Sigma) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  constructor
+  · exact ChapterTasteGate.round_trip x
+  · cases x with
+    | mk S Sigma K T U D I L F N =>
+        exact
+          ⟨S, Sigma, K, T, U, D, I, L, F, N, rfl, rfl,
+            hsame_refl (append S Sigma)⟩
 
 end BEDC.Derived.RealityConstrainedTruthCertUp
