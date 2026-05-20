@@ -68,4 +68,73 @@ theorem DiagonalLimitCompatibility_ambient_completeness_refusal [AskSetup] [Pack
         ⟨unary_transport endpointUnary (hsame_symm source.right), provenancePkg, endpointPkg⟩
   }
 
+theorem DiagonalLimitCompatibilityAmbientCompletenessRefusal [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont readback realSeal endpoint ->
+        PkgSig bundle endpoint pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback
+                realSeal transport route provenance cert bundle pkg ∧ hsame row endpoint)
+            (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+            (fun row : BHist =>
+              PkgSig bundle provenance pkg ∧ PkgSig bundle endpoint pkg ∧ hsame row endpoint)
+            hsame ∧ UnaryHistory endpoint ∧ Cont readback realSeal endpoint ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier readbackRealSealEndpoint endpointPkg
+  have carrierWitness :
+      DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg := carrier
+  obtain ⟨_diagonalUnary, _triangleUnary, _sealUnary, _dyadicUnary, _windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, _certUnary,
+    _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute, _routeCertTransport,
+    provenancePkg⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed readbackUnary realSealUnary readbackRealSealEndpoint
+  have sourceEndpoint :
+      (fun row : BHist =>
+        DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback
+          realSeal transport route provenance cert bundle pkg ∧ hsame row endpoint)
+        endpoint := by
+    exact ⟨carrierWitness, hsame_refl endpoint⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback
+            realSeal transport route provenance cert bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+        (fun row : BHist =>
+          PkgSig bundle provenance pkg ∧ PkgSig bundle endpoint pkg ∧ hsame row endpoint)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro endpoint sourceEndpoint
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _row' sameRows source
+          exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+      }
+      pattern_sound := by
+        intro row source
+        exact
+          ⟨source.right, unary_transport endpointUnary (hsame_symm source.right)⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨provenancePkg, endpointPkg, source.right⟩
+    }
+  exact ⟨cert, endpointUnary, readbackRealSealEndpoint, provenancePkg, endpointPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
