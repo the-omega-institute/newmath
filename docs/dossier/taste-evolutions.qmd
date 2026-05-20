@@ -106,6 +106,8 @@ daemon queue 给出 20 个同类 finding, 代表样本 `cellularboundaryconditio
 
 negative criterion 是纯机器形态: `\origin{ai}` 的 `<X>Up` 若位于至少 6 成员的 phase1 carrier 同型桶, 就拒绝 atomic `ai` 目标。改动落在 `lean4/scripts/bedc_ci.py`, `lean4/scripts/prompts/phase_b.txt`, `lean4/scripts/prompts/phase_c.txt`, `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; `detect_mislabeled_composite_carriers(min_bucket_size=6)` 现在进入 audit payload, Review/Revise 与 Lean Phase B/C prompt 都以 `mislabeled_composite_carriers` 为执行 gate。
 
+Ship: commit `f63171aa56a7b4f94fe52a57bac39800a4b26331`. Detector/gate: recorded by daemon after merge.
+
 ## RESEARCH 探索历史
 
 每次 RESEARCH cycle daemon 派 Codex 扫整个 corpus, 目标是找现有 detector 没覆盖的新平凡 pattern。这里记录探索范围和结论；没 ship 的探索也保留, 因为 operator 需要知道 daemon 不是只在成功时才留下痕迹。
