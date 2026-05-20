@@ -181,3 +181,47 @@ section. Repacking these two Real-side facts through the RegSeqRat
 correspondence gives the stated terminal factorization and no additional
 exported coordinate.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-request source-section intersection lock]
+\label{thm:regseqrat-finite-request-source-section-intersection-lock}
+Let $R$ be an accepted $\RegSeqRatUp$ packet, and let $S$ and $T$ be public
+finite requests to $R$ consumed by local $\RealUp$ seals. Suppose the displayed
+source sections of $S$ and $T$ agree on the $\StreamNameUp$ schedule rows, the
+$\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows, the
+$\RegSeqRatUp$ classifier and regularity rows, the componentwise $\hsame$
+rows, the displayed $\Cont$ rows, the $\mathsf{Pkg}$ provenance, and the local
+$\NameCert_{\RegSeqRatUp}$ rows.
+
+Then the common restriction of the two seal-facing requests is exactly one
+finite $\RegSeqRatUp$ source section over those rows. No quotient stream, host
+equality, selected limit, choice datum, ambient or metric completeness
+principle, or second seal coordinate can distinguish $S$ from $T$ on that
+restriction.
+\end{theorem}
+\begin{proof}
+First apply the finite request source section theorem,
+\autoref{thm:regseqrat-finite-request-source-section}, to $S$ and to $T$.
+The agreement hypotheses identify the displayed schedule, dyadic, classifier,
+regularity, transport, continuation, provenance, and local naming rows of the
+two finite source packets.
+
+Next pass to the seal-visible side with
+\autoref{thm:regseqrat-finite-request-real-seal-correspondence}. The local
+$\RealUp$ seals see only the restriction of those finite source packets, so
+the same displayed rows give one seal-facing restriction for both requests.
+
+Use the support composition theorem,
+\autoref{thm:regseqrat-finite-request-support-face-composition}, to compose
+the two agreed support faces through their common displayed rows. The composed
+support face still contains exactly the StreamName, DyadicRatCore, RegSeqRat,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert_{\RegSeqRatUp}$ rows
+named in the statement.
+
+Finally apply the terminal budget factorization theorem,
+\autoref{thm:regseqrat-finite-request-terminal-budget-factorization}, to each
+seal-facing request. Every terminal consumer factors through the finite source
+section already identified above. Since that section carries no quotient
+stream, host equality, selected limit, choice datum, completeness principle,
+or second seal coordinate, no such external datum can separate the two
+requests on the common restriction.
+\end{proof}
