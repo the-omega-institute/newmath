@@ -584,6 +584,55 @@ $\RegSeqRatUp$ seal endpoint is only that finite phase face and carries none of
 the excluded data as a hidden coordinate.
 \end{proof}
 
+\begin{theorem}[RegSeqRat Real seal finite-window witness induction]
+\label{thm:regseqrat-real-seal-finite-window-witness-induction}
+Every accepted finite $\RegSeqRatUp$-to-$\RealUp$ seal endpoint covered by
+\autoref{thm:regseqrat-real-seal-endpoint-coverage} admits induction over the
+finite request window. The empty window is the terminal $\RealUp$ seal row.
+If a witness package is available for a finite request window $W$, then
+adjoining one visible request extends it by the $\StreamNameUp$ finite-window
+transport row, the $\DyadicRatCoreUp$ radius-ledger readback, and the
+$\RegSeqRatUp$ classifier transport row.
+
+The induction is only a finite-window construction for the endpoint face of
+\autoref{thm:regseqrat-real-seal-endpoint-phase-boundary}. It introduces no
+quotient stream equality, selected limit, host real equality, choice,
+$\RealUp$ completeness, or metric-completeness datum.
+\end{theorem}
+\begin{proof}
+First read the endpoint package through
+\autoref{thm:regseqrat-real-seal-schedule-coverage} and
+\autoref{thm:regseqrat-real-seal-endpoint-coverage}. These two results expose
+the finite request inventory: $\StreamNameUp$ windows, dyadic endpoint and
+radius ledgers, transported $\RegSeqRatUp$ regularity and classifier rows, the
+terminal $\RealUp$ seal row, and the visible $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+For the base window, take the terminal $\RealUp$ seal row from the endpoint
+coverage package. With no visible request to adjoin, the witness package has no
+dyadic-radius readback or classifier-transport obligation beyond that terminal
+row and its displayed provenance.
+
+For the step, suppose the witness has been built over a finite window $W$.
+Adjoin one visible request through
+\autoref{thm:regseqrat-finite-window-transport-obligation}; this repacks the
+same $\StreamNameUp$ finite-window rows, $\hsame$ comparisons, $\Cont$ routes,
+$\mathsf{Pkg}$ rows, and local $\NameCert$ provenance on the enlarged window.
+
+Next read the new radius and endpoint rows by
+\autoref{thm:regseqrat-dyadic-radius-ledger-readback}. Then apply
+\autoref{thm:regseqrat-classifier-transport} to carry the transported
+regularity and classifier surface to the enlarged window. This gives exactly
+the witness package required after adjoining the request.
+
+Finally use \autoref{thm:regseqrat-real-seal-endpoint-phase-boundary}. The
+endpoint is the $\RegSeqRatUp$ face of the Phase Real and Completion package,
+so the induction cannot pick up any coordinate withheld by that boundary.
+Together with the exclusions in the endpoint coverage theorem, this rules out
+quotient stream equality, selected limits, host real equality, choice,
+$\RealUp$ completeness, and metric-completeness data at every finite stage.
+\end{proof}
+
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]

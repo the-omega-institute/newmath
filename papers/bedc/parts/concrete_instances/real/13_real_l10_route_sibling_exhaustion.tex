@@ -103,3 +103,126 @@ metric-completeness coordinate, aggregate formalstatus row, or bridge row, so
 none of those rows can replace a missing sibling certificate or displayed
 support row at the terminal seal.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal route support induction]
+\label{thm:real-l10-terminal-route-support-induction}
+Let
+$$
+\mathcal T_0,\mathcal T_1,\ldots,\mathcal T_n
+$$
+be a finite replay chain of accepted Real-facing terminal presentations for
+the current Phase Real and Completion exit route. Suppose each successive
+replay step preserves the $\DyadicRatCoreUp$ endpoint and radius ledger, the
+$\StreamNameUp$ terminal-window row, the $\RegSeqRatUp$ finite-request and
+readback row, the local $\RealUp$ terminal seal row, and the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then the
+terminal read of every $\mathcal T_i$ lies on the same four-face support
+surface
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+with those displayed support rows. If a replay step fails to preserve the
+terminal read, the failure is witnessed by one of the four faces or by one of
+the displayed support rows.
+
+The induction introduces no quotient stream, host real equality, selected
+limit, countable-choice selector, ambient completeness coordinate,
+metric-completeness coordinate, aggregate formalstatus row, or bridge row.
+\end{theorem}
+\begin{proof}
+For the base presentation $\mathcal T_0$, apply
+\autoref{thm:real-l10-terminal-four-face-support-minimality-pullback}. The
+terminal read pulls back to the four sibling certificates and to the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and no smaller or
+off-route packet carries the same Real-facing verdicts.
+
+For the successor step, assume $\mathcal T_i$ has already been read on that
+support surface. The replay hypotheses identify the next presentation
+$\mathcal T_{i+1}$ on the same dyadic endpoint and radius ledger, the same
+StreamName terminal window, the same RegSeqRat finite request and readback
+row, the same local Real seal row, and the same displayed support rows.
+
+Apply
+\autoref{thm:streamname-terminal-four-face-support-replay-induction} to replay
+the terminal-window support through the ordered four faces. Then use
+\autoref{thm:regseqrat-real-seal-finite-window-witness-induction} to carry the
+finite request and readback witness across the RegSeqRat-to-Real seal
+boundary. Finally,
+\autoref{thm:real-l10-route-sibling-exhaustion} says that every accepted
+Real-facing terminal read on this route is exhausted by exactly those sibling
+faces and rows.
+
+Thus the successor presentation remains on the same support surface. If the
+successor replay fails, one of the hypotheses just used is absent: the dyadic
+ledger, StreamName window, RegSeqRat request/readback face, local Real seal,
+or one of the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+rows has changed or disappeared.
+
+Finite induction over the replay chain now gives the claim for all
+$\mathcal T_i$. The exclusion list is inherited at each step from the
+minimality pullback and route exhaustion theorems, so no quotient stream, host
+real equality, selected limit, choice selector, completeness coordinate,
+formalstatus row, or bridge row can enter the terminal support surface.
+\end{proof}
+
+\begin{theorem}[Real L10 terminal support cover induction]
+\label{thm:real-l10-terminal-support-cover-induction}
+Let $\mathcal{U}$ be a finite family of accepted Real-facing terminal
+presentations for the current Phase Real and Completion exit route. Suppose
+each replay step inside each member of $\mathcal{U}$ preserves the displayed
+$\DyadicRatCoreUp$ endpoint and radius ledger, the $\StreamNameUp$
+terminal-window row, the $\RegSeqRatUp$ finite-request and readback row, the
+local $\RealUp$ terminal seal row, and the shared $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support rows. Suppose also that every finite subcover
+of $\mathcal{U}$ satisfies the objectwise Phase Real and Completion threshold,
+and that overlaps agree on those four faces and support rows.
+
+Then the whole replay-cover satisfies the same objectwise Phase Real and
+Completion threshold. If a member or an overlap fails to contribute to that
+threshold, the failure localizes to one displayed face
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+or to one displayed support row among $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$.
+
+The cover induction asserts no quotient stream equality, selected limit,
+countable-choice selector, metric-completeness datum, aggregate formalstatus
+row, bridge row, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+First run the terminal support induction inside each cover member. Apply
+\autoref{thm:real-l10-terminal-route-support-induction} to each finite replay
+chain. The result keeps every accepted Real-facing terminal presentation on
+the same displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
+local $\RealUp$ support surface, with the shared $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows.
+
+Next compare the StreamName and RegSeqRat cover faces. Apply
+\autoref{thm:streamname-terminal-four-face-support-replay-induction} to keep
+the terminal-window rows stable under replay. Apply
+\autoref{thm:regseqrat-four-face-finite-cover-induction} to transport the
+finite-request, readback, and regularity rows through the finite four-face
+cover. The overlap hypotheses are exactly the rows consumed by these two
+induction principles.
+
+Now glue the local threshold packets. Apply
+\autoref{thm:real-l10-finite-cover-exit-threshold-gluing} to the finite
+family whose members already satisfy the objectwise Phase Real and Completion
+threshold on the displayed faces. The overlap agreement supplies the common
+dyadic ledger, StreamName window, RegSeqRat readback, local Real seal,
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support needed by the
+gluing theorem.
+
+Finally descend from the glued finite packet to the whole replay-cover. Apply
+\autoref{thm:real-l10-finite-cover-exit-threshold-descent}. Any failed
+descent hypothesis is one of the same visible faces or support rows, so the
+failure localizes there and not to an off-route completion coordinate.
+
+The exclusion clauses in the support induction, the StreamName and RegSeqRat
+cover inductions, and the gluing and descent theorems all refuse quotient
+stream equality, selected limits, countable choice, metric completeness,
+aggregate formalstatus rows, bridge rows, and ambient $\RealUp$ completeness.
+Thus the composed cover result remains a finite four-face terminal support
+claim and carries no route-level strengthening.
+\end{proof}
