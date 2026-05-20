@@ -100,6 +100,24 @@ For limit-transport and real-seal consumers, use \autoref{thm:regular-cauchy-zer
 The carrier has no further coordinates. Therefore every downstream handoff is exhausted by the displayed packet rows and cannot draw on an external equality or completeness object.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy zero terminal consumer uniqueness]
+\label{thm:regular-cauchy-zero-terminal-consumer-uniqueness}
+Let $Z$ and $Z'$ be accepted $\RegularCauchyZeroUp$ packets whose displayed zero-source rows
+$$
+(q,s,r,m,\mu,h,c,p,n)
+$$
+agree componentwise. Then every $\RegularCauchyTailMeetUp$, $\FiniteTailDiagonalSealUp$, $\RegularCauchyLimitTransportUp$, and $\RealUp$ terminal consumer reads the same zero-source boundary from $Z$ and $Z'$. No quotient stream equality, host zero equality, selected real limit, nonzero witness, or ambient completeness coordinate can distinguish the two terminal reads.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-zero-namecert-obligations} to both accepted packets. Their local certificate surfaces expose only the finite carrier rows, and the hypotheses identify the zero seed, constant stream, regular readback, modulus, meet, transport, continuation, provenance, and local naming rows componentwise.
+
+Next use \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route}. The common rows force both packets through the same $\StreamNameUp$ constant-window route and the same dyadic observation ledger before any regular-Cauchy, tail-meet, or real-facing consumer can read the zero source.
+
+For tail-meet and finite-tail diagonal consumers, apply \autoref{thm:regular-cauchy-zero-tail-meet-identity}. Since the common boundary includes $m$ and $\mu$, both packets export the same zero modulus and the same identity meet row to those consumers.
+
+For limit-transport and real-seal consumers, apply \autoref{thm:regular-cauchy-zero-real-seal-nonescape} and \autoref{thm:regular-cauchy-zero-downstream-handoff}. These results exhaust the terminal consumer-visible boundary by the displayed rows, so a consumer has no remaining coordinate through which $Z$ and $Z'$ can be separated.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchyZeroUp}
   \constructivestory{A $\RegularCauchyZeroUp$ packet is generated from finite $\BHist$ rows for the rational zero seed, constant $\StreamNameUp$ row, zero $\RegSeqRatUp$ readback, zero modulus row, identity meet row, and terminal $\RealUp$ seal. The route starts at the displayed zero seed and is replayed by $\Cont$ through stream, regular-rational, modulus, meet, and seal rows before any completion-facing consumer reads it. Componentwise $\hsame$ preserves the same zero route, while $\Pkg$ records the rational, stream, regular-sequence, modulus, tail-meet, diagonal-seal, and Real dependencies. The packet names the finite zero source rather than host real equality.}
   \theoryclosure{\seedClosure}
