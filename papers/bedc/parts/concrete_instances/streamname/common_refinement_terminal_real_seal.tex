@@ -88,6 +88,20 @@ Apply \autoref{thm:streamname-real-regseqrat-seal-common-refinement}. The retain
 Finally use \autoref{thm:streamname-common-refinement-real-seal-uniqueness}. The restricted packet and the packet assembled from $J$ have identical displayed terminal coordinates, hence they are the same public finite-window seal packet. The row inventory leaves no coordinate for quotient streams, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, or independent seal coordinates.
 \end{proof}
 
+\begin{theorem}[StreamName common-refinement terminal subcover associativity]
+\label{thm:streamname-common-refinement-terminal-subcover-associativity}
+Let $\{\mathcal R_i\}_{i \in I}$ be a finite family of common-refinement $\StreamNameUp$ finite-window packets whose retained consumers pass through the accepted $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, and the finite-window $\RealUp$ seal row of \autoref{thm:streamname-common-refinement-terminal-real-seal}. For nested finite subfamilies $K \subseteq J \subseteq I$, restrict the terminal packet on $I$ first to $J$ and then to $K$, retaining only the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, finite $\BHist$ observation, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. Then this two-step restriction is the same public finite-window packet as the direct restriction of the terminal packet on $I$ to $K$.
+
+The associativity claim is only about those displayed public rows. It does not identify quotient streams, assert host sequence equality, select limits, use ambient $\RealUp$ completeness, import metric-completeness data, or introduce independent seal coordinates.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-common-refinement-terminal-subcover-exactness} to the inclusion $J \subseteq I$. The first restriction is exactly the terminal packet assembled from the common-refinement windows indexed by $J$, with only the displayed StreamName, RegSeqRat, dyadic, Real, history, transport, route, provenance, and naming rows.
+
+Apply the same theorem to the inclusion $K \subseteq J$. The second restriction therefore has precisely the terminal coordinates obtained by assembling the windows indexed by $K$ inside the already restricted $J$-packet.
+
+Apply \autoref{thm:streamname-common-refinement-terminal-subcover-exactness} once more to the direct inclusion $K \subseteq I$. The direct packet and the two-step packet expose identical terminal coordinate lists, so \autoref{thm:streamname-common-refinement-real-seal-uniqueness} identifies them as the same public finite-window seal packet. The coordinate inventory contains no slot for quotient streams, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, or independent seal coordinates.
+\end{proof}
+
 \begin{theorem}[StreamName CauchyLimitSeal forward lattice]
 \label{thm:streamname-cauchy-limit-seal-forward-lattice}
 Any common-refinement $\StreamNameUp$ finite-window packet consumed by $\RegSeqRatUp$ and then by $\CauchyLimitSealUp$ factors through the StreamName window, the RegSeqRat readback, the $\DyadicRatCoreUp$ ledger, the $\RealUp$ seal row, and the finite-window seal surface of \autoref{ch:concrete-instances-cauchylimitseal-namecert}. The forward route carries only displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. It exports no quotient streams, host sequence equality, selected limits, ambient $\RealUp$ completeness, or metric-completeness data.
