@@ -1225,11 +1225,12 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
 
     import random
     import time
-    MAX_PUSH_ATTEMPTS = 4
+    MAX_PUSH_ATTEMPTS = 8
 
+    logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
+
+    # Phase 1a: fetch + sync local BASE — needs _git_lock (shared main checkout refs)
     with _git_lock:
-        logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
-
         run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
         if not _sync_local_with_origin(model=model):
             logger.error(
@@ -1238,73 +1239,74 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
             )
             return False
 
-        merge = run_cmd(
-            ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
-            cwd=wt.path,
-            timeout=180,
+    # Phase 1b: worktree-local work (per-worker, NO _git_lock — each worker has own worktree)
+    merge = run_cmd(
+        ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
+        cwd=wt.path,
+        timeout=180,
+    )
+    if merge.returncode != 0:
+        logger.warning(
+            f"Merge conflict for {wt.branch} (attempt 1), "
+            "invoking codex to resolve..."
         )
-        if merge.returncode != 0:
-            logger.warning(
-                f"Merge conflict for {wt.branch} (attempt 1), "
-                "invoking codex to resolve..."
-            )
-            resolved = _codex_resolve_conflicts(wt.path, model=model)
-            if not resolved:
-                logger.error(f"Codex could not resolve conflicts for {wt.branch}")
-                run_cmd(["git", "merge", "--abort"], cwd=wt.path)
-                return False
-
-        merged_new = run_cmd(
-            ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
-            cwd=wt.path, timeout=30,
-        )
-        merged_lines = [
-            l.strip() for l in merged_new.stdout.splitlines() if l.strip()
-        ]
-        own_prefix = f"R{wt.round_number}:"
-        if not any(own_prefix in l for l in merged_lines):
-            logger.error(
-                f"[R{wt.round_number}] Merge left no own-round commit "
-                f"unique to {BASE_BRANCH}; refusing to report merge success"
-            )
+        resolved = _codex_resolve_conflicts(wt.path, model=model)
+        if not resolved:
+            logger.error(f"Codex could not resolve conflicts for {wt.branch}")
+            run_cmd(["git", "merge", "--abort"], cwd=wt.path)
             return False
 
-        latest_base_sha = run_cmd(
-            ["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT
-        ).stdout.strip()
-        saved_base = wt.base_sha
-        wt.base_sha = latest_base_sha
-        try:
-            dup = detect_duplicate_symbols(wt)
-        finally:
-            wt.base_sha = saved_base
-        if dup:
-            for v in dup[:10]:
-                logger.error(f"[R{wt.round_number}] POST-REBASE DUP: {v}")
-            logger.error(
-                f"[R{wt.round_number}] Rejecting merge: after rebasing onto "
-                f"latest {BASE_BRANCH}, {len(dup)} new symbol(s) collide with "
-                f"files concurrent workers already merged."
-            )
-            return False
+    merged_new = run_cmd(
+        ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
+        cwd=wt.path, timeout=30,
+    )
+    merged_lines = [
+        l.strip() for l in merged_new.stdout.splitlines() if l.strip()
+    ]
+    own_prefix = f"R{wt.round_number}:"
+    if not any(own_prefix in l for l in merged_lines):
+        logger.error(
+            f"[R{wt.round_number}] Merge left no own-round commit "
+            f"unique to {BASE_BRANCH}; refusing to report merge success"
+        )
+        return False
 
+    latest_base_sha = run_cmd(
+        ["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT
+    ).stdout.strip()
+    saved_base = wt.base_sha
+    wt.base_sha = latest_base_sha
+    try:
+        dup = detect_duplicate_symbols(wt)
+    finally:
+        wt.base_sha = saved_base
+    if dup:
+        for v in dup[:10]:
+            logger.error(f"[R{wt.round_number}] POST-REBASE DUP: {v}")
+        logger.error(
+            f"[R{wt.round_number}] Rejecting merge: after rebasing onto "
+            f"latest {BASE_BRANCH}, {len(dup)} new symbol(s) collide with "
+            f"files concurrent workers already merged."
+        )
+        return False
+
+    gates_ok, failed_gate, gate_tail = run_pre_merge_hard_gates(wt)
+    if not gates_ok and failed_gate == "audit":
+        logger.warning(
+            f"[R{wt.round_number}] Pre-merge audit failed — "
+            "asking codex to drop colliding paper additions"
+        )
+        _codex_resolve_post_rebase_audit(
+            wt.path, wt.round_number, gate_tail or "", model=model
+        )
         gates_ok, failed_gate, gate_tail = run_pre_merge_hard_gates(wt)
-        if not gates_ok and failed_gate == "audit":
-            logger.warning(
-                f"[R{wt.round_number}] Pre-merge audit failed — "
-                "asking codex to drop colliding paper additions"
+        if gates_ok:
+            logger.info(
+                f"[R{wt.round_number}] Audit recovered after "
+                "codex resolution; continuing merge"
             )
-            _codex_resolve_post_rebase_audit(
-                wt.path, wt.round_number, gate_tail or "", model=model
-            )
-            gates_ok, failed_gate, gate_tail = run_pre_merge_hard_gates(wt)
-            if gates_ok:
-                logger.info(
-                    f"[R{wt.round_number}] Audit recovered after "
-                    "codex resolution; continuing merge"
-                )
-        if not gates_ok:
-            return False
+    if not gates_ok:
+        return False
 
     captured_base_sha = run_cmd(["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT).stdout.strip()
 

@@ -97,3 +97,49 @@ cited source, handoff, and fusion routes contain no rows for quotient stream
 equality, host sequence equality, selected limits, choice data, ambient or
 metric completeness, or duplicate Real seal coordinates.
 \end{proof}
+
+\begin{theorem}[RegSeqRat Real seal support face uniqueness]
+\label{thm:regseqrat-real-seal-support-face-uniqueness}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S$ and $T$ be public
+finite requests to $P$ consumed by the public $\RealUp$ seal route. Suppose the
+classifier-visible finite request sections of $S$ and $T$ agree on the support
+subpacket. Then the Real-seal-facing support face is unique: the displayed
+$\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance, and local
+$\NameCert_{\RegSeqRatUp}$ rows form the same support face for $S$ and $T$.
+Every accepted $\RealUp$ seal consumer that exposes those rows factors through
+that face. Conversely, equality of the Real-seal support face recovers equality
+of the support part of the classifier-visible $\RegSeqRatUp$ finite request
+section. The uniqueness has no coordinate for quotient stream equality, host
+real equality, selected limits, choice data, ambient completeness,
+metric-completeness rows, or duplicate $\RealUp$ seal coordinates.
+\end{theorem}
+\begin{proof}
+Start with the support transport theorem,
+\autoref{thm:regseqrat-finite-request-support-transport}. It transports
+agreement of the support subpacket through the componentwise $\hsame$ rows,
+displayed $\Cont$ rows, $\Pkg$ provenance, and local
+$\NameCert_{\RegSeqRatUp}$ rows, so the two requests present one support packet
+on the RegSeqRat side.
+
+Next apply the classifier alignment theorem,
+\autoref{thm:regseqrat-finite-request-classifier-alignment}. The
+classifier-visible section sees exactly the displayed support rows named above.
+Thus equality of the support subpacket is equality of the support part of the
+finite request section, not equality of any hidden host or quotient object.
+
+Now use the Real finite-request fusion theorem,
+\autoref{thm:real-regseqrat-finite-request-fusion}. The public $\RealUp$
+consumer reads the same finite $\BHist$ packet and the same displayed support
+rows. Hence any accepted seal consumer exposing $\hsame$, $\Cont$, $\Pkg$, and
+local $\NameCert_{\RegSeqRatUp}$ data must factor through that single
+Real-seal-facing support face.
+
+For the converse, assume the Real-seal support faces agree. Reading the agreed
+face back through the fusion packet and the classifier-visible section returns
+the same support part of the RegSeqRat finite request section. The source,
+transport, alignment, and fusion routes expose no rows for quotient stream
+equality, host real equality, selected limits, choice data, ambient
+completeness, metric-completeness rows, or duplicate Real seal coordinates, so
+no external coordinate can distinguish two support faces with the same displayed
+rows.
+\end{proof}

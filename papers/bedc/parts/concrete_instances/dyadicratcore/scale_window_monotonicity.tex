@@ -51,6 +51,20 @@ For the step, write the chain as a shorter displayed widening chain followed by 
 The one-step preservation hypothesis therefore transfers $I$ from the intermediate packet to the terminal packet. Repeating this finite argument reaches the terminal packet of the original chain, and the exclusion clause is inherited from the accepted packet rows and from scale-window monotonicity.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore successor scale-window nesting]
+\label{thm:dyadicratcore-successor-scale-window-nesting}
+Let $P$ be an accepted $\DyadicRatCoreUp$ scale-window packet, and let $P^{+}$ be obtained from $P$ by one displayed positive-unary successor widening of the exponent window. Then $P$ nests inside $P^{+}$ as the same finite dyadic source surface: the signed mantissa row, denominator ledger, common-exponent comparison row, distance and radius rows, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ support of $P$ are carried into the corresponding rows of $P^{+}$.
+
+This one-successor nesting imports no host rational order, quotient equality, hidden denominator selector, selected $\RealUp$ endpoint, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Apply scale-window monotonicity, \autoref{thm:dyadicratcore-scale-window-monotonicity}, to the displayed successor widening. It gives the transported dyadic comparison row and identifies the allowed support as displayed scale transport, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ data.
+
+View the successor widening as the one-step finite chain. The finite widening-chain induction theorem, \autoref{thm:dyadicratcore-finite-widening-chain-induction}, then specializes its preservation surface to the invariant saying that the original signed mantissa, denominator ledger, comparison row, distance and radius rows, and displayed support rows remain visible inside the terminal packet.
+
+Finally use RegSeqRat bridge handoff exactness, \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}. The widened packet is still the public DyadicRatCore envelope consumed by $\RegSeqRatUp$ and exposed to $\StreamNameUp$, so the nesting is a finite packet inclusion rather than a passage through host rational order, quotient equality, hidden denominator selectors, selected $\RealUp$ endpoints, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore scale-window terminal fusion]
 \label{thm:dyadicratcore-scale-window-terminal-fusion}
 If two finite chains of positive-unary exponent-window widenings of a $\DyadicRatCoreUp$ scale-window packet have a common terminal exponent, then they fuse into the same terminal DyadicRatCore comparison packet for $\StreamNameUp$ and $\RegSeqRatUp$ consumers. The fused packet is reached only through the displayed scale transports, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ rows of \autoref{def:dyadicratcore-scale-window-packet}.

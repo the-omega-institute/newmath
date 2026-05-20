@@ -157,6 +157,60 @@ ambient $\RealUp$ completeness. Such data therefore cannot carry the detected
 defect and cannot repair the finite section consumed by the L10 Real route.
 \end{proof}
 
+\begin{theorem}[StreamName terminal support removal witness]
+\label{thm:streamname-terminal-support-removal-witness}
+Let $U$ be an accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request section. Delete from the public terminal support of
+$U$ either one visible face among
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, or one displayed support
+row among $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$. Then the shortened request section cannot present the same
+carrier verdict, classifier verdict, and consumer-facing terminal route as
+$U$.
+
+The lost verdict is witnessed as a finite request-section mismatch. If the
+removed coordinate is the finite $\StreamNameUp$ window or one of its displayed
+request rows, the witness is the finite-section pullback. If the removed
+coordinate is the $\RealUp$ terminal boundary, the witness is the Real-seal
+lock. If the removed coordinate is a transported window row, the witness is
+window reindex determinacy. If the removed coordinate is part of the fused
+terminal-window source, the witness is the terminal-window fusion surface.
+
+No quotient stream equality, host sequence equality, selected limit, countable
+choice, ambient $\RealUp$ completeness, metric completeness, aggregate
+formalstatus row, or bridge row can repair the shortened section or replace the
+finite witness.
+\end{theorem}
+\begin{proof}
+Begin with the deletion. By
+\autoref{thm:streamname-terminal-four-face-support-minimality}, every visible
+face and every displayed support row named in the statement is a required
+coordinate of the accepted terminal packet. Removing one of them therefore
+loses the public carrier verdict, the public classifier verdict, or the
+consumer-facing route.
+
+Next localize the loss. Apply
+\autoref{thm:streamname-terminal-support-defect-localization}. The failure
+cannot be carried by an off-route equality, a selected limit, a choice row, a
+completeness row, an aggregate verification row, or a bridge row. It is located
+on the deleted face or support row itself.
+
+Now pull the localized failure back to finite BEDC data. Use
+\autoref{thm:streamname-terminal-support-defect-pullback}. A missing
+StreamName window or displayed request row is read by the finite-section
+pullback. A missing Real terminal boundary is read by the Real-seal lock. A
+missing transported window row is read by window reindex determinacy. A missing
+coordinate from the fused terminal source is read by the terminal-window fusion
+source and reindexing compatibility surfaces.
+
+These four witness surfaces exhaust the repair options available to the
+terminal request section. Since none of them exports quotient stream equality,
+host sequence equality, selected limits, countable choice, ambient Real
+completeness, metric completeness, aggregate formalstatus rows, or bridge rows,
+the shortened section has a finite request-section mismatch and no excluded
+coordinate can repair it.
+\end{proof}
+
 \begin{theorem}[StreamName terminal four-face support exhaustion]
 \label{thm:streamname-terminal-four-face-support-exhaustion}
 Let $U$ be an accepted current Phase $\RealUp$ and Completion terminal
@@ -254,6 +308,52 @@ $\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ route with the
 displayed support rows. The two transported presentations therefore determine
 the same terminal support packet, and the exhaustion theorem excludes every
 off-route coordinate listed in the statement.
+\end{proof}
+
+\begin{theorem}[StreamName terminal route facewise conservativity]
+\label{thm:streamname-terminal-route-facewise-conservativity}
+Let $U$ be an accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request section, and let $P$ be a consumer-visible terminal
+presentation of $U$. Suppose $P$ preserves the accepted carrier verdict, the
+accepted classifier verdict, and the consumer-facing terminal route of $U$.
+Then $P$ restricts facewise to the same terminal $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces as $U$, and to the same
+displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ support rows.
+
+No quotient stream equality, host sequence equality, selected limit, countable
+choice, ambient $\RealUp$ completeness, metric-completeness datum, aggregate
+formalstatus row, or bridge row can serve as a substitute coordinate for this
+conservative terminal presentation.
+\end{theorem}
+\begin{proof}
+First exhaust the coordinates that a preserved terminal verdict can use. By
+\autoref{thm:streamname-terminal-four-face-support-exhaustion}, every accepted
+consumer-visible support coordinate of $U$ is one of the four displayed faces
+or one of the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and
+local $\NameCert$ rows.
+
+Assume contrapositively that $P$ does not restrict facewise to this displayed
+support. Then it either omits one displayed face or row, or it replaces one of
+them by an off-route coordinate. The defect localization theorem
+\autoref{thm:streamname-terminal-support-defect-localization} forces such a
+failure to appear on a visible face or displayed support row whenever the
+carrier verdict, classifier verdict, or terminal route is not preserved.
+
+The hypotheses say that $P$ preserves exactly those three consumer-visible
+outputs. Hence no such localized defect is available. The exhaustion theorem
+also says that quotient equality, host sequence equality, selected limits,
+choice, completeness, aggregate formalstatus, and bridge rows are not accepted
+support coordinates, so none of them can repair the missing facewise evidence.
+
+It remains to identify the preserved presentation. Read $P$ and $U$ as two
+accepted terminal presentations with the same visible faces and componentwise
+replayed support rows. The transport stability theorem
+\autoref{thm:streamname-terminal-four-face-support-transport-stability}
+therefore identifies their consumer-visible terminal support packets. Thus
+preserving the accepted carrier verdict, classifier verdict, and terminal route
+is conservative exactly on the four BEDC-visible faces and displayed support
+rows listed in the statement.
 \end{proof}
 
 \begin{theorem}[StreamName terminal support replay induction]
