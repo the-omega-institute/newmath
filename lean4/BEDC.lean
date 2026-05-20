@@ -1039,7 +1039,6 @@ import BEDC.Derived.CauchyRateBudgetUp.TasteGate
 import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchySealBudgetSynchronizerUp
-import BEDC.Derived.CauchySealBudgetSynchronizerUp.StdBridge
 import BEDC.Derived.CauchySealBudgetSynchronizerUp.TasteGate
 import BEDC.Derived.CauchySealFunctorUp.TasteGate
 import BEDC.Derived.CauchySealInterfaceUp.TasteGate
@@ -1294,7 +1293,6 @@ import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.CompactModulusCoverUp
 import BEDC.Derived.CompactModulusCoverUp.TasteGate
-import BEDC.Derived.CompactNetModulusBudgetUp.NameCertObligations
 import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
 import BEDC.Derived.CompactNetModulusSelectorUp.ConsumerFactorization
 import BEDC.Derived.CompactNetModulusSelectorUp.FoldSoundness
@@ -3865,7 +3863,6 @@ import BEDC.Derived.RealObservationBudgetUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.WindowCoverage
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
 import BEDC.Derived.RealSealAdmissionCutUp.TasteGate
-import BEDC.Derived.RealSealComparisonUp.NameCertObligations
 import BEDC.Derived.RealSealComparisonUp.TasteGate
 import BEDC.Derived.RealSealCongruenceUp.TasteGate
 import BEDC.Derived.RealSelectorComparisonUp.TasteGate
@@ -4165,6 +4162,7 @@ import BEDC.Derived.RegularCauchyWitnessScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.ClassifierStability
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.NameCertSurface
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.TasteGate
+import BEDC.Derived.RegularCauchyZeroUp.TasteGate
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegularLimitUniquenessUp
 import BEDC.Derived.RegularLimitUniquenessUp.DyadicWindowSeparationPullback

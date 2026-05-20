@@ -276,4 +276,52 @@ theorem ConceptRegistrySurface_forbidden_reading_refusal_certificate [AskSetup] 
   }
   exact ⟨rfl, cert⟩
 
+theorem ConceptRegistrySurface_export_exactness_certificate [AskSetup] [PackageSetup]
+    {C T G R S F U H P N localRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PkgSig bundle P pkg →
+      hsame localRead N →
+        conceptRegistrySurfaceFields (ConceptRegistrySurfaceUp.mk C T G R S F U H P N) =
+            [C, T, G, R, S, F, U, H, P, N] ∧
+          SemanticNameCert
+            (fun row : BHist => hsame row N)
+            (fun row : BHist =>
+              hsame row C ∨ hsame row T ∨ hsame row G ∨ hsame row R ∨ hsame row S ∨
+                hsame row F ∨ hsame row U ∨ hsame row H ∨ hsame row P ∨ hsame row N)
+            (fun row : BHist => hsame row localRead ∧ PkgSig bundle P pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame
+  intro pkgP localReadSameName
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row N)
+        (fun row : BHist =>
+          hsame row C ∨ hsame row T ∨ hsame row G ∨ hsame row R ∨ hsame row S ∨
+            hsame row F ∨ hsame row U ∨ hsame row H ∨ hsame row P ∨ hsame row N)
+        (fun row : BHist => hsame row localRead ∧ PkgSig bundle P pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro N (hsame_refl N)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨hsame_trans source (hsame_symm localReadSameName), pkgP⟩
+  }
+  exact ⟨rfl, cert⟩
+
 end BEDC.Derived.ConceptRegistrySurfaceUp
