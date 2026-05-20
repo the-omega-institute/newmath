@@ -286,3 +286,25 @@ For the converse, inspect the equality after transport to $\mathcal M$ using \au
 
 Finally use obstruction minimality, \autoref{thm:dyadicratcore-finite-tail-obstruction-minimality}. None of those finite sites can be replaced by quotient streams, selected limits, choice data, metric completeness, aggregate status, bridge rows, or Real-completeness coordinates. Hence equality after the cofinal meet reflects only the displayed finite rows and no hidden completion coordinate.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore finite-tail refinement support necessity]
+\label{thm:dyadicratcore-finite-tail-refinement-support-necessity}
+Let $\mathcal E$ and $\mathcal E'$ be current Phase Real and Completion exit reads whose dyadic faces are finite-tail $\DyadicRatCoreUp$ scale-window packets. If a certified finite refinement between them preserves the objectwise exit certificate, then it preserves exactly the dyadic source and transport row, the induced $\StreamNameUp$ finite-window face, the visible $\RegSeqRatUp$ finite-request section, the local $\RealUp$ seal, and the transported $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Conversely, dropping any one of those rows prevents preservation of the objectwise exit certificate. The loss cannot be repaired by quotient stream equality, selected limits, host equality, choice data, metric completeness, aggregate status, bridge rows, standard bridge rows, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Expand the preserved certificate with \autoref{thm:dyadicratcore-finite-tail-exit-certificate-equivalence}. It identifies the certificate with the five finite sites over the four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+Thus preservation of the objectwise exit certificate already reads the dyadic source and transport row, the induced StreamName finite-window face, the RegSeqRat finite-request section, the local Real seal, and the transported support rows as the whole certificate surface.
+
+For the preservation direction, use finite-tail exit-certificate refinement invariance, \autoref{thm:dyadicratcore-finite-tail-exit-certificate-refinement-invariance}. A certified finite refinement that preserves the displayed faces and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows transports the certificate and recovers no additional quotient, limit, host-equality, choice, metric, bridge, or completeness coordinate.
+
+For common refinements, apply \autoref{thm:dyadicratcore-finite-tail-exit-certificate-cofinal-meet-stability}. Passing both reads to a common cofinal finite scale-window meet preserves the same displayed rows and reflects equality of certificates back only along those rows.
+
+It remains to show necessity of each support row. Use finite-tail obstruction minimality, \autoref{thm:dyadicratcore-finite-tail-obstruction-minimality}. If any one of the dyadic source and transport row, StreamName finite-window face, RegSeqRat finite-request section, local Real seal, or transported support rows is dropped, the missing site is an independent ledger obstruction and cannot be replaced by the other sites.
+
+The nonescape clauses in the equivalence and minimality results exclude every ambient repair listed in the statement. Therefore certificate preservation for finite-tail $\DyadicRatCoreUp$ exit reads is precisely facewise and support-row preserving, and no completion, quotient, choice, aggregate-status, or bridge coordinate can masquerade as finite refinement data.
+\end{proof}
