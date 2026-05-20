@@ -312,6 +312,52 @@ none supplies quotient streams, host equality, selected limits, ambient or
 metric completeness, choice data, or a second Real seal coordinate.
 \end{proof}
 
+\begin{theorem}[RegSeqRat Real seal finite-cover refinement invariance]
+\label{thm:regseqrat-real-seal-finite-cover-refinement-invariance}
+Let $\{\mathcal{S}_i\}_{i\in I}$ be a finite family of accepted public
+$\RegSeqRatUp$ reads saturated by the four displayed faces
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. Let a
+second finite family refine it by certified $\StreamNameUp$ common-refinement
+packets whose restrictions preserve the dyadic endpoint, radius, distance, and
+tail ledger rows, the $\RegSeqRatUp$ classifier and regularity rows, the
+$\RealUp$ public seal row, and the displayed $\mathsf{BHist}$, componentwise
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support.
+
+Then the original finite cover and its finite certified refinement determine
+the same four-face L10 exit packet: the $\StreamNameUp$ schedule and membership
+face, the $\DyadicRatCoreUp$ ledger face, the $\RegSeqRatUp$ classifier,
+regularity, and transport face, and the $\RealUp$ seal face with the listed
+support rows. The packet contains no quotient stream, no host equality, no
+selected limit, no choice datum, no ambient or metric-completeness datum, and no
+second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-real-seal-common-refinement-cover-completeness} to the
+original finite family. It gives one finite four-face pullback surface and
+records agreement of the endpoint, radius, distance, classifier, regularity,
+seal, and support rows.
+
+Apply
+\autoref{thm:regseqrat-real-seal-finite-cover-gluing} to the refined finite
+family. The restriction hypotheses give the overlap rows required by gluing,
+because each refined member lands in the same StreamName common-refinement
+packet described by
+\autoref{thm:streamname-real-regseqrat-seal-common-refinement}.
+
+It remains only to compare the packet obtained by first gluing the refined
+family with the packet obtained by gluing the original family. Use
+\autoref{thm:regseqrat-real-seal-finite-cover-associativity}: finite regrouping
+and reparenthesizing of saturated members preserves the StreamName, dyadic
+ledger, RegSeqRat, Real seal, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
+
+Thus the refined and unrefined finite covers expose the same L10 exit packet.
+The cited theorems also list the absent data, so the comparison cannot add a
+quotient stream, host equality, selected limit, choice, ambient or metric
+completeness, or a second Real seal coordinate.
+\end{proof}
+
 \begin{theorem}[RegSeqRat StreamName Dyadic Real audit-clean exit readiness]
 \label{thm:regseqrat-streamname-dyadic-real-audit-clean-exit-readiness}
 For any accepted public L10 exit read of a $\RegSeqRatUp$ carrier, audit-clean
@@ -683,4 +729,55 @@ coordinate remains for a quotient stream, selected limit, host equality,
 countable-choice row, ambient completeness row, metric-completeness row, or
 standard bridge row. Thus the admitted exit reads are exactly the finite
 four-face observation packets described in the statement.
+\end{proof}
+
+\begin{theorem}[RegSeqRat four-face status locality]
+\label{thm:regseqrat-four-face-status-locality}
+Let $\mathcal E$ be an accepted $\RegSeqRatUp$ Phase Real and Completion exit
+read through the four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Let $F$ be one of these four faces, and form $\mathcal E_F^+$ by replacing only
+one face-local $\mathsf{formalstatus}$, $\mathsf{leantarget}$, or
+$\mathsf{bridgestatus}$ row attached to $F$ by a stronger row attached to the
+same face.
+
+Assume that the other three face records and the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ support rows are unchanged. Then
+$\mathcal E_F^+$ presents the same finite four-face observation packet as
+$\mathcal E$: the StreamName finite observation face, the DyadicRatCore ledger
+face, the RegSeqRat classifier and regularity face, and the public Real seal
+face.
+
+This preservation introduces no aggregate route-level status row, quotient
+stream, selected limit, countable-choice row, metric-completeness datum,
+ambient $\RealUp$ completeness row, or second seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-four-face-finite-observation-completeness}. It
+identifies acceptance of $\mathcal E$ with a finite observation packet whose
+visible content is exactly the four displayed faces and the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Next use
+\autoref{thm:regseqrat-streamname-dyadic-real-audit-clean-exit-readiness}. The
+audit-clean route reads the same StreamName, DyadicRatCore, RegSeqRat, and Real
+faces and exports no off-route completion datum. Since the replacement is
+attached to the same face $F$ and leaves the other face records and support rows
+fixed, the audit-clean route still reads the same four-face packet.
+
+Apply \autoref{thm:streamname-terminal-face-local-status-strengthening}. The
+StreamName-side terminal theorem supplies the local rule for strengthening a
+$\mathsf{formalstatus}$, $\mathsf{leantarget}$, or $\mathsf{bridgestatus}$ row:
+the strengthened row remains a face-local row and does not become a route-level
+aggregate credential.
+
+Finally apply \autoref{thm:real-l10-terminal-four-face-status-locality}. The
+Real terminal locality theorem keeps every status, Lean-target, and bridge
+coordinate attached to one of the four local faces rather than to the route as a
+whole. Hence $\mathcal E_F^+$ has the same finite observation packet as
+$\mathcal E$, and none of the excluded quotient, limit, choice, completeness,
+aggregate-status, or second-seal data is introduced.
 \end{proof}
