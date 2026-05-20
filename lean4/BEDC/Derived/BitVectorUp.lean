@@ -572,4 +572,29 @@ theorem BitVectorSource_fixed_width_consumer_completeness [AskSetup] [PackageSet
     (BitVectorSource_semantic_name_certificate source)
     (BitVectorFiniteLedger_ledger_coverage finiteLedger)
 
+theorem BitVectorUp_StdBridge [AskSetup] [PackageSetup] {length spine ledger provenance read
+    consumer exported : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorSource length spine ledger provenance bundle pkg ->
+      BitVectorFiniteLedger length spine ledger provenance read bundle pkg ->
+        UnaryHistory consumer -> Cont read consumer exported -> PkgSig bundle exported pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row provenance ∧ BitVectorSource length spine ledger row bundle pkg)
+                  (fun row : BHist => UnaryHistory row ∧ Cont length spine ledger)
+                  (fun row : BHist => PkgSig bundle row pkg ∧ UnaryHistory ledger)
+                  (fun row row' : BHist => psame bundle pkg pkg ∧ hsame row row') ∧
+                UnaryHistory ledger ∧ UnaryHistory read ∧ UnaryHistory exported ∧
+                  hsame ledger (append length spine) ∧ hsame read (append ledger provenance) ∧
+                    hsame exported (append read consumer) ∧ PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro source finiteLedger consumerUnary exportRow pkgExport
+  have complete :=
+    BitVectorSource_fixed_width_consumer_completeness source finiteLedger
+  have exportInfo :=
+    BitVectorFiniteLedger_public_finite_algebra_export finiteLedger consumerUnary exportRow pkgExport
+  exact
+    ⟨complete.left, complete.right.left, complete.right.right.left, exportInfo.left,
+      complete.right.right.right.left, complete.right.right.right.right.left,
+      exportInfo.right.left, pkgExport⟩
+
 end BEDC.Derived.BitVectorUp

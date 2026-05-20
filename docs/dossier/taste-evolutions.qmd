@@ -20,20 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-20T10:58:07Z
+> 最后刷新: 2026-05-20T13:16:33Z
 
-**Daemon 状态**: adjust (monitor cycle 1, adjust_since_research 0, round_counter 1790, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 1, adjust_since_research 1, round_counter 1973, last_adjust rule_evolution_completed)
 
-**待处理 queue** (24 条 finding):
+**待处理 queue** (19 条 finding):
 - low_entropy_template: 13 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
-- mislabeled_composite: 5 条; 代表样本 `tailcofinalitybudget`, `auditgatecomposition`, `diagonalregularityseal`
 - isolated_theorem: 4 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
 - missing_origin: 2 条; 代表样本 `banach`, `int`
 
 **最近 alert 概览** (24h 内):
 - TASTE ALERT category=isolated_theorem: 82 次
-- TASTE ALERT category=mislabeled_composite: 47 次
-- TASTE ALERT category=low_entropy_template: 22 次
+- TASTE ALERT category=mislabeled_composite: 50 次
+- TASTE ALERT category=low_entropy_template: 26 次
 - TASTE ALERT category=rule_evolution_failed: 5 次
 - TASTE ALERT category=taste_branch_gc_delete_failed: 5 次
 - TASTE ALERT category=research_non_negative_criterion: 2 次
@@ -83,6 +82,14 @@ negative criterion 没变: atomic `\origin{ai}` 的 `<X>Up` carrier 只要命中
 ---
 
 Ship: commit `396d2b0afec0240ddcbe7e98ada325a304a79c45`. Detector/gate: recorded by daemon after merge.
+
+**2026-05-20 11:18 — 推到 paper Review/Revise**
+
+daemon queue 给出 6 个同类 finding, 代表样本 `tailcofinalitybudget` / `auditgatecomposition` / `diagonalregularityseal`。本次派发由 META_PROMPT_RULE_EVOLUTION source commit `67c19c8d386712945ae534d3acf433da526e617a` 约束。Codex 没按 queue 直接下结论, 而是先跑 `rg -n -F '\origin{ai}'` 和 `rg -n 'inductive ...|ChapterTasteGate|FieldFaithful|Nontrivial'`; 当前 HEAD 中 `AuditMapRouteCompilerUp`, `AuditMapTemplatePacketUp`, `AuditReexportNamespaceUp` 都同时有 atomic lineage 与普通 TasteGate/FieldFaithful/Nontrivial 包装。`python3 lean4/scripts/bedc_ci.py audit --json` 返回 `mislabeled_composite_carriers_new_count=0`, `mislabeled_composite_carriers_legacy_count=503`, 这三个样本分别落在 28 / 158 / 108 成员桶。
+
+negative criterion 仍是只看机器形态: 现有 `\origin{ai}` chapter 的 `<X>Up` 若命中 `mislabeled_composite_carriers`, paper 侧不得继续给它加 `\leanchecked`, `\leanstmt`, `closurestatus`, `\falsifiablePrediction`, `\independenceWitness`, 或 atomic `ai` nontriviality prose；唯一允许的 paper target 是把 lineage 改成 `\origin{ai-composite}` 并写清 composite dependency。改动落在 `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; 执行 gate 由 Review/Revise prompt 强制读取 `bedc_ci.py audit --json`, detector 仍是 `detect_mislabeled_composite_carriers(min_bucket_size=6)`。
+
+Ship: commit `1c402312f6f49041d0a51eae0c687d2061ee40e8`. Detector/gate: recorded by daemon after merge.
 
 ## RESEARCH 探索历史
 

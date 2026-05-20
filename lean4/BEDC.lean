@@ -221,6 +221,8 @@ import BEDC.Derived.AuditAxisSeparationUp.TasteGate
 import BEDC.Derived.AuditExportFirewallUp.TasteGate
 import BEDC.Derived.AuditFinalityCertificateUp.TasteGate
 import BEDC.Derived.AuditGateBoundaryUp
+import BEDC.Derived.AuditGateBoundaryUp.LedgerExactness
+import BEDC.Derived.AuditGateBoundaryUp.StdBridge
 import BEDC.Derived.AuditGateBoundaryUp.StrictAxiomPurityReplay
 import BEDC.Derived.AuditGateCompositionUp.TasteGate
 import BEDC.Derived.AuditGateFailureWitnessUp.TasteGate
@@ -1044,6 +1046,7 @@ import BEDC.Derived.CauchyTailConsensusUp.TasteGate
 import BEDC.Derived.CauchyTailModulusFusionUp
 import BEDC.Derived.CauchyTailModulusFusionUp.TasteGate
 import BEDC.Derived.CauchyTailModulusSealUp.NameCertObligations
+import BEDC.Derived.CauchyTailModulusSealUp.Nonescape
 import BEDC.Derived.CauchyTailModulusSealUp.StdBridge
 import BEDC.Derived.CauchyTailModulusSealUp.TasteGate
 import BEDC.Derived.CauchyTailModulusSealUp.ThresholdReadback
@@ -1258,6 +1261,7 @@ import BEDC.Derived.CofinalTailEquivalenceUp.TasteGate
 import BEDC.Derived.CofinalWindowRealSealUp.NameCertObligations
 import BEDC.Derived.CofinalWindowRealSealUp.StdBridge
 import BEDC.Derived.CofinalWindowRealSealUp.TasteGate
+import BEDC.Derived.CofinalWindowRealSealUp.TerminalMeet
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.CollisionKernelSpectrumUp
 import BEDC.Derived.CollisionKernelUp
@@ -1629,6 +1633,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ContinuationRouteCoverage
 import BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessRootSourceWindowRouteLock
 import BEDC.Derived.CriticalLineWitnessUp.DepthLedgerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.DepthLock
+import BEDC.Derived.CriticalLineWitnessUp.DepthRequestLedger
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamConsumerUnblock
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamCounterSurface
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamModulusRefusalExport
@@ -1741,6 +1746,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SuppliedSourceCarrierTriadExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroStripRoute
 import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
 import BEDC.Derived.CriticalLineWitnessUp.VisibleSourceReadbackLock
+import BEDC.Derived.CriticalLineWitnessUp.ZeroRowSourceScope
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripClassifierTransport
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripLedgerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusRoute
@@ -1751,6 +1757,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZetaDependencyLock
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
+import BEDC.Derived.CriticalStripZetaZeroWitnessUp.RHHandoffObligation
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.SharedSourceScope
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.WitnessScopeBinding
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
@@ -3547,6 +3554,7 @@ import BEDC.Derived.PicardContractionUp
 import BEDC.Derived.PicardContractionUp.CauchyModulusSiblingRoute
 import BEDC.Derived.PicardContractionUp.CauchyRateRootUnblockPackage
 import BEDC.Derived.PicardContractionUp.CompleteMetricHandoff
+import BEDC.Derived.PicardContractionUp.ContractionRowExactness
 import BEDC.Derived.PicardContractionUp.DownstreamModulusExposure
 import BEDC.Derived.PicardContractionUp.DownstreamSealScope
 import BEDC.Derived.PicardContractionUp.FiniteConsumerExhaustion
