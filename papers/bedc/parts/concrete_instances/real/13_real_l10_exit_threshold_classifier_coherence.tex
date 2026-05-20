@@ -534,3 +534,29 @@ Conversely, if a member omits one of the four face rows or one of the displayed 
 
 All nonescape clauses follow from the same row accounting. The proof uses only finite subfamily restriction, finite intersection exactness, finite union exactness, face minimality, and RegSeqRat common-tail exactness; none of these results adds a quotient stream, selected limit, countable-choice selector, metric-completeness datum, aggregate status row, aggregate bridge row, standard bridge row, or ambient $\RealUp$ completeness coordinate.
 \end{proof}
+
+\begin{theorem}[Real L10 finite-cover support removal obstruction]
+\label{thm:real-l10-finite-cover-support-removal-obstruction}
+Let $\{J_a\}_{a \in A}$ be a finite cover of a finite request family for Phase $\RealUp$ and Completion packets over
+$$
+\DyadicRatCoreUp,\qquad \StreamNameUp,\qquad \RegSeqRatUp,\qquad \RealUp .
+$$
+For each $a \in A$, let $\mathcal C_a$ be a local Real L10 presentation on $J_a$ whose intended certificate is the finite-request sheaf certificate of \autoref{thm:real-l10-finite-request-sheaf-exactness}. If one local presentation omits any displayed support row among
+$$
+\BHist,\qquad \hsame,\qquad \Cont,\qquad \Pkg,\qquad \NameCert,
+$$
+then the finite cover cannot determine the same objectwise Real L10 exit certificate.
+
+The failure is already witnessed on a finite cover member. It cannot be repaired by quotient streams, selected limits, countable choice, metric completeness, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Choose a cover member $J_a$ whose local presentation omits one displayed support row. Apply \autoref{thm:streamname-finite-cover-support-removal-global-obstruction} to the $\StreamNameUp$ finite-window component of that member: removing a displayed support coordinate leaves a finite obstruction on the cover member itself, not only after passage to the whole family.
+
+Refinement cannot hide the omission. By \autoref{thm:streamname-finite-cover-support-invariance-under-refinement}, every finite refinement of the cover still has a member over the same request locus where the omitted support row is absent. Thus the obstruction survives finite cover subdivision and cannot be transported into a quotient-stream or selected-limit coordinate.
+
+Now read the obstructed member through Real L10. Apply \autoref{thm:real-l10-finite-section-classifier-equivalence}: a local Real L10 section presents the objectwise certificate exactly by the dyadic common scale-window witness, the $\StreamNameUp$ finite-window section, the $\RegSeqRatUp$ regularity and common-tail classifier rows, the local $\RealUp$ terminal seal row, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Minimality identifies the contradiction. By \autoref{thm:real-l10-exit-certificate-face-minimality}, none of the displayed support rows can be deleted, duplicated, detached, or replaced while the same Real L10 exit certificate is retained. Hence the obstructed local member cannot be a restriction of the same objectwise certificate.
+
+Finally apply \autoref{thm:real-l10-finite-request-sheaf-exactness}. A finite cover determines the global Real L10 certificate only when every cover member displays all four face rows and all five support rows, with overlap agreement on those rows. Since one member lacks a required support row, the exactness criterion fails on that member. The listed completion, choice, status, bridge, and $\RealUp$ completeness data are outside the finite certificate surface identified above, so they provide no repair coordinate.
+\end{proof}

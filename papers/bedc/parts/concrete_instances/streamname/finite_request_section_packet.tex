@@ -596,3 +596,59 @@ equality, selected limits, host real equality, ambient or metric-completeness
 data, countable-choice rows, Classical rows, aggregate formalstatus rows, or
 standard bridge rows.
 \end{proof}
+
+\begin{theorem}[StreamName finite-request phase-exit sufficiency]
+\label{thm:streamname-finite-request-phase-exit-sufficiency}
+An accepted finite-request $\StreamNameUp$ section that exposes exactly the
+four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support rows is sufficient for the current Phase Real and Completion exit
+read. Conversely, every current Phase Real and Completion exit read pulls back
+to such an accepted finite-request $\StreamNameUp$ section.
+
+The sufficiency and pullback contain only the displayed section packet and the
+four local face records. They do not assert quotient stream equality, selected
+limits, host real equality, ambient completeness, metric-completeness, countable
+choice, an aggregate formalstatus row, or standard bridge rows.
+\end{theorem}
+\begin{proof}
+For sufficiency, apply
+\autoref{thm:streamname-finite-request-section-budget-exactness}. The accepted
+section has exactly the four named faces and the shared $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ support rows, so the section supplies the
+finite budget required by the StreamName side of the exit read.
+
+Next apply
+\autoref{thm:streamname-finite-request-section-terminal-coherence}. The
+terminal consumers of that section must pass through the same scheduled
+StreamName row, dyadic ledger, regular-rational source, and Real-facing seal.
+Apply \autoref{thm:streamname-four-face-terminal-completeness} to identify that
+terminal surface with the four-face packet visible to the roadmap criterion.
+
+Finally apply
+\autoref{thm:real-l10-four-object-phase-exit-certificate}. Its certificate
+accepts precisely the four-object surface over $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ with the displayed BEDC support
+rows. Hence the accepted finite-request section is sufficient for the current
+Phase Real and Completion exit read.
+
+For the converse, start from any current Phase Real and Completion exit read and
+apply \autoref{thm:real-l10-four-object-phase-exit-certificate}. The read is a
+four-object certificate over the same dyadic, StreamName, RegSeqRat, and Real
+faces, with only the shared BEDC support rows.
+
+Now apply
+\autoref{thm:streamname-finite-request-section-status-pullback}. The roadmap
+status read pulls back to the accepted finite-request $\StreamNameUp$ section
+carrying those four local records. The pullback keeps the closurestatus and
+formalstatus rows componentwise rather than forming an aggregate row.
+
+The exclusion clauses come from the same budget exactness, terminal coherence,
+status pullback, four-face completeness, and Real exit-certificate results.
+Together they leave no coordinate for quotient stream equality, selected
+limits, host real equality, ambient or metric-completeness, countable choice,
+aggregate formalstatus, or standard bridge rows.
+\end{proof}
