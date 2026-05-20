@@ -54,3 +54,54 @@ metric-completeness datum, aggregate formalstatus row, bridge row, ambient
 $\RealUp$ completeness principle, or replacement selector able to supply the
 missing row.
 \end{proof}
+
+\begin{theorem}[StreamName finite-cover support invariance under refinement]
+\label{thm:streamname-finite-cover-support-invariance-under-refinement}
+Let $\{Q_i\}_{i \in I}$ and $\{R_k\}_{k \in K}$ be accepted finite covers of
+the same current Phase $\RealUp$ and Completion terminal $\StreamNameUp$
+request section. Suppose they admit an accepted common refinement
+$\{S_\ell\}_{\ell \in L}$, and that after pullback to the refinement the two
+covers agree on the four visible faces $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$, and on the displayed $\BHist$, componentwise
+$\hsame$, $\Cont$, $\Pkg$, and local \NameCert{} rows. If one displayed local
+support row is deleted in either original cover, then every accepted
+refinement-equivalent presentation fails to present the same $\RealUp$
+seal-visible source.
+
+Equivalently, changing the finite-cover presentation cannot hide the missing
+support row. Quotient stream equality, selected limits, countable choice,
+metric-completeness data, aggregate formalstatus rows, bridge rows, ambient
+$\RealUp$ completeness, and replacement regularity selectors are not
+refinement coordinates for restoring that source.
+\end{theorem}
+\begin{proof}
+Pull both finite covers to the accepted common refinement
+$\{S_\ell\}_{\ell \in L}$. By hypothesis the pullbacks display the same
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces and
+the same $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+\NameCert{} support rows. Thus the deleted row is a deleted coordinate of the
+refined cover support, not merely a feature of one presentation.
+
+Apply
+\autoref{thm:streamname-finite-cover-terminal-support-minimality} to the
+refined cover. The accepted terminal support packet on the refinement is
+accepted exactly on the four visible faces and the displayed support rows.
+Deleting one displayed local support row therefore removes a coordinate needed
+for the same carrier verdict, classifier verdict, and terminal route.
+
+Next localize the failure with
+\autoref{thm:streamname-finite-cover-terminal-support-defect-localization}.
+The defect is witnessed on one accepted refined local section or accepted
+refined overlap, and it lies on a visible face or on a displayed support row.
+In this case the witness is the deleted local support row transported to the
+common refinement.
+
+Finally apply
+\autoref{thm:streamname-finite-cover-support-removal-global-obstruction} on
+the refined presentation. The theorem rules out quotient stream equality,
+selected limits, countable choice, metric-completeness data, aggregate
+formalstatus rows, bridge rows, ambient $\RealUp$ completeness, and replacement
+regularity selectors as substitute coordinates. Hence no presentation whose
+support agrees after refinement can present the same $\RealUp$
+seal-visible source after the row is missing.
+\end{proof}
