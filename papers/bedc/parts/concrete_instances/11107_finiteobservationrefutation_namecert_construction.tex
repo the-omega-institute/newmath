@@ -113,23 +113,75 @@ The carrier definition gives the row order, and \autoref{thm:finite-observation-
 Finally apply \autoref{thm:finite-observation-refutation-defeat-row-exposure} and \autoref{thm:finite-observation-refutation-open-continuation-separation}. They identify the defeat and continuation rows consumed by the TasteGate surface, so the witness certifies exactly the displayed packet rather than an abstract replacement.
 \end{proof}
 
+\begin{theorem}[FiniteObservationRefutation scope exactness]
+\label{thm:finite-observation-refutation-scope-exactness}
+Every accepted $\FiniteObservationRefutationUp$ packet
+$$
+J=(T,\Pi,O,M,F,D,V,L,E,H,C,P,N)
+$$
+reads trace, bundle, observed signature, model signature, finite fit, displayed defeat, verdict, ledger, continuation, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ rows only through the displayed BEDC finite-kernel scope. No consumer of the packet obtains a row outside $T,\Pi,O,M,F,D,V,L,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:finite-observation-refutation-carrier}. It displays the whole accepted packet as the finite tuple $J=(T,\Pi,O,M,F,D,V,L,E,H,C,P,N)$ and states that there is no coordinate for total model identity, host physical truth, all-prefix confirmation, or a final-fit oracle.
+
+Apply \autoref{thm:finite-observation-refutation-namecert-obligations}. The NameCert surface lists carrier admission, trace and bundle exposure, observed and model signature exposure, finite-fit exposure, defeat, verdict, ledger, continuation, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local naming through exactly the coordinates of $J$.
+
+Use \autoref{thm:finite-observation-refutation-open-fit-consumer}, \autoref{thm:finite-observation-refutation-defeat-row-exposure}, and \autoref{thm:finite-observation-refutation-open-continuation-separation} to close the consumer side. They identify the only open-fit route, the only defeating-observation route, and the continuation split inside the same tuple, so the scoped read cannot escape the finite-kernel rows.
+\end{proof}
+
+\begin{theorem}[FiniteObservationRefutation scoped carrier transport]
+\label{thm:finite-observation-refutation-scoped-carrier-transport}
+Componentwise $\hsame$ transport of an accepted $\FiniteObservationRefutationUp$ packet preserves the same defeat and continuation split over
+$$
+D,V,L,E,H,C,P,N
+$$
+without adding host truth, total model identity, all-prefix fit, or a final-fit oracle.
+\end{theorem}
+\begin{proof}
+Project the transport row $H$ from the carrier of \autoref{def:finite-observation-refutation-carrier}. It records componentwise $\hsame$ transport for the displayed trace, bundle, signature, finite-fit, defeat, verdict, ledger, continuation, replay, provenance, and naming rows.
+
+Apply \autoref{thm:finite-observation-refutation-namecert-obligations} to keep the transported data inside the same NameCert surface. The row $H$ transports the packet components; it does not create an additional carrier coordinate.
+
+The defeat and continuation split is then inherited from \autoref{thm:finite-observation-refutation-defeat-row-exposure} and \autoref{thm:finite-observation-refutation-open-continuation-separation}. The defeat remains the finite route through $D,V$, while $E$ remains the open-continuation row recorded by $L$.
+
+Finally apply \autoref{thm:finite-observation-refutation-open-fit-consumer}. Since the consumer has no access to host truth, total identity, all-prefix fit, or a final-fit oracle before transport, componentwise $\hsame$ transport cannot add such a row afterward.
+\end{proof}
+
+\begin{theorem}[FiniteObservationRefutation scoped open-fit non-escape]
+\label{thm:finite-observation-refutation-scoped-open-fit-nonescape}
+Any open-fit consumer of an accepted $\FiniteObservationRefutationUp$ packet factors through
+$$
+D,V,L,E,H,C,P,N.
+$$
+It cannot replace the finite refutation row by total model identity, all-prefix fit, or final confirmation.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:finite-observation-refutation-carrier} through the consumer theorem \autoref{thm:finite-observation-refutation-open-fit-consumer}. The consumer receives the finite route $T,\Pi,O,M,F,D,V,L,E,H,C,P,N$ and no separate oracle row.
+
+Apply \autoref{thm:finite-observation-refutation-namecert-obligations}. The rows relevant to an open-fit defeat are the displayed defeat, verdict, ledger, continuation, transport, replay, provenance, and naming rows $D,V,L,E,H,C,P,N$.
+
+Use \autoref{thm:finite-observation-refutation-defeat-row-exposure} to identify $D,V$ as the exhaustive finite defeating-observation route for $F$. Then use \autoref{thm:finite-observation-refutation-open-continuation-separation} to keep $E$ outside the consumed finite defeat as the remaining observation surface.
+
+Thus every open-fit read factors through the displayed scoped rows. Because those rows do not contain total model identity, all-prefix fit, or final confirmation, the consumer cannot replace finite refutation by any of those stronger outputs.
+\end{proof}
+
 \falsifiablePrediction{A displayed defeating observation refutes only the finite-fit row and never supplies a final-fit oracle.}
 
 \independenceWitness{openphysicalfit, realityconstrainedopenfit, openfitpacket, openfitresiduegate, physicalmodelaudit: none is bijective because the refutation packet alone stores the defeating observation row as a public carrier coordinate beside fit, continuation, ledger, transport, route, provenance, and local NameCert rows.}
 
 The Lean TasteGate path \texttt{lean4/BEDC/Derived/FiniteObservationRefutationUp/TasteGate.lean} provides explicit $\mathsf{Nontrivial}\ \FiniteObservationRefutationUp$ and $\mathsf{FieldFaithful}\ \FiniteObservationRefutationUp$ instances for the displayed carrier.
 
-\closureat{FiniteObservationRefutationUp}{obligationStr}[BEDC.Derived.FiniteObservationRefutationUp.FiniteObservationRefutationTasteGate\_single\_carrier\_alignment]
+\closureat{FiniteObservationRefutationUp}{scopedStr}[BEDC.Derived.FiniteObservationRefutationUp.FiniteObservationRefutationTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\FiniteObservationRefutationUp}
   \constructivestory{A $\FiniteObservationRefutationUp$ packet is generated from a finite trace, observation bundle, observed signature, model signature, finite-fit row, displayed defeating observation, verdict, ledger, open-continuation row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:finite-observation-refutation-carrier}, \autoref{thm:finite-observation-refutation-namecert-obligations}, \autoref{thm:finite-observation-refutation-open-fit-consumer}, \autoref{thm:finite-observation-refutation-defeat-row-exposure}, \autoref{thm:finite-observation-refutation-open-continuation-separation}, and \autoref{thm:finite-observation-refutation-tastegate-witness-surface} bind the finite refutation carrier, local NameCert obligations, open-fit consumer boundary, defeating-observation exposure, open-continuation separation, and TasteGate witness surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:finite-observation-refutation-carrier}, \autoref{thm:finite-observation-refutation-namecert-obligations}, \autoref{thm:finite-observation-refutation-open-fit-consumer}, \autoref{thm:finite-observation-refutation-defeat-row-exposure}, \autoref{thm:finite-observation-refutation-open-continuation-separation}, \autoref{thm:finite-observation-refutation-tastegate-witness-surface}, \autoref{thm:finite-observation-refutation-scope-exactness}, \autoref{thm:finite-observation-refutation-scoped-carrier-transport}, and \autoref{thm:finite-observation-refutation-scoped-open-fit-nonescape} bind the finite refutation carrier, local NameCert obligations, open-fit consumer boundary, defeating-observation exposure, open-continuation separation, TasteGate witness surface, finite-kernel scope exactness, componentwise transport, and open-fit non-escape.}
   \leanchecked{BEDC.Derived.FiniteObservationRefutationUp.taste\_gate}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.FiniteObservationRefutationUp.FiniteObservationRefutationTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai-composite}
   \notclaimed{This chapter does not close Lean verification, bridge checking, model-reality identity, host physical truth, all-prefix fit, total confirmation, or final-fit oracles.}
-  \upgradepath{Scoped closure requires checked carrier admission and theorem coverage for field faithfulness across $T,\Pi,O,M,F,D,V,L,E,H,C,P,N$.}
+  \upgradepath{Public closure requires a public consumer surface that exports the finite refutation route without strengthening it into total model identity, all-prefix fit, or final confirmation.}
 \end{closurestatus}
