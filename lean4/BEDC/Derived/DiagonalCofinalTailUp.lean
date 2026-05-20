@@ -234,4 +234,30 @@ theorem DiagonalCofinalTailCarrier_consumer_exhaustion [AskSetup] [PackageSetup]
       nUnary, consumerUnary, qsRoute, gdRoute, whRoute, consumerRoute, pPkg,
       consumerPkg⟩
 
+theorem DiagonalCofinalTailCarrier_exact_boundary_terminal_route [AskSetup] [PackageSetup]
+    {q s g d r w h c p n completionFace realFace boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg →
+      Cont c r completionFace →
+        Cont r w realFace →
+          Cont completionFace realFace boundaryRead →
+            PkgSig bundle boundaryRead pkg →
+              UnaryHistory completionFace ∧ UnaryHistory realFace ∧ UnaryHistory boundaryRead ∧
+                Cont c r completionFace ∧ Cont r w realFace ∧
+                  Cont completionFace realFace boundaryRead ∧ PkgSig bundle p pkg ∧
+                    PkgSig bundle boundaryRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory DiagonalCofinalTailCarrier
+  intro carrier completionRoute realRoute boundaryRoute boundaryPkg
+  obtain ⟨_qUnary, _sUnary, _gUnary, _dUnary, rUnary, wUnary, _hUnary, cUnary,
+    _pUnary, _nUnary, _qsRoute, _gdRoute, _whRoute, pPkg⟩ := carrier
+  have completionUnary : UnaryHistory completionFace :=
+    unary_cont_closed cUnary rUnary completionRoute
+  have realUnary : UnaryHistory realFace :=
+    unary_cont_closed rUnary wUnary realRoute
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed completionUnary realUnary boundaryRoute
+  exact
+    ⟨completionUnary, realUnary, boundaryUnary, completionRoute, realRoute, boundaryRoute,
+      pPkg, boundaryPkg⟩
+
 end BEDC.Derived.DiagonalCofinalTailUp
