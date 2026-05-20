@@ -176,6 +176,29 @@ It remains to identify the packet. Apply \autoref{thm:real-regseqrat-finite-requ
 Thus accepted reads are precisely the four-object L10 finite route through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and the local $\NameCert_{\RealUp}$ seal row. Since the cited boundaries carry only the listed finite support, the route does not add quotient stream equality, host real equality, selected limits, choice data, ambient completeness, metric-completeness rows, standard bridge rows, or a second Real seal coordinate.
 \end{proof}
 
+\begin{theorem}[RealUp RegSeqRat terminal four-face acceptance equivalence]
+\label{thm:real-regseqrat-terminal-four-face-acceptance-equivalence}
+Let $Q$ be an accepted $\RegSeqRatUp$ packet and let $S$ be a public finite request to a $\RealUp$ seal over $Q$. Acceptance of a completion-facing or $\RealUp$-facing terminal read over $S$ is equivalent to factorization through exactly the four L10 faces:
+\begin{enumerate}
+\item the selected $\StreamNameUp$ finite-window row;
+\item the $\DyadicRatCoreUp$ endpoint, radius, and finite-distance ledger;
+\item the $\RegSeqRatUp$ classifier, readback, and regularity rows;
+\item the local $\NameCert_{\RealUp}$ seal row.
+\end{enumerate}
+The factorization uses only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support tying those faces to one finite packet. Among accepted terminal reads displaying this support, the packet is unique. The equivalence exports no quotient stream equality, no host real equality, no selected limit, no choice data, no ambient completeness, no metric-completeness row, no standard bridge row, and no second Real seal coordinate.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply \autoref{thm:real-regseqrat-finite-request-route-equivalence}. An accepted terminal read over $S$ is accepted only through the selected StreamName window, the DyadicRatCore endpoint-radius-distance ledger, the RegSeqRat classifier-readback-regularity surface, and the local Real seal row, with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+For the reverse direction, suppose a terminal read factors through exactly these four faces with the displayed support. Apply \autoref{thm:regseqrat-real-terminal-four-face-exactness}. Its four-face exactness repacks the StreamName, DyadicRatCore, RegSeqRat, and Real seal rows as the accepted terminal packet for the public finite request.
+
+It remains to identify uniqueness. First use \autoref{thm:real-regseqrat-finite-request-determinacy}: two accepted terminal reads with the same four faces and support rows determine the same finite Real seal packet.
+
+Then apply \autoref{thm:real-streamname-finite-request-terminal-bridge} to identify the StreamName-facing pullback with the Real-facing terminal section on that packet. Finally use \autoref{thm:real-l10-terminal-pullback-uniqueness}; no second completion-facing or Real-facing terminal read can display the same four L10 faces while naming a different finite $\BHist$ packet.
+
+The cited route, exactness, bridge, and pullback-uniqueness statements expose only the listed finite rows. Therefore the equivalence carries no quotient stream equality, host real equality, selected limit, choice data, ambient completeness, metric-completeness row, standard bridge row, or second Real seal coordinate.
+\end{proof}
+
 \begin{theorem}[RealUp RegSeqRat Cauchy-witness budget projection]
 \label{thm:real-regseqrat-streamname-cauchy-witness-budget-projection}
 Let $Q$ be an accepted $\RegSeqRatUp$ packet, let $S$ be a public finite request to a $\RealUp$ seal over $Q$, and let $L=(Q_L,B_L,S_L,K_L,H_L,C_L,P_L,N_L)$ be an accepted $\CauchyWitnessLedgerUp$ budget row whose visible $\StreamNameUp$ finite window is the same window read by $S$. Then the visible budget projection of the combined read is exactly the displayed packet consisting of the $\StreamNameUp$ finite-window row, the $\DyadicRatCoreUp$ endpoint, radius, and finite-distance rows, the $\RegSeqRatUp$ classifier and readback rows, the local $\RealUp$ seal row, and the supporting $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Equivalently, the Cauchy-witness ledger consumes the same finite packet through its diagonal-budget, observation-budget, synchronizer, and completion-seal rows before any completion-facing classifier is visible.
