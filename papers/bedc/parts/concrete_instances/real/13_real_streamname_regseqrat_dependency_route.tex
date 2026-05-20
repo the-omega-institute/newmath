@@ -116,3 +116,19 @@ Next identify the local threshold records on the same four faces. Apply \autoref
 
 It remains to exclude alternative projections of that packet. Use \autoref{thm:real-l10-face-order-permutation-invariance} to compare support-row-preserving reads of the displayed route, and then apply \autoref{thm:real-l10-exit-certificate-face-minimality}. The first result prevents a reordered projection from changing the certificate, and the second makes every listed face and support row indispensable. Hence a projection that is shortened or enlarged cannot present the same current-phase Real seal read, so the only surviving route is the displayed four-face route with exactly the support rows named in the statement.
 \end{proof}
+
+\begin{theorem}[Real L10 dependency route axis independence]
+\label{thm:real-l10-dependency-route-axis-independence}
+For any accepted current-phase terminal $\RealUp$ seal section on the route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp ,
+$$
+the dependency route determines only the construction faces, the classifier faces, and the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It does not determine or aggregate any $\formalstatus$, $\leantarget$, or $\bridgestatus$ row, nor any standard bridge row, metric-completeness row, selected limit, quotient stream, or $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+First identify the route and the support packet. The dependency theorem \autoref{thm:real-dyadic-streamname-regseqrat-dependency-route} fixes the ordered four-object route, and \autoref{thm:real-l10-four-face-local-threshold-descent} reads the accepted local-threshold records on exactly those four faces with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Next rule out escape through tail-budget projection. Apply \autoref{thm:real-l10-tail-budget-projection-nonescape}. Any support-row-preserving consumer remains on the same four-face route and has no coordinate for quotient stream equality, selected limits, host real equality, countable choice, ambient completeness, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, or a $\RealUp$ completeness row.
+
+Finally separate the route data from the verification and bridge axes. Apply \autoref{thm:real-l10-face-status-noncollapse} and \autoref{thm:real-l10-face-leantarget-noncollapse}. These keep status, Lean-target, and bridge-status rows as face-local reports rather than route-level credentials. Therefore the route supplies construction and classifier evidence with its finite support rows, but it supplies no aggregate verification token, bridge credential, metric-completeness claim, selected limit, quotient stream, or $\RealUp$ completeness claim.
+\end{proof}

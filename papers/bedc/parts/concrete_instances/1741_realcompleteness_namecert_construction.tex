@@ -694,6 +694,32 @@ For the induction step, append one accepted consumer edge to a route already red
 Finally apply \autoref{thm:real-completion-exact-boundary-no-completeness-escape}. The escape theorem removes every non-finite alternative case: there is no quotient-stream branch, no selected-limit branch, no host-equality branch, no countable-choice branch, no ambient-completeness branch, no metric-completeness branch, and no bridge-token branch. Thus the finite induction closes exactly on the four matched faces followed by $H,C,P,N$ and the displayed local certificate rows.
 \end{proof}
 
+\begin{theorem}[Real completeness exact-boundary standard bridge obligation]
+\label{thm:real-completion-exact-boundary-standard-bridge-obligation}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be an accepted $\RealCompletenessUp$ packet. The packet $R$ is eligible for a standard bridge only through a matching accepted $\RealCompletionExactBoundaryUp$ packet
+$$
+B=(L,K,J,S_B,W_B,R_B,D_B,E_B,H_B,C_B,P_B,N_B)
+$$
+whose four exposed faces match the four completion-facing rows of $R$: $D_B$ matches $D$, $W_B$ matches $W$, $R_B$ matches $Q$, and $E_B$ matches $S$ through the displayed $\hsame$ transports, $\Cont$ replays, $\Pkg$ provenance rows, and local $\NameCert$ support. The accepted bridge face must be the bridge-checked target
+$$
+\text{BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryUp\_StdBridge}.
+$$
+Thus any standard-bridge claim for $\RealCompletenessUp$ factors through the already bridge-checked exact-boundary face, not through a separate completion object attached to $R$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-completeness-exact-boundary-handoff}. Any exact-boundary request made by a completion-facing consumer of $R$ is already routed through a matching accepted $\RealCompletionExactBoundaryUp$ packet $B$ after the finite-window open-phase route.
+
+Next use \autoref{thm:real-completeness-exact-boundary-finite-induction}. The route reduces to the four matched faces $\DyadicRatCoreUp(D_B)$, $\StreamNameUp(W_B)$, $\RegSeqRatUp(R_B)$, and $\RealUp(E_B)$, followed only by displayed $\hsame$ transports, $\Cont$ replays, $\Pkg$ provenance rows, and local $\NameCert$ rows.
+
+Finally invoke \autoref{thm:real-completion-exact-boundary-public-bridge-factorization}. That result identifies the public bridge factorization of the exact-boundary packet with the bridge-checked $\RealCompletionExactBoundaryUp$ standard-bridge target. Therefore the only admissible standard-bridge path for $R$ is through the matched exact-boundary packet $B$ and its bridge-checked face.
+
+This obligation adds no quotient stream, selected limit, host equality, countable choice, ambient completeness, metric completeness, or bridge token to the $\RealCompletenessUp$ carrier. It records only the required factorization route for any later $\RealCompletenessUp$ standard-bridge claim.
+\end{proof}
+
 \input{parts/concrete_instances/realcompleteness/selector_window_seal_factorization}
 
 \closureat{RealCompletenessUp}{scopedStr}
