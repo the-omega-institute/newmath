@@ -157,4 +157,21 @@ def taste_gate : ChapterTasteGate CertifiedOnticTowerUp :=
   -- BEDC touchpoint anchor: BHist BMark
   certifiedOnticTowerChapterTasteGate
 
+theorem CertifiedOnticTower_ledger_continuity
+    {stage signatures refinement ledger classifier transport replay provenance name : BHist} :
+    certifiedOnticTowerFields
+        (CertifiedOnticTowerUp.mk stage signatures refinement ledger classifier transport replay
+          provenance name) =
+        [stage, signatures, refinement, ledger, classifier, transport, replay, provenance, name] ∧
+      certifiedOnticTowerToEventFlow
+          (CertifiedOnticTowerUp.mk stage signatures refinement ledger classifier transport replay
+            provenance name) =
+        List.map certifiedOnticTowerEncodeBHist
+          [stage, signatures, refinement, ledger, classifier, transport, replay, provenance,
+            name] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · rfl
+
 end BEDC.Derived.CertifiedOnticTowerUp
