@@ -15,6 +15,10 @@ open BEDC.Derived.VecSpaceUp
 def InnerProductSingletonForm (_x _y : BHist) : BHist :=
   BHist.e1 (BHist.e1 BHist.Empty)
 
+def InnerProductBHistCarrier (x y scalarEndpoint : BHist) : Prop :=
+  VecSpaceSingletonCarrier x ∧ VecSpaceSingletonCarrier y ∧
+    RealConstantHistoryClassifier scalarEndpoint (InnerProductSingletonForm x y)
+
 def InnerProductSingletonOrthogonal (x y : BHist) : Prop :=
   VecSpaceSingletonCarrier x ∧ VecSpaceSingletonCarrier y ∧
     RealConstantHistoryClassifier (InnerProductSingletonForm x y)
