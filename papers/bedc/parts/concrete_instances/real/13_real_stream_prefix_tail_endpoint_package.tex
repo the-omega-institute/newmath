@@ -276,3 +276,51 @@ packet with those rows, while the construction never introduces quotient-real
 equality, selected limits, ambient completeness, countable choice, or standard
 bridge data.
 \end{proof}
+
+\begin{theorem}[Real stream prefix probe-union terminal four-face support minimality]
+\label{thm:real-stream-prefix-probe-union-terminal-four-face-support-minimality}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, finite certified
+probe windows $\mathcal P,\mathcal Q$, and their synchronized union
+$\mathcal U$, every accepted terminal packet produced by
+\autoref{thm:real-stream-prefix-probe-union-terminal-four-face-factorization}
+is support-minimal. Deleting or replacing any one of the four faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, or deleting or replacing
+any displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ support row,
+destroys the accepted probe-union terminal read.
+
+The missing face or support row cannot be supplied by quotient-real equality,
+selected limit values, ambient $\RealUp$ completeness, countable choice,
+metric-completeness rows, aggregate status rows, or standard bridge data. These
+coordinates remain outside the local probe-union packet and do not substitute
+for the finite BEDC support rows used by the terminal read.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-prefix-probe-union-terminal-four-face-factorization}.
+It identifies the accepted probe-union read with a unique terminal packet whose
+visible faces are exactly
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ and whose support is the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ row family.
+
+For the finite-window carrier face, apply
+\autoref{thm:streamname-terminal-four-face-support-minimality} to the
+synchronized StreamName window underlying $\mathcal U$. That result rules out
+deletion or replacement of the StreamName face and of the finite probe-history
+rows that certify membership in the accepted window.
+
+For the dyadic request and regular tail faces, apply
+\autoref{thm:regseqrat-tail-budget-support-minimality}. The common finite scale
+window and the RegSeqRat tail-budget rows are read from the same endpoint
+ledger, so removing either face, or any of the $\hsame$, $\Cont$, $\Pkg$, or
+$\NameCert$ rows it consumes, leaves no accepted regular tail read for the
+probe-union endpoint.
+
+Finally apply
+\autoref{thm:real-l10-terminal-four-face-support-minimality-pullback} together
+with \autoref{thm:real-l10-route-face-deletion-obstruction}. These pull the
+Real-side endpoint seal back to the same four-face terminal packet and rule out
+substitution by host-real equality, selected limits, completeness coordinates,
+choice principles, aggregate status rows, or bridge evidence. The two-axis
+roadmap discipline keeps those excluded coordinates separate from the local
+BEDC support rows, so none of them can repair a missing face or row.
+\end{proof}
