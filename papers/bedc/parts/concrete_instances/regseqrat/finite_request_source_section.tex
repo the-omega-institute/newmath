@@ -277,3 +277,59 @@ stream, host equality, selected limit, choice datum, completeness principle,
 or second seal coordinate, no such external datum can separate the two
 requests on the common restriction.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-request intersection chain stability]
+\label{thm:regseqrat-finite-request-intersection-chain-stability}
+Let $R$ be an accepted $\RegSeqRatUp$ packet, and let
+$S_0,\ldots,S_n$ be a finite nonempty chain of accepted public finite
+requests to $R$ consumed by local $\RealUp$ seals. Suppose each adjacent pair
+$(S_i,S_{i+1})$ agrees on the displayed $\StreamNameUp$ schedule rows, the
+$\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows, the
+$\RegSeqRatUp$ classifier and regularity rows, the componentwise $\hsame$
+rows, the displayed $\Cont$ rows, the $\mathsf{Pkg}$ provenance, and the
+local $\NameCert_{\RegSeqRatUp}$ rows. Suppose also that every adjacent pair
+agrees on its support subpacket and on the classifier-visible finite request
+section over those rows.
+
+Then every pairwise common restriction determined by the chain has the same
+Real-seal-facing finite $\RegSeqRatUp$ source section. The direct restriction
+from $S_0$ to $S_n$ and every iterated adjacent restriction determine that
+same section. The statement does not identify quotient stream equality, host
+real equality, selected limits, choice data, ambient or metric completeness,
+duplicate $\RealUp$ seal coordinates, aggregate formalstatus rows, or bridge
+rows.
+\end{theorem}
+\begin{proof}
+First lock each adjacent intersection. Apply
+\autoref{thm:regseqrat-finite-request-source-section-intersection-lock} to
+every adjacent pair $(S_i,S_{i+1})$. The hypotheses give exactly the displayed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert_{\RegSeqRatUp}$ rows required by that
+lock, so each adjacent common restriction has one Real-seal-facing finite
+source section.
+
+Next compose the support faces along the chain. Use
+\autoref{thm:regseqrat-finite-request-support-face-composition} for each
+two-leg composite and then
+\autoref{thm:regseqrat-finite-request-support-face-chain-induction} for the
+finite nonempty chain. These results identify all parenthesized adjacent
+support-face composites with the direct $S_0$ to $S_n$ support face, while
+keeping only the displayed StreamName, DyadicRatCore, RegSeqRat, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and local naming rows.
+
+Finally compare the source sections read from those support faces. The
+section-refinement composition theorem,
+\autoref{thm:regseqrat-finite-request-section-refinement-composition}, says
+that the direct restriction and the iterated adjacent restriction have the
+same finite request section and the same local $\RealUp$ seal on the displayed
+rows. Substituting the adjacent intersection locks into this comparison gives
+one Real-seal-facing finite $\RegSeqRatUp$ source section for every pairwise
+common restriction determined by the chain.
+
+The cited lock, support-composition, chain-induction, and
+section-refinement routes are all finite BEDC routes over displayed request
+rows. None supplies a quotient stream equality, host real equality, selected
+limit, choice datum, completeness principle, duplicate Real seal coordinate,
+aggregate formalstatus row, or bridge row. Hence the chain stability result
+does not claim any of those objects.
+\end{proof}
