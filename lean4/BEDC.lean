@@ -313,6 +313,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.LedgerSeparation
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.LocalNameOutputExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.MotiveBranchTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertObligationExhaustion
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertRootUnblockPackage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NameCertSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NormalizationConsumerNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.NormalizationFrontierConsumerLock
@@ -1209,6 +1210,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ObligationRouteTriad
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRowDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorAuditRoute
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorGeneratorScopeLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompilePublicPackage
@@ -1690,8 +1692,10 @@ import BEDC.Derived.CriticalLineWitnessUp.RootSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaRealRatSourceReadiness
+import BEDC.Derived.CriticalLineWitnessUp.RootZetaSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RouteClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RouteReadbackExhaustionCertificate
+import BEDC.Derived.CriticalLineWitnessUp.ScopedSourceBoundary
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierJoin
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExposure
@@ -3628,6 +3632,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerNormalization
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerRefusalExactness
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerScopeTriad
 import BEDC.Derived.QuotientSoundnessBoundaryUp.CoreNonescape
+import BEDC.Derived.QuotientSoundnessBoundaryUp.CoreNonescapeBoundary
 import BEDC.Derived.QuotientSoundnessBoundaryUp.CoreRefusalHostQuotientExclusion
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DependentEliminatorRefusal
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamAuditPackage
@@ -3925,6 +3930,7 @@ import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegSeqRatUp.CommonTailWindow
 import BEDC.Derived.RegSeqRatUp.RealSealRouteExclusionPackage
+import BEDC.Derived.RegSeqRatUp.RealTerminalFourFaceExactness
 import BEDC.Derived.RegSeqRatUp.StreamNameDyadicRealHandoff
 import BEDC.Derived.RegistryChangeContinuityUp.TasteGate
 import BEDC.Derived.RegistryConsistencyAuditUp.TasteGate
