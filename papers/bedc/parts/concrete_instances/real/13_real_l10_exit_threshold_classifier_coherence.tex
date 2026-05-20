@@ -316,6 +316,34 @@ It remains only to locate the possible difference. The non-$F$ records are fixed
 All excluded data remain absent. The cited results use only the four face records and the displayed support rows; they provide no route-level formalstatus, aggregate bridge coordinate, selected limit, quotient stream, metric-completeness datum, or $\RealUp$ completeness row. Thus the certificate is invariant precisely under the stated face-local formal strengthening and same-face leantarget or bridgestatus refinement.
 \end{proof}
 
+\begin{theorem}[Real L10 face formal upgrade chain invariance]
+\label{thm:real-l10-face-formal-upgrade-chain-invariance}
+Let
+$$
+\mathcal E_0,\mathcal E_1,\ldots,\mathcal E_n
+$$
+be a finite sequence of Phase $\RealUp$ and Completion packets over the four displayed faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp .
+$$
+Assume $\mathcal E_0$ satisfies the current-phase exit local threshold of \autoref{thm:real-l10-current-phase-exit-local-threshold}. For each adjacent step $\mathcal E_i\leadsto\mathcal E_{i+1}$, assume exactly one face is changed, the changed row is a same-face formalstatus strengthening, leantarget refinement, or bridgestatus refinement, and all other face records are fixed. Assume also that every step preserves the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert .
+$$
+Then every intermediate packet $\mathcal E_i$ determines the same objectwise Phase $\RealUp$ and Completion exit certificate read by \autoref{thm:real-l10-current-phase-exit-local-threshold}.
+
+The invariant certificate is only the finite four-face exit certificate. The sequence supplies no aggregate formalstatus row, aggregate leantarget row, aggregate bridge row, quotient stream, selected limit, countable-choice selector, metric-completeness datum, standard bridge row, or $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Induct on the finite sequence. The base case is the one-packet sequence, where the exit certificate is the certificate of $\mathcal E_0$ read by \autoref{thm:real-l10-current-phase-exit-local-threshold}.
+
+For the induction step, suppose $\mathcal E_i$ has the same objectwise exit certificate as $\mathcal E_0$. The adjacent move $\mathcal E_i\leadsto\mathcal E_{i+1}$ changes only one of the four displayed faces, and the change is either a stronger local formalstatus row, a same-face leantarget refinement, or a same-face bridgestatus refinement. The rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ remain fixed.
+
+Apply \autoref{thm:real-l10-face-local-formal-upgrade-invariance} to this adjacent move. It identifies the exit certificate of $\mathcal E_{i+1}$ with the exit certificate of $\mathcal E_i$, because the refinement remains attached to its source face and does not alter the other three face records or the displayed support surface.
+
+Finally use transitivity of the certificate comparison supplied by the induction hypothesis. The noncollapse theorems \autoref{thm:real-l10-face-status-noncollapse} and \autoref{thm:real-l10-face-leantarget-noncollapse}, together with the minimality theorem \autoref{thm:real-l10-exit-certificate-face-minimality}, exclude aggregate formalstatus rows, aggregate bridge rows, quotient streams, selected limits, metric-completeness data, and $\RealUp$ completeness at every step. Hence each intermediate packet reads the same finite four-face Phase Real and Completion exit certificate.
+\end{proof}
+
 \begin{theorem}[Real L10 exit-threshold face-local correspondence]
 \label{thm:real-l10-exit-threshold-face-local-correspondence}
 Let $\mathcal E$ be a finite Phase $\RealUp$ and Completion packet over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ rows. Then $\mathcal E$ satisfies the current-phase exit local threshold of \autoref{thm:real-l10-current-phase-exit-local-threshold} if and only if it exhibits four compatible local face records over the same displayed support rows:
