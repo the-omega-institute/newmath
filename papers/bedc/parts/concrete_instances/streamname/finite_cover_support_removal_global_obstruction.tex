@@ -105,3 +105,50 @@ regularity selectors as substitute coordinates. Hence no presentation whose
 support agrees after refinement can present the same $\RealUp$
 seal-visible source after the row is missing.
 \end{proof}
+
+\begin{theorem}[StreamName finite-cover support preservation exactness]
+\label{thm:streamname-finite-cover-support-preservation-exactness}
+Let $\{Q_i\}_{i \in I}$ and $\{R_k\}_{k \in K}$ be accepted finite covers of
+the same current Phase $\RealUp$ and Completion terminal $\StreamNameUp$
+request section. Suppose they admit an accepted common refinement
+$\{S_\ell\}_{\ell \in L}$, and that on every accepted refined member and
+accepted refined overlap the two pullbacks preserve the same $\StreamNameUp$
+finite-window row, the same $\DyadicRatCoreUp$ ledger row, the same
+$\RegSeqRatUp$ readback row, the same $\RealUp$ seal-visible source, and the
+same displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+\NameCert{} support rows. Then the two finite-cover terminal support packets
+present the same $\RealUp$ seal-visible source after descent.
+
+The exactness criterion has no further coordinates. It does not assume or
+produce quotient stream equality, selected limits, countable choice,
+metric-completeness data, bridge rows, ambient $\RealUp$ completeness, or
+replacement regularity selectors.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-finite-cover-terminal-support-minimality} to the
+accepted common refinement. The accepted terminal support packet is identified
+by the four visible faces $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$ together with the displayed $\BHist$,
+componentwise $\hsame$, $\Cont$, $\Pkg$, and local \NameCert{} rows on refined
+members and overlaps. By hypothesis the two pullbacks preserve exactly these
+rows, so their refined support packets expose the same seal-visible source.
+
+It remains to exclude a hidden local defect. Use
+\autoref{thm:streamname-finite-cover-terminal-support-defect-localization}
+contrapositively: if the descended packets failed to present the same
+$\RealUp$ seal-visible source, the failure would be witnessed on some accepted
+refined member or accepted refined overlap, and the witness would lie on one
+of the displayed visible faces or support rows. Each such row is preserved by
+hypothesis, so no such local witness exists.
+
+Finally compare with the negative boundary supplied by
+\autoref{thm:streamname-finite-cover-support-invariance-under-refinement}. If
+one displayed row were missing, refinement would detect the loss and the same
+seal-visible source could not be presented. Since no row is missing, the
+complete finite L10 route is precisely the four visible faces
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ with their
+displayed local support, and no quotient equality, selected limit, choice
+principle, metric-completeness datum, bridge row, ambient completeness
+principle, or replacement selector is an extra coordinate.
+\end{proof}
