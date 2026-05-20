@@ -250,6 +250,60 @@ instance finiteKernelCategoryChapterTasteGate : ChapterTasteGate FiniteKernelCat
     intro x y hxy heq
     exact hxy (finiteKernelCategoryToEventFlow_injective heq)
 
+instance finiteKernelCategoryNontrivial : Nontrivial FiniteKernelCategoryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨FiniteKernelCategoryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      FiniteKernelCategoryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+instance finiteKernelCategoryFieldFaithful : FieldFaithful FiniteKernelCategoryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields
+    | FiniteKernelCategoryUp.mk objectRow homRow identityRow compositionRow associativityRow
+        unitRow transportRow routeRow provenanceRow nameCertRow =>
+        [objectRow, homRow, identityRow, compositionRow, associativityRow, unitRow,
+          transportRow, routeRow, provenanceRow, nameCertRow]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y hfields
+    cases x with
+    | mk objectRow homRow identityRow compositionRow associativityRow unitRow transportRow
+        routeRow provenanceRow nameCertRow =>
+        cases y with
+        | mk objectRow' homRow' identityRow' compositionRow' associativityRow' unitRow'
+            transportRow' routeRow' provenanceRow' nameCertRow' =>
+            change
+              [objectRow, homRow, identityRow, compositionRow, associativityRow, unitRow,
+                  transportRow, routeRow, provenanceRow, nameCertRow] =
+                [objectRow', homRow', identityRow', compositionRow', associativityRow',
+                  unitRow', transportRow', routeRow', provenanceRow', nameCertRow'] at hfields
+            injection hfields with hObject hTail0
+            injection hTail0 with hHom hTail1
+            injection hTail1 with hIdentity hTail2
+            injection hTail2 with hComposition hTail3
+            injection hTail3 with hAssociativity hTail4
+            injection hTail4 with hUnit hTail5
+            injection hTail5 with hTransport hTail6
+            injection hTail6 with hRoute hTail7
+            injection hTail7 with hProvenance hTail8
+            injection hTail8 with hNameCert _hNil
+            cases hObject
+            cases hHom
+            cases hIdentity
+            cases hComposition
+            cases hAssociativity
+            cases hUnit
+            cases hTransport
+            cases hRoute
+            cases hProvenance
+            cases hNameCert
+            rfl
+
 theorem FiniteKernelCategoryTasteGate_single_carrier_alignment :
     (∀ h : BHist, finiteKernelCategoryDecodeBHist (finiteKernelCategoryEncodeBHist h) = h) ∧
       (∀ x : FiniteKernelCategoryUp,
