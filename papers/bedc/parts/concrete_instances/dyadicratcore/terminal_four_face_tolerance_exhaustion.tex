@@ -59,3 +59,23 @@ For the reverse direction, suppose the DyadicRatCore tolerance ledger rows agree
 
 Finally apply \autoref{thm:dyadicratcore-terminal-real-exit-no-fifth-source}. The exit inventory has no fifth source that could alter the tolerance coordinate after the four visible faces and support rows have been identified. The StreamName rows \autoref{thm:streamname-open-phase-four-face-ledger-exactness} and \autoref{thm:streamname-open-phase-four-face-normal-form}, together with the RegSeqRat nonescape row \autoref{thm:regseqrat-tail-budget-nonescape}, rule out external completion, quotient stream, quotient rational, selected-limit, countable-choice, bridge, metric-completeness, and ambient $\RealUp$ completeness coordinates.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore terminal tolerance pullback initiality]
+\label{thm:dyadicratcore-terminal-tolerance-pullback-initiality}
+Let $P$ be an accepted L10 terminal route whose visible four-face packet exposes the $\DyadicRatCoreUp$ tolerance ledger, a $\StreamNameUp$ finite window, a $\RegSeqRatUp$ classifier and readback row, a local $\RealUp$ seal row, and the displayed
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+support. Let $Q$ be any accepted L10 terminal route presenting the same $\StreamNameUp$ finite window, the same $\RegSeqRatUp$ classifier and readback row, the same local $\RealUp$ seal row, and the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. Then $Q$ factors uniquely through the $\DyadicRatCoreUp$ tolerance ledger of $P$ if and only if the public tolerance read of $Q$ agrees with the terminal projection of $P$ supplied by \autoref{thm:dyadicratcore-terminal-four-face-tolerance-projection}.
+
+This initiality exports no quotient rational equality, quotient stream equality, selected limit, countable-choice row, metric-completeness row, bridge row, aggregate formalstatus row, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First read both terminal routes through the same visible support. Apply \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion} to $P$ and $Q$; every public tolerance read is forced through the displayed four-face packet and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Apply \autoref{thm:dyadicratcore-terminal-tolerance-finite-support-readback} to replace each such read by the finite DyadicRatCore ledger, StreamName window, RegSeqRat readback, local Real seal, and support rows.
+
+For the forward direction, assume $Q$ factors through the $\DyadicRatCoreUp$ tolerance ledger of $P$. The StreamName face is already the same finite section, so \autoref{thm:streamname-finite-section-pullback-exactness} identifies the two finite-window pullbacks. The RegSeqRat and Real faces are then locked by \autoref{thm:regseqrat-real-terminal-four-face-exactness} and \autoref{thm:real-l10-terminal-pullback-coherence}. With all four faces fixed, \autoref{thm:dyadicratcore-terminal-four-face-tolerance-projection} gives agreement with the terminal projection of $P$.
+
+For the reverse direction, assume the public tolerance read of $Q$ agrees with the terminal projection of $P$. By \autoref{thm:dyadicratcore-terminal-four-face-tolerance-projection}, agreement of public tolerance reads over the already shared StreamName, RegSeqRat, Real, and support faces is equivalent to agreement of the $\DyadicRatCoreUp$ tolerance ledger rows. The finite-support readback theorem identifies the only ledger rows available to $Q$, so the factorization through the DyadicRatCore ledger of $P$ is unique.
+
+It remains to rule out external witnesses for a second factorization. The exhaustion theorem supplies no fifth source beyond the four visible faces, the finite-support readback supplies no hidden row outside the displayed inventory, the StreamName pullback exactness supplies no quotient stream coordinate, the RegSeqRat-Real terminal exactness supplies no quotient rational or selected-limit coordinate, and the Real terminal pullback coherence supplies no ambient completeness coordinate. Hence quotient rational equality, quotient stream equality, selected limits, countable choice, metric completeness, bridge rows, aggregate formalstatus rows, and ambient $\RealUp$ completeness cannot mediate another terminal tolerance factorization.
+\end{proof}
