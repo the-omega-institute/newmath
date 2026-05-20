@@ -81,3 +81,36 @@ Negative criteria：若 `\origin{ai}` 章节的 `<X>Up` carrier 处在 `phase1_b
 - 你即将 commit 的 SHA 留空, 由 daemon 后续填写或 commit message 反查
 
 ---
+
+## 2026-05-20 02:05:45 — mislabeled_composite
+
+### 变更原因
+
+`mislabeled_composite` cluster 共 20 个 finding。代表样本包括 `RealityConstrainedOpenFitUp`、`PhysicalInductionStabilitySealUp`、`TheoryTransitionCertificateUp`：paper 侧标为 `\origin{ai}`，但 Lean carrier 落入 `phase1_buckets` 大桶，桶规模分别为 201、201、98。
+
+共同结构特征是 atomic 名称宣称 BEDC-native primitive discovery，而机器可查字段表面与大量兄弟同型。该形态只给出同型有限包，不能兑现 atomic distinction。
+
+### 意义
+
+P/R round 命中 `\origin{ai}` 且 `<X>Up` carrier 位于不少于 6 个成员的 `phase1_buckets` 桶时，被 `bedc_ci.py audit` 拒绝。Lean Phase B 也不得把这类章节选为 atomic TasteGate 目标。
+
+这阻止空洞 atomic 名称通过 Lean realization 获得形式化外衣。若对象只是既有 AI surface 的组合，应使用 `\origin{ai-composite}`；若坚持 atomic `ai`，carrier 字段表面必须避开该机器可查同型模式。
+
+### 实施情况
+
+修改文件：`lean4/scripts/prompts/phase_b.txt`、`docs/dossier/taste-evolutions.qmd`。规则文本写入：“Before selecting it, run `python3 lean4/scripts/bedc_ci.py audit --json` and reject any chapter whose schema name appears in `mislabeled_composite_carriers`.”
+
+审计 detector 沿用 `detect_mislabeled_composite_carriers(min_bucket_size=6)`，payload 保留 `mislabeled_composite_carriers_new_count` 与 `mislabeled_composite_carriers_legacy_count`，失败计数只纳入 new count。现有违规作为 warning 留给 P/R orchestrator 自然 touch 与 post-merge audit recovery 消化，不直接编辑章节。
+
+### 准则类型
+
+Negative criteria：若 `\origin{ai}` 章节的 `<X>Up` carrier 处在 `phase1_buckets` carrier-isomorphism 桶，且桶成员数不少于 6，则拒绝；Lean Phase B 不得选择该章节补 atomic TasteGate。
+
+### 元数据
+
+- finding 数量: 20
+- cluster flag: mislabeled_composite
+- daemon cycle: 2026-05-20 02:05:45
+- 你即将 commit 的 SHA 留空, 由 daemon 后续填写或 commit message 反查
+
+---
