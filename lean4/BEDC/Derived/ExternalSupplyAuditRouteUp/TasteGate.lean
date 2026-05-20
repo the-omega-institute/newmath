@@ -221,4 +221,24 @@ theorem ExternalSupplyAuditRouteUp_ledger_nonescape
   cases hN
   exact ⟨hroute, hsame_refl G, hsame_refl L, hsame_refl N⟩
 
+theorem ExternalSupplyAuditRouteCarrier_nonaxiom_boundary
+    {B W G L H P N B' W' G' L' H' P' N' : BHist}
+    (heq :
+      externalSupplyAuditRouteToEventFlow (ExternalSupplyAuditRouteUp.mk B W G L H P N) =
+        externalSupplyAuditRouteToEventFlow
+          (ExternalSupplyAuditRouteUp.mk B' W' G' L' H' P' N'))
+    (hroute : Cont W G L) :
+    hsame B B' ∧ hsame W W' ∧ hsame G G' ∧ hsame L L' ∧ hsame N N' ∧
+      Cont W' G' L' := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  have hmk :=
+    externalSupplyAuditRouteToEventFlow_injective
+      (x := ExternalSupplyAuditRouteUp.mk B W G L H P N)
+      (y := ExternalSupplyAuditRouteUp.mk B' W' G' L' H' P' N')
+      heq
+  cases hmk
+  exact
+    ⟨hsame_refl B, hsame_refl W, hsame_refl G, hsame_refl L, hsame_refl N,
+      hroute⟩
+
 end BEDC.Derived.ExternalSupplyAuditRouteUp
