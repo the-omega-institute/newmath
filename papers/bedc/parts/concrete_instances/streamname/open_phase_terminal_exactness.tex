@@ -151,33 +151,3 @@ For the reverse direction, assume the four local threshold records and the displ
 
 Finally apply \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary}. The terminal boundary keeps the packet on the displayed four-face route before any refusal ledger is read, so there is no coordinate from which to form aggregate formalstatus, leantarget, or bridgestatus rows, quotient streams, selected limits, countable-choice rows, metric-completeness data, standard bridge rows, or $\RealUp$ completeness.
 \end{proof}
-
-\begin{theorem}[StreamName open-phase terminal threshold strengthening chain]
-\label{thm:streamname-open-phase-terminal-threshold-strengthening-chain}
-Let
-$$
-\mathcal T_0,\mathcal T_1,\ldots,\mathcal T_n
-$$
-be a finite sequence of Phase Real and Completion terminal packets read through $\StreamNameUp$ along the four displayed faces
-$$
-\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp.
-$$
-Assume $\mathcal T_0$ satisfies the local threshold equivalence of \autoref{thm:streamname-open-phase-terminal-local-threshold-equivalence}. For each adjacent step $\mathcal T_i\leadsto\mathcal T_{i+1}$, assume exactly one face is changed by a same-face \texttt{formalstatus} strengthening, \texttt{leantarget} refinement, or \texttt{bridgestatus} refinement. Assume that all other face records and all displayed support rows
-$$
-\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
-$$
-remain fixed at every adjacent step.
-
-Then every $\mathcal T_i$ satisfies the same current Phase Real and Completion roadmap exit read as $\mathcal T_0$. The sequence supplies no aggregate \texttt{formalstatus} row, aggregate \texttt{leantarget} row, aggregate \texttt{bridgestatus} row, quotient stream, selected limit, countable-choice row, metric-completeness datum, standard bridge row, or $\RealUp$ completeness row.
-\end{theorem}
-\begin{proof}
-Induct on the finite sequence. The base case is the one-packet sequence, where $\mathcal T_0$ satisfies the current roadmap exit read by \autoref{thm:streamname-open-phase-terminal-local-threshold-equivalence}.
-
-For the induction step, suppose $\mathcal T_i$ satisfies the same current Phase Real and Completion roadmap exit read as $\mathcal T_0$. The adjacent move $\mathcal T_i\leadsto\mathcal T_{i+1}$ changes exactly one of the four displayed faces, and the changed row is a same-face \texttt{formalstatus} strengthening, \texttt{leantarget} refinement, or \texttt{bridgestatus} refinement. The other three face records and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows remain fixed.
-
-Apply \autoref{thm:streamname-terminal-face-local-status-strengthening} to the adjacent move. It preserves the four-face terminal packet because the stronger or refined row remains attached to its source face and no displayed support row changes.
-
-Reapply \autoref{thm:streamname-open-phase-terminal-local-threshold-equivalence}. Since the packet still has the same four local threshold faces and the same displayed support rows, $\mathcal T_{i+1}$ satisfies the same current Phase Real and Completion roadmap exit read.
-
-Finally use \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary} at each step. The boundary keeps the sequence inside the displayed terminal route before any refusal ledger is read, so the finite chain creates no aggregate status row, aggregate Lean-target row, aggregate bridge row, quotient stream, selected limit, countable-choice row, metric-completeness datum, standard bridge row, or $\RealUp$ completeness row.
-\end{proof}
