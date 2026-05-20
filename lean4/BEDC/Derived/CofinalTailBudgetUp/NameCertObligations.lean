@@ -173,4 +173,21 @@ theorem CofinalTailBudgetCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨rowUnary sourceRow.right, namePkg⟩
   }
 
+theorem CofinalTailBudgetCarrier_window_read_transport [AskSetup] [PackageSetup]
+    {budget windows readback sealRow transports routes provenance name row : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CofinalTailBudgetCarrier budget windows readback sealRow transports routes provenance name
+        bundle pkg →
+      hsame row windows →
+        UnaryHistory row ∧ UnaryHistory budget ∧ Cont budget windows readback ∧
+          Cont readback sealRow routes ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame
+  intro carrier sameRowWindows
+  obtain ⟨budgetUnary, windowsUnary, _readbackUnary, _sealRowUnary, _transportsUnary,
+    _routesUnary, _provenanceUnary, _nameUnary, budgetWindowsReadback,
+    readbackSealRoutes, provenancePkg, _namePkg⟩ := carrier
+  have rowUnary : UnaryHistory row :=
+    unary_transport windowsUnary (hsame_symm sameRowWindows)
+  exact ⟨rowUnary, budgetUnary, budgetWindowsReadback, readbackSealRoutes, provenancePkg⟩
+
 end BEDC.Derived.CofinalTailBudgetUp
