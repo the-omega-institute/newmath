@@ -3993,7 +3993,6 @@ import BEDC.Derived.RealityConstrainedSynthesisSealUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.NameCertObligations
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
-import BEDC.Derived.RealityConstrainedTruthCertUp.CarrierAdmission
 import BEDC.Derived.RealityConstrainedTruthCertUp.CarrierTransport
 import BEDC.Derived.RealityConstrainedTruthCertUp.ClassifierObligationSurface
 import BEDC.Derived.RealityConstrainedTruthCertUp.FailureReadiness
@@ -4163,6 +4162,7 @@ import BEDC.Derived.RegularCauchyWitnessScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.ClassifierStability
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.NameCertSurface
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.TasteGate
+import BEDC.Derived.RegularCauchyZeroUp.TasteGate
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegularLimitUniquenessUp
 import BEDC.Derived.RegularLimitUniquenessUp.DyadicWindowSeparationPullback
@@ -4493,8 +4493,6 @@ import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
 import BEDC.Derived.SynchronizationCertificateUp.TasteGate
 import BEDC.Derived.TailBudgetCoherenceUp
 import BEDC.Derived.TailBudgetCoherenceUp.StdBridge
-import BEDC.Derived.TailBudgetCoherenceUp.ThresholdBudgetExposure
-import BEDC.Derived.TailBudgetCoherenceUp.WindowReadbackExactness
 import BEDC.Derived.TailCauchyRouterUp.TasteGate
 import BEDC.Derived.TailCofinalityBudgetUp.NameCertObligations
 import BEDC.Derived.TailCofinalityBudgetUp.TasteGate
