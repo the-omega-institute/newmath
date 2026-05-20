@@ -541,36 +541,26 @@ metric-completeness row.
 \label{thm:real-l10-current-phase-exit-witness}
 The displayed four-face product
 $\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$
-satisfies the Phase Real and Completion exit criterion objectwise. Each face
-supplies its own local closurestatus record at least $\scopedClosure$ and its
-own verification record at least $\auditCleanV$, read from the local face
-record rather than from an aggregate Real L10 row.
+satisfies the Phase Real and Completion exit criterion whenever the four
+local face records for $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$ each supply the objectwise local
+theory-closure threshold and the audit-clean verification threshold. The
+witness is read through the four local face records, not through cached
+current face anchors or an aggregate Real L10 row.
 
 This witness contributes no aggregate route-level $\formalstatus$, no
 aggregate bridge row, no $\RealUp$ completeness claim, no quotient stream, no
 selected limit, and no metric-completeness datum.
 \end{theorem}
 \begin{proof}
-Apply \autoref{thm:real-l10-four-face-status-lookup}. It reads the four local
-face records from the already displayed anchors:
-\autoref{thm:dyadicratcore-standard-source-bridge} for $\DyadicRatCoreUp$,
-\autoref{thm:streamname-public-interface-export-package} and
-\autoref{thm:streamname-standard-sequence-bridge} for $\StreamNameUp$,
-\autoref{thm:regseqrat-real-seal-handoff} for $\RegSeqRatUp$, and
-\autoref{thm:realup-phase-real-completion-boundary} for $\RealUp$.
-
-Apply \autoref{thm:real-l10-current-phase-exit-audit-pullback}. The accepted
-current phase audit is the pullback of those four local records, so the witness
-is read object by object through the displayed product
+Apply \autoref{thm:real-l10-four-face-status-lookup}. It identifies the four
+local record positions of the displayed product
 $\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$.
 
-Apply \autoref{thm:real-l10-local-face-record-readback}. The four local
-closurestatus blocks supply the required closure and audit-clean verification
-grades by reading each face's own current closurestatus and $\formalstatus$
-rows at the citation site.
-
-Apply \autoref{thm:real-l10-phase-exit-criterion-objectwise}. The Phase Real
-and Completion exit criterion is satisfied exactly by those face records.
+Apply \autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. Under the
+stated objectwise local theory-closure and audit-clean verification
+thresholds, the reverse direction supplies the Phase Real and Completion exit
+criterion for those four face records.
 
 Finally apply \autoref{thm:real-l10-face-leantarget-noncollapse}. The local
 Lean-target and bridge-status rows stay attached to their faces, and the
