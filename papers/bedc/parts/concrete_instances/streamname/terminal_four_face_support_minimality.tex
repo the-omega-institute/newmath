@@ -306,6 +306,57 @@ hypotheses of
 concludes that $U$ and $V$ present one terminal support packet.
 \end{proof}
 
+\begin{theorem}[StreamName terminal support cover induction]
+\label{thm:streamname-terminal-support-cover-induction}
+Let $Q_0,\ldots,Q_n$ be a finite chain of accepted current Phase $\RealUp$ and
+Completion $\StreamNameUp$ request sections. Suppose each adjacent overlap
+$Q_k \cap Q_{k+1}$ preserves the same $\StreamNameUp$ finite window, the same
+$\DyadicRatCoreUp$ endpoint and radius ledger, the same $\RegSeqRatUp$ readback
+and classifier rows, the same $\RealUp$ seal boundary, and the same displayed
+$\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows
+when read from either side. Then induction along the chain determines one
+consumer-visible terminal support packet for the whole finite chain.
+
+The induction is componentwise on those four displayed faces and rows. It does
+not use quotient stream equality, host sequence equality, selected limits,
+countable choice, ambient $\RealUp$ completeness, metric-completeness data,
+aggregate formalstatus rows, or bridge rows.
+\end{theorem}
+\begin{proof}
+The base case is the one-section replay theorem
+\autoref{thm:streamname-terminal-four-face-support-replay-induction}. It reads
+the displayed $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger,
+$\RegSeqRatUp$ readback and classifier rows, $\RealUp$ seal boundary, and
+support rows as one consumer-visible terminal packet.
+
+For the adjacent step, assume the prefix $Q_0,\ldots,Q_k$ already determines
+one terminal support packet. The overlap between $Q_k$ and $Q_{k+1}$ preserves
+the same four faces and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows on both sides, so
+\autoref{thm:streamname-terminal-four-face-support-transport-stability}
+transports the prefix packet to $Q_{k+1}$ without changing the consumer-visible
+support.
+
+The induction stays on the displayed route. At the $\RegSeqRatUp$ face,
+\autoref{thm:regseqrat-real-terminal-four-face-exactness} identifies the
+readback and classifier rows with the terminal four-face packet, and
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness} rules out a second
+finite RegSeqRat source with the same public verdict.
+
+At the $\RealUp$ face,
+\autoref{thm:real-l10-dependency-lattice-exit-totality} sends every accepted
+current Phase Real and Completion terminal read through the ordered
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ lattice. Thus
+the chain induction cannot leave the four displayed faces or replace them by
+ambient completeness, choice, selected-limit, equality, status, or bridge data.
+
+Finally,
+\autoref{thm:streamname-terminal-four-face-support-exhaustion} exhausts the
+accepted consumer-visible terminal support coordinates. The chain therefore
+has a single terminal support packet, and every excluded coordinate is outside
+the support surface used by the induction.
+\end{proof}
+
 \begin{theorem}[StreamName finite-cover terminal support minimality]
 \label{thm:streamname-finite-cover-terminal-support-minimality}
 Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase $\RealUp$
