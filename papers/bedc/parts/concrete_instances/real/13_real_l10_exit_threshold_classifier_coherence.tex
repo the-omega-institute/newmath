@@ -502,3 +502,35 @@ Read the assembled union through Real L10. By \autoref{thm:real-l10-finite-secti
 
 Finally apply \autoref{thm:real-l10-exit-certificate-face-minimality}. If the displayed union carries only those four faces and support rows, minimality makes the union read the same objectwise exit certificate as the two restrictions and the ambient family. Conversely, if an additional quotient, selected-limit, choice, metric-completeness, aggregate-status, aggregate-bridge, standard-bridge, or $\RealUp$ completeness coordinate is present, it is not part of the minimal Real L10 certificate surface, so the enlarged union is no longer exactly the same objectwise exit certificate.
 \end{proof}
+
+\begin{theorem}[Real L10 finite-request sheaf exactness]
+\label{thm:real-l10-finite-request-sheaf-exactness}
+Let $\{\mathcal E_i\}_{i \in I}$ be a finite family of Phase $\RealUp$ and Completion packets over
+$$
+\DyadicRatCoreUp,\qquad \StreamNameUp,\qquad \RegSeqRatUp,\qquad \RealUp .
+$$
+Let $\{J_a\}_{a \in A}$ be a finite cover of $I$ by finite request subfamilies. For each $a \in A$, let $\mathcal C_a$ be a local Phase Real and Completion exit presentation on $J_a$.
+
+Then the family $\{\mathcal C_a\}_{a \in A}$ determines a unique objectwise Phase Real and Completion exit certificate on $I$ if and only if each $\mathcal C_a$ displays exactly the four face rows
+$$
+\DyadicRatCoreUp,\qquad \StreamNameUp,\qquad \RegSeqRatUp,\qquad \RealUp,
+$$
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, and for every finite overlap $J_{a_0}\cap\cdots\cap J_{a_m}$ the restricted presentations agree on all four face rows and on all displayed support rows.
+
+In that case the global certificate is the objectwise restriction-gluing of the common Phase Real and Completion certificate across the finite cover. This sheaf exactness is confined to the four-face Real L10 surface. It excludes quotient streams, selected limits, countable choice, metric-completeness data, aggregate status rows, aggregate bridge rows, standard bridge rows, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For existence, first pass to each cover member. By \autoref{thm:real-l10-finite-request-subfamily-exit-stability}, every $J_a$-presentation with the four displayed face rows and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows reads as the restriction of the same objectwise Phase Real and Completion certificate to that finite request subfamily.
+
+The overlap hypotheses are exactly the compatibility data. On a binary overlap, apply \autoref{thm:real-l10-finite-request-intersection-exit-exactness}; on a finite iterated overlap, repeat the same intersection exactness along the finite meet. Thus the cover presentations agree as Real L10 sections on every retained request belonging to more than one cover member.
+
+Now glue over the finite cover. Induct on the finite index set $A$. The empty and singleton cases are immediate from subfamily stability. For the induction step, glue the already assembled finite union to the next cover member by \autoref{thm:real-l10-finite-request-union-exit-exactness}. The overlap compatibility just proved supplies the meet datum, and the union theorem preserves exactly the four displayed faces and the displayed support rows.
+
+It remains to identify the glued object as the Phase Real and Completion exit certificate rather than as a larger completion object. Use \autoref{thm:real-l10-finite-section-classifier-equivalence} to read the glued finite union as one compatible four-face packet, and use the RegSeqRat common-tail sheaf exactness supplied by \autoref{thm:regseqrat-common-tail-terminal-section-intersection-exactness} and \autoref{thm:regseqrat-common-tail-union-classifier-determinacy} to keep the common-tail rows objectwise on the finite cover.
+
+For uniqueness, suppose two global exit certificates restrict to the same cover presentations. By \autoref{thm:real-l10-exit-certificate-face-minimality}, the four face rows and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are indispensable and exhaust the Real L10 certificate surface. Since the cover is finite and covers every request in $I$, equality on the cover members gives equality of every displayed row of the two global certificates.
+
+Conversely, if a member omits one of the four face rows or one of the displayed support rows, minimality prevents it from being a restriction of the Real L10 exit certificate. If two presentations disagree on a finite overlap, intersection exactness prevents them from determining a single overlap certificate, so no unique global objectwise certificate can glue from the cover.
+
+All nonescape clauses follow from the same row accounting. The proof uses only finite subfamily restriction, finite intersection exactness, finite union exactness, face minimality, and RegSeqRat common-tail exactness; none of these results adds a quotient stream, selected limit, countable-choice selector, metric-completeness datum, aggregate status row, aggregate bridge row, standard bridge row, or ambient $\RealUp$ completeness coordinate.
+\end{proof}
