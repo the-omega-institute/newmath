@@ -87,19 +87,74 @@ The negative boundary is supplied by \autoref{thm:cauchy-choice-boundary-no-choi
 It remains to identify the local ledger. The provenance row $P$ records the sibling certificates and kernel primitives used by the construction, while $N$ is the local $\NameCert_{\CauchyChoiceBoundaryUp}$ row. These projections give the carrier, visible-route, exactness, refusal, and provenance obligations without adding any global Cauchy selector or host-side completeness principle.
 \end{proof}
 
+\begin{theorem}[Cauchy choice-boundary scoped consumer route]
+\label{thm:cauchy-choice-boundary-scoped-consumer-route}
+Every accepted Real-completion diagonal consumer of
+$$
+B=(M,E,I,T,S,R,H,C,P,N)
+$$
+factors through the five obligation rows of \autoref{thm:cauchy-choice-boundary-namecert-obligation-surface}: the carrier row, classifier-stable visible route, diagonal-budget exactness, no-choice refusal, and local ledger provenance. The scoped route is read as a finite $\BHist$ consumer whose componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CauchyChoiceBoundaryUp}$ row pass through the sibling dependencies $\LimitSelectorUp$, $\RegularCauchyDiagonalMeetUp$, $\CauchySealBudgetSynchronizerUp$, $\RealCompletionSealClassifierUp$, and $\CauchyWitnessLedgerUp$.
+
+Consequently the consumer may use only the displayed modulus, tolerance budget, selected finite index, tail-witness route, Real seal route, refusal row, transport, replay, provenance, and local naming. It preserves the exclusions on selected limits, quotient stream equality, ambient completeness, countable choice, and $\mathsf{Classical.choice}$.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The packet supplies exactly the rows $M,E,I,T,S,R,H,C,P,N$, with $\BHist$ carrying the finite history, $\hsame$ transporting the displayed components, $\Cont$ replaying the route, $\Pkg$ recording provenance, and $\NameCert_{\CauchyChoiceBoundaryUp}$ naming the local surface.
+
+Apply \autoref{thm:cauchy-choice-boundary-diagonal-budget-factorization} to fix the consumer order. The route reaches the selected finite index only after the modulus and tolerance budget, reaches the tail witness and seal route only through that selected index, and reaches the refusal row before any no-choice boundary is claimed.
+
+Apply \autoref{thm:cauchy-choice-boundary-no-choice-nonescape}. Any attempted exit to a selected limit, quotient stream equality, ambient completeness row, countable choice row, or $\mathsf{Classical.choice}$ lies outside the accepted boundary packet.
+
+Finally apply \autoref{thm:cauchy-choice-boundary-namecert-obligation-surface}. Its five rows package the carrier, classifier-stable visible route, diagonal-budget exactness, no-choice refusal, and local ledger provenance, with the sibling dependencies $\LimitSelectorUp$, $\RegularCauchyDiagonalMeetUp$, $\CauchySealBudgetSynchronizerUp$, $\RealCompletionSealClassifierUp$, and $\CauchyWitnessLedgerUp$ recorded through $P$ and exposed through $N$.
+\end{proof}
+
+\begin{theorem}[Cauchy choice-boundary public consumer seal]
+\label{thm:cauchy-choice-boundary-public-consumer-seal}
+Every public Real-completion consumer of an accepted $\CauchyChoiceBoundaryUp$ packet
+$$
+B=(M,E,I,T,S,R,H,C,P,N)
+$$
+must read the same ten rows $M,E,I,T,S,R,H,C,P,N$ through the five obligation rows of \autoref{thm:cauchy-choice-boundary-namecert-obligation-surface} and the scoped route of \autoref{thm:cauchy-choice-boundary-scoped-consumer-route} before reaching any Real seal claim. Consequently the public interface exports the finite no-choice boundary and excludes selected limits, quotient stream equality, ambient completeness, countable choice, and $\mathsf{Classical.choice}$.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The accepted packet has only the displayed rows $M,E,I,T,S,R,H,C,P,N$, so a public consumer has no additional coordinate from which to read a selected limit, a quotient equality, an ambient completeness witness, countable choice, or $\mathsf{Classical.choice}$.
+
+Apply \autoref{thm:cauchy-choice-boundary-diagonal-budget-factorization} to fix the public row order. The route reads the modulus and tolerance budget before the selected finite index, the selected index before the tail witness and Real seal route, and the refusal row before any no-choice claim is exported.
+
+Apply \autoref{thm:cauchy-choice-boundary-no-choice-nonescape} to block the excluded exits. The public consumer can only keep the displayed no-choice boundary rows; every attempted selected-limit, quotient-stream, ambient-completeness, countable-choice, or $\mathsf{Classical.choice}$ read leaves the accepted packet.
+
+Apply \autoref{thm:cauchy-choice-boundary-namecert-obligation-surface}. Its five obligation rows package the carrier row, classifier-stable visible route, diagonal-budget exactness, no-choice refusal, and local ledger provenance, so the public interface is already mediated by the finite NameCert surface.
+
+Finally apply \autoref{thm:cauchy-choice-boundary-scoped-consumer-route}. The sibling dependencies $\LimitSelectorUp$, $\RegularCauchyDiagonalMeetUp$, $\CauchySealBudgetSynchronizerUp$, $\RealCompletionSealClassifierUp$, and $\CauchyWitnessLedgerUp$ are bound through the scoped route before any Real seal claim is made, which seals the public no-choice consumer surface.
+\end{proof}
+
 The Lean follow-up for this chapter is the namespace \texttt{BEDC.Derived.CauchyChoiceBoundaryUp}. Its \texttt{TasteGate.lean} surface must provide both a \texttt{Nontrivial CauchyChoiceBoundaryUp} instance and a \texttt{FieldFaithful CauchyChoiceBoundaryUp} instance for the carrier of \autoref{def:cauchy-choice-boundary-carrier}.
+
+\begin{theorem}[Cauchy choice-boundary bridged Real seal]
+\label{thm:cauchy-choice-boundary-bridged-real-seal}
+Every accepted $\CauchyChoiceBoundaryUp$ public consumer whose rows factor through the displayed diagonal budget, selected finite index, tail-witness route, and Real seal route is a bridged Real-completion seal consumer. The bridge exports only the rows already named by \autoref{thm:cauchy-choice-boundary-public-consumer-seal}, \autoref{thm:cauchy-choice-boundary-scoped-consumer-route}, and \autoref{thm:cauchy-choice-boundary-no-choice-nonescape}. It exports no selected limit, quotient stream, ambient completeness, countable choice, host equality, or $\mathsf{Classical.choice}$ coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchy-choice-boundary-scoped-consumer-route}. The accepted public consumer is forced through the finite carrier row, classifier-stable visible route, diagonal-budget exactness, no-choice refusal, and local ledger provenance before it reaches the Real seal route.
+
+Next apply \autoref{thm:cauchy-choice-boundary-public-consumer-seal}. The public interface reads the same ten rows $M,E,I,T,S,R,H,C,P,N$ and reaches the seal only through the displayed budget, selected finite index, tail witness, refusal, transport, replay, provenance, and local naming surface.
+
+Finally apply \autoref{thm:cauchy-choice-boundary-no-choice-nonescape}. The accepted boundary packet has no coordinate for a selected limit, quotient stream, ambient completeness, countable choice, host equality, or $\mathsf{Classical.choice}$, so the Real-completion seal consumer is bridged only by the already displayed no-choice rows.
+\end{proof}
 
 \closureat{CauchyChoiceBoundaryUp}{seedStr}
 \closureat{CauchyChoiceBoundaryUp}{obligationStr}
+\closureat{CauchyChoiceBoundaryUp}{scopedStr}[BEDC.Derived.CauchyChoiceBoundaryUp.CauchyChoiceBoundary\_no\_choice\_nonescape]
+\closureat{CauchyChoiceBoundaryUp}{publicStr}
+\closureat{CauchyChoiceBoundaryUp}{bridgedStr}
 
 \begin{closurestatus}{\CauchyChoiceBoundaryUp}
   \constructivestory{The Cauchy choice boundary is generated by starting with the explicit diagonal-budget rows recorded in $BHist$ and refusing to add a selector row for an arbitrary Cauchy subsequence. The carrier reads a Cauchy handoff only when it is already factored through the displayed budget ledger. The $hsame$ relation transports that boundary across equivalent histories, while $\Cont$ only extends the visible budget route and never licenses a new choice functional. Thus the chapter's object is a bottom-up refusal surface: it certifies the route from finite diagonal evidence to a Cauchy boundary and records where countable-choice-style exits leave the carrier.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter binds the Cauchy choice-boundary carrier, diagonal-budget factorization theorem, no-choice non-escape theorem, NameCert obligation-surface rows, and TasteGate instance \texttt{BEDC.Derived.CauchyChoiceBoundaryUp.taste\_gate}.}
-  \formalstatus{\theoremCheckedV}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{This chapter binds the Cauchy choice-boundary carrier, diagonal-budget factorization theorem, no-choice non-escape theorem, NameCert obligation-surface rows, scoped consumer route, public consumer seal, bridged Real-seal theorem \autoref{thm:cauchy-choice-boundary-bridged-real-seal}, and TasteGate instance \texttt{BEDC.Derived.CauchyChoiceBoundaryUp.taste\_gate}.}
+  \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.CauchyChoiceBoundaryUp.CauchyChoiceBoundary\_no\_choice\_nonescape}
   \bridgestatus{none}
   \origin{ai-composite}
   \notclaimed{It does not claim a global Cauchy selector, choice over all tails, or host-level equality of Cauchy representatives.}
-  \upgradepath{Reaching scopedClosure requires a checked public consumer theorem for the full NameCert obligation surface.}
+  \upgradepath{Reaching mature closure requires worked examples and cross-chapter consumers over the bridged Real-completion seal interface.}
 \end{closurestatus}

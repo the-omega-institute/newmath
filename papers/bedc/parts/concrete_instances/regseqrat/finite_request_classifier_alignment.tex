@@ -143,3 +143,121 @@ completeness, metric-completeness rows, or duplicate Real seal coordinates, so
 no external coordinate can distinguish two support faces with the same displayed
 rows.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-request support face composition]
+\label{thm:regseqrat-finite-request-support-face-composition}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S_0$, $S_1$, and
+$S_2$ be accepted public finite requests to $P$ consumed along the public
+$\RealUp$ seal route. Suppose the classifier-visible finite request sections
+of $(S_0,S_1)$ and $(S_1,S_2)$ agree on their support subpackets. Suppose
+also that the middle support face exposes the same $\StreamNameUp$ schedule
+rows, $\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance ledger,
+$\RegSeqRatUp$ classifier and regularity rows, componentwise $\hsame$ rows,
+displayed $\Cont$ rows, $\Pkg$ provenance, and local
+$\NameCert_{\RegSeqRatUp}$ rows on both legs.
+
+Then the composed route from $S_0$ to $S_2$ has one
+Real-seal-facing support face, and that face contains exactly the displayed
+$\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint, radius, and
+dyadic-distance ledger, $\RegSeqRatUp$ classifier and regularity rows,
+componentwise $\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance, and
+local $\NameCert_{\RegSeqRatUp}$ rows exposed by the middle face. It exports
+no quotient stream equality, host real equality, selected limit,
+countable-choice data, metric-completeness rows, duplicate Real seal,
+aggregate formalstatus row, or bridge row.
+\end{theorem}
+\begin{proof}
+First identify the two classifier-visible sections. Apply
+\autoref{thm:regseqrat-finite-request-classifier-alignment} to the pair
+$(S_0,S_1)$ and again to the pair $(S_1,S_2)$. The hypotheses say that the
+two legs display the same support subpacket at $S_1$, so the classifier sees
+one finite support surface through the middle request.
+
+Next transport the displayed support rows along each leg. By
+\autoref{thm:regseqrat-finite-request-support-transport}, the shared
+componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert_{\RegSeqRatUp}$ rows determine the same transported support packet
+on the RegSeqRat side for $(S_0,S_1)$ and for $(S_1,S_2)$. The listed
+$\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ classifier rows keep
+that support packet attached to the same finite request face.
+
+Now pass to the Real-seal-facing side. Use
+\autoref{thm:regseqrat-real-seal-support-face-uniqueness} on the transported
+support packet to pin the unique Real-facing support face exposed by each
+leg. Since both legs expose the same middle face, uniqueness identifies their
+Real-facing support faces as one displayed face.
+
+Finally compare the direct and two-step finite request routes. The section
+refinement composition theorem,
+\autoref{thm:regseqrat-finite-request-section-refinement-composition}, says
+that the one-step route from $S_0$ to $S_2$ and the route through $S_1$ have
+the same finite request section and local Real seal on the displayed rows.
+Therefore the composed route has exactly the support face already pinned
+above.
+
+All cited routes are finite classifier, support-transport, uniqueness, and
+section-refinement routes over the displayed BEDC rows. None carries quotient
+stream equality, host real equality, selected-limit data, countable-choice
+data, metric-completeness rows, duplicate Real seal data, aggregate
+formalstatus rows, or bridge rows, so the composed support face exports none
+of those objects.
+\end{proof}
+
+\begin{theorem}[RegSeqRat finite-request support face chain induction]
+\label{thm:regseqrat-finite-request-support-face-chain-induction}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let
+$S_0,\ldots,S_n$ be a finite nonempty chain of accepted public finite requests
+to $P$ consumed along the public $\RealUp$ seal route. Suppose each adjacent
+pair $(S_i,S_{i+1})$ has agreeing classifier-visible finite request sections
+on the displayed $\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint,
+radius, and dyadic-distance rows, $\RegSeqRatUp$ classifier and regularity
+rows, componentwise $\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance,
+and local $\NameCert_{\RegSeqRatUp}$ rows. Suppose also that every adjacent
+pair agrees on its support subpacket.
+
+Then every parenthesized adjacent support-face composite along the chain and
+the direct comparison from $S_0$ to $S_n$ determine the same terminal
+$\RealUp$ seal-facing support face. That face contains exactly the displayed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\hsame$, $\Cont$,
+$\Pkg$, and local $\NameCert_{\RegSeqRatUp}$ rows carried by the adjacent
+finite request sections, and it exports no quotient stream equality, host real
+equality, selected limit, choice data, ambient completeness,
+metric-completeness rows, duplicate $\RealUp$ seal, aggregate formalstatus
+row, or bridge row.
+\end{theorem}
+\begin{proof}
+The base case is the one-object chain. The direct comparison from $S_0$ to
+$S_0$ is reflexive on the displayed finite request section, so the terminal
+support face is the same Real-seal-facing face read from that section. No
+composition data are introduced.
+
+For a one-step chain, apply
+\autoref{thm:regseqrat-finite-request-support-transport} to the adjacent
+pair and then apply
+\autoref{thm:regseqrat-real-seal-support-face-uniqueness}. The agreed
+classifier-visible section and the agreed support subpacket pin one
+Real-facing support face for the two requests.
+
+For the induction step, assume the prefix from $S_0$ to $S_k$ has a unique
+terminal support face independent of parenthesization. Compose that prefix
+face with the last adjacent face from $S_k$ to $S_{k+1}$ using
+\autoref{thm:regseqrat-finite-request-support-face-composition}. The theorem
+keeps the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\hsame$,
+$\Cont$, $\Pkg$, and local $\NameCert_{\RegSeqRatUp}$ rows on the same
+Real-seal-facing support face, so the result is independent of whether the
+last leg is attached before or after the prefix composite.
+
+It remains to compare the iterated composite with the direct first-to-last
+section. The section-refinement composition route used in
+\autoref{thm:regseqrat-finite-request-support-face-composition} identifies
+the direct $S_0$ to $S_{k+1}$ classifier-visible section with the composed
+finite section on the displayed rows. Applying support-face uniqueness once
+more gives the same terminal $\RealUp$ seal-facing support face.
+
+Every step uses only classifier alignment, support transport, support-face
+uniqueness, and finite section composition over the listed BEDC rows. These
+routes contain no rows for quotient streams, host real equality, selected
+limits, choice data, ambient completeness, metric-completeness rows,
+duplicate Real seals, aggregate formalstatus rows, or bridge rows, so the
+chain induction cannot export any of those objects.
+\end{proof}
