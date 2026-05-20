@@ -324,3 +324,53 @@ choice principles, aggregate status rows, or bridge evidence. The two-axis
 roadmap discipline keeps those excluded coordinates separate from the local
 BEDC support rows, so none of them can repair a missing face or row.
 \end{proof}
+
+\begin{theorem}[Real stream prefix probe-union support-row exchange invariance]
+\label{thm:real-stream-prefix-probe-union-support-row-exchange-invariance}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, let
+$\mathcal P$ and $\mathcal Q$ be finite certified $\mathsf{ProbeBundle}$
+windows, and let $\mathcal U$ be their synchronized union window. Consider any
+two presentations of the terminal packet supplied by
+\autoref{thm:real-stream-prefix-probe-union-terminal-four-face-factorization}.
+Suppose both presentations preserve the same four visible faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ and the same displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ projections.
+
+Then exchanging the presentation order of those already-displayed support rows
+does not produce a second terminal packet. The two presentations determine the
+same terminal packet over $\mathcal U$, and for every selected endpoint $j$ they
+determine the same finite endpoint readback
+$\mathsf{RatHistoryClassifier}(x(j),y(j))$ with the same $\hsame$-transported
+common e-one tail witnesses.
+
+This invariance is local to the displayed BEDC support rows. It is not
+witnessed by quotient-real equality, selected limit values, ambient
+$\RealUp$ completeness, countable choice, aggregate status rows, or bridge
+data, and none of those coordinates can distinguish two presentation orders of
+the same terminal probe-union packet.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-prefix-probe-union-endpoint-readback}. Both
+presentations read each selected endpoint from the same synchronized union
+window $\mathcal U$ and the same finite endpoint ledger, so the rational
+endpoint row and the common e-one tail witnesses agree by the displayed
+$\hsame$ transport.
+
+Next apply
+\autoref{thm:real-stream-prefix-probe-union-terminal-four-face-factorization}.
+The two presentations expose the same four faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ and the same
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ projections. Terminality
+therefore identifies them as one terminal packet over the synchronized union
+carrier rather than as two packets distinguished by row order.
+
+Finally apply
+\autoref{thm:real-stream-prefix-probe-union-terminal-four-face-support-minimality}.
+Support minimality says that the accepted terminal read is carried exactly by
+the displayed faces and support rows. Hence quotient-real equality, selected
+limits, ambient completeness, countable choice, aggregate status rows, and
+bridge data cannot replace one of those rows or separate two orderings of the
+same row family. The endpoint readback equality from the first paragraph is
+therefore the endpoint readback of the unique terminal packet.
+\end{proof}
