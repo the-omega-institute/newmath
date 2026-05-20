@@ -102,7 +102,7 @@ LOG_DIRS = [
 # ============================================================
 LEAN_BUFFER = 0
 LEAN_MIN = 4
-LEAN_MAX = 12  # lowered 2026-05-15 (later): push lock starvation observed —
+LEAN_MAX = 16  # lowered 2026-05-15 (later): push lock starvation observed —
                # R6327 held lock 1076s for codex_resolve_conflicts (which
                # runs INSIDE the lock). With 16+ contenders, flock unfairness
                # starves P workers >600s → cooldown cascades. Cap at 12
@@ -131,7 +131,7 @@ PAPER_MIN_OLD = 18  # raised 2026-05-12 from 12: P-side discovery channels
                 # making P plateau because root_unblocks=0 → paper_demand=10
                 # → clamp to 12 floor. With discovery HARD GATE active,
                 # 18 worker is the right cruising altitude.
-PAPER_MAX = 10  # lowered 2026-05-15 (later): same push-lock starvation —
+PAPER_MAX = 14  # lowered 2026-05-15 (later): same push-lock starvation —
                 # P workers wait >600s when R holds lock for codex_resolve.
                 # Cut from 25 → 10 reduces concurrent push contenders.
 
