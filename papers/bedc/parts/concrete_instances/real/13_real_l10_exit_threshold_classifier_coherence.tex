@@ -482,3 +482,23 @@ It remains to prove exactness rather than mere compatibility. Apply \autoref{thm
 
 Thus $J \cap K$ determines the same objectwise exit certificate precisely in the stated rowwise case. The cited restriction, intersection, classifier, and minimality results account for all certificate coordinates, so aggregate status rows, aggregate bridge rows, standard bridge rows, metric-completeness data, and ambient $\RealUp$ completeness cannot be inserted on the overlap.
 \end{proof}
+
+\begin{theorem}[Real L10 finite-request union exit exactness]
+\label{thm:real-l10-finite-request-union-exit-exactness}
+Let $\{\mathcal E_i\}_{i \in I}$ be a finite family of Phase $\RealUp$ and Completion packets over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ rows. Suppose the ambient family has one common objectwise Phase Real and Completion exit certificate, and let $J,K \subseteq I$ be finite request subfamilies whose restrictions preserve the four displayed face rows together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Suppose also that the retained rows on $J$, on $K$, and on $J \cap K$ agree on the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, local $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Then the finite union $J \cup K$ determines the same objectwise Phase Real and Completion exit certificate as the two restricted request subfamilies exactly when the displayed union contains no rows beyond the four listed faces and the displayed support rows. In that case the union certificate is the objectwise restriction of the common Phase Real and Completion certificate to $J \cup K$.
+
+This exactness is confined to finite unions of request subfamilies inside the displayed Real L10 four-face surface. It excludes quotient streams, selected limits, countable choice, metric-completeness data, aggregate status rows, aggregate bridge rows, standard bridge rows, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First restrict each side. By \autoref{thm:real-l10-finite-request-subfamily-exit-stability}, the $J$-restriction and the $K$-restriction both determine the same objectwise Phase Real and Completion exit certificate as the ambient family, and each restriction keeps exactly the displayed four-face rows and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+The overlap hypothesis is the compatibility datum for gluing. Apply \autoref{thm:real-l10-finite-request-intersection-exit-exactness} to $J \cap K$. The common rows on the meet identify the two restricted presentations on their shared retained requests, so the union can be read as one finite request surface rather than as two unrelated certificates.
+
+Now assemble the four-face union surface. Use \autoref{thm:streamname-finite-window-union-composition} and \autoref{thm:streamname-regseqrat-window-union-exhaustion} for the finite $\StreamNameUp$ window rows, and use \autoref{thm:regseqrat-common-tail-union-classifier-determinacy} for the $\RegSeqRatUp$ regularity and common-tail classifier rows. These union inputs preserve the dyadic common scale-window witness, the local $\RealUp$ terminal seal row, and the displayed support rows, and they introduce no quotient stream, selected limit, countable-choice row, or hidden completion datum.
+
+Read the assembled union through Real L10. By \autoref{thm:real-l10-finite-section-classifier-equivalence}, the displayed $J \cup K$ surface is a single compatible four-face packet over the dyadic common scale-window witness, the finite $\StreamNameUp$ window, the $\RegSeqRatUp$ regularity and common-tail rows, and the local $\RealUp$ terminal seal row, together with the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Finally apply \autoref{thm:real-l10-exit-certificate-face-minimality}. If the displayed union carries only those four faces and support rows, minimality makes the union read the same objectwise exit certificate as the two restrictions and the ambient family. Conversely, if an additional quotient, selected-limit, choice, metric-completeness, aggregate-status, aggregate-bridge, standard-bridge, or $\RealUp$ completeness coordinate is present, it is not part of the minimal Real L10 certificate surface, so the enlarged union is no longer exactly the same objectwise exit certificate.
+\end{proof}
