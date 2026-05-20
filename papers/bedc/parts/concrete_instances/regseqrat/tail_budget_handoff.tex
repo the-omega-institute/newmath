@@ -425,3 +425,68 @@ from the displayed support rows. Hence the refinement cannot introduce quotient
 streams, selected host limits, countable choice, ambient or metric completeness,
 a second seal coordinate, or any aggregate formalstatus token.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-budget chain refinement exhaustion]
+\label{thm:regseqrat-tail-budget-chain-refinement-exhaustion}
+Let an accepted $\RegSeqRatUp$ tail-budget route terminate in a
+completion-facing $\RealUp$ seal row, and let
+$R_0,\ldots,R_n$ be a finite nonempty chain of accepted $\RegSeqRatUp$
+tail-budget routes with $R_0$ the original route and $R_n$ the terminal route.
+Suppose every adjacent replacement $(R_i,R_{i+1})$ is a certified support
+refinement preserving the $\StreamNameUp$ schedule classifier, the
+$\DyadicRatCoreUp$ endpoint, radius, and distance ledger, the $\RegSeqRatUp$
+classifier and regularity rows, the terminal $\RealUp$ seal row, and the
+displayed
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+support rows.
+
+Then every parenthesized finite refinement chain from $R_0$ to $R_n$ and the
+direct first-to-last comparison determine the same terminal completion-facing
+$\RealUp$ seal surface. The common surface is exactly the terminal seal read
+from the preserved tail-budget support rows, with the facewise closurestatus,
+formalstatus, leantarget, and bridgestatus rows pulled back from the displayed
+faces. It exports no quotient streams, selected host limits, countable choice,
+ambient completeness, metric completeness, duplicate $\RealUp$ seal
+coordinates, aggregate formalstatus tokens, or aggregate bridge rows.
+\end{theorem}
+\begin{proof}
+The base case is the one-route chain. The comparison from $R_0$ to $R_0$ is
+reflexive on the displayed tail-budget support, so the completion-facing
+$\RealUp$ seal surface is the terminal surface already carried by that route.
+
+For a one-step chain, apply
+\autoref{thm:regseqrat-tail-budget-support-refinement-invariance}. The
+certified support refinement preserves the StreamName schedule, DyadicRatCore
+ledger, RegSeqRat classifier and regularity rows, displayed support rows, and
+terminal $\RealUp$ seal row, hence the two routes read the same terminal seal
+surface.
+
+For a longer finite chain, first forget the parenthesization and read the chain
+as a finite request support-face chain. Apply
+\autoref{thm:regseqrat-finite-request-support-face-chain-induction}. It makes
+all adjacent support-face composites and the direct first-to-last comparison
+land on one terminal $\RealUp$ seal-facing support face over the displayed
+rows.
+
+Next build the common finite support needed by the tail-budget route. Apply
+\autoref{thm:regseqrat-finite-tail-budget-family-common-refinement}. The common
+refinement keeps the finite StreamName windows, the DyadicRatCore endpoint,
+radius, and distance ledger, the RegSeqRat classifier and regularity rows, and
+the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows on one
+finite support family.
+
+Now read the terminal completion-facing surface. Apply
+\autoref{thm:regseqrat-tail-budget-terminal-real-seal}. Since the direct
+comparison and every parenthesized chain have the same finite tail-budget
+support and the same terminal $\RealUp$ seal row, they determine the same
+completion-facing $\RealUp$ seal surface.
+
+Finally apply \autoref{thm:regseqrat-tail-budget-facewise-status-pullback}. The
+status and bridge data are read objectwise from the preserved faces and not
+from an aggregate token. Therefore the finite chain cannot introduce quotient
+streams, selected host limits, countable choice, ambient or metric
+completeness, duplicate $\RealUp$ seal coordinates, aggregate formalstatus
+tokens, or aggregate bridge rows.
+\end{proof}

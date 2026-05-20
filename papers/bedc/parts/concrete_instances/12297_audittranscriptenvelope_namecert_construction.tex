@@ -1,8 +1,8 @@
 \chapter{A Concrete Naming Certificate for $\AuditTranscriptEnvelopeUp$}
 \label{ch:concrete-instances-audit-transcript-envelope-namecert}
-\origin{ai}
+\origin{ai-composite}
 
-The $\AuditTranscriptEnvelopeUp$ packet realizes the writing-item discipline of \autoref{def:philosophy-writing-item} as a finite transcript object. It sits between the machine consumer of \autoref{ch:concrete-instances-machine-readable-audit-interface-namecert}, the registry coherence check of \autoref{ch:concrete-instances-registry-consistency-audit-namecert}, and the proof-readback witness of \autoref{ch:concrete-instances-prooftraceauditwitness-namecert}. Those siblings read reports, compare registry rows, and expose proof traces; this carrier names the per-claim envelope that keeps status, source, replay, gap, ledger, and refusal data together before any audit export is consumed.
+The $\AuditTranscriptEnvelopeUp$ packet realizes the writing-item discipline of \autoref{def:philosophy-writing-item} as a finite transcript object. It sits between the machine consumer of \autoref{ch:concrete-instances-machine-readable-audit-interface-namecert}, the registry coherence check of \autoref{ch:concrete-instances-registry-consistency-audit-namecert}, and the proof-readback witness of \autoref{ch:concrete-instances-prooftraceauditwitness-namecert}. As a composite over those sibling audit surfaces, the packet bundles their report, registry, and proof-trace rows into one transcript envelope. Those siblings read reports, compare registry rows, and expose proof traces; this carrier names the per-claim envelope that keeps status, source, replay, gap, ledger, and refusal data together before any audit export is consumed.
 
 \begin{definition}[Audit transcript envelope carrier]
 \label{def:audit-transcript-envelope-carrier}
@@ -108,7 +108,7 @@ The Lean follow-up must provide explicit $\Nontrivial\ \AuditTranscriptEnvelopeU
   \scopeclosed{\autoref{def:audit-transcript-envelope-carrier}, \autoref{thm:audit-transcript-envelope-field-coverage}, \autoref{thm:audit-transcript-envelope-non-evidence-refusal}, \autoref{thm:audit-transcript-envelope-sibling-independence}, and \autoref{thm:audit-transcript-envelope-falsifiable-prediction} bind auditable writing items to finite transcript envelopes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
+  \origin{ai-composite}
   \notclaimed{This chapter does not close Lean verification, bridge checking, registry completeness, proof-trace correctness, machine export schema completeness, or global audit log finality.}
   \upgradepath{Obligation closure requires checked carrier admission, five-row NameCert coverage, non-evidence refusal, sibling independence, TasteGate nontriviality, and field faithfulness for $K,C,L,S,G,A,R,U,H,T,P,N$.}
 \end{closurestatus}
