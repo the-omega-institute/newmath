@@ -463,14 +463,36 @@ Now apply \autoref{thm:diagonal-cofinal-tail-consumer-exhaustion}. The consumer 
 Finally use \autoref{thm:diagonal-cofinal-tail-hsame-transport-lock}. Componentwise transport along $H$ preserves the displayed route row by row, so the terminal reads from $T$ and $T'$ descend through the same common finite tail and cannot be separated by a second carrier source.
 \end{proof}
 
+\begin{theorem}[Diagonal cofinal-tail exact-boundary terminal route]
+\label{thm:diagonal-cofinal-tail-exact-boundary-terminal-route}
+Let
+$$
+T=(Q,S,G,D,R,W,H,C,P,N)
+$$
+be an accepted $\DiagonalCofinalTailUp$ packet. Suppose an accepted $\RealCompletionExactBoundaryUp$ terminal boundary consumes $T$ as its completion-facing terminal route. Then the boundary's four Phase Real and Completion faces are read through the same finite route
+$$
+Q,S,G,D,R,W,H,C,P,N.
+$$
+The $\StreamNameUp$ face is the constant window row $S$, the $\RegSeqRatUp$ face is the cofinal-tail readback row $G$, the $\DyadicRatCoreUp$ face is the finite-window ledger $D$, and the terminal $\RealUp$ face is the real-facing row $R$, all carried through the transported seal, componentwise transport, continuation, provenance, and local naming rows $W,H,C,P,N$. The terminal read cannot introduce quotient streams, host real equality, selected limits, countable choice, metric completeness, ambient completeness, bridge rows, or a second carrier source.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:diagonal-cofinal-tail-terminal-common-tail-descent}. Any terminal comparison or completion-seal consumer visible to the accepted $\DiagonalCofinalTailUp$ packet descends through the common route $Q,S,G,D,R,W,H,C,P,N$ and cannot distinguish the read by an unlisted analytic coordinate.
+
+Next apply \autoref{thm:diagonal-cofinal-tail-terminal-seal-factorization}. The terminal seal read factors through the same ordered rows once the seed, window, tail readback, dyadic ledger, transported seal, and transport rows have been fixed. Thus the boundary consumer sees the diagonal packet through a single finite carrier route rather than through a detached completion object.
+
+Now use \autoref{thm:real-completion-exact-boundary-four-face-exactness}. Its accepted boundary exposes only the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and terminal $\RealUp$ faces to Phase Real and Completion consumers. Under the diagonal consumption hypothesis, these four faces are exactly the rows $S,G,D,R$ already present in $T$.
+
+Finally apply \autoref{thm:real-completion-exact-boundary-terminal-consumer-exactness}. Every completion-facing or terminal $\RealUp$ consumer of the accepted boundary must read the same finite route and may not add quotient streams, host real equality, selected limits, choice, completeness, bridge coordinates, or a second source. Hence the exact-boundary terminal read is the displayed diagonal cofinal-tail route.
+\end{proof}
+
 \begin{theorem}[Diagonal cofinal-tail primitive scope package]
 \label{thm:diagonal-cofinal-tail-scope-package}
-The carrier, obligations, window exhaustion, selector lock, Real seal handoff, non-escape boundary, TasteGate single-carrier alignment, TasteGate hidden-input refusal, $\hsame$ transport lock, consumer exhaustion, stationary seal uniqueness, terminal seal factorization, and terminal common-tail descent for $\DiagonalCofinalTailUp$ are scoped exactly over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the checked taste-gate marker. The scope contains no second carrier source and no unrecorded selector.
+The carrier, obligations, window exhaustion, selector lock, Real seal handoff, non-escape boundary, TasteGate single-carrier alignment, TasteGate hidden-input refusal, $\hsame$ transport lock, consumer exhaustion, stationary seal uniqueness, terminal seal factorization, terminal common-tail descent, and exact-boundary terminal route for $\DiagonalCofinalTailUp$ are scoped exactly over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the checked taste-gate marker. The scope contains no second carrier source and no unrecorded selector.
 \end{theorem}
 \begin{proof}
 The carrier and obligation package provide the primitive inventory. The rows $Q,S,G,D,R,W,H,C,P,N$ name the RatUp seed, StreamNameUp window, RegSeqRatUp tail readback, DyadicRatCoreUp finite-window ledger, RealUp handoff, transported seal, componentwise transport, continuation routes, provenance, and local naming surface.
 
-Every consumer is then routed through the displayed route composition, the $\hsame$ transport lock, terminal seal factorization, and terminal common-tail descent. These clauses force downstream RegSeqRatUp, DyadicRatCoreUp, RealUp, and completion-seal readings to factor through the same finite packet and prevent transport from adding another equality, limit, completion, or selector coordinate.
+Every consumer is then routed through the displayed route composition, the $\hsame$ transport lock, terminal seal factorization, terminal common-tail descent, and the exact-boundary terminal route. These clauses force downstream RegSeqRatUp, DyadicRatCoreUp, RealUp, and completion-seal readings to factor through the same finite packet and prevent transport from adding another equality, limit, completion, or selector coordinate.
 
 Finally use the TasteGate rows. The carrier single-source theorem supplies the unique later carrier source, and the hidden-input refusal theorem excludes every TasteGate-facing input not already listed in $T=(Q,S,G,D,R,W,H,C,P,N)$. Thus the primitive scope is exactly the displayed BEDC object list and the checked taste-gate marker.
 \end{proof}
@@ -482,7 +504,7 @@ Finally use the TasteGate rows. The carrier single-source theorem supplies the u
 \begin{closurestatus}{\DiagonalCofinalTailUp}
   \constructivestory{A $\DiagonalCofinalTailUp$ packet is generated from paired stationary RatUp seed rows, constant StreamNameUp windows, RegSeqRatUp cofinal-tail readbacks, DyadicRatCoreUp finite-window ledgers, RealUp diagonal representative rows, a transported stationary seal row, componentwise transports, continuation routes, package provenance, and local naming.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:diagonal-cofinal-tail-carrier}, \autoref{thm:diagonal-cofinal-tail-namecert-obligations}, \autoref{thm:diagonal-cofinal-tail-seed-window-readback}, \autoref{thm:diagonal-cofinal-tail-common-window-refinement}, \autoref{thm:diagonal-cofinal-tail-obligation-closure-package}, \autoref{thm:diagonal-cofinal-tail-window-exhaustion}, \autoref{thm:diagonal-cofinal-tail-real-seal-handoff}, \autoref{thm:diagonal-cofinal-tail-nonescape}, \autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source}, \autoref{thm:diagonal-cofinal-tail-tastegate-hidden-input-refusal}, \autoref{thm:diagonal-cofinal-tail-tastegate-flow-recognition}, \autoref{thm:diagonal-cofinal-tail-route-composition}, \autoref{thm:diagonal-cofinal-tail-hsame-transport-lock}, \autoref{thm:diagonal-cofinal-tail-window-projection-exactness}, \autoref{thm:diagonal-cofinal-tail-consumer-exhaustion}, \autoref{thm:diagonal-cofinal-tail-stationary-seal-uniqueness}, \autoref{thm:diagonal-cofinal-tail-terminal-seal-factorization}, \autoref{thm:diagonal-cofinal-tail-terminal-common-tail-descent}, and \autoref{thm:diagonal-cofinal-tail-scope-package} bind the finite cofinal-tail NameCert packet and primitive scope for the transported stationary diagonal window over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \scopeclosed{\autoref{def:diagonal-cofinal-tail-carrier}, \autoref{thm:diagonal-cofinal-tail-namecert-obligations}, \autoref{thm:diagonal-cofinal-tail-seed-window-readback}, \autoref{thm:diagonal-cofinal-tail-common-window-refinement}, \autoref{thm:diagonal-cofinal-tail-obligation-closure-package}, \autoref{thm:diagonal-cofinal-tail-window-exhaustion}, \autoref{thm:diagonal-cofinal-tail-real-seal-handoff}, \autoref{thm:diagonal-cofinal-tail-nonescape}, \autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source}, \autoref{thm:diagonal-cofinal-tail-tastegate-hidden-input-refusal}, \autoref{thm:diagonal-cofinal-tail-tastegate-flow-recognition}, \autoref{thm:diagonal-cofinal-tail-route-composition}, \autoref{thm:diagonal-cofinal-tail-hsame-transport-lock}, \autoref{thm:diagonal-cofinal-tail-window-projection-exactness}, \autoref{thm:diagonal-cofinal-tail-consumer-exhaustion}, \autoref{thm:diagonal-cofinal-tail-stationary-seal-uniqueness}, \autoref{thm:diagonal-cofinal-tail-terminal-seal-factorization}, \autoref{thm:diagonal-cofinal-tail-terminal-common-tail-descent}, \autoref{thm:diagonal-cofinal-tail-exact-boundary-terminal-route}, and \autoref{thm:diagonal-cofinal-tail-scope-package} bind the finite cofinal-tail NameCert packet and primitive scope for the transported stationary diagonal window over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
   \leanchecked{BEDC.Derived.DiagonalCofinalTailUp.taste\_gate}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

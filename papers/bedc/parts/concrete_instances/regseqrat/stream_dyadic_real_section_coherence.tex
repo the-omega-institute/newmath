@@ -495,3 +495,80 @@ metric-completeness rows, aggregate formalstatus rows, aggregate bridge rows,
 or a $\RealUp$ completeness field, so the composition law does not claim
 any such structure.
 \end{proof}
+
+\begin{theorem}[RegSeqRat four-face finite-cover induction]
+\label{thm:regseqrat-four-face-finite-cover-induction}
+Let $\mathcal{S}$ be a finite family of compatible accepted
+$\RegSeqRatUp$ terminal sections over the visible four-face route
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Assume that the empty and singleton subfamilies are the displayed local
+packets of
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage}. Assume
+also that the successor clause glues any previously accepted subcover to one
+additional accepted section along overlap rows preserving the finite
+$\StreamNameUp$ request windows, the $\DyadicRatCoreUp$ endpoint, radius,
+and finite-distance ledger, the $\RegSeqRatUp$ classifier and readback rows,
+the local $\RealUp$ seal row, and the shared $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert_{\RegSeqRatUp}$ support rows.
+
+Then the whole finite cover $\mathcal{S}$ determines exactly one accepted
+$\RealUp$ terminal seal over the same four visible faces. Moreover, every
+accepted $\RealUp$ terminal seal whose visible support is the cover
+$\mathcal{S}$ is obtained by this finite-cover induction from the local
+empty, singleton, and successor clauses.
+
+The claim is only the finite descent principle for the displayed
+$\RegSeqRatUp$ section cover. It does not identify quotient streams, select
+limits, compare host real equality, use countable choice, assume ambient or
+metric completeness, aggregate formalstatus rows, or introduce standard
+bridge rows.
+\end{theorem}
+\begin{proof}
+Put the finite cover into a section-by-section descent order. Apply
+\autoref{thm:streamname-finite-section-cover-descent-normal-form} to replace
+the cover by its finite request normal form. The empty and singleton entries
+are then exactly the local four-face packets supplied by
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage}.
+
+For the successor step, suppose a subcover has already produced an accepted
+terminal $\RealUp$ seal. Glue this seal to the next section along the stated
+overlap rows. The preservation hypotheses give the same $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and local $\NameCert_{\RegSeqRatUp}$ rows on the common
+support, so
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality}
+reads both sides on the same restricted four-face packet.
+
+The overlap condition is coherent because the pairwise restrictions satisfy
+\autoref{thm:regseqrat-finite-request-section-cocycle-real-seal}. Hence the
+new section and the previously accepted subcover have a common terminal
+overlap packet. Applying
+\autoref{thm:regseqrat-four-face-gluing-uniqueness} gives one accepted
+$\RealUp$ terminal seal for the enlarged subcover, and uniqueness prevents
+any second seal from being carried by the same visible rows.
+
+Iterating this finite successor construction reaches the full cover
+$\mathcal{S}$. Refining the descent order does not change the resulting
+seal: adjacent regroupings are identified by
+\autoref{thm:regseqrat-finite-request-section-refinement-composition}, while
+all restrictions back to smaller subcovers are controlled by
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality}.
+Thus the terminal seal is independent of the chosen finite normal form.
+
+Finally let $T$ be any accepted $\RealUp$ terminal seal over the same cover.
+Restrict $T$ to every empty, singleton, and successor subcover in the normal
+form. The local gluing theorem supplies the base packets, the restriction
+theorem identifies the visible rows, the cocycle theorem supplies the
+overlap compatibility, and gluing uniqueness identifies each successor seal
+with the induction seal. Therefore $T$ is obtained by the same finite-cover
+induction.
+
+Every step uses only finite request normal forms, local four-face gluing,
+restriction functoriality, cocycle compatibility, uniqueness, and certified
+refinement composition. None of these cited inputs contains a coordinate for
+quotient stream equality, selected limits, host real equality, countable
+choice, ambient completeness, metric completeness, aggregate formalstatus
+rows, or standard bridge rows, so the induction theorem does not claim any
+of that structure.
+\end{proof}
