@@ -166,3 +166,51 @@ cover-local seal consumers descend through that single seal-facing source
 packet, with no quotient-stream, host-equality, selected-limit, completion,
 metric-completeness, or ambient-completeness coordinate available.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-cover nerve induction]
+\label{thm:regseqrat-finite-cover-nerve-induction}
+Let $\mathcal W$ be a finite cover family of public $\StreamNameUp$ windows
+over an accepted $\RegSeqRatUp$ packet $P$. Suppose every nonempty finite
+intersection of members of $\mathcal W$ glues by
+\autoref{thm:regseqrat-refined-window-gluing}, and suppose each lower
+dimensional face satisfies the pairwise common-window lock of
+\autoref{thm:regseqrat-tail-stable-cover-common-window-lock}. Then induction
+over the finite nerve of $\mathcal W$ produces one global seal-facing source
+packet.
+
+The global packet preserves exactly the displayed $\DyadicRatCoreUp$ endpoint
+and radius rows, the $\RegSeqRatUp$ classifier and regularity ledgers, the
+$\hsame$ and $\Cont$ routes, and the $\Pkg$ and $\NameCert$ provenance rows
+carried by $P$.
+
+It introduces no quotient stream, host real equality, selected limit,
+metric-completeness datum, completion point, or ambient $\RealUp$
+completeness row.
+\end{theorem}
+\begin{proof}
+For the base case, take a singleton nonempty intersection in the nerve and
+apply \autoref{thm:regseqrat-streamname-cover-refinement-seal-handoff}. The
+single local seal read is already a public $\StreamNameUp$ finite-window read
+from the displayed regular-rational rows of $P$.
+
+For the induction step, adjoin one nonempty intersection to a nerve segment
+whose seal-facing packet has already been assembled. Apply
+\autoref{thm:regseqrat-tail-stable-window-cover-exhaustion} to keep the new
+intersection inside the tail-stable public cover surface.
+
+On each overlap between the new intersection and the assembled segment, use
+\autoref{thm:regseqrat-tail-stable-cover-common-window-lock}. The lower
+dimensional face hypotheses identify the same endpoint, radius, classifier,
+regularity, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows on the common
+finite window.
+
+Now apply \autoref{thm:regseqrat-refined-window-chain-exhaustion}. The refined
+overlap chain repacks the previously assembled packet and the new intersection
+packet into one accepted finite source packet with the same displayed rows.
+
+Finally invoke \autoref{thm:regseqrat-finite-cover-nerve-descent}. The descent
+theorem identifies the terminal global seal-facing source for the whole finite
+cover, and the construction leaves no quotient stream, host real equality,
+selected limit, metric completion, completion point, or ambient $\RealUp$
+completeness coordinate to read.
+\end{proof}
