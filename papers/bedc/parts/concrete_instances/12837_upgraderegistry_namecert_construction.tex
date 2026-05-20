@@ -53,6 +53,7 @@ Formal-target exposure and audit preservation are the $R,A,C$ coordinates. The c
 \label{thm:upgrade-registry-status-preservation}
 If an accepted $\UpgradeRegistryUp$ packet has current-status row $S$, next-status row $Nx$, required-field row $F$, blocker row $B$, audit row $A$, and formal-target row $R$, then every public export route preserves the distinction between current status and next status. A promotion claim may be exported only through the displayed route $S,Nx,F,B,A,R,H,C,P,L$; it cannot be exported from the next-status row alone.
 \end{theorem}
+\leanchecked{BEDC.Derived.UpgradeRegistryUp.UpgradeRegistryStatusPreservation}
 \begin{proof}
 Apply \autoref{thm:upgrade-registry-namecert-obligations}. The status rows are adjacent coordinates in the finite carrier, and the NameCert obligations force both to remain visible to the public comparison.
 
@@ -65,6 +66,7 @@ Finally, the export route factors through $A,R,H,C,P,L$. These rows preserve aud
 \label{thm:upgrade-registry-noncompletion-surface}
 An accepted $\UpgradeRegistryUp$ packet with no current-status row or no blocker row cannot export a completion claim. The packet may still expose a target row, next-status row, required-field row, audit row, or formal-target row, but those rows do not constitute a completed promotion without the displayed current-status and blocker accounting.
 \end{theorem}
+\leanchecked{BEDC.Derived.UpgradeRegistryUp.UpgradeRegistryNoncompletionSurface}
 \begin{proof}
 Use the carrier definition. A valid packet exposes $S$ and $B$ as coordinates, so a route without either coordinate is not the accepted carrier of \autoref{def:upgrade-registry-carrier}.
 
