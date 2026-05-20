@@ -75,3 +75,29 @@ The pasted four-face packet is still the zero packet. Use \autoref{thm:regular-c
 
 Finally apply \autoref{thm:regular-cauchy-zero-real-seal-nonescape} and \autoref{thm:regular-cauchy-zero-downstream-handoff}. Their boundary excludes quotient streams, host real equality, selected limits, nonzero witnesses, and ambient completeness from the zero packet. The additional exclusions for countable choice, metric-completeness data, aggregate $\formalstatus$ rows, and bridge rows follow from \autoref{thm:regseqrat-tail-budget-support-minimality} and the audit-threshold gluing theorem, because those objects are not among the displayed four faces or support rows.
 \end{proof}
+
+\begin{theorem}[RegSeqRat zero-source deleted-row obstruction]
+\label{thm:regseqrat-zero-source-deleted-row-obstruction}
+Let $\{S_i\}_{i \in I}$ be a finite cover satisfying the hypotheses of \autoref{thm:regseqrat-zero-source-finite-cover-gluing}, and let $G$ be the glued terminal section carrying the resulting $\RegularCauchyZeroUp$ boundary. Delete from one local section or overlap one row among the constant $\StreamNameUp$ zero-window row, the $\DyadicRatCoreUp$ zero endpoint or radius ledger, the $\RegSeqRatUp$ zero readback row, the local $\RealUp$ seal row, or one of the shared support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Then the altered finite cover cannot present the same glued $\RegularCauchyZeroUp$ zero-source boundary on $G$.
+
+The obstruction is terminal-consumer visible. Quotient streams, host real equality, selected limits, countable-choice rows, metric-completeness data, aggregate $\formalstatus$ rows, bridge rows, and ambient $\RealUp$ completeness do not replace the deleted zero-source row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-zero-source-finite-cover-gluing} to the original cover. The glued read is the zero specialization of the four-face packet
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+with only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. Hence every row named in the statement is part of the source boundary used by the terminal consumer.
+
+If the deleted row is one of the displayed zero faces, apply \autoref{thm:regseqrat-audit-threshold-missing-face-obstruction} to the affected local terminal packet. The missing constant StreamName window, zero dyadic ledger, RegSeqRat zero readback, or local Real seal prevents the local packet from supplying the same audit-threshold source. The zero-source gluing theorem therefore has no compatible local zero packet from which to recover the same boundary on $G$.
+
+If the deleted row is one of the shared support rows, first apply \autoref{thm:regseqrat-audit-threshold-support-removal-descent} to transport the support loss to the glued RegSeqRat audit-threshold read. Then apply \autoref{thm:streamname-finite-cover-support-removal-global-obstruction} on the StreamName--DyadicRatCore--RegSeqRat--Real route. The altered cover no longer carries the global support needed to present the same zero-source seal-visible boundary.
+
+It remains to exclude external substitutes. Apply \autoref{thm:regular-cauchy-zero-terminal-consumer-uniqueness} to identify any alleged presentation of the same glued boundary with the terminal zero-source consumer. Then use \autoref{thm:regular-cauchy-zero-real-seal-nonescape} and \autoref{thm:regular-cauchy-zero-downstream-handoff} to rule out quotient streams, host real equality, selected limits, nonzero witnesses, and ambient completeness as alternate witnesses.
+
+The countable-choice, metric-completeness, aggregate status, and bridge rows are also outside the finite source packet. By \autoref{thm:regseqrat-tail-budget-support-minimality} and the finite-cover gluing theorem, none of them is among the four displayed zero faces or the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. Thus the altered finite cover cannot present the same glued $\RegularCauchyZeroUp$ zero-source boundary.
+\end{proof}
