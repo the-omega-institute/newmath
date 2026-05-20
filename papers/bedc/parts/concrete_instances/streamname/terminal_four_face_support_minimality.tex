@@ -256,6 +256,52 @@ the same terminal support packet, and the exhaustion theorem excludes every
 off-route coordinate listed in the statement.
 \end{proof}
 
+\begin{theorem}[StreamName terminal route facewise conservativity]
+\label{thm:streamname-terminal-route-facewise-conservativity}
+Let $U$ be an accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request section, and let $P$ be a consumer-visible terminal
+presentation of $U$. Suppose $P$ preserves the accepted carrier verdict, the
+accepted classifier verdict, and the consumer-facing terminal route of $U$.
+Then $P$ restricts facewise to the same terminal $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces as $U$, and to the same
+displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ support rows.
+
+No quotient stream equality, host sequence equality, selected limit, countable
+choice, ambient $\RealUp$ completeness, metric-completeness datum, aggregate
+formalstatus row, or bridge row can serve as a substitute coordinate for this
+conservative terminal presentation.
+\end{theorem}
+\begin{proof}
+First exhaust the coordinates that a preserved terminal verdict can use. By
+\autoref{thm:streamname-terminal-four-face-support-exhaustion}, every accepted
+consumer-visible support coordinate of $U$ is one of the four displayed faces
+or one of the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and
+local $\NameCert$ rows.
+
+Assume contrapositively that $P$ does not restrict facewise to this displayed
+support. Then it either omits one displayed face or row, or it replaces one of
+them by an off-route coordinate. The defect localization theorem
+\autoref{thm:streamname-terminal-support-defect-localization} forces such a
+failure to appear on a visible face or displayed support row whenever the
+carrier verdict, classifier verdict, or terminal route is not preserved.
+
+The hypotheses say that $P$ preserves exactly those three consumer-visible
+outputs. Hence no such localized defect is available. The exhaustion theorem
+also says that quotient equality, host sequence equality, selected limits,
+choice, completeness, aggregate formalstatus, and bridge rows are not accepted
+support coordinates, so none of them can repair the missing facewise evidence.
+
+It remains to identify the preserved presentation. Read $P$ and $U$ as two
+accepted terminal presentations with the same visible faces and componentwise
+replayed support rows. The transport stability theorem
+\autoref{thm:streamname-terminal-four-face-support-transport-stability}
+therefore identifies their consumer-visible terminal support packets. Thus
+preserving the accepted carrier verdict, classifier verdict, and terminal route
+is conservative exactly on the four BEDC-visible faces and displayed support
+rows listed in the statement.
+\end{proof}
+
 \begin{theorem}[StreamName terminal support replay induction]
 \label{thm:streamname-terminal-four-face-support-replay-induction}
 Let $U$ and $V$ be accepted current Phase $\RealUp$ and Completion terminal
