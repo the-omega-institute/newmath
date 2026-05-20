@@ -218,3 +218,61 @@ windows or of their synchronized union. Hence the endpoint readback remains a
 RegSeqRat-style finite observation read and never appeals to a quotient real,
 completeness principle, or host equality.
 \end{proof}
+
+\begin{theorem}[Real stream prefix probe-union terminal four-face factorization]
+\label{thm:real-stream-prefix-probe-union-terminal-four-face-factorization}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, let
+$\mathcal P$ and $\mathcal Q$ be finite certified $\mathsf{ProbeBundle}$
+windows and let $\mathcal U$ be their synchronized union window. Suppose the
+two source windows supply the $\mathsf{RealStreamPrefixClassifier}$ rows and
+finite $\mathsf{RatHistoryClassifier}$ tail rows required by
+\autoref{thm:real-stream-prefix-probe-union-endpoint-readback}. Then every
+endpoint readback selected from $\mathcal U$ factors through exactly one
+terminal four-face packet over
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$.
+
+The packet has precisely the displayed rows
+$$
+\begin{gathered}
+\mathsf{BHist}\text{-indexed finite probe histories},\quad
+\hsame\text{-transport for endpoint tails},\quad
+\Cont\text{-continuity rows},\\
+\Pkg\text{-package rows for the synchronized union window},\quad
+\NameCert\text{-certification rows for the four visible faces}.
+\end{gathered}
+$$
+Its $\StreamNameUp$ face is the synchronized carrier $\mathcal U$, its
+$\DyadicRatCoreUp$ face is the common finite scale window read from the same
+endpoint ledger, its $\RegSeqRatUp$ face is the regular sequence readback, and
+its $\RealUp$ face is the local endpoint seal supplied by the union readback.
+There is no second terminal packet with the same displayed rows.
+
+The factorization does not use quotient-real equality, selected limit values,
+ambient completeness of $\RealUp$, countable choice, or standard bridge data.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-prefix-probe-union-endpoint-readback}. The synchronized
+union window supplies the endpoint $\mathsf{RatHistoryClassifier}$ readback and
+the common e-one tail witnesses, all selected from the finite rows of
+$\mathcal P,\mathcal Q,\mathcal U$.
+
+Next apply \autoref{thm:streamname-synchronized-window-union-carrier} and
+\autoref{thm:streamname-finite-request-section-terminal-coherence}. These two
+results identify the $\StreamNameUp$ carrier row with a terminal finite-request
+section over the same synchronized window; no endpoint outside $\mathcal U$ is
+introduced.
+
+Now apply \autoref{thm:regseqrat-real-terminal-four-face-exactness}. The
+RegSeqRat readback and the local Real endpoint seal are thereby read as two
+faces of a single terminal packet whose support rows are exactly the displayed
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally apply
+\autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}.
+It supplies the $\DyadicRatCoreUp$ common-scale face and proves that the four
+visible faces form one pullback packet. Terminality gives uniqueness of the
+packet with those rows, while the construction never introduces quotient-real
+equality, selected limits, ambient completeness, countable choice, or standard
+bridge data.
+\end{proof}
