@@ -352,6 +352,60 @@ countable-choice principle, ambient-completeness row, or metric-completeness
 row is introduced.
 \end{proof}
 
+\begin{theorem}[Real terminal seal StreamName--RegSeqRat handoff exactness]
+\label{thm:real-terminal-seal-streamname-regseqrat-handoff-exactness}
+Let $\{\mathcal W_i\}_{i\in I}$ be a finite family of certified
+$\StreamNameUp$ windows over one displayed finite cover. Suppose its pasted
+seal exhaustion is certified by
+\autoref{thm:streamname-regseqrat-finite-cover-pasted-seal-exhaustion}, its
+$\RegSeqRatUp$ handoff satisfies
+\autoref{thm:regseqrat-real-seal-finite-cover-gluing}, and its
+$\DyadicRatCoreUp$ endpoint-radius-distance ledger agrees on every displayed
+overlap. Then these data determine exactly one public $\RealUp$
+terminal-seal read. Conversely, every accepted public $\RealUp$ terminal-seal
+read restricts to precisely such a StreamName, RegSeqRat, and DyadicRatCore
+handoff packet. The criterion exports no quotient stream equality, host real
+equality, selected limit, countable choice, ambient completeness,
+metric-completeness datum, aggregate formalstatus row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First build the pasted finite-window surface. Apply
+\autoref{thm:streamname-regseqrat-finite-cover-pasted-seal-exhaustion} to the
+StreamName windows and their certified overlaps. The result is one
+finite-window seal surface whose restrictions are the original windows and
+whose support rows remain the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ rows.
+
+Next transport the classifier and regularity data. Use
+\autoref{thm:regseqrat-real-seal-finite-cover-gluing} to glue the
+$\RegSeqRatUp$ finite-request classifiers, regularity rows, and readback rows
+over the pasted StreamName surface. Use
+\autoref{thm:dyadicratcore-regseqrat-real-pullback-composition} to carry the
+endpoint, radius, and distance ledger through the same support spine.
+
+Now invoke the local Real terminal-seal criterion. The pasted StreamName
+surface, the glued RegSeqRat handoff, and the transported DyadicRatCore ledger
+satisfy the hypotheses of
+\autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness}. That theorem
+produces a public $\RealUp$ terminal-seal read, and
+\autoref{thm:real-terminal-seal-four-face-cover-descent-determinacy} makes it
+the unique read with those finite restrictions.
+
+For the converse, restrict an accepted public $\RealUp$ terminal-seal read to
+the finite cover. The restriction exposes StreamName windows, RegSeqRat
+handoff rows, and DyadicRatCore endpoint-radius-distance rows on the same
+support. Applying the same three cited handoff theorems to these restrictions
+recovers the packet named in the statement, while determinacy identifies the
+reconstructed public read with the original one.
+
+The exclusion clause is inherited from the cited four-face route. None of the
+StreamName exhaustion, RegSeqRat gluing, DyadicRatCore pullback composition,
+Real cocycle exactness, or Real descent determinacy steps introduces quotient
+stream equality, host real equality, selected limits, countable choice,
+ambient completeness, metric-completeness data, aggregate formalstatus rows,
+or standard bridge rows.
+\end{proof}
+
 \begin{theorem}[Real terminal seal audit noncollapse]
 \label{thm:real-terminal-seal-audit-noncollapse}
 Let $\{\mathcal R_i\}_{i\in I}$ be a finite family of local terminal-seal
