@@ -1,6 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\SocketReportUp$}
 \label{ch:concrete-instances-socket-report-namecert}
-\origin{ai}
+\origin{ai-composite}
 
 The $\SocketReportUp$ packet realizes the socket-report discipline of \autoref{subsec:philosophy-gap-t-boundary-synthesis} as a finite NameCert carrier. It sits beside the typed supply socket of \autoref{ch:concrete-instances-typedsupplysocket-namecert}, the socket-kind classifier of \autoref{ch:concrete-instances-socketkindclassifier-namecert}, the supply socket ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert}, the audit gate boundary of \autoref{ch:concrete-instances-auditgateboundary-namecert}, and the closed observation system of \autoref{ch:concrete-instances-closedobservationsystem-namecert}. Those siblings expose typed requests, kind classification, ledger accounting, gate locality, and closed observation separately; this packet binds them into one report object that audit consumers can inspect without broadening the reported socket kind.
 
@@ -46,6 +46,7 @@ Finally inspect $H,C,P,N$. These rows transport, replay, source, and name the sa
 \label{thm:socket-report-minimal-classification}
 Every accepted $\SocketReportUp$ report preserves the narrowest socket kind displayed by $K$. In particular, an accepted report for the same requested-supply row $U$ cannot replace a Type II witness request, a Type III identity request, or any other displayed narrow socket kind by a broader gap label while remaining the same NameCert report.
 \end{theorem}
+\leanchecked{BEDC.Derived.SocketReportUp.SocketReportUp\_minimal\_classification}
 \begin{proof}
 Assume an accepted packet $R=(S,U,K,G,H,C,P,N)$. By \autoref{thm:socket-report-namecert-obligations}, the classifier row $K$ is part of the local NameCert surface and is transported only componentwise with the same requested-supply row $U$.
 
@@ -79,7 +80,7 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/SocketReportUp/TasteGate.lean
   \scopeclosed{This chapter binds the socket report carrier, NameCert obligations, minimal-classification theorem, sibling-separation theorem, falsifiable prediction, and independence witness.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
+  \origin{ai-composite}
   \notclaimed{It does not claim stack certification, typed supply availability, phase-refusal verdicts, or broad-gap replacement of the report classifier.}
   \upgradepath{Reaching obligationClosure requires formal report and classification rows plus checked separation from sibling socket machinery.}
 \end{closurestatus}
