@@ -182,6 +182,58 @@ correspondence gives the stated terminal factorization and no additional
 exported coordinate.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-request audit-threshold source lock]
+\label{thm:regseqrat-finite-request-audit-threshold-source-lock}
+Let $R$ be an accepted $\RegSeqRatUp$ packet, and let $S$ be a public finite
+request to $R$ consumed by a $\RealUp$ seal. Suppose the finite request source
+section of \autoref{thm:regseqrat-finite-request-source-section} is the same
+section through which the terminal budget factorization of
+\autoref{thm:regseqrat-finite-request-terminal-budget-factorization} consumes
+$S$.
+
+Then the current Phase $\RealUp$ and Completion audit-threshold read on $S$ is
+locked to exactly that finite source section. The read is the objectwise
+four-face threshold on
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+over the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+It has no coordinate for quotient streams, selected limits, countable choice,
+metric-completeness data, aggregate $\formalstatus$, aggregate bridge rows, or
+ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply the terminal budget factorization,
+\autoref{thm:regseqrat-finite-request-terminal-budget-factorization}. It says
+that every terminal budget consumer of $S$ factors through the displayed finite
+request source section, with the $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$ faces carried by the local $\BHist$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+
+Next apply the four-face audit-threshold factorization,
+\autoref{thm:regseqrat-four-face-audit-threshold-factorization}. Since the
+terminal budget factorization has already fixed the finite source section, the
+current Phase $\RealUp$ and Completion threshold read can only be read through
+the same four local faces and the same displayed support rows.
+
+The threshold remains objectwise. Use
+\autoref{thm:streamname-four-face-audit-clean-threshold-readback} to read the
+StreamName-side threshold from the four local face records, and use
+\autoref{thm:dyadicratcore-l10-exit-namecert-interface} to keep the
+DyadicRatCore, StreamName, RegSeqRat, and Real rows on the shared $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ interface.
+
+Finally invoke \autoref{thm:real-l10-current-phase-exit-audit-pullback}. The
+Phase Real and Completion audit is pulled back from the local face records
+rather than from a cached route-level status. Therefore quotient streams,
+selected limits, countable choice, metric-completeness data, aggregate
+$\formalstatus$, aggregate bridge rows, and ambient $\RealUp$ completeness
+cannot move the read away from the finite request source section fixed above.
+\end{proof}
+
 \begin{theorem}[RegSeqRat finite-request source-section intersection lock]
 \label{thm:regseqrat-finite-request-source-section-intersection-lock}
 Let $R$ be an accepted $\RegSeqRatUp$ packet, and let $S$ and $T$ be public
