@@ -106,4 +106,54 @@ theorem CauchySequenceSpaceCarrier_tail_window_factorization [AskSetup] [Package
     ⟨cert, handoffUnary, sealUnary, inventoryUnary, tailUnary, routeToHandoff, handoffToSeal,
       sealToInventory, inventoryToTail, routePkg, namePkg⟩
 
+theorem CauchySequenceSpaceCarrier_two_stage_window_composition [AskSetup] [PackageSetup]
+    {family schedule window tolerance completion transport route name family' schedule' window'
+      tolerance' completion' transport' route' name' sharedWindow sharedCompletion
+      completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceSpaceCarrier family schedule window tolerance completion transport route name
+        bundle pkg ->
+      CauchySequenceSpaceCarrier family' schedule' window' tolerance' completion' transport'
+          route' name' bundle pkg ->
+        hsame window window' ->
+          hsame tolerance tolerance' ->
+            Cont family schedule sharedWindow ->
+              Cont sharedWindow tolerance sharedCompletion ->
+                Cont sharedCompletion completion' completionRead ->
+                  UnaryHistory sharedWindow ∧ UnaryHistory sharedCompletion ∧
+                    UnaryHistory completionRead ∧ hsame window sharedWindow ∧
+                      hsame completion sharedCompletion ∧ hsame completion completion' ∧
+                        Cont family schedule sharedWindow ∧
+                          Cont sharedWindow tolerance sharedCompletion ∧
+                            Cont sharedCompletion completion' completionRead ∧
+                              PkgSig bundle route pkg ∧ PkgSig bundle route' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier carrier' sameWindowWindow' sameToleranceTolerance' familyScheduleShared
+    sharedToleranceCompletion sharedCompletionCompletionRead
+  obtain ⟨familyUnary, scheduleUnary, _windowUnary, toleranceUnary, _completionUnary,
+    _transportUnary, _routeUnary, _nameUnary, familyScheduleWindow, windowToleranceCompletion,
+    _completionTransportRoute, routePkg, _namePkg⟩ := carrier
+  obtain ⟨_familyUnary', _scheduleUnary', _windowUnary', _toleranceUnary', completionUnary',
+    _transportUnary', _routeUnary', _nameUnary', _familyScheduleWindow',
+    _windowToleranceCompletion', _completionTransportRoute', routePkg', _namePkg'⟩ := carrier'
+  have sharedWindowUnary : UnaryHistory sharedWindow :=
+    unary_cont_closed familyUnary scheduleUnary familyScheduleShared
+  have sharedCompletionUnary : UnaryHistory sharedCompletion :=
+    unary_cont_closed sharedWindowUnary toleranceUnary sharedToleranceCompletion
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed sharedCompletionUnary completionUnary' sharedCompletionCompletionRead
+  have sameWindowShared : hsame window sharedWindow :=
+    cont_respects_hsame (hsame_refl family) (hsame_refl schedule) familyScheduleWindow
+      familyScheduleShared
+  have sameCompletionShared : hsame completion sharedCompletion :=
+    cont_respects_hsame sameWindowShared (hsame_refl tolerance) windowToleranceCompletion
+      sharedToleranceCompletion
+  have sameCompletionCompletion' : hsame completion completion' :=
+    cont_respects_hsame sameWindowWindow' sameToleranceTolerance' windowToleranceCompletion
+      _windowToleranceCompletion'
+  exact
+    ⟨sharedWindowUnary, sharedCompletionUnary, completionReadUnary, sameWindowShared,
+      sameCompletionShared, sameCompletionCompletion', familyScheduleShared,
+      sharedToleranceCompletion, sharedCompletionCompletionRead, routePkg, routePkg'⟩
+
 end BEDC.Derived.CauchySequenceSpaceUp
