@@ -1,11 +1,19 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CompilerClassifierRouteUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -223,5 +231,71 @@ theorem compilerClassifierRouteChapterTasteGate :
     ⟨⟨compilerClassifierRouteChapterTasteGateInst⟩,
       ⟨compilerClassifierRouteFieldFaithful⟩,
       ⟨compilerClassifierRouteNontrivial⟩⟩
+
+theorem CompilerClassifierRouteNameCertObligations [AskSetup] [PackageSetup]
+    {S T A M K G E Q L H C P N graphRead routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PkgSig bundle P pkg ->
+      Cont G E graphRead ->
+        Cont graphRead Q routeRead ->
+          hsame routeRead C ->
+            compilerClassifierRouteFields
+                (CompilerClassifierRouteUp.mk S T A M K G E Q L H C P N) =
+              [S, T, A, M, K, G, E, Q, L, H, C, P, N] ∧
+              SemanticNameCert
+                (fun row : BHist => hsame row routeRead)
+                (fun row : BHist =>
+                  hsame row routeRead ∧ Cont G E graphRead ∧ Cont graphRead Q routeRead)
+                (fun row : BHist =>
+                  hsame row routeRead ∧ PkgSig bundle P pkg ∧ hsame routeRead C)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame Pkg SemanticNameCert ProbeBundle SigRel
+  intro pkgSig graphRoute routeRoute sameRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row routeRead)
+        (fun row : BHist =>
+          hsame row routeRead ∧ Cont G E graphRead ∧ Cont graphRead Q routeRead)
+        (fun row : BHist =>
+          hsame row routeRead ∧ PkgSig bundle P pkg ∧ hsame routeRead C)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro routeRead (hsame_refl routeRead)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source, graphRoute, routeRoute⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source, pkgSig, sameRoute⟩
+  }
+  exact ⟨rfl, cert⟩
+
+theorem CompilerClassifierRouteSharedRowRejection
+    {S T A M K G E Q L H C P N graphRead routeRead strayGraph : BHist} :
+    compilerClassifierRouteFields
+        (CompilerClassifierRouteUp.mk S T A M K G E Q L H C P N) =
+      [S, T, A, M, K, G, E, Q, L, H, C, P, N] ->
+      Cont G E graphRead ->
+        Cont graphRead Q routeRead ->
+          hsame strayGraph G ->
+            hsame routeRead C ->
+              hsame strayGraph G ∧ Cont G E graphRead ∧ Cont graphRead Q routeRead ∧
+                hsame routeRead C := by
+  -- BEDC touchpoint anchor: BHist Cont hsame Ext SigRel
+  intro _fields graphRoute routeRoute sameStray sameRoute
+  exact ⟨sameStray, graphRoute, routeRoute, sameRoute⟩
 
 end BEDC.Derived.CompilerClassifierRouteUp
