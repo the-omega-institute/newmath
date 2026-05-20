@@ -3860,6 +3860,7 @@ import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.NonEscape
+import BEDC.Derived.RealObservationBudgetUp.StdBridge
 import BEDC.Derived.RealObservationBudgetUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.WindowCoverage
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
@@ -3868,6 +3869,7 @@ import BEDC.Derived.RealSealComparisonUp.NameCertObligations
 import BEDC.Derived.RealSealComparisonUp.TasteGate
 import BEDC.Derived.RealSealCongruenceUp.TasteGate
 import BEDC.Derived.RealSelectorComparisonUp.TasteGate
+import BEDC.Derived.RealTailAgreementSealUp.DyadicWindowExactness
 import BEDC.Derived.RealTailAgreementSealUp.RootBudget
 import BEDC.Derived.RealTailAgreementSealUp.SharedTailBudgetExtraction
 import BEDC.Derived.RealTailAgreementSealUp.TasteGate
@@ -4150,6 +4152,7 @@ import BEDC.Derived.RegularCauchyTailFusionUp
 import BEDC.Derived.RegularCauchyTailFusionUp.SharedThresholdExhaustion
 import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailMeetUp
+import BEDC.Derived.RegularCauchyTailMeetUp.DyadicAbsoluteValueHandoff
 import BEDC.Derived.RegularCauchyTailMeetUp.SharedThresholdCofinality
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSelectorUp
