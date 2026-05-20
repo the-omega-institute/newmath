@@ -235,4 +235,30 @@ def taste_gate : ChapterTasteGate RealCompletionSelectorSealUp :=
   -- BEDC touchpoint anchor: BHist BMark
   realCompletionSelectorSealChapterTasteGate
 
+theorem RealCompletionSelectorSealCarrier_nonescape [AskSetup] [PackageSetup]
+    {b w r l e h c p n structuralRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCompletionSelectorSealCarrier b w r l e h c p n bundle pkg ->
+      Cont e h structuralRead ->
+        Cont structuralRead c terminalRead ->
+          PkgSig bundle terminalRead pkg ->
+            UnaryHistory b ∧ UnaryHistory w ∧ UnaryHistory r ∧ UnaryHistory l ∧
+              UnaryHistory e ∧ UnaryHistory structuralRead ∧ UnaryHistory terminalRead ∧
+                Cont b w r ∧ Cont r l e ∧ Cont e h structuralRead ∧
+                  Cont structuralRead c terminalRead ∧ PkgSig bundle p pkg ∧
+                    PkgSig bundle terminalRead pkg ∧ hsame h n := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory hsame
+  intro carrier endpointStructural structuralTerminal terminalPkg
+  rcases carrier with
+    ⟨bUnary, wUnary, rUnary, lUnary, eUnary, hUnary, cUnary, _pUnary, _nUnary,
+      bWindowReadback, readbackLimitEndpoint, provenancePkg, hName⟩
+  have structuralUnary : UnaryHistory structuralRead :=
+    unary_cont_closed eUnary hUnary endpointStructural
+  have terminalUnary : UnaryHistory terminalRead :=
+    unary_cont_closed structuralUnary cUnary structuralTerminal
+  exact
+    ⟨bUnary, wUnary, rUnary, lUnary, eUnary, structuralUnary, terminalUnary,
+      bWindowReadback, readbackLimitEndpoint, endpointStructural, structuralTerminal,
+      provenancePkg, terminalPkg, hName⟩
+
 end BEDC.Derived.RealCompletionSelectorSealUp

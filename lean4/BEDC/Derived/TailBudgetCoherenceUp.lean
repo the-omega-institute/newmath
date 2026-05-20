@@ -391,4 +391,38 @@ theorem TailBudgetCoherenceCarrier_namecert_obligations [AskSetup] [PackageSetup
       exact sourceRow
   }
 
+theorem TailBudgetCoherenceCarrier_sibling_scope_lock [AskSetup] [PackageSetup]
+    {meet observationBudget selectorBudget agreementSeal limitSeal window readback dyadic
+      transport routes provenance localCert endpoint siblingRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailBudgetCoherenceCarrier meet observationBudget selectorBudget agreementSeal limitSeal
+        window readback dyadic transport routes provenance localCert endpoint bundle pkg ->
+      Cont endpoint provenance siblingRead ->
+        PkgSig bundle siblingRead pkg ->
+          UnaryHistory meet ∧ UnaryHistory observationBudget ∧ UnaryHistory selectorBudget ∧
+            UnaryHistory agreementSeal ∧ UnaryHistory limitSeal ∧ UnaryHistory window ∧
+              UnaryHistory readback ∧ UnaryHistory dyadic ∧ UnaryHistory siblingRead ∧
+                Cont meet observationBudget window ∧ Cont meet selectorBudget dyadic ∧
+                  Cont window dyadic readback ∧ Cont readback agreementSeal limitSeal ∧
+                    Cont endpoint provenance siblingRead ∧
+                      hsame endpoint (append provenance localCert) ∧
+                        PkgSig bundle endpoint pkg ∧ PkgSig bundle siblingRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory hsame
+  intro carrier endpointProvenanceSibling siblingReadPkg
+  rcases carrier with
+    ⟨meetUnary, observationBudgetUnary, selectorBudgetUnary, agreementSealUnary,
+      limitSealUnary, windowUnary, readbackUnary, dyadicUnary, _transportUnary,
+      _routesUnary, provenanceUnary, _localCertUnary, endpointUnary,
+      meetObservationWindow, meetSelectorDyadic, windowDyadicReadback,
+      readbackAgreementLimit, _limitTransportRoutes, _routesProvenanceLocalCert,
+      _provenanceLocalCertEndpoint, endpointAppend, endpointPkg⟩
+  have siblingReadUnary : UnaryHistory siblingRead :=
+    unary_cont_closed endpointUnary provenanceUnary endpointProvenanceSibling
+  exact
+    ⟨meetUnary, observationBudgetUnary, selectorBudgetUnary, agreementSealUnary,
+      limitSealUnary, windowUnary, readbackUnary, dyadicUnary, siblingReadUnary,
+      meetObservationWindow, meetSelectorDyadic, windowDyadicReadback,
+      readbackAgreementLimit, endpointProvenanceSibling, endpointAppend, endpointPkg,
+      siblingReadPkg⟩
+
 end BEDC.Derived.TailBudgetCoherenceUp
