@@ -1677,6 +1677,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootGapRefusalCompleteness
 import BEDC.Derived.CriticalLineWitnessUp.RootHandoffExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootLineRowExposure
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
+import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusLedgerScope
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadbackUnblockPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
@@ -4834,6 +4835,7 @@ import BEDC.Derived.ZnormalUp.RootContReplayClosure
 import BEDC.Derived.ZnormalUp.RootContinuationTerminalExhaustion
 import BEDC.Derived.ZnormalUp.RootContinuationTraceReadiness
 import BEDC.Derived.ZnormalUp.RootDisplayPacketBridgeReadbackExactness
+import BEDC.Derived.ZnormalUp.RootDisplayPacketSemanticNameCertificate
 import BEDC.Derived.ZnormalUp.RootForbiddenHostConversionExclusion
 import BEDC.Derived.ZnormalUp.RootFuelRouteNonescape
 import BEDC.Derived.ZnormalUp.RootLedgerExhaustion
