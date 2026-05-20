@@ -159,6 +159,49 @@ countable-choice, and bridge coordinates therefore have no row from which a
 consumer could read them.
 \end{proof}
 
+\begin{theorem}[StreamName finite-section terminal coverage]
+\label{thm:streamname-finite-section-surjects-real-regseq-dyadic-lock}
+Every displayed terminal four-face lock for the current L10 Phase Real and
+Completion $\StreamNameUp$ packet is realized by an accepted finite request
+section. More explicitly, suppose the displayed lock consists of a
+$\StreamNameUp$ finite window, a $\DyadicRatCoreUp$ ledger, a $\RegSeqRatUp$
+readback, a $\RealUp$ seal boundary, and the support rows $\BHist$,
+componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Then there is an
+accepted finite request section $Q$ whose exposed terminal route is exactly
+that lock, and every Real-facing or completion-facing consumer reads $Q$
+through those rows.
+
+The realized section contains no quotient stream, host sequence equality,
+selected limit, ambient Real completeness, metric-completeness datum,
+countable-choice row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-real-completion-four-object-terminal-pullback}. The
+displayed four faces and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows form the terminal pullback surface consumed by the Real and
+completion endpoints.
+
+Next use \autoref{thm:streamname-finite-section-pullback-exactness} to read
+that terminal surface as a finite request-section surface of the same packet.
+The exactness clause supplies the accepted finite section $Q$ whose exposed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces are
+the displayed lock.
+
+Apply \autoref{thm:streamname-finite-section-classifier-determinacy} to this
+section. Determinacy makes the carrier and classifier verdicts of $Q$ unique
+at the displayed terminal route, so no consumer can choose a different finite
+section with the same four faces but a different public verdict.
+
+Finally use
+\autoref{thm:streamname-regseqrat-dyadic-real-obligation-handoff}. The handoff
+routes all carrier, classifier, stability, ledger, and non-escape obligations
+through the same support rows. Thus quotient streams, host sequence equality,
+selected limits, ambient completeness, metric-completeness data,
+countable-choice rows, and bridge rows remain outside the realized finite
+section.
+\end{proof}
+
 \begin{theorem}[StreamName terminal face iff]
 \label{thm:streamname-terminal-face-iff}
 Let $Q$ and $Q'$ be accepted finite request sections of the current L10 Phase
