@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.AnchorChangeInvariantUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -47,19 +49,46 @@ def anchorChangeInvariantToEventFlow : AnchorChangeInvariantUp → EventFlow
 def anchorChangeInvariantFromEventFlow :
     EventFlow → Option AnchorChangeInvariantUp
   -- BEDC touchpoint anchor: BHist BMark
-  | H :: A :: I :: S :: R :: L :: T :: P :: N :: [] =>
-      some
-        (AnchorChangeInvariantUp.mk
-          (anchorChangeInvariantDecodeBHist H)
-          (anchorChangeInvariantDecodeBHist A)
-          (anchorChangeInvariantDecodeBHist I)
-          (anchorChangeInvariantDecodeBHist S)
-          (anchorChangeInvariantDecodeBHist R)
-          (anchorChangeInvariantDecodeBHist L)
-          (anchorChangeInvariantDecodeBHist T)
-          (anchorChangeInvariantDecodeBHist P)
-          (anchorChangeInvariantDecodeBHist N))
-  | _ => none
+  | [] => none
+  | H :: tailH =>
+      match tailH with
+      | [] => none
+      | A :: tailA =>
+          match tailA with
+          | [] => none
+          | I :: tailI =>
+              match tailI with
+              | [] => none
+              | S :: tailS =>
+                  match tailS with
+                  | [] => none
+                  | R :: tailR =>
+                      match tailR with
+                      | [] => none
+                      | L :: tailL =>
+                          match tailL with
+                          | [] => none
+                          | T :: tailT =>
+                              match tailT with
+                              | [] => none
+                              | P :: tailP =>
+                                  match tailP with
+                                  | [] => none
+                                  | N :: tailN =>
+                                      match tailN with
+                                      | [] =>
+                                          some
+                                            (AnchorChangeInvariantUp.mk
+                                              (anchorChangeInvariantDecodeBHist H)
+                                              (anchorChangeInvariantDecodeBHist A)
+                                              (anchorChangeInvariantDecodeBHist I)
+                                              (anchorChangeInvariantDecodeBHist S)
+                                              (anchorChangeInvariantDecodeBHist R)
+                                              (anchorChangeInvariantDecodeBHist L)
+                                              (anchorChangeInvariantDecodeBHist T)
+                                              (anchorChangeInvariantDecodeBHist P)
+                                              (anchorChangeInvariantDecodeBHist N))
+                                      | _ :: _ => none
 
 private theorem anchorChangeInvariant_round_trip :
     ∀ x : AnchorChangeInvariantUp,
@@ -175,5 +204,59 @@ instance anchorChangeInvariantNontrivial :
 def taste_gate : ChapterTasteGate AnchorChangeInvariantUp :=
   -- BEDC touchpoint anchor: BHist BMark
   anchorChangeInvariantChapterTasteGate
+
+theorem AnchorChangeInvariant_namecert_obligations {H A I S R L T P N : BHist} :
+    anchorChangeInvariantFields (AnchorChangeInvariantUp.mk H A I S R L T P N) =
+        [H, A, I, S, R, L, T, P, N] ∧
+      Cont H A (append H A) ∧
+        Cont I S (append I S) ∧
+          Cont R L (append R L) ∧
+            anchorChangeInvariantFromEventFlow
+                (anchorChangeInvariantToEventFlow
+                  (AnchorChangeInvariantUp.mk H A I S R L T P N)) =
+              some (AnchorChangeInvariantUp.mk H A I S R L T P N) := by
+  -- BEDC touchpoint anchor: BHist Cont
+  constructor
+  · rfl
+  constructor
+  · exact cont_intro rfl
+  constructor
+  · exact cont_intro rfl
+  constructor
+  · exact cont_intro rfl
+  · change
+      some
+        (AnchorChangeInvariantUp.mk
+          (anchorChangeInvariantDecodeBHist (anchorChangeInvariantEncodeBHist H))
+          (anchorChangeInvariantDecodeBHist (anchorChangeInvariantEncodeBHist A))
+          (anchorChangeInvariantDecodeBHist (anchorChangeInvariantEncodeBHist I))
+          (anchorChangeInvariantDecodeBHist (anchorChangeInvariantEncodeBHist S))
+          (anchorChangeInvariantDecodeBHist (anchorChangeInvariantEncodeBHist R))
+          (anchorChangeInvariantDecodeBHist (anchorChangeInvariantEncodeBHist L))
+          (anchorChangeInvariantDecodeBHist (anchorChangeInvariantEncodeBHist T))
+          (anchorChangeInvariantDecodeBHist (anchorChangeInvariantEncodeBHist P))
+          (anchorChangeInvariantDecodeBHist (anchorChangeInvariantEncodeBHist N))) =
+        some (AnchorChangeInvariantUp.mk H A I S R L T P N)
+    rw [anchorChangeInvariantDecodeEncodeBHist H,
+      anchorChangeInvariantDecodeEncodeBHist A,
+      anchorChangeInvariantDecodeEncodeBHist I,
+      anchorChangeInvariantDecodeEncodeBHist S,
+      anchorChangeInvariantDecodeEncodeBHist R,
+      anchorChangeInvariantDecodeEncodeBHist L,
+      anchorChangeInvariantDecodeEncodeBHist T,
+      anchorChangeInvariantDecodeEncodeBHist P,
+      anchorChangeInvariantDecodeEncodeBHist N]
+
+theorem AnchorChangeInvariant_anchor_symmetry_totality {H A I S R L T P N : BHist} :
+    Cont A I (append A I) ∧
+      Cont I A (append I A) ∧
+        anchorChangeInvariantFields (AnchorChangeInvariantUp.mk H A I S R L T P N) =
+          [H, A, I, S, R, L, T, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont
+  constructor
+  · exact cont_intro rfl
+  constructor
+  · exact cont_intro rfl
+  · rfl
 
 end BEDC.Derived.AnchorChangeInvariantUp

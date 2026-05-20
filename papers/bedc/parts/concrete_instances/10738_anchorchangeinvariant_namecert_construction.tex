@@ -1,6 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\AnchorChangeInvariantUp$}
 \label{ch:concrete-instances-anchor-change-invariant-namecert}
-\origin{ai}
+\origin{ai-composite}
 
 The $\AnchorChangeInvariantUp$ packet realizes the anchor-change invariant surface of \autoref{sec:objectivity-as-invariance} as a finite symmetric transport certificate over observer-history anchors. It sits after the objectivity carrier of \autoref{ch:concrete-instances-reality-constrained-objectivity-namecert}, consumes the anchor-stability packet of \autoref{ch:concrete-instances-anchor-stability-certificate-namecert}, reads the invariant row of \autoref{ch:concrete-instances-interhistinvariant-namecert}, and supplies a focused sibling to the refusal boundary of \autoref{ch:concrete-instances-objectivity-refutation-boundary-namecert}. The carrier is neither a global observer nor a view from nowhere; it is the finite table that records when an invariant survives a reversible change of observer anchor.
 
@@ -42,6 +42,7 @@ Apply the classifier definition. It compares only the displayed rows and require
 
 The structural rows $T,P,N$ preserve that finite surface by componentwise transport, replay, provenance, and local naming. Since the carrier lists no hidden synchronizer or privileged anchor, the stated rows exhaust the local NameCert obligations.
 \end{proof}
+\leanchecked{BEDC.Derived.AnchorChangeInvariantUp.AnchorChangeInvariant\_namecert\_obligations}
 
 \begin{theorem}[Anchor-change invariant no privileged anchor]
 \label{thm:anchor-change-invariant-no-privileged-anchor}
@@ -66,6 +67,7 @@ The stability row $S$ and invariant row $I$ are read only after that table is vi
 
 No additional route can be supplied by a consumer because $R,L,P,N$ keep the refusal ledger, local route ledger, provenance, and naming rows inside the same packet.
 \end{proof}
+\leanchecked{BEDC.Derived.AnchorChangeInvariantUp.AnchorChangeInvariant\_anchor\_symmetry\_totality}
 
 \falsifiablePrediction{If an invariant route factors through one fixed anchor without a reverse anchor-change row, the AnchorChangeInvariant carrier rejects it as non-objective transport.}
 
@@ -81,7 +83,7 @@ The Lean follow-up must provide \texttt{Nontrivial AnchorChangeInvariantUp} and 
   \scopeclosed{\autoref{def:anchor-change-invariant-carrier}, \autoref{def:anchor-change-invariant-classifier}, \autoref{thm:anchor-change-invariant-namecert-obligations}, \autoref{thm:anchor-change-invariant-no-privileged-anchor}, and \autoref{thm:anchor-change-invariant-anchor-symmetry-totality} bind the finite carrier, classifier, local NameCert obligations, no-privileged-anchor refusal, and anchor-symmetry totality surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
+  \origin{ai-composite}
   \notclaimed{This chapter does not assert global observers, view-from-nowhere semantics, hidden anchor privilege, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires the anchor-change carrier, classifier, invariant-transport, anchor-stability, refusal-ledger, route-ledger, and non-escape obligations to be made explicit.}
 \end{closurestatus}
