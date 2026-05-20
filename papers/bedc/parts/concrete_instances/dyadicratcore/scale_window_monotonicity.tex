@@ -37,6 +37,20 @@ Now apply \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}. The te
 Therefore the whole finite widening chain is cofinal in the displayed dyadic comparison route, and the exclusion clauses from the cited theorems remove host rational order, quotient equality, completed Real endpoints, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore finite widening-chain induction]
+\label{thm:dyadicratcore-finite-widening-chain-induction}
+Let $I$ be a BEDC-visible invariant on accepted $\DyadicRatCoreUp$ scale-window packets. Suppose $I$ holds for an initial accepted packet, and suppose one displayed positive-unary exponent-window widening preserves $I$ whenever the widening is witnessed only by the scale transport, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ rows of \autoref{def:dyadicratcore-scale-window-packet}. Then $I$ holds for the terminal packet of any finite positive-unary widening chain starting at the initial packet.
+
+The induction surface imports no host rational order, quotient equality, hidden denominator selector, selected $\RealUp$ endpoint, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Proceed by finite induction on the displayed widening chain. The empty chain has the initial packet as its terminal packet, so the base assumption gives $I$ directly.
+
+For the step, write the chain as a shorter displayed widening chain followed by one positive-unary exponent-window widening. The induction hypothesis gives $I$ on the intermediate accepted packet. Apply scale-window monotonicity, \autoref{thm:dyadicratcore-scale-window-monotonicity}, to the last displayed widening; its output supplies exactly the transported scale row, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ rows required by the one-step preservation hypothesis.
+
+The one-step preservation hypothesis therefore transfers $I$ from the intermediate packet to the terminal packet. Repeating this finite argument reaches the terminal packet of the original chain, and the exclusion clause is inherited from the accepted packet rows and from scale-window monotonicity.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore scale-window terminal fusion]
 \label{thm:dyadicratcore-scale-window-terminal-fusion}
 If two finite chains of positive-unary exponent-window widenings of a $\DyadicRatCoreUp$ scale-window packet have a common terminal exponent, then they fuse into the same terminal DyadicRatCore comparison packet for $\StreamNameUp$ and $\RegSeqRatUp$ consumers. The fused packet is reached only through the displayed scale transports, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ rows of \autoref{def:dyadicratcore-scale-window-packet}.
