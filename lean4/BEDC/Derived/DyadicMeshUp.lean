@@ -299,4 +299,91 @@ theorem DyadicMeshPacket_standard_finite_mesh_bridge_boundary [AskSetup] [Packag
       intervalEndpointRadius, intervalEndpointMesh, meshProvenanceBoundary, provenancePkg,
       meshPkg, boundaryPkg⟩
 
+theorem DyadicMeshPacket_validated_terminal_readback_determinacy [AskSetup] [PackageSetup]
+    {level cell interval endpoint radius order transport refinement provenance nameCert meshCell
+      realBoundary terminalRead validatedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicMeshPacket level cell interval endpoint radius order transport refinement provenance
+        nameCert bundle pkg ->
+      Cont interval endpoint meshCell ->
+        Cont meshCell provenance realBoundary ->
+          Cont realBoundary transport terminalRead ->
+            Cont terminalRead refinement validatedRead ->
+              PkgSig bundle meshCell pkg ->
+                PkgSig bundle realBoundary pkg ->
+                  PkgSig bundle validatedRead pkg ->
+                    UnaryHistory meshCell ∧
+                      UnaryHistory realBoundary ∧
+                        UnaryHistory terminalRead ∧
+                          UnaryHistory validatedRead ∧
+                            Cont interval endpoint meshCell ∧
+                              Cont meshCell provenance realBoundary ∧
+                                Cont realBoundary transport terminalRead ∧
+                                  Cont terminalRead refinement validatedRead ∧
+                                    PkgSig bundle validatedRead pkg ∧
+                                      SemanticNameCert
+                                        (fun row : BHist =>
+                                          hsame row validatedRead ∧ UnaryHistory row)
+                                        (fun row : BHist =>
+                                          hsame row realBoundary ∨
+                                            hsame row terminalRead ∨ hsame row validatedRead)
+                                        (fun row : BHist =>
+                                          hsame row validatedRead ∧
+                                            PkgSig bundle validatedRead pkg)
+                                        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig UnaryHistory SemanticNameCert hsame
+  intro packet intervalEndpointMesh meshProvenanceBoundary boundaryTransportTerminal
+  intro terminalRefinementValidated _meshPkg _boundaryPkg validatedPkg
+  rcases packet with
+    ⟨_levelUnary, _cellUnary, intervalUnary, endpointUnary, _radiusUnary, _orderUnary,
+      transportUnary, refinementUnary, provenanceUnary, _nameCertUnary, _levelCellInterval,
+      _intervalEndpointRadius, _provenancePkg⟩
+  have meshUnary : UnaryHistory meshCell :=
+    unary_cont_closed intervalUnary endpointUnary intervalEndpointMesh
+  have boundaryUnary : UnaryHistory realBoundary :=
+    unary_cont_closed meshUnary provenanceUnary meshProvenanceBoundary
+  have terminalUnary : UnaryHistory terminalRead :=
+    unary_cont_closed boundaryUnary transportUnary boundaryTransportTerminal
+  have validatedUnary : UnaryHistory validatedRead :=
+    unary_cont_closed terminalUnary refinementUnary terminalRefinementValidated
+  have sourceValidated :
+      (fun row : BHist => hsame row validatedRead ∧ UnaryHistory row) validatedRead := by
+    exact ⟨hsame_refl validatedRead, validatedUnary⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row validatedRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row realBoundary ∨ hsame row terminalRead ∨ hsame row validatedRead)
+        (fun row : BHist => hsame row validatedRead ∧ PkgSig bundle validatedRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro validatedRead sourceValidated
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact
+            ⟨hsame_trans (hsame_symm same) source.left,
+              unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr source.left)
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, validatedPkg⟩
+    }
+  exact
+    ⟨meshUnary, boundaryUnary, terminalUnary, validatedUnary, intervalEndpointMesh,
+      meshProvenanceBoundary, boundaryTransportTerminal, terminalRefinementValidated,
+      validatedPkg, cert⟩
+
 end BEDC.Derived.DyadicMeshUp
