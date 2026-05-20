@@ -1,0 +1,21 @@
+\begin{theorem}[RealCauchyCompletion four-face support nondegeneracy]
+\label{thm:real-cauchy-completion-four-face-support-nondegeneracy}
+Every accepted $\RealCauchyCompletionUp$ public completion read that reaches the exported $\RealUp$ seal exhibits all four Phase Real and Completion faces
+$$
+\begin{gathered}
+\DyadicRatCoreUp,\qquad \StreamNameUp,\qquad \RegSeqRatUp,\qquad \RealUp
+\end{gathered}
+$$
+together with the displayed $\BHist$, componentwise $\hsame$, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RealCauchyCompletionUp}$ rows.
+
+The route is nondegenerate: deleting any one of the four faces, or deleting any one of the displayed support rows, changes the accepted packet read. It does not preserve the same public completion read through $\RealCauchyCompletionUp$.
+\end{theorem}
+\begin{proof}
+Start with the accepted public completion read. The diagonal handoff of \autoref{thm:real-cauchy-completion-diagonal-handoff} forces each precision request through the diagonal packet, one finite $\StreamNameUp$ window, one $\RegSeqRatUp$ readback row, and the displayed $\DyadicRatCoreUp$ ledger before the seal can be consumed.
+
+Next apply the stream-regseq-tail seal factorization \autoref{thm:real-cauchy-completion-stream-regseq-tail-seal-factorization}. It keeps the stream window, regular readback, dyadic ledger, diagonal packet, and exported $\RealUp$ seal on one completion-facing route. The sibling lattice route \autoref{thm:real-cauchy-completion-sibling-lattice-route} then identifies these rows with the four named sibling faces of the public NameCert factorization.
+
+Now use the current four-face phase support theorem \autoref{thm:real-cauchy-completion-current-phase-four-face-support-minimality}. It reads the same route as the Phase Real and Completion exit and requires the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows alongside $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Finally apply terminal support minimality and defect localization, \autoref{thm:real-cauchy-completion-terminal-support-minimality} and \autoref{thm:real-cauchy-completion-terminal-support-defect-localization}. These results say that omitting or replacing any named face or support row is witnessed at that same local row and leaves the accepted route. Hence such a deletion changes the packet read rather than preserving the same public completion read.
+\end{proof}
