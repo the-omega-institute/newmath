@@ -315,13 +315,62 @@ through $R,n,\mu,k,W,D,T,S,H,C,P,N$ as finite BEDC row routing, not as a
 completeness theorem or a theorem of host equality.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy zero abstract bridge surface]
+\label{thm:regular-cauchy-zero-abstract-bridge-surface}
+The public package of
+\autoref{thm:regular-cauchy-zero-public-closure-package} and the selector
+handoff of \autoref{thm:regular-cauchy-zero-diagonal-selector-handoff}
+bridge every accepted concrete packet
+$$
+(q,s,r,m,\mu,e,h,c,p,n)
+$$
+to the abstract regular-Cauchy zero interface read by $\RegSeqRatUp$,
+tail-meet, diagonal-selector, and $\RealUp$ consumers. The bridge surface is
+exactly the finite route through $\StreamNameUp$ and $\DyadicRatCoreUp$:
+$$
+q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e.
+$$
+It exports this route as finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ data, and it exports no quotient stream, host zero equality,
+selected limit, countable choice, hidden tail oracle, or ambient completeness
+principle.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-cauchy-zero-public-closure-package}. It
+packages the concrete carrier, the zero-source export, the scoped route, and
+the public consumer factorization as the named boundary available to
+$\RegSeqRatUp$, tail-meet, limit-transport, and $\RealUp$ reads.
+
+Use \autoref{thm:regular-cauchy-zero-diagonal-selector-handoff} at the
+completion-facing selector boundary. The agreed rows of the diagonal selector
+read consume the same zero seed, constant stream window, regular rational row,
+modulus, meet, and terminal seal, so the selector interface receives the
+packet through the same finite route rather than through a host-selected
+limit.
+
+The route through $\StreamNameUp$ and $\DyadicRatCoreUp$ is supplied by
+\autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route}, while
+\autoref{thm:regular-cauchy-zero-tail-meet-identity} and
+\autoref{thm:regular-cauchy-zero-real-seal-nonescape} carry the route across
+the meet row and the terminal $\RealUp$ seal. Thus the abstract interface sees
+only the displayed BEDC row chain.
+
+Finally apply
+\autoref{thm:regular-cauchy-zero-public-consumer-factorization} and
+\autoref{thm:regular-cauchy-zero-probebundle-induction-coverage}. These
+results exhaust public reads and finite request bundles through the same
+packet coordinates, which refuses quotient streams, host zero equality,
+selected limits, countable choice, hidden tail oracles, and ambient
+completeness as extra bridge data.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchyZeroUp}
   \constructivestory{A $\RegularCauchyZeroUp$ packet is generated from finite $\BHist$ rows for the rational zero seed, constant $\StreamNameUp$ row, zero $\RegSeqRatUp$ readback, zero modulus row, identity meet row, and terminal $\RealUp$ seal. The route starts at the displayed zero seed and is replayed by $\Cont$ through stream, regular-rational, modulus, meet, and seal rows before any completion-facing consumer reads it. Componentwise $\hsame$ preserves the same zero route, while $\Pkg$ records the rational, stream, regular-sequence, modulus, tail-meet, diagonal-seal, and Real dependencies. The packet names the finite zero source rather than host real equality.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{This chapter binds the regular Cauchy zero carrier, sibling route, tail-meet identity, RealUp seal non-escape, finite request-bundle coverage, downstream handoff exhaustion, the obligation package of \autoref{thm:regular-cauchy-zero-obligation-closure-package}, the scoped route of \autoref{thm:regular-cauchy-zero-scoped-route}, and the public export package of \autoref{thm:regular-cauchy-zero-public-closure-package}.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{This chapter binds the regular Cauchy zero carrier, sibling route, tail-meet identity, RealUp seal non-escape, finite request-bundle coverage, downstream handoff exhaustion, the obligation package of \autoref{thm:regular-cauchy-zero-obligation-closure-package}, the scoped route of \autoref{thm:regular-cauchy-zero-scoped-route}, the public export package of \autoref{thm:regular-cauchy-zero-public-closure-package}, and the abstract bridge surface of \autoref{thm:regular-cauchy-zero-abstract-bridge-surface}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim quotient stream equality, host zero equality, selected real limits, nonzero witness streams, or ambient completeness.}
-  \upgradepath{Bridged closure requires a standard bridge from the public zero-source export package to the abstract regular-Cauchy zero interface.}
+  \upgradepath{Mature treatment requires standard bridge checking for the finite abstract bridge surface and its downstream consumer interface.}
 \end{closurestatus}
