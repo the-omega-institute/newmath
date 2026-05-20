@@ -1286,7 +1286,9 @@ import BEDC.Derived.CompactModulusCoverUp
 import BEDC.Derived.CompactModulusCoverUp.TasteGate
 import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
 import BEDC.Derived.CompactNetModulusSelectorUp.ConsumerFactorization
+import BEDC.Derived.CompactNetModulusSelectorUp.FoldSoundness
 import BEDC.Derived.CompactNetModulusSelectorUp.KernelCarrier
+import BEDC.Derived.CompactNetModulusSelectorUp.PointwiseRadiusRoute
 import BEDC.Derived.CompactNetModulusSelectorUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityUp
 import BEDC.Derived.CompactUniformContinuityUp.BridgeModulusAssembly
@@ -1628,6 +1630,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ContinuationRouteCoverage
 import BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessRootSourceWindowRouteLock
 import BEDC.Derived.CriticalLineWitnessUp.DepthLedgerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.DepthLock
+import BEDC.Derived.CriticalLineWitnessUp.DepthRequestLedger
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamConsumerUnblock
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamCounterSurface
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamModulusRefusalExport
@@ -1740,6 +1743,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SuppliedSourceCarrierTriadExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroStripRoute
 import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
 import BEDC.Derived.CriticalLineWitnessUp.VisibleSourceReadbackLock
+import BEDC.Derived.CriticalLineWitnessUp.ZeroRowSourceScope
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripClassifierTransport
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripLedgerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusRoute
@@ -1750,6 +1754,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZetaDependencyLock
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
+import BEDC.Derived.CriticalStripZetaZeroWitnessUp.RHHandoffObligation
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.SharedSourceScope
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.WitnessScopeBinding
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
