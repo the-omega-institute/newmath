@@ -572,3 +572,70 @@ choice, ambient completeness, metric completeness, aggregate formalstatus
 rows, or standard bridge rows, so the induction theorem does not claim any
 of that structure.
 \end{proof}
+
+\begin{theorem}[RegSeqRat four-face finite-cover normal form]
+\label{thm:regseqrat-four-face-finite-cover-normal-form}
+A finite family $\mathcal{S}$ of compatible accepted $\RegSeqRatUp$ terminal
+sections presents an accepted $\RealUp$ terminal seal precisely when its
+visible support is the following finite row data:
+\begin{enumerate}
+\item the finite $\StreamNameUp$ request windows;
+\item the $\DyadicRatCoreUp$ endpoint, radius, and finite-distance ledgers;
+\item the $\RegSeqRatUp$ classifier and readback rows;
+\item the local $\RealUp$ seal rows; and
+\item the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\RegSeqRatUp}$ support rows.
+\end{enumerate}
+These rows must satisfy the local-gluing hypotheses of
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage}, the
+restriction hypotheses of
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality},
+the cocycle hypotheses of
+\autoref{thm:regseqrat-finite-request-section-cocycle-real-seal}, the
+refinement-composition hypotheses of
+\autoref{thm:regseqrat-finite-request-section-refinement-composition}, and
+the finite-cover induction hypotheses of
+\autoref{thm:regseqrat-four-face-finite-cover-induction}. No additional row
+for quotient streams, selected limits, host real equality, countable choice,
+ambient completeness, metric completeness, aggregate formalstatus data,
+aggregate bridge data, or standard bridge data is present or necessary.
+
+Equivalently, those finite rows are necessary and sufficient for the
+$\RealUp$ terminal seal determined by the RegSeqRat-to-Real four-face cover,
+and any other accepted terminal seal with exactly those visible rows is the
+same seal.
+\end{theorem}
+\begin{proof}
+For necessity, start with an accepted $\RealUp$ terminal seal presented by the
+finite compatible family $\mathcal{S}$. Apply
+\autoref{thm:regseqrat-four-face-finite-cover-induction} to express the seal
+by empty, singleton, and successor cover clauses. Project the empty and
+singleton clauses through
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage}; project
+the successor restrictions through
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality};
+and project the overlap rows through
+\autoref{thm:regseqrat-finite-request-section-cocycle-real-seal}. The visible
+support is therefore exactly the finite StreamName, DyadicRatCore,
+RegSeqRat, Real, and shared BEDC support rows listed in the statement.
+
+For sufficiency, suppose the displayed finite rows and the named compatibility
+hypotheses are given. Package the empty, singleton, successor, cocycle, and
+refinement-composition data as the input cover for
+\autoref{thm:regseqrat-four-face-finite-cover-induction}. That theorem
+constructs an accepted $\RealUp$ terminal seal over the four visible faces.
+
+It remains to identify possible alternatives. If $T$ is any other accepted
+terminal seal with exactly the same visible rows, then its restrictions to the
+finite request windows have the same local gluing rows, the same finite
+restriction rows, and the same cocycle rows. Apply
+\autoref{thm:regseqrat-four-face-gluing-uniqueness} on each successor gluing
+step and then along the whole finite-cover induction order. The resulting
+seal is the one constructed from the displayed rows.
+
+The excluded structures cannot enter the construction because every cited
+input theorem is stated over finite visible support rows. Thus quotient stream
+identification, selected-limit data, host real equality, countable-choice
+data, ambient or metric completeness, aggregate formalstatus rows, aggregate
+bridge rows, and standard bridge rows are neither consumed nor produced.
+\end{proof}
