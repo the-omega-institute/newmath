@@ -151,3 +151,23 @@ For the reverse direction, assume the four local threshold records and the displ
 
 Finally apply \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary}. The terminal boundary keeps the packet on the displayed four-face route before any refusal ledger is read, so there is no coordinate from which to form aggregate formalstatus, leantarget, or bridgestatus rows, quotient streams, selected limits, countable-choice rows, metric-completeness data, standard bridge rows, or $\RealUp$ completeness.
 \end{proof}
+
+\begin{theorem}[StreamName terminal local threshold pullback]
+\label{thm:streamname-terminal-local-threshold-pullback}
+Let $\mathcal T$ and $\mathcal T'$ be Phase $\RealUp$ and Completion terminal packets read through $\StreamNameUp$ along the four displayed faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Assume that a certified pullback or support-preserving refinement from $\mathcal T$ to $\mathcal T'$ preserves the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ face rows and preserves the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then $\mathcal T$ satisfies the current Phase Real and Completion local-threshold exit read if and only if $\mathcal T'$ satisfies the same exit read.
+
+This pullback invariance is confined to the four L10 faces and their displayed support. It does not introduce or consume quotient streams, selected limits, countable-choice rows, metric-completeness data, aggregate \texttt{formalstatus} rows, aggregate \texttt{leantarget} rows, aggregate bridge rows, standard bridge rows, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply \autoref{thm:streamname-open-phase-terminal-local-threshold-equivalence} to $\mathcal T$. The exit read is exactly the four local scoped-closure and audit-clean threshold rows over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+The certified pullback or refinement preserves each of those four face rows and preserves the displayed support rows. Apply \autoref{thm:streamname-terminal-face-local-status-strengthening} face by face to transport any same-face status strengthening without changing the terminal packet or creating a route-level status coordinate. Applying \autoref{thm:streamname-open-phase-terminal-local-threshold-equivalence} to $\mathcal T'$ then yields the same current exit read.
+
+For the reverse direction, use the same argument with $\mathcal T'$ as the packet satisfying the exit read and $\mathcal T$ as the packet obtained by reading the preserved four-face support back along the certified pullback. The equivalence theorem again reduces the exit read to the four local threshold rows, and facewise preservation carries those rows back to the original packet.
+
+It remains to exclude non-face support. Apply \autoref{thm:streamname-open-phase-terminal-ledger-coverage} to both packets: every public coordinate is one of the four displayed faces or one of the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Finally apply \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary}. The terminal boundary rules out quotient streams, selected limits, countable-choice rows, metric-completeness data, aggregate formalstatus rows, aggregate leantarget rows, aggregate bridge rows, standard bridge rows, and ambient $\RealUp$ completeness, so no outside coordinate can affect the threshold read.
+\end{proof}
