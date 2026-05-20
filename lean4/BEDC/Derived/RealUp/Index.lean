@@ -41,3 +41,4 @@ import BEDC.Derived.RealUp.L10ExitCertificateSupportNoConfusion
 import BEDC.Derived.RealUp.L10ExitCertificateFaceMinimality
 import BEDC.Derived.RealUp.L10TerminalFaceOrder
 import BEDC.Derived.RealUp.NameSealSourceFactorization
+import BEDC.Derived.RealUp.RegSeqRatFiniteRequestFusion
