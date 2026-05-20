@@ -347,4 +347,40 @@ theorem RegularLanguageAutomatonPacket_scoped_kernel_dependency_envelope
       exact ⟨rowSig, provenanceUnary, routesUnary⟩
   }
 
+theorem RegularLanguageAutomatonPacket_prefix_bridge_consumer_boundary [AskSetup]
+    [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance pref
+      prefRun prefEndpoint boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      hsame word pref ->
+        Cont start pref prefRun ->
+          Cont prefRun transition prefEndpoint ->
+            Cont prefEndpoint transport boundary ->
+              PkgSig bundle boundary pkg ->
+                UnaryHistory pref ∧ UnaryHistory prefRun ∧ UnaryHistory prefEndpoint ∧
+                  UnaryHistory boundary ∧ hsame run prefRun ∧ hsame endpoint prefEndpoint ∧
+                    Cont prefEndpoint transport boundary ∧ PkgSig bundle boundary pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro packet sameWord prefRunRow prefEndpointRow boundaryRow boundarySig
+  obtain ⟨_alphabetUnary, _statesUnary, startUnary, _acceptUnary, transitionUnary,
+    wordUnary, _runUnary, _endpointUnary, transportUnary, _routesUnary, _provenanceUnary,
+    runRow, endpointRow, _routesRow, _pkgSig⟩ := packet
+  have prefUnary : UnaryHistory pref :=
+    unary_transport wordUnary sameWord
+  have prefRunUnary : UnaryHistory prefRun :=
+    unary_cont_closed startUnary prefUnary prefRunRow
+  have prefEndpointUnary : UnaryHistory prefEndpoint :=
+    unary_cont_closed prefRunUnary transitionUnary prefEndpointRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed prefEndpointUnary transportUnary boundaryRow
+  have sameRun : hsame run prefRun :=
+    cont_respects_hsame (hsame_refl start) sameWord runRow prefRunRow
+  have sameEndpoint : hsame endpoint prefEndpoint :=
+    cont_respects_hsame sameRun (hsame_refl transition) endpointRow prefEndpointRow
+  exact
+    ⟨prefUnary, prefRunUnary, prefEndpointUnary, boundaryUnary, sameRun, sameEndpoint,
+      boundaryRow, boundarySig⟩
+
 end BEDC.Derived.RegularLanguageUp
