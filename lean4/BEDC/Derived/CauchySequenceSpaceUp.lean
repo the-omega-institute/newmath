@@ -351,6 +351,16 @@ theorem CauchySequenceSpaceCarrier_regular_family_exhaustion [AskSetup] [Package
     ⟨familyUnary, scheduleUnary, windowUnary, toleranceUnary, completionUnary, handoffUnary,
       sealUnary, familyRoute, toleranceRoute, completionRoute, routeToHandoff, handoffToSeal,
       routePkg⟩
+theorem CauchySequenceSpaceCarrier_regseqrat_streamname_real_seal_factorization [AskSetup] [PackageSetup]
+    {family schedule window tolerance completion transport route name handoff sealRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceSpaceCarrier family schedule window tolerance completion transport route name bundle pkg -> Cont route name handoff -> Cont handoff completion sealRead ->
+      UnaryHistory family ∧ UnaryHistory schedule ∧ UnaryHistory window ∧ UnaryHistory tolerance ∧ UnaryHistory completion ∧ UnaryHistory handoff ∧ UnaryHistory sealRead ∧ Cont family schedule window ∧ Cont window tolerance completion ∧ Cont route name handoff ∧ Cont handoff completion sealRead ∧ PkgSig bundle route pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier routeNameHandoff handoffCompletionSeal
+  obtain ⟨familyUnary, scheduleUnary, windowUnary, toleranceUnary, completionUnary, _transportUnary, routeUnary, nameUnary, familyScheduleWindow, windowToleranceCompletion, _completionTransportRoute, routePkg, _namePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff := unary_cont_closed routeUnary nameUnary routeNameHandoff
+  have sealReadUnary : UnaryHistory sealRead := unary_cont_closed handoffUnary completionUnary handoffCompletionSeal
+  exact ⟨familyUnary, scheduleUnary, windowUnary, toleranceUnary, completionUnary, handoffUnary, sealReadUnary, familyScheduleWindow, windowToleranceCompletion, routeNameHandoff, handoffCompletionSeal, routePkg⟩
 
 theorem CauchySequenceSpaceCarrier_limit_seal_factorization [AskSetup] [PackageSetup]
     {family schedule window tolerance completion transport route name handoff «seal» : BHist}
