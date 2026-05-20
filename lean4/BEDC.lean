@@ -1621,6 +1621,7 @@ import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CookFrontierCoordinateUp.TasteGate
 import BEDC.Derived.CookFrontierWitnessUp.TasteGate
+import BEDC.Derived.CoreRegistryIndexUp.RowSurfaceSemanticCertificate
 import BEDC.Derived.CoreRegistryIndexUp.TasteGate
 import BEDC.Derived.CorpusSupplyDistillationUp.TasteGate
 import BEDC.Derived.CountableObservationScheduleUp.TasteGate
@@ -3557,6 +3558,7 @@ import BEDC.Derived.PicardContractionUp.ContractionRowExactness
 import BEDC.Derived.PicardContractionUp.DownstreamModulusExposure
 import BEDC.Derived.PicardContractionUp.DownstreamSealScope
 import BEDC.Derived.PicardContractionUp.FiniteConsumerExhaustion
+import BEDC.Derived.PicardContractionUp.FinitePacketSemanticCertificate
 import BEDC.Derived.PicardContractionUp.FiniteRateSealTriangle
 import BEDC.Derived.PicardContractionUp.FiniteTailDiagonalSealHandoff
 import BEDC.Derived.PicardContractionUp.LedgerBoundary
@@ -3948,6 +3950,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.L10SourceReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.NameCertObligationExhaustion
 import BEDC.Derived.RealityConstrainedTruthCertUp.OpenFitRefusalSurface
 import BEDC.Derived.RealityConstrainedTruthCertUp.PhysicalFitNonescape
+import BEDC.Derived.RealityConstrainedTruthCertUp.PublicExportBoundary
 import BEDC.Derived.RealityConstrainedTruthCertUp.RootTasteGateReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.SourceSignatureClassifierObligation
 import BEDC.Derived.RealityConstrainedTruthCertUp.StabilityDescentInvariantObligation
@@ -4457,6 +4460,7 @@ import BEDC.Derived.TerminationRefusalBoundaryUp.TasteGate
 import BEDC.Derived.TheoremGapRegistryUp.TasteGate
 import BEDC.Derived.TheorySelfClassifierUp.TasteGate
 import BEDC.Derived.TheoryTransitionCertificateUp.ConservativePreservation
+import BEDC.Derived.TheoryTransitionCertificateUp.LedgerRefinementBoundary
 import BEDC.Derived.TheoryTransitionCertificateUp.NameCert
 import BEDC.Derived.TheoryTransitionCertificateUp.TasteGate
 import BEDC.Derived.ThetaFunctionUp
@@ -4539,6 +4543,7 @@ import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.TowerEndpointReflectionUp.TasteGate
 import BEDC.Derived.TowerEquivalenceUp.NameCertObligations
+import BEDC.Derived.TowerEquivalenceUp.RefinementSeparation
 import BEDC.Derived.TowerEquivalenceUp.TasteGate
 import BEDC.Derived.TraceVerdictBoundaryUp.TasteGate
 import BEDC.Derived.TraditionComparisonBoundaryUp.TasteGate
