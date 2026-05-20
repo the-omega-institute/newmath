@@ -24,6 +24,7 @@ An accepted Phase Real and Completion exit packet is a local $\NameCert$ interfa
 
 Equivalently, the four faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ jointly present the certificate surface consumed by the Phase Real and Completion exit criterion. Deleting any face, aggregating two faces into one status row, or replacing a face by a global equality datum fails to present that interface. The interface has no coordinate for quotient rational equality, quotient stream equality, host real equality, selected limits, countable choice, metric-completeness data, standard bridge rows, aggregate formalstatus rows, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreL10ExitNameCertInterface}
 \begin{proof}
 For sufficiency, start with the displayed four-face inventory and support rows. Apply \autoref{thm:dyadicratcore-streamname-regseqrat-real-l10-exit-ledger} to read the dyadic source surface as the unique BEDC-visible ledger of the L10 exit.
 
@@ -36,6 +37,26 @@ Finally apply \autoref{thm:real-l10-exit-certificate-face-minimality}. Minimalit
 For necessity, assume an accepted packet presents the local $\NameCert$ interface. The StreamName terminal pullback forces the packet to factor through the four-object boundary, and the RegSeqRat correspondence reads the classifier surface facewise inside that boundary.
 
 The DyadicRatCore ledger theorem then recovers the signed mantissa, exponent, denominator, comparison, distance, and radius rows as the unique dyadic source ledger. Real-side face minimality prevents deletion or aggregation of any of the four faces, and it also rules out replacing a face by quotient rational equality, quotient stream equality, host real equality, selected limits, countable choice, metric-completeness data, standard bridge rows, aggregate formalstatus rows, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore L10 exit public bridge route]
+\label{thm:dyadicratcore-l10-exit-public-bridge-route}
+Every public $\DyadicRatCoreUp$ bridge consumer that is read by a Phase Real and Completion exit packet factors through one common monotone unary radius window and then through the four visible faces
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+over the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. This factorization is exactly the L10 exit interface: the public bridge supplies the dyadic source rows, the finite radius-window cofinality supplies the common monotone window, and the four-face exit packet supplies the local certificate surface.
+
+The route has no coordinate for quotient rational equality, quotient stream equality, host real equality, selected limits, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the public bridge consumer. Apply \autoref{thm:dyadicratcore-public-bridge-consumer-exactness}. The consumer reads exactly the signed mantissa, positive-unary exponent, denominator ledger, common-exponent classifier, arithmetic window, distance window, radius window, $\BHist$ carrier rows, $\hsame$ transport, $\Cont$ readback, and $\Pkg$ provenance already visible at the public dyadic bridge.
+
+Now apply \autoref{thm:dyadicratcore-finite-radius-window-cofinality} to the finite family of downstream $\RegSeqRatUp$ and $\RealUp$ reads of those public packets. It places the family on one common monotone unary radius window with the shared refined exponent, denominator ledger, classifier, distance rows, $\BHist$ rows, $\hsame$ transports, $\Cont$ readbacks, and $\Pkg$ provenance.
+
+Next use \autoref{thm:dyadicratcore-l10-exit-namecert-interface}. The same rows, together with the $\StreamNameUp$ finite-window rows, $\RegSeqRatUp$ classifier and readback rows, local $\RealUp$ seal rows, and local $\NameCert$ support, form precisely the interface consumed by the accepted Phase Real and Completion exit packet.
+
+Finally apply \autoref{thm:streamname-real-completion-four-object-terminal-pullback}, \autoref{thm:regseqrat-terminal-four-face-correspondence}, and \autoref{thm:real-l10-exit-certificate-face-minimality}. These results identify the common radius-window packet with the terminal four-face boundary and make each displayed face and support row indispensable. The exclusion clause is inherited from the public bridge exactness, finite cofinality, NameCert interface, terminal pullback, RegSeqRat correspondence, and Real face-minimality inventories, none of which exposes quotient rational equality, quotient stream equality, host real equality, selected limits, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, or ambient $\RealUp$ completeness.
 \end{proof}
 
 \begin{theorem}[DyadicRatCore L10 exit ledger facewise noncollapse]

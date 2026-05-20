@@ -134,6 +134,7 @@ The lock contains no quotient stream, host sequence equality, selected limit,
 ambient Real completeness, metric-completeness datum, countable-choice row, or
 standard bridge row.
 \end{theorem}
+\leanchecked{BEDC.Derived.StreamNameUp.StreamNameFiniteSectionRealRegSeqDyadicLock}
 \begin{proof}
 First use \autoref{thm:streamname-finite-section-pullback-exactness}. The
 accepted section $Q$ is already pulled back to the $\StreamNameUp$ finite
@@ -156,6 +157,49 @@ through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 The excluded quotient, host-equality, limit-selection, completeness,
 countable-choice, and bridge coordinates therefore have no row from which a
 consumer could read them.
+\end{proof}
+
+\begin{theorem}[StreamName terminal face iff]
+\label{thm:streamname-terminal-face-iff}
+Let $Q$ and $Q'$ be accepted finite request sections of the current L10 Phase
+Real and Completion $\StreamNameUp$ packet. The public finite-section carrier
+verdicts and classifier verdicts of $Q$ and $Q'$ agree if and only if $Q$ and
+$Q'$ expose the same terminal four-face route consisting of the
+$\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ ledger, the
+$\RegSeqRatUp$ readback, the $\RealUp$ seal, and the displayed $\BHist$,
+componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows.
+
+This criterion contains no quotient stream, host sequence equality, selected
+limit, ambient $\RealUp$ completeness, metric-completeness datum,
+countable-choice row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume that the public carrier and classifier
+verdicts of $Q$ and $Q'$ agree. Apply
+\autoref{thm:streamname-finite-section-classifier-determinacy} to read both
+verdicts at the terminal finite route determined by the visible faces.
+
+Next apply \autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}.
+The agreed verdicts cannot be reread through any Real-facing or
+completion-facing coordinate outside the $\StreamNameUp$ finite window,
+$\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, and the
+displayed support rows.
+
+Now use \autoref{thm:streamname-real-completion-four-object-terminal-pullback}.
+It recovers the common four-face terminal pullback from the agreed verdicts and
+the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+For the reverse direction, assume that $Q$ and $Q'$ expose the same terminal
+four-face route with the displayed support rows. By
+\autoref{thm:streamname-finite-section-pullback-exactness}, each section is
+pulled back to exactly that visible route.
+
+Finally apply \autoref{thm:streamname-open-phase-four-face-terminality}. The
+two pullbacks have no second terminal face on which the carrier or classifier
+could vary, so their public finite-section carrier verdicts and classifier
+verdicts agree. The excluded quotient, host-equality, limit-selection,
+completeness, choice, metric-completion, and bridge coordinates are not part of
+the route in either direction.
 \end{proof}
 
 \begin{theorem}[StreamName four-face terminal completeness]
