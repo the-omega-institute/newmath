@@ -1639,6 +1639,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusComparisonRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusConsumerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerReadback
 import BEDC.Derived.CriticalLineWitnessUp.ModulusStripSourceTotality
+import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowExactness
 import BEDC.Derived.CriticalLineWitnessUp.ObligationCompletionPacket
 import BEDC.Derived.CriticalLineWitnessUp.P11961RootRouteExposure
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealBudgetSeparation
@@ -1681,6 +1682,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootRefusalBudgetCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalConsumerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootRouteExposure
+import BEDC.Derived.CriticalLineWitnessUp.RootSourceClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
@@ -2735,6 +2737,7 @@ import BEDC.Derived.InducedRepUp
 import BEDC.Derived.InductionClosureLedgerUp.TasteGate
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.InnerProductUp
+import BEDC.Derived.InnerProductUp.PublicExportSurface
 import BEDC.Derived.InscribedRouteSelectorUp.TasteGate
 import BEDC.Derived.InscribedRouteUp.TasteGate
 import BEDC.Derived.InscriptionAcceptanceBudgetUp.TasteGate
@@ -2898,6 +2901,7 @@ import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
 import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.LipschitzMapUp.BoundDependencyLock
 import BEDC.Derived.LipschitzMapUp.CommonBoundCompletionRoute
+import BEDC.Derived.LipschitzMapUp.CompleteMetricRegularSealBoundary
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.BoolReadback
@@ -3134,6 +3138,7 @@ import BEDC.Derived.MetricTriangleUniformEstimateUp.FiniteRouteNonescape
 import BEDC.Derived.MetricTriangleUniformEstimateUp.HeineCantorLastStep
 import BEDC.Derived.MetricTriangleUniformEstimateUp.NameCertScope
 import BEDC.Derived.MetricTriangleUniformEstimateUp.NoCompletionEscape
+import BEDC.Derived.MetricTriangleUniformEstimateUp.PublicClosurePackage
 import BEDC.Derived.MetricTriangleUniformEstimateUp.PublicUniformityCriterion
 import BEDC.Derived.MetricTriangleUniformEstimateUp.RadiusComposition
 import BEDC.Derived.MetricTriangleUniformEstimateUp.RootUnblockCertificateSpine
@@ -3713,6 +3718,7 @@ import BEDC.Derived.RealCompletionExactBoundaryUp.NoCompletenessEscape
 import BEDC.Derived.RealCompletionExactBoundaryUp.Nonescape
 import BEDC.Derived.RealCompletionExactBoundaryUp.ObligationScope
 import BEDC.Derived.RealCompletionExactBoundaryUp.RealSealNonescape
+import BEDC.Derived.RealCompletionExactBoundaryUp.ScopedObligationClosure
 import BEDC.Derived.RealCompletionExactBoundaryUp.SealBudgetPrefixPullback
 import BEDC.Derived.RealCompletionExactBoundaryUp.SealClassifierWitnessBalance
 import BEDC.Derived.RealCompletionExactBoundaryUp.StdBridge
@@ -3863,10 +3869,13 @@ import BEDC.Derived.RealityConstrainedSynthesisSealUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.NameCertObligations
 import BEDC.Derived.RealityConstrainedTowerCompressionUp.TasteGate
 import BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
+import BEDC.Derived.RealityConstrainedTruthCertUp.ClassifierObligationSurface
+import BEDC.Derived.RealityConstrainedTruthCertUp.FailureReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.FieldCoverage
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10Readiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10SourceReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.NameCertObligationExhaustion
+import BEDC.Derived.RealityConstrainedTruthCertUp.OpenFitRefusalSurface
 import BEDC.Derived.RealityConstrainedTruthCertUp.PhysicalFitNonescape
 import BEDC.Derived.RealityConstrainedTruthCertUp.RootTasteGateReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.SourceSignatureClassifierObligation
