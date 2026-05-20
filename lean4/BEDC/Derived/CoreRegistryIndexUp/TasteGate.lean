@@ -1,11 +1,19 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CoreRegistryIndexUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -426,5 +434,94 @@ theorem CoreRegistryIndexTasteGate_single_carrier_alignment :
           congrArg coreRegistryIndexFromEventFlow heq
         exact Option.some.inj (Eq.trans hx.symm (Eq.trans hread hy))
       · rfl
+
+theorem CoreRegistryIndex_refusal_audit_nonescape_certificate [AskSetup] [PackageSetup]
+    {C T G D S F U O A H K P N refusalRead auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PkgSig bundle F pkg ->
+      PkgSig bundle A pkg ->
+        hsame refusalRead F ->
+          hsame auditRead A ->
+            coreRegistryIndexFields (CoreRegistryIndexUp.mk C T G D S F U O A H K P N) =
+                [C, T, G, D, S, F, U, O, A, H, K, P, N] ∧
+              SemanticNameCert
+                (fun row : BHist =>
+                  hsame row refusalRead ∨ hsame row auditRead ∨ hsame row F ∨
+                    hsame row A)
+                (fun row : BHist =>
+                  hsame row refusalRead ∨ hsame row auditRead ∨ hsame row F ∨
+                    hsame row A)
+                (fun row : BHist =>
+                  (hsame row F ∧ PkgSig bundle F pkg) ∨
+                    (hsame row A ∧ PkgSig bundle A pkg))
+                hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame
+  intro pkgF pkgA refusalSame auditSame
+  have sourceRefusal :
+      (fun row : BHist =>
+        hsame row refusalRead ∨ hsame row auditRead ∨ hsame row F ∨ hsame row A)
+        refusalRead := by
+    exact Or.inl (hsame_refl refusalRead)
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row refusalRead ∨ hsame row auditRead ∨ hsame row F ∨ hsame row A)
+        (fun row : BHist =>
+          hsame row refusalRead ∨ hsame row auditRead ∨ hsame row F ∨ hsame row A)
+        (fun row : BHist =>
+          (hsame row F ∧ PkgSig bundle F pkg) ∨
+            (hsame row A ∧ PkgSig bundle A pkg))
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro refusalRead sourceRefusal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source with
+        | inl rowRefusal =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) rowRefusal)
+        | inr tail =>
+            cases tail with
+            | inl rowAudit =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) rowAudit))
+            | inr tail =>
+                cases tail with
+                | inl rowF =>
+                    exact
+                      Or.inr
+                        (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) rowF)))
+                | inr rowA =>
+                    exact
+                      Or.inr
+                        (Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) rowA)))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      cases source with
+      | inl rowRefusal =>
+          exact Or.inl ⟨hsame_trans rowRefusal refusalSame, pkgF⟩
+      | inr tail =>
+          cases tail with
+          | inl rowAudit =>
+              exact Or.inr ⟨hsame_trans rowAudit auditSame, pkgA⟩
+          | inr tail =>
+              cases tail with
+              | inl rowF =>
+                  exact Or.inl ⟨rowF, pkgF⟩
+              | inr rowA =>
+                  exact Or.inr ⟨rowA, pkgA⟩
+  }
+  exact ⟨rfl, cert⟩
 
 end BEDC.Derived.CoreRegistryIndexUp
