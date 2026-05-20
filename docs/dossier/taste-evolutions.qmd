@@ -92,6 +92,12 @@ negative criterion 仍是只看机器形态: 现有 `\origin{ai}` chapter 的 `<
 
 Ship: commit `1c402312f6f49041d0a51eae0c687d2061ee40e8`. Detector/gate: recorded by daemon after merge.
 
+**2026-05-20 18:24 — TasteGate 证据不能洗白同型桶**
+
+daemon queue 给出 5 个同类 finding, 代表样本 `metacicnormalizationconfluencebridge` / `compilerclassifierroute` / `substitutionboundaryaudit`。本次派发由 META_PROMPT_RULE_EVOLUTION source commit `a3bc4d544a248dc0ddf1c416b4fc965ac7d1dec9` 约束。Codex 先按 current HEAD 查证: `rg -n -F '\origin{ai}'` 与 `bedc_ci.py audit --json` 显示 `BedcSelfSubstrateUp`, `BedcTheoryIdentityUp`, `BetaCongruenceDomainAuditUp` 仍标 atomic `ai`, 各自落在 201 成员 `phase1_buckets` 桶；`rg -n 'inductive ...|BHistCarrier|ChapterTasteGate|FieldFaithful|Nontrivial'` 又显示这些 carrier 已有普通 TasteGate / FieldFaithful / Nontrivial 包装。
+
+negative criterion 维持机器形态: `<X>Up` 命中 `mislabeled_composite_carriers` 时, 现成 `BHistCarrier`, `ChapterTasteGate`, `FieldFaithful`, 或 `Nontrivial` 证据不得被当作解除错标的依据。改动落在 `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; Review/Revise prompt 现在直接拒绝用这些包装洗白同型桶, detector 仍是 `detect_mislabeled_composite_carriers(min_bucket_size=6)`。
+
 ## RESEARCH 探索历史
 
 每次 RESEARCH cycle daemon 派 Codex 扫整个 corpus, 目标是找现有 detector 没覆盖的新平凡 pattern。这里记录探索范围和结论；没 ship 的探索也保留, 因为 operator 需要知道 daemon 不是只在成功时才留下痕迹。
