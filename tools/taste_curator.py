@@ -47,8 +47,6 @@ CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 DEFAULT_CONFIG: dict[str, Any] = {
     "version": 1,
     "AUTO_FIX_WITHOUT_CONFIRMATION": True,
-    "MISLABELED_COMPOSITE_FIELD_OVERLAP_MIN": 3,
-    "MISLABELED_COMPOSITE_BUCKET_MEMBER_MIN": 3,
     "ISOLATED_THEOREM_GRACE_ROUNDS": 50,
     "LOW_ENTROPY_AUTOREF_MIN_TARGETS": 3,
     "LOW_ENTROPY_SHANNON_MIN": 1.0,
@@ -75,7 +73,6 @@ TIMEOUTS = {
 AUTO_FIXABLE_FLAGS = {
     "missing_origin",
     "invalid_origin",
-    "mislabeled_composite",
     "simple_label_correction",
     "allowlist_metadata_correction",
 }
@@ -154,7 +151,7 @@ When you add a detect_*() function in bedc_ci.py, you MUST:
    - Print output in the dual format:
      `[bedc-ci] <name>: N new (BLOCKING), M legacy (warning)`
    This prevents your new detector from blocking P/R rounds that didn't touch
-   legacy violations — the same trap that 2026-05-19 mislabeled_composite hit.
+   legacy violations.
    The principle: a new audit gate only blocks the commit that introduces a
    violation it touches; pre-existing data shows as warning to be consumed
    organically by future rounds that naturally touch those files.
@@ -853,44 +850,11 @@ def load_carrier_iso(dry_run: bool = False) -> dict[str, Any]:
         return {"phase1_buckets": [], "phase2_buckets": [], "phase3_clusters": []}
 
 
-def iter_carrier_buckets(carrier: dict[str, Any]) -> list[tuple[str, dict[str, Any]]]:
-    buckets: list[tuple[str, dict[str, Any]]] = []
-    for key in ("phase1_buckets", "phase2_buckets", "phase3_clusters"):
-        value = carrier.get(key, [])
-        if not isinstance(value, list):
-            continue
-        for bucket in value:
-            if isinstance(bucket, dict):
-                buckets.append((key, bucket))
-    return buckets
-
-
-def bucket_members(bucket: dict[str, Any]) -> list[dict[str, Any]]:
-    members = bucket.get("members") or bucket.get("cluster") or bucket.get("carriers") or []
-    return [m for m in members if isinstance(m, dict)]
-
-
-def carrier_member_index(carrier: dict[str, Any]) -> dict[str, list[tuple[str, dict[str, Any], dict[str, Any]]]]:
-    index: dict[str, list[tuple[str, dict[str, Any], dict[str, Any]]]] = {}
-    for phase, bucket in iter_carrier_buckets(carrier):
-        for member in bucket_members(bucket):
-            name = str(member.get("name") or "")
-            if not name:
-                continue
-            index.setdefault(slug_key(name), []).append((phase, bucket, member))
-    return index
-
-
 def detect_origin_classification(
     artifacts: ChangedArtifacts,
-    carrier: dict[str, Any],
     cfg: dict[str, Any],
 ) -> list[Finding]:
     findings: list[Finding] = []
-    index = carrier_member_index(carrier)
-    member_min = int(cfg["MISLABELED_COMPOSITE_BUCKET_MEMBER_MIN"])
-    overlap_min = int(cfg["MISLABELED_COMPOSITE_FIELD_OVERLAP_MIN"])
-    seen: set[tuple[str, str]] = set()
     for path in artifacts.concrete_files:
         if not path.exists():
             continue
@@ -912,60 +876,17 @@ def detect_origin_classification(
                 commit=artifacts.head,
             ))
             continue
-        if origin not in {"human", "ai", "ai-composite"}:
+        if origin not in {"human", "ai"}:
             findings.append(Finding(
                 "invalid_origin",
                 slug,
                 "medium",
                 {"detected_origin": origin},
-                "replace the origin tag with human, ai, or ai-composite",
+                "replace the origin tag with human or ai",
                 paper_file=rel(path),
                 commit=artifacts.head,
             ))
             continue
-        if origin != "ai":
-            continue
-        candidates = index.get(slug_key(slug), [])
-        for phase, bucket, member in candidates:
-            members = bucket_members(bucket)
-            if len(members) < member_min:
-                continue
-            fields = set(str(x) for x in member.get("field_names", []) if x)
-            max_overlap = 0
-            peers: list[str] = []
-            for peer in members:
-                pname = str(peer.get("name") or "")
-                if pname == member.get("name"):
-                    continue
-                overlap = len(fields & set(str(x) for x in peer.get("field_names", []) if x))
-                max_overlap = max(max_overlap, overlap)
-                peers.append(pname)
-            same_shape = len(members) >= member_min
-            if max_overlap >= overlap_min or same_shape:
-                key = ("mislabeled_composite", slug)
-                if key in seen:
-                    continue
-                seen.add(key)
-                findings.append(Finding(
-                    "mislabeled_composite",
-                    slug,
-                    "high" if phase in {"phase2_buckets", "phase3_clusters"} else "medium",
-                    {
-                        "origin": origin,
-                        "carrier_name": member.get("name"),
-                        "carrier_file": member.get("file"),
-                        "bucket_phase": phase,
-                        "bucket_member_count": len(members),
-                        "shared_field_overlap_max": max_overlap,
-                        "bucket_members": peers[:12],
-                        "target_origin": "ai-composite",
-                    },
-                    "review whether the chapter is a composite carrier surface; likely origin ai-composite",
-                    paper_file=rel(path),
-                    lean_files=[str(member.get("file"))] if member.get("file") else [],
-                    commit=artifacts.head,
-                ))
-                break
     return findings
 
 
@@ -1631,8 +1552,6 @@ def append_to_dossier_section(section_heading: str, entry: str, dry_run: bool) -
 
 
 def topic_title_for_flag(flag: str) -> str:
-    if flag == "mislabeled_composite":
-        return "反 atomic ai 套壳 / 同型 carrier 错标 ai"
     cleaned = re.sub(r"[_-]+", " ", flag).strip()
     return cleaned or "taste negative criterion"
 
@@ -2324,10 +2243,9 @@ def detect_all(
     dry_run: bool,
 ) -> list[Finding]:
     allowlist = load_allowlist()
-    carrier = load_carrier_iso(dry_run=dry_run)
     inventory = load_inventory(dry_run=dry_run)
     findings: list[Finding] = []
-    findings.extend(detect_origin_classification(artifacts, carrier, cfg))
+    findings.extend(detect_origin_classification(artifacts, cfg))
     findings.extend(detect_capstone_source(artifacts, allowlist))
     findings.extend(detect_isolated_theorems(artifacts, inventory, state, allowlist, cfg))
     with ThreadPoolExecutor(max_workers=4) as pool:

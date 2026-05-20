@@ -72,7 +72,7 @@ CLOSURESTATUS_BLOCK_RE = re.compile(
     re.DOTALL,
 )
 TOP_LEVEL_ORIGIN_RE = re.compile(r"^\s*\\origin\{([^}]*)\}\s*$", re.MULTILINE)
-VALID_ORIGINS = {"human", "ai", "ai-composite"}
+VALID_ORIGINS = {"human", "ai"}
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
 END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
@@ -806,76 +806,6 @@ def changed_concrete_instance_tex_paths() -> set[Path] | None:
     return paths
 
 
-def detect_mislabeled_composite_carriers(min_bucket_size: int = 6) -> list[dict[str, object]]:
-    origins_by_region: dict[str, dict[str, object]] = {}
-    for block in collect_closurestatus_blocks(PAPER_PARTS_ROOT):
-        paper_file = str(block.get("file") or "")
-        region = str(block.get("region") or "")
-        origin = str(block.get("origin") or "human").strip().lower()
-        if not region or origin not in VALID_ORIGINS:
-            continue
-        origins_by_region[region] = {
-            "origin": origin,
-            "paper_file": block.get("file"),
-            "paper_line": block.get("line"),
-        }
-
-    instances = PAPER_PARTS_ROOT / "concrete_instances"
-    if instances.is_dir():
-        for path in sorted(instances.rglob("*.tex")):
-            if not path.is_file():
-                continue
-            text = read_text(path)
-            label_match = CHAPTER_LABEL_RE.search(text)
-            closure_match = CLOSURESTATUS_BEGIN_RE.search(text)
-            if not label_match or not closure_match:
-                continue
-            if closure_match.group(1) in origins_by_region:
-                continue
-            top_origin = TOP_LEVEL_ORIGIN_RE.search(text)
-            if not top_origin:
-                continue
-            origin = top_origin.group(1).strip().lower()
-            if origin not in VALID_ORIGINS:
-                continue
-            origins_by_region[closure_match.group(1)] = {
-                "origin": origin,
-                "paper_file": str(path.relative_to(REPO_ROOT)),
-                "paper_line": text.count("\n", 0, top_origin.start()) + 1,
-            }
-
-    records = collect_carrier_records()
-    phase1_map: dict[tuple[int, tuple[str, ...]], list[CarrierRecord]] = {}
-    for record in records:
-        key = (record.arity, tuple(sorted(record.field_types)))
-        phase1_map.setdefault(key, []).append(record)
-
-    findings: list[dict[str, object]] = []
-    for record in records:
-        if not record.name.endswith("Up"):
-            continue
-        region = record.name[:-2]
-        origin_info = origins_by_region.get(region)
-        if not origin_info or origin_info.get("origin") != "ai":
-            continue
-        key = (record.arity, tuple(sorted(record.field_types)))
-        members = sorted(phase1_map.get(key, []), key=lambda item: item.name)
-        if len(members) < min_bucket_size:
-            continue
-        findings.append({
-            "carrier_name": record.name,
-            "carrier_file": record.file,
-            "paper_file": origin_info.get("paper_file"),
-            "paper_line": origin_info.get("paper_line"),
-            "origin": origin_info.get("origin"),
-            "bucket_phase": "phase1_buckets",
-            "bucket_member_count": len(members),
-            "bucket_members": [member.name for member in members[:12]],
-            "required_origin": "ai-composite",
-        })
-    return sorted(findings, key=lambda item: str(item["carrier_name"]))
-
-
 CLOSURESTATUS_BEGIN_RE = re.compile(
     r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
 )
@@ -1037,11 +967,11 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
             f"{where}: missing \\constructivestory (bottom-up construction story; empty arg ok)"
         )
     origin = block.get("origin", "human")
-    if origin not in {"human", "ai", "ai-composite"}:
+    if origin not in VALID_ORIGINS:
         issues.append(
-            f"{where}: \\origin='{origin}' is not in {{human, ai, ai-composite}}"
+            f"{where}: \\origin='{origin}' is not in {{human, ai}}"
         )
-    if origin in {"ai", "ai-composite"}:
+    if origin == "ai":
         body = block.get("raw_body") or ""
         # AI-proposed chapters past seedClosure must witness a TasteGate instance.
         non_seed = tc and tc != "seedClosure"
@@ -1080,8 +1010,6 @@ def audit_payload() -> dict[str, object]:
     preamble_duplicate_commands = detect_preamble_duplicate_commands()
     concrete_number_collisions = detect_concrete_instance_number_collisions()
     concrete_missing_origin = detect_concrete_instance_missing_origin()
-    mislabeled_composite_carriers = detect_mislabeled_composite_carriers()
-
     closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     closurestatus_diagnostics: list[str] = []
     for block in closurestatus_blocks:
@@ -1107,7 +1035,6 @@ def audit_payload() -> dict[str, object]:
     _attach_violation_split(payload, "preamble_duplicate_commands", preamble_duplicate_commands, changed_files)
     _attach_violation_split(payload, "concrete_number_collisions", concrete_number_collisions, changed_files)
     _attach_violation_split(payload, "concrete_missing_origin", concrete_missing_origin, changed_files)
-    _attach_violation_split(payload, "mislabeled_composite_carriers", mislabeled_composite_carriers, changed_files)
     closurestatus_diagnostic_items = [
         {"path": str(item).split(":", 1)[0], "message": item}
         for item in closurestatus_diagnostics
@@ -1282,21 +1209,6 @@ def cmd_audit(args: argparse.Namespace) -> int:
             )
             for item in payload["concrete_missing_origin"][:50]:
                 print(f"  {item['file']}: {item['kind']}")
-        if payload["mislabeled_composite_carriers"]:
-            print(
-                "[bedc-ci] mislabeled composite carriers: "
-                f"{payload['mislabeled_composite_carriers_new_count']} new (BLOCKING), "
-                f"{payload['mislabeled_composite_carriers_legacy_count']} legacy (warning)"
-            )
-            for item in payload["mislabeled_composite_carriers"][:50]:
-                members = ", ".join(item["bucket_members"])
-                print(
-                    f"  {item['carrier_name']} origin={item['origin']} "
-                    f"bucket={item['bucket_member_count']} -> {item['required_origin']}"
-                )
-                print(f"    paper: {item['paper_file']}:{item['paper_line']}")
-                print(f"    lean: {item['carrier_file']}")
-                print(f"    bucket sample: {members}")
         if payload["closurestatus_diagnostics"]:
             print(
                 "[bedc-ci] closurestatus block diagnostics: "
@@ -1337,7 +1249,6 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["preamble_duplicate_commands_new_count"]
         + payload["concrete_number_collisions_new_count"]
         + payload["concrete_missing_origin_new_count"]
-        + payload["mislabeled_composite_carriers_new_count"]
         + payload["closurestatus_diagnostics_new_count"]
         + payload["orphan_concrete_subdirs_new_count"]
     )
@@ -2076,7 +1987,7 @@ def cmd_conservativity_audit(args: argparse.Namespace) -> int:
     blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     ai_chapters: list[str] = []
     for b in blocks:
-        if b.get("origin") in {"ai", "ai-composite"}:
+        if b.get("origin") == "ai":
             region = b.get("region")
             if region:
                 ai_chapters.append(region)
