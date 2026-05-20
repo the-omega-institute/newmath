@@ -334,6 +334,34 @@ For the reverse direction, suppose the public read displays exactly $D,S,Q,R,B,H
 Finally apply \autoref{thm:phase-real-completion-exit-support-row-nonsubstitution}. It rules out aggregate formalstatus rows, bridge tokens, quotient streams, selected limits, host or metric completeness data, countable-choice rows, and fused witnesses as replacements for $H,C,P,N$. Together with the facewise readback, this proves that all five face rows and all four support rows are necessary and sufficient for the accepted public gate read.
 \end{proof}
 
+\begin{theorem}[Phase real-completion exit current local-status witness]
+\label{thm:phase-real-completion-exit-current-local-status-witness}
+Let $E=(D,S,Q,R,B,H,C,P,N)$ be an accepted $\PhaseRealCompletionExitUp$ packet. Suppose its four roadmap faces read the local records of $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and suppose its $\RealCompletionExactBoundaryUp$ face is supplied on the same finite route. Then $E$ satisfies the roadmap Phase Real and Completion exit criterion in the current paper state: the four roadmap faces are each at least $\scopedClosure$ on the closure axis and at least $\auditCleanV$ on the verification axis, while the boundary face is the same-route exact-boundary witness. The packet introduces no aggregate formalstatus row, quotient stream, selected limit, host-completeness row, or fused bridge token.
+\end{theorem}
+\begin{proof}
+Read the local component blocks. $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RealUp$ carry $\matureClosure$ with $\bridgeCheckedV$ records, so each is above the required $\scopedClosure$ and $\auditCleanV$ thresholds. $\RegSeqRatUp$ carries $\matureClosure$ with an $\axiomCleanV$ record, which is still above the required $\auditCleanV$ verification threshold for this roadmap gate.
+
+The $\RealCompletionExactBoundaryUp$ block carries the same-route exact-boundary witness with $\matureClosure$ and $\bridgeCheckedV$. This supplies the boundary face required by the accepted packet, but it does not become a fifth roadmap object.
+
+Apply \autoref{thm:phase-real-completion-exit-scoped-audit-threshold} to the accepted packet. The threshold is met by reading the dyadic, stream, regular-rational, real, and exact-boundary faces through their own local closurestatus and formalstatus rows. In particular, the $\RegSeqRatUp$ \texttt{paperBridge} row is harmless here because this gate asks for audit-clean local verification, not for componentwise $\bridgeCheckedV$ status.
+
+Finally apply \autoref{thm:phase-real-completion-exit-four-object-threshold-projection}. It projects the five-face packet read to the four roadmap objects $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with $\RealCompletionExactBoundaryUp$ used only as the same-route boundary witness. The projection therefore discharges the roadmap Phase Real and Completion exit criterion without adding an aggregate formalstatus row, quotient stream, selected limit, host-completeness row, or fused bridge token.
+\end{proof}
+
+\begin{theorem}[Phase real-completion exit roadmap refusal boundary]
+\label{thm:phase-real-completion-exit-roadmap-refusal-boundary}
+Let $E=(D,S,Q,R,B,H,C,P,N)$ be an accepted $\PhaseRealCompletionExitUp$ packet satisfying the current local-status witness of \autoref{thm:phase-real-completion-exit-current-local-status-witness}. Its roadmap export consists exactly of the four face records $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, the same-route $\RealCompletionExactBoundaryUp$ witness, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\PhaseRealCompletionExitUp}$ support rows. It exports no Dedekind-cut reals, open-cover compactness, Heine-Borel theorem, classical trichotomy, primitive quotient stream, selected limit, countable-choice row, metric-completeness datum, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:phase-real-completion-exit-current-local-status-witness}. The accepted packet meets the current Phase Real and Completion exit criterion by displaying the four roadmap faces at the required local closure and verification thresholds, while $\RealCompletionExactBoundaryUp$ remains only the same-route exact-boundary witness.
+
+Apply \autoref{thm:phase-real-completion-exit-public-gate-certificate}. The public gate consumes the face records $D,S,Q,R$ and the boundary witness $B$ together with the support rows $H,C,P,N$. Thus the exported carrier is the finite tuple $E=(D,S,Q,R,B,H,C,P,N)$ and the support it displays through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$.
+
+Next apply \autoref{thm:phase-real-completion-exit-boundary-face-nonsubstitution}. The excluded objects in \autoref{sec:roadmap-l10-constructive-constraints} and \autoref{sec:roadmap-off-the-table} have no carrier coordinate in $E$: Dedekind-cut reals, open-cover compactness, Heine-Borel, classical trichotomy, primitive quotient streams, selected limits, countable choice, metric completeness, and ambient $\RealUp$ completeness are not among $D,S,Q,R,B,H,C,P,N$.
+
+Finally read the same packet through the roadmap two-axis discipline of \autoref{sec:roadmap-closure-and-verification-axes}. Closure records and verification records remain attached to the local faces that supply them, so no refused off-table claim can be recovered by promoting a closure row into a verification row, by promoting a verification row into a closure row, or by fusing the component bridge reports into a completion primitive. Hence the accepted packet exports exactly the stated roadmap boundary and nothing stronger.
+\end{proof}
+
 \falsifiablePrediction{If a consumer fuses the dyadic, stream, regular, and real face reports into a single bridge token or completeness token, the $\PhaseRealCompletionExitUp$ packet is refuted.}
 
 \independenceWitness{dyadicratcore, streamname, regseqrat, real, realcompletionexactboundary: no single sibling is bijective to the phase product because the packet binds dyadic arithmetic, finite stream observation, regular rational handoff, real sealing, exact boundary, transport, replay, provenance, and local naming in one displayed exit carrier.}
