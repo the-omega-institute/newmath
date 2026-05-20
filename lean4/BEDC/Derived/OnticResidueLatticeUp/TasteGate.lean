@@ -189,4 +189,14 @@ theorem OnticResidueLatticeTasteGate_single_carrier_alignment :
           cases h⟩
   · rfl
 
+theorem OnticResidueLattice_activation_nonescape {O A M S B R K H C P N : BHist} :
+    onticResidueLatticeFields (OnticResidueLatticeUp.mk O A M S B R K H C P N) =
+        [O, A, M, S, B, R, K, H, C, P, N] ∧
+      onticResidueLatticeToEventFlow (OnticResidueLatticeUp.mk O A M S B R K H C P N) =
+        List.map onticResidueLatticeEncodeBHist [O, A, M, S, B, R, K, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · rfl
+
 end BEDC.Derived.OnticResidueLatticeUp
