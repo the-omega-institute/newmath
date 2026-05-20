@@ -1,6 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\RegistryExportSurfaceUp$}
 \label{ch:concrete-instances-registry-export-surface-namecert}
-\origin{ai}
+\origin{ai-composite}
 
 The $\RegistryExportSurfaceUp$ packet realizes the export-control surface of \autoref{def:philosophy-export-control-surface} inside the auditable-generativity programme of \autoref{ch:visions-philosophy-auditable-generativity}. It sits beside the cannot-claim registry packet of \autoref{ch:concrete-instances-axiszeckendorfcannotclaim-namecert}, the verified-output boundary of \autoref{ch:concrete-instances-largemodeloutputverifier-namecert}, the focused finite ledger of \autoref{ch:concrete-instances-focused-multi-hist-ledger-namecert}, the GroundCompiler recognition surface of \autoref{ch:concrete-instances-groundcompilerrecognition-namecert}, and the NameCert audit pattern of \autoref{ch:concrete-instances-physical-namecert-audit-namecert}. Those siblings supply refusal rows, checker-facing export, focused ledger scope, machine recognition, and naming-audit discipline; this carrier binds claim registration, blocking, status, machine target, audit route, and non-smuggling rows before a registry claim may leave the philosophy package.
 
@@ -65,6 +65,54 @@ If a route omits $B$, the route no longer knows whether the claim is blocked by 
 The rows $H,C,P,N$ bind these checks to the same displayed packet. Hence every accepted export remains inside the listed rows, and any route that bypasses them exits the $\RegistryExportSurfaceUp$ carrier rather than exporting a BEDC registry claim.
 \end{proof}
 
+\begin{theorem}[Registry export surface status exactness]
+\label{thm:registry-export-surface-status-exactness}
+Let
+$$
+E=(R,B,S,M,A,U,H,C,P,N)
+$$
+be an accepted $\RegistryExportSurfaceUp$ $\BHist$ packet with $\hsame$ transport $H$, $\Cont$ replay $C$, provenance package $P$, and local $\NameCert_{\RegistryExportSurfaceUp}$ row $N$. The status row $S$ keeps the exported, blocked, horizon-facing, and formalization-target readings as separate registry statuses: no $\NameCert_{\RegistryExportSurfaceUp}$ audit may identify any two of these readings while preserving the displayed registration row $R$, blocking row $B$, machine-target row $M$, audit row $A$, and non-smuggling row $U$.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:registry-export-surface-carrier}. The row $S$ is the only displayed coordinate assigned to export status, and the definition lists exported, blocked, horizon-facing, and formalization-target readings as the alternatives recorded there.
+
+Apply the NameCert obligations of \autoref{thm:registry-export-surface-namecert-obligations}. Their third row requires status exactness through $S$, and their surrounding rows keep $R,B,M,A,U,H,C,P,N$ in the same finite packet.
+
+Finally use the non-escape theorem, \autoref{thm:registry-export-surface-nonescape}. A consumer that tries to merge two status readings must still read $B$ and $U$ through the same transport and replay rows; if it bypasses either row, it no longer exports from the $\RegistryExportSurfaceUp$ carrier. Thus the four status readings remain distinct for every accepted packet audit.
+\end{proof}
+
+\begin{theorem}[Registry export surface machine-target audit route]
+\label{thm:registry-export-surface-machine-target-audit-route}
+Let
+$$
+E=(R,B,S,M,A,U,H,C,P,N)
+$$
+be an accepted $\RegistryExportSurfaceUp$ $\BHist$ packet. Every machine-target export from $E$ factors through the displayed machine target $M$, audit row $A$, transport row $H$, replay row $C$, provenance package $P$, and local $\NameCert_{\RegistryExportSurfaceUp}$ row $N$, and this factorization cannot bypass the blocking row $B$.
+\end{theorem}
+\begin{proof}
+Read the carrier in \autoref{def:registry-export-surface-carrier}. The machine-facing consumer is not an ambient parameter: it is the row $M$, and the route it may inspect is the row $A$ together with $H,C,P,N$.
+
+The NameCert obligations of \autoref{thm:registry-export-surface-namecert-obligations} place machine-target and audit exposure in one row, and they place transport, replay, provenance, and local naming in the final row. These rows therefore describe the finite route from the machine target back to the named packet.
+
+The blocking row is still part of the same export. By \autoref{thm:registry-export-surface-nonescape}, any public consumer exporting a registry claim must read $B$ as well as $M,A,H,C,P,N$. A purported machine target that reaches the claim without $B$ is outside the accepted carrier rather than a machine-target export from $E$.
+\end{proof}
+
+\begin{theorem}[Registry export surface non-smuggling ledger exhaustion]
+\label{thm:registry-export-surface-nonsmuggling-ledger-exhaustion}
+Let
+$$
+E=(R,B,S,M,A,U,H,C,P,N)
+$$
+be an accepted $\RegistryExportSurfaceUp$ $\BHist$ packet. The prose reading, host-semantic reading, model-output reading, and hidden-registry-state reading are refused by the non-smuggling row $U$ together with the displayed $\hsame$ transport $H$, $\Cont$ replay $C$, provenance package $P$, and local $\NameCert_{\RegistryExportSurfaceUp}$ row $N$; no further ledger coordinate is available for importing any of these readings into the registry export.
+\end{theorem}
+\begin{proof}
+The carrier definition names $U$ as the row that records forbidden readings from prose, host semantics, model output, and hidden registry state. It also states that the packet contains no coordinate for a prose-only export route, hidden machine target, or private override of the blocking row.
+
+The NameCert obligations of \autoref{thm:registry-export-surface-namecert-obligations} make this refusal visible at the export boundary. They assign non-smuggling accountability to $U$ and bind it to the transport, replay, provenance, and local naming rows $H,C,P,N$.
+
+It remains to exclude a hidden ledger extension. Apply \autoref{thm:registry-export-surface-nonescape}: every accepted public export must read $U,H,C,P,N$ along with the registration, blocking, status, machine-target, and audit rows. Since the carrier has no additional coordinate, the listed rows exhaust the ledger route and refuse exactly the four forbidden readings named in the theorem.
+\end{proof}
+
 \begin{theorem}[Registry export surface TasteGate obligation]
 \label{thm:registry-export-surface-tastegate-obligation}
 The Lean follow-up for $\RegistryExportSurfaceUp$ must provide $\Nontrivial\ \RegistryExportSurfaceUp$ and $\FieldFaithful\ \RegistryExportSurfaceUp$ in $\mathsf{lean4/BEDC/Derived/RegistryExportSurfaceUp/TasteGate.lean}$, with the nontriviality witness exposing at least one accepted registration-or-blocking packet and the field-faithfulness witness preserving the distinct rows $R,B,S,M,A,U,H,C,P,N$.
@@ -90,7 +138,7 @@ Thus the Lean surface named in the theorem is the appropriate follow-up site for
   \scopeclosed{The seed packet records the carrier, NameCert obligations, non-escape theorem, TasteGate obligation, falsifiable prediction, and independence witness for registry export control.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
+  \origin{ai-composite}
   \notclaimed{This chapter does not close Lean verification, bridge checking, hidden registry state, prose-only export, or machine targets that bypass blocking.}
   \upgradepath{Obligation closure requires checked registration, blocking, status, machine-target, audit, non-smuggling, transport, replay, provenance, and local naming rows.}
 \end{closurestatus}
