@@ -281,3 +281,46 @@ metric-completeness data, aggregate formalstatus, aggregate bridge tokens,
 and $\RealUp$ completeness vocabulary cannot repair the failed terminal
 read.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal four-face defect localization]
+\label{thm:real-l10-terminal-four-face-defect-localization}
+Let $\mathcal T$ be an accepted terminal Phase Real and Completion read
+through $\StreamNameUp$. If $\mathcal T$ fails the roadmap exit criterion,
+then the failed terminal read has a witness localized to a single displayed
+face among
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+At that face, the witness is read either from the local closurestatus,
+formalstatus, leantarget, and bridgestatus record, or from one of the
+displayed support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+attached to that face.
+
+The localization has no repair coordinate outside those four faces.
+Quotient stream equality, selected limits, countable choice,
+metric-completeness data, aggregate formalstatus, aggregate bridge tokens,
+and $\RealUp$ completeness do not supply terminal repair data and do not move
+the witness away from the face where the failed read is displayed.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-l10-streamname-terminal-status-minimality}. It
+forces every accepted terminal $\StreamNameUp$ read to inspect the four local
+closurestatus, formalstatus, leantarget, and bridgestatus records for
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Apply \autoref{thm:real-l10-exit-defect-face-completeness}. A failed accepted
+exit read is exhausted by those four face records and by the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows on those
+faces. Hence some face carries the displayed witness.
+
+Now use \autoref{thm:real-l10-face-status-product-readback}. The terminal
+readback contains exactly the four face-local status, target, and bridge
+triples, so the witness can be chosen on one of the four objectwise faces
+rather than on a route-level aggregate.
+
+Finally read the conclusion through
+\autoref{sec:roadmap-closure-and-verification-axes}. The roadmap separates
+paper closure, verification status, Lean target, and bridge status into local
+reported coordinates. It gives no rule that turns quotient stream equality,
+selected limits, countable choice, metric completeness, aggregate
+formalstatus, aggregate bridge data, or $\RealUp$ completeness into a
+terminal repair coordinate.
+\end{proof}
