@@ -370,3 +370,63 @@ countable choice, ambient $\RealUp$ completeness, metric-completeness data,
 aggregate formalstatus rows, and bridge rows cannot supply the deleted face or
 support row, and cannot preserve the same carrier and classifier verdicts.
 \end{proof}
+
+\begin{theorem}[StreamName finite-cover terminal support defect localization]
+\label{thm:streamname-finite-cover-terminal-support-defect-localization}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase
+$\RealUp$ and Completion $\StreamNameUp$ request sections satisfying the
+accepted-overlap hypotheses of
+\autoref{thm:streamname-finite-cover-terminal-support-minimality}. Suppose a
+cover-descent terminal support packet for the family fails to preserve the
+carrier verdict, the classifier verdict, or the consumer-facing terminal route
+presented by that finite cover. Then the failure is witnessed on one local
+face among $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$, or on one displayed support row among $\BHist$, componentwise
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$.
+
+The witness is componentwise on one accepted local section or accepted
+overlap. Quotient stream equality, host sequence equality, selected limits,
+countable choice, ambient $\RealUp$ completeness, metric-completeness data,
+aggregate formalstatus rows, and bridge rows cannot serve as the defect
+carrier and cannot serve as the repair coordinate for the cover-descent
+terminal packet.
+\end{theorem}
+\begin{proof}
+First fix the cover support. By
+\autoref{thm:streamname-finite-cover-terminal-support-minimality}, the
+finite cover presents its terminal support packet exactly on the StreamName
+finite-window face, the DyadicRatCore ledger face, the RegSeqRat readback
+face, the Real seal face, and the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows.
+
+Now restrict the failed cover presentation to one accepted local section or
+accepted overlap where the carrier verdict, classifier verdict, or terminal
+route is lost. Apply
+\autoref{thm:streamname-terminal-support-defect-localization} on that local
+section. The local theorem places the defect on one of the four visible faces
+or on one displayed support row, and excludes quotient, host-sequence, limit,
+choice, completeness, aggregate-status, and bridge coordinates.
+
+It remains to show that this local witness is still the cover witness. Use
+\autoref{thm:streamname-terminal-four-face-support-replay-induction} on the
+ordered cover support list. The induction transports the local localization
+through the StreamName window, DyadicRatCore ledger, RegSeqRat readback, Real
+seal boundary, and displayed support rows without adding any off-route
+coordinate.
+
+At the RegSeqRat face,
+\autoref{thm:regseqrat-real-terminal-four-face-exactness} identifies the
+transported boundary with the terminal four-face support packet, and
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness} rules out a
+second finite RegSeqRat source with the same public verdict. Thus a RegSeqRat
+defect cannot be repaired by changing quotient equality, selected limits, or
+ambient completeness data.
+
+Finally
+\autoref{thm:real-l10-dependency-lattice-exit-totality} sends every accepted
+current Phase Real and Completion terminal read through the same ordered
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ exit route.
+The cover-descent packet therefore has no remaining coordinate outside the
+four faces and displayed rows on which a carrier verdict, classifier verdict,
+or consumer-facing terminal route defect could live.
+\end{proof}
