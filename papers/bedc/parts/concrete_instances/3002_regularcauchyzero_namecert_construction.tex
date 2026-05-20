@@ -118,13 +118,25 @@ For tail-meet and finite-tail diagonal consumers, apply \autoref{thm:regular-cau
 For limit-transport and real-seal consumers, apply \autoref{thm:regular-cauchy-zero-real-seal-nonescape} and \autoref{thm:regular-cauchy-zero-downstream-handoff}. These results exhaust the terminal consumer-visible boundary by the displayed rows, so a consumer has no remaining coordinate through which $Z$ and $Z'$ can be separated.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy zero obligation closure package]
+\label{thm:regular-cauchy-zero-obligation-closure-package}
+The carrier definition of \autoref{def:regular-cauchy-zero-carrier}, together with the visible rows certified in \autoref{thm:regular-cauchy-zero-namecert-obligations}, \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route}, \autoref{thm:regular-cauchy-zero-tail-meet-identity}, \autoref{thm:regular-cauchy-zero-real-seal-nonescape}, and \autoref{thm:regular-cauchy-zero-downstream-handoff}, forms the full $\RegularCauchyZeroUp$ obligation package. The package consists exactly of the rational zero seed, the constant $\StreamNameUp$ window, the $\RegSeqRatUp$ zero row, the $\CauchyModulusUp$ zero row, the $\CauchyModulusMeetUp$ identity row, the $\RealUp$ seal route, and downstream non-escape, all as visible finite rows over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:regular-cauchy-zero-carrier}. Its coordinates display the rational zero seed, constant stream row, regular rational row, zero modulus row, meet row, seal row, transports, continuations, provenance, and local naming row.
+
+Apply \autoref{thm:regular-cauchy-zero-namecert-obligations} to identify those coordinates as the local $\NameCert_{\RegularCauchyZeroUp}$ surface. Apply \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route} to force the zero seed through the constant $\StreamNameUp$ window and dyadic observation boundary before any regular-Cauchy or real-facing consumer can read it.
+
+Apply \autoref{thm:regular-cauchy-zero-tail-meet-identity} to pin the modulus meet to the displayed zero row, and apply \autoref{thm:regular-cauchy-zero-real-seal-nonescape} to route the $\RealUp$ seal through the same finite chain. Finally, \autoref{thm:regular-cauchy-zero-downstream-handoff} exhausts the consumer-visible boundary, so no quotient stream, host equality, selected limit, nonzero witness, or ambient completeness object remains outside the listed obligation rows.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchyZeroUp}
   \constructivestory{A $\RegularCauchyZeroUp$ packet is generated from finite $\BHist$ rows for the rational zero seed, constant $\StreamNameUp$ row, zero $\RegSeqRatUp$ readback, zero modulus row, identity meet row, and terminal $\RealUp$ seal. The route starts at the displayed zero seed and is replayed by $\Cont$ through stream, regular-rational, modulus, meet, and seal rows before any completion-facing consumer reads it. Componentwise $\hsame$ preserves the same zero route, while $\Pkg$ records the rational, stream, regular-sequence, modulus, tail-meet, diagonal-seal, and Real dependencies. The packet names the finite zero source rather than host real equality.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the regular Cauchy zero carrier, sibling route, tail-meet identity, RealUp seal non-escape, and downstream handoff exhaustion for $\RegularCauchyZeroUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{This chapter binds the regular Cauchy zero carrier, sibling route, tail-meet identity, RealUp seal non-escape, downstream handoff exhaustion, and the obligation package of \autoref{thm:regular-cauchy-zero-obligation-closure-package}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim quotient stream equality, host zero equality, selected real limits, nonzero witness streams, or ambient completeness.}
-  \upgradepath{Obligation closure requires Lean encodings of the zero carrier, StreamName route, tail-meet identity, seal route, and non-escape theorem.}
+  \upgradepath{Scoped closure requires RatUp, StreamNameUp, RegSeqRatUp, CauchyModulusUp, CauchyModulusMeetUp, RealUp, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coverage to be connected through one checked route.}
 \end{closurestatus}
