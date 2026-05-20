@@ -218,4 +218,21 @@ theorem ExternalSupplyWitness_namecert_obligations {S R G L H C P N : BHist} :
         | intro _packetEq rowName =>
             exact And.intro rowName rfl
 
+theorem ExternalSupplyWitness_socket_factorization {S R G L H C P N row mid routed : BHist} :
+    hsame row mid →
+      hsame mid routed →
+        (∃ packet : ExternalSupplyWitnessUp,
+          packet = ExternalSupplyWitnessUp.mk S R G L H C P N ∧ hsame row N) →
+          (externalSupplyWitnessFields (ExternalSupplyWitnessUp.mk S R G L H C P N) =
+              [S, R, G, L, H, C, P, N] ∧ hsame routed N) ∧
+            (hsame routed N ∧
+              externalSupplyWitnessEncodeBHist BHist.Empty = ([] : List BMark)) := by
+  -- BEDC touchpoint anchor: BHist BMark SemanticNameCert hsame
+  intro rowMid midRouted source
+  exact
+    semanticNameCert_classifier_chain_transport
+      (ExternalSupplyWitness_namecert_obligations (S := S) (R := R) (G := G) (L := L)
+        (H := H) (C := C) (P := P) (N := N))
+      rowMid midRouted source
+
 end BEDC.Derived.ExternalSupplyWitnessUp
