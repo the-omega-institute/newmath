@@ -1260,6 +1260,7 @@ import BEDC.Derived.CofinalTailBudgetUp.StdBridge
 import BEDC.Derived.CofinalTailBudgetUp.TasteGate
 import BEDC.Derived.CofinalTailEquivalenceUp.TasteGate
 import BEDC.Derived.CofinalWindowRealSealUp.NameCertObligations
+import BEDC.Derived.CofinalWindowRealSealUp.ObligationScope
 import BEDC.Derived.CofinalWindowRealSealUp.StdBridge
 import BEDC.Derived.CofinalWindowRealSealUp.TasteGate
 import BEDC.Derived.CofinalWindowRealSealUp.TerminalMeet
@@ -2484,6 +2485,8 @@ import BEDC.Derived.FiniteObservationInterfaceUp.TasteGate
 import BEDC.Derived.FiniteObservationLockUp.TasteGate
 import BEDC.Derived.FiniteObservationReflectionSealUp.TasteGate
 import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
+import BEDC.Derived.FiniteObservationResidueBoundaryUp.AuditHandoff
+import BEDC.Derived.FiniteObservationResidueBoundaryUp.AuditNonclosure
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
 import BEDC.Derived.FinitePhaseSamplingUp
 import BEDC.Derived.FinitePrefixAutomatonUp.TasteGate
@@ -2951,6 +2954,7 @@ import BEDC.Derived.LatticeUp.ModularComparison
 import BEDC.Derived.LatticeUp.Monotonicity
 import BEDC.Derived.LatticeUp.StdBridge
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
+import BEDC.Derived.LawCertificateUp.ContinuationScope
 import BEDC.Derived.LawCertificateUp.NameCert
 import BEDC.Derived.LawCertificateUp.TasteGate
 import BEDC.Derived.LayeredRelationCertUp.TasteGate
@@ -3457,6 +3461,7 @@ import BEDC.Derived.OnticTowerUp.TasteGate
 import BEDC.Derived.OpenFitPacketUp.NoFinalOracleBoundary
 import BEDC.Derived.OpenFitPacketUp.SignatureFitHandoff
 import BEDC.Derived.OpenFitPacketUp.TasteGate
+import BEDC.Derived.OpenFitResidueGateUp.NameCertObligations
 import BEDC.Derived.OpenFitResidueGateUp.TasteGate
 import BEDC.Derived.OpenPhysicalFitUp.ObservationExtensionStability
 import BEDC.Derived.OpenPhysicalFitUp.RefutationBoundary
@@ -3983,6 +3988,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.KernelTruthRoute
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10Readiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10SourceReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.LedgerExactness
+import BEDC.Derived.RealityConstrainedTruthCertUp.LedgerFailureLocalNameObligation
 import BEDC.Derived.RealityConstrainedTruthCertUp.NameCertObligationExhaustion
 import BEDC.Derived.RealityConstrainedTruthCertUp.OpenFitRefusalSurface
 import BEDC.Derived.RealityConstrainedTruthCertUp.PhysicalFitNonescape
