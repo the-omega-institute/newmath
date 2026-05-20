@@ -184,8 +184,8 @@ theorem CofinalSubsequenceCarrier_public_export_package [AskSetup] [PackageSetup
         (fun row : BHist =>
           CofinalSubsequenceCarrier source selector window dyadic regseq realSeal transport
             route provenance nameCert bundle pkg ∧ hsame row nameCert)
-        hsame :=
-    CofinalSubsequenceCarrier_namecert_obligations carrier
+          hsame :=
+      CofinalSubsequenceCarrier_namecert_obligations carrier
   obtain ⟨_sourceUnary, _selectorUnary, _windowUnary, _dyadicUnary, _regseqUnary,
     _realSealUnary, _transportUnary, _routeUnary, provenanceUnary, _nameCertUnary,
     _sourceSelectorWindow, _windowDyadicTransport, _regseqDyadicSeal,
@@ -193,5 +193,48 @@ theorem CofinalSubsequenceCarrier_public_export_package [AskSetup] [PackageSetup
   have downstreamUnary : UnaryHistory downstream :=
     unary_cont_right_factor nameCertDownstream provenanceUnary
   exact ⟨cert, downstreamUnary, sealSame, pkgSig⟩
+
+theorem CofinalSubsequenceCarrier_bridge_selector_schema [AskSetup] [PackageSetup]
+    {source selector window dyadic regseq realSeal transport route provenance nameCert
+      downstream bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CofinalSubsequenceCarrier source selector window dyadic regseq realSeal transport route
+        provenance nameCert bundle pkg ->
+      Cont nameCert downstream provenance ->
+        Cont downstream realSeal bridge ->
+          PkgSig bundle bridge pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  CofinalSubsequenceCarrier source selector window dyadic regseq realSeal
+                    transport route provenance nameCert bundle pkg ∧ hsame row nameCert)
+                (fun row : BHist =>
+                  CofinalSubsequenceCarrier source selector window dyadic regseq realSeal
+                    transport route provenance nameCert bundle pkg ∧ hsame row nameCert)
+                (fun row : BHist =>
+                  CofinalSubsequenceCarrier source selector window dyadic regseq realSeal
+                    transport route provenance nameCert bundle pkg ∧ hsame row nameCert)
+                hsame ∧
+              UnaryHistory downstream ∧ UnaryHistory bridge ∧
+                hsame realSeal (append regseq dyadic) ∧ Cont downstream realSeal bridge ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle bridge pkg := by
+  -- BEDC touchpoint anchor: BHist CofinalSubsequenceCarrier hsame SemanticNameCert
+  intro carrier nameCertDownstream downstreamRealBridge bridgePkg
+  have publicSurface :=
+    CofinalSubsequenceCarrier_public_export_package carrier nameCertDownstream
+  obtain ⟨certSurface, downstreamUnary, sealSame, provenancePkg⟩ := publicSurface
+  obtain ⟨_sourceUnary, _selectorUnary, _windowUnary, _dyadicUnary, _regseqUnary,
+    realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary,
+    _sourceSelectorWindow, _windowDyadicTransport, _regseqDyadicSeal,
+    _sealProvenanceNameCert, _sealSame, _pkgSig⟩ := carrier
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed downstreamUnary realSealUnary downstreamRealBridge
+  exact
+    ⟨certSurface,
+      downstreamUnary,
+      bridgeUnary,
+      sealSame,
+      downstreamRealBridge,
+      provenancePkg,
+      bridgePkg⟩
 
 end BEDC.Derived.CofinalSubsequenceUp
