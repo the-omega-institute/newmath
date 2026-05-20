@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.32 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.33 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Source priority weights (critical_path dispatch_weights)
 
@@ -101,6 +101,8 @@ Every new `\origin{ai}` chapter MUST include the following four rows beyond the 
 When proposing a `vision_concretization` / `automath_concretization` / `human_chapter_extension` `new_chapter` target with `\origin{ai}`, the `proposed_change` MUST explicitly list which falsifiable prediction the chapter will commit, which 3-5 sibling slugs the independence witness will name, and confirm that Lean TasteGate.lean will include `Nontrivial` + `FieldFaithful` instances. Targets that decline these (e.g. via `\origin{ai-composite}` opt-out) must clearly state in `proposed_change.notes` why the chapter is structurally composite rather than atomic.
 
 Before emitting any `new_chapter` target with `\origin{ai}`, run `python3 lean4/scripts/bedc_ci.py audit --json` and inspect `mislabeled_composite_carriers`. Do not propose an atomic `ai` chapter whose `<X>Up` carrier falls in a `phase1_buckets` carrier-isomorphism bucket with at least 6 members. Mark it `\origin{ai-composite}` or pick a carrier with a genuinely isolated field surface.
+
+Before emitting any target that touches an existing `\origin{ai}` concrete-instance chapter, run `python3 lean4/scripts/bedc_ci.py audit --json` and inspect `mislabeled_composite_carriers`. If the chapter's `<X>Up` appears there, the ONLY valid paper target is changing that chapter's lineage to `\origin{ai-composite}` with a composite dependency sentence. Reject any target that would add or strengthen `\leanchecked`, `\leanstmt`, `closurestatus`, `\falsifiablePrediction`, `\independenceWitness`, or atomic `ai` nontriviality prose for that chapter.
 
 ## TOP-LEVEL HARD GATE — conjecture-chase target (sieve-orthogonal discovery)
 
