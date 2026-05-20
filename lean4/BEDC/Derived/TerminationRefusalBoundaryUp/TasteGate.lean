@@ -234,4 +234,12 @@ theorem TerminationRefusalBoundaryTasteGate_single_carrier_alignment :
             · exact ⟨terminationRefusalBoundaryBHistCarrier⟩
             · exact ⟨terminationRefusalBoundaryFieldFaithful⟩
 
+theorem TerminationRefusalBoundary_trace_refusal_row_separation
+    (S I F H C P N : BHist) :
+    TerminationRefusalBoundaryUp.mk S I (BHist.e0 BHist.Empty) F BHist.Empty H C P N ≠
+      TerminationRefusalBoundaryUp.mk S I BHist.Empty F (BHist.e1 BHist.Empty) H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  cases h
+
 end BEDC.Derived.TerminationRefusalBoundaryUp
