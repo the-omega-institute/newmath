@@ -494,3 +494,65 @@ excluded quotient, host-equality, selected-limit, choice, completeness,
 metric-completeness, and bridge data are not rows of that terminal packet, they
 are not read by this exit.
 \end{proof}
+
+\begin{theorem}[RealCauchyCompletion uniform-Cauchy terminal equivalence]
+\label{thm:real-cauchy-completion-uniform-cauchy-terminal-equivalence}
+Let $C=(X,\mu,D,E_C,P_C,N_C)$ be an accepted
+$\RealCauchyCompletionUp$ read, and let
+$U=(I,W,M,Q,T,E_U,H_U,C_U,P_U,N_U)$ be an accepted finite-budget
+$\UniformCauchyCriterionUp$ read. The two reads determine the same terminal
+Phase Real and Completion surface exactly when they expose the same finite
+budget rows and the same four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+with the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support.
+
+Equivalently, the $\RealCauchyCompletionUp$ route and the
+$\UniformCauchyCriterionUp$ route are two presentations of one finite L10
+surface precisely when the completion seal factors through the displayed
+tail-budget and uniform-criterion rows, and the uniform-Cauchy budget exits
+through the same four-object Real terminal packet. This equivalence reads no
+quotient stream, selected host limit, host real equality, countable-choice row,
+ambient completeness theorem, metric-completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+For the $\UniformCauchyCriterionUp$ presentation, first apply
+\autoref{thm:real-uniform-cauchy-completion-route-lock}. It locks the accepted
+finite budget to the displayed rows $I,W,M,Q,T,E_U,H_U,C_U,P_U,N_U$ and to the
+four Real L10 faces. Then
+\autoref{thm:real-uniform-cauchy-four-object-terminal-determinacy} identifies
+any two such accepted uniform-Cauchy exits once those rows and the four faces
+agree.
+
+For the $\RealCauchyCompletionUp$ presentation, use
+\autoref{thm:real-cauchy-completion-tail-budget-seal-route} to put the
+completion-facing seal on the same finite tail-budget route. Then apply
+\autoref{thm:real-cauchy-completion-uniform-criterion-seal-factorization}: the
+completion carrier whose diagonal packet consumes the uniform criterion reaches
+the $\RealUp$ seal only through the regular-family row, unary modulus, uniform
+shared-tail threshold, Cauchy-limit seal selector, finite $\StreamNameUp$
+windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and the displayed
+support rows.
+
+It remains to identify the common terminal object. The four-object pullback
+\autoref{thm:streamname-real-completion-four-object-terminal-pullback} says that
+the terminal Real-and-Completion read is fixed by
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ together with the shared
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Hence agreement on
+those rows is sufficient for the two presentations to determine the same
+terminal finite L10 surface.
+
+Conversely, if the two reads determine the same terminal Phase Real and
+Completion surface, the terminal pullback can display only the four faces and
+support rows just named. The route-lock and seal-factorization theorems then
+recover the finite uniform-Cauchy budget and the RealCauchyCompletion
+tail-budget seal route from that same packet, so the exposed finite rows agree.
+
+The refusal clause is inherited from every cited boundary theorem. None of the
+locked rows contains a coordinate for quotient streams, selected host limits,
+host real equality, countable choice, ambient completeness, metric-completeness
+data, or standard bridges, so no such row can distinguish the two terminal
+presentations.
+\end{proof}
