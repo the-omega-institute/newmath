@@ -160,6 +160,26 @@ It remains to identify the restricted exit packet. Use \autoref{thm:dyadicratcor
 The exclusion clause is inherited from the restriction functoriality theorem, source determinacy, objectwise exit equivalence, and terminal pullback. None of those cited surfaces exposes a row for quotient rational equality, quotient stream equality, selected limits, countable choice, metric-completeness data, aggregate formalstatus, aggregate bridge data, or ambient $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore L10 exit ledger restriction composition]
+\label{thm:dyadicratcore-l10-exit-ledger-restriction-composition}
+Let $P$ be an accepted Phase Real and Completion four-face packet, let $P'$ be obtained from $P$ by deleting only downstream consumer rows, and let $P''$ be obtained from $P'$ by the same kind of downstream-consumer restriction. Suppose both restrictions preserve the displayed $\DyadicRatCoreUp$ signed mantissa, exponent, denominator, comparison, distance, and radius rows; the $\StreamNameUp$ finite-window rows; the $\RegSeqRatUp$ classifier and readback rows; the local $\RealUp$ seal rows; and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Then the DyadicRatCore ledger read from $P''$ is exactly the direct restriction of the DyadicRatCore ledger read from $P$. Equivalently, the two-step restricted four-face exit packet determined by $P \mapsto P' \mapsto P''$ is the same restricted four-face exit packet obtained by deleting the combined downstream consumer rows from $P$ in one step.
+
+This composition law introduces no quotient rational equality, quotient stream equality, selected limit, countable-choice row, metric-completeness datum, aggregate formalstatus row, aggregate bridge row, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadicratcore-l10-exit-ledger-restriction-functoriality} to $P$ and $P'$. The ledger read from $P'$ is the restriction of the ledger read from $P$ along the preserved DyadicRatCore, StreamName, RegSeqRat, Real, and support rows.
+
+Apply \autoref{thm:dyadicratcore-l10-exit-ledger-restriction-functoriality} again to $P'$ and $P''$. The second read is therefore the restriction of the $P'$ ledger along the rows still visible after the second downstream deletion.
+
+Now use \autoref{thm:dyadicratcore-l10-exit-ledger-common-restriction-compatibility} on the intermediate restriction and the direct restriction of $P$ to the rows visible in $P''$. Both routes preserve exactly the same displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so the ledger obtained in two steps agrees with the ledger obtained in one step on the common support.
+
+It remains to identify the four-face packet, not only the ledger rows. Apply \autoref{thm:dyadicratcore-l10-exit-ledger-source-determinacy} to the two reads on the shared displayed rows, and then apply \autoref{thm:streamname-real-completion-four-object-terminal-pullback}. The common DyadicRatCore, StreamName, RegSeqRat, Real, and support surface factors through one terminal finite Real-completion boundary. Hence the two-step restricted packet and the direct restricted packet are the same four-face exit packet.
+
+The exclusion clause follows from the two uses of restriction functoriality, common-restriction compatibility, source determinacy, and the terminal pullback. None of these cited surfaces exposes quotient rational equality, quotient stream equality, selected limits, countable choice, metric-completeness data, aggregate formalstatus, aggregate bridge data, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore L10 exit ledger consumer normal form]
 \label{thm:dyadicratcore-l10-exit-ledger-consumer-normal-form}
 Let $C$ be a Phase Real and Completion consumer of an accepted four-face packet with visible $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces. Then the rows readable by $C$ are exactly the DyadicRatCore signed mantissa, exponent, denominator, comparison, distance, and radius ledger; the StreamName finite-window rows; the RegSeqRat classifier and readback rows; the local Real seal rows; and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
