@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -6,6 +7,7 @@ namespace BEDC.Derived.ExternalSupplyBoundaryUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -282,5 +284,24 @@ theorem ExternalSupplyBoundaryTasteGate_single_carrier_alignment :
       · intro x y heq
         exact externalSupplyBoundaryToEventFlow_injective heq
       · rfl
+
+theorem ExternalSupplyBoundary_accepted_form_exhaustion
+    {B R I A G Q H C P N B' R' I' A' G' Q' H' C' P' N' : BHist}
+    (hpacket :
+      externalSupplyBoundaryToEventFlow
+          (ExternalSupplyBoundaryUp.mk B R I A G Q H C P N) =
+        externalSupplyBoundaryToEventFlow
+          (ExternalSupplyBoundaryUp.mk B' R' I' A' G' Q' H' C' P' N'))
+    (hcont : Cont A G C) :
+    hsame A A' ∧ Cont A' G' C' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  have hpacketEq :
+      ExternalSupplyBoundaryUp.mk B R I A G Q H C P N =
+        ExternalSupplyBoundaryUp.mk B' R' I' A' G' Q' H' C' P' N' :=
+    externalSupplyBoundaryToEventFlow_injective hpacket
+  cases hpacketEq
+  constructor
+  · rfl
+  · exact hcont
 
 end BEDC.Derived.ExternalSupplyBoundaryUp
