@@ -68,6 +68,18 @@ The continuation row $c$ routes the regular readback through $m$ before it reach
 Thus a tail-meet or finite-tail diagonal consumer receives the zero threshold through the identity meet row of the packet and not through host zero equality.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy zero tail-meet idempotent replay]
+\label{thm:regular-cauchy-zero-tail-meet-idempotent-replay}
+For an accepted $\RegularCauchyZeroUp$ packet $Z=(q,s,r,m,\mu,e,h,c,p,n)$, replaying the exported identity meet row $\mu$ as both tail-meet inputs returns the same displayed zero tail threshold $m$ and the same meet row $\mu$. Repeated $\RegularCauchyTailMeetUp$, $\FiniteTailDiagonalSealUp$, $\RegularCauchyLimitTransportUp$, or $\RealUp$ consumers therefore cannot obtain a second modulus, host equality proof, selected limit, nonzero witness, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-zero-namecert-obligations} to the accepted packet. The local certificate surface has exactly one modulus-facing coordinate $m$ and exactly one meet-facing coordinate $\mu$.
+
+Apply \autoref{thm:regular-cauchy-zero-tail-meet-identity} to both replay inputs. Since both inputs are the displayed identity meet row, the replay has the same source modulus on both sides and returns the same zero threshold.
+
+For downstream reads, use \autoref{thm:regular-cauchy-zero-downstream-handoff} together with \autoref{thm:regular-cauchy-zero-real-seal-nonescape}. These results exhaust the consumer-visible boundary by the displayed rows, so repeated consumers can reuse $m$ and $\mu$ but cannot manufacture any additional modulus, equality proof, selected limit, nonzero witness, or completeness row.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy zero RealUp seal non-escape]
 \label{thm:regular-cauchy-zero-real-seal-nonescape}
 Every $\RealUp$ seal read exported by an accepted $\RegularCauchyZeroUp$ packet factors through
