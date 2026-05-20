@@ -246,4 +246,15 @@ theorem ReflectiveInquiryUp_source_separation_transport
   cases hPacket
   exact ⟨hCont, rfl, rfl, rfl⟩
 
+theorem ReflectiveInquiry_open_continuation_row_separation
+    (physical formal signature classifier package transport ledger replay continuation
+      localName : BHist) :
+    ReflectiveInquiryUp.mk physical formal signature classifier package transport ledger replay
+        continuation (BHist.e0 BHist.Empty) localName ≠
+      ReflectiveInquiryUp.mk physical formal signature classifier package transport ledger replay
+        continuation (BHist.e1 BHist.Empty) localName := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  cases h
+
 end BEDC.Derived.ReflectiveInquiryUp
