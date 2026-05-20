@@ -1040,6 +1040,7 @@ import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CauchyTailConsensusUp.TasteGate
 import BEDC.Derived.CauchyTailModulusFusionUp
 import BEDC.Derived.CauchyTailModulusFusionUp.TasteGate
+import BEDC.Derived.CauchyTailModulusSealUp.NameCertObligations
 import BEDC.Derived.CauchyTailModulusSealUp.StdBridge
 import BEDC.Derived.CauchyTailModulusSealUp.TasteGate
 import BEDC.Derived.CauchyTailModulusSealUp.ThresholdReadback
@@ -1718,6 +1719,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierJoin
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExposure
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusTerminality
+import BEDC.Derived.CriticalLineWitnessUp.SourceModulusZetaReadback
 import BEDC.Derived.CriticalLineWitnessUp.SourceNormalizationInterface
 import BEDC.Derived.CriticalLineWitnessUp.SourceRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.SourceSignatureGapReadback
@@ -4076,6 +4078,7 @@ import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
 import BEDC.Derived.RegularCauchyWitnessScheduleUp
 import BEDC.Derived.RegularCauchyWitnessScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.ClassifierStability
+import BEDC.Derived.RegularCauchyWitnessSelectorUp.NameCertSurface
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.TasteGate
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegularLimitUniquenessUp
@@ -4101,6 +4104,7 @@ import BEDC.Derived.ResearchProgrammeExecutionGateUp.TasteGate
 import BEDC.Derived.ResearchProgrammeRouteUp.TasteGate
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.RestrictedSurfaceBudgetUp.TasteGate
+import BEDC.Derived.ReviewAcceptanceGateUp.HumanApprovalBoundary
 import BEDC.Derived.ReviewAcceptanceGateUp.TasteGate
 import BEDC.Derived.RiccatiUp
 import BEDC.Derived.RiemannHilbertUp
@@ -4727,6 +4731,8 @@ import BEDC.Derived.UniversalClosedSubstrateUp.TasteGate
 import BEDC.Derived.UniversalityClosureQuadrantUp.TasteGate
 import BEDC.Derived.UnwitnessedExistenceClosureUp.TasteGate
 import BEDC.Derived.UpgradeRegistryUp.NameCertObligations
+import BEDC.Derived.UpgradeRegistryUp.NoncompletionSurface
+import BEDC.Derived.UpgradeRegistryUp.StatusPreservation
 import BEDC.Derived.UpgradeRegistryUp.TasteGate
 import BEDC.Derived.UseProcessBoundaryUp.TasteGate
 import BEDC.Derived.UseProcessLimitLedgerUp.TasteGate
