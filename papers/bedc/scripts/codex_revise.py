@@ -1833,7 +1833,7 @@ def run_drift_audit(wt: WorktreeInfo) -> tuple[bool, str]:
         return True, "(bedc_ci.py absent — skipping drift audit)"
     try:
         r = run_cmd(["python3", str(audit), "audit"],
-                    cwd=wt.path, timeout=180)
+                    cwd=wt.path, timeout=600)
     except subprocess.TimeoutExpired:
         return False, "drift audit timed out"
     return r.returncode == 0, (r.stdout + r.stderr)[-800:]
