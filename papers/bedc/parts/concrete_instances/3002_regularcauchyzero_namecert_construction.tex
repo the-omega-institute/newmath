@@ -213,13 +213,65 @@ Apply \autoref{thm:regular-cauchy-zero-tail-meet-identity} to identify the zero 
 Finally use \autoref{thm:regular-cauchy-zero-downstream-handoff}. The downstream boundary is exhausted by the displayed zero-source rows and structural rows, so the scoped route has exactly the listed $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ dependencies and cannot export quotient streams, host zero equality, selected limits, nonzero witnesses, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy zero public zero-source export]
+\label{thm:regular-cauchy-zero-public-zero-source-export}
+Every accepted $\RegularCauchyZeroUp$ packet exports a unique public zero-source boundary
+$$
+(q,s,r,m,\mu,e,h,c,p,n)
+$$
+to $\RegSeqRatUp$, tail-meet, limit-transport, and $\RealUp$ consumers. The public boundary is the finite route
+$$
+q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e
+$$
+with structural support $h,c,p,n$, and no public consumer obtains an additional quotient stream, host zero equality, selected real limit, nonzero witness stream, or ambient completeness principle from the packet.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:regular-cauchy-zero-carrier}. The accepted packet has exactly the displayed coordinates, and \autoref{thm:regular-cauchy-zero-namecert-obligations} identifies them as the local $\NameCert_{\RegularCauchyZeroUp}$ rows over $\BHist$, $\hsame$, $\Cont$, and $\Pkg$.
+
+Apply \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route} to route the seed $q$ through the constant stream row $s$ and the regular rational row $r$. Apply \autoref{thm:regular-cauchy-zero-tail-meet-identity} to force the modulus and meet segment $r \mapsto m \mapsto \mu$.
+
+Apply \autoref{thm:regular-cauchy-zero-real-seal-nonescape} and \autoref{thm:regular-cauchy-zero-downstream-handoff}. These results place the terminal $\RealUp$ seal at $e$ and exhaust the $\RegSeqRatUp$, tail-meet, limit-transport, and $\RealUp$ reads through the same public boundary.
+
+Finally use \autoref{thm:regular-cauchy-zero-probebundle-induction-coverage} and \autoref{thm:regular-cauchy-zero-scoped-route}. ProbeBundle induction shows that every finite public request keeps the same zero-source route, while the scoped route theorem excludes any external consumer coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero public consumer factorization]
+\label{thm:regular-cauchy-zero-public-consumer-factorization}
+For every accepted $\RegularCauchyZeroUp$ packet $Z=(q,s,r,m,\mu,e,h,c,p,n)$, every public read by a $\RegSeqRatUp$, tail-meet, limit-transport, or $\RealUp$ consumer factors through the chain
+$$
+q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e.
+$$
+The factorization is public in the sense that $h,c,p,n$ only replay the displayed route through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$; they do not add a second zero source or a second terminal seal.
+\end{theorem}
+\begin{proof}
+Read the consumer at its first visible precision boundary. By \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route}, the read must pass from $q$ to $s$ and then to $r$ before it can become regular-rational or completion-facing data.
+
+For tail-meet consumers, apply \autoref{thm:regular-cauchy-zero-tail-meet-identity}. The only modulus-facing and meet-facing coordinates are $m$ and $\mu$, so the read factors through $r \mapsto m \mapsto \mu$.
+
+For limit-transport and $\RealUp$ consumers, apply \autoref{thm:regular-cauchy-zero-real-seal-nonescape}. The terminal seal is the row $e$, and the non-escape result prevents a selected limit or host equality from replacing it.
+
+The remaining structural fields are accounted for by \autoref{thm:regular-cauchy-zero-namecert-obligations}, \autoref{thm:regular-cauchy-zero-probebundle-induction-coverage}, and \autoref{thm:regular-cauchy-zero-downstream-handoff}. Hence every public read factors through the displayed chain and no extra zero-source or seal row is exported.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero public closure package]
+\label{thm:regular-cauchy-zero-public-closure-package}
+The scoped route of \autoref{thm:regular-cauchy-zero-scoped-route}, together with the public zero-source export of \autoref{thm:regular-cauchy-zero-public-zero-source-export} and the public consumer factorization of \autoref{thm:regular-cauchy-zero-public-consumer-factorization}, forms the $\RegularCauchyZeroUp$ public export package. This package is the single named boundary through which $\RegSeqRatUp$, tail-meet, limit-transport, and $\RealUp$ consumers may cite the regular Cauchy zero source.
+\end{theorem}
+\begin{proof}
+The scoped route theorem supplies the finite dependency spine from $\RatUp$ through $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, and $\RealUp$, with support in $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The public zero-source export theorem turns that spine into the consumer-facing boundary $(q,s,r,m,\mu,e,h,c,p,n)$. The public consumer factorization theorem then shows that every relevant public read factors through $q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e$.
+
+Together these results package the carrier, local NameCert obligations, sibling route, tail-meet identity, RealUp non-escape, ProbeBundle induction, downstream handoff, and scoped route as one public object surface for downstream citation.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchyZeroUp}
   \constructivestory{A $\RegularCauchyZeroUp$ packet is generated from finite $\BHist$ rows for the rational zero seed, constant $\StreamNameUp$ row, zero $\RegSeqRatUp$ readback, zero modulus row, identity meet row, and terminal $\RealUp$ seal. The route starts at the displayed zero seed and is replayed by $\Cont$ through stream, regular-rational, modulus, meet, and seal rows before any completion-facing consumer reads it. Componentwise $\hsame$ preserves the same zero route, while $\Pkg$ records the rational, stream, regular-sequence, modulus, tail-meet, diagonal-seal, and Real dependencies. The packet names the finite zero source rather than host real equality.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{This chapter binds the regular Cauchy zero carrier, sibling route, tail-meet identity, RealUp seal non-escape, finite request-bundle coverage, downstream handoff exhaustion, the obligation package of \autoref{thm:regular-cauchy-zero-obligation-closure-package}, and the scoped route of \autoref{thm:regular-cauchy-zero-scoped-route}.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{This chapter binds the regular Cauchy zero carrier, sibling route, tail-meet identity, RealUp seal non-escape, finite request-bundle coverage, downstream handoff exhaustion, the obligation package of \autoref{thm:regular-cauchy-zero-obligation-closure-package}, the scoped route of \autoref{thm:regular-cauchy-zero-scoped-route}, and the public export package of \autoref{thm:regular-cauchy-zero-public-closure-package}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim quotient stream equality, host zero equality, selected real limits, nonzero witness streams, or ambient completeness.}
-  \upgradepath{Scoped closure requires RatUp, StreamNameUp, RegSeqRatUp, CauchyModulusUp, CauchyModulusMeetUp, RealUp, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coverage to be connected through one checked route.}
+  \upgradepath{Bridged closure requires a standard bridge from the public zero-source export package to the abstract regular-Cauchy zero interface.}
 \end{closurestatus}
