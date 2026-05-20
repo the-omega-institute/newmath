@@ -376,13 +376,102 @@ selected limits, countable choice, hidden tail oracles, and ambient
 completeness as extra bridge data.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy zero mature standard boundary]
+\label{thm:regular-cauchy-zero-mature-standard-boundary}
+Every standard-facing read of the regular Cauchy zero interface factors
+through the finite BEDC row route
+$$
+q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e
+$$
+together with the public consumer rows $h,c,p,n$. Thus a read by
+$\RegSeqRatUp$, tail-meet, diagonal-selector, limit-transport, or $\RealUp$
+may inspect only the zero seed $q$, the constant stream row $s$, the regular
+rational row $r$, the modulus row $m$, the meet row $\mu$, the seal row $e$,
+and the public handoff coordinates $h,c,p,n$ recorded by the packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-zero-public-closure-package} to expose the
+carrier, obligation package, scoped route, and public export as the boundary
+available to downstream reads.
+
+Next apply
+\autoref{thm:regular-cauchy-zero-diagonal-selector-handoff}. It forces the
+completion-facing selector read to consume the same zero-source rows and the
+same public handoff coordinates, so the diagonal interface cannot introduce a
+separate selected limit.
+
+Finally apply
+\autoref{thm:regular-cauchy-zero-abstract-bridge-surface}. The abstract
+bridge surface identifies the standard-facing route with the displayed
+$q,s,r,m,\mu,e$ chain and exports it only as finite $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ data. Hence every standard-facing read
+factors through the stated finite boundary.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero terminal interface completeness]
+\label{thm:regular-cauchy-zero-terminal-interface-completeness}
+The tail-meet, diagonal-selector, limit-transport, and $\RealUp$ consumers
+exhaust exactly the same finite zero-source rows named by the regular Cauchy
+zero packet. No such consumer can demand a quotient stream, host zero
+equality, selected limit, countable choice, hidden tail oracle, or ambient
+completeness principle beyond the displayed route and the public handoff
+coordinates.
+\end{theorem}
+\begin{proof}
+The tail-meet consumer is already confined by
+\autoref{thm:regular-cauchy-zero-tail-meet-identity}, which reads the zero
+route through the identity meet row $\mu$ and not through an ambient
+completion object.
+
+The diagonal-selector and limit-transport consumers are confined by
+\autoref{thm:regular-cauchy-zero-diagonal-selector-handoff}. Their accepted
+rows are the same $q,s,r,m,\mu,e,h,c,p,n$ rows, so neither consumer can add a
+chosen real limit or a countable selection principle.
+
+The $\RealUp$ consumer is confined by
+\autoref{thm:regular-cauchy-zero-real-seal-nonescape} and by
+\autoref{thm:regular-cauchy-zero-abstract-bridge-surface}. The seal row $e$
+is terminal for this packet, and the bridge exports only finite $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. The listed external demands
+therefore have no coordinate in the terminal interface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero mature closure package]
+\label{thm:regular-cauchy-zero-mature-closure-package}
+The regular Cauchy zero chapter supplies a mature paper-side package
+consisting of the carrier, obligation package, scoped route, public export,
+abstract bridge, mature standard boundary, and terminal interface
+completeness. This package is the final paper-side L10 zero-source interface
+for downstream $\RegSeqRatUp$ and $\RealUp$ consumers, while Lean
+verification and bridge checking remain separate verification-axis work.
+\end{theorem}
+\begin{proof}
+Use the carrier and local row construction established before
+\autoref{thm:regular-cauchy-zero-obligation-closure-package}; the obligation
+package records the finite NameCert duties for the zero seed, stream row,
+regular-rational row, modulus row, meet row, and terminal seal.
+
+Apply \autoref{thm:regular-cauchy-zero-scoped-route} and
+\autoref{thm:regular-cauchy-zero-public-closure-package}. These results
+promote the local packet to the scoped route and public export read by
+downstream consumers.
+
+Apply \autoref{thm:regular-cauchy-zero-abstract-bridge-surface},
+\autoref{thm:regular-cauchy-zero-mature-standard-boundary}, and
+\autoref{thm:regular-cauchy-zero-terminal-interface-completeness}. Together
+they identify the standard-facing finite boundary and show that every
+terminal consumer remains inside the same zero-source rows. This assembles
+the stated mature paper-side package without asserting a Lean-side theorem
+or a checked standard bridge.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchyZeroUp}
   \constructivestory{A $\RegularCauchyZeroUp$ packet is generated from finite $\BHist$ rows for the rational zero seed, constant $\StreamNameUp$ row, zero $\RegSeqRatUp$ readback, zero modulus row, identity meet row, and terminal $\RealUp$ seal. The route starts at the displayed zero seed and is replayed by $\Cont$ through stream, regular-rational, modulus, meet, and seal rows before any completion-facing consumer reads it. Componentwise $\hsame$ preserves the same zero route, while $\Pkg$ records the rational, stream, regular-sequence, modulus, tail-meet, diagonal-seal, and Real dependencies. The packet names the finite zero source rather than host real equality.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{This chapter binds the regular Cauchy zero carrier, sibling route, tail-meet identity, RealUp seal non-escape, finite request-bundle coverage, downstream handoff exhaustion, the obligation package of \autoref{thm:regular-cauchy-zero-obligation-closure-package}, the scoped route of \autoref{thm:regular-cauchy-zero-scoped-route}, the public export package of \autoref{thm:regular-cauchy-zero-public-closure-package}, and the abstract bridge surface of \autoref{thm:regular-cauchy-zero-abstract-bridge-surface}.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{This chapter binds the regular Cauchy zero carrier, sibling route, tail-meet identity, RealUp seal non-escape, finite request-bundle coverage, downstream handoff exhaustion, the obligation package of \autoref{thm:regular-cauchy-zero-obligation-closure-package}, the scoped route of \autoref{thm:regular-cauchy-zero-scoped-route}, the public export package of \autoref{thm:regular-cauchy-zero-public-closure-package}, the abstract bridge surface of \autoref{thm:regular-cauchy-zero-abstract-bridge-surface}, the mature standard boundary of \autoref{thm:regular-cauchy-zero-mature-standard-boundary}, the terminal interface completeness theorem of \autoref{thm:regular-cauchy-zero-terminal-interface-completeness}, and the mature closure package of \autoref{thm:regular-cauchy-zero-mature-closure-package}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim quotient stream equality, host zero equality, selected real limits, nonzero witness streams, or ambient completeness.}
-  \upgradepath{Mature treatment requires standard bridge checking for the finite abstract bridge surface and its downstream consumer interface.}
+  \upgradepath{No further paper-side theory closure remains; Lean verification and bridge checking remain separate verification-axis obligations.}
 \end{closurestatus}
