@@ -345,4 +345,40 @@ theorem RegularCauchyComparisonCarrier_tolerance_row_exactness [AskSetup] [Packa
       provenancePkg,
       sealReadPkg⟩
 
+theorem RegularCauchyComparisonCarrier_real_seal_boundary [AskSetup] [PackageSetup]
+    {leftName rightName window observations tolerance ledger sealRow sameRows routes provenance
+      nameCert sharedRead observationRead toleranceRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyComparisonCarrier leftName rightName window observations tolerance ledger sealRow
+        sameRows routes provenance nameCert bundle pkg ->
+      Cont leftName window sharedRead ->
+        Cont rightName window sharedRead ->
+          Cont sharedRead observations observationRead ->
+            Cont observationRead tolerance toleranceRead ->
+              Cont ledger sealRow sealRead ->
+                PkgSig bundle sealRead pkg ->
+                  UnaryHistory sharedRead ∧ UnaryHistory observationRead ∧
+                    UnaryHistory toleranceRead ∧ UnaryHistory sealRead ∧
+                      hsame ledger (append observations tolerance) ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier leftWindowRead _rightWindowRead observationReadRow toleranceReadRow
+    ledgerSealRead sealReadPkg
+  obtain ⟨leftUnary, _rightUnary, windowUnary, observationsUnary, toleranceUnary, ledgerUnary,
+    sealUnary, _sameRowsUnary, _routesUnary, _provenanceUnary, _nameCertUnary,
+    _leftWindowSameRows, _rightWindowSameRows, _sameRowsObservationsRoutes,
+    _observationsToleranceLedger, _ledgerSealProvenance, ledgerSame, provenancePkg⟩ :=
+      carrier
+  have sharedReadUnary : UnaryHistory sharedRead :=
+    unary_cont_closed leftUnary windowUnary leftWindowRead
+  have observationReadUnary : UnaryHistory observationRead :=
+    unary_cont_closed sharedReadUnary observationsUnary observationReadRow
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed observationReadUnary toleranceUnary toleranceReadRow
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed ledgerUnary sealUnary ledgerSealRead
+  exact
+    ⟨sharedReadUnary, observationReadUnary, toleranceReadUnary, sealReadUnary, ledgerSame,
+      provenancePkg, sealReadPkg⟩
+
 end BEDC.Derived.RegularCauchyComparisonUp

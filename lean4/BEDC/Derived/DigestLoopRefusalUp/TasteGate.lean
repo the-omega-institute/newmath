@@ -211,4 +211,16 @@ theorem DigestLoopRefusalTasteGate_single_carrier_alignment :
         exact digestLoopRefusalToEventFlow_injective heq
       · rfl
 
+theorem DigestLoopRefusal_fiber_nonescape {V F A L R H C P N row routed : BHist} :
+    hsame row F →
+      hsame row routed →
+        digestLoopRefusalFields (DigestLoopRefusalUp.mk V F A L R H C P N) =
+            [V, F, A, L, R, H, C, P, N] ∧
+          hsame routed F ∧
+            digestLoopRefusalEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  intro rowFiber rowRouted
+  exact And.intro rfl
+    (And.intro (hsame_trans (hsame_symm rowRouted) rowFiber) rfl)
+
 end BEDC.Derived.DigestLoopRefusalUp
