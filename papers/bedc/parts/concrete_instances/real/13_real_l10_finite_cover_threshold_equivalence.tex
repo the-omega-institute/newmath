@@ -156,6 +156,52 @@ metric-completeness, and $\RealUp$ completeness data attached only to the
 source faces, so the pullback coherence gives no route-level strengthening.
 \end{proof}
 
+\begin{theorem}[Real L10 terminal cover coordinate exhaustion]
+\label{thm:real-l10-terminal-cover-coordinate-exhaustion}
+Let $T$ be an accepted terminal finite-window $\RealUp$ read over the public
+$\StreamNameUp$--$\RegSeqRatUp$ route. A finite certified cover witnesses the
+current Phase Real and Completion threshold for $T$ if and only if every cover
+member and every certified overlap exposes exactly the displayed
+$\DyadicRatCoreUp$ endpoint and radius ledger, the $\StreamNameUp$
+finite-window schedule, the $\RegSeqRatUp$ regularity and classifier rows, the
+local $\RealUp$ seal rows, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ support rows.
+
+No aggregate $\formalstatus$, aggregate bridge row, quotient stream, selected
+limit, countable-choice row, metric-completeness datum, or $\RealUp$
+completeness coordinate can stand in for any one of these exposed coordinates.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with a finite certified cover witnessing the
+terminal threshold for $T$. Apply
+\autoref{thm:real-l10-terminal-pullback-coherence} to identify the terminal
+read with the four-face Phase Real and Completion packet through the displayed
+StreamName, DyadicRatCore, RegSeqRat, local Real, and shared support rows.
+
+Apply
+\autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. The threshold is
+objectwise, so each cover member must present the dyadic endpoint and radius,
+finite-window schedule, regularity and classifier rows, local seal rows, and
+the common $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. Apply
+\autoref{thm:real-l10-finite-cover-exit-threshold-gluing}; the certified
+overlaps are precisely the rows along which those objectwise faces glue.
+
+For the reverse direction, suppose every member and overlap exposes exactly
+those coordinates. Apply
+\autoref{thm:real-l10-finite-cover-exit-threshold-gluing} to assemble the
+memberwise four-face packets over the shared support, and then apply
+\autoref{thm:real-l10-finite-cover-exit-threshold-descent} to read the glued
+packet back as the terminal finite-window threshold for $T$.
+
+It remains to show that no route-level coordinate can replace a displayed
+face. Apply \autoref{thm:real-l10-face-status-noncollapse} and
+\autoref{thm:real-l10-face-leantarget-noncollapse}. These keep aggregate
+status, bridge, quotient-stream, selected-limit, countable-choice,
+metric-completeness, and $\RealUp$ completeness rows outside the finite cover
+support, so the witness is exhausted by the listed coordinates and by no
+stronger route credential.
+\end{proof}
+
 \begin{theorem}[Real L10 terminal finite-cover threshold equivalence]
 \label{thm:real-l10-terminal-finite-cover-threshold-equivalence}
 Let $T$ be an accepted terminal finite-window $\RealUp$ read over the public
