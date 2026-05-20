@@ -362,6 +362,50 @@ without quotient streams, host equality, selected limits, hidden tail
 selectors, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[CauchyRegularization public normalization retract export]
+\label{thm:cauchyregularization-public-normalization-retract-export}
+Let $G=(S,M,D,W,R,E,H,C,P,N)$ be an accepted
+$\CauchyRegularizationUp$ packet, and suppose a second accepted
+$\CauchyRegularizationUp$ packet has the same displayed source row $S$,
+modulus row $M$, dyadic ledger $D$, approximant ledger $W$,
+regular-sequence handoff $R$, seal row $E$, and structural rows $H,C,P,N$.
+Then the public real-regularization export of the second read retracts to the
+original public export surface determined by $S,M,D,W,R,E,H,C,P,N$, not only
+to the terminal $\RealUp$ seal row.
+
+This public retract exports no quotient stream, selected limit, host real
+equality, hidden tail selector, unrecorded modulus choice, or ambient
+completeness theorem.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:cauchyregularization-public-real-regularization-export} to the
+original packet. Its public export surface contains exactly the displayed
+rational-stream windows, modulus thresholds, dyadic comparison rows,
+regularized approximants, handoff row, real-seal provenance, transport rows,
+package row, and naming ledger.
+
+Apply the same public export theorem to the second packet. Since the second
+accepted packet shares $S,M,D,W,R,E,H,C,P,N$, its public export has the same
+displayed carrier, classifier, handoff, seal, transport, package, and naming
+coordinates.
+
+Next apply
+\autoref{thm:cauchyregularization-real-seal-normalization-retract}. The
+Real-facing consumer route of the second read retracts to the original seal
+route $E$ under the shared displayed rows.
+
+Finally apply
+\autoref{thm:cauchyregularization-real-seal-source-modulus-factorization}.
+The seal row $E$ is not an isolated terminal coordinate: it is reached only
+through the source window $S$, modulus row $M$, dyadic ledger $D$,
+approximant ledger $W$, handoff row $R$, and the structural rows $H,C,P,N$.
+Thus the retract returns the second public read to the original public export
+surface itself. The excluded quotient stream, selected-limit, host-equality,
+tail-selector, modulus-choice, and ambient-completeness data have no public
+coordinate available for the retract.
+\end{proof}
+
 \closureat{CauchyRegularizationUp}{seedStr}
 \closureat{CauchyRegularizationUp}{obligationStr}
 \closureat{CauchyRegularizationUp}{scopedStr}
