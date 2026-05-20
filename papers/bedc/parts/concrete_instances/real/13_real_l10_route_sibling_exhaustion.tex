@@ -282,3 +282,57 @@ witness. No collapsed completion object, ambient completeness principle,
 selected limit, quotient stream, countable choice, aggregate formalstatus
 row, or bridge token is introduced by the composition.
 \end{proof}
+
+\begin{theorem}[Real L10 four-face public pullback criterion]
+\label{thm:real-l10-four-face-public-pullback-criterion}
+Let $\mathcal{P}$ be a finite consumer packet presented on the Real L10 route
+at the public Phase Real and Completion boundary. Then $\mathcal{P}$ is
+exactly the four-face pullback for that boundary if and only if its accepted
+public data agree componentwise with the following four object faces:
+\begin{enumerate}
+\item the $\DyadicRatCoreUp$ endpoint, radius, and tolerance ledger;
+\item the $\StreamNameUp$ finite-window rows;
+\item the $\RegSeqRatUp$ finite-request, readback, and classifier rows;
+\item the local $\RealUp$ terminal seal rows.
+\end{enumerate}
+The agreement is witnessed using only the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ support carried by the Real L10 route.
+Equivalently, two such finite consumer packets determine the same public
+Phase Real and Completion read precisely when they have the same four listed
+faces and the same displayed support rows. The criterion does not use
+quotient stream equality, selected host limits, countable-choice selectors,
+ambient completeness, metric-completeness rows, aggregate formalstatus rows,
+or bridge tokens.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume $\mathcal{P}$ is the public four-face
+pullback. Apply
+\autoref{thm:real-l10-route-cover-phase-exit-exactness} to read the public
+boundary through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$,
+$\RealUp$, and the same-route $\RealCompletionExactBoundaryUp$ witness.
+Then apply \autoref{thm:real-l10-route-sibling-exhaustion} to remove any
+off-route source, and apply
+\autoref{thm:real-l10-terminal-four-face-support-minimality-pullback} to see
+that the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows
+are the whole terminal support.
+
+For the reverse direction, assume the four object faces and the displayed
+support rows agree componentwise. The
+\autoref{thm:streamname-regseqrat-realup-finite-window-pullback-criterion}
+transports the StreamName finite-window rows through the RegSeqRat and local
+Real readback surface, while
+\autoref{thm:regseqrat-seal-route-visible-source-normal-form} normalizes the
+finite-request, readback, classifier, and seal rows to the visible source
+format. Finally
+\autoref{thm:realup-open-phase-four-face-pullback} identifies the resulting
+Real-facing packet with the four-face pullback at the open Phase Real
+boundary.
+
+Combining the two directions gives the stated if and only if. The exclusion
+clauses are inherited from route exhaustion, terminal support minimality, the
+route-cover exactness theorem, and the three finite-window and seal-route
+pullback criteria just used. Each of those results keeps the construction on
+finite NameCert support, so quotient stream equality, selected host limits,
+countable choice, ambient or metric completeness, aggregate formalstatus
+rows, and bridge tokens never enter the witness.
+\end{proof}
