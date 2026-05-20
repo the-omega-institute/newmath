@@ -189,41 +189,24 @@ WHITELIST + VERIFICATION + DOCS:
    - If touched lean4/*: python3 lean4/scripts/bedc_ci.py axiom-purity --strict
    - For any phase_paper_gates.py change: smoke test it parses
    - For any phase_d_lint.py change: smoke test it parses
-5. APPEND a new section to docs/dossier/taste-evolutions.qmd (append, do not overwrite).
-   This file is Quarto .qmd, NOT plain .md. Keep the YAML frontmatter intact
-   at the top of the file; append new sections after the existing sections
-   using the same `---` separator pattern.
-   Section format (markdown, Chinese):
+5. Update docs/dossier/taste-evolutions.qmd in narrative form.
+   This file is Quarto .qmd, NOT plain .md. Keep the YAML frontmatter intact.
+   Do not create a new top-level section for a flag that already has a topic
+   section under `## 演化时间线`; add a new bold timestamp paragraph at the end
+   of the existing topic section. If the topic is genuinely absent, create one
+   `### <UTC YYYY-MM-DD> — <human topic phrase>` section under `## 演化时间线`.
 
-   ## <UTC YYYY-MM-DD HH:MM:SS> — <flag>
+   Write Chinese prose, not a repeated 4-header/5-header template. In 1-2 short
+   paragraphs say what the daemon saw in the queue (concrete count and 2-3 sample
+   slugs/targets), which META_PROMPT_RULE_EVOLUTION source commit shaped this
+   dispatch (cite only the commit hash, do not copy the prompt), what grep/Python
+   evidence Codex actually checked, what negative criterion was inferred, which
+   files changed, and which detector or prompt gate now enforces the rule.
 
-   ### 变更原因
-   描述触发本次演化的违规 pattern: 哪个 flag cluster, 多少 finding,
-   2-3 个代表性 chapter_slug / lean_target 示例, 它们的共同结构特征.
-
-   ### 意义
-   本次规则演化未来阻止什么: P/R round 命中什么条件时被新规则拒绝;
-   为什么这个 pattern 是 BEDC trivial/meaningless theory 问题.
-
-   ### 实施情况
-   修改了哪些文件 (路径列出); 写入的具体规则文本 / audit detector
-   片段引用; 现有违规如何被消化 (依赖 P/R orchestrator 自然 touch
-   + post-merge audit recovery, 不直接编辑).
-
-   ### 准则类型
-   说明这是 negative criteria: 命中什么机器可查 pattern 时拒绝。
-
-   ### 元数据
-   - finding 数量: <N>
-   - cluster flag: <flag>
-   - daemon cycle: <UTC timestamp>
-   - 你即将 commit 的 SHA 留空, 由 daemon 后续填写或 commit message 反查
-
-   ---
-
-   全文中文 (CLAUDE.md 工作语言纪律). 简短直接, 2-5 段, 不写迭代叙事 /
-   版本号 / "新增"/"修复"/"v2.0" 这类词 (CLAUDE.md 禁止).
-   新 section 追加到文件末尾; 用 `---` 分隔多个 section.
+   Put the detector/gate sentence in the entry. Do not write any commit-SHA
+   placeholder; after merge the daemon records the shipped commit line.
+   Avoid boilerplate phrases and do not repeat the same explanatory sentence
+   from older entries in the same topic.
 6. Commit with message format:
    "taste-evolve: <flag> pattern - <one-line summary>"
 7. Do NOT push (orchestrator [the daemon] will push after success).
@@ -1497,20 +1480,234 @@ def format_evidence_inline(evidence: dict[str, Any]) -> str:
     return ", ".join(parts) if parts else "none"
 
 
-def append_research_dossier(findings: list[Finding], dry_run: bool) -> None:
-    ts = datetime.now().replace(microsecond=0).strftime("%Y-%m-%d %H:%M:%S")
-    lines = [
-        f"## {ts} — RESEARCH",
-        "",
-        "### 探索范围",
-        "",
-        "扫描 corpus 各维度: tactic / carrier / lineage / falsifiability / 依赖图 / topic 等。",
-        "",
-        "### 发现 (negative criteria)",
-        "",
+def replace_markdown_block(text: str, heading: str, replacement: str) -> str:
+    start = text.find(heading)
+    if start < 0:
+        suffix = "" if text.endswith("\n") else "\n"
+        return text + suffix + replacement.rstrip() + "\n"
+    next_rule = text.find("\n---", start + len(heading))
+    if next_rule < 0:
+        end = len(text)
+    else:
+        after_rule = text.find("\n", next_rule + 1)
+        end = len(text) if after_rule < 0 else after_rule + 1
+    return text[:start] + replacement.rstrip() + "\n" + text[end:]
+
+
+def queue_flag_summary(entries: list[dict[str, Any]], limit: int = 8) -> list[str]:
+    by_flag: dict[str, list[dict[str, Any]]] = {}
+    for entry in entries:
+        flag = str(entry.get("flag") or "unknown")
+        by_flag.setdefault(flag, []).append(entry)
+    if not by_flag:
+        return ["- 本周期无待处理 finding。"]
+    lines: list[str] = []
+    for flag, grouped in sorted(by_flag.items(), key=lambda item: (-len(item[1]), item[0]))[:limit]:
+        examples = [
+            str(item.get("chapter_slug") or item.get("lean_target") or item.get("id") or "unknown")
+            for item in grouped[:3]
+        ]
+        sample_text = "`, `".join(examples)
+        lines.append(f"- {flag}: {len(grouped)} 条; 代表样本 `{sample_text}`")
+    return lines
+
+
+def recent_alert_summary(hours: int = 24, limit: int = 8) -> list[str]:
+    if not ALERT_LOG.exists():
+        return ["- 24h 内没有 alert。"]
+    cutoff = datetime.now(timezone.utc).timestamp() - hours * 3600
+    counts: dict[str, int] = {}
+    pattern = re.compile(r"^TASTE ALERT category=([^\s]+)\s+ts=([^\s]+)")
+    for raw in ALERT_LOG.read_text(encoding="utf-8", errors="ignore").splitlines():
+        match = pattern.match(raw.strip())
+        if not match:
+            continue
+        category, ts_text = match.groups()
+        try:
+            ts = datetime.fromisoformat(ts_text.replace("Z", "+00:00")).timestamp()
+        except Exception:
+            continue
+        if ts < cutoff:
+            continue
+        counts[category] = counts.get(category, 0) + 1
+    if not counts:
+        return ["- 24h 内没有 alert。"]
+    return [
+        f"- TASTE ALERT category={category}: {count} 次"
+        for category, count in sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:limit]
     ]
+
+
+def research_candidate_summary(entries: list[dict[str, Any]], limit: int = 5) -> str:
+    candidates = [entry for entry in entries if str(entry.get("flag") or "").startswith(RESEARCH_FINDING_PREFIX)]
+    if not candidates:
+        return "本周期无新候选"
+    chunks: list[str] = []
+    for entry in candidates[:limit]:
+        flag = str(entry.get("flag") or "research")
+        slug = str(entry.get("chapter_slug") or entry.get("lean_target") or entry.get("id") or "corpus")
+        chunks.append(f"`{flag}` / `{slug}`")
+    more = "" if len(candidates) <= limit else f"; 另有 {len(candidates) - limit} 条"
+    return ", ".join(chunks) + more
+
+
+def refresh_current_observation_snapshot(state: dict[str, Any], dry_run: bool) -> bool:
+    pending = pending_queue_entries(state)
+    queue_lines = queue_flag_summary(pending)
+    alert_lines = recent_alert_summary()
+    current_state = str(state.get("current_state") or "monitor")
+    monitor_cycles = int(state.get("monitor_cycles_in_state", 0))
+    adjusts = int(state.get("adjusts_since_research", 0))
+    round_counter = int(state.get("round_counter", 0))
+    last_adjust = state.get("last_adjust_outcome") or "none"
+    block = "\n".join([
+        "## 当前观察 (auto-refresh)",
+        "",
+        f"> 最后刷新: {utc_now()}",
+        "",
+        (
+            f"**Daemon 状态**: {current_state} "
+            f"(monitor cycle {monitor_cycles}, adjust_since_research {adjusts}, "
+            f"round_counter {round_counter}, last_adjust {last_adjust})"
+        ),
+        "",
+        f"**待处理 queue** ({len(pending)} 条 finding):",
+        *queue_lines,
+        "",
+        "**最近 alert 概览** (24h 内):",
+        *alert_lines,
+        "",
+        f"**RESEARCH 候选 (尚未 ship)**: {research_candidate_summary(pending)}",
+        "",
+        "---",
+        "",
+    ])
+    if dry_run:
+        print("[taste] dry-run: would refresh current observation snapshot", flush=True)
+        return False
+    if not TASTE_EVOLUTIONS_FILE.exists():
+        return False
+    text = TASTE_EVOLUTIONS_FILE.read_text(encoding="utf-8")
+    updated = replace_markdown_block(text, "## 当前观察 (auto-refresh)", block)
+    if updated != text:
+        TASTE_EVOLUTIONS_FILE.write_text(updated, encoding="utf-8")
+        return True
+    return False
+
+
+def commit_dossier_refresh_if_needed(changed: bool, dry_run: bool) -> None:
+    if dry_run or not changed:
+        return
+    status = git("status", "--porcelain", "--", rel(TASTE_EVOLUTIONS_FILE), check=False, capture=True)
+    if status.returncode != 0 or not status.stdout.strip():
+        return
+    git("add", rel(TASTE_EVOLUTIONS_FILE))
+    commit = git("commit", "-m", "taste: refresh dossier observation snapshot", check=False, capture=True)
+    if commit.returncode != 0:
+        append_alert("dossier_snapshot_commit_failed", {"stderr": tail(commit.stderr or commit.stdout or "")})
+        return
+    push = git("push", "origin", BASE_BRANCH, check=False, capture=True)
+    if push.returncode != 0:
+        append_alert("dossier_snapshot_push_failed", {"stderr": tail(push.stderr or push.stdout or "")})
+
+
+def append_to_dossier_section(section_heading: str, entry: str, dry_run: bool) -> None:
+    if dry_run:
+        print(f"[taste] dry-run: would append dossier entry under {section_heading}", flush=True)
+        return
+    TASTE_EVOLUTIONS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    text = TASTE_EVOLUTIONS_FILE.read_text(encoding="utf-8") if TASTE_EVOLUTIONS_FILE.exists() else ""
+    start = text.find(section_heading)
+    if start < 0:
+        suffix = "" if text.endswith("\n") else "\n"
+        TASTE_EVOLUTIONS_FILE.write_text(text + suffix + section_heading + "\n\n" + entry.rstrip() + "\n", encoding="utf-8")
+        return
+    next_heading = text.find("\n## ", start + len(section_heading))
+    insert_at = len(text) if next_heading < 0 else next_heading
+    prefix = text[:insert_at].rstrip()
+    suffix = text[insert_at:]
+    updated = prefix + "\n\n" + entry.rstrip() + "\n" + suffix
+    TASTE_EVOLUTIONS_FILE.write_text(updated, encoding="utf-8")
+
+
+def topic_title_for_flag(flag: str) -> str:
+    if flag == "mislabeled_composite":
+        return "反 atomic ai 套壳 / 同型 carrier 错标 ai"
+    cleaned = re.sub(r"[_-]+", " ", flag).strip()
+    return cleaned or "taste negative criterion"
+
+
+def append_rule_evolution_dossier(flag: str, entry: str, dry_run: bool) -> None:
+    title = topic_title_for_flag(flag)
+    text = TASTE_EVOLUTIONS_FILE.read_text(encoding="utf-8") if TASTE_EVOLUTIONS_FILE.exists() else ""
+    if title not in text:
+        heading = "## 演化时间线"
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        entry = f"### {today} — {title}\n\n{entry.rstrip()}"
+        append_to_dossier_section(heading, entry, dry_run)
+        return
+    heading = f"### "
+    title_at = text.find(title)
+    section_start = text.rfind(heading, 0, title_at) if title_at >= 0 else -1
+    if section_start < 0:
+        append_to_dossier_section("## 演化时间线", entry, dry_run)
+        return
+    next_topic = text.find("\n### ", section_start + 1)
+    research = text.find("\n## RESEARCH 探索历史", section_start + 1)
+    candidates = [pos for pos in (next_topic, research) if pos >= 0]
+    insert_at = min(candidates) if candidates else len(text)
+    if dry_run:
+        print(f"[taste] dry-run: would append dossier entry under {title}", flush=True)
+        return
+    updated = text[:insert_at].rstrip() + "\n\n" + entry.rstrip() + "\n" + text[insert_at:]
+    TASTE_EVOLUTIONS_FILE.write_text(updated, encoding="utf-8")
+
+
+def record_rule_evolution_ship_commit(flag: str, commit_sha: str | None) -> bool:
+    if not commit_sha or not TASTE_EVOLUTIONS_FILE.exists():
+        return False
+    text = TASTE_EVOLUTIONS_FILE.read_text(encoding="utf-8")
+    if commit_sha in text:
+        return False
+    title = topic_title_for_flag(flag)
+    marker = f"### {datetime.now(timezone.utc).strftime('%Y-%m-%d')} — {title}"
+    line = f"\nShip: commit `{commit_sha}`. Detector/gate: recorded by daemon after merge.\n"
+    if title in text:
+        research_at = text.find("\n## RESEARCH 探索历史")
+        insert_at = len(text) if research_at < 0 else research_at
+        updated = text[:insert_at].rstrip() + "\n" + line + text[insert_at:]
+    else:
+        updated = text.rstrip() + f"\n\n## 演化时间线\n\n{marker}\n{line}\n"
+    if updated == text:
+        return False
+    TASTE_EVOLUTIONS_FILE.write_text(updated, encoding="utf-8")
+    return True
+
+
+def commit_rule_evolution_dossier_record(flag: str, commit_sha: str | None) -> None:
+    if not record_rule_evolution_ship_commit(flag, commit_sha):
+        return
+    git("add", rel(TASTE_EVOLUTIONS_FILE))
+    commit = git(
+        "commit",
+        "-m",
+        f"taste: record rule evolution ship {sanitize_branch_piece(flag)}",
+        check=False,
+        capture=True,
+    )
+    if commit.returncode != 0:
+        append_alert("dossier_rule_evolution_record_commit_failed", {"flag": flag, "stderr": tail(commit.stderr or commit.stdout or "")})
+        return
+    push = git("push", "origin", BASE_BRANCH, check=False, capture=True)
+    if push.returncode != 0:
+        append_alert("dossier_rule_evolution_record_push_failed", {"flag": flag, "stderr": tail(push.stderr or push.stdout or "")})
+
+
+def append_research_dossier(findings: list[Finding], dry_run: bool, commit: str, ok: bool = True) -> None:
+    ts = utc_now()
     if findings:
         seen: set[tuple[str, str]] = set()
+        fragments: list[str] = []
         for finding in findings:
             criterion = str(finding.evidence.get("negative_criterion") or "")
             key = (finding.flag, criterion)
@@ -1522,28 +1719,19 @@ def append_research_dossier(findings: list[Finding], dry_run: bool) -> None:
                 examples = [finding.chapter_slug]
             evidence = finding.evidence.get("research_evidence")
             evidence_text = format_evidence_inline(evidence if isinstance(evidence, dict) else {})
-            lines.append(
+            fragments.append(
                 f"- {finding.flag}: {criterion}, 例 {', '.join(str(x) for x in examples[:3])}; "
                 f"evidence {evidence_text}"
             )
+        body = " ".join(fragments)
     else:
-        lines.append("本轮未发现新可机械化 negative pattern, 现有 detector 已覆盖。")
-    lines.extend([
-        "",
-        "### 后续动作",
-        "",
-        "新 finding 已 append 到 queue, 下一 ADJUST cycle 派 rule evolution.",
-        "",
-        "---",
-        "",
-    ])
-    text = "\n".join(lines)
-    if dry_run:
-        print("[taste] dry-run: would append RESEARCH dossier section", flush=True)
-        return
-    TASTE_EVOLUTIONS_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with TASTE_EVOLUTIONS_FILE.open("a", encoding="utf-8") as fh:
-        fh.write("\n" + text)
+        body = "codex 没给出达到 evidence 门槛的新 negative pattern。" if ok else "codex RESEARCH cycle 未完成; daemon 只记录失败事实, 不把它转成 finding。"
+    outcome = "写入 queue, 等 ADJUST cycle 派 rule evolution" if findings else "没有写入 queue"
+    entry = (
+        f"- {ts}: 用 META_PROMPT_RESEARCH (commit `{commit}`). "
+        f"探索方向: 自决 corpus 扫描。报告 {len(findings)} 个候选; {body} {outcome}。"
+    )
+    append_to_dossier_section("## RESEARCH 探索历史", entry, dry_run)
 
 
 def dispatch_research(dry_run: bool, commit: str) -> tuple[bool, list[Finding]]:
@@ -1610,6 +1798,7 @@ def dispatch_autofix_queue(
         print(f"[taste] rule evolution failed for {flag}: {msg}", flush=True)
         return False
     mark_rule_evolution_done(state, cluster_entries, _commit_sha)
+    commit_rule_evolution_dossier_record(flag, _commit_sha)
     print(f"[taste] rule evolution completed for {flag}: {msg}", flush=True)
     return True
 
@@ -1664,12 +1853,13 @@ def state_research_step(state: dict[str, Any], artifacts: ChangedArtifacts, dry_
         print(f"[taste] research produced {len(findings)} finding(s)", flush=True)
         for finding in findings:
             append_queue(finding.to_queue_entry(utc_now()), dry_run=dry_run)
-        append_research_dossier(findings, dry_run=dry_run)
+        append_research_dossier(findings, dry_run=dry_run, commit=artifacts.head, ok=True)
         state["last_research_at"] = utc_now()
         state["last_research_finding_count"] = len(findings)
         transition_state(state, "adjust")
         print("[taste] transition research -> adjust", flush=True)
     else:
+        append_research_dossier([], dry_run=dry_run, commit=artifacts.head, ok=False)
         state["last_research_at"] = utc_now()
         state["last_research_finding_count"] = None
         transition_state(state, "monitor")
@@ -2111,6 +2301,7 @@ def process_confirmed_approvals(
     if ok and state is not None:
         state["last_rule_evolution_at"] = utc_now()
         state["last_rule_evolution_commit"] = commit_sha
+        commit_rule_evolution_dossier_record(flag, commit_sha)
     for qid in approval_ids:
         if not qid:
             continue
@@ -2171,11 +2362,13 @@ def cycle(dry_run: bool = False) -> None:
         state["current_state"] = "monitor"
         state["state_entered_at"] = utc_now()
     update_pipeline_sample(state)
+    snapshot_changed = refresh_current_observation_snapshot(state, dry_run)
     if not dry_run:
         state["last_seen_sha"] = artifacts.head
         state["last_success_sha"] = artifacts.head
         state["last_cycle_at"] = utc_now()
         save_state(state, dry_run=False)
+        commit_dossier_refresh_if_needed(snapshot_changed, dry_run=False)
 
 
 def main() -> int:
