@@ -1248,6 +1248,7 @@ import BEDC.Derived.CofinalTailBudgetUp.NameCertObligations
 import BEDC.Derived.CofinalTailBudgetUp.StdBridge
 import BEDC.Derived.CofinalTailBudgetUp.TasteGate
 import BEDC.Derived.CofinalTailEquivalenceUp.TasteGate
+import BEDC.Derived.CofinalWindowRealSealUp.NameCertObligations
 import BEDC.Derived.CofinalWindowRealSealUp.StdBridge
 import BEDC.Derived.CofinalWindowRealSealUp.TasteGate
 import BEDC.Derived.CohomologyUp
