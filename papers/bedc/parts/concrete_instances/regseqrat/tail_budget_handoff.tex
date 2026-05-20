@@ -377,3 +377,51 @@ metric-completeness data, standard-bridge rows, and any additional Real seal
 coordinate. The converse is then the same finite packet read with exactly the
 four local status records and the displayed support rows.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-budget support refinement invariance]
+\label{thm:regseqrat-tail-budget-support-refinement-invariance}
+Let an accepted $\RegSeqRatUp$ tail-budget route terminate in a
+completion-facing $\RealUp$ seal row. Suppose this route is replaced by a
+finite certified support refinement whose finite windows preserve the
+$\StreamNameUp$ schedule classifier, the $\DyadicRatCoreUp$ endpoint, radius,
+and distance ledger, the $\RegSeqRatUp$ classifier and regularity rows, the
+terminal $\RealUp$ seal row, and the displayed
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+support rows.
+
+Then the original route and the refined route determine the same terminal
+completion-facing $\RealUp$ seal surface. The common seal is read through the
+same facewise closurestatus, formalstatus, leantarget, and bridgestatus rows,
+and not through quotient streams, selected host limits, countable choice,
+ambient completeness, metric completeness, a second $\RealUp$ seal coordinate,
+or an aggregate formalstatus token.
+\end{theorem}
+\begin{proof}
+First compare a single replacement step. Apply
+\autoref{thm:regseqrat-dyadic-stream-tail-budget-common-refinement}. It supplies
+the common finite window in which the $\StreamNameUp$ classifier, the
+$\DyadicRatCoreUp$ endpoint, radius, and distance rows, and the
+$\RegSeqRatUp$ classifier and regularity rows are preserved on both sides of
+the handoff.
+
+Next pass from one replacement step to the finite certified support
+refinement. Apply
+\autoref{thm:regseqrat-finite-tail-budget-family-common-refinement}. The finite
+family certificate keeps the same displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support rows while threading the preserved dyadic and
+regular-sequence rows through the whole family.
+
+Now read the terminal surface. Apply
+\autoref{thm:regseqrat-tail-budget-terminal-real-seal}. Since both routes have
+the same finite tail-budget support and the same terminal $\RealUp$ seal row,
+the completion-facing seal surface determined by the original route is the seal
+surface determined by the refined route.
+
+Finally apply \autoref{thm:regseqrat-tail-budget-facewise-status-pullback}. The
+status data used in the conclusion is read objectwise from the four faces and
+from the displayed support rows. Hence the refinement cannot introduce quotient
+streams, selected host limits, countable choice, ambient or metric completeness,
+a second seal coordinate, or any aggregate formalstatus token.
+\end{proof}
