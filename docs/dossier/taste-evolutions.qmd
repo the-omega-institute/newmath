@@ -20,25 +20,24 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-20T17:21:48Z
+> 最后刷新: 2026-05-20T18:36:11Z
 
-**Daemon 状态**: adjust (monitor cycle 2, adjust_since_research 2, round_counter 2422, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 0, adjust_since_research 3, round_counter 2500, last_adjust rule_evolution_completed)
 
-**待处理 queue** (29 条 finding):
+**待处理 queue** (26 条 finding):
 - low_entropy_template: 16 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
-- isolated_theorem: 6 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
-- mislabeled_composite: 4 条; 代表样本 `metacicnormalizationconfluencebridge`, `compilerclassifierroute`, `substitutionboundaryaudit`
+- isolated_theorem: 7 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
 - missing_origin: 3 条; 代表样本 `banach`, `int`, `continuousmap`
 
 **最近 alert 概览** (24h 内):
 - TASTE ALERT category=isolated_theorem: 73 次
-- TASTE ALERT category=mislabeled_composite: 48 次
+- TASTE ALERT category=mislabeled_composite: 43 次
 - TASTE ALERT category=low_entropy_template: 26 次
-- TASTE ALERT category=taste_branch_gc_delete_failed: 5 次
-- TASTE ALERT category=rule_evolution_failed: 4 次
+- TASTE ALERT category=rule_evolution_failed: 3 次
 - TASTE ALERT category=inventory_failed: 2 次
 - TASTE ALERT category=research_non_negative_criterion: 2 次
 - TASTE ALERT category=stabilize_regression: 2 次
+- TASTE ALERT category=taste_branch_gc_delete_failed: 2 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -91,6 +90,14 @@ daemon queue 给出 6 个同类 finding, 代表样本 `tailcofinalitybudget` / `
 negative criterion 仍是只看机器形态: 现有 `\origin{ai}` chapter 的 `<X>Up` 若命中 `mislabeled_composite_carriers`, paper 侧不得继续给它加 `\leanchecked`, `\leanstmt`, `closurestatus`, `\falsifiablePrediction`, `\independenceWitness`, 或 atomic `ai` nontriviality prose；唯一允许的 paper target 是把 lineage 改成 `\origin{ai-composite}` 并写清 composite dependency。改动落在 `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; 执行 gate 由 Review/Revise prompt 强制读取 `bedc_ci.py audit --json`, detector 仍是 `detect_mislabeled_composite_carriers(min_bucket_size=6)`。
 
 Ship: commit `1c402312f6f49041d0a51eae0c687d2061ee40e8`. Detector/gate: recorded by daemon after merge.
+
+**2026-05-20 18:24 — TasteGate 证据不能洗白同型桶**
+
+daemon queue 给出 5 个同类 finding, 代表样本 `metacicnormalizationconfluencebridge` / `compilerclassifierroute` / `substitutionboundaryaudit`。本次派发由 META_PROMPT_RULE_EVOLUTION source commit `a3bc4d544a248dc0ddf1c416b4fc965ac7d1dec9` 约束。Codex 先按 current HEAD 查证: `rg -n -F '\origin{ai}'` 与 `bedc_ci.py audit --json` 显示 `BedcSelfSubstrateUp`, `BedcTheoryIdentityUp`, `BetaCongruenceDomainAuditUp` 仍标 atomic `ai`, 各自落在 201 成员 `phase1_buckets` 桶；`rg -n 'inductive ...|BHistCarrier|ChapterTasteGate|FieldFaithful|Nontrivial'` 又显示这些 carrier 已有普通 TasteGate / FieldFaithful / Nontrivial 包装。
+
+negative criterion 维持机器形态: `<X>Up` 命中 `mislabeled_composite_carriers` 时, 现成 `BHistCarrier`, `ChapterTasteGate`, `FieldFaithful`, 或 `Nontrivial` 证据不得被当作解除错标的依据。改动落在 `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; Review/Revise prompt 现在直接拒绝用这些包装洗白同型桶, detector 仍是 `detect_mislabeled_composite_carriers(min_bucket_size=6)`。
+
+Ship: commit `8dfd9c801b9e762e3f74198288bdcb25db377f4a`. Detector/gate: recorded by daemon after merge.
 
 ## RESEARCH 探索历史
 
