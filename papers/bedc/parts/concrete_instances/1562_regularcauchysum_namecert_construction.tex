@@ -223,6 +223,26 @@ The consumer obligation package exhausts the route through $A,B,W_A,W_B,D_A,D_B,
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchySumUp.RegularCauchySumCarrier\_ledger\_exactness}
 
+\begin{theorem}[RegularCauchySum zero-source identity boundary]
+\label{thm:regular-cauchy-sum-zero-source-identity-boundary}
+Let $S=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)$ be an accepted $\RegularCauchySumUp$ packet, and suppose one source row is supplied by an accepted $\RegularCauchyZeroUp$ packet $Z=(q,s,r,m,\mu,e,h,c,p,n)$ through the downstream handoff of \autoref{thm:regular-cauchy-zero-downstream-handoff}. Then every $\RegSeqRatUp$ or $\RealUp$ consumer of $S$ reads the other source window together with the zero packet route
+$$
+\RatUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+displayed by $q,s,r,e$, the dyadic zero endpoint carried by $q$ and the zero regular row $r$, the unchanged finite error-budget ledger $E$, the same componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows of the sum and zero packets.
+
+The boundary is an identity only at the finite consumer surface: replacing one source by the zero packet leaves the visible sum consumer route exhausted by the nonzero source window, the zero-source route, endpoint and budget rows, readback, seal row, transports, continuations, provenance, and naming data. It exports no host real addition law, quotient stream equality, selected limit, ambient completeness, or independent completed-real zero.
+\end{theorem}
+\begin{proof}
+Begin with the sum packet. The window-budget theorem \autoref{thm:regular-cauchy-sum-window-budget} exposes the two aligned source windows, the source endpoint rows, the displayed endpoint-addition row, and the finite ledger $E$.
+
+Now specialize one source to the zero packet. The downstream handoff \autoref{thm:regular-cauchy-zero-downstream-handoff} supplies the finite zero-source boundary $q,s,r,m,\mu,h,c,p,n$, and the seal non-escape theorem \autoref{thm:regular-cauchy-zero-real-seal-nonescape} routes every real-facing zero read through the same displayed zero seed, stream, regular row, meet row, and seal row.
+
+Pass back to the sum consumer surface. The $\RegSeqRatUp$ handoff of \autoref{thm:regular-cauchy-sum-regseqrat-handoff} repacks the nonzero source window, the zero source route, the endpoint rows, and $E$ as the sum readback $R$. The $\RealUp$ seal boundary of \autoref{thm:regular-cauchy-sum-realup-seal-boundary} keeps every real consumer downstream of that readback.
+
+Finally apply ledger exactness. By \autoref{thm:regular-cauchy-sum-ledger-exactness}, no alternate budget, equality, limit, completeness, or completed-real addition coordinate can be read. Projecting componentwise through $A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N$ leaves exactly the finite identity boundary named in the statement.
+\end{proof}
+
 \begin{theorem}[RegularCauchySum bridged public route]
 \label{thm:regular-cauchy-sum-bridged-public-route}
 The public $\RegularCauchySumUp$ route is exhausted by the two $\RegSeqRatUp$ source rows, aligned $\StreamNameUp$ windows, the displayed $\DyadicRatCoreUp$ endpoint-addition row, the $\FiniteErrorBudgetUp$ ledger, the $\RegSeqRatUp$ readback, the $\RealUp$ seal route, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row. A public consumer of the sum has no additional route through completed-real addition, quotient-stream equality, selected limits, host real equality, or ambient completeness.
