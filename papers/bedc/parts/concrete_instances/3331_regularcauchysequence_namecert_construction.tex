@@ -97,6 +97,28 @@ Use the seal ordering of \autoref{thm:regular-cauchy-sequence-realseal-handoff}.
 Finally close with \autoref{lem:regular-cauchy-sequence-non-escape}. Since the carrier has no coordinate for a quotient stream, selected external limit, choice selector, hidden tail oracle, or ambient completeness theorem, every consumer read is exhausted by the finite route through $W,D,R,G$ and the displayed structural rows.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence finite-window witness induction]
+\label{thm:regular-cauchy-sequence-finite-window-witness-induction}
+For every accepted $\RegularCauchySequenceUp$ packet
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N),
+$$
+every finite selected-window subroute admitted by $W$ is obtained by induction on the displayed finite window spine of $S$. The base route exposes no consumer read before a window row of $W$ is displayed. The step adjoining one selected window preserves the route through the modulus $\mu$, dyadic ledger $D$, regular readback row $R$, diagonal coverage row $G$, transport row $H$, continuation row $C$, provenance row $P$, and local NameCert row $N$ before the $\RealUp$ seal row $E$ is exposed.
+
+Consequently the witness induction exports only the finite spine already present in $S$. It refuses quotient streams, host real equality, selected external limits, hidden tail oracles, countable-choice selectors, and ambient completeness as sources for the admitted subroute.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-sequence-carrier}. The displayed coordinates give the finite family row, modulus row, selected-window spine, dyadic ledger, regular readback row, coverage row, seal row, and structural rows of the accepted packet.
+
+For the base route, no selected window has yet been exposed. Hence no consumer read can be formed before $W$, because the carrier offers no readback or diagonal-coverage coordinate outside the displayed packet.
+
+For the successor route, adjoin one selected window. Apply \autoref{thm:regular-cauchy-sequence-window-regularity} to bind the selected window to $\mu,D,R$, then apply \autoref{thm:regular-cauchy-sequence-namecert-obligations} to transport the same window through $G,H,C,P,N$.
+
+Now use \autoref{thm:regular-cauchy-sequence-finite-window-exhaustion}. The extended route still reaches the $\RealUp$ seal row $E$ only after the finite selected-window, dyadic, readback, coverage, and structural rows have been displayed.
+
+Finally close with \autoref{lem:regular-cauchy-sequence-non-escape}. Since the carrier contains no coordinate for quotient streams, host real equality, selected external limits, hidden tail oracles, countable-choice selectors, or ambient completeness, the induction cannot export any off-surface source.
+\end{proof}
+
 \begin{lemma}[Regular Cauchy sequence no-escape]
 \label{lem:regular-cauchy-sequence-non-escape}
 An accepted $\RegularCauchySequenceUp$ packet exports only the rows
