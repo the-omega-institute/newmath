@@ -226,3 +226,59 @@ aggregate formalstatus rows, bridge rows, and ambient $\RealUp$ completeness.
 Thus the composed cover result remains a finite four-face terminal support
 claim and carries no route-level strengthening.
 \end{proof}
+
+\begin{theorem}[Real L10 route-cover phase-exit exactness]
+\label{thm:real-l10-route-cover-phase-exit-exactness}
+Let $\mathcal{U}$ be a finite replay-cover of accepted Real-facing terminal
+presentations for the current Phase Real and Completion exit route. Suppose
+$\mathcal{U}$ satisfies the terminal support cover induction of
+\autoref{thm:real-l10-terminal-support-cover-induction}, and suppose the four
+roadmap faces of every cover member and overlap meet the local scoped and
+audit records required by
+\autoref{thm:phase-real-completion-exit-four-object-threshold-projection}.
+
+Then $\mathcal{U}$ supplies the public Phase Real and Completion exit read
+exactly through
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+and through the same-route $\RealCompletionExactBoundaryUp$ witness. The read
+uses the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support rows from the Real L10 route, and it admits no quotient stream,
+selected limit, countable-choice selector, host-completeness row,
+metric-completeness coordinate, aggregate formalstatus row, or bridge token.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-l10-terminal-support-cover-induction}. The
+finite replay-cover is reduced to the displayed terminal support surface:
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, local $\RealUp$, and the
+shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Any failed
+cover contribution is already localized to one of those rows.
+
+Next apply \autoref{thm:real-l10-route-sibling-exhaustion} and
+\autoref{thm:real-l10-terminal-four-face-support-minimality-pullback}. These
+results keep the Real-facing terminal read on the same L10 route and forbid a
+smaller packet, off-route packet, quotient stream, selected limit, choice
+selector, host-completeness row, metric-completeness coordinate, aggregate
+formalstatus row, or bridge token from carrying the same verdicts.
+
+Now read the phase-exit side. The hypotheses give the local scoped closure
+records and audit-clean verification records for the four roadmap faces, so
+\autoref{thm:phase-real-completion-exit-four-object-threshold-projection}
+projects the accepted packet to exactly
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+The same theorem keeps $\RealCompletionExactBoundaryUp$ as the boundary
+witness on the same route rather than as a fifth roadmap object or an
+aggregate status row.
+
+Combining the two reads gives the public Phase Real and Completion exit
+criterion from the Real chapter itself. The cover induction supplies the
+finite Real terminal surface, the route exhaustion and minimality theorems
+pin that surface to the L10 route, and the phase-exit projection consumes the
+four local scoped/audit records while preserving the same-route exact-boundary
+witness. No collapsed completion object, ambient completeness principle,
+selected limit, quotient stream, countable choice, aggregate formalstatus
+row, or bridge token is introduced by the composition.
+\end{proof}
