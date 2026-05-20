@@ -1225,7 +1225,7 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
 
     import random
     import time
-    MAX_PUSH_ATTEMPTS = 4
+    MAX_PUSH_ATTEMPTS = 8
 
     with _git_lock:
         logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
