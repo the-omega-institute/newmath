@@ -1,8 +1,8 @@
 \chapter{A Concrete Naming Certificate for $\AuditSystemUp$}
 \label{ch:concrete-instances-auditsystem-namecert}
-\origin{ai}
+\origin{ai-composite}
 
-The $\AuditSystemUp$ packet realizes the total audit theory of \autoref{subsec:philosophy-total-audit} as a finite NameCert surface. It sits beside the kernel-acceptance audit witness of \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}, the claim registry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, and the failure-certificate packet of \autoref{ch:concrete-instances-failurecertificate-namecert}. Those siblings expose kernel acceptance, positive claim registration, and typed refusal separately; this packet binds admissible claims, positive certificates, failure certificates, cannot-claim rows, export grades, and ledger closure in one finite audit carrier.
+The $\AuditSystemUp$ packet realizes the total audit theory of \autoref{subsec:philosophy-total-audit} as a finite NameCert surface. It sits beside the kernel-acceptance audit witness of \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}, the claim registry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, and the failure-certificate packet of \autoref{ch:concrete-instances-failurecertificate-namecert}. As a composite over those sibling audit surfaces, the packet bundles their acceptance, registry, and refusal rows into one finite audit carrier. Those siblings expose kernel acceptance, positive claim registration, and typed refusal separately; this packet binds admissible claims, positive certificates, failure certificates, cannot-claim rows, export grades, and ledger closure in one finite audit carrier.
 
 \begin{definition}[Audit system carrier]
 \label{def:audit-system-carrier}
@@ -90,7 +90,7 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/AuditSystemUp/TasteGate.lean}
   \scopeclosed{\autoref{def:audit-system-carrier}, \autoref{thm:audit-system-namecert-surface}, \autoref{thm:audit-system-export-refusal}, \autoref{thm:audit-system-ledger-closure}, and \autoref{thm:audit-system-independence-witness} bind the carrier, NameCert surface, export refusal, ledger closure, and independence witness displayed in this chapter.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
+  \origin{ai-composite}
   \notclaimed{This chapter does not close Lean verification, bridge checking, proof of every exported claim, or registry export beyond the displayed audit packet.}
   \upgradepath{Obligation closure requires Lean $\Nontrivial$ and $\FieldFaithful$ TasteGate instances plus checked carrier, export-refusal, and ledger rows for $C,P,F,R,E,L,H,K,Q,N$.}
 \end{closurestatus}
