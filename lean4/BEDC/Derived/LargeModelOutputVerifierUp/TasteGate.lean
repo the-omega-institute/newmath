@@ -1,11 +1,19 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LargeModelOutputVerifierUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -291,5 +299,54 @@ theorem LargeModelOutputVerifierTasteGate_single_carrier_alignment :
       fun _ _ heq => largeModelOutputVerifierToEventFlow_injective heq⟩
 
 end TasteGate
+
+theorem LargeModelOutputVerifierUp_StdBridge [AskSetup] [PackageSetup]
+    {Q C R verifierProof publicRoute : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    Cont Q C verifierProof ->
+      Cont verifierProof R publicRoute ->
+        PkgSig bundle publicRoute pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              hsame row publicRoute ∧ Cont Q C verifierProof ∧
+                Cont verifierProof R publicRoute)
+            (fun row : BHist => hsame row publicRoute ∧ Cont Q C verifierProof)
+            (fun row : BHist => hsame row publicRoute ∧ PkgSig bundle publicRoute pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig SemanticNameCert
+  intro verifierRoute publicVerifier packageRoute
+  have verifierRouteStable : Cont Q C verifierProof :=
+    cont_result_hsame_transport verifierRoute (hsame_refl verifierProof)
+  have publicRouteStable : Cont verifierProof R publicRoute :=
+    cont_result_hsame_transport publicVerifier (hsame_refl publicRoute)
+  exact
+    {
+      core := {
+        carrier_inhabited :=
+          Exists.intro publicRoute
+            (And.intro (hsame_refl publicRoute)
+              (And.intro verifierRouteStable publicRouteStable))
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro row row' same
+          exact hsame_symm same
+        equiv_trans := by
+          intro row row' row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' same source
+          exact
+            And.intro (hsame_trans (hsame_symm same) source.left)
+              (And.intro source.right.left source.right.right)
+      }
+      pattern_sound := by
+        intro row source
+        exact And.intro source.left source.right.left
+      ledger_sound := by
+        intro row source
+        exact And.intro source.left packageRoute
+    }
 
 end BEDC.Derived.LargeModelOutputVerifierUp
