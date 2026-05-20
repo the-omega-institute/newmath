@@ -3948,7 +3948,6 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.L10SourceReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.NameCertObligationExhaustion
 import BEDC.Derived.RealityConstrainedTruthCertUp.OpenFitRefusalSurface
 import BEDC.Derived.RealityConstrainedTruthCertUp.PhysicalFitNonescape
-import BEDC.Derived.RealityConstrainedTruthCertUp.PublicExportBoundary
 import BEDC.Derived.RealityConstrainedTruthCertUp.RootTasteGateReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.SourceSignatureClassifierObligation
 import BEDC.Derived.RealityConstrainedTruthCertUp.StabilityDescentInvariantObligation
@@ -4458,7 +4457,6 @@ import BEDC.Derived.TerminationRefusalBoundaryUp.TasteGate
 import BEDC.Derived.TheoremGapRegistryUp.TasteGate
 import BEDC.Derived.TheorySelfClassifierUp.TasteGate
 import BEDC.Derived.TheoryTransitionCertificateUp.ConservativePreservation
-import BEDC.Derived.TheoryTransitionCertificateUp.LedgerRefinementBoundary
 import BEDC.Derived.TheoryTransitionCertificateUp.NameCert
 import BEDC.Derived.TheoryTransitionCertificateUp.TasteGate
 import BEDC.Derived.ThetaFunctionUp
@@ -4541,7 +4539,6 @@ import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.TowerEndpointReflectionUp.TasteGate
 import BEDC.Derived.TowerEquivalenceUp.NameCertObligations
-import BEDC.Derived.TowerEquivalenceUp.RefinementSeparation
 import BEDC.Derived.TowerEquivalenceUp.TasteGate
 import BEDC.Derived.TraceVerdictBoundaryUp.TasteGate
 import BEDC.Derived.TraditionComparisonBoundaryUp.TasteGate
@@ -4588,6 +4585,7 @@ import BEDC.Derived.TypeLevelSocketExposureUp
 import BEDC.Derived.TypePreservingCompilerUp
 import BEDC.Derived.TypedBetaCongruenceTriggerUp.TasteGate
 import BEDC.Derived.TypedFailureCertificateUp.TasteGate
+import BEDC.Derived.TypedGapSocketTaxonomyUp.NameCertObligations
 import BEDC.Derived.TypedGapSocketTaxonomyUp.TasteGate
 import BEDC.Derived.TypedReductionNormalFormUp
 import BEDC.Derived.TypedSupplySocketUp.TasteGate
