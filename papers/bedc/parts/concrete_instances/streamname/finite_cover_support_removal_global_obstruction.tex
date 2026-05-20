@@ -1,0 +1,56 @@
+\section{StreamName Finite-Cover Support Removal Global Obstruction}
+\label{sec:streamname-finite-cover-support-removal-global-obstruction}
+
+\begin{theorem}[StreamName finite-cover support removal global obstruction]
+\label{thm:streamname-finite-cover-support-removal-global-obstruction}
+Let $\{Q_i\}_{i \in I}$ be an accepted finite cover of current Phase
+$\RealUp$ and Completion terminal $\StreamNameUp$ request sections feeding the
+DyadicRatCore--RegSeqRat--Real four-face route. Suppose the accepted overlaps
+display the same $\StreamNameUp$ finite-window row, the same
+$\DyadicRatCoreUp$ ledger row, the same $\RegSeqRatUp$ readback row, the same
+$\RealUp$ seal-visible source, and the same $\BHist$, componentwise $\hsame$,
+$\Cont$, $\Pkg$, and local \NameCert{} support rows. If one displayed local
+support row is deleted from any member $Q_j$, then the cover-descent terminal
+support packet cannot present the same $\RealUp$ seal-visible source.
+
+The obstruction is global over the finite cover: quotient stream equality,
+selected limits, countable choice, metric-completeness data, aggregate
+formalstatus rows, bridge rows, ambient $\RealUp$ completeness, or a replacement
+regularity selector cannot supply the deleted row or restore the same
+cover-descent source.
+\end{theorem}
+\begin{proof}
+First restrict to the member where the deletion occurs. The local removal
+witness theorem
+\autoref{thm:streamname-terminal-support-removal-witness} says that deleting a
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or local \NameCert{} row from
+the accepted terminal packet loses the carrier verdict, classifier verdict, or
+consumer-facing terminal route of that local section.
+
+Next descend through the finite cover. Apply
+\autoref{thm:streamname-finite-cover-terminal-support-minimality}. The
+cover-descent terminal packet is accepted exactly on the common
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces
+together with the displayed support rows on the accepted overlaps. Therefore a
+local deletion in $Q_j$ is not confined to a private presentation choice; it
+removes one coordinate of the cover support itself.
+
+Now localize the resulting cover defect. By
+\autoref{thm:streamname-finite-cover-terminal-support-defect-localization}, a
+failure of the cover-descent carrier verdict, classifier verdict, or terminal
+route is witnessed on one accepted local section or accepted overlap, and the
+witness lies on a displayed face or support row. In the present case the
+witness is the deleted local support row, so the cover cannot still present the
+same $\RealUp$ seal-visible source.
+
+Finally rule out hidden replacement data. The selector nonchoice theorem
+\autoref{thm:streamname-finite-window-regularity-selector-nonchoice} prevents
+the $\RegSeqRatUp$ regularity row from re-entering as a hidden selector, host
+function, countable-choice witness, quotient representative, selected limit,
+ambient completeness coordinate, or independent completed-real carrier.
+Together with the exclusion clauses in the finite-cover minimality and defect
+localization theorems, this leaves no quotient equality, limit, choice,
+metric-completeness datum, aggregate formalstatus row, bridge row, ambient
+$\RealUp$ completeness principle, or replacement selector able to supply the
+missing row.
+\end{proof}

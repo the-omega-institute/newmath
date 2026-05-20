@@ -639,3 +639,90 @@ identification, selected-limit data, host real equality, countable-choice
 data, ambient or metric completeness, aggregate formalstatus rows, aggregate
 bridge rows, and standard bridge rows are neither consumed nor produced.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-cover normal form StreamName support refinement]
+\label{thm:regseqrat-finite-cover-normal-form-streamname-support-refinement}
+Let $\mathcal{S}$ be a finite compatible family of accepted
+$\RegSeqRatUp$ terminal sections whose visible rows satisfy the normal-form
+clauses of
+\autoref{thm:regseqrat-four-face-finite-cover-normal-form}. Let
+$\mathcal{S}'$ be obtained from $\mathcal{S}$ by refining only the terminal
+$\StreamNameUp$ request windows and by preserving, on every refined support
+row, the displayed $\DyadicRatCoreUp$ endpoint, radius, and finite-distance
+ledgers, the $\RegSeqRatUp$ classifier and readback rows, the local
+$\RealUp$ seal rows, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\RegSeqRatUp}$ support.
+
+Assume the refined terminal windows satisfy
+\autoref{thm:streamname-terminal-four-face-support-exhaustion} and that
+transport from $\mathcal{S}$ to $\mathcal{S}'$ satisfies
+\autoref{thm:streamname-terminal-four-face-support-transport-stability}. Then
+$\mathcal{S}$ and $\mathcal{S}'$ determine the same accepted $\RealUp$
+terminal seal exactly when the preserved $\DyadicRatCoreUp$ endpoint and
+radius ledger rows agree with the local $\RealUp$ seal rows on the shared
+support.
+
+Equivalently, the finite-cover normal form factors through the StreamName
+terminal support surface: refining finite terminal windows changes no
+accepted $\RealUp$ terminal seal unless it changes the shared DyadicRatCore
+ledger or the local Real seal row read on that support. The refinement surface
+has no coordinate for quotient stream equality, selected limits, host real
+equality, countable choice, ambient or metric completeness, aggregate
+formalstatus rows, aggregate bridge rows, or standard bridge rows.
+\end{theorem}
+\begin{proof}
+First normalize the original cover. Apply
+\autoref{thm:regseqrat-four-face-finite-cover-normal-form}. The accepted
+$\RealUp$ terminal seal is carried by exactly the finite StreamName request
+windows, the DyadicRatCore endpoint, radius, and finite-distance ledgers, the
+RegSeqRat classifier-readback rows, the local Real seal rows, and the shared
+BEDC support rows.
+
+Next read the refined windows through the StreamName terminal support surface.
+By \autoref{thm:streamname-terminal-four-face-support-exhaustion}, every
+accepted support coordinate of $\mathcal{S}'$ is one of the same four visible
+faces or one of the same displayed support rows. By
+\autoref{thm:streamname-terminal-four-face-support-transport-stability}, the
+componentwise transport from $\mathcal{S}$ to $\mathcal{S}'$ preserves that
+support packet whenever those rows agree after replay.
+
+Now compare the consumer ledger. Apply
+\autoref{thm:dyadicratcore-l10-exit-ledger-consumer-normal-form} to the
+consumer read of each refined terminal packet. The consumer can read exactly
+the DyadicRatCore ledger rows, the StreamName finite-window rows, the RegSeqRat
+classifier-readback rows, the local Real seal rows, and the shared support.
+Therefore agreement of the DyadicRatCore endpoint and radius ledger with the
+local Real seal rows on the shared support is sufficient to make the refined
+consumer packet expose the same finite inventory as the original packet.
+
+With the same inventory in hand, use
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage} on each
+refined local section and
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality} on
+the overlaps. The transported support rows give the same pairwise restrictions
+as before, so
+\autoref{thm:regseqrat-finite-request-section-cocycle-real-seal} supplies the
+same finite cocycle. Applying
+\autoref{thm:regseqrat-four-face-gluing-uniqueness} along the finite-cover
+induction order identifies the accepted terminal seal produced by
+$\mathcal{S}'$ with the seal produced by $\mathcal{S}$.
+
+Conversely, suppose the two covers determine the same accepted $\RealUp$
+terminal seal. Project that common seal back through
+\autoref{thm:regseqrat-four-face-finite-cover-normal-form} and then through
+\autoref{thm:dyadicratcore-l10-exit-ledger-consumer-normal-form}. Since the
+StreamName support exhaustion leaves no additional consumer coordinate, any
+accepted difference between the two finite presentations must be visible in
+the DyadicRatCore ledger rows or in the local Real seal rows. Equality of the
+terminal seal therefore forces the endpoint and radius ledger and the local
+Real seal rows to agree on the shared support.
+
+All implications use only finite StreamName support exhaustion, support
+transport stability, the DyadicRatCore consumer normal form, local RegSeqRat
+gluing, finite restriction functoriality, cocycle compatibility, and gluing
+uniqueness. None of these cited surfaces supplies quotient stream equality,
+selected limits, host real equality, countable choice, ambient completeness,
+metric completeness, aggregate formalstatus rows, aggregate bridge rows, or
+standard bridge rows, so the refinement theorem does not claim any of that
+structure.
+\end{proof}
