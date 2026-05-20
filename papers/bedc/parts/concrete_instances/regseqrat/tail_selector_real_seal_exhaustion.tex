@@ -100,6 +100,57 @@ entering the route. Therefore the two certified cofinal requests determine the
 same $\RealUp$ seal-visible source section and nothing beyond that section.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-selector cofinal refinement monotonicity]
+\label{thm:regseqrat-tail-selector-cofinal-refinement-monotonicity}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, let $S$ be a public finite
+request served by a certified cofinal RegSeqRat tail selector, and let $S'$ be
+a certified cofinal refinement of $S$. Suppose $S'$ preserves the displayed
+$\StreamNameUp$ window rows, the $\DyadicRatCoreUp$ endpoint, radius, and
+finite dyadic-distance ledgers, the $\RegSeqRatUp$ classifier and regularity
+rows, the componentwise $\hsame$ rows, the displayed $\Cont$ routes, the
+$\mathsf{Pkg}$ provenance, and the local $\NameCert_{\RegSeqRatUp}$ rows of
+$S$. Then $S$ and $S'$ determine the same $\RealUp$ seal-visible source
+section.
+
+Conversely, any certified cofinal refinement of $S$ that determines the same
+$\RealUp$ seal-visible source section must preserve exactly those displayed
+rows. The monotonicity claim is only for the finite L10
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ route. It does
+not expose quotient streams, selected limits, choice data, metric-completeness
+rows, aggregate status rows, bridge rows, second seal coordinates, or ambient
+$\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-tail-selector-window-seal-lock}. Both $S$ and $S'$ are
+forced through the selected finite $\StreamNameUp$ window, the dyadic radius
+ledger, the RegSeqRat tail-budget handoff, and the local Real seal row. Since
+$S'$ is a certified cofinal refinement preserving the displayed rows of $S$,
+the refinement cannot change the locked window-seal route.
+
+Next use
+\autoref{thm:regseqrat-tail-selector-cofinal-request-determinacy}. Regard $S$
+and $S'$ as the two certified cofinal requests in that theorem. The preserved
+schedule, dyadic endpoint, radius, distance, classifier, regularity, $\hsame$,
+$\Cont$, package, and local naming rows identify their seal-visible request
+surfaces, so the two requests determine the same $\RealUp$ source section.
+
+Read that source section through
+\autoref{thm:regseqrat-finite-request-source-section}. This identifies the
+section with exactly the displayed rows named in the statement, not with a
+quotient stream, selected limit, choice datum, metric-completeness row,
+aggregate status row, bridge row, or ambient completion claim.
+
+For the converse, suppose a certified cofinal refinement determines the same
+$\RealUp$ seal-visible source section. The finite-request source-section
+description forces equality on each displayed row of the section. Finally
+apply \autoref{thm:regseqrat-tail-budget-terminal-real-seal}: the terminal seal
+has no additional channel through which a changed endpoint, radius, distance,
+classifier, regularity, $\hsame$, $\Cont$, package, or local NameCert row could
+be hidden. Hence same-section cofinal refinements are precisely the refinements
+that preserve those displayed rows.
+\end{proof}
+
 \begin{theorem}[RegSeqRat tail-selector bundle induction Real seal]
 \label{thm:regseqrat-tail-selector-bundle-induction-real-seal}
 Let $P$ be an accepted $\RegSeqRatUp$ packet, let
