@@ -115,16 +115,32 @@ The schedule row is supplied by \autoref{thm:regular-cauchy-interval-selector-sc
 Finally, apply \autoref{thm:regular-cauchy-interval-selector-real-seal-handoff} for the seal-facing row. The five cited rows exhaust the readable selector obligations because every consumer route factors through the displayed carrier coordinates and their recorded transports.
 \end{proof}
 
-\closureat{RegularCauchyIntervalSelectorUp}{seedStr}
+\begin{theorem}[Regular Cauchy interval selector finite route obligation package]
+\label{thm:regular-cauchy-interval-selector-finite-route-obligation-package}
+For every accepted $\RegularCauchyIntervalSelectorUp$ packet
+$$
+Q=(D,S,R,J,E,H,C,P,N),
+$$
+the displayed rows $D,S,R,J,E,H,C,P,N$ form the finite obligation package of the selector route. The row $D$ exposes the dyadic precision ledger, $S$ is schedule-dependent on $D$, $R$ is the $\RegSeqRatUp$ readback through $S$, $J$ is the located interval nesting ledger through $R$, and $E$ is reached only through $J$. The remaining rows $H,C,P,N$ bind the componentwise $\hsame$ transport, $\Cont$ replay, provenance, and local $\NameCert$ surface for that route.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition of \autoref{def:regular-cauchy-interval-selector-carrier}. Its displayed coordinates are exactly $D,S,R,J,E,H,C,P,N$, so the candidate obligation package has no hidden coordinate beyond those rows.
+
+The dependency spine is fixed by the existing selector rows. Use schedule exposure from \autoref{thm:regular-cauchy-interval-selector-schedule-exposure} to read $S$ only after $D$, use nesting extraction from \autoref{thm:regular-cauchy-interval-selector-nesting-extraction} to read $D \mapsto S \mapsto R \mapsto J$, and use located nesting transport from \autoref{thm:regular-cauchy-interval-selector-located-nesting-transport} to keep transported refinements inside the same finite route.
+
+The obligation surface of \autoref{thm:regular-cauchy-interval-selector-obligation-surface} says that these rows exhaust the public selector obligations. Finally, \autoref{thm:regular-cauchy-interval-selector-real-seal-handoff} places the seal row $E$ and the structural rows $H,C,P,N$ after the displayed route, which gives the finite package claimed here.
+\end{proof}
+
+\closureat{RegularCauchyIntervalSelectorUp}{obligationStr}
 
 \begin{closurestatus}{\RegularCauchyIntervalSelectorUp}
   \constructivestory{A $\RegularCauchyIntervalSelectorUp$ packet is generated from a selected finite schedule, regular-rational readback row, located-interval nesting ledger, seal-facing handoff row, componentwise $\hsame$ transports, displayed $\Cont$ routes, provenance, and local naming. The carrier reads interval selection through finite BEDC data: first the schedule is displayed, then the RegSeqRat readback and nesting ledger certify the selected interval route, and only then the RealUp-facing seal row is available. The classifier keeps the selector-to-seal handoff finite and refuses detached interval limits or quotient Cauchy names.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the regular Cauchy interval selector carrier and its finite selector-to-seal handoff theorem.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{This chapter binds the finite route obligation package of \autoref{thm:regular-cauchy-interval-selector-finite-route-obligation-package}, including the checked rows of \autoref{thm:regular-cauchy-interval-selector-nesting-extraction} and \autoref{thm:regular-cauchy-interval-selector-real-seal-handoff}.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.RegularCauchyIntervalSelectorUp.RegularCauchyIntervalSelectorCarrier\_nesting\_extraction}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim quotient equality of regular Cauchy names, selected completed reals, detached interval limits, or ambient completeness.}
-  \upgradepath{To reach obligationClosure, formalize the finite schedule, interval nesting ledger, and seal handoff as checked selector carrier rows.}
+  \upgradepath{To reach scopedClosure, close the carrier interactions across BHist, hsame, Cont, Pkg, NameCert, StreamNameUp, RegSeqRatUp, LocatedIntervalUp, DyadicRatCoreUp, and RealUp.}
 \end{closurestatus}
