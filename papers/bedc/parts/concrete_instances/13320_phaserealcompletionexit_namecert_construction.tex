@@ -268,6 +268,20 @@ Use \autoref{thm:phase-real-completion-exit-facewise-consumer-readback} to expos
 Finally apply \autoref{thm:phase-real-completion-exit-boundary-face-nonsubstitution} and read the result through the two-axis discipline of \autoref{sec:roadmap-closure-and-verification-axes}. A bridge row at \texttt{paperBridge} or \texttt{bridgeChecked} reports a component bridge state; it neither collapses the scoped/audit exit gate nor blocks it once the four roadmap records and same-route exact-boundary witness are present. Hence the accepted packet admits the public gate while refusing an aggregate $\bridgeCheckedV$ export, a fused standard bridge token, a quotient stream, a selected limit, or a host-completeness row.
 \end{proof}
 
+\begin{theorem}[Phase real-completion exit component bridge-upgrade invariance]
+\label{thm:phase-real-completion-exit-component-bridge-upgrade-invariance}
+Let $E=(D,S,Q,R,B,H,C,P,N)$ be an accepted $\PhaseRealCompletionExitUp$ packet satisfying the public Phase Real and Completion gate of \autoref{thm:phase-real-completion-exit-public-gate-certificate}. Suppose one local bridge row among the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or $\RealCompletionExactBoundaryUp$ faces is replaced by a stronger local bridge record, and suppose the corresponding closurestatus and formalstatus rows remain attached only to that face. Then the public phase-exit projection of $E$ is unchanged: the same four roadmap records, same-route boundary witness, and support rows $H,C,P,N$ are read by the gate. The replacement creates no aggregate $\bridgeCheckedV$ row, no fused standard bridge token, no quotient stream, no selected limit, no host-completeness row, and no ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:phase-real-completion-exit-status-token-product}. The status read of the accepted packet is the product of the component records, so strengthening one bridge row changes only that local factor and leaves the other face records objectwise.
+
+Next apply \autoref{thm:phase-real-completion-exit-bridge-pending-axis-separation}. Mixed component bridge states are invisible to the scoped/audit gate once the four roadmap records and same-route $\RealCompletionExactBoundaryUp$ witness are present. Hence the public phase-exit projection is still admitted after the local bridge replacement.
+
+Use \autoref{thm:phase-real-completion-exit-component-status-extraction} to read back the same exported data. The dyadic, stream, regular-rational, and real records remain the four roadmap rows, the boundary face remains the same-route witness, and $H,C,P,N$ remain the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\PhaseRealCompletionExitUp}$ support.
+
+Finally apply \autoref{thm:phase-real-completion-exit-boundary-face-nonsubstitution}. Because the strengthened bridge row stays local to its face, it cannot supply an aggregate $\bridgeCheckedV$ row, fused standard bridge token, quotient stream, selected limit, host-completeness row, or ambient $\RealUp$ completeness claim. Therefore the bridge-status improvement preserves exactly the public phase-exit projection.
+\end{proof}
+
 \begin{theorem}[Phase real-completion exit standard-bridge source normal form]
 \label{thm:phase-real-completion-exit-standard-bridge-source-normal-form}
 Let $E=(D,S,Q,R,B,H,C,P,N)$ be an accepted $\PhaseRealCompletionExitUp$ packet. Any standard-bridge candidate for $E$ must take as its source exactly the five displayed face rows $D,S,Q,R,B$, namely $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and the same-route $\RealCompletionExactBoundaryUp$, together with the four displayed support rows $H,C,P,N$, namely $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\PhaseRealCompletionExitUp}$ support. It may not use an aggregate formalstatus row, fused bridge token, quotient stream equality, selected limit, countable-choice row, host-completeness row, metric-completeness datum, or ambient $\RealUp$ completeness coordinate as a source.
