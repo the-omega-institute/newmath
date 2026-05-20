@@ -93,29 +93,6 @@ at every subsequent represented term. They do not assert progress, uniqueness
 of normal forms, confluence for all represented terms, or strong
 normalization.
 
-\begin{theorem}[Bounded evaluator beta-star safety]\label{thm:metacic-evalclosed-beta-star-safety}
-For every fuel value and represented term $t$, the bounded evaluator output
-$\texttt{evalClosed}\ \texttt{fuel}\ t$ is reachable from $t$ by a finite
-\texttt{BetaStarStep}. If $t$ is closed at index $0$, then
-$\texttt{evalClosed}\ \texttt{fuel}\ t$ is also closed at index $0$.
-\end{theorem}
-
-\begin{proof}
-The finite-reachability part is the checked operational trace theorem
-\texttt{BEDC.MetaCIC.evalClosed\_betaStar\_any}; when the input closedness
-hypothesis is present, \texttt{BEDC.MetaCIC.evalClosed\_betaStar} gives the
-same trace in the closed-input interface.
-
-Closedness of the evaluator result is supplied directly by
-\texttt{BEDC.MetaCIC.evalClosed\_preserves\_closed}. Equivalently, one may
-combine the trace theorem with the finite-chain closure theorem
-\texttt{betaStarStep\_preserves\_closed}: the trace is a represented
-reflexive-transitive beta chain, and each step preserves the
-\texttt{ClosedAt} invariant. The conclusion is therefore a bounded
-operational safety statement only; it does not identify a normal form or
-exclude other infinite represented reduction paths.
-\end{proof}
-
 \subsection{Strong Normalization}
 \label{subsec:metacic-strong-normalization-open}
 
