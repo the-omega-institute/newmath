@@ -1,0 +1,25 @@
+\begin{theorem}[RealUp L10 exit finite-support descent]
+\label{thm:real-l10-exit-finite-support-descent}
+Let $P$ be an accepted Phase Real and Completion packet whose visible faces are $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. Suppose the displayed finite support of $P$ consists exactly of $\DyadicRatCoreUp$ finite ledger rows, $\StreamNameUp$ finite-observation rows, $\RegSeqRatUp$ common-tail classifier and readback rows, local $\RealUp$ seal rows, and shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Suppose further that the support rows cover every local face, every displayed overlap, and every finite refinement used by the accepted packet.
+
+Then $P$ descends to a $\RealUp$-visible L10 exit seal if and only if those displayed finite support rows paste to the four visible faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+over the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. Equivalently, the terminal exit seal is exhausted by the dyadic ledger rows, the StreamName finite-observation rows, the RegSeqRat common-tail classifier and readback rows, the local Real seal rows, and the shared support rows.
+
+The descent has no coordinate for quotient rational equality, quotient stream equality, selected limits, countable choice, metric-completeness data, aggregate status rows, aggregate bridge rows, bridge rows, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First read the finite StreamName observations. Apply \autoref{thm:streamname-finite-observation-section} to the displayed $\StreamNameUp$ rows of $P$. This gives precisely the observable stream windows carried by the packet, without quotient stream equality or a selected limit.
+
+Next read the RegSeqRat common-tail surface. Apply \autoref{thm:regseqrat-common-tail-support-induction} to the displayed classifier and readback rows over the same finite support. The induction keeps the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows fixed on every retained overlap.
+
+Now cover the dyadic ledger. Apply \autoref{thm:dyadicratcore-l10-exit-ledger-finite-support-coverage}. The dyadic signed mantissa, exponent, denominator, comparison, distance, and radius rows are therefore read from the same finite inventory that already carries the StreamName, RegSeqRat, local Real, and shared support rows.
+
+It remains to assemble the four faces into the Real exit seal. Use \autoref{thm:streamname-regseqrat-finite-cover-pasted-seal-exhaustion} to paste the StreamName finite-window and RegSeqRat seal rows over the displayed finite cover. Then apply \autoref{thm:real-l10-finite-cover-face-pasting-equivalence} to read the pasted $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces as one accepted $\RealUp$ L10 exit seal.
+
+For the converse direction, project any descended $\RealUp$-visible L10 exit seal through the same face-pasting equivalence. Its four visible faces restrict to exactly the displayed dyadic ledger rows, StreamName finite-observation rows, RegSeqRat common-tail rows, local Real seal rows, and shared support rows. The StreamName section theorem, RegSeqRat support induction, and dyadic ledger coverage theorem identify these projected rows with the original finite support inventory.
+
+The exclusion clause follows because every cited step is a finite-support construction on displayed BEDC rows. None introduces quotient rational equality, quotient stream equality, selected limits, countable choice, metric-completeness data, aggregate status rows, aggregate bridge rows, bridge rows, or ambient $\RealUp$ completeness.
+\end{proof}
