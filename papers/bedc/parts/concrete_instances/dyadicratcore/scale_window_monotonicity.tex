@@ -98,3 +98,21 @@ For the $\RealUp$ face, apply the dependency route \autoref{thm:real-dyadic-stre
 
 The exclusion clauses in the scale-window packet, terminal fusion, bridge handoff, and dependency route remove quotient stream equality, selected limits, host rational order, hidden denominator selectors, and ambient completeness. Hence every accepted consumer read over the terminal scale-window packet exposes the same dyadic face.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore RegSeqRat radius-window normal form]
+\label{thm:dyadicratcore-regseqrat-radius-window-normal-form}
+Let an accepted $\RegSeqRatUp$ readback expose its dyadic face through a finite positive-unary widening chain of a $\DyadicRatCoreUp$ scale-window packet. Then, on BEDC-visible rows, that readback is equivalent to the normal form consisting of the terminal $\DyadicRatCoreUp$ scale-window packet together with the $\StreamNameUp$ finite-window face, the $\RegSeqRatUp$ readback face, the local $\RealUp$ seal face, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+The normal form contains no quotient rational, quotient stream equality, selected limit, countable-choice selector, metric-completeness row, host rational order, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply finite widening-chain induction, \autoref{thm:dyadicratcore-finite-widening-chain-induction}. Use as invariant the assertion that the accepted readback is presented by the visible signed mantissa, exponent window, denominator ledger, common-exponent comparison, distance and radius rows, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows of the current scale-window packet.
+
+Next apply terminal fusion, \autoref{thm:dyadicratcore-scale-window-terminal-fusion}. Any two finite routes to the same terminal positive-unary exponent therefore present one terminal $\DyadicRatCoreUp$ comparison packet, so the readback cannot retain a route-dependent dyadic face.
+
+Now use consumer face determinacy, \autoref{thm:dyadicratcore-scale-window-consumer-face-determinacy}. The terminal packet determines the $\StreamNameUp$ finite-window face, the $\RegSeqRatUp$ readback face, and the local $\RealUp$ seal face from the same displayed dyadic rows.
+
+Finally apply the RegSeqRat terminal radius-window boundary, \autoref{thm:dyadicratcore-regseqrat-terminal-radius-window-boundary}. It forces the accepted terminal readback through the finite radius window attached to the public DyadicRatCore envelope. Combining this boundary with the previous steps gives exactly the stated terminal packet plus the three consumer faces and shared support rows.
+
+The exclusion clauses in the induction surface, terminal fusion, consumer determinacy, and terminal radius-window boundary remove quotient rationals, quotient stream equality, selected limits, countable-choice selectors, metric-completeness rows, host rational order, and ambient Real completeness coordinates. Thus the accepted $\RegSeqRatUp$ readback has precisely the displayed BEDC-visible normal form.
+\end{proof}
