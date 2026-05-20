@@ -191,6 +191,34 @@ Finally apply \autoref{thm:real-l10-terminal-four-face-correspondence} and \auto
 The nonescape clauses in \autoref{thm:streamname-tail-compatible-window-cofinal-exhaustion}, \autoref{thm:regseqrat-common-tail-triple-overlap-cocycle}, and \autoref{thm:regseqrat-common-tail-cocycle-descent} remove the remaining possible coordinates. Quotient streams, selected limits, host real equality, countable choice, metric completeness, ambient $\RealUp$ completeness, standard bridge data, and hidden completion carriers are not rows of the bundled packet or of the common-tail descent boundary.
 \end{proof}
 
+\begin{theorem}[RegSeqRat common-tail support induction]
+\label{thm:regseqrat-common-tail-support-induction}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal P:\ProbeBundle$ be a finite bundle of certified unary observations over $P$. A common-tail four-face boundary over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ is accepted for $\mathcal P$ exactly when the displayed finite support of $\mathcal P$ admits an induction with the following constructors:
+\begin{enumerate}
+\item the empty support exposes only the accepted packet rows of $P$ and no boundary beyond the visible common-tail packet;
+\item a singleton observation exposes the same $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows on the StreamName, DyadicRatCore, RegSeqRat, and RealUp faces, and the observation restricts through the common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet};
+\item a union support is accepted exactly when its two accepted sub-supports have matching displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows on their overlap, each added observation restricts through the common-tail packet, and the triple-overlap cocycle descends to the same four-face boundary.
+\end{enumerate}
+The induced boundary is exhausted by the bundled StreamName unary rows, their $\mathsf{InBundle}$ witnesses, the shared tail selector, the finite-window budget, the pointwise $\mathsf{RatHistoryClassifier}$ handoff rows, the dyadic endpoint-radius-distance ledger, the RegSeqRat classifier and regularity rows, the RealUp seal-source rows, and the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+No quotient stream, selected limit, host real equality, countable choice, metric-completeness row, ambient $\RealUp$ completeness datum, standard bridge coordinate, or hidden completion carrier has a support row in this induction principle.
+\end{theorem}
+\begin{proof}
+For the empty support, the accepted packet $P$ supplies the only rows to inspect. Apply \autoref{def:regseqrat-common-tail-window-packet} and \autoref{thm:regseqrat-common-tail-visible-packet-assembly}. They identify the vacuous support surface with the finite common-tail packet whose coordinates are the displayed StreamName, DyadicRatCore, RegSeqRat, RealUp, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+For a singleton support, restrict the certified unary observation along the shared tail-compatible selector. The cofinal exhaustion theorem \autoref{thm:streamname-tail-compatible-window-cofinal-exhaustion} places the observation, its $\mathsf{InBundle}$ witness, the finite-window budget, and the rational-history handoff row on one displayed StreamName packet. Then \autoref{thm:regseqrat-common-tail-finite-request-real-seal-pullback} identifies the same observation with the common-tail Real seal pullback.
+
+Now suppose two finite supports have already been accepted and are being joined. The induction hypotheses give the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows on each accepted sub-support. On the overlap, apply \autoref{thm:regseqrat-common-tail-union-classifier-determinacy} to obtain one classifier read for the union window.
+
+The boundary comparison for the joined support is then forced by \autoref{thm:regseqrat-common-tail-real-boundary-equivalence}. It says that the common-tail packet and the finite-request Real boundary determine one another on exactly the displayed support rows, so no separate boundary can appear after the union classifier has been fixed.
+
+It remains to check coherence for a further observation added to the joined support. Apply \autoref{thm:regseqrat-common-tail-triple-overlap-cocycle} on the two old support pieces and the new observation. The triple refinement exposes the same common finite surface, and \autoref{thm:regseqrat-common-tail-cocycle-descent} descends the pairwise restrictions to one finite four-face boundary.
+
+Conversely, assume a finite four-face boundary for $\mathcal P$ is accepted. Restrict it to each constructor layer of the displayed finite support. The empty and singleton restrictions recover the packet and visible observation rows by the first two readings above, while every union restriction recovers matching overlap rows by union classifier determinacy and Real boundary equivalence. The triple-overlap cocycle theorem recovers the required descent datum for each added observation.
+
+Induction on the displayed finite support therefore gives precisely the accepted common-tail four-face boundary stated in the theorem. The row inventory of the cited packet, exhaustion, pullback, determinacy, boundary-equivalence, and cocycle-descent results contains no quotient stream, selected limit, host real equality, countable choice, metric-completeness row, ambient $\RealUp$ completeness datum, standard bridge coordinate, or hidden completion carrier, so none can become a support row of the induction.
+\end{proof}
+
 \begin{theorem}[RegSeqRat common-tail face-status objectwise pullback]
 \label{thm:regseqrat-common-tail-face-status-objectwise-pullback}
 Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $T_0$, $T_1$, and $T_2$ be three certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$. Suppose the shifted pairs land in accepted RegSeqRat common-tail triple-overlap packets whose pairwise boundaries agree on the shared $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
