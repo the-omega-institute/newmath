@@ -119,3 +119,21 @@ Next apply Theorem~\ref{thm:metacic-critical-path-phase-real-audit-clean-floor}.
 
 Finally apply Theorem~\ref{thm:metacic-critical-path-four-face-deficiency-refusal}. If any one of the four face records is missing or below the required local threshold, the route cannot be consumed as Phase Real and Completion exit evidence. Thus the three cited theorems form the complete consumer-side audit floor for the current MetaCIC route.
 \end{proof}
+
+\begin{theorem}[MetaCIC Phase Real consumer minimality]
+\label{thm:metacic-critical-path-phase-real-consumer-minimality}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$ consumed as Phase Real and Completion exit evidence, every downstream consumer must retain all four Phase Real face rows $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows attached to those faces. Deleting or replacing any one of those face rows or support rows prevents $K$ from being consumed as current phase exit evidence.
+
+No aggregate MetaCIC route token, aggregate formalstatus row, aggregate bridge row, quotient stream equality, selected host limit, countable-choice coordinate, metric-completeness row, or $\RealUp$ completeness claim can repair the deletion.
+\end{theorem}
+\begin{proof}
+First route the consumer through the status bridge. Theorem~\ref{thm:metacic-critical-path-l10-status-bridge-obligation} says that every use of the MetaCIC four-object certificate as Phase Real and Completion exit evidence passes through the Real L10 objectwise audit pullback of Theorem~\ref{thm:real-l10-current-phase-exit-audit-pullback}.
+
+The audit floor then fixes the local threshold. Theorem~\ref{thm:metacic-critical-path-four-face-audit-floor} combines the status bridge, Theorem~\ref{thm:metacic-critical-path-phase-real-audit-clean-floor}, and the four-face deficiency refusal into the consumer-side audit floor. Theorem~\ref{thm:real-l10-objectwise-exit-threshold-equivalence} reads that floor objectwise, so every local face record is part of the accepted exit threshold.
+
+Now remove one displayed face row or one displayed support row. If the removed row belongs to the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ face product, Theorem~\ref{thm:metacic-critical-path-four-face-deficiency-refusal} blocks consumption of the route as Phase Real and Completion exit evidence.
+
+If the consumer proposes an aggregate substitute, the Real L10 noncollapse clauses reject it. Theorem~\ref{thm:real-l10-face-status-noncollapse} prevents aggregate status, bridge, quotient, selected-limit, countable-choice, metric-completeness, and $\RealUp$ completeness data from filling a missing face coordinate.
+
+It remains to account for the finite support rows. The four-object certificate of Theorem~\ref{thm:metacic-critical-path-l10-four-object-exit-certificate} carries the four faces through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface, and Theorem~\ref{thm:metacic-critical-path-phase-real-four-face-obligation-surface} makes that surface part of the Phase Real obligation. Thus deleting or replacing any displayed support row removes the finite route by which the objectwise audit pullback reads the face, and no aggregate credential can repair the loss.
+\end{proof}
