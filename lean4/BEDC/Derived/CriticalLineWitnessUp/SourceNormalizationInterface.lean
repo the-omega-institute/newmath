@@ -66,4 +66,57 @@ theorem CriticalLineWitnessCarrier_source_normalization_interface
     ⟨cert, unaryZ, unaryS, unaryM, sourceUnary, normalUnary, sameH, sourceRoute,
       normalRoute, routeQ, routeC, routeN⟩
 
+theorem CriticalLineWitnessCarrier_source_normalization_lock
+    {Z S M R Q H C P N sourceRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S sourceRead ->
+        SemanticNameCert
+            (fun row : BHist => hsame row sourceRead ∧ UnaryHistory row)
+            (fun row : BHist => hsame row sourceRead)
+            (fun row : BHist => hsame row sourceRead ∧ Cont Z S sourceRead)
+            hsame ∧
+          UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory sourceRead ∧
+            hsame H (append Z S) ∧ Cont Z S sourceRead ∧ Cont M R Q ∧
+              Cont Q H C ∧ Cont C P N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro packet sourceRoute
+  obtain ⟨unaryZ, unaryS, _unaryM, _unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed unaryZ unaryS sourceRoute
+  have sourceAtRead :
+      (fun row : BHist => hsame row sourceRead ∧ UnaryHistory row) sourceRead := by
+    exact ⟨hsame_refl sourceRead, sourceUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sourceRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row sourceRead)
+          (fun row : BHist => hsame row sourceRead ∧ Cont Z S sourceRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sourceRead sourceAtRead
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, sourceRoute⟩
+  }
+  exact ⟨cert, unaryZ, unaryS, sourceUnary, sameH, sourceRoute, routeQ, routeC, routeN⟩
+
 end BEDC.Derived.CriticalLineWitnessUp
