@@ -1,8 +1,8 @@
 \chapter{A Concrete Naming Certificate for $\CellularBoundaryConditionUp$}
 \label{ch:concrete-instances-cellular-boundary-condition-namecert}
-\origin{ai}
+\origin{ai-composite}
 
-The $\CellularBoundaryConditionUp$ packet realizes the edge-policy surface left implicit by the cellular-carrier alternative of \autoref{ch:visions-cellular-substrate-as-carrier-alternative}. It sits beside the local update packet of \autoref{ch:concrete-instances-cellularlocalupdaterule-namecert}, the substrate carrier of \autoref{ch:concrete-instances-cellularsubstrate-namecert}, the carrier-encoding packet of \autoref{ch:concrete-instances-cellularcarrierencoding-namecert}, the substrate classifier of \autoref{ch:concrete-instances-cellularsubstrateclassifier-namecert}, and the row classifier of \autoref{ch:concrete-instances-cellularrowclassifier-namecert}. Its datum is not another orbit evaluator; it is the finite edge policy by which local reads at the boundary are admitted, refused, or padded before a local update rule may inspect them.
+The $\CellularBoundaryConditionUp$ packet realizes the edge-policy surface left implicit by the cellular-carrier alternative of \autoref{ch:visions-cellular-substrate-as-carrier-alternative}. It is a composite over the local update packet of \autoref{ch:concrete-instances-cellularlocalupdaterule-namecert}, the substrate carrier of \autoref{ch:concrete-instances-cellularsubstrate-namecert}, the carrier-encoding packet of \autoref{ch:concrete-instances-cellularcarrierencoding-namecert}, the substrate classifier of \autoref{ch:concrete-instances-cellularsubstrateclassifier-namecert}, and the row classifier of \autoref{ch:concrete-instances-cellularrowclassifier-namecert}. Its datum is not another orbit evaluator; it is the finite edge policy by which local reads at the boundary are admitted, refused, or padded before a local update rule may inspect them.
 
 \falsifiablePrediction{No accepted $\CellularBoundaryConditionUp$ packet exports a global orbit, hidden evaluator, or unregistered boundary row beyond its displayed edge policy.}
 
@@ -72,12 +72,12 @@ The Lean TasteGate surface expected for this packet is \texttt{BEDC.Derived.Cell
 \closureat{CellularBoundaryConditionUp}{seedStr}
 
 \begin{closurestatus}{\CellularBoundaryConditionUp}
-  \constructivestory{A $\CellularBoundaryConditionUp$ packet is generated from a finite edge-policy row, boundary-window row, constrained local update-read row, admission ledger, componentwise hsame transports, displayed continuation route, package provenance, and local NameCert row.}
+  \constructivestory{A $\CellularBoundaryConditionUp$ packet is generated from a finite edge-policy row, boundary-window row, constrained local update-read row, admission ledger, componentwise hsame transports, displayed continuation route, package provenance, and local NameCert row. Its composite dependency surface is the edge-policy, boundary-window, local update-read, admission-ledger, continuation-route, package-provenance, and local naming surfaces.}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:cellular-boundary-condition-carrier}, \autoref{thm:cellular-boundary-condition-namecert-obligations}, and \autoref{thm:cellular-boundary-condition-nonescape-boundary} bind the finite edge-policy carrier, its local NameCert obligations, and its non-escape boundary for local update reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
+  \origin{ai-composite}
   \notclaimed{This chapter does not close global cellular orbit evaluation, host evaluator correctness, substrate universality, complete row-classifier coverage, Lean implementation, or standard bridge.}
   \upgradepath{Checked closure requires Lean encoding of the carrier plus Nontrivial and FieldFaithful TasteGate instances preserving the edge policy, boundary window, constrained local update read, admission ledger, route, provenance, and local naming projections.}
 \end{closurestatus}
