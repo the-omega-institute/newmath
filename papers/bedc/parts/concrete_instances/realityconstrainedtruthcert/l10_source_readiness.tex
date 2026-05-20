@@ -169,3 +169,46 @@ host equality, model--reality identity, selected limits, hidden repair, and
 off-packet truth export.
 \end{proof}
 \leanchecked{BEDC.Derived.RealityConstrainedTruthCertUp.RealityConstrainedTruthCertL10TerminalSourceBoundary}
+
+\begin{theorem}[Reality-constrained TruthCert L10 terminal readback determinacy]
+\label{thm:reality-constrained-truth-cert-l10-terminal-readback-determinacy}
+Let $Q=(S,\Sigma,K,T,U,D,I,L,F,N)$ and
+$Q'=(S',\Sigma',K',T',U',D',I',L',F',N')$ be accepted
+$\RealityConstrainedTruthCertUp$ packets. Suppose the terminal L10 reads of
+$Q$ and $Q'$ by $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ expose the same
+displayed source row, classifier row, ledger row, failure row, export row, and
+local $\NameCert_{\RealityConstrainedTruthCertUp}$ row. Then the two terminal
+reads determine the same accepted terminal TruthCert readback. No quotient real
+equality, host equality, selected limit, hidden repair, off-packet truth
+export, or ambient truth predicate can distinguish the two readbacks.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:reality-constrained-truth-cert-l10-source-readiness} to both
+packets. Each terminal read is confined to the displayed finite rows of its
+accepted TruthCert carrier, so a comparison between the two reads has no
+source material beyond the listed source, signature, classifier, tower,
+stability, descent, observer-invariant, ledger, failure, and local naming
+rows.
+
+Next use
+\autoref{thm:reality-constrained-truth-cert-l10-failure-ledger-lock}. Since
+the exposed classifier, ledger, failure, and local name rows agree, the
+classifier-facing portions of the two readbacks stay co-resident in the same
+displayed packet positions. The terminal comparison cannot keep a classifier
+row while changing defeat, domain exit, mismatch, hidden residue, observation,
+or compression provenance.
+
+The accepted export is exhausted by
+\autoref{thm:reality-constrained-truth-cert-l10-export-totality} and
+\autoref{thm:reality-constrained-truth-cert-l10-readiness-obligation-surface}.
+Thus every downstream $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ read is
+already accounted for by the displayed rows shared by the two packets, together
+with the same export obligation.
+
+Finally apply
+\autoref{thm:reality-constrained-truth-cert-l10-terminal-source-boundary}. It
+rules out the off-packet substitutes named in the statement, so nothing outside
+the common displayed source, classifier, ledger, failure, export, and local
+NameCert rows can separate the two accepted terminal TruthCert readbacks.
+\end{proof}
