@@ -1330,31 +1330,34 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                 else:
                     wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
                     ok, msg = _ff_local_branch_to(wt_tip)
-                    if not ok:
-                        logger.error(f"ff update failed: {msg.strip()}")
-                        return False
-                    local_contains = run_cmd(
-                        ["git", "merge-base", "--is-ancestor", wt_tip, BASE_BRANCH],
-                        cwd=REPO_ROOT, timeout=10,
-                    ).returncode == 0
-                    if not local_contains:
-                        logger.error(f"{BASE_BRANCH} does not contain {wt.branch} tip {wt_tip[:8]} after ff")
-                        return False
-
-                    push = run_cmd(["git", "push", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
-                    if push.returncode == 0:
-                        run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
-                        origin_contains = run_cmd(
-                            ["git", "merge-base", "--is-ancestor", wt_tip, f"origin/{BASE_BRANCH}"],
+                    if ok:
+                        local_contains = run_cmd(
+                            ["git", "merge-base", "--is-ancestor", wt_tip, BASE_BRANCH],
                             cwd=REPO_ROOT, timeout=10,
                         ).returncode == 0
-                        if origin_contains:
-                            logger.info(f"Merged and pushed {wt.branch} to {BASE_BRANCH} (attempt {attempt})")
-                            return True
-                        logger.error(f"origin/{BASE_BRANCH} missing tip {wt_tip[:8]} after push")
-                        return False
+                        if not local_contains:
+                            logger.error(f"{BASE_BRANCH} does not contain {wt.branch} tip {wt_tip[:8]} after ff")
+                            return False
 
-                    logger.warning(f"[R{wt.round_number}] push rejected attempt {attempt}: {push.stderr[:200]}")
+                        push = run_cmd(["git", "push", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
+                        if push.returncode == 0:
+                            run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
+                            origin_contains = run_cmd(
+                                ["git", "merge-base", "--is-ancestor", wt_tip, f"origin/{BASE_BRANCH}"],
+                                cwd=REPO_ROOT, timeout=10,
+                            ).returncode == 0
+                            if origin_contains:
+                                logger.info(f"Merged and pushed {wt.branch} to {BASE_BRANCH} (attempt {attempt})")
+                                return True
+                            logger.error(f"origin/{BASE_BRANCH} missing tip {wt_tip[:8]} after push")
+                            return False
+
+                        logger.warning(f"[R{wt.round_number}] push rejected attempt {attempt}: {push.stderr[:200]}")
+                    else:
+                        logger.warning(
+                            f"[R{wt.round_number}] ff update failed attempt {attempt} "
+                            f"(transient diverge, will retry): {msg.strip()[:200]}"
+                        )
         except TimeoutError as exc:
             logger.warning(f"[R{wt.round_number}] push lock timeout attempt {attempt}: {exc}")
 
