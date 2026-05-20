@@ -1705,6 +1705,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootPublicReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalBudgetCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalConsumerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
+import BEDC.Derived.CriticalLineWitnessUp.RootRhRefusalBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootRouteExposure
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceConsumerTotality
@@ -1831,7 +1832,6 @@ import BEDC.Derived.DiagonalLimitStabilityUp.TasteGate
 import BEDC.Derived.DiagonalLimitUp
 import BEDC.Derived.DiagonalModulusUp
 import BEDC.Derived.DiagonalRegularitySealUp.TasteGate
-import BEDC.Derived.DiagonalRegularitySealUp.WindowFactorization
 import BEDC.Derived.DiagonalTailSelectorUp
 import BEDC.Derived.DiagonallimitcompatibilityUp
 import BEDC.Derived.DiagonallimitcompatibilityUp.AmbientCompletenessRefusal
@@ -2466,6 +2466,7 @@ import BEDC.Derived.FiniteTailFiberScheduleUp.TasteGate
 import BEDC.Derived.FiniteTailFilterUp
 import BEDC.Derived.FiniteTailFilterUp.BridgePremiseSurface
 import BEDC.Derived.FiniteTailFilterUp.CofinalWindowBudgetNormalForm
+import BEDC.Derived.FiniteTailFilterUp.ExactBoundaryTerminalNormalForm
 import BEDC.Derived.FiniteTailFilterUp.FormalIntakeRouteExhaustion
 import BEDC.Derived.FiniteTailFilterUp.FormalTargetConsumerRoute
 import BEDC.Derived.FiniteTailFilterUp.FormalTargetRouteClosure
@@ -4275,7 +4276,6 @@ import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
 import BEDC.Derived.SobolevUp
 import BEDC.Derived.SocketKindClassifierUp.StdBridge
 import BEDC.Derived.SocketKindClassifierUp.TasteGate
-import BEDC.Derived.SocketReportUp.MinimalClassification
 import BEDC.Derived.SocketReportUp.NameCertObligations
 import BEDC.Derived.SocketReportUp.TasteGate
 import BEDC.Derived.SocketStackCertificateUp.TasteGate
