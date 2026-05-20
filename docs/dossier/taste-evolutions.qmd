@@ -100,6 +100,12 @@ negative criterion 维持机器形态: `<X>Up` 命中 `mislabeled_composite_carr
 
 Ship: commit `8dfd9c801b9e762e3f74198288bdcb25db377f4a`. Detector/gate: recorded by daemon after merge.
 
+**2026-05-20 22:52 — audit gate 回到执行面**
+
+daemon queue 给出 20 个同类 finding, 代表样本 `cellularboundarycondition` / `realityconstrainedsignaturefit` / `realityconstrainedtruthcert`。本次派发由 META_PROMPT_RULE_EVOLUTION source commit `c7579a6e76d47f511be966af4174b634ad884992` 约束。Codex 先查 current HEAD: `rg -n -F '\origin{ai}'` 命中这些 chapter 的 atomic lineage, `rg -n 'inductive .*Up|ChapterTasteGate|FieldFaithful|Nontrivial'` 命中对应普通 TasteGate 包装, 再用 `bedc_ci.py carrier-isomorphism --json` 的 phase1 bucket 重算出 `CellularBoundaryConditionUp` / `RealityConstrainedSignatureFitUp` / `RealityConstrainedTruthCertUp` 分别落在 108 / 201 / 161 成员桶。
+
+negative criterion 是纯机器形态: `\origin{ai}` 的 `<X>Up` 若位于至少 6 成员的 phase1 carrier 同型桶, 就拒绝 atomic `ai` 目标。改动落在 `lean4/scripts/bedc_ci.py`, `lean4/scripts/prompts/phase_b.txt`, `lean4/scripts/prompts/phase_c.txt`, `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; `detect_mislabeled_composite_carriers(min_bucket_size=6)` 现在进入 audit payload, Review/Revise 与 Lean Phase B/C prompt 都以 `mislabeled_composite_carriers` 为执行 gate。
+
 ## RESEARCH 探索历史
 
 每次 RESEARCH cycle daemon 派 Codex 扫整个 corpus, 目标是找现有 detector 没覆盖的新平凡 pattern。这里记录探索范围和结论；没 ship 的探索也保留, 因为 operator 需要知道 daemon 不是只在成功时才留下痕迹。
