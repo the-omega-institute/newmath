@@ -2903,6 +2903,7 @@ import BEDC.Derived.KernelInductiveAcceptanceUp.KernelObligationClosurePackage
 import BEDC.Derived.KernelInductiveAcceptanceUp.NontrivialBoundary
 import BEDC.Derived.KernelInductiveAcceptanceUp.PositivityRefusalClassifierStability
 import BEDC.Derived.KernelInductiveAcceptanceUp.RefusalNonescape
+import BEDC.Derived.KernelInductiveAcceptanceUp.ScopedConsumerPackage
 import BEDC.Derived.KernelInductiveAcceptanceUp.SubjectReductionRoute
 import BEDC.Derived.KernelInductiveAcceptanceUp.SubjectReductionScopeLock
 import BEDC.Derived.KernelInductiveAcceptanceUp.TasteGate
@@ -4488,6 +4489,7 @@ import BEDC.Derived.SymplecticUp
 import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
 import BEDC.Derived.SynchronizationCertificateUp.TasteGate
 import BEDC.Derived.TailBudgetCoherenceUp
+import BEDC.Derived.TailBudgetCoherenceUp.RealSealWindowStability
 import BEDC.Derived.TailBudgetCoherenceUp.StdBridge
 import BEDC.Derived.TailCauchyRouterUp.TasteGate
 import BEDC.Derived.TailCofinalityBudgetUp.NameCertObligations
