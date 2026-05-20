@@ -305,3 +305,68 @@ hypotheses of
 \autoref{thm:streamname-terminal-four-face-support-transport-stability}, which
 concludes that $U$ and $V$ present one terminal support packet.
 \end{proof}
+
+\begin{theorem}[StreamName finite-cover terminal support minimality]
+\label{thm:streamname-finite-cover-terminal-support-minimality}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase $\RealUp$
+and Completion $\StreamNameUp$ request sections. Suppose every accepted overlap
+displays the same $\StreamNameUp$ finite-window row, the same
+$\DyadicRatCoreUp$ ledger row, the same $\RegSeqRatUp$ readback row, the same
+$\RealUp$ seal boundary, and the same $\BHist$, componentwise $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ support rows when read through either local
+section. Then the cover-descent terminal support packet for the family is
+accepted exactly on those four visible faces and displayed support rows.
+
+Moreover, deleting any one visible face or any one displayed support row
+prevents the resulting cover packet from presenting the same carrier verdict
+and the same classifier verdict to Real-facing or completion-facing consumers.
+This finite-cover minimality claim uses no quotient stream equality, host
+sequence equality, selected limits, countable choice, ambient $\RealUp$
+completeness, metric-completeness data, aggregate formalstatus rows, or bridge
+rows.
+\end{theorem}
+\begin{proof}
+First form the cover surface. Apply
+\autoref{thm:streamname-finite-section-cover-descent-classifier-reflection} to
+the finite family. The accepted-overlap hypotheses place the carrier verdict
+and classifier verdict on the common StreamName finite window, DyadicRatCore
+ledger, RegSeqRat readback, Real seal boundary, and the displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next compare all choices of cover presentation. The common-refinement theorem
+\autoref{thm:streamname-finite-cover-common-refinement-classifier-uniqueness}
+says that any certified finite refinement reads the same public four-face
+classifier surface. Thus the cover-descent terminal packet is independent of
+the chosen finite presentation once the displayed overlap rows agree.
+
+Now work on each terminal section. For every $i \in I$,
+\autoref{thm:streamname-terminal-four-face-support-minimality} says that the
+local terminal packet is accepted exactly on the four visible faces and the
+displayed support rows, and that deleting any one of these coordinates loses
+the same Real-facing or completion-facing verdict. Therefore a shorter cover
+packet would already be shorter on some accepted local section or accepted
+overlap.
+
+It remains to pass from local minimality to cover minimality. Use
+\autoref{thm:streamname-terminal-four-face-support-replay-induction} on the
+ordered list consisting of the StreamName finite window, the DyadicRatCore
+ledger, the RegSeqRat readback, the Real seal boundary, and the displayed
+support rows. The induction transports the local terminal packets through the
+cover in the same order and gives one consumer-visible terminal support packet.
+
+Finally rule out substitutes for the missing coordinate. The exactness theorem
+\autoref{thm:regseqrat-real-terminal-four-face-exactness} identifies the
+RegSeqRat terminal boundary with precisely the four-face support packet, while
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness} rules out a
+second finite RegSeqRat source with the same public verdict. The Real exit
+totality theorem
+\autoref{thm:real-l10-dependency-lattice-exit-totality} then forces every
+accepted Phase Real and Completion terminal read through the same ordered
+route.
+
+The coordinates listed outside the statement are absent from that route.
+Hence quotient stream equality, host sequence equality, selected limits,
+countable choice, ambient $\RealUp$ completeness, metric-completeness data,
+aggregate formalstatus rows, and bridge rows cannot supply the deleted face or
+support row, and cannot preserve the same carrier and classifier verdicts.
+\end{proof}
