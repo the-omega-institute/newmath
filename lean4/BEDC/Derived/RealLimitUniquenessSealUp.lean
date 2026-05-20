@@ -62,4 +62,31 @@ theorem RealLimitUniquenessSealCarrier_nonescape [AskSetup] [PackageSetup]
       (fun hostReturn =>
         cont_mutual_extension_right_tail_absurd.right l0VRoute hostReturn)⟩
 
+theorem RealLimitUniquenessSealCarrier_consumer_handoff [AskSetup] [PackageSetup]
+    {l0 l1 q s d r v h c p n comparisonRead handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealLimitUniquenessSealCarrier l0 l1 q s d r v h c p n bundle pkg ->
+      Cont q r comparisonRead ->
+        Cont comparisonRead v handoffRead ->
+          PkgSig bundle handoffRead pkg ->
+            UnaryHistory l0 ∧ UnaryHistory l1 ∧ UnaryHistory q ∧ UnaryHistory s ∧
+              UnaryHistory d ∧ UnaryHistory r ∧ UnaryHistory v ∧
+                UnaryHistory comparisonRead ∧ UnaryHistory handoffRead ∧
+                  Cont l0 l1 q ∧ Cont q s d ∧ Cont d r v ∧
+                    Cont q r comparisonRead ∧ Cont comparisonRead v handoffRead ∧
+                      PkgSig bundle n pkg ∧ PkgSig bundle handoffRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier qRComparison comparisonVHandoff handoffPkg
+  rcases carrier with
+    ⟨l0Unary, l1Unary, qUnary, sUnary, dUnary, rUnary, vUnary, _hUnary, _cUnary,
+      _pUnary, _nUnary, l0l1q, qsd, drv, _hcp, nPkg⟩
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed qUnary rUnary qRComparison
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed comparisonUnary vUnary comparisonVHandoff
+  exact
+    ⟨l0Unary, l1Unary, qUnary, sUnary, dUnary, rUnary, vUnary, comparisonUnary,
+      handoffUnary, l0l1q, qsd, drv, qRComparison, comparisonVHandoff, nPkg,
+      handoffPkg⟩
+
 end BEDC.Derived.RealLimitUniquenessSealUp

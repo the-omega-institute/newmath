@@ -71,4 +71,15 @@ theorem CauchyWindowTransducerCarrier_namecert_obligations [AskSetup] [PackageSe
   exact ⟨unaryS, unaryD, unaryW, unaryR, unaryE, unaryL, contSDW, contWRE, sameNE,
     pkgE, cert⟩
 
+theorem CauchyWindowTransducerCarrier_step_spine_determinacy [AskSetup] [PackageSetup]
+    {S D W R E L H C P N : BHist} :
+    CauchyWindowTransducerCarrier S D W R E L H C P N →
+      UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory E ∧
+        Cont S D W ∧ Cont W R E ∧ hsame N E := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro carrier
+  obtain ⟨_unaryS, _unaryD, unaryW, unaryR, unaryE, _unaryL, _unaryH, _unaryC,
+    _unaryP, _unaryN, contSDW, contWRE, sameNE⟩ := carrier
+  exact ⟨unaryW, unaryR, unaryE, contSDW, contWRE, sameNE⟩
+
 end BEDC.Derived.CauchyWindowTransducerUp
