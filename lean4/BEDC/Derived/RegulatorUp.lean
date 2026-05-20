@@ -208,4 +208,22 @@ theorem RegulatorRootInputPacket_dependency_ledger_factorization [AskSetup] [Pac
       (And.intro ledgerExact.left
         (And.intro ledgerExact.right.left ledgerExact.right.right.right)))
 
+theorem RegulatorRootInputPacket_rank_zero_layout_degeneracy [AskSetup] [PackageSetup]
+    {duSource unit inverse law unitLedger lawLedger duProvenance nfSource rank layout provenance
+      endpoint determinantLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegulatorRootInputPacket duSource unit inverse law unitLedger lawLedger duProvenance
+        nfSource rank layout provenance endpoint bundle pkg ->
+      hsame rank BHist.Empty ->
+        Cont layout BHist.Empty determinantLedger ->
+          UnaryHistory rank ∧ UnaryHistory determinantLedger ∧
+            hsame determinantLedger (append layout BHist.Empty) ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro packet _rankEmpty layoutEmptyDeterminant
+  obtain ⟨_duCarrier, _nfCarrier, rankUnary, layoutUnary, _rankLayoutProvenance,
+    _provenanceEndpoint, endpointPkg⟩ := packet
+  have determinantLedgerUnary : UnaryHistory determinantLedger :=
+    unary_cont_closed layoutUnary unary_empty layoutEmptyDeterminant
+  exact ⟨rankUnary, determinantLedgerUnary, layoutEmptyDeterminant, endpointPkg⟩
+
 end BEDC.Derived.RegulatorUp
