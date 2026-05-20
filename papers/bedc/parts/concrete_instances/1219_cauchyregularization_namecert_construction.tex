@@ -290,6 +290,45 @@ streams, selected limits, host real equality, hidden tail selectors, ambient
 completeness, and unrecorded modulus choices.
 \end{proof}
 
+\begin{theorem}[CauchyRegularization Real seal normalization retract]
+\label{thm:cauchyregularization-real-seal-normalization-retract}
+Let $G=(S,M,D,W,R,E,H,C,P,N)$ be an accepted
+$\CauchyRegularizationUp$ packet. Suppose a second regularization packet reads
+the same transported $\RationalStreamUp$ window row $S$, the same
+$\CauchyModulusUp$ threshold row $M$, the same $\DyadicRatCoreUp$ ledger $D$,
+the same approximant ledger $W$, the same $\RegSeqRatUp$ handoff $R$, the same
+seal row $E$, and the same structural rows $H,C,P,N$. Then the $\RealUp$
+consumer route of the second read retracts to the original seal route $E$.
+
+The retract exports no quotient stream equality, selected limit, host real
+equality, hidden tail selector, unrecorded modulus choice, or ambient
+completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of
+\autoref{def:cauchyregularization-finite-carrier} for the original packet and
+for the second packet. The two projections list the same source window,
+modulus threshold, dyadic ledger, approximant ledger, handoff, seal,
+transport, continuation, package, and naming rows.
+
+Apply
+\autoref{thm:cauchyregularization-common-modulus-idempotence}. The repeated
+read cannot introduce a new $\CauchyModulusUp$ threshold row or a new
+$\RegSeqRatUp$ handoff; the handoff and seal provenance remain the displayed
+rows $R$ and $E$.
+
+Apply \autoref{thm:cauchyregularization-real-seal-idempotent-route}. With the
+same Real-facing rows on both reads, the second consumer route is identified
+with the first consumer route at the seal surface.
+
+Finally apply
+\autoref{thm:cauchyregularization-real-seal-source-modulus-factorization}. The
+first route has only the displayed source-modulus-seal factorization through
+$S,M,D,W,R,E,H,C,P,N$. Hence the second route retracts to the same seal row
+$E$, and the listed quotient, limit, equality, selector, modulus-choice, and
+ambient-completeness data have no exported coordinate.
+\end{proof}
+
 \begin{theorem}[CauchyRegularization public real-regularization export]
 \label{thm:cauchyregularization-public-real-regularization-export}
 The finite carrier, modulus classifier, regular-sequence handoff, $\RealUp$
