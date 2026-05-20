@@ -1,8 +1,11 @@
 import BEDC.Derived.ExternalSupplyBoundaryUp
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.ExternalSupplyBoundaryUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.Meta.TasteGate
 
 instance externalSupplyBoundaryFieldFaithful : FieldFaithful ExternalSupplyBoundaryUp where
@@ -55,5 +58,65 @@ instance externalSupplyBoundaryNontrivial : Nontrivial ExternalSupplyBoundaryUp 
       by
         intro h
         cases h⟩
+
+theorem ExternalSupplyBoundary_namecert_obligations {B R I A G Q H C P N : BHist} :
+    SemanticNameCert
+      (fun row : BHist =>
+        ∃ packet : ExternalSupplyBoundaryUp,
+          packet = ExternalSupplyBoundaryUp.mk B R I A G Q H C P N ∧ hsame row N)
+      (fun row : BHist =>
+        externalSupplyBoundaryFromEventFlow
+              (externalSupplyBoundaryToEventFlow
+                (ExternalSupplyBoundaryUp.mk B R I A G Q H C P N)) =
+            some (ExternalSupplyBoundaryUp.mk B R I A G Q H C P N) ∧
+          hsame row N)
+      (fun row : BHist =>
+        hsame row N ∧ externalSupplyBoundaryEncodeBHist BHist.Empty = ([] : List BMark))
+      hsame := by
+  -- BEDC touchpoint anchor: BHist BMark NameCert SemanticNameCert hsame
+  refine
+    { core := ?core
+      pattern_sound := ?pattern_sound
+      ledger_sound := ?ledger_sound }
+  · refine
+      { carrier_inhabited := ?carrier_inhabited
+        equiv_refl := ?equiv_refl
+        equiv_symm := ?equiv_symm
+        equiv_trans := ?equiv_trans
+        carrier_respects_equiv := ?carrier_respects_equiv }
+    · exact
+        Exists.intro N
+          (Exists.intro (ExternalSupplyBoundaryUp.mk B R I A G Q H C P N)
+            (And.intro rfl (hsame_refl N)))
+    · intro h _source
+      exact hsame_refl h
+    · intro h k hhk
+      exact hsame_symm hhk
+    · intro h k r hhk hkr
+      exact hsame_trans hhk hkr
+    · intro h k hhk source
+      cases source with
+      | intro packet packetRows =>
+          cases packetRows with
+          | intro packetEq rowName =>
+              exact
+                Exists.intro packet
+                  (And.intro packetEq (hsame_trans (hsame_symm hhk) rowName))
+  · intro row source
+    cases source with
+    | intro _packet packetRows =>
+        cases packetRows with
+        | intro _packetEq rowName =>
+            exact
+              And.intro
+                (ExternalSupplyBoundaryTasteGate_single_carrier_alignment.right.left
+                  (ExternalSupplyBoundaryUp.mk B R I A G Q H C P N))
+                rowName
+  · intro row source
+    cases source with
+    | intro _packet packetRows =>
+        cases packetRows with
+        | intro _packetEq rowName =>
+            exact And.intro rowName rfl
 
 end BEDC.Derived.ExternalSupplyBoundaryUp
