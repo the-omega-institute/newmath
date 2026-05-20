@@ -1,6 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\ReviewAcceptanceGateUp$}
 \label{ch:concrete-instances-review-acceptance-gate-namecert}
-\origin{ai}
+\origin{ai-composite}
 
 The $\ReviewAcceptanceGateUp$ packet realizes the research-programme route of \autoref{sec:visions-philosophy-research-programme} as a finite NameCert surface for operator review. It sits beside the failure-certificate packet of \autoref{ch:concrete-instances-failurecertificate-namecert}, the cannot-claim export gate of \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert}, the machine-interface boundary of \autoref{ch:concrete-instances-machine-interface-boundary-namecert}, the kernel acceptance witness of \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, and the kernel audit witness of \autoref{ch:concrete-instances-kernel-audit-witness-namecert}. Those siblings expose refusal, export blocking, machine-facing routing, kernel admission, and audit readback separately; this carrier binds proposal, decision, rejected alternatives, acceptance row, audit readback, and non-automation boundary before a consumer may read operator approval.
 
@@ -44,6 +44,7 @@ Finally inspect $Q,H,C,P,N$. Refusal and cannot-claim rows remain visible throug
 \label{thm:review-acceptance-gate-human-approval-boundary}
 For every accepted $\ReviewAcceptanceGateUp$ packet $G=(S,D,R,A,M,K,Q,H,C,P,N)$, a consumer may read operator approval only through the human acceptance row $A$ together with the proposal and decision rows $S,D$. Kernel acceptance data in $K$, audit readback in $K$, machine-facing route data in $M$, and refusal data in $Q$ do not by themselves produce an accepted operator decision.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReviewAcceptanceGateUp.ReviewAcceptanceGateHumanApprovalBoundary}
 \begin{proof}
 Start with the carrier definition. It separates the proposal, decision, rejected alternatives, human acceptance, machine boundary, kernel rows, and blocked-claim rows as distinct coordinates.
 
@@ -79,7 +80,7 @@ The Lean TasteGate file must provide explicit $\Nontrivial\ \ReviewAcceptanceGat
   \scopeclosed{This chapter binds the carrier definition, NameCert-obligation, human-approval-boundary, non-automation-boundary, independence witness, Lean-follow-up boundary, and existing closure annotations for $\ReviewAcceptanceGateUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
+  \origin{ai-composite}
   \notclaimed{It does not claim conversion of machine proposals, kernel acceptance, audit readback, refusals, or failure certificates into approval without the human acceptance row.}
   \upgradepath{To reach obligationClosure, the review carrier and non-automation boundary must be checked as finite-row acceptance obligations.}
 \end{closurestatus}
