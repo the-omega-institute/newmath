@@ -323,4 +323,11 @@ theorem CompletionMetricDistanceWitness_semanticNameCert {x y d : BHist} :
       exact source
   }
 
+theorem CompletionCarrier_obligation {x y d : BHist} :
+    MetricDistanceWitness x y d ->
+      UnaryHistory x ∧ UnaryHistory y ∧ UnaryHistory d ∧ Cont x y d := by
+  intro witness
+  rcases witness with ⟨xUnary, yUnary, dUnary, distanceRow⟩
+  exact And.intro xUnary (And.intro yUnary (And.intro dUnary distanceRow))
+
 end BEDC.Derived.CompletionUp

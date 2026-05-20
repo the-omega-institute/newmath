@@ -471,4 +471,37 @@ theorem KalmanFilterCarrier_namecert_obligation_surface [AskSetup] [PackageSetup
         (And.intro innovationRow
           (And.intro posteriorRow (And.intro endpointRow pkgSig)))))
 
+theorem KalmanFilterUp_StdBridge [AskSetup] [PackageSetup]
+    {prior transition prediction observation residual covariance gain posterior innovation update
+      covariancePosterior provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KalmanFilterCarrier prior transition prediction observation residual covariance gain posterior
+        innovation update covariancePosterior provenance endpoint bundle pkg ->
+      Cont prior transition prediction ∧
+        Cont prediction observation residual ∧
+          Cont covariance observation innovation ∧
+            Cont innovation gain update ∧
+              Cont innovation gain posterior ∧
+                Cont update posterior covariancePosterior ∧
+                  Cont posterior covariancePosterior endpoint ∧
+                    hsame endpoint (append posterior covariancePosterior) ∧
+                      PkgSig bundle endpoint pkg := by
+  intro carrier
+  rcases carrier with
+    ⟨_priorUnary, _transitionUnary, _predictionUnary, _observationUnary, _residualUnary,
+      _covarianceUnary, _gainUnary, _posteriorUnary, _innovationUnary, _updateUnary,
+      _covariancePosteriorUnary, _provenanceUnary, _endpointUnary, predictionRow,
+      residualRow, innovationRow, updateRow, posteriorRow, covariancePosteriorRow,
+      endpointRow, pkgSig⟩
+  have endpointSame : hsame endpoint (append posterior covariancePosterior) := by
+    cases endpointRow
+    rfl
+  exact And.intro predictionRow
+    (And.intro residualRow
+      (And.intro innovationRow
+        (And.intro updateRow
+          (And.intro posteriorRow
+            (And.intro covariancePosteriorRow
+              (And.intro endpointRow (And.intro endpointSame pkgSig)))))))
+
 end BEDC.Derived.KalmanFilterUp
