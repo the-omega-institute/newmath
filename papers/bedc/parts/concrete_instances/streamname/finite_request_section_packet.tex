@@ -230,6 +230,63 @@ selected-limit, ambient-completeness, choice, Classical, or bridge coordinate
 can replace the terminal four-face packet.
 \end{proof}
 
+\begin{theorem}[StreamName finite-request section terminal reflection]
+\label{thm:streamname-finite-request-section-terminal-reflection}
+Let $Q$ be an accepted finite $\StreamNameUp$ request section for the current
+L10 Phase Real and Completion route. Suppose the visible rows of $Q$ display
+one $\StreamNameUp$ finite window, one $\DyadicRatCoreUp$ budget row, one
+$\RegSeqRatUp$ readback row, one $\RealUp$ seal boundary, and the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows. Then
+$Q$ is the public reflection surface for the terminal four-face L10 route
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Every accepted finite request section with the same displayed rows reflects to
+that same terminal route, and every terminal four-face L10 route pulls back to
+that finite request section. Thus the finite section is both the only public
+exit route available to the current L10 packet and the only pullback surface
+available to later $\RegSeqRatUp$, $\RealUp$, and completion-facing consumers.
+It exports no quotient stream equality, selected limit, host real equality,
+ambient completion, metric-completeness datum, countable-choice row,
+Classical row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-finite-request-section-budget-exactness}. The accepted
+section has exactly one displayed StreamName window, dyadic budget, regular
+readback, Real seal, and BEDC support packet, so no later consumer can replace
+the section by a second dyadic source or a second regular-sequence source.
+
+Next apply
+\autoref{thm:streamname-real-seal-request-section-nonescape}. The Real seal
+reads only the finite request section just described. Hence quotient stream
+equality, selected limits, host real equality, ambient completion, and
+metric-completeness data are not coordinates of the route seen by the seal.
+
+Now compare any other accepted finite request section whose visible rows agree
+with those of $Q$. By
+\autoref{thm:streamname-finite-request-section-terminal-coherence}, the two
+sections determine the same terminal four-face packet. By
+\autoref{thm:streamname-finite-section-classifier-determinacy}, the public
+carrier and classifier verdicts are therefore the same displayed section
+verdicts, not a quotient or host-equality verdict.
+
+For the reverse direction, take a terminal four-face L10 route. The converse
+clause of
+\autoref{thm:streamname-finite-request-section-terminal-coherence} restricts
+it to a finite request section with exactly the StreamName window,
+DyadicRatCore budget, RegSeqRat readback, RealUp seal, and displayed support
+rows. Applying classifier determinacy again identifies that pullback with
+$Q$ whenever those visible rows agree.
+
+Therefore the same finite section is the public exit surface and the
+consumer-facing pullback surface. Since the construction used only the cited
+budget, non-escape, terminal-coherence, and classifier-determinacy rows, no
+quotient stream equality, selected limit, host real equality, ambient
+completion, metric-completeness datum, countable-choice row, Classical row, or
+standard bridge row can be imported into the reflected route.
+\end{proof}
+
 \begin{theorem}[StreamName finite-request common-refinement exactness]
 \label{thm:streamname-finite-request-common-refinement-exactness}
 Let $Q$ and $Q'$ be accepted finite $\StreamNameUp$ requests. Suppose both are
