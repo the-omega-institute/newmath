@@ -272,6 +272,63 @@ surfaces named in the statement. The later Lean route is represented by
 is asserted here.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite tail-budget family common refinement]
+\label{thm:regseqrat-finite-tail-budget-family-common-refinement}
+Let $F$ be a finite family of accepted $\RegSeqRatUp$ tail-budget
+presentations. Suppose the $\StreamNameUp$ schedules and the
+$\DyadicRatCoreUp$ endpoint, radius, and distance ledgers for every pair of
+members of $F$ admit displayed common finite windows. Then $F$ determines one
+terminal $\RealUp$ seal surface exactly when the common finite refinement
+preserves, for every member of $F$, the $\StreamNameUp$ pointwise classifier,
+the $\DyadicRatCoreUp$ radius handoff, the $\RegSeqRatUp$ classifier and
+regularity rows, the $\RealUp$ source factorization rows, and the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+The finite-family certificate is only the common BEDC refinement route. It
+contains no quotient stream, selected host limit, countable choice datum,
+ambient completeness carrier, metric-completeness row, or second $\RealUp$
+seal coordinate.
+\end{theorem}
+\begin{proof}
+Induct on the finite family $F$. For the empty and singleton families, the
+claimed terminal seal surface is the displayed accepted presentation itself,
+and the listed support rows are exactly the rows already carried by its
+tail-budget certificate.
+
+For the induction step, separate the last accepted presentation from the
+refined family already produced by the induction hypothesis. The pairwise
+window assumptions give common finite windows between the last presentation
+and each member of the refined family, while the induction hypothesis supplies
+the already preserved StreamName classifiers, DyadicRatCore radius handoffs,
+RegSeqRat classifier and regularity rows, RealUp source factorization rows, and
+displayed support.
+
+Apply \autoref{thm:regseqrat-tail-budget-composition-correspondence} to the
+refined family route and the last presentation. This is the binary step: it
+keeps the terminal $\RealUp$ seal read on the same four-face path and records
+that no extra route data is introduced by composing the two tail-budget
+certificates.
+
+Next use
+\autoref{thm:dyadicratcore-four-face-scale-window-chain-induction}. It
+identifies the nested $\DyadicRatCoreUp$ endpoint, radius, and distance
+handoffs across the finite chain of common windows, so the composite window is
+coherent with the earlier dyadic radius handoff rows.
+
+Finally apply
+\autoref{thm:regseqrat-dyadic-stream-tail-budget-common-refinement} to compare
+the terminal seal surface of the composite refinement with the seal surface of
+each accepted family member. The forward direction reads preservation of the
+listed rows from the common finite refinement; the reverse direction repacks
+those preserved rows into the same terminal $\RealUp$ seal surface.
+
+The nonescape clauses remain facewise throughout the induction. Since every
+step uses only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support, the finite-family route has no quotient streams, selected
+host limits, countable choice data, ambient or metric-completeness rows, or
+second $\RealUp$ seal coordinates.
+\end{proof}
+
 \begin{theorem}[RegSeqRat tail-budget facewise status pullback]
 \label{thm:regseqrat-tail-budget-facewise-status-pullback}
 Every accepted tail-budget $\RealUp$-seal consumer of an accepted
