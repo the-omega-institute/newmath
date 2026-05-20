@@ -250,6 +250,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptanceTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptedSignatureRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AdmissionExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditBoundary
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditBranchSynchronization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditDescentRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditGatedOutputCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditLedgerNonescape
@@ -1852,6 +1853,8 @@ import BEDC.Derived.DiagonalCofinalTailUp.StationarySealUniqueness
 import BEDC.Derived.DiagonalCofinalTailUp.TasteGate
 import BEDC.Derived.DiagonalCofinalTailUp.WindowExhaustion
 import BEDC.Derived.DiagonalCofinalTailUp.WindowProjectionExactness
+import BEDC.Derived.DiagonalConvergenceBoundUp
+import BEDC.Derived.DiagonalIndexCofinalityUp
 import BEDC.Derived.DiagonalLimitBudgetUp.TasteGate
 import BEDC.Derived.DiagonalLimitObserverUp
 import BEDC.Derived.DiagonalLimitObserverUp.TasteGate
@@ -2480,6 +2483,7 @@ import BEDC.Derived.FiniteObservationLockUp.TasteGate
 import BEDC.Derived.FiniteObservationReflectionSealUp.TasteGate
 import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
+import BEDC.Derived.FinitePhaseSamplingUp
 import BEDC.Derived.FinitePrefixAutomatonUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitBudgetUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitStabilityUp.LedgerExactness
@@ -4894,6 +4898,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.RouteCarrierAdmission
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockCoverage
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockTriad
+import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerHandoff
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerSourceReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingPublicFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingSourceAccountability
