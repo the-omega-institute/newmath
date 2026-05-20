@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LayeredRelationCertUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -378,5 +380,62 @@ theorem LayeredRelationCertTasteGate_single_carrier_alignment :
               exact layeredRelationCertToEventFlow_injective heq
             · intro h
               cases h
+
+theorem LayeredRelationCert_namecert_row_obligations
+    {A B L U V W F H C P G N strength : BHist} :
+    SemanticNameCert
+      (fun row : BHist =>
+        ∃ packet : LayeredRelationCertUp,
+          packet = LayeredRelationCertUp.mk A B L U V W F H strength C P G N ∧
+            hsame row N)
+      (fun row : BHist =>
+        layeredRelationCertFields
+              (LayeredRelationCertUp.mk A B L U V W F H strength C P G N) =
+            [A, B, L, U, V, W, F, H, strength, C, P, G, N] ∧
+          hsame row N)
+      (fun row : BHist =>
+        hsame row N ∧ layeredRelationCertEncodeBHist BHist.Empty = ([] : List BMark))
+      hsame := by
+  -- BEDC touchpoint anchor: BHist BMark NameCert SemanticNameCert hsame
+  refine
+    { core := ?core
+      pattern_sound := ?pattern_sound
+      ledger_sound := ?ledger_sound }
+  · refine
+      { carrier_inhabited := ?carrier_inhabited
+        equiv_refl := ?equiv_refl
+        equiv_symm := ?equiv_symm
+        equiv_trans := ?equiv_trans
+        carrier_respects_equiv := ?carrier_respects_equiv }
+    · exact
+        Exists.intro N
+          (Exists.intro (LayeredRelationCertUp.mk A B L U V W F H strength C P G N)
+            (And.intro rfl (hsame_refl N)))
+    · intro h _source
+      exact hsame_refl h
+    · intro h k hhk
+      exact hsame_symm hhk
+    · intro h k r hhk hkr
+      exact hsame_trans hhk hkr
+    · intro h k hhk source
+      cases source with
+      | intro packet packetRows =>
+          cases packetRows with
+          | intro packetEq rowName =>
+              exact
+                Exists.intro packet
+                  (And.intro packetEq (hsame_trans (hsame_symm hhk) rowName))
+  · intro row source
+    cases source with
+    | intro _packet packetRows =>
+        cases packetRows with
+        | intro _packetEq rowName =>
+            exact And.intro rfl rowName
+  · intro row source
+    cases source with
+    | intro _packet packetRows =>
+        cases packetRows with
+        | intro _packetEq rowName =>
+            exact And.intro rowName rfl
 
 end BEDC.Derived.LayeredRelationCertUp
