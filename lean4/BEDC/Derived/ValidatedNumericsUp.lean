@@ -87,6 +87,32 @@ theorem ValidatedNumericsPacket_precision_refinement_containment
         refinedObservationInterval, refinedContainmentProvenanceName, refinedPkg⟩,
       sameObservation, sameContainment⟩
 
+theorem ValidatedNumericsPacket_containment_ledger_transport [AskSetup] [PackageSetup]
+    {interval precision modulus observation readback transport containment provenance name
+      observation' containment' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ValidatedNumericsPacket interval precision modulus observation readback transport containment
+        provenance name bundle pkg ->
+      hsame observation observation' ->
+        hsame containment containment' ->
+          Cont observation' interval containment' ->
+            UnaryHistory interval ∧ UnaryHistory observation' ∧ UnaryHistory containment' ∧
+              Cont observation' interval containment' ∧ Cont precision modulus observation ∧
+                PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg PkgSig
+  intro packet sameObservation sameContainment observationIntervalContainment'
+  obtain ⟨intervalUnary, _precisionUnary, _modulusUnary, observationUnary, _readbackUnary,
+    _transportUnary, containmentUnary, _provenanceUnary, _nameUnary,
+    precisionModulusObservation, _observationReadbackTransport,
+    _observationIntervalContainment, _containmentProvenanceName, namePkg⟩ := packet
+  have observationUnary' : UnaryHistory observation' :=
+    unary_transport observationUnary sameObservation
+  have containmentUnary' : UnaryHistory containment' :=
+    unary_transport containmentUnary sameContainment
+  exact
+    ⟨intervalUnary, observationUnary', containmentUnary', observationIntervalContainment',
+      precisionModulusObservation, namePkg⟩
+
 theorem ValidatedNumericsReadbackPacket_real_readback_soundness [AskSetup] [PackageSetup]
     {interval precision modulus observation readback containment provenance name finiteRead
       sealRow : BHist}
