@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.32 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.33 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Dedup partial drop handling
 
@@ -153,6 +153,12 @@ For each target in the list above:
    `\origin{ai-composite}` or redesign the carrier. Missing `\origin{}` and
    mislabeled composite carriers are rejected by `bedc_ci.py audit`. `reject`
    targets are not applied.
+   If an existing chapter's `<X>Up` appears in
+   `mislabeled_composite_carriers`, do not add or strengthen
+   `\leanchecked`, `\leanstmt`, `closurestatus`, `\falsifiablePrediction`,
+   `\independenceWitness`, or atomic `ai` nontriviality prose for that chapter.
+   The only valid edit is to change its lineage to `\origin{ai-composite}`
+   with a composite dependency sentence, or to skip the target.
 
 1. Open the listed `paper_files` and locate the `anchor` (theorem/definition block or section).
 2. Apply `proposed_change` exactly. Read the surrounding ~30 lines so the edit lands in the correct semantic context, not just by string match.
