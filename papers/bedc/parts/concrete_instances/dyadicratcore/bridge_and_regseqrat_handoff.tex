@@ -436,6 +436,55 @@ metric-completeness data, ambient real-completeness rows, and aggregate
 bridge/status rows from the restricted meet.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore finite radius-window meet associativity]
+\label{thm:dyadicratcore-finite-radius-window-meet-associativity}
+Let $W_0$, $W_1$, and $W_2$ be three displayed common monotone unary radius
+windows over the same finite family of public $\DyadicRatCoreUp$ packets and
+directed-refinement handoffs. The displayed meet obtained by first meeting
+$W_0$ with $W_1$ and then meeting that result with $W_2$ exposes the same finite
+BEDC rows as the displayed meet obtained by first meeting $W_1$ with $W_2$ and
+then meeting $W_0$ with that result.
+
+The common row inventory is the refined exponent, denominator ledger,
+common-exponent classifier, distance rows, $\mathsf{BHist}$ carrier rows,
+$\hsame$ transports, $\Cont$ readbacks, $\mathsf{Pkg}$ provenance, local
+$\NameCert$ row, and the downstream $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$ terminal faces. No quotient rational, host equality row, selected
+$\RealUp$ limit, countable-choice selector, metric-completeness datum, or
+ambient $\RealUp$ completeness row distinguishes the two parenthesizations.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadicratcore-finite-radius-window-cofinality} to the finite
+family underlying $W_0$, $W_1$, and $W_2$. Each displayed window is therefore a
+presentation of the same finite dyadic packet family through the same kind of
+monotone unary radius handoff, with the refined exponent, denominator ledger,
+classifier, distance rows, carrier rows, transports, readbacks, provenance, and
+local certificate row already visible.
+
+Next apply \autoref{thm:dyadicratcore-finite-radius-window-directed-meet} to
+the pair $W_0,W_1$ and then to its displayed result with $W_2$. Apply the same
+directed-meet theorem to the pair $W_1,W_2$ and then to $W_0$ with that
+displayed result. In both orders the meet is computed over the identical finite
+family of public packets and directed-refinement handoffs, so the displayed row
+inventory is the directed meet of the same finite data rather than a datum
+depending on parentheses.
+
+The retained consumer faces are checked by
+\autoref{thm:dyadicratcore-finite-radius-window-filtered-meet}. Filtering either
+parenthesized meet to the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$
+terminal faces forgets the same non-retained rows and preserves the same
+refined denominator, classifier, carrier, transport, readback, provenance, and
+certificate rows.
+
+Finally use
+\autoref{thm:dyadicratcore-regseqrat-terminal-radius-window-boundary} at the
+terminal boundary. Since both parenthesizations restrict to the same displayed
+directed meet of the same finite family, their terminal consumers cannot be
+separated by quotient rationals, host equality rows, selected limits,
+countable-choice selectors, metric-completeness data, or ambient real
+completeness.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore RegSeqRat terminal radius-window boundary]
 \label{thm:dyadicratcore-regseqrat-terminal-radius-window-boundary}
 Every Phase Real and Completion terminal handoff whose dyadic face is a public
