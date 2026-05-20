@@ -157,3 +157,25 @@ On the CauchyLimitSeal side, apply \autoref{thm:streamname-cauchy-limit-seal-dep
 
 It remains to exhaust the coordinates of the two public packets. The StreamName terminal packet lists only the selected window, RegSeqRat readback, dyadic ledger, Real seal, $\BHist$ observations, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows, while the CauchyLimitSeal surface contributes only its displayed finite-window seal coordinates. Their common coordinates are exactly the rows named in the statement, so there is no remaining slot for a hidden tail witness, quotient stream, host sequence equality, selected external limit, ambient Real completeness row, metric-completion row, or standard bridge row.
 \end{proof}
+
+\begin{theorem}[StreamName common-refinement terminal status pullback]
+\label{thm:streamname-common-refinement-terminal-status-pullback}
+Let $\mathcal R$ be a certified common-refinement $\StreamNameUp$ finite-window packet whose terminal read is consumed by the Phase $\RealUp$ and Completion route. Then the terminal read satisfies the face-local status readback exactly when the four faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+retain their own local \texttt{closurestatus}, \texttt{formalstatus}, \texttt{leantarget}, and \texttt{bridgestatus} rows over the same displayed support
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+The pullback is only the four-face common-refinement route. It excludes aggregate status rows, quotient streams, selected limits, countable choice, metric-completeness data, standard bridge rows, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-common-refinement-terminal-real-seal}. The certified common-refinement packet places every terminal Real-facing read on the single finite surface carrying the StreamName window, RegSeqRat readback, dyadic ledger, Real seal row, displayed $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Next apply \autoref{thm:streamname-common-refinement-objectwise-status-stability}. Restricting the common-refinement route preserves exactly the four local objectwise status records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ over that same support, without creating an aggregate status coordinate.
+
+For the forward direction, use \autoref{thm:streamname-open-phase-terminal-status-sibling-readback}. A Phase Real and Completion terminal read obtains its status rows from the concrete sibling faces themselves, so any accepted read through $\mathcal R$ must read the four local \texttt{closurestatus}, \texttt{formalstatus}, \texttt{leantarget}, and \texttt{bridgestatus} rows on the displayed support.
+
+For the reverse direction, assume those four face-local rows are retained over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. Apply \autoref{thm:streamname-open-phase-terminal-local-threshold-equivalence} to repack precisely those rows as the terminal Phase Real and Completion status read. The preceding terminal seal and objectwise-stability results keep the read on the common-refinement packet, so there is no coordinate from which to form aggregate status rows, quotient streams, selected limits, countable choice, metric-completeness data, standard bridge rows, or ambient $\RealUp$ completeness.
+\end{proof}
