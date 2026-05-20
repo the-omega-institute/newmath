@@ -788,6 +788,7 @@ import BEDC.Derived.CategoryUp.UnaryTailZero
 import BEDC.Derived.CategoryUp.VisibleTailResult
 import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CauchyChoiceBoundaryUp.DiagonalBudgetFactorization
+import BEDC.Derived.CauchyChoiceBoundaryUp.NoChoiceNonescape
 import BEDC.Derived.CauchyChoiceBoundaryUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
 import BEDC.Derived.CauchyCompletionFunctorUp.FiniteApproximationRoute
@@ -1718,6 +1719,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierJoin
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExposure
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusTerminality
+import BEDC.Derived.CriticalLineWitnessUp.SourceModulusZetaReadback
 import BEDC.Derived.CriticalLineWitnessUp.SourceNormalizationInterface
 import BEDC.Derived.CriticalLineWitnessUp.SourceRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.SourceSignatureGapReadback
@@ -3788,6 +3790,7 @@ import BEDC.Derived.RealLimitUniquenessSealUp
 import BEDC.Derived.RealLimitUniquenessSealUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessWitnessUp.TasteGate
 import BEDC.Derived.RealLimitUp
+import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.NonEscape
 import BEDC.Derived.RealObservationBudgetUp.TasteGate
@@ -4101,6 +4104,7 @@ import BEDC.Derived.ResearchProgrammeExecutionGateUp.TasteGate
 import BEDC.Derived.ResearchProgrammeRouteUp.TasteGate
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.RestrictedSurfaceBudgetUp.TasteGate
+import BEDC.Derived.ReviewAcceptanceGateUp.HumanApprovalBoundary
 import BEDC.Derived.ReviewAcceptanceGateUp.TasteGate
 import BEDC.Derived.RiccatiUp
 import BEDC.Derived.RiemannHilbertUp
@@ -4402,6 +4406,7 @@ import BEDC.Derived.SynchronizationCertificateUp.TasteGate
 import BEDC.Derived.TailBudgetCoherenceUp
 import BEDC.Derived.TailBudgetCoherenceUp.StdBridge
 import BEDC.Derived.TailCauchyRouterUp.TasteGate
+import BEDC.Derived.TailCofinalityBudgetUp.NameCertObligations
 import BEDC.Derived.TailCofinalityBudgetUp.TasteGate
 import BEDC.Derived.TailCofinalityScheduleUp
 import BEDC.Derived.TailCofinalityScheduleUp.CauchyLimitSealReadback
@@ -4727,6 +4732,8 @@ import BEDC.Derived.UniversalClosedSubstrateUp.TasteGate
 import BEDC.Derived.UniversalityClosureQuadrantUp.TasteGate
 import BEDC.Derived.UnwitnessedExistenceClosureUp.TasteGate
 import BEDC.Derived.UpgradeRegistryUp.NameCertObligations
+import BEDC.Derived.UpgradeRegistryUp.NoncompletionSurface
+import BEDC.Derived.UpgradeRegistryUp.StatusPreservation
 import BEDC.Derived.UpgradeRegistryUp.TasteGate
 import BEDC.Derived.UseProcessBoundaryUp.TasteGate
 import BEDC.Derived.UseProcessLimitLedgerUp.TasteGate
