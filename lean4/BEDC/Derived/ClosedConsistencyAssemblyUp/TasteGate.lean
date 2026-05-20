@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ClosedConsistencyAssemblyUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -248,5 +250,41 @@ def taste_gate : ChapterTasteGate ClosedConsistencyAssemblyUp where
   layer_separation := by
     intro x y hxy heq
     exact hxy (closedConsistencyAssemblyToEventFlow_injective heq)
+
+theorem ClosedConsistencyAssemblyUp_namecert_obligations
+    (x : ClosedConsistencyAssemblyUp) :
+    SemanticNameCert
+      (fun row : BHist => row ∈ closedConsistencyAssemblyFields x)
+      (fun row : BHist => row ∈ closedConsistencyAssemblyFields x)
+      (fun row : BHist => row ∈ closedConsistencyAssemblyFields x)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  cases x with
+  | mk closedness typing endpoint exclusion boundary obstruction ledger route provenance name =>
+      exact
+        {
+          core := {
+            carrier_inhabited := Exists.intro closedness (List.Mem.head _)
+            equiv_refl := by
+              intro row _source
+              exact hsame_refl row
+            equiv_symm := by
+              intro row row' same
+              exact hsame_symm same
+            equiv_trans := by
+              intro row row' row'' sameLeft sameRight
+              exact hsame_trans sameLeft sameRight
+            carrier_respects_equiv := by
+              intro row row' same source
+              cases same
+              exact source
+          }
+          pattern_sound := by
+            intro row source
+            exact source
+          ledger_sound := by
+            intro row source
+            exact source
+        }
 
 end BEDC.Derived.ClosedConsistencyAssemblyUp
