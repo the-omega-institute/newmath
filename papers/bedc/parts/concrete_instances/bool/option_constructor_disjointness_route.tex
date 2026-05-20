@@ -1,0 +1,30 @@
+\begin{theorem}[Bool-to-option constructor disjointness route]
+\label{thm:bool-option-constructor-disjointness-route}
+The $\BoolUp$ empty endpoint $\emp$ and one-step endpoint $\Eone(\emp)$ provide
+the branch discriminator consumed by the nullable and tagged constructor
+separation of $\OptionUp$ in \autoref{ch:concrete-instances-option-namecert}.
+Any $\OptionUp$ absent/present read that routes through these two displayed
+boolean endpoints must keep the absent branch on the empty row and the present
+branch on the one-step row; payload evidence cannot identify the two branches.
+\end{theorem}
+\begin{proof}
+Read the $\BoolUp$ endpoint rows through
+\autoref{thm:bool-carrier-classifier-endpoint-exactness}. The carrier side has
+only the displayed $\bzero$ and $\bone$ witnesses, and the classifier side is
+already fixed by $\mathsf{BoolEndpoint}(\bzero)=\emp$ and
+$\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$.
+
+The $\OptionUp$ nullable and tagged surfaces then consume those rows as the
+absent and present branch markers named in
+\autoref{ch:concrete-instances-option-namecert}. Since the discriminator has
+already been read from the boolean endpoint classifier, an optional payload row
+can only live under the visible present marker; it cannot change the marker that
+selected the branch.
+
+Finally, mixed absent/present identification would require the boolean history
+classifier to relate $\emp$ to $\Eone(\emp)$. This is ruled out by
+\autoref{thm:bool-history-classifier-constructor-separation}. Thus the route
+exports exactly the branch separation consumed by $\OptionUp$, while leaving the
+payload carrier, payload classifier, and option packaging rows in the option
+chapter.
+\end{proof}
