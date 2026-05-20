@@ -230,6 +230,59 @@ selected-limit, ambient-completeness, choice, Classical, or bridge coordinate
 can replace the terminal four-face packet.
 \end{proof}
 
+\begin{theorem}[StreamName finite-request common-refinement exactness]
+\label{thm:streamname-finite-request-common-refinement-exactness}
+Let $Q$ and $Q'$ be accepted finite $\StreamNameUp$ requests. Suppose both are
+read by the $\RealUp$ endpoint section and by the $\RegSeqRatUp$
+window-budget section. Suppose further that they agree on a displayed common
+refinement of the $\StreamNameUp$ finite window, the $\DyadicRatCoreUp$
+endpoint and radius budget rows, the $\RegSeqRatUp$ regularity and readback
+rows, the $\RealUp$ seal row, and the shared support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Then $Q$ and $Q'$ factor through the same terminal four-face refinement
+packet
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Conversely, every such displayed four-face refinement induces the same
+terminal public row for the two accepted requests. This exactness statement
+contains no quotient stream equality, no selected limit, no host real
+equality, no ambient or metric-completeness datum, no countable-choice row, no
+Classical row, no aggregate $\formalstatus$ row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-finite-request-section-budget-exactness} to $Q$ and
+$Q'$. The $\StreamNameUp$ finite window, DyadicRatCore endpoint and radius
+budget, RegSeqRat regularity and readback, RealUp seal, and displayed support
+rows are the section-budget rows themselves.
+
+Next use
+\autoref{thm:streamname-real-seal-request-section-nonescape}. The Real
+endpoint reading cannot add quotient stream equality, selected limits, host
+real equality, ambient completion, metric-completeness data, countable choice,
+Classical data, an aggregate status row, or a standard bridge row to the
+common refinement.
+
+Now compare the sibling faces. DyadicRatCore exactness is supplied by
+\autoref{thm:dyadicratcore-finite-tail-scale-window-pullback-exactness} and
+\autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}; RegSeqRat
+exactness is supplied by
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}; and the
+RealUp face is supplied by \autoref{thm:real-l10-four-face-exactness}. These
+results put the dyadic budget, regularity readback, and Real seal on the same
+displayed finite four-face packet.
+
+Finally apply
+\autoref{thm:streamname-finite-request-terminal-coherence} to the two refined
+requests. Since the four faces and the five support rows agree, the terminal
+public row is the same. Conversely, reading any displayed four-face refinement
+through the same cited exactness results recovers exactly those section rows,
+so terminal coherence sends the refinement back to the same public row.
+\end{proof}
+
 \begin{theorem}[StreamName finite-request cover gluing]
 \label{thm:streamname-finite-request-cover-gluing}
 Let $\{\mathcal{R}_i\}_{i\in I}$ be a finite family of $\StreamNameUp$
