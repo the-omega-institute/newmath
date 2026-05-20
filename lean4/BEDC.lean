@@ -1764,6 +1764,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusRoute
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripRefusal
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripSourceClassifierLock
+import BEDC.Derived.CriticalLineWitnessUp.ZeroStripSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ZetaConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.ZetaContinuationReadbackNonescape
 import BEDC.Derived.CriticalLineWitnessUp.ZetaDependencyLock
