@@ -293,6 +293,26 @@ instance tailBudgetCoherenceChapterTasteGate : ChapterTasteGate TailBudgetCohere
     intro x y hxy heq
     exact hxy (TailBudgetCoherenceTasteGate_single_carrier_alignment_injective heq)
 
+instance tailBudgetCoherenceFieldFaithful : FieldFaithful TailBudgetCoherenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | TailBudgetCoherenceUp.mk tailMeet observationBudget selectorBudget agreementSeal limitSeal
+        window readback dyadicTolerance transport route provenance nameCert =>
+        [tailMeet, observationBudget, selectorBudget, agreementSeal, limitSeal, window,
+          readback, dyadicTolerance, transport, route, provenance, nameCert]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk tailMeet₁ observationBudget₁ selectorBudget₁ agreementSeal₁ limitSeal₁ window₁
+        readback₁ dyadicTolerance₁ transport₁ route₁ provenance₁ nameCert₁ =>
+        cases y with
+        | mk tailMeet₂ observationBudget₂ selectorBudget₂ agreementSeal₂ limitSeal₂ window₂
+            readback₂ dyadicTolerance₂ transport₂ route₂ provenance₂ nameCert₂ =>
+            simp only [] at h
+            cases h
+            rfl
+
 theorem TailBudgetCoherenceTasteGate_single_carrier_alignment :
     Nonempty (BHistCarrier TailBudgetCoherenceUp) ∧
       Nonempty (ChapterTasteGate TailBudgetCoherenceUp) ∧
