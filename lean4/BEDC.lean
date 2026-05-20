@@ -1087,6 +1087,7 @@ import BEDC.Derived.CausalCommitmentUp.ObserverLocalityHandoff
 import BEDC.Derived.CausalCommitmentUp.ObserverRowFactorization
 import BEDC.Derived.CausalCommitmentUp.PublicForwardGapExport
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
+import BEDC.Derived.CausalInterventionUp
 import BEDC.Derived.CellularAutomatonUp.TasteGate
 import BEDC.Derived.CellularBoundaryConditionUp.NonescapeBoundary
 import BEDC.Derived.CellularBoundaryConditionUp.TasteGate
@@ -1682,6 +1683,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootRefusalBudgetCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalConsumerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootRouteExposure
+import BEDC.Derived.CriticalLineWitnessUp.RootSourceClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
@@ -2738,6 +2740,7 @@ import BEDC.Derived.InducedRepUp
 import BEDC.Derived.InductionClosureLedgerUp.TasteGate
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.InnerProductUp
+import BEDC.Derived.InnerProductUp.PublicExportSurface
 import BEDC.Derived.InscribedRouteSelectorUp.TasteGate
 import BEDC.Derived.InscribedRouteUp.TasteGate
 import BEDC.Derived.InscriptionAcceptanceBudgetUp.TasteGate

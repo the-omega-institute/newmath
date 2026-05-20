@@ -128,12 +128,77 @@ Then apply
 of the four faces from the other three inside the same finite route.
 
 Finish by finite induction over the request family. The empty cover gives the
-empty displayed packet, and adjoining one saturated member uses the pairwise
-overlap agreement above to attach it to the packet already built. At each
-step the cited saturation, StreamName gluing, Real fusion, and consumer
-section theorems export only the four displayed faces and their support rows,
-so quotient stream equality, host real equality, selected limits, ambient or
-metric completeness, choice data, and a second seal coordinate remain absent.
+empty displayed packet. The adjoining move is exactly
+\autoref{thm:regseqrat-real-seal-finite-cover-induction-step}, applied with the
+packet already built as the glued finite family and with the next accepted
+saturated member as the outside request. At each step the cited saturation,
+StreamName gluing, Real fusion, consumer section, dyadic ledger, and window
+correspondence theorems export only the four displayed faces and their support
+rows, so quotient stream equality, host real equality, selected limits, ambient
+or metric completeness, choice data, and a second seal coordinate remain
+absent.
+\end{proof}
+
+\begin{theorem}[RegSeqRat Real seal finite-cover induction step]
+\label{thm:regseqrat-real-seal-finite-cover-induction-step}
+Let $\mathcal{F}$ be a finite family of accepted public $\RegSeqRatUp$ reads
+that has already been glued to a finite four-face L10 packet. Let
+$\mathcal{T}$ be one further accepted public $\RegSeqRatUp$ read whose public
+exit is a $\RealUp$ seal. Suppose $\mathcal{T}$ is saturated by exactly the
+four displayed faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+and suppose that its displayed overlap with the glued packet agrees on
+$\mathsf{BHist}$, componentwise $\hsame$, $\Cont$, $\Pkg$, $\NameCert$,
+dyadic-ledger, classifier, regularity, and seal rows. Then adjoining
+$\mathcal{T}$ produces one glued finite four-face L10 packet over
+$\mathcal{F}\cup\{\mathcal{T}\}$.
+
+The enlarged packet has exactly the same four public faces
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, and exactly
+the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support rows. It contains no quotient stream, no host real equality, no
+selected limit, no ambient or metric-completeness datum, no choice data, and no
+second seal coordinate.
+\end{theorem}
+\begin{proof}
+First saturate the outside member. Apply
+\autoref{thm:regseqrat-real-seal-finite-window-saturation} to
+$\mathcal{T}$. This gives a finite L10 route whose only faces are the
+StreamName request window, DyadicRatCore ledger, RegSeqRat classifier and
+regularity surface, and the terminal Real seal row.
+
+Next enlarge the request cover. The glued packet over $\mathcal{F}$ already
+has a StreamName finite request packet, and the overlap hypotheses identify
+the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$,
+dyadic-ledger, classifier, regularity, and seal rows with those of
+$\mathcal{T}$. Hence
+\autoref{thm:streamname-finite-request-cover-gluing} attaches the outside
+request to the same finite cover.
+
+Now keep the Real consumer on that finite section. Use
+\autoref{thm:real-regseqrat-finite-request-fusion} to express the outside Real
+seal through the enlarged finite $\mathsf{BHist}$ packet, and use
+\autoref{thm:real-regseqrat-completion-consumer-section-exactness} to keep the
+completion-facing consumer on that section rather than on an ambient completion
+or choice row.
+
+It remains to preserve the dyadic and RegSeqRat faces on the shared boundary.
+Apply \autoref{thm:regseqrat-common-dyadic-tail-ledger} to carry common cofinal
+dyadic refinements through the same endpoint, radius, distance, classifier,
+regularity, transport, continuation, provenance, and local naming ledger.
+Then apply
+\autoref{thm:regseqrat-real-seal-window-triple-correspondence} to recover the
+four-face route from any three of its StreamName, DyadicRatCore, RegSeqRat, and
+Real windows.
+
+The repacked object is therefore the glued packet over
+$\mathcal{F}\cup\{\mathcal{T}\}$. Every cited route exports only the four
+displayed faces and the named support rows, so the excluded quotient stream,
+host real equality, selected limit, ambient or metric-completeness datum,
+choice data, and second seal coordinate have no coordinate in the enlarged
+packet.
 \end{proof}
 
 \begin{theorem}[RegSeqRat Real seal finite-cover associativity]
