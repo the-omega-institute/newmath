@@ -1634,6 +1634,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ContinuationRouteCoverage
 import BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessRootSourceWindowRouteLock
 import BEDC.Derived.CriticalLineWitnessUp.DepthLedgerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.DepthLock
+import BEDC.Derived.CriticalLineWitnessUp.DepthModulusRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.DepthRequestLedger
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamConsumerUnblock
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamCounterSurface
@@ -1766,6 +1767,7 @@ import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.BoundaryLedgerNonescape
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.RHHandoffObligation
+import BEDC.Derived.CriticalStripZetaZeroWitnessUp.ScopedPackage
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.SharedSourceScope
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.WitnessScopeBinding
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
@@ -4533,6 +4535,7 @@ import BEDC.Derived.TopGroupUp.SourceFiberExportExactness
 import BEDC.Derived.TopGroupUp.SourceFiberProductCarrier
 import BEDC.Derived.TopGroupUp.SourceProjectionNamecertCompatibility
 import BEDC.Derived.TopGroupUp.SourceRowsEmptyCoupled
+import BEDC.Derived.TopGroupUp.StdBridge
 import BEDC.Derived.TopVecSpaceUp
 import BEDC.Derived.TopologyUp
 import BEDC.Derived.TopologyUp.Core
