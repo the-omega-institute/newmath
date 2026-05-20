@@ -117,6 +117,30 @@ Next identify the local threshold records on the same four faces. Apply \autoref
 It remains to exclude alternative projections of that packet. Use \autoref{thm:real-l10-face-order-permutation-invariance} to compare support-row-preserving reads of the displayed route, and then apply \autoref{thm:real-l10-exit-certificate-face-minimality}. The first result prevents a reordered projection from changing the certificate, and the second makes every listed face and support row indispensable. Hence a projection that is shortened or enlarged cannot present the same current-phase Real seal read, so the only surviving route is the displayed four-face route with exactly the support rows named in the statement.
 \end{proof}
 
+\begin{theorem}[Real L10 four-face support exhaustion]
+\label{thm:real-l10-four-face-support-exhaustion}
+Every accepted current-phase terminal $\RealUp$ seal section on the route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+has exactly the visible support inventory consisting of the DyadicRatCore endpoint and tolerance ledger, the StreamName finite-window schedule, the RegSeqRat classifier, regularity, and transport rows, the terminal Real seal, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Conversely, that inventory repacks as the same current-phase Phase $\RealUp$ and Completion exit certificate. It contains no quotient streams, selected limits, host real equality, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, or $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+First read the objectwise threshold rows. Apply \autoref{thm:real-l10-four-face-local-threshold-descent}: the accepted terminal section carries the DyadicRatCore endpoint and tolerance ledger, the StreamName finite-window schedule, the RegSeqRat classifier and regularity rows, and the local Real seal row over the common $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support packet.
+
+Next lock that packet to the route. By \autoref{thm:real-l10-tail-budget-projection-nonescape}, every support-row-preserving projection remains on
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+The route therefore has no available coordinate outside the four construction faces and the displayed support rows.
+
+Now identify the endpoint and schedule inventories. Apply \autoref{thm:dyadicratcore-l10-exit-ledger-consumer-normal-form} to read the DyadicRatCore endpoint and tolerance ledger, and apply \autoref{thm:streamname-terminal-four-face-support-exhaustion} to read the StreamName-side finite-window support surface. These two inventories sit inside the same RegSeqRat classifier, regularity, and transport rows and the same terminal Real seal.
+
+For the converse, use \autoref{thm:real-l10-exit-certificate-face-minimality}. The listed four face records and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are indispensable, so the inventory repacks as the same current-phase Phase $\RealUp$ and Completion exit certificate. The same minimality statement excludes quotient streams, selected limits, host real equality, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, standard bridge rows, and $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[Real L10 dependency route axis independence]
 \label{thm:real-l10-dependency-route-axis-independence}
 For any accepted current-phase terminal $\RealUp$ seal section on the route
