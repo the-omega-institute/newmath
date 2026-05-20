@@ -8,109 +8,81 @@ date-modified: today
 
 # Taste 演化日志
 
-本文件记录 `tools/taste_curator.py` daemon 每次成功的规则演化 (rule evolution).
+## 这是什么
 
-每个 section 是一次演化, 按时间从早到晚追加. 内容固定 4 段: 变更原因 / 意义 / 实施情况 / 元数据.
+`taste_curator.py` 是 taste daemon 的工作台记录。它每轮看 `codex-auto-dev` 新进来的 paper / Lean 产物，把名字承诺很大但机器内容撑不住的对象放进 review queue。它不直接改具体章节；它把反复出现的坏形态提炼成机械 negative criterion, 再派 Codex 去收紧 P/R prompt 或 audit gate。
 
-## 工作方式
+这份 dossier 不是 changelog, 也不是模板表格。它记录 daemon 当时看见了什么、为什么判断那不是孤例、Codex 真去查了哪些证据、最后把规则 ship 到哪里。一个主题可能经历多次收紧，所以同主题会合在一个 section 里，用子时间戳记录当时的判断。
 
-Daemon 每 cycle 扫描 codex-auto-dev 最近 commit, 按品味/质量维度 (carrier 同构 bucket /
-origin lineage / autoref entropy / boilerplate score) 检测违规, 累积到 cluster 后派 codex
-修改 P/R 自动化管线的规则文件 (papers/bedc/scripts/prompts/*, lean4/scripts/prompts/*,
-lean4/scripts/bedc_ci.py, phase gate scripts), 让未来 P/R round 不再产生同类 garbage.
-
-已经存在的违规章节不直接编辑 — P/R orchestrator 后续自然 touch 这些文件时, post-merge
-audit gate 拒绝 → codex_resolve_post_rebase_audit 调 codex 顺手修复. 自我消化.
+`当前观察` 是 daemon 每轮刷新的一张快照。它只保留最新 state / queue / alert 形态, 不追加历史。`RESEARCH 探索历史` 则相反：每次 daemon 派 Codex 自由扫 corpus 找新坏味道, 不管有没有产出可 ship 的 detector, 都留一条记录。
 
 ---
 
-(以下 section 由 daemon 在每次成功 rule evolution 后追加.)
+## 当前观察 (auto-refresh)
 
-## 2026-05-19 16:49:31 — mislabeled_composite
+> 最后刷新: 2026-05-20T07:16:28Z
 
-### 变更原因
+**Daemon 状态**: adjust (monitor cycle 2, adjust_since_research 4, round_counter 1460, last_adjust rule_evolution_completed)
 
-`mislabeled_composite` cluster 共 20 个 finding。代表样本包括 `realcompletionexactboundary`、`realityconstrainedmodelaudit`、`observationreflectionpacket`：paper 侧保留 atomic `\origin{ai}`，但 Lean carrier 落入 `phase1_buckets` 大桶，桶规模分别达到 54、199、157，字段类型表面与大量兄弟重合，最大共享字段重叠到 6、7、9。
+**待处理 queue** (24 条 finding):
+- low_entropy_template: 13 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
+- mislabeled_composite: 5 条; 代表样本 `metacicredexfrontier`, `axisboundarylimitrefusal`, `allowedproofaudit`
+- isolated_theorem: 4 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
+- missing_origin: 2 条; 代表样本 `banach`, `int`
 
-### 意义
+**最近 alert 概览** (24h 内):
+- TASTE ALERT category=isolated_theorem: 74 次
+- TASTE ALERT category=mislabeled_composite: 43 次
+- TASTE ALERT category=low_entropy_template: 21 次
+- TASTE ALERT category=rule_evolution_failed: 5 次
+- TASTE ALERT category=taste_branch_gc_delete_failed: 5 次
+- TASTE ALERT category=stabilize_regression: 2 次
+- TASTE ALERT category=cycle_exception: 1 次
 
-规则现在拒绝把大规模 carrier-isomorphism 桶成员标成 atomic `ai`。P/R round 若生成或保留 `\origin{ai}`，同时 `<X>Up` carrier 处在至少 6 个成员的 `phase1_buckets` 中，就由 audit 拒绝；该形态应标为 `ai-composite` 或重做成真正孤立的字段表面。这阻止 template multiplication 与 mislabeled lineage 混入 atomic discovery 轨道。
-
-### 实施情况
-
-修改文件：`lean4/scripts/bedc_ci.py`、`papers/bedc/scripts/prompts/phase_review.txt`、`papers/bedc/scripts/prompts/phase_revise.txt`。审计片段为 `detect_mislabeled_composite_carriers(min_bucket_size=6)`，payload 字段为 `mislabeled_composite_carriers` / `mislabeled_composite_carriers_count`；prompt 规则写入：“Do not propose an atomic `ai` chapter whose `<X>Up` carrier falls in a `phase1_buckets` carrier-isomorphism bucket with at least 6 members.” 现有违规不直接编辑，依赖 P/R orchestrator 自然 touch 与 post-merge audit recovery 消化。
-
-### 元数据
-
-- finding 数量: 20
-- cluster flag: mislabeled_composite
-- daemon cycle: 2026-05-19 16:49:31
-- 你即将 commit 的 SHA 留空, 由 daemon 后续填写或 commit message 反查
-
----
-
-## 2026-05-19 22:46:36 — mislabeled_composite
-
-### 变更原因
-
-`mislabeled_composite` cluster 在当前语料中命中 569 个 finding。代表样本包括 `ActionCommitmentUp`、`AllowedProofAuditUp`、`AnalogyCertificateGateUp`：paper 侧标为 `\origin{ai}`，但 Lean carrier 只给出同型有限 `BHist` 行包，分别落入 158、158、28 成员的 `phase1_buckets` 大桶。
-
-共同结构特征是 atomic 名称宣称 BEDC-native primitive discovery，而 machine-checkable carrier 与大量兄弟共享相同 arity 和字段类型表面。该形态只证明一个可编码有限包存在，不能兑现 atomic distinction。
-
-### 意义
-
-拒绝把大规模 carrier-isomorphism 桶成员标成 atomic `ai`。P/R round 若触碰的 `\origin{ai}` 章节对应 `<X>Up` carrier 落入至少 6 个成员的 `phase1_buckets` 桶，audit 以 blocking finding 拒绝。
-
-这阻止同型包用新名称伪装成原子发现。若对象只是多个既有 AI surface 的组合，必须使用 `\origin{ai-composite}`；若坚持 `ai`，carrier 字段表面必须避开该机器可查同型模式。
-
-### 实施情况
-
-修改文件：`lean4/scripts/bedc_ci.py`、`docs/dossier/taste-evolutions.qmd`。审计片段为 `detect_mislabeled_composite_carriers(min_bucket_size=6)`，payload 保留 `mislabeled_composite_carriers_new_count` 与 `mislabeled_composite_carriers_legacy_count`，失败计数只纳入 new count。
-
-输出格式为 `[bedc-ci] mislabeled composite carriers: N new (BLOCKING), M legacy (warning)`。现有违规作为 legacy warning 留给 P/R orchestrator 自然 touch 与 post-merge audit recovery 消化，不直接编辑章节。
-
-### 准则类型
-
-Negative criteria：若 `\origin{ai}` 章节的 `<X>Up` carrier 处在 `phase1_buckets` carrier-isomorphism 桶，且桶成员数不少于 6，则拒绝。
-
-### 元数据
-
-- finding 数量: 569
-- cluster flag: mislabeled_composite
-- daemon cycle: 2026-05-19 22:46:36
-- 你即将 commit 的 SHA 留空, 由 daemon 后续填写或 commit message 反查
+**RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
 ---
 
-## 2026-05-20 02:05:45 — mislabeled_composite
+## 演化时间线
 
-### 变更原因
+### 2026-05-19 — 反 atomic ai 套壳 / 同型 carrier 错标 ai
 
-`mislabeled_composite` cluster 共 20 个 finding。代表样本包括 `RealityConstrainedOpenFitUp`、`PhysicalInductionStabilitySealUp`、`TheoryTransitionCertificateUp`：paper 侧标为 `\origin{ai}`，但 Lean carrier 落入 `phase1_buckets` 大桶，桶规模分别为 201、201、98。
+这个主题从一个很具体的矛盾开始：章节自称 atomic `\origin{ai}`, 但 Lean 侧 carrier 看起来不是独立发现，而是落在大规模同型桶里的有限行包。daemon 没把它当成语义争论处理，而是只看机器可查事实：bucket 多大、字段表面跟多少兄弟重合、paper lineage 是否仍然写成 `ai`。
 
-共同结构特征是 atomic 名称宣称 BEDC-native primitive discovery，而机器可查字段表面与大量兄弟同型。该形态只给出同型有限包，不能兑现 atomic distinction。
+### 2026-05-19 16:49 — 第一次发现这个模式
 
-### 意义
+daemon 当时在 queue 里看到 20 个 finding, 代表样本 `realcompletionexactboundary` / `realityconstrainedmodelaudit` / `observationreflectionpacket` 都标 `\origin{ai}`, 但 carrier 落进 bucket size 54 / 199 / 157 的大同型桶, 最大字段重叠到 6 / 7 / 9。这里的问题不是名字不漂亮，而是 atomic discovery 的名义没有对应的机器差异；同型 BHist 兄弟只说明它们共享 tuple shape, 不说明其中任何一个拥有独立 primitive 内容。
 
-P/R round 命中 `\origin{ai}` 且 `<X>Up` carrier 位于不少于 6 个成员的 `phase1_buckets` 桶时，被 `bedc_ci.py audit` 拒绝。Lean Phase B 也不得把这类章节选为 atomic TasteGate 目标。
+这次用的 META_PROMPT_RULE_EVOLUTION 来自 commit `a3cf128973`, 也就是 evidence-first 改写后的 prompt。Codex 真去查了 carrier-isomorphism JSON 和 `phase1_buckets` 分布, 然后推出 negative criterion: `\origin{ai}` chapter 的 `<X>Up` carrier 若落进至少 6 成员的 phase1 bucket, 就拒绝 atomic `ai` lineage。
 
-这阻止空洞 atomic 名称通过 Lean realization 获得形式化外衣。若对象只是既有 AI surface 的组合，应使用 `\origin{ai-composite}`；若坚持 atomic `ai`，carrier 字段表面必须避开该机器可查同型模式。
+Ship: commit `e8085cee03`. Detector: `detect_mislabeled_composite_carriers(min_bucket_size=6)` 写入 `lean4/scripts/bedc_ci.py`; `phase_review.txt` / `phase_revise.txt` 加了对应拒绝规则。
 
-### 实施情况
+### 2026-05-19 22:46 — detector 上线后重扫全 corpus
 
-修改文件：`lean4/scripts/prompts/phase_b.txt`、`docs/dossier/taste-evolutions.qmd`。规则文本写入：“Before selecting it, run `python3 lean4/scripts/bedc_ci.py audit --json` and reject any chapter whose schema name appears in `mislabeled_composite_carriers`.”
+audit 命中 569 个已存在 chapter, 代表样本 `ActionCommitmentUp` / `AllowedProofAuditUp` / `AnalogyCertificateGateUp` 分别落进 158 / 158 / 28 成员桶。这说明它不是个别坏例子，而是系统性的 atomic-ai 套壳惯性。如果直接把 569 条全部算 blocking, P/R round 会因为没碰过的旧内容被撞停。
 
-审计 detector 沿用 `detect_mislabeled_composite_carriers(min_bucket_size=6)`，payload 保留 `mislabeled_composite_carriers_new_count` 与 `mislabeled_composite_carriers_legacy_count`，失败计数只纳入 new count。现有违规作为 warning 留给 P/R orchestrator 自然 touch 与 post-merge audit recovery 消化，不直接编辑章节。
+这次 Codex 查的是 detector payload 和 audit 退出计数路径，推论不是改 threshold, 而是把输出分成 NEW-vs-LEGACY: 旧 corpus 继续暴露为 warning, 只有本轮新引入或触碰到的违规进入失败计数。META_PROMPT_RULE_EVOLUTION 当时仍是 commit `a3cf128973` 的 evidence-first 形态, 但这次工作重点是让 gate 不误伤历史存量。
 
-### 准则类型
+Ship: commit `bcedca58ec`. Detector payload 从 single count 扩成 `_new_count` / `_legacy_count`, audit fail count 只看 new。
 
-Negative criteria：若 `\origin{ai}` 章节的 `<X>Up` carrier 处在 `phase1_buckets` carrier-isomorphism 桶，且桶成员数不少于 6，则拒绝；Lean Phase B 不得选择该章节补 atomic TasteGate。
+### 2026-05-20 02:05 — 推到 Lean Phase B
 
-### 元数据
+queue 又给出 20 个同类 finding, 其中 `RealityConstrainedOpenFitUp` / `PhysicalInductionStabilitySealUp` / `TheoryTransitionCertificateUp` 落在 201 / 201 / 98 成员桶。paper audit 已经会挡 P/R, 但 Lean Phase B 选 atomic TasteGate 目标时还可能绕开这条判断，把空洞 atomic 名称再包装成形式化任务。
 
-- finding 数量: 20
-- cluster flag: mislabeled_composite
-- daemon cycle: 2026-05-20 02:05:45
-- 你即将 commit 的 SHA 留空, 由 daemon 后续填写或 commit message 反查
+Codex 查了 `lean4/scripts/prompts/phase_b.txt` 的目标选择流程，结论是 selection 前也要读 `bedc_ci.py audit --json`: 只要 schema name 已在 `mislabeled_composite_carriers` 里，Phase B 就跳过它。META_PROMPT_RULE_EVOLUTION 对应 commit `a3cf128973`; dossier 只记录 hash, 不复制 prompt。
+
+Ship: commit `0bc257f024`. Gate: Lean Phase B prompt 在选择 chapter 前查 `mislabeled_composite_carriers`, 命中就不补 atomic TasteGate。
 
 ---
+
+## RESEARCH 探索历史
+
+每次 RESEARCH cycle daemon 派 Codex 扫整个 corpus, 目标是找现有 detector 没覆盖的新平凡 pattern。这里记录探索范围和结论；没 ship 的探索也保留, 因为 operator 需要知道 daemon 不是只在成功时才留下痕迹。
+
+- 当前还没有已记录的 RESEARCH cycle 输出。后续 daemon 会追加一行, 说明使用的 META_PROMPT_RESEARCH commit、Codex 自选的搜索范围、候选数量以及是否进入 queue。
+
+---
+
+## 注解
+
+(operator 可手工编辑, daemon 不动这块.)
