@@ -1,0 +1,17 @@
+\begin{theorem}[MetaCIC critical-path confluence-decidability handoff exhaustion]
+\label{thm:metacic-critical-path-confluence-decidability-handoff-exhaustion}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+every confluence-facing or decidability-facing downstream read of $U$ factors through the displayed rows $O,D,H,C,P,L$ together with the finite packet rows $S,N,U$. The handoff exports no arbitrary Church--Rosser theorem, no global beta-conversion decision procedure, no closed subject reduction, and no full closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the socket theorem. By \autoref{thm:metacic-critical-path-confluence-decidability-socket}, every confluence-facing or decidability-facing use of the handoff row is mediated by the obstruction, discharge socket, transport, route, provenance, and local naming rows $O,D,H,C,P,L$.
+
+Next exhaust the packet route. The handoff exhaustion theorem \autoref{thm:metacic-critical-path-handoff-exhaustion} says that the finite route has only the rows $S,N,O,U,D,H,C,P,L$ and contains no coordinate for closed subject reduction, full closed consistency, global beta-conversion decidability, or quotient term equality.
+
+The local socket boundary supplies the negative side. Apply \autoref{thm:metacic-critical-path-discharge-socket-locality} to keep $D$ local to $H,C,P,L$ and separate from any hidden discharge, then apply \autoref{thm:metacic-critical-path-normalization-obstruction-route-coverage} to keep the obstruction row visible along normalization-to-normal-form reads.
+
+Therefore a downstream read of $U$ has only the displayed finite data available: $O,D,H,C,P,L$ for the socket-mediated handoff and $S,N,U$ for the remaining packet coordinates. Since no further theorem-export coordinate is present, the four excluded metatheoretic claims remain outside the handoff.
+\end{proof}
