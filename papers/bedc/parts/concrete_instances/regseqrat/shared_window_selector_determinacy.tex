@@ -157,6 +157,26 @@ For three requests, use \autoref{thm:regseqrat-shared-window-triple-overlap-cocy
 Finally apply \autoref{thm:regseqrat-real-seal-selector-nonescape}. Since the selector surface has no row for quotient streams, host real equality, selected limits, completion points, choice data, ambient completeness rows, or second seals, the correspondence cannot be enlarged by any of those objects.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite four-face current-phase exit coverage]
+\label{thm:regseqrat-finite-four-face-current-phase-exit-coverage}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $C$ be a finite current-phase RegSeqRat consumer reading $P$ through the Phase Real and Completion exit surface. The consumer is accepted by that exit surface if and only if it displays the same four visible faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+over one finite $\BHist$ surface, with the same componentwise $\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance, and local $\NameCert$ rows as the shared-window selector surface of \autoref{def:regseqrat-shared-window-selector-surface}.
+
+Equivalently, the current-phase exit test is exactly the finite four-face coverage test that reads the dyadic common-scale ledger, the public StreamName common refinement, the RegSeqRat selector/readback surface, and the terminal Real finite-cover face as one BEDC-visible boundary. It does not accept or compare quotient streams, selected limits, host real equality, countable choice, metric-completeness data, aggregate formalstatus rows, bridge rows, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with an accepted current-phase consumer. Apply \autoref{thm:streamname-common-refinement-public-exactness} to read its StreamName schedule as a public finite common refinement, with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows preserved.
+
+Next apply \autoref{thm:regseqrat-dyadic-triangle-selector-equivalence}. This identifies the dyadic common-scale triangle ledger, the RegSeqRat shared-window selector surface, and the terminal Real seal read as three presentations of the same finite four-face boundary. Finally use \autoref{thm:real-l10-finite-cover-face-pasting-equivalence} to paste the terminal $\RealUp$ finite-cover face onto that boundary without adding any completion datum.
+
+For the reverse direction, assume the consumer displays exactly those four faces over the same finite rows. The StreamName common-refinement theorem supplies the public refinement face, the RegSeqRat dyadic-triangle equivalence supplies the selector/readback face, and the Real finite-cover pasting theorem supplies the terminal finite-cover face. These three certificates repack the displayed rows as the Phase Real and Completion exit surface.
+
+The exclusions are part of the same packaging. None of the three cited surfaces has a row for quotient streams, selected limits, host real equality, countable choice, metric-completeness data, aggregate formalstatus rows, bridge rows, or ambient $\RealUp$ completeness. Therefore acceptance by the current-phase exit surface is exactly acceptance of the four displayed finite faces and no stronger comparison.
+\end{proof}
+
 \begin{theorem}[RegSeqRat selector-composition visible boundary]
 \label{thm:regseqrat-selector-composition-visible-boundary}
 Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S$, $T$, and $U$ be accepted finite requests to $P$ whose pairwise faces display the shared-window selector surface of \autoref{def:regseqrat-shared-window-selector-surface}. The route that first reads the $S \to T$ selector and then reads the $T \to U$ selector determines the same terminal $\RealUp$ seal boundary as the direct $S \to U$ selector if and only if the two-step and direct presentations agree on exactly the displayed $\DyadicRatCoreUp$ common-scale rows, $\StreamNameUp$ schedule rows, $\RegSeqRatUp$ classifier and tail-budget rows, terminal $\RealUp$ seal row, componentwise $\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance, and local $\NameCert$ rows.
