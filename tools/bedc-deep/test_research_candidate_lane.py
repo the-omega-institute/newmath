@@ -63,6 +63,34 @@ def test_low_score_candidate_is_warning_not_blocked() -> None:
     assert not any("below_" in reason for reason in packet["reasons"]), packet
 
 
+def test_structural_row_echo_is_not_ready() -> None:
+    files = {
+        SMALL_FILE: {"file": SMALL_FILE, "line_count": 120, "hub_like": False},
+    }
+    candidate = {
+        "source": "research_lane:structural_relation_miner",
+        "title": "Option forgetful projection boundary",
+        "claim": (
+            "Option should expose a BEDC-native forgetful projection lemma "
+            "over the displayed rows. Local evidence is the listed chapter's "
+            "displayed rows; the receiving gate must re-read those rows rather "
+            "than trust a copied source excerpt."
+        ),
+        "local_inputs": [SMALL_FILE],
+        "fit_score": 8,
+        "novelty": 7,
+        "landing_kind": "existing_chapter_lemma",
+        "tastegate_mode": "existing_chapter",
+    }
+    packet = research_candidate_lane._packet(
+        candidate,
+        source="research_lane:structural_relation_miner",
+        files=files,
+    )
+    assert packet["status"] == "blocked", packet
+    assert "substance_echo_not_board_ready" in packet["reasons"], packet
+
+
 def test_line_cap_overflow_is_not_recovered_from_inbox() -> None:
     rec = {
         "event": "held_for_refinement",
@@ -81,5 +109,6 @@ def test_line_cap_overflow_is_not_recovered_from_inbox() -> None:
 if __name__ == "__main__":
     test_near_line_cap_candidate_reroutes_to_smaller_landing()
     test_low_score_candidate_is_warning_not_blocked()
+    test_structural_row_echo_is_not_ready()
     test_line_cap_overflow_is_not_recovered_from_inbox()
     print("test_research_candidate_lane: ok")

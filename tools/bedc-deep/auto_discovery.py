@@ -349,10 +349,16 @@ def _run_two_stage(
     print(f"[{mode}] phase 2: codex adversarial cross-check", flush=True)
     ok, decisions, err = _run_codex_cross_check(codex_candidates, f"{mode}_codex_cross_check")
     if not ok:
-        print(f"[{mode}] phase 2 failed: {err}; falling back to phase-1 candidates without cross-check", flush=True)
+        print(f"[{mode}] phase 2 failed: {err}; holding phase-1 candidates outside BOARD", flush=True)
         decisions = []
-        kept = codex_candidates
-        dropped = []
+        kept = []
+        dropped = [
+            {
+                "title": candidate.get("title"),
+                "reason": f"codex_cross_check_unavailable:{err}",
+            }
+            for candidate in codex_candidates
+        ]
     else:
         kept, dropped = _intersect_keep(codex_candidates, decisions)
     print(f"[{mode}] phase 2: kept {len(kept)} of {len(codex_candidates)} (codex dropped {len(dropped)})", flush=True)

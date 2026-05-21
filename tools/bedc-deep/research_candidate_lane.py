@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any
 
 import board_archive
+import candidate_substance
 import candidate_inbox
 import logic_packet_gate
 import paper_gap_scanner
@@ -337,6 +338,9 @@ def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str
         score_warnings.append(f"below_novelty_threshold:{_score(enriched, 'novelty')}")
     if not gate.ok:
         reasons.extend("logic_packet_gate:" + reason for reason in gate.reasons)
+    substance_rejection = candidate_substance.substance_rejection(enriched)
+    if substance_rejection:
+        reasons.append(substance_rejection)
     text = _text(enriched)
     oracle_recommended = bool(ORACLE_WORTHY_RE.search(text)) and not reasons
     # This is an escalation hint, not a routing decision.  BOARD targets still
@@ -488,6 +492,8 @@ def _soft_recoverable_reject(rec: dict[str, Any]) -> bool:
     if not reason or UNRECOVERABLE_REASON_RE.search(reason):
         return False
     if not SOFT_RECOVERABLE_REASON_RE.search(reason):
+        return False
+    if candidate_substance.is_substance_rejection(reason):
         return False
     if "below_fit_threshold:0" in reason and source not in {"oracle", "oracle_board_refill", "paper_review"}:
         return False

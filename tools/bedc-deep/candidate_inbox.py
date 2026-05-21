@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 import board_archive
+import candidate_substance
 import paper_index
 from dispatch_bedc_target import REPO_ROOT, SCRIPT_DIR
 from locks import file_lock
@@ -362,6 +363,9 @@ def _rejection_reason(
         return "conjecture_fallback_not_board_lane"
     if _has_forbidden_axis_marker(title, claim, rationale):
         return "forbidden_axis_or_marker_candidate"
+    substance_rejection = candidate_substance.substance_rejection(candidate)
+    if substance_rejection:
+        return substance_rejection
     landing_kind = str(candidate.get("landing_kind") or "").strip()
     haystack = " ".join([title, claim, rationale, str(candidate.get("chapter_worthiness") or "")])
     if EXTERNAL_SIGNAL_RE.search(haystack):
@@ -439,6 +443,7 @@ def screen_candidates(
             continue
         cand = dict(raw)
         cand_source = str(cand.get("source") or source)
+        cand["source"] = cand_source
         cand["_candidate_id"] = _candidate_id(cand, cand_source)
         if "claim" not in cand and "concrete_claim" in cand:
             cand["claim"] = cand.get("concrete_claim")

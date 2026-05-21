@@ -145,6 +145,37 @@ def test_board_substance_gate_rejects_structural_row_echo() -> None:
     assert reason == "substance_echo_not_board_ready"
 
 
+def test_candidate_inbox_rejects_structural_row_echo_before_judge() -> None:
+    candidate = _candidate(
+        source="research_lane:structural_relation_miner",
+        title="SyntheticSubstanceProbe forgetful projection boundary",
+        claim=(
+            "SyntheticSubstanceProbe should expose a BEDC-native "
+            "forgetful projection lemma over the displayed rows; local "
+            "evidence is the listed chapter's displayed rows and the "
+            "receiving gate must re-read those rows rather than trust a "
+            "copied source excerpt."
+        ),
+        budget_reason=(
+            "The candidate is a finite structural relation over displayed "
+            "local rows."
+        ),
+        resource_trace=(
+            "Consumes only the listed chapter's displayed carrier rows."
+        ),
+    )
+    screen = board_spawn.candidate_inbox.screen_candidates(
+        [candidate],
+        source="codex",
+        fit_threshold=7,
+        novelty_threshold=6,
+    )
+    assert screen.accepted == [], screen
+    assert [item.get("reason") for item in screen.rejected] == [
+        "substance_echo_not_board_ready"
+    ], screen
+
+
 def test_direct_codex_admission_accepts_research_packet_without_judge() -> None:
     accepted, stopped, needs_judge = board_spawn._direct_codex_admission(
         [_candidate(source="research_lane:paper_gap_scanner")]
@@ -231,6 +262,7 @@ if __name__ == "__main__":
     test_deterministic_fallback_rejects_anti_parameter_echo()
     test_deterministic_fallback_allows_low_score_local_packet()
     test_board_substance_gate_rejects_structural_row_echo()
+    test_candidate_inbox_rejects_structural_row_echo_before_judge()
     test_direct_codex_admission_accepts_research_packet_without_judge()
     test_direct_codex_admission_rejects_anti_parameter_echo()
     test_direct_codex_admission_keeps_oracle_for_judge()

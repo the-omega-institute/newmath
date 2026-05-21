@@ -322,6 +322,14 @@ def test_research_lane_retries_soft_candidate_failures() -> None:
     assert '"warnings": score_warnings' in text
 
 
+def test_discovery_cross_check_failure_does_not_append_candidates() -> None:
+    text = _text(SCRIPT_DIR / "auto_discovery.py")
+    assert "holding phase-1 candidates outside BOARD" in text
+    assert "kept = []" in text
+    assert "codex_cross_check_unavailable:" in text
+    assert "falling back to phase-1 candidates without cross-check" not in text
+
+
 def test_structural_relation_miner_does_not_embed_source_excerpts() -> None:
     text = _text(SCRIPT_DIR / "structural_relation_miner.py")
     assert "must re-read those rows rather than trust a copied source excerpt" in text
@@ -351,5 +359,6 @@ if __name__ == "__main__":
     test_oracle_refill_defer_uses_material_backlog_and_grace()
     test_board_spawn_has_deterministic_judge_fallback()
     test_research_lane_retries_soft_candidate_failures()
+    test_discovery_cross_check_failure_does_not_append_candidates()
     test_structural_relation_miner_does_not_embed_source_excerpts()
     print("test_git_sync_boundaries: ok")
