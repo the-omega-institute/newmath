@@ -6,6 +6,8 @@ from __future__ import annotations
 from pathlib import Path
 
 import board_spawn
+import candidate_substance
+from dispatch_bedc_target import BedcTarget
 
 
 SAFE_FILE = "papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex"
@@ -176,6 +178,68 @@ def test_candidate_inbox_rejects_structural_row_echo_before_judge() -> None:
     ], screen
 
 
+def test_legacy_board_surface_target_is_not_executable() -> None:
+    target = BedcTarget(
+        target_id="B-test",
+        title="ObservationReflectionPacket forgetful projection boundary",
+        fields={"Source": "bedc-deep board_spawn (codex)"},
+        body=(
+            "Problem:\n"
+            "If an accepted packet is consumed through a smaller public "
+            "surface, then the projection must retain only rows already "
+            "displayed in the packet.\n\n"
+            "Logic packet discipline:\n"
+            "- `budget_reason`: The candidate is a finite structural relation "
+            "over displayed local rows. It asks for projection, renaming, "
+            "interpretation, or route elimination, not a new object or "
+            "external theorem import.\n"
+            "- `resource_trace`: Consumes only the listed chapter's displayed "
+            "carrier, classifier, ledger, route, and NameCert rows.\n"
+        ),
+    )
+    reason = candidate_substance.board_target_rejection(target)
+    assert candidate_substance.is_substance_rejection(reason), reason
+
+
+def test_legacy_board_surface_template_without_burden_is_not_executable() -> None:
+    target = BedcTarget(
+        target_id="B-test",
+        title="ObservationReflectionPacket classifier alignment boundary",
+        fields={"Source": "bedc-deep board_spawn (codex)"},
+        body=(
+            "Problem:\n"
+            "If two accepted packet carriers are compared by the local "
+            "classifier, then the comparison must transport exactly the "
+            "listed packet rows.\n\n"
+            "Logic packet discipline:\n"
+            "- `elimination_plan`: No new bridge carrier is introduced; "
+            "the relation is tested by projection, renaming, or "
+            "interpretation of rows already visible in the listed chapter.\n"
+        ),
+    )
+    assert candidate_substance.board_target_rejection(target) == "weak_surface_target"
+
+
+def test_board_surface_target_with_real_burden_remains_executable() -> None:
+    target = BedcTarget(
+        target_id="B-test",
+        title="PhysicalModelAudit equivalence completion boundary",
+        fields={"Source": "bedc-deep board_spawn (codex)"},
+        body=(
+            "Problem:\n"
+            "If a forward audit classifier is consumed as an equivalence, "
+            "then the reverse direction must give a counterexample or a "
+            "canonical witness for the displayed audit rows.\n\n"
+            "Logic packet discipline:\n"
+            "- `budget_reason`: The candidate is a finite structural relation "
+            "over displayed local rows. It asks for projection, renaming, "
+            "interpretation, or route elimination, not a new object or "
+            "external theorem import.\n"
+        ),
+    )
+    assert candidate_substance.board_target_rejection(target) == ""
+
+
 def test_direct_codex_admission_accepts_research_packet_without_judge() -> None:
     accepted, stopped, needs_judge = board_spawn._direct_codex_admission(
         [_candidate(source="research_lane:paper_gap_scanner")]
@@ -263,6 +327,9 @@ if __name__ == "__main__":
     test_deterministic_fallback_allows_low_score_local_packet()
     test_board_substance_gate_rejects_structural_row_echo()
     test_candidate_inbox_rejects_structural_row_echo_before_judge()
+    test_legacy_board_surface_target_is_not_executable()
+    test_legacy_board_surface_template_without_burden_is_not_executable()
+    test_board_surface_target_with_real_burden_remains_executable()
     test_direct_codex_admission_accepts_research_packet_without_judge()
     test_direct_codex_admission_rejects_anti_parameter_echo()
     test_direct_codex_admission_keeps_oracle_for_judge()

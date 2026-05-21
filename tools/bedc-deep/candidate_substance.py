@@ -30,11 +30,37 @@ SUBSTANCE_POSITIVE_RE = re.compile(
     r"nontrivial witness|failure mode|classification)\b",
     re.IGNORECASE,
 )
+BOARD_SURFACE_TITLE_RE = re.compile(
+    r"\b("
+    r"forgetful projection|classifier alignment|domain-codomain mirror|"
+    r"substrate bisimulation|equivalence completion|local obligation row projection"
+    r") boundary\b",
+    re.IGNORECASE,
+)
+BOARD_TEMPLATE_ECHO_RE = re.compile(
+    r"finite structural relation over displayed local rows|"
+    r"asks for projection, renaming, interpretation, or route elimination|"
+    r"consumes only the listed chapter'?s displayed carrier|"
+    r"depends only on theorem/definition labels and carrier rows already present|"
+    r"no copied oracle output or external repository coordinate|"
+    r"no new bridge carrier is introduced",
+    re.IGNORECASE,
+)
+BOARD_BURDEN_RE = re.compile(
+    r"\b("
+    r"inversion|counterexample|obstruction|determinacy|uniqueness|coverage|"
+    r"exhaustion|conservation|normal form|normal-form|strict inequality|"
+    r"separation|minimal witness|canonical witness|nontrivial witness|"
+    r"failure mode|classification"
+    r")\b",
+    re.IGNORECASE,
+)
 STRUCTURAL_MINER_SOURCES = {
     "research_lane:structural_relation_miner",
 }
 SUBSTANCE_REJECTION_RE = re.compile(
-    r"substance_echo_not_board_ready|structural_miner_requires_positive_substance",
+    r"substance_echo_not_board_ready|structural_miner_requires_positive_substance|"
+    r"weak_surface_target",
     re.IGNORECASE,
 )
 
@@ -53,6 +79,64 @@ def packet_text(candidate: dict[str, Any]) -> str:
             "elimination_plan",
         )
     )
+
+
+def _body_section(body: str, header: str) -> str:
+    in_section = False
+    out: list[str] = []
+    for raw_line in str(body or "").splitlines():
+        line = raw_line.strip()
+        if line == header:
+            in_section = True
+            continue
+        if not in_section:
+            continue
+        if not line:
+            if out:
+                break
+            continue
+        if line.endswith(":") and not line.startswith("\\"):
+            break
+        out.append(line)
+    return " ".join(out).strip()
+
+
+def board_target_candidate(target: Any) -> dict[str, Any]:
+    fields = getattr(target, "fields", {}) or {}
+    body = getattr(target, "body", "") or ""
+    return {
+        "title": getattr(target, "title", "") or "",
+        "claim": _body_section(body, "Problem:"),
+        "rationale": _body_section(body, "Rationale:"),
+        "source": fields.get("Source", ""),
+        "budget_reason": _body_section(body, "Logic packet discipline:"),
+        "resource_trace": body,
+        "dependency_trace": body,
+        "elimination_plan": body,
+    }
+
+
+def board_target_rejection(target: Any) -> str:
+    candidate = board_target_candidate(target)
+    reason = substance_rejection(candidate)
+    if reason:
+        return reason
+
+    title = str(candidate.get("title") or "")
+    source = str(candidate.get("source") or "").lower()
+    full_text = packet_text(candidate)
+    burden_text = " ".join(
+        str(candidate.get(key) or "")
+        for key in ("title", "claim")
+    )
+    if (
+        BOARD_SURFACE_TITLE_RE.search(title)
+        and ("board_spawn" in source or BOARD_TEMPLATE_ECHO_RE.search(full_text))
+        and BOARD_TEMPLATE_ECHO_RE.search(full_text)
+        and not BOARD_BURDEN_RE.search(burden_text)
+    ):
+        return "weak_surface_target"
+    return ""
 
 
 def substance_rejection(candidate: dict[str, Any]) -> str:
