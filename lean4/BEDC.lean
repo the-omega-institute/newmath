@@ -2219,7 +2219,6 @@ import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicPrecisionUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicRatCoreUp
-import BEDC.Derived.DyadicRatCoreUp.CommonScaleFourFacePullback
 import BEDC.Derived.DyadicRatCoreUp.DirectedMeet
 import BEDC.Derived.DyadicRatCoreUp.DirectedRefinementRadiusHandoff
 import BEDC.Derived.DyadicRatCoreUp.DistanceWindow
@@ -2521,6 +2520,7 @@ import BEDC.Derived.FiniteRealSectionUp.RouteConsumerExactness
 import BEDC.Derived.FiniteRealSectionUp.TasteGate
 import BEDC.Derived.FiniteReflectionTupleUp.Core
 import BEDC.Derived.FiniteReflectionTupleUp.TasteGate
+import BEDC.Derived.FiniteRefutationBoundaryUp.TasteGate
 import BEDC.Derived.FiniteSupportUp.TasteGate
 import BEDC.Derived.FiniteTailDiagonalSealUp
 import BEDC.Derived.FiniteTailDiagonalSealUp.StdBridge
@@ -4175,7 +4175,6 @@ import BEDC.Derived.RegularCauchySumUp.ObligationSurface
 import BEDC.Derived.RegularCauchySumUp.RealSealRoute
 import BEDC.Derived.RegularCauchySumUp.SharedTailMeetHandoff
 import BEDC.Derived.RegularCauchySumUp.TailSelectorCompatibility
-import BEDC.Derived.RegularCauchySumUp.ZeroSourceConsumerRoute
 import BEDC.Derived.RegularCauchySumUp.ZeroSourceIdentityBoundary
 import BEDC.Derived.RegularCauchySwapBisimulationUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBudgetUp.TasteGate
@@ -4510,6 +4509,7 @@ import BEDC.Derived.SubjectReductionRouteClassifierUp
 import BEDC.Derived.SubjectReductionRouteUp.TasteGate
 import BEDC.Derived.SubjectReductionUp
 import BEDC.Derived.SubordinateModulusCoverUp.TasteGate
+import BEDC.Derived.SubshiftOfFiniteTypeUp.TasteGate
 import BEDC.Derived.SubshiftfinitetypeUp
 import BEDC.Derived.SubstitutionAuditMapUp.Core
 import BEDC.Derived.SubstitutionAuditMapUp.TasteGate
@@ -4671,6 +4671,7 @@ import BEDC.Derived.TranscendentalSupplyLedgerUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.BridgePrecondition
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.NameCertObligations
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.TasteGate
+import BEDC.Derived.TransferOperatorUp.TasteGate
 import BEDC.Derived.TransportedStationaryWindowSealUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.CarrierClassifierObligation
