@@ -1920,6 +1920,7 @@ import BEDC.Derived.DeRhamUp.RootObligations
 import BEDC.Derived.DecidableRefutationBoundaryUp.NameCertObligations
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
+import BEDC.Derived.DecimalExpansionUp.TasteGate
 import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindUp
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
@@ -2227,6 +2228,7 @@ import BEDC.Derived.DigestProvenancePacketUp.NoHiddenSourceConsumption
 import BEDC.Derived.DigestProvenancePacketUp.SourceFiberLedgerOrder
 import BEDC.Derived.DigestProvenancePacketUp.TasteGate
 import BEDC.Derived.DimLiftBoundaryUp
+import BEDC.Derived.DiniTheoremUp.TasteGate
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.DirichletUnitUp
@@ -2835,6 +2837,7 @@ import BEDC.Derived.HaltingDistinctionUp.TraceNormalFormHandoff
 import BEDC.Derived.HaltingFiniteBoundaryUp.TasteGate
 import BEDC.Derived.HaltingObstructionUp
 import BEDC.Derived.HaltingObstructionUp.NameCertObligations
+import BEDC.Derived.HaltingObstructionUp.TasteGate
 import BEDC.Derived.HaltingTraceClassifierUp.TasteGate
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.HardProblemClosureUp.TasteGate
@@ -4026,6 +4029,7 @@ import BEDC.Derived.RealSealComparisonUp.NameCertObligations
 import BEDC.Derived.RealSealComparisonUp.TasteGate
 import BEDC.Derived.RealSealCongruenceUp.TasteGate
 import BEDC.Derived.RealSelectorComparisonUp.TasteGate
+import BEDC.Derived.RealSequenceLimitUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.DyadicWindowExactness
 import BEDC.Derived.RealTailAgreementSealUp.RealCompletionHandoff
 import BEDC.Derived.RealTailAgreementSealUp.RootBudget
@@ -4881,6 +4885,7 @@ import BEDC.Derived.UnaryContMonoidUp.KernelCategoryConsumerBoundary
 import BEDC.Derived.UnaryContMonoidUp.TasteGate
 import BEDC.Derived.UnaryContinuationCategoryUp.TasteGate
 import BEDC.Derived.UnaryContinuationEndofunctorUp
+import BEDC.Derived.UnaryContinuationEndofunctorUp.TasteGate
 import BEDC.Derived.UnaryDirectionBridgeUp
 import BEDC.Derived.UnaryDirectionNormalizerUp.TasteGate
 import BEDC.Derived.UnaryZeroSpineStandardIsoUp
