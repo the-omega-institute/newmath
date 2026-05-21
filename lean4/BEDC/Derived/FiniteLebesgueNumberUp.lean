@@ -379,4 +379,34 @@ theorem FiniteLebesgueNumberPhaseRealTerminalRadiusReadiness [AskSetup] [Package
       consumerUnary, coverWindowRadius, radiusMeshRoute, routeNameAudit,
       auditTerminalConsumer, provenancePkg, consumerPkg⟩
 
+theorem FiniteLebesgueNumberCompactContinuousTriad [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow compactRow continuousRow
+      uniformRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont radius mesh compactRow ->
+        Cont compactRow route continuousRow ->
+          Cont continuousRow nameRow uniformRow ->
+            PkgSig bundle uniformRow pkg ->
+              UnaryHistory compactRow ∧ UnaryHistory continuousRow ∧
+                UnaryHistory uniformRow ∧ Cont radius mesh compactRow ∧
+                  Cont compactRow route continuousRow ∧
+                    Cont continuousRow nameRow uniformRow ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle uniformRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier radiusMeshCompact compactRouteContinuous continuousNameUniform uniformPkg
+  obtain ⟨_coverUnary, _windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have compactUnary : UnaryHistory compactRow :=
+    unary_cont_closed radiusUnary meshUnary radiusMeshCompact
+  have continuousUnary : UnaryHistory continuousRow :=
+    unary_cont_closed compactUnary routeUnary compactRouteContinuous
+  have uniformUnary : UnaryHistory uniformRow :=
+    unary_cont_closed continuousUnary nameRowUnary continuousNameUniform
+  exact
+    ⟨compactUnary, continuousUnary, uniformUnary, radiusMeshCompact,
+      compactRouteContinuous, continuousNameUniform, provenancePkg, uniformPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
