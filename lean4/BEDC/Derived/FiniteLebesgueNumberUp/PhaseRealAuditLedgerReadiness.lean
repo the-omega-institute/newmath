@@ -103,4 +103,62 @@ theorem FiniteLebesgueNumberPhaseRealAuditLedgerReadiness [AskSetup] [PackageSet
       auditPhase, phaseCompact, compactContinuous, continuousUniform, provenancePkg,
       uniformPkg, cert⟩
 
+theorem FiniteLebesgueNumberPhaseRealAuditLedgerRootNamecertUse [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow auditRead phaseRead compactRead
+      continuousRead uniformRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow bundle
+        pkg →
+      Cont route nameRow auditRead →
+        Cont auditRead radius phaseRead →
+          Cont phaseRead mesh compactRead →
+            Cont compactRead route continuousRead →
+              Cont continuousRead nameRow uniformRead →
+                PkgSig bundle auditRead pkg →
+                  PkgSig bundle uniformRead pkg →
+                    SemanticNameCert
+                        (fun row : BHist =>
+                          FiniteLebesgueNumberCarrier cover window radius mesh transport route
+                              provenance nameRow bundle pkg ∧
+                            hsame row nameRow)
+                        (fun row : BHist => hsame row nameRow ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          PkgSig bundle provenance pkg ∧ hsame row nameRow ∧
+                            Cont route nameRow auditRead)
+                        hsame ∧
+                      UnaryHistory auditRead ∧
+                        UnaryHistory phaseRead ∧
+                          UnaryHistory compactRead ∧
+                            UnaryHistory continuousRead ∧
+                              UnaryHistory uniformRead ∧
+                                PkgSig bundle provenance pkg ∧
+                                  PkgSig bundle auditRead pkg ∧
+                                    PkgSig bundle uniformRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert Cont hsame
+  intro carrier routeAudit auditPhase phaseCompact compactContinuous continuousUniform
+    auditPkg uniformPkg
+  have rootObligations :=
+    FiniteLebesgueNumberCarrier_namecert_obligations
+      (cover := cover) (window := window) (radius := radius) (mesh := mesh)
+      (transport := transport) (route := route) (provenance := provenance)
+      (nameRow := nameRow) (auditRead := auditRead) (bundle := bundle) (pkg := pkg)
+      carrier routeAudit auditPkg
+  have phaseReadiness :=
+    FiniteLebesgueNumberPhaseRealAuditLedgerReadiness
+      (cover := cover) (window := window) (radius := radius) (mesh := mesh)
+      (transport := transport) (route := route) (provenance := provenance)
+      (nameRow := nameRow) (auditRead := auditRead) (phaseRead := phaseRead)
+      (compactRead := compactRead) (continuousRead := continuousRead)
+      (uniformRead := uniformRead) (bundle := bundle) (pkg := pkg) carrier routeAudit
+      auditPhase phaseCompact compactContinuous continuousUniform uniformPkg
+  obtain ⟨rootCert, _coverUnary, _windowUnary, _radiusUnary, _meshUnary, auditUnary,
+    _coverWindowRadius, _radiusMeshRoute, _routeAudit, provenancePkg, auditPkgOut⟩ :=
+      rootObligations
+  obtain ⟨_auditUnary, phaseUnary, compactUnary, continuousUnary, uniformUnary,
+    _routeAuditReady, _auditPhase, _phaseCompact, _compactContinuous, _continuousUniform,
+    _provenancePkgReady, uniformPkgOut, _phaseCert⟩ := phaseReadiness
+  exact
+    ⟨rootCert, auditUnary, phaseUnary, compactUnary, continuousUnary, uniformUnary,
+      provenancePkg, auditPkgOut, uniformPkgOut⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
