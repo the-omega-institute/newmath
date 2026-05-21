@@ -298,6 +298,103 @@ blocks. Assigning one schematic generator to each block gives the stated
 support system, and uniqueness follows from uniqueness of the partition.
 \end{proof}
 
+\begin{definition}[Module activation pattern]
+\label{def:philosophy-module-activation-pattern}
+For the unique finest generator support system, write
+$$
+\begin{gathered}
+  S=\{\mathrm{UAA},\mathrm{UAG}\},\qquad
+  U=\{\mathrm{UGA}\},\qquad
+  N=\{\mathrm{AAA}\},\\
+  R=\{\mathrm{AGA},\mathrm{AGG}\},\qquad
+  I=\{\mathrm{AUA}\}.
+\end{gathered}
+$$
+For a comparison table, a module is active when at least one coordinate
+inside that module differs from the standard assignment. The module
+activation pattern is the subset of $\{S,U,N,R,I\}$ consisting of active
+modules.
+\end{definition}
+
+\begin{theorem}[Observed module activation patterns]
+\label{thm:philosophy-observed-module-activation-patterns}
+The comparison family realizes exactly $11$ module activation patterns:
+$$
+\begin{array}{c|l}
+  \text{pattern} & \text{table identifiers}\\
+\hline
+  \varnothing & 1,11,12,23,26\\
+  U & 4,10,25\\
+  S & 6,15,16,22,29,30,32\\
+  U+I & 3\\
+  U+R & 24\\
+  S+U & 27,28,31\\
+  U+R+I & 2,5,13\\
+  U+N+R & 9\\
+  S+U+R & 33\\
+  U+N+R+I & 21\\
+  S+U+N+R & 14.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each table, compare the seven active coordinates with the standard
+assignment and mark a module active when any coordinate in that block
+differs. Identifying equal active-module subsets gives exactly the
+eleven displayed rows.
+\end{proof}
+
+\begin{theorem}[Five-variable activation grammar]
+\label{thm:philosophy-five-variable-activation-grammar}
+The observed module activation patterns are exactly the Boolean
+solutions on variables $S,U,N,R,I$ satisfying
+$$
+\begin{gathered}
+  R\Rightarrow U,\qquad
+  I\Rightarrow U,\qquad
+  N\Rightarrow R,\qquad
+  S\wedge I=0.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+Necessity is a direct finite check on
+\autoref{thm:philosophy-observed-module-activation-patterns}: every row
+containing $R$ contains $U$, every row containing $I$ contains $U$,
+every row containing $N$ contains $R$, and no row contains both $S$ and
+$I$.
+
+For sufficiency, enumerate the Boolean solutions. If $U=0$, then
+$R=I=N=0$, while $S$ is free, giving $\varnothing$ and $S$. If $U=1$
+and $I=0$, then $S$ is free and $(R,N)$ can be $(0,0)$, $(1,0)$, or
+$(1,1)$, giving
+$$
+  U,\quad S+U,\quad U+R,\quad S+U+R,\quad U+N+R,\quad S+U+N+R.
+$$
+If $U=1$ and $I=1$, then $S=0$, and $(R,N)$ again gives
+$$
+  U+I,\quad U+R+I,\quad U+N+R+I.
+$$
+Thus the grammar has $2+6+3=11$ solutions, and the solution list is
+exactly the list in
+\autoref{thm:philosophy-observed-module-activation-patterns}.
+\end{proof}
+
+\begin{corollary}[Hub, dependent branches, and transverse arm]
+\label{cor:philosophy-hub-branches-transverse-arm}
+The activation grammar separates four roles: $U$ is a necessary hub for
+$R$, $I$, and $N$; $N$ is dependent on the AGR satellite branch through
+$N\Rightarrow R$; the AUA leaf is dependent on $U$; and the stop arm
+$S$ is a transverse axis that may occur with or without $U$ but is
+disjoint from the AUA branch in the observed comparison family.
+\end{corollary}
+\begin{proof}
+Each role is one of the four clauses in
+\autoref{thm:philosophy-five-variable-activation-grammar}, together
+with the fact that both $S$ and $S+U$ occur in
+\autoref{thm:philosophy-observed-module-activation-patterns}.
+\end{proof}
+
 \begin{theorem}[Core state graph cannot-claim boundary]
 \label{thm:philosophy-core-state-graph-cannot-claim-boundary}
 The strict core state graph and module generators do not license any

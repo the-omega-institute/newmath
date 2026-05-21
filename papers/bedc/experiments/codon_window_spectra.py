@@ -35,6 +35,13 @@ MODULE_NAMES = {
     ("AGA", "AGG"): "AGR",
     ("ATA",): "AUA",
 }
+MODULE_SYMBOLS = {
+    "StopArm": "S",
+    "UGA": "U",
+    "AAA": "N",
+    "AGR": "R",
+    "AUA": "I",
+}
 TRANSFER_SQUARE = ("TGA", "TGG", "AGA", "AGG")
 ARG_MAIN_BOX = ("CGT", "CGC", "CGA", "CGG")
 ARG_SATELLITE = ("AGA", "AGG")
@@ -459,6 +466,53 @@ def active_module_partition_summary(tables: dict[int, dict[str, str]]) -> dict[s
     }
 
 
+def satisfies_module_grammar(pattern: set[str]) -> bool:
+    return (
+        ("R" not in pattern or "U" in pattern)
+        and ("I" not in pattern or "U" in pattern)
+        and ("N" not in pattern or "R" in pattern)
+        and not ("S" in pattern and "I" in pattern)
+    )
+
+
+def module_activation_summary(tables: dict[int, dict[str, str]]) -> dict[str, object]:
+    standard = tables[1]
+    module_order = tuple(MODULE_SYMBOLS[MODULE_NAMES[block]] for block in FINEST_MODULE_PARTITION)
+    pattern_tables: dict[tuple[str, ...], list[int]] = collections.defaultdict(list)
+    for table_id, table in sorted(tables.items()):
+        active: list[str] = []
+        for block in FINEST_MODULE_PARTITION:
+            if any(table[codon] != standard[codon] for codon in block):
+                active.append(MODULE_SYMBOLS[MODULE_NAMES[block]])
+        pattern_tables[tuple(active)].append(table_id)
+    solutions = [
+        tuple(symbol for symbol in module_order if symbol in active)
+        for active in itertools.chain.from_iterable(
+            itertools.combinations(module_order, count) for count in range(len(module_order) + 1)
+        )
+        if satisfies_module_grammar(set(active))
+    ]
+    solutions.sort(key=lambda pattern: (len(pattern), pattern))
+    observed = sorted(pattern_tables, key=lambda pattern: (len(pattern), pattern))
+    return {
+        "module_order": module_order,
+        "observed_pattern_count": len(pattern_tables),
+        "observed_patterns": {
+            "+".join(pattern) if pattern else "none": pattern_tables[pattern]
+            for pattern in observed
+        },
+        "grammar_solution_count": len(solutions),
+        "grammar_solutions": ["+".join(pattern) if pattern else "none" for pattern in solutions],
+        "exact_match": set(observed) == set(solutions),
+        "constraints": {
+            "R_implies_U": all("U" in pattern for pattern in pattern_tables if "R" in pattern),
+            "I_implies_U": all("U" in pattern for pattern in pattern_tables if "I" in pattern),
+            "N_implies_R": all("R" in pattern for pattern in pattern_tables if "N" in pattern),
+            "S_disjoint_I": all(not ("S" in pattern and "I" in pattern) for pattern in pattern_tables),
+        },
+    }
+
+
 def reassignment_spectrum(tables: dict[int, dict[str, str]], cubes: list[dict[str, object]]) -> dict[str, object]:
     standard = tables[1]
     module_counts: collections.Counter[str] = collections.Counter()
@@ -598,6 +652,7 @@ def build_summary() -> dict[str, object]:
         "reassignment": reassignment_spectrum(tables, cubes),
         "partial_aware_core": state_components(partial_tables, CORE_HOTSPOT),
         "active_module_partitions": active_module_partition_summary(partial_tables),
+        "module_activation_grammar": module_activation_summary(partial_tables),
         "q1_all_tables": dict(sorted(all_q1_totals.items())),
     }
 
@@ -692,6 +747,28 @@ def assert_expected(summary: dict[str, object]) -> None:
         6: 1,
     }
     assert summary["active_module_partitions"]["diameter"] == 9
+    assert summary["module_activation_grammar"]["observed_pattern_count"] == 11
+    assert summary["module_activation_grammar"]["observed_patterns"] == {
+        "none": [1, 11, 12, 23, 26],
+        "S": [6, 15, 16, 22, 29, 30, 32],
+        "U": [4, 10, 25],
+        "U+I": [3],
+        "U+R": [24],
+        "S+U": [27, 28, 31],
+        "U+R+I": [2, 5, 13],
+        "U+N+R": [9],
+        "S+U+R": [33],
+        "U+N+R+I": [21],
+        "S+U+N+R": [14],
+    }
+    assert summary["module_activation_grammar"]["grammar_solution_count"] == 11
+    assert summary["module_activation_grammar"]["exact_match"] is True
+    assert summary["module_activation_grammar"]["constraints"] == {
+        "R_implies_U": True,
+        "I_implies_U": True,
+        "N_implies_R": True,
+        "S_disjoint_I": True,
+    }
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
