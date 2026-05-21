@@ -56,6 +56,26 @@ Next read the radius row $R$ and the dyadic ledger $D$. The ledger is the only c
 Finally replay the finite window through $W$ and $C$. The transport row $H$ preserves the same metric, radius, dyadic, and window rows, while $P$ and $N$ record provenance and naming. Thus refinement narrows an existing displayed formal-ball window and introduces no extra metric, quotient, representative choice, selected limit, or completeness principle.
 \end{proof}
 
+\begin{theorem}[FormalBall radius refinement chain]
+\label{thm:formalball-radius-refinement-chain}
+Let $B=(M,R,D,W,H,C,P,N)$ be an accepted $\FormalBallUp$ carrier. For any finite displayed chain of radius refinements
+$$
+r_0 \ge r_1 \ge \cdots \ge r_k ,
+$$
+whose comparisons are all recorded in the same dyadic ledger $D$ and replayed through the same row $C$, every formal-ball window reached along the chain is read over the same metric source $M$ and the same finite stream-window row $W$.
+
+The chain therefore refines only the displayed radius budget of the accepted packet. It does not identify quotient-completion classes, choose Cauchy representatives, select limits, use countable choice, invoke open-cover compactness, or assume ambient completeness.
+\end{theorem}
+\begin{proof}
+For the empty chain there is no new refinement step. The accepted packet already exposes the metric source $M$, the radius row $R$, the dyadic ledger $D$, the stream-window row $W$, and the replay row $C$ through \autoref{def:formalball-carrier}.
+
+For a nonempty chain, apply \autoref{thm:formalball-radius-refinement} to the first displayed comparison. The theorem keeps the smaller formal-ball window inside the same accepted packet, with its comparison recorded by $D$ and its finite center read through $W$ and $C$ over $M$.
+
+Iterate the same argument over the remaining displayed comparisons. The transport row $H$ carries the metric, radius, dyadic, window, and replay rows componentwise at each step, while $P$ and $N$ only record provenance and local naming for the same packet.
+
+No step introduces a field for quotient-completion equality, a selected Cauchy representative, a selected limit, a countable-choice schedule, an open-cover compactness principle, or an ambient complete space. Hence the whole finite chain preserves the same finite formal-ball window interface.
+\end{proof}
+
 \begin{theorem}[FormalBall completion-window handoff]
 \label{thm:formalball-completion-window-handoff}
 Every $\UniformCompletionUp$-facing consumer of an accepted $\FormalBallUp$ carrier $B=(M,R,D,W,H,C,P,N)$ receives only the finite window route through $\MetricSpaceUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, and $\UniformCompletionUp$ rows recorded by $B$. The handoff exposes radius-indexed formal balls as finite observation data before any completion boundary is read.
@@ -75,7 +95,7 @@ The carrier fields are exhausted by this route. Since no field stores quotient e
 \begin{closurestatus}{\FormalBallUp}
   \constructivestory{A $\FormalBallUp$ packet is generated from a displayed MetricSpaceUp source, a RegSeqRat radius row, a DyadicRatCore refinement ledger, a StreamName finite-window row, componentwise hsame transport, displayed Cont replay toward RealUp tolerance seals and UniformCompletionUp handoff, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:formalball-carrier}, \autoref{thm:formalball-namecert-obligations}, \autoref{thm:formalball-radius-refinement}, and \autoref{thm:formalball-completion-window-handoff} seed the finite formal-ball observation interface for constructive completion.}
+  \scopeclosed{\autoref{def:formalball-carrier}, \autoref{thm:formalball-namecert-obligations}, \autoref{thm:formalball-radius-refinement}, \autoref{thm:formalball-radius-refinement-chain}, and \autoref{thm:formalball-completion-window-handoff} seed the finite formal-ball observation interface for constructive completion.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion, selected limits, countable choice, open-cover compactness, ambient completeness, Lean verification, or bridge checking.}
