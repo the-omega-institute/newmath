@@ -14,6 +14,13 @@ killo_golden_writeback = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = killo_golden_writeback
 spec.loader.exec_module(killo_golden_writeback)
 
+HYGIENE_PATH = Path(__file__).with_name("hygiene_normalize.py")
+hygiene_spec = importlib.util.spec_from_file_location("hygiene_normalize", HYGIENE_PATH)
+assert hygiene_spec is not None and hygiene_spec.loader is not None
+hygiene_normalize = importlib.util.module_from_spec(hygiene_spec)
+sys.modules[hygiene_spec.name] = hygiene_normalize
+hygiene_spec.loader.exec_module(hygiene_normalize)
+
 
 def test_multiple_body_envs_rejected_as_not_minimal() -> None:
     content = r"""
@@ -55,6 +62,16 @@ def test_append_after_closurestatus_rejected_for_theorem_like_content() -> None:
         target.unlink(missing_ok=True)
     assert "append_after_closurestatus" in codes
     assert any("closurestatus" in reason for reason in reasons)
+
+
+def test_normalizer_discovers_preamble_input_macros() -> None:
+    result = hygiene_normalize.normalize(
+        "The witness is $\\mathsf{UnaryHistory}$ and $\\mathsf{BHist}$.\n",
+        preamble_path=killo_golden_writeback.REPO_ROOT / "papers" / "bedc" / "preamble.tex",
+    )
+    assert "$\\UnaryHistory$" in result.content
+    assert "$\\BHist$" in result.content
+    assert result.transformations
 
 
 def test_writeback_uses_codex_gate_directly() -> None:
@@ -110,5 +127,6 @@ def test_writeback_uses_codex_gate_directly() -> None:
 if __name__ == "__main__":
     test_multiple_body_envs_rejected_as_not_minimal()
     test_append_after_closurestatus_rejected_for_theorem_like_content()
+    test_normalizer_discovers_preamble_input_macros()
     test_writeback_uses_codex_gate_directly()
     print("test_killo_writeback_gate: ok")

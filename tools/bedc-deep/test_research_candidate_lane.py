@@ -150,10 +150,38 @@ def test_burden_candidate_is_ready_and_appendable() -> None:
     assert packet["status"] == "ready", packet
 
 
+def test_burden_miner_skips_exactness_carrier_echo() -> None:
+    rel = "papers/bedc/parts/concrete_instances/example.tex"
+    index = {
+        "files": [
+            {
+                "file": rel,
+                "line_count": 80,
+                "hub_like": False,
+                "closurestatus_count": 0,
+                "theorem_like_labels": [
+                    {
+                        "env": "theorem",
+                        "label": "thm:example-cont-hom-exactness",
+                        "title": "Example Cont hom exactness",
+                    },
+                    {
+                        "env": "definition",
+                        "label": "def:example-namecert-carrier",
+                        "title": "Example NameCert carrier",
+                    },
+                ],
+            }
+        ]
+    }
+    assert burden_candidate_miner.candidates_from_index(index, existing_titles=set()) == []
+
+
 if __name__ == "__main__":
     test_near_line_cap_candidate_reroutes_to_smaller_landing()
     test_low_score_candidate_is_warning_not_blocked()
     test_structural_row_echo_is_not_ready()
     test_line_cap_overflow_is_not_recovered_from_inbox()
     test_burden_candidate_is_ready_and_appendable()
+    test_burden_miner_skips_exactness_carrier_echo()
     print("test_research_candidate_lane: ok")

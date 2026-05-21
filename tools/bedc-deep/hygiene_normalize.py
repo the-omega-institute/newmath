@@ -33,16 +33,34 @@ from typing import Optional
 # ---------------------------------------------------------------------------
 
 
+def _read_with_inputs(path: Path, *, root: Path, seen: set[Path]) -> str:
+    resolved = path.resolve()
+    if resolved in seen or not path.exists():
+        return ""
+    seen.add(resolved)
+    try:
+        text = path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return ""
+
+    chunks = [text]
+    for m in re.finditer(r"\\input\{([^}]+)\}", text):
+        raw = m.group(1).strip()
+        if not raw or raw.startswith("|"):
+            continue
+        child = root / raw
+        if child.suffix == "":
+            child = child.with_suffix(".tex")
+        chunks.append(_read_with_inputs(child, root=root, seen=seen))
+    return "\n".join(chunks)
+
+
 def _load_preamble_macros(preamble_path: Path) -> set[str]:
-    """Return the set of bare macro names defined in preamble.tex (without
-    leading backslash). Only `\\newcommand{\\NAME}` style is parsed."""
+    """Return bare macro names defined by the BEDC preamble input tree."""
     macros: set[str] = set()
     if not preamble_path.exists():
         return macros
-    try:
-        text = preamble_path.read_text(encoding="utf-8", errors="replace")
-    except OSError:
-        return macros
+    text = _read_with_inputs(preamble_path, root=preamble_path.parent, seen=set())
     for m in re.finditer(r"\\newcommand\{\\([A-Za-z]+)\}", text):
         macros.add(m.group(1))
     for m in re.finditer(r"\\(?:re)?newcommand\*?\{\\([A-Za-z]+)\}", text):

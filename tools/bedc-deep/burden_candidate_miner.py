@@ -51,9 +51,10 @@ EXHAUSTION_RE = re.compile(
 )
 DETERMINACY_RE = re.compile(
     r"\b(determinacy|deterministic|unique|uniqueness|normal|normalization|"
-    r"confluence|exactness|canonical)\b",
+    r"confluence|canonical)\b",
     re.IGNORECASE,
 )
+EXACTNESS_ONLY_RE = re.compile(r"\b(exactness|exact)\b", re.IGNORECASE)
 OBSTRUCTION_RE = re.compile(
     r"\b(countermodel|counterexample|failure|defeat|refutation|separation|"
     r"obstruction|refusal|nonescape|non-escape|impossib|boundary)\b",
@@ -142,6 +143,22 @@ def _label_name(rec: dict[str, Any]) -> str:
 
 def _select_labels(labels: list[dict[str, Any]], pattern: re.Pattern[str]) -> list[dict[str, Any]]:
     return [rec for rec in labels if pattern.search(_label_text(rec))]
+
+
+def _non_surface_labels(labels: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for rec in labels:
+        text = _label_text(rec)
+        if SURFACE_ONLY_RE.search(text) and not (
+            OBSTRUCTION_RE.search(text)
+            or WITNESS_RE.search(text)
+            or BRIDGE_RE.search(text)
+            or DETERMINACY_RE.search(text)
+            or EXHAUSTION_RE.search(text)
+        ):
+            continue
+        out.append(rec)
+    return out
 
 
 def _support_label(labels: list[dict[str, Any]], primary: dict[str, Any]) -> dict[str, Any] | None:
@@ -258,20 +275,25 @@ def _candidate_for_item(item: dict[str, Any]) -> dict[str, Any] | None:
     labels = [rec for rec in labels if _label_name(rec)]
     if len(labels) < 2:
         return None
+    burden_labels = _non_surface_labels(labels)
+    if len(burden_labels) < 2:
+        return None
     text = _read(rel)
     haystack = " ".join([rel, text[:12000], *(_label_text(rec) for rec in labels)])
     obj = _object_from_file(rel, labels)
 
     candidates_by_family: list[tuple[str, list[dict[str, Any]]]] = [
-        ("strict_obstruction", _select_labels(labels, OBSTRUCTION_RE)),
-        ("determinacy", _select_labels(labels, DETERMINACY_RE)),
-        ("exhaustion_coverage", _select_labels(labels, EXHAUSTION_RE)),
-        ("minimal_witness", _select_labels(labels, WITNESS_RE)),
-        ("bridge_determinacy", _select_labels(labels, BRIDGE_RE)),
+        ("strict_obstruction", _select_labels(burden_labels, OBSTRUCTION_RE)),
+        ("determinacy", _select_labels(burden_labels, DETERMINACY_RE)),
+        ("exhaustion_coverage", _select_labels(burden_labels, EXHAUSTION_RE)),
+        ("minimal_witness", _select_labels(burden_labels, WITNESS_RE)),
+        ("bridge_determinacy", _select_labels(burden_labels, BRIDGE_RE)),
     ]
     for family, hits in candidates_by_family:
         for primary in hits:
             if SURFACE_ONLY_RE.fullmatch(_clean_words(_label_text(primary)).lower().replace(" ", " ")):
+                continue
+            if family == "determinacy" and EXACTNESS_ONLY_RE.search(_label_text(primary)):
                 continue
             support = _support_label(labels, primary)
             primary_label = _label_name(primary)

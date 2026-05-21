@@ -108,3 +108,21 @@ Next apply \autoref{thm:recursor-generator-non-escape-ledger}. It attaches the m
 
 Finally use \autoref{thm:authorized-recursor-certificate-surface}. With branch coverage and non-escape retained, the downstream consumer receives $O$ only as part of the finite $\AuthorizedRecursorUp$ \NameCert{} surface available to recursor-generator and self-compilation interfaces.
 \end{proof}
+
+\begin{corollary}[AuthorizedRecursor certificate strict obstruction]
+\label{cor:authorized-recursor-certificate-strict-obstruction}
+For an accepted $\AuthorizedRecursorUp$ carrier $Q=(I,\Sigma,R,M,B,D,A,O,H,C,P,N)$, any displayed failure, refusal, separation, or countermodel row attached to a consumer of the output row $O$ is a strict local obstruction to the attempted converse or reuse route that asks for one of the following undisplayed coordinates: a host generator, an unlisted constructor case, an extra branch, a non-structural recursive call, an unchecked proof principle, a bypass around the local $\NameCert_{\AuthorizedRecursorUp}$ row, or an external proof-trust channel. Such a row blocks only that named converse or reuse route. It cannot be reinterpreted as a global impossibility theorem, a host recursion theorem, an independent eliminator theorem, or hidden external validation for the packet.
+\end{corollary}
+\begin{proof}
+By \autoref{def:recursor-generator-certificate-carrier}, the carrier exposes exactly the finite rows
+$$
+(I,\Sigma,R,M,B,D,A,O,H,C,P,N).
+$$
+The same definition states that the packet has no coordinate for an unlisted constructor, an extra branch, a non-structural recursive call, a hidden generator, or an external proof-trust channel. Thus any consumer-facing obstruction must be read against the displayed packet coordinates, not against an ambient host object.
+
+Apply \autoref{thm:recursor-generator-non-escape-ledger}. Every generated output row $O$ factors through the emitted recursor $R$, the accepted motive $M$, the constructor-indexed branch package $B$, the structural descent ledger $D$, and the audit-gate row $A$. The theorem also excludes a host generator, non-structural recursive call, unlisted constructor, unchecked proof principle, and route around the local $\NameCert_{\AuthorizedRecursorUp}$ row. Hence a failure or refusal row can only reject a request that tries to add one of those missing coordinates to the displayed factorization.
+
+The branch part is local as well. By \autoref{thm:recursor-generator-branch-coverage}, every branch read is indexed by the constructor signature $\Sigma$, and a downstream consumer has no route to an omitted constructor case or to an additional branch outside $\Sigma$. Therefore a separation or countermodel row at the branch face blocks only the attempted branch reuse that leaves the displayed signature, not the existence of recursors or eliminators in general.
+
+Finally, \autoref{thm:authorized-recursor-carrier-exposure}, \autoref{thm:authorized-recursor-structural-descent-locality}, and \autoref{thm:authorized-recursor-output-consumer-handoff} keep all public reads of $O$ inside the same rows and their $H,C,P,N$ transport, continuation, provenance, and naming data. Since those rows add no independent generator, no external validation channel, and no host theorem coordinate, the obstruction remains exactly the local refusal of the named converse or reuse route.
+\end{proof}
