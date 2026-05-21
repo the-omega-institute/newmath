@@ -248,6 +248,35 @@ theorem CauchyModulusMeetPacket_binary_projection_lock [AskSetup] [PackageSetup]
     ⟨source0Unary, source1Unary, sharedUnary, s0Mu0H, s1Mu1C, hCMu, source0Row,
       source1Row, sharedRow, pPkg, sharedPkg⟩
 
+theorem CauchyModulusMeetPacket_diagonal_window_consumer_handoff [AskSetup] [PackageSetup]
+    {s0 s1 mu0 mu1 mu h c p n source0 source1 sharedRead diagonalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusMeetPacket s0 s1 mu0 mu1 mu h c p n bundle pkg ->
+      Cont s0 mu0 source0 ->
+        Cont s1 mu1 source1 ->
+          Cont source0 source1 sharedRead ->
+            Cont sharedRead p diagonalRead ->
+              PkgSig bundle diagonalRead pkg ->
+                UnaryHistory source0 ∧ UnaryHistory source1 ∧
+                  UnaryHistory sharedRead ∧ UnaryHistory diagonalRead ∧
+                    Cont source0 source1 sharedRead ∧ Cont sharedRead p diagonalRead ∧
+                      PkgSig bundle p pkg ∧ PkgSig bundle diagonalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet source0Row source1Row sharedRow diagonalRow diagonalPkg
+  obtain ⟨s0Unary, s1Unary, mu0Unary, mu1Unary, _muUnary, _hUnary, _cUnary, pUnary,
+    _nUnary, _s0Mu0H, _s1Mu1C, _hCMu, _samePN, pPkg⟩ := packet
+  have source0Unary : UnaryHistory source0 :=
+    unary_cont_closed s0Unary mu0Unary source0Row
+  have source1Unary : UnaryHistory source1 :=
+    unary_cont_closed s1Unary mu1Unary source1Row
+  have sharedUnary : UnaryHistory sharedRead :=
+    unary_cont_closed source0Unary source1Unary sharedRow
+  have diagonalUnary : UnaryHistory diagonalRead :=
+    unary_cont_closed sharedUnary pUnary diagonalRow
+  exact
+    ⟨source0Unary, source1Unary, sharedUnary, diagonalUnary, sharedRow, diagonalRow,
+      pPkg, diagonalPkg⟩
+
 theorem CauchyModulusMeetPacket_joint_consumer_exactness [AskSetup] [PackageSetup]
     {s0 s1 mu0 mu1 mu h c p n source0 source1 sharedRead realRoute handoff : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
