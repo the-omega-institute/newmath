@@ -1,8 +1,8 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
-import BEDC.FKernel.Cont
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
@@ -244,6 +244,24 @@ theorem InscriptionEventBufferSealTasteGate_single_carrier_alignment :
       · intro x y heq
         exact inscriptionEventBufferSealToEventFlow_injective heq
       · rfl
+
+theorem InscriptionEventBufferSealCarrier_namecert_obligations {E W R D A H Q P N : BHist} :
+    inscriptionEventBufferSealFields (InscriptionEventBufferSealUp.mk E W R D A H Q P N) =
+        [E, W, R, D, A, H, Q, P, N] ∧
+      Cont E W (append E W) ∧
+        Cont R D (append R D) ∧
+          Cont (append E W) (append R D) (append (append E W) (append R D)) ∧
+            hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont
+  constructor
+  · rfl
+  constructor
+  · exact cont_intro rfl
+  constructor
+  · exact cont_intro rfl
+  constructor
+  · exact cont_intro rfl
+  · exact hsame_refl N
 
 def InscriptionEventBufferSealCarrier [AskSetup] [PackageSetup]
     (event window replay digest audit transport route provenance name : BHist)
