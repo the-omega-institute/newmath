@@ -1913,6 +1913,7 @@ import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.DependentCodomainClosurePreservationUp
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Ledger
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Nonescape
+import BEDC.Derived.DependentCodomainClosurePreservationUp.TasteGate
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Transport
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.DerivedCatUp
@@ -2724,6 +2725,7 @@ import BEDC.Derived.GeneratorLocalInductionBoundaryUp.TasteGate
 import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.GoldenMeanShiftUp
+import BEDC.Derived.GoldenMeanShiftUp.TasteGate
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.GroundCompilerAuditMapUp
@@ -4995,6 +4997,7 @@ import BEDC.Derived.UniformModulusUp.TasteGate
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.UnitCalibrationLedgerUp.TasteGate
 import BEDC.Derived.UnitDiskUp
+import BEDC.Derived.UnitDiskUp.TasteGate
 import BEDC.Derived.UnitUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UniversalClosedSubstrateUp.TasteGate
