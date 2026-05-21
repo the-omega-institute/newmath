@@ -304,4 +304,15 @@ theorem KernelObservationSieveTasteGate_single_carrier_alignment :
         exact kernelObservationSieveToEventFlow_injective heq
       · rfl
 
+theorem KernelObservationSieveNameCert_obligations (O S F A R T C P N : BHist) :
+    ∃ K : KernelObservationSieveUp,
+      K = KernelObservationSieveUp.mk O S F A R T C P N ∧
+        kernelObservationSieveFromEventFlow (kernelObservationSieveToEventFlow K) =
+          some K ∧
+          kernelObservationSieveEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  refine ⟨KernelObservationSieveUp.mk O S F A R T C P N, rfl, ?_, rfl⟩
+  exact kernelObservationSieve_round_trip
+    (KernelObservationSieveUp.mk O S F A R T C P N)
+
 end BEDC.Derived.KernelObservationSieveUp
