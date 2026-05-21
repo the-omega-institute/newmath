@@ -210,6 +210,42 @@ instance stableNegationBoundaryChapterTasteGate :
     intro x y hxy heq
     exact hxy (stableNegationBoundaryToEventFlow_injective heq)
 
+private def stableNegationBoundaryFields : StableNegationBoundaryUp -> List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | StableNegationBoundaryUp.mk proposition refutation decision classifier ledger transport
+      route provenance cert =>
+      [proposition, refutation, decision, classifier, ledger, transport, route, provenance, cert]
+
+private theorem stableNegationBoundary_field_faithful :
+    forall x y : StableNegationBoundaryUp,
+      stableNegationBoundaryFields x = stableNegationBoundaryFields y -> x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk proposition₁ refutation₁ decision₁ classifier₁ ledger₁ transport₁ route₁ provenance₁
+      cert₁ =>
+      cases y with
+      | mk proposition₂ refutation₂ decision₂ classifier₂ ledger₂ transport₂ route₂ provenance₂
+          cert₂ =>
+          cases hfields
+          rfl
+
+instance stableNegationBoundaryFieldFaithful : FieldFaithful StableNegationBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  fields := stableNegationBoundaryFields
+  field_faithful := stableNegationBoundary_field_faithful
+
+instance stableNegationBoundaryNontrivial : Nontrivial StableNegationBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨StableNegationBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      StableNegationBoundaryUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem StableNegationBoundaryTasteGate_single_carrier_alignment :
     (forall h : BHist,
       stableNegationBoundaryDecodeBHist
