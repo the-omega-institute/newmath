@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.DyadicTailBoundUp.TasteGate
+namespace BEDC.Derived.DyadicTailBoundUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -13,20 +13,20 @@ inductive DyadicTailBoundUp : Type where
   | mk (p mu epsilon L R E H C P N : BHist) : DyadicTailBoundUp
   deriving DecidableEq
 
-def dyadicTailBoundEncodeBHist : BHist → RawEvent
+def dyadicTailBoundEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: dyadicTailBoundEncodeBHist h
   | BHist.e1 h => BMark.b1 :: dyadicTailBoundEncodeBHist h
 
-def dyadicTailBoundDecodeBHist : RawEvent → BHist
+def dyadicTailBoundDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (dyadicTailBoundDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (dyadicTailBoundDecodeBHist tail)
 
-private theorem dyadicTailBoundDecode_encode_bhist :
-    ∀ h : BHist, dyadicTailBoundDecodeBHist (dyadicTailBoundEncodeBHist h) = h := by
+private theorem DyadicTailBoundTasteGate_single_carrier_alignment_decode :
+    forall h : BHist, dyadicTailBoundDecodeBHist (dyadicTailBoundEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -34,7 +34,7 @@ private theorem dyadicTailBoundDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def dyadicTailBoundToEventFlow : DyadicTailBoundUp → EventFlow
+def dyadicTailBoundToEventFlow : DyadicTailBoundUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | DyadicTailBoundUp.mk p mu epsilon L R E H C P N =>
       [[BMark.b0],
@@ -61,27 +61,30 @@ def dyadicTailBoundToEventFlow : DyadicTailBoundUp → EventFlow
           BMark.b1, BMark.b1, BMark.b0],
         dyadicTailBoundEncodeBHist N]
 
-def dyadicTailBoundFromEventFlow : EventFlow → Option DyadicTailBoundUp
+private def dyadicTailBoundEventAtDefault : Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | _tagP :: p :: _tagMu :: mu :: _tagEpsilon :: epsilon :: _tagL :: L ::
-      _tagR :: R :: _tagE :: E :: _tagH :: H :: _tagC :: C :: _tagPkg :: P ::
-      _tagN :: N :: [] =>
-      some
-        (DyadicTailBoundUp.mk
-          (dyadicTailBoundDecodeBHist p)
-          (dyadicTailBoundDecodeBHist mu)
-          (dyadicTailBoundDecodeBHist epsilon)
-          (dyadicTailBoundDecodeBHist L)
-          (dyadicTailBoundDecodeBHist R)
-          (dyadicTailBoundDecodeBHist E)
-          (dyadicTailBoundDecodeBHist H)
-          (dyadicTailBoundDecodeBHist C)
-          (dyadicTailBoundDecodeBHist P)
-          (dyadicTailBoundDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => dyadicTailBoundEventAtDefault index rest
 
-private theorem dyadicTailBound_round_trip :
-    ∀ x : DyadicTailBoundUp,
+def dyadicTailBoundFromEventFlow (ef : EventFlow) : Option DyadicTailBoundUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (DyadicTailBoundUp.mk
+      (dyadicTailBoundDecodeBHist (dyadicTailBoundEventAtDefault 1 ef))
+      (dyadicTailBoundDecodeBHist (dyadicTailBoundEventAtDefault 3 ef))
+      (dyadicTailBoundDecodeBHist (dyadicTailBoundEventAtDefault 5 ef))
+      (dyadicTailBoundDecodeBHist (dyadicTailBoundEventAtDefault 7 ef))
+      (dyadicTailBoundDecodeBHist (dyadicTailBoundEventAtDefault 9 ef))
+      (dyadicTailBoundDecodeBHist (dyadicTailBoundEventAtDefault 11 ef))
+      (dyadicTailBoundDecodeBHist (dyadicTailBoundEventAtDefault 13 ef))
+      (dyadicTailBoundDecodeBHist (dyadicTailBoundEventAtDefault 15 ef))
+      (dyadicTailBoundDecodeBHist (dyadicTailBoundEventAtDefault 17 ef))
+      (dyadicTailBoundDecodeBHist (dyadicTailBoundEventAtDefault 19 ef)))
+
+private theorem DyadicTailBoundTasteGate_single_carrier_alignment_round_trip :
+    forall x : DyadicTailBoundUp,
       dyadicTailBoundFromEventFlow (dyadicTailBoundToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
@@ -101,14 +104,20 @@ private theorem dyadicTailBound_round_trip :
             (dyadicTailBoundDecodeBHist (dyadicTailBoundEncodeBHist P))
             (dyadicTailBoundDecodeBHist (dyadicTailBoundEncodeBHist N))) =
           some (DyadicTailBoundUp.mk p mu epsilon L R E H C P N)
-      rw [dyadicTailBoundDecode_encode_bhist p, dyadicTailBoundDecode_encode_bhist mu,
-        dyadicTailBoundDecode_encode_bhist epsilon, dyadicTailBoundDecode_encode_bhist L,
-        dyadicTailBoundDecode_encode_bhist R, dyadicTailBoundDecode_encode_bhist E,
-        dyadicTailBoundDecode_encode_bhist H, dyadicTailBoundDecode_encode_bhist C,
-        dyadicTailBoundDecode_encode_bhist P, dyadicTailBoundDecode_encode_bhist N]
+      rw [DyadicTailBoundTasteGate_single_carrier_alignment_decode p,
+        DyadicTailBoundTasteGate_single_carrier_alignment_decode mu,
+        DyadicTailBoundTasteGate_single_carrier_alignment_decode epsilon,
+        DyadicTailBoundTasteGate_single_carrier_alignment_decode L,
+        DyadicTailBoundTasteGate_single_carrier_alignment_decode R,
+        DyadicTailBoundTasteGate_single_carrier_alignment_decode E,
+        DyadicTailBoundTasteGate_single_carrier_alignment_decode H,
+        DyadicTailBoundTasteGate_single_carrier_alignment_decode C,
+        DyadicTailBoundTasteGate_single_carrier_alignment_decode P,
+        DyadicTailBoundTasteGate_single_carrier_alignment_decode N]
 
-private theorem dyadicTailBoundToEventFlow_injective {x y : DyadicTailBoundUp} :
-    dyadicTailBoundToEventFlow x = dyadicTailBoundToEventFlow y → x = y := by
+private theorem DyadicTailBoundTasteGate_single_carrier_alignment_toEventFlow_injective
+    {x y : DyadicTailBoundUp} :
+    dyadicTailBoundToEventFlow x = dyadicTailBoundToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -116,15 +125,16 @@ private theorem dyadicTailBoundToEventFlow_injective {x y : DyadicTailBoundUp} :
         dyadicTailBoundFromEventFlow (dyadicTailBoundToEventFlow y) :=
     congrArg dyadicTailBoundFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (dyadicTailBound_round_trip x).symm
-      (Eq.trans hread (dyadicTailBound_round_trip y)))
+    (Eq.trans
+      (DyadicTailBoundTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (DyadicTailBoundTasteGate_single_carrier_alignment_round_trip y)))
 
-private def dyadicTailBoundFields : DyadicTailBoundUp → List BHist
+private def dyadicTailBoundFields : DyadicTailBoundUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | DyadicTailBoundUp.mk p mu epsilon L R E H C P N => [p, mu, epsilon, L, R, E, H, C, P, N]
 
-private theorem dyadicTailBound_fields_faithful :
-    ∀ x y : DyadicTailBoundUp, dyadicTailBoundFields x = dyadicTailBoundFields y → x = y := by
+private theorem DyadicTailBoundTasteGate_single_carrier_alignment_fields :
+    forall x y : DyadicTailBoundUp, dyadicTailBoundFields x = dyadicTailBoundFields y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
@@ -144,15 +154,15 @@ instance dyadicTailBoundChapterTasteGate : ChapterTasteGate DyadicTailBoundUp wh
   round_trip := by
     intro x
     change dyadicTailBoundFromEventFlow (dyadicTailBoundToEventFlow x) = some x
-    exact dyadicTailBound_round_trip x
+    exact DyadicTailBoundTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (dyadicTailBoundToEventFlow_injective heq)
+    exact hxy (DyadicTailBoundTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance dyadicTailBoundFieldFaithful : FieldFaithful DyadicTailBoundUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := dyadicTailBoundFields
-  field_faithful := dyadicTailBound_fields_faithful
+  field_faithful := DyadicTailBoundTasteGate_single_carrier_alignment_fields
 
 instance dyadicTailBoundNontrivial : Nontrivial DyadicTailBoundUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -165,53 +175,28 @@ instance dyadicTailBoundNontrivial : Nontrivial DyadicTailBoundUp where
         intro h
         cases h⟩
 
-def DyadicTailBoundTasteGate_single_carrier_alignment :
+def taste_gate : ChapterTasteGate DyadicTailBoundUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  dyadicTailBoundChapterTasteGate
+
+theorem DyadicTailBoundTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate DyadicTailBoundUp) ∧
       Nonempty (FieldFaithful DyadicTailBoundUp) ∧
-      Nonempty (Nontrivial DyadicTailBoundUp) ∧
-      (∀ h : BHist, dyadicTailBoundDecodeBHist (dyadicTailBoundEncodeBHist h) = h) ∧
-      (∀ x : DyadicTailBoundUp,
-        dyadicTailBoundFromEventFlow (dyadicTailBoundToEventFlow x) = some x) ∧
-      (∀ x y : DyadicTailBoundUp,
-        dyadicTailBoundToEventFlow x = dyadicTailBoundToEventFlow y → x = y) ∧
-      dyadicTailBoundEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
-  constructor
-  · exact
-      ⟨{
-        round_trip := by
-          intro x
-          change dyadicTailBoundFromEventFlow (dyadicTailBoundToEventFlow x) = some x
-          exact dyadicTailBound_round_trip x
-        layer_separation := by
-          intro x y hxy heq
-          exact hxy (dyadicTailBoundToEventFlow_injective heq)
-      }⟩
-  constructor
-  · exact
-      ⟨{
-        fields := dyadicTailBoundFields
-        field_faithful := dyadicTailBound_fields_faithful
-      }⟩
-  constructor
-  · exact
-      ⟨{
-        witness_pair :=
-          ⟨DyadicTailBoundUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-            DyadicTailBoundUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-            by
-              intro h
-              cases h⟩
-      }⟩
-  constructor
-  · exact dyadicTailBoundDecode_encode_bhist
-  constructor
-  · exact dyadicTailBound_round_trip
-  constructor
-  · intro x y heq
-    exact dyadicTailBoundToEventFlow_injective heq
-  · rfl
+        Nonempty (Nontrivial DyadicTailBoundUp) ∧
+          (forall h : BHist, dyadicTailBoundDecodeBHist (dyadicTailBoundEncodeBHist h) = h) ∧
+            (forall x : DyadicTailBoundUp,
+              dyadicTailBoundFromEventFlow (dyadicTailBoundToEventFlow x) = some x) ∧
+              (forall x y : DyadicTailBoundUp,
+                dyadicTailBoundToEventFlow x = dyadicTailBoundToEventFlow y -> x = y) ∧
+                dyadicTailBoundEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨⟨dyadicTailBoundChapterTasteGate⟩,
+      ⟨dyadicTailBoundFieldFaithful⟩,
+      ⟨dyadicTailBoundNontrivial⟩,
+      DyadicTailBoundTasteGate_single_carrier_alignment_decode,
+      DyadicTailBoundTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => DyadicTailBoundTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
-end BEDC.Derived.DyadicTailBoundUp.TasteGate
+end BEDC.Derived.DyadicTailBoundUp
