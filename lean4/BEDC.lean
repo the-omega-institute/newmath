@@ -1106,7 +1106,6 @@ import BEDC.Derived.CausalCommitmentUp.ObservedRegularityNonchoice
 import BEDC.Derived.CausalCommitmentUp.ObserverLocalityHandoff
 import BEDC.Derived.CausalCommitmentUp.ObserverRowFactorization
 import BEDC.Derived.CausalCommitmentUp.PublicForwardGapExport
-import BEDC.Derived.CausalContinuitySocketUp.RecordPredictionSeparation
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalInterventionUp
 import BEDC.Derived.CellularAutomatonUp.TasteGate
@@ -2536,6 +2535,7 @@ import BEDC.Derived.FiniteTailFilterUp.TerminalLeanTargetSurface
 import BEDC.Derived.FiniteTraceEvaluatorUp.BoundedTraceCoverage
 import BEDC.Derived.FiniteTraceEvaluatorUp.NameCertObligations
 import BEDC.Derived.FiniteTraceEvaluatorUp.TasteGate
+import BEDC.Derived.FiniteTraceGapSocketUp.ReplayRoutePackage
 import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteWindowEnvelopeUp
@@ -2700,6 +2700,7 @@ import BEDC.Derived.GroupUp.SuffixProductUnitSplit
 import BEDC.Derived.GroupUp.TerminalProduct
 import BEDC.Derived.GroupUp.UnaryAppendInverseObstruction
 import BEDC.Derived.HaltedTmRoundTripUp.TasteGate
+import BEDC.Derived.HaltingDiagonalUp.FixedPointPackageRows
 import BEDC.Derived.HaltingDiagonalUp.TasteGate
 import BEDC.Derived.HaltingDistinctionLimitUp
 import BEDC.Derived.HaltingDistinctionLimitUp.TasteGate
@@ -3976,7 +3977,6 @@ import BEDC.Derived.RealityConstrainedApproximationTowerUp.TasteGate
 import BEDC.Derived.RealityConstrainedExplanationUp.NameCert
 import BEDC.Derived.RealityConstrainedExplanationUp.TasteGate
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.BridgeBoundary
-import BEDC.Derived.RealityConstrainedFailureSurfaceUp.ContinuationScope
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.ContinuationScopeCarrier
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.TasteGate
 import BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
@@ -4067,6 +4067,7 @@ import BEDC.Derived.ReflectiveStabilityUp.TasteGate
 import BEDC.Derived.RefusalRegistryUp.TasteGate
 import BEDC.Derived.RefutationBoundaryUp
 import BEDC.Derived.RefutationWitnessUp
+import BEDC.Derived.RefuterTraceUp.PermittedRefutationRoute
 import BEDC.Derived.RefuterTraceUp.TasteGate
 import BEDC.Derived.RegSeqObservationBudgetUp.TasteGate
 import BEDC.Derived.RegSeqRatUp

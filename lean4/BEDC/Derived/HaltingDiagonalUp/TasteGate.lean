@@ -205,6 +205,53 @@ instance haltingDiagonalChapterTasteGate : ChapterTasteGate HaltingDiagonalUp wh
     intro x y hxy heq
     exact hxy (haltingDiagonalToEventFlow_injective heq)
 
+instance haltingDiagonalFieldFaithful : FieldFaithful HaltingDiagonalUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | HaltingDiagonalUp.mk program input selfReference fixedContinuation diagonalPolicy transport
+        routes provenance nameCert =>
+        [program, input, selfReference, fixedContinuation, diagonalPolicy, transport, routes,
+          provenance, nameCert]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk program₁ input₁ selfReference₁ fixedContinuation₁ diagonalPolicy₁ transport₁ routes₁
+        provenance₁ nameCert₁ =>
+        cases y with
+        | mk program₂ input₂ selfReference₂ fixedContinuation₂ diagonalPolicy₂ transport₂ routes₂
+            provenance₂ nameCert₂ =>
+            injection h with hProgram t1
+            injection t1 with hInput t2
+            injection t2 with hSelfReference t3
+            injection t3 with hFixedContinuation t4
+            injection t4 with hDiagonalPolicy t5
+            injection t5 with hTransport t6
+            injection t6 with hRoutes t7
+            injection t7 with hProvenance t8
+            injection t8 with hNameCert _
+            subst hProgram
+            subst hInput
+            subst hSelfReference
+            subst hFixedContinuation
+            subst hDiagonalPolicy
+            subst hTransport
+            subst hRoutes
+            subst hProvenance
+            subst hNameCert
+            rfl
+
+instance haltingDiagonalNontrivial : Nontrivial HaltingDiagonalUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨HaltingDiagonalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      HaltingDiagonalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem HaltingDiagonalTasteGate_single_carrier_alignment :
     (∀ h : BHist, haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist h) = h) ∧
       (∀ x : HaltingDiagonalUp,
