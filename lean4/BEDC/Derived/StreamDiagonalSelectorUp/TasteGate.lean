@@ -51,20 +51,46 @@ def streamDiagonalSelectorToEventFlow : StreamDiagonalSelectorUp → EventFlow
 
 def streamDiagonalSelectorFromEventFlow : EventFlow → Option StreamDiagonalSelectorUp
   -- BEDC touchpoint anchor: BHist BMark
-  | schedule :: selector :: window :: readback :: dyadicLedger :: diagonalPacket :: routes ::
-      provenance :: nameCert :: [] =>
-      some
-        (StreamDiagonalSelectorUp.mk
-          (streamDiagonalSelectorDecodeBHist schedule)
-          (streamDiagonalSelectorDecodeBHist selector)
-          (streamDiagonalSelectorDecodeBHist window)
-          (streamDiagonalSelectorDecodeBHist readback)
-          (streamDiagonalSelectorDecodeBHist dyadicLedger)
-          (streamDiagonalSelectorDecodeBHist diagonalPacket)
-          (streamDiagonalSelectorDecodeBHist routes)
-          (streamDiagonalSelectorDecodeBHist provenance)
-          (streamDiagonalSelectorDecodeBHist nameCert))
-  | _ => none
+  | schedule :: restSchedule =>
+      match restSchedule with
+      | selector :: restSelector =>
+          match restSelector with
+          | window :: restWindow =>
+              match restWindow with
+              | readback :: restReadback =>
+                  match restReadback with
+                  | dyadicLedger :: restDyadicLedger =>
+                      match restDyadicLedger with
+                      | diagonalPacket :: restDiagonalPacket =>
+                          match restDiagonalPacket with
+                          | routes :: restRoutes =>
+                              match restRoutes with
+                              | provenance :: restProvenance =>
+                                  match restProvenance with
+                                  | nameCert :: restNameCert =>
+                                      match restNameCert with
+                                      | [] =>
+                                          some
+                                            (StreamDiagonalSelectorUp.mk
+                                              (streamDiagonalSelectorDecodeBHist schedule)
+                                              (streamDiagonalSelectorDecodeBHist selector)
+                                              (streamDiagonalSelectorDecodeBHist window)
+                                              (streamDiagonalSelectorDecodeBHist readback)
+                                              (streamDiagonalSelectorDecodeBHist dyadicLedger)
+                                              (streamDiagonalSelectorDecodeBHist diagonalPacket)
+                                              (streamDiagonalSelectorDecodeBHist routes)
+                                              (streamDiagonalSelectorDecodeBHist provenance)
+                                              (streamDiagonalSelectorDecodeBHist nameCert))
+                                      | _ :: _ => none
+                                  | [] => none
+                              | [] => none
+                          | [] => none
+                      | [] => none
+                  | [] => none
+              | [] => none
+          | [] => none
+      | [] => none
+  | [] => none
 
 private theorem streamDiagonalSelector_mk_congr
     {schedule schedule' selector selector' window window' readback readback'
