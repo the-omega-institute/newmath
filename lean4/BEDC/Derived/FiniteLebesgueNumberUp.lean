@@ -576,7 +576,7 @@ theorem FiniteLebesgueNumberCompactContinuousTriad [AskSetup] [PackageSetup]
     ⟨compactUnary, continuousUnary, uniformUnary, radiusMeshCompact,
       compactRouteContinuous, continuousNameUniform, provenancePkg, uniformPkg⟩
 
-theorem FiniteLebesgueNumberRadiusCarrierSource [AskSetup] [PackageSetup]
+theorem FiniteLebesgueNumberDyadicRadiusWindowAdmissionCarrierSource [AskSetup] [PackageSetup]
     -- BEDC touchpoint anchor: BHist
     {cover window radius mesh transport route provenance nameRow radiusRead windowRead
       rootRead : BHist}
