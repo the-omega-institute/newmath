@@ -174,4 +174,39 @@ theorem FiniteWindowEnvelopeBHistCarrier_endpoint_source_determinacy [AskSetup] 
     ⟨windowUnary, ledgerUnary, sealRowUnary, endpointUnary, endpointReadUnary,
       endpointRouteUnary, sealEq, routeRow, readStep, provenanceStep, pkgRow⟩
 
+theorem FiniteWindowEnvelopeBHistCarrier_common_refinement_exactness [AskSetup] [PackageSetup]
+    {source anchor window ledger streamClass sealRow endpoint provenance nameCert route source'
+      anchor' window' ledger' endpoint' provenance' nameCert' endpointRead endpointRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWindowEnvelopeBHistCarrier source anchor window ledger streamClass sealRow endpoint
+        provenance nameCert route bundle pkg ->
+      hsame source source' ->
+        hsame anchor anchor' ->
+          hsame window window' ->
+            hsame ledger ledger' ->
+              hsame endpoint endpoint' ->
+                hsame provenance provenance' ->
+                  hsame nameCert nameCert' ->
+                    Cont route endpoint endpointRead ->
+                      Cont endpointRead provenance endpointRoute ->
+                        exists streamClass' sealOut route',
+                          FiniteWindowEnvelopeBHistCarrier source' anchor' window' ledger'
+                              streamClass' sealOut endpoint' provenance' nameCert' route'
+                              bundle pkg ∧
+                            hsame sealOut (append ledger' streamClass') ∧
+                              UnaryHistory endpointRead ∧ UnaryHistory endpointRoute := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame
+  intro carrier sameSource sameAnchor sameWindow sameLedger sameEndpoint sameProvenance
+    sameNameCert readStep provenanceStep
+  obtain ⟨streamClass', sealOut, route', transported, sealEq, _routeRow⟩ :=
+    FiniteWindowEnvelopeBHistCarrier_regseqrat_seal_handoff (bundle := bundle) (pkg := pkg)
+      carrier sameSource sameAnchor sameWindow sameLedger sameEndpoint sameProvenance
+      sameNameCert
+  have exactRows :=
+    FiniteWindowEnvelopeBHistCarrier_realup_window_exactness (bundle := bundle) (pkg := pkg)
+      carrier readStep provenanceStep
+  exact
+    ⟨streamClass', sealOut, route', transported, sealEq, exactRows.left,
+      exactRows.right.left⟩
+
 end BEDC.Derived.FiniteWindowEnvelopeUp
