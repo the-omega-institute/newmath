@@ -1614,6 +1614,7 @@ import BEDC.Derived.ContinuationMonadUp.UnitTailEndpointPackage
 import BEDC.Derived.ContinuationTraceNormalFormUp
 import BEDC.Derived.ContinuationTraceUp
 import BEDC.Derived.ContinuedFractionUp
+import BEDC.Derived.ContinuedFractionUp.TasteGate
 import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.ContinuousMapUp.AssociativeDepth
 import BEDC.Derived.ContinuousMapUp.CategoryMetricDecomposition
@@ -1954,6 +1955,7 @@ import BEDC.Derived.DiagonalLimitObserverUp.TasteGate
 import BEDC.Derived.DiagonalLimitStabilityUp.TasteGate
 import BEDC.Derived.DiagonalLimitUp
 import BEDC.Derived.DiagonalModulusUp
+import BEDC.Derived.DiagonalModulusUp.TasteGate
 import BEDC.Derived.DiagonalRegularitySealUp.Nonescape
 import BEDC.Derived.DiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.DiagonalRegularitySealUp.WindowFactorization
@@ -3508,6 +3510,7 @@ import BEDC.Derived.NormUp
 import BEDC.Derived.NormalFormConsistencySealUp
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.NullSequenceUp
+import BEDC.Derived.NullSequenceUp.TasteGate
 import BEDC.Derived.NumFieldUp
 import BEDC.Derived.NumFieldUp.DegreeOneBasis
 import BEDC.Derived.NumFieldUp.DegreeOneBasisEndpoint
@@ -5023,6 +5026,7 @@ import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformModulusUp.CompactContinuousHandoff
 import BEDC.Derived.UniformModulusUp.CompactMetricThresholdFactorization
 import BEDC.Derived.UniformModulusUp.ContinuousMapModulusLock
+import BEDC.Derived.UniformModulusUp.FiniteNetCenterCoverage
 import BEDC.Derived.UniformModulusUp.PointwiseMetricConsumerUnblock
 import BEDC.Derived.UniformModulusUp.PrecisionConsumerNonescape
 import BEDC.Derived.UniformModulusUp.RootClassifierRow
