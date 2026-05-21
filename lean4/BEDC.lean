@@ -514,6 +514,7 @@ import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.BHistOctaSequenceNameCertUp
 import BEDC.Derived.BHistOctaTupleNameCertUp
 import BEDC.Derived.BaireSpaceUp
+import BEDC.Derived.BaireSpaceUp.TasteGate
 import BEDC.Derived.BanachFixedPointUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
@@ -1153,6 +1154,7 @@ import BEDC.Derived.CausalCommitmentUp.TasteGate
 import BEDC.Derived.CausalContinuitySocketUp.RecordPredictionSeparation
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalInterventionUp
+import BEDC.Derived.CausalInterventionUp.TasteGate
 import BEDC.Derived.CellularAutomatonUp.TasteGate
 import BEDC.Derived.CellularBoundaryConditionUp.CarrierSemanticNameCert
 import BEDC.Derived.CellularBoundaryConditionUp.NonescapeBoundary
@@ -2236,6 +2238,7 @@ import BEDC.Derived.DigestProvenancePacketUp.NoHiddenSourceConsumption
 import BEDC.Derived.DigestProvenancePacketUp.SourceFiberLedgerOrder
 import BEDC.Derived.DigestProvenancePacketUp.TasteGate
 import BEDC.Derived.DimLiftBoundaryUp
+import BEDC.Derived.DiniTheoremUp.TasteGate
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.DirichletUnitUp
@@ -2329,6 +2332,7 @@ import BEDC.Derived.DyadicSplineUp
 import BEDC.Derived.DyadicSplineUp.TasteGate
 import BEDC.Derived.DyadicStepFunctionUp
 import BEDC.Derived.DyadicSubdivisionUp
+import BEDC.Derived.DyadicSubdivisionUp.TasteGate
 import BEDC.Derived.DyadicTailBoundUp
 import BEDC.Derived.DyadicTailBoundUp.ConsumerRoutes
 import BEDC.Derived.DyadicTailBoundUp.ZeroPacket
@@ -3953,6 +3957,7 @@ import BEDC.Derived.RatUp.RepresentativeStabilityPackage
 import BEDC.Derived.RatUp.StdBridge
 import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RationalBallUp
+import BEDC.Derived.RationalBallUp.TasteGate
 import BEDC.Derived.RationalDensityRealUp.TasteGate
 import BEDC.Derived.RationalIntervalUp
 import BEDC.Derived.RationalIntervalUp.BisectionRefinementNesting
@@ -4276,6 +4281,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp.RootWindowLedgerExactness
 import BEDC.Derived.RegularCauchyDiagonalUp.SelectorWindowFunctoriality
 import BEDC.Derived.RegularCauchyDiagonalUp.StandardBridgeSource
 import BEDC.Derived.RegularCauchyDiagonalUp.StationaryFamilyExhaustion
+import BEDC.Derived.RegularCauchyDiagonalUp.TasteGate
 import BEDC.Derived.RegularCauchyDifferenceUp
 import BEDC.Derived.RegularCauchyEquivalenceUp.TasteGate
 import BEDC.Derived.RegularCauchyFamilyUp

@@ -1,8 +1,8 @@
-import BEDC.FKernel.Hist
+import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.TasteGate
+namespace BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -14,22 +14,33 @@ inductive CompactUniformEpsilonTriangleHandoffUp : Type where
       CompactUniformEpsilonTriangleHandoffUp
   deriving DecidableEq
 
-def compactUniformEpsilonTriangleHandoffEncodeBHist : BHist -> RawEvent
+def CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist :
+    BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: compactUniformEpsilonTriangleHandoffEncodeBHist h
-  | BHist.e1 h => BMark.b1 :: compactUniformEpsilonTriangleHandoffEncodeBHist h
+  | BHist.e0 h =>
+      BMark.b0 ::
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e1 h =>
+      BMark.b1 ::
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist h
 
-def compactUniformEpsilonTriangleHandoffDecodeBHist : RawEvent -> BHist
+def CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist :
+    RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (compactUniformEpsilonTriangleHandoffDecodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (compactUniformEpsilonTriangleHandoffDecodeBHist tail)
+  | BMark.b0 :: tail =>
+      BHist.e0
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b1 :: tail =>
+      BHist.e1
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist tail)
 
-private theorem CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode :
-    forall h : BHist,
-      compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEncodeBHist h) = h := by
+private theorem CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode :
+    ∀ h : BHist,
+      CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist h) =
+          h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -37,149 +48,176 @@ private theorem CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_ali
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def compactUniformEpsilonTriangleHandoffFields :
-    CompactUniformEpsilonTriangleHandoffUp -> List BHist
+def CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fields :
+    CompactUniformEpsilonTriangleHandoffUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | CompactUniformEpsilonTriangleHandoffUp.mk X Y center x xp eps mu rho dx dxp dy dyp H C P N =>
       [X, Y, center, x, xp, eps, mu, rho, dx, dxp, dy, dyp, H, C, P, N]
 
-def compactUniformEpsilonTriangleHandoffToEventFlow :
-    CompactUniformEpsilonTriangleHandoffUp -> EventFlow
+def CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_toEventFlow :
+    CompactUniformEpsilonTriangleHandoffUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (compactUniformEpsilonTriangleHandoffFields x).map
-        compactUniformEpsilonTriangleHandoffEncodeBHist
+  | token =>
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fields token).map
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist
 
-private def compactUniformEpsilonTriangleHandoffEventAtDefault : Nat -> EventFlow -> RawEvent
+private def CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => compactUniformEpsilonTriangleHandoffEventAtDefault index rest
+  | Nat.succ index, _event :: rest =>
+      CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+        index rest
 
-def compactUniformEpsilonTriangleHandoffFromEventFlow
+def CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fromEventFlow
     (ef : EventFlow) : Option CompactUniformEpsilonTriangleHandoffUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (CompactUniformEpsilonTriangleHandoffUp.mk
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 0 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 1 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 2 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 3 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 4 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 5 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 6 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 7 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 8 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 9 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 10 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 11 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 12 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 13 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 14 ef))
-      (compactUniformEpsilonTriangleHandoffDecodeBHist
-        (compactUniformEpsilonTriangleHandoffEventAtDefault 15 ef)))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          0 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          1 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          2 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          3 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          4 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          5 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          6 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          7 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          8 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          9 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          10 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          11 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          12 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          13 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          14 ef))
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_eventAtDefault
+          15 ef)))
 
 private theorem CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_round_trip :
-    forall x : CompactUniformEpsilonTriangleHandoffUp,
-      compactUniformEpsilonTriangleHandoffFromEventFlow
-        (compactUniformEpsilonTriangleHandoffToEventFlow x) = some x := by
+    ∀ token : CompactUniformEpsilonTriangleHandoffUp,
+      CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fromEventFlow
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_toEventFlow token) =
+          some token := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro packet
-  cases packet with
+  intro token
+  cases token with
   | mk X Y center x xp eps mu rho dx dxp dy dyp H C P N =>
       change
         some
           (CompactUniformEpsilonTriangleHandoffUp.mk
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist X))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist Y))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist center))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist x))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist xp))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist eps))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist mu))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist rho))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist dx))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist dxp))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist dy))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist dyp))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist H))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist C))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist P))
-            (compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist N))) =
-          some
-            (CompactUniformEpsilonTriangleHandoffUp.mk
-              X Y center x xp eps mu rho dx dxp dy dyp H C P N)
-      rw [CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode X,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode Y,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode center,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode x,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode xp,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode eps,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode mu,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode rho,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode dx,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode dxp,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode dy,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode dyp,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode H,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode C,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode P,
-        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode N]
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist X))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist Y))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist
+                center))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist x))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist xp))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist
+                eps))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist mu))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist
+                rho))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist dx))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist
+                dxp))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist dy))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist
+                dyp))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist H))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist C))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist P))
+            (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decodeBHist
+              (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist N))) =
+          some (CompactUniformEpsilonTriangleHandoffUp.mk X Y center x xp eps mu rho dx dxp
+            dy dyp H C P N)
+      rw [CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode X,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode Y,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode center,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode x,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode xp,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode eps,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode mu,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode rho,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode dx,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode dxp,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode dy,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode dyp,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode H,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode C,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode P,
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem CompactUniformEpsilonTriangleHandoffToEventFlow_injective
+private theorem CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CompactUniformEpsilonTriangleHandoffUp} :
-    compactUniformEpsilonTriangleHandoffToEventFlow x =
-      compactUniformEpsilonTriangleHandoffToEventFlow y -> x = y := by
+    CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_toEventFlow x =
+      CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_toEventFlow y →
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      compactUniformEpsilonTriangleHandoffFromEventFlow
-          (compactUniformEpsilonTriangleHandoffToEventFlow x) =
-        compactUniformEpsilonTriangleHandoffFromEventFlow
-          (compactUniformEpsilonTriangleHandoffToEventFlow y) :=
-    congrArg compactUniformEpsilonTriangleHandoffFromEventFlow heq
+      CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fromEventFlow
+          (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_toEventFlow x) =
+        CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fromEventFlow
+          (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_toEventFlow y) :=
+    congrArg
+      CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fromEventFlow heq
   exact Option.some.inj
     (Eq.trans
       (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
         (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fields :
-    forall x y : CompactUniformEpsilonTriangleHandoffUp,
-      compactUniformEpsilonTriangleHandoffFields x =
-        compactUniformEpsilonTriangleHandoffFields y -> x = y := by
+private theorem CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_field_faithful :
+    ∀ x y : CompactUniformEpsilonTriangleHandoffUp,
+      CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fields x =
+          CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fields y →
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
@@ -192,72 +230,82 @@ private theorem CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_ali
 instance compactUniformEpsilonTriangleHandoffBHistCarrier :
     BHistCarrier CompactUniformEpsilonTriangleHandoffUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := compactUniformEpsilonTriangleHandoffToEventFlow
-  fromEventFlow := compactUniformEpsilonTriangleHandoffFromEventFlow
+  toEventFlow := CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_toEventFlow
+  fromEventFlow :=
+    CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fromEventFlow
 
 instance compactUniformEpsilonTriangleHandoffChapterTasteGate :
     ChapterTasteGate CompactUniformEpsilonTriangleHandoffUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
-    intro x
+    intro token
     change
-      compactUniformEpsilonTriangleHandoffFromEventFlow
-        (compactUniformEpsilonTriangleHandoffToEventFlow x) = some x
-    exact CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_round_trip x
+      CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fromEventFlow
+        (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_toEventFlow token) =
+          some token
+    exact CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_round_trip token
   layer_separation := by
     intro x y hxy heq
-    exact hxy (CompactUniformEpsilonTriangleHandoffToEventFlow_injective heq)
-
-def taste_gate : ChapterTasteGate CompactUniformEpsilonTriangleHandoffUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  compactUniformEpsilonTriangleHandoffChapterTasteGate
+    exact hxy
+      (CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_toEventFlow_injective
+        heq)
 
 instance compactUniformEpsilonTriangleHandoffFieldFaithful :
     FieldFaithful CompactUniformEpsilonTriangleHandoffUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := compactUniformEpsilonTriangleHandoffFields
+  fields := CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fields
   field_faithful :=
-    CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_fields
+    CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_field_faithful
 
 instance compactUniformEpsilonTriangleHandoffNontrivial :
     Nontrivial CompactUniformEpsilonTriangleHandoffUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨CompactUniformEpsilonTriangleHandoffUp.mk
+    ⟨CompactUniformEpsilonTriangleHandoffUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      CompactUniformEpsilonTriangleHandoffUp.mk (BHist.e0 BHist.Empty) BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      CompactUniformEpsilonTriangleHandoffUp.mk
-        (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
+
+def taste_gate : ChapterTasteGate CompactUniformEpsilonTriangleHandoffUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  compactUniformEpsilonTriangleHandoffChapterTasteGate
 
 theorem CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate CompactUniformEpsilonTriangleHandoffUp) ∧
       Nonempty (FieldFaithful CompactUniformEpsilonTriangleHandoffUp) ∧
         Nonempty (Nontrivial CompactUniformEpsilonTriangleHandoffUp) ∧
-          (∀ h : BHist,
-            compactUniformEpsilonTriangleHandoffDecodeBHist
-              (compactUniformEpsilonTriangleHandoffEncodeBHist h) = h) ∧
-            (∀ x : CompactUniformEpsilonTriangleHandoffUp,
-              compactUniformEpsilonTriangleHandoffFromEventFlow
-                (compactUniformEpsilonTriangleHandoffToEventFlow x) = some x) ∧
-              (∀ x y : CompactUniformEpsilonTriangleHandoffUp,
-                compactUniformEpsilonTriangleHandoffToEventFlow x =
-                  compactUniformEpsilonTriangleHandoffToEventFlow y -> x = y) ∧
-                compactUniformEpsilonTriangleHandoffEncodeBHist BHist.Empty =
-                  ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate Nontrivial
+          CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist
+              BHist.Empty = [] ∧
+            CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist
+              (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
     ⟨⟨compactUniformEpsilonTriangleHandoffChapterTasteGate⟩,
       ⟨compactUniformEpsilonTriangleHandoffFieldFaithful⟩,
-      ⟨compactUniformEpsilonTriangleHandoffNontrivial⟩,
-      CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_decode,
-      CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq => CompactUniformEpsilonTriangleHandoffToEventFlow_injective heq),
-      rfl⟩
+      ⟨compactUniformEpsilonTriangleHandoffNontrivial⟩, rfl, rfl⟩
+
+end BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp
+
+namespace BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.TasteGate
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.Meta.TasteGate
+open BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp
+
+theorem CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate CompactUniformEpsilonTriangleHandoffUp) ∧
+      Nonempty (FieldFaithful CompactUniformEpsilonTriangleHandoffUp) ∧
+        Nonempty (Nontrivial CompactUniformEpsilonTriangleHandoffUp) ∧
+          CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist
+              BHist.Empty = [] ∧
+            CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist
+              (BHist.e0 BHist.Empty) = [BMark.b0] :=
+  BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment
 
 end BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.TasteGate
