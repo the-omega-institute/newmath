@@ -1,11 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyTailCertificateUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -138,7 +150,7 @@ private theorem regularCauchyTailCertificateToEventFlow_injective
     (Eq.trans (regularCauchyTailCertificate_round_trip x).symm
       (Eq.trans hread (regularCauchyTailCertificate_round_trip y)))
 
-private def regularCauchyTailCertificateFields :
+def regularCauchyTailCertificateFields :
     RegularCauchyTailCertificateUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyTailCertificateUp.mk source window readback dyadic realSeal transports routes
@@ -198,5 +210,72 @@ instance regularCauchyTailCertificateNontrivial :
 def taste_gate : ChapterTasteGate RegularCauchyTailCertificateUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchyTailCertificateChapterTasteGate
+
+theorem RegularCauchyTailCertificateNameCertObligations [AskSetup] [PackageSetup]
+    {source window readback dyadic sealRow transport replay provenance localName windowRead sealRead
+      namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory source ->
+      UnaryHistory window ->
+        UnaryHistory readback ->
+          UnaryHistory dyadic ->
+            UnaryHistory sealRow ->
+              UnaryHistory replay ->
+                UnaryHistory localName ->
+                  Cont source window windowRead ->
+                    Cont readback dyadic sealRead ->
+                      Cont replay localName namedRead ->
+                        PkgSig bundle namedRead pkg ->
+                          SemanticNameCert
+                              (fun row : BHist => hsame row namedRead /\ UnaryHistory row)
+                              (fun row : BHist =>
+                                hsame row windowRead \/ hsame row sealRead \/
+                                  hsame row namedRead)
+                              (fun row : BHist => PkgSig bundle namedRead pkg /\
+                                hsame row namedRead)
+                              hsame /\
+                            UnaryHistory windowRead /\ UnaryHistory sealRead /\
+                              UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame SemanticNameCert
+  intro sourceUnary windowUnary readbackUnary dyadicUnary _sealUnary replayUnary localNameUnary
+    sourceWindow readbackDyadic replayLocalName namedPkg
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed sourceUnary windowUnary sourceWindow
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary dyadicUnary readbackDyadic
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed replayUnary localNameUnary replayLocalName
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row namedRead /\ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row windowRead \/ hsame row sealRead \/ hsame row namedRead)
+        (fun row : BHist => PkgSig bundle namedRead pkg /\ hsame row namedRead)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨namedPkg, source.left⟩
+  }
+  exact ⟨cert, windowReadUnary, sealReadUnary, namedReadUnary⟩
 
 end BEDC.Derived.RegularCauchyTailCertificateUp
