@@ -209,4 +209,27 @@ theorem FiniteWindowEnvelopeBHistCarrier_common_refinement_exactness [AskSetup] 
     ⟨streamClass', sealOut, route', transported, sealEq, exactRows.left,
       exactRows.right.left⟩
 
+theorem FiniteWindowEnvelopeBHistCarrier_tail_projection [AskSetup] [PackageSetup]
+    {source anchor window ledger streamClass sealRow endpoint provenance nameCert route tailRead
+      tailRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWindowEnvelopeBHistCarrier source anchor window ledger streamClass sealRow endpoint
+        provenance nameCert route bundle pkg →
+      Cont window ledger tailRead →
+        Cont tailRead endpoint tailRoute →
+          UnaryHistory tailRead ∧ UnaryHistory tailRoute ∧ UnaryHistory window ∧
+            UnaryHistory ledger ∧ hsame sealRow (append ledger streamClass) ∧
+              Cont sealRow endpoint route ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame
+  intro carrier tailReadStep tailRouteStep
+  obtain ⟨_sourceUnary, _anchorUnary, windowUnary, ledgerUnary, _streamClassUnary,
+    _sealRowUnary, endpointUnary, _provenanceUnary, _nameCertUnary, _routeUnary, sealEq,
+    routeRow, pkgRow⟩ := carrier
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed windowUnary ledgerUnary tailReadStep
+  have tailRouteUnary : UnaryHistory tailRoute :=
+    unary_cont_closed tailReadUnary endpointUnary tailRouteStep
+  exact
+    ⟨tailReadUnary, tailRouteUnary, windowUnary, ledgerUnary, sealEq, routeRow, pkgRow⟩
+
 end BEDC.Derived.FiniteWindowEnvelopeUp
