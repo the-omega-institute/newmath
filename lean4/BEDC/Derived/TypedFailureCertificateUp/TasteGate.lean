@@ -298,4 +298,83 @@ theorem TypedFailureCertificateNameCertObligations {N C V S R D H P L localRead 
           exact hsame_trans source (hsame_symm sameLocal)
       }
 
+theorem TypedFailureCertificateAxisSeparation
+    {N C V S R D H P L branchRead : BHist} :
+    hsame branchRead D →
+      typedFailureCertificateFields (TypedFailureCertificateUp.mk N C V S R D H P L) =
+          [N, C, V, S, R, D, H, P, L] ∧
+        SemanticNameCert
+          (fun row : BHist => hsame row D)
+          (fun row : BHist => hsame row C ∨ hsame row V ∨ hsame row D)
+          (fun row : BHist => hsame row branchRead)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  intro branchReadDiagnostic
+  constructor
+  · rfl
+  · exact {
+      core := {
+        carrier_inhabited := ⟨D, hsame_refl D⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _row' sameRows sourceRow
+          exact hsame_trans (hsame_symm sameRows) sourceRow
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr sourceRow)
+      ledger_sound := by
+        intro _row sourceRow
+        exact hsame_trans sourceRow (hsame_symm branchReadDiagnostic)
+    }
+
+theorem TypedFailureCertificateExportBlocking
+    {N C V S R D H P L exportRead : BHist} :
+    hsame exportRead R →
+      hsame R D →
+      typedFailureCertificateFields (TypedFailureCertificateUp.mk N C V S R D H P L) =
+          [N, C, V, S, R, D, H, P, L] ∧
+        SemanticNameCert
+          (fun row : BHist => hsame row R)
+          (fun row : BHist => hsame row D ∧ hsame R R ∧ hsame row exportRead)
+          (fun row : BHist => hsame row exportRead)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  intro exportReadRefusal refusalDiagnostic
+  constructor
+  · rfl
+  · exact {
+      core := {
+        carrier_inhabited := ⟨R, hsame_refl R⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _row' sameRows sourceRow
+          exact hsame_trans (hsame_symm sameRows) sourceRow
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact
+          ⟨hsame_trans sourceRow refusalDiagnostic, hsame_refl R,
+            hsame_trans sourceRow (hsame_symm exportReadRefusal)⟩
+      ledger_sound := by
+        intro _row sourceRow
+        exact hsame_trans sourceRow (hsame_symm exportReadRefusal)
+    }
+
 end BEDC.Derived.TypedFailureCertificateUp
