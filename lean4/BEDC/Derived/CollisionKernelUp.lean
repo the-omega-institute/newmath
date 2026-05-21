@@ -140,4 +140,51 @@ theorem CollisionKernelCarrier_moment_readback_exhaustion [AskSetup] [PackageSet
     ⟨momentUnary, matrixUnary, shadowUnary, momentReadUnary, shadowReadUnary, momentRoute,
       momentReadRoute, shadowReadRoute, momentReadSame, provenancePkg, nameCertPkg⟩
 
+theorem CollisionKernelCarrier_classifier_transport_scope [AskSetup] [PackageSetup]
+    {window fold ledger matrix moment shadow transport route provenance nameCert window' fold'
+      ledger' matrix' moment' shadow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CollisionKernelCarrier window fold ledger matrix moment shadow transport route provenance
+        nameCert bundle pkg ->
+      hsame window' window ->
+        hsame fold' fold ->
+          hsame ledger' ledger ->
+            hsame matrix' matrix ->
+              hsame moment' moment ->
+                hsame shadow' shadow ->
+                  Cont window' fold' ledger' ->
+                    Cont ledger' matrix' shadow' ->
+                      Cont moment' matrix' shadow' ->
+                        UnaryHistory window' ∧ UnaryHistory fold' ∧ UnaryHistory ledger' ∧
+                          UnaryHistory matrix' ∧ UnaryHistory moment' ∧ UnaryHistory shadow' ∧
+                            CollisionKernelCarrier window' fold' ledger' matrix' moment' shadow'
+                              transport route provenance nameCert bundle pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier sameWindow sameFold sameLedger sameMatrix sameMoment sameShadow windowRoute'
+    ledgerRoute' momentRoute'
+  obtain ⟨windowUnary, foldUnary, ledgerUnary, matrixUnary, momentUnary, shadowUnary,
+    transportUnary, routeUnary, provenanceUnary, nameCertUnary, _windowRoute, _ledgerRoute,
+    _momentRoute, provenancePkg, nameCertPkg⟩ := carrier
+  have windowUnary' : UnaryHistory window' :=
+    unary_transport_symm windowUnary sameWindow
+  have foldUnary' : UnaryHistory fold' :=
+    unary_transport_symm foldUnary sameFold
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_transport_symm ledgerUnary sameLedger
+  have matrixUnary' : UnaryHistory matrix' :=
+    unary_transport_symm matrixUnary sameMatrix
+  have momentUnary' : UnaryHistory moment' :=
+    unary_transport_symm momentUnary sameMoment
+  have shadowUnary' : UnaryHistory shadow' :=
+    unary_transport_symm shadowUnary sameShadow
+  have transportedCarrier :
+      CollisionKernelCarrier window' fold' ledger' matrix' moment' shadow' transport route
+        provenance nameCert bundle pkg :=
+    ⟨windowUnary', foldUnary', ledgerUnary', matrixUnary', momentUnary', shadowUnary',
+      transportUnary, routeUnary, provenanceUnary, nameCertUnary, windowRoute', ledgerRoute',
+      momentRoute', provenancePkg, nameCertPkg⟩
+  exact
+    ⟨windowUnary', foldUnary', ledgerUnary', matrixUnary', momentUnary', shadowUnary',
+      transportedCarrier⟩
+
 end BEDC.Derived.CollisionKernelUp
