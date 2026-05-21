@@ -735,32 +735,6 @@ theorem FiniteLebesgueNumberDyadicRadiusWindowAdmission [AskSetup] [PackageSetup
     ⟨cert, radiusUnary, dyadicUnary, windowReadUnary, coverRadiusRead, dyadicWindowRead,
       provenancePkg, windowPkg⟩
 
-theorem FiniteLebesgueNumberDyadicRadiusWindowAdmissionRadiusCarrierSource
-    [AskSetup] [PackageSetup]
-    {cover window radius mesh transport route provenance nameRow radiusRead rootRead : BHist}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
-        bundle pkg ->
-      Cont cover radius radiusRead ->
-        Cont route nameRow rootRead ->
-          PkgSig bundle rootRead pkg ->
-            UnaryHistory cover ∧ UnaryHistory radius ∧ UnaryHistory radiusRead ∧
-              UnaryHistory rootRead ∧ Cont cover radius radiusRead ∧
-                Cont route nameRow rootRead ∧ PkgSig bundle provenance pkg ∧
-                  PkgSig bundle rootRead pkg := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
-  intro carrier coverRadiusRead routeNameRoot rootPkg
-  obtain ⟨coverUnary, _windowUnary, radiusUnary, _meshUnary, _transportUnary, routeUnary,
-    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
-    _routeNameProvenance, provenancePkg⟩ := carrier
-  have radiusReadUnary : UnaryHistory radiusRead :=
-    unary_cont_closed coverUnary radiusUnary coverRadiusRead
-  have rootReadUnary : UnaryHistory rootRead :=
-    unary_cont_closed routeUnary nameRowUnary routeNameRoot
-  exact
-    ⟨coverUnary, radiusUnary, radiusReadUnary, rootReadUnary, coverRadiusRead,
-      routeNameRoot, provenancePkg, rootPkg⟩
-
 theorem FiniteLebesgueNumberRadiusRowDeterminacy [AskSetup] [PackageSetup]
     {cover window radius mesh transport route provenance nameRow compactRead uniformRead :
       BHist}
