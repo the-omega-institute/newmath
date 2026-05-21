@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneRealSequenceUp$}
+\label{ch:concrete-instances-monotone-real-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\MonotoneRealSequenceUp$ packet records the finite source certificate for a bounded monotone real sequence before the monotone convergence route consumes it. It sits after the finite-window source of \autoref{ch:concrete-instances-boundedrealsequence-namecert}, the $\StreamNameUp$ interface of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. It is the human-origin bridge from bounded real sequence inspection to the convergence consumer of \autoref{ch:concrete-instances-monotone-sequence-convergence-namecert}; it does not assert a selected limit, ambient completeness, quotient equality of streams, trichotomy, or open-cover compactness.
+
+\begin{definition}[Monotone real sequence carrier]
+\label{def:monotone-real-sequence-carrier}
+A $\MonotoneRealSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,W,Q,R,B,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the inspected index schedule, listing the finite source windows on which the sequence is read.
+\item $W$ is the finite family of $\StreamNameUp$ windows exposed at the indices in $S$.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to those windows and their dyadic tolerance observations.
+\item $R$ is the $\RealUp$ seal row reached only after the stream-window and regular-rational rows have been displayed.
+\item $B$ is the boundedness ledger inherited from the $\BoundedRealSequenceUp$ source packet.
+\item $L$ is the monotonicity ledger, recording the displayed order direction and the finite adjacent or cofinal comparison rows visible in the inspected schedule.
+\item $H$ stores componentwise $\hsame$ transport for the index schedule, stream windows, readbacks, real seals, boundedness ledger, monotonicity ledger, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from inspected indices to stream windows, from stream windows to regular readback, from regular readback to the real seal, and from the joint boundedness and monotonicity ledgers to downstream convergence consumers.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneRealSequenceUp$, $\BoundedRealSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MonotoneRealSequenceUp}$ row.
+\end{enumerate}
+The carrier classifier compares accepted packets only through
+$$
+S,W,Q,R,B,L,H,C,P,N.
+$$
+It has no coordinate for host real order completeness, a least-upper-bound operator, quotient equality of stream names, a selected limit representative, open-cover compactness, or a Bolzano--Weierstrass subsequence selector.
+\end{definition}
+
+\begin{theorem}[Monotone real sequence NameCert obligations]
+\label{thm:monotone-real-sequence-namecert-obligations}
+For every accepted $\MonotoneRealSequenceUp$ carrier $M=(S,W,Q,R,B,L,H,C,P,N)$, the local $\NameCert_{\MonotoneRealSequenceUp}$ surface consists exactly of carrier admission for the ten displayed rows, finite source-window coverage through $S$ and $W$, regular rational readback through $Q$, real-name sealing through $R$, boundedness transport through $B$, monotonicity transport through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:monotone-real-sequence-carrier}. The only sequence observations are the finite schedule $S$, the $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readback $Q$, and the $\RealUp$ seal row $R$.
+
+Read the two source ledgers next. The boundedness row $B$ is inherited from the $\BoundedRealSequenceUp$ source surface of \autoref{ch:concrete-instances-boundedrealsequence-namecert}, while the monotonicity ledger $L$ records only displayed comparison rows on the same inspected windows.
+
+Finally inspect the structural rows. Transport, continuation replay, provenance, and local naming preserve the same finite packet and name no further analytic principle. Therefore the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Monotone real sequence window transport]
+\label{thm:monotone-real-sequence-window-transport}
+Let $M=(S,W,Q,R,B,L,H,C,P,N)$ and $M'=(S',W',Q',R',B',L',H',C',P',N')$ be accepted $\MonotoneRealSequenceUp$ packets. If the index schedules, stream windows, regular readbacks, real seals, boundedness ledgers, monotonicity ledgers, continuation rows, provenance rows, and local naming rows are replaced only by rows classified through the displayed $\hsame$ and $\Cont$ routes, then the finite monotone source surface transports unchanged: every accepted read of $M'$ still factors through
+$$
+S'\longmapsto W'\longmapsto Q'\longmapsto R'\longmapsto B',L'
+$$
+together with $H',C',P',N'$.
+\end{theorem}
+\begin{proof}
+Begin with the source-window path in $M$. The carrier exposes an inspected index only by replaying it through $W$, then through $Q$, and finally through the real seal $R$.
+
+Apply the componentwise $\hsame$ rows. They replace each displayed source coordinate by the corresponding coordinate in $M'$ without introducing a second schedule, a second stream quotient, or a hidden real representative.
+
+The continuation rows then replay the same route in $M'$. Since the boundedness row and monotonicity row are transported as rows $B'$ and $L'$ over the same inspected windows, the transported packet preserves the monotone source surface and exports no extra completeness or selection coordinate.
+\end{proof}
+
+\begin{theorem}[Monotone real sequence convergence handoff]
+\label{thm:monotone-real-sequence-convergence-handoff}
+Every $\MonotoneSequenceConvergenceUp$ consumer of an accepted $\MonotoneRealSequenceUp$ packet must read the source through
+$$
+S,W,Q,R,B,L,H,C,P,N
+$$
+before it can form a tail-Cauchy threshold or a convergence handoff. Consequently the consumer receives a bounded monotone real sequence source over $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\BoundedRealSequenceUp$ rows, but receives no selected limit, quotient equality of streams, host real equality, open-cover compactness, trichotomy, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:monotone-real-sequence-carrier}. Its source route exposes finite stream windows, regular rational readbacks, and real-name seals before any boundedness or monotonicity statement is available.
+
+Use the obligation theorem, \autoref{thm:monotone-real-sequence-namecert-obligations}, to identify $B$ and $L$ as the only boundedness and monotonicity surfaces in the packet. The transport theorem, \autoref{thm:monotone-real-sequence-window-transport}, keeps those surfaces attached to the same finite source route under accepted classifier movement.
+
+Now read the consumer in \autoref{ch:concrete-instances-monotone-sequence-convergence-namecert}. Its tail-Cauchy threshold can consume a bounded monotone source only after the stream windows, regular readbacks, real seals, boundedness ledger, and monotonicity ledger have been displayed. Since the source packet contains no selected limit, quotient equality, host real equality, compactness, trichotomy, or ambient completeness coordinate, the handoff exports only the listed finite route.
+\end{proof}
+
+\falsifiablePrediction{Every $\MonotoneSequenceConvergenceUp$ bounded-monotone source read factors through a $\MonotoneRealSequenceUp$ packet displaying inspected StreamName windows, RegSeqRat readbacks, RealUp seals, boundedness and monotonicity ledgers, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{boundedrealsequence, streamname, regseqrat, real, monotone-sequence-convergence: $\MonotoneRealSequenceUp$ is not bijective to any listed sibling because it jointly carries a bounded real sequence source and a monotonicity ledger before the convergence consumer may form its tail-Cauchy route.}
+
+\closureat{MonotoneRealSequenceUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneRealSequenceUp}
+  \constructivestory{A $\MonotoneRealSequenceUp$ packet is generated from inspected sequence indices, finite StreamName windows, RegSeqRat readbacks, RealUp sequence-name seals, a boundedness ledger, a monotonicity ledger, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-real-sequence-carrier}, \autoref{thm:monotone-real-sequence-namecert-obligations}, \autoref{thm:monotone-real-sequence-window-transport}, and \autoref{thm:monotone-real-sequence-convergence-handoff} seed the finite bounded-monotone source consumed by monotone sequence convergence.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, selected limits, quotient equality of streams, host real equality, open-cover compactness, trichotomy, or ambient completeness.}
+  \upgradepath{Lean closure requires carrier admission, NameCert obligations, window transport, convergence handoff, and TasteGate field faithfulness for BEDC.Derived.MonotoneRealSequenceUp.}
+\end{closurestatus}
