@@ -215,7 +215,7 @@ theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
       (∀ x : StreamDiagonalSelectorUp,
         streamDiagonalSelectorFromEventFlow (streamDiagonalSelectorToEventFlow x) = some x) ∧
       (∀ x y : StreamDiagonalSelectorUp,
-        streamDiagonalSelectorToEventFlow x = streamDiagonalSelectorToEventFlow y → x = y) ∧
+        streamDiagonalSelectorFields x = streamDiagonalSelectorFields y → x = y) ∧
       streamDiagonalSelectorEncodeBHist BHist.Empty = ([] : RawEvent) ∧
       streamDiagonalSelectorEncodeBHist (BHist.e1 BHist.Empty) = [BMark.b1] := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -230,8 +230,7 @@ theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
   constructor
   · exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_round_trip
   constructor
-  · intro x y heq
-    exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_toEventFlow_injective heq
+  · exact streamDiagonalSelector_field_faithful
   constructor
   · rfl
   · rfl
@@ -249,8 +248,7 @@ theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
         TasteGate.streamDiagonalSelectorFromEventFlow
           (TasteGate.streamDiagonalSelectorToEventFlow x) = some x) ∧
       (∀ x y : TasteGate.StreamDiagonalSelectorUp,
-        TasteGate.streamDiagonalSelectorToEventFlow x =
-            TasteGate.streamDiagonalSelectorToEventFlow y →
+        TasteGate.streamDiagonalSelectorFields x = TasteGate.streamDiagonalSelectorFields y →
           x = y) ∧
       TasteGate.streamDiagonalSelectorEncodeBHist BEDC.FKernel.Hist.BHist.Empty =
         ([] : BEDC.GroundCompiler.EventFlow.RawEvent) ∧
