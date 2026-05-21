@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.34 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.36 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Dedup partial drop handling
 
@@ -143,12 +143,12 @@ For each target in the list above:
    NameCert obligation surface, dependency anchors, downstream consumer, and
    why no existing chapter can host it. If this field is missing, abort that
    target rather than creating a chapter. Every new chapter file under
-	   `papers/bedc/parts/concrete_instances/` MUST contain exactly one
-	   `\origin{human|ai}` line near the top after `\chapter{...}`
-	   and `\label{...}`. Pick `human` for traditional-math NameCert
-	   reconstructions and `ai` for BEDC-native concepts. Missing
-	   `\origin{}` is rejected by `bedc_ci.py audit`. `reject` targets are
-	   not applied.
+   `papers/bedc/parts/` with `\chapter{...}` MUST contain exactly one
+   top-level `\origin{human}` or `\origin{ai}` line near the top after
+   `\chapter{...}` and `\label{...}`. Pick `human` for traditional-math
+   reconstructions and `ai` for BEDC-native concepts. Missing, duplicated,
+   or non-`human|ai` origin is rejected by `bedc_ci.py audit`. `reject`
+   targets are not applied.
 
 1. Open the listed `paper_files` and locate the `anchor` (theorem/definition block or section).
 2. Apply `proposed_change` exactly. Read the surrounding ~30 lines so the edit lands in the correct semantic context, not just by string match.
