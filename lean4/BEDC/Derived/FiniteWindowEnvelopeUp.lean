@@ -149,4 +149,29 @@ theorem FiniteWindowEnvelopeBHistCarrier_streamname_regseqrat_scope [AskSetup] [
   exact ⟨windowUnary, ledgerUnary, sealRowUnary, endpointReadUnary, endpointRouteUnary,
     sealEq, routeRow, pkgRow⟩
 
+theorem FiniteWindowEnvelopeBHistCarrier_endpoint_source_determinacy [AskSetup] [PackageSetup]
+    {source anchor window ledger streamClass sealRow endpoint provenance nameCert route endpointRead
+      endpointRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWindowEnvelopeBHistCarrier source anchor window ledger streamClass sealRow endpoint
+        provenance nameCert route bundle pkg ->
+      Cont route endpoint endpointRead ->
+        Cont endpointRead provenance endpointRoute ->
+          UnaryHistory window ∧ UnaryHistory ledger ∧ UnaryHistory sealRow ∧
+            UnaryHistory endpoint ∧ UnaryHistory endpointRead ∧ UnaryHistory endpointRoute ∧
+              hsame sealRow (append ledger streamClass) ∧ Cont sealRow endpoint route ∧
+                Cont route endpoint endpointRead ∧
+                  Cont endpointRead provenance endpointRoute ∧ PkgSig bundle endpoint pkg := by
+  intro carrier readStep provenanceStep
+  obtain ⟨_sourceUnary, _anchorUnary, windowUnary, ledgerUnary, _streamClassUnary,
+    sealRowUnary, endpointUnary, provenanceUnary, _nameCertUnary, routeUnary, sealEq,
+    routeRow, pkgRow⟩ := carrier
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed routeUnary endpointUnary readStep
+  have endpointRouteUnary : UnaryHistory endpointRoute :=
+    unary_cont_closed endpointReadUnary provenanceUnary provenanceStep
+  exact
+    ⟨windowUnary, ledgerUnary, sealRowUnary, endpointUnary, endpointReadUnary,
+      endpointRouteUnary, sealEq, routeRow, readStep, provenanceStep, pkgRow⟩
+
 end BEDC.Derived.FiniteWindowEnvelopeUp
