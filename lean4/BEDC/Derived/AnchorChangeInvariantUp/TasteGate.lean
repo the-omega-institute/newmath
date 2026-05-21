@@ -259,4 +259,22 @@ theorem AnchorChangeInvariant_anchor_symmetry_totality {H A I S R L T P N : BHis
   · exact cont_intro rfl
   · rfl
 
+theorem AnchorChangeInvariant_no_privileged_anchor {H A I S R L T P N : BHist} :
+    anchorChangeInvariantFields (AnchorChangeInvariantUp.mk H A I S R L T P N) =
+        [H, A, I, S, R, L, T, P, N] ∧
+      Cont R L (append R L) ∧
+        Cont (append R L) T (append (append R L) T) ∧
+          hsame R R ∧
+            hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont
+  constructor
+  · rfl
+  constructor
+  · exact cont_intro rfl
+  constructor
+  · exact cont_intro rfl
+  constructor
+  · exact hsame_refl R
+  · exact hsame_refl N
+
 end BEDC.Derived.AnchorChangeInvariantUp
