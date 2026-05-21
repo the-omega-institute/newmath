@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\BishopRegularCauchyCompletionUp$}
+\label{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive regular Cauchy completion, the $\BishopRegularCauchyCompletionUp$ packet names the finite route by which dyadic tolerances, stream observations, regular rational sequences, and the terminal Real seal are assembled into a completion-facing object. It sits on the L10 spine supplied by the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the displayed real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet records a regular Cauchy completion boundary for Real and Completion consumers; it does not assert completeness of $\RealUp$, identify quotient streams, select limits, invoke countable choice, or compare host real values.
+
+\begin{definition}[Bishop regular Cauchy completion carrier]
+\label{def:bishop-regular-cauchy-completion-carrier}
+A $\BishopRegularCauchyCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(E,S,R,D,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the $\DyadicRatCoreUp$ endpoint row, containing the dyadic source endpoints and tolerance comparisons used by the regular Cauchy reading.
+\item $S$ is the $\StreamNameUp$ finite-observation family opened from the named stream before any completion-facing consumer reads a tail claim.
+\item $R$ is the $\RegSeqRatUp$ regularity row, recording the regular rational sequence data exposed by the stream windows and dyadic endpoint ledger.
+\item $D$ is the dyadic tail modulus row, assigning each displayed dyadic tolerance a finite tail index and the dyadic comparison budget used at that tail.
+\item $W$ is the common-tail window row, recording the shared finite window in which two accepted regular readings may be compared without quotienting their streams.
+\item $H$ records componentwise $\hsame$ transport for endpoints, observations, regularity, tail modulus, common-tail windows, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion tolerance request through $D$, then through $W,S,R,E$, and finally into the displayed $\RealUp$ seal.
+\item $P$ is the $\Pkg$ provenance over $\BishopRegularCauchyCompletionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRegularCauchyCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,S,R,D,W,H,C,P,N$. The carrier has no coordinate for quotient stream equality, host real equality, selected limits, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Bishop regular Cauchy completion regularity envelope]
+\label{thm:bishop-regular-cauchy-completion-regularity-envelope}
+For every accepted $\BishopRegularCauchyCompletionUp$ carrier $B=(E,S,R,D,W,H,C,P,N)$, the local $\NameCert_{\BishopRegularCauchyCompletionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic endpoint row, finite stream observations, regular rational sequence row, dyadic tail modulus, common-tail window, transport, replay, provenance, and local naming row;
+\item classifier transport, requiring componentwise $\hsame$ transport in $H$ and displayed $\Cont$ replay in $C$ to preserve the ordered route $D,W,S,R,E$;
+\item regularity envelope, requiring every regular Cauchy read to pass through the displayed $\RegSeqRatUp$ row $R$ and the dyadic endpoint ledger $E$ before reaching the $\RealUp$ seal;
+\item common-tail modulus stability, requiring any comparison of two accepted readings to expose the same displayed tail budget in $D$ and the same common-tail window in $W$;
+\item Real-seal handoff, requiring any Real consumer to read the terminal $\RealUp$ seal only after $S,R,E,D,W$ have been displayed;
+\item ledger non-escape, requiring $P$ and $N$ to export no quotient stream equality, host real equality, selected limit, countable choice, or ambient Real completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-regular-cauchy-completion-carrier}. The visible packet consists of the endpoint ledger $E$, finite observations $S$, regularity row $R$, dyadic tail modulus $D$, common-tail window $W$, and the structural rows $H,C,P,N$.
+
+Classifier transport is structural. Componentwise $\hsame$ in $H$ preserves each displayed coordinate, and displayed $\Cont$ replay in $C$ repeats the same ordered route $D,W,S,R,E$ for every accepted tolerance request.
+
+The regularity envelope is forced by the placement of $R$ and $E$. A consumer cannot read the completion boundary until the finite stream windows have exposed regular rational data and the dyadic ledger has supplied the corresponding endpoint and tolerance comparisons.
+
+Common-tail stability is the row $W$ governed by the tail modulus $D$. Two accepted readings are compared only inside the displayed shared window and under the same dyadic budget, so the packet never identifies their underlying streams by quotient equality.
+
+Finally, the Real-seal handoff and ledger boundary are exhausted by $C,P,N$. Since no excluded quotient, host-equality, selected-limit, choice, or Real-completeness coordinate occurs in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop regular Cauchy completion seal stability]
+\label{thm:bishop-regular-cauchy-completion-seal-stability}
+Every $\RealUp$ consumer of an accepted $\BishopRegularCauchyCompletionUp$ carrier reads only the displayed regular Cauchy completion rows
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+Consequently the consumer receives finite endpoint, observation, regularity, tail-modulus, common-tail, transport, replay, provenance, and naming data, and receives no quotient stream equality, host real equality, selected limit, countable-choice schedule, or ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Let a $\RealUp$ consumer read an accepted packet $B=(E,S,R,D,W,H,C,P,N)$. Carrier projection gives access only to the displayed rows of \autoref{def:bishop-regular-cauchy-completion-carrier}.
+
+The Real-facing route starts with the tolerance request. The dyadic tail modulus $D$ fixes the tail budget, $W$ identifies the common window, $S$ supplies finite observations, $R$ records regular rational readback, and $E$ supplies the dyadic endpoint comparisons before the terminal $\RealUp$ seal is reached.
+
+The remaining rows transport and replay the same route. The $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates preserve the finite packet boundary and add no quotient, host-equality, selected-limit, choice, or completeness object.
+\end{proof}
+
+\begin{closurestatus}{\BishopRegularCauchyCompletionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-regular-cauchy-completion-carrier}, \autoref{thm:bishop-regular-cauchy-completion-regularity-envelope}, and \autoref{thm:bishop-regular-cauchy-completion-seal-stability} seed the finite regular Cauchy completion surface over displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, quotient stream equality, host real equality, selected limits, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires carrier admission, classifier transport, regularity-envelope, common-tail modulus stability, Real-seal handoff, and non-escape proofs for BEDC.Derived.BishopRegularCauchyCompletionUp.}
+  \constructivestory{A $\BishopRegularCauchyCompletionUp$ packet is generated from DyadicRatCore endpoints, StreamName finite observations, RegSeqRat regularity, a dyadic tail modulus, a common-tail window, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
