@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\DyadicComparisonUp$}
+\label{ch:concrete-instances-dyadic-comparison-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\DyadicComparisonUp$ packet names the finite comparison surface for dyadic rational rows before regular rational streams and completed real names read an order-facing observation. It sits after the dyadic core boundary of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the canonical finite presentation of \autoref{ch:concrete-instances-dyadic-normal-form-namecert}, and the finite schedule surface of \autoref{ch:concrete-instances-streamname-namecert}; it feeds the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert} and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet records comparison rows for displayed dyadic windows, not host trichotomy, quotient rational equality, completed real order, located cuts, completeness, or a standard bridge.
+
+\begin{definition}[Dyadic comparison carrier]
+\label{def:dyadic-comparison-carrier}
+A $\DyadicComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D_0,D_1,N_0,N_1,S,\Delta,Q,W,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D_0$ and $D_1$ are the two accepted $\DyadicRatCoreUp$ source rows whose signed mantissas and unary exponents are visible to the packet.
+\item $N_0$ and $N_1$ are the associated $\DyadicNormalFormUp$ readback rows, so the comparison is made after zero normalization and scale-minimality have been exposed.
+\item $S$ is the common-scale row, recording the finite unary exponent window used to compare the two normal forms.
+\item $\Delta$ is the signed difference row at the common scale, read through the $\IntUp$ and $\RatUp$ surfaces already admitted by the dyadic core.
+\item $Q$ is the comparison classifier row, with outcomes negative, zero, or positive according to the sign of $\Delta$ inside the displayed finite window.
+\item $W$ is the finite window-stability ledger, recording how the classifier is preserved when both source rows are replayed through a larger common dyadic scale.
+\item $H$ records componentwise $\hsame$ transport for the source rows, normal-form rows, common-scale row, signed-difference row, classifier row, window ledger, continuation row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from the two input dyadic packets through normal-form readback, common-scale transport, signed-difference computation, classifier inspection, and window-stability export.
+\item $P$ is the $\Pkg$ provenance over $\BMark$, $\DyadicRatCoreUp$, $\DyadicNormalFormUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\DyadicComparisonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the rows $D_0,D_1,N_0,N_1,S,\Delta,Q,W,H,C,P,L$. It has no coordinate for host rational trichotomy, quotient rational equality, completed real order, located-cut data, ambient completeness, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Dyadic comparison NameCert obligations]
+\label{thm:dyadic-comparison-namecert-obligations}
+For every accepted $\DyadicComparisonUp$ carrier $K=(D_0,D_1,N_0,N_1,S,\Delta,Q,W,H,C,P,L)$, the local $\NameCert_{\DyadicComparisonUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two dyadic source rows, two normal-form readback rows, common-scale row, signed-difference row, comparison classifier, window-stability ledger, transport, continuation, provenance, and local naming row;
+\item source compatibility, requiring $D_0,D_1$ to be accepted $\DyadicRatCoreUp$ packets and $N_0,N_1$ to be their displayed $\DyadicNormalFormUp$ readbacks;
+\item common-scale exactness, requiring $S$ to transport the two mantissa-exponent pairs to one finite unary scale before $\Delta$ is inspected;
+\item classifier exactness, requiring $Q$ to read only the sign of the displayed finite difference $\Delta$;
+\item window stability, requiring $W,H,C$ to preserve the classifier under componentwise $\hsame$ transport and displayed $\Cont$ replay into larger common dyadic windows;
+\item regular-rational handoff, requiring $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers to read only the stable classifier and its dyadic source route;
+\item ledger refusal, excluding host rational trichotomy, quotient rational equality, completed real order, located cuts, ambient completeness, and standard-bridge data.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-comparison-carrier}. The projection exposes exactly the two dyadic source rows, the two normal-form rows, the common-scale row, the signed-difference row, the classifier row, the window-stability ledger, and the structural rows $H,C,P,L$.
+
+Source compatibility follows from the attachments to \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-dyadic-normal-form-namecert}. The packet never compares hidden representatives: it first reads the accepted dyadic core rows and then reads their zero-normalized, scale-minimal normal forms.
+
+Common-scale exactness is the row $S$. Once both normal forms are transported to that row, the signed difference $\Delta$ is a finite integer-rational readback, and the classifier $Q$ can inspect only its displayed sign.
+
+Replay $C$ and then transport by $H$. This preserves the same source rows, normal forms, common scale, signed difference, and classifier before any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer can inspect the packet.
+
+The exclusions are immediate from the carrier inventory. Since host trichotomy, quotient equality, completed real order, located cuts, ambient completeness, and bridge rows are absent, the local NameCert surface cannot export them.
+\end{proof}
+
+\begin{theorem}[Dyadic comparison window stability]
+\label{thm:dyadic-comparison-window-stability}
+Let $K=(D_0,D_1,N_0,N_1,S,\Delta,Q,W,H,C,P,L)$ be an accepted $\DyadicComparisonUp$ carrier. If $S'$ is a displayed common dyadic scale extending $S$ and the two normal-form rows are replayed into $S'$ through the same $\DyadicRatCoreUp$ and $\DyadicNormalFormUp$ route, then the comparison classifier read at $S'$ agrees with $Q$ under componentwise $\hsame$ transport. Thus enlarging the finite comparison window changes neither the negative, zero, nor positive outcome exposed by the local $\NameCert_{\DyadicComparisonUp}$ row.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and the larger displayed scale $S'$. The continuation row $C$ supplies the route from $D_0,D_1$ through $N_0,N_1$ to the original common scale $S$, while the hypothesis supplies the same route into $S'$.
+
+The normal-form rows are scale-minimal by \autoref{ch:concrete-instances-dyadic-normal-form-namecert}. Transporting both rows from $S$ to $S'$ multiplies both displayed mantissas by the same visible power of $2$, so the signed difference row is multiplied by that same positive dyadic factor.
+
+The sign of the finite difference is therefore unchanged. The zero case remains zero, the negative case remains negative, and the positive case remains positive because no row in the route introduces a hidden quotient or host-level comparison principle.
+
+Apply the window-stability ledger $W$ and componentwise transport $H$. They identify the classifier read at $S'$ with the original row $Q$, and the local naming row $L$ exports exactly that stable classifier.
+\end{proof}
+
+\begin{theorem}[Dyadic comparison RegSeqRat handoff]
+\label{thm:dyadic-comparison-regseqrat-handoff}
+Every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of an accepted $\DyadicComparisonUp$ packet factors through the finite route
+$$
+D_0,D_1 \longmapsto N_0,N_1 \longmapsto S,\Delta,Q \longmapsto W,H,C,P,L .
+$$
+Consequently the regular rational and real-seal phases receive a stable dyadic comparison row, not a direct order on completed real names, not quotient stream equality, not a located-cut comparison, and not an ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Take a consumer in the $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ phase. Carrier admission exposes the local comparison row only through the displayed dyadic sources $D_0,D_1$.
+
+The route then passes through the normal-form rows $N_0,N_1$. This is the point where zero normalization and scale-minimality are fixed before any regular rational readback can use the comparison.
+
+Next the consumer reads the common-scale row $S$, the signed-difference row $\Delta$, and the classifier row $Q$. By \autoref{thm:dyadic-comparison-window-stability}, any larger finite window used by a regular rational tail request returns the same classifier under $\hsame$ transport.
+
+Finally the rows $W,H,C,P,L$ package the stable comparison for the downstream phase. The displayed route is finite and contains no coordinate for direct completed-real order, quotient stream equality, located-cut comparison, selected host limit, ambient completeness, or a standard bridge.
+\end{proof}
+
+\closureat{DyadicComparisonUp}{seedStr}
+
+\begin{closurestatus}{\DyadicComparisonUp}
+  \constructivestory{A $\DyadicComparisonUp$ packet is generated from two dyadic source rows, their normal-form readbacks, a common-scale row, a signed-difference row, a comparison classifier, a window-stability ledger, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-comparison-carrier}, \autoref{thm:dyadic-comparison-namecert-obligations}, \autoref{thm:dyadic-comparison-window-stability}, and \autoref{thm:dyadic-comparison-regseqrat-handoff} seed the finite dyadic comparison surface feeding StreamName, RegSeqRat, and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host rational trichotomy, quotient rational equality, completed real order, located cuts, ambient completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-scale exactness, classifier exactness, window stability, RegSeqRat handoff, and ledger refusal proofs for BEDC.Derived.DyadicComparisonUp.}
+\end{closurestatus}

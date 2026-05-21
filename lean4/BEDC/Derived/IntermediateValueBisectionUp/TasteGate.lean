@@ -3,7 +3,6 @@ import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.IntermediateValueBisectionUp
-namespace TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -14,22 +13,30 @@ inductive IntermediateValueBisectionUp : Type where
   | mk (J R D S W G E H C P N : BHist) : IntermediateValueBisectionUp
   deriving DecidableEq
 
-def intermediateValueBisectionEncodeBHist : BHist → RawEvent
+def IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist :
+    BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: intermediateValueBisectionEncodeBHist h
-  | BHist.e1 h => BMark.b1 :: intermediateValueBisectionEncodeBHist h
+  | BHist.e0 h => BMark.b0 ::
+      IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e1 h => BMark.b1 ::
+      IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist h
 
-def intermediateValueBisectionDecodeBHist : RawEvent → BHist
+def IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist :
+    RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (intermediateValueBisectionDecodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (intermediateValueBisectionDecodeBHist tail)
+  | BMark.b0 :: tail =>
+      BHist.e0
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b1 :: tail =>
+      BHist.e1
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist tail)
 
 private theorem IntermediateValueBisectionTasteGate_single_carrier_alignment_decode :
-    ∀ h : BHist,
-      intermediateValueBisectionDecodeBHist (intermediateValueBisectionEncodeBHist h) =
-        h := by
+    forall h : BHist,
+      IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -37,143 +44,150 @@ private theorem IntermediateValueBisectionTasteGate_single_carrier_alignment_dec
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def intermediateValueBisectionFields : IntermediateValueBisectionUp → List BHist
+def IntermediateValueBisectionTasteGate_single_carrier_alignment_fields :
+    IntermediateValueBisectionUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | IntermediateValueBisectionUp.mk J R D S W G E H C P N =>
       [J, R, D, S, W, G, E, H, C, P, N]
 
-def intermediateValueBisectionToEventFlow : IntermediateValueBisectionUp → EventFlow
+def IntermediateValueBisectionTasteGate_single_carrier_alignment_toEventFlow :
+    IntermediateValueBisectionUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (intermediateValueBisectionFields x).map intermediateValueBisectionEncodeBHist
+  | IntermediateValueBisectionUp.mk J R D S W G E H C P N =>
+      [[BMark.b1, BMark.b0, BMark.b1, BMark.b0],
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist J,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist R,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist D,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist S,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist W,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist G,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist E,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist H,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist C,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist P,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist N]
 
-def intermediateValueBisectionFromEventFlow : EventFlow → Option IntermediateValueBisectionUp
+private def IntermediateValueBisectionTasteGate_single_carrier_alignment_eventAtDefault :
+    Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | J :: restJ =>
-      match restJ with
-      | R :: restR =>
-          match restR with
-          | D :: restD =>
-              match restD with
-              | S :: restS =>
-                  match restS with
-                  | W :: restW =>
-                      match restW with
-                      | G :: restG =>
-                          match restG with
-                          | E :: restE =>
-                              match restE with
-                              | H :: restH =>
-                                  match restH with
-                                  | C :: restC =>
-                                      match restC with
-                                      | P :: restP =>
-                                          match restP with
-                                          | N :: rest =>
-                                              match rest with
-                                              | [] =>
-                                                  some
-                                                    (IntermediateValueBisectionUp.mk
-                                                      (intermediateValueBisectionDecodeBHist J)
-                                                      (intermediateValueBisectionDecodeBHist R)
-                                                      (intermediateValueBisectionDecodeBHist D)
-                                                      (intermediateValueBisectionDecodeBHist S)
-                                                      (intermediateValueBisectionDecodeBHist W)
-                                                      (intermediateValueBisectionDecodeBHist G)
-                                                      (intermediateValueBisectionDecodeBHist E)
-                                                      (intermediateValueBisectionDecodeBHist H)
-                                                      (intermediateValueBisectionDecodeBHist C)
-                                                      (intermediateValueBisectionDecodeBHist P)
-                                                      (intermediateValueBisectionDecodeBHist N))
-                                              | _ :: _ => none
-                                          | [] => none
-                                      | [] => none
-                                  | [] => none
-                              | [] => none
-                          | [] => none
-                      | [] => none
-                  | [] => none
-              | [] => none
-          | [] => none
-      | [] => none
-  | [] => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      IntermediateValueBisectionTasteGate_single_carrier_alignment_eventAtDefault index rest
 
-private theorem intermediateValueBisection_mk_congr
-    {J J' R R' D D' S S' W W' G G' E E' H H' C C' P P' N N' : BHist}
-    (hJ : J' = J) (hR : R' = R) (hD : D' = D) (hS : S' = S)
-    (hW : W' = W) (hG : G' = G) (hE : E' = E) (hH : H' = H)
-    (hC : C' = C) (hP : P' = P) (hN : N' = N) :
-    IntermediateValueBisectionUp.mk J' R' D' S' W' G' E' H' C' P' N' =
-      IntermediateValueBisectionUp.mk J R D S W G E H C P N := by
+def IntermediateValueBisectionTasteGate_single_carrier_alignment_fromEventFlow
+    (ef : EventFlow) : Option IntermediateValueBisectionUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  cases hJ
-  cases hR
-  cases hD
-  cases hS
-  cases hW
-  cases hG
-  cases hE
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
+  some
+    (IntermediateValueBisectionUp.mk
+      (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_eventAtDefault 1 ef))
+      (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_eventAtDefault 2 ef))
+      (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_eventAtDefault 3 ef))
+      (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_eventAtDefault 4 ef))
+      (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_eventAtDefault 5 ef))
+      (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_eventAtDefault 6 ef))
+      (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_eventAtDefault 7 ef))
+      (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_eventAtDefault 8 ef))
+      (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_eventAtDefault 9 ef))
+      (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_eventAtDefault 10 ef))
+      (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_eventAtDefault 11 ef)))
 
 private theorem IntermediateValueBisectionTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : IntermediateValueBisectionUp,
-      intermediateValueBisectionFromEventFlow (intermediateValueBisectionToEventFlow x) =
-        some x := by
+    forall x : IntermediateValueBisectionUp,
+      IntermediateValueBisectionTasteGate_single_carrier_alignment_fromEventFlow
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_toEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk J R D S W G E H C P N =>
-      exact
-        congrArg some
-          (intermediateValueBisection_mk_congr
-            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decode J)
-            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decode R)
-            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decode D)
-            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decode S)
-            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decode W)
-            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decode G)
-            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decode E)
-            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decode H)
-            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decode C)
-            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decode P)
-            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decode N))
+      change
+        some
+          (IntermediateValueBisectionUp.mk
+            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+              (IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist J))
+            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+              (IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist R))
+            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+              (IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist D))
+            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+              (IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist S))
+            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+              (IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist W))
+            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+              (IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist G))
+            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+              (IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist E))
+            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+              (IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist H))
+            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+              (IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist C))
+            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+              (IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist P))
+            (IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+              (IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist N))) =
+          some (IntermediateValueBisectionUp.mk J R D S W G E H C P N)
+      rw [IntermediateValueBisectionTasteGate_single_carrier_alignment_decode J,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_decode R,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_decode D,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_decode S,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_decode W,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_decode G,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_decode E,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_decode H,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_decode C,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_decode P,
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_decode N]
 
-private theorem IntermediateValueBisectionTasteGate_single_carrier_alignment_injective
+private theorem IntermediateValueBisectionTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : IntermediateValueBisectionUp} :
-    intermediateValueBisectionToEventFlow x = intermediateValueBisectionToEventFlow y →
+    IntermediateValueBisectionTasteGate_single_carrier_alignment_toEventFlow x =
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_toEventFlow y ->
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      intermediateValueBisectionFromEventFlow (intermediateValueBisectionToEventFlow x) =
-        intermediateValueBisectionFromEventFlow (intermediateValueBisectionToEventFlow y) :=
-    congrArg intermediateValueBisectionFromEventFlow heq
+      IntermediateValueBisectionTasteGate_single_carrier_alignment_fromEventFlow
+          (IntermediateValueBisectionTasteGate_single_carrier_alignment_toEventFlow x) =
+        IntermediateValueBisectionTasteGate_single_carrier_alignment_fromEventFlow
+          (IntermediateValueBisectionTasteGate_single_carrier_alignment_toEventFlow y) :=
+    congrArg IntermediateValueBisectionTasteGate_single_carrier_alignment_fromEventFlow heq
   exact Option.some.inj
     (Eq.trans
       (IntermediateValueBisectionTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
         (IntermediateValueBisectionTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem intermediateValueBisection_field_faithful :
-    ∀ x y : IntermediateValueBisectionUp,
-      intermediateValueBisectionFields x = intermediateValueBisectionFields y → x = y := by
+private theorem IntermediateValueBisectionTasteGate_single_carrier_alignment_fields_faithful :
+    forall x y : IntermediateValueBisectionUp,
+      IntermediateValueBisectionTasteGate_single_carrier_alignment_fields x =
+          IntermediateValueBisectionTasteGate_single_carrier_alignment_fields y ->
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk J R D S W G E H C P N =>
+  | mk J1 R1 D1 S1 W1 G1 E1 H1 C1 P1 N1 =>
       cases y with
-      | mk J' R' D' S' W' G' E' H' C' P' N' =>
+      | mk J2 R2 D2 S2 W2 G2 E2 H2 C2 P2 N2 =>
           cases hfields
           rfl
 
 instance intermediateValueBisectionBHistCarrier :
     BHistCarrier IntermediateValueBisectionUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := intermediateValueBisectionToEventFlow
-  fromEventFlow := intermediateValueBisectionFromEventFlow
+  toEventFlow := IntermediateValueBisectionTasteGate_single_carrier_alignment_toEventFlow
+  fromEventFlow := IntermediateValueBisectionTasteGate_single_carrier_alignment_fromEventFlow
 
 instance intermediateValueBisectionChapterTasteGate :
     ChapterTasteGate IntermediateValueBisectionUp where
@@ -181,21 +195,21 @@ instance intermediateValueBisectionChapterTasteGate :
   round_trip := by
     intro x
     change
-      intermediateValueBisectionFromEventFlow (intermediateValueBisectionToEventFlow x) =
-        some x
+      IntermediateValueBisectionTasteGate_single_carrier_alignment_fromEventFlow
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_toEventFlow x) = some x
     exact IntermediateValueBisectionTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (IntermediateValueBisectionTasteGate_single_carrier_alignment_injective heq)
+    exact hxy
+      (IntermediateValueBisectionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance intermediateValueBisectionFieldFaithful :
     FieldFaithful IntermediateValueBisectionUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := intermediateValueBisectionFields
-  field_faithful := intermediateValueBisection_field_faithful
+  fields := IntermediateValueBisectionTasteGate_single_carrier_alignment_fields
+  field_faithful := IntermediateValueBisectionTasteGate_single_carrier_alignment_fields_faithful
 
-instance intermediateValueBisectionNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial IntermediateValueBisectionUp where
+instance intermediateValueBisectionNontrivial : Nontrivial IntermediateValueBisectionUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨IntermediateValueBisectionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -212,34 +226,24 @@ def taste_gate : ChapterTasteGate IntermediateValueBisectionUp :=
   intermediateValueBisectionChapterTasteGate
 
 theorem IntermediateValueBisectionTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate IntermediateValueBisectionUp) ∧
-      Nonempty (FieldFaithful IntermediateValueBisectionUp) ∧
-      Nonempty (BEDC.Meta.TasteGate.Nontrivial IntermediateValueBisectionUp) ∧
-      (∀ h : BHist,
-        intermediateValueBisectionDecodeBHist (intermediateValueBisectionEncodeBHist h) =
-          h) ∧
-      (∀ x : IntermediateValueBisectionUp,
-        intermediateValueBisectionFromEventFlow (intermediateValueBisectionToEventFlow x) =
-          some x) ∧
-      (∀ x y : IntermediateValueBisectionUp,
-        intermediateValueBisectionToEventFlow x = intermediateValueBisectionToEventFlow y →
-          x = y) ∧
-      intermediateValueBisectionEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact ⟨intermediateValueBisectionChapterTasteGate⟩
-  constructor
-  · exact ⟨intermediateValueBisectionFieldFaithful⟩
-  constructor
-  · exact ⟨intermediateValueBisectionNontrivial⟩
+    (forall h : BHist,
+      IntermediateValueBisectionTasteGate_single_carrier_alignment_decodeBHist
+        (IntermediateValueBisectionTasteGate_single_carrier_alignment_encodeBHist h) = h) ∧
+      IntermediateValueBisectionTasteGate_single_carrier_alignment_fields
+        (IntermediateValueBisectionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+        [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+          BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
+      IntermediateValueBisectionTasteGate_single_carrier_alignment_toEventFlow
+        (IntermediateValueBisectionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+        [[BMark.b1, BMark.b0, BMark.b1, BMark.b0], [], [], [], [], [], [], [], [], [],
+          [], []] := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   constructor
   · exact IntermediateValueBisectionTasteGate_single_carrier_alignment_decode
-  constructor
-  · exact IntermediateValueBisectionTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y heq
-    exact IntermediateValueBisectionTasteGate_single_carrier_alignment_injective heq
-  · rfl
+  · constructor
+    · rfl
+    · rfl
 
-end TasteGate
 end BEDC.Derived.IntermediateValueBisectionUp
