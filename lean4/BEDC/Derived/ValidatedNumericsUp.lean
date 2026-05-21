@@ -597,4 +597,66 @@ theorem ValidatedNumericsPacket_public_finite_enclosure_consumer_certificate [As
       refinedSurface.right.right.right.right.right.right.left,
       refinedSurface.right.right.right.right.right.right.right, bridgeSurface⟩
 
+theorem ValidatedNumericsPacket_five_row_namecert_sketch [AskSetup] [PackageSetup]
+    {interval precision modulus observation readback transport containment provenance name :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ValidatedNumericsPacket interval precision modulus observation readback transport containment
+        provenance name bundle pkg →
+      UnaryHistory interval ∧ UnaryHistory precision ∧ UnaryHistory modulus ∧
+        UnaryHistory observation ∧ UnaryHistory readback ∧
+          Cont precision modulus observation ∧ Cont observation readback transport ∧
+            Cont observation interval containment ∧ Cont containment provenance name ∧
+              PkgSig bundle name pkg ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row name ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row interval ∨ hsame row modulus ∨ hsame row observation ∨
+                      hsame row readback ∨ hsame row name)
+                  (fun row : BHist => hsame row name ∧ PkgSig bundle name pkg)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig SemanticNameCert hsame Cont
+  intro packet
+  obtain ⟨intervalUnary, precisionUnary, modulusUnary, observationUnary, readbackUnary,
+    _transportUnary, _containmentUnary, _provenanceUnary, nameUnary,
+    precisionModulusObservation, observationReadbackTransport, observationIntervalContainment,
+    containmentProvenanceName, namePkg⟩ := packet
+  have sourceAtName : hsame name name ∧ UnaryHistory name :=
+    ⟨hsame_refl name, nameUnary⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row name ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row interval ∨ hsame row modulus ∨ hsame row observation ∨
+            hsame row readback ∨ hsame row name)
+        (fun row : BHist => hsame row name ∧ PkgSig bundle name pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro name sourceAtName
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other same source
+        exact ⟨hsame_trans (hsame_symm same) source.left,
+          unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, namePkg⟩
+  }
+  exact
+    ⟨intervalUnary, precisionUnary, modulusUnary, observationUnary, readbackUnary,
+      precisionModulusObservation, observationReadbackTransport, observationIntervalContainment,
+      containmentProvenanceName, namePkg, cert⟩
+
 end BEDC.Derived.ValidatedNumericsUp
