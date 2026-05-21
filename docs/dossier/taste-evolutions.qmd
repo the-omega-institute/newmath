@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-21T12:51:53Z
+> 最后刷新: 2026-05-21T13:52:20Z
 
-**Daemon 状态**: monitor (monitor cycle 0, adjust_since_research 3, round_counter 4336, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 1, adjust_since_research 3, round_counter 4515, last_adjust rule_evolution_skipped_or_failed)
 
-**待处理 queue** (42 条 finding):
-- isolated_theorem: 24 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
-- low_entropy_template: 18 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
+**待处理 queue** (44 条 finding):
+- isolated_theorem: 25 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
+- low_entropy_template: 19 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 182 次
+- TASTE ALERT category=isolated_theorem: 204 次
 - TASTE ALERT category=mislabeled_composite: 45 次
-- TASTE ALERT category=low_entropy_template: 29 次
+- TASTE ALERT category=low_entropy_template: 28 次
 - TASTE ALERT category=research_non_negative_criterion: 4 次
 - TASTE ALERT category=inventory_failed: 2 次
 - TASTE ALERT category=rule_evolution_failed: 2 次
@@ -114,6 +114,8 @@ daemon queue 给出 3 个 `missing_origin` finding, 代表样本是 `banach` / `
 
 Codex 随后用 Python 扫 `papers/bedc/parts/**/*.tex`, 找到 137 个当前 `\chapter{...}` 文件没有顶层 `\origin{...}`, 代表证据包括 `papers/bedc/parts/acceptance/01_derivation_acceptance_gate.tex:1`, `papers/bedc/parts/acceptance/02_standard_bridge_protocol.tex:1`, `papers/bedc/parts/acceptance/03_cannot_claim_registry.tex:1`。negative criterion 是: paper parts 下任何实际 chapter 文件如果缺少唯一顶层 `\origin{human}` 或 `\origin{ai}`, 就拒绝; hub-only `\input` 文件不在这个规则内。改动落在 `lean4/scripts/bedc_ci.py`, `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; `detect_paper_chapter_origin_tags()` 现在在 audit 中输出 new/legacy split, Review/Revise prompt 要求新 chapter 自带唯一合法 lineage。
 
+Ship: commit `d25a5c4ebdd190317541c4de6cc9b39c24a22857`. Detector/gate: recorded by daemon after merge.
+
 ## RESEARCH 探索历史
 
 每次 RESEARCH cycle daemon 派 Codex 扫整个 corpus, 目标是找现有 detector 没覆盖的新平凡 pattern。这里记录探索范围和结论；没 ship 的探索也保留, 因为 operator 需要知道 daemon 不是只在成功时才留下痕迹。
@@ -129,10 +131,3 @@ Codex 随后用 Python 扫 `papers/bedc/parts/**/*.tex`, 找到 137 个当前 `\
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
-
-## 演化时间线
-
-### 2026-05-21 — missing origin
-
-Ship: commit `d25a5c4ebdd190317541c4de6cc9b39c24a22857`. Detector/gate: recorded by daemon after merge.
-
