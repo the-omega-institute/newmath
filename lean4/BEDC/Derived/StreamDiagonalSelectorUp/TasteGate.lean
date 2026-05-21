@@ -221,8 +221,8 @@ theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
   constructor
   · exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_round_trip
   constructor
-  · intro x y heq
-    exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_toEventFlow_injective heq
+  · intro x y
+    exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_toEventFlow_injective
   constructor
   · rfl
   · rfl
