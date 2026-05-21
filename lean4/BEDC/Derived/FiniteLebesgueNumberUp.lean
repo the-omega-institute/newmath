@@ -206,6 +206,33 @@ theorem FiniteLebesgueNumberCarrier_window_coverage_exactness [AskSetup] [Packag
     ⟨windowUnary, radiusUnary, meshUnary, windowReadUnary, coverCellUnary,
       coverWindowRadius, windowRadiusRead, readMeshCell, provenancePkg, coverCellPkg⟩
 
+theorem FiniteLebesgueNumberCoverCellReadbackTotality [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow windowRead coverCell : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont window radius windowRead ->
+        Cont windowRead mesh coverCell ->
+          PkgSig bundle coverCell pkg ->
+            UnaryHistory cover ∧ UnaryHistory window ∧ UnaryHistory radius ∧
+              UnaryHistory mesh ∧ UnaryHistory windowRead ∧ UnaryHistory coverCell ∧
+                Cont cover window radius ∧ Cont window radius windowRead ∧
+                  Cont windowRead mesh coverCell ∧ Cont radius mesh route ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle coverCell pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier windowRadiusRead readMeshCell coverCellPkg
+  obtain ⟨coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameRowUnary, coverWindowRadius, radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed windowUnary radiusUnary windowRadiusRead
+  have coverCellUnary : UnaryHistory coverCell :=
+    unary_cont_closed windowReadUnary meshUnary readMeshCell
+  exact
+    ⟨coverUnary, windowUnary, radiusUnary, meshUnary, windowReadUnary, coverCellUnary,
+      coverWindowRadius, windowRadiusRead, readMeshCell, radiusMeshRoute, provenancePkg,
+      coverCellPkg⟩
+
 theorem FiniteLebesgueNumberCarrier_mesh_refinement_nonchoice [AskSetup] [PackageSetup]
     {cover window radius mesh transport route provenance nameRow meshRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
