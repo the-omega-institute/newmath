@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyBoundedUp$}
+\label{ch:concrete-instances-regularcauchybounded-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegularCauchyBoundedUp$ packet records boundedness of a regular Cauchy name by finite dyadic ledgers and displayed window reads. It sits between the $\RegSeqRatUp$ carrier of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\StreamNameUp$ window interface of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicRatCoreUp$ tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window equivalence boundary of \autoref{ch:concrete-instances-regularcauchyequivalence-namecert}, the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the bounded sequence consumer surface of \autoref{ch:concrete-instances-boundedrealsequence-namecert}. The certificate stores a usable finite bound ledger for one regular name; it does not identify quotient streams or select a limiting real.
+
+\begin{definition}[Regular Cauchy bounded carrier]
+\label{def:regularcauchybounded-carrier}
+A $\RegularCauchyBoundedUp$ carrier is a finite $\BHist$ packet
+$$
+B=(Q,W,D,E,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the source $\RegSeqRatUp$ regular rational name.
+\item $W$ is the finite $\StreamNameUp$ request schedule used to inspect the name.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and radius ledger attached to the inspected requests.
+\item $E$ is the optional $\RegularCauchyEquivalenceUp$ comparison row used when the same bound is transported across an equivalent regular name.
+\item $R$ is the $\RealUp$ seal row reached only after the regular-name, stream-window, dyadic-ledger, and equivalence rows have been displayed.
+\item $L$ is the finite bound ledger, consisting of a displayed dyadic center-radius window and a finite verification row saying that every inspected request in $W$ is contained in that window after the tolerance data in $D$ are applied.
+\item $H$ stores componentwise $\hsame$ transport for the source name, request schedule, dyadic ledger, comparison row, real seal, bound ledger, continuations, provenance, and local naming row.
+\item $C$ stores displayed $\Cont$ replay from the regular name to stream requests, from stream requests to dyadic tolerance rows, from the tolerance rows to the bound ledger, and from the bound ledger to the real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyBoundedUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyEquivalenceUp$, $\RealUp$, $\BoundedRealSequenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyBoundedUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,W,D,E,R,L,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, real trichotomy, countable choice, host real order completeness, or Dedekind-cut construction.
+\end{definition}
+
+\begin{theorem}[Finite bound ledger for regular Cauchy names]
+\label{thm:regularcauchybounded-finite-bound-ledger}
+Every accepted $\RegularCauchyBoundedUp$ carrier exposes boundedness through the finite route
+$$
+Q\longmapsto W\longmapsto D\longmapsto L
+$$
+together with $E,R,H,C,P,N$. Thus a consumer can read a dyadic center-radius bound for the inspected regular Cauchy name without importing quotient stream equality, selected limits, real trichotomy, countable choice, host order completeness, or a Dedekind-cut construction.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regularcauchybounded-carrier}. The source row $Q$ is inspected only through the displayed request schedule $W$, and each request in $W$ is measured against the dyadic tolerance ledger $D$.
+
+Read the bound ledger $L$ next. Its center-radius row and verification row are finite data over the displayed requests, so boundedness is certified by the visible regular-name windows rather than by an ambient completeness or choice principle.
+
+The optional equivalence row $E$ transports the same bound shape across a displayed $\RegularCauchyEquivalenceUp$ comparison, while $R$ records only the later real seal reached after the ledger is already present. The rows $H,C,P,N$ preserve, replay, source, and name this route. Since the carrier lists no quotient stream equality, selected limit, trichotomy branch, countable-choice selector, host order-completeness row, or Dedekind-cut coordinate, the finite bound ledger exhausts the boundedness surface.
+\end{proof}
+
+\begin{theorem}[Real window readback from a bounded regular name]
+\label{thm:regularcauchybounded-real-window-readback}
+Every $\RealUp$ or $\BoundedRealSequenceUp$ consumer of an accepted $\RegularCauchyBoundedUp$ packet must read the bound through the displayed regular Cauchy source, stream request schedule, dyadic tolerance ledger, and finite bound ledger before it reaches the stored real seal. The exported readback is exactly
+$$
+Q,W,D,L,E,R,H,C,P,N,
+$$
+with no quotient stream equality, selected limit, trichotomy, countable choice, host completeness, or Dedekind-cut construction.
+\end{theorem}
+\begin{proof}
+Begin with a seal-facing read. By \autoref{def:regularcauchybounded-carrier}, the real seal row $R$ is downstream from $Q,W,D,E,L$, so the consumer must first inspect the regular rational source, the finite stream requests, the dyadic tolerances, and the bound ledger.
+
+Apply \autoref{thm:regularcauchybounded-finite-bound-ledger}. It identifies $L$ as the finite center-radius boundedness surface and keeps the route attached to the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+A $\BoundedRealSequenceUp$ consumer may reuse this bounded regular name as one inspected sequence value, but it receives only the same finite route and the stored real seal. No additional coordinate in the carrier can supply quotient stream equality, a selected limiting real, real trichotomy, countable choice, host completeness, or a Dedekind-cut construction.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealUp$ read from a $\RegularCauchyBoundedUp$ packet factors through a finite regular-name request schedule, a dyadic tolerance ledger, and a displayed center-radius bound ledger before the real seal is consumed.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, regularcauchyequivalence, real, boundedrealsequence: $\RegularCauchyBoundedUp$ is not bijective to any listed sibling because it jointly carries one regular Cauchy source, request windows, dyadic tolerances, an optional equivalence transport row, a real seal, a finite bound ledger, transport, continuation, provenance, and local naming.}
+
+\closureat{RegularCauchyBoundedUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyBoundedUp}
+  \constructivestory{A $\RegularCauchyBoundedUp$ packet is generated from a RegSeqRat source row, StreamName request windows, DyadicRatCore tolerance data, an optional RegularCauchyEquivalence transport row, a RealUp seal, a finite center-radius bound ledger, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regularcauchybounded-carrier}, \autoref{thm:regularcauchybounded-finite-bound-ledger}, and \autoref{thm:regularcauchybounded-real-window-readback} bind the finite boundedness ledger for one regular Cauchy name and its real-window readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close general completeness, selected limits, quotient stream equality, trichotomy, Dedekind-cut construction, countable choice, host real order completeness, or Lean verification.}
+  \upgradepath{Lean closure requires carrier admission, finite bound ledger preservation, real-window readback, and TasteGate field faithfulness for BEDC.Derived.RegularCauchyBoundedUp.}
+\end{closurestatus}
