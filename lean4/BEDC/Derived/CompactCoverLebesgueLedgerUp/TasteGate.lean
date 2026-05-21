@@ -235,4 +235,39 @@ theorem CompactCoverLebesgueLedgerTasteGate_single_carrier_alignment :
           · rfl
           · rfl
 
+theorem CompactCoverLebesgueLedgerCarrier_namecert_obligations
+    (x : CompactCoverLebesgueLedgerUp) :
+    FieldFaithful.fields x = compactCoverLebesgueLedgerFields x ∧
+      BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
+        ∃ compactNet pointwiseRadius ratLedger lowerBoundFold uniformModulus transport route
+            provenance name : BHist,
+          x =
+              CompactCoverLebesgueLedgerUp.mk compactNet pointwiseRadius ratLedger
+                lowerBoundFold uniformModulus transport route provenance name ∧
+            compactCoverLebesgueLedgerFields x =
+              [compactNet, pointwiseRadius, ratLedger, lowerBoundFold, uniformModulus,
+                transport, route, provenance, name] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk compactNet pointwiseRadius ratLedger lowerBoundFold uniformModulus transport route
+      provenance name =>
+      constructor
+      · rfl
+      · constructor
+        · change
+            compactCoverLebesgueLedgerFromEventFlow
+              (compactCoverLebesgueLedgerToEventFlow
+                (CompactCoverLebesgueLedgerUp.mk compactNet pointwiseRadius ratLedger
+                  lowerBoundFold uniformModulus transport route provenance name)) =
+              some
+                (CompactCoverLebesgueLedgerUp.mk compactNet pointwiseRadius ratLedger
+                  lowerBoundFold uniformModulus transport route provenance name)
+          exact
+            compactCoverLebesgueLedger_round_trip
+              (CompactCoverLebesgueLedgerUp.mk compactNet pointwiseRadius ratLedger
+                lowerBoundFold uniformModulus transport route provenance name)
+        · exact
+            ⟨compactNet, pointwiseRadius, ratLedger, lowerBoundFold, uniformModulus,
+              transport, route, provenance, name, rfl, rfl⟩
+
 end BEDC.Derived.CompactCoverLebesgueLedgerUp

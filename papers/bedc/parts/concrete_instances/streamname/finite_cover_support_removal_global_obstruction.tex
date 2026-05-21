@@ -1,6 +1,14 @@
 \section{StreamName Finite-Cover Support Removal Global Obstruction}
 \label{sec:streamname-finite-cover-support-removal-global-obstruction}
 
+This finite-cover support surface is the $\StreamNameUp$-side read of the
+L10 route through
+\autoref{ch:concrete-instances-dyadicratcore-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert}, and
+\autoref{ch:concrete-instances-real-namecert}: those sibling chapters supply
+the dyadic ledger, regular-sequence readback, and terminal $\RealUp$ seal faces
+consumed by the theorems in this file.
+
 \begin{theorem}[StreamName finite-cover support removal global obstruction]
 \label{thm:streamname-finite-cover-support-removal-global-obstruction}
 Let $\{Q_i\}_{i \in I}$ be an accepted finite cover of current Phase
@@ -210,4 +218,49 @@ gives the bidirectional finite-cover support criterion for the L10
 StreamName exit: preserving exactly the displayed finite support yields the
 same descended $\RealUp$ source, and the same descended $\RealUp$ source
 reflects preservation of exactly that displayed finite support.
+\end{proof}
+
+\begin{theorem}[StreamName finite-cover support bicriterion]
+\label{thm:streamname-finite-cover-support-bicriterion}
+Let $\{Q_i\}_{i \in I}$ and $\{R_k\}_{k \in K}$ be accepted finite covers of
+the same current Phase $\RealUp$ and Completion terminal $\StreamNameUp$
+request section, and suppose that they admit an accepted common refinement
+$\{S_\ell\}_{\ell \in L}$. The descended finite-cover terminal support packets
+present the same $\RealUp$ seal-visible source if and only if, after pullback
+to the accepted common refinement, the two presentations agree on the four
+visible faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$, and on the displayed $\BHist$, componentwise $\hsame$, $\Cont$,
+$\Pkg$, and local \NameCert{} rows.
+
+This bicriterion is only a criterion for the finite-cover L10 support surface.
+It excludes quotient stream equality, selected limits, countable choice,
+metric-completeness data, bridge rows, aggregate formalstatus rows, ambient
+$\RealUp$ completeness, and replacement regularity selectors; none of these is
+an additional coordinate of the descended support packet, and none is
+recovered from the agreement assertion.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the descended finite-cover terminal support
+packets present the same $\RealUp$ seal-visible source. Apply
+\autoref{thm:streamname-finite-cover-support-preservation-reflection}. It
+reflects that sameness back to agreement, after pullback to the accepted
+common refinement, on the four visible faces and on the displayed $\BHist$,
+componentwise $\hsame$, $\Cont$, $\Pkg$, and local \NameCert{} rows.
+
+For the reverse direction, assume agreement after pullback on exactly those
+visible faces and displayed support rows. Apply
+\autoref{thm:streamname-finite-cover-support-preservation-exactness}. The
+exactness theorem descends that preserved finite support to the same
+$\RealUp$ seal-visible source for the two finite-cover terminal support
+packets.
+
+Finally record the boundary of the equivalence. The exactness direction does
+not add quotient stream equality, selected limits, countable choice,
+metric-completeness data, bridge rows, ambient $\RealUp$ completeness, or
+replacement regularity selectors, and the reflection direction does not
+reflect quotient stream equality, selected limits, countable choice,
+metric-completeness data, bridge rows, aggregate formalstatus rows, ambient
+$\RealUp$ completeness, or replacement regularity selectors. Therefore the
+criterion binds only the displayed finite-cover support rows and has no hidden
+coordinate beyond them.
 \end{proof}
