@@ -505,4 +505,52 @@ theorem DyadicSubdivisionSource_public_finite_enclosure_export [AskSetup] [Packa
       realPkg,
       publicPkg⟩
 
+theorem DyadicSubdivisionSource_routed_bisection_normal_form [AskSetup] [PackageSetup]
+    {parent level cells mesh validated provenance name enclosureRead realRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicSubdivisionSource parent level cells mesh validated provenance name bundle pkg ->
+      Cont mesh validated enclosureRead ->
+        Cont enclosureRead provenance realRead ->
+          Cont realRead name publicRead ->
+            PkgSig bundle enclosureRead pkg ->
+              PkgSig bundle realRead pkg ->
+                PkgSig bundle publicRead pkg ->
+                  UnaryHistory parent ∧ UnaryHistory level ∧ UnaryHistory cells ∧
+                    UnaryHistory mesh ∧ UnaryHistory validated ∧ UnaryHistory enclosureRead ∧
+                      UnaryHistory realRead ∧ UnaryHistory publicRead ∧
+                        Cont parent level cells ∧ Cont cells mesh validated ∧
+                          Cont mesh validated enclosureRead ∧
+                            Cont enclosureRead provenance realRead ∧
+                              Cont realRead name publicRead ∧ PkgSig bundle provenance pkg ∧
+                                PkgSig bundle name pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro source meshValidatedEnclosure enclosureProvenanceReal realNamePublic _enclosurePkg
+    _realPkg publicPkg
+  obtain ⟨parentUnary, levelUnary, cellsUnary, meshUnary, validatedUnary, provenanceUnary,
+    nameUnary, parentLevelCells, cellsMeshValidated, _validatedProvenanceName, provenancePkg,
+    namePkg⟩ := source
+  have enclosureUnary : UnaryHistory enclosureRead :=
+    unary_cont_closed meshUnary validatedUnary meshValidatedEnclosure
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed enclosureUnary provenanceUnary enclosureProvenanceReal
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed realUnary nameUnary realNamePublic
+  exact
+    ⟨parentUnary,
+      levelUnary,
+      cellsUnary,
+      meshUnary,
+      validatedUnary,
+      enclosureUnary,
+      realUnary,
+      publicUnary,
+      parentLevelCells,
+      cellsMeshValidated,
+      meshValidatedEnclosure,
+      enclosureProvenanceReal,
+      realNamePublic,
+      provenancePkg,
+      namePkg,
+      publicPkg⟩
+
 end BEDC.Derived.DyadicSubdivisionUp
