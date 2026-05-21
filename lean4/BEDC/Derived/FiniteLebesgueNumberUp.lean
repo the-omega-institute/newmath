@@ -2,3 +2,5 @@ import BEDC.Derived.FiniteLebesgueNumberUp.Core
 import BEDC.Derived.FiniteLebesgueNumberUp.RootRoutes
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumerDeterminacy
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusWindowAdmission
+import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseRadiusWindowExhaustion
+import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowSourceLock

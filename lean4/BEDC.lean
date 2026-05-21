@@ -2573,8 +2573,10 @@ import BEDC.Derived.FiniteKernelCategoryUp.TasteGate
 import BEDC.Derived.FiniteLebesgueNumberUp
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformChoiceRefusal
 import BEDC.Derived.FiniteLebesgueNumberUp.Core
+import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseRadiusWindowExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealAuditLedgerReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadius
+import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowSourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealSourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusClassifierStability
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumerDeterminacy
@@ -3234,6 +3236,7 @@ import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
 import BEDC.Derived.LocatedSupremumUp.TasteGate
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
+import BEDC.Derived.LowerSemicontinuousUp.TasteGate
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LyapunovUp.TasteGate
