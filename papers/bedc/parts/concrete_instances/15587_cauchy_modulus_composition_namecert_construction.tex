@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusCompositionUp$}
+\label{ch:concrete-instances-cauchy-modulus-composition-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchyModulusCompositionUp$ packet records the finite bookkeeping needed to compose two displayed Cauchy modulus budgets before any RegSeqRat or Real consumer reads the resulting route. It sits between the tolerance ledger of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the finite-window stream surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names only a finite composition ledger: it is not a quotient stream, not a selected limit, not host real equality, not trichotomy, not ambient completeness, and not a standard bridge assertion.
+
+\begin{definition}[Cauchy modulus composition carrier]
+\label{def:cauchy-modulus-composition-carrier}
+A $\CauchyModulusCompositionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M_1,M_2,B,W,D,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M_1$ and $M_2$ are source $\CauchyModulusUp$ rows. The first row names the outer precision request, and the second row names the inner stage request read from the first row.
+\item $B$ is the composed precision-budget row. It records the finite request that first queries $M_1$, then queries $M_2$ at the stage exposed by $M_1$, and exports the resulting stage bound as a single budget.
+\item $W$ is the $\StreamNameUp$ window route through which the composed budget is allowed to read only displayed stream windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to name every radius comparison that appears during the two modulus lookups.
+\item $R$ is the $\RegSeqRatUp$ handoff row that receives the composed budget after $W$ and $D$ have been replayed.
+\item $E$ is the $\RealUp$ route row that may be read only after the RegSeqRat handoff has consumed the same composed budget.
+\item $H$ records componentwise $\hsame$ transport for $M_1,M_2,B,W,D,R,E$, the continuation row, the provenance row, and the local naming row.
+\item $C$ records displayed $\Cont$ replay from a precision request through $M_1$, $M_2$, the composed budget $B$, stream windows $W$, dyadic tolerances $D$, RegSeqRat handoff $R$, and the Real route $E$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusCompositionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected limits, host real equality, trichotomy, ambient completeness of $\RealUp$, or standard bridge data.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus composition NameCert obligations]
+\label{thm:cauchy-modulus-composition-namecert-obligations}
+For every accepted $\CauchyModulusCompositionUp$ carrier $K=(M_1,M_2,B,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyModulusCompositionUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the two source Cauchy modulus rows, composed budget, stream-window route, dyadic tolerance ledger, RegSeqRat handoff, Real route, transport, continuation, provenance, and local naming row;
+\item budget composition, requiring $B$ to read $M_1$ before $M_2$ and to export a single finite stage bound after the two lookups;
+\item window and tolerance exposure, requiring the composed budget to pass through $W$ and $D$ before any regular rational or Real-facing consumer may read it;
+\item transport stability, requiring $H$ to preserve the same ordered rows under componentwise $\hsame$ replacement;
+\item nonescape, requiring $C,P,N$ to expose no quotient stream, selected limit, host real equality, trichotomy, ambient-completeness principle, or standard bridge claim.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-composition-carrier}. The displayed tuple contains exactly the two modulus rows, composed budget, stream-window route, dyadic ledger, RegSeqRat handoff, Real route, transport, continuation, provenance, and local naming row.
+
+Budget composition is forced by the row $B$. It reads the outer request through $M_1$, uses the displayed stage from that lookup as the request for $M_2$, and stores the resulting stage as one finite budget row.
+
+The consumer route is ordered by $C$. A regular rational or Real-facing read must replay $W$ and $D$ before it can consume $R$ or $E$, so every exported comparison has passed through finite windows and dyadic tolerance naming.
+
+Transport stability is componentwise. The row $H$ replaces only displayed coordinates by $\hsame$-classified coordinates and then replays the same continuation order.
+
+Since the carrier has no quotient-stream, selected-limit, host-equality, trichotomy, completeness, or bridge coordinate, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus budget composition]
+\label{thm:cauchy-modulus-composition-budget-composition}
+Let $K=(M_1,M_2,B,W,D,R,E,H,C,P,N)$ be an accepted $\CauchyModulusCompositionUp$ carrier. Every budget-facing consumer of $K$ factors through the finite route
+$$
+M_1 \longmapsto M_2 \longmapsto B \longmapsto W \longmapsto D \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives a single composed stage bound whose two source modulus lookups and dyadic tolerance rows remain visible.
+\end{theorem}
+\begin{proof}
+Begin with a budget-facing consumer. Carrier admission exposes $B$ only as the row downstream of the two source modulus lookups.
+
+Replay the continuation row $C$. The first lookup reads $M_1$ at the requested precision; the second lookup reads $M_2$ at the stage request displayed by $M_1$. The row $B$ stores the finite result of these two reads as one budget.
+
+The route then passes through $W$ and $D$. Thus stream-window access and dyadic tolerance naming are part of the same finite replay rather than external assumptions.
+
+The RegSeqRat and Real rows are downstream consumers of this composed route. Transport and provenance through $H,C,P,N$ preserve the order, so no detached budget can be read by $R$ or $E$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus composition Real route]
+\label{thm:cauchy-modulus-composition-real-route}
+Let $K=(M_1,M_2,B,W,D,R,E,H,C,P,N)$ be an accepted $\CauchyModulusCompositionUp$ carrier. Every Real-facing read of $K$ reaches the $\RealUp$ route only after the composed modulus budget has passed through the StreamName windows, DyadicRatCore tolerance ledger, and RegSeqRat handoff. The exported surface contains no quotient stream, selected limit, host real equality, trichotomy, ambient Real completeness assertion, or standard bridge claim.
+\end{theorem}
+\begin{proof}
+The Real route row $E$ is displayed in the carrier, but its accessibility is ordered by the continuation row $C$. A Real-facing read must therefore replay $M_1,M_2,B,W,D,R$ before $E$ is available.
+
+The replay keeps the composed budget finite. The two source modulus rows provide the only stage lookups, $W$ supplies the only stream-window route, $D$ supplies the only tolerance ledger, and $R$ supplies the only regular rational handoff.
+
+The rows $H,P,N$ name and transport that same finite packet. They cannot introduce a quotient stream, selected limit, host equality, trichotomy, completeness principle, or standard bridge assertion, because none of those data appear in the carrier.
+\end{proof}
+
+\begin{closurestatus}{\CauchyModulusCompositionUp}
+  \constructivestory{A $\CauchyModulusCompositionUp$ packet is generated from two CauchyModulus source rows, a composed precision-budget row, a StreamName window route, a DyadicRatCore tolerance ledger, a RegSeqRat handoff, a RealUp route, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-composition-carrier}, \autoref{thm:cauchy-modulus-composition-namecert-obligations}, \autoref{thm:cauchy-modulus-composition-budget-composition}, and \autoref{thm:cauchy-modulus-composition-real-route} seed the finite ledger that composes two Cauchy modulus budgets before RegSeqRat and Real consumers read them.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, trichotomy, ambient $\RealUp$ completeness, standard bridge data, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, budget composition, window and tolerance exposure, RegSeqRat handoff, Real route nonescape, and transport stability for BEDC.Derived.CauchyModulusCompositionUp.}
+\end{closurestatus}
