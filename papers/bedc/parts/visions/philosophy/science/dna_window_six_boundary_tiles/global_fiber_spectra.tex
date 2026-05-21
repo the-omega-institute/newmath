@@ -121,6 +121,13 @@ $$
   \frac{50}{60/7}=\frac{35}{6}\approx5.83
 $$
 times the same-histogram random expectation.
+The exact variance of the same-edge count under this same-histogram
+model is
+$$
+  \frac{686964}{92659}\approx7.41,
+$$
+so the standard deviation is about $2.72$ and the observed value has
+z-score about $15.2$.
 \end{theorem}
 \begin{proof}
 The standard degeneracy histogram gives
@@ -139,6 +146,12 @@ Since $\binom{64}{2}=2016$, the probability is
 $90/2016=5/112$. Multiplying by the $192$ Hamming edges gives $60/7$.
 The observed count $50$ is
 \autoref{thm:philosophy-standard-code-q-one-edge-spectrum}.
+For the variance, separate unordered pairs of Hamming edges into
+adjacent edge-pairs, of which there are $64\binom{6}{2}=960$, and
+disjoint edge-pairs, of which there are
+$\binom{192}{2}-960=17376$. Evaluating the two corresponding
+same-fiber probabilities from the fixed fiber sizes gives the displayed
+finite variance.
 \end{proof}
 
 \begin{corollary}[Local edge smoothness is not a histogram artifact]
@@ -154,6 +167,40 @@ The excess over the histogram baseline is
 \autoref{thm:philosophy-same-histogram-random-edge-baseline}. The
 directional concentration is
 \autoref{cor:philosophy-third-position-softness}.
+\end{proof}
+
+\begin{theorem}[Single-nucleotide substitution edge spectrum]
+\label{thm:philosophy-single-nucleotide-substitution-edge-spectrum}
+If edges are taken to be ordinary one-base substitutions rather than
+one-bit flips, then there are $288$ unordered edges. The standard
+classifier has the following position-wise spectrum:
+$$
+\begin{array}{c|rrr|r}
+  \text{codon position} & 1 & 2 & 3 & \text{total}\\
+\hline
+  \text{same-class substitution edges} & 4 & 1 & 64 & 69\\
+  \text{cross-class substitution edges} & 92 & 95 & 32 & 219.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each codon position, fix the other two bases in $4^{2}$ ways and
+connect the four choices at the chosen position by the complete graph
+on four bases. This gives $16\binom{4}{2}=96$ edges per position and
+$288$ total edges. Decoding both endpoints and comparing their standard
+translation labels gives the displayed finite spectrum.
+\end{proof}
+
+\begin{corollary}[Two-axis stability matches nucleotide substitution]
+\label{cor:philosophy-two-axis-stability-matches-nucleotide-substitution}
+The two-axis $Q_{6}$ edge spectrum is not only a formal bit-cube
+phenomenon. Ordinary one-base substitution edges show the same
+asymmetry: the third codon position has $64$ same-class edges out of
+$96$, while the first two positions have only $4$ and $1$.
+\end{corollary}
+\begin{proof}
+Compare \autoref{thm:philosophy-standard-code-q-one-edge-spectrum} with
+\autoref{thm:philosophy-single-nucleotide-substitution-edge-spectrum}.
 \end{proof}
 
 \begin{theorem}[Standard-code $Q_{2}$ face spectrum]

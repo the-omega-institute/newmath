@@ -228,6 +228,26 @@ def q1_random_baseline(table: dict[str, str]) -> dict[str, object]:
     expected_edges = probability * 192
     observed_edges = sum(q1_spectrum(table)[0])
     ratio = fractions.Fraction(observed_edges, 1) / expected_edges
+    ordered_same_pairs = sum(size * (size - 1) for size in sizes.values())
+    ordered_same_triples = sum(size * (size - 1) * (size - 2) for size in sizes.values())
+    ordered_same_quads = sum(size * (size - 1) * (size - 2) * (size - 3) for size in sizes.values())
+    ordered_same_pair_squares = sum((size * (size - 1)) ** 2 for size in sizes.values())
+    adjacent_edge_pairs = 64 * 15
+    disjoint_edge_pairs = 192 * 191 // 2 - adjacent_edge_pairs
+    adjacent_same_probability = fractions.Fraction(ordered_same_triples, 64 * 63 * 62)
+    disjoint_same_probability = fractions.Fraction(
+        ordered_same_quads + ordered_same_pairs * ordered_same_pairs - ordered_same_pair_squares,
+        64 * 63 * 62 * 61,
+    )
+    variance = (
+        192 * (probability - probability * probability)
+        + 2
+        * (
+            adjacent_edge_pairs * (adjacent_same_probability - probability * probability)
+            + disjoint_edge_pairs * (disjoint_same_probability - probability * probability)
+        )
+    )
+    z_score = (float(observed_edges) - float(expected_edges)) / (float(variance) ** 0.5)
     histogram = collections.Counter(sizes.values())
     return {
         "degeneracy_histogram": dict(sorted(histogram.items())),
@@ -249,7 +269,35 @@ def q1_random_baseline(table: dict[str, str]) -> dict[str, object]:
             "denominator": ratio.denominator,
             "decimal": float(ratio),
         },
+        "variance": {
+            "numerator": variance.numerator,
+            "denominator": variance.denominator,
+            "decimal": float(variance),
+        },
+        "standard_deviation": float(variance) ** 0.5,
+        "z_score": z_score,
     }
+
+
+def nucleotide_substitution_spectrum(table: dict[str, str]) -> dict[str, object]:
+    same = [0, 0, 0]
+    diff = [0, 0, 0]
+    for position in range(3):
+        for prefix in itertools.product(BASES, repeat=2):
+            other_positions = iter(prefix)
+            codons = []
+            for base in BASES:
+                codon_parts = []
+                for index in range(3):
+                    codon_parts.append(base if index == position else next(other_positions))
+                codons.append("".join(codon_parts))
+                other_positions = iter(prefix)
+            for left, right in itertools.combinations(codons, 2):
+                if table[left] == table[right]:
+                    same[position] += 1
+                else:
+                    diff[position] += 1
+    return {"same_by_position": same, "diff_by_position": diff, "same_total": sum(same)}
 
 
 def q2_faces(table: dict[str, str]) -> tuple[collections.Counter[str], dict[str, collections.Counter[str]], list[dict[str, object]]]:
@@ -636,6 +684,32 @@ def module_value_grammar_summary(tables: dict[int, dict[str, str]]) -> dict[str,
     }
 
 
+def tile_pattern_summary(tables: dict[int, dict[str, str]]) -> dict[str, object]:
+    ile_met = ("ATT", "ATC", "ATA", "ATG")
+    stop_trp = ("TAA", "TAG", "TGA", "TGG")
+    ile_patterns: collections.Counter[tuple[str, ...]] = collections.Counter()
+    stop_patterns: collections.Counter[tuple[str, ...]] = collections.Counter()
+    ile_tables: dict[tuple[str, ...], list[int]] = collections.defaultdict(list)
+    stop_tables: dict[tuple[str, ...], list[int]] = collections.defaultdict(list)
+    for table_id, table in sorted(tables.items()):
+        ile_pattern = tuple(table[codon] for codon in ile_met)
+        stop_pattern = tuple(table[codon] for codon in stop_trp)
+        ile_patterns[ile_pattern] += 1
+        stop_patterns[stop_pattern] += 1
+        ile_tables[ile_pattern].append(table_id)
+        stop_tables[stop_pattern].append(table_id)
+    return {
+        "ile_met_patterns": {
+            "/".join(pattern): {"count": count, "tables": ile_tables[pattern]}
+            for pattern, count in sorted(ile_patterns.items(), key=lambda item: (-item[1], item[0]))
+        },
+        "stop_trp_patterns": {
+            "/".join(pattern): {"count": count, "tables": stop_tables[pattern]}
+            for pattern, count in sorted(stop_patterns.items(), key=lambda item: (-item[1], item[0]))
+        },
+    }
+
+
 def module_value_adjacency(states: list[tuple[tuple[str, ...], ...]]) -> dict[int, set[int]]:
     adjacency: dict[int, set[int]] = {index: set() for index in range(len(states))}
     for left, right in itertools.combinations(range(len(states)), 2):
@@ -906,6 +980,7 @@ def build_summary() -> dict[str, object]:
         "table_ids": sorted(tables),
         "q1_standard": {"same_by_direction": q1_same, "diff_by_direction": q1_diff, "same_total": sum(q1_same)},
         "q1_random_baseline": q1_random_baseline(standard),
+        "nucleotide_substitution": nucleotide_substitution_spectrum(standard),
         "q2_standard": {
             "total": dict(q2_total),
             "geometry": {key: dict(value) for key, value in q2_geometry.items()},
@@ -923,6 +998,7 @@ def build_summary() -> dict[str, object]:
         "module_activation_grammar": module_activation_summary(partial_tables),
         "module_value_grammar": module_value_grammar_summary(partial_tables),
         "latent_completion": latent_completion_summary(partial_tables),
+        "tile_patterns": tile_pattern_summary(partial_tables),
         "q1_all_tables": dict(sorted(all_q1_totals.items())),
     }
 
@@ -939,6 +1015,15 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert summary["q1_random_baseline"]["expected_same_edges"]["denominator"] == 7
     assert summary["q1_random_baseline"]["observed_to_expected_ratio"]["numerator"] == 35
     assert summary["q1_random_baseline"]["observed_to_expected_ratio"]["denominator"] == 6
+    assert summary["q1_random_baseline"]["variance"]["numerator"] == 686964
+    assert summary["q1_random_baseline"]["variance"]["denominator"] == 92659
+    assert round(summary["q1_random_baseline"]["standard_deviation"], 3) == 2.723
+    assert round(summary["q1_random_baseline"]["z_score"], 1) == 15.2
+    assert summary["nucleotide_substitution"] == {
+        "same_by_position": [4, 1, 64],
+        "diff_by_position": [92, 95, 32],
+        "same_total": 69,
+    }
     assert summary["q2_standard"]["total"] == {
         "4": 9,
         "3+1": 4,
@@ -1115,6 +1200,14 @@ def assert_expected(summary: dict[str, object]) -> None:
             "max_standard_to_observed_distance": 4,
         },
     }
+    assert summary["tile_patterns"]["ile_met_patterns"] == {
+        "I/I/I/M": {"count": 22, "tables": [1, 4, 6, 9, 10, 11, 12, 14, 15, 16, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]},
+        "I/I/M/M": {"count": 5, "tables": [2, 3, 5, 13, 21]},
+    }
+    assert len(summary["tile_patterns"]["stop_trp_patterns"]) == 14
+    assert summary["tile_patterns"]["stop_trp_patterns"]["*/*/W/W"]["count"] == 8
+    assert summary["tile_patterns"]["stop_trp_patterns"]["*/*/*/W"]["count"] == 5
+    assert summary["tile_patterns"]["stop_trp_patterns"]["Q|*/Q|*/*|W/W"]["count"] == 1
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
