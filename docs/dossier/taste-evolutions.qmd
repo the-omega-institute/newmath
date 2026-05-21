@@ -20,12 +20,12 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-21T17:53:09Z
+> 最后刷新: 2026-05-21T18:18:31Z
 
-**Daemon 状态**: monitor (monitor cycle 4, adjust_since_research 3, round_counter 5132, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 5, adjust_since_research 3, round_counter 5156, last_adjust rule_evolution_skipped_or_failed)
 
-**待处理 queue** (71 条 finding):
-- isolated_theorem: 51 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
+**待处理 queue** (70 条 finding):
+- isolated_theorem: 50 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
 - low_entropy_template: 20 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
 
 **最近 alert 概览** (24h 内):
@@ -138,6 +138,8 @@ Daemon evolved from "quality dashboard" to "per-finding resolver":
 
 Implements user request "AI 能看出来哪些没意义" -- moves from rule abstraction
 to case-by-case judgment.
+
+- 2026-05-21T18:18:21Z: `resolved` `delete_theorem` for `BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_window_coverage_exactness` (flag `isolated_theorem`, finding `isolated_theorem:finitelebesguenumber:BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_window_coverage_exactness:39d9fa69`). Rationale: The target had no downstream Lean users and was only marked in the finite Lebesgue-number paper chapter. Its content is covered by the immediately following stronger theorem `FiniteLebesgueNumberCoverCellReadbackTotality`, which preserves the same window-to-cover-cell route and also includes the carrier cover and radius-mesh route data, so keeping the isolated theorem added a redundant public declaration. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
