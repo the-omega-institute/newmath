@@ -492,6 +492,7 @@ import BEDC.Derived.BHistDodecaSequenceNameCertUp
 import BEDC.Derived.BHistDodecaTupleNameCertUp
 import BEDC.Derived.BHistHendecaSequenceNameCertUp
 import BEDC.Derived.BHistHendecaTupleNameCertUp
+import BEDC.Derived.BHistHendecaTupleNameCertUp.TasteGate
 import BEDC.Derived.BHistHeptaSequenceNameCertUp
 import BEDC.Derived.BHistHeptaTupleNameCertUp
 import BEDC.Derived.BHistNonaSequenceNameCertUp
@@ -1852,6 +1853,7 @@ import BEDC.Derived.DeRhamUp.GraphLedger
 import BEDC.Derived.DeRhamUp.RootCocycleLedgerThreshold
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DeRhamUp.RootObligations
+import BEDC.Derived.DecidableRefutationBoundaryUp.NameCertObligations
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DedekindCutUp
@@ -4269,6 +4271,7 @@ import BEDC.Derived.RootSystemUp
 import BEDC.Derived.RuleOneTenGliderCatalogUp.TasteGate
 import BEDC.Derived.RuntimeBoundaryAuditUp.TasteGate
 import BEDC.Derived.RuntimeCandidateBoundaryUp.TasteGate
+import BEDC.Derived.RuntimeReflectionBoundaryUp.NameCertObligations
 import BEDC.Derived.RuntimeReflectionBoundaryUp.TasteGate
 import BEDC.Derived.RuntimeTruthSeparationUp.TasteGate
 import BEDC.Derived.RussellAnalysisLadderUp.TasteGate
