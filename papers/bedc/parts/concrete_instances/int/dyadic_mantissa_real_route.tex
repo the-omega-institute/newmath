@@ -28,6 +28,39 @@ completeness, the real-side read inherits only the displayed BEDC lattice
 surface.
 \end{proof}
 
+\begin{theorem}[IntUp dyadic mantissa zero-sign normalization]
+\label{thm:int-dyadic-mantissa-zero-sign-normalization}
+Every Real-and-Completion read that uses an $\IntUp$ signed-pair coordinate as
+the mantissa input of a $\DyadicRatCoreUp$ packet must first apply the
+$\IntUp$ zero-sign boundary. Thus the two written zero rows determine the same
+finite signed-mantissa source before $\RatUp$ denominator normalization and
+$\DyadicRatCoreUp$ mantissa routing are read. The normalization is a finite
+source-row condition only; it does not assert host integer equality, quotient
+rational representatives, primitive subtraction, selected limits, or
+$\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the refined zero-sign boundary
+\autoref{thm:int-zero-sign-refined-boundary}. It identifies the two signed-pair
+zero presentations as the same $\IntUp$ boundary row before the coordinate is
+exported to any rational or dyadic consumer.
+
+Next apply the route theorem
+\autoref{thm:int-dyadic-mantissa-real-route}. It places every such mantissa read
+behind the $\NatUp$, $\AddUp$, $\RatUp$, and $\DyadicRatCoreUp$ surfaces, so the
+zero-sign boundary is already part of the finite row that enters the dyadic
+packet.
+
+Finally use source uniqueness
+\autoref{thm:int-dyadic-mantissa-l10-source-uniqueness} together with the
+sibling denominator route
+\autoref{thm:int-dyadicratcore-denominator-route-sibling-repair}. After the
+zero rows have collapsed to the same signed-mantissa source, the denominator
+normalization and dyadic routing cannot split them again. Downstream
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers therefore see only the
+normalized finite row, with none of the excluded host-level data added.
+\end{proof}
+
 \begin{theorem}[IntUp dyadic mantissa L10 source uniqueness]
 \label{thm:int-dyadic-mantissa-l10-source-uniqueness}
 Let two L10 Real-and-Completion reads expose an $\IntUp$ signed-pair coordinate
