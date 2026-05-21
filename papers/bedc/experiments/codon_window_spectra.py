@@ -1187,6 +1187,161 @@ def reassignment_mass_geometry_summary(tables: dict[int, dict[str, str]]) -> dic
     }
 
 
+def is_connected_codons(codons: tuple[str, ...], edge_pairs: set[tuple[str, str]]) -> bool:
+    if not codons:
+        return False
+    codon_set = set(codons)
+    seen = {codons[0]}
+    stack = [codons[0]]
+    while stack:
+        item = stack.pop()
+        for left, right in edge_pairs:
+            neighbor = None
+            if left == item and right in codon_set:
+                neighbor = right
+            elif right == item and left in codon_set:
+                neighbor = left
+            if neighbor is not None and neighbor not in seen:
+                seen.add(neighbor)
+                stack.append(neighbor)
+    return seen == codon_set
+
+
+def weighted_deformation_spine_summary(tables: dict[int, dict[str, str]]) -> dict[str, object]:
+    standard = tables[1]
+    codon_weights: collections.Counter[str] = collections.Counter()
+    for table_id, table in sorted(tables.items()):
+        if table_id == 1:
+            continue
+        for codon in all_codons():
+            if table[codon] != standard[codon]:
+                codon_weights[codon] += 1
+    reassigned = tuple(sorted(codon_weights))
+    reassigned_set = set(reassigned)
+    total_mass = sum(codon_weights.values())
+    edge_pairs = {
+        tuple(sorted((left, right)))
+        for left, right, _direction in hamming_edges()
+        if left in reassigned_set and right in reassigned_set
+    }
+
+    connected_optima: dict[int, dict[str, object]] = {}
+    for size in range(1, len(reassigned) + 1):
+        max_mass = -1
+        optima: list[tuple[str, ...]] = []
+        for candidate in itertools.combinations(reassigned, size):
+            if not is_connected_codons(candidate, edge_pairs):
+                continue
+            mass = sum(codon_weights[codon] for codon in candidate)
+            if mass > max_mass:
+                max_mass = mass
+                optima = []
+            if mass == max_mass:
+                optima.append(candidate)
+        connected_optima[size] = {
+            "max_mass": max_mass,
+            "optimum_count": len(optima),
+            "optima": optima,
+        }
+
+    bit_majority: list[dict[str, object]] = []
+    for direction in range(6):
+        masses = collections.Counter()
+        for codon, weight in codon_weights.items():
+            masses[bits(codon)[direction]] += weight
+        majority_value, majority_mass = max(masses.items(), key=lambda item: (item[1], item[0]))
+        bit_majority.append(
+            {
+                "bit": direction,
+                "majority_value": majority_value,
+                "zero_mass": masses["0"],
+                "one_mass": masses["1"],
+                "majority_mass": majority_mass,
+                "majority_fraction": majority_mass / total_mass,
+            }
+        )
+
+    q3_candidates: list[dict[str, object]] = []
+    for free in itertools.combinations(range(6), 3):
+        for values in itertools.product("01", repeat=3):
+            vertices = subcube_vertices(free, values)
+            support_count = sum(1 for codon in vertices if codon in reassigned_set)
+            mass = sum(codon_weights[codon] for codon in vertices)
+            q3_candidates.append(
+                {
+                    "free_bits": free,
+                    "fixed_conditions": fixed_conditions(free, values),
+                    "vertices": vertices,
+                    "support_count": support_count,
+                    "mass": mass,
+                }
+            )
+    max_q3_support = max(candidate["support_count"] for candidate in q3_candidates)
+    cardinality_q3 = [
+        candidate for candidate in q3_candidates if candidate["support_count"] == max_q3_support
+    ]
+    cardinality_q3.sort(key=lambda item: (-item["mass"], item["vertices"]))
+
+    cover_blocks: list[dict[str, object]] = []
+    for dimension in (3, 2):
+        for free in itertools.combinations(range(6), dimension):
+            for values in itertools.product("01", repeat=6 - dimension):
+                vertices = subcube_vertices(free, values)
+                covered = tuple(sorted(codon for codon in vertices if codon in reassigned_set))
+                if not covered:
+                    continue
+                cover_blocks.append(
+                    {
+                        "dimension": dimension,
+                        "fixed_conditions": fixed_conditions(free, values),
+                        "vertices": vertices,
+                        "covered": covered,
+                        "covered_count": len(covered),
+                        "mass": sum(codon_weights[codon] for codon in covered),
+                    }
+                )
+    minimal_covers: list[tuple[dict[str, object], ...]] = []
+    for cover_size in range(1, 5):
+        for blocks in itertools.combinations(cover_blocks, cover_size):
+            covered_union = set().union(*(set(block["covered"]) for block in blocks))
+            if covered_union == reassigned_set:
+                minimal_covers.append(blocks)
+        if minimal_covers:
+            break
+    minimal_covers.sort(
+        key=lambda blocks: (
+            -sum(block["mass"] for block in blocks),
+            tuple((block["dimension"], block["vertices"]) for block in blocks),
+        )
+    )
+    canonical_cover_vertices = [
+        ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
+        ("CTT", "CTC", "CTA", "CTG"),
+        ("TTA", "TCA", "ATA", "ACA"),
+    ]
+    canonical_cover: list[dict[str, object]] = []
+    for vertices in canonical_cover_vertices:
+        covered = tuple(sorted(codon for codon in vertices if codon in reassigned_set))
+        canonical_cover.append(
+            {
+                "vertices": vertices,
+                "covered": covered,
+                "covered_count": len(covered),
+                "mass": sum(codon_weights[codon] for codon in covered),
+            }
+        )
+    return {
+        "connected_optima": connected_optima,
+        "bit_majority": bit_majority,
+        "max_q3_support_count": max_q3_support,
+        "cardinality_q3_maximizers": cardinality_q3,
+        "minimal_q2_q3_cover_size": len(minimal_covers[0]),
+        "minimal_q2_q3_cover_count": len(minimal_covers),
+        "preferred_q2_q3_cover": list(minimal_covers[0]),
+        "canonical_q2_q3_cover": canonical_cover,
+    }
+
+
 def module_value_adjacency(states: list[tuple[tuple[str, ...], ...]]) -> dict[int, set[int]]:
     adjacency: dict[int, set[int]] = {index: set() for index in range(len(states))}
     for left, right in itertools.combinations(range(len(states)), 2):
@@ -1488,6 +1643,7 @@ def build_summary() -> dict[str, object]:
         "tile_patterns": tile_pattern_summary(partial_tables),
         "reassignment_concentration": reassignment_concentration_summary(partial_tables),
         "reassignment_mass_geometry": reassignment_mass_geometry_summary(partial_tables),
+        "weighted_deformation_spine": weighted_deformation_spine_summary(partial_tables),
         "q1_all_tables": dict(sorted(all_q1_totals.items())),
     }
 
@@ -1978,6 +2134,61 @@ def assert_expected(summary: dict[str, object]) -> None:
         ["CTA", "CTC", "CTG", "CTT"],
         ["TCA"],
         ["TTA"],
+    ]
+    assert {
+        size: {
+            "max_mass": summary["weighted_deformation_spine"]["connected_optima"][size]["max_mass"],
+            "optimum_count": summary["weighted_deformation_spine"]["connected_optima"][size]["optimum_count"],
+            "optima": summary["weighted_deformation_spine"]["connected_optima"][size]["optima"],
+        }
+        for size in range(1, 8)
+    } == {
+        1: {"max_mass": 15, "optimum_count": 1, "optima": [("TGA",)]},
+        2: {"max_mass": 23, "optimum_count": 2, "optima": [("AGA", "TGA"), ("TAA", "TGA")]},
+        3: {"max_mass": 33, "optimum_count": 1, "optima": [("TAA", "TAG", "TGA")]},
+        4: {"max_mass": 41, "optimum_count": 1, "optima": [("AGA", "TAA", "TAG", "TGA")]},
+        5: {"max_mass": 49, "optimum_count": 1, "optima": [("AGA", "AGG", "TAA", "TAG", "TGA")]},
+        6: {"max_mass": 52, "optimum_count": 1, "optima": [("AAA", "AGA", "AGG", "TAA", "TAG", "TGA")]},
+        7: {"max_mass": 57, "optimum_count": 1, "optima": [("AAA", "AGA", "AGG", "ATA", "TAA", "TAG", "TGA")]},
+    }
+    assert summary["weighted_deformation_spine"]["bit_majority"] == [
+        {"bit": 0, "majority_value": "0", "zero_mass": 41, "one_mass": 24, "majority_mass": 41, "majority_fraction": 41 / 65},
+        {"bit": 1, "majority_value": "0", "zero_mass": 59, "one_mass": 6, "majority_mass": 59, "majority_fraction": 59 / 65},
+        {"bit": 2, "majority_value": "1", "zero_mass": 13, "one_mass": 52, "majority_mass": 52, "majority_fraction": 52 / 65},
+        {"bit": 3, "majority_value": "0", "zero_mass": 33, "one_mass": 32, "majority_mass": 33, "majority_fraction": 33 / 65},
+        {"bit": 4, "majority_value": "1", "zero_mass": 2, "one_mass": 63, "majority_mass": 63, "majority_fraction": 63 / 65},
+        {"bit": 5, "majority_value": "0", "zero_mass": 43, "one_mass": 22, "majority_mass": 43, "majority_fraction": 43 / 65},
+    ]
+    assert summary["weighted_deformation_spine"]["max_q3_support_count"] == 7
+    assert summary["weighted_deformation_spine"]["cardinality_q3_maximizers"] == [
+        {
+            "free_bits": (0, 2, 3),
+            "fixed_conditions": ((1, "0"), (4, "1"), (5, "0")),
+            "vertices": ("TTA", "TCA", "TAA", "TGA", "ATA", "ACA", "AAA", "AGA"),
+            "support_count": 7,
+            "mass": 41,
+        }
+    ]
+    assert summary["weighted_deformation_spine"]["minimal_q2_q3_cover_size"] == 3
+    assert summary["weighted_deformation_spine"]["canonical_q2_q3_cover"] == [
+        {
+            "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
+            "covered": ("AAA", "AGA", "AGG", "TAA", "TAG", "TGA"),
+            "covered_count": 6,
+            "mass": 52,
+        },
+        {
+            "vertices": ("CTT", "CTC", "CTA", "CTG"),
+            "covered": ("CTA", "CTC", "CTG", "CTT"),
+            "covered_count": 4,
+            "mass": 6,
+        },
+        {
+            "vertices": ("TTA", "TCA", "ATA", "ACA"),
+            "covered": ("ATA", "TCA", "TTA"),
+            "covered_count": 3,
+            "mass": 7,
+        },
     ]
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
