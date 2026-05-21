@@ -349,4 +349,34 @@ theorem FiniteLebesgueNumberCarrier_total_bounded_handoff [AskSetup] [PackageSet
       coverWindowRadius, radiusMeshCompactRead, compactRouteTotal, provenancePkg,
       totalReadPkg⟩
 
+theorem FiniteLebesgueNumberPhaseRealTerminalRadiusReadiness [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow auditRead terminalRead
+      consumerRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont route nameRow auditRead ->
+      UnaryHistory terminalRead ->
+      Cont auditRead terminalRead consumerRow ->
+      PkgSig bundle auditRead pkg ->
+      PkgSig bundle consumerRow pkg ->
+        UnaryHistory cover ∧ UnaryHistory window ∧ UnaryHistory radius ∧
+          UnaryHistory mesh ∧ UnaryHistory auditRead ∧ UnaryHistory terminalRead ∧
+            UnaryHistory consumerRow ∧ Cont cover window radius ∧ Cont radius mesh route ∧
+              Cont route nameRow auditRead ∧ Cont auditRead terminalRead consumerRow ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle consumerRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier routeNameAudit terminalUnary auditTerminalConsumer _auditPkg consumerPkg
+  obtain ⟨coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, coverWindowRadius, radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed routeUnary nameRowUnary routeNameAudit
+  have consumerUnary : UnaryHistory consumerRow :=
+    unary_cont_closed auditUnary terminalUnary auditTerminalConsumer
+  exact
+    ⟨coverUnary, windowUnary, radiusUnary, meshUnary, auditUnary, terminalUnary,
+      consumerUnary, coverWindowRadius, radiusMeshRoute, routeNameAudit,
+      auditTerminalConsumer, provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
