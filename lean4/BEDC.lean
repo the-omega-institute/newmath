@@ -1495,6 +1495,7 @@ import BEDC.Derived.ComplexUp.ComponentsNonempty
 import BEDC.Derived.ComplexUp.RawLedgerE0
 import BEDC.Derived.ComplexUp.SemanticCertificate
 import BEDC.Derived.ComplexUp.StdBridge
+import BEDC.Derived.ComplexUp.TasteGate
 import BEDC.Derived.ComplexUp.UnaryContinuation
 import BEDC.Derived.ComplexityClassUp
 import BEDC.Derived.CompressionDescentAuditUp.LedgerExhaustion
@@ -2998,7 +2999,6 @@ import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
 import BEDC.Derived.HomologyUp
 import BEDC.Derived.HomologyUp.StdBridge
 import BEDC.Derived.HomotopyUp
-import BEDC.Derived.HomotopyUp.TasteGate
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.HostDelegationSocketUp
 import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
@@ -4582,6 +4582,7 @@ import BEDC.Derived.SeparableMetricUp.TasteGate
 import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeqUp.TasteGate
+import BEDC.Derived.SequentialContinuityUp.TasteGate
 import BEDC.Derived.SeriesUp
 import BEDC.Derived.SetUp
 import BEDC.Derived.SharedTailNormalizerUp.TasteGate
@@ -4736,6 +4737,7 @@ import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.StationaryDiagonalWindowRouteUp
 import BEDC.Derived.StationaryDiagonalWindowUp.TasteGate
+import BEDC.Derived.StationaryDyadicStreamUp
 import BEDC.Derived.StationaryPartitionDiagonalUp
 import BEDC.Derived.StationaryRationalCauchyUp
 import BEDC.Derived.StationaryRationalCauchyUp.TasteGate
