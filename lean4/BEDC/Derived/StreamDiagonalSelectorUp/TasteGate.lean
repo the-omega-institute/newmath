@@ -49,22 +49,26 @@ def streamDiagonalSelectorToEventFlow : StreamDiagonalSelectorUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (streamDiagonalSelectorFields x).map streamDiagonalSelectorEncodeBHist
 
-def streamDiagonalSelectorFromEventFlow : EventFlow → Option StreamDiagonalSelectorUp
+private def streamDiagonalSelectorEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | schedule :: selector :: window :: readback :: dyadicLedger :: diagonalPacket :: routes ::
-      provenance :: nameCert :: [] =>
-      some
-        (StreamDiagonalSelectorUp.mk
-          (streamDiagonalSelectorDecodeBHist schedule)
-          (streamDiagonalSelectorDecodeBHist selector)
-          (streamDiagonalSelectorDecodeBHist window)
-          (streamDiagonalSelectorDecodeBHist readback)
-          (streamDiagonalSelectorDecodeBHist dyadicLedger)
-          (streamDiagonalSelectorDecodeBHist diagonalPacket)
-          (streamDiagonalSelectorDecodeBHist routes)
-          (streamDiagonalSelectorDecodeBHist provenance)
-          (streamDiagonalSelectorDecodeBHist nameCert))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => streamDiagonalSelectorEventAt index rest
+
+def streamDiagonalSelectorFromEventFlow (ef : EventFlow) : Option StreamDiagonalSelectorUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (StreamDiagonalSelectorUp.mk
+      (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEventAt 0 ef))
+      (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEventAt 1 ef))
+      (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEventAt 2 ef))
+      (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEventAt 3 ef))
+      (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEventAt 4 ef))
+      (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEventAt 5 ef))
+      (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEventAt 6 ef))
+      (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEventAt 7 ef))
+      (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEventAt 8 ef)))
 
 private theorem streamDiagonalSelector_mk_congr
     {schedule schedule' selector selector' window window' readback readback'
