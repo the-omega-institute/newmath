@@ -72,17 +72,32 @@ The carrier has four sibling packet rows and five structural rows. A TasteGate t
 Field faithfulness is forced by the same packet shape. Preserving $N,Q,D,A,T,H,C,P,L$ separately is exactly what prevents the bridge from rereading a normalization or confluence agreement as a subject-reduction theorem or as closed consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization-confluence bridge obligation closure package]
+\label{thm:metacic-normalization-confluence-bridge-obligation-closure-package}
+The displayed rows $N,Q,D,A,T,H,C,P,L$, together with the local $\NameCert$ obligations, the route-boundary theorem, the TasteGate marker, the falsifiable prediction, and the independence witness below, form the complete $\obligationClosure$ package for \MetacicNormalizationConfluenceBridgeUp{}.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:metacic-normalization-confluence-bridge-carrier}. It fixes the only admissible packet shape $B=(N,Q,D,A,T,H,C,P,L)$ and states that no hidden evaluator, quotient equality, typed-term selector, global confluence theorem, unconditional subject-reduction theorem, or detached consistency proof is exported.
+
+Apply \autoref{thm:metacic-normalization-confluence-bridge-namecert-obligations}. The seven obligation rows cover carrier admission, the normalization-audit row, the confluence-audit row, the discharge-ledger row, the closed-consistency assembly row, closed typed term route correspondence, and the replay/provenance/local-name rows.
+
+Apply \autoref{thm:metacic-normalization-confluence-bridge-route-boundary} and \autoref{thm:metacic-normalization-confluence-bridge-tastegate-surface}. The route theorem keeps every preservation or consistency handoff inside $N,Q,D,A,T,H,C,P,L$, while the TasteGate theorem records that Lean supplies the nontrivial and field-faithful surface needed to keep those rows distinct.
+
+The falsifiable prediction states the observable route failure for unconditional closed subject reduction, and the independence witness records why the four sibling packets do not already contain the simultaneous bridge classifier. Hence the chapter closes precisely the obligation package for this bridge. It does not claim global normalization, global confluence, global subject reduction, or closed consistency.
+\end{proof}
+
 \falsifiablePrediction{Any accepted bridge packet whose normalization and confluence rows agree on the closed typed term has no route to an unconditional closed subject-reduction theorem.}
 \independenceWitness{metacicnormalizationaudit, metacic-confluence-audit, subjectreductiondischargeledger, closed-consistency-assembly: the bridge has a simultaneous four-row carrier and route-correspondence classifier absent from each sibling alone.}
 
 \begin{closurestatus}{\MetacicNormalizationConfluenceBridgeUp}
   \constructivestory{The MetaCIC normalization-confluence bridge is generated from a $BHist$ packet that records a normalization row, a confluence row, and the bridge route joining them to the local certificate surface. The carrier does not assert global metatheory; it reads only the named normalization and confluence evidence and transports that evidence along $hsame$ when the representing history changes. $\Cont$ supplies the route boundary: later uses of the bridge must extend the same packet rather than appeal to an external proof of adequacy. The TasteGate surface is then the visible bridge between these rows and the admitted NameCert obligation.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{This chapter binds the MetaCIC normalization-confluence bridge carrier, NameCert obligations, route-boundary theorem, and TasteGate-surface theorem.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.MetacicNormalizationConfluenceBridgeTasteGate\_single\_carrier\_alignment}
+  \leanchecked{BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim full MetaCIC normalization, global confluence, or kernel soundness outside the displayed bridge packet.}
-  \upgradepath{Reaching obligationClosure requires formal bridge rows and checked transport of normalization and confluence evidence along the route boundary.}
+  \upgradepath{Reaching scopedClosure requires checked transport scope for normalization and confluence evidence along the route boundary.}
 \end{closurestatus}

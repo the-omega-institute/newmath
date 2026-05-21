@@ -394,3 +394,151 @@ finite NameCert support, so quotient stream equality, selected host limits,
 countable choice, ambient or metric completeness, aggregate formalstatus
 rows, and bridge tokens never enter the witness.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal cover support normal form]
+\label{thm:real-l10-terminal-cover-support-normal-form}
+Let $\mathcal{U}$ be a finite family of accepted Real-facing terminal
+presentations on the current Phase Real and Completion exit route. Then
+$\mathcal{U}$ satisfies the terminal cover support normal form if and only if
+each member of $\mathcal{U}$, and each overlap between two members of
+$\mathcal{U}$, factors through exactly the four L10 faces
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, together
+with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows
+carried by those faces. No quotient stream, host real equality, selected
+limit, choice selector, metric-completeness row, ambient completeness
+coordinate, aggregate formalstatus row, or bridge row is part of this normal
+form.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume that $\mathcal{U}$ satisfies the terminal
+cover support normal form. Apply
+\autoref{thm:real-l10-terminal-support-cover-induction} to reduce each member
+and overlap of the finite cover to terminal support on the Real L10 route.
+Then apply
+\autoref{thm:streamname-finite-cover-terminal-support-minimality} and
+\autoref{thm:regseqrat-four-face-finite-cover-normal-form}. These two
+finite-cover results identify the StreamName and RegSeqRat contributions
+with the same four displayed object faces and the same displayed support
+rows.
+
+It remains to account for the public Phase Real and Completion boundary.
+\autoref{thm:real-l10-four-face-public-pullback-criterion} transports the
+terminal cover data through the public pullback read. Since the pullback
+criterion excludes off-surface witnesses, every accepted member and every
+accepted overlap factors only through $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, $\RealUp$, and the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows.
+
+For the reverse direction, assume that every member and overlap of
+$\mathcal{U}$ factors through exactly the four displayed faces with the
+displayed support rows. Apply
+\autoref{thm:real-l10-route-cover-phase-exit-exactness} to package this
+four-face data as Real L10 route cover data at the Phase Real and Completion
+exit. Then use
+\autoref{thm:real-l10-route-cover-phase-exit-converse} to recover accepted
+Real-facing terminal presentations from that route cover packet.
+
+Finally apply
+\autoref{thm:real-l10-four-face-public-pullback-criterion} once more to
+identify the rebuilt terminal presentations with the public four-face
+pullback. The excluded rows cannot be added during this reconstruction:
+terminal support cover induction accounts only for finite support rows, the
+StreamName and RegSeqRat normal forms account only for finite cover faces, and
+the public pullback criterion keeps quotient streams, host real equality,
+selected limits, choice selectors, metric or ambient completeness data,
+aggregate formalstatus rows, and bridge rows outside the accepted normal
+form.
+\end{proof}
+
+\begin{theorem}[Real L10 terminal route support bicriterion]
+\label{thm:real-l10-terminal-route-support-bicriterion}
+Let $\mathcal{U}$ be a finite Real-facing terminal cover at the current Phase
+Real and Completion public route. Then $\mathcal{U}$ presents that public
+route if and only if every member of $\mathcal{U}$, and every overlap between
+two members of $\mathcal{U}$, factors through exactly
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, local $\RealUp$, and the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows carried by
+those four faces. Equivalently, two such terminal covers have the same public
+route read precisely when their $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and local $\RealUp$ faces agree and their displayed support
+rows agree.
+
+No quotient stream, selected limit, countable-choice selector,
+metric-completeness datum, aggregate formalstatus row, bridge row, or ambient
+$\RealUp$ completeness witness is part of either side of the criterion.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume that $\mathcal{U}$ presents the public
+Phase Real and Completion route. Apply
+\autoref{thm:real-l10-terminal-cover-support-normal-form} to put the finite
+terminal cover in support normal form. Then apply
+\autoref{thm:real-l10-four-face-public-pullback-criterion} to identify the
+public route read with equality of the four displayed object faces and the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+For the reverse direction, assume that every member and overlap factors
+through exactly the four listed faces and the displayed support rows. Apply
+\autoref{thm:real-l10-route-cover-phase-exit-exactness} to package these
+finite rows as Real L10 route-cover data at the Phase Real and Completion
+exit. Then apply
+\autoref{thm:real-l10-route-cover-phase-exit-converse} to recover the
+accepted terminal presentations on the same public route.
+
+The equivalence of public route reads is the same argument with two covers in
+parallel: the normal-form theorem reduces each cover to the four faces and
+support rows, and the four-face public pullback criterion compares exactly
+those data. The exclusions are preserved because each cited theorem keeps the
+route finite and terminal: route-cover exactness and converse introduce only
+accepted Real L10 rows, the normal form admits only the four displayed faces,
+and the public pullback criterion refuses quotient streams, selected limits,
+countable choice, metric or ambient completeness data, aggregate formalstatus
+rows, and bridge rows.
+\end{proof}
+
+\begin{theorem}[Real L10 terminal route support obstruction]
+\label{thm:real-l10-terminal-route-support-obstruction}
+Let $\mathcal{U}$ be a finite Real-facing terminal cover at the current Phase
+Real and Completion public route. If $\mathcal{U}$ does not present that public
+route, then some member of $\mathcal{U}$, or some overlap between two members
+of $\mathcal{U}$, fails to factor through one visible L10 face
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+or through one displayed Real L10 support row among
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+The obstruction is local to that missing face or support row. Quotient
+streams, selected limits, countable-choice selectors, metric or ambient
+completeness data, aggregate formalstatus rows, and bridge rows cannot repair
+the failed public route presentation.
+\end{theorem}
+\begin{proof}
+Argue contrapositively from
+\autoref{thm:real-l10-terminal-route-support-bicriterion}. If every member
+and every overlap of $\mathcal{U}$ factors through the four displayed faces
+and the five displayed support rows, then the bicriterion presents the current
+Phase Real and Completion public route.
+
+Therefore a finite cover that does not present the public route must fail one
+of the finite factorization requirements consumed by the bicriterion. Apply
+\autoref{thm:real-l10-terminal-cover-support-normal-form} to put those
+requirements in terminal-cover normal form. This identifies the possible
+failure sites with the object rows
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$,
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
+
+It remains to rule out an off-surface rescue. Apply
+\autoref{thm:real-l10-four-face-public-pullback-criterion} to the public
+boundary read: the public route is determined exactly by the four visible
+faces and the displayed support rows. Then apply
+\autoref{thm:real-l10-route-cover-phase-exit-converse} to pull any accepted
+public exit read back to the same Real L10 surface.
+
+The two localization steps leave no constructor for quotient streams,
+selected limits, countable-choice selectors, metric or ambient completeness
+data, aggregate formalstatus rows, or bridge rows. Hence any failed finite
+Real-facing terminal cover is obstructed at one visible face or at one
+displayed support row, and no off-route datum repairs that failure.
+\end{proof}
