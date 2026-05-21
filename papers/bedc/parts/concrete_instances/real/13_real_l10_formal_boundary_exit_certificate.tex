@@ -283,3 +283,48 @@ or fifth route-level closure token. Hence the exit criterion is precisely the
 four local scoped-closure faces together with the existing route and witness
 rows.
 \end{proof}
+
+\begin{theorem}[Real L10 two-axis four-face exit]
+\label{thm:real-l10-two-axis-four-face-exit}
+The current Phase Real and Completion exit is reached exactly when the four
+local faces
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+each supply both their local $\scopedClosure$ row and their local
+$\auditCleanV$ row through that face's own closurestatus, formalstatus,
+leantarget, and bridgestatus records. The resulting exit certificate is the
+four-face product of the local closure-side and verification-side rows,
+together with the terminal route and finite-window witness rows.
+
+This two-axis product creates no route-level aggregate status, route-level
+bridge row, quotient stream, selected limit, countable-choice row,
+metric-completeness datum, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+First read the closure coordinate through
+\autoref{thm:real-l10-scoped-four-face-exit}. It says that the closure-side
+exit is exactly the four local $\scopedClosure$ rows for
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, together
+with the terminal route and finite-window witness rows.
+
+Next read the verification coordinate through
+\autoref{thm:real-l10-audit-clean-four-face-exit}. It says that the
+verification-side exit is exactly the four local $\auditCleanV$ rows for the
+same four faces, read from the face-local closurestatus, formalstatus,
+leantarget, and bridgestatus records.
+
+Now combine the two coordinates objectwise. Apply
+\autoref{thm:real-l10-terminal-envelope-status-locality}. The terminal
+envelope does not introduce a fifth status source; it only exposes the four
+face-local records already named by the closure-side and verification-side
+exit theorems.
+
+Finally use \autoref{thm:real-l10-face-axis-independence}. The closure row,
+formal row, Lean target row, and bridge row remain separate coordinates, so the
+two-axis exit cannot be read as route-level aggregate status, a bridge row,
+quotient streams, selected limits, countable choice, metric completeness, or
+$\RealUp$ completeness. Hence the current Phase Real and Completion exit is
+precisely the four faces carrying both the local $\scopedClosure$ and local
+$\auditCleanV$ rows.
+\end{proof}
