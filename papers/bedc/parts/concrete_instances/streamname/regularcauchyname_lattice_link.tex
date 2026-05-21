@@ -34,3 +34,15 @@ The $\RegularCauchyNameUp$ packet then exposes the dyadic-radius row, regularity
 
 Finally, the terminal consumer is the $\RealUp$ seal row of \autoref{ch:concrete-instances-real-namecert}. Coordinate exhaustion now gives the non-escape clause: none of the displayed packets contains a quotient stream equality, selected limit, host sequence equality, host real equality, or ambient completeness coordinate, and therefore no such coordinate is exported by their composite route.
 \end{proof}
+
+\begin{theorem}[StreamName pointwise reindexing RegularCauchyName route]
+\label{thm:streamname-regularcauchyname-pointwise-reindexing-route}
+Let a public $\StreamNameUp$ finite-window schedule be reindexed pointwise by unary observation rows and transported componentwise by displayed $\hsame$ rows, as in \autoref{thm:rat-stream-name-carrier-pointwise-hsame-transport} and \autoref{thm:rat-stream-name-transported-successor-reindexing-stability}. Then every accepted $\RegularCauchyNameUp$ consumer reads the reindexed schedule only through the scheduled-window route of \autoref{thm:streamname-regularcauchyname-lattice-link}, and the route to the $\RealUp$ seal is exactly the route of \autoref{thm:streamname-real-seal-lattice-link}. The displayed rows are precisely the $\mathsf{BHist}$ observation rows, $\mathsf{UnaryHistory}$ certificates, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$ rows, pointwise $\RegSeqRatUp$ classifier rows, and the terminal $\RealUp$ seal row. The consumer exports no quotient stream equality, host sequence equality, selected limit, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the public finite-window $\StreamNameUp$ schedule and its unary reindexing row. The pointwise carrier transport theorem \autoref{thm:rat-stream-name-carrier-pointwise-hsame-transport} carries each certified unary observation along its displayed $\hsame$ row, while \autoref{thm:rat-stream-name-transported-successor-reindexing-stability} repacks the transported observations as the finite-window classifier surface read by the reindexed schedule.
+
+Now apply \autoref{thm:streamname-regularcauchyname-lattice-link}. It forces every accepted $\RegularCauchyNameUp$ consumer to read the transported schedule through the same scheduled-window sibling route, so the only available data are the $\mathsf{BHist}$ rows, $\mathsf{UnaryHistory}$ certificates, pointwise $\RegSeqRatUp$ classifier rows, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+Finally compose with \autoref{thm:streamname-real-seal-lattice-link}. The seal read reaches $\RealUp$ only after the transported StreamName window has passed through the RegularCauchyName schedule, radius, ledger, and seal rows. Coordinate exhaustion gives the non-escape clause: none of these displayed rows contains quotient stream equality, host sequence equality, a selected limit, host real equality, or ambient completeness data, so the reindexing route cannot export any such coordinate.
+\end{proof}
