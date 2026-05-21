@@ -7,7 +7,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 open BEDC.Meta.TasteGate
 
-theorem rat_classifier_transport_seal_classifier_handoff_determinacy_window_exhaustion
+theorem rat_classifier_transport_seal_handoff_determinacy_readback
     {Q S W D A H C N realRead realRead' : BHist} :
     FieldFaithful.fields (RatClassifierTransportSealUp.mk Q S W D A H C N) =
         [Q, S, W, D, A, H, C, N] →
@@ -22,7 +22,6 @@ theorem rat_classifier_transport_seal_classifier_handoff_determinacy_window_exha
                       UnaryHistory realRead ∧ UnaryHistory realRead' ∧
                         hsame realRead realRead' ∧ Cont A H realRead ∧
                           Cont A H realRead' := by
-  -- BEDC touchpoint anchor: BHist FieldFaithful Cont hsame UnaryHistory
   intro fields unaryQ unaryS unaryD unaryH routeQS routeWD routeAH routeAH'
   have windowFacts :
       UnaryHistory W ∧ UnaryHistory A ∧ UnaryHistory realRead ∧ Cont Q S W ∧
