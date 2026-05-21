@@ -61,4 +61,24 @@ theorem RealityConstrainedTruthCertL10TerminalSourceBoundary
           rfl, rfl, rfl,
           hsame_refl (append (append (append S K) (append (append L F) N)) N)⟩
 
+theorem RealityConstrainedTruthCertL10ReadinessObligationSurface
+    (x : TasteGate.RealityConstrainedTruthCertUp) :
+    exists S Sigma K T U D I L F N sourceClassifier ledgerFailure localRoute exportRoute :
+        BHist,
+      x = TasteGate.RealityConstrainedTruthCertUp.mk S Sigma K T U D I L F N ∧
+        TasteGate.realityConstrainedTruthCertFields x = [S, Sigma, K, T, U, D, I, L, F, N] ∧
+          hsame (append K L) (append K L) ∧ Cont L F ledgerFailure ∧
+            Cont ledgerFailure N localRoute ∧ Cont S K sourceClassifier ∧
+              Cont sourceClassifier localRoute exportRoute ∧
+                hsame exportRoute
+                  (append (append S K) (append (append L F) N)) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk S Sigma K T U D I L F N =>
+      exact
+        ⟨S, Sigma, K, T, U, D, I, L, F, N, append S K, append L F,
+          append (append L F) N, append (append S K) (append (append L F) N),
+          rfl, rfl, hsame_refl (append K L), rfl, rfl, rfl, rfl,
+          hsame_refl (append (append S K) (append (append L F) N))⟩
+
 end BEDC.Derived.RealityConstrainedTruthCertUp
