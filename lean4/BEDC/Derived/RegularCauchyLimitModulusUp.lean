@@ -5,6 +5,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyLimitModulusUp
 
