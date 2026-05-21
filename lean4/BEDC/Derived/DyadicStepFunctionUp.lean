@@ -149,4 +149,31 @@ theorem DyadicStepFunctionCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨nameRowPkg, source.right⟩
   }
 
+theorem DyadicStepFunctionCarrier_endpoint_value_transport_determinacy [AskSetup]
+    [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      endpointRead valueRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg →
+      Cont endpointLedger values endpointRead →
+        Cont values reads valueRead →
+          hsame endpointRead valueRead →
+            UnaryHistory endpointRead ∧ UnaryHistory valueRead ∧
+              Cont endpointLedger values endpointRead ∧ Cont values reads valueRead ∧
+                hsame endpointRead valueRead ∧ PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier endpointValueRead valueReadRow sameRead
+  obtain ⟨_partitionUnary, _cellsUnary, valuesUnary, readsUnary, _refinementUnary,
+    endpointLedgerUnary, _ledgerUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    _partitionCellsValues, _valuesReadsRefinement, _refinementEndpointLedger,
+    _routeProvenanceNameRow, nameRowPkg⟩ := carrier
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed endpointLedgerUnary valuesUnary endpointValueRead
+  have valueReadUnary : UnaryHistory valueRead :=
+    unary_cont_closed valuesUnary readsUnary valueReadRow
+  exact
+    ⟨endpointReadUnary, valueReadUnary, endpointValueRead, valueReadRow, sameRead,
+      nameRowPkg⟩
+
 end BEDC.Derived.DyadicStepFunctionUp
