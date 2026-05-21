@@ -30,6 +30,7 @@ except ModuleNotFoundError:  # pragma: no cover
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent.parent
 DEFAULT_CONFIG = SCRIPT_DIR / "bridge_pipeline_config.json"
+DEFAULT_KNOWLEDGE_SOURCES = SCRIPT_DIR / "out" / "bridge_knowledge_sources.jsonl"
 
 
 def _now_iso() -> str:
@@ -64,6 +65,204 @@ def _write_jsonl(path: Path, records: list[dict[str, Any]]) -> None:
     with path.open("w", encoding="utf-8") as handle:
         for record in records:
             handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+
+
+GENERIC_KEYWORDS = {
+    "automath",
+    "bridge",
+    "theorem",
+    "lean",
+    "source",
+    "paper",
+    "newmath",
+    "omega",
+    "candidate",
+    "mechanism",
+    "packet",
+    "publication",
+    "submitted",
+    "section",
+    "sections",
+    "sec",
+    "appendix",
+    "killo",
+    "conclusion",
+    "full",
+    "preserves",
+    "necessity",
+    "types",
+    "stage",
+    "pipeline",
+    "supervisor",
+    "codex",
+    "formalize",
+    "oracle",
+    "distill",
+    "scripts",
+    "tools",
+    "publication",
+    "papers",
+    "2026",
+    "lean4",
+    "tex",
+    "circle",
+    "dimension",
+    "two",
+    "three",
+    "even",
+    "full",
+}
+
+
+KEYWORD_PATTERNS: list[tuple[str, list[str]]] = [
+    (r"SOne|CirclePower|UnitCircle|CircleDimension", ["SOne", "circle carrier"]),
+    (r"Godel|GodelCompression", ["host homologization", "compression"]),
+    (r"FiniteRank|BoundedRank", ["finite rank", "bounded rank"]),
+    (r"PrimeSupport|PrimeFrequency|CofinalPrime", ["prime support"]),
+    (r"Grothendieck", ["Grothendieck completion"]),
+    (r"Injection|Inject", ["injection"]),
+    (r"S4", ["S4"]),
+    (r"Burnside", ["Burnside"]),
+    (r"KaniRosen", ["Kani-Rosen"]),
+    (r"Prym", ["Prym"]),
+    (r"ChevalleyWeil", ["Chevalley-Weil"]),
+    (r"Multiplicity", ["multiplicity"]),
+    (r"Golden|golden", ["GoldenMeanShift"]),
+    (r"Fibonacci|Fibadic", ["FibonacciCube"]),
+    (r"Audit", ["periodic audit"]),
+    (r"Rigidity|Rigid", ["rigidity"]),
+    (r"Window|Endpoint|Prefix", ["finite window"]),
+    (r"Fold|Folding|Foldgauge", ["folding"]),
+    (r"Perron", ["Perron independence"]),
+    (r"DiscCharacters|Discriminant", ["discriminant character"]),
+    (r"Resonance", ["resonance"]),
+    (r"Boundary|BoundarySector", ["boundary"]),
+    (r"Gauge", ["gauge"]),
+    (r"Obstruction|Not|NoIntrinsic|Impossible|Failure|Barrier", ["obstruction"]),
+    (r"Completion", ["completion"]),
+    (r"Ledger", ["ledger"]),
+    (r"Rank", ["rank"]),
+    (r"Host", ["host"]),
+    (r"Zeckendorf", ["Zeckendorf"]),
+    (r"Hypercube", ["hypercube"]),
+    (r"Lumpability", ["lumpability"]),
+    (r"Spectral", ["spectral rigidity"]),
+]
+
+
+def _split_identifier(text: str) -> list[str]:
+    text = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", text)
+    text = re.sub(r"[^A-Za-z0-9]+", " ", text)
+    return [part for part in text.split() if part]
+
+
+def _append_unique(items: list[str], values: list[str]) -> None:
+    seen = {item.lower() for item in items}
+    for value in values:
+        key = value.lower()
+        if key not in seen:
+            items.append(value)
+            seen.add(key)
+
+
+def _knowledge_keywords(record: dict[str, Any]) -> list[str]:
+    source_path = str(record.get("source_path") or "")
+    basename = Path(source_path).stem
+    keywords: list[str] = []
+    for pattern, values in KEYWORD_PATTERNS:
+        if re.search(pattern, source_path):
+            _append_unique(keywords, values)
+
+    path_parts = [part for part in Path(source_path).parts if part]
+    token_source = " ".join([basename, *path_parts[-4:]])
+    for token in _split_identifier(token_source):
+        low = token.lower()
+        if low in GENERIC_KEYWORDS or len(low) < 3:
+            continue
+        if low in {"finite", "rank"}:
+            continue
+        if token.isdigit():
+            continue
+        _append_unique(keywords, [token])
+
+    if str(record.get("source_artifact_kind")) == "writeback_packet":
+        _append_unique(keywords, ["distillation", "writeback gate", "failure taxonomy"])
+    if str(record.get("source_artifact_kind")) == "audit_failure":
+        _append_unique(keywords, ["audit gate", "failure taxonomy"])
+    if str(record.get("source_artifact_kind")) == "paper_claim":
+        _append_unique(keywords, ["claim label"])
+    return keywords[:12]
+
+
+def _knowledge_content_type(record: dict[str, Any], keywords: list[str]) -> str:
+    kind = str(record.get("source_artifact_kind") or "")
+    joined = " ".join(keywords).lower()
+    if kind in {"audit_failure"} or "obstruction" in joined:
+        return "obstruction_signal"
+    if kind == "paper_claim":
+        return "paper_claim_signal"
+    if kind in {"writeback_packet", "pipeline_status", "taste_gate_witness", "accepted_proposal", "proposal"}:
+        return "consumer_signal"
+    return "theorem_signal"
+
+
+def _knowledge_target_hint(keywords: list[str]) -> str:
+    joined = " ".join(keywords).lower()
+    if "sone" in joined or "circle carrier" in joined:
+        return "papers/bedc/parts/concrete_instances/s1/"
+    if "fibonaccicube" in joined:
+        return "fibonaccicube"
+    if "goldenmeanshift" in joined:
+        return "goldenmeanshift"
+    if "host" in joined or "homologization" in joined:
+        return "host obstruction"
+    if "prime support" in joined:
+        return "prime support"
+    if "prym" in joined or "s4" in joined or "chevalley-weil" in joined:
+        return "galois/representation"
+    if "ledger" in joined:
+        return "ledger policy"
+    return ""
+
+
+def _knowledge_summary(record: dict[str, Any], keywords: list[str], content_type: str) -> str:
+    source_path = str(record.get("source_path") or "")
+    topic = Path(source_path).stem
+    core = "、".join(keywords[:3]) if keywords else topic
+    if content_type == "obstruction_signal":
+        return f"{topic} 给出 {core} 相关阻断信号。"
+    if content_type == "paper_claim_signal":
+        return f"{topic} 记录 {core} 相关论文 claim 信号。"
+    if content_type == "consumer_signal":
+        return f"{topic} 给出 {core} 可供下游消费的结构信号。"
+    return f"{topic} 给出 {core} 相关定理信号。"
+
+
+def build_knowledge_source_entries(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    entries: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for record in records:
+        if record.get("bridge_direction") != "automath_to_newmath":
+            continue
+        kind = str(record.get("source_artifact_kind") or "")
+        if kind not in {"lean_theorem", "paper_claim", "writeback_packet", "audit_failure"}:
+            continue
+        source_path = str(record.get("source_path") or "")
+        if not source_path or source_path in seen:
+            continue
+        seen.add(source_path)
+        keywords = _knowledge_keywords(record)
+        content_type = _knowledge_content_type(record, keywords)
+        entry = {
+            "source_path": source_path,
+            "summary": _knowledge_summary(record, keywords, content_type),
+            "keywords": keywords,
+            "target_hint": _knowledge_target_hint(keywords),
+            "content_type": content_type,
+        }
+        entries.append(entry)
+    entries.sort(key=lambda item: (str(item["content_type"]), str(item["source_path"])))
+    return entries
 
 
 def _run_git(repo: Path, args: list[str]) -> str:
@@ -452,6 +651,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--update-state", action="store_true", help="persist observed artifacts to local bridge state")
     parser.add_argument("--no-synthesis", action="store_true", help="skip cross-repo readiness synthesis")
     parser.add_argument("--inbox", help="override inbox JSONL output path")
+    parser.add_argument("--knowledge-sources", help="override NewMath landing-search knowledge source JSONL output path")
     parser.add_argument("--plan", help="override transfer-plan Markdown output path")
     args = parser.parse_args(argv)
 
@@ -459,6 +659,11 @@ def main(argv: list[str] | None = None) -> int:
     config = _load_json(config_path)
     state_path = REPO_ROOT / str(config.get("state_path"))
     inbox_path = Path(args.inbox) if args.inbox else REPO_ROOT / str(config.get("inbox_path"))
+    knowledge_path = (
+        Path(args.knowledge_sources)
+        if args.knowledge_sources
+        else REPO_ROOT / str(config.get("knowledge_sources_path") or DEFAULT_KNOWLEDGE_SOURCES)
+    )
     plan_path = Path(args.plan) if args.plan else REPO_ROOT / str(config.get("transfer_plan_path"))
 
     state = _load_json_or_default(
@@ -487,6 +692,8 @@ def main(argv: list[str] | None = None) -> int:
     else:
         summary["synthesis"] = {"enabled": False}
     _write_jsonl(inbox_path, records)
+    knowledge_entries = build_knowledge_source_entries(records)
+    _write_jsonl(knowledge_path, knowledge_entries)
     plan = render_transfer_plan(records, summary)
     plan_path.parent.mkdir(parents=True, exist_ok=True)
     plan_path.write_text(plan, encoding="utf-8")
@@ -496,6 +703,7 @@ def main(argv: list[str] | None = None) -> int:
     else:
         state_msg = "state unchanged (pass --update-state to persist observations)"
     print(f"[bridge-pipeline] wrote {len(records)} inbox record(s) to {inbox_path}")
+    print(f"[bridge-pipeline] wrote {len(knowledge_entries)} knowledge source entrie(s) to {knowledge_path}")
     print(f"[bridge-pipeline] wrote transfer plan to {plan_path}")
     print(f"[bridge-pipeline] {state_msg}")
     return 0

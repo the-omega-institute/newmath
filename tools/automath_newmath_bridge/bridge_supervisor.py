@@ -6,12 +6,12 @@ The supervisor mirrors the local distillation/oracle pipeline style:
 - require the expected branch;
 - honor a stop file;
 - fetch the latest refs for both repos;
-- optionally merge the NewMath bridge branch with origin/auto-dev;
+- fetch the latest NewMath refs before scanning;
 - run the bridge discovery pipeline;
 - run deterministic gates;
 - optionally hand gate-passed Automath-to-NewMath candidates to BEDC
   `board_spawn`;
-- optionally merge the gated bridge branch back to the configured BEDC branch;
+- optionally write local review packets;
 - optionally write local review packets;
 - keep runtime artifacts local-only and ignored by Git.
 
@@ -367,25 +367,46 @@ def fetch_repositories(config_path: Path) -> list[dict[str, Any]]:
 
 
 def sync_bridge_from_auto_dev(config: dict[str, Any]) -> dict[str, Any]:
-    """Merge origin/auto-dev into this bridge branch before scanning.
+    """Refresh the configured NewMath intake ref before scanning.
 
-    This mirrors the NewMath BEDC supervisor habit of syncing from the
-    integration branch before generating new work. It never pushes. Conflicts
-    are surfaced as a hard stop so gates do not run on a half-merged worktree.
+    The bridge consumes `origin/auto-dev` as a search surface.  The default
+    strategy is `fetch_only`: keep the bridge branch unchanged and let the
+    discovery rules read the fetched ref directly.  Legacy `merge` is retained
+    for explicit operator use, but it is not the normal bridge cadence.
     """
     cfg = config.get("sync_from_auto_dev")
     if not isinstance(cfg, dict) or not cfg.get("enabled", False):
         return {"status": "disabled"}
 
     source_ref = str(cfg.get("source_ref") or "origin/auto-dev")
+    strategy = str(cfg.get("strategy") or "fetch_only")
     before = _git_stdout(REPO_ROOT, ["rev-parse", "HEAD"], timeout=30)
     current_branch_name = current_branch(REPO_ROOT)
     expected = str(config.get("required_branch") or current_branch_name)
     if current_branch_name != expected:
         raise RuntimeError(f"sync_from_auto_dev expected branch {expected!r}, got {current_branch_name!r}")
 
-    merge_base = _git_stdout(REPO_ROOT, ["merge-base", "HEAD", source_ref], timeout=30)
     source_commit = _git_stdout(REPO_ROOT, ["rev-parse", source_ref], timeout=30)
+    if strategy in {"fetch_only", "reference_only", "ref_only"}:
+        return {
+            "status": "ref_synced",
+            "strategy": strategy,
+            "source_ref": source_ref,
+            "before": before,
+            "after": before,
+            "source_commit": source_commit,
+        }
+    if strategy != "merge":
+        return {
+            "status": "unsupported_strategy",
+            "strategy": strategy,
+            "source_ref": source_ref,
+            "before": before,
+            "after": before,
+            "source_commit": source_commit,
+        }
+
+    merge_base = _git_stdout(REPO_ROOT, ["merge-base", "HEAD", source_ref], timeout=30)
     if before == source_commit or merge_base == source_commit:
         return {
             "status": "up_to_date",
@@ -436,6 +457,7 @@ def run_pipeline(
     limit_per_rule: int,
     scan_limit_per_rule: int,
 ) -> None:
+    config = _load_config(config_path)
     cmd = [
         sys.executable,
         str(SCRIPT_DIR / "run_bridge_pipeline.py"),
@@ -446,6 +468,9 @@ def run_pipeline(
         "--scan-limit-per-rule",
         str(scan_limit_per_rule),
     ]
+    synthesis_cfg = config.get("cross_repo_synthesis")
+    if isinstance(synthesis_cfg, dict) and not synthesis_cfg.get("enabled", True):
+        cmd.append("--no-synthesis")
     if include_unchanged:
         cmd.append("--include-unchanged")
     if update_state:
@@ -867,7 +892,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--once", action="store_true", help="Run one pass")
     parser.add_argument("--poll-interval", type=int, default=300, help="Seconds between passes")
     parser.add_argument("--no-fetch", action="store_true", help="Do not fetch origin for configured repos")
-    parser.add_argument("--no-auto-dev-sync", action="store_true", help="Do not merge origin/auto-dev into the bridge branch before scanning")
+    parser.add_argument("--no-auto-dev-sync", action="store_true", help="Do not refresh the configured NewMath intake ref before scanning")
     parser.add_argument("--include-unchanged", action="store_true", help="Emit already-seen artifacts")
     parser.add_argument("--update-state", action="store_true", help="Persist seen artifacts to ignored local state")
     parser.add_argument("--allow-dirty", action="store_true", help="Allow tracked dirty worktree before running")

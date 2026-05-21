@@ -21,16 +21,17 @@ content.
   Automath and NewMath refs. In this worktree, NewMath is `.` and Automath is
   read from the sibling Automath bridge worktree.
 - `run_bridge_pipeline.py` discovers new or changed bridgeable artifacts from
-  both repos, synthesizes cross-repo readiness, and renders a local transfer
-  plan.
+  both repos, synthesizes cross-repo readiness, renders a local transfer plan,
+  and emits `out/bridge_knowledge_sources.jsonl` for NewMath landing-search.
 - `bridge_synthesis.py` scans both repos for matching evidence: NewMath
   constant/RealConstant material, BEDC TasteGate/supervisor patterns, Automath
   Killo/golden Lean surfaces, and Automath gate surfaces.
 - `bridge_gates.py` runs deterministic local gates over the bridge inbox.
 - `bridge_supervisor.py` periodically fetches both repos, runs discovery, runs
   gates, and can write local ignored review packets.
-- `bridge_to_bedc_board.py` converts gate-passed Automath-to-NewMath records
-  into BEDC-native BOARD candidates by calling `tools/bedc-deep/board_spawn.py`.
+- `bridge_to_bedc_board.py` is legacy. The current bridge lane emits knowledge
+  source entries for NewMath landing-search; it does not create BOARD targets by
+  default.
 - `validate_bridge_manifest.py` validates manifest or packet JSONL records.
 - `render_bridge_report.py` renders manifest or packet JSONL as Markdown for
   human and AI review.
@@ -146,16 +147,15 @@ One pass does this:
 1. Verifies the current branch from config:
    `bridge/newmath-automath-consumption`.
 2. Fetches latest refs for Automath and NewMath unless `--no-fetch` is passed.
-3. Merges `origin/auto-dev` into the NewMath bridge branch unless
-   `--no-auto-dev-sync` is passed.
+3. Reads fetched `origin/auto-dev` as the NewMath landing surface without
+   merging it into the bridge branch.
 4. Discovers new or changed artifacts from both repos.
 5. Synthesizes readiness from both repo contents.
 6. Writes a local inbox, synthesis report, and transfer plan.
 7. Runs deterministic gates.
-8. Dry-runs the Automath-to-NewMath BEDC BOARD adapter, or applies it with
-   `--apply-bedc-board-ingest`.
-9. Merges the gated bridge branch back to `bedc-claim-packet-pipeline` unless
-   `--no-merge-back-after-gates` is passed.
+8. Emits minimal knowledge source entries:
+   `source_path`, `summary`, `keywords`, `target_hint`, and `content_type`.
+9. BEDC BOARD ingest and merge-back are disabled by default.
 10. Optionally writes local review packets if `--apply-writeback-packets` is
    passed.
 
@@ -177,11 +177,12 @@ The supervisor follows the local distillation/oracle pattern:
 - fixed branch guard;
 - stop file;
 - fetch before each pass;
-- merge `origin/auto-dev` into the bridge branch before scanning;
+- fetch before scanning and read `origin/auto-dev` as a ref;
 - dry local runtime artifacts;
 - deterministic gates before local packet writes;
-- Automath-to-NewMath candidates enter BEDC only through `board_spawn`;
-- local merge-back into the BEDC branch only after all bridge gates pass;
+- Automath-to-NewMath candidates are emitted as landing-search knowledge source
+  entries, not BOARD tasks;
+- no local merge-back into BEDC branches by default;
 - no push;
 - no external send;
 - no direct durable paper / Lean / docs writes.
