@@ -2619,6 +2619,7 @@ import BEDC.Derived.FiniteWindowRealSeparationUp.NameCertSurface
 import BEDC.Derived.FiniteWindowRealSeparationUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
 import BEDC.Derived.FiniteWitnessedRefutationUp
+import BEDC.Derived.FiniteWitnessedRefutationUp.CarrierAlignment
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
@@ -2950,6 +2951,7 @@ import BEDC.Derived.InterHistTransportSealUp.NameCertObligations
 import BEDC.Derived.InterHistTransportSealUp.Nonescape
 import BEDC.Derived.InterHistTransportSealUp.TasteGate
 import BEDC.Derived.InterInscriptionCoherenceUp.TasteGate
+import BEDC.Derived.IntermediateValueUp.TasteGate
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.IntervalUp
@@ -5006,6 +5008,7 @@ import BEDC.Derived.UseProcessLimitLedgerUp.TasteGate
 import BEDC.Derived.UseProcessLimitUp.TasteGate
 import BEDC.Derived.UseRuleLedgerUp.TasteGate
 import BEDC.Derived.ValidatedNumericsUp
+import BEDC.Derived.ValidatedNumericsUp.FiniteWindowSealContainment
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.VectorBundleUp
 import BEDC.Derived.VerificationFailureRoadmapUp.TasteGate
@@ -5067,6 +5070,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.AnalyticReadbackObligation
 import BEDC.Derived.ZetaContinuationWitnessUp.CarrierAdmissionTightening
 import BEDC.Derived.ZetaContinuationWitnessUp.CarrierRowCertificate
+import BEDC.Derived.ZetaContinuationWitnessUp.ClassifierStability
 import BEDC.Derived.ZetaContinuationWitnessUp.ConsumerLedgerExhaustion
 import BEDC.Derived.ZetaContinuationWitnessUp.ConsumerPacketTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.ContinuationHandoff
