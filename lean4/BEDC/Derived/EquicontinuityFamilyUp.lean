@@ -81,4 +81,33 @@ theorem EquicontinuityFamilyPacket_shared_center_coverage [AskSetup] [PackageSet
     ⟨probesUnary, equicontUnary, modulusUnary, finiteUnary, familyReadUnary, finiteRow,
       familyRow, provenancePkg, familyPkg⟩
 
+theorem EquicontinuityFamilyPacket_rational_radius_transport [AskSetup] [PackageSetup]
+    {source target family probes equicont image modulus selections transport route provenance
+      nameCert toleranceRead radiusRead centerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EquicontinuityFamilyPacket source target family probes equicont image modulus selections
+        transport route provenance nameCert bundle pkg →
+      Cont modulus selections toleranceRead →
+        Cont probes equicont centerRead →
+          Cont centerRead toleranceRead radiusRead →
+            PkgSig bundle radiusRead pkg →
+              UnaryHistory toleranceRead ∧ UnaryHistory centerRead ∧
+                UnaryHistory radiusRead ∧ Cont modulus selections toleranceRead ∧
+                  Cont probes equicont centerRead ∧ Cont centerRead toleranceRead radiusRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle radiusRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet toleranceRow centerRow radiusRow radiusPkg
+  obtain ⟨_sourceUnary, _targetUnary, _familyUnary, probesUnary, equicontUnary, _imageUnary,
+    modulusUnary, selectionsUnary, _familyRow, _modulusRow, _provenanceRow,
+    provenancePkg⟩ := packet
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed modulusUnary selectionsUnary toleranceRow
+  have centerUnary : UnaryHistory centerRead :=
+    unary_cont_closed probesUnary equicontUnary centerRow
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed centerUnary toleranceUnary radiusRow
+  exact
+    ⟨toleranceUnary, centerUnary, radiusUnary, toleranceRow, centerRow, radiusRow,
+      provenancePkg, radiusPkg⟩
+
 end BEDC.Derived.EquicontinuityFamilyUp
