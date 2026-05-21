@@ -22,7 +22,6 @@ theorem rat_classifier_transport_seal_handoff_determinacy_readback
                       UnaryHistory realRead ∧ UnaryHistory realRead' ∧
                         hsame realRead realRead' ∧ Cont A H realRead ∧
                           Cont A H realRead' := by
-  -- BEDC touchpoint anchor: BHist FieldFaithful Cont UnaryHistory
   intro fields unaryQ unaryS unaryD unaryH routeQS routeWD routeAH routeAH'
   have windowFacts :
       UnaryHistory W ∧ UnaryHistory A ∧ UnaryHistory realRead ∧ Cont Q S W ∧
