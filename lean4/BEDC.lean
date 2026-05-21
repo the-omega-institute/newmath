@@ -1954,6 +1954,7 @@ import BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate
 import BEDC.Derived.DecimalExpansionUp.TasteGate
 import BEDC.Derived.DedekindCauchyComparisonUp.TasteGate
 import BEDC.Derived.DedekindCutUp
+import BEDC.Derived.DedekindMacNeilleCompletionUp.TasteGate
 import BEDC.Derived.DedekindUp
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
@@ -4379,6 +4380,7 @@ import BEDC.Derived.RegularCauchyFiniteObservationRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyInterleaveUp
 import BEDC.Derived.RegularCauchyInterleavingUp
 import BEDC.Derived.RegularCauchyInterleavingUp.BridgeReadbackScope
+import BEDC.Derived.RegularCauchyInterleavingUp.TasteGate
 import BEDC.Derived.RegularCauchyIntervalSelectorUp
 import BEDC.Derived.RegularCauchyLimitClassifierUp
 import BEDC.Derived.RegularCauchyLimitClassifierUp.BudgetSynchronizerRouteAgreement
@@ -4560,6 +4562,7 @@ import BEDC.Derived.SelfTheoryReflectionLoopUp.TasteGate
 import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.SemiringUp
+import BEDC.Derived.SemiringUp.TasteGate
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeqUp
