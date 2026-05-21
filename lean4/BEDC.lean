@@ -3234,6 +3234,7 @@ import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
 import BEDC.Derived.LocatedSupremumUp.TasteGate
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
+import BEDC.Derived.LowerSemicontinuousUp.TasteGate
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LyapunovUp.TasteGate
