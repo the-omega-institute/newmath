@@ -3709,6 +3709,7 @@ import BEDC.Derived.OpenFitPacketUp.SignatureFitHandoff
 import BEDC.Derived.OpenFitPacketUp.TasteGate
 import BEDC.Derived.OpenFitResidueGateUp.NameCertObligations
 import BEDC.Derived.OpenFitResidueGateUp.TasteGate
+import BEDC.Derived.OpenMappingTheoremUp
 import BEDC.Derived.OpenPhysicalFitUp.ObservationExtensionStability
 import BEDC.Derived.OpenPhysicalFitUp.RefutationBoundary
 import BEDC.Derived.OpenPhysicalFitUp.TasteGate
@@ -3808,6 +3809,7 @@ import BEDC.Derived.PartitionUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PdeUp.TasteGate
 import BEDC.Derived.PermutationUp
+import BEDC.Derived.PermutationUp.TasteGate
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.PhaseGovernedCertificateRouteUp.TasteGate
 import BEDC.Derived.PhaseRealCompletionExitUp.TasteGate
@@ -4048,6 +4050,7 @@ import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.ReachabilityGramianUp
 import BEDC.Derived.RealAlgOrderUp
 import BEDC.Derived.RealAlgOrderUp.StdBridge
+import BEDC.Derived.RealAlgOrderUp.TasteGate
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.RealApproximationEnvelopeUp
@@ -4548,6 +4551,7 @@ import BEDC.Derived.SemiringUp
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeqUp
+import BEDC.Derived.SeqUp.TasteGate
 import BEDC.Derived.SeriesUp
 import BEDC.Derived.SetUp
 import BEDC.Derived.SharedTailNormalizerUp.TasteGate
