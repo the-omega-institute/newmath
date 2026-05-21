@@ -3,6 +3,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
+import BEDC.Derived.SimplicialSetUp.TasteGate
 
 namespace BEDC.Derived.SimplicialSetUp
 
