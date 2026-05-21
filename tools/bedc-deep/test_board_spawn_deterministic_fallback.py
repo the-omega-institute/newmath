@@ -167,6 +167,25 @@ def test_direct_codex_admission_keeps_structural_miner_for_judge() -> None:
     assert len(needs_judge) == 1, needs_judge
 
 
+def test_judge_accept_hydration_preserves_logic_packet_fields() -> None:
+    original = _candidate(
+        source="research_lane:structural_relation_miner",
+        candidate_id="cand-hydrate",
+    )
+    compact = {
+        "title": original["title"],
+        "source": "codex",
+        "rationale": "judge accepted compact item",
+    }
+    hydrated = board_spawn._hydrate_judge_items([compact], [original])
+    assert len(hydrated) == 1, hydrated
+    assert hydrated[0]["axiom_budget"] == original["axiom_budget"]
+    assert hydrated[0]["strength_level"] == original["strength_level"]
+    assert hydrated[0]["cut_rank"] == original["cut_rank"]
+    assert hydrated[0]["source"] == "codex"
+    assert hydrated[0]["rationale"] == "judge accepted compact item"
+
+
 def test_judge_unavailable_without_fallback_is_safe_empty_result() -> None:
     text = Path(__file__).with_name("board_spawn.py").read_text(encoding="utf-8")
     start = text.index('if error_kind.startswith("board_judge_unavailable")')
@@ -174,7 +193,9 @@ def test_judge_unavailable_without_fallback_is_safe_empty_result() -> None:
     body = text[start:end]
     assert "deterministic_fallback_judge" in body
     assert "ok=True" in body
-    assert "accepted" not in body[body.index("else:") :]
+    fallback_empty = body[body.index("else:") :]
+    assert "held=cheap_holds + deterministic_rejected" in fallback_empty
+    assert "rejected=cheap_drops" in fallback_empty
 
 
 if __name__ == "__main__":
@@ -189,5 +210,6 @@ if __name__ == "__main__":
     test_direct_codex_admission_rejects_anti_parameter_echo()
     test_direct_codex_admission_keeps_oracle_for_judge()
     test_direct_codex_admission_keeps_structural_miner_for_judge()
+    test_judge_accept_hydration_preserves_logic_packet_fields()
     test_judge_unavailable_without_fallback_is_safe_empty_result()
     print("test_board_spawn_deterministic_fallback: ok")

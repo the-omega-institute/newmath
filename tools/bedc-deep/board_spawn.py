@@ -8,9 +8,8 @@ Two upstream sources:
   prompt that surfaces extension / counterpart / sibling research directions.
 
 This module merges both lists, dedups against existing BOARD and paper
-coverage, then runs claude as a maker/checker judge (codex's existing
-fit/novelty are part of the candidate's source signal; claude is the
-BOARD execution-intake gate). Candidates that are promising but not yet
+coverage, then runs a Codex maker/checker judge for candidates that cannot
+be admitted by deterministic local gates. Candidates that are promising but not yet
 executable are held in candidate_inbox for later refinement instead of being
 thrown away. Accepted candidates are atomically appended to local BOARD.md;
 the supervisor commit path keeps BOARD files local-only.
@@ -21,11 +20,7 @@ Replaces the old Stage 1.5 single-source codex.discover_topics flow.
 from __future__ import annotations
 
 import json
-import os
 import re
-import shutil
-import subprocess
-import threading
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -46,7 +41,6 @@ PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = SCRIPT_DIR / "state" / "board_spawn_logs"
 LATEST_STATUS_PATH = SCRIPT_DIR / "state" / "board_spawn_latest.json"
 
-CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
 DEFAULT_JUDGE_TIMEOUT = 600
 
 DEFAULT_FIT_THRESHOLD = 7
@@ -174,64 +168,6 @@ def _extract_json_object(text: str) -> Optional[dict]:
     return None
 
 
-def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, int]:
-    if os.environ.get("BEDC_DISABLE_CLAUDE"):
-        return (False, "claude disabled by BEDC_DISABLE_CLAUDE", -2)
-    if not CLAUDE_PATH or not Path(CLAUDE_PATH).exists():
-        return (False, f"claude CLI not found at {CLAUDE_PATH}", -1)
-    LOG_DIR.mkdir(parents=True, exist_ok=True)
-    ts = _now_tag()
-    (LOG_DIR / f"{log_tag}_{ts}.prompt.txt").write_text(prompt, encoding="utf-8")
-    cmd = [CLAUDE_PATH, "-p", "--dangerously-skip-permissions"]
-    env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
-    proc = subprocess.Popen(
-        cmd,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        cwd=str(REPO_ROOT),
-        env=env,
-        encoding="utf-8",
-        errors="replace",
-        start_new_session=True,
-    )
-    stdout = ""
-    stderr = ""
-    rc = -1
-    hard_killed = {"flag": False}
-    def _hard_kill() -> None:
-        hard_killed["flag"] = True
-        try:
-            os.killpg(proc.pid, 9)
-        except (ProcessLookupError, PermissionError):
-            pass
-    watchdog = threading.Timer(timeout + 60, _hard_kill)
-    watchdog.daemon = True
-    watchdog.start()
-    try:
-        stdout, stderr = proc.communicate(input=prompt, timeout=timeout + 30)
-        rc = proc.returncode
-    except subprocess.TimeoutExpired:
-        try:
-            os.killpg(proc.pid, 9)
-        except ProcessLookupError:
-            pass
-        try:
-            stdout, stderr = proc.communicate(timeout=10)
-        except subprocess.TimeoutExpired:
-            stdout = stdout or ""
-            stderr = stderr or ""
-        rc = -9
-    finally:
-        watchdog.cancel()
-    if hard_killed["flag"] and rc == 0:
-        rc = -9
-    (LOG_DIR / f"{log_tag}_{ts}.stdout.txt").write_text(stdout or "", encoding="utf-8")
-    (LOG_DIR / f"{log_tag}_{ts}.stderr.txt").write_text(stderr or "", encoding="utf-8")
-    return (rc == 0, stdout, rc)
-
-
 def _codex_json_fallback(
     prompt: str,
     *,
@@ -241,7 +177,7 @@ def _codex_json_fallback(
 ) -> tuple[bool, dict, str, str]:
     fallback_prompt = (
         f"{role_note}\n"
-        "Act as the independent fallback BOARD judge. Preserve the same "
+        "Act as the independent BOARD judge. Preserve the same "
         "fit/novelty thresholds, reject when uncertain, return only the JSON "
         "object requested by the original prompt, and do not edit files.\n\n"
         f"{prompt}"
@@ -249,13 +185,13 @@ def _codex_json_fallback(
     result = codex_orchestrator.codex_exec(
         fallback_prompt,
         timeout=timeout,
-        log_tag=f"{log_tag}_codex_fallback",
+        log_tag=f"{log_tag}_codex_gate",
     )
     if not result.ok:
         return (False, {}, result.raw_output, result.error or f"codex rc={result.rc}")
     parsed = result.parsed or _extract_json_object(result.raw_output) or {}
     if not parsed:
-        return (False, {}, result.raw_output, "codex fallback output was not JSON")
+        return (False, {}, result.raw_output, "codex gate output was not JSON")
     return (True, parsed, result.raw_output, "")
 
 
@@ -281,7 +217,7 @@ def _next_target_id(also_accepted: list[str]) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Judge: claude maker/checker on combined candidate list
+# Judge: Codex maker/checker on combined candidate list
 # ---------------------------------------------------------------------------
 
 
@@ -302,34 +238,18 @@ def classify_judge_error(error: str) -> str:
     if not low:
         return ""
 
-    claude_kind = "claude_unavailable"
-    if "organization does not have access to claude" in low:
-        claude_kind = "claude_access_denied"
-    elif "not logged in" in low or "please login again" in low:
-        claude_kind = "claude_not_logged_in"
-    elif "claude cli not found" in low:
-        claude_kind = "claude_cli_missing"
-    elif "claude disabled" in low:
-        claude_kind = "claude_disabled"
-    elif "claude judge rc=-9" in low or "timed out" in low:
-        claude_kind = "claude_timeout"
-    elif "claude judge output was not json" in low:
-        claude_kind = "claude_non_json"
-
     codex_kind = ""
-    if "codex fallback" in low:
-        codex_kind = "codex_fallback_failed"
+    if "codex" in low:
+        codex_kind = "codex_failed"
         if "failed to initialize in-process app-server client" in low:
             codex_kind = "codex_sandbox_init_failed"
         elif "operation not permitted" in low:
             codex_kind = "codex_operation_not_permitted"
         elif "output was not json" in low:
             codex_kind = "codex_non_json"
+        elif "codex exec rc=-9" in low or "timed out" in low:
+            codex_kind = "codex_timeout"
 
-    if "claude judge" in low or "claude returned" in low or "claude " in low:
-        if codex_kind:
-            return f"board_judge_unavailable:{claude_kind}+{codex_kind}"
-        return f"board_judge_unavailable:{claude_kind}"
     if codex_kind:
         return f"board_judge_unavailable:{codex_kind}"
     return "board_judge_failed"
@@ -376,7 +296,7 @@ def _judge_candidates(
     codex_candidates: list[dict],
     oracle_candidates: list[dict],
 ) -> tuple[list[dict], list[dict], str]:
-    """Run claude judge prompt; returns (accepted, rejected, error)."""
+    """Run Codex judge prompt; returns (accepted, rejected, error)."""
     if not codex_candidates and not oracle_candidates:
         return ([], [], "")
 
@@ -394,35 +314,20 @@ def _judge_candidates(
         oracle_candidates=_safe(oracle_blob),
     )
     log_tag = "board_judge"
-    ok, stdout, rc = _claude_exec(prompt, timeout=DEFAULT_JUDGE_TIMEOUT, log_tag=log_tag)
+    ok, parsed, stdout, error = _codex_json_fallback(
+        prompt,
+        timeout=DEFAULT_JUDGE_TIMEOUT,
+        log_tag=log_tag,
+        role_note=(
+            "Run the BEDC BOARD spawn judge as the primary Codex gate. "
+            "Use the prompt's maker/checker standard directly; there is no "
+            "external pre-screen in this pipeline."
+        ),
+    )
     if not ok:
-        fallback_ok, parsed, _fallback_stdout, fallback_error = _codex_json_fallback(
-            prompt,
-            timeout=DEFAULT_JUDGE_TIMEOUT,
-            log_tag=log_tag,
-            role_note=(
-                "Claude is unavailable for the BEDC BOARD spawn judge. "
-                "Interpret the original prompt's 'claude evaluation' as this "
-                "fallback gate's independent second-pass evaluation."
-            ),
-        )
-        if not fallback_ok:
-            return ([], [], f"claude judge rc={rc}: {stdout[:300]}; codex fallback: {fallback_error[:300]}")
-    else:
-        parsed = _extract_json_object(stdout)
+        return ([], [], f"codex judge failed: {error[:300]}")
     if not parsed:
-        fallback_ok, parsed, _fallback_stdout, fallback_error = _codex_json_fallback(
-            prompt,
-            timeout=DEFAULT_JUDGE_TIMEOUT,
-            log_tag=log_tag,
-            role_note=(
-                "Claude returned non-JSON for the BEDC BOARD spawn judge. "
-                "Interpret the original prompt's 'claude evaluation' as this "
-                "fallback gate's independent second-pass evaluation."
-            ),
-        )
-        if not fallback_ok:
-            return ([], [], f"claude judge output was not JSON; codex fallback: {fallback_error[:300]}")
+        return ([], [], "codex judge output was not JSON")
     accepted = parsed.get("accepted_candidates") or []
     rejected = parsed.get("rejected_candidates") or []
     return (accepted if isinstance(accepted, list) else [],
@@ -581,7 +486,7 @@ def _deterministic_fallback_rejection(
     fit_threshold: int,
     novelty_threshold: int,
 ) -> str:
-    """Conservative BOARD intake when both LLM judges are unavailable.
+    """Conservative BOARD intake when the Codex judge is unavailable.
 
     This is deliberately narrower than the normal board_judge.  It only admits
     deterministic supply lanes whose packets already survived candidate_inbox,
@@ -726,15 +631,15 @@ def _rejection_match_keys(candidate: dict) -> list[tuple[str, str]]:
     return keys
 
 
-def _hydrate_judge_rejections(rejected: list[dict], originals: list[dict]) -> list[dict]:
-    """Preserve original candidate packet fields on judge rejections.
+def _hydrate_judge_items(items: list[dict], originals: list[dict]) -> list[dict]:
+    """Preserve original candidate packet fields on compact judge items.
 
-    The judge often returns a compact rejected_candidates item containing only
-    title/source/reason. Rejection telemetry is much more useful if the original
-    claim, inputs, and logic-packet fields remain visible in candidate_inbox.
+    The judge often returns compact accepted/rejected items containing only
+    title/source/reason. Later strict-out gates and inbox telemetry need the
+    original claim, inputs, and logic-packet fields to remain visible.
     """
-    if not rejected or not originals:
-        return rejected
+    if not items or not originals:
+        return items
     by_key: dict[tuple[str, str], dict] = {}
     for candidate in originals:
         if not isinstance(candidate, dict):
@@ -742,7 +647,7 @@ def _hydrate_judge_rejections(rejected: list[dict], originals: list[dict]) -> li
         for key in _rejection_match_keys(candidate):
             by_key.setdefault(key, candidate)
     hydrated: list[dict] = []
-    for item in rejected:
+    for item in items:
         if not isinstance(item, dict):
             continue
         original = None
@@ -755,6 +660,10 @@ def _hydrate_judge_rejections(rejected: list[dict], originals: list[dict]) -> li
         else:
             hydrated.append(item)
     return hydrated
+
+
+def _hydrate_judge_rejections(rejected: list[dict], originals: list[dict]) -> list[dict]:
+    return _hydrate_judge_items(rejected, originals)
 
 
 def _atomic_append_to_board(blocks: list[str]) -> None:
@@ -839,7 +748,7 @@ def spawn_from_candidates(
         rejected = direct_stopped
         err = ""
     else:
-        # Step 3: claude judge (with source signals + paper coverage).
+        # Step 3: Codex judge (with source signals + paper coverage).
         print(
             f"[board_spawn] judging {len(codex_alive_for_judge)} codex + {len(oracle_alive)} oracle candidates",
             flush=True,
@@ -848,6 +757,7 @@ def spawn_from_candidates(
             codex_candidates=codex_alive_for_judge,
             oracle_candidates=oracle_alive,
         )
+        accepted = _hydrate_judge_items(accepted, codex_alive_for_judge + oracle_alive)
         accepted = direct_accepted + accepted
         rejected = _hydrate_judge_rejections(rejected, codex_alive_for_judge + oracle_alive)
         rejected = direct_stopped + rejected
@@ -864,7 +774,7 @@ def spawn_from_candidates(
             rejected = deterministic_rejected
             if accepted:
                 print(
-                    "[board_spawn] LLM judge unavailable; using conservative "
+                    "[board_spawn] Codex judge unavailable; using conservative "
                     f"deterministic fallback accepted={len(accepted)} "
                     f"rejected={len(rejected)}",
                     flush=True,
@@ -874,8 +784,8 @@ def spawn_from_candidates(
                     ok=True,
                     error=err,
                     error_kind=error_kind,
-                    held=cheap_holds,
-                    rejected=cheap_drops + rejected,
+                    held=cheap_holds + deterministic_rejected,
+                    rejected=cheap_drops,
                 )
                 _write_latest_status(
                     result=result,

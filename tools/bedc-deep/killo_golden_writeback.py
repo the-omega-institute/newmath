@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-"""Stage 2 writeback: independent Claude reviewer + paper appender.
+"""Stage 2 writeback: independent Codex reviewer + paper appender.
 
-Spawns `claude -p --dangerously-skip-permissions` with the killo-golden
-hygiene prompt. Claude reads the oracle transcript and the raw LaTeX block,
-applies the 10-item hygiene checklist, and emits accept|reject JSON. On
-accept, this module appends the cleaned LaTeX to the chosen target file
+Runs the killo-golden hygiene prompt through Codex. Codex reads the oracle
+transcript and the raw LaTeX block, applies the hygiene checklist, and emits
+accept|reject JSON. On accept, this module appends the cleaned LaTeX to the chosen target file
 inside `papers/bedc/parts/` (before `\\endinput` if present, else at file end),
 then runs `cd papers/bedc && make` once to verify the paper still compiles.
 
-If compile fails, the append is rolled back and Claude is invoked once more
+If compile fails, the append is rolled back and Codex is invoked once more
 with the pdflatex stderr fed in for retry. After two compile failures the
 target is marked stage2_blocked and skipped.
 """
@@ -16,9 +15,7 @@ target is marked stage2_blocked and skipped.
 from __future__ import annotations
 
 import json
-import os
 import re
-import shutil
 import subprocess
 import sys
 import time
@@ -34,7 +31,6 @@ PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = SCRIPT_DIR / "state" / "stage2_logs"
 PAPER_DIR = REPO_ROOT / "papers" / "bedc"
 
-CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
 DEFAULT_TIMEOUT = 1800
 COMPILE_TIMEOUT = 600
 MAX_FILE_LINES = 800
@@ -133,80 +129,24 @@ def _extract_json_object(text: str) -> Optional[dict]:
     return None
 
 
-def claude_exec(prompt: str, *, timeout: int = DEFAULT_TIMEOUT, log_tag: str = "") -> tuple[bool, str, int]:
-    """Run `claude -p --dangerously-skip-permissions` with stdin prompt."""
-    if os.environ.get("BEDC_DISABLE_CLAUDE"):
-        return (False, "claude disabled by BEDC_DISABLE_CLAUDE", -2)
-    if not CLAUDE_PATH or not Path(CLAUDE_PATH).exists():
-        return (False, f"claude CLI not found at {CLAUDE_PATH}", -1)
-
-    LOG_DIR.mkdir(parents=True, exist_ok=True)
-    tag = log_tag or "stage2"
-    ts = _now_tag()
-    (LOG_DIR / f"{tag}_{ts}.prompt.txt").write_text(prompt, encoding="utf-8")
-
-    cmd = [
-        CLAUDE_PATH, "-p", "--dangerously-skip-permissions",
-        # Tools so claude can verify autoref existence, look up adjacent
-        # relation usage style, and check the target file's neighborhood.
-        # Edit/Write withheld — claude proposes content via JSON output,
-        # the Python writeback() does the actual file mutation.
-        "--allowed-tools",
-        "Read,Grep,Glob,Bash(grep:*),Bash(find:*),Bash(wc:*),Bash(ls:*)",
-    ]
-    env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
-    proc = subprocess.Popen(
-        cmd,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        cwd=str(REPO_ROOT),
-        env=env,
-        encoding="utf-8",
-        errors="replace",
-        start_new_session=True,
-    )
-    stdout = ""
-    stderr = ""
-    rc = -1
-    try:
-        stdout, stderr = proc.communicate(input=prompt, timeout=timeout + 30)
-        rc = proc.returncode
-    except subprocess.TimeoutExpired:
-        try:
-            os.killpg(proc.pid, 9)
-        except ProcessLookupError:
-            pass
-        try:
-            stdout, stderr = proc.communicate(timeout=10)
-        except subprocess.TimeoutExpired:
-            stdout = stdout or ""
-            stderr = stderr or ""
-        rc = -9
-    (LOG_DIR / f"{tag}_{ts}.stdout.txt").write_text(stdout or "", encoding="utf-8")
-    (LOG_DIR / f"{tag}_{ts}.stderr.txt").write_text(stderr or "", encoding="utf-8")
-    return (rc == 0, stdout, rc)
-
-
 def codex_json_fallback(
     prompt: str,
     *,
     timeout: int = DEFAULT_TIMEOUT,
     log_tag: str = "",
-    role_note: str = "Claude is unavailable for this BEDC gate.",
+    role_note: str = "Run this BEDC gate through Codex.",
 ) -> tuple[bool, dict, str, str]:
-    """Run an independent read-only Codex JSON gate when Claude is unavailable."""
+    """Run an independent read-only Codex JSON gate."""
     import codex_orchestrator
 
     fallback_prompt = (
         f"{role_note}\n"
-        "Act as the independent fallback checker for this gate. Preserve the "
+        "Act as the independent checker for this gate. Preserve the "
         "same acceptance standard and return only the JSON object required by "
         "the original prompt. Do not edit files.\n\n"
         f"{prompt}"
     )
-    tag = (log_tag or "stage2") + "_codex_fallback"
+    tag = (log_tag or "stage2") + "_codex_gate"
     result = codex_orchestrator.codex_exec(
         fallback_prompt,
         timeout=timeout,
@@ -216,7 +156,7 @@ def codex_json_fallback(
         return (False, {}, result.raw_output, result.error or f"codex rc={result.rc}")
     parsed = result.parsed or _extract_json_object(result.raw_output) or {}
     if not parsed:
-        return (False, {}, result.raw_output, "codex fallback output was not JSON")
+        return (False, {}, result.raw_output, "codex gate output was not JSON")
     return (True, parsed, result.raw_output, "")
 
 
@@ -548,8 +488,7 @@ def writeback(
       2. Run hygiene_normalize.normalize() for mechanical fixes.
       3. Apply narrow deterministic theory-shape rejections that append-only
          Stage 2 cannot repair safely.
-      4. Always run the killo-golden reviewer. If Claude is unavailable or
-         returns non-JSON, run the same prompt through Codex JSON fallback.
+      4. Always run the killo-golden reviewer through Codex.
       5. On accept, atomically append and run `make`; compile failure rolls
          the append back.
     """
@@ -597,7 +536,7 @@ def writeback(
     # ── Step 3.5: scan for dangling \autoref / \ref ──
     # This is repo-aware (needs to grep all paper labels), so it lives
     # here rather than inside hygiene_normalize. Missing refs ALWAYS
-    # force the claude review path so the gate has a chance to either
+    # force the review path so the gate has a chance to either
     # fix typos via Grep or reject with a precise rejection reason.
     dangling_refs = _detect_dangling_autorefs(norm.content)
     extra_blocking_issues: list[str] = []
@@ -680,42 +619,23 @@ def writeback(
 
     log_tag = f"writeback_{target_id}"
     parsed: dict = {}
-    ok, stdout, rc = claude_exec(prompt, log_tag=log_tag)
-    if not ok:
-        fallback_ok, parsed, fallback_stdout, fallback_error = codex_json_fallback(
-            prompt,
-            log_tag=log_tag,
-            role_note=(
-                "Claude is unavailable for the BEDC killo-golden writeback "
-                "gate; run the same hygiene, minimality, and theory-safety "
-                "gate as an independent Codex fallback."
-            ),
-        )
-        if not fallback_ok:
-            return WritebackResult(False, "error", "", False, False, [],
-                                    error=(
-                                        f"claude exec rc={rc}: {stdout[:400]}; "
-                                        f"codex fallback: {fallback_error[:400]}"
-                                    ),
-                                    logic_audit=logic_audit)
-        stdout = fallback_stdout
-    else:
-        parsed = _extract_json_object(stdout) or {}
+    fallback_ok, parsed, stdout, fallback_error = codex_json_fallback(
+        prompt,
+        log_tag=log_tag,
+        role_note=(
+            "Run the BEDC killo-golden writeback gate as the primary Codex "
+            "gate; apply the same hygiene, minimality, and theory-safety "
+            "standard, return only JSON, and do not edit files."
+        ),
+    )
+    if not fallback_ok:
+        return WritebackResult(False, "error", "", False, False, [],
+                                error=f"codex killo-golden failed: {fallback_error[:400]}",
+                                logic_audit=logic_audit)
     if not parsed:
-        fallback_ok, parsed, fallback_stdout, fallback_error = codex_json_fallback(
-            prompt,
-            log_tag=log_tag,
-            role_note=(
-                "Claude returned non-JSON for the BEDC killo-golden writeback "
-                "gate; run the same hygiene, minimality, and theory-safety "
-                "gate as an independent Codex fallback."
-            ),
-        )
-        if not fallback_ok:
-            return WritebackResult(False, "error", "", False, False, [],
-                                    error=f"claude output was not JSON; codex fallback: {fallback_error[:400]}",
-                                    logic_audit=logic_audit)
-        stdout = fallback_stdout
+        return WritebackResult(False, "error", "", False, False, [],
+                                error="codex killo-golden output was not JSON",
+                                logic_audit=logic_audit)
     verdict = str(parsed.get("verdict", "")).lower()
     rejection_reasons = parsed.get("rejection_reasons") or []
     if verdict != "accept":

@@ -57,22 +57,17 @@ def test_append_after_closurestatus_rejected_for_theorem_like_content() -> None:
     assert any("closurestatus" in reason for reason in reasons)
 
 
-def test_writeback_uses_codex_fallback_when_claude_unavailable() -> None:
+def test_writeback_uses_codex_gate_directly() -> None:
     target = killo_golden_writeback.REPO_ROOT / "papers" / "bedc" / "parts" / "_tmp_stage2_gate_fallback.tex"
     target.write_text("% temporary test target\n", encoding="utf-8")
     raw = Path(tempfile.gettempdir()) / "stage2_gate_fallback_raw.tex"
     content = "\\begin{lemma}\n\\label{lem:stage2-gate-fallback}\nFallback holds.\n\\end{lemma}\n"
     raw.write_text(content, encoding="utf-8")
 
-    calls = {"claude": 0, "codex": 0, "make": 0}
-    original_claude = killo_golden_writeback.claude_exec
+    calls = {"codex": 0, "make": 0}
     original_codex = killo_golden_writeback.codex_json_fallback
     original_make = killo_golden_writeback._make_paper
     try:
-        def fake_claude(_prompt: str, **_kwargs):
-            calls["claude"] += 1
-            return (False, "quota unavailable", 1)
-
         def fake_codex(_prompt: str, **_kwargs):
             calls["codex"] += 1
             return (
@@ -91,7 +86,6 @@ def test_writeback_uses_codex_fallback_when_claude_unavailable() -> None:
             calls["make"] += 1
             return (True, "ok")
 
-        killo_golden_writeback.claude_exec = fake_claude
         killo_golden_writeback.codex_json_fallback = fake_codex
         killo_golden_writeback._make_paper = fake_make
 
@@ -103,7 +97,6 @@ def test_writeback_uses_codex_fallback_when_claude_unavailable() -> None:
             suggested_target_tex=str(target.relative_to(killo_golden_writeback.REPO_ROOT)),
         )
     finally:
-        killo_golden_writeback.claude_exec = original_claude
         killo_golden_writeback.codex_json_fallback = original_codex
         killo_golden_writeback._make_paper = original_make
         target.unlink(missing_ok=True)
@@ -111,11 +104,11 @@ def test_writeback_uses_codex_fallback_when_claude_unavailable() -> None:
 
     assert result.ok
     assert result.verdict == "accept"
-    assert calls == {"claude": 1, "codex": 1, "make": 1}
+    assert calls == {"codex": 1, "make": 1}
 
 
 if __name__ == "__main__":
     test_multiple_body_envs_rejected_as_not_minimal()
     test_append_after_closurestatus_rejected_for_theorem_like_content()
-    test_writeback_uses_codex_fallback_when_claude_unavailable()
+    test_writeback_uses_codex_gate_directly()
     print("test_killo_writeback_gate: ok")

@@ -4,14 +4,14 @@
 Replaces the prior Stage 0 (stage0_quickpath) with an unbounded-round,
 audit-driven codex iteration. Codex authors a LaTeX block, self-audits,
 and loops until either:
-  - codex declares verdict=close, audit_score≥8, claude redline check passes
+  - codex declares verdict=close, audit_score≥8, Codex redline check passes
     → return ("close", content, board_candidates, ...)
   - codex declares verdict=escalate (genuine math obstruction)
     → return ("escalate", reason, board_candidates, ...)
   - hard wall-clock or round ceiling fires (safety only)
 
-claude in this loop is a *lightweight redline checker* — hygiene + safety
-only, NOT a deep math review. Correctness is codex's responsibility.
+the redline loop is a lightweight Codex hygiene + safety checker, NOT a deep
+math review. Correctness is codex's responsibility.
 
 Hard rule (same as the rest of bedc-deep): this module is read-only against
 the repo. It does NOT append to papers/bedc/parts/. Stage write owns that.
@@ -20,11 +20,7 @@ the repo. It does NOT append to papers/bedc/parts/. Stage write owns that.
 from __future__ import annotations
 
 import json
-import os
 import re
-import shutil
-import subprocess
-import threading
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -43,7 +39,6 @@ import codex_orchestrator
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = SCRIPT_DIR / "state" / "codex_track_logs"
 
-CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
 DEFAULT_CODEX_TIMEOUT = 600
 DEFAULT_REDLINE_TIMEOUT = 600
 MIN_CLOSE_AUDIT_SCORE = 8
@@ -222,7 +217,7 @@ def _codex_corrective_attempt(
 
 
 # ---------------------------------------------------------------------------
-# Claude side: codex_redline_check (lightweight, hygiene-only)
+# Codex side: codex_redline_check (lightweight, hygiene-only)
 # ---------------------------------------------------------------------------
 
 
@@ -232,67 +227,6 @@ class RedlineResult:
     parsed: dict
     raw_output: str
     error: str = ""
-
-
-def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, int]:
-    if os.environ.get("BEDC_DISABLE_CLAUDE"):
-        return (False, "claude disabled by BEDC_DISABLE_CLAUDE", -2)
-    if not CLAUDE_PATH or not Path(CLAUDE_PATH).exists():
-        return (False, f"claude CLI not found at {CLAUDE_PATH}", -1)
-    LOG_DIR.mkdir(parents=True, exist_ok=True)
-    ts = _now_tag()
-    (LOG_DIR / f"{log_tag}_{ts}.prompt.txt").write_text(prompt, encoding="utf-8")
-    cmd = [CLAUDE_PATH, "-p", "--dangerously-skip-permissions"]
-    env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
-    proc = subprocess.Popen(
-        cmd,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        cwd=str(REPO_ROOT),
-        env=env,
-        encoding="utf-8",
-        errors="replace",
-        start_new_session=True,
-    )
-    stdout = ""
-    stderr = ""
-    rc = -1
-    # Defensive watchdog: same pattern as codex_orchestrator. claude has
-    # been seen to wedge on long prompts; this guarantees we don't sit on
-    # a single redline check for hours.
-    hard_killed = {"flag": False}
-    def _hard_kill() -> None:
-        hard_killed["flag"] = True
-        try:
-            os.killpg(proc.pid, 9)
-        except (ProcessLookupError, PermissionError):
-            pass
-    watchdog = threading.Timer(timeout + 60, _hard_kill)
-    watchdog.daemon = True
-    watchdog.start()
-    try:
-        stdout, stderr = proc.communicate(input=prompt, timeout=timeout + 30)
-        rc = proc.returncode
-    except subprocess.TimeoutExpired:
-        try:
-            os.killpg(proc.pid, 9)
-        except ProcessLookupError:
-            pass
-        try:
-            stdout, stderr = proc.communicate(timeout=10)
-        except subprocess.TimeoutExpired:
-            stdout = stdout or ""
-            stderr = stderr or ""
-        rc = -9
-    finally:
-        watchdog.cancel()
-    if hard_killed["flag"] and rc == 0:
-        rc = -9
-    (LOG_DIR / f"{log_tag}_{ts}.stdout.txt").write_text(stdout or "", encoding="utf-8")
-    (LOG_DIR / f"{log_tag}_{ts}.stderr.txt").write_text(stderr or "", encoding="utf-8")
-    return (rc == 0, stdout, rc)
 
 
 def _codex_json_fallback(
@@ -318,7 +252,7 @@ def _codex_json_fallback(
         return (False, {}, result.raw_output, result.error or f"codex rc={result.rc}")
     parsed = result.parsed or _extract_json_object(result.raw_output) or {}
     if not parsed:
-        return (False, {}, result.raw_output, "codex fallback output was not JSON")
+        return (False, {}, result.raw_output, "codex gate output was not JSON")
     return (True, parsed, result.raw_output, "")
 
 
@@ -338,42 +272,19 @@ def _redline_check(
         field_citations=field_citations_blob,
     )
     log_tag = f"codex_redline_{target.target_id}"
-    ok, stdout, rc = _claude_exec(prompt, timeout=DEFAULT_REDLINE_TIMEOUT, log_tag=log_tag)
-    if not ok:
-        fallback_ok, parsed, fallback_stdout, fallback_error = _codex_json_fallback(
-            prompt,
-            timeout=DEFAULT_REDLINE_TIMEOUT,
-            log_tag=log_tag,
-            role_note=(
-                "Claude is unavailable for the BEDC codex-track redline check. "
-                "Run the same lightweight hygiene and safety redline as an "
-                "independent Codex fallback."
-            ),
-        )
-        if fallback_ok:
-            return RedlineResult(True, parsed, fallback_stdout)
-        return RedlineResult(
-            False,
-            {},
-            stdout,
-            error=f"claude rc={rc}: {stdout[:400]}; codex fallback: {fallback_error[:400]}",
-        )
-    parsed = _extract_json_object(stdout) or {}
-    if not parsed:
-        fallback_ok, parsed, fallback_stdout, fallback_error = _codex_json_fallback(
-            prompt,
-            timeout=DEFAULT_REDLINE_TIMEOUT,
-            log_tag=log_tag,
-            role_note=(
-                "Claude returned non-JSON for the BEDC codex-track redline "
-                "check. Run the same lightweight hygiene and safety redline as "
-                "an independent Codex fallback."
-            ),
-        )
-        if fallback_ok:
-            return RedlineResult(True, parsed, fallback_stdout)
-        return RedlineResult(False, {}, stdout, error=f"claude output was not JSON; codex fallback: {fallback_error[:400]}")
-    return RedlineResult(True, parsed, stdout)
+    fallback_ok, parsed, fallback_stdout, fallback_error = _codex_json_fallback(
+        prompt,
+        timeout=DEFAULT_REDLINE_TIMEOUT,
+        log_tag=log_tag,
+        role_note=(
+            "Run the BEDC codex-track redline check as the primary Codex "
+            "gate. Apply the same lightweight hygiene and safety standard, "
+            "return only JSON, and do not edit files."
+        ),
+    )
+    if fallback_ok:
+        return RedlineResult(True, parsed, fallback_stdout)
+    return RedlineResult(False, {}, "", error=f"codex redline failed: {fallback_error[:400]}")
 
 
 # ---------------------------------------------------------------------------
@@ -438,7 +349,7 @@ def run_codex_track(
                   to Stage write.
     - "escalate": codex declared a genuine math obstruction OR redline reported
                   topic_mismatch. Caller routes to oracle track.
-    - "error":    infrastructure failure (codex / claude unreachable).
+    - "error":    infrastructure failure (codex unreachable).
     - "continue_exhausted": rounds or wall-clock ceiling fired before codex
                   reached a terminal verdict. Treated like escalate by caller.
     """
