@@ -278,5 +278,74 @@ theorem FiniteLebesgueNumberRealPhaseSourceExhaustion [AskSetup] [PackageSetup]
       consumerUnary, coverWindowRadius, radiusMeshRoute, routeNameAudit,
       auditTerminalConsumer, provenancePkg, consumerPkg⟩
 
+theorem FiniteLebesgueNumberRootRadiusSourceDeterminacy [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow tailRead realRead sourceRead
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg →
+      Cont route radius tailRead →
+        Cont tailRead window realRead →
+          Cont realRead nameRow sourceRead →
+            Cont sourceRead mesh consumerRead →
+              PkgSig bundle consumerRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row tailRead ∨ hsame row realRead ∨
+                        hsame row sourceRead ∨ hsame row consumerRead)
+                    (fun row : BHist =>
+                      hsame row consumerRead ∧ PkgSig bundle consumerRead pkg)
+                    hsame ∧
+                  UnaryHistory tailRead ∧ UnaryHistory realRead ∧
+                    UnaryHistory sourceRead ∧ UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont UnaryHistory
+  intro carrier routeRadiusTail tailWindowReal realNameSource sourceMeshConsumer consumerPkg
+  obtain ⟨_coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, _provenancePkg⟩ := carrier
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed routeUnary radiusUnary routeRadiusTail
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed tailUnary windowUnary tailWindowReal
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed realUnary nameRowUnary realNameSource
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed sourceUnary meshUnary sourceMeshConsumer
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row tailRead ∨ hsame row realRead ∨
+            hsame row sourceRead ∨ hsame row consumerRead)
+        (fun row : BHist => hsame row consumerRead ∧ PkgSig bundle consumerRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro consumerRead ⟨hsame_refl consumerRead, consumerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, consumerPkg⟩
+  }
+  exact ⟨cert, tailUnary, realUnary, sourceUnary, consumerUnary⟩
+
 
 end BEDC.Derived.FiniteLebesgueNumberUp
