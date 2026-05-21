@@ -1,9 +1,8 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
-import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.UpcrossingUp.TasteGate
+namespace BEDC.Derived.UpcrossingUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -11,25 +10,23 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive UpcrossingUp : Type where
-  | mk
-      (probability martingale lower upper horizon values lowerLedger upperLedger transport
-        continuation provenance localNameCert : BHist) :
-        UpcrossingUp
+  | mk (omega martingale lower upper horizon values lowerLedger upperLedger transport routes
+      provenance nameCert : BHist) : UpcrossingUp
   deriving DecidableEq
 
-def upcrossingEncodeBHist : BHist -> RawEvent
+def upcrossingEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: upcrossingEncodeBHist h
   | BHist.e1 h => BMark.b1 :: upcrossingEncodeBHist h
 
-def upcrossingDecodeBHist : RawEvent -> BHist
+def upcrossingDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (upcrossingDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (upcrossingDecodeBHist tail)
 
-private theorem UpcrossingTasteGate_single_carrier_alignment_decode_encode :
+private theorem upcrossingDecode_encode_bhist :
     ∀ h : BHist, upcrossingDecodeBHist (upcrossingEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -38,53 +35,52 @@ private theorem UpcrossingTasteGate_single_carrier_alignment_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def upcrossingFields : UpcrossingUp -> List BHist
+def upcrossingFields : UpcrossingUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | UpcrossingUp.mk probability martingale lower upper horizon values lowerLedger upperLedger
-      transport continuation provenance localNameCert =>
-      [probability, martingale, lower, upper, horizon, values, lowerLedger, upperLedger,
-        transport, continuation, provenance, localNameCert]
+  | UpcrossingUp.mk omega martingale lower upper horizon values lowerLedger upperLedger
+      transport routes provenance nameCert =>
+      [omega, martingale, lower, upper, horizon, values, lowerLedger, upperLedger,
+        transport, routes, provenance, nameCert]
 
-def upcrossingToEventFlow : UpcrossingUp -> EventFlow
+def upcrossingToEventFlow : UpcrossingUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (upcrossingFields x).map upcrossingEncodeBHist
+  fun x => (upcrossingFields x).map upcrossingEncodeBHist
 
-private def upcrossingEventAt : Nat -> EventFlow -> RawEvent
+private def upcrossingRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => upcrossingEventAt index rest
+  | 0, [] => []
+  | 0, event :: _ => event
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => upcrossingRawAt n rest
 
-def upcrossingFromEventFlow : EventFlow -> Option UpcrossingUp
+def upcrossingFromEventFlow (flow : EventFlow) : Option UpcrossingUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | ef =>
-      some
-        (UpcrossingUp.mk
-          (upcrossingDecodeBHist (upcrossingEventAt 0 ef))
-          (upcrossingDecodeBHist (upcrossingEventAt 1 ef))
-          (upcrossingDecodeBHist (upcrossingEventAt 2 ef))
-          (upcrossingDecodeBHist (upcrossingEventAt 3 ef))
-          (upcrossingDecodeBHist (upcrossingEventAt 4 ef))
-          (upcrossingDecodeBHist (upcrossingEventAt 5 ef))
-          (upcrossingDecodeBHist (upcrossingEventAt 6 ef))
-          (upcrossingDecodeBHist (upcrossingEventAt 7 ef))
-          (upcrossingDecodeBHist (upcrossingEventAt 8 ef))
-          (upcrossingDecodeBHist (upcrossingEventAt 9 ef))
-          (upcrossingDecodeBHist (upcrossingEventAt 10 ef))
-          (upcrossingDecodeBHist (upcrossingEventAt 11 ef)))
+  some
+    (UpcrossingUp.mk
+      (upcrossingDecodeBHist (upcrossingRawAt 0 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 1 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 2 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 3 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 4 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 5 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 6 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 7 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 8 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 9 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 10 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 11 flow)))
 
-private theorem UpcrossingTasteGate_single_carrier_alignment_round_trip :
+private theorem upcrossing_round_trip :
     ∀ x : UpcrossingUp, upcrossingFromEventFlow (upcrossingToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk probability martingale lower upper horizon values lowerLedger upperLedger transport
-      continuation provenance localNameCert =>
+  | mk omega martingale lower upper horizon values lowerLedger upperLedger transport routes
+      provenance nameCert =>
       change
         some
           (UpcrossingUp.mk
-            (upcrossingDecodeBHist (upcrossingEncodeBHist probability))
+            (upcrossingDecodeBHist (upcrossingEncodeBHist omega))
             (upcrossingDecodeBHist (upcrossingEncodeBHist martingale))
             (upcrossingDecodeBHist (upcrossingEncodeBHist lower))
             (upcrossingDecodeBHist (upcrossingEncodeBHist upper))
@@ -93,28 +89,21 @@ private theorem UpcrossingTasteGate_single_carrier_alignment_round_trip :
             (upcrossingDecodeBHist (upcrossingEncodeBHist lowerLedger))
             (upcrossingDecodeBHist (upcrossingEncodeBHist upperLedger))
             (upcrossingDecodeBHist (upcrossingEncodeBHist transport))
-            (upcrossingDecodeBHist (upcrossingEncodeBHist continuation))
+            (upcrossingDecodeBHist (upcrossingEncodeBHist routes))
             (upcrossingDecodeBHist (upcrossingEncodeBHist provenance))
-            (upcrossingDecodeBHist (upcrossingEncodeBHist localNameCert))) =
+            (upcrossingDecodeBHist (upcrossingEncodeBHist nameCert))) =
           some
-            (UpcrossingUp.mk probability martingale lower upper horizon values lowerLedger
-              upperLedger transport continuation provenance localNameCert)
-      rw [UpcrossingTasteGate_single_carrier_alignment_decode_encode probability,
-        UpcrossingTasteGate_single_carrier_alignment_decode_encode martingale,
-        UpcrossingTasteGate_single_carrier_alignment_decode_encode lower,
-        UpcrossingTasteGate_single_carrier_alignment_decode_encode upper,
-        UpcrossingTasteGate_single_carrier_alignment_decode_encode horizon,
-        UpcrossingTasteGate_single_carrier_alignment_decode_encode values,
-        UpcrossingTasteGate_single_carrier_alignment_decode_encode lowerLedger,
-        UpcrossingTasteGate_single_carrier_alignment_decode_encode upperLedger,
-        UpcrossingTasteGate_single_carrier_alignment_decode_encode transport,
-        UpcrossingTasteGate_single_carrier_alignment_decode_encode continuation,
-        UpcrossingTasteGate_single_carrier_alignment_decode_encode provenance,
-        UpcrossingTasteGate_single_carrier_alignment_decode_encode localNameCert]
+            (UpcrossingUp.mk omega martingale lower upper horizon values lowerLedger
+              upperLedger transport routes provenance nameCert)
+      rw [upcrossingDecode_encode_bhist omega, upcrossingDecode_encode_bhist martingale,
+        upcrossingDecode_encode_bhist lower, upcrossingDecode_encode_bhist upper,
+        upcrossingDecode_encode_bhist horizon, upcrossingDecode_encode_bhist values,
+        upcrossingDecode_encode_bhist lowerLedger, upcrossingDecode_encode_bhist upperLedger,
+        upcrossingDecode_encode_bhist transport, upcrossingDecode_encode_bhist routes,
+        upcrossingDecode_encode_bhist provenance, upcrossingDecode_encode_bhist nameCert]
 
-private theorem UpcrossingTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : UpcrossingUp} :
-    upcrossingToEventFlow x = upcrossingToEventFlow y -> x = y := by
+private theorem upcrossingToEventFlow_injective {x y : UpcrossingUp} :
+    upcrossingToEventFlow x = upcrossingToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -122,19 +111,19 @@ private theorem UpcrossingTasteGate_single_carrier_alignment_toEventFlow_injecti
         upcrossingFromEventFlow (upcrossingToEventFlow y) :=
     congrArg upcrossingFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (UpcrossingTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (UpcrossingTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (upcrossing_round_trip x).symm
+      (Eq.trans hread (upcrossing_round_trip y)))
 
-private theorem UpcrossingTasteGate_single_carrier_alignment_field_faithful :
-    ∀ x y : UpcrossingUp, upcrossingFields x = upcrossingFields y -> x = y := by
+private theorem upcrossing_fields_faithful :
+    ∀ x y : UpcrossingUp, upcrossingFields x = upcrossingFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk probability₁ martingale₁ lower₁ upper₁ horizon₁ values₁ lowerLedger₁ upperLedger₁
-      transport₁ continuation₁ provenance₁ localNameCert₁ =>
+  | mk omega₁ martingale₁ lower₁ upper₁ horizon₁ values₁ lowerLedger₁ upperLedger₁
+      transport₁ routes₁ provenance₁ nameCert₁ =>
       cases y with
-      | mk probability₂ martingale₂ lower₂ upper₂ horizon₂ values₂ lowerLedger₂ upperLedger₂
-          transport₂ continuation₂ provenance₂ localNameCert₂ =>
+      | mk omega₂ martingale₂ lower₂ upper₂ horizon₂ values₂ lowerLedger₂ upperLedger₂
+          transport₂ routes₂ provenance₂ nameCert₂ =>
           cases hfields
           rfl
 
@@ -148,52 +137,42 @@ instance upcrossingChapterTasteGate : ChapterTasteGate UpcrossingUp where
   round_trip := by
     intro x
     change upcrossingFromEventFlow (upcrossingToEventFlow x) = some x
-    exact UpcrossingTasteGate_single_carrier_alignment_round_trip x
+    exact upcrossing_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (UpcrossingTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (upcrossingToEventFlow_injective heq)
 
 instance upcrossingFieldFaithful : FieldFaithful UpcrossingUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := upcrossingFields
-  field_faithful := by
-    intro x y h
-    change upcrossingFields x = upcrossingFields y at h
-    exact UpcrossingTasteGate_single_carrier_alignment_field_faithful x y h
+  field_faithful := upcrossing_fields_faithful
 
 instance upcrossingNontrivial : Nontrivial UpcrossingUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨UpcrossingUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      UpcrossingUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      UpcrossingUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
       by
         intro h
         cases h⟩
 
-theorem UpcrossingTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate UpcrossingUp) ∧
-      Nonempty (FieldFaithful UpcrossingUp) ∧
-        Nonempty (Nontrivial UpcrossingUp) ∧
-          (∀ h : BHist, upcrossingDecodeBHist (upcrossingEncodeBHist h) = h) ∧
-            (∀ x : UpcrossingUp, upcrossingFromEventFlow (upcrossingToEventFlow x) = some x) ∧
-              (∀ x y : UpcrossingUp, upcrossingToEventFlow x = upcrossingToEventFlow y -> x = y) ∧
-                upcrossingEncodeBHist BHist.Empty = ([] : RawEvent) := by
+def taste_gate : ChapterTasteGate UpcrossingUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact ⟨upcrossingChapterTasteGate⟩
-  · constructor
-    · exact ⟨upcrossingFieldFaithful⟩
-    · constructor
-      · exact ⟨upcrossingNontrivial⟩
-      · constructor
-        · exact UpcrossingTasteGate_single_carrier_alignment_decode_encode
-        · constructor
-          · exact UpcrossingTasteGate_single_carrier_alignment_round_trip
-          · constructor
-            · intro x y heq
-              exact UpcrossingTasteGate_single_carrier_alignment_toEventFlow_injective heq
-            · rfl
+  upcrossingChapterTasteGate
 
-end BEDC.Derived.UpcrossingUp.TasteGate
+theorem UpcrossingTasteGate_single_carrier_alignment :
+    (∀ h : BHist, upcrossingDecodeBHist (upcrossingEncodeBHist h) = h) ∧
+      (∀ x : UpcrossingUp, upcrossingFromEventFlow (upcrossingToEventFlow x) = some x) ∧
+        (∀ x y : UpcrossingUp, upcrossingToEventFlow x = upcrossingToEventFlow y → x = y) ∧
+          upcrossingEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨upcrossingDecode_encode_bhist,
+      upcrossing_round_trip,
+      fun _ _ heq => upcrossingToEventFlow_injective heq,
+      rfl⟩
+
+end BEDC.Derived.UpcrossingUp
