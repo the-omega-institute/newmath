@@ -3338,6 +3338,7 @@ import BEDC.Derived.MetricUp.LeftE1Result
 import BEDC.Derived.MetricUp.LocatedRealDistanceSourceBoundary
 import BEDC.Derived.MetricUp.PositiveDistanceShape
 import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
+import BEDC.Derived.MetricUp.PublicConsumers
 import BEDC.Derived.MetricUp.PublicDistanceSurface
 import BEDC.Derived.MetricUp.RealAlgOrderPositiveDistancePublicCorrespondence
 import BEDC.Derived.MetricUp.RealAlgOrderPositiveRadiusBudgetInterface
@@ -3854,6 +3855,7 @@ import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.RatClassifierTransportSealUp.HandoffDeterminacy
+import BEDC.Derived.RatClassifierTransportSealUp.NameCertObligations
 import BEDC.Derived.RatClassifierTransportSealUp.TasteGate
 import BEDC.Derived.RatClassifierTransportSealUp.WindowExhaustion
 import BEDC.Derived.RatUp
@@ -4454,6 +4456,7 @@ import BEDC.Derived.SingletonSource
 import BEDC.Derived.SliceCategoryUp
 import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
 import BEDC.Derived.SobolevUp
+import BEDC.Derived.SocketKindClassifierUp.NameCertObligations
 import BEDC.Derived.SocketKindClassifierUp.StdBridge
 import BEDC.Derived.SocketKindClassifierUp.TasteGate
 import BEDC.Derived.SocketReportUp.MinimalClassification
