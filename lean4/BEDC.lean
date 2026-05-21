@@ -1689,6 +1689,7 @@ import BEDC.Derived.ContourIntegralSocketUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ContourReversalLedgerUp.TasteGate
 import BEDC.Derived.ContourSumWindowUp.TasteGate
+import BEDC.Derived.ContractionMappingUp.TasteGate
 import BEDC.Derived.ControlControllabilityUp
 import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.ConvergenceRadiusUp
@@ -2254,6 +2255,7 @@ import BEDC.Derived.DigestProvenancePacketUp.SourceFiberLedgerOrder
 import BEDC.Derived.DigestProvenancePacketUp.TasteGate
 import BEDC.Derived.DimLiftBoundaryUp
 import BEDC.Derived.DiniTheoremUp.TasteGate
+import BEDC.Derived.DiniUniformConvergenceUp.TasteGate
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.DirichletUnitUp
@@ -4642,6 +4644,7 @@ import BEDC.Derived.SolipsismGapRefusalUp.TasteGate
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.SpeckerSequenceUp
+import BEDC.Derived.SpeckerSequenceUp.TasteGate
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralTheoremUp
