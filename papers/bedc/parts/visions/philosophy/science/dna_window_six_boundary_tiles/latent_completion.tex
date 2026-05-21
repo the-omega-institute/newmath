@@ -35,49 +35,90 @@ lies entirely in the observed state set. The finite enumeration rejects
 exactly the three displayed states.
 \end{proof}
 
-\begin{definition}[Latent completion states]
+\begin{definition}[Candidate latent states]
 \label{def:philosophy-latent-completion-states}
-The two latent completion states are
+The deep-branch candidate latent states are
 $$
   L_{SS}=(*,*)/W/K/(S,S)/I
 $$
 and
 $$
-  L_{*|W}=(*,*)/*|W/K/(R,R)/I.
+  L_{N}=(*,*)/W/N/(R,R)/I.
+$$
+The partial-boundary candidate latent states are
+$$
+  L_{*|W}=(*,*)/*|W/K/(R,R)/I
+$$
+and
+$$
+  L_{Q|*}=(Q|*,Q|*)/*/K/(R,R)/I.
 $$
 They are not observed table states in the comparison family; they are
 prefix states implied by the target-monotone support geometry.
 \end{definition}
 
-\begin{theorem}[Two-state latent completion]
+\begin{theorem}[Minimal latent completions]
 \label{thm:philosophy-two-state-latent-completion}
-After adjoining $L_{SS}$ and $L_{*|W}$ to the observed module-value
-state set, every observed state admits a target-monotone path from the
-standard state.
+The minimum latent completion size is $2$. There are exactly four
+minimum completions:
+$$
+\begin{gathered}
+  \{L_{SS},L_{*|W}\},\qquad
+  \{L_{SS},L_{Q|*}\},\\
+  \{L_{N},L_{*|W}\},\qquad
+  \{L_{N},L_{Q|*}\}.
+\end{gathered}
+$$
 \end{theorem}
 \begin{proof}
-The state $L_{SS}$ supplies the missing prefix for the states represented
-by tables $9$ and $14$:
+The three exceptions in
+\autoref{thm:philosophy-observed-monotone-path-exceptions} split into
+two independent missing squares. Tables $9$ and $14$ require one
+deep-branch prefix, either $L_{SS}$ or $L_{N}$. Table $28$ requires one
+partial-boundary prefix, either $L_{*|W}$ or $L_{Q|*}$. A single latent
+state cannot be a prefix for both missing squares, so size $1$ is
+insufficient. The Cartesian product of the two binary choices gives the
+four displayed size-$2$ completions, and each removes all three
+target-monotone exceptions.
+\end{proof}
+
+\begin{definition}[Canonical latent completion]
+\label{def:philosophy-canonical-latent-completion}
+The canonical latent completion is
+$$
+  \mathcal L_{\mathrm{can}}=\{L_{SS},L_{*|W}\}.
+$$
+It is the minimum completion selected by the value-direction readings
+$U=W\to R=(S,S)\to N=N$ and $U=*|W\to S=(Q|*,Q|*)$.
+\end{definition}
+
+\begin{theorem}[Canonical target-monotone completion]
+\label{thm:philosophy-canonical-target-monotone-completion}
+After adjoining the canonical latent completion to the observed
+module-value state set, every observed state admits a target-monotone
+path from the standard state.
+\end{theorem}
+\begin{proof}
+For the deep branch, $L_{SS}$ supplies the path
 $$
 \begin{gathered}
   (*,*)/*/K/(R,R)/I
   \to
   (*,*)/W/K/(R,R)/I
   \to
-  (*,*)/W/K/(S,S)/I\\
+  L_{SS}\\
   \to
   (*,*)/W/N/(S,S)/I
   \to
   (Y,*)/W/N/(S,S)/I.
 \end{gathered}
 $$
-The state $L_{*|W}$ supplies the missing prefix for the state represented
-by table $28$:
+For the partial-boundary branch, $L_{*|W}$ supplies the path
 $$
 \begin{gathered}
   (*,*)/*/K/(R,R)/I
   \to
-  (*,*)/*|W/K/(R,R)/I\\
+  L_{*|W}\\
   \to
   (Q|*,Q|*)/*|W/K/(R,R)/I.
 \end{gathered}
@@ -114,7 +155,7 @@ that are not present as named observed tables.
 The missing target-monotone prefixes are precisely the latent states of
 \autoref{def:philosophy-latent-completion-states}, and their addition
 removes all target-monotone exceptions by
-\autoref{thm:philosophy-two-state-latent-completion}.
+\autoref{thm:philosophy-canonical-target-monotone-completion}.
 \end{proof}
 
 \begin{corollary}[AUA detour is not a forced premise]
@@ -133,8 +174,30 @@ not a requirement that $I=M$ precede $N=N$.
 \end{corollary}
 \begin{proof}
 The direct route is the $L_{SS}$ route in
-\autoref{thm:philosophy-two-state-latent-completion}. It reaches the
+\autoref{thm:philosophy-canonical-target-monotone-completion}. It reaches the
 table-$9$ state before any change in the $I$ module.
+\end{proof}
+
+\begin{definition}[Canonical rewrite edge]
+\label{def:philosophy-canonical-rewrite-edge}
+In the canonical completed state set, a directed rewrite edge
+$X\to Y$ exists when $X$ and $Y$ differ in exactly one module, $X$ has
+the standard value in that module, and $Y$ has a nonstandard value there.
+\end{definition}
+
+\begin{theorem}[Canonical rewrite reachability]
+\label{thm:philosophy-canonical-rewrite-reachability}
+The canonical completed state set has $24$ states. Its directed rewrite
+graph has $26$ edges, and every state in the completed set is reachable
+from the standard state. In particular, all $22$ observed states are
+reachable.
+\end{theorem}
+\begin{proof}
+Enumerate the $22$ observed states together with $L_{SS}$ and
+$L_{*|W}$. Add directed edges according to
+\autoref{def:philosophy-canonical-rewrite-edge}. The finite enumeration
+gives $26$ directed edges, and graph search from the standard state
+reaches all $24$ states.
 \end{proof}
 
 \begin{theorem}[Latent-completed grammar boundary]

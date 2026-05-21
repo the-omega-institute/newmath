@@ -44,6 +44,8 @@ MODULE_SYMBOLS = {
 }
 LATENT_SS = (("*", "*"), ("W",), ("K",), ("S", "S"), ("I",))
 LATENT_PARTIAL = (("*", "*"), ("*|W",), ("K",), ("R", "R"), ("I",))
+LATENT_N = (("*", "*"), ("W",), ("N",), ("R", "R"), ("I",))
+LATENT_Q_PARTIAL = (("Q|*", "Q|*"), ("*",), ("K",), ("R", "R"), ("I",))
 TRANSFER_SQUARE = ("TGA", "TGG", "AGA", "AGG")
 ARG_MAIN_BOX = ("CGT", "CGC", "CGA", "CGG")
 ARG_SATELLITE = ("AGA", "AGG")
@@ -679,14 +681,64 @@ def latent_completion_summary(tables: dict[int, dict[str, str]]) -> dict[str, ob
         for state in observed_states
         if not target_monotone_reachable(standard, state, completed)
     ]
+    latent_pool = {
+        "L_SS": LATENT_SS,
+        "L_N": LATENT_N,
+        "L_partial": LATENT_PARTIAL,
+        "L_Q_partial": LATENT_Q_PARTIAL,
+    }
+    minimal_completions: list[tuple[str, ...]] = []
+    for size in range(1, len(latent_pool) + 1):
+        for names in itertools.combinations(latent_pool, size):
+            allowed = observed | {latent_pool[name] for name in names}
+            if all(target_monotone_reachable(standard, state, allowed) for state in observed_states):
+                minimal_completions.append(names)
+        if minimal_completions:
+            break
+
+    directed_edges: list[tuple[int, int]] = []
+    canonical_states = with_both
+    for left, right in itertools.permutations(range(len(canonical_states)), 2):
+        source = canonical_states[left]
+        target = canonical_states[right]
+        different = [index for index, pair in enumerate(zip(source, target)) if pair[0] != pair[1]]
+        if len(different) != 1:
+            continue
+        index = different[0]
+        if source[index] == standard[index] and target[index] != standard[index]:
+            directed_edges.append((left, right))
+    directed_adjacency: dict[int, set[int]] = {index: set() for index in range(len(canonical_states))}
+    for left, right in directed_edges:
+        directed_adjacency[left].add(right)
+    reachable = {canonical_states.index(standard)}
+    stack = [canonical_states.index(standard)]
+    while stack:
+        item = stack.pop()
+        for neighbor in directed_adjacency[item]:
+            if neighbor not in reachable:
+                reachable.add(neighbor)
+                stack.append(neighbor)
+    observed_reachable = sum(1 for state in observed_states if canonical_states.index(state) in reachable)
     return {
         "observed_exception_count": len(exceptions),
         "observed_exception_tables": [state_tables[state] for state in exceptions],
         "latent_states": {
             "L_SS": "/".join(module_value_key(value) for value in LATENT_SS),
             "L_partial": "/".join(module_value_key(value) for value in LATENT_PARTIAL),
+            "L_N": "/".join(module_value_key(value) for value in LATENT_N),
+            "L_Q_partial": "/".join(module_value_key(value) for value in LATENT_Q_PARTIAL),
         },
+        "minimal_completion_size": len(minimal_completions[0]),
+        "minimal_completion_count": len(minimal_completions),
+        "minimal_completions": [list(names) for names in minimal_completions],
+        "canonical_completion": ["L_SS", "L_partial"],
         "completed_exception_count": len(completed_exceptions),
+        "canonical_directed_rewrite": {
+            "nodes": len(canonical_states),
+            "edges": len(directed_edges),
+            "reachable_nodes": len(reachable),
+            "reachable_observed_states": observed_reachable,
+        },
         "graph_stats": {
             "observed": graph_stats(observed_states),
             "with_L_SS": graph_stats(with_ss),
@@ -981,8 +1033,25 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert summary["latent_completion"]["latent_states"] == {
         "L_SS": "(*,*)/W/K/(S,S)/I",
         "L_partial": "(*,*)/*|W/K/(R,R)/I",
+        "L_N": "(*,*)/W/N/(R,R)/I",
+        "L_Q_partial": "(Q|*,Q|*)/*/K/(R,R)/I",
     }
+    assert summary["latent_completion"]["minimal_completion_size"] == 2
+    assert summary["latent_completion"]["minimal_completion_count"] == 4
+    assert summary["latent_completion"]["minimal_completions"] == [
+        ["L_SS", "L_partial"],
+        ["L_SS", "L_Q_partial"],
+        ["L_N", "L_partial"],
+        ["L_N", "L_Q_partial"],
+    ]
+    assert summary["latent_completion"]["canonical_completion"] == ["L_SS", "L_partial"]
     assert summary["latent_completion"]["completed_exception_count"] == 0
+    assert summary["latent_completion"]["canonical_directed_rewrite"] == {
+        "nodes": 24,
+        "edges": 26,
+        "reachable_nodes": 24,
+        "reachable_observed_states": 22,
+    }
     assert summary["latent_completion"]["graph_stats"] == {
         "observed": {
             "nodes": 22,
