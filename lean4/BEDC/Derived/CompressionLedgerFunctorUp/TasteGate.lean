@@ -362,4 +362,34 @@ theorem CompressionLedgerFunctorCarrier_composition_law
       unary_cont_closed compositeUnary pUnary compositePRouted,
       hsame_refl N⟩
 
+theorem CompressionLedgerFunctorCarrier_sibling_independence
+    {A K E R O M L Q J H C P N alphaLedger betaLedger compositeLedger siblingProjection :
+      BHist} :
+    Cont M L alphaLedger ->
+      Cont alphaLedger Q betaLedger ->
+        Cont betaLedger J compositeLedger ->
+          Cont siblingProjection H N ->
+            UnaryHistory M ->
+              UnaryHistory L ->
+                UnaryHistory Q ->
+                  UnaryHistory J ->
+                    UnaryHistory H ->
+                      compressionLedgerFunctorFields
+                          (CompressionLedgerFunctorUp.mk A K E R O M L Q J H C P N) =
+                        [A, K, E, R, O, M, L, Q, J, H, C, P, N] ->
+                        UnaryHistory alphaLedger ∧ UnaryHistory betaLedger ∧
+                          UnaryHistory compositeLedger ∧ hsame siblingProjection siblingProjection ∧
+                            hsame N N := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro mlAlpha alphaQBeta betaJComposite _siblingHN
+    mUnary lUnary qUnary jUnary _hUnary _fields
+  have alphaUnary : UnaryHistory alphaLedger :=
+    unary_cont_closed mUnary lUnary mlAlpha
+  have betaUnary : UnaryHistory betaLedger :=
+    unary_cont_closed alphaUnary qUnary alphaQBeta
+  have compositeUnary : UnaryHistory compositeLedger :=
+    unary_cont_closed betaUnary jUnary betaJComposite
+  exact
+    ⟨alphaUnary, betaUnary, compositeUnary, hsame_refl siblingProjection, hsame_refl N⟩
+
 end BEDC.Derived.CompressionLedgerFunctorUp
