@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CauchySubnetUp$}
+\label{ch:concrete-instances-cauchy-subnet-namecert}
+\origin{human}
+
+Following Bishop--Bridges and Kelley filter terminology, the $\CauchySubnetUp$ packet records the finite restriction surface by which a displayed Cauchy-filter source is read along a cofinal subnet before a filter-limit handoff or completion-facing consumer may inspect the route. It sits after the $\CauchyFilterUp$ surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the $\CauchyFilterLimitUp$ route of \autoref{ch:concrete-instances-cauchyfilterlimit-namecert}, and the $\MetricCompletionUp$ boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}; it reads finite windows through $\StreamNameUp$ in \autoref{ch:concrete-instances-streamname-namecert}, regular rational rows through $\RegSeqRatUp$ in \autoref{ch:concrete-instances-regseqrat-namecert}, dyadic tolerances through $\DyadicRatCoreUp$ in \autoref{ch:concrete-instances-dyadicratcore-namecert}, and terminal seals through $\RealUp$ in \autoref{ch:concrete-instances-real-namecert}. The packet names cofinal subnet restriction as BEDC data, not as quotient filter equality, selected host subnets, countable choice, host real equality, or ambient completeness.
+
+\begin{definition}[Cauchy subnet carrier]
+\label{def:cauchy-subnet-carrier}
+A $\CauchySubnetUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,J,W,R,D,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the source $\CauchyFilterUp$ row whose neighborhoods are to be restricted.
+\item $J$ is the cofinal subnet-index ledger. It records the finite dominance checks showing that every accepted request to the subnet is backed by a displayed request to the source filter.
+\item $W$ is the $\StreamNameUp$ finite-window row inspected after $F$ and $J$ have been replayed.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row attached to the displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by the restricted windows and regular readback.
+\item $L$ is the $\CauchyFilterLimitUp$ handoff row available only after the source filter, cofinal ledger, windows, readback, and tolerance rows have been displayed.
+\item $E$ is the $\RealUp$ or $\MetricCompletionUp$ seal row reached by completion-facing consumers through the same handoff route.
+\item $H$ records componentwise $\hsame$ transport for the source filter, cofinal ledger, windows, readback, tolerance ledger, limit handoff, seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a filter request through $F,J,W,R,D,L,E$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\CauchySubnetUp$, $\CauchyFilterUp$, $\CauchyFilterLimitUp$, $\MetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySubnetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient filters, selected host subnets, countable choice, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy subnet NameCert obligations]
+\label{thm:cauchy-subnet-namecert-obligations}
+For every accepted $\CauchySubnetUp$ carrier $S=(F,J,W,R,D,L,E,H,C,P,N)$, the local $\NameCert_{\CauchySubnetUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the source Cauchy filter, cofinal subnet-index ledger, StreamName window, RegSeqRat readback, DyadicRatCore tolerance ledger, CauchyFilterLimit handoff, completion or Real seal, transport, continuation, provenance, and local naming rows;
+\item cofinal restriction coverage, requiring every accepted subnet request to read the ledger $J$ together with the source filter row $F$ before any window row is inspected;
+\item finite-window and tolerance exactness, requiring $W,R,D$ to be the only finite rows through which the restricted source reaches a regular rational comparison;
+\item filter-limit handoff, requiring $F,J,W,R,D$ to repack as the handoff row $L$ before any completion-facing or Real-facing seal is available;
+\item ledger refusal, excluding quotient filters, selected host subnets, countable choice, host real equality, and ambient completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-subnet-carrier}. The projection exposes exactly the source Cauchy filter row $F$, cofinal subnet-index ledger $J$, StreamName window $W$, RegSeqRat readback $R$, DyadicRatCore tolerance ledger $D$, filter-limit handoff $L$, seal row $E$, and structural rows $H,C,P,N$.
+
+The continuation row $C$ gives the only replay route. A subnet request first reads the source filter row and the cofinal ledger, then reaches the finite windows, regular readback, and dyadic tolerance ledger.
+
+The handoff row $L$ is downstream of those five displayed rows, and the completion or Real seal $E$ is downstream of $L$. Since the carrier contains no quotient-filter coordinate, selected host subnet, countable-choice selector, host real equality row, or ambient-completeness row, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy subnet filter-limit handoff]
+\label{thm:cauchy-subnet-filter-limit-handoff}
+Let $S=(F,J,W,R,D,L,E,H,C,P,N)$ be an accepted $\CauchySubnetUp$ carrier. Every completion-facing or Real-facing consumer of the restricted Cauchy source factors through the finite route
+$$
+F,J,W,R,D \longmapsto L \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the consumer receives a $\CauchyFilterLimitUp$ handoff only after the source $\CauchyFilterUp$ row, cofinal subnet-index ledger, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ tolerance ledger have been displayed. The route exports no quotient filters, selected host subnets, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing or Real-facing consumer. Carrier admission provides the handoff row $L$ and seal row $E$, but only as rows downstream of $F,J,W,R,D$.
+
+Replay the continuation row $C$. The request first consumes the source Cauchy filter row and the cofinal subnet-index ledger, then inspects the finite window row, the regular rational readback, and the dyadic tolerance ledger.
+
+Only after that displayed route has been replayed can the packet expose $L$, and only after $L$ can it expose $E$. Componentwise transport through $H$ and provenance through $P,N$ preserve the same dependency order, so the handoff is a finite BEDC route rather than quotient filter equality, selected host subnet choice, countable choice, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{closurestatus}{\CauchySubnetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-subnet-carrier}, \autoref{thm:cauchy-subnet-namecert-obligations}, and \autoref{thm:cauchy-subnet-filter-limit-handoff} seed the finite cofinal subnet restriction surface between CauchyFilter sources, StreamName and RegSeqRat readback, CauchyFilterLimit handoff, and MetricCompletion or Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected host subnets, countable choice, host real equality, ambient completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal restriction coverage, finite-window exactness, tolerance exactness, filter-limit handoff, and ledger refusal proofs for the same packet.}
+  \constructivestory{A $\CauchySubnetUp$ packet is generated from a source CauchyFilter row, a cofinal subnet-index ledger, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a CauchyFilterLimit handoff, a MetricCompletion or Real seal, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
