@@ -187,4 +187,30 @@ theorem CollisionKernelCarrier_classifier_transport_scope [AskSetup] [PackageSet
     ⟨windowUnary', foldUnary', ledgerUnary', matrixUnary', momentUnary', shadowUnary',
       transportedCarrier⟩
 
+theorem CollisionKernelCarrier_matrix_readback_totality [AskSetup] [PackageSetup]
+    {window fold ledger matrix moment shadow transport route provenance name matrixRead terminal :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CollisionKernelCarrier window fold ledger matrix moment shadow transport route provenance name
+        bundle pkg ->
+      Cont ledger matrix matrixRead ->
+        Cont matrixRead name terminal ->
+          PkgSig bundle terminal pkg ->
+            UnaryHistory window ∧ UnaryHistory fold ∧ UnaryHistory ledger ∧
+              UnaryHistory matrix ∧ UnaryHistory matrixRead ∧ UnaryHistory terminal ∧
+                Cont ledger matrix matrixRead ∧ Cont matrixRead name terminal ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle terminal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier matrixReadRoute terminalRoute terminalPkg
+  obtain ⟨windowUnary, foldUnary, ledgerUnary, matrixUnary, _momentUnary, _shadowUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, nameUnary, _windowRoute, _ledgerShadow,
+    _momentShadow, provenancePkg, _namePkg⟩ := carrier
+  have matrixReadUnary : UnaryHistory matrixRead :=
+    unary_cont_closed ledgerUnary matrixUnary matrixReadRoute
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed matrixReadUnary nameUnary terminalRoute
+  exact
+    ⟨windowUnary, foldUnary, ledgerUnary, matrixUnary, matrixReadUnary, terminalUnary,
+      matrixReadRoute, terminalRoute, provenancePkg, terminalPkg⟩
+
 end BEDC.Derived.CollisionKernelUp
