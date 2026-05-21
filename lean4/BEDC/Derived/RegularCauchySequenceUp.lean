@@ -158,6 +158,32 @@ theorem RegularCauchySequenceCarrier_namecert_obligations [AskSetup] [PackageSet
       pUnary, nameUnary, consumerUnary, fMuW, wDR, rGE, eHC, cPName,
       consumerRoute, pPkg, consumerPkg, cert⟩
 
+theorem RegularCauchySequenceCarrier_finite_window_witness_induction
+    [AskSetup] [PackageSetup]
+    {f mu w d r g e h c p name baseRead stepRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySequenceCarrier f mu w d r g e h c p name bundle pkg ->
+      Cont w d baseRead ->
+        Cont baseRead r stepRead ->
+          Cont g e sealRead ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory baseRead ∧ UnaryHistory stepRead ∧ UnaryHistory sealRead ∧
+                Cont w d baseRead ∧ Cont baseRead r stepRead ∧ Cont g e sealRead ∧
+                  PkgSig bundle p pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier baseRoute stepRoute sealRoute sealPkg
+  obtain ⟨_fUnary, _muUnary, wUnary, dUnary, rUnary, gUnary, eUnary, _hUnary,
+    _cUnary, _pUnary, _nameUnary, _fMuW, _wDR, _rGE, _eHC, _cPName, pPkg⟩ :=
+    carrier
+  have baseUnary : UnaryHistory baseRead :=
+    unary_cont_closed wUnary dUnary baseRoute
+  have stepUnary : UnaryHistory stepRead :=
+    unary_cont_closed baseUnary rUnary stepRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed gUnary eUnary sealRoute
+  exact
+    ⟨baseUnary, stepUnary, sealUnary, baseRoute, stepRoute, sealRoute, pPkg, sealPkg⟩
+
 theorem RegularCauchySequenceNonEscape [AskSetup] [PackageSetup]
     {f mu w d r g e h c p name consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
