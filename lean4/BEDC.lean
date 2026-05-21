@@ -1893,6 +1893,7 @@ import BEDC.Derived.CurvatureUp.SemanticNameCertificate
 import BEDC.Derived.CurvatureUp.SourceEnvelopeExactness
 import BEDC.Derived.CurvatureUp.SourceEnvelopeProjection
 import BEDC.Derived.CurvatureUp.SourceEnvelopeReadback
+import BEDC.Derived.CurvatureUp.TasteGate
 import BEDC.Derived.CurvatureUp.TensorialSectionTransport
 import BEDC.Derived.CurvatureUp.VisibleInputExhaustion
 import BEDC.Derived.CyclotomicUp
