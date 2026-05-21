@@ -63,4 +63,75 @@ theorem FiniteLebesgueNumberRealPhaseSourceExhaustion [AskSetup] [PackageSetup]
       consumerUnary, coverWindowRadius, radiusMeshRoute, routeNameAudit,
       auditTerminalConsumer, provenancePkg, consumerPkg⟩
 
+theorem FiniteLebesgueNumberUniformConsumerDeterminacy [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow compactRead uniformRead
+      uniformRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont radius mesh compactRead ->
+        Cont compactRead nameRow uniformRead ->
+          Cont compactRead nameRow uniformRead' ->
+            PkgSig bundle uniformRead pkg ->
+              PkgSig bundle uniformRead' pkg ->
+                UnaryHistory radius ∧ UnaryHistory compactRead ∧ UnaryHistory uniformRead ∧
+                  UnaryHistory uniformRead' ∧ hsame uniformRead uniformRead' ∧
+                    Cont radius mesh compactRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle uniformRead pkg ∧ PkgSig bundle uniformRead' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro carrier radiusMeshCompact compactNameUniform compactNameUniform' uniformPkg
+    uniformPkg'
+  obtain ⟨_coverUnary, _windowUnary, radiusUnary, meshUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have compactUnary : UnaryHistory compactRead :=
+    unary_cont_closed radiusUnary meshUnary radiusMeshCompact
+  have uniformUnary : UnaryHistory uniformRead :=
+    unary_cont_closed compactUnary nameRowUnary compactNameUniform
+  have uniformUnary' : UnaryHistory uniformRead' :=
+    unary_cont_closed compactUnary nameRowUnary compactNameUniform'
+  have sameUniform : hsame uniformRead uniformRead' :=
+    cont_deterministic compactNameUniform compactNameUniform'
+  exact
+    ⟨radiusUnary, compactUnary, uniformUnary, uniformUnary', sameUniform,
+      radiusMeshCompact, provenancePkg, uniformPkg, uniformPkg'⟩
+
+theorem FiniteLebesgueNumberCompactConsumerDeterminacyPackage [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow compactMetricRead
+      compactNetRead uniformRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont radius mesh compactMetricRead ->
+        Cont radius mesh compactNetRead ->
+          Cont compactNetRead nameRow uniformRead ->
+            PkgSig bundle compactMetricRead pkg ->
+              PkgSig bundle uniformRead pkg ->
+                UnaryHistory radius ∧ UnaryHistory compactMetricRead ∧
+                  UnaryHistory compactNetRead ∧ UnaryHistory uniformRead ∧
+                    hsame compactMetricRead compactNetRead ∧
+                      Cont radius mesh compactMetricRead ∧ Cont radius mesh compactNetRead ∧
+                        Cont compactNetRead nameRow uniformRead ∧
+                          PkgSig bundle provenance pkg ∧
+                            PkgSig bundle compactMetricRead pkg ∧
+                              PkgSig bundle uniformRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro carrier radiusMeshCompactMetric radiusMeshCompactNet compactNetNameUniform
+    compactMetricPkg uniformPkg
+  obtain ⟨_coverUnary, _windowUnary, radiusUnary, meshUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have compactMetricUnary : UnaryHistory compactMetricRead :=
+    unary_cont_closed radiusUnary meshUnary radiusMeshCompactMetric
+  have compactNetUnary : UnaryHistory compactNetRead :=
+    unary_cont_closed radiusUnary meshUnary radiusMeshCompactNet
+  have uniformUnary : UnaryHistory uniformRead :=
+    unary_cont_closed compactNetUnary nameRowUnary compactNetNameUniform
+  have sameCompact : hsame compactMetricRead compactNetRead :=
+    cont_deterministic radiusMeshCompactMetric radiusMeshCompactNet
+  exact
+    ⟨radiusUnary, compactMetricUnary, compactNetUnary, uniformUnary, sameCompact,
+      radiusMeshCompactMetric, radiusMeshCompactNet, compactNetNameUniform, provenancePkg,
+      compactMetricPkg, uniformPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
