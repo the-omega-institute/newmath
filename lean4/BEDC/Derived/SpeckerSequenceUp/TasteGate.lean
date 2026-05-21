@@ -1,4 +1,4 @@
-import BEDC.FKernel.Hist
+import BEDC.Derived.SpeckerSequenceUp
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
@@ -12,7 +12,7 @@ open BEDC.Meta.TasteGate
 inductive SpeckerSequenceUp : Type where
   | mk
       (regularSource streamSchedule dyadicLedger monotoneLedger boundedLedger realSeal
-        transportRows continuationRows provenance localName : BHist) :
+        transportRows continuationRows provenance nameCert : BHist) :
       SpeckerSequenceUp
   deriving DecidableEq
 
@@ -28,7 +28,7 @@ def speckerSequenceDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (speckerSequenceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (speckerSequenceDecodeBHist tail)
 
-private theorem SpeckerSequenceTasteGate_single_carrier_alignment_decode_encode :
+private theorem SpeckerSequenceTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, speckerSequenceDecodeBHist (speckerSequenceEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -39,36 +39,37 @@ private theorem SpeckerSequenceTasteGate_single_carrier_alignment_decode_encode 
 
 def speckerSequenceFields : SpeckerSequenceUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | SpeckerSequenceUp.mk regularSource streamSchedule dyadicLedger monotoneLedger boundedLedger
-      realSeal transportRows continuationRows provenance localName =>
+  | SpeckerSequenceUp.mk regularSource streamSchedule dyadicLedger monotoneLedger
+      boundedLedger realSeal transportRows continuationRows provenance nameCert =>
       [regularSource, streamSchedule, dyadicLedger, monotoneLedger, boundedLedger, realSeal,
-        transportRows, continuationRows, provenance, localName]
+        transportRows, continuationRows, provenance, nameCert]
 
 def speckerSequenceToEventFlow : SpeckerSequenceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (speckerSequenceFields x).map speckerSequenceEncodeBHist
 
-private def SpeckerSequenceTasteGate_single_carrier_alignment_eventAtDefault : Nat → EventFlow → RawEvent
+private def speckerSequenceEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => SpeckerSequenceTasteGate_single_carrier_alignment_eventAtDefault index rest
+  | Nat.succ index, _event :: rest => speckerSequenceEventAtDefault index rest
 
-def speckerSequenceFromEventFlow (ef : EventFlow) : Option SpeckerSequenceUp :=
+def speckerSequenceFromEventFlow : EventFlow → Option SpeckerSequenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (SpeckerSequenceUp.mk
-      (speckerSequenceDecodeBHist (SpeckerSequenceTasteGate_single_carrier_alignment_eventAtDefault 0 ef))
-      (speckerSequenceDecodeBHist (SpeckerSequenceTasteGate_single_carrier_alignment_eventAtDefault 1 ef))
-      (speckerSequenceDecodeBHist (SpeckerSequenceTasteGate_single_carrier_alignment_eventAtDefault 2 ef))
-      (speckerSequenceDecodeBHist (SpeckerSequenceTasteGate_single_carrier_alignment_eventAtDefault 3 ef))
-      (speckerSequenceDecodeBHist (SpeckerSequenceTasteGate_single_carrier_alignment_eventAtDefault 4 ef))
-      (speckerSequenceDecodeBHist (SpeckerSequenceTasteGate_single_carrier_alignment_eventAtDefault 5 ef))
-      (speckerSequenceDecodeBHist (SpeckerSequenceTasteGate_single_carrier_alignment_eventAtDefault 6 ef))
-      (speckerSequenceDecodeBHist (SpeckerSequenceTasteGate_single_carrier_alignment_eventAtDefault 7 ef))
-      (speckerSequenceDecodeBHist (SpeckerSequenceTasteGate_single_carrier_alignment_eventAtDefault 8 ef))
-      (speckerSequenceDecodeBHist (SpeckerSequenceTasteGate_single_carrier_alignment_eventAtDefault 9 ef)))
+  fun ef =>
+    some
+      (SpeckerSequenceUp.mk
+        (speckerSequenceDecodeBHist (speckerSequenceEventAtDefault 0 ef))
+        (speckerSequenceDecodeBHist (speckerSequenceEventAtDefault 1 ef))
+        (speckerSequenceDecodeBHist (speckerSequenceEventAtDefault 2 ef))
+        (speckerSequenceDecodeBHist (speckerSequenceEventAtDefault 3 ef))
+        (speckerSequenceDecodeBHist (speckerSequenceEventAtDefault 4 ef))
+        (speckerSequenceDecodeBHist (speckerSequenceEventAtDefault 5 ef))
+        (speckerSequenceDecodeBHist (speckerSequenceEventAtDefault 6 ef))
+        (speckerSequenceDecodeBHist (speckerSequenceEventAtDefault 7 ef))
+        (speckerSequenceDecodeBHist (speckerSequenceEventAtDefault 8 ef))
+        (speckerSequenceDecodeBHist (speckerSequenceEventAtDefault 9 ef)))
 
 private theorem SpeckerSequenceTasteGate_single_carrier_alignment_round_trip :
     ∀ x : SpeckerSequenceUp,
@@ -77,7 +78,7 @@ private theorem SpeckerSequenceTasteGate_single_carrier_alignment_round_trip :
   intro x
   cases x with
   | mk regularSource streamSchedule dyadicLedger monotoneLedger boundedLedger realSeal
-      transportRows continuationRows provenance localName =>
+      transportRows continuationRows provenance nameCert =>
       change
         some
           (SpeckerSequenceUp.mk
@@ -90,23 +91,22 @@ private theorem SpeckerSequenceTasteGate_single_carrier_alignment_round_trip :
             (speckerSequenceDecodeBHist (speckerSequenceEncodeBHist transportRows))
             (speckerSequenceDecodeBHist (speckerSequenceEncodeBHist continuationRows))
             (speckerSequenceDecodeBHist (speckerSequenceEncodeBHist provenance))
-            (speckerSequenceDecodeBHist (speckerSequenceEncodeBHist localName))) =
+            (speckerSequenceDecodeBHist (speckerSequenceEncodeBHist nameCert))) =
           some
             (SpeckerSequenceUp.mk regularSource streamSchedule dyadicLedger monotoneLedger
-              boundedLedger realSeal transportRows continuationRows provenance localName)
-      rw [SpeckerSequenceTasteGate_single_carrier_alignment_decode_encode regularSource,
-        SpeckerSequenceTasteGate_single_carrier_alignment_decode_encode streamSchedule,
-        SpeckerSequenceTasteGate_single_carrier_alignment_decode_encode dyadicLedger,
-        SpeckerSequenceTasteGate_single_carrier_alignment_decode_encode monotoneLedger,
-        SpeckerSequenceTasteGate_single_carrier_alignment_decode_encode boundedLedger,
-        SpeckerSequenceTasteGate_single_carrier_alignment_decode_encode realSeal,
-        SpeckerSequenceTasteGate_single_carrier_alignment_decode_encode transportRows,
-        SpeckerSequenceTasteGate_single_carrier_alignment_decode_encode continuationRows,
-        SpeckerSequenceTasteGate_single_carrier_alignment_decode_encode provenance,
-        SpeckerSequenceTasteGate_single_carrier_alignment_decode_encode localName]
+              boundedLedger realSeal transportRows continuationRows provenance nameCert)
+      rw [SpeckerSequenceTasteGate_single_carrier_alignment_decode regularSource,
+        SpeckerSequenceTasteGate_single_carrier_alignment_decode streamSchedule,
+        SpeckerSequenceTasteGate_single_carrier_alignment_decode dyadicLedger,
+        SpeckerSequenceTasteGate_single_carrier_alignment_decode monotoneLedger,
+        SpeckerSequenceTasteGate_single_carrier_alignment_decode boundedLedger,
+        SpeckerSequenceTasteGate_single_carrier_alignment_decode realSeal,
+        SpeckerSequenceTasteGate_single_carrier_alignment_decode transportRows,
+        SpeckerSequenceTasteGate_single_carrier_alignment_decode continuationRows,
+        SpeckerSequenceTasteGate_single_carrier_alignment_decode provenance,
+        SpeckerSequenceTasteGate_single_carrier_alignment_decode nameCert]
 
-private theorem SpeckerSequenceTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : SpeckerSequenceUp} :
+private theorem speckerSequenceToEventFlow_injective {x y : SpeckerSequenceUp} :
     speckerSequenceToEventFlow x = speckerSequenceToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -117,6 +117,19 @@ private theorem SpeckerSequenceTasteGate_single_carrier_alignment_toEventFlow_in
   exact Option.some.inj
     (Eq.trans (SpeckerSequenceTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (SpeckerSequenceTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem speckerSequence_field_faithful :
+    ∀ x y : SpeckerSequenceUp, speckerSequenceFields x = speckerSequenceFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk regularSource₁ streamSchedule₁ dyadicLedger₁ monotoneLedger₁ boundedLedger₁ realSeal₁
+      transportRows₁ continuationRows₁ provenance₁ nameCert₁ =>
+      cases y with
+      | mk regularSource₂ streamSchedule₂ dyadicLedger₂ monotoneLedger₂ boundedLedger₂ realSeal₂
+          transportRows₂ continuationRows₂ provenance₂ nameCert₂ =>
+          cases hfields
+          rfl
 
 instance speckerSequenceBHistCarrier : BHistCarrier SpeckerSequenceUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -131,23 +144,41 @@ instance speckerSequenceChapterTasteGate : ChapterTasteGate SpeckerSequenceUp wh
     exact SpeckerSequenceTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (SpeckerSequenceTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (speckerSequenceToEventFlow_injective heq)
+
+instance speckerSequenceFieldFaithful : FieldFaithful SpeckerSequenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := speckerSequenceFields
+  field_faithful := speckerSequence_field_faithful
+
+def taste_gate : ChapterTasteGate SpeckerSequenceUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  speckerSequenceChapterTasteGate
 
 theorem SpeckerSequenceTasteGate_single_carrier_alignment :
-    (∀ h : BHist, speckerSequenceDecodeBHist (speckerSequenceEncodeBHist h) = h) ∧
+    Nonempty (BHistCarrier SpeckerSequenceUp) ∧
+      Nonempty (ChapterTasteGate SpeckerSequenceUp) ∧
+      Nonempty (FieldFaithful SpeckerSequenceUp) ∧
+      (∀ h : BHist, speckerSequenceDecodeBHist (speckerSequenceEncodeBHist h) = h) ∧
       (∀ x : SpeckerSequenceUp,
         speckerSequenceFromEventFlow (speckerSequenceToEventFlow x) = some x) ∧
-        (∀ x y : SpeckerSequenceUp,
-          speckerSequenceToEventFlow x = speckerSequenceToEventFlow y → x = y) ∧
-          speckerSequenceEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+      (∀ x y : SpeckerSequenceUp,
+        speckerSequenceToEventFlow x = speckerSequenceToEventFlow y → x = y) ∧
+      speckerSequenceEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   constructor
-  · exact SpeckerSequenceTasteGate_single_carrier_alignment_decode_encode
+  · exact ⟨speckerSequenceBHistCarrier⟩
+  constructor
+  · exact ⟨speckerSequenceChapterTasteGate⟩
+  constructor
+  · exact ⟨speckerSequenceFieldFaithful⟩
+  constructor
+  · exact SpeckerSequenceTasteGate_single_carrier_alignment_decode
   constructor
   · exact SpeckerSequenceTasteGate_single_carrier_alignment_round_trip
   constructor
   · intro x y heq
-    exact SpeckerSequenceTasteGate_single_carrier_alignment_toEventFlow_injective heq
+    exact speckerSequenceToEventFlow_injective heq
   · rfl
 
 end BEDC.Derived.SpeckerSequenceUp

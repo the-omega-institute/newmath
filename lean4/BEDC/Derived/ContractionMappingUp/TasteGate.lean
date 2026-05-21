@@ -11,8 +11,8 @@ open BEDC.Meta.TasteGate
 
 inductive ContractionMappingUp : Type where
   | mk
-      (metric distance selfMap graph bound modulus picardRoute transportRows continuationRows
-        provenance localName : BHist) :
+      (metricCarrier metricDistance selfMap graph contractionBound modulusRow picardRoute
+        transportRows continuationRows provenance nameCert : BHist) :
       ContractionMappingUp
   deriving DecidableEq
 
@@ -28,9 +28,8 @@ def contractionMappingDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (contractionMappingDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (contractionMappingDecodeBHist tail)
 
-private theorem ContractionMappingTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist,
-      contractionMappingDecodeBHist (contractionMappingEncodeBHist h) = h := by
+private theorem ContractionMappingTasteGate_single_carrier_alignment_decode :
+    ∀ h : BHist, contractionMappingDecodeBHist (contractionMappingEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -40,37 +39,38 @@ private theorem ContractionMappingTasteGate_single_carrier_alignment_decode_enco
 
 def contractionMappingFields : ContractionMappingUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | ContractionMappingUp.mk metric distance selfMap graph bound modulus picardRoute
-      transportRows continuationRows provenance localName =>
-      [metric, distance, selfMap, graph, bound, modulus, picardRoute, transportRows,
-        continuationRows, provenance, localName]
+  | ContractionMappingUp.mk metricCarrier metricDistance selfMap graph contractionBound
+      modulusRow picardRoute transportRows continuationRows provenance nameCert =>
+      [metricCarrier, metricDistance, selfMap, graph, contractionBound, modulusRow,
+        picardRoute, transportRows, continuationRows, provenance, nameCert]
 
 def contractionMappingToEventFlow : ContractionMappingUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (contractionMappingFields x).map contractionMappingEncodeBHist
 
-private def ContractionMappingTasteGate_single_carrier_alignment_eventAtDefault : Nat → EventFlow → RawEvent
+private def contractionMappingEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => ContractionMappingTasteGate_single_carrier_alignment_eventAtDefault index rest
+  | Nat.succ index, _event :: rest => contractionMappingEventAtDefault index rest
 
-def contractionMappingFromEventFlow (ef : EventFlow) : Option ContractionMappingUp :=
+def contractionMappingFromEventFlow : EventFlow → Option ContractionMappingUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (ContractionMappingUp.mk
-      (contractionMappingDecodeBHist (ContractionMappingTasteGate_single_carrier_alignment_eventAtDefault 0 ef))
-      (contractionMappingDecodeBHist (ContractionMappingTasteGate_single_carrier_alignment_eventAtDefault 1 ef))
-      (contractionMappingDecodeBHist (ContractionMappingTasteGate_single_carrier_alignment_eventAtDefault 2 ef))
-      (contractionMappingDecodeBHist (ContractionMappingTasteGate_single_carrier_alignment_eventAtDefault 3 ef))
-      (contractionMappingDecodeBHist (ContractionMappingTasteGate_single_carrier_alignment_eventAtDefault 4 ef))
-      (contractionMappingDecodeBHist (ContractionMappingTasteGate_single_carrier_alignment_eventAtDefault 5 ef))
-      (contractionMappingDecodeBHist (ContractionMappingTasteGate_single_carrier_alignment_eventAtDefault 6 ef))
-      (contractionMappingDecodeBHist (ContractionMappingTasteGate_single_carrier_alignment_eventAtDefault 7 ef))
-      (contractionMappingDecodeBHist (ContractionMappingTasteGate_single_carrier_alignment_eventAtDefault 8 ef))
-      (contractionMappingDecodeBHist (ContractionMappingTasteGate_single_carrier_alignment_eventAtDefault 9 ef))
-      (contractionMappingDecodeBHist (ContractionMappingTasteGate_single_carrier_alignment_eventAtDefault 10 ef)))
+  fun ef =>
+    some
+      (ContractionMappingUp.mk
+        (contractionMappingDecodeBHist (contractionMappingEventAtDefault 0 ef))
+        (contractionMappingDecodeBHist (contractionMappingEventAtDefault 1 ef))
+        (contractionMappingDecodeBHist (contractionMappingEventAtDefault 2 ef))
+        (contractionMappingDecodeBHist (contractionMappingEventAtDefault 3 ef))
+        (contractionMappingDecodeBHist (contractionMappingEventAtDefault 4 ef))
+        (contractionMappingDecodeBHist (contractionMappingEventAtDefault 5 ef))
+        (contractionMappingDecodeBHist (contractionMappingEventAtDefault 6 ef))
+        (contractionMappingDecodeBHist (contractionMappingEventAtDefault 7 ef))
+        (contractionMappingDecodeBHist (contractionMappingEventAtDefault 8 ef))
+        (contractionMappingDecodeBHist (contractionMappingEventAtDefault 9 ef))
+        (contractionMappingDecodeBHist (contractionMappingEventAtDefault 10 ef)))
 
 private theorem ContractionMappingTasteGate_single_carrier_alignment_round_trip :
     ∀ x : ContractionMappingUp,
@@ -78,39 +78,39 @@ private theorem ContractionMappingTasteGate_single_carrier_alignment_round_trip 
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk metric distance selfMap graph bound modulus picardRoute transportRows continuationRows
-      provenance localName =>
+  | mk metricCarrier metricDistance selfMap graph contractionBound modulusRow picardRoute
+      transportRows continuationRows provenance nameCert =>
       change
         some
           (ContractionMappingUp.mk
-            (contractionMappingDecodeBHist (contractionMappingEncodeBHist metric))
-            (contractionMappingDecodeBHist (contractionMappingEncodeBHist distance))
+            (contractionMappingDecodeBHist (contractionMappingEncodeBHist metricCarrier))
+            (contractionMappingDecodeBHist (contractionMappingEncodeBHist metricDistance))
             (contractionMappingDecodeBHist (contractionMappingEncodeBHist selfMap))
             (contractionMappingDecodeBHist (contractionMappingEncodeBHist graph))
-            (contractionMappingDecodeBHist (contractionMappingEncodeBHist bound))
-            (contractionMappingDecodeBHist (contractionMappingEncodeBHist modulus))
+            (contractionMappingDecodeBHist (contractionMappingEncodeBHist contractionBound))
+            (contractionMappingDecodeBHist (contractionMappingEncodeBHist modulusRow))
             (contractionMappingDecodeBHist (contractionMappingEncodeBHist picardRoute))
             (contractionMappingDecodeBHist (contractionMappingEncodeBHist transportRows))
             (contractionMappingDecodeBHist (contractionMappingEncodeBHist continuationRows))
             (contractionMappingDecodeBHist (contractionMappingEncodeBHist provenance))
-            (contractionMappingDecodeBHist (contractionMappingEncodeBHist localName))) =
+            (contractionMappingDecodeBHist (contractionMappingEncodeBHist nameCert))) =
           some
-            (ContractionMappingUp.mk metric distance selfMap graph bound modulus picardRoute
-              transportRows continuationRows provenance localName)
-      rw [ContractionMappingTasteGate_single_carrier_alignment_decode_encode metric,
-        ContractionMappingTasteGate_single_carrier_alignment_decode_encode distance,
-        ContractionMappingTasteGate_single_carrier_alignment_decode_encode selfMap,
-        ContractionMappingTasteGate_single_carrier_alignment_decode_encode graph,
-        ContractionMappingTasteGate_single_carrier_alignment_decode_encode bound,
-        ContractionMappingTasteGate_single_carrier_alignment_decode_encode modulus,
-        ContractionMappingTasteGate_single_carrier_alignment_decode_encode picardRoute,
-        ContractionMappingTasteGate_single_carrier_alignment_decode_encode transportRows,
-        ContractionMappingTasteGate_single_carrier_alignment_decode_encode continuationRows,
-        ContractionMappingTasteGate_single_carrier_alignment_decode_encode provenance,
-        ContractionMappingTasteGate_single_carrier_alignment_decode_encode localName]
+            (ContractionMappingUp.mk metricCarrier metricDistance selfMap graph
+              contractionBound modulusRow picardRoute transportRows continuationRows provenance
+              nameCert)
+      rw [ContractionMappingTasteGate_single_carrier_alignment_decode metricCarrier,
+        ContractionMappingTasteGate_single_carrier_alignment_decode metricDistance,
+        ContractionMappingTasteGate_single_carrier_alignment_decode selfMap,
+        ContractionMappingTasteGate_single_carrier_alignment_decode graph,
+        ContractionMappingTasteGate_single_carrier_alignment_decode contractionBound,
+        ContractionMappingTasteGate_single_carrier_alignment_decode modulusRow,
+        ContractionMappingTasteGate_single_carrier_alignment_decode picardRoute,
+        ContractionMappingTasteGate_single_carrier_alignment_decode transportRows,
+        ContractionMappingTasteGate_single_carrier_alignment_decode continuationRows,
+        ContractionMappingTasteGate_single_carrier_alignment_decode provenance,
+        ContractionMappingTasteGate_single_carrier_alignment_decode nameCert]
 
-private theorem ContractionMappingTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : ContractionMappingUp} :
+private theorem contractionMappingToEventFlow_injective {x y : ContractionMappingUp} :
     contractionMappingToEventFlow x = contractionMappingToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -121,6 +121,20 @@ private theorem ContractionMappingTasteGate_single_carrier_alignment_toEventFlow
   exact Option.some.inj
     (Eq.trans (ContractionMappingTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (ContractionMappingTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem contractionMapping_field_faithful :
+    ∀ x y : ContractionMappingUp,
+      contractionMappingFields x = contractionMappingFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk metricCarrier₁ metricDistance₁ selfMap₁ graph₁ contractionBound₁ modulusRow₁
+      picardRoute₁ transportRows₁ continuationRows₁ provenance₁ nameCert₁ =>
+      cases y with
+      | mk metricCarrier₂ metricDistance₂ selfMap₂ graph₂ contractionBound₂ modulusRow₂
+          picardRoute₂ transportRows₂ continuationRows₂ provenance₂ nameCert₂ =>
+          cases hfields
+          rfl
 
 instance contractionMappingBHistCarrier : BHistCarrier ContractionMappingUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -135,23 +149,41 @@ instance contractionMappingChapterTasteGate : ChapterTasteGate ContractionMappin
     exact ContractionMappingTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (ContractionMappingTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (contractionMappingToEventFlow_injective heq)
+
+instance contractionMappingFieldFaithful : FieldFaithful ContractionMappingUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := contractionMappingFields
+  field_faithful := contractionMapping_field_faithful
+
+def taste_gate : ChapterTasteGate ContractionMappingUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  contractionMappingChapterTasteGate
 
 theorem ContractionMappingTasteGate_single_carrier_alignment :
-    (∀ h : BHist, contractionMappingDecodeBHist (contractionMappingEncodeBHist h) = h) ∧
+    Nonempty (BHistCarrier ContractionMappingUp) ∧
+      Nonempty (ChapterTasteGate ContractionMappingUp) ∧
+      Nonempty (FieldFaithful ContractionMappingUp) ∧
+      (∀ h : BHist, contractionMappingDecodeBHist (contractionMappingEncodeBHist h) = h) ∧
       (∀ x : ContractionMappingUp,
         contractionMappingFromEventFlow (contractionMappingToEventFlow x) = some x) ∧
-        (∀ x y : ContractionMappingUp,
-          contractionMappingToEventFlow x = contractionMappingToEventFlow y → x = y) ∧
-          contractionMappingEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+      (∀ x y : ContractionMappingUp,
+        contractionMappingToEventFlow x = contractionMappingToEventFlow y → x = y) ∧
+      contractionMappingEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   constructor
-  · exact ContractionMappingTasteGate_single_carrier_alignment_decode_encode
+  · exact ⟨contractionMappingBHistCarrier⟩
+  constructor
+  · exact ⟨contractionMappingChapterTasteGate⟩
+  constructor
+  · exact ⟨contractionMappingFieldFaithful⟩
+  constructor
+  · exact ContractionMappingTasteGate_single_carrier_alignment_decode
   constructor
   · exact ContractionMappingTasteGate_single_carrier_alignment_round_trip
   constructor
   · intro x y heq
-    exact ContractionMappingTasteGate_single_carrier_alignment_toEventFlow_injective heq
+    exact contractionMappingToEventFlow_injective heq
   · rfl
 
 end BEDC.Derived.ContractionMappingUp
