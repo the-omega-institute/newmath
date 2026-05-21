@@ -116,4 +116,54 @@ theorem AuditMembraneCarrier_consumer_boundary {G B R D H P N consumer : BHist} 
     ⟨unaryG, unaryB, unaryR, unaryD, unaryP, unaryN, unaryConsumer, sameAuditFace,
       refusalRoute, replayRoute, consumerRoute⟩
 
+theorem AuditMembraneUp_StdBridge {G B R D H P N exported : BHist} :
+    AuditMembraneCarrier G B R D H P N →
+      Cont N P exported →
+        SemanticNameCert
+          (fun row : BHist => hsame row exported ∧ UnaryHistory row)
+          (fun row : BHist => Cont N P row ∧ hsame H (append G B))
+          (fun row : BHist => hsame row exported ∧ Cont G B R ∧ Cont R D N)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro carrier exportRoute
+  have closure := AuditMembraneCarrier_refusal_replay_closure carrier
+  have unaryP : UnaryHistory P :=
+    carrier.right.right.right.left
+  have unaryN : UnaryHistory N :=
+    closure.right.left
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed unaryN unaryP exportRoute
+  have sameAuditFace : hsame H (append G B) :=
+    closure.right.right
+  have refusalRoute : Cont G B R :=
+    carrier.right.right.right.right.right.left
+  have replayRoute : Cont R D N :=
+    carrier.right.right.right.right.right.right
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro exported ⟨hsame_refl exported, exportedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        ⟨cont_result_hsame_transport exportRoute (hsame_symm source.left),
+          sameAuditFace⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, refusalRoute, replayRoute⟩
+  }
+
 end BEDC.Derived.AuditMembraneUp
