@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.InscriptionEventBufferSealUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -234,5 +236,23 @@ theorem InscriptionEventBufferSealTasteGate_single_carrier_alignment :
       · intro x y heq
         exact inscriptionEventBufferSealToEventFlow_injective heq
       · rfl
+
+theorem InscriptionEventBufferSealCarrier_namecert_obligations {E W R D A H Q P N : BHist} :
+    inscriptionEventBufferSealFields (InscriptionEventBufferSealUp.mk E W R D A H Q P N) =
+        [E, W, R, D, A, H, Q, P, N] ∧
+      Cont E W (append E W) ∧
+        Cont R D (append R D) ∧
+          Cont (append E W) (append R D) (append (append E W) (append R D)) ∧
+            hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont
+  constructor
+  · rfl
+  constructor
+  · exact cont_intro rfl
+  constructor
+  · exact cont_intro rfl
+  constructor
+  · exact cont_intro rfl
+  · exact hsame_refl N
 
 end BEDC.Derived.InscriptionEventBufferSealUp
