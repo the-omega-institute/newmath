@@ -1806,6 +1806,7 @@ import BEDC.Derived.CriticalStripZetaZeroWitnessUp.RHHandoffObligation
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.RhInputLedger
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.ScopedPackage
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.SharedSourceScope
+import BEDC.Derived.CriticalStripZetaZeroWitnessUp.SourceBoundaryClosure
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.WitnessScopeBinding
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
 import BEDC.Derived.CrossHistCausalRateUp.Carrier
