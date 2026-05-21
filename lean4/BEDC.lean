@@ -249,6 +249,7 @@ import BEDC.Derived.AuditWritingDisciplineUp.TasteGate
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptanceBudgetCover
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptanceTotality
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptedSignatureCover
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptedSignatureRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AdmissionExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditBoundary
@@ -268,6 +269,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchAuditLedger
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchBudgetExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchDescentTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchLedgerDisjointness
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchMotivePairing
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.BranchOutputClosureRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.CarrierAdmissionSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ClosedSubstitutionAdmission
@@ -1237,6 +1239,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorAuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorGeneratorScopeLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootCompilerNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompilePublicPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompileRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftBudgetExhaustion
@@ -1747,7 +1750,9 @@ import BEDC.Derived.CriticalLineWitnessUp.RootRouteObligationCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceLock
+import BEDC.Derived.CriticalLineWitnessUp.RootSourceModulusAdmission
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceObligationTriad
+import BEDC.Derived.CriticalLineWitnessUp.RootSourceRouteCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootStdBridgeRefusalSource
 import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootStripSourceTotality
@@ -4112,6 +4117,7 @@ import BEDC.Derived.RefuterTraceUp.TasteGate
 import BEDC.Derived.RegSeqObservationBudgetUp.TasteGate
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
+import BEDC.Derived.RegSeqRatUp.CommonTailRealBoundaryEquivalence
 import BEDC.Derived.RegSeqRatUp.CommonTailWindow
 import BEDC.Derived.RegSeqRatUp.FiniteRequestSourceSection
 import BEDC.Derived.RegSeqRatUp.RealSealFiniteWindowSaturation
@@ -4999,6 +5005,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryPublicNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaCriticalStripReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaFunctionalBoundaryTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaHorizonConsumerRow
+import BEDC.Derived.ZetaContinuationWitnessUp.GammaHorizonNonescapeRow
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.NoRhNonescape
