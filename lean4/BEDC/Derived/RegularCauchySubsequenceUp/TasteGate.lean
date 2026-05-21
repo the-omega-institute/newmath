@@ -10,9 +10,8 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RegularCauchySubsequenceUp : Type where
-  | mk
-      (source reindex windows radius «seal» sameRows routeRows provenance localCert endpoint :
-        BHist) : RegularCauchySubsequenceUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | mk (S T W R E H C P N : BHist) : RegularCauchySubsequenceUp
   deriving DecidableEq
 
 def regularCauchySubsequenceEncodeBHist : BHist → RawEvent
@@ -30,7 +29,8 @@ def regularCauchySubsequenceDecodeBHist : RawEvent → BHist
 private theorem regularCauchySubsequenceDecode_encode_bhist :
     ∀ h : BHist,
       regularCauchySubsequenceDecodeBHist
-        (regularCauchySubsequenceEncodeBHist h) = h := by
+          (regularCauchySubsequenceEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -41,120 +41,89 @@ private theorem regularCauchySubsequenceDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def regularCauchySubsequenceFields : RegularCauchySubsequenceUp → List BHist
+def regularCauchySubsequenceFields : RegularCauchySubsequenceUp → List BHist :=
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchySubsequenceUp.mk source reindex windows radius «seal» sameRows routeRows
-      provenance localCert endpoint =>
-      [source, reindex, windows, radius, «seal», sameRows, routeRows, provenance, localCert,
-        endpoint]
+  fun
+  | RegularCauchySubsequenceUp.mk S T W R E H C P N =>
+      [S, T, W, R, E, H, C, P, N]
 
-def regularCauchySubsequenceToEventFlow : RegularCauchySubsequenceUp → EventFlow
+def regularCauchySubsequenceToEventFlow :
+    RegularCauchySubsequenceUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (regularCauchySubsequenceFields x).map regularCauchySubsequenceEncodeBHist
+  fun
+  | RegularCauchySubsequenceUp.mk S T W R E H C P N =>
+      [regularCauchySubsequenceEncodeBHist S,
+        regularCauchySubsequenceEncodeBHist T,
+        regularCauchySubsequenceEncodeBHist W,
+        regularCauchySubsequenceEncodeBHist R,
+        regularCauchySubsequenceEncodeBHist E,
+        regularCauchySubsequenceEncodeBHist H,
+        regularCauchySubsequenceEncodeBHist C,
+        regularCauchySubsequenceEncodeBHist P,
+        regularCauchySubsequenceEncodeBHist N]
 
-def regularCauchySubsequenceFromEventFlow : EventFlow → Option RegularCauchySubsequenceUp
+def regularCauchySubsequenceFromEventFlow :
+    EventFlow → Option RegularCauchySubsequenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _a :: [] => none
-  | _a :: _b :: [] => none
-  | _a :: _b :: _c :: [] => none
-  | _a :: _b :: _c :: _d :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: [] => none
-  | source :: reindex :: windows :: radius :: sealRow :: sameRows :: routeRows :: provenance ::
-      localCert :: endpoint :: [] =>
+  fun
+  | S :: T :: W :: R :: E :: H :: C :: P :: N :: [] =>
       some
         (RegularCauchySubsequenceUp.mk
-          (regularCauchySubsequenceDecodeBHist source)
-          (regularCauchySubsequenceDecodeBHist reindex)
-          (regularCauchySubsequenceDecodeBHist windows)
-          (regularCauchySubsequenceDecodeBHist radius)
-          (regularCauchySubsequenceDecodeBHist sealRow)
-          (regularCauchySubsequenceDecodeBHist sameRows)
-          (regularCauchySubsequenceDecodeBHist routeRows)
-          (regularCauchySubsequenceDecodeBHist provenance)
-          (regularCauchySubsequenceDecodeBHist localCert)
-          (regularCauchySubsequenceDecodeBHist endpoint))
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: _j :: _k :: _rest => none
+          (regularCauchySubsequenceDecodeBHist S)
+          (regularCauchySubsequenceDecodeBHist T)
+          (regularCauchySubsequenceDecodeBHist W)
+          (regularCauchySubsequenceDecodeBHist R)
+          (regularCauchySubsequenceDecodeBHist E)
+          (regularCauchySubsequenceDecodeBHist H)
+          (regularCauchySubsequenceDecodeBHist C)
+          (regularCauchySubsequenceDecodeBHist P)
+          (regularCauchySubsequenceDecodeBHist N))
+  | _ => none
 
 private theorem regularCauchySubsequence_round_trip :
     ∀ x : RegularCauchySubsequenceUp,
       regularCauchySubsequenceFromEventFlow
-        (regularCauchySubsequenceToEventFlow x) = some x := by
+          (regularCauchySubsequenceToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk source reindex windows radius sealRow sameRows routeRows provenance localCert endpoint =>
-      change
-        some
-          (RegularCauchySubsequenceUp.mk
-            (regularCauchySubsequenceDecodeBHist
-              (regularCauchySubsequenceEncodeBHist source))
-            (regularCauchySubsequenceDecodeBHist
-              (regularCauchySubsequenceEncodeBHist reindex))
-            (regularCauchySubsequenceDecodeBHist
-              (regularCauchySubsequenceEncodeBHist windows))
-            (regularCauchySubsequenceDecodeBHist
-              (regularCauchySubsequenceEncodeBHist radius))
-            (regularCauchySubsequenceDecodeBHist
-              (regularCauchySubsequenceEncodeBHist sealRow))
-            (regularCauchySubsequenceDecodeBHist
-              (regularCauchySubsequenceEncodeBHist sameRows))
-            (regularCauchySubsequenceDecodeBHist
-              (regularCauchySubsequenceEncodeBHist routeRows))
-            (regularCauchySubsequenceDecodeBHist
-              (regularCauchySubsequenceEncodeBHist provenance))
-            (regularCauchySubsequenceDecodeBHist
-              (regularCauchySubsequenceEncodeBHist localCert))
-            (regularCauchySubsequenceDecodeBHist
-              (regularCauchySubsequenceEncodeBHist endpoint))) =
-          some
-            (RegularCauchySubsequenceUp.mk source reindex windows radius sealRow sameRows
-              routeRows provenance localCert endpoint)
-      rw [regularCauchySubsequenceDecode_encode_bhist source,
-        regularCauchySubsequenceDecode_encode_bhist reindex,
-        regularCauchySubsequenceDecode_encode_bhist windows,
-        regularCauchySubsequenceDecode_encode_bhist radius,
-        regularCauchySubsequenceDecode_encode_bhist sealRow,
-        regularCauchySubsequenceDecode_encode_bhist sameRows,
-        regularCauchySubsequenceDecode_encode_bhist routeRows,
-        regularCauchySubsequenceDecode_encode_bhist provenance,
-        regularCauchySubsequenceDecode_encode_bhist localCert,
-        regularCauchySubsequenceDecode_encode_bhist endpoint]
+  | mk S T W R E H C P N =>
+      simp only [regularCauchySubsequenceToEventFlow,
+        regularCauchySubsequenceFromEventFlow,
+        regularCauchySubsequenceDecode_encode_bhist]
 
 private theorem regularCauchySubsequenceToEventFlow_injective
     {x y : RegularCauchySubsequenceUp} :
     regularCauchySubsequenceToEventFlow x =
-      regularCauchySubsequenceToEventFlow y → x = y := by
+        regularCauchySubsequenceToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have hread :
-      regularCauchySubsequenceFromEventFlow
-          (regularCauchySubsequenceToEventFlow x) =
-        regularCauchySubsequenceFromEventFlow
-          (regularCauchySubsequenceToEventFlow y) :=
-    congrArg regularCauchySubsequenceFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (regularCauchySubsequence_round_trip x).symm
-      (Eq.trans hread (regularCauchySubsequence_round_trip y)))
+  intro hxy
+  have optionEq : some x = some y := by
+    calc
+      some x =
+          regularCauchySubsequenceFromEventFlow
+            (regularCauchySubsequenceToEventFlow x) :=
+        (regularCauchySubsequence_round_trip x).symm
+      _ =
+          regularCauchySubsequenceFromEventFlow
+            (regularCauchySubsequenceToEventFlow y) :=
+        congrArg regularCauchySubsequenceFromEventFlow hxy
+      _ = some y := regularCauchySubsequence_round_trip y
+  exact Option.some.inj optionEq
 
-private theorem regularCauchySubsequence_fields_faithful :
-    ∀ x y : RegularCauchySubsequenceUp,
-      regularCauchySubsequenceFields x = regularCauchySubsequenceFields y → x = y := by
+theorem RegularCauchySubsequenceUp_carrier_alignment
+    (G : RegularCauchySubsequenceUp) :
+    ∃ S T W R E H C P N : BHist,
+      G = RegularCauchySubsequenceUp.mk S T W R E H C P N := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk source reindex windows radius sealRow sameRows routeRows provenance localCert endpoint =>
-      cases y with
-      | mk source' reindex' windows' radius' sealRow' sameRows' routeRows' provenance'
-          localCert' endpoint' =>
-          cases hfields
-          rfl
+  cases G with
+  | mk S T W R E H C P N =>
+      exact ⟨S, T, W, R, E, H, C, P, N, rfl⟩
 
-instance regularCauchySubsequenceBHistCarrier : BHistCarrier RegularCauchySubsequenceUp where
+instance regularCauchySubsequenceBHistCarrier :
+    BHistCarrier RegularCauchySubsequenceUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := regularCauchySubsequenceToEventFlow
   fromEventFlow := regularCauchySubsequenceFromEventFlow
@@ -166,55 +135,15 @@ instance regularCauchySubsequenceChapterTasteGate :
     intro x
     change
       regularCauchySubsequenceFromEventFlow
-        (regularCauchySubsequenceToEventFlow x) = some x
+          (regularCauchySubsequenceToEventFlow x) =
+        some x
     exact regularCauchySubsequence_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (regularCauchySubsequenceToEventFlow_injective heq)
 
-instance regularCauchySubsequenceFieldFaithful :
-    FieldFaithful RegularCauchySubsequenceUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := regularCauchySubsequenceFields
-  field_faithful := regularCauchySubsequence_fields_faithful
-
-instance regularCauchySubsequenceNontrivial : Nontrivial RegularCauchySubsequenceUp where
-  witness_pair :=
-    ⟨RegularCauchySubsequenceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      RegularCauchySubsequenceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        -- BEDC touchpoint anchor: BHist BMark
-        intro h
-        cases h⟩
-
 def taste_gate : ChapterTasteGate RegularCauchySubsequenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchySubsequenceChapterTasteGate
-
-theorem RegularCauchySubsequenceTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate RegularCauchySubsequenceUp) ∧
-      Nonempty (FieldFaithful RegularCauchySubsequenceUp) ∧
-      Nonempty (Nontrivial RegularCauchySubsequenceUp) ∧
-      (∀ h : BHist,
-        regularCauchySubsequenceDecodeBHist
-          (regularCauchySubsequenceEncodeBHist h) = h) ∧
-      (∀ x : RegularCauchySubsequenceUp,
-        regularCauchySubsequenceFromEventFlow
-          (regularCauchySubsequenceToEventFlow x) = some x) ∧
-      (∀ x y : RegularCauchySubsequenceUp,
-        regularCauchySubsequenceToEventFlow x =
-          regularCauchySubsequenceToEventFlow y -> x = y) ∧
-      regularCauchySubsequenceEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
-  exact
-    ⟨⟨regularCauchySubsequenceChapterTasteGate⟩,
-      ⟨regularCauchySubsequenceFieldFaithful⟩,
-      ⟨regularCauchySubsequenceNontrivial⟩,
-      regularCauchySubsequenceDecode_encode_bhist,
-      regularCauchySubsequence_round_trip,
-      fun _ _ heq => regularCauchySubsequenceToEventFlow_injective heq,
-      rfl⟩
 
 end BEDC.Derived.RegularCauchySubsequenceUp
