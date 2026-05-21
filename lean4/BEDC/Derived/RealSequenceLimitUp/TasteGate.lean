@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RealSequenceLimitUp.TasteGate
+namespace BEDC.Derived.RealSequenceLimitUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,28 +10,27 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RealSequenceLimitUp : Type where
-  | mk (S L W D E H C P N : BHist) : RealSequenceLimitUp
+  | mk :
+      (sequence limit window tolerance classifier transport continuation provenance
+        nameCert : BHist) →
+      RealSequenceLimitUp
   deriving DecidableEq
 
-def RealSequenceLimitTasteGate_single_carrier_alignment_encodeBHist : BHist → RawEvent
+def realSequenceLimitEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: RealSequenceLimitTasteGate_single_carrier_alignment_encodeBHist h
-  | BHist.e1 h => BMark.b1 :: RealSequenceLimitTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e0 h => BMark.b0 :: realSequenceLimitEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: realSequenceLimitEncodeBHist h
 
-def RealSequenceLimitTasteGate_single_carrier_alignment_decodeBHist : RawEvent → BHist
+def realSequenceLimitDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0
-      (RealSequenceLimitTasteGate_single_carrier_alignment_decodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1
-      (RealSequenceLimitTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (realSequenceLimitDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (realSequenceLimitDecodeBHist tail)
 
 private theorem RealSequenceLimitTasteGate_single_carrier_alignment_decode_encode :
-    forall h : BHist,
-      RealSequenceLimitTasteGate_single_carrier_alignment_decodeBHist
-          (RealSequenceLimitTasteGate_single_carrier_alignment_encodeBHist h) =
-        h := by
+    ∀ h : BHist,
+      realSequenceLimitDecodeBHist (realSequenceLimitEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -39,98 +38,186 @@ private theorem RealSequenceLimitTasteGate_single_carrier_alignment_decode_encod
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def RealSequenceLimitTasteGate_single_carrier_alignment_fields :
-    RealSequenceLimitUp → List BHist
+def realSequenceLimitToEventFlow : RealSequenceLimitUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | RealSequenceLimitUp.mk S L W D E H C P N => [S, L, W, D, E, H, C, P, N]
+  | RealSequenceLimitUp.mk sequence limit window tolerance classifier transport
+      continuation provenance nameCert =>
+      [[BMark.b0],
+        realSequenceLimitEncodeBHist sequence,
+        [BMark.b1, BMark.b0],
+        realSequenceLimitEncodeBHist limit,
+        [BMark.b1, BMark.b1, BMark.b0],
+        realSequenceLimitEncodeBHist window,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        realSequenceLimitEncodeBHist tolerance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        realSequenceLimitEncodeBHist classifier,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        realSequenceLimitEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        realSequenceLimitEncodeBHist continuation,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        realSequenceLimitEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        realSequenceLimitEncodeBHist nameCert]
 
-def RealSequenceLimitTasteGate_single_carrier_alignment_toEventFlow :
-    RealSequenceLimitUp → EventFlow :=
+def realSequenceLimitFromEventFlow : EventFlow → Option RealSequenceLimitUp
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (RealSequenceLimitTasteGate_single_carrier_alignment_fields x).map
-      RealSequenceLimitTasteGate_single_carrier_alignment_encodeBHist
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | sequence :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | limit :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | window :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | tolerance :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | classifier :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | transport :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | continuation :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | provenance :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | nameCert :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (RealSequenceLimitUp.mk
+                                                                                  (realSequenceLimitDecodeBHist sequence)
+                                                                                  (realSequenceLimitDecodeBHist limit)
+                                                                                  (realSequenceLimitDecodeBHist window)
+                                                                                  (realSequenceLimitDecodeBHist tolerance)
+                                                                                  (realSequenceLimitDecodeBHist classifier)
+                                                                                  (realSequenceLimitDecodeBHist transport)
+                                                                                  (realSequenceLimitDecodeBHist continuation)
+                                                                                  (realSequenceLimitDecodeBHist provenance)
+                                                                                  (realSequenceLimitDecodeBHist nameCert))
+                                                                          | _ :: _ => none
 
-def RealSequenceLimitTasteGate_single_carrier_alignment_fromEventFlow :
-    EventFlow → Option RealSequenceLimitUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  fun
-  | S :: L :: W :: D :: E :: H :: C :: P :: N :: [] =>
-      some
-        (RealSequenceLimitUp.mk
-          (RealSequenceLimitTasteGate_single_carrier_alignment_decodeBHist S)
-          (RealSequenceLimitTasteGate_single_carrier_alignment_decodeBHist L)
-          (RealSequenceLimitTasteGate_single_carrier_alignment_decodeBHist W)
-          (RealSequenceLimitTasteGate_single_carrier_alignment_decodeBHist D)
-          (RealSequenceLimitTasteGate_single_carrier_alignment_decodeBHist E)
-          (RealSequenceLimitTasteGate_single_carrier_alignment_decodeBHist H)
-          (RealSequenceLimitTasteGate_single_carrier_alignment_decodeBHist C)
-          (RealSequenceLimitTasteGate_single_carrier_alignment_decodeBHist P)
-          (RealSequenceLimitTasteGate_single_carrier_alignment_decodeBHist N))
-  | _ => none
-
-private theorem RealSequenceLimitTasteGate_single_carrier_alignment_round_trip :
-    forall x : RealSequenceLimitUp,
-      RealSequenceLimitTasteGate_single_carrier_alignment_fromEventFlow
-          (RealSequenceLimitTasteGate_single_carrier_alignment_toEventFlow x) =
-        some x := by
+private theorem realSequenceLimit_round_trip :
+    ∀ x : RealSequenceLimitUp,
+      realSequenceLimitFromEventFlow (realSequenceLimitToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk S L W D E H C P N =>
-      simp only [RealSequenceLimitTasteGate_single_carrier_alignment_toEventFlow,
-        RealSequenceLimitTasteGate_single_carrier_alignment_fields,
-        RealSequenceLimitTasteGate_single_carrier_alignment_fromEventFlow, List.map_cons,
-        List.map_nil, RealSequenceLimitTasteGate_single_carrier_alignment_decode_encode]
+  | mk sequence limit window tolerance classifier transport continuation provenance nameCert =>
+      change
+        some
+          (RealSequenceLimitUp.mk
+            (realSequenceLimitDecodeBHist (realSequenceLimitEncodeBHist sequence))
+            (realSequenceLimitDecodeBHist (realSequenceLimitEncodeBHist limit))
+            (realSequenceLimitDecodeBHist (realSequenceLimitEncodeBHist window))
+            (realSequenceLimitDecodeBHist (realSequenceLimitEncodeBHist tolerance))
+            (realSequenceLimitDecodeBHist (realSequenceLimitEncodeBHist classifier))
+            (realSequenceLimitDecodeBHist (realSequenceLimitEncodeBHist transport))
+            (realSequenceLimitDecodeBHist (realSequenceLimitEncodeBHist continuation))
+            (realSequenceLimitDecodeBHist (realSequenceLimitEncodeBHist provenance))
+            (realSequenceLimitDecodeBHist (realSequenceLimitEncodeBHist nameCert))) =
+          some
+            (RealSequenceLimitUp.mk sequence limit window tolerance classifier transport
+              continuation provenance nameCert)
+      have hSequence :=
+        RealSequenceLimitTasteGate_single_carrier_alignment_decode_encode sequence
+      have hLimit :=
+        RealSequenceLimitTasteGate_single_carrier_alignment_decode_encode limit
+      have hWindow :=
+        RealSequenceLimitTasteGate_single_carrier_alignment_decode_encode window
+      have hTolerance :=
+        RealSequenceLimitTasteGate_single_carrier_alignment_decode_encode tolerance
+      have hClassifier :=
+        RealSequenceLimitTasteGate_single_carrier_alignment_decode_encode classifier
+      have hTransport :=
+        RealSequenceLimitTasteGate_single_carrier_alignment_decode_encode transport
+      have hContinuation :=
+        RealSequenceLimitTasteGate_single_carrier_alignment_decode_encode continuation
+      have hProvenance :=
+        RealSequenceLimitTasteGate_single_carrier_alignment_decode_encode provenance
+      have hNameCert :=
+        RealSequenceLimitTasteGate_single_carrier_alignment_decode_encode nameCert
+      rw [hSequence, hLimit, hWindow, hTolerance, hClassifier, hTransport,
+        hContinuation, hProvenance, hNameCert]
 
-private theorem RealSequenceLimitTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : RealSequenceLimitUp} :
-    RealSequenceLimitTasteGate_single_carrier_alignment_toEventFlow x =
-        RealSequenceLimitTasteGate_single_carrier_alignment_toEventFlow y →
-      x = y := by
+private theorem realSequenceLimitToEventFlow_injective {x y : RealSequenceLimitUp} :
+    realSequenceLimitToEventFlow x = realSequenceLimitToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro hxy
-  have optionEq : some x = some y := by
-    calc
-      some x =
-          RealSequenceLimitTasteGate_single_carrier_alignment_fromEventFlow
-            (RealSequenceLimitTasteGate_single_carrier_alignment_toEventFlow x) :=
-        (RealSequenceLimitTasteGate_single_carrier_alignment_round_trip x).symm
-      _ =
-          RealSequenceLimitTasteGate_single_carrier_alignment_fromEventFlow
-            (RealSequenceLimitTasteGate_single_carrier_alignment_toEventFlow y) :=
-        congrArg RealSequenceLimitTasteGate_single_carrier_alignment_fromEventFlow hxy
-      _ = some y := RealSequenceLimitTasteGate_single_carrier_alignment_round_trip y
-  exact Option.some.inj optionEq
+  intro heq
+  have hread :
+      realSequenceLimitFromEventFlow (realSequenceLimitToEventFlow x) =
+        realSequenceLimitFromEventFlow (realSequenceLimitToEventFlow y) :=
+    congrArg realSequenceLimitFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (realSequenceLimit_round_trip x).symm
+      (Eq.trans hread (realSequenceLimit_round_trip y)))
 
-instance RealSequenceLimitTasteGate_single_carrier_alignment_BHistCarrier :
-    BHistCarrier RealSequenceLimitUp where
+instance realSequenceLimitBHistCarrier : BHistCarrier RealSequenceLimitUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := RealSequenceLimitTasteGate_single_carrier_alignment_toEventFlow
-  fromEventFlow := RealSequenceLimitTasteGate_single_carrier_alignment_fromEventFlow
+  toEventFlow := realSequenceLimitToEventFlow
+  fromEventFlow := realSequenceLimitFromEventFlow
 
-instance RealSequenceLimitTasteGate_single_carrier_alignment_ChapterTasteGate :
-    ChapterTasteGate RealSequenceLimitUp where
+instance realSequenceLimitChapterTasteGate : ChapterTasteGate RealSequenceLimitUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      RealSequenceLimitTasteGate_single_carrier_alignment_fromEventFlow
-          (RealSequenceLimitTasteGate_single_carrier_alignment_toEventFlow x) =
-        some x
-    exact RealSequenceLimitTasteGate_single_carrier_alignment_round_trip x
+    change realSequenceLimitFromEventFlow (realSequenceLimitToEventFlow x) = some x
+    exact realSequenceLimit_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (RealSequenceLimitTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (realSequenceLimitToEventFlow_injective heq)
 
 theorem RealSequenceLimitTasteGate_single_carrier_alignment :
-    (forall S L W D E H C P N : BHist,
-      RealSequenceLimitTasteGate_single_carrier_alignment_fields
-          (RealSequenceLimitUp.mk S L W D E H C P N) =
-        [S, L, W, D, E, H, C, P, N]) ∧
-      RealSequenceLimitTasteGate_single_carrier_alignment_encodeBHist BHist.Empty =
-        ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact ⟨(fun _ _ _ _ _ _ _ _ _ => rfl), rfl⟩
+    (∀ h : BHist, realSequenceLimitDecodeBHist (realSequenceLimitEncodeBHist h) = h) ∧
+      (∀ x : RealSequenceLimitUp,
+        realSequenceLimitFromEventFlow (realSequenceLimitToEventFlow x) = some x) ∧
+        (∀ x y : RealSequenceLimitUp,
+          realSequenceLimitToEventFlow x = realSequenceLimitToEventFlow y → x = y) ∧
+          realSequenceLimitEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact RealSequenceLimitTasteGate_single_carrier_alignment_decode_encode
+  · constructor
+    · exact realSequenceLimit_round_trip
+    · constructor
+      · intro x y heq
+        exact realSequenceLimitToEventFlow_injective heq
+      · rfl
 
-end BEDC.Derived.RealSequenceLimitUp.TasteGate
+end BEDC.Derived.RealSequenceLimitUp
