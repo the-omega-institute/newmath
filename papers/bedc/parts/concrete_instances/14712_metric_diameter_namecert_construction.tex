@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\MetricDiameterUp$}
+\label{ch:concrete-instances-metric-diameter-namecert}
+\origin{human}
+
+Following Hausdorff and Kelley metric-space practice, the $\MetricDiameterUp$ packet records the diameter interface of a bounded metric object as finite BEDC rows. The packet reads diameter through distance-comparison ledgers and displayed ordered-real bounds, not through a host supremum. It sits beside the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the ordered-real comparison surface of \autoref{ch:concrete-instances-real-alg-order-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the center-radius rows of \autoref{ch:concrete-instances-metricball-namecert}, and the entourage-facing boundary of \autoref{ch:concrete-instances-uniformspace-namecert}.
+
+\begin{definition}[MetricDiameter carrier]
+\label{def:metric-diameter-bhist-carrier}
+A $\MetricDiameterUp$ carrier is a finite $\BHist$ packet
+$$
+D=(X,d,B,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\MetricSpaceUp$ carrier row with its point classifier and metric-source data.
+\item $d$ is the $\RealUp$-valued distance witness read from the metric carrier $X$.
+\item $B$ is the displayed bound row, read through the ordered-real comparison surface of $\RealAlgOrderUp$ and the rational bound rows of $\RatUp$ when a rational presentation is used.
+\item $W$ is the finite witness list of compared pairs. Each row names a pair $(x_i,y_i)$ admitted by the point classifier of $X$.
+\item $R$ is the distance-comparison ledger. For every displayed pair in $W$, it records the ordered-real comparison from the distance row $d(x_i,y_i)$ to the bound row $B$.
+\item $H$ records componentwise $\hsame$ transport for the metric carrier, distance witness, bound row, witness list, and distance-comparison ledger.
+\item $C$ records the displayed $\Cont$ route replaying point admission, distance evaluation, ordered-real comparison, and bound handoff.
+\item $P$ is the $\Pkg$ provenance over $\MetricDiameterUp$, $\MetricSpaceUp$, $\RealUp$, $\RealAlgOrderUp$, $\RatUp$, $\MetricBallUp$, $\UniformSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetricDiameterUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for an ambient supremum, compactness argument, selected maximum pair, geodesic length structure, open-cover principle, or bridge datum.
+\end{definition}
+
+\begin{theorem}[MetricDiameter bound obligation]
+\label{thm:metric-diameter-bound-obligation}
+For an accepted $\MetricDiameterUp$ carrier $D=(X,d,B,W,R,H,C,P,N)$, every displayed pairwise distance row in the witness list $W$ is bounded by the named diameter row $B$ through the ledger $R$. Concretely, each displayed pair $(x_i,y_i)$ admitted by $X$ has a distance row $d(x_i,y_i)$, and $R$ records the ordered-real comparison
+$$
+d(x_i,y_i)\leq_{\mathsf R} B .
+$$
+No pairwise-distance bound is accepted unless it is one of the finite rows replayed by $C$ and transported by $H$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:metric-diameter-bhist-carrier}. The rows $X,d,B,W,R$ expose the metric carrier, distance witness, displayed bound, finite pair list, and comparison ledger.
+
+For a listed pair $(x_i,y_i)$, point admission is read from $X$, distance evaluation is read from $d$, and the comparison to $B$ is read from $R$. Thus the bound has a displayed ordered-real route through $\RealAlgOrderUp$ rather than through a host supremum.
+
+The rows $H$ and $C$ then preserve and replay the same route under classifier transport. Since the carrier exports no coordinate outside $X,d,B,W,R,H,C,P,N$, an unlisted pairwise-distance assertion is not part of the local certificate.
+\end{proof}
+
+\begin{theorem}[MetricDiameter classifier stability]
+\label{thm:metric-diameter-classifier-stability}
+Let $D=(X,d,B,W,R,H,C,P,N)$ be an accepted $\MetricDiameterUp$ carrier. Under any classifier transport admitted by $H$, the transported packet preserves the metric carrier, bound row, finite comparison ledger, and replay route:
+$$
+X,d,B,W,R,C \longmapsto X',d',B',W',R',C' .
+$$
+The transported packet therefore compares exactly the transported finite pair list against the transported bound and introduces no second metric carrier, no independent diameter value, and no host supremum.
+\end{theorem}
+\begin{proof}
+The transport row $H$ is componentwise. It carries the metric carrier, distance witness, bound row, finite witness list, and comparison ledger to their transported rows without changing the packet shape.
+
+The replay row $C$ is downstream from the same transported coordinates. Point admission, distance evaluation, ordered-real comparison, and bound handoff are replayed after transport in the same order as before transport.
+
+Package provenance $P$ and the local naming row $N$ identify this transported packet as the same $\MetricDiameterUp$ surface. Because no coordinate exists for a second metric carrier, independent diameter value, or host supremum, classifier stability preserves exactly the displayed ledger.
+\end{proof}
+
+\begin{theorem}[MetricDiameter NameCert obligation surface]
+\label{thm:metric-diameter-namecert-obligation-surface}
+For every accepted $\MetricDiameterUp$ carrier $D=(X,d,B,W,R,H,C,P,N)$, the local $\NameCert_{\MetricDiameterUp}$ surface consists exactly of five obligations:
+\begin{enumerate}
+\item carrier admission for the displayed metric carrier, distance witness, bound row, witness list, comparison ledger, transport, replay, provenance, and local naming rows;
+\item finite bound exposure, requiring the bound row $B$ to be read through the ordered-real and rational surfaces already named by the packet;
+\item pairwise distance comparison stability, requiring every finite pair in $W$ to have its distance-to-bound comparison recorded in $R$;
+\item classifier transport, requiring $H$ and $C$ to preserve the metric carrier, bound row, witness list, ledger, and replay route;
+\item ledger non-escape, stating that the packet exports no host supremum, compactness argument, selected maximum pair, geodesic data, open-cover principle, or bridge check.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:metric-diameter-bhist-carrier}. The tuple lists exactly the rows available to the local classifier and to downstream metric or ordered-real consumers.
+
+Finite bound exposure is the role of $B$. It is consumed through $\RealAlgOrderUp$, $\RealUp$, and $\RatUp$ rows named in $P$, so the diameter value is visible as a displayed comparison bound rather than as a supremum in an ambient order.
+
+Pairwise comparison stability is the role of $W$ and $R$. The witness list provides only finitely many displayed pairs, and the ledger records the distance-to-bound comparison for each such pair.
+
+Classifier transport and replay are supplied by $H$ and $C$. They move the same rows to a common comparison surface and replay the same finite route, while $P$ and $N$ record provenance and local naming. Hence every export remains inside the finite ledger and no excluded analytic object can be read from the packet.
+\end{proof}
+
+\begin{closurestatus}{\MetricDiameterUp}
+  \constructivestory{A $\MetricDiameterUp$ packet is generated from a displayed MetricSpace carrier, a RealUp-valued distance witness, an ordered-real bound row, a finite witness list of compared pairs, a distance-comparison ledger, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-diameter-bhist-carrier}, \autoref{thm:metric-diameter-bound-obligation}, \autoref{thm:metric-diameter-classifier-stability}, and \autoref{thm:metric-diameter-namecert-obligation-surface} seed the finite ordered-real diameter surface for metric consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host supremum, compactness theorem, selected maximum pair, geodesic data, open-cover principle, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite bound exposure, pairwise distance comparison stability, classifier transport, and ledger non-escape for the same packet.}
+\end{closurestatus}
