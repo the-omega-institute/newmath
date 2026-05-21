@@ -121,6 +121,30 @@ def test_deterministic_fallback_allows_low_score_local_packet() -> None:
     assert rejected == [], rejected
 
 
+def test_board_substance_gate_rejects_structural_row_echo() -> None:
+    reason = board_spawn._substance_rejection(
+        _candidate(
+            source="research_lane:structural_relation_miner",
+            title="ObservationReflectionPacket forgetful projection boundary",
+            claim=(
+                "ObservationReflectionPacket should expose a BEDC-native "
+                "forgetful projection lemma over the displayed rows; local "
+                "evidence is the listed chapter's displayed rows and the "
+                "receiving gate must re-read those rows rather than trust a "
+                "copied source excerpt."
+            ),
+            budget_reason=(
+                "The candidate is a finite structural relation over displayed "
+                "local rows."
+            ),
+            resource_trace=(
+                "Consumes only the listed chapter's displayed carrier rows."
+            ),
+        )
+    )
+    assert reason == "substance_echo_not_board_ready"
+
+
 def test_direct_codex_admission_accepts_research_packet_without_judge() -> None:
     accepted, stopped, needs_judge = board_spawn._direct_codex_admission(
         [_candidate(source="research_lane:paper_gap_scanner")]
@@ -206,6 +230,7 @@ if __name__ == "__main__":
     test_deterministic_fallback_rejects_raw_gap_scanner_source()
     test_deterministic_fallback_rejects_anti_parameter_echo()
     test_deterministic_fallback_allows_low_score_local_packet()
+    test_board_substance_gate_rejects_structural_row_echo()
     test_direct_codex_admission_accepts_research_packet_without_judge()
     test_direct_codex_admission_rejects_anti_parameter_echo()
     test_direct_codex_admission_keeps_oracle_for_judge()
