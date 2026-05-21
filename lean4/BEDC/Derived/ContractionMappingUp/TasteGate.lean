@@ -186,4 +186,20 @@ theorem ContractionMappingTasteGate_single_carrier_alignment :
     exact contractionMappingToEventFlow_injective heq
   · rfl
 
+namespace TasteGate
+
+theorem ContractionMappingTasteGate_single_carrier_alignment :
+    Nonempty (BHistCarrier ContractionMappingUp) ∧
+      Nonempty (ChapterTasteGate ContractionMappingUp) ∧
+      Nonempty (FieldFaithful ContractionMappingUp) ∧
+      (∀ h : BHist, contractionMappingDecodeBHist (contractionMappingEncodeBHist h) = h) ∧
+      (∀ x : ContractionMappingUp,
+        contractionMappingFromEventFlow (contractionMappingToEventFlow x) = some x) ∧
+      (∀ x y : ContractionMappingUp,
+        contractionMappingToEventFlow x = contractionMappingToEventFlow y → x = y) ∧
+      contractionMappingEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  exact BEDC.Derived.ContractionMappingUp.ContractionMappingTasteGate_single_carrier_alignment
+
+end TasteGate
+
 end BEDC.Derived.ContractionMappingUp
