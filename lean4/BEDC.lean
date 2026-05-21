@@ -3489,6 +3489,7 @@ import BEDC.Derived.MetricUp.SOneEquationDistanceSymmetry
 import BEDC.Derived.MetricUp.SOnePositiveBoundaryEquivalence
 import BEDC.Derived.MetricUp.SOneRealAlgOrderConsumerFactorization
 import BEDC.Derived.MetricUp.SourceSpecification
+import BEDC.Derived.MetricUp.StabilityCertificate
 import BEDC.Derived.MetricUp.StdBridge
 import BEDC.Derived.MetricUp.TasteGate
 import BEDC.Derived.MetricUp.Transport
