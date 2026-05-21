@@ -744,6 +744,7 @@ import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp
 import BEDC.Derived.CantorIntersectionUp.TasteGate
+import BEDC.Derived.CantorSetUp.TasteGate
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.CatLimitUp
 import BEDC.Derived.CategoryFunctorIndex
@@ -4036,6 +4037,7 @@ import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RationalBallUp
 import BEDC.Derived.RationalBallUp.TasteGate
 import BEDC.Derived.RationalDensityRealUp.TasteGate
+import BEDC.Derived.RationalEmbeddingUp.TasteGate
 import BEDC.Derived.RationalIntervalUp
 import BEDC.Derived.RationalIntervalUp.BisectionRefinementNesting
 import BEDC.Derived.RationalIntervalUp.ConsumerCompleteness
