@@ -54,6 +54,7 @@ ALLOWLIST_FILE = REPO_ROOT / "papers" / "bedc" / "taste_allowlist.json"
 APPROVALS_FILE = REPO_ROOT / "papers" / "bedc" / "taste_approvals.json"
 CONFIG_FILE = REPO_ROOT / "papers" / "bedc" / "taste_curator_config.json"
 TASTE_EVOLUTIONS_FILE = REPO_ROOT / "docs" / "dossier" / "taste-evolutions.qmd"
+RESOLVE_PROMPT_FILE = REPO_ROOT / "tools" / "taste_resolve_prompt.txt"
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 
 DEFAULT_CONFIG: dict[str, Any] = {
@@ -69,6 +70,9 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "MIN_MONITOR_CYCLES": 2,
     "ADJUST_TRIGGER_FINDINGS": 5,
     "RESEARCH_EVERY_N_ADJUSTS": 5,
+    "MAX_RESOLUTIONS_PER_DAY": 24,
+    "FINDING_RESOLUTION_TIMEOUT_SECONDS": 1200,
+    "RESOLUTION_COOLDOWN_HOURS": 24,
 }
 
 VALID_STATES = {"monitor", "research", "adjust"}
@@ -134,6 +138,19 @@ RULE_EVOLUTION_FORBIDDEN_PREFIXES = (
 )
 
 MAX_RULE_EVOLUTION_CLUSTER_SIZE = 20
+
+RESOLUTION_ACTIONS = {
+    "delete_theorem",
+    "add_downstream_user",
+    "leave_with_rationale",
+    "move_to_staging",
+}
+
+RESOLUTION_EDIT_ACTIONS = {
+    "delete_theorem",
+    "add_downstream_user",
+    "move_to_staging",
+}
 
 META_PROMPT_RULE_EVOLUTION = """You are TASTE — your only job is to detect and forbid trivial or
 meaningless theory in BEDC. Not external mathematical aesthetic.
@@ -384,6 +401,20 @@ def rule_evolution_names(flag: str, cluster_key: str) -> tuple[Path, str]:
     return rule_evolution_worktree_for_branch(branch), branch
 
 
+def finding_resolution_worktree_for_key(key: str) -> Path:
+    return Path("/tmp") / f"wt-taste-resolve-{sanitize_branch_piece(key)[:48]}"
+
+
+def finding_resolution_names(entry: dict[str, Any]) -> tuple[Path, str, str]:
+    qid = str(entry.get("id") or "")
+    raw = qid or json.dumps(entry, sort_keys=True, default=str)
+    finding_key = short_hash(raw)
+    cycle_suffix = f"{int(time.time())}-{uuid.uuid4().hex[:8]}"
+    flag = sanitize_branch_piece(str(entry.get("flag") or "finding"))
+    branch = f"taste/resolve-{flag}-{finding_key}-{cycle_suffix}"
+    return finding_resolution_worktree_for_key(finding_key), branch, finding_key
+
+
 def rel(path: Path) -> str:
     try:
         return str(path.relative_to(REPO_ROOT))
@@ -565,6 +596,10 @@ def load_config() -> dict[str, Any]:
     return cfg
 
 
+def utc_day() -> str:
+    return datetime.now(timezone.utc).date().isoformat()
+
+
 def load_allowlist() -> dict[str, Any]:
     data = read_json(ALLOWLIST_FILE, {"version": 1, "capstone_approvals": [], "flag_exemptions": []})
     if not isinstance(data, dict):
@@ -604,10 +639,29 @@ def load_state() -> dict[str, Any]:
     data.setdefault("last_adjust_commit_sha", None)
     data.setdefault("last_adjust_at", None)
     data.setdefault("last_pipeline_sample", {})
+    ensure_resolution_state(data)
     return data
 
 
+def ensure_resolution_state(state: dict[str, Any]) -> None:
+    today = utc_day()
+    if state.get("resolution_count_day") != today:
+        state["resolution_count_day"] = today
+        state["resolution_count_today"] = 0
+    try:
+        state["resolution_count_today"] = int(state.get("resolution_count_today", 0))
+    except Exception:
+        state["resolution_count_today"] = 0
+    if not isinstance(state.get("resolutions_log"), list):
+        state["resolutions_log"] = []
+    if not isinstance(state.get("resolved_finding_ids"), list):
+        state["resolved_finding_ids"] = []
+    if not isinstance(state.get("resolution_cooldown"), dict):
+        state["resolution_cooldown"] = {}
+
+
 def save_state(state: dict[str, Any], dry_run: bool) -> None:
+    ensure_resolution_state(state)
     write_json(STATE_FILE, state, dry_run=dry_run)
 
 
@@ -1244,6 +1298,46 @@ def cooldown_action(finding: Finding, cfg: dict[str, Any], dry_run: bool) -> str
     return "queue"
 
 
+def queue_entry_cooldown_key(entry: dict[str, Any]) -> str:
+    flag = str(entry.get("flag") or "")
+    chapter = str(entry.get("chapter_slug") or "")
+    parts = [flag, chapter]
+    if flag in HUMAN_REVIEW_ONLY_FLAGS:
+        target = entry.get("lean_target")
+        if target:
+            parts.append(sanitize_queue_key(str(target)))
+        else:
+            raw = json.dumps(entry.get("evidence", {}), ensure_ascii=False, sort_keys=True, default=str)
+            parts.append(hashlib.sha1(raw.encode("utf-8", errors="ignore")).hexdigest()[:8])
+    return ":".join(parts)
+
+
+def resolution_in_cooldown(state: dict[str, Any], entry: dict[str, Any], cfg: dict[str, Any]) -> tuple[bool, str]:
+    ensure_resolution_state(state)
+    key = queue_entry_cooldown_key(entry)
+    cooldown = state.setdefault("resolution_cooldown", {})
+    rec = cooldown.get(key)
+    if not isinstance(rec, dict):
+        return False, key
+    last = str(rec.get("last_attempt_at") or "")
+    try:
+        last_dt = datetime.fromisoformat(last.replace("Z", "+00:00"))
+        age_hours = (datetime.now(timezone.utc) - last_dt).total_seconds() / 3600.0
+    except Exception:
+        return False, key
+    limit = float(cfg.get("RESOLUTION_COOLDOWN_HOURS", cfg.get("COOLDOWN_HOURS", 24)))
+    return age_hours < limit, key
+
+
+def mark_resolution_cooldown(state: dict[str, Any], key: str, action: str, target: str | None) -> None:
+    ensure_resolution_state(state)
+    state.setdefault("resolution_cooldown", {})[key] = {
+        "last_attempt_at": utc_now(),
+        "last_action": action,
+        "target": target,
+    }
+
+
 def finding_to_evidence(finding: Finding) -> dict[str, Any]:
     payload: dict[str, Any] = {
         "id": finding.id,
@@ -1286,6 +1380,61 @@ def rule_evolution_done_ids(state: dict[str, Any]) -> set[str]:
         state["rule_evolution_done_ids"] = []
         return set()
     return {str(x) for x in raw if x}
+
+
+def resolved_finding_ids(state: dict[str, Any]) -> set[str]:
+    raw = state.setdefault("resolved_finding_ids", [])
+    if not isinstance(raw, list):
+        state["resolved_finding_ids"] = []
+        return set()
+    return {str(x) for x in raw if x}
+
+
+def mark_finding_resolved(state: dict[str, Any], entry: dict[str, Any]) -> None:
+    done = resolved_finding_ids(state)
+    qid = str(entry.get("id") or "")
+    if qid:
+        done.add(qid)
+    state["resolved_finding_ids"] = sorted(done)[-5000:]
+
+
+def record_resolution_log(
+    state: dict[str, Any],
+    entry: dict[str, Any],
+    action: str,
+    status: str,
+    rationale: str,
+    commit_sha: str | None = None,
+) -> None:
+    ensure_resolution_state(state)
+    item = {
+        "ts": utc_now(),
+        "status": status,
+        "action": action,
+        "finding_id": entry.get("id"),
+        "flag": entry.get("flag"),
+        "chapter_slug": entry.get("chapter_slug"),
+        "target": entry.get("lean_target"),
+        "commit": commit_sha,
+        "rationale": rationale[:1000],
+    }
+    log = state.setdefault("resolutions_log", [])
+    log.append(item)
+    state["resolutions_log"] = log[-100:]
+
+
+def extend_resolution_grace(state: dict[str, Any], entry: dict[str, Any]) -> None:
+    target = str(entry.get("lean_target") or "")
+    if not target:
+        return
+    first_seen = state.setdefault("theorem_first_seen", {})
+    rec = first_seen.get(target)
+    if not isinstance(rec, dict):
+        rec = {}
+        first_seen[target] = rec
+    rec["round"] = int(state.get("round_counter", 0))
+    rec["grace_extended_at"] = utc_now()
+    rec["grace_reason"] = "taste_resolution"
 
 
 def mark_rule_evolution_done(state: dict[str, Any], entries: list[dict[str, Any]], commit_sha: str | None) -> None:
@@ -1814,6 +1963,363 @@ def dispatch_autofix_queue(
     return True
 
 
+def severity_rank(entry: dict[str, Any]) -> int:
+    severity = str(entry.get("severity") or "").lower()
+    return {"critical": 4, "high": 3, "medium": 2, "low": 1}.get(severity, 0)
+
+
+def top_human_review_finding(state: dict[str, Any]) -> dict[str, Any] | None:
+    entries = [
+        entry for entry in pending_queue_entries(state)
+        if str(entry.get("flag") or "") in HUMAN_REVIEW_ONLY_FLAGS
+    ]
+    if not entries:
+        return None
+    return sorted(
+        entries,
+        key=lambda entry: (
+            severity_rank(entry),
+            int(entry.get("round_age") or 0),
+            str(entry.get("id") or ""),
+        ),
+        reverse=True,
+    )[0]
+
+
+def render_resolution_prompt(entry: dict[str, Any]) -> str:
+    template = RESOLVE_PROMPT_FILE.read_text(encoding="utf-8")
+    evidence = entry.get("evidence", {})
+    replacements = {
+        "<FLAG>": str(entry.get("flag") or ""),
+        "<CHAPTER>": str(entry.get("chapter_slug") or ""),
+        "<LEAN_TARGET>": str(entry.get("lean_target") or ""),
+        "<EVIDENCE_JSON>": json.dumps(evidence, ensure_ascii=False, sort_keys=True),
+        "<ROUND_AGE>": str(entry.get("round_age") if entry.get("round_age") is not None else ""),
+        "<RECOMMENDED_ACTION>": str(entry.get("recommended_action") or ""),
+    }
+    for needle, value in replacements.items():
+        template = template.replace(needle, value)
+    return template
+
+
+def extract_last_json_object(text: str) -> Any | None:
+    decoder = json.JSONDecoder()
+    found: Any | None = None
+    for match in re.finditer(r"\{", text):
+        try:
+            payload, _end = decoder.raw_decode(text[match.start():])
+        except json.JSONDecodeError:
+            continue
+        if isinstance(payload, dict) and "action" in payload:
+            found = payload
+    return found
+
+
+def parse_resolution_result(output: str, expected_target: str | None) -> tuple[bool, dict[str, Any], str]:
+    payload = extract_last_json_object(output)
+    if not isinstance(payload, dict):
+        return False, {}, "codex output did not contain a JSON object"
+    action = str(payload.get("action") or "")
+    if action not in RESOLUTION_ACTIONS:
+        return False, payload, f"invalid resolution action: {action}"
+    target = str(payload.get("target") or "")
+    if expected_target and target and target != expected_target:
+        return False, payload, f"JSON target mismatch: expected {expected_target}, got {target}"
+    payload.setdefault("rationale", "")
+    payload.setdefault("files_changed", [])
+    payload.setdefault("gate_results", {})
+    return True, payload, "parsed"
+
+
+def run_resolution_gates(worktree: Path) -> tuple[bool, dict[str, str], str]:
+    gate_specs = [
+        ("lake_build", ["lake", "build"], worktree / "lean4"),
+        ("audit", ["python3", "lean4/scripts/bedc_ci.py", "audit"], worktree),
+        (
+            "phase_d_lint",
+            ["python3", "lean4/scripts/phase_d_lint.py", "--worktree", ".", "--base-branch", BASE_BRANCH],
+            worktree,
+        ),
+        ("axiom_purity", ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"], worktree),
+    ]
+    results: dict[str, str] = {}
+    for name, cmd, cwd in gate_specs:
+        ok, msg = command_output_ok(cmd, cwd, TIMEOUTS["verify"])
+        results[name] = "ok" if ok else msg
+        if not ok:
+            return False, results, f"{name} failed: {msg}"
+    return True, results, "all gates passed"
+
+
+def import_push_lock():
+    from contextlib import nullcontext
+    import sys as _sys
+
+    tools_path = str(REPO_ROOT / "tools")
+    if tools_path not in _sys.path:
+        _sys.path.insert(0, tools_path)
+    try:
+        from repo_push_lock import acquire_push_lock
+
+        return acquire_push_lock
+    except Exception as exc:
+        append_alert("push_lock_import_failed", {"error": str(exc)})
+
+        def _fallback(_branch: str, timeout: int = 120):
+            del _branch, timeout
+            return nullcontext()
+
+        return _fallback
+
+
+def commit_resolution_worktree(worktree: Path, action: str, entry: dict[str, Any], base_sha: str) -> tuple[bool, str, str | None]:
+    touched = touched_files_since(worktree, base_sha)
+    if not touched:
+        return False, "resolution worker produced no file changes", None
+    run(["git", "add", "--", *touched], cwd=worktree, check=True, capture=True, timeout=60)
+    commit = run(
+        [
+            "git",
+            "commit",
+            "-m",
+            f"taste: resolve {sanitize_branch_piece(str(entry.get('flag') or 'finding'))} {short_hash(str(entry.get('id') or ''))}",
+            "-m",
+            f"Action: {action}",
+        ],
+        cwd=worktree,
+        check=False,
+        capture=True,
+        timeout=120,
+    )
+    if commit.returncode != 0:
+        return False, f"resolution commit failed: {tail(commit.stderr or commit.stdout)}", None
+    sha = run(["git", "rev-parse", "HEAD"], cwd=worktree, check=True, capture=True, timeout=30).stdout.strip()
+    return True, "committed", sha
+
+
+def merge_resolution_worktree(worktree: Path, branch: str, entry: dict[str, Any]) -> tuple[bool, str, str | None]:
+    acquire_push_lock = import_push_lock()
+    try:
+        with acquire_push_lock(BASE_BRANCH, timeout=120):
+            fetch = git("fetch", "origin", BASE_BRANCH, check=False, capture=True)
+            if fetch.returncode != 0:
+                return False, f"fetch failed: {tail(fetch.stderr or fetch.stdout)}", None
+            merge_base = git("merge", "--ff-only", f"origin/{BASE_BRANCH}", check=False, capture=True)
+            if merge_base.returncode != 0:
+                return False, f"base sync failed: {tail(merge_base.stderr or merge_base.stdout)}", None
+            merge = run(
+                ["git", "merge", "--no-ff", branch, "-m", f"taste: resolve finding {short_hash(str(entry.get('id') or ''))}"],
+                cwd=REPO_ROOT,
+                check=False,
+                capture=True,
+                timeout=180,
+            )
+            if merge.returncode != 0:
+                git("merge", "--abort", check=False, capture=True)
+                return False, f"worktree merge failed: {tail(merge.stderr or merge.stdout)}", None
+            commit_sha = git("rev-parse", "HEAD", capture=True).stdout.strip()
+            push = git("push", "origin", BASE_BRANCH, check=False, capture=True)
+            if push.returncode != 0:
+                return False, f"push failed: {tail(push.stderr or push.stdout)}", commit_sha
+            return True, "merged and pushed", commit_sha
+    except TimeoutError as exc:
+        return False, f"push lock timeout: {exc}", None
+
+
+def append_resolution_dossier(entry: dict[str, Any], result: dict[str, Any], status: str, dry_run: bool) -> bool:
+    action = str(result.get("action") or "unknown")
+    target = str(entry.get("lean_target") or result.get("target") or entry.get("chapter_slug") or "unknown")
+    rationale = str(result.get("rationale") or "").strip() or "no rationale supplied"
+    gate_results = result.get("gate_results")
+    if not isinstance(gate_results, dict):
+        gate_results = {}
+    gates = ", ".join(f"{key}={value}" for key, value in gate_results.items()) or "none"
+    entry_text = (
+        f"- {utc_now()}: `{status}` `{action}` for `{target}` "
+        f"(flag `{entry.get('flag')}`, finding `{entry.get('id')}`). "
+        f"Rationale: {rationale} Gate results: {gates}."
+    )
+    before = TASTE_EVOLUTIONS_FILE.read_text(encoding="utf-8", errors="ignore") if TASTE_EVOLUTIONS_FILE.exists() else ""
+    append_to_dossier_section("## V3 — Per-finding resolution (2026-05-22)", entry_text, dry_run)
+    if dry_run:
+        return False
+    after = TASTE_EVOLUTIONS_FILE.read_text(encoding="utf-8", errors="ignore") if TASTE_EVOLUTIONS_FILE.exists() else ""
+    return before != after
+
+
+def commit_resolution_dossier_if_needed(changed: bool, dry_run: bool) -> None:
+    if dry_run or not changed:
+        return
+    status = git("status", "--porcelain", "--", rel(TASTE_EVOLUTIONS_FILE), check=False, capture=True)
+    if status.returncode != 0 or not status.stdout.strip():
+        return
+    git("add", rel(TASTE_EVOLUTIONS_FILE))
+    commit = git("commit", "-m", "taste: record finding resolution", check=False, capture=True)
+    if commit.returncode != 0:
+        append_alert("resolution_dossier_commit_failed", {"stderr": tail(commit.stderr or commit.stdout or "")})
+        return
+    acquire_push_lock = import_push_lock()
+    try:
+        with acquire_push_lock(BASE_BRANCH, timeout=120):
+            push = git("push", "origin", BASE_BRANCH, check=False, capture=True)
+    except TimeoutError as exc:
+        append_alert("resolution_dossier_push_failed", {"stderr": str(exc)})
+        return
+    if push.returncode != 0:
+        append_alert("resolution_dossier_push_failed", {"stderr": tail(push.stderr or push.stdout or "")})
+
+
+def mark_resolution_failed(state: dict[str, Any], entry: dict[str, Any], reason: str) -> None:
+    item = {
+        "ts": utc_now(),
+        "id": entry.get("id"),
+        "flag": entry.get("flag"),
+        "chapter_slug": entry.get("chapter_slug"),
+        "target": entry.get("lean_target"),
+        "reason": reason[:1000],
+    }
+    failures = state.setdefault("resolution_failed", [])
+    if not isinstance(failures, list):
+        failures = []
+    failures.append(item)
+    state["resolution_failed"] = failures[-100:]
+
+
+def inspect_and_resolve_top_finding(state: dict, cfg: dict, dry_run: bool) -> bool:
+    """Pick top HUMAN_REVIEW_ONLY pending finding, dispatch codex to inspect
+    + decide + implement. Returns True if a resolution was attempted.
+
+    Rate limit:
+      - max 1 finding per daemon cycle
+      - per-day limit via state['resolution_count_today']
+      - per-finding cooldown via existing cooldown machinery
+
+    Decision tree (codex must output one of these actions in JSON):
+      - delete_theorem: remove the theorem + clean up references
+      - add_downstream_user: add a sibling theorem that uses this one
+      - leave_with_rationale: no change, write rationale + extend grace
+      - move_to_staging: tag as staging-only
+    """
+    ensure_resolution_state(state)
+    entry = top_human_review_finding(state)
+    if entry is None:
+        return False
+    cap = int(cfg.get("MAX_RESOLUTIONS_PER_DAY", 24))
+    if int(state.get("resolution_count_today", 0)) >= cap:
+        print(f"[taste] resolution daily cap reached: {cap}", flush=True)
+        return False
+    in_cooldown, cooldown_key = resolution_in_cooldown(state, entry, cfg)
+    if in_cooldown:
+        print(f"[taste] resolution cooldown active for {cooldown_key}", flush=True)
+        return False
+    if dry_run:
+        print(f"[taste] dry-run: would resolve finding {entry.get('id')}", flush=True)
+        return True
+
+    worktree, branch, finding_key = finding_resolution_names(entry)
+    git("worktree", "remove", "--force", str(worktree), check=False, capture=True)
+    cleanup_rule_evolution_worktree(worktree, branch)
+    if worktree.exists():
+        shutil.rmtree(worktree)
+    add = git("worktree", "add", "-b", branch, str(worktree), BASE_BRANCH, check=False, capture=True)
+    if add.returncode != 0:
+        reason = f"worktree add failed: {tail(add.stderr or add.stdout)}"
+        append_alert("resolution_failed", {"id": entry.get("id"), "reason": reason})
+        mark_resolution_failed(state, entry, reason)
+        return False
+    base_sha = run(["git", "rev-parse", "HEAD"], cwd=worktree, check=True, capture=True, timeout=30).stdout.strip()
+    attempted = True
+    result: dict[str, Any] = {}
+    action = "unknown"
+    try:
+        prompt = render_resolution_prompt(entry)
+        res = run(
+            [CODEX_PATH, "exec", "--dangerously-bypass-approvals-and-sandbox", "-C", str(worktree), prompt],
+            cwd=worktree,
+            check=False,
+            capture=True,
+            timeout=int(cfg.get("FINDING_RESOLUTION_TIMEOUT_SECONDS", 1200)),
+        )
+        output = (res.stdout or "") + "\n" + (res.stderr or "")
+        if res.returncode != 0:
+            reason = f"codex failed rc={res.returncode}: {tail(output)}"
+            append_alert("resolution_failed", {"id": entry.get("id"), "reason": reason})
+            mark_resolution_failed(state, entry, reason)
+            record_resolution_log(state, entry, action, "resolution_failed", reason)
+            mark_resolution_cooldown(state, cooldown_key, "failed", entry.get("lean_target"))
+            return attempted
+        ok, result, msg = parse_resolution_result(output, entry.get("lean_target"))
+        if not ok:
+            append_alert("resolution_json_parse_failed", {"id": entry.get("id"), "reason": msg, "output_tail": tail(output)})
+            mark_resolution_failed(state, entry, msg)
+            record_resolution_log(state, entry, action, "resolution_failed", msg)
+            mark_resolution_cooldown(state, cooldown_key, "failed", entry.get("lean_target"))
+            return attempted
+        action = str(result.get("action"))
+        dirty = run(["git", "status", "--porcelain"], cwd=worktree, check=False, capture=True, timeout=30).stdout
+        if action == "leave_with_rationale":
+            if dirty.strip():
+                reason = f"leave_with_rationale left file changes: {tail(dirty)}"
+                append_alert("resolution_failed", {"id": entry.get("id"), "reason": reason})
+                mark_resolution_failed(state, entry, reason)
+                record_resolution_log(state, entry, action, "resolution_failed", reason)
+                mark_resolution_cooldown(state, cooldown_key, action, entry.get("lean_target"))
+                return attempted
+            mark_finding_resolved(state, entry)
+            extend_resolution_grace(state, entry)
+            state["resolution_count_today"] = int(state.get("resolution_count_today", 0)) + 1
+            record_resolution_log(state, entry, action, "resolved", str(result.get("rationale") or ""))
+            mark_resolution_cooldown(state, cooldown_key, action, entry.get("lean_target"))
+            dossier_changed = append_resolution_dossier(entry, result, "resolved", dry_run=False)
+            commit_resolution_dossier_if_needed(dossier_changed, dry_run=False)
+            print(f"[taste] resolution left with rationale for {entry.get('id')}", flush=True)
+            return attempted
+        if action not in RESOLUTION_EDIT_ACTIONS:
+            reason = f"unhandled action: {action}"
+            append_alert("resolution_failed", {"id": entry.get("id"), "reason": reason})
+            mark_resolution_failed(state, entry, reason)
+            return attempted
+        if not dirty.strip() and not touched_files_since(worktree, base_sha):
+            reason = f"{action} produced no file changes"
+            append_alert("resolution_failed", {"id": entry.get("id"), "reason": reason})
+            mark_resolution_failed(state, entry, reason)
+            record_resolution_log(state, entry, action, "resolution_failed", reason)
+            mark_resolution_cooldown(state, cooldown_key, action, entry.get("lean_target"))
+            return attempted
+        gates_ok, gate_results, gate_msg = run_resolution_gates(worktree)
+        result["gate_results"] = gate_results
+        if not gates_ok:
+            append_alert("resolution_gate_failed", {"id": entry.get("id"), "action": action, "reason": gate_msg})
+            mark_resolution_failed(state, entry, gate_msg)
+            record_resolution_log(state, entry, action, "resolution_failed", gate_msg)
+            mark_resolution_cooldown(state, cooldown_key, action, entry.get("lean_target"))
+            return attempted
+        ok, msg, _worker_commit = commit_resolution_worktree(worktree, action, entry, base_sha)
+        if not ok:
+            append_alert("resolution_commit_failed", {"id": entry.get("id"), "reason": msg})
+            mark_resolution_failed(state, entry, msg)
+            record_resolution_log(state, entry, action, "resolution_failed", msg)
+            mark_resolution_cooldown(state, cooldown_key, action, entry.get("lean_target"))
+            return attempted
+        ok, msg, merge_commit = merge_resolution_worktree(worktree, branch, entry)
+        if not ok:
+            append_alert("resolution_merge_failed", {"id": entry.get("id"), "reason": msg})
+            mark_resolution_failed(state, entry, msg)
+            record_resolution_log(state, entry, action, "resolution_failed", msg)
+            mark_resolution_cooldown(state, cooldown_key, action, entry.get("lean_target"))
+            return attempted
+        mark_finding_resolved(state, entry)
+        state["resolution_count_today"] = int(state.get("resolution_count_today", 0)) + 1
+        record_resolution_log(state, entry, action, "resolved", str(result.get("rationale") or ""), merge_commit)
+        mark_resolution_cooldown(state, cooldown_key, action, entry.get("lean_target"))
+        dossier_changed = append_resolution_dossier(entry, result, "resolved", dry_run=False)
+        commit_resolution_dossier_if_needed(dossier_changed, dry_run=False)
+        print(f"[taste] resolution completed {entry.get('id')} action={action} commit={merge_commit}", flush=True)
+        return attempted
+    finally:
+        cleanup_rule_evolution_worktree(worktree, branch)
+
+
 def triage_findings(findings: list[Finding], cfg: dict[str, Any], state: dict[str, Any], dry_run: bool) -> None:
     ts = utc_now()
     for finding in findings:
@@ -1827,10 +2333,13 @@ def triage_findings(findings: list[Finding], cfg: dict[str, Any], state: dict[st
 
 def pending_queue_entries(state: dict[str, Any]) -> list[dict[str, Any]]:
     done = rule_evolution_done_ids(state)
+    resolved = resolved_finding_ids(state)
     entries = []
     for entry in existing_queue_entries().values():
         qid = str(entry.get("id") or "")
         if qid and qid in done:
+            continue
+        if qid and qid in resolved:
             continue
         entries.append(entry)
     return entries
@@ -2463,6 +2972,8 @@ def cycle(dry_run: bool = False) -> None:
     else:
         state["current_state"] = "monitor"
         state["state_entered_at"] = utc_now()
+    if state.get("current_state") == "monitor" and not dry_run:
+        inspect_and_resolve_top_finding(state, cfg, dry_run)
     update_pipeline_sample(state)
     snapshot_changed = refresh_current_observation_snapshot(state, dry_run)
     write_quality_digest(state, artifacts.head, dry_run)
