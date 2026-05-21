@@ -1,0 +1,220 @@
+\begin{definition}[One-bit flip dynamics on the median closure]
+\label{def:philosophy-one-bit-flip-median-closure}
+Let $M=\operatorname{Med}(\mathcal{R})$. From a codon $x\in M$, choose
+one of the six bit coordinates uniformly and flip it. If the resulting
+codon remains in $M$, this is an internal transition. Otherwise it is an
+outside transition.
+\end{definition}
+
+\begin{theorem}[Quotient leakage transition matrix]
+\label{thm:philosophy-quotient-leakage-transition-matrix}
+On the six orbit states
+$$
+  \mathrm{AGR},\quad
+  \mathrm{Anchor}_{6},\quad
+  \mathrm{StopStart}_{6},\quad
+  \mathrm{UUR},\quad
+  \mathrm{CUR},\quad
+  \mathrm{CUY},
+$$
+the one-bit flip dynamics has transient transition matrix
+$$
+\begin{array}{c|rrrrrr|r}
+ & \mathrm{AGR} & \mathrm{Anchor}_{6} & \mathrm{StopStart}_{6}
+ & \mathrm{UUR} & \mathrm{CUR} & \mathrm{CUY} & \text{outside}\\
+\hline
+\mathrm{AGR} & 1/6 & 1/2 & 0 & 0 & 0 & 0 & 1/3\\
+\mathrm{Anchor}_{6} & 1/6 & 1/6 & 1/3 & 0 & 0 & 0 & 1/3\\
+\mathrm{StopStart}_{6} & 0 & 1/3 & 1/6 & 1/6 & 0 & 0 & 1/3\\
+\mathrm{UUR} & 0 & 0 & 1/2 & 1/6 & 1/6 & 0 & 1/6\\
+\mathrm{CUR} & 0 & 0 & 0 & 1/6 & 1/6 & 1/6 & 1/2\\
+\mathrm{CUY} & 0 & 0 & 0 & 0 & 1/6 & 1/6 & 2/3.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Use the orbit edge counts from
+\autoref{thm:philosophy-weighted-quotient-path}. For a state $S$, the
+normalizing denominator is $6|S|$. A cross-orbit edge contributes one
+oriented half-edge from its source state. An internal edge contributes
+two half-edges within the same state. Dividing these half-edge counts
+by $6|S|$ gives the displayed matrix and outside column.
+\end{proof}
+
+\begin{corollary}[Uniform self-retention]
+\label{cor:philosophy-uniform-self-retention}
+Every quotient state has the same self-transition probability:
+$$
+  P(S\to S)=1/6.
+$$
+\end{corollary}
+\begin{proof}
+Read the diagonal of
+\autoref{thm:philosophy-quotient-leakage-transition-matrix}. The
+underlying reason is that each orbit has an internal matching coming
+from the $f_{3}$ flip.
+\end{proof}
+
+\begin{theorem}[Quotient leakage rates]
+\label{thm:philosophy-quotient-leakage-rates}
+The outside probabilities are
+$$
+\begin{array}{c|r}
+  \text{state} & \text{outside probability}\\
+  \hline
+  \mathrm{AGR} & 1/3\\
+  \mathrm{Anchor}_{6} & 1/3\\
+  \mathrm{StopStart}_{6} & 1/3\\
+  \mathrm{UUR} & 1/6\\
+  \mathrm{CUR} & 1/2\\
+  \mathrm{CUY} & 2/3.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each row of
+\autoref{thm:philosophy-quotient-leakage-transition-matrix}, subtract
+the internal transition sum from $1$.
+\end{proof}
+
+\begin{corollary}[CUN tail leakage]
+\label{cor:philosophy-cun-tail-leakage}
+The CUN-side tail has the highest leakage: $\mathrm{CUR}$ leaks with
+probability $1/2$, and $\mathrm{CUY}$ leaks with probability $2/3$.
+The main three-state core $\mathrm{AGR}$, $\mathrm{Anchor}_{6}$, and
+$\mathrm{StopStart}_{6}$ has outside probability $1/3$ in each state.
+\end{corollary}
+\begin{proof}
+This is the comparison of the outside probabilities in
+\autoref{thm:philosophy-quotient-leakage-rates}.
+\end{proof}
+
+\begin{theorem}[Expected exit times]
+\label{thm:philosophy-quotient-expected-exit-times}
+Let $T_S$ be the expected number of one-bit flips before leaving $M$,
+starting from quotient state $S$. Then
+$$
+\begin{array}{c|r}
+  \text{state} & T_S\\
+  \hline
+  \mathrm{AGR} & 1478/487 \approx 3.035\\
+  \mathrm{Anchor}_{6} & 4468/1461 \approx 3.058\\
+  \mathrm{StopStart}_{6} & 4570/1461 \approx 3.128\\
+  \mathrm{UUR} & 1716/487 \approx 3.524\\
+  \mathrm{CUR} & 1088/487 \approx 2.234\\
+  \mathrm{CUY} & 802/487 \approx 1.647.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Let $Q$ be the $6\times 6$ transient matrix in
+\autoref{thm:philosophy-quotient-leakage-transition-matrix}. The
+expected exit vector is
+$$
+  T=(I-Q)^{-1}\mathbf{1}.
+$$
+Solving this exact rational linear system gives the displayed values.
+\end{proof}
+
+\begin{corollary}[UUR bridge residence]
+\label{cor:philosophy-uur-bridge-residence}
+The state $\mathrm{UUR}$ has the largest expected exit time,
+approximately $3.524$ one-bit flips.
+\end{corollary}
+\begin{proof}
+Compare the six values in
+\autoref{thm:philosophy-quotient-expected-exit-times}.
+\end{proof}
+
+\begin{definition}[One-step retention]
+\label{def:philosophy-one-step-retention}
+For $S\subseteq Q_{6}$, define
+$$
+  \rho(S)=\frac{2|E(S)|}{6|S|},
+$$
+where $E(S)$ is the set of Hamming edges internal to $S$.
+\end{definition}
+
+\begin{theorem}[Closure-chain retention]
+\label{thm:philosophy-closure-chain-retention}
+The closure chain has the following one-step retention data:
+$$
+\begin{array}{c|r|r|r|r}
+  \text{set} & \text{vertices} & \text{internal edges}
+  & \text{boundary half-edges} & \rho\\
+  \hline
+  \mathcal{R} & 13 & 16 & 46 & 16/39\approx 0.410\\
+  \overline{\mathcal{R}} & 16 & 25 & 46 & 25/48\approx 0.521\\
+  \operatorname{Med}_{1}(\mathcal{R}) & 19 & 34 & 46 & 34/57\approx 0.596\\
+  M & 20 & 38 & 44 & 19/30\approx 0.633.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Each codon has degree $6$ in $Q_{6}$. Internal edges contribute two
+internal half-edges, so $\rho(S)=2|E(S)|/(6|S|)$. Boundary half-edges
+are $6|S|-2|E(S)|$. Substitute the enumerated vertex and internal-edge
+counts for the four sets.
+\end{proof}
+
+\begin{corollary}[Median closure as local stabilization]
+\label{cor:philosophy-median-closure-local-stabilization}
+The retention values increase along the chain
+$$
+  0.410\to 0.521\to 0.596\to 0.633.
+$$
+Thus the inactive anchors and median closure raise the one-bit
+retention probability.
+\end{corollary}
+\begin{proof}
+This is the monotone comparison in
+\autoref{thm:philosophy-closure-chain-retention}.
+\end{proof}
+
+\begin{theorem}[$\mathrm{ACG}$ boundary seal]
+\label{thm:philosophy-acg-boundary-seal}
+Adding $\mathrm{ACG}$ to
+$\operatorname{Med}_{1}(\mathcal{R})$ changes the boundary half-edge
+count from $46$ to $44$.
+\end{theorem}
+\begin{proof}
+If a vertex $p$ is added to a set $S$ and has $k$ neighbors in $S$, the
+boundary half-edge count changes by
+$$
+  \Delta\partial=6-2k.
+$$
+For $S=\operatorname{Med}_{1}(\mathcal{R})$ and $p=\mathrm{ACG}$, the
+neighbors already in $S$ are
+$$
+  \mathrm{ACA},\qquad \mathrm{AGG},\qquad
+  \mathrm{AUG},\qquad \mathrm{UCG}.
+$$
+Thus $k=4$ and $\Delta\partial=6-8=-2$.
+\end{proof}
+
+\begin{corollary}[Three roles of $\mathrm{ACG}$]
+\label{cor:philosophy-three-roles-acg}
+The codon $\mathrm{ACG}$ has three structural roles: it is the
+top-dimensional sealing corner, the symmetry-restoring orbit-completion
+point, and the boundary-reducing dynamical seal.
+\end{corollary}
+\begin{proof}
+The top-dimensional role is
+\autoref{cor:philosophy-top-dimensional-sealing-corner}. The
+orbit-completion role is \autoref{thm:philosophy-acg-orbit-completion}.
+The boundary role is \autoref{thm:philosophy-acg-boundary-seal}.
+\end{proof}
+
+\begin{theorem}[Quotient leakage dynamics]
+\label{thm:philosophy-quotient-leakage-dynamics}
+The median closure is a stabilizing envelope for one-bit Hamming
+dynamics: its orbit quotient is a six-state path with outside leakage,
+its CUN tail is the highest-leakage region, and the closure chain
+strictly raises one-step retention from $16/39$ to $19/30$.
+\end{theorem}
+\begin{proof}
+The quotient transition matrix is
+\autoref{thm:philosophy-quotient-leakage-transition-matrix}; the tail
+comparison is \autoref{cor:philosophy-cun-tail-leakage}; the retention
+chain is \autoref{thm:philosophy-closure-chain-retention}.
+\end{proof}

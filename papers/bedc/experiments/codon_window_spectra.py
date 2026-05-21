@@ -1403,6 +1403,36 @@ def median_index(left: int, middle: int, right: int) -> int:
     return value
 
 
+def solve_fraction_linear_system(
+    matrix: list[list[fractions.Fraction]],
+    vector: list[fractions.Fraction],
+) -> list[fractions.Fraction]:
+    size = len(vector)
+    augmented = [row[:] + [value] for row, value in zip(matrix, vector)]
+    for pivot in range(size):
+        pivot_row = next(row for row in range(pivot, size) if augmented[row][pivot] != 0)
+        if pivot_row != pivot:
+            augmented[pivot], augmented[pivot_row] = augmented[pivot_row], augmented[pivot]
+        pivot_value = augmented[pivot][pivot]
+        augmented[pivot] = [entry / pivot_value for entry in augmented[pivot]]
+        for row in range(size):
+            if row == pivot:
+                continue
+            factor = augmented[row][pivot]
+            if factor:
+                augmented[row] = [
+                    current - factor * pivot_entry
+                    for current, pivot_entry in zip(augmented[row], augmented[pivot])
+                ]
+    return [row[-1] for row in augmented]
+
+
+def fraction_string(value: fractions.Fraction) -> str:
+    if value.denominator == 1:
+        return str(value.numerator)
+    return f"{value.numerator}/{value.denominator}"
+
+
 def interval_closure(codons: set[str]) -> tuple[set[str], list[dict[str, object]]]:
     closed = set(codons)
     stages: list[dict[str, object]] = []
@@ -2532,6 +2562,64 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         for codon in support_tuple
     ]
     active_interface_rows.sort(key=lambda row: (-row["interface_degree"], row["active_codon"]))
+    path_order = ("AGR", "Anchor6", "StopStart6", "UUR", "CUR", "CUY")
+    path_indices = tuple(orbit_names.index(name) for name in path_order)
+    transition_matrix: list[list[fractions.Fraction]] = []
+    leakage_probabilities: list[fractions.Fraction] = []
+    for source in path_indices:
+        denominator = 6 * len(quotient_orbits[source])
+        row: list[fractions.Fraction] = []
+        internal_half_edges = 0
+        for target in path_indices:
+            if source == target:
+                half_edges = 2 * orbit_adjacency_matrix[source][target]
+            else:
+                half_edges = orbit_adjacency_matrix[source][target]
+            internal_half_edges += half_edges
+            row.append(fractions.Fraction(half_edges, denominator))
+        transition_matrix.append(row)
+        leakage_probabilities.append(fractions.Fraction(denominator - internal_half_edges, denominator))
+    identity_minus_q = [
+        [
+            (fractions.Fraction(1, 1) if row == column else fractions.Fraction(0, 1))
+            - transition_matrix[row][column]
+            for column in range(len(path_order))
+        ]
+        for row in range(len(path_order))
+    ]
+    expected_exit_times = solve_fraction_linear_system(
+        identity_minus_q,
+        [fractions.Fraction(1, 1) for _state in path_order],
+    )
+
+    def retention_row(name: str, codons: set[str]) -> dict[str, object]:
+        edge_count = sum(1 for left, right, _direction in hamming_edges() if left in codons and right in codons)
+        boundary_half_edges = 6 * len(codons) - 2 * edge_count
+        retention = fractions.Fraction(2 * edge_count, 6 * len(codons))
+        return {
+            "name": name,
+            "vertices": len(codons),
+            "internal_edges": edge_count,
+            "boundary_half_edges": boundary_half_edges,
+            "retention": fraction_string(retention),
+            "retention_float": float(retention),
+        }
+
+    closure_retention_rows = [
+        retention_row("support", support),
+        retention_row("anchor_closure", anchor_closure),
+        retention_row("median_stage_one", median_stage_one),
+        retention_row("median_closure", median_set),
+    ]
+    acg_stage_one_neighbors = tuple(
+        sorted(
+            right if left == "ACG" else left
+            for left, right, _direction in hamming_edges()
+            if "ACG" in (left, right)
+            and (right if left == "ACG" else left) in median_stage_one
+        )
+    )
+    acg_boundary_delta = 6 - 2 * len(acg_stage_one_neighbors)
 
     return {
         "support": tuple(sorted(support)),
@@ -2875,6 +2963,31 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 ),
                 "active_neighbors": tuple(sorted(inactive_interface["ACG"])),
             },
+        },
+        "quotient_leakage_dynamics": {
+            "state_order": path_order,
+            "transition_matrix": tuple(
+                tuple(fraction_string(value) for value in row)
+                for row in transition_matrix
+            ),
+            "transition_matrix_float": tuple(
+                tuple(float(value) for value in row)
+                for row in transition_matrix
+            ),
+            "outside_probabilities": tuple(fraction_string(value) for value in leakage_probabilities),
+            "outside_probabilities_float": tuple(float(value) for value in leakage_probabilities),
+            "self_retention_probabilities": tuple(
+                fraction_string(transition_matrix[index][index])
+                for index in range(len(path_order))
+            ),
+            "expected_exit_times": tuple(fraction_string(value) for value in expected_exit_times),
+            "expected_exit_times_float": tuple(float(value) for value in expected_exit_times),
+            "closure_retention_rows": closure_retention_rows,
+            "acg_stage_one_neighbors": acg_stage_one_neighbors,
+            "acg_stage_one_neighbor_count": len(acg_stage_one_neighbors),
+            "acg_boundary_delta": acg_boundary_delta,
+            "boundary_before_acg": closure_retention_rows[2]["boundary_half_edges"],
+            "boundary_after_acg": closure_retention_rows[3]["boundary_half_edges"],
         },
     }
 
@@ -4324,6 +4437,45 @@ def assert_expected(summary: dict[str, object]) -> None:
         "inactive_neighbors": ("ACA", "ATG", "TCG"),
         "active_neighbors": ("AGG",),
     }
+    dynamics = summary["support_compression"]["quotient_leakage_dynamics"]
+    assert dynamics["state_order"] == ("AGR", "Anchor6", "StopStart6", "UUR", "CUR", "CUY")
+    assert dynamics["transition_matrix"] == (
+        ("1/6", "1/2", "0", "0", "0", "0"),
+        ("1/6", "1/6", "1/3", "0", "0", "0"),
+        ("0", "1/3", "1/6", "1/6", "0", "0"),
+        ("0", "0", "1/2", "1/6", "1/6", "0"),
+        ("0", "0", "0", "1/6", "1/6", "1/6"),
+        ("0", "0", "0", "0", "1/6", "1/6"),
+    )
+    assert dynamics["outside_probabilities"] == ("1/3", "1/3", "1/3", "1/6", "1/2", "2/3")
+    assert dynamics["self_retention_probabilities"] == ("1/6", "1/6", "1/6", "1/6", "1/6", "1/6")
+    assert dynamics["expected_exit_times"] == (
+        "1478/487",
+        "4468/1461",
+        "4570/1461",
+        "1716/487",
+        "1088/487",
+        "802/487",
+    )
+    assert tuple(round(value, 3) for value in dynamics["expected_exit_times_float"]) == (
+        3.035,
+        3.058,
+        3.128,
+        3.524,
+        2.234,
+        1.647,
+    )
+    assert dynamics["closure_retention_rows"] == [
+        {"name": "support", "vertices": 13, "internal_edges": 16, "boundary_half_edges": 46, "retention": "16/39", "retention_float": 16 / 39},
+        {"name": "anchor_closure", "vertices": 16, "internal_edges": 25, "boundary_half_edges": 46, "retention": "25/48", "retention_float": 25 / 48},
+        {"name": "median_stage_one", "vertices": 19, "internal_edges": 34, "boundary_half_edges": 46, "retention": "34/57", "retention_float": 34 / 57},
+        {"name": "median_closure", "vertices": 20, "internal_edges": 38, "boundary_half_edges": 44, "retention": "19/30", "retention_float": 19 / 30},
+    ]
+    assert dynamics["acg_stage_one_neighbors"] == ("ACA", "AGG", "ATG", "TCG")
+    assert dynamics["acg_stage_one_neighbor_count"] == 4
+    assert dynamics["acg_boundary_delta"] == -2
+    assert dynamics["boundary_before_acg"] == 46
+    assert dynamics["boundary_after_acg"] == 44
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
