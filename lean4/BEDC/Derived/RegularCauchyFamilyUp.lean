@@ -335,4 +335,41 @@ theorem RegularCauchyFamilyCarrier_member_selection_determinacy [AskSetup] [Pack
     ⟨sameSelected, sameDiagonal, selectedUnary, selectedUnary', diagonalUnary,
       diagonalUnary', provenancePkg, diagonalReadPkg, diagonalReadPkg'⟩
 
+theorem RegularCauchyFamily_standard_bridge_boundary [AskSetup] [PackageSetup]
+    {memberLedger memberRows modulus windows dyadicLedger diagonalRoute transports contRoutes
+      provenance localCert selectedMember diagonalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyFamilyCarrier memberLedger memberRows modulus windows dyadicLedger
+        diagonalRoute transports contRoutes provenance localCert bundle pkg ->
+      Cont modulus windows selectedMember ->
+        Cont selectedMember diagonalRoute diagonalRead ->
+          PkgSig bundle diagonalRead pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  hsame row provenance ∧
+                    RegularCauchyFamilyCarrier memberLedger memberRows modulus windows
+                      dyadicLedger diagonalRoute transports contRoutes provenance localCert
+                      bundle pkg)
+                (fun _row : BHist =>
+                  UnaryHistory memberLedger ∧ UnaryHistory memberRows ∧ UnaryHistory modulus ∧
+                    Cont memberLedger memberRows modulus ∧ Cont modulus windows dyadicLedger ∧
+                      Cont dyadicLedger diagonalRoute contRoutes)
+                (fun row : BHist => PkgSig bundle provenance pkg ∧ UnaryHistory row) hsame ∧
+              UnaryHistory selectedMember ∧ UnaryHistory diagonalRead ∧
+                Cont modulus windows selectedMember ∧
+                  Cont selectedMember diagonalRoute diagonalRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle diagonalRead pkg := by
+  intro carrier selectedMemberRoute diagonalReadRoute diagonalReadPkg
+  have certificate :=
+    RegularCauchyFamilyCarrier_namecert_obligation_surface carrier
+  have handoff :=
+    RegularCauchyFamilyCarrier_diagonal_handoff carrier selectedMemberRoute diagonalReadRoute
+      diagonalReadPkg
+  obtain ⟨_memberLedgerUnary, _memberRowsUnary, _modulusUnary, _windowsUnary,
+    selectedMemberUnary, diagonalReadUnary, _memberRowsRoute, _dyadicLedgerRoute,
+    selectedMemberRoute', diagonalReadRoute', provenancePkg, diagonalReadPkg'⟩ := handoff
+  exact
+    ⟨certificate, selectedMemberUnary, diagonalReadUnary, selectedMemberRoute',
+      diagonalReadRoute', provenancePkg, diagonalReadPkg'⟩
+
 end BEDC.Derived.RegularCauchyFamilyUp
