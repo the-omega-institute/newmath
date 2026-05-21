@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import board_spawn
 
 
@@ -138,6 +140,25 @@ def test_direct_codex_admission_keeps_oracle_for_judge() -> None:
     assert len(needs_judge) == 1, needs_judge
 
 
+def test_direct_codex_admission_keeps_structural_miner_for_judge() -> None:
+    accepted, stopped, needs_judge = board_spawn._direct_codex_admission(
+        [_candidate(source="research_lane:structural_relation_miner")]
+    )
+    assert accepted == [], accepted
+    assert stopped == [], stopped
+    assert len(needs_judge) == 1, needs_judge
+
+
+def test_judge_unavailable_without_fallback_is_safe_empty_result() -> None:
+    text = Path(__file__).with_name("board_spawn.py").read_text(encoding="utf-8")
+    start = text.index('if error_kind.startswith("board_judge_unavailable")')
+    end = text.index("\n        else:", start)
+    body = text[start:end]
+    assert "deterministic_fallback_judge" in body
+    assert "ok=True" in body
+    assert "accepted" not in body[body.index("else:") :]
+
+
 if __name__ == "__main__":
     test_deterministic_fallback_accepts_local_logic_packet()
     test_deterministic_fallback_rejects_external_signal()
@@ -148,4 +169,6 @@ if __name__ == "__main__":
     test_deterministic_fallback_allows_low_score_local_packet()
     test_direct_codex_admission_accepts_research_packet_without_judge()
     test_direct_codex_admission_keeps_oracle_for_judge()
+    test_direct_codex_admission_keeps_structural_miner_for_judge()
+    test_judge_unavailable_without_fallback_is_safe_empty_result()
     print("test_board_spawn_deterministic_fallback: ok")

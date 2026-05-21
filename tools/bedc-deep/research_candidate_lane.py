@@ -91,7 +91,7 @@ SOFT_RECOVERABLE_REASON_RE = re.compile(
     r"below_fit_threshold|below_novelty_threshold|too_weak|"
     r"logic_packet_gate:|missing_logic_budget|missing_local_input|"
     r"missing_local_inputs|hub_only_landing|no_indexed_safe_landing|"
-    r"predicted_line_cap_overflow|non_paper_local_input|"
+    r"non_paper_local_input|"
     r"external_signal_missing_landing_kind|external_signal_missing_chapter_worthiness",
     re.IGNORECASE,
 )
@@ -386,7 +386,7 @@ def _difficulty(candidate: dict[str, Any]) -> str:
 
 def collect_candidates(limit: int) -> list[dict[str, Any]]:
     candidates: list[dict[str, Any]] = []
-    source_limit = max(limit, 1)
+    source_limit = max(limit * 4, 40)
 
     gap_candidates = paper_gap_scanner.generate_candidates(limit=source_limit)
     candidates.extend(gap_candidates)

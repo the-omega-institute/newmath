@@ -58,7 +58,7 @@ INSPIRATION_ONLY_PATH_RE = re.compile(
 REFINABLE_REASON_RE = re.compile(
     r"missing_local_input|missing_local_inputs|no_indexed_safe_landing|"
     r"hub_only_landing|inspiration_only_not_board_landing|"
-    r"predicted_line_cap_overflow|logic_packet_gate:|missing_logic_budget|"
+    r"logic_packet_gate:|missing_logic_budget|"
     r"existence_missing_|bridge_missing_|equality_missing_|"
     r"completion_missing_|external_signal_missing_landing_kind|"
     r"external_signal_landing_reject|external_signal_missing_chapter_worthiness|"

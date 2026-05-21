@@ -63,7 +63,23 @@ def test_low_score_candidate_is_warning_not_blocked() -> None:
     assert not any("below_" in reason for reason in packet["reasons"]), packet
 
 
+def test_line_cap_overflow_is_not_recovered_from_inbox() -> None:
+    rec = {
+        "event": "held_for_refinement",
+        "source": "research_lane:structural_relation_miner",
+        "title": "Option line cap overflow boundary",
+        "claim": (
+            "The displayed option rows would need a split before any new "
+            "existing-chapter theorem could be appended safely."
+        ),
+        "local_inputs": [BIG_FILE],
+        "reason": f"predicted_line_cap_overflow:{BIG_FILE}:860",
+    }
+    assert not research_candidate_lane._soft_recoverable_reject(rec)
+
+
 if __name__ == "__main__":
     test_near_line_cap_candidate_reroutes_to_smaller_landing()
     test_low_score_candidate_is_warning_not_blocked()
+    test_line_cap_overflow_is_not_recovered_from_inbox()
     print("test_research_candidate_lane: ok")

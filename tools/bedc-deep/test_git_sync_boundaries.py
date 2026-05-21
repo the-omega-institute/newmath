@@ -168,6 +168,7 @@ def test_candidate_inbox_holds_refinable_candidates() -> None:
     assert "pre_gate_hold" in text
     assert "held_for_refinement" in text
     assert "r\"too_weak|below_fit_threshold|below_novelty_threshold|" in text
+    assert "predicted_line_cap_overflow|logic_packet_gate" not in text
     rejection_start = text.index("def _rejection_reason")
     rejection_end = text.index("\ndef screen_candidates", rejection_start)
     rejection_body = text[rejection_start:rejection_end]

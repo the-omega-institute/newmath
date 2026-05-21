@@ -7,10 +7,15 @@ import structural_relation_miner
 
 
 def main() -> int:
+    assert structural_relation_miner.MAX_FILE_LINES <= 660
     candidates = structural_relation_miner.generate_candidates(limit=12)
     assert candidates, "expected at least one structural relation candidate"
     for cand in candidates:
         assert cand.get("source") == "research_lane:structural_relation_miner"
+        existing_titles = structural_relation_miner.board_archive.existing_target_titles(
+            include_archive=True
+        )
+        assert cand.get("title", "").strip().lower() not in existing_titles
         assert cand.get("landing_kind") == "existing_chapter_lemma"
         assert cand.get("tastegate_mode") == "existing_chapter"
         assert cand.get("relation_family") in {

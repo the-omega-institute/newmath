@@ -16,12 +16,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+import board_archive
 import paper_index
 
 from dispatch_bedc_target import REPO_ROOT
 
 
-MAX_FILE_LINES = 720
+MAX_FILE_LINES = 660
 TITLE_MAX = 88
 SKIP_BASENAMES = {
     "_index_files.tex",
@@ -445,6 +446,7 @@ def generate_candidates(*, limit: int = 20) -> list[dict[str, Any]]:
 
     candidates: list[dict[str, Any]] = []
     seen_titles: set[str] = set()
+    existing_titles = board_archive.existing_target_titles(include_archive=True)
     scanners = (
         _bridge_cut_hit,
         _forgetful_hit,
@@ -471,7 +473,7 @@ def generate_candidates(*, limit: int = 20) -> list[dict[str, Any]]:
                 continue
             candidate = _candidate_from_hit(hit)
             key = str(candidate.get("title") or "").strip().lower()
-            if not key or key in seen_titles:
+            if not key or key in seen_titles or key in existing_titles:
                 continue
             seen_titles.add(key)
             candidates.append(candidate)

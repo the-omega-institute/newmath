@@ -98,7 +98,6 @@ LOGIC_PACKET_FIELDS = (
 DETERMINISTIC_FALLBACK_SOURCES = {
     "plain_math_review",
     "research_lane:paper_gap_scanner",
-    "research_lane:structural_relation_miner",
     "research_lane:candidate_inbox",
 }
 ANTI_PARAMETER_ECHO_RE = re.compile(
@@ -118,7 +117,6 @@ DIRECT_CODEX_SOURCES = {
     "plain_math_review",
     "paper_review",
     "research_lane:paper_gap_scanner",
-    "research_lane:structural_relation_miner",
     "research_lane:candidate_inbox",
 }
 
@@ -874,7 +872,7 @@ def spawn_from_candidates(
                 )
             else:
                 result = BoardSpawnResult(
-                    ok=False,
+                    ok=True,
                     error=err,
                     error_kind=error_kind,
                     held=cheap_holds,
