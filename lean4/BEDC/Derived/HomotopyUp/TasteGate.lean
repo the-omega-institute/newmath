@@ -10,8 +10,9 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive HomotopyUp : Type where
-  | mk (source target deformation interval provenance endpointRead ledger endpoint : BHist) :
-      HomotopyUp
+  | mk
+      (source target deformation interval endpointZero endpointOne classifier provenance :
+        BHist) : HomotopyUp
   deriving DecidableEq
 
 def homotopyEncodeBHist : BHist → RawEvent
@@ -26,7 +27,7 @@ def homotopyDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (homotopyDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (homotopyDecodeBHist tail)
 
-private theorem homotopy_decode_encode :
+private theorem homotopyDecodeEncode :
     ∀ h : BHist, homotopyDecodeBHist (homotopyEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -35,143 +36,61 @@ private theorem homotopy_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def homotopyToEventFlow : HomotopyUp → EventFlow :=
+def homotopyFields : HomotopyUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  fun
-  | HomotopyUp.mk source target deformation interval provenance endpointRead ledger endpoint =>
-      [homotopyEncodeBHist source,
-        homotopyEncodeBHist target,
-        homotopyEncodeBHist deformation,
-        homotopyEncodeBHist interval,
-        homotopyEncodeBHist provenance,
-        homotopyEncodeBHist endpointRead,
-        homotopyEncodeBHist ledger,
-        homotopyEncodeBHist endpoint]
+  | HomotopyUp.mk source target deformation interval endpointZero endpointOne classifier
+      provenance =>
+      [source, target, deformation, interval, endpointZero, endpointOne, classifier,
+        provenance]
 
-def homotopyFromEventFlow : EventFlow → Option HomotopyUp :=
+def homotopyToEventFlow : HomotopyUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun
-  | [] => none
-  | source :: rest0 =>
-      match rest0 with
-      | [] => none
-      | target :: rest1 =>
-          match rest1 with
-          | [] => none
-          | deformation :: rest2 =>
-              match rest2 with
-              | [] => none
-              | interval :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | provenance :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | endpointRead :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | ledger :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | endpoint :: rest7 =>
-                                  match rest7 with
-                                  | [] =>
-                                      some
-                                        (HomotopyUp.mk
-                                          (homotopyDecodeBHist source)
-                                          (homotopyDecodeBHist target)
-                                          (homotopyDecodeBHist deformation)
-                                          (homotopyDecodeBHist interval)
-                                          (homotopyDecodeBHist provenance)
-                                          (homotopyDecodeBHist endpointRead)
-                                          (homotopyDecodeBHist ledger)
-                                          (homotopyDecodeBHist endpoint))
-                                  | _ :: _ => none
+  | x => (homotopyFields x).map homotopyEncodeBHist
 
-private theorem homotopy_round_trip :
+private def homotopyEventAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => homotopyEventAt index rest
+
+def homotopyFromEventFlow (ef : EventFlow) : Option HomotopyUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (HomotopyUp.mk
+      (homotopyDecodeBHist (homotopyEventAt 0 ef))
+      (homotopyDecodeBHist (homotopyEventAt 1 ef))
+      (homotopyDecodeBHist (homotopyEventAt 2 ef))
+      (homotopyDecodeBHist (homotopyEventAt 3 ef))
+      (homotopyDecodeBHist (homotopyEventAt 4 ef))
+      (homotopyDecodeBHist (homotopyEventAt 5 ef))
+      (homotopyDecodeBHist (homotopyEventAt 6 ef))
+      (homotopyDecodeBHist (homotopyEventAt 7 ef)))
+
+private theorem homotopyRoundTrip :
     ∀ x : HomotopyUp, homotopyFromEventFlow (homotopyToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk source target deformation interval provenance endpointRead ledger endpoint =>
-      exact
-        Eq.trans
-          (congrArg
-            (fun z =>
-              some
-                (HomotopyUp.mk z
-                  (homotopyDecodeBHist (homotopyEncodeBHist target))
-                  (homotopyDecodeBHist (homotopyEncodeBHist deformation))
-                  (homotopyDecodeBHist (homotopyEncodeBHist interval))
-                  (homotopyDecodeBHist (homotopyEncodeBHist provenance))
-                  (homotopyDecodeBHist (homotopyEncodeBHist endpointRead))
-                  (homotopyDecodeBHist (homotopyEncodeBHist ledger))
-                  (homotopyDecodeBHist (homotopyEncodeBHist endpoint))))
-            (homotopy_decode_encode source))
-          (Eq.trans
-            (congrArg
-              (fun z =>
-                some
-                  (HomotopyUp.mk source z
-                    (homotopyDecodeBHist (homotopyEncodeBHist deformation))
-                    (homotopyDecodeBHist (homotopyEncodeBHist interval))
-                    (homotopyDecodeBHist (homotopyEncodeBHist provenance))
-                    (homotopyDecodeBHist (homotopyEncodeBHist endpointRead))
-                    (homotopyDecodeBHist (homotopyEncodeBHist ledger))
-                    (homotopyDecodeBHist (homotopyEncodeBHist endpoint))))
-              (homotopy_decode_encode target))
-            (Eq.trans
-              (congrArg
-                (fun z =>
-                  some
-                    (HomotopyUp.mk source target z
-                      (homotopyDecodeBHist (homotopyEncodeBHist interval))
-                      (homotopyDecodeBHist (homotopyEncodeBHist provenance))
-                      (homotopyDecodeBHist (homotopyEncodeBHist endpointRead))
-                      (homotopyDecodeBHist (homotopyEncodeBHist ledger))
-                      (homotopyDecodeBHist (homotopyEncodeBHist endpoint))))
-                (homotopy_decode_encode deformation))
-              (Eq.trans
-                (congrArg
-                  (fun z =>
-                    some
-                      (HomotopyUp.mk source target deformation z
-                        (homotopyDecodeBHist (homotopyEncodeBHist provenance))
-                        (homotopyDecodeBHist (homotopyEncodeBHist endpointRead))
-                        (homotopyDecodeBHist (homotopyEncodeBHist ledger))
-                        (homotopyDecodeBHist (homotopyEncodeBHist endpoint))))
-                  (homotopy_decode_encode interval))
-                (Eq.trans
-                  (congrArg
-                    (fun z =>
-                      some
-                        (HomotopyUp.mk source target deformation interval z
-                          (homotopyDecodeBHist (homotopyEncodeBHist endpointRead))
-                          (homotopyDecodeBHist (homotopyEncodeBHist ledger))
-                          (homotopyDecodeBHist (homotopyEncodeBHist endpoint))))
-                    (homotopy_decode_encode provenance))
-                  (Eq.trans
-                    (congrArg
-                      (fun z =>
-                        some
-                          (HomotopyUp.mk source target deformation interval provenance z
-                            (homotopyDecodeBHist (homotopyEncodeBHist ledger))
-                            (homotopyDecodeBHist (homotopyEncodeBHist endpoint))))
-                      (homotopy_decode_encode endpointRead))
-                    (Eq.trans
-                      (congrArg
-                        (fun z =>
-                          some
-                            (HomotopyUp.mk source target deformation interval provenance
-                              endpointRead z
-                              (homotopyDecodeBHist (homotopyEncodeBHist endpoint))))
-                        (homotopy_decode_encode ledger))
-                      (congrArg
-                        (fun z =>
-                          some
-                            (HomotopyUp.mk source target deformation interval provenance
-                              endpointRead ledger z))
-                        (homotopy_decode_encode endpoint))))))))
+  | mk source target deformation interval endpointZero endpointOne classifier provenance =>
+      change
+        some
+          (HomotopyUp.mk
+            (homotopyDecodeBHist (homotopyEncodeBHist source))
+            (homotopyDecodeBHist (homotopyEncodeBHist target))
+            (homotopyDecodeBHist (homotopyEncodeBHist deformation))
+            (homotopyDecodeBHist (homotopyEncodeBHist interval))
+            (homotopyDecodeBHist (homotopyEncodeBHist endpointZero))
+            (homotopyDecodeBHist (homotopyEncodeBHist endpointOne))
+            (homotopyDecodeBHist (homotopyEncodeBHist classifier))
+            (homotopyDecodeBHist (homotopyEncodeBHist provenance))) =
+          some
+            (HomotopyUp.mk source target deformation interval endpointZero endpointOne
+              classifier provenance)
+      rw [homotopyDecodeEncode source, homotopyDecodeEncode target,
+        homotopyDecodeEncode deformation, homotopyDecodeEncode interval,
+        homotopyDecodeEncode endpointZero, homotopyDecodeEncode endpointOne,
+        homotopyDecodeEncode classifier, homotopyDecodeEncode provenance]
 
 private theorem homotopyToEventFlow_injective {x y : HomotopyUp} :
     homotopyToEventFlow x = homotopyToEventFlow y → x = y := by
@@ -181,10 +100,9 @@ private theorem homotopyToEventFlow_injective {x y : HomotopyUp} :
       homotopyFromEventFlow (homotopyToEventFlow x) =
         homotopyFromEventFlow (homotopyToEventFlow y) :=
     congrArg homotopyFromEventFlow heq
-  have hsome : some x = some y :=
-    Eq.trans (homotopy_round_trip x).symm (Eq.trans hread (homotopy_round_trip y))
-  cases hsome
-  rfl
+  exact Option.some.inj
+    (Eq.trans (homotopyRoundTrip x).symm
+      (Eq.trans hread (homotopyRoundTrip y)))
 
 instance homotopyBHistCarrier : BHistCarrier HomotopyUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -196,19 +114,42 @@ instance homotopyChapterTasteGate : ChapterTasteGate HomotopyUp where
   round_trip := by
     intro x
     change homotopyFromEventFlow (homotopyToEventFlow x) = some x
-    exact homotopy_round_trip x
+    exact homotopyRoundTrip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (homotopyToEventFlow_injective heq)
 
-theorem HomotopyTasteGate_single_carrier_alignment :
+theorem HomotopyUp_single_carrier_alignment :
     (∀ h : BHist, homotopyDecodeBHist (homotopyEncodeBHist h) = h) ∧
       (∀ x : HomotopyUp, homotopyFromEventFlow (homotopyToEventFlow x) = some x) ∧
         (∀ x y : HomotopyUp, homotopyToEventFlow x = homotopyToEventFlow y → x = y) ∧
-      homotopyEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨homotopy_decode_encode, homotopy_round_trip,
-      fun x y heq => homotopyToEventFlow_injective heq, rfl⟩
+          homotopyEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · exact homotopyDecodeEncode
+  constructor
+  · exact homotopyRoundTrip
+  constructor
+  · intro x y heq
+    exact homotopyToEventFlow_injective heq
+  · rfl
+
+theorem HomotopyTasteGate_single_carrier_alignment :
+    Nonempty (BHistCarrier HomotopyUp) ∧
+      Nonempty (ChapterTasteGate HomotopyUp) ∧
+        (∀ x : HomotopyUp,
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x) ∧
+          (∀ x y : HomotopyUp,
+            BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y → x = y) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · exact ⟨homotopyBHistCarrier⟩
+  constructor
+  · exact ⟨homotopyChapterTasteGate⟩
+  constructor
+  · intro x
+    exact ChapterTasteGate.round_trip x
+  · intro x y heq
+    exact homotopyToEventFlow_injective heq
 
 end BEDC.Derived.HomotopyUp
