@@ -9,6 +9,8 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 SUPERVISOR = SCRIPT_DIR / "supervisor.py"
 AUTO_DISCOVERY = SCRIPT_DIR / "auto_discovery.py"
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
+CODEX_TRACK = SCRIPT_DIR / "codex_track.py"
+PAPER_GAP_SCANNER = SCRIPT_DIR / "paper_gap_scanner.py"
 
 
 def _load_supervisor_module():
@@ -95,6 +97,26 @@ def test_supervisor_oracle_candidate_generation_is_opt_in() -> None:
     assert "Codex, bridge, and deterministic local lanes remain primary" in text
     assert "trigger_oracle_board_refill()" in text
     assert "oracle workers still drain explicit escalation tasks" in text
+
+
+def test_codex_track_has_substance_guard_before_redline() -> None:
+    text = _text(CODEX_TRACK)
+    assert "PARAMETER_ECHO_RE" in text
+    assert "def _substance_rejection" in text
+    start = text.index("if codex_verdict == \"close\":")
+    end = text.index("redline_t0 = time.time()", start)
+    body = text[start:end]
+    assert "_substance_rejection(target, parsed)" in body
+    assert "substance_reject" in body
+
+
+def test_paper_gap_scanner_does_not_emit_row_projection_targets() -> None:
+    text = _text(PAPER_GAP_SCANNER)
+    start = text.index("def _namecert_surface_candidates")
+    end = text.index("\ndef _paper_label_set", start)
+    body = text[start:end]
+    assert "return []" in body
+    assert "local obligation row projection" not in body
 
 
 def test_supervisor_has_hard_branch_guard() -> None:
@@ -211,6 +233,32 @@ def test_supervisor_runs_plain_review_research_lane() -> None:
     assert "does not write paper text directly" in text
 
 
+def test_loning_pipeline_signals_do_not_inject_prompt_advice() -> None:
+    assimilator = _text(SCRIPT_DIR / "loning_assimilator.py")
+    board_spawn = _text(SCRIPT_DIR / "board_spawn.py")
+    auto_discovery = _text(SCRIPT_DIR / "auto_discovery.py")
+    oracle_refill = _text(SCRIPT_DIR / "oracle_board_refill.py")
+    supervisor = _text(SUPERVISOR)
+    dashboard = _text(SCRIPT_DIR / "dashboard.py")
+
+    assert "VERSION = \"loning-pipeline-signals\"" in assimilator
+    assert "signal_counts" in assimilator
+    assert "latest_signal_summary" in assimilator
+    assert "latest_prompt_block" not in assimilator
+    assert "Loning assimilation advice" not in assimilator
+    assert "prompt_block" not in assimilator
+    assert "build_advice" not in assimilator
+
+    for text in (board_spawn, auto_discovery, oracle_refill):
+        assert "latest_prompt_block" not in text
+        assert "Loning assimilation advice" not in text
+
+    assert "structured local pipeline signals" in supervisor
+    assert "signal_counts" in supervisor
+    assert "advice_count" not in supervisor
+    assert "legacy advice fields ignored" in dashboard
+
+
 def test_oracle_refill_defer_uses_material_backlog_and_grace() -> None:
     supervisor = _load_supervisor_module()
     material_health = {
@@ -288,6 +336,8 @@ if __name__ == "__main__":
     test_supervisor_dev_sync_is_enabled_for_shared_integration()
     test_supervisor_defaults_to_paper_native_discovery()
     test_supervisor_oracle_candidate_generation_is_opt_in()
+    test_codex_track_has_substance_guard_before_redline()
+    test_paper_gap_scanner_does_not_emit_row_projection_targets()
     test_supervisor_has_hard_branch_guard()
     test_supervisor_refill_can_recover_from_stale_circuit_breaker()
     test_supervisor_keeps_board_state_files_local_only()

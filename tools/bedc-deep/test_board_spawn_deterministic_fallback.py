@@ -131,6 +131,24 @@ def test_direct_codex_admission_accepts_research_packet_without_judge() -> None:
     assert "Local BOARD admission" in accepted[0]["rationale"]
 
 
+def test_direct_codex_admission_rejects_anti_parameter_echo() -> None:
+    accepted, stopped, needs_judge = board_spawn._direct_codex_admission(
+        [
+            _candidate(
+                source="research_lane:paper_gap_scanner",
+                title="ObserverTraceSeal local obligation row projection",
+                claim=(
+                    "The displayed NameCert obligation surface merely restates "
+                    "that its own displayed rows are recorded."
+                ),
+            )
+        ]
+    )
+    assert accepted == [], accepted
+    assert stopped[0]["reason"] == "direct_codex_anti_parameter_echo"
+    assert needs_judge == [], needs_judge
+
+
 def test_direct_codex_admission_keeps_oracle_for_judge() -> None:
     accepted, stopped, needs_judge = board_spawn._direct_codex_admission(
         [_candidate(source="oracle")]
@@ -168,6 +186,7 @@ if __name__ == "__main__":
     test_deterministic_fallback_rejects_anti_parameter_echo()
     test_deterministic_fallback_allows_low_score_local_packet()
     test_direct_codex_admission_accepts_research_packet_without_judge()
+    test_direct_codex_admission_rejects_anti_parameter_echo()
     test_direct_codex_admission_keeps_oracle_for_judge()
     test_direct_codex_admission_keeps_structural_miner_for_judge()
     test_judge_unavailable_without_fallback_is_safe_empty_result()

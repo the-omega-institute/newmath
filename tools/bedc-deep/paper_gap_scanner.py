@@ -323,147 +323,15 @@ def _covered_namecert_surface(text: str, theorem_surface: str) -> bool:
 
 
 def _namecert_surface_candidates() -> list[dict]:
-    """Surface small existing-chapter NameCert route candidates.
+    """No-op: row-projection scans are not substantive paper targets.
 
-    This is deliberately weaker than a theorem writer: it only finds files that
-    already expose both a carrier and a NameCert obligation surface, then asks
-    the ordinary board_spawn judge and logic_packet_gate whether a small
-    readback-determinacy lemma is worth landing there.
+    A carrier definition plus its NameCert obligation theorem already provides
+    the displayed-row readback. Emitting a target that asks Codex to repackage
+    those rows merely spends Stage 1 on parameter echo. Deeper candidate
+    sources must propose an inversion, obstruction, determinacy, coverage, or
+    bridge claim beyond this raw carrier/obligation pair.
     """
-    try:
-        import paper_index
-    except Exception:
-        return []
-
-    try:
-        index = paper_index.load_or_build()
-    except Exception:
-        return []
-
-    candidates: list[dict] = []
-    for item in index.get("files") or []:
-        rel = str(item.get("file") or "")
-        if not rel.startswith("papers/bedc/parts/concrete_instances/"):
-            continue
-        if not rel.endswith("_namecert_construction.tex"):
-            continue
-        line_count = int(item.get("line_count") or 0)
-        if line_count >= NAMECERT_SURFACE_LINE_CAP:
-            continue
-        text = _read(REPO_ROOT / rel)
-        if not text:
-            continue
-        if NAMECERT_META_SURFACE_RE.search(text):
-            continue
-        labels = item.get("theorem_like_labels") or item.get("labels") or []
-        carrier = next(
-            (
-                rec for rec in labels
-                if str(rec.get("env") or "") == "definition"
-                and "carrier" in " ".join([
-                    str(rec.get("title") or ""),
-                    str(rec.get("label") or ""),
-                ]).lower()
-            ),
-            None,
-        )
-        obligation = next(
-            (
-                rec for rec in labels
-                if str(rec.get("env") or "") in {"theorem", "lemma", "proposition"}
-                and "namecert" in " ".join([
-                    str(rec.get("title") or ""),
-                    str(rec.get("label") or ""),
-                ]).lower()
-                and re.search(
-                    r"\bobligation|surface\b",
-                    " ".join([
-                        str(rec.get("title") or ""),
-                        str(rec.get("label") or ""),
-                    ]),
-                    re.IGNORECASE,
-                )
-            ),
-            None,
-        )
-        if not carrier or not obligation:
-            continue
-        theorem_surface = "\n".join(
-            " ".join([str(rec.get("title") or ""), str(rec.get("label") or "")])
-            for rec in labels
-            if str(rec.get("env") or "") in {"theorem", "lemma", "proposition"}
-        )
-        if _covered_namecert_surface(text, theorem_surface):
-            continue
-
-        obj = _object_title_from_carrier(carrier, rel)
-        labels_text = theorem_surface + " " + " ".join([
-            str(carrier.get("title") or ""),
-            str(carrier.get("label") or ""),
-            str(obligation.get("title") or ""),
-            str(obligation.get("label") or ""),
-        ])
-        budget, budget_reason, rate_surface = _budget_for_namecert_surface(obj, labels_text)
-        title = f"{obj} local obligation row projection"[:TITLE_MAX_CHARS]
-        carrier_label = str(carrier.get("label") or "")
-        obligation_label = str(obligation.get("label") or "")
-        claim = (
-            f"For an accepted {obj} carrier, the local NameCert obligation "
-            f"surface {obligation_label} has a finite row projection obtained "
-            f"directly from {carrier_label}. The projection records only the "
-            "displayed carrier row and its local certificate row, with no "
-            "additional host, global, or unlisted source row."
-        )
-        dependency = (
-            f"Depends only on {carrier_label}, {obligation_label}, and the "
-            "displayed BHist/hsame/Cont/Pkg/NameCert rows already present in "
-            f"{rel}."
-        )
-        resource = (
-            "Uses one finite carrier projection plus the listed local "
-            "obligation rows; no oracle output, copied history, choice "
-            "principle, or external theorem object is consumed."
-        )
-        candidates.append({
-            "title": title,
-            "claim": claim,
-            "concrete_claim": claim,
-            "local_inputs": [rel],
-            "fit_score": 7,
-            "novelty": 6,
-            "landing_kind": "existing_chapter_lemma",
-            "tastegate_mode": "existing_chapter",
-            "axiom_budget": budget,
-            "strength_level": budget,
-            "budget_reason": budget_reason,
-            "existence_mode": "constructive_witness",
-            "witness_extractor": (
-                f"Project {carrier_label} and select the named row of "
-                f"{obligation_label}; the witness is that displayed finite "
-                "carrier/certificate pair."
-            ),
-            "cut_rank": "1",
-            "elimination_plan": (
-                "Eliminate the one-step bridge by carrier projection and the "
-                "named local certificate row; reject any use of a "
-                "host/global/unlisted coordinate."
-            ),
-            "equality_kind": "bisimilar",
-            "interpretation_kind": "none",
-            "resource_trace": resource,
-            "dependency_trace": dependency,
-            "rate_modulus_surface": rate_surface,
-            "oracle_mode": "candidate_generation",
-            "rationale": (
-                "Deterministic NameCert surface scan found an existing carrier "
-                f"and obligation surface in {rel}: {carrier_label} with "
-                f"{obligation_label}. The proposed landing is a small "
-                "existing-chapter projection lemma over those displayed rows "
-                "only."
-            ),
-            "source": "paper_gap_scanner",
-        })
-    return candidates
+    return []
 
 
 def _paper_label_set() -> set[str]:
@@ -521,7 +389,17 @@ def _is_substantive_gap(hit: GapHit, candidate: dict) -> bool:
     """Keep deterministic gap scans from turning structural prose into targets."""
     title = str(candidate.get("title") or "").strip()
     claim = str(candidate.get("concrete_claim") or "").strip()
+    snippet = hit.snippet or ""
     first = _first_substantive_line(hit.snippet)
+    if re.search(
+        r"\\begin\{(?:theorem|lemma|proposition|corollary|definition|proof)\}|"
+        r"\\end\{(?:theorem|lemma|proposition|corollary|definition|proof)\}|"
+        r"\\lean(?:checked|variant|stmt|def|sorryd)\{",
+        snippet,
+    ):
+        return False
+    if hit.file_rel.startswith("papers/bedc/parts/visions/"):
+        return False
     if (
         hit.kind == "open_prose"
         and hit.file_rel == "papers/bedc/parts/visions/metacic_open_problems.tex"

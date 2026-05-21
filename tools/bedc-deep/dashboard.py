@@ -935,11 +935,8 @@ def render_loning_assimilation() -> str:
             )
         if count_text:
             out.append(f"  signals: {count_text}")
-        advice = [str(item) for item in (rec.get("advice") or []) if str(item).strip()]
-        for item in advice[:3]:
-            out.append(f"  advice: {item}")
-        if len(advice) > 3:
-            out.append(f"  advice: ... {len(advice) - 3} more")
+        if rec.get("advice") or rec.get("prompt_block"):
+            out.append("  note: legacy advice fields ignored; only signal_counts are used")
         return "\n".join(out)
     return "  (no parseable loning assimilation records)"
 

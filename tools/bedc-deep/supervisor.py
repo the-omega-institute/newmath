@@ -969,7 +969,7 @@ def run_loning_watch() -> dict | None:
 
 
 def run_loning_assimilator() -> dict | None:
-    """Summarize loning watch output into local gate advice."""
+    """Summarize loning watch output into structured local pipeline signals."""
     try:
         proc = subprocess.run(
             ["python3", str(LONING_ASSIMILATOR)],
@@ -995,7 +995,7 @@ def run_loning_assimilator() -> dict | None:
         return None
     supervisor_log(
         f"loning_assimilator: relevant={data.get('relevant_commits')} "
-        f"advice={data.get('advice_count')}"
+        f"signals={data.get('signal_counts') or {}}"
     )
     return data
 

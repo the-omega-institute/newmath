@@ -47,6 +47,16 @@ CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
 DEFAULT_CODEX_TIMEOUT = 600
 DEFAULT_REDLINE_TIMEOUT = 600
 MIN_CLOSE_AUDIT_SCORE = 8
+PARAMETER_ECHO_RE = re.compile(
+    r"local obligation row projection|"
+    r"finite (?:displayed )?(?:row )?projection|"
+    r"project(?:s|ed|ion)? (?:the )?(?:accepted )?carrier|"
+    r"carrier row (?:and|together with) (?:its )?(?:local )?(?:certificate|NameCert) row|"
+    r"records only the displayed carrier row|"
+    r"every local obligation read factors through|"
+    r"no (?:host|global|unlisted) (?:source )?row",
+    re.IGNORECASE,
+)
 
 # Round ceiling is a *safety net*, not a primary terminator. Codex normally
 # terminates via verdict=close or verdict=escalate. The ceiling exists only
@@ -400,6 +410,20 @@ def _summarize_round_for_history(codex: dict, redline: Optional[dict]) -> dict:
     }
 
 
+def _substance_rejection(target: BedcTarget, parsed: dict) -> str:
+    """Reject Codex closes that only repackage existing carrier fields."""
+    content = str(parsed.get("content") or "")
+    title = target.title or ""
+    if PARAMETER_ECHO_RE.search(title) or PARAMETER_ECHO_RE.search(content):
+        return (
+            "invalid_parameter_echo_target: close path only repackages an "
+            "existing carrier/NameCert obligation surface; research must "
+            "produce a concrete inversion, obstruction, determinacy, coverage, "
+            "uniqueness, or bridge claim beyond displayed-row projection"
+        )
+    return ""
+
+
 def run_codex_track(
     target: BedcTarget,
     *,
@@ -542,6 +566,29 @@ def run_codex_track(
                     "codex_seconds": codex_dt,
                 })
                 continue
+
+            substance_reason = _substance_rejection(target, parsed)
+            if substance_reason:
+                print(
+                    f"[codex_track] {target.target_id} close rejected for substance at "
+                    f"round {round_idx}: {substance_reason[:200]}",
+                    flush=True,
+                )
+                parsed["verdict"] = "escalate"
+                parsed["escalation_reason"] = substance_reason
+                rounds.append({
+                    "round": round_idx,
+                    "codex": parsed,
+                    "redline": None,
+                    "outcome": "substance_reject",
+                    "codex_seconds": codex_dt,
+                })
+                return CodexTrackResult(
+                    verdict="escalate",
+                    rounds=rounds,
+                    reason=f"codex substance reject at round {round_idx}: {substance_reason}",
+                    board_candidates=board_candidates,
+                )
 
             print(
                 f"[codex_track] {target.target_id} round {round_idx} — redline check "
