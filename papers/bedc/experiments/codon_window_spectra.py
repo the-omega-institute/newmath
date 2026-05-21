@@ -1047,6 +1047,146 @@ def reassignment_concentration_summary(tables: dict[int, dict[str, str]]) -> dic
     }
 
 
+def subcube_vertices(free_bits: tuple[int, ...], fixed_values: tuple[str, ...]) -> tuple[str, ...]:
+    fixed = [index for index in range(6) if index not in free_bits]
+    word = [""] * 6
+    for index, value in zip(fixed, fixed_values):
+        word[index] = value
+    vertices: list[str] = []
+    for local in itertools.product("01", repeat=len(free_bits)):
+        candidate = word.copy()
+        for index, value in zip(free_bits, local):
+            candidate[index] = value
+        vertices.append(codon_from_bits("".join(candidate)))
+    return tuple(vertices)
+
+
+def fixed_conditions(free_bits: tuple[int, ...], fixed_values: tuple[str, ...]) -> tuple[tuple[int, str], ...]:
+    fixed = [index for index in range(6) if index not in free_bits]
+    return tuple(zip(fixed, fixed_values))
+
+
+def reassignment_mass_geometry_summary(tables: dict[int, dict[str, str]]) -> dict[str, object]:
+    standard = tables[1]
+    codon_counts: collections.Counter[str] = collections.Counter()
+    changed_tables: dict[str, set[int]] = collections.defaultdict(set)
+    for table_id, table in sorted(tables.items()):
+        if table_id == 1:
+            continue
+        for codon in all_codons():
+            if table[codon] != standard[codon]:
+                codon_counts[codon] += 1
+                changed_tables[codon].add(table_id)
+
+    total_mass = sum(codon_counts.values())
+    max_subcubes: dict[str, dict[str, object]] = {}
+    for dimension in (5, 4, 3, 2):
+        candidates: list[dict[str, object]] = []
+        max_mass = -1
+        for free in itertools.combinations(range(6), dimension):
+            fixed_count = 6 - dimension
+            for values in itertools.product("01", repeat=fixed_count):
+                vertices = subcube_vertices(free, values)
+                mass = sum(codon_counts[codon] for codon in vertices)
+                if mass > max_mass:
+                    max_mass = mass
+                    candidates = []
+                if mass == max_mass:
+                    candidates.append(
+                        {
+                            "free_bits": free,
+                            "fixed_conditions": fixed_conditions(free, values),
+                            "vertices": vertices,
+                            "mass": mass,
+                        }
+                    )
+        max_subcubes[f"Q{dimension}"] = {
+            "max_mass": max_mass,
+            "max_count": len(candidates),
+            "maximizers": candidates,
+            "mass_fraction": max_mass / total_mass,
+        }
+
+    reassigned = set(codon_counts)
+    full_q2_faces: list[dict[str, object]] = []
+    q2_reassigned_vertex_distribution: collections.Counter[int] = collections.Counter()
+    for free in itertools.combinations(range(6), 2):
+        for values in itertools.product("01", repeat=4):
+            vertices = subcube_vertices(free, values)
+            reassigned_vertices = [codon for codon in vertices if codon in reassigned]
+            q2_reassigned_vertex_distribution[len(reassigned_vertices)] += 1
+            if len(reassigned_vertices) == 4:
+                full_q2_faces.append(
+                    {
+                        "free_bits": free,
+                        "fixed_conditions": fixed_conditions(free, values),
+                        "vertices": vertices,
+                        "mass": sum(codon_counts[codon] for codon in vertices),
+                    }
+                )
+    full_q2_faces.sort(key=lambda item: (-item["mass"], item["vertices"]))
+
+    positive_edges: list[dict[str, object]] = []
+    zero_edges: list[tuple[str, str]] = []
+    for left, right, _direction in hamming_edges():
+        if left not in reassigned or right not in reassigned:
+            continue
+        weight = len(changed_tables[left] & changed_tables[right])
+        if weight > 0:
+            positive_edges.append({"edge": (left, right), "weight": weight})
+        else:
+            zero_edges.append((left, right))
+    positive_edges.sort(key=lambda item: (-item["weight"], item["edge"]))
+
+    positive_adjacency: dict[str, set[str]] = {codon: set() for codon in sorted(reassigned)}
+    for item in positive_edges:
+        left, right = item["edge"]
+        positive_adjacency[left].add(right)
+        positive_adjacency[right].add(left)
+    seen: set[str] = set()
+    components: list[list[str]] = []
+    for codon in sorted(reassigned):
+        if codon in seen:
+            continue
+        stack = [codon]
+        seen.add(codon)
+        component: list[str] = []
+        while stack:
+            item = stack.pop()
+            component.append(item)
+            for neighbor in positive_adjacency[item]:
+                if neighbor not in seen:
+                    seen.add(neighbor)
+                    stack.append(neighbor)
+        components.append(sorted(component))
+    components.sort(key=lambda component: (-len(component), component))
+
+    purine_core = ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG")
+    a_ending_square = ("AAA", "AGA", "TAA", "TGA")
+    return {
+        "total_mass": total_mass,
+        "codon_weights": dict(sorted(codon_counts.items(), key=lambda item: (-item[1], item[0]))),
+        "max_subcubes": max_subcubes,
+        "purine_core_q3": {
+            "vertices": purine_core,
+            "mass": sum(codon_counts[codon] for codon in purine_core),
+            "standard_labels": {codon: standard[codon] for codon in purine_core},
+            "weights": {codon: codon_counts[codon] for codon in purine_core},
+        },
+        "a_ending_square": {
+            "vertices": a_ending_square,
+            "mass": sum(codon_counts[codon] for codon in a_ending_square),
+            "standard_labels": {codon: standard[codon] for codon in a_ending_square},
+            "weights": {codon: codon_counts[codon] for codon in a_ending_square},
+        },
+        "q2_reassigned_vertex_distribution": dict(sorted(q2_reassigned_vertex_distribution.items())),
+        "full_reassigned_q2_faces": full_q2_faces,
+        "co_reassignment_edges": positive_edges,
+        "zero_reassignment_edges": zero_edges,
+        "positive_co_reassignment_components": components,
+    }
+
+
 def module_value_adjacency(states: list[tuple[tuple[str, ...], ...]]) -> dict[int, set[int]]:
     adjacency: dict[int, set[int]] = {index: set() for index in range(len(states))}
     for left, right in itertools.combinations(range(len(states)), 2):
@@ -1347,6 +1487,7 @@ def build_summary() -> dict[str, object]:
         "latent_completion": latent_completion_summary(partial_tables),
         "tile_patterns": tile_pattern_summary(partial_tables),
         "reassignment_concentration": reassignment_concentration_summary(partial_tables),
+        "reassignment_mass_geometry": reassignment_mass_geometry_summary(partial_tables),
         "q1_all_tables": dict(sorted(all_q1_totals.items())),
     }
 
@@ -1751,6 +1892,93 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert round(summary["reassignment_concentration"]["nucleotide_substitution_all_tables"]["same_by_position"][0]["mean"], 2) == 3.59
     assert round(summary["reassignment_concentration"]["nucleotide_substitution_all_tables"]["same_by_position"][1]["mean"], 2) == 0.67
     assert round(summary["reassignment_concentration"]["nucleotide_substitution_all_tables"]["same_by_position"][2]["mean"], 2) == 64.78
+    assert summary["reassignment_mass_geometry"]["total_mass"] == 65
+    assert summary["reassignment_mass_geometry"]["codon_weights"] == {
+        "TGA": 15,
+        "TAG": 10,
+        "AGA": 8,
+        "AGG": 8,
+        "TAA": 8,
+        "ATA": 5,
+        "AAA": 3,
+        "CTG": 3,
+        "CTA": 1,
+        "CTC": 1,
+        "CTT": 1,
+        "TCA": 1,
+        "TTA": 1,
+    }
+    assert summary["reassignment_mass_geometry"]["max_subcubes"]["Q5"]["max_mass"] == 63
+    assert summary["reassignment_mass_geometry"]["max_subcubes"]["Q5"]["max_count"] == 1
+    assert summary["reassignment_mass_geometry"]["max_subcubes"]["Q5"]["maximizers"][0]["fixed_conditions"] == ((4, "1"),)
+    assert summary["reassignment_mass_geometry"]["max_subcubes"]["Q4"]["max_mass"] == 59
+    assert summary["reassignment_mass_geometry"]["max_subcubes"]["Q4"]["max_count"] == 1
+    assert summary["reassignment_mass_geometry"]["max_subcubes"]["Q4"]["maximizers"][0]["fixed_conditions"] == ((1, "0"), (4, "1"))
+    assert summary["reassignment_mass_geometry"]["max_subcubes"]["Q3"]["max_mass"] == 52
+    assert summary["reassignment_mass_geometry"]["max_subcubes"]["Q3"]["max_count"] == 1
+    assert summary["reassignment_mass_geometry"]["max_subcubes"]["Q3"]["maximizers"][0]["fixed_conditions"] == ((1, "0"), (2, "1"), (4, "1"))
+    assert summary["reassignment_mass_geometry"]["max_subcubes"]["Q2"]["max_mass"] == 34
+    assert summary["reassignment_mass_geometry"]["max_subcubes"]["Q2"]["max_count"] == 1
+    assert summary["reassignment_mass_geometry"]["max_subcubes"]["Q2"]["maximizers"][0]["vertices"] == ("TAA", "TGA", "AAA", "AGA")
+    assert summary["reassignment_mass_geometry"]["purine_core_q3"] == {
+        "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
+        "mass": 52,
+        "standard_labels": {
+            "TAA": "*",
+            "TAG": "*",
+            "TGA": "*",
+            "TGG": "W",
+            "AAA": "K",
+            "AAG": "K",
+            "AGA": "R",
+            "AGG": "R",
+        },
+        "weights": {"TAA": 8, "TAG": 10, "TGA": 15, "TGG": 0, "AAA": 3, "AAG": 0, "AGA": 8, "AGG": 8},
+    }
+    assert summary["reassignment_mass_geometry"]["a_ending_square"] == {
+        "vertices": ("AAA", "AGA", "TAA", "TGA"),
+        "mass": 34,
+        "standard_labels": {"AAA": "K", "AGA": "R", "TAA": "*", "TGA": "*"},
+        "weights": {"AAA": 3, "AGA": 8, "TAA": 8, "TGA": 15},
+    }
+    assert summary["reassignment_mass_geometry"]["q2_reassigned_vertex_distribution"] == {
+        0: 123,
+        1: 60,
+        2: 40,
+        3: 13,
+        4: 4,
+    }
+    assert [
+        (face["vertices"], face["mass"])
+        for face in summary["reassignment_mass_geometry"]["full_reassigned_q2_faces"]
+    ] == [
+        (("TAA", "TGA", "AAA", "AGA"), 34),
+        (("TTA", "TCA", "TAA", "TGA"), 25),
+        (("TTA", "TAA", "ATA", "AAA"), 17),
+        (("CTT", "CTC", "CTA", "CTG"), 6),
+    ]
+    assert [
+        (tuple(item["edge"]), item["weight"])
+        for item in summary["reassignment_mass_geometry"]["co_reassignment_edges"]
+    ] == [
+        (("AGA", "AGG"), 8),
+        (("TGA", "AGA"), 8),
+        (("TAA", "TAG"), 6),
+        (("TAA", "TGA"), 5),
+        (("AAA", "AGA"), 3),
+        (("ATA", "AAA"), 1),
+        (("CTA", "CTG"), 1),
+        (("CTC", "CTG"), 1),
+        (("CTT", "CTA"), 1),
+        (("CTT", "CTC"), 1),
+        (("TAA", "AAA"), 1),
+    ]
+    assert summary["reassignment_mass_geometry"]["positive_co_reassignment_components"] == [
+        ["AAA", "AGA", "AGG", "ATA", "TAA", "TAG", "TGA"],
+        ["CTA", "CTC", "CTG", "CTT"],
+        ["TCA"],
+        ["TTA"],
+    ]
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
