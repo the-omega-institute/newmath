@@ -108,6 +108,7 @@ DETERMINISTIC_ALLOWED_LANDING = {
     "existing_chapter_ledger_row",
 }
 DIRECT_CODEX_SOURCES = {
+    "automath_newmath_bridge",
     "codex",
     "plain_math_review",
     "paper_review",
