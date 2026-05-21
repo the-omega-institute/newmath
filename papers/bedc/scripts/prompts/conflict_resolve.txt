@@ -18,9 +18,9 @@ axes. Do not collapse the block into a single closure-strength reading.
 
 ## Deletion / narrowing rule (CRITICAL)
 
-If one conflict side DELETED a declaration (`\begin{theorem}...\end{theorem}` with `\label`, or a chapter prose paragraph) and the other side kept or modified it, **prefer the deletion** — drop the declaration / paragraph. Deletion in BASE is deliberate cleanup (dup-label, audit fail). Re-adding via "keep both" recreates the original problem.
+If one conflict side DELETED a declaration (`\begin{{theorem}}...\end{{theorem}}` with `\label`, or a chapter prose paragraph) and the other side kept or modified it, **prefer the deletion** — drop the declaration / paragraph. Deletion in BASE is deliberate cleanup (dup-label, audit fail). Re-adding via "keep both" recreates the original problem.
 
-If a conflict touches a `\origin{...}` lineage line, and BASE has the NARROWER lineage (e.g. `\origin{ai}` while ours has `\origin{ai-composite}`), **trust BASE**. Lineage simplification is intentional; "keep ours" re-introduces deprecated categories.
+If a conflict touches a `\origin{{...}}` lineage line, and BASE has the NARROWER lineage (e.g. `\origin{{ai}}` while ours has `\origin{{ai-composite}}`), **trust BASE**. Lineage simplification is intentional; "keep ours" re-introduces deprecated categories.
 
 Same rule for VALID_ORIGINS / option-sets in any Python source file: prefer the side with FEWER choices.
 
