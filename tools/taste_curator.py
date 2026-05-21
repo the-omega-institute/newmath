@@ -1,10 +1,21 @@
 #!/usr/bin/env python3
-"""Taste curator daemon for BEDC concrete-instance review.
+"""BEDC taste daemon — quality dashboard + scheduler signal source.
 
-The daemon detects suspicious taste signals, alerts, and appends stable
-review-queue entries. Its automated action is rule evolution: cluster repeated
-findings by flag and dispatch codex to tighten P/R prompts or audit/lint gates.
-It does not edit concrete-instance content directly.
+Role (post-2026-05-21 refactor):
+- AUTO-EVOLVE only structurally clean flags (missing_origin / invalid_origin /
+  simple_label_correction / allowlist_metadata_correction / research_*).
+  These have unambiguous mechanical fix and can be safely scripted.
+- DIGEST flags requiring operator judgment (isolated_theorem /
+  low_entropy_template). Daemon writes /tmp/.bedc_taste_quality_digest.json
+  for downstream consumption (operator review, P/R round target selection).
+- BLOCK dead flags (mislabeled_composite + future tombstones via DEAD_FLAGS)
+  — silently drop findings; never re-introduce removed detectors.
+
+Daemon never modifies BEDC chapter content directly. Edits are limited to
+prompts + audit gates + dossier records via rule_evolution path.
+
+See /tmp/taste-analysis.md and /tmp/taste-analysis-2.md for the analysis
+that led to this refactor.
 """
 
 from __future__ import annotations
@@ -38,6 +49,7 @@ ALERT_LOG = Path("/tmp/.bedc_taste_alerts.log")
 QUEUE_FILE = Path("/tmp/.bedc_taste_review_queue.jsonl")
 COOLDOWN_FILE = Path("/tmp/.bedc_taste_cooldown.json")
 STATE_FILE = Path("/tmp/.bedc_taste_state.json")
+QUALITY_DIGEST_FILE = Path("/tmp/.bedc_taste_quality_digest.json")
 ALLOWLIST_FILE = REPO_ROOT / "papers" / "bedc" / "taste_allowlist.json"
 APPROVALS_FILE = REPO_ROOT / "papers" / "bedc" / "taste_approvals.json"
 CONFIG_FILE = REPO_ROOT / "papers" / "bedc" / "taste_curator_config.json"
@@ -76,6 +88,15 @@ AUTO_FIXABLE_FLAGS = {
     "simple_label_correction",
     "allowlist_metadata_correction",
 }
+
+# Flags that surface findings but should NOT be auto-evolved. Daemon writes
+# these to a quality digest file for operator review and downstream
+# (P-round / R-round) scheduler consumption. Auto-evolution risks introducing
+# fake downstream refs / merging chapters that have legitimate independence.
+HUMAN_REVIEW_ONLY_FLAGS: frozenset[str] = frozenset({
+    "isolated_theorem",
+    "low_entropy_template",
+})
 
 # DEAD_FLAGS: features whose detector/code has been intentionally removed.
 # Never accept findings of these flags (silently drop). Prevents the daemon
@@ -1150,7 +1171,23 @@ def assign_ids(findings: list[Finding], commit: str) -> None:
     short = commit[:8] if commit and commit != "dryrun" else "dryrun"
     for finding in findings:
         finding.commit = finding.commit or commit
-        finding.id = f"{finding.flag}:{finding.chapter_slug}:{short}"
+        parts = [finding.flag, finding.chapter_slug]
+        if finding.flag in HUMAN_REVIEW_ONLY_FLAGS:
+            parts.append(finding_target_or_evidence_key(finding))
+        parts.append(short)
+        finding.id = ":".join(parts)
+
+
+def finding_target_or_evidence_key(finding: Finding) -> str:
+    target = finding.lean_target or finding.evidence.get("lean_target")
+    if target:
+        return sanitize_queue_key(str(target))
+    raw = json.dumps(finding.evidence, ensure_ascii=False, sort_keys=True, default=str)
+    return hashlib.sha1(raw.encode("utf-8", errors="ignore")).hexdigest()[:8]
+
+
+def sanitize_queue_key(text: str) -> str:
+    return re.sub(r"[^A-Za-z0-9_.-]+", "-", text.strip())[:120] or "unknown"
 
 
 def drop_dead_flag_findings(findings: list[Finding]) -> list[Finding]:
@@ -1165,14 +1202,17 @@ def drop_dead_flag_findings(findings: list[Finding]) -> list[Finding]:
             continue
         keep.append(finding)
     if dropped:
-        log(f"dropped {dropped} dead-flag finding(s): {sorted(DEAD_FLAGS)}")
+        print(f"[taste] dropped {dropped} dead-flag finding(s): {sorted(DEAD_FLAGS)}", file=sys.stderr, flush=True)
     return keep
 
 
 def cooldown_action(finding: Finding, cfg: dict[str, Any], dry_run: bool) -> str:
     data = load_cooldown()
     entries = data.setdefault("entries", {})
-    key = f"{finding.flag}:{finding.chapter_slug}"
+    key_parts = [finding.flag, finding.chapter_slug]
+    if finding.flag in HUMAN_REVIEW_ONLY_FLAGS:
+        key_parts.append(finding_target_or_evidence_key(finding))
+    key = ":".join(key_parts)
     now = utc_now()
     rec = entries.get(key)
     if not isinstance(rec, dict):
@@ -1266,8 +1306,8 @@ def top_entry_cluster(entries: list[dict[str, Any]], state: dict[str, Any]) -> t
         qid = str(entry.get("id") or "")
         if qid and qid in done:
             continue
-        flag = str(entry.get("flag") or "")
-        if flag in AUTO_FIXABLE_FLAGS or flag.startswith(RESEARCH_FINDING_PREFIX):
+        if is_auto_fixable_queue_entry(entry):
+            flag = str(entry.get("flag") or "")
             clusters.setdefault(flag, []).append(entry)
     if not clusters:
         return None
@@ -1561,6 +1601,8 @@ def append_to_dossier_section(section_heading: str, entry: str, dry_run: bool) -
     if dry_run:
         print(f"[taste] dry-run: would append dossier entry under {section_heading}", flush=True)
         return
+    if section_heading == "## 演化时间线" and not dossier_timeline_heading_unique():
+        return
     TASTE_EVOLUTIONS_FILE.parent.mkdir(parents=True, exist_ok=True)
     text = TASTE_EVOLUTIONS_FILE.read_text(encoding="utf-8") if TASTE_EVOLUTIONS_FILE.exists() else ""
     start = text.find(section_heading)
@@ -1581,7 +1623,24 @@ def topic_title_for_flag(flag: str) -> str:
     return cleaned or "taste negative criterion"
 
 
+def dossier_timeline_heading_unique() -> bool:
+    if not TASTE_EVOLUTIONS_FILE.exists():
+        return True
+    text = TASTE_EVOLUTIONS_FILE.read_text(encoding="utf-8", errors="ignore")
+    count = len(re.findall(r"(?m)^## 演化时间线\s*$", text))
+    if count <= 1:
+        return True
+    print(
+        f"[taste] WARNING: dossier schema violation: expected one '## 演化时间线' heading, found {count}; skipping dossier append",
+        file=sys.stderr,
+        flush=True,
+    )
+    return False
+
+
 def append_rule_evolution_dossier(flag: str, entry: str, dry_run: bool) -> None:
+    if not dossier_timeline_heading_unique():
+        return
     title = topic_title_for_flag(flag)
     text = TASTE_EVOLUTIONS_FILE.read_text(encoding="utf-8") if TASTE_EVOLUTIONS_FILE.exists() else ""
     if title not in text:
@@ -1610,6 +1669,8 @@ def append_rule_evolution_dossier(flag: str, entry: str, dry_run: bool) -> None:
 def record_rule_evolution_ship_commit(flag: str, commit_sha: str | None) -> bool:
     if not commit_sha or not TASTE_EVOLUTIONS_FILE.exists():
         return False
+    if not dossier_timeline_heading_unique():
+        return False
     text = TASTE_EVOLUTIONS_FILE.read_text(encoding="utf-8")
     if commit_sha in text:
         return False
@@ -1621,7 +1682,13 @@ def record_rule_evolution_ship_commit(flag: str, commit_sha: str | None) -> bool
         insert_at = len(text) if research_at < 0 else research_at
         updated = text[:insert_at].rstrip() + "\n" + line + text[insert_at:]
     else:
-        updated = text.rstrip() + f"\n\n## 演化时间线\n\n{marker}\n{line}\n"
+        timeline_at = text.find("## 演化时间线")
+        if timeline_at < 0:
+            updated = text.rstrip() + f"\n\n## 演化时间线\n\n{marker}\n{line}\n"
+        else:
+            next_heading = text.find("\n## ", timeline_at + len("## 演化时间线"))
+            insert_at = len(text) if next_heading < 0 else next_heading
+            updated = text[:insert_at].rstrip() + f"\n\n{marker}\n{line}" + text[insert_at:]
     if updated == text:
         return False
     TASTE_EVOLUTIONS_FILE.write_text(updated, encoding="utf-8")
@@ -1769,23 +1836,44 @@ def pending_queue_entries(state: dict[str, Any]) -> list[dict[str, Any]]:
     return entries
 
 
+def is_auto_fixable_queue_entry(entry: dict[str, Any]) -> bool:
+    flag = str(entry.get("flag") or "")
+    return flag in AUTO_FIXABLE_FLAGS or flag.startswith(RESEARCH_FINDING_PREFIX)
+
+
+def eligible_queue_entries(state: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+    """Pending entries whose flag is auto-fixable (excluding DEAD_FLAGS done_ids)."""
+    if state is None:
+        state = load_state()
+    entries = pending_queue_entries(state)
+    return [entry for entry in entries if is_auto_fixable_queue_entry(entry)]
+
+
 def state_monitor_step(cfg: dict[str, Any], state: dict[str, Any], dry_run: bool) -> None:
     cycles = int(state.get("monitor_cycles_in_state", 0)) + 1
     state["monitor_cycles_in_state"] = cycles
     pending = pending_queue_entries(state)
+    eligible_pending = eligible_queue_entries(state)
+    blocked_pending = max(0, len(pending) - len(eligible_pending))
     min_cycles = int(cfg.get("MIN_MONITOR_CYCLES", 2))
     trigger = int(cfg.get("ADJUST_TRIGGER_FINDINGS", 5))
+    research_every = max(1, int(cfg.get("RESEARCH_EVERY_N_ADJUSTS", 5)))
+    next_action = "monitor"
+    if int(state.get("adjusts_since_research", 0)) >= research_every:
+        next_action = "research"
+    elif cycles >= min_cycles and len(eligible_pending) >= trigger:
+        next_action = "adjust"
     print(
         f"[taste] state=monitor cycles={cycles} pending_queue={len(pending)} "
-        f"min_cycles={min_cycles} trigger={trigger}",
+        f"eligible_pending={len(eligible_pending)} blocked_pending={blocked_pending} "
+        f"min_cycles={min_cycles} trigger={trigger} next_action={next_action}",
         flush=True,
     )
-    research_every = max(1, int(cfg.get("RESEARCH_EVERY_N_ADJUSTS", 5)))
-    if int(state.get("adjusts_since_research", 0)) >= research_every:
+    if next_action == "research":
         transition_state(state, "research")
         print("[taste] transition monitor -> research", flush=True)
         return
-    if cycles >= min_cycles and len(pending) >= trigger:
+    if next_action == "adjust":
         transition_state(state, "adjust")
         print("[taste] transition monitor -> adjust", flush=True)
 
@@ -1832,6 +1920,76 @@ def state_adjust_step(cfg: dict[str, Any], state: dict[str, Any], dry_run: bool)
     state["adjusts_since_research"] = int(state.get("adjusts_since_research", 0)) + 1
     transition_state(state, "monitor")
     print("[taste] transition adjust -> monitor", flush=True)
+
+
+def top_chapters_for_entries(entries: list[dict[str, Any]], limit: int = 10) -> list[dict[str, Any]]:
+    counts: dict[str, int] = {}
+    for entry in entries:
+        slug = str(entry.get("chapter_slug") or "unknown")
+        counts[slug] = counts.get(slug, 0) + 1
+    return [
+        {"chapter_slug": slug, "count": count}
+        for slug, count in sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:limit]
+    ]
+
+
+def parse_shape_saturation_output(text: str) -> dict[str, Any]:
+    summary = {"saturated_shapes": 0, "top_suffixes": []}
+    first = re.search(r"shape-saturation:\s+(\d+)\s+saturated shape", text)
+    if first:
+        summary["saturated_shapes"] = int(first.group(1))
+    suffixes: list[dict[str, Any]] = []
+    pattern = re.compile(r"^  (?P<suffix>\S+)\s+\[(?P<horizons>\d+) horizons: (?P<chapters>[^\]]*)\]$", re.MULTILINE)
+    for match in pattern.finditer(text):
+        chapters = [part.strip() for part in match.group("chapters").split(",") if part.strip()]
+        suffixes.append({
+            "suffix": match.group("suffix"),
+            "horizons": int(match.group("horizons")),
+            "chapters": chapters,
+        })
+    summary["top_suffixes"] = sorted(suffixes, key=lambda item: (-int(item["horizons"]), str(item["suffix"])))[:5]
+    return summary
+
+
+def shape_saturation_digest() -> dict[str, Any]:
+    try:
+        res = run(
+            ["python3", "lean4/scripts/bedc_ci.py", "audit", "--shape-saturation"],
+            cwd=REPO_ROOT,
+            check=False,
+            capture=True,
+            timeout=30,
+        )
+    except Exception:
+        return {"saturated_shapes": 0, "top_suffixes": []}
+    if res.returncode != 0:
+        return {"saturated_shapes": 0, "top_suffixes": []}
+    return parse_shape_saturation_output((res.stdout or "") + (res.stderr or ""))
+
+
+def write_quality_digest(state: dict[str, Any], head_commit: str, dry_run: bool) -> None:
+    pending = pending_queue_entries(state)
+    human_review: dict[str, Any] = {}
+    for flag in sorted(HUMAN_REVIEW_ONLY_FLAGS):
+        grouped = [entry for entry in pending if str(entry.get("flag") or "") == flag]
+        human_review[flag] = {
+            "count": len(grouped),
+            "top_chapters": top_chapters_for_entries(grouped),
+            "evidence_examples": grouped[:5],
+        }
+    eligible = eligible_queue_entries(state)
+    cluster = top_entry_cluster(eligible, state)
+    digest = {
+        "generated_at": utc_now(),
+        "head_commit": head_commit,
+        "human_review_only_findings": human_review,
+        "shape_saturation": shape_saturation_digest(),
+        "auto_fixable_pending": {
+            "count": len(eligible),
+            "next_cluster_flag": cluster[0] if cluster else None,
+        },
+    }
+    write_json(QUALITY_DIGEST_FILE, digest, dry_run=dry_run)
 
 
 def command_output_ok(cmd: list[str], cwd: Path, timeout: int) -> tuple[bool, str]:
@@ -2307,6 +2465,7 @@ def cycle(dry_run: bool = False) -> None:
         state["state_entered_at"] = utc_now()
     update_pipeline_sample(state)
     snapshot_changed = refresh_current_observation_snapshot(state, dry_run)
+    write_quality_digest(state, artifacts.head, dry_run)
     if not dry_run:
         state["last_seen_sha"] = artifacts.head
         state["last_success_sha"] = artifacts.head
@@ -2328,7 +2487,7 @@ def main() -> int:
         "TASTE_CURATOR_INTERVAL_SECONDS",
         args.interval if args.interval is not None else cfg["CYCLE_INTERVAL_SECONDS"],
     ))
-    cycles = 1 if args.once else args.cycle
+    cycles = 1 if args.once or (args.dry_run and args.cycle is None) else args.cycle
     lock_enabled = not args.dry_run
     with pid_lock(enabled=lock_enabled):
         gc_orphan_taste_branches(dry_run=args.dry_run)
