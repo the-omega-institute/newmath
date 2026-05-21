@@ -7,7 +7,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 open BEDC.Meta.TasteGate
 
-theorem RatClassifierTransportSealCarrier_classifier_handoff_determinacy
+theorem RatClassifierTransportSealCarrier_route_read_handoff_determinacy
     {Q S W D A H C N realRead realRead' : BHist} :
     FieldFaithful.fields (RatClassifierTransportSealUp.mk Q S W D A H C N) =
         [Q, S, W, D, A, H, C, N] →
