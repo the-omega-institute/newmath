@@ -81,6 +81,18 @@ The interval-net handoff then appends its mesh-specific rows. Its finite cells, 
 The uniform-modulus handoff is later still. It reads compactness and modulus data through finite cover and Lebesgue-number ledgers, while the source interval remains the accepted $\ClosedBoundedIntervalUp$ route. Thus no consumer receives an open cover, selected subcover, quotient real equality, host interval set, or ambient completeness row in place of the base carrier.
 \end{proof}
 
+\begin{theorem}[Closed bounded interval nested compactness handoff]
+\label{thm:closed-bounded-interval-nested-compactness-handoff}
+Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier, and let a finite prefix of a nested-interval display be read inside the same closed bounded interval. The accepted packet supplies the endpoint-order row $O$, the rational and dyadic containment ledgers $Q,D$, the $\StreamNameUp$ window row $S$, the $\RegSeqRatUp$ readback row $R$, and the $\RealUp$ seal row $E$ required by the finite-window $\NestedIntervalCompactnessUp$ route. The handoff is therefore a row-level bridge from the closed bounded interval carrier to the nested-window consumer of \autoref{thm:nested-interval-compactness-real-seal-boundary}; it does not export open-cover compactness, selected endpoints, quotient real equality, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the accepted $\ClosedBoundedIntervalUp$ carrier. By \autoref{thm:closed-bounded-interval-endpoint-order-transport}, any transported containment read keeps the endpoint-order row upstream of the rational and dyadic ledgers.
+
+Apply \autoref{thm:closed-bounded-interval-net-handoff}. The finite consumer receives the base interval only through the displayed route $L,U,O,Q,D,S,R,E,H,C,P,N$, so a nested prefix displayed inside that interval must inherit the same endpoint, containment, window, readback, and seal rows.
+
+The nested-window side then reads exactly the finite route isolated by \autoref{thm:nested-interval-compactness-real-seal-boundary}. Since neither source packet contains an open cover, endpoint selector, quotient-real equality, trichotomy decision, countable-choice selector, or ambient completeness datum, the handoff cannot add any such row.
+\end{proof}
+
 \falsifiablePrediction{Every interval-net or uniform-modulus read of a ClosedBoundedIntervalUp packet factors through displayed lower and upper located endpoints, endpoint order, rational and dyadic containment ledgers, StreamName windows, RegSeqRat readback, and a RealUp seal.}
 
 \independenceWitness{locatedinterval, closedboundedintervalnet, closedboundedintervaluniformmodulus, real: $\ClosedBoundedIntervalUp$ is not bijective to any listed sibling because it jointly carries lower and upper located endpoints, endpoint order, rational and dyadic containment ledgers, finite readback windows, a RealUp seal, transport, replay, provenance, and local naming.}
@@ -90,7 +102,7 @@ The uniform-modulus handoff is later still. It reads compactness and modulus dat
 \begin{closurestatus}{\ClosedBoundedIntervalUp}
   \constructivestory{A $\ClosedBoundedIntervalUp$ packet is generated from lower and upper located endpoint rows, an endpoint-order row, rational and dyadic containment ledgers, StreamName windows, RegSeqRat readbacks, a RealUp seal, hsame transports, Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:closed-bounded-interval-carrier}, \autoref{def:closed-bounded-interval-classifier}, \autoref{thm:closed-bounded-interval-namecert-obligations}, \autoref{thm:closed-bounded-interval-endpoint-order-transport}, and \autoref{thm:closed-bounded-interval-net-handoff} bind the finite base carrier for closed bounded intervals before net and uniform-modulus consumers add their own rows.}
+  \scopeclosed{\autoref{def:closed-bounded-interval-carrier}, \autoref{def:closed-bounded-interval-classifier}, \autoref{thm:closed-bounded-interval-namecert-obligations}, \autoref{thm:closed-bounded-interval-endpoint-order-transport}, \autoref{thm:closed-bounded-interval-net-handoff}, and \autoref{thm:closed-bounded-interval-nested-compactness-handoff} bind the finite base carrier for closed bounded intervals before net, uniform-modulus, and nested-window compactness consumers add their own rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, quotient real equality, trichotomy, selected points of the interval, or ambient Real completeness.}
