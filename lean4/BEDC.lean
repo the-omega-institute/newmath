@@ -2580,6 +2580,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.RadiusReadback
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusWindowAdmission
 import BEDC.Derived.FiniteLebesgueNumberUp.RootRoutes
 import BEDC.Derived.FiniteLebesgueNumberUp.TailRadiusAdmission
+import BEDC.Derived.FiniteLebesgueNumberUp.TailRadiusTransport
 import BEDC.Derived.FiniteLimitSealEnvelopeUp.TasteGate
 import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
@@ -4687,6 +4688,7 @@ import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.TasteGate
 import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.StreamDiagonalSelectorUp
+import BEDC.Derived.StreamDiagonalSelectorUp.TasteGate
 import BEDC.Derived.StreamLimitReflectionUp.TasteGate
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.StreamNameUp.CertifiedObservationDeterminacy
