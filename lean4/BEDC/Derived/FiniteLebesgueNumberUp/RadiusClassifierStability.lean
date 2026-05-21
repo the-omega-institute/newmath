@@ -31,4 +31,38 @@ theorem FiniteLebesgueNumberRadiusClassifierStability [AskSetup] [PackageSetup]
   exact
     ⟨radiusPrimeUnary, meshPrimeUnary, routePrimeUnary, transportedRoute, provenancePkg⟩
 
+theorem FiniteLebesgueNumberOpenPhaseRootRadiusClassifierTotality [AskSetup]
+    [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow rootRead phaseRead
+      classifierRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont route nameRow rootRead ->
+        Cont rootRead radius phaseRead ->
+          Cont phaseRead mesh classifierRead ->
+            Cont classifierRead nameRow consumerRead ->
+              PkgSig bundle consumerRead pkg ->
+                UnaryHistory classifierRead ∧ UnaryHistory consumerRead ∧
+                  Cont phaseRead mesh classifierRead ∧
+                    Cont classifierRead nameRow consumerRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier routeNameRoot rootRadiusPhase phaseMeshClassifier classifierNameConsumer
+    consumerPkg
+  obtain ⟨_coverUnary, _windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have rootReadUnary : UnaryHistory rootRead :=
+    unary_cont_closed routeUnary nameRowUnary routeNameRoot
+  have phaseReadUnary : UnaryHistory phaseRead :=
+    unary_cont_closed rootReadUnary radiusUnary rootRadiusPhase
+  have classifierReadUnary : UnaryHistory classifierRead :=
+    unary_cont_closed phaseReadUnary meshUnary phaseMeshClassifier
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed classifierReadUnary nameRowUnary classifierNameConsumer
+  exact
+    ⟨classifierReadUnary, consumerReadUnary, phaseMeshClassifier, classifierNameConsumer,
+      provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
