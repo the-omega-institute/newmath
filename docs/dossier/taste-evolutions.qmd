@@ -127,6 +127,18 @@ Ship: commit `d25a5c4ebdd190317541c4de6cc9b39c24a22857`. Detector/gate: recorded
 
 - 2026-05-21T04:11:33Z: 用 META_PROMPT_RESEARCH (commit `9e55faef2d6fb394a7b63c92b3763efd8e8c4b95`). 探索方向: 自决 corpus 扫描。报告 0 个候选; codex 没给出达到 evidence 门槛的新 negative pattern。 没有写入 queue。
 
+## V3 — Per-finding resolution (2026-05-22)
+
+Daemon evolved from "quality dashboard" to "per-finding resolver":
+- Each cycle picks top-1 HUMAN_REVIEW_ONLY pending finding
+- Dispatches codex inspect+decide+implement (1 of 4 actions)
+- Goes through full gate stack (lake build / audit / phase_d_lint / axiom-purity)
+- Rate-limited: max 24 resolutions/day, per-finding 24h cooldown
+- Failures revert to leave_with_rationale, no BASE pollution
+
+Implements user request "AI 能看出来哪些没意义" -- moves from rule abstraction
+to case-by-case judgment.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
