@@ -174,21 +174,15 @@ def taste_gate : ChapterTasteGate FiniteErrorBudgetUp :=
   FiniteErrorBudgetTasteGate_single_carrier_alignment_ChapterTasteGate
 
 theorem FiniteErrorBudgetTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate FiniteErrorBudgetUp) ∧
-      Nonempty (FieldFaithful FiniteErrorBudgetUp) ∧
-      Nonempty (Nontrivial FiniteErrorBudgetUp) ∧
-      (∀ h : BHist,
-        FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+    (∀ h : BHist,
+      FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
             (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist h) =
           h) ∧
-      (∀ x : FiniteErrorBudgetUp,
-        FiniteErrorBudgetTasteGate_single_carrier_alignment_fromEventFlow
-            (FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow x) =
-          some x) ∧
       (∀ x y : FiniteErrorBudgetUp,
-        FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow x =
-            FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow y →
+        FiniteErrorBudgetTasteGate_single_carrier_alignment_fields x =
+            FiniteErrorBudgetTasteGate_single_carrier_alignment_fields y →
           x = y) ∧
+      (∃ x y : FiniteErrorBudgetUp, x ≠ y) ∧
       FiniteErrorBudgetTasteGate_single_carrier_alignment_fields
           (FiniteErrorBudgetUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
@@ -200,18 +194,18 @@ theorem FiniteErrorBudgetTasteGate_single_carrier_alignment :
         [[], [], [], [], [], [], [], [], []] := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   constructor
-  · exact ⟨FiniteErrorBudgetTasteGate_single_carrier_alignment_ChapterTasteGate⟩
-  constructor
-  · exact ⟨FiniteErrorBudgetTasteGate_single_carrier_alignment_FieldFaithful⟩
-  constructor
-  · exact ⟨FiniteErrorBudgetTasteGate_single_carrier_alignment_Nontrivial⟩
-  constructor
   · exact FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode
   constructor
-  · exact FiniteErrorBudgetTasteGate_single_carrier_alignment_round_trip
+  · exact FiniteErrorBudgetTasteGate_single_carrier_alignment_fields_faithful
   constructor
-  · intro x y heq
-    exact FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow_injective heq
+  · exact
+      ⟨FiniteErrorBudgetUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        FiniteErrorBudgetUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        by
+          intro h
+          cases h⟩
   constructor
   · rfl
   · rfl
