@@ -555,6 +555,7 @@ import BEDC.Derived.BinderContextSubstitutionSealUp.ClosedBoundaryExactness
 import BEDC.Derived.BinderContextSubstitutionSealUp.ClosedTermBoundaryDependency
 import BEDC.Derived.BinderContextSubstitutionSealUp.CompilerHandoff
 import BEDC.Derived.BinderContextSubstitutionSealUp.ObligationConsumer
+import BEDC.Derived.BishopRealComparisonUp.TasteGate
 import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BoolUp
@@ -2516,6 +2517,7 @@ import BEDC.Derived.FieldUp.TailFactor
 import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FieldUp.TwoSidedEmptySolution
 import BEDC.Derived.FilterUp
+import BEDC.Derived.FilteredCauchyCompletionUp.TasteGate
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
 import BEDC.Derived.FiniteErrorBudgetUp
@@ -3446,6 +3448,7 @@ import BEDC.Derived.MonotoneCauchyUp.ObligationPackage
 import BEDC.Derived.MonotoneCauchyUp.PublicTailWindowCertificate
 import BEDC.Derived.MonotoneCauchyUp.RealSealScopePackage
 import BEDC.Derived.MonotoneCauchyUp.ScopedTailWindowPackage
+import BEDC.Derived.MonotoneSubsequenceUp.TasteGate
 import BEDC.Derived.MultiHistConfigUp
 import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
 import BEDC.Derived.MultiHistoryPhysicsRouteUp.TasteGate
