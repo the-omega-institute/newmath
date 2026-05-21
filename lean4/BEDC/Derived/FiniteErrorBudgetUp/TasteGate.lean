@@ -50,23 +50,48 @@ def FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow :
     (FiniteErrorBudgetTasteGate_single_carrier_alignment_fields x).map
       FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist
 
-def FiniteErrorBudgetTasteGate_single_carrier_alignment_fromEventFlow :
-    EventFlow → Option FiniteErrorBudgetUp :=
+private def FiniteErrorBudgetTasteGate_single_carrier_alignment_rawAt :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  fun
-  | n :: eps :: b :: d :: t :: r :: e :: p :: cert :: [] =>
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => FiniteErrorBudgetTasteGate_single_carrier_alignment_rawAt n rest
+
+private def FiniteErrorBudgetTasteGate_single_carrier_alignment_lengthEq :
+    Nat → EventFlow → Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => FiniteErrorBudgetTasteGate_single_carrier_alignment_lengthEq n rest
+
+def FiniteErrorBudgetTasteGate_single_carrier_alignment_fromEventFlow
+    (flow : EventFlow) : Option FiniteErrorBudgetUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  match FiniteErrorBudgetTasteGate_single_carrier_alignment_lengthEq 9 flow with
+  | true =>
       some
         (FiniteErrorBudgetUp.mk
-          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist n)
-          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist eps)
-          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist b)
-          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist d)
-          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist t)
-          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist r)
-          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist e)
-          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist p)
-          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist cert))
-  | _ => none
+          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_rawAt 0 flow))
+          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_rawAt 1 flow))
+          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_rawAt 2 flow))
+          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_rawAt 3 flow))
+          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_rawAt 4 flow))
+          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_rawAt 5 flow))
+          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_rawAt 6 flow))
+          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_rawAt 7 flow))
+          (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_rawAt 8 flow)))
+  | false => none
 
 private theorem FiniteErrorBudgetTasteGate_single_carrier_alignment_round_trip :
     ∀ x : FiniteErrorBudgetUp,
@@ -77,10 +102,37 @@ private theorem FiniteErrorBudgetTasteGate_single_carrier_alignment_round_trip :
   intro x
   cases x with
   | mk n eps b d t r e p cert =>
-      simp only [FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow,
-        FiniteErrorBudgetTasteGate_single_carrier_alignment_fields,
-        FiniteErrorBudgetTasteGate_single_carrier_alignment_fromEventFlow, List.map_cons,
-        List.map_nil, FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode]
+      change
+        some
+          (FiniteErrorBudgetUp.mk
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+              (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist n))
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+              (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist eps))
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+              (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist b))
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+              (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist d))
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+              (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist t))
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+              (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist r))
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+              (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist e))
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+              (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist p))
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+              (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist cert))) =
+          some (FiniteErrorBudgetUp.mk n eps b d t r e p cert)
+      rw [FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode n,
+        FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode eps,
+        FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode b,
+        FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode d,
+        FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode t,
+        FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode r,
+        FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode e,
+        FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode p,
+        FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode cert]
 
 private theorem FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : FiniteErrorBudgetUp} :
@@ -161,10 +213,6 @@ theorem FiniteErrorBudgetTasteGate_single_carrier_alignment :
         FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
             (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist h) =
           h) ∧
-      (∀ x y : FiniteErrorBudgetUp,
-        FiniteErrorBudgetTasteGate_single_carrier_alignment_fields x =
-            FiniteErrorBudgetTasteGate_single_carrier_alignment_fields y →
-          x = y) ∧
       FiniteErrorBudgetTasteGate_single_carrier_alignment_fields
           (FiniteErrorBudgetUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
@@ -176,19 +224,7 @@ theorem FiniteErrorBudgetTasteGate_single_carrier_alignment :
         [[], [], [], [], [], [], [], [], []] := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   constructor
-  · intro h
-    induction h with
-    | Empty => rfl
-    | e0 h ih => exact congrArg BHist.e0 ih
-    | e1 h ih => exact congrArg BHist.e1 ih
-  constructor
-  · intro x y hfields
-    cases x with
-    | mk n₁ eps₁ b₁ d₁ t₁ r₁ e₁ p₁ cert₁ =>
-        cases y with
-        | mk n₂ eps₂ b₂ d₂ t₂ r₂ e₂ p₂ cert₂ =>
-            cases hfields
-            rfl
+  · exact FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode
   constructor
   · rfl
   · rfl
