@@ -1,0 +1,156 @@
+\chapter{A Concrete Naming Certificate for $\PolishSpaceUp$}
+\label{ch:concrete-instances-polishspace-namecert}
+\origin{human}
+
+Following Alexandrov and Urysohn, a Polish space is treated here as a complete
+separable metric object whose admissible data are displayed by finite naming
+routes rather than by ambient set-theoretic selection. The
+$\PolishSpaceUp$ packet synthesizes the metric carrier of
+\autoref{ch:concrete-instances-metric-namecert}, the completion handoff of
+\autoref{ch:concrete-instances-completemetric-namecert}, the countable dense
+surface of \autoref{ch:concrete-instances-separablemetric-namecert}, the
+finite stream-window interface of
+\autoref{ch:concrete-instances-streamname-namecert}, and the regular rational
+readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}. Its
+role is to expose the L10 complete-separable metric synthesis node without
+claiming choice-selected dense points, quotient equality, open-cover
+compactness, or a host-level completion principle.
+
+\begin{definition}[Polish-space carrier]
+\label{def:polish-space-carrier}
+A $\PolishSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+P=(M,K,D,S,R,W,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricSpaceUp$ row containing the admitted point-history
+carrier, metric readbacks, distance classifier, and local metric
+$\NameCert$.
+\item $K$ is the $\CompleteMetricUp$ handoff row; it records the displayed
+Cauchy-window and limit-seal route over the same metric carrier.
+\item $D$ is the $\SeparableMetricUp$ row; it stores the countable dense
+schedule as public finite name data, not as a choice function over arbitrary
+balls.
+\item $S$ is the $\StreamNameUp$ schedule that enumerates the inspected dense
+names and the Cauchy-window requests made by downstream consumers.
+\item $R$ is the $\RegSeqRatUp$ readback row used to observe finite rational
+windows on the scheduled dense names and Cauchy approximants.
+\item $W$ is the finite observation ledger joining requested tolerances,
+stream positions, regular rational windows, metric-radius checks, and
+completion handoff rows.
+\item $H$ records componentwise $\hsame$ transport for $M,K,D,S,R,W$ and for
+the local certificate rows.
+\item $C$ records the displayed $\Cont$ routes from a metric-radius request to
+the dense schedule, from a Cauchy-window request to the completion handoff,
+and from either request to the regular rational readback.
+\item $G$ is the $\Pkg$ provenance over $\MetricSpaceUp$,
+$\CompleteMetricUp$, $\SeparableMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$,
+$\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PolishSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by transporting these displayed
+rows to a common metric, complete-metric, separable-metric, stream-name, and
+regular-readback surface. It has no coordinate for selected dense points,
+quotient equality of completions, arbitrary open covers, or ambient host
+sets.
+\end{definition}
+
+\begin{theorem}[Polish-space NameCert obligations]
+\label{thm:polish-space-namecert-obligations}
+For every accepted $\PolishSpaceUp$ carrier
+$P=(M,K,D,S,R,W,H,C,G,N)$, the local $\NameCert_{\PolishSpaceUp}$ surface
+consists exactly of six obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed metric, complete-metric,
+separable-metric, stream-name, regular-readback, observation-ledger,
+transport, continuation, provenance, and local-name rows;
+\item classifier transport to a common $\MetricSpaceUp$ surface before either
+the complete-metric or separable-metric row is consumed;
+\item stability of the completion handoff $K$ and the countable dense schedule
+$D$ under the componentwise $\hsame$ transports recorded in $H$;
+\item exactness of the observation ledger $W$ as the only source of metric
+radius checks, Cauchy windows, dense-name inspections, and regular rational
+readbacks;
+\item $\Cont$ replay from radius or Cauchy-window requests through $S,R,W$ to
+the corresponding metric, completion, or dense-schedule row;
+\item $\Pkg$ provenance and local $\NameCert$ naming for exactly the displayed
+packet.
+\end{enumerate}
+No NameCert obligation is stored outside these six rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:polish-space-carrier}. The projection
+exposes the metric row, complete-metric handoff, separable-metric dense
+schedule, stream schedule, regular rational readback, observation ledger,
+transport rows, continuation rows, provenance row, and local name.
+
+The classifier route begins at the metric surface. The rows in $H$ transport
+$M,K,D,S,R,W$ together, so the completion handoff and dense schedule are never
+compared over different metric carriers.
+
+The observation exactness row is exhausted by $W$. A metric-radius request, a
+Cauchy-window request, and a dense-name inspection all read their finite
+stream positions and regular rational observations through this ledger.
+
+Finally replay $C$ and attach $G,N$. These rows route, source, and name the
+already displayed packet; they do not introduce selected dense points,
+quotient completion equality, arbitrary open covers, or ambient host sets.
+Hence the six listed rows exhaust the local Polish-space naming obligations.
+\end{proof}
+
+\begin{theorem}[Polish-space StreamName dense handoff]
+\label{thm:polish-space-streamname-countable-dense-handoff}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Every
+consumer that reads the countable dense surface must factor through the
+displayed $\StreamNameUp$ schedule $S$, the finite observation ledger $W$, and
+the $\RegSeqRatUp$ readback row $R$ before using the $\SeparableMetricUp$ row
+$D$ or the $\CompleteMetricUp$ handoff $K$. Consequently the packet exports a
+countable dense handoff by finite names and regular rational windows, not by a
+choice-selected dense subset or a quotient-completion representative.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the dense surface. Carrier admission exposes $D$
+only as a separable-metric row over the metric carrier $M$ and the stream
+schedule $S$.
+
+Read the requested dense-name index through $S$ and the finite ledger $W$.
+The regular rational observation used by the consumer is then obtained through
+$R$, so the handoff has a visible finite window before the dense row is
+consumed.
+
+If the same consumer also requests a completion read, the route passes through
+$K$ after the same metric surface and observation ledger have been fixed.
+The transports in $H$ keep the dense schedule, completion handoff, and metric
+classifier on one admitted surface.
+
+The remaining rows $C,G,N$ only replay, source, and name this finite route.
+Since the carrier has no row for a choice-selected dense subset or a quotient
+completion representative, the dense handoff can export only the displayed
+stream-name and regular-readback data.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\PolishSpaceUp$ consumer that reaches a
+$\SeparableMetricUp$, $\CompleteMetricUp$, or $\MetricSpaceUp$ row without
+reading the displayed $\StreamNameUp$ schedule, finite observation ledger,
+$\RegSeqRatUp$ readback, componentwise $\hsame$ transports, $\Cont$ routes,
+$\Pkg$ provenance, and local $\NameCert$ row refutes the carrier surface.}
+
+\independenceWitness{metric, completemetric, separablemetric, streamname,
+regseqrat: no listed sibling supplies the whole Polish packet
+$P=(M,K,D,S,R,W,H,C,G,N)$, because each sibling contributes only the distance
+carrier, completion handoff, dense schedule, stream schedule, or rational
+readback while this chapter binds the complete-separable metric synthesis
+route with transport, replay, provenance, and local naming.}
+
+\closureat{PolishSpaceUp}{seedStr}
+
+\begin{closurestatus}{\PolishSpaceUp}
+  \constructivestory{A $\PolishSpaceUp$ packet is generated from a $\MetricSpaceUp$ carrier, a $\CompleteMetricUp$ handoff, a $\SeparableMetricUp$ countable dense schedule, $\StreamNameUp$ finite windows, $\RegSeqRatUp$ regular rational readbacks, an observation ledger, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:polish-space-carrier}, \autoref{thm:polish-space-namecert-obligations}, and \autoref{thm:polish-space-streamname-countable-dense-handoff} seed the L10 complete-separable metric synthesis route over $\MetricSpaceUp$, $\CompleteMetricUp$, $\SeparableMetricUp$, $\StreamNameUp$, and $\RegSeqRatUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim choice-selected dense points, quotient completion equality, arbitrary open-cover compactness, host set equality, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the displayed carrier and prove the finite NameCert obligation surface and stream-name dense handoff.}
+\end{closurestatus}

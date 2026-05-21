@@ -1,0 +1,314 @@
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Mark
+import BEDC.Meta.TasteGate
+
+namespace BEDC.Derived.RegularCauchyEquivalenceUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+
+inductive RegularCauchyEquivalenceUp : Type where
+  | mk : (X Y W D Z R E H C P N : BHist) → RegularCauchyEquivalenceUp
+  deriving DecidableEq
+
+def regularCauchyEquivalenceEncodeBHist : BHist → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | BHist.Empty => []
+  | BHist.e0 h => BMark.b0 :: regularCauchyEquivalenceEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: regularCauchyEquivalenceEncodeBHist h
+
+def regularCauchyEquivalenceDecodeBHist : RawEvent → BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => BHist.Empty
+  | BMark.b0 :: tail => BHist.e0 (regularCauchyEquivalenceDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (regularCauchyEquivalenceDecodeBHist tail)
+
+private theorem regularCauchyEquivalenceDecode_encode_bhist :
+    ∀ h : BHist,
+      regularCauchyEquivalenceDecodeBHist
+        (regularCauchyEquivalenceEncodeBHist h) = h := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  induction h with
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
+
+def regularCauchyEquivalenceToEventFlow : RegularCauchyEquivalenceUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | RegularCauchyEquivalenceUp.mk X Y W D Z R E H C P N =>
+      [[BMark.b0],
+        regularCauchyEquivalenceEncodeBHist X,
+        [BMark.b1, BMark.b0],
+        regularCauchyEquivalenceEncodeBHist Y,
+        [BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyEquivalenceEncodeBHist W,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyEquivalenceEncodeBHist D,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyEquivalenceEncodeBHist Z,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyEquivalenceEncodeBHist R,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyEquivalenceEncodeBHist E,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        regularCauchyEquivalenceEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        regularCauchyEquivalenceEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyEquivalenceEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyEquivalenceEncodeBHist N]
+
+def regularCauchyEquivalenceFromEventFlow :
+    EventFlow → Option RegularCauchyEquivalenceUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | X :: rest1 =>
+          match rest1 with
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | Y :: rest3 =>
+                  match rest3 with
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | W :: rest5 =>
+                          match rest5 with
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | D :: rest7 =>
+                                  match rest7 with
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | Z :: rest9 =>
+                                          match rest9 with
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | R :: rest11 =>
+                                                  match rest11 with
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | E :: rest13 =>
+                                                          match rest13 with
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | H :: rest15 =>
+                                                                  match rest15 with
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | C :: rest17 =>
+                                                                          match rest17 with
+                                                                          | _tag9 :: rest18 =>
+                                                                              match rest18 with
+                                                                              | P :: rest19 =>
+                                                                                  match rest19 with
+                                                                                  | _tag10 :: rest20 =>
+                                                                                      match rest20 with
+                                                                                      | N :: rest21 =>
+                                                                                          match rest21 with
+                                                                                          | [] =>
+                                                                                              some
+                                                                                                (RegularCauchyEquivalenceUp.mk
+                                                                                                  (regularCauchyEquivalenceDecodeBHist X)
+                                                                                                  (regularCauchyEquivalenceDecodeBHist Y)
+                                                                                                  (regularCauchyEquivalenceDecodeBHist W)
+                                                                                                  (regularCauchyEquivalenceDecodeBHist D)
+                                                                                                  (regularCauchyEquivalenceDecodeBHist Z)
+                                                                                                  (regularCauchyEquivalenceDecodeBHist R)
+                                                                                                  (regularCauchyEquivalenceDecodeBHist E)
+                                                                                                  (regularCauchyEquivalenceDecodeBHist H)
+                                                                                                  (regularCauchyEquivalenceDecodeBHist C)
+                                                                                                  (regularCauchyEquivalenceDecodeBHist P)
+                                                                                                  (regularCauchyEquivalenceDecodeBHist N))
+                                                                                          | _ :: _ => none
+                                                                                      | [] => none
+                                                                                  | [] => none
+                                                                              | [] => none
+                                                                          | [] => none
+                                                                      | [] => none
+                                                                  | [] => none
+                                                              | [] => none
+                                                          | [] => none
+                                                      | [] => none
+                                                  | [] => none
+                                              | [] => none
+                                          | [] => none
+                                      | [] => none
+                                  | [] => none
+                              | [] => none
+                          | [] => none
+                      | [] => none
+                  | [] => none
+              | [] => none
+          | [] => none
+      | [] => none
+  | [] => none
+
+def regularCauchyEquivalenceFields :
+    RegularCauchyEquivalenceUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RegularCauchyEquivalenceUp.mk X Y W D Z R E H C P N =>
+      [X, Y, W, D, Z, R, E, H, C, P, N]
+
+private theorem regularCauchyEquivalence_round_trip :
+    ∀ x : RegularCauchyEquivalenceUp,
+      regularCauchyEquivalenceFromEventFlow
+        (regularCauchyEquivalenceToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x
+  cases x with
+  | mk X Y W D Z R E H C P N =>
+      change
+        some
+          (RegularCauchyEquivalenceUp.mk
+            (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist X))
+            (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist Y))
+            (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist W))
+            (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist D))
+            (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist Z))
+            (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist R))
+            (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist E))
+            (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist H))
+            (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist C))
+            (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist P))
+            (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist N))) =
+          some (RegularCauchyEquivalenceUp.mk X Y W D Z R E H C P N)
+      rw [regularCauchyEquivalenceDecode_encode_bhist X,
+        regularCauchyEquivalenceDecode_encode_bhist Y,
+        regularCauchyEquivalenceDecode_encode_bhist W,
+        regularCauchyEquivalenceDecode_encode_bhist D,
+        regularCauchyEquivalenceDecode_encode_bhist Z,
+        regularCauchyEquivalenceDecode_encode_bhist R,
+        regularCauchyEquivalenceDecode_encode_bhist E,
+        regularCauchyEquivalenceDecode_encode_bhist H,
+        regularCauchyEquivalenceDecode_encode_bhist C,
+        regularCauchyEquivalenceDecode_encode_bhist P,
+        regularCauchyEquivalenceDecode_encode_bhist N]
+
+private theorem regularCauchyEquivalenceToEventFlow_injective
+    {x y : RegularCauchyEquivalenceUp} :
+    regularCauchyEquivalenceToEventFlow x =
+      regularCauchyEquivalenceToEventFlow y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have hread :
+      regularCauchyEquivalenceFromEventFlow
+          (regularCauchyEquivalenceToEventFlow x) =
+        regularCauchyEquivalenceFromEventFlow
+          (regularCauchyEquivalenceToEventFlow y) :=
+    congrArg regularCauchyEquivalenceFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (regularCauchyEquivalence_round_trip x).symm
+      (Eq.trans hread (regularCauchyEquivalence_round_trip y)))
+
+private theorem regularCauchyEquivalenceFields_faithful :
+    ∀ x y : RegularCauchyEquivalenceUp,
+      regularCauchyEquivalenceFields x = regularCauchyEquivalenceFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk X1 Y1 W1 D1 Z1 R1 E1 H1 C1 P1 N1 =>
+      cases y with
+      | mk X2 Y2 W2 D2 Z2 R2 E2 H2 C2 P2 N2 =>
+          cases h
+          rfl
+
+instance regularCauchyEquivalenceBHistCarrier :
+    BHistCarrier RegularCauchyEquivalenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  toEventFlow := regularCauchyEquivalenceToEventFlow
+  fromEventFlow := regularCauchyEquivalenceFromEventFlow
+
+instance regularCauchyEquivalenceChapterTasteGate :
+    ChapterTasteGate RegularCauchyEquivalenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  round_trip := by
+    intro x
+    change
+      regularCauchyEquivalenceFromEventFlow
+        (regularCauchyEquivalenceToEventFlow x) = some x
+    exact regularCauchyEquivalence_round_trip x
+  layer_separation := by
+    intro x y hxy heq
+    exact hxy (regularCauchyEquivalenceToEventFlow_injective heq)
+
+instance regularCauchyEquivalenceFieldFaithful :
+    FieldFaithful RegularCauchyEquivalenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := regularCauchyEquivalenceFields
+  field_faithful := regularCauchyEquivalenceFields_faithful
+
+instance regularCauchyEquivalenceNontrivial :
+    Nontrivial RegularCauchyEquivalenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RegularCauchyEquivalenceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RegularCauchyEquivalenceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate RegularCauchyEquivalenceUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  inferInstance
+
+theorem RegularCauchyEquivalenceTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      regularCauchyEquivalenceDecodeBHist
+        (regularCauchyEquivalenceEncodeBHist h) = h) ∧
+      (∀ x : RegularCauchyEquivalenceUp,
+        regularCauchyEquivalenceFromEventFlow
+          (regularCauchyEquivalenceToEventFlow x) = some x) ∧
+        (∀ x y : RegularCauchyEquivalenceUp,
+          regularCauchyEquivalenceToEventFlow x =
+            regularCauchyEquivalenceToEventFlow y → x = y) ∧
+          regularCauchyEquivalenceEncodeBHist BHist.Empty = ([] : List BMark) ∧
+            (∀ x y : RegularCauchyEquivalenceUp,
+              regularCauchyEquivalenceFields x =
+                regularCauchyEquivalenceFields y → x = y) ∧
+              (∃ x y : RegularCauchyEquivalenceUp, x ≠ y) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact regularCauchyEquivalenceDecode_encode_bhist
+  · constructor
+    · exact regularCauchyEquivalence_round_trip
+    · constructor
+      · intro x y heq
+        exact regularCauchyEquivalenceToEventFlow_injective heq
+      · constructor
+        · rfl
+        · constructor
+          · exact regularCauchyEquivalenceFields_faithful
+          · exact
+              ⟨RegularCauchyEquivalenceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty,
+                RegularCauchyEquivalenceUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty,
+                by
+                  intro h
+                  cases h⟩
+
+end BEDC.Derived.RegularCauchyEquivalenceUp

@@ -251,4 +251,12 @@ theorem StationaryRationalCauchyTasteGate_single_carrier_alignment :
       fun x y hxy => stationaryRationalCauchyToEventFlow_injective hxy,
       rfl⟩
 
+theorem StationaryRationalCauchyUpTasteGate_single_carrier_alignment_ChapterTasteGate :
+    Nonempty (BEDC.Meta.TasteGate.BHistCarrier StationaryRationalCauchyUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.ChapterTasteGate StationaryRationalCauchyUp) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨⟨stationaryRationalCauchyBHistCarrier⟩,
+      ⟨stationaryRationalCauchyChapterTasteGate⟩⟩
+
 end BEDC.Derived.StationaryRationalCauchyUp
