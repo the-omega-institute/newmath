@@ -557,6 +557,28 @@ Next use the refinement seal witness-ledger pullback, \autoref{thm:finite-tail-f
 Finally invoke \autoref{thm:real-completion-exact-boundary-terminal-normal-form-absorption}. Once the accepted RealCompletionExactBoundary packet consumes the finite route, its terminal read is absorbed by the same four exact-boundary faces and structural rows. Combining the two finite-tail-filter rows with that absorption theorem leaves no carrier slot for metric completeness, a bridge row, or a hidden tail selector, so the composite terminal read is exactly the displayed four-face normal form.
 \end{proof}
 
+\begin{theorem}[FiniteTailFilter exact-boundary shared consumer determinacy]
+\label{thm:finite-tail-filter-exact-boundary-shared-consumer-determinacy}
+Let an accepted $\FiniteTailFilterUp$ packet
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+export its cofinal-tail route to two accepted $\RealCompletionExactBoundaryUp$ packets. Suppose their exact-boundary consumers read the same displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows through $F$. Then both consumers determine the same four-face terminal normal form through $S,D,R,E,H,C,P,N$:
+$$
+\StreamNameUp,\quad \RegSeqRatUp,\quad \DyadicRatCoreUp,\quad \RealUp.
+$$
+No quotient stream equality, selected limit, host real equality, countable-choice row, ambient-completeness row, metric-completeness row, bridge row, or hidden tail selector can distinguish the two terminal consumers.
+\end{theorem}
+\begin{proof}
+Apply the Real-completion lattice link, \autoref{thm:finite-tail-filter-real-completion-lattice-link}. It places the four L10 faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ on the same accepted finite packet $F$ before either exact-boundary consumer reads the route.
+
+Next use the refinement seal witness-ledger pullback, \autoref{thm:finite-tail-filter-refinement-seal-witness-ledger-pullback}. The pullback keeps refinement, witness-ledger, and seal reads on the displayed $S,D,R,B,Q,E,H,C,P,N$ route, so neither consumer can introduce a detached selector, quotient stream, selected limit, host equality, choice row, or ambient completeness coordinate.
+
+Now invoke the exact-boundary terminal normal form, \autoref{thm:finite-tail-filter-exact-boundary-terminal-normal-form}, for each consumer. Since both consumers read the same StreamName, DyadicRatCore, RegSeqRat, RealUp, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows, both terminal reads are absorbed into the same four-face normal form through the displayed finite route.
+
+Finally use downstream exact-boundary determinacy, \autoref{thm:real-completion-exact-boundary-terminal-seal-determinacy} and \autoref{thm:real-completion-exact-boundary-cofinal-terminal-determinacy}, only to identify what the exact-boundary consumers can observe after absorption. Those determinacy rows leave no additional carrier coordinate for metric completeness, a bridge row, or a hidden tail selector, so the two accepted consumers cannot branch into distinguishable terminal outcomes.
+\end{proof}
+
 \begin{theorem}[FiniteTailFilter public exit package]
 \label{thm:finite-tail-filter-public-exit-package}
 The public L10 exit package for $\FiniteTailFilterUp$ is exactly the finite route
