@@ -1,5 +1,6 @@
 import BEDC.Derived.MetricUp.RealAlgOrderApartnessDistanceScope
 import BEDC.Derived.MetricUp.RealAlgOrderApartnessPositiveReflection
+import BEDC.Derived.MetricUp.Transport
 
 namespace BEDC.Derived.MetricUp
 
@@ -45,5 +46,16 @@ theorem MetricRealalgorderPositiveRadiusDistanceBoundary [AskSetup] [PackageSetu
       positiveReflection.right.right.right.left,
       distanceScope.right.right.right.left,
       distanceScope.right.right.right.right⟩
+
+theorem MetricRealAlgOrder_positive_radius_distance_boundary {left right positive distance : BHist} :
+    UnaryHistory left → UnaryHistory right → UnaryHistory positive → Cont left right distance →
+      hsame distance positive → MetricDistanceWitness left right positive := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame MetricDistanceWitness
+  intro leftUnary rightUnary positiveUnary distanceCont sameDistance
+  exact
+    And.intro leftUnary
+      (And.intro rightUnary
+        (And.intro positiveUnary
+          (cont_result_hsame_transport distanceCont sameDistance)))
 
 end BEDC.Derived.MetricUp
