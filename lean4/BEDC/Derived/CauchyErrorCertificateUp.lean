@@ -335,4 +335,50 @@ theorem CauchyErrorCertificatePacket_seal_budget_package [AskSetup] [PackageSetu
       readbackBudgetProvenance, budgetProvenanceConsumer, readbackPkg, provenancePkg,
       consumerPkg⟩
 
+theorem CauchyErrorCertificatePacket_diagonal_tail_compatibility [AskSetup] [PackageSetup]
+    {readback modulus tail budget provenance nameCert diagonalBudget : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyErrorCertificatePacket readback modulus tail budget provenance nameCert bundle pkg ->
+      Cont modulus tail diagonalBudget ->
+        Cont readback diagonalBudget provenance ->
+          hsame budget diagonalBudget ∧ UnaryHistory diagonalBudget ∧
+            Cont modulus tail budget ∧ Cont modulus tail diagonalBudget ∧
+              Cont readback diagonalBudget provenance ∧ PkgSig bundle readback pkg := by
+  intro packet modulusTailDiagonal readbackDiagonalProvenance
+  obtain ⟨_readbackUnary, modulusUnary, tailUnary, _budgetUnary, _provenanceUnary,
+    _nameCertUnary, modulusTailBudget, _readbackBudgetProvenance, readbackPkg,
+    _provenancePkg⟩ := packet
+  have sameBudget : hsame budget diagonalBudget :=
+    cont_respects_hsame (hsame_refl modulus) (hsame_refl tail) modulusTailBudget
+      modulusTailDiagonal
+  have diagonalUnary : UnaryHistory diagonalBudget :=
+    unary_cont_closed modulusUnary tailUnary modulusTailDiagonal
+  exact
+    ⟨sameBudget, diagonalUnary, modulusTailBudget, modulusTailDiagonal,
+      readbackDiagonalProvenance, readbackPkg⟩
+
+theorem CauchyErrorCertificatePacket_budget_window_exhaustion [AskSetup] [PackageSetup]
+    {readback modulus tail budget provenance nameCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyErrorCertificatePacket readback modulus tail budget provenance nameCert bundle pkg ->
+      Cont budget provenance consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory modulus ∧ UnaryHistory tail ∧ UnaryHistory budget ∧
+            UnaryHistory consumer ∧ hsame consumer (append (append modulus tail) provenance) ∧
+              Cont modulus tail budget ∧ Cont budget provenance consumer ∧
+                PkgSig bundle readback pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet budgetProvenanceConsumer consumerPkg
+  obtain ⟨_readbackUnary, modulusUnary, tailUnary, budgetUnary, provenanceUnary,
+    _nameCertUnary, modulusTailBudget, _readbackBudgetProvenance, readbackPkg,
+    _provenancePkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed budgetUnary provenanceUnary budgetProvenanceConsumer
+  have consumerModulusTailProvenance :
+      hsame consumer (append (append modulus tail) provenance) :=
+    budgetProvenanceConsumer.trans
+      (congrArg (fun row : BHist => append row provenance) modulusTailBudget)
+  exact
+    ⟨modulusUnary, tailUnary, budgetUnary, consumerUnary, consumerModulusTailProvenance,
+      modulusTailBudget, budgetProvenanceConsumer, readbackPkg, consumerPkg⟩
+
 end BEDC.Derived.CauchyErrorCertificateUp
