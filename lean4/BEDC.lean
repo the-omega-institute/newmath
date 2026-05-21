@@ -2591,6 +2591,7 @@ import BEDC.Derived.FiniteKernelCategoryUp.Carrier
 import BEDC.Derived.FiniteKernelCategoryUp.TasteGate
 import BEDC.Derived.FiniteLebesgueNumberUp
 import BEDC.Derived.FiniteLebesgueNumberUp.BridgePacketExactness
+import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousSourceAccountability
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousUnblock
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformChoiceRefusal
 import BEDC.Derived.FiniteLebesgueNumberUp.Core
@@ -4683,6 +4684,7 @@ import BEDC.Derived.SignedDigitStreamUp.Tail
 import BEDC.Derived.SignedDigitStreamUp.WindowBridge
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
+import BEDC.Derived.SimplicialSetUp.TasteGate
 import BEDC.Derived.SingletonSource
 import BEDC.Derived.SliceCategoryUp
 import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
