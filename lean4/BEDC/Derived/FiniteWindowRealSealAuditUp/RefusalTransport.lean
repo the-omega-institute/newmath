@@ -74,4 +74,28 @@ theorem FiniteWindowRealSealAuditCarrier_refusal_transport [AskSetup] [PackageSe
       targetProvenancePkg,
       targetNamePkg⟩
 
+theorem FiniteWindowRealSealAuditCarrier_nonescape [AskSetup] [PackageSetup]
+    {window tolerance readback sealRow refusal transports routes provenance name consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWindowRealSealAuditCarrier window tolerance readback sealRow refusal transports
+        routes provenance name bundle pkg ->
+      Cont sealRow name consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory window ∧ UnaryHistory tolerance ∧ UnaryHistory readback ∧
+            UnaryHistory sealRow ∧ UnaryHistory refusal ∧ UnaryHistory consumer ∧
+              Cont window tolerance readback ∧ Cont readback refusal sealRow ∧
+                Cont sealRow name consumer ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier consumerRoute consumerPkg
+  obtain ⟨windowUnary, toleranceUnary, readbackUnary, sealRowUnary, refusalUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, nameUnary, windowRoute,
+    refusalSealRoute, provenancePkg, _namePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealRowUnary nameUnary consumerRoute
+  exact
+    ⟨windowUnary, toleranceUnary, readbackUnary, sealRowUnary, refusalUnary,
+      consumerUnary, windowRoute, refusalSealRoute, consumerRoute, provenancePkg,
+      consumerPkg⟩
+
 end BEDC.Derived.FiniteWindowRealSealAuditUp

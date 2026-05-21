@@ -28,3 +28,19 @@ Use \autoref{thm:regseqrat-tail-budget-nonescape}. Its route inventory already i
 
 The three sibling surfaces provide the named external faces of that inventory. The StreamName chapter supplies the finite-window reads, the DyadicRatCore chapter supplies the dyadic tolerance rows, and the Real chapter supplies the terminal RealUp seal reads. Once those faces are displayed, the local non-escape theorem applies to the same tail-budget packet.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-budget four-face uniqueness]
+\label{thm:regseqrat-tail-budget-four-face-uniqueness}
+Let two $\RealUp$ seal consumers of RegSeqRat tail-budget packets expose the same four visible faces: the $\StreamNameUp$ finite-window rows, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ regularity, classifier, and provenance rows, and the terminal $\RealUp$ seal row. Then they determine the same BEDC-visible terminal seal route through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+This uniqueness statement uses only the visible tail-budget packet. It does not identify quotient streams, choose a limit, assert host real equality, use countable choice, assume ambient completeness, or add standard bridge rows.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regseqrat-tail-budget-nonescape}. It fixes the packet inventory available to a $\RealUp$ seal consumer: the finite StreamName rows, dyadic observation rows, regularity-budget rows, selector rows, transport, continuation, provenance, and local naming data. The same theorem excludes quotient stream equality, selected limits, countable choice, and ambient completeness from that inventory.
+
+Next use \autoref{thm:regseqrat-tail-budget-sibling-route}. The visible rows are read through the StreamName, DyadicRatCore, and Real sibling surfaces, so the two consumers have the same three external supports for the same tail-budget packet.
+
+Now apply \autoref{thm:regseqrat-four-face-terminal-classifier-completeness}. Agreement on the StreamName finite-window face, DyadicRatCore tolerance face, RegSeqRat regularity/classifier/provenance face, and terminal $\RealUp$ seal face is complete for the accepted terminal classifier surface.
+
+Finally invoke \autoref{thm:regseqrat-four-face-terminal-route-uniqueness}. That theorem identifies the terminal route once the four faces and the displayed support rows agree. The StreamName terminality theorem \autoref{thm:streamname-open-phase-four-face-terminality}, the DyadicRatCore refinement uniqueness theorem \autoref{thm:dyadicratcore-common-scale-terminal-refinement-uniqueness}, and the Real L10 terminal correspondence \autoref{thm:real-l10-terminal-four-face-correspondence} name the same external faces of the L10 route. Therefore the two consumers determine one BEDC-visible terminal seal route through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows, with no quotient stream equality, selected limit, host real equality, countable-choice row, ambient-completeness row, or standard bridge row added.
+\end{proof}

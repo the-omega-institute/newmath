@@ -1,13 +1,21 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.InscriptionEventBufferSealUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -254,5 +262,37 @@ theorem InscriptionEventBufferSealCarrier_namecert_obligations {E W R D A H Q P 
   constructor
   · exact cont_intro rfl
   · exact hsame_refl N
+
+def InscriptionEventBufferSealCarrier [AskSetup] [PackageSetup]
+    (event window replay digest audit transport route provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory event ∧ UnaryHistory window ∧ UnaryHistory replay ∧
+    UnaryHistory digest ∧ UnaryHistory audit ∧ UnaryHistory transport ∧
+      UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+        Cont event window replay ∧ Cont replay digest audit ∧
+          PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg
+
+theorem InscriptionEventBufferSealCarrier_nonescape [AskSetup] [PackageSetup]
+    {event window replay digest audit transport route provenance name consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    InscriptionEventBufferSealCarrier event window replay digest audit transport route
+        provenance name bundle pkg ->
+      Cont audit route consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory event ∧ UnaryHistory window ∧ UnaryHistory replay ∧
+            UnaryHistory digest ∧ UnaryHistory audit ∧ UnaryHistory consumer ∧
+              Cont event window replay ∧ Cont replay digest audit ∧
+                Cont audit route consumer ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier consumerRoute consumerPkg
+  obtain ⟨eventUnary, windowUnary, replayUnary, digestUnary, auditUnary,
+    _transportUnary, routeUnary, _provenanceUnary, _nameUnary, eventRoute,
+    digestRoute, provenancePkg, _namePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed auditUnary routeUnary consumerRoute
+  exact
+    ⟨eventUnary, windowUnary, replayUnary, digestUnary, auditUnary, consumerUnary,
+      eventRoute, digestRoute, consumerRoute, provenancePkg, consumerPkg⟩
 
 end BEDC.Derived.InscriptionEventBufferSealUp
