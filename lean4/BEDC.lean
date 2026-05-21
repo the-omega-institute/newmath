@@ -1951,6 +1951,7 @@ import BEDC.Derived.DiagonalLimitObserverUp.TasteGate
 import BEDC.Derived.DiagonalLimitStabilityUp.TasteGate
 import BEDC.Derived.DiagonalLimitUp
 import BEDC.Derived.DiagonalModulusUp
+import BEDC.Derived.DiagonalModulusUp.TasteGate
 import BEDC.Derived.DiagonalRegularitySealUp.Nonescape
 import BEDC.Derived.DiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.DiagonalRegularitySealUp.WindowFactorization
