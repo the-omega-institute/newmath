@@ -7,6 +7,7 @@ import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
+import BEDC.Derived.HomotopyUp.TasteGate
 
 namespace BEDC.Derived.HomotopyUp
 
