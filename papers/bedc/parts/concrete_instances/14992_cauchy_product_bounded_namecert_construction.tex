@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\CauchyProductBoundedUp$}
+\label{ch:concrete-instances-cauchy-product-bounded-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchyProductBoundedUp$ packet records the bounded-product surface for two bounded Cauchy sequence packets before the product is exposed as a regular rational sequence or a real seal. It refines the product route of $\CauchyProductUp$ from \autoref{ch:concrete-instances-cauchyproduct-namecert} with the two bounded-source ledgers of $\CauchySequenceBoundedUp$ from \autoref{ch:concrete-instances-cauchy-sequence-bounded-namecert}, then routes the result through $\RegSeqRatUp$ from \autoref{ch:concrete-instances-regseqrat-namecert} and $\RealUp$ from \autoref{ch:concrete-instances-real-namecert}. The packet contains no host multiplication on completed reals, quotient stream representative, selected product limit, countable choice, or ambient completeness principle.
+
+\begin{definition}[Cauchy product bounded carrier]
+\label{def:cauchy-product-bounded-carrier}
+A $\CauchyProductBoundedUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(X,Y,P,W,D,R,E,B,H,C,L,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are accepted $\CauchySequenceBoundedUp$ packets, carrying the two stream schedules, Cauchy-modulus rows, dyadic tolerance ledgers, regular-rational handoffs, real-seal rows, and explicit bound ledgers for the factors.
+\item $P$ is the accepted $\CauchyProductUp$ route whose product observation is read only from the two factor schedules and dyadic product ledger.
+\item $W$ is the shared $\StreamNameUp$ schedule aligning the two bounded factor windows with the product window used by $P$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and magnitude ledger containing the two factor bounds, the product tolerance row, and the finite cross-error budget used to compare the product read.
+\item $R$ is the $\RegSeqRatUp$ classifier row that receives the product readback after $X,Y,P,W,D$ have been displayed.
+\item $E$ is the $\RealUp$ seal row for the product, consumed only after the bounded-source rows, product route, dyadic ledger, and regular-rational classifier row are present.
+\item $B$ is the product-bound ledger, recording the two source bounds, the product-bound row, and the reconciliation row saying that the product read remains inside the displayed dyadic or rational bound.
+\item $H$ stores componentwise $\hsame$ transport for $X,Y,P,W,D,R,E,B,C,L,N$ and the local packet shape.
+\item $C$ stores displayed $\Cont$ replay from bounded-source reads to product windows, from product windows to dyadic tolerances, from tolerances to the product bound, and from the bound ledger to the $\RegSeqRatUp$ and $\RealUp$ rows.
+\item $L$ is the $\Pkg$ provenance over $\CauchyProductBoundedUp$, $\CauchySequenceBoundedUp$, $\CauchyProductUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyProductBoundedUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,P,W,D,R,E,B,H,C,L,N$. It has no coordinate for host real multiplication, quotient-stream equality, selected limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy product bounded NameCert obligations]
+\label{thm:cauchy-product-bounded-namecert-obligations}
+For an accepted $\CauchyProductBoundedUp$ carrier $Z=(X,Y,P,W,D,R,E,B,H,C,L,N)$, the local $\NameCert_{\CauchyProductBoundedUp}$ obligations are exactly carrier admission, bounded-source admission for $X$ and $Y$, product-route admission for $P$, shared-window exactness for $W$, dyadic product-bound stability for $D$ and $B$, $\RegSeqRatUp$ classifier handoff for $R$, $\RealUp$ seal handoff for $E$, componentwise transport and continuation replay through $H$ and $C$, provenance through $L$, and ledger non-escape through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the displayed tuple in \autoref{def:cauchy-product-bounded-carrier}. The first two coordinates are accepted $\CauchySequenceBoundedUp$ packets, so each factor already exposes a stream schedule, modulus row, dyadic tolerance ledger, regular-rational handoff, real seal row, and explicit bound ledger.
+
+The product-route admission is the row $P$. It is read through the $\CauchyProductUp$ sibling surface, so the product observation comes from the paired schedules and dyadic product ledger rather than from host multiplication over completed reals.
+
+The shared-window row $W$ aligns the factor reads with the product read. The dyadic ledger $D$ and product-bound ledger $B$ then record the finite magnitude and tolerance data needed to keep the product read inside the displayed bound.
+
+The rows $R$ and $E$ are downstream handoffs. They receive only the bounded product packet assembled from $X,Y,P,W,D,B$; the transport rows $H$, continuation rows $C$, provenance row $L$, and local naming row $N$ preserve and name that same route.
+
+No coordinate in the carrier supplies host real multiplication, quotient streams, selected limits, trichotomy, countable choice, or ambient completeness. Hence the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Cauchy product bounded regular-sequence route]
+\label{thm:cauchy-product-bounded-regseqrat-product-route}
+Every $\RegSeqRatUp$ read exported by an accepted $\CauchyProductBoundedUp$ carrier factors through the finite route
+$$
+X,Y\longmapsto W\longmapsto P\longmapsto D\longmapsto B\longmapsto R .
+$$
+The two source rows are consumed as $\CauchySequenceBoundedUp$ packets, the product row is consumed as the $\CauchyProductUp$ sibling route, and the regular-sequence classifier receives no quotient stream, selected product limit, host multiplication primitive, trichotomy row, countable-choice row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with a consumer that asks for the regular rational product readback. By \autoref{def:cauchy-product-bounded-carrier}, the only regular-sequence classifier row is $R$.
+
+The row $R$ is not source data. It is downstream of the bounded factor rows $X,Y$, the aligned window row $W$, the product route $P$, and the dyadic product-bound ledger $D,B$.
+
+The sibling $\CauchySequenceBoundedUp$ packets supply the two factor bounds, while $\CauchyProductUp$ supplies the product observation route. Combining those rows gives the displayed finite path to $R$.
+
+Since no other row in the carrier is a regular-sequence classifier, every exported $\RegSeqRatUp$ read factors through that path and cannot obtain any excluded object from the packet.
+\end{proof}
+
+\begin{theorem}[Cauchy product bounded real-seal boundary]
+\label{thm:cauchy-product-bounded-real-seal-boundary}
+Every $\RealUp$ seal read of an accepted $\CauchyProductBoundedUp$ carrier factors through
+$$
+X,Y\longmapsto W\longmapsto P\longmapsto D\longmapsto B\longmapsto R\longmapsto E
+$$
+together with the displayed $\hsame$ transports, $\Cont$ replays, $\Pkg$ provenance, and local $\NameCert_{\CauchyProductBoundedUp}$ row. Thus the real-facing product boundary is a finite bounded-source product certificate, not a host multiplication operation, quotient stream, selected limit, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+The real-seal consumer can read only the row $E$ as a $\RealUp$ boundary. In the carrier, $E$ is declared downstream of the bounded-source packets, shared window row, product route, dyadic ledger, product-bound ledger, and regular-rational classifier.
+
+Apply \autoref{thm:cauchy-product-bounded-regseqrat-product-route}. The classifier row $R$ is reached only after $X,Y,W,P,D,B$ are displayed, so the seal row $E$ inherits the same source and product-bound route.
+
+The structural rows $H,C,L,N$ transport, replay, source, and name this route without adding a second seal source. Therefore any real-facing product read is exhausted by $X,Y,P,W,D,R,E,B,H,C,L,N$.
+
+Because the carrier has no coordinate for host multiplication, quotient streams, selected limits, trichotomy, countable choice, or ambient completeness, none of those objects can be exported by the seal boundary.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegSeqRatUp$ or $\RealUp$ consumer of a $\CauchyProductBoundedUp$ packet factors through the two $\CauchySequenceBoundedUp$ source ledgers, the $\CauchyProductUp$ product route, the shared $\StreamNameUp$ schedule, the $\DyadicRatCoreUp$ product-bound ledger, the regular-rational classifier row, and the real-seal row before the product is consumed.}
+
+\independenceWitness{cauchysequencebounded, cauchyproduct, streamname, dyadicratcore, regseqrat, real: $\CauchyProductBoundedUp$ is not bijective to any listed sibling because it jointly carries two bounded Cauchy source packets, a product route, a shared schedule, a dyadic product-bound ledger, regular-rational and real-seal handoffs, componentwise transport, continuation replay, provenance, and local naming.}
+
+\closureat{CauchyProductBoundedUp}{seedStr}
+
+\begin{closurestatus}{\CauchyProductBoundedUp}
+  \constructivestory{A $\CauchyProductBoundedUp$ packet is generated from two bounded Cauchy sequence packets, a CauchyProduct product route, a shared StreamName schedule, a DyadicRatCore product-bound ledger, a RegSeqRat classifier row, a RealUp seal row, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-product-bounded-carrier}, \autoref{thm:cauchy-product-bounded-namecert-obligations}, \autoref{thm:cauchy-product-bounded-regseqrat-product-route}, and \autoref{thm:cauchy-product-bounded-real-seal-boundary} seed the finite bounded-product packet for two bounded Cauchy sequence schedules.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real multiplication, quotient stream equality, selected product limits, trichotomy, countable choice, ambient $\RealUp$ completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-source admission, product-route admission, shared-window exactness, dyadic product-bound stability, regular-sequence handoff, real-seal handoff, and ledger non-escape for BEDC.Derived.CauchyProductBoundedUp.}
+\end{closurestatus}
