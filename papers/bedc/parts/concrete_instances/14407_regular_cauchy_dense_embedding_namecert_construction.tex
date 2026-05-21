@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyDenseEmbeddingUp$}
+\label{ch:concrete-instances-regular-cauchy-dense-embedding-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyDenseEmbeddingUp$ packet isolates the regular Cauchy dense embedding from $\RegSeqRatUp$ into the $\RealUp$ seal. It sits over the dyadic rational rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion boundary of \autoref{ch:concrete-instances-real-cauchy-completion-namecert}. The certificate keeps the dense-embedding route visible as finite NameCert data before any completion consumer treats a regular rational name as a sealed real.
+
+\begin{definition}[Regular Cauchy dense embedding carrier]
+\label{def:regular-cauchy-dense-embedding-carrier}
+A $\RegularCauchyDenseEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+E=(R,S,D,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ regular rational source row whose entries supply the embedded Cauchy name.
+\item $S$ is the $\StreamNameUp$ schedule row naming the finite windows through which $R$ is read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the dyadic precision requests and rational comparison rows used by the embedding.
+\item $A$ is the terminal $\RealUp$ seal row reached by the dense-embedding route after $R,S,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the regular source, stream schedule, dyadic tolerance ledger, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay from each precision request through $R,S,D,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RealCauchyCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyDenseEmbeddingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient selection, host real equality, ambient completeness, countable choice, trichotomy, a detached completion point, or an unbounded stream read.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy dense embedding NameCert obligations]
+\label{thm:regular-cauchy-dense-embedding-namecert-obligations}
+The seed $\NameCert_{\RegularCauchyDenseEmbeddingUp}$ surface for \autoref{def:regular-cauchy-dense-embedding-carrier} consists exactly of carrier exposure for $E$, classifier exposure through the displayed $R,S,D,A$ route, stream-window stability for $S$, dyadic tolerance exactness for $D$, $\RealUp$ boundary non-escape through $A$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$. Every accepted dense-embedding request is classified only by the regular rational source row, the scheduled finite windows, and the displayed dyadic tolerance ledger before it reaches the Real seal.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple $E=(R,S,D,A,H,C,P,N)$. The rows $R,S,D,A$ are the analytic coordinates, and the final row names the same tuple as the local $\NameCert_{\RegularCauchyDenseEmbeddingUp}$ surface.
+
+Read the classifier in dependency order. A precision request first consumes the regular rational source row $R$, then the finite stream schedule $S$, then the dyadic tolerance ledger $D$, and only then reaches the $\RealUp$ seal row $A$.
+
+The structural rows add no hidden completion principle. They transport, replay, source, and name the displayed route, while the excluded objects have no coordinate in the carrier. Hence the listed rows exhaust the seed obligation surface and force the Real boundary to stay inside the displayed route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy dense embedding RealUp boundary]
+\label{thm:regular-cauchy-dense-embedding-real-boundary}
+For every accepted $\RegularCauchyDenseEmbeddingUp$ packet $E=(R,S,D,A,H,C,P,N)$ and every exported $\RealUp$ read, the read factors through the finite route
+$$
+R\longmapsto S\longmapsto D\longmapsto A\longmapsto(H,C,P,N).
+$$
+Thus every exported Real seal read factors through the displayed $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ rows, and no consumer can obtain a detached $\RealUp$ value from the packet without reading those rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-dense-embedding-namecert-obligations}. It places the regular rational source $R$, the stream schedule $S$, and the dyadic tolerance ledger $D$ before the terminal Real seal $A$.
+
+The Real-facing row is therefore not an independent coordinate. A consumer that omits $R$, $S$, or $D$ has not followed the carrier route, so it has no exported read of $A$ from this packet.
+
+Finally read the structural rows. The rows $H,C,P,N$ preserve, replay, source, and name the same route; they do not introduce a second Real seal route. Therefore every exported $\RealUp$ read factors through the displayed regular source, stream schedule, and dyadic ledger.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyDenseEmbeddingUp$ consumer that reaches a $\RealUp$ seal without the displayed $\RegSeqRatUp$ source, $\StreamNameUp$ schedule, and $\DyadicRatCoreUp$ tolerance ledger refutes the carrier surface.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, real-cauchy-completion: no listed sibling supplies the whole eight-row packet $E=(R,S,D,A,H,C,P,N)$, because each sibling contributes only a dyadic ledger, stream schedule, regular rational source, Real seal, or completion boundary while this chapter binds the dense embedding route with transport, replay, provenance, and local naming.}
+
+\begin{closurestatus}{\RegularCauchyDenseEmbeddingUp}
+  \constructivestory{A $\RegularCauchyDenseEmbeddingUp$ packet is generated from a $\RegSeqRatUp$ source row, a $\StreamNameUp$ schedule row, a $\DyadicRatCoreUp$ tolerance ledger, a terminal $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-dense-embedding-carrier}, \autoref{thm:regular-cauchy-dense-embedding-namecert-obligations}, and \autoref{thm:regular-cauchy-dense-embedding-real-boundary} seed the dense-embedding boundary over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient construction of $\RealUp$, host real equality, ambient completeness, countable choice, trichotomy, detached completion points, dense-image surjectivity, or a Lean theorem.}
+  \upgradepath{A formal route can encode the eight-row carrier and prove the NameCert obligation surface and RealUp boundary theorem.}
+\end{closurestatus}
