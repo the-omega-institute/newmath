@@ -20,20 +20,20 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-21T18:18:31Z
+> 最后刷新: 2026-05-21T20:36:26Z
 
-**Daemon 状态**: monitor (monitor cycle 5, adjust_since_research 3, round_counter 5156, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 7, adjust_since_research 3, round_counter 5553, last_adjust rule_evolution_skipped_or_failed)
 
-**待处理 queue** (70 条 finding):
-- isolated_theorem: 50 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
-- low_entropy_template: 20 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
+**待处理 queue** (93 条 finding):
+- isolated_theorem: 71 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
+- low_entropy_template: 22 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 197 次
+- TASTE ALERT category=isolated_theorem: 203 次
 - TASTE ALERT category=mislabeled_composite: 45 次
-- TASTE ALERT category=low_entropy_template: 23 次
+- TASTE ALERT category=low_entropy_template: 22 次
 - TASTE ALERT category=research_non_negative_criterion: 4 次
-- TASTE ALERT category=cycle_exception: 1 次
+- TASTE ALERT category=dossier_snapshot_push_failed: 1 次
 - TASTE ALERT category=rule_evolution_failed: 1 次
 - TASTE ALERT category=sync_failed: 1 次
 
@@ -140,6 +140,10 @@ Implements user request "AI 能看出来哪些没意义" -- moves from rule abst
 to case-by-case judgment.
 
 - 2026-05-21T18:18:21Z: `resolved` `delete_theorem` for `BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_window_coverage_exactness` (flag `isolated_theorem`, finding `isolated_theorem:finitelebesguenumber:BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_window_coverage_exactness:39d9fa69`). Rationale: The target had no downstream Lean users and was only marked in the finite Lebesgue-number paper chapter. Its content is covered by the immediately following stronger theorem `FiniteLebesgueNumberCoverCellReadbackTotality`, which preserves the same window-to-cover-cell route and also includes the carrier cover and radius-mesh route data, so keeping the isolated theorem added a redundant public declaration. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-21T19:34:18Z: `resolved` `leave_with_rationale` for `BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:finitelebesguenumber:BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_namecert_obligations:39d9fa69`). Rationale: The target has real BEDC content: it constructs the root SemanticNameCert for the FiniteLebesgueNumber carrier and exports the carrier's UnaryHistory, Cont, and PkgSig obligations used by the chapter narrative. I attempted to add a downstream Lean consumer in the Phase Real audit-ledger sibling, but lake build failed on a nested projection from the root obligation tuple, so the attempted edits were reverted as required. Removing the theorem would drop the root certificate surface rather than just deleting a trivial wrapper. Gate results: lake_build=error: BEDC/Derived/FiniteLebesgueNumberUp/PhaseRealAuditLedgerReadiness.lean:152:6: Application type mismatch: rootObligations.right.right.right.right.left has type UnaryHistory mesh but expected UnaryHistory auditRead, audit=skipped, phase_d_lint=skipped.
+
+- 2026-05-21T20:36:21Z: `resolved` `leave_with_rationale` for `BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_window_coverage_exactness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_window_coverage_exactness:80d5465a`). Rationale: The daemon finding is stale in this worktree: the flagged declaration is no longer present in Lean, and `lean4/BEDC/Derived/FiniteLebesgueNumberUp/Core.lean` line 182 now contains `FiniteLebesgueNumberCoverCellReadbackTotality`. The finite Lebesgue-number chapter points at that stronger theorem, and repo grep finds the flagged fully-qualified name only in `docs/dossier/taste-evolutions.qmd`, not in Lean or paper markers. Gate results: lake_build=skipped, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
