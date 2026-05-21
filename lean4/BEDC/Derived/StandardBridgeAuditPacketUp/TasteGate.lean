@@ -367,6 +367,30 @@ theorem StandardBridgeAuditPacket_round_trip_rows_visible (N T E D R U P L H C Q
     rw [hN, hT, hE, hD, hR, hU, hP, hL, hH, hC, hQ]
   · exact ⟨rfl, rfl⟩
 
+theorem StandardBridgeAuditPacketTasteGate_obligation :
+    (∀ x y : StandardBridgeAuditPacketUp,
+        StandardBridgeAuditPacket_round_trip_rows_visible_fields x =
+          StandardBridgeAuditPacket_round_trip_rows_visible_fields y → x = y) ∧
+      (∀ h : BHist, standardBridgeAuditPacketDecodeBHist
+        (standardBridgeAuditPacketEncodeBHist h) = h) ∧
+        ∀ N T E D R U P L H C Q : BHist,
+          StandardBridgeAuditPacket_round_trip_rows_visible_readback
+              (StandardBridgeAuditPacketUp.mk N T E D R U P L H C Q) =
+            some (StandardBridgeAuditPacketUp.mk N T E D R U P L H C Q) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  constructor
+  · intro x y h
+    cases x with
+    | mk N₁ T₁ E₁ D₁ R₁ U₁ P₁ L₁ H₁ C₁ Q₁ =>
+        cases y with
+        | mk N₂ T₂ E₂ D₂ R₂ U₂ P₂ L₂ H₂ C₂ Q₂ =>
+            cases h
+            rfl
+  · constructor
+    · exact standardBridgeAuditPacketDecode_encode_bhist
+    · intro N T E D R U P L H C Q
+      exact (StandardBridgeAuditPacket_round_trip_rows_visible N T E D R U P L H C Q).left
+
 theorem StandardBridgeAuditPacket_theorem_preservation_ledger
     {N T E D R U P L H C Q theoremRow counterpartRow translatedRow : BHist} :
     Cont U L C →

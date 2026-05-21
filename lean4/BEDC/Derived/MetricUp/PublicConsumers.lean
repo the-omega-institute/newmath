@@ -1,4 +1,5 @@
 import BEDC.Derived.MetricUp
+import BEDC.Derived.MetricUp.RealAlgOrderPositiveDistancePublicCorrespondence
 
 namespace BEDC.Derived.MetricUp
 
@@ -48,5 +49,44 @@ theorem MetricspaceApartnessPositiveDistanceTriangleBoundary
       xyContext.right.right.right.left, yzContext.right.right.right.left,
       xyContext.right.right.right.right.left, yzContext.right.right.right.right.left,
       xzContext.right.right.right.right.left⟩
+
+theorem MetricspaceRealalgorderTriangleConsumerExhaustion
+    {p q x y z dxy dyz dxz radiusXY radiusYZ witnessXY witnessYZ budgetXY budgetYZ
+      classifierXY classifierYZ provenanceXY provenanceYZ realAlgXY realAlgYZ positiveXY
+      positiveYZ : BHist} :
+    MetricspaceRealDistanceCarrier x y dxy radiusXY witnessXY budgetXY classifierXY
+        provenanceXY realAlgXY ->
+      MetricspaceRealDistanceCarrier y z dyz radiusYZ witnessYZ budgetYZ classifierYZ
+          provenanceYZ realAlgYZ ->
+        Cont radiusXY realAlgXY positiveXY ->
+          Cont radiusYZ realAlgYZ positiveYZ ->
+            MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+              MetricDistanceWitness (append p y) (append z q) (append (append p dyz) q) ->
+                MetricDistanceWitness (append p x) (append z q) (append (append p dxz) q) ->
+                  UnaryHistory p ∧ UnaryHistory q ∧ UnaryHistory x ∧ UnaryHistory y ∧
+                    UnaryHistory z ∧ UnaryHistory dxy ∧ UnaryHistory dyz ∧
+                      UnaryHistory dxz ∧ UnaryHistory positiveXY ∧
+                        UnaryHistory positiveYZ ∧ Cont radiusXY realAlgXY positiveXY ∧
+                          Cont radiusYZ realAlgYZ positiveYZ ∧ hsame classifierXY dxy ∧
+                            hsame classifierYZ dyz := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrierXY carrierYZ positiveXYRoute positiveYZRoute visibleXY visibleYZ visibleXZ
+  have xyPublic :=
+    MetricspaceRealalgorderPositiveDistancePublicCorrespondence carrierXY positiveXYRoute
+  have yzPublic :=
+    MetricspaceRealalgorderPositiveDistancePublicCorrespondence carrierYZ positiveYZRoute
+  have triangleRows :=
+    MetricspaceApartnessPositiveDistanceTriangleBoundary visibleXY visibleYZ visibleXZ
+  exact
+    ⟨triangleRows.left, triangleRows.right.left, triangleRows.right.right.left,
+      triangleRows.right.right.right.left, triangleRows.right.right.right.right.left,
+      triangleRows.right.right.right.right.right.left,
+      triangleRows.right.right.right.right.right.right.left,
+      triangleRows.right.right.right.right.right.right.right,
+      xyPublic.right.right.right.right.right.left, yzPublic.right.right.right.right.right.left,
+      xyPublic.right.right.right.right.right.right.left,
+      yzPublic.right.right.right.right.right.right.left,
+      xyPublic.right.right.right.right.right.right.right.right,
+      yzPublic.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.MetricUp
