@@ -2072,6 +2072,84 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         median_complex["f_vector"][index] - median_stage_one_complex["f_vector"][index]
         for index in range(len(median_complex["f_vector"]))
     )
+    active_triple_outputs = [
+        {"triple": triple, "median": median_codon(*triple)}
+        for triple in itertools.combinations(support_tuple, 3)
+    ]
+    leakage_triples = [
+        row for row in active_triple_outputs if row["median"] not in support
+    ]
+    closed_triple_count = len(active_triple_outputs) - len(leakage_triples)
+    median_centrality = collections.Counter(row["median"] for row in active_triple_outputs)
+    median_centrality_rows = [
+        {
+            "codon": codon,
+            "active": codon in support,
+            "median_count": median_centrality[codon],
+        }
+        for codon in sorted(median_set)
+    ]
+    median_centrality_rows.sort(
+        key=lambda row: (-row["median_count"], row["codon"])
+    )
+    leakage_output_counts = collections.Counter(row["median"] for row in leakage_triples)
+    leakage_output_rows = [
+        {"codon": codon, "median_count": count}
+        for codon, count in leakage_output_counts.items()
+    ]
+    leakage_output_rows.sort(key=lambda row: (-row["median_count"], row["codon"]))
+    leakage_catalyst_counts = collections.Counter(
+        codon for row in leakage_triples for codon in row["triple"]
+    )
+    leakage_catalyst_rows = [
+        {"codon": codon, "leakage_triple_count": count}
+        for codon, count in leakage_catalyst_counts.items()
+    ]
+    leakage_catalyst_rows.sort(
+        key=lambda row: (-row["leakage_triple_count"], row["codon"])
+    )
+    leakage_random_trials = 100000
+    leakage_random_seed = 20260522
+    leakage_random = random.Random(leakage_random_seed)
+    observed_leakage_outputs = set(leakage_output_counts)
+    random_closed_sum = 0
+    random_one_step_size_sum = 0
+    random_leakage_output_sum = 0
+    random_closed_exceed = 0
+    random_leakage_output_leq = 0
+    for _trial in range(leakage_random_trials):
+        sample = set(leakage_random.sample(all_codon_tuple, len(support)))
+        sample_tuple = tuple(sorted(sample))
+        sample_outputs = [
+            median_codon(*triple)
+            for triple in itertools.combinations(sample_tuple, 3)
+        ]
+        sample_closed = sum(1 for output in sample_outputs if output in sample)
+        sample_output_set = set(sample_outputs)
+        sample_leakage_outputs = sample_output_set - sample
+        random_closed_sum += sample_closed
+        random_one_step_size_sum += len(sample | sample_output_set)
+        random_leakage_output_sum += len(sample_leakage_outputs)
+        if sample_closed >= closed_triple_count:
+            random_closed_exceed += 1
+        if len(sample_leakage_outputs) <= len(observed_leakage_outputs):
+            random_leakage_output_leq += 1
+    inactive_median_points = median_set - support
+    minimal_inactive_generators: list[tuple[str, ...]] = []
+    minimal_inactive_generator_size = 0
+    for size in range(1, len(support_tuple) + 1):
+        for subset in itertools.combinations(support_tuple, size):
+            generated, _stages = median_closure(set(subset))
+            if inactive_median_points <= generated:
+                minimal_inactive_generators.append(subset)
+        if minimal_inactive_generators:
+            minimal_inactive_generator_size = size
+            break
+    acg_second_order_triples = tuple(
+        triple
+        for triple in itertools.combinations(tuple(sorted(median_stage_one)), 3)
+        if median_codon(*triple) == "ACG"
+    )
     active_one_step_medians = {
         median_codon(left, middle, right)
         for left, middle, right in itertools.combinations_with_replacement(support_tuple, 3)
@@ -2361,6 +2439,45 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 "median": median_codon(*median_second_step_witness["triple"]),
                 "valid": median_codon(*median_second_step_witness["triple"]) == median_second_step_witness["codon"],
             },
+        },
+        "median_leakage": {
+            "active_triple_count": len(active_triple_outputs),
+            "closed_triple_count": closed_triple_count,
+            "leakage_triple_count": len(leakage_triples),
+            "closed_triple_rate": closed_triple_count / len(active_triple_outputs),
+            "leakage_triple_rate": len(leakage_triples) / len(active_triple_outputs),
+            "one_step_closure": tuple(sorted(support | set(leakage_output_counts))),
+            "one_step_closure_size": len(support | set(leakage_output_counts)),
+            "leakage_outputs": tuple(sorted(leakage_output_counts)),
+            "leakage_output_count": len(leakage_output_counts),
+            "leakage_triples": [
+                {"triple": row["triple"], "median": row["median"]}
+                for row in leakage_triples
+            ],
+            "median_centrality_rows": median_centrality_rows,
+            "leakage_output_rows": leakage_output_rows,
+            "leakage_catalyst_rows": leakage_catalyst_rows,
+            "random_comparison": {
+                "trials": leakage_random_trials,
+                "seed": leakage_random_seed,
+                "random_mean_closed_triples": random_closed_sum / leakage_random_trials,
+                "random_mean_one_step_closure_size": random_one_step_size_sum / leakage_random_trials,
+                "random_mean_leakage_output_count": random_leakage_output_sum / leakage_random_trials,
+                "closed_triple_exceed_count": random_closed_exceed,
+                "closed_triple_p_value": random_closed_exceed / leakage_random_trials,
+                "leakage_output_leq_count": random_leakage_output_leq,
+                "leakage_output_p_value": random_leakage_output_leq / leakage_random_trials,
+            },
+            "minimal_inactive_generator_size": minimal_inactive_generator_size,
+            "minimal_inactive_generator_count": len(minimal_inactive_generators),
+            "minimal_inactive_generators": minimal_inactive_generators,
+            "inactive_generator_forced_codons": tuple(
+                codon
+                for codon in support_tuple
+                if all(codon in generator for generator in minimal_inactive_generators)
+            ),
+            "acg_second_order_triple_count": len(acg_second_order_triples),
+            "acg_second_order_triples": acg_second_order_triples,
         },
         "generator_robustness": {
             "minimal_median_generator_size": minimal_median_generator_size,
@@ -3577,6 +3694,92 @@ def assert_expected(summary: dict[str, object]) -> None:
         "median": "ACG",
         "valid": True,
     }
+    leakage = summary["support_compression"]["median_leakage"]
+    assert leakage["active_triple_count"] == 286
+    assert leakage["closed_triple_count"] == 264
+    assert leakage["leakage_triple_count"] == 22
+    assert leakage["closed_triple_rate"] == 264 / 286
+    assert leakage["leakage_triple_rate"] == 22 / 286
+    assert leakage["one_step_closure_size"] == 19
+    assert leakage["leakage_outputs"] == ("AAG", "ACA", "ATG", "TCG", "TGG", "TTG")
+    assert leakage["leakage_output_count"] == 6
+    assert leakage["random_comparison"] == {
+        "trials": 100000,
+        "seed": 20260522,
+        "random_mean_closed_triples": 157.49515,
+        "random_mean_one_step_closure_size": 43.79654,
+        "random_mean_leakage_output_count": 30.79654,
+        "closed_triple_exceed_count": 7,
+        "closed_triple_p_value": 0.00007,
+        "leakage_output_leq_count": 34,
+        "leakage_output_p_value": 0.00034,
+    }
+    assert leakage["median_centrality_rows"] == [
+        {"codon": "TTA", "active": True, "median_count": 61},
+        {"codon": "TAA", "active": True, "median_count": 46},
+        {"codon": "CTA", "active": True, "median_count": 31},
+        {"codon": "AAA", "active": True, "median_count": 19},
+        {"codon": "TGA", "active": True, "median_count": 19},
+        {"codon": "CTG", "active": True, "median_count": 16},
+        {"codon": "TAG", "active": True, "median_count": 16},
+        {"codon": "AGA", "active": True, "median_count": 14},
+        {"codon": "ATA", "active": True, "median_count": 14},
+        {"codon": "TCA", "active": True, "median_count": 14},
+        {"codon": "CTT", "active": True, "median_count": 8},
+        {"codon": "TTG", "active": False, "median_count": 8},
+        {"codon": "AAG", "active": False, "median_count": 4},
+        {"codon": "TGG", "active": False, "median_count": 4},
+        {"codon": "AGG", "active": True, "median_count": 3},
+        {"codon": "CTC", "active": True, "median_count": 3},
+        {"codon": "ACA", "active": False, "median_count": 2},
+        {"codon": "ATG", "active": False, "median_count": 2},
+        {"codon": "TCG", "active": False, "median_count": 2},
+        {"codon": "ACG", "active": False, "median_count": 0},
+    ]
+    assert leakage["leakage_output_rows"] == [
+        {"codon": "TTG", "median_count": 8},
+        {"codon": "AAG", "median_count": 4},
+        {"codon": "TGG", "median_count": 4},
+        {"codon": "ACA", "median_count": 2},
+        {"codon": "ATG", "median_count": 2},
+        {"codon": "TCG", "median_count": 2},
+    ]
+    assert leakage["leakage_catalyst_rows"] == [
+        {"codon": "AGG", "leakage_triple_count": 15},
+        {"codon": "TAG", "leakage_triple_count": 10},
+        {"codon": "CTC", "leakage_triple_count": 8},
+        {"codon": "CTG", "leakage_triple_count": 8},
+        {"codon": "ATA", "leakage_triple_count": 7},
+        {"codon": "TCA", "leakage_triple_count": 7},
+        {"codon": "TTA", "leakage_triple_count": 4},
+        {"codon": "AAA", "leakage_triple_count": 3},
+        {"codon": "TGA", "leakage_triple_count": 3},
+        {"codon": "AGA", "leakage_triple_count": 1},
+    ]
+    assert leakage["minimal_inactive_generator_size"] == 5
+    assert leakage["minimal_inactive_generator_count"] == 4
+    assert leakage["minimal_inactive_generators"] == [
+        ("AGG", "ATA", "CTC", "TAA", "TCA"),
+        ("AGG", "ATA", "CTC", "TAG", "TCA"),
+        ("AGG", "ATA", "CTG", "TAA", "TCA"),
+        ("AGG", "ATA", "CTG", "TAG", "TCA"),
+    ]
+    assert leakage["inactive_generator_forced_codons"] == ("AGG", "ATA", "TCA")
+    assert leakage["acg_second_order_triple_count"] == 12
+    assert leakage["acg_second_order_triples"] == (
+        ("AAG", "ACA", "TCG"),
+        ("ACA", "AGG", "ATG"),
+        ("ACA", "AGG", "CTC"),
+        ("ACA", "AGG", "CTG"),
+        ("ACA", "AGG", "TCG"),
+        ("ACA", "AGG", "TTG"),
+        ("ACA", "ATG", "TCG"),
+        ("ACA", "ATG", "TGG"),
+        ("AGA", "ATG", "TCG"),
+        ("AGG", "ATA", "TCG"),
+        ("AGG", "ATG", "TCA"),
+        ("AGG", "ATG", "TCG"),
+    )
     robustness = summary["support_compression"]["generator_robustness"]
     assert robustness["minimal_median_generator_size"] == 7
     assert robustness["minimal_median_generator_count"] == 2
