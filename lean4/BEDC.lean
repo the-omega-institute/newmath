@@ -3451,6 +3451,7 @@ import BEDC.Derived.MetricUp.HsameDeterminism
 import BEDC.Derived.MetricUp.L10SiblingLatticeRoute
 import BEDC.Derived.MetricUp.LeftE1Result
 import BEDC.Derived.MetricUp.LocatedRealDistanceSourceBoundary
+import BEDC.Derived.MetricUp.PatternSpecification
 import BEDC.Derived.MetricUp.PositiveDistanceShape
 import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
 import BEDC.Derived.MetricUp.PublicConsumers
