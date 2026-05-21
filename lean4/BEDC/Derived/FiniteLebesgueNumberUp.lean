@@ -735,7 +735,8 @@ theorem FiniteLebesgueNumberDyadicRadiusWindowAdmission [AskSetup] [PackageSetup
     ⟨cert, radiusUnary, dyadicUnary, windowReadUnary, coverRadiusRead, dyadicWindowRead,
       provenancePkg, windowPkg⟩
 
-theorem FiniteLebesgueNumberRadiusCarrierSource [AskSetup] [PackageSetup]
+theorem FiniteLebesgueNumberDyadicRadiusWindowAdmissionRadiusCarrierSource
+    [AskSetup] [PackageSetup]
     {cover window radius mesh transport route provenance nameRow radiusRead rootRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
