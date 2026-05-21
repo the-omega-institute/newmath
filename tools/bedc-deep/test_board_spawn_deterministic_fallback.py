@@ -92,11 +92,12 @@ def test_deterministic_fallback_accepts_burden_miner() -> None:
                 source="research_lane:burden_candidate_miner",
                 title="Polynomial strict obstruction corollary",
                 claim=(
-                    "Using \\autoref{thm:polynomial-boundary}, prove a "
+                    "Using \\autoref{thm:polynomial-refusal-frontier}, prove a "
                     "strict local obstruction lemma for Polynomial: the "
                     "displayed failure row blocks only the named converse "
                     "route and cannot be read as a global impossibility."
                 ),
+                resource_trace="Primary support is thm:polynomial-refusal-frontier.",
                 oracle_mode="proof_search",
             )
         ],
@@ -105,6 +106,29 @@ def test_deterministic_fallback_accepts_burden_miner() -> None:
     )
     assert len(accepted) == 1, (accepted, rejected)
     assert rejected == [], rejected
+
+
+def test_deterministic_fallback_rejects_strict_obstruction_without_negative_evidence() -> None:
+    accepted, rejected = board_spawn._deterministic_fallback_judge(
+        [
+            _candidate(
+                source="research_lane:burden_candidate_miner",
+                title="Polynomial strict obstruction corollary",
+                claim=(
+                    "Using \\autoref{thm:polynomial-boundary}, prove a "
+                    "strict local obstruction lemma for Polynomial: the "
+                    "displayed failure row blocks only the named converse "
+                    "route and cannot be read as a global impossibility."
+                ),
+                resource_trace="Primary support is thm:polynomial-boundary.",
+                oracle_mode="proof_search",
+            )
+        ],
+        fit_threshold=7,
+        novelty_threshold=6,
+    )
+    assert accepted == [], accepted
+    assert rejected[0]["reason"] == "strict_obstruction_requires_negative_evidence"
 
 
 def test_deterministic_fallback_rejects_raw_gap_scanner_source() -> None:
@@ -366,6 +390,7 @@ if __name__ == "__main__":
     test_deterministic_fallback_rejects_new_chapter()
     test_deterministic_fallback_accepts_research_lane_gap_scanner()
     test_deterministic_fallback_accepts_burden_miner()
+    test_deterministic_fallback_rejects_strict_obstruction_without_negative_evidence()
     test_deterministic_fallback_rejects_raw_gap_scanner_source()
     test_deterministic_fallback_rejects_anti_parameter_echo()
     test_deterministic_fallback_allows_low_score_local_packet()

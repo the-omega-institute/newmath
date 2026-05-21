@@ -114,7 +114,7 @@ def test_burden_candidate_is_ready_and_appendable() -> None:
     candidate = {
         "title": "Option strict obstruction corollary",
         "claim": (
-            "Using \\autoref{thm:option-boundary} and \\autoref{def:option-carrier}, "
+            "Using \\autoref{thm:option-refusal-frontier} and \\autoref{def:option-carrier}, "
             "prove a strict local obstruction lemma for Option: the displayed "
             "failure row blocks only the named converse route and cannot be "
             "read as a global impossibility or hidden host theorem."
@@ -132,12 +132,12 @@ def test_burden_candidate_is_ready_and_appendable() -> None:
         "witness_extractor": "",
         "cut_rank": "1",
         "elimination_plan": (
-            "List the displayed route rows cited by thm:option-boundary and "
+            "List the displayed route rows cited by thm:option-refusal-frontier and "
             "reject unlisted coordinates."
         ),
         "equality_kind": "none",
         "interpretation_kind": "interpretation",
-        "resource_trace": "Primary support is thm:option-boundary in the selected file.",
+        "resource_trace": "Primary support is thm:option-refusal-frontier in the selected file.",
         "dependency_trace": "Depends on the selected body file and its cited BEDC labels only.",
         "rate_modulus_surface": "",
         "oracle_mode": "proof_search",
@@ -151,7 +151,7 @@ def test_burden_candidate_is_ready_and_appendable() -> None:
 
 
 def test_burden_miner_skips_exactness_carrier_echo() -> None:
-    rel = "papers/bedc/parts/concrete_instances/example.tex"
+    rel = SMALL_FILE
     index = {
         "files": [
             {
@@ -177,6 +177,35 @@ def test_burden_miner_skips_exactness_carrier_echo() -> None:
     assert burden_candidate_miner.candidates_from_index(index, existing_titles=set()) == []
 
 
+def test_burden_miner_does_not_turn_plain_boundary_into_obstruction() -> None:
+    rel = SMALL_FILE
+    index = {
+        "files": [
+            {
+                "file": rel,
+                "line_count": 120,
+                "hub_like": False,
+                "closurestatus_count": 0,
+                "theorem_like_labels": [
+                    {
+                        "env": "theorem",
+                        "label": "thm:option-route-boundary",
+                        "title": "Option route boundary",
+                    },
+                    {
+                        "env": "theorem",
+                        "label": "thm:option-route-handoff",
+                        "title": "Option route handoff",
+                    },
+                ],
+            }
+        ]
+    }
+    candidates = burden_candidate_miner.candidates_from_index(index, existing_titles=set())
+    assert candidates, candidates
+    assert all(c["selection_rank"] != "strict_obstruction" for c in candidates), candidates
+
+
 if __name__ == "__main__":
     test_near_line_cap_candidate_reroutes_to_smaller_landing()
     test_low_score_candidate_is_warning_not_blocked()
@@ -184,4 +213,5 @@ if __name__ == "__main__":
     test_line_cap_overflow_is_not_recovered_from_inbox()
     test_burden_candidate_is_ready_and_appendable()
     test_burden_miner_skips_exactness_carrier_echo()
+    test_burden_miner_does_not_turn_plain_boundary_into_obstruction()
     print("test_research_candidate_lane: ok")

@@ -60,6 +60,12 @@ OBSTRUCTION_RE = re.compile(
     r"obstruction|refusal|nonescape|non-escape|impossib|boundary)\b",
     re.IGNORECASE,
 )
+STRICT_OBSTRUCTION_RE = re.compile(
+    r"\b(countermodel|counterexample|failure|defeat|refutation|separation|"
+    r"obstruction|refusal|nonescape|non-escape|impossib|frontier|blocked|"
+    r"missing|excluded)\b",
+    re.IGNORECASE,
+)
 WITNESS_RE = re.compile(
     r"\b(witness|selector|minimal|canonical|inhabit|admission)\b",
     re.IGNORECASE,
@@ -283,7 +289,7 @@ def _candidate_for_item(item: dict[str, Any]) -> dict[str, Any] | None:
     obj = _object_from_file(rel, labels)
 
     candidates_by_family: list[tuple[str, list[dict[str, Any]]]] = [
-        ("strict_obstruction", _select_labels(burden_labels, OBSTRUCTION_RE)),
+        ("strict_obstruction", _select_labels(burden_labels, STRICT_OBSTRUCTION_RE)),
         ("determinacy", _select_labels(burden_labels, DETERMINACY_RE)),
         ("exhaustion_coverage", _select_labels(burden_labels, EXHAUSTION_RE)),
         ("minimal_witness", _select_labels(burden_labels, WITNESS_RE)),

@@ -30,6 +30,16 @@ SUBSTANCE_POSITIVE_RE = re.compile(
     r"nontrivial witness|failure mode|classification)\b",
     re.IGNORECASE,
 )
+STRICT_OBSTRUCTION_CANDIDATE_RE = re.compile(
+    r"\bstrict(?: local)? obstruction\b",
+    re.IGNORECASE,
+)
+STRICT_OBSTRUCTION_EVIDENCE_RE = re.compile(
+    r"\b(countermodel|counterexample|failure|defeat|refutation|separation|"
+    r"refusal|nonescape|non-escape|impossib|frontier|blocked|missing|"
+    r"excluded)\b",
+    re.IGNORECASE,
+)
 BOARD_SURFACE_TITLE_RE = re.compile(
     r"\b("
     r"forgetful projection|classifier alignment|domain-codomain mirror|"
@@ -60,7 +70,7 @@ STRUCTURAL_MINER_SOURCES = {
 }
 SUBSTANCE_REJECTION_RE = re.compile(
     r"substance_echo_not_board_ready|structural_miner_requires_positive_substance|"
-    r"weak_surface_target",
+    r"weak_surface_target|strict_obstruction_requires_negative_evidence",
     re.IGNORECASE,
 )
 
@@ -78,6 +88,23 @@ def packet_text(candidate: dict[str, Any]) -> str:
             "dependency_trace",
             "elimination_plan",
         )
+    )
+
+
+def strict_obstruction_evidence_text(candidate: dict[str, Any]) -> str:
+    title = STRICT_OBSTRUCTION_CANDIDATE_RE.sub(
+        " ",
+        str(candidate.get("title") or ""),
+    )
+    return " ".join(
+        [
+            title,
+            str(candidate.get("rationale") or ""),
+            str(candidate.get("budget_reason") or ""),
+            str(candidate.get("resource_trace") or ""),
+            str(candidate.get("dependency_trace") or ""),
+            str(candidate.get("elimination_plan") or ""),
+        ]
     )
 
 
@@ -143,6 +170,13 @@ def substance_rejection(candidate: dict[str, Any]) -> str:
     """Reject candidates that only restate local row visibility."""
     text = packet_text(candidate)
     source = str(candidate.get("source") or "").strip()
+    if (
+        STRICT_OBSTRUCTION_CANDIDATE_RE.search(text)
+        and not STRICT_OBSTRUCTION_EVIDENCE_RE.search(
+            strict_obstruction_evidence_text(candidate)
+        )
+    ):
+        return "strict_obstruction_requires_negative_evidence"
     if SUBSTANCE_ECHO_RE.search(text) and not SUBSTANCE_POSITIVE_RE.search(text):
         return "substance_echo_not_board_ready"
     if source in STRUCTURAL_MINER_SOURCES and not SUBSTANCE_POSITIVE_RE.search(text):
