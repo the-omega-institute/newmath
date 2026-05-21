@@ -44,4 +44,23 @@ theorem RealityConstrainedTruthCertRootTasteGateObligation
           ⟨S, Sigma, K, T, U, D, I, L, F, N, rfl, rfl,
             hsame_refl (append S Sigma)⟩
 
+theorem RealityConstrainedTruthCertRootFieldFaithfulReadiness
+    (x y : TasteGate.RealityConstrainedTruthCertUp) :
+    TasteGate.realityConstrainedTruthCertFields x =
+        TasteGate.realityConstrainedTruthCertFields y →
+      x = y ∧ BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hfields
+  have hxy : x = y := by
+    cases x with
+    | mk S1 Sigma1 K1 T1 U1 D1 I1 L1 F1 N1 =>
+        cases y with
+        | mk S2 Sigma2 K2 T2 U2 D2 I2 L2 F2 N2 =>
+            cases hfields
+            rfl
+  constructor
+  · exact hxy
+  · cases hxy
+    rfl
+
 end BEDC.Derived.RealityConstrainedTruthCertUp
