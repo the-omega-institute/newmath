@@ -1400,6 +1400,7 @@ import BEDC.Derived.CompilerTraceFaithfulnessUp.TasteGate
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompletionFunctorUp
 import BEDC.Derived.CompletionReflectionUp
+import BEDC.Derived.CompletionUniquenessUp
 import BEDC.Derived.CompletionUniversalPropertyUp
 import BEDC.Derived.CompletionUp
 import BEDC.Derived.ComplexAnalyticUp
@@ -4117,8 +4118,10 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.CarrierAdmission
 import BEDC.Derived.RealityConstrainedTruthCertUp.CarrierTransport
 import BEDC.Derived.RealityConstrainedTruthCertUp.ClassifierObligationSurface
 import BEDC.Derived.RealityConstrainedTruthCertUp.ExportDefeatExhaustion
+import BEDC.Derived.RealityConstrainedTruthCertUp.ExportReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.FailureReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.FailureRouting
+import BEDC.Derived.RealityConstrainedTruthCertUp.FailureSurfaceExactness
 import BEDC.Derived.RealityConstrainedTruthCertUp.FieldCoverage
 import BEDC.Derived.RealityConstrainedTruthCertUp.KernelTruthRoute
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10Readiness
