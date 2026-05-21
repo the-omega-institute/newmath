@@ -43,3 +43,26 @@ Now use \autoref{thm:dyadicratcore-scale-window-real-exit-source-uniqueness}. Si
 
 Finally apply \autoref{thm:dyadicratcore-terminal-real-exit-no-fifth-source}. With the dyadic source and the three downstream faces fixed, no additional route coordinate can distinguish the exits. The common tolerance row therefore determines one finite four-face exit certificate, and the excluded objects cannot supply a second certificate.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore finite directed common-scale terminal refinement]
+\label{thm:dyadicratcore-common-scale-terminal-refinement-directed-system}
+Let $\mathcal{F}$ be a finite family of dyadic tolerance windows accepted by the $\DyadicRatCoreUp$ carrier. Suppose every member of $\mathcal{F}$ reads its signed mantissa row from the same displayed $\IntUp$ ledger and presents its denominator row through a finite positive-unary exponent history. Then repeated application of common-scale terminal refinement produces one accepted terminal $\DyadicRatCoreUp$ window $T_{\mathcal{F}}$ with the following properties:
+\begin{enumerate}
+\item every window in $\mathcal{F}$ maps to $T_{\mathcal{F}}$ by componentwise endpoint transport, denominator replay, distance and radius replay, $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert_{\DyadicRatCoreUp}$ rows;
+\item the terminal tolerance row of $T_{\mathcal{F}}$ is independent of the parenthesization used to combine the finite family;
+\item the finite exit certificate determined by $T_{\mathcal{F}}$ is the same four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+\end{enumerate}
+The construction exports no quotient rational carrier, quotient stream equality, selected $\RealUp$ endpoint, countable-choice row, metric-completeness row, bridge row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Induct on the finite family $\mathcal{F}$. In the singleton case, the given accepted window is already the terminal packet for the one-member family after replaying its displayed positive-unary exponent history. The terminal four-face tolerance exhaustion theorem identifies its tolerance row with the route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+For the induction step, let $S$ be the terminal window supplied for the preceding finite subfamily and let $P$ be the next accepted tolerance window. Apply \autoref{thm:dyadicratcore-common-scale-terminal-refinement} to $S$ and $P$. The hypotheses are stable under the induction construction: the signed mantissa ledger remains the displayed $\IntUp$ ledger, and the denominator rows still factor through finite positive-unary exponent histories.
+
+It remains to check that the chosen bracketing has not introduced extra data. Apply \autoref{thm:dyadicratcore-common-scale-terminal-refinement-uniqueness} to two terminal windows obtained from two parenthesizations of the same finite family. Their visible signed mantissa, exponent, denominator, endpoint, distance, radius, $\hsame$, $\Cont$, $\Pkg$, local DyadicRatCore naming, and downstream four-face rows agree by the induction hypothesis and by the pairwise refinement step. Hence the two bracketings determine the same terminal tolerance row.
+
+Finally apply \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion}. The terminal row is therefore the finite support consumed by the StreamName finite-window face, the RegSeqRat regularity face, and the Real seal face. The exclusion clauses are inherited from the pairwise refinement and uniqueness theorems, so no quotient carrier, quotient stream equality, selected endpoint, choice row, metric-completeness row, bridge row, or ambient Real-completeness coordinate enters the directed finite meet.
+\end{proof}
