@@ -492,6 +492,7 @@ import BEDC.Derived.BHistDodecaSequenceNameCertUp
 import BEDC.Derived.BHistDodecaTupleNameCertUp
 import BEDC.Derived.BHistHendecaSequenceNameCertUp
 import BEDC.Derived.BHistHendecaTupleNameCertUp
+import BEDC.Derived.BHistHendecaTupleNameCertUp.TasteGate
 import BEDC.Derived.BHistHeptaSequenceNameCertUp
 import BEDC.Derived.BHistHeptaTupleNameCertUp
 import BEDC.Derived.BHistNonaSequenceNameCertUp
@@ -3816,6 +3817,7 @@ import BEDC.Derived.QuotientStreamRefusalUp
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RandomVarUp
+import BEDC.Derived.RatClassifierTransportSealUp.ClassifierHandoffDeterminacy
 import BEDC.Derived.RatClassifierTransportSealUp.TasteGate
 import BEDC.Derived.RatClassifierTransportSealUp.WindowExhaustion
 import BEDC.Derived.RatUp
@@ -4914,6 +4916,8 @@ import BEDC.Derived.ValidatedNumericsUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.VectorBundleUp
 import BEDC.Derived.VerificationFailureRoadmapUp.TasteGate
+import BEDC.Derived.VerifiedOutputHarnessUp.NameCertObligations
+import BEDC.Derived.VerifiedOutputHarnessUp.PublicAuditChain
 import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
 import BEDC.Derived.VermaModuleUp
 import BEDC.Derived.VonneumannalgebraUp
