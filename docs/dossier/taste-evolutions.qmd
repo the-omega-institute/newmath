@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-21T21:58:01Z
+> 最后刷新: 2026-05-21T23:17:28Z
 
-**Daemon 状态**: monitor (monitor cycle 8, adjust_since_research 3, round_counter 5682, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 9, adjust_since_research 3, round_counter 5875, last_adjust rule_evolution_skipped_or_failed)
 
-**待处理 queue** (118 条 finding):
-- isolated_theorem: 96 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
+**待处理 queue** (119 条 finding):
+- isolated_theorem: 97 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
 - low_entropy_template: 22 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 203 次
+- TASTE ALERT category=isolated_theorem: 216 次
 - TASTE ALERT category=low_entropy_template: 15 次
-- TASTE ALERT category=mislabeled_composite: 8 次
+- TASTE ALERT category=mislabeled_composite: 7 次
 - TASTE ALERT category=research_non_negative_criterion: 4 次
 - TASTE ALERT category=dossier_snapshot_push_failed: 1 次
 - TASTE ALERT category=rule_evolution_failed: 1 次
@@ -146,6 +146,8 @@ to case-by-case judgment.
 - 2026-05-21T20:36:21Z: `resolved` `leave_with_rationale` for `BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_window_coverage_exactness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_window_coverage_exactness:80d5465a`). Rationale: The daemon finding is stale in this worktree: the flagged declaration is no longer present in Lean, and `lean4/BEDC/Derived/FiniteLebesgueNumberUp/Core.lean` line 182 now contains `FiniteLebesgueNumberCoverCellReadbackTotality`. The finite Lebesgue-number chapter points at that stronger theorem, and repo grep finds the flagged fully-qualified name only in `docs/dossier/taste-evolutions.qmd`, not in Lean or paper markers. Gate results: lake_build=skipped, audit=skipped, phase_d_lint=skipped.
 
 - 2026-05-21T21:57:50Z: `resolved` `add_downstream_user` for `BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_namecert_obligations:80d5465a`). Rationale: The target is not a disposable wrapper: it constructs the root SemanticNameCert surface for FiniteLebesgueNumberCarrier and exports the carrier obligations needed by the chapter narrative. I added a same-family downstream theorem, BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberPhaseRealAuditLedgerRootNamecertUse, in the Phase Real audit-ledger sibling; it explicitly calls the root NameCert-obligations theorem and combines its root certificate/provenance/audit package with the existing Phase Real audit-ledger readiness route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-21T23:17:18Z: `resolved` `delete_theorem` for `BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_uniform_tail_budget_scope` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_uniform_tail_budget_scope:12c20eb9`). Rationale: The target had no downstream Lean consumers after repo-wide grep; it only appeared as its own declaration and one removable paper marker. Its content is an unconsumed intermediate projection assembled from WeierstrassMTestCarrier_regseqrat_handoff plus carrier fields, while later stronger theorems such as WeierstrassMTestCarrier_obligation_closure_package, WeierstrassMTestCarrier_uniform_cauchy_handoff, and the public convergence export already carry the meaningful route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
