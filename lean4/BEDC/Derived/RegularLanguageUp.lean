@@ -102,6 +102,37 @@ theorem RegularLanguageAutomatonPacket_run_prefix_restriction [AskSetup] [Packag
   exact
     ⟨prefUnary, prefRunUnary, prefEndpointUnary, sameRun, sameEndpoint, pkgSig⟩
 
+theorem RegularLanguageAutomatonPacket_empty_word_acceptance_exactness [AskSetup]
+    [PackageSetup]
+    {alphabet states start accept transition endpoint transport routes provenance startRun
+      startEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition BHist.Empty startRun
+        endpoint transport routes provenance bundle pkg ->
+      Cont start BHist.Empty startRun ->
+        Cont startRun transition startEndpoint ->
+          PkgSig bundle provenance pkg ->
+            UnaryHistory start ∧ UnaryHistory startRun ∧ UnaryHistory startEndpoint ∧
+              hsame start startRun ∧ hsame endpoint startEndpoint ∧
+                Cont start BHist.Empty startRun ∧ Cont startRun transition startEndpoint ∧
+                  PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro packet startEmptyRun startTransitionEndpoint provenancePkg
+  obtain ⟨_alphabetUnary, _statesUnary, startUnary, _acceptUnary, transitionUnary,
+    _emptyUnary, _startRunUnary, _endpointUnary, _transportUnary, _routesUnary,
+    _provenanceUnary, storedStartRun, storedEndpoint, _routesRow, _pkgSig⟩ := packet
+  have startRunUnary : UnaryHistory startRun :=
+    unary_cont_closed startUnary unary_empty startEmptyRun
+  have startEndpointUnary : UnaryHistory startEndpoint :=
+    unary_cont_closed startRunUnary transitionUnary startTransitionEndpoint
+  have sameStart : hsame start startRun :=
+    cont_deterministic (cont_right_unit start) startEmptyRun
+  have sameEndpoint : hsame endpoint startEndpoint :=
+    cont_deterministic storedEndpoint startTransitionEndpoint
+  exact
+    ⟨startUnary, startRunUnary, startEndpointUnary, sameStart, sameEndpoint, startEmptyRun,
+      startTransitionEndpoint, provenancePkg⟩
+
 theorem RegularLanguageAutomatonPacket_classified_word_transport [AskSetup] [PackageSetup]
     {alphabet states start accept transition word run endpoint transport routes provenance run'
       transition' endpoint' : BHist}
