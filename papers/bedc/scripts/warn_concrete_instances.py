@@ -14,8 +14,7 @@ Checks (IDs match the analysis report):
   E  Hub namecert file (no \\chapter, only \\input lines) must not contain
      theorem-like environments or closurestatus blocks
   F  Content namecert chapter must \\label{ch:concrete-instances-<slug>-namecert}
-  G  If \\origin{...} appears in a content namecert chapter, it must be
-     human|ai|ai-composite
+  G  If \\origin{...} appears in a content namecert chapter, it must be human|ai
   H  \\bridgestatus value must be in {none, paperBridge, bridgeChecked}
   I  every tex basename is lowercase snake_case with optional NN_/NNa_ prefix
      or leading _ for aggregate index files
@@ -78,7 +77,7 @@ HUB_FORBIDDEN_RE = re.compile(r"\\begin\{(" + "|".join(HUB_FORBIDDEN_ENVS) + r")
 
 LABEL_CH_RE = re.compile(r"\\label\{ch:concrete-instances-[a-z0-9][a-z0-9-]*\}")
 ORIGIN_RE = re.compile(r"\\origin\{([^}]+)\}")
-VALID_ORIGINS = {"human", "ai", "ai-composite"}
+VALID_ORIGINS = {"human", "ai"}
 
 BRIDGESTATUS_RE = re.compile(r"\\bridgestatus\{([^}]+)\}")
 VALID_BRIDGESTATUS = {"none", "paperBridge", "bridgeChecked"}
