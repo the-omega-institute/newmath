@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CauchyLocalizationUp$}
+\label{ch:concrete-instances-cauchy-localization-namecert}
+\origin{human}
+
+Following Bishop and Bridges, Constructive Analysis, the $\CauchyLocalizationUp$ packet records the finite-window point at which a regular rational Cauchy source is inspected only as far as a requested tolerance requires, then sealed into the Real route without exporting a quotient stream or a selected limit. It sits between the dyadic arithmetic surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the effective threshold discipline of \autoref{ch:concrete-instances-cauchyrate-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter isolates the Cauchy localization row consumed by Real and Completion arguments as finite $\BHist$ data, not as ambient completeness, countable choice, host real equality, or quotient equality of streams.
+
+\begin{definition}[Cauchy localization carrier]
+\label{def:cauchy-localization-carrier}
+A $\CauchyLocalizationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(W,R,D,T,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ window row naming exactly the finite source positions inspected for the requested tolerance.
+\item $R$ is the $\RegSeqRatUp$ source row whose regular rational readback supplies the values visible through $W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the rational radius, dyadic comparison cells, and arithmetic budget attached to the request.
+\item $T$ is the $\CauchyRateUp$ threshold row selecting the displayed late index after which the window is sufficient for the tolerance in $D$.
+\item $L$ is the localized request window, pairing the request precision with the subwindow of $W$ certified by $T$ and read through $R$.
+\item $E$ is the $\RealUp$ seal row reached only after $W,R,D,T,L$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the StreamName window, RegSeqRat source, DyadicRatCore tolerance ledger, CauchyRate threshold, localized request window, Real seal, continuation row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a precision request through $D$, $T$, $W$, $L$, $R$, and finally to the seal row $E$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyLocalizationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyRateUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyLocalizationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,R,D,T,L,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, host real equality, countable choice, detached Real completeness, or an ambient completion theorem.
+\end{definition}
+
+\begin{theorem}[Cauchy localization NameCert obligations]
+\label{thm:cauchy-localization-namecert-obligations}
+For an accepted $\CauchyLocalizationUp$ carrier $K=(W,R,D,T,L,E,H,C,P,N)$, the local $\NameCert_{\CauchyLocalizationUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the finite StreamName window, RegSeqRat source row, DyadicRatCore tolerance ledger, CauchyRate threshold, localized request window, Real seal, transport, replay, provenance, and local naming row;
+\item classifier stability, requiring accepted packets to be compared componentwise only through $W,R,D,T,L,E,H,C,P,N$;
+\item threshold exactness, requiring $T$ to bind the request tolerance in $D$ to a displayed late index before any localized window is exposed;
+\item window extraction, requiring $L$ to expose only the finite subwindow of $W$ certified by $T$ and read through the same source row $R$;
+\item RegSeqRat handoff, requiring all rational readback for the localized window to pass through $R$ rather than through a host stream;
+\item Real seal non-escape, requiring every Real-facing read to pass through $W,R,D,T,L$ before it reaches $E$;
+\item transport, requiring componentwise $\hsame$ in $H$ to preserve the displayed row order;
+\item replay, requiring displayed $\Cont$ in $C$ to repeat the same precision-to-window-to-seal route;
+\item provenance, requiring $P$ to name only the sibling surfaces displayed in the carrier;
+\item naming, requiring $N$ to certify exactly the local $\CauchyLocalizationUp$ route and no hidden quotient, selected limit, host equality, countable-choice, or ambient-completeness row.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-localization-carrier}. The packet displays the window, source, tolerance, threshold, localized request, seal, transport, replay, provenance, and naming rows as the full local inventory.
+
+Classifier stability follows because the classifier is rowwise. Every accepted comparison is made through $W,R,D,T,L,E,H,C,P,N$, and no further classifier coordinate is present.
+
+Threshold exactness and window extraction are the analytic core of the packet. The dyadic tolerance row $D$ states the requested radius, the CauchyRate row $T$ supplies the late threshold for that radius, and the localized row $L$ exposes only the finite part of $W$ certified by that threshold.
+
+The RegSeqRat handoff and Real seal boundary are ordered by the carrier. The rational readback is read through $R$ at the displayed window, and the seal row $E$ is downstream of $W,R,D,T,L$.
+
+Transport, replay, provenance, and naming are structural. The rows $H$ and $C$ preserve and replay the same displayed route, while $P$ and $N$ package only that route. Since the carrier contains no hidden quotient, selected limit, host equality, countable-choice, or ambient-completeness row, none can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Cauchy localization window extraction]
+\label{thm:cauchy-localization-window-extraction}
+Every accepted $\CauchyLocalizationUp$ packet exposes a finite Cauchy window sufficient for the requested tolerance. More precisely, if $K=(W,R,D,T,L,E,H,C,P,N)$ is accepted, then the request row in $D$ and the threshold row $T$ determine a finite localized window $L$ whose entries are read through the $\StreamNameUp$ window $W$ and the $\RegSeqRatUp$ source $R$ before any $\RealUp$ seal read reaches $E$. The packet cannot export quotient stream equality, selected limits, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet and project its displayed rows. The tolerance ledger $D$ fixes the requested radius, while the threshold row $T$ supplies the finite late boundary attached to that radius.
+
+Use the localized request row $L$. It is downstream of $D$ and $T$, so it may expose only the portion of the StreamName window $W$ needed for the certified late-bound request. The RegSeqRat source row $R$ supplies the rational observations for exactly that displayed window.
+
+The Real seal row $E$ is reached only after $W,R,D,T,L$ have been consumed. The structural rows $H,C,P,N$ preserve, replay, and name this same route, so the packet has no export path for quotient stream equality, selected limits, host real equality, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{closurestatus}{\CauchyLocalizationUp}
+  \constructivestory{A $\CauchyLocalizationUp$ packet is generated from a StreamName finite window, RegSeqRat source row, DyadicRatCore tolerance ledger, CauchyRate threshold, localized request window, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-localization-carrier}, \autoref{thm:cauchy-localization-namecert-obligations}, and \autoref{thm:cauchy-localization-window-extraction} seed the finite Cauchy localization route between Cauchy-rate data and the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, host real equality, countable choice, ambient completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, threshold exactness, window extraction, RegSeqRat handoff, Real seal non-escape, transport, replay, provenance, and naming targets for BEDC.Derived.CauchyLocalizationUp.}
+\end{closurestatus}
