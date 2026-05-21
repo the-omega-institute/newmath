@@ -1,4 +1,4 @@
-import BEDC.Derived.HomotopyUp
+import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
@@ -133,5 +133,23 @@ theorem HomotopyUp_single_carrier_alignment :
   · intro x y heq
     exact homotopyToEventFlow_injective heq
   · rfl
+
+theorem HomotopyTasteGate_single_carrier_alignment :
+    Nonempty (BHistCarrier HomotopyUp) ∧
+      Nonempty (ChapterTasteGate HomotopyUp) ∧
+        (∀ x : HomotopyUp,
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x) ∧
+          (∀ x y : HomotopyUp,
+            BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y → x = y) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · exact ⟨homotopyBHistCarrier⟩
+  constructor
+  · exact ⟨homotopyChapterTasteGate⟩
+  constructor
+  · intro x
+    exact ChapterTasteGate.round_trip x
+  · intro x y heq
+    exact homotopyToEventFlow_injective heq
 
 end BEDC.Derived.HomotopyUp
