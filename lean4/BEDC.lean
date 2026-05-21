@@ -723,6 +723,7 @@ import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
+import BEDC.Derived.CantorIntersectionUp
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.CatLimitUp
 import BEDC.Derived.CategoryFunctorIndex
@@ -3873,6 +3874,7 @@ import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.RatClassifierTransportSealUp.ClassifierHandoffDeterminacy
+import BEDC.Derived.RatClassifierTransportSealUp.HandoffDeterminacy
 import BEDC.Derived.RatClassifierTransportSealUp.NameCertObligations
 import BEDC.Derived.RatClassifierTransportSealUp.TasteGate
 import BEDC.Derived.RatClassifierTransportSealUp.WindowExhaustion
