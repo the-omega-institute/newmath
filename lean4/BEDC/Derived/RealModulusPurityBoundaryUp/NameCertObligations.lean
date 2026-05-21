@@ -85,4 +85,34 @@ theorem RealModulusPurityBoundary_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, unaryR0, unaryRouteRL, unaryRouteLB, unaryConsumer⟩
 
+theorem RealModulusPurityBoundary_nonescape [AskSetup] [PackageSetup]
+    {x : RealModulusPurityBoundaryUp}
+    {D S R0 L B H C P N routeRL routeLB consumer leaked : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    realModulusPurityBoundaryFields x = [D, S, R0, L, B, H, C, P, N] ->
+      Cont D S R0 ->
+        Cont R0 L routeRL ->
+          Cont routeRL B routeLB ->
+            Cont routeLB N consumer ->
+              UnaryHistory D ->
+                UnaryHistory S ->
+                  UnaryHistory L ->
+                    UnaryHistory B ->
+                      UnaryHistory N ->
+                        PkgSig bundle N pkg ->
+                          hsame leaked consumer ->
+                            UnaryHistory leaked ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro _fields routeR0 routeRLCont routeLBCont consumerCont unaryD unaryS unaryL unaryB
+    unaryN namePkg leakedSame
+  have unaryR0 : UnaryHistory R0 :=
+    unary_cont_closed unaryD unaryS routeR0
+  have unaryRouteRL : UnaryHistory routeRL :=
+    unary_cont_closed unaryR0 unaryL routeRLCont
+  have unaryRouteLB : UnaryHistory routeLB :=
+    unary_cont_closed unaryRouteRL unaryB routeLBCont
+  have unaryConsumer : UnaryHistory consumer :=
+    unary_cont_closed unaryRouteLB unaryN consumerCont
+  exact ⟨unary_transport unaryConsumer (hsame_symm leakedSame), namePkg⟩
+
 end BEDC.Derived.RealModulusPurityBoundaryUp
