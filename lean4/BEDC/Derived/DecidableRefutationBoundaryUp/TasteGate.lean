@@ -176,6 +176,25 @@ private theorem decidableRefutationBoundaryToEventFlow_injective
     (Eq.trans (decidableRefutationBoundary_round_trip x).symm
       (Eq.trans hread (decidableRefutationBoundary_round_trip y)))
 
+private def decidableRefutationBoundaryFields :
+    DecidableRefutationBoundaryUp -> List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | DecidableRefutationBoundaryUp.mk assumption decision falsity transport continuation
+      provenance name =>
+      [assumption, decision, falsity, transport, continuation, provenance, name]
+
+private theorem decidableRefutationBoundary_field_faithful :
+    forall x y : DecidableRefutationBoundaryUp,
+      decidableRefutationBoundaryFields x = decidableRefutationBoundaryFields y -> x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk assumption decision falsity transport continuation provenance name =>
+      cases y with
+      | mk assumption' decision' falsity' transport' continuation' provenance' name' =>
+          cases hfields
+          rfl
+
 instance decidableRefutationBoundaryBHistCarrier :
     BHistCarrier DecidableRefutationBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -194,6 +213,24 @@ instance decidableRefutationBoundaryChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (decidableRefutationBoundaryToEventFlow_injective heq)
+
+instance decidableRefutationBoundaryFieldFaithful :
+    FieldFaithful DecidableRefutationBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := decidableRefutationBoundaryFields
+  field_faithful := decidableRefutationBoundary_field_faithful
+
+instance decidableRefutationBoundaryNontrivial :
+    Nontrivial DecidableRefutationBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨DecidableRefutationBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      DecidableRefutationBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 theorem DecidableRefutationBoundaryTasteGate_single_carrier_alignment :
     (forall h : BHist,
