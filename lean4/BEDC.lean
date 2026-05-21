@@ -49,6 +49,7 @@ import BEDC.Derived.AnalyticContinuationSocketUp.OperationLandingExactness
 import BEDC.Derived.AnalyticContinuationSocketUp.OutputBranchSeparation
 import BEDC.Derived.AnalyticContinuationSocketUp.OverlapClassifierRoute
 import BEDC.Derived.AnalyticContinuationSocketUp.OverlapClassifierRouteCertificate
+import BEDC.Derived.AnalyticContinuationSocketUp.OverlapToZetaHandoff
 import BEDC.Derived.AnalyticContinuationSocketUp.PublicExport
 import BEDC.Derived.AnalyticContinuationSocketUp.RootBranchLedger
 import BEDC.Derived.AnalyticContinuationSocketUp.RootDownstreamUnblock
@@ -212,6 +213,7 @@ import BEDC.Derived.ApproximationTowerResidueUp.TasteGate
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.ArchimedeanRealUp
 import BEDC.Derived.ArchimedeanRealUp.PublicOrderConsumer
+import BEDC.Derived.ArchimedeanRealUp.TasteGate
 import BEDC.Derived.ArzelaAscoliUp
 import BEDC.Derived.AscoliModulusUp
 import BEDC.Derived.AspectChainUp.NameCertObligations
@@ -5044,6 +5046,7 @@ import BEDC.Derived.ZetaContinuationApplicationUp.RootObligations
 import BEDC.Derived.ZetaContinuationApplicationUp.RowInventoryCoverage
 import BEDC.Derived.ZetaContinuationApplicationUp.SourceLockTriadSeparation
 import BEDC.Derived.ZetaContinuationApplicationUp.SourceRouteExactness
+import BEDC.Derived.ZetaContinuationApplicationUp.SourceTriadExhaustion
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationApplicationUp.VisibleBoundaryLock
 import BEDC.Derived.ZetaContinuationApplicationUp.ZetaBasicSourceLock
