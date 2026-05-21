@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.InterHistTransportSealUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -172,5 +174,28 @@ instance interHistTransportSealNontrivial : Nontrivial InterHistTransportSealUp 
 def taste_gate : ChapterTasteGate InterHistTransportSealUp :=
   -- BEDC touchpoint anchor: BHist BMark
   interHistTransportSealChapterTasteGate
+
+theorem InterHistTransportSealCarrier_nonescape
+    {source target locality invariant observer route route' transport continuation continuation'
+      provenance name : BHist}
+    (routeStep : Cont invariant observer route) (routeStep' : Cont invariant observer route')
+    (sealStep : Cont locality route continuation)
+    (sealStep' : Cont locality route' continuation') :
+    hsame route route' ∧ hsame continuation continuation' ∧
+      interHistTransportSealFields
+          (InterHistTransportSealUp.mk source target locality invariant observer route transport
+            continuation provenance name) =
+        [source, target, locality, invariant, observer, route, transport, continuation,
+          provenance, name] := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  have routeSame : hsame route route' :=
+    cont_deterministic routeStep routeStep'
+  have continuationSame : hsame continuation continuation' :=
+    cont_respects_hsame (hsame_refl locality) routeSame sealStep sealStep'
+  constructor
+  · exact routeSame
+  · constructor
+    · exact continuationSame
+    · rfl
 
 end BEDC.Derived.InterHistTransportSealUp

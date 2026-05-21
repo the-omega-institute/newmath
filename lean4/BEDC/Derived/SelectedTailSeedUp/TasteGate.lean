@@ -1,6 +1,8 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SelectedTailSeedUp
@@ -8,6 +10,7 @@ namespace BEDC.Derived.SelectedTailSeedUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -311,5 +314,28 @@ theorem SelectedTailSeedCarrier_finite_tail_admission_exactness
         (selectedTailSeedToEventFlow (SelectedTailSeedUp.mk Q E A W K S R H C P N)) =
           some (SelectedTailSeedUp.mk Q E A W K S R H C P N)
     exact selectedTailSeed_round_trip (SelectedTailSeedUp.mk Q E A W K S R H C P N)
+
+theorem SelectedTailSeedCarrier_endpoint_exactness_readback_stability
+    {Q E A W K S R H C P N E' : BHist} (windowUnary : UnaryHistory W)
+    (readbackUnary : UnaryHistory K) (sameEndpoint : hsame E E')
+    (endpointRoute : Cont Q E W) (readbackRoute : Cont W K S) :
+    Cont Q E' W ∧ UnaryHistory S ∧
+      BHistCarrier.fromEventFlow
+          (BHistCarrier.toEventFlow (SelectedTailSeedUp.mk Q E A W K S R H C P N)) =
+        some (SelectedTailSeedUp.mk Q E A W K S R H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory
+  have transportedEndpoint : Cont Q E' W :=
+    cont_hsame_transport (hsame_refl Q) sameEndpoint (hsame_refl W) endpointRoute
+  have readbackClosed : UnaryHistory S :=
+    unary_cont_closed windowUnary readbackUnary readbackRoute
+  constructor
+  · exact transportedEndpoint
+  · constructor
+    · exact readbackClosed
+    · change
+        selectedTailSeedFromEventFlow
+            (selectedTailSeedToEventFlow (SelectedTailSeedUp.mk Q E A W K S R H C P N)) =
+          some (SelectedTailSeedUp.mk Q E A W K S R H C P N)
+      exact selectedTailSeed_round_trip (SelectedTailSeedUp.mk Q E A W K S R H C P N)
 
 end BEDC.Derived.SelectedTailSeedUp
