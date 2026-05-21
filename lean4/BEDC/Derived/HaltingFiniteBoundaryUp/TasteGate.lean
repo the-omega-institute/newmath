@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.HaltingFiniteBoundaryUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -207,5 +209,16 @@ theorem HaltingFiniteBoundaryTasteGate_single_carrier_alignment :
   · constructor
     · rfl
     · exact HaltingFiniteBoundaryTasteGate_field_faithful_concrete
+
+theorem HaltingFiniteBoundaryCarrier_consumer_inversion (x : HaltingFiniteBoundaryUp) :
+    ∃ A F R D T I H C P N : BHist,
+      x = HaltingFiniteBoundaryUp.mk A F R D T I H C P N ∧
+        Cont F D (append F D) ∧
+          hsame R R ∧
+            haltingFiniteBoundaryFields x = [A, F, R, D, T, I, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  cases x with
+  | mk A F R D T I H C P N =>
+      exact ⟨A, F, R, D, T, I, H, C, P, N, rfl, rfl, hsame_refl R, rfl⟩
 
 end BEDC.Derived.HaltingFiniteBoundaryUp
