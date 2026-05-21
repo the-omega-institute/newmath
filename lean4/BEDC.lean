@@ -2510,10 +2510,13 @@ import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
 import BEDC.Derived.FinitePhaseSamplingUp
 import BEDC.Derived.FinitePrefixAutomatonUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitBudgetUp.TasteGate
+import BEDC.Derived.FinitePrefixLimitStabilityUp.BudgetWindowLock
 import BEDC.Derived.FinitePrefixLimitStabilityUp.LedgerExactness
+import BEDC.Derived.FinitePrefixLimitStabilityUp.StdBridge
 import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
 import BEDC.Derived.FinitePrefixMachineUp.TasteGate
 import BEDC.Derived.FiniteRealRouteCommitmentUp.TasteGate
+import BEDC.Derived.FiniteRealSectionUp.RouteConsumerExactness
 import BEDC.Derived.FiniteRealSectionUp.TasteGate
 import BEDC.Derived.FiniteReflectionTupleUp.Core
 import BEDC.Derived.FiniteReflectionTupleUp.TasteGate
@@ -3486,6 +3489,7 @@ import BEDC.Derived.OnticStateUp.StdBridge
 import BEDC.Derived.OnticStateUp.TasteGate
 import BEDC.Derived.OnticStateUp.TasteGateFieldScope
 import BEDC.Derived.OnticStateUp.TransportScope
+import BEDC.Derived.OnticTowerUp.Classifier
 import BEDC.Derived.OnticTowerUp.TasteGate
 import BEDC.Derived.OpenFitPacketUp.NoFinalOracleBoundary
 import BEDC.Derived.OpenFitPacketUp.SignatureFitHandoff
@@ -3616,6 +3620,7 @@ import BEDC.Derived.PiApplicationAdequacyRouteUp.TasteGate
 import BEDC.Derived.PicardContractionUp
 import BEDC.Derived.PicardContractionUp.CauchyModulusSiblingRoute
 import BEDC.Derived.PicardContractionUp.CauchyRateRootUnblockPackage
+import BEDC.Derived.PicardContractionUp.Classifier
 import BEDC.Derived.PicardContractionUp.CompleteMetricHandoff
 import BEDC.Derived.PicardContractionUp.ContractionRowExactness
 import BEDC.Derived.PicardContractionUp.DownstreamModulusExposure
@@ -4067,6 +4072,7 @@ import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationBoundaryTotality
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationNonescapeRoute
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationRowPrecedence
+import BEDC.Derived.ReflectiveInquiryUp.LedgeredRoleCorrespondence
 import BEDC.Derived.ReflectiveInquiryUp.Nonescape
 import BEDC.Derived.ReflectiveInquiryUp.TasteGate
 import BEDC.Derived.ReflectiveStabilityUp.TasteGate
@@ -4221,6 +4227,7 @@ import BEDC.Derived.ResearchProgrammeRouteUp.TasteGate
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.RestrictedSurfaceBudgetUp.TasteGate
 import BEDC.Derived.ReviewAcceptanceGateUp.HumanApprovalBoundary
+import BEDC.Derived.ReviewAcceptanceGateUp.NameCertObligations
 import BEDC.Derived.ReviewAcceptanceGateUp.TasteGate
 import BEDC.Derived.RiccatiUp
 import BEDC.Derived.RiemannHilbertUp
@@ -4386,6 +4393,7 @@ import BEDC.Derived.SocketKindClassifierUp.StdBridge
 import BEDC.Derived.SocketKindClassifierUp.TasteGate
 import BEDC.Derived.SocketReportUp.MinimalClassification
 import BEDC.Derived.SocketReportUp.NameCertObligations
+import BEDC.Derived.SocketReportUp.SiblingSeparation
 import BEDC.Derived.SocketReportUp.TasteGate
 import BEDC.Derived.SocketStackCertificateUp.TasteGate
 import BEDC.Derived.SocketTaxonomyLedgerUp.TasteGate
