@@ -1,0 +1,109 @@
+\chapter{A Concrete Naming Certificate for $\IntegerRealEmbeddingUp$}
+\label{ch:concrete-instances-integer-real-embedding-namecert}
+\origin{human}
+
+Following Bishop and Bridges on integers as exact rational constants inside constructive real analysis, the $\IntegerRealEmbeddingUp$ packet records the finite route by which an $\IntUp$ signed-pair row becomes a $\RealUp$ name. The route does not ask the real layer to forget the integer source: it passes first through the integer certificate of \autoref{ch:concrete-instances-int-namecert}, then the rational source surface of \autoref{ch:concrete-instances-rat-namecert}, the rational-to-real route of \autoref{ch:concrete-instances-rationalembedding-namecert}, the stationary diagonal route of \autoref{ch:concrete-instances-stationaryrationaldiagonal-namecert}, the constant stream surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance row of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[IntegerRealEmbedding carrier]
+\label{def:integer-real-embedding-carrier}
+An $\IntegerRealEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+K=(z,q,S,R,D,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $z$ is the $\IntUp$ signed-pair row naming the integer source;
+\item $q$ is the induced $\RatUp$ row obtained by reading $z$ as the rational constant $z/1$;
+\item $S$ is the constant $\StreamNameUp$ schedule whose admitted finite windows all read the same rational row $q$;
+\item $R$ is the stationary $\RegSeqRatUp$ handoff obtained from the constant schedule $S$;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and observation row used to compare the stationary rational reads at the displayed finite precisions;
+\item $E$ is the $\RealUp$ seal reached only after the rows $z,q,S,R,D$ have been exposed;
+\item $H$ records componentwise $\hsame$ transports for the integer source, rational image, constant schedule, stationary readback, dyadic tolerance row, real seal, package provenance, and local naming row;
+\item $C$ records the visible $\Cont$ routes from $z$ to $q$, from $q$ to $S$, from $S$ to $R$, from $R$ to $D$, and from $D$ to $E$;
+\item $P$ is the $\Pkg$ provenance over $\IntUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\IntegerRealEmbeddingUp}$ row.
+\end{enumerate}
+The carrier is finite data for integer constants as real names. It contains no quotient stream, no host integer equality oracle, no host real equality row, no selected limit, no trichotomy principle, and no ambient completeness coordinate.
+\end{definition}
+
+\begin{definition}[IntegerRealEmbedding classifier]
+\label{def:integer-real-embedding-classifier}
+The $\IntegerRealEmbeddingUp$ classifier compares two accepted carriers
+$$
+K=(z,q,S,R,D,E,H,C,P,N),\qquad
+K'=(z',q',S',R',D',E',H',C',P',N')
+$$
+only through the displayed route rows. It first compares the $\IntUp$ signed-pair sources $z,z'$ by the integer classifier, then compares the induced $\RatUp$ rows $q,q'$ by the rational classifier, then compares the constant $\StreamNameUp$ schedules, stationary $\RegSeqRatUp$ handoffs, dyadic tolerance rows, and $\RealUp$ seal rows through their visible $\hsame$ and $\Cont$ transports. The provenance rows $P,P'$ and local certificate rows $N,N'$ must name the same finite dependency surface.
+\end{definition}
+
+\begin{theorem}[IntegerRealEmbedding NameCert obligations]
+\label{thm:integer-real-embedding-namecert-obligations}
+The local $\NameCert_{\IntegerRealEmbeddingUp}$ surface consists exactly of five rows:
+\begin{enumerate}
+\item carrier: the finite packet of \autoref{def:integer-real-embedding-carrier};
+\item classifier: comparison through the $\IntUp$ source, the induced $\RatUp$ row, the constant $\StreamNameUp$ schedule, the stationary $\RegSeqRatUp$ handoff, the $\DyadicRatCoreUp$ tolerance row, and the $\RealUp$ seal;
+\item stability: componentwise $\hsame$ transport preserves the integer source, rational image, constant schedule, stationary readback, dyadic observations, and real seal;
+\item exactness/readback: every real-facing read factors through $z,q,S,R,D$ before consulting $E$;
+\item ledger: the $\Pkg$ and local $\NameCert$ rows expose only $\IntUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and local certificate coordinates.
+\end{enumerate}
+No row of the surface is a quotient stream, host integer equality oracle, host real equality, trichotomy principle, selected limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:integer-real-embedding-carrier}. Its visible coordinates already name the integer source, rational image, constant stream schedule, stationary regular-rational readback, dyadic observation row, real seal, transports, continuation routes, package provenance, and local certificate row.
+
+The classifier row is fixed by \autoref{def:integer-real-embedding-classifier}. It never compares real names directly before the displayed integer-to-rational and rational-to-stationary route has been read.
+
+Stability follows by transporting each listed coordinate through the stored $\hsame$ row and using the displayed $\Cont$ route for the corresponding handoff. Exactness is then forced because the only route to $E$ is the route through $z,q,S,R,D$.
+
+The ledger is exhausted by $P$ and $N$. Since the carrier has no coordinate for quotient streams, host integer equality, host real equality, trichotomy, selected limits, or ambient completeness, none of those objects can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[IntegerRealEmbedding stationary stream route]
+\label{thm:integer-real-embedding-stationary-stream-route}
+Every accepted $\IntegerRealEmbeddingUp$ carrier routes its $\IntUp$ source row $z$ through the induced rational row $q$ and the constant $\StreamNameUp$ schedule $S$ before any regular-rational or real-facing coordinate is available. Every admitted stream window therefore reads the same rational constant induced by $z$.
+\end{theorem}
+\begin{proof}
+Read the continuation coordinates of the carrier. The first displayed handoff is $z$ to $q$, and the next displayed handoff is $q$ to the constant schedule $S$.
+
+The schedule $S$ has no independent stream seed. Each admitted finite window is generated from the same rational row $q$, so the stream route is stationary at the rational constant induced by the integer source.
+
+Only after this constant schedule is displayed can the packet expose the regular-rational handoff $R$ and the later real-facing rows. Thus every consumer that reaches those later rows has already passed through $z,q,S$.
+\end{proof}
+
+\begin{theorem}[IntegerRealEmbedding RegSeqRat handoff]
+\label{thm:integer-real-embedding-regseqrat-handoff}
+For every accepted $\IntegerRealEmbeddingUp$ carrier $K=(z,q,S,R,D,E,H,C,P,N)$, the $\RegSeqRatUp$ row $R$ is the stationary regular-rational readback of the constant stream schedule $S$. The dyadic tolerance row $D$ can inspect only finite precision reads of that stationary row before the $\RealUp$ seal $E$ is opened.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:integer-real-embedding-stationary-stream-route}. It identifies every admitted stream window of $S$ with the same rational row $q$ obtained from $z$.
+
+The handoff coordinate $R$ is reached from $S$ by the displayed continuation route and has no independent sequence source. Its readback is therefore stationary at the same rational row.
+
+The dyadic row $D$ is downstream from $R$ in the carrier. It records only the finite tolerance and observation data attached to that stationary readback, so it cannot inspect an unrelated regular sequence before the real seal is reached.
+\end{proof}
+
+\begin{theorem}[IntegerRealEmbedding RealUp seal nonescape]
+\label{thm:integer-real-embedding-realup-seal-nonescape}
+For every accepted $\IntegerRealEmbeddingUp$ carrier $K=(z,q,S,R,D,E,H,C,P,N)$, the $\RealUp$ seal row $E$ factors through the displayed dependency chain
+$$
+\IntUp,\ \RatUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \NameCert_{\IntegerRealEmbeddingUp}.
+$$
+The seal exports only the local rows $z,q,S,R,D,H,C,P,N$ as boundary data. It does not export quotient-stream equality, host integer equality, host real equality, trichotomy, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with a read of the real seal $E$. By the carrier definition, $E$ is reachable only through the displayed predecessor $D$, whose predecessor is $R$, whose predecessor is $S$, whose predecessor is $q$, whose source is $z$.
+
+Use \autoref{thm:integer-real-embedding-regseqrat-handoff}. It shows that the regular-rational row and dyadic observation row are attached to the stationary constant readback induced by the integer source.
+
+The remaining rows $H,C,P,N$ provide transport, continuation, provenance, and local naming for the same finite route. Since the carrier contains no coordinate for quotient-stream equality, host integer equality, host real equality, trichotomy, selected limits, or ambient completeness, the real seal cannot export any of them.
+\end{proof}
+
+\begin{closurestatus}{\IntegerRealEmbeddingUp}
+  \constructivestory{An $\IntegerRealEmbeddingUp$ packet is generated from an IntUp signed-pair source row, induced RatUp constant row, constant StreamName schedule, stationary RegSeqRat handoff, DyadicRatCore tolerance row, RealUp seal, componentwise transports, continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:integer-real-embedding-carrier}, \autoref{def:integer-real-embedding-classifier}, \autoref{thm:integer-real-embedding-namecert-obligations}, \autoref{thm:integer-real-embedding-stationary-stream-route}, \autoref{thm:integer-real-embedding-regseqrat-handoff}, and \autoref{thm:integer-real-embedding-realup-seal-nonescape} seed the finite integer-constant route from $\IntUp$ to $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient-stream equality, host integer equality, trichotomy, selected limits, ambient completeness, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, stationary StreamName routing, RegSeqRat handoff, DyadicRatCore observation exactness, RealUp seal factorization, and nonescape.}
+\end{closurestatus}
