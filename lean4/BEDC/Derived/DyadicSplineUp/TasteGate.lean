@@ -1,3 +1,4 @@
+import BEDC.Derived.DyadicSplineUp
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -101,7 +102,7 @@ private theorem DyadicSplineTasteGate_single_carrier_alignment_round_trip :
         DyadicSplineTasteGate_single_carrier_alignment_decode provenance,
         DyadicSplineTasteGate_single_carrier_alignment_decode nameCert]
 
-private theorem DyadicSplineToEventFlow_injective {x y : DyadicSplineUp} :
+private theorem dyadicSplineToEventFlow_injective {x y : DyadicSplineUp} :
     dyadicSplineToEventFlow x = dyadicSplineToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -138,11 +139,7 @@ instance dyadicSplineChapterTasteGate : ChapterTasteGate DyadicSplineUp where
     exact DyadicSplineTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (DyadicSplineToEventFlow_injective heq)
-
-def taste_gate : ChapterTasteGate DyadicSplineUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  dyadicSplineChapterTasteGate
+    exact hxy (dyadicSplineToEventFlow_injective heq)
 
 instance dyadicSplineFieldFaithful : FieldFaithful DyadicSplineUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -162,16 +159,29 @@ instance dyadicSplineNontrivial : Nontrivial DyadicSplineUp where
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate DyadicSplineUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  dyadicSplineChapterTasteGate
+
 theorem DyadicSplineTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate DyadicSplineUp) ∧
       Nonempty (FieldFaithful DyadicSplineUp) ∧
         Nonempty (Nontrivial DyadicSplineUp) ∧
-          (∀ h : BHist, dyadicSplineDecodeBHist (dyadicSplineEncodeBHist h) = h) ∧
-            (∀ x : DyadicSplineUp,
+          (forall h : BHist, dyadicSplineDecodeBHist (dyadicSplineEncodeBHist h) = h) ∧
+            (forall x : DyadicSplineUp,
               dyadicSplineFromEventFlow (dyadicSplineToEventFlow x) = some x) ∧
-              (∀ x y : DyadicSplineUp,
+              (forall x y : DyadicSplineUp,
                 dyadicSplineToEventFlow x = dyadicSplineToEventFlow y -> x = y) ∧
-                dyadicSplineEncodeBHist BHist.Empty = ([] : RawEvent) := by
+                dyadicSplineFields
+                    (DyadicSplineUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+                  [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+                    BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
+                  dyadicSplineToEventFlow
+                      (DyadicSplineUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+                    [[], [], [], [], [], [], [], [], [], []] ∧
+                    dyadicSplineEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate Nontrivial
   exact
     ⟨⟨dyadicSplineChapterTasteGate⟩,
@@ -179,7 +189,9 @@ theorem DyadicSplineTasteGate_single_carrier_alignment :
       ⟨dyadicSplineNontrivial⟩,
       DyadicSplineTasteGate_single_carrier_alignment_decode,
       DyadicSplineTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq => DyadicSplineToEventFlow_injective heq),
+      (fun _ _ heq => dyadicSplineToEventFlow_injective heq),
+      rfl,
+      rfl,
       rfl⟩
 
 end BEDC.Derived.DyadicSplineUp.TasteGate
