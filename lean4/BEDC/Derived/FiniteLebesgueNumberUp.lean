@@ -206,4 +206,26 @@ theorem FiniteLebesgueNumberCarrier_window_coverage_exactness [AskSetup] [Packag
     ⟨windowUnary, radiusUnary, meshUnary, windowReadUnary, coverCellUnary,
       coverWindowRadius, windowRadiusRead, readMeshCell, provenancePkg, coverCellPkg⟩
 
+theorem FiniteLebesgueNumberCarrier_compact_consumer_route [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow compactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont radius mesh compactRead ->
+        PkgSig bundle compactRead pkg ->
+          UnaryHistory cover ∧ UnaryHistory window ∧ UnaryHistory radius ∧
+            UnaryHistory mesh ∧ UnaryHistory compactRead ∧ Cont cover window radius ∧
+              Cont radius mesh compactRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle compactRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier radiusMeshCompactRead compactReadPkg
+  obtain ⟨coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameRowUnary, coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have compactReadUnary : UnaryHistory compactRead :=
+    unary_cont_closed radiusUnary meshUnary radiusMeshCompactRead
+  exact
+    ⟨coverUnary, windowUnary, radiusUnary, meshUnary, compactReadUnary, coverWindowRadius,
+      radiusMeshCompactRead, provenancePkg, compactReadPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp

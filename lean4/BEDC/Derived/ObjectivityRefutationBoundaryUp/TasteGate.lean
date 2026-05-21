@@ -313,6 +313,22 @@ theorem ObjectivityRefutationBoundaryTasteGate_single_carrier_alignment :
                   objectivityRefutationBoundaryToEventFlow_injective h
                 cases hx
 
+theorem ObjectivityRefutationBoundaryCarrier_nonescape [AskSetup] [PackageSetup]
+    {H K A W R T P N endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObjectivityRefutationBoundaryCarrier H K A W R T P N bundle pkg →
+      Cont T P endpoint →
+        PkgSig bundle endpoint pkg →
+          objectivityRefutationBoundaryFields
+              (ObjectivityRefutationBoundaryUp.mk H K A W R T P N) =
+            [H, K, A, W, R, T, P, N] ∧
+            UnaryHistory endpoint ∧ hsame P N ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame
+  intro carrier tpEndpoint endpointPkg
+  obtain ⟨_hUnary, _kUnary, _aUnary, _wUnary, _rUnary, tUnary, pUnary, _nUnary,
+    _kaW, _wrT, _bundlePkg, pn⟩ := carrier
+  exact ⟨rfl, unary_cont_closed tUnary pUnary tpEndpoint, pn, endpointPkg⟩
+
 namespace TasteGate
 
 theorem ObjectivityRefutationBoundaryTasteGate_single_carrier_alignment :
