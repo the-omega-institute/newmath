@@ -63,6 +63,7 @@ import BEDC.Derived.AnchorStabilityCertificateUp.TasteGate
 import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
+import BEDC.Derived.ApartnessRealUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFixedPointFiberUp.TasteGate
@@ -1075,6 +1076,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.WindowToleranceExactness
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
+import BEDC.Derived.CauchyNetUp
 import BEDC.Derived.CauchyNetUp.TasteGate
 import BEDC.Derived.CauchyNullEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyOscillationUp
@@ -1948,6 +1950,7 @@ import BEDC.Derived.DeRhamUp.RootObligations
 import BEDC.Derived.DecidableRefutationBoundaryUp.NameCertObligations
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
+import BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate
 import BEDC.Derived.DecimalExpansionUp.TasteGate
 import BEDC.Derived.DedekindCauchyComparisonUp.TasteGate
 import BEDC.Derived.DedekindCutUp
@@ -4125,6 +4128,7 @@ import BEDC.Derived.RealSealComparisonUp.NameCertObligations
 import BEDC.Derived.RealSealComparisonUp.TasteGate
 import BEDC.Derived.RealSealCongruenceUp.TasteGate
 import BEDC.Derived.RealSelectorComparisonUp.TasteGate
+import BEDC.Derived.RealSequenceClusterPointUp.TasteGate
 import BEDC.Derived.RealSequenceLimitUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.DyadicWindowExactness
 import BEDC.Derived.RealTailAgreementSealUp.RealCompletionHandoff
@@ -4412,10 +4416,12 @@ import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal
 import BEDC.Derived.RegularCauchyNegationUp
 import BEDC.Derived.RegularCauchyProductBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyProductUp
+import BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyScaleUp
 import BEDC.Derived.RegularCauchySelectorBudgetUp
 import BEDC.Derived.RegularCauchySequenceUp
+import BEDC.Derived.RegularCauchyShiftUp.TasteGate
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.RegularCauchySumUp
@@ -4464,6 +4470,7 @@ import BEDC.Derived.RegularLanguageUp.TasteGate
 import BEDC.Derived.RegularLimitUniquenessUp
 import BEDC.Derived.RegularLimitUniquenessUp.DyadicWindowSeparationPullback
 import BEDC.Derived.RegularLimitUniquenessUp.ScopedHandoff
+import BEDC.Derived.RegularLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RegularityModulusUp.CarrierSurface
 import BEDC.Derived.RegularityModulusUp.ObligationCompleteness
