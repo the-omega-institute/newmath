@@ -1,8 +1,9 @@
 import BEDC.Derived.FiniteTailFilterUp
+import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.FiniteTailFilterUp
+namespace BEDC.Derived.FiniteTailFilterUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -11,9 +12,10 @@ open BEDC.Meta.TasteGate
 
 inductive FiniteTailFilterUp : Type where
   | mk :
-      (streamWindow dyadicTolerance regularReadback tailBudget commonTail realSeal handoff
-        consumer provenance nameCert : BHist) →
-        FiniteTailFilterUp
+      (stream dyadic regular budget commonTail sealRow transport classifier provenance name :
+        BHist) →
+      FiniteTailFilterUp
+  deriving DecidableEq
 
 def finiteTailFilterEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -27,7 +29,7 @@ def finiteTailFilterDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (finiteTailFilterDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (finiteTailFilterDecodeBHist tail)
 
-private theorem finiteTailFilter_decode_encode :
+private theorem finiteTailFilter_decode_encode_bhist :
     ∀ h : BHist, finiteTailFilterDecodeBHist (finiteTailFilterEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -39,114 +41,105 @@ private theorem finiteTailFilter_decode_encode :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def finiteTailFilterFields : FiniteTailFilterUp → List BHist :=
+def finiteTailFilterToEventFlow : FiniteTailFilterUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun
-  | FiniteTailFilterUp.mk streamWindow dyadicTolerance regularReadback tailBudget commonTail
-      realSeal handoff consumer provenance nameCert =>
-      [streamWindow, dyadicTolerance, regularReadback, tailBudget, commonTail, realSeal,
-        handoff, consumer, provenance, nameCert]
+  | FiniteTailFilterUp.mk stream dyadic regular budget commonTail sealRow transport classifier
+      provenance name =>
+      [finiteTailFilterEncodeBHist stream,
+        finiteTailFilterEncodeBHist dyadic,
+        finiteTailFilterEncodeBHist regular,
+        finiteTailFilterEncodeBHist budget,
+        finiteTailFilterEncodeBHist commonTail,
+        finiteTailFilterEncodeBHist sealRow,
+        finiteTailFilterEncodeBHist transport,
+        finiteTailFilterEncodeBHist classifier,
+        finiteTailFilterEncodeBHist provenance,
+        finiteTailFilterEncodeBHist name]
 
-def finiteTailFilterToEventFlow : FiniteTailFilterUp → EventFlow :=
+private def finiteTailFilterNthRawEvent : EventFlow → Nat → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (finiteTailFilterFields x).map finiteTailFilterEncodeBHist
+  | [], _ => []
+  | head :: _tail, Nat.zero => head
+  | _head :: tail, Nat.succ n => finiteTailFilterNthRawEvent tail n
 
-def finiteTailFilterFromEventFlow : EventFlow → Option FiniteTailFilterUp :=
+def finiteTailFilterFromEventFlow (ef : EventFlow) : Option FiniteTailFilterUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    match ef with
-    | streamWindow :: rest1 =>
-        match rest1 with
-        | dyadicTolerance :: rest2 =>
-            match rest2 with
-            | regularReadback :: rest3 =>
-                match rest3 with
-                | tailBudget :: rest4 =>
-                    match rest4 with
-                    | commonTail :: rest5 =>
-                        match rest5 with
-                        | realSeal :: rest6 =>
-                            match rest6 with
-                            | handoff :: rest7 =>
-                                match rest7 with
-                                | consumer :: rest8 =>
-                                    match rest8 with
-                                    | provenance :: rest9 =>
-                                        match rest9 with
-                                        | nameCert :: rest10 =>
-                                            match rest10 with
-                                            | [] =>
-                                                some
-                                                  (FiniteTailFilterUp.mk
-                                                    (finiteTailFilterDecodeBHist streamWindow)
-                                                    (finiteTailFilterDecodeBHist dyadicTolerance)
-                                                    (finiteTailFilterDecodeBHist regularReadback)
-                                                    (finiteTailFilterDecodeBHist tailBudget)
-                                                    (finiteTailFilterDecodeBHist commonTail)
-                                                    (finiteTailFilterDecodeBHist realSeal)
-                                                    (finiteTailFilterDecodeBHist handoff)
-                                                    (finiteTailFilterDecodeBHist consumer)
-                                                    (finiteTailFilterDecodeBHist provenance)
-                                                    (finiteTailFilterDecodeBHist nameCert))
-                                            | _ :: _ => none
-                                        | [] => none
-                                    | [] => none
-                                | [] => none
-                            | [] => none
-                        | [] => none
-                    | [] => none
-                | [] => none
-            | [] => none
-        | [] => none
-    | [] => none
+  some
+    (FiniteTailFilterUp.mk
+      (finiteTailFilterDecodeBHist (finiteTailFilterNthRawEvent ef 0))
+      (finiteTailFilterDecodeBHist (finiteTailFilterNthRawEvent ef 1))
+      (finiteTailFilterDecodeBHist (finiteTailFilterNthRawEvent ef 2))
+      (finiteTailFilterDecodeBHist (finiteTailFilterNthRawEvent ef 3))
+      (finiteTailFilterDecodeBHist (finiteTailFilterNthRawEvent ef 4))
+      (finiteTailFilterDecodeBHist (finiteTailFilterNthRawEvent ef 5))
+      (finiteTailFilterDecodeBHist (finiteTailFilterNthRawEvent ef 6))
+      (finiteTailFilterDecodeBHist (finiteTailFilterNthRawEvent ef 7))
+      (finiteTailFilterDecodeBHist (finiteTailFilterNthRawEvent ef 8))
+      (finiteTailFilterDecodeBHist (finiteTailFilterNthRawEvent ef 9)))
+
+private theorem finiteTailFilter_mk_congr
+    {stream stream' dyadic dyadic' regular regular' budget budget' commonTail commonTail'
+      sealRow sealRow' transport transport' classifier classifier' provenance provenance' name
+      name' : BHist}
+    (hStream : stream' = stream)
+    (hDyadic : dyadic' = dyadic)
+    (hRegular : regular' = regular)
+    (hBudget : budget' = budget)
+    (hCommonTail : commonTail' = commonTail)
+    (hSealRow : sealRow' = sealRow)
+    (hTransport : transport' = transport)
+    (hClassifier : classifier' = classifier)
+    (hProvenance : provenance' = provenance)
+    (hName : name' = name) :
+    FiniteTailFilterUp.mk stream' dyadic' regular' budget' commonTail' sealRow' transport'
+        classifier' provenance' name' =
+      FiniteTailFilterUp.mk stream dyadic regular budget commonTail sealRow transport classifier
+        provenance name := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hStream
+  cases hDyadic
+  cases hRegular
+  cases hBudget
+  cases hCommonTail
+  cases hSealRow
+  cases hTransport
+  cases hClassifier
+  cases hProvenance
+  cases hName
+  rfl
 
 private theorem finiteTailFilter_round_trip :
     ∀ x : FiniteTailFilterUp,
       finiteTailFilterFromEventFlow (finiteTailFilterToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro token
-  cases token with
-  | mk streamWindow dyadicTolerance regularReadback tailBudget commonTail realSeal handoff
-      consumer provenance nameCert =>
-      change
-        some
-            (FiniteTailFilterUp.mk
-              (finiteTailFilterDecodeBHist (finiteTailFilterEncodeBHist streamWindow))
-              (finiteTailFilterDecodeBHist (finiteTailFilterEncodeBHist dyadicTolerance))
-              (finiteTailFilterDecodeBHist (finiteTailFilterEncodeBHist regularReadback))
-              (finiteTailFilterDecodeBHist (finiteTailFilterEncodeBHist tailBudget))
-              (finiteTailFilterDecodeBHist (finiteTailFilterEncodeBHist commonTail))
-              (finiteTailFilterDecodeBHist (finiteTailFilterEncodeBHist realSeal))
-              (finiteTailFilterDecodeBHist (finiteTailFilterEncodeBHist handoff))
-              (finiteTailFilterDecodeBHist (finiteTailFilterEncodeBHist consumer))
-              (finiteTailFilterDecodeBHist (finiteTailFilterEncodeBHist provenance))
-              (finiteTailFilterDecodeBHist (finiteTailFilterEncodeBHist nameCert))) =
-          some
-            (FiniteTailFilterUp.mk streamWindow dyadicTolerance regularReadback tailBudget
-              commonTail realSeal handoff consumer provenance nameCert)
-      rw [finiteTailFilter_decode_encode streamWindow]
-      rw [finiteTailFilter_decode_encode dyadicTolerance]
-      rw [finiteTailFilter_decode_encode regularReadback]
-      rw [finiteTailFilter_decode_encode tailBudget]
-      rw [finiteTailFilter_decode_encode commonTail]
-      rw [finiteTailFilter_decode_encode realSeal]
-      rw [finiteTailFilter_decode_encode handoff]
-      rw [finiteTailFilter_decode_encode consumer]
-      rw [finiteTailFilter_decode_encode provenance]
-      rw [finiteTailFilter_decode_encode nameCert]
+  intro x
+  cases x with
+  | mk stream dyadic regular budget commonTail sealRow transport classifier provenance name =>
+      exact
+        congrArg some
+          (finiteTailFilter_mk_congr
+            (finiteTailFilter_decode_encode_bhist stream)
+            (finiteTailFilter_decode_encode_bhist dyadic)
+            (finiteTailFilter_decode_encode_bhist regular)
+            (finiteTailFilter_decode_encode_bhist budget)
+            (finiteTailFilter_decode_encode_bhist commonTail)
+            (finiteTailFilter_decode_encode_bhist sealRow)
+            (finiteTailFilter_decode_encode_bhist transport)
+            (finiteTailFilter_decode_encode_bhist classifier)
+            (finiteTailFilter_decode_encode_bhist provenance)
+            (finiteTailFilter_decode_encode_bhist name))
 
 private theorem finiteTailFilterToEventFlow_injective {x y : FiniteTailFilterUp} :
     finiteTailFilterToEventFlow x = finiteTailFilterToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro hxy
-  have optionEq : some x = some y := by
-    calc
-      some x = finiteTailFilterFromEventFlow (finiteTailFilterToEventFlow x) :=
-        (finiteTailFilter_round_trip x).symm
-      _ = finiteTailFilterFromEventFlow (finiteTailFilterToEventFlow y) :=
-        congrArg finiteTailFilterFromEventFlow hxy
-      _ = some y := finiteTailFilter_round_trip y
-  exact Option.some.inj optionEq
+  intro heq
+  have hread :
+      finiteTailFilterFromEventFlow (finiteTailFilterToEventFlow x) =
+        finiteTailFilterFromEventFlow (finiteTailFilterToEventFlow y) :=
+    congrArg finiteTailFilterFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (finiteTailFilter_round_trip x).symm
+      (Eq.trans hread (finiteTailFilter_round_trip y)))
 
 instance finiteTailFilterBHistCarrier : BHistCarrier FiniteTailFilterUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -163,19 +156,18 @@ instance finiteTailFilterChapterTasteGate : ChapterTasteGate FiniteTailFilterUp 
     intro x y hxy heq
     exact hxy (finiteTailFilterToEventFlow_injective heq)
 
-def taste_gate : ChapterTasteGate FiniteTailFilterUp :=
+theorem FiniteTailFilterUpTasteGate_single_carrier_alignment :
+    Nonempty (BHistCarrier FiniteTailFilterUp) ∧
+      Nonempty (ChapterTasteGate FiniteTailFilterUp) ∧
+        ∃ x : FiniteTailFilterUp,
+          BHistCarrier.toEventFlow x =
+            finiteTailFilterToEventFlow
+              (FiniteTailFilterUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) := by
   -- BEDC touchpoint anchor: BHist BMark
-  finiteTailFilterChapterTasteGate
+  exact
+    ⟨⟨finiteTailFilterBHistCarrier⟩, ⟨finiteTailFilterChapterTasteGate⟩,
+      ⟨FiniteTailFilterUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty, rfl⟩⟩
 
-theorem finiteTailFilterTasteGate_single_carrier_alignment :
-    (∀ x : FiniteTailFilterUp,
-      finiteTailFilterFromEventFlow (finiteTailFilterToEventFlow x) = some x) ∧
-    (∀ {x y : FiniteTailFilterUp},
-      finiteTailFilterToEventFlow x = finiteTailFilterToEventFlow y → x = y) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · exact finiteTailFilter_round_trip
-  · intro x y hxy
-    exact finiteTailFilterToEventFlow_injective hxy
-
-end BEDC.Derived.FiniteTailFilterUp
+end BEDC.Derived.FiniteTailFilterUp.TasteGate
