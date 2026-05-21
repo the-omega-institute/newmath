@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\RealCauchyModulusUp$}
+\label{ch:concrete-instances-realcauchymodulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\RealCauchyModulusUp$ packet records the explicit modulus-controlled read by which a regular rational Cauchy name reaches a $\RealUp$ seal. It sits over the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the real seal boundary of \autoref{ch:concrete-instances-real-namecert}, and the generic modulus schedule of \autoref{ch:concrete-instances-cauchymodulus-namecert}. The packet keeps the modulus visible as finite certificate data before any Real-facing consumer may read the seal.
+
+\begin{definition}[Real Cauchy modulus carrier]
+\label{def:real-cauchy-modulus-carrier}
+A $\RealCauchyModulusUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,S,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the precision-indexed $\CauchyModulusUp$ schedule assigning each requested dyadic tolerance a finite threshold.
+\item $S$ is the $\StreamNameUp$ family of finite windows selected by the thresholds in $M$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the endpoint and radius comparisons read on those windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row whose regularity is witnessed only through $M,S,D$.
+\item $E$ is the terminal $\RealUp$ seal row reached after the displayed modulus, window, dyadic, and regular-readback rows have been consumed.
+\item $H$ records componentwise $\hsame$ transport for the modulus schedule, stream windows, dyadic tolerance row, regular readback, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay from each precision request through $M,S,D,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCauchyModulusUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for Real completeness, quotient stream equality, host real equality, countable choice, trichotomy, a selected limit, open-cover compactness, or an unbounded stream read.
+\end{definition}
+
+\begin{theorem}[Real Cauchy modulus NameCert obligations]
+\label{thm:real-cauchy-modulus-namecert-obligations}
+The seed $\NameCert_{\RealCauchyModulusUp}$ surface for \autoref{def:real-cauchy-modulus-carrier} consists exactly of carrier exposure for $B$, precision/modulus exposure through $M$, finite-window exposure through $S$, dyadic tolerance exposure through $D$, regular rational readback through $Q$, terminal $\RealUp$ seal exposure through $E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$. Each accepted precision request is classified only by the scheduled threshold in $M$, the finite windows in $S$, and the tolerance ledger in $D$.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple $B=(M,S,D,Q,E,H,C,P,N)$. Each coordinate is a displayed finite row, and the final coordinate names the packet as the local $\NameCert_{\RealCauchyModulusUp}$ surface.
+
+Read the analytic rows in order. The precision request first consumes the threshold row $M$, then the finite windows $S$, then the dyadic ledger $D$, and only then the regular readback $Q$ and terminal seal $E$.
+
+The structural rows do not add an analytic source. They transport, replay, source, and name the same route, while the excluded objects have no coordinate in the carrier. Hence the listed rows exhaust the seed obligation surface.
+\end{proof}
+
+\begin{theorem}[Real Cauchy modulus finite-window route]
+\label{thm:real-cauchy-modulus-window-modulus-route}
+For every accepted $\RealCauchyModulusUp$ packet $B=(M,S,D,Q,E,H,C,P,N)$ and every displayed precision request, the Real-facing read factors through the finite route
+$$
+M\longmapsto S\longmapsto D\longmapsto Q\longmapsto E\longmapsto(H,C,P,N).
+$$
+The consumer receives no Real completeness theorem, quotient stream equality, host real equality, countable-choice row, trichotomy row, selected-limit row, open-cover compactness row, hidden selector, or detached Real seal.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-cauchy-modulus-namecert-obligations}. It places the modulus schedule $M$ before the StreamName window $S$ and the dyadic tolerance ledger $D$.
+
+The regular readback is then forced through the same finite window. The row $Q$ is read only after $M,S,D$ are displayed, so no quotient stream or host equality row can substitute for the scheduled window comparison.
+
+Finally read the Real seal coordinate. The row $E$ is reached after $Q$, and the rows $H,C,P,N$ only preserve and name that route. This exhausts the advertised finite-window path for the precision request.
+\end{proof}
+
+\begin{theorem}[Real Cauchy modulus Real seal nonescape]
+\label{thm:real-cauchy-modulus-real-seal-nonescape}
+No $\RealUp$ seal read accepted by a $\RealCauchyModulusUp$ carrier can bypass the displayed route
+$$
+\CauchyModulusUp,\quad \StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp .
+$$
+Equivalently, every accepted terminal seal read is attached to the same packet $B=(M,S,D,Q,E,H,C,P,N)$ and cannot be separated from its explicit modulus schedule, finite windows, dyadic tolerance ledger, regular readback, transport, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Use the finite-window route of \autoref{thm:real-cauchy-modulus-window-modulus-route}. It already forces each terminal seal read through $M,S,D,Q,E$ before the structural rows are consumed.
+
+Now inspect the carrier of \autoref{def:real-cauchy-modulus-carrier}. There is no coordinate for Real completeness, quotient stream equality, host real equality, countable choice, trichotomy, a selected limit, open-cover compactness, a hidden selector, or a detached Real seal.
+
+Thus any purported Real seal read that omits one of the displayed rows is not a read of the accepted carrier. The only terminal route available to a consumer is the one named by $B$.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RealCauchyModulusUp$ consumer that reads a terminal Real seal without the explicit modulus threshold, finite StreamName window, DyadicRatCore tolerance ledger, and RegSeqRat readback refutes the carrier surface.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, cauchymodulus: no listed sibling supplies the whole nine-row packet $B=(M,S,D,Q,E,H,C,P,N)$, because each sibling contributes only a window, readback, tolerance, seal, or generic schedule surface while this chapter binds all five analytic faces with transport, replay, provenance, and local naming.}
+
+\begin{closurestatus}{\RealCauchyModulusUp}
+  \constructivestory{A $\RealCauchyModulusUp$ packet is generated from an explicit $\CauchyModulusUp$ precision schedule, finite $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-cauchy-modulus-carrier}, \autoref{thm:real-cauchy-modulus-namecert-obligations}, \autoref{thm:real-cauchy-modulus-window-modulus-route}, and \autoref{thm:real-cauchy-modulus-real-seal-nonescape} seed the explicit modulus-controlled Real Cauchy read over $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, countable choice, trichotomy, selected limits, open-cover compactness, or a Lean theorem.}
+  \upgradepath{A formal route can encode the nine-row carrier and prove the finite-window route, NameCert obligation surface, and Real-seal nonescape theorem.}
+\end{closurestatus}
