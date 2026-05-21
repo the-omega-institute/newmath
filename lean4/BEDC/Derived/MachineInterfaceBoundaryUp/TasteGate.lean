@@ -198,4 +198,27 @@ def taste_gate : ChapterTasteGate MachineInterfaceBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   machineInterfaceBoundaryChapterTasteGate
 
+theorem MachineInterfaceBoundary_obligation_surface :
+    (∀ R E F A S H C P N : BHist,
+      machineInterfaceBoundaryFields
+          (MachineInterfaceBoundaryUp.packet R E F A S H C P N) =
+        [R, E, F, A, S, H, C, P, N]) ∧
+      (∀ x y : MachineInterfaceBoundaryUp,
+        machineInterfaceBoundaryFields x = machineInterfaceBoundaryFields y → x = y) ∧
+        MachineInterfaceBoundaryUp.packet BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty ≠
+          MachineInterfaceBoundaryUp.packet (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty ∧
+          Nonempty (ChapterTasteGate MachineInterfaceBoundaryUp) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro R E F A S H C P N
+    rfl
+  · constructor
+    · exact machineInterfaceBoundary_field_faithful
+    · constructor
+      · intro h
+        cases h
+      · exact ⟨machineInterfaceBoundaryChapterTasteGate⟩
+
 end BEDC.Derived.MachineInterfaceBoundaryUp
