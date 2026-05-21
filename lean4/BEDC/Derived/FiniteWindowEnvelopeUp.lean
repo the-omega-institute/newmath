@@ -20,8 +20,9 @@ def FiniteWindowEnvelopeCarrier [AskSetup] [PackageSetup]
     (source anchor window ledger streamSeal regSeal endpoint provenance localCert : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory source ∧ UnaryHistory anchor ∧ UnaryHistory window ∧ UnaryHistory ledger ∧
-    Cont window ledger regSeal ∧ Cont regSeal endpoint streamSeal ∧
-      Cont streamSeal localCert provenance ∧ PkgSig bundle provenance pkg
+    UnaryHistory endpoint ∧ UnaryHistory localCert ∧ Cont window ledger regSeal ∧
+      Cont regSeal endpoint streamSeal ∧ Cont streamSeal localCert provenance ∧
+        PkgSig bundle provenance pkg
 
 theorem FiniteWindowEnvelopeCarrier_regseqrat_seal_handoff [AskSetup] [PackageSetup]
     {source anchor window ledger streamSeal regSeal endpoint provenance localCert : BHist}
@@ -31,17 +32,65 @@ theorem FiniteWindowEnvelopeCarrier_regseqrat_seal_handoff [AskSetup] [PackageSe
       UnaryHistory regSeal ∧ hsame regSeal (append window ledger) ∧
         PkgSig bundle provenance pkg := by
   intro carrier
-  have windowUnary : UnaryHistory window :=
-    carrier.right.right.left
-  have ledgerUnary : UnaryHistory ledger :=
-    carrier.right.right.right.left
-  have regSealCont : Cont window ledger regSeal :=
-    carrier.right.right.right.right.left
+  obtain ⟨_sourceUnary, _anchorUnary, windowUnary, ledgerUnary, _endpointUnary,
+    _localCertUnary, regSealCont, _streamSealCont, _provenanceCont, provenancePkg⟩ := carrier
   have regSealUnary : UnaryHistory regSeal :=
     unary_cont_closed windowUnary ledgerUnary regSealCont
   have regSealSame : hsame regSeal (append window ledger) :=
     regSealCont
-  exact And.intro regSealUnary (And.intro regSealSame carrier.right.right.right.right.right.right.right)
+  exact And.intro regSealUnary (And.intro regSealSame provenancePkg)
+
+theorem FiniteWindowEnvelopeCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {source anchor window ledger streamSeal regSeal endpoint provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWindowEnvelopeCarrier source anchor window ledger streamSeal regSeal endpoint provenance
+        localCert bundle pkg →
+      SemanticNameCert
+        (fun row : BHist => hsame row provenance ∧ PkgSig bundle row pkg)
+        (fun row : BHist =>
+          UnaryHistory source ∧ UnaryHistory anchor ∧ UnaryHistory window ∧
+            UnaryHistory ledger ∧ UnaryHistory row)
+        (fun row : BHist => Cont streamSeal localCert row ∧ PkgSig bundle row pkg)
+        (fun row row' : BHist => PkgSig bundle row pkg ∧ hsame row row') := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier
+  obtain ⟨sourceUnary, anchorUnary, windowUnary, ledgerUnary, endpointUnary,
+    localCertUnary, regSealCont, streamSealCont, provenanceCont, provenancePkg⟩ := carrier
+  have regSealUnary : UnaryHistory regSeal :=
+    unary_cont_closed windowUnary ledgerUnary regSealCont
+  have streamSealUnary : UnaryHistory streamSeal :=
+    unary_cont_closed regSealUnary endpointUnary streamSealCont
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed streamSealUnary localCertUnary provenanceCont
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro provenance ⟨hsame_refl provenance, provenancePkg⟩
+      equiv_refl := by
+        intro row source
+        exact ⟨source.right, hsame_refl row⟩
+      equiv_symm := by
+        intro row _other classified
+        cases classified.right
+        exact ⟨classified.left, hsame_refl row⟩
+      equiv_trans := by
+        intro _row _middle _other leftClassified rightClassified
+        exact
+          ⟨leftClassified.left, hsame_trans leftClassified.right rightClassified.right⟩
+      carrier_respects_equiv := by
+        intro _row _other classified source
+        cases classified.right
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        ⟨sourceUnary, anchorUnary, windowUnary, ledgerUnary,
+          unary_transport provenanceUnary (hsame_symm source.left)⟩
+    ledger_sound := by
+      intro _row source
+      cases source.left
+      exact ⟨provenanceCont, source.right⟩
+  }
 
 def FiniteWindowEnvelopeBHistCarrier [AskSetup] [PackageSetup]
     (source anchor window ledger streamClass sealRow endpoint provenance nameCert route : BHist)
